@@ -1,0 +1,512 @@
+!-----------------------------------------------------------------------------!
+!   CP2K: A general program to perform molecular dynamics simulations         !
+!   Copyright (C) 2000 - 2014  CP2K developers group                          !
+!-----------------------------------------------------------------------------!
+
+! *****************************************************************************
+!> \brief   Configuration options for DBCSR
+!> \author  Urban Borstnik
+!> \date    2011-04-05
+!> \version 1.0
+!>
+!> <b>Modification history:</b>
+!> - Created 2011-04-05
+! *****************************************************************************
+MODULE dbcsr_config
+  USE dbcsr_error_handling,            ONLY: &
+       dbcsr_assert, dbcsr_caller_error, dbcsr_error_set, dbcsr_error_stop, &
+       dbcsr_error_type, dbcsr_fatal_level, dbcsr_wrong_args_error, &
+       external_timeset, external_timestop, timeset_interface, &
+       timestop_interface
+  USE dbcsr_kinds,                     ONLY: dp
+
+!$ USE OMP_LIB
+
+  IMPLICIT NONE
+
+  PRIVATE
+
+  CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_config'
+
+
+  PUBLIC :: dbcsr_set_conf_subcomm, dbcsr_get_conf_subcomm
+  PUBLIC :: dbcsr_set_conf_combtypes, dbcsr_get_conf_combtypes
+  PUBLIC :: dbcsr_set_conf_mm_stacksize, dbcsr_get_conf_mm_stacksize
+
+  PUBLIC :: dbcsr_set_conf_mpi_mem, dbcsr_get_conf_mpi_mem
+
+  PUBLIC :: dbcsr_set_conf_mm_driver, dbcsr_get_conf_mm_driver
+
+  PUBLIC :: dbcsr_set_conf_nstacks, dbcsr_get_conf_nstacks
+
+  PUBLIC :: dbcsr_set_conf_use_comm_thread, dbcsr_get_conf_use_comm_thread
+  PUBLIC :: dbcsr_set_conf_comm_thread_load, dbcsr_get_conf_comm_thread_load
+  PUBLIC :: dbcsr_set_conf_external_timing
+  PUBLIC :: dbcsr_get_conf_max_ele_block, dbcsr_set_conf_max_ele_block
+  
+  PUBLIC :: driver_is_async
+
+  ! These are for DBCSR internal use.
+  !
+  PUBLIC :: has_MPI
+  PUBLIC :: has_blas,&
+            has_smm_gemm,&
+            has_plasma,&
+            has_cuda
+  PUBLIC :: has_omp_2_5
+  PUBLIC :: use_subcommunicators
+  PUBLIC :: use_combined_types
+  PUBLIC :: use_MPI_memory
+  PUBLIC :: mm_stack_size
+  PUBLIC :: mm_driver, mm_host_driver,&
+            mm_driver_blas,&
+            mm_driver_matmul,&
+            mm_driver_smm,&
+            mm_driver_plasma,&
+            mm_driver_cuda
+  PUBLIC :: mm_async
+  PUBLIC :: mm_name_blas,&
+            mm_name_matmul,&
+            mm_name_smm,&
+            mm_name_plasma,&
+            mm_name_cuda
+  PUBLIC :: nm_stacks, nn_stacks, nk_stacks
+  PUBLIC :: use_comm_thread, comm_thread_load
+  PUBLIC :: max_elements_per_block
+  !
+  PUBLIC :: is_initialized
+
+  PUBLIC :: cudadrv_avoid_after_busy, cudadrv_min_flop_process,&
+            cudadrv_min_flop_sort, cudadrv_do_inhomogenous, &
+            cudadrv_binning_nbins, cudadrv_binning_binsize, &
+            cudadrv_posterior_streams, cudadrv_posterior_buffers,&
+            cudadrv_priority_streams, cudadrv_priority_buffers
+
+  PUBLIC :: multrec_limit
+  PUBLIC :: default_resize_factor
+
+  ! First the constants are declared.
+  REAL(KIND=dp), PARAMETER             :: default_resize_factor = 1.2_dp
+
+  ! Possible drivers to use for matrix multiplications
+  INTEGER, PARAMETER :: mm_driver_matmul     = 1
+  INTEGER, PARAMETER :: mm_driver_blas       = 2
+  INTEGER, PARAMETER :: mm_driver_smm        = 3
+  INTEGER, PARAMETER :: mm_driver_plasma     = 4
+  INTEGER, PARAMETER :: mm_driver_cuda       = 5
+
+  CHARACTER(len=*), PARAMETER :: mm_name_blas   = "BLAS",&
+                                 mm_name_matmul = "MATMUL",&
+                                 mm_name_smm    = "SMM",&
+                                 mm_name_plasma = "PLASMA",&
+                                 mm_name_cuda   = "CUDA"
+
+  ! Then the capabilities are specified.
+
+  LOGICAL, PARAMETER :: has_blas = .TRUE.
+
+#if defined (__HAS_smm_dnn)
+  LOGICAL, PARAMETER :: has_smm_gemm = .TRUE.
+#else
+  LOGICAL, PARAMETER :: has_smm_gemm = .FALSE.
+#endif
+
+#if defined(__HAS_smm_vec)
+  LOGICAL, PARAMETER :: has_smm_vec = .TRUE.
+#else
+  LOGICAL, PARAMETER :: has_smm_vec = .FALSE.
+#endif
+
+#if defined(__PLASMA)
+  LOGICAL, PARAMETER :: has_plasma = .TRUE.
+#else
+  LOGICAL, PARAMETER :: has_plasma = .FALSE.
+#endif
+
+#if defined (__DBCSR_CUDA)
+  LOGICAL, PARAMETER :: has_cuda = .TRUE.
+#else
+  LOGICAL, PARAMETER :: has_cuda = .FALSE.
+#endif
+
+#if defined (__parallel)
+  LOGICAL, PARAMETER :: has_MPI = .TRUE.
+#else
+  LOGICAL, PARAMETER :: has_MPI = .FALSE.
+#endif
+
+  LOGICAL, PARAMETER :: has_omp_2_5 = .TRUE.
+
+
+  ! Now the fallback defaults are defined.  The defaults should be set
+  ! by calling the dbcsr_init_conf() subroutine.
+
+  ! Allocates subcommunicators for process rows and columns.
+  LOGICAL, SAVE :: use_subcommunicators = .TRUE.
+
+  ! Use combined data types for MPI transfers.
+  LOGICAL, SAVE :: use_combined_types = .FALSE.
+
+  ! Use MPI-allocated memory.
+  LOGICAL, SAVE :: use_MPI_memory = has_MPI
+
+  ! Which driver to use for matrix multiplications.
+#if defined (__DBCSR_CUDA)
+  INTEGER, SAVE :: mm_driver = mm_driver_cuda
+#else
+  INTEGER, SAVE :: mm_driver = mm_driver_smm
+#endif
+
+  ! Which driver to use for matrix multiplications (on the host).
+  INTEGER, SAVE :: mm_host_driver = mm_driver_smm
+
+  ! Whether an accelerator such as a GPU is used.
+  LOGICAL, SAVE :: mm_async = .FALSE.
+
+  ! Stack size to use for multiplication parameters
+  INTEGER, SAVE :: mm_stack_size = 1000
+
+  ! Default blocking parameter
+  INTEGER, SAVE :: max_elements_per_block = 16
+
+  ! Number of stacks to use
+  INTEGER, SAVE :: nm_stacks = 3
+  INTEGER, SAVE :: nn_stacks = 3
+  INTEGER, SAVE :: nk_stacks = 3
+
+  ! Configuration of an MPI progress thread
+  LOGICAL, SAVE :: use_comm_thread = .TRUE.
+  INTEGER, SAVE :: comm_thread_load = 100
+
+  LOGICAL, SAVE :: is_initialized = .FALSE.
+
+
+  INTEGER, SAVE :: multrec_limit = 512
+
+  INTEGER, SAVE :: cudadrv_priority_streams = 4
+  INTEGER, SAVE :: cudadrv_priority_buffers = 40
+  INTEGER, SAVE :: cudadrv_posterior_streams  = 4
+  INTEGER, SAVE :: cudadrv_posterior_buffers  = 80
+  LOGICAL, SAVE :: cudadrv_avoid_after_busy = .FALSE.
+  INTEGER, SAVE :: cudadrv_min_flop_process = 0
+  INTEGER, SAVE :: cudadrv_min_flop_sort = 4000
+  LOGICAL, SAVE :: cudadrv_do_inhomogenous = .TRUE.
+  INTEGER, SAVE :: cudadrv_binning_nbins = 4096
+  INTEGER, SAVE :: cudadrv_binning_binsize = 16
+
+CONTAINS
+
+  SUBROUTINE dbcsr_set_conf_mm_driver (driver, error)
+    INTEGER, INTENT(IN)                      :: driver
+    TYPE(dbcsr_error_type), INTENT(INOUT)    :: error
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_conf_mm_driver', &
+      routineP = moduleN//':'//routineN
+
+    INTEGER                                  :: error_handle
+
+!   ---------------------------------------------------------------------------
+!defaults
+
+    mm_stack_size = 1000
+    nm_stacks = 3
+    nn_stacks = 3
+    nk_stacks = 3
+
+    IF(has_smm_vec) THEN
+      mm_stack_size = 30000
+      nm_stacks = 3
+      nn_stacks = 3
+      nk_stacks = 3
+    ENDIF
+
+    CALL dbcsr_error_set(routineN, error_handle, error)
+    SELECT CASE (driver)
+    CASE (mm_driver_matmul)
+       mm_driver = mm_driver_matmul
+    CASE (mm_driver_blas)
+       CALL dbcsr_assert (has_blas,&
+            dbcsr_fatal_level, dbcsr_caller_error, routineN,&
+            "Support for BLAS not compiled in.", __LINE__, error=error)
+       mm_driver = mm_driver_blas
+    CASE (mm_driver_smm)
+       mm_driver = mm_driver_smm
+    CASE (mm_driver_plasma)
+       CALL dbcsr_assert (has_plasma,&
+            dbcsr_fatal_level, dbcsr_caller_error, routineN,&
+            "Support for PLASMA not compiled in.", __LINE__, error=error)
+       mm_driver = mm_driver_plasma
+    CASE (mm_driver_cuda)
+       CALL dbcsr_assert (has_cuda,&
+            dbcsr_fatal_level, dbcsr_caller_error, routineN,&
+            "Support for CUDA not compiled in.", __LINE__, error=error)
+       mm_driver = mm_driver_cuda
+       mm_stack_size = 30000
+       nm_stacks = 3
+       nn_stacks = 3
+       nk_stacks = 3
+    END SELECT
+    mm_async = driver_is_async (mm_driver)
+    IF (mm_async) THEN
+       mm_host_driver = mm_driver_smm
+    ELSE
+       mm_host_driver = mm_driver
+    ENDIF
+    CALL dbcsr_error_stop(error_handle, error)
+  END SUBROUTINE dbcsr_set_conf_mm_driver
+
+  FUNCTION dbcsr_get_conf_mm_driver () RESULT (driver)
+    INTEGER                                  :: driver
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_conf_mm_driver', &
+      routineP = moduleN//':'//routineN
+
+    driver = mm_driver
+  END FUNCTION dbcsr_get_conf_mm_driver
+
+
+  SUBROUTINE dbcsr_set_conf_subcomm (use_subcomms, error)
+    LOGICAL, INTENT(IN)                      :: use_subcomms
+    TYPE(dbcsr_error_type), INTENT(INOUT)    :: error
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_conf_subcomm', &
+      routineP = moduleN//':'//routineN
+
+    INTEGER                                  :: error_handle
+
+    CALL dbcsr_error_set(routineN, error_handle, error)
+    use_subcommunicators = use_subcomms
+    CALL dbcsr_error_stop(error_handle, error)
+  END SUBROUTINE dbcsr_set_conf_subcomm
+
+  FUNCTION dbcsr_get_conf_subcomm () RESULT (use_subcomms)
+    LOGICAL                                  :: use_subcomms
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_conf_subcomm', &
+      routineP = moduleN//':'//routineN
+
+    use_subcomms = use_subcommunicators
+  END FUNCTION dbcsr_get_conf_subcomm
+
+
+  SUBROUTINE dbcsr_set_conf_combtypes (use_combtypes, error)
+    LOGICAL, INTENT(IN)                      :: use_combtypes
+    TYPE(dbcsr_error_type), INTENT(INOUT)    :: error
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_conf_combtypes', &
+      routineP = moduleN//':'//routineN
+
+    INTEGER                                  :: error_handle
+
+    CALL dbcsr_error_set(routineN, error_handle, error)
+    use_combined_types = use_combtypes
+    CALL dbcsr_error_stop(error_handle, error)
+  END SUBROUTINE dbcsr_set_conf_combtypes
+
+  FUNCTION dbcsr_get_conf_combtypes () RESULT (use_combtypes)
+    LOGICAL                                  :: use_combtypes
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_conf_combtypes', &
+      routineP = moduleN//':'//routineN
+
+    use_combtypes = use_combined_types
+  END FUNCTION dbcsr_get_conf_combtypes
+
+
+  SUBROUTINE dbcsr_set_conf_mpi_mem (use_mpi_mem, error)
+    LOGICAL, INTENT(IN)                      :: use_mpi_mem
+    TYPE(dbcsr_error_type), INTENT(INOUT)    :: error
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_conf_mpi_mem', &
+      routineP = moduleN//':'//routineN
+
+    INTEGER                                  :: error_handle
+
+    CALL dbcsr_error_set(routineN, error_handle, error)
+    use_MPI_memory = use_mpi_mem
+    CALL dbcsr_error_stop(error_handle, error)
+  END SUBROUTINE dbcsr_set_conf_mpi_mem
+
+  FUNCTION dbcsr_get_conf_mpi_mem () RESULT (use_mpi_mem)
+    LOGICAL                                  :: use_mpi_mem
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_conf_mpi_mem', &
+      routineP = moduleN//':'//routineN
+
+    use_mpi_mem = use_MPI_memory
+  END FUNCTION dbcsr_get_conf_mpi_mem
+
+  SUBROUTINE dbcsr_set_conf_mm_stacksize (use_mm_stacksize, error)
+    INTEGER, INTENT(IN)                      :: use_mm_stacksize
+    TYPE(dbcsr_error_type), INTENT(INOUT)    :: error
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_conf_mm_stacksize', &
+      routineP = moduleN//':'//routineN
+
+    INTEGER                                  :: error_handle
+
+    CALL dbcsr_error_set(routineN, error_handle, error)
+    mm_stack_size = use_mm_stacksize
+    CALL dbcsr_error_stop(error_handle, error)
+  END SUBROUTINE dbcsr_set_conf_mm_stacksize
+
+  FUNCTION dbcsr_get_conf_mm_stacksize () RESULT (use_mm_stacksize)
+    INTEGER                                  :: use_mm_stacksize
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_conf_mm_stacksize', &
+      routineP = moduleN//':'//routineN
+
+    use_mm_stacksize = mm_stack_size
+  END FUNCTION dbcsr_get_conf_mm_stacksize
+
+  SUBROUTINE dbcsr_set_conf_max_ele_block (max_ele_block, error)
+    INTEGER, INTENT(IN)                      :: max_ele_block
+    TYPE(dbcsr_error_type), INTENT(INOUT)    :: error
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_conf_max_ele_block', &
+      routineP = moduleN//':'//routineN
+
+    INTEGER                                  :: error_handle
+
+    CALL dbcsr_error_set(routineN, error_handle, error)
+    max_elements_per_block = max_ele_block
+    CALL dbcsr_error_stop(error_handle, error)
+  END SUBROUTINE dbcsr_set_conf_max_ele_block
+
+  FUNCTION dbcsr_get_conf_max_ele_block () RESULT (max_ele_block)
+    INTEGER                                  :: max_ele_block
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_conf_max_ele_block', &
+      routineP = moduleN//':'//routineN
+
+    max_ele_block = max_elements_per_block
+  END FUNCTION dbcsr_get_conf_max_ele_block
+
+  SUBROUTINE dbcsr_set_conf_nstacks (nstacks, error)
+    INTEGER, INTENT(IN)                      :: nstacks(:)
+    TYPE(dbcsr_error_type), INTENT(INOUT)    :: error
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_conf_nstacks', &
+      routineP = moduleN//':'//routineN
+
+    INTEGER                                  :: error_handle
+
+    CALL dbcsr_error_set(routineN, error_handle, error)
+    CALL dbcsr_assert (SIZE(nstacks) ,"EQ", 3,&
+         dbcsr_fatal_level, dbcsr_wrong_args_error, routineN,&
+         "ntacks size must be 3", __LINE__, error=error)
+    nm_stacks        = nstacks(1)
+    nn_stacks        = nstacks(2)
+    nk_stacks        = nstacks(3)
+    CALL dbcsr_error_stop(error_handle, error)
+  END SUBROUTINE dbcsr_set_conf_nstacks
+
+  SUBROUTINE dbcsr_get_conf_nstacks (nstacks, error)
+    INTEGER, INTENT(OUT)                     :: nstacks(:)
+    TYPE(dbcsr_error_type), INTENT(INOUT)    :: error
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_conf_nstacks', &
+      routineP = moduleN//':'//routineN
+
+    INTEGER                                  :: error_handle
+
+    CALL dbcsr_error_set(routineN, error_handle, error)
+    CALL dbcsr_assert (SIZE(nstacks) ,"EQ", 3,&
+         dbcsr_fatal_level, dbcsr_wrong_args_error, routineN,&
+         "ntacks size must be 3", __LINE__, error=error)
+    nstacks(1) = nm_stacks
+    nstacks(2) = nn_stacks
+    nstacks(3) = nk_stacks
+    CALL dbcsr_error_stop(error_handle, error)
+  END SUBROUTINE dbcsr_get_conf_nstacks
+
+  SUBROUTINE dbcsr_set_conf_use_comm_thread (comm_thread, error)
+    LOGICAL, INTENT(IN)                      :: comm_thread
+    TYPE(dbcsr_error_type), INTENT(INOUT)    :: error
+
+    CHARACTER(len=*), PARAMETER :: &
+      routineN = 'dbcsr_set_conf_use_comm_thread', &
+      routineP = moduleN//':'//routineN
+
+    INTEGER                                  :: error_handle
+
+    CALL dbcsr_error_set(routineN, error_handle, error)
+    use_comm_thread = comm_thread
+    CALL dbcsr_error_stop(error_handle, error)
+  END SUBROUTINE dbcsr_set_conf_use_comm_thread
+
+
+  FUNCTION dbcsr_get_conf_use_comm_thread () RESULT (comm_thread)
+    LOGICAL                                  :: comm_thread
+
+    CHARACTER(len=*), PARAMETER :: &
+      routineN = 'dbcsr_get_conf_use_comm_thread', &
+      routineP = moduleN//':'//routineN
+
+    comm_thread = use_comm_thread
+  END FUNCTION dbcsr_get_conf_use_comm_thread
+
+  SUBROUTINE dbcsr_set_conf_comm_thread_load (load, error)
+    INTEGER, INTENT(IN)                      :: load
+    TYPE(dbcsr_error_type), INTENT(INOUT)    :: error
+
+    CHARACTER(len=*), PARAMETER :: &
+      routineN = 'dbcsr_set_conf_comm_thread_load', &
+      routineP = moduleN//':'//routineN
+
+    INTEGER                                  :: error_handle, nthreads
+
+    CALL dbcsr_error_set(routineN, error_handle, error)
+    nthreads = 1
+    !$ nthreads = OMP_GET_MAX_THREADS()
+    comm_thread_load = MAX(0,90-(30*nthreads)/8)
+    IF(load >= 0)&
+       comm_thread_load = load
+    CALL dbcsr_error_stop(error_handle, error)
+  END SUBROUTINE dbcsr_set_conf_comm_thread_load
+
+
+  FUNCTION dbcsr_get_conf_comm_thread_load () RESULT (load)
+    INTEGER                                  :: load
+
+    CHARACTER(len=*), PARAMETER :: &
+      routineN = 'dbcsr_get_conf_comm_thread_load', &
+      routineP = moduleN//':'//routineN
+
+    load = comm_thread_load
+  END FUNCTION dbcsr_get_conf_comm_thread_load
+
+
+  PURE FUNCTION driver_is_async (driver)
+    INTEGER, INTENT(IN)                      :: driver
+    LOGICAL                                  :: driver_is_async
+
+    driver_is_async = .FALSE.
+    SELECT CASE (driver)
+       CASE (mm_driver_cuda)
+          driver_is_async = .TRUE.
+    END SELECT
+  END FUNCTION driver_is_async
+
+! *****************************************************************************
+!> \brief Set the callback routines for the external timing hooks.
+!> \author  Ole Schuett
+!> \date    2012-12-20
+!>
+!> <b>Modification history:</b>
+!> - Created 2012-12-20
+! *****************************************************************************
+  SUBROUTINE dbcsr_set_conf_external_timing(timeset, timestop, error)
+    PROCEDURE (timeset_interface)            :: timeset
+    PROCEDURE (timestop_interface)           :: timestop
+    TYPE(dbcsr_error_type), INTENT(INOUT)    :: error
+
+! no call to dbcsr_error_set / dbcsr_error_stop here,
+! otherwise thie would lead to mismatched calls to timeset/timestop
+
+    external_timeset  => timeset
+    external_timestop => timestop
+                
+  END SUBROUTINE dbcsr_set_conf_external_timing
+
+END MODULE dbcsr_config
