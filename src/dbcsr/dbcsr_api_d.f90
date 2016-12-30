@@ -1,0 +1,441 @@
+!--------------------------------------------------------------------------------------------------!
+!   CP2K: A general program to perform molecular dynamics simulations                              !
+!   Copyright (C) 2000 - 2016  CP2K developers group                                               !
+!--------------------------------------------------------------------------------------------------!
+
+! **************************************************************************************************
+!> \brief Encapsulates a given scalar value and makes it conformant to the
+!>        type of the matrix.
+!> \param scalar ...
+!> \param matrix ...
+!> \retval encapsulated ...
+! **************************************************************************************************
+  FUNCTION make_conformant_scalar_d (scalar, matrix) RESULT (encapsulated)
+    REAL(kind=real_8), INTENT(IN)                      :: scalar
+    TYPE(dbcsr_type), INTENT(IN)             :: matrix
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'make_conformant_scalar_d', &
+      routineP = moduleN//':'//routineN
+
+    TYPE(dbcsr_scalar_type)                  :: encapsulated
+    INTEGER                                  :: data_type, scalar_data_type
+
+    encapsulated = dbcsr_scalar (scalar)
+    CALL dbcsr_scalar_fill_all (encapsulated)
+    data_type = dbcsr_get_data_type_prv(matrix%prv)
+    scalar_data_type = dbcsr_scalar_get_type(encapsulated)
+    IF (scalar_data_type .EQ. dbcsr_type_complex_4 .OR.&
+        scalar_data_type .EQ. dbcsr_type_complex_8) THEN
+       IF(data_type .NE. dbcsr_type_complex_4 .AND. data_type .NE. dbcsr_type_complex_8)&
+          CPABORT("Can not conform a complex to a real number")
+    END IF
+    CALL dbcsr_scalar_set_type (encapsulated,data_type)
+  END FUNCTION make_conformant_scalar_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param row ...
+!> \param col ...
+!> \param block ...
+!> \param transposed ...
+!> \param existed ...
+! **************************************************************************************************
+  SUBROUTINE dbcsr_reserve_block2d_d (matrix, row, col, block, transposed, existed)
+    TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
+    INTEGER, INTENT(IN)                      :: row, col
+    REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block
+    LOGICAL, INTENT(IN), OPTIONAL            :: transposed
+    LOGICAL, INTENT(OUT), OPTIONAL           :: existed
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_block2d_d', &
+      routineP = moduleN//':'//routineN
+
+    CALL dbcsr_reserve_block2d_prv(matrix%prv, row, col, block,&
+         transposed, existed)
+
+  END SUBROUTINE dbcsr_reserve_block2d_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param iterator ...
+!> \param row ...
+!> \param column ...
+!> \param block ...
+!> \param block_number ...
+!> \param row_size ...
+!> \param col_size ...
+!> \param row_offset ...
+!> \param col_offset ...
+! **************************************************************************************************
+  SUBROUTINE dbcsr_iterator_next_2d_block_d (iterator, row, column, block,&
+       block_number, row_size, col_size, row_offset, col_offset)
+    TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
+    INTEGER, INTENT(OUT)                     :: row, column
+    REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block
+    INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
+                                                col_size, row_offset, &
+                                                col_offset
+
+    LOGICAL                                  :: transposed
+
+    CALL dbcsr_iterator_next_block_prv (iterator%prv, row, column, block, transposed,&
+       block_number, row_size, col_size, row_offset, col_offset)
+    IF(transposed)&
+       CPABORT("CP2K does not handle transposed blocks.")
+
+  END SUBROUTINE dbcsr_iterator_next_2d_block_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param iterator ...
+!> \param row ...
+!> \param column ...
+!> \param block ...
+!> \param block_number ...
+!> \param row_size ...
+!> \param col_size ...
+!> \param row_offset ...
+!> \param col_offset ...
+! *************************************************************************************************
+  SUBROUTINE dbcsr_iterator_next_1d_block_d (iterator, row, column, block,&
+       block_number, row_size, col_size, row_offset, col_offset)
+    TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
+    INTEGER, INTENT(OUT)                      :: row, column
+    REAL(kind=real_8), DIMENSION(:), POINTER            :: block
+    INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
+                                                 col_size, row_offset, &
+                                                 col_offset
+
+    LOGICAL                                   :: transposed
+
+    CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block,&
+       transposed, block_number, row_size, col_size, row_offset, col_offset)
+    IF(transposed)&
+       CPABORT("CP2K does not handle transposed blocks.")
+
+  END SUBROUTINE dbcsr_iterator_next_1d_block_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param row ...
+!> \param col ...
+!> \param block ...
+!> \param summation ...
+!> \param scale ...
+! **************************************************************************************************
+  SUBROUTINE dbcsr_put_block2d_d (matrix, row, col, block,&
+       summation, scale)
+    TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
+    INTEGER, INTENT(IN)                      :: row, col
+    REAL(kind=real_8), DIMENSION(:, :), INTENT(IN)     :: block
+    LOGICAL, INTENT(IN), OPTIONAL            :: summation
+    REAL(kind=real_8), INTENT(IN), OPTIONAL            :: scale
+
+    CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
+  END SUBROUTINE dbcsr_put_block2d_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param row ...
+!> \param col ...
+!> \param block ...
+!> \param summation ...
+!> \param scale ...
+! **************************************************************************************************
+  SUBROUTINE dbcsr_put_block_d (matrix, row, col, block,&
+       summation, scale)
+    TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
+    INTEGER, INTENT(IN)                      :: row, col
+    REAL(kind=real_8), DIMENSION(:), INTENT(IN)        :: block
+    LOGICAL, INTENT(IN), OPTIONAL            :: summation
+    REAL(kind=real_8), INTENT(IN), OPTIONAL            :: scale
+
+    CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
+  END SUBROUTINE dbcsr_put_block_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param row ...
+!> \param col ...
+!> \param block ...
+!> \param found ...
+!> \param row_size ...
+!> \param col_size ...
+! **************************************************************************************************
+  SUBROUTINE dbcsr_get_2d_block_p_d (matrix,row,col,block,found, row_size, col_size)
+    TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
+    INTEGER, INTENT(IN)                      :: row, col
+    REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block
+    LOGICAL, INTENT(OUT)                     :: found
+    INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
+
+    LOGICAL                                  :: tr
+
+    CALL dbcsr_get_block_p_prv(matrix%prv,row,col,block,tr,found, row_size, col_size)
+    IF(tr)&
+       CPABORT("CP2K does not handle transposed blocks.")
+  END SUBROUTINE dbcsr_get_2d_block_p_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param row ...
+!> \param col ...
+!> \param block ...
+!> \param found ...
+!> \param row_size ...
+!> \param col_size ...
+! **************************************************************************************************
+  SUBROUTINE dbcsr_get_block_p_d (matrix,row,col,block,found, row_size, col_size)
+    TYPE(dbcsr_type), INTENT(IN)              :: matrix
+    INTEGER, INTENT(IN)                       :: row, col
+    REAL(kind=real_8), DIMENSION(:), POINTER            :: block
+    LOGICAL, INTENT(OUT)                      :: found
+    INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
+
+    LOGICAL                                   :: tr
+
+    CALL dbcsr_get_block_p_prv(matrix%prv,row,col,block,tr,found, row_size, col_size)
+    IF(tr)&
+       CPABORT("CP2K does not handle transposed blocks.")
+
+  END SUBROUTINE dbcsr_get_block_p_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix_a ...
+!> \param trace ...
+! **************************************************************************************************
+  SUBROUTINE dbcsr_trace_a_d (matrix_a, trace)
+    TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
+    REAL(kind=real_8), INTENT(OUT)                     :: trace
+
+    TYPE(dbcsr_scalar_type)                  :: trace_scalar
+
+    trace_scalar = dbcsr_scalar_zero (dbcsr_get_data_type(matrix_a))
+    CALL dbcsr_trace_prv(matrix_a%prv, trace_scalar)
+    CALL dbcsr_scalar_fill_all(trace_scalar)
+    CALL dbcsr_scalar_get_value(trace_scalar, trace)
+  END SUBROUTINE dbcsr_trace_a_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix_a ...
+!> \param matrix_b ...
+!> \param trace ...
+! **************************************************************************************************
+  SUBROUTINE dbcsr_trace_ab_d (matrix_a, matrix_b, trace)
+    TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a, matrix_b
+    REAL(kind=real_8), INTENT(INOUT)                   :: trace
+
+    CALL dbcsr_trace_prv(matrix_a%prv, matrix_b%prv, trace)
+  END SUBROUTINE dbcsr_trace_ab_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param transa ...
+!> \param transb ...
+!> \param alpha ...
+!> \param matrix_a ...
+!> \param matrix_b ...
+!> \param beta ...
+!> \param matrix_c ...
+!> \param first_row ...
+!> \param last_row ...
+!> \param first_column ...
+!> \param last_column ...
+!> \param first_k ...
+!> \param last_k ...
+!> \param retain_sparsity ...
+!> \param match_matrix_sizes Enables BLAS XGEMM-style multiplication
+!>        of matrices with incompatible dimensions. By default it's disabled.
+!> \param filter_eps ...
+!> \param flop ...
+! **************************************************************************************************
+  SUBROUTINE dbcsr_multiply_d (transa, transb,&
+       alpha, matrix_a, matrix_b, beta, matrix_c,&
+       first_row, last_row, first_column, last_column, first_k, last_k,&
+       retain_sparsity, match_matrix_sizes, &
+       filter_eps,&
+       flop)
+    CHARACTER(LEN=1), INTENT(IN)             :: transa, transb
+    REAL(kind=real_8), INTENT(IN)                      :: alpha
+    TYPE(dbcsr_type), INTENT(IN)             :: matrix_a, matrix_b
+    REAL(kind=real_8), INTENT(IN)                      :: beta
+    TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_c
+    INTEGER, INTENT(IN), OPTIONAL            :: first_row, last_row, &
+                                                first_column, last_column, &
+                                                first_k, last_k
+    LOGICAL, INTENT(IN), OPTIONAL            :: retain_sparsity, match_matrix_sizes
+    REAL(kind=real_8), INTENT(IN), OPTIONAL :: filter_eps
+    INTEGER(int_8), INTENT(OUT), OPTIONAL    :: flop
+
+    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_d', &
+      routineP = moduleN//':'//routineN
+
+    CHARACTER(LEN=1)                         :: shape_a, shape_b, trans_a, &
+                                                trans_b
+    LOGICAL                                  :: my_match_matrix_sizes
+    TYPE(dbcsr_type)                      :: new_a, new_b
+
+    trans_a = transa
+    trans_b = transb
+    CALL uppercase(trans_a)
+    CALL uppercase(trans_b)
+    shape_a='R'
+    IF(dbcsr_nfullcols_total(matrix_a).EQ.dbcsr_nfullrows_total(matrix_a)) shape_a='S'
+    shape_b='R'
+    IF(dbcsr_nfullcols_total(matrix_b).EQ.dbcsr_nfullrows_total(matrix_b)) shape_b='S'
+
+    my_match_matrix_sizes=.FALSE.
+    IF(PRESENT(match_matrix_sizes)) my_match_matrix_sizes=match_matrix_sizes
+    IF(my_match_matrix_sizes)THEN
+       CALL matrix_match_sizes (matrix_c, matrix_a, transa, matrix_b, transb, new_a, new_b)
+    ELSE
+       CALL dbcsr_init(new_a)
+       CALL dbcsr_init(new_b)
+       CALL dbcsr_copy_prv(new_a%prv, matrix_a%prv, shallow_data=.TRUE.)
+       CALL dbcsr_copy_prv(new_b%prv, matrix_b%prv, shallow_data=.TRUE.)
+    END IF
+
+    CALL dbcsr_multiply_prv(transa, transb,&
+         alpha, new_a%prv, new_b%prv, beta, matrix_c%prv,&
+         first_row, last_row, first_column, last_column, first_k, last_k,&
+         retain_sparsity, &
+         filter_eps=filter_eps,&
+         flop=flop)
+
+    CALL dbcsr_release (new_a)
+    CALL dbcsr_release (new_b)
+
+  END SUBROUTINE dbcsr_multiply_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix_a ...
+!> \param alpha ...
+!> \param side ...
+! **************************************************************************************************
+  SUBROUTINE dbcsr_scale_by_vector_d (matrix_a, alpha, side)
+    TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_a
+    REAL(kind=real_8), DIMENSION(:), INTENT(IN), TARGET :: alpha
+    CHARACTER(LEN=*), INTENT(IN)              :: side
+
+    CALL dbcsr_scale_by_vector_prv(matrix_a%prv, alpha, side)
+  END SUBROUTINE dbcsr_scale_by_vector_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix_a ...
+!> \param alpha_scalar ...
+!> \param last_column ...
+! **************************************************************************************************
+  SUBROUTINE dbcsr_scale_d (matrix_a, alpha_scalar, last_column)
+    TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
+    REAL(kind=real_8), INTENT(IN)                      :: alpha_scalar
+    INTEGER, INTENT(IN), OPTIONAL            :: last_column
+
+    CALL dbcsr_scale_prv(matrix_a%prv, alpha_scalar, last_column)
+  END SUBROUTINE dbcsr_scale_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param alpha ...
+! **************************************************************************************************
+  SUBROUTINE dbcsr_set_d (matrix, alpha)
+    TYPE(dbcsr_type), INTENT(INOUT)       :: matrix
+    REAL(kind=real_8), INTENT(IN)                      :: alpha
+
+    CALL dbcsr_set_prv(matrix%prv, dbcsr_conform_scalar (alpha, matrix))
+  END SUBROUTINE dbcsr_set_d
+
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix_a ...
+!> \param matrix_b ...
+!> \param alpha_scalar ...
+!> \param beta_scalar ...
+! **************************************************************************************************
+  SUBROUTINE dbcsr_add_d (matrix_a, matrix_b, alpha_scalar, beta_scalar)
+    TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
+    TYPE(dbcsr_type), INTENT(IN)             :: matrix_b
+    REAL(kind=real_8), INTENT(IN)                      :: alpha_scalar, beta_scalar
+
+    CALL dbcsr_add_prv(matrix_a%prv, matrix_b%prv, alpha_scalar, beta_scalar)
+  END SUBROUTINE dbcsr_add_d
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param index_matrix ...
+!> \param lb ...
+!> \param ub ...
+!> \retval DATA ...
+! **************************************************************************************************
+  FUNCTION dbcsr_get_wms_data_d (matrix, index_matrix, select_data_type, lb, ub) RESULT (DATA)
+    TYPE(dbcsr_type), INTENT(IN)     :: matrix
+    INTEGER, INTENT(IN)              :: index_matrix
+    REAL(kind=real_8), INTENT(IN)              :: select_data_type
+    REAL(kind=real_8), DIMENSION(:), POINTER   :: DATA
+    INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
+
+    DATA => dbcsr_get_data_p_prv(matrix%prv%wms(index_matrix)%data_area,select_data_type,lb,ub)
+
+  END FUNCTION dbcsr_get_wms_data_d
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param index_matrix ...
+!> \param lb ...
+!> \param ub ...
+!> \retval DATA ...
+! **************************************************************************************************
+  FUNCTION dbcsr_get_data_d (matrix, select_data_type, lb, ub) RESULT (DATA)
+    TYPE(dbcsr_type), INTENT(IN)     :: matrix
+    REAL(kind=real_8), INTENT(IN)              :: select_data_type
+    REAL(kind=real_8), DIMENSION(:), POINTER   :: DATA
+    INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
+
+    DATA => dbcsr_get_data_p_prv(matrix%prv%data_area,select_data_type,lb,ub)
+
+  END FUNCTION dbcsr_get_data_d
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param vec_in ...
+!> \param vec_out ...
+!> \param alpha ...
+!> \param beta ...
+!> \param work_row ...
+!> \param work_col ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_matrix_colvec_multiply_d(matrix, vec_in, vec_out, alpha, beta, work_row, work_col)
+      TYPE(dbcsr_type)                                   :: matrix, vec_in, vec_out
+      REAL(kind=real_8)                                            :: alpha, beta
+      TYPE(dbcsr_type)                                   :: work_row, work_col
+
+      CALL dbcsr_matrix_colvec_multiply_prv(matrix%prv, vec_in%prv, vec_out%prv,&
+                                        alpha, beta, work_row%prv, work_col%prv)
+
+   END SUBROUTINE dbcsr_matrix_colvec_multiply_d
