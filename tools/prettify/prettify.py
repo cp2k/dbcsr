@@ -12,10 +12,10 @@ try:
 except ImportError:
     from md5 import new as md5
 
-from formatting import normalizeFortranFile
-from formatting import replacer
-from formatting import reformatFortranFile
-from formatting import selftest
+from prettify_cp2k import normalizeFortranFile
+from prettify_cp2k import replacer
+from fprettify import reformat_ffile, fparse_utils, log_exception
+from prettify_cp2k import selftest
 
 
 OPERATORS_STR = r"\.(?:and|eqv?|false|g[et]|l[et]|n(?:e(?:|qv)|ot)|or|true)\."
@@ -97,7 +97,7 @@ def prettifyFile(infile, filename, normalize_use, decl_linelength, decl_offset,
     n_pretty_iter = 0
 
     if is_fypp(ifile):
-        logger = logging.getLogger('prettify-logger')
+        logger = logging.getLogger('fprettify-logger')
         logger.error(orig_filename + ": fypp directives not supported.\n")
         return ifile
 
@@ -117,9 +117,14 @@ def prettifyFile(infile, filename, normalize_use, decl_linelength, decl_offset,
                 ifile = tmpfile
             if reformat:  # reformat needs to be done first
                 tmpfile2 = tempfile.TemporaryFile(mode="w+")
-                reformatFortranFile.reformat_ffile(ifile, tmpfile2,
-                                                   indent_size=indent, whitespace=whitespace,
-                                                   orig_filename=orig_filename)
+                try:
+                    reformat_ffile(ifile, tmpfile2,
+                                   indent_size=indent, whitespace=whitespace,
+                                   orig_filename=orig_filename)
+                except fparse_utils.FprettifyParseException as e:
+                    log_exception(e, "fprettify could not parse file, file is not prettified")
+                    tmpfile2.write(ifile.read())
+
                 tmpfile2.seek(0)
                 if tmpfile:
                     tmpfile.close()
@@ -152,7 +157,7 @@ def prettifyFile(infile, filename, normalize_use, decl_linelength, decl_offset,
                 raise RuntimeError(
                     "Prettify did not converge in", max_pretty_iter, "steps.")
         except:
-            logger = logging.getLogger('prettify-logger')
+            logger = logging.getLogger('fprettify-logger')
             logger.critical("error processing file '" + infile.name + "'\n")
             raise
 
@@ -339,7 +344,7 @@ def main(argv=None):
                 else:
                     level = logging.CRITICAL
 
-                logger = logging.getLogger('prettify-logger')
+                logger = logging.getLogger('fprettify-logger')
                 logger.setLevel(level)
                 sh = logging.StreamHandler()
                 sh.setLevel(level)

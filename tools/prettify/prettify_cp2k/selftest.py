@@ -45,7 +45,7 @@ CONTAINS
 END MODULE
 
 PROGRAM example_prog
- USE example, ONLY: dp, test_routine, test_function, test_type,str_function
+   USE example, ONLY: dp, test_routine, test_function, test_type, str_function
 
    IMPLICIT NONE
    INTEGER :: r, i, j, k, l, my_integer, m
