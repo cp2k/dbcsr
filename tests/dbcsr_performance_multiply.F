@@ -51,7 +51,7 @@ MODULE dbcsr_performance_multiply
    USE message_passing,                 ONLY: mp_environ,&
                                               mp_sum,&
                                               mp_sync
-#include "../base/base_uses.f90"
+#include "../src/base/base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
@@ -302,20 +302,26 @@ CONTAINS
       !
       ! if C has a symmetry, we need special transpositions
       IF (c_symm .NE. dbcsr_type_no_symmetry) THEN
-         IF (.NOT. (transa .EQ. dbcsr_no_transpose .AND. transb .EQ. dbcsr_transpose .OR. &
-                    transa .EQ. dbcsr_transpose .AND. transb .EQ. dbcsr_no_transpose .OR. &
-                    transa .EQ. dbcsr_no_transpose .AND. transb .EQ. dbcsr_conjugate_transpose .AND. &
+         IF (.NOT. (transa .EQ. dbcsr_no_transpose .AND. &
+                    transb .EQ. dbcsr_transpose .OR. &
+                    transa .EQ. dbcsr_transpose .AND. &
+                    transb .EQ. dbcsr_no_transpose .OR. &
+                    transa .EQ. dbcsr_no_transpose .AND. &
+                    transb .EQ. dbcsr_conjugate_transpose .AND. &
                     .NOT. do_complex .OR. &
-                    transa .EQ. dbcsr_conjugate_transpose .AND. transb .EQ. dbcsr_no_transpose .AND. &
-                    .NOT. do_complex)) CPABORT("")
-
+                    transa .EQ. dbcsr_conjugate_transpose .AND. &
+                    transb .EQ. dbcsr_no_transpose .AND. &
+                    .NOT. do_complex)) THEN
+            CPABORT("")
+         ENDIF
       ENDIF
       !
       ! if C has symmetry and special limits
       IF (c_symm .NE. dbcsr_type_no_symmetry) THEN
          IF (limits(1) .NE. 1 .OR. limits(2) .NE. matrix_sizes(1) .OR. &
-             limits(3) .NE. 1 .OR. limits(4) .NE. matrix_sizes(2)) CPABORT("")
-
+             limits(3) .NE. 1 .OR. limits(4) .NE. matrix_sizes(2)) THEN
+            CPABORT("")
+         ENDIF
       ENDIF
 
       !

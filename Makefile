@@ -16,8 +16,13 @@ SRCDIR       := $(DBCSRHOME)/src
 TESTSDIR     := $(DBCSRHOME)/tests
 EXAMPLESDIR  := $(DBCSRHOME)/examples
 
-# Discover programs =========================================================
-ALL_EXE_FILES := $(sort $(shell $(TOOLSRC)/build_utils/discover_programs.py $(TESTSDIR)))
+# Default Target ============================================================
+LIBRARY      := libdbcsr
+default_target: $(LIBRARY)
+
+# Test programs =========================================================
+include $(TESTSDIR)/Makefile.inc
+ALL_EXE_FILES := $(sort $(addprefix $(TESTSDIR)/, $(SOURCE_EXE_FILES)))
 
 # Read and set the configuration ============================================
 MODDEPS = "lower"
@@ -36,7 +41,7 @@ endif
 # Declare PHONY targets =====================================================
 .PHONY : $(EXE_NAMES) \
          dirs makedep \
-	 default_target libdbcsr all \
+	 default_target $(LIBRARY) all \
          toolversions \
          doxify doxifyclean \
          pretty prettyclean doxygen/clean doxygen \
@@ -44,6 +49,7 @@ endif
 
 # Discover files and directories ============================================
 ALL_SRC_DIRS := $(shell find $(SRCDIR) -type d | awk '{printf("%s:",$$1)}')
+ALL_SRC_DIRS += $(TESTSDIR)
 LIBCUSMM_DIR := $(shell cd $(SRCDIR) ; find . -type d -name "libcusmm")
 LIBCUSMM_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libcusmm")
 
@@ -59,6 +65,8 @@ OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "libcusmm.cu" -name "*.cu
 OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cu
 endif
 
+ALL_OBJECTS    = $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
+
 # Included files used by Fypp preprocessor and standard includes
 INCLUDED_SRC_FILES = $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR) -name "*.f90")))
 
@@ -70,23 +78,16 @@ ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hpp")
 ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hxx")
 ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hcc")
 
-ALL_OBJECTS        = $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
-ALL_EXE_OBJECTS    = $(addsuffix .o, $(EXE_NAMES))
-ALL_NONEXE_OBJECTS = $(filter-out $(ALL_EXE_OBJECTS), $(ALL_OBJECTS))
-
-# Common Targets ============================================================
-default_target: libdbcsr
-
 # stage 1: create dirs and run makedep.py.
 #          Afterwards, call make recursively again with -C $(OBJDIR) and INCLUDE_DEPS=true
 ifeq ($(INCLUDE_DEPS),)
-libdbcsr: dirs makedep
-	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(LIBDIR)/libdbcsr$(ARCHIVE_EXT) INCLUDE_DEPS=true
+$(LIBRARY): dirs makedep
+	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) INCLUDE_DEPS=true
 
-$(EXE_NAMES): dirs makedep
-	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(EXEDIR)/$@ INCLUDE_DEPS=true
+$(EXE_NAMES): $(LIBRARY)
+	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $@ INCLUDE_DEPS=true
 
-all: dirs makedep
+all: $(LIBRARY)
 	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) all INCLUDE_DEPS=true
 
 dirs:
@@ -133,6 +134,10 @@ endif
 
 else
 # stage 2: Include $(OBJDIR)/all.dep, expand target all, and perform actual build.
+all: $(EXE_NAMES)
+
+$(EXE_NAMES): $(EXE_OBJ_FILES)
+	$(LD) $(LDFLAGS) -L$(LIBDIR) -o $@ $^ $(EXTERNAL_OBJECTS) -ldbcsr $(LIBS)
 
 endif
 
@@ -141,12 +146,12 @@ OTHER_HELP += "toolversions : Print versions of build tools"
 #   extract help text from doxygen "\brief"-tag
 help:
 	@echo "=================== Default ===================="
-	@echo "libdbcsr                    Build DBCSR library"
+	@echo -e "$(LIBRARY)                     Build DBCSR library"
 	@echo ""
 	@echo "=================== Binaries ===================="
-	@echo "all                         Builds all executables"
+	@echo "all                          Builds all executables"
 	@for i in $(ALL_EXE_FILES); do \
-	basename  $$i | sed 's/^\(.*\)\..*/\1/' | awk '{printf "%-28s", $$1}'; \
+	basename  $$i | sed 's/^\(.*\)\..*/\1/' | awk '{printf "%-29s", $$1}'; \
 	grep "brief" $$i | head -n 1 | sed 's/^.*\\brief\s*//'; \
 	done
 	@echo ""
