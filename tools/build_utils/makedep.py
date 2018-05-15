@@ -208,7 +208,7 @@ def read_pkg_manifest(packages, p):
     packages[p] = eval(content)
     packages[p]['objects'] = []
     if "archive" not in packages[p].keys():
-        packages[p]['archive'] = "libcp2k"+basename(p)
+        packages[p]['archive'] = "libdbcsr"+basename(p)
     packages[p]['allowed_deps'] = [normpath(p)]
     packages[p]['allowed_deps'] += [normpath(path.join(p,r)) for r in packages[p]['requires']]
 

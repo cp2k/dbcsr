@@ -1,6 +1,6 @@
 {
 "description": "Matrix matrix multiplication",
-"archive": "libdbcsrmm",
+"archive": "libdbcsr",
 "requires": ["../mpiwrap", "../base", "../acc", "../data", "../dbcsr_base", "../dist", "../block", "../ops"],
 "implicit": "SMM_.*",
 "public" : ["dbcsr_multiply_api.F"],

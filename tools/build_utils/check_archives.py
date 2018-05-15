@@ -25,7 +25,7 @@ def main():
             content = open(path.join(root,"PACKAGE")).read()
             package = eval(content)
 
-            archive = "libcp2k" + path.basename(root)
+            archive = "libdbcsr" + path.basename(root)
             if "archive" in package.keys():
                 archive = package["archive"]
 

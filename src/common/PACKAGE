@@ -1,4 +1,5 @@
 {
 "description": "Basic routines which are conceptually independent from CP2K and its input",
+"archive": "libdbcsr",
 "requires": ["../mpiwrap", "../base" ]
 }

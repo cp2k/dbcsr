@@ -9,8 +9,8 @@ DOXYGENDIR   := $(DBCSRHOME)/doc/doxygen
 EXEDIR       := $(DBCSRHOME)/exe
 LIBDIR       := $(DBCSRHOME)/lib
 OBJDIR       := $(DBCSRHOME)/obj
-PRETTYOBJDIR := $(DBCSRHOME)/obj/prettified
-DOXIFYOBJDIR := $(DBCSRHOME)/obj/doxified
+PRETTYOBJDIR := $(OBJDIR)/prettified
+DOXIFYOBJDIR := $(OBJDIR)/doxified
 TOOLSRC      := $(DBCSRHOME)/tools
 SRCDIR       := $(DBCSRHOME)/src
 TESTSDIR     := $(DBCSRHOME)/tests
@@ -22,7 +22,7 @@ default_target: $(LIBRARY)
 
 # Test programs =========================================================
 include $(TESTSDIR)/Makefile.inc
-ALL_EXE_FILES := $(sort $(addprefix $(TESTSDIR)/, $(SOURCE_EXE_FILES)))
+EXE_TESTS := $(sort $(addprefix $(TESTSDIR)/, $(SRC_TESTS)))
 
 # Read and set the configuration ============================================
 MODDEPS = "lower"
@@ -133,11 +133,18 @@ endif
 	/usr/bin/env python --version
 
 else
-# stage 2: Include $(OBJDIR)/all.dep, expand target all, and perform actual build.
-all: $(EXE_NAMES)
+# stage 2: Include $(OBJDIR)/all.dep, expand target all, and get list of dependencies.
+all: $(foreach e, $(EXE_NAMES), $(e))
 
-$(EXE_NAMES): $(EXE_OBJ_FILES)
-	$(LD) $(LDFLAGS) -L$(LIBDIR) -o $@ $^ $(EXTERNAL_OBJECTS) -ldbcsr $(LIBS)
+$(EXE_NAMES):
+	export EXE_DEPS=2; cd $(DBCSRHOME); $(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(EXEDIR)/$@.x INCLUDE_DEPS=true
+
+# stage 3: Perform actual build.
+$(EXEDIR)/%.x:
+	@echo $(EXE_OBJ_FILES) ${EXE_DEPS} "dd" $@ "aaa" $^
+#	$(LD) $(LDFLAGS) -L$(LIBDIR) -o $@ $(EXE_OBJ_FILES) $(EXTERNAL_OBJECTS) -ldbcsr $(LIBS)
+
+#$(EXEDIR)/%.x: % $(EXE_OBJ_FILES)
 
 endif
 
