@@ -15,8 +15,6 @@ re_incl_cpp = re.compile(r"\n#include\s+['\"](.+)['\"]")
 re_incl_fort = re.compile(r"\n\s*include\s+['\"](.+)['\"]")
 
 
-
-
 #=============================================================================
 def main():
     messages = []
@@ -47,7 +45,7 @@ def main():
     # parse files
     parsed_files = dict()
     for fn in src_files:
-        parse_file(parsed_files, fn) #parses also included files
+        parse_file(parsed_files, fn, src_dir) #parses also included files
     messages.append("Parsed %d files"%len(parsed_files))
 
     # create table mapping fortan module-names to file-name
@@ -77,8 +75,8 @@ def main():
         p = normpath(dirname(fn))
         if(not parsed_files[fn]['program']):
             packages[p]['objects'].append(src2obj(basename(fn)))
-        deps = collect_include_deps(parsed_files, fn)
-        deps += [ mod2fn[m] for m in collect_use_deps(parsed_files, fn) if m in mod2fn.keys() ]
+        deps = collect_include_deps(parsed_files, fn, src_dir)
+        deps += [ mod2fn[m] for m in collect_use_deps(parsed_files, fn, src_dir) if m in mod2fn.keys() ]
         n_deps += len(deps)
         for d in deps:
             dp = normpath(dirname(d))
@@ -91,7 +89,7 @@ def main():
 
     # check for circular dependencies
     for fn in parsed_files.keys():
-        find_cycles(parsed_files, mod2fn, fn)
+        find_cycles(parsed_files, mod2fn, fn, src_dir)
 
     # write messages as comments
     makefile = "".join(["#makedep: %s\n"%m for m in messages])
@@ -126,8 +124,8 @@ def main():
 
     # write rules for objects
     for fn in src_files:
-        deps = " ".join(collect_include_deps(parsed_files, fn))
-        mods = collect_use_deps(parsed_files, fn)
+        deps = " ".join(collect_include_deps(parsed_files, fn, src_dir))
+        mods = collect_use_deps(parsed_files, fn, src_dir)
         mods.sort(key=cmp_mods) # sort mods to speedup compilation
         for m in mods:
             if m in mod2fn.keys():
@@ -159,7 +157,7 @@ def cmp_mods(mod):
 
 
 #=============================================================================
-def parse_file(parsed_files, fn):
+def parse_file(parsed_files, fn, src_dir):
     if(fn in parsed_files): return
 
     content = open(fn).read()
@@ -185,15 +183,23 @@ def parse_file(parsed_files, fn):
     # exclude included files from outside the source tree
     def incl_fn(i):
         return normpath(path.join(dirname(fn), i))
+    def incl_fn_src(i):
+        return normpath(path.join(src_dir, i))
 
     existing_incl = [i for i in incls if path.exists(incl_fn(i))]
+    existing_incl_src = [i for i in incls if path.exists(incl_fn_src(i))]
 
     # store everything in parsed_files cache
-    parsed_files[fn] = {'module':mods, 'program': prog, 'use':uses, 'include':existing_incl}
+    parsed_files[fn] = {'module':mods, 'program': prog, 'use':uses, 
+                        'include':existing_incl,
+                        'include_src':existing_incl_src}
 
     # parse included files
     for i in existing_incl:
-        parse_file(parsed_files, incl_fn(i))
+        parse_file(parsed_files, incl_fn(i), src_dir)
+
+    for i in existing_incl_src:
+        parse_file(parsed_files, incl_fn_src(i), src_dir)
 
 
 #=============================================================================
@@ -233,7 +239,7 @@ def src2obj(src_fn):
 
 
 #=============================================================================
-def collect_include_deps(parsed_files, fn):
+def collect_include_deps(parsed_files, fn, src_dir):
     pf = parsed_files[fn]
     incs = []
 
@@ -241,26 +247,37 @@ def collect_include_deps(parsed_files, fn):
         fn_inc = normpath(path.join(dirname(fn), i))
         if fn_inc in parsed_files.keys():
             incs.append(fn_inc)
-            incs += collect_include_deps(parsed_files, fn_inc)
+            incs += collect_include_deps(parsed_files, fn_inc, src_dir)
+
+    for i in pf['include_src']:
+        fn_inc = normpath(path.join(src_dir, i))
+        if fn_inc in parsed_files.keys():
+            incs.append(fn_inc)
+            incs += collect_include_deps(parsed_files, fn_inc, src_dir)
 
     return(list(set(incs)))
 
 
 #=============================================================================
-def collect_use_deps(parsed_files, fn):
+def collect_use_deps(parsed_files, fn, src_dir):
     pf = parsed_files[fn]
     uses = pf['use']
 
     for i in pf['include']:
         fn_inc = normpath(path.join(dirname(fn), i))
         if fn_inc in parsed_files.keys():
-            uses += collect_use_deps(parsed_files, fn_inc)
+            uses += collect_use_deps(parsed_files, fn_inc, src_dir)
+
+    for i in pf['include_src']:
+        fn_inc = normpath(path.join(src_dir, i))
+        if fn_inc in parsed_files.keys():
+            uses += collect_use_deps(parsed_files, fn_inc, src_dir)
 
     return(list(set(uses)))
 
 
 #=============================================================================
-def find_cycles(parsed_files, mod2fn, fn, S=None):
+def find_cycles(parsed_files, mod2fn, fn, src_dir, S=None):
     pf = parsed_files[fn]
     if 'visited' in pf.keys():
         return
@@ -274,9 +291,9 @@ def find_cycles(parsed_files, mod2fn, fn, S=None):
             error("Circular dependency: "+ " -> ".join(S[i:] + [m]))
         S.append(m)
 
-    for m in collect_use_deps(parsed_files, fn):
+    for m in collect_use_deps(parsed_files, fn, src_dir):
         if m in mod2fn.keys():
-            find_cycles(parsed_files, mod2fn, mod2fn[m], S)
+            find_cycles(parsed_files, mod2fn, mod2fn[m], src_dir, S)
 
     for m in pf['module']:
         S.pop()
