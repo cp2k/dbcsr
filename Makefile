@@ -145,8 +145,13 @@ else
 # stage 3: Perform actual build.
 $(BIN_NAME).o: $(BIN_DEPS)
 
-$(BINDIR)/%.x: %.o
+$(BINDIR)/%.x: %.o | silent
 	$(LD) $(LDFLAGS) -L$(LIBDIR) -o $@ $^ $(BIN_DEPS) -ldbcsr $(LIBS)
+
+# Silent the target if it is already up to date
+silent:
+	@:
+
 endif
 
 endif
