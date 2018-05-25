@@ -79,7 +79,7 @@ def upcaseKeywords(infile, outfile, upcase_omp):
         outfile.write(line)
 
 
-def prettifyFile(infile, filename, normalize_use, decl_linelength, decl_offset,
+def prettifyFile(infile, filename, srcDir, normalize_use, decl_linelength, decl_offset,
                  reformat, indent, whitespace, upcase_keywords,
                  upcase_omp, replace):
     """prettifyes the fortran source in infile into a temporary file that is
@@ -132,7 +132,7 @@ def prettifyFile(infile, filename, normalize_use, decl_linelength, decl_offset,
                 ifile = tmpfile
             if normalize_use:
                 tmpfile2 = tempfile.TemporaryFile(mode="w+")
-                normalizeFortranFile.rewriteFortranFile(ifile, tmpfile2, indent,
+                normalizeFortranFile.rewriteFortranFile(ifile, tmpfile2, srcDir, indent,
                                                         decl_linelength, decl_offset,
                                                         orig_filename=orig_filename)
                 tmpfile2.seek(0)
@@ -162,7 +162,7 @@ def prettifyFile(infile, filename, normalize_use, decl_linelength, decl_offset,
             raise
 
 
-def prettfyInplace(fileName, bkDir=None, stdout=False, **kwargs):
+def prettfyInplace(fileName, bkDir=None, srcDir=None, stdout=False, **kwargs):
     """Same as prettify, but inplace, replaces only if needed"""
 
     if fileName == 'stdin':
@@ -172,7 +172,7 @@ def prettfyInplace(fileName, bkDir=None, stdout=False, **kwargs):
         infile = open(fileName, 'r')
 
     if stdout:
-        outfile = prettifyFile(infile=infile, filename=fileName, **kwargs)
+        outfile = prettifyFile(infile=infile, filename=fileName, srcDir=srcDir, **kwargs)
         outfile.seek(0)
         sys.stdout.write(outfile.read())
         outfile.close()
@@ -183,7 +183,10 @@ def prettfyInplace(fileName, bkDir=None, stdout=False, **kwargs):
     if bkDir and not os.path.isdir(bkDir):
         raise Error("bk-dir must be a directory, was " + bkDir)
 
-    outfile = prettifyFile(infile=infile, filename=fileName, **kwargs)
+    if srcDir and not os.path.isdir(srcDir):
+        raise Error("src-dir must be a directory, was " + srcDir)
+
+    outfile = prettifyFile(infile=infile, filename=fileName, srcDir=srcDir, **kwargs)
     if (infile == outfile):
         return
     infile.seek(0)
@@ -244,13 +247,14 @@ def main(argv=None):
                     'stdout': 0,
                     'do-backup': 0,
                     'backup-dir': 'preprettify',
+                    'src-dir': '',
                     'report-errors': 1,
                     'debug': 0}
 
     usageDesc = ("usage:\nfprettify" + """
     [--[no-]upcase] [--[no-]normalize-use] [--[no-]omp-upcase] [--[no-]replace]
     [--[no-]reformat] [--indent=3] [--whitespace=1] [--help]
-    [--[no-]stdout] [--[no-]do-backup] [--backup-dir=bk_dir] [--[no-]report-errors] file1 [file2 ...]
+    [--[no-]stdout] [--[no-]do-backup] [--backup-dir=bk_dir] [--src-dir=src_dir] [--[no-]report-errors] file1 [file2 ...]
     [--[no-]debug]
 
     Auto-format F90 source file1, file2, ...:
@@ -280,6 +284,8 @@ def main(argv=None):
              store backups of original files in backup-dir (--backup-dir option)
     --[no-]report-errors
              report warnings and errors
+    --src-dir
+             specify the base source directory for the include files
 
     Note: for editor integration, use options --no-normalize-use --no-report-errors
 
@@ -308,10 +314,15 @@ def main(argv=None):
                     path = os.path.abspath(os.path.expanduser(m.groups()[1]))
                     defaultsDict[m.groups()[0]] = path
                 else:
-                    if arg.startswith('--'):
-                        sys.stderr.write('unknown option ' + arg + '\n')
-                    else:
-                        args.append(arg)
+                    m = re.match(r"--(src-dir)=(.*)", arg)
+                    if m:
+                        path = os.path.abspath(os.path.expanduser(m.groups()[1]))
+                        defaultsDict[m.groups()[0]] = path
+                    else:                    
+                        if arg.startswith('--'):
+                            sys.stderr.write('unknown option ' + arg + '\n')
+                        else:
+                            args.append(arg)
     bkDir = ''
     if defaultsDict['do-backup']:
         bkDir = defaultsDict['backup-dir']
@@ -326,59 +337,66 @@ def main(argv=None):
         sys.stderr.write("bk-dir must be a directory" + '\n')
         sys.stderr.write(usageDesc + '\n')
     else:
-        failure = 0
-        if not args:
-            args = ['stdin']
-        for fileName in args:
-            if not os.path.isfile(fileName) and not fileName == 'stdin':
-                sys.stderr.write("file " + fileName + " does not exists!\n")
-            else:
-                stdout = defaultsDict['stdout'] or fileName == 'stdin'
-
-                if defaultsDict['report-errors']:
-                    if defaultsDict['debug']:
-                        level = logging.DEBUG
-                    else:
-                        level = logging.INFO
-
+        srcDir = defaultsDict['src-dir']
+        if srcDir and not os.path.isdir(srcDir):
+            sys.stderr.write("src-dir must be a directory" + '\n')
+            sys.stderr.write(usageDesc + '\n')
+        else:
+            failure = 0
+            if not args:
+                args = ['stdin']
+            for fileName in args:
+                if not os.path.isfile(fileName) and not fileName == 'stdin':
+                    sys.stderr.write("file " + fileName + " does not exists!\n")
                 else:
-                    level = logging.CRITICAL
+                    stdout = defaultsDict['stdout'] or fileName == 'stdin'
 
-                logger = logging.getLogger('fprettify-logger')
-                logger.setLevel(level)
-                sh = logging.StreamHandler()
-                sh.setLevel(level)
-                formatter = logging.Formatter('%(levelname)s - %(message)s')
-                sh.setFormatter(formatter)
-                logger.addHandler(sh)
+                    if defaultsDict['report-errors']:
+                        if defaultsDict['debug']:
+                            level = logging.DEBUG
+                        else:
+                            level = logging.INFO
 
-                try:
-                    prettfyInplace(fileName, bkDir=bkDir,
-                                   stdout=stdout,
-                                   normalize_use=defaultsDict[
-                                       'normalize-use'],
-                                   decl_linelength=defaultsDict[
-                                       'decl-linelength'],
-                                   decl_offset=defaultsDict[
-                                       'decl-offset'],
-                                   reformat=defaultsDict['reformat'],
-                                   indent=defaultsDict['indent'],
-                                   whitespace=defaultsDict[
-                                       'whitespace'],
-                                   upcase_keywords=defaultsDict[
-                                       'upcase'],
-                                   upcase_omp=defaultsDict[
-                                       'omp-upcase'],
-                                   replace=defaultsDict['replace'])
-                except:
-                    failure += 1
-                    import traceback
-                    sys.stderr.write('-' * 60 + "\n")
-                    traceback.print_exc(file=sys.stderr)
-                    sys.stderr.write('-' * 60 + "\n")
-                    sys.stderr.write(
-                        "Processing file '" + fileName + "'\n")
-        return(failure > 0)
+                    else:
+                        level = logging.CRITICAL
+
+                    logger = logging.getLogger('fprettify-logger')
+                    logger.setLevel(level)
+                    sh = logging.StreamHandler()
+                    sh.setLevel(level)
+                    formatter = logging.Formatter('%(levelname)s - %(message)s')
+                    sh.setFormatter(formatter)
+                    logger.addHandler(sh)
+
+                    try:
+                        prettfyInplace(fileName, bkDir=bkDir,
+                                       srcDir=srcDir,
+                                       stdout=stdout,
+                                       normalize_use=defaultsDict[
+                                           'normalize-use'],
+                                       decl_linelength=defaultsDict[
+                                           'decl-linelength'],
+                                       decl_offset=defaultsDict[
+                                           'decl-offset'],
+                                       reformat=defaultsDict['reformat'],
+                                       indent=defaultsDict['indent'],
+                                       whitespace=defaultsDict[
+                                           'whitespace'],
+                                       upcase_keywords=defaultsDict[
+                                           'upcase'],
+                                       upcase_omp=defaultsDict[
+                                           'omp-upcase'],
+                                       replace=defaultsDict['replace'])
+                    except:
+                        failure += 1
+                        import traceback
+                        sys.stderr.write('-' * 60 + "\n")
+                        traceback.print_exc(file=sys.stderr)
+                        sys.stderr.write('-' * 60 + "\n")
+                        sys.stderr.write(
+                            "Processing file '" + fileName + "'\n")
+
+            return(failure > 0)
 
 #=========================================================================
 

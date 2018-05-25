@@ -1069,7 +1069,7 @@ def resetModuleN(moduleName, lines):
             lines[i])
 
 
-def rewriteFortranFile(inFile, outFile, indent, decl_linelength, decl_offset, orig_filename=None):
+def rewriteFortranFile(inFile, outFile, srcDir, indent, decl_linelength, decl_offset, orig_filename=None):
     """rewrites the use statements and declarations of inFile to outFile.
     It sorts them and removes the repetitions."""
     import os.path
@@ -1134,6 +1134,8 @@ def rewriteFortranFile(inFile, outFile, indent, decl_linelength, decl_offset, or
                         modulesDict['commonUses']).group(1)
                     inc_absfn = os.path.join(
                         os.path.dirname(orig_filename), inc_fn)
+                    if srcDir and not os.path.isfile(inc_absfn):
+                        inc_absfn = os.path.join(srcDir, inc_fn)
                     f = open(inc_absfn, 'r')
                     implicitUsesRaw = parseUse(f)
                     f.close()
