@@ -10,7 +10,7 @@
 #include "libcusmm.h"
 
 /****************************************************************************\
- \brief Checks correctness of every libcusmm kernel and measures its performance.
+ \brief Checks correctness of every libcusmm kernel and measures its performance
 \****************************************************************************/
 
 int main(int argc, char** argv){

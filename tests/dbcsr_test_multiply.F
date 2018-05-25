@@ -51,7 +51,7 @@ MODULE dbcsr_test_multiply
                                               real_8
    USE message_passing,                 ONLY: mp_bcast,&
                                               mp_environ
-#include "../src/base/base_uses.f90"
+#include "base/base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

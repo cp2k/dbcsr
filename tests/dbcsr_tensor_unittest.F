@@ -28,7 +28,7 @@ PROGRAM dbcsr_tensor_unittest
                                               mp_environ,&
                                               mp_world_finalize,&
                                               mp_world_init
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
 
