@@ -6,7 +6,7 @@ SHELL = /bin/sh
 DBCSRHOME    := $(abspath $(PWD))
 MAKEFILE     := $(DBCSRHOME)/Makefile
 DOXYGENDIR   := $(DBCSRHOME)/doc/doxygen
-EXEDIR       := $(DBCSRHOME)/exe
+BINDIR       := $(DBCSRHOME)/bin
 LIBDIR       := $(DBCSRHOME)/lib
 OBJDIR       := $(DBCSRHOME)/obj
 PRETTYOBJDIR := $(OBJDIR)/prettified
@@ -22,16 +22,18 @@ default_target: $(LIBRARY)
 
 # Test programs =========================================================
 include $(TESTSDIR)/Makefile.inc
-EXE_TESTS := $(sort $(addprefix $(TESTSDIR)/, $(SRC_TESTS)))
+BIN_TESTS := $(sort $(addprefix $(TESTSDIR)/, $(SRC_TESTS)))
 
 # Read and set the configuration ============================================
 MODDEPS = "lower"
 include $(DBCSRHOME)/Makefile.inc
 ifeq ($(NVCC),)
-EXE_NAMES := $(basename $(notdir $(filter-out %.cu, $(ALL_EXE_FILES))))
+BIN_FILES := $(filter-out %.cu, $(BIN_TESTS))
 else
-EXE_NAMES := $(basename $(notdir $(ALL_EXE_FILES)))
+BIN_FILES := $(BIN_TESTS)
 endif
+BIN_NAMES := $(basename $(notdir $(BIN_FILES)))
+#
 ifneq ($(LD_SHARED),)
  ARCHIVE_EXT := .so
 else
@@ -39,7 +41,7 @@ else
 endif
 
 # Declare PHONY targets =====================================================
-.PHONY : $(EXE_NAMES) \
+.PHONY : $(BIN_NAMES) \
          dirs makedep \
 	 default_target $(LIBRARY) all \
          toolversions \
@@ -84,7 +86,7 @@ ifeq ($(INCLUDE_DEPS),)
 $(LIBRARY): dirs makedep
 	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) INCLUDE_DEPS=true
 
-$(EXE_NAMES): $(LIBRARY)
+$(BIN_NAMES): $(LIBRARY)
 	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $@ INCLUDE_DEPS=true
 
 all: $(LIBRARY)
@@ -93,7 +95,6 @@ all: $(LIBRARY)
 dirs:
 	@mkdir -p $(OBJDIR)
 	@mkdir -p $(LIBDIR)
-	@mkdir -p $(EXEDIR)
 
 toolversions:
 ifneq ($(FC),)
@@ -134,17 +135,19 @@ endif
 
 else
 # stage 2: Include $(OBJDIR)/all.dep, expand target all, and get list of dependencies.
-all: $(foreach e, $(EXE_NAMES), $(e))
+all: $(foreach e, $(BIN_NAMES), $(e))
 
-$(EXE_NAMES):
-	export EXE_DEPS=2; cd $(DBCSRHOME); $(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(EXEDIR)/$@.x INCLUDE_DEPS=true
-
+ifeq ($(BIN_NAME),)
+$(BIN_NAMES):
+	@mkdir -p $(BINDIR)
+	@cd $(DBCSRHOME); $(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(BINDIR)/$@.x INCLUDE_DEPS=true BIN_NAME=$@ BIN_DEPS="$(BIN_DEPS)"
+else
 # stage 3: Perform actual build.
-$(EXEDIR)/%.x:
-	@echo $(EXE_OBJ_FILES) ${EXE_DEPS} "dd" $@ "aaa" $^
-#	$(LD) $(LDFLAGS) -L$(LIBDIR) -o $@ $(EXE_OBJ_FILES) $(EXTERNAL_OBJECTS) -ldbcsr $(LIBS)
+$(BIN_NAME).o: $(BIN_DEPS)
 
-#$(EXEDIR)/%.x: % $(EXE_OBJ_FILES)
+$(BINDIR)/%.x: %.o
+	$(LD) $(LDFLAGS) -L$(LIBDIR) -o $@ $^ $(BIN_DEPS) -ldbcsr $(LIBS)
+endif
 
 endif
 
@@ -157,7 +160,7 @@ help:
 	@echo ""
 	@echo "=================== Binaries ===================="
 	@echo "all                          Builds all executables"
-	@for i in $(ALL_EXE_FILES); do \
+	@for i in $(BIN_FILES); do \
 	basename  $$i | sed 's/^\(.*\)\..*/\1/' | awk '{printf "%-29s", $$1}'; \
 	grep "brief" $$i | head -n 1 | sed 's/^.*\\brief\s*//'; \
 	done
@@ -177,25 +180,22 @@ OTHER_HELP += "install : Print installation help"
 
 clean:
 	rm -rf $(LIBCUSMM_ABS_DIR)/libcusmm.cu $(LIBCUSMM_ABS_DIR)/libcusmm_part*.cu
-	rm -rf $(OBJDIR) $(LIBDIR)
+	rm -rf $(OBJDIR)
 OTHER_HELP += "clean : Remove intermediate object and mod files, but not the libraries and executables"
-
-execlean:
-	rm -rf $(EXEDIR)
-OTHER_HELP += "execlean : Remove the executables"
 
 #
 # delete the intermediate files, the programs and libraries and anything that might be in the objdir or libdir directory
 # Use this if you want to fully rebuild an executable (for a given compiler)
 #
-realclean: clean execlean
+realclean: clean
+	rm -rf $(BINDIR) $(LIBDIR)
 OTHER_HELP += "realclean : Remove all files"
 
 # Prettyfier stuff ==========================================================
 vpath %.pretty $(PRETTYOBJDIR)
 
 pretty: $(addprefix $(PRETTYOBJDIR)/, $(ALL_OBJECTS:.o=.pretty)) $(addprefix $(PRETTYOBJDIR)/, $(INCLUDED_SRC_FILES:.f90=.pretty_included))
-TOOL_HELP += "pretty : Reformat all source files in a pretty way."
+TOOL_HELP += "pretty : Reformat all source files in a pretty way"
 
 prettyclean:
 	-rm -rf $(PRETTYOBJDIR)
@@ -339,7 +339,7 @@ ifneq ($(CPP),)
 	$(FC) -c $(FCFLAGS) $*.f90 $(FCLOGPIPE)
 else
 	$(TOOLSRC)/build_utils/fypp $(FYPPFLAGS) $< $*.F90
-	$(FC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(subst $(SRCDIR)/,,$<)\"" -I'$(dir $<)' $*.F90 $(FCLOGPIPE)
+	$(FC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(subst $(SRCDIR)/,,$<)\"" -I'$(dir $<)' -I'$(SRCDIR)' $*.F90 $(FCLOGPIPE)
 endif
 
 %.o: %.c
