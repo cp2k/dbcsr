@@ -41,7 +41,7 @@ MODULE dbcsr_tensor_test
    USE allocate_wrap,                   ONLY: allocate_any
    USE dbcsr_tensor_index,              ONLY: combine_index, &
                                               get_mapping_info
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

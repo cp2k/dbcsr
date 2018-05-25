@@ -23,7 +23,7 @@ MODULE acc_hostmem
   USE acc_stream,                      ONLY: acc_stream_associated,&
                                              acc_stream_cptr,&
                                              acc_stream_type
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
 

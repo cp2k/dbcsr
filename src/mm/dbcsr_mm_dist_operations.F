@@ -37,7 +37,7 @@ MODULE dbcsr_mm_dist_operations
         dbcsr_distribution_obj, dbcsr_imagedistribution_obj, dbcsr_mp_obj, dbcsr_slot_home_pcol, &
         dbcsr_slot_home_prow, dbcsr_slot_home_vpcol, dbcsr_slot_home_vprow, &
         dbcsr_slot_nblkcols_local, dbcsr_slot_nblkrows_local, dbcsr_type
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

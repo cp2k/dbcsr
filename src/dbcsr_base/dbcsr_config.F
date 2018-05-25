@@ -18,7 +18,7 @@ MODULE dbcsr_config
                                               dbcsr_data_allocation_type
    USE kinds,                           ONLY: default_string_length,&
                                               dp
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads
 

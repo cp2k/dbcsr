@@ -19,7 +19,7 @@ MODULE dbcsr_blas_operations
                                               dbcsr_type_real_4,&
                                               dbcsr_type_real_8
    USE kinds,                           ONLY: int_8
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

@@ -9,7 +9,7 @@
 ! **************************************************************************************************
 MODULE dbcsr_tensor_index
    USE allocate_wrap,                   ONLY: allocate_any
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

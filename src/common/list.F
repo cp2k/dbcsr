@@ -28,7 +28,7 @@ USE list_routinereport,      ONLY: @{uselist_listmethods(routinereport)}@
 USE list_routinestat,        ONLY: @{uselist_listmethods(routinestat)}@
 USE list_timerenv,           ONLY: @{uselist_listmethods(timerenv)}@
 
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
    IMPLICIT NONE
 
    PRIVATE

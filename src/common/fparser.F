@@ -22,7 +22,7 @@ MODULE fparser
                                               erfc
    USE kinds,                           ONLY: default_string_length,&
                                               rn => dp
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
 

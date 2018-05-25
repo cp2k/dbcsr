@@ -14,7 +14,7 @@ MODULE memory_utilities
    USE kinds,                           ONLY: default_path_length,&
                                               default_string_length,&
                                               dp, int_8
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
 

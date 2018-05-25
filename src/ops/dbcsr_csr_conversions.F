@@ -61,7 +61,7 @@ MODULE dbcsr_csr_conversions
                                               mp_recv,&
                                               mp_send,&
                                               mp_sum
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

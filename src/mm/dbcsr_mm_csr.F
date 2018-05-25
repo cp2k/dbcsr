@@ -45,7 +45,7 @@ MODULE dbcsr_mm_csr
                                               int_8,&
                                               real_8,&
                                               sp
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

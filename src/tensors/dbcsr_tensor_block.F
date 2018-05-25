@@ -42,7 +42,7 @@ MODULE dbcsr_tensor_block
                                               ndims_tensor,&
                                               dbcsr_t_get_data_type,&
                                               dbcsr_t_blk_sizes
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

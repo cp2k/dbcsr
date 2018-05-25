@@ -34,7 +34,7 @@ MODULE dbcsr_dist_methods
                                               dbcsr_mp_obj
    USE kinds,                           ONLY: dp,&
                                               sp
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, OMP_IN_PARALLEL
    IMPLICIT NONE

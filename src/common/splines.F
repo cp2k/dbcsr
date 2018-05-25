@@ -27,7 +27,7 @@ MODULE splines
 
    USE kinds,                           ONLY: dp
    USE lapack,                          ONLY: lapack_sgbsv
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
 

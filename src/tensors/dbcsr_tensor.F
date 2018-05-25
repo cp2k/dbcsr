@@ -62,7 +62,7 @@ MODULE dbcsr_tensor
    USE util,                            ONLY: sort
    USE dbcsr_tensor_reshape,            ONLY: dbcsr_t_reshape
 
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

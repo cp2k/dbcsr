@@ -18,7 +18,7 @@ MODULE array_list_methods
    USE dbcsr_tensor_index, ONLY: dbcsr_t_inverse_order
    USE allocate_wrap, ONLY: allocate_any
 
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
    IMPLICIT NONE
    PRIVATE
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'array_list_methods'

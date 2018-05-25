@@ -1,4 +1,5 @@
 {
 "description": "Kernel templates for libcusmm",
+"archive": "libdbcsr",
 "requires": []
 }

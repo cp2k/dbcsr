@@ -21,7 +21,7 @@ MODULE dbcsr_acc_operations
    USE acc_stream,                      ONLY: acc_stream_cptr,&
                                               acc_stream_type
    USE dbcsr_mm_types,                  ONLY: dbcsr_ps_width
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
 

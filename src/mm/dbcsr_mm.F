@@ -100,7 +100,7 @@ MODULE dbcsr_mm
                                               mp_request_null,&
                                               mp_sum,&
                                               mp_wait
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
 

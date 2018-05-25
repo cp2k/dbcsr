@@ -16,7 +16,7 @@ MODULE mathlib
                                               dp
    USE mathconstants,                   ONLY: euler,&
                                               fac
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
 

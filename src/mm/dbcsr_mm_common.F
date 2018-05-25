@@ -44,7 +44,7 @@ MODULE dbcsr_mm_common
                                               real_4,&
                                               real_8,&
                                               sp
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
 

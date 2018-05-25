@@ -14,7 +14,7 @@ MODULE allocate_wrap
 
    USE kinds, ONLY: ${uselist(dtype_float_prec)}$
 
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
    IMPLICIT NONE
    PRIVATE
 

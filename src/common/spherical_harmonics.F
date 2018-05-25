@@ -26,7 +26,7 @@ MODULE spherical_harmonics
    USE mathconstants,                   ONLY: fac,&
                                               maxfac,&
                                               pi
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
 

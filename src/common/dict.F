@@ -18,7 +18,7 @@
 MODULE dict
   USE kinds,                                 ONLY: ${uselist(usekinds)}$
   USE timings_base_type,                     ONLY: ${uselist(usetimings)}$
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
    IMPLICIT NONE
 
    PRIVATE

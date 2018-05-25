@@ -23,7 +23,7 @@ MODULE acc_devmem
                                              acc_stream_cptr,&
                                              acc_stream_synchronize,&
                                              acc_stream_type
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
 

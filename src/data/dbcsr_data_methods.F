@@ -43,7 +43,7 @@ MODULE dbcsr_data_methods
                                               int_8,&
                                               real_4,&
                                               real_8
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
 

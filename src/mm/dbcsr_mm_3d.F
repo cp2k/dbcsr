@@ -104,7 +104,7 @@ MODULE dbcsr_mm_3d
         mp_allgather, mp_alltoall, mp_comm_free, mp_comm_null, mp_comm_split_direct, &
         mp_iallgather, mp_isendrecv, mp_isum, mp_request_null, mp_rget, mp_wait, mp_waitall, &
         mp_win_create, mp_win_free, mp_win_lock_all, mp_win_unlock_all
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, &
 !$    omp_set_lock, omp_unset_lock, omp_init_lock, omp_lock_kind, omp_destroy_lock

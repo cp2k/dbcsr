@@ -37,7 +37,7 @@ MODULE dbcsr_tensor_types
                                               mp_environ, &
                                               mp_dims_create, &
                                               mp_comm_free
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

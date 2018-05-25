@@ -50,7 +50,7 @@ MODULE dbcsr_io
         mp_environ, mp_file_close, mp_file_get_size, mp_file_open, mp_file_read_at_all, &
         mp_file_write_at, mp_file_write_at_all, mp_sum, mp_type_descriptor_type, mp_type_size, &
         mpi_character_size, mpi_integer_size
-#include "../base/base_uses.f90"
+#include "base/base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
