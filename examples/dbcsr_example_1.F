@@ -17,13 +17,8 @@ PROGRAM dbcsr_example_1
    USE dbcsr_api,                       ONLY: &
         dbcsr_create, dbcsr_distribution_new, dbcsr_distribution_release, dbcsr_distribution_type, &
         dbcsr_finalize, dbcsr_finalize_lib, dbcsr_init_lib, dbcsr_print, dbcsr_release, &
-        dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8
-   USE machine,                         ONLY: default_output_unit
-   USE message_passing,                 ONLY: mp_cart_create,&
-                                              mp_comm_free,&
-                                              mp_environ,&
-                                              mp_world_finalize,&
-                                              mp_world_init
+        dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8, default_output_unit, &
+        mp_cart_create, mp_comm_free, mp_environ, mp_world_finalize, mp_world_init
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

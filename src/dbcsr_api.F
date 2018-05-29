@@ -129,7 +129,13 @@ MODULE dbcsr_api
                                               real_4,&
                                               real_8
    USE message_passing,                 ONLY: mp_cart_rank,&
-                                              mp_environ
+                                              mp_environ,&
+                                              mp_cart_create,&
+                                              mp_comm_free,&
+                                              mp_environ,&
+                                              mp_world_finalize,&
+                                              mp_world_init
+   USE machine,                         ONLY: default_output_unit
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 #include "base/base_uses.f90"
@@ -293,6 +299,21 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_binary_write
    PUBLIC :: dbcsr_binary_read
    PUBLIC :: dbcsr_test_binary_io
+
+   ! base
+   PUBLIC :: default_output_unit
+   PUBLIC :: real_8
+
+   ! mpi
+   PUBLIC :: mp_cart_rank
+   PUBLIC :: mp_environ
+   PUBLIC :: mp_cart_create
+   PUBLIC :: mp_comm_free
+   PUBLIC :: mp_environ
+   PUBLIC :: mp_world_finalize
+   PUBLIC :: mp_world_init
+
+   
 
    ! -----------------------------------------------------------------------------------------------
    TYPE dbcsr_p_type

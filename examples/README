@@ -1,0 +1,6 @@
+
+1) Compile and install DBCSR 
+   make install PREFIX=<install directory>
+2) Update the Makefile
+3) Compile the examples
+
