@@ -102,6 +102,15 @@ def main():
             makefile += "$(LIBDIR)/%s : "%(packages[p]['archive']+archive_ext)
             makefile += " ".join(packages[p]['objects']) + "\n\n"
 
+    # write rules for public files
+    for p in packages.keys():
+        if "public" in packages[p].keys():
+            makefile += "# Public modules for package %s\n"%p
+            makefile += "install: PUBLICFILES += "
+            for mod in packages[p]["public"]:
+                makefile += "%s "%mod
+            makefile += "\n\n"
+
     # write rules for executables
     archive_postfix = archive_ext.rsplit(".",1)[0]
     for fn in src_files:

@@ -15,6 +15,7 @@ TOOLSRC      := $(DBCSRHOME)/tools
 SRCDIR       := $(DBCSRHOME)/src
 TESTSDIR     := $(DBCSRHOME)/tests
 EXAMPLESDIR  := $(DBCSRHOME)/examples
+PREFIX       := $(DBCSRHOME)/install
 
 # Default Target ============================================================
 LIBRARY      := libdbcsr
@@ -185,11 +186,26 @@ help:
 	@printf "%s\n" $(OTHER_HELP) | awk -F ':' '{printf "%-28s%s\n", $$1, $$2}'
 	@echo "help                         Print this help text"
 
-install:
-	@echo ""
-	@echo "Not supported yet"
-	@echo ""
-OTHER_HELP += "install : Print installation help"
+ifeq ($(INCLUDE_DEPS),)
+install: $(LIBRARY)
+	@echo "Remove any previous installation directory"
+	@rm -rf $(PREFIX)
+	@echo "Copying files..."
+	@mkdir -p $(PREFIX)
+	@mkdir -p $(PREFIX)/lib
+	@mkdir -p $(PREFIX)/include
+	@echo "  ...library..."
+	@cp $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) $(PREFIX)/lib
+	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) install INCLUDE_DEPS=true
+	@echo "...installation done at $(PREFIX)."
+else
+install: $(PUBLICFILES:.F=.mod)
+	@echo "  ...modules..."
+	@cp $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)) $(PREFIX)/include
+endif
+
+
+OTHER_HELP += "install : Install the library and modules under PREFIX=<directory> (default $(PREFIX))"
 
 clean:
 	rm -rf $(LIBCUSMM_ABS_DIR)/libcusmm.cu $(LIBCUSMM_ABS_DIR)/libcusmm_part*.cu
@@ -201,7 +217,7 @@ OTHER_HELP += "clean : Remove intermediate object and mod files, but not the lib
 # Use this if you want to fully rebuild an executable (for a given compiler)
 #
 realclean: clean
-	rm -rf $(BINDIR) $(LIBDIR)
+	rm -rf $(BINDIR) $(LIBDIR) $(PREFIX)
 OTHER_HELP += "realclean : Remove all files"
 
 # Prettyfier stuff ==========================================================
