@@ -18,7 +18,8 @@ EXAMPLESDIR  := $(DBCSRHOME)/examples
 PREFIX       := $(DBCSRHOME)/install
 
 # Default Target ============================================================
-LIBRARY      := libdbcsr
+LIBNAME      := dbcsr
+LIBRARY      := lib$(LIBNAME)
 default_target: $(LIBRARY)
 
 # Test programs =========================================================
@@ -154,8 +155,8 @@ else
 # stage 3: Perform actual build.
 $(BIN_NAME).o: $(BIN_DEPS)
 
-$(BINDIR)/%.x: %.o | silent
-	$(LD) $(LDFLAGS) -L$(LIBDIR) -o $@ $^ $(BIN_DEPS) -ldbcsr $(LIBS)
+$(BINDIR)/%.x: %.o $(LIBRARY) | silent
+	$(LD) $(LDFLAGS) -L$(LIBDIR) -o $@ $< $(BIN_DEPS) -l$(LIBNAME) $(LIBS)
 
 # Silent the target if it is already up to date
 silent:

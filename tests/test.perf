@@ -5,9 +5,9 @@ dbcsr_multiply
 2000
 2000
 # sparsity (A, B, C)
-0.5d0
-0.5d0
-0.5d0
+0.0d0
+0.0d0
+0.0d0
 # transposes
 N
 N
@@ -36,7 +36,7 @@ N
 # retain sparsity (T/F)
 T
 # number of repetitions
-2
+10
 # number of different blocks to read (m, n, k)
 1
 1

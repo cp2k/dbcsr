@@ -261,9 +261,9 @@ CONTAINS
             WRITE (UNIT=output_unit, FMT="(T2,A)") REPEAT("-", 79)
             WRITE (UNIT=msg, FMT="(A,I0,A,2(I0,1X))") &
                "Using a non-square number of MPI ranks might lead to poor performance."// &
-               REPEAT(" ", 25)// &
-               "Used ranks: ", dbcsr_mpi_statistics%last_mpi_ranks_used, &
-               REPEAT(" ", 50)// &
+               NEW_LINE(' ')// &
+               " Used ranks: ", dbcsr_mpi_statistics%last_mpi_ranks_used, &
+               REPEAT(" ", 10)// &
                "Suggested: ", isqrt**2, isqrt2**2
             CPWARN(msg)
          ENDIF
