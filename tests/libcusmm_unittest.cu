@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cuda_runtime.h>
-#include "libcusmm_benchmark.h"
-#include "libcusmm.h"
+#include "libsmm_acc/libcusmm/libcusmm_benchmark.h"
+#include "libsmm_acc/libcusmm/libcusmm.h"
 
 /****************************************************************************\
  \brief Checks correctness of every libcusmm kernel and measures its performance

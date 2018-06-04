@@ -27,7 +27,7 @@ FCFLAGS += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
 LDFLAGS    = $(FCFLAGS)
 LIBS       = -L${SCALAPACK_PATH}/lib -lscalapack -lreflapack -lrefblas
 
-ifneq(GPU,)
+ifneq ($(GPU),)
 NVCC     = nvcc
 DFLAGS  += -D__ACC -D__DBCSR_ACC
 FCFLAGS += -D__ACC -D__DBCSR_ACC

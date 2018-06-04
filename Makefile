@@ -402,7 +402,7 @@ endif
 endif
 
 %.o: %.cu
-	$(NVCC) -c $(NVFLAGS) $<
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
 
 
 # module compiler magic =====================================================
