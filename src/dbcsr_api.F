@@ -129,7 +129,6 @@ MODULE dbcsr_api
                                               real_4,&
                                               real_8
    USE message_passing,                 ONLY: mp_cart_rank,&
-                                              mp_environ,&
                                               mp_cart_create,&
                                               mp_comm_free,&
                                               mp_environ,&
@@ -306,7 +305,6 @@ MODULE dbcsr_api
 
    ! mpi
    PUBLIC :: mp_cart_rank
-   PUBLIC :: mp_environ
    PUBLIC :: mp_cart_create
    PUBLIC :: mp_comm_free
    PUBLIC :: mp_environ
