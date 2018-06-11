@@ -4,6 +4,7 @@
 import re, sys
 from os import path
 from os.path import dirname, basename, normpath
+import glob
 
 # pre-compiled regular expressions
 re_module = re.compile(r"(?:^|\n)\s*module\s+(\w+)\s.*\n\s*end\s*module",re.DOTALL)
@@ -82,8 +83,8 @@ def main():
             dp = normpath(dirname(d))
             if(dp not in packages[p]['allowed_deps']):
                 error("Dependency forbidden according to package manifest: %s -> %s"%(fn, d))
-            if(dp != p and "public" in packages[dp].keys()):
-                if(basename(d) not in packages[dp]["public"]):
+            if(dp != p and "public_files" in packages[dp].keys()):
+                if(basename(d) not in packages[dp]["public_files"]):
                     error("File not public according to package manifest: %s -> %s"%(fn, d))
     messages.append("Checked %d dependencies"%n_deps)
 
@@ -230,6 +231,11 @@ def read_pkg_manifest(packages, p):
     for r in packages[p]['requires']:
         read_pkg_manifest(packages, normpath(path.join(p,r)))
 
+    if "public" in packages[p].keys():
+        public_files = []
+        for fn in packages[p]["public"]:
+            public_files += glob.glob(p+"/"+fn)
+        packages[p]["public_files"] = [basename(fn) for fn in public_files]
 
 #=============================================================================
 def mod2modfile(m, mod_format):
