@@ -3,7 +3,7 @@ SHELL = /bin/sh
 #
 # the home dir is taken from the current directory
 #
-DBCSRHOME    := $(abspath $(PWD))
+DBCSRHOME    ?= $(CURDIR)
 MAKEFILE     := $(DBCSRHOME)/Makefile
 DOXYGENDIR   := $(DBCSRHOME)/doc/doxygen
 BINDIR       := $(DBCSRHOME)/bin
@@ -95,13 +95,13 @@ ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hcc")
 #          Afterwards, call make recursively again with -C $(OBJDIR) and INCLUDE_DEPS=true
 ifeq ($(INCLUDE_DEPS),)
 $(LIBRARY): dirs makedep
-	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) INCLUDE_DEPS=true
+	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) INCLUDE_DEPS=true DBCSRHOME=$(DBCSRHOME)
 
 $(BIN_NAMES): $(LIBRARY)
-	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $@ INCLUDE_DEPS=true
+	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $@ INCLUDE_DEPS=true DBCSRHOME=$(DBCSRHOME)
 
 all: $(LIBRARY)
-	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) all INCLUDE_DEPS=true
+	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) all INCLUDE_DEPS=true DBCSRHOME=$(DBCSRHOME)
 
 dirs:
 	@mkdir -p $(OBJDIR)
@@ -151,7 +151,7 @@ all: $(foreach e, $(BIN_NAMES), $(e))
 ifeq ($(BIN_NAME),)
 $(BIN_NAMES):
 	@mkdir -p $(BINDIR)
-	@+cd $(DBCSRHOME) ; $(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(BINDIR)/$@.x INCLUDE_DEPS=true BIN_NAME=$@ BIN_DEPS="$(BIN_DEPS)"
+	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(BINDIR)/$@.x INCLUDE_DEPS=true BIN_NAME=$@ BIN_DEPS="$(BIN_DEPS)" DBCSRHOME=$(DBCSRHOME)
 else
 # stage 3: Perform actual build.
 $(BIN_NAME).o: $(BIN_DEPS)
@@ -198,7 +198,7 @@ install: $(LIBRARY)
 	@mkdir -p $(PREFIX)/include
 	@echo "  ...library..."
 	@cp $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) $(PREFIX)/lib
-	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) install INCLUDE_DEPS=true
+	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) install INCLUDE_DEPS=true DBCSRHOME=$(DBCSRHOME)
 	@echo "...installation done at $(PREFIX)."
 else
 install: $(PUBLICFILES:.F=.mod)
