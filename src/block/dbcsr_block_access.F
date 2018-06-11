@@ -14,8 +14,8 @@
 !  - 2010-04-22 Added block buffer operations
 ! **************************************************************************************************
 MODULE dbcsr_block_access
-   USE array_types,                     ONLY: array_data
-   USE btree,                           ONLY: btree_add,&
+   USE dbcsr_array_types,               ONLY: array_data
+   USE dbcsr_btree,                     ONLY: btree_add,&
                                               btree_data_cp2d,&
                                               btree_data_dp2d,&
                                               btree_data_sp2d,&
@@ -61,11 +61,11 @@ MODULE dbcsr_block_access
         dbcsr_type_real_8, dbcsr_type_real_8_2d
    USE dbcsr_work_operations,           ONLY: add_work_coordinate,&
                                               dbcsr_work_create
-   USE kinds,                           ONLY: dp,&
+   USE dbcsr_kinds,                     ONLY: dp,&
                                               int_8,&
                                               real_4,&
                                               real_8
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

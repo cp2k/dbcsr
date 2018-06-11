@@ -14,7 +14,7 @@
 ! **************************************************************************************************
 MODULE dbcsr_index_operations
 
-   USE array_types,                     ONLY: array_data,&
+   USE dbcsr_array_types,               ONLY: array_data,&
                                               array_size
    USE dbcsr_config,                    ONLY: default_resize_factor
    USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_local_cols,&
@@ -25,6 +25,8 @@ MODULE dbcsr_index_operations
                                               dbcsr_distribution_nrows,&
                                               dbcsr_distribution_thread_dist
    USE dbcsr_dist_operations,           ONLY: get_stored_canonical
+   USE dbcsr_kinds,                     ONLY: int_4,&
+                                              int_8
    USE dbcsr_methods,                   ONLY: dbcsr_distribution,&
                                               dbcsr_get_index_memory_type
    USE dbcsr_ptr_util,                  ONLY: ensure_array_size,&
@@ -39,9 +41,7 @@ MODULE dbcsr_index_operations
         dbcsr_slot_nblkcols_local, dbcsr_slot_nblkcols_total, dbcsr_slot_nblkrows_local, &
         dbcsr_slot_nblkrows_total, dbcsr_slot_nblks, dbcsr_slot_nfullcols_local, dbcsr_slot_nze, &
         dbcsr_slot_row_p, dbcsr_slot_size, dbcsr_slot_thr_c, dbcsr_type
-   USE kinds,                           ONLY: int_4,&
-                                              int_8
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

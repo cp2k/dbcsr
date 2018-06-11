@@ -14,14 +14,14 @@
 ! **************************************************************************************************
 MODULE dbcsr_work_operations
 
-   USE array_types,                     ONLY: array_data,&
+   USE dbcsr_array_types,               ONLY: array_data,&
                                               array_hold,&
                                               array_i1d_obj,&
                                               array_new,&
                                               array_nullify,&
                                               array_release,&
                                               array_size
-   USE btree,                           ONLY: btree_data_cp2d,&
+   USE dbcsr_btree,                     ONLY: btree_data_cp2d,&
                                               btree_data_dp2d,&
                                               btree_data_sp2d,&
                                               btree_data_zp2d
@@ -83,15 +83,15 @@ MODULE dbcsr_work_operations
         dbcsr_type_antihermitian, dbcsr_type_antisymmetric, dbcsr_type_complex_4, &
         dbcsr_type_complex_8, dbcsr_type_hermitian, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
         dbcsr_type_real_8, dbcsr_type_real_default, dbcsr_type_symmetric, dbcsr_work_type
-   USE dbcsr_util,                      ONLY: convert_sizes_to_offsets,&
+   USE dbcsr_dist_util,                 ONLY: convert_sizes_to_offsets,&
                                               dbcsr_calc_block_sizes,&
                                               dbcsr_verify_matrix,&
                                               meta_from_dist
-   USE kinds,                           ONLY: default_string_length,&
+   USE dbcsr_kinds,                     ONLY: default_string_length,&
                                               int_8,&
                                               real_4,&
                                               real_8
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, omp_in_parallel
 

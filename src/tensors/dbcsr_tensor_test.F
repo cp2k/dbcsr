@@ -30,18 +30,18 @@ MODULE dbcsr_tensor_test
                                               dbcsr_t_distribution_new,&
                                               dbcsr_t_nd_mp_comm,&
                                               dbcsr_t_get_data_type
-   USE kinds,                           ONLY: ${uselist(dtype_float_prec)}$,&
+   USE dbcsr_kinds,                     ONLY: ${uselist(dtype_float_prec)}$,&
                                               default_string_length,&
                                               int_8
-   USE message_passing,                 ONLY: mp_environ, &
+   USE dbcsr_message_passing,           ONLY: mp_environ, &
                                               mp_bcast, &
                                               mp_comm_free, &
                                               mp_comm_free, &
                                               mp_sum
-   USE allocate_wrap,                   ONLY: allocate_any
+   USE dbcsr_allocate_wrap,             ONLY: allocate_any
    USE dbcsr_tensor_index,              ONLY: combine_index, &
                                               get_mapping_info
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

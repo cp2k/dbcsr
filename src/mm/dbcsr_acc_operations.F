@@ -16,12 +16,12 @@
 MODULE dbcsr_acc_operations
    USE ISO_C_BINDING,                   ONLY: C_INT,&
                                               C_PTR
-   USE acc_devmem,                      ONLY: acc_devmem_cptr,&
+   USE dbcsr_acc_devmem,                ONLY: acc_devmem_cptr,&
                                               acc_devmem_type
-   USE acc_stream,                      ONLY: acc_stream_cptr,&
+   USE dbcsr_acc_stream,                ONLY: acc_stream_cptr,&
                                               acc_stream_type
    USE dbcsr_mm_types,                  ONLY: dbcsr_ps_width
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 

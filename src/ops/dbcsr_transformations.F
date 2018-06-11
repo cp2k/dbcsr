@@ -13,7 +13,7 @@
 !> - 2010-02-18 Moved from dbcsr_util and dbcsr_operations
 ! **************************************************************************************************
 MODULE dbcsr_transformations
-   USE array_types,                     ONLY: array_data,&
+   USE dbcsr_array_types,               ONLY: array_data,&
                                               array_hold,&
                                               array_i1d_obj,&
                                               array_release
@@ -44,6 +44,14 @@ MODULE dbcsr_transformations
                                               dbcsr_reblocking_targets,&
                                               dbcsr_transpose_dims,&
                                               dbcsr_transpose_distribution
+   USE dbcsr_dist_util,                 ONLY: convert_sizes_to_offsets,&
+                                              dbcsr_checksum,&
+                                              dbcsr_pack_meta,&
+                                              dbcsr_unpack_meta,&
+                                              dbcsr_verify_matrix,&
+                                              get_internal_offsets,&
+                                              global_offsets_to_local,&
+                                              nfull_elements
    USE dbcsr_index_operations,          ONLY: dbcsr_addto_index_array,&
                                               dbcsr_clearfrom_index_array,&
                                               dbcsr_repoint_index,&
@@ -54,6 +62,11 @@ MODULE dbcsr_transformations
                                               dbcsr_iterator_next_block,&
                                               dbcsr_iterator_start,&
                                               dbcsr_iterator_stop
+   USE dbcsr_kinds,                     ONLY: dp,&
+                                              int_8,&
+                                              sp
+   USE dbcsr_message_passing,           ONLY: mp_allgather,&
+                                              mp_alltoall
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_sizes, dbcsr_distribution, dbcsr_get_data_type, dbcsr_get_matrix_type, &
         dbcsr_has_symmetry, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_nfullcols_total, &
@@ -77,23 +90,10 @@ MODULE dbcsr_transformations
         dbcsr_slot_col_i, dbcsr_slot_home_pcol, dbcsr_slot_home_prow, dbcsr_slot_nblks, &
         dbcsr_slot_nze, dbcsr_slot_row_p, dbcsr_type, dbcsr_type_complex_4, dbcsr_type_complex_8, &
         dbcsr_type_no_symmetry, dbcsr_type_real_4, dbcsr_type_real_8
-   USE dbcsr_util,                      ONLY: convert_sizes_to_offsets,&
-                                              dbcsr_checksum,&
-                                              dbcsr_pack_meta,&
-                                              dbcsr_unpack_meta,&
-                                              dbcsr_verify_matrix,&
-                                              get_internal_offsets,&
-                                              global_offsets_to_local,&
-                                              nfull_elements
    USE dbcsr_work_operations,           ONLY: dbcsr_create,&
                                               dbcsr_finalize,&
                                               dbcsr_work_create
-   USE kinds,                           ONLY: dp,&
-                                              int_8,&
-                                              sp
-   USE message_passing,                 ONLY: mp_allgather,&
-                                              mp_alltoall
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
   !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

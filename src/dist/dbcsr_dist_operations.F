@@ -14,12 +14,14 @@
 ! **************************************************************************************************
 MODULE dbcsr_dist_operations
 
-   USE array_types,                     ONLY: array_i1d_obj,&
+   USE dbcsr_array_types,               ONLY: array_i1d_obj,&
                                               array_new
    USE dbcsr_dist_methods,              ONLY: &
         dbcsr_distribution_col_dist, dbcsr_distribution_local_cols, dbcsr_distribution_local_rows, &
         dbcsr_distribution_mp, dbcsr_distribution_ncols, dbcsr_distribution_new, &
         dbcsr_distribution_nrows, dbcsr_distribution_processor, dbcsr_distribution_row_dist
+   USE dbcsr_kinds,                     ONLY: dp,&
+                                              sp
    USE dbcsr_min_heap,                  ONLY: dbcsr_heap_fill,&
                                               dbcsr_heap_get_first,&
                                               dbcsr_heap_new,&
@@ -36,9 +38,7 @@ MODULE dbcsr_dist_operations
    USE dbcsr_types,                     ONLY: dbcsr_distribution_obj,&
                                               dbcsr_mp_obj,&
                                               dbcsr_type
-   USE kinds,                           ONLY: dp,&
-                                              sp
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

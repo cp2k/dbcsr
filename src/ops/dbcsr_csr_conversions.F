@@ -30,6 +30,17 @@ MODULE dbcsr_csr_conversions
                                               dbcsr_iterator_next_block,&
                                               dbcsr_iterator_start,&
                                               dbcsr_iterator_stop
+   USE dbcsr_kinds,                     ONLY: default_string_length,&
+                                              dp,&
+                                              int_8,&
+                                              real_4,&
+                                              real_8,&
+                                              sp
+   USE dbcsr_message_passing,           ONLY: mp_environ,&
+                                              mp_gather,&
+                                              mp_recv,&
+                                              mp_send,&
+                                              mp_sum
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_sizes, dbcsr_distribution, dbcsr_get_data_type, dbcsr_get_num_blocks, &
         dbcsr_get_nze, dbcsr_has_symmetry, dbcsr_name, dbcsr_nblkcols_total, dbcsr_nblkrows_total, &
@@ -50,18 +61,7 @@ MODULE dbcsr_csr_conversions
                                               dbcsr_mp_obj,&
                                               dbcsr_type
    USE dbcsr_work_operations,           ONLY: dbcsr_create
-   USE kinds,                           ONLY: default_string_length,&
-                                              dp,&
-                                              int_8,&
-                                              real_4,&
-                                              real_8,&
-                                              sp
-   USE message_passing,                 ONLY: mp_environ,&
-                                              mp_gather,&
-                                              mp_recv,&
-                                              mp_send,&
-                                              mp_sum
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

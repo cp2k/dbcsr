@@ -28,14 +28,14 @@ MODULE dbcsr_mp_operations
                                               dbcsr_type_int_4,&
                                               dbcsr_type_real_4,&
                                               dbcsr_type_real_8
-   USE kinds,                           ONLY: real_4,&
+   USE dbcsr_kinds,                     ONLY: real_4,&
                                               real_8
-   USE message_passing,                 ONLY: &
+   USE dbcsr_message_passing,           ONLY: &
         mp_allgather, mp_alltoall, mp_gatherv, mp_ibcast, mp_irecv, mp_iscatter, mp_isend, &
         mp_isendrecv, mp_rget, mp_sendrecv, mp_type_descriptor_type, mp_type_indexed_make_c, &
         mp_type_indexed_make_d, mp_type_indexed_make_r, mp_type_indexed_make_z, mp_type_make, &
         mp_waitall, mp_win_create
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 

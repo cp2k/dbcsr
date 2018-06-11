@@ -16,8 +16,8 @@
 !>  - 2013-01    reorganized code (Ole Schuett)
 ! **************************************************************************************************
 MODULE dbcsr_mm_cannon
-   USE acc_event,                       ONLY: acc_event_synchronize
-   USE array_types,                     ONLY: array_data,&
+   USE dbcsr_acc_event,                 ONLY: acc_event_synchronize
+   USE dbcsr_array_types,               ONLY: array_data,&
                                               array_exists,&
                                               array_i1d_obj,&
                                               array_size
@@ -91,19 +91,19 @@ MODULE dbcsr_mm_cannon
         dbcsr_slot_home_vpcol, dbcsr_slot_home_vprow, dbcsr_slot_size, dbcsr_type, &
         dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_int_4, dbcsr_type_no_symmetry, &
         dbcsr_type_real_4, dbcsr_type_real_8
-   USE dbcsr_util,                      ONLY: count_bins,&
+   USE dbcsr_dist_util,                 ONLY: count_bins,&
                                               dbcsr_checksum
    USE dbcsr_work_operations,           ONLY: dbcsr_create,&
                                               dbcsr_special_finalize,&
                                               dbcsr_work_create
-   USE kinds,                           ONLY: dp,&
+   USE dbcsr_kinds,                     ONLY: dp,&
                                               int_8,&
                                               real_4,&
                                               real_8,&
                                               sp
-   USE machine,                         ONLY: default_output_unit,&
+   USE dbcsr_machine,                   ONLY: default_output_unit,&
                                               m_memory
-   USE message_passing,                 ONLY: mp_allgather,&
+   USE dbcsr_message_passing,           ONLY: mp_allgather,&
                                               mp_alltoall,&
                                               mp_irecv,&
                                               mp_isend,&
@@ -111,7 +111,7 @@ MODULE dbcsr_mm_cannon
                                               mp_sum,&
                                               mp_testany,&
                                               mp_waitall
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

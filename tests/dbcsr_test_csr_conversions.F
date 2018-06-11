@@ -18,10 +18,10 @@ PROGRAM dbcsr_test_csr_conversions
         dbcsr_init_lib, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_norm, &
         dbcsr_norm_maxabsnorm, dbcsr_put_block, dbcsr_release, dbcsr_to_csr_filter, dbcsr_type, &
         dbcsr_type_no_symmetry, dbcsr_type_real_8
-   USE kinds,                           ONLY: dp,&
+   USE dbcsr_kinds,                     ONLY: dp,&
                                               real_8
-   USE machine,                         ONLY: default_output_unit
-   USE message_passing,                 ONLY: mp_bcast,&
+   USE dbcsr_machine,                   ONLY: default_output_unit
+   USE dbcsr_message_passing,           ONLY: mp_bcast,&
                                               mp_cart_create,&
                                               mp_comm_free,&
                                               mp_environ,&

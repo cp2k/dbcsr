@@ -13,13 +13,26 @@
 !> - 2010-02-18 Moved from dbcsr_util
 ! **************************************************************************************************
 MODULE dbcsr_io
-   USE array_types,                     ONLY: array_data
+   USE dbcsr_array_types,               ONLY: array_data
    USE dbcsr_data_methods,              ONLY: dbcsr_data_clear_pointer,&
                                               dbcsr_data_get_size_referenced,&
                                               dbcsr_data_init,&
                                               dbcsr_data_new,&
                                               dbcsr_get_data
    USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_mp
+   USE dbcsr_kinds,                     ONLY: default_string_length,&
+                                              dp,&
+                                              real_4,&
+                                              real_4_size,&
+                                              real_8,&
+                                              real_8_size,&
+                                              sp
+   USE dbcsr_machine,                   ONLY: default_output_unit
+   USE dbcsr_message_passing,           ONLY: &
+        file_amode_create, file_amode_rdonly, file_amode_wronly, file_offset, mp_allgather, &
+        mp_environ, mp_file_close, mp_file_get_size, mp_file_open, mp_file_read_at_all, &
+        mp_file_write_at, mp_file_write_at_all, mp_sum, mp_type_descriptor_type, mp_type_size, &
+        mpi_character_size, mpi_integer_size
    USE dbcsr_methods,                   ONLY: &
         dbcsr_data_area, dbcsr_distribution, dbcsr_get_data_size, dbcsr_get_data_type, &
         dbcsr_get_matrix_type, dbcsr_get_num_blocks, dbcsr_name, dbcsr_nblkcols_total, &
@@ -37,20 +50,7 @@ MODULE dbcsr_io
                                               dbcsr_type_real_4,&
                                               dbcsr_type_real_8
    USE dbcsr_work_operations,           ONLY: dbcsr_create
-   USE kinds,                           ONLY: default_string_length,&
-                                              dp,&
-                                              real_4,&
-                                              real_4_size,&
-                                              real_8,&
-                                              real_8_size,&
-                                              sp
-   USE machine,                         ONLY: default_output_unit
-   USE message_passing,                 ONLY: &
-        file_amode_create, file_amode_rdonly, file_amode_wronly, file_offset, mp_allgather, &
-        mp_environ, mp_file_close, mp_file_get_size, mp_file_open, mp_file_read_at_all, &
-        mp_file_write_at, mp_file_write_at_all, mp_sum, mp_type_descriptor_type, mp_type_size, &
-        mpi_character_size, mpi_integer_size
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

@@ -13,8 +13,8 @@
 !> - Created 2009-05-12
 ! **************************************************************************************************
 MODULE dbcsr_types
-   USE array_types,                     ONLY: array_i1d_obj
-   USE btree,                           ONLY: btree_i8_cp2d,&
+   USE dbcsr_array_types,               ONLY: array_i1d_obj
+   USE dbcsr_btree,                     ONLY: btree_i8_cp2d,&
                                               btree_i8_dp2d,&
                                               btree_i8_sp2d,&
                                               btree_i8_zp2d
@@ -24,7 +24,7 @@ MODULE dbcsr_types
         dbcsr_type_complex_8, dbcsr_type_complex_8_2d, dbcsr_type_complex_default, &
         dbcsr_type_int_4, dbcsr_type_real_4, dbcsr_type_real_4_2d, dbcsr_type_real_8, &
         dbcsr_type_real_8_2d, dbcsr_type_real_default
-   USE kinds,                           ONLY: default_string_length,&
+   USE dbcsr_kinds,                     ONLY: default_string_length,&
                                               int_8
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads

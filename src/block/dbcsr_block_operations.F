@@ -14,7 +14,7 @@
 ! **************************************************************************************************
 MODULE dbcsr_block_operations
 
-   USE acc_devmem,                      ONLY: acc_devmem_allocated,&
+   USE dbcsr_acc_devmem,                ONLY: acc_devmem_allocated,&
                                               acc_devmem_setzero_bytes
    USE dbcsr_data_methods_low,          ONLY: dbcsr_data_exists,&
                                               dbcsr_data_get_size,&
@@ -28,11 +28,11 @@ MODULE dbcsr_block_operations
         dbcsr_data_obj, dbcsr_datatype_sizeof, dbcsr_scalar_type, dbcsr_type_complex_4, &
         dbcsr_type_complex_4_2d, dbcsr_type_complex_8, dbcsr_type_complex_8_2d, dbcsr_type_real_4, &
         dbcsr_type_real_4_2d, dbcsr_type_real_8, dbcsr_type_real_8_2d
-   USE kinds,                           ONLY: dp,&
+   USE dbcsr_kinds,                     ONLY: dp,&
                                               real_4,&
                                               real_8,&
                                               sp
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
    IMPLICIT NONE

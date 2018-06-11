@@ -31,10 +31,18 @@ MODULE dbcsr_test_methods
                                               dbcsr_distribution_new,&
                                               dbcsr_distribution_release
    USE dbcsr_dist_operations,           ONLY: dbcsr_get_stored_coordinates
+   USE dbcsr_dist_util,                 ONLY: dbcsr_verify_matrix
    USE dbcsr_iterator_operations,       ONLY: dbcsr_iterator_blocks_left,&
                                               dbcsr_iterator_next_block,&
                                               dbcsr_iterator_start,&
                                               dbcsr_iterator_stop
+   USE dbcsr_kinds,                     ONLY: default_string_length,&
+                                              dp,&
+                                              int_8,&
+                                              real_4,&
+                                              real_8
+   USE dbcsr_message_passing,           ONLY: mp_comm_null,&
+                                              mp_environ
    USE dbcsr_methods,                   ONLY: dbcsr_get_matrix_type,&
                                               dbcsr_max_col_size,&
                                               dbcsr_max_row_size,&
@@ -52,18 +60,10 @@ MODULE dbcsr_test_methods
         dbcsr_type, dbcsr_type_antihermitian, dbcsr_type_antisymmetric, dbcsr_type_complex_4, &
         dbcsr_type_complex_8, dbcsr_type_hermitian, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
         dbcsr_type_real_8, dbcsr_type_real_default, dbcsr_type_symmetric
-   USE dbcsr_util,                      ONLY: dbcsr_verify_matrix
    USE dbcsr_work_operations,           ONLY: dbcsr_create,&
                                               dbcsr_finalize,&
                                               dbcsr_work_create
-   USE kinds,                           ONLY: default_string_length,&
-                                              dp,&
-                                              int_8,&
-                                              real_4,&
-                                              real_8
-   USE message_passing,                 ONLY: mp_comm_null,&
-                                              mp_environ
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

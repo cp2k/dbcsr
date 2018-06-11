@@ -18,27 +18,27 @@
 !>  - 2014-04    generalized into acc-framework (Ole Schuett)
 ! **************************************************************************************************
 MODULE dbcsr_mm_accdrv
-   USE acc_devmem,                      ONLY: acc_devmem_allocate_bytes,&
+   USE dbcsr_acc_devmem,                ONLY: acc_devmem_allocate_bytes,&
                                               acc_devmem_allocated,&
                                               acc_devmem_deallocate,&
                                               acc_devmem_host2dev,&
                                               acc_devmem_setzero_bytes,&
                                               acc_devmem_type
-   USE acc_event,                       ONLY: acc_event_create,&
+   USE dbcsr_acc_event,                 ONLY: acc_event_create,&
                                               acc_event_destroy,&
                                               acc_event_query,&
                                               acc_event_record,&
                                               acc_event_type,&
                                               acc_stream_wait_event
-   USE acc_hostmem,                     ONLY: acc_hostmem_allocate,&
+   USE dbcsr_acc_hostmem,               ONLY: acc_hostmem_allocate,&
                                               acc_hostmem_deallocate
-   USE acc_stream,                      ONLY: acc_stream_associated,&
+   USE dbcsr_acc_operations,            ONLY: dbcsr_acc_do_mm_stack
+   USE dbcsr_acc_stream,                ONLY: acc_stream_associated,&
                                               acc_stream_create,&
                                               acc_stream_destroy,&
                                               acc_stream_priority_range,&
                                               acc_stream_synchronize,&
                                               acc_stream_type
-   USE dbcsr_acc_operations,            ONLY: dbcsr_acc_do_mm_stack
    USE dbcsr_block_operations,          ONLY: block_add
    USE dbcsr_config,                    ONLY: dbcsr_cfg,&
                                               default_resize_factor
@@ -51,6 +51,10 @@ MODULE dbcsr_mm_accdrv
                                               dbcsr_data_get_type,&
                                               dbcsr_data_new,&
                                               dbcsr_data_release
+   USE dbcsr_kinds,                     ONLY: default_string_length,&
+                                              int_4,&
+                                              int_4_size,&
+                                              int_8
    USE dbcsr_mem_methods,               ONLY: dbcsr_mempool_destruct,&
                                               dbcsr_mempool_limit_capacity,&
                                               dbcsr_memtype_setup
@@ -63,11 +67,7 @@ MODULE dbcsr_mm_accdrv
                                               dbcsr_memtype_type,&
                                               dbcsr_type,&
                                               dbcsr_work_type
-   USE kinds,                           ONLY: default_string_length,&
-                                              int_4,&
-                                              int_4_size,&
-                                              int_8
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

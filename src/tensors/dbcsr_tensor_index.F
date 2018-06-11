@@ -8,8 +8,8 @@
 !> \author Patrick Seewald
 ! **************************************************************************************************
 MODULE dbcsr_tensor_index
-   USE allocate_wrap,                   ONLY: allocate_any
-#include "base/base_uses.f90"
+   USE dbcsr_allocate_wrap,             ONLY: allocate_any
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE
@@ -365,4 +365,4 @@ CONTAINS
 
       CALL create_nd_to_2d_mapping(map_out, dims_reorder, map1_2d_reorder, map2_2d_reorder)
    END SUBROUTINE
-END MODULE
+END MODULE dbcsr_tensor_index

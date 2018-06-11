@@ -13,10 +13,10 @@
 !>  - 2017-02    Remove clusters (Alfio Lazzaro).
 ! **************************************************************************************************
 MODULE dbcsr_mm_3d
-   USE acc_event,                       ONLY: acc_event_create,&
+   USE dbcsr_acc_event,                 ONLY: acc_event_create,&
                                               acc_event_destroy,&
                                               acc_event_synchronize
-   USE array_types,                     ONLY: array_data,&
+   USE dbcsr_array_types,               ONLY: array_data,&
                                               array_get,&
                                               array_size
    USE dbcsr_block_operations,          ONLY: dbcsr_block_conjg,&
@@ -41,12 +41,21 @@ MODULE dbcsr_mm_3d
         dbcsr_distribution_local_cols, dbcsr_distribution_local_rows, &
         dbcsr_distribution_max_col_dist, dbcsr_distribution_max_row_dist, dbcsr_distribution_mp, &
         dbcsr_distribution_row_dist, dbcsr_distribution_thread_dist
+   USE dbcsr_dist_util,                 ONLY: find_block_of_element
    USE dbcsr_index_operations,          ONLY: dbcsr_repoint_index
    USE dbcsr_iterator_operations,       ONLY: dbcsr_iterator_blocks_left,&
                                               dbcsr_iterator_next_block,&
                                               dbcsr_iterator_start,&
                                               dbcsr_iterator_stop
+   USE dbcsr_kinds,                     ONLY: int_8,&
+                                              real_8,&
+                                              sp
+   USE dbcsr_machine,                   ONLY: m_memory
    USE dbcsr_mem_methods,               ONLY: dbcsr_mempool_limit_capacity
+   USE dbcsr_message_passing,           ONLY: &
+        mp_allgather, mp_alltoall, mp_comm_free, mp_comm_null, mp_comm_split_direct, &
+        mp_iallgather, mp_isendrecv, mp_isum, mp_request_null, mp_rget, mp_wait, mp_waitall, &
+        mp_win_create, mp_win_free, mp_win_lock_all, mp_win_unlock_all
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_distribution, dbcsr_get_data_type, &
         dbcsr_has_symmetry, dbcsr_max_col_size, dbcsr_max_row_size, dbcsr_nblkcols_local, &
@@ -90,21 +99,12 @@ MODULE dbcsr_mm_3d
         dbcsr_slot_row_p, dbcsr_slot_size, dbcsr_slot_thr_c, dbcsr_slot_type, dbcsr_type, &
         dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_int_4, dbcsr_type_no_symmetry, &
         dbcsr_type_real_4, dbcsr_type_real_8
-   USE dbcsr_util,                      ONLY: find_block_of_element
    USE dbcsr_work_operations,           ONLY: dbcsr_add_wm_from_matrix,&
                                               dbcsr_create,&
                                               dbcsr_finalize,&
                                               dbcsr_work_create,&
                                               dbcsr_work_destroy
-   USE kinds,                           ONLY: int_8,&
-                                              real_8,&
-                                              sp
-   USE machine,                         ONLY: m_memory
-   USE message_passing,                 ONLY: &
-        mp_allgather, mp_alltoall, mp_comm_free, mp_comm_null, mp_comm_split_direct, &
-        mp_iallgather, mp_isendrecv, mp_isum, mp_request_null, mp_rget, mp_wait, mp_waitall, &
-        mp_win_create, mp_win_free, mp_win_lock_all, mp_win_unlock_all
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, &
 !$    omp_set_lock, omp_unset_lock, omp_init_lock, omp_lock_kind, omp_destroy_lock

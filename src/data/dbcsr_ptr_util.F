@@ -14,7 +14,7 @@
 !> - 2010-06-18 Moved all pointer methods into here.
 ! **************************************************************************************************
 MODULE dbcsr_ptr_util
-   USE acc_hostmem,                     ONLY: acc_hostmem_allocate,&
+   USE dbcsr_acc_hostmem,               ONLY: acc_hostmem_allocate,&
                                               acc_hostmem_deallocate
    USE dbcsr_data_types,                ONLY: dbcsr_data_obj,&
                                               dbcsr_memtype_default,&
@@ -23,14 +23,14 @@ MODULE dbcsr_ptr_util
                                               dbcsr_type_complex_8,&
                                               dbcsr_type_real_4,&
                                               dbcsr_type_real_8
-   USE kinds,                           ONLY: dp,&
+   USE dbcsr_kinds,                     ONLY: dp,&
                                               int_4,&
                                               int_8,&
                                               real_4,&
                                               real_8
-   USE message_passing,                 ONLY: mp_allocate,&
+   USE dbcsr_message_passing,           ONLY: mp_allocate,&
                                               mp_deallocate
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

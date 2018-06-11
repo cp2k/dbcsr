@@ -13,7 +13,7 @@ MODULE dbcsr_tensor_block
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)
 
-   USE allocate_wrap,                   ONLY: allocate_any
+   USE dbcsr_allocate_wrap,             ONLY: allocate_any
    USE dbcsr_api,                       ONLY: ${uselist(dtype_float_param)}$,&
                                               dbcsr_iterator_type, &
                                               dbcsr_iterator_blocks_left,&
@@ -24,7 +24,7 @@ MODULE dbcsr_tensor_block
                                               dbcsr_put_block,&
                                               dbcsr_reserve_blocks,&
                                               dbcsr_type
-   USE kinds,                           ONLY: ${uselist(dtype_float_prec)}$
+   USE dbcsr_kinds,                     ONLY: ${uselist(dtype_float_prec)}$
    USE dbcsr_tensor_index,              ONLY: nd_to_2d_mapping, &
                                               ndims_mapping, &
                                               get_nd_indices, &
@@ -32,7 +32,7 @@ MODULE dbcsr_tensor_block
                                               get_2d_indices, &
                                               get_mapping_info,&
                                               create_nd_to_2d_mapping
-   USE array_list_methods,              ONLY: array_list, &
+   USE dbcsr_array_list_methods,        ONLY: array_list, &
                                               get_array_elements, &
                                               destroy_array_list, &
                                               sizes_of_arrays, &
@@ -42,7 +42,7 @@ MODULE dbcsr_tensor_block
                                               ndims_tensor,&
                                               dbcsr_t_get_data_type,&
                                               dbcsr_t_blk_sizes
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

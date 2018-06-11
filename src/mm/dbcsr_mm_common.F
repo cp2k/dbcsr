@@ -12,11 +12,11 @@
 !>  - 2016-08    Code organization (Alfio Lazzaro).
 ! **************************************************************************************************
 MODULE dbcsr_mm_common
-   USE acc_event,                       ONLY: acc_event_record,&
+   USE dbcsr_acc_event,                 ONLY: acc_event_record,&
                                               acc_event_synchronize,&
                                               acc_stream_wait_event
-   USE acc_stream,                      ONLY: acc_stream_type
-   USE array_types,                     ONLY: array_data,&
+   USE dbcsr_acc_stream,                ONLY: acc_stream_type
+   USE dbcsr_array_types,               ONLY: array_data,&
                                               array_hold
    USE dbcsr_acc_operations,            ONLY: dbcsr_acc_transpose
    USE dbcsr_data_methods,              ONLY: dbcsr_data_ensure_size,&
@@ -39,12 +39,12 @@ MODULE dbcsr_mm_common
         dbcsr_type, dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_int_4, &
         dbcsr_type_real_4, dbcsr_type_real_8
    USE dbcsr_work_operations,           ONLY: dbcsr_create
-   USE kinds,                           ONLY: int_4,&
+   USE dbcsr_kinds,                     ONLY: int_4,&
                                               int_8,&
                                               real_4,&
                                               real_8,&
                                               sp
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 

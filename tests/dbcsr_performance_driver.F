@@ -13,23 +13,23 @@
 !> - Created 2010
 ! **************************************************************************************************
 PROGRAM dbcsr_performance_driver
+   USE dbcsr_kinds,                     ONLY: default_string_length
    USE dbcsr_lib,                       ONLY: dbcsr_finalize_lib,&
                                               dbcsr_init_lib
-   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_new,&
-                                              dbcsr_mp_release
-   USE dbcsr_performance_multiply,      ONLY: dbcsr_perf_multiply
-   USE dbcsr_test_methods,              ONLY: dbcsr_test_read_args
-   USE dbcsr_types,                     ONLY: dbcsr_mp_obj
-   USE kinds,                           ONLY: default_string_length
-   USE machine,                         ONLY: default_output_unit
-   USE message_passing,                 ONLY: mp_bcast,&
+   USE dbcsr_machine,                   ONLY: default_output_unit
+   USE dbcsr_message_passing,           ONLY: mp_bcast,&
                                               mp_cart_create,&
                                               mp_cart_rank,&
                                               mp_comm_free,&
                                               mp_environ,&
                                               mp_world_finalize,&
                                               mp_world_init
-#include "base/base_uses.f90"
+   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_new,&
+                                              dbcsr_mp_release
+   USE dbcsr_performance_multiply,      ONLY: dbcsr_perf_multiply
+   USE dbcsr_test_methods,              ONLY: dbcsr_test_read_args
+   USE dbcsr_types,                     ONLY: dbcsr_mp_obj
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

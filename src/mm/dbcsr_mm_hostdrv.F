@@ -35,12 +35,12 @@ MODULE dbcsr_mm_hostdrv
                                               dbcsr_type_real_4,&
                                               dbcsr_type_real_8,&
                                               dbcsr_work_type
-   USE kinds,                           ONLY: dp,&
+   USE dbcsr_kinds,                     ONLY: dp,&
                                               int_8,&
                                               real_4,&
                                               real_8,&
                                               sp
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

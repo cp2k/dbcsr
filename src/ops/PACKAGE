@@ -1,5 +1,5 @@
 {
 "description": "High level DBCSR operations",
 "archive": "libdbcsr",
-"requires": ["../acc", "../mpiwrap", "../dbcsr_base", "../data", "../base", "../dist", "../block"],
+"requires": ["../acc", "../common", "../mpiwrap", "../dbcsr_base", "../data", "../base", "../dist", "../block"],
 }

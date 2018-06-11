@@ -13,7 +13,7 @@ MODULE dbcsr_tensor_types
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
 
-   USE array_list_methods,              ONLY: array_list,&
+   USE dbcsr_array_list_methods,        ONLY: array_list,&
                                               array_offsets,&
                                               create_array_list,&
                                               destroy_array_list,&
@@ -31,13 +31,13 @@ MODULE dbcsr_tensor_types
                                               destroy_nd_to_2d_mapping,&
                                               get_mapping_info,&
                                               nd_to_2d_mapping
-   USE kinds,                           ONLY: default_string_length
-   USE message_passing,                 ONLY: mp_cart_create,&
+   USE dbcsr_kinds,                     ONLY: default_string_length
+   USE dbcsr_message_passing,           ONLY: mp_cart_create,&
                                               mp_cart_rank,&
                                               mp_environ, &
                                               mp_dims_create, &
                                               mp_comm_free
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

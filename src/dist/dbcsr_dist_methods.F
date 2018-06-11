@@ -9,13 +9,15 @@
 !> \date    10-2014
 ! **************************************************************************************************
 MODULE dbcsr_dist_methods
-   USE array_types,                     ONLY: array_data,&
+   USE dbcsr_array_types,               ONLY: array_data,&
                                               array_i1d_obj,&
                                               array_new,&
                                               array_nullify,&
                                               array_release,&
                                               array_size
    USE dbcsr_config,                    ONLY: dbcsr_cfg
+   USE dbcsr_kinds,                     ONLY: dp,&
+                                              sp
    USE dbcsr_methods,                   ONLY: dbcsr_distribution_release
    USE dbcsr_min_heap,                  ONLY: dbcsr_heap_fill,&
                                               dbcsr_heap_get_first,&
@@ -32,9 +34,7 @@ MODULE dbcsr_dist_methods
                                               sort
    USE dbcsr_types,                     ONLY: dbcsr_distribution_obj,&
                                               dbcsr_mp_obj
-   USE kinds,                           ONLY: dp,&
-                                              sp
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, OMP_IN_PARALLEL
    IMPLICIT NONE

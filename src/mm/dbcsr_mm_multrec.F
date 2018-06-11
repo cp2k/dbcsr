@@ -18,7 +18,7 @@
 
 MODULE dbcsr_mm_multrec
 
-   USE array_types,                     ONLY: array_data,&
+   USE dbcsr_array_types,               ONLY: array_data,&
                                               array_equality
    USE dbcsr_block_operations,          ONLY: dbcsr_data_set
    USE dbcsr_config,                    ONLY: dbcsr_cfg
@@ -39,11 +39,11 @@ MODULE dbcsr_mm_multrec
                                               dbcsr_work_type,&
                                               dbcsr_type_complex_4, dbcsr_type_complex_8, &
                                               dbcsr_type_real_4, dbcsr_type_real_8
-   USE kinds,                           ONLY: int_8,&
+   USE dbcsr_kinds,                     ONLY: int_8,&
                                               real_4,&
                                               real_8,&
                                               sp
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

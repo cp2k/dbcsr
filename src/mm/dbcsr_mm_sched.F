@@ -23,6 +23,13 @@ MODULE dbcsr_mm_sched
                                               has_acc
    USE dbcsr_data_methods,              ONLY: dbcsr_data_ensure_size,&
                                               dbcsr_data_get_size
+   USE dbcsr_kinds,                     ONLY: int_4,&
+                                              int_8,&
+                                              real_8
+   USE dbcsr_message_passing,           ONLY: mp_bcast,&
+                                              mp_environ,&
+                                              mp_max,&
+                                              mp_sum
    USE dbcsr_mm_accdrv,                 ONLY: &
         dbcsr_mm_accdrv_barrier, dbcsr_mm_accdrv_dev2host_init, dbcsr_mm_accdrv_finalize, &
         dbcsr_mm_accdrv_init, dbcsr_mm_accdrv_lib_finalize, dbcsr_mm_accdrv_lib_init, &
@@ -42,14 +49,7 @@ MODULE dbcsr_mm_sched
    USE dbcsr_toollib,                   ONLY: sort
    USE dbcsr_types,                     ONLY: dbcsr_type,&
                                               dbcsr_work_type
-   USE kinds,                           ONLY: int_4,&
-                                              int_8,&
-                                              real_8
-   USE message_passing,                 ONLY: mp_bcast,&
-                                              mp_environ,&
-                                              mp_max,&
-                                              mp_sum
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

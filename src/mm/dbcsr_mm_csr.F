@@ -20,12 +20,18 @@
 ! **************************************************************************************************
 MODULE dbcsr_mm_csr
 
-   USE array_types,                     ONLY: array_data
+   USE dbcsr_array_types,               ONLY: array_data
    USE dbcsr_block_operations,          ONLY: block_add,&
                                               dbcsr_block_copy_aa
    USE dbcsr_config,                    ONLY: dbcsr_cfg,&
                                               default_resize_factor
    USE dbcsr_data_methods,              ONLY: dbcsr_data_ensure_size
+   USE dbcsr_dist_util,                 ONLY: map_most_common
+   USE dbcsr_kinds,                     ONLY: int_1,&
+                                              int_4,&
+                                              int_8,&
+                                              real_8,&
+                                              sp
    USE dbcsr_mm_sched,                  ONLY: &
         dbcsr_mm_sched_barrier, dbcsr_mm_sched_begin_burst, dbcsr_mm_sched_dev2host_init, &
         dbcsr_mm_sched_end_burst, dbcsr_mm_sched_finalize, dbcsr_mm_sched_init, &
@@ -39,13 +45,7 @@ MODULE dbcsr_mm_csr
    USE dbcsr_types,                     ONLY: dbcsr_data_obj,&
                                               dbcsr_type,&
                                               dbcsr_work_type
-   USE dbcsr_util,                      ONLY: map_most_common
-   USE kinds,                           ONLY: int_1,&
-                                              int_4,&
-                                              int_8,&
-                                              real_8,&
-                                              sp
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

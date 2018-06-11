@@ -14,11 +14,11 @@
 ! **************************************************************************************************
 MODULE dbcsr_data_methods_low
 
-   USE acc_devmem,                      ONLY: acc_devmem_allocate_bytes,&
+   USE dbcsr_acc_devmem,                ONLY: acc_devmem_allocate_bytes,&
                                               acc_devmem_allocated,&
                                               acc_devmem_deallocate, &
                                               acc_devmem_set_cptr
-   USE acc_event,                       ONLY: acc_event_create,&
+   USE dbcsr_acc_event,                 ONLY: acc_event_create,&
                                               acc_event_destroy
    USE dbcsr_data_types,                ONLY: &
         dbcsr_data_area_type, dbcsr_data_obj, dbcsr_datatype_sizeof, dbcsr_memtype_type, &
@@ -29,10 +29,10 @@ MODULE dbcsr_data_methods_low
                                               memory_deallocate,&
                                               memory_zero,&
                                               pointer_rank_remap2
-   USE kinds,                           ONLY: dp,&
+   USE dbcsr_kinds,                     ONLY: dp,&
                                               real_4,&
                                               real_8
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

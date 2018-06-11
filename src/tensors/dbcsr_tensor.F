@@ -20,8 +20,8 @@ MODULE dbcsr_tensor
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)
 
-   USE allocate_wrap,                   ONLY: allocate_any
-   USE array_list_methods,              ONLY: get_arrays,&
+   USE dbcsr_allocate_wrap,             ONLY: allocate_any
+   USE dbcsr_array_list_methods,        ONLY: get_arrays,&
                                               reorder_arrays,&
                                               get_ith_array
    USE dbcsr_api,                       ONLY: &
@@ -55,14 +55,14 @@ MODULE dbcsr_tensor
                                               dbcsr_t_distribution_destroy,&
                                               dbcsr_t_distribution_new,&
                                               dbcsr_t_get_stored_coordinates
-   USE kinds,                           ONLY: ${uselist(dtype_float_prec)}$,&
+   USE dbcsr_kinds,                     ONLY: ${uselist(dtype_float_prec)}$,&
                                               default_string_length
-   USE message_passing,                 ONLY: mp_environ,&
+   USE dbcsr_message_passing,           ONLY: mp_environ,&
                                               mp_comm_free
-   USE util,                            ONLY: sort
+   USE dbcsr_util,                      ONLY: sort
    USE dbcsr_tensor_reshape,            ONLY: dbcsr_t_reshape
 
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

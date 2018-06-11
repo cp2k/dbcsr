@@ -21,7 +21,15 @@ MODULE dbcsr_performance_multiply
                                               dbcsr_distribution_release,&
                                               dbcsr_distribution_row_dist
    USE dbcsr_dist_operations,           ONLY: dbcsr_dist_bin
+   USE dbcsr_dist_util,                 ONLY: dbcsr_checksum
    USE dbcsr_io,                        ONLY: dbcsr_print
+   USE dbcsr_kinds,                     ONLY: int_8,&
+                                              real_4,&
+                                              real_8
+   USE dbcsr_machine,                   ONLY: m_walltime
+   USE dbcsr_message_passing,           ONLY: mp_environ,&
+                                              mp_sum,&
+                                              mp_sync
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_distribution, dbcsr_get_data_type, &
         dbcsr_get_matrix_type, dbcsr_name, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
@@ -41,17 +49,9 @@ MODULE dbcsr_performance_multiply
         dbcsr_scalar_type, dbcsr_transpose, dbcsr_type, dbcsr_type_antisymmetric, &
         dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
         dbcsr_type_real_8
-   USE dbcsr_util,                      ONLY: dbcsr_checksum
    USE dbcsr_work_operations,           ONLY: dbcsr_create,&
                                               dbcsr_finalize
-   USE kinds,                           ONLY: int_8,&
-                                              real_4,&
-                                              real_8
-   USE machine,                         ONLY: m_walltime
-   USE message_passing,                 ONLY: mp_environ,&
-                                              mp_sum,&
-                                              mp_sync
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

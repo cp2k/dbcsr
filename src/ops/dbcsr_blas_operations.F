@@ -13,13 +13,13 @@
 !> - 2010-02-18 Moved from dbcsr_util
 ! **************************************************************************************************
 MODULE dbcsr_blas_operations
+   USE dbcsr_kinds,                     ONLY: int_8
    USE dbcsr_types,                     ONLY: dbcsr_data_obj,&
                                               dbcsr_type_complex_4,&
                                               dbcsr_type_complex_8,&
                                               dbcsr_type_real_4,&
                                               dbcsr_type_real_8
-   USE kinds,                           ONLY: int_8
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

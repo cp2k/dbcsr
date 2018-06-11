@@ -11,7 +11,7 @@
 !> \param[in,out] wm      work matrix to convert
 ! **************************************************************************************************
   SUBROUTINE tree_to_linear_${nametype1}$(wm)
-    USE btree,&
+    USE dbcsr_btree,&
         ONLY: btree_2d_data_${nametype1}$ => btree_data_${nametype1}$p2d,&
               btree_destroy_${nametype1}$ => btree_delete,&
               btree_size_${nametype1}$ => btree_get_entries

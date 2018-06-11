@@ -12,11 +12,11 @@
 !>  - 2016-08    Code organization (Alfio Lazzaro).
 ! **************************************************************************************************
 MODULE dbcsr_mm
-   USE acc_device,                      ONLY: acc_clear_errors
-   USE acc_stream,                      ONLY: acc_stream_associated,&
+   USE dbcsr_acc_device,                ONLY: acc_clear_errors
+   USE dbcsr_acc_stream,                ONLY: acc_stream_associated,&
                                               acc_stream_create,&
                                               acc_stream_destroy
-   USE array_types,                     ONLY: array_data,&
+   USE dbcsr_array_types,               ONLY: array_data,&
                                               array_equality,&
                                               array_hold,&
                                               array_i1d_obj,&
@@ -35,12 +35,26 @@ MODULE dbcsr_mm
         dbcsr_distribution_has_threads, dbcsr_distribution_hold, dbcsr_distribution_make_threads, &
         dbcsr_distribution_mp, dbcsr_distribution_ncols, dbcsr_distribution_no_threads, &
         dbcsr_distribution_nrows, dbcsr_distribution_release, dbcsr_distribution_row_dist
+   USE dbcsr_dist_util,                 ONLY: dbcsr_checksum,&
+                                              dbcsr_verify_matrix
    USE dbcsr_index_operations,          ONLY: dbcsr_make_index_canonical
    USE dbcsr_io,                        ONLY: dbcsr_print
+   USE dbcsr_kinds,                     ONLY: dp,&
+                                              int_8,&
+                                              real_8
+   USE dbcsr_machine,                   ONLY: default_output_unit
    USE dbcsr_mem_methods,               ONLY: dbcsr_mempool_clear,&
                                               dbcsr_mempool_destruct,&
                                               dbcsr_mempool_limit_capacity,&
                                               dbcsr_memtype_setup
+   USE dbcsr_message_passing,           ONLY: mp_get_library_version,&
+                                              mp_isync,&
+                                              mp_max,&
+                                              mp_max_library_version_string,&
+                                              mp_min,&
+                                              mp_request_null,&
+                                              mp_sum,&
+                                              mp_wait
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_destroy_array, dbcsr_distribution, &
         dbcsr_get_matrix_type, dbcsr_has_symmetry, dbcsr_image_dist_release, dbcsr_nblkcols_total, &
@@ -83,24 +97,10 @@ MODULE dbcsr_mm
         dbcsr_2d_array_type, dbcsr_conjugate_transpose, dbcsr_distribution_obj, &
         dbcsr_imagedistribution_obj, dbcsr_mp_obj, dbcsr_mpi_size_limits, dbcsr_no_transpose, &
         dbcsr_scalar_type, dbcsr_transpose, dbcsr_type, dbcsr_type_antisymmetric
-   USE dbcsr_util,                      ONLY: dbcsr_checksum,&
-                                              dbcsr_verify_matrix
    USE dbcsr_work_operations,           ONLY: dbcsr_add_wm_from_matrix,&
                                               dbcsr_finalize,&
                                               dbcsr_work_create
-   USE kinds,                           ONLY: dp,&
-                                              int_8,&
-                                              real_8
-   USE machine,                         ONLY: default_output_unit
-   USE message_passing,                 ONLY: mp_get_library_version,&
-                                              mp_isync,&
-                                              mp_max,&
-                                              mp_max_library_version_string,&
-                                              mp_min,&
-                                              mp_request_null,&
-                                              mp_sum,&
-                                              mp_wait
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
 

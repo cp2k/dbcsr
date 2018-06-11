@@ -13,7 +13,7 @@
 !> \author  Joost VandeVondele
 ! **************************************************************************************************
 MODULE dbcsr_api
-   USE array_types,                     ONLY: array_data,&
+   USE dbcsr_array_types,               ONLY: array_data,&
                                               array_exists,&
                                               array_size
    USE dbcsr_block_access,              ONLY: dbcsr_get_block_p_prv         => dbcsr_get_block_p,&
@@ -115,7 +115,7 @@ MODULE dbcsr_api
         dbcsr_type_antisymmetric, dbcsr_type_complex_4, dbcsr_type_complex_8, &
         dbcsr_type_complex_default, dbcsr_type_no_symmetry, dbcsr_type_real_4, dbcsr_type_real_8, &
         dbcsr_type_real_default, dbcsr_type_symmetric
-   USE dbcsr_util,                      ONLY: convert_offsets_to_sizes,&
+   USE dbcsr_dist_util,                 ONLY: convert_offsets_to_sizes,&
                                               convert_sizes_to_offsets,&
                                               dbcsr_checksum_prv      => dbcsr_checksum,&
                                               dbcsr_verify_matrix_prv => dbcsr_verify_matrix
@@ -123,21 +123,21 @@ MODULE dbcsr_api
                                               dbcsr_create_prv        => dbcsr_create,&
                                               dbcsr_finalize_prv      => dbcsr_finalize,&
                                               dbcsr_work_create_prv   => dbcsr_work_create
-   USE kinds,                           ONLY: default_string_length,&
+   USE dbcsr_kinds,                     ONLY: default_string_length,&
                                               dp,&
                                               int_8,&
                                               real_4,&
                                               real_8
-   USE message_passing,                 ONLY: mp_cart_rank,&
+   USE dbcsr_message_passing,           ONLY: mp_cart_rank,&
                                               mp_cart_create,&
                                               mp_comm_free,&
                                               mp_environ,&
                                               mp_world_finalize,&
                                               mp_world_init
-   USE machine,                         ONLY: default_output_unit
+   USE dbcsr_machine,                   ONLY: default_output_unit
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 

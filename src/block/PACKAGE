@@ -1,5 +1,5 @@
 {
 "description": "DBCSR block level routines",
 "archive": "libdbcsr",
-"requires": ["../acc", "../mpiwrap", "../dbcsr_base", "../data", "../base", "../dist"],
+"requires": ["../acc", "../common", "../mpiwrap", "../dbcsr_base", "../data", "../base", "../dist"],
 }

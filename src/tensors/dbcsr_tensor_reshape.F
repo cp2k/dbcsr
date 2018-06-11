@@ -13,7 +13,7 @@ MODULE dbcsr_tensor_reshape
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)
 
-   USE allocate_wrap,                   ONLY: allocate_any
+   USE dbcsr_allocate_wrap,             ONLY: allocate_any
    USE dbcsr_api,                       ONLY: dbcsr_copy, &
                                               dbcsr_get_info
    USE dbcsr_tensor_block,              ONLY: &
@@ -26,17 +26,17 @@ MODULE dbcsr_tensor_reshape
                                               dbcsr_t_type,&
                                               ndims_tensor,&
                                               dbcsr_t_get_stored_coordinates
-   USE kinds,                           ONLY: default_string_length
-   USE kinds,                           ONLY: ${uselist(dtype_float_prec)}$
+   USE dbcsr_kinds,                     ONLY: default_string_length
+   USE dbcsr_kinds,                     ONLY: ${uselist(dtype_float_prec)}$
    USE dbcsr_api,                       ONLY: ${uselist(dtype_float_param)}$
-   USE message_passing,                 ONLY: mp_alltoall,&
+   USE dbcsr_message_passing,           ONLY: mp_alltoall,&
                                               mp_environ,&
                                               mp_irecv,&
                                               mp_isend,&
                                               mp_waitall
 
 
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

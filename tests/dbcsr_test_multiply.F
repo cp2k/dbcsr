@@ -23,6 +23,10 @@ MODULE dbcsr_test_multiply
    USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_new,&
                                               dbcsr_distribution_release
    USE dbcsr_io,                        ONLY: dbcsr_print
+   USE dbcsr_kinds,                     ONLY: real_4,&
+                                              real_8
+   USE dbcsr_message_passing,           ONLY: mp_bcast,&
+                                              mp_environ
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_get_data_type, &
         dbcsr_get_matrix_type, dbcsr_name, dbcsr_nblkcols_total, dbcsr_nblkrows_total, &
@@ -47,11 +51,7 @@ MODULE dbcsr_test_multiply
         dbcsr_type_complex_8, dbcsr_type_complex_8_2d, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
         dbcsr_type_real_4_2d, dbcsr_type_real_8, dbcsr_type_real_8_2d, dbcsr_type_symmetric
    USE dbcsr_work_operations,           ONLY: dbcsr_create
-   USE kinds,                           ONLY: real_4,&
-                                              real_8
-   USE message_passing,                 ONLY: mp_bcast,&
-                                              mp_environ
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

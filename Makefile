@@ -219,7 +219,8 @@ OTHER_HELP += "clean : Remove intermediate object and mod files, but not the lib
 # Use this if you want to fully rebuild an executable (for a given compiler)
 #
 realclean: clean
-	rm -rf $(BINDIR) $(LIBDIR) $(PREFIX) `find $(DBCSRHOME) -name "*.pyc"`
+	rm -rf $(BINDIR) $(LIBDIR) $(PREFIX) 
+	rm -rf `find $(DBCSRHOME) -name "*.pyc"`
 OTHER_HELP += "realclean : Remove all files"
 
 # Prettyfier stuff ==========================================================

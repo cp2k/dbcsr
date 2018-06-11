@@ -9,7 +9,7 @@
 ! **************************************************************************************************
 MODULE dbcsr_mem_methods
 
-   USE acc_stream,                      ONLY: acc_stream_associated,&
+   USE dbcsr_acc_stream,                ONLY: acc_stream_associated,&
                                               acc_stream_equal,&
                                               acc_stream_type
    USE dbcsr_data_methods_low,          ONLY: dbcsr_data_exists,&
@@ -19,12 +19,12 @@ MODULE dbcsr_mem_methods
                                               dbcsr_mempool_entry_type,&
                                               dbcsr_mempool_type,&
                                               dbcsr_memtype_type
-   USE kinds,                           ONLY: dp
+   USE dbcsr_kinds,                     ONLY: dp
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, &
 !$    omp_set_lock, omp_unset_lock, omp_init_lock, omp_lock_kind, omp_destroy_lock
 
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 

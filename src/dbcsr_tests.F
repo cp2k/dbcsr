@@ -18,8 +18,17 @@ MODULE dbcsr_tests
                                               dbcsr_distribution_new,&
                                               dbcsr_distribution_release
    USE dbcsr_dist_operations,           ONLY: dbcsr_dist_bin
+   USE dbcsr_dist_util,                 ONLY: dbcsr_checksum
    USE dbcsr_io,                        ONLY: dbcsr_binary_read,&
                                               dbcsr_binary_write
+   USE dbcsr_kinds,                     ONLY: dp,&
+                                              int_8,&
+                                              real_8
+   USE dbcsr_machine,                   ONLY: m_flush,&
+                                              m_walltime
+   USE dbcsr_message_passing,           ONLY: &
+        mp_cart_create, mp_cart_rank, mp_comm_free, mp_comm_null, mp_dims_create, mp_environ, &
+        mp_max, mp_sum, mp_sync
    USE dbcsr_methods,                   ONLY: dbcsr_col_block_sizes,&
                                               dbcsr_distribution,&
                                               dbcsr_get_data_type,&
@@ -47,17 +56,8 @@ MODULE dbcsr_tests
                                               dbcsr_scalar_type,&
                                               dbcsr_type,&
                                               dbcsr_type_no_symmetry
-   USE dbcsr_util,                      ONLY: dbcsr_checksum
    USE dbcsr_work_operations,           ONLY: dbcsr_create
-   USE kinds,                           ONLY: dp,&
-                                              int_8,&
-                                              real_8
-   USE machine,                         ONLY: m_flush,&
-                                              m_walltime
-   USE message_passing,                 ONLY: &
-        mp_cart_create, mp_cart_rank, mp_comm_free, mp_comm_null, mp_dims_create, mp_environ, &
-        mp_max, mp_sum, mp_sync
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

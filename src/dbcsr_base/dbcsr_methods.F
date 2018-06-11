@@ -13,12 +13,14 @@
 !> - Created
 ! **************************************************************************************************
 MODULE dbcsr_methods
-   USE array_types,                     ONLY: array_data,&
+   USE dbcsr_array_types,               ONLY: array_data,&
                                               array_release
-   USE btree,                           ONLY: btree_delete,&
+   USE dbcsr_btree,                     ONLY: btree_delete,&
                                               btree_new
    USE dbcsr_data_methods,              ONLY: dbcsr_data_get_size,&
                                               dbcsr_data_release
+   USE dbcsr_kinds,                     ONLY: default_string_length
+   USE dbcsr_message_passing,           ONLY: mp_comm_free
    USE dbcsr_ptr_util,                  ONLY: memory_deallocate
    USE dbcsr_types,                     ONLY: &
         dbcsr_1d_array_type, dbcsr_2d_array_type, dbcsr_data_obj, dbcsr_distribution_obj, &
@@ -27,9 +29,7 @@ MODULE dbcsr_methods
         dbcsr_type_antisymmetric, dbcsr_type_complex_4, dbcsr_type_complex_8, &
         dbcsr_type_hermitian, dbcsr_type_invalid, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
         dbcsr_type_real_8, dbcsr_type_symmetric, dbcsr_work_type
-   USE kinds,                           ONLY: default_string_length
-   USE message_passing,                 ONLY: mp_comm_free
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
    IMPLICIT NONE

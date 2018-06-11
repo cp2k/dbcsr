@@ -4,8 +4,8 @@
 !--------------------------------------------------------------------------------------------------!
 
 MODULE dbcsr_min_heap
-   USE kinds,                           ONLY: int_4
-#include "base/base_uses.f90"
+   USE dbcsr_kinds,                     ONLY: int_4
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

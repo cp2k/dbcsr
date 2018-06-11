@@ -13,12 +13,12 @@
 !> - Created 2011-04-05
 ! **************************************************************************************************
 MODULE dbcsr_config
-   USE acc_device,                      ONLY: acc_get_ndevices
+   USE dbcsr_acc_device,                ONLY: acc_get_ndevices
+   USE dbcsr_kinds,                     ONLY: default_string_length,&
+                                              dp
    USE dbcsr_ptr_util,                  ONLY: dbcsr_data_allocation,&
                                               dbcsr_data_allocation_type
-   USE kinds,                           ONLY: default_string_length,&
-                                              dp
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads
 

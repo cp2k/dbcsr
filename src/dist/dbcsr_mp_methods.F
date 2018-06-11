@@ -9,16 +9,16 @@
 !> \date    10-2014
 ! **************************************************************************************************
 MODULE dbcsr_mp_methods
+   USE dbcsr_message_passing,           ONLY: mp_cart_create,&
+                                              mp_cart_sub,&
+                                              mp_comm_free
    USE dbcsr_methods,                   ONLY: dbcsr_mp_grid_remove,&
                                               dbcsr_mp_release
    USE dbcsr_types,                     ONLY: dbcsr_mp_obj
-   USE message_passing,                 ONLY: mp_cart_create,&
-                                              mp_cart_sub,&
-                                              mp_comm_free
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 

@@ -13,7 +13,7 @@
 !  - 2010-02-18 Moved from dbcsr_operations and dbcsr_methods
 ! **************************************************************************************************
 MODULE dbcsr_iterator_operations
-   USE array_types,                     ONLY: array_data,&
+   USE dbcsr_array_types,               ONLY: array_data,&
                                               array_exists
    USE dbcsr_data_methods,              ONLY: dbcsr_data_hold,&
                                               dbcsr_data_release,&
@@ -30,9 +30,9 @@ MODULE dbcsr_iterator_operations
                                               dbcsr_iterator,&
                                               dbcsr_scalar_type,&
                                               dbcsr_type
-   USE kinds,                           ONLY: real_4,&
+   USE dbcsr_kinds,                     ONLY: real_4,&
                                               real_8
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, omp_in_parallel
 

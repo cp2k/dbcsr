@@ -10,14 +10,14 @@
 ! **************************************************************************************************
 
 MODULE dbcsr_lib
-   USE dbcsr_multiply_api,              ONLY: dbcsr_multiply_clear_mempools,&
-                                              dbcsr_multiply_lib_finalize,&
-                                              dbcsr_multiply_lib_init
-   USE kinds,                           ONLY: int_1_size,&
+   USE dbcsr_kinds,                     ONLY: int_1_size,&
                                               int_2_size,&
                                               int_4_size,&
                                               int_8_size
-#include "base/base_uses.f90"
+   USE dbcsr_multiply_api,              ONLY: dbcsr_multiply_clear_mempools,&
+                                              dbcsr_multiply_lib_finalize,&
+                                              dbcsr_multiply_lib_init
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

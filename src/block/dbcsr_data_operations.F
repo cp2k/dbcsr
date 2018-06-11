@@ -23,16 +23,16 @@ MODULE dbcsr_data_operations
                                               dbcsr_data_release,&
                                               dbcsr_data_set_size_referenced,&
                                               dbcsr_get_data
+   USE dbcsr_dist_util,                 ONLY: sgn
+   USE dbcsr_kinds,                     ONLY: real_4,&
+                                              real_8
    USE dbcsr_types,                     ONLY: dbcsr_data_obj,&
                                               dbcsr_type,&
                                               dbcsr_type_complex_4,&
                                               dbcsr_type_complex_8,&
                                               dbcsr_type_real_4,&
                                               dbcsr_type_real_8
-   USE dbcsr_util,                      ONLY: sgn
-   USE kinds,                           ONLY: real_4,&
-                                              real_8
-#include "base/base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 

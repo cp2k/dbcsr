@@ -13,14 +13,14 @@
 !> - 2010-02-18 Moved from dbcsr_methods
 ! **************************************************************************************************
 MODULE dbcsr_data_methods
-   USE acc_devmem,                      ONLY: acc_devmem_allocate_bytes,&
+   USE dbcsr_acc_devmem,                ONLY: acc_devmem_allocate_bytes,&
                                               acc_devmem_allocated,&
                                               acc_devmem_dev2host,&
                                               acc_devmem_ensure_size_bytes,&
                                               acc_devmem_host2dev,&
                                               acc_devmem_setzero_bytes,&
                                               acc_devmem_size_in_bytes
-   USE acc_event,                       ONLY: acc_event_record
+   USE dbcsr_acc_event,                 ONLY: acc_event_record
    USE dbcsr_data_methods_low,          ONLY: &
         dbcsr_data_clear_pointer, dbcsr_data_exists, dbcsr_data_get_memory_type, &
         dbcsr_data_get_size, dbcsr_data_get_size_referenced, dbcsr_data_get_sizes, &
@@ -35,15 +35,15 @@ MODULE dbcsr_data_methods
         dbcsr_data_obj, dbcsr_datatype_sizeof, dbcsr_memtype_default, dbcsr_memtype_type, &
         dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_int_4, dbcsr_type_int_8, &
         dbcsr_type_real_4, dbcsr_type_real_8
-   USE dbcsr_mem_methods,               ONLY: dbcsr_mempool_add,&
-                                              dbcsr_mempool_get
-   USE dbcsr_ptr_util,                  ONLY: ensure_array_size
-   USE kinds,                           ONLY: dp,&
+   USE dbcsr_kinds,                     ONLY: dp,&
                                               int_4,&
                                               int_8,&
                                               real_4,&
                                               real_8
-#include "base/base_uses.f90"
+   USE dbcsr_mem_methods,               ONLY: dbcsr_mempool_add,&
+                                              dbcsr_mempool_get
+   USE dbcsr_ptr_util,                  ONLY: ensure_array_size
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 
