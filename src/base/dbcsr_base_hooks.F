@@ -19,7 +19,9 @@ MODULE dbcsr_base_hooks
    !API
    PUBLIC :: dbcsr_abort, dbcsr_warn, timeset, timestop
    !API
-   PUBLIC :: dbcsr_abort_hook, dbcsr_warn_hook, timeset_hook, timestop_hook
+   PUBLIC :: dbcsr_abort_hook, dbcsr_warn_hook, timeset_hook, timestop_hook, &
+             timeset_interface, timestop_interface, &
+             dbcsr_abort_interface, dbcsr_warn_interface
    !API
    PUBLIC :: dbcsr__a, dbcsr__b, dbcsr__w, dbcsr__l
 

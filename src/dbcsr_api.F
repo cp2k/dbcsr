@@ -135,6 +135,10 @@ MODULE dbcsr_api
                                               mp_world_finalize,&
                                               mp_world_init
    USE dbcsr_machine,                   ONLY: default_output_unit
+   USE dbcsr_base_hooks,                ONLY: timeset_hook, timestop_hook, &
+                                              timeset_interface, timestop_interface,&
+                                               dbcsr_abort_hook, dbcsr_warn_hook,&
+                                               dbcsr_abort_interface, dbcsr_warn_interface
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 #include "base/dbcsr_base_uses.f90"
@@ -311,7 +315,8 @@ MODULE dbcsr_api
    PUBLIC :: mp_world_finalize
    PUBLIC :: mp_world_init
 
-   
+   ! hooks
+   PUBLIC :: dbcsr_set_hooks
 
    ! -----------------------------------------------------------------------------------------------
    TYPE dbcsr_p_type
@@ -1842,6 +1847,28 @@ CONTAINS
       IF (existed) DBCSR_WARN("You should not add existing blocks according to old API.")
       IF (.NOT. is_there) block(:, :) = 0.0_dp
    END SUBROUTINE dbcsr_add_block_node
+
+! **************************************************************************************************
+!> \brief Set time and error handlers
+!> \param[in]  in_timeset_hook
+!> \param[in]  in_timestop_hook
+!> \param[in]  in_abort_hook
+!> \param[in]  in_warn_hook
+! **************************************************************************************************
+   SUBROUTINE dbcsr_set_hooks(in_timeset_hook, in_timestop_hook, &
+                              in_abort_hook, in_warn_hook)
+     PROCEDURE(timeset_interface), INTENT(IN), POINTER :: in_timeset_hook
+     PROCEDURE(timestop_interface), INTENT(IN), POINTER :: in_timestop_hook
+     PROCEDURE(dbcsr_abort_interface), INTENT(IN), POINTER :: in_abort_hook
+     PROCEDURE(dbcsr_warn_interface), INTENT(IN), POINTER :: in_warn_hook
+
+     timeset_hook => in_timeset_hook
+     timestop_hook => in_timestop_hook
+     dbcsr_abort_hook => in_abort_hook
+     dbcsr_warn_hook => in_warn_hook
+
+   END SUBROUTINE dbcsr_set_hooks
+
 
 #:include "dbcsr_api.f90"
 
