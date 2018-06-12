@@ -201,7 +201,7 @@
     processed = .FALSE.
     used_smm = .FALSE.
 
-    CPASSERT(LIBXSMM_COL_MAJOR/=0 .AND. LIBXSMM_ROW_MAJOR==0)
+    DBCSR_ASSERT(LIBXSMM_COL_MAJOR/=0 .AND. LIBXSMM_ROW_MAJOR==0)
 
     ! check whether the matrix stack is homogeneous or not
     IF (stack_descr%defined_mnk) THEN
@@ -222,7 +222,7 @@
 
           IF (libxsmm_available(func)) THEN
              ! load first stack entry
-             CPASSERT(stack_size > 0)
+             DBCSR_ASSERT(stack_size > 0)
              pa = params(p_a_first, 1)
              pb = params(p_b_first, 1)
              pc = params(p_c_first, 1)

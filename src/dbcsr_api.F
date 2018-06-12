@@ -968,7 +968,7 @@ CONTAINS
       ELSEIF (PRESENT(norm_vector)) THEN
          CALL dbcsr_norm_prv(matrix%prv, which_norm, norm_vector=norm_vector)
       ELSE
-         CPABORT("Must pass either scalar or vector norm.")
+         DBCSR_ABORT("Must pass either scalar or vector norm.")
       ENDIF
    END SUBROUTINE dbcsr_norm
 
@@ -1140,18 +1140,18 @@ CONTAINS
       TYPE(dbcsr_mp_obj)                                 :: mp_env
 
       IF (PRESENT(pgrid) .AND. .NOT. PRESENT(group)) &
-         CPABORT("pgrid can only be supplied together with group")
+         DBCSR_ABORT("pgrid can only be supplied together with group")
 
       IF (PRESENT(template)) THEN
          mp_env = template%prv%d%mp_env
          IF (PRESENT(group)) &
-            CPABORT("dbcsr_distribution_new called with template and group")
+            DBCSR_ABORT("dbcsr_distribution_new called with template and group")
          IF (PRESENT(pgrid)) &
-            CPABORT("dbcsr_distribution_new called with template and pgrid")
+            DBCSR_ABORT("dbcsr_distribution_new called with template and pgrid")
       ELSE IF (PRESENT(group)) THEN
          CALL dbcsr_mp_new(mp_env, group, pgrid)
       ELSE
-         CPABORT("dbcsr_distribution_new: neigther template nor group supplied")
+         DBCSR_ABORT("dbcsr_distribution_new: neigther template nor group supplied")
       ENDIF
 
       NULLIFY (my_row_cluster, my_col_cluster)
@@ -1203,7 +1203,7 @@ CONTAINS
 
       IF (PRESENT(pgrid)) THEN
          mypgrid => pgrid
-         CPASSERT(LBOUND(pgrid, 1) == 0 .AND. LBOUND(pgrid, 2) == 0)
+         DBCSR_ASSERT(LBOUND(pgrid, 1) == 0 .AND. LBOUND(pgrid, 2) == 0)
          pdims(1) = SIZE(pgrid, 1)
          pdims(2) = SIZE(pgrid, 2)
          myprow = -1; mypcol = -1
@@ -1220,7 +1220,7 @@ CONTAINS
 
       ELSE
          CALL mp_environ(group, 2, pdims, mycoord, periods)
-         CPASSERT(pdims(1)*pdims(2) == numnodes)
+         DBCSR_ASSERT(pdims(1)*pdims(2) == numnodes)
          myprow = mycoord(1)
          mypcol = mycoord(2)
          ALLOCATE (mypgrid(0:pdims(1)-1, 0:pdims(2)-1))
@@ -1232,7 +1232,7 @@ CONTAINS
          ENDDO
       ENDIF
 
-      CPASSERT(mynode == mypgrid(myprow, mypcol))
+      DBCSR_ASSERT(mynode == mypgrid(myprow, mypcol))
 
       ! create the new mp enviroment
       CALL dbcsr_mp_new_prv(mp_env, pgrid=mypgrid, mp_group=group, &
@@ -1549,9 +1549,9 @@ CONTAINS
 
       CALL dbcsr_release(matrix)
       IF (dbcsr_valid_index(matrix)) &
-         CALL cp_abort(__LOCATION__, &
-                       'You should not "deallocate" a referenced matrix. '// &
-                       'Avoid pointers to DBCSR matrices.')
+         CALL dbcsr_abort(__LOCATION__, &
+                          'You should not "deallocate" a referenced matrix. '// &
+                          'Avoid pointers to DBCSR matrices.')
       DEALLOCATE (matrix)
 
    END SUBROUTINE dbcsr_deallocate_matrix
@@ -1820,9 +1820,9 @@ CONTAINS
          matrix%prv%valid = .FALSE.
       ENDIF
 !$    IF (SIZE(matrix%prv%wms) .LT. omp_get_num_threads()) &
-!$       CPABORT("Too few threads.")
+!$       DBCSR_ABORT("Too few threads.")
       IF (.NOT. dbcsr_wm_use_mutable(matrix%prv%wms(ithread+1))) &
-         CPABORT("Data loss due to no conversion of appendable to mutable data")
+         DBCSR_ABORT("Data loss due to no conversion of appendable to mutable data")
       is_there = ASSOCIATED(block)
       !r = row ; c = col ; tr = .FALSE.
       !CALL dbcsr_get_stored_coordinates (matrix, r, c, tr)
@@ -1837,9 +1837,9 @@ CONTAINS
          CALL dbcsr_get_info(matrix, distribution=dist)
          CALL dbcsr_distribution_get(dist, mynode=mynode)
          IF (p .NE. mynode) &
-            CPWARN("Adding non-local element")
+            DBCSR_WARN("Adding non-local element")
       ENDIF
-      IF (existed) CPWARN("You should not add existing blocks according to old API.")
+      IF (existed) DBCSR_WARN("You should not add existing blocks according to old API.")
       IF (.NOT. is_there) block(:, :) = 0.0_dp
    END SUBROUTINE dbcsr_add_block_node
 

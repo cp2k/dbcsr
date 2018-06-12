@@ -241,7 +241,7 @@ CONTAINS
                   my_sizes_n => sizes_n
                   my_sizes_k => sizes_k
                ELSE
-                  CPABORT(" something wrong here... ")
+                  DBCSR_ABORT("something wrong here... ")
                END IF
 
                IF (.FALSE.) THEN
@@ -465,7 +465,7 @@ CONTAINS
       !
       ! Perform multiply
       IF (ALL(limits == 0)) THEN
-         CPABORT("limits shouldnt be 0")
+         DBCSR_ABORT("limits shouldnt be 0")
       ELSE
          CALL dbcsr_multiply(transa, transb, alpha, &
                              m_a, m_b, beta, m_c, &
@@ -518,7 +518,7 @@ CONTAINS
                ", ", dbcsr_get_matrix_type(m_c), &
                ") ... FAILED !"
             WRITE (io_unit, *) REPEAT("*", 70)
-            CPABORT('Test failed')
+            DBCSR_ABORT('Test failed')
          END IF
       END IF
 
@@ -585,16 +585,16 @@ CONTAINS
 
       CALL dbcsr_data_get_sizes(dense_c, c_row_size, c_col_size, valid)
       IF (.NOT. valid) &
-         CPABORT("dense matrix not valid")
+         DBCSR_ABORT("dense matrix not valid")
       CALL dbcsr_data_get_sizes(dense_c, ldc, i, valid)
       IF (.NOT. valid) &
-         CPABORT("dense matrix not valid")
+         DBCSR_ABORT("dense matrix not valid")
       CALL dbcsr_data_get_sizes(dense_a, lda, i, valid)
       IF (.NOT. valid) &
-         CPABORT("dense matrix not valid")
+         DBCSR_ABORT("dense matrix not valid")
       CALL dbcsr_data_get_sizes(dense_b, ldb, i, valid)
       IF (.NOT. valid) &
-         CPABORT("dense matrix not valid")
+         DBCSR_ABORT("dense matrix not valid")
       !
       !
       m = limits(2)-limits(1)+1
@@ -634,7 +634,7 @@ CONTAINS
       CASE (dbcsr_type_real_8_2d)
          ALLOCATE (work(lwork), STAT=istat)
          IF (istat /= 0) &
-            CPABORT("allocation problem")
+            DBCSR_ABORT("allocation problem")
          eps = dlamch('eps')
          a_norm = dlange(norm, a_m, a_n, dense_a%d%r2_dp(a_row, a_col), lda, work)
          b_norm = dlange(norm, b_m, b_n, dense_b%d%r2_dp(b_row, b_col), ldb, work)
@@ -658,7 +658,7 @@ CONTAINS
       CASE (dbcsr_type_real_4_2d)
          ALLOCATE (work_sp(lwork), STAT=istat)
          IF (istat /= 0) &
-            CPABORT("allocation problem")
+            DBCSR_ABORT("allocation problem")
          eps = REAL(slamch('eps'), real_8)
          a_norm = slange(norm, a_m, a_n, dense_a%d%r2_sp(a_row, a_col), lda, work_sp)
          b_norm = slange(norm, b_m, b_n, dense_b%d%r2_sp(b_row, b_col), ldb, work_sp)
@@ -716,7 +716,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8_2d)
          ALLOCATE (work(lwork), STAT=istat)
          IF (istat /= 0) &
-            CPABORT("allocation problem")
+            DBCSR_ABORT("allocation problem")
          eps = dlamch('eps')
          a_norm = zlange(norm, a_m, a_n, dense_a%d%c2_dp(a_row, a_col), lda, work)
          b_norm = zlange(norm, b_m, b_n, dense_b%d%c2_dp(b_row, b_col), ldb, work)
@@ -740,7 +740,7 @@ CONTAINS
       CASE (dbcsr_type_complex_4_2d)
          ALLOCATE (work_sp(lwork), STAT=istat)
          IF (istat /= 0) &
-            CPABORT("allocation problem")
+            DBCSR_ABORT("allocation problem")
          eps = REAL(slamch('eps'), real_8)
          a_norm = clange(norm, a_m, a_n, dense_a%d%c2_sp(a_row, a_col), lda, work_sp)
          b_norm = clange(norm, b_m, b_n, dense_b%d%c2_sp(b_row, b_col), ldb, work_sp)
@@ -762,7 +762,7 @@ CONTAINS
          residual = clange(norm, c_row_size, c_col_size, dense_c%d%c2_sp(1, 1), ldc, work_sp)
          DEALLOCATE (work_sp)
       CASE default
-         CPABORT("Incorrect or 1-D data type")
+         DBCSR_ABORT("Incorrect or 1-D data type")
       END SELECT
 
       IF (mynode .EQ. 0) THEN

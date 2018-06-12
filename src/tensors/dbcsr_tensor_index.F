@@ -201,7 +201,7 @@ CONTAINS
       INTEGER                                            :: i_dim, my_base
       LOGICAL                                            :: my_col_major
 
-      CPASSERT(SIZE(ind_in) .EQ. SIZE(dims))
+      DBCSR_ASSERT(SIZE(ind_in) .EQ. SIZE(dims))
 
       IF (PRESENT(base)) THEN
          my_base = base

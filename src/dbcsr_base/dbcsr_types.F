@@ -530,7 +530,7 @@ MODULE dbcsr_types
 
 ! **************************************************************************************************
 !> These specify which array index in the index array is the start of the
-!> specified variable. For example, row_p => index(cp_bcsr_slot_row_p).
+!> specified variable. For example, row_p => index(dbcsr_bcsr_slot_row_p).
 ! **************************************************************************************************
    INTEGER, PARAMETER          :: dbcsr_slot_size = 1 ! Size of the assigned
    ! values in the index

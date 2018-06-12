@@ -27,114 +27,114 @@
 
 !API type
 #:for nametype in nametype1
-  PUBLIC :: cp_sll_${nametype}$_type, cp_sll_${nametype}$_p_type
+  PUBLIC :: dbcsr_sll_${nametype}$_type, dbcsr_sll_${nametype}$_p_type
 #:endfor
 
 !API common methods
-  PUBLIC :: cp_create, cp_dealloc, cp_next
+  PUBLIC :: dbcsr_create, dbcsr_dealloc, dbcsr_next
 !API special get
-  PUBLIC :: cp_get_first_el, cp_get_rest, cp_get_length, cp_get_element_at, cp_to_array
+  PUBLIC :: dbcsr_get_first_el, dbcsr_get_rest, dbcsr_get_length, dbcsr_get_element_at, dbcsr_to_array
 !API special set
-  PUBLIC :: cp_set_element_at
+  PUBLIC :: dbcsr_set_element_at
 !API structure manipulation
-  PUBLIC :: cp_insert, cp_remove_first_el, cp_remove_el, cp_remove_all
+  PUBLIC :: dbcsr_insert, dbcsr_remove_first_el, dbcsr_remove_el, dbcsr_remove_all
 
   !API underlying routines
 
 #:for nametype in nametype1
-  PUBLIC :: cp_sll_${nametype}$_create, cp_sll_${nametype}$_dealloc,&
-       cp_sll_${nametype}$_next,&
-       cp_sll_${nametype}$_get_length,&
-       cp_sll_${nametype}$_get_el_at, cp_sll_${nametype}$_set_el_at,&
-       cp_sll_${nametype}$_get_first_el, cp_sll_${nametype}$_get_rest,&
-       cp_sll_${nametype}$_insert_el, cp_sll_${nametype}$_insert_el_at,&
-       cp_sll_${nametype}$_rm_first_el, cp_sll_${nametype}$_rm_el_at,&
-       cp_sll_${nametype}$_rm_all_el, &
-       cp_sll_${nametype}$_to_array
+  PUBLIC :: dbcsr_sll_${nametype}$_create, dbcsr_sll_${nametype}$_dealloc,&
+       dbcsr_sll_${nametype}$_next,&
+       dbcsr_sll_${nametype}$_get_length,&
+       dbcsr_sll_${nametype}$_get_el_at, dbcsr_sll_${nametype}$_set_el_at,&
+       dbcsr_sll_${nametype}$_get_first_el, dbcsr_sll_${nametype}$_get_rest,&
+       dbcsr_sll_${nametype}$_insert_el, dbcsr_sll_${nametype}$_insert_el_at,&
+       dbcsr_sll_${nametype}$_rm_first_el, dbcsr_sll_${nametype}$_rm_el_at,&
+       dbcsr_sll_${nametype}$_rm_all_el, &
+       dbcsr_sll_${nametype}$_to_array
 #:endfor
 
 ! creation of an object (from a pointer)
-  INTERFACE cp_create
+  INTERFACE dbcsr_create
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_sll_${nametype}$_create
+     MODULE PROCEDURE dbcsr_sll_${nametype}$_create
 #:endfor
   END INTERFACE
 ! destruction of an object (from a pointer)
-  INTERFACE cp_dealloc
+  INTERFACE dbcsr_dealloc
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_sll_${nametype}$_dealloc
+     MODULE PROCEDURE dbcsr_sll_${nametype}$_dealloc
 #:endfor
   END INTERFACE
 ! iterates to the next element
-  INTERFACE cp_next
+  INTERFACE dbcsr_next
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_sll_${nametype}$_next
+     MODULE PROCEDURE dbcsr_sll_${nametype}$_next
 #:endfor
   END INTERFACE
 ! returns the first element
-  INTERFACE cp_get_first_el
+  INTERFACE dbcsr_get_first_el
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_sll_${nametype}$_get_first_el
+     MODULE PROCEDURE dbcsr_sll_${nametype}$_get_first_el
 #:endfor
   END INTERFACE
 ! returns the rest of the list
-  INTERFACE cp_get_rest
+  INTERFACE dbcsr_get_rest
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_sll_${nametype}$_get_rest
+     MODULE PROCEDURE dbcsr_sll_${nametype}$_get_rest
 #:endfor
   END INTERFACE
 ! returns the length of the list
-  INTERFACE cp_get_length
+  INTERFACE dbcsr_get_length
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_sll_${nametype}$_get_length
+     MODULE PROCEDURE dbcsr_sll_${nametype}$_get_length
 #:endfor
   END INTERFACE
 ! returns the element at the given position
-  INTERFACE cp_get_element_at
+  INTERFACE dbcsr_get_element_at
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_sll_${nametype}$_get_el_at
+     MODULE PROCEDURE dbcsr_sll_${nametype}$_get_el_at
 #:endfor
   END INTERFACE
 ! sets the element at the given position
-  INTERFACE cp_set_element_at
+  INTERFACE dbcsr_set_element_at
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_sll_${nametype}$_set_el_at
+     MODULE PROCEDURE dbcsr_sll_${nametype}$_set_el_at
 #:endfor
   END INTERFACE
-! inserts one element call cp_insert(list,element,...)
-  INTERFACE cp_insert
+! inserts one element call dbcsr_insert(list,element,...)
+  INTERFACE dbcsr_insert
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_sll_${nametype}$_insert_el
+     MODULE PROCEDURE dbcsr_sll_${nametype}$_insert_el
 #:endfor
   END INTERFACE
-  INTERFACE cp_insert_at
+  INTERFACE dbcsr_insert_at
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_sll_${nametype}$_insert_el_at
+     MODULE PROCEDURE dbcsr_sll_${nametype}$_insert_el_at
 #:endfor
   END INTERFACE
 ! removes an element
-  INTERFACE cp_remove_el
+  INTERFACE dbcsr_remove_el
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_sll_${nametype}$_rm_first_el, &
-          cp_sll_${nametype}$_rm_el_at
+     MODULE PROCEDURE dbcsr_sll_${nametype}$_rm_first_el, &
+          dbcsr_sll_${nametype}$_rm_el_at
 #:endfor
   END INTERFACE
 ! removes the first el
-  INTERFACE cp_remove_first_el
+  INTERFACE dbcsr_remove_first_el
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_sll_${nametype}$_rm_first_el
+     MODULE PROCEDURE dbcsr_sll_${nametype}$_rm_first_el
 #:endfor
   END INTERFACE
 ! remove all the elments
-  INTERFACE cp_remove_all
+  INTERFACE dbcsr_remove_all
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_sll_${nametype}$_rm_all_el
+     MODULE PROCEDURE dbcsr_sll_${nametype}$_rm_all_el
 #:endfor
   END INTERFACE
 ! transorms the list in array
-  INTERFACE cp_to_array
+  INTERFACE dbcsr_to_array
 #:for nametype in nametype1
-     module procedure cp_sll_${nametype}$_to_array
+     module procedure dbcsr_sll_${nametype}$_to_array
 #:endfor
   END INTERFACE
 
@@ -161,10 +161,10 @@
 !>      none
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-  TYPE cp_sll_${nametype1[i]}$_type
+  TYPE dbcsr_sll_${nametype1[i]}$_type
      ${type1[i]}$ :: first_el
-     TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: rest
-  END TYPE cp_sll_${nametype1[i]}$_type
+     TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: rest
+  END TYPE dbcsr_sll_${nametype1[i]}$_type
 #:endfor
 
 #:for i in inst
@@ -175,9 +175,9 @@
 !>      none
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-  TYPE cp_sll_${nametype1[i]}$_p_type
-     TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: list
-  END TYPE cp_sll_${nametype1[i]}$_p_type
+  TYPE dbcsr_sll_${nametype1[i]}$_p_type
+     TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: list
+  END TYPE dbcsr_sll_${nametype1[i]}$_p_type
 #:endfor
 
 CONTAINS
@@ -196,12 +196,12 @@ ${private_routines}$
 !>      none
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-  SUBROUTINE cp_sll_${nametype1[i]}$_create(sll,first_el,rest)
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: sll
+  SUBROUTINE dbcsr_sll_${nametype1[i]}$_create(sll,first_el,rest)
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: sll
     ${type1in[i]}$, OPTIONAL :: first_el
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER, OPTIONAL :: rest
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER, OPTIONAL :: rest
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$:cp_sll_${nametype1[i]}$_create'
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$:dbcsr_sll_${nametype1[i]}$_create'
 
     IF (.NOT.PRESENT(first_el)) THEN
        NULLIFY(sll)
@@ -212,7 +212,7 @@ ${private_routines}$
        NULLIFY(sll%rest)
        IF (PRESENT(rest)) sll%rest => rest
     END IF
-  END SUBROUTINE cp_sll_${nametype1[i]}$_create
+  END SUBROUTINE dbcsr_sll_${nametype1[i]}$_create
 #:endfor
 
 #:for i in inst
@@ -227,13 +227,13 @@ ${private_routines}$
 !>      does not deallocate the elments that are stored in the list
 !>      check more?
 ! **************************************************************************************************
-  SUBROUTINE cp_sll_${nametype1[i]}$_dealloc(sll)
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: sll
+  SUBROUTINE dbcsr_sll_${nametype1[i]}$_dealloc(sll)
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: sll
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$/cp_sll_${nametype1[i]}$_dealloc'
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$/dbcsr_sll_${nametype1[i]}$_dealloc'
 
-    CALL cp_sll_${nametype1[i]}$_rm_all_el(sll)
-  END SUBROUTINE cp_sll_${nametype1[i]}$_dealloc
+    CALL dbcsr_sll_${nametype1[i]}$_rm_all_el(sll)
+  END SUBROUTINE dbcsr_sll_${nametype1[i]}$_dealloc
 #:endfor
 
 ! * low-level *
@@ -246,14 +246,14 @@ ${private_routines}$
 !>      none
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-  SUBROUTINE cp_sll_${nametype1[i]}$_dealloc_node(sll)
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: sll
+  SUBROUTINE dbcsr_sll_${nametype1[i]}$_dealloc_node(sll)
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: sll
 
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$/cp_sll_${nametype1[i]}$_dealloc_node'
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$/dbcsr_sll_${nametype1[i]}$_dealloc_node'
 
     DEALLOCATE(sll)
-  END SUBROUTINE cp_sll_${nametype1[i]}$_dealloc_node
+  END SUBROUTINE dbcsr_sll_${nametype1[i]}$_dealloc_node
 #:endfor
 
 ! ============= get/set ============
@@ -267,14 +267,14 @@ ${private_routines}$
 !>      none
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-  FUNCTION cp_sll_${nametype1[i]}$_get_first_el(sll) RESULT(res)
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: sll
+  FUNCTION dbcsr_sll_${nametype1[i]}$_get_first_el(sll) RESULT(res)
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: sll
     ${type1[i]}$ :: res
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$:cp_sll_${nametype1[i]}$_get_first'
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$:dbcsr_sll_${nametype1[i]}$_get_first'
 
     res ${eq[i]}$ sll%first_el
-  END FUNCTION cp_sll_${nametype1[i]}$_get_first_el
+  END FUNCTION dbcsr_sll_${nametype1[i]}$_get_first_el
 #:endfor
 
 #:for i in inst
@@ -290,13 +290,13 @@ ${private_routines}$
 !> \note
 !>      split the case iter=1 to make it more optimized?
 ! **************************************************************************************************
-  FUNCTION cp_sll_${nametype1[i]}$_get_rest(sll, iter) RESULT(res)
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: sll
+  FUNCTION dbcsr_sll_${nametype1[i]}$_get_rest(sll, iter) RESULT(res)
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: sll
     INTEGER, OPTIONAL :: iter
 
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: res
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: res
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$:cp_sll_${nametype1[i]}$_get_first'
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$:dbcsr_sll_${nametype1[i]}$_get_first'
     INTEGER :: i
 
     IF (.NOT.ASSOCIATED(sll)) THEN
@@ -308,7 +308,7 @@ ${private_routines}$
              IF (ASSOCIATED(res%rest)) THEN
                 res => res%rest
              ELSE
-                CPABORT("tried to go past end")
+                DBCSR_ABORT("tried to go past end")
              END IF
           END DO
           IF (iter==-1) THEN
@@ -321,7 +321,7 @@ ${private_routines}$
           res => sll%rest ! make the common case fast...
        END IF
     END IF
-  END FUNCTION cp_sll_${nametype1[i]}$_get_rest
+  END FUNCTION dbcsr_sll_${nametype1[i]}$_get_rest
 #:endfor
 
 #:for i in inst
@@ -335,12 +335,12 @@ ${private_routines}$
 !> \note
 !>      slow (O(n))
 ! **************************************************************************************************
-  FUNCTION cp_sll_${nametype1[i]}$_get_length(sll) RESULT(res)
-    TYPE(cp_sll_${nametype1[i]}$_type), pointer :: sll
+  FUNCTION dbcsr_sll_${nametype1[i]}$_get_length(sll) RESULT(res)
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), pointer :: sll
     INTEGER ::res
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$/cp_sll_${nametype1[i]}$_get_length'
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: iterator
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$/dbcsr_sll_${nametype1[i]}$_get_length'
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: iterator
 
     res=0
     iterator => sll
@@ -352,7 +352,7 @@ ${private_routines}$
           EXIT
        END IF
     END DO
-  END FUNCTION cp_sll_${nametype1[i]}$_get_length
+  END FUNCTION dbcsr_sll_${nametype1[i]}$_get_length
 #:endfor
 
 #:for i in inst
@@ -367,23 +367,23 @@ ${private_routines}$
 !> \note
 !>      slow (O(index))
 ! **************************************************************************************************
-  FUNCTION cp_sll_${nametype1[i]}$_get_el_at(sll,index) RESULT(res)
+  FUNCTION dbcsr_sll_${nametype1[i]}$_get_el_at(sll,index) RESULT(res)
     ${type1[i]}$ :: res
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: sll
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: sll
     INTEGER, INTENT(in) :: index
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$/cp_sll_${nametype1[i]}$_get_el_at'
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: pos
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$/dbcsr_sll_${nametype1[i]}$_get_el_at'
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: pos
 
     IF (index==-1) THEN
-       pos => cp_sll_${nametype1[i]}$_get_rest(sll, iter=-1)
+       pos => dbcsr_sll_${nametype1[i]}$_get_rest(sll, iter=-1)
     ELSE
-       pos => cp_sll_${nametype1[i]}$_get_rest(sll, iter=index-1)
+       pos => dbcsr_sll_${nametype1[i]}$_get_rest(sll, iter=index-1)
     END IF
-    CPASSERT(ASSOCIATED(pos))
+    DBCSR_ASSERT(ASSOCIATED(pos))
 
     res ${eq[i]}$ pos%first_el
-  END FUNCTION cp_sll_${nametype1[i]}$_get_el_at
+  END FUNCTION dbcsr_sll_${nametype1[i]}$_get_el_at
 #:endfor
 
 #:for i in inst
@@ -399,23 +399,23 @@ ${private_routines}$
 !> \note
 !>      slow (O(index))
 ! **************************************************************************************************
-  SUBROUTINE cp_sll_${nametype1[i]}$_set_el_at(sll,index,value)
+  SUBROUTINE dbcsr_sll_${nametype1[i]}$_set_el_at(sll,index,value)
     ${type1in[i]}$ :: value
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: sll
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: sll
     INTEGER, INTENT(in) :: index
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$/cp_sll_${nametype1[i]}$_set_el_at'
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: pos
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$/dbcsr_sll_${nametype1[i]}$_set_el_at'
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: pos
 
     IF (index==-1) THEN
-       pos => cp_sll_${nametype1[i]}$_get_rest(sll, iter=-1)
+       pos => dbcsr_sll_${nametype1[i]}$_get_rest(sll, iter=-1)
     ELSE
-       pos => cp_sll_${nametype1[i]}$_get_rest(sll, iter=index-1)
+       pos => dbcsr_sll_${nametype1[i]}$_get_rest(sll, iter=index-1)
     END IF
-    CPASSERT(ASSOCIATED(pos))
+    DBCSR_ASSERT(ASSOCIATED(pos))
 
     pos%first_el ${eq[i]}$ value
-  END SUBROUTINE cp_sll_${nametype1[i]}$_set_el_at
+  END SUBROUTINE dbcsr_sll_${nametype1[i]}$_set_el_at
 #:endfor
 
 ! * iteration *
@@ -431,12 +431,12 @@ ${private_routines}$
 !>      none
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-  FUNCTION cp_sll_${nametype1[i]}$_next(iterator,el_att) RESULT(res)
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: iterator
+  FUNCTION dbcsr_sll_${nametype1[i]}$_next(iterator,el_att) RESULT(res)
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: iterator
     ${type1out[i]}$, OPTIONAL :: el_att
     LOGICAL :: res
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$:cp_sll_${nametype1[i]}$_next'
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$:dbcsr_sll_${nametype1[i]}$_next'
 
     IF (ASSOCIATED(iterator)) THEN
        res=.TRUE.
@@ -445,7 +445,7 @@ ${private_routines}$
     ELSE
        res=.FALSE.
     END IF
-  END FUNCTION cp_sll_${nametype1[i]}$_next
+  END FUNCTION dbcsr_sll_${nametype1[i]}$_next
 #:endfor
 
 ! ============ structure modifications ============
@@ -462,19 +462,19 @@ ${private_routines}$
 !> \note
 !>      fast (O(1))
 ! **************************************************************************************************
-  SUBROUTINE cp_sll_${nametype1[i]}$_insert_el(sll,el)
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: sll
+  SUBROUTINE dbcsr_sll_${nametype1[i]}$_insert_el(sll,el)
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: sll
     ${type1in[i]}$:: el
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$:cp_sll_${nametype1[i]}$_add_el'
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: newSlot
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$:dbcsr_sll_${nametype1[i]}$_add_el'
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: newSlot
 
     NULLIFY(newSlot)
 
-    CALL cp_sll_${nametype1[i]}$_create(newSlot,first_el=el,&
+    CALL dbcsr_sll_${nametype1[i]}$_create(newSlot,first_el=el,&
          rest=sll)
     sll => newSlot
-  END SUBROUTINE cp_sll_${nametype1[i]}$_insert_el
+  END SUBROUTINE dbcsr_sll_${nametype1[i]}$_insert_el
 #:endfor
 
 #:for i in inst
@@ -487,20 +487,20 @@ ${private_routines}$
 !> \note
 !>      fast (O(1))
 ! **************************************************************************************************
-  SUBROUTINE cp_sll_${nametype1[i]}$_rm_first_el(sll)
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: sll
+  SUBROUTINE dbcsr_sll_${nametype1[i]}$_rm_first_el(sll)
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: sll
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$/cp_sll_${nametype1[i]}$_rm_first_el'
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: node_to_rm
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$/dbcsr_sll_${nametype1[i]}$_rm_first_el'
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: node_to_rm
     node_to_rm => sll
 
     IF (ASSOCIATED(sll)) THEN
        sll => sll%rest
-       CALL cp_sll_${nametype1[i]}$_dealloc_node(node_to_rm)
+       CALL dbcsr_sll_${nametype1[i]}$_dealloc_node(node_to_rm)
     ELSE
-       CPABORT("tried to remove first el of an empty list")
+       DBCSR_ABORT("tried to remove first el of an empty list")
     END IF
-  END SUBROUTINE cp_sll_${nametype1[i]}$_rm_first_el
+  END SUBROUTINE dbcsr_sll_${nametype1[i]}$_rm_first_el
 #:endfor
 
 #:for i in inst
@@ -516,26 +516,26 @@ ${private_routines}$
 !> \note
 !>      slow (O(index))
 ! **************************************************************************************************
-  SUBROUTINE cp_sll_${nametype1[i]}$_insert_el_at(sll,el,index)
+  SUBROUTINE dbcsr_sll_${nametype1[i]}$_insert_el_at(sll,el,index)
     ${type1in[i]}$ :: el
     INTEGER, INTENT(in) :: index
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: sll
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: sll
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$/cp_sll_${nametype1[i]}$_insert_el_at'
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: pos
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$/dbcsr_sll_${nametype1[i]}$_insert_el_at'
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: pos
 
     IF (index==1) THEN
-       CALL cp_sll_${nametype1[i]}$_insert_el(sll,el)
+       CALL dbcsr_sll_${nametype1[i]}$_insert_el(sll,el)
     ELSE
        IF (index==-1) THEN
-          pos => cp_sll_${nametype1[i]}$_get_rest(sll, iter=-1)
+          pos => dbcsr_sll_${nametype1[i]}$_get_rest(sll, iter=-1)
        ELSE
-          pos => cp_sll_${nametype1[i]}$_get_rest(sll, iter=index-2)
+          pos => dbcsr_sll_${nametype1[i]}$_get_rest(sll, iter=index-2)
        END IF
-       CPASSERT(ASSOCIATED(pos))
-       CALL cp_sll_${nametype1[i]}$_insert_el(pos%rest,el)
+       DBCSR_ASSERT(ASSOCIATED(pos))
+       CALL dbcsr_sll_${nametype1[i]}$_insert_el(pos%rest,el)
     END IF
-  END SUBROUTINE cp_sll_${nametype1[i]}$_insert_el_at
+  END SUBROUTINE dbcsr_sll_${nametype1[i]}$_insert_el_at
 #:endfor
 
 #:for i in inst
@@ -549,25 +549,25 @@ ${private_routines}$
 !> \note
 !>      slow (O(index))
 ! **************************************************************************************************
-  SUBROUTINE cp_sll_${nametype1[i]}$_rm_el_at(sll,index)
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: sll
+  SUBROUTINE dbcsr_sll_${nametype1[i]}$_rm_el_at(sll,index)
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: sll
     INTEGER, INTENT(in)::index
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$/cp_sll_${nametype1[i]}$_remove_el_at'
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: pos
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$/dbcsr_sll_${nametype1[i]}$_remove_el_at'
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: pos
 
     IF (index==1) THEN
-       CALL cp_sll_${nametype1[i]}$_rm_first_el(sll)
+       CALL dbcsr_sll_${nametype1[i]}$_rm_first_el(sll)
     ELSE
        IF (index==-1) THEN
-          pos => cp_sll_${nametype1[i]}$_get_rest(sll, iter=-1)
+          pos => dbcsr_sll_${nametype1[i]}$_get_rest(sll, iter=-1)
        ELSE
-          pos => cp_sll_${nametype1[i]}$_get_rest(sll, iter=index-2)
+          pos => dbcsr_sll_${nametype1[i]}$_get_rest(sll, iter=index-2)
        END IF
-       CPASSERT(ASSOCIATED(pos))
-       CALL cp_sll_${nametype1[i]}$_rm_first_el(pos%rest)
+       DBCSR_ASSERT(ASSOCIATED(pos))
+       CALL dbcsr_sll_${nametype1[i]}$_rm_first_el(pos%rest)
     END IF
-  END SUBROUTINE cp_sll_${nametype1[i]}$_rm_el_at
+  END SUBROUTINE dbcsr_sll_${nametype1[i]}$_rm_el_at
 #:endfor
 
 #:for i in inst
@@ -580,21 +580,21 @@ ${private_routines}$
 !> \note
 !>      check more?
 ! **************************************************************************************************
-  SUBROUTINE cp_sll_${nametype1[i]}$_rm_all_el(sll)
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: sll
+  SUBROUTINE dbcsr_sll_${nametype1[i]}$_rm_all_el(sll)
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: sll
 
-    CHARACTER(len=*), PARAMETER :: routineP='cp_linked_list_${nametype1[i]}$/cp_sll_${nametype1[i]}$_rm_all_el'
-    TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: next_node, actual_node
+    CHARACTER(len=*), PARAMETER :: routineP='dbcsr_linked_list_${nametype1[i]}$/dbcsr_sll_${nametype1[i]}$_rm_all_el'
+    TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: next_node, actual_node
 
     actual_node => sll
     DO
        IF (.NOT.ASSOCIATED(actual_node)) EXIT
        next_node => actual_node%rest
-       CALL cp_sll_${nametype1[i]}$_dealloc_node(actual_node)
+       CALL dbcsr_sll_${nametype1[i]}$_dealloc_node(actual_node)
        actual_node => next_node
     END DO
     NULLIFY(sll)
-  END SUBROUTINE cp_sll_${nametype1[i]}$_rm_all_el
+  END SUBROUTINE dbcsr_sll_${nametype1[i]}$_rm_all_el
 #:endfor
 
 #:for i in inst
@@ -607,23 +607,23 @@ ${private_routines}$
 !>      07.2002 created [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-FUNCTION cp_sll_${nametype1[i]}$_to_array(sll) RESULT(res)
-  TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: sll
+FUNCTION dbcsr_sll_${nametype1[i]}$_to_array(sll) RESULT(res)
+  TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: sll
   ${type1arrayEl[i]}$, DIMENSION(:), POINTER :: res
 
-  CHARACTER(len=*), PARAMETER :: routineN='cp_sll_${nametype1[i]}$_to_array',&
+  CHARACTER(len=*), PARAMETER :: routineN='dbcsr_sll_${nametype1[i]}$_to_array',&
         routineP=moduleN//':'//routineN
   INTEGER :: len,i
-  TYPE(cp_sll_${nametype1[i]}$_type), POINTER :: iter
+  TYPE(dbcsr_sll_${nametype1[i]}$_type), POINTER :: iter
 
-  len=cp_sll_${nametype1[i]}$_get_length(sll)
+  len=dbcsr_sll_${nametype1[i]}$_get_length(sll)
   ALLOCATE(res(len))
   iter => sll
   DO i=1,len
      res(i)${arrayEl[i]}$ ${arrayeq[i]}$ iter%first_el
-     CPASSERT(cp_sll_${nametype1[i]}$_next(iter).OR.i==len)
+     DBCSR_ASSERT(dbcsr_sll_${nametype1[i]}$_next(iter).OR.i==len)
   END DO
-END FUNCTION cp_sll_${nametype1[i]}$_to_array
+END FUNCTION dbcsr_sll_${nametype1[i]}$_to_array
 #:endfor
 #:enddef
 #:endmute

@@ -59,7 +59,7 @@ CONTAINS
 #if defined (__ACC)
       istat = acc_get_ndevices_cu(n)
       IF (istat /= 0) &
-         CPABORT("acc_get_ndevices: failed")
+         DBCSR_ABORT("acc_get_ndevices: failed")
 #endif
    END FUNCTION acc_get_ndevices
 
@@ -76,12 +76,12 @@ CONTAINS
 !$OMP PARALLEL DEFAULT(NONE) PRIVATE(istat) SHARED(dev_id)
       istat = acc_set_active_device_cu(dev_id)
       IF (istat /= 0) &
-         CPABORT("acc_set_active_device: failed")
+         DBCSR_ABORT("acc_set_active_device: failed")
 !$OMP END PARALLEL
 
 #else
       MARK_USED(dev_id)
-      CPABORT("__ACC not compiled in")
+      DBCSR_ABORT("__ACC not compiled in")
 #endif
    END SUBROUTINE acc_set_active_device
 
@@ -92,7 +92,7 @@ CONTAINS
 #if defined (__ACC)
       CALL acc_clear_errors_cu()
 #else
-      CPABORT("__ACC not compiled in")
+      DBCSR_ABORT("__ACC not compiled in")
 #endif
    END SUBROUTINE acc_clear_errors
 

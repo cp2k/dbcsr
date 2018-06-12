@@ -168,7 +168,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          size = (2*real_8_size)
       CASE default
-         CPABORT("Invalid data type")
+         DBCSR_ABORT("Invalid data type")
       END SELECT
    END FUNCTION dbcsr_datatype_sizeof
 

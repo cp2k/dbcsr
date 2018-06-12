@@ -22,7 +22,7 @@
 
 !   ---------------------------------------------------------------------------
     IF(area%d%data_type /= ${dkind1}$) &
-       CPABORT("set_data_p_${nametype1}$: data-area has wrong type")
+       DBCSR_ABORT("set_data_p_${nametype1}$: data-area has wrong type")
 
     area%d%${base1}$_${prec1}$ => p
   END SUBROUTINE set_data_p_${nametype1}$
@@ -45,7 +45,7 @@
 !   ---------------------------------------------------------------------------
 
     IF(area%d%data_type /= ${dkind1}$_2d) &
-       CPABORT("set_data_p_2d_${nametype1}$: data-area has wrong type")
+       DBCSR_ABORT("set_data_p_2d_${nametype1}$: data-area has wrong type")
 
     area%d%${base1}$2_${prec1}$ => p
   END SUBROUTINE set_data_p_2d_${nametype1}$
@@ -79,11 +79,11 @@
     ! The select_data_type argument is needed to make this function unique
     ! enough to use in the interface.
     IF (KIND(select_data_type) .NE. KIND(DATA))&
-       CPABORT("compiler borken")
+       DBCSR_ABORT("compiler borken")
 
     IF (ASSOCIATED (area%d)) THEN
        IF(area%d%data_type /= ${dkind1}$) &
-          CPABORT("dbcsr_get_data_c_${nametype1}$: data-area has wrong type")
+          DBCSR_ABORT("dbcsr_get_data_c_${nametype1}$: data-area has wrong type")
        IF (PRESENT (lb) .OR. PRESENT (ub)) THEN
           l = LBOUND (area%d%${base1}$_${prec1}$, 1)
           IF (PRESENT (lb)) l = lb
@@ -91,9 +91,9 @@
           IF (PRESENT (ub)) u = ub
           IF (debug_mod) THEN
              IF(l .LT. LBOUND (area%d%${base1}$_${prec1}$, 1))&
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
              IF(u .GT. UBOUND (area%d%${base1}$_${prec1}$, 1))&
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
           ENDIF
           DATA => area%d%${base1}$_${prec1}$(l:u)
        ELSE
@@ -127,7 +127,7 @@
 
     IF (ASSOCIATED (area%d)) THEN
        IF(area%d%data_type /= ${dkind1}$) &
-          CPABORT("dbcsr_get_data_p_${nametype1}$: data-area has wrong type")
+          DBCSR_ABORT("dbcsr_get_data_p_${nametype1}$: data-area has wrong type")
        IF (PRESENT (lb) .OR. PRESENT (ub)) THEN
           l = LBOUND (area%d%${base1}$_${prec1}$, 1)
           IF (PRESENT (lb)) l = lb
@@ -135,9 +135,9 @@
           IF (PRESENT (ub)) u = ub
           IF (debug_mod) THEN
              IF(l .LT. LBOUND (area%d%${base1}$_${prec1}$, 1))&
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
              IF(u .GT. UBOUND (area%d%${base1}$_${prec1}$, 1))&
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
           ENDIF
           DATA => area%d%${base1}$_${prec1}$(l:u)
        ELSE
@@ -171,7 +171,7 @@
 
     IF (ASSOCIATED (area%d)) THEN
        IF(area%d%data_type /= ${dkind1}$_2d) &
-          CPABORT("dbcsr_get_data_p_2d_${nametype1}$: data-area has wrong type")
+          DBCSR_ABORT("dbcsr_get_data_p_2d_${nametype1}$: data-area has wrong type")
        IF (PRESENT (lb) .OR. PRESENT (ub)) THEN
           l = LBOUND (area%d%${base1}$2_${prec1}$)
           IF (PRESENT (lb)) l = lb
@@ -179,13 +179,13 @@
           IF (PRESENT (ub)) u = ub
           IF (debug_mod) THEN
              IF(l(1) .LT. LBOUND (area%d%${base1}$2_${prec1}$, 1))&
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
              IF(l(2) .LT. LBOUND (area%d%${base1}$2_${prec1}$, 2))&
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
              IF(u(1) .GT. UBOUND (area%d%${base1}$2_${prec1}$, 1))&
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
              IF(u(2) .GT. UBOUND (area%d%${base1}$2_${prec1}$, 2))&
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
           ENDIF
           DATA => area%d%${base1}$2_${prec1}$(l(1):u(1), l(2):u(2))
        ELSE
@@ -218,7 +218,7 @@
 
     IF (ASSOCIATED (area%d)) THEN
        IF(area%d%data_type /= ${dkind1}$) &
-          CPABORT("get_data_${nametype1}$: data-area has wrong type")
+          DBCSR_ABORT("get_data_${nametype1}$: data-area has wrong type")
        IF (PRESENT (lb) .OR. PRESENT (ub)) THEN
           l = LBOUND (area%d%${base1}$_${prec1}$, 1)
           IF (PRESENT (lb)) l = lb
@@ -226,9 +226,9 @@
           IF (PRESENT (ub)) u = ub
           IF (debug_mod) THEN
              IF(l < LBOUND (area%d%${base1}$_${prec1}$, 1)) &
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
              IF(u > UBOUND (area%d%${base1}$_${prec1}$, 1)) &
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
           ENDIF
           DATA => area%d%${base1}$_${prec1}$(l:u)
        ELSE
@@ -260,7 +260,7 @@
 
     IF (ASSOCIATED (area%d)) THEN
        IF(area%d%data_type /= ${dkind1}$_2d) &
-          CPABORT("get_data_2d_${nametype1}$: data-area has wrong type")
+          DBCSR_ABORT("get_data_2d_${nametype1}$: data-area has wrong type")
        IF (PRESENT (lb) .OR. PRESENT (ub)) THEN
           l = LBOUND (area%d%${base1}$2_${prec1}$)
           IF (PRESENT (lb)) l = lb
@@ -268,13 +268,13 @@
           IF (PRESENT (ub)) u = ub
           IF (debug_mod) THEN
              IF(l(1) < LBOUND (area%d%${base1}$2_${prec1}$, 1)) &
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
              IF(l(2) < LBOUND (area%d%${base1}$2_${prec1}$, 2)) &
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
              IF(u(1) > UBOUND (area%d%${base1}$2_${prec1}$, 1)) &
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
              IF(u(2) > UBOUND (area%d%${base1}$2_${prec1}$, 2)) &
-                CPABORT("Out of bounds")
+                DBCSR_ABORT("Out of bounds")
           ENDIF
           DATA => area%d%${base1}$2_${prec1}$(l(1):u(1), l(2):u(2))
        ELSE

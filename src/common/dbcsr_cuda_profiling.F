@@ -98,8 +98,8 @@ CONTAINS
       INTEGER                                  :: level
       level = cuda_nvtx_range_push_dc(TRIM(routineN)//CHAR(0))
 #else
-      CALL cp_abort(__LOCATION__, "cuda_nvtx_range_push: "// &
-                    "__CUDA_PROFILING not compiled in, but called with:"//TRIM(routineN))
+      CALL dbcsr_abort(__LOCATION__, "cuda_nvtx_range_push: "// &
+                       "__CUDA_PROFILING not compiled in, but called with:"//TRIM(routineN))
 #endif
    END SUBROUTINE cuda_nvtx_range_push
 
@@ -111,7 +111,7 @@ CONTAINS
       INTEGER                                  :: level
       level = cuda_nvtx_range_pop_dc()
 #else
-      CPABORT("cuda_nvtx_range_push: __CUDA_PROFILING not compiled in.")
+      DBCSR_ABORT("cuda_nvtx_range_push: __CUDA_PROFILING not compiled in.")
 #endif
    END SUBROUTINE cuda_nvtx_range_pop
 
@@ -127,7 +127,7 @@ CONTAINS
       INTEGER(KIND=C_SIZE_T)                   :: free_c, total_c
 
       istat = cudaMemGetInfo_cu(free_c, total_c)
-      IF (istat /= 0) CPABORT("cuda_mem_info: failed")
+      IF (istat /= 0) DBCSR_ABORT("cuda_mem_info: failed")
       free = free_c
       total = total_c
 #else

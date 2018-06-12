@@ -208,24 +208,24 @@ CONTAINS
 !$    ithread = OMP_GET_THREAD_NUM()
       !
       IF (this%initialized) &
-         CPABORT("multrec already initialized.")
+         DBCSR_ABORT("multrec already initialized.")
 
       IF (PRESENT(left) .NEQV. PRESENT(right)) &
-         CPABORT("Must both left and right provided or not.")
+         DBCSR_ABORT("Must both left and right provided or not.")
 
       IF (PRESENT(left) .AND. PRESENT(right)) THEN
          ! Ensures that the index is correctly defined.
          IF (.NOT. left%list_indexing) &
-            CPABORT("Must use list indexing for this routine.")
+            DBCSR_ABORT("Must use list indexing for this routine.")
          IF (left%bcsc) &
-            CPABORT("Wrong routine for BCSC matrices.")
+            DBCSR_ABORT("Wrong routine for BCSC matrices.")
 
          IF (right%bcsc) &
-            CPABORT("Wrong routine for BCSC matrices.")
+            DBCSR_ABORT("Wrong routine for BCSC matrices.")
          IF (.NOT. right%local_indexing) &
-            CPABORT("Matrices must have local indexing.")
+            DBCSR_ABORT("Matrices must have local indexing.")
          IF (.NOT. left%local_indexing) &
-            CPABORT("Matrices must have local indexing.")
+            DBCSR_ABORT("Matrices must have local indexing.")
       ENDIF
       !
       ! Fill result data structure.
@@ -245,7 +245,7 @@ CONTAINS
       !
 !$    NULLIFY (product_thread_dist)
 !$    IF (.NOT. dbcsr_distribution_has_threads(product%dist)) &
-!$       CPABORT("Missing thread distribution.")
+!$       DBCSR_ABORT("Missing thread distribution.")
 !$    product_thread_dist => array_data( &
 !$                           dbcsr_distribution_thread_dist(product%dist))
       !
@@ -263,19 +263,19 @@ CONTAINS
             WRITE (*, *) "row dist", dbcsr_distribution_row_dist(product%dist)
             WRITE (*, *) "dist local rows", dbcsr_distribution_local_rows(product%dist)
             WRITE (*, *) " mat local rows", array_data(product%local_rows)
-            CPABORT("Array mismatch.")
+            DBCSR_ABORT("Array mismatch.")
          ENDIF
          IF (.NOT. array_equality(dbcsr_distribution_local_cols_obj(product%dist), &
                                   product%local_cols)) THEN
             WRITE (*, *) "col dist", dbcsr_distribution_col_dist(product%dist)
             WRITE (*, *) "dist local cols", dbcsr_distribution_local_cols(product%dist)
             WRITE (*, *) " mat local cols", array_data(product%local_cols)
-            CPABORT("Array mismatch.")
+            DBCSR_ABORT("Array mismatch.")
          ENDIF
          IF (SIZE(c_local_rows) /= c_nblkrows_local) &
-            CPABORT("Row count mismatch.")
+            DBCSR_ABORT("Row count mismatch.")
          IF (SIZE(c_local_cols) /= c_nblkcols_local) &
-            CPABORT("Column count mismatch.")
+            DBCSR_ABORT("Column count mismatch.")
       ENDIF
       !
       ! And the k epsilons
@@ -348,7 +348,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       IF (.NOT. this%initialized) &
-         CPABORT("multrec not initialized.")
+         DBCSR_ABORT("multrec not initialized.")
 
       this%flop = 0
 
@@ -408,7 +408,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       IF (.NOT. this%initialized) &
-         CPABORT("multrec not initialized.")
+         DBCSR_ABORT("multrec not initialized.")
       CALL dbcsr_mm_csr_dev2host_init(this%csr)
    END SUBROUTINE dbcsr_mm_multrec_dev2host_init
 
@@ -434,7 +434,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       IF (.NOT. this%initialized) &
-         CPABORT("multrec not initialized.")
+         DBCSR_ABORT("multrec not initialized.")
 
       CALL dbcsr_mm_csr_finalize(this%csr)
 
@@ -524,7 +524,7 @@ CONTAINS
               this%product_wm%datasize_after_filtering, &
               this%product_wm%data_area%d%c_dp)
       CASE DEFAULT
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       END SELECT
 
       CALL timestop(handle)
@@ -555,7 +555,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       IF (.NOT. this%initialized) &
-         CPABORT("multrec not initialized.")
+         DBCSR_ABORT("multrec not initialized.")
       CALL dbcsr_mm_csr_red3D(this%csr, meta_buffer, data_buffer, flop, &
                               m_sizes=this%m_sizes, n_sizes=this%n_sizes, &
                               g2l_map_rows=g2l_map_rows, &

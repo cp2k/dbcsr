@@ -114,7 +114,7 @@ CONTAINS
                                  rb%d%c_dp, rcount, rdispl, mp_env, &
                                  most_ptp, remainder_ptp, no_hybrid)
       CASE default
-         CPABORT("Invalid data type")
+         DBCSR_ABORT("Invalid data type")
       END SELECT
 
       CALL timestop(error_handle)
@@ -394,7 +394,7 @@ CONTAINS
          routineP = moduleN//':'//routineN
 
       IF (dbcsr_data_get_type(msgin) .NE. dbcsr_data_get_type(msgout)) &
-         CPABORT("Different data type for msgin and msgout")
+         DBCSR_ABORT("Different data type for msgin and msgout")
 
       SELECT CASE (dbcsr_data_get_type (msgin))
       CASE (dbcsr_type_real_4)
@@ -406,7 +406,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          CALL mp_sendrecv(msgin%d%c_dp, dest, msgout%d%c_dp, source, comm)
       CASE default
-         CPABORT("Incorrect data type")
+         DBCSR_ABORT("Incorrect data type")
       END SELECT
    END SUBROUTINE dbcsr_sendrecv_any
 
@@ -438,7 +438,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          CALL mp_isend(msgin%d%c_dp, dest, comm, request, tag)
       CASE default
-         CPABORT("Incorrect data type")
+         DBCSR_ABORT("Incorrect data type")
       END SELECT
    END SUBROUTINE dbcsr_isend_any
 
@@ -470,7 +470,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          CALL mp_irecv(msgin%d%c_dp, source, comm, request, tag)
       CASE default
-         CPABORT("Incorrect data type")
+         DBCSR_ABORT("Incorrect data type")
       END SELECT
    END SUBROUTINE dbcsr_irecv_any
 
@@ -498,7 +498,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          CALL mp_win_create(base%d%c_dp, comm, win)
       CASE default
-         CPABORT("Incorrect data type")
+         DBCSR_ABORT("Incorrect data type")
       END SELECT
    END SUBROUTINE dbcsr_win_create_any
 
@@ -527,7 +527,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_rget_any', routineP = moduleN//':'//routineN
 
       IF (dbcsr_data_get_type(base) /= dbcsr_data_get_type(win_data)) &
-         CPABORT("Mismatch data type between buffer and window")
+         DBCSR_ABORT("Mismatch data type between buffer and window")
 
       SELECT CASE (dbcsr_data_get_type (base))
       CASE (dbcsr_type_real_4)
@@ -543,7 +543,7 @@ CONTAINS
          CALL mp_rget(base%d%c_dp, source, win, win_data%d%c_dp, myproc, &
                       disp, request, origin_datatype, target_datatype)
       CASE default
-         CPABORT("Incorrect data type")
+         DBCSR_ABORT("Incorrect data type")
       END SELECT
    END SUBROUTINE dbcsr_rget_any
 
@@ -572,7 +572,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          CALL mp_ibcast(base%d%c_dp, source, grp, request)
       CASE default
-         CPABORT("Incorrect data type")
+         DBCSR_ABORT("Incorrect data type")
       END SELECT
    END SUBROUTINE dbcsr_ibcast_any
 
@@ -598,7 +598,7 @@ CONTAINS
          routineP = moduleN//':'//routineN
 
       IF (dbcsr_data_get_type(base) .NE. dbcsr_data_get_type(msg)) &
-         CPABORT("Different data type for msgin and msgout")
+         DBCSR_ABORT("Different data type for msgin and msgout")
 
       SELECT CASE (dbcsr_data_get_type (base))
       CASE (dbcsr_type_real_4)
@@ -610,7 +610,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          CALL mp_iscatter(base%d%c_dp, counts, displs, msg%d%c_dp, recvcount, root, grp, request)
       CASE default
-         CPABORT("Incorrect data type")
+         DBCSR_ABORT("Incorrect data type")
       END SELECT
    END SUBROUTINE dbcsr_iscatterv_any
 
@@ -635,7 +635,7 @@ CONTAINS
          routineP = moduleN//':'//routineN
 
       IF (dbcsr_data_get_type(base) .NE. dbcsr_data_get_type(msg)) &
-         CPABORT("Different data type for msgin and msgout")
+         DBCSR_ABORT("Different data type for msgin and msgout")
 
       SELECT CASE (dbcsr_data_get_type (base))
       CASE (dbcsr_type_real_4)
@@ -647,7 +647,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          CALL mp_gatherv(base%d%c_dp(:ub_base), msg%d%c_dp, counts, displs, root, grp)
       CASE default
-         CPABORT("Incorrect data type")
+         DBCSR_ABORT("Incorrect data type")
       END SELECT
    END SUBROUTINE dbcsr_gatherv_any
 
@@ -672,7 +672,7 @@ CONTAINS
          routineP = moduleN//':'//routineN
 
       IF (dbcsr_data_get_type(msgin) .NE. dbcsr_data_get_type(msgout)) &
-         CPABORT("Different data type for msgin and msgout")
+         DBCSR_ABORT("Different data type for msgin and msgout")
 
       SELECT CASE (dbcsr_data_get_type (msgin))
       CASE (dbcsr_type_real_4)
@@ -692,7 +692,7 @@ CONTAINS
                            msgout%d%c_dp, source, &
                            grp, send_request, recv_request)
       CASE default
-         CPABORT("Incorrect data type")
+         DBCSR_ABORT("Incorrect data type")
       END SELECT
    END SUBROUTINE dbcsr_isendrecv_any
 
@@ -724,7 +724,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          new_mp_data_type = mp_type_indexed_make_z(count, lengths, displs)
       CASE default
-         CPABORT("Invalid data type")
+         DBCSR_ABORT("Invalid data type")
       END SELECT
 
    END FUNCTION dbcsr_mp_type_indexed_make_any
@@ -750,7 +750,7 @@ CONTAINS
          routineP = moduleN//':'//routineN
 
       IF (dbcsr_data_get_type(send_data) /= dbcsr_data_get_type(recv_data)) &
-         CPABORT("Data type mismatch")
+         DBCSR_ABORT("Data type mismatch")
       SELECT CASE (dbcsr_data_get_type (send_data))
       CASE (dbcsr_type_real_4)
          CALL mp_allgather(send_data%d%r_sp(1:scount), recv_data%d%r_sp, &
@@ -765,7 +765,7 @@ CONTAINS
          CALL mp_allgather(send_data%d%c_dp(1:scount), recv_data%d%c_dp, &
                            recv_count, recv_displ, gid)
       CASE default
-         CPABORT("Invalid data type")
+         DBCSR_ABORT("Invalid data type")
       END SELECT
    END SUBROUTINE dbcsr_allgatherv
 

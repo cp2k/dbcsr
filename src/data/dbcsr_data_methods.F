@@ -116,7 +116,7 @@ CONTAINS
          c_dp => area%d%c_dp(:area%d%ref_size)
          CALL acc_devmem_host2dev(area%d%acc_devmem, hostmem=c_dp, stream=area%d%memory_type%acc_stream)
       CASE default
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       END SELECT
 
       CALL acc_event_record(area%d%acc_ready, area%d%memory_type%acc_stream)
@@ -154,7 +154,7 @@ CONTAINS
          c_dp => area%d%c_dp(:area%d%ref_size)
          CALL acc_devmem_dev2host(area%d%acc_devmem, hostmem=c_dp, stream=area%d%memory_type%acc_stream)
       CASE default
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       END SELECT
 
    END SUBROUTINE dbcsr_data_dev2host
@@ -186,7 +186,7 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (ASSOCIATED(area%d)) &
-         CPABORT("area already associcated")
+         DBCSR_ABORT("area already associcated")
 
       my_memory_type = dbcsr_memtype_default
       IF (PRESENT(memory_type)) my_memory_type = memory_type
@@ -199,7 +199,7 @@ CONTAINS
          IF (PRESENT(data_size2)) sizes_requested(2) = data_size2
 
          IF (PRESENT(data_size) .NEQV. PRESENT(data_size2)) &
-            CPABORT("Must specify 2 sizes for 2-D data")
+            DBCSR_ABORT("Must specify 2 sizes for 2-D data")
       ENDIF
 
       sizes_oversized = INT(sizes_requested*my_memory_type%oversize_factor)
@@ -207,7 +207,7 @@ CONTAINS
       total_size_oversized = PRODUCT(sizes_oversized(1:d))
 
       IF (ANY(sizes_requested < 0) .OR. ANY(sizes_oversized < 0)) &
-         CPABORT("Negative data size requested, integer overflow?")
+         DBCSR_ABORT("Negative data size requested, integer overflow?")
 
       IF (total_size_requested > 1 .AND. ASSOCIATED(my_memory_type%pool)) THEN
          area = dbcsr_mempool_get(my_memory_type, data_type, total_size_requested)
@@ -263,19 +263,19 @@ CONTAINS
 
       IF (careful_mod) CALL timeset(routineN, handle)
       IF (.NOT. ASSOCIATED(area%d)) &
-         CPABORT("Data area must be setup.")
+         DBCSR_ABORT("Data area must be setup.")
       current_size = dbcsr_data_get_size(area)
 
       IF (PRESENT(area_resize)) THEN
          ! Sanity check
          IF (.NOT. dbcsr_data_valid(area_resize)) &
-            CPABORT("Previous data area must be setup.")
+            DBCSR_ABORT("Previous data area must be setup.")
          IF (dbcsr_data_exists(area_resize)) &
-            CPABORT("Previous data area must be not associated.")
+            DBCSR_ABORT("Previous data area must be not associated.")
          IF (area%d%memory_type%acc_devalloc) &
-            CPABORT("Cannot use dev memory with previous data area.")
+            DBCSR_ABORT("Cannot use dev memory with previous data area.")
          IF (ASSOCIATED(area%d%memory_type%pool)) &
-            CPABORT("Cannot use memory pool with previous data area.")
+            DBCSR_ABORT("Cannot use memory pool with previous data area.")
       ENDIF
 
       ! allocate some more as padding for libsmm kernels which read over the end.
@@ -290,7 +290,7 @@ CONTAINS
       !      WRITE (*,*) "dbcsr_data_ensure_size: Host and device buffer differ in size."
       !END IF
       !IF(current_size/=acc_devmem_size(area%d%acc_devmem)) &
-      !   CPABORT("Host and device buffer differ in size.")
+      !   DBCSR_ABORT("Host and device buffer differ in size.")
 
       CALL dbcsr_data_set_size_referenced(area, data_size)
       IF (current_size .GT. 1 .AND. current_size .GE. wanted_size) THEN
@@ -417,7 +417,7 @@ CONTAINS
                                       factor=factor)
             ENDIF
          CASE default
-            CPABORT("Invalid data type are supported")
+            DBCSR_ABORT("Invalid data type are supported")
          END SELECT
 
          IF (area%d%memory_type%acc_devalloc) THEN
@@ -434,7 +434,7 @@ CONTAINS
             CALL acc_event_record(area%d%acc_ready, area%d%memory_type%acc_stream)
             IF (dbcsr_datatype_sizeof(area%d%data_type)*dbcsr_data_get_size(area) &
                 /= acc_devmem_size_in_bytes(area%d%acc_devmem)) &
-               CPABORT("Host and device buffer differ in size.")
+               DBCSR_ABORT("Host and device buffer differ in size.")
          ENDIF
 
       ENDIF
@@ -458,12 +458,12 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (.NOT. ASSOCIATED(area%d)) &
-         CPWARN("Data seems to be unreferenced.")
+         DBCSR_WARN("Data seems to be unreferenced.")
       IF (ASSOCIATED(area%d)) THEN
          !
          IF (careful_mod) THEN
             IF (area%d%refcount .LE. 0) &
-               CPWARN("Data seems to be unreferenced.")
+               DBCSR_WARN("Data seems to be unreferenced.")
          ENDIF
          !
          area%d%refcount = area%d%refcount-1

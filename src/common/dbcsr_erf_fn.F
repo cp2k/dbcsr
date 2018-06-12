@@ -8,10 +8,10 @@
 !> \par History
 !>      adapted to F95
 ! **************************************************************************************************
-MODULE erf_fn
+MODULE dbcsr_erf_fn
   
-   USE kinds,                           ONLY: dp
-#include "base/base_uses.f90"
+   USE dbcsr_kinds,                     ONLY: dp
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 
@@ -365,4 +365,4 @@ END SUBROUTINE CALERF
       CALL calerf(x,erfcx_val,2)
    END FUNCTION erfcx
 
-END  MODULE erf_fn
+END  MODULE dbcsr_erf_fn

@@ -614,7 +614,7 @@
     MARK_USED(tag)
     MARK_USED(gid)
     ! only defined in parallel
-    CPABORT("not in parallel mode")
+    DBCSR_ABORT("not in parallel mode")
 #endif
     CALL mp_timestop(handle)
   END SUBROUTINE mp_send_${nametype1}$
@@ -650,7 +650,7 @@
     MARK_USED(tag)
     MARK_USED(gid)
     ! only defined in parallel
-    CPABORT("not in parallel mode")
+    DBCSR_ABORT("not in parallel mode")
 #endif
     CALL mp_timestop(handle)
   END SUBROUTINE mp_send_${nametype1}$v
@@ -695,7 +695,7 @@
     MARK_USED(tag)
     MARK_USED(gid)
     ! only defined in parallel
-    CPABORT("not in parallel mode")
+    DBCSR_ABORT("not in parallel mode")
 #endif
     CALL mp_timestop(handle)
   END SUBROUTINE mp_recv_${nametype1}$
@@ -739,7 +739,7 @@
     MARK_USED(tag)
     MARK_USED(gid)
     ! only defined in parallel
-    CPABORT("not in parallel mode")
+    DBCSR_ABORT("not in parallel mode")
 #endif
     CALL mp_timestop(handle)
   END SUBROUTINE mp_recv_${nametype1}$v
@@ -809,7 +809,7 @@
     MARK_USED(source)
     MARK_USED(gid)
     request = mp_request_null
-    CPABORT("mp_ibcast requires MPI-3 standard")
+    DBCSR_ABORT("mp_ibcast requires MPI-3 standard")
 #endif
 #else
     MARK_USED(msg)
@@ -881,7 +881,7 @@
     MARK_USED(source)
     MARK_USED(gid)
     request = mp_request_null
-    CPABORT("mp_ibcast requires MPI-3 standard")
+    DBCSR_ABORT("mp_ibcast requires MPI-3 standard")
 #endif
 #else
     MARK_USED(source)
@@ -1056,7 +1056,7 @@
     MARK_USED(msglen)
     MARK_USED(gid)
     request = mp_request_null
-    CPABORT("mp_isum requires MPI-3 standard")
+    DBCSR_ABORT("mp_isum requires MPI-3 standard")
 #endif
 #else
     MARK_USED(msg)
@@ -1538,7 +1538,7 @@
     MARK_USED(root)
     MARK_USED(gid)
     request = mp_request_null
-    CPABORT("mp_iscatter requires MPI-3 standard")
+    DBCSR_ABORT("mp_iscatter requires MPI-3 standard")
 #endif
 #else
     MARK_USED(root)
@@ -1584,7 +1584,7 @@
     MARK_USED(root)
     MARK_USED(gid)
     request = mp_request_null
-    CPABORT("mp_iscatter requires MPI-3 standard")
+    DBCSR_ABORT("mp_iscatter requires MPI-3 standard")
 #endif
 #else
     MARK_USED(root)
@@ -1633,7 +1633,7 @@
     MARK_USED(root)
     MARK_USED(gid)
     request = mp_request_null
-    CPABORT("mp_iscatterv requires MPI-3 standard")
+    DBCSR_ABORT("mp_iscatterv requires MPI-3 standard")
 #endif
 #else
     MARK_USED(sendcounts)
@@ -1860,7 +1860,7 @@
     MARK_USED(root)
     MARK_USED(comm)
     request = mp_request_null
-    CPABORT("mp_igatherv requires MPI-3 standard")
+    DBCSR_ABORT("mp_igatherv requires MPI-3 standard")
 #endif
 #else
     MARK_USED(sendcount)
@@ -1995,7 +1995,7 @@
 #else
     MARK_USED(gid)
     request = mp_request_null
-    CPABORT("mp_iallgather requires MPI-3 standard")
+    DBCSR_ABORT("mp_iallgather requires MPI-3 standard")
 #endif
 #else
     MARK_USED(gid)
@@ -2204,7 +2204,7 @@
     MARK_USED(scount)
     MARK_USED(gid)
     request = mp_request_null
-    CPABORT("mp_iallgather requires MPI-3 standard")
+    DBCSR_ABORT("mp_iallgather requires MPI-3 standard")
 #endif
 #else
     MARK_USED(gid)
@@ -2255,7 +2255,7 @@
     MARK_USED(scount)
     MARK_USED(gid)
     request = mp_request_null
-    CPABORT("mp_iallgather requires MPI-3 standard")
+    DBCSR_ABORT("mp_iallgather requires MPI-3 standard")
 #endif
 #else
     MARK_USED(gid)
@@ -2306,7 +2306,7 @@
     MARK_USED(scount)
     MARK_USED(gid)
     request = mp_request_null
-    CPABORT("mp_iallgather requires MPI-3 standard")
+    DBCSR_ABORT("mp_iallgather requires MPI-3 standard")
 #endif
 #else
     MARK_USED(gid)
@@ -2357,7 +2357,7 @@
     MARK_USED(scount)
     MARK_USED(gid)
     request = mp_request_null
-    CPABORT("mp_iallgather requires MPI-3 standard")
+    DBCSR_ABORT("mp_iallgather requires MPI-3 standard")
 #endif
 #else
     MARK_USED(gid)
@@ -2407,7 +2407,7 @@
     MARK_USED(scount)
     MARK_USED(gid)
     request = mp_request_null
-    CPABORT("mp_iallgather requires MPI-3 standard")
+    DBCSR_ABORT("mp_iallgather requires MPI-3 standard")
 #endif
     IF ( ierr /= 0 ) CALL mp_stop( ierr, "mpi_iallgather @ "//routineN )
 #else
@@ -2512,7 +2512,7 @@
     MARK_USED(gid)
     MARK_USED(msgin)
     request = mp_request_null
-    CPABORT("mp_iallgatherv requires MPI-3 standard")
+    DBCSR_ABORT("mp_iallgatherv requires MPI-3 standard")
 #endif
 #else
     MARK_USED(rcount)
@@ -2571,7 +2571,7 @@
     MARK_USED(gid)
     MARK_USED(msgin)
     request = mp_request_null
-    CPABORT("mp_iallgatherv requires MPI-3 standard")
+    DBCSR_ABORT("mp_iallgatherv requires MPI-3 standard")
 #endif
 #else
     MARK_USED(rcount)
@@ -3252,7 +3252,7 @@
 
     CALL add_perf(perf_id=12, count=1, msg_size=msglen*${bytes1}$)
 #else
-    CPABORT("mp_irecv called in non parallel case")
+    DBCSR_ABORT("mp_irecv called in non parallel case")
     MARK_USED(msgout)
     MARK_USED(source)
     MARK_USED(comm)
@@ -3318,7 +3318,7 @@
     MARK_USED(request)
     MARK_USED(tag)
     request=0
-    CPABORT("mp_irecv called in non parallel case")
+    DBCSR_ABORT("mp_irecv called in non parallel case")
 #endif
     CALL mp_timestop(handle)
   END SUBROUTINE mp_irecv_${nametype1}$m2
@@ -3380,7 +3380,7 @@
     MARK_USED(request)
     MARK_USED(tag)
     request=0
-    CPABORT("mp_irecv called in non parallel case")
+    DBCSR_ABORT("mp_irecv called in non parallel case")
 #endif
     CALL mp_timestop(handle)
   END SUBROUTINE mp_irecv_${nametype1}$m3
@@ -3439,7 +3439,7 @@
     MARK_USED(request)
     MARK_USED(tag)
     request=0
-    CPABORT("mp_irecv called in non parallel case")
+    DBCSR_ABORT("mp_irecv called in non parallel case")
 #endif
     CALL mp_timestop(handle)
   END SUBROUTINE mp_irecv_${nametype1}$m4
@@ -3573,7 +3573,7 @@
     MARK_USED(win_data)
 
     request = mp_request_null
-    CPABORT("mp_rget requires MPI-3 standard")
+    DBCSR_ABORT("mp_rget requires MPI-3 standard")
 #endif
     IF ( ierr /= 0 ) CALL mp_stop( ierr, "mpi_rget @ "//routineN )
 
@@ -3622,10 +3622,10 @@
     CALL mpi_type_indexed(count,lengths,displs,${mpi_type1}$,&
          type_descriptor%type_handle,ierr)
     IF (ierr /= 0)&
-        CPABORT("MPI_Type_Indexed @ "//routineN)
+        DBCSR_ABORT("MPI_Type_Indexed @ "//routineN)
     CALL mpi_type_commit (type_descriptor%type_handle, ierr)
     IF (ierr /= 0)&
-       CPABORT("MPI_Type_commit @ "//routineN)
+       DBCSR_ABORT("MPI_Type_commit @ "//routineN)
 #else
     type_descriptor%type_handle = ${handle1}$
 #endif
@@ -3737,7 +3737,7 @@
 #if defined(__parallel)
     CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
     IF (ierr .NE. 0)&
-       CPABORT("mpi_file_write_at_${nametype1}$v @ "//routineN)
+       DBCSR_ABORT("mpi_file_write_at_${nametype1}$v @ "//routineN)
 #else
     WRITE(UNIT=fh, POS=offset+1) msg(1:msg_len)
 #endif
@@ -3763,7 +3763,7 @@
 #if defined(__parallel)
     CALL MPI_FILE_WRITE_AT(fh, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
     IF (ierr .NE. 0)&
-       CPABORT("mpi_file_write_at_${nametype1}$ @ "//routineN)
+       DBCSR_ABORT("mpi_file_write_at_${nametype1}$ @ "//routineN)
 #else
     WRITE(UNIT=fh, POS=offset+1) msg
 #endif
@@ -3797,7 +3797,7 @@
 #if defined(__parallel)
     CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
     IF (ierr .NE. 0)&
-       CPABORT("mpi_file_write_at_all_${nametype1}$v @ "//routineN)
+       DBCSR_ABORT("mpi_file_write_at_all_${nametype1}$v @ "//routineN)
 #else
     WRITE(UNIT=fh, POS=offset+1) msg(1:msg_len)
 #endif
@@ -3823,7 +3823,7 @@
 #if defined(__parallel)
     CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
     IF (ierr .NE. 0)&
-       CPABORT("mpi_file_write_at_all_${nametype1}$ @ "//routineN)
+       DBCSR_ABORT("mpi_file_write_at_all_${nametype1}$ @ "//routineN)
 #else
     WRITE(UNIT=fh, POS=offset+1) msg
 #endif
@@ -3858,7 +3858,7 @@
 #if defined(__parallel)
     CALL MPI_FILE_READ_AT(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
     IF (ierr .NE. 0)&
-       CPABORT("mpi_file_read_at_${nametype1}$v @ "//routineN)
+       DBCSR_ABORT("mpi_file_read_at_${nametype1}$v @ "//routineN)
 #else
     READ(UNIT=fh, POS=offset+1) msg(1:msg_len)
 #endif
@@ -3885,7 +3885,7 @@
 #if defined(__parallel)
     CALL MPI_FILE_READ_AT(fh, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
     IF (ierr .NE. 0)&
-       CPABORT("mpi_file_read_at_${nametype1}$ @ "//routineN)
+       DBCSR_ABORT("mpi_file_read_at_${nametype1}$ @ "//routineN)
 #else
     READ(UNIT=fh, POS=offset+1) msg
 #endif
@@ -3918,7 +3918,7 @@
 #if defined(__parallel)
     CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
     IF (ierr .NE. 0)&
-       CPABORT("mpi_file_read_at_all_${nametype1}$v @ "//routineN)
+       DBCSR_ABORT("mpi_file_read_at_all_${nametype1}$v @ "//routineN)
 #else
     READ(UNIT=fh, POS=offset+1) msg(1:msg_len)
 #endif
@@ -3944,7 +3944,7 @@
 #if defined(__parallel)
     CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
     IF (ierr .NE. 0)&
-       CPABORT("mpi_file_read_at_all_${nametype1}$ @ "//routineN)
+       DBCSR_ABORT("mpi_file_read_at_all_${nametype1}$ @ "//routineN)
 #else
     READ(UNIT=fh, POS=offset+1) msg
 #endif
@@ -3977,7 +3977,7 @@
     type_descriptor%type_handle = ${mpi_type1}$
     CALL MPI_Get_address (ptr, type_descriptor%base, ierr)
     IF (ierr /= 0)&
-       CPABORT("MPI_Get_address @ "//routineN)
+       DBCSR_ABORT("MPI_Get_address @ "//routineN)
 #else
     type_descriptor%type_handle = ${handle1}$
 #endif
@@ -3985,7 +3985,7 @@
     type_descriptor%has_indexing = .FALSE.
     type_descriptor%data_${nametype1}$ => ptr
     IF (PRESENT (vector_descriptor) .OR. PRESENT (index_descriptor)) THEN
-       CPABORT(routineN//": Vectors and indices NYI")
+       DBCSR_ABORT(routineN//": Vectors and indices NYI")
     ENDIF
   END FUNCTION mp_type_make_${nametype1}$
 
@@ -4011,7 +4011,7 @@
      CALL MPI_TYPE_SIZE(${mpi_type1}$, size, ierr)
      mp_size = INT(length, KIND=MPI_ADDRESS_KIND) * size
      IF (mp_size .GT. mp_max_memory_size) THEN
-        CPABORT("MPI cannot allocate more than 2 GiByte")
+        DBCSR_ABORT("MPI cannot allocate more than 2 GiByte")
      ENDIF
      mp_info = MPI_INFO_NULL
      CALL MPI_ALLOC_MEM(mp_size, mp_info, mp_baseptr, mp_res)

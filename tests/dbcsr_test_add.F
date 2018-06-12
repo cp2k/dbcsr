@@ -313,7 +313,7 @@ CONTAINS
       !
       ! Perform add
       IF (ALL(limits == 0)) THEN
-         CPABORT("limits shouldnt be 0")
+         DBCSR_ABORT("limits shouldnt be 0")
       ELSE
          CALL dbcsr_add(m_a, m_b, alpha, beta)
       ENDIF
@@ -351,7 +351,7 @@ CONTAINS
                ", ", dbcsr_get_matrix_type(m_b), &
                ") ................. FAILED !"
             WRITE (io_unit, *) REPEAT("*", 70)
-            CPABORT('Test failed')
+            DBCSR_ABORT('Test failed')
          ENDIF
       ENDIF
 
@@ -414,7 +414,7 @@ CONTAINS
 
       CALL dbcsr_data_get_sizes(dense_a, row_size, col_size, valid)
       IF (.NOT. valid) &
-         CPABORT("dense matrix not valid")
+         DBCSR_ABORT("dense matrix not valid")
       !
       !
       m = limits(2)-limits(1)+1
@@ -431,7 +431,7 @@ CONTAINS
       CASE (dbcsr_type_real_8_2d)
          ALLOCATE (work(lwork), STAT=istat)
          IF (istat /= 0) &
-            CPABORT("allocation problem")
+            DBCSR_ABORT("allocation problem")
          eps = dlamch('eps')
          a_norm_in = dlange(norm, row_size, col_size, dense_a%d%r2_dp(1, 1), ld, work)
          b_norm = dlange(norm, row_size, col_size, dense_b%d%r2_dp(1, 1), ld, work)
@@ -454,7 +454,7 @@ CONTAINS
       CASE (dbcsr_type_real_4_2d)
          ALLOCATE (work_sp(lwork), STAT=istat)
          IF (istat /= 0) &
-            CPABORT("allocation problem")
+            DBCSR_ABORT("allocation problem")
          eps = slamch('eps')
          a_norm_in = slange(norm, row_size, col_size, dense_a%d%r2_sp(1, 1), ld, work_sp)
          b_norm = slange(norm, row_size, col_size, dense_b%d%r2_sp(1, 1), ld, work_sp)
@@ -477,7 +477,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8_2d)
          ALLOCATE (work(lwork), STAT=istat)
          IF (istat /= 0) &
-            CPABORT("allocation problem")
+            DBCSR_ABORT("allocation problem")
          eps = dlamch('eps')
          a_norm_in = zlange(norm, row_size, col_size, dense_a%d%c2_dp(1, 1), ld, work)
          b_norm = zlange(norm, row_size, col_size, dense_b%d%c2_dp(1, 1), ld, work)
@@ -500,7 +500,7 @@ CONTAINS
       CASE (dbcsr_type_complex_4_2d)
          ALLOCATE (work_sp(lwork), STAT=istat)
          IF (istat /= 0) &
-            CPABORT("allocation problem")
+            DBCSR_ABORT("allocation problem")
          eps = REAL(slamch('eps'), real_8)
          a_norm_in = clange(norm, row_size, col_size, dense_a%d%c2_sp(1, 1), ld, work_sp)
          b_norm = clange(norm, row_size, col_size, dense_b%d%c2_sp(1, 1), ld, work_sp)
@@ -554,7 +554,7 @@ CONTAINS
          residual = REAL(clange(norm, row_size, col_size, dense_a%d%c2_sp(1, 1), ld, work_sp), real_8)
          DEALLOCATE (work_sp)
       CASE default
-         CPABORT("Incorrect or 1-D data type")
+         DBCSR_ABORT("Incorrect or 1-D data type")
       END SELECT
 
       IF (mynode .EQ. 0) THEN

@@ -52,13 +52,13 @@ CONTAINS
       CALL timeset(routineN, error_handle)
       !
       IF (int_1_size /= 1) &
-         CPABORT("Incorrect assumption of an 8-bit integer size!")
+         DBCSR_ABORT("Incorrect assumption of an 8-bit integer size!")
       IF (int_2_size /= 2) &
-         CPABORT("Incorrect assumption of a 16-bit integer size!")
+         DBCSR_ABORT("Incorrect assumption of a 16-bit integer size!")
       IF (int_4_size /= 4) &
-         CPABORT("Incorrect assumption of a 32-bit integer size!")
+         DBCSR_ABORT("Incorrect assumption of a 32-bit integer size!")
       IF (int_8_size /= 8) &
-         CPABORT("Incorrect assumption of a 64-bit integer size!")
+         DBCSR_ABORT("Incorrect assumption of a 64-bit integer size!")
 
 !$OMP     PARALLEL DEFAULT(NONE)
       CALL dbcsr_multiply_lib_init()

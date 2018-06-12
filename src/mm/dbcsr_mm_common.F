@@ -309,7 +309,7 @@ CONTAINS
          ENDIF
       ENDDO
       nlow = p_low-1
-      CPASSERT(p_high .EQ. nlow)
+      DBCSR_ASSERT(p_high .EQ. nlow)
 
    END SUBROUTINE rec_split
 
@@ -395,11 +395,11 @@ CONTAINS
       NULLIFY (trs_stack)
 
       IF (.NOT. matrix%list_indexing) &
-         CPABORT("build_trs_stack: only list_indexing supported.")
+         DBCSR_ABORT("build_trs_stack: only list_indexing supported.")
       IF (.NOT. matrix%local_indexing) &
-         CPABORT("build_trs_stack: only local_indexing supported.")
+         DBCSR_ABORT("build_trs_stack: only local_indexing supported.")
       IF (trs_stackbuf%d%data_type /= dbcsr_type_int_4) &
-         CPABORT("build_trs_stack: stac_buf has wrong datatype")
+         DBCSR_ABORT("build_trs_stack: stac_buf has wrong datatype")
       blk_index => matrix%coo_l
       nblks = matrix%nblks
 
@@ -413,7 +413,7 @@ CONTAINS
       IF (PRESENT(noresize)) my_noresize = noresize
       IF (my_noresize) THEN
          IF (dbcsr_data_get_size(trs_stackbuf) .LT. nblks) &
-            CPABORT("build_trs_stack: trs_stackbuf undersized")
+            DBCSR_ABORT("build_trs_stack: trs_stackbuf undersized")
       ELSE
          CALL dbcsr_data_ensure_size(trs_stackbuf, data_size=nblks, nocopy=.TRUE.)
       ENDIF
@@ -476,7 +476,7 @@ CONTAINS
          DO ni = 1, ni_max
             DO mi = 1, mi_max
                IF (filled(mi, ni) /= counters(mi, ni)) &
-                  CPABORT("acc_transpose_blocks: bug")
+                  DBCSR_ABORT("acc_transpose_blocks: bug")
             END DO
          END DO
       ENDIF
@@ -589,7 +589,7 @@ CONTAINS
       CALL timeset(routineN, handle)
       ! Checks for validity
       IF (.NOT. dbcsr_valid_index(matrix)) &
-         CPABORT("The matrix must be valid.")
+         DBCSR_ABORT("The matrix must be valid.")
       data_type = dbcsr_get_data_type(matrix)
       nblks = matrix%nblks
       SELECT CASE (data_type)
@@ -610,7 +610,7 @@ CONTAINS
                            row_blk_sizes, col_blk_sizes, &
                            dbcsr_get_data_p_z(matrix%data_area))
       CASE DEFAULT
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       END SELECT
       !
       CALL timestop(handle)

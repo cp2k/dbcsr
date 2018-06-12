@@ -71,7 +71,7 @@ MODULE dbcsr_message_passing
 #endif
 
 #ifdef __parallel
-   LOGICAL, PARAMETER :: cp2k_is_parallel = .TRUE.
+   LOGICAL, PARAMETER :: dbcsr_is_parallel = .TRUE.
    INTEGER, PARAMETER, PUBLIC :: mp_any_tag = MPI_ANY_TAG
    INTEGER, PARAMETER, PUBLIC :: mp_any_source = MPI_ANY_SOURCE
    INTEGER, PARAMETER, PUBLIC :: mp_comm_null = MPI_COMM_NULL
@@ -99,7 +99,7 @@ MODULE dbcsr_message_passing
    INTEGER, PARAMETER, PUBLIC :: file_amode_excl = MPI_MODE_EXCL
    INTEGER, PARAMETER, PUBLIC :: file_amode_append = MPI_MODE_APPEND
 #else
-   LOGICAL, PARAMETER :: cp2k_is_parallel = .FALSE.
+   LOGICAL, PARAMETER :: dbcsr_is_parallel = .FALSE.
    INTEGER, PARAMETER, PUBLIC :: mp_any_tag = -1
    INTEGER, PARAMETER, PUBLIC :: mp_any_source = -2
    INTEGER, PARAMETER, PUBLIC :: mp_comm_null = -3
@@ -147,7 +147,7 @@ MODULE dbcsr_message_passing
    PUBLIC :: mp_environ, mp_comm_compare, mp_cart_coords, mp_rank_compare
    PUBLIC :: mp_cart_create, mp_dims_create, mp_cart_rank, mp_cart_sub, mp_comm_free
    PUBLIC :: mp_comm_dup, mp_comm_split, mp_comm_split_direct
-   PUBLIC :: cp2k_is_parallel
+   PUBLIC :: dbcsr_is_parallel
    PUBLIC :: mp_probe
 
    ! message passing
@@ -839,7 +839,7 @@ CONTAINS
       IF (debug_comm_count .NE. 0) THEN
          ! A bug, we're leaking or double-freeing communicators. Needs to be fixed where the leak happens.
          ! Memory leak checking might be helpful to locate the culprit
-         CPABORT("mp_world_finalize: assert failed:  leaking communicators")
+         DBCSR_ABORT("mp_world_finalize: assert failed:  leaking communicators")
       ENDIF
       CALL mpi_finalize(ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_finalize @ mp_world_finalize")
@@ -867,7 +867,7 @@ CONTAINS
 
       stack_pointer = stack_pointer+1
       IF (stack_pointer > max_stack_size) THEN
-         CPABORT("stack_pointer too large : message_passing @ add_mp_perf_env")
+         DBCSR_ABORT("stack_pointer too large : message_passing @ add_mp_perf_env")
       ENDIF
       NULLIFY (mp_perf_stack(stack_pointer)%mp_perf_env)
       IF (PRESENT(perf_env)) THEN
@@ -891,7 +891,7 @@ CONTAINS
       NULLIFY (perf_env)
       ALLOCATE (perf_env, stat=stat)
       IF (stat /= 0) THEN
-         CPABORT("allocation failed in mp_perf_env_create")
+         DBCSR_ABORT("allocation failed in mp_perf_env_create")
       ENDIF
       last_mp_perf_env_id = last_mp_perf_env_id+1
       perf_env%id_nr = last_mp_perf_env_id
@@ -913,7 +913,7 @@ CONTAINS
 
       IF (ASSOCIATED(perf_env)) THEN
          IF (perf_env%ref_count < 1) THEN
-            CPABORT("invalid ref_count: message_passing @ mp_perf_env_release")
+            DBCSR_ABORT("invalid ref_count: message_passing @ mp_perf_env_release")
          END IF
          perf_env%ref_count = perf_env%ref_count-1
          IF (perf_env%ref_count == 0) THEN
@@ -931,10 +931,10 @@ CONTAINS
       TYPE(mp_perf_env_type), POINTER                    :: perf_env
 
       IF (.NOT. ASSOCIATED(perf_env)) THEN
-         CPABORT("unassociated perf_env: message_passing @ mp_perf_env_retain")
+         DBCSR_ABORT("unassociated perf_env: message_passing @ mp_perf_env_retain")
       END IF
       IF (perf_env%ref_count < 1) THEN
-         CPABORT("invalid ref_count: message_passing @ mp_perf_env_retain")
+         DBCSR_ABORT("invalid ref_count: message_passing @ mp_perf_env_retain")
       END IF
       perf_env%ref_count = perf_env%ref_count+1
    END SUBROUTINE mp_perf_env_retain
@@ -955,10 +955,10 @@ CONTAINS
 #endif
 
       IF (.NOT. ASSOCIATED(perf_env)) THEN
-         CPABORT("unassociated perf_env : message_passing @ mp_perf_env_describe")
+         DBCSR_ABORT("unassociated perf_env : message_passing @ mp_perf_env_describe")
       ENDIF
       IF (perf_env%ref_count < 1) THEN
-         CPABORT("invalid perf_env%ref_count : message_passing @ mp_perf_env_describe")
+         DBCSR_ABORT("invalid perf_env%ref_count : message_passing @ mp_perf_env_describe")
       ENDIF
 #if defined(__parallel)
       IF (iw > 0) THEN
@@ -996,7 +996,7 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE rm_mp_perf_env()
       IF (stack_pointer < 1) THEN
-         CPABORT("no perf_env in the stack : message_passing @ rm_mp_perf_env")
+         DBCSR_ABORT("no perf_env in the stack : message_passing @ rm_mp_perf_env")
       ENDIF
       CALL mp_perf_env_release(mp_perf_stack(stack_pointer)%mp_perf_env)
       stack_pointer = stack_pointer-1
@@ -1010,7 +1010,7 @@ CONTAINS
       TYPE(mp_perf_env_type), POINTER                    :: res
 
       IF (stack_pointer < 1) THEN
-         CPABORT("no perf_env in the stack : message_passing @ get_mp_perf_env")
+         DBCSR_ABORT("no perf_env in the stack : message_passing @ get_mp_perf_env")
       ENDIF
       res => mp_perf_stack(stack_pointer)%mp_perf_env
    END FUNCTION get_mp_perf_env
@@ -1063,7 +1063,7 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief globally stops all tasks
-!>       this is intended to be low level, most of CP2K should call cp_abort()
+!>       this is intended to be low level, most of CP2K should call dbcsr_abort()
 ! **************************************************************************************************
    SUBROUTINE mp_abort()
       INTEGER                                            :: ierr
@@ -1107,7 +1107,7 @@ CONTAINS
       WRITE (full_error, '(A,I0,A)') ' MPI error (!?) ', ierr, ' in '//TRIM(prg_code)
 #endif
 
-      CPABORT(full_error)
+      DBCSR_ABORT(full_error)
 
    END SUBROUTINE mp_stop
 
@@ -1160,7 +1160,7 @@ CONTAINS
 #else
       MARK_USED(group)
       MARK_USED(request)
-      CPABORT("mp_isum requires MPI-3 standard")
+      DBCSR_ABORT("mp_isum requires MPI-3 standard")
 #endif
 #else
       MARK_USED(group)
@@ -1544,7 +1544,7 @@ CONTAINS
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_rank_compare")
       ALLOCATE (rin(0:n-1), STAT=ierr)
       IF (ierr /= 0) &
-         CPABORT("allocate @ mp_rank_compare")
+         DBCSR_ABORT("allocate @ mp_rank_compare")
       DO i = 0, n-1
          rin(i) = i
       END DO
@@ -1553,10 +1553,10 @@ CONTAINS
                                   "mpi_group_translate_rank @ mp_rank_compare")
       CALL mpi_group_free(g1, ierr)
       IF (ierr /= 0) &
-         CPABORT("group_free @ mp_rank_compare")
+         DBCSR_ABORT("group_free @ mp_rank_compare")
       CALL mpi_group_free(g2, ierr)
       IF (ierr /= 0) &
-         CPABORT("group_free @ mp_rank_compare")
+         DBCSR_ABORT("group_free @ mp_rank_compare")
       DEALLOCATE (rin)
 #else
       MARK_USED(comm1)
@@ -2044,28 +2044,28 @@ CONTAINS
       ! actual number of groups
 
       IF (.NOT. PRESENT(subgroup_min_size) .AND. .NOT. PRESENT(n_subgroups)) THEN
-         CPABORT(routineP//" missing arguments")
+         DBCSR_ABORT(routineP//" missing arguments")
       ENDIF
       IF (PRESENT(subgroup_min_size) .AND. PRESENT(n_subgroups)) THEN
-         CPABORT(routineP//" too many arguments")
+         DBCSR_ABORT(routineP//" too many arguments")
       ENDIF
 
       CALL mp_environ(nnodes, mepos, comm)
 
       IF (UBOUND(group_distribution, 1) .NE. nnodes-1) THEN
-         CPABORT(routineP//" group_distribution wrong bounds")
+         DBCSR_ABORT(routineP//" group_distribution wrong bounds")
       ENDIF
 
 #if defined(__parallel)
       IF (PRESENT(subgroup_min_size)) THEN
          IF (subgroup_min_size < 0 .OR. subgroup_min_size > nnodes) THEN
-            CPABORT(routineP//" subgroup_min_size too small or too large")
+            DBCSR_ABORT(routineP//" subgroup_min_size too small or too large")
          ENDIF
          ngroups = nnodes/subgroup_min_size
          my_subgroup_min_size = subgroup_min_size
       ELSE ! n_subgroups
          IF (n_subgroups <= 0) THEN
-            CPABORT(routineP//" n_subgroups too small")
+            DBCSR_ABORT(routineP//" n_subgroups too small")
          ENDIF
          IF (nnodes/n_subgroups > 0) THEN ! we have a least one cpu per group
             ngroups = n_subgroups
@@ -2289,7 +2289,7 @@ CONTAINS
 
       CALL add_perf(perf_id=11, count=1, msg_size=msglen*loglen)
 #else
-      CPABORT("mp_isend called in non parallel case")
+      DBCSR_ABORT("mp_isend called in non parallel case")
       MARK_USED(msgin)
       MARK_USED(dest)
       MARK_USED(comm)
@@ -2348,7 +2348,7 @@ CONTAINS
 
       CALL add_perf(perf_id=12, count=1, msg_size=msglen*loglen)
 #else
-      CPABORT("mp_irecv called in non parallel case")
+      DBCSR_ABORT("mp_irecv called in non parallel case")
       MARK_USED(msgout)
       MARK_USED(source)
       MARK_USED(comm)
@@ -2407,7 +2407,7 @@ CONTAINS
 
       CALL add_perf(perf_id=11, count=1, msg_size=msglen*loglen)
 #else
-      CPABORT("mp_isend called in non parallel case")
+      DBCSR_ABORT("mp_isend called in non parallel case")
       MARK_USED(msgin)
       MARK_USED(dest)
       MARK_USED(comm)
@@ -2466,7 +2466,7 @@ CONTAINS
 
       CALL add_perf(perf_id=12, count=1, msg_size=msglen*loglen)
 #else
-      CPABORT("mp_irecv called in non parallel case")
+      DBCSR_ABORT("mp_irecv called in non parallel case")
       MARK_USED(msgout)
       MARK_USED(source)
       MARK_USED(comm)
@@ -2622,7 +2622,7 @@ CONTAINS
 
       ierr = 0
       IF ("d" .EQ. "l" .AND. real_8 .EQ. int_8) THEN
-         CPABORT("Minimal location not available with long integers @ "//routineN)
+         DBCSR_ABORT("Minimal location not available with long integers @ "//routineN)
       ENDIF
       CALL mp_timeset(routineN, handle)
 
@@ -2630,7 +2630,7 @@ CONTAINS
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen), STAT=ierr)
       IF (ierr /= 0) &
-         CPABORT("allocate @ "//routineN)
+         DBCSR_ABORT("allocate @ "//routineN)
       CALL mpi_allreduce(msg, res, 1, MPI_2DOUBLE_PRECISION, MPI_MINLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
@@ -2668,7 +2668,7 @@ CONTAINS
 
       ierr = 0
       IF ("i" .EQ. "l" .AND. int_4 .EQ. int_8) THEN
-         CPABORT("Minimal location not available with long integers @ "//routineN)
+         DBCSR_ABORT("Minimal location not available with long integers @ "//routineN)
       ENDIF
       CALL mp_timeset(routineN, handle)
 
@@ -2712,7 +2712,7 @@ CONTAINS
 
       ierr = 0
       IF ("l" .EQ. "l" .AND. int_8 .EQ. int_8) THEN
-         CPABORT("Minimal location not available with long integers @ "//routineN)
+         DBCSR_ABORT("Minimal location not available with long integers @ "//routineN)
       ENDIF
       CALL mp_timeset(routineN, handle)
 
@@ -2756,7 +2756,7 @@ CONTAINS
 
       ierr = 0
       IF ("r" .EQ. "l" .AND. real_4 .EQ. int_8) THEN
-         CPABORT("Minimal location not available with long integers @ "//routineN)
+         DBCSR_ABORT("Minimal location not available with long integers @ "//routineN)
       ENDIF
       CALL mp_timeset(routineN, handle)
 
@@ -2800,7 +2800,7 @@ CONTAINS
 
       ierr = 0
       IF ("d" .EQ. "l" .AND. real_8 .EQ. int_8) THEN
-         CPABORT("Maximal location not available with long integers @ "//routineN)
+         DBCSR_ABORT("Maximal location not available with long integers @ "//routineN)
       ENDIF
       CALL mp_timeset(routineN, handle)
 
@@ -2844,7 +2844,7 @@ CONTAINS
 
       ierr = 0
       IF ("i" .EQ. "l" .AND. int_4 .EQ. int_8) THEN
-         CPABORT("Maximal location not available with long integers @ "//routineN)
+         DBCSR_ABORT("Maximal location not available with long integers @ "//routineN)
       ENDIF
       CALL mp_timeset(routineN, handle)
 
@@ -2888,7 +2888,7 @@ CONTAINS
 
       ierr = 0
       IF ("l" .EQ. "l" .AND. int_8 .EQ. int_8) THEN
-         CPABORT("Maximal location not available with long integers @ "//routineN)
+         DBCSR_ABORT("Maximal location not available with long integers @ "//routineN)
       ENDIF
       CALL mp_timeset(routineN, handle)
 
@@ -2932,7 +2932,7 @@ CONTAINS
 
       ierr = 0
       IF ("r" .EQ. "l" .AND. real_4 .EQ. int_8) THEN
-         CPABORT("Maximal location not available with long integers @ "//routineN)
+         DBCSR_ABORT("Maximal location not available with long integers @ "//routineN)
       ENDIF
       CALL mp_timeset(routineN, handle)
 
@@ -3044,7 +3044,7 @@ CONTAINS
       MARK_USED(msg)
       MARK_USED(gid)
       MARK_USED(request)
-      CPABORT("mp_isum requires MPI-3 standard")
+      DBCSR_ABORT("mp_isum requires MPI-3 standard")
 #endif
 #else
       MARK_USED(msg)
@@ -3081,7 +3081,7 @@ CONTAINS
 #else
       MARK_USED(version)
       MARK_USED(resultlen)
-      CPABORT("mp_get_library_version requires MPI-3 standard")
+      DBCSR_ABORT("mp_get_library_version requires MPI-3 standard")
 #endif
 #else
       MARK_USED(version)
@@ -3289,7 +3289,7 @@ CONTAINS
       IF (PRESENT(msglen)) msg_len = msglen
       CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
-         CPABORT("mpi_file_write_at_chv @ "//routineN)
+         DBCSR_ABORT("mpi_file_write_at_chv @ "//routineN)
 #else
       MARK_USED(msglen)
       WRITE (UNIT=fh, POS=offset+1) msg
@@ -3315,7 +3315,7 @@ CONTAINS
 
       CALL MPI_FILE_WRITE_AT(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
-         CPABORT("mpi_file_write_at_ch @ "//routineN)
+         DBCSR_ABORT("mpi_file_write_at_ch @ "//routineN)
 #else
       WRITE (UNIT=fh, POS=offset+1) msg
 #endif
@@ -3347,7 +3347,7 @@ CONTAINS
       IF (PRESENT(msglen)) msg_len = msglen
       CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
-         CPABORT("mpi_file_write_at_all_chv @ "//routineN)
+         DBCSR_ABORT("mpi_file_write_at_all_chv @ "//routineN)
 #else
       MARK_USED(msglen)
       WRITE (UNIT=fh, POS=offset+1) msg
@@ -3373,7 +3373,7 @@ CONTAINS
 
       CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
-         CPABORT("mpi_file_write_at_all_ch @ "//routineN)
+         DBCSR_ABORT("mpi_file_write_at_all_ch @ "//routineN)
 #else
       WRITE (UNIT=fh, POS=offset+1) msg
 #endif
@@ -3406,7 +3406,7 @@ CONTAINS
       IF (PRESENT(msglen)) msg_len = msglen
       CALL MPI_FILE_READ_AT(fh, offset, msg, msg_len, MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
-         CPABORT("mpi_file_read_at_chv @ "//routineN)
+         DBCSR_ABORT("mpi_file_read_at_chv @ "//routineN)
 #else
       MARK_USED(msglen)
       READ (UNIT=fh, POS=offset+1) msg
@@ -3432,7 +3432,7 @@ CONTAINS
 
       CALL MPI_FILE_READ_AT(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
-         CPABORT("mpi_file_read_at_ch @ "//routineN)
+         DBCSR_ABORT("mpi_file_read_at_ch @ "//routineN)
 #else
       READ (UNIT=fh, POS=offset+1) msg
 #endif
@@ -3464,7 +3464,7 @@ CONTAINS
       IF (PRESENT(msglen)) msg_len = msglen
       CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
-         CPABORT("mpi_file_read_at_all_chv @ "//routineN)
+         DBCSR_ABORT("mpi_file_read_at_all_chv @ "//routineN)
 #else
       MARK_USED(msglen)
       READ (UNIT=fh, POS=offset+1) msg
@@ -3490,7 +3490,7 @@ CONTAINS
 
       CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
-         CPABORT("mpi_file_read_at_all_ch @ "//routineN)
+         DBCSR_ABORT("mpi_file_read_at_all_ch @ "//routineN)
 #else
       READ (UNIT=fh, POS=offset+1) msg
 #endif
@@ -3516,7 +3516,7 @@ CONTAINS
 #if defined(__parallel)
       CALL MPI_TYPE_SIZE(type_descriptor%type_handle, type_size, ierr)
       IF (ierr .NE. 0) &
-         CPABORT("mpi_type_size @ "//routineN)
+         DBCSR_ABORT("mpi_type_size @ "//routineN)
 #else
       SELECT CASE (type_descriptor%type_handle)
       CASE (1)
@@ -3566,7 +3566,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_get_address(MPI_BOTTOM, type_descriptor%base, ierr)
       IF (ierr /= 0) &
-         CPABORT("MPI_get_address @ "//routineN)
+         DBCSR_ABORT("MPI_get_address @ "//routineN)
       ALLOCATE (displacements(n))
 #endif
       type_descriptor%vector_descriptor(1:2) = 1
@@ -3586,13 +3586,13 @@ CONTAINS
                                   lengths, displacements, old_types, &
                                   type_descriptor%type_handle, ierr)
       IF (ierr /= 0) &
-         CPABORT("MPI_Type_create_struct @ "//routineN)
+         DBCSR_ABORT("MPI_Type_create_struct @ "//routineN)
       CALL MPI_Type_commit(type_descriptor%type_handle, ierr)
       IF (ierr /= 0) &
-         CPABORT("MPI_Type_commit @ "//routineN)
+         DBCSR_ABORT("MPI_Type_commit @ "//routineN)
 #endif
       IF (PRESENT(vector_descriptor) .OR. PRESENT(index_descriptor)) THEN
-         CPABORT(routineN//" Vectors and indices NYI")
+         DBCSR_ABORT(routineN//" Vectors and indices NYI")
       ENDIF
    END FUNCTION mp_type_make_struct
 
@@ -3621,7 +3621,7 @@ CONTAINS
 #if defined(__parallel)
       CALL MPI_Type_free(type_descriptor%type_handle, ierr)
       IF (ierr /= 0) &
-         CPABORT("MPI_Type_free @ "//routineN)
+         DBCSR_ABORT("MPI_Type_free @ "//routineN)
 #endif
 
       CALL mp_timestop(handle)
@@ -3674,10 +3674,10 @@ CONTAINS
       CALL MPI_Type_create_hindexed(count, lengths, displs, MPI_CHARACTER, &
                                     type_descriptor%type_handle, ierr)
       IF (ierr /= 0)&
-         CPABORT("MPI_Type_create_hindexed @ "//routineN)
+         DBCSR_ABORT("MPI_Type_create_hindexed @ "//routineN)
       CALL MPI_Type_commit(type_descriptor%type_handle, ierr)
       IF (ierr /= 0)&
-         CPABORT("MPI_Type_commit @ "//routineN)
+         DBCSR_ABORT("MPI_Type_commit @ "//routineN)
 #else
       type_descriptor%type_handle = 68
 #endif
@@ -3764,10 +3764,10 @@ CONTAINS
       MARK_USED(msglen)
       MARK_USED(ndims)
       IF (.NOT. PRESENT(type_descriptor)) &
-         CALL cp_abort(__LOCATION__, &
+         CALL dbcsr_abort(__LOCATION__, &
                        "Container for mp_file_descriptor_type must be present in serial call.")
       IF (.NOT. type_descriptor%has_indexing) &
-         CALL cp_abort(__LOCATION__, &
+         CALL dbcsr_abort(__LOCATION__, &
                        "File view has not been set in mp_file_descriptor_type.")
       ! Use explicit offsets
       DO i = 1, ndims
@@ -3817,10 +3817,10 @@ CONTAINS
       MARK_USED(msglen)
       MARK_USED(ndims)
       IF (.NOT. PRESENT(type_descriptor)) &
-         CALL cp_abort(__LOCATION__, &
+         CALL dbcsr_abort(__LOCATION__, &
                        "Container for mp_file_descriptor_type must be present in serial call.")
       IF (.NOT. type_descriptor%has_indexing) &
-         CALL cp_abort(__LOCATION__, &
+         CALL dbcsr_abort(__LOCATION__, &
                        "File view has not been set in mp_file_descriptor_type.")
       ! Use explicit offsets
       DO i = 1, ndims
@@ -3851,7 +3851,7 @@ CONTAINS
 #if defined(__parallel)
       CALL MPI_Type_free(type_descriptor%type_handle, ierr)
       IF (ierr /= 0)&
-         CPABORT("MPI_Type_free @ "//routineN)
+         DBCSR_ABORT("MPI_Type_free @ "//routineN)
 #endif
       type_descriptor%length = -1
       type_descriptor%type_handle = -1
@@ -3895,7 +3895,7 @@ CONTAINS
       CASE ("UNFORMATTED")
          mpi_io = .FALSE.
       CASE DEFAULT
-         CPABORT("Unknown MPI file form requested.")
+         DBCSR_ABORT("Unknown MPI file form requested.")
       END SELECT
       ! Determine file access mode (limited set of allowed choices)
       SELECT CASE (action)
@@ -3915,7 +3915,7 @@ CONTAINS
             CASE ("REWIND", "ASIS")
                ! Do nothing
             CASE DEFAULT
-               CPABORT("Unknown MPI file position requested.")
+               DBCSR_ABORT("Unknown MPI file position requested.")
             END SELECT
          CASE ("OLD")
             SELECT CASE (position)
@@ -3925,7 +3925,7 @@ CONTAINS
             CASE ("REWIND", "ASIS")
                ! Do nothing
             CASE DEFAULT
-               CPABORT("Unknown MPI file position requested.")
+               DBCSR_ABORT("Unknown MPI file position requested.")
             END SELECT
          CASE ("REPLACE")
             ! Overwrite existing file. Must delete existing file first
@@ -3935,22 +3935,22 @@ CONTAINS
             ! Disable
             mpi_io = .FALSE.
          CASE DEFAULT
-            CPABORT("Unknown MPI file status requested.")
+            DBCSR_ABORT("Unknown MPI file status requested.")
          END SELECT
       CASE ("READ")
          amode = file_amode_rdonly
          SELECT CASE (status)
          CASE ("NEW")
-            CPABORT("Cannot read from 'NEW' file.")
+            DBCSR_ABORT("Cannot read from 'NEW' file.")
          CASE ("REPLACE")
-            CPABORT("Illegal status 'REPLACE' for read.")
+            DBCSR_ABORT("Illegal status 'REPLACE' for read.")
          CASE ("UNKNOWN", "OLD")
             ! Do nothing
          CASE ("SCRATCH")
             ! Disable
             mpi_io = .FALSE.
          CASE DEFAULT
-            CPABORT("Unknown MPI file status requested.")
+            DBCSR_ABORT("Unknown MPI file status requested.")
          END SELECT
       CASE ("READWRITE")
          amode = file_amode_rdwr
@@ -3968,7 +3968,7 @@ CONTAINS
             CASE ("REWIND", "ASIS")
                ! Do nothing
             CASE DEFAULT
-               CPABORT("Unknown MPI file position requested.")
+               DBCSR_ABORT("Unknown MPI file position requested.")
             END SELECT
          CASE ("OLD")
             SELECT CASE (position)
@@ -3978,7 +3978,7 @@ CONTAINS
             CASE ("REWIND", "ASIS")
                ! Do nothing
             CASE DEFAULT
-               CPABORT("Unknown MPI file position requested.")
+               DBCSR_ABORT("Unknown MPI file position requested.")
             END SELECT
          CASE ("REPLACE")
             ! Overwrite existing file. Must delete existing file first
@@ -3988,10 +3988,10 @@ CONTAINS
             ! Disable
             mpi_io = .FALSE.
          CASE DEFAULT
-            CPABORT("Unknown MPI file status requested.")
+            DBCSR_ABORT("Unknown MPI file status requested.")
          END SELECT
       CASE DEFAULT
-         CPABORT("Unknown MPI file action requested.")
+         DBCSR_ABORT("Unknown MPI file action requested.")
       END SELECT
 #else
       MARK_USED(replace)
@@ -4080,7 +4080,7 @@ CONTAINS
       MARK_USED(tag)
       ierr = 1
       request = 0
-      CPABORT("mp_irecv called in non parallel case")
+      DBCSR_ABORT("mp_irecv called in non parallel case")
 #endif
    END SUBROUTINE mp_irecv_custom
 
@@ -4132,7 +4132,7 @@ CONTAINS
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_flush_all @ "//routineN)
 #else
       MARK_USED(win)
-      CPABORT("mp_win_flush_all requires MPI-3 standard")
+      DBCSR_ABORT("mp_win_flush_all requires MPI-3 standard")
 #endif
 #else
       MARK_USED(win)
@@ -4161,7 +4161,7 @@ CONTAINS
       CALL mpi_win_lock_all(MPI_MODE_NOCHECK, win, ierr)
 #else
       MARK_USED(win)
-      CPABORT("mp_win_lock_all requires MPI-3 standard")
+      DBCSR_ABORT("mp_win_lock_all requires MPI-3 standard")
 #endif
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_lock_all @ "//routineN)
 
@@ -4193,7 +4193,7 @@ CONTAINS
       CALL mpi_win_unlock_all(win, ierr)
 #else
       MARK_USED(win)
-      CPABORT("mp_win_unlock_all requires MPI-3 standard")
+      DBCSR_ABORT("mp_win_unlock_all requires MPI-3 standard")
 #endif
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_unlock_all @ "//routineN)
 
@@ -4291,7 +4291,7 @@ CONTAINS
       DO i = 1, npow
          ncount = 10**i
          t2 = 0.0E0_dp
-         IF (ncount .GT. nbufmax) CPABORT("")
+         IF (ncount .GT. nbufmax) DBCSR_ABORT("")
          DO j = 1, 3**(npow-i)
             CALL MPI_BARRIER(comm, ierror)
             t1 = MPI_WTIME()
@@ -4315,7 +4315,7 @@ CONTAINS
       DO i = 1, npow
          ncount = 10**i
          t2 = 0.0E0_dp
-         IF (ncount .GT. nbufmax) CPABORT("")
+         IF (ncount .GT. nbufmax) DBCSR_ABORT("")
          DO j = 1, 3**(npow-i)
             CALL MPI_BARRIER(comm, ierror)
             t1 = MPI_WTIME()
@@ -4338,7 +4338,7 @@ CONTAINS
       ENDIF
       ncount = 10**npow
       IF (ionode .AND. output_unit > 0) WRITE (output_unit, *) "For messages of ", ncount*8, " bytes"
-      IF (ncount .GT. nbufmax) CPABORT("")
+      IF (ncount .GT. nbufmax) DBCSR_ABORT("")
       DO itask = 0, nprocs-1
          DO jtask = itask+1, nprocs-1
             CALL MPI_BARRIER(comm, ierror)
@@ -4373,7 +4373,7 @@ CONTAINS
       DO i = 1, npow
          ncount = 10**i
          t2 = 0.0E0_dp
-         IF (ncount .GT. nbufmax) CPABORT("")
+         IF (ncount .GT. nbufmax) DBCSR_ABORT("")
          DO j = 1, 3**(npow-i)
             CALL MPI_BARRIER(comm, ierror)
             t1 = MPI_WTIME()
@@ -4401,7 +4401,7 @@ CONTAINS
       DO i = 1, npow
          ncount = 10**i
          t2 = 0.0E0_dp
-         IF (ncount .GT. nbufmax) CPABORT("")
+         IF (ncount .GT. nbufmax) DBCSR_ABORT("")
          DO j = 1, 3**(npow-i)
             CALL MPI_BARRIER(comm, ierror)
             t1 = MPI_WTIME()
@@ -4429,7 +4429,7 @@ CONTAINS
       DO i = 1, npow
          ncount = 10**i
          t2 = 0.0E0_dp
-         IF (ncount .GT. nbufmax) CPABORT("")
+         IF (ncount .GT. nbufmax) DBCSR_ABORT("")
          DO j = 1, 3**(npow-i)
             CALL MPI_BARRIER(comm, ierror)
             t1 = MPI_WTIME()
@@ -4449,7 +4449,7 @@ CONTAINS
       DO i = 1, npow
          ncount = 10**i
          t2 = 0.0E0_dp
-         IF (ncount .GT. nbufmax) CPABORT("")
+         IF (ncount .GT. nbufmax) DBCSR_ABORT("")
          DO j = 1, 3**(npow-i)
             CALL MPI_BARRIER(comm, ierror)
             t1 = MPI_WTIME()
@@ -4472,7 +4472,7 @@ CONTAINS
       DO i = 1, npow
          ncount = 10**i
          t2 = 0.0E0_dp
-         IF (ncount .GT. nbufmax) CPABORT("")
+         IF (ncount .GT. nbufmax) DBCSR_ABORT("")
          scount = ncount/nprocs
          rcount = ncount/nprocs
          DO j = 1, nprocs
@@ -4536,7 +4536,7 @@ CONTAINS
          CALL mpi_allreduce(maxdiff, res2, 1, MPI_DOUBLE_PRECISION, MPI_MAX, comm, ierr)
          IF (ionode .AND. output_unit > 0) WRITE (output_unit, *) "MPI_SENDRECV_REPLACE  ", res, res2
          ! *** involved shift ****
-         IF (MODULO(nprocs, 2) /= 0) CPABORT("")
+         IF (MODULO(nprocs, 2) /= 0) DBCSR_ABORT("")
          DO j = 1, Nprocs
             DO i = 1, Nloc
                grid3(i, j) = MODULO(i*j*taskid, itests)

@@ -155,9 +155,9 @@ CONTAINS
                              dims, my_pos, &
                              tmp_group)
          IF (my_pos(1) .NE. mp_env%mp%myprow) &
-            CPABORT("Got different MPI process grid")
+            DBCSR_ABORT("Got different MPI process grid")
          IF (my_pos(2) .NE. mp_env%mp%mypcol) &
-            CPABORT("Got different MPI process grid")
+            DBCSR_ABORT("Got different MPI process grid")
          !
          remain = (/.FALSE., .TRUE./)
          CALL mp_cart_sub(tmp_group, remain, mp_env%mp%prow_group)

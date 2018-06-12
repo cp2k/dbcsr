@@ -50,7 +50,7 @@ CONTAINS
       INTEGER, DIMENSION(${dim}$)                                          :: shape_prv
       INTEGER                                                              :: i
 
-      CPASSERT(PRESENT(shape_spec) .OR. PRESENT(source))
+      DBCSR_ASSERT(PRESENT(shape_spec) .OR. PRESENT(source))
 
       IF(PRESENT(order)) THEN
          order_prv(:) = order(:)

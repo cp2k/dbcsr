@@ -243,13 +243,13 @@ CONTAINS
          ELSE IF (TRIM(mm_driver) .EQ. mm_name_matmul) THEN
             dbcsr_cfg%mm_driver = mm_driver_matmul ! always available
          ELSE IF (TRIM(mm_driver) .EQ. mm_name_smm) THEN
-            IF (.NOT. has_smm) CPABORT("Support for libsmm not compiled in.")
+            IF (.NOT. has_smm) DBCSR_ABORT("Support for libsmm not compiled in.")
             dbcsr_cfg%mm_driver = mm_driver_smm
          ELSE IF (TRIM(mm_driver) .EQ. mm_name_xsmm) THEN
-            IF (.NOT. has_xsmm) CPABORT("Support for libxsmm not compiled in.")
+            IF (.NOT. has_xsmm) DBCSR_ABORT("Support for libxsmm not compiled in.")
             dbcsr_cfg%mm_driver = mm_driver_xsmm
          ELSE
-            CPABORT("Unkown MM driver: "//TRIM(mm_driver))
+            DBCSR_ABORT("Unkown MM driver: "//TRIM(mm_driver))
          ENDIF
       ENDIF
 
@@ -342,8 +342,8 @@ CONTAINS
       IF (PRESENT(accdrv_binning_nbins)) accdrv_binning_nbins = default_cfg%accdrv_binning_nbins
       IF (PRESENT(accdrv_binning_binsize)) accdrv_binning_binsize = default_cfg%accdrv_binning_binsize
 
-      CPASSERT(default_cfg%nm_stacks == default_cfg%nn_stacks)
-      CPASSERT(default_cfg%nm_stacks == default_cfg%nk_stacks)
+      DBCSR_ASSERT(default_cfg%nm_stacks == default_cfg%nn_stacks)
+      DBCSR_ASSERT(default_cfg%nm_stacks == default_cfg%nk_stacks)
       IF (PRESENT(nstacks)) nstacks = default_cfg%nm_stacks
 
    END SUBROUTINE dbcsr_get_default_config
@@ -364,7 +364,7 @@ CONTAINS
          CASE (mm_driver_smm); mm_name = mm_name_smm
          CASE (mm_driver_xsmm); mm_name = mm_name_xsmm
          CASE DEFAULT
-            CPABORT("Unkown MM driver")
+            DBCSR_ABORT("Unkown MM driver")
          END SELECT
          WRITE (UNIT=unit_nr, FMT='(1X,A,T41,A40)') &
             "DBCSR| Multiplication driver", ADJUSTR(mm_name(1:40))

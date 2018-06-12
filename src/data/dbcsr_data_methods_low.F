@@ -176,10 +176,10 @@ CONTAINS
          WRITE (*, *) routineN//" Setting to sizes", sizes
       IF (dbcsr_type_is_2d(area%data_type)) THEN
          IF (SIZE(sizes) /= 2) &
-            CPABORT("Sizes must have 2 elements for 2-D data")
+            DBCSR_ABORT("Sizes must have 2 elements for 2-D data")
       ELSE
          IF (SIZE(sizes) /= 1) &
-            CPABORT("Sizes must have 1 elements for 1-D data")
+            DBCSR_ABORT("Sizes must have 1 elements for 1-D data")
       ENDIF
 
       SELECT CASE (area%data_type)
@@ -206,7 +206,7 @@ CONTAINS
          CALL memory_allocate(area%c2_dp, sizes=sizes, mem_type=area%memory_type)
 
       CASE default
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       END SELECT
 
       IF (area%memory_type%acc_devalloc) THEN
@@ -271,7 +271,7 @@ CONTAINS
          NULLIFY (area%c2_dp)
 
       CASE default
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       END SELECT
 
       IF (area%memory_type%acc_devalloc) THEN
@@ -301,7 +301,7 @@ CONTAINS
       ENDIF
 
       IF (area%d%refcount .LE. 0) &
-         CPWARN("Data seems to be unreferenced.")
+         DBCSR_WARN("Data seems to be unreferenced.")
       SELECT CASE (area%d%data_type)
       CASE (dbcsr_type_int_4)
          NULLIFY (area%d%i4)
@@ -324,7 +324,7 @@ CONTAINS
       CASE (dbcsr_type_complex_4_2d)
          NULLIFY (area%d%c2_sp)
       CASE default
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       END SELECT
    END SUBROUTINE dbcsr_data_clear_pointer
 
@@ -367,7 +367,7 @@ CONTAINS
       !
       valid = dbcsr_data_valid(area)
       IF (.NOT. valid) &
-         CPABORT("Data area is invalid.")
+         DBCSR_ABORT("Data area is invalid.")
 
       SELECT CASE (area%d%data_type)
       CASE (dbcsr_type_int_4)
@@ -391,7 +391,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8_2d)
          valid = ASSOCIATED(area%d%c2_dp)
       CASE default
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       END SELECT
 
       IF (careful_mod) THEN
@@ -413,9 +413,9 @@ CONTAINS
 
       IF (careful_mod) THEN
          IF (.NOT. ASSOCIATED(area%d)) &
-            CPABORT("Can't hold an empty data area.")
+            DBCSR_ABORT("Can't hold an empty data area.")
          IF (area%d%refcount <= 0) &
-            CPABORT("Should not hold an area with zero references.")
+            DBCSR_ABORT("Should not hold an area with zero references.")
       ENDIF
       IF (.NOT. ASSOCIATED(area%d)) THEN
          RETURN
@@ -460,18 +460,18 @@ CONTAINS
       IF (careful_mod) THEN
          compatible = dt1 .EQ. dt2 .OR. dt1 .EQ. dbcsr_type_1d_to_2d(dt2)
          IF (.NOT. compatible) &
-            CPABORT("Can not point 1-d pointer to 2-d data")
+            DBCSR_ABORT("Can not point 1-d pointer to 2-d data")
 
       ENDIF
       pointee_is_2d = dbcsr_type_is_2d(dt2)
       IF (careful_mod) THEN
          IF (PRESENT(source_lb) .AND. pointee_is_2d) &
-            CPABORT("Lower bound specification not possible with 2-d data")
+            DBCSR_ABORT("Lower bound specification not possible with 2-d data")
          ! Check if size is OK.
          IF (bp < 1) &
-            CPABORT("Attempt to point out of bounds")
+            DBCSR_ABORT("Attempt to point out of bounds")
          IF (bp+nze-1 > dbcsr_data_get_size(pointee)) &
-            CPABORT("Attempt to point out of bounds")
+            DBCSR_ABORT("Attempt to point out of bounds")
       ENDIF
       ! There's a remap if the ranks are compatible but not equal.
       rmp = dt1 .NE. dt2
@@ -519,17 +519,17 @@ CONTAINS
             area%d%c_dp => dbcsr_get_data_p_z(pointee, bp, bp+nze-1)
          ENDIF
       CASE default
-         CPABORT("Invalid data type")
+         DBCSR_ABORT("Invalid data type")
       END SELECT
       CALL dbcsr_data_set_size_referenced(area, rsize*csize)
       IF (debug_mod) THEN
          IF (dbcsr_data_get_size_referenced(area) /= dbcsr_data_get_size(area)) &
-            CPABORT("Size mismatch")
+            DBCSR_ABORT("Size mismatch")
       ENDIF
       !
       IF (area%d%memory_type%acc_devalloc .AND. pointee%d%memory_type%acc_devalloc) THEN
          IF (pointee_is_2d) &
-            CPABORT("Setting GPU pointers for 2D data is not available!")
+            DBCSR_ABORT("Setting GPU pointers for 2D data is not available!")
          CALL acc_devmem_set_cptr(area%d%acc_devmem, &
               pointee%d%acc_devmem, &
               dbcsr_datatype_sizeof(area%d%data_type)*nze, &
@@ -583,10 +583,10 @@ CONTAINS
             IF (ASSOCIATED(area%d%c2_sp)) &
                data_size = SIZE(area%d%c2_sp)
          CASE default
-            CPABORT("Incorrect data type")
+            DBCSR_ABORT("Incorrect data type")
          END SELECT
       ELSE
-         CPWARN("Uninitialized data area")
+         DBCSR_WARN("Uninitialized data area")
          data_size = 0
       ENDIF
    END FUNCTION dbcsr_data_get_size
@@ -612,50 +612,50 @@ CONTAINS
       data_type = dbcsr_data_get_type(area)
       IF (dbcsr_type_is_2d(data_type)) THEN
          IF (SIZE(lb) /= 2) &
-            CPABORT("size must be 2 for 2-d lb")
+            DBCSR_ABORT("size must be 2 for 2-d lb")
          IF (SIZE(ub) /= 2) &
-            CPABORT("size must be 2 for 2-d ub")
+            DBCSR_ABORT("size must be 2 for 2-d ub")
       ELSE
          IF (SIZE(lb) /= 1) &
-            CPABORT("size must be 1 for 1-d lb")
+            DBCSR_ABORT("size must be 1 for 1-d lb")
          IF (SIZE(ub) /= 1) &
-            CPABORT("size must be 1 for 1-d ub")
+            DBCSR_ABORT("size must be 1 for 1-d ub")
       ENDIF
       SELECT CASE (data_type)
       CASE (dbcsr_type_real_4)
-         IF (lb(1) < LBOUND(area%d%r_sp, 1)) CPABORT("lb r_sp")
-         IF (ub(1) > UBOUND(area%d%r_sp, 1)) CPABORT("ub r_sp")
+         IF (lb(1) < LBOUND(area%d%r_sp, 1)) DBCSR_ABORT("lb r_sp")
+         IF (ub(1) > UBOUND(area%d%r_sp, 1)) DBCSR_ABORT("ub r_sp")
       CASE (dbcsr_type_real_4_2d)
-         IF (lb(1) < LBOUND(area%d%r2_sp, 1)) CPABORT("lb r_sp 2d")
-         IF (ub(1) > UBOUND(area%d%r2_sp, 1)) CPABORT("ub r_sp 2d")
-         IF (lb(2) < LBOUND(area%d%r2_sp, 2)) CPABORT("lb r_sp 2d")
-         IF (ub(2) > UBOUND(area%d%r2_sp, 2)) CPABORT("ub r_sp 2d")
+         IF (lb(1) < LBOUND(area%d%r2_sp, 1)) DBCSR_ABORT("lb r_sp 2d")
+         IF (ub(1) > UBOUND(area%d%r2_sp, 1)) DBCSR_ABORT("ub r_sp 2d")
+         IF (lb(2) < LBOUND(area%d%r2_sp, 2)) DBCSR_ABORT("lb r_sp 2d")
+         IF (ub(2) > UBOUND(area%d%r2_sp, 2)) DBCSR_ABORT("ub r_sp 2d")
       CASE (dbcsr_type_real_8)
-         IF (lb(1) < LBOUND(area%d%r_dp, 1)) CPABORT("lb r_dp")
-         IF (ub(1) > UBOUND(area%d%r_dp, 1)) CPABORT("ub r_dp")
+         IF (lb(1) < LBOUND(area%d%r_dp, 1)) DBCSR_ABORT("lb r_dp")
+         IF (ub(1) > UBOUND(area%d%r_dp, 1)) DBCSR_ABORT("ub r_dp")
       CASE (dbcsr_type_real_8_2d)
-         IF (lb(1) < LBOUND(area%d%r2_dp, 1)) CPABORT("lb r_dp 2d")
-         IF (ub(1) > UBOUND(area%d%r2_dp, 1)) CPABORT("ub r_dp 2d")
-         IF (lb(2) < LBOUND(area%d%r2_dp, 2)) CPABORT("lb r_dp 2d")
-         IF (ub(2) > UBOUND(area%d%r2_dp, 2)) CPABORT("ub r_dp 2d")
+         IF (lb(1) < LBOUND(area%d%r2_dp, 1)) DBCSR_ABORT("lb r_dp 2d")
+         IF (ub(1) > UBOUND(area%d%r2_dp, 1)) DBCSR_ABORT("ub r_dp 2d")
+         IF (lb(2) < LBOUND(area%d%r2_dp, 2)) DBCSR_ABORT("lb r_dp 2d")
+         IF (ub(2) > UBOUND(area%d%r2_dp, 2)) DBCSR_ABORT("ub r_dp 2d")
       CASE (dbcsr_type_complex_4)
-         IF (lb(1) < LBOUND(area%d%c_sp, 1)) CPABORT("lb c_sp")
-         IF (ub(1) > UBOUND(area%d%c_sp, 1)) CPABORT("ub c_sp")
+         IF (lb(1) < LBOUND(area%d%c_sp, 1)) DBCSR_ABORT("lb c_sp")
+         IF (ub(1) > UBOUND(area%d%c_sp, 1)) DBCSR_ABORT("ub c_sp")
       CASE (dbcsr_type_complex_4_2d)
-         IF (lb(1) < LBOUND(area%d%c2_sp, 1)) CPABORT("lb c_sp 2d")
-         IF (ub(1) > UBOUND(area%d%c2_sp, 1)) CPABORT("ub c_sp 2d")
-         IF (lb(2) < LBOUND(area%d%c2_sp, 2)) CPABORT("lb c_sp 2d")
-         IF (ub(2) > UBOUND(area%d%c2_sp, 2)) CPABORT("ub c_sp 2d")
+         IF (lb(1) < LBOUND(area%d%c2_sp, 1)) DBCSR_ABORT("lb c_sp 2d")
+         IF (ub(1) > UBOUND(area%d%c2_sp, 1)) DBCSR_ABORT("ub c_sp 2d")
+         IF (lb(2) < LBOUND(area%d%c2_sp, 2)) DBCSR_ABORT("lb c_sp 2d")
+         IF (ub(2) > UBOUND(area%d%c2_sp, 2)) DBCSR_ABORT("ub c_sp 2d")
       CASE (dbcsr_type_complex_8)
-         IF (lb(1) < LBOUND(area%d%c_dp, 1)) CPABORT("lb c_dp")
-         IF (ub(1) > UBOUND(area%d%c_dp, 1)) CPABORT("ub c_dp")
+         IF (lb(1) < LBOUND(area%d%c_dp, 1)) DBCSR_ABORT("lb c_dp")
+         IF (ub(1) > UBOUND(area%d%c_dp, 1)) DBCSR_ABORT("ub c_dp")
       CASE (dbcsr_type_complex_8_2d)
-         IF (lb(1) < LBOUND(area%d%c2_dp, 1)) CPABORT("lb c_dp 2d")
-         IF (ub(1) > UBOUND(area%d%c2_dp, 1)) CPABORT("ub c_dp 2d")
-         IF (lb(2) < LBOUND(area%d%c2_dp, 2)) CPABORT("lb c_dp 2d")
-         IF (ub(2) > UBOUND(area%d%c2_dp, 2)) CPABORT("ub c_dp 2d")
+         IF (lb(1) < LBOUND(area%d%c2_dp, 1)) DBCSR_ABORT("lb c_dp 2d")
+         IF (ub(1) > UBOUND(area%d%c2_dp, 1)) DBCSR_ABORT("ub c_dp 2d")
+         IF (lb(2) < LBOUND(area%d%c2_dp, 2)) DBCSR_ABORT("lb c_dp 2d")
+         IF (ub(2) > UBOUND(area%d%c2_dp, 2)) DBCSR_ABORT("ub c_dp 2d")
       CASE default
-         CPABORT("Invalid data type")
+         DBCSR_ABORT("Invalid data type")
       END SELECT
       CALL timestop(handle)
    END SUBROUTINE dbcsr_data_verify_bounds
@@ -700,11 +700,11 @@ CONTAINS
       CASE (dbcsr_type_complex_8_2d)
          area%d%c2_dp(lb(1):ub(1), lb(2):ub(2)) = 0.0_real_8
       CASE default
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       END SELECT
 
       IF (area%d%memory_type%acc_devalloc) &
-         CPABORT("not yet supported for acc devmem")
+         DBCSR_ABORT("not yet supported for acc devmem")
 
       IF (careful_mod) THEN
          CALL timestop(error_handle)
@@ -738,10 +738,10 @@ CONTAINS
          IF (careful_mod) THEN
             IF (dbcsr_type_is_2d(area%d%data_type)) THEN
                IF (SIZE(sizes) /= 2) &
-                  CPABORT("Sizes must have 2 elements for 2-D data")
+                  DBCSR_ABORT("Sizes must have 2 elements for 2-D data")
             ELSE
                IF (SIZE(sizes) /= 1) &
-                  CPABORT("Sizes must have 1 elements for 1-D data")
+                  DBCSR_ABORT("Sizes must have 1 elements for 1-D data")
             ENDIF
          ENDIF
          valid = dbcsr_data_exists(area)
@@ -768,7 +768,7 @@ CONTAINS
                sizes(1) = SIZE(area%d%c2_sp, 1)
                sizes(2) = SIZE(area%d%c2_sp, 2)
             CASE default
-               CPABORT("Incorrect data type")
+               DBCSR_ABORT("Incorrect data type")
             END SELECT
          ENDIF
       ENDIF
@@ -800,7 +800,7 @@ CONTAINS
          CALL timeset(routineN, handle)
       IF (ASSOCIATED(area%d)) THEN
          IF (careful_mod .AND. .NOT. dbcsr_type_is_2d(area%d%data_type)) &
-            CPABORT("1-D data can not have column size")
+            DBCSR_ABORT("1-D data can not have column size")
          CALL dbcsr_data_get_sizes_any(area, s, valid)
          row_size = s(1)
          col_size = s(2)
@@ -836,7 +836,7 @@ CONTAINS
 
       IF (ASSOCIATED(area%d)) THEN
          IF (careful_mod .AND. dbcsr_type_is_2d(area%d%data_type)) &
-            CPABORT("Should not use 2-D data")
+            DBCSR_ABORT("Should not use 2-D data")
          CALL dbcsr_data_get_sizes_any(area, s, valid)
          total_size = s(1)
       ELSE

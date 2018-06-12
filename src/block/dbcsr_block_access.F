@@ -163,7 +163,7 @@ CONTAINS
       IF (PRESENT(block_number)) THEN
          b = block_number
          IF (block_number .GT. matrix%nblks) &
-            CPABORT("Block number too big.")
+            DBCSR_ABORT("Block number too big.")
          found = .TRUE.
       ELSE
          CALL dbcsr_get_block_index(matrix, row, col, r, c, tr, found, b)
@@ -176,12 +176,12 @@ CONTAINS
          ! update nze accordingly
          matrix%nze = matrix%nze-block_nze
          IF (debug_mod) THEN
-            IF (matrix%nze < 0) CPABORT("nze < 0!")
+            IF (matrix%nze < 0) DBCSR_ABORT("nze < 0!")
          ENDIF
       ELSE
          IF (debug_mod) THEN
             IF (b .EQ. 0) &
-               CPWARN("Block does not exist or is already deleted.")
+               DBCSR_WARN("Block does not exist or is already deleted.")
          ENDIF
       ENDIF
       IF (careful_mod) CALL timestop(error_handle)
@@ -240,7 +240,7 @@ CONTAINS
          iw = 1
 !$       iw = omp_get_thread_num()+1
          IF (.NOT. dbcsr_use_mutable(matrix)) &
-            CPABORT("Can not retrieve blocks from non-mutable work matrices.")
+            DBCSR_ABORT("Can not retrieve blocks from non-mutable work matrices.")
          IF (dbcsr_mutable_instantiated(matrix%wms(iw)%mutable)) THEN
             SELECT CASE (block%d%data_type)
             CASE (dbcsr_type_real_4_2d)
@@ -276,7 +276,7 @@ CONTAINS
                   CALL dbcsr_data_set_pointer(block, data_block_z%p)
                ENDIF
             CASE default
-               CPABORT("Only 2-D data for block pointers!")
+               DBCSR_ABORT("Only 2-D data for block pointers!")
             END SELECT
          ENDIF
       ENDIF
@@ -325,10 +325,10 @@ CONTAINS
       do_scale = PRESENT(scale)
       IF (do_scale) THEN
          !IF(data_type_m /= scale%data_type) &
-         !   CPABORT("Incompatible data types matrix="//data_type_m//" scale="//scale%data_type)
+         !   DBCSR_ABORT("Incompatible data types matrix="//data_type_m//" scale="//scale%data_type)
       ENDIF
       IF (.NOT. ASSOCIATED(block%d)) &
-         CPABORT("Can only add valid data block!")
+         DBCSR_ABORT("Can only add valid data block!")
       SELECT CASE (block%d%data_type)
       CASE (dbcsr_type_real_4)
          IF (do_scale) THEN
@@ -407,7 +407,7 @@ CONTAINS
                                  summation, flop)
          ENDIF
       CASE default
-         CPABORT("Invalid data type")
+         DBCSR_ABORT("Invalid data type")
       END SELECT
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE dbcsr_put_block_area
@@ -555,10 +555,10 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       IF (SIZE(rows) /= SIZE(columns)) &
-         CPABORT("Size of rows and columns array must match.")
+         DBCSR_ABORT("Size of rows and columns array must match.")
       IF (PRESENT(blk_pointers)) THEN
          IF (SIZE(rows) /= SIZE(blk_pointers)) &
-            CPABORT("Size of rows and block pointecs arrays must match.")
+            DBCSR_ABORT("Size of rows and block pointecs arrays must match.")
          data_size_old = 0
       ELSE
          ! Get current data size
@@ -581,7 +581,7 @@ CONTAINS
       nblks_old = dbcsr_get_num_blocks(matrix)
       nblkrows = dbcsr_nblkrows_total(matrix)
       IF (SIZE(rows) .GT. 0 .AND. nblkrows .LE. 0) &
-         CPABORT("Can not add blocks to matrix with no rows.")
+         DBCSR_ABORT("Can not add blocks to matrix with no rows.")
       ! Adjust the index.
       ! Get the old row indices
       ALLOCATE (old_row_i(nblks_old))

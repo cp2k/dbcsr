@@ -1,12 +1,12 @@
 ! Basic use statements and preprocessor macros
 ! should be included in the use statements
 
-  USE dbcsr_base_hooks, ONLY: cp__a, &
-     cp__b, &
-     cp__w, &
-     cp__l, &
-     cp_abort, &
-     cp_warn, &
+  USE dbcsr_base_hooks, ONLY: dbcsr__a, &
+     dbcsr__b, &
+     dbcsr__w, &
+     dbcsr__l, &
+     dbcsr_abort, &
+     dbcsr_warn, &
      timeset, &
      timestop
 
@@ -15,10 +15,10 @@
 #define __SHORT_FILE__ __FILE__
 #endif
 
-#define __LOCATION__ cp__l(__SHORT_FILE__,__LINE__)
-#define CPWARN(msg) CALL cp__w(__SHORT_FILE__,__LINE__,msg)
-#define CPABORT(msg) CALL cp__b(__SHORT_FILE__,__LINE__,msg)
-#define CPASSERT(cond) IF(.NOT.(cond))CALL cp__a(__SHORT_FILE__,__LINE__)
+#define __LOCATION__ dbcsr__l(__SHORT_FILE__,__LINE__)
+#define DBCSR_WARN(msg) CALL dbcsr__w(__SHORT_FILE__,__LINE__,msg)
+#define DBCSR_ABORT(msg) CALL dbcsr__b(__SHORT_FILE__,__LINE__,msg)
+#define DBCSR_ASSERT(cond) IF(.NOT.(cond))CALL dbcsr__a(__SHORT_FILE__,__LINE__)
 
 ! The MARK_USED macro can be used to mark an argument/variable as used.
 ! It is intended to make it possible to switch on -Werror=unused-dummy-argument,

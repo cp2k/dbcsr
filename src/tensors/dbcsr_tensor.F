@@ -155,7 +155,7 @@ CONTAINS
          routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
-      CPASSERT(tensor_out%valid)
+      DBCSR_ASSERT(tensor_out%valid)
 
       CALL dbcsr_t_reserve_blocks(matrix_in, tensor_out)
 
@@ -216,30 +216,30 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-      CPASSERT(tensor_1%valid)
-      CPASSERT(tensor_2%valid)
-      CPASSERT(tensor_3%valid)
+      DBCSR_ASSERT(tensor_1%valid)
+      DBCSR_ASSERT(tensor_2%valid)
+      DBCSR_ASSERT(tensor_3%valid)
 
       assert_stmt = SIZE(contract_1) .EQ. SIZE(contract_2)
-      CPASSERT(assert_stmt)
+      DBCSR_ASSERT(assert_stmt)
 
       assert_stmt = SIZE(map_1) .EQ. SIZE(notcontract_1)
-      CPASSERT(assert_stmt)
+      DBCSR_ASSERT(assert_stmt)
 
       assert_stmt = SIZE(map_2) .EQ. SIZE(notcontract_2)
-      CPASSERT(assert_stmt)
+      DBCSR_ASSERT(assert_stmt)
 
       assert_stmt = SIZE(notcontract_1) + SIZE(contract_1) .EQ. dbcsr_t_ndims(tensor_1)
-      CPASSERT(assert_stmt)
+      DBCSR_ASSERT(assert_stmt)
 
       assert_stmt = SIZE(notcontract_2) + SIZE(contract_2) .EQ. dbcsr_t_ndims(tensor_2)
-      CPASSERT(assert_stmt)
+      DBCSR_ASSERT(assert_stmt)
 
       assert_stmt = SIZE(map_1) + SIZE(map_2) .EQ. dbcsr_t_ndims(tensor_3)
-      CPASSERT(assert_stmt)
+      DBCSR_ASSERT(assert_stmt)
 
       assert_stmt = dbcsr_t_get_data_type(tensor_1) .EQ. dbcsr_t_get_data_type(tensor_2)
-      CPASSERT(assert_stmt)
+      DBCSR_ASSERT(assert_stmt)
 
       ndims_2d_3(1) = SIZE(notcontract_1)
       ndims_2d_3(2) = SIZE(notcontract_2)
@@ -380,7 +380,7 @@ CONTAINS
             CALL dbcsr_t_copy(tensor_in, tensor_out)
          ENDIF
 
-         CPASSERT(compat > 0)
+         DBCSR_ASSERT(compat > 0)
 
          SELECT CASE(contract_index)
          CASE(1)
@@ -390,7 +390,7 @@ CONTAINS
             compat_1_trans = dbcsr_transpose
             compat_2_trans = dbcsr_no_transpose
          CASE DEFAULT
-            CPABORT('')
+            DBCSR_ABORT('')
          END SELECT
 
          SELECT CASE(compat)
@@ -399,7 +399,7 @@ CONTAINS
          CASE(2)
             trans = compat_2_trans
          CASE DEFAULT
-            CPABORT('')
+            DBCSR_ABORT('')
          END SELECT
 
       END SUBROUTINE

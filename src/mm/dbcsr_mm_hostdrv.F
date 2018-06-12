@@ -163,11 +163,11 @@ CONTAINS
       IF (careful) THEN
          DO sp = 1, stack_size
             IF (params(p_a_first, sp)+params(p_m, sp)*params(p_k, sp)-1 > dbcsr_data_get_size(left%data_area)) &
-               CPABORT("A data out of bounds.")
+               DBCSR_ABORT("A data out of bounds.")
             IF (params(p_b_first, sp)+params(p_k, sp)*params(p_n, sp)-1 > dbcsr_data_get_size(right%data_area)) &
-               CPABORT("B data out of bounds.")
+               DBCSR_ABORT("B data out of bounds.")
             IF (params(p_c_first, sp)+params(p_m, sp)*params(p_n, sp)-1 > dbcsr_data_get_size(this%data_area)) &
-               CPABORT("C data out of bounds.")
+               DBCSR_ABORT("C data out of bounds.")
          ENDDO
       ENDIF
 
@@ -191,7 +191,7 @@ CONTAINS
                                              stack_size, &
                                              left%data_area%d%c_dp, right%data_area%d%c_dp, this%data_area%d%c_dp)
          CASE default
-            CPABORT("Invalid data type")
+            DBCSR_ABORT("Invalid data type")
          END SELECT
       CASE (mm_driver_smm)
          SELECT CASE (this%data_area%d%data_type)
@@ -212,7 +212,7 @@ CONTAINS
                                         stack_size, &
                                         left%data_area%d%c_dp, right%data_area%d%c_dp, this%data_area%d%c_dp, used_smm)
          CASE default
-            CPABORT("Invalid data type")
+            DBCSR_ABORT("Invalid data type")
          END SELECT
 
       CASE (mm_driver_xsmm)
@@ -230,7 +230,7 @@ CONTAINS
             CALL xsmm_process_mm_stack_z(stack_descr, params, stack_size, &
                                          left%data_area%d%c_dp, right%data_area%d%c_dp, this%data_area%d%c_dp, used_smm)
          CASE default
-            CPABORT("Invalid data type")
+            DBCSR_ABORT("Invalid data type")
          END SELECT
 
       CASE (mm_driver_blas)
@@ -252,10 +252,10 @@ CONTAINS
                                          stack_size, &
                                          left%data_area%d%c_dp, right%data_area%d%c_dp, this%data_area%d%c_dp)
          CASE default
-            CPABORT("Invalid data type")
+            DBCSR_ABORT("Invalid data type")
          END SELECT
       CASE default
-         CPABORT("Invalid multiplication driver")
+         DBCSR_ABORT("Invalid multiplication driver")
       END SELECT
 
       IF (has_acc) & !for cpu-only runs this is called too often

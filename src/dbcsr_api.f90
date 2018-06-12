@@ -29,7 +29,7 @@
     IF (scalar_data_type .EQ. dbcsr_type_complex_4 .OR.&
         scalar_data_type .EQ. dbcsr_type_complex_8) THEN
        IF(data_type .NE. dbcsr_type_complex_4 .AND. data_type .NE. dbcsr_type_complex_8)&
-          CPABORT("Can not conform a complex to a real number")
+          DBCSR_ABORT("Can not conform a complex to a real number")
     END IF
     CALL dbcsr_scalar_set_type (encapsulated,data_type)
   END FUNCTION make_conformant_scalar_${nametype1}$
@@ -86,7 +86,7 @@
     CALL dbcsr_iterator_next_block_prv (iterator%prv, row, column, block, transposed,&
        block_number, row_size, col_size, row_offset, col_offset)
     IF(transposed)&
-       CPABORT("CP2K does not handle transposed blocks.")
+       DBCSR_ABORT("CP2K does not handle transposed blocks.")
 
   END SUBROUTINE dbcsr_iterator_next_2d_block_${nametype1}$
 
@@ -117,7 +117,7 @@
     CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block,&
        transposed, block_number, row_size, col_size, row_offset, col_offset)
     IF(transposed)&
-       CPABORT("CP2K does not handle transposed blocks.")
+       DBCSR_ABORT("CP2K does not handle transposed blocks.")
 
   END SUBROUTINE dbcsr_iterator_next_1d_block_${nametype1}$
 
@@ -185,7 +185,7 @@
 
     CALL dbcsr_get_block_p_prv(matrix%prv,row,col,block,tr,found, row_size, col_size)
     IF(tr)&
-       CPABORT("CP2K does not handle transposed blocks.")
+       DBCSR_ABORT("CP2K does not handle transposed blocks.")
   END SUBROUTINE dbcsr_get_2d_block_p_${nametype1}$
 
 
@@ -210,7 +210,7 @@
 
     CALL dbcsr_get_block_p_prv(matrix%prv,row,col,block,tr,found, row_size, col_size)
     IF(tr)&
-       CPABORT("CP2K does not handle transposed blocks.")
+       DBCSR_ABORT("CP2K does not handle transposed blocks.")
 
   END SUBROUTINE dbcsr_get_block_p_${nametype1}$
 

@@ -117,7 +117,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'pointer_view_a', routineP = moduleN//':'//routineN
 
       IF (area%d%data_type /= new_area%d%data_type) &
-         CPABORT("Incompatible data types.")
+         DBCSR_ABORT("Incompatible data types.")
       IF (PRESENT(len)) THEN
          SELECT CASE (area%d%data_type)
          CASE (dbcsr_type_real_4)
@@ -129,7 +129,7 @@ CONTAINS
          CASE (dbcsr_type_complex_8)
             new_area%d%c_dp => area%d%c_dp(offset:offset+len-1)
          CASE default
-            CPABORT("Invalid data type.")
+            DBCSR_ABORT("Invalid data type.")
          END SELECT
       ELSE
          SELECT CASE (area%d%data_type)
@@ -142,7 +142,7 @@ CONTAINS
          CASE (dbcsr_type_complex_8)
             new_area%d%c_dp => area%d%c_dp(offset:)
          CASE default
-            CPABORT("Invalid data type.")
+            DBCSR_ABORT("Invalid data type.")
          END SELECT
       ENDIF
       narea2 = new_area

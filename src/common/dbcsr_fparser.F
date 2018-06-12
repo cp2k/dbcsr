@@ -18,7 +18,7 @@ MODULE dbcsr_fparser
    !
    !------- -------- --------- --------- --------- --------- --------- --------- -------
 
-   USE erf_fn,                          ONLY: erf,&
+   USE dbcsr_erf_fn,                    ONLY: erf,&
                                               erfc
    USE dbcsr_kinds,                     ONLY: default_string_length,&
                                               rn => dp
@@ -168,10 +168,10 @@ CONTAINS
 !----- -------- --------- --------- --------- --------- --------- --------- -------
 
       IF (i < 1 .OR. i > SIZE(Comp)) THEN
-         CPABORT("Function number is out of range")
+         DBCSR_ABORT("Function number is out of range")
       END IF
       IF (SIZE(var) > HUGE(0_is)) THEN
-         CPABORT("Too many variables")
+         DBCSR_ABORT("Too many variables")
       END IF
       ALLOCATE (ipos(LEN_TRIM(FuncStr))) ! Char. positions in orig. string
       Func = FuncStr ! Local copy of function string
@@ -229,7 +229,7 @@ CONTAINS
                IF (MOD(Comp(i)%Stack(SP), REAL(ipow, KIND=rn)) == 0.0_rn) THEN
                   Comp(i)%Stack(SP-1) = Comp(i)%Stack(SP-1)**ipow
                ELSE
-                  CPABORT("Negative floating-point value raised to a real power!")
+                  DBCSR_ABORT("Negative floating-point value raised to a real power!")
                END IF
             ELSE
                Comp(i)%Stack(SP-1) = Comp(i)%Stack(SP-1)**Comp(i)%Stack(SP)
@@ -411,7 +411,7 @@ CONTAINS
       ELSE
          WRITE (*, '(A)') REPEAT(" ", SIZE(ipos)+1)//"?"
       END IF
-      CPABORT(TRIM(message))
+      DBCSR_ABORT(TRIM(message))
 
    END SUBROUTINE ParseErrMsg
    !
@@ -1036,7 +1036,7 @@ CONTAINS
             IF (ABS(a(i, i)-a(i-1, i-1)) .GE. safe*err) RETURN
          END DO
       ELSE
-         CPABORT("DX provided equals zero!")
+         DBCSR_ABORT("DX provided equals zero!")
       END IF
       vals(ipar) = xval
    END FUNCTION evalfd

@@ -8,10 +8,10 @@
 !> \author Ole Schuett
 ! **************************************************************************************************
 MODULE dbcsr_error_handling
-   USE dbcsr_base_hooks,                ONLY: cp_abort_hook,&
-                                              cp_warn_hook
+   USE dbcsr_base_hooks,                ONLY: dbcsr_abort_hook,&
+                                              dbcsr_warn_hook
    USE dbcsr_kinds,                     ONLY: dp
-   USE dbcsr_log_handling,              ONLY: cp_logger_get_default_io_unit
+   USE dbcsr_log_handling,              ONLY: dbcsr_logger_get_default_io_unit
    USE dbcsr_machine,                   ONLY: default_output_unit,&
                                               m_flush,&
                                               m_walltime
@@ -27,10 +27,10 @@ MODULE dbcsr_error_handling
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_error_handling'
 
    !API public routines
-   PUBLIC :: cp_error_handling_setup
+   PUBLIC :: dbcsr_error_handling_setup
 
    !API (via pointer assignment to hook, PR67982, not meant to be called directly)
-   PUBLIC :: cp_abort_handler, cp_warn_handler
+   PUBLIC :: dbcsr_abort_handler, dbcsr_warn_handler
 
    INTEGER, PUBLIC, SAVE :: warning_counter = 0
 
@@ -40,10 +40,10 @@ CONTAINS
 !> \brief Registers handlers with base_hooks.F
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE cp_error_handling_setup()
-      cp_abort_hook => cp_abort_handler
-      cp_warn_hook => cp_warn_handler
-   END SUBROUTINE cp_error_handling_setup
+   SUBROUTINE dbcsr_error_handling_setup()
+      dbcsr_abort_hook => dbcsr_abort_handler
+      dbcsr_warn_hook => dbcsr_warn_handler
+   END SUBROUTINE dbcsr_error_handling_setup
 
 ! **************************************************************************************************
 !> \brief Abort program with error message
@@ -51,14 +51,14 @@ CONTAINS
 !> \param message ...
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE cp_abort_handler(location, message)
+   SUBROUTINE dbcsr_abort_handler(location, message)
       CHARACTER(len=*), INTENT(in)                       :: location, message
 
       INTEGER                                            :: unit_nr
 
       CALL delay_non_master() ! cleaner output if all ranks abort simultaneously
 
-      unit_nr = cp_logger_get_default_io_unit()
+      unit_nr = dbcsr_logger_get_default_io_unit()
       IF (unit_nr <= 0) &
          unit_nr = default_output_unit ! fall back to stdout
 
@@ -67,7 +67,7 @@ CONTAINS
       CALL m_flush(unit_nr)
 
       CALL mp_abort()
-   END SUBROUTINE cp_abort_handler
+   END SUBROUTINE dbcsr_abort_handler
 
 ! **************************************************************************************************
 !> \brief Signal a warning
@@ -75,7 +75,7 @@ CONTAINS
 !> \param message ...
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE cp_warn_handler(location, message)
+   SUBROUTINE dbcsr_warn_handler(location, message)
       CHARACTER(len=*), INTENT(in)                       :: location, message
 
       INTEGER                                            :: unit_nr
@@ -84,15 +84,15 @@ CONTAINS
       warning_counter = warning_counter+1
 !$OMP END MASTER
 
-      unit_nr = cp_logger_get_default_io_unit()
+      unit_nr = dbcsr_logger_get_default_io_unit()
       IF (unit_nr > 0) THEN
          CALL print_message("WARNING in "//TRIM(location)//' :: '//TRIM(ADJUSTL(message)), unit_nr, 1, 1, 1)
          CALL m_flush(unit_nr)
       ENDIF
-   END SUBROUTINE cp_warn_handler
+   END SUBROUTINE dbcsr_warn_handler
 
 ! **************************************************************************************************
-!> \brief Delay non-master ranks/threads, used by cp_abort_handler()
+!> \brief Delay non-master ranks/threads, used by dbcsr_abort_handler()
 !> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE delay_non_master()
@@ -102,7 +102,7 @@ CONTAINS
       wait_time = 0.0_dp
 
       ! we (ab)use the logger to determine the first MPI rank
-      unit_nr = cp_logger_get_default_io_unit()
+      unit_nr = dbcsr_logger_get_default_io_unit()
       IF (unit_nr <= 0) &
          wait_time = wait_time+1.0_dp ! rank-0 gets a head start of one second.
 

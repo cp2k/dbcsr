@@ -289,7 +289,7 @@ CONTAINS
       ENDIF
 
       IF (norm /= 0.0_dp) &
-         CPABORT("bug in binary io")
+         DBCSR_ABORT("bug in binary io")
 
       CALL dbcsr_release(matrix_a_read)
 
@@ -349,7 +349,7 @@ CONTAINS
 
       CALL timeset(routineN, error_handle)
       IF (SIZE(group_sizes, 2) /= 2) &
-         CPABORT("second dimension of group_sizes must be 2")
+         DBCSR_ABORT("second dimension of group_sizes must be 2")
       p_sizes: DO test = 1, SIZE(group_sizes, 1)
          t2 = 0.0_real_8
          flop_sum = 0
@@ -363,7 +363,7 @@ CONTAINS
             CALL dbcsr_mp_make_env(mp_env, cart_group, group, pgrid_dims=npdims)
          ENDIF
          IF (numnodes < 0) &
-            CPABORT("Cartesian sides must be greater or equal to 0")
+            DBCSR_ABORT("Cartesian sides must be greater or equal to 0")
          i_am_alive = dbcsr_mp_active(mp_env)
          alive: IF (i_am_alive) THEN
             npdims(1) = dbcsr_mp_nprows(mp_env)
@@ -526,7 +526,7 @@ CONTAINS
       CALL mp_environ(numnodes, mynode, mp_group)
       IF (PRESENT(nprocs)) THEN
          IF (nprocs > numnodes) &
-            CPABORT("Can not grow processes.")
+            DBCSR_ABORT("Can not grow processes.")
          numnodes = nprocs
       ENDIF
       !

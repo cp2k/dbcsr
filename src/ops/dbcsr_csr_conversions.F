@@ -212,16 +212,16 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (nrows_total .LT. nrows_local) &
-         CPABORT("local number of rows must not exceed total number of rows")
+         DBCSR_ABORT("local number of rows must not exceed total number of rows")
 
-      IF (nze_total .LT. nze_local) CALL cp_abort(__LOCATION__, "local number of non-zero "// &
-                                                  "elements must not exceed total number of non-zero elements")
+      IF (nze_total .LT. nze_local) CALL dbcsr_abort(__LOCATION__, "local number of non-zero "// &
+                                                     "elements must not exceed total number of non-zero elements")
 
       IF (INT(nrows_total, kind=int_8)*INT(ncols_total, kind=int_8) .LT. nze_total) &
-         CPABORT("Total number of non-zero elements must not exceed total matrix size")
+         DBCSR_ABORT("Total number of non-zero elements must not exceed total matrix size")
 
       IF (INT(nrows_local, kind=int_8)*INT(ncols_total, kind=int_8) .LT. nze_local) &
-         CPABORT("Local number of non-zero elements must not exceed local matrix size")
+         DBCSR_ABORT("Local number of non-zero elements must not exceed local matrix size")
 
       csr_mat%ncols_total = ncols_total
       csr_mat%nrows_total = nrows_total
@@ -248,7 +248,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          ALLOCATE (csr_mat%nzval_local%c_dp(nze_local))
       CASE DEFAULT
-         CPABORT("Invalid matrix type")
+         DBCSR_ABORT("Invalid matrix type")
       END SELECT
 
       csr_mat%mp_group = mp_group
@@ -283,7 +283,7 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (.NOT. matrix_a%valid) &
-         CPABORT("Source CSR matrix must be created.")
+         DBCSR_ABORT("Source CSR matrix must be created.")
 
       CALL csr_create_new(matrix_b, matrix_a%nrows_total, matrix_a%ncols_total, &
                           matrix_a%nze_total, matrix_a%nze_local, matrix_a%nrows_local, &
@@ -348,22 +348,22 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (.NOT. matrix_a%valid) &
-         CPABORT("Source CSR matrix must be created.")
+         DBCSR_ABORT("Source CSR matrix must be created.")
       IF (.NOT. matrix_a%has_indices) &
-         CPABORT("Source CSR matrix must have indices.")
+         DBCSR_ABORT("Source CSR matrix must have indices.")
 
       IF (.NOT. matrix_b%valid) THEN
          CALL csr_create(matrix_b, matrix_a)
       ENDIF
 
       IF (matrix_b%nzval_local%data_type /= matrix_a%nzval_local%data_type) &
-         CPABORT("Matrices don't have the same datatype.")
+         DBCSR_ABORT("Matrices don't have the same datatype.")
 
       IF (matrix_b%nze_local /= matrix_a%nze_local) &
-         CPABORT("Matrices don't have the same number of local non-zero elements.")
+         DBCSR_ABORT("Matrices don't have the same number of local non-zero elements.")
 
       IF (matrix_b%nrows_local /= matrix_a%nrows_local) &
-         CPABORT("Matrices don't have the same number of local rows.")
+         DBCSR_ABORT("Matrices don't have the same number of local rows.")
 
       IF (.NOT. matrix_b%has_indices) THEN
          matrix_b%rowptr_local = matrix_a%rowptr_local
@@ -407,7 +407,7 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (.NOT. csr_mat%valid) &
-         CPABORT("CSR matrix must be created.")
+         DBCSR_ABORT("CSR matrix must be created.")
 
       DO k = 1, csr_mat%nrows_local
          nzerow(k) = csr_mat%rowptr_local(k+1)-csr_mat%rowptr_local(k)
@@ -434,7 +434,7 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (.NOT. csr_mat%valid) &
-         CPABORT("CSR matrix must be created before destroying it.")
+         DBCSR_ABORT("CSR matrix must be created before destroying it.")
 
       IF (ASSOCIATED(csr_mat%rowptr_local)) DEALLOCATE (csr_mat%rowptr_local)
       IF (ASSOCIATED(csr_mat%nzerow_local)) DEALLOCATE (csr_mat%nzerow_local)
@@ -510,7 +510,7 @@ CONTAINS
       cdist => dbcsr_distribution_col_dist(dist_current)
 
       IF (ANY(cdist .NE. 0)) &
-         CPABORT("DBCSR matrix not block-row distributed.")
+         DBCSR_ABORT("DBCSR matrix not block-row distributed.")
 
       ! Calculate mapping between BRD and CSR indices
       CALL csr_get_dbcsr_mapping(brd_mat, dbcsr_index, csr_index, nze_local, &
@@ -589,13 +589,13 @@ CONTAINS
                                         col_size=col_blk_size)
 
          IF (blk /= prev_blk+1) &
-            CPABORT("iterator is required to traverse the blocks in a row-wise fashion")
+            DBCSR_ABORT("iterator is required to traverse the blocks in a row-wise fashion")
 
          prev_blk = blk
 
          nfullcol_blkrow(blkrow) = nfullcol_blkrow(blkrow)+col_blk_size
          IF (tr) &
-            CPABORT("DBCSR block data must not be transposed")
+            DBCSR_ABORT("DBCSR block data must not be transposed")
       ENDDO
       CALL dbcsr_iterator_stop(iter)
 
@@ -645,7 +645,7 @@ CONTAINS
       CASE (dbcsr_type_real_8)
          csr_nze(:) = INT(csr_sparsity_brd%data_area%d%r_dp(1:nze))
       CASE DEFAULT
-         CPABORT("CSR sparsity matrix must have a real datatype")
+         DBCSR_ABORT("CSR sparsity matrix must have a real datatype")
       END SELECT
 
       IF (ANY(csr_nze .EQ. 0)) THEN
@@ -762,7 +762,7 @@ CONTAINS
       new_ind = .NOT. (csr_mat%has_indices)
 
       IF (.NOT. csr_mat%has_mapping) &
-         CPABORT("DBCSR mapping of CSR matrix must be defined")
+         DBCSR_ABORT("DBCSR mapping of CSR matrix must be defined")
 
       ! Calculate mapping between CSR matrix and DBCSR matrix if not yet defined
       !IF (.NOT. csr_mat%has_mapping ) THEN
@@ -809,7 +809,7 @@ CONTAINS
                                         col_offset=col_blk_offset)
 
          IF (tr) &
-            CPABORT("DBCSR block data must not be transposed")
+            DBCSR_ABORT("DBCSR block data must not be transposed")
 
          IF (blkrow > prev_blkrow) THEN ! new block row
             local_row_ind = row_blk_offset-node_row_offset ! actually: local row index - 1
@@ -916,7 +916,7 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (.NOT. dbcsr_valid_index(dbcsr_mat)) &
-         CPABORT("Invalid DBCSR matrix")
+         DBCSR_ABORT("Invalid DBCSR matrix")
 
       SELECT CASE (dist_format)
       CASE (csr_dbcsr_blkrow_dist)
@@ -954,13 +954,13 @@ CONTAINS
       ENDIF
 
       IF (.NOT. dbcsr_has_same_block_structure(dbcsr_mat_nosym, csr_sparsity_nosym)) &
-         CPABORT("csr_sparsity and dbcsr_mat have different sparsity pattern")
+         DBCSR_ABORT("csr_sparsity and dbcsr_mat have different sparsity pattern")
 
       dbcsr_numnodes = dbcsr_mp_numnodes(dbcsr_distribution_mp(dbcsr_distribution(dbcsr_mat)))
       IF (PRESENT(numnodes)) THEN
          IF (numnodes .GT. dbcsr_numnodes) &
-            CALL cp_abort(__LOCATION__, "Number of nodes used for CSR matrix "// &
-                          "must not exceed total number of nodes")
+            CALL dbcsr_abort(__LOCATION__, "Number of nodes used for CSR matrix "// &
+                             "must not exceed total number of nodes")
 
          num_p = numnodes
       ELSE
@@ -1055,29 +1055,29 @@ CONTAINS
       map = csr_mat%dbcsr_mapping
       IF (map%has_dbcsr_block_data) THEN
          IF (map%dbcsr_nblkcols_total .NE. dbcsr_nblkcols_total(dbcsr_mat)) &
-            CALL cp_abort(__LOCATION__, &
-                          "field nblkcols_total of DBCSR matrix not consistent with CSR matrix")
+            CALL dbcsr_abort(__LOCATION__, &
+                             "field nblkcols_total of DBCSR matrix not consistent with CSR matrix")
          IF (map%dbcsr_nblkrows_total .NE. dbcsr_nblkrows_total(dbcsr_mat)) &
-            CALL cp_abort(__LOCATION__, &
-                          "field nblkrows_total of DBCSR matrix not consistent with CSR matrix")
+            CALL dbcsr_abort(__LOCATION__, &
+                             "field nblkrows_total of DBCSR matrix not consistent with CSR matrix")
          IF (map%dbcsr_nblks_local .NE. dbcsr_mat%nblks) &
-            CALL cp_abort(__LOCATION__, &
-                          "field nblks of DBCSR matrix not consistent with CSR matrix")
+            CALL dbcsr_abort(__LOCATION__, &
+                             "field nblks of DBCSR matrix not consistent with CSR matrix")
          IF (ANY(map%dbcsr_row_p .NE. dbcsr_mat%row_p)) &
-            CALL cp_abort(__LOCATION__, &
-                          "field row_p of DBCSR matrix not consistent with CSR matrix")
+            CALL dbcsr_abort(__LOCATION__, &
+                             "field row_p of DBCSR matrix not consistent with CSR matrix")
          IF (ANY(map%dbcsr_col_i .NE. dbcsr_mat%col_i)) &
-            CALL cp_abort(__LOCATION__, &
-                          "field dbcsr_col_i of DBCSR matrix not consistent with CSR matrix")
+            CALL dbcsr_abort(__LOCATION__, &
+                             "field dbcsr_col_i of DBCSR matrix not consistent with CSR matrix")
          IF (ANY(map%dbcsr_row_blk_size .NE. dbcsr_row_block_sizes(dbcsr_mat))) &
-            CALL cp_abort(__LOCATION__, &
-                          "field row_blk_size of DBCSR matrix not consistent with CSR matrix")
+            CALL dbcsr_abort(__LOCATION__, &
+                             "field row_blk_size of DBCSR matrix not consistent with CSR matrix")
          IF (ANY(map%dbcsr_col_blk_size .NE. dbcsr_col_block_sizes(dbcsr_mat))) &
-            CALL cp_abort(__LOCATION__, &
-                          "field col_blk_size of DBCSR matrix not consistent with CSR matrix")
+            CALL dbcsr_abort(__LOCATION__, &
+                             "field col_blk_size of DBCSR matrix not consistent with CSR matrix")
       ELSE
-         CALL cp_warn(__LOCATION__, "Can not assert consistency of the matrices "// &
-                      "as no block data stored in CSR matrix.")
+         CALL dbcsr_warn(__LOCATION__, "Can not assert consistency of the matrices "// &
+                         "as no block data stored in CSR matrix.")
       ENDIF
       CALL timestop(handle)
    END SUBROUTINE csr_assert_consistency_with_dbcsr
@@ -1103,12 +1103,12 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (.NOT. dbcsr_valid_index(dbcsr_mat)) &
-         CPABORT("Invalid DBCSR matrix")
+         DBCSR_ABORT("Invalid DBCSR matrix")
       IF (dbcsr_get_data_type(dbcsr_mat) /= csr_mat%nzval_local%data_type) &
-         CPABORT("DBCSR and CSR matrix must have same type")
+         DBCSR_ABORT("DBCSR and CSR matrix must have same type")
 
       IF (.NOT. csr_mat%has_mapping) &
-         CPABORT("CSR_mat must contain mapping to DBCSR format")
+         DBCSR_ABORT("CSR_mat must contain mapping to DBCSR format")
 
       IF (dbcsr_has_symmetry(dbcsr_mat)) THEN
          CALL dbcsr_desymmetrize_deep(dbcsr_mat, dbcsr_mat_nosym, untransposed_data=.TRUE.)
@@ -1150,13 +1150,13 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (.NOT. dbcsr_valid_index(dbcsr_mat)) &
-         CPABORT("Invalid DBCSR matrix")
+         DBCSR_ABORT("Invalid DBCSR matrix")
 
       IF (dbcsr_get_data_type(dbcsr_mat) /= csr_mat%nzval_local%data_type) &
-         CPABORT("DBCSR and CSR matrix must have same type")
+         DBCSR_ABORT("DBCSR and CSR matrix must have same type")
 
       IF (.NOT. csr_mat%has_mapping) &
-         CPABORT("CSR_mat must contain mapping to DBCSR format")
+         DBCSR_ABORT("CSR_mat must contain mapping to DBCSR format")
 
       ! Desymmetrize to assert that DBCSR matrix has sparsity pattern consistent with CSR matrix
       IF (dbcsr_has_symmetry(dbcsr_mat)) THEN
@@ -1294,7 +1294,7 @@ CONTAINS
       ENDIF
 
       IF (.NOT. csr_mat%valid) &
-         CPABORT("can not write invalid CSR matrix")
+         DBCSR_ABORT("can not write invalid CSR matrix")
 
       tag1 = 0
       tag2 = 1
@@ -1469,7 +1469,7 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (.NOT. csr_mat%valid) &
-         CPABORT("CSR matrix must be created first")
+         DBCSR_ABORT("CSR matrix must be created first")
 
       nze_percentage = 100.0_dp*(REAL(csr_mat%nze_total, KIND=real_8) &
                                  /REAL(csr_mat%nrows_total, KIND=real_8)) &

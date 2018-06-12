@@ -99,9 +99,9 @@ CONTAINS
 
 !      CALL timeset(routineN, error_handle)
       IF (.NOT. ASSOCIATED(source_area%d)) &
-         CPABORT("Attempt to copy unassigned data")
+         DBCSR_ABORT("Attempt to copy unassigned data")
       IF (source_area%d%refcount .LE. 0) &
-         CPWARN("Attempt to copy unheld data")
+         DBCSR_WARN("Attempt to copy unheld data")
       shallow_copy = .FALSE.
       IF (PRESENT(shallow)) shallow_copy = shallow
       IF (shallow_copy) THEN
@@ -109,7 +109,7 @@ CONTAINS
          CALL dbcsr_data_hold(target_area)
       ELSE
          IF (.NOT. ASSOCIATED(target_area%d)) &
-            CPABORT("Target area does not exist.")
+            DBCSR_ABORT("Target area does not exist.")
          CALL dbcsr_data_set_size_referenced(target_area, &
                                              dbcsr_data_get_size_referenced(source_area))
          n = dbcsr_data_get_size_referenced(source_area)
@@ -135,7 +135,7 @@ CONTAINS
                target_area%d%c_dp(i) = source_area%d%c_dp(i)
             ENDDO
          CASE default
-            CPABORT("Invalid data type")
+            DBCSR_ABORT("Invalid data type")
          END SELECT
       ENDIF
 !      CALL timestop(error_handle)
@@ -170,9 +170,9 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       IF (.NOT. ASSOCIATED(source_area%d)) &
-         CPWARN("Attempt to copy unassigned data")
+         DBCSR_WARN("Attempt to copy unassigned data")
       IF (source_area%d%refcount .LE. 0) &
-         CPWARN("Attempt to copy unheld data")
+         DBCSR_WARN("Attempt to copy unheld data")
       IF (.NOT. ASSOCIATED(source_area%d)) THEN
          RETURN
       ENDIF
@@ -209,7 +209,7 @@ CONTAINS
                   t_data_c(1:n) = CMPLX(0.0, s_data_d(1:n), KIND=real_4)
                ENDIF
             CASE default
-               CPABORT("Invalid data type")
+               DBCSR_ABORT("Invalid data type")
             END SELECT
          CASE (dbcsr_type_real_4)
             CALL dbcsr_get_data(source_area, s_data_r)
@@ -235,7 +235,7 @@ CONTAINS
                   t_data_c(1:n) = CMPLX(0.0, s_data_r(1:n), KIND=real_4)
                ENDIF
             CASE default
-               CPABORT("Invalid data type")
+               DBCSR_ABORT("Invalid data type")
             END SELECT
          CASE (dbcsr_type_complex_8)
             CALL dbcsr_get_data(source_area, s_data_z)
@@ -261,7 +261,7 @@ CONTAINS
                CALL dbcsr_get_data(target_area, t_data_c)
                t_data_c(1:n) = CMPLX(s_data_z(1:n), KIND=real_4)
             CASE default
-               CPABORT("Invalid data type")
+               DBCSR_ABORT("Invalid data type")
             END SELECT
          CASE (dbcsr_type_complex_4)
             CALL dbcsr_get_data(source_area, s_data_c)
@@ -287,10 +287,10 @@ CONTAINS
                CALL dbcsr_get_data(target_area, t_data_c)
                t_data_c(1:n) = s_data_c(1:n)
             CASE default
-               CPABORT("Invalid data type")
+               DBCSR_ABORT("Invalid data type")
             END SELECT
          CASE default
-            CPABORT("Invalid data type")
+            DBCSR_ABORT("Invalid data type")
          END SELECT
       ENDIF
    END SUBROUTINE dbcsr_data_convert
@@ -339,7 +339,7 @@ CONTAINS
       nblks = SIZE(old_blk_p)
       nrows = SIZE(row_p)-1
       IF (SIZE(blk_p) < nblks) &
-         CPABORT('Destination blk_p too small.')
+         DBCSR_ABORT('Destination blk_p too small.')
       IF (nblks .GE. 1) &
          blk_p(1) = SGN(1, old_blk_p(1), mark)
       nze_prev = 0
@@ -354,7 +354,7 @@ CONTAINS
                                    mark)
                ENDIF
                IF (ABS(blk_p(blk))+nze-1 > dbcsr_data_get_size(dst)) &
-                  CPABORT('Destination data space is too small.')
+                  DBCSR_ABORT('Destination data space is too small.')
                IF (.NOT. trb) THEN
                   CALL dbcsr_data_copy(dst=dst, dst_lb=(/ABS(blk_p(blk))/), &
                                        dst_sizes=(/nze/), &

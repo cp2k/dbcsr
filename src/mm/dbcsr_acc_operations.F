@@ -111,7 +111,7 @@ CONTAINS
       MARK_USED(def_mnk)
       MARK_USED(stream)
       MARK_USED(success)
-      CPABORT("__DBCSR_ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_acc_do_mm_stack', &
@@ -137,7 +137,7 @@ CONTAINS
                                     INT(k_max, KIND=C_INT), &
                                     mnk, acc_stream_cptr(stream))
 
-      IF (istat == 100) CPABORT("failed due to accGetLastError().")
+      IF (istat == 100) DBCSR_ABORT("failed due to accGetLastError().")
 
       success = (istat == 0) ! false if no suitable kernel was found
 
@@ -175,7 +175,7 @@ CONTAINS
       MARK_USED(m)
       MARK_USED(n)
       MARK_USED(stream)
-      CPABORT("__DBCSR_ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_acc_transpose', &
@@ -194,7 +194,7 @@ CONTAINS
                                       INT(n, KIND=C_INT), &
                                       acc_stream_cptr(stream))
 
-      IF (istat /= 0) CPABORT("something went wrong.")
+      IF (istat /= 0) DBCSR_ABORT("something went wrong.")
       IF (careful_mod) CALL timestop(error_handle)
 #endif
    END SUBROUTINE dbcsr_acc_transpose

@@ -211,7 +211,7 @@ CONTAINS
          routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
-      CPASSERT(tensor%valid)
+      DBCSR_ASSERT(tensor%valid)
 
       CALL dbcsr_iterator_start(iterator%iter, tensor%matrix_rep)
       iterator%nd_index_blk = tensor%nd_index_blk
@@ -364,7 +364,7 @@ CONTAINS
          routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
-      CPASSERT(tensor%valid)
+      DBCSR_ASSERT(tensor%valid)
 
       CALL create_array_list(blks, ndims_tensor(tensor), &
                              ${varlist("blk_ind")}$)
@@ -456,7 +456,7 @@ CONTAINS
       TYPE(dbcsr_t_iterator_type)               :: iterator
       INTEGER, DIMENSION(ndims_tensor(tensor)) :: blk_offset, blk_size, ind_nd
 
-      CPASSERT(tensor%valid)
+      DBCSR_ASSERT(tensor%valid)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       nblocks_reserved = 0
@@ -482,7 +482,7 @@ CONTAINS
       INTEGER, DIMENSION(ndims_tensor(tensor))  :: ind_nd
       TYPE(array_list), INTENT(OUT)             :: blk_ind
 
-      CPASSERT(tensor%valid)
+      DBCSR_ASSERT(tensor%valid)
 
       nblk = nblocks_reserved(tensor)
 
@@ -746,7 +746,7 @@ CONTAINS
       ! convert block index
       ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
       CALL dbcsr_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, found)
-      CPASSERT(found)
+      DBCSR_ASSERT(found)
       ! convert pointer to allocatable
       CALL allocate_any(block_2d, source=block_2d_ptr)
 

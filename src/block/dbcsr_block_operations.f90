@@ -510,11 +510,11 @@
 !   ---------------------------------------------------------------------------
     IF (debug_mod) THEN
        IF(.NOT.ASSOCIATED (dst%d))&
-          CPABORT("Target data area must be setup.")
+          DBCSR_ABORT("Target data area must be setup.")
        IF(SIZE(src) .LT. data_size)&
-          CPABORT("Not enough source data.")
+          DBCSR_ABORT("Not enough source data.")
        IF(dst%d%data_type .NE. ${dkind1}$)&
-          CPABORT("Data type mismatch.")
+          DBCSR_ABORT("Data type mismatch.")
     ENDIF
     ub = lb + data_size - 1
     IF (PRESENT (source_lb)) THEN

@@ -95,7 +95,7 @@ CONTAINS
 
 #:for dim in range(1, maxdim+1)
       IF (ndata .GE. ${dim}$) THEN
-         CPASSERT(PRESENT(data_${dim}$))
+         DBCSR_ASSERT(PRESENT(data_${dim}$))
          size_all = size_all+SIZE(data_${dim}$)
       ENDIF
 #:endfor
@@ -175,7 +175,7 @@ CONTAINS
       INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT) :: array
 
       ASSOCIATE(ptr=>list%ptr, col_data=>list%col_data)
-      CPASSERT(i <= number_of_arrays(list))
+      DBCSR_ASSERT(i <= number_of_arrays(list))
 
       CALL allocate_any(array, source=col_data(ptr(i):ptr(i+1)-1))
       END ASSOCIATE

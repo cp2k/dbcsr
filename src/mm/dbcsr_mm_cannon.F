@@ -289,9 +289,9 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       IF (dbcsr_cfg%use_mpi_rma) &
-         CPABORT("RMA algo not supported here!")
+         DBCSR_ABORT("RMA algo not supported here!")
       IF (.NOT. dbcsr_valid_index(source)) &
-         CPABORT("Matrix not initialized.")
+         DBCSR_ABORT("Matrix not initialized.")
       CALL make_images(source, normalized, &
                        target_image_dist, desymmetrize=dbcsr_has_symmetry(source), &
                        predistribute=predistribute, &
@@ -373,14 +373,14 @@ CONTAINS
          predist_type = 'R'
          predist_type_fwd = 'r'
       CASE default
-         CPABORT("Incorrect pre-shift specifier.")
+         DBCSR_ABORT("Incorrect pre-shift specifier.")
       END SELECT
       data_type = sm%data_type
       IF (data_type .NE. dbcsr_type_real_8 .AND. &
           data_type .NE. dbcsr_type_real_4 .AND. &
           data_type .NE. dbcsr_type_complex_8 .AND. &
           data_type .NE. dbcsr_type_complex_4) &
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       scale_neg_one = dbcsr_scalar_negative(dbcsr_scalar_one(data_type))
       row_blk_size => array_data(sm%row_blk_size)
       col_blk_size => array_data(sm%col_blk_size)
@@ -390,7 +390,7 @@ CONTAINS
       col_dist => dbcsr_distribution_col_dist(target_dist)
       IF (sm%symmetry) THEN
          IF (SIZE(row_dist) .NE. SIZE(col_dist)) &
-            CPWARN('Unequal row and column distributions for symmetric matrix.')
+            DBCSR_WARN('Unequal row and column distributions for symmetric matrix.')
       ENDIF
       nrow_images = target_imgdist%i%row_decimation
       IF (nrow_images .GT. 1) THEN
@@ -409,21 +409,21 @@ CONTAINS
       numproc = dbcsr_mp_numnodes(mp_obj)
       mp_group = dbcsr_mp_group(mp_obj)
       IF (dbcsr_distribution_max_row_dist(old_dist) .GT. UBOUND(blacs2mpi, 1)) &
-         CPABORT('Row distribution references unexistent processor rows')
+         DBCSR_ABORT('Row distribution references unexistent processor rows')
       IF (dbg) THEN
          IF (dbcsr_distribution_max_row_dist(old_dist) .NE. UBOUND(blacs2mpi, 1)) &
-            CPWARN('Range of row distribution not equal to processor rows')
+            DBCSR_WARN('Range of row distribution not equal to processor rows')
       ENDIF
       IF (dbcsr_distribution_max_col_dist(old_dist) .GT. UBOUND(blacs2mpi, 2)) &
-         CPABORT('Col distribution references unexistent processor cols')
+         DBCSR_ABORT('Col distribution references unexistent processor cols')
       IF (dbg) THEN
          IF (dbcsr_distribution_max_col_dist(old_dist) .NE. UBOUND(blacs2mpi, 2)) &
-            CPWARN('Range of col distribution not equal to processor cols')
+            DBCSR_WARN('Range of col distribution not equal to processor cols')
       ENDIF
 
       ! Check threads configuration
 !$    IF (.NOT. dbcsr_distribution_has_threads(old_dist)) &
-!$       CPABORT("Thread distribution not defined")
+!$       DBCSR_ABORT("Thread distribution not defined")
 
       ! Allocate shared temporary buffers
       !
@@ -946,9 +946,9 @@ CONTAINS
       nthreads = 1
 !$    nthreads = OMP_GET_NUM_THREADS()
       IF (.NOT. ASSOCIATED(product_matrix%wms)) &
-         CPABORT("Work matrices do not exist")
+         DBCSR_ABORT("Work matrices do not exist")
       IF (SIZE(product_matrix%wms) .NE. nthreads) &
-         CPABORT("Work matrices not correctly sized.")
+         DBCSR_ABORT("Work matrices not correctly sized.")
       ALLOCATE (multrec(0:nthreads-1))
 !$OMP END MASTER
 !$OMP END PARALLEL
@@ -1006,26 +1006,26 @@ CONTAINS
       ! Dummy checks
       ! left/right matching
       IF (left_col_nimages .NE. right_row_mult) &
-         CPABORT("Left/Right image mismatch")
+         DBCSR_ABORT("Left/Right image mismatch")
       IF (left_col_mult .NE. right_row_nimages) &
-         CPABORT("Left/Right image mismatch")
+         DBCSR_ABORT("Left/Right image mismatch")
       IF (left_col_nimages*left_npcols .NE. right_row_nimages*right_nprows) &
-         CPABORT("Left/Right total mismatch")
+         DBCSR_ABORT("Left/Right total mismatch")
       ! product/left matching
       IF (left_row_mult*dbcsr_mp_nprows(product_mp_obj) .NE. left_row_nimages*left_nprows) &
-         CPABORT("Product/Left total mismatch")
+         DBCSR_ABORT("Product/Left total mismatch")
       ! product/left matching
       IF (right_col_mult*dbcsr_mp_npcols(product_mp_obj) .NE. right_col_nimages*right_npcols) &
-         CPABORT("Product/Right total mismatch")
+         DBCSR_ABORT("Product/Right total mismatch")
       ! Limitations
       IF (left_row_nimages .NE. 1) &
-         CPABORT("Product/Left matrix process grid mismatch")
+         DBCSR_ABORT("Product/Left matrix process grid mismatch")
       IF (left_row_mult .NE. 1) &
-         CPABORT("Product/Left matrix process grid mismatch")
+         DBCSR_ABORT("Product/Left matrix process grid mismatch")
       IF (right_col_nimages .NE. 1) &
-         CPABORT("Product/Right matrix process grid mismatch")
+         DBCSR_ABORT("Product/Right matrix process grid mismatch")
       IF (right_col_mult .NE. 1) &
-         CPABORT("Product/Right matrix process grid mismatch")
+         DBCSR_ABORT("Product/Right matrix process grid mismatch")
 
       dbcsr_mpi_statistics%nimages = MAX(dbcsr_mpi_statistics%nimages, left_row_nimages*left_col_nimages)
       dbcsr_mpi_statistics%nimages = MAX(dbcsr_mpi_statistics%nimages, right_row_nimages*right_col_nimages)
@@ -1066,11 +1066,11 @@ CONTAINS
          ! These arrays must be valid when passed to called subroutines.
          ALLOCATE (left_norms(0), right_norms(0), row_max_epss(0), stat=stat)
          IF (stat .NE. 0) &
-            CPABORT("Could not allocate memory")
+            DBCSR_ABORT("Could not allocate memory")
       ELSE
          IF (careful_mod) THEN
             IF (left_set%mats(1, 1)%bcsc) &
-               CPABORT("Can not do on-the-fly filtering with CSC-indexed matrices.")
+               DBCSR_ABORT("Can not do on-the-fly filtering with CSC-indexed matrices.")
          ENDIF
          IF (dbcsr_has_local_row_index(left_set%mats(1, 1))) THEN
             nblkrows_used = dbcsr_nblkrows_local(left_set%mats(1, 1))
@@ -1080,15 +1080,15 @@ CONTAINS
          nblkrows_total = dbcsr_nblkrows_total(left_set%mats(1, 1))
          ALLOCATE (row_max_epss(nblkrows_total), stat=stat)
          IF (stat .NE. 0) &
-            CPABORT("Could not allocate memory for left epsilons")
+            DBCSR_ABORT("Could not allocate memory for left epsilons")
          ALLOCATE (row_counts(nblkrows_used), stat=stat)
          IF (stat .NE. 0) &
-            CPABORT("Could not allocate memory for left row counts")
+            DBCSR_ABORT("Could not allocate memory for left row counts")
          ! The summation could be done prow-locally but it would
          ! complicate the pre-row eps calculation.
          ALLOCATE (total_row_counts(nblkrows_total), stat=stat)
          IF (stat .NE. 0) &
-            CPABORT("Could not allocate memory for left row counts")
+            DBCSR_ABORT("Could not allocate memory for left row counts")
          ! Each prow member matrix (npcols * row_images) counts the
          ! blocks present in each of its rows.
          total_row_counts(:) = 0
@@ -1100,10 +1100,10 @@ CONTAINS
                   IF (list_indexing) THEN
                      IF ((left_set%mats(left_row_image, left_col_image)%nblks)*3 .NE. &
                          SIZE(left_set%mats(left_row_image, left_col_image)%coo_l)) &
-                        CPABORT("Row count mismatch")
+                        DBCSR_ABORT("Row count mismatch")
                   ELSE
                      IF (nblkrows_used+1 .NE. SIZE(left_set%mats(left_row_image, left_col_image)%row_p)) &
-                        CPABORT("Row count mismatch")
+                        DBCSR_ABORT("Row count mismatch")
                   ENDIF
                ENDIF
                IF (list_indexing) THEN
@@ -1119,7 +1119,7 @@ CONTAINS
                IF (dbcsr_has_local_row_index(left_set%mats(left_row_image, left_col_image))) THEN
                   local_rows => array_data(left_set%mats(left_row_image, left_col_image)%local_rows)
                   IF (SIZE(local_rows) .NE. SIZE(row_counts)) &
-                     CPABORT("Mismatch in number of local rows.")
+                     DBCSR_ABORT("Mismatch in number of local rows.")
                   total_row_counts(local_rows) = total_row_counts(local_rows) &
                                                  +row_counts(1:nblkrows_used)
                ELSE
@@ -1269,7 +1269,7 @@ CONTAINS
       IF (otf_filtering) THEN
          ALLOCATE (left_norms(left_max_nblks), stat=stat)
          IF (stat .NE. 0) &
-            CPABORT("Could not allocate memory for left norms")
+            DBCSR_ABORT("Could not allocate memory for left norms")
          IF (stat .NE. 0) otf_filtering = .FALSE.
       ENDIF
       left_buffer_calc => left_set
@@ -1292,7 +1292,7 @@ CONTAINS
       IF (otf_filtering) THEN
          ALLOCATE (right_norms(right_max_nblks), stat=stat)
          IF (stat .NE. 0) &
-            CPWARN("Could not allocate memory for right norms")
+            DBCSR_WARN("Could not allocate memory for right norms")
          IF (stat .NE. 0) otf_filtering = .FALSE.
       ENDIF
       right_buffer_calc => right_set
@@ -1830,14 +1830,14 @@ CONTAINS
       ENDDO
       IF (source_matrix%local_indexing .AND. careful_mod) THEN
          IF (.NOT. array_exists(source_matrix%local_rows)) &
-            CPABORT("Local rows should exist.")
+            DBCSR_ABORT("Local rows should exist.")
          IF (.NOT. array_exists(source_matrix%global_rows)) &
-            CPABORT("Global rows should exist.")
+            DBCSR_ABORT("Global rows should exist.")
          !
          IF (.NOT. array_exists(source_matrix%local_cols)) &
-            CPABORT("Local cols should exist.")
+            DBCSR_ABORT("Local cols should exist.")
          IF (.NOT. array_exists(source_matrix%global_cols)) &
-            CPABORT("Global cols should exist.")
+            DBCSR_ABORT("Global cols should exist.")
       ENDIF
       CALL timestop(handle)
    END SUBROUTINE setup_buffer_matrices
@@ -1918,7 +1918,7 @@ CONTAINS
             ENDIF
             IF (careful_mod) THEN
                IF (SIZE(matrix_set%mats(i_row, i_col)%coo_l) .NE. matrix_set%mats(i_row, i_col)%nblks*3) &
-                  CPABORT("Block count mismatch.")
+                  DBCSR_ABORT("Block count mismatch.")
             ENDIF
             thread_redist = ASSOCIATED(matrix_set%mats(i_row, i_col)%thr_c)
             t_size = SIZE(matrix_set%mats(i_row, i_col)%coo_l)/3

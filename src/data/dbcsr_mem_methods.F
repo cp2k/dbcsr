@@ -51,7 +51,7 @@ CONTAINS
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_create', &
          routineP = moduleN//':'//routineN
 
-      IF (ASSOCIATED(pool)) CPABORT("pool already allocated")
+      IF (ASSOCIATED(pool)) DBCSR_ABORT("pool already allocated")
       ALLOCATE (pool)
 !$    CALL OMP_INIT_LOCK(pool%lock)
       ALLOCATE (pool%root) !root allways allocated, but unsused. Simplifies looping.
@@ -70,7 +70,7 @@ CONTAINS
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_limit_capacity', &
          routineP = moduleN//':'//routineN
 
-      IF (.NOT. ASSOCIATED(pool)) CPABORT("pool not allocated")
+      IF (.NOT. ASSOCIATED(pool)) DBCSR_ABORT("pool not allocated")
 !$    CALL OMP_SET_LOCK(pool%lock)
       pool%capacity = MAX(pool%capacity, capacity)
 !$    CALL OMP_UNSET_LOCK(pool%lock)
@@ -98,7 +98,7 @@ CONTAINS
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
       pool => memtype%pool
-      IF (.NOT. ASSOCIATED(pool)) CPABORT("pool not allocated")
+      IF (.NOT. ASSOCIATED(pool)) DBCSR_ABORT("pool not allocated")
 
 !$    CALL OMP_SET_LOCK(pool%lock)
       res%d => Null()
@@ -123,7 +123,7 @@ CONTAINS
       ENDDO
 
       IF (ASSOCIATED(best_cur)) THEN
-         IF (best_cur%area%d%refcount /= 0) CPABORT("refcount /= 0")
+         IF (best_cur%area%d%refcount /= 0) DBCSR_ABORT("refcount /= 0")
          best_cur%area%d%refcount = 1
          best_prev%next => best_cur%next
          res = best_cur%area
@@ -150,9 +150,9 @@ CONTAINS
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
       pool => area%d%memory_type%pool
-      IF (.NOT. ASSOCIATED(pool)) CPABORT("pool not allocated")
-      IF (.NOT. dbcsr_data_exists(area)) CPABORT("area not allocated")
-      IF (area%d%refcount /= 0) CPABORT("refcount /= 0")
+      IF (.NOT. ASSOCIATED(pool)) DBCSR_ABORT("pool not allocated")
+      IF (.NOT. dbcsr_data_exists(area)) DBCSR_ABORT("area not allocated")
+      IF (area%d%refcount /= 0) DBCSR_ABORT("refcount /= 0")
 
       CALL mempool_collect_garbage(pool)
 
@@ -178,7 +178,7 @@ CONTAINS
       INTEGER                                            :: n
       TYPE(dbcsr_mempool_entry_type), POINTER            :: cur, prev
 
-      IF (.NOT. ASSOCIATED(pool)) CPABORT("pool not allocated")
+      IF (.NOT. ASSOCIATED(pool)) DBCSR_ABORT("pool not allocated")
 
 !$    CALL OMP_SET_LOCK(pool%lock)
       prev => pool%root
@@ -211,7 +211,7 @@ CONTAINS
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_destruct', &
          routineP = moduleN//':'//routineN
 
-      IF (.NOT. ASSOCIATED(pool)) CPABORT("pool not allocated")
+      IF (.NOT. ASSOCIATED(pool)) DBCSR_ABORT("pool not allocated")
 
       CALL dbcsr_mempool_clear(pool)
 
@@ -235,7 +235,7 @@ CONTAINS
       INTEGER                                            :: handle
       TYPE(dbcsr_mempool_entry_type), POINTER            :: cur, prev
 
-      IF (.NOT. ASSOCIATED(pool)) CPABORT("pool not allocated")
+      IF (.NOT. ASSOCIATED(pool)) DBCSR_ABORT("pool not allocated")
 
       CALL timeset(routineN, handle)
 
@@ -290,7 +290,7 @@ CONTAINS
       IF (PRESENT(oversize_factor)) aim%oversize_factor = oversize_factor
 
       IF (.NOT. aim%acc_devalloc .EQV. acc_stream_associated(aim%acc_stream)) &
-         CPABORT("acc_stream missing")
+         DBCSR_ABORT("acc_stream missing")
 
       is_ok = .TRUE.
       is_ok = is_ok .AND. (memtype%acc_hostalloc .EQV. aim%acc_hostalloc)

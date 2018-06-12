@@ -145,7 +145,7 @@ CONTAINS
       INTEGER                                            :: first, i, n
 
       n = SIZE(values)
-      CPASSERT(heap%n >= n)
+      DBCSR_ASSERT(heap%n >= n)
 
       DO i = 1, n
          heap%index(i) = i
@@ -224,10 +224,10 @@ CONTAINS
 
       INTEGER                                            :: n, new_pos
 
-      CPASSERT(heap%n > 0)
+      DBCSR_ASSERT(heap%n > 0)
 
       n = heap%index(key)
-      CPASSERT(heap%nodes(n)%node%key == key)
+      DBCSR_ASSERT(heap%nodes(n)%node%key == key)
       heap%nodes(n)%node%value = value
       CALL bubble_up(heap, n, new_pos)
       CALL bubble_down(heap, new_pos)
@@ -242,7 +242,7 @@ CONTAINS
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
       INTEGER(KIND=valt), INTENT(IN)                     :: value
 
-      CPASSERT(heap%n > 0)
+      DBCSR_ASSERT(heap%n > 0)
       heap%nodes(1)%node%value = value
       CALL bubble_down(heap, 1)
    END SUBROUTINE dbcsr_heap_reset_first
@@ -307,7 +307,7 @@ CONTAINS
       LOGICAL                                            :: all_done
 
 !
-      CPASSERT(0 < first .AND. first <= heap%n)
+      DBCSR_ASSERT(0 < first .AND. first <= heap%n)
 
       e = first
       all_done = .FALSE.
@@ -359,7 +359,7 @@ CONTAINS
       INTEGER(kind=valt)                                 :: my_value, parent_value
       LOGICAL                                            :: all_done
 
-      CPASSERT(0 < first .AND. first <= heap%n)
+      DBCSR_ASSERT(0 < first .AND. first <= heap%n)
 
       e = first
       all_done = .FALSE.

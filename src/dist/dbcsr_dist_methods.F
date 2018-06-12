@@ -123,11 +123,11 @@ CONTAINS
       ! Verify given process row distribution.
       dist%d%max_row_dist = MAXVAL(row_dist_block)
       IF (dist%d%max_row_dist .GE. nprows) &
-         CPABORT("A process row is too big for process grid")
+         DBCSR_ABORT("A process row is too big for process grid")
       ! Verify given process column distribution.
       dist%d%max_col_dist = MAXVAL(col_dist_block)
       IF (dist%d%max_col_dist .GE. npcols) &
-         CPABORT("A process column is too big for process grid")
+         DBCSR_ABORT("A process column is too big for process grid")
       IF (PRESENT(local_rows)) THEN
          CALL array_new(dist%d%local_rows, local_rows, gift=reuse_arrays)
       ELSE
@@ -512,7 +512,7 @@ CONTAINS
       nthreads = 1
 !$    nthreads = OMP_GET_NUM_THREADS(); 
 !$    IF (dist%d%num_threads /= nthreads) &
-!$       CPABORT("Thread number has changed")
+!$       DBCSR_ABORT("Thread number has changed")
       nrows = dbcsr_distribution_nrows(dist)
       nlrows = dbcsr_distribution_nlocal_rows(dist)
       lrows => dbcsr_distribution_local_rows(dist)

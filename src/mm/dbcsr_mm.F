@@ -265,7 +265,7 @@ CONTAINS
                " Used ranks: ", dbcsr_mpi_statistics%last_mpi_ranks_used, &
                REPEAT(" ", 10)// &
                "Suggested: ", isqrt**2, isqrt2**2
-            CPWARN(msg)
+            DBCSR_WARN(msg)
          ENDIF
       ENDIF
       IF (ASSOCIATED(memtype_trsbuffer_1%pool)) &
@@ -410,13 +410,13 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (dbcsr_get_occupation(matrix_a) .GT. 1) &
-         CPABORT("Matrix A occupation > 1")
+         DBCSR_ABORT("Matrix A occupation > 1")
 
       IF (dbcsr_get_occupation(matrix_b) .GT. 1) &
-         CPABORT("Matrix B occupation > 1")
+         DBCSR_ABORT("Matrix B occupation > 1")
 
       IF (dbcsr_get_occupation(matrix_c) .GT. 1) &
-         CPABORT("Matrix C occupation > 1")
+         DBCSR_ABORT("Matrix C occupation > 1")
 
       CALL array_nullify(dense_k_sizes)
       CALL array_nullify(dense_col_sizes)
@@ -470,12 +470,12 @@ CONTAINS
       IF (transa_l .NE. dbcsr_no_transpose .AND. &
           transa_l .NE. dbcsr_transpose .AND. &
           transa_l .NE. dbcsr_conjugate_transpose) &
-         CPABORT("Invalid transa_l = "//transa_l)
+         DBCSR_ABORT("Invalid transa_l = "//transa_l)
 
       IF (transb_l .NE. dbcsr_no_transpose .AND. &
           transb_l .NE. dbcsr_transpose .AND. &
           transb_l .NE. dbcsr_conjugate_transpose) &
-         CPABORT("Invalid transb_l = "//transb_l)
+         DBCSR_ABORT("Invalid transb_l = "//transb_l)
 
       IF (dbg) THEN
          WRITE (*, *) '========== MULTIPLICATION ========================'
@@ -521,7 +521,7 @@ CONTAINS
          CALL dbcsr_conjg(matrix_left)
          transpose_left = .TRUE.
       CASE DEFAULT
-         CPABORT("wrong transa_l = "//transa_l)
+         DBCSR_ABORT("wrong transa_l = "//transa_l)
       END SELECT
 
       SELECT CASE (transb_l)
@@ -551,16 +551,16 @@ CONTAINS
          CALL dbcsr_conjg(matrix_right)
          transpose_right = .TRUE.
       CASE DEFAULT
-         CPABORT("wrong transb_l = "//transb_l)
+         DBCSR_ABORT("wrong transb_l = "//transb_l)
       END SELECT
       !
       ! Ensure matrix compatibility.
       IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix_c), dbcsr_row_block_offsets(matrix_left))) &
-         CPABORT("C/A rows not equal")
+         DBCSR_ABORT("C/A rows not equal")
       IF (.NOT. array_equality(dbcsr_col_block_offsets(matrix_c), dbcsr_col_block_offsets(matrix_right))) &
-         CPABORT("C/B columns not equal")
+         DBCSR_ABORT("C/B columns not equal")
       IF (.NOT. array_equality(dbcsr_col_block_offsets(matrix_left), dbcsr_row_block_offsets(matrix_right))) &
-         CPABORT("A cols/B rows not equal")
+         DBCSR_ABORT("A cols/B rows not equal")
       !
       ! No dense multiplication when filtering is used.
       use_dense_mult = .NOT. PRESENT(filter_eps)
@@ -604,34 +604,34 @@ CONTAINS
       l_k = dbcsr_nfullcols_total(matrix_left)
       IF (PRESENT(first_row)) THEN
          IF (first_row .LT. 1 .OR. first_row .GT. dbcsr_nfullrows_total(matrix_c)) &
-            CPABORT("Invalid first row specified")
+            DBCSR_ABORT("Invalid first row specified")
          f_row = first_row
       ENDIF
       IF (PRESENT(last_row)) THEN
          IF (last_row .GT. dbcsr_nfullrows_total(matrix_c)) &
-            CPABORT("Invalid last row specified")
+            DBCSR_ABORT("Invalid last row specified")
          l_row = last_row
       ENDIF
       IF (PRESENT(first_column)) THEN
          IF (first_column .LT. 1 .OR. first_column .GT. dbcsr_nfullcols_total(matrix_c)) &
-            CPABORT("Invalid first col specified")
+            DBCSR_ABORT("Invalid first col specified")
          f_col = first_column
       ENDIF
       IF (PRESENT(last_column)) THEN
          IF (last_column .GT. dbcsr_nfullcols_total(matrix_c)) &
-            CPABORT("Invalid last column specified (C)")
+            DBCSR_ABORT("Invalid last column specified (C)")
          IF (last_column .GT. dbcsr_nfullcols_total(matrix_right)) &
-            CPABORT("Invalid last column specified (B)")
+            DBCSR_ABORT("Invalid last column specified (B)")
          l_col = last_column
       ENDIF
       IF (PRESENT(first_k)) THEN
          IF (first_k .LT. 1 .OR. first_k .GT. dbcsr_nfullcols_total(matrix_left)) &
-            CPABORT("Invalid first k specified (A)")
+            DBCSR_ABORT("Invalid first k specified (A)")
          f_k = first_k
       ENDIF
       IF (PRESENT(last_k)) THEN
          IF (last_k .GT. dbcsr_nfullcols_total(matrix_left)) &
-            CPABORT("Invalid last k specified (A)")
+            DBCSR_ABORT("Invalid last k specified (A)")
          l_k = last_k
       ENDIF
       !
@@ -661,9 +661,9 @@ CONTAINS
                      dbcsr_nfullcols_total(matrix_c))
       ENDIF
       IF (f_row .GT. l_row .AND. l_row .GT. 0) &
-         CPABORT("Last row smaller than first row")
+         DBCSR_ABORT("Last row smaller than first row")
       IF (f_col .GT. l_col .AND. l_col .GT. 0) &
-         CPABORT("Last col smaller than first col")
+         DBCSR_ABORT("Last col smaller than first col")
       !
       ! Product data needs to be retained when
       ! * beta != 0; or
@@ -749,7 +749,7 @@ CONTAINS
       ENDIF
       !
       IF (use_dense_mult .AND. .NOT. ab_dense) &
-         CPABORT("Wrong logic when making dense matrices.")
+         DBCSR_ABORT("Wrong logic when making dense matrices.")
       IF (use_dense_mult) THEN
          old_product_row_blk_offsets = matrix_c%row_blk_offset
          old_product_col_blk_offsets = matrix_c%col_blk_offset
@@ -789,7 +789,7 @@ CONTAINS
             CALL dbcsr_make_index_canonical(product_matrix)
          ENDIF
          IF (ASSOCIATED(product_matrix%wms)) &
-            CPABORT("Product matrix should be finalized!")
+            DBCSR_ABORT("Product matrix should be finalized!")
          CALL dbcsr_make_untransposed_blocks(product_matrix)
 !$OMP PARALLEL &
 !$OMP DEFAULT (NONE) SHARED (product_matrix)
@@ -966,7 +966,7 @@ CONTAINS
       IF (INT(matrix_c%nblks, KIND=int_8) > &
           INT(SIZE(array_data(matrix_c%row_blk_size)), KIND=int_8)* &
           INT(SIZE(array_data(matrix_c%col_blk_size)), KIND=int_8)) &
-         CPABORT("Bug: Matrix contains too many blocks")
+         DBCSR_ABORT("Bug: Matrix contains too many blocks")
       output_unit = default_output_unit
       num_multiplications = num_multiplications+1
       CALL timestop(handle)
@@ -1007,10 +1007,10 @@ CONTAINS
 
       IF ((major .LT. 2 .AND. (minor .LT. 10 .OR. (minor .EQ. 10 .AND. patch .LT. 4))) .OR. &
           (major .EQ. 2 .AND. minor .EQ. 0 .AND. patch .EQ. 0)) THEN
-         CALL cp_warn(__LOCATION__, "You are using an OpenMPI version with buggy RMA: --- "// &
-                      mpi_library_version(1:resultlen)// &
-                      " --- We disable RMA to prevent errors. "// &
-                      "Please install a new OpenMPI version (>=1.10.4 or 2.0.1). ")
+         CALL dbcsr_warn(__LOCATION__, "You are using an OpenMPI version with buggy RMA: --- "// &
+                         mpi_library_version(1:resultlen)// &
+                         " --- We disable RMA to prevent errors. "// &
+                         "Please install a new OpenMPI version (>=1.10.4 or 2.0.1). ")
          CALL dbcsr_set_config(use_mpi_rma=.FALSE.)
       ENDIF
 

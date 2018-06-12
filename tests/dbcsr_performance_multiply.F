@@ -109,7 +109,7 @@ CONTAINS
          WRITE (*, *) "      retain_sparsity nrep \\"
          WRITE (*, *) "      nmblksizes nnblksizes nkblksizes \\"
          WRITE (*, *) "      [mblksizes] [nblksizes] [kblksizes]"
-         CPABORT("narg not correct")
+         DBCSR_ABORT("narg not correct")
       ENDIF
 
       matrix_sizes(1) = atoi(args(2))
@@ -141,7 +141,7 @@ CONTAINS
       kblk_to_read = atoi(args(28))
 
       IF (narg < 28+2*(mblk_to_read+nblk_to_read+kblk_to_read)) &
-         CPABORT("narg not correct")
+         DBCSR_ABORT("narg not correct")
 
       ALLOCATE (bs_m(2*mblk_to_read), bs_n(2*nblk_to_read), bs_k(2*kblk_to_read))
 
@@ -271,13 +271,13 @@ CONTAINS
       c_symm = symmetries(3)
 
       IF (a_symm .NE. dbcsr_type_no_symmetry .AND. matrix_sizes(1) .NE. matrix_sizes(3)) &
-         CPABORT("")
+         DBCSR_ABORT("")
 
       IF (b_symm .NE. dbcsr_type_no_symmetry .AND. matrix_sizes(2) .NE. matrix_sizes(3)) &
-         CPABORT("")
+         DBCSR_ABORT("")
 
       IF (c_symm .NE. dbcsr_type_no_symmetry .AND. matrix_sizes(1) .NE. matrix_sizes(2)) &
-         CPABORT("")
+         DBCSR_ABORT("")
 
       do_complex = data_type .EQ. dbcsr_type_complex_4 .OR. data_type .EQ. dbcsr_type_complex_8
 
@@ -312,7 +312,7 @@ CONTAINS
                     transa .EQ. dbcsr_conjugate_transpose .AND. &
                     transb .EQ. dbcsr_no_transpose .AND. &
                     .NOT. do_complex)) THEN
-            CPABORT("")
+            DBCSR_ABORT("")
          ENDIF
       ENDIF
       !
@@ -320,7 +320,7 @@ CONTAINS
       IF (c_symm .NE. dbcsr_type_no_symmetry) THEN
          IF (limits(1) .NE. 1 .OR. limits(2) .NE. matrix_sizes(1) .OR. &
              limits(3) .NE. 1 .OR. limits(4) .NE. matrix_sizes(2)) THEN
-            CPABORT("")
+            DBCSR_ABORT("")
          ENDIF
       ENDIF
 
@@ -355,7 +355,7 @@ CONTAINS
               b_symm .EQ. dbcsr_type_no_symmetry) THEN
          my_sizes_m => sizes_m; my_sizes_n => sizes_n; my_sizes_k => sizes_k
       ELSE
-         CPABORT("something wrong here...")
+         DBCSR_ABORT("something wrong here...")
       ENDIF
 
       ! Create the random matrices.

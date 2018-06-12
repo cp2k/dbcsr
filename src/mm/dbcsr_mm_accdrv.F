@@ -622,11 +622,11 @@ CONTAINS
       !WRITE (*,*) "dbcsr_mm_accdrv_process: c_area%memory_type ", c_area%memory_type
 
       IF (.NOT. acc_devmem_allocated(a_area%acc_devmem)) &
-         CPABORT("dbcsr_mm_accdrv_process: a_area%acc_devmem not allocated")
+         DBCSR_ABORT("dbcsr_mm_accdrv_process: a_area%acc_devmem not allocated")
       IF (.NOT. acc_devmem_allocated(b_area%acc_devmem)) &
-         CPABORT("dbcsr_mm_accdrv_process: b_area%acc_devmem not allocated")
+         DBCSR_ABORT("dbcsr_mm_accdrv_process: b_area%acc_devmem not allocated")
       IF (.NOT. acc_devmem_allocated(c_area%acc_devmem)) &
-         CPABORT("dbcsr_mm_accdrv_process: c_area%acc_devmem not allocated")
+         DBCSR_ABORT("dbcsr_mm_accdrv_process: c_area%acc_devmem not allocated")
 
       ! start uploading stacks only after a, b, and c are ready
       CALL acc_stream_wait_event(upload_stream, a_area%acc_ready)

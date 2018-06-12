@@ -109,19 +109,19 @@ CONTAINS
 #if ! defined (__ACC)
       MARK_USED(stream)
       MARK_USED(event)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       TYPE(C_PTR)                              :: stream_cptr
 
       stream_cptr = acc_stream_cptr(stream)
       IF (.NOT. C_ASSOCIATED(event%cptr)) &
-         CPABORT("acc_stream_wait_event: event not allocated")
+         DBCSR_ABORT("acc_stream_wait_event: event not allocated")
       IF (.NOT. C_ASSOCIATED(stream_cptr)) &
-         CPABORT("acc_stream_wait_event: stream not allocated")
+         DBCSR_ABORT("acc_stream_wait_event: stream not allocated")
       istat = cuda_stream_wait_event(stream_cptr, event%cptr)
       IF (istat /= 0) &
-         CPABORT("acc_stream_wait_event failed")
+         DBCSR_ABORT("acc_stream_wait_event failed")
 #endif
    END SUBROUTINE acc_stream_wait_event
 
@@ -138,19 +138,19 @@ CONTAINS
 #if ! defined (__ACC)
       MARK_USED(this)
       MARK_USED(stream)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       TYPE(C_PTR)                              :: stream_cptr
 
       stream_cptr = acc_stream_cptr(stream)
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
-         CPABORT("acc_event_record: event not allocated")
+         DBCSR_ABORT("acc_event_record: event not allocated")
       IF (.NOT. C_ASSOCIATED(stream_cptr)) &
-         CPABORT("acc_event_record: stream not allocated")
+         DBCSR_ABORT("acc_event_record: stream not allocated")
       istat = cuda_event_record(this%cptr, stream_cptr)
       IF (istat /= 0) &
-         CPABORT("acc_event_record failed")
+         DBCSR_ABORT("acc_event_record failed")
 #endif
    END SUBROUTINE acc_event_record
 
@@ -165,15 +165,15 @@ CONTAINS
 
 #if ! defined (__ACC)
       MARK_USED(this)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       INTEGER                                  :: istat
 
       IF (C_ASSOCIATED(this%cptr)) &
-         CPABORT("acc_event_create: already allocated")
+         DBCSR_ABORT("acc_event_create: already allocated")
       istat = cuda_event_create(this%cptr)
       IF (istat /= 0 .OR. .NOT. C_ASSOCIATED(this%cptr)) &
-         CPABORT("acc_event_create: failed")
+         DBCSR_ABORT("acc_event_create: failed")
 #endif
    END SUBROUTINE acc_event_create
 
@@ -188,14 +188,14 @@ CONTAINS
 
 #if ! defined (__ACC)
       MARK_USED(this)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
-         CPABORT("acc_event_destroy: event not allocated")
+         DBCSR_ABORT("acc_event_destroy: event not allocated")
       istat = cuda_event_destroy(this%cptr)
       IF (istat /= 0) &
-         CPABORT("acc_event_destroy failed")
+         DBCSR_ABORT("acc_event_destroy failed")
       this%cptr = C_NULL_PTR
 #endif
    END SUBROUTINE acc_event_destroy
@@ -213,14 +213,14 @@ CONTAINS
 #if ! defined (__ACC)
       res = .FALSE.
       MARK_USED(this)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       INTEGER                                  :: istat, has_occured
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
-         CPABORT("acc_event_query: event not allocated")
+         DBCSR_ABORT("acc_event_query: event not allocated")
       istat = cuda_event_query(this%cptr, has_occured)
       IF (istat /= 0) &
-         CPABORT("acc_event_query failed")
+         DBCSR_ABORT("acc_event_query failed")
       res = (has_occured == 1)
 #endif
    END FUNCTION acc_event_query
@@ -235,14 +235,14 @@ CONTAINS
 
 #if ! defined (__ACC)
       MARK_USED(this)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
-         CPABORT("acc_event_synchronize: event not allocated")
+         DBCSR_ABORT("acc_event_synchronize: event not allocated")
       istat = cuda_event_synchronize(this%cptr)
       IF (istat < 0) &
-         CPABORT("acc_event_synchronize failed")
+         DBCSR_ABORT("acc_event_synchronize failed")
 #endif
    END SUBROUTINE acc_event_synchronize
 

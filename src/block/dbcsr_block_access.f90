@@ -42,7 +42,7 @@
     IF (careful_mod) CALL timeset (routineN, error_handle)
     IF (debug_mod) THEN
        IF(matrix%data_type /= ${dkind1}$) &
-          CPABORT("Data type mismatch for requested block.")
+          DBCSR_ABORT("Data type mismatch for requested block.")
     ENDIF
 
     CALL dbcsr_get_block_index (matrix, row, col, stored_row, stored_col,&
@@ -69,10 +69,10 @@
        nwms = SIZE(matrix%wms)
        iw = 1
 !$     IF(nwms < omp_get_num_threads()) &
-!$        CPABORT("Number of work matrices not equal to number of threads")
+!$        DBCSR_ABORT("Number of work matrices not equal to number of threads")
 !$     iw = omp_get_thread_num () + 1
        IF(.NOT.dbcsr_use_mutable (matrix))&
-          CPABORT("Can not retrieve blocks from non-mutable work matrices.")
+          DBCSR_ABORT("Can not retrieve blocks from non-mutable work matrices.")
        IF (dbcsr_use_mutable (matrix)) THEN
           IF (.NOT. dbcsr_mutable_instantiated(matrix%wms(iw)%mutable)) THEN
              CALL dbcsr_mutable_new(matrix%wms(iw)%mutable,&
@@ -124,7 +124,7 @@
 
     IF (debug_mod) THEN
        IF(matrix%data_type /= ${dkind1}$) &
-          CPABORT("Data type mismatch for requested block.")
+          DBCSR_ABORT("Data type mismatch for requested block.")
     ENDIF
 
     CALL dbcsr_get_block_index (matrix, row, col, stored_row, stored_col,&
@@ -145,9 +145,9 @@
             )
     ELSEIF (ASSOCIATED (matrix%wms)) THEN
        IF(.NOT.dbcsr_use_mutable (matrix))&
-          CPABORT("Can not retrieve blocks from non-mutable work matrices.")
+          DBCSR_ABORT("Can not retrieve blocks from non-mutable work matrices.")
        IF(dbcsr_use_mutable (matrix))&
-          CPABORT("Can not retrieve rank-1 block pointers from mutable work matrices.")
+          DBCSR_ABORT("Can not retrieve rank-1 block pointers from mutable work matrices.")
     ENDIF
   END SUBROUTINE dbcsr_get_block_p_${nametype1}$
 
@@ -221,7 +221,7 @@
     nwms = SIZE(matrix%wms)
     iw = 1
 !$  IF(nwms < omp_get_num_threads()) &
-!$     CPABORT("Number of work matrices not equal to number of threads")
+!$     DBCSR_ABORT("Number of work matrices not equal to number of threads")
 !$  iw = omp_get_thread_num () + 1
     CALL btree_add (matrix%wms(iw)%mutable%m%btree_${nametype1}$,&
          make_coordinate_tuple(stored_row, stored_col),&
@@ -345,7 +345,7 @@
     nze = row_size*col_size
     !
     IF (debug_mod .AND. SIZE(block) < nze) &
-       CPABORT("Invalid block dimensions")
+       DBCSR_ABORT("Invalid block dimensions")
     CALL dbcsr_get_stored_block_info (matrix, stored_row, stored_col,&
          found, blk, lb_row_col, offset)
     IF(found) THEN
@@ -384,8 +384,8 @@
        ENDIF
     ELSE
        !!@@@
-       !call cp_assert (associated (matrix%wms), cp_fatal_level,&
-       !     cp_caller_error, routineN, "Work matrices not prepared")
+       !call dbcsr_assert (associated (matrix%wms), dbcsr_fatal_level,&
+       !     dbcsr_caller_error, routineN, "Work matrices not prepared")
        IF (.NOT.ASSOCIATED (matrix%wms)) THEN
           CALL dbcsr_work_create (matrix, nblks_guess=1,&
                sizedata_guess=nze)
@@ -393,7 +393,7 @@
        nwms = SIZE(matrix%wms)
        iw = 1
 !$     IF(debug_mod .AND. nwms < omp_get_num_threads()) &
-!$        CPABORT("Number of work matrices not equal to number of threads")
+!$        DBCSR_ABORT("Number of work matrices not equal to number of threads")
 !$     iw = omp_get_thread_num () + 1
        blk_p = matrix%wms(iw)%datasize + 1
        IF (.NOT.dbcsr_wm_use_mutable (matrix%wms(iw))) THEN
@@ -428,7 +428,7 @@
                   data_block, found, data_block2, replace=.TRUE.)
              IF (found) THEN
                 IF(.NOT.ASSOCIATED(data_block2%p))&
-                   CPWARN("Data was not present in block")
+                   DBCSR_WARN("Data was not present in block")
                 IF (ASSOCIATED (data_block2%p)) DEALLOCATE (data_block2%p)
              ENDIF
           ELSE
@@ -441,7 +441,7 @@
                    CALL ${nametype1}$axpy (nze, ${one1[n]}$, block(1), 1,&
                         data_block2%p(1,1), 1)
                 IF(.NOT.ASSOCIATED(data_block%p))&
-                   CPWARN("Data was not present in block")
+                   DBCSR_WARN("Data was not present in block")
                 IF (ASSOCIATED (data_block%p)) DEALLOCATE (data_block%p)
              ENDIF
           ENDIF

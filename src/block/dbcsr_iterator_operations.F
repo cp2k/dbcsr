@@ -181,11 +181,11 @@ CONTAINS
 !$    ENDIF
       dist = dbcsr_distribution(matrix)
 !$    IF (.NOT. dbcsr_distribution_has_threads(dist)) &
-!$       CPWARN("Thread distribution should be defined for OpenMP.")
+!$       DBCSR_WARN("Thread distribution should be defined for OpenMP.")
       IF (.NOT. iterator%dynamic .AND. .NOT. dbcsr_distribution_has_threads(dist)) &
-         CPABORT("Thread distribution must be defined for non-dynamic iterator.")
+         DBCSR_ABORT("Thread distribution must be defined for non-dynamic iterator.")
 !$    IF (omp_in_parallel() .AND. omp_get_num_threads() /= dbcsr_distribution_num_threads(dist)) &
-!$       CPABORT("Number of threads has changed!")
+!$       DBCSR_ABORT("Number of threads has changed!")
       !Synchronize the positions
       NULLIFY (iterator%common_pos)
       IF (iterator%dynamic) THEN
@@ -227,12 +227,12 @@ CONTAINS
 
       iterator%local_indexing = matrix%local_indexing
       !IF(iterator%local_indexing .AND. .NOT. iterator%dynamic) &
-      !   CPABORT("Locally-indexed matrices can only have a dynamic iterator.")
+      !   DBCSR_ABORT("Locally-indexed matrices can only have a dynamic iterator.")
       IF (iterator%local_indexing .AND. .NOT. array_exists(matrix%local_rows)) &
-         CALL cp_abort(__LOCATION__, &
+         CALL dbcsr_abort(__LOCATION__, &
                        "Local rows mapping array should exist when local indexing is used.")
       IF (iterator%local_indexing .AND. .NOT. array_exists(matrix%global_rows)) &
-         CALL cp_abort(__LOCATION__, &
+         CALL dbcsr_abort(__LOCATION__, &
                        "Global rows mapping array should exist when local indexing is used.")
       iterator%global_rows => array_data(matrix%global_rows)
       iterator%local_rows => array_data(matrix%local_rows)

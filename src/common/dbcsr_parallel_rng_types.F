@@ -189,7 +189,7 @@ CONTAINS
 
 ! -------------------------------------------------------------------------
 
-      CPASSERT(ASSOCIATED(rng_stream))
+      DBCSR_ASSERT(ASSOCIATED(rng_stream))
 
       u1 = 0.0_dp
       u2 = 0.0_dp
@@ -447,13 +447,13 @@ CONTAINS
             WRITE (UNIT=message, FMT=fmtstr) &
                "seed(", i, ",1) = ", seed(i, 1), " < ", 0.0_dp
             CALL compress(message)
-            CPABORT(message)
+            DBCSR_ABORT(message)
          END IF
          IF (seed(i, 1) >= m1) THEN
             WRITE (UNIT=message, FMT=fmtstr) &
                "seed(", i, ",1) = ", seed(i, 1), " >= ", m1
             CALL compress(message)
-            CPABORT(message)
+            DBCSR_ABORT(message)
          END IF
 
          ! Check condition: 0 <= seed(:,2) < m2
@@ -462,13 +462,13 @@ CONTAINS
             WRITE (UNIT=message, FMT=fmtstr) &
                "seed(", i, ",2) = ", seed(i, 2), " < ", 0.0_dp
             CALL compress(message)
-            CPABORT(message)
+            DBCSR_ABORT(message)
          END IF
          IF (seed(i, 2) >= m2) THEN
             WRITE (UNIT=message, FMT=fmtstr) &
                "seed(", i, ",2) = ", seed(i, 2), " >= ", m2
             CALL compress(message)
-            CPABORT(message)
+            DBCSR_ABORT(message)
          END IF
 
       END DO
@@ -476,11 +476,11 @@ CONTAINS
       ! Check condition: first or second seed is 0
 
       IF (ALL(seed(:, 1) < 1.0_dp)) THEN
-         CPABORT("First seed = 0")
+         DBCSR_ABORT("First seed = 0")
       END IF
 
       IF (ALL(seed(:, 2) < 1.0_dp)) THEN
-         CPABORT("Second seed = 0")
+         DBCSR_ABORT("Second seed = 0")
       END IF
 
    END SUBROUTINE check_seed
@@ -545,7 +545,7 @@ CONTAINS
          CASE (UNIFORM)
             rng_stream%distribution_type = UNIFORM
          CASE DEFAULT
-            CPABORT("Invalid distribution type specified")
+            DBCSR_ABORT("Invalid distribution type specified")
          END SELECT
       ELSE IF (PRESENT(last_rng_stream)) THEN
          rng_stream%distribution_type = last_rng_stream%distribution_type
@@ -591,7 +591,7 @@ CONTAINS
 
 ! -------------------------------------------------------------------------
 
-      CPASSERT(ASSOCIATED(rng_stream))
+      DBCSR_ASSERT(ASSOCIATED(rng_stream))
 
       DEALLOCATE (rng_stream)
 
@@ -614,7 +614,7 @@ CONTAINS
 
 ! -------------------------------------------------------------------------
 
-      CPASSERT(ASSOCIATED(rng_stream))
+      DBCSR_ASSERT(ASSOCIATED(rng_stream))
 
       rng_record = " "
       WRITE (UNIT=rng_record, FMT=rng_record_format) &
@@ -668,7 +668,7 @@ CONTAINS
 
 ! -------------------------------------------------------------------------
 
-      CPASSERT(ASSOCIATED(rng_stream))
+      DBCSR_ASSERT(ASSOCIATED(rng_stream))
 
       IF (PRESENT(name)) name = rng_stream%name
       IF (PRESENT(distribution_type)) THEN
@@ -977,8 +977,8 @@ CONTAINS
 
 ! -------------------------------------------------------------------------
 
-      CPASSERT(ASSOCIATED(rng_stream))
-      CPASSERT(rng_stream%distribution_type == UNIFORM)
+      DBCSR_ASSERT(ASSOCIATED(rng_stream))
+      DBCSR_ASSERT(rng_stream%distribution_type == UNIFORM)
 
       r = next_real_random_number(rng_stream)
       u = low+INT(r*REAL(high-low+1, dp))
@@ -1007,7 +1007,7 @@ CONTAINS
 
 ! -------------------------------------------------------------------------
 
-      CPASSERT(ASSOCIATED(rng_stream))
+      DBCSR_ASSERT(ASSOCIATED(rng_stream))
 
       SELECT CASE (rng_stream%distribution_type)
       CASE (GAUSSIAN)
@@ -1092,7 +1092,7 @@ CONTAINS
 
 ! -------------------------------------------------------------------------
 
-      CPASSERT(ASSOCIATED(rng_stream))
+      DBCSR_ASSERT(ASSOCIATED(rng_stream))
 
       DO i = 1, SIZE(array)
          array(i) = next_random_number(rng_stream)
@@ -1119,7 +1119,7 @@ CONTAINS
 
 ! -------------------------------------------------------------------------
 
-      CPASSERT(ASSOCIATED(rng_stream))
+      DBCSR_ASSERT(ASSOCIATED(rng_stream))
 
       DO j = 1, SIZE(array, 2)
          DO i = 1, SIZE(array, 1)
@@ -1148,7 +1148,7 @@ CONTAINS
 
 ! -------------------------------------------------------------------------
 
-      CPASSERT(ASSOCIATED(rng_stream))
+      DBCSR_ASSERT(ASSOCIATED(rng_stream))
 
       DO k = 1, SIZE(array, 3)
          DO j = 1, SIZE(array, 2)
@@ -1209,7 +1209,7 @@ CONTAINS
 
 ! -------------------------------------------------------------------------
 
-      CPASSERT(ASSOCIATED(rng_stream))
+      DBCSR_ASSERT(ASSOCIATED(rng_stream))
 
       rng_stream%cg = rng_stream%ig
       rng_stream%bg = rng_stream%ig
@@ -1249,7 +1249,7 @@ CONTAINS
 
 ! -------------------------------------------------------------------------
 
-      CPASSERT(ASSOCIATED(rng_stream))
+      DBCSR_ASSERT(ASSOCIATED(rng_stream))
 
       u = 0.0_dp
 
@@ -1375,7 +1375,7 @@ CONTAINS
 
 ! -------------------------------------------------------------------------
 
-      CPASSERT(ASSOCIATED(rng_stream))
+      DBCSR_ASSERT(ASSOCIATED(rng_stream))
 
       IF (PRESENT(name)) rng_stream%name = name
       IF (PRESENT(distribution_type)) THEN
@@ -1466,7 +1466,7 @@ CONTAINS
 
 ! -------------------------------------------------------------------------
 
-      CPASSERT(ASSOCIATED(rng_stream))
+      DBCSR_ASSERT(ASSOCIATED(rng_stream))
 
       IF (PRESENT(write_all)) THEN
          my_write_all = write_all

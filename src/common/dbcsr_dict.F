@@ -148,10 +148,10 @@ SUBROUTINE dict_${keytype}$_${valuetype}$_init(dict, initial_capacity)
     IF(PRESENT(initial_capacity)) initial_capacity_ = initial_capacity
 
     IF(initial_capacity_ < 1) &
-       CPABORT("dict_${keytype}$_${valuetype}$_init: initial_capacity < 1")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_init: initial_capacity < 1")
 
     IF(ASSOCIATED(dict%buckets)) &
-       CPABORT("dict_${keytype}$_${valuetype}$_init: dictionary is already initialized.")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_init: dictionary is already initialized.")
 
     ALLOCATE(dict%buckets(initial_capacity_))
     dict%size = 0
@@ -187,7 +187,7 @@ SUBROUTINE dict_${keytype}$_${valuetype}$_destroy(dict)
     INTEGER :: i
 
     IF(.not. ASSOCIATED(dict%buckets)) &
-       CPABORT("dict_${keytype}$_${valuetype}$_destroy: dictionary is not initialized.")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_destroy: dictionary is not initialized.")
 
     do i = 1, size(dict%buckets)
         item => dict%buckets(i)%p
@@ -218,7 +218,7 @@ SUBROUTINE dict_${keytype}$_${valuetype}$_set(dict, key, value)
     ${valuetype_fort}$, intent(in)                          :: value
     INTEGER(KIND=int_8)                                   :: hash
     IF(.not. ASSOCIATED(dict%buckets)) &
-       CPABORT("dict_${keytype}$_${valuetype}$_set: dictionary is not initialized.")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_set: dictionary is not initialized.")
 
     hash = hash_${keytype}$(key)
     call set_hashed_${keytype}$_${valuetype}$(dict, key, value, hash)
@@ -295,9 +295,9 @@ RECURSIVE SUBROUTINE change_capacity_${keytype}$_${valuetype}$(dict, new_capacit
        new_cap = HUGE(i) ! grow as far as possible
     END IF
     IF(new_cap < 1) &
-       CPABORT("dict_${keytype}$_${valuetype}$_change_capacity: new_capacity < 1.")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_change_capacity: new_capacity < 1.")
     IF(4*dict%size > 3*new_cap) &
-       CPABORT("dict_${keytype}$_${valuetype}$_change_capacity: new_capacity too small.")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_change_capacity: new_capacity too small.")
 
     old_size = dict%size
     old_buckets => dict%buckets
@@ -316,7 +316,7 @@ RECURSIVE SUBROUTINE change_capacity_${keytype}$_${valuetype}$(dict, new_capacit
     deallocate(old_buckets)
 
     IF(old_size /= dict%size) &
-       CPABORT("dict_${keytype}$_${valuetype}$_change_capacity: assertion failed")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_change_capacity: assertion failed")
 END SUBROUTINE change_capacity_${keytype}$_${valuetype}$
 ! **************************************************************************************************
 !> \brief Gets a value for a given key from the dictionary.
@@ -339,7 +339,7 @@ FUNCTION dict_${keytype}$_${valuetype}$_get(dict, key, default_value) RESULT(val
     INTEGER(KIND=int_8)                                   :: hash, idx
 
     IF(.not. ASSOCIATED(dict%buckets)) &
-       CPABORT("dict_${keytype}$_${valuetype}$_get: dictionary is not initialized.")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_get: dictionary is not initialized.")
 
     hash = hash_${keytype}$(key)
     idx = MOD(hash, INT(size(dict%buckets),KIND=int_8)) + 1
@@ -360,7 +360,7 @@ FUNCTION dict_${keytype}$_${valuetype}$_get(dict, key, default_value) RESULT(val
         return
     END IF
 
-    CPABORT("dict_${keytype}$_${valuetype}$_get: Key not found in dictionary.")
+    DBCSR_ABORT("dict_${keytype}$_${valuetype}$_get: Key not found in dictionary.")
 END FUNCTION dict_${keytype}$_${valuetype}$_get
 
 ! **************************************************************************************************
@@ -379,7 +379,7 @@ SUBROUTINE dict_${keytype}$_${valuetype}$_del(dict, key)
     INTEGER(KIND=int_8)                                   :: hash, idx
 
     IF(.not. ASSOCIATED(dict%buckets)) &
-       CPABORT("dict_${keytype}$_${valuetype}$_del: dictionary is not initialized.")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_del: dictionary is not initialized.")
 
     hash = hash_${keytype}$(key)
     idx = MOD(hash, INT(size(dict%buckets),KIND=int_8)) + 1
@@ -403,7 +403,7 @@ SUBROUTINE dict_${keytype}$_${valuetype}$_del(dict, key)
         item => item%next
     end do
 
-    CPABORT("dict_${keytype}$_${valuetype}$_del: Key not found in dictionary.")
+    DBCSR_ABORT("dict_${keytype}$_${valuetype}$_del: Key not found in dictionary.")
 END SUBROUTINE dict_${keytype}$_${valuetype}$_del
 
 ! **************************************************************************************************
@@ -419,7 +419,7 @@ FUNCTION dict_${keytype}$_${valuetype}$_size(dict) RESULT(size)
     INTEGER :: size
 
     IF(.not. ASSOCIATED(dict%buckets)) &
-       CPABORT("dict_${keytype}$_${valuetype}$_size: dictionary is not initialized.")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_size: dictionary is not initialized.")
 
     size = dict%size
 END FUNCTION dict_${keytype}$_${valuetype}$_size
@@ -441,7 +441,7 @@ FUNCTION dict_${keytype}$_${valuetype}$_haskey(dict, key) RESULT(res)
     INTEGER(KIND=int_8)                                   :: hash, idx
 
     IF(.not. ASSOCIATED(dict%buckets)) &
-       CPABORT("dict_${keytype}$_${valuetype}$_haskey: dictionary is not initialized.")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_haskey: dictionary is not initialized.")
 
     res = .FALSE.
     IF(dict%size==0) RETURN
@@ -480,7 +480,7 @@ FUNCTION dict_${keytype}$_${valuetype}$_items(dict) RESULT(items)
     INTEGER :: i, j
 
     IF(.not. ASSOCIATED(dict%buckets)) &
-       CPABORT("dict_${keytype}$_${valuetype}$_items: dictionary is not initialized.")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_items: dictionary is not initialized.")
 
     allocate(items(dict%size))
     j = 1
@@ -495,7 +495,7 @@ FUNCTION dict_${keytype}$_${valuetype}$_items(dict) RESULT(items)
     end do
 
     IF(j /= dict%size + 1) &
-       CPABORT("dict_${keytype}$_${valuetype}$_items: assertion failed!")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_items: assertion failed!")
 END FUNCTION dict_${keytype}$_${valuetype}$_items
 
 ! **************************************************************************************************
@@ -517,9 +517,9 @@ SUBROUTINE dict_${keytype}$_${valuetype}$_update(dict, from_dict)
     INTEGER :: i
 
     IF(.not. ASSOCIATED(dict%buckets)) &
-       CPABORT("dict_${keytype}$_${valuetype}$_update: dictionary is not initialized.")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_update: dictionary is not initialized.")
     IF(.not. ASSOCIATED(from_dict%buckets)) &
-       CPABORT("dict_${keytype}$_${valuetype}$_update: from_dict is not initialized.")
+       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_update: from_dict is not initialized.")
 
     from_items => dict_${keytype}$_${valuetype}$_items(from_dict)
     do i=1, size(from_items)

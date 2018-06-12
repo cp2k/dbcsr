@@ -229,7 +229,7 @@ CONTAINS
          CASE (dbcsr_type_complex_8)
             matrix%data_type = dbcsr_type_complex_8
          CASE DEFAULT
-            CPABORT("Invalid matrix type")
+            DBCSR_ABORT("Invalid matrix type")
          END SELECT
       ELSE
          matrix%data_type = dbcsr_type_real_default
@@ -269,7 +269,7 @@ CONTAINS
          CALL array_nullify(matrix%global_cols)
          !
          IF (matrix%data_type /= matrix%data_area%d%data_type) &
-              CPABORT("Inconsistent data type for the existing buffer.")
+              DBCSR_ABORT("Inconsistent data type for the existing buffer.")
          CALL dbcsr_data_set_size_referenced(matrix%data_area, 0)
       ELSE
          ! Invalidate index
@@ -277,9 +277,9 @@ CONTAINS
          ! Invalidate data
          IF (PRESENT(data_buffer)) THEN
             IF (.NOT. dbcsr_data_valid(data_buffer)) &
-               CPABORT("Input data buffer not valid.")
+               DBCSR_ABORT("Input data buffer not valid.")
             IF (matrix%data_type /= data_buffer%d%data_type) &
-               CPABORT("Input buffer data type different by matrix data type.")
+               DBCSR_ABORT("Input buffer data type different by matrix data type.")
             matrix%data_memory_type = data_buffer%d%memory_type
             matrix%data_area = data_buffer
             CALL dbcsr_data_hold(matrix%data_area)
@@ -319,13 +319,13 @@ CONTAINS
       ENDIF
       !
       IF (array_size(matrix%row_blk_size) /= dbcsr_distribution_nrows(dist)) &
-         CPABORT("Number of blocked rows does match blocked row distribution.")
+         DBCSR_ABORT("Number of blocked rows does match blocked row distribution.")
       IF (array_size(matrix%col_blk_size) /= dbcsr_distribution_ncols(dist)) &
-         CPABORT("Number of blocked columns does match blocked column distribution.")
+         DBCSR_ABORT("Number of blocked columns does match blocked column distribution.")
       ! initialize row/col offsets
       IF (PRESENT(row_blk_offset)) THEN
          IF (dbcsr_distribution_nrows(dist)+1 /= array_size(row_blk_offset)) &
-            CALL cp_abort(__LOCATION__, &
+            CALL dbcsr_abort(__LOCATION__, &
                           "Number of blocked offset rows does match blocked row distribution.")
          matrix%row_blk_offset = row_blk_offset
          CALL array_hold(matrix%row_blk_offset)
@@ -337,7 +337,7 @@ CONTAINS
 
       IF (PRESENT(col_blk_offset)) THEN
          IF (dbcsr_distribution_ncols(dist)+1 /= array_size(col_blk_offset)) &
-            CALL cp_abort(__LOCATION__, &
+            CALL dbcsr_abort(__LOCATION__, &
                           "Number of blocked offset columns does match blocked colum distribution.")
          matrix%col_blk_offset = col_blk_offset
          CALL array_hold(matrix%col_blk_offset)
@@ -383,9 +383,9 @@ CONTAINS
              .AND. replication_type .NE. dbcsr_repl_full &
              .AND. replication_type .NE. dbcsr_repl_row &
              .AND. replication_type .NE. dbcsr_repl_col) &
-            CPABORT("Invalid replication type '"//replication_type//"'")
+            DBCSR_ABORT("Invalid replication type '"//replication_type//"'")
          IF (replication_type .EQ. dbcsr_repl_row .OR. replication_type .EQ. dbcsr_repl_col) &
-            CPWARN("Row and column replication not fully supported")
+            DBCSR_WARN("Row and column replication not fully supported")
          matrix%replication_type = replication_type
       ELSE
          matrix%replication_type = dbcsr_repl_none
@@ -408,7 +408,7 @@ CONTAINS
       IF (my_make_index) THEN
          IF (LBOUND(matrix%index, 1) .GT. 1 &
              .OR. UBOUND(matrix%index, 1) .LT. dbcsr_num_slots) &
-            CPABORT("Index is not large enough")
+            DBCSR_ABORT("Index is not large enough")
          matrix%index(1:dbcsr_num_slots) = 0
          matrix%index(1:dbcsr_meta_size) = new_meta(1:dbcsr_meta_size)
          matrix%index(dbcsr_slot_size) = dbcsr_num_slots
@@ -435,7 +435,7 @@ CONTAINS
          matrix%symmetry = .TRUE.
          matrix%negate_real = .TRUE.
       CASE DEFAULT
-         CPABORT("Invalid matrix type.")
+         DBCSR_ABORT("Invalid matrix type.")
       END SELECT
       matrix%bcsc = .FALSE.
       matrix%local_indexing = .FALSE.
@@ -676,13 +676,13 @@ CONTAINS
       IF (PRESENT(nblks_guess)) THEN
          nblks = nblks_guess
          IF (nblks_guess < 0) &
-            CPABORT("Can not have negative block count.")
+            DBCSR_ABORT("Can not have negative block count.")
          ALLOCATE (wm%row_i(nblks), stat=stat)
-         IF (stat /= 0) CPABORT("wm%row_i")
+         IF (stat /= 0) DBCSR_ABORT("wm%row_i")
          ALLOCATE (wm%col_i(nblks), stat=stat)
-         IF (stat /= 0) CPABORT("wm%col_i")
+         IF (stat /= 0) DBCSR_ABORT("wm%col_i")
          ALLOCATE (wm%blk_p(nblks), stat=stat)
-         IF (stat /= 0) CPABORT("wm%blk_p")
+         IF (stat /= 0) DBCSR_ABORT("wm%blk_p")
       ELSE
          NULLIFY (wm%row_i, wm%col_i, wm%blk_p)
          !nblks = CEILING (REAL (matrix%nblkrows_local * matrix%nblkcols_local)&
@@ -692,7 +692,7 @@ CONTAINS
       CALL dbcsr_data_init(wm%data_area)
       IF (PRESENT(sizedata_guess)) THEN
          IF (sizedata_guess < 0) &
-            CPABORT("Can not have negative data size.")
+            DBCSR_ABORT("Can not have negative data size.")
          CALL dbcsr_data_new(wm%data_area, data_type, &
                              data_size=sizedata_guess, memory_type=memory_type)
       ELSE
@@ -746,7 +746,7 @@ CONTAINS
       IF (ASSOCIATED(matrix%wms)) THEN
          ow = SIZE(matrix%wms)
          IF (ow .LT. nw) &
-            CPWARN("Number of work matrices less than threads.")
+            DBCSR_WARN("Number of work matrices less than threads.")
          IF (ow .LT. nw) wms_realloc = .TRUE.
       ENDIF
       IF (PRESENT(work_mutable)) THEN
@@ -867,7 +867,7 @@ CONTAINS
       IF (.FALSE. .AND. dbcsr_data_get_size_referenced(matrix%data_area) .NE. &
           matrix%nze) THEN
          IF (matrix%nze .NE. dbcsr_data_get_size_referenced(matrix%data_area)) &
-            CPWARN("Should reshuffle.")
+            DBCSR_WARN("Should reshuffle.")
          IF (ASSOCIATED(matrix%wms)) THEN
             sort_data = .NOT. dbcsr_wm_use_mutable(matrix%wms(1))
          ENDIF
@@ -1015,13 +1015,13 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (matrix%nblks .NE. 0) &
-         CPABORT("Optimized finalize requires empty matrix.")
+         DBCSR_ABORT("Optimized finalize requires empty matrix.")
       IF (dbcsr_valid_index(matrix)) &
-         CPABORT("Optimized finalize requires invalid matrix.")
+         DBCSR_ABORT("Optimized finalize requires invalid matrix.")
       IF (.NOT. ASSOCIATED(matrix%wms)) &
-         CPABORT("Optimized finalize requires work matrices exist.")
+         DBCSR_ABORT("Optimized finalize requires work matrices exist.")
       IF (SIZE(matrix%wms) .NE. 1) &
-         CPABORT("Optimized finalize requires single work matrix")
+         DBCSR_ABORT("Optimized finalize requires single work matrix")
 
       !
       ! If possible, data copying is avoided.
@@ -1040,7 +1040,7 @@ CONTAINS
          CALL quick_finalize(matrix)
       ELSE
          IF (.NOT. sort_data) &
-            CPABORT("merge_single_wm only supports data sorting")
+            DBCSR_ABORT("merge_single_wm only supports data sorting")
          !
          ! Ensure needed index arrays at least exist.
 !$OMP        MASTER
@@ -1183,7 +1183,7 @@ CONTAINS
       IF (preexists) THEN
          old_nwms = SIZE(matrix%wms)
          IF (old_nwms .EQ. 0) &
-            CPWARN("Nonexisting work matrices?!")
+            DBCSR_WARN("Nonexisting work matrices?!")
       ELSE
          old_nwms = 0
       ENDIF
@@ -1191,7 +1191,7 @@ CONTAINS
 !$    nthreads = OMP_GET_NUM_THREADS(); ithread = OMP_GET_THREAD_NUM()
       IF (nthreads .GT. 1) THEN
          IF (old_nwms /= nthreads .AND. old_nwms /= 0) &
-            CPABORT("Number of work matrices and threads do not match")
+            DBCSR_ABORT("Number of work matrices and threads do not match")
       ENDIF
       nwms = MAX(1, old_nwms)
 !$    nwms = MAX(nwms, nthreads)
@@ -1271,7 +1271,7 @@ CONTAINS
 !$OMP     BARRIER
       DO which_wm = wm_first, wm_last
          IF (dbcsr_wm_use_mutable(wm(which_wm))) &
-            CPABORT("Adding main matrix into mutable not supported.")
+            DBCSR_ABORT("Adding main matrix into mutable not supported.")
          IF (mutable) THEN
             IF (.NOT. dbcsr_mutable_instantiated(wm(which_wm)%mutable)) THEN
                CALL dbcsr_mutable_new(wm(which_wm)%mutable, matrix%data_type)
@@ -1399,7 +1399,7 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (.NOT. ASSOCIATED(m%wms)) &
-         CPWARN("Want to destroy nonexisting work matrices.")
+         DBCSR_WARN("Want to destroy nonexisting work matrices.")
       IF (ASSOCIATED(m%wms)) THEN
          DO i = 1, SIZE(m%wms)
             CALL dbcsr_work_destroy(m%wms(i))
@@ -1502,7 +1502,7 @@ CONTAINS
       nrows = matrix%nblkrows_total
       nwms = SIZE(matrix%wms)
 !$    IF (nwms /= OMP_GET_NUM_THREADS()) &
-!$       CPABORT("Number of threads does not match number of work matrices.")
+!$       DBCSR_ABORT("Number of threads does not match number of work matrices.")
       which_wm = 1
 !$    which_wm = OMP_GET_THREAD_NUM()+1
       wm => matrix%wms(which_wm)
@@ -1519,7 +1519,7 @@ CONTAINS
          CASE (dbcsr_type_complex_8)
             CALL tree_to_linear_z(wm)
          CASE default
-            CPABORT("Invalid data type")
+            DBCSR_ABORT("Invalid data type")
          END SELECT
       ENDIF
       !
@@ -1584,7 +1584,7 @@ CONTAINS
       all_data_sizes(which_wm) = wm_datasize
       IF (.NOT. sort_data) THEN
          IF (wm_datasize > dbcsr_data_get_size_referenced(wm%data_area)) &
-            CPABORT("Data size mismatch.")
+            DBCSR_ABORT("Data size mismatch.")
       ENDIF
       all_col_i(which_wm)%p => wm%col_i
       all_blk_p(which_wm)%p => wm%blk_p
@@ -1767,7 +1767,7 @@ CONTAINS
       wm => matrix%wms(1)
       nblks = wm%lastblk
       IF (dbcsr_wm_use_mutable(wm)) &
-         CPABORT("Number of threads does not match number of work matrices.")
+         DBCSR_ABORT("Number of threads does not match number of work matrices.")
       !
       ! The following is valid because the data actually referenced
       ! by blocks is explicitly calculated in dbcsr_finalize.

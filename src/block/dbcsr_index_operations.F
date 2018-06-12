@@ -398,11 +398,11 @@ CONTAINS
 
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(matrix%index)) &
-            CPABORT("Index must be preallocated.")
+            DBCSR_ABORT("Index must be preallocated.")
          IF (UBOUND(matrix%index, 1) < dbcsr_num_slots) &
-            CPABORT("Actual index size less than declared size")
+            DBCSR_ABORT("Actual index size less than declared size")
          IF (.NOT. PRESENT(DATA) .AND. .NOT. PRESENT(reservation)) &
-            CPABORT('Either an array or its size must be specified.')
+            DBCSR_ABORT('Either an array or its size must be specified.')
          WRITE (*, *) routineP//' index', matrix%index(:dbcsr_num_slots)
       ENDIF
       IF (PRESENT(reservation)) THEN
@@ -468,9 +468,9 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       IF (.NOT. ASSOCIATED(matrix%index)) &
-         CPABORT("Index must be preallocated.")
+         DBCSR_ABORT("Index must be preallocated.")
       IF (UBOUND(matrix%index, 1) < dbcsr_num_slots) &
-         CPABORT("Actual index size less than declared size")
+         DBCSR_ABORT("Actual index size less than declared size")
       IF (debug_mod) WRITE (*, *) routineP//' index', &
          matrix%index(:dbcsr_num_slots)
       ! Clear index entry pointer
@@ -585,7 +585,7 @@ CONTAINS
 
       CALL timeset(routineN, error_handle)
       IF (.NOT. ASSOCIATED(m%index)) &
-         CPABORT("Index array does not yet exist.")
+         DBCSR_ABORT("Index array does not yet exist.")
       IF (.NOT. ASSOCIATED(m%row_p)) THEN
          CALL dbcsr_addto_index_array(m, dbcsr_slot_row_p, &
                                       reservation=m%nblkrows_total+1)
@@ -636,10 +636,10 @@ CONTAINS
 
       CALL timeset(routineN, error_handle)
 
-      IF (SIZE(row_i) < n) CPABORT('row_i too small')
-      IF (SIZE(col_i) < n) CPABORT('col_i too small')
+      IF (SIZE(row_i) < n) DBCSR_ABORT('row_i too small')
+      IF (SIZE(col_i) < n) DBCSR_ABORT('col_i too small')
       IF (PRESENT(blk_p)) THEN
-         IF (SIZE(blk_p) < n) CPABORT('blk_p too small')
+         IF (SIZE(blk_p) < n) DBCSR_ABORT('blk_p too small')
          ALLOCATE (buf(n))
          buf(1:n) = blk_p(1:n)
       ENDIF
@@ -897,7 +897,7 @@ CONTAINS
             prev_row = row
             blk = blk+mynblkcols
          END DO
-         IF (blk /= nblks) CPABORT("Block mismatch")
+         IF (blk /= nblks) DBCSR_ABORT("Block mismatch")
          row_p(prev_row+1:nblkrows_total+1) = nblks
       ENDIF
       IF (debug_mod) THEN
@@ -1033,11 +1033,11 @@ CONTAINS
 
       multidata = PRESENT(old_blk_d) .AND. PRESENT(new_blk_d)
       IF (old_size+add_size .NE. new_size) &
-         CPWARN("Mismatch of new and old size")
+         DBCSR_WARN("Mismatch of new and old size")
       IF (PRESENT(added_size_offset) .NEQV. PRESENT(added_sizes)) &
-         CPABORT("Must specify a set of arguments")
+         DBCSR_ABORT("Must specify a set of arguments")
       IF (PRESENT(added_sizes) .NEQV. PRESENT(added_size)) &
-         CPABORT("Must specify a set of arguments")
+         DBCSR_ABORT("Must specify a set of arguments")
       IF (debug_mod) THEN
          WRITE (*, *) " Old array", old_size
          DO i = 1, old_size
@@ -1170,9 +1170,9 @@ CONTAINS
 
       CALL timeset(routineN, error_handle)
       IF (.NOT. ASSOCIATED(matrix%row_p)) &
-         CPABORT("The row index must be initialized.")
+         DBCSR_ABORT("The row index must be initialized.")
       IF (matrix%bcsc) &
-         CPABORT("Not support for BCSC yet.")
+         DBCSR_ABORT("Not support for BCSC yet.")
       !
       prow = matrix%index(dbcsr_slot_home_vprow)
       IF (prow .LT. 0) THEN
@@ -1188,13 +1188,13 @@ CONTAINS
       ! We first have to find the local rows for the given prow.
       local_rows => array_data(matrix%local_rows)
       IF (SIZE(local_rows) /= nlocal_rows) &
-         CPABORT("Mismatch in the number of local rows.")
+         DBCSR_ABORT("Mismatch in the number of local rows.")
       !> The counts are mapped to local rows,
       DO lrow = 1, nlocal_rows
          local_row_p(lrow) = matrix%row_p(local_rows(lrow))
       ENDDO
       IF (SUM(matrix%row_p(1:ntotal_rows)) /= SUM(local_row_p(1:nlocal_rows))) &
-         CPABORT("Inconsistent row counts. Perhaps non-local rows contain data?.")
+         DBCSR_ABORT("Inconsistent row counts. Perhaps non-local rows contain data?.")
       !> then converted into an index.
       CALL dbcsr_build_row_index(local_row_p, nlocal_rows)
       !> The local row index replaces the global one.
@@ -1204,12 +1204,12 @@ CONTAINS
       matrix%local_indexing = .TRUE.
       IF (careful_mod) THEN
          IF (array_size(matrix%local_rows) /= nlocal_rows) &
-            CPABORT("Inconsistent local row counts.")
+            DBCSR_ABORT("Inconsistent local row counts.")
          IF (array_size(matrix%global_rows) /= ntotal_rows) &
-            CPABORT("Inconsistent global row counts.")
+            DBCSR_ABORT("Inconsistent global row counts.")
          IF (array_size(matrix%global_rows) .EQ. 0) THEN
             IF (nlocal_rows /= 0) &
-               CPABORT("Invalid number of local or global rows.")
+               DBCSR_ABORT("Invalid number of local or global rows.")
          ENDIF
       ENDIF
       DEALLOCATE (local_row_p)
@@ -1240,22 +1240,22 @@ CONTAINS
 
       CALL timeset(routineN, error_handle)
       IF (.NOT. ASSOCIATED(matrix%row_p)) &
-         CPABORT("The row index must be initialized.")
+         DBCSR_ABORT("The row index must be initialized.")
       IF (matrix%list_indexing) &
-         CPABORT("List index already exists?")
+         DBCSR_ABORT("List index already exists?")
       IF (matrix%bcsc) &
-         CPABORT("Not support for BCSC yet.")
+         DBCSR_ABORT("Not support for BCSC yet.")
       IF (matrix%nblks /= SIZE(matrix%col_i)) &
-         CPABORT("Block count mismatch.")
+         DBCSR_ABORT("Block count mismatch.")
       IF (matrix%nblks /= SIZE(matrix%blk_p)) &
-         CPABORT("Block count mismatch")
+         DBCSR_ABORT("Block count mismatch")
       !
       IF (matrix%local_indexing) THEN
          IF (SIZE(matrix%row_p)-1 /= matrix%nblkrows_local) &
-            CPABORT("Local row index incorrectly sized.")
+            DBCSR_ABORT("Local row index incorrectly sized.")
       ELSE
          IF (SIZE(matrix%row_p)-1 /= matrix%nblkrows_total) &
-            CPABORT("Global row index incorrectly sized")
+            DBCSR_ABORT("Global row index incorrectly sized")
       ENDIF
       !
       matrix%list_indexing = .TRUE.
@@ -1354,7 +1354,7 @@ CONTAINS
          DO blk = 2, nblks
             IF (blki(1, blk) .EQ. blki(1, blk-1) .AND. blki(2, blk) .EQ. blki(2, blk-1)) THEN
                ! Weird assertion to give some idea of the two blocks.
-               IF (-blki(1, blk) /= blki(2, blk)) CALL cp_abort(__LOCATION__, &
+               IF (-blki(1, blk) /= blki(2, blk)) CALL dbcsr_abort(__LOCATION__, &
                                                               "Should not have duplicate matrix blocks. (-row, col) is duplicated.")
             ENDIF
          ENDDO
@@ -1490,9 +1490,9 @@ CONTAINS
          IF (careful_mod) THEN
             ! This is pretty strong but it should be true.
             IF (matrix%index(dbcsr_slot_size) /= new_size) &
-               CPABORT("Unexpected index size.")
+               DBCSR_ABORT("Unexpected index size.")
             IF (SIZE(matrix%index) /= new_size) &
-               CPABORT("Unexpected index size.")
+               DBCSR_ABORT("Unexpected index size.")
          ENDIF
          CALL dbcsr_repoint_index(matrix)
       ENDIF

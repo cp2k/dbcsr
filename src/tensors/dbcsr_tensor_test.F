@@ -354,7 +354,7 @@ CONTAINS
 
             IF (.NOT. eql) THEN
                IF (io_unit > 0) WRITE(io_unit,'(A,1X,A)') TRIM(tensor_name), 'failed!'
-               CPABORT('')
+               DBCSR_ABORT('')
             ELSE
                IF (io_unit > 0) WRITE(io_unit,'(A,1X,A)') TRIM(tensor_name), 'passed!'
             ENDIF
@@ -533,7 +533,7 @@ CONTAINS
          CALL dbcsr_t_iterator_next_block(iterator, blk_index, blk, blk_size=blk_size)
          CALL dbcsr_t_get_stored_coordinates(tensor, blk_index, proc)
          CALL mp_environ(numnodes, mynode, tensor%comm_nd)
-         CPASSERT(proc .EQ. mynode)
+         DBCSR_ASSERT(proc .EQ. mynode)
 #:for ndim in ndims
          IF(dbcsr_t_ndims(tensor) == ${ndim}$) THEN
             WRITE (io_unit_all, '(T7,A,T16,A,${ndim}$I3,1X,A,1X,I3,A2,${ndim}$I3)') &
@@ -571,7 +571,7 @@ CONTAINS
          CALL dbcsr_t_iterator_next_block(iterator, blk_index, blk, blk_size=blk_size)
          CALL dbcsr_t_get_stored_coordinates(tensor, blk_index, proc)
          CALL mp_environ(numnodes, mynode, tensor%comm_nd)
-         CPASSERT(proc .EQ. mynode)
+         DBCSR_ASSERT(proc .EQ. mynode)
 #:for ndim in ndims
          IF(dbcsr_t_ndims(tensor) == ${ndim}$) THEN
             CALL dbcsr_t_get_block(tensor, blk_index, blk_values_${ndim}$)
@@ -661,7 +661,7 @@ CONTAINS
       INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
 
 
-      CPASSERT(dbcsr_t_ndims(tensor) .EQ. ${ndim}$)
+      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. ${ndim}$)
       CALL get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(${shape_colon(ndim)}$) = 0.0_${dprec}$
@@ -705,7 +705,7 @@ CONTAINS
       INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
 
 
-      CPASSERT(dbcsr_t_ndims(tensor) .EQ. ${ndim}$)
+      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. ${ndim}$)
       CALL get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
@@ -847,7 +847,7 @@ CONTAINS
 
       IF (.NOT. eql) THEN
          IF (io_unit > 0) WRITE(io_unit,'(A)') 'Test failed!'
-         CPABORT('')
+         DBCSR_ABORT('')
       ELSE
          IF (io_unit > 0) WRITE(io_unit,'(A)') 'Test passed!'
       ENDIF

@@ -19,12 +19,12 @@
 !>      As a logger should be robust, at the moment I have given up.
 !>
 !>      At the moment logging and output refer to the same object
-!>      (cp_logger_type)
+!>      (dbcsr_logger_type)
 !>      as these are actually different it might be better to separate them
 !>      (they have already separate routines in a separate module
-!>      @see cp_output_handling).
+!>      @see dbcsr_output_handling).
 !>
-!>      some practices (use of print *, no cp_error_type,
+!>      some practices (use of print *, no dbcsr_error_type,
 !>      manual retain release of some objects) are dictated by the need to
 !>      have minimal dependency
 !> \par History
@@ -32,17 +32,17 @@
 !>              local logging [fawzi]
 !>      02.2004 made a stack of default loggers [Joost VandeVondele]
 !> \par
-!>      @see cp_error_handling
+!>      @see dbcsr_error_handling
 !> \author Fawzi Mohamed
 !>      @version 12.2001
 ! **************************************************************************************************
 MODULE dbcsr_log_handling
    USE dbcsr_files,                     ONLY: close_file,&
                                               open_file
-   USE dbcsr_iter_types,                ONLY: cp_iteration_info_create,&
-                                              cp_iteration_info_release,&
-                                              cp_iteration_info_retain,&
-                                              cp_iteration_info_type
+   USE dbcsr_iter_types,                ONLY: dbcsr_iteration_info_create,&
+                                              dbcsr_iteration_info_release,&
+                                              dbcsr_iteration_info_retain,&
+                                              dbcsr_iteration_info_type
    USE dbcsr_kinds,                     ONLY: default_path_length,&
                                               default_string_length,&
                                               dp
@@ -50,7 +50,7 @@ MODULE dbcsr_log_handling
                                               m_getpid,&
                                               m_hostnm
    USE dbcsr_message_passing,           ONLY: mp_comm_free
-   USE dbcsr_para_types,                ONLY: cp_para_env_type
+   USE dbcsr_para_types,                ONLY: dbcsr_para_env_type
    USE dbcsr_string_utilities,          ONLY: compress
    USE dbcsr_timings,                   ONLY: print_stack
 #include "base/dbcsr_base_uses.f90"
@@ -59,34 +59,34 @@ MODULE dbcsr_log_handling
    PRIVATE
 
    !API types
-   PUBLIC :: cp_logger_type, cp_logger_p_type
+   PUBLIC :: dbcsr_logger_type, dbcsr_logger_p_type
    !API parameter vars
-   PUBLIC :: cp_note_level, cp_warning_level, cp_failure_level, cp_fatal_level
+   PUBLIC :: dbcsr_note_level, dbcsr_warning_level, dbcsr_failure_level, dbcsr_fatal_level
    !API default loggers
-   PUBLIC :: cp_get_default_logger, cp_add_default_logger, cp_rm_default_logger, &
-             cp_default_logger_stack_size
+   PUBLIC :: dbcsr_get_default_logger, dbcsr_add_default_logger, dbcsr_rm_default_logger, &
+             dbcsr_default_logger_stack_size
    !API logger routines
-   PUBLIC :: cp_logger_create, cp_logger_retain, cp_logger_release, &
-             cp_logger_would_log, cp_logger_set, cp_logger_get_default_unit_nr, &
-             cp_logger_get_default_io_unit, cp_logger_get_unit_nr, &
-             cp_logger_set_log_level, cp_logger_generate_filename, &
-             cp_to_string
+   PUBLIC :: dbcsr_logger_create, dbcsr_logger_retain, dbcsr_logger_release, &
+             dbcsr_logger_would_log, dbcsr_logger_set, dbcsr_logger_get_default_unit_nr, &
+             dbcsr_logger_get_default_io_unit, dbcsr_logger_get_unit_nr, &
+             dbcsr_logger_set_log_level, dbcsr_logger_generate_filename, &
+             dbcsr_to_string
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_log_handling'
    LOGICAL, PRIVATE, PARAMETER :: debug_this_module = .FALSE.
 
    !! level of an error
-   INTEGER, PARAMETER          :: cp_fatal_level = 3
+   INTEGER, PARAMETER          :: dbcsr_fatal_level = 3
    !! level of a failure
-   INTEGER, PARAMETER          :: cp_failure_level = 2
+   INTEGER, PARAMETER          :: dbcsr_failure_level = 2
    !! level of a warning
-   INTEGER, PARAMETER          :: cp_warning_level = 1
+   INTEGER, PARAMETER          :: dbcsr_warning_level = 1
    !! level of a note
-   INTEGER, PARAMETER          :: cp_note_level = 0
+   INTEGER, PARAMETER          :: dbcsr_note_level = 0
 
    !! a generic function to trasform different types to strings
-   INTERFACE cp_to_string
-      MODULE PROCEDURE cp_int_to_string, cp_real_dp_to_string, cp_logical_to_string
+   INTERFACE dbcsr_to_string
+      MODULE PROCEDURE dbcsr_int_to_string, dbcsr_real_dp_to_string, dbcsr_logical_to_string
    END INTERFACE
 
 ! **************************************************************************************************
@@ -136,7 +136,7 @@ MODULE dbcsr_log_handling
 !>              local logging [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-   TYPE cp_logger_type
+   TYPE dbcsr_logger_type
       INTEGER :: id_nr, ref_count
       INTEGER :: print_level
       INTEGER :: default_local_unit_nr
@@ -144,17 +144,17 @@ MODULE dbcsr_log_handling
       LOGICAL :: close_local_unit_on_dealloc, close_global_unit_on_dealloc
       CHARACTER(len=default_string_length)  :: suffix
       CHARACTER(len=default_path_length)    :: local_filename, global_filename
-      TYPE(cp_para_env_type), POINTER       :: para_env
-      TYPE(cp_iteration_info_type), POINTER :: iter_info
-   END TYPE cp_logger_type
+      TYPE(dbcsr_para_env_type), POINTER       :: para_env
+      TYPE(dbcsr_iteration_info_type), POINTER :: iter_info
+   END TYPE dbcsr_logger_type
 
-   TYPE cp_logger_p_type
-      TYPE(cp_logger_type), POINTER :: p => Null()
-   END TYPE cp_logger_p_type
+   TYPE dbcsr_logger_p_type
+      TYPE(dbcsr_logger_type), POINTER :: p => Null()
+   END TYPE dbcsr_logger_p_type
 
 ! **************************************************************************************************
    TYPE default_logger_stack_type
-      TYPE(cp_logger_type), POINTER :: cp_default_logger => Null()
+      TYPE(dbcsr_logger_type), POINTER :: dbcsr_default_logger => Null()
    END TYPE default_logger_stack_type
 
    INTEGER, PRIVATE            :: stack_pointer = 0
@@ -170,14 +170,14 @@ CONTAINS
 !> \return ...
 !> \author fawzi
 ! **************************************************************************************************
-   FUNCTION cp_default_logger_stack_size() RESULT(res)
+   FUNCTION dbcsr_default_logger_stack_size() RESULT(res)
       INTEGER                                            :: res
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'cp_default_logger_stack_size', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_default_logger_stack_size', &
          routineP = moduleN//':'//routineN
 
       res = stack_pointer
-   END FUNCTION cp_default_logger_stack_size
+   END FUNCTION dbcsr_default_logger_stack_size
 
 ! **************************************************************************************************
 !> \brief adds a default logger.
@@ -188,42 +188,42 @@ CONTAINS
 !>      increments a stack of default loggers the latest one will be
 !>      available within the program
 ! **************************************************************************************************
-   SUBROUTINE cp_add_default_logger(logger)
-      TYPE(cp_logger_type), POINTER                      :: logger
+   SUBROUTINE dbcsr_add_default_logger(logger)
+      TYPE(dbcsr_logger_type), POINTER                   :: logger
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'cp_add_default_logger', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_default_logger', &
          routineP = moduleN//':'//routineN
 
       IF (stack_pointer+1 > max_stack_pointer) THEN
-         CALL cp_abort(__LOCATION__, routineP// &
-                       "too many default loggers, increase max_stack_pointer in "//moduleN)
+         CALL dbcsr_abort(__LOCATION__, routineP// &
+                          "too many default loggers, increase max_stack_pointer in "//moduleN)
       ENDIF
 
       stack_pointer = stack_pointer+1
-      NULLIFY (default_logger_stack(stack_pointer)%cp_default_logger)
+      NULLIFY (default_logger_stack(stack_pointer)%dbcsr_default_logger)
 
-      default_logger_stack(stack_pointer)%cp_default_logger => logger
-      CALL cp_logger_retain(logger)
+      default_logger_stack(stack_pointer)%dbcsr_default_logger => logger
+      CALL dbcsr_logger_retain(logger)
 
-   END SUBROUTINE cp_add_default_logger
+   END SUBROUTINE dbcsr_add_default_logger
 
 ! **************************************************************************************************
-!> \brief the cousin of cp_add_default_logger, decrements the stack, so that
+!> \brief the cousin of dbcsr_add_default_logger, decrements the stack, so that
 !>      the default logger is what it has
 !>      been
 !> \author Joost VandeVondele
 ! **************************************************************************************************
-   SUBROUTINE cp_rm_default_logger()
+   SUBROUTINE dbcsr_rm_default_logger()
       IF (stack_pointer-1 < 0) THEN
-         CALL cp_abort(__LOCATION__, moduleN//":cp_rm_default_logger"// &
-                       "can not destroy default logger "//moduleN)
+         CALL dbcsr_abort(__LOCATION__, moduleN//":dbcsr_rm_default_logger"// &
+                          "can not destroy default logger "//moduleN)
       ENDIF
 
-      CALL cp_logger_release(default_logger_stack(stack_pointer)%cp_default_logger)
-      NULLIFY (default_logger_stack(stack_pointer)%cp_default_logger)
+      CALL dbcsr_logger_release(default_logger_stack(stack_pointer)%dbcsr_default_logger)
+      NULLIFY (default_logger_stack(stack_pointer)%dbcsr_default_logger)
       stack_pointer = stack_pointer-1
 
-   END SUBROUTINE cp_rm_default_logger
+   END SUBROUTINE dbcsr_rm_default_logger
 
 ! **************************************************************************************************
 !> \brief returns the default logger
@@ -234,19 +234,19 @@ CONTAINS
 !> \note
 !>      initializes the default loggers if necessary
 ! **************************************************************************************************
-   FUNCTION cp_get_default_logger() RESULT(res)
-      TYPE(cp_logger_type), POINTER                      :: res
+   FUNCTION dbcsr_get_default_logger() RESULT(res)
+      TYPE(dbcsr_logger_type), POINTER                   :: res
 
       IF (.NOT. stack_pointer > 0) THEN
-         CALL cp_abort(__LOCATION__, "cp_log_handling:cp_get_default_logger"// &
-                       "default logger not yet initialized (CALL cp_init_default_logger)")
+         CALL dbcsr_abort(__LOCATION__, "dbcsr_log_handling:dbcsr_get_default_logger"// &
+                          "default logger not yet initialized (CALL dbcsr_init_default_logger)")
       END IF
-      res => default_logger_stack(stack_pointer)%cp_default_logger
+      res => default_logger_stack(stack_pointer)%dbcsr_default_logger
       IF (.NOT. ASSOCIATED(res)) THEN
-         CALL cp_abort(__LOCATION__, "cp_log_handling:cp_get_default_logger"// &
-                       "default logger is null (released too much ?)")
+         CALL dbcsr_abort(__LOCATION__, "dbcsr_log_handling:dbcsr_get_default_logger"// &
+                          "default logger is null (released too much ?)")
       END IF
-   END FUNCTION cp_get_default_logger
+   END FUNCTION dbcsr_get_default_logger
 
 ! ================== log ==================
 
@@ -256,7 +256,7 @@ CONTAINS
 !> \param para_env the parallel environment (this is most likely the global
 !>        parallel environment
 !> \param print_level the level starting with which something is written
-!>        (defaults to cp_note_level)
+!>        (defaults to dbcsr_note_level)
 !> \param default_global_unit_nr the default unit_nr for output
 !>        (if not given, and no file is given defaults to the standard output)
 !> \param default_local_unit_nr the default unit number for local (i.e. task)
@@ -282,29 +282,29 @@ CONTAINS
 !>      tries to take the right decision with different inputs, and thus is a
 !>      little complex.
 ! **************************************************************************************************
-   SUBROUTINE cp_logger_create(logger, para_env, print_level, &
-                               default_global_unit_nr, default_local_unit_nr, global_filename, &
-                               local_filename, close_global_unit_on_dealloc, iter_info, &
-                               close_local_unit_on_dealloc, suffix, template_logger)
-      TYPE(cp_logger_type), POINTER                      :: logger
-      TYPE(cp_para_env_type), OPTIONAL, POINTER          :: para_env
+   SUBROUTINE dbcsr_logger_create(logger, para_env, print_level, &
+                                  default_global_unit_nr, default_local_unit_nr, global_filename, &
+                                  local_filename, close_global_unit_on_dealloc, iter_info, &
+                                  close_local_unit_on_dealloc, suffix, template_logger)
+      TYPE(dbcsr_logger_type), POINTER                   :: logger
+      TYPE(dbcsr_para_env_type), OPTIONAL, POINTER       :: para_env
       INTEGER, INTENT(in), OPTIONAL                      :: print_level, default_global_unit_nr, &
                                                             default_local_unit_nr
       CHARACTER(len=*), INTENT(in), OPTIONAL             :: global_filename, local_filename
       LOGICAL, INTENT(in), OPTIONAL                      :: close_global_unit_on_dealloc
-      TYPE(cp_iteration_info_type), OPTIONAL, POINTER    :: iter_info
+      TYPE(dbcsr_iteration_info_type), OPTIONAL, POINTER :: iter_info
       LOGICAL, INTENT(in), OPTIONAL                      :: close_local_unit_on_dealloc
       CHARACTER(len=*), INTENT(in), OPTIONAL             :: suffix
-      TYPE(cp_logger_type), OPTIONAL, POINTER            :: template_logger
+      TYPE(dbcsr_logger_type), OPTIONAL, POINTER         :: template_logger
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'cp_logger_create', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_create', &
          routineP = moduleN//':'//routineN
 
       INTEGER                                            :: stat
 
       ALLOCATE (logger, stat=stat)
       IF (stat /= 0) &
-         CPABORT(routineP//" could not ALLOCATE a logger")
+         DBCSR_ABORT(routineP//" could not ALLOCATE a logger")
 
       NULLIFY (logger%para_env)
       NULLIFY (logger%iter_info)
@@ -314,7 +314,7 @@ CONTAINS
 
       IF (PRESENT(template_logger)) THEN
          IF (template_logger%ref_count < 1) &
-            CPABORT(routineP//" template_logger%ref_count<1")
+            DBCSR_ABORT(routineP//" template_logger%ref_count<1")
          logger%print_level = template_logger%print_level
          logger%default_global_unit_nr = template_logger%default_global_unit_nr
          logger%close_local_unit_on_dealloc = template_logger%close_local_unit_on_dealloc
@@ -341,7 +341,7 @@ CONTAINS
          logger%close_global_unit_on_dealloc = .TRUE.
          logger%local_filename = "localLog"
          logger%global_filename = "mainLog"
-         logger%print_level = cp_note_level
+         logger%print_level = dbcsr_note_level
          ! generate a file for default local logger
          ! except the ionode that should write to the default global logger
          logger%default_local_unit_nr = -1
@@ -350,9 +350,9 @@ CONTAINS
       END IF
       IF (PRESENT(para_env)) logger%para_env => para_env
       IF (.NOT. ASSOCIATED(logger%para_env)) &
-         CPABORT(routineP//" para env not associated")
+         DBCSR_ABORT(routineP//" para env not associated")
       IF (logger%para_env%ref_count < 1) &
-         CPABORT(routineP//" para_env%ref_count<1")
+         DBCSR_ABORT(routineP//" para_env%ref_count<1")
       logger%para_env%ref_count = logger%para_env%ref_count+1
 
       IF (PRESENT(print_level)) logger%print_level = print_level
@@ -397,11 +397,11 @@ CONTAINS
       ENDIF
       IF (PRESENT(iter_info)) logger%iter_info => iter_info
       IF (ASSOCIATED(logger%iter_info)) THEN
-         CALL cp_iteration_info_retain(logger%iter_info)
+         CALL dbcsr_iteration_info_retain(logger%iter_info)
       ELSE
-         CALL cp_iteration_info_create(logger%iter_info, "")
+         CALL dbcsr_iteration_info_create(logger%iter_info, "")
       END IF
-   END SUBROUTINE cp_logger_create
+   END SUBROUTINE dbcsr_logger_create
 
 ! **************************************************************************************************
 !> \brief retains the given logger (to be called to keep a shared copy of
@@ -411,18 +411,18 @@ CONTAINS
 !>      08.2002 created [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-   SUBROUTINE cp_logger_retain(logger)
-      TYPE(cp_logger_type), POINTER                      :: logger
+   SUBROUTINE dbcsr_logger_retain(logger)
+      TYPE(dbcsr_logger_type), POINTER                   :: logger
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'cp_logger_retain', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_retain', &
          routineP = moduleN//':'//routineN
 
       IF (.NOT. ASSOCIATED(logger)) &
-         CPABORT(routineP//" logger not associated")
+         DBCSR_ABORT(routineP//" logger not associated")
       IF (logger%ref_count < 1) &
-         CPABORT(routineP//" logger%ref_count<1")
+         DBCSR_ABORT(routineP//" logger%ref_count<1")
       logger%ref_count = logger%ref_count+1
-   END SUBROUTINE cp_logger_retain
+   END SUBROUTINE dbcsr_logger_retain
 
 ! **************************************************************************************************
 !> \brief releases this logger
@@ -431,15 +431,15 @@ CONTAINS
 !>      4.2002 created [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-   SUBROUTINE cp_logger_release(logger)
-      TYPE(cp_logger_type), POINTER                      :: logger
+   SUBROUTINE dbcsr_logger_release(logger)
+      TYPE(dbcsr_logger_type), POINTER                   :: logger
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'cp_logger_release', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_release', &
          routineP = moduleN//':'//routineN
 
       IF (ASSOCIATED(logger)) THEN
          IF (logger%ref_count < 1) &
-            CPABORT(routineP//" logger%ref_count<1")
+            DBCSR_ABORT(routineP//" logger%ref_count<1")
          logger%ref_count = logger%ref_count-1
          IF (logger%ref_count == 0) THEN
             IF (logger%close_global_unit_on_dealloc .AND. &
@@ -454,45 +454,45 @@ CONTAINS
                logger%close_local_unit_on_dealloc = .FALSE.
                logger%default_local_unit_nr = -1
             END IF
-            CALL my_cp_para_env_release(logger%para_env)
-            CALL cp_iteration_info_release(logger%iter_info)
+            CALL my_dbcsr_para_env_release(logger%para_env)
+            CALL dbcsr_iteration_info_release(logger%iter_info)
             DEALLOCATE (logger)
          END IF
       END IF
       NULLIFY (logger)
-   END SUBROUTINE cp_logger_release
+   END SUBROUTINE dbcsr_logger_release
 
 ! **************************************************************************************************
 !> \brief this function can be called to check if the logger would log
 !>      a message with the given level from the given source
 !>      you should use this function if you do direct logging
-!>      (without using cp_logger_log), or if you want to know if the generation
+!>      (without using dbcsr_logger_log), or if you want to know if the generation
 !>      of some costly log info is necessary
 !> \param logger the logger you want to log in
-!> \param level describes the of the message: cp_fatal_level(3),
-!>     cp_failure_level(2), cp_warning_level(1), cp_note_level(0).
+!> \param level describes the of the message: dbcsr_fatal_level(3),
+!>     dbcsr_failure_level(2), dbcsr_warning_level(1), dbcsr_note_level(0).
 !> \return ...
 !> \par History
 !>      4.2002 revised [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-   FUNCTION cp_logger_would_log(logger, level) RESULT(res)
-      TYPE(cp_logger_type), POINTER                      :: logger
+   FUNCTION dbcsr_logger_would_log(logger, level) RESULT(res)
+      TYPE(dbcsr_logger_type), POINTER                   :: logger
       INTEGER, INTENT(in)                                :: level
       LOGICAL                                            :: res
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'cp_logger_would_log', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_would_log', &
          routineP = moduleN//':'//routineN
 
-      TYPE(cp_logger_type), POINTER                      :: lggr
+      TYPE(dbcsr_logger_type), POINTER                   :: lggr
 
       lggr => logger
-      IF (.NOT. ASSOCIATED(lggr)) lggr => cp_get_default_logger()
+      IF (.NOT. ASSOCIATED(lggr)) lggr => dbcsr_get_default_logger()
       IF (lggr%ref_count < 1) &
-         CPABORT(routineP//" logger%ref_count<1")
+         DBCSR_ABORT(routineP//" logger%ref_count<1")
 
       res = level >= lggr%print_level
-   END FUNCTION cp_logger_would_log
+   END FUNCTION dbcsr_logger_would_log
 
 ! **************************************************************************************************
 !> \brief returns the unit nr for the requested kind of log.
@@ -506,13 +506,13 @@ CONTAINS
 !>      4.2002 revised [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-   FUNCTION cp_logger_get_unit_nr(logger, local) RESULT(res)
-      TYPE(cp_logger_type), POINTER                      :: logger
+   FUNCTION dbcsr_logger_get_unit_nr(logger, local) RESULT(res)
+      TYPE(dbcsr_logger_type), POINTER                   :: logger
       LOGICAL, INTENT(in), OPTIONAL                      :: local
       INTEGER                                            :: res
 
-      res = cp_logger_get_default_unit_nr(logger, local=local)
-   END FUNCTION cp_logger_get_unit_nr
+      res = dbcsr_logger_get_default_unit_nr(logger, local=local)
+   END FUNCTION dbcsr_logger_get_unit_nr
 
 ! **************************************************************************************************
 !> \brief returns the unit nr for the ionode (-1 on all other processors)
@@ -523,11 +523,11 @@ CONTAINS
 !>      12.2009 created [tlaino]
 !> \author Teodoro Laino
 ! **************************************************************************************************
-   FUNCTION cp_logger_get_default_io_unit(logger) RESULT(res)
-      TYPE(cp_logger_type), OPTIONAL, POINTER            :: logger
+   FUNCTION dbcsr_logger_get_default_io_unit(logger) RESULT(res)
+      TYPE(dbcsr_logger_type), OPTIONAL, POINTER         :: logger
       INTEGER                                            :: res
 
-      TYPE(cp_logger_type), POINTER                      :: local_logger
+      TYPE(dbcsr_logger_type), POINTER                   :: local_logger
 
       IF (PRESENT(logger)) THEN
          local_logger => logger
@@ -535,13 +535,13 @@ CONTAINS
          res = -1 ! edge case: default logger not yet/anymore available
          RETURN
       ELSE
-         local_logger => cp_get_default_logger()
+         local_logger => dbcsr_get_default_logger()
       ENDIF
 
-      res = cp_logger_get_default_unit_nr(local_logger, local=.FALSE., skip_not_ionode=.TRUE.)
-   END FUNCTION cp_logger_get_default_io_unit
+      res = dbcsr_logger_get_default_unit_nr(local_logger, local=.FALSE., skip_not_ionode=.TRUE.)
+   END FUNCTION dbcsr_logger_get_default_io_unit
 
-! *************************** cp_logger_type settings ***************************
+! *************************** dbcsr_logger_type settings ***************************
 
 ! **************************************************************************************************
 !> \brief changes the logging level. Log messages with a level less than the one
@@ -552,23 +552,23 @@ CONTAINS
 !>      4.2002 revised [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-   SUBROUTINE cp_logger_set_log_level(logger, level)
-      TYPE(cp_logger_type), POINTER                      :: logger
+   SUBROUTINE dbcsr_logger_set_log_level(logger, level)
+      TYPE(dbcsr_logger_type), POINTER                   :: logger
       INTEGER, INTENT(in)                                :: level
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'cp_logger_set_log_level', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_set_log_level', &
          routineP = moduleN//':'//routineN
 
       IF (.NOT. ASSOCIATED(logger)) &
-         CPABORT(routineP//" logger not associated")
+         DBCSR_ABORT(routineP//" logger not associated")
       IF (logger%ref_count < 1) &
-         CPABORT(routineP//" logger%ref_count<1")
+         DBCSR_ABORT(routineP//" logger%ref_count<1")
       logger%print_level = level
-   END SUBROUTINE cp_logger_set_log_level
+   END SUBROUTINE dbcsr_logger_set_log_level
 
 ! **************************************************************************************************
 !> \brief asks the default unit number of the given logger.
-!>      try to use cp_logger_get_unit_nr
+!>      try to use dbcsr_logger_get_unit_nr
 !> \param logger the logger you want info from
 !> \param local if you want the local unit nr (defaults to false)
 !> \param skip_not_ionode ...
@@ -577,18 +577,18 @@ CONTAINS
 !>      4.2002 revised [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-   RECURSIVE FUNCTION cp_logger_get_default_unit_nr(logger, local, skip_not_ionode) RESULT(res)
-      TYPE(cp_logger_type), OPTIONAL, POINTER            :: logger
+   RECURSIVE FUNCTION dbcsr_logger_get_default_unit_nr(logger, local, skip_not_ionode) RESULT(res)
+      TYPE(dbcsr_logger_type), OPTIONAL, POINTER         :: logger
       LOGICAL, INTENT(in), OPTIONAL                      :: local, skip_not_ionode
       INTEGER                                            :: res
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'cp_logger_get_default_unit_nr', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_get_default_unit_nr', &
          routineP = moduleN//':'//routineN
 
       CHARACTER(len=default_path_length)                 :: filename, host_name
       INTEGER                                            :: iostat, pid
       LOGICAL                                            :: loc, skip
-      TYPE(cp_logger_type), POINTER                      :: lggr
+      TYPE(dbcsr_logger_type), POINTER                   :: lggr
 
       loc = .TRUE.
       skip = .FALSE.
@@ -597,22 +597,22 @@ CONTAINS
       ELSE
          NULLIFY (lggr)
       ENDIF
-      IF (.NOT. ASSOCIATED(lggr)) lggr => cp_get_default_logger()
+      IF (.NOT. ASSOCIATED(lggr)) lggr => dbcsr_get_default_logger()
       IF (lggr%ref_count < 1) &
-         CPABORT(routineP//" logger%ref_count<1")
+         DBCSR_ABORT(routineP//" logger%ref_count<1")
 
       IF (PRESENT(local)) loc = local
       IF (PRESENT(skip_not_ionode)) skip = skip_not_ionode
       IF (.NOT. loc) THEN
          IF (lggr%default_global_unit_nr <= 0) THEN
             IF (lggr%para_env%mepos == lggr%para_env%source) THEN
-               CALL cp_logger_generate_filename(lggr, filename, lggr%global_filename, &
-                                                ".out", local=.FALSE.)
+               CALL dbcsr_logger_generate_filename(lggr, filename, lggr%global_filename, &
+                                                   ".out", local=.FALSE.)
                CALL open_file(TRIM(filename), file_status="unknown", &
                               file_action="WRITE", file_position="APPEND", &
                               unit_number=lggr%default_global_unit_nr)
             ELSE IF (.NOT. skip) THEN
-               lggr%default_global_unit_nr = cp_logger_get_default_unit_nr(lggr, .TRUE.)
+               lggr%default_global_unit_nr = dbcsr_logger_get_default_unit_nr(lggr, .TRUE.)
                lggr%close_global_unit_on_dealloc = .FALSE.
             ELSE
                lggr%default_global_unit_nr = -1
@@ -638,8 +638,8 @@ CONTAINS
          res = lggr%default_global_unit_nr
       ELSE
          IF (lggr%default_local_unit_nr <= 0) THEN
-            CALL cp_logger_generate_filename(lggr, filename, lggr%local_filename, &
-                                             ".out", local=.TRUE.)
+            CALL dbcsr_logger_generate_filename(lggr, filename, lggr%local_filename, &
+                                                ".out", local=.TRUE.)
             CALL open_file(TRIM(filename), file_status="unknown", &
                            file_action="WRITE", &
                            file_position="APPEND", &
@@ -669,7 +669,7 @@ CONTAINS
          END IF
          res = lggr%default_local_unit_nr
       END IF
-   END FUNCTION cp_logger_get_default_unit_nr
+   END FUNCTION dbcsr_logger_get_default_unit_nr
 
 ! **************************************************************************************************
 !> \brief releases the para object (to be called when you don't want anymore
@@ -680,17 +680,17 @@ CONTAINS
 !> \author Fawzi Mohamed
 !> \note
 !>      local private version to avoid circular dependencies
-!>      (see cp_para_env:cp_para_env_release)!
+!>      (see dbcsr_para_env:dbcsr_para_env_release)!
 ! **************************************************************************************************
-   SUBROUTINE my_cp_para_env_release(para_env)
-      TYPE(cp_para_env_type), POINTER                    :: para_env
+   SUBROUTINE my_dbcsr_para_env_release(para_env)
+      TYPE(dbcsr_para_env_type), POINTER                 :: para_env
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'my_cp_para_env_release', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'my_dbcsr_para_env_release', &
          routineP = moduleN//':'//routineN
 
       IF (ASSOCIATED(para_env)) THEN
          IF (para_env%ref_count < 1) THEN
-            CPABORT(routineP//" para_env%ref_count<1")
+            DBCSR_ABORT(routineP//" para_env%ref_count<1")
          END IF
          para_env%ref_count = para_env%ref_count-1
          IF (para_env%ref_count < 1) THEN
@@ -701,7 +701,7 @@ CONTAINS
          END IF
       END IF
       NULLIFY (para_env)
-   END SUBROUTINE my_cp_para_env_release
+   END SUBROUTINE my_dbcsr_para_env_release
 
 ! **************************************************************************************************
 !> \brief generates a unique filename (ie adding eventual suffixes and
@@ -720,35 +720,35 @@ CONTAINS
 !>      Not fully optimized: result must be a littel longer than the
 !>      resulting compressed filename
 ! **************************************************************************************************
-   SUBROUTINE cp_logger_generate_filename(logger, res, root, postfix, &
-                                          local)
-      TYPE(cp_logger_type), POINTER                      :: logger
+   SUBROUTINE dbcsr_logger_generate_filename(logger, res, root, postfix, &
+                                             local)
+      TYPE(dbcsr_logger_type), POINTER                   :: logger
       CHARACTER(len=*), INTENT(inout)                    :: res
       CHARACTER(len=*), INTENT(in)                       :: root, postfix
       LOGICAL, INTENT(in), OPTIONAL                      :: local
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'cp_logger_generate_filename', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_generate_filename', &
          routineP = moduleN//':'//routineN
 
       LOGICAL                                            :: loc
-      TYPE(cp_logger_type), POINTER                      :: lggr
+      TYPE(dbcsr_logger_type), POINTER                   :: lggr
 
       loc = .FALSE.
       res = ' '
       lggr => logger
 
-      IF (.NOT. ASSOCIATED(lggr)) lggr => cp_get_default_logger()
+      IF (.NOT. ASSOCIATED(lggr)) lggr => dbcsr_get_default_logger()
       IF (lggr%ref_count < 1) &
-         CPABORT(routineP//" logger%ref_count<1")
+         DBCSR_ABORT(routineP//" logger%ref_count<1")
       IF (PRESENT(local)) loc = local
       IF (loc) THEN
          res = TRIM(root)//TRIM(lggr%suffix)//'_p'// &
-               cp_to_string(lggr%para_env%mepos)//postfix
+               dbcsr_to_string(lggr%para_env%mepos)//postfix
       ELSE
          res = TRIM(root)//TRIM(lggr%suffix)//postfix
       END IF
       CALL compress(res, full=.TRUE.)
-   END SUBROUTINE cp_logger_generate_filename
+   END SUBROUTINE dbcsr_logger_generate_filename
 
 ! **************************************************************************************************
 !> \brief sets various attributes of the given logger
@@ -759,17 +759,18 @@ CONTAINS
 !>        global logging
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-   SUBROUTINE cp_logger_set(logger, local_filename, global_filename)
-      TYPE(cp_logger_type), POINTER                      :: logger
+   SUBROUTINE dbcsr_logger_set(logger, local_filename, global_filename)
+      TYPE(dbcsr_logger_type), POINTER                   :: logger
       CHARACTER(len=*), INTENT(in), OPTIONAL             :: local_filename, global_filename
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'cp_logger_set', routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_set', &
+         routineP = moduleN//':'//routineN
 
       IF (.NOT. ASSOCIATED(logger)) &
-         CPABORT(routineP//" unassociated logger")
+         DBCSR_ABORT(routineP//" unassociated logger")
       IF (PRESENT(local_filename)) logger%local_filename = local_filename
       IF (PRESENT(global_filename)) logger%global_filename = global_filename
-   END SUBROUTINE cp_logger_set
+   END SUBROUTINE dbcsr_logger_set
 
 ! **************************************************************************************************
 !> \brief converts an int to a string
@@ -781,7 +782,7 @@ CONTAINS
 !>      4.2002 revised [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-   FUNCTION cp_int_to_string(i) RESULT(res)
+   FUNCTION dbcsr_int_to_string(i) RESULT(res)
       INTEGER, INTENT(in)                                :: i
       CHARACTER(len=6)                                   :: res
 
@@ -798,10 +799,10 @@ CONTAINS
       END IF
       res = t_res
       IF (iostat /= 0) THEN
-         PRINT *, "cp_int_to_string ioerror", iostat
-         CALL print_stack(cp_logger_get_default_unit_nr())
+         PRINT *, "dbcsr_int_to_string ioerror", iostat
+         CALL print_stack(dbcsr_logger_get_default_unit_nr())
       END IF
-   END FUNCTION cp_int_to_string
+   END FUNCTION dbcsr_int_to_string
 
 ! **************************************************************************************************
 !> \brief convert a double precision real in a string
@@ -813,12 +814,12 @@ CONTAINS
 !>      4.2002 revised [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-   FUNCTION cp_real_dp_to_string(val) RESULT(res)
+   FUNCTION dbcsr_real_dp_to_string(val) RESULT(res)
       REAL(KIND=dp), INTENT(in)                          :: val
       CHARACTER(len=11)                                  :: res
 
       WRITE (res, '(es11.4)') val
-   END FUNCTION cp_real_dp_to_string
+   END FUNCTION dbcsr_real_dp_to_string
 
 ! **************************************************************************************************
 !> \brief convert a logical in a string ('T' or 'F')
@@ -826,7 +827,7 @@ CONTAINS
 !> \return ...
 !> \author fawzi
 ! **************************************************************************************************
-   FUNCTION cp_logical_to_string(val) RESULT(res)
+   FUNCTION dbcsr_logical_to_string(val) RESULT(res)
       LOGICAL, INTENT(in)                                :: val
       CHARACTER(len=1)                                   :: res
 
@@ -835,7 +836,7 @@ CONTAINS
       ELSE
          res = 'F'
       END IF
-   END FUNCTION cp_logical_to_string
+   END FUNCTION dbcsr_logical_to_string
 
 END MODULE dbcsr_log_handling
 

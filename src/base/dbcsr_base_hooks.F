@@ -17,24 +17,24 @@ MODULE dbcsr_base_hooks
    PRIVATE
 
    !API
-   PUBLIC :: cp_abort, cp_warn, timeset, timestop
+   PUBLIC :: dbcsr_abort, dbcsr_warn, timeset, timestop
    !API
-   PUBLIC :: cp_abort_hook, cp_warn_hook, timeset_hook, timestop_hook
+   PUBLIC :: dbcsr_abort_hook, dbcsr_warn_hook, timeset_hook, timestop_hook
    !API
-   PUBLIC :: cp__a, cp__b, cp__w, cp__l
+   PUBLIC :: dbcsr__a, dbcsr__b, dbcsr__w, dbcsr__l
 
    ! this interface (with subroutines in it) musst to be defined right before
    ! the regular subroutines/functions - otherwise prettify.py will screw up.
    INTERFACE
-      SUBROUTINE cp_abort_interface(location, message)
+      SUBROUTINE dbcsr_abort_interface(location, message)
       CHARACTER(len=*), INTENT(in)                       :: location, message
 
-      END SUBROUTINE cp_abort_interface
+      END SUBROUTINE dbcsr_abort_interface
 
-      SUBROUTINE cp_warn_interface(location, message)
+      SUBROUTINE dbcsr_warn_interface(location, message)
       CHARACTER(len=*), INTENT(in)                       :: location, message
 
-      END SUBROUTINE cp_warn_interface
+      END SUBROUTINE dbcsr_warn_interface
 
       SUBROUTINE timeset_interface(routineN, handle)
       CHARACTER(LEN=*), INTENT(IN)                       :: routineN
@@ -48,8 +48,8 @@ MODULE dbcsr_base_hooks
       END SUBROUTINE timestop_interface
    END INTERFACE
 
-   PROCEDURE(cp_abort_interface), POINTER :: cp_abort_hook => Null()
-   PROCEDURE(cp_warn_interface), POINTER :: cp_warn_hook => Null()
+   PROCEDURE(dbcsr_abort_interface), POINTER :: dbcsr_abort_hook => Null()
+   PROCEDURE(dbcsr_warn_interface), POINTER :: dbcsr_warn_hook => Null()
    PROCEDURE(timeset_interface), POINTER :: timeset_hook => Null()
    PROCEDURE(timestop_interface), POINTER :: timestop_hook => Null()
 
@@ -61,11 +61,11 @@ CONTAINS
 !> \param message ...
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE cp_abort(location, message)
+   SUBROUTINE dbcsr_abort(location, message)
       CHARACTER(len=*), INTENT(in)                       :: location, message
 
-      IF (ASSOCIATED(cp_abort_hook)) THEN
-         CALL cp_abort_hook(location, message)
+      IF (ASSOCIATED(dbcsr_abort_hook)) THEN
+         CALL dbcsr_abort_hook(location, message)
       ELSE
          WRITE (default_output_unit, *) "ABORT in "//TRIM(location)//" "//TRIM(message)
          CALL m_flush(default_output_unit)
@@ -73,7 +73,7 @@ CONTAINS
       ENDIF
       ! compiler hint
       STOP "Never return from here"
-   END SUBROUTINE cp_abort
+   END SUBROUTINE dbcsr_abort
 
 ! **************************************************************************************************
 !> \brief Issue a warning
@@ -81,16 +81,16 @@ CONTAINS
 !> \param message ...
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE cp_warn(location, message)
+   SUBROUTINE dbcsr_warn(location, message)
       CHARACTER(len=*), INTENT(in)                       :: location, message
 
-      IF (ASSOCIATED(cp_warn_hook)) THEN
-         CALL cp_warn_hook(location, message)
+      IF (ASSOCIATED(dbcsr_warn_hook)) THEN
+         CALL dbcsr_warn_hook(location, message)
       ELSE
          WRITE (default_output_unit, *) "WARNING in "//TRIM(location)//" "//TRIM(message)
          CALL m_flush(default_output_unit)
       ENDIF
-   END SUBROUTINE cp_warn
+   END SUBROUTINE dbcsr_warn
 
 ! **************************************************************************************************
 !> \brief Start timer
@@ -121,56 +121,56 @@ CONTAINS
          CALL timestop_hook(handle)
       ELSE
          IF (handle /= -1) &
-            CALL cp_abort(cp__l("base_hooks.F", __LINE__), "Got wrong handle")
+            CALL dbcsr_abort(dbcsr__l("base_hooks.F", __LINE__), "Got wrong handle")
       ENDIF
    END SUBROUTINE timestop
 
 ! **************************************************************************************************
-!> \brief CPASSERT handler
+!> \brief DBCSR_ASSERT handler
 !> \param filename ...
 !> \param lineNr ...
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE cp__a(filename, lineNr)
+   SUBROUTINE dbcsr__a(filename, lineNr)
       CHARACTER(len=*), INTENT(in)                       :: filename
       INTEGER, INTENT(in)                                :: lineNr
 
-      CALL cp_abort(location=cp__l(filename, lineNr), message="CPASSERT failed")
+      CALL dbcsr_abort(location=dbcsr__l(filename, lineNr), message="DBCSR_ASSERT failed")
       ! compiler hint
       STOP "Never return from here"
-   END SUBROUTINE cp__a
+   END SUBROUTINE dbcsr__a
 
 ! **************************************************************************************************
-!> \brief CPABORT handler
+!> \brief DBCSR_ABORT handler
 !> \param filename ...
 !> \param lineNr ...
 !> \param message ...
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE cp__b(filename, lineNr, message)
+   SUBROUTINE dbcsr__b(filename, lineNr, message)
       CHARACTER(len=*), INTENT(in)                       :: filename
       INTEGER, INTENT(in)                                :: lineNr
       CHARACTER(len=*), INTENT(in)                       :: message
 
-      CALL cp_abort(location=cp__l(filename, lineNr), message=message)
+      CALL dbcsr_abort(location=dbcsr__l(filename, lineNr), message=message)
       ! compiler hint
       STOP "Never return from here"
-   END SUBROUTINE cp__b
+   END SUBROUTINE dbcsr__b
 
 ! **************************************************************************************************
-!> \brief CPWARN handler
+!> \brief DBCSR_WARN handler
 !> \param filename ...
 !> \param lineNr ...
 !> \param message ...
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE cp__w(filename, lineNr, message)
+   SUBROUTINE dbcsr__w(filename, lineNr, message)
       CHARACTER(len=*), INTENT(in)                       :: filename
       INTEGER, INTENT(in)                                :: lineNr
       CHARACTER(len=*), INTENT(in)                       :: message
 
-      CALL cp_warn(location=cp__l(filename, lineNr), message=message)
-   END SUBROUTINE cp__w
+      CALL dbcsr_warn(location=dbcsr__l(filename, lineNr), message=message)
+   END SUBROUTINE dbcsr__w
 
 ! **************************************************************************************************
 !> \brief Helper routine to assemble __LOCATION__
@@ -179,7 +179,7 @@ CONTAINS
 !> \return ...
 !> \author Ole Schuett
 ! **************************************************************************************************
-   FUNCTION cp__l(filename, lineNr) RESULT(location)
+   FUNCTION dbcsr__l(filename, lineNr) RESULT(location)
       CHARACTER(len=*), INTENT(in)                       :: filename
       INTEGER, INTENT(in)                                :: lineNr
       CHARACTER(len=default_string_length)               :: location
@@ -189,6 +189,6 @@ CONTAINS
       WRITE (lineNr_str, FMT='(I10)') lineNr
       location = TRIM(filename)//":"//TRIM(ADJUSTL(lineNr_str))
 
-   END FUNCTION cp__l
+   END FUNCTION dbcsr__l
 
 END MODULE dbcsr_base_hooks

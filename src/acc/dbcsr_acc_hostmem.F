@@ -100,13 +100,13 @@ CONTAINS
       TYPE(C_PTR)                                        :: stream_cptr
 
       IF (.NOT. acc_stream_associated(stream)) &
-         CPABORT("acc_hostmem_alloc_raw: stream not associated")
+         DBCSR_ABORT("acc_hostmem_alloc_raw: stream not associated")
 
       stream_cptr = acc_stream_cptr(stream)
 
       istat = cuda_host_mem_alloc_cu(host_mem_c_ptr, INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
       IF (istat /= 0) &
-         CPABORT("acc_hostmem_alloc_raw: Could not allocate host pinned memory")
+         DBCSR_ABORT("acc_hostmem_alloc_raw: Could not allocate host pinned memory")
    END SUBROUTINE acc_hostmem_alloc_raw
 #endif
 
@@ -127,13 +127,13 @@ CONTAINS
       TYPE(C_PTR)                                        :: stream_cptr
 
       IF (.NOT. acc_stream_associated(stream)) &
-         CPABORT("acc_hostmem_dealloc_raw: stream not associated")
+         DBCSR_ABORT("acc_hostmem_dealloc_raw: stream not associated")
 
       stream_cptr = acc_stream_cptr(stream)
 
       istat = cuda_host_mem_dealloc_cu(host_mem_c_ptr, stream_cptr)
       IF (istat /= 0) &
-         CPABORT("acc_hostmem_dealloc_raw: Could not deallocate host pinned memory")
+         DBCSR_ABORT("acc_hostmem_dealloc_raw: Could not deallocate host pinned memory")
    END SUBROUTINE acc_hostmem_dealloc_raw
 #endif
 
@@ -167,7 +167,7 @@ CONTAINS
     MARK_USED(host_mem)
     MARK_USED(n)
     MARK_USED(stream)
-    CPABORT("acc_hostmem_alloc_${nametype}$: ACC not compiled in.")
+    DBCSR_ABORT("acc_hostmem_alloc_${nametype}$: ACC not compiled in.")
 #endif
   END SUBROUTINE acc_hostmem_alloc_${nametype}$
 
@@ -197,7 +197,7 @@ CONTAINS
     MARK_USED(n1)
     MARK_USED(n2)
     MARK_USED(stream)
-    CPABORT("acc_hostmem_alloc_${nametype}$_2D: ACC not compiled in.")
+    DBCSR_ABORT("acc_hostmem_alloc_${nametype}$_2D: ACC not compiled in.")
 #endif
   END SUBROUTINE acc_hostmem_alloc_${nametype}$_2D
 
@@ -220,7 +220,7 @@ CONTAINS
 #else
     MARK_USED(host_mem)
     MARK_USED(stream)
-    CPABORT("acc_hostmem_dealloc_${nametype}$: ACC not compiled in.")
+    DBCSR_ABORT("acc_hostmem_dealloc_${nametype}$: ACC not compiled in.")
 #endif
   END SUBROUTINE acc_hostmem_dealloc_${nametype}$
 
@@ -243,7 +243,7 @@ CONTAINS
 #else
     MARK_USED(host_mem)
     MARK_USED(stream)
-    CPABORT("acc_hostmem_dealloc_${nametype}$: ACC not compiled in.")
+    DBCSR_ABORT("acc_hostmem_dealloc_${nametype}$: ACC not compiled in.")
 #endif
   END SUBROUTINE acc_hostmem_dealloc_${nametype}$_2D
 

@@ -382,7 +382,7 @@ CONTAINS
       ${dtype}$, DIMENSION(ndata), INTENT(IN)              :: block
       INTEGER, DIMENSION(ndims_buffer(buffer)), INTENT(IN) :: index
       INTEGER                                              :: p, ndims, p_data
-      CPASSERT(buffer%data_type .EQ. ${dparam}$)
+      DBCSR_ASSERT(buffer%data_type .EQ. ${dparam}$)
       ndims = ndims_buffer(buffer)
       p = buffer%endpos
       IF (p .EQ. 0) THEN
@@ -427,7 +427,7 @@ CONTAINS
          do_advance = .TRUE.
       ENDIF
 
-      CPASSERT(buffer%data_type .EQ. ${dparam}$)
+      DBCSR_ASSERT(buffer%data_type .EQ. ${dparam}$)
       ndims = ndims_buffer(buffer)
       p = buffer%endpos
       IF (p .EQ. 0) THEN

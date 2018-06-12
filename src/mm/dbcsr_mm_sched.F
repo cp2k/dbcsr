@@ -346,7 +346,7 @@ CONTAINS
       TYPE(stats_type), POINTER                          :: mystats
 
       IF (stack_fillcount <= 0) &
-         CPABORT("dbcsr_mm_sched_process: got empty stack")
+         DBCSR_ABORT("dbcsr_mm_sched_process: got empty stack")
 
       ithread = 0
 !$    ithread = OMP_GET_THREAD_NUM()
@@ -363,13 +363,13 @@ CONTAINS
       IF (.FALSE.) THEN
          DO sp = 1, stack_fillcount
             IF (stack_data(p_a_first, sp) > SIZE(left%data_area%d%r_dp)) &
-               CPABORT("left data out of range")
+               DBCSR_ABORT("left data out of range")
             IF (stack_data(p_b_first, sp) > SIZE(right%data_area%d%r_dp)) &
-               CPABORT("right data out of range")
+               DBCSR_ABORT("right data out of range")
             IF (stack_data(p_c_first, sp) > SIZE(this%product_wm%data_area%d%r_dp)) THEN
                WRITE (*, *) "blub: ", stack_data(p_c_first, sp), SIZE(this%product_wm%data_area%d%r_dp), &
                   dbcsr_data_get_size(this%product_wm%data_area), stacked_datasize
-               CPABORT("product data out of range")
+               DBCSR_ABORT("product data out of range")
             END IF
          END DO
       ENDIF
@@ -379,11 +379,11 @@ CONTAINS
          IF (stack_descr%defined_mnk) THEN
             DO sp = 1, stack_fillcount
                IF (stack_data(p_m, sp) /= stack_descr%m) &
-                  CPABORT("homogenous stacks check failed")
+                  DBCSR_ABORT("homogenous stacks check failed")
                IF (stack_data(p_n, sp) /= stack_descr%n) &
-                  CPABORT("homogenous stacks check failed")
+                  DBCSR_ABORT("homogenous stacks check failed")
                IF (stack_data(p_k, sp) /= stack_descr%k) &
-                  CPABORT("homogenous stacks check failed")
+                  DBCSR_ABORT("homogenous stacks check failed")
             END DO
          ENDIF
       ENDIF
@@ -428,7 +428,7 @@ CONTAINS
          success=success, &
          used_smm=used_smm)
 
-      IF (.NOT. success) CPABORT("dbcsr_mm_sched_process_stack failed")
+      IF (.NOT. success) DBCSR_ABORT("dbcsr_mm_sched_process_stack failed")
 
       ! update statistics
       IF (used_smm) THEN

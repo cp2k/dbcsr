@@ -35,7 +35,7 @@ MODULE dbcsr_timings_report
                                               mp_max,&
                                               mp_maxloc,&
                                               mp_sum
-   USE dbcsr_para_types,                ONLY: cp_para_env_type
+   USE dbcsr_para_types,                ONLY: dbcsr_para_env_type
    USE dbcsr_timings,                   ONLY: get_timer_env
    USE dbcsr_timings_base_type,         ONLY: call_stat_type,&
                                               routine_report_type,&
@@ -71,7 +71,7 @@ CONTAINS
       LOGICAL, INTENT(IN)                                :: sort_by_self_time
       INTEGER, INTENT(IN)                                :: cost_type
       LOGICAL, INTENT(IN)                                :: report_maxloc
-      TYPE(cp_para_env_type), INTENT(IN)                 :: para_env
+      TYPE(dbcsr_para_env_type), INTENT(IN)              :: para_env
 
       TYPE(list_routinereport_type)                      :: reports
       TYPE(routine_report_type), POINTER                 :: r_report
@@ -101,7 +101,7 @@ CONTAINS
    SUBROUTINE collect_reports_from_ranks(reports, cost_type, para_env)
       TYPE(list_routinereport_type), INTENT(INOUT)       :: reports
       INTEGER, INTENT(IN)                                :: cost_type
-      TYPE(cp_para_env_type), INTENT(IN)                 :: para_env
+      TYPE(dbcsr_para_env_type), INTENT(IN)              :: para_env
 
       CHARACTER(LEN=default_string_length)               :: routineN
       INTEGER                                            :: local_routine_id, sending_rank
@@ -114,7 +114,7 @@ CONTAINS
 
       NULLIFY (r_stat, r_report, timer_env)
       IF (.NOT. list_isready(reports)) &
-         CPABORT("BUG")
+         DBCSR_ABORT("BUG")
 
       timer_env => get_timer_env()
 
@@ -176,7 +176,7 @@ CONTAINS
                r_report%max_ecost = r_stat%excl_walltime_accu
                r_report%sum_ecost = r_stat%excl_walltime_accu
             CASE DEFAULT
-               CPABORT("BUG")
+               DBCSR_ABORT("BUG")
             END SELECT
          END IF
 
@@ -224,7 +224,7 @@ CONTAINS
       LOGICAL, INTENT(IN)                                :: sort_by_exclusiv_cost
       INTEGER, INTENT(IN)                                :: cost_type
       LOGICAL, INTENT(IN)                                :: report_maxloc
-      TYPE(cp_para_env_type), INTENT(IN)                 :: para_env
+      TYPE(dbcsr_para_env_type), INTENT(IN)              :: para_env
 
       CHARACTER(LEN=4)                                   :: label
       CHARACTER(LEN=default_string_length)               :: fmt, title
@@ -236,7 +236,7 @@ CONTAINS
 
       NULLIFY (r_report_i, r_report_j)
       IF (.NOT. list_isready(reports)) &
-         CPABORT("BUG")
+         DBCSR_ABORT("BUG")
 
       ! are we printing timing or energy ?
       SELECT CASE (cost_type)
@@ -247,7 +247,7 @@ CONTAINS
          title = "T I M I N G"
          label = "TIME"
       CASE DEFAULT
-         CPABORT("BUG")
+         DBCSR_ABORT("BUG")
       END SELECT
 
       ! write banner

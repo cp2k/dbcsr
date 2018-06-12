@@ -314,22 +314,22 @@ CONTAINS
       IF (has_limits) THEN
          IF (limits(last_col_i) .NE. 0) THEN
             IF (debug_mod .AND. (limits(last_col_i) < 0 .OR. limits(last_col_i) > dbcsr_nfullcols_total(matrix_a))) &
-               CPABORT("Specified last column is out of bounds.")
+               DBCSR_ABORT("Specified last column is out of bounds.")
             my_limits(last_col_i) = limits(last_col_i)
          ENDIF
          IF (limits(first_col_i) .NE. 0) THEN
             IF (debug_mod .AND. (limits(first_col_i) < 0 .OR. limits(first_col_i) > dbcsr_nfullcols_total(matrix_a))) &
-               CPABORT("Specified first column is out of bounds.")
+               DBCSR_ABORT("Specified first column is out of bounds.")
             my_limits(first_col_i) = limits(first_col_i)
          ENDIF
          IF (limits(last_row_i) .NE. 0) THEN
             IF (debug_mod .AND. (limits(last_row_i) < 0 .OR. limits(last_row_i) > dbcsr_nfullrows_total(matrix_a))) &
-               CPABORT("Specified last row is out of bounds.")
+               DBCSR_ABORT("Specified last row is out of bounds.")
             my_limits(last_row_i) = limits(last_row_i)
          ENDIF
          IF (limits(first_row_i) .NE. 0) THEN
             IF (debug_mod .AND. (limits(first_row_i) < 0 .OR. limits(first_row_i) > dbcsr_nfullrows_total(matrix_a))) &
-               CPABORT("Specified first row is out of bounds.")
+               DBCSR_ABORT("Specified first row is out of bounds.")
             my_limits(first_row_i) = limits(first_row_i)
          ENDIF
       ENDIF
@@ -432,7 +432,7 @@ CONTAINS
 
 ! check that alpha and matrix have the same data type
       IF (dbcsr_get_data_type(matrix_a) .NE. alpha%d%data_type) &
-         CPABORT("wrong data type matrix_a")
+         DBCSR_ABORT("wrong data type matrix_a")
       !
       ! set vars
       right = .TRUE.
@@ -440,7 +440,7 @@ CONTAINS
       CASE ('right'); right = .TRUE.
       CASE ('left'); right = .FALSE.
       CASE DEFAULT
-         CPABORT("wrong side="//side)
+         DBCSR_ABORT("wrong side="//side)
       END SELECT
       !
       ! let's go
@@ -550,13 +550,13 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       IF (.NOT. dbcsr_valid_index(matrix_a)) &
-         CPABORT("Invalid matrix")
+         DBCSR_ABORT("Invalid matrix")
 
       IF ((dbcsr_get_matrix_type(matrix_a) .EQ. dbcsr_type_symmetric .OR. &
            dbcsr_get_matrix_type(matrix_a) .EQ. dbcsr_type_antisymmetric) .NEQV. &
           (dbcsr_get_matrix_type(matrix_b) .EQ. dbcsr_type_symmetric .OR. &
            dbcsr_get_matrix_type(matrix_b) .EQ. dbcsr_type_antisymmetric)) THEN
-         CPABORT("Summing general with symmetric matrix NYI")
+         DBCSR_ABORT("Summing general with symmetric matrix NYI")
       ENDIF
 
       data_type_a = dbcsr_get_data_type(matrix_a)
@@ -569,10 +569,10 @@ CONTAINS
       IF ((dbcsr_nblkrows_total(matrix_a) .NE. dbcsr_nblkrows_total(matrix_b)) .OR. &
           (dbcsr_nblkcols_total(matrix_a) .NE. dbcsr_nblkcols_total(matrix_b)) .OR. &
           (data_type_a .NE. data_type_b)) &
-         CPABORT("matrices not consistent")
+         DBCSR_ABORT("matrices not consistent")
 
       IF (data_type_a .NE. my_beta_scalar%data_type) &
-         CPABORT("beta type parameter not consistent with matrices type")
+         DBCSR_ABORT("beta type parameter not consistent with matrices type")
 
       do_scale = .NOT. dbcsr_scalar_are_equal(my_beta_scalar, dbcsr_scalar_one(data_type_b))
 
@@ -616,7 +616,7 @@ CONTAINS
          CASE (dbcsr_type_complex_8)
             CALL dbcsr_add_anytype_z(matrix_a, matrix_b, iter, iw, do_scale, my_beta_scalar, my_flop)
          CASE default
-            CPABORT("Invalid data type")
+            DBCSR_ABORT("Invalid data type")
          END SELECT
          CALL dbcsr_iterator_stop(iter)
 
@@ -665,7 +665,7 @@ CONTAINS
                                 alpha_scalar=dbcsr_scalar(CMPLX(alpha_scalar, 0, real_8)), &
                                 beta_scalar=dbcsr_scalar(CMPLX(beta_scalar, 0, real_8)))
       ELSE
-         CPABORT("Invalid combination of data type, NYI")
+         DBCSR_ABORT("Invalid combination of data type, NYI")
       ENDIF
       CALL timestop(handle)
    END SUBROUTINE dbcsr_add_d
@@ -693,7 +693,7 @@ CONTAINS
                                 alpha_scalar=dbcsr_scalar(alpha_scalar), &
                                 beta_scalar=dbcsr_scalar(beta_scalar))
       ELSE
-         CPABORT("Invalid combination of data type, NYI")
+         DBCSR_ABORT("Invalid combination of data type, NYI")
       ENDIF
       CALL timestop(handle)
    END SUBROUTINE dbcsr_add_s
@@ -726,7 +726,7 @@ CONTAINS
                                 alpha_scalar=dbcsr_scalar(CMPLX(alpha_scalar, KIND=real_4)), &
                                 beta_scalar=dbcsr_scalar(CMPLX(beta_scalar, KIND=real_4)))
       ELSE
-         CPABORT("Invalid combination of data type, NYI")
+         DBCSR_ABORT("Invalid combination of data type, NYI")
       ENDIF
       CALL timestop(handle)
    END SUBROUTINE dbcsr_add_z
@@ -754,7 +754,7 @@ CONTAINS
                                 alpha_scalar=dbcsr_scalar(alpha_scalar), &
                                 beta_scalar=dbcsr_scalar(beta_scalar))
       ELSE
-         CPABORT("Invalid combination of data type, NYI")
+         DBCSR_ABORT("Invalid combination of data type, NYI")
       ENDIF
       CALL timestop(handle)
    END SUBROUTINE dbcsr_add_c
@@ -848,7 +848,7 @@ CONTAINS
             !CASE (dbcsr_type_real_4)
             !   a_data%d%r_sp(1:nze) = 1.0_real_4/a_data%d%r_sp(1:nze)
             !   IF(MAXVAL(ABS(a_data%d%r_sp)).GE.HUGE(0.0_real_4))&
-            !      CPABORT("Division by zero")
+            !      DBCSR_ABORT("Division by zero")
          CASE (dbcsr_type_real_8)
             SELECT CASE (func)
             CASE (dbcsr_func_spread_from_zero)
@@ -884,7 +884,7 @@ CONTAINS
             CASE (dbcsr_func_inverse)
                a_data%d%r_dp(1:nze) = 1.0_real_8/(p1*a_data%d%r_dp(1:nze)+p0)
                IF (MAXVAL(ABS(a_data%d%r_dp)) .GE. HUGE(0.0_real_8)) &
-                  CPABORT("Division by zero")
+                  DBCSR_ABORT("Division by zero")
             CASE (dbcsr_func_tanh)
                a_data%d%r_dp(1:nze) = TANH(p1*a_data%d%r_dp(1:nze)+p0)
             CASE (dbcsr_func_dtanh)
@@ -898,7 +898,7 @@ CONTAINS
             CASE (dbcsr_func_artanh)
                a_data%d%r_dp(1:nze) = p1*a_data%d%r_dp(1:nze)+p0
                IF (MAXVAL(ABS(a_data%d%r_dp)) .GE. 1.0_real_8) &
-                  CPABORT("ARTANH is undefined for |x|>=1")
+                  DBCSR_ABORT("ARTANH is undefined for |x|>=1")
                a_data%d%r_dp(1:nze) = (1.0_real_8+a_data%d%r_dp(1:nze)) &
                                       /(1.0_real_8-a_data%d%r_dp(1:nze))
                a_data%d%r_dp(1:nze) = 0.5_real_8*LOG(a_data%d%r_dp(1:nze))
@@ -913,15 +913,15 @@ CONTAINS
             CASE (dbcsr_func_asin)
                a_data%d%r_dp(1:nze) = p1*a_data%d%r_dp(1:nze)+p0
                IF (MAXVAL(ABS(a_data%d%r_dp)) .GT. 1.0_real_8) &
-                  CPABORT("ASIN is undefined for |x|>1")
+                  DBCSR_ABORT("ASIN is undefined for |x|>1")
                a_data%d%r_dp(1:nze) = ASIN(a_data%d%r_dp(1:nze))
             CASE DEFAULT
-               CPABORT("Unknown function of matrix elements")
+               DBCSR_ABORT("Unknown function of matrix elements")
             END SELECT
             !CASE (dbcsr_type_complex_4)
             !CASE (dbcsr_type_complex_8)
          CASE DEFAULT
-            CPABORT("Operation is implemented only for dp real values")
+            DBCSR_ABORT("Operation is implemented only for dp real values")
          END SELECT
       ENDDO
       CALL dbcsr_iterator_stop(iter)
@@ -969,11 +969,11 @@ CONTAINS
       CALL timeset(routineN, handle)
       IF (dbcsr_get_data_type(matrix_a) .NE. dbcsr_get_data_type(matrix_b) .OR. &
           dbcsr_get_data_type(matrix_a) .NE. dbcsr_get_data_type(matrix_c)) &
-         CPABORT("data types not consistent, need to fix that")
+         DBCSR_ABORT("data types not consistent, need to fix that")
 
       IF (dbcsr_nblkrows_total(matrix_a) .NE. dbcsr_nblkrows_total(matrix_b) .OR. &
           dbcsr_nblkrows_total(matrix_c) .NE. dbcsr_nblkrows_total(matrix_a)) &
-         CPABORT("matrices not consistent")
+         DBCSR_ABORT("matrices not consistent")
 
       data_type = dbcsr_get_data_type(matrix_a)
       CALL dbcsr_data_init(c_data)
@@ -994,7 +994,7 @@ CONTAINS
             nze = row_size*col_size
             CALL dbcsr_get_block_p(matrix_b, row, col, b_data, tr_b, found)
             IF (tr_a .NEQV. tr_b) &
-               CPABORT("tr not consistent, need to fix that")
+               DBCSR_ABORT("tr not consistent, need to fix that")
             IF (found) THEN
                SELECT CASE (data_type)
                CASE (dbcsr_type_real_4)
@@ -1039,7 +1039,7 @@ CONTAINS
             !CASE (dbcsr_type_complex_4)
             !CASE (dbcsr_type_complex_8)
          CASE DEFAULT
-            CPABORT("Only real double precision")
+            DBCSR_ABORT("Only real double precision")
          END SELECT
       ENDDO
       CALL dbcsr_iterator_stop(iter)
@@ -1190,7 +1190,7 @@ CONTAINS
             symmetry_consistent = .TRUE.
          END SELECT
       CASE DEFAULT
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       END SELECT
 
    END FUNCTION symmetry_consistent
@@ -1227,7 +1227,7 @@ CONTAINS
             symmetry_compatible = .TRUE.
          END SELECT
       CASE DEFAULT
-         CPABORT("Invalid matrix type.")
+         DBCSR_ABORT("Invalid matrix type.")
       END SELECT
 
    END FUNCTION symmetry_compatible
@@ -1265,14 +1265,14 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       IF (.NOT. symmetry_consistent(dbcsr_get_matrix_type(matrix_a), dbcsr_get_data_type(matrix_a))) &
-         CPABORT("Source matrix symmetry not consistent with its data type.")
+         DBCSR_ABORT("Source matrix symmetry not consistent with its data type.")
       shallow = .FALSE.; IF (PRESENT(shallow_data)) shallow = shallow_data
       keep_sparse = .FALSE.
       IF (PRESENT(keep_sparsity)) keep_sparse = keep_sparsity
       IF (keep_sparse .AND. .NOT. dbcsr_valid_index(matrix_b)) &
-         CPABORT("Target matrix must be valid to keep its sparsity")
+         DBCSR_ABORT("Target matrix must be valid to keep its sparsity")
       IF (keep_sparse .AND. shallow) &
-         CPWARN("Shallow copy not compatibly with sparsity retainment")
+         DBCSR_WARN("Shallow copy not compatibly with sparsity retainment")
       IF (keep_sparse) THEN
          IF (PRESENT(name)) matrix_b%name = name
          CALL dbcsr_copy_into_existing(matrix_b, matrix_a)
@@ -1287,12 +1287,12 @@ CONTAINS
          new_matrix_type = dbcsr_get_matrix_type(matrix_a)
          IF (PRESENT(matrix_type)) THEN
             IF (.NOT. symmetry_compatible(dbcsr_get_matrix_type(matrix_a), matrix_type)) &
-               CALL cp_abort(__LOCATION__, "Specified target matrix symmetry "//matrix_type// &
+               CALL dbcsr_abort(__LOCATION__, "Specified target matrix symmetry "//matrix_type// &
                              " not compatible with source matrix type "//dbcsr_get_matrix_type(matrix_a))
             new_matrix_type = matrix_type
          END IF
          IF (.NOT. symmetry_consistent(new_matrix_type, new_type)) &
-            CALL cp_abort(__LOCATION__, "Target matrix symmetry "// &
+            CALL dbcsr_abort(__LOCATION__, "Target matrix symmetry "// &
                           new_matrix_type//" not consistent with its data type.")
          IF (PRESENT(name)) THEN
             CALL dbcsr_create(matrix_b, name=TRIM(name), &
@@ -1312,7 +1312,7 @@ CONTAINS
          matrix_b%index(1:SIZE(matrix_a%index)) = matrix_a%index(:)
          IF (.NOT. shallow) THEN
             IF (matrix_a%nze > dbcsr_get_data_size(matrix_a)) &
-               CPABORT("Source matrix sizes not consistent!")
+               DBCSR_ABORT("Source matrix sizes not consistent!")
             CALL dbcsr_data_ensure_size(matrix_b%data_area, &
                                         dbcsr_data_get_size_referenced(matrix_a%data_area))
             IF (dbcsr_get_data_type(matrix_a) .EQ. dbcsr_get_data_type(matrix_b)) &
@@ -1325,7 +1325,7 @@ CONTAINS
             ENDIF
          ELSE
             IF (dbcsr_get_data_type(matrix_a) .NE. dbcsr_get_data_type(matrix_b)) &
-               CPABORT("Shallow copy only possible when retaining data type.")
+               DBCSR_ABORT("Shallow copy only possible when retaining data type.")
             CALL dbcsr_switch_data_area(matrix_b, matrix_a%data_area)
          ENDIF
          !
@@ -1364,9 +1364,9 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       IF (.NOT. dbcsr_valid_index(matrix_b)) &
-         CPABORT("Matrix_b is not valid")
+         DBCSR_ABORT("Matrix_b is not valid")
       IF (dbcsr_get_data_type(matrix_b) .NE. dbcsr_get_data_type(matrix_a)) &
-         CPABORT("Matrices have different data types.")
+         DBCSR_ABORT("Matrices have different data types.")
       data_type = dbcsr_get_data_type(matrix_b)
       neg_real = matrix_b%negate_real
       neg_imag = matrix_b%negate_imaginary
@@ -1411,7 +1411,7 @@ CONTAINS
          CASE (0)
             ! Copy the data
             IF (dbcsr_data_get_size(src_data) .NE. dbcsr_data_get_size(dst_data)) &
-               CPABORT("Block sizes not equal!")
+               DBCSR_ABORT("Block sizes not equal!")
             IF (src_tr .EQV. dst_tr) THEN
                CALL dbcsr_data_copyall(dst_data, src_data)
             ELSE
@@ -1430,7 +1430,7 @@ CONTAINS
                ENDIF
             ENDIF
          CASE default
-            CPABORT("Trouble syncing iterators")
+            DBCSR_ABORT("Trouble syncing iterators")
          END SELECT
       END DO
       CALL dbcsr_iterator_stop(src_iter)
@@ -1466,10 +1466,10 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       IF (dbcsr_get_data_type(matrix_b) .NE. dbcsr_get_data_type(matrix_a)) &
-         CPABORT("Matrices have different data types.")
+         DBCSR_ABORT("Matrices have different data types.")
       data_type = dbcsr_get_data_type(matrix_b)
       IF (.NOT. dbcsr_has_symmetry(matrix_b) .OR. dbcsr_has_symmetry(matrix_a)) &
-         CPABORT("Must copy from non-symmetric to symmetric matrix.")
+         DBCSR_ABORT("Must copy from non-symmetric to symmetric matrix.")
       neg_real = matrix_b%negate_real
       neg_imag = matrix_b%negate_imaginary
 
@@ -1594,11 +1594,11 @@ CONTAINS
       ! Verify assumptions.
       IF (PRESENT(block_row_bounds)) THEN
          IF (SIZE(block_row_bounds) /= 2) &
-            CPABORT("Size of bounds specifier must be 2")
+            DBCSR_ABORT("Size of bounds specifier must be 2")
       ENDIF
       IF (PRESENT(block_column_bounds)) THEN
          IF (SIZE(block_column_bounds) /= 2) &
-            CPABORT("Size of bounds specifier must be 2")
+            DBCSR_ABORT("Size of bounds specifier must be 2")
       ENDIF
       ! Setup target matrix
       CALL dbcsr_create(matrix_b, name=name, template=matrix_a)
@@ -1721,11 +1721,11 @@ CONTAINS
       ! addressing.
       IF (PRESENT(full_row_bounds)) THEN
          IF (SIZE(full_row_bounds) /= 2) &
-            CPABORT("Size of bounds specifier must be 2")
+            DBCSR_ABORT("Size of bounds specifier must be 2")
          IF (full_row_bounds(1) < 0) &
-            CPABORT("Invalid first row bound.")
+            DBCSR_ABORT("Invalid first row bound.")
          IF (full_row_bounds(2) > dbcsr_nfullrows_total(matrix_a)) &
-            CPABORT("Invalid last row bound.")
+            DBCSR_ABORT("Invalid last row bound.")
          part_f_row = .FALSE.
          IF (full_row_bounds(1) .EQ. 0) THEN
             block_row_bounds(1) = 1
@@ -1767,11 +1767,11 @@ CONTAINS
       ! addressing.
       IF (PRESENT(full_column_bounds)) THEN
          IF (SIZE(full_column_bounds) /= 2) &
-            CPABORT("Size of bounds specifier must be 2")
+            DBCSR_ABORT("Size of bounds specifier must be 2")
          IF (full_column_bounds(1) < 0) &
-            CPABORT("Invalid first column bound.")
+            DBCSR_ABORT("Invalid first column bound.")
          IF (full_column_bounds(2) > dbcsr_nfullcols_total(matrix_a)) &
-            CPABORT("Invalid last column bound.")
+            DBCSR_ABORT("Invalid last column bound.")
          part_f_col = .FALSE.
          IF (full_column_bounds(1) .EQ. 0) THEN
             block_col_bounds(1) = 1
@@ -1988,7 +1988,7 @@ CONTAINS
                   IF (nrm_s .LT. my_absolute*eps%r_sp) &
                      CALL dbcsr_remove_block(matrix, row, col, blk_nze, blk)
                CASE DEFAULT
-                  CPABORT("Only Frobenius based filtering")
+                  DBCSR_ABORT("Only Frobenius based filtering")
                END SELECT
 
             CASE (dbcsr_type_real_8)
@@ -2004,7 +2004,7 @@ CONTAINS
                   IF (nrm_d .LT. my_absolute*eps%r_dp) &
                      CALL dbcsr_remove_block(matrix, row, col, blk_nze, blk)
                CASE DEFAULT
-                  CPABORT("Only Frobenius based filtering")
+                  DBCSR_ABORT("Only Frobenius based filtering")
                END SELECT
 
             CASE (dbcsr_type_complex_4)
@@ -2020,7 +2020,7 @@ CONTAINS
                   IF (nrm_d .LT. my_absolute*eps%r_dp) &
                      CALL dbcsr_remove_block(matrix, row, col, blk_nze, blk)
                CASE DEFAULT
-                  CPABORT("Only Frobenius based filtering")
+                  DBCSR_ABORT("Only Frobenius based filtering")
                END SELECT
 
             CASE (dbcsr_type_complex_8)
@@ -2036,11 +2036,11 @@ CONTAINS
                   IF (nrm_d .LT. my_absolute*eps%r_dp) &
                      CALL dbcsr_remove_block(matrix, row, col, blk_nze, blk)
                CASE DEFAULT
-                  CPABORT("Only Frobenius based filtering")
+                  DBCSR_ABORT("Only Frobenius based filtering")
                END SELECT
 
             CASE DEFAULT
-               CPABORT("Wrong data type")
+               DBCSR_ABORT("Wrong data type")
             END SELECT
          ENDDO
          CALL dbcsr_iterator_stop(iter)
@@ -2099,13 +2099,13 @@ CONTAINS
 
          IF (PRESENT(norm_vector)) THEN
             IF (dbcsr_data_get_type(norm_vector) /= dbcsr_get_data_type(matrix)) &
-               CPABORT("Mismatched vector/matrix data types")
+               DBCSR_ABORT("Mismatched vector/matrix data types")
             IF (dbcsr_has_symmetry(matrix)) THEN
                IF (dbcsr_data_get_size(norm_vector) < dbcsr_nfullrows_total(matrix)) &
-                  CPABORT("Passed vector too small")
+                  DBCSR_ABORT("Passed vector too small")
             END IF
             IF (dbcsr_data_get_size(norm_vector) < dbcsr_nfullcols_total(matrix)) &
-               CPABORT("Passed vector too small")
+               DBCSR_ABORT("Passed vector too small")
             CALL dbcsr_data_init(data_a)
             CALL dbcsr_data_new(data_a, dbcsr_type_1d_to_2d(dbcsr_get_data_type(matrix)))
             CALL dbcsr_data_clear(norm_vector)
@@ -2159,7 +2159,7 @@ CONTAINS
                   !CASE (dbcsr_type_complex_4)
                   !CASE (dbcsr_type_complex_8)
                CASE DEFAULT
-                  CPABORT("Only real values")
+                  DBCSR_ABORT("Only real values")
                END SELECT
             ENDDO
             CALL dbcsr_iterator_stop(iter)
@@ -2179,7 +2179,7 @@ CONTAINS
 
       CASE DEFAULT
 
-         CPABORT("this norm is NYI")
+         DBCSR_ABORT("this norm is NYI")
 
       END SELECT
       CALL timestop(handle)
@@ -2281,7 +2281,7 @@ CONTAINS
                 dbcsr_get_matrix_type(matrix) .EQ. dbcsr_type_antisymmetric
 
       IF (nr .NE. nc) &
-         CPABORT("not a square matrix")
+         DBCSR_ABORT("not a square matrix")
 
       norm = 0.0_dp
       ALLOCATE (buff_d(nr))
@@ -2316,7 +2316,7 @@ CONTAINS
             DO i = 1, SIZE(data_c, 1)
                buff_d(row_offset+i-1) = buff_d(row_offset+i-1)+ABS(data_c(i, j))
                IF (any_sym .AND. row .NE. col) &
-                  CPABORT("Only nonsymmetric matrix so far")
+                  DBCSR_ABORT("Only nonsymmetric matrix so far")
                !     buff_d(col_offset+j-1) = buff_d(col_offset+j-1) + ABS(data_c(i,j))
             ENDDO
             ENDDO
@@ -2327,12 +2327,12 @@ CONTAINS
             DO i = 1, SIZE(data_z, 1)
                buff_d(row_offset+i-1) = buff_d(row_offset+i-1)+ABS(data_z(i, j))
                IF (any_sym .AND. row .NE. col) &
-                  CPABORT("Only nonsymmetric matrix so far")
+                  DBCSR_ABORT("Only nonsymmetric matrix so far")
                !     buff_d(col_offset+j-1) = buff_d(col_offset+j-1) + ABS(data_z(i,j))
             ENDDO
             ENDDO
          CASE DEFAULT
-            CPABORT("Wrong data type")
+            DBCSR_ABORT("Wrong data type")
          END SELECT
       ENDDO
       CALL dbcsr_iterator_stop(iter)
@@ -2380,7 +2380,7 @@ CONTAINS
             CALL dbcsr_iterator_next_block(iter, row, col, data_z, tr, blk)
             norm = MAX(norm, MAXVAL(ABS(data_z)))
          CASE DEFAULT
-            CPABORT("Wrong data type")
+            DBCSR_ABORT("Wrong data type")
          END SELECT
       ENDDO
       CALL dbcsr_iterator_stop(iter)
@@ -2440,16 +2440,16 @@ CONTAINS
             CALL dbcsr_iterator_next_block(iter, row, col, data_c, tr, blk)
             fac = 1.0_dp
             IF (any_sym .AND. row .NE. col) &
-               CPABORT("Only nonsymmetric matrix so far")
+               DBCSR_ABORT("Only nonsymmetric matrix so far")
             norm = norm+fac*REAL(SUM(CONJG(data_c)*data_c), KIND=real_8)
          CASE (dbcsr_type_complex_8)
             CALL dbcsr_iterator_next_block(iter, row, col, data_z, tr, blk)
             fac = 1.0_dp
             IF (any_sym .AND. row .NE. col) &
-               CPABORT("Only nonsymmetric matrix so far")
+               DBCSR_ABORT("Only nonsymmetric matrix so far")
             norm = norm+fac*REAL(SUM(CONJG(data_z)*data_z), KIND=real_8)
          CASE DEFAULT
-            CPABORT("Wrong data type")
+            DBCSR_ABORT("Wrong data type")
          END SELECT
       ENDDO
       CALL dbcsr_iterator_stop(iter)
@@ -2488,7 +2488,7 @@ CONTAINS
       CALL mp_allgather(index_checksum, all_checksums, comm)
       !
       IF (.NOT. ALL(all_checksums .EQ. index_checksum)) &
-         CPABORT("Replicated matrices do not all have the same index structure.")
+         DBCSR_ABORT("Replicated matrices do not all have the same index structure.")
       !
       SELECT CASE (dbcsr_data_get_type (matrix%data_area))
       CASE (dbcsr_type_real_4)
@@ -2500,7 +2500,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          CALL mp_sum(matrix%data_area%d%c_dp, comm)
       CASE default
-         CPABORT("Incorrect data type")
+         DBCSR_ABORT("Incorrect data type")
       END SELECT
       !
       CALL timestop(handle)
@@ -2536,7 +2536,7 @@ CONTAINS
          CALL dbcsr_trace_ab_s(matrix_a, matrix_b, trace_4)
          trace = REAL(trace_4, real_8)
       ELSE
-         CPABORT("Invalid combination of data type, NYI")
+         DBCSR_ABORT("Invalid combination of data type, NYI")
       ENDIF
       CALL timestop(handle)
    END SUBROUTINE dbcsr_trace_a_b_d
@@ -2568,7 +2568,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          CALL dbcsr_trace(matrix_a, trace%c_dp)
       CASE default
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       END SELECT
 
       CALL timestop(error_handle)
@@ -2652,7 +2652,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       !vw avoid massive priting of warnings
-      !CPWARN("Invalid matrix")
+      !DBCSR_WARN("Invalid matrix")
       IF (PRESENT(nblkrows_total)) nblkrows_total = matrix%nblkrows_total
       IF (PRESENT(nblkcols_total)) nblkcols_total = matrix%nblkcols_total
       IF (PRESENT(nfullrows_total)) nfullrows_total = matrix%nfullrows_total
@@ -2680,7 +2680,7 @@ CONTAINS
       !IF (PRESENT(matrix_type)) THEN
       !   matrix_type = dbcsr_get_matrix_type(matrix)
       !   IF (matrix_type .EQ. dbcsr_type_invalid) &
-      !      CPABORT("Incorrect symmetry")
+      !      DBCSR_ABORT("Incorrect symmetry")
       !ENDIF
    END SUBROUTINE dbcsr_get_info
 

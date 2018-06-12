@@ -312,7 +312,7 @@ CONTAINS
       CALL timeset(routineN, error_handle)
       !
       IF (.NOT. dbcsr_distribution_has_threads(product_dist)) &
-         CPABORT("Product distribution must have threads.")
+         DBCSR_ABORT("Product distribution must have threads.")
       tdist => array_data(dbcsr_distribution_thread_dist(product_dist))
       old_m_dist = product_dist%d%row_dist_block
       old_n_dist = product_dist%d%col_dist_block
@@ -321,7 +321,7 @@ CONTAINS
       n_nbins = dbcsr_mp_npcols(product_dist%d%mp_env)
       k_nbins = dbcsr_mp_nprows(right_rdist%i%main%d%mp_env)*right_rdist%i%row_decimation
       IF (.NOT. array_equality(old_k_vdist, left_rdist%i%vcol_dist)) &
-         CPABORT("k distribution mismtach")
+         DBCSR_ABORT("k distribution mismtach")
       nthreads = product_dist%d%num_threads
       !
       IF (partial) THEN
@@ -537,7 +537,7 @@ CONTAINS
          CALL find_all_local_elements(imgdist%i%other_vl_rows, vrow_dist, nvprows)
       ELSE
          IF (careful_mod .AND. .NOT. ASSOCIATED(imgdist%i%other_vl_rows)) &
-            CPABORT("Local rows mapping does not exist.")
+            DBCSR_ABORT("Local rows mapping does not exist.")
       ENDIF
       local_vrows = imgdist%i%other_vl_rows(local_vprow)
       IF (careful_mod) CALL timestop(error_handle)
@@ -587,7 +587,7 @@ CONTAINS
          CALL find_all_local_elements(imgdist%i%other_vl_cols, vcol_dist, nvpcols)
       ELSE
          IF (careful_mod .AND. .NOT. ASSOCIATED(imgdist%i%other_vl_cols)) &
-            CPABORT("Local cols mapping does not exist.")
+            DBCSR_ABORT("Local cols mapping does not exist.")
       ENDIF
       local_vcols = imgdist%i%other_vl_cols(local_vpcol)
       IF (careful_mod) CALL timestop(error_handle)
@@ -639,12 +639,12 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       IF (careful_mod .AND. .NOT. PRESENT(myvprow) .AND. .NOT. PRESENT(mycoli)) THEN
-         CALL cp_abort(__LOCATION__, &
-                       "Must specify either (process row and row image) or (virtual process row)")
+         CALL dbcsr_abort(__LOCATION__, &
+                          "Must specify either (process row and row image) or (virtual process row)")
       ENDIF
       IF (careful_mod .AND. .NOT. PRESENT(myvpcol) .AND. .NOT. PRESENT(mycoli)) THEN
-         CALL cp_abort(__LOCATION__, &
-                       "Must specify either (process col and col image) or (virtual process col)")
+         CALL dbcsr_abort(__LOCATION__, &
+                          "Must specify either (process col and col image) or (virtual process col)")
       ENDIF
       !
       mp = image_dist%i%main%d%mp_env
@@ -853,7 +853,7 @@ CONTAINS
          dist%d%has_global_row_map = .TRUE.
       ELSE
          IF (careful_mod .AND. .NOT. array_exists(dist%d%global_row_map)) &
-            CPABORT("Row map does not exist.")
+            DBCSR_ABORT("Row map does not exist.")
       ENDIF
       row_map = dist%d%global_row_map
       CALL timestop(error_handle)
@@ -885,7 +885,7 @@ CONTAINS
          dist%d%has_global_col_map = .TRUE.
       ELSE
          IF (careful_mod .AND. .NOT. array_exists(dist%d%global_col_map)) &
-            CPABORT("Column map does not exist.")
+            DBCSR_ABORT("Column map does not exist.")
       ENDIF
       col_map = dist%d%global_col_map
       CALL timestop(error_handle)
@@ -918,7 +918,7 @@ CONTAINS
          imgdist%i%has_global_vrow_map = .TRUE.
       ELSE
          IF (careful_mod .AND. .NOT. array_exists(imgdist%i%global_vrow_map)) &
-            CPABORT("Row map does not exist.")
+            DBCSR_ABORT("Row map does not exist.")
       ENDIF
       vrow_map = imgdist%i%global_vrow_map
       IF (careful_mod) CALL timestop(error_handle)
@@ -951,7 +951,7 @@ CONTAINS
          imgdist%i%has_global_vcol_map = .TRUE.
       ELSE
          IF (careful_mod .AND. .NOT. array_exists(imgdist%i%global_vcol_map)) &
-            CPABORT("Col map does not exist.")
+            DBCSR_ABORT("Col map does not exist.")
       ENDIF
       vcol_map = imgdist%i%global_vcol_map
       IF (careful_mod) CALL timestop(error_handle)
@@ -1125,9 +1125,9 @@ CONTAINS
          new_bins(i) = virtual_bin/nimages
          images(i) = 1+MOD(virtual_bin, nimages)
          IF (new_bins(i) .GE. nbins) &
-            CPABORT("Wrong bin calculation")
+            DBCSR_ABORT("Wrong bin calculation")
          IF (images(i) .GT. nimages) &
-            CPABORT("Wrong image calculation")
+            DBCSR_ABORT("Wrong image calculation")
       ENDDO
    END SUBROUTINE rebin_imaged_distribution
 

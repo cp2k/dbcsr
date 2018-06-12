@@ -168,7 +168,7 @@ CONTAINS
 
       CALL dbcsr_data_get_sizes(dense, dense_row_size, dense_col_size, valid)
       IF (.NOT. valid) &
-         CPABORT("dense matrix not valid")
+         DBCSR_ABORT("dense matrix not valid")
       data_type = dbcsr_data_get_type(dense)
       symm = dbcsr_get_matrix_type(sparse)
 
@@ -243,7 +243,7 @@ CONTAINS
                CALL dbcsr_block_conjg(dense, row_size=col_size, col_size=row_size, &
                                       lb=col_offset, lb2=row_offset)
             CASE DEFAULT
-               CPABORT("wrong matrix symmetry")
+               DBCSR_ABORT("wrong matrix symmetry")
             END SELECT
          ENDIF
       ENDDO
@@ -283,7 +283,7 @@ CONTAINS
 
       CALL dbcsr_data_get_sizes(dense, dense_row_size, dense_col_size, valid)
       IF (.NOT. valid) &
-         CPABORT("dense matrix not valid")
+         DBCSR_ABORT("dense matrix not valid")
 
       symm = dbcsr_get_matrix_type(sparse)
       data_type = dbcsr_data_get_type(dense)
@@ -340,7 +340,7 @@ CONTAINS
                CALL dbcsr_block_conjg(dense, row_size=col_size, col_size=row_size, &
                                       lb=col_offset, lb2=row_offset)
             CASE DEFAULT
-               CPABORT("wrong matrix symmetry")
+               DBCSR_ABORT("wrong matrix symmetry")
             END SELECT
          ENDIF
       END DO
@@ -412,7 +412,7 @@ CONTAINS
 
       CALL timeset(routineN, error_handle)
       ! Check that the counter was initialised (or has not overflowed)
-      CPASSERT(randmat_counter .NE. 0)
+      DBCSR_ASSERT(randmat_counter .NE. 0)
       ! the counter goes into the seed. Every new call gives a new random matrix
       randmat_counter = randmat_counter+1
       ! Create the matrix
@@ -515,7 +515,7 @@ CONTAINS
                CALL dbcsr_block_conjg(data_values_tr, row_size=col_blk_sizes(s_col), col_size=row_blk_sizes(s_row), &
                                       lb=1)
             CASE DEFAULT
-               CPABORT("wrong matrix symmetry")
+               DBCSR_ABORT("wrong matrix symmetry")
             END SELECT
             CALL dbcsr_put_block(matrix, s_row, s_col, data_values_tr, summation=.TRUE.)
          ENDIF
@@ -584,7 +584,7 @@ CONTAINS
       block_sizes = sizes(1:nblocks)
       current_sum = SUM(block_sizes)
       IF (current_sum /= size_sum) &
-         CPABORT("Incorrect block sizes")
+         DBCSR_ABORT("Incorrect block sizes")
       DEALLOCATE (mixer, sizes)
 
    END SUBROUTINE dbcsr_make_random_block_sizes

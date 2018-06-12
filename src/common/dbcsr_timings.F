@@ -91,7 +91,7 @@ CONTAINS
       IF (PRESENT(timer_env)) timer_env_ => timer_env
       IF (.NOT. PRESENT(timer_env)) CALL timer_env_create(timer_env_)
       IF (.NOT. ASSOCIATED(timer_env_)) &
-         CPABORT("add_timer_env: not associated")
+         DBCSR_ABORT("add_timer_env: not associated")
 
       CALL timer_env_retain(timer_env_)
       IF (.NOT. list_isready(timers_stack)) CALL list_init(timers_stack)
@@ -110,7 +110,7 @@ CONTAINS
 
       ALLOCATE (timer_env, stat=stat)
       IF (stat /= 0) &
-         CPABORT("timer_env_create: allocation failed")
+         DBCSR_ABORT("timer_env_create: allocation failed")
       timer_env%ref_count = 0
       timer_env%trace_max = -1 ! tracing disabled by default
       timer_env%trace_all = .FALSE.
@@ -156,9 +156,9 @@ CONTAINS
       TYPE(timer_env_type), POINTER                      :: timer_env
 
       IF (.NOT. ASSOCIATED(timer_env)) &
-         CPABORT("timer_env_retain: not associated")
+         DBCSR_ABORT("timer_env_retain: not associated")
       IF (timer_env%ref_count < 0) &
-         CPABORT("timer_env_retain: negativ ref_count")
+         DBCSR_ABORT("timer_env_retain: negativ ref_count")
       timer_env%ref_count = timer_env%ref_count+1
    END SUBROUTINE timer_env_retain
 
@@ -176,9 +176,9 @@ CONTAINS
       TYPE(routine_stat_type), POINTER                   :: r_stat
 
       IF (.NOT. ASSOCIATED(timer_env)) &
-         CPABORT("timer_env_release: not associated")
+         DBCSR_ABORT("timer_env_release: not associated")
       IF (timer_env%ref_count < 0) &
-         CPABORT("timer_env_release: negativ ref_count")
+         DBCSR_ABORT("timer_env_release: negativ ref_count")
       timer_env%ref_count = timer_env%ref_count-1
       IF (timer_env%ref_count > 0) RETURN
 
@@ -243,7 +243,7 @@ CONTAINS
       timer_env => list_peek(timers_stack)
 
       IF (LEN_TRIM(routineN) > default_string_length) THEN
-         CPABORT('timings_timeset: routineN too long: "'//TRIM(routineN)//"'")
+         DBCSR_ABORT('timings_timeset: routineN too long: "'//TRIM(routineN)//"'")
       END IF
 
       ! update routine r_stats
@@ -320,7 +320,7 @@ CONTAINS
       IF (handle /= cs_entry%routine_id) THEN
          PRINT *, "list_size(timer_env%callstack) ", list_size(timer_env%callstack), &
             " handle ", handle, " list_size(timers_stack) ", list_size(timers_stack)
-         CPABORT('mismatched timestop '//TRIM(r_stat%routineN)//' in routine timestop')
+         DBCSR_ABORT('mismatched timestop '//TRIM(r_stat%routineN)//' in routine timestop')
       END IF
 
       wt_elapsed = 0
@@ -484,7 +484,7 @@ CONTAINS
 
       ! enforce space free timer names, to make the output of trace/timings of a fixed number fields
       IF (INDEX(routineN(1:LEN_TRIM(routineN)), ' ') /= 0) THEN
-         CPABORT("timings_name2id: routineN contains spaces: "//routineN)
+         DBCSR_ABORT("timings_name2id: routineN contains spaces: "//routineN)
       END IF
 
       ! register routine_name_dsl with new routine_id
@@ -493,7 +493,7 @@ CONTAINS
 
       ALLOCATE (r_stat, stat=stat)
       IF (stat /= 0) &
-         CPABORT("timings_name2id: allocation failed")
+         DBCSR_ABORT("timings_name2id: allocation failed")
       r_stat%routine_id = routine_id
       r_stat%routineN = routineN
       r_stat%active_calls = 0
@@ -506,7 +506,7 @@ CONTAINS
       r_stat%trace = .FALSE.
       CALL list_push(timer_env%routine_stats, r_stat)
       IF (list_size(timer_env%routine_stats) /= dict_size(timer_env%routine_names)) &
-         CPABORT("timings_name2id: assertion failed")
+         DBCSR_ABORT("timings_name2id: assertion failed")
    END FUNCTION routine_name2id
 
 END MODULE dbcsr_timings

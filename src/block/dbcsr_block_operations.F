@@ -142,9 +142,9 @@ CONTAINS
 
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d) .OR. .NOT. ASSOCIATED(src%d)) &
-            CPABORT("Data areas must be setup.")
+            DBCSR_ABORT("Data areas must be setup.")
          IF (dst%d%data_type /= src%d%data_type) &
-            CPABORT("Data type must be the same.")
+            DBCSR_ABORT("Data type must be the same.")
          IF (dst%d%data_type .NE. dbcsr_type_real_8 &
              .AND. dst%d%data_type .NE. dbcsr_type_real_4 &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_8 &
@@ -153,14 +153,14 @@ CONTAINS
              .AND. dst%d%data_type .NE. dbcsr_type_real_4_2d &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_8_2d &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_4_2d) &
-            CPWARN("Incorrect data type.")
+            DBCSR_WARN("Incorrect data type.")
          IF (PRESENT(scale)) THEN
             IF (dbcsr_type_is_2d(src%d%data_type)) THEN
                IF (scale%data_type /= dbcsr_type_2d_to_1d(src%d%data_type)) &
-                  CPABORT("Incompatible data types")
+                  DBCSR_ABORT("Incompatible data types")
             ELSE
                IF (scale%data_type /= src%d%data_type) &
-                  CPABORT("Incompatible data types")
+                  DBCSR_ABORT("Incompatible data types")
             ENDIF
          ENDIF
       ENDIF
@@ -268,7 +268,7 @@ CONTAINS
                src%d%c2_sp(lb_s:lb_s+row_size-1, lb2_s:lb2_s+col_size-1))
          ENDIF
       CASE default
-         CPABORT("Incorrect data type.")
+         DBCSR_ABORT("Incorrect data type.")
       END SELECT
    END SUBROUTINE dbcsr_block_transpose_aa
 
@@ -302,21 +302,21 @@ CONTAINS
 
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d) .OR. .NOT. ASSOCIATED(src%d)) &
-            CPABORT("Data areas must be setup.")
+            DBCSR_ABORT("Data areas must be setup.")
          IF (dst%d%data_type /= src%d%data_type) &
-            CPABORT("Data type must be the same.")
+            DBCSR_ABORT("Data type must be the same.")
          IF (dst%d%data_type .NE. dbcsr_type_real_8 &
              .AND. dst%d%data_type .NE. dbcsr_type_real_4 &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_8 &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_4) &
-            CPWARN("Incorrect data type.")
+            DBCSR_WARN("Incorrect data type.")
          IF (PRESENT(scale)) THEN
             IF (dbcsr_type_is_2d(src%d%data_type)) THEN
                IF (scale%data_type /= dbcsr_type_2d_to_1d(src%d%data_type)) &
-                  CPABORT("Incompatible data types")
+                  DBCSR_ABORT("Incompatible data types")
             ELSE
                IF (scale%data_type /= src%d%data_type) &
-                  CPABORT("Incompatible data types")
+                  DBCSR_ABORT("Incompatible data types")
             ENDIF
          ENDIF
       ENDIF
@@ -373,7 +373,7 @@ CONTAINS
                                   row_size, col_size)
          ENDIF
       CASE default
-         CPABORT("Incorrect data type.")
+         DBCSR_ABORT("Incorrect data type.")
       END SELECT
    END SUBROUTINE dbcsr_block_copy_aa
 
@@ -409,7 +409,7 @@ CONTAINS
       IF (careful_mod) CALL timeset(routineN, handle)
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d)) &
-            CPABORT("Data area must be setup.")
+            DBCSR_ABORT("Data area must be setup.")
          IF (dst%d%data_type .NE. dbcsr_type_real_8 &
              .AND. dst%d%data_type .NE. dbcsr_type_real_4 &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_8 &
@@ -418,10 +418,10 @@ CONTAINS
              .AND. dst%d%data_type .NE. dbcsr_type_real_4_2d &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_8_2d &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_4_2d) &
-            CPWARN("Incorrect data type.")
+            DBCSR_WARN("Incorrect data type.")
       ENDIF
       IF (scale%data_type /= dbcsr_type_2d_to_1d(dst%d%data_type)) &
-         CPABORT("Incompatible data types")
+         DBCSR_ABORT("Incompatible data types")
 
       data_size = row_size*col_size
       lb_t = 1
@@ -451,7 +451,7 @@ CONTAINS
          dst%d%c2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
             dst%d%c2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1)*scale%c_sp
       CASE default
-         CPABORT("Incorrect data type.")
+         DBCSR_ABORT("Incorrect data type.")
       END SELECT
       IF (careful_mod) CALL timestop(handle)
    END SUBROUTINE dbcsr_block_scale
@@ -486,7 +486,7 @@ CONTAINS
       IF (careful_mod) CALL timeset(routineN, handle)
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d)) &
-            CPABORT("Data area must be setup.")
+            DBCSR_ABORT("Data area must be setup.")
          IF (dst%d%data_type .NE. dbcsr_type_real_8 &
              .AND. dst%d%data_type .NE. dbcsr_type_real_4 &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_8 &
@@ -495,7 +495,7 @@ CONTAINS
              .AND. dst%d%data_type .NE. dbcsr_type_real_4_2d &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_8_2d &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_4_2d) &
-            CPWARN("Incorrect data type.")
+            DBCSR_WARN("Incorrect data type.")
       ENDIF
 
       data_size = row_size*col_size
@@ -538,7 +538,7 @@ CONTAINS
             AIMAG(dst%d%c2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1)), &
             KIND=real_4)
       CASE default
-         CPABORT("Incorrect data type.")
+         DBCSR_ABORT("Incorrect data type.")
       END SELECT
       IF (careful_mod) CALL timestop(handle)
    END SUBROUTINE dbcsr_block_real_neg
@@ -573,7 +573,7 @@ CONTAINS
       IF (careful_mod) CALL timeset(routineN, handle)
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d)) &
-            CPABORT("Data area must be setup.")
+            DBCSR_ABORT("Data area must be setup.")
          IF (dst%d%data_type .NE. dbcsr_type_real_8 &
              .AND. dst%d%data_type .NE. dbcsr_type_real_4 &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_8 &
@@ -582,7 +582,7 @@ CONTAINS
              .AND. dst%d%data_type .NE. dbcsr_type_real_4_2d &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_8_2d &
              .AND. dst%d%data_type .NE. dbcsr_type_complex_4_2d) &
-            CPWARN("Incorrect data type.")
+            DBCSR_WARN("Incorrect data type.")
       ENDIF
 
       data_size = row_size*col_size
@@ -613,7 +613,7 @@ CONTAINS
          dst%d%c2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
             CONJG(dst%d%c2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1))
       CASE default
-         CPABORT("Incorrect data type.")
+         DBCSR_ABORT("Incorrect data type.")
       END SELECT
       IF (careful_mod) CALL timestop(handle)
    END SUBROUTINE dbcsr_block_conjg
@@ -653,7 +653,7 @@ CONTAINS
          CALL dbcsr_block_transpose(area%d%c_sp, &
                                     row_size, col_size)
       CASE default
-         CPABORT("Invalid data type")
+         DBCSR_ABORT("Invalid data type")
       END SELECT
       IF (careful_mod) &
          CALL timestop(handle)
@@ -692,17 +692,17 @@ CONTAINS
 
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d) .OR. .NOT. ASSOCIATED(src%d)) &
-            CPABORT("Data areas must be setup.")
+            DBCSR_ABORT("Data areas must be setup.")
          IF (dst%d%data_type .NE. src%d%data_type) &
-            CPABORT("Data type must be the same.")
+            DBCSR_ABORT("Data type must be the same.")
       ENDIF
       IF (PRESENT(scale) .AND. careful_mod) THEN
          IF (dbcsr_type_is_2d(src%d%data_type)) THEN
             IF (scale%data_type .NE. dbcsr_type_2d_to_1d(src%d%data_type)) &
-               CPABORT("Incomptable data types")
+               DBCSR_ABORT("Incomptable data types")
          ELSE
             IF (scale%data_type .NE. src%d%data_type) &
-               CPABORT("Incomptable data types")
+               DBCSR_ABORT("Incomptable data types")
          ENDIF
       ENDIF
       ub = lb+data_size-1
@@ -715,14 +715,14 @@ CONTAINS
       ENDIF
       IF (careful_mod) THEN
          IF (dbcsr_type_is_2d(src%d%data_type) .AND. .NOT. PRESENT(lb2)) &
-            CPABORT("Must specify lb2 for 2-D data area")
+            DBCSR_ABORT("Must specify lb2 for 2-D data area")
          IF (dbcsr_type_is_2d(src%d%data_type) .AND. .NOT. PRESENT(data_size2)) &
-            CPABORT("Must specify data_size2 for 2-D data area")
+            DBCSR_ABORT("Must specify data_size2 for 2-D data area")
       ENDIF
       IF (PRESENT(lb2)) THEN
          IF (careful_mod) THEN
             IF (.NOT. dbcsr_type_is_2d(src%d%data_type)) &
-               CPWARN("Should not specify lb2 for 1-D data")
+               DBCSR_WARN("Should not specify lb2 for 1-D data")
          ENDIF
          ub2 = lb2+data_size2-1
          IF (PRESENT(source_lb2)) THEN
@@ -738,17 +738,17 @@ CONTAINS
       CASE (dbcsr_type_real_4)
          IF (debug_mod) THEN
             IF (.NOT. ASSOCIATED(dst%d%r_sp)) &
-               CPABORT("associated(dst%d%r_sp)")
+               DBCSR_ABORT("associated(dst%d%r_sp)")
             IF (.NOT. ASSOCIATED(src%d%r_sp)) &
-               CPABORT("associated(src%d%r_sp)")
+               DBCSR_ABORT("associated(src%d%r_sp)")
             IF (lb < LBOUND(dst%d%r_sp, 1)) &
-               CPABORT("lb dst%d%r_sp")
+               DBCSR_ABORT("lb dst%d%r_sp")
             IF (ub > UBOUND(dst%d%r_sp, 1)) &
-               CPABORT("ub dst%d%r_sp")
+               DBCSR_ABORT("ub dst%d%r_sp")
             IF (lb_s < LBOUND(src%d%r_sp, 1)) &
-               CPABORT("lb src%d%r_sp")
+               DBCSR_ABORT("lb src%d%r_sp")
             IF (ub_s > UBOUND(src%d%r_sp, 1)) &
-               CPABORT("ub src%d%r_sp")
+               DBCSR_ABORT("ub src%d%r_sp")
          ENDIF
          IF (PRESENT(scale)) THEN
             dst%d%r_sp(lb:ub) = scale%r_sp*src%d%r_sp(lb_s:ub_s)
@@ -758,17 +758,17 @@ CONTAINS
       CASE (dbcsr_type_real_8)
          IF (debug_mod) THEN
             IF (.NOT. ASSOCIATED(dst%d%r_dp)) &
-               CPABORT("associated(dst%d%r_dp)")
+               DBCSR_ABORT("associated(dst%d%r_dp)")
             IF (.NOT. ASSOCIATED(src%d%r_dp)) &
-               CPABORT("associated(src%d%r_dp)")
+               DBCSR_ABORT("associated(src%d%r_dp)")
             IF (lb < LBOUND(dst%d%r_dp, 1)) &
-               CPABORT("lb dst%d%r_dp")
+               DBCSR_ABORT("lb dst%d%r_dp")
             IF (ub > UBOUND(dst%d%r_dp, 1)) &
-               CPABORT("ub dst%d%r_dp")
+               DBCSR_ABORT("ub dst%d%r_dp")
             IF (lb_s < LBOUND(src%d%r_dp, 1)) &
-               CPABORT("lb src%d%r_dp")
+               DBCSR_ABORT("lb src%d%r_dp")
             IF (ub_s > UBOUND(src%d%r_dp, 1)) &
-               CPABORT("ub src%d%r_dp")
+               DBCSR_ABORT("ub src%d%r_dp")
          ENDIF
          IF (PRESENT(scale)) THEN
             dst%d%r_dp(lb:ub) = scale%r_dp*src%d%r_dp(lb_s:ub_s)
@@ -778,17 +778,17 @@ CONTAINS
       CASE (dbcsr_type_complex_4)
          IF (debug_mod) THEN
             IF (.NOT. ASSOCIATED(dst%d%c_sp)) &
-               CPABORT("associated(dst%d%c_sp)")
+               DBCSR_ABORT("associated(dst%d%c_sp)")
             IF (.NOT. ASSOCIATED(src%d%c_sp)) &
-               CPABORT("associated(src%d%c_sp)")
+               DBCSR_ABORT("associated(src%d%c_sp)")
             IF (lb < LBOUND(dst%d%c_sp, 1)) &
-               CPABORT("lb dst%d%c_sp")
+               DBCSR_ABORT("lb dst%d%c_sp")
             IF (ub > UBOUND(dst%d%c_sp, 1)) &
-               CPABORT("ub dst%d%c_sp")
+               DBCSR_ABORT("ub dst%d%c_sp")
             IF (lb_s < LBOUND(src%d%c_sp, 1)) &
-               CPABORT("lb src%d%c_sp")
+               DBCSR_ABORT("lb src%d%c_sp")
             IF (ub_s > UBOUND(src%d%c_sp, 1)) &
-               CPABORT("ub src%d%c_sp")
+               DBCSR_ABORT("ub src%d%c_sp")
          ENDIF
          IF (PRESENT(scale)) THEN
             dst%d%c_sp(lb:ub) = scale%c_sp*src%d%c_sp(lb_s:ub_s)
@@ -798,17 +798,17 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          IF (debug_mod) THEN
             IF (.NOT. ASSOCIATED(dst%d%c_dp)) &
-               CPABORT("associated(dst%d%c_dp)")
+               DBCSR_ABORT("associated(dst%d%c_dp)")
             IF (.NOT. ASSOCIATED(src%d%c_dp)) &
-               CPABORT("associated(src%d%c_dp)")
+               DBCSR_ABORT("associated(src%d%c_dp)")
             IF (lb < LBOUND(dst%d%c_dp, 1)) &
-               CPABORT("lb dst%d%c_dp")
+               DBCSR_ABORT("lb dst%d%c_dp")
             IF (ub > UBOUND(dst%d%c_dp, 1)) &
-               CPABORT("ub dst%d%c_dp")
+               DBCSR_ABORT("ub dst%d%c_dp")
             IF (lb_s < LBOUND(src%d%c_dp, 1)) &
-               CPABORT("lb src%d%c_dp")
+               DBCSR_ABORT("lb src%d%c_dp")
             IF (ub_s > UBOUND(src%d%c_dp, 1)) &
-               CPABORT("ub src%d%c_dp")
+               DBCSR_ABORT("ub src%d%c_dp")
          ENDIF
          IF (PRESENT(scale)) THEN
             dst%d%c_dp(lb:ub) = scale%c_dp*src%d%c_dp(lb_s:ub_s)
@@ -844,7 +844,7 @@ CONTAINS
             dst%d%c2_dp(lb:ub, lb2:ub2) = src%d%c2_dp(lb_s:ub_s, lb2_s:ub2_s)
          ENDIF
       CASE default
-         CPABORT("Invalid data type")
+         DBCSR_ABORT("Invalid data type")
       END SELECT
    END SUBROUTINE dbcsr_data_copy_aa
 
@@ -892,32 +892,32 @@ CONTAINS
       dst_ub(1:dst_d) = dst_lb(1:dst_d)+dst_sizes(1:dst_d)-1
       IF (careful_mod) THEN
          IF (.NOT. dbcsr_data_exists(dst)) &
-            CPABORT("Invalid target data area")
+            DBCSR_ABORT("Invalid target data area")
          IF (.NOT. dbcsr_data_exists(src)) &
-            CPABORT("Invalid source data area")
+            DBCSR_ABORT("Invalid source data area")
          IF (dbcsr_type_2d_to_1d(src_dt) /= dbcsr_type_2d_to_1d(dst_dt)) &
-            CPABORT("Data types must be comptable: ")
+            DBCSR_ABORT("Data types must be comptable: ")
          IF (dbcsr_type_is_2d(dst_dt)) THEN
             IF (SIZE(dst_lb) /= 2) &
-               CPABORT("size must be 2 for 2-d dst_lb")
+               DBCSR_ABORT("size must be 2 for 2-d dst_lb")
             IF (SIZE(dst_sizes) /= 2) &
-               CPABORT("size must be 2 for 2-d dst_sizes")
+               DBCSR_ABORT("size must be 2 for 2-d dst_sizes")
          ELSE
             IF (SIZE(dst_lb) /= 1) &
-               CPABORT("size must be 1 for 1-d dst_lb")
+               DBCSR_ABORT("size must be 1 for 1-d dst_lb")
             IF (SIZE(dst_sizes) /= 1) &
-               CPABORT("size must be 1 for 1-d dst_sizes")
+               DBCSR_ABORT("size must be 1 for 1-d dst_sizes")
          ENDIF
          IF (dbcsr_type_is_2d(src_dt)) THEN
             IF (SIZE(src_lb) /= 2) &
-               CPABORT("size must be 2 for 2-d src_lb")
+               DBCSR_ABORT("size must be 2 for 2-d src_lb")
             IF (SIZE(src_sizes) /= 2) &
-               CPABORT("size must be 2 for 2-d src_sizes")
+               DBCSR_ABORT("size must be 2 for 2-d src_sizes")
          ELSE
             IF (SIZE(src_lb) /= 1) &
-               CPABORT("size must be 1 for 1-d src_lb")
+               DBCSR_ABORT("size must be 1 for 1-d src_lb")
             IF (SIZE(src_sizes) /= 1) &
-               CPABORT("size must be 1 for 1-d src_sizes")
+               DBCSR_ABORT("size must be 1 for 1-d src_sizes")
          ENDIF
          IF (debug_mod) THEN
             CALL dbcsr_data_verify_bounds(dst, dst_lb(1:dst_d), dst_ub(1:dst_d))
@@ -1023,7 +1023,7 @@ CONTAINS
                                   dst_sizes(1), dst_sizes(2))
          ENDIF
       CASE default
-         CPABORT("Invalid data type")
+         DBCSR_ABORT("Invalid data type")
       END SELECT
       CALL timestop(handle)
    END SUBROUTINE dbcsr_data_copy_aa2
@@ -1081,10 +1081,10 @@ CONTAINS
 ! CALL timeset(routineN, handle)
 
       IF (.NOT. ASSOCIATED(area%d)) &
-         CPABORT("Data area must be setup.")
+         DBCSR_ABORT("Data area must be setup.")
       IF (PRESENT(value)) THEN
          IF (area%d%data_type .NE. value%data_type) &
-            CPABORT("Incompatible data types")
+            DBCSR_ABORT("Incompatible data types")
       ENDIF
 
       SELECT CASE (area%d%data_type)
@@ -1092,11 +1092,11 @@ CONTAINS
          l = LBOUND(area%d%r_sp, 1)
          u = UBOUND(area%d%r_sp, 1)
          IF (PRESENT(lb)) THEN
-            IF (lb < l) CPABORT("lower bound too low")
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
             l = lb
          ENDIF
          IF (PRESENT(ub)) THEN
-            IF (ub > u) CPABORT("upper bound too high")
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
             u = ub
          ENDIF
          IF (PRESENT(value)) THEN
@@ -1108,11 +1108,11 @@ CONTAINS
          l = LBOUND(area%d%r_dp, 1)
          u = UBOUND(area%d%r_dp, 1)
          IF (PRESENT(lb)) THEN
-            IF (lb < l) CPABORT("lower bound too low")
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
             l = lb
          ENDIF
          IF (PRESENT(ub)) THEN
-            IF (ub > u) CPABORT("upper bound too high")
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
             u = ub
          ENDIF
          IF (PRESENT(value)) THEN
@@ -1124,11 +1124,11 @@ CONTAINS
          l = LBOUND(area%d%c_sp, 1)
          u = UBOUND(area%d%c_sp, 1)
          IF (PRESENT(lb)) THEN
-            IF (lb < l) CPABORT("lower bound too low")
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
             l = lb
          ENDIF
          IF (PRESENT(ub)) THEN
-            IF (ub > u) CPABORT("upper bound too high")
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
             u = ub
          ENDIF
          IF (PRESENT(value)) THEN
@@ -1140,11 +1140,11 @@ CONTAINS
          l = LBOUND(area%d%c_dp, 1)
          u = UBOUND(area%d%c_dp, 1)
          IF (PRESENT(lb)) THEN
-            IF (lb < l) CPABORT("lower bound too low")
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
             l = lb
          ENDIF
          IF (PRESENT(ub)) THEN
-            IF (ub > u) CPABORT("upper bound too high")
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
             u = ub
          ENDIF
          IF (PRESENT(value)) THEN
@@ -1158,19 +1158,19 @@ CONTAINS
          l2 = LBOUND(area%d%r2_sp, 2)
          u2 = UBOUND(area%d%r2_sp, 2)
          IF (PRESENT(lb)) THEN
-            IF (lb < l) CPABORT("lower bound too low")
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
             l = lb
          ENDIF
          IF (PRESENT(ub)) THEN
-            IF (ub > u) CPABORT("upper bound too high")
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
             u = ub
          ENDIF
          IF (PRESENT(lb2)) THEN
-            IF (lb2 < l2) CPABORT("lower2 bound too low")
+            IF (lb2 < l2) DBCSR_ABORT("lower2 bound too low")
             l2 = lb2
          ENDIF
          IF (PRESENT(ub2)) THEN
-            IF (ub2 > u2) CPABORT("upper2 bound too high")
+            IF (ub2 > u2) DBCSR_ABORT("upper2 bound too high")
             u2 = ub2
          ENDIF
          IF (PRESENT(value)) THEN
@@ -1184,19 +1184,19 @@ CONTAINS
          l2 = LBOUND(area%d%r2_dp, 2)
          u2 = UBOUND(area%d%r2_dp, 2)
          IF (PRESENT(lb)) THEN
-            IF (lb < l) CPABORT("lower bound too low")
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
             l = lb
          ENDIF
          IF (PRESENT(ub)) THEN
-            IF (ub > u) CPABORT("upper bound too high")
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
             u = ub
          ENDIF
          IF (PRESENT(lb2)) THEN
-            IF (lb2 < l2) CPABORT("lower2 bound too low")
+            IF (lb2 < l2) DBCSR_ABORT("lower2 bound too low")
             l2 = lb2
          ENDIF
          IF (PRESENT(ub2)) THEN
-            IF (ub2 > u2) CPABORT("upper2 bound too high")
+            IF (ub2 > u2) DBCSR_ABORT("upper2 bound too high")
             u2 = ub2
          ENDIF
          IF (PRESENT(value)) THEN
@@ -1210,19 +1210,19 @@ CONTAINS
          l2 = LBOUND(area%d%c2_sp, 2)
          u2 = UBOUND(area%d%c2_sp, 2)
          IF (PRESENT(lb)) THEN
-            IF (lb < l) CPABORT("lower bound too low")
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
             l = lb
          ENDIF
          IF (PRESENT(ub)) THEN
-            IF (ub > u) CPABORT("upper bound too high")
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
             u = ub
          ENDIF
          IF (PRESENT(lb2)) THEN
-            IF (lb2 < l2) CPABORT("lower2 bound too low")
+            IF (lb2 < l2) DBCSR_ABORT("lower2 bound too low")
             l2 = lb2
          ENDIF
          IF (PRESENT(ub2)) THEN
-            IF (ub2 > u2) CPABORT("upper2 bound too high")
+            IF (ub2 > u2) DBCSR_ABORT("upper2 bound too high")
             u2 = ub2
          ENDIF
          IF (PRESENT(value)) THEN
@@ -1236,19 +1236,19 @@ CONTAINS
          l2 = LBOUND(area%d%c2_dp, 2)
          u2 = UBOUND(area%d%c2_dp, 2)
          IF (PRESENT(lb)) THEN
-            IF (lb < l) CPABORT("lower bound too low")
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
             l = lb
          ENDIF
          IF (PRESENT(ub)) THEN
-            IF (ub > u) CPABORT("upper bound too high")
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
             u = ub
          ENDIF
          IF (PRESENT(lb2)) THEN
-            IF (lb2 < l2) CPABORT("lower2 bound too low")
+            IF (lb2 < l2) DBCSR_ABORT("lower2 bound too low")
             l2 = lb2
          ENDIF
          IF (PRESENT(ub2)) THEN
-            IF (ub2 > u2) CPABORT("upper2 bound too high")
+            IF (ub2 > u2) DBCSR_ABORT("upper2 bound too high")
             u2 = ub2
          ENDIF
          IF (PRESENT(value)) THEN
@@ -1257,12 +1257,12 @@ CONTAINS
             area%d%c2_dp(l:u, l2:u2) = CMPLX(0.0, 0.0, real_8)
          ENDIF
       CASE default
-         CPABORT("Invalid or unsupported data type.")
+         DBCSR_ABORT("Invalid or unsupported data type.")
       END SELECT
 
       IF (acc_devmem_allocated(area%d%acc_devmem)) THEN
          IF (PRESENT(value)) &
-            CPABORT("dbcsr_data_clear0 with value not implemented for acc_devmem")
+            DBCSR_ABORT("dbcsr_data_clear0 with value not implemented for acc_devmem")
          s = dbcsr_datatype_sizeof(area%d%data_type)
          CALL acc_devmem_setzero_bytes(area%d%acc_devmem, s*l, s*u, area%d%memory_type%acc_stream)
       END IF
@@ -1315,20 +1315,20 @@ CONTAINS
 
       IF (careful_mod) THEN
          IF (dbcsr_type_2d_to_1d(dbcsr_data_get_type(dst)) /= dbcsr_type_2d_to_1d(dbcsr_data_get_type(src))) &
-            CPABORT("Incompatible data types.")
+            DBCSR_ABORT("Incompatible data types.")
       ENDIF
       dst_o = 0; src_o = 0
       IF (PRESENT(dst_offset)) dst_o = dst_offset
       IF (PRESENT(src_offset)) src_o = src_offset
       IF (verification) THEN
          IF (dst_r_lb+nrow-1 > dst_rs) &
-            CPABORT("Incompatible dst row sizes")
+            DBCSR_ABORT("Incompatible dst row sizes")
          IF (dst_c_lb+ncol-1 > dst_cs) &
-            CPABORT("Incompatible dst col sizes")
+            DBCSR_ABORT("Incompatible dst col sizes")
          IF (src_r_lb+nrow-1 > src_rs) &
-            CPABORT("Incompatible src row sizes")
+            DBCSR_ABORT("Incompatible src row sizes")
          IF (src_c_lb+ncol-1 > src_cs) &
-            CPABORT("Incompatible src col sizes")
+            DBCSR_ABORT("Incompatible src col sizes")
       ENDIF
       !
       src_is_2d = dbcsr_type_is_2d(dbcsr_data_get_type(src))
@@ -1426,7 +1426,7 @@ CONTAINS
                                            src_offset=src_o)
          ENDIF
       CASE default
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       END SELECT
    END SUBROUTINE dbcsr_block_partial_copy
 
@@ -1450,17 +1450,17 @@ CONTAINS
 
       IF (careful_mod) THEN
          IF (dbcsr_data_get_type(block_a) /= dbcsr_data_get_type(block_a)) &
-            CPABORT("Mismatched data types.")
+            DBCSR_ABORT("Mismatched data types.")
       ENDIF
       IF (PRESENT(len)) THEN
          n = len
          IF (dbcsr_data_get_size(block_b) < n) &
-            CPABORT("Block B too small.")
+            DBCSR_ABORT("Block B too small.")
       ELSE
          n = dbcsr_data_get_size_referenced(block_b)
       ENDIF
       IF (dbcsr_data_get_size(block_a) < n) &
-         CPABORT("Block A too small.")
+         DBCSR_ABORT("Block A too small.")
       SELECT CASE (dbcsr_data_get_type (block_a))
       CASE (dbcsr_type_real_4)
          CALL block_add_s(block_a%d%r_sp, block_b%d%r_sp, n)
@@ -1479,7 +1479,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8_2d)
          CALL block_add_z(block_a%d%c2_dp, block_b%d%c2_dp, n)
       CASE default
-         CPABORT("Invalid data type!")
+         DBCSR_ABORT("Invalid data type!")
       END SELECT
    END SUBROUTINE block_add_anytype
 
@@ -1503,12 +1503,12 @@ CONTAINS
 
       IF (careful_mod) THEN
          IF (dbcsr_data_get_type(block_a) /= dbcsr_data_get_type(block_a)) &
-            CPABORT("Mismatched data types.")
+            DBCSR_ABORT("Mismatched data types.")
       ENDIF
       IF (dbcsr_data_get_size(block_b) < lb_b+len-1) &
-         CPABORT("Block B too small.")
+         DBCSR_ABORT("Block B too small.")
       IF (dbcsr_data_get_size(block_a) < lb_a+len-1) &
-         CPABORT("Block A too small.")
+         DBCSR_ABORT("Block A too small.")
       SELECT CASE (dbcsr_data_get_type (block_a))
       CASE (dbcsr_type_real_4)
          CALL block_add_s(block_a%d%r_sp(lb_a:), block_b%d%r_sp(lb_b:), len)
@@ -1519,7 +1519,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          CALL block_add_z(block_a%d%c_dp(lb_a:), block_b%d%c_dp(lb_b:), len)
       CASE default
-         CPABORT("Invalid data type!")
+         DBCSR_ABORT("Invalid data type!")
       END SELECT
    END SUBROUTINE block_add_anytype_bounds
 

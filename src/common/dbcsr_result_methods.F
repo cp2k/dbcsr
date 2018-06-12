@@ -17,11 +17,12 @@ MODULE dbcsr_result_methods
                                               dp
    USE dbcsr_memory_utilities,          ONLY: reallocate
    USE dbcsr_message_passing,           ONLY: mp_bcast
-   USE dbcsr_para_types,                ONLY: cp_para_env_type
+   USE dbcsr_para_types,                ONLY: dbcsr_para_env_type
    USE dbcsr_result_types,              ONLY: &
-        cp_result_clean, cp_result_copy, cp_result_create, cp_result_release, cp_result_type, &
-        cp_result_value_copy, cp_result_value_create, cp_result_value_init, &
-        cp_result_value_p_reallocate, result_type_integer, result_type_logical, result_type_real
+        dbcsr_result_clean, dbcsr_result_copy, dbcsr_result_create, dbcsr_result_release, &
+        dbcsr_result_type, dbcsr_result_value_copy, dbcsr_result_value_create, &
+        dbcsr_result_value_init, dbcsr_result_value_p_reallocate, result_type_integer, &
+        result_type_logical, result_type_real
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -32,8 +33,8 @@ MODULE dbcsr_result_methods
    PUBLIC :: put_results, &
              test_for_result, &
              get_results, &
-             cp_results_erase, &
-             cp_results_mp_bcast
+             dbcsr_results_erase, &
+             dbcsr_results_mp_bcast
 
    INTERFACE put_results
       MODULE PROCEDURE put_result_r1, put_result_r2
@@ -56,7 +57,7 @@ CONTAINS
 !> \author fschiff
 ! **************************************************************************************************
    SUBROUTINE put_result_r1(results, description, values)
-      TYPE(cp_result_type), POINTER                      :: results
+      TYPE(dbcsr_result_type), POINTER                   :: results
       CHARACTER(LEN=default_string_length)               :: description
       REAL(KIND=dp), DIMENSION(:)                        :: values
 
@@ -65,18 +66,18 @@ CONTAINS
       INTEGER                                            :: isize, jsize
       LOGICAL                                            :: check
 
-      CPASSERT(ASSOCIATED(results))
-      CPASSERT(description(1:1) == '[')
+      DBCSR_ASSERT(ASSOCIATED(results))
+      DBCSR_ASSERT(description(1:1) == '[')
       check = SIZE(results%result_label) == SIZE(results%result_value)
-      CPASSERT(check)
+      DBCSR_ASSERT(check)
       isize = SIZE(results%result_label)
       jsize = SIZE(values)
 
       CALL reallocate(results%result_label, 1, isize+1)
-      CALL cp_result_value_p_reallocate(results%result_value, 1, isize+1)
+      CALL dbcsr_result_value_p_reallocate(results%result_value, 1, isize+1)
 
       results%result_label(isize+1) = description
-      CALL cp_result_value_init(results%result_value(isize+1)%value, result_type_real, jsize)
+      CALL dbcsr_result_value_init(results%result_value(isize+1)%value, result_type_real, jsize)
       results%result_value(isize+1)%value%real_type = values
 
    END SUBROUTINE put_result_r1
@@ -92,7 +93,7 @@ CONTAINS
 !> \author fschiff
 ! **************************************************************************************************
    SUBROUTINE put_result_r2(results, description, values)
-      TYPE(cp_result_type), POINTER                      :: results
+      TYPE(dbcsr_result_type), POINTER                   :: results
       CHARACTER(LEN=default_string_length)               :: description
       REAL(KIND=dp), DIMENSION(:, :)                     :: values
 
@@ -101,18 +102,18 @@ CONTAINS
       INTEGER                                            :: isize, jsize
       LOGICAL                                            :: check
 
-      CPASSERT(ASSOCIATED(results))
-      CPASSERT(description(1:1) == '[')
+      DBCSR_ASSERT(ASSOCIATED(results))
+      DBCSR_ASSERT(description(1:1) == '[')
       check = SIZE(results%result_label) == SIZE(results%result_value)
-      CPASSERT(check)
+      DBCSR_ASSERT(check)
       isize = SIZE(results%result_label)
       jsize = SIZE(values, 1)*SIZE(values, 2)
 
       CALL reallocate(results%result_label, 1, isize+1)
-      CALL cp_result_value_p_reallocate(results%result_value, 1, isize+1)
+      CALL dbcsr_result_value_p_reallocate(results%result_value, 1, isize+1)
 
       results%result_label(isize+1) = description
-      CALL cp_result_value_init(results%result_value(isize+1)%value, result_type_real, jsize)
+      CALL dbcsr_result_value_init(results%result_value(isize+1)%value, result_type_real, jsize)
       results%result_value(isize+1)%value%real_type = RESHAPE(values, (/jsize/))
 
    END SUBROUTINE put_result_r2
@@ -127,7 +128,7 @@ CONTAINS
 !> \author Mandes
 ! **************************************************************************************************
    FUNCTION test_for_result(results, description) RESULT(res_exist)
-      TYPE(cp_result_type), POINTER                      :: results
+      TYPE(dbcsr_result_type), POINTER                   :: results
       CHARACTER(LEN=default_string_length)               :: description
       LOGICAL                                            :: res_exist
 
@@ -136,7 +137,7 @@ CONTAINS
 
       INTEGER                                            :: i, nlist
 
-      CPASSERT(ASSOCIATED(results))
+      DBCSR_ASSERT(ASSOCIATED(results))
       nlist = SIZE(results%result_value)
       res_exist = .FALSE.
       DO i = 1, nlist
@@ -163,7 +164,7 @@ CONTAINS
 !> \author fschiff
 ! **************************************************************************************************
    SUBROUTINE get_result_r1(results, description, values, nval, n_rep, n_entries)
-      TYPE(cp_result_type), POINTER                      :: results
+      TYPE(dbcsr_result_type), POINTER                   :: results
       CHARACTER(LEN=default_string_length)               :: description
       REAL(KIND=dp), DIMENSION(:)                        :: values
       INTEGER, OPTIONAL                                  :: nval, n_rep, n_entries
@@ -172,10 +173,10 @@ CONTAINS
 
       INTEGER                                            :: i, k, nlist, nrep, size_res, size_values
 
-      CPASSERT(ASSOCIATED(results))
+      DBCSR_ASSERT(ASSOCIATED(results))
       nlist = SIZE(results%result_value)
-      CPASSERT(description(1:1) == '[')
-      CPASSERT(SIZE(results%result_label) == nlist)
+      DBCSR_ASSERT(description(1:1) == '[')
+      DBCSR_ASSERT(SIZE(results%result_label) == nlist)
       nrep = 0
       DO i = 1, nlist
          IF (TRIM(results%result_label(i)) == TRIM(description)) nrep = nrep+1
@@ -186,13 +187,13 @@ CONTAINS
       END IF
 
       IF (nrep .LE. 0) &
-         CALL cp_abort(__LOCATION__, &
-                       " Trying to access result ("//TRIM(description)//") which was never stored!")
+         CALL dbcsr_abort(__LOCATION__, &
+                          " Trying to access result ("//TRIM(description)//") which was never stored!")
 
       DO i = 1, nlist
          IF (TRIM(results%result_label(i)) == TRIM(description)) THEN
             IF (results%result_value(i)%value%type_in_use /= result_type_real) &
-               CPABORT("Attempt to retrieve a RESULT which is not a REAL!")
+               DBCSR_ABORT("Attempt to retrieve a RESULT which is not a REAL!")
 
             size_res = SIZE(results%result_value(i)%value%real_type)
             EXIT
@@ -201,9 +202,9 @@ CONTAINS
       IF (PRESENT(n_entries)) n_entries = size_res
       size_values = SIZE(values, 1)
       IF (PRESENT(nval)) THEN
-         CPASSERT(size_res == size_values)
+         DBCSR_ASSERT(size_res == size_values)
       ELSE
-         CPASSERT(nrep*size_res == size_values)
+         DBCSR_ASSERT(nrep*size_res == size_values)
       END IF
       k = 0
       DO i = 1, nlist
@@ -237,7 +238,7 @@ CONTAINS
 !> \author fschiff
 ! **************************************************************************************************
    SUBROUTINE get_result_r2(results, description, values, nval, n_rep, n_entries)
-      TYPE(cp_result_type), POINTER                      :: results
+      TYPE(dbcsr_result_type), POINTER                   :: results
       CHARACTER(LEN=default_string_length)               :: description
       REAL(KIND=dp), DIMENSION(:, :)                     :: values
       INTEGER, OPTIONAL                                  :: nval, n_rep, n_entries
@@ -246,10 +247,10 @@ CONTAINS
 
       INTEGER                                            :: i, k, nlist, nrep, size_res, size_values
 
-      CPASSERT(ASSOCIATED(results))
+      DBCSR_ASSERT(ASSOCIATED(results))
       nlist = SIZE(results%result_value)
-      CPASSERT(description(1:1) == '[')
-      CPASSERT(SIZE(results%result_label) == nlist)
+      DBCSR_ASSERT(description(1:1) == '[')
+      DBCSR_ASSERT(SIZE(results%result_label) == nlist)
       nrep = 0
       DO i = 1, nlist
          IF (TRIM(results%result_label(i)) == TRIM(description)) nrep = nrep+1
@@ -260,13 +261,13 @@ CONTAINS
       END IF
 
       IF (nrep .LE. 0) &
-         CALL cp_abort(__LOCATION__, &
-                       " Trying to access result ("//TRIM(description)//") which was never stored!")
+         CALL dbcsr_abort(__LOCATION__, &
+                          " Trying to access result ("//TRIM(description)//") which was never stored!")
 
       DO i = 1, nlist
          IF (TRIM(results%result_label(i)) == TRIM(description)) THEN
             IF (results%result_value(i)%value%type_in_use /= result_type_real) &
-               CPABORT("Attempt to retrieve a RESULT which is not a REAL!")
+               DBCSR_ABORT("Attempt to retrieve a RESULT which is not a REAL!")
 
             size_res = SIZE(results%result_value(i)%value%real_type)
             EXIT
@@ -275,9 +276,9 @@ CONTAINS
       IF (PRESENT(n_entries)) n_entries = size_res
       size_values = SIZE(values, 1)*SIZE(values, 2)
       IF (PRESENT(nval)) THEN
-         CPASSERT(size_res == size_values)
+         DBCSR_ASSERT(size_res == size_values)
       ELSE
-         CPASSERT(nrep*size_res == size_values)
+         DBCSR_ASSERT(nrep*size_res == size_values)
       END IF
       k = 0
       DO i = 1, nlist
@@ -310,7 +311,7 @@ CONTAINS
 !> \author fschiff
 ! **************************************************************************************************
    SUBROUTINE get_nreps(results, description, n_rep, n_entries, type_in_use)
-      TYPE(cp_result_type), POINTER                      :: results
+      TYPE(dbcsr_result_type), POINTER                   :: results
       CHARACTER(LEN=default_string_length)               :: description
       INTEGER, OPTIONAL                                  :: n_rep, n_entries, type_in_use
 
@@ -318,10 +319,10 @@ CONTAINS
 
       INTEGER                                            :: I, nlist
 
-      CPASSERT(ASSOCIATED(results))
+      DBCSR_ASSERT(ASSOCIATED(results))
       nlist = SIZE(results%result_value)
-      CPASSERT(description(1:1) == '[')
-      CPASSERT(SIZE(results%result_label) == nlist)
+      DBCSR_ASSERT(description(1:1) == '[')
+      DBCSR_ASSERT(SIZE(results%result_label) == nlist)
       IF (PRESENT(n_rep)) THEN
          n_rep = 0
          DO i = 1, nlist
@@ -340,8 +341,8 @@ CONTAINS
                CASE (result_type_logical)
                   n_entries = n_entries+SIZE(results%result_value(i)%value%logical_type)
                CASE DEFAULT
-                  ! Type not implemented in cp_result_type
-                  CPABORT("")
+                  ! Type not implemented in dbcsr_result_type
+                  DBCSR_ABORT("")
                END SELECT
                EXIT
             END IF
@@ -368,22 +369,22 @@ CONTAINS
 !>      10.2008 Teodoro Laino [tlaino] - major rewriting
 !> \author fschiff
 ! **************************************************************************************************
-   SUBROUTINE cp_results_erase(results, description, nval)
-      TYPE(cp_result_type), POINTER                      :: results
+   SUBROUTINE dbcsr_results_erase(results, description, nval)
+      TYPE(dbcsr_result_type), POINTER                   :: results
       CHARACTER(LEN=default_string_length), OPTIONAL     :: description
       INTEGER, OPTIONAL                                  :: nval
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'cp_results_erase', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_results_erase', &
          routineP = moduleN//':'//routineN
 
       INTEGER                                            :: entry_deleted, i, k, new_size, nlist, &
                                                             nrep
-      TYPE(cp_result_type), POINTER                      :: clean_results
+      TYPE(dbcsr_result_type), POINTER                   :: clean_results
 
-      CPASSERT(ASSOCIATED(results))
+      DBCSR_ASSERT(ASSOCIATED(results))
       new_size = 0
       IF (PRESENT(description)) THEN
-         CPASSERT(description(1:1) == '[')
+         DBCSR_ASSERT(description(1:1) == '[')
          nlist = SIZE(results%result_value)
          nrep = 0
          DO i = 1, nlist
@@ -405,35 +406,35 @@ CONTAINS
                   END IF
                END IF
             END DO
-            CPASSERT(nlist-entry_deleted >= 0)
+            DBCSR_ASSERT(nlist-entry_deleted >= 0)
             new_size = nlist-entry_deleted
             NULLIFY (clean_results)
-            CALL cp_result_create(clean_results)
-            CALL cp_result_clean(clean_results)
+            CALL dbcsr_result_create(clean_results)
+            CALL dbcsr_result_clean(clean_results)
             ALLOCATE (clean_results%result_label(new_size))
             ALLOCATE (clean_results%result_value(new_size))
             DO i = 1, new_size
                NULLIFY (clean_results%result_value(i)%value)
-               CALL cp_result_value_create(clean_results%result_value(i)%value)
+               CALL dbcsr_result_value_create(clean_results%result_value(i)%value)
             END DO
             k = 0
             DO i = 1, nlist
                IF (TRIM(results%result_label(i)) /= TRIM(description)) THEN
                   k = k+1
                   clean_results%result_label(k) = results%result_label(i)
-                  CALL cp_result_value_copy(clean_results%result_value(k)%value, &
-                                            results%result_value(i)%value)
+                  CALL dbcsr_result_value_copy(clean_results%result_value(k)%value, &
+                                               results%result_value(i)%value)
                END IF
             END DO
-            CALL cp_result_copy(clean_results, results)
-            CALL cp_result_release(clean_results)
+            CALL dbcsr_result_copy(clean_results, results)
+            CALL dbcsr_result_release(clean_results)
          END IF
       ELSE
-         CALL cp_result_clean(results)
+         CALL dbcsr_result_clean(results)
          ALLOCATE (results%result_label(new_size))
          ALLOCATE (results%result_value(new_size))
       END IF
-   END SUBROUTINE cp_results_erase
+   END SUBROUTINE dbcsr_results_erase
 
 ! **************************************************************************************************
 !> \brief broadcast results type
@@ -442,18 +443,18 @@ CONTAINS
 !> \param para_env ...
 !> \author  10.2008 Teodoro Laino [tlaino] - University of Zurich
 ! **************************************************************************************************
-   SUBROUTINE cp_results_mp_bcast(results, source, para_env)
-      TYPE(cp_result_type), POINTER                      :: results
+   SUBROUTINE dbcsr_results_mp_bcast(results, source, para_env)
+      TYPE(dbcsr_result_type), POINTER                   :: results
       INTEGER, INTENT(IN)                                :: source
-      TYPE(cp_para_env_type), POINTER                    :: para_env
+      TYPE(dbcsr_para_env_type), POINTER                 :: para_env
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'cp_results_mp_bcast', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_results_mp_bcast', &
          routineP = moduleN//':'//routineN
 
       INTEGER                                            :: i, nlist
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: size_value, type_in_use
 
-      CPASSERT(ASSOCIATED(results))
+      DBCSR_ASSERT(ASSOCIATED(results))
       nlist = 0
       IF (para_env%mepos == source) nlist = SIZE(results%result_value)
       CALL mp_bcast(nlist, source, para_env%group)
@@ -470,15 +471,15 @@ CONTAINS
       CALL mp_bcast(type_in_use, source, para_env%group)
 
       IF (para_env%mepos /= source) THEN
-         CALL cp_result_clean(results)
+         CALL dbcsr_result_clean(results)
          ALLOCATE (results%result_value(nlist))
          ALLOCATE (results%result_label(nlist))
          DO i = 1, nlist
             results%result_label(i) = ""
             NULLIFY (results%result_value(i)%value)
-            CALL cp_result_value_create(results%result_value(i)%value)
-            CALL cp_result_value_init(results%result_value(i)%value, &
-                                      type_in_use=type_in_use(i), size_value=size_value(i))
+            CALL dbcsr_result_value_create(results%result_value(i)%value)
+            CALL dbcsr_result_value_init(results%result_value(i)%value, &
+                                         type_in_use=type_in_use(i), size_value=size_value(i))
          END DO
       END IF
       DO i = 1, nlist
@@ -491,11 +492,11 @@ CONTAINS
          CASE (result_type_logical)
             CALL mp_bcast(results%result_value(i)%value%logical_type, source, para_env%group)
          CASE DEFAULT
-            CPABORT("Type not implemented in cp_result_type")
+            DBCSR_ABORT("Type not implemented in dbcsr_result_type")
          END SELECT
       END DO
       DEALLOCATE (type_in_use)
       DEALLOCATE (size_value)
-   END SUBROUTINE cp_results_mp_bcast
+   END SUBROUTINE dbcsr_results_mp_bcast
 
 END MODULE dbcsr_result_methods

@@ -124,7 +124,7 @@ CONTAINS
       MARK_USED(this)
       MARK_USED(name)
       MARK_USED(priority)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       INTEGER                                  :: istat, my_priority
 
@@ -133,12 +133,12 @@ CONTAINS
          my_priority = priority
 
       IF (C_ASSOCIATED(this%cptr)) &
-         CPABORT("acc_stream_create: stream already allocated")
+         DBCSR_ABORT("acc_stream_create: stream already allocated")
 
       istat = cuda_stream_create(this%cptr, name//c_null_char, my_priority)
 
       IF (istat /= 0 .OR. .NOT. C_ASSOCIATED(this%cptr)) &
-         CPABORT("acc_stream_create failed")
+         DBCSR_ABORT("acc_stream_create failed")
 #endif
    END SUBROUTINE acc_stream_create
 
@@ -153,14 +153,14 @@ CONTAINS
 
 #if ! defined (__ACC)
       MARK_USED(this)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
-         CPABORT("acc_stream_destroy: stream not allocated")
+         DBCSR_ABORT("acc_stream_destroy: stream not allocated")
       istat = cuda_stream_destroy(this%cptr)
       IF (istat /= 0) &
-         CPABORT("acc_stream_destroy failed")
+         DBCSR_ABORT("acc_stream_destroy failed")
       this%cptr = C_NULL_PTR
 #endif
    END SUBROUTINE acc_stream_destroy
@@ -176,14 +176,14 @@ CONTAINS
 
 #if ! defined (__ACC)
       MARK_USED(this)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
-         CPABORT("acc_stream_synchronize: stream not allocated")
+         DBCSR_ABORT("acc_stream_synchronize: stream not allocated")
       istat = cuda_stream_sync(this%cptr)
       IF (istat /= 0) &
-         CPABORT("acc_stream_synchronize failed")
+         DBCSR_ABORT("acc_stream_synchronize failed")
 #endif
    END SUBROUTINE acc_stream_synchronize
 
@@ -198,12 +198,12 @@ CONTAINS
 
 #if ! defined (__ACC)
       least = -1; greatest = -1 ! assign intent-out arguments to silence compiler warnings
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       istat = cuda_stream_priority_range(least, greatest)
       IF (istat /= 0) &
-         CPABORT("acc_stream_priority_range failed")
+         DBCSR_ABORT("acc_stream_priority_range failed")
 #endif
    END SUBROUTINE acc_stream_priority_range
 

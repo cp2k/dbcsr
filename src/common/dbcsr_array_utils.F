@@ -16,7 +16,7 @@
 ! **************************************************************************************************
 MODULE dbcsr_array_utils
   USE dbcsr_machine,                   ONLY: m_flush
-  USE dbcsr_log_handling,              ONLY: cp_to_string
+  USE dbcsr_log_handling,              ONLY: dbcsr_to_string
 
   USE dbcsr_kinds,                     ONLY: ${uselist(usekinds)}$
 
@@ -28,23 +28,23 @@ MODULE dbcsr_array_utils
   CHARACTER(len=*), PRIVATE, PARAMETER :: moduleN='dbcsr_array_utils'
 
 #:for nametype in nametype1
-  PUBLIC :: cp_1d_${nametype}$_p_type, &
-            cp_2d_${nametype}$_p_type, &
-            cp_3d_${nametype}$_p_type, &
-            cp_1d_${nametype}$_guarantee_size, &
-            cp_1d_${nametype}$_write, &
-            cp_2d_${nametype}$_write,&
-            cp_2d_${nametype}$_guarantee_size,&
-            cp_1d_${nametype}$_bsearch
+  PUBLIC :: dbcsr_1d_${nametype}$_p_type, &
+            dbcsr_2d_${nametype}$_p_type, &
+            dbcsr_3d_${nametype}$_p_type, &
+            dbcsr_1d_${nametype}$_guarantee_size, &
+            dbcsr_1d_${nametype}$_write, &
+            dbcsr_2d_${nametype}$_write,&
+            dbcsr_2d_${nametype}$_guarantee_size,&
+            dbcsr_1d_${nametype}$_bsearch
 #:endfor
 
   ! generic interfaces
-  PUBLIC :: cp_guarantee_size
+  PUBLIC :: dbcsr_guarantee_size
 
-  INTERFACE cp_guarantee_size
+  INTERFACE dbcsr_guarantee_size
 #:for nametype in nametype1
-     MODULE PROCEDURE cp_1d_${nametype}$_guarantee_size,&
-                      cp_2d_${nametype}$_guarantee_size
+     MODULE PROCEDURE dbcsr_1d_${nametype}$_guarantee_size,&
+                      dbcsr_2d_${nametype}$_guarantee_size
 #:endfor
   END INTERFACE
 
@@ -58,9 +58,9 @@ MODULE dbcsr_array_utils
 !>      02.2003 created [fawzi]
 !> \author fawzi
 ! **************************************************************************************************
-  type cp_1d_${nametype1}$_p_type
+  type dbcsr_1d_${nametype1}$_p_type
      ${type1}$, dimension(:), pointer :: array
-  end type cp_1d_${nametype1}$_p_type
+  end type dbcsr_1d_${nametype1}$_p_type
 
 ! **************************************************************************************************
 !> \brief represent a pointer to a 2d array
@@ -68,9 +68,9 @@ MODULE dbcsr_array_utils
 !>      02.2003 created [fawzi]
 !> \author fawzi
 ! **************************************************************************************************
-  type cp_2d_${nametype1}$_p_type
+  type dbcsr_2d_${nametype1}$_p_type
      ${type1}$, dimension(:,:), pointer :: array
-  end type cp_2d_${nametype1}$_p_type
+  end type dbcsr_2d_${nametype1}$_p_type
 
 ! **************************************************************************************************
 !> \brief represent a pointer to a 3d array
@@ -78,9 +78,9 @@ MODULE dbcsr_array_utils
 !>      02.2003 created [fawzi]
 !> \author fawzi
 ! **************************************************************************************************
-  type cp_3d_${nametype1}$_p_type
+  type dbcsr_3d_${nametype1}$_p_type
      ${type1}$, dimension(:,:,:), pointer :: array
-  end type cp_3d_${nametype1}$_p_type
+  end type dbcsr_3d_${nametype1}$_p_type
 
 #:endfor
 
@@ -98,18 +98,18 @@ CONTAINS
 !> \note
 !>      maybe I will move to a comma separated paretized list
 ! **************************************************************************************************
-SUBROUTINE cp_1d_${nametype1}$_write(array, unit_nr, el_format)
+SUBROUTINE dbcsr_1d_${nametype1}$_write(array, unit_nr, el_format)
   ${type1}$, INTENT(in) :: array(:)
   INTEGER, INTENT(in) :: unit_nr
   CHARACTER(len=*), INTENT(in), OPTIONAL :: el_format
 
   INTEGER :: iostat, i
-  CHARACTER(len=*), PARAMETER :: routineN='cp_1d_${nametype1}$_write',&
+  CHARACTER(len=*), PARAMETER :: routineN='dbcsr_1d_${nametype1}$_write',&
         routineP=moduleN//':'//routineN
   CHARACTER(len=*), PARAMETER :: defaultFormat=${defaultFormatType1}$
 
   WRITE(unit=unit_nr,fmt="('( ')",advance="no", iostat=iostat)
-  CPASSERT(iostat==0)
+  DBCSR_ASSERT(iostat==0)
   IF (PRESENT(el_format)) THEN
      DO i=1,SIZE(array)-1
         WRITE(unit=unit_nr,fmt=el_format,advance="no") array(i)
@@ -136,7 +136,7 @@ SUBROUTINE cp_1d_${nametype1}$_write(array, unit_nr, el_format)
   WRITE(unit=unit_nr,fmt="(' )')")
   call m_flush(unit_nr)
 
-END SUBROUTINE cp_1d_${nametype1}$_write
+END SUBROUTINE dbcsr_1d_${nametype1}$_write
 
 ! **************************************************************************************************
 !> \brief writes an array to the given unit
@@ -149,19 +149,19 @@ END SUBROUTINE cp_1d_${nametype1}$_write
 !> \note
 !>      maybe I will move to a comma separated parentized list
 ! **************************************************************************************************
-SUBROUTINE cp_2d_${nametype1}$_write(array, unit_nr, el_format)
+SUBROUTINE dbcsr_2d_${nametype1}$_write(array, unit_nr, el_format)
   ${type1}$, INTENT(in) :: array(:,:)
   INTEGER, INTENT(in) :: unit_nr
   CHARACTER(len=*), INTENT(in), OPTIONAL :: el_format
 
   INTEGER :: iostat, i
-  CHARACTER(len=*), PARAMETER :: routineN='cp_2d_${nametype1}$_write',&
+  CHARACTER(len=*), PARAMETER :: routineN='dbcsr_2d_${nametype1}$_write',&
         routineP=moduleN//':'//routineN
   CHARACTER(len=*), PARAMETER :: defaultFormat=${defaultFormatType1}$
   CHARACTER(len=200) :: fmtstr
   CHARACTER(len=10) :: nRiga
 
-  nRiga=cp_to_string(SIZE(array,2))
+  nRiga=dbcsr_to_string(SIZE(array,2))
   DO i=1,SIZE(array,1)
      IF (PRESENT(el_format)) THEN
         fmtstr='(" ",'//nRiga//el_format//')'
@@ -170,10 +170,10 @@ SUBROUTINE cp_2d_${nametype1}$_write(array, unit_nr, el_format)
         fmtstr = '(" ",'//nRiga//defaultFormat//')'
         WRITE(unit=unit_nr,fmt=fmtstr,iostat=iostat) array(i,:)
      END IF
-     CPASSERT(iostat==0)
+     DBCSR_ASSERT(iostat==0)
   END DO
   call m_flush(unit_nr)
-END SUBROUTINE cp_2d_${nametype1}$_write
+END SUBROUTINE dbcsr_2d_${nametype1}$_write
 
 ! **************************************************************************************************
 !> \brief If the size of the array is changes reallocate it.
@@ -192,24 +192,24 @@ END SUBROUTINE cp_2d_${nametype1}$_write
 !>      this is a different behaviour than the realloc in the module
 !>      memory_utilities. It is quite low level
 ! **************************************************************************************************
-  SUBROUTINE cp_1d_${nametype1}$_guarantee_size(array, n)
+  SUBROUTINE dbcsr_1d_${nametype1}$_guarantee_size(array, n)
     ${type1}$, POINTER :: array(:)
     INTEGER, INTENT(in) :: n
 
-    CHARACTER(len=*), PARAMETER :: routineN='cp_1d_${nametype1}$_guarantee_size',&
+    CHARACTER(len=*), PARAMETER :: routineN='dbcsr_1d_${nametype1}$_guarantee_size',&
          routineP=moduleN//':'//routineN
 
-    CPASSERT(n>=0)
+    DBCSR_ASSERT(n>=0)
     IF (ASSOCIATED(array)) THEN
        IF (SIZE(array) /= n) THEN
-          CPWARN('size has changed')
+          DBCSR_WARN('size has changed')
           DEALLOCATE(array)
        END IF
     END IF
     IF (.NOT.ASSOCIATED(array)) THEN
        ALLOCATE(array(n))
     END IF
-  END SUBROUTINE cp_1d_${nametype1}$_guarantee_size
+  END SUBROUTINE dbcsr_1d_${nametype1}$_guarantee_size
 
 ! **************************************************************************************************
 !> \brief If the size of the array is changes reallocate it.
@@ -228,25 +228,25 @@ END SUBROUTINE cp_2d_${nametype1}$_write
 !>      this is a different behaviour than the realloc in the module
 !>      memory_utilities. It is quite low level
 ! **************************************************************************************************
-  SUBROUTINE cp_2d_${nametype1}$_guarantee_size(array, n_rows, n_cols)
+  SUBROUTINE dbcsr_2d_${nametype1}$_guarantee_size(array, n_rows, n_cols)
     ${type1}$, POINTER :: array(:,:)
     INTEGER, INTENT(in) :: n_rows, n_cols
 
-    CHARACTER(len=*), PARAMETER :: routineN='cp_2d_${nametype1}$_guarantee_size',&
+    CHARACTER(len=*), PARAMETER :: routineN='dbcsr_2d_${nametype1}$_guarantee_size',&
          routineP=moduleN//':'//routineN
 
-    CPASSERT(n_cols>=0)
-    CPASSERT(n_rows>=0)
+    DBCSR_ASSERT(n_cols>=0)
+    DBCSR_ASSERT(n_rows>=0)
     IF (ASSOCIATED(array)) THEN
        IF (SIZE(array,1) /= n_rows .OR. SIZE(array,2) /= n_cols) THEN
-          CPWARN('size has changed')
+          DBCSR_WARN('size has changed')
           DEALLOCATE(array)
        END IF
     END IF
     IF (.NOT.ASSOCIATED(array)) THEN
        ALLOCATE(array(n_rows,n_cols))
     END IF
-  END SUBROUTINE cp_2d_${nametype1}$_guarantee_size
+  END SUBROUTINE dbcsr_2d_${nametype1}$_guarantee_size
 
 ! **************************************************************************************************
 !> \brief returns the index at which the element el should be inserted in the
@@ -264,14 +264,14 @@ END SUBROUTINE cp_2d_${nametype1}$_write
 !> \note
 !>      the array should be ordered in growing order
 ! **************************************************************************************************
-FUNCTION cp_1d_${nametype1}$_bsearch(array, el, l_index, u_index)&
+FUNCTION dbcsr_1d_${nametype1}$_bsearch(array, el, l_index, u_index)&
      result(res)
   ${type1}$, intent(in) :: array(:)
   ${type1}$, intent(in) :: el
   INTEGER, INTENT(in), OPTIONAL :: l_index, u_index
   integer :: res
 
-  character(len=*), parameter :: routineN='cp_1d_${nametype1}$_bsearch',&
+  character(len=*), parameter :: routineN='dbcsr_1d_${nametype1}$_bsearch',&
         routineP=moduleN//':'//routineN
   INTEGER :: lindex,uindex,aindex
 
@@ -288,7 +288,7 @@ FUNCTION cp_1d_${nametype1}$_bsearch(array, el, l_index, u_index)&
      END IF
   END DO
   res=lindex
-END FUNCTION cp_1d_${nametype1}$_bsearch
+END FUNCTION dbcsr_1d_${nametype1}$_bsearch
 #:endfor
 
 END MODULE dbcsr_array_utils

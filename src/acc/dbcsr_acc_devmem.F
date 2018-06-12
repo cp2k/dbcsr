@@ -196,7 +196,7 @@ CONTAINS
       MARK_USED(requested_size_in_bytes)
       MARK_USED(nocopy)
       MARK_USED(zero_pad)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
 
       LOGICAL                                  :: my_nocopy, my_zero_pad
@@ -204,9 +204,9 @@ CONTAINS
       INTEGER                                  :: new_size, old_size, istat
 
       IF (this%size_in_bytes < 0) &
-         CPABORT("acc_devmem_ensure_size_bytes: not allocated")
+         DBCSR_ABORT("acc_devmem_ensure_size_bytes: not allocated")
       IF (.NOT. acc_stream_associated(stream)) &
-         CPABORT("acc_devmem_ensure_size_bytes: stream not associated")
+         DBCSR_ABORT("acc_devmem_ensure_size_bytes: stream not associated")
 
       IF (this%size_in_bytes < requested_size_in_bytes) THEN
          !WRITE (*,*) "acc_devmem_ensure_size_bytes: growing dev_mem to: ", data_size
@@ -218,7 +218,7 @@ CONTAINS
          new_cptr = C_NULL_PTR
          istat = dc_dev_mem_alloc(new_cptr, INT(new_size, KIND=C_SIZE_T))
          IF (istat /= 0) &
-            CPABORT("acc_devmem_ensure_size_bytes: alloc failed")
+            DBCSR_ABORT("acc_devmem_ensure_size_bytes: alloc failed")
 
          this%cptr = new_cptr
          this%size_in_bytes = requested_size_in_bytes
@@ -234,13 +234,13 @@ CONTAINS
             stream_cptr = acc_stream_cptr(stream)
             istat = dc_memcpy_d2d_cu(old_cptr, new_cptr, INT(old_size, KIND=C_SIZE_T), stream_cptr)
             IF (istat /= 0) &
-               CPABORT("acc_devmem_ensure_size_bytes: memcpy failed")
+               DBCSR_ABORT("acc_devmem_ensure_size_bytes: memcpy failed")
          ENDIF
 
          CALL acc_stream_synchronize(stream)
          istat = dc_dev_mem_dealloc(old_cptr)
          IF (istat /= 0) &
-            CPABORT("acc_devmem_ensure_size_bytes: dealloc failed")
+            DBCSR_ABORT("acc_devmem_ensure_size_bytes: dealloc failed")
 
       ENDIF
 #endif
@@ -270,7 +270,7 @@ CONTAINS
       INTEGER                                            :: res
 
       IF (this%size_in_bytes < 0) &
-         CPABORT("acc_devmem_len: not allocated")
+         DBCSR_ABORT("acc_devmem_len: not allocated")
       res = this%size_in_bytes
    END FUNCTION acc_devmem_size_in_bytes
 
@@ -300,7 +300,7 @@ CONTAINS
       TYPE(C_PTR)                                        :: res
 
       IF (this%size_in_bytes < 0) &
-         CPABORT("acc_devmem_cptr: not allocated")
+         DBCSR_ABORT("acc_devmem_cptr: not allocated")
       res = this%cptr
    END FUNCTION acc_devmem_cptr
 #endif
@@ -321,18 +321,18 @@ CONTAINS
       MARK_USED(pointee)
       MARK_USED(size_in_bytes)
       MARK_USED(lb_in_bytes)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
 
       INTEGER                                  :: istat
 
       IF (this%size_in_bytes >= 0) &
-         CPABORT("acc_devmem_sep_cptr: already allocated")
+         DBCSR_ABORT("acc_devmem_sep_cptr: already allocated")
       IF (pointee%size_in_bytes < 0 .AND. size_in_bytes > 0 ) &
-         CPABORT("acc_devmem_sep_cptr: out-of-bounds")
+         DBCSR_ABORT("acc_devmem_sep_cptr: out-of-bounds")
       IF (size_in_bytes > 0) THEN
          IF ((lb_in_bytes+size_in_bytes) .GT. pointee%size_in_bytes) &
-            CPABORT("acc_devmem_set_cptr: out-of-bounds")
+            DBCSR_ABORT("acc_devmem_set_cptr: out-of-bounds")
          this%size_in_bytes = size_in_bytes
          istat = dc_acc_dev_mem_set_ptr(this%cptr, pointee%cptr, INT(lb_in_bytes, KIND=C_SIZE_T))
       ELSE
@@ -355,12 +355,12 @@ CONTAINS
 
 #if ! defined (__ACC)
       avail = -1; free = -1 ! assign intent-out arguments to silence compiler warnings
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       istat = dc_dev_mem_info_cu(free, avail)
       IF (istat /= 0) &
-         CPABORT("acc_devmem_info: failed.")
+         DBCSR_ABORT("acc_devmem_info: failed.")
 #endif
    END SUBROUTINE acc_devmem_info
 
@@ -377,7 +377,7 @@ CONTAINS
 #if ! defined (__ACC)
       MARK_USED(this)
       MARK_USED(size_in_bytes)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_allocate', &
                                      routineP = moduleN//':'//routineN
@@ -385,12 +385,12 @@ CONTAINS
       INTEGER                                  :: istat
 
       IF (this%size_in_bytes >= 0) &
-         CPABORT("acc_devmem_alloc: already allocated")
+         DBCSR_ABORT("acc_devmem_alloc: already allocated")
       this%size_in_bytes = size_in_bytes
       IF (size_in_bytes > 0) THEN
          istat = dc_dev_mem_alloc(this%cptr, INT(this%size_in_bytes, KIND=C_SIZE_T))
          IF (istat /= 0) &
-            CPABORT("acc_devmem_allocate: failed.")
+            DBCSR_ABORT("acc_devmem_allocate: failed.")
       END IF
 #endif
    END SUBROUTINE acc_devmem_allocate_bytes
@@ -405,7 +405,7 @@ CONTAINS
 
 #if ! defined (__ACC)
       MARK_USED(this)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_deallocate', &
                                      routineP = moduleN//':'//routineN
@@ -413,11 +413,11 @@ CONTAINS
       INTEGER                                  :: istat
 
       IF (this%size_in_bytes < 0) &
-         CPABORT("acc_devmem_deallocate: double free")
+         DBCSR_ABORT("acc_devmem_deallocate: double free")
       IF (this%size_in_bytes > 0) THEN
          istat = dc_dev_mem_dealloc(this%cptr)
          IF (istat /= 0) &
-            CPABORT("acc_devmem_deallocate: failed")
+            DBCSR_ABORT("acc_devmem_deallocate: failed")
       END IF
 
       this%size_in_bytes = -1
@@ -443,7 +443,7 @@ CONTAINS
       MARK_USED(first_byte)
       MARK_USED(last_byte)
       MARK_USED(stream)
-      CPABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__ACC not compiled in.")
 #else
       CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_setzero', &
                                      routineP = moduleN//':'//routineN
@@ -462,7 +462,7 @@ CONTAINS
       IF (length > 0) THEN
          istat = dc_memzero_cu(this%cptr, offset, length, stream_cptr)
          IF (istat /= 0) &
-            CPABORT("acc_devmem_setzero: failed")
+            DBCSR_ABORT("acc_devmem_setzero: failed")
       ENDIF
 #endif
    END SUBROUTINE acc_devmem_setzero_bytes
@@ -488,14 +488,14 @@ CONTAINS
       TYPE(C_PTR)                                        :: stream_cptr
 
       IF (this%size_in_bytes < n_bytes) &
-         CPABORT("acc_devmem_host2dev: devmem too small")
+         DBCSR_ABORT("acc_devmem_host2dev: devmem too small")
 
       stream_cptr = acc_stream_cptr(stream)
       IF (n_bytes > 0) THEN
          istat = dc_memcpy_h2d_cu(hostmem_cptr, this%cptr, &
                                   INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
          IF (istat /= 0) &
-            CPABORT("acc_devmem_host2dev: failed")
+            DBCSR_ABORT("acc_devmem_host2dev: failed")
       ENDIF
    END SUBROUTINE host2dev_raw
 #endif
@@ -521,7 +521,7 @@ CONTAINS
       TYPE(C_PTR)                                        :: stream_cptr
 
       IF (this%size_in_bytes < n_bytes) &
-         CPABORT("acc_devmem_dev2host: this too small")
+         DBCSR_ABORT("acc_devmem_dev2host: this too small")
 
       stream_cptr = acc_stream_cptr(stream)
 
@@ -529,7 +529,7 @@ CONTAINS
          istat = dc_memcpy_d2h_cu(this%cptr, hostmem_cptr, &
                                   INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
          IF (istat /= 0) &
-            CPABORT("acc_devmem_dev2host: failed")
+            DBCSR_ABORT("acc_devmem_dev2host: failed")
       ENDIF
    END SUBROUTINE dev2host_raw
 #endif
@@ -559,7 +559,7 @@ CONTAINS
     MARK_USED(this)
     MARK_USED(hostmem)
     MARK_USED(stream)
-    CPABORT("__ACC not compiled in.")
+    DBCSR_ABORT("__ACC not compiled in.")
 #else
     CALL host2dev_raw(this, C_LOC(hostmem(1)), ${size}$*SIZE(hostmem), stream)
 #endif
@@ -582,7 +582,7 @@ CONTAINS
     MARK_USED(this)
     MARK_USED(hostmem)
     MARK_USED(stream)
-    CPABORT("__ACC not compiled in.")
+    DBCSR_ABORT("__ACC not compiled in.")
 #else
     CALL host2dev_raw(this, C_LOC(hostmem(1,1)), ${size}$*SIZE(hostmem), stream)
 #endif
@@ -605,7 +605,7 @@ CONTAINS
     MARK_USED(this)
     MARK_USED(hostmem)
     MARK_USED(stream)
-    CPABORT("__ACC not compiled in.")
+    DBCSR_ABORT("__ACC not compiled in.")
 #else
     CALL dev2host_raw(this, C_LOC(hostmem(1)), ${size}$*SIZE(hostmem), stream)
 #endif

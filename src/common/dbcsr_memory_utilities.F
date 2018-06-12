@@ -530,7 +530,7 @@ $: reallocate(rank=1)
       ELSE IF (PRESENT(p_long)) THEN
          CALL reallocate_ls1(p_long, lb_new, ub_new)
       ELSE
-         CPABORT("At least one of the two optional arguments is required")
+         DBCSR_ABORT("At least one of the two optional arguments is required")
       END IF
 
    END SUBROUTINE reallocate_s1

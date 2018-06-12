@@ -21,10 +21,10 @@
 ! **************************************************************************************************
 MODULE dbcsr_distribution_1d_types
 
-   USE dbcsr_array_utils,               ONLY: cp_1d_i_p_type
-   USE dbcsr_para_env,                  ONLY: cp_para_env_release,&
-                                              cp_para_env_retain
-   USE dbcsr_para_types,                ONLY: cp_para_env_type
+   USE dbcsr_array_utils,               ONLY: dbcsr_1d_i_p_type
+   USE dbcsr_para_env,                  ONLY: dbcsr_para_env_release,&
+                                              dbcsr_para_env_retain
+   USE dbcsr_para_types,                ONLY: dbcsr_para_env_type
    USE dbcsr_parallel_rng_types,        ONLY: delete_rng_stream,&
                                               rng_stream_p_type
 #include "base/dbcsr_base_uses.f90"
@@ -64,8 +64,8 @@ MODULE dbcsr_distribution_1d_types
       INTEGER :: ref_count, id_nr
       LOGICAL :: listbased_distribution
       INTEGER, DIMENSION(:), POINTER :: n_el
-      TYPE(cp_1d_i_p_type), DIMENSION(:), POINTER :: list
-      TYPE(cp_para_env_type), POINTER :: para_env
+      TYPE(dbcsr_1d_i_p_type), DIMENSION(:), POINTER :: list
+      TYPE(dbcsr_para_env_type), POINTER :: para_env
       TYPE(local_particle_type), DIMENSION(:), POINTER :: local_particle_set
    END TYPE distribution_1d_type
 
@@ -97,7 +97,7 @@ CONTAINS
    SUBROUTINE distribution_1d_create(distribution_1d, para_env, listbased_distribution, &
                                      n_el, n_lists)
       TYPE(distribution_1d_type), POINTER                :: distribution_1d
-      TYPE(cp_para_env_type), POINTER                    :: para_env
+      TYPE(dbcsr_para_env_type), POINTER                 :: para_env
       LOGICAL, INTENT(in), OPTIONAL                      :: listbased_distribution
       INTEGER, DIMENSION(:), INTENT(in), OPTIONAL        :: n_el
       INTEGER, INTENT(in), OPTIONAL                      :: n_lists
@@ -118,7 +118,7 @@ CONTAINS
       distribution_1d%ref_count = 1
 
       distribution_1d%para_env => para_env
-      CALL cp_para_env_retain(para_env)
+      CALL dbcsr_para_env_retain(para_env)
 
       NULLIFY (distribution_1d%list, distribution_1d%n_el)
 
@@ -128,7 +128,7 @@ CONTAINS
 
       ALLOCATE (distribution_1d%n_el(my_n_lists), distribution_1d%list(my_n_lists), &
                 stat=stat)
-      CPASSERT(stat == 0)
+      DBCSR_ASSERT(stat == 0)
 
       IF (PRESENT(n_el)) THEN
          distribution_1d%n_el(1:my_n_lists) = n_el(1:my_n_lists)
@@ -160,8 +160,8 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'distribution_1d_retain', &
          routineP = moduleN//':'//routineN
 
-      CPASSERT(ASSOCIATED(distribution_1d))
-      CPASSERT(distribution_1d%ref_count > 0)
+      DBCSR_ASSERT(ASSOCIATED(distribution_1d))
+      DBCSR_ASSERT(distribution_1d%ref_count > 0)
       distribution_1d%ref_count = distribution_1d%ref_count+1
    END SUBROUTINE distribution_1d_retain
 
@@ -183,7 +183,7 @@ CONTAINS
       TYPE(local_particle_type), DIMENSION(:), POINTER   :: local_particle_set
 
       IF (ASSOCIATED(distribution_1d)) THEN
-         CPASSERT(distribution_1d%ref_count > 0)
+         DBCSR_ASSERT(distribution_1d%ref_count > 0)
          distribution_1d%ref_count = distribution_1d%ref_count-1
          IF (distribution_1d%ref_count == 0) THEN
             DEALLOCATE (distribution_1d%n_el)
@@ -215,7 +215,7 @@ CONTAINS
                DEALLOCATE (local_particle_set)
             END IF
 
-            CALL cp_para_env_release(distribution_1d%para_env)
+            CALL dbcsr_para_env_release(distribution_1d%para_env)
 
             DEALLOCATE (distribution_1d)
          END IF

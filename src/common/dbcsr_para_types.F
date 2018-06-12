@@ -19,7 +19,7 @@ MODULE dbcsr_para_types
    LOGICAL, PRIVATE, PARAMETER :: debug_this_module = .TRUE.
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_para_types'
 
-   PUBLIC :: cp_para_env_type, cp_para_env_p_type, cp_para_cart_type
+   PUBLIC :: dbcsr_para_env_type, dbcsr_para_env_p_type, dbcsr_para_cart_type
 
 ! **************************************************************************************************
 !> \brief stores all the informations relevant to an mpi environement
@@ -37,11 +37,11 @@ MODULE dbcsr_para_types
 !>      08.2002 created [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-   TYPE cp_para_env_type
+   TYPE dbcsr_para_env_type
       LOGICAL :: owns_group, ionode
       INTEGER :: mepos, source, num_pe, ref_count
       INTEGER :: group
-   END TYPE cp_para_env_type
+   END TYPE dbcsr_para_env_type
 
 ! **************************************************************************************************
 !> \brief represent a pointer to a para env (to build arrays)
@@ -50,9 +50,9 @@ MODULE dbcsr_para_types
 !>      07.2003 created [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-   TYPE cp_para_env_p_type
-      TYPE(cp_para_env_type), POINTER :: para_env
-   END TYPE cp_para_env_p_type
+   TYPE dbcsr_para_env_p_type
+      TYPE(dbcsr_para_env_type), POINTER :: para_env
+   END TYPE dbcsr_para_env_p_type
 
 ! **************************************************************************************************
 !> \brief represent a multidimensional parallel environment
@@ -71,12 +71,12 @@ MODULE dbcsr_para_types
 !>      08.2002 created [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
-   TYPE cp_para_cart_type
+   TYPE dbcsr_para_cart_type
       LOGICAL :: owns_group
       INTEGER :: ndims, rank, ntask
       INTEGER, DIMENSION(:), POINTER :: mepos, source, num_pe
       LOGICAL, DIMENSION(:), POINTER :: periodic
       INTEGER :: group, ref_count
-   END TYPE cp_para_cart_type
+   END TYPE dbcsr_para_cart_type
 
 END MODULE dbcsr_para_types

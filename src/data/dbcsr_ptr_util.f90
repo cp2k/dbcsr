@@ -76,7 +76,7 @@
     !> Creates a new array if it doesn't yet exist.
     IF (.NOT.ASSOCIATED(array)) THEN
        IF(lb_new /= 1) &
-          CPABORT("Arrays must start at 1")
+          DBCSR_ABORT("Arrays must start at 1")
        CALL mem_alloc_${nametype1}$ (array, ub, mem_type=mem_type)
        IF (pad .AND. ub .GT. 0) CALL mem_zero_${nametype1}$ (array, ub)
        !CALL timestop(error_handler)
@@ -130,13 +130,13 @@
     !
     ! Allocates the new array
     IF(lb_new /= 1) &
-       CPABORT("Arrays must start at 1")
+       DBCSR_ABORT("Arrays must start at 1")
     CALL mem_alloc_${nametype1}$ (newarray, ub_new-lb_new+1, mem_type)
     !
     ! Now copy and/or zero pad.
     IF(docopy) THEN
        IF(dbg .AND. (lb_new.GT.lb_orig .OR. ub_new.LT.ub_orig))&
-            CPABORT("Old extent exceeds the new one.")
+            DBCSR_ABORT("Old extent exceeds the new one.")
        IF (ub_orig-lb_orig+1 .gt. 0) THEN
           !newarray(lb_orig:ub_orig) = array(lb_orig:ub_orig)
           CALL mem_copy_${nametype1}$ (newarray(lb_orig:ub_orig),&
@@ -244,10 +244,10 @@
        CALL timeset (routineN, error_handle)
 
     IF(mem_type%acc_hostalloc) THEN
-       CPABORT("Accelerator hostalloc not supported for 2D arrays.")
+       DBCSR_ABORT("Accelerator hostalloc not supported for 2D arrays.")
        !CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
     ELSE IF(mem_type%mpi) THEN
-       CPABORT("MPI allocate not supported for 2D arrays.")
+       DBCSR_ABORT("MPI allocate not supported for 2D arrays.")
        !CALL mp_allocate(mem, n)
     ELSE
        ALLOCATE(mem(sizes(1), sizes(2)))
@@ -304,10 +304,10 @@
        CALL timeset (routineN, error_handle)
 
     IF(mem_type%acc_hostalloc) THEN
-       CPABORT("Accelerator host deallocate not supported for 2D arrays.")
+       DBCSR_ABORT("Accelerator host deallocate not supported for 2D arrays.")
        !CALL acc_hostmem_deallocate(mem, mem_type%acc_stream)
     ELSE IF(mem_type%mpi) THEN
-       CPABORT("MPI deallocate not supported for 2D arrays.")
+       DBCSR_ABORT("MPI deallocate not supported for 2D arrays.")
        !CALL mp_deallocate(mem)
     ELSE
        DEALLOCATE(mem)

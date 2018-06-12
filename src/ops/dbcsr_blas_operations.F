@@ -83,7 +83,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          CALL zlarnv(idist, iseed, n, x%d%c_dp)
       CASE default
-         CPABORT("Invalid data type")
+         DBCSR_ABORT("Invalid data type")
       END SELECT
 
    END SUBROUTINE dbcsr_lapack_larnv

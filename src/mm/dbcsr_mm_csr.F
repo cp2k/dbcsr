@@ -418,7 +418,7 @@ CONTAINS
                ! to get new blocks.
                IF (careful_mod) THEN
                   IF (c_nze .EQ. 0 .OR. k_size .EQ. 0) THEN
-                     CPABORT("Can not call MM with LDx=0.")
+                     DBCSR_ABORT("Can not call MM with LDx=0.")
                      CYCLE
                   ENDIF
                ENDIF
@@ -488,14 +488,14 @@ CONTAINS
 !$    ithread = OMP_GET_THREAD_NUM(); nthreads = OMP_GET_NUM_THREADS()
 
       IF (PRESENT(left) .NEQV. PRESENT(right)) &
-         CPABORT("Must both left and right provided or not.")
+         DBCSR_ABORT("Must both left and right provided or not.")
 
       IF (PRESENT(left) .AND. PRESENT(right)) THEN
          ! find out if we have local_indexin
          IF (.NOT. right%local_indexing) &
-            CPABORT("Matrices must have local indexing.")
+            DBCSR_ABORT("Matrices must have local indexing.")
          IF (.NOT. left%local_indexing) &
-            CPABORT("Matrices must have local indexing.")
+            DBCSR_ABORT("Matrices must have local indexing.")
       ENDIF
       ! Setup the hash tables if needed
       ALLOCATE (this%c_hashes(product%nblkrows_local))
@@ -509,7 +509,7 @@ CONTAINS
       this%nk_stacks = dbcsr_cfg%nk_stacks
       nstacks = dbcsr_cfg%nm_stacks*dbcsr_cfg%nn_stacks*dbcsr_cfg%nk_stacks+1
       IF (nstacks > INT(HUGE(this%stack_map))) &
-         CPABORT("Too many stacks requested (global/dbcsr/n_size_*_stacks in input)")
+         DBCSR_ABORT("Too many stacks requested (global/dbcsr/n_size_*_stacks in input)")
 
       ALLOCATE (this%stacks_descr(nstacks))
       ALLOCATE (this%stacks_data(dbcsr_ps_width, dbcsr_cfg%mm_stack_size, nstacks))
@@ -661,7 +661,7 @@ CONTAINS
 !$    imat = OMP_GET_THREAD_NUM()+1
       n_rows = matrix%nblkrows_local
       IF (SIZE(hashes) /= n_rows) &
-         CPABORT("Local row count mismatch")
+         DBCSR_ABORT("Local row count mismatch")
       DO row = 1, n_rows
          ! create the hash table row with a reasonable initial size
          CALL hash_table_create(hashes(row), &
@@ -938,8 +938,8 @@ CONTAINS
       counts(:) = 0
       DO i = ai, af
          IF (careful) THEN
-            IF (list_index(1, i) < mi) CPABORT("Out of range")
-            IF (list_index(1, i) > mf) CPABORT("Out of range")
+            IF (list_index(1, i) < mi) DBCSR_ABORT("Out of range")
+            IF (list_index(1, i) > mf) DBCSR_ABORT("Out of range")
          ENDIF
          counts(list_index(1, i)) = counts(list_index(1, i))+1
       ENDDO
@@ -953,8 +953,8 @@ CONTAINS
          row = list_index(1, i)
          counts(row) = counts(row)+1
          IF (careful) THEN
-            IF (row_p(row)+counts(row) > af-ai+1) CPABORT("Out of range")
-            IF (row_p(row)+counts(row) < 1) CPABORT("Out of range")
+            IF (row_p(row)+counts(row) > af-ai+1) DBCSR_ABORT("Out of range")
+            IF (row_p(row)+counts(row) < 1) DBCSR_ABORT("Out of range")
          ENDIF
          blk_info(1, row_p(row)+counts(row)) = list_index(2, i)
          blk_info(2, row_p(row)+counts(row)) = list_index(3, i)

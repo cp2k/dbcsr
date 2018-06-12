@@ -79,7 +79,7 @@ PROGRAM dbcsr_performance_driver
    CALL mp_bcast(narg, 0, group)
    CALL mp_bcast(args, 0, group)
    IF (narg .LT. 1) &
-      CPABORT("nargs not correct")
+      DBCSR_ABORT("nargs not correct")
 
    !
    ! initialize libdbcsr
@@ -91,7 +91,7 @@ PROGRAM dbcsr_performance_driver
    CASE ('dbcsr_multiply')
       CALL dbcsr_perf_multiply(group, mp_env, npdims, io_unit, narg, args)
    CASE DEFAULT
-      CPABORT("operation not found")
+      DBCSR_ABORT("operation not found")
    END SELECT
 
    !

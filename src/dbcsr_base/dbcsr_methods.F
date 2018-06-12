@@ -130,12 +130,12 @@ CONTAINS
       force_all = .FALSE.
       IF (PRESENT(force)) force_all = force
       IF (.NOT. force_all .AND. matrix%refcount .NE. 0) &
-         CPWARN("You should not destroy referenced matrix.")
+         DBCSR_WARN("You should not destroy referenced matrix.")
       IF (force_all .AND. matrix%refcount .GT. 1) &
-         CPWARN("You should not destroy referenced matrix.")
+         DBCSR_WARN("You should not destroy referenced matrix.")
       IF (force_all .OR. matrix%refcount .EQ. 0) THEN
          IF (ASSOCIATED(matrix%wms)) &
-            CPWARN("Destroying unfinalized matrix")
+            DBCSR_WARN("Destroying unfinalized matrix")
          IF (ASSOCIATED(matrix%index)) THEN
             CALL memory_deallocate(matrix%index, matrix%index_memory_type)
          ENDIF
@@ -731,7 +731,7 @@ CONTAINS
       IF (data_type .NE. dbcsr_type_real_8 .AND. &
           data_type .NE. dbcsr_type_real_4 .AND. &
           data_type .NE. dbcsr_type_complex_8 .AND. &
-          data_type .NE. dbcsr_type_complex_4) CPABORT("Incorrect data type")
+          data_type .NE. dbcsr_type_complex_4) DBCSR_ABORT("Incorrect data type")
       data_size = dbcsr_data_get_size(matrix%data_area)
    END FUNCTION dbcsr_get_data_size
 
@@ -980,7 +980,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       IF (.NOT. ASSOCIATED(mutable%m)) &
-         CPABORT("Mutable data area not instantiated")
+         DBCSR_ABORT("Mutable data area not instantiated")
       mutable%m%refcount = mutable%m%refcount-1
       IF (mutable%m%refcount .EQ. 0) THEN
          CALL dbcsr_mutable_destroy(mutable)
@@ -1004,12 +1004,12 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       IF (ASSOCIATED(mutable%m)) &
-         CPABORT("Mutable data area already instantiated")
+         DBCSR_ABORT("Mutable data area already instantiated")
       IF (data_type .NE. dbcsr_type_real_4 &
           .AND. data_type .NE. dbcsr_type_real_8 &
           .AND. data_type .NE. dbcsr_type_complex_4 &
           .AND. data_type .NE. dbcsr_type_complex_8) &
-         CPABORT("Invalid data type")
+         DBCSR_ABORT("Invalid data type")
       ALLOCATE (mutable%m)
       mutable%m%refcount = 1
       mutable%m%data_type = data_type

@@ -120,8 +120,8 @@ CONTAINS
          dims_nd_prv(map1_2d) = dims1_nd
          dims_nd_prv(map2_2d) = dims2_nd
       ELSE
-         CPASSERT(PRODUCT(dims_nd(map1_2d)) == dims_2d(1))
-         CPASSERT(PRODUCT(dims_nd(map2_2d)) == dims_2d(2))
+         DBCSR_ASSERT(PRODUCT(dims_nd(map1_2d)) == dims_2d(1))
+         DBCSR_ASSERT(PRODUCT(dims_nd(map2_2d)) == dims_2d(2))
          dims_nd_prv = dims_nd
       ENDIF
 
@@ -166,7 +166,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       ndims = SIZE(map1_2d)+SIZE(map2_2d)
-      CPASSERT(ndims .GE. 2 .AND. ndims .LE. ${maxdim}$)
+      DBCSR_ASSERT(ndims .GE. 2 .AND. ndims .LE. ${maxdim}$)
 
       CALL create_array_list(nd_dist, ndims, ${varlist("nd_dist")}$)
 
@@ -186,7 +186,7 @@ CONTAINS
 
       CALL mp_environ(comm_2d, 2, pdims_2d_check, task_coor_2d, periods_2d)
       IF (ANY(pdims_2d_check .NE. pdims_2d)) THEN
-         CPABORT("inconsistent process grid dimensions")
+         DBCSR_ABORT("inconsistent process grid dimensions")
       ENDIF
 
       ! create 2d distribution from nd distribution
@@ -470,7 +470,7 @@ CONTAINS
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
          INTENT(OUT)                              :: dims
 
-      CPASSERT(tensor%valid)
+      DBCSR_ASSERT(tensor%valid)
       dims = tensor%nd_index%dims_nd
    END SUBROUTINE
 
@@ -515,7 +515,7 @@ CONTAINS
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
          INTENT(OUT)                              :: blk_offset
 
-      CPASSERT(tensor%valid)
+      DBCSR_ASSERT(tensor%valid)
       blk_offset(:) = get_array_elements(tensor%blk_offsets, ind)
    END SUBROUTINE
 

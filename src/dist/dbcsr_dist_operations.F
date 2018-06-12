@@ -408,7 +408,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       IF (MOD(nbins*nimages, multiplicity) .NE. 0) &
-         CPWARN("mulitplicity is not divisor of new process grid coordinate")
+         DBCSR_WARN("mulitplicity is not divisor of new process grid coordinate")
       old_nbins = (nbins*nimages)/multiplicity
       ALLOCATE (bin_multiplier(0:old_nbins-1))
       bin_multiplier(:) = 0
@@ -524,7 +524,7 @@ CONTAINS
       current_int = current_int+1
       DO WHILE (current_src .LE. n_src .AND. current_dst .LE. n_dst)
          IF (current_int > numints) &
-            CPABORT("Ran out of space.")
+            DBCSR_ABORT("Ran out of space.")
          ! Calculate how many elements do the current blocks have in
          ! common and record these as going to the current target block.
          common_extent = MIN(s_src, s_dst)
@@ -664,7 +664,7 @@ CONTAINS
          CALL find_all_local_elements(dist%d%other_l_rows, row_dist, nprows)
       ELSE
          IF (careful_mod .AND. .NOT. ASSOCIATED(dist%d%other_l_rows)) &
-            CPABORT("Local rows mapping does not exist.")
+            DBCSR_ABORT("Local rows mapping does not exist.")
       ENDIF
       local_rows = dist%d%other_l_rows(local_prow)
       CALL timestop(error_handle)
@@ -713,7 +713,7 @@ CONTAINS
          CALL find_all_local_elements(dist%d%other_l_cols, col_dist, npcols)
       ELSE
          IF (careful_mod .AND. .NOT. ASSOCIATED(dist%d%other_l_cols)) &
-            CPABORT("Local columns mapping does not exist.")
+            DBCSR_ABORT("Local columns mapping does not exist.")
       ENDIF
       local_cols = dist%d%other_l_cols(local_pcol)
       CALL timestop(error_handle)
@@ -801,7 +801,7 @@ CONTAINS
       ALLOCATE (bin_dist(nelements))
       IF (PRESENT(element_sizes)) THEN
          IF (SIZE(element_sizes) /= nelements) &
-            CPABORT("Array of element sizes does not match the number of elements.")
+            DBCSR_ABORT("Array of element sizes does not match the number of elements.")
          CALL dbcsr_heap_new(bin_heap, nbins)
          CALL dbcsr_heap_fill(bin_heap, (/(0, bin=0, nbins-1)/))
          DO i = 1, nelements

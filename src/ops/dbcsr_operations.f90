@@ -33,7 +33,7 @@
     row_blk_size => array_data (matrix_a%row_blk_size)
     col_blk_size => array_data (matrix_a%col_blk_size)
     IF(dbcsr_get_data_type (matrix_a) /=  ${dkind1}$) &
-       CPABORT("Incompatible data types")
+       DBCSR_ABORT("Incompatible data types")
     CALL dbcsr_get_data (matrix_a%data_area, data_p)
     dist = dbcsr_distribution (matrix_a)
     mynode = dbcsr_mp_mynode (dbcsr_distribution_mp (dist))
@@ -56,7 +56,7 @@
           ENDIF
           a_col_size = col_blk_size(a_col)
           IF(a_row_size.NE.a_col_size)&
-             CPABORT("is that a square matrix?")
+             DBCSR_ABORT("is that a square matrix?")
           a_nze = a_row_size**2
           a_data => pointer_view (data_p, ABS(matrix_a%blk_p(a_blk)),&
                ABS(matrix_a%blk_p(a_blk))+a_nze-1)
@@ -110,7 +110,7 @@
 
     IF(matrix_a%replication_type .NE. dbcsr_repl_none&
          .OR. matrix_b%replication_type .NE. dbcsr_repl_none)&
-         CPABORT("Trace of product of replicated matrices not yet possible.")
+         DBCSR_ABORT("Trace of product of replicated matrices not yet possible.")
 
     sym_fac = REAL(1.0,${kind1}$)
     matrix_a_type = dbcsr_get_matrix_type(matrix_a)
@@ -122,7 +122,7 @@
 
     ! tracing a symmetric with a general matrix is not implemented, as it would require communication of blocks
     IF(matrix_a_symm .NEQV. matrix_b_symm) &
-       CPABORT("Tracing general with symmetric matrix NYI")
+       DBCSR_ABORT("Tracing general with symmetric matrix NYI")
 
     a_row_blk_size => array_data (matrix_a%row_blk_size)
     a_col_blk_size => array_data (matrix_a%col_blk_size)
@@ -135,11 +135,11 @@
     ! let's go
     trace = REAL(0.0,${kind1}$)
     IF(matrix_a%nblkrows_total.NE.matrix_b%nblkrows_total)&
-       CPABORT("this combination of transpose is NYI")
+       DBCSR_ABORT("this combination of transpose is NYI")
     DO row = 1, matrix_a%nblkrows_total
        a_row_size = a_row_blk_size(row)
        b_row_size = b_row_blk_size(row)
-       IF(a_row_size.NE.b_row_size) CPABORT("matrices not consistent")
+       IF(a_row_size.NE.b_row_size) DBCSR_ABORT("matrices not consistent")
        b_blk = matrix_b%row_p(row)+1
        b_frst_blk = matrix_b%row_p(row)+1
        b_last_blk = matrix_b%row_p(row+1)
@@ -153,7 +153,7 @@
                matrix_b%blk_p,b_blk,found)
           IF(found) THEN
              b_col_size = b_col_blk_size(a_col)
-             IF(a_col_size.NE.b_col_size) CPABORT("matrices not consistent")
+             IF(a_col_size.NE.b_col_size) DBCSR_ABORT("matrices not consistent")
              !
              nze = a_row_size*a_col_size
              !
@@ -258,7 +258,7 @@
       CALL dbcsr_zero(matrix)
     ELSE
        IF(dbcsr_get_data_type (matrix) /=  ${dkind1}$) &
-         CPABORT("Incompatible data types")
+         DBCSR_ABORT("Incompatible data types")
 
       !TODO: could be speedup by direct assigment to data_area, similar to dbcsr_zero()
       CALL dbcsr_iterator_start(iter, matrix)
@@ -310,13 +310,13 @@
     CALL timeset(routineN, handle)
 
     IF(dbcsr_get_data_type (matrix) /=  ${dkind1}$) &
-         CPABORT("Incompatible data types")
+         DBCSR_ABORT("Incompatible data types")
 
     IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
-         CPABORT("Diagonal has wrong size")
+         DBCSR_ABORT("Diagonal has wrong size")
 
     IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
-        CPABORT("matrix not quadratic")
+        DBCSR_ABORT("matrix not quadratic")
 
     CALL dbcsr_iterator_start(iter, matrix)
     DO WHILE (dbcsr_iterator_blocks_left(iter))
@@ -324,7 +324,7 @@
        IF (irow /= icol) CYCLE
 
        IF(sIZE(block, 1) /= sIZE(block, 2)) &
-          CPABORT("Diagonal block non-squared")
+          DBCSR_ABORT("Diagonal block non-squared")
 
        DO i = 1 , sIZE(block, 1)
           block(i,i) = diag(row_offset+i-1)
@@ -355,13 +355,13 @@
     CALL timeset(routineN, handle)
 
     IF(dbcsr_get_data_type (matrix) /=  ${dkind1}$) &
-         CPABORT("Incompatible data types")
+         DBCSR_ABORT("Incompatible data types")
 
     IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
-         CPABORT("Diagonal has wrong size")
+         DBCSR_ABORT("Diagonal has wrong size")
 
     IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
-        CPABORT("matrix not quadratic")
+        DBCSR_ABORT("matrix not quadratic")
 
     diag(:) = ${zero1[n]}$
 
@@ -371,7 +371,7 @@
        IF (irow /= icol) CYCLE
 
        IF(sIZE(block, 1) /= sIZE(block, 2)) &
-          CPABORT("Diagonal block non-squared")
+          DBCSR_ABORT("Diagonal block non-squared")
 
        DO i = 1 , sIZE(block, 1)
           diag(row_offset+i-1) = block(i,i)
@@ -401,10 +401,10 @@
       CALL timeset(routineN, handle)
 
       IF(dbcsr_get_data_type (matrix) /=  ${dkind1}$) &
-         CPABORT("Incompatible data types")
+         DBCSR_ABORT("Incompatible data types")
 
       IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
-         CPABORT("matrix not quadratic")
+         DBCSR_ABORT("matrix not quadratic")
 
       mynode = dbcsr_mp_mynode(dbcsr_distribution_mp(dbcsr_distribution(matrix)))
 

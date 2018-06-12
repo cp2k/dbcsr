@@ -144,7 +144,7 @@ CONTAINS
                                      filter_eps=filter_eps, &
                                      flop=flop)
       ELSE
-         CPABORT("This combination of data types NYI")
+         DBCSR_ABORT("This combination of data types NYI")
       ENDIF
    END SUBROUTINE dbcsr_multiply_d
 

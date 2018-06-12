@@ -35,7 +35,7 @@
     ! srt = .TRUE. ! Not needed because of the copy
     treesize = btree_size_${nametype1}$(wm%mutable%m%btree_${nametype1}$)
     IF(wm%lastblk .NE. treesize)&
-       CPABORT("Mismatch in number of blocks")
+       DBCSR_ABORT("Mismatch in number of blocks")
     ALLOCATE (keys(treesize), values(treesize))
     CALL btree_destroy_${nametype1}$ (wm%mutable%m%btree_${nametype1}$, keys, values)
     CALL ensure_array_size (wm%row_i, ub=treesize)

@@ -112,7 +112,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       IF (.NOT. dbcsr_valid_index(matrix)) &
-         CPWARN("Can not print invalid matrix.")
+         DBCSR_WARN("Can not print invalid matrix.")
 
       iunit = default_output_unit
       IF (PRESENT(unit_nr)) iunit = unit_nr
@@ -150,7 +150,7 @@ CONTAINS
       IF (matrix%nblks .GT. 0) THEN
          IF (matrix%list_indexing) THEN
             IF (SIZE(matrix%coo_l) .NE. 3*matrix%nblks) &
-               CPABORT("Wrong list")
+               DBCSR_ABORT("Wrong list")
             IF (matrix%local_indexing) THEN
                local_rows => array_data(matrix%local_rows)
                local_cols => array_data(matrix%local_cols)
@@ -725,8 +725,8 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       IF (default_string_length /= 80) &
-         CALL cp_warn(__LOCATION__, "Changing the default string length affects "// &
-                      "the format of the writen matrix. Version needs to be adjusted")
+         CALL dbcsr_warn(__LOCATION__, "Changing the default string length affects "// &
+                         "the format of the writen matrix. Version needs to be adjusted")
 
       nblkrows_total = dbcsr_nblkrows_total(matrix)
       nblkcols_total = dbcsr_nblkcols_total(matrix)
@@ -932,7 +932,7 @@ CONTAINS
       CALL mp_file_read_at_all(thefile, BOF, version)
 
       IF (version /= version_v_1_0) &
-         CPWARN("Trying to read an unknown version of the matrix data file. Good luck!")
+         DBCSR_WARN("Trying to read an unknown version of the matrix data file. Good luck!")
 
       CALL mp_file_read_at_all(thefile, BOF+version_len*mpi_character_size, matrix_name_v_1_0)
       matrix_name = matrix_name_v_1_0
@@ -977,7 +977,7 @@ CONTAINS
          IF (subh2_offsets(i) .EQ. 0) EXIT
          val_data(1, i) = nblocks
          IF (data_area_size >= HUGE(val_data(2, i))) &
-            CPABORT("Data area too large, fix code.")
+            DBCSR_ABORT("Data area too large, fix code.")
          val_data(2, i) = INT(data_area_size)
          val_data(3, i) = worker_id+(i-1)*group_list_size+1 ! order
          ! order = indices of an array of length size_of_pgrid to be accessed by the current node
@@ -1219,7 +1219,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       IF (.NOT. dbcsr_valid_index(matrix)) &
-         CPWARN("Can not print invalid matrix.")
+         DBCSR_WARN("Can not print invalid matrix.")
 
       iunit = default_output_unit
       IF (PRESENT(unit_nr)) iunit = unit_nr

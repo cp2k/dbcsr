@@ -304,18 +304,18 @@ CONTAINS
       CALL timeset(routineN, handle)
       ! Sync with previous multiplication
       IF (request_sync_mult .NE. mp_request_null) &
-         CPABORT("Multiplications are not in sync!")
+         DBCSR_ABORT("Multiplications are not in sync!")
       !
       ! Take input values and check validity
       IF (.NOT. dbcsr_valid_index(matrix)) &
-         CPABORT("Matrix not initialized.")
+         DBCSR_ABORT("Matrix not initialized.")
       sm = matrix
       data_type = sm%data_type
       IF (data_type .NE. dbcsr_type_real_8 .AND. &
           data_type .NE. dbcsr_type_real_4 .AND. &
           data_type .NE. dbcsr_type_complex_8 .AND. &
           data_type .NE. dbcsr_type_complex_4) &
-         CPABORT("Invalid data type.")
+         DBCSR_ABORT("Invalid data type.")
       scale_neg_one = dbcsr_scalar_negative(dbcsr_scalar_one(data_type))
       set_dist = imgdist%i%main
       row_dist => dbcsr_distribution_row_dist(set_dist)
@@ -326,7 +326,7 @@ CONTAINS
       nblkcols_local = SIZE(local_cols)
       IF (sm%symmetry) THEN
          IF (SIZE(row_dist) .NE. SIZE(col_dist)) &
-            CPWARN('Unequal row and column distributions for symmetric matrix.')
+            DBCSR_WARN('Unequal row and column distributions for symmetric matrix.')
       ENDIF
       nrows_images = imgdist%i%row_decimation
       row_img_dist => array_data(imgdist%i%row_image)
@@ -339,20 +339,20 @@ CONTAINS
       grp = dbcsr_mp_group(mp_obj)
       blacs2mpi => dbcsr_mp_pgrid(mp_obj)
       IF (dbcsr_distribution_max_row_dist(set_dist) .GT. UBOUND(blacs2mpi, 1)) &
-         CPABORT("Row distribution references unexistent processor rows")
+         DBCSR_ABORT("Row distribution references unexistent processor rows")
       IF (dbcsr_distribution_max_col_dist(set_dist) .GT. UBOUND(blacs2mpi, 2)) &
-         CPABORT("Col distribution references unexistent processor cols")
+         DBCSR_ABORT("Col distribution references unexistent processor cols")
       ! Check threads configuration
       NULLIFY (threads_dist)
 !$    IF (.NOT. dbcsr_distribution_has_threads(dbcsr_distribution(matrix))) &
-!$       CPABORT("Thread distribution not defined")
+!$       DBCSR_ABORT("Thread distribution not defined")
 !$    threads_dist => array_data(dbcsr_distribution_thread_dist(dbcsr_distribution(matrix)))
       IF (is_left) THEN
          IF (nrows_images .GT. 1) &
-            CPABORT("Row nimages for left matrix is not 1!")
+            DBCSR_ABORT("Row nimages for left matrix is not 1!")
       ELSE
          IF (ncols_images .GT. 1) &
-            CPABORT("Col nimages for right matrix is not 1!")
+            DBCSR_ABORT("Col nimages for right matrix is not 1!")
       ENDIF
       !
       ! Crop matrix
@@ -362,13 +362,13 @@ CONTAINS
       ! Set no limits
       IF (ANY((/f_row, l_row, f_col, l_col/) .NE. 0)) THEN
          IF (f_row .LT. 0) &
-            CPABORT("Invalid first row bound.")
+            DBCSR_ABORT("Invalid first row bound.")
          IF (l_row .GT. dbcsr_nfullrows_total(matrix)) &
-            CPABORT("Invalid last row bound.")
+            DBCSR_ABORT("Invalid last row bound.")
          IF (f_col .LT. 0) &
-            CPABORT("Invalid first column bound.")
+            DBCSR_ABORT("Invalid first column bound.")
          IF (l_col .GT. dbcsr_nfullcols_total(matrix)) &
-            CPABORT("Invalid last column bound.")
+            DBCSR_ABORT("Invalid last column bound.")
          !
          do_crop = .TRUE.
          !
@@ -1117,7 +1117,7 @@ CONTAINS
          IF (.NOT. do_layers_3D .AND. warning) THEN
             WRITE (UNIT=msg, FMT='(A,I3,A,I3,A,I3,A)') "Cannot make 3D layers with ", my_num_layers_3D, &
                " layers and (", nprows, "x", npcols, ") ranks! Run with a single layer."
-            CPWARN(msg)
+            DBCSR_WARN(msg)
             warning = .FALSE.
          ENDIF
          IF (do_layers_3D) THEN
@@ -1144,7 +1144,7 @@ CONTAINS
                                       layers_3D_C_reduction%rowgrp3D, color, key)
          ENDIF
       ELSE
-         CPWARN('Cannot make 3D layers without experimental MPI algorithm enabled!')
+         DBCSR_WARN('Cannot make 3D layers without experimental MPI algorithm enabled!')
       ENDIF
    END SUBROUTINE make_layers_3D_C_reduction
 
@@ -1282,9 +1282,9 @@ CONTAINS
       !
       ! Dummy checks
       IF (.NOT. ASSOCIATED(product_matrix%wms)) &
-         CPABORT("Work matrices do not exist")
+         DBCSR_ABORT("Work matrices do not exist")
       IF (SIZE(product_matrix%wms) .NE. nthreads) &
-         CPABORT("Work matrices not correctly sized.")
+         DBCSR_ABORT("Work matrices not correctly sized.")
       IF (.NOT. buffers_win%left%is_valid .OR. &
           .NOT. buffers_win%right%is_valid .OR. &
           .NOT. ASSOCIATED(buffers_win%left%meta) .OR. &
@@ -1293,7 +1293,7 @@ CONTAINS
           .NOT. ASSOCIATED(right_images_size) .OR. &
           .NOT. ALLOCATED(left_local_images_size) .OR. &
           .NOT. ALLOCATED(right_local_images_size)) &
-         CPABORT("No buffers associated for the experimental algo!")
+         DBCSR_ABORT("No buffers associated for the experimental algo!")
       !
       ! Set up variables
       flop = 0
@@ -1343,32 +1343,32 @@ CONTAINS
       ! Dummy checks
       ! subcommunicators
       IF (.NOT. dbcsr_mp_has_subgroups(right_mp_obj)) &
-         CPABORT("Experimental algorithm requires rows subcommunicators for right matrix!")
+         DBCSR_ABORT("Experimental algorithm requires rows subcommunicators for right matrix!")
       IF (.NOT. dbcsr_mp_has_subgroups(left_mp_obj)) &
-         CPABORT("Experimental algorithm requires columns subcommunicators for left matrix!")
+         DBCSR_ABORT("Experimental algorithm requires columns subcommunicators for left matrix!")
       ! Right col nimages
       IF (right_col_nimages .NE. 1) &
-         CPABORT("Col nimages for right matrix is not 1!")
+         DBCSR_ABORT("Col nimages for right matrix is not 1!")
       ! Left row nimages
       IF (left_row_nimages .NE. 1) &
-         CPABORT("Row nimages for left matrix is not 1!")
+         DBCSR_ABORT("Row nimages for left matrix is not 1!")
       ! left/right matching
       IF (left_col_nimages .NE. right_row_mult) &
-         CPABORT("Left/Right image mismatch")
+         DBCSR_ABORT("Left/Right image mismatch")
       IF (left_col_mult .NE. right_row_nimages) &
-         CPABORT("Left/Right image mismatch")
+         DBCSR_ABORT("Left/Right image mismatch")
       IF (left_col_nimages*left_npcols .NE. right_row_nimages*right_nprows) &
-         CPABORT("Left/Right total mismatch")
+         DBCSR_ABORT("Left/Right total mismatch")
       ! product/left matching
       IF (left_row_mult*dbcsr_mp_nprows(product_mp_obj) .NE. left_nprows) &
-         CPABORT("Product/Left total mismatch")
+         DBCSR_ABORT("Product/Left total mismatch")
       ! product/left matching
       IF (right_col_mult*dbcsr_mp_npcols(product_mp_obj) .NE. right_npcols) &
-         CPABORT("Product/Right total mismatch")
+         DBCSR_ABORT("Product/Right total mismatch")
       ! Check sizes from make_buffers
       IF (SIZE(left_images_size, 2) .NE. left_col_nimages .OR. &
           SIZE(right_images_size, 2) .NE. right_row_nimages) &
-         CPABORT("Mismatch in the sizes")
+         DBCSR_ABORT("Mismatch in the sizes")
       !
       dbcsr_mpi_statistics%nimages = MAX(dbcsr_mpi_statistics%nimages, left_col_nimages)
       dbcsr_mpi_statistics%nimages = MAX(dbcsr_mpi_statistics%nimages, right_row_nimages)
@@ -2158,7 +2158,7 @@ CONTAINS
 !$OMP END MASTER
                ELSE
                   IF (istep_k .NE. last_step_k) &
-                     CPABORT("Last layer does not correspond to local layer")
+                     DBCSR_ABORT("Last layer does not correspond to local layer")
                ENDIF
                ! Reduce to the local layer
                IF (istep_k .GT. final_step_k+1) THEN
@@ -2659,7 +2659,7 @@ CONTAINS
          my_num_data = num_data
       ELSE
          IF (dbcsr_data_valid(buffer%data_before_resize) .OR. ASSOCIATED(buffer%meta_before_resize)) &
-            CPABORT("Previous data area already initialized.")
+            DBCSR_ABORT("Previous data area already initialized.")
          CALL dbcsr_data_init(buffer%data_before_resize)
          CALL dbcsr_data_new(buffer%data_before_resize, data_type, memory_type=data_memory_type)
       ENDIF

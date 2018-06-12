@@ -161,7 +161,7 @@ CONTAINS
     CALL timeset(routineN, handle)
 
     IF(.NOT.dbcsr_valid_index(normal))&
-       CPABORT("Matrix does not exist.")
+       DBCSR_ABORT("Matrix does not exist.")
     ! Internalize options
     shallow = .FALSE.
     IF (PRESENT (shallow_data_copy)) shallow = shallow_data_copy
@@ -174,9 +174,9 @@ CONTAINS
     ! Prepare the distribution for the transposed matrix
     IF (PRESENT (use_distribution)) THEN
        IF(dbcsr_distribution_nrows (use_distribution) /= dbcsr_distribution_ncols (normal%dist)) &
-          CPABORT("Given distribution must be compatible with the current distribution")
+          DBCSR_ABORT("Given distribution must be compatible with the current distribution")
        IF(dbcsr_distribution_ncols (use_distribution) /= dbcsr_distribution_nrows (normal%dist)) &
-          CPABORT("Given distribution must be compatible with the current distribution")
+          DBCSR_ABORT("Given distribution must be compatible with the current distribution")
        new_dist = use_distribution
        CALL dbcsr_distribution_hold (new_dist)
     ELSE
@@ -223,7 +223,7 @@ CONTAINS
     transposed%index(dbcsr_slot_nze) = normal%nze
     ! Transpose the local index.
     ALLOCATE (blk_p (normal%nblks), stat=stat)
-    IF(stat /= 0) CPABORT("blk_p")
+    IF(stat /= 0) DBCSR_ABORT("blk_p")
     IF (tr_index) THEN
        CALL transpose_index_local (transposed%row_p, transposed%col_i,&
             normal%row_p, normal%col_i, blk_p, normal%blk_p)
@@ -323,7 +323,7 @@ CONTAINS
 
     CALL timeset(routineN, handle)
     IF(.NOT.dbcsr_valid_index (sm))&
-       CPABORT("Input matrix is invalid.")
+       DBCSR_ABORT("Input matrix is invalid.")
     IF(dbcsr_valid_index (desm)) THEN
        CALL dbcsr_release(desm)
     ENDIF
@@ -497,7 +497,7 @@ CONTAINS
     DO src_p = 0, numproc-1
        IF (careful_mod) THEN
           IF((blks-1)*3 /= rm_disp(src_p)-1) &
-             CPABORT("Count mismatch")
+             DBCSR_ABORT("Count mismatch")
        ENDIF
        blks = (rm_disp(src_p)-1)/metalen+1
        DO blk_l = 1, recv_count(imeta, src_p)
@@ -561,9 +561,9 @@ CONTAINS
 
     CALL timeset(routineN, handle)
     IF(.NOT.dbcsr_valid_index(matrix))&
-       CPABORT("Matrix not initialized.")
+       DBCSR_ABORT("Matrix not initialized.")
     IF(matrix%replication_type.EQ.dbcsr_repl_none)&
-       CPWARN("Distributing a non-replicated matrix makes no sense.")
+       DBCSR_WARN("Distributing a non-replicated matrix makes no sense.")
     IF (PRESENT (fast)) THEN
        mini=fast
     ELSE
@@ -574,13 +574,13 @@ CONTAINS
        CALL dbcsr_get_data (matrix%data_area, r_dp)
     CASE (dbcsr_type_real_4)
        CALL dbcsr_get_data (matrix%data_area, r_sp)
-       CPABORT("Only real double precision")
+       DBCSR_ABORT("Only real double precision")
     CASE (dbcsr_type_complex_8)
        CALL dbcsr_get_data (matrix%data_area, c_dp)
-       CPABORT("Only real double precision")
+       DBCSR_ABORT("Only real double precision")
     CASE (dbcsr_type_complex_4)
        CALL dbcsr_get_data (matrix%data_area, c_sp)
-       CPABORT("Only real double precision")
+       DBCSR_ABORT("Only real double precision")
     END SELECT
     row_blk_size => array_data (matrix%row_blk_size)
     col_blk_size => array_data (matrix%col_blk_size)
@@ -1136,9 +1136,9 @@ CONTAINS
 
     CALL timeset (routineN, error_handle)
     IF(dbcsr_data_get_size (dense_data) < nfullrows*nfullcols) &
-       CPABORT("Dense data too small")
+       DBCSR_ABORT("Dense data too small")
     IF(.NOT.join_cols.AND..NOT.join_rows)&
-       CPWARN("Joining neither rows nor columns is untested")
+       DBCSR_WARN("Joining neither rows nor columns is untested")
     !
     CALL dbcsr_data_clear (dense_data)
     IF (dbcsr_data_get_size(matrix%data_area) .GT. 0&
@@ -1246,7 +1246,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
     IF(dbcsr_data_get_size (dense_data) < nfullrows*nfullcols) &
-       CPABORT("Dense data too small")
+       DBCSR_ABORT("Dense data too small")
     IF (dbcsr_data_get_size(matrix%data_area) .GT. 0) THEN
        CALL dbcsr_data_clear (matrix%data_area)
 !$OMP PARALLEL DEFAULT(NONE) &
@@ -1358,9 +1358,9 @@ CONTAINS
 
     CALL timeset(routineN, handle)
     IF(.NOT.dbcsr_valid_index(matrix))&
-       CPABORT("Matrix not initialized.")
+       DBCSR_ABORT("Matrix not initialized.")
     !IF(matrix%replication_type /= dbcsr_repl_none) &
-    !   CPWARN("Replicating a non-distributed matrix makes no sense.")
+    !   DBCSR_WARN("Replicating a non-distributed matrix makes no sense.")
     IF (replicate_rows .AND. replicate_columns) THEN
        rep_type = dbcsr_repl_full
     ELSEIF (replicate_rows .AND. .NOT. replicate_columns) THEN
@@ -1370,7 +1370,7 @@ CONTAINS
     ELSE
        rep_type = dbcsr_repl_none
        IF(.NOT.replicate_rows .AND. .NOT.replicate_columns) &
-          CPABORT("Some replication must be specified")
+          DBCSR_ABORT("Some replication must be specified")
     ENDIF
     data_type = dbcsr_get_data_type (matrix)
     row_blk_size => array_data (matrix%row_blk_size)
@@ -1385,16 +1385,16 @@ CONTAINS
     myprow = dbcsr_mp_myprow (mp_obj)
     mypcol = dbcsr_mp_mypcol (mp_obj)
     IF(MAXVAL(row_dist).GT.UBOUND(blacs2mpi,1))&
-       CPABORT('Row distribution references unexistent processor rows')
+       DBCSR_ABORT('Row distribution references unexistent processor rows')
     IF (dbg) THEN
        IF(MAXVAL(row_dist).NE.UBOUND(blacs2mpi,1))&
-          CPWARN('Range of row distribution not equal to processor rows')
+          DBCSR_WARN('Range of row distribution not equal to processor rows')
     ENDIF
     IF(MAXVAL(col_dist).GT.UBOUND(blacs2mpi,2))&
-       CPABORT('Col distribution references unexistent processor cols')
+       DBCSR_ABORT('Col distribution references unexistent processor cols')
     IF (dbg) THEN
        IF(MAXVAL(col_dist).NE.UBOUND(blacs2mpi,2))&
-          CPWARN('Range of col distribution not equal to processor cols')
+          DBCSR_WARN('Range of col distribution not equal to processor cols')
     ENDIF
     ! Define the number of nodes with which I will communicate. Also
     ! setup row and column communicators.
@@ -1420,7 +1420,7 @@ CONTAINS
        mynode = 0
     END SELECT
     IF((rep_type==dbcsr_repl_row .OR. rep_type==dbcsr_repl_col) .AND. .NOT.dbcsr_mp_has_subgroups(mp_obj))&
-       CPABORT("Only full replication supported when subcommunicators are turned off.")
+       DBCSR_ABORT("Only full replication supported when subcommunicators are turned off.")
     !
     IF (PRESENT (restrict_source)) THEN
        rest_src = .TRUE.
@@ -1449,7 +1449,7 @@ CONTAINS
           !tr = .FALSE.
           !CALL dbcsr_get_stored_coordinates (matrix, row, col, tr, dst_p)
           !IF(dst_p /= mynode) &
-          !   CPABORT("Matrix is not correctly distributed. Call dbcsr_redistribute.")
+          !   DBCSR_ABORT("Matrix is not correctly distributed. Call dbcsr_redistribute.")
           nze = row_size * col_size
           send_count(1) = send_count(1) + 1
           send_count(2) = send_count(2) + nze
@@ -1627,11 +1627,11 @@ CONTAINS
     CALL timeset(routineN, handle)
 
     IF(.NOT.dbcsr_valid_index(matrix))&
-       CPABORT("Input not valid.")
+       DBCSR_ABORT("Input not valid.")
     IF(matrix%replication_type.NE.dbcsr_repl_none)&
-       CPWARN("Can not redistribute replicated matrix.")
+       DBCSR_WARN("Can not redistribute replicated matrix.")
     IF(dbcsr_has_symmetry (matrix).AND..NOT.dbcsr_has_symmetry (redist))&
-       CPABORT("Can not redistribute a symmetric matrix into a non-symmetric one")
+       DBCSR_ABORT("Can not redistribute a symmetric matrix into a non-symmetric one")
     !
     my_keep_sparsity = .FALSE.
     IF (PRESENT (keep_sparsity)) my_keep_sparsity = keep_sparsity
@@ -1685,16 +1685,16 @@ CONTAINS
     mp_group = dbcsr_mp_group (mp_obj_new)
     !
     IF(MAXVAL(row_dist_new) > UBOUND(pgrid,1)) &
-       CPABORT('Row distribution references unexistent processor rows')
+       DBCSR_ABORT('Row distribution references unexistent processor rows')
     IF (dbg) THEN
        IF(MAXVAL(row_dist_new).NE.UBOUND(pgrid,1))&
-          CPWARN('Range of row distribution not equal to processor rows')
+          DBCSR_WARN('Range of row distribution not equal to processor rows')
     ENDIF
     IF(MAXVAL(col_dist_new) >  UBOUND(pgrid,2)) &
-       CPABORT('Col distribution references unexistent processor cols')
+       DBCSR_ABORT('Col distribution references unexistent processor cols')
     IF (dbg) THEN
        IF(MAXVAL(col_dist_new).NE.UBOUND(pgrid,2))&
-          CPWARN('Range of col distribution not equal to processor cols')
+          DBCSR_WARN('Range of col distribution not equal to processor cols')
     ENDIF
     ALLOCATE (send_count(2, 0:numnodes-1))
     ALLOCATE (recv_count(2, 0:numnodes-1))
@@ -1860,7 +1860,7 @@ CONTAINS
             recv_data%d%c_dp(:), total_recv_count(2,:), rd_disp(:)-1,&
             mp_obj_new)
     CASE default
-       CPABORT("Invalid matrix type")
+       DBCSR_ABORT("Invalid matrix type")
     END SELECT
     CALL hybrid_alltoall_i1(send_meta(:), metalen*total_send_count(1,:), sm_disp(:)-1,&
          recv_meta(:), metalen*total_recv_count(1,:), rm_disp(:)-1, mp_obj_new)
@@ -1978,7 +1978,7 @@ CONTAINS
        cs2 = dbcsr_checksum (redist)
        WRITE(*,*)routineN//" Checksums=",cs1, cs2, cs1-cs2
     ENDIF
-    !IF(cs1-cs2 > 0.00001) CPABORT("Mangled data!")
+    !IF(cs1-cs2 > 0.00001) DBCSR_ABORT("Mangled data!")
     CALL timestop(handle)
   END SUBROUTINE dbcsr_complete_redistribute
 
@@ -2020,9 +2020,9 @@ CONTAINS
     !call dbcsr_print_dist (matrix%dist)
     !call dbcsr_print_dist (redist%dist)
     IF(.NOT.dbcsr_valid_index(matrix))&
-       CPABORT("Input not valid.")
+       DBCSR_ABORT("Input not valid.")
     IF(matrix%replication_type.NE.dbcsr_repl_none)&
-       CPWARN("Can not redistribute replicated matrix.")
+       DBCSR_WARN("Can not redistribute replicated matrix.")
     data_type = matrix%data_type
     ! Get row and column start and end positions
     ! Old matrix
@@ -2039,16 +2039,16 @@ CONTAINS
     mp_group = dbcsr_mp_group (mp_obj_new)
     !
     IF(MAXVAL(row_dist_new).GT.UBOUND(pgrid,1))&
-       CPABORT('Row distribution references unexistent processor rows')
+       DBCSR_ABORT('Row distribution references unexistent processor rows')
     IF (dbg) THEN
        IF(MAXVAL(row_dist_new).NE.UBOUND(pgrid,1))&
-          CPWARN('Range of row distribution not equal to processor rows')
+          DBCSR_WARN('Range of row distribution not equal to processor rows')
     ENDIF
     IF(MAXVAL(col_dist_new).GT.UBOUND(pgrid,2))&
-       CPABORT('Col distribution references unexistent processor cols')
+       DBCSR_ABORT('Col distribution references unexistent processor cols')
     IF (dbg) THEN
        IF(MAXVAL(col_dist_new).NE.UBOUND(pgrid,2))&
-          CPWARN('Range of col distribution not equal to processor cols')
+          DBCSR_WARN('Range of col distribution not equal to processor cols')
     ENDIF
     ALLOCATE (send_count(2, 0:numnodes-1))
     ALLOCATE (recv_count(2, 0:numnodes-1))
