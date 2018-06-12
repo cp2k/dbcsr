@@ -1043,6 +1043,7 @@ CONTAINS
 #if defined(__parallel)
       TYPE(mp_perf_type), POINTER              :: mp_perf
 
+      IF (stack_pointer < 1) return
       IF (.NOT. ASSOCIATED(mp_perf_stack(stack_pointer)%mp_perf_env)) return
 
       mp_perf => mp_perf_stack(stack_pointer)%mp_perf_env%mp_perfs(perf_id)
