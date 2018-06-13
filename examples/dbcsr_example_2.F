@@ -19,8 +19,8 @@ PROGRAM dbcsr_example_2
         dbcsr_distribution_type, dbcsr_finalize, dbcsr_finalize_lib, dbcsr_get_stored_coordinates, &
         dbcsr_init_lib, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_print, dbcsr_put_block, &
         dbcsr_release, dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8, real_8, &
-        default_output_unit, mp_cart_create, mp_comm_free, mp_environ, mp_world_finalize, &
-        mp_world_init
+        default_output_unit, dbcsr_mp_cart_create, dbcsr_mp_comm_free, dbcsr_mp_environ, &
+        dbcsr_mp_world_finalize, dbcsr_mp_world_init
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
@@ -42,13 +42,13 @@ PROGRAM dbcsr_example_2
 
    !
    ! initialize mpi
-   CALL mp_world_init(mp_comm)
+   CALL dbcsr_mp_world_init(mp_comm)
 
    !
    ! setup the mp enviroment
    npdims(:) = 0
-   CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
-   CALL mp_environ(numnodes, mynode, group)
+   CALL dbcsr_mp_cart_create(mp_comm, 2, npdims, myploc, group)
+   CALL dbcsr_mp_environ(numnodes, mynode, group)
    WRITE (*, *) 'mynode ', mynode, ' numnodes', numnodes
 
    !***************************************************************************************
@@ -155,8 +155,8 @@ PROGRAM dbcsr_example_2
 
    !
    ! finalize mpi
-   CALL mp_comm_free(group)
-   CALL mp_world_finalize()
+   CALL dbcsr_mp_comm_free(group)
+   CALL dbcsr_mp_world_finalize()
 
    !***************************************************************************************
 
