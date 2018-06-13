@@ -6,4 +6,5 @@ bin/
 src/libsmm_acc/libcusmm/libcusmm.cu
 src/libsmm_acc/libcusmm/libcusmm_part*.cu
 install/
+examples/*.x
 
