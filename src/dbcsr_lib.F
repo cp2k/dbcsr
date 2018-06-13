@@ -14,6 +14,9 @@ MODULE dbcsr_lib
                                               int_2_size,&
                                               int_4_size,&
                                               int_8_size
+   USE dbcsr_message_passing,           ONLY: add_mp_perf_env,&
+                                              describe_mp_perf_env,&
+                                              has_mp_perf_env
    USE dbcsr_multiply_api,              ONLY: dbcsr_multiply_clear_mempools,&
                                               dbcsr_multiply_lib_finalize,&
                                               dbcsr_multiply_lib_init
@@ -60,6 +63,10 @@ CONTAINS
       IF (int_8_size /= 8) &
          DBCSR_ABORT("Incorrect assumption of a 64-bit integer size!")
 
+      IF (.NOT. has_mp_perf_env()) THEN
+         CALL add_mp_perf_env()
+      ENDIF
+
 !$OMP     PARALLEL DEFAULT(NONE)
       CALL dbcsr_multiply_lib_init()
 !$OMP     END PARALLEL
@@ -100,6 +107,8 @@ CONTAINS
       CALL dbcsr_multiply_lib_finalize(group, output_unit)
 !$OMP     END PARALLEL
       IF (output_unit > 0) WRITE (UNIT=output_unit, FMT="(T2,A)") REPEAT("-", 79)
+
+      CALL describe_mp_perf_env(output_unit)
 
       is_initialized = .FALSE.
       CALL timestop(error_handle)

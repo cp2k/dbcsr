@@ -142,6 +142,7 @@ MODULE dbcsr_message_passing
    PUBLIC :: mp_perf_env_type
    PUBLIC :: mp_perf_env_retain, mp_perf_env_release
    PUBLIC :: add_mp_perf_env, rm_mp_perf_env, get_mp_perf_env, describe_mp_perf_env
+   PUBLIC :: has_mp_perf_env
 
    ! informational / generation of sub comms
    PUBLIC :: mp_environ, mp_comm_compare, mp_cart_coords, mp_rank_compare
@@ -962,9 +963,8 @@ CONTAINS
       ENDIF
 #if defined(__parallel)
       IF (iw > 0) THEN
-         WRITE (iw, '( /, 1X, 79("-") )')
          WRITE (iw, '( " -", 77X, "-" )')
-         WRITE (iw, '( " -", 24X, A, 24X, "-" )') ' MESSAGE PASSING PERFORMANCE '
+         WRITE (iw, '( " -", 21X, A, 21X, "-" )') ' DBCSR MESSAGE PASSING PERFORMANCE '
          WRITE (iw, '( " -", 77X, "-" )')
          WRITE (iw, '( 1X, 79("-"), / )')
          WRITE (iw, '( A, A, A )') ' ROUTINE', '             CALLS ', &
@@ -1006,6 +1006,19 @@ CONTAINS
 !> \brief ...
 !> \return ...
 ! **************************************************************************************************
+   PURE FUNCTION has_mp_perf_env() RESULT(res)
+     LOGICAL :: res
+
+      res = .FALSE.
+      IF (stack_pointer < 1) RETURN
+      IF (.NOT. ASSOCIATED(mp_perf_stack(stack_pointer)%mp_perf_env)) RETURN
+      res = .TRUE.
+   END FUNCTION has_mp_perf_env
+
+! **************************************************************************************************
+!> \brief ...
+!> \return ...
+! **************************************************************************************************
    FUNCTION get_mp_perf_env() RESULT(res)
       TYPE(mp_perf_env_type), POINTER                    :: res
 
@@ -1014,6 +1027,7 @@ CONTAINS
       ENDIF
       res => mp_perf_stack(stack_pointer)%mp_perf_env
    END FUNCTION get_mp_perf_env
+
 
 ! **************************************************************************************************
 !> \brief ...
