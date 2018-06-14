@@ -62,15 +62,23 @@ OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cpp")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cxx")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cc")
 
+# OBJECTS used for pretty and doxify
+ALL_OBJECTS   := $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
+ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(SRCDIR);  find . ! -name "libcusmm.cu" ! -name "libcusmm_part*.cu" -name "*.cu"))))
+ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.F"))))
+ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.c"))))
+ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cxx"))))
+ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cc"))))
+ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cu"))))
+
 ifneq ($(NVCC),)
 OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "libcusmm.cu" -name "*.cu")
 OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cu
 endif
 
-ALL_OBJECTS    = $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
-
 # Included files used by Fypp preprocessor and standard includes
-INCLUDED_SRC_FILES = $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR) -name "*.f90")))
+INCLUDED_SRC_FILES  = $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR) -name "*.f90")))
+INCLUDED_SRC_FILES += $(notdir $(shell find $(TESTSDIR) -name "*.f90"))
 
 # Include also source files which won't compile into an object file
 ALL_SRC_FILES  = $(strip $(subst $(NULL) .,$(NULL) $(SRCDIR),$(NULL) $(OBJ_SRC_FILES)))
@@ -208,12 +216,12 @@ TOOL_HELP += "prettyclean : Remove prettify marker files"
 
 $(PRETTYOBJDIR)/%.pretty: %.F $(DOXIFYOBJDIR)/%.doxified
 	@mkdir -p $(PRETTYOBJDIR)
-	cd $(dir $<); $(TOOLSRC)/prettify/prettify.py --do-backup --backup-dir=$(PRETTYOBJDIR) $(notdir $<)
+	cd $(dir $<); $(TOOLSRC)/prettify/prettify.py --do-backup --backup-dir=$(PRETTYOBJDIR) --src-dir=$(SRCDIR) $(notdir $<)
 	@touch $@
 
 $(PRETTYOBJDIR)/%.pretty_included: %.f90 $(DOXIFYOBJDIR)/%.doxified_included
 	@mkdir -p $(PRETTYOBJDIR)
-	cd $(dir $<); $(TOOLSRC)/prettify/prettify.py --do-backup --backup-dir=$(PRETTYOBJDIR) $(notdir $<)
+	cd $(dir $<); $(TOOLSRC)/prettify/prettify.py --do-backup --backup-dir=$(PRETTYOBJDIR) --src-dir=$(SRCDIR) $(notdir $<)
 	@touch $@
 
 $(PRETTYOBJDIR)/%.pretty: %.c $(DOXIFYOBJDIR)/%.doxified
@@ -222,6 +230,11 @@ $(PRETTYOBJDIR)/%.pretty: %.c $(DOXIFYOBJDIR)/%.doxified
 	@touch $@
 
 $(PRETTYOBJDIR)/%.pretty: %.cpp $(DOXIFYOBJDIR)/%.doxified
+#   TODO: call indent here?
+	@mkdir -p $(PRETTYOBJDIR)
+	@touch $@
+
+$(PRETTYOBJDIR)/%.pretty: %.cu $(DOXIFYOBJDIR)/%.doxified
 #   TODO: call indent here?
 	@mkdir -p $(PRETTYOBJDIR)
 	@touch $@
@@ -251,6 +264,10 @@ $(DOXIFYOBJDIR)/%.doxified: %.c
 	@touch $@
 
 $(DOXIFYOBJDIR)/%.doxified: %.cpp
+	@mkdir -p $(DOXIFYOBJDIR)
+	@touch $@
+
+$(DOXIFYOBJDIR)/%.doxified: %.cu
 	@mkdir -p $(DOXIFYOBJDIR)
 	@touch $@
 

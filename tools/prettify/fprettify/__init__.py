@@ -1243,6 +1243,10 @@ def log_exception(e, message):
     """log an exception and a message"""
     log_message(message, "exception", e.filename, e.line_nr)
 
+def log_error(e, message):
+    """log an error and a message"""
+    log_message(e.msg+' '+message, "error", e.filename, e.line_nr)
+
 
 def log_message(message, level, filename, line_nr):
     """log a message"""

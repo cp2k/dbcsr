@@ -14,7 +14,7 @@ except ImportError:
 
 from prettify_cp2k import normalizeFortranFile
 from prettify_cp2k import replacer
-from fprettify import reformat_ffile, fparse_utils, log_exception
+from fprettify import reformat_ffile, fparse_utils, log_error
 from prettify_cp2k import selftest
 
 
@@ -122,7 +122,7 @@ def prettifyFile(infile, filename, srcDir, normalize_use, decl_linelength, decl_
                                    indent_size=indent, whitespace=whitespace,
                                    orig_filename=orig_filename)
                 except fparse_utils.FprettifyParseException as e:
-                    log_exception(e, "fprettify could not parse file, file is not prettified")
+                    log_error(e, "fprettify could not parse file, file is not prettified")
                     tmpfile2.write(ifile.read())
 
                 tmpfile2.seek(0)

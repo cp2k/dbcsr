@@ -41,6 +41,7 @@ class FprettifyException(Exception):
 
     def __init__(self, msg, filename, line_nr):
         super(FprettifyException, self).__init__(msg)
+        self.msg = msg
         self.filename = filename
         self.line_nr = line_nr
 
