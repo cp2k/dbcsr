@@ -1,0 +1,5 @@
+{
+"description": "DBCSR data handling",
+"archive": "libdbcsrdata",
+"requires": ["../acc", "../mpiwrap", "../base"],
+}
