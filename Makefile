@@ -43,33 +43,32 @@ endif
          install clean realclean help
 
 # Discover files and directories ============================================
-ALL_SRC_DIRS := $(shell find $(SRCDIR) -type d ! -name preprettify  ! -path "*/.svn*" | awk '{printf("%s:",$$1)}')
+ALL_SRC_DIRS := $(shell find $(SRCDIR) -type d | awk '{printf("%s:",$$1)}')
 LIBCUSMM_DIR := $(shell cd $(SRCDIR) ; find . -type d -name "libcusmm")
 LIBCUSMM_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libcusmm")
-ALL_PREPRETTY_DIRS = $(shell find $(SRCDIR) -type d -name preprettify)
 
-ALL_PKG_FILES  = $(shell find $(SRCDIR) ! -path "*/preprettify/*" -name "PACKAGE")
-OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . ! -path "*/preprettify/*" -name "*.F")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -path "*/preprettify/*" -name "*.c")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -path "*/preprettify/*" -name "*.cpp")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -path "*/preprettify/*" -name "*.cxx")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -path "*/preprettify/*" -name "*.cc")
+ALL_PKG_FILES  = $(shell find $(SRCDIR) -name "PACKAGE")
+OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . -name "*.F")
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cpp")
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cxx")
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cc")
 
 ifneq ($(NVCC),)
-OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -path "*/preprettify/*" ! -name "libcusmm.cu" -name "*.cu")
+OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "libcusmm.cu" -name "*.cu")
 OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cu
 endif
 
 # Included files used by Fypp preprocessor and standard includes
-INCLUDED_SRC_FILES = $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR) ! -path "*/preprettify/*" -name "*.f90")))
+INCLUDED_SRC_FILES = $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR) -name "*.f90")))
 
 # Include also source files which won't compile into an object file
 ALL_SRC_FILES  = $(strip $(subst $(NULL) .,$(NULL) $(SRCDIR),$(NULL) $(OBJ_SRC_FILES)))
-ALL_SRC_FILES += $(filter-out base_uses.f90, $(shell find $(SRCDIR) ! -path "*/preprettify/*" -name "*.f90"))
-ALL_SRC_FILES += $(shell find $(SRCDIR) ! -path "*/preprettify/*" -name "*.h")
-ALL_SRC_FILES += $(shell find $(SRCDIR) ! -path "*/preprettify/*" -name "*.hpp")
-ALL_SRC_FILES += $(shell find $(SRCDIR) ! -path "*/preprettify/*" -name "*.hxx")
-ALL_SRC_FILES += $(shell find $(SRCDIR) ! -path "*/preprettify/*" -name "*.hcc")
+ALL_SRC_FILES += $(filter-out base_uses.f90, $(shell find $(SRCDIR) -name "*.f90"))
+ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.h")
+ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hpp")
+ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hxx")
+ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hcc")
 
 ALL_OBJECTS        = $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
 ALL_EXE_OBJECTS    = $(addsuffix .o, $(EXE_NAMES))
@@ -81,11 +80,11 @@ default_target: libdbcsr
 # stage 1: create dirs and run makedep.py.
 #          Afterwards, call make recursively again with -C $(OBJDIR) and INCLUDE_DEPS=true
 ifeq ($(INCLUDE_DEPS),)
-$(EXE_NAMES): dirs makedep
-	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(EXEDIR)/$@ INCLUDE_DEPS=true
-
 libdbcsr: dirs makedep
 	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(LIBDIR)/libdbcsr$(ARCHIVE_EXT) INCLUDE_DEPS=true
+
+$(EXE_NAMES): dirs makedep
+	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(EXEDIR)/$@ INCLUDE_DEPS=true
 
 all: dirs makedep
 	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) all INCLUDE_DEPS=true
@@ -141,8 +140,11 @@ OTHER_HELP += "toolversions : Print versions of build tools"
 
 #   extract help text from doxygen "\brief"-tag
 help:
+	@echo "=================== Default ===================="
+	@echo "libdbcsr                    Build DBCSR library"
+	@echo ""
 	@echo "=================== Binaries ===================="
-	@echo "all                         Builds all executables (default target)"
+	@echo "all                         Builds all executables"
 	@for i in $(ALL_EXE_FILES); do \
 	basename  $$i | sed 's/^\(.*\)\..*/\1/' | awk '{printf "%-28s", $$1}'; \
 	grep "brief" $$i | head -n 1 | sed 's/^.*\\brief\s*//'; \
@@ -184,8 +186,8 @@ pretty: $(addprefix $(PRETTYOBJDIR)/, $(ALL_OBJECTS:.o=.pretty)) $(addprefix $(P
 TOOL_HELP += "pretty : Reformat all source files in a pretty way."
 
 prettyclean:
-	-rm -rf $(PRETTYOBJDIR) $(ALL_PREPRETTY_DIRS)
-TOOL_HELP += "prettyclean : Remove prettify marker files and preprettify directories"
+	-rm -rf $(PRETTYOBJDIR)
+TOOL_HELP += "prettyclean : Remove prettify marker files"
 
 $(PRETTYOBJDIR)/%.pretty: %.F $(DOXIFYOBJDIR)/%.doxified
 	@mkdir -p $(PRETTYOBJDIR)
@@ -301,26 +303,6 @@ vpath %.c     $(ALL_SRC_DIRS)
 vpath %.cpp   $(ALL_SRC_DIRS)
 vpath %.cxx   $(ALL_SRC_DIRS)
 vpath %.cc    $(ALL_SRC_DIRS)
-
-#
-# Add additional dependency of cp2k_info.F to SVN-entry or git-HEAD.
-# Ensuring that cp2k prints the correct source code revision number in its banner.
-#
-SVN_ENTRY    := $(wildcard $(SRCDIR)/.svn/entries*)
-ifneq ($(strip $(SVN_ENTRY)),)
-cp2k_info.o: $(SVN_ENTRY)
-endif
-
-GIT_HEAD     := $(wildcard $(DBCSRHOME)/../.git/HEAD*)
-ifneq ($(strip $(GIT_HEAD)),)
-cp2k_info.o: $(GIT_HEAD)
-endif
-
-# some practical variables for the build
-ifeq ($(CPPSHELL),)
-CPPSHELL := -D__COMPILE_DATE="\"$(shell date)\""\
-            -D__COMPILE_HOST="\"$(shell hostname)\""
-endif
 
 ifneq ($(CPP),)
 # always add the SRCDIR to the include path (-I here might not be portable)
