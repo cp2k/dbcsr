@@ -1,0 +1,4 @@
+*.pyc
+lib/
+obj/
+exe/
