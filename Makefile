@@ -7,15 +7,16 @@ DBCSRHOME    := $(abspath $(PWD))
 MAKEFILE     := $(DBCSRHOME)/Makefile
 DOXYGENDIR   := $(DBCSRHOME)/doc/doxygen
 BINDIR       := $(DBCSRHOME)/bin
-LIBDIR       := $(DBCSRHOME)/lib
-OBJDIR       := $(DBCSRHOME)/obj
+LIBDIR       ?= $(DBCSRHOME)/lib
+OBJDIR       ?= $(DBCSRHOME)/obj
 PRETTYOBJDIR := $(OBJDIR)/prettified
 DOXIFYOBJDIR := $(OBJDIR)/doxified
 TOOLSRC      := $(DBCSRHOME)/tools
 SRCDIR       := $(DBCSRHOME)/src
 TESTSDIR     := $(DBCSRHOME)/tests
 EXAMPLESDIR  := $(DBCSRHOME)/examples
-PREFIX       := $(DBCSRHOME)/install
+PREFIX       ?= $(DBCSRHOME)/install
+INCLUDEMAKE  ?= $(DBCSRHOME)/Makefile.inc
 
 # Default Target ============================================================
 LIBNAME      := dbcsr
@@ -28,7 +29,7 @@ BIN_TESTS := $(sort $(addprefix $(TESTSDIR)/, $(SRC_TESTS)))
 
 # Read and set the configuration ============================================
 MODDEPS = "lower"
-include $(DBCSRHOME)/Makefile.inc
+include $(INCLUDEMAKE)
 ifeq ($(NVCC),)
 BIN_FILES := $(filter-out %.cu, $(BIN_TESTS))
 else
@@ -150,7 +151,7 @@ all: $(foreach e, $(BIN_NAMES), $(e))
 ifeq ($(BIN_NAME),)
 $(BIN_NAMES):
 	@mkdir -p $(BINDIR)
-	@cd $(DBCSRHOME); $(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(BINDIR)/$@.x INCLUDE_DEPS=true BIN_NAME=$@ BIN_DEPS="$(BIN_DEPS)"
+	@+cd $(DBCSRHOME) ; $(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(BINDIR)/$@.x INCLUDE_DEPS=true BIN_NAME=$@ BIN_DEPS="$(BIN_DEPS)"
 else
 # stage 3: Perform actual build.
 $(BIN_NAME).o: $(BIN_DEPS)
