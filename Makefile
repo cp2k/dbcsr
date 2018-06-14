@@ -1,67 +1,46 @@
 #
-# make -j 16 sopt popt ssmp psmp
-#
-# will now perform a parallel build of 4 cp2k executables
-#
 SHELL = /bin/sh
 #
-# the home dir is taken from the current directory: you must cd to the makefiles
-# directory before executing make.
-# adding a symbolic link from the src directory to the Makefile in makefiles/
-# also works fine
+# the home dir is taken from the current directory
 #
-CP2KHOME     := $(abspath $(PWD)/..)
-ARCH         := local
-export VERSION=sopt
-
-MAKEFILE     := $(CP2KHOME)/makefiles/Makefile
-DOXYGENDIR   := $(CP2KHOME)/doc/doxygen
-DATA_DIR     := $(CP2KHOME)/data
-MAINEXEDIR   := $(CP2KHOME)/exe
-MAINLIBDIR   := $(CP2KHOME)/lib
-MAINOBJDIR   := $(CP2KHOME)/obj
-MAINTSTDIR   := $(CP2KHOME)/regtesting
-PRETTYOBJDIR := $(CP2KHOME)/obj/prettified
-DOXIFYOBJDIR := $(CP2KHOME)/obj/doxified
-TOOLSRC      := $(CP2KHOME)/tools
-SRCDIR       := $(CP2KHOME)/src
-EXEDIR       := $(MAINEXEDIR)/$(ARCH)
-REVISION     := $(shell $(CP2KHOME)/tools/build_utils/get_revision_number $(SRCDIR))
-
+DBCSRHOME    := $(abspath $(PWD))
+MAKEFILE     := $(DBCSRHOME)/Makefile
+DOXYGENDIR   := $(DBCSRHOME)/doc/doxygen
+EXEDIR       := $(DBCSRHOME)/exe
+LIBDIR       := $(DBCSRHOME)/lib
+OBJDIR       := $(DBCSRHOME)/obj
+PRETTYOBJDIR := $(DBCSRHOME)/obj/prettified
+DOXIFYOBJDIR := $(DBCSRHOME)/obj/doxified
+TOOLSRC      := $(DBCSRHOME)/tools
+SRCDIR       := $(DBCSRHOME)/src
+TESTSDIR     := $(DBCSRHOME)/tests
+EXAMPLESDIR  := $(DBCSRHOME)/examples
 
 # Discover programs =========================================================
-ifeq ($(ALL_EXE_FILES),)
-export ALL_EXE_FILES := $(sort $(shell $(TOOLSRC)/build_utils/discover_programs.py $(SRCDIR)))
-endif
-EXE_NAMES := $(basename $(notdir $(ALL_EXE_FILES)))
+ALL_EXE_FILES := $(sort $(shell $(TOOLSRC)/build_utils/discover_programs.py $(TESTSDIR)))
 
-# Once we are down to a single version ======================================
-# this only happens on stage 3 and 4
-ifneq ($(ONEVERSION),)
+# Read and set the configuration ============================================
 MODDEPS = "lower"
-include $(CP2KHOME)/arch/$(ARCH).$(ONEVERSION)
-LIBDIR  := $(MAINLIBDIR)/$(ARCH)/$(ONEVERSION)
-OBJDIR  := $(MAINOBJDIR)/$(ARCH)/$(ONEVERSION)
-TSTDIR  := $(MAINTSTDIR)/$(ARCH)/$(ONEVERSION)
+include $(DBCSRHOME)/Makefile.inc
 ifeq ($(NVCC),)
 EXE_NAMES := $(basename $(notdir $(filter-out %.cu, $(ALL_EXE_FILES))))
+else
+EXE_NAMES := $(basename $(notdir $(ALL_EXE_FILES)))
 endif
 ifneq ($(LD_SHARED),)
- ARCHIVE_EXT := .$(ONEVERSION).so
+ ARCHIVE_EXT := .so
 else
  ARCHIVE_EXT := .a
 endif
-endif
 
 # Declare PHONY targets =====================================================
-.PHONY : $(VERSION) $(EXE_NAMES) \
-         dirs makedep default_target all \
-         toolversions libcp2k \
+.PHONY : $(EXE_NAMES) \
+         dirs makedep \
+	 default_target libdbcsr all \
+         toolversions \
          doxify doxifyclean \
          pretty prettyclean doxygen/clean doxygen \
-         install clean realclean distclean mrproper help \
-         test testbg testclean testrealclean
-
+         install clean realclean help
 
 # Discover files and directories ============================================
 ALL_SRC_DIRS := $(shell find $(SRCDIR) -type d ! -name preprettify  ! -path "*/.svn*" | awk '{printf("%s:",$$1)}')
@@ -75,7 +54,6 @@ OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -path "*/preprettify/*" -name "*
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -path "*/preprettify/*" -name "*.cpp")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -path "*/preprettify/*" -name "*.cxx")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -path "*/preprettify/*" -name "*.cc")
-
 
 ifneq ($(NVCC),)
 OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -path "*/preprettify/*" ! -name "libcusmm.cu" -name "*.cu")
@@ -98,57 +76,28 @@ ALL_EXE_OBJECTS    = $(addsuffix .o, $(EXE_NAMES))
 ALL_NONEXE_OBJECTS = $(filter-out $(ALL_EXE_OBJECTS), $(ALL_OBJECTS))
 
 # Common Targets ============================================================
-default_target: all
+default_target: libdbcsr
 
-# stage 1: Call make recursively with each element in $(VERSION) as a target,
-#          The actual target is stored in ORIG_TARGET.
-#          Make can then parallelize over multiple versions targets.
-ifeq ($(ONEVERSION),)
-ORIG_TARGET = default_target
-
-fes :
-	@+$(MAKE) --no-print-directory -f $(MAKEFILE) $(VERSION) ORIG_TARGET=graph
-
-$(EXE_NAMES) all toolversions libcp2k test testbg:
-	@+$(MAKE) --no-print-directory -f $(MAKEFILE) $(VERSION) ORIG_TARGET=$@
-
-# stage 2: Store the version target in $(ONEVERSION),
-#          Call make recursively with $(ORIG_TARGET) as target.
-$(VERSION) :
-	@+$(MAKE) --no-print-directory -f $(MAKEFILE) $(ORIG_TARGET) ORIG_TARGET="" VERSION="" ONEVERSION=$@
-
-else
-
-# stage 3: Include arch-file, create dirs, and run makedep.py for given $(ONEVERSION).
+# stage 1: create dirs and run makedep.py.
 #          Afterwards, call make recursively again with -C $(OBJDIR) and INCLUDE_DEPS=true
 ifeq ($(INCLUDE_DEPS),)
 $(EXE_NAMES): dirs makedep
-	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(EXEDIR)/$@.$(ONEVERSION) INCLUDE_DEPS=true
+	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(EXEDIR)/$@ INCLUDE_DEPS=true
+
+libdbcsr: dirs makedep
+	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(LIBDIR)/libdbcsr$(ARCHIVE_EXT) INCLUDE_DEPS=true
 
 all: dirs makedep
 	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) all INCLUDE_DEPS=true
-
-# foreground testing, compilation happens in do_regtest
-test: dirs
-	cd $(TSTDIR); $(TOOLSRC)/regtesting/do_regtest -nosvn -quick -arch $(ARCH) -version $(ONEVERSION) -cp2kdir ../../../  $(TESTOPTS)
-
-# background testing, compilation happens here
-testbg: dirs makedep all
-	@+$(MAKE) --no-print-directory -C $(TSTDIR) -f $(MAKEFILE) testbg INCLUDE_DEPS=true
-
-libcp2k: dirs makedep
-	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(LIBDIR)/libcp2k$(ARCHIVE_EXT) INCLUDE_DEPS=true
-
 
 dirs:
 	@mkdir -p $(OBJDIR)
 	@mkdir -p $(LIBDIR)
 	@mkdir -p $(EXEDIR)
-	@mkdir -p $(TSTDIR)
 
 toolversions:
 ifneq ($(FC),)
-	@echo "=========== FC ($(ONEVERSION)) ==========="
+	@echo "=========== FC ==========="
 ifeq (Cray,$(shell $(CC) -V 2>&1 | head -n1 | cut -d' ' -f1))
 	$(FC) -V
 else ifeq (IBM,$(shell $(CC) -qversion 2>&1 | head -n1 | cut -d' ' -f1))
@@ -158,7 +107,7 @@ else
 endif
 endif
 ifneq ($(CC),)
-	@echo "=========== CC ($(ONEVERSION)) ==========="
+	@echo "=========== CC ==========="
 ifeq (Cray,$(shell $(CC) -V 2>&1 | head -n1 | cut -d' ' -f1))
 	$(CC) -V
 else ifeq (IBM,$(shell $(CC) -qversion 2>&1 | head -n1 | cut -d' ' -f1))
@@ -168,40 +117,25 @@ else
 endif
 endif
 ifneq ($(NVCC),)
-	@echo "========== NVCC ($(ONEVERSION)) =========="
+	@echo "========== NVCC =========="
 	$(NVCC) --version
 	@echo ""
 endif
 ifneq ($(AR),)
-	@echo "=========== AR ($(ONEVERSION)) ==========="
+	@echo "=========== AR ==========="
 	$(firstword $(AR)) V
 	@echo ""
 endif
-	@echo "========== Make ($(ONEVERSION)) =========="
+	@echo "========== Make  =========="
 	$(MAKE) --version
 	@echo ""
-	@echo "========= Python ($(ONEVERSION)) ========="
+	@echo "========= Python ========="
 	/usr/bin/env python --version
 
 else
-
-# stage 4: Include $(OBJDIR)/all.dep, expand target all and libcp2k, and perform actual build.
-all: $(foreach e, $(EXE_NAMES), $(EXEDIR)/$(e).$(ONEVERSION))
-$(LIBDIR)/libcp2k$(ARCHIVE_EXT) : $(ALL_NONEXE_OBJECTS)
-
-testbg:
-	@echo "testing: $(ONEVERSION) : full log in $(TSTDIR)/regtest.log "
-	@$(TOOLSRC)/regtesting/do_regtest -nobuild -nosvn -arch $(ARCH) -version $(ONEVERSION) -cp2kdir ../../../  $(TESTOPTS) >& $(TSTDIR)/regtest.log
-	@cat `grep 'regtesting location error_summary file:' $(TSTDIR)/regtest.log | awk '{print $$NF}'`
-	@cat `grep 'regtesting location summary file:' $(TSTDIR)/regtest.log | awk '{print $$NF}'`
-	@grep "Number of FAILED  tests 0" $(TSTDIR)/regtest.log >& /dev/null
-	@grep "Number of WRONG   tests 0" $(TSTDIR)/regtest.log >& /dev/null
+# stage 2: Include $(OBJDIR)/all.dep, expand target all, and perform actual build.
 
 endif
-endif
-
-OTHER_HELP += "test : run the regression tests"
-OTHER_HELP += "testbg : run the regression tests in background"
 
 OTHER_HELP += "toolversions : Print versions of build tools"
 
@@ -213,7 +147,6 @@ help:
 	basename  $$i | sed 's/^\(.*\)\..*/\1/' | awk '{printf "%-28s", $$1}'; \
 	grep "brief" $$i | head -n 1 | sed 's/^.*\\brief\s*//'; \
 	done
-	@echo "libcp2k                     Builds CP2K as a single library archive"
 	@echo ""
 	@echo "===================== Tools ====================="
 	@printf "%s\n" $(TOOL_HELP) | awk -F ':' '{printf "%-28s%s\n", $$1, $$2}'
@@ -222,68 +155,27 @@ help:
 	@printf "%s\n" $(OTHER_HELP) | awk -F ':' '{printf "%-28s%s\n", $$1, $$2}'
 	@echo "help                         Print this help text"
 
-#
-# so far CP2K does not install, but give a hint to the user
-#
 install:
 	@echo ""
-	@echo "The CP2K executable is $(foreach v, $(VERSION), $(EXEDIR)/cp2k.$(v))"
+	@echo "Not supported yet"
 	@echo ""
 OTHER_HELP += "install : Print installation help"
 
-#
-# delete the intermediate files, but not the libraries and executables, or created directories.
-# Most useful to save space on the disk or e.g. for recompiles with PGO that still needs the .gcda files in the objdir
-#
-# To avoid printing out all non-gcda files within a directory with 'make clean',
-# a list of all non-gcda file extensions within a directory is first created with the get_extensions macro,
-# and a wildcard expression is then used to remove the appropriate files
-# cleaning stuff ============================================================
-define get_extensions
-	$(shell test -d $(1) && find $(1) -type f -name "*.*" ! -name "*.gcda" | sed 's|.*\.||' | sort -u)
-endef
 clean:
-	rm -rf  $(LIBCUSMM_ABS_DIR)/libcusmm.cu $(LIBCUSMM_ABS_DIR)/libcusmm_part*.cu
-	@echo rm -rf $(foreach v, $(VERSION), $(MAINOBJDIR)/$(ARCH)/$(v))
-	@$(foreach v, $(VERSION), $(foreach ext, $(call get_extensions, $(MAINOBJDIR)/$(ARCH)/$(v)/), $(shell rm -rf $(MAINOBJDIR)/$(ARCH)/$(v)/*.$(ext))))
-	rm -rf $(foreach v, $(VERSION), $(MAINLIBDIR)/$(ARCH)/$(v))
-OTHER_HELP += "clean : Remove intermediate object and mod files, but not the libraries and executables, for given ARCH and VERSION"
+	rm -rf $(LIBCUSMM_ABS_DIR)/libcusmm.cu $(LIBCUSMM_ABS_DIR)/libcusmm_part*.cu
+	rm -rf $(OBJDIR) $(LIBDIR)
+OTHER_HELP += "clean : Remove intermediate object and mod files, but not the libraries and executables"
 
 execlean:
-	rm -rf $(foreach v, $(VERSION), $(EXEDIR)/*.$(v))
-OTHER_HELP += "execlean : Remove the executables, for given ARCH and VERSION"
+	rm -rf $(EXEDIR)
+OTHER_HELP += "execlean : Remove the executables"
 
 #
 # delete the intermediate files, the programs and libraries and anything that might be in the objdir or libdir directory
-# Use this if you want to fully rebuild an executable (for a given compiler and or VERSION)
+# Use this if you want to fully rebuild an executable (for a given compiler)
 #
 realclean: clean execlean
-	rm -rf $(foreach v, $(VERSION), $(MAINOBJDIR)/$(ARCH)/$(v))
-	rm -rf $(foreach v, $(VERSION), $(MAINLIBDIR)/$(ARCH)/$(v))
-OTHER_HELP += "realclean : Remove all files for given ARCH and VERSION"
-
-testclean:
-	rm -rf $(foreach v, $(VERSION), $(MAINTSTDIR)/$(ARCH)/$(v)/TEST-*)
-OTHER_HELP += "testclean : Remove all TEST-* files for given ARCH and VERSION"
-
-testrealclean: testclean
-	rm -rf $(foreach v, $(VERSION), $(MAINTSTDIR)/$(ARCH)/$(v)/LAST-*)
-OTHER_HELP += "testrealclean : Remove all LAST-* and TEST-* files for given ARCH and VERSION"
-
-#
-# Remove all files from previous builds
-#
-distclean: prettyclean doxifyclean testrealclean
-	rm -rf $(DOXYGENDIR) $(MAINEXEDIR) $(MAINOBJDIR) $(MAINLIBDIR) $(MAINTSTDIR) $(LIBCUSMM_ABS_DIR)/libcusmm.cu
-OTHER_HELP += "distclean : Remove all files from previous builds"
-
-#
-# Remove ALL files not in SVN
-# NOTE: This removes really everything not committed to SVN
-#
-mrproper:
-	cd $(CP2KHOME); ./tools/clean_cwd.sh
-OTHER_HELP += "mrproper : Remove ALL files not in SVN"
+OTHER_HELP += "realclean : Remove all files"
 
 # Prettyfier stuff ==========================================================
 vpath %.pretty $(PRETTYOBJDIR)
@@ -360,7 +252,7 @@ doxygen: doxygen/clean
 	@echo "<html><body>Sorry, the Doxygen documentation is currently being updated. Please try again in a few minutes.</body></html>" > $(DOXYGENDIR)/html/index.html
 	cp $(ALL_SRC_FILES) $(DOXYGENDIR)
 	@for i in $(DOXYGENDIR)/*.F ; do mv $${i}  $${i%%.*}.f90; done ;
-	@cat $(TOOLSRC)/doxify/Doxyfile.template | sed "s/#revision#/`$(TOOLSRC)/build_utils/get_revision_number $(CP2KHOME)`/"  >$(DOXYGENDIR)/Doxyfile
+	@cat $(TOOLSRC)/doxify/Doxyfile.template | sed "s/#revision#/`$(TOOLSRC)/build_utils/get_revision_number $(DBCSRHOME)`/"  >$(DOXYGENDIR)/Doxyfile
 	cd $(DOXYGENDIR); doxygen ./Doxyfile 2>&1 | tee ./html/doxygen.out
 TOOL_HELP += "doxygen : Generate the doxygen documentation"
 
@@ -380,22 +272,22 @@ else
  endif
 endif
 
-# this happens on stage 3
+# this happens on stage 1
 makedep: $(ALL_SRC_FILES) $(ALL_PKG_FILES) dirs
 ifeq ($(LD_SHARED),)
-	@echo "Removing stale archives for $(ONEVERSION) ... "
+	@echo "Removing stale archives ... "
 	@$(TOOLSRC)/build_utils/check_archives.py $(firstword $(AR)) $(SRCDIR) $(LIBDIR)
 endif
-	@echo "Resolving dependencies for $(ONEVERSION) ... "
+	@echo "Resolving dependencies ... "
 	@$(TOOLSRC)/build_utils/makedep.py $(OBJDIR)/all.dep $(MODDEPS) $(MAKEDEPMODE) $(ARCHIVE_EXT) $(SRCDIR) $(OBJ_SRC_FILES)
 
-# on stage 4, load the rules generated by makedep.py
+# on stage 2, load the rules generated by makedep.py
 ifeq ($(INCLUDE_DEPS), true)
 include $(OBJDIR)/all.dep
 endif
 
 
-# ================= Stuff need for compiling (stage 4) ======================
+# ================= Stuff need for compiling (stage 2) ======================
 # These rules are executed in a recursive call to make -C $(OBJDIR)
 # The change of $(CURDIR) allows to find targets without abs paths and vpaths.
 
@@ -419,18 +311,15 @@ ifneq ($(strip $(SVN_ENTRY)),)
 cp2k_info.o: $(SVN_ENTRY)
 endif
 
-GIT_HEAD     := $(wildcard $(CP2KHOME)/../.git/HEAD*)
+GIT_HEAD     := $(wildcard $(DBCSRHOME)/../.git/HEAD*)
 ifneq ($(strip $(GIT_HEAD)),)
 cp2k_info.o: $(GIT_HEAD)
 endif
 
 # some practical variables for the build
 ifeq ($(CPPSHELL),)
-CPPSHELL := -D__COMPILE_ARCH="\"$(ARCH)\""\
-            -D__COMPILE_DATE="\"$(shell date)\""\
-            -D__COMPILE_HOST="\"$(shell hostname)\""\
-            -D__COMPILE_REVISION="\"$(strip $(REVISION))\""\
-            -D__DATA_DIR="\"$(DATA_DIR)\""
+CPPSHELL := -D__COMPILE_DATE="\"$(shell date)\""\
+            -D__COMPILE_HOST="\"$(shell hostname)\""
 endif
 
 ifneq ($(CPP),)
