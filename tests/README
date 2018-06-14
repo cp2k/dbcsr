@@ -10,7 +10,7 @@ Performance:
 * Building: compile libdbcsr as usual but use the 'dbcsr_performance_driver' target, i.e.:
 
   user@host:/dir> cd $LIBDBCSR_HOME
-  user@host:/dir> make -j ARCH=Linux-x86-64-gfortran VERSION=psmp dbcsr_performance_driver
+  user@host:/dir> make -j dbcsr_performance_driver
 
 * Running, examples:
 
