@@ -26,3 +26,13 @@ FCFLAGS += -fsanitize=leak
 FCFLAGS += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
 LDFLAGS    = $(FCFLAGS)
 LIBS       = -L${SCALAPACK_PATH}/lib -lscalapack -lreflapack -lrefblas
+
+ifneq(GPU,)
+NVCC     = nvcc
+DFLAGS  += -D__ACC -D__DBCSR_ACC
+FCFLAGS += -D__ACC -D__DBCSR_ACC
+NVFLAGS  = $(DFLAGS) -g -arch sm_35 -w
+LIBS     = -L${SCALAPACK_PATH}/lib -lscalapack -L${LAPACK_PATH}/lib -llapack -lblas
+LIBS    += -lstdc++ -lcudart -lcublas
+endif
+
