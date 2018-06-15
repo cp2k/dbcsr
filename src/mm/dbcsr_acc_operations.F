@@ -15,12 +15,21 @@
 ! **************************************************************************************************
 MODULE dbcsr_acc_operations
    USE ISO_C_BINDING,                   ONLY: C_INT,&
-                                              C_PTR
+                                              C_PTR,&
+                                              c_null_ptr,&
+                                              c_loc
    USE dbcsr_acc_devmem,                ONLY: acc_devmem_cptr,&
                                               acc_devmem_type
    USE dbcsr_acc_stream,                ONLY: acc_stream_cptr,&
                                               acc_stream_type
    USE dbcsr_mm_types,                  ONLY: dbcsr_ps_width
+   USE dbcsr_kinds,                     ONLY: real_8, dp
+   USE dbcsr_types,                     ONLY: dbcsr_type_real_8
+   
+#if defined(__ACC_CUBLAS)
+   USE cublas
+#endif
+
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -32,6 +41,11 @@ MODULE dbcsr_acc_operations
    LOGICAL, PARAMETER :: careful_mod = .FALSE.
 
    PUBLIC :: dbcsr_acc_do_mm_stack, dbcsr_acc_transpose
+   PUBLIC :: cublas_handle_init, cublas_handle_destroy
+
+#if defined(__ACC_CUBLAS)
+   type(c_ptr), public :: cublas_handle_ptr = c_null_ptr
+#endif
 
 #if defined (__DBCSR_ACC)
    INTERFACE
@@ -70,6 +84,22 @@ MODULE dbcsr_acc_operations
 
 CONTAINS
 
+   subroutine cublas_handle_init()
+      integer(c_int)                                :: cublas_err
+#if defined(__ACC_CUBLAS)
+         cublas_err = cublasCreate(cublas_handle_ptr)
+         if (cublas_err /= 0) &
+             DBCSR_ABORT("cublas cannot be created")
+#endif
+   end subroutine
+   
+   subroutine cublas_handle_destroy()
+#if defined(__ACC_CUBLAS)
+         call cublasDestroy(cublas_handle_ptr)
+#endif
+   end subroutine
+
+
 ! **************************************************************************************************
 !> \brief Launch an accelerated kernel for processing a stack.
 !> \param param_stack ...
@@ -85,9 +115,10 @@ CONTAINS
 !> \param stream ...
 !> \param success ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_acc_do_mm_stack(param_stack, stack_size, datatype, &
+   SUBROUTINE dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, datatype, &
                                     a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stream, success)
-      TYPE(acc_devmem_type), INTENT(IN)        :: param_stack
+      INTEGER, DIMENSION(:, :), POINTER        :: param_stack_host
+      TYPE(acc_devmem_type), INTENT(IN)        :: param_stack_dev
       INTEGER, INTENT(IN)                      :: stack_size
       INTEGER, INTENT(IN)                      :: datatype
       TYPE(acc_devmem_type), INTENT(IN)        :: a_data, b_data
@@ -97,6 +128,7 @@ CONTAINS
       LOGICAL, INTENT(IN)                      :: def_mnk
       TYPE(acc_stream_type), INTENT(IN)        :: stream
       LOGICAL, INTENT(INOUT)                   :: success
+      REAL(KIND=real_8)                        :: alpha, beta
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(param_stack)
@@ -125,7 +157,7 @@ CONTAINS
       mnk = 0
       IF (def_mnk) mnk = 1
 
-      istat = libsmm_acc_process_cu(acc_devmem_cptr(param_stack), &
+      istat = libsmm_acc_process_cu(acc_devmem_cptr(param_stack_dev), &
                                     INT(stack_size, KIND=C_INT), &
                                     INT(dbcsr_ps_width, KIND=C_INT), &
                                     INT(datatype, KIND=C_INT), &
@@ -138,6 +170,32 @@ CONTAINS
                                     mnk, acc_stream_cptr(stream))
 
       IF (istat == 100) DBCSR_ABORT("failed due to accGetLastError().")
+
+#if defined(__ACC_CUBLAS)
+      ! Use cuBLAS when the kernel was not found and the stack_size is 1.
+      ! This is the case when the matrices are densified
+      ! istat == -2 implies B block is transposed, only supported when the block is square
+!      print *,"cublas is compiled"
+!      print *,"mnk",mnk,"stack_size",stack_size,"datatype",datatype,"istat",istat,"n_max",n_max,"k_max",k_max
+
+      alpha = 1.0_dp
+      beta  = 1.0_dp
+      
+      IF (datatype .EQ. dbcsr_type_real_8 .AND. &
+          (istat .EQ. -2 .OR. istat .EQ. -3)) THEN
+         istat = acc_dgemm_cu(cublas_handle_ptr, &
+                              c_loc(param_stack_host), stack_size, mnk, &
+                              0, 0, &
+                              acc_devmem_cptr(a_data), &
+                              acc_devmem_cptr(b_data), &
+                              acc_devmem_cptr(c_data), &
+                              alpha, beta, &
+                              acc_stream_cptr(stream))
+
+         if (istat == -1) print *,"some error in acc_dgemm_cu"
+      ENDIF
+#endif
+
 
       success = (istat == 0) ! false if no suitable kernel was found
 

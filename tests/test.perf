@@ -1,9 +1,9 @@
 # operation
 dbcsr_multiply
 # matrix sizes
-64
-64
-64
+5120
+5120
+5120
 # sparsity (A, B, C)
 0.0d0
 0.0d0
@@ -36,17 +36,17 @@ N
 # retain sparsity (T/F)
 F
 # number of repetitions
-2
+50
 # number of different blocks to read (m, n, k)
 1
 1
 1
 # the m blocks (multiplicity, block size, ...)
 1
-4
+64
 # the n blocks (multiplicity, block size, ...)
 1
-4
+64
 # the k blocks (multiplicity, block size, ...)
 1
-4
+64
