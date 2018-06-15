@@ -152,7 +152,7 @@ def gen_process(plan):
     output += "default: missing = true;\n"
     output += "}\n\n"
 
-    output += "if(missing) return -1;\n"
+    output += "if(missing) return -2;\n"
 
     idx_map = dict()
     for (m,n,k) in plan.keys():
@@ -169,7 +169,7 @@ def gen_process(plan):
         output += "a_data, b_data, c_data);\n\n"
     output += "}\n\n"
 
-    output += "return -1; // should never happen\n"
+    output += "return -2; // should never happen\n"
     output += "}\n\n\n"
 
     output += '#define dbcsr_type_real_4     1\n'
