@@ -5,7 +5,7 @@ SHELL = /bin/sh
 #
 DBCSRHOME    ?= $(CURDIR)
 MAKEFILE     := $(DBCSRHOME)/Makefile
-DOXYGENDIR   := $(DBCSRHOME)/doc/doxygen
+DOXYGENDIR   := $(DBCSRHOME)/doc
 BINDIR       := $(DBCSRHOME)/bin
 LIBDIR       ?= $(DBCSRHOME)/lib
 OBJDIR       ?= $(DBCSRHOME)/obj
@@ -218,7 +218,7 @@ OTHER_HELP += "clean : Remove intermediate object and mod files, but not the lib
 # delete the intermediate files, the programs and libraries and anything that might be in the objdir or libdir directory
 # Use this if you want to fully rebuild an executable (for a given compiler)
 #
-realclean: clean
+realclean: clean doxygen/clean
 	rm -rf $(BINDIR) $(LIBDIR) $(PREFIX) 
 	rm -rf `find $(DBCSRHOME) -name "*.pyc"`
 OTHER_HELP += "realclean : Remove all files"
@@ -307,7 +307,7 @@ doxygen: doxygen/clean
 	@echo "<html><body>Sorry, the Doxygen documentation is currently being updated. Please try again in a few minutes.</body></html>" > $(DOXYGENDIR)/html/index.html
 	cp $(ALL_SRC_FILES) $(DOXYGENDIR)
 	@for i in $(DOXYGENDIR)/*.F ; do mv $${i}  $${i%%.*}.f90; done ;
-	@cat $(TOOLSRC)/doxify/Doxyfile.template | sed "s/#revision#/`$(TOOLSRC)/build_utils/get_revision_number $(DBCSRHOME)`/"  >$(DOXYGENDIR)/Doxyfile
+	@cat $(TOOLSRC)/doxify/Doxyfile.template > $(DOXYGENDIR)/Doxyfile
 	cd $(DOXYGENDIR); doxygen ./Doxyfile 2>&1 | tee ./html/doxygen.out
 TOOL_HELP += "doxygen : Generate the doxygen documentation"
 

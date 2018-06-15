@@ -2,6 +2,7 @@
 lib/
 obj/
 bin/
+doc/
 src/libsmm_acc/libcusmm/libcusmm.cu
 src/libsmm_acc/libcusmm/libcusmm_part*.cu
 install/
