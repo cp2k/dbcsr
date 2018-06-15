@@ -7,6 +7,7 @@ It is MPI and OpenMP parallel and can exploit GPUs via CUDA.
 
 You absolutely need:
 
+* GNU make
 * a Fortran compiler which supports at least Fortran 2003
 * a companion C compiler
 * a LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested)
@@ -31,3 +32,6 @@ If you want to change the compiler, you can either specify it directly:
     make CC=clang FC=flang
 
 or update the provided `Makefile.inc` to fit your needs.
+
+Support for `cmake` is still considered experimental and may not cover all functionalities yet.
+If you are using `cmake` to build DBCSR, please make sure you can reproduce any errors using the plain `Makefile` before reporting them.
