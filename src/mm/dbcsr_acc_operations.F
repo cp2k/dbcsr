@@ -85,8 +85,8 @@ MODULE dbcsr_acc_operations
 CONTAINS
 
    subroutine cublas_handle_init()
-      integer(c_int)                                :: cublas_err
 #if defined(__ACC_CUBLAS)
+      integer(c_int)                                :: cublas_err
          cublas_err = cublasCreate(cublas_handle_ptr)
          if (cublas_err /= 0) &
              DBCSR_ABORT("cublas cannot be created")
@@ -131,7 +131,8 @@ CONTAINS
       REAL(KIND=real_8)                        :: alpha, beta
 
 #if ! defined (__DBCSR_ACC)
-      MARK_USED(param_stack)
+      MARK_USED(param_stack_host)
+      MARK_USED(param_stack_dev)
       MARK_USED(stack_size)
       MARK_USED(datatype)
       MARK_USED(a_data)
@@ -143,6 +144,8 @@ CONTAINS
       MARK_USED(def_mnk)
       MARK_USED(stream)
       MARK_USED(success)
+      MARK_USED(alpha)
+      MARK_USED(beta)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
 
