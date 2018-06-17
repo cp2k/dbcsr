@@ -3,8 +3,8 @@ lib/
 obj/
 bin/
 doc/
-src/libsmm_acc/libcusmm/libcusmm.cu
-src/libsmm_acc/libcusmm/libcusmm_part*.cu
+src/acc/libsmm_acc/libcusmm/libcusmm.cu
+src/acc/libsmm_acc/libcusmm/libcusmm_part*.cu
 install/
 examples/*.x
 
