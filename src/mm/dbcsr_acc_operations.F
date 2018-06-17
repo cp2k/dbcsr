@@ -117,7 +117,7 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, datatype, &
                                     a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stream, success)
-      INTEGER, DIMENSION(:, :), POINTER        :: param_stack_host
+      INTEGER, DIMENSION(:, :), POINTER, INTENT(IN) :: param_stack_host
       TYPE(acc_devmem_type), INTENT(IN)        :: param_stack_dev
       INTEGER, INTENT(IN)                      :: stack_size
       INTEGER, INTENT(IN)                      :: datatype
