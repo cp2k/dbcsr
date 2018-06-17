@@ -13,7 +13,6 @@
 ! **************************************************************************************************
 MODULE dbcsr_string_utilities
 
-   USE dbcsr_glob_matching,             ONLY: pattern_match => string_match
    USE dbcsr_kinds,                     ONLY: default_blank_character
 
    IMPLICIT NONE
@@ -77,7 +76,6 @@ MODULE dbcsr_string_utilities
              str_comp, &
              string_to_ascii, &
              substitute_special_xml_tokens, &
-             typo_match, &
              uppercase, &
              write_html_tables, &
              xstring
@@ -93,62 +91,6 @@ MODULE dbcsr_string_utilities
    END INTERFACE
 
 CONTAINS
-
-! **************************************************************************************************
-!> \brief returns a non-zero positive value if typo_string equals string apart from a few typos.
-!>     It is case sensitive, apart from typos.
-!> \param string ...
-!> \param typo_string ...
-!> \return ...
-!> \par History
-!>      02.2006 created [Joost VandeVondele]
-!> \note
-!>     could maybe be made a bit smarter (levenstein distance ?)
-! **************************************************************************************************
-   FUNCTION typo_match(string, typo_string) RESULT(match)
-      CHARACTER(LEN=*), INTENT(IN)                       :: string, typo_string
-      INTEGER                                            :: match
-
-      CHARACTER(LEN=1)                                   :: kind
-      CHARACTER(LEN=LEN(string))                         :: tmp2
-      CHARACTER(LEN=LEN(typo_string))                    :: tmp
-      INTEGER                                            :: i, j
-
-      match = 0
-      IF (LEN_TRIM(typo_string) .LE. 4) THEN
-         kind = question
-      ELSE
-         kind = star
-      ENDIF
-      DO i = 1, LEN_TRIM(typo_string)
-         DO j = i, LEN_TRIM(typo_string)
-            tmp = typo_string
-            tmp(i:i) = kind
-            tmp(j:j) = kind
-            IF (i == j .AND. LEN_TRIM(tmp) > 2) tmp(i:i) = star
-            IF (pattern_match(string=string, pattern=tmp)) match = match+1
-         ENDDO
-      ENDDO
-      IF (LEN_TRIM(string) .LE. 4) THEN
-         kind = question
-      ELSE
-         kind = star
-      ENDIF
-      DO i = 1, LEN_TRIM(string)
-         DO j = i, LEN_TRIM(string)
-            tmp2 = string
-            tmp2(i:i) = kind
-            tmp2(j:j) = kind
-            IF (i == j .AND. LEN_TRIM(tmp2) > 2) tmp2(i:i) = star
-            IF (pattern_match(string=typo_string, pattern=tmp2)) match = match+1
-         ENDDO
-      ENDDO
-      IF (match > 0) THEN
-         ! bonus points for small differences in length
-         IF (ABS(LEN_TRIM(string)-LEN_TRIM(typo_string)) < 3) match = match+2
-      ENDIF
-
-   END FUNCTION typo_match
 
 ! **************************************************************************************************
 !> \brief Converts a character-array into a string
