@@ -13,35 +13,30 @@
 !> - Created 2010
 ! **************************************************************************************************
 PROGRAM dbcsr_performance_driver
-   USE dbcsr_kinds,                     ONLY: default_string_length, dp
+   USE dbcsr_error_handling,            ONLY: dbcsr_error_handling_setup
+   USE dbcsr_kinds,                     ONLY: default_string_length,&
+                                              dp
    USE dbcsr_lib,                       ONLY: dbcsr_finalize_lib,&
                                               dbcsr_init_lib
    USE dbcsr_machine,                   ONLY: default_output_unit
-   USE dbcsr_message_passing,           ONLY: mp_bcast,&
-                                              mp_cart_create,&
-                                              mp_cart_rank,&
-                                              mp_comm_free,&
-                                              mp_environ,&
-                                              mp_world_finalize,&
-                                              mp_world_init,&
-                                              add_mp_perf_env,&
-                                              rm_mp_perf_env
+   USE dbcsr_message_passing,           ONLY: &
+        add_mp_perf_env, mp_bcast, mp_cart_create, mp_cart_rank, mp_comm_free, mp_environ, &
+        mp_world_finalize, mp_world_init, rm_mp_perf_env
    USE dbcsr_mp_methods,                ONLY: dbcsr_mp_new,&
                                               dbcsr_mp_release
+   USE dbcsr_para_env,                  ONLY: dbcsr_para_env_create
+   USE dbcsr_para_types,                ONLY: dbcsr_para_env_type
    USE dbcsr_performance_multiply,      ONLY: dbcsr_perf_multiply
-   USE dbcsr_test_methods,              ONLY: dbcsr_test_read_args
-   USE dbcsr_types,                     ONLY: dbcsr_mp_obj
-   USE dbcsr_error_handling,            ONLY: dbcsr_error_handling_setup
    USE dbcsr_string_table,              ONLY: string_table_allocate,&
                                               string_table_deallocate
+   USE dbcsr_test_methods,              ONLY: dbcsr_test_read_args
    USE dbcsr_timings,                   ONLY: add_timer_env,&
-                                              timings_register_hooks,&
-                                              rm_timer_env
+                                              rm_timer_env,&
+                                              timings_register_hooks
    USE dbcsr_timings_report,            ONLY: cost_type_time,&
-                                              timings_report_print,&
-                                              timings_report_callgraph
-   USE dbcsr_para_types,                ONLY: dbcsr_para_env_type
-   USE dbcsr_para_env,                  ONLY: dbcsr_para_env_create
+                                              timings_report_callgraph,&
+                                              timings_report_print
+   USE dbcsr_types,                     ONLY: dbcsr_mp_obj
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -60,13 +55,13 @@ PROGRAM dbcsr_performance_driver
    TYPE(dbcsr_para_env_type), POINTER          :: para_env
 
    !***************************************************************************************
-     
+
    !
    ! initialize mpi
    CALL mp_world_init(mp_comm)
 
    ! DBCSR timers
-   NULLIFY(para_env)
+   NULLIFY (para_env)
    CALL dbcsr_para_env_create(para_env, group=mp_comm, owns_group=.FALSE.)
    CALL dbcsr_error_handling_setup()
    CALL timings_register_hooks()
@@ -143,7 +138,7 @@ PROGRAM dbcsr_performance_driver
    CALL rm_timer_env()
    CALL rm_mp_perf_env()
    CALL string_table_deallocate(0)
-   
+
    !
    ! finalize mpi
    CALL mp_world_finalize()
