@@ -11,9 +11,6 @@
  *                                                                           *
  *****************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <cuda.h>
 #include "cusmm_common.h"
 
 /*
@@ -365,3 +362,4 @@ cusmm_dnt_medium(const int* __restrict__ param_stack, int stack_size,
     if (need_sync) syncthreads ();
   }
 }
+

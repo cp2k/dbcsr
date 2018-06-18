@@ -13,15 +13,19 @@ from kernels.cusmm_dnt_tiny     import Kernel_dnt_tiny
 ALL_KERNELS = (Kernel_dnt_tiny, Kernel_dnt_small, Kernel_dnt_medium, Kernel_dnt_largeDB1, Kernel_dnt_largeDB2,)
 file_txt = "parameters_P100.txt"    # parameters_K20X.txt, parameters_K40.txt, parameters_K80.txt
 
+
 def get_legal_parameters(m, n, k):
+    # For debugging:
+    if [m, n, k] == [4, 16, 44]:
+        print('foundya!')
     if 0 in [m, n, k] or 1 in [m, n, k] or 2 in [m, n, k] or 3 in [m, n, k]: 
-        return 0, 0;
+        return 0, 0
     for kernclass in ALL_KERNELS:
         legal_param_list_for_kernel = kernclass.promising_parameters(m, n, k)
         if len(legal_param_list_for_kernel) > 0: 
-            return kernclass, legal_param_list_for_kernel[0]
+            return kernclass.number, legal_param_list_for_kernel[0]
 
-    assert len(legal_param_list) > 0, "No legal parameters found for triplet: " + str(m) + ", " + str(n) + ", " + str(k)
+    assert True, "No legal parameters found for triplet: " + str(m) + ", " + str(n) + ", " + str(k)
 
 
 def get_all_legal_parameters(m, n, k):
@@ -49,8 +53,7 @@ def get_pars(m, n, k, parameters):
     for p in parameters:
         if p[0] == m and p[1] == n and p[2] == k:
             pars = p[3:]
-            #print("found values for", m, n, k, ":", pars)
-            break;
+            break
     else:
         # This is a temporary solution
         algo, params = get_legal_parameters(m, n, k)
@@ -59,22 +62,22 @@ def get_pars(m, n, k, parameters):
         if algo == 0: 
             pars = [0, 0, 0, 0, 0, 0, 0, 0]
         else: 
-            pars.append(algo.number) # algo 
-            if 'tile_m' in params.values():
-                pars.append(params['tile_m']) # tile_m
-                pars.append(params['tile_n']) # tile_n
+            pars.append(algo)                   # algo
+            if 'tile_m' in params.keys():
+                pars.append(params['tile_m'])   # tile_m
+                pars.append(params['tile_n'])   # tile_n
             else: 
-                pars.append(0) # tile_m
-                pars.append(0) # tile_m
-            if 'w' in params.values():
-                pars.append(params['w']) # w
-                pars.append(params['v']) # v
+                pars.append(0)                  # tile_m
+                pars.append(0)                  # tile_m
+            if 'w' in params.keys():
+                pars.append(params['w'])        # w
+                pars.append(params['v'])        # v
             else: 
-                pars.append(0) # w
-                pars.append(0) # w
-            pars.append(params['threads']) # threads
-            pars.append(params['grouping']) # grouping
-            pars.append(params['minblocks']) # miniblocks
+                pars.append(0)                  # w
+                pars.append(0)                  # v
+            pars.append(params['threads'])      # threads
+            pars.append(params['grouping'])     # grouping
+            pars.append(params['minblocks'])    # miniblocks
     return pars
 
 
@@ -201,13 +204,16 @@ out += 'int ht[' + str(max(m_)+1) + '][' + str(max(n_)+1) + '][' + str(max(k_)+1
 # Initializer list line
 print("Get parameters and write to file")
 init_list_line = "      {{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }},\n"
-for m in range(max(m_)+1):
-    print("m = ", m, "/", max(m_))
+m_upper = 45
+n_upper = 45
+k_upper = 45
+for m in range(m_upper+1):
+    print("\tm = ", m, "/", m_upper)
     out += "  {\n"
-    for n in range(max(n_)+1):
-        print("n = ", n, "/", max(n_))
+    for n in range(n_upper+1):
+        print("n = ", n, "/", n_upper)
         out += "    {\n"
-        for k in range(max(k_)+1):
+        for k in range(k_upper+1):
             #
             # How to choose them if they're not given in the parameter file?
             #

@@ -61,6 +61,7 @@ ALL_PKG_FILES := $(shell find $(SRCDIR) -name "PACKAGE")
 OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . ! -name "dbcsr_api_c.F" -name "*.F")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cpp")
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cu")
 
 ifneq ($(CINT),)
 OBJ_SRC_FILES += ./dbcsr_api_c.F
@@ -69,16 +70,10 @@ endif
 
 # OBJECTS used for pretty and doxify
 ALL_OBJECTS   := $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
-ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(SRCDIR);  find . ! -name "libcusmm.cu" ! -name "libcusmm_part*.cu" -name "*.cu"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.F"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.c"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cpp"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cu"))))
-
-ifneq ($(NVCC),)
-OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "libcusmm.cu" -name "*.cu")
-OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cu
-endif
 
 # Included files used by Fypp preprocessor and standard includes
 INCLUDED_SRC_FILES := $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR) -name "*.f90")))
@@ -225,7 +220,6 @@ test:
 OTHER_HELP += "test    : Run the unittests available in tests/"
 
 clean:
-	rm -rf $(LIBCUSMM_ABS_DIR)/libcusmm.cu $(LIBCUSMM_ABS_DIR)/libcusmm_part*.cu
 	rm -rf $(OBJDIR)
 OTHER_HELP += "clean : Remove intermediate object and mod files, but not the libraries and executables"
 
@@ -328,11 +322,6 @@ doxygen: doxygen/clean
 TOOL_HELP += "doxygen : Generate the doxygen documentation"
 
 
-# Libcusmm stuff ============================================================
-$(LIBCUSMM_ABS_DIR)/libcusmm.cu: $(LIBCUSMM_ABS_DIR)/generate.py $(LIBCUSMM_ABS_DIR)/parameters_P100.txt $(wildcard $(LIBCUSMM_ABS_DIR)/kernels/*.py)
-	cd $(LIBCUSMM_ABS_DIR); ./generate.py $(LIBCUSMM_FLAGS)
-
-
 # automatic dependency generation ===========================================
 MAKEDEPMODE = "normal"
 ifeq ($(HACKDEP),yes)
@@ -384,8 +373,12 @@ FYPPFLAGS ?= -n
 %.o: %.cpp
 	$(CXX) -c $(CXXFLAGS) $<
 
-%.o: %.cu
-	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+CUDA_PATH := /opt/nvidia/cudatoolkit8.0/8.0.61_2.4.3-6.0.4.0_3.1__gb475d12
+CUDA_PATHH := /opt/cray/nvidia/375.74_3.1.22-6.0.4.1_2.1__gfb008e8.ari
+NVRTCFLAGS := -I $(CUDA_PATH)/include -L $(CUDA_PATH)/lib64 -L $(CUDA_PATHH)/lib64 -lnvrtc -lcuda -Wl,-rpath,$(CUDA_PATH)/lib64
+libcusmm.o: libcusmm.cpp
+	#$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -std=c++11 $<
+	$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DLOGGING -std=c++11 $<
 
 $(LIBDIR)/%:
 ifneq ($(LD_SHARED),)

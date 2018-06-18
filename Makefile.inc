@@ -43,7 +43,7 @@ DFLAGS     += -D__ACC -D__DBCSR_ACC
 FCFLAGS    += -D__ACC -D__DBCSR_ACC
 NVFLAGS     = $(DFLAGS) -O3 -g -arch sm_35 -w
 LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -L${LAPACK_PATH}/lib -llapack -lblas
-LIBS       += -lstdc++ -lcudart -lcublas
+LIBS       += -lstdc++ -lcudart -lcublas -lnvrtc -lcuda
 endif
 
 ifneq ($(CRAY),)
