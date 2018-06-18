@@ -21,7 +21,7 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=uninitialized -Wno-maybe-uninitialized -Wuse-without-only \
               -Werror
 CFLAGS      = $(DFLAGS) -O2
-FCDEBFLAGS  = -ffree-form -std=f2008 -fimplicit-none -ffree-line-length-512
+FCDEBFLAGS  = -ffree-form -std=f2003 -fimplicit-none -ffree-line-length-512
 FCFLAGS     = $(DFLAGS) -fno-omit-frame-pointer -g -O3 \
               -funroll-loops -ffast-math -fopenmp $(FCDEBFLAGS) $(WFLAGS)
 FCFLAGS    += -fsanitize=leak
@@ -33,7 +33,7 @@ ifneq ($(GPU),)
 NVCC        = nvcc
 DFLAGS     += -D__ACC -D__DBCSR_ACC
 FCFLAGS    += -D__ACC -D__DBCSR_ACC
-NVFLAGS     = $(DFLAGS) -g -arch sm_35 -w
+NVFLAGS     = $(DFLAGS) -O3 -g -arch sm_35 -w
 LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -L${LAPACK_PATH}/lib -llapack -lblas
 LIBS       += -lstdc++ -lcudart -lcublas
 endif
@@ -43,8 +43,9 @@ NVCC     = nvcc
 CC       = cc
 FC       = ftn
 LD       = ftn
-DFLAGS  += -D__HAS_smm_dnn -D__ACC -D__DBCSR_ACC
-DFLAGS  += -D__ACC_CUBLAS 
+DFLAGS  += -D__HAS_smm_dnn
+DFLAGS  += -D__ACC -D__DBCSR_ACC
+DFLAGS  += -D__ACC_CUBLAS
 #-D__CUDA_PROFILING
 CFLAGS   = $(WFLAGS) $(DFLAGS) -fopenmp -fno-omit-frame-pointer -g -O3 -ffast-math
 FCFLAGS  = $(WFLAGS) $(DFLAGS) -O3 -fopenmp -funroll-loops -ffast-math \
