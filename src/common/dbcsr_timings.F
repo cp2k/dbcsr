@@ -61,8 +61,6 @@ MODULE dbcsr_timings
    INTEGER, PUBLIC, PARAMETER :: default_timings_level = 1
    INTEGER, PUBLIC, SAVE :: global_timings_level = default_timings_level
 
-   CHARACTER(LEN=default_string_length), PUBLIC, PARAMETER :: root_cp2k_name = 'CP2K'
-
 CONTAINS
 
 ! **************************************************************************************************
@@ -219,7 +217,6 @@ CONTAINS
       CHARACTER(LEN=default_string_length)               :: routine_name_dsl
       INTEGER                                            :: routine_id, stack_size
       INTEGER(KIND=int_8)                                :: cpumem, gpumem_free, gpumem_total
-      INTEGER, SAVE                                      :: root_cp2k_id
       TYPE(callstack_entry_type)                         :: cs_entry
       TYPE(routine_stat_type), POINTER                   :: r_stat
       TYPE(timer_env_type), POINTER                      :: timer_env
@@ -230,13 +227,12 @@ CONTAINS
       ! Default value, using a negative value when timing is not taken
       cs_entry%walltime_start = -HUGE(1.0_dp)
       cs_entry%energy_start = -HUGE(1.0_dp)
-      root_cp2k_id = routine_name2id(root_cp2k_name)
       !
       routine_name_dsl = routineN ! converte to default_string_length
       routine_id = routine_name2id(routine_name_dsl)
       !
       ! Take timings when the timings_level is appropriated
-      IF (global_timings_level .NE. 0 .OR. routine_id .EQ. root_cp2k_id) THEN
+      IF (global_timings_level .NE. 0) THEN
          cs_entry%walltime_start = m_walltime()
          cs_entry%energy_start = m_energy()
       ENDIF
