@@ -14,9 +14,6 @@ class Kernel_dnt_small(object):
     def __repr__(self):
         return("<%s>"%self.name)
 
-    def number(self):
-        return 4
-
     def can_handle(self, m, n, k):
         return(self.m==m and self.n==n and self.k==k)
 

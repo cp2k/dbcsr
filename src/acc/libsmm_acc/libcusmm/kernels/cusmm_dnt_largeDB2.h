@@ -9,9 +9,6 @@
  *           Ole Schuett <ole.schuett@mat.ethz.ch>                           *
  *****************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <cuda.h>
 #include "cusmm_common.h"
 
 

@@ -1,18 +1,24 @@
 /*****************************************************************************
  *  CP2K: A general program to perform molecular dynamics simulations        *
- *  Copyright (C) 2000 - 2018  CP2K developers group                         *
+ *  Copyright (C) 2000 - 2017  CP2K developers group                         *
  *****************************************************************************/
+#include <cuda.h>
 #include <stddef.h>
 
 #ifdef __cplusplus
  extern "C" {
 #endif
 
+// CUDA driver API
+static CUdevice cuDevice;
+static CUcontext context;
+
 // devices
 int acc_get_ndevices(int* n_devices);
 int acc_set_active_device(int device_id);
 
 // streams
+int acc_drv_init();
 int acc_stream_priority_range(int* least, int* greatest);
 int acc_stream_create(void** stream_p, const char* name, int priority);
 int acc_stream_destroy(void* stream);

@@ -11,9 +11,6 @@
  *                                                                           *
  *****************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <cuda.h>
 #include "cusmm_common.h"
 
 /*

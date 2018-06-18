@@ -1,9 +1,10 @@
 /*****************************************************************************
  *  CP2K: A general program to perform molecular dynamics simulations        *
- *  Copyright (C) 2000 - 2018  CP2K developers group                         *
+ *  Copyright (C) 2000 - 2017  CP2K developers group                         *
  *****************************************************************************/
+#include <cuda.h>
 
-typedef int (*KernelLauncher)(int *param_stack, int stack_size, cudaStream_t stream,
+typedef int (*KernelLauncher)(int *param_stack, int stack_size, CUstream stream,
                               int m_max, int n_max, int k_max,
                               double *a_data, double *b_data, double *c_data);
 
