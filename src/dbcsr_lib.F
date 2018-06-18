@@ -10,6 +10,9 @@
 ! **************************************************************************************************
 
 MODULE dbcsr_lib
+   USE dbcsr_config,                    ONLY: cublas_handles
+   USE dbcsr_cublas,                    ONLY: cublas_handle_destroy,&
+                                              cublas_handle_init
    USE dbcsr_kinds,                     ONLY: int_1_size,&
                                               int_2_size,&
                                               int_4_size,&
@@ -20,11 +23,9 @@ MODULE dbcsr_lib
    USE dbcsr_multiply_api,              ONLY: dbcsr_multiply_clear_mempools,&
                                               dbcsr_multiply_lib_finalize,&
                                               dbcsr_multiply_lib_init
-   USE dbcsr_acc_operations,            ONLY: cublas_handle_init, &
-                                              cublas_handle_destroy
 #include "base/dbcsr_base_uses.f90"
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
+!$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
 
    IMPLICIT NONE
    PRIVATE
@@ -46,7 +47,7 @@ CONTAINS
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_lib', routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: error_handle, handle2
+      INTEGER                                            :: error_handle, ithread, nthreads
 
 !n_stack_buffers,mem_type, n_stack_mem_regions, stack_size, nstacks,&
 !INTEGER, DIMENSION(3)                    :: nxstacks
@@ -69,16 +70,21 @@ CONTAINS
          CALL add_mp_perf_env()
       ENDIF
 
-!$OMP     PARALLEL DEFAULT(NONE)
+!$OMP     PARALLEL DEFAULT(NONE) PRIVATE(ithread) SHARED(nthreads, cublas_handles)
       CALL dbcsr_multiply_lib_init()
+!$OMP MASTER
+      nthreads = 1
+!$    nthreads = omp_get_num_threads()
+      ALLOCATE (cublas_handles(nthreads))
+!$OMP END MASTER
+!$OMP BARRIER
+      ithread = 0
+!$    ithread = omp_get_thread_num()
+      ! init cublas. Internal check for cublas existing
+      CALL cublas_handle_init(cublas_handles(ithread+1))
 !$OMP     END PARALLEL
 
       is_initialized = .TRUE.
-
-      ! init cublas. Internal check for cublas existing
-      CALL timeset(routineN//"_cublas_init", handle2)
-      call cublas_handle_init()
-      CALL timestop(handle2)
 
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_init_lib
@@ -96,7 +102,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize_lib', &
          routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: error_handle, handle2
+      INTEGER                                            :: error_handle, ithread
 
 !TODO: problem: init/finalize are called by cp2k_runs AND f77_interface
 
@@ -111,18 +117,21 @@ CONTAINS
          WRITE (UNIT=output_unit, FMT="(T2,A)") REPEAT("-", 79)
       END IF
 
-!$OMP     PARALLEL DEFAULT(NONE) SHARED(output_unit, group)
+!$OMP     PARALLEL DEFAULT(NONE) PRIVATE(ithread) SHARED(output_unit, group, cublas_handles)
       CALL dbcsr_multiply_lib_finalize(group, output_unit)
+      ithread = 0
+!$    ithread = omp_get_thread_num()
+      CALL cublas_handle_destroy(cublas_handles(ithread+1))
+!$OMP BARRIER
+!$OMP MASTER
+      DEALLOCATE (cublas_handles)
+!$OMP END MASTER
 !$OMP     END PARALLEL
       IF (output_unit > 0) WRITE (UNIT=output_unit, FMT="(T2,A)") REPEAT("-", 79)
 
       CALL describe_mp_perf_env(output_unit)
 
       is_initialized = .FALSE.
-
-      CALL timeset(routineN//"_cublas_destroy", handle2)
-      call cublas_handle_destroy()
-      CALL timestop(handle2)
 
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_finalize_lib

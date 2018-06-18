@@ -169,7 +169,7 @@ def gen_process(plan):
         output += "a_data, b_data, c_data);\n\n"
     output += "}\n\n"
 
-    output += "return -2; // should never happen\n"
+    output += "return -2;\n"
     output += "}\n\n\n"
 
     output += '#define dbcsr_type_real_4     1\n'

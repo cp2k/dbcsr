@@ -14,6 +14,7 @@
 ! **************************************************************************************************
 MODULE dbcsr_config
    USE dbcsr_acc_device,                ONLY: acc_get_ndevices
+   USE dbcsr_cublas,                    ONLY: cublas_handle_type
    USE dbcsr_kinds,                     ONLY: default_string_length,&
                                               dp
    USE dbcsr_ptr_util,                  ONLY: dbcsr_data_allocation,&
@@ -117,9 +118,13 @@ MODULE dbcsr_config
 
    TYPE(dbcsr_config_type), PROTECTED, SAVE :: dbcsr_cfg = dbcsr_config_type() ! defaults
 
+   ! CUBLAS handle (a handle per each thread)
+   TYPE(cublas_handle_type), DIMENSION(:), ALLOCATABLE :: cublas_handles
+
    PUBLIC :: dbcsr_cfg, has_MPI, has_acc, default_resize_factor
    PUBLIC :: mm_driver_blas, mm_driver_matmul, mm_driver_smm, mm_driver_xsmm, mm_driver_auto
    PUBLIC :: dbcsr_set_config, dbcsr_get_default_config, dbcsr_print_config
+   PUBLIC :: cublas_handles
 
 CONTAINS
 

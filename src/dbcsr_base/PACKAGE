@@ -1,5 +1,5 @@
 {
 "description": "Central DBCSR matrix datastructure",
 "archive": "libdbcsr",
-"requires": ["../acc", "../mpiwrap", "../base", "../data"],
+"requires": ["../acc", "../acc/cublaswrap", "../mpiwrap", "../base", "../data"],
 }
