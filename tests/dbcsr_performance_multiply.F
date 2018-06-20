@@ -487,7 +487,8 @@ CONTAINS
                                                             col_dist_c, row_dist_a, row_dist_b, &
                                                             row_dist_c
       REAL(real_8)                                       :: chksum_a, chksum_b, chksum_c_in, &
-                                                            chksum_c_out, std_all, std_t, t1, t2
+                                                            chksum_c_out, chksum_c_out_pos, &
+                                                            std_all, std_t, t1, t2
       REAL(real_8), ALLOCATABLE, DIMENSION(:)            :: flops_all, flops_node, flops_thread, &
                                                             load_imb, t, t_max, t_min
       REAL(real_8), ALLOCATABLE, DIMENSION(:, :)         :: times
@@ -615,6 +616,7 @@ CONTAINS
       ENDDO
 
       chksum_c_out = dbcsr_checksum(m_c)
+      chksum_c_out_pos = dbcsr_checksum(m_c, pos=.TRUE.)
 
       CALL mp_sum(times, 0, mp_group)
       CALL mp_sum(flops, 0, mp_group)
@@ -652,6 +654,7 @@ CONTAINS
          WRITE (io_unit, '(T4,A,E26.15)') 'checksum(B)     = ', chksum_b
          WRITE (io_unit, '(T4,A,E26.15)') 'checksum(C_in)  = ', chksum_c_in
          WRITE (io_unit, '(T4,A,E26.15)') 'checksum(C_out) = ', chksum_c_out
+         WRITE (io_unit, '(T4,A,E26.15)') 'checksum(C_out) POS = ', chksum_c_out_pos
          WRITE (io_unit, *)
          WRITE (io_unit, *)
          WRITE (io_unit, '(T4,A)') "                       mean        std         minmin      maxmax"
