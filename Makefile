@@ -389,4 +389,7 @@ else
 	@$(AR) $@ $?
 endif
 
+%.o: %.cu
+	$(NVCC) -c -std=c++11 $(NVFLAGS) -I'$(SRCDIR)' $<
+
 #EOF
