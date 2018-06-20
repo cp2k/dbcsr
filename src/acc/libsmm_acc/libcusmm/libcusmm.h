@@ -7,7 +7,7 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <nvrtc.h>
-
+#include <unordered_map>
 
 #define NVRTC_SAFE_CALL(name, x)                                  \
   do {                                                            \
@@ -37,6 +37,8 @@ enum libcusmm_algo {
     small = 4,
     tiny = 5
 };
+
+static std::unordered_map<int, CUfunction> kernel_handles;
 
 int libcusmm_process_d(int *param_stack, int stack_size,
     CUstream stream, int m, int n, int k,
