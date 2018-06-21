@@ -28,7 +28,7 @@
 #endif
 
     ierror = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     CALL mpi_comm_rank(group,myrank,ierror)
@@ -53,7 +53,7 @@
     MARK_USED(group)
     MARK_USED(displ_in)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
 
   END SUBROUTINE mp_shift_${nametype1}$m
 
@@ -86,7 +86,7 @@
 #endif
 
     ierror = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     CALL mpi_comm_rank(group,myrank,ierror)
@@ -111,7 +111,7 @@
     MARK_USED(group)
     MARK_USED(displ_in)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
 
   END SUBROUTINE mp_shift_${nametype1}$
 
@@ -152,7 +152,7 @@
     INTEGER                                  :: i
 #endif
 
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     ierr = 0
 #if defined(__parallel)
@@ -170,7 +170,7 @@
        rb(rdispl(1)+i)=sb(sdispl(1)+i)
     ENDDO
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
 
   END SUBROUTINE mp_alltoall_${nametype1}$11v
 
@@ -206,7 +206,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     CALL mpi_alltoallv ( sb, scount, sdispl, ${mpi_type1}$, &
@@ -222,7 +222,7 @@
     MARK_USED(rdispl)
     rb=sb
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
 
   END SUBROUTINE mp_alltoall_${nametype1}$22v
 
@@ -256,7 +256,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     CALL mpi_alltoall ( sb, count, ${mpi_type1}$, &
@@ -271,7 +271,7 @@
     MARK_USED(group)
     rb=sb
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
 
   END SUBROUTINE mp_alltoall_${nametype1}$
 
@@ -298,7 +298,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     CALL mpi_alltoall ( sb, count, ${mpi_type1}$, &
@@ -313,7 +313,7 @@
     MARK_USED(group)
     rb=sb
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
 
   END SUBROUTINE mp_alltoall_${nametype1}$22
 
@@ -340,7 +340,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     CALL mpi_alltoall ( sb, count, ${mpi_type1}$, &
@@ -355,7 +355,7 @@
     MARK_USED(group)
     rb=sb
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
 
   END SUBROUTINE mp_alltoall_${nametype1}$33
 
@@ -384,7 +384,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     CALL mpi_alltoall ( sb, count, ${mpi_type1}$, &
@@ -399,7 +399,7 @@
     MARK_USED(group)
     rb=sb
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
 
   END SUBROUTINE mp_alltoall_${nametype1}$44
 
@@ -428,7 +428,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     CALL mpi_alltoall ( sb, count, ${mpi_type1}$, &
@@ -443,7 +443,7 @@
     MARK_USED(group)
     rb=sb
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
 
   END SUBROUTINE mp_alltoall_${nametype1}$55
 
@@ -473,7 +473,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     CALL mpi_alltoall ( sb, count, ${mpi_type1}$, &
@@ -488,7 +488,7 @@
     MARK_USED(group)
     rb = RESHAPE(sb, SHAPE(rb))
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
 
   END SUBROUTINE mp_alltoall_${nametype1}$45
 
@@ -518,7 +518,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     CALL mpi_alltoall ( sb, count, ${mpi_type1}$, &
@@ -533,7 +533,7 @@
     MARK_USED(group)
     rb = RESHAPE(sb, SHAPE(rb))
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
 
   END SUBROUTINE mp_alltoall_${nametype1}$34
 
@@ -563,7 +563,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     CALL mpi_alltoall ( sb, count, ${mpi_type1}$, &
@@ -578,7 +578,7 @@
     MARK_USED(group)
     rb = RESHAPE(sb, SHAPE(rb))
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
 
   END SUBROUTINE mp_alltoall_${nametype1}$54
 
@@ -601,7 +601,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = 1
 #if defined(__parallel)
@@ -616,7 +616,7 @@
     ! only defined in parallel
     DBCSR_ABORT("not in parallel mode")
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_send_${nametype1}$
 
 ! *****************************************************************************
@@ -637,7 +637,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -652,7 +652,7 @@
     ! only defined in parallel
     DBCSR_ABORT("not in parallel mode")
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_send_${nametype1}$v
 
 ! *****************************************************************************
@@ -678,7 +678,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = 1
 #if defined(__parallel)
@@ -697,7 +697,7 @@
     ! only defined in parallel
     DBCSR_ABORT("not in parallel mode")
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_recv_${nametype1}$
 
 ! *****************************************************************************
@@ -722,7 +722,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -741,7 +741,7 @@
     ! only defined in parallel
     DBCSR_ABORT("not in parallel mode")
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_recv_${nametype1}$v
 
 ! *****************************************************************************
@@ -762,7 +762,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = 1
 #if defined(__parallel)
@@ -774,7 +774,7 @@
     MARK_USED(source)
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_bcast_${nametype1}$
 
 ! *****************************************************************************
@@ -796,7 +796,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = 1
 #if defined(__parallel)
@@ -817,7 +817,7 @@
     MARK_USED(gid)
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_ibcast_${nametype1}$
 
 ! *****************************************************************************
@@ -837,7 +837,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -848,7 +848,7 @@
     MARK_USED(source)
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_bcast_${nametype1}$v
 
 ! *****************************************************************************
@@ -869,7 +869,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -888,7 +888,7 @@
     MARK_USED(gid)
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_ibcast_${nametype1}$v
 
 ! *****************************************************************************
@@ -908,7 +908,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -919,7 +919,7 @@
     MARK_USED(source)
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_bcast_${nametype1}$m
 
 ! *****************************************************************************
@@ -939,7 +939,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -950,7 +950,7 @@
     MARK_USED(source)
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_bcast_${nametype1}$3
 
 ! *****************************************************************************
@@ -970,7 +970,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = 1
 #if defined(__parallel)
@@ -981,7 +981,7 @@
     MARK_USED(msg)
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_sum_${nametype1}$
 
 ! *****************************************************************************
@@ -1003,7 +1003,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     msglen = SIZE(msg)
@@ -1016,7 +1016,7 @@
     MARK_USED(msg)
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_sum_${nametype1}$v
 
 ! *****************************************************************************
@@ -1039,7 +1039,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
 #if __MPI_VERSION > 2
@@ -1063,7 +1063,7 @@
     MARK_USED(gid)
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_isum_${nametype1}$v
 
 ! *****************************************************************************
@@ -1086,7 +1086,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     ! chunk up the call so that message sizes are limited, to avoid overflows in mpich triggered in large rpa calcs
@@ -1105,7 +1105,7 @@
     MARK_USED(msg)
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_sum_${nametype1}$m
 
 ! *****************************************************************************
@@ -1124,7 +1124,7 @@
     INTEGER                                  :: handle, ierr, &
                                                 msglen
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -1136,7 +1136,7 @@
 #else
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_sum_${nametype1}$m3
 
 ! *****************************************************************************
@@ -1156,7 +1156,7 @@
                                                 msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -1168,7 +1168,7 @@
 #else
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_sum_${nametype1}$m4
 
 ! *****************************************************************************
@@ -1195,7 +1195,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -1217,7 +1217,7 @@
     MARK_USED(root)
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_sum_root_${nametype1}$v
 
 ! *****************************************************************************
@@ -1243,7 +1243,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -1265,7 +1265,7 @@
     MARK_USED(root)
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_sum_root_${nametype1}$m
 
 ! *****************************************************************************
@@ -1288,7 +1288,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -1304,7 +1304,7 @@
     res = msg
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_sum_partial_${nametype1}$m
 
 ! *****************************************************************************
@@ -1325,7 +1325,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = 1
 #if defined(__parallel)
@@ -1336,7 +1336,7 @@
     MARK_USED(msg)
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_max_${nametype1}$
 
 ! *****************************************************************************
@@ -1357,7 +1357,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -1367,7 +1367,7 @@
 #else
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_max_${nametype1}$v
 
 ! *****************************************************************************
@@ -1388,7 +1388,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = 1
 #if defined(__parallel)
@@ -1399,7 +1399,7 @@
     MARK_USED(msg)
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_min_${nametype1}$
 
 ! *****************************************************************************
@@ -1422,7 +1422,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -1432,7 +1432,7 @@
 #else
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_min_${nametype1}$v
 
 ! *****************************************************************************
@@ -1453,7 +1453,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = 1
 #if defined(__parallel)
@@ -1464,7 +1464,7 @@
     MARK_USED(msg)
     MARK_USED(gid)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_prod_${nametype1}$
 
 ! *****************************************************************************
@@ -1487,7 +1487,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -1500,7 +1500,7 @@
     MARK_USED(gid)
     msg = msg_scatter
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_scatter_${nametype1}$v
 
 ! *****************************************************************************
@@ -1523,7 +1523,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = 1
 #if defined(__parallel)
@@ -1546,7 +1546,7 @@
     msg = msg_scatter(1)
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_iscatter_${nametype1}$
 
 ! *****************************************************************************
@@ -1569,7 +1569,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -1592,7 +1592,7 @@
     msg(:) = msg_scatter(:,1)
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_iscatter_${nametype1}$v2
 
 ! *****************************************************************************
@@ -1616,7 +1616,7 @@
     INTEGER                                  :: handle, ierr
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
 #if __MPI_VERSION > 2
@@ -1644,7 +1644,7 @@
     msg(1:recvcount) = msg_scatter(1+displs(1):1+displs(1)+sendcounts(1))
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_iscatterv_${nametype1}$v
 
 ! *****************************************************************************
@@ -1667,7 +1667,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = 1
 #if defined(__parallel)
@@ -1680,7 +1680,7 @@
     MARK_USED(gid)
     msg_gather(1) = msg
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_gather_${nametype1}$
 
 ! *****************************************************************************
@@ -1706,7 +1706,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -1719,7 +1719,7 @@
     MARK_USED(gid)
     msg_gather = msg
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_gather_${nametype1}$v
 
 ! *****************************************************************************
@@ -1745,7 +1745,7 @@
     INTEGER                                  :: handle, ierr, msglen
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     msglen = SIZE(msg)
 #if defined(__parallel)
@@ -1758,7 +1758,7 @@
     MARK_USED(gid)
     msg_gather = msg
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_gather_${nametype1}$m
 
 ! *****************************************************************************
@@ -1792,7 +1792,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     sendcount = SIZE(sendbuf)
@@ -1809,7 +1809,7 @@
     MARK_USED(comm)
     recvbuf(1+displs(1):) = sendbuf
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_gatherv_${nametype1}$v
 
 ! *****************************************************************************
@@ -1840,7 +1840,7 @@
     INTEGER                                  :: handle, ierr
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
 #if __MPI_VERSION > 2
@@ -1870,7 +1870,7 @@
     recvbuf(1+displs(1):1+displs(1)+recvcounts(1)) = sendbuf(1:sendcount)
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_igatherv_${nametype1}$v
 
 
@@ -1899,7 +1899,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     scount = 1
@@ -1912,7 +1912,7 @@
     MARK_USED(gid)
     msgin = msgout
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_allgather_${nametype1}$
 
 ! *****************************************************************************
@@ -1940,7 +1940,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     scount = 1
@@ -1953,7 +1953,7 @@
     MARK_USED(gid)
     msgin = msgout
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_allgather_${nametype1}$2
 
 ! *****************************************************************************
@@ -1982,7 +1982,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     scount = 1
@@ -2002,7 +2002,7 @@
     msgin = msgout
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_iallgather_${nametype1}$
 
 ! *****************************************************************************
@@ -2032,7 +2032,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     scount = SIZE (msgout(:))
@@ -2045,7 +2045,7 @@
     MARK_USED(gid)
     msgin(:,1) = msgout(:)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_allgather_${nametype1}$12
 
 ! *****************************************************************************
@@ -2070,7 +2070,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     scount = SIZE (msgout(:,:))
@@ -2083,7 +2083,7 @@
     MARK_USED(gid)
     msgin(:,:,1) = msgout(:,:)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_allgather_${nametype1}$23
 
 ! *****************************************************************************
@@ -2108,7 +2108,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     scount = SIZE (msgout(:,:,:))
@@ -2121,7 +2121,7 @@
     MARK_USED(gid)
     msgin(:,:,:,1) = msgout(:,:,:)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_allgather_${nametype1}$34
 
 
@@ -2147,7 +2147,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     scount = SIZE (msgout(:,:))
@@ -2160,7 +2160,7 @@
     MARK_USED(gid)
     msgin(:,:) = msgout(:,:)
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_allgather_${nametype1}$22
 
 ! *****************************************************************************
@@ -2187,7 +2187,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
 #if __MPI_VERSION > 2
@@ -2211,7 +2211,7 @@
     msgin = msgout
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_iallgather_${nametype1}$11
 
 ! *****************************************************************************
@@ -2238,7 +2238,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
 #if __MPI_VERSION > 2
@@ -2262,7 +2262,7 @@
     msgin(:,1,1) = msgout(:)
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_iallgather_${nametype1}$13
 
 ! *****************************************************************************
@@ -2289,7 +2289,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
 #if __MPI_VERSION > 2
@@ -2313,7 +2313,7 @@
     msgin(:,:) = msgout(:,:)
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_iallgather_${nametype1}$22
 
 ! *****************************************************************************
@@ -2340,7 +2340,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
 #if __MPI_VERSION > 2
@@ -2364,7 +2364,7 @@
     msgin(:,:,1,1) = msgout(:,:)
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_iallgather_${nametype1}$24
 
 ! *****************************************************************************
@@ -2391,7 +2391,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
 #if __MPI_VERSION > 2
@@ -2415,7 +2415,7 @@
     msgin(:,:,:) = msgout(:,:,:)
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_iallgather_${nametype1}$33
 
 ! *****************************************************************************
@@ -2449,7 +2449,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     scount = SIZE ( msgout )
@@ -2462,7 +2462,7 @@
     MARK_USED(gid)
     msgin = msgout
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_allgatherv_${nametype1}$v
 
 ! *****************************************************************************
@@ -2497,7 +2497,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     scount = SIZE ( msgout )
@@ -2521,7 +2521,7 @@
     msgin = msgout
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_iallgatherv_${nametype1}$v
 
 ! *****************************************************************************
@@ -2556,7 +2556,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     scount = SIZE ( msgout )
@@ -2580,7 +2580,7 @@
     msgin = msgout
     request = mp_request_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_iallgatherv_${nametype1}$v2
 
 ! **************************************************************************************************
@@ -2625,7 +2625,7 @@
     INTEGER                                  :: handle, ierr
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     CALL MPI_REDUCE_SCATTER(msgout, msgin, rcount, ${mpi_type1}$, MPI_SUM, &
@@ -2639,7 +2639,7 @@
     MARK_USED(gid)
     msgin = msgout
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_sum_scatter_${nametype1}$v
 
 ! *****************************************************************************
@@ -2666,7 +2666,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     msglen_in = SIZE(msgin)
@@ -2684,7 +2684,7 @@
     MARK_USED(comm)
     msgout = msgin
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_sendrecv_${nametype1}$v
 
 ! *****************************************************************************
@@ -2712,7 +2712,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     msglen_in = SIZE(msgin,1)*SIZE(msgin,2)
@@ -2730,7 +2730,7 @@
     MARK_USED(comm)
     msgout = msgin
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_sendrecv_${nametype1}$m2
 
 ! *****************************************************************************
@@ -2758,7 +2758,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     msglen_in = SIZE(msgin)
@@ -2776,7 +2776,7 @@
     MARK_USED(comm)
     msgout = msgin
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_sendrecv_${nametype1}$m3
 
 ! *****************************************************************************
@@ -2804,7 +2804,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     msglen_in = SIZE(msgin)
@@ -2822,7 +2822,7 @@
     MARK_USED(comm)
     msgout = msgin
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_sendrecv_${nametype1}$m4
 
 ! *****************************************************************************
@@ -2858,7 +2858,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     my_tag = 0
@@ -2882,7 +2882,7 @@
     recv_request=0
     msgout = msgin
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_isendrecv_${nametype1}$
 
 ! *****************************************************************************
@@ -2921,7 +2921,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     my_tag = 0
@@ -2958,7 +2958,7 @@
     recv_request=0
     msgout = msgin
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_isendrecv_${nametype1}$v
 
 ! *****************************************************************************
@@ -2990,7 +2990,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     my_tag = 0
@@ -3017,7 +3017,7 @@
     request=0
     CALL mp_stop( ierr, "mp_isend called in non parallel case" )
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_isend_${nametype1}$v
 
 ! *****************************************************************************
@@ -3051,7 +3051,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     my_tag = 0
@@ -3078,7 +3078,7 @@
     request=0
     CALL mp_stop( ierr, "mp_isend called in non parallel case" )
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_isend_${nametype1}$m2
 
 ! *****************************************************************************
@@ -3114,7 +3114,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     my_tag = 0
@@ -3141,7 +3141,7 @@
     request=0
     CALL mp_stop( ierr, "mp_isend called in non parallel case" )
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_isend_${nametype1}$m3
 
 ! *****************************************************************************
@@ -3174,7 +3174,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     my_tag = 0
@@ -3201,7 +3201,7 @@
     request=0
     CALL mp_stop( ierr, "mp_isend called in non parallel case" )
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_isend_${nametype1}$m4
 
 ! *****************************************************************************
@@ -3234,7 +3234,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     my_tag = 0
@@ -3260,7 +3260,7 @@
     MARK_USED(tag)
     request=0
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_irecv_${nametype1}$v
 
 ! *****************************************************************************
@@ -3294,7 +3294,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     my_tag = 0
@@ -3320,7 +3320,7 @@
     request=0
     DBCSR_ABORT("mp_irecv called in non parallel case")
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_irecv_${nametype1}$m2
 
 
@@ -3356,7 +3356,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     my_tag = 0
@@ -3382,7 +3382,7 @@
     request=0
     DBCSR_ABORT("mp_irecv called in non parallel case")
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_irecv_${nametype1}$m3
 
 ! *****************************************************************************
@@ -3415,7 +3415,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     my_tag = 0
@@ -3441,7 +3441,7 @@
     request=0
     DBCSR_ABORT("mp_irecv called in non parallel case")
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_irecv_${nametype1}$m4
 
 ! *****************************************************************************
@@ -3469,7 +3469,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
 
@@ -3487,7 +3487,7 @@
     MARK_USED(comm)
     win = mp_win_null
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_win_create_${nametype1}$v
 
 ! *****************************************************************************
@@ -3523,7 +3523,7 @@
 #endif
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
 #if __MPI_VERSION > 2
@@ -3594,7 +3594,7 @@
     ENDIF
 
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_rget_${nametype1}$v
 
 ! *****************************************************************************
@@ -3616,7 +3616,7 @@
     INTEGER :: ierr, handle
 
     ierr = 0
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
 #if defined(__parallel)
     CALL mpi_type_indexed(count,lengths,displs,${mpi_type1}$,&
@@ -3636,7 +3636,7 @@
     type_descriptor%index_descriptor%index => lengths
     type_descriptor%index_descriptor%chunks => displs
 
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
 
   END FUNCTION mp_type_indexed_make_${nametype1}$
 
@@ -3657,7 +3657,7 @@
 
     INTEGER                             :: ierr, handle
 
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     ierr = 0
 #if defined(__parallel)
@@ -3672,7 +3672,7 @@
        CALL mp_stop(ierr, "ALLOCATE @ "//routineN)
 #endif
    IF(PRESENT(stat)) stat = ierr
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_allocate_${nametype1}$
 
 ! *****************************************************************************
@@ -3690,7 +3690,7 @@
 
     INTEGER                             :: ierr, handle
 
-    CALL mp_timeset(routineN,handle)
+    CALL timeset(routineN,handle)
 
     ierr = 0
 #if defined(__parallel)
@@ -3706,7 +3706,7 @@
     DEALLOCATE(DATA)
     IF(PRESENT(stat)) stat = 0
 #endif
-    CALL mp_timestop(handle)
+    CALL timestop(handle)
   END SUBROUTINE mp_deallocate_${nametype1}$
 
 ! *****************************************************************************

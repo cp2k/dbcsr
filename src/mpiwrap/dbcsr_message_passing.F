@@ -714,8 +714,6 @@ MODULE dbcsr_message_passing
    INTEGER, PARAMETER :: charlen = 1
    INTEGER, SAVE, PRIVATE :: last_mp_perf_env_id = 0
 
-   LOGICAL, PUBLIC, SAVE :: mp_collect_timings = .FALSE.
-
 CONTAINS
 
 ! **************************************************************************************************
@@ -795,7 +793,7 @@ CONTAINS
       INTEGER                                  :: newcomm, newgroup, oldgroup
 #endif
 
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
       ierr = 0
 #if defined(__parallel)
 
@@ -821,7 +819,7 @@ CONTAINS
       MARK_USED(ranks_order)
       mp_new_comm = mp_comm
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_reordering
 
 ! **************************************************************************************************
@@ -1137,7 +1135,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       CALL mpi_barrier(group, ierr)
@@ -1146,7 +1144,7 @@ CONTAINS
 #else
       MARK_USED(group)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_sync
 
@@ -1164,7 +1162,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
 #if __MPI_VERSION > 2
@@ -1180,7 +1178,7 @@ CONTAINS
       MARK_USED(group)
       request = mp_request_null
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_isync
 
@@ -1203,7 +1201,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       numtask = 1
       taskid = 0
@@ -1216,7 +1214,7 @@ CONTAINS
 #else
       MARK_USED(groupid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_environ_l
 
@@ -1242,7 +1240,7 @@ CONTAINS
 #endif
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
       numtask = 1
       task_coor = 0
       dims = 1
@@ -1255,7 +1253,7 @@ CONTAINS
 #else
       MARK_USED(groupid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_environ_c
 
@@ -1278,7 +1276,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       task_coor = 0
       dims = 1
@@ -1289,7 +1287,7 @@ CONTAINS
 #else
       MARK_USED(comm)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_environ_c2
 
@@ -1318,7 +1316,7 @@ CONTAINS
 #endif
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       nodes = 0
       pos(1:ndims) = -1
@@ -1351,7 +1349,7 @@ CONTAINS
       dims = 1
       comm_cart = 0
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_cart_create
 
@@ -1372,7 +1370,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr, m
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       m = SIZE(coords)
 #if defined(__parallel)
@@ -1383,7 +1381,7 @@ CONTAINS
       MARK_USED(rank)
       MARK_USED(comm)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_cart_coords
 
@@ -1405,7 +1403,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr, iout
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       iout = 0
       res = 0
@@ -1428,7 +1426,7 @@ CONTAINS
       MARK_USED(comm1)
       MARK_USED(comm2)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_comm_compare
 
@@ -1450,7 +1448,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       sub_comm = 0
 #if defined(__parallel)
@@ -1461,7 +1459,7 @@ CONTAINS
       MARK_USED(comm)
       MARK_USED(rdim)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_cart_sub
 
@@ -1479,7 +1477,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       CALL mpi_comm_free(comm, ierr)
@@ -1488,7 +1486,7 @@ CONTAINS
 #else
       MARK_USED(comm)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_comm_free
 
@@ -1508,7 +1506,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       CALL mpi_comm_dup(comm1, comm2, ierr)
@@ -1517,7 +1515,7 @@ CONTAINS
 #else
       comm2 = comm1
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_comm_dup
 
@@ -1543,7 +1541,7 @@ CONTAINS
 #endif
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       rank = 0
 #if defined(__parallel)
@@ -1576,7 +1574,7 @@ CONTAINS
       MARK_USED(comm1)
       MARK_USED(comm2)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_rank_compare
 
@@ -1596,7 +1594,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr, ndim
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       ndim = SIZE(dims)
 #if defined(__parallel)
@@ -1606,7 +1604,7 @@ CONTAINS
       dims = 1
       MARK_USED(nodes)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_dims_create
 
@@ -1627,7 +1625,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       CALL mpi_cart_rank(group, pos, rank, ierr)
@@ -1637,7 +1635,7 @@ CONTAINS
       MARK_USED(group)
       MARK_USED(pos)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_cart_rank
 
@@ -1658,7 +1656,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
 
@@ -1669,7 +1667,7 @@ CONTAINS
 #else
       MARK_USED(request)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_wait
 
 ! **************************************************************************************************
@@ -1694,7 +1692,7 @@ CONTAINS
 #endif
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       count = SIZE(requests)
@@ -1706,7 +1704,7 @@ CONTAINS
 #else
       MARK_USED(requests)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_waitall_1
 
 ! **************************************************************************************************
@@ -1729,7 +1727,7 @@ CONTAINS
 #endif
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       count = SIZE(requests)
@@ -1743,7 +1741,7 @@ CONTAINS
 #else
       MARK_USED(requests)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_waitall_2
 
 ! **************************************************************************************************
@@ -1789,7 +1787,7 @@ CONTAINS
 #endif
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       count = SIZE(requests)
@@ -1802,7 +1800,7 @@ CONTAINS
       MARK_USED(requests)
       completed = 1
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_waitany
 
 ! **************************************************************************************************
@@ -1992,7 +1990,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr, my_key
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       my_key = 0
 #if defined(__parallel)
@@ -2006,7 +2004,7 @@ CONTAINS
       MARK_USED(color)
       MARK_USED(key)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_comm_split_direct
 ! **************************************************************************************************
@@ -2053,7 +2051,7 @@ CONTAINS
 #endif
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       ! actual number of groups
 
@@ -2133,7 +2131,7 @@ CONTAINS
       MARK_USED(stride)
       MARK_USED(group_partition)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_comm_split
 
@@ -2164,7 +2162,7 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       ierr = 0
 #if defined(__parallel)
@@ -2189,7 +2187,7 @@ CONTAINS
       MARK_USED(comm)
       MARK_USED(source)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_probe
 
 ! **************************************************************************************************
@@ -2211,7 +2209,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr, msglen
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       msglen = 1
 #if defined(__parallel)
@@ -2223,7 +2221,7 @@ CONTAINS
       MARK_USED(source)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_bcast_b
 
 ! **************************************************************************************************
@@ -2241,7 +2239,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr, msglen
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       msglen = SIZE(msg)
 #if defined(__parallel)
@@ -2252,7 +2250,7 @@ CONTAINS
       MARK_USED(source)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_bcast_bv
 
 ! **************************************************************************************************
@@ -2285,7 +2283,7 @@ CONTAINS
 #endif
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       my_tag = 0
@@ -2311,7 +2309,7 @@ CONTAINS
       MARK_USED(tag)
       request = 0
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_isend_bv
 
 ! **************************************************************************************************
@@ -2344,7 +2342,7 @@ CONTAINS
 #endif
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       my_tag = 0
@@ -2370,7 +2368,7 @@ CONTAINS
       MARK_USED(tag)
       request = 0
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_irecv_bv
 
 ! **************************************************************************************************
@@ -2403,7 +2401,7 @@ CONTAINS
 #endif
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       my_tag = 0
@@ -2429,7 +2427,7 @@ CONTAINS
       MARK_USED(tag)
       request = 0
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_isend_bm3
 
 ! **************************************************************************************************
@@ -2462,7 +2460,7 @@ CONTAINS
 #endif
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       my_tag = 0
@@ -2488,7 +2486,7 @@ CONTAINS
       MARK_USED(tag)
       request = 0
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_irecv_bm3
 
 ! **************************************************************************************************
@@ -2511,7 +2509,7 @@ CONTAINS
 #endif
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
 
@@ -2541,7 +2539,7 @@ CONTAINS
       MARK_USED(source)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_bcast_av
 
 ! **************************************************************************************************
@@ -2565,7 +2563,7 @@ CONTAINS
 #endif
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       CALL mp_environ(numtask, taskid, gid)
@@ -2608,7 +2606,7 @@ CONTAINS
       MARK_USED(source)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_bcast_am
 
 ! **************************************************************************************************
@@ -2638,7 +2636,7 @@ CONTAINS
       IF ("d" .EQ. "l" .AND. real_8 .EQ. int_8) THEN
          DBCSR_ABORT("Minimal location not available with long integers @ "//routineN)
       ENDIF
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       msglen = SIZE(msg)
@@ -2654,7 +2652,7 @@ CONTAINS
       MARK_USED(msg)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_minloc_dv
 
 ! **************************************************************************************************
@@ -2684,7 +2682,7 @@ CONTAINS
       IF ("i" .EQ. "l" .AND. int_4 .EQ. int_8) THEN
          DBCSR_ABORT("Minimal location not available with long integers @ "//routineN)
       ENDIF
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       msglen = SIZE(msg)
@@ -2698,7 +2696,7 @@ CONTAINS
       MARK_USED(msg)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_minloc_iv
 
 ! **************************************************************************************************
@@ -2728,7 +2726,7 @@ CONTAINS
       IF ("l" .EQ. "l" .AND. int_8 .EQ. int_8) THEN
          DBCSR_ABORT("Minimal location not available with long integers @ "//routineN)
       ENDIF
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       msglen = SIZE(msg)
@@ -2742,7 +2740,7 @@ CONTAINS
       MARK_USED(msg)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_minloc_lv
 
 ! **************************************************************************************************
@@ -2772,7 +2770,7 @@ CONTAINS
       IF ("r" .EQ. "l" .AND. real_4 .EQ. int_8) THEN
          DBCSR_ABORT("Minimal location not available with long integers @ "//routineN)
       ENDIF
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       msglen = SIZE(msg)
@@ -2786,7 +2784,7 @@ CONTAINS
       MARK_USED(msg)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_minloc_rv
 
 ! **************************************************************************************************
@@ -2816,7 +2814,7 @@ CONTAINS
       IF ("d" .EQ. "l" .AND. real_8 .EQ. int_8) THEN
          DBCSR_ABORT("Maximal location not available with long integers @ "//routineN)
       ENDIF
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       msglen = SIZE(msg)
@@ -2830,7 +2828,7 @@ CONTAINS
       MARK_USED(msg)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_maxloc_dv
 
 ! **************************************************************************************************
@@ -2860,7 +2858,7 @@ CONTAINS
       IF ("i" .EQ. "l" .AND. int_4 .EQ. int_8) THEN
          DBCSR_ABORT("Maximal location not available with long integers @ "//routineN)
       ENDIF
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       msglen = SIZE(msg)
@@ -2874,7 +2872,7 @@ CONTAINS
       MARK_USED(msg)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_maxloc_iv
 
 ! **************************************************************************************************
@@ -2904,7 +2902,7 @@ CONTAINS
       IF ("l" .EQ. "l" .AND. int_8 .EQ. int_8) THEN
          DBCSR_ABORT("Maximal location not available with long integers @ "//routineN)
       ENDIF
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       msglen = SIZE(msg)
@@ -2918,7 +2916,7 @@ CONTAINS
       MARK_USED(msg)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_maxloc_lv
 
 ! **************************************************************************************************
@@ -2948,7 +2946,7 @@ CONTAINS
       IF ("r" .EQ. "l" .AND. real_4 .EQ. int_8) THEN
          DBCSR_ABORT("Maximal location not available with long integers @ "//routineN)
       ENDIF
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       msglen = SIZE(msg)
@@ -2962,7 +2960,7 @@ CONTAINS
       MARK_USED(msg)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_maxloc_rv
 
 ! **************************************************************************************************
@@ -2981,7 +2979,7 @@ CONTAINS
 
       INTEGER                                            :: handle, ierr, msglen
 
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
       ierr = 0
       msglen = 1
 #if defined(__parallel)
@@ -2991,7 +2989,7 @@ CONTAINS
       MARK_USED(msg)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_sum_b
 
 ! **************************************************************************************************
@@ -3010,7 +3008,7 @@ CONTAINS
 
       INTEGER                                            :: handle, ierr, msglen
 
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
       ierr = 0
       msglen = SIZE(msg)
 #if defined(__parallel)
@@ -3022,7 +3020,7 @@ CONTAINS
       MARK_USED(msg)
       MARK_USED(gid)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_sum_bv
 
 ! **************************************************************************************************
@@ -3043,7 +3041,7 @@ CONTAINS
 
       INTEGER                                            :: handle, ierr, msglen
 
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
       ierr = 0
       msglen = SIZE(msg)
 #if defined(__parallel)
@@ -3065,7 +3063,7 @@ CONTAINS
       MARK_USED(gid)
       MARK_USED(request)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_isum_bv
 
 ! **************************************************************************************************
@@ -3621,7 +3619,7 @@ CONTAINS
 
       INTEGER                                            :: handle, i, ierr
 
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
       ierr = 0
 
       ! If the subtype is associated, then it's a user-defined data type.
@@ -3638,7 +3636,7 @@ CONTAINS
          DBCSR_ABORT("MPI_Type_free @ "//routineN)
 #endif
 
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_type_free_m
 
@@ -3681,7 +3679,7 @@ CONTAINS
       INTEGER :: ierr, handle
 
       ierr = 0
-      CALL mp_timeset(routineN,handle)
+      CALL timeset(routineN,handle)
       type_descriptor%type_handle = 0
 
 #if defined(__parallel)
@@ -3700,7 +3698,7 @@ CONTAINS
       type_descriptor%index_descriptor%index => lengths
       type_descriptor%index_descriptor%chunks => displs
 
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END FUNCTION mp_file_type_hindexed_make_chv
 
@@ -3723,7 +3721,7 @@ CONTAINS
       INTEGER                                   :: ierr, handle
 
       ierr = 0
-      CALL mp_timeset(routineN,handle)
+      CALL timeset(routineN,handle)
 
 #if defined(__parallel)
       CALL mpi_file_set_errhandler(fh, MPI_ERRORS_RETURN, ierr)
@@ -3737,7 +3735,7 @@ CONTAINS
       MARK_USED(type_descriptor)
 #endif
 
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
   END SUBROUTINE mp_file_type_set_view_chv
 
@@ -3767,7 +3765,7 @@ CONTAINS
 
       i = 0
       ierr = 0
-      CALL mp_timeset(routineN,handle)
+      CALL timeset(routineN,handle)
 
 #if defined(__parallel)
       MARK_USED(type_descriptor)
@@ -3789,7 +3787,7 @@ CONTAINS
       END DO
 #endif
 
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_file_read_all_chv
 
@@ -3819,7 +3817,7 @@ CONTAINS
 
       i = 0
       ierr = 0
-      CALL mp_timeset(routineN,handle)
+      CALL timeset(routineN,handle)
 
 #if defined(__parallel)
       MARK_USED(type_descriptor)
@@ -3842,7 +3840,7 @@ CONTAINS
       END DO
 #endif
 
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_file_write_all_chv
 
@@ -3860,7 +3858,7 @@ CONTAINS
       INTEGER                                   :: ierr, handle
 
       ierr = 0
-      CALL mp_timeset(routineN,handle)
+      CALL timeset(routineN,handle)
 
 #if defined(__parallel)
       CALL MPI_Type_free(type_descriptor%type_handle, ierr)
@@ -3875,7 +3873,7 @@ CONTAINS
          type_descriptor%has_indexing = .FALSE.
       END IF
 
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
 
    END SUBROUTINE mp_file_type_free
 
@@ -4110,7 +4108,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
 
@@ -4122,7 +4120,7 @@ CONTAINS
       MARK_USED(win)
       win = mp_win_null
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_win_free
 
 ! **************************************************************************************************
@@ -4138,7 +4136,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
 #if __MPI_VERSION > 2
@@ -4151,7 +4149,7 @@ CONTAINS
 #else
       MARK_USED(win)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_win_flush_all
 
 ! **************************************************************************************************
@@ -4167,7 +4165,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
 
@@ -4183,7 +4181,7 @@ CONTAINS
 #else
       MARK_USED(win)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_win_lock_all
 
 ! **************************************************************************************************
@@ -4199,7 +4197,7 @@ CONTAINS
       INTEGER                                            :: handle, ierr
 
       ierr = 0
-      CALL mp_timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
 
@@ -4215,7 +4213,7 @@ CONTAINS
 #else
       MARK_USED(win)
 #endif
-      CALL mp_timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE mp_win_unlock_all
 
 #:include 'dbcsr_message_passing.f90'
@@ -4616,29 +4614,5 @@ CONTAINS
       IF (output_unit > 0) WRITE (output_unit, *) "No MPI tests for a serial program"
 #endif
    END SUBROUTINE mpi_perf_test
-
-! **************************************************************************************************
-!> \brief Starts a timer region
-!> \param routineN ...
-!> \param handle ...
-! **************************************************************************************************
-   SUBROUTINE mp_timeset(routineN, handle)
-      CHARACTER(len=*), INTENT(IN)                       :: routineN
-      INTEGER, INTENT(OUT)                               :: handle
-
-      IF (mp_collect_timings) &
-         CALL timeset(routineN, handle)
-   END SUBROUTINE mp_timeset
-
-! **************************************************************************************************
-!> \brief Ends a timer region
-!> \param handle ...
-! **************************************************************************************************
-   SUBROUTINE mp_timestop(handle)
-      INTEGER, INTENT(IN)                                :: handle
-
-      IF (mp_collect_timings) &
-         CALL timestop(handle)
-   END SUBROUTINE mp_timestop
 
 END MODULE dbcsr_message_passing
