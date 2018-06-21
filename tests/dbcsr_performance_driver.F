@@ -24,7 +24,8 @@ PROGRAM dbcsr_performance_driver
         mp_world_finalize, mp_world_init, rm_mp_perf_env
    USE dbcsr_mp_methods,                ONLY: dbcsr_mp_new,&
                                               dbcsr_mp_release
-   USE dbcsr_para_env,                  ONLY: dbcsr_para_env_create
+   USE dbcsr_para_env,                  ONLY: dbcsr_para_env_create,&
+                                              dbcsr_para_env_release
    USE dbcsr_para_types,                ONLY: dbcsr_para_env_type
    USE dbcsr_performance_multiply,      ONLY: dbcsr_perf_multiply
    USE dbcsr_string_table,              ONLY: string_table_allocate,&
@@ -138,6 +139,7 @@ PROGRAM dbcsr_performance_driver
    CALL rm_timer_env()
    CALL rm_mp_perf_env()
    CALL string_table_deallocate(0)
+   CALL dbcsr_para_env_release(para_env)
 
    !
    ! finalize mpi
