@@ -28,18 +28,9 @@ int hash(int m, int n, int k){
 //===========================================================================
 int launch_cusmm_kernel_from_handle(CUfunction const& kern_func, int threads, int grouping, int stack_size, CUstream stream, void** args){
 
-#ifdef LOGGING
-    if(kern_func == nullptr){
-        printf("error: launch_kernel_from_handle: kern_fun is a nullptr");
-        exit(1);
-    }
-#endif
-
     // Launch JITed kernel
 #ifdef LOGGING
     printf("(launch_cusmm_kernel_from_hanlde) About to launch JIT-ted kernel\n -- on stream %i\n", stream);
-    printf("-- with args: \n%s\n", args);
-    printf("-- and kernel handle: \n%s\n", kern_func);
 #endif
     int shared_size = 0;
     CUDA_SAFE_CALL(
@@ -297,25 +288,12 @@ int launch_cusmm_kernel(libcusmm_algo algo, int M /*tile_m*/, int N /*tile_n*/, 
     }
 #endif
 
+    // Construct argument pointer list
     void *args[] = { &param_stack, &stack_size, &a_data, &b_data, &c_data };
-#ifdef LOGGING
-    printf("(launch_cusmm_kernel) About to launch JIT-ted kernel\n -- on stream %i\n", stream);
-    printf("-- with args: \n%s\n", args);
-    printf("-- and kernel handle: \n%s\n", kern_func);
-#endif
-    int shared_size = 0;
-    CUDA_SAFE_CALL(
-            "cuLaunchKernel",
-            cuLaunchKernel(kern_func,                                           // CUfunction
-                           ((stack_size + grouping - 1) / grouping), 1, 1,      // grid dim x, y, z
-                           threads, 1, 1,                                       // block dim x, y, z
-                           shared_size, stream,                                 // shared mem and stream
-                           args, NULL));                                        // arguments
-    CUDA_SAFE_CALL("cuCtxSynchronize", cuCtxSynchronize());
-#ifdef LOGGING
-    printf("Kernel launched, context synchronized\n");
-#endif
-    return(0);
+
+    // Launch kernel using the function handle
+    return launch_cusmm_kernel_from_handle(kern_func, threads, grouping, stack_size, stream, args); 
+
 }
 
 
