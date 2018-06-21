@@ -26,7 +26,7 @@ int hash(int m, int n, int k){
 
 
 //===========================================================================
-int launch_cusmm_kernel_from_handle(CUfunction const& kern_func, int threads, int grouping, int stack_size, CUstream stream, void** args){
+int launch_cusmm_kernel_from_handle(CUfunction const& kern_func, int nblks, int threads, CUstream stream, void** args){
 
     // Launch JITed kernel
 #ifdef LOGGING
@@ -36,7 +36,7 @@ int launch_cusmm_kernel_from_handle(CUfunction const& kern_func, int threads, in
     CUDA_SAFE_CALL(
             "cuLaunchKernel",
             cuLaunchKernel(kern_func,                                           // CUfunction
-                           ((stack_size + grouping - 1) / grouping), 1, 1,      // grid dim x, y, z
+                           nblks, 1, 1,      					// grid dim x, y, z
                            threads, 1, 1,                                       // block dim x, y, z
                            shared_size, stream,                                 // shared mem and stream
                            args, NULL));                                        // arguments
@@ -99,7 +99,7 @@ void validation_check(CUfunction& kern_func, CUstream stream, int threads, int g
     //CUDA_SAFE_CALL("cuMemcpyHtoD", cuMemsetD32(d_mat_c, 0, n_c * m_max * n_max));
     CUDA_SAFE_CALL("cuMemcpyHtoD", cuMemcpyHtoD(d_stack, stack, stack_size * 3 * sizeof(int)));
     void *args[] = { &d_stack, &stack_size, &d_mat_a, &d_mat_b, &d_mat_c };
-    int res = launch_cusmm_kernel_from_handle(kern_func, threads, grouping, stack_size, stream, args);
+    int res = launch_cusmm_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args);
     CUDA_SAFE_CALL("cuMemcpyDtoH", cuMemcpyDtoH(mat_c, d_mat_c, n_c * m_max * n_max * sizeof(double)));
     double sumGPU =  checkSum(mat_c, n_c, m_max, n_max);
 
@@ -269,7 +269,7 @@ void get_kernel_handle(CUfunction& kern_func, CUstream stream, libcusmm_algo alg
         validation_check(kern_func, stream, threads, grouping, minblocks, m_max, n_max, k_max);
 
         // store the handle
-        kernel_handles.emplace(hash(m_max, n_max, k_max), kern_func); // that's not hw std::copy is used, find smth
+        kernel_handles.emplace(hash(m_max, n_max, k_max), kern_func);
 #ifdef LOGGING
         printf("Store handle to kernel (%i, %i, %i) in table at hash %i\n", m_max, n_max, k_max, hash(m_max, n_max, k_max)); 
 #endif
@@ -301,7 +301,7 @@ int launch_cusmm_kernel(libcusmm_algo algo, int M /*tile_m*/, int N /*tile_n*/, 
     void *args[] = { &param_stack, &stack_size, &a_data, &b_data, &c_data };
 
     // Launch kernel using the function handle
-    return launch_cusmm_kernel_from_handle(kern_func, threads, grouping, stack_size, stream, args); 
+    return launch_cusmm_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args); 
 
 }
 
@@ -360,87 +360,116 @@ __global__ void transpose_d(int *trs_stack, int nblks, double* mat){    \n\
  }                                                                      \n\
 }                                                                       \n";
 
+
+void get_transpose_handle(CUfunction& kern_func, CUstream stream, int m, int n){
+
+    // Check whether this kernel has already been JITed and a handle exists
+    auto kernel_it = transpose_handles.find(hash(m_max, n_max, 0));
+    if (kernel_it != transpose_handles.end()){
+#ifdef LOGGING
+        printf("Found a handle to (%i, %i) transpose in table at hash %i...\n", m_max, n_max, hash(m_max, n_max, 0));
+#endif
+        kern_func = kernel_it->second;
+#ifdef LOGGING
+        printf("Got handle\n");
+#endif
+    } else {
+#ifdef LOGGING
+        printf("No handle to (%i, %i) transpose found in table at hash %i...\n", m_max, n_max, hash(m_max, n_max, 0));
+#endif
+
+        // Create nvrtcProgram
+        nvrtcProgram kernel_program;
+        NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, transpose_d, "transpose_kernel.cu", 0, NULL, NULL));
+        ///printf("NVRTC program created\n");
+
+        // Add lowered name
+        std::string kernel_name = "transpose_d<" + std::to_string(m) + ", " + std::to_string(n) + ">";
+        NVRTC_SAFE_CALL("nvrtcAddNameExpression", nvrtcAddNameExpression(kernel_program, kernel_name.c_str()));
+
+        // (JIT-)compile
+        const char *compileOptions[] = {};
+        nvrtcResult compileResult = nvrtcCompileProgram(kernel_program, 0, compileOptions);
+
+#ifdef LOGGING
+        // Obtain compilation log
+        size_t logSize;
+        NVRTC_SAFE_CALL("nvrtcGetProgramLogSize", nvrtcGetProgramLogSize(kernel_program, &logSize));
+        char *log = new char[logSize];
+        NVRTC_SAFE_CALL("nvrtcGetProgramLog", nvrtcGetProgramLog(kernel_program, log));
+        printf("\ncompilation log ---\n");
+        printf(log);
+        printf("\n--- end log\n\n");
+        delete[] log;
+        if (compileResult != NVRTC_SUCCESS) {
+            printf("NVRTC compilation failed\n");
+            exit(1);
+        }
+#endif 
+
+        // Obtain PTX from the program.
+        size_t ptxSize;
+        NVRTC_SAFE_CALL("nvrtcGetPTXsize", nvrtcGetPTXSize(kernel_program, &ptxSize));
+        char *ptx = new char[ptxSize];
+        NVRTC_SAFE_CALL("nvrtcGetPTX", nvrtcGetPTX(kernel_program, ptx));
+        ///printf("Get PTX of size %i characters\n", ptxSize);
+
+        // Get lowered name
+        ///printf("Getting lowered name\n"); 
+        const char *lowered_kernel_name;
+        NVRTC_SAFE_CALL("nvrtcGetLoweredName", nvrtcGetLoweredName(kernel_program, kernel_name.c_str(), &lowered_kernel_name));
+
+        // Get pointer to kernel from PTX
+        CUmodule module;
+        CUDA_SAFE_CALL("cuModuleLoadDataEx", cuModuleLoadDataEx(&module, ptx, 0, 0, 0));
+        delete[] ptx;
+        CUfunction kern_func; // actual handle to executable kernel
+        CUDA_SAFE_CALL("cuModuleGetFunction", cuModuleGetFunction(&kern_func, module, lowered_kernel_name));
+
+        // Set shared memory configuration
+        CUDA_SAFE_CALL("cuFuncSetSharedMemConfig", cuFuncSetSharedMemConfig(kern_func, CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE));
+
+        // store the handle
+        transpose_handles.emplace(hash(m, n, 0), kern_func);
+#ifdef LOGGING
+        printf("Store handle to kernel (%i, %i) in table at hash %i\n", m, n, hash(m, n, 0));
+#endif
+        // Destroy program
+        NVRTC_SAFE_CALL("nvrtcDestroyProgram", nvrtcDestroyProgram(&kernel_program));
+    }
+}
+
+
 int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
                          double *buffer, int m, int n, CUstream stream) {
 
 #ifdef LOGGING
    printf("CUSMM-transpose with parameters:\nm = %i, n = %i,\nnblks = %i, offset = %i\n\n",
            m, n, nblks, offset);
-#endif 
+#endif
 
-    // Check whether this kernel has already been JITed and a handle exists
-    // if so, retrieve handle
-    // if not, JIT kernel and store a handle to it
-
-    // Create nvrtcProgram
-    nvrtcProgram kernel_program;
-    NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, transpose_d, "transpose_kernel.cu", 0, NULL, NULL));
-    ///printf("NVRTC program created\n");
-
-    // Add lowered name
-    std::string kernel_name = "transpose_d<" + std::to_string(m) + ", " + std::to_string(n) + ">";
-    NVRTC_SAFE_CALL("nvrtcAddNameExpression", nvrtcAddNameExpression(kernel_program, kernel_name.c_str()));
-
-    // (JIT-)compile
-    const char *compileOptions[] = {};
-    nvrtcResult compileResult = nvrtcCompileProgram(kernel_program, 0, compileOptions);
-
+    // Get handle to JIT-ted kernel
+    CUfunction kern_func;
+    get_transpose_handle(kern_func, stream, m_max, n_max);
 #ifdef LOGGING
-    // Obtain compilation log
-    size_t logSize;
-    NVRTC_SAFE_CALL("nvrtcGetProgramLogSize", nvrtcGetProgramLogSize(kernel_program, &logSize));
-    char *log = new char[logSize];
-    NVRTC_SAFE_CALL("nvrtcGetProgramLog", nvrtcGetProgramLog(kernel_program, log));
-    printf("\ncompilation log ---\n");
-    printf(log);
-    printf("\n--- end log\n\n");
-    delete[] log;
-    if (compileResult != NVRTC_SUCCESS) {
-        printf("NVRTC compilation failed\n");
+    printf("get_kernel_handle returned\n");
+    if(kern_func == nullptr){
+        printf("error: kern_fun is a nullptr");
         exit(1);
     }
-#endif 
+#endif
 
-    // Obtain PTX from the program.
-    size_t ptxSize;
-    NVRTC_SAFE_CALL("nvrtcGetPTXsize", nvrtcGetPTXSize(kernel_program, &ptxSize));
-    char *ptx = new char[ptxSize];
-    NVRTC_SAFE_CALL("nvrtcGetPTX", nvrtcGetPTX(kernel_program, ptx));
-    ///printf("Get PTX of size %i characters\n", ptxSize);
-
-    // Get lowered name
-    ///printf("Getting lowered name\n"); 
-    const char *lowered_kernel_name;
-    NVRTC_SAFE_CALL("nvrtcGetLoweredName", nvrtcGetLoweredName(kernel_program, kernel_name.c_str(), &lowered_kernel_name));
-
-    // Get pointer to kernel from PTX
-    CUmodule module;
-    CUDA_SAFE_CALL("cuModuleLoadDataEx", cuModuleLoadDataEx(&module, ptx, 0, 0, 0));
-    CUfunction kern_func; // actual handle to executable kernel
-    CUDA_SAFE_CALL("cuModuleGetFunction", cuModuleGetFunction(&kern_func, module, lowered_kernel_name));
-
-    // Set shared memory configuration
-    CUDA_SAFE_CALL("cuFuncSetSharedMemConfig", cuFuncSetSharedMemConfig(kern_func, CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE));
-
-    // Arguments
+    // Construct argument pointer list
     int* trs_stack_ = trs_stack + offset; 
     void *args[] = { &trs_stack_, &nblks, &buffer};
 
     // Launch JITed kernel
-    ///printf("About to launch JIT-ted kernel on stream %i\n", stream);
-    CUDA_SAFE_CALL(
-            "cuLaunchKernel",
-            cuLaunchKernel(kern_func,                                           // CUfunction
-                           nblks, 1, 1,      // grid dim x, y, z
-                           128, 1, 1,                                       // block dim x, y, z
-                           0, stream,                                 // shared mem and stream
-                           args, NULL));                                        // arguments
-    CUDA_SAFE_CALL("cuCtxSynchronize", cuCtxSynchronize());
-    ///printf("Context synchronized\n");
+    int res = launch_cusmm_kernel_from_handle(kern_func, nblks, 128, stream, args); 
 
     return(cudaGetLastError());
 
 }
+
 
 extern "C" int libsmm_acc_transpose (void *trs_stack, int offset, int nblks, void *buffer,int datatype, int m, int n, void* stream) {
     cudaStream_t* custream = (cudaStream_t*) stream;
