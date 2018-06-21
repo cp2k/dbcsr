@@ -5,7 +5,6 @@
 #include "../include/libsmm_acc.h"
 #include "libcusmm.h"
 #include "parameters.h"
-#include "libcusmm_benchmark.h"
 
 #include <sstream>
 #include <fstream>
