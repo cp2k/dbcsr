@@ -34,6 +34,8 @@ MODULE dbcsr_performance_multiply
         dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_distribution, dbcsr_get_data_type, &
         dbcsr_get_matrix_type, dbcsr_name, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
         dbcsr_release, dbcsr_row_block_offsets, dbcsr_row_block_sizes
+   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_npcols,&
+                                              dbcsr_mp_nprows
    USE dbcsr_multiply_api,              ONLY: dbcsr_multiply
    USE dbcsr_operations,                ONLY: dbcsr_copy,&
                                               dbcsr_scale
@@ -642,7 +644,9 @@ CONTAINS
             ")"
          WRITE (io_unit, '(T4,3(A,I6,A,I6),A)') &
             "matrix sizes A(", r_a, " x", c_a, "), B(", r_b, " x", c_b, ") and C(", r_c, " x", c_c, ")"
-         WRITE (io_unit, '(T4,A,I5)') 'numnodes        = ', numnodes
+         WRITE (io_unit, '(T4,A,I5,A,I3,A,I3,A)') 'numnodes (nprows X npcols) = ', numnodes, &
+            "(", dbcsr_mp_nprows(mp_env), " X ", &
+            dbcsr_mp_npcols(mp_env), ")"
          WRITE (io_unit, '(T4,A,I5)') 'nthreads        = ', nthreads
          WRITE (io_unit, '(T4,A,E26.15)') 'checksum(A)     = ', chksum_a
          WRITE (io_unit, '(T4,A,E26.15)') 'checksum(B)     = ', chksum_b
