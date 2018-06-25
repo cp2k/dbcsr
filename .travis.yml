@@ -1,10 +1,13 @@
+language: c
+
 addons:
   apt:
+    sources:
+      - ubuntu-toolchain-r-test
     packages:
-      - build-essential
-      - gfortran-6
+      - gfortran
       - libopenblas-dev
       - libopenmpi-dev
 
 script:
-  - make -j DFLAGS="-D__MPI_VERSION=3 -D__parallel -D__HAS_NO_SHARED_GLIBC -D__STATM_TOTAL" LIBS="-lreflapack -lblas" all
+  - make -j DFLAGS="-D__MPI_VERSION=3 -D__parallel -D__HAS_NO_SHARED_GLIBC -D__STATM_TOTAL" LIBS="-llapack -lblas" all
