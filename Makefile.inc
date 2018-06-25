@@ -24,8 +24,8 @@ CFLAGS      = $(DFLAGS) -O2
 FCDEBFLAGS  = -ffree-form -std=f2003 -fimplicit-none -ffree-line-length-512
 FCFLAGS     = $(DFLAGS) -fno-omit-frame-pointer -g -O3 \
               -funroll-loops -ffast-math -fopenmp $(FCDEBFLAGS) $(WFLAGS)
-FCFLAGS    += -fsanitize=leak
-FCFLAGS    += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
+#FCFLAGS    += -fsanitize=leak
+#FCFLAGS    += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
 LDFLAGS     = $(FCFLAGS)
 LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -lreflapack -lrefblas
 
