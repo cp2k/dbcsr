@@ -321,6 +321,13 @@ doxygen: doxygen/clean
 	cd $(DOXYGENDIR); doxygen ./Doxyfile 2>&1 | tee ./html/doxygen.out
 TOOL_HELP += "doxygen : Generate the doxygen documentation"
 
+# Libcusmm stuff ============================================================
+$(LIBCUSMM_ABS_DIR)/parameters.h: $(LIBCUSMM_ABS_DIR)/parameters_txt_to_h.py $(LIBCUSMM_ABS_DIR)/parameters_P100.txt
+	cd $(LIBCUSMM_ABS_DIR); python parameters_txt_to_h.py
+
+$(LIBCUSMM_ABS_DIR)/cusmm_kernels.h: $(LIBCUSMM_ABS_DIR)/stringify_cusmm_kernels.py $(wildcard $(LIBCUSMM_ABS_DIR)/kernels/*.h)
+	cd $(LIBCUSMM_ABS_DIR); python stringify_cusmm_kernels.py
+
 
 # automatic dependency generation ===========================================
 MAKEDEPMODE = "normal"
@@ -376,7 +383,7 @@ FYPPFLAGS ?= -n
 CUDA_PATH := /opt/nvidia/cudatoolkit8.0/8.0.61_2.4.3-6.0.4.0_3.1__gb475d12
 CUDA_PATHH := /opt/cray/nvidia/375.74_3.1.22-6.0.4.1_2.1__gfb008e8.ari
 NVRTCFLAGS := -I $(CUDA_PATH)/include -L $(CUDA_PATH)/lib64 -L $(CUDA_PATHH)/lib64 -lnvrtc -lcuda -Wl,-rpath,$(CUDA_PATH)/lib64
-libcusmm.o: libcusmm.cpp
+libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
 	#$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -std=c++11 $<
 	$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DLOGGING -std=c++11 $<
 

@@ -2,12 +2,15 @@
 #  CP2K: A general program to perform molecular dynamics simulations        #
 #  Copyright (C) 2000 - 2018  CP2K developers group                         #
 #############################################################################
-import os 
+import os
+import re
 
 separator = "//===========================================================================\n"
 line_in_string = "{:<70}\\n\\"
 variable_declaration = "const char *{var_name} = \"                                             \\n\\"
 end_string = "\";"
+commented_line = r'\s*(/|\*)'
+
 
 #################################################################
 def cpp_function_to_string(cpp_file, cpp_file_name): 
@@ -17,22 +20,22 @@ def cpp_function_to_string(cpp_file, cpp_file_name):
     out = variable_declaration.format(var_name=cpp_file_name[8:-2]) + "\n"
     for l in cpp_file: 
         # ignore comments and empty lines
-        if l[:2] == '/*' or l[:2] == '//' or l[:1] == '*' or l[:2] == ' *' or len(l) == 0: 
+        if re.match(commented_line, l) is not None or len(l) == 0:
             pass
         else: 
-            out += line_in_string.format(l.replace('"', '\"')) + "\n"
+            out += line_in_string.format(l.replace('"', '\\"')) + "\n"
 
     return out + end_string
 
-#################################################################
-# Main 
 
+#################################################################
+# Main
 # Find all files containing cusmm_kernels in the kernel subfolder
 kernels_folder = "kernels/" 
 kernels_folder_files = os.listdir(kernels_folder)
 kernel_files = list()
 for f in kernels_folder_files: 
-    if f[:6] == "cusmm_" and f[-2:] == ".h" and f is not "cusmm_common.h": 
+    if f[:6] == "cusmm_" and f[-2:] == ".h" and f != "cusmm_common.h":
         kernel_files.append(os.path.join(kernels_folder, f))
 print("Found", len(kernel_files), "kernel files:\n", kernel_files) 
 
