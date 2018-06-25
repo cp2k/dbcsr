@@ -1,0 +1,10 @@
+addons:
+  apt:
+    packages:
+      - build-essential
+      - gfortran-6
+      - libopenblas-dev
+      - libopenmpi-dev
+
+script:
+  - make -j DFLAGS="-D__MPI_VERSION=3 -D__parallel -D__HAS_NO_SHARED_GLIBC -D__STATM_TOTAL" LIBS="-lreflapack -lblas" all
