@@ -4,6 +4,7 @@
  *****************************************************************************/
 #include "../include/libsmm_acc.h"
 #include "libcusmm.h"
+#include "libcusmm_benchmark.h"
 #include "parameters.h"
 
 #include <sstream>
@@ -17,20 +18,21 @@
 #define dbcsr_type_complex_4  5
 #define dbcsr_type_complex_8  7
 #define KERNEL_FILES_PATH DBCSRHOME "/src/libsmm_acc/libcusmm/kernels/"
+
+// Hash function constants
 #define P 999
 #define Q 999
-
-int hash(int m, int n, int k){
+inline int hash(int m, int n, int k){
     return (m*P + n)*Q + k;
 }
 
 
 //===========================================================================
-int launch_cusmm_kernel_from_handle(CUfunction const& kern_func, int nblks, int threads, CUstream stream, void** args){
+inline int launch_kernel_from_handle(CUfunction const& kern_func, int nblks, int threads, CUstream stream, void** args){
 
     // Launch JITed kernel
 #ifdef LOGGING
-    printf("(launch_cusmm_kernel_from_handle) About to launch JIT-ted kernel on stream %i\n", stream);
+    printf("(launch_kernel_from_handle) About to launch JIT-ted kernel on stream %i\n", stream);
 #endif
     int shared_size = 0;
     CUDA_SAFE_CALL(
@@ -49,92 +51,66 @@ int launch_cusmm_kernel_from_handle(CUfunction const& kern_func, int nblks, int 
 }
 
 
-void validation_check(CUfunction& kern_func, CUstream stream, int threads, int grouping, int minblocks, int m_max /*m*/, int n_max /*n*/, int k_max /*k*/){
+//===========================================================================
+inline void validation_check(CUfunction& kern_func, CUstream stream, int threads, int grouping, int minblocks, int m_max /*m*/, int n_max /*n*/, int k_max /*k*/){
 
 #ifdef LOGGING
-    printf("Start kernel validation check\n");
-#endif 
-    
-    int stack_size = 100; 
-    constexpr int n_a = 100; 
-    constexpr int n_b = 100; 
-    constexpr int n_c = 10; 
-
-    // Allocate memory on host and device 
-    double* mat_a = (double*) malloc(n_a * m_max * k_max * sizeof(double));
-    double* mat_b = (double*) malloc(n_b * k_max * n_max * sizeof(double));
-    double* mat_c = (double*) malloc(n_c * m_max * n_max * sizeof(double));
-    int*    stack = (int*) malloc(stack_size * 3 * sizeof(int));
-    CUdeviceptr d_mat_a, d_mat_b, d_mat_c, d_stack;  // device-buffers
-    CUDA_SAFE_CALL("cuMemAlloc", cuMemAlloc(&d_mat_a, n_a * m_max * k_max * sizeof(double)));
-    CUDA_SAFE_CALL("cuMemAlloc", cuMemAlloc(&d_mat_b, n_b * k_max * n_max * sizeof(double)));
-    CUDA_SAFE_CALL("cuMemAlloc", cuMemAlloc(&d_mat_c, n_c * m_max * n_max * sizeof(double)));
-    CUDA_SAFE_CALL("cuMemAlloc", cuMemAlloc(&d_stack, stack_size * 3 * sizeof(int)));
-        
-#ifdef LOGGING
-    printf("Allocated memory buffers\n");
+    printf("Start kernel validation check (libcusmm_benchmark) with (%ix%ix%ix)\n", m_max, n_max, k_max);
 #endif
+    KernelLauncher launcher = libcusmm_process_d;
+    libcusmm_benchmark_t* h; // handle
+    libcusmm_benchmark_init(&h, false, m_max, n_max, k_max);
 
-    // Initialize the matrices and the stack 
-    matInit(mat_a, n_a, m_max, k_max, 42);
-    matInit(mat_b, n_b, k_max, n_max, 24);
-    memset(mat_c, 0, n_c * m_max * n_max * sizeof(double));
-    stackInit(stack, stack_size, n_c, mat_c, n_a, mat_a, n_b, mat_b, m_max, n_max, k_max); 
-
+    // Compute the matrix-matrix multiplication the CPU 
+    memset(h->mat_c, 0, h->n_c * m_max * n_max * sizeof(double));
+    matInit(h->mat_a, h->n_a, m_max, k_max, 42);
+    matInit(h->mat_b, h->n_b, k_max, n_max, 24);
+    stackInit(h->stack, h->n_stack, h->n_c, h->mat_c, h->n_a, h->mat_a, h->n_b, h->mat_b, m_max, n_max, k_max);
 #ifdef LOGGING
-    printf("Initialized matrices and stack\n");
+    printf("Launch validation kernel (CPU - %ix%ix%i)\n", m_max, n_max, k_max);
 #endif
+    stackCalc(h->stack, h->n_stack, h->mat_c, h->mat_a, h->mat_b, m_max, n_max, k_max);
+    double sumCPU =  checkSum(h->mat_c, h->n_c, m_max, n_max);
 
-    // Compute the matrix-matrix multiplication (CPU)
-    stackCalc(stack, stack_size, mat_c, mat_a, mat_b, m_max, n_max, k_max);
-    double sumCPU = checkSum(mat_c, n_c, m_max, n_max);
-
+    // Run the kernel on the GPU 
+    cudaMemcpy(h->d_mat_a, h->mat_a, h->n_a * m_max * k_max * sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(h->d_mat_b, h->mat_b, h->n_b * k_max * n_max * sizeof(double), cudaMemcpyHostToDevice);
+    cudaMalloc(&h->d_stack, h->n_stack * 3 * sizeof(int));
+    cudaMemcpy(h->d_stack, h->stack, h->n_stack * 3 * sizeof(int), cudaMemcpyHostToDevice);
+    cudaMemset(h->d_mat_c, 0, h->n_c * m_max * n_max * sizeof(double));
 #ifdef LOGGING
-    printf("Computed check (CPU) with checksum = %g\n", sumCPU);
+    printf("Launch validation kernel (GPU - %ix%ix%i)\n", m_max, n_max, k_max);
 #endif
+    void *args[] = { &h->d_stack, &h->n_stack, &h->d_mat_a, &h->d_mat_b, &h->d_mat_c };
+    int res = launch_kernel_from_handle(kern_func, ((h->n_stack + grouping - 1) / grouping), threads, stream, args); 
+    cudaMemcpy(h->mat_c, h->d_mat_c, h->n_c * m_max * n_max * sizeof(double), cudaMemcpyDeviceToHost);
+    libcusmm_benchmark_finalize(h);
 
-    // Copy memory to the GPU 
-    CUDA_SAFE_CALL("cuMemcpyHtoD", cuMemcpyHtoD(d_mat_a, mat_a, n_a * m_max * k_max * sizeof(double)));
-    CUDA_SAFE_CALL("cuMemcpyHtoD", cuMemcpyHtoD(d_mat_b, mat_b, n_b * k_max * n_max * sizeof(double)));
-    //CUDA_SAFE_CALL("cuMemcpyHtoD", cuMemsetD32(d_mat_c, 0, n_c * m_max * n_max));
-    CUDA_SAFE_CALL("cuMemcpyHtoD", cuMemcpyHtoD(d_stack, stack, stack_size * 3 * sizeof(int)));
-    void *args[] = { &d_stack, &stack_size, &d_mat_a, &d_mat_b, &d_mat_c };
-    int res = launch_cusmm_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args);
-    CUDA_SAFE_CALL("cuMemcpyDtoH", cuMemcpyDtoH(mat_c, d_mat_c, n_c * m_max * n_max * sizeof(double)));
-    double sumGPU =  checkSum(mat_c, n_c, m_max, n_max);
-
-#ifdef LOGGING
-    printf("Computed check (GPU) with checksum = %g\n", sumGPU);
-#endif
-
-    // Free memory
-    CUDA_SAFE_CALL("cuMemFree", cuMemFree(d_stack));
-    CUDA_SAFE_CALL("cuMemFree", cuMemFree(d_mat_c));
-    CUDA_SAFE_CALL("cuMemFree", cuMemFree(d_mat_b));
-    CUDA_SAFE_CALL("cuMemFree", cuMemFree(d_mat_a));
-    free(stack);
-    free(mat_c);
-    free(mat_b);
-    free(mat_a);
-
-#ifdef LOGGING
-    printf("Freed memory buffers\n");
-#endif
-    
-    // Check results
-    if(sumGPU != sumCPU){
-        printf("Validation check: failed: checksum_diff: %g\n", sumGPU-sumCPU);
+    cudaError_t cudaError = cudaGetLastError();
+    if (cudaError != cudaSuccess){
+        printf("Kernel validation: cuda_error: %s\n", cudaGetErrorString(cudaError));
         exit(1);
     }
-#ifdef LOGGING
-    else {
-    printf("Validation check: passed\n");
+
+    double sumGPU =  checkSum(h->mat_c, h->n_c, m_max, n_max);
+    if(sumGPU != sumCPU){
+        printf("Kernel validation: checksum_diff: %g\n", sumGPU-sumCPU);
+        exit(1);
     }
+
+#ifdef LOGGING
+    printf("Kernel validation: OK\n");
 #endif
 }
 
-void get_kernel_handle(CUfunction& kern_func, CUstream stream, libcusmm_algo algo, int M /*tile_m*/, int N /*tile_n*/, int w /*w*/, int v/*v*/, int threads, int grouping, int minblocks, int m_max /*m*/, int n_max /*n*/, int k_max /*k*/){
-    
+
+//===========================================================================
+inline void get_kernel_handle(CUfunction& kern_func, CUstream stream, libcusmm_algo algo, int M /*tile_m*/, int N /*tile_n*/, int w /*w*/, int v/*v*/, int threads, int grouping, int minblocks, int m_max /*m*/, int n_max /*n*/, int k_max /*k*/){
+
+#ifdef LOGGING
+    printf("Start getting kernel handle...\n");
+#endif
+
     // Check whether this kernel has already been JITed and a handle exists
     auto kernel_it = kernel_handles.find(hash(m_max, n_max, k_max));
     if (kernel_it != kernel_handles.end()){
@@ -142,9 +118,6 @@ void get_kernel_handle(CUfunction& kern_func, CUstream stream, libcusmm_algo alg
         printf("Found a handle to (%i, %i, %i) kernel in table at hash %i...\n", m_max, n_max, k_max, hash(m_max, n_max, k_max)); 
 #endif
         kern_func = kernel_it->second;
-#ifdef LOGGING
-        printf("Got handle\n"); 
-#endif
     } else {
 #ifdef LOGGING
         printf("No handle to (%i, %i, %i) kernel found in table at hash %i...\n", m_max, n_max, k_max, hash(m_max, n_max, k_max)); 
@@ -211,8 +184,6 @@ void get_kernel_handle(CUfunction& kern_func, CUstream stream, libcusmm_algo alg
         kernel_file.read (kernel_code, kernel_code_size);
         kernel_file.close();
         kernel_code[kernel_code_size] = '\x0';
-        ///printf("Read program of length %i characters\n", kernel_code_size);
-        ///printf(kernel_code);
 
         // Create nvrtcProgram
         nvrtcProgram kernel_program;
@@ -249,8 +220,6 @@ void get_kernel_handle(CUfunction& kern_func, CUstream stream, libcusmm_algo alg
         NVRTC_SAFE_CALL("nvrtcGetPTXsize", nvrtcGetPTXSize(kernel_program, &ptxSize));
         char *ptx = new char[ptxSize];
         NVRTC_SAFE_CALL("nvrtcGetPTX", nvrtcGetPTX(kernel_program, ptx));
-        ///printf("Get PTX of size %i characters\n", ptxSize);
-        ///printf(ptx);
 
         // Get lowered name
         const char *lowered_kernel_name;
@@ -265,10 +234,10 @@ void get_kernel_handle(CUfunction& kern_func, CUstream stream, libcusmm_algo alg
         // Set shared memory configuration
         CUDA_SAFE_CALL("cuFuncSetSharedMemConfig", cuFuncSetSharedMemConfig(kern_func, CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE));
 
-        // Validate the JIt-ted kernel
+        // Validate the JIt-ted kernels
         validation_check(kern_func, stream, threads, grouping, minblocks, m_max, n_max, k_max);
 
-        // store the handle
+        // Store the handle
         kernel_handles.emplace(hash(m_max, n_max, k_max), kern_func);
 #ifdef LOGGING
         printf("Store handle to kernel (%i, %i, %i) in table at hash %i\n", m_max, n_max, k_max, hash(m_max, n_max, k_max)); 
@@ -279,16 +248,19 @@ void get_kernel_handle(CUfunction& kern_func, CUstream stream, libcusmm_algo alg
 }
 
 
+//===========================================================================
 int launch_cusmm_kernel(libcusmm_algo algo, int M /*tile_m*/, int N /*tile_n*/, int w /*w*/, int v/*v*/, int threads, int grouping, int minblocks, int *param_stack, int stack_size, CUstream stream, int m_max /*m*/, int n_max /*n*/, int k_max /*k*/, double *a_data, double *b_data, double *c_data){
 
 #ifdef LOGGING
-    printf("CUSMM with parameters:\nalgo = %i,\ntile_m = %i, tile_n = %i,\nw = %i, v = %i,\nthreads = %i, grouping = %i,\nminblocks = %i,stack_size = %i,\nm = %i, n = %i, k = %i\n\n", 
+    printf("-------------------------------------------------------------------------------------------\n");
+    printf("CUSMM with parameters:\nalgo = %i,\ntile_m = %i, tile_n = %i,\nw = %i, v = %i,\nthreads = %i, grouping = %i,\nminblocks = %i, stack_size = %i,\nm = %i, n = %i, k = %i\n\n", 
            algo, M, N, w, v, threads, grouping, minblocks, stack_size, m_max, n_max, k_max);
 #endif 
 
     // Get handle to JIT-ted kernel
     CUfunction kern_func;
-    get_kernel_handle(kern_func, stream, algo, M, N, w, v, threads, grouping, minblocks, m_max, n_max, k_max); 
+    get_kernel_handle(kern_func, stream, algo, M, N, w, v, threads, grouping, minblocks, m_max, n_max, k_max);
+
 #ifdef LOGGING
     printf("get_kernel_handle returned\n"); 
     if(kern_func == nullptr){
@@ -297,15 +269,14 @@ int launch_cusmm_kernel(libcusmm_algo algo, int M /*tile_m*/, int N /*tile_n*/, 
     }
 #endif
 
-    // Construct argument pointer list
+    // Construct argument pointer list and launch kernel
     void *args[] = { &param_stack, &stack_size, &a_data, &b_data, &c_data };
-
-    // Launch kernel using the function handle
-    return launch_cusmm_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args); 
+    return launch_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args); 
 
 }
 
 
+//===========================================================================
 int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m, int n, int k, double *a_data, double *b_data, double *c_data){
 
     // Retrieve launching parameters from parameters.h
@@ -332,6 +303,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 }
 
 
+//===========================================================================
 extern "C" int libsmm_acc_process (void *param_stack, int stack_size, int nparams, int datatype, void *a_data, void *b_data, void *c_data, int m_max, int n_max, int k_max, int def_mnk, void *stream){
     if(def_mnk!=1)
         return(-1); // inhomogenous stacks not supported
@@ -342,6 +314,7 @@ extern "C" int libsmm_acc_process (void *param_stack, int stack_size, int nparam
 };
 
 
+//===========================================================================
 const char *transpose_d = "                                             \n\
 template <int m, int n>                                                 \n\
 __global__ void transpose_d(int *trs_stack, int nblks, double* mat){    \n\
@@ -361,7 +334,12 @@ __global__ void transpose_d(int *trs_stack, int nblks, double* mat){    \n\
 }                                                                       \n";
 
 
+//===========================================================================
 void get_transpose_handle(CUfunction& kern_func, CUstream stream, int m, int n){
+
+#ifdef LOGGING
+    printf("Starting get_transpose_handle...\n");
+#endif
 
     // Check whether this kernel has already been JITed and a handle exists
     auto kernel_it = transpose_handles.find(hash(m_max, n_max, 0));
@@ -370,9 +348,6 @@ void get_transpose_handle(CUfunction& kern_func, CUstream stream, int m, int n){
         printf("Found a handle to (%i, %i) transpose in table at hash %i...\n", m_max, n_max, hash(m_max, n_max, 0));
 #endif
         kern_func = kernel_it->second;
-#ifdef LOGGING
-        printf("Got handle\n");
-#endif
     } else {
 #ifdef LOGGING
         printf("No handle to (%i, %i) transpose found in table at hash %i...\n", m_max, n_max, hash(m_max, n_max, 0));
@@ -381,7 +356,6 @@ void get_transpose_handle(CUfunction& kern_func, CUstream stream, int m, int n){
         // Create nvrtcProgram
         nvrtcProgram kernel_program;
         NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, transpose_d, "transpose_kernel.cu", 0, NULL, NULL));
-        ///printf("NVRTC program created\n");
 
         // Add lowered name
         std::string kernel_name = "transpose_d<" + std::to_string(m) + ", " + std::to_string(n) + ">";
@@ -412,10 +386,8 @@ void get_transpose_handle(CUfunction& kern_func, CUstream stream, int m, int n){
         NVRTC_SAFE_CALL("nvrtcGetPTXsize", nvrtcGetPTXSize(kernel_program, &ptxSize));
         char *ptx = new char[ptxSize];
         NVRTC_SAFE_CALL("nvrtcGetPTX", nvrtcGetPTX(kernel_program, ptx));
-        ///printf("Get PTX of size %i characters\n", ptxSize);
 
         // Get lowered name
-        ///printf("Getting lowered name\n"); 
         const char *lowered_kernel_name;
         NVRTC_SAFE_CALL("nvrtcGetLoweredName", nvrtcGetLoweredName(kernel_program, kernel_name.c_str(), &lowered_kernel_name));
 
@@ -423,7 +395,6 @@ void get_transpose_handle(CUfunction& kern_func, CUstream stream, int m, int n){
         CUmodule module;
         CUDA_SAFE_CALL("cuModuleLoadDataEx", cuModuleLoadDataEx(&module, ptx, 0, 0, 0));
         delete[] ptx;
-        CUfunction kern_func; // actual handle to executable kernel
         CUDA_SAFE_CALL("cuModuleGetFunction", cuModuleGetFunction(&kern_func, module, lowered_kernel_name));
 
         // Set shared memory configuration
@@ -440,10 +411,12 @@ void get_transpose_handle(CUfunction& kern_func, CUstream stream, int m, int n){
 }
 
 
+//===========================================================================
 int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
                          double *buffer, int m, int n, CUstream stream) {
 
 #ifdef LOGGING
+   printf("-------------------------------------------------------------------------------------------\n");
    printf("CUSMM-transpose with parameters:\nm = %i, n = %i,\nnblks = %i, offset = %i\n\n",
            m, n, nblks, offset);
 #endif
@@ -459,18 +432,17 @@ int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
     }
 #endif
 
-    // Construct argument pointer list
+    // Construct argument pointer list and lauch function
     int* trs_stack_ = trs_stack + offset; 
     void *args[] = { &trs_stack_, &nblks, &buffer};
-
-    // Launch JITed kernel
-    int res = launch_cusmm_kernel_from_handle(kern_func, nblks, 128, stream, args); 
+    int res = launch_kernel_from_handle(kern_func, nblks, 128, stream, args); 
 
     return(cudaGetLastError());
 
 }
 
 
+//===========================================================================
 extern "C" int libsmm_acc_transpose (void *trs_stack, int offset, int nblks, void *buffer,int datatype, int m, int n, void* stream) {
     cudaStream_t* custream = (cudaStream_t*) stream;
     if(datatype != dbcsr_type_real_8)

@@ -152,12 +152,12 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
         launchers[ikern](h->d_stack, h->n_stack, (CUstream) stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
     cudaMemset(h->d_mat_c, 0, h->n_c * mat_m * mat_n * sizeof(double));
 
-    cudaEventRecord(h->t_start, (CUstream) stream);
+    cudaEventRecord(h->t_start, (cudaStream_t) stream);
 
     for(int i=0; i<n_iter; i++)
         launchers[ikern](h->d_stack, h->n_stack, (CUstream) stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
 
-    cudaEventRecord(h->t_stop, (CUstream) stream);
+    cudaEventRecord(h->t_stop, (cudaStream_t) stream);
     cudaEventSynchronize(h->t_stop);
     cudaEventElapsedTime(&t_duration, h->t_start, h->t_stop);
 
