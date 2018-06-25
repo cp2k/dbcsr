@@ -5,9 +5,9 @@ FC          = mpifort
 LD          = mpifort
 AR          = ar -r
 CPPFLAGS    =
-DFLAGS      = -D__MPI_VERSION=3\
-              -D__parallel -D__SCALAPACK\
-              -D__HAS_NO_SHARED_GLIBC\
+DFLAGS      = -D__MPI_VERSION=3 \
+              -D__parallel -D__SCALAPACK \
+              -D__HAS_NO_SHARED_GLIBC \
               -D__STATM_TOTAL
 # Do not simply use -Wall since some warnings for Fortran are misleading:
 WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
