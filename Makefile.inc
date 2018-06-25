@@ -1,8 +1,8 @@
 
 CC          = gcc
 CPP         =
-FC          = mpif90
-LD          = mpif90
+FC          = mpifort
+LD          = mpifort
 AR          = ar -r
 CPPFLAGS    =
 DFLAGS      = -D__MPI_VERSION=3\
