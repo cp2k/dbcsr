@@ -7,6 +7,7 @@ src/acc/libsmm_acc/libcusmm/libcusmm.cu
 src/acc/libsmm_acc/libcusmm/libcusmm_part*.cu
 install/
 examples/*.x
+*.callgraph
 
 # The following covers some more,
 # Created by https://www.gitignore.io/api/vim,emacs,python,fortran
