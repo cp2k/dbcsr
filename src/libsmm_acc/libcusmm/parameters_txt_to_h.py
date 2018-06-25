@@ -15,10 +15,7 @@ file_txt = "parameters_P100.txt"    # parameters_K20X.txt, parameters_K40.txt, p
 
 
 def get_legal_parameters(m, n, k):
-    # For debugging:
-    if [m, n, k] == [4, 16, 44]:
-        print('foundya!')
-    if 0 in [m, n, k] or 1 in [m, n, k] or 2 in [m, n, k] or 3 in [m, n, k]: 
+    if 0 in [m, n, k] or 1 in [m, n, k]: 
         return 0, 0
     for kernclass in ALL_KERNELS:
         legal_param_list_for_kernel = kernclass.promising_parameters(m, n, k)
@@ -203,10 +200,10 @@ out += 'int ht[' + str(max(m_)+1) + '][' + str(max(n_)+1) + '][' + str(max(k_)+1
 
 # Initializer list line
 print("Get parameters and write to file")
-init_list_line = "      {{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }},\n"
-m_upper = 45
-n_upper = 45
-k_upper = 45
+init_list_line = "      {{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }}, //  ({m}x{n}x{k})\n"
+m_upper = max(m_); 
+n_upper = max(n_); 
+k_upper = max(k_); 
 for m in range(m_upper+1):
     print("\tm = ", m, "/", m_upper)
     out += "  {\n"
@@ -218,7 +215,7 @@ for m in range(m_upper+1):
             # How to choose them if they're not given in the parameter file?
             #
             pars = get_pars(m, n, k, parameters)
-            out += init_list_line.format(algo=pars[0], tile_m=pars[1], tile_n=pars[2], w=pars[3], v=pars[4], threads=pars[5], grouping=pars[6], minblocks=pars[7])
+            out += init_list_line.format(algo=pars[0], tile_m=pars[1], tile_n=pars[2], w=pars[3], v=pars[4], threads=pars[5], grouping=pars[6], minblocks=pars[7], m=m, n=n, k=k)
         out = out[:-2] + '\n' # remove the last ','
         out += "    },\n"
     out = out[:-2] + '\n' # remove the last ','
