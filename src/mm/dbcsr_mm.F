@@ -564,7 +564,7 @@ CONTAINS
       !
       ! No dense multiplication when filtering is used.
       use_dense_mult = .NOT. PRESENT(filter_eps)
-      IF (has_acc) use_dense_mult = .FALSE.
+      !IF (has_acc) use_dense_mult = .FALSE.
       !
       mp_obj = dbcsr_distribution_mp(matrix_c%dist)
       numnodes = dbcsr_mp_numnodes(mp_obj)
