@@ -12,6 +12,11 @@ enable_testing() # enables the `make test` target
 find_package(BLAS REQUIRED)
 find_package(LAPACK REQUIRED)
 
+option(USE_MPI "Build with MPI support" ON)
+if (USE_MPI)
+  find_package(MPI COMPONENTS Fortran REQUIRED)
+endif ()
+
 # make sure that the default is a RELEASE
 if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RELEASE CACHE STRING
@@ -32,6 +37,21 @@ else ()
   message("No optimized Fortran compiler flags are known, we just try -O2...")
   set(CMAKE_Fortran_FLAGS_RELEASE "-O2")
   set(CMAKE_Fortran_FLAGS_DEBUG   "-O0 -g")
+endif ()
+
+
+if (MPI_FOUND)
+  add_definitions(-D__parallel -D__MPI_VERSION=${MPI_Fortran_VERSION_MAJOR})
+
+  # Instead of resetting the compiler, we are adding the compiler flags
+  # originally added by the mpifort-wrapper, based on
+  #   https://cmake.org/pipermail/cmake/2012-June/050991.html
+  # Here we assume that the MPI implementation found uses the same compiler
+  # as the Fortran compiler we found prior. Otherwise we might be adding incompatible
+  # compiler flags at this point.
+  add_definitions(${MPI_Fortran_COMPILE_FLAGS})
+  include_directories(${MPI_Fortran_INCLUDE_DIRS})
+  link_directories(${MPI_Fortran_LIBRARY_DIRS})
 endif ()
 
 # Use a system-provided fypp if available, otherwise the bundled one
@@ -170,7 +190,7 @@ add_fypp_sources(DBCSR_SRCS
   )
 
 add_library(dbcsr SHARED ${DBCSR_SRCS})
-target_link_libraries(dbcsr ${LAPACK_LIBRARIES})
+target_link_libraries(dbcsr ${LAPACK_LIBRARIES} ${MPI_Fortran_LIBRARIES})
 include_directories(src/ src/base src/common)
 set_target_properties(dbcsr PROPERTIES COMPILE_DEFINITIONS "__HAS_NO_SHARED_GLIBC; __STATM_TOTAL")
 set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
@@ -179,7 +199,7 @@ set(DBCSR_PERF_SRCS
   tests/dbcsr_performance_driver.F
   tests/dbcsr_performance_multiply.F)
 add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
-target_link_libraries(dbcsr_perf dbcsr)
+target_link_libraries(dbcsr_perf dbcsr ${MPI_Fortran_LIBRARIES})
 
 
 set(DBCSR_UNITTEST_SRCS
@@ -207,7 +227,7 @@ set(DBCSR_PROGRAM_SRCS
 foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS})
   get_filename_component(dbcsr_program_name ${dbcsr_program_src} NAME_WE)
   add_executable(${dbcsr_program_name} ${dbcsr_program_src})
-  target_link_libraries(${dbcsr_program_name} dbcsr)
+  target_link_libraries(${dbcsr_program_name} dbcsr ${MPI_Fortran_LIBRARIES})
 endforeach ()
 
 # set the __SHORT_FILE__ per file for dbcsr sources
