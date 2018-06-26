@@ -21,7 +21,7 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=uninitialized -Wno-maybe-uninitialized -Wuse-without-only \
               -Werror
 CFLAGS      = -O2
-FCFLAGS     = -03 -g -fno-omit-frame-pointer -funroll-loops -ffast-math -fopenmp
+FCFLAGS     = -O3 -g -fno-omit-frame-pointer -funroll-loops -ffast-math -fopenmp
 CFLAGS     += $(DFLAGS)
 FCDEBFLAGS  = -ffree-form -std=f2003 -fimplicit-none -ffree-line-length-512
 FCFLAGS    += $(DFLAGS) $(FCDEBFLAGS) $(WFLAGS)
