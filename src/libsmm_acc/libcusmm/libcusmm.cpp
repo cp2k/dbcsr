@@ -6,6 +6,7 @@
 #include "libcusmm.h"
 #include "libcusmm_benchmark.h"
 #include "parameters.h"
+#include "cusmm_kernels.h"
 
 #include <sstream>
 #include <fstream>
@@ -125,11 +126,11 @@ inline void get_kernel_handle(CUfunction& kern_func, CUstream stream, libcusmm_a
 #endif
         // Get the file path corresponding to the kernel to launch
         const std::string kernel_files_path = KERNEL_FILES_PATH;
-        std::string kernel_file_name;
         std::string kernel_name;
+        std::string kernel_code;
         switch(algo) {
             case 1:
-                kernel_file_name = kernel_files_path + "cusmm_dnt_largeDB1.h";
+                kernel_code = cusmm_dnt_largeDB1; 
                 kernel_name = "cusmm_dnt_largeDB1<" +
                               std::to_string(m_max) + ", " + std::to_string(n_max) + ", " + std::to_string(k_max) + ", " +
                               std::to_string(M) + ", " + std::to_string(N) + ", " +
@@ -137,7 +138,7 @@ inline void get_kernel_handle(CUfunction& kern_func, CUstream stream, libcusmm_a
                               std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
                 break;
             case 2:
-                kernel_file_name = kernel_files_path + "cusmm_dnt_largeDB2.h";
+                kernel_code = cusmm_dnt_largeDB2; 
                 kernel_name = "cusmm_dnt_largeDB2<" +
                               std::to_string(m_max) + ", " + std::to_string(n_max) + ", " + std::to_string(k_max) + ", " +
                               std::to_string(M) + ", " + std::to_string(N) + ", " +
@@ -145,51 +146,33 @@ inline void get_kernel_handle(CUfunction& kern_func, CUstream stream, libcusmm_a
                               std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
                 break;
             case 3:
-                kernel_file_name = kernel_files_path + "cusmm_dnt_medium.h";
+                kernel_code = cusmm_dnt_medium; 
                 kernel_name = "cusmm_dnt_medium<" +
                               std::to_string(m_max) + ", " + std::to_string(n_max) + ", " + std::to_string(k_max) + ", " +
                               std::to_string(M) + ", " + std::to_string(N) + ", " +
                               std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
                 break;
             case 4:
-                kernel_file_name = kernel_files_path + "cusmm_dnt_small.h";
+                kernel_code = cusmm_dnt_small; 
                 kernel_name = "cusmm_dnt_small<" +
                               std::to_string(m_max) + ", " + std::to_string(n_max) + ", " + std::to_string(k_max) + ", " +
                               std::to_string(M) + ", " + std::to_string(N) + ", " +
                               std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
                 break;
             case 5:
-                kernel_file_name = kernel_files_path + "cusmm_dnt_tiny.h";
+                kernel_code = cusmm_dnt_tiny; 
                 kernel_name = "cusmm_dnt_tiny<" +
                               std::to_string(m_max) + ", " + std::to_string(n_max) + ", " + std::to_string(k_max) + ", " +
                               std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
                 break;
             default:
-                printf("\nerror: algorithm number %i is not encoded.");
+                printf("\nerror: algorithm number %i is not encoded.", algo);
                 exit(1);
         }
 
-        // Read file containing kernel
-        std::ifstream kernel_file(kernel_file_name.c_str(), std::ios::in | std::ios::binary | std::ios::ate);
-
-        if (!kernel_file.is_open()){
-            printf("\nerror: cannot open %s for reading\n", kernel_file_name.c_str());
-            exit(1);
-        }
-
-        std::streampos pos = kernel_file.tellg();
-        size_t kernel_code_size = (size_t)pos;
-        char * kernel_code = new char [kernel_code_size + 1];
-
-        kernel_file.seekg (0, std::ios::beg);
-        kernel_file.read (kernel_code, kernel_code_size);
-        kernel_file.close();
-        kernel_code[kernel_code_size] = '\x0';
-
         // Create nvrtcProgram
         nvrtcProgram kernel_program;
-        NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, kernel_code, "smm_kernel.cu", 0, NULL, NULL));
-        delete[] kernel_code; 
+        NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, kernel_code.c_str(), "smm_kernel.cu", 0, NULL, NULL));
 
         // Add lowered name
         NVRTC_SAFE_CALL("nvrtcAddNameExpression", nvrtcAddNameExpression(kernel_program, kernel_name.c_str()));
@@ -323,26 +306,6 @@ extern "C" int libsmm_acc_process (void *param_stack, int stack_size, int nparam
 
 
 //===========================================================================
-const char *transpose_d = "                                             \n\
-template <int m, int n>                                                 \n\
-__global__ void transpose_d(int *trs_stack, int nblks, double* mat){    \n\
- __shared__ double buf[m*n];						\n\
- int offset = trs_stack[blockIdx.x];                                    \n\
- for(int i=threadIdx.x; i < m*n; i+=blockDim.x){                        \n\
-     buf[i] = mat[offset + i];                                          \n\
- }                                                                      \n\
- syncthreads();                                                         \n\
-                                                                        \n\
- for(int i=threadIdx.x; i < m*n; i+=blockDim.x){                        \n\
-     int r_out = i % n;                                                 \n\
-     int c_out = i / n;                                                 \n\
-     int idx = r_out * m + c_out;                                       \n\
-     mat[offset + i] = buf[idx];                                        \n\
- }                                                                      \n\
-}                                                                       \n";
-
-
-//===========================================================================
 void get_transpose_handle(CUfunction& kern_func, CUstream stream, int m, int n){
 
 #ifdef LOGGING
@@ -350,20 +313,20 @@ void get_transpose_handle(CUfunction& kern_func, CUstream stream, int m, int n){
 #endif
 
     // Check whether this kernel has already been JITed and a handle exists
-    auto kernel_it = transpose_handles.find(hash(m_max, n_max, 0));
+    auto kernel_it = transpose_handles.find(hash(m, n, 0));
     if (kernel_it != transpose_handles.end()){
 #ifdef LOGGING
-        printf("Found a handle to (%i, %i) transpose in table at hash %i...\n", m_max, n_max, hash(m_max, n_max, 0));
+        printf("Found a handle to (%i, %i) transpose in table at hash %i...\n", m, n, hash(m, n, 0));
 #endif
         kern_func = kernel_it->second;
     } else {
 #ifdef LOGGING
-        printf("No handle to (%i, %i) transpose found in table at hash %i...\n", m_max, n_max, hash(m_max, n_max, 0));
+        printf("No handle to (%i, %i) transpose found in table at hash %i...\n", m, n, hash(m, n, 0));
 #endif
 
         // Create nvrtcProgram
         nvrtcProgram kernel_program;
-        NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, transpose_d, "transpose_kernel.cu", 0, NULL, NULL));
+        NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, cusmm_transpose.c_str(), "transpose_kernel.cu", 0, NULL, NULL));
 
         // Add lowered name
         std::string kernel_name = "transpose_d<" + std::to_string(m) + ", " + std::to_string(n) + ">";
@@ -425,13 +388,12 @@ int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
 
 #ifdef LOGGING
    printf("-------------------------------------------------------------------------------------------\n");
-   printf("CUSMM-transpose with parameters:\nm = %i, n = %i,\nnblks = %i, offset = %i\n\n",
-           m, n, nblks, offset);
+   printf("CUSMM-transpose with parameters:\nm = %i, n = %i,\nnblks = %i, offset = %i\n\n", m, n, nblks, offset);
 #endif
 
     // Get handle to JIT-ted kernel
     CUfunction kern_func;
-    get_transpose_handle(kern_func, stream, m_max, n_max);
+    get_transpose_handle(kern_func, stream, m, n);
 #ifdef LOGGING
     printf("get_kernel_handle returned\n");
     if(kern_func == nullptr){
