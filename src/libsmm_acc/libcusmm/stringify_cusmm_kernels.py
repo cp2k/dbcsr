@@ -37,11 +37,13 @@ def main():
     file_h += '*  Copyright (C) 2000 - 2018  CP2K developers group                         *\n'
     file_h += '*****************************************************************************/\n'
     file_h += '\n'
-    file_h += '#include <string>'
-    file_h += '\n'
+    file_h += '#ifndef CUSMM_H\n'
+    file_h += '#define CUSMM_H\n'
+    file_h += '#include <string>\n'
     for kernel_file, kernel in kernels_h.items():
         file_h += '\n' + separator + cpp_function_to_string(kernel, kernel_file) + '\n'
-
+    file_h += '#endif\n'
+    file_h += '//EOF'
     # Write to file
     file_h_path = "cusmm_kernels.h"
     print("Write kernel string to file", file_h_path)
