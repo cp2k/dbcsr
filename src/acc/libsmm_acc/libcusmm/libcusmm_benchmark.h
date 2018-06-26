@@ -30,6 +30,17 @@ typedef struct {
     cudaEvent_t t_start, t_stop;
 } libcusmm_benchmark_t;
 
+void matInit(double* mat, int mat_n, int x, int y, int seed);
+
+void stackInit(int *stack, int n_stack, int n_c, double* mat_c,
+               int n_a, double * mat_a, int n_b, double* mat_b,
+               int mat_m, int mat_n, int mat_k);
+
+void stackCalc(int* stack, int n_stack, double* mat_c, double *mat_a, double* mat_b,
+               int mat_m, int mat_n, int mat_k);
+
+double checkSum(double* mat_c, int n_c, int mat_m, int mat_n);
+
 void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, bool tune_mode,
                              int max_m, int max_n, int max_k);
 
