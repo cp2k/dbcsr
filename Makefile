@@ -47,7 +47,8 @@ endif
          toolversions \
          doxify doxifyclean \
          pretty prettyclean doxygen/clean doxygen \
-         install clean realclean help
+         install clean realclean help \
+         test
 
 # Discover files and directories ============================================
 ALL_SRC_DIRS := $(shell find $(SRCDIR) -type d | awk '{printf("%s:",$$1)}')
@@ -205,6 +206,13 @@ endif
 
 
 OTHER_HELP += "install : Install the library and modules under PREFIX=<directory> (default $(PREFIX))"
+
+test:
+	for test in $(UNITTESTS); do \
+		mpirun $(BINDIR)/$$test.x || exit 1; \
+	done
+
+OTHER_HELP += "test    : Run the unittests available in tests/"
 
 clean:
 	rm -rf $(LIBCUSMM_ABS_DIR)/libcusmm.cu $(LIBCUSMM_ABS_DIR)/libcusmm_part*.cu
