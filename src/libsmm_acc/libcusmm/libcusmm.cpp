@@ -61,30 +61,30 @@ inline void validation_check(CUfunction& kern_func, CUstream stream, int threads
     libcusmm_benchmark_t* h; // handle
     libcusmm_benchmark_init(&h, false, m_max, n_max, k_max);
 
-    // Compute the matrix-matrix multiplication the CPU 
+    // Compute the matrix-matrix multiplication on the CPU
     memset(h->mat_c, 0, h->n_c * m_max * n_max * sizeof(double));
     matInit(h->mat_a, h->n_a, m_max, k_max, 42);
     matInit(h->mat_b, h->n_b, k_max, n_max, 24);
     stackInit(h->stack, h->n_stack, h->n_c, h->mat_c, h->n_a, h->mat_a, h->n_b, h->mat_b, m_max, n_max, k_max);
+
 #ifdef LOGGING
     printf("Launch validation kernel (CPU - %ix%ix%i)\n", m_max, n_max, k_max);
 #endif
     stackCalc(h->stack, h->n_stack, h->mat_c, h->mat_a, h->mat_b, m_max, n_max, k_max);
     double sumCPU =  checkSum(h->mat_c, h->n_c, m_max, n_max);
 
-    // Run the kernel on the GPU 
+    // Run the kernel on the GPU
     cudaMemcpy(h->d_mat_a, h->mat_a, h->n_a * m_max * k_max * sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(h->d_mat_b, h->mat_b, h->n_b * k_max * n_max * sizeof(double), cudaMemcpyHostToDevice);
-    cudaMalloc(&h->d_stack, h->n_stack * 3 * sizeof(int));
     cudaMemcpy(h->d_stack, h->stack, h->n_stack * 3 * sizeof(int), cudaMemcpyHostToDevice);
     cudaMemset(h->d_mat_c, 0, h->n_c * m_max * n_max * sizeof(double));
+
 #ifdef LOGGING
     printf("Launch validation kernel (GPU - %ix%ix%i)\n", m_max, n_max, k_max);
 #endif
     void *args[] = { &h->d_stack, &h->n_stack, &h->d_mat_a, &h->d_mat_b, &h->d_mat_c };
-    int res = launch_kernel_from_handle(kern_func, ((h->n_stack + grouping - 1) / grouping), threads, stream, args); 
+    int res = launch_kernel_from_handle(kern_func, ((h->n_stack + grouping - 1) / grouping), threads, stream, args);
     cudaMemcpy(h->mat_c, h->d_mat_c, h->n_c * m_max * n_max * sizeof(double), cudaMemcpyDeviceToHost);
-    libcusmm_benchmark_finalize(h);
 
     cudaError_t cudaError = cudaGetLastError();
     if (cudaError != cudaSuccess){
@@ -98,6 +98,7 @@ inline void validation_check(CUfunction& kern_func, CUstream stream, int threads
         exit(1);
     }
 
+    libcusmm_benchmark_finalize(h);
 #ifdef LOGGING
     printf("Kernel validation: OK\n");
 #endif
