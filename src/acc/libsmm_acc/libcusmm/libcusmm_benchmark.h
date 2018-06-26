@@ -2,6 +2,9 @@
  *  CP2K: A general program to perform molecular dynamics simulations        *
  *  Copyright (C) 2000 - 2017  CP2K developers group                         *
  *****************************************************************************/
+#ifndef LIBCUSMM_BENCHMARK_H
+#define LIBCUSMM_BENCHMARK_H
+
 #include <cuda.h>
 
 typedef int (*KernelLauncher)(int *param_stack, int stack_size, CUstream stream,
@@ -50,4 +53,5 @@ int libcusmm_benchmark(libcusmm_benchmark_t* handle,
               int mat_m, int mat_n, int mat_k, int nkernel,
               KernelLauncher* launchers, char** kernel_descr);
 
+#endif
 //EOF

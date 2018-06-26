@@ -199,6 +199,8 @@ def write_file(all_pars, m_upper, n_upper, k_upper):
     out += '*  CP2K: A general program to perform molecular dynamics simulations        *\n'
     out += '*  Copyright (C) 2000 - 2018  CP2K developers group                         *\n'
     out += '*****************************************************************************/\n'
+    out += '#ifndef PARAMETERS_H\n'
+    out += '#define PARAMETERS_H\n'
     out += '\n'
     out += 'int const m_max = ' + str(m_upper) + ';\n'
     out += 'int const n_max = ' + str(n_upper) + ';\n'
@@ -251,6 +253,8 @@ def write_file(all_pars, m_upper, n_upper, k_upper):
         out += "  },\n"
     out = out[:-2] + '\n'  # remove the last ','
     out += '};\n'    # end of declaration, close initializer list
+    out += '#endif\n'
+    out += '//EOF'
 
     return out, all_pars
 

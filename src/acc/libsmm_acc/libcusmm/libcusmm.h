@@ -2,6 +2,8 @@
  *  CP2K: A general program to perform molecular dynamics simulations        *
  *  Copyright (C) 2000 - 2018  CP2K developers group                         *
  *****************************************************************************/
+#ifndef LIBCUSMM_H
+#define LIBCUSMM_H
 
 #include <stdio.h>
 #include <cuda.h>
@@ -51,4 +53,5 @@ static std::unordered_map<int, CUfunction> transpose_handles;
 int libcusmm_transpose_d(int *trs_stack, int offset, int nblks, double *buffer,
                          int m, int n, cudaStream_t * stream);
 
+#endif
 //EOF
