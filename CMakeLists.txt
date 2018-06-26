@@ -202,20 +202,32 @@ add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
 target_link_libraries(dbcsr_perf dbcsr ${MPI_Fortran_LIBRARIES})
 
 
-set(DBCSR_UNITTEST_SRCS
+set(DBCSR_TESTS
+  dbcsr_unittest
+  dbcsr_tensor_unittest
+  dbcsr_test_csr_conversions
+  )
+
+set(dbcsr_unittest_SRCS
   tests/dbcsr_unittest.F
   tests/dbcsr_test_add.F
   tests/dbcsr_test_multiply.F
   )
-add_executable(dbcsr_unittest ${DBCSR_UNITTEST_SRCS})
-target_link_libraries(dbcsr_unittest dbcsr)
-# register unittest executable with CMake
-add_test(NAME dbcsr_unittest COMMAND dbcsr_unittest)
+set(dbcsr_tensor_unittest_SRCS
+  tests/dbcsr_tensor_unittest.F)
+set(dbcsr_test_csr_conversions_SRCS
+  tests/dbcsr_test_csr_conversions.F)
 
-add_executable(dbcsr_test_csr_conversions tests/dbcsr_test_csr_conversions.F)
-target_link_libraries(dbcsr_test_csr_conversions dbcsr)
-add_test(NAME dbcsr_test_csr_conversions COMMAND dbcsr_test_csr_conversions)
-
+foreach (dbcsr_test ${DBCSR_TESTS})
+  add_executable(${dbcsr_test} ${${dbcsr_test}_SRCS})
+  target_link_libraries(${dbcsr_test} dbcsr ${MPI_Fortran_LIBRARIES})
+  # register unittest executable with CMake
+  if (MPI_FOUND)
+    add_test(NAME ${dbcsr_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${MPIEXEC_MAX_NUMPROCS} ${MPIEXEC_PREFLAGS} ${dbcsr_test} ${MPIEXEC_POSTFLAGS})
+  else ()
+    add_test(NAME ${dbcsr_test} COMMAND ${dbcsr_test})
+  endif()
+endforeach ()
 
 set(DBCSR_PROGRAM_SRCS
   examples/dbcsr_example_1.F
