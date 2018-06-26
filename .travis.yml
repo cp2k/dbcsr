@@ -9,7 +9,7 @@ addons:
       - libopenblas-dev
       - liblapack-dev
       - libopenmpi-dev
-      - openmpi-bin
+      - mpi-default-bin
 
 script:
   - make -j FC="mpif90" LD="mpif90" CFLAGS="-fprofile-arcs -ftest-coverage -O0" FCFLAGS="-fopenmp -fprofile-arcs -ftest-coverage -O0" DFLAGS="-D__MPI_VERSION=2 -D__parallel -D__HAS_NO_SHARED_GLIBC -D__STATM_TOTAL" LIBS="-llapack -lblas" all
