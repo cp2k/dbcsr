@@ -3,6 +3,8 @@
 #  Copyright (C) 2000 - 2018  CP2K developers group                         #
 #############################################################################
 import re
+import os
+import pickle
 
 from kernels.cusmm_dnt_largeDB1 import Kernel_dnt_largeDB1
 from kernels.cusmm_dnt_largeDB2 import Kernel_dnt_largeDB2
@@ -14,8 +16,16 @@ ALL_KERNELS = (Kernel_dnt_tiny, Kernel_dnt_small, Kernel_dnt_medium, Kernel_dnt_
 file_txt = "parameters_P100.txt"    # parameters_K20X.txt, parameters_K40.txt, parameters_K80.txt
 
 
+P_hash = 999
+Q_hash = 999
+
+
+def hash_from_triplet(m, n, k):
+    return (m*P_hash + n)*Q_hash + k
+
+
 def get_legal_parameters(m, n, k):
-    if 0 in [m, n, k] or 1 in [m, n, k]: 
+    if 0 in [m, n, k] or 1 in [m, n, k]:
         return 0, 0
     for kernclass in ALL_KERNELS:
         legal_param_list_for_kernel = kernclass.promising_parameters(m, n, k)
@@ -161,6 +171,26 @@ for line in content:
                                        int(m.group(7))])  # minblocks
 
 
+# Get parameter list
+file_p = "parameters.p"
+if os.path.exists(file_p):
+    print("Found parameters in file", file_p)
+    with open(file_p, 'rb') as f:
+        all_pars = pickle.load(f)
+else:
+    all_pars = dict()
+
+m_upper = 45  #max(m_)
+n_upper = 45  #max(n_)
+k_upper = 45  #max(k_)
+for m in range(m_upper+1):
+    print("\tm = ", m, "/", m_upper)
+    for n in range(n_upper+1):
+        print("n = ", n, "/", n_upper)
+        for k in range(k_upper+1):
+            h_mnk = hash_from_triplet(m, n, k)
+            if h_mnk not in all_pars.keys():
+                all_pars[h_mnk] = get_pars(m, n, k, parameters)
 
 # Construct output
 # Header
@@ -169,9 +199,9 @@ out += '*  CP2K: A general program to perform molecular dynamics simulations    
 out += '*  Copyright (C) 2000 - 2018  CP2K developers group                         *\n'
 out += '*****************************************************************************/\n'
 out += '\n'
-out += 'int const m_max = ' + str(max(m_)) + ';\n'
-out += 'int const n_max = ' + str(max(n_)) + ';\n'
-out += 'int const k_max = ' + str(max(k_)) + ';\n'
+out += 'int const m_max = ' + str(m_upper) + ';\n'
+out += 'int const n_max = ' + str(n_upper) + ';\n'
+out += 'int const k_max = ' + str(k_upper) + ';\n'
 out += 'int const n_params = ' + str(8) + ';\n'
 out += '\n'
 out += '\n'
@@ -196,25 +226,19 @@ out += '* Note: for the matrix matrix multiplication algorithms which take less 
 out += '* the superfluous parameters are set to 0\n'
 out += '*/\n'
 out += '\n'
-out += 'int ht[' + str(max(m_)+1) + '][' + str(max(n_)+1) + '][' + str(max(k_)+1) + '][n_params] = {\n'    # start declaration, open initializer list
+
+# Start declaration, open initializer list<
+out += 'int ht[' + str(m_upper+1) + '][' + str(n_upper+1) + '][' + str(k_upper+1) + '][n_params] = {\n'
 
 # Initializer list line
 print("Get parameters and write to file")
 init_list_line = "      {{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }}, //  ({m}x{n}x{k})\n"
-m_upper = max(m_); 
-n_upper = max(n_); 
-k_upper = max(k_); 
 for m in range(m_upper+1):
-    print("\tm = ", m, "/", m_upper)
-    out += "  {\n"
+    out += "  {  // m = " + str(m) + "\n"
     for n in range(n_upper+1):
-        print("n = ", n, "/", n_upper)
-        out += "    {\n"
+        out += "    {  // m = " + str(m) + ", n = " + str(n) + "\n"
         for k in range(k_upper+1):
-            #
-            # How to choose them if they're not given in the parameter file?
-            #
-            pars = get_pars(m, n, k, parameters)
+            pars = all_pars[hash_from_triplet(m, n, k)]
             out += init_list_line.format(algo=pars[0], tile_m=pars[1], tile_n=pars[2], w=pars[3], v=pars[4], threads=pars[5], grouping=pars[6], minblocks=pars[7], m=m, n=n, k=k)
         out = out[:-2] + '\n' # remove the last ','
         out += "    },\n"
@@ -223,6 +247,10 @@ for m in range(m_upper+1):
 out = out[:-2] + '\n' # remove the last ','
 out += '};\n'    # end of declaration, close initializer list
 
+# Store parameters
+print('Dumping them to file', file_p)
+with open(file_p, 'wb') as f:
+    pickle.dump(all_pars, f)
 
 # Write to cpp header-file
 file_h = "parameters.h"
