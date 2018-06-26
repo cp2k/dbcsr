@@ -82,7 +82,7 @@ function (ADD_FYPP_SOURCES OUTVAR)
       # append the output file to the list of outputs
       list(APPEND outfiles "${of}")
       # now add the custom command to generate the output file
-      add_custom_command(OUTPUT "${of}" COMMAND ${FYPP_EXECUTABLE} ARGS "${f}" > "${of}" DEPENDS "${f}")
+      add_custom_command(OUTPUT "${of}" COMMAND ${FYPP_EXECUTABLE} ARGS "${f}" "${of}" DEPENDS "${f}")
     else ()
       configure_file("${f}" "${of}" COPYONLY)
     endif ()
