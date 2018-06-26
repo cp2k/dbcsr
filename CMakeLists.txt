@@ -5,72 +5,73 @@ if (POLICY CMP0005)
     cmake_policy(SET CMP0005 NEW)
 endif ()
 
-enable_language (Fortran)
-project (dbcsr Fortran)
-enable_testing () # enables the `make test` target
+enable_language(Fortran)
+project(dbcsr Fortran)
+enable_testing() # enables the `make test` target
 
-find_package (LAPACK REQUIRED)
+find_package(BLAS REQUIRED)
+find_package(LAPACK REQUIRED)
 
 # make sure that the default is a RELEASE
 if (NOT CMAKE_BUILD_TYPE)
-  set (CMAKE_BUILD_TYPE RELEASE CACHE STRING
+  set(CMAKE_BUILD_TYPE RELEASE CACHE STRING
     "Choose the type of build, options are: Debug Release."
     FORCE)
 endif ()
 
 # Compiler detection
-get_filename_component (Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
+get_filename_component(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
 
 if (Fortran_COMPILER_NAME MATCHES "gfortran.*")
-  set (CMAKE_Fortran_FLAGS "-ffree-form -ffree-line-length-none -std=f2003 -fopenmp")
-  set (CMAKE_Fortran_FLAGS_RELEASE "-O3 -funroll-loops -ffast-math")
-  set (CMAKE_Fortran_FLAGS_DEBUG   "-O0 -ggdb")
+  set(CMAKE_Fortran_FLAGS "-ffree-form -ffree-line-length-none -std=f2003 -fopenmp")
+  set(CMAKE_Fortran_FLAGS_RELEASE "-O3 -funroll-loops -ffast-math")
+  set(CMAKE_Fortran_FLAGS_DEBUG   "-O0 -ggdb")
 else ()
-  message ("CMAKE_Fortran_COMPILER full path: " ${CMAKE_Fortran_COMPILER})
-  message ("Fortran compiler: " ${Fortran_COMPILER_NAME})
-  message ("No optimized Fortran compiler flags are known, we just try -O2...")
-  set (CMAKE_Fortran_FLAGS_RELEASE "-O2")
-  set (CMAKE_Fortran_FLAGS_DEBUG   "-O0 -g")
+  message("CMAKE_Fortran_COMPILER full path: " ${CMAKE_Fortran_COMPILER})
+  message("Fortran compiler: " ${Fortran_COMPILER_NAME})
+  message("No optimized Fortran compiler flags are known, we just try -O2...")
+  set(CMAKE_Fortran_FLAGS_RELEASE "-O2")
+  set(CMAKE_Fortran_FLAGS_DEBUG   "-O0 -g")
 endif ()
 
 # Use a system-provided fypp if available, otherwise the bundled one
-find_program (FYPP_EXECUTABLE fypp DOC "The FYPP preprocessor" PATHS tools/build_utils/)
+find_program(FYPP_EXECUTABLE fypp DOC "The FYPP preprocessor" PATHS tools/build_utils/)
 if (NOT FYPP_EXECUTABLE)
-  message (FATAL_ERROR "Failed to find the FYPP preprocessor.")
+  message(FATAL_ERROR "Failed to find the FYPP preprocessor.")
 else ()
-  message (STATUS "FYPP preprocessor found.")
+  message(STATUS "FYPP preprocessor found.")
 endif ()
 
 function (ADD_FYPP_SOURCES OUTVAR)
-  set (outfiles)
+  set(outfiles)
   foreach (f ${ARGN})
     # first we might need to make the input file absolute
-    get_filename_component (f "${f}" ABSOLUTE)
+    get_filename_component(f "${f}" ABSOLUTE)
     # get the relative path of the file to the current source dir
-    file (RELATIVE_PATH rf "${CMAKE_CURRENT_SOURCE_DIR}" "${f}")
+    file(RELATIVE_PATH rf "${CMAKE_CURRENT_SOURCE_DIR}" "${f}")
     # set the output filename of fypped sources
-    set (of "${CMAKE_CURRENT_BINARY_DIR}/${rf}")
+    set(of "${CMAKE_CURRENT_BINARY_DIR}/${rf}")
 
     # create the output directory if it doesn't exist
-    get_filename_component (d "${of}" PATH)
+    get_filename_component(d "${of}" PATH)
     if (NOT IS_DIRECTORY "${d}")
-      file (MAKE_DIRECTORY "${d}")
+      file(MAKE_DIRECTORY "${d}")
     endif ()
 
     if ("${f}" MATCHES ".F$")
       # append the output file to the list of outputs
-      list (APPEND outfiles "${of}")
+      list(APPEND outfiles "${of}")
       # now add the custom command to generate the output file
-      add_custom_command (OUTPUT "${of}" COMMAND ${FYPP_EXECUTABLE} ARGS "${f}" > "${of}" DEPENDS "${f}")
+      add_custom_command(OUTPUT "${of}" COMMAND ${FYPP_EXECUTABLE} ARGS "${f}" > "${of}" DEPENDS "${f}")
     else ()
       configure_file("${f}" "${of}" COPYONLY)
     endif ()
   endforeach ()
   # set the output list in the calling scope
-  set (${OUTVAR} ${outfiles} PARENT_SCOPE)
+  set(${OUTVAR} ${outfiles} PARENT_SCOPE)
 endfunction ()
 
-add_fypp_sources (DBCSR_SRCS
+add_fypp_sources(DBCSR_SRCS
   src/acc/dbcsr_acc_device.F
   src/acc/dbcsr_acc_devmem.F
   src/acc/dbcsr_acc_event.F
@@ -168,35 +169,35 @@ add_fypp_sources (DBCSR_SRCS
   src/tensors/dbcsr_tensor_types.F
   )
 
-add_library (dbcsr SHARED ${DBCSR_SRCS})
-target_link_libraries (dbcsr ${LAPACK_LIBRARIES})
+add_library(dbcsr SHARED ${DBCSR_SRCS})
+target_link_libraries(dbcsr ${LAPACK_LIBRARIES})
 include_directories(src/ src/base src/common)
 set_target_properties(dbcsr PROPERTIES COMPILE_DEFINITIONS "__HAS_NO_SHARED_GLIBC; __STATM_TOTAL")
 set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
 
-set (DBCSR_PERF_SRCS
+set(DBCSR_PERF_SRCS
   tests/dbcsr_performance_driver.F
   tests/dbcsr_performance_multiply.F)
-add_executable (dbcsr_perf ${DBCSR_PERF_SRCS})
-target_link_libraries (dbcsr_perf dbcsr)
+add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
+target_link_libraries(dbcsr_perf dbcsr)
 
 
-set (DBCSR_UNITTEST_SRCS
+set(DBCSR_UNITTEST_SRCS
   tests/dbcsr_unittest.F
   tests/dbcsr_test_add.F
   tests/dbcsr_test_multiply.F
   )
-add_executable (dbcsr_unittest ${DBCSR_UNITTEST_SRCS})
-target_link_libraries (dbcsr_unittest dbcsr)
+add_executable(dbcsr_unittest ${DBCSR_UNITTEST_SRCS})
+target_link_libraries(dbcsr_unittest dbcsr)
 # register unittest executable with CMake
-add_test (NAME dbcsr_unittest COMMAND dbcsr_unittest)
+add_test(NAME dbcsr_unittest COMMAND dbcsr_unittest)
 
-add_executable (dbcsr_test_csr_conversions tests/dbcsr_test_csr_conversions.F)
-target_link_libraries (dbcsr_test_csr_conversions dbcsr)
-add_test (NAME dbcsr_test_csr_conversions COMMAND dbcsr_test_csr_conversions)
+add_executable(dbcsr_test_csr_conversions tests/dbcsr_test_csr_conversions.F)
+target_link_libraries(dbcsr_test_csr_conversions dbcsr)
+add_test(NAME dbcsr_test_csr_conversions COMMAND dbcsr_test_csr_conversions)
 
 
-set (DBCSR_PROGRAM_SRCS
+set(DBCSR_PROGRAM_SRCS
   examples/dbcsr_example_1.F
   examples/dbcsr_example_2.F
   examples/dbcsr_example_3.F
@@ -204,15 +205,15 @@ set (DBCSR_PROGRAM_SRCS
 
 # register each program source file as executable
 foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS})
-  get_filename_component (dbcsr_program_name ${dbcsr_program_src} NAME_WE)
-  add_executable (${dbcsr_program_name} ${dbcsr_program_src})
-  target_link_libraries (${dbcsr_program_name} dbcsr)
+  get_filename_component(dbcsr_program_name ${dbcsr_program_src} NAME_WE)
+  add_executable(${dbcsr_program_name} ${dbcsr_program_src})
+  target_link_libraries(${dbcsr_program_name} dbcsr)
 endforeach ()
 
 # set the __SHORT_FILE__ per file for dbcsr sources
 foreach (dbcsr_src ${DBCSR_SRCS} ${DBCSR_PERF_SRCS} ${DBCSR_UNITTEST_SRCS} ${DBCSR_PROGRAM_SRCS})
   # add_fypp_sources returns a path in the current binary dir
-  get_filename_component (dbcsr_src "${dbcsr_src}" ABSOLUTE)
-  file (RELATIVE_PATH short_file "${CMAKE_CURRENT_BINARY_DIR}" "${dbcsr_src}")
-  set_source_files_properties (${dbcsr_src} PROPERTIES COMPILE_DEFINITIONS __SHORT_FILE__="dbcsr/${short_file}")
+  get_filename_component(dbcsr_src "${dbcsr_src}" ABSOLUTE)
+  file(RELATIVE_PATH short_file "${CMAKE_CURRENT_BINARY_DIR}" "${dbcsr_src}")
+  set_source_files_properties(${dbcsr_src} PROPERTIES COMPILE_DEFINITIONS __SHORT_FILE__="dbcsr/${short_file}")
 endforeach ()
