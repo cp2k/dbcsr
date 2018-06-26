@@ -30,11 +30,8 @@ BIN_TESTS := $(sort $(addprefix $(TESTSDIR)/, $(SRC_TESTS)))
 # Read and set the configuration ============================================
 MODDEPS = "lower"
 include $(INCLUDEMAKE)
-ifeq ($(NVCC),)
-BIN_FILES := $(filter-out %.cu, $(BIN_TESTS))
-else
+# the only binaries for the moment are the tests
 BIN_FILES := $(BIN_TESTS)
-endif
 BIN_NAMES := $(basename $(notdir $(BIN_FILES)))
 #
 ifneq ($(LD_SHARED),)
