@@ -11,5 +11,7 @@ dbcsr_unittest: BIN_DEPS = dbcsr_test_add.o dbcsr_test_multiply.o
 SRC_TESTS += dbcsr_tensor_unittest.F
 dbcsr_tensor_unittest: BIN_DEPS = 
 
+ifneq ($(NVCC),)
 SRC_TESTS += libcusmm_unittest.cu
 libcusmm_unittest: BIN_DEPS =
+endif
