@@ -20,10 +20,11 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=zerotrip \
               -Werror=uninitialized -Wno-maybe-uninitialized -Wuse-without-only \
               -Werror
-CFLAGS      = $(DFLAGS) -O2
+CFLAGS      = -O2
+FCFLAGS     = -03 -g -fno-omit-frame-pointer -funroll-loops -ffast-math -fopenmp
+CFLAGS     += $(DFLAGS)
 FCDEBFLAGS  = -ffree-form -std=f2003 -fimplicit-none -ffree-line-length-512
-FCFLAGS     = $(DFLAGS) -fno-omit-frame-pointer -g -O3 \
-              -funroll-loops -ffast-math -fopenmp $(FCDEBFLAGS) $(WFLAGS)
+FCFLAGS    += $(DFLAGS) $(FCDEBFLAGS) $(WFLAGS)
 ifneq ($(CHECKS),)
 FCFLAGS    += -fsanitize=leak
 FCFLAGS    += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
@@ -51,7 +52,7 @@ DFLAGS  += -D__ACC_CUBLAS
 #-D__CUDA_PROFILING
 CFLAGS   = $(WFLAGS) $(DFLAGS) -fopenmp -fno-omit-frame-pointer -g -O3 -ffast-math
 FCFLAGS  = $(WFLAGS) $(DFLAGS) -O3 -fopenmp -funroll-loops -ffast-math \
-	   -ftree-vectorize \
+           -ftree-vectorize \
            $(FCDEBFLAGS)
 LDFLAGS  = $(FCFLAGS)
 NVFLAGS  = $(DFLAGS) -O3 -w -arch sm_60 --std=c++11
