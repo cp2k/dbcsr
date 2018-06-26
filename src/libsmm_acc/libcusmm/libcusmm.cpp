@@ -282,6 +282,13 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 
     // Retrieve launching parameters from parameters.h
     int* params = ht[m][n][k];
+#ifdef LOGGING
+    if(m > m_max or n > n_max or k> k_max){
+        printf("Parameters out of bounds: cannot process (%ix%ix%i),\n when the biggest kernel is (%ix%ix%i)", 
+                m, n, k, m_max, n_max, k_max);
+        exit(1); 
+    } 
+#endif
 
     // call launch_kernel with parameters
     return launch_cusmm_kernel(libcusmm_algo(params[0]), // enum {largeDB1, largeDB2, medium, small, tiny}
