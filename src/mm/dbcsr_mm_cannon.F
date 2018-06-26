@@ -893,12 +893,11 @@ CONTAINS
          right_send_p, right_send_pcol, right_send_prow, right_send_vcol, right_send_vrow, &
          right_src_icol, right_src_irow, right_src_p, right_src_pcol, right_src_prow, &
          right_src_vcol, right_src_vrow, row, size_guess, size_guess_init, stat, threads_finished, &
-         threads_finished_read, v_k, v_ki
+         threads_finished_read, v_ki, v_ki_left, v_ki_right
       INTEGER(KIND=int_8)                                :: flop_single, flop_total, mem
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: row_counts, total_row_counts
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :)           :: left_sizes, my_sizes, right_sizes
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :, :)        :: all_sizes
-      INTEGER, DIMENSION(3, 2)                           :: mp_rc_groups
       INTEGER, DIMENSION(:), POINTER :: col_blk_sizes2enum, enum2col_blk_sizes, &
          enum2row_blk_sizes, k_sizes, left_data_rr, left_data_sr, left_index_rp, left_index_rr, &
          left_index_sp, left_index_sr, local_rows, m_sizes, n_sizes, right_data_rr, right_data_sr, &
@@ -990,18 +989,6 @@ CONTAINS
       CALL dbcsr_mp_grid_setup(product_mp_obj)
       CALL dbcsr_mp_grid_setup(left_mp_obj)
       CALL dbcsr_mp_grid_setup(right_mp_obj)
-      IF (dbcsr_mp_has_subgroups(product_mp_obj)) THEN
-         mp_rc_groups(M_P, 1:2) = (/dbcsr_mp_my_row_group(product_mp_obj), &
-                                    dbcsr_mp_my_col_group(product_mp_obj)/)
-      ENDIF
-      IF (dbcsr_mp_has_subgroups(left_mp_obj)) THEN
-         mp_rc_groups(M_L, 1:2) = (/dbcsr_mp_my_row_group(left_mp_obj), &
-                                    dbcsr_mp_my_col_group(left_mp_obj)/)
-      ENDIF
-      IF (dbcsr_mp_has_subgroups(right_mp_obj)) THEN
-         mp_rc_groups(M_R, 1:2) = (/dbcsr_mp_my_row_group(right_mp_obj), &
-                                    dbcsr_mp_my_col_group(right_mp_obj)/)
-      ENDIF
       !
       ! Dummy checks
       ! left/right matching
@@ -1363,7 +1350,10 @@ CONTAINS
          trs_stackbuf_calc => trs_stackbuf_1
          trs_stackbuf_comm => trs_stackbuf_2
       ENDIF
-
+      !
+      ! Reset indices for virtual images
+      v_ki_right = 0
+      v_ki_left = 0
       !
       ! Here is the main loop.
       !
@@ -1371,15 +1361,13 @@ CONTAINS
       ! sources. In the remaining iterations, the data are exchanged
       ! among neighbors.  In the last loop only calculations take place.
 
-      grouped_k_index: DO metronome = 1, nsteps_k
-         IF (debug_mod) WRITE (*, '(1X,A,3(1X,A,1X,I5))') routineN, &
-            "step", metronome, &
-            "first k", metronome*min_nimages, &
-            "last k", (metronome+1)*min_nimages-1
+      grouped_k_index: DO metronome = 0, nvirt_k-1
          ! Wait for right matrix transfer completion. Wait in all but
          ! the first loop iteration.
          CALL timeset(routineN//"_metrocomm1", handle2)
-         wait_right: IF (metronome .GT. 1) THEN
+         wait_right: IF (v_ki_right .EQ. right_row_nimages) THEN
+            ! Reset index
+            v_ki_right = 0
             IF (debug_mod) WRITE (*, '(1X,A)') routineN//" waiting for right"
             !
             CALL mp_waitall(right_data_sr)
@@ -1397,9 +1385,8 @@ CONTAINS
          !
          ! Right matrix transfer. Transfer in all but the last loop
          ! iteration.
-         xfer_right: IF (metronome .LT. nsteps_k) THEN
+         xfer_right: IF (v_ki_right .EQ. 0 .AND. metronome+right_row_nimages .LT. nvirt_k) THEN
             DO v_ki = 0, right_row_nimages-1
-               v_k = metronome*min_nimages+v_ki
                ! Calculate the process to send to.  It's the virtual
                ! process row -min_nimages up (i.e., smaller row number)
                ! from me.
@@ -1410,8 +1397,7 @@ CONTAINS
                                      ! myvprow goes through all of my (process row) images
                                      myvprow=v_ki+right_myfirstvrow, &
                                      myvpcol=right_myfirstvcol, & ! nothing happens in the columns
-                                     ! send to process min_nimages up in the grid
-                                     vprow_shift=-min_nimages, &
+                                     vprow_shift=-right_row_nimages, &
                                      shifting='0')
                ! Calculate which data I send.
                CALL image_calculator(right_set%image_dist, &
@@ -1421,9 +1407,7 @@ CONTAINS
                                      ! myvprows goes through all of my (process row) images
                                      myvprow=v_ki+right_myfirstvrow, &
                                      myvpcol=right_myfirstvcol, & ! nothing happens in the columns
-                                     ! send what I got from min_nimages down, appropriate
-                                     ! to the metronome tick
-                                     vprow_shift=-min_nimages+metronome*min_nimages, &
+                                     vprow_shift=metronome, &
                                      ! This is with relative shifting.
                                      shifting='R')
                right_dst_p = right_pgrid(right_dst_prow, right_dst_pcol)
@@ -1444,7 +1428,7 @@ CONTAINS
                                      vprow=right_recv_vrow, vpcol=right_recv_vcol, &
                                      myvprow=v_ki+right_myfirstvrow, &
                                      myvpcol=right_myfirstvcol, &
-                                     vprow_shift=+min_nimages, & ! just the opposite as "send to"
+                                     vprow_shift=+right_row_nimages, & ! just the opposite as "send to"
                                      shifting='0')
                ! Calculate which data I receive
                CALL image_calculator(right_set%image_dist, &
@@ -1454,7 +1438,7 @@ CONTAINS
                                      myvprow=v_ki+right_myfirstvrow, &
                                      myvpcol=right_myfirstvcol, &
                                      ! receive window moves with the metronome
-                                     vprow_shift=metronome*min_nimages, &
+                                     vprow_shift=metronome+right_row_nimages, &
                                      shifting='R')
                !
                IF (has_acc) THEN
@@ -1510,7 +1494,9 @@ CONTAINS
          ! Wait for left matrix transfer completion. Wait in all but
          ! the first loop iteration.
          CALL timeset(routineN//"_metrocomm3", handle2)
-         wait_left: IF (metronome .GT. 1) THEN
+         wait_left: IF (v_ki_left .EQ. left_col_nimages) THEN
+            ! Reset index
+            v_ki_left = 0
             IF (debug_mod) WRITE (*, '(1X,A)') routineN//" waiting for left"
             CALL mp_waitall(left_data_sr)
             CALL mp_waitall(left_data_rr)
@@ -1525,11 +1511,9 @@ CONTAINS
          ENDIF wait_left
          CALL timestop(handle2)
          !
-         ! Left matrix transfer. Transfer in all but the last loop
-         ! iteration.
-         xfer_left: IF (metronome .LT. nsteps_k) THEN
+         ! Left matrix transfer. Transfer in all but the last processor images.
+         xfer_left: IF (v_ki_left .EQ. 0 .AND. v_ki_left+left_col_nimages .LT. nvirt_k) THEN
             DO v_ki = 0, left_col_nimages-1
-               v_k = metronome*min_nimages+v_ki
                ! Calculate the process to send to.
                CALL image_calculator(left_set%image_dist, &
                                      prow=left_send_prow, rowi=left_send_irow, & ! output
@@ -1538,8 +1522,8 @@ CONTAINS
                                      myvprow=left_myfirstvrow, & ! nothing happens in the rows
                                      ! go through all my column images
                                      myvpcol=v_ki+left_myfirstvcol, &
-                                     ! send to process min_nimages left in the grid
-                                     vpcol_shift=-min_nimages, &
+                                     ! send to process left_col_nimages left in the grid
+                                     vpcol_shift=-left_col_nimages, &
                                      shifting='0')
                ! Calculate which data I send.
                CALL image_calculator(left_set%image_dist, &
@@ -1549,9 +1533,7 @@ CONTAINS
                                      myvprow=left_myfirstvrow, &
                                      ! go through all my column images
                                      myvpcol=v_ki+left_myfirstvcol, &
-                                     ! send what I got from min_nimages left, appropriate
-                                     ! to the metronome tick
-                                     vpcol_shift=-min_nimages+metronome*min_nimages, &
+                                     vpcol_shift=metronome, &
                                      ! This is with relative shifting.
                                      shifting='L')
                !
@@ -1573,7 +1555,7 @@ CONTAINS
                                      vprow=left_recv_vrow, vpcol=left_recv_vcol, &
                                      myvprow=left_myfirstvrow, &
                                      myvpcol=v_ki+left_myfirstvcol, &
-                                     vpcol_shift=+min_nimages, & ! just the opposite as "send to"
+                                     vpcol_shift=+left_col_nimages, & ! just the opposite as "send to"
                                      shifting='0')
                ! Calculate which data I receive
                CALL image_calculator(left_set%image_dist, &
@@ -1583,7 +1565,7 @@ CONTAINS
                                      myvprow=left_myfirstvrow, &
                                      myvpcol=v_ki+left_myfirstvcol, &
                                      ! receive window moves with the metronome
-                                     vpcol_shift=metronome*min_nimages, &
+                                     vpcol_shift=metronome+left_col_nimages, &
                                      shifting='L')
                !
                IF (has_acc) THEN
@@ -1635,115 +1617,120 @@ CONTAINS
                CALL timestop(handle2)
             ENDDO
          ENDIF xfer_left
+         !
          ! Do multiplication
-         DO v_ki = 0, min_nimages-1
-            IF (debug_mod) THEN
-               CALL dbcsr_print(left_buffer_calc%mats(1, v_ki+1), nodata=.TRUE.)
-               CALL dbcsr_print(right_buffer_calc%mats(v_ki+1, 1), nodata=.TRUE.)
-            ENDIF
-            !
-            ! form here the code for dbcsr_mm_driver_inner_init was taken
-            !
-            IF (.FALSE.) WRITE (*, *) routineN//" TICK", v_ki
-            ! Since the right matrix is shifted vertically, the
-            ! received data always has different notions of "local
-            ! rows".  Thus the local_rows and global_rows must be
-            ! recalculated.
-            CALL dbcsr_reset_vlocals(right_buffer_calc%mats(v_ki+1, 1), &
-                                     right_set%image_dist)
-            CALL dbcsr_reset_vlocals(left_buffer_calc%mats(1, v_ki+1), &
-                                     left_set%image_dist)
-            !
-            CALL ensure_array_size(k_sizes, ub=array_size(right_buffer_calc%mats(v_ki+1, 1)%local_rows))
-            CALL local_filter(array_data(right_buffer_calc%mats(v_ki+1, 1)%row_blk_size), &
-                              array_size(right_buffer_calc%mats(v_ki+1, 1)%local_rows), &
-                              array_data(right_buffer_calc%mats(v_ki+1, 1)%local_rows), &
-                              k_sizes)
-            !
-            IF (has_acc) THEN
-               CALL dbcsr_data_host2dev(left_buffer_calc%mats(1, v_ki+1)%data_area)
-               CALL dbcsr_data_host2dev(right_buffer_calc%mats(v_ki+1, 1)%data_area)
-               CALL acc_transpose_blocks(right_buffer_calc%mats(v_ki+1, 1), trs_stackbuf_calc, &
-                                         k_sizes, n_sizes, &
-                                         row_blk_sizes2enum, enum2row_blk_sizes, &
-                                         col_blk_sizes2enum, enum2col_blk_sizes)
-            END IF
+         v_ki_left = v_ki_left + 1
+         v_ki_right = v_ki_right + 1
+         IF (debug_mod) THEN
+            CALL dbcsr_print(left_buffer_calc%mats(1, v_ki_left), nodata=.TRUE.)
+            CALL dbcsr_print(right_buffer_calc%mats(v_ki_right, 1), nodata=.TRUE.)
+         ENDIF
+         !
+         ! form here the code for dbcsr_mm_driver_inner_init was taken
+         !
+         IF (.FALSE.) WRITE (*, *) routineN//" TICK", metronome
+         ! Since the right matrix is shifted vertically, the
+         ! received data always has different notions of "local
+         ! rows".  Thus the local_rows and global_rows must be
+         ! recalculated.
+         CALL dbcsr_reset_vlocals(right_buffer_calc%mats(v_ki_right, 1), &
+                                  right_set%image_dist)
+         CALL dbcsr_reset_vlocals(left_buffer_calc%mats(1, v_ki_left), &
+                                  left_set%image_dist)
+         !
+         CALL ensure_array_size(k_sizes, ub=array_size(right_buffer_calc%mats(v_ki_right, 1)%local_rows))
+         CALL local_filter(array_data(right_buffer_calc%mats(v_ki_right, 1)%row_blk_size), &
+                           array_size(right_buffer_calc%mats(v_ki_right, 1)%local_rows), &
+                           array_data(right_buffer_calc%mats(v_ki_right, 1)%local_rows), &
+                           k_sizes)
+         !
+         IF (has_acc) THEN
+            CALL dbcsr_data_host2dev(left_buffer_calc%mats(1, v_ki_left)%data_area)
+            CALL dbcsr_data_host2dev(right_buffer_calc%mats(v_ki_right, 1)%data_area)
+            CALL acc_transpose_blocks(right_buffer_calc%mats(v_ki_right, 1), trs_stackbuf_calc, &
+                                      k_sizes, n_sizes, &
+                                      row_blk_sizes2enum, enum2row_blk_sizes, &
+                                      col_blk_sizes2enum, enum2col_blk_sizes)
+         END IF
 
-            ! Sets the local right-matrix columns
-            IF (otf_filtering) THEN
-               left_norms(:) = huge_norm
-               right_norms(:) = huge_norm
-               CALL calculate_norms(right_buffer_calc%mats(v_ki+1, 1), &
-                                    right_norms, k_sizes, n_sizes)
-               CALL calculate_norms(left_buffer_calc%mats(1, v_ki+1), &
-                                    left_norms, m_sizes, k_sizes)
-            ENDIF
-            !
-            flop_single = 0
-            threads_finished = 0
+         ! Sets the local right-matrix columns
+         IF (otf_filtering) THEN
+            left_norms(:) = huge_norm
+            right_norms(:) = huge_norm
+            CALL calculate_norms(right_buffer_calc%mats(v_ki_right, 1), &
+                                 right_norms, k_sizes, n_sizes)
+            CALL calculate_norms(left_buffer_calc%mats(1, v_ki_left), &
+                                 left_norms, m_sizes, k_sizes)
+         ENDIF
+         !
+         flop_single = 0
+         threads_finished = 0
 
 !$OMP PARALLEL DEFAULT (NONE) &
 !$OMP SHARED (left_buffer_calc, right_buffer_calc, &
-!$OMP         v_ki, handle2, &
+!$OMP         v_ki_left, v_ki_right, handle2, &
 !$OMP         product_matrix, multrec,&
 !$OMP         filter_eps, right_norms, left_norms, row_max_epss, &
 !$OMP         keep_sparsity,threads_finished, &
 !$OMP         right_data_sr, right_data_rr, right_index_sr, right_index_rr, &
 !$OMP         left_data_sr, left_data_rr, left_index_sr, left_index_rr, &
-!$OMP         dbcsr_cfg, k_sizes) &
+!$OMP         dbcsr_cfg, k_sizes, nvirt_k, metronome) &
 !$OMP PRIVATE (ithread,nthreads,threads_finished_read) &
-!$OMP FIRSTPRIVATE (metronome, nsteps_k, min_nimages) &
 !$OMP REDUCTION (+: flop_single)
-            ithread = 0; nthreads = 1
-!$          ithread = omp_get_thread_num(); nthreads = omp_get_num_threads()
+         ithread = 0; nthreads = 1
+!$       ithread = omp_get_thread_num(); nthreads = omp_get_num_threads()
 
-            IF (metronome == nsteps_k .AND. v_ki == min_nimages-1) &
-               CALL dbcsr_mm_multrec_phaseout(multrec(ithread)%p)
+         IF (metronome == nvirt_k-1) &
+              CALL dbcsr_mm_multrec_phaseout(multrec(ithread)%p)
 !$OMP BARRIER
-            CALL timeset(routineN//"_multrec", handle2)
+         CALL timeset(routineN//"_multrec", handle2)
 
-            CALL dbcsr_mm_multrec_multiply(multrec(ithread)%p, &
-                                           left=left_buffer_calc%mats(1, v_ki+1), &
-                                           right=right_buffer_calc%mats(v_ki+1, 1), &
-                                           flop=flop_single, &
-                                           a_norms=left_norms, b_norms=right_norms, &
-                                           k_sizes=k_sizes)
+         CALL dbcsr_mm_multrec_multiply(multrec(ithread)%p, &
+                                        left=left_buffer_calc%mats(1, v_ki_left), &
+                                        right=right_buffer_calc%mats(v_ki_right, 1), &
+                                        flop=flop_single, &
+                                        a_norms=left_norms, b_norms=right_norms, &
+                                        k_sizes=k_sizes)
 
-            IF (metronome == nsteps_k .AND. v_ki == min_nimages-1) THEN
-               CALL dbcsr_mm_multrec_finalize(multrec(ithread)%p)
-               DEALLOCATE (multrec(ithread)%p)
-            ENDIF
+         IF (metronome == nvirt_k-1) THEN
+            CALL dbcsr_mm_multrec_finalize(multrec(ithread)%p)
+            DEALLOCATE (multrec(ithread)%p)
+         ENDIF
 
 !$OMP ATOMIC
-            threads_finished = threads_finished+1
-            IF (dbcsr_cfg%use_comm_thread .AND. (ithread .EQ. 0)) THEN
-               DO
+         threads_finished = threads_finished+1
+         IF (dbcsr_cfg%use_comm_thread .AND. (ithread .EQ. 0)) THEN
+            DO
 ! requires OMP 3.1 (e.g. gcc >=4.7), for correctness, otherwise we keep fingers crossed
 #if defined _OPENMP && _OPENMP >= 200711
 !$OMP                 ATOMIC READ
 #endif
-                  threads_finished_read = threads_finished
-                  IF (threads_finished_read .EQ. nthreads) EXIT
-                  CALL mp_testany(right_data_sr)
-                  CALL mp_testany(right_data_rr)
-                  CALL mp_testany(left_data_sr)
-                  CALL mp_testany(left_data_rr)
-                  CALL mp_testany(right_index_sr)
-                  CALL mp_testany(right_index_rr)
-                  CALL mp_testany(left_index_sr)
-                  CALL mp_testany(left_index_rr)
-               END DO
-            END IF
+               threads_finished_read = threads_finished
+               IF (threads_finished_read .EQ. nthreads) EXIT
+               CALL mp_testany(right_data_sr)
+               CALL mp_testany(right_data_rr)
+               CALL mp_testany(left_data_sr)
+               CALL mp_testany(left_data_rr)
+               CALL mp_testany(right_index_sr)
+               CALL mp_testany(right_index_rr)
+               CALL mp_testany(left_index_sr)
+               CALL mp_testany(left_index_rr)
+            END DO
+         END IF
 !$OMP BARRIER
-            CALL timestop(handle2)
+         CALL timestop(handle2)
 
 !$OMP END PARALLEL
-            flop_total = flop_total+flop_single
-         ENDDO
+         flop_total = flop_total+flop_single
+            ! Move to the next images
 
-         CALL dbcsr_switch(left_buffer_calc, left_buffer_comm)
-         CALL dbcsr_switch(right_buffer_calc, right_buffer_comm)
-         CALL dbcsr_switch(trs_stackbuf_calc, trs_stackbuf_comm)
+         IF (v_ki_left .EQ. left_col_nimages) THEN
+            CALL dbcsr_switch(left_buffer_calc, left_buffer_comm)
+         ENDIF
+         IF (v_ki_right .EQ. right_row_nimages) THEN
+            CALL dbcsr_switch(right_buffer_calc, right_buffer_comm)
+            CALL dbcsr_switch(trs_stackbuf_calc, trs_stackbuf_comm)
+         ENDIF
 
       ENDDO grouped_k_index
       CALL m_memory(mem)
