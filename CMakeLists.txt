@@ -76,6 +76,7 @@ add_fypp_sources (DBCSR_SRCS
   src/acc/dbcsr_acc_event.F
   src/acc/dbcsr_acc_hostmem.F
   src/acc/dbcsr_acc_stream.F
+  src/acc/cublaswrap/dbcsr_cublas.F
   src/base/dbcsr_base_hooks.F
   src/base/dbcsr_kinds.F
   src/base/dbcsr_machine.F
@@ -91,11 +92,8 @@ add_fypp_sources (DBCSR_SRCS
   src/common/dbcsr_cuda_profiling.F
   src/common/dbcsr_dict.F
   src/common/dbcsr_distribution_1d_types.F
-  src/common/dbcsr_erf_fn.F
   src/common/dbcsr_error_handling.F
   src/common/dbcsr_files.F
-  src/common/dbcsr_fparser.F
-  src/common/dbcsr_glob_matching.F
   src/common/dbcsr_iter_types.F
   src/common/dbcsr_kahan_sum.F
   src/common/dbcsr_list.F
