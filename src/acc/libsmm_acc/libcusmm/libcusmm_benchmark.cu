@@ -76,7 +76,7 @@ void libcusmm_benchmark_finalize(libcusmm_benchmark_t* handle){
     free(handle);
     cudaError_t cudaError = cudaGetLastError();
     if (cudaError != cudaSuccess){
-      printf("libcusmm_benchmark_init: %s\n", cudaGetErrorString(cudaError));
+      printf("libcusmm_benchmark_finalize: %s\n", cudaGetErrorString(cudaError));
       exit(1);
     }
 }
