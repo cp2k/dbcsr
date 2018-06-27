@@ -202,10 +202,10 @@ def write_file(all_pars, m_upper, n_upper, k_upper):
     out += '#ifndef PARAMETERS_H\n'
     out += '#define PARAMETERS_H\n'
     out += '\n'
-    out += 'int const m_max = ' + str(m_upper) + ';\n'
-    out += 'int const n_max = ' + str(n_upper) + ';\n'
-    out += 'int const k_max = ' + str(k_upper) + ';\n'
-    out += 'int const n_params = ' + str(8) + ';\n'
+    out += 'static int const m_max = ' + str(m_upper) + ';\n'
+    out += 'static int const n_max = ' + str(n_upper) + ';\n'
+    out += 'static int const k_max = ' + str(k_upper) + ';\n'
+    out += 'static int const n_params = ' + str(8) + ';\n'
     out += '\n'
     out += '\n'
     out += '/*\n'
@@ -233,7 +233,7 @@ def write_file(all_pars, m_upper, n_upper, k_upper):
     out += '\n'
 
     # Start declaration, open initializer list<
-    out += 'int ht[' + str(m_upper+1) + '][' + str(n_upper+1) + '][' + str(k_upper+1) + '][n_params] = {\n'
+    out += 'static int ht[' + str(m_upper+1) + '][' + str(n_upper+1) + '][' + str(k_upper+1) + '][n_params] = {\n'
 
     # Initializer list line
     print("Get parameters and write to file")
