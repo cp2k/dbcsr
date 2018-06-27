@@ -323,10 +323,10 @@ TOOL_HELP += "doxygen : Generate the doxygen documentation"
 
 # Libcusmm stuff ============================================================
 $(LIBCUSMM_ABS_DIR)/parameters.h: $(LIBCUSMM_ABS_DIR)/parameters_txt_to_h.py $(LIBCUSMM_ABS_DIR)/parameters_P100.txt
-	cd $(LIBCUSMM_ABS_DIR); python parameters_txt_to_h.py
+	cd $(LIBCUSMM_ABS_DIR); ./parameters_txt_to_h.py
 
 $(LIBCUSMM_ABS_DIR)/cusmm_kernels.h: $(LIBCUSMM_ABS_DIR)/stringify_cusmm_kernels.py $(wildcard $(LIBCUSMM_ABS_DIR)/kernels/*.h)
-	cd $(LIBCUSMM_ABS_DIR); python stringify_cusmm_kernels.py
+	cd $(LIBCUSMM_ABS_DIR); ./stringify_cusmm_kernels.py
 
 
 # automatic dependency generation ===========================================
