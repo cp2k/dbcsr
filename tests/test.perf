@@ -1,9 +1,12 @@
+# npcols MPI grid, 0 leaves MPI to find the best grid.
+# Note that the total number of processors must be divisible per npcols
+1
 # operation
 dbcsr_multiply
-# matrix sizes
-5120
-5120
-5120
+# matrix sizes (M, N, K)
+100
+1000
+1000
 # sparsity (A, B, C)
 0.0d0
 0.0d0
@@ -36,17 +39,17 @@ N
 # retain sparsity (T/F)
 F
 # number of repetitions
-50
+1
 # number of different blocks to read (m, n, k)
 1
 1
 1
 # the m blocks (multiplicity, block size, ...)
 1
-64
+5
 # the n blocks (multiplicity, block size, ...)
 1
-64
+5
 # the k blocks (multiplicity, block size, ...)
 1
-64
+5

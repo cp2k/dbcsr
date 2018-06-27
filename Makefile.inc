@@ -7,7 +7,6 @@ AR          = ar -r
 CPPFLAGS    =
 DFLAGS      = -D__MPI_VERSION=3 \
               -D__parallel -D__SCALAPACK \
-              -D__HAS_NO_SHARED_GLIBC \
               -D__STATM_TOTAL
 
 # -Werror=c-binding-type 
