@@ -361,8 +361,8 @@ CONTAINS
       ENDIF
 
       ! Create the random matrices.
-      trs(1) = transa .EQ. dbcsr_no_transpose
-      trs(2) = transb .EQ. dbcsr_no_transpose
+      trs(1) = transa .NE. dbcsr_no_transpose
+      trs(2) = transb .NE. dbcsr_no_transpose
       CALL dbcsr_dist_bin(row_dist_c, SIZE(sizes_m), npdims(1), &
                           sizes_m)
       CALL dbcsr_dist_bin(col_dist_c, SIZE(sizes_n), npdims(2), &
