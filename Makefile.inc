@@ -1,6 +1,7 @@
 
 CC          = gcc
 CPP         =
+CXX         = g++
 FC          = mpifort
 LD          = mpifort
 AR          = ar -r
@@ -48,6 +49,7 @@ endif
 ifneq ($(CRAY),)
 NVCC     = nvcc
 CC       = cc
+CXX      = CC
 FC       = ftn
 LD       = ftn
 DFLAGS  += -D__HAS_smm_dnn
