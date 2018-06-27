@@ -102,7 +102,7 @@ target_link_libraries(dbcsr ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${MPI_Fortran_
 target_include_directories(dbcsr PRIVATE base common) # do not export those includes
 # but make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
 target_include_directories(dbcsr PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}) 
-target_compile_definitions(dbcsr PRIVATE __HAS_NO_SHARED_GLIBC  __STATM_TOTAL)
+target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL)
 set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
 
 if (MPI_FOUND)
