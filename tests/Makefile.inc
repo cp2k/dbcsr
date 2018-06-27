@@ -4,8 +4,8 @@ UNITTESTS = dbcsr_unittest dbcsr_tensor_unittest dbcsr_test_csr_conversions
 SRC_TESTS += dbcsr_performance_driver.F
 dbcsr_performance_driver: BIN_DEPS = dbcsr_performance_multiply.o
 
-SRC_TESTS += test_mm.F
-test_mm: BIN_DEPS = 
+SRC_TESTS += dbcsr_test_rect_mm.F
+dbcsr_test_rect_mm: BIN_DEPS = 
 
 SRC_TESTS += dbcsr_test_csr_conversions.F
 dbcsr_test_csr_conversions: BIN_DEPS =
