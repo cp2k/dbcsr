@@ -5,6 +5,9 @@ if (POLICY CMP0005)
     cmake_policy(SET CMP0005 NEW)
 endif ()
 
+# include our cmake snippets
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
 enable_language(Fortran)
 project(dbcsr Fortran)
 enable_testing() # enables the `make test` target
@@ -44,42 +47,6 @@ else ()
   set(CMAKE_Fortran_FLAGS_DEBUG   "-O0 -g")
 endif ()
 
-# Use a system-provided fypp if available, otherwise the bundled one
-find_program(FYPP_EXECUTABLE fypp DOC "The FYPP preprocessor" PATHS tools/build_utils/)
-if (NOT FYPP_EXECUTABLE)
-  message(FATAL_ERROR "Failed to find the FYPP preprocessor.")
-else ()
-  message(STATUS "FYPP preprocessor found.")
-endif ()
-
-function (ADD_FYPP_SOURCES OUTVAR)
-  set(outfiles)
-  foreach (f ${ARGN})
-    # first we might need to make the input file absolute
-    get_filename_component(f "${f}" ABSOLUTE)
-    # get the relative path of the file to the current source dir
-    file(RELATIVE_PATH rf "${CMAKE_CURRENT_SOURCE_DIR}" "${f}")
-    # set the output filename of fypped sources
-    set(of "${CMAKE_CURRENT_BINARY_DIR}/${rf}")
-
-    # create the output directory if it doesn't exist
-    get_filename_component(d "${of}" PATH)
-    if (NOT IS_DIRECTORY "${d}")
-      file(MAKE_DIRECTORY "${d}")
-    endif ()
-
-    if ("${f}" MATCHES ".F$")
-      # append the output file to the list of outputs
-      list(APPEND outfiles "${of}")
-      # now add the custom command to generate the output file
-      add_custom_command(OUTPUT "${of}" COMMAND ${FYPP_EXECUTABLE} ARGS "${f}" "${of}" DEPENDS "${f}")
-    else ()
-      configure_file("${f}" "${of}" COPYONLY)
-    endif ()
-  endforeach ()
-  # set the output list in the calling scope
-  set(${OUTVAR} ${outfiles} PARENT_SCOPE)
-endfunction ()
 
 add_subdirectory(src)
 add_subdirectory(tests)

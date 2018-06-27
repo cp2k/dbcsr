@@ -1,4 +1,6 @@
 
+include(fypp-sources)
+
 add_fypp_sources(DBCSR_SRCS
   acc/dbcsr_acc_device.F
   acc/dbcsr_acc_devmem.F
