@@ -8,6 +8,7 @@ CPPFLAGS    =
 DFLAGS      = -D__MPI_VERSION=3 \
               -D__parallel -D__SCALAPACK \
               -D__STATM_TOTAL
+
 # Do not simply use -Wall since some warnings for Fortran are misleading:
 WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=intrinsic-shadow -Werror=intrinsics-std \
@@ -30,6 +31,10 @@ FCFLAGS    += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
 endif
 LDFLAGS     = $(FCFLAGS)
 LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -lreflapack -lrefblas
+
+ifneq ($(CINT),)
+FCDEBFLAGS := $(subst -std=f2003,-std=f2008ts,$(FCDEBFLAGS))
+endif
 
 ifneq ($(GPU),)
 NVCC        = nvcc
