@@ -40,6 +40,7 @@ enum libcusmm_algo {
 
 
 static std::unordered_map<int, CUfunction> kernel_handles;
+static std::unordered_map<int, std::pair<int, int> > kernel_launching_parameters;
 
 int libcusmm_process_d(int *param_stack, int stack_size,
     CUstream stream, int m, int n, int k,

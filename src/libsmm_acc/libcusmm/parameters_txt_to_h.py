@@ -178,11 +178,11 @@ def get_parameters_from_dump(file_p, parameters, m_upper, n_upper, k_upper, m_fo
         else:
             all_pars = dict()
 
-        for m in range(m_upper+1):
+        for m in range(1, m_upper+1):
             print("\tm = ", m, "/", m_upper)
-            for n in range(n_upper+1):
+            for n in range(1, n_upper+1):
                 print("n = ", n, "/", n_upper)
-                for k in range(k_upper+1):
+                for k in range(1, k_upper+1):
 
                     h_mnk = hash_from_triplet(m, n, k)
                     if h_mnk not in all_pars.keys() or m == m_force or n == n_force or k == k_force:
@@ -237,11 +237,11 @@ def write_file(all_pars, m_upper, n_upper, k_upper):
     print("Get parameters and write to file")
     init_list_line = \
         "      {{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }}, //  ({m}x{n}x{k})\n"
-    for m in range(m_upper+1):
+    for m in range(1, m_upper+1):
         out += "  {  // m = " + str(m) + "\n"
-        for n in range(n_upper+1):
+        for n in range(1, n_upper+1):
             out += "    {  // m = " + str(m) + ", n = " + str(n) + "\n"
-            for k in range(k_upper+1):
+            for k in range(1, k_upper+1):
                 pars = all_pars[hash_from_triplet(m, n, k)]
                 out += init_list_line.format(algo=pars[0], tile_m=pars[1], tile_n=pars[2], w=pars[3], v=pars[4],
                                              threads=pars[5], grouping=pars[6], minblocks=pars[7], m=m, n=n, k=k)
@@ -258,8 +258,6 @@ def write_file(all_pars, m_upper, n_upper, k_upper):
 #===============================================================================
 def get_legal_parameters(m, n, k):
 
-    if 0 in [m, n, k]:
-        return 0, 0
     for kernclass in ALL_KERNELS:
         legal_param_list_for_kernel = kernclass.promising_parameters(m, n, k)
         if len(legal_param_list_for_kernel) > 0:
@@ -270,8 +268,6 @@ def get_legal_parameters(m, n, k):
 
 #===============================================================================
 def get_all_legal_parameters(m, n, k):
-    if 0 in [m, n, k]:
-        return [[0, 0]]
     legal_param_list = list()
     for kernclass in ALL_KERNELS:
         legal_param_list_for_kernel = kernclass.promising_parameters(m, n, k)
@@ -285,9 +281,6 @@ def get_all_legal_parameters(m, n, k):
 # Helper function for getting a particular set of paramets
 def get_pars(m, n, k, parameters):
 
-    if 0 in [m, n, k]:
-        return [0, 0, 0, 0, 0, 0, 0, 0]
-
     h_mnk = hash_from_triplet(m, n, k)
     if h_mnk in parameters.keys():
             return parameters[h_mnk]
@@ -298,27 +291,23 @@ def get_pars(m, n, k, parameters):
         algo, params = get_legal_parameters(m, n, k)
 
         pars = list()
-        if algo == 0:
-            return [0, 0, 0, 0, 0, 0, 0, 0]
-
+        pars.append(algo)                   # algo
+        if 'tile_m' in params.keys():
+            pars.append(params['tile_m'])   # tile_m
+            pars.append(params['tile_n'])   # tile_n
         else:
-            pars.append(algo)                   # algo
-            if 'tile_m' in params.keys():
-                pars.append(params['tile_m'])   # tile_m
-                pars.append(params['tile_n'])   # tile_n
-            else:
-                pars.append(0)                  # tile_m
-                pars.append(0)                  # tile_m
-            if 'w' in params.keys():
-                pars.append(params['w'])        # w
-                pars.append(params['v'])        # v
-            else:
-                pars.append(0)                  # w
-                pars.append(0)                  # v
-            pars.append(params['threads'])      # threads
-            pars.append(params['grouping'])     # grouping
-            pars.append(params['minblocks'])    # miniblocks
-            return pars
+            pars.append(0)                  # tile_m
+            pars.append(0)                  # tile_m
+        if 'w' in params.keys():
+            pars.append(params['w'])        # w
+            pars.append(params['v'])        # v
+        else:
+            pars.append(0)                  # w
+            pars.append(0)                  # v
+        pars.append(params['threads'])      # threads
+        pars.append(params['grouping'])     # grouping
+        pars.append(params['minblocks'])    # miniblocks
+        return pars
 
 
 #===============================================================================
