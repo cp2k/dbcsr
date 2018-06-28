@@ -1512,7 +1512,7 @@ CONTAINS
          CALL timestop(handle2)
          !
          ! Left matrix transfer. Transfer in all but the last processor images.
-         xfer_left: IF (v_ki_left .EQ. 0 .AND. v_ki_left+left_col_nimages .LT. nvirt_k) THEN
+         xfer_left: IF (v_ki_left .EQ. 0 .AND. metronome+left_col_nimages .LT. nvirt_k) THEN
             DO v_ki = 0, left_col_nimages-1
                ! Calculate the process to send to.
                CALL image_calculator(left_set%image_dist, &
@@ -1722,8 +1722,8 @@ CONTAINS
 
 !$OMP END PARALLEL
          flop_total = flop_total+flop_single
-            ! Move to the next images
-
+         !
+         ! Move to the next images
          IF (v_ki_left .EQ. left_col_nimages) THEN
             CALL dbcsr_switch(left_buffer_calc, left_buffer_comm)
          ENDIF

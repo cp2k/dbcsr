@@ -114,40 +114,40 @@ CONTAINS
          DBCSR_ABORT("narg not correct")
       ENDIF
 
-      matrix_sizes(1) = atoi(args(2))
-      matrix_sizes(2) = atoi(args(3))
-      matrix_sizes(3) = atoi(args(4))
-      sparsities(1) = ator(args(5))
-      sparsities(2) = ator(args(6))
-      sparsities(3) = ator(args(7))
-      trans(1) = args(8)
-      trans(2) = args(9)
-      symmetries(1) = args(10)
-      symmetries(2) = args(11)
-      symmetries(3) = args(12)
-      TYPE = atoi(args(13))
-      alpha(1) = ator(args(14))
-      alpha(2) = ator(args(15))
-      beta(1) = ator(args(16))
-      beta(2) = ator(args(17))
-      limits(1) = atoi(args(18))
-      limits(2) = atoi(args(19))
-      limits(3) = atoi(args(20))
-      limits(4) = atoi(args(21))
-      limits(5) = atoi(args(22))
-      limits(6) = atoi(args(23))
-      retain_sparsity = atol(args(24))
-      nrep = atoi(args(25))
-      mblk_to_read = atoi(args(26))
-      nblk_to_read = atoi(args(27))
-      kblk_to_read = atoi(args(28))
+      matrix_sizes(1) = atoi(args(3))
+      matrix_sizes(2) = atoi(args(4))
+      matrix_sizes(3) = atoi(args(5))
+      sparsities(1) = ator(args(6))
+      sparsities(2) = ator(args(7))
+      sparsities(3) = ator(args(8))
+      trans(1) = args(9)
+      trans(2) = args(10)
+      symmetries(1) = args(11)
+      symmetries(2) = args(12)
+      symmetries(3) = args(13)
+      TYPE = atoi(args(14))
+      alpha(1) = ator(args(15))
+      alpha(2) = ator(args(16))
+      beta(1) = ator(args(17))
+      beta(2) = ator(args(18))
+      limits(1) = atoi(args(19))
+      limits(2) = atoi(args(20))
+      limits(3) = atoi(args(21))
+      limits(4) = atoi(args(22))
+      limits(5) = atoi(args(23))
+      limits(6) = atoi(args(24))
+      retain_sparsity = atol(args(25))
+      nrep = atoi(args(26))
+      mblk_to_read = atoi(args(27))
+      nblk_to_read = atoi(args(28))
+      kblk_to_read = atoi(args(29))
 
       IF (narg < 28+2*(mblk_to_read+nblk_to_read+kblk_to_read)) &
          DBCSR_ABORT("narg not correct")
 
       ALLOCATE (bs_m(2*mblk_to_read), bs_n(2*nblk_to_read), bs_k(2*kblk_to_read))
 
-      i = 28
+      i = 29
       DO iblk = 1, mblk_to_read
          i = i+1
          bs_m(2*(iblk-1)+1) = atoi(args(i))
@@ -361,8 +361,8 @@ CONTAINS
       ENDIF
 
       ! Create the random matrices.
-      trs(1) = transa .EQ. dbcsr_no_transpose
-      trs(2) = transb .EQ. dbcsr_no_transpose
+      trs(1) = transa .NE. dbcsr_no_transpose
+      trs(2) = transb .NE. dbcsr_no_transpose
       CALL dbcsr_dist_bin(row_dist_c, SIZE(sizes_m), npdims(1), &
                           sizes_m)
       CALL dbcsr_dist_bin(col_dist_c, SIZE(sizes_n), npdims(2), &

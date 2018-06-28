@@ -30,7 +30,8 @@ PROGRAM dbcsr_performance_driver
    USE dbcsr_performance_multiply,      ONLY: dbcsr_perf_multiply
    USE dbcsr_string_table,              ONLY: string_table_allocate,&
                                               string_table_deallocate
-   USE dbcsr_test_methods,              ONLY: dbcsr_test_read_args
+   USE dbcsr_test_methods,              ONLY: atoi,&
+                                              dbcsr_test_read_args
    USE dbcsr_timings,                   ONLY: add_timer_env,&
                                               rm_timer_env,&
                                               timings_register_hooks
@@ -75,10 +76,34 @@ PROGRAM dbcsr_performance_driver
    CALL timeset(routineN, handle)
 
    !
+   ! Number of nodes and rankid
+   CALL mp_environ(numnodes, mynode, mp_comm)
+
+   !
+   ! set standard output parameters
+   io_unit = 0
+   IF (mynode .EQ. 0) io_unit = default_output_unit
+
+   !
+   ! read and distribute input args
+   IF (mynode .EQ. 0) CALL dbcsr_test_read_args(narg, args)
+   CALL mp_bcast(narg, 0, mp_comm)
+   CALL mp_bcast(args, 0, mp_comm)
+   IF (narg .LT. 1) &
+      DBCSR_ABORT("nargs not correct")
+
+   !
    ! setup the mp environment
-   npdims(:) = 0
+   IF (atoi(args(1)) .LE. 0) THEN
+      npdims(:) = 0
+   ELSE
+      npdims(2) = atoi(args(1))
+      IF (MOD(numnodes, npdims(2)) .NE. 0) THEN
+         DBCSR_ABORT("numnodes is not multiple of npcols")
+      ENDIF
+      npdims(1) = numnodes/npdims(2)
+   ENDIF
    CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
-   CALL mp_environ(numnodes, mynode, group)
    ALLOCATE (pgrid(0:npdims(1)-1, 0:npdims(2)-1))
    DO prow = 0, npdims(1)-1
       DO pcol = 0, npdims(2)-1
@@ -88,18 +113,6 @@ PROGRAM dbcsr_performance_driver
    CALL dbcsr_mp_new(mp_env, pgrid, group, mynode, numnodes, &
                      myprow=myploc(1), mypcol=myploc(2))
    DEALLOCATE (pgrid)
-   !
-   ! set standard output parameters
-   io_unit = 0
-   IF (mynode .EQ. 0) io_unit = default_output_unit
-
-   !
-   ! read and distribute input args
-   IF (mynode .EQ. 0) CALL dbcsr_test_read_args(narg, args)
-   CALL mp_bcast(narg, 0, group)
-   CALL mp_bcast(args, 0, group)
-   IF (narg .LT. 1) &
-      DBCSR_ABORT("nargs not correct")
 
    !
    ! initialize libdbcsr
@@ -107,7 +120,7 @@ PROGRAM dbcsr_performance_driver
 
    !
    ! select the operation
-   SELECT CASE (args (1))
+   SELECT CASE (args (2))
    CASE ('dbcsr_multiply')
       CALL dbcsr_perf_multiply(group, mp_env, npdims, io_unit, narg, args)
    CASE DEFAULT
