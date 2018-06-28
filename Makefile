@@ -202,6 +202,7 @@ else
 install: $(PUBLICFILES:.F=.mod)
 	@echo "  ...modules..."
 	@cp $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)) $(PREFIX)/include
+	@cp $(addprefix $(SRCDIR)/, *.h) $(PREFIX)/include
 endif
 
 

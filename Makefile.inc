@@ -10,7 +10,6 @@ DFLAGS      = -D__MPI_VERSION=3 \
               -D__parallel -D__SCALAPACK \
               -D__STATM_TOTAL
 
-# -Werror=c-binding-type 
 # Do not simply use -Wall since some warnings for Fortran are misleading:
 WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=intrinsic-shadow -Werror=intrinsics-std \
