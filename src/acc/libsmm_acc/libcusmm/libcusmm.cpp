@@ -18,7 +18,7 @@
 #define dbcsr_type_real_8     3
 #define dbcsr_type_complex_4  5
 #define dbcsr_type_complex_8  7
-#define KERNEL_FILES_PATH DBCSRHOME "/src/libsmm_acc/libcusmm/kernels/"
+#define KERNEL_FILES_PATH DBCSRHOME "/src/acc/libsmm_acc/libcusmm/kernels/"
 
 // Hash function constants
 #define P 999
