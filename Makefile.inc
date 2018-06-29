@@ -63,6 +63,6 @@ LDFLAGS  = $(FCFLAGS)
 NVFLAGS  = $(DFLAGS) -O3 -w -arch sm_60 --std=c++11
 LIBS     = -lfftw3 -lfftw3_threads
 LIBS    += /users/alazzaro/project/libsmm/libxsmm/haswell/lib/libsmm_dnn_cray.gnu.a
-LIBS    += -lcublas -lstdc++
+LIBS    += -lstdc++ -lcudart -lcublas -lnvrtc -lcuda
 #LIBS    += -lnvToolsExt
 endif
