@@ -57,7 +57,7 @@ LIBCUSMM_DIR := $(shell cd $(SRCDIR) ; find . -type d -name "libcusmm")
 LIBCUSMM_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libcusmm")
 
 ALL_PKG_FILES := $(shell find $(SRCDIR) -name "PACKAGE")
-OBJ_SRC_FILES := $(shell cd $(SRCDIR); find . -name "*.F")
+OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . -name "*.F")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cpp")
 
@@ -79,7 +79,7 @@ INCLUDED_SRC_FILES := $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR
 INCLUDED_SRC_FILES += $(notdir $(shell find $(TESTSDIR) -name "*.f90"))
 
 # Include also source files which won't compile into an object file
-ALL_SRC_FILES := $(strip $(subst $(NULL) .,$(NULL) $(SRCDIR),$(NULL) $(OBJ_SRC_FILES)))
+ALL_SRC_FILES  = $(strip $(subst $(NULL) .,$(NULL) $(SRCDIR),$(NULL) $(OBJ_SRC_FILES)))
 ALL_SRC_FILES += $(filter-out base_uses.f90, $(shell find $(SRCDIR) -name "*.f90"))
 ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.h")
 ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hpp")
