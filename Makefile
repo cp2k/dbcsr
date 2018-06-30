@@ -56,20 +56,17 @@ ALL_SRC_DIRS += $(TESTSDIR)
 LIBCUSMM_DIR := $(shell cd $(SRCDIR) ; find . -type d -name "libcusmm")
 LIBCUSMM_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libcusmm")
 
-ALL_PKG_FILES  = $(shell find $(SRCDIR) -name "PACKAGE")
-OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . -name "*.F")
+ALL_PKG_FILES := $(shell find $(SRCDIR) -name "PACKAGE")
+OBJ_SRC_FILES := $(shell cd $(SRCDIR); find . -name "*.F")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cpp")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cxx")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cc")
 
 # OBJECTS used for pretty and doxify
 ALL_OBJECTS   := $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(SRCDIR);  find . ! -name "libcusmm.cu" ! -name "libcusmm_part*.cu" -name "*.cu"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.F"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.c"))))
-ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cxx"))))
-ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cc"))))
+ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cpp"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cu"))))
 
 ifneq ($(NVCC),)
@@ -78,16 +75,14 @@ OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cu
 endif
 
 # Included files used by Fypp preprocessor and standard includes
-INCLUDED_SRC_FILES  = $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR) -name "*.f90")))
+INCLUDED_SRC_FILES := $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR) -name "*.f90")))
 INCLUDED_SRC_FILES += $(notdir $(shell find $(TESTSDIR) -name "*.f90"))
 
 # Include also source files which won't compile into an object file
-ALL_SRC_FILES  = $(strip $(subst $(NULL) .,$(NULL) $(SRCDIR),$(NULL) $(OBJ_SRC_FILES)))
+ALL_SRC_FILES := $(strip $(subst $(NULL) .,$(NULL) $(SRCDIR),$(NULL) $(OBJ_SRC_FILES)))
 ALL_SRC_FILES += $(filter-out base_uses.f90, $(shell find $(SRCDIR) -name "*.f90"))
 ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.h")
 ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hpp")
-ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hxx")
-ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hcc")
 
 # stage 1: create dirs and run makedep.py.
 #          Afterwards, call make recursively again with -C $(OBJDIR) and INCLUDE_DEPS=true
@@ -190,19 +185,27 @@ ifeq ($(INCLUDE_DEPS),)
 install: $(LIBRARY)
 	@echo "Remove any previous installation directory"
 	@rm -rf $(PREFIX)
-	@echo "Copying files..."
+	@echo "Copying files ..."
 	@mkdir -p $(PREFIX)
 	@mkdir -p $(PREFIX)/lib
 	@mkdir -p $(PREFIX)/include
-	@echo "  ...library..."
+	@echo -n "  ... library ..."
 	@cp $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) $(PREFIX)/lib
+	@echo " done."
 	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) install INCLUDE_DEPS=true DBCSRHOME=$(DBCSRHOME)
-	@echo "...installation done at $(PREFIX)."
+	@echo "... installation done at $(PREFIX)."
 else
-install: $(PUBLICFILES:.F=.mod)
-	@echo "  ...modules..."
-	@cp $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)) $(PREFIX)/include
-	@cp $(addprefix $(SRCDIR)/, *.h) $(PREFIX)/include
+install:
+	@echo -n "  ... modules ..."
+	@if [[ -n "$(wildcard $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)))" ]] ; then \
+		cp $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)) $(PREFIX)/include ; \
+		echo " done." ; \
+	else echo " no modules were installed!" ; fi
+	@echo -n "  ... headers ..."
+	@if [[ -n "$(PUBLICHEADERS)" ]] ; then \
+		cp $(PUBLICHEADERS) $(PREFIX)/include ; \
+		echo " done." ; \
+	else echo " no headers were installed!" ; fi
 endif
 
 
@@ -327,10 +330,6 @@ $(LIBCUSMM_ABS_DIR)/libcusmm.cu: $(LIBCUSMM_ABS_DIR)/generate.py $(LIBCUSMM_ABS_
 MAKEDEPMODE = "normal"
 ifeq ($(HACKDEP),yes)
 MAKEDEPMODE = "hackdep"
-else
- ifneq ($(MC),)
- MAKEDEPMODE = "mod_compiler"
- endif
 endif
 
 # this happens on stage 1
@@ -356,38 +355,24 @@ endif
 ### Slave rules ###
 vpath %.F     $(ALL_SRC_DIRS)
 vpath %.h     $(ALL_SRC_DIRS)
+vpath %.hpp   $(ALL_SRC_DIRS)
 vpath %.f90   $(ALL_SRC_DIRS)
 vpath %.cu    $(ALL_SRC_DIRS)
 vpath %.c     $(ALL_SRC_DIRS)
 vpath %.cpp   $(ALL_SRC_DIRS)
-vpath %.cxx   $(ALL_SRC_DIRS)
-vpath %.cc    $(ALL_SRC_DIRS)
 
-ifneq ($(CPP),)
-# always add the SRCDIR to the include path (-I here might not be portable)
-CPPFLAGS += $(CPPSHELL) -I$(SRCDIR)
-else
-FCFLAGS += $(CPPSHELL)
-endif
-
-# the rule how to generate the .o from the .F
-# only if CPP is different from null we do a step over the C preprocessor (which is slower)
-# in the other case the fortran compiler takes care of this directly
-#
 # $(FCLOGPIPE) can be used to store compiler output, e.g. warnings, for each F-file separately.
 # This is used e.g. by the convention checker.
 
 FYPPFLAGS ?= -n
 
-%.o: %.F
-ifneq ($(CPP),)
-	$(TOOLSRC)/build_utils/fypp $(FYPPFLAGS) $< $*.fypped
-	$(CPP) $(CPPFLAGS) -D__SHORT_FILE__="\"$(notdir $<)\"" -I'$(dir $<)' $*.fypped > $*.f90
-	$(FC) -c $(FCFLAGS) $*.f90 $(FCLOGPIPE)
-else
-	$(TOOLSRC)/build_utils/fypp $(FYPPFLAGS) $< $*.F90
-	$(FC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(notdir $<)\"" -I'$(dir $<)' -I'$(SRCDIR)' $*.F90 $(FCLOGPIPE)
-endif
+define compile_file
+	$(TOOLSRC)/build_utils/fypp $(FYPPFLAGS) $(1) $(2)
+	$(FC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(notdir $(1))\"" -I'$(dir $(1))' -I'$(SRCDIR)' $(2) $(FCLOGPIPE)
+endef
+
+%.o %.mod: %.F
+	$(call compile_file, $<, $*.F90)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $<
@@ -395,7 +380,9 @@ endif
 %.o: %.cpp
 	$(CXX) -c $(CXXFLAGS) $<
 
-ifneq ($(LIBDIR),)
+%.o: %.cu
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+
 $(LIBDIR)/%:
 ifneq ($(LD_SHARED),)
 	@echo "Creating shared library $@"
@@ -403,34 +390,6 @@ ifneq ($(LD_SHARED),)
 else
 	@echo "Updating archive $@"
 	@$(AR) $@ $?
-endif
-ifneq ($(RANLIB),)
-	@$(RANLIB) $@
-endif
-endif
-
-%.o: %.cu
-	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
-
-
-# module compiler magic =====================================================
-ifeq ($(MC),)
-#
-# here we cheat... this tells make that .mod can be generated from .o (this holds in CP2K) by doing nothing
-# it avoids recompilation if .o is more recent than .F, but .mod is older than .F
-# (because it didn't change, as e.g. g95 can do)
-#
-# this is problematic if the module names are uppercase e.g. KINDS.mod (because this rule expands to kinds.mod)
-#
-%.mod: %.o
-	@true
-else
-#
-# if MC is defined, it is our 'module compiler' which generates the .mod file from the source file
-# it is useful in a two-stage compile.
-#
-%.mod: %.F
-	$(MC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(notdir $<)\"" $<
 endif
 
 #EOF
