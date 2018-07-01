@@ -11,6 +11,12 @@ FCFLAGS    = $(DFLAGS) -fno-omit-frame-pointer -g -O3 $(INCLUDES) \
              -funroll-loops  -fopenmp $(FCDEBFLAGS) $(WFLAGS)
 LIBS       = -L$(DBCSRDIR)/lib -ldbcsr
 LIBS      += -L${SCALAPACK_PATH}/lib -lscalapack -lreflapack -lrefblas
+LIBS      += -lgfortran
+
+# Include C/C++ examples 
+ifneq (,$(wildcard $(DBCSRDIR)/include/dbcsr.h))
+all: dbcsr_example_3_cpp.x
+endif
 
 
 
@@ -36,8 +42,6 @@ all: dbcsr_example_1.x dbcsr_example_2.x dbcsr_example_3.x
 
 %.x: %.F
 	$(FC) $(FCFLAGS) $< $(LIBS) -o $@
-
-
 
 %_cpp.x: %.cpp
 	$(CXX) $(CXXFLAGS) $< $(INCLUDES) -o $@ $(LIBS) 
