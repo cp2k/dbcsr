@@ -1,4 +1,7 @@
 module dbcsr_api_c
+
+#if defined(__C_INTERFACE)
+
    use, intrinsic :: ISO_C_BINDING, only : c_loc, c_ptr, c_double, C_NULL_CHAR, &
                                            c_f_pointer, c_int, c_char, c_null_ptr, c_bool
    USE dbcsr_api
@@ -9,34 +12,6 @@ module dbcsr_api_c
    
    contains
 
-      !SUBROUTINE c_f_string(cstring, fstring)
-         !CHARACTER(:),allocatable, INTENT(inout)            :: fstring
-         !CHARACTER(LEN=1, KIND=C_CHAR), INTENT(IN)          :: cstring(*)
- 
-         !INTEGER                                            :: i, n
-         !interface
-                 !! steal std c library function rather than writing our
-           
-          !function strlen(s) bind(c, name='strlen')
-             !use, intrinsic :: iso_c_binding, only: c_ptr, c_size_t
-             !implicit none
-             !!----
-             !type(c_ptr), intent(in), value :: s
-             !integer(c_size_t) :: strlen
-           !end function strlen
-         !end interface
-
-         !n = INDEX(cstring, C_NULL_CHAR)
-         
-         !if (n > 0) then
-           !allocate(character(len=n-1) :: fstring)
-           !!fstring(:) = cstring(1:n)
-           !DO i = 1, n-1
-              !!IF (cstring(i) == C_NULL_CHAR) EXIT
-              !fstring(i:i) = cstring(i)
-           !END DO
-         !endif
-      !END SUBROUTINE
       
       subroutine c_f_string(c_str, str) 
         use, intrinsic :: iso_c_binding, only: c_ptr, c_f_pointer, c_char
@@ -84,7 +59,7 @@ module dbcsr_api_c
       
       subroutine c_dbcsr_distribution_new(c_dist, fcomm, c_row_dist, row_dist_size, &
                                     c_col_dist, col_dist_size) &
-                                    bind(C, name="c_dbcsr_distribution_new")
+                                    bind(C, name="c_dbcsr_distribution_new_aux")
         type(c_ptr), intent(out)                :: c_dist
         integer(kind=c_int), intent(in)                     :: fcomm
         integer(kind=c_int), intent(in), value              :: row_dist_size, col_dist_size
@@ -116,18 +91,12 @@ module dbcsr_api_c
       end subroutine
 
 
-   !   subroutine test(c_name) bind(C, name="test")
-   !     use, intrinsic :: iso_c_binding, only: c_ptr, c_f_pointer, c_char
-   !     type(c_ptr), value, intent(in) :: c_name
-   !   end subroutine
-      
       
       subroutine c_dbcsr_create_new_d(c_matrix, c_name, c_dist, c_matrix_type, &
                                       c_row_blk_sizes, c_row_blk_sizes_length, &
                                       c_col_blk_sizes, c_col_blk_sizes_length) &
                                       bind(C, name="c_dbcsr_create_new_d")
         type(c_ptr), intent(out)            :: c_matrix
-        !CHARACTER(LEN=1, KIND=C_CHAR), INTENT(IN)  :: c_name
         type(c_ptr), value, intent(in)                   :: c_name
         type(c_ptr), value, intent(in)                   :: c_dist  
         character(kind=c_char), value, intent(in)        :: c_matrix_type
@@ -215,8 +184,6 @@ module dbcsr_api_c
         type(c_ptr), intent(in), value           :: c_matrix        
         integer(kind=c_int), intent(in), value               :: row, col, block_length      
         real(kind=c_double), intent(in)                      :: block(block_length)
-        !logical, intent(in), optional            :: summation 
-        !real(8), intent(in), optional            :: scale    
         
         type(dbcsr_type), pointer                :: matrix 
 
@@ -233,9 +200,6 @@ module dbcsr_api_c
         type(c_ptr), intent(in)               :: c_matrix_a, c_matrix_b
         real(kind=c_double), intent(in), value            :: beta
         type(c_ptr), intent(inout)            :: c_matrix_c
-        !integer, intent(in), optional         :: first_row, last_row, &
-        !                                         first_column, last_column, &
-        !                                         first_k, last_k
         logical(c_bool), intent(in), optional         :: retain_sparsity
         logical :: ret_sp
         type(dbcsr_type),  pointer      :: matrix_a, matrix_b, matrix_c
@@ -251,4 +215,6 @@ module dbcsr_api_c
             call dbcsr_multiply(transa, transb, alpha, matrix_a, matrix_b, beta, matrix_c)
         endif
       end subroutine
+
+#endif
 end module
