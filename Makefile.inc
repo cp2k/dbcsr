@@ -8,6 +8,7 @@ CPPFLAGS    =
 DFLAGS      = -D__MPI_VERSION=3 \
               -D__parallel -D__SCALAPACK \
               -D__STATM_TOTAL
+
 # Do not simply use -Wall since some warnings for Fortran are misleading:
 WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=intrinsic-shadow -Werror=intrinsics-std \
@@ -20,7 +21,7 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=uninitialized -Wno-maybe-uninitialized -Wuse-without-only \
               -Werror
 CFLAGS      = -O2
-FCFLAGS     = -O3 -g -fno-omit-frame-pointer -funroll-loops -ffast-math -fopenmp
+FCFLAGS     = -O3 -g -fno-omit-frame-pointer -funroll-loops  -fopenmp
 CFLAGS     += $(DFLAGS)
 FCDEBFLAGS  = -ffree-form -std=f2003 -fimplicit-none -ffree-line-length-512
 FCFLAGS    += $(DFLAGS) $(FCDEBFLAGS) $(WFLAGS)
@@ -30,6 +31,12 @@ FCFLAGS    += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
 endif
 LDFLAGS     = $(FCFLAGS)
 LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -lreflapack -lrefblas
+
+ifneq ($(CINT),)
+FCDEBFLAGS  := $(subst -std=f2003,-std=f2008ts,$(FCDEBFLAGS))
+DFLAGS      += -D__C_INTERFACE
+PUBLICFILES += dbcsr.h
+endif
 
 ifneq ($(GPU),)
 NVCC        = nvcc
