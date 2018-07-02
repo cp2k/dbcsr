@@ -385,7 +385,8 @@ CUDA_PATHH := /opt/cray/nvidia/375.74_3.1.22-6.0.4.1_2.1__gfb008e8.ari
 NVRTCFLAGS := -I $(CUDA_PATH)/include -L $(CUDA_PATH)/lib64 -L $(CUDA_PATHH)/lib64 -lnvrtc -lcuda -Wl,-rpath,$(CUDA_PATH)/lib64
 libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
 	#$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -std=c++11  $<
-	$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DLOGGING -std=c++11 $<
+	#$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DLOGGING -std=c++11 $<
+	$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DTIMING -std=c++11 $<
 
 $(LIBDIR)/%:
 ifneq ($(LD_SHARED),)

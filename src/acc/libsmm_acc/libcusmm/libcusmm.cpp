@@ -20,6 +20,11 @@
 #define dbcsr_type_complex_8  7
 #define KERNEL_FILES_PATH DBCSRHOME "/src/acc/libsmm_acc/libcusmm/kernels/"
 
+#ifdef TIMING
+#include <chrono>
+typedef std::chrono::high_resolution_clock timer_clock;
+#endif
+
 // Hash function constants
 inline int hash(int m, int n, int k){
     return (m*P + n)*Q + k;
@@ -119,6 +124,9 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
 
         // Get the code and the lowered name of the kernel to launch
         std::string kernel_code, kernel_name;
+#ifdef TIMING
+    auto switch_name_overhead_start = timer_clock::now();
+#endif
         switch(algo) {
             case 1:
                 kernel_code = cusmm_dnt_largeDB1; 
@@ -160,6 +168,11 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
                 printf("\nerror: algorithm number %i is not encoded.", algo);
                 exit(1);
         }
+#ifdef TIMING
+    auto switch_name_overhead_stop = timer_clock::now();
+    printf("  ##TIMER## jit: switch name overhead: %g us\n",
+           std::chrono::duration<double, std::micro>(switch_name_overhead_stop - switch_name_overhead_start).count());
+#endif
 
         // Create nvrtcProgram
         nvrtcProgram kernel_program;
@@ -225,10 +238,18 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
     printf("libcusmm_process_d: CUSMM (%ix%ix%i)\n", m, n, k);
 #endif
 
-    int h_mnk = hash(m, n, k);
+#ifdef TIMING
+    auto JITed_kernel_lookup_start = timer_clock::now();
+#endif
     CUfunction kern_func;
-    auto kernel_it = kernel_handles.find(h_mnk); 
     int threads, grouping; 
+    int h_mnk = hash(m, n, k);
+    auto kernel_it = kernel_handles.find(h_mnk); 
+#ifdef TIMING
+    auto JITed_kernel_lookup_stop = timer_clock::now();
+    printf("##TIMER## JITed kernel lookup: %g us\n",
+           std::chrono::duration<double, std::micro>(JITed_kernel_lookup_stop - JITed_kernel_lookup_start).count());
+#endif
     if (kernel_it != kernel_handles.end()){
 
         kern_func = kernel_it->second; 
@@ -237,9 +258,17 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #endif
 
         // Retrieve launching parameters
+#ifdef TIMING
+        auto launchpar_lookup_start = timer_clock::now();
+#endif
         auto launchpar = kernel_launching_parameters[h_mnk];
         threads = launchpar.first; 
         grouping = launchpar.second;
+#ifdef TIMING
+    auto launchpar_lookup_stop = timer_clock::now();
+    printf("##TIMER## launching parameters lookup: %g us\n", 
+           std::chrono::duration<double, std::micro>(launchpar_lookup_stop - launchpar_lookup_start).count());
+#endif
 #ifdef LOGGING
         printf("libcusmm_process_d: launching parameters:\nthreads = %i, grouping = %i\n", threads, grouping);
 #endif
@@ -251,10 +280,20 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #endif
 
 	// Check whether autotuned parameters are given for this kernel, and if so, retrieve them 
+#ifdef TIMING
+    auto autotuned_pars_lookup_start = timer_clock::now();
+#endif
         auto params_it = ht.find(h_mnk);
+#ifdef TIMING
+    auto autotuned_pars_lookup_stop = timer_clock::now();
+    printf("##TIMER## Autotuned parameters lookup: %g us\n",
+           std::chrono::duration<double, std::micro>(autotuned_pars_lookup_stop - autotuned_pars_lookup_start).count());
+#endif
 	if (params_it != ht.end()){
-
             // Retrieve launching parameters
+#ifdef TIMING
+    auto autotuned_pars_retrieval_start = timer_clock::now();
+#endif
             std::vector<int> params = ht[h_mnk];
             libcusmm_algo algo = libcusmm_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
             int tile_m = params[1];
@@ -264,19 +303,47 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
             threads = params[5];
             grouping = params[6];
             int minblocks =  params[7];
-
+#ifdef TIMING
+    auto autotuned_pars_retrieval_stop = timer_clock::now();
+    printf("##TIMER## Autotuned parameters retrieval: %g us\n",
+           std::chrono::duration<double, std::micro>(autotuned_pars_retrieval_stop - autotuned_pars_retrieval_start).count());
+#endif
 #ifdef LOGGING
             printf("libcusmm_process_d: CUSMM with parameters:\nalgo = %i,\ntile_m = %i, tile_n = %i,\nw = %i, v = %i,\nthreads = %i, grouping = %i,\nminblocks = %i, stack_size = %i,\nm = %i, n = %i, k = %i\n\n",
-               algo, tile_m, tile_n, w, v, threads, grouping, minblocks, stack_size, m, n, k);
+                   algo, tile_m, tile_n, w, v, threads, grouping, minblocks, stack_size, m, n, k);
 #endif
 
+#ifdef TIMING
+    auto JIT_overhead_start = timer_clock::now();
+#endif
             // JIT and validate the kernel
             jit_kernel(kern_func, algo, tile_m, tile_n, w, v, threads, grouping, minblocks, m, n, k);
+#ifdef TIMING
+    auto JIT_overhead_stop = timer_clock::now();
+    printf("##TIMER## JIT overhead: %g us\n",
+           std::chrono::duration<double, std::micro>(JIT_overhead_stop - JIT_overhead_start).count());
+#endif
+#ifdef TIMING
+    auto val_overhead_start = timer_clock::now();
+#endif
             validate_kernel(kern_func, stream, threads, grouping, m, n, k);
+#ifdef TIMING
+    auto val_overhead_stop = timer_clock::now();
+    printf("##TIMER## validation overhead: %g us\n",
+           std::chrono::duration<double, std::micro>(val_overhead_stop - val_overhead_start).count());
+#endif
 
             // Store the handle to the JIT-ed kernel and to its launching parameters
+#ifdef TIMING
+    auto handle_store_overhead_start = timer_clock::now();
+#endif
             kernel_handles.emplace(h_mnk, kern_func);
             kernel_launching_parameters.emplace(h_mnk, std::make_pair(threads, grouping));
+#ifdef TIMING
+    auto handle_store_overhead_stop = timer_clock::now();
+    printf("##TIMER## handle store overhead: %g us\n",
+           std::chrono::duration<double, std::micro>(handle_store_overhead_stop - handle_store_overhead_start).count());
+#endif
 #ifdef LOGGING
             printf("libcusmm_process_d: store handle to kernel (%i, %i, %i) in table at hash %i\n", m, n, k, h_mnk);
 #endif
@@ -294,19 +361,45 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
     }
 
     // Construct argument pointer list and launch kernel
+#ifdef TIMING
+    auto assemble_args_start = timer_clock::now();
+#endif
     void *args[] = { &param_stack, &stack_size, &a_data, &b_data, &c_data };
-    return launch_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args);
+#ifdef TIMING
+    auto assemble_args_stop = timer_clock::now();
+    printf("##TIMER## assemble args overhead: %g us\n",
+           std::chrono::duration<double, std::micro>(assemble_args_stop - assemble_args_start).count());
+#endif
+#ifdef TIMING
+    auto kernel_start = timer_clock::now();
+#endif
+    int ret = launch_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args);
+#ifdef TIMING
+    auto kernel_stop = timer_clock::now();
+    printf("##TIMER## launch and run kernel: %g us\n",
+           std::chrono::duration<double, std::micro>(kernel_stop - kernel_start).count());
+#endif
+    return ret; 
 
 }
 
 
 //===========================================================================
 extern "C" int libsmm_acc_process (void *param_stack, int stack_size, int nparams, int datatype, void *a_data, void *b_data, void *c_data, int m, int n, int k, int def_mnk, void *stream){
+#ifdef TIMING
+    auto libcusmm_smm_start = timer_clock::now();
+#endif
     if(def_mnk!=1)
         return(-1); // inhomogenous stacks not supported
-    if(datatype==dbcsr_type_real_8)
-        return(libcusmm_process_d ((int *) param_stack, stack_size, *((CUstream *) stream), m, n, k, (double *) a_data, (double *) b_data, (double *) c_data));
-
+    if(datatype==dbcsr_type_real_8){
+        int res = (libcusmm_process_d ((int *) param_stack, stack_size, *((CUstream *) stream), m, n, k, (double *) a_data, (double *) b_data, (double *) c_data));
+#ifdef TIMING
+    auto libcusmm_smm_stop = timer_clock::now();
+    printf("##TIMER_LIBCUSMM## libcusmm_smm: %g us\n",
+           std::chrono::duration<double, std::micro>(libcusmm_smm_stop - libcusmm_smm_start).count());
+#endif
+	return res; 
+    }
     return(-1); // datatype not supported
 };
 
