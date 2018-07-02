@@ -12,36 +12,46 @@
 #include "acc/libsmm_acc/libcusmm/parameters.h"
 
 
+void get_blocksizes(std::vector<int>& v){
+
+    for(auto it: ht){
+        int h_mnk = it.first;
+        std::vector<int> v_mnk = hash_back(h_mnk);
+        v.push_back(v_mnk[0]);
+        v.push_back(v_mnk[1]);
+        v.push_back(v_mnk[2]);
+    }
+
+}
+
+
 /****************************************************************************\
  \brief Checks correctness of every libcusmm kernel and measures its performance.
 \****************************************************************************/
 
 int main(int argc, char** argv){
 
-    printf("In libcusmm unit test (toy)\n"); 
+    printf("In libcusmm unit test\n"); 
     KernelLauncher launcher = libcusmm_process_d;
 
     char buffer[1000];
     char * kernel_descr[1] = {buffer};
 
     std::vector<int> v;
-
-    int const p_min = 1;
-    for(size_t m=p_min; m<=m_max; m++){
-        for(size_t n=p_min; n<=n_max; n++){
-            for(size_t k=p_min; k<=k_max; k++){
-                v.push_back(m); v.push_back(n); v.push_back(k);
-            }
-        }
-     }
-
+    get_blocksizes(v);
     int n_blocksizes = v.size()/3;
     const int *blocksizes = &v[0];
     printf("# Libcusmm has %d blocksizes compiled in...\n", n_blocksizes);
 
+    int max_m=0, max_n=0, max_k=0;
+    for(int i=0; i<n_blocksizes; i++){
+        max_m = max(max_n, blocksizes[3*i + 0]);
+        max_n = max(max_m, blocksizes[3*i + 1]);
+        max_k = max(max_k, blocksizes[3*i + 2]);
+    }
+
     libcusmm_benchmark_t* handle;
-    libcusmm_benchmark_init(&handle, false, m_max, n_max, k_max);
-    printf("Initialized benchmarking\n");
+    libcusmm_benchmark_init(&handle, false, max_m, max_n, max_k);
 
     int errors = 0;
     for(int i=0; i<n_blocksizes; i++){

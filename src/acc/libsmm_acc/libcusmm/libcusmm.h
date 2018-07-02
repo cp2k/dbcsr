@@ -10,6 +10,13 @@
 #include <cuda_runtime.h>
 #include <nvrtc.h>
 #include <unordered_map>
+#include <vector>
+
+// Hash function constants
+#define P 999
+#define Q 999
+inline int hash(int m, int n, int k);
+std::vector<int> hash_back(int hash);
 
 #define NVRTC_SAFE_CALL(name, x)                                  \
   do {                                                            \
