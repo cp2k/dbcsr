@@ -21,10 +21,19 @@
 #define KERNEL_FILES_PATH DBCSRHOME "/src/acc/libsmm_acc/libcusmm/kernels/"
 
 // Hash function constants
-#define P 999
-#define Q 999
 inline int hash(int m, int n, int k){
     return (m*P + n)*Q + k;
+}
+std::vector<int> hash_back(int hash){
+
+    int PQ = P*Q; 
+    int m = hash / PQ; 
+    hash -= PQ*m;
+    int n = hash / Q; 
+    hash -= Q*n; 
+    int k = hash; 
+    return std::vector<int>({m, n, k}); 
+
 }
 
 
@@ -212,11 +221,11 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
 int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m, int n, int k, double *a_data, double *b_data, double *c_data){
 
 #ifdef LOGGING
-        printf("-------------------------------------------------------------------------------------------\n");
-        printf("libcusmm_process_d: CUSMM (%ix%ix%i)\n", m, n, k);
+    printf("-------------------------------------------------------------------------------------------\n");
+    printf("libcusmm_process_d: CUSMM (%ix%ix%i)\n", m, n, k);
 #endif
 
-    int h_mnk = hash(m, n, k); 
+    int h_mnk = hash(m, n, k);
     CUfunction kern_func;
     auto kernel_it = kernel_handles.find(h_mnk); 
     int threads, grouping; 
@@ -239,39 +248,48 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 
 #ifdef LOGGING
         printf("libcusmm_process_d: no handle found to (%i, %i, %i) kernel...\n", m, n, k); 
-        if(m > m_max or n > n_max or k > k_max){
-            printf("libcusmm_process_d: parameters out of bounds: cannot process (%ix%ix%i),\n when the biggest kernel is (%ix%ix%i)", 
-                    m, n, k, m_max, n_max, k_max);
-            exit(1); 
-        } 
 #endif
 
-        // Retrieve launching parameters
-        int* params = ht[m-1][n-1][k-1];
-        libcusmm_algo algo = libcusmm_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
-        int tile_m = params[1];
-        int tile_n = params[2];
-        int w = params[3]; 
-        int v = params[4]; 
-        threads = params[5];
-        grouping = params[6];
-        int minblocks =  params[7];
+	// Check whether autotuned parameters are given for this kernel, and if so, retrieve them 
+        auto params_it = ht.find(h_mnk);
+	if (params_it != ht.end()){
+
+            // Retrieve launching parameters
+            std::vector<int> params = ht[h_mnk];
+            libcusmm_algo algo = libcusmm_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
+            int tile_m = params[1];
+            int tile_n = params[2];
+            int w = params[3]; 
+            int v = params[4]; 
+            threads = params[5];
+            grouping = params[6];
+            int minblocks =  params[7];
 
 #ifdef LOGGING
-        printf("libcusmm_process_d: CUSMM with parameters:\nalgo = %i,\ntile_m = %i, tile_n = %i,\nw = %i, v = %i,\nthreads = %i, grouping = %i,\nminblocks = %i, stack_size = %i,\nm = %i, n = %i, k = %i\n\n",
+            printf("libcusmm_process_d: CUSMM with parameters:\nalgo = %i,\ntile_m = %i, tile_n = %i,\nw = %i, v = %i,\nthreads = %i, grouping = %i,\nminblocks = %i, stack_size = %i,\nm = %i, n = %i, k = %i\n\n",
                algo, tile_m, tile_n, w, v, threads, grouping, minblocks, stack_size, m, n, k);
 #endif
 
-        // JIT and validate the kernel
-        jit_kernel(kern_func, algo, tile_m, tile_n, w, v, threads, grouping, minblocks, m, n, k);
-        validate_kernel(kern_func, stream, threads, grouping, m, n, k);
+            // JIT and validate the kernel
+            jit_kernel(kern_func, algo, tile_m, tile_n, w, v, threads, grouping, minblocks, m, n, k);
+            validate_kernel(kern_func, stream, threads, grouping, m, n, k);
 
-        // Store the handle to the JIT-ed kernel and to its launching parameters
-        kernel_handles.emplace(h_mnk, kern_func);
-        kernel_launching_parameters.emplace(h_mnk, std::make_pair(threads, grouping));
+            // Store the handle to the JIT-ed kernel and to its launching parameters
+            kernel_handles.emplace(h_mnk, kern_func);
+            kernel_launching_parameters.emplace(h_mnk, std::make_pair(threads, grouping));
 #ifdef LOGGING
-        printf("libcusmm_process_d: store handle to kernel (%i, %i, %i) in table at hash %i\n", m, n, k, h_mnk);
+            printf("libcusmm_process_d: store handle to kernel (%i, %i, %i) in table at hash %i\n", m, n, k, h_mnk);
 #endif
+
+        } else { // there exist no autotuned parameters for this (m, n, k)-triplet
+
+            // Fall back to CPU
+#ifdef LOGGING
+            printf("libcusmm_process_d: fallback to CPU\n");
+#endif
+            return -2; 
+
+        }
 
     }
 
