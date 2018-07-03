@@ -218,7 +218,8 @@ CONTAINS
 !>       we return already the index in the table as a final result
 ! **************************************************************************************************
    FUNCTION joaat_hash(key) RESULT(hash_index)
-#if defined(__LIBXSMM) ! requires at least v1.9.0.6
+      ! LIBXSMM: at least v1.9.0.6 is required
+#if defined(__LIBXSMM)
       USE libxsmm
       INTEGER, DIMENSION(:), INTENT(IN)                  :: key
       INTEGER                                            :: hash_index
