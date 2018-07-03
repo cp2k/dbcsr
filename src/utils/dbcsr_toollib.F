@@ -218,9 +218,7 @@ CONTAINS
 !>       we return already the index in the table as a final result
 ! **************************************************************************************************
    FUNCTION joaat_hash(key) RESULT(hash_index)
-#if defined(__LIBXSMM) && CP_VERSION4(1, 9, 0, 6) <= \
-  CP_VERSION4(LIBXSMM_CONFIG_VERSION_MAJOR,  LIBXSMM_CONFIG_VERSION_MINOR, \
-              LIBXSMM_CONFIG_VERSION_UPDATE, LIBXSMM_CONFIG_VERSION_PATCH)
+#if defined(__LIBXSMM) ! requires at least v1.9.0.6
       USE libxsmm
       INTEGER, DIMENSION(:), INTENT(IN)                  :: key
       INTEGER                                            :: hash_index
