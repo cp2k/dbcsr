@@ -80,7 +80,8 @@ def main():
         print('Dumping them to file', file_p)
         with open(file_p, 'wb') as f:
             pickle.dump(all_pars, f)
-    out, all_pars = write_file_unordered_map(parameters)
+    else:
+        out, all_pars = write_file_unordered_map(parameters)
 
     # Write to cpp header-file
     file_h = "parameters.h"
@@ -268,9 +269,26 @@ def write_file_array(all_pars, m_upper, n_upper, k_upper):
 
 def write_file_unordered_map(all_pars):
     out = parameter_file_header
-    out += '\n'
     out += '#include <unordered_map>\n'
-    out += '#include <vector>\n'
+    out += '#include <array>\n'
+    out += '\n'
+    out += '/*\n'
+    out += '* Hash\n'
+    out += '*/\n'
+    out += '#define P 999\n'
+    out += '#define Q 999\n'
+    out += '#define PQ 998001\n'
+    out += 'inline int hash(int m, int n, int k){\n'
+    out += '    return PQ*m + Q*n + k;\n'
+    out += '}\n'
+    out += 'inline std::array<int, 3> hash_back(int hash){\n'
+    out += '    int m = hash / PQ;\n'
+    out += '    hash -= PQ*m;\n'
+    out += '    int n = hash / Q;\n'
+    out += '    hash -= Q*n;\n'
+    out += '    int k = hash;\n'
+    out += '    return std::array<int, 3>({m, n, k});\n'
+    out += '}\n'
     out += '\n'
     out += '/*\n'
     out += ' * Lookup table: given a triplet (m, n, k) describing a matrix-matrix multiplication, ' + \
@@ -294,15 +312,14 @@ def write_file_unordered_map(all_pars):
     out += ' * the superfluous parameters are set to 0\n'
     out += ' */\n'
     out += '\n'
-    out += '\n'
 
     # Start declaration, open initializer list<
-    out += 'static std::unordered_map<int, std::vector<int> > ht  = {\n'
+    out += 'static const std::unordered_map<int, std::array<int, 8> > ht  = {\n'
 
     # Initializer list line
     print("Get parameters and write to file")
     init_list_line = \
-        "    {{ {hash}, std::vector<int>({{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }})}}, //  ({m}x{n}x{k})\n"
+        "    {{ {hash}, std::array<int, 8>({{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }})}}, //  ({m}x{n}x{k})\n"
     for hash_mnk, pars in all_pars.items():
         m, n, k = hash_back(hash_mnk)
         out += init_list_line.format(hash=hash_mnk, algo=pars[0], tile_m=pars[1], tile_n=pars[2], w=pars[3], v=pars[4],

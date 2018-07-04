@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <cuda_runtime.h>
 #include <vector>
+#include <array>
 #include "acc/libsmm_acc/libcusmm/libcusmm_benchmark.h"
 #include "acc/libsmm_acc/libcusmm/libcusmm.h"
 #include "acc/libsmm_acc/libcusmm/parameters.h"
@@ -16,7 +17,7 @@ void get_blocksizes(std::vector<int>& v){
 
     for(auto it: ht){
         int h_mnk = it.first;
-        std::vector<int> v_mnk = hash_back(h_mnk);
+        std::array<int, 3> v_mnk = hash_back(h_mnk);
         v.push_back(v_mnk[0]);
         v.push_back(v_mnk[1]);
         v.push_back(v_mnk[2]);
