@@ -47,9 +47,14 @@ enum libcusmm_algo {
     tiny = 5
 };
 
+struct kernel_launcher {
+    CUfunction kernel_function;
+    int threads;
+    int grouping;  
+    kernel_launcher(CUfunction const& kf, int th, int gp): kernel_function(kf), threads(th), grouping (gp) {}
+};
 
-static std::unordered_map<int, CUfunction> kernel_handles;
-static std::unordered_map<int, std::pair<int, int> > kernel_launching_parameters;
+static std::unordered_map<int, kernel_launcher> kernel_handles;
 
 int libcusmm_process_d(int *param_stack, int stack_size,
     CUstream stream, int m, int n, int k,

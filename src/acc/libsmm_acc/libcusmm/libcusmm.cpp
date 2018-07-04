@@ -5,7 +5,6 @@
 #include "../include/libsmm_acc.h"
 #include "libcusmm.h"
 #include "libcusmm_benchmark.h"
-#include "parameters.h"
 #include "cusmm_kernels.h"
 
 #include <sstream>
@@ -13,6 +12,7 @@
 #include <string>
 #include <cstring>
 #include <algorithm>
+#include <array>
 
 #define dbcsr_type_real_4     1
 #define dbcsr_type_real_8     3
@@ -24,22 +24,6 @@
 #include <chrono>
 typedef std::chrono::high_resolution_clock timer_clock;
 #endif
-
-// Hash function constants
-inline int hash(int m, int n, int k){
-    return (m*P + n)*Q + k;
-}
-std::vector<int> hash_back(int hash){
-
-    int PQ = P*Q; 
-    int m = hash / PQ; 
-    hash -= PQ*m;
-    int n = hash / Q; 
-    hash -= Q*n; 
-    int k = hash; 
-    return std::vector<int>({m, n, k}); 
-
-}
 
 
 //===========================================================================
@@ -294,7 +278,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #ifdef TIMING
     auto autotuned_pars_retrieval_start = timer_clock::now();
 #endif
-            std::vector<int> params = ht[h_mnk];
+            const std::array<int, 8> params = ht.at(h_mnk);
             libcusmm_algo algo = libcusmm_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
             int tile_m = params[1];
             int tile_n = params[2];
