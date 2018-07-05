@@ -228,7 +228,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
     CUfunction kern_func;
     int threads, grouping; 
     int h_mnk = hash(m, n, k);
-    auto kernel_it = kernel_handles.find(h_mnk); 
+    auto kernel_it = kernel_handles.find(h_mnk);
 #ifdef TIMING
     auto JITed_kernel_lookup_stop = timer_clock::now();
     printf("##TIMER## JITed kernel lookup: %g us\n",
@@ -236,18 +236,17 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #endif
     if (kernel_it != kernel_handles.end()){
 
-        kern_func = kernel_it->second; 
 #ifdef LOGGING
         printf("libcusmm_process_d: found a handle to (%i, %i, %i) kernel in table at hash %i...\n", m, n, k, h_mnk);
 #endif
 
-        // Retrieve launching parameters
+        // Retrieve kernel launching parameters
 #ifdef TIMING
         auto launchpar_lookup_start = timer_clock::now();
 #endif
-        auto launchpar = kernel_launching_parameters[h_mnk];
-        threads = launchpar.first; 
-        grouping = launchpar.second;
+        kern_func = kernel_it->second.kernel_function; 
+        threads = kernel_it->second.threads; 
+        grouping = kernel_it->second.grouping;
 #ifdef TIMING
     auto launchpar_lookup_stop = timer_clock::now();
     printf("##TIMER## launching parameters lookup: %g us\n", 
@@ -321,8 +320,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #ifdef TIMING
     auto handle_store_overhead_start = timer_clock::now();
 #endif
-            kernel_handles.emplace(h_mnk, kern_func);
-            kernel_launching_parameters.emplace(h_mnk, std::make_pair(threads, grouping));
+           kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
 #ifdef TIMING
     auto handle_store_overhead_stop = timer_clock::now();
     printf("##TIMER## handle store overhead: %g us\n",
