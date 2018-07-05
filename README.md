@@ -10,8 +10,8 @@ It is MPI and OpenMP parallel and can exploit GPUs via CUDA.
 You absolutely need:
 
 * GNU make
-* a Fortran compiler which supports at least Fortran 2003
-* a companion C compiler
+* a Fortran compiler which supports at least Fortran 2003 (respectively 2008+TS when using the C-bindings)
+* a companion C compiler which supports at least C99
 * a LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested)
 * a SCALAPACK implementation (reference or MKL have been tested)
 * a BLAS implementation or [libxsmm](https://github.com/hfp/libxsmm)
