@@ -23,6 +23,10 @@ To build with CUDA support you further need:
 
 ## Getting started
 
+Download either a release tarball or clone the latest version from Git using:
+
+    git clone --recursive https://github.com/cp2k/dbcsr.git
+
 Run
 
     make help
