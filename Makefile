@@ -367,7 +367,7 @@ vpath %.cpp   $(ALL_SRC_DIRS)
 FYPPFLAGS ?= -n
 
 define compile_file
-	$(TOOLSRC)/build_utils/fypp $(FYPPFLAGS) $(1) $(2)
+	$(TOOLSRC)/build_utils/fypp/bin/fypp $(FYPPFLAGS) $(1) $(2)
 	$(FC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(notdir $(1))\"" -I'$(dir $(1))' -I'$(SRCDIR)' $(2) $(FCLOGPIPE)
 endef
 
