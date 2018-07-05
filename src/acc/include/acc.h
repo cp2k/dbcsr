@@ -9,16 +9,15 @@
  extern "C" {
 #endif
 
-// CUDA driver API
-static CUdevice cuDevice;
-static CUcontext context;
+// cuda driver initialization and finalization
+int acc_init();
+int acc_finalize();
 
 // devices
 int acc_get_ndevices(int* n_devices);
 int acc_set_active_device(int device_id);
 
 // streams
-int acc_drv_init();
 int acc_stream_priority_range(int* least, int* greatest);
 int acc_stream_create(void** stream_p, const char* name, int priority);
 int acc_stream_destroy(void* stream);
