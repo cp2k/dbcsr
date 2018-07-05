@@ -1,7 +1,8 @@
 #ifndef DBCSR
 #define DBCSR
 
-#include "mpi.h"
+#include <mpi.h>
+#include <stdbool.h> /* we need bool introduce in C99 */
 
 #ifdef __cplusplus
 extern "C" {
