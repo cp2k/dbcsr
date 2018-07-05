@@ -5,18 +5,13 @@
 #ifndef LIBCUSMM_H
 #define LIBCUSMM_H
 
+#include "parameters.h"
 #include <stdio.h>
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <nvrtc.h>
 #include <unordered_map>
 #include <vector>
-
-// Hash function constants
-#define P 999
-#define Q 999
-inline int hash(int m, int n, int k);
-std::vector<int> hash_back(int hash);
 
 #define NVRTC_SAFE_CALL(name, x)                                  \
   do {                                                            \
@@ -53,6 +48,12 @@ struct kernel_launcher {
     int grouping;  
     kernel_launcher(CUfunction const& kf, int th, int gp): kernel_function(kf), threads(th), grouping (gp) {}
 };
+
+// Hash function constants
+#define P 999
+#define Q 999
+inline int hash(int m, int n, int k);
+std::vector<int> hash_back(int hash);
 
 static std::unordered_map<int, kernel_launcher> kernel_handles;
 
