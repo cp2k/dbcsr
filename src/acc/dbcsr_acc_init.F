@@ -20,7 +20,7 @@ MODULE dbcsr_acc_init
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_acc_init'
 
-   PUBLIC :: acc_init
+   PUBLIC :: acc_init, acc_finalize
 
 #if defined (__ACC)
 
@@ -29,6 +29,13 @@ MODULE dbcsr_acc_init
          IMPORT
          INTEGER(KIND=C_INT)                      :: istat
       END FUNCTION cuda_drv_init
+   END INTERFACE
+
+   INTERFACE
+      FUNCTION cuda_drv_finalize() RESULT(istat) BIND(C, name="acc_finalize")
+         IMPORT
+         INTEGER(KIND=C_INT)                      :: istat
+      END FUNCTION cuda_drv_finalize
    END INTERFACE
 
 #endif
@@ -46,8 +53,25 @@ CONTAINS
       INTEGER                                  :: istat
       istat = cuda_drv_init()
       IF (istat /= 0) &
-         DBCSR_ABORT("acc_drv_init failed")
+         DBCSR_ABORT("acc_init failed")
 #endif
    END SUBROUTINE acc_init
+
+! **************************************************************************************************
+!> \brief Fortran-wrapper for acc_finalize
+!> \author  Shoshana Jakobovits
+! **************************************************************************************************
+   SUBROUTINE acc_finalize()
+
+#if ! defined (__ACC)
+      DBCSR_ABORT("__ACC not compiled in.")
+#else
+      INTEGER                                  :: istat
+      istat = cuda_drv_finalize()
+      IF (istat /= 0) &
+         DBCSR_ABORT("acc_finalize failed")
+#endif
+   END SUBROUTINE acc_finalize
+
 
 END MODULE dbcsr_acc_init

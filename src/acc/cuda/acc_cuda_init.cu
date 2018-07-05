@@ -26,16 +26,26 @@
 
 
 /****************************************************************************/
-extern "C" int acc_drv_init(){
+extern "C" int acc_init(){
   // Driver boilerplate
   CUDA_SAFE_CALL("cuInit", cuInit(0));
+  CUdevice cuDevice; 
   CUDA_SAFE_CALL("cuDeviceGet", cuDeviceGet(&cuDevice, 0));
-  CUDA_SAFE_CALL("cuCtxGetCurrent", cuCtxGetCurrent(&context));
-  if(context == NULL){
-    printf("cuCtxGetCurrent error: no context is bound to the calling CPU thread");
-    return -1;
-  }
+  CUcontext ctx;
+  CUDA_SAFE_CALL("cuDevicePrimaryCtxRetain", cuDevicePrimaryCtxRetain(&ctx, cuDevice));
+  CUDA_SAFE_CALL("cuCtxPushCurrent", cuCtxPushCurrent(ctx));
   return 0;
 }
 
+/****************************************************************************/
+extern "C" int acc_finalize(){
+  // Release driver resources
+  CUcontext ctx;
+  CUDA_SAFE_CALL("cuCtxGetCurrent", cuCtxGetCurrent(&ctx)); 
+  CUDA_SAFE_CALL("cuCtxPopCurrent", cuCtxPopCurrent(&ctx)); 
+  CUdevice cuDevice;
+  CUDA_SAFE_CALL("cuDeviceGet", cuDeviceGet(&cuDevice, 0));
+  CUDA_SAFE_CALL("cuDevicePrimaryCtxRelease", cuDevicePrimaryCtxRelease(cuDevice));
+  return 0;
+}
 

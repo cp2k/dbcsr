@@ -13,6 +13,8 @@
 ! **************************************************************************************************
 MODULE dbcsr_mm
    USE dbcsr_acc_device,                ONLY: acc_clear_errors
+   USE dbcsr_acc_init  ,                ONLY: acc_init,&
+                                              acc_finalize
    USE dbcsr_acc_stream,                ONLY: acc_stream_associated,&
                                               acc_stream_create,&
                                               acc_stream_destroy
@@ -280,6 +282,8 @@ CONTAINS
          CALL acc_stream_destroy(stream_1)
       IF (acc_stream_associated(stream_2)) &
          CALL acc_stream_destroy(stream_2)
+      IF (has_acc) &
+         CALL acc_finalize()
 !$OMP      END MASTER
    END SUBROUTINE dbcsr_multiply_lib_finalize
 
@@ -435,6 +439,7 @@ CONTAINS
 
       ! the ab_buffers are shared by all threads
       IF (has_acc) THEN
+         CALL acc_init()
          IF (.NOT. acc_stream_associated(stream_1)) THEN
             CALL acc_stream_create(stream_1, "MemCpy (odd ticks)")
             CALL acc_stream_create(stream_2, "MemCpy (even ticks)")
