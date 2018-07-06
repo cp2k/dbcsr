@@ -39,7 +39,6 @@ inline int launch_kernel_from_handle(CUfunction const& kern_func, int nblks, int
                            threads, 1, 1,	// block dimension x, y, z
                            0, stream,           // shared memory size and stream
                            args, NULL));        // arguments
-    CUDA_SAFE_CALL("cuCtxSynchronize", cuCtxSynchronize());
 #ifdef LOGGING
     printf("launch_kernel_from_handle: kernel launched, context synchronized\n");
 #endif
@@ -168,8 +167,19 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
         // (JIT-)compile kernel program
         const std::string kernel_files_path = KERNEL_FILES_PATH;
         const std::string include_opt = "-I=" + kernel_files_path;
-        const char *compileOptions[] = {include_opt.c_str()};
-        size_t nOptions = 1;
+        const int maxregcount = 256;
+        const std::string maxregcount_opt = "--maxrregcount=" + std::to_string(maxregcount);
+        const char *compileOptions[] = {include_opt.c_str(), 
+#ifdef LOGGING
+#else
+                                        "-w", 
+#endif
+                                        "-arch=compute_30", 
+                                        maxregcount_opt.c_str()};
+        size_t nOptions = 4;
+#ifdef LOGGING
+        nOptions -= 1;
+#endif
         nvrtcResult compileResult = nvrtcCompileProgram(kernel_program, nOptions, compileOptions);
 
 #ifdef LOGGING
