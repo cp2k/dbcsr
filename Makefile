@@ -61,6 +61,11 @@ OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . -name "*.F")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cpp")
 
+ifneq ($(CINT),)
+DFLAGS        += -D__C_INTERFACE
+PUBLICHEADERS += $(SRCDIR)/dbcsr.h
+endif
+
 # OBJECTS used for pretty and doxify
 ALL_OBJECTS   := $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(SRCDIR);  find . ! -name "libcusmm.cu" ! -name "libcusmm_part*.cu" -name "*.cu"))))

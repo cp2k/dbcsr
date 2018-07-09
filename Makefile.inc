@@ -32,10 +32,9 @@ endif
 LDFLAGS     = $(FCFLAGS)
 LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -lreflapack -lrefblas
 
+# C interface requires new F2008ts standard
 ifneq ($(CINT),)
 FCDEBFLAGS  := $(subst -std=f2003,-std=f2008ts,$(FCDEBFLAGS))
-DFLAGS        += -D__C_INTERFACE
-PUBLICHEADERS += $(SRCDIR)/dbcsr.h
 endif
 
 ifneq ($(GPU),)

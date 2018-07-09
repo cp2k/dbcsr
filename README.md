@@ -41,3 +41,14 @@ or update the provided `Makefile.inc` to fit your needs.
 
 Support for `cmake` is still considered experimental and may not cover all functionalities yet.
 If you are using `cmake` to build DBCSR, please make sure you can reproduce any errors using the plain `Makefile` before reporting them.
+
+## C Interface
+
+You can compile with
+
+make CINT=1
+
+to generate the C interface. Make sure your Fortran compile allows new F2008ts
+standard by updating the flag in the Makefile.inc.
+
+
