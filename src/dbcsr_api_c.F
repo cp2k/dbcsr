@@ -164,6 +164,9 @@ module dbcsr_api_c
         call c_f_pointer(c_matrix, matrix) 
 
         call dbcsr_print(matrix)
+
+        ! Fortran and C may use different buffers for I/O, make sure we flush before returning:
+        flush(default_output_unit)
       end subroutine
 
 
