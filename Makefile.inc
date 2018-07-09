@@ -34,8 +34,8 @@ LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -lreflapack -lrefblas
 
 ifneq ($(CINT),)
 FCDEBFLAGS  := $(subst -std=f2003,-std=f2008ts,$(FCDEBFLAGS))
-DFLAGS      += -D__C_INTERFACE
-PUBLICFILES += dbcsr.h
+DFLAGS        += -D__C_INTERFACE
+PUBLICHEADERS += $(SRCDIR)/dbcsr.h
 endif
 
 ifneq ($(GPU),)
@@ -56,8 +56,8 @@ DFLAGS  += -D__HAS_smm_dnn
 DFLAGS  += -D__ACC -D__DBCSR_ACC
 DFLAGS  += -D__ACC_CUBLAS
 #-D__CUDA_PROFILING
-CFLAGS   = $(WFLAGS) $(DFLAGS) -fopenmp -fno-omit-frame-pointer -g -O3 -ffast-math
-FCFLAGS  = $(WFLAGS) $(DFLAGS) -O3 -fopenmp -funroll-loops -ffast-math \
+CFLAGS   = $(WFLAGS) $(DFLAGS) -fopenmp -fno-omit-frame-pointer -g -O3
+FCFLAGS  = $(WFLAGS) $(DFLAGS) -O3 -fopenmp -funroll-loops \
            -ftree-vectorize \
            $(FCDEBFLAGS)
 LDFLAGS  = $(FCFLAGS)
