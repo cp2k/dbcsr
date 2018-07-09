@@ -26,9 +26,9 @@ vector<int> random_dist(int dist_size, int nbins)
 }
 
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
-    MPI_Init(NULL, NULL);
+    MPI_Init(&argc, &argv);
 
     int mpi_size;
     MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
