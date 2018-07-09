@@ -7,10 +7,10 @@ FLAGS      = -O3 -g -fopenmp
 INCLUDES   = -I$(DBCSRDIR)/include
 FCFLAGS    = $(FLAGS) $(INCLUDES) -fno-omit-frame-pointer \
              -funroll-loops -ffree-form -std=f2003 -fimplicit-none
-CXXFLAGS   = $(FLAGS) $(INCLUDES)
+CXXFLAGS   = -std=c++11 $(FLAGS) $(INCLUDES)
 LIBS       = -L$(DBCSRDIR)/lib -ldbcsr
 LIBS      += -L${SCALAPACK_PATH}/lib -lscalapack -lreflapack -lrefblas
-LIBS      += -lgfortran
+CLIBS     += -lgfortran -lmpi_mpifh
 
 # Include C/C++ examples 
 ifneq (,$(wildcard $(DBCSRDIR)/include/dbcsr.h))
@@ -31,8 +31,6 @@ endif
 
 
 ifneq (,$(wildcard $(DBCSRDIR)/include/dbcsr.h))
-LIBS       += -lgfortran
-
 all: dbcsr_example_3_cpp.x
 endif
 
@@ -43,7 +41,7 @@ all: dbcsr_example_1.x dbcsr_example_2.x dbcsr_example_3.x
 	$(FC) $(FCFLAGS) $< $(LIBS) -o $@
 
 %_cpp.x: %.cpp
-	$(CXX) $(CXXFLAGS) $< $(INCLUDES) -o $@ $(LIBS) 
+	$(CXX) $(CXXFLAGS) $< $(INCLUDES) -o $@ $(LIBS) $(CLIBS)
 
 clean:
 	rm -rf *.x
