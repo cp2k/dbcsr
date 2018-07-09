@@ -10,38 +10,29 @@ FCFLAGS    = $(FLAGS) $(INCLUDES) -fno-omit-frame-pointer \
 CXXFLAGS   = -std=c++11 $(FLAGS) $(INCLUDES)
 LIBS       = -L$(DBCSRDIR)/lib -ldbcsr
 LIBS      += -L${SCALAPACK_PATH}/lib -lscalapack -lreflapack -lrefblas
-CLIBS     += -lgfortran -lmpi_mpifh
-
-# Include C/C++ examples 
-ifneq (,$(wildcard $(DBCSRDIR)/include/dbcsr.h))
-all: dbcsr_example_3_cpp.x
-endif
-
-
+CLIBS      = $(LIBS) -lgfortran -lmpi_mpifh
 
 ifneq ($(CRAY),)
 FC       = ftn
 CXX      = CC
 LIBS     = -L$(DBCSRDIR)/lib -ldbcsr
-LIBS    += -lfftw3 -lfftw3_threads
 LIBS    += /users/alazzaro/project/libsmm/libxsmm/haswell/lib/libsmm_dnn_cray.gnu.a
 LIBS    += -lcublas -lstdc++
 endif
 
+# Fortran examples
+all: dbcsr_example_1.x dbcsr_example_2.x dbcsr_example_3.x 
 
-
+# Include C/C++ examples if the dbcsr.h is installed
 ifneq (,$(wildcard $(DBCSRDIR)/include/dbcsr.h))
 all: dbcsr_example_3_cpp.x
 endif
-
-
-all: dbcsr_example_1.x dbcsr_example_2.x dbcsr_example_3.x 
 
 %.x: %.F
 	$(FC) $(FCFLAGS) $< $(LIBS) -o $@
 
 %_cpp.x: %.cpp
-	$(CXX) $(CXXFLAGS) $< $(INCLUDES) -o $@ $(LIBS) $(CLIBS)
+	$(CXX) $(CXXFLAGS) $< $(CLIBS) -o $@
 
 clean:
 	rm -rf *.x

@@ -12,6 +12,8 @@
 #include <dbcsr.h>
 
 
+// Random distribution by using round-robin assignment 
+// of blocks to processors
 std::vector<int> random_dist(int dist_size, int nbins)
 {
     std::vector<int> dist(dist_size);
@@ -48,19 +50,17 @@ int main(int argc, char* argv[])
         << ", (" << coord[0] << ", " << coord[1] << ") in the 2D grid"
         << std::endl;
 
-
     dbcsr::init_lib();
 
+    // Total number of blocks
     int nblkrows_total = 4;
     int nblkcols_total = 4;
 
+    // Block sizes
     std::vector<int> row_blk_sizes(nblkrows_total, 2), col_blk_sizes(nblkcols_total, 2);
 
     auto row_dist = random_dist(nblkrows_total, dims[0]);
     auto col_dist = random_dist(nblkcols_total, dims[1]);
-
-    for (auto a: row_dist)
-        std::cout << a << std::endl;
 
     void* dist = nullptr;
 
@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
         row_dist.data(), row_dist.size(),
         col_dist.data(), col_dist.size());
 
-
+    // Fill all blocks, i.e. dense matrices
     auto fill_matrix = [&](void*& matrix)
     {
         int max_row_size = *std::max_element(row_blk_sizes.begin(),row_blk_sizes.end());
@@ -97,40 +97,32 @@ int main(int argc, char* argv[])
 
     // create and fill matrix a
     void* matrix_a = nullptr;
-    dbcsr::create_new_d(&matrix_a, "matrix a", dist, 'N',
+    dbcsr::create_new_d(&matrix_a, "this is my matrix a", dist, 'N',
         row_blk_sizes.data(), row_blk_sizes.size(),
         col_blk_sizes.data(), col_blk_sizes.size());
-
     fill_matrix(matrix_a);
     dbcsr::finalize(matrix_a);
 
     // create and fill matrix b
     void* matrix_b = nullptr;
-    dbcsr::create_new_d(&matrix_b, "matrix b", dist, 'N',
+    dbcsr::create_new_d(&matrix_b, "this is my matrix b", dist, 'N',
         row_blk_sizes.data(), row_blk_sizes.size(),
         col_blk_sizes.data(), col_blk_sizes.size());
-
     fill_matrix(matrix_b);
     dbcsr::finalize(matrix_b);
 
-    // create matrix c
+    // create matrix c, empty
     void* matrix_c = nullptr;
     dbcsr::create_new_d(&matrix_c, "matrix c", dist, 'N',
         row_blk_sizes.data(), row_blk_sizes.size(),
         col_blk_sizes.data(), col_blk_sizes.size());
-
     dbcsr::finalize(matrix_c);
 
-    printf("------ print matrix a -------\n");
-    dbcsr::print(matrix_a);
-
-    printf("------ print matrix b -------\n");
-    dbcsr::print(matrix_b);
-
-    bool ret_spars = true;
+    // multiply the matrices
     dbcsr::multiply_d('N', 'N', 1.0, &matrix_a, &matrix_b, 0.0, &matrix_c, nullptr);
 
-    printf("------ print matrix c = a * b -------\n");
+    dbcsr::print(matrix_a);
+    dbcsr::print(matrix_b);
     dbcsr::print(matrix_c);
 
     dbcsr::release(&matrix_a);

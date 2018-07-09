@@ -29,7 +29,7 @@ extern "C" {
 
     void c_dbcsr_distribution_release(void** dist);
 
-    void c_dbcsr_create_new_d(void** matrix, char* name, void* dist, char matrix_type, int* row_blk_sizes,
+    void c_dbcsr_create_new_d(void** matrix, const char* name, void* dist, char matrix_type, int* row_blk_sizes,
                               int row_blk_sizes_length, int* col_blk_sizes, int col_blk_sizes_length);
 
 
