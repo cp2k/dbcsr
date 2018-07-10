@@ -154,13 +154,8 @@ else
 # stage 3: Perform actual build.
 $(BIN_NAME).o: $(BIN_DEPS)
 
-$(BINDIR)/%.x: %.o $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) | silent
+$(BINDIR)/%.x: %.o $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT)
 	$(LD) $(LDFLAGS) -L$(LIBDIR) -o $@ $< $(BIN_DEPS) -l$(LIBNAME) $(LIBS)
-
-# Silent the target if it is already up to date
-silent:
-	@:
-
 endif
 
 endif
@@ -372,9 +367,9 @@ vpath %.cpp   $(ALL_SRC_DIRS)
 FYPPFLAGS ?= -n
 
 %.o %.mod: %.F
+	@rm -f $*.mod
 	$(TOOLSRC)/build_utils/fypp/bin/fypp $(FYPPFLAGS) $< $*.F90
 	$(FC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(notdir $<)\"" -I'$(dir $<)' -I'$(SRCDIR)' $*.F90 $(FCLOGPIPE)
-	@touch $*.mod
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $<
