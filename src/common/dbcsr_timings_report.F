@@ -41,7 +41,7 @@ MODULE dbcsr_timings_report
                                               routine_report_type,&
                                               routine_stat_type
    USE dbcsr_timings_types,             ONLY: timer_env_type
-   USE dbcsr_util,                      ONLY: sort
+   USE dbcsr_toollib,                   ONLY: sort
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
