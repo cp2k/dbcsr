@@ -1,7 +1,5 @@
 MODULE dbcsr_api_c
 
-#if defined(__C_INTERFACE)
-
    USE, INTRINSIC :: ISO_C_BINDING, ONLY: c_loc, c_ptr, c_double, C_NULL_CHAR, &
       c_f_pointer, c_int, c_char, c_null_ptr, c_bool
    USE dbcsr_api
@@ -312,5 +310,4 @@ CONTAINS
       ENDIF
    END SUBROUTINE
 
-#endif
 END MODULE

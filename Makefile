@@ -57,12 +57,12 @@ LIBCUSMM_DIR := $(shell cd $(SRCDIR) ; find . -type d -name "libcusmm")
 LIBCUSMM_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libcusmm")
 
 ALL_PKG_FILES := $(shell find $(SRCDIR) -name "PACKAGE")
-OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . -name "*.F")
+OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . ! -name "dbcsr_api_c.F" -name "*.F")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cpp")
 
 ifneq ($(CINT),)
-DFLAGS        += -D__C_INTERFACE
+OBJ_SRC_FILES += ./dbcsr_api_c.F
 PUBLICHEADERS += $(SRCDIR)/dbcsr.h
 endif
 

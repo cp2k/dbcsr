@@ -1,5 +1,5 @@
-#ifndef DBCSR
-#define DBCSR
+#ifndef DBCSR_H
+#define DBCSR_H
 
 #include <mpi.h>
 #include <stdbool.h> /* we need bool introduce in C99 */
@@ -66,4 +66,4 @@ namespace dbcsr {
 #endif
 
 
-#endif // DBCSR
+#endif // DBCSR_H
