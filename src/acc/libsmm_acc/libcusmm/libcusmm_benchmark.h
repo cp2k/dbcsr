@@ -30,7 +30,7 @@ typedef struct {
     double* d_mat_c;
     int*    d_stack;
     // events for measuring the runtime
-    cudaEvent_t t_start, t_stop;
+    CUevent t_start, t_stop;
 } libcusmm_benchmark_t;
 
 void matInit(double* mat, int mat_n, int x, int y, int seed);
