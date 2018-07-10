@@ -13,19 +13,6 @@
 #include "acc/libsmm_acc/libcusmm/parameters.h"
 
 
-void get_blocksizes(std::vector<int>& v){
-
-    for(auto it: ht){
-        int h_mnk = it.first;
-        std::array<int, 3> v_mnk = hash_back(h_mnk);
-        v.push_back(v_mnk[0]);
-        v.push_back(v_mnk[1]);
-        v.push_back(v_mnk[2]);
-    }
-
-}
-
-
 /****************************************************************************\
  \brief Checks correctness of every libcusmm kernel and measures its performance.
 \****************************************************************************/
@@ -39,7 +26,7 @@ int main(int argc, char** argv){
     char * kernel_descr[1] = {buffer};
 
     std::vector<int> v;
-    get_blocksizes(v);
+    get_blocksizes(v, ht);
     int n_blocksizes = v.size()/3;
     const int *blocksizes = &v[0];
     printf("# Libcusmm has %d blocksizes compiled in...\n", n_blocksizes);
