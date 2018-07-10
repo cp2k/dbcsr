@@ -645,7 +645,7 @@ CONTAINS
       CHARACTER(len=*), INTENT(in)                       :: a
       INTEGER                                            :: atoi
 
-      READ (a, '(I6)') atoi
+      READ (a, '(I9)') atoi
    END FUNCTION atoi
 
 ! **************************************************************************************************

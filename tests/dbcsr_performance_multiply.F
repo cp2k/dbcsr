@@ -98,8 +98,9 @@ CONTAINS
 !
 ! parsing
 
-      IF (narg .LT. 28) THEN
+      IF (narg .LT. 29) THEN
          WRITE (*, *) "Input file format:"
+         WRITE (*, *) "      npcols for MPI grid \\"
          WRITE (*, *) "      dbcsr_multiply \\"
          WRITE (*, *) "      M N K \\"
          WRITE (*, *) "      SpA SpB SpC \\"
@@ -644,7 +645,7 @@ CONTAINS
             ", ", dbcsr_get_matrix_type(m_b), &
             ", ", dbcsr_get_matrix_type(m_c), &
             ")"
-         WRITE (io_unit, '(T4,3(A,I6,A,I6),A)') &
+         WRITE (io_unit, '(T4,3(A,I9,A,I9),A)') &
             "matrix sizes A(", r_a, " x", c_a, "), B(", r_b, " x", c_b, ") and C(", r_c, " x", c_c, ")"
          WRITE (io_unit, '(T4,A,I5,A,I3,A,I3,A)') 'numnodes (nprows X npcols) = ', numnodes, &
             "(", dbcsr_mp_nprows(mp_env), " X ", &
