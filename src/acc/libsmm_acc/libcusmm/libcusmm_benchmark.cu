@@ -49,8 +49,8 @@ void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, bool tune_mode,
     cudaMalloc(&h->d_mat_c, h->n_c * max_m * max_n * sizeof(double));
     cudaMalloc(&h->d_stack, h->n_stack * 3 * sizeof(int));
 
-    cudaEventCreate(&h->t_start);
-    cudaEventCreate(&h->t_stop);
+    cuEventCreate(&h->t_start, CU_EVENT_DEFAULT);
+    cuEventCreate(&h->t_stop, CU_EVENT_DEFAULT);
 
     cudaError_t cudaError = cudaGetLastError();
     if (cudaError != cudaSuccess){
@@ -217,7 +217,8 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
      n_warm = min(3, n_iter);
  }
 
- const int stream = 0;
+ CUstream stream; 
+ cuStreamCreate(&stream, CU_STREAM_DEFAULT);
 
  int error_counter = 0;
  int best_kernel = -1;
@@ -251,17 +252,17 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
  for(int ikern=0; ikern < nkernels; ikern++){
     //warmup run (more often if n_iter is small)
     for(int i=0; i<n_warm; i++)
-        launchers[ikern](h->d_stack, h->n_stack, (CUstream) stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
+        launchers[ikern](h->d_stack, h->n_stack, stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
     cudaMemset(h->d_mat_c, 0, h->n_c * mat_m * mat_n * sizeof(double));
 
-    cudaEventRecord(h->t_start, (cudaStream_t) stream);
+    cuEventRecord(h->t_start, stream);
 
     for(int i=0; i<n_iter; i++)
-        launchers[ikern](h->d_stack, h->n_stack, (CUstream) stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
+        launchers[ikern](h->d_stack, h->n_stack, stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
 
-    cudaEventRecord(h->t_stop, (cudaStream_t) stream);
-    cudaEventSynchronize(h->t_stop);
-    cudaEventElapsedTime(&t_duration, h->t_start, h->t_stop);
+    cuEventRecord(h->t_stop, stream);
+    cuEventSynchronize(h->t_stop);
+    cuEventElapsedTime(&t_duration, h->t_start, h->t_stop);
 
     cudaMemcpy(h->mat_c, h->d_mat_c, h->n_c * mat_m * mat_n * sizeof(double), cudaMemcpyDeviceToHost);
 
