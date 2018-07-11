@@ -169,16 +169,13 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
         // (JIT-)compile kernel program
         const std::string kernel_files_path = KERNEL_FILES_PATH;
         const std::string include_opt = "-I=" + kernel_files_path;
-        const int maxregcount = 256;
-        const std::string maxregcount_opt = "--maxrregcount=" + std::to_string(maxregcount);
         const char *compileOptions[] = {include_opt.c_str(), 
 #ifdef LOGGING
 #else
                                         "-w", 
 #endif
-                                        "-arch=compute_30", 
-                                        maxregcount_opt.c_str()};
-        size_t nOptions = 4;
+                                        "--gpu-architecture=compute_60"};
+        size_t nOptions = 3;
 #ifdef LOGGING
         nOptions -= 1;
 #endif
