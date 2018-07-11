@@ -24,7 +24,9 @@
 #include <chrono>
 typedef std::chrono::high_resolution_clock timer_clock;
 #endif
-
+#ifdef PROF
+#include "nvToolsExt.h"
+#endif
 
 //===========================================================================
 inline int launch_kernel_from_handle(CUfunction const& kern_func, int nblks, int threads, CUstream stream, void** args){
@@ -203,6 +205,9 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
         NVRTC_SAFE_CALL("nvrtcGetPTXsize", nvrtcGetPTXSize(kernel_program, &ptxSize));
         char *ptx = new char[ptxSize];
         NVRTC_SAFE_CALL("nvrtcGetPTX", nvrtcGetPTX(kernel_program, ptx));
+#ifdef LOGGING
+        printf(ptx);
+#endif
 
         // Get lowered name
         const char *lowered_kernel_name;
@@ -235,10 +240,16 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #ifdef TIMING
     auto JITed_kernel_lookup_start = timer_clock::now();
 #endif
+#ifdef PROF
+    nvtxRangePushA("JITed_kernel_lookup");
+#endif
     CUfunction kern_func;
     int threads, grouping; 
     int h_mnk = hash(m, n, k);
     auto kernel_it = kernel_handles.find(h_mnk);
+#ifdef PROF
+    nvtxRangePop();
+#endif
 #ifdef TIMING
     auto JITed_kernel_lookup_stop = timer_clock::now();
     printf("##TIMER## JITed kernel lookup: %g us\n",
@@ -254,9 +265,15 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #ifdef TIMING
         auto launchpar_lookup_start = timer_clock::now();
 #endif
+#ifdef PROF
+    nvtxRangePushA("launchpar_lookup");
+#endif
         kern_func = kernel_it->second.kernel_function; 
         threads = kernel_it->second.threads; 
         grouping = kernel_it->second.grouping;
+#ifdef PROF
+    nvtxRangePop();
+#endif
 #ifdef TIMING
     auto launchpar_lookup_stop = timer_clock::now();
     printf("##TIMER## launching parameters lookup: %g us\n", 
@@ -276,7 +293,13 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #ifdef TIMING
     auto autotuned_pars_lookup_start = timer_clock::now();
 #endif
+#ifdef PROF
+    nvtxRangePushA("autotuned_pars_lookup");
+#endif
         auto params_it = ht.find(h_mnk);
+#ifdef PROF
+    nvtxRangePop();
+#endif
 #ifdef TIMING
     auto autotuned_pars_lookup_stop = timer_clock::now();
     printf("##TIMER## Autotuned parameters lookup: %g us\n",
@@ -287,6 +310,9 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #ifdef TIMING
     auto autotuned_pars_retrieval_start = timer_clock::now();
 #endif
+#ifdef PROF
+    nvtxRangePushA("autotuned_pars_retrieval");
+#endif
             const std::array<int, 8> params = ht.at(h_mnk);
             libcusmm_algo algo = libcusmm_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
             int tile_m = params[1];
@@ -296,6 +322,9 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
             threads = params[5];
             grouping = params[6];
             int minblocks =  params[7];
+#ifdef PROF
+    nvtxRangePop();
+#endif
 #ifdef TIMING
     auto autotuned_pars_retrieval_stop = timer_clock::now();
     printf("##TIMER## Autotuned parameters retrieval: %g us\n",
@@ -309,8 +338,14 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #ifdef TIMING
     auto JIT_overhead_start = timer_clock::now();
 #endif
+#ifdef PROF
+    nvtxRangePushA("JIT_overhead");
+#endif
             // JIT and validate the kernel
             jit_kernel(kern_func, algo, tile_m, tile_n, w, v, threads, grouping, minblocks, m, n, k);
+#ifdef PROF
+    nvtxRangePop();
+#endif
 #ifdef TIMING
     auto JIT_overhead_stop = timer_clock::now();
     printf("##TIMER## JIT overhead: %g us\n",
@@ -319,7 +354,13 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #ifdef TIMING
     auto val_overhead_start = timer_clock::now();
 #endif
+#ifdef PROF
+    nvtxRangePushA("val_overhead");
+#endif
             validate_kernel(kern_func, stream, threads, grouping, m, n, k);
+#ifdef PROF
+    nvtxRangePop();
+#endif
 #ifdef TIMING
     auto val_overhead_stop = timer_clock::now();
     printf("##TIMER## validation overhead: %g us\n",
@@ -330,7 +371,13 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #ifdef TIMING
     auto handle_store_overhead_start = timer_clock::now();
 #endif
+#ifdef PROF
+    nvtxRangePushA("handle_store_overhead");
+#endif
            kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
+#ifdef PROF
+    nvtxRangePop();
+#endif
 #ifdef TIMING
     auto handle_store_overhead_stop = timer_clock::now();
     printf("##TIMER## handle store overhead: %g us\n",
@@ -365,7 +412,13 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #ifdef TIMING
     auto kernel_start = timer_clock::now();
 #endif
+#ifdef PROF
+    nvtxRangePushA("launch_kernel");
+#endif
     int ret = launch_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args);
+#ifdef PROF
+    nvtxRangePop();
+#endif
 #ifdef TIMING
     auto kernel_stop = timer_clock::now();
     printf("##TIMER## launch and run kernel: %g us\n",
@@ -381,10 +434,16 @@ extern "C" int libsmm_acc_process (void *param_stack, int stack_size, int nparam
 #ifdef TIMING
     auto libcusmm_smm_start = timer_clock::now();
 #endif
+#ifdef PROF
+    nvtxRangePushA("libcusmm_acc_process");
+#endif
     if(def_mnk!=1)
         return(-1); // inhomogenous stacks not supported
     if(datatype==dbcsr_type_real_8){
         int res = (libcusmm_process_d ((int *) param_stack, stack_size, *((CUstream *) stream), m, n, k, (double *) a_data, (double *) b_data, (double *) c_data));
+#ifdef PROF
+    nvtxRangePop();
+#endif
 #ifdef TIMING
     auto libcusmm_smm_stop = timer_clock::now();
     printf("##TIMER_LIBCUSMM## libcusmm_smm: %g us\n",
