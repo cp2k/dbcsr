@@ -214,11 +214,11 @@ OTHER_HELP += "install : Install the library and modules under PREFIX=<directory
 test:
 	@export OMP_NUM_THREADS=2 ; \
 	for test in $(UNITTESTS); do \
-		mpirun -np 2 $(BINDIR)/$$test.x || exit 1; \
+		mpirun $(BINDIR)/$$test.x || exit 1; \
 	done
 	@export OMP_NUM_THREADS=2 ; \
 	for input in $(PERFTESTS); do \
-		mpirun -np 2 $(BINDIR)/dbcsr_performance_driver.x $(TESTSDIR)/$$input || exit 1; \
+		mpirun $(BINDIR)/dbcsr_performance_driver.x $(TESTSDIR)/$$input || exit 1; \
 	done
 
 OTHER_HELP += "test    : Run the unittests available in tests/"
