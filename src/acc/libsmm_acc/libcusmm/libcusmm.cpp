@@ -58,7 +58,7 @@ inline void validate_kernel(CUfunction& kern_func, CUstream stream, int threads,
     libcusmm_benchmark_t* h;
     libcusmm_benchmark_init(&h, false, m, n, k);
 
-    // Compute the matrix-matrix multiplication on the CPU
+    // Run the matrix-matrix multiplication on the CPU
     memset(h->mat_c, 0, h->n_c * m * n * sizeof(double));
     matInit(h->mat_a, h->n_a, m, k, 42);
     matInit(h->mat_b, h->n_b, k, n, 24);
@@ -88,10 +88,10 @@ inline void validate_kernel(CUfunction& kern_func, CUstream stream, int threads,
         exit(1);
     }
 
-    // Compare results
+    // Validate the kernel based on results
     double sumGPU =  checkSum(h->mat_c, h->n_c, m, n);
     if(sumGPU != sumCPU){
-        printf("validate_kernel: checksum_diff: %g\n", sumGPU-sumCPU);
+        printf("Kernel validation failed for kernel %ix%ix%i\nchecksum_diff: %g\nthreads: %i, grouping: %i\n", m, n, k, sumGPU-sumCPU, threads, grouping);
         exit(1);
     }
     libcusmm_benchmark_finalize(h);
@@ -107,7 +107,7 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
     printf("jit_kernel: start\n");
 #endif
 
-        // Get the code and the lowered name of the kernel to launch
+        // Get the code and the lowered name corresponding the kernel to launch
         std::string kernel_code, kernel_name;
 #ifdef TIMING
     auto switch_name_overhead_start = timer_clock::now();
@@ -242,6 +242,8 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #endif
     CUfunction kern_func;
     int threads, grouping; 
+
+    // Look up the kernel in the table of already JITed kernels
     int h_mnk = hash(m, n, k);
     auto kernel_it = kernel_handles.find(h_mnk);
 #ifdef PROF
@@ -252,7 +254,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
     printf("##TIMER## JITed kernel lookup: %g us\n",
            std::chrono::duration<double, std::micro>(JITed_kernel_lookup_stop - JITed_kernel_lookup_start).count());
 #endif
-    if (kernel_it != kernel_handles.end()){
+    if (kernel_it != kernel_handles.end()){  // the kernel has already been JITed
 
 #ifdef LOGGING
         printf("libcusmm_process_d: found a handle to (%i, %i, %i) kernel in table at hash %i...\n", m, n, k, h_mnk);
@@ -280,7 +282,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
         printf("libcusmm_process_d: launching parameters:\nthreads = %i, grouping = %i\n", threads, grouping);
 #endif
 
-    } else {	// this kernel has not been JIT-ed yet
+    } else {	// the kernel has not been JIT-ed yet
 
 #ifdef LOGGING
         printf("libcusmm_process_d: no handle found to (%i, %i, %i) kernel...\n", m, n, k); 
@@ -303,6 +305,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
            std::chrono::duration<double, std::micro>(autotuned_pars_lookup_stop - autotuned_pars_lookup_start).count());
 #endif
 	if (params_it != ht.end()){
+
             // Retrieve launching parameters
 #ifdef TIMING
     auto autotuned_pars_retrieval_start = timer_clock::now();
@@ -364,7 +367,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
            std::chrono::duration<double, std::micro>(val_overhead_stop - val_overhead_start).count());
 #endif
 
-            // Store the handle to the JIT-ed kernel and to its launching parameters
+            // Store the handle to the JIT-ed kernel
 #ifdef TIMING
     auto handle_store_overhead_start = timer_clock::now();
 #endif
@@ -385,13 +388,10 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #endif
 
         } else { // there exist no autotuned parameters for this (m, n, k)-triplet
-
-            // Fall back to CPU
 #ifdef LOGGING
             printf("libcusmm_process_d: fallback to CPU\n");
 #endif
-            return -2; 
-
+            return -2; // fall back to CPU
         }
 
     }
@@ -428,26 +428,10 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 
 //===========================================================================
 extern "C" int libsmm_acc_process (void *param_stack, int stack_size, int nparams, int datatype, void *a_data, void *b_data, void *c_data, int m, int n, int k, int def_mnk, void *stream){
-#ifdef TIMING
-    auto libcusmm_smm_start = timer_clock::now();
-#endif
-#ifdef PROF
-    nvtxRangePushA("libcusmm_acc_process");
-#endif
     if(def_mnk!=1)
         return(-1); // inhomogenous stacks not supported
-    if(datatype==dbcsr_type_real_8){
-        int res = (libcusmm_process_d ((int *) param_stack, stack_size, *((CUstream *) stream), m, n, k, (double *) a_data, (double *) b_data, (double *) c_data));
-#ifdef PROF
-    nvtxRangePop();
-#endif
-#ifdef TIMING
-    auto libcusmm_smm_stop = timer_clock::now();
-    printf("##TIMER_LIBCUSMM## libcusmm_smm: %g us\n",
-           std::chrono::duration<double, std::micro>(libcusmm_smm_stop - libcusmm_smm_start).count());
-#endif
-	return res; 
-    }
+    if(datatype==dbcsr_type_real_8)
+        return (libcusmm_process_d ((int *) param_stack, stack_size, *((CUstream *) stream), m, n, k, (double *) a_data, (double *) b_data, (double *) c_data));
     return(-1); // datatype not supported
 };
 
@@ -516,17 +500,19 @@ int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
    printf("libcusmm_transpose_d: CUSMM-transpose with parameters:\nm = %i, n = %i,\nnblks = %i, offset = %i\n\n", m, n, nblks, offset);
 #endif
 
-    int h_mnk = hash(m, n, 0);
     CUfunction kern_func;
-    auto kernel_it = transpose_handles.find(h_mnk); 
-    if(kernel_it != transpose_handles.end()){
 
-        kern_func = kernel_it->second;
+    // Look up the kernel in the table of already JITed kernels
+    int h_mnk = hash(m, n, 0);
+    auto kernel_it = transpose_handles.find(h_mnk); 
+    if(kernel_it != transpose_handles.end()){  // the kernel has already been JITed
+
+        kern_func = kernel_it->second; // retrieve handle
 #ifdef LOGGING
         printf("libcusmm_transpose_d: found a handle to (%i, %i) transpose in table at hash %i...\n", m, n, hash(m, n, 0));
 #endif
 
-    } else {
+    } else {    // the kernel has not been JIT-ed yet
 
 #ifdef LOGGING
     printf("libcusmm_transpose_d: no handle to (%i, %i) transpose found in table at hash %i...\n", m, n, hash(m, n, 0));
