@@ -278,7 +278,7 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
     clean_string(kernel_descr[ikern], descr);
 
     if(h->tune_mode)
-        sprintf(msg_prefix, "params %d / %d",ikern+1, nkernels);
+        sprintf(msg_prefix, "params %d / %d\n",ikern+1, nkernels);
 
     cudaError = cudaGetLastError();
     if (cudaError != cudaSuccess){

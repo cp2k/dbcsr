@@ -19,7 +19,6 @@
 
 int main(int argc, char** argv){
 
-    printf("In libcusmm unit test\n"); 
     KernelLauncher launcher = libcusmm_process_d;
 
     char buffer[1000];
