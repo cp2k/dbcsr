@@ -41,6 +41,7 @@ ifneq ($(GPU),)
 NVCC        = nvcc
 DFLAGS     += -D__ACC -D__DBCSR_ACC
 FCFLAGS    += -D__ACC -D__DBCSR_ACC
+SM_NUMBER   = 35
 NVFLAGS     = $(DFLAGS) -O3 -g -arch sm_35 -w
 LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -L${LAPACK_PATH}/lib -llapack -lblas
 LIBS       += -lstdc++ -lcudart -lcublas -lnvrtc -lcuda
@@ -60,6 +61,7 @@ FCFLAGS  = $(WFLAGS) $(DFLAGS) -O3 -fopenmp -funroll-loops \
            -ftree-vectorize \
            $(FCDEBFLAGS)
 LDFLAGS  = $(FCFLAGS)
+SM_NUMBER= 60
 NVFLAGS  = $(DFLAGS) -O3 -w -arch sm_60 --std=c++11
 LIBS     = -lfftw3 -lfftw3_threads
 LIBS    += /users/alazzaro/project/libsmm/libxsmm/haswell/lib/libsmm_dnn_cray.gnu.a
