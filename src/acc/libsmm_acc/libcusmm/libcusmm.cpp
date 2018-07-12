@@ -448,7 +448,14 @@ void jit_transpose_handle(CUfunction& kern_func, int m, int n){
     NVRTC_SAFE_CALL("nvrtcAddNameExpression", nvrtcAddNameExpression(kernel_program, kernel_name.c_str()));
 
     // (JIT-)compile
-    const char *compileOptions[] = {};
+    size_t nOptions = 2;
+    const char *compileOptions[] = {"--gpu-architecture=compute_60"
+#ifdef LOGGING
+                                   };
+    nOptions -= 1;
+#else
+                                    , "-w"};
+#endif
     nvrtcResult compileResult = nvrtcCompileProgram(kernel_program, 0, compileOptions);
 
 #ifdef LOGGING
@@ -472,6 +479,9 @@ void jit_transpose_handle(CUfunction& kern_func, int m, int n){
     NVRTC_SAFE_CALL("nvrtcGetPTXsize", nvrtcGetPTXSize(kernel_program, &ptxSize));
     char *ptx = new char[ptxSize];
     NVRTC_SAFE_CALL("nvrtcGetPTX", nvrtcGetPTX(kernel_program, ptx));
+#ifdef LOGGING
+        printf(ptx);
+#endif
 
     // Get lowered name
     const char *lowered_kernel_name;
