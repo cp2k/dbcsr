@@ -8,6 +8,7 @@
 #include <cuda.h>
 #include <algorithm>
 #include "libcusmm_benchmark.h"
+#include "parameters.h"
 
 //===========================================================================
 // Allocate memory and cuda events
@@ -205,7 +206,15 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
                        int nkernels, KernelLauncher* launchers, char ** kernel_descr){
 
  if(mat_m > h->max_m || mat_n > h->max_n || mat_k > h->max_k){
-     printf("libcusmm_benchmark: got handle with too few resources");
+     printf("libcusmm_benchmark: got handle with too few resources\n");
+     exit(1);
+ }
+ int h_mnk = hash(mat_m, mat_n, mat_k); 
+ std::vector<int> blocksizes; 
+ get_libcusmm_triplets(blocksizes, ht); 
+ auto it = std::find(std::begin(blocksizes), std::end(blocksizes), h_mnk); 
+ if(it == std::end(blocksizes)){
+     printf("Triplet %i x %i x %i is not defined in libcusmm\n", mat_m, mat_n, mat_k);
      exit(1);
  }
 
