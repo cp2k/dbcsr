@@ -212,11 +212,11 @@ endif
 OTHER_HELP += "install : Install the library and modules under PREFIX=<directory> (default $(PREFIX))"
 
 test:
-	@export OMP_NUM_THREADS=2 ; \
+	@export OMP_NUM_THREADS=4 ; \
 	for test in $(UNITTESTS); do \
 		mpirun $(BINDIR)/$$test.x || exit 1; \
 	done
-	@export OMP_NUM_THREADS=2 ; \
+	@export OMP_NUM_THREADS=4 ; \
 	for input in $(PERFTESTS); do \
 		mpirun $(BINDIR)/dbcsr_performance_driver.x $(TESTSDIR)/$$input || exit 1; \
 	done
