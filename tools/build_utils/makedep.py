@@ -14,6 +14,7 @@ re_use    = re.compile(r"\n\s*use\s+(\w+)")
 re_incl_fypp = re.compile(r"\n#:include\s+['\"](.+)['\"]")
 re_incl_cpp = re.compile(r"\n#include\s+['\"](.+)['\"]")
 re_incl_fort = re.compile(r"\n\s*include\s+['\"](.+)['\"]")
+SRC_FILES_TO_SKIP = ("parameters_utils_for_py.cpp", )
 
 
 #=============================================================================
@@ -74,7 +75,7 @@ def main():
     n_deps = 0
     for fn in src_files:
         p = normpath(dirname(fn))
-        if(not parsed_files[fn]['program']):
+        if not parsed_files[fn]['program'] and basename(fn) not in SRC_FILES_TO_SKIP:
             packages[p]['objects'].append(src2obj(basename(fn)))
         deps = collect_include_deps(parsed_files, fn, src_dir)
         deps += [ mod2fn[m] for m in collect_use_deps(parsed_files, fn, src_dir) if m in mod2fn.keys() ]

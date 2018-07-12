@@ -5,7 +5,6 @@
 #ifndef LIBCUSMM_H
 #define LIBCUSMM_H
 
-#include "parameters.h"
 #include <stdio.h>
 #include <cuda.h>
 #include <cuda_runtime.h>

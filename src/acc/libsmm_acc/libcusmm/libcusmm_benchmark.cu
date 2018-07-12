@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "libcusmm_benchmark.h"
 #include "parameters.h"
+#include "parameters_utils.h"
 
 //===========================================================================
 // Allocate memory and cuda events

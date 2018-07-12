@@ -3,6 +3,8 @@
  *  Copyright (C) 2000 - 2018  CP2K developers group                         *
  *****************************************************************************/
 #include "../include/libsmm_acc.h"
+#include "parameters.h"
+#include "parameters_utils.h"
 #include "libcusmm.h"
 #include "libcusmm_benchmark.h"
 #include "cusmm_kernels.h"

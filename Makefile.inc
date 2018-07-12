@@ -31,6 +31,7 @@ FCFLAGS    += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
 endif
 LDFLAGS     = $(FCFLAGS)
 LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -lreflapack -lrefblas
+INC         = -I${PYBIND_PATH}/include
 
 # C interface requires new F2008ts standard
 ifneq ($(CINT),)
