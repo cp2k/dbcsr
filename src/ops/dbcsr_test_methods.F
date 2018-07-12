@@ -36,8 +36,7 @@ MODULE dbcsr_test_methods
                                               dbcsr_iterator_next_block,&
                                               dbcsr_iterator_start,&
                                               dbcsr_iterator_stop
-   USE dbcsr_kinds,                     ONLY: default_string_length,&
-                                              dp,&
+   USE dbcsr_kinds,                     ONLY: dp,&
                                               int_8,&
                                               real_4,&
                                               real_8
@@ -74,8 +73,7 @@ MODULE dbcsr_test_methods
    PUBLIC :: dbcsr_to_dense_local, dbcsr_impose_sparsity
    PUBLIC :: dbcsr_random_dist, dbcsr_make_random_matrix, &
              dbcsr_make_random_block_sizes, compx_to_dbcsr_scalar, &
-             dbcsr_test_read_args, dbcsr_reset_randmat_seed, &
-             atoi, atol, ator
+             dbcsr_reset_randmat_seed
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_test_methods'
 
@@ -114,30 +112,6 @@ CONTAINS
       END SELECT
 
    END FUNCTION compx_to_dbcsr_scalar
-
-! **************************************************************************************************
-!> \brief ...
-!> \param narg ...
-!> \param args ...
-! **************************************************************************************************
-   SUBROUTINE dbcsr_test_read_args(narg, args)
-      INTEGER, INTENT(out)                               :: narg
-      CHARACTER(len=*), DIMENSION(:), INTENT(out)        :: args
-
-      CHARACTER(len=default_string_length)               :: line
-      INTEGER                                            :: istat
-
-      narg = 0
-      DO
-         READ (5, *, IOSTAT=istat) line
-         IF (istat .NE. 0) EXIT
-         IF (line(1:1) .EQ. '#') CYCLE
-         narg = narg+1
-         args(narg) = line
-         !WRITE(*,*) 'we read <'//TRIM(args(narg))//'>'
-      ENDDO
-
-   END SUBROUTINE dbcsr_test_read_args
 
 ! **************************************************************************************************
 !> \brief Impose sparsity on a dense matrix based on a dbcsr
@@ -635,41 +609,5 @@ CONTAINS
                                   row_dist, col_dist, reuse_arrays=.TRUE.)
       CALL dbcsr_mp_release(mp_env)
    END SUBROUTINE dbcsr_make_null_dist
-
-! **************************************************************************************************
-!> \brief ...
-!> \param a ...
-!> \return ...
-! **************************************************************************************************
-   FUNCTION atoi(a)
-      CHARACTER(len=*), INTENT(in)                       :: a
-      INTEGER                                            :: atoi
-
-      READ (a, '(I9)') atoi
-   END FUNCTION atoi
-
-! **************************************************************************************************
-!> \brief ...
-!> \param a ...
-!> \return ...
-! **************************************************************************************************
-   FUNCTION atol(a)
-      CHARACTER(len=*), INTENT(in)                       :: a
-      LOGICAL                                            :: atol
-
-      READ (a, '(L1)') atol
-   END FUNCTION atol
-
-! **************************************************************************************************
-!> \brief ...
-!> \param a ...
-!> \return ...
-! **************************************************************************************************
-   FUNCTION ator(a)
-      CHARACTER(len=*), INTENT(in)                       :: a
-      REAL(real_8)                                       :: ator
-
-      READ (a, '(E26.15)') ator
-   END FUNCTION ator
 
 END MODULE dbcsr_test_methods

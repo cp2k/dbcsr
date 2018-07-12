@@ -4,7 +4,7 @@
 !--------------------------------------------------------------------------------------------------!
 
 ! **************************************************************************************************
-!> \brief Utility routines to open and close files. Tracking of preconnections.
+!> \brief Utility routines to open and close files.
 !> \par History
 !>      - Creation CP2K_WORKSHOP 1.0 TEAM
 !>      - Revised (18.02.2011,MK)
@@ -24,11 +24,9 @@ MODULE dbcsr_files
    PRIVATE
 
    PUBLIC :: close_file, &
-             init_preconnection_list, &
              open_file, &
              get_unit_number, &
-             file_exists, &
-             get_data_dir
+             file_exists
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_files'
 
@@ -327,7 +325,7 @@ CONTAINS
       CHARACTER(LEN=11) :: access_string, action_string, current_action, current_form, &
          form_string, pad_string, position_string, status_string
       CHARACTER(LEN=2*default_path_length)               :: message
-      CHARACTER(LEN=default_path_length)                 :: cwd, iomsgstr, real_file_name
+      CHARACTER(LEN=default_path_length)                 :: cwd, iomsgstr
       INTEGER                                            :: debug_unit, istat
       LOGICAL                                            :: exists, get_a_new_unit, is_open
 
@@ -378,48 +376,43 @@ CONTAINS
          debug_unit = 0 ! use default_output_unit for debugging
       END IF
 
-      real_file_name = file_name
-      IF (status_string == "OLD") &
-         real_file_name = discover_file(file_name)
-
       ! Check the specified input file name
-      INQUIRE (FILE=TRIM(real_file_name), EXIST=exists, OPENED=is_open, IOSTAT=istat)
+      INQUIRE (FILE=TRIM(file_name), EXIST=exists, OPENED=is_open, IOSTAT=istat)
 
       IF (istat /= 0) THEN
          WRITE (UNIT=message, FMT="(A,I0,A)") &
-            "An error occurred inquiring the file <"//TRIM(real_file_name)// &
+            "An error occurred inquiring the file <"//TRIM(file_name)// &
             "> (IOSTAT = ", istat, ")"
          DBCSR_ABORT(TRIM(message))
       ELSE IF (status_string == "OLD") THEN
          IF (.NOT. exists) THEN
             WRITE (UNIT=message, FMT="(A)") &
-               "The specified OLD file <"//TRIM(ADJUSTL(real_file_name))// &
-               "> cannot be opened. It does not exist. "// &
-               "Data directory path: "//TRIM(get_data_dir())
+               "The specified file <"//TRIM(ADJUSTL(file_name))// &
+               "> cannot be opened. It does not exist. "
             DBCSR_ABORT(TRIM(message))
          END IF
       END IF
 
       ! Open the specified input file
       IF (is_open) THEN
-         INQUIRE (FILE=TRIM(real_file_name), NUMBER=unit_number, &
+         INQUIRE (FILE=TRIM(file_name), NUMBER=unit_number, &
                   ACTION=current_action, FORM=current_form)
          IF (TRIM(position_string) == "REWIND") REWIND (UNIT=unit_number)
          IF (TRIM(status_string) == "NEW") THEN
             CALL dbcsr_abort(__LOCATION__, &
                              "Attempt to re-open the existing OLD file <"// &
-                             TRIM(real_file_name)//"> with status attribute NEW.")
+                             TRIM(file_name)//"> with status attribute NEW.")
          END IF
          IF (TRIM(current_form) /= TRIM(form_string)) THEN
             CALL dbcsr_abort(__LOCATION__, &
                              "Attempt to re-open the existing "// &
-                             TRIM(current_form)//" file <"//TRIM(real_file_name)// &
+                             TRIM(current_form)//" file <"//TRIM(file_name)// &
                              "> as "//TRIM(form_string)//" file.")
          END IF
          IF (TRIM(current_action) /= TRIM(action_string)) THEN
             CALL dbcsr_abort(__LOCATION__, &
                              "Attempt to re-open the existing file <"// &
-                             TRIM(real_file_name)//"> with the modified ACTION attribute "// &
+                             TRIM(file_name)//"> with the modified ACTION attribute "// &
                              TRIM(action_string)//". The current ACTION attribute is "// &
                              TRIM(current_action)//".")
          END IF
@@ -429,16 +422,16 @@ CONTAINS
          IF (PRESENT(skip_get_unit_number)) THEN
             IF (skip_get_unit_number) get_a_new_unit = .FALSE.
          END IF
-         IF (get_a_new_unit) unit_number = get_unit_number(TRIM(real_file_name))
+         IF (get_a_new_unit) unit_number = get_unit_number(TRIM(file_name))
          IF (unit_number < 1) THEN
             WRITE (UNIT=message, FMT="(A)") &
-               "Cannot open the file <"//TRIM(ADJUSTL(real_file_name))// &
+               "Cannot open the file <"//TRIM(ADJUSTL(file_name))// &
                ">, because no unused logical unit number could be obtained."
             DBCSR_ABORT(TRIM(message))
          END IF
          IF (TRIM(form_string) == "FORMATTED") THEN
             OPEN (UNIT=unit_number, &
-                  FILE=TRIM(real_file_name), &
+                  FILE=TRIM(file_name), &
                   STATUS=TRIM(status_string), &
                   ACCESS=TRIM(access_string), &
                   FORM=TRIM(form_string), &
@@ -449,7 +442,7 @@ CONTAINS
                   IOSTAT=istat)
          ELSE
             OPEN (UNIT=unit_number, &
-                  FILE=TRIM(real_file_name), &
+                  FILE=TRIM(file_name), &
                   STATUS=TRIM(status_string), &
                   ACCESS=TRIM(access_string), &
                   FORM=TRIM(form_string), &
@@ -461,7 +454,7 @@ CONTAINS
          IF (istat /= 0) THEN
             CALL m_getcwd(cwd)
             WRITE (UNIT=message, FMT="(A,I0,A,I0,A)") &
-               "An error occurred opening the file '"//TRIM(ADJUSTL(real_file_name))// &
+               "An error occurred opening the file '"//TRIM(ADJUSTL(file_name))// &
                "' (UNIT = ", unit_number, ", IOSTAT = ", istat, "). "//TRIM(iomsgstr)//". "// &
                "Current working directory: "//TRIM(cwd)
 
@@ -470,7 +463,7 @@ CONTAINS
       END IF
 
       IF (debug_unit > 0) THEN
-         INQUIRE (FILE=TRIM(real_file_name), OPENED=is_open, NUMBER=unit_number, &
+         INQUIRE (FILE=TRIM(file_name), OPENED=is_open, NUMBER=unit_number, &
                   POSITION=position_string, NAME=message, ACCESS=access_string, &
                   FORM=form_string, ACTION=action_string)
          WRITE (UNIT=debug_unit, FMT="(T2,A)") "BEGIN DEBUG "//TRIM(ADJUSTL(routineN))
@@ -497,94 +490,8 @@ CONTAINS
       CHARACTER(LEN=*), INTENT(IN)                       :: file_name
       LOGICAL                                            :: exist
 
-      CHARACTER(LEN=default_path_length)                 :: real_file_name
-
-      real_file_name = discover_file(file_name)
-      INQUIRE (FILE=TRIM(real_file_name), exist=exist)
+      INQUIRE (FILE=TRIM(file_name), exist=exist)
    END FUNCTION file_exists
-
-! **************************************************************************************************
-!> \brief Checks various locations for a file name.
-!> \param file_name ...
-!> \return ...
-!> \author Ole Schuett
-! **************************************************************************************************
-   FUNCTION discover_file(file_name) RESULT(real_file_name)
-      CHARACTER(LEN=*), INTENT(IN)                       :: file_name
-      CHARACTER(LEN=default_path_length)                 :: real_file_name
-
-      CHARACTER(LEN=default_path_length)                 :: candidate, data_dir
-      INTEGER                                            :: stat
-      LOGICAL                                            :: exists
-
-      real_file_name = TRIM(file_name)
-
-      ! first try file-name directly
-      INQUIRE (file=TRIM(file_name), exist=exists, iostat=stat)
-      IF (stat == 0 .AND. exists) THEN
-         real_file_name = file_name
-         RETURN
-      ENDIF
-
-      ! then try the data-dir
-      data_dir = get_data_dir()
-      IF (LEN_TRIM(data_dir) > 0) THEN
-         candidate = join_paths(data_dir, file_name)
-         INQUIRE (file=TRIM(candidate), exist=exists, iostat=stat)
-         IF (stat == 0 .AND. exists) THEN
-            real_file_name = candidate
-            RETURN
-         ENDIF
-      ENDIF
-
-      ! fall back in case file not found
-      real_file_name = file_name
-
-   END FUNCTION discover_file
-
-! **************************************************************************************************
-!> \brief Returns path of data directory if set, otherwise an empty string
-!> \return ...
-!> \author Ole Schuett
-! **************************************************************************************************
-   FUNCTION get_data_dir() RESULT(data_dir_path)
-      CHARACTER(LEN=default_path_length)                 :: data_dir_path
-
-      INTEGER                                            :: stat
-
-      CALL GET_ENVIRONMENT_VARIABLE("CP2K_DATA_DIR", data_dir_path, status=stat)
-      IF (stat == 0) RETURN
-
-#if defined(__DATA_DIR)
-      data_dir_path = __DATA_DIR
-#else
-      data_dir_path = "" !data-dir not set
-#endif
-
-   END FUNCTION get_data_dir
-
-! **************************************************************************************************
-!> \brief Joins two file-paths, inserting '/' as needed.
-!> \param path1 ...
-!> \param path2 ...
-!> \return ...
-!> \author Ole Schuett
-! **************************************************************************************************
-   FUNCTION join_paths(path1, path2) RESULT(joined_path)
-      CHARACTER(LEN=*), INTENT(IN)                       :: path1, path2
-      CHARACTER(LEN=default_path_length)                 :: joined_path
-
-      INTEGER                                            :: n
-
-      n = LEN_TRIM(path1)
-      IF (path2(1:1) == '/') THEN
-         joined_path = path2
-      ELSE IF (n == 0 .OR. path1(n:n) == '/') THEN
-         joined_path = TRIM(path1)//path2
-      ELSE
-         joined_path = TRIM(path1)//'/'//path2
-      ENDIF
-   END FUNCTION join_paths
 
 ! **************************************************************************************************
 !> \brief Print the list of preconnected units

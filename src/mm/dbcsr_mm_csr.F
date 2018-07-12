@@ -30,8 +30,7 @@ MODULE dbcsr_mm_csr
    USE dbcsr_kinds,                     ONLY: int_1,&
                                               int_4,&
                                               int_8,&
-                                              sp,&
-                                              real_8
+                                              sp
    USE dbcsr_mm_sched,                  ONLY: &
         dbcsr_mm_sched_barrier, dbcsr_mm_sched_begin_burst, dbcsr_mm_sched_dev2host_init, &
         dbcsr_mm_sched_end_burst, dbcsr_mm_sched_finalize, dbcsr_mm_sched_init, &

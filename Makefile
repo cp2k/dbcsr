@@ -212,8 +212,10 @@ endif
 OTHER_HELP += "install : Install the library and modules under PREFIX=<directory> (default $(PREFIX))"
 
 test:
+	export OMP_NUM_THREADS=2 ; \
 	for test in $(UNITTESTS); do \
-		mpirun $(BINDIR)/$$test.x || exit 1; \
+		test_input=(`echo $$test | tr ':' ' '`); \
+		mpirun -np 2 $(BINDIR)/$${test_input[0]}.x $(TESTSDIR)/$${test_input[1]} || exit 1; \
 	done
 
 OTHER_HELP += "test    : Run the unittests available in tests/"
@@ -230,6 +232,7 @@ OTHER_HELP += "clean : Remove intermediate object and mod files, but not the lib
 realclean: clean doxygen/clean
 	rm -rf $(BINDIR) $(LIBDIR) $(PREFIX) 
 	rm -rf `find $(DBCSRHOME) -name "*.pyc"`
+	rm -rf `find $(DBCSRHOME) -name "*.callgraph"`
 OTHER_HELP += "realclean : Remove all files"
 
 # Prettyfier stuff ==========================================================

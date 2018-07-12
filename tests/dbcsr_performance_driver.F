@@ -14,11 +14,14 @@
 ! **************************************************************************************************
 PROGRAM dbcsr_performance_driver
    USE dbcsr_error_handling,            ONLY: dbcsr_error_handling_setup
+   USE dbcsr_files,                     ONLY: open_file
    USE dbcsr_kinds,                     ONLY: default_string_length,&
                                               dp
    USE dbcsr_lib,                       ONLY: dbcsr_finalize_lib,&
                                               dbcsr_init_lib
-   USE dbcsr_machine,                   ONLY: default_output_unit
+   USE dbcsr_machine,                   ONLY: default_output_unit,&
+                                              m_getarg,&
+                                              m_iargc
    USE dbcsr_message_passing,           ONLY: &
         add_mp_perf_env, mp_bcast, mp_cart_create, mp_cart_rank, mp_comm_free, mp_environ, &
         mp_world_finalize, mp_world_init, rm_mp_perf_env
@@ -28,14 +31,13 @@ PROGRAM dbcsr_performance_driver
                                               dbcsr_para_env_release
    USE dbcsr_para_types,                ONLY: dbcsr_para_env_type
    USE dbcsr_performance_multiply,      ONLY: dbcsr_perf_multiply
-   USE dbcsr_test_methods,              ONLY: atoi,&
-                                              dbcsr_test_read_args
    USE dbcsr_timings,                   ONLY: add_timer_env,&
                                               rm_timer_env,&
                                               timings_register_hooks
    USE dbcsr_timings_report,            ONLY: cost_type_time,&
                                               timings_report_callgraph,&
                                               timings_report_print
+   USE dbcsr_toollib,                   ONLY: atoi
    USE dbcsr_types,                     ONLY: dbcsr_mp_obj
 #include "base/dbcsr_base_uses.f90"
 
@@ -153,5 +155,44 @@ PROGRAM dbcsr_performance_driver
    !
    ! finalize mpi
    CALL mp_world_finalize()
+
+CONTAINS
+
+   ! **************************************************************************************************
+   !> \brief ...
+   !> \param narg ...
+   !> \param args ...
+   ! **************************************************************************************************
+! **************************************************************************************************
+!> \brief ...
+!> \param narg ...
+!> \param args ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_test_read_args(narg, args)
+      INTEGER, INTENT(out)                               :: narg
+      CHARACTER(len=*), DIMENSION(:), INTENT(out)        :: args
+
+      CHARACTER(len=default_string_length)               :: line
+      INTEGER                                            :: istat, unit
+
+      ! Read for standard input
+      unit = 5
+      !
+      ! Read from a file
+      IF (m_iargc() .GT. 0) THEN
+         CALL m_getarg(1, line)
+         CALL open_file(TRIM(line), unit_number=unit)
+      ENDIF
+
+      narg = 0
+      DO
+         READ (unit, *, IOSTAT=istat) line
+         IF (istat .NE. 0) EXIT
+         IF (line(1:1) .EQ. '#') CYCLE
+         narg = narg+1
+         args(narg) = line
+      ENDDO
+
+   END SUBROUTINE dbcsr_test_read_args
 
 END PROGRAM dbcsr_performance_driver
