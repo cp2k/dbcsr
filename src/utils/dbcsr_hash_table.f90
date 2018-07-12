@@ -76,8 +76,8 @@
      TYPE(hash_table_type), INTENT(INOUT)     :: hash_table
      INTEGER, INTENT(IN)                      :: c, p
 
-     REAL(KIND=real_8), PARAMETER :: hash_table_expand = 1.5_real_8, &
-                                     inv_hash_table_fill = 2.5_real_8
+     REAL(KIND=sp), PARAMETER :: hash_table_expand = 1.5_sp, &
+                                 inv_hash_table_fill = 2.5_sp
 
      INTEGER                                  :: i, j
      TYPE(ele_type), ALLOCATABLE, &
