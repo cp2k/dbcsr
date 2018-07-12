@@ -19,6 +19,10 @@ PROGRAM dbcsr_performance_driver
                                               dp
    USE dbcsr_lib,                       ONLY: dbcsr_finalize_lib,&
                                               dbcsr_init_lib
+   USE dbcsr_log_handling,              ONLY: dbcsr_add_default_logger,&
+                                              dbcsr_logger_create,&
+                                              dbcsr_logger_release,&
+                                              dbcsr_logger_type
    USE dbcsr_machine,                   ONLY: default_output_unit,&
                                               m_getarg,&
                                               m_iargc
@@ -55,6 +59,7 @@ PROGRAM dbcsr_performance_driver
    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_multiply'
 
    TYPE(dbcsr_para_env_type), POINTER          :: para_env
+   TYPE(dbcsr_logger_type), POINTER            :: logger
 
    !***************************************************************************************
 
@@ -65,6 +70,17 @@ PROGRAM dbcsr_performance_driver
    ! DBCSR timers
    NULLIFY (para_env)
    CALL dbcsr_para_env_create(para_env, group=mp_comm, owns_group=.FALSE.)
+   IF (para_env%source == para_env%mepos) THEN
+      io_unit = default_output_unit
+   ELSE
+      io_unit = -1
+   END IF
+   NULLIFY (logger)
+   CALL dbcsr_logger_create(logger, para_env=para_env, &
+                            default_global_unit_nr=io_unit, &
+                            close_global_unit_on_dealloc=.FALSE.)
+   CALL dbcsr_add_default_logger(logger)
+   CALL dbcsr_logger_release(logger)
    CALL dbcsr_error_handling_setup()
    CALL timings_register_hooks()
    CALL add_mp_perf_env()
