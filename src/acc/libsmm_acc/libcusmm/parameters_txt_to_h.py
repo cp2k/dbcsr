@@ -299,6 +299,11 @@ def write_file_unordered_map(all_pars):
     out += '        v.push_back(v_mnk[2]);\n'
     out += '    }\n'
     out += '}\n'
+    out += 'inline void get_libcusmm_triplets(std::vector<int>& v, std::unordered_map<int, std::array<int, 8> > const& ht){\n'
+    out += '    for(auto it = ht.begin(); it != ht.end(); ++it){\n'
+    out += '        v.push_back(it->first);\n'
+    out += '    }\n'
+    out += '}\n'
     out += '\n'
     out += '/*\n'
     out += ' * Lookup table: given a triplet (m, n, k) describing a matrix-matrix multiplication, ' + \
