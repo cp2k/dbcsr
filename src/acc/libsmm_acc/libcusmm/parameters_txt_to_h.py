@@ -273,6 +273,9 @@ def write_file_unordered_map(all_pars):
     out += '#include <array>\n'
     out += '#include <vector>\n'
     out += '\n'
+    out += 'typedef std::array<int, 3> Triplet_mnk;\n'
+    out += 'typedef std::array<int, 8> Kernel_parameters;\n'
+    out += '\n'
     out += '/*\n'
     out += '* Hash\n'
     out += '*/\n'
@@ -282,24 +285,24 @@ def write_file_unordered_map(all_pars):
     out += 'inline int hash(int m, int n, int k){\n'
     out += '    return PQ*m + Q*n + k;\n'
     out += '}\n'
-    out += 'inline std::array<int, 3> hash_back(int hash){\n'
+    out += 'inline Triplet_mnk hash_back(int hash){\n'
     out += '    int m = hash / PQ;\n'
     out += '    hash -= PQ*m;\n'
     out += '    int n = hash / Q;\n'
     out += '    hash -= Q*n;\n'
     out += '    int k = hash;\n'
-    out += '    return std::array<int, 3>({m, n, k});\n'
+    out += '    return Triplet_mnk({m, n, k});\n'
     out += '}\n'
-    out += 'inline void get_blocksizes(std::vector<int>& v, std::unordered_map<int, std::array<int, 8> > const& ht){\n'
+    out += 'inline void get_blocksizes(std::vector<int>& v, std::unordered_map<int, Kernel_parameters > const& ht){\n'
     out += '    for(auto it = ht.begin(); it != ht.end(); ++it){\n'
     out += '        int h_mnk = it->first;\n'
-    out += '        std::array<int, 3> v_mnk = hash_back(h_mnk);\n'
+    out += '        Triplet_mnk v_mnk = hash_back(h_mnk);\n'
     out += '        v.push_back(v_mnk[0]);\n'
     out += '        v.push_back(v_mnk[1]);\n'
     out += '        v.push_back(v_mnk[2]);\n'
     out += '    }\n'
     out += '}\n'
-    out += 'inline void get_libcusmm_triplets(std::vector<int>& v, std::unordered_map<int, std::array<int, 8> > const& ht){\n'
+    out += 'inline void get_libcusmm_triplets(std::vector<int>& v, std::unordered_map<int, Kernel_parameters > const& ht){\n'
     out += '    for(auto it = ht.begin(); it != ht.end(); ++it){\n'
     out += '        v.push_back(it->first);\n'
     out += '    }\n'
@@ -329,12 +332,12 @@ def write_file_unordered_map(all_pars):
     out += '\n'
 
     # Start declaration, open initializer list<
-    out += 'static const std::unordered_map<int, std::array<int, 8> > ht  = {\n'
+    out += 'static const std::unordered_map<int, Kernel_parameters> ht  = {\n'
 
     # Initializer list line
     print("Get parameters and write to file")
     init_list_line = \
-        "    {{ {hash}, std::array<int, 8>({{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }})}}, //  ({m}x{n}x{k})\n"
+        "    {{ {hash}, Kernel_parameters({{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }})}}, //  ({m}x{n}x{k})\n"
     for hash_mnk, pars in all_pars.items():
         m, n, k = hash_back(hash_mnk)
         out += init_list_line.format(hash=hash_mnk, algo=pars[0], tile_m=pars[1], tile_n=pars[2], w=pars[3], v=pars[4],
