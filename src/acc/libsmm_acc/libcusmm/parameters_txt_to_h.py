@@ -277,7 +277,7 @@ def write_file_unordered_map(all_pars):
     out += 'typedef std::array<int, 8> Kernel_parameters;\n'
     out += '\n'
     out += '/*\n'
-    out += '* Hash\n'
+    out += '* Hash and un-hash functions\n'
     out += '*/\n'
     out += '#define P 999\n'
     out += '#define Q 999\n'
@@ -293,6 +293,10 @@ def write_file_unordered_map(all_pars):
     out += '    int k = hash;\n'
     out += '    return Triplet_mnk({m, n, k});\n'
     out += '}\n'
+    out += '\n'
+    out += '/*\n'
+    out += '* Get block sizes defined in libcusmm\n'
+    out += '*/\n'
     out += 'inline void get_blocksizes(std::vector<int>& v, std::unordered_map<int, Kernel_parameters > const& ht){\n'
     out += '    for(auto it = ht.begin(); it != ht.end(); ++it){\n'
     out += '        int h_mnk = it->first;\n'
@@ -315,7 +319,7 @@ def write_file_unordered_map(all_pars):
     out += ' * Keys:\n'
     out += ' *   hash(m, n, k)\n'
     out += ' *\n'
-    out += ' * Values: vector of integers with elements:\n'
+    out += ' * Values: array of 8 integers with elements:\n'
     out += ' *   0: mm algorithm (enum defined in libcusmm.h, possible values: 1, 2, 3, 4, 5)\n'
     out += ' *   1: tile_m\n'
     out += ' *   2: tile_n\n'
@@ -325,7 +329,7 @@ def write_file_unordered_map(all_pars):
     out += ' *   4: grouping\n'
     out += ' *   5: minblocks\n'
     out += ' *\n'
-    out += ' * Note: for the matrix matrix multiplication algorithms which take less parameters ' + \
+    out += ' * Note: for the matrix matrix multiplication algorithms which take less than 8 parameters ' + \
            '(i.e. "tiny", "small" and "medium"),\n'
     out += ' * the superfluous parameters are set to 0\n'
     out += ' */\n'
@@ -337,8 +341,8 @@ def write_file_unordered_map(all_pars):
     # Initializer list line
     print("Get parameters and write to file")
     init_list_line = \
-        "    {{ {hash}, Kernel_parameters({{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }})}}, //  ({m}x{n}x{k})\n"
-    for hash_mnk, pars in all_pars.items():
+        "    {{ {hash}, Kernel_parameters({{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }})}}, \t// ({m}x{n}x{k})\n"
+    for hash_mnk, pars in sorted(all_pars.items()):
         m, n, k = hash_back(hash_mnk)
         out += init_list_line.format(hash=hash_mnk, algo=pars[0], tile_m=pars[1], tile_n=pars[2], w=pars[3], v=pars[4],
                                      threads=pars[5], grouping=pars[6], minblocks=pars[7], m=m, n=n, k=k)
