@@ -74,8 +74,6 @@ MODULE dbcsr_config
    LOGICAL, PARAMETER :: has_MPI = .FALSE.
 #endif
 
-   LOGICAL, PARAMETER :: has_omp_2_5 = .TRUE.
-
 #if defined(__HAS_smm_vec) || defined (__DBCSR_ACC)
    INTEGER, PARAMETER :: mm_stack_default_size = 30000
 #else

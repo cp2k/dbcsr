@@ -1,5 +1,5 @@
 {
 "description": "DBCSR data distribution and message passing",
 "archive": "libdbcsr",
-"requires": ["../acc", "../common", "../mpiwrap", "../dbcsr_base", "../data", "../base"],
+"requires": ["../acc", "../mpiwrap", "../data", "../base", "../core"],
 }

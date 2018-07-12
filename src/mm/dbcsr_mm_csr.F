@@ -30,8 +30,8 @@ MODULE dbcsr_mm_csr
    USE dbcsr_kinds,                     ONLY: int_1,&
                                               int_4,&
                                               int_8,&
-                                              real_8,&
-                                              sp
+                                              sp,&
+                                              real_8
    USE dbcsr_mm_sched,                  ONLY: &
         dbcsr_mm_sched_barrier, dbcsr_mm_sched_begin_burst, dbcsr_mm_sched_dev2host_init, &
         dbcsr_mm_sched_end_burst, dbcsr_mm_sched_finalize, dbcsr_mm_sched_init, &
@@ -81,7 +81,7 @@ MODULE dbcsr_mm_csr
       TYPE(dbcsr_mm_sched_type)                      :: sched
    END TYPE dbcsr_mm_csr_type
 
-#include "../dbcsr_base/dbcsr_hash_table_types.f90"
+#include "core/dbcsr_hash_table_types.f90"
 
 ! **************************************************************************************************
    PUBLIC :: dbcsr_mm_csr_type
@@ -983,6 +983,6 @@ CONTAINS
 
    END FUNCTION my_checker_tr
 
-#include "../dbcsr_base/dbcsr_hash_table.f90"
+#include "core/dbcsr_hash_table.f90"
 
 END MODULE dbcsr_mm_csr

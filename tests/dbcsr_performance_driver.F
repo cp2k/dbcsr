@@ -28,8 +28,6 @@ PROGRAM dbcsr_performance_driver
                                               dbcsr_para_env_release
    USE dbcsr_para_types,                ONLY: dbcsr_para_env_type
    USE dbcsr_performance_multiply,      ONLY: dbcsr_perf_multiply
-   USE dbcsr_string_table,              ONLY: string_table_allocate,&
-                                              string_table_deallocate
    USE dbcsr_test_methods,              ONLY: atoi,&
                                               dbcsr_test_read_args
    USE dbcsr_timings,                   ONLY: add_timer_env,&
@@ -67,7 +65,6 @@ PROGRAM dbcsr_performance_driver
    CALL dbcsr_para_env_create(para_env, group=mp_comm, owns_group=.FALSE.)
    CALL dbcsr_error_handling_setup()
    CALL timings_register_hooks()
-   CALL string_table_allocate()
    CALL add_mp_perf_env()
    CALL add_timer_env()
 
@@ -151,7 +148,6 @@ PROGRAM dbcsr_performance_driver
    ! Remove timers
    CALL rm_timer_env()
    CALL rm_mp_perf_env()
-   CALL string_table_deallocate(0)
    CALL dbcsr_para_env_release(para_env)
 
    !

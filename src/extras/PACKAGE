@@ -1,5 +1,5 @@
 {
-"description": "Basic routines which are conceptually independent from CP2K and its input",
+"description": "Extras routines, DBCSR can conceptually be compiled without them",
 "archive": "libdbcsr",
-"requires": ["../mpiwrap", "../base" ]
+"requires": ["../mpiwrap", "../base", "../core" ]
 }
