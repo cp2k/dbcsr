@@ -1,8 +1,8 @@
 {
 "description": "Matrix matrix multiplication",
 "archive": "libdbcsr",
-"requires": ["../mpiwrap", "../base", "../common", "../acc", "../data",
-"../dbcsr_base", "../dist", "../block", "../ops", "../acc/cublaswrap",
+"requires": ["../mpiwrap", "../base", "../core", "../acc", "../data",
+"../dist", "../block", "../ops", "../acc/cublaswrap",
 "../acc/libsmm_acc"],
 "implicit": "SMM_.*"
 }
