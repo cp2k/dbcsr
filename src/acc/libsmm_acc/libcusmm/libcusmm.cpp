@@ -310,7 +310,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 #ifdef PROF
     nvtxRangePushA("autotuned_pars_retrieval");
 #endif
-            const std::array<int, 8> params = ht.at(h_mnk);
+            const Kernel_parameters params = ht.at(h_mnk);
             libcusmm_algo algo = libcusmm_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
             int tile_m = params[1];
             int tile_n = params[2];
