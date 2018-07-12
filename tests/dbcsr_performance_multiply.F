@@ -39,12 +39,12 @@ MODULE dbcsr_performance_multiply
    USE dbcsr_multiply_api,              ONLY: dbcsr_multiply
    USE dbcsr_operations,                ONLY: dbcsr_copy,&
                                               dbcsr_scale
-   USE dbcsr_test_methods,              ONLY: atoi,&
-                                              atol,&
-                                              ator,&
-                                              dbcsr_make_random_block_sizes,&
+   USE dbcsr_test_methods,              ONLY: dbcsr_make_random_block_sizes,&
                                               dbcsr_make_random_matrix,&
                                               dbcsr_reset_randmat_seed
+   USE dbcsr_toollib,                   ONLY: atoi,&
+                                              atol,&
+                                              ator
    USE dbcsr_transformations,           ONLY: dbcsr_redistribute
    USE dbcsr_types,                     ONLY: &
         dbcsr_conjugate_transpose, dbcsr_distribution_obj, dbcsr_mp_obj, dbcsr_no_transpose, &
@@ -232,7 +232,7 @@ CONTAINS
          routineP = moduleN//':'//routineN
 
       CHARACTER                                          :: a_symm, b_symm, c_symm, transa, transb
-      INTEGER                                            :: handle, mynode, numnodes
+      INTEGER                                            :: handle, mynode, numnodes, numthreads
       INTEGER, DIMENSION(:), POINTER :: col_dist_a, col_dist_b, col_dist_c, my_sizes_k, &
          my_sizes_m, my_sizes_n, row_dist_a, row_dist_b, row_dist_c, sizes_k, sizes_m, sizes_n
       LOGICAL                                            :: do_complex
@@ -251,6 +251,13 @@ CONTAINS
       ! print
       CALL mp_environ(numnodes, mynode, mp_group)
       IF (io_unit .GT. 0) THEN
+         numthreads = 1
+!$OMP PARALLEL
+!$OMP MASTER
+!$       numthreads = omp_get_num_threads()
+!$OMP END MASTER
+!$OMP END PARALLEL
+         WRITE (io_unit, *) 'numthreads', numthreads
          WRITE (io_unit, *) 'numnodes', numnodes
          WRITE (io_unit, *) 'matrix_sizes', matrix_sizes
          WRITE (io_unit, *) 'sparsities', sparsities

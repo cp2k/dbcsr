@@ -102,7 +102,8 @@ CONTAINS
 
       CHARACTER                                          :: a_symm, b_symm
       INTEGER                                            :: a_c, a_r, b_c, b_r, handle, isymm, &
-                                                            itype, mynode, numnodes, TYPE
+                                                            itype, mynode, numnodes, numthreads, &
+                                                            TYPE
       INTEGER, DIMENSION(:), POINTER                     :: my_sizes_m, my_sizes_n, sizes_m, sizes_n
       LOGICAL                                            :: do_complex
       TYPE(dbcsr_data_obj)                               :: data_a, data_a_dbcsr, data_b
@@ -119,6 +120,13 @@ CONTAINS
       CALL mp_environ(numnodes, mynode, mp_group)
       IF (io_unit .GT. 0) THEN
          WRITE (io_unit, *) 'test_name ', test_name
+         numthreads = 1
+!$OMP PARALLEL
+!$OMP MASTER
+!$       numthreads = omp_get_num_threads()
+!$OMP END MASTER
+!$OMP END PARALLEL
+         WRITE (io_unit, *) 'numthreads', numthreads
          WRITE (io_unit, *) 'numnodes', numnodes
          WRITE (io_unit, *) 'matrix_sizes', matrix_sizes
          WRITE (io_unit, *) 'sparsities', sparsities
