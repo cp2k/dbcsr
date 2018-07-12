@@ -1,4 +1,6 @@
 
+# Add unit tests to be executed by test target in Makefile
+# Syntax: <name of the test>:<eventual input file>
 UNITTESTS  = dbcsr_unittest dbcsr_tensor_unittest dbcsr_test_csr_conversions
 UNITTESTS += dbcsr_performance_driver:test.perf
 
