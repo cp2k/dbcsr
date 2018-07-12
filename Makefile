@@ -212,10 +212,13 @@ endif
 OTHER_HELP += "install : Install the library and modules under PREFIX=<directory> (default $(PREFIX))"
 
 test:
-	export OMP_NUM_THREADS=2 ; \
+	@export OMP_NUM_THREADS=2 ; \
 	for test in $(UNITTESTS); do \
-		test_input=(`echo $$test | tr ':' ' '`); \
-		mpirun -np 2 $(BINDIR)/$${test_input[0]}.x $(TESTSDIR)/$${test_input[1]} || exit 1; \
+		mpirun -np 2 $(BINDIR)/$$test.x || exit 1; \
+	done
+	@export OMP_NUM_THREADS=2 ; \
+	for input in $(PERFTESTS); do \
+		mpirun -np 2 $(BINDIR)/dbcsr_performance_driver.x $(TESTSDIR)/$$input || exit 1; \
 	done
 
 OTHER_HELP += "test    : Run the unittests available in tests/"
