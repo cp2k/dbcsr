@@ -1,5 +1,5 @@
 {
 "description": "Extras routines, DBCSR can conceptually be compiled without them",
 "archive": "libdbcsr",
-"requires": ["../mpiwrap", "../base", "../core" ]
+"requires": ["../mpiwrap", "../base", "../utils" ]
 }
