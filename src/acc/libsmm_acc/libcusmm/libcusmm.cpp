@@ -22,30 +22,17 @@
 #define dbcsr_type_complex_8  7
 #define KERNEL_FILES_PATH DBCSRHOME "/src/acc/libsmm_acc/libcusmm/kernels/"
 
-#ifdef TIMING
-#include <chrono>
-typedef std::chrono::high_resolution_clock timer_clock;
-#endif
-#ifdef PROF
-#include "nvToolsExt.h"
-#endif
 
 //===========================================================================
 inline int launch_kernel_from_handle(CUfunction const& kern_func, int nblks, int threads, CUstream stream, void** args){
 
-#ifdef LOGGING
-    printf("launch_kernel_from_handle: about to launch JIT-ted kernel\n");
-#endif
     CUDA_SAFE_CALL(
-            "cuLaunchKernel",
-            cuLaunchKernel(kern_func,           // CUfunction
-                           nblks, 1, 1,      	// grid dimension x, y, z
-                           threads, 1, 1,	// block dimension x, y, z
-                           0, stream,           // shared memory size and stream
-                           args, NULL));        // arguments
-#ifdef LOGGING
-    printf("launch_kernel_from_handle: kernel launched, context synchronized\n");
-#endif
+        "cuLaunchKernel",
+        cuLaunchKernel(kern_func,       // CUfunction
+                       nblks, 1, 1,     // grid dimension x, y, z
+                       threads, 1, 1,	// block dimension x, y, z
+                       0, stream,       // shared memory size and stream
+                       args, NULL));    // arguments
     return(0);
 
 }
@@ -54,9 +41,6 @@ inline int launch_kernel_from_handle(CUfunction const& kern_func, int nblks, int
 //===========================================================================
 inline void validate_kernel(CUfunction& kern_func, CUstream stream, int threads, int grouping, int m, int n, int k){
 
-#ifdef LOGGING
-    printf("validate_kernel: start kernel validation check (libcusmm_benchmark) with (%ix%ix%i)\n", m, n, k);
-#endif
     libcusmm_benchmark_t* h;
     libcusmm_benchmark_init(&h, false, m, n, k);
 
@@ -66,9 +50,6 @@ inline void validate_kernel(CUfunction& kern_func, CUstream stream, int threads,
     matInit(h->mat_b, h->n_b, k, n, 24);
     stackInit(h->stack, h->n_stack, h->n_c, h->mat_c, h->n_a, h->mat_a, h->n_b, h->mat_b, m, n, k);
 
-#ifdef LOGGING
-    printf("validate_kernel: launch validation kernel (CPU - %ix%ix%i)\n", m, n, k);
-#endif
     stackCalc(h->stack, h->n_stack, h->mat_c, h->mat_a, h->mat_b, m, n, k);
     double sumCPU = checkSum(h->mat_c, h->n_c, m, n);
 
@@ -78,9 +59,6 @@ inline void validate_kernel(CUfunction& kern_func, CUstream stream, int threads,
     cudaMemcpy(h->d_stack, h->stack, h->n_stack * 3 * sizeof(int), cudaMemcpyHostToDevice);
     cudaMemset(h->d_mat_c, 0, h->n_c * m * n * sizeof(double));
 
-#ifdef LOGGING
-    printf("validate_kernel: launch validation kernel (GPU - %ix%ix%i)\n", m, n, k);
-#endif
     void *args[] = { &h->d_stack, &h->n_stack, &h->d_mat_a, &h->d_mat_b, &h->d_mat_c };
     int res = launch_kernel_from_handle(kern_func, ((h->n_stack + grouping - 1) / grouping), threads, stream, args);
     cudaMemcpy(h->mat_c, h->d_mat_c, h->n_c * m * n * sizeof(double), cudaMemcpyDeviceToHost);
@@ -97,225 +75,118 @@ inline void validate_kernel(CUfunction& kern_func, CUstream stream, int threads,
         exit(1);
     }
     libcusmm_benchmark_finalize(h);
-#ifdef LOGGING
-    printf("validate_kernel: OK\n");
-#endif
 }
 
 
 //===========================================================================
 inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, int tile_n, int w, int v, int threads, int grouping, int minblocks, int m, int n, int k){
-#ifdef LOGGING
-    printf("jit_kernel: start\n");
-#endif
 
-        // Get the code and the lowered name corresponding the kernel to launch
-        std::string kernel_code, kernel_name;
-#ifdef TIMING
-    auto switch_name_overhead_start = timer_clock::now();
-#endif
-        switch(algo) {
-            case 1:
-                kernel_code = cusmm_dnt_largeDB1; 
-                kernel_name = "cusmm_dnt_largeDB1<" +
-                              std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
-                              std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
-                              std::to_string(w) + ", " + std::to_string(v) + ", " +
-                              std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
-                break;
-            case 2:
-                kernel_code = cusmm_dnt_largeDB2; 
-                kernel_name = "cusmm_dnt_largeDB2<" +
-                              std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
-                              std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
-                              std::to_string(w) + ", " + std::to_string(v) + ", " +
-                              std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
-                break;
-            case 3:
-                kernel_code = cusmm_dnt_medium; 
-                kernel_name = "cusmm_dnt_medium<" +
-                              std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
-                              std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
-                              std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
-                break;
-            case 4:
-                kernel_code = cusmm_dnt_small; 
-                kernel_name = "cusmm_dnt_small<" +
-                              std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
-                              std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
-                              std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
-                break;
-            case 5:
-                kernel_code = cusmm_dnt_tiny; 
-                kernel_name = "cusmm_dnt_tiny<" +
-                              std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
-                              std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
-                break;
-            default:
-                printf("\nerror: algorithm number %i is not encoded.", algo);
-                exit(1);
-        }
-#ifdef TIMING
-    auto switch_name_overhead_stop = timer_clock::now();
-    printf("  ##TIMER## jit: switch name overhead: %g us\n",
-           std::chrono::duration<double, std::micro>(switch_name_overhead_stop - switch_name_overhead_start).count());
-#endif
-
-        // Create nvrtcProgram
-        nvrtcProgram kernel_program;
-        NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, kernel_code.c_str(), "smm_kernel.cu", 0, NULL, NULL));
-
-        // Add lowered name
-        NVRTC_SAFE_CALL("nvrtcAddNameExpression", nvrtcAddNameExpression(kernel_program, kernel_name.c_str()));
-
-        // (JIT-)compile kernel program
-        const std::string kernel_files_path = KERNEL_FILES_PATH;
-        const std::string include_opt = "-I=" + kernel_files_path;
-        const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(SM_NUMBER);
-        const char *compileOptions[] = {include_opt.c_str(), 
-#ifdef LOGGING
-#else
-                                        "-w", 
-#endif
-                                        arch_opt.c_str()};
-        size_t nOptions = 3;
-#ifdef LOGGING
-        nOptions -= 1;
-#endif
-        nvrtcResult compileResult = nvrtcCompileProgram(kernel_program, nOptions, compileOptions);
-
-#ifdef LOGGING
-        // Obtain compilation log
-        size_t logSize;
-        NVRTC_SAFE_CALL("nvrtcGetProgramLogSize", nvrtcGetProgramLogSize(kernel_program, &logSize));
-        char *log = new char[logSize];
-        NVRTC_SAFE_CALL("nvrtcGetProgramLog", nvrtcGetProgramLog(kernel_program, log));
-        printf("\ncompilation log ---\n");
-        printf(log);
-        printf("\n--- end log\n\n");
-        delete[] log;
-        if (compileResult != NVRTC_SUCCESS) {
-            printf("NVRTC compilation failed\n");
+    // Get the code and the lowered name corresponding the kernel to launch
+    std::string kernel_code, kernel_name;
+    switch(algo) {
+        case 1:
+            kernel_code = cusmm_dnt_largeDB1; 
+            kernel_name = "cusmm_dnt_largeDB1<" +
+                          std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
+                          std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
+                          std::to_string(w) + ", " + std::to_string(v) + ", " +
+                          std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
+            break;
+        case 2:
+            kernel_code = cusmm_dnt_largeDB2; 
+            kernel_name = "cusmm_dnt_largeDB2<" +
+                          std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
+                          std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
+                          std::to_string(w) + ", " + std::to_string(v) + ", " +
+                          std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
+            break;
+        case 3:
+            kernel_code = cusmm_dnt_medium; 
+            kernel_name = "cusmm_dnt_medium<" +
+                          std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
+                          std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
+                          std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
+            break;
+        case 4:
+            kernel_code = cusmm_dnt_small; 
+            kernel_name = "cusmm_dnt_small<" +
+                          std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
+                          std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
+                          std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
+            break;
+        case 5:
+            kernel_code = cusmm_dnt_tiny; 
+            kernel_name = "cusmm_dnt_tiny<" +
+                          std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
+                          std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
+            break;
+        default:
+            printf("\nerror: algorithm number %i is not encoded.", algo);
             exit(1);
-        }
-#endif
+    }
 
-        // Obtain PTX from the program.
-        size_t ptxSize;
-        NVRTC_SAFE_CALL("nvrtcGetPTXsize", nvrtcGetPTXSize(kernel_program, &ptxSize));
-        char *ptx = new char[ptxSize];
-        NVRTC_SAFE_CALL("nvrtcGetPTX", nvrtcGetPTX(kernel_program, ptx));
-#ifdef LOGGING
-        printf(ptx);
-#endif
+    // Create nvrtcProgram
+    nvrtcProgram kernel_program;
+    NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, kernel_code.c_str(), "smm_kernel.cu", 0, NULL, NULL));
 
-        // Get lowered name
-        const char *lowered_kernel_name;
-        NVRTC_SAFE_CALL("nvrtcGetLoweredName", nvrtcGetLoweredName(kernel_program, kernel_name.c_str(), &lowered_kernel_name));
+    // Add lowered name
+    NVRTC_SAFE_CALL("nvrtcAddNameExpression", nvrtcAddNameExpression(kernel_program, kernel_name.c_str()));
 
-        // Get pointer to kernel from PTX
-        CUmodule module;
-        CUDA_SAFE_CALL("cuModuleLoadDataEx", cuModuleLoadDataEx(&module, ptx, 0, 0, 0));
-        delete[] ptx; 
-        CUDA_SAFE_CALL("cuModuleGetFunction", cuModuleGetFunction(&kern_func, module, lowered_kernel_name));
-#ifdef LOGGING
-    printf("jit_kernel: kernel jitted\n");
-#endif
-        // Set shared memory configuration
-        CUDA_SAFE_CALL("cuFuncSetSharedMemConfig", cuFuncSetSharedMemConfig(kern_func, CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE));
+    // (JIT-)compile kernel program
+    const std::string kernel_files_path = KERNEL_FILES_PATH;
+    const std::string include_opt = "-I=" + kernel_files_path;
+    const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(SM_NUMBER);
+    const char *compileOptions[] = {include_opt.c_str(), "-w", arch_opt.c_str()};
+    size_t nOptions = 3;
+    NVRTC_SAFE_CALL("nvrtcCompileProgram", nvrtcCompileProgram(kernel_program, nOptions, compileOptions));
 
-        // Destroy program
-        NVRTC_SAFE_CALL("nvrtcDestroyProgram", nvrtcDestroyProgram(&kernel_program));
+    // Obtain PTX from the program.
+    size_t ptxSize;
+    NVRTC_SAFE_CALL("nvrtcGetPTXsize", nvrtcGetPTXSize(kernel_program, &ptxSize));
+    char *ptx = new char[ptxSize];
+    NVRTC_SAFE_CALL("nvrtcGetPTX", nvrtcGetPTX(kernel_program, ptx));
+
+    // Get lowered name
+    const char *lowered_kernel_name;
+    NVRTC_SAFE_CALL("nvrtcGetLoweredName", nvrtcGetLoweredName(kernel_program, kernel_name.c_str(), &lowered_kernel_name));
+
+    // Get pointer to kernel from PTX
+    CUmodule module;
+    CUDA_SAFE_CALL("cuModuleLoadDataEx", cuModuleLoadDataEx(&module, ptx, 0, 0, 0));
+    delete[] ptx; 
+    CUDA_SAFE_CALL("cuModuleGetFunction", cuModuleGetFunction(&kern_func, module, lowered_kernel_name));
+
+    // Set shared memory configuration
+    CUDA_SAFE_CALL("cuFuncSetSharedMemConfig", cuFuncSetSharedMemConfig(kern_func, CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE));
+
+    // Destroy program
+    NVRTC_SAFE_CALL("nvrtcDestroyProgram", nvrtcDestroyProgram(&kernel_program));
 }
 
 
 //===========================================================================
 int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m, int n, int k, double *a_data, double *b_data, double *c_data){
 
-#ifdef LOGGING
-    printf("-------------------------------------------------------------------------------------------\n");
-    printf("libcusmm_process_d: CUSMM (%ix%ix%i)\n", m, n, k);
-#endif
-
-#ifdef TIMING
-    auto JITed_kernel_lookup_start = timer_clock::now();
-#endif
-#ifdef PROF
-    nvtxRangePushA("JITed_kernel_lookup");
-#endif
     CUfunction kern_func;
     int threads, grouping; 
 
     // Look up the kernel in the table of already JITed kernels
     int h_mnk = hash(m, n, k);
     auto kernel_it = kernel_handles.find(h_mnk);
-#ifdef PROF
-    nvtxRangePop();
-#endif
-#ifdef TIMING
-    auto JITed_kernel_lookup_stop = timer_clock::now();
-    printf("##TIMER## JITed kernel lookup: %g us\n",
-           std::chrono::duration<double, std::micro>(JITed_kernel_lookup_stop - JITed_kernel_lookup_start).count());
-#endif
     if (kernel_it != kernel_handles.end()){  // the kernel has already been JITed
 
-#ifdef LOGGING
-        printf("libcusmm_process_d: found a handle to (%i, %i, %i) kernel in table at hash %i...\n", m, n, k, h_mnk);
-#endif
-
         // Retrieve kernel launching parameters
-#ifdef TIMING
-        auto launchpar_lookup_start = timer_clock::now();
-#endif
-#ifdef PROF
-    nvtxRangePushA("launchpar_lookup");
-#endif
         kern_func = kernel_it->second.kernel_function; 
         threads = kernel_it->second.threads; 
         grouping = kernel_it->second.grouping;
-#ifdef PROF
-    nvtxRangePop();
-#endif
-#ifdef TIMING
-    auto launchpar_lookup_stop = timer_clock::now();
-    printf("##TIMER## launching parameters lookup: %g us\n", 
-           std::chrono::duration<double, std::micro>(launchpar_lookup_stop - launchpar_lookup_start).count());
-#endif
-#ifdef LOGGING
-        printf("libcusmm_process_d: launching parameters:\nthreads = %i, grouping = %i\n", threads, grouping);
-#endif
 
     } else {	// the kernel has not been JIT-ed yet
 
-#ifdef LOGGING
-        printf("libcusmm_process_d: no handle found to (%i, %i, %i) kernel...\n", m, n, k); 
-#endif
-
 	// Check whether autotuned parameters are given for this kernel, and if so, retrieve them 
-#ifdef TIMING
-    auto autotuned_pars_lookup_start = timer_clock::now();
-#endif
-#ifdef PROF
-    nvtxRangePushA("autotuned_pars_lookup");
-#endif
         auto params_it = ht.find(h_mnk);
-#ifdef PROF
-    nvtxRangePop();
-#endif
-#ifdef TIMING
-    auto autotuned_pars_lookup_stop = timer_clock::now();
-    printf("##TIMER## Autotuned parameters lookup: %g us\n",
-           std::chrono::duration<double, std::micro>(autotuned_pars_lookup_stop - autotuned_pars_lookup_start).count());
-#endif
 	if (params_it != ht.end()){
 
             // Retrieve launching parameters
-#ifdef TIMING
-    auto autotuned_pars_retrieval_start = timer_clock::now();
-#endif
-#ifdef PROF
-    nvtxRangePushA("autotuned_pars_retrieval");
-#endif
             const Kernel_parameters params = ht.at(h_mnk);
             libcusmm_algo algo = libcusmm_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
             int tile_m = params[1];
@@ -325,106 +196,25 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
             threads = params[5];
             grouping = params[6];
             int minblocks =  params[7];
-#ifdef PROF
-    nvtxRangePop();
-#endif
-#ifdef TIMING
-    auto autotuned_pars_retrieval_stop = timer_clock::now();
-    printf("##TIMER## Autotuned parameters retrieval: %g us\n",
-           std::chrono::duration<double, std::micro>(autotuned_pars_retrieval_stop - autotuned_pars_retrieval_start).count());
-#endif
-#ifdef LOGGING
-            printf("libcusmm_process_d: CUSMM with parameters:\nalgo = %i,\ntile_m = %i, tile_n = %i,\nw = %i, v = %i,\nthreads = %i, grouping = %i,\nminblocks = %i, stack_size = %i,\nm = %i, n = %i, k = %i\n\n",
-                   algo, tile_m, tile_n, w, v, threads, grouping, minblocks, stack_size, m, n, k);
-#endif
 
-#ifdef TIMING
-    auto JIT_overhead_start = timer_clock::now();
-#endif
-#ifdef PROF
-    nvtxRangePushA("JIT_overhead");
-#endif
             // JIT and validate the kernel
             jit_kernel(kern_func, algo, tile_m, tile_n, w, v, threads, grouping, minblocks, m, n, k);
-#ifdef PROF
-    nvtxRangePop();
-#endif
-#ifdef TIMING
-    auto JIT_overhead_stop = timer_clock::now();
-    printf("##TIMER## JIT overhead: %g us\n",
-           std::chrono::duration<double, std::micro>(JIT_overhead_stop - JIT_overhead_start).count());
-#endif
-#ifdef TIMING
-    auto val_overhead_start = timer_clock::now();
-#endif
-#ifdef PROF
-    nvtxRangePushA("val_overhead");
-#endif
             validate_kernel(kern_func, stream, threads, grouping, m, n, k);
-#ifdef PROF
-    nvtxRangePop();
-#endif
-#ifdef TIMING
-    auto val_overhead_stop = timer_clock::now();
-    printf("##TIMER## validation overhead: %g us\n",
-           std::chrono::duration<double, std::micro>(val_overhead_stop - val_overhead_start).count());
-#endif
 
             // Store the handle to the JIT-ed kernel
-#ifdef TIMING
-    auto handle_store_overhead_start = timer_clock::now();
-#endif
-#ifdef PROF
-    nvtxRangePushA("handle_store_overhead");
-#endif
-           kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
-#ifdef PROF
-    nvtxRangePop();
-#endif
-#ifdef TIMING
-    auto handle_store_overhead_stop = timer_clock::now();
-    printf("##TIMER## handle store overhead: %g us\n",
-           std::chrono::duration<double, std::micro>(handle_store_overhead_stop - handle_store_overhead_start).count());
-#endif
-#ifdef LOGGING
-            printf("libcusmm_process_d: store handle to kernel (%i, %i, %i) in table at hash %i\n", m, n, k, h_mnk);
-#endif
+            kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
 
         } else { // there exist no autotuned parameters for this (m, n, k)-triplet
-#ifdef LOGGING
-            printf("libcusmm_process_d: fallback to CPU\n");
-#endif
+
             return -2; // fall back to CPU
+
         }
 
     }
 
     // Construct argument pointer list and launch kernel
-#ifdef TIMING
-    auto assemble_args_start = timer_clock::now();
-#endif
     void *args[] = { &param_stack, &stack_size, &a_data, &b_data, &c_data };
-#ifdef TIMING
-    auto assemble_args_stop = timer_clock::now();
-    printf("##TIMER## assemble args overhead: %g us\n",
-           std::chrono::duration<double, std::micro>(assemble_args_stop - assemble_args_start).count());
-#endif
-#ifdef TIMING
-    auto kernel_start = timer_clock::now();
-#endif
-#ifdef PROF
-    nvtxRangePushA("launch_kernel");
-#endif
-    int ret = launch_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args);
-#ifdef PROF
-    nvtxRangePop();
-#endif
-#ifdef TIMING
-    auto kernel_stop = timer_clock::now();
-    printf("##TIMER## launch and run kernel: %g us\n",
-           std::chrono::duration<double, std::micro>(kernel_stop - kernel_start).count());
-#endif
-    return ret; 
+    return launch_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args);
 
 }
 
@@ -453,39 +243,14 @@ void jit_transpose_handle(CUfunction& kern_func, int m, int n){
     // (JIT-)compile
     size_t nOptions = 2;
     const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(SM_NUMBER);
-    const char *compileOptions[] = {arch_opt.c_str()
-#ifdef LOGGING
-                                   };
-    nOptions -= 1;
-#else
-                                    , "-w"};
-#endif
-    nvrtcResult compileResult = nvrtcCompileProgram(kernel_program, 0, compileOptions);
-
-#ifdef LOGGING
-    // Obtain compilation log
-    size_t logSize;
-    NVRTC_SAFE_CALL("nvrtcGetProgramLogSize", nvrtcGetProgramLogSize(kernel_program, &logSize));
-    char *log = new char[logSize];
-    NVRTC_SAFE_CALL("nvrtcGetProgramLog", nvrtcGetProgramLog(kernel_program, log));
-    printf("\ncompilation log ---\n");
-    printf(log);
-    printf("\n--- end log\n\n");
-    delete[] log;
-    if (compileResult != NVRTC_SUCCESS) {
-        printf("NVRTC compilation failed\n");
-        exit(1);
-    }
-#endif 
+    const char *compileOptions[] = {arch_opt.c_str(), "-w"};
+    NVRTC_SAFE_CALL("nvrtcCompileProgram", nvrtcCompileProgram(kernel_program, nOptions, compileOptions));
 
     // Obtain PTX from the program.
     size_t ptxSize;
     NVRTC_SAFE_CALL("nvrtcGetPTXsize", nvrtcGetPTXSize(kernel_program, &ptxSize));
     char *ptx = new char[ptxSize];
     NVRTC_SAFE_CALL("nvrtcGetPTX", nvrtcGetPTX(kernel_program, ptx));
-#ifdef LOGGING
-        printf(ptx);
-#endif
 
     // Get lowered name
     const char *lowered_kernel_name;
@@ -509,11 +274,6 @@ void jit_transpose_handle(CUfunction& kern_func, int m, int n){
 int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
                          double *buffer, int m, int n, CUstream stream) {
 
-#ifdef LOGGING
-   printf("-------------------------------------------------------------------------------------------\n");
-   printf("libcusmm_transpose_d: CUSMM-transpose with parameters:\nm = %i, n = %i,\nnblks = %i, offset = %i\n\n", m, n, nblks, offset);
-#endif
-
     CUfunction kern_func;
 
     // Look up the kernel in the table of already JITed kernels
@@ -522,21 +282,12 @@ int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
     if(kernel_it != transpose_handles.end()){  // the kernel has already been JITed
 
         kern_func = kernel_it->second; // retrieve handle
-#ifdef LOGGING
-        printf("libcusmm_transpose_d: found a handle to (%i, %i) transpose in table at hash %i...\n", m, n, hash(m, n, 0));
-#endif
 
     } else {    // the kernel has not been JIT-ed yet
 
-#ifdef LOGGING
-    printf("libcusmm_transpose_d: no handle to (%i, %i) transpose found in table at hash %i...\n", m, n, hash(m, n, 0));
-#endif
         // JIT and store a kernel for this transposition
         jit_transpose_handle(kern_func, m, n);
         transpose_handles.emplace(hash(m, n, 0), kern_func);
-#ifdef LOGGING
-        printf("libcusmm_transpose_d: store handle to kernel (%i, %i) in table at hash %i\n", m, n, hash(m, n, 0));
-#endif   
 
     }
     
