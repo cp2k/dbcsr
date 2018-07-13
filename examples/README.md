@@ -5,7 +5,9 @@ if you are using threading.
 Make sure you compile DBCSR accordingly.
 
 1) Compile and install DBCSR 
-   make install PREFIX=<install directory>
+
+   `make install PREFIX=<install directory>`
+
 2) Update the Makefile
 3) Compile the examples
 
