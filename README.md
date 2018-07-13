@@ -42,6 +42,8 @@ or update the provided `Makefile.inc` to fit your needs.
 Support for `cmake` is still considered experimental and may not cover all functionalities yet.
 If you are using `cmake` to build DBCSR, please make sure you can reproduce any errors using the plain `Makefile` before reporting them.
 
+Some examples on how to use the library (which is the only current documentation) are available under the examples directory (see [readme](examples/README.md)).
+
 ## C/C++ Interface
 
 You can compile with
