@@ -221,6 +221,8 @@ OTHER_HELP += "test    : Run the unittests available in tests/"
 
 clean:
 	rm -rf $(OBJDIR)
+	rm -rf $(LIBDIR)
+	rm $(LIBCUSMM_ABS_DIR)/parameters.h $(LIBCUSMM_ABS_DIR)/cusmm_kernels.h $(LIBCUSMM_ABS_DIR)/*.so
 OTHER_HELP += "clean : Remove intermediate object and mod files, but not the libraries and executables"
 
 #
@@ -320,6 +322,7 @@ doxygen: doxygen/clean
 	@cat $(TOOLSRC)/doxify/Doxyfile.template > $(DOXYGENDIR)/Doxyfile
 	cd $(DOXYGENDIR); doxygen ./Doxyfile 2>&1 | tee ./html/doxygen.out
 TOOL_HELP += "doxygen : Generate the doxygen documentation"
+
 
 # Libcusmm stuff ============================================================
 $(LIBCUSMM_ABS_DIR)/parameters.h: $(LIBCUSMM_ABS_DIR)/generate_parameters.py $(wildcard $(LIBCUSMM_ABS_DIR)/parameters_*.txt) $(LIBCUSMM_ABS_DIR)/libcusmm_parameters_utils.so
