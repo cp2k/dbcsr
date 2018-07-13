@@ -380,9 +380,6 @@ FYPPFLAGS ?= -n
 %.o: %.cpp
 	$(CXX) -c $(CXXFLAGS) $<
 
-CUDA_PATH := /opt/nvidia/cudatoolkit8.0/8.0.61_2.4.3-6.0.4.0_3.1__gb475d12
-CUDA_PATHH := /opt/cray/nvidia/375.74_3.1.22-6.0.4.1_2.1__gfb008e8.ari
-NVRTCFLAGS := -I $(CUDA_PATH)/include -L $(CUDA_PATH)/lib64 -L $(CUDA_PATHH)/lib64 -lnvrtc -lcuda -Wl,-rpath,$(CUDA_PATH)/lib64
 $(LIBCUSMM_ABS_DIR)/libcusmm_parameters_utils.so: parameters_utils_for_py.cpp parameters_utils.h
 	$(CXX) -O3 -shared -std=c++11 -fPIC -I $(PYBIND_PATH)/include -I $(PY_PATH) $< -o $@
 libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
