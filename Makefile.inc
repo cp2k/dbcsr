@@ -64,6 +64,7 @@ FCFLAGS  = $(WFLAGS) $(DFLAGS) -O3 -fopenmp -funroll-loops \
 LDFLAGS  = $(FCFLAGS)
 SM_NUMBER= 60
 NVFLAGS  = $(DFLAGS) -O3 -w -arch sm_60 --std=c++11
+NVRTCFLAGS = -I $(CUDA_PATH)/include -L $(CUDA_PATH)/lib64 -L $(CUDA_PATH2)/lib64 -lnvrtc -lcuda -Wl,-rpath,$(CUDA_PATH)/lib64
 LIBS     = -lfftw3 -lfftw3_threads
 LIBS    += /users/alazzaro/project/libsmm/libxsmm/haswell/lib/libsmm_dnn_cray.gnu.a
 LIBS    += -lstdc++ -lcudart -lcublas -lnvrtc -lcuda
