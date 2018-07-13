@@ -195,7 +195,8 @@ def gen_makefile(outdir):
     output += "do_nothing:\n\n"
     output += "build_all: " +  " ".join(build_targets) + "\n\n"
 
-    output += "libcusmm_benchmark.o : libcusmm_benchmark.cu\n\n"
+    output += "libcusmm_benchmark.o : libcusmm_benchmark.cu\n"
+    output += "\tnvcc -O3 -arch=sm_60 -w -c -std=c++11 $<\n\n"
 
     headers = " ".join( ["."+fn for fn in glob("./kernels/*.h")] )
     output += "%.o : %.cu "+headers+"\n"
@@ -208,7 +209,7 @@ def gen_makefile(outdir):
         deps_obj = " ".join([fn.replace(".cu", ".o") for fn in deps])
         exe = exe_src.replace("_main.cu", "")
         output += exe + " : " + deps_obj +"\n"
-        output += "\tnvcc -O3 -arch=sm_60 -w -o $@ $^\n\n"
+        output += "\tnvcc -O3 -arch=sm_60 -w -o $@ $^ -L $(CUDA_PATH) -lcuda\n\n"
 
     writefile(outdir+"/Makefile", output)
 
