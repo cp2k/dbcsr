@@ -383,10 +383,7 @@ FYPPFLAGS ?= -n
 $(LIBCUSMM_ABS_DIR)/libcusmm_parameters_utils.so: parameters_utils_for_py.cpp parameters_utils.h
 	$(CXX) -O3 -shared -std=c++11 -fPIC -I $(PYBIND_PATH)/include -I $(PY_PATH) $< -o $@
 libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
-	#$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DSM_NUMBER=$(SM_NUMBER) -std=c++11 $<
-	$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DLOGGING -DSM_NUMBER=$(SM_NUMBER) -std=c++11 $<
-	#$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DTIMING -DSM_NUMBER=$(SM_NUMBER) -std=c++11 $<
-	#$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DPROF -DSM_NUMBER=$(SM_NUMBER) -std=c++11 $<
+	$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DSM_NUMBER=$(SM_NUMBER) -std=c++11 $<
 
 $(LIBDIR)/%:
 ifneq ($(LD_SHARED),)
