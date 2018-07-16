@@ -90,7 +90,7 @@ add_fypp_sources(DBCSR_SRCS
   utils/dbcsr_toollib.F
   )
 
-add_library(dbcsr SHARED ${DBCSR_SRCS})
+add_library(dbcsr ${DBCSR_SRCS})
 target_link_libraries(dbcsr ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${MPI_Fortran_LIBRARIES})
 target_include_directories(dbcsr PRIVATE base) # do not export those includes
 # but make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
@@ -125,7 +125,7 @@ if (WITH_C_API)
   # Build the C API as a separate library
   add_fypp_sources(DBCSR_C_SRCS dbcsr_api_c.F)
 
-  add_library(dbcsr_c SHARED ${DBCSR_C_SRCS})
+  add_library(dbcsr_c ${DBCSR_C_SRCS})
   set_target_properties(dbcsr_c PROPERTIES
     LINKER_LANGUAGE Fortran
     COMPILE_FLAGS "${F2008_COMPILER_FLAGS}")
