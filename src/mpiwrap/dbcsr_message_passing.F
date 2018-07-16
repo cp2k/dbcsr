@@ -1193,7 +1193,7 @@ CONTAINS
 ! **************************************************************************************************
    RECURSIVE SUBROUTINE mp_environ_l(numtask, taskid, groupid)
 
-      INTEGER, INTENT(OUT)                               :: numtask, taskid
+      INTEGER, OPTIONAL, INTENT(OUT)                     :: numtask, taskid
       INTEGER, INTENT(IN)                                :: groupid
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_environ_l', routineP = moduleN//':'//routineN
@@ -1203,14 +1203,18 @@ CONTAINS
       ierr = 0
       CALL timeset(routineN, handle)
 
-      numtask = 1
-      taskid = 0
+      IF (PRESENT(numtask)) numtask = 1
+      IF (PRESENT(taskid)) taskid = 0
 #if defined(__parallel)
-      CALL mpi_comm_rank(groupid, taskid, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_rank @ mp_environ_l")
+      IF (PRESENT(taskid)) THEN
+         CALL mpi_comm_rank(groupid, taskid, ierr)
+         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_rank @ mp_environ_l")
+      ENDIF
 
-      CALL mpi_comm_size(groupid, numtask, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ mp_environ_l")
+      IF (PRESENT(numtask)) THEN
+         CALL mpi_comm_size(groupid, numtask, ierr)
+         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ mp_environ_l")
+      ENDIF
 #else
       MARK_USED(groupid)
 #endif
