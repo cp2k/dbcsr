@@ -3,6 +3,6 @@
 "archive": "libdbcsr",
 "requires": ["../mpiwrap", "../base", "../core", "../acc", "../data",
 "../dist", "../block", "../ops", "../acc/cublaswrap",
-"../acc/libsmm_acc", "../utils"],
+"../acc/libsmm_acc", "../utils", "../work"],
 "implicit": "SMM_.*"
 }

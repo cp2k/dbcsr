@@ -13,11 +13,11 @@ MODULE dbcsr_lib
    USE dbcsr_config,                    ONLY: cublas_handles
    USE dbcsr_cublas,                    ONLY: cublas_handle_destroy,&
                                               cublas_handle_init
-   USE dbcsr_machine,                   ONLY: default_output_unit
    USE dbcsr_kinds,                     ONLY: int_1_size,&
                                               int_2_size,&
                                               int_4_size,&
                                               int_8_size
+   USE dbcsr_machine,                   ONLY: default_output_unit
    USE dbcsr_message_passing,           ONLY: add_mp_perf_env,&
                                               describe_mp_perf_env,&
                                               has_mp_perf_env,&
@@ -104,8 +104,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize_lib', &
          routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: error_handle, ithread, &
-                                                            io_unit, mynode
+      INTEGER                                            :: error_handle, io_unit, ithread, mynode
 
       IF (.NOT. is_initialized) RETURN
       CALL timeset(routineN, error_handle)
