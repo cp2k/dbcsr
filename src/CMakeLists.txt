@@ -120,3 +120,14 @@ foreach (dbcsr_src ${DBCSR_SRCS})
   file(RELATIVE_PATH short_file "${CMAKE_CURRENT_BINARY_DIR}" "${dbcsr_src}")
   set_source_files_properties(${dbcsr_src} PROPERTIES COMPILE_DEFINITIONS __SHORT_FILE__="dbcsr/${short_file}")
 endforeach ()
+
+if (WITH_C_API)
+  # Build the C API as a separate library
+  add_fypp_sources(DBCSR_C_SRCS dbcsr_api_c.F)
+
+  add_library(dbcsr_c SHARED ${DBCSR_C_SRCS})
+  set_target_properties(dbcsr_c PROPERTIES
+    LINKER_LANGUAGE Fortran
+    COMPILE_FLAGS "${F2008_COMPILER_FLAGS}")
+  target_link_libraries(dbcsr_c dbcsr)
+endif ()
