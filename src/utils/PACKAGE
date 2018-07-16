@@ -1,5 +1,5 @@
 {
 "description": "Utilities for DBCSR",
 "archive": "libdbcsr",
-"requires": ["../base"],
+"requires": ["../base", "../core"],
 }
