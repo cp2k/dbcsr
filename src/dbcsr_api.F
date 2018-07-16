@@ -128,17 +128,12 @@ MODULE dbcsr_api
                                               int_8,&
                                               real_4,&
                                               real_8
-   USE dbcsr_message_passing,           ONLY: dbcsr_mp_cart_rank => mp_cart_rank,&
-                                              dbcsr_mp_cart_create => mp_cart_create,&
-                                              dbcsr_mp_comm_free => mp_comm_free,&
-                                              dbcsr_mp_environ => mp_environ,&
-                                              dbcsr_mp_world_finalize => mp_world_finalize,&
-                                              dbcsr_mp_world_init => mp_world_init
-   USE dbcsr_machine,                   ONLY: default_output_unit
    USE dbcsr_base_hooks,                ONLY: timeset_hook, timestop_hook, &
                                               timeset_interface, timestop_interface,&
-                                               dbcsr_abort_hook, dbcsr_warn_hook,&
-                                               dbcsr_abort_interface, dbcsr_warn_interface
+                                              dbcsr_abort_hook, dbcsr_warn_hook,&
+                                              dbcsr_abort_interface, dbcsr_warn_interface
+   USE dbcsr_message_passing,           ONLY: mp_cart_rank,&
+                                              mp_environ
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 #include "base/dbcsr_base_uses.f90"
@@ -302,18 +297,6 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_binary_write
    PUBLIC :: dbcsr_binary_read
    PUBLIC :: dbcsr_test_binary_io
-
-   ! base
-   PUBLIC :: default_output_unit
-   PUBLIC :: real_8
-
-   ! mpi
-   PUBLIC :: dbcsr_mp_cart_rank
-   PUBLIC :: dbcsr_mp_cart_create
-   PUBLIC :: dbcsr_mp_comm_free
-   PUBLIC :: dbcsr_mp_environ
-   PUBLIC :: dbcsr_mp_world_finalize
-   PUBLIC :: dbcsr_mp_world_init
 
    ! hooks
    PUBLIC :: dbcsr_set_hooks
@@ -1204,7 +1187,7 @@ CONTAINS
       INTEGER, DIMENSION(:, :), POINTER                  :: mypgrid
       LOGICAL, DIMENSION(2)                              :: periods
 
-      CALL dbcsr_mp_environ(numnodes, mynode, group)
+      CALL mp_environ(numnodes, mynode, group)
 
       IF (PRESENT(pgrid)) THEN
          mypgrid => pgrid
@@ -1224,7 +1207,7 @@ CONTAINS
          ENDDO outer
 
       ELSE
-         CALL dbcsr_mp_environ(group, 2, pdims, mycoord, periods)
+         CALL mp_environ(group, 2, pdims, mycoord, periods)
          DBCSR_ASSERT(pdims(1)*pdims(2) == numnodes)
          myprow = mycoord(1)
          mypcol = mycoord(2)
@@ -1232,7 +1215,7 @@ CONTAINS
          DO prow = 0, pdims(1)-1
             DO pcol = 0, pdims(2)-1
                coord = (/prow, pcol/)
-               CALL dbcsr_mp_cart_rank(group, coord, mypgrid(prow, pcol))
+               CALL mp_cart_rank(group, coord, mypgrid(prow, pcol))
             ENDDO
          ENDDO
       ENDIF

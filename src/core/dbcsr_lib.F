@@ -13,13 +13,15 @@ MODULE dbcsr_lib
    USE dbcsr_config,                    ONLY: cublas_handles
    USE dbcsr_cublas,                    ONLY: cublas_handle_destroy,&
                                               cublas_handle_init
+   USE dbcsr_machine,                   ONLY: default_output_unit
    USE dbcsr_kinds,                     ONLY: int_1_size,&
                                               int_2_size,&
                                               int_4_size,&
                                               int_8_size
    USE dbcsr_message_passing,           ONLY: add_mp_perf_env,&
                                               describe_mp_perf_env,&
-                                              has_mp_perf_env
+                                              has_mp_perf_env,&
+                                              mp_environ
    USE dbcsr_multiply_api,              ONLY: dbcsr_multiply_clear_mempools,&
                                               dbcsr_multiply_lib_finalize,&
                                               dbcsr_multiply_lib_init
@@ -52,7 +54,6 @@ CONTAINS
 !n_stack_buffers,mem_type, n_stack_mem_regions, stack_size, nstacks,&
 !INTEGER, DIMENSION(3)                    :: nxstacks
 !   ---------------------------------------------------------------------------
-!TODO: problem: init/finalize are called by cp2k_runs AND f77_interface
 
       IF (is_initialized) RETURN
       CALL timeset(routineN, error_handle)
@@ -97,28 +98,36 @@ CONTAINS
 !> \param output_unit ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_finalize_lib(group, output_unit)
-      INTEGER, INTENT(IN)                                :: group, output_unit
+      INTEGER, INTENT(IN)                                :: group
+      INTEGER, INTENT(IN), OPTIONAL                      :: output_unit
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize_lib', &
          routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: error_handle, ithread
-
-!TODO: problem: init/finalize are called by cp2k_runs AND f77_interface
+      INTEGER                                            :: error_handle, ithread, &
+                                                            io_unit, mynode
 
       IF (.NOT. is_initialized) RETURN
       CALL timeset(routineN, error_handle)
 
-      IF (output_unit > 0) THEN
-         WRITE (UNIT=output_unit, FMT="(/,T2,A)") REPEAT("-", 79)
-         WRITE (UNIT=output_unit, FMT="(T2,A,T80,A)") "-", "-"
-         WRITE (UNIT=output_unit, FMT="(T2,A,T35,A,T80,A)") "-", "DBCSR STATISTICS", "-"
-         WRITE (UNIT=output_unit, FMT="(T2,A,T80,A)") "-", "-"
-         WRITE (UNIT=output_unit, FMT="(T2,A)") REPEAT("-", 79)
+      io_unit = 0
+      IF (PRESENT(output_unit)) THEN
+         io_unit = output_unit
+      ELSE
+         CALL mp_environ(taskid=mynode, groupid=group)
+         IF (mynode .EQ. 0) io_unit = default_output_unit
+      ENDIF
+
+      IF (io_unit > 0) THEN
+         WRITE (UNIT=io_unit, FMT="(/,T2,A)") REPEAT("-", 79)
+         WRITE (UNIT=io_unit, FMT="(T2,A,T80,A)") "-", "-"
+         WRITE (UNIT=io_unit, FMT="(T2,A,T35,A,T80,A)") "-", "DBCSR STATISTICS", "-"
+         WRITE (UNIT=io_unit, FMT="(T2,A,T80,A)") "-", "-"
+         WRITE (UNIT=io_unit, FMT="(T2,A)") REPEAT("-", 79)
       END IF
 
-!$OMP     PARALLEL DEFAULT(NONE) PRIVATE(ithread) SHARED(output_unit, group, cublas_handles)
-      CALL dbcsr_multiply_lib_finalize(group, output_unit)
+!$OMP     PARALLEL DEFAULT(NONE) PRIVATE(ithread) SHARED(io_unit, group, cublas_handles)
+      CALL dbcsr_multiply_lib_finalize(group, io_unit)
       ithread = 0
 !$    ithread = omp_get_thread_num()
       CALL cublas_handle_destroy(cublas_handles(ithread+1))
@@ -127,9 +136,9 @@ CONTAINS
       DEALLOCATE (cublas_handles)
 !$OMP END MASTER
 !$OMP     END PARALLEL
-      IF (output_unit > 0) WRITE (UNIT=output_unit, FMT="(T2,A)") REPEAT("-", 79)
+      IF (io_unit > 0) WRITE (UNIT=io_unit, FMT="(T2,A)") REPEAT("-", 79)
 
-      CALL describe_mp_perf_env(output_unit)
+      CALL describe_mp_perf_env(io_unit)
 
       is_initialized = .FALSE.
 
