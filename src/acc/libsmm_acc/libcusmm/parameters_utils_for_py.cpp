@@ -13,6 +13,7 @@ namespace py = pybind11;
 PYBIND11_MODULE(libcusmm_parameters_utils, m) {
     m.doc() = "Utility functions for handling matrix-multiplication parameters in libcusmm"; 
     m.def("hash", &hash, "Return a hash from 3 integers");
-    m.def("hash_back", &hash_back, "Return 3 integers from a hash");
+    m.def("hash_reverse", &hash_reverse, "Return 3 integers from a hash");
+    m.attr("hash_limit") = hash_limit; 
 }
 
