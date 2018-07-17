@@ -91,11 +91,17 @@ MODULE dbcsr_work_operations
                                               int_8,&
                                               real_4,&
                                               real_8
+   
+   use hash_table
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, omp_in_parallel
 
+
    IMPLICIT NONE
+  
+
+
    PRIVATE
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_work_operations'
@@ -105,7 +111,7 @@ MODULE dbcsr_work_operations
    PUBLIC :: dbcsr_create, dbcsr_work_create, dbcsr_finalize, dbcsr_special_finalize
    PUBLIC :: dbcsr_add_wm_from_matrix, &
              add_work_coordinate
-   PUBLIC :: dbcsr_work_destroy
+   PUBLIC :: dbcsr_work_destroy, fill_hash_tables
 
    INTERFACE dbcsr_create
       MODULE PROCEDURE dbcsr_create_new, dbcsr_create_template
@@ -116,7 +122,49 @@ MODULE dbcsr_work_operations
    END TYPE i_array_p
 
 CONTAINS
+! **************************************************************************************************
+!> \brief Fills row hashtable from an existing matrix.
+!> \param hashes ...
+!> \param matrix ...
+!> \param[in] block_estimate guess for the number of blocks in the product matrix, can be zero
+!> \param row_map ...
+!> \param col_map ...
+! **************************************************************************************************
+   SUBROUTINE fill_hash_tables(hashes, matrix, block_estimate, row_map, col_map)
+      TYPE(hash_table_type), DIMENSION(:), INTENT(inout) :: hashes
+      TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+      INTEGER                                            :: block_estimate
+      INTEGER, DIMENSION(:), INTENT(IN)                  :: row_map, col_map
 
+      CHARACTER(len=*), PARAMETER :: routineN = 'fill_hash_tables', &
+         routineP = moduleN//':'//routineN
+
+      INTEGER                                            :: col, handle, i, imat, n_rows, row
+
+!   ---------------------------------------------------------------------------
+
+      CALL timeset(routineN, handle)
+      imat = 1
+!$    imat = OMP_GET_THREAD_NUM()+1
+      n_rows = matrix%nblkrows_local
+      IF (SIZE(hashes) /= n_rows) &
+         DBCSR_ABORT("Local row count mismatch")
+      DO row = 1, n_rows
+         ! create the hash table row with a reasonable initial size
+         CALL hash_table_create(hashes(row), &
+                                MAX(8, (3*block_estimate)/MAX(1, n_rows)))
+      ENDDO
+      ! We avoid using the iterator because we will use the existing
+      ! work matrix instead of the BCSR index.
+      DO i = 1, matrix%wms(imat)%lastblk
+         row = matrix%wms(imat)%row_i(i)
+         col = matrix%wms(imat)%col_i(i)
+         row = row_map(row)
+         col = col_map(col)
+         CALL hash_table_add(hashes(row), col, i)
+      ENDDO
+      CALL timestop(handle)
+   END SUBROUTINE fill_hash_tables
 ! **************************************************************************************************
 !> \brief Creates a matrix, allocating the essentials.
 !> \param[in,out] matrix      new matrix
@@ -714,12 +762,16 @@ CONTAINS
 !> \param memory_type ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, &
-                                work_mutable, memory_type)
+                                work_mutable, memory_type, create_hashes_par)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       INTEGER, INTENT(IN), OPTIONAL                      :: nblks_guess, sizedata_guess, n
       LOGICAL, INTENT(in), OPTIONAL                      :: work_mutable
       TYPE(dbcsr_memtype_type), INTENT(IN), OPTIONAL     :: memory_type
-
+      logical, INTENT(IN), OPTIONAL                      :: create_hashes_par
+      
+      logical                                            :: create_hashes
+      
+      
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_work_create', &
          routineP = moduleN//':'//routineN
 
@@ -728,7 +780,9 @@ CONTAINS
       TYPE(dbcsr_work_type), DIMENSION(:), POINTER       :: wms
 
 !   ---------------------------------------------------------------------------
-
+      create_hashes = .false.
+      if (present(create_hashes_par)) create_hashes = create_hashes_par
+      
       CALL timeset(routineN, handle)
       IF (PRESENT(n)) THEN
          nw = n
@@ -758,23 +812,45 @@ CONTAINS
          DEALLOCATE (matrix%wms)
          matrix%wms => wms
          DO iw = ow+1, nw
+            ! init rest workspace
             CALL dbcsr_init_wm(matrix%wms(iw), matrix%data_type, &
                                nblks_guess=nblks_guess, sizedata_guess=sizedata_guess, &
                                memory_type=memory_type)
+                               
             IF (matrix%work_mutable) &
                CALL dbcsr_mutable_new(matrix%wms(iw)%mutable, &
                                       dbcsr_get_data_type(matrix))
+                                      
+            ! allocate hashes
+            if ( create_hashes ) then
+               allocate (matrix % wms(iw) % c_hashes(matrix % nblkrows_local))
+               call fill_hash_tables(matrix % wms(iw) % c_hashes, matrix, nblks_guess, &
+                                     array_data(matrix % global_rows), &
+                                     array_data(matrix % global_cols))
+               matrix % wms(iw) % hashes_are_valid = .true.
+            endif
+            
          END DO
       ENDIF
       IF (wms_new) THEN
          ALLOCATE (matrix%wms(nw))
          DO iw = 1, nw
+            ! init rest workspace
             CALL dbcsr_init_wm(matrix%wms(iw), matrix%data_type, &
                                nblks_guess=nblks_guess, sizedata_guess=sizedata_guess, &
                                memory_type=memory_type)
             IF (matrix%work_mutable) &
                CALL dbcsr_mutable_new(matrix%wms(iw)%mutable, &
                                       dbcsr_get_data_type(matrix))
+                                      
+            ! allocate hashescreate_hashes
+            if ( create_hashes ) then
+               allocate (matrix % wms(iw) % c_hashes(matrix%nblkrows_local))
+               call fill_hash_tables(matrix % wms(iw) % c_hashes, matrix, nblks_guess, &
+                                     array_data(matrix%global_rows), &
+                                     array_data(matrix%global_cols))
+               matrix % wms(iw) % hashes_are_valid = .true.
+            endif
          END DO
       ENDIF
       matrix%valid = .FALSE.
@@ -1360,12 +1436,19 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_work_destroy', &
          routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: handle
+      INTEGER                                            :: handle, i
 
 !   ---------------------------------------------------------------------------
 
       IF (careful_mod) CALL timeset(routineN, handle)
 
+      if (associated(wm % c_hashes)) then
+         DO i = 1, SIZE(wm % c_hashes)
+            CALL hash_table_release(wm % c_hashes(i))
+         ENDDO
+         DEALLOCATE (wm % c_hashes)
+         wm % hashes_are_valid = .false.
+      endif
       IF (ASSOCIATED(wm%row_i)) THEN
          DEALLOCATE (wm%row_i)
       ENDIF

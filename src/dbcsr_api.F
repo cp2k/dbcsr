@@ -326,7 +326,7 @@ MODULE dbcsr_api
    ! the components of this type must remain private to encapsulate better the internals
    ! of the dbcsr library.
    TYPE dbcsr_type
-      TYPE(dbcsr_prv_type), PRIVATE        :: prv
+      TYPE(dbcsr_prv_type)         :: prv
    END TYPE dbcsr_type
 
    TYPE dbcsr_distribution_type
