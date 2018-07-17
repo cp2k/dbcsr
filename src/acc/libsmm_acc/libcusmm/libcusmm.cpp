@@ -135,7 +135,7 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
     // (JIT-)compile kernel program
     const std::string kernel_files_path = KERNEL_FILES_PATH;
     const std::string include_opt = "-I=" + kernel_files_path;
-    const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(SM_NUMBER);
+    const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(ARCH_NUMBER);
     const char *compileOptions[] = {include_opt.c_str(), "-w", arch_opt.c_str()};
     size_t nOptions = 3;
     NVRTC_SAFE_CALL("nvrtcCompileProgram", nvrtcCompileProgram(kernel_program, nOptions, compileOptions));
@@ -242,7 +242,7 @@ void jit_transpose_handle(CUfunction& kern_func, int m, int n){
 
     // (JIT-)compile
     size_t nOptions = 2;
-    const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(SM_NUMBER);
+    const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(ARCH_NUMBER);
     const char *compileOptions[] = {arch_opt.c_str(), "-w"};
     NVRTC_SAFE_CALL("nvrtcCompileProgram", nvrtcCompileProgram(kernel_program, nOptions, compileOptions));
 
