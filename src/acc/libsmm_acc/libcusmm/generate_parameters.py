@@ -71,8 +71,10 @@ def get_parameters_from_file(content):
                 m = int(match.group(2))
                 n = int(match.group(3))
                 k = int(match.group(4))
-                #assert m < HASH_LIMIT and n < HASH_LIMIT and k < HASH_LIMIT, "m, n, and k (" + str(m) + ", " + str(n)  ", " + str(k) +  \
-                #                                                             ") must be smaller than the hash limit (" + str(HASH_LIMIT) + ")."
+                assert m <= libcusmm_parameters_utils.hash_limit and n <= libcusmm_parameters_utils.hash_limit \
+                       and k <= libcusmm_parameters_utils.hash_limit, \
+                       "m, n, and k (" + str(m) + ", " + str(n) + ", " + str(k) +  \
+                       ") must be smaller or equal to the hash limit (" + str(libcusmm_parameters_utils.hash_limit) + ")."
                 parameters[libcusmm_parameters_utils.hash(m, n, k)] = \
                     [algo,                  # algo
                      int(match.group(5)),   # tile_m
@@ -96,6 +98,10 @@ def get_parameters_from_file(content):
                 m = int(match.group(2))
                 n = int(match.group(3))
                 k = int(match.group(4))
+                assert m <= libcusmm_parameters_utils.hash_limit and n <= libcusmm_parameters_utils.hash_limit \
+                       and k <= libcusmm_parameters_utils.hash_limit, \
+                       "m, n, and k (" + str(m) + ", " + str(n) + ", " + str(k) +  \
+                       ") must be smaller or equal to the hash limit (" + str(libcusmm_parameters_utils.hash_limit) + ")."
                 parameters[libcusmm_parameters_utils.hash(m, n, k)] = \
                     [algo,                   # algo
                      int(match.group(5)),    # tile_m
@@ -117,6 +123,10 @@ def get_parameters_from_file(content):
                 m = int(match.group(2))
                 n = int(match.group(3))
                 k = int(match.group(4))
+                assert m <= libcusmm_parameters_utils.hash_limit and n <= libcusmm_parameters_utils.hash_limit \
+                       and k <= libcusmm_parameters_utils.hash_limit, \
+                       "m, n, and k (" + str(m) + ", " + str(n) + ", " + str(k) +  \
+                       ") must be smaller or equal to the hash limit (" + str(libcusmm_parameters_utils.hash_limit) + ")."
                 parameters[libcusmm_parameters_utils.hash(m, n, k)] = \
                     [algo,                 # algo
                      0,                    # tile_m
@@ -182,7 +192,7 @@ def write_parameters_file(all_pars):
     init_list_line = \
         "    {{ {hash}, Kernel_parameters({{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }})}}, \t// ({m}x{n}x{k})\n"
     for hash_mnk, pars in sorted(all_pars.items()):
-        m, n, k = libcusmm_parameters_utils.hash_back(hash_mnk)
+        m, n, k = libcusmm_parameters_utils.hash_reverse(hash_mnk)
         out += init_list_line.format(hash=hash_mnk, algo=pars[0], tile_m=pars[1], tile_n=pars[2], w=pars[3], v=pars[4],
                                      threads=pars[5], grouping=pars[6], minblocks=pars[7], m=m, n=n, k=k)
     out += '};\n'  # close initializer list
