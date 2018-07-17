@@ -383,13 +383,17 @@ FYPPFLAGS ?= -n
 %.o: %.cpp
 	$(CXX) -c $(CXXFLAGS) $<
 
-EXP = 10
-EXP_DOUBLE = $$(( 2*$(EXP)  ))
-HASH_LIMIT = $$(( 2**$(EXP)-1 ))
 $(LIBCUSMM_ABS_DIR)/libcusmm_parameters_utils.so: parameters_utils_for_py.cpp parameters_utils.h
-	$(CXX) -O3 -shared -std=c++11 -fPIC -I $(PYBIND_PATH)/include -I $(PY_PATH) -DEXP=$(EXP) -DEXP_DOUBLE=$(EXP_DOUBLE) -DHASH_LIMIT=$(HASH_LIMIT) $< -o $@
+	$(CXX) -O3 $(PYBINDFLAGS) $(HASHDEFS) $< -o $@
+
 libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
-	$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DSM_NUMBER=$(SM_NUMBER) -DEXP=$(EXP) -DEXP_DOUBLE=$(EXP_DOUBLE) -DHASH_LIMIT=$(HASH_LIMIT) -std=c++11 $<
+	$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DARCH_NUMBER=$(ARCH_NUMBER) $(HASHDEFS) -std=c++11 $<
+
+%.o: %.cu
+	$(NVCC) -c $(HASHDEFS) $(NVFLAGS) -I'$(SRCDIR)' $<
+
+libcusmm_benchmark.o: libcusmm_benchmark.cu parameters.h
+	$(NVCC) -c $(HASHDEFS) $(NVFLAGS) -I'$(SRCDIR)' $<
 
 $(LIBDIR)/%:
 ifneq ($(LD_SHARED),)
@@ -399,8 +403,5 @@ else
 	@echo "Updating archive $@"
 	@$(AR) $@ $?
 endif
-
-%.o: %.cu
-	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
 
 #EOF
