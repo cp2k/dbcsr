@@ -15,7 +15,7 @@ MODULE dbcsr_error_handling
    USE dbcsr_machine,                   ONLY: default_output_unit,&
                                               m_flush,&
                                               m_walltime
-   USE dbcsr_message_passing,           ONLY: mp_abort
+   USE dbcsr_mpiwrap,                   ONLY: mp_abort
    USE dbcsr_print_messages,            ONLY: print_message
    USE dbcsr_timings,                   ONLY: print_stack
 

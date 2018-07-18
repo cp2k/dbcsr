@@ -47,14 +47,6 @@ MODULE dbcsr_mm
                                               dbcsr_mempool_destruct,&
                                               dbcsr_mempool_limit_capacity,&
                                               dbcsr_memtype_setup
-   USE dbcsr_message_passing,           ONLY: mp_get_library_version,&
-                                              mp_isync,&
-                                              mp_max,&
-                                              mp_max_library_version_string,&
-                                              mp_min,&
-                                              mp_request_null,&
-                                              mp_sum,&
-                                              mp_wait
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_destroy_array, dbcsr_distribution, &
         dbcsr_get_matrix_type, dbcsr_has_symmetry, dbcsr_image_dist_release, dbcsr_nblkcols_total, &
@@ -83,6 +75,14 @@ MODULE dbcsr_mm
                                               dbcsr_mp_npcols,&
                                               dbcsr_mp_nprows,&
                                               dbcsr_mp_numnodes
+   USE dbcsr_mpiwrap,                   ONLY: mp_get_library_version,&
+                                              mp_isync,&
+                                              mp_max,&
+                                              mp_max_library_version_string,&
+                                              mp_min,&
+                                              mp_request_null,&
+                                              mp_sum,&
+                                              mp_wait
    USE dbcsr_operations,                ONLY: dbcsr_conjg,&
                                               dbcsr_copy,&
                                               dbcsr_get_occupation,&

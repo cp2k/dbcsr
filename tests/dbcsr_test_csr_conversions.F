@@ -21,7 +21,7 @@ PROGRAM dbcsr_test_csr_conversions
    USE dbcsr_kinds,                     ONLY: dp,&
                                               real_8
    USE dbcsr_machine,                   ONLY: default_output_unit
-   USE dbcsr_message_passing,           ONLY: mp_bcast,&
+   USE dbcsr_mpiwrap,                   ONLY: mp_bcast,&
                                               mp_cart_create,&
                                               mp_comm_free,&
                                               mp_environ,&

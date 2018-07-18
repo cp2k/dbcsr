@@ -28,7 +28,7 @@
 !>      manual retain release of some objects) are dictated by the need to
 !>      have minimal dependency
 !> \par History
-!>      08.2002 major update: retain, release, printkeys, para_env,
+!>      08.2002 major update: retain, release, printkeys, mp_env,
 !>              local logging [fawzi]
 !>      02.2004 made a stack of default loggers [Joost VandeVondele]
 !> \par
@@ -49,10 +49,10 @@ MODULE dbcsr_log_handling
    USE dbcsr_machine,                   ONLY: default_output_unit,&
                                               m_getpid,&
                                               m_hostnm
-   USE dbcsr_message_passing,           ONLY: mp_comm_free
-   USE dbcsr_para_types,                ONLY: dbcsr_para_env_type
+   USE dbcsr_methods,                   ONLY: dbcsr_mp_release
    USE dbcsr_string_utilities,          ONLY: compress
    USE dbcsr_timings,                   ONLY: print_stack
+   USE dbcsr_types,                     ONLY: dbcsr_mp_obj
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -103,12 +103,8 @@ MODULE dbcsr_log_handling
 !>        file.
 !> \param default_global_unit_nr default unit for global logging
 !>        (-1 if not yet initialized). This unit is valid only on the
-!>        processor with %para_env%mepos==%para_env%source.
-!> \param para_env the parallel environement for the output.
-!>        this might be a super environment of your computation environment
-!>        i.e. be very careful not to do global operations like broadcast
-!>        with a subset of its processors (use your computation environment
-!>        instead).
+!>        processor with %mp_env%mp%mynode==%mv_env%mp%source.
+!> \param mp_env the parallel environement for the output.
 !> \param close_local_unit_on_dealloc if the local unit should be closed
 !>        when this logger is deallocated
 !> \param close_global_unit_on_dealloc whether the global unit should be
@@ -132,7 +128,7 @@ MODULE dbcsr_log_handling
 !>      DO NOT USE THE INTERNAL COMPONENTS DIRECTLY!!!
 !> \par History
 !>      04.2002 revised [fawzi]
-!>      08.2002 major update: retain, release, printkeys, para_env,
+!>      08.2002 major update: retain, release, printkeys, mp_env,
 !>              local logging [fawzi]
 !> \author Fawzi Mohamed
 ! **************************************************************************************************
@@ -144,7 +140,7 @@ MODULE dbcsr_log_handling
       LOGICAL :: close_local_unit_on_dealloc, close_global_unit_on_dealloc
       CHARACTER(len=default_string_length)  :: suffix
       CHARACTER(len=default_path_length)    :: local_filename, global_filename
-      TYPE(dbcsr_para_env_type), POINTER       :: para_env
+      TYPE(dbcsr_mp_obj)                    :: mp_env
       TYPE(dbcsr_iteration_info_type), POINTER :: iter_info
    END TYPE dbcsr_logger_type
 
@@ -253,7 +249,7 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief initializes a logger
 !> \param logger the logger to initialize
-!> \param para_env the parallel environment (this is most likely the global
+!> \param mp_env the parallel environment (this is most likely the global
 !>        parallel environment
 !> \param print_level the level starting with which something is written
 !>        (defaults to dbcsr_note_level)
@@ -263,7 +259,7 @@ CONTAINS
 !>        output. If not given defaults to a out.taskid file created upon
 !> \param global_filename a new file to open (can be given instread of the
 !>        global_unit_nr)
-!> \param local_filename a new file to open (with suffix and para_env%mepos
+!> \param local_filename a new file to open (with suffix and mp_env%mp%mynode
 !>        appended). Can be given instread of the default_local_unit_nr).
 !>        the file is created only upon the first local logging request
 !> \param close_global_unit_on_dealloc if the unit should be closed when the
@@ -282,12 +278,12 @@ CONTAINS
 !>      tries to take the right decision with different inputs, and thus is a
 !>      little complex.
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_logger_create(logger, para_env, print_level, &
+   SUBROUTINE dbcsr_logger_create(logger, mp_env, print_level, &
                                   default_global_unit_nr, default_local_unit_nr, global_filename, &
                                   local_filename, close_global_unit_on_dealloc, iter_info, &
                                   close_local_unit_on_dealloc, suffix, template_logger)
       TYPE(dbcsr_logger_type), POINTER                   :: logger
-      TYPE(dbcsr_para_env_type), OPTIONAL, POINTER       :: para_env
+      TYPE(dbcsr_mp_obj), OPTIONAL                       :: mp_env
       INTEGER, INTENT(in), OPTIONAL                      :: print_level, default_global_unit_nr, &
                                                             default_local_unit_nr
       CHARACTER(len=*), INTENT(in), OPTIONAL             :: global_filename, local_filename
@@ -306,7 +302,6 @@ CONTAINS
       IF (stat /= 0) &
          DBCSR_ABORT(routineP//" could not ALLOCATE a logger")
 
-      NULLIFY (logger%para_env)
       NULLIFY (logger%iter_info)
       logger%ref_count = 1
       last_logger_id_nr = last_logger_id_nr+1
@@ -331,7 +326,7 @@ CONTAINS
          END IF
          logger%local_filename = template_logger%local_filename
          logger%global_filename = template_logger%global_filename
-         logger%para_env => template_logger%para_env
+         logger%mp_env = template_logger%mp_env
          logger%suffix = template_logger%suffix
          logger%iter_info => template_logger%iter_info
       ELSE
@@ -348,12 +343,13 @@ CONTAINS
          logger%close_local_unit_on_dealloc = .TRUE.
          logger%suffix = ""
       END IF
-      IF (PRESENT(para_env)) logger%para_env => para_env
-      IF (.NOT. ASSOCIATED(logger%para_env)) &
-         DBCSR_ABORT(routineP//" para env not associated")
-      IF (logger%para_env%ref_count < 1) &
-         DBCSR_ABORT(routineP//" para_env%ref_count<1")
-      logger%para_env%ref_count = logger%para_env%ref_count+1
+      IF (PRESENT(mp_env)) logger%mp_env = mp_env
+      IF (.NOT. ASSOCIATED(logger%mp_env%mp)) &
+         DBCSR_ABORT(routineP//" mp env not associated")
+
+      IF (logger%mp_env%mp%refcount < 1) &
+         DBCSR_ABORT(routineP//" mp_env%ref_count<1")
+      logger%mp_env%mp%refcount = logger%mp_env%mp%refcount+1
 
       IF (PRESENT(print_level)) logger%print_level = print_level
 
@@ -390,7 +386,7 @@ CONTAINS
       END IF
 
       IF (logger%default_local_unit_nr == -1) THEN
-         IF (logger%para_env%mepos == logger%para_env%source) THEN
+         IF (logger%mp_env%mp%mynode == logger%mp_env%mp%source) THEN
             logger%default_local_unit_nr = logger%default_global_unit_nr
             logger%close_local_unit_on_dealloc = .FALSE.
          ENDIF
@@ -454,7 +450,7 @@ CONTAINS
                logger%close_local_unit_on_dealloc = .FALSE.
                logger%default_local_unit_nr = -1
             END IF
-            CALL my_dbcsr_para_env_release(logger%para_env)
+            CALL dbcsr_mp_release(logger%mp_env)
             CALL dbcsr_iteration_info_release(logger%iter_info)
             DEALLOCATE (logger)
          END IF
@@ -498,8 +494,8 @@ CONTAINS
 !> \brief returns the unit nr for the requested kind of log.
 !> \param logger the logger you want to log in
 !> \param local if true returns a local logger (one per task), otherwise
-!>     returns a global logger (only the process with para_env%mepos==
-!>     para_env%source should write to the global logger). Defaults to
+!>     returns a global logger (only the process with mp_env%mp%mynode==
+!>     mp_env%mp%source should write to the global logger). Defaults to
 !>     false
 !> \return ...
 !> \par History
@@ -605,7 +601,7 @@ CONTAINS
       IF (PRESENT(skip_not_ionode)) skip = skip_not_ionode
       IF (.NOT. loc) THEN
          IF (lggr%default_global_unit_nr <= 0) THEN
-            IF (lggr%para_env%mepos == lggr%para_env%source) THEN
+            IF (lggr%mp_env%mp%mynode == lggr%mp_env%mp%source) THEN
                CALL dbcsr_logger_generate_filename(lggr, filename, lggr%global_filename, &
                                                    ".out", local=.FALSE.)
                CALL open_file(TRIM(filename), file_status="unknown", &
@@ -619,15 +615,15 @@ CONTAINS
                lggr%close_global_unit_on_dealloc = .FALSE.
             END IF
          END IF
-         IF ((lggr%para_env%mepos /= lggr%para_env%source) .AND. (.NOT. skip)) THEN
+         IF ((lggr%mp_env%mp%mynode /= lggr%mp_env%mp%source) .AND. (.NOT. skip)) THEN
             WRITE (UNIT=lggr%default_global_unit_nr, FMT='(/,T2,A)', IOSTAT=iostat) &
                ' *** WARNING non ionode asked for global logger ***'
             IF (iostat /= 0) THEN
                CALL m_getpid(pid)
                CALL m_hostnm(host_name)
                PRINT *, " *** Error trying to WRITE to the local logger ***"
-               PRINT *, " *** MPI_id           = ", lggr%para_env%mepos
-               PRINT *, " *** MPI_Communicator = ", lggr%para_env%group
+               PRINT *, " *** MPI_id           = ", lggr%mp_env%mp%mynode
+               PRINT *, " *** MPI_Communicator = ", lggr%mp_env%mp%mp_group
                PRINT *, " *** PID              = ", pid
                PRINT *, " *** Hostname         = "//TRIM(host_name)
                CALL print_stack(default_output_unit)
@@ -645,8 +641,8 @@ CONTAINS
                            file_position="APPEND", &
                            unit_number=lggr%default_local_unit_nr)
             WRITE (UNIT=lggr%default_local_unit_nr, FMT='(/,T2,A,I0,A,I0,A)', IOSTAT=iostat) &
-               '*** Local logger file of MPI task ', lggr%para_env%mepos, &
-               ' in communicator ', lggr%para_env%group, ' ***'
+               '*** Local logger file of MPI task ', lggr%mp_env%mp%mynode, &
+               ' in communicator ', lggr%mp_env%mp%mp_group, ' ***'
             IF (iostat == 0) THEN
                CALL m_getpid(pid)
                CALL m_hostnm(host_name)
@@ -659,8 +655,8 @@ CONTAINS
                CALL m_getpid(pid)
                CALL m_hostnm(host_name)
                PRINT *, " *** Error trying to WRITE to the local logger ***"
-               PRINT *, " *** MPI_id           = ", lggr%para_env%mepos
-               PRINT *, " *** MPI_Communicator = ", lggr%para_env%group
+               PRINT *, " *** MPI_id           = ", lggr%mp_env%mp%mynode
+               PRINT *, " *** MPI_Communicator = ", lggr%mp_env%mp%mp_group
                PRINT *, " *** PID              = ", pid
                PRINT *, " *** Hostname         = "//TRIM(host_name)
                CALL print_stack(default_output_unit)
@@ -670,38 +666,6 @@ CONTAINS
          res = lggr%default_local_unit_nr
       END IF
    END FUNCTION dbcsr_logger_get_default_unit_nr
-
-! **************************************************************************************************
-!> \brief releases the para object (to be called when you don't want anymore
-!>      the shared copy of this object)
-!> \param para_env the new group
-!> \par History
-!>      08.2002 created [fawzi]
-!> \author Fawzi Mohamed
-!> \note
-!>      local private version to avoid circular dependencies
-!>      (see dbcsr_para_env:dbcsr_para_env_release)!
-! **************************************************************************************************
-   SUBROUTINE my_dbcsr_para_env_release(para_env)
-      TYPE(dbcsr_para_env_type), POINTER                 :: para_env
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'my_dbcsr_para_env_release', &
-         routineP = moduleN//':'//routineN
-
-      IF (ASSOCIATED(para_env)) THEN
-         IF (para_env%ref_count < 1) THEN
-            DBCSR_ABORT(routineP//" para_env%ref_count<1")
-         END IF
-         para_env%ref_count = para_env%ref_count-1
-         IF (para_env%ref_count < 1) THEN
-            IF (para_env%owns_group) THEN
-               CALL mp_comm_free(para_env%group)
-            END IF
-            DEALLOCATE (para_env)
-         END IF
-      END IF
-      NULLIFY (para_env)
-   END SUBROUTINE my_dbcsr_para_env_release
 
 ! **************************************************************************************************
 !> \brief generates a unique filename (ie adding eventual suffixes and
@@ -743,7 +707,7 @@ CONTAINS
       IF (PRESENT(local)) loc = local
       IF (loc) THEN
          res = TRIM(root)//TRIM(lggr%suffix)//'_p'// &
-               dbcsr_to_string(lggr%para_env%mepos)//postfix
+               dbcsr_to_string(lggr%mp_env%mp%mynode)//postfix
       ELSE
          res = TRIM(root)//TRIM(lggr%suffix)//postfix
       END IF

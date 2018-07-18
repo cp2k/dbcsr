@@ -57,7 +57,7 @@ MODULE dbcsr_tensor
                                               dbcsr_t_get_stored_coordinates
    USE dbcsr_kinds,                     ONLY: ${uselist(dtype_float_prec)}$,&
                                               default_string_length
-   USE dbcsr_message_passing,           ONLY: mp_environ,&
+   USE dbcsr_mpiwrap,                   ONLY: mp_environ,&
                                               mp_comm_free
    USE dbcsr_toollib,                   ONLY: sort
    USE dbcsr_tensor_reshape,            ONLY: dbcsr_t_reshape

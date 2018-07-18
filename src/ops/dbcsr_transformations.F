@@ -65,8 +65,6 @@ MODULE dbcsr_transformations
    USE dbcsr_kinds,                     ONLY: dp,&
                                               int_8,&
                                               sp
-   USE dbcsr_message_passing,           ONLY: mp_allgather,&
-                                              mp_alltoall
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_sizes, dbcsr_distribution, dbcsr_get_data_type, dbcsr_get_matrix_type, &
         dbcsr_has_symmetry, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_nfullcols_total, &
@@ -82,6 +80,8 @@ MODULE dbcsr_transformations
                                               hybrid_alltoall_i1,&
                                               hybrid_alltoall_s1,&
                                               hybrid_alltoall_z1
+   USE dbcsr_mpiwrap,                   ONLY: mp_allgather,&
+                                              mp_alltoall
    USE dbcsr_operations,                ONLY: dbcsr_set
    USE dbcsr_ptr_util,                  ONLY: pointer_view
    USE dbcsr_types,                     ONLY: &

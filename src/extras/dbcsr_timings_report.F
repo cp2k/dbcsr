@@ -31,17 +31,17 @@ MODULE dbcsr_timings_report
                                               list_push,&
                                               list_size
    USE dbcsr_list_routinereport,        ONLY: list_routinereport_type
-   USE dbcsr_message_passing,           ONLY: mp_bcast,&
+   USE dbcsr_mpiwrap,                   ONLY: mp_bcast,&
                                               mp_max,&
                                               mp_maxloc,&
                                               mp_sum
-   USE dbcsr_para_types,                ONLY: dbcsr_para_env_type
    USE dbcsr_timings,                   ONLY: get_timer_env
    USE dbcsr_timings_base_type,         ONLY: call_stat_type,&
                                               routine_report_type,&
                                               routine_stat_type
    USE dbcsr_timings_types,             ONLY: timer_env_type
    USE dbcsr_toollib,                   ONLY: sort
+   USE dbcsr_types,                     ONLY: dbcsr_mp_obj
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -60,27 +60,27 @@ CONTAINS
 !> \param sort_by_self_time ...
 !> \param cost_type ...
 !> \param report_maxloc ...
-!> \param para_env is needed to collect statistics from other nodes.
+!> \param mp_env is needed to collect statistics from other nodes.
 !> \par History
 !>      none
 !> \author JGH
 ! **************************************************************************************************
-   SUBROUTINE timings_report_print(iw, r_timings, sort_by_self_time, cost_type, report_maxloc, para_env)
+   SUBROUTINE timings_report_print(iw, r_timings, sort_by_self_time, cost_type, report_maxloc, mp_env)
       INTEGER, INTENT(IN)                                :: iw
       REAL(KIND=dp), INTENT(IN)                          :: r_timings
       LOGICAL, INTENT(IN)                                :: sort_by_self_time
       INTEGER, INTENT(IN)                                :: cost_type
       LOGICAL, INTENT(IN)                                :: report_maxloc
-      TYPE(dbcsr_para_env_type), INTENT(IN)              :: para_env
+      TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
 
       TYPE(list_routinereport_type)                      :: reports
       TYPE(routine_report_type), POINTER                 :: r_report
 
       CALL list_init(reports)
-      CALL collect_reports_from_ranks(reports, cost_type, para_env)
+      CALL collect_reports_from_ranks(reports, cost_type, mp_env)
 
       IF (list_size(reports) > 0 .AND. iw > 0) &
-         CALL print_reports(reports, iw, r_timings, sort_by_self_time, cost_type, report_maxloc, para_env)
+         CALL print_reports(reports, iw, r_timings, sort_by_self_time, cost_type, report_maxloc, mp_env)
 
       ! deallocate reports
       DO WHILE (list_size(reports) > 0)
@@ -95,13 +95,13 @@ CONTAINS
 !> \brief Collects the timing or energy reports from all MPI ranks.
 !> \param reports ...
 !> \param cost_type ...
-!> \param para_env ...
+!> \param mp_env ...
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE collect_reports_from_ranks(reports, cost_type, para_env)
+   SUBROUTINE collect_reports_from_ranks(reports, cost_type, mp_env)
       TYPE(list_routinereport_type), INTENT(INOUT)       :: reports
       INTEGER, INTENT(IN)                                :: cost_type
-      TYPE(dbcsr_para_env_type), INTENT(IN)              :: para_env
+      TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
 
       CHARACTER(LEN=default_string_length)               :: routineN
       INTEGER                                            :: local_routine_id, sending_rank
@@ -122,15 +122,15 @@ CONTAINS
       ! and the actual dictionary are consistent in the loop below, preventing out of bounds.
       ! this hack makes sure they are called before
       routineN = ""
-      CALL mp_bcast(routineN, 0, para_env%group)
+      CALL mp_bcast(routineN, 0, mp_env%mp%mp_group)
       sending_rank = 0
-      CALL mp_max(sending_rank, para_env%group)
-      CALL mp_sum(sending_rank, para_env%group)
+      CALL mp_max(sending_rank, mp_env%mp%mp_group)
+      CALL mp_sum(sending_rank, mp_env%mp%mp_group)
       foobar = 0.0_dp
-      CALL mp_max(foobar, para_env%group)
+      CALL mp_max(foobar, mp_env%mp%mp_group)
       dbuf = 0.0_dp
-      CALL mp_maxloc(dbuf, para_env%group)
-      CALL mp_sum(foobar, para_env%group)
+      CALL mp_maxloc(dbuf, mp_env%mp%mp_group)
+      CALL mp_sum(foobar, mp_env%mp%mp_group)
       ! end hack
 
       ! Array collected is used as a bit field.
@@ -141,15 +141,15 @@ CONTAINS
       DO
          ! does any rank have uncollected stats?
          sending_rank = -1
-         IF (.NOT. ALL(collected == 1)) sending_rank = para_env%mepos
-         CALL mp_max(sending_rank, para_env%group)
+         IF (.NOT. ALL(collected == 1)) sending_rank = mp_env%mp%mynode
+         CALL mp_max(sending_rank, mp_env%mp%mp_group)
          IF (sending_rank < 0) EXIT ! every rank got all routines collected
-         IF (sending_rank == para_env%mepos) THEN
+         IF (sending_rank == mp_env%mp%mynode) THEN
             local_routine_id = MINLOC(collected, dim=1)
             r_stat => list_get(timer_env%routine_stats, local_routine_id)
             routineN = r_stat%routineN
          ENDIF
-         CALL mp_bcast(routineN, sending_rank, para_env%group)
+         CALL mp_bcast(routineN, sending_rank, mp_env%mp%mp_group)
 
          ! Create new report for routineN
          ALLOCATE (r_report)
@@ -181,25 +181,25 @@ CONTAINS
          END IF
 
          ! collect stats of routineN via MPI
-         CALL mp_max(r_report%max_total_calls, para_env%group)
-         CALL mp_sum(r_report%sum_total_calls, para_env%group)
-         CALL mp_sum(r_report%sum_stackdepth, para_env%group)
+         CALL mp_max(r_report%max_total_calls, mp_env%mp%mp_group)
+         CALL mp_sum(r_report%sum_total_calls, mp_env%mp%mp_group)
+         CALL mp_sum(r_report%sum_stackdepth, mp_env%mp%mp_group)
 
          ! get value and rank of the maximum inclusive cost
-         dbuf = (/r_report%max_icost, REAL(para_env%mepos, KIND=dp)/)
-         CALL mp_maxloc(dbuf, para_env%group)
+         dbuf = (/r_report%max_icost, REAL(mp_env%mp%mynode, KIND=dp)/)
+         CALL mp_maxloc(dbuf, mp_env%mp%mp_group)
          r_report%max_icost = dbuf(1)
          r_report%max_irank = INT(dbuf(2))
 
-         CALL mp_sum(r_report%sum_icost, para_env%group)
+         CALL mp_sum(r_report%sum_icost, mp_env%mp%mp_group)
 
          ! get value and rank of the maximum exclusive cost
-         dbuf = (/r_report%max_ecost, REAL(para_env%mepos, KIND=dp)/)
-         CALL mp_maxloc(dbuf, para_env%group)
+         dbuf = (/r_report%max_ecost, REAL(mp_env%mp%mynode, KIND=dp)/)
+         CALL mp_maxloc(dbuf, mp_env%mp%mp_group)
          r_report%max_ecost = dbuf(1)
          r_report%max_erank = INT(dbuf(2))
 
-         CALL mp_sum(r_report%sum_ecost, para_env%group)
+         CALL mp_sum(r_report%sum_ecost, mp_env%mp%mp_group)
       ENDDO
 
    END SUBROUTINE collect_reports_from_ranks
@@ -212,19 +212,19 @@ CONTAINS
 !> \param sort_by_exclusiv_cost ...
 !> \param cost_type ...
 !> \param report_maxloc ...
-!> \param para_env ...
+!> \param mp_env ...
 !> \par History
 !>      01.2014 Refactored (Ole Schuett)
 !> \author JGH
 ! **************************************************************************************************
-   SUBROUTINE print_reports(reports, iw, threshold, sort_by_exclusiv_cost, cost_type, report_maxloc, para_env)
+   SUBROUTINE print_reports(reports, iw, threshold, sort_by_exclusiv_cost, cost_type, report_maxloc, mp_env)
       TYPE(list_routinereport_type), INTENT(IN)          :: reports
       INTEGER, INTENT(IN)                                :: iw
       REAL(KIND=dp), INTENT(IN)                          :: threshold
       LOGICAL, INTENT(IN)                                :: sort_by_exclusiv_cost
       INTEGER, INTENT(IN)                                :: cost_type
       LOGICAL, INTENT(IN)                                :: report_maxloc
-      TYPE(dbcsr_para_env_type), INTENT(IN)              :: para_env
+      TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
 
       CHARACTER(LEN=4)                                   :: label
       CHARACTER(LEN=default_string_length)               :: fmt, title
@@ -311,9 +311,9 @@ CONTAINS
                   ADJUSTL(r_report_j%routineN(1:31)), &
                   r_report_j%max_total_calls, &
                   asd, &
-                  r_report_j%sum_ecost/para_env%num_pe, &
+                  r_report_j%sum_ecost/mp_env%mp%numnodes, &
                   r_report_j%max_ecost, &
-                  r_report_j%sum_icost/para_env%num_pe, &
+                  r_report_j%sum_icost/mp_env%mp%numnodes, &
                   r_report_j%max_icost, &
                   r_report_j%max_erank
             ELSE
@@ -321,9 +321,9 @@ CONTAINS
                   ADJUSTL(r_report_j%routineN(1:31)), &
                   r_report_j%max_total_calls, &
                   asd, &
-                  r_report_j%sum_ecost/para_env%num_pe, &
+                  r_report_j%sum_ecost/mp_env%mp%numnodes, &
                   r_report_j%max_ecost, &
-                  r_report_j%sum_icost/para_env%num_pe, &
+                  r_report_j%sum_icost/mp_env%mp%numnodes, &
                   r_report_j%max_icost
             ENDIF
          END IF

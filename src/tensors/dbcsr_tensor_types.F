@@ -32,7 +32,7 @@ MODULE dbcsr_tensor_types
                                               get_mapping_info,&
                                               nd_to_2d_mapping
    USE dbcsr_kinds,                     ONLY: default_string_length
-   USE dbcsr_message_passing,           ONLY: mp_cart_create,&
+   USE dbcsr_mpiwrap,                   ONLY: mp_cart_create,&
                                               mp_cart_rank,&
                                               mp_environ, &
                                               mp_dims_create, &

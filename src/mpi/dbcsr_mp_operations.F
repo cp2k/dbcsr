@@ -30,7 +30,7 @@ MODULE dbcsr_mp_operations
                                               dbcsr_type_real_8
    USE dbcsr_kinds,                     ONLY: real_4,&
                                               real_8
-   USE dbcsr_message_passing,           ONLY: &
+   USE dbcsr_mpiwrap,                   ONLY: &
         mp_allgather, mp_alltoall, mp_gatherv, mp_ibcast, mp_irecv, mp_iscatter, mp_isend, &
         mp_isendrecv, mp_rget, mp_sendrecv, mp_type_descriptor_type, mp_type_indexed_make_c, &
         mp_type_indexed_make_d, mp_type_indexed_make_r, mp_type_indexed_make_z, mp_type_make, &

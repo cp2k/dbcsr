@@ -36,11 +36,6 @@ MODULE dbcsr_csr_conversions
                                               real_4,&
                                               real_8,&
                                               sp
-   USE dbcsr_message_passing,           ONLY: mp_environ,&
-                                              mp_gather,&
-                                              mp_recv,&
-                                              mp_send,&
-                                              mp_sum
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_sizes, dbcsr_distribution, dbcsr_get_data_type, dbcsr_get_num_blocks, &
         dbcsr_get_nze, dbcsr_has_symmetry, dbcsr_name, dbcsr_nblkcols_total, dbcsr_nblkrows_total, &
@@ -50,6 +45,11 @@ MODULE dbcsr_csr_conversions
                                               dbcsr_mp_new,&
                                               dbcsr_mp_numnodes,&
                                               dbcsr_mp_release
+   USE dbcsr_mpiwrap,                   ONLY: mp_environ,&
+                                              mp_gather,&
+                                              mp_recv,&
+                                              mp_send,&
+                                              mp_sum
    USE dbcsr_operations,                ONLY: dbcsr_copy,&
                                               dbcsr_get_info,&
                                               dbcsr_set

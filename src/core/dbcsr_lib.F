@@ -18,7 +18,7 @@ MODULE dbcsr_lib
                                               int_4_size,&
                                               int_8_size
    USE dbcsr_machine,                   ONLY: default_output_unit
-   USE dbcsr_message_passing,           ONLY: add_mp_perf_env,&
+   USE dbcsr_mpiwrap,                   ONLY: add_mp_perf_env,&
                                               describe_mp_perf_env,&
                                               has_mp_perf_env,&
                                               mp_environ
