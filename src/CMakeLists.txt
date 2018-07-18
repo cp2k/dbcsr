@@ -65,7 +65,7 @@ add_fypp_sources(DBCSR_SRCS
   mm/dbcsr_mm_sched.F
   mm/dbcsr_mm_types.F
   mm/dbcsr_multiply_api.F
-  mpiwrap/dbcsr_message_passing.F
+  mpi/dbcsr_mpiwrap.F
   ops/dbcsr_blas_operations.F
   ops/dbcsr_csr_conversions.F
   ops/dbcsr_io.F

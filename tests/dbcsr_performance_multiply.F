@@ -27,15 +27,15 @@ MODULE dbcsr_performance_multiply
                                               real_4,&
                                               real_8
    USE dbcsr_machine,                   ONLY: m_walltime
-   USE dbcsr_message_passing,           ONLY: mp_environ,&
-                                              mp_sum,&
-                                              mp_sync
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_distribution, dbcsr_get_data_type, &
         dbcsr_get_matrix_type, dbcsr_name, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
         dbcsr_release, dbcsr_row_block_offsets, dbcsr_row_block_sizes
    USE dbcsr_mp_methods,                ONLY: dbcsr_mp_npcols,&
                                               dbcsr_mp_nprows
+   USE dbcsr_mpiwrap,                   ONLY: mp_environ,&
+                                              mp_sum,&
+                                              mp_sync
    USE dbcsr_multiply_api,              ONLY: dbcsr_multiply
    USE dbcsr_operations,                ONLY: dbcsr_copy,&
                                               dbcsr_scale

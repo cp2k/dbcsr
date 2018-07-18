@@ -132,7 +132,7 @@ MODULE dbcsr_api
                                               timeset_interface, timestop_interface,&
                                               dbcsr_abort_hook, dbcsr_warn_hook,&
                                               dbcsr_abort_interface, dbcsr_warn_interface
-   USE dbcsr_message_passing,           ONLY: mp_cart_rank,&
+   USE dbcsr_mpiwrap,                   ONLY: mp_cart_rank,&
                                               mp_environ
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads

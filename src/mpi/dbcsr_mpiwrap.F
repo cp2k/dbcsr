@@ -18,7 +18,7 @@
 !>      JGH (15-Feb-2006): single precision mp_alltoall
 !> \author JGH
 ! **************************************************************************************************
-MODULE dbcsr_message_passing
+MODULE dbcsr_mpiwrap
   USE ISO_C_BINDING,                   ONLY: C_F_POINTER,&
                                              C_PTR
   USE dbcsr_kinds,                           ONLY: &
@@ -127,7 +127,7 @@ MODULE dbcsr_message_passing
    INTEGER, PARAMETER, PUBLIC :: mpi_character_size = 1
    INTEGER, PARAMETER, PUBLIC :: mpi_integer_size = 4
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_message_passing'
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_mpiwrap'
 
 #if defined(__parallel)
    ! internal reference counter used to debug communicator leaks
@@ -863,7 +863,7 @@ CONTAINS
 
       stack_pointer = stack_pointer+1
       IF (stack_pointer > max_stack_size) THEN
-         DBCSR_ABORT("stack_pointer too large : message_passing @ add_mp_perf_env")
+         DBCSR_ABORT("stack_pointer too large : mpiwrap @ add_mp_perf_env")
       ENDIF
       NULLIFY (mp_perf_stack(stack_pointer)%mp_perf_env)
       IF (PRESENT(perf_env)) THEN
@@ -909,7 +909,7 @@ CONTAINS
 
       IF (ASSOCIATED(perf_env)) THEN
          IF (perf_env%ref_count < 1) THEN
-            DBCSR_ABORT("invalid ref_count: message_passing @ mp_perf_env_release")
+            DBCSR_ABORT("invalid ref_count: mpiwrap @ mp_perf_env_release")
          END IF
          perf_env%ref_count = perf_env%ref_count-1
          IF (perf_env%ref_count == 0) THEN
@@ -927,10 +927,10 @@ CONTAINS
       TYPE(mp_perf_env_type), POINTER                    :: perf_env
 
       IF (.NOT. ASSOCIATED(perf_env)) THEN
-         DBCSR_ABORT("unassociated perf_env: message_passing @ mp_perf_env_retain")
+         DBCSR_ABORT("unassociated perf_env: mpiwrap @ mp_perf_env_retain")
       END IF
       IF (perf_env%ref_count < 1) THEN
-         DBCSR_ABORT("invalid ref_count: message_passing @ mp_perf_env_retain")
+         DBCSR_ABORT("invalid ref_count: mpiwrap @ mp_perf_env_retain")
       END IF
       perf_env%ref_count = perf_env%ref_count+1
    END SUBROUTINE mp_perf_env_retain
@@ -951,10 +951,10 @@ CONTAINS
 #endif
 
       IF (.NOT. ASSOCIATED(perf_env)) THEN
-         DBCSR_ABORT("unassociated perf_env : message_passing @ mp_perf_env_describe")
+         DBCSR_ABORT("unassociated perf_env : mpiwrap @ mp_perf_env_describe")
       ENDIF
       IF (perf_env%ref_count < 1) THEN
-         DBCSR_ABORT("invalid perf_env%ref_count : message_passing @ mp_perf_env_describe")
+         DBCSR_ABORT("invalid perf_env%ref_count : mpiwrap @ mp_perf_env_describe")
       ENDIF
 #if defined(__parallel)
       IF (iw > 0) THEN
@@ -991,7 +991,7 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE rm_mp_perf_env()
       IF (stack_pointer < 1) THEN
-         DBCSR_ABORT("no perf_env in the stack : message_passing @ rm_mp_perf_env")
+         DBCSR_ABORT("no perf_env in the stack : mpiwrap @ rm_mp_perf_env")
       ENDIF
       CALL mp_perf_env_release(mp_perf_stack(stack_pointer)%mp_perf_env)
       stack_pointer = stack_pointer-1
@@ -1018,7 +1018,7 @@ CONTAINS
       TYPE(mp_perf_env_type), POINTER                    :: res
 
       IF (stack_pointer < 1) THEN
-         DBCSR_ABORT("no perf_env in the stack : message_passing @ get_mp_perf_env")
+         DBCSR_ABORT("no perf_env in the stack : mpiwrap @ get_mp_perf_env")
       ENDIF
       res => mp_perf_stack(stack_pointer)%mp_perf_env
    END FUNCTION get_mp_perf_env
@@ -1095,7 +1095,7 @@ CONTAINS
 !> \param ierr an error code * returned by an mpi call *
 !> \param prg_code ...
 !> \note
-!>       this function is private to message_passing.F
+!>       this function is private to mpiwrap.F
 ! **************************************************************************************************
    SUBROUTINE mp_stop(ierr, prg_code)
       INTEGER, INTENT(IN)                      :: ierr
@@ -4217,6 +4217,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_win_unlock_all
 
-#:include 'dbcsr_message_passing.f90'
+#:include 'dbcsr_mpiwrap.f90'
 
-END MODULE dbcsr_message_passing
+END MODULE dbcsr_mpiwrap

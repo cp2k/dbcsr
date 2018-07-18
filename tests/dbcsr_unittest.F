@@ -21,14 +21,14 @@ PROGRAM dbcsr_unittest
    USE dbcsr_lib,                       ONLY: dbcsr_finalize_lib,&
                                               dbcsr_init_lib
    USE dbcsr_machine,                   ONLY: default_output_unit
-   USE dbcsr_message_passing,           ONLY: mp_cart_create,&
+   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_new,&
+                                              dbcsr_mp_release
+   USE dbcsr_mpiwrap,                   ONLY: mp_cart_create,&
                                               mp_cart_rank,&
                                               mp_comm_free,&
                                               mp_environ,&
                                               mp_world_finalize,&
                                               mp_world_init
-   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_new,&
-                                              dbcsr_mp_release
    USE dbcsr_test_add,                  ONLY: dbcsr_test_adds
    USE dbcsr_test_methods,              ONLY: dbcsr_reset_randmat_seed
    USE dbcsr_test_multiply,             ONLY: dbcsr_test_multiplies

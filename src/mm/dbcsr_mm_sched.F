@@ -26,10 +26,6 @@ MODULE dbcsr_mm_sched
    USE dbcsr_kinds,                     ONLY: int_4,&
                                               int_8,&
                                               real_8
-   USE dbcsr_message_passing,           ONLY: mp_bcast,&
-                                              mp_environ,&
-                                              mp_max,&
-                                              mp_sum
    USE dbcsr_mm_accdrv,                 ONLY: &
         dbcsr_mm_accdrv_barrier, dbcsr_mm_accdrv_dev2host_init, dbcsr_mm_accdrv_finalize, &
         dbcsr_mm_accdrv_init, dbcsr_mm_accdrv_lib_finalize, dbcsr_mm_accdrv_lib_init, &
@@ -46,6 +42,10 @@ MODULE dbcsr_mm_sched
                                               p_m,&
                                               p_n,&
                                               stack_descriptor_type
+   USE dbcsr_mpiwrap,                   ONLY: mp_bcast,&
+                                              mp_environ,&
+                                              mp_max,&
+                                              mp_sum
    USE dbcsr_toollib,                   ONLY: sort
    USE dbcsr_types,                     ONLY: dbcsr_type,&
                                               dbcsr_work_type

@@ -26,9 +26,6 @@ MODULE dbcsr_tests
                                               real_8
    USE dbcsr_machine,                   ONLY: m_flush,&
                                               m_walltime
-   USE dbcsr_message_passing,           ONLY: &
-        mp_cart_create, mp_cart_rank, mp_comm_free, mp_comm_null, mp_dims_create, mp_environ, &
-        mp_max, mp_sum, mp_sync
    USE dbcsr_methods,                   ONLY: dbcsr_col_block_sizes,&
                                               dbcsr_distribution,&
                                               dbcsr_get_data_type,&
@@ -44,6 +41,9 @@ MODULE dbcsr_tests
                                               dbcsr_mp_npcols,&
                                               dbcsr_mp_nprows,&
                                               dbcsr_mp_release
+   USE dbcsr_mpiwrap,                   ONLY: &
+        mp_cart_create, mp_cart_rank, mp_comm_free, mp_comm_null, mp_dims_create, mp_environ, &
+        mp_max, mp_sum, mp_sync
    USE dbcsr_multiply_api,              ONLY: dbcsr_multiply
    USE dbcsr_operations,                ONLY: dbcsr_add,&
                                               dbcsr_copy,&

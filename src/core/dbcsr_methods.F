@@ -20,7 +20,7 @@ MODULE dbcsr_methods
    USE dbcsr_data_methods,              ONLY: dbcsr_data_get_size,&
                                               dbcsr_data_release
    USE dbcsr_kinds,                     ONLY: default_string_length
-   USE dbcsr_message_passing,           ONLY: mp_comm_free
+   USE dbcsr_mpiwrap,                   ONLY: mp_comm_free
    USE dbcsr_ptr_util,                  ONLY: memory_deallocate
    USE dbcsr_types,                     ONLY: &
         dbcsr_1d_array_type, dbcsr_2d_array_type, dbcsr_data_obj, dbcsr_distribution_obj, &
@@ -227,8 +227,6 @@ CONTAINS
          mp_env%mp%refcount = mp_env%mp%refcount-1
          IF (mp_env%mp%refcount .LE. 0) THEN
             CALL dbcsr_mp_grid_remove(mp_env)
-            ! KG workaround
-            !CALL mp_comm_free (mp_env%mp%mp_group)
             DEALLOCATE (mp_env%mp%pgrid)
             DEALLOCATE (mp_env%mp)
          ENDIF

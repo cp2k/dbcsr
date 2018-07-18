@@ -40,8 +40,6 @@ MODULE dbcsr_test_methods
                                               int_8,&
                                               real_4,&
                                               real_8
-   USE dbcsr_message_passing,           ONLY: mp_comm_null,&
-                                              mp_environ
    USE dbcsr_methods,                   ONLY: dbcsr_get_matrix_type,&
                                               dbcsr_max_col_size,&
                                               dbcsr_max_row_size,&
@@ -53,6 +51,8 @@ MODULE dbcsr_test_methods
                                               dbcsr_mp_new,&
                                               dbcsr_mp_numnodes,&
                                               dbcsr_mp_release
+   USE dbcsr_mpiwrap,                   ONLY: mp_comm_null,&
+                                              mp_environ
    USE dbcsr_ptr_util,                  ONLY: ensure_array_size
    USE dbcsr_types,                     ONLY: &
         dbcsr_data_obj, dbcsr_distribution_obj, dbcsr_iterator, dbcsr_mp_obj, dbcsr_scalar_type, &

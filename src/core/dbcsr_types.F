@@ -133,6 +133,7 @@ MODULE dbcsr_types
       LOGICAL                            :: subgroups_defined = .FALSE.
       INTEGER                            :: prow_group = -1
       INTEGER                            :: pcol_group = -1
+      INTEGER                            :: source = -1
    END TYPE dbcsr_mp_type
 
 ! **************************************************************************************************

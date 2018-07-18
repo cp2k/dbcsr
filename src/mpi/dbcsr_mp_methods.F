@@ -9,11 +9,11 @@
 !> \date    10-2014
 ! **************************************************************************************************
 MODULE dbcsr_mp_methods
-   USE dbcsr_message_passing,           ONLY: mp_cart_create,&
-                                              mp_cart_sub,&
-                                              mp_comm_free
    USE dbcsr_methods,                   ONLY: dbcsr_mp_grid_remove,&
                                               dbcsr_mp_release
+   USE dbcsr_mpiwrap,                   ONLY: mp_cart_create,&
+                                              mp_cart_sub,&
+                                              mp_comm_free
    USE dbcsr_types,                     ONLY: dbcsr_mp_obj
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -68,16 +68,17 @@ CONTAINS
 !> \param[in] numnodes        total number of processors (processes)
 !> \param myprow ...
 !> \param mypcol ...
+!> \param source ...
 !> \par History
 !>      UB (2010-02-04)       Duplicates own communicator and sets up
 !>                            cartesian grid
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mp_new(mp_env, pgrid, mp_group, mynode, numnodes, myprow, &
-                           mypcol)
+                           mypcol, source)
       TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
       INTEGER, DIMENSION(0:, 0:), INTENT(IN)             :: pgrid
       INTEGER, INTENT(IN)                                :: mp_group, mynode
-      INTEGER, INTENT(IN), OPTIONAL                      :: numnodes, myprow, mypcol
+      INTEGER, INTENT(IN), OPTIONAL                      :: numnodes, myprow, mypcol, source
 
       INTEGER                                            :: pcol, prow
 
@@ -89,6 +90,8 @@ CONTAINS
       mp_env%mp%pgrid(:, :) = pgrid(:, :)
       mp_env%mp%mynode = mynode
       mp_env%mp%mp_group = mp_group
+      mp_env%mp%source = 0
+      IF (PRESENT(source)) mp_env%mp%source = source
       IF (PRESENT(numnodes)) THEN
          mp_env%mp%numnodes = numnodes
       ELSE
@@ -111,26 +114,6 @@ CONTAINS
          ENDDO column_loop
       ENDIF
       mp_env%mp%subgroups_defined = .FALSE.
-!!!! KG workaround in place.
-!!!! This will be the replacement:
-!    ALLOCATE(mp_env%mp)
-!    mp_env%mp%refcount = 1
-!    ndims = 2
-!    dims(1:2) = (/ SIZE (pgrid, 1), SIZE (pgrid, 2) /)
-!    CALL mp_cart_create (mp_group, ndims,&
-!         dims, my_pos,&
-!         mp_env%mp%mp_group)
-!    CALL mp_environ (mp_env%mp%numnodes, mp_env%mp%mynode, mp_env%mp%mp_group)
-!    mp_env%mp%myprow = my_pos(1)
-!    mp_env%mp%mypcol = my_pos(2)
-!    ALLOCATE (mp_env%mp%pgrid (0:SIZE(pgrid, 1)-1, 0:SIZE(pgrid, 2)-1 ))
-!    column_loop: DO pcol = 0, SIZE (mp_env%mp%pgrid, 2)-1
-!       row_loop: DO prow = 0, SIZE (mp_env%mp%pgrid, 1)-1
-!          CALL mp_cart_rank (mp_env%mp%mp_group, (/ prow, pcol /),&
-!               mp_env%mp%pgrid (prow, pcol))
-!       ENDDO row_loop
-!    ENDDO column_loop
-!    mp_env%mp%subgroups_defined = .FALSE.
    END SUBROUTINE dbcsr_mp_new
 
 ! **************************************************************************************************

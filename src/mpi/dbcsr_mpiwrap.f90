@@ -1,4 +1,4 @@
-#:include 'dbcsr_message_passing.fypp'
+#:include 'dbcsr_mpiwrap.fypp'
 #:for nametype1, type1, mpi_type1, mpi_2type1, kind1, bytes1, handle1, zero1, one1 in inst_params
 ! *****************************************************************************
 !> \brief Shift around the data in msg
