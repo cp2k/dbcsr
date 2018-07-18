@@ -17,6 +17,7 @@ TESTSDIR     := $(DBCSRHOME)/tests
 EXAMPLESDIR  := $(DBCSRHOME)/examples
 PREFIX       ?= $(DBCSRHOME)/install
 INCLUDEMAKE  ?= $(DBCSRHOME)/Makefile.inc
+NPROCS       ?= 1
 
 # Default Target ============================================================
 LIBNAME      := dbcsr
@@ -214,11 +215,11 @@ OTHER_HELP += "install : Install the library and modules under PREFIX=<directory
 test:
 	@export OMP_NUM_THREADS=4 ; \
 	for test in $(UNITTESTS); do \
-		mpirun $(BINDIR)/$$test.x || exit 1; \
+		mpirun -np $(NPROCS) $(BINDIR)/$$test.x || exit 1; \
 	done
 	@export OMP_NUM_THREADS=4 ; \
 	for input in $(PERFTESTS); do \
-		mpirun $(BINDIR)/dbcsr_performance_driver.x $(TESTSDIR)/$$input || exit 1; \
+		mpirun -np $(NPROCS) $(BINDIR)/dbcsr_performance_driver.x $(TESTSDIR)/$$input || exit 1; \
 	done
 
 OTHER_HELP += "test    : Run the unittests available in tests/"
