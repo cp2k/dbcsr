@@ -35,11 +35,18 @@ jobs:
       name: "Build with make"
       script: make -j FC="mpif90" LD="mpif90" CFLAGS="-fprofile-arcs -ftest-coverage -O0" FCFLAGS="-fopenmp -fprofile-arcs -ftest-coverage -O0" DFLAGS="-D__MPI_VERSION=2 -D__parallel -D__STATM_TOTAL" LIBS="-llapack -lblas" all
     - # run the build with cmake in parallel
-      name: "Build with cmake"
+      name: "Build parallel-version with cmake"
       script:
-        - mkdir -p build
-        - cd build
+        - mkdir -p build_parallel
+        - cd build_parallel
         - cmake ..
+        - make -j
+    - # run the build with cmake in parallel
+      name: "Build serial-version with cmake"
+      script:
+        - mkdir -p build_serial
+        - cd build_serial
+        - cmake -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF ..
         - make -j
     - stage: test
       name: "Run tests"
