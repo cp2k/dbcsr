@@ -24,10 +24,10 @@ set(DBCSR_PERF_TESTS
 foreach (dbcsr_perf_test ${DBCSR_PERF_TESTS})
   if (USE_MPI)
     add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} dbcsr_perf ${MPIEXEC_POSTFLAGS} "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
-    set_tests_properties(dbcsr_perf:${dbcsr_perf_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${num_threads})
   else ()
     add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND dbcsr_perf "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
   endif ()
+  set_tests_properties(dbcsr_perf:${dbcsr_perf_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${num_threads})
 endforeach ()
 
 # Define all the tests here, will be used as the executable name
@@ -54,8 +54,8 @@ foreach (dbcsr_test ${DBCSR_TESTS})
   # register unittest executable with CMake
   if (USE_MPI)
     add_test(NAME ${dbcsr_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ${dbcsr_test} ${MPIEXEC_POSTFLAGS})
-    set_tests_properties(${dbcsr_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${num_threads})
   else ()
     add_test(NAME ${dbcsr_test} COMMAND ${dbcsr_test})
   endif ()
+  set_tests_properties(${dbcsr_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${num_threads})
 endforeach ()
