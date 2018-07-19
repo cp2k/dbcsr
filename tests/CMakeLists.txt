@@ -1,4 +1,5 @@
 
+set(num_threads 2)
 if (USE_MPI)
   if (TEST_MPI_RANKS STREQUAL "auto")
     include(ProcessorCount)
@@ -7,7 +8,6 @@ if (USE_MPI)
   else ()
     set(num_ranks ${TEST_MPI_RANKS})
   endif ()
-  set(num_threads 1)
   message("Tests will run with ${num_ranks} MPI ranks and ${num_threads} threads each")
 endif ()
 
