@@ -60,8 +60,12 @@ LIBCUSMM_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libcusmm")
 ALL_PKG_FILES := $(shell find $(SRCDIR) -name "PACKAGE")
 OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . ! -name "dbcsr_api_c.F" -name "*.F")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cpp")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cu")
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -name "libcusmm.cpp" ! -name "parameters_utils_for_py.cpp" -name "*.cpp")
+
+ifneq ($(NVCC),)
+OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find .  -name "*.cu")
+OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cpp $(LIBCUSMM_DIR)/parameters_utils_for_py.cpp
+endif
 
 ifneq ($(CINT),)
 OBJ_SRC_FILES += ./dbcsr_api_c.F
@@ -221,7 +225,6 @@ OTHER_HELP += "test    : Run the unittests available in tests/"
 
 clean:
 	rm -rf $(OBJDIR)
-	rm -rf $(LIBDIR)
 	rm $(LIBCUSMM_ABS_DIR)/parameters.h $(LIBCUSMM_ABS_DIR)/cusmm_kernels.h $(LIBCUSMM_ABS_DIR)/*.so
 OTHER_HELP += "clean : Remove intermediate object and mod files, but not the libraries and executables"
 
