@@ -32,10 +32,6 @@ endif
 LDFLAGS     = $(FCFLAGS)
 LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -lreflapack -lrefblas
 
-EXP = 10
-EXP_DOUBLE = $$(( 2*$(EXP)  ))
-HASH_LIMIT = $$(( 2**$(EXP)-1 ))
-
 # C interface requires new F2008ts standard
 ifneq ($(CINT),)
 FCDEBFLAGS  := $(subst -std=f2003,-std=f2008ts,$(FCDEBFLAGS))
@@ -50,7 +46,6 @@ NVFLAGS     = $(DFLAGS) -O3 -g -arch sm_35 -w
 LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -L${LAPACK_PATH}/lib -llapack -lblas
 LIBS       += -lstdc++ -lcudart -lcublas -lnvrtc -lcuda
 PYBINDFLAGS = -shared -std=c++11 -fPIC -I $(PYBIND_PATH)/include -I $(PY_PATH)
-HASHDEFS    = -DEXP=$(EXP) -DEXP_DOUBLE=$(EXP_DOUBLE) -DHASH_LIMIT=$(HASH_LIMIT)
 endif
 
 ifneq ($(CRAY),)
@@ -70,7 +65,6 @@ LDFLAGS  = $(FCFLAGS)
 ARCH_NUMBER= 60
 NVFLAGS  = $(DFLAGS) -O3 -w -arch sm_60 --std=c++11
 NVRTCFLAGS = -I $(CUDA_PATH)/include -L $(CUDA_PATH)/lib64 -lnvrtc -lcuda -Wl,-rpath,$(CUDA_PATH)/lib64
-HASHDEFS    = -DEXP=$(EXP) -DEXP_DOUBLE=$(EXP_DOUBLE) -DHASH_LIMIT=$(HASH_LIMIT)
 PYBINDFLAGS = -shared -std=c++11 -fPIC -I $(PYBIND_PATH)/include -I $(PY_PATH)
 LIBS     = -lfftw3 -lfftw3_threads
 LIBS    += /users/alazzaro/project/libsmm/libxsmm/haswell/lib/libsmm_dnn_cray.gnu.a
