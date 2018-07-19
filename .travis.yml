@@ -32,23 +32,25 @@ before_script:
 jobs:
   include:
     - stage: build
-      name: "Build with make"
-      script: make -j FC="mpif90" LD="mpif90" DFLAGS="-D__MPI_VERSION=2 -D__parallel -D__STATM_TOTAL" LIBS="-llapack -lblas" all
-    - # run this in parallel with the other builds
-      name: "Build and test parallel-version with cmake"
+      name: "Build and test MPI+OpenMP with make"
       script:
-        - mkdir -p build_parallel
-        - cd build_parallel
+        - make -j FC="mpif90" LD="mpif90" DFLAGS="-D__MPI_VERSION=2 -D__parallel -D__STATM_TOTAL" LIBS="-llapack -lblas" all
+        - make test
+    - # run this in parallel with the other builds
+      name: "Build and test MPI+OpenMP version with cmake"
+      script:
+        - mkdir -p build
+        - cd build
         # C++ example fails with this ancient version of MPI,
         # we see all system CPUs, but can use only 1, causing nproc auto-detection to fail
         - cmake -DCMAKE_BUILD_TYPE=Coverage -DWITH_EXAMPLES=OFF -DTEST_MPI_RANKS=1 ..
         - make -j
         - make CTEST_OUTPUT_ON_FAILURE=1 test
     - # run this in parallel with the other builds
-      name: "Build and test serial-version with cmake"
+      name: "Build and test OpenMP version with cmake"
       script:
-        - mkdir -p build_serial
-        - cd build_serial
+        - mkdir -p build
+        - cd build
         # all examples need MPI atm
         - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF ..
         - make -j
