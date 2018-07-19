@@ -374,6 +374,10 @@ vpath %.cpp   $(ALL_SRC_DIRS)
 # This is used e.g. by the convention checker.
 
 FYPPFLAGS ?= -n
+EXP = 10
+EXP_DOUBLE = $$(( 2*$(EXP)  ))
+HASH_LIMIT = $$(( 2**$(EXP)-1 ))
+HASHDEFS   = -DEXP=$(EXP) -DEXP_DOUBLE=$(EXP_DOUBLE) -DHASH_LIMIT=$(HASH_LIMIT)
 
 %.o %.mod: %.F
 	@rm -f $*.mod
