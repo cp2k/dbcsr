@@ -39,8 +39,9 @@ jobs:
       script:
         - mkdir -p build_parallel
         - cd build_parallel
-        # C++ example fails with this ancient version of MPI
-        - cmake -DCMAKE_BUILD_TYPE=Coverage -DWITH_EXAMPLES=OFF ..
+        # C++ example fails with this ancient version of MPI,
+        # we see all system CPUs, but can use only 1, causing nproc auto-detection to fail
+        - cmake -DCMAKE_BUILD_TYPE=Coverage -DWITH_EXAMPLES=OFF -DTEST_MPI_RANKS=1 ..
         - make -j
         - make CTEST_OUTPUT_ON_FAILURE=1 test
     - # run this in parallel with the other builds
