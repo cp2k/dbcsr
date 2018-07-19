@@ -15,15 +15,14 @@ add_fypp_sources(DBCSR_SRCS
   base/dbcsr_machine_internal.F
   block/dbcsr_block_access.F
   block/dbcsr_block_operations.F
-  block/dbcsr_data_operations.F
   block/dbcsr_index_operations.F
   block/dbcsr_iterator_operations.F
-  block/dbcsr_work_operations.F
   core/dbcsr_array_types.F
   core/dbcsr_config.F
   core/dbcsr_lib.F
   core/dbcsr_methods.F
   core/dbcsr_types.F
+  data/dbcsr_data_operations.F
   data/dbcsr_data_methods.F
   data/dbcsr_data_methods_low.F
   data/dbcsr_data_types.F
@@ -32,8 +31,6 @@ add_fypp_sources(DBCSR_SRCS
   dist/dbcsr_dist_methods.F
   dist/dbcsr_dist_operations.F
   dist/dbcsr_dist_util.F
-  dist/dbcsr_mp_methods.F
-  dist/dbcsr_mp_operations.F
   extras/dbcsr_cuda_profiling.F
   extras/dbcsr_dict.F
   extras/dbcsr_error_handling.F
@@ -45,8 +42,6 @@ add_fypp_sources(DBCSR_SRCS
   extras/dbcsr_list_timerenv.F
   extras/dbcsr_log_handling.F
   extras/dbcsr_memory_utilities.F
-  extras/dbcsr_para_env.F
-  extras/dbcsr_para_types.F
   extras/dbcsr_print_messages.F
   extras/dbcsr_timings_base_type.F
   extras/dbcsr_timings.F
@@ -65,8 +60,9 @@ add_fypp_sources(DBCSR_SRCS
   mm/dbcsr_mm_sched.F
   mm/dbcsr_mm_types.F
   mm/dbcsr_multiply_api.F
+  mpi/dbcsr_mp_methods.F
+  mpi/dbcsr_mp_operations.F
   mpi/dbcsr_mpiwrap.F
-  ops/dbcsr_blas_operations.F
   ops/dbcsr_csr_conversions.F
   ops/dbcsr_io.F
   ops/dbcsr_operations.F
@@ -83,11 +79,13 @@ add_fypp_sources(DBCSR_SRCS
   tensors/dbcsr_tensor_test.F
   tensors/dbcsr_tensor_types.F
   utils/dbcsr_array_sort.F
+  utils/dbcsr_blas_operations.F
   utils/dbcsr_btree.F
   utils/dbcsr_files.F
   utils/dbcsr_min_heap.F
   utils/dbcsr_string_utilities.F
   utils/dbcsr_toollib.F
+  work/dbcsr_work_operations.F
   )
 
 add_library(dbcsr ${DBCSR_SRCS})
