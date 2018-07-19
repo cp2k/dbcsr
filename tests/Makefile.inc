@@ -19,16 +19,4 @@ dbcsr_tensor_unittest: BIN_DEPS =
 ifneq ($(NVCC),)
 SRC_TESTS += libcusmm_unittest.cu
 libcusmm_unittest: BIN_DEPS =
-
-SRC_TESTS += libcusmm_quicktest.cu
-libcusmm_quicktest: BIN_DEPS =
-
-SRC_TESTS += libcusmm_timer_13x13x13.cu      
-SRC_TESTS += libcusmm_timer_jit_overhead_largeDB1.cu 
-SRC_TESTS += libcusmm_timer_jit_overhead_medium.cu  
-SRC_TESTS += libcusmm_timer_jit_overhead_tiny.cu
-SRC_TESTS += libcusmm_timer_jit_overhead.cu
-SRC_TESTS += libcusmm_timer_jit_overhead_largeDB2.cu  
-SRC_TESTS += libcusmm_timer_jit_overhead_small.cu
-
 endif
