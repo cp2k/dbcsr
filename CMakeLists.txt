@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required (VERSION 3.10)
 
 # If available, enable developer warnings for the build system
 if (POLICY CMP0005)
