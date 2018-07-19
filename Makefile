@@ -64,7 +64,7 @@ OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -name "libcusmm.cpp" ! -name "pa
 
 ifneq ($(NVCC),)
 OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find .  -name "*.cu")
-OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cpp $(LIBCUSMM_DIR)/parameters_utils_for_py.cpp
+OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cpp
 endif
 
 ifneq ($(CINT),)
