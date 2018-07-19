@@ -11,9 +11,52 @@ addons:
       - libopenmpi-dev
       - mpi-default-bin
 
-script:
-  - make -j FC="mpif90" LD="mpif90" CFLAGS="-fprofile-arcs -ftest-coverage -O0" FCFLAGS="-fopenmp -fprofile-arcs -ftest-coverage -O0" DFLAGS="-D__MPI_VERSION=2 -D__parallel -D__HAS_NO_SHARED_GLIBC -D__STATM_TOTAL" LIBS="-llapack -lblas" all
-  - make test
+install:
+  # Update cmake to the minimal required version (shamelessly copied from the boost travis config):
+  - DEPS_DIR="${HOME}/deps"
+  - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      CMAKE_URL="https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.tar.gz"
+      mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+      export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+    else
+      brew install cmake || brew upgrade cmake
+    fi
+  - cmake --version
+
+before_script:
+  # make sure we are back into the top directory again
+  - cd "${TRAVIS_BUILD_DIR}"
+
+jobs:
+  include:
+    - stage: build
+      name: "Build with make"
+      script: make -j FC="mpif90" LD="mpif90" CFLAGS="-fprofile-arcs -ftest-coverage -O0" FCFLAGS="-fopenmp -fprofile-arcs -ftest-coverage -O0" DFLAGS="-D__MPI_VERSION=2 -D__parallel -D__STATM_TOTAL" LIBS="-llapack -lblas" all
+    - # run the build with cmake in parallel
+      name: "Build parallel-version with cmake"
+      script:
+        - mkdir -p build_parallel
+        - cd build_parallel
+        # C++ example fails with this ancient version of MPI
+        - cmake -DWITH_EXAMPLES=OFF ..
+        - make -j
+    - # run the build with cmake in parallel
+      name: "Build serial-version with cmake"
+      script:
+        - mkdir -p build_serial
+        - cd build_serial
+        # all examples need MPI atm
+        - cmake -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF ..
+        - make -j
+    - stage: test
+      name: "Run tests"
+      script: make test
+
+stages:
+  - build
+  - test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
