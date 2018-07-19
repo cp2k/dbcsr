@@ -29,9 +29,25 @@ before_script:
   # make sure we are back into the top directory again
   - cd "${TRAVIS_BUILD_DIR}"
 
-script:
-  - make -j FC="mpif90" LD="mpif90" CFLAGS="-fprofile-arcs -ftest-coverage -O0" FCFLAGS="-fopenmp -fprofile-arcs -ftest-coverage -O0" DFLAGS="-D__MPI_VERSION=2 -D__parallel -D__HAS_NO_SHARED_GLIBC -D__STATM_TOTAL" LIBS="-llapack -lblas" all
-  - make test
+jobs:
+  include:
+    - stage: build
+      name: "Build with make"
+      script: make -j FC="mpif90" LD="mpif90" CFLAGS="-fprofile-arcs -ftest-coverage -O0" FCFLAGS="-fopenmp -fprofile-arcs -ftest-coverage -O0" DFLAGS="-D__MPI_VERSION=2 -D__parallel -D__STATM_TOTAL" LIBS="-llapack -lblas" all
+    - # run the build with cmake in parallel
+      name: "Build with cmake"
+      script:
+        - mkdir -p build
+        - cd build
+        - cmake ..
+        - make -j
+    - stage: test
+      name: "Run tests"
+      script: make test
+
+stages:
+  - build
+  - test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
