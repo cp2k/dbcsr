@@ -2,7 +2,9 @@
 if (USE_MPI)
   include(ProcessorCount)
   ProcessorCount(nproc)
-  math(EXPR half_nproc "(${nproc}+1)/2")  # get half the number of procs (rounded up)
+  math(EXPR num_ranks "(${nproc}+1)/2")  # get half the number of procs (rounded up)
+  set(num_threads 2)
+  message("Tests will run with ${num_ranks} MPI ranks and ${num_threads} threads each")
 endif ()
 
 set(DBCSR_PERF_SRCS
@@ -17,7 +19,7 @@ set(DBCSR_PERF_TESTS
 
 foreach (dbcsr_perf_test ${DBCSR_PERF_TESTS})
   if (USE_MPI)
-    add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${half_nproc} ${MPIEXEC_PREFLAGS} dbcsr_perf ${MPIEXEC_POSTFLAGS} "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
+    add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} dbcsr_perf ${MPIEXEC_POSTFLAGS} "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
     set_tests_properties(dbcsr_perf:${dbcsr_perf_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=2)
   else ()
     add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND dbcsr_perf "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
@@ -47,7 +49,7 @@ foreach (dbcsr_test ${DBCSR_TESTS})
   target_link_libraries(${dbcsr_test} dbcsr)
   # register unittest executable with CMake
   if (USE_MPI)
-    add_test(NAME ${dbcsr_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${half_nproc} ${MPIEXEC_PREFLAGS} ${dbcsr_test} ${MPIEXEC_POSTFLAGS})
+    add_test(NAME ${dbcsr_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ${dbcsr_test} ${MPIEXEC_POSTFLAGS})
     set_tests_properties(${dbcsr_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=2)
   else ()
     add_test(NAME ${dbcsr_test} COMMAND ${dbcsr_test})
