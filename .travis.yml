@@ -39,13 +39,15 @@ jobs:
       script:
         - mkdir -p build_parallel
         - cd build_parallel
-        - cmake ..
+        # C++ example fails with this ancient version of MPI
+        - cmake -DWITH_EXAMPLES=OFF ..
         - make -j
     - # run the build with cmake in parallel
       name: "Build serial-version with cmake"
       script:
         - mkdir -p build_serial
         - cd build_serial
+        # all examples need MPI atm
         - cmake -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF ..
         - make -j
     - stage: test
