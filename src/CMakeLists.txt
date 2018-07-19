@@ -8,6 +8,7 @@ add_fypp_sources(DBCSR_SRCS
   acc/dbcsr_acc_devmem.F
   acc/dbcsr_acc_event.F
   acc/dbcsr_acc_hostmem.F
+  acc/dbcsr_acc_init.F
   acc/dbcsr_acc_stream.F
   base/dbcsr_base_hooks.F
   base/dbcsr_kinds.F
