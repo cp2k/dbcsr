@@ -33,30 +33,25 @@ jobs:
   include:
     - stage: build
       name: "Build with make"
-      script: make -j FC="mpif90" LD="mpif90" CFLAGS="-fprofile-arcs -ftest-coverage -O0" FCFLAGS="-fopenmp -fprofile-arcs -ftest-coverage -O0" DFLAGS="-D__MPI_VERSION=2 -D__parallel -D__STATM_TOTAL" LIBS="-llapack -lblas" all
-    - # run the build with cmake in parallel
-      name: "Build parallel-version with cmake"
+      script: make -j FC="mpif90" LD="mpif90" DFLAGS="-D__MPI_VERSION=2 -D__parallel -D__STATM_TOTAL" LIBS="-llapack -lblas" all
+    - # run this in parallel with the other builds
+      name: "Build and test parallel-version with cmake"
       script:
         - mkdir -p build_parallel
         - cd build_parallel
         # C++ example fails with this ancient version of MPI
-        - cmake -DWITH_EXAMPLES=OFF ..
+        - cmake -DCMAKE_BUILD_TYPE=Coverage -DWITH_EXAMPLES=OFF ..
         - make -j
-    - # run the build with cmake in parallel
-      name: "Build serial-version with cmake"
+        - make CTEST_OUTPUT_ON_FAILURE=1 test
+    - # run this in parallel with the other builds
+      name: "Build and test serial-version with cmake"
       script:
         - mkdir -p build_serial
         - cd build_serial
         # all examples need MPI atm
-        - cmake -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF ..
+        - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF ..
         - make -j
-    - stage: test
-      name: "Run tests"
-      script: make test
-
-stages:
-  - build
-  - test
+        - make CTEST_OUTPUT_ON_FAILURE=1 test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
