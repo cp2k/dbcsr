@@ -15,6 +15,7 @@ include(CMakeDependentOption)
 option(USE_MPI "Build with MPI support" ON)
 option(WITH_EXAMPLES "Build the examples" ON)
 cmake_dependent_option(WITH_C_API "Build the C API library" ON "USE_MPI" OFF) # the C API is only available when building with MPI
+set(TEST_MPI_RANKS "auto" CACHE STRING "Number of MPI ranks for testing")
 
 if (WITH_C_API AND WITH_EXAMPLES)
   set(ENABLED_LANGUAGES Fortran CXX)
