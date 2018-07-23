@@ -309,8 +309,8 @@ contains
     if (dbcsr_mp_myprow(total_mp_env) == 0) then
         print *,"-- max sizes", max_sizes
         print *,"-- sum b nze, blocks", sum_nze_nblks
-            print *,"data_sizes ",data_sizes
-    print *,"index_sizes ",index_sizes
+        print *,"data_sizes ",data_sizes
+        print *,"index_sizes ",index_sizes
     endif
     
   
