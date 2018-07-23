@@ -2,7 +2,7 @@
 include ../../Makefile.inc
 
 
-OBJ        = carma_mm.o pdgemm_dbcsr.o 
+OBJ        = pdgemm_dbcsr.o 
 
 INCLUDES   += -I../../obj/
 LIBS      :=  -ldbcsr -L../../lib/ $(LIBS) #-lcp2kmpiwrap -lcp2kbase ldbcsrmm -ldbcsrops -ldbcsrbblock -ldbcsrbdist -ldbcsrdata \
@@ -18,11 +18,9 @@ FLAGS = -O0 -g -fopenmp -ffree-form -fimplicit-none -std=f2003
 test_mm: test_mm.o
 	$(FC)  $(FLAGS) $(INCLUDES)  $^ $(LIBS) -o  $@
 
-test_carma: carma_mm.o test_carma.o
+test_carma: test_carma.o
 	$(FC)  $(FLAGS) $(INCLUDES)  $^ $(LIBS) -o  $@
 
-test_carma_3diag: carma_mm.o test_carma_3diag.o
-	$(FC)  $(FLAGS) $(INCLUDES)  $^ $(LIBS) -o  $@
 
 pdgemm_dbcsr: $(OBJ)
 	$(FC)  $(FLAGS) $(INCLUDES)  $^ $(LIBS) -o  $@

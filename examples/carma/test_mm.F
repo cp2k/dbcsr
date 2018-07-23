@@ -15,15 +15,13 @@
 ! **************************************************************************************************
 PROGRAM dbcsr_example_3
  USE dbcsr_machine,                         ONLY: m_walltime,&
-                                                  default_output_unit
+                                             default_output_unit
    USE dbcsr_api,                       ONLY: &
         dbcsr_create, dbcsr_distribution_get, dbcsr_distribution_new, dbcsr_distribution_release, &
         dbcsr_distribution_type, dbcsr_finalize, dbcsr_finalize_lib, dbcsr_get_stored_coordinates, &
         dbcsr_init_lib, dbcsr_multiply, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_print, &
-        dbcsr_put_block, dbcsr_release, dbcsr_type_loc=>dbcsr_type, dbcsr_type_no_symmetry, &
-        dbcsr_checksum, dbcsr_type_real_8
-   USE dbcsr_kinds,                           ONLY: real_8
-   USE dbcsr_machine,                         ONLY: default_output_unit
+        dbcsr_put_block, dbcsr_release, dbcsr_type_loc=>dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8,dbcsr_checksum
+   USE dbcsr_kinds,                           ONLY: real_8,dp
    USE dbcsr_message_passing,                 ONLY: mp_cart_create,&
                                               mp_comm_free,&
                                               mp_environ,&
@@ -41,9 +39,7 @@ PROGRAM dbcsr_example_3
                                               timings_report_print
    USE dbcsr_para_types,                   ONLY: dbcsr_para_env_type
    USE dbcsr_para_env,                     ONLY: dbcsr_para_env_create
-   USE dbcsr_kinds,                           ONLY: dp
 
-   use dbcsr_mm_carma, only: carma_mm
    
     use dbcsr_util
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -57,18 +53,18 @@ PROGRAM dbcsr_example_3
    INTEGER                                  :: mp_comm, group, numnodes, mynode, &
                                                nblk_total_m, nblk_total_n, nblk_total_k, &
 
-                                               node_holds_blk, max_nze, nze, row, col, row_s, col_s, &
-                                               io_unit, max_row_size, max_col_size
+                                               node_holds_blk, nze, row, col, row_s, col_s, &
+                                               io_unit
    
    INTEGER, DIMENSION(2)                    :: npdims, myploc
-   INTEGER, DIMENSION(:), POINTER           :: dist_m, dist_n, dist_k, dist_m_cannon
+   INTEGER, DIMENSION(:), POINTER           :: dist_m, dist_n, dist_k, dist_n2, dist_m_cannon
    TYPE(dbcsr_distribution_type)             ::  dist_a, dist_b, dist_c, dist_c_cannon
    REAL(real_8), DIMENSION(:), ALLOCATABLE  :: values
    LOGICAL                                  :: tr
 
-  character(len=32) :: cdimx, cdimy, run_order_char, rnd_thr_char, niter_char
-  integer :: m,n,k,nb, run_order, niter
-   real(8)                              :: t1, t2, total_time_dbcsr, max_times(2)
+  character(len=32) :: cdimx, cdimy, rnd_thr_char, niter_char
+  integer :: m,n,k,nb, niter
+   real(8)                              :: t1,  max_times(2)
    TYPE(dbcsr_para_env_type), POINTER          :: para_env
    
    real                                 :: rnd, rnd_thr
@@ -98,13 +94,11 @@ PROGRAM dbcsr_example_3
   if (command_argument_count() >=2) then
     call get_command_argument(1, cdimx)
     call get_command_argument(2, cdimy)
-    call get_command_argument(3, run_order_char)
-    call get_command_argument(4, rnd_thr_char)
-    call get_command_argument(5, niter_char)
+    call get_command_argument(3, rnd_thr_char)
+    call get_command_argument(4, niter_char)
 
     read(cdimx,*) npdims(1)
     read(cdimy,*) npdims(2)
-    read(run_order_char,*) run_order
     read(rnd_thr_char,*) rnd_thr
     read(niter_char,*) niter
 
@@ -151,19 +145,20 @@ PROGRAM dbcsr_example_3
 
    !
    ! set the row and column distributions (here the distribution is set randomly)
-   CALL random_dist(dist_k, nblk_total_k, npdims(1))
-   CALL random_dist(dist_m, nblk_total_m, npdims(2))
-   CALL random_dist(dist_n, nblk_total_n, npdims(2))
+   CALL random_dist(dist_m, nblk_total_m, npdims(1))
+   CALL random_dist(dist_n, nblk_total_n, npdims(1))
+   CALL random_dist(dist_k, nblk_total_k, npdims(2))
+   CALL random_dist(dist_n2, nblk_total_n, npdims(2))
    
    CALL random_dist(dist_m_cannon, nblk_total_m, npdims(1))
    
    !
    ! set the dbcsr distribution object
-   CALL dbcsr_distribution_new(dist_a, group=group, row_dist=dist_k, col_dist=dist_m, reuse_arrays=.false.)
-   CALL dbcsr_distribution_new(dist_b, group=group, row_dist=dist_k, col_dist=dist_n, reuse_arrays=.false.)
-   CALL dbcsr_distribution_new(dist_c, group=group, row_dist=dist_m, col_dist=dist_n, reuse_arrays=.false.)
+   CALL dbcsr_distribution_new(dist_a, group=group, row_dist=dist_m, col_dist=dist_k, reuse_arrays=.false.)
+   CALL dbcsr_distribution_new(dist_b, group=group, row_dist=dist_n, col_dist=dist_k, reuse_arrays=.false.)
+   CALL dbcsr_distribution_new(dist_c, group=group, row_dist=dist_m, col_dist=dist_n2, reuse_arrays=.false.)
    
-   CALL dbcsr_distribution_new(dist_c_cannon, group=group, row_dist=dist_m_cannon, col_dist=dist_n, &
+   CALL dbcsr_distribution_new(dist_c_cannon, group=group, row_dist=dist_m, col_dist=dist_n2, &
                                reuse_arrays=.false.)
    !
    ! create the dbcsr matrices, i.e. a double precision non symmetric matrix
@@ -174,16 +169,16 @@ PROGRAM dbcsr_example_3
                      name="this is my matrix a", &
                      dist=dist_a, &
                      matrix_type=dbcsr_type_no_symmetry, &
-                     row_blk_size=blk_sizes_k, &
-                     col_blk_size=blk_sizes_m, &
+                     row_blk_size=blk_sizes_m, &
+                     col_blk_size=blk_sizes_k, &
                      data_type=dbcsr_type_real_8)
 
    CALL dbcsr_create(matrix=matrix_b, &
                      name="this is my matrix b", &
                      dist=dist_b, &
                      matrix_type=dbcsr_type_no_symmetry, &
-                     row_blk_size=blk_sizes_k, &
-                     col_blk_size=blk_sizes_n, &
+                     row_blk_size=blk_sizes_n, &
+                     col_blk_size=blk_sizes_k, &
                      data_type=dbcsr_type_real_8)
 
    CALL dbcsr_create(matrix=matrix_c, &
@@ -217,7 +212,7 @@ PROGRAM dbcsr_example_3
              row_s = row; col_s = col
              CALL dbcsr_get_stored_coordinates(matrix_a, row_s, col_s, node_holds_blk)
              IF (node_holds_blk .EQ. mynode) THEN
-                nze = blk_sizes_k(row_s)*blk_sizes_m(col_s)
+                nze = blk_sizes_m(row_s)*blk_sizes_k(col_s)
                 CALL RANDOM_NUMBER(values(1:nze))
                 CALL dbcsr_put_block(matrix_a, row_s, col_s, values(1:nze))
              ENDIF
@@ -238,7 +233,7 @@ PROGRAM dbcsr_example_3
              row_s = row; col_s = col
              CALL dbcsr_get_stored_coordinates(matrix_b, row_s, col_s, node_holds_blk)
              IF (node_holds_blk .EQ. mynode) THEN
-                nze = blk_sizes_k(row_s)*blk_sizes_n(col_s)
+                nze = blk_sizes_n(row_s)*blk_sizes_k(col_s)
                 CALL RANDOM_NUMBER(values(1:nze))
                 CALL dbcsr_put_block(matrix_b, row_s, col_s, values(1:nze))
              ENDIF
@@ -259,14 +254,13 @@ PROGRAM dbcsr_example_3
    print *,"checksum matrix_a matrix_b", dbcsr_checksum(matrix_a), dbcsr_checksum(matrix_b)
     
    max_times(:) = 0
-   if (run_order == 0) then
        
        do row = 1, niter
            CALL mp_sync(group)
            t1 = m_walltime()
            
            ! multiply the matrices
-           CALL dbcsr_multiply('T', 'N', 1.0_real_8, matrix_a, matrix_b, 0.0_real_8, matrix_c_cannon)
+           CALL dbcsr_multiply('N', 'T', 1.0_real_8, matrix_a, matrix_b, 0.0_real_8, matrix_c_cannon)
            
            CALL mp_sync(group)
            
@@ -281,26 +275,6 @@ PROGRAM dbcsr_example_3
        
        print *,"checksum cannon", dbcsr_checksum(matrix_c_cannon)
    
-   else
-
-       do row = 1, niter    
-           CALL mp_sync(group)
-           t1 = m_walltime()
-           
-           call carma_mm(matrix_a%prv, matrix_b%prv, matrix_c%prv)
-           
-           CALL mp_sync(group)
-           
-           print *,"co"
-
-           max_times(1) = max_times(1) + m_walltime()-t1
-       enddo
-
-       CALL dbcsr_multiply('T', 'N', 1.0_real_8, matrix_a, matrix_b, 0.0_real_8, matrix_c_cannon)
-       print *,"checksum carma, cannon", dbcsr_checksum(matrix_c), dbcsr_checksum(matrix_c_cannon)
-       !print *,"+++++ carma time :", m_walltime()-t1
-       
-  endif 
   
    call mp_max(max_times, group)
    

@@ -1,6 +1,6 @@
 
 
-module carma
+module dbcsr_mm_carma
  USE dbcsr_machine,                         ONLY: m_walltime,&
                                              default_output_unit
    USE dbcsr_dist_methods,              ONLY: &
@@ -67,35 +67,22 @@ contains
     integer                         :: group, row_group
     
     integer                         :: dist_nrows_a, dist_ncols_a, &
-                                       dist_nrows_b, dist_ncols_b, &
-                                       dist_nrows_c, dist_ncols_c
+                                       dist_nrows_b, dist_ncols_b
 
     integer, dimension(:), pointer  :: local_row_dist_a, local_col_dist_a, &
                                        local_row_dist_b, local_col_dist_b, &
                                        local_row_dist_c, local_col_dist_c, &
                                        row_blk_size_c, col_blk_size_c
     
-    integer, dimension(:), pointer  :: row_dist, col_dist
     type(dbcsr_distribution_obj)    :: dist, loc_dist_a, loc_dist_b, loc_dist_c
-    integer                         :: ierr
     
-    type(dbcsr_type)                :: loc_matr_a, loc_matr_b, loc_matr_c, loc_matr_c_store
+    type(dbcsr_type)                :: loc_matr_a, loc_matr_b, loc_matr_c
                                     
-    
-    type(dbcsr_type), pointer       :: loc_matr_c_recv, loc_matr_c_send, tmp_matr_ptr
-    
-    type(dbcsr_type), target        :: loc_matr_c_1, loc_matr_c_2
     
     type(dbcsr_mp_obj)              :: mp_env,  total_mp_env
 
-    type(dbcsr_data_obj)            :: send_nze_buffer
-
-    integer                     :: tick, max_sizes(2),  requests(4), my_prow,  proc_recv,  proc_send, num_rows
-    integer(8)                  :: sum_nze_nblks(2)
     real(8)                     :: alpha, beta, t1
-    integer, dimension(:), pointer            :: index_sizes, data_sizes, send_index, recv_index
 
-    
     ! for summation
     alpha = 1.0
     beta= 1.0
@@ -116,9 +103,6 @@ contains
     total_mp_env = dbcsr_distribution_mp(dist)
     group = dbcsr_mp_group(total_mp_env)
     
-    ! for communication
-    num_rows = dbcsr_mp_nprows(total_mp_env)
-    allocate (index_sizes(num_rows), data_sizes(num_rows))
     
     ! set subgrids keeping communication only along rows, communicating different columns (2nd dimension)   
     ! we consider 1 rank per row.
@@ -244,22 +228,79 @@ contains
    CALL mp_sync(group)
    
 
-   !print *,"+++++ carma dbcsr_multiply :",dbcsr_mp_myprow(total_mp_env), m_walltime()-t1
-   
-     print *,"--------- local matrix c ---------------"
-!     call dbcsr_print(loc_matr_c)
-    print *,"index size", loc_matr_c % index(1)
-    print *,"nze", loc_matr_c % nze
+
+    call all_reduce(loc_matr_c, total_mp_env)
+
+    call redistribute(loc_matr_c, matrix_c)
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!     print *, "==================== result matrix ================="
+    !call dbcsr_print(loc_matr_c)
+    print *,"checksum carma", dbcsr_checksum(loc_matr_c)
     
-    max_sizes(1) = loc_matr_c % nze
-    max_sizes(2) = loc_matr_c % index(1)
-    sum_nze_nblks(1) = loc_matr_c % nze
-    sum_nze_nblks(2) = loc_matr_c % nblks
+    !call dbcsr_copy(matrix_c, loc_matr_c)
+    
+   call mp_comm_free(row_group)
+
+    
+   
+   CALL dbcsr_release(loc_matr_a)
+   CALL dbcsr_release(loc_matr_b)
+   CALL dbcsr_release(loc_matr_c)
+
+   call dbcsr_mp_release(mp_env)
+   CALL dbcsr_distribution_release(loc_dist_a)
+   CALL dbcsr_distribution_release(loc_dist_b)
+   CALL dbcsr_distribution_release(loc_dist_c)
+    
+  end subroutine
+  
+
+
+
+
+  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  ! All reduce algo for sparse matrix
+  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  subroutine all_reduce(matrix_in, total_mp_env)
+    type(dbcsr_type), intent(inout) :: matrix_in
+    type(dbcsr_mp_obj), intent(in)  :: total_mp_env
+    
+    type(dbcsr_type), pointer       :: loc_matr_c_recv, loc_matr_c_send, tmp_matr_ptr
+    
+    type(dbcsr_type), target        :: loc_matr_c_1, loc_matr_c_2
+    
+    integer                         :: group
+
+    type(dbcsr_data_obj)            :: send_nze_buffer
+
+    integer                     :: tick, max_sizes(2),  requests(4), my_prow,  proc_recv,  proc_send, num_rows
+    integer(8)                  :: sum_nze_nblks(2)
+    real(8)                     :: alpha, beta
+    integer, dimension(:), pointer            :: index_sizes, data_sizes
+  
+
+    group = dbcsr_mp_group(total_mp_env)
+   
+    ! meta data arrays 
+    num_rows = dbcsr_mp_nprows(total_mp_env)
+    allocate (index_sizes(num_rows), data_sizes(num_rows))
+   
+  
+  
+    print *,"--------- local matrix c ---------------"
+!     call dbcsr_print(loc_matr_c)
+    print *,"index size", matrix_in % index(1)
+    print *,"nze", matrix_in % nze
+    
+    max_sizes(1) = matrix_in % nze
+    max_sizes(2) = matrix_in % index(1)
+    sum_nze_nblks(1) = matrix_in % nze
+    sum_nze_nblks(2) = matrix_in % nblks
 
     call mp_max(max_sizes, group)
     call mp_sum(sum_nze_nblks, group)
-    call mp_allgather(loc_matr_c % nze, data_sizes, group)
-    call mp_allgather(loc_matr_c % index(1), index_sizes, group)
+    call mp_allgather(matrix_in % nze, data_sizes, group)
+    call mp_allgather(matrix_in % index(1), index_sizes, group)
 
 
 
@@ -272,20 +313,19 @@ contains
     print *,"index_sizes ",index_sizes
     endif
     
-    ! TODO , make_index=.false.
-    ! create send matrix
-    call dbcsr_create(matrix = loc_matr_c_1, template = loc_matr_c, nze = max_sizes(1))
+  
+    call dbcsr_create(matrix = loc_matr_c_1, template = matrix_in, nze = max_sizes(1))
     
     allocate(loc_matr_c_1 % index( max_sizes(2) ))
     
     call dbcsr_repoint_index(loc_matr_c_1)
     loc_matr_c_1 % valid=.true.
     
-    call dbcsr_copy(loc_matr_c_1, loc_matr_c)
+    call dbcsr_copy(loc_matr_c_1, matrix_in)
 
         
     ! recv matrix
-    call dbcsr_create(matrix = loc_matr_c_2, name = "loc_matr_c_2" ,template = loc_matr_c, nze = max_sizes(1) )
+    call dbcsr_create(matrix = loc_matr_c_2, name = "loc_matr_c_2" ,template = matrix_in, nze = max_sizes(1) )
     allocate(loc_matr_c_2 % index( max_sizes(2) ))
     
     
@@ -305,7 +345,7 @@ contains
         
     !call dbcsr_print(loc_matr_c)
     ! test batched add
-    call dbcsr_batched_add_anytype_begin(loc_matr_c, loc_matr_c_send,  alpha, beta, sum_nze_nblks(1), sum_nze_nblks(2))
+    call dbcsr_batched_add_anytype_begin(matrix_in, loc_matr_c_send,  alpha, beta, sum_nze_nblks(1), sum_nze_nblks(2))
 
     do tick = 1 , dbcsr_mp_nprows(total_mp_env) 
         
@@ -321,9 +361,9 @@ contains
         print *," ^^^^^^^^^^^ comm, tick No ", tick 
         if (tick < dbcsr_mp_nprows(total_mp_env) ) then
             ! recv send
-            CALL dbcsr_irecv_any(loc_matr_c_recv % data_area, proc_recv, group, requests(1))!, tag = my_prow)
+            CALL dbcsr_irecv_any(loc_matr_c_recv % data_area, proc_recv, group, requests(1))
             
-            CALL mp_irecv(loc_matr_c_recv % index(1:max_sizes(2)), proc_recv, group, requests(2))!, tag = my_prow)
+            CALL mp_irecv(loc_matr_c_recv % index(1:max_sizes(2)), proc_recv, group, requests(2))
             
 
 
@@ -332,9 +372,9 @@ contains
                                         csize = 1, &
                                         pointee = loc_matr_c_send % data_area)
                         
-            CALL dbcsr_isend_any(send_nze_buffer, proc_send, group, requests(3))!, tag = proc_send)
-            !loc_matr_c_send % index(1)
-            CALL mp_isend(loc_matr_c_send % index(1:loc_matr_c_send % index(1)), proc_send, group, requests(4))!, tag = proc_send)
+            CALL dbcsr_isend_any(send_nze_buffer, proc_send, group, requests(3))
+            
+            CALL mp_isend(loc_matr_c_send % index(1:loc_matr_c_send % index(1)), proc_send, group, requests(4))
         endif
         
 
@@ -347,7 +387,7 @@ contains
 !         print *, "#### receive matrix #####"
 !         call dbcsr_print(loc_matr_c_recv)
             
-            call dbcsr_batched_add_anytype(loc_matr_c, loc_matr_c_send, beta )
+            call dbcsr_batched_add_anytype(matrix_in, loc_matr_c_send, beta )
 
             
             
@@ -365,31 +405,23 @@ contains
     enddo
     
     ! finalize matrix after add
-    call dbcsr_batched_add_anytype_end(loc_matr_c)
-    print *,"end"
-
-!     print *, "==================== result matrix ================="
-    !call dbcsr_print(loc_matr_c)
-    print *,"checksum carma", dbcsr_checksum(loc_matr_c)
-    
-    !call dbcsr_copy(matrix_c, loc_matr_c)
-    
-   call mp_comm_free(row_group)
-
-    
+    call dbcsr_batched_add_anytype_end(matrix_in)
     ! release the matrices
-   CALL dbcsr_release(loc_matr_c_1)
-   CALL dbcsr_release(loc_matr_c_2)
-   
-   CALL dbcsr_release(loc_matr_a)
-   CALL dbcsr_release(loc_matr_b)
-   CALL dbcsr_release(loc_matr_c)
+    CALL dbcsr_release(loc_matr_c_1)
+    CALL dbcsr_release(loc_matr_c_2)
+  end subroutine  
 
-   call dbcsr_mp_release(mp_env)
-   CALL dbcsr_distribution_release(loc_dist_a)
-   CALL dbcsr_distribution_release(loc_dist_b)
-   CALL dbcsr_distribution_release(loc_dist_c)
-    
+
+
+
+  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  ! redistribute algo
+  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  subroutine redistribute(matrix_in, matrix_out)
+    type(dbcsr_type), intent(in) :: matrix_in
+    type(dbcsr_type), intent(out) :: matrix_out
+
+    print *,dbcsr_checksum(matrix_in) , dbcsr_checksum(matrix_out) 
   end subroutine
-  
+
 end module
