@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 from kernels import cusmm_dnt
+import cusmm_P100 as gpu
+
+def round_up_to_multiple(x, step): 
+    if x % step == 0:
+        return x 
+    else:
+        return x + step - x % step
 
 
 class Kernel_dnt_tiny(cusmm_dnt.Kernel):
@@ -23,18 +30,37 @@ class Kernel_dnt_tiny(cusmm_dnt.Kernel):
 
     @staticmethod
     def promising_parameters(m, n, k):
-        params = []
-        for minblocks in (7, 8, 14, 28):              # heuristic: kernel dependent optimum
-            for grouping in range(1, 33, 1):          # soft: divide stack work in chunks of grouping + the rest
-                for threads in (16, 32, 64):          # heuristic: not more than 2 warps per SM (sm_60)
-                    if (m * n > threads):
-                        continue                       # hard: not enough threads to cover result matrix
+        
+	# Set shared memory buffer size
+        buf_sz = k * (m + n) # number of elements in the a_block buffer = mk 
+                             # and in the b_block buffer = kn
+        # Minimum number of threads required to cover the result matrix c
+        min_threads = m*n 
 
-                    buf_sz = k * (m + n)
-                    sizeof_int = 4; sizeof_double = 8
-                    smem_tot = buf_sz * sizeof_double + 3 * grouping * sizeof_int
-                    if (smem_tot * minblocks > 48 * 1024): # hard: see cudaFuncSetCacheConfig() docu
-                        continue                       # hard: uses too much shared memory
+        # Parameter space: 
+        params = []
+        for minblocks in range(1, gpu.maxBLOCKSperSM + 1): #(1, 2, 3, 4, 7, 11, 15, 19, 23, 27, 31)
+            for grouping in range(2, 32 + 1, 1): # soft: never seen optimal=1, reflection from nblks
+            
+                # Max work ("operations")  which can be run concurrently
+                max_concurrent_work = max(grouping, m*k, k*n, m*n)
+
+                # Shared memory utilisation (bytes)
+                smem_tot = buf_sz * gpu.sizeof_double + 3 * grouping * gpu.sizeof_int
+                if (smem_tot > gpu.SMEMperBLOCK):
+                    continue
+                if (smem_tot * minblocks > gpu.SMEMperSM):
+                    continue
+
+                # Use all concurrency available: fill warps
+                for threads in range(gpu.warp_size, gpu.maxTHREADSperBLOCK + 1, gpu.warp_size):
+
+                    if threads > round_up_to_multiple(max_concurrent_work, gpu.warp_size): 
+                        continue
+                    if threads * minblocks > gpu.maxTHREADSperSM:
+                        continue
+                    if threads < min_threads: 
+                        continue
 
                     params.append({'m':m, 'n':n, 'k':k,
                                    'threads':threads,
