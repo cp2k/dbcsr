@@ -92,7 +92,7 @@ OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -name "libcusmm.cpp" ! -name "parameters_utils_for_py.cpp" -name "*.cpp")
 
 ifneq ($(NVCC),)
-OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find .  -name "*.cu")
+OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "tune_*_exe*_part*.cu" ! -name "tune_*_exe*_main*.cu"  -name "*.cu")
 OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cpp
 endif
 
