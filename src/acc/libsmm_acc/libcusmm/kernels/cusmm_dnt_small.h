@@ -100,7 +100,9 @@ cusmm_dnt_small(const int* __restrict__ param_stack, int stack_size,
   double *buff_l = buff; /* pointer to the beginning of a_block in buffer */
   double *buff_r = &buff[mk]; /* pointer to the beginning of b_block in buffer */
 
-  /* Set the number of runs (i.e. how many stack entries to process in this thread) */
+  /* Set the number of runs (i.e. how many stack entries to process in this thread)
+   * If the current block is the last block set the number of stack entries to process in
+   * this thread to the remainder of stack_size / grouping */
   nrun = grouping;
   if (((bidx + 1) * grouping) > stack_size) nrun = stack_size % grouping;
 
