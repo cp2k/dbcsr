@@ -26,7 +26,6 @@
  *     c_block, dimension (m x n)
  *     a_block, dimension (m x k)
  *     b_block, dimension (k x n)
- * optimized for 13x13x13 products NO NOT REALLY !!!
 
  * Template parameters
  * --- m, n, k: triplet of integers characterising the block multiplication dimensions
