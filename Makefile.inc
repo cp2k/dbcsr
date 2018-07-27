@@ -22,8 +22,15 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror
 CFLAGS      = -O2
 FCFLAGS     = -O3 -g -fno-omit-frame-pointer -funroll-loops  -fopenmp
-CFLAGS     += $(DFLAGS)
 FCDEBFLAGS  = -ffree-form -std=f2003 -fimplicit-none -ffree-line-length-512
+
+ifneq ($(DEBUG),)
+CFLAGS      = -O0 -g
+FCFLAGS     = -O0 -g   -fopenmp
+endif
+
+
+CFLAGS     += $(DFLAGS)
 FCFLAGS    += $(DFLAGS) $(FCDEBFLAGS) $(WFLAGS)
 ifneq ($(CHECKS),)
 FCFLAGS    += -fsanitize=leak

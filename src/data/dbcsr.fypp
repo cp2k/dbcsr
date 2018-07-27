@@ -39,4 +39,9 @@
 
 #:set inst_params_float = list(zip(n_inst, nametype1, base1, prec1, kind1, type1, dkind1, normname1))
 #:set inst_params_all = list(zip(nametype_all1, type_all1, zero_all1))
+
+#:def uselist(list_in)
+#!    comma-separated list of unique entries of list_in
+$:    ", ".join(list(set(list_in)))
+#:enddef
 #:endmute

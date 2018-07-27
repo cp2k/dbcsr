@@ -161,7 +161,7 @@ PROGRAM dbcsr_example_3
    ! set the dbcsr distribution object
    CALL dbcsr_distribution_new(dist_a, group=group, row_dist=dist_k, col_dist=dist_m, reuse_arrays=.false.)
    CALL dbcsr_distribution_new(dist_b, group=group, row_dist=dist_k, col_dist=dist_n, reuse_arrays=.false.)
-   CALL dbcsr_distribution_new(dist_c, group=group, row_dist=dist_m, col_dist=dist_n, reuse_arrays=.false.)
+   CALL dbcsr_distribution_new(dist_c, group=group, row_dist=dist_m_cannon, col_dist=dist_n, reuse_arrays=.false.)
    
    CALL dbcsr_distribution_new(dist_c_cannon, group=group, row_dist=dist_m_cannon, col_dist=dist_n, &
                                reuse_arrays=.false.)
@@ -289,11 +289,12 @@ PROGRAM dbcsr_example_3
            
            call carma_mm(matrix_a%prv, matrix_b%prv, matrix_c%prv)
            
+           print *,"superfinita"
            CALL mp_sync(group)
            
-           print *,"co"
 
            max_times(1) = max_times(1) + m_walltime()-t1
+           print *,"co"
        enddo
 
        CALL dbcsr_multiply('T', 'N', 1.0_real_8, matrix_a, matrix_b, 0.0_real_8, matrix_c_cannon)

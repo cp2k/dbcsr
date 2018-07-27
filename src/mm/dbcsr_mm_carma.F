@@ -50,6 +50,7 @@ module dbcsr_mm_carma
     use dbcsr_mp_operations,  only:  dbcsr_irecv_any, dbcsr_isend_any
     
     use dbcsr_util
+    use dbcsr_reshape, only: dbcsr_redistribute
 contains
     
   !
@@ -81,11 +82,8 @@ contains
     
     type(dbcsr_mp_obj)              :: mp_env,  total_mp_env
 
-    real(8)                     :: alpha, beta, t1
+    real(8)                     :: t1
 
-    ! for summation
-    alpha = 1.0
-    beta= 1.0
     
     ! take distribution and communicator
     dist = matrix_a % dist
@@ -228,14 +226,18 @@ contains
    CALL mp_sync(group)
    
 
+    call dbcsr_redistribute(loc_matr_c, matrix_c)
+    call dbcsr_finalize(matrix_c)
 
-    call all_reduce(loc_matr_c, total_mp_env)
 
-    call redistribute(loc_matr_c, matrix_c)
+     
+    !call all_reduce(loc_matr_c, total_mp_env)
+
+    !call dbcsr_redistribute(loc_matr_c, matrix_c)
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !     print *, "==================== result matrix ================="
-    !call dbcsr_print(loc_matr_c)
-    print *,"checksum carma", dbcsr_checksum(loc_matr_c)
+ !   call dbcsr_print(matrix_c)
+    !print *,"checksum carma", dbcsr_checksum(loc_matr_c)
     
     !call dbcsr_copy(matrix_c, loc_matr_c)
     
@@ -252,7 +254,7 @@ contains
    CALL dbcsr_distribution_release(loc_dist_b)
    CALL dbcsr_distribution_release(loc_dist_c)
     
-  end subroutine
+  end subroutine carma_mm
   
 
 
@@ -278,6 +280,9 @@ contains
     real(8)                     :: alpha, beta
     integer, dimension(:), pointer            :: index_sizes, data_sizes
   
+    ! for summation
+    alpha = 1.0
+    beta= 1.0
 
     group = dbcsr_mp_group(total_mp_env)
    
@@ -287,10 +292,7 @@ contains
    
   
   
-    print *,"--------- local matrix c ---------------"
-!     call dbcsr_print(loc_matr_c)
-    print *,"index size", matrix_in % index(1)
-    print *,"nze", matrix_in % nze
+!    print *,"--------- local matrix c ---------------"
     
     max_sizes(1) = matrix_in % nze
     max_sizes(2) = matrix_in % index(1)
@@ -306,16 +308,18 @@ contains
 
     !print *,"index ",loc_matr_c % index
 
-    if (dbcsr_mp_myprow(total_mp_env) == 0) then
-        print *,"-- max sizes", max_sizes
-        print *,"-- sum b nze, blocks", sum_nze_nblks
-        print *,"data_sizes ",data_sizes
-        print *,"index_sizes ",index_sizes
-    endif
+!    if (dbcsr_mp_myprow(total_mp_env) == 0) then
+!        print *,"-- max sizes", max_sizes
+!        print *,"-- sum b nze, blocks", sum_nze_nblks
+!        print *,"data_sizes ",data_sizes
+!        print *,"index_sizes ",index_sizes
+!        print *,"nze", matrix_in % nze
+!    endif
     
   
     call dbcsr_create(matrix = loc_matr_c_1, template = matrix_in, nze = max_sizes(1))
     
+
     allocate(loc_matr_c_1 % index( max_sizes(2) ))
     
     call dbcsr_repoint_index(loc_matr_c_1)
@@ -343,22 +347,21 @@ contains
     call dbcsr_data_init(send_nze_buffer)
     call dbcsr_data_new(send_nze_buffer, loc_matr_c_send % data_type)
         
-    !call dbcsr_print(loc_matr_c)
     ! test batched add
     call dbcsr_batched_add_anytype_begin(matrix_in, loc_matr_c_send,  alpha, beta, sum_nze_nblks(1), sum_nze_nblks(2))
-
+    
     do tick = 1 , dbcsr_mp_nprows(total_mp_env) 
         
-        print *," ^^^^^^^^^^^ waitall "
+!        print *," ^^^^^^^^^^^ waitall "
         if (tick > 1) then
             call mp_waitall(requests)
             !call mp_sync(group)
             call dbcsr_repoint_index(loc_matr_c_send)
             loc_matr_c_send % valid = .true.
-            !print *,"received index", loc_matr_c_send % index
+!            print *,"received index", loc_matr_c_send % index
         endif
         
-        print *," ^^^^^^^^^^^ comm, tick No ", tick 
+!        print *," ^^^^^^^^^^^ comm, tick No ", tick 
         if (tick < dbcsr_mp_nprows(total_mp_env) ) then
             ! recv send
             CALL dbcsr_irecv_any(loc_matr_c_recv % data_area, proc_recv, group, requests(1))
@@ -379,13 +382,13 @@ contains
         
 
 
-        print *," ^^^^^^^^^^^ batched add "
+!        print *," ^^^^^^^^^^^ batched add "
         if (tick > 1) then
             
-         print *, " ##### send matrix matrix #########"
-         !call dbcsr_print(loc_matr_c_send)
+!         print *, " ##### send matrix matrix #########"
+!         call dbcsr_print(loc_matr_c_send)
 !         print *, "#### receive matrix #####"
-!         call dbcsr_print(loc_matr_c_recv)
+!         call dbcsr_print(matrix_in)
             
             call dbcsr_batched_add_anytype(matrix_in, loc_matr_c_send, beta )
 
@@ -397,19 +400,24 @@ contains
         endif
     
 
-        print *," ^^^^^^^^^^^ swap"
+!        print *," ^^^^^^^^^^^ swap"
         tmp_matr_ptr => loc_matr_c_send
         loc_matr_c_send => loc_matr_c_recv
         loc_matr_c_recv => tmp_matr_ptr
         
     enddo
     
+!         call dbcsr_print(matrix_in)
     ! finalize matrix after add
     call dbcsr_batched_add_anytype_end(matrix_in)
+    
+!    print *,"finita", dbcsr_checksum(matrix_in)
+    
     ! release the matrices
     CALL dbcsr_release(loc_matr_c_1)
     CALL dbcsr_release(loc_matr_c_2)
-  end subroutine  
+!    print *,"finita"
+  end subroutine all_reduce 
 
 
 
@@ -417,11 +425,11 @@ contains
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   ! redistribute algo
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  subroutine redistribute(matrix_in, matrix_out)
-    type(dbcsr_type), intent(in) :: matrix_in
-    type(dbcsr_type), intent(out) :: matrix_out
+!  subroutine redistribute(matrix_in, matrix_out)
+!    type(dbcsr_type), intent(in) :: matrix_in
+!    type(dbcsr_type), intent(inout) :: matrix_out
 
-    print *,dbcsr_checksum(matrix_in) , dbcsr_checksum(matrix_out) 
-  end subroutine
+!    print *,dbcsr_checksum(matrix_in) , dbcsr_checksum(matrix_out) 
+!  end subroutine redistribute
 
 end module
