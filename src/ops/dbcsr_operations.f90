@@ -535,6 +535,7 @@
                                                                 
      INTEGER, DIMENSION(2)                                   :: lb_row_blk
      LOGICAL                                                 :: found, tr
+     type(array_i1d_obj)                                     :: map_row_g2l
     
      ! ifound = 0, 1 ,2
      ! 0 - found in a matrix
@@ -548,7 +549,12 @@
      tot_nze = 0
      !
      use_hashes = .false.
-     if (present(use_hashes_par))  use_hashes = use_hashes_par
+     if (present(use_hashes_par)) then
+        use_hashes = use_hashes_par
+        ! we assume map was initialized and this call just retust the wrapped pointer map_row_g2l. So no race condition
+        call dbcsr_get_global_row_map(matrix_a % dist, map_row_g2l) 
+     endif
+     
      if (matrix_a % wms(iw) % hashes_are_valid .eqv. .false.) use_hashes = .false.
      
      !print *,"hashes are valid", matrix_a % wms(iw) % hashes_are_valid
@@ -573,15 +579,15 @@
         ELSE
            ifound = 2
            ! try to find saved blocks using hash map
-           if ( use_hashes ) then
-              c_blk_id = hash_table_get(matrix_a % wms(iw) % c_hashes(row), col)
+           if ( use_hashes ) then   
+              c_blk_id = hash_table_get(matrix_a % wms(iw) % c_hashes( map_row_g2l % low % data(row) ), col)
               ! save block lower bound if we found and add to hash new block id if not
               if (c_blk_id > 0) then
                  ifound = 1
                  lb_a = matrix_a%wms(iw)%blk_p(c_blk_id)
                  !print *,"block found in wms", row, col, c_blk_id, lb_a
               else
-                 call hash_table_add(matrix_a % wms(iw) % c_hashes(row), col, matrix_a%wms(iw)%lastblk + 1)   
+                 call hash_table_add(matrix_a % wms(iw) % c_hashes( map_row_g2l % low % data(row) ), col, matrix_a%wms(iw)%lastblk + 1)   
                  !print *,"block not found in wms ..."
               endif   
            endif

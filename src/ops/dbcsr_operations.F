@@ -16,7 +16,8 @@
 MODULE dbcsr_operations
    USE dbcsr_array_types,               ONLY: array_data,&
                                               array_equality,&
-                                              array_get
+                                              array_get,&
+                                              array_i1d_obj
    USE dbcsr_blas_operations,           ONLY: set_larnv_seed
    USE dbcsr_block_access,              ONLY: dbcsr_get_block_p,&
                                               dbcsr_put_block,&
@@ -96,6 +97,8 @@ MODULE dbcsr_operations
                                               mp_sum
 
    use hash_table
+   use dbcsr_mm_dist_operations, only: dbcsr_get_global_row_map
+   
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -635,6 +638,7 @@ CONTAINS
       TYPE(dbcsr_iterator)                               :: iter
       TYPE(dbcsr_scalar_type)                            :: my_beta_scalar
 
+      type(array_i1d_obj)                                     :: map_row_g2l
       !----------------------------------------------------------------------------
 
       CALL timeset(routineN, handle)
@@ -648,11 +652,17 @@ CONTAINS
 
       data_type_a = dbcsr_get_data_type(matrix_a)
       data_type_b = dbcsr_get_data_type(matrix_b)
-
+      
+      
+      
       IF ((.NOT. dbcsr_scalar_are_equal(my_beta_scalar, &
                                         dbcsr_scalar_zero(data_type_b))) .AND. &
            dbcsr_get_num_blocks(matrix_b) .GT. 0) THEN
+           
+         ! just to initialize if it was not initialized, map_row_g2l is not used
+         call dbcsr_get_global_row_map(matrix_a % dist, map_row_g2l) 
 
+         
 !$OMP        PARALLEL DEFAULT (NONE) &
 !$OMP                 PRIVATE (iter, iw) &
 !$OMP                 SHARED (matrix_a, matrix_b, data_type_b) &

@@ -822,6 +822,7 @@ CONTAINS
                                       dbcsr_get_data_type(matrix))
                                       
             ! allocate hashes
+            
             if ( create_hashes ) then
                allocate (matrix % wms(iw) % c_hashes(matrix % nblkrows_local))
                call fill_hash_tables(matrix % wms(iw) % c_hashes, matrix, nblks_guess, &

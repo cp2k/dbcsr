@@ -227,7 +227,7 @@ contains
    
 
     call dbcsr_redistribute(loc_matr_c, matrix_c)
-    call dbcsr_finalize(matrix_c)
+!    call dbcsr_finalize(matrix_c)
 
 
      
@@ -342,7 +342,7 @@ contains
     
     if (proc_send < 0) proc_send = dbcsr_mp_nprows(total_mp_env) - 1
         
-    print *,"send proc, recv prc ",     proc_send,  proc_recv
+    !print *,"send proc, recv prc ",     proc_send,  proc_recv
     
     call dbcsr_data_init(send_nze_buffer)
     call dbcsr_data_new(send_nze_buffer, loc_matr_c_send % data_type)

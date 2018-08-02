@@ -30,7 +30,7 @@ MODULE dbcsr_reshape
                                               dbcsr_data_obj,&
                                               ${uselist(dkind1)}$
                                               
-   use dbcsr_work_operations,           only: dbcsr_create                        
+   use dbcsr_work_operations,           only: dbcsr_create, dbcsr_finalize                        
    use dbcsr_dist_operations,           only: dbcsr_get_stored_coordinates
    USE dbcsr_methods,                   ONLY: dbcsr_get_data_type
                                                   
@@ -203,19 +203,23 @@ CONTAINS
          
 
          DO iproc = 0, numnodes - 1
-        
-            call dbcsr_create(matrix = local_matrices(iproc), template = matrix_out, &
-                              data_buffer = buffer_recv(iproc) % data)
 
+            call dbcsr_create(matrix = local_matrices(iproc), template = matrix_out, &
+                              data_buffer = buffer_recv(iproc) % data, nze = num_entries_recv(iproc))
+
+            local_matrices(iproc) % nze = num_entries_recv(iproc)
+            
             CALL dbcsr_reserve_blocks(local_matrices(iproc), buffer_recv(iproc) % indx(:,1), &
                                       buffer_recv(iproc) % indx(:,2), buffer_recv(iproc) % indx(:,3))
 
+!            call dbcsr_finalize(local_matrices(iproc))
             call dbcsr_repoint_index(local_matrices(iproc))
             local_matrices(iproc) % valid=.true.
             
-
             sum_nze_nblks(1) = sum_nze_nblks(1) + local_matrices(iproc) % nze
             sum_nze_nblks(2) = sum_nze_nblks(2) + local_matrices(iproc) % nblks
+     
+    
     !     print *,"recv proc", iproc
     !     print *,  buffer_recv(iproc) % indx(:,1)
     !     print *,  buffer_recv(iproc) % indx(:,2)
@@ -238,11 +242,9 @@ CONTAINS
 !            ENDDO
 
 
-
-            CALL block_buffer_destroy(buffer_recv(iproc))
-            CALL block_buffer_destroy(buffer_send(iproc))
+            !CALL block_buffer_destroy(buffer_recv(iproc))
+            !CALL block_buffer_destroy(buffer_send(iproc))
          ENDDO
-
 
          call dbcsr_batched_add_anytype_begin(matrix_out, local_matrices(0),  alpha, beta, sum_nze_nblks(1), sum_nze_nblks(2))
 
@@ -434,8 +436,6 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       CALL mp_environ(numnodes, mynode, mp_comm)
-
-!      print *,"comm buf",numnodes,mynode, mp_comm
       
       IF (numnodes > 1) THEN
 
