@@ -13,8 +13,8 @@
 ! **************************************************************************************************
 MODULE dbcsr_mm
    USE dbcsr_acc_device,                ONLY: acc_clear_errors
-   USE dbcsr_acc_init  ,                ONLY: acc_init,&
-                                              acc_finalize
+   USE dbcsr_acc_init,                  ONLY: acc_finalize,&
+                                              acc_init
    USE dbcsr_acc_stream,                ONLY: acc_stream_associated,&
                                               acc_stream_create,&
                                               acc_stream_destroy

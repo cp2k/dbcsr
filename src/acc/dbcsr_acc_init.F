@@ -73,5 +73,4 @@ CONTAINS
 #endif
    END SUBROUTINE acc_finalize
 
-
 END MODULE dbcsr_acc_init
