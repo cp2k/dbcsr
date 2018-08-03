@@ -15,14 +15,14 @@ Performance:
 
 * Running, examples:
 
-  Modify the perf/test.perf input file and pass it as standard input
+  Modify the input.perf input file and pass it as standard input
   to the executable generated above, e.g.:
 
   a) To test pure MPI performance test using [n] nodes:
 
-  > mpirun -np [n] ../bin/dbcsr_performance_driver.x < test.perf 2>&1 | tee perf.log
+  > mpirun -np [n] ./bin/dbcsr_performance_driver.x tests/input.perf 2>&1 | tee perf.log
 
   b) To test hybrid MPI/OpenMP performance test using [n] nodes, each spanning [t] threads:
 
-  > export OMP_NUM_THREADS=[t]; mpiexec -np [n] ../bin/dbcsr_performance_driver.x < test.perf 2>&1 | tee perf.log
+  > export OMP_NUM_THREADS=[t]; mpirun -np [n] ./bin/dbcsr_performance_driver.x tests/input.perf 2>&1 | tee perf.log
 

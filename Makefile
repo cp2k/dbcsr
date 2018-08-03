@@ -218,7 +218,7 @@ test:
 	done
 	@export OMP_NUM_THREADS=4 ; \
 	for input in $(PERFTESTS); do \
-		mpirun -np $(NPROCS) $(BINDIR)/dbcsr_performance_driver.x $(TESTSDIR)/$$input || exit 1; \
+		mpirun -np $(NPROCS) $(BINDIR)/dbcsr_performance_driver.x $$input || exit 1; \
 	done
 
 OTHER_HELP += "test    : Run the unittests available in tests/"
