@@ -42,9 +42,10 @@ NVCC        = nvcc
 DFLAGS     += -D__ACC -D__DBCSR_ACC
 FCFLAGS    += -D__ACC -D__DBCSR_ACC
 ARCH_NUMBER   = 35
-NVFLAGS     = $(DFLAGS) -O3 -g -arch sm_35 -w
+NVFLAGS     = $(DFLAGS) -O3 -w -arch sm_$(ARCH_NUMBER) --std=c++11
 LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -L${LAPACK_PATH}/lib -llapack -lblas
 LIBS       += -lstdc++ -lcudart -lcublas -lnvrtc -lcuda
+NVRTCFLAGS  = -I $(CUDA_PATH)/include -L $(CUDA_PATH)/lib64 -lnvrtc -lcuda -Wl,-rpath,$(CUDA_PATH)/lib64
 PYBINDFLAGS = -shared -std=c++11 -fPIC -I $(PYBIND_PATH)/include -I $(PY_PATH)
 endif
 
@@ -63,7 +64,7 @@ FCFLAGS  = $(WFLAGS) $(DFLAGS) -O3 -fopenmp -funroll-loops \
            $(FCDEBFLAGS)
 LDFLAGS  = $(FCFLAGS)
 ARCH_NUMBER= 60
-NVFLAGS  = $(DFLAGS) -O3 -w -arch sm_60 --std=c++11
+NVFLAGS  = $(DFLAGS) -O3 -w -arch sm_$(ARCH_NUMBER) --std=c++11
 NVRTCFLAGS = -I $(CUDA_PATH)/include -L $(CUDA_PATH)/lib64 -lnvrtc -lcuda -Wl,-rpath,$(CUDA_PATH)/lib64
 PYBINDFLAGS = -shared -std=c++11 -fPIC -I $(PYBIND_PATH)/include -I $(PY_PATH)
 LIBS     = -lfftw3 -lfftw3_threads

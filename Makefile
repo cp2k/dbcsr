@@ -225,7 +225,7 @@ OTHER_HELP += "test    : Run the unittests available in tests/"
 
 clean:
 	rm -rf $(OBJDIR)
-	rm $(LIBCUSMM_ABS_DIR)/parameters.h $(LIBCUSMM_ABS_DIR)/cusmm_kernels.h $(LIBCUSMM_ABS_DIR)/*.so
+	rm -f $(LIBCUSMM_ABS_DIR)/parameters.h $(LIBCUSMM_ABS_DIR)/cusmm_kernels.h $(LIBCUSMM_ABS_DIR)/*.so
 OTHER_HELP += "clean : Remove intermediate object and mod files, but not the libraries and executables"
 
 #
