@@ -56,3 +56,12 @@ jobs:
         - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF ..
         - make -j
         - make CTEST_OUTPUT_ON_FAILURE=1 test
+    - # run this in parallel with the other builds
+      name: "Build and test MPI version with cmake"
+      script:
+        - mkdir -p build
+        - cd build
+        # all examples need MPI atm
+        - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_OPENMP=OFF -DWITH_EXAMPLES=OFF -DTEST_MPI_RANKS=1 ..
+        - make -j
+        - make CTEST_OUTPUT_ON_FAILURE=1 test
