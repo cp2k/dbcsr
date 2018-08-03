@@ -58,15 +58,7 @@ CONTAINS
    SUBROUTINE c_dbcsr_finalise_lib(fcomm) bind(C, name="c_dbcsr_finalize_lib_aux")
       INTEGER(kind=c_int), INTENT(in)                    :: fcomm
 
-      INTEGER                                            :: io_stream
-
-      INTEGER:: ierr, rank
-      CALL mpi_comm_rank(fcomm, rank, ierr)
-      io_stream = 0
-      IF (rank .EQ. 0) THEN
-         io_stream = default_output_unit
-      ENDIF
-      CALL dbcsr_finalize_lib(fcomm, io_stream)
+      CALL dbcsr_finalize_lib(fcomm)
    END SUBROUTINE
 
 ! **************************************************************************************************
@@ -93,8 +85,6 @@ CONTAINS
       INTEGER, POINTER                                   :: col_dist(:), row_dist(:)
       TYPE(dbcsr_distribution_type), POINTER             :: dist
 
-      INTEGER:: ierr, rank
-      CALL mpi_comm_rank(fcomm, rank, ierr)
       row_dist => c_row_dist
       col_dist => c_col_dist
       ALLOCATE (dist)
