@@ -17,9 +17,9 @@ set(DBCSR_PERF_SRCS
 add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
 target_link_libraries(dbcsr_perf dbcsr)
 
-set(DBCSR_PERF_TESTS
-  test.perf
-  )
+file(GLOB DBCSR_PERF_TESTS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+    "inputs/*.perf"
+    )
 
 foreach (dbcsr_perf_test ${DBCSR_PERF_TESTS})
   if (USE_MPI)
