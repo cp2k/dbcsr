@@ -294,8 +294,8 @@ PROGRAM dbcsr_example_3
            max_times(1) = max_times(1) + m_walltime()-t1
        enddo
 
-       CALL dbcsr_multiply('T', 'N', 1.0_real_8, matrix_a, matrix_b, 0.0_real_8, matrix_c_cannon)
-       print *,"checksum carma, cannon", dbcsr_checksum(matrix_c), dbcsr_checksum(matrix_c_cannon)
+       !CALL dbcsr_multiply('T', 'N', 1.0_real_8, matrix_a, matrix_b, 0.0_real_8, matrix_c_cannon)
+       print *,"checksum carma", dbcsr_checksum(matrix_c)!, dbcsr_checksum(matrix_c_cannon)
        !print *,"+++++ carma time :", m_walltime()-t1
        
   endif 
