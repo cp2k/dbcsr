@@ -289,12 +289,9 @@ PROGRAM dbcsr_example_3
            
            call carma_mm(matrix_a%prv, matrix_b%prv, matrix_c%prv)
            
-           print *,"superfinita"
            CALL mp_sync(group)
            
-
            max_times(1) = max_times(1) + m_walltime()-t1
-           print *,"co"
        enddo
 
        CALL dbcsr_multiply('T', 'N', 1.0_real_8, matrix_a, matrix_b, 0.0_real_8, matrix_c_cannon)

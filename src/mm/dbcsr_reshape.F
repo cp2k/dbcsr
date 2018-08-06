@@ -69,12 +69,13 @@ MODULE dbcsr_reshape
       dbcsr_redistribute
 
    TYPE block_buffer_type
-      INTEGER                                    :: ndim = -1
-      INTEGER                                    :: nblock = -1
+      integer                                    :: datasize = 0
+      INTEGER                                    :: ndim = 0
+      INTEGER                                    :: nblock = 0
       INTEGER, DIMENSION(:, :), pointer      :: indx
       type(dbcsr_data_obj)                   :: data
       INTEGER                                    :: data_type = -1
-      INTEGER                                    :: endpos = -1
+      INTEGER                                    :: endpos = 0
    END TYPE
 
    INTERFACE block_buffer_add_block
@@ -122,7 +123,7 @@ CONTAINS
       
       sum_nze_nblks(:) = 0
       ! for summation
-      alpha = 1.0
+      alpha = 0.0
       beta= 1.0
     
       call dbcsr_data_init( blk_data )
@@ -207,7 +208,7 @@ CONTAINS
             call dbcsr_create(matrix = local_matrices(iproc), template = matrix_out, &
                               data_buffer = buffer_recv(iproc) % data, nze = num_entries_recv(iproc))
 
-            local_matrices(iproc) % nze = num_entries_recv(iproc)
+           ! local_matrices(iproc) % nze = num_entries_recv(iproc)
             
             CALL dbcsr_reserve_blocks(local_matrices(iproc), buffer_recv(iproc) % indx(:,1), &
                                       buffer_recv(iproc) % indx(:,2), buffer_recv(iproc) % indx(:,3))
@@ -219,7 +220,6 @@ CONTAINS
             sum_nze_nblks(1) = sum_nze_nblks(1) + local_matrices(iproc) % nze
             sum_nze_nblks(2) = sum_nze_nblks(2) + local_matrices(iproc) % nblks
      
-    
     !     print *,"recv proc", iproc
     !     print *,  buffer_recv(iproc) % indx(:,1)
     !     print *,  buffer_recv(iproc) % indx(:,2)
@@ -249,7 +249,7 @@ CONTAINS
          call dbcsr_batched_add_anytype_begin(matrix_out, local_matrices(0),  alpha, beta, sum_nze_nblks(1), sum_nze_nblks(2))
 
          DO iproc = 0, numnodes - 1
-         
+            
             call dbcsr_batched_add_anytype(matrix_out, local_matrices(iproc), beta )
          enddo
          
@@ -509,12 +509,16 @@ CONTAINS
        
        
       ndims = ndims_buffer(buffer)
+      
       p = buffer%endpos
-      IF (p .EQ. 0) THEN
-         p_data = 0
-      ELSE
-         p_data = buffer%indx(p, ndims+1)
-      ENDIF
+      
+      p_data = buffer%datasize
+      
+      !IF (p .EQ. 0) THEN
+      !   p_data = 0
+      !ELSE
+      !   p_data = buffer%datasize !indx(p, ndims+1)
+      !ENDIF
  
 
 !      print *,"bl add",buffer % indx(:,1)
@@ -530,12 +534,16 @@ CONTAINS
 
       buffer%indx(p+1, 1:ndims) = index(:)
 !      print *,buffer % indx(:,1)
-
-      IF (p > 0) THEN
-         buffer%indx(p+1,ndims+1) = buffer%indx(p,ndims+1)+ndata
-      ELSE
-         buffer%indx(p+1, ndims+1) = ndata
-      ENDIF
+      
+      buffer%indx(p+1,ndims+1) = buffer%datasize + 1
+      
+      !IF (p > 0) THEN
+      !   buffer%indx(p+1,ndims+1) = buffer%indx(p,ndims+1)+ndata
+      !ELSE
+      !   buffer%indx(p+1, ndims+1) = 1 !ndata         
+      !ENDIF
+      
+      buffer%datasize = buffer%datasize + ndata
       buffer%endpos = buffer%endpos+1
    END SUBROUTINE
 #:endfor
