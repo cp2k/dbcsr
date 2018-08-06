@@ -82,7 +82,6 @@ contains
     
     type(dbcsr_mp_obj)              :: mp_env,  total_mp_env
 
-    real(8)                     :: t1
 
     
     ! take distribution and communicator
@@ -214,8 +213,7 @@ contains
     !print *,"occ a ,b", dbcsr_get_occupation(loc_matr_a), dbcsr_get_occupation(loc_matr_b)
     
     
-    CALL mp_sync(group)
-    t1 = m_walltime()
+    !CALL mp_sync(group)
     
     
     ! multiply local matrices
@@ -223,7 +221,7 @@ contains
    
     !call dbcsr_finalize(loc_matr_c)
 
-   CALL mp_sync(group)
+   !CALL mp_sync(group)
    
 
     call dbcsr_redistribute(loc_matr_c, matrix_c)

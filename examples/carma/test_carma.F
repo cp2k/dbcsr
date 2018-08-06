@@ -279,7 +279,7 @@ PROGRAM dbcsr_example_3
        
        !CALL dbcsr_print(matrix_c_cannon)
        
-       print *,"checksum cannon", dbcsr_checksum(matrix_c_cannon)
+        if (mynode == 0) print *,"checksum cannon", dbcsr_checksum(matrix_c_cannon)
    
    else
 
@@ -295,7 +295,7 @@ PROGRAM dbcsr_example_3
        enddo
 
        !CALL dbcsr_multiply('T', 'N', 1.0_real_8, matrix_a, matrix_b, 0.0_real_8, matrix_c_cannon)
-       print *,"checksum carma", dbcsr_checksum(matrix_c)!, dbcsr_checksum(matrix_c_cannon)
+        if (mynode == 0) print *,"checksum carma", dbcsr_checksum(matrix_c)!, dbcsr_checksum(matrix_c_cannon)
        !print *,"+++++ carma time :", m_walltime()-t1
        
   endif 
