@@ -20,28 +20,32 @@
  * blockDim.x = threads
  * threadIdx.x = {0, ..., threads-1}
 
- * Execute sparse matrix-matrix multiplication: C += A*B
- * according to stack parameter list,
- * decomposed into mutliple block multiplications c_block += a_block * b_block
+ * Execute sparse matrix-matrix multiplication C += A*B
+ * according to a stack parameter list, decomposed into mutliple block
+ * multiplications c_block += a_block * b_block
  *     c_block, dimension (m x n)
  *     a_block, dimension (m x k)
  *     b_block, dimension (k x n)
- * (optimized for block matrices that fit into shared memory)
 
  * Template parameters
  * --- m, n, k: triplet of integers characterising the block multiplication dimensions
  * --- threads: number of CUDA threads this kernel is run with
  * --- grouping: number of stack parameter entries to process per thread block
- * --- minblocks: (used in __launch_bounds__)
+ * --- minblocks: the desired minimum number of resident blocks per multiprocessor (used in __launch_bounds__)
 
  * Function arguments
- * --- param_stack: parameter stack array
- *     array of stayk entries (index triplets), indicating which elements of
+ * --- param_stack: parameter stack array (pointers to global memory):
+ *     array of stack entries (index triplets), indicating which elements of
  *     a_data, b_data to multiply and to which element of c_data to add them to
- * --- stack_size: number of entries (3 integer triplets) in param_stack
- *     corresponds to the number of block-matrix multiplications to run
- * --- a_data, b_data, c_data
- *     arrays containing the non-zero values of matrices A, B, C
+ * --- stack_size: number of entries (3 integer triplets) in param_stack,
+ *     corresponds to the number of block-matrix multiplications to run in total
+ * --- a_data, b_data, c_data (pointers to global memory):
+ *     arrays containing the values of matrices A, B, C
+
+ * Algorithm specificities:
+ * - optimized for block matrices that fit entirely into shared memory
+ * - each element of c_block is computed by one thread
+ * - no overlap between computation and memory loads
  */
 template <int m, int n, int k, int threads, int grouping, int minblocks>
 __global__ void
@@ -49,7 +53,7 @@ __launch_bounds__(threads, minblocks)
 cusmm_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
      const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data){
 
-  /* Total number of elements in block matrices ... */
+  /* Total number of elements in block matrices */
   const int mn = m * n; /* c_block */
   const int mk = m * k; /* a_block */
   const int kn = n * k; /* b_block */
@@ -58,7 +62,7 @@ cusmm_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
   const int bidx = blockIdx.x;
   const int tidx = threadIdx.x;
 
-  /* Column and row index of the block matrix c_block this thread will compute
+  /* Column and row index of the block matrix c_block that this thread will compute
    * Each thread computes exactly one element of block_c */
   const int c = tidx / m;
   const int r = tidx - c * m;
@@ -91,7 +95,7 @@ cusmm_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
   __shared__ double buff_b[kn];
 
   /* Set the number of runs (i.e. how many stack entries to process in this thread)
-   * If the current block is the last block set the number of stack entries to process in
+   * If the current block is the last block, set the number of stack entries to process in
    * this thread to the remainder of stack_size / grouping */
   nrun = grouping;
   if (((bidx + 1) * grouping) > stack_size) nrun = stack_size % grouping;
@@ -99,9 +103,9 @@ cusmm_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
   /* Set the partial sum to zero */
   myc = 0.0;
 
-  /* Load and pack stack data for current block from global memory into smem
+  /* Load and pack stack data for current block from global memory into shared memory
    * Get parameter stack entries from index "psp" to "psp + (nrun-1)*npar + 2"
-   * Each triplet indicates the beginning of a submatrix to multiply*/
+   * Each triplet indicates the beginning of a submatrix to multiply */
   psp = bidx * npar * grouping;
 #pragma unroll
   for (int i = tidx; i < nrun; i += threads){
@@ -116,18 +120,18 @@ cusmm_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
   /* In each run, we process one stack entry from param_stack_s */
   for (int run = 0; run < nrun; run++)
   {
-    /* Index in shared memory buffers to read from */
+    /* Parameter stack position: index in shared memory buffers to read from */
     psp = npar * run;
 
     /* Index in a_data, b_data and c_data arrays
      * indicating where to fetch resp. write back matrix elements for this run
-     * srcA, B, C corresponding to the strting indices of block submatrices to multiply */
+     * srcA, B, C corresponding to the starting indices of block submatrices to multiply */
     int srcA = param_stack_s[psp    ];
     int srcB = param_stack_s[psp + 1];
     int srcC = param_stack_s[psp + 2];
 
-    /* Load block matrices a_block and b_block for current block and stack into smem
-     * (no computation/load overlap!)
+    /* Load block matrices a_block and b_block for current block and stack from gloabal memory into shared memory
+     * (no overlap between computation and loading)
      * once an element s loaded into shared memory, it is available for all threads of the thread block to use */
     if (m == n) {
 #pragma unroll
@@ -155,7 +159,7 @@ cusmm_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
       for (int l = 0; l < k; l++) {
         myc += buff_a[l * m + r] * buff_b[l * n + c];
       }
-      /* Store result in global memory */
+      /* Store result in global memory without conflicting with other concurrent writes */
       atomicAdd (&c_data[srcC + tidx], myc);
       myc = 0.0;
     }

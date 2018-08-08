@@ -20,29 +20,32 @@
  * blockDim.x = threads
  * threadIdx.x = {0, ..., threads-1}
 
- * Execute sparse matrix-matrix multiplication: C += A*B
- * according to stack parameter list,
- * decomposed into mutliple block multiplications c_block += a_block * b_block
+ * Execute sparse matrix-matrix multiplication C += A*B
+ * according to a stack parameter list, decomposed into mutliple block
+ * multiplications c_block += a_block * b_block
  *     c_block, dimension (m x n)
  *     a_block, dimension (m x k)
  *     b_block, dimension (k x n)
- * Load a_block, b_clock into shared memory in one go, but compute c_block in tiles, not per individual element
 
  * Template parameters
  * --- m, n, k: triplet of integers characterising the block multiplication dimensions
- * --- M, N: dimensions of the tile (submatrix of c_block) to calculate at a time
+ * --- M, N: dimensions of the tile T (submatrix of c_block) to compute with one thread
  * --- threads: number of CUDA threads this kernel is run with
  * --- grouping: number of stack parameter entries to process per thread block
- * --- minblocks: (used in __launch_bounds__)
+ * --- minblocks: the desired minimum number of resident blocks per multiprocessor (used in __launch_bounds__)
 
  * Function arguments
- * --- param_stack: parameter stack array
- *     array of stayk entries (index triplets), indicating which elements of
+ * --- param_stack: parameter stack array (pointers to global memory):
+ *     array of stack entries (index triplets), indicating which elements of
  *     a_data, b_data to multiply and to which element of c_data to add them to
- * --- stack_size: number of entries (3 integer triplets) in param_stack
- *     corresponds to the number of block-matrix multiplications to run
- * --- a_data, b_data, c_data
- *     arrays containing the non-zero values of matrices A, B, C
+ * --- stack_size: number of entries (3 integer triplets) in param_stack,
+ *     corresponds to the number of block-matrix multiplications to run in total
+ * --- a_data, b_data, c_data (pointers to global memory):
+ *     arrays containing the values of matrices A, B, C
+
+ * Algorithm specificities:
+ * - a_block and b_block are not copied directly from global memory to shared memory,
+ *   but rather via registers
  */
 template < int m,  int n,  int k, int M, int N, int threads, int grouping, int minblocks>
 __global__ void
@@ -50,7 +53,7 @@ __launch_bounds__(threads, minblocks)
 cusmm_dnt_medium(const int* __restrict__ param_stack, int stack_size,
      const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data){
 
-  /* Total number of elements in block matrices ... */
+  /* Total number of elements in block matrices */
   const int mn = m * n; /* c_block */
   const int mk = m * k; /* a_block */
   const int kn = n * k; /* b_block */
@@ -59,7 +62,7 @@ cusmm_dnt_medium(const int* __restrict__ param_stack, int stack_size,
   const int bidx = blockIdx.x;
   const int tidx = threadIdx.x;
 
-  /* Number of columns and rows used to divide C into tiles */
+  /* Number of columns and rows used to divide c_block into tiles */
   const int cmax = (n % N == 0)?  n / N: n / N + 1;
   const int rmax = (m % M == 0)?  m / M: m / M + 1;
 
@@ -73,18 +76,22 @@ cusmm_dnt_medium(const int* __restrict__ param_stack, int stack_size,
   const int c = tidx / rmax;
   const int r = tidx - rmax * c;
 
+  /* Number of loads to perform by each thread in order to load matrices a_block, b_block into shared memory */
   const int load_unroll_factor_1 = mk / threads + 1;
   const int load_unroll_factor_2 = kn / threads + 1;
 
   const int n_mkloads = mk / (load_unroll_factor_1 * threads);
   const int n_knloads = kn / (load_unroll_factor_2 * threads);
 
+  /* Remainder */
   const int mkloads_remained = (mk - n_mkloads * load_unroll_factor_1 * threads) / threads;
   const int knloads_remained = (kn - n_knloads * load_unroll_factor_2 * threads) / threads;
 
+  /* ... */
   const int mkloads_tail = ((mkloads_remained + n_mkloads * load_unroll_factor_1) * threads == mk)? 0: 1;
   const int knloads_tail = ((knloads_remained + n_knloads * load_unroll_factor_2) * threads == kn)? 0: 1;
 
+  /* ... */
   const int m_loads_to_finish = n_mkloads * (load_unroll_factor_1 * threads) + mkloads_remained * threads;
   const int n_loads_to_finish = n_knloads * (load_unroll_factor_2 * threads) + knloads_remained * threads;
   const int left_to_finish_1 = m_loads_to_finish + tidx;
@@ -98,16 +105,21 @@ cusmm_dnt_medium(const int* __restrict__ param_stack, int stack_size,
    * synchronization is needed */
   const bool need_sync = (mn > warp_size || mk > warp_size || kn > warp_size || threads > warp_size);
 
-  /* Partial sum of the tile T of block_c that this thread will compute */
+  /* Partial result of the tile T of c_block that this thread will compute */
+  /* Registers */
   double myc[N * M];
 
   /* ... */
   double lba_r[load_unroll_factor_1 + mkloads_remained + mkloads_tail];
   double lbb_r[load_unroll_factor_2 + knloads_remained + knloads_tail];
 
+  /* ... */
   const double* __restrict__ buff_l;
   const double* __restrict__ buff_r;
 
+  /* psp: parameter stack position:
+   *      index in the parameter stack of the first parameter stack entry to be processed by this thread
+   * nrun: number of runs: number of stack entries to process in this thread */
   int  psp, nrun;
   bool is_loaded = false;
 
@@ -136,7 +148,7 @@ cusmm_dnt_medium(const int* __restrict__ param_stack, int stack_size,
 
   /* Load and pack stack data for current block from global memory into smem
    * Get parameter stack entries from index "psp" to "psp + (nrun-1)*npar + 2"
-   * Each triplet indicates the beginning of a submatrix to multiply*/
+   * Each triplet indicates the beginning of a submatrix to multiply */
   psp = bidx * npar * grouping;
 #pragma unroll 3
   for (int i = tidx; i < nrun; i += threads){
@@ -156,14 +168,15 @@ cusmm_dnt_medium(const int* __restrict__ param_stack, int stack_size,
 
     int srcA, srcB;
 
-    if (!is_loaded){ /* If a_block, b_block are not loaded (into registers??) yet */
+    if (!is_loaded){ /* If a_block, b_block are not loaded into registers yet */
 
       /* Index in a_data, b_data and c_data arrays
        * indicating where to fetch resp. write back matrix elements for this run
-       * srcA, B, C corresponding to the strting indices of block submatrices to multiply */
+       * srcA, B, C corresponding to the starting indices (i.e. offsets) of block submatrices to multiply */
       srcA = param_stack_s[psp    ];
       srcB = param_stack_s[psp + 1];
 
+    /* Copy a_block, b_block from global memory to registers */
     if (m == n){
 #pragma unroll 3
       for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads){
@@ -224,13 +237,13 @@ cusmm_dnt_medium(const int* __restrict__ param_stack, int stack_size,
       if (left_to_finish_2 < kn) lbb_r[load_unroll_factor_2 + knloads_remained] = __ldg(&b_data[srcB + left_to_finish_2]);
     }
 
-      /* hard sync necessary */
+      /* Wait until all the data has been loaded to registers */
       syncthreads ();
     } else {
        is_loaded = false;
     }
 
-    /* Copy a_block, b_block from registers (???) to shared memory */
+    /* Copy a_block, b_block from registers to shared memory */
     if (m == n){
 #pragma unroll 3
       for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads){
@@ -291,7 +304,7 @@ cusmm_dnt_medium(const int* __restrict__ param_stack, int stack_size,
       if (left_to_finish_2 < kn) buff[mk + left_to_finish_2] = lbb_r[load_unroll_factor_2 + knloads_remained];
     }
 
-    /* Wait until all the data has been loaded */
+    /* Wait until all the data has been loaded to shared memory */
     if (need_sync) syncthreads ();
 
 
@@ -308,7 +321,7 @@ cusmm_dnt_medium(const int* __restrict__ param_stack, int stack_size,
       srcA = param_stack_s[next_psp    ];
       srcB = param_stack_s[next_psp + 1];
 
-
+      /* Buffering: copy the input data for the next run from global memory to registers */
       if (m == n){
 #pragma unroll 3
         for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads){
@@ -388,6 +401,7 @@ cusmm_dnt_medium(const int* __restrict__ param_stack, int stack_size,
 
     if (run == nrun - 1 || param_stack_s[psp + 2] != param_stack_s[psp + 2 + npar]){
 
+      /* Index in c_data indicating where to write back matrix elements for this run */
       int srcC = param_stack_s[psp + 2];
 
       if (M > 1 || N > 1){
@@ -411,7 +425,7 @@ cusmm_dnt_medium(const int* __restrict__ param_stack, int stack_size,
           atomicAdd (&c_data[srcC + i], buff[i]);
         }
       } else {
-        /* Add results to global C block. */
+        /* Add results from registers to global C block. */
 #pragma unroll
         for (int i = tidx; i < mn; i += threads){
           atomicAdd (&c_data[srcC + i], myc[0]);
