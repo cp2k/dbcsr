@@ -786,18 +786,19 @@ CONTAINS
       ! printing
       IF (io_unit .GT. 0) THEN
          WRITE (io_unit, *) 'test_name ', test_name
-         WRITE (io_unit, '(3(A,E12.5))') ' residual ', residual, ', a_norm ', a_norm, ', b_norm ', b_norm
-         WRITE (io_unit, '(3(A,E12.5))') ' c_norm_in ', c_norm_in, ', c_norm_out ', c_norm_out, &
-            ', c_norm_dbcsr ', c_norm_dbcsr
-         WRITE (io_unit, '(A)') ' Checking the norm of the difference against reference GEMM '
-         WRITE (io_unit, '(A,E12.5)') ' -- ||C_dbcsr-C_dense||_oo/((||A||_oo+||B||_oo+||C||_oo).N.eps)=', &
-            residual/((a_norm+b_norm+c_norm_in)*n*eps)
          !
          ! check for nan or inf here
          IF (success) THEN
             WRITE (io_unit, '(A)') ' The solution is CORRECT !'
          ELSE
             WRITE (io_unit, '(A)') ' The solution is suspicious !'
+
+            WRITE (io_unit, '(3(A,E12.5))') ' residual ', residual, ', a_norm ', a_norm, ', b_norm ', b_norm
+            WRITE (io_unit, '(3(A,E12.5))') ' c_norm_in ', c_norm_in, ', c_norm_out ', c_norm_out, &
+               ', c_norm_dbcsr ', c_norm_dbcsr
+            WRITE (io_unit, '(A)') ' Checking the norm of the difference against reference GEMM '
+            WRITE (io_unit, '(A,E12.5)') ' -- ||C_dbcsr-C_dense||_oo/((||A||_oo+||B||_oo+||C||_oo).N.eps)=', &
+               residual/((a_norm+b_norm+c_norm_in)*n*eps)
          END IF
 
       END IF
