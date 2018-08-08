@@ -1,10 +1,5 @@
 cmake_minimum_required (VERSION 3.10)
 
-# If available, enable developer warnings for the build system
-if (POLICY CMP0005)
-    cmake_policy(SET CMP0005 NEW)
-endif ()
-
 # include our cmake snippets
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
