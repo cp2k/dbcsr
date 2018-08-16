@@ -46,7 +46,9 @@ NVFLAGS     = $(DFLAGS) -O3 -w -arch sm_$(ARCH_NUMBER) --std=c++11
 LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -L${LAPACK_PATH}/lib -llapack -lblas
 LIBS       += -lstdc++ -lcudart -lcublas -lnvrtc -lcuda
 NVRTCFLAGS  = -I $(CUDA_PATH)/include -L $(CUDA_PATH)/lib64 -lnvrtc -lcuda -Wl,-rpath,$(CUDA_PATH)/lib64
-PYBINDFLAGS = -shared -std=c++11 -fPIC -I $(PYBIND_PATH)/include -I $(PY_PATH)
+PYBIND_PATH = /users/alazzaro/.local/include/python2.7
+PY_PATH     = /usr/include/python2.7
+PYBINDFLAGS = -shared -std=c++11 -fPIC -I $(PYBIND_PATH) -I $(PY_PATH)
 endif
 
 ifneq ($(CRAY),)
