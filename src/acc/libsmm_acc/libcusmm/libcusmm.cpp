@@ -15,6 +15,7 @@
 #include <cstring>
 #include <algorithm>
 #include <array>
+#include <iostream>
 
 #define dbcsr_type_real_4     1
 #define dbcsr_type_real_8     3
@@ -241,9 +242,11 @@ void jit_transpose_handle(CUfunction& kern_func, int m, int n){
     NVRTC_SAFE_CALL("nvrtcAddNameExpression", nvrtcAddNameExpression(kernel_program, kernel_name.c_str()));
 
     // (JIT-)compile
-    size_t nOptions = 2;
+    size_t nOptions = 3;
+    const std::string kernel_files_path = KERNEL_FILES_PATH;
+    const std::string include_opt = "-I=" + kernel_files_path;
     const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(ARCH_NUMBER);
-    const char *compileOptions[] = {arch_opt.c_str(), "-w"};
+    const char *compileOptions[] = {include_opt.c_str(), "-w", arch_opt.c_str()};
     NVRTC_SAFE_CALL("nvrtcCompileProgram", nvrtcCompileProgram(kernel_program, nOptions, compileOptions));
 
     // Obtain PTX from the program.

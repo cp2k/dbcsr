@@ -36,7 +36,7 @@ static __device__ double atomicAdd(double *address, double val) {
 #endif
 
 /******************************************************************************
- * A simple __ldg replacement for older cuda devices.                         *
+ * syncthreads macro                                                          *
  ******************************************************************************/
 
 #if (__CUDACC_VER_MAJOR__ >= 8) || ( defined(__CUDA_ARCH__) && (__CUDA_ARCH__ >= 600) )
