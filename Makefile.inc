@@ -73,5 +73,4 @@ LIBS     = -lfftw3 -lfftw3_threads
 LIBS    += /users/alazzaro/project/libsmm/libxsmm/haswell/lib/libsmm_dnn_cray.gnu.a
 LIBS    += -lstdc++ -lcudart -lcublas -lnvrtc -lcuda
 #LIBS    += -lnvToolsExt
-INC         = -I${PYBIND_PATH}/include
 endif

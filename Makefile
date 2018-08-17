@@ -12,6 +12,7 @@ OBJDIR       ?= $(DBCSRHOME)/obj
 PRETTYOBJDIR := $(OBJDIR)/prettified
 DOXIFYOBJDIR := $(OBJDIR)/doxified
 TOOLSRC      := $(DBCSRHOME)/tools
+FYPPEXE      ?= $(TOOLSRC)/build_utils/fypp/bin/fypp
 SRCDIR       := $(DBCSRHOME)/src
 TESTSDIR     := $(DBCSRHOME)/tests
 EXAMPLESDIR  := $(DBCSRHOME)/examples
@@ -381,7 +382,7 @@ HASHDEFS   = -DEXP=$(EXP) -DEXP_DOUBLE=$(EXP_DOUBLE) -DHASH_LIMIT=$(HASH_LIMIT)
 
 %.o %.mod: %.F
 	@rm -f $*.mod
-	$(TOOLSRC)/build_utils/fypp/bin/fypp $(FYPPFLAGS) $< $*.F90
+	$(FYPPEXE) $(FYPPFLAGS) $< $*.F90
 	$(FC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(notdir $<)\"" -I'$(dir $<)' -I'$(SRCDIR)' $*.F90 $(FCLOGPIPE)
 
 %.o: %.c
