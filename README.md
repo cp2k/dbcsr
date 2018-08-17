@@ -20,6 +20,7 @@ To build with CUDA support you further need:
 
 * CUDA Toolkit
 * C++ STL implementation
+* pybind11 library (header-only, available from: https://github.com/pybind/pybind11)
 
 ## Getting started
 
