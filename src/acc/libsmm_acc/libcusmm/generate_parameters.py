@@ -9,21 +9,32 @@ from optparse import OptionParser
 
 
 #===============================================================================
+# Correspondance between CUDA compute versions and parameter_file
+param_files = {
+    35: "parameters_K20X.txt", # "parameters_K40.txt"  
+    37: "parameters_K80.txt",
+    60: "parameters_P100.txt",
+}
+
+#===============================================================================
 def main(argv):
     usage = "Generator of LibCuSMM. The Library for Cuda Small Matrix Multiplications."
     parser = OptionParser(usage)
-    parser.add_option("-p", "--params", metavar="filename.txt",
-                      default="parameters_P100.txt",
-                      help="Default: %default")
+    parser.add_option("-a", "--arch", metavar="SM_NUMBER", default="60",
+                      help="CUDA compute version, used to select the appropriate libcusmm parameters file. Default: %default")
     (options, args) = parser.parse_args(argv)
     assert(len(args) == 0)
 
     # Read existing parameters
-    param_fn = options.params
+    arch_num = int(options.arch)
+    assert arch_num in param_files.keys(), "Cannot find autotuned parameters for compute version " + str(arch_num) + \
+                                           ".\nAvailable compute versions: " + str(param_files.keys()) + \
+                                           ".\nAvailable GPU cards: " + str(param_files.values())
+    param_fn = param_files[arch_num]
     with open(param_fn) as f:
         content = f.read().splitlines()
     print("About to process", len(content), "lines from file", param_fn)
-    parameters = get_parameters_from_file(content)
+    parameters = get_parameters_from_file(content, arch_num)
 
     # Construct output
     out, all_pars = write_parameters_file(parameters)
@@ -37,7 +48,7 @@ def main(argv):
 
 
 #===============================================================================
-def get_parameters_from_file(content):
+def get_parameters_from_file(content, arch_num):
     """
     Get parameters from a parameters file
     :param content: content of a parameter-file:
@@ -53,8 +64,12 @@ def get_parameters_from_file(content):
     parameter_line_pattern_l = \
         '\s*Kernel_dnt_(largeDB[12])\(m=(\d+), n=(\d+), k=(\d+), tile_m=(\d+), tile_n=(\d+), w=(\d+), v=(\d+), threads=(\d+), grouping=(\d+), minblocks=(\d+)\)'
     # tiny
-    parameter_line_pattern_t = \
-        '\s*Kernel_dnt_(tiny)\(m=(\d+), n=(\d+), k=(\d+), threads=(\d+), grouping=(\d+), minblocks=(\d+)\)'
+    if arch_num < 60:
+        parameter_line_pattern_t = \
+            '\s*Kernel_dnt_(tiny)\(m=(\d+), n=(\d+), k=(\d+), split_thread=(\d+), threads=(\d+), grouping=(\d+), minblocks=(\d+)\)'
+    else: 
+        parameter_line_pattern_t = \
+            '\s*Kernel_dnt_(tiny)\(m=(\d+), n=(\d+), k=(\d+), threads=(\d+), grouping=(\d+), minblocks=(\d+)\)'
 
     parameters = dict()
     for line in content:
