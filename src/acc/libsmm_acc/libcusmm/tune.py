@@ -35,7 +35,7 @@ def main():
     all_kernels = eval(open(param_fn).read())
     print("Libcusmm: Found %d existing parameter sets."%len(all_kernels))
 
-    blocksizes = [int(i) for i in sys.argv[1:]]
+    blocksizes = [int(i) for i in args[1:]]
     assert(len(set(blocksizes)) == len(blocksizes))
     blocksizes.sort()
 
