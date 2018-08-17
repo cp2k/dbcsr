@@ -130,6 +130,12 @@ CONTAINS
 
       INTEGER                                            :: ithread, nthreads
 
+!$OMP     MASTER
+      IF (has_acc) &
+         CALL acc_init()
+!$OMP     END MASTER
+!$OMP     BARRIER
+
       nthreads = 1; ithread = 0
 !$    nthreads = OMP_GET_NUM_THREADS(); ithread = OMP_GET_THREAD_NUM()
 
@@ -439,7 +445,6 @@ CONTAINS
 
       ! the ab_buffers are shared by all threads
       IF (has_acc) THEN
-         CALL acc_init()
          IF (.NOT. acc_stream_associated(stream_1)) THEN
             CALL acc_stream_create(stream_1, "MemCpy (odd ticks)")
             CALL acc_stream_create(stream_2, "MemCpy (even ticks)")
