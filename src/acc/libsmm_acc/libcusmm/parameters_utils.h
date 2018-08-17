@@ -26,17 +26,6 @@ inline Triplet_mnk hash_reverse(int hash){
     return Triplet_mnk({m, n, k});
 }
 
-//===============================================================================
-// Get block sizes defined in libcusmm
-inline void get_blocksizes(std::vector<int>& v, std::unordered_map<int, Kernel_parameters > const& ht){
-    for(auto it = ht.begin(); it != ht.end(); ++it){
-        int h_mnk = it->first;
-        Triplet_mnk v_mnk = hash_reverse(h_mnk);
-        v.push_back(v_mnk[0]);
-        v.push_back(v_mnk[1]);
-        v.push_back(v_mnk[2]);
-    }
-}
 inline void get_libcusmm_triplets(std::vector<int>& v, std::unordered_map<int, Kernel_parameters > const& ht){
     for(auto it = ht.begin(); it != ht.end(); ++it){
         v.push_back(it->first);
