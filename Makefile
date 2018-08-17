@@ -329,7 +329,7 @@ TOOL_HELP += "doxygen : Generate the doxygen documentation"
 
 
 # Libcusmm stuff ============================================================
-$(LIBCUSMM_ABS_DIR)/parameters.h: $(LIBCUSMM_ABS_DIR)/generate_parameters.py $(wildcard $(LIBCUSMM_ABS_DIR)/parameters_*.txt) $(LIBCUSMM_ABS_DIR)/libcusmm_parameters_utils.so
+$(LIBCUSMM_ABS_DIR)/parameters.h: $(LIBCUSMM_ABS_DIR)/generate_parameters.py $(wildcard $(LIBCUSMM_ABS_DIR)/parameters_*.txt)
 	cd $(LIBCUSMM_ABS_DIR); ./generate_parameters.py
 
 $(LIBCUSMM_ABS_DIR)/cusmm_kernels.h: $(LIBCUSMM_ABS_DIR)/generate_kernels.py $(wildcard $(LIBCUSMM_ABS_DIR)/kernels/*.h)
@@ -390,9 +390,6 @@ HASHDEFS   = -DEXP=$(EXP) -DEXP_DOUBLE=$(EXP_DOUBLE) -DHASH_LIMIT=$(HASH_LIMIT)
 
 %.o: %.cpp
 	$(CXX) -c $(CXXFLAGS) $<
-
-$(LIBCUSMM_ABS_DIR)/libcusmm_parameters_utils.so: parameters_utils_for_py.cpp parameters_utils.h
-	$(CXX) $(CXXFLAGS) $(PYBINDFLAGS) $(HASHDEFS) $< -o $@
 
 DBCSRINC ?= $(SRCDIR)/acc/libsmm_acc/libcusmm/kernels/
 
