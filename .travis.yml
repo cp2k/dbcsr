@@ -9,7 +9,7 @@ addons:
       - libblas-dev
       - liblapack-dev
       - libopenmpi-dev
-      - mpi-default-bin
+      - openmpi-bin
 
 install:
   # Update cmake to the minimal required version (shamelessly copied from the boost travis config):
