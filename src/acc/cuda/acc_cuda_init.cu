@@ -18,7 +18,7 @@
     if (result != CUDA_SUCCESS) {                                 \
       const char *msg;                                            \
       cuGetErrorName(result, &msg);                               \
-      printf("\nerror: %s failed with error %s",                  \
+      printf("\nerror: %s failed with error %s\n",                \
              name, msg);                                          \
       exit(1);                                                    \
     }                                                             \

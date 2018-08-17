@@ -16,7 +16,7 @@
   do {                                                            \
     nvrtcResult result = x;                                       \
     if (result != NVRTC_SUCCESS) {                                \
-      printf("\nerror: %s failed with error %s",                  \
+      printf("\nerror: %s failed with error %s\n",                \
              name, nvrtcGetErrorString(result));                  \
       exit(1);                                                    \
     }                                                             \
@@ -27,7 +27,7 @@
     if (result != CUDA_SUCCESS) {                                 \
       const char *msg;                                            \
       cuGetErrorName(result, &msg);                               \
-      printf("\nerror: %s failed with error %s",                  \
+      printf("\nerror: %s failed with error %s\n",                \
              name, msg);                                          \
       exit(1);                                                    \
     }                                                             \
