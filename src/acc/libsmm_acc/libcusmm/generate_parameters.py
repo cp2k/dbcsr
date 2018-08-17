@@ -5,7 +5,6 @@ from __future__ import print_function
 
 import sys
 import re
-import libcusmm_parameters_utils
 from optparse import OptionParser
 
 
@@ -73,11 +72,7 @@ def get_parameters_from_file(content):
                 m = int(match.group(2))
                 n = int(match.group(3))
                 k = int(match.group(4))
-                assert m <= libcusmm_parameters_utils.hash_limit and n <= libcusmm_parameters_utils.hash_limit \
-                       and k <= libcusmm_parameters_utils.hash_limit, \
-                       "m, n, and k (" + str(m) + ", " + str(n) + ", " + str(k) +  \
-                       ") must be smaller or equal to the hash limit (" + str(libcusmm_parameters_utils.hash_limit) + ")."
-                parameters[libcusmm_parameters_utils.hash(m, n, k)] = \
+                parameters[(m, n, k)] = \
                     [algo,                  # algo
                      int(match.group(5)),   # tile_m
                      int(match.group(6)),   # tile_n
@@ -100,11 +95,7 @@ def get_parameters_from_file(content):
                 m = int(match.group(2))
                 n = int(match.group(3))
                 k = int(match.group(4))
-                assert m <= libcusmm_parameters_utils.hash_limit and n <= libcusmm_parameters_utils.hash_limit \
-                       and k <= libcusmm_parameters_utils.hash_limit, \
-                       "m, n, and k (" + str(m) + ", " + str(n) + ", " + str(k) +  \
-                       ") must be smaller or equal to the hash limit (" + str(libcusmm_parameters_utils.hash_limit) + ")."
-                parameters[libcusmm_parameters_utils.hash(m, n, k)] = \
+                parameters[(m, n, k)] = \
                     [algo,                   # algo
                      int(match.group(5)),    # tile_m
                      int(match.group(6)),    # tile_n
@@ -125,11 +116,7 @@ def get_parameters_from_file(content):
                 m = int(match.group(2))
                 n = int(match.group(3))
                 k = int(match.group(4))
-                assert m <= libcusmm_parameters_utils.hash_limit and n <= libcusmm_parameters_utils.hash_limit \
-                       and k <= libcusmm_parameters_utils.hash_limit, \
-                       "m, n, and k (" + str(m) + ", " + str(n) + ", " + str(k) +  \
-                       ") must be smaller or equal to the hash limit (" + str(libcusmm_parameters_utils.hash_limit) + ")."
-                parameters[libcusmm_parameters_utils.hash(m, n, k)] = \
+                parameters[(m, n, k)] = \
                     [algo,                 # algo
                      0,                    # tile_m
                      0,                    # tile_n
@@ -189,10 +176,9 @@ static const std::unordered_map<int, Kernel_parameters> ht  = {
     # Initializer list body
     print("Get parameters and write to file")
     init_list_line = \
-        "    {{ {hash}, Kernel_parameters({{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }})}}, \t// ({m}x{n}x{k})\n"
-    for hash_mnk, pars in sorted(all_pars.items()):
-        m, n, k = libcusmm_parameters_utils.hash_reverse(hash_mnk)
-        out += init_list_line.format(hash=hash_mnk, algo=pars[0], tile_m=pars[1], tile_n=pars[2], w=pars[3], v=pars[4],
+        "    {{ hash({m:3}, {n:3}, {k:3}), Kernel_parameters({{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }})}},\n"
+    for (m, n, k), pars in sorted(all_pars.items()):
+        out += init_list_line.format(algo=pars[0], tile_m=pars[1], tile_n=pars[2], w=pars[3], v=pars[4],
                                      threads=pars[5], grouping=pars[6], minblocks=pars[7], m=m, n=n, k=k)
 
     # Footer
