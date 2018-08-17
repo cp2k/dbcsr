@@ -210,10 +210,9 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
      printf("libcusmm_benchmark: got handle with too few resources\n");
      exit(1);
  }
- int h_mnk = hash(mat_m, mat_n, mat_k); 
- std::vector<int> blocksizes; 
+ std::vector<Triplet> blocksizes;
  get_libcusmm_triplets(blocksizes, ht); 
- auto it = std::find(std::begin(blocksizes), std::end(blocksizes), h_mnk); 
+ auto it = std::find(std::begin(blocksizes), std::end(blocksizes), Triplet({ mat_m, mat_n, mat_k }));
  if(it == std::end(blocksizes) && !h->tune_mode){
      printf("Triplet %i x %i x %i is not defined in libcusmm\n", mat_m, mat_n, mat_k);
      exit(1);

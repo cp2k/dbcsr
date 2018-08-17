@@ -155,7 +155,7 @@ def write_parameters_file(all_pars):
  * Lookup table: given a triplet (m, n, k) describing a matrix-matrix multiplication, look up its optimal kernel parameters
  *
  * Keys:
- *   hash(m, n, k)
+ *   (m, n, k)
  *
  * Values: array of 8 integers with elements:
  *   0: mm algorithm (enum defined in libcusmm.h, possible values: 1, 2, 3, 4, 5)
@@ -171,12 +171,12 @@ def write_parameters_file(all_pars):
  * the superfluous parameters are set to 0
  */
 
-static const std::unordered_map<int, Kernel_parameters> ht  = {
+static const std::unordered_map<Triplet, KernelParameters> ht  = {
 """
     # Initializer list body
     print("Get parameters and write to file")
     init_list_line = \
-        "    {{ hash({m:3}, {n:3}, {k:3}), Kernel_parameters({{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }})}},\n"
+        "    {{ {{{{{m:3}, {n:3}, {k:3}}}}}, {{{{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }}}} }},\n"
     for (m, n, k), pars in sorted(all_pars.items()):
         out += init_list_line.format(algo=pars[0], tile_m=pars[1], tile_n=pars[2], w=pars[3], v=pars[4],
                                      threads=pars[5], grouping=pars[6], minblocks=pars[7], m=m, n=n, k=k)

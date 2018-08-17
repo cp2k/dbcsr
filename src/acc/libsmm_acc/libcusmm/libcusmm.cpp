@@ -173,7 +173,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
     int threads, grouping; 
 
     // Look up the kernel in the table of already JITed kernels
-    int h_mnk = hash(m, n, k);
+    Triplet h_mnk = { m, n, k };
     auto kernel_it = kernel_handles.find(h_mnk);
     if (kernel_it != kernel_handles.end()){  // the kernel has already been JITed
 
@@ -189,7 +189,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 	if (params_it != ht.end()){
 
             // Retrieve launching parameters
-            const Kernel_parameters params = ht.at(h_mnk);
+            const KernelParameters params = ht.at(h_mnk);
             libcusmm_algo algo = libcusmm_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
             int tile_m = params[1];
             int tile_n = params[2];
@@ -285,7 +285,7 @@ int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
     CUfunction kern_func;
 
     // Look up the kernel in the table of already JITed kernels
-    int h_mnk = hash(m, n, 0);
+    Triplet h_mnk = { m, n, 0 };
     auto kernel_it = transpose_handles.find(h_mnk); 
     if(kernel_it != transpose_handles.end()){  // the kernel has already been JITed
 
@@ -295,7 +295,7 @@ int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
 
         // JIT and store a kernel for this transposition
         jit_transpose_handle(kern_func, m, n);
-        transpose_handles.emplace(hash(m, n, 0), kern_func);
+        transpose_handles.emplace(h_mnk, kern_func);
 
     }
     
