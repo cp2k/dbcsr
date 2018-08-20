@@ -38,7 +38,7 @@ int main(int argc, char** argv){
     }
 
     libcusmm_benchmark_t* handle;
-    libcusmm_benchmark_init(&handle, false, max_m, max_n, max_k);
+    libcusmm_benchmark_init(&handle, test, max_m, max_n, max_k);
 
     int errors = 0;
     for(int i=0; i<n_triplets; i++){

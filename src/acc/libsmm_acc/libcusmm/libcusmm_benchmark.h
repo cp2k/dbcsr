@@ -16,8 +16,10 @@ typedef int (*KernelLauncher)(int *param_stack, int stack_size, CUstream stream,
 typedef int (*TransposeLauncher)(int *param_stack, int offset, int nblks, 
                                  double *buffer, int m, int n, CUstream stream);
 
+enum benchmark_mode {test, tune, timing};
+
 typedef struct {
-    bool tune_mode;
+    benchmark_mode mode;
     // max block-sizes to expect
     int max_m, max_n, max_k;
     // number of blocks to allocate in each panel
@@ -50,7 +52,7 @@ void stackTransp(int* stack, int n_stack, double *mat_a, double* mat_atrs,
 double checkSum(double* mat_c, int n_c, int mat_m, int mat_n);
 double checkSumTransp(double* mat, int n, int n_stack, int mat_m, int mat_n);
 
-void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, bool tune_mode,
+void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, benchmark_mode mode,
                              int max_m, int max_n, int max_k);
 
 void libcusmm_benchmark_finalize(libcusmm_benchmark_t*);

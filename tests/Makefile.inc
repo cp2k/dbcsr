@@ -25,4 +25,7 @@ libcusmm_unittest_multiply.cu: BIN_DEPS =
 
 SRC_TESTS += libcusmm_unittest_transpose.cu
 libcusmm_unittest_transpose.cu: BIN_DEPS =
+
+SRC_TESTS += libcusmm_timer_multiply.cu
+libcusmm_timer_multiply.cu: BIN_DEPS =
 endif

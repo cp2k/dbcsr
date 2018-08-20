@@ -42,7 +42,7 @@ inline int launch_kernel_from_handle(CUfunction const& kern_func, int nblks, int
 inline void validate_kernel(CUfunction& kern_func, CUstream stream, int threads, int grouping, int m, int n, int k){
 
     libcusmm_benchmark_t* h;
-    libcusmm_benchmark_init(&h, false, m, n, k);
+    libcusmm_benchmark_init(&h, test, m, n, k);
 
     // Run the matrix-matrix multiplication on the CPU
     memset(h->mat_c, 0, h->n_c * m * n * sizeof(double));
