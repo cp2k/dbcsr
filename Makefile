@@ -25,13 +25,15 @@ LIBNAME      := dbcsr
 LIBRARY      := lib$(LIBNAME)
 default_target: $(LIBRARY)
 
+# Read the configuration ============================================
+MODDEPS = "lower"
+include $(INCLUDEMAKE)
+
 # Test programs =========================================================
 include $(TESTSDIR)/Makefile.inc
 BIN_TESTS := $(sort $(addprefix $(TESTSDIR)/, $(SRC_TESTS)))
 
-# Read and set the configuration ============================================
-MODDEPS = "lower"
-include $(INCLUDEMAKE)
+# Set the configuration ============================================
 # the only binaries for the moment are the tests
 BIN_FILES := $(BIN_TESTS)
 BIN_NAMES := $(basename $(notdir $(BIN_FILES)))
