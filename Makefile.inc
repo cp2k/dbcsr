@@ -1,10 +1,10 @@
 
 CC          = gcc
-CPP         =
+CXX         = g++
+CXXFLAGS    = -O3 -std=c++11
 FC          = mpifort
 LD          = mpifort
 AR          = ar -r
-CPPFLAGS    =
 DFLAGS      = -D__MPI_VERSION=3 \
               -D__parallel -D__SCALAPACK \
               -D__STATM_TOTAL
@@ -54,6 +54,7 @@ endif
 ifneq ($(CRAY),)
 NVCC     = nvcc
 CC       = cc
+CXX      = CC
 FC       = ftn
 LD       = ftn
 DFLAGS  += -D__HAS_smm_dnn

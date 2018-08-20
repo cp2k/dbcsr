@@ -392,10 +392,10 @@ HASHDEFS   = -DEXP=$(EXP) -DEXP_DOUBLE=$(EXP_DOUBLE) -DHASH_LIMIT=$(HASH_LIMIT)
 	$(CXX) -c $(CXXFLAGS) $<
 
 $(LIBCUSMM_ABS_DIR)/libcusmm_parameters_utils.so: parameters_utils_for_py.cpp parameters_utils.h
-	$(CXX) -O3 $(PYBINDFLAGS) $(HASHDEFS) $< -o $@
+	$(CXX) $(CXXFLAGS) $(PYBINDFLAGS) $(HASHDEFS) $< -o $@
 
 libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
-	$(CXX) -c $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DARCH_NUMBER=$(ARCH_NUMBER) $(HASHDEFS) -std=c++11 $<
+	$(CXX) -c $(CXXFLAGS) $(NVRTCFLAGS) -DDBCSRHOME="\"$(DBCSRHOME)"\" -DARCH_NUMBER=$(ARCH_NUMBER) $(HASHDEFS) $<
 
 %.o: %.cu
 	$(NVCC) -c $(HASHDEFS) $(NVFLAGS) -I'$(SRCDIR)' $<
