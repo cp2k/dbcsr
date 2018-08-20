@@ -144,7 +144,7 @@ def gen_benchmark(outdir, m, n, k):
         for j in range(B-A):
             output += "launchers[%d]    = %s;\n"%(j, launchers[A+j])
             output += 'kernel_descr[%d] = (char *) "%s";\n'%(j, kernel_descr[A+j])
-        output += "libcusmm_benchmark_init(&handle, true, %d, %d, %d);\n"%(m, n, k)
+        output += "libcusmm_benchmark_init(&handle, tune, %d, %d, %d);\n"%(m, n, k)
         output += "return libcusmm_benchmark(handle, %d, %d, %d, %d, launchers, kernel_descr);\n"%(m, n, k, B-A)
         output += "libcusmm_benchmark_finalize(handle);\n"
         output += "}\n"

@@ -39,7 +39,7 @@ int main(int argc, char** argv){
     }
 
     libcusmm_benchmark_t* handle;
-    libcusmm_benchmark_init(&handle, false, max_m, max_n, max_k);
+    libcusmm_benchmark_init(&handle, test, max_m, max_n, max_k);
 
     // Get (m,n) pairs to test transposition
     std::vector<std::pair<int,int> > libcusmm_transpose_pairs; 

@@ -13,28 +13,31 @@
 
 //===========================================================================
 // Allocate memory and cuda events
-void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, bool tune_mode,
+void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, benchmark_mode mode,
                              int max_m, int max_n, int max_k){
 
     libcusmm_benchmark_t* h = (libcusmm_benchmark_t*) malloc(sizeof(libcusmm_benchmark_t));
     *handle = h;
+    h->mode = mode;
 
-    h-> tune_mode = tune_mode;
-
-    if(h->tune_mode){
-       h->n_a = 10000;
-       h->n_b = 10000;
-       h->n_c = 1000;
-       h->n_stack = 16005;
-       h->n_stack_trs_a = 0; 
-       h->n_stack_trs_b = 0;
-    }else{
-       h->n_a = 100;
-       h->n_b = 100;
-       h->n_c = 10;
-       h->n_stack = 100;
-       h->n_stack_trs_a = h->n_a;
-       h->n_stack_trs_b = h->n_b;
+    switch(mode) {
+        case tune: 
+        case timing: 
+            h->n_a = 10000;
+            h->n_b = 10000;
+            h->n_c = 1000;
+            h->n_stack = 16005;
+            h->n_stack_trs_a = 0;
+            h->n_stack_trs_b = 0;
+            break; 
+        case test: 
+            h->n_a = 100;
+            h->n_b = 100;
+            h->n_c = 10;
+            h->n_stack = 100;
+            h->n_stack_trs_a = h->n_a;
+            h->n_stack_trs_b = h->n_b;
+            break; 
     }
 
     h->max_m = max_m;
@@ -254,17 +257,24 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
  std::vector<Triplet> blocksizes;
  get_libcusmm_triplets(blocksizes, ht); 
  auto it = std::find(std::begin(blocksizes), std::end(blocksizes), Triplet({ mat_m, mat_n, mat_k }));
- if(it == std::end(blocksizes) && !h->tune_mode){
+ if(it == std::end(blocksizes) && h->mode != tune){
      printf("Triplet %i x %i x %i is not defined in libcusmm\n", mat_m, mat_n, mat_k);
      exit(1);
  }
 
- int n_iter = 1;
- int n_warm = 1;
- if(h->tune_mode){ // for larger matrices few iteration give enough statistics
+
+ int n_iter, n_warm; 
+ switch(h->mode) {
+   case tune:
+   case timing: // for larger matrices few iteration give enough statistics
      n_iter = max(3, 12500/(mat_m * mat_n * mat_k));
      n_warm = min(3, n_iter);
- }
+     break;
+   case test:
+     n_iter = 1;
+     n_warm = 1;
+     break;
+    }
 
  CUstream stream; 
  cuStreamCreate(&stream, CU_STREAM_DEFAULT);
@@ -281,7 +291,7 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
  matInit(h->mat_a, h->n_a, mat_m, mat_k, 42);
  matInit(h->mat_b, h->n_b, mat_k, mat_n, 24);
 
- if(h->tune_mode)
+ if(h->mode == tune)
      printf("Initializing ...\n");
  stackInit(h->stack, h->n_stack, h->n_c, h->mat_c, h->n_a, h->mat_a, h->n_b, h->mat_b, mat_m, mat_n, mat_k);
 
@@ -318,7 +328,7 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
 
     clean_string(kernel_descr[ikern], descr);
 
-    if(h->tune_mode)
+    if(h->mode == tune)
         sprintf(msg_prefix, "params %d / %d\n",ikern+1, nkernels);
 
     cudaError = cudaGetLastError();
@@ -335,7 +345,7 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
         continue;
     }
 
-    if(h->tune_mode){
+    if(h->mode == tune || h->mode == timing){
        double gflops = ((double) n_iter * h->n_stack * mat_m * mat_n * mat_k * 2 / (1e9))/(t_duration * 1e-3);
        printf("%sOK %s GFlop/s %g\n", msg_prefix, descr, gflops);
        if(best_gflops < gflops){
@@ -347,7 +357,7 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
     }
  }
 
- if(h->tune_mode){
+ if(h->mode == tune){
     printf("\n\n");
     if(best_kernel > -1){
         printf("WINNER: %d %s , # %g GFlop/s \n", best_kernel+1, kernel_descr[best_kernel], best_gflops);
@@ -451,7 +461,7 @@ int libcusmm_benchmark_transpose(libcusmm_benchmark_t* handle,
      printf("libcusmm_benchmark_transpose: got handle with too few resources\n");
      exit(1);
  }
- if(handle->tune_mode){
+ if(handle->mode == tune){
      printf("Tune mode not supported for benchmarking of transpose"); 
      exit(1); 
  }
