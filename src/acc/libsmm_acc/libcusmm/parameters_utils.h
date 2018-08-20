@@ -9,38 +9,31 @@
 #include <array>
 #include <vector>
 #include <unordered_map>
+#include <functional>
 
-typedef std::array<int, 3> Triplet_mnk;
-typedef std::array<int, 8> Kernel_parameters;
+typedef std::array<int, 3> Triplet;
+typedef std::array<int, 8> KernelParameters;
 
-//===============================================================================
-// Hash and reverse-hash functions
-const int hash_limit = HASH_LIMIT;
-inline int hash(int m, int n, int k){
-    return (m << EXP_DOUBLE) | (n << EXP) | k;
-}
-inline Triplet_mnk hash_reverse(int hash){
-    int m = hash >> EXP_DOUBLE;
-    int n = (hash >> EXP) & HASH_LIMIT;
-    int k = hash & HASH_LIMIT;
-    return Triplet_mnk({m, n, k});
+namespace std
+{
+    template<> struct hash<Triplet>
+    {
+        size_t operator()(std::array<int,3> const& k) const noexcept
+        {
+            // the hash of an int is the int itself (perfect hash)
+            size_t seed = k[0];
+            // then mix the other hashes into it, see also boost::hash_combine
+            seed ^= static_cast<size_t>(k[1]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            seed ^= static_cast<size_t>(k[2]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            return seed;
+        }
+    };
 }
 
-//===============================================================================
-// Get block sizes defined in libcusmm
-inline void get_blocksizes(std::vector<int>& v, std::unordered_map<int, Kernel_parameters > const& ht){
-    for(auto it = ht.begin(); it != ht.end(); ++it){
-        int h_mnk = it->first;
-        Triplet_mnk v_mnk = hash_reverse(h_mnk);
-        v.push_back(v_mnk[0]);
-        v.push_back(v_mnk[1]);
-        v.push_back(v_mnk[2]);
-    }
-}
-inline void get_libcusmm_triplets(std::vector<int>& v, std::unordered_map<int, Kernel_parameters > const& ht){
-    for(auto it = ht.begin(); it != ht.end(); ++it){
+inline void get_libcusmm_triplets(std::vector<Triplet>& v, std::unordered_map<Triplet, KernelParameters> const& ht)
+{
+    for(auto it = ht.begin(); it != ht.end(); ++it)
         v.push_back(it->first);
-    }
 }
 
 #endif

@@ -25,13 +25,15 @@ LIBNAME      := dbcsr
 LIBRARY      := lib$(LIBNAME)
 default_target: $(LIBRARY)
 
+# Read the configuration ============================================
+MODDEPS = "lower"
+include $(INCLUDEMAKE)
+
 # Test programs =========================================================
 include $(TESTSDIR)/Makefile.inc
 BIN_TESTS := $(sort $(addprefix $(TESTSDIR)/, $(SRC_TESTS)))
 
-# Read and set the configuration ============================================
-MODDEPS = "lower"
-include $(INCLUDEMAKE)
+# Set the configuration ============================================
 # the only binaries for the moment are the tests
 BIN_FILES := $(BIN_TESTS)
 BIN_NAMES := $(basename $(notdir $(BIN_FILES)))
@@ -329,7 +331,7 @@ TOOL_HELP += "doxygen : Generate the doxygen documentation"
 
 
 # Libcusmm stuff ============================================================
-$(LIBCUSMM_ABS_DIR)/parameters.h: $(LIBCUSMM_ABS_DIR)/generate_parameters.py $(wildcard $(LIBCUSMM_ABS_DIR)/parameters_*.txt) $(LIBCUSMM_ABS_DIR)/libcusmm_parameters_utils.so
+$(LIBCUSMM_ABS_DIR)/parameters.h: $(LIBCUSMM_ABS_DIR)/generate_parameters.py $(wildcard $(LIBCUSMM_ABS_DIR)/parameters_*.txt)
 	cd $(LIBCUSMM_ABS_DIR); ./generate_parameters.py
 
 $(LIBCUSMM_ABS_DIR)/cusmm_kernels.h: $(LIBCUSMM_ABS_DIR)/generate_kernels.py $(wildcard $(LIBCUSMM_ABS_DIR)/kernels/*.h)
@@ -375,10 +377,6 @@ vpath %.cpp   $(ALL_SRC_DIRS)
 # This is used e.g. by the convention checker.
 
 FYPPFLAGS ?= -n
-EXP = 10
-EXP_DOUBLE = $$(( 2*$(EXP)  ))
-HASH_LIMIT = $$(( 2**$(EXP)-1 ))
-HASHDEFS   = -DEXP=$(EXP) -DEXP_DOUBLE=$(EXP_DOUBLE) -DHASH_LIMIT=$(HASH_LIMIT)
 
 %.o %.mod: %.F
 	@rm -f $*.mod
@@ -391,19 +389,16 @@ HASHDEFS   = -DEXP=$(EXP) -DEXP_DOUBLE=$(EXP_DOUBLE) -DHASH_LIMIT=$(HASH_LIMIT)
 %.o: %.cpp
 	$(CXX) -c $(CXXFLAGS) $<
 
-$(LIBCUSMM_ABS_DIR)/libcusmm_parameters_utils.so: parameters_utils_for_py.cpp parameters_utils.h
-	$(CXX) $(CXXFLAGS) $(PYBINDFLAGS) $(HASHDEFS) $< -o $@
-
 DBCSRINC ?= $(SRCDIR)/acc/libsmm_acc/libcusmm/kernels/
 
 libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
-	$(CXX) -c $(CXXFLAGS) $(NVRTCFLAGS) -DDBCSRINC="\"$(DBCSRINC)"\" -DARCH_NUMBER=$(ARCH_NUMBER) $(HASHDEFS) $<
+	$(CXX) -c $(CXXFLAGS) $(NVRTCFLAGS) -DDBCSRINC="\"$(DBCSRINC)"\" -DARCH_NUMBER=$(ARCH_NUMBER) $<
 
 %.o: %.cu
-	$(NVCC) -c $(HASHDEFS) $(NVFLAGS) -I'$(SRCDIR)' $<
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
 
 libcusmm_benchmark.o: libcusmm_benchmark.cu parameters.h
-	$(NVCC) -c $(HASHDEFS) $(NVFLAGS) -I'$(SRCDIR)' $<
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
 
 $(LIBDIR)/%:
 ifneq ($(LD_SHARED),)

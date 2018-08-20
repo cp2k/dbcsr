@@ -5,7 +5,9 @@
 #ifndef LIBCUSMM_H
 #define LIBCUSMM_H
 
-#include <stdio.h>
+#include "parameters_utils.h"
+
+#include <cstdio>
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <nvrtc.h>
@@ -48,19 +50,13 @@ struct kernel_launcher {
     kernel_launcher(CUfunction const& kf, int th, int gp): kernel_function(kf), threads(th), grouping (gp) {}
 };
 
-// Hash function constants
-#define P 999
-#define Q 999
-inline int hash(int m, int n, int k);
-std::vector<int> hash_back(int hash);
-
-static std::unordered_map<int, kernel_launcher> kernel_handles;
+static std::unordered_map<Triplet, kernel_launcher> kernel_handles;
 
 int libcusmm_process_d(int *param_stack, int stack_size,
     CUstream stream, int m, int n, int k,
     double * a_data, double * b_data, double * c_data);
 
-static std::unordered_map<int, CUfunction> transpose_handles;
+static std::unordered_map<Triplet, CUfunction> transpose_handles;
 
 int libcusmm_transpose_d(int *trs_stack, int offset, int nblks, double *buffer,
                          int m, int n, cudaStream_t * stream);
