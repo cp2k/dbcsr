@@ -157,7 +157,7 @@ CONTAINS
       ! Call Cublas if the kernel doesn't exists in cusmm, i.e. istat==-2
       ! Limited to big kernels
       IF (datatype .EQ. dbcsr_type_real_8 .AND. istat .EQ. -2 .AND. &
-          (k_max .GE. 80 .OR. n_max .GE. 80)) THEN
+          (k_max .GT. 80 .OR. n_max .GT. 80)) THEN
          ithread = 0
 !$       ithread = omp_get_thread_num()
          istat = cublas_dgemm_loop_cu(cublas_handles(ithread+1)%handle_ptr, &

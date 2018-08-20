@@ -21,6 +21,7 @@
 #define dbcsr_type_real_8     3
 #define dbcsr_type_complex_4  5
 #define dbcsr_type_complex_8  7
+#define MAX_BLOCK_DIM         80
 #define KERNEL_FILES_PATH DBCSRINC
 
 
@@ -224,8 +225,12 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 extern "C" int libsmm_acc_process (void *param_stack, int stack_size, int nparams, int datatype, void *a_data, void *b_data, void *c_data, int m, int n, int k, int def_mnk, void *stream){
     if(def_mnk!=1)
         return(-1); // inhomogenous stacks not supported
-    if(datatype==dbcsr_type_real_8)
+    if(datatype==dbcsr_type_real_8) {
+      if(m>MAX_BLOCK_DIM || n>MAX_BLOCK_DIM || k>MAX_BLOCK_DIM)
+	return(-1); // maximum size over any dimention
+      else
         return (libcusmm_process_d ((int *) param_stack, stack_size, *((CUstream *) stream), m, n, k, (double *) a_data, (double *) b_data, (double *) c_data));
+    }
     return(-1); // datatype not supported
 };
 
@@ -309,6 +314,8 @@ extern "C" int libsmm_acc_transpose (void *trs_stack, int offset, int nblks, voi
     cudaStream_t* custream = (cudaStream_t*) stream;
     if(datatype != dbcsr_type_real_8)
         return 0; //transpose not needed
+    if(m>MAX_BLOCK_DIM || n>MAX_BLOCK_DIM)
+      return 0; // maximum size over any dimention
     return libcusmm_transpose_d((int *) trs_stack, offset, nblks, (double *) buffer, m, n, *((CUstream *) stream));
 };
 
