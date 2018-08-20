@@ -68,6 +68,7 @@ FCFLAGS  = $(WFLAGS) $(DFLAGS) -O3 -fopenmp -funroll-loops \
 LDFLAGS  = $(FCFLAGS)
 ARCH_NUMBER= 60
 NVFLAGS  = $(DFLAGS) -O3 -w -arch sm_$(ARCH_NUMBER) --std=c++11
+CUDA_PATH   = ${CRAY_CUDATOOLKIT_DIR
 NVRTCFLAGS = -I $(CUDA_PATH)/include -L $(CUDA_PATH)/lib64 -lnvrtc -lcuda -Wl,-rpath,$(CUDA_PATH)/lib64
 PYBINDFLAGS = -shared -std=c++11 -fPIC -I $(PYBIND_PATH)/include -I $(PY_PATH)
 LIBS     = -lfftw3 -lfftw3_threads
