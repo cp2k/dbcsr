@@ -70,6 +70,9 @@ ARCH_NUMBER= 60
 NVFLAGS  = $(DFLAGS) -O3 -w -arch sm_$(ARCH_NUMBER) --std=c++11
 CUDA_PATH   = ${CRAY_CUDATOOLKIT_DIR}
 NVRTCFLAGS = -I $(CUDA_PATH)/include -L $(CUDA_PATH)/lib64 -lnvrtc -lcuda -Wl,-rpath,$(CUDA_PATH)/lib64
+DBCSRINC = /scratch/snx3000/alazzaro/CP2K_ENVIRONMENT/DAINT/libs/PrgEnv-gnu/6.0.4_daint-gpu/dbcsr/include/
+PYBIND_PATH = /store/uzh/uzh1/CP2K_AUTO_REGTEST/DAINT/CRAY_XC50-gfortran_gpu_git/psmp/pybind11
+PY_PATH     = /usr/include/python2.7
 PYBINDFLAGS = -shared -std=c++11 -fPIC -I $(PYBIND_PATH)/include -I $(PY_PATH)
 LIBS     = -lfftw3 -lfftw3_threads
 LIBS    += /users/alazzaro/project/libsmm/libxsmm/haswell/lib/libsmm_dnn_cray.gnu.a
