@@ -20,9 +20,9 @@
   Kernel_dnt_small(m=13, n=13, k=13, tile_m=2, tile_n=1, threads=96, grouping=16, minblocks=12) , # 184.195 GFlop/s
   Kernel_dnt_small(m=8, n=8, k=8, tile_m=1, tile_n=1, threads=64, grouping=16, minblocks=4) , # 95.1028 GFlop/s
   Kernel_dnt_small(m=9, n=9, k=9, tile_m=1, tile_n=1, threads=96, grouping=16, minblocks=4) , # 111.384 GFlop/s
-  Kernel_dnt_tiny(m=5, n=5, k=5, split_thread=32, threads=64, grouping=16, minblocks=1) , # 30.4899 GFlop/s
-  Kernel_dnt_tiny(m=6, n=6, k=6, split_thread=32, threads=128, grouping=16, minblocks=1) , # 44.1711 GFlop/s
-  Kernel_dnt_tiny(m=7, n=7, k=7, split_thread=32, threads=96, grouping=16, minblocks=1) , # 64.2483 GFlop/s
+  Kernel_dnt_tiny(m=5, n=5, k=5, threads=64, grouping=16, minblocks=1) , # 30.4899 GFlop/s
+  Kernel_dnt_tiny(m=6, n=6, k=6, threads=128, grouping=16, minblocks=1) , # 44.1711 GFlop/s
+  Kernel_dnt_tiny(m=7, n=7, k=7, threads=96, grouping=16, minblocks=1) , # 64.2483 GFlop/s
 ]
 
 #EOF
