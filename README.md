@@ -11,15 +11,18 @@ You absolutely need:
 
 * GNU make
 * a Fortran compiler which supports at least Fortran 2003 (respectively 2008+TS when using the C-bindings)
-* a companion C compiler which supports at least C99
 * a LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested)
-* a SCALAPACK implementation (reference or MKL have been tested)
-* a BLAS implementation or [libxsmm](https://github.com/hfp/libxsmm)
+* a BLAS implementation (reference, OpenBLAS-bundled and MKL have been tested)
+* a Python version installed (2.x and 3.x have been tested)
+
+Optionally, you can install [libxsmm](https://github.com/hfp/libxsmm).
 
 To build with CUDA support you further need:
 
 * CUDA Toolkit
-* C++ STL implementation
+* a C++ compiler which supports at least C++11 standard
+
+We test against GNU and Intel compilers.
 
 ## Getting started
 
@@ -33,11 +36,10 @@ Run
 
 to list all possible targets.
 
-If you want to change the compiler, you can either specify it directly:
+Update the provided `Makefile.inc` to fit your needs 
+(read the documentation inside the file for further explanations) and then run
 
-    make CC=clang FC=flang
-
-or update the provided `Makefile.inc` to fit your needs.
+    make <target>
 
 Support for `cmake` is still considered experimental and may not cover all functionalities yet.
 If you are using `cmake` to build DBCSR, please make sure you can reproduce any errors using the plain `Makefile` before reporting them.
