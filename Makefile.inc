@@ -68,9 +68,10 @@ AR          = ar -r
 # Corresponding command flags.
 # Note the -fopenmp flag to have OpenMP parallelization.
 
-CFLAGS      = -O3 -g
-CXXFLAGS    = -O3 -g -std=c++11
-FCFLAGS     = -O3 -g -fopenmp -fno-omit-frame-pointer -funroll-loops \
+OPTFLAGS    = -O3 -g -fno-omit-frame-pointer -funroll-loops
+CFLAGS      = $(OPTFLAGS)
+CXXFLAGS    = $(OPTFLAGS) -std=c++11
+FCFLAGS     = -fopenmp $(OPTFLAGS) \
               -std=f2003 -ffree-form -fimplicit-none -ffree-line-length-512
 LDFLAGS     = $(FCFLAGS)
 
