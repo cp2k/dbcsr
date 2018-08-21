@@ -17,10 +17,11 @@
 # requires:
 # a) set the NVCC variable, e.g. NVCC = nvcc
 # b) specify -D__DBCSR_ACC in FCFLAGS variable
-# c) set the ARCH_NUMBER variable, e.g. ARCH_NUMBER = 35 for K20 card 
-#    or ARCH_NUMBER = 60 for P100 card
+# c) set the GPUVER variable, e.g. GPUVER = K20 for K20 card 
+#    or GPUVER = P100 for P100 card
 # d) set the NVFLAGS variable, 
-#    e.g. NVFLAGS = -O3 -w -arch sm_$(ARCH_NUMBER) --std=c++11
+#    e.g. NVFLAGS = -O3 -w --std=c++11
+#    in the Makefile, the -arch will be appended with the correct compute version
 # e) specify the CUDA include path in the CXXFLAGS variable, 
 #    e.g. CXXFLAGS += -I$(CUDA_PATH)/include 
 # f) specify the corresponding CUDA libraries in the LIBS variable,
