@@ -13,7 +13,7 @@ You absolutely need:
 * a Fortran compiler which supports at least Fortran 2003 (respectively 2008+TS when using the C-bindings)
 * a LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested)
 * a BLAS implementation (reference, OpenBLAS-bundled and MKL have been tested)
-* a Python version installed (2.x and 3.x have been tested)
+* a Python version installed (2.7+ and 3.5+ have been tested)
 
 Optionally, you can install [libxsmm](https://github.com/hfp/libxsmm).
 
