@@ -206,13 +206,8 @@ def gen_makefile(outdir, arch):
     output += "do_nothing:\n\n"
     output += "build_all: " +  " ".join(build_targets) + "\n\n"
 
-    output += "EXP = 10\n"
-    output += "EXP_DOUBLE = $$(( 2*$(EXP)  ))\n"
-    output += "HASH_LIMIT = $$(( 2**$(EXP)-1 ))\n"
-    output += "HASHDEFS   = -DEXP=$(EXP) -DEXP_DOUBLE=$(EXP_DOUBLE) -DHASH_LIMIT=$(HASH_LIMIT)\n\n"
-
     output += "libcusmm_benchmark.o : libcusmm_benchmark.cu\n"
-    output += "\tnvcc -O3 -arch=sm_" + str(arch) + " -w $(HASHDEFS) -c -std=c++11 $<\n\n"
+    output += "\tnvcc -O3 -arch=sm_" + str(arch) + " -w -c -std=c++11 $<\n\n"
 
     headers = " ".join( ["."+fn for fn in glob("./kernels/*.h")] )
     output += "%.o : %.cu "+headers+"\n"
