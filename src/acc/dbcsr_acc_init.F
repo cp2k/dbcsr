@@ -9,7 +9,7 @@
 !> \date    2018
 ! **************************************************************************************************
 MODULE dbcsr_acc_init
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
    USE ISO_C_BINDING, ONLY: C_INT, C_CHAR, C_PTR, C_NULL_PTR, C_NULL_CHAR, C_ASSOCIATED
 #endif
 #include "base/dbcsr_base_uses.f90"
@@ -22,7 +22,7 @@ MODULE dbcsr_acc_init
 
    PUBLIC :: acc_init, acc_finalize
 
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
 
    INTERFACE
       FUNCTION cuda_drv_init() RESULT(istat) BIND(C, name="acc_init")
@@ -47,8 +47,8 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE acc_init()
 
-#if ! defined (__ACC)
-      DBCSR_ABORT("__ACC not compiled in.")
+#if ! defined (__DBCSR_ACC)
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       istat = cuda_drv_init()
@@ -63,8 +63,8 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE acc_finalize()
 
-#if ! defined (__ACC)
-      DBCSR_ABORT("__ACC not compiled in.")
+#if ! defined (__DBCSR_ACC)
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       istat = cuda_drv_finalize()

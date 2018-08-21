@@ -392,7 +392,7 @@ FYPPFLAGS ?= -n
 DBCSRINC ?= $(SRCDIR)/acc/libsmm_acc/libcusmm/kernels/
 
 libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
-	$(CXX) -c $(CXXFLAGS) $(NVRTCFLAGS) -DDBCSRINC="\"$(DBCSRINC)"\" -DARCH_NUMBER=$(ARCH_NUMBER) $<
+	$(CXX) -c $(CXXFLAGS) -DDBCSRINC="\"$(DBCSRINC)"\" -DARCH_NUMBER=$(ARCH_NUMBER) $<
 
 %.o: %.cu
 	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<

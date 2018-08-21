@@ -1,15 +1,118 @@
 
-CC          = gcc
-CXX         = g++
-CXXFLAGS    = -O3 -std=c++11
+#######################################################################################
+#
+# DBCSR can be compiled in 4 main variants:
+# 1) Serial, i.e. no OpenMP and MPI
+# 2) OpenMP
+# 3) MPI
+# 4) OpenMP+MPI
+#
+# Except the 1) variant (not useful for real production cases), all others are tested.
+# Variants 2) and 4) requires to add the compiler flag to enable OpenMP, 
+# e.g. -fopenmp for GNU and Intel compilers.
+# Variants 3) and 4) requires to use MPI wrappers for the compilation and to specify
+# -D__parallel in the FCFLAGS variable.
+#
+# The 4 variants can be combined with the CUDA compilation. In this case, it further 
+# requires:
+# a) set the NVCC variable, e.g. NVCC = nvcc
+# b) specify -D__DBCSR_ACC in FCFLAGS variable
+# c) set the ARCH_NUMBER variable, e.g. ARCH_NUMBER = 35 for K20 card 
+#    or ARCH_NUMBER = 60 for P100 card
+# d) set the NVFLAGS variable, 
+#    e.g. NVFLAGS = -O3 -w -arch sm_$(ARCH_NUMBER) --std=c++11
+# e) specify the CUDA include path in the CXXFLAGS variable, 
+#    e.g. CXXFLAGS += -I$(CUDA_PATH)/include 
+# f) specify the corresponding CUDA libraries in the LIBS variable,
+#    e.g. LIBS += -lstdc++ -lcudart -lnvrtc -lcuda
+#
+# Below we present an example for OpenMP+MPI compilation for the GNU compiler.
+# Make sure that the env variable $LAPACK_PATH is set.
+#
+# GPU compilation example can be enabled with `make GPU=1`.
+# Make sure that the env variable $CUDA_PATH is set.
+#
+
+#######################################################################################
+#
+# Optional configurations:
+#
+# *** LIBXSMM ***
+#
+# Performance of the library can be improved on the CPU execution by using
+# the libxsmm, a library for small matrix multiplications which 
+# is provided by Intel: https://github.com/hfp/libxsmm/.
+# Add -D__LIBXSMM flag to FCFLAGS variable and specify the library in the LIBS
+# variable, .e.g LIBS += -L${LIBXSMM_DIR)/lib -lxsmmf -lxsmm -ldl
+#
+# *** CUBLAS ***
+#
+
+#######################################################################################
+#
+# Variables for the commands:
+# CC  => C compiler, e.g. gcc or mpicc
+# CXX => C++ compiler, e.g. g++ or mpicxx
+# FC  => Fortran compiler, e.g. gfortran or mpifort
+# LD  => Linker, e.g. gfortran or mpifort
+# AR  => Archive command, e.g. ar -r
+
+CC          = mpicc
+CXX         = mpicxx
 FC          = mpifort
 LD          = mpifort
 AR          = ar -r
-DFLAGS      = -D__MPI_VERSION=3 \
-              -D__parallel -D__SCALAPACK \
-              -D__STATM_TOTAL
 
-# Do not simply use -Wall since some warnings for Fortran are misleading:
+#######################################################################################
+#
+# Corresponding command flags.
+# Note the -fopenmp flag to have OpenMP parallelization.
+
+CFLAGS      = -O3 -g
+CXXFLAGS    = -O3 -g -std=c++11
+FCFLAGS     = -O3 -g -fopenmp -fno-omit-frame-pointer -funroll-loops \
+              -std=f2003 -ffree-form -fimplicit-none -ffree-line-length-512
+LDFLAGS     = $(FCFLAGS)
+
+#######################################################################################
+#
+# C interface requires new F2008ts standard
+
+ifneq ($(CINT),)
+FCFLAGS    := $(subst -std=f2003,-std=f2008ts,$(FCFLAGS))
+endif
+
+#######################################################################################
+#
+# Macro for MPI parallelization.
+
+FCFLAGS    += -D__parallel
+
+#######################################################################################
+#
+# Minimal external libraries, i.e. BLAS and LAPACK.
+
+LIBS        = -L${LAPACK_PATH}/lib -llapack -lblas
+
+#######################################################################################
+#
+# GPU compilation. Use `make GPU=1` to enable it.
+
+ifneq ($(GPU),)
+NVCC        = nvcc
+FCFLAGS    += -D__DBCSR_ACC
+ARCH_NUMBER = 35
+NVFLAGS     = -O3 -w -arch sm_$(ARCH_NUMBER) --std=c++11
+CXXFLAGS   += -I${CUDA_PATH}/include
+LIBS       += -lstdc++ -lcudart -lnvrtc -lcuda
+endif
+
+#######################################################################################
+#
+# Optional flags for warnings and checks.
+# We do not simply use -Wall since some warnings for Fortran are misleading.
+# For the checks use `make CHECKS=1` to enable them.
+
 WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=intrinsic-shadow -Werror=intrinsics-std \
               -Werror=line-truncation \
@@ -20,56 +123,11 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=zerotrip \
               -Werror=uninitialized -Wno-maybe-uninitialized -Wuse-without-only \
               -Werror
-CFLAGS      = -O2
-FCFLAGS     = -O3 -g -fno-omit-frame-pointer -funroll-loops -fopenmp
-CFLAGS     += $(DFLAGS)
-FCDEBFLAGS  = -ffree-form -std=f2003 -fimplicit-none -ffree-line-length-512
-FCFLAGS    += $(DFLAGS) $(FCDEBFLAGS) $(WFLAGS)
+FCFLAGS    += $(WFLAGS)
+
 ifneq ($(CHECKS),)
 FCFLAGS    += -fsanitize=leak
 FCFLAGS    += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
 endif
-LDFLAGS     = $(FCFLAGS)
-LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -lreflapack -lrefblas
 
-# C interface requires new F2008ts standard
-ifneq ($(CINT),)
-FCDEBFLAGS  := $(subst -std=f2003,-std=f2008ts,$(FCDEBFLAGS))
-endif
-
-ifneq ($(GPU),)
-NVCC        = nvcc
-DFLAGS     += -D__ACC -D__DBCSR_ACC
-FCFLAGS    += -D__ACC -D__DBCSR_ACC
-ARCH_NUMBER   = 35
-NVFLAGS     = $(DFLAGS) -O3 -w -arch sm_$(ARCH_NUMBER) --std=c++11
-LIBS        = -L${SCALAPACK_PATH}/lib -lscalapack -L${LAPACK_PATH}/lib -llapack -lblas
-LIBS       += -lstdc++ -lcudart -lcublas -lnvrtc -lcuda
-NVRTCFLAGS  = -I $(CUDA_PATH)/include -L $(CUDA_PATH)/lib64 -lnvrtc -lcuda -Wl,-rpath,$(CUDA_PATH)/lib64
-endif
-
-ifneq ($(CRAY),)
-NVCC     = nvcc
-CC       = cc
-CXX      = CC
-FC       = ftn
-LD       = ftn
-DFLAGS  += -D__HAS_smm_dnn
-DFLAGS  += -D__ACC -D__DBCSR_ACC
-DFLAGS  += -D__ACC_CUBLAS
-#-D__CUDA_PROFILING
-CFLAGS   = $(WFLAGS) $(DFLAGS) -fopenmp -fno-omit-frame-pointer -g -O3
-FCFLAGS  = $(WFLAGS) $(DFLAGS) -O3 -fopenmp -funroll-loops \
-           -ftree-vectorize \
-           $(FCDEBFLAGS)
-LDFLAGS  = $(FCFLAGS)
-ARCH_NUMBER= 60
-NVFLAGS  = $(DFLAGS) -O3 -w -arch sm_$(ARCH_NUMBER) --std=c++11
-CUDA_PATH   = ${CRAY_CUDATOOLKIT_DIR}
-NVRTCFLAGS = -I $(CUDA_PATH)/include -L $(CUDA_PATH)/lib64 -lnvrtc -lcuda -Wl,-rpath,$(CUDA_PATH)/lib64
-DBCSRINC = /scratch/snx3000/alazzaro/CP2K_ENVIRONMENT/DAINT/libs/PrgEnv-gnu/6.0.4_daint-gpu/dbcsr/include/
-LIBS     = -lfftw3 -lfftw3_threads
-LIBS    += /users/alazzaro/project/libsmm/libxsmm/haswell/lib/libsmm_dnn_cray.gnu.a
-LIBS    += -lstdc++ -lcudart -lcublas -lnvrtc -lcuda
-#LIBS    += -lnvToolsExt
-endif
+#######################################################################################

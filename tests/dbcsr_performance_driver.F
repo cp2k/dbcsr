@@ -183,7 +183,7 @@ CONTAINS
       INTEGER, INTENT(out)                               :: narg
       CHARACTER(len=*), DIMENSION(:), INTENT(out)        :: args
 
-      CHARACTER(len=default_string_length)               :: line
+      CHARACTER(len=1000)                                :: line
       INTEGER                                            :: istat, unit
 
       ! Read for standard input
