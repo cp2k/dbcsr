@@ -350,7 +350,7 @@ TOOL_HELP += "doxygen : Generate the doxygen documentation"
 
 # Libcusmm stuff ============================================================
 $(LIBCUSMM_ABS_DIR)/parameters.h: $(LIBCUSMM_ABS_DIR)/generate_parameters.py $(wildcard $(LIBCUSMM_ABS_DIR)/parameters_*.txt)
-	cd $(LIBCUSMM_ABS_DIR); ./generate_parameters.py --arch=$(ARCH_NUMBER)
+	cd $(LIBCUSMM_ABS_DIR); ./generate_parameters.py --gpu_version=$(GPUVER)
 
 $(LIBCUSMM_ABS_DIR)/cusmm_kernels.h: $(LIBCUSMM_ABS_DIR)/generate_kernels.py $(wildcard $(LIBCUSMM_ABS_DIR)/kernels/*.h)
 	cd $(LIBCUSMM_ABS_DIR); ./generate_kernels.py

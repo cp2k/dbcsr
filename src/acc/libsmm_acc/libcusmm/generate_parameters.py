@@ -9,28 +9,17 @@ from optparse import OptionParser
 
 
 #===============================================================================
-# Correspondance between CUDA compute versions and parameter_file
-param_files = {
-    35: "parameters_K20X.txt", # "parameters_K40.txt"  
-    37: "parameters_K80.txt",
-    60: "parameters_P100.txt",
-}
-
-#===============================================================================
 def main(argv):
     usage = "Generator of LibCuSMM. The Library for Cuda Small Matrix Multiplications."
     parser = OptionParser(usage)
-    parser.add_option("-a", "--arch", metavar="SM_NUMBER", default="60",
-                      help="CUDA compute version, used to select the appropriate libcusmm parameters file. Default: %default")
+    parser.add_option("-g", "--gpu_version", metavar="GPU_VERSION", default="P100",
+                      help="GPU card version, used to select the appropriate libcusmm parameters file. Default: %default")
     (options, args) = parser.parse_args(argv)
     assert(len(args) == 0)
 
     # Read existing parameters
-    arch_num = int(options.arch)
-    assert arch_num in param_files.keys(), "Cannot find autotuned parameters for compute version " + str(arch_num) + \
-                                           ".\nAvailable compute versions: " + str(param_files.keys()) + \
-                                           ".\nAvailable GPU cards: " + str(param_files.values())
-    param_fn = param_files[arch_num]
+    print("GPU version:\n", options.gpu_version)
+    param_fn = "parameters_" + options.gpu_version + ".txt"
     with open(param_fn) as f:
         content = f.read().splitlines()
     print("About to process", len(content), "lines from file", param_fn)
