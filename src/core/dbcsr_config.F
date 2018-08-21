@@ -119,10 +119,14 @@ MODULE dbcsr_config
    ! CUBLAS handle (a handle per each thread)
    TYPE(cublas_handle_type), DIMENSION(:), ALLOCATABLE :: cublas_handles
 
+   ! Max dimension for any block dimension
+   INTEGER, PARAMETER :: max_kernel_dim = 80
+
    PUBLIC :: dbcsr_cfg, has_MPI, has_acc, default_resize_factor
    PUBLIC :: mm_driver_blas, mm_driver_matmul, mm_driver_smm, mm_driver_xsmm, mm_driver_auto
    PUBLIC :: dbcsr_set_config, dbcsr_get_default_config, dbcsr_print_config
    PUBLIC :: cublas_handles
+   PUBLIC :: max_kernel_dim
 
 CONTAINS
 
