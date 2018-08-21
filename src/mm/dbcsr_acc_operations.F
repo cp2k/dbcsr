@@ -175,15 +175,19 @@ CONTAINS
                                          1.0_dp, 1.0_dp, &
                                          acc_stream_cptr(stream))
          ELSE
-            istat = cublas_dgemm_loop_cu(cublas_handles(ithread+1)%handle_ptr, &
-                                         'N', 'N', &
-                                         C_LOC(param_stack_host(1, 1)), &
-                                         dbcsr_ps_width, stack_size, &
-                                         acc_devmem_cptr(a_data), &
-                                         acc_devmem_cptr(b_data), &
-                                         acc_devmem_cptr(c_data), &
-                                         1.0_dp, 1.0_dp, &
-                                         acc_stream_cptr(stream))
+            ! Only uniform stacks, otherwise we have to check 
+            ! the transposity for each block
+            IF (mnk .EQ. 1) THEN
+               istat = cublas_dgemm_loop_cu(cublas_handles(ithread+1)%handle_ptr, &
+                                            'N', 'N', &
+                                            C_LOC(param_stack_host(1, 1)), &
+                                            dbcsr_ps_width, stack_size, &
+                                            acc_devmem_cptr(a_data), &
+                                            acc_devmem_cptr(b_data), &
+                                            acc_devmem_cptr(c_data), &
+                                            1.0_dp, 1.0_dp, &
+                                            acc_stream_cptr(stream))
+            ENDIF
          ENDIF
          IF (istat /= 0) DBCSR_ABORT("failed to run CUBLAS.")
       ENDIF
