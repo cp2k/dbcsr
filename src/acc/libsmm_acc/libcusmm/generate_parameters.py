@@ -34,7 +34,7 @@ def main(argv):
     with open(param_fn) as f:
         content = f.read().splitlines()
     print("About to process", len(content), "lines from file", param_fn)
-    parameters = get_parameters_from_file(content, arch_num)
+    parameters = get_parameters_from_file(content)
 
     # Construct output
     out, all_pars = write_parameters_file(parameters)
@@ -48,7 +48,7 @@ def main(argv):
 
 
 #===============================================================================
-def get_parameters_from_file(content, arch_num):
+def get_parameters_from_file(content):
     """
     Get parameters from a parameters file
     :param content: content of a parameter-file:
@@ -64,12 +64,8 @@ def get_parameters_from_file(content, arch_num):
     parameter_line_pattern_l = \
         '\s*Kernel_dnt_(largeDB[12])\(m=(\d+), n=(\d+), k=(\d+), tile_m=(\d+), tile_n=(\d+), w=(\d+), v=(\d+), threads=(\d+), grouping=(\d+), minblocks=(\d+)\)'
     # tiny
-    if arch_num < 60:
-        parameter_line_pattern_t = \
-            '\s*Kernel_dnt_(tiny)\(m=(\d+), n=(\d+), k=(\d+), split_thread=(\d+), threads=(\d+), grouping=(\d+), minblocks=(\d+)\)'
-    else: 
-        parameter_line_pattern_t = \
-            '\s*Kernel_dnt_(tiny)\(m=(\d+), n=(\d+), k=(\d+), threads=(\d+), grouping=(\d+), minblocks=(\d+)\)'
+    parameter_line_pattern_t = \
+        '\s*Kernel_dnt_(tiny)\(m=(\d+), n=(\d+), k=(\d+), threads=(\d+), grouping=(\d+), minblocks=(\d+)\)'
 
     parameters = dict()
     for line in content:
