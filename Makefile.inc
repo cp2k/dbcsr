@@ -102,8 +102,8 @@ LIBS        = -L${LAPACK_PATH}/lib -llapack -lblas
 ifneq ($(GPU),)
 NVCC        = nvcc
 FCFLAGS    += -D__DBCSR_ACC
-ARCH_NUMBER = 35
-NVFLAGS     = -O3 -w -arch sm_$(ARCH_NUMBER) --std=c++11
+GPUVER      = K40
+NVFLAGS     = -O3 -w --std=c++11
 CXXFLAGS   += -I${CUDA_PATH}/include
 LIBS       += -lstdc++ -lcudart -lnvrtc -lcuda
 endif

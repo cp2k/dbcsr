@@ -25,9 +25,27 @@ LIBNAME      := dbcsr
 LIBRARY      := lib$(LIBNAME)
 default_target: $(LIBRARY)
 
-# Read the configuration ============================================
+# Read the configuration ====================================================
 MODDEPS = "lower"
 include $(INCLUDEMAKE)
+
+# Set the compute version and NVFLAGS =======================================
+ifeq ($(GPUVER),K20X)
+ ARCH_NUMBER = 35
+else ifeq ($(GPUVER),K40)
+ ARCH_NUMBER = 35
+else ifeq ($(GPUVER),K80)
+ ARCH_NUMBER = 37
+else ifeq ($(GPUVER),P100)
+ ARCH_NUMBER = 60 
+else ifeq ($(GPUVER),)
+else
+ $(error GPUVER not recognized)
+endif
+
+ifneq ($(ARCH_NUMBER),)
+ NVFLAGS += -arch sm_$(ARCH_NUMBER)
+endif
 
 # Test programs =========================================================
 include $(TESTSDIR)/Makefile.inc
