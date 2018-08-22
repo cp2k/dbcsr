@@ -28,7 +28,7 @@ int main(int argc, char** argv){
     std::vector<Triplet> libcusmm_triplets;
     get_libcusmm_triplets(libcusmm_triplets, ht);
     int n_triplets = libcusmm_triplets.size();
-    printf("# Libcusmm has %d blocksizes compiled in...\n", n_triplets);
+    printf("# Libcusmm has %d blocksizes for multiplication\n", n_triplets);
 
     int max_m=0, max_n=0, max_k=0;
     for(int i=0; i<n_triplets; i++){

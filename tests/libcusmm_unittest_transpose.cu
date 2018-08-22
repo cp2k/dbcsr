@@ -30,7 +30,6 @@ int main(int argc, char** argv){
     std::vector<Triplet> libcusmm_triplets;
     get_libcusmm_triplets(libcusmm_triplets, ht);
     int n_triplets = libcusmm_triplets.size();
-    printf("# Libcusmm has %d blocksizes compiled in...\n", n_triplets);
 
     int max_m=0, max_n=0, max_k=0;
     for(int i=0; i<n_triplets; i++){
@@ -58,6 +57,7 @@ int main(int argc, char** argv){
     auto last = std::unique(libcusmm_transpose_pairs.begin(), libcusmm_transpose_pairs.end());
     libcusmm_transpose_pairs.erase(last, libcusmm_transpose_pairs.end()); 
     int n_pairs = libcusmm_transpose_pairs.size();
+    printf("# Libcusmm has %d blocksizes for transposition\n", n_pairs);
 
     int errors = 0;
     for(int i=0; i<n_pairs; i++){
