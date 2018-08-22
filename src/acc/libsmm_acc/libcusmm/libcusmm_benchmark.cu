@@ -30,26 +30,36 @@ void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, bool tune_mode,
 //       h->n_b = 100;
 //       h->n_c = 10;
 //       h->n_stack = 18;
+       h->n_stack_trs_a = 0; 
+       h->n_stack_trs_b = 0;
     }else{
        h->n_a = 100;
        h->n_b = 100;
        h->n_c = 10;
        h->n_stack = 100;
+       h->n_stack_trs_a = h->n_a;
+       h->n_stack_trs_b = h->n_b;
     }
 
     h->max_m = max_m;
     h->max_n = max_n;
     h->max_k = max_k;
 
-    h->mat_a = (double*) malloc(h->n_a * max_m * max_k * sizeof(double));
-    h->mat_b = (double*) malloc(h->n_b * max_k * max_n * sizeof(double));
-    h->mat_c = (double*) malloc(h->n_c * max_m * max_n * sizeof(double));
-    h->stack = (int*) malloc(h->n_stack * 3 * sizeof(int));
+    h->mat_a =     (double*) malloc(h->n_a * max_m * max_k * sizeof(double));
+    h->mat_trs_a = (double*) malloc(h->n_a * max_m * max_k * sizeof(double));
+    h->mat_b =     (double*) malloc(h->n_b * max_k * max_n * sizeof(double));
+    h->mat_trs_b = (double*) malloc(h->n_b * max_k * max_n * sizeof(double));
+    h->mat_c =     (double*) malloc(h->n_c * max_m * max_n * sizeof(double));
+    h->stack =        (int*) malloc(h->n_stack * 3 * sizeof(int));
+    h->stack_trs_a =  (int*) malloc(h->n_stack_trs_a * sizeof(int));
+    h->stack_trs_b =  (int*) malloc(h->n_stack_trs_b * sizeof(int));
 
     cudaMalloc(&h->d_mat_a, h->n_a * max_m * max_k * sizeof(double));
     cudaMalloc(&h->d_mat_b, h->n_b * max_k * max_n * sizeof(double));
     cudaMalloc(&h->d_mat_c, h->n_c * max_m * max_n * sizeof(double));
     cudaMalloc(&h->d_stack, h->n_stack * 3 * sizeof(int));
+    cudaMalloc(&h->d_stack_trs_a, h->n_stack_trs_a * sizeof(int));
+    cudaMalloc(&h->d_stack_trs_b, h->n_stack_trs_b * sizeof(int));
 
     cuEventCreate(&h->t_start, CU_EVENT_DEFAULT);
     cuEventCreate(&h->t_stop, CU_EVENT_DEFAULT);
@@ -144,6 +154,18 @@ void stackInit(int *stack, int n_stack, int n_c, double* mat_c,
 
 
 //===========================================================================
+// initialize the task list ("stack" in CP2K lingo)
+void stackInitTransp(int *stack, int n_stack, int n_a, double * mat_a, 
+                     int mat_m, int mat_n){
+
+  int* s = stack;
+  int p = 0;
+  for(int p=0; p<n_stack; p++)
+     *s++ =  p * mat_m * mat_n;
+}
+
+
+//===========================================================================
 void stackCalc(int* stack, int n_stack, double* mat_c, double *mat_a, double* mat_b,
                int mat_m, int mat_n, int mat_k){
 
@@ -177,12 +199,47 @@ void stackCalc(int* stack, int n_stack, double* mat_c, double *mat_a, double* ma
 
 
 //===========================================================================
+void stackTransp(int* stack, int n_stack, double *mat, double* mat_trs,
+                 int mat_m, int mat_n){
+    double buf[mat_m * mat_n]; 
+    for(int s=0; s < n_stack; s++){
+        int offset = stack[s];
+        for(int m=0; m < mat_m; m++){
+            for(int n=0; n < mat_n; n++){
+                int i = n * mat_m + m;
+                int r_out = i % mat_n;
+                int c_out = i / mat_n;
+                int it = r_out * mat_m + c_out;
+                mat_trs[offset + i] = mat[offset + it];
+            }
+        }
+    }
+}
+
+
+//===========================================================================
 double checkSum(double* mat_c, int n_c, int mat_m, int mat_n){
    double res = 0;
    for(int i=0; i<n_c * mat_m * mat_n; i++){
      res += mat_c[i];
    }
    return res;
+}
+
+
+//===========================================================================
+double checkSumTransp(double* mat, int n, int mat_m, int mat_n){
+    // for transposition, a regular checkSum does not inform about the 
+    // transpose's correctness. Instead, we perform a checkSum on a 
+    // sample of elements.
+    double res = 0;
+    int size = mat_m * mat_n;
+    int n_samples = size / 3;
+    int step = size / n_samples; 
+    int idx = 0;
+    for(int idx=0; idx < size; idx+=step)
+        res += mat[idx]; 
+    return res;
 }
 
 
@@ -321,4 +378,115 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
  return(error_counter);
 }
 
-//EOF
+
+//===========================================================================
+int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
+                                  double* mat, double* mat_trs, double* d_mat, 
+                                  int n, int mat_m, int mat_n, 
+                                  CUevent start, CUevent stop, char** kernel_descr,
+                                  TransposeLauncher* launcher){
+ if(mat_m > MAX_BLOCK_DIM || mat_n > MAX_BLOCK_DIM){
+     printf("Cannot transpose matrices with dimensions above %i, got (%i x %i)\n",
+            MAX_BLOCK_DIM, mat_m, mat_n);
+     exit(1);
+ }
+
+ CUstream stream;
+ cuStreamCreate(&stream, CU_STREAM_DEFAULT);
+
+ int offset = 0;
+ int n_warm = 0;
+ int n_iter = 1;
+ int error_counter = 0;
+ double sumCPU, sumGPU;
+ float t_duration;
+ char descr[1000], msg_prefix[100]="";
+ cudaError_t cudaError;
+
+ // Matrix and stack initialization
+ matInit(mat, n, mat_m, mat_n, 42);
+ memset(mat_trs, 0, n * mat_m * mat_n * sizeof(double));
+ stackInitTransp(stack, n_stack, n, mat, mat_m, mat_n);
+
+ // Reference result on CPU
+ stackTransp(stack, n_stack, mat, mat_trs, mat_m, mat_n);
+ sumCPU = checkSumTransp(mat_trs, n, mat_m, mat_n);
+
+ // Compute on GPU
+ cudaMemcpy(d_mat, mat, n * mat_m * mat_n * sizeof(double), cudaMemcpyHostToDevice);
+ cudaMemcpy(d_stack, stack, n_stack * sizeof(int), cudaMemcpyHostToDevice);
+ cudaError = cudaGetLastError();
+ if (cudaError != cudaSuccess){
+   printf("%sERROR %s cuda_error: %s\n", msg_prefix, descr, cudaGetErrorString(cudaError));
+   error_counter++;
+ }
+
+ // Warmup run
+ for(int i=0; i<n_warm; i++)
+   launcher[0](d_stack, offset, n_stack, d_mat, mat_m, mat_n, stream);
+
+ // Real runs
+ cuEventRecord(start, stream);
+
+ for(int i=0; i<n_iter; i++)
+   launcher[0](d_stack, offset, n_stack, d_mat, mat_m, mat_n, stream);
+
+ cuEventRecord(stop, stream);
+ cuEventSynchronize(stop);
+ cuEventElapsedTime(&t_duration, start, stop);
+
+ cudaError = cudaGetLastError();
+
+ // Check for errors and compare libcusmm result on GPU to reference
+ cudaMemcpy(mat_trs, d_mat, n * mat_m * mat_n * sizeof(double), cudaMemcpyDeviceToHost);
+ clean_string(kernel_descr[0], descr);
+ cudaError = cudaGetLastError();
+ if (cudaError != cudaSuccess){
+   printf("%s[TR] ERROR %s cuda_error: %s\n", msg_prefix, descr, cudaGetErrorString(cudaError));
+   error_counter++;
+ }
+
+ sumGPU = checkSumTransp(mat_trs, n, mat_m, mat_n);
+ if(sumGPU != sumCPU){
+     printf("%s[TR] ERROR %s checksum_diff: %g\n", msg_prefix, descr, sumGPU-sumCPU);
+     error_counter++;
+ } else {
+     printf("%s[TR] OK %s\n", msg_prefix, descr);
+ }
+
+ return error_counter;
+
+}
+
+
+//===========================================================================
+int libcusmm_benchmark_transpose(libcusmm_benchmark_t* handle,
+                                 int mat_m, int mat_n, int mat_k,
+                                 TransposeLauncher* launcher, char** kernel_descr){
+
+ if(mat_m > handle->max_m || mat_n > handle->max_n || mat_k > handle->max_k){
+     printf("libcusmm_benchmark_transpose: got handle with too few resources\n");
+     exit(1);
+ }
+ if(handle->tune_mode){
+     printf("Tune mode not supported for benchmarking of transpose"); 
+     exit(1); 
+ }
+
+ int errors;
+ errors += libcusmm_benchmark_transpose_(handle->n_stack_trs_a, handle->stack_trs_a, handle->d_stack_trs_a,
+                                         handle->mat_a, handle->mat_trs_a, handle->d_mat_a,
+                                         handle->n_a, mat_m, mat_k,
+                                         handle->t_start, handle->t_stop, kernel_descr, launcher);
+ if(mat_m == mat_k && mat_k == mat_n){
+     // Test transpose of matrix 'b' if its dimensions differ from matrix 'a'
+     errors += libcusmm_benchmark_transpose_(handle->n_stack_trs_b, handle->stack_trs_b, handle->d_stack_trs_b,
+                                             handle->mat_b, handle->mat_trs_b, handle->d_mat_b,
+                                             handle->n_b, mat_k, mat_n,
+                                             handle->t_start, handle->t_stop, kernel_descr, launcher);
+ }
+ return errors;
+
+}
+
+//EOF§
