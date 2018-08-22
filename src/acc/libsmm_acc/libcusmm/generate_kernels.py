@@ -39,7 +39,7 @@ def main():
     kernels_folder_files = os.listdir(kernels_folder)
     kernel_files = list()
     for f in kernels_folder_files:
-        if f[:6] == "cusmm_" and f[-2:] == ".h" and f != "cusmm_common.h":
+        if f[:6] == "cusmm_" and f[-2:] == ".h":
             kernel_files.append(os.path.join(kernels_folder, f))
     print("Found", len(kernel_files), "kernel files:\n", kernel_files)
 
@@ -78,7 +78,8 @@ def cpp_function_to_string(cpp_file, cpp_file_name):
     for l in cpp_file:
         if not in_comment:
             # ignore comments and empty lines
-            if re.match(commented_line, l) is not None or len(l) == 0:
+            if re.match(commented_line, l) is not None or len(l) == 0 \
+                or "#include \"cusmm_common.h\"" in l:
                 pass
             elif re.match(open_comment, l) is not None: 
                 in_comment = True
