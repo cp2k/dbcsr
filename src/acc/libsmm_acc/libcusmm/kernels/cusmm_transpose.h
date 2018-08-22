@@ -11,7 +11,7 @@
 #include "cusmm_common.h"
 
 template < int m, int n>
-__global__ void transpose_d(int *trs_stack, int nblks, double* mat){
+__global__ void transpose_d(int *trs_stack, double* mat){
  __shared__ double buf[m*n];
  int offset = trs_stack[blockIdx.x];
  for(int i=threadIdx.x; i < m*n; i+=blockDim.x){
