@@ -37,8 +37,9 @@ else ifeq ($(GPUVER),K40)
 else ifeq ($(GPUVER),K80)
  ARCH_NUMBER = 37
 else ifeq ($(GPUVER),P100)
- ARCH_NUMBER = 60 
-else ifeq ($(GPUVER),)
+ ARCH_NUMBER = 60
+else ifeq ($(GPUVER),) # Default to the newest GPU
+ ARCH_NUMBER = 60
 else
  $(error GPUVER not recognized)
 endif
