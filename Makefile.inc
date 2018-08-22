@@ -23,7 +23,7 @@
 #    e.g. NVFLAGS = -O3 -w --std=c++11
 #    in the Makefile, the -arch will be appended with the correct compute version
 # e) specify the CUDA include path in the CXXFLAGS variable, 
-#    e.g. CXXFLAGS += -I$(CUDA_PATH)/include 
+#    e.g. CXXFLAGS += -I${CUDA_PATH}/include 
 # f) specify the corresponding CUDA libraries in the LIBS variable,
 #    e.g. LIBS += -lstdc++ -lcudart -lnvrtc -lcuda
 #
@@ -31,7 +31,7 @@
 # Make sure that the env variable $LAPACK_PATH is set.
 #
 # GPU compilation example can be enabled with `make GPU=1`.
-# Make sure that the env variable $CUDA_PATH is set.
+# Make sure that the env variable ${CUDA_PATH} is set.
 #
 
 #######################################################################################
@@ -43,10 +43,17 @@
 # Performance of the library can be improved on the CPU execution by using
 # the libxsmm, a library for small matrix multiplications which 
 # is provided by Intel: https://github.com/hfp/libxsmm/.
-# Add -D__LIBXSMM flag to FCFLAGS variable and specify the library in the LIBS
+# Add -D__LIBXSMM flag to the FCFLAGS variable and specify the library in the LIBS
 # variable, .e.g LIBS += -L${LIBXSMM_DIR)/lib -lxsmmf -lxsmm -ldl
 #
+#
 # *** CUBLAS ***
+#
+# For multiplications of dense matrices, it can be beneficial to "densify" the matrices 
+# and then use DGEMM for the local multiplication. This is the default behavior for the
+# CPU execution, while it requires to link CUBLAS for the GPU execution 
+# (LIBS += -lcublas) and to specify the macro -D__DBCSR_ACC=2 in the FCFLAGS and NVFLAGS
+# variables.
 #
 
 #######################################################################################
@@ -107,6 +114,10 @@ GPUVER      = K40
 NVFLAGS     = -O3 -w --std=c++11
 CXXFLAGS   += -I${CUDA_PATH}/include
 LIBS       += -lstdc++ -lcudart -lnvrtc -lcuda
+# CUBLAS (off by default)
+#FCFLAGS    := $(subst -D__DBCSR_ACC,-D__DBCSR_ACC=2,$(FCFLAGS))
+#NVFLAGS    += -D__DBCSR_ACC=2
+#LIBS       += -lcublas
 endif
 
 #######################################################################################

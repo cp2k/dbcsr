@@ -13,6 +13,7 @@
 !> - Created 2010
 ! **************************************************************************************************
 PROGRAM dbcsr_performance_driver
+   USE dbcsr_config,                    ONLY: dbcsr_print_config
    USE dbcsr_error_handling,            ONLY: dbcsr_error_handling_setup
    USE dbcsr_files,                     ONLY: open_file
    USE dbcsr_kinds,                     ONLY: default_string_length,&
@@ -123,6 +124,10 @@ PROGRAM dbcsr_performance_driver
    !
    ! initialize libdbcsr
    CALL dbcsr_init_lib()
+
+   !
+   ! print DBCSR configuration
+   CALL dbcsr_print_config(io_unit)
 
    !
    ! select the operation

@@ -100,6 +100,11 @@ MODULE dbcsr_config
       INTEGER  :: num_layers_3D = 1
       LOGICAL  :: use_comm_thread = .TRUE.
       INTEGER  :: comm_thread_load = 100
+#if !defined (__DBCSR_ACC) || (__DBCSR_ACC == 2)
+      LOGICAL  :: mm_densification = .TRUE.
+#else
+      LOGICAL  :: mm_densification = .FALSE.
+#endif
       INTEGER  :: multrec_limit = 512
       INTEGER  :: accdrv_priority_streams = 4
       INTEGER  :: accdrv_priority_buffers = 40
@@ -142,6 +147,7 @@ CONTAINS
 !> \param num_layers_3D 3D layers
 !> \param use_comm_thread ...
 !> \param comm_thread_load ...
+!> \param mm_densification ...
 !> \param multrec_limit ...
 !> \param accdrv_priority_streams ...
 !> \param accdrv_priority_buffers ...
@@ -166,6 +172,7 @@ CONTAINS
       num_layers_3D, &
       use_comm_thread, &
       comm_thread_load, &
+      mm_densification, &
       multrec_limit, &
       accdrv_priority_streams, &
       accdrv_priority_buffers, &
@@ -186,7 +193,9 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_mpi_rma
       INTEGER, INTENT(IN), OPTIONAL                      :: num_layers_3D
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_comm_thread
-      INTEGER, INTENT(IN), OPTIONAL :: comm_thread_load, multrec_limit, accdrv_priority_streams, &
+      INTEGER, INTENT(IN), OPTIONAL                      :: comm_thread_load
+      LOGICAL, INTENT(IN), OPTIONAL                      :: mm_densification
+      INTEGER, INTENT(IN), OPTIONAL :: multrec_limit, accdrv_priority_streams, &
          accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers
       LOGICAL, INTENT(IN), OPTIONAL                      :: accdrv_avoid_after_busy
       INTEGER, INTENT(IN), OPTIONAL                      :: accdrv_min_flop_process
@@ -205,6 +214,7 @@ CONTAINS
       IF (PRESENT(num_layers_3D)) dbcsr_cfg%num_layers_3D = num_layers_3D
       IF (PRESENT(use_comm_thread)) dbcsr_cfg%use_comm_thread = use_comm_thread
       IF (PRESENT(multrec_limit)) dbcsr_cfg%multrec_limit = multrec_limit
+      IF (PRESENT(mm_densification)) dbcsr_cfg%mm_densification = mm_densification
       IF (PRESENT(accdrv_priority_streams)) dbcsr_cfg%accdrv_priority_streams = accdrv_priority_streams
       IF (PRESENT(accdrv_priority_buffers)) dbcsr_cfg%accdrv_priority_buffers = accdrv_priority_buffers
       IF (PRESENT(accdrv_posterior_streams)) dbcsr_cfg%accdrv_posterior_streams = accdrv_posterior_streams
@@ -273,6 +283,7 @@ CONTAINS
 !> \param num_layers_3D ...
 !> \param use_comm_thread ...
 !> \param comm_thread_load ...
+!> \param mm_densification ...
 !> \param multrec_limit ...
 !> \param accdrv_priority_streams ...
 !> \param accdrv_priority_buffers ...
@@ -296,6 +307,7 @@ CONTAINS
       num_layers_3D, &
       use_comm_thread, &
       comm_thread_load, &
+      mm_densification, &
       multrec_limit, &
       accdrv_priority_streams, &
       accdrv_priority_buffers, &
@@ -315,7 +327,9 @@ CONTAINS
       LOGICAL, INTENT(OUT), OPTIONAL                     :: use_mpi_rma
       INTEGER, INTENT(OUT), OPTIONAL                     :: num_layers_3D
       LOGICAL, INTENT(OUT), OPTIONAL                     :: use_comm_thread
-      INTEGER, INTENT(OUT), OPTIONAL :: comm_thread_load, multrec_limit, accdrv_priority_streams, &
+      INTEGER, INTENT(OUT), OPTIONAL                     :: comm_thread_load
+      LOGICAL, INTENT(OUT), OPTIONAL                     :: mm_densification
+      INTEGER, INTENT(OUT), OPTIONAL :: multrec_limit, accdrv_priority_streams, &
          accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers
       LOGICAL, INTENT(OUT), OPTIONAL                     :: accdrv_avoid_after_busy
       INTEGER, INTENT(OUT), OPTIONAL                     :: accdrv_min_flop_process
@@ -336,6 +350,7 @@ CONTAINS
       IF (PRESENT(num_layers_3D)) num_layers_3D = default_cfg%num_layers_3D
       IF (PRESENT(use_comm_thread)) use_comm_thread = default_cfg%use_comm_thread
       IF (PRESENT(comm_thread_load)) comm_thread_load = default_cfg%comm_thread_load
+      IF (PRESENT(mm_densification)) mm_densification = default_cfg%mm_densification
       IF (PRESENT(multrec_limit)) multrec_limit = default_cfg%multrec_limit
       IF (PRESENT(accdrv_priority_streams)) accdrv_priority_streams = default_cfg%accdrv_priority_streams
       IF (PRESENT(accdrv_priority_buffers)) accdrv_priority_buffers = default_cfg%accdrv_priority_buffers
@@ -374,7 +389,7 @@ CONTAINS
             DBCSR_ABORT("Unkown MM driver")
          END SELECT
          WRITE (UNIT=unit_nr, FMT='(1X,A,T41,A40)') &
-            "DBCSR| Multiplication driver", ADJUSTR(mm_name(1:40))
+            "DBCSR| CPU Multiplication driver", ADJUSTR(mm_name(1:40))
 
          WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
             "DBCSR| Multrec recursion limit", dbcsr_cfg%multrec_limit
@@ -390,6 +405,9 @@ CONTAINS
          ENDIF
          WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
             "DBCSR| Multiplicative factor virtual images", dbcsr_cfg%num_mult_images
+
+         WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
+            "DBCSR| Use multiplication densification", dbcsr_cfg%mm_densification
 
          IF (dbcsr_cfg%nm_stacks == dbcsr_cfg%nn_stacks .AND. dbcsr_cfg%nm_stacks == dbcsr_cfg%nk_stacks) THEN
             WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &

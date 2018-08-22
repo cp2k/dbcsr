@@ -26,7 +26,7 @@ MODULE dbcsr_acc_operations
    USE dbcsr_kinds, ONLY: real_8, dp
    USE dbcsr_types, ONLY: dbcsr_type_real_8
 
-#if defined(__ACC_CUBLAS)
+#if (__DBCSR_ACC == 2)
    USE dbcsr_cublas, ONLY: cublas_dgemm_loop_cu
 #endif
 
@@ -157,7 +157,7 @@ CONTAINS
          IF (istat == 100) DBCSR_ABORT("failed due to accGetLastError().")
       ENDIF
 
-#if defined(__ACC_CUBLAS)
+#if (__DBCSR_ACC == 2)
       ! Call Cublas for big kernels
       IF (datatype .EQ. dbcsr_type_real_8 .AND. istat .EQ. -100) THEN
          ithread = 0

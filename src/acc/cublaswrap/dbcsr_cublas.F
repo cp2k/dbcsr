@@ -15,7 +15,7 @@ MODULE dbcsr_cublas
    PUBLIC :: cublas_handle_destroy
    PUBLIC :: cublas_handle_type
 
-#if defined(__ACC_CUBLAS)
+#if (__DBCSR_ACC == 2)
    PUBLIC :: cublas_dgemm_loop_cu
 #endif
 
@@ -23,7 +23,7 @@ MODULE dbcsr_cublas
       TYPE(C_PTR) :: handle_ptr = c_null_ptr
    END TYPE cublas_handle_type
 
-#if defined(__ACC_CUBLAS)
+#if (__DBCSR_ACC == 2)
    INTERFACE
       FUNCTION cublas_create_cu(handle) &
          RESULT(istat) &
@@ -72,7 +72,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'cublas_handle_init', &
                                      routineP = moduleN//':'//routineN
 
-#if defined(__ACC_CUBLAS)
+#if (__DBCSR_ACC == 2)
       INTEGER(KIND=C_INT)      :: err
       INTEGER                  :: handle
 
@@ -96,7 +96,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'cublas_handle_destroy', &
                                      routineP = moduleN//':'//routineN
 
-#if defined(__ACC_CUBLAS)
+#if (__DBCSR_ACC == 2)
       INTEGER(KIND=C_INT)      :: err
       INTEGER                  :: handle
 

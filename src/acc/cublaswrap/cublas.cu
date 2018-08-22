@@ -1,4 +1,4 @@
-#ifdef __ACC_CUBLAS
+#if (__DBCSR_ACC == 2)
 
 #include <stdio.h>
 #include "cublas_v2.h"

@@ -571,8 +571,7 @@ CONTAINS
          DBCSR_ABORT("A cols/B rows not equal")
       !
       ! No dense multiplication when filtering is used.
-      use_dense_mult = .NOT. PRESENT(filter_eps)
-      IF (has_acc) use_dense_mult = .FALSE.
+      use_dense_mult = dbcsr_cfg%mm_densification .AND. (.NOT. PRESENT(filter_eps))
       !
       mp_obj = dbcsr_distribution_mp(matrix_c%dist)
       numnodes = dbcsr_mp_numnodes(mp_obj)
