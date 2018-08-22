@@ -26,10 +26,6 @@ void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, bool tune_mode,
        h->n_b = 10000;
        h->n_c = 1000;
        h->n_stack = 16005;
-//       h->n_a = 100;
-//       h->n_b = 100;
-//       h->n_c = 10;
-//       h->n_stack = 18;
        h->n_stack_trs_a = 0; 
        h->n_stack_trs_b = 0;
     }else{
@@ -100,14 +96,10 @@ void matInit(double* mat, int mat_n, int x, int y, int seed){
 
  double *m = mat;
 
- for(int n=0; n<mat_n; n++){
-   for(int j=0; j<y; j++) {
-     for(int i=0; i<x; i++, m++) {
-     *m = (double) j*x + i + n + seed;
-     //printf("matrix [%d, %d]=%g\n", i, j, *m);
-     }
-   }
- }
+ for(int n=0; n<mat_n; n++)
+   for(int j=0; j<y; j++)
+     for(int i=0; i<x; i++, m++)
+       *m = (double) j*x + i + n + seed;
 
 }
 
@@ -155,11 +147,9 @@ void stackInit(int *stack, int n_stack, int n_c, double* mat_c,
 
 //===========================================================================
 // initialize the task list ("stack" in CP2K lingo)
-void stackInitTransp(int *stack, int n_stack, int n_a, double * mat_a, 
-                     int mat_m, int mat_n){
+void stackInitTransp(int *stack, int n_stack, int mat_m, int mat_n){
 
   int* s = stack;
-  int p = 0;
   for(int p=0; p<n_stack; p++)
      *s++ =  p * mat_m * mat_n;
 }
@@ -179,13 +169,6 @@ void stackCalc(int* stack, int n_stack, double* mat_c, double *mat_a, double* ma
          double res = 0.;
          for(int k=0; k<mat_k; k++){
           int a_ind = k * mat_m + m;
-
-
-//         // initialize with non-transpose matrix
-//         int b_ind = n * mat_k + k;
-//         res += mat_a[a_base + a_ind] * mat_b[b_base + b_ind];
-
-          // initialize with transpose matrix
           int b_ind = k * mat_n + n;
           res += mat_a[a_base + a_ind] * mat_b[b_base + b_ind];
          }
@@ -201,7 +184,6 @@ void stackCalc(int* stack, int n_stack, double* mat_c, double *mat_a, double* ma
 //===========================================================================
 void stackTransp(int* stack, int n_stack, double *mat, double* mat_trs,
                  int mat_m, int mat_n){
-    double buf[mat_m * mat_n]; 
     for(int s=0; s < n_stack; s++){
         int offset = stack[s];
         for(int m=0; m < mat_m; m++){
@@ -236,9 +218,11 @@ double checkSumTransp(double* mat, int n, int mat_m, int mat_n){
     int size = mat_m * mat_n;
     int n_samples = size / 3;
     int step = size / n_samples; 
-    int idx = 0;
-    for(int idx=0; idx < size; idx+=step)
-        res += mat[idx]; 
+    for(int s=0; s < n_stack; s++){
+        int offset = s * size; 
+        for(int idx=s%step; idx < size; idx+=step)
+            res += mat[offset + idx]; 
+    } 
     return res;
 }
 
@@ -278,7 +262,6 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
  int n_iter = 1;
  int n_warm = 1;
  if(h->tune_mode){ // for larger matrices few iteration give enough statistics
-//     n_iter = max(3, 1250/(mat_m * mat_n * mat_k));
      n_iter = max(3, 12500/(mat_m * mat_n * mat_k));
      n_warm = min(3, n_iter);
  }
@@ -313,10 +296,11 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
  cudaMemcpy(h->d_mat_a, h->mat_a, h->n_a * mat_m * mat_k * sizeof(double), cudaMemcpyHostToDevice);
  cudaMemcpy(h->d_mat_b, h->mat_b, h->n_b * mat_k * mat_n * sizeof(double), cudaMemcpyHostToDevice);
  cudaMemcpy(h->d_stack, h->stack, h->n_stack * 3 * sizeof(int), cudaMemcpyHostToDevice);
- //d_mat_c get's zeroed after warmup run
+ // d_mat_c gets zeroed after warmup run
 
  for(int ikern=0; ikern < nkernels; ikern++){
-    //warmup run (more often if n_iter is small)
+
+    // Warmup run (more often if n_iter is small)
     for(int i=0; i<n_warm; i++)
         launchers[ikern](h->d_stack, h->n_stack, stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
     cudaMemset(h->d_mat_c, 0, h->n_c * mat_m * mat_n * sizeof(double));
@@ -374,7 +358,6 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
     cudaDeviceReset();
  }
 
- // cleanup
  return(error_counter);
 }
 
@@ -406,7 +389,7 @@ int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
  // Matrix and stack initialization
  matInit(mat, n, mat_m, mat_n, 42);
  memset(mat_trs, 0, n * mat_m * mat_n * sizeof(double));
- stackInitTransp(stack, n_stack, n, mat, mat_m, mat_n);
+ stackInitTransp(stack, n_stack, mat_m, mat_n);
 
  // Reference result on CPU
  stackTransp(stack, n_stack, mat, mat_trs, mat_m, mat_n);

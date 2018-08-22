@@ -40,8 +40,7 @@ void matInit(double* mat, int mat_n, int x, int y, int seed);
 void stackInit(int *stack, int n_stack, int n_c, double* mat_c,
                int n_a, double * mat_a, int n_b, double* mat_b,
                int mat_m, int mat_n, int mat_k);
-void stackInitTransp(int *stack, int n_stack, int n_a, double * mat_a,
-                     int mat_m, int mat_n);
+void stackInitTransp(int *stack, int n_stack, int mat_m, int mat_n);
 
 void stackCalc(int* stack, int n_stack, double* mat_c, double *mat_a, double* mat_b,
                int mat_m, int mat_n, int mat_k);
