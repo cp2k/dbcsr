@@ -298,7 +298,7 @@ int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
     
     // Construct argument pointer list and lauch function
     int* trs_stack_ = trs_stack + offset; 
-    void *args[] = { &trs_stack_, &nblks, &buffer};
+    void *args[] = { &trs_stack_, &buffer};
     int res = launch_kernel_from_handle(kern_func, nblks, 128, stream, args); 
 
     return(cudaGetLastError());
