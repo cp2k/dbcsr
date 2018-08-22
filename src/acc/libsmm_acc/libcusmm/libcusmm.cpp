@@ -22,7 +22,6 @@
 #define dbcsr_type_complex_4  5
 #define dbcsr_type_complex_8  7
 #define MAX_BLOCK_DIM         80
-#define KERNEL_FILES_PATH DBCSRINC
 
 
 //===========================================================================
@@ -84,10 +83,11 @@ inline void validate_kernel(CUfunction& kern_func, CUstream stream, int threads,
 inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, int tile_n, int w, int v, int threads, int grouping, int minblocks, int m, int n, int k){
 
     // Get the code and the lowered name corresponding the kernel to launch
-    std::string kernel_code, kernel_name;
+    std::string kernel_code = cusmm_common; // prepend include file content to code
+    std::string kernel_name;
     switch(algo) {
         case 1:
-            kernel_code = cusmm_dnt_largeDB1; 
+            kernel_code += cusmm_dnt_largeDB1;
             kernel_name = "cusmm_dnt_largeDB1<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
@@ -95,7 +95,7 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
         case 2:
-            kernel_code = cusmm_dnt_largeDB2; 
+            kernel_code += cusmm_dnt_largeDB2; 
             kernel_name = "cusmm_dnt_largeDB2<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
@@ -103,21 +103,21 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
         case 3:
-            kernel_code = cusmm_dnt_medium; 
+            kernel_code += cusmm_dnt_medium; 
             kernel_name = "cusmm_dnt_medium<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
         case 4:
-            kernel_code = cusmm_dnt_small; 
+            kernel_code += cusmm_dnt_small; 
             kernel_name = "cusmm_dnt_small<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
         case 5:
-            kernel_code = cusmm_dnt_tiny; 
+            kernel_code += cusmm_dnt_tiny; 
             kernel_name = "cusmm_dnt_tiny<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
@@ -135,11 +135,9 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
     NVRTC_SAFE_CALL("nvrtcAddNameExpression", nvrtcAddNameExpression(kernel_program, kernel_name.c_str()));
 
     // (JIT-)compile kernel program
-    const std::string kernel_files_path = KERNEL_FILES_PATH;
-    const std::string include_opt = "-I=" + kernel_files_path;
     const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(ARCH_NUMBER);
-    const char *compileOptions[] = {include_opt.c_str(), "-w", arch_opt.c_str()};
-    size_t nOptions = 3;
+    const char *compileOptions[] = {"-w", arch_opt.c_str()};
+    size_t nOptions = 2;
     NVRTC_SAFE_CALL("nvrtcCompileProgram", nvrtcCompileProgram(kernel_program, nOptions, compileOptions));
 
     // Obtain PTX from the program.
@@ -240,18 +238,17 @@ void jit_transpose_handle(CUfunction& kern_func, int m, int n){
 
     // Create nvrtcProgram
     nvrtcProgram kernel_program;
-    NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, cusmm_transpose.c_str(), "transpose_kernel.cu", 0, NULL, NULL));
+    std::string transpose_code = cusmm_common + cusmm_transpose; 
+    NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, transpose_code.c_str(), "transpose_kernel.cu", 0, NULL, NULL));
 
     // Add lowered name
     std::string kernel_name = "transpose_d<" + std::to_string(m) + ", " + std::to_string(n) + ">";
     NVRTC_SAFE_CALL("nvrtcAddNameExpression", nvrtcAddNameExpression(kernel_program, kernel_name.c_str()));
 
     // (JIT-)compile
-    size_t nOptions = 3;
-    const std::string kernel_files_path = KERNEL_FILES_PATH;
-    const std::string include_opt = "-I=" + kernel_files_path;
+    size_t nOptions = 2;
     const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(ARCH_NUMBER);
-    const char *compileOptions[] = {include_opt.c_str(), "-w", arch_opt.c_str()};
+    const char *compileOptions[] = {"-w", arch_opt.c_str()};
     NVRTC_SAFE_CALL("nvrtcCompileProgram", nvrtcCompileProgram(kernel_program, nOptions, compileOptions));
 
     // Obtain PTX from the program.
