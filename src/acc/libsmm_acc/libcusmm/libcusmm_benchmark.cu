@@ -442,16 +442,16 @@ int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
  clean_string(kernel_descr[0], descr);
  cudaError = cudaGetLastError();
  if (cudaError != cudaSuccess){
-   printf("%s[TR] ERROR %s cuda_error: %s\n", msg_prefix, descr, cudaGetErrorString(cudaError));
+   printf("%sERROR %s cuda_error: %s\n", msg_prefix, descr, cudaGetErrorString(cudaError));
    error_counter++;
  }
 
  sumGPU = checkSumTransp(mat_trs, n, mat_m, mat_n);
  if(sumGPU != sumCPU){
-     printf("%s[TR] ERROR %s checksum_diff: %g\n", msg_prefix, descr, sumGPU-sumCPU);
+     printf("%sERROR %s checksum_diff: %g\n", msg_prefix, descr, sumGPU-sumCPU);
      error_counter++;
  } else {
-     printf("%s[TR] OK %s\n", msg_prefix, descr);
+     printf("%sOK %s\n", msg_prefix, descr);
  }
 
  return error_counter;
@@ -461,10 +461,10 @@ int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
 
 //===========================================================================
 int libcusmm_benchmark_transpose(libcusmm_benchmark_t* handle,
-                                 int mat_m, int mat_n, int mat_k,
+                                 int mat_m, int mat_n,
                                  TransposeLauncher* launcher, char** kernel_descr){
 
- if(mat_m > handle->max_m || mat_n > handle->max_n || mat_k > handle->max_k){
+ if(mat_m > handle->max_m || mat_n > handle->max_n){
      printf("libcusmm_benchmark_transpose: got handle with too few resources\n");
      exit(1);
  }
@@ -476,15 +476,8 @@ int libcusmm_benchmark_transpose(libcusmm_benchmark_t* handle,
  int errors;
  errors += libcusmm_benchmark_transpose_(handle->n_stack_trs_a, handle->stack_trs_a, handle->d_stack_trs_a,
                                          handle->mat_a, handle->mat_trs_a, handle->d_mat_a,
-                                         handle->n_a, mat_m, mat_k,
+                                         handle->n_a, mat_m, mat_n,
                                          handle->t_start, handle->t_stop, kernel_descr, launcher);
- if(mat_m == mat_k && mat_k == mat_n){
-     // Test transpose of matrix 'b' if its dimensions differ from matrix 'a'
-     errors += libcusmm_benchmark_transpose_(handle->n_stack_trs_b, handle->stack_trs_b, handle->d_stack_trs_b,
-                                             handle->mat_b, handle->mat_trs_b, handle->d_mat_b,
-                                             handle->n_b, mat_k, mat_n,
-                                             handle->t_start, handle->t_stop, kernel_descr, launcher);
- }
  return errors;
 
 }
