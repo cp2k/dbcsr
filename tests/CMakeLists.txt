@@ -32,14 +32,16 @@ endforeach ()
 
 # Define all the tests here, will be used as the executable name
 set(DBCSR_TESTS
-  dbcsr_unittest
+  dbcsr_unittest1
+  dbcsr_unittest2
   dbcsr_tensor_unittest
   dbcsr_test_csr_conversions
   )
 
 # For each test, set a variable testname_SRCS defining the sources of that test
 set(dbcsr_unittest_SRCS
-  dbcsr_unittest.F
+  dbcsr_unittest1.F
+  dbcsr_unittest2.F
   dbcsr_test_add.F
   dbcsr_test_multiply.F
   )

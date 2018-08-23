@@ -308,36 +308,6 @@ PROGRAM dbcsr_unittest
                               bs_m=(/1, 2/), bs_n=(/1, 2/), bs_k=(/1, 2/), &
                               limits=(/1, 20, 1, 20, 9, 18/))
 
-   ! Large Blocks
-   CALL dbcsr_test_multiplies("large_blocks_1", &
-                              group, mp_env, npdims, io_unit, matrix_sizes=(/500, 500, 500/), &
-                              sparsities=(/0.5_dp, 0.5_dp, 0.5_dp/), retain_sparsity=.FALSE., &
-                              alpha=CMPLX(1.0_dp, 0.0_dp, dp), beta=CMPLX(0.0_dp, 0.0_dp, dp), &
-                              bs_m=(/1, 100/), bs_n=(/1, 100/), bs_k=(/1, 100/), &
-                              limits=(/1, 500, 1, 500, 1, 500/))
-
-   CALL dbcsr_test_multiplies("large_blocks_2", &
-                              group, mp_env, npdims, io_unit, matrix_sizes=(/500, 50, 50/), &
-                              sparsities=(/0.5_dp, 0.5_dp, 0.5_dp/), retain_sparsity=.FALSE., &
-                              alpha=CMPLX(1.0_dp, 0.0_dp, dp), beta=CMPLX(0.0_dp, 0.0_dp, dp), &
-                              bs_m=(/1, 100/), bs_n=(/1, 10/), bs_k=(/1, 10/), &
-                              limits=(/1, 500, 1, 50, 1, 50/))
-
-   ! Rectangular matrices
-   CALL dbcsr_test_multiplies("rectangular_matrix_M", &
-                              group, mp_env, npdims, io_unit, matrix_sizes=(/500, 50, 50/), &
-                              sparsities=(/0.5_dp, 0.5_dp, 0.5_dp/), retain_sparsity=.FALSE., &
-                              alpha=CMPLX(1.0_dp, 0.0_dp, dp), beta=CMPLX(0.0_dp, 0.0_dp, dp), &
-                              bs_m=(/1, 5/), bs_n=(/1, 5/), bs_k=(/1, 5/), &
-                              limits=(/1, 500, 1, 50, 1, 50/))
-
-   CALL dbcsr_test_multiplies("rectangular_matrix_K", &
-                              group, mp_env, npdims, io_unit, matrix_sizes=(/50, 50, 500/), &
-                              sparsities=(/0.5_dp, 0.5_dp, 0.5_dp/), retain_sparsity=.FALSE., &
-                              alpha=CMPLX(1.0_dp, 0.0_dp, dp), beta=CMPLX(0.0_dp, 0.0_dp, dp), &
-                              bs_m=(/1, 5/), bs_n=(/1, 5/), bs_k=(/1, 5/), &
-                              limits=(/1, 50, 1, 50, 1, 500/))
-
    ! end of test cases ---------------------------------------------------------
 
    ! finalize libdbcsr
