@@ -14,7 +14,7 @@ SRC_TESTS += dbcsr_unittest1.F
 dbcsr_unittest1: BIN_DEPS = dbcsr_test_add.o dbcsr_test_multiply.o
 
 SRC_TESTS += dbcsr_unittest2.F
-dbcsr_unittest2: BIN_DEPS = dbcsr_test_add.o dbcsr_test_multiply.o
+dbcsr_unittest2: BIN_DEPS = dbcsr_test_multiply.o
 
 SRC_TESTS += dbcsr_tensor_unittest.F
 dbcsr_tensor_unittest: BIN_DEPS = 

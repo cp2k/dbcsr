@@ -5,8 +5,8 @@
 dbcsr_multiply
 # matrix sizes (M, N, K)
 1000
-10000
-10000
+5000
+5000
 # sparsity (A, B, C)
 0.9d0
 0.9d0
@@ -53,3 +53,9 @@ F
 # the k blocks (multiplicity, block size, ...)
 1
 5
+# checksum (check, threshold, references)
+T
+0.1E-10
+0.885789976224201E+09
+0.847877708261093E+09
+

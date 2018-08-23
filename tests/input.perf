@@ -53,3 +53,8 @@ F
 # the k blocks (multiplicity, block size, ...)
 1
 5
+# checksum (check, threshold, references)
+F
+0.
+0.
+0.

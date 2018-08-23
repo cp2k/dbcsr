@@ -29,7 +29,6 @@ PROGRAM dbcsr_unittest
                                               mp_environ,&
                                               mp_world_finalize,&
                                               mp_world_init
-   USE dbcsr_test_add,                  ONLY: dbcsr_test_adds
    USE dbcsr_test_methods,              ONLY: dbcsr_reset_randmat_seed
    USE dbcsr_test_multiply,             ONLY: dbcsr_test_multiplies
    USE dbcsr_types,                     ONLY: dbcsr_mp_obj
