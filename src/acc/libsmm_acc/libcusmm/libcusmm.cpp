@@ -21,7 +21,6 @@
 #define dbcsr_type_real_8     3
 #define dbcsr_type_complex_4  5
 #define dbcsr_type_complex_8  7
-#define MAX_BLOCK_DIM         80
 
 
 //===========================================================================
