@@ -210,7 +210,7 @@ double checkSum(double* mat_c, int n_c, int mat_m, int mat_n){
 
 
 //===========================================================================
-double checkSumTransp(double* mat, int n, int mat_m, int mat_n){
+double checkSumTransp(double* mat, int n, int n_stack, int mat_m, int mat_n){
     // for transposition, a regular checkSum does not inform about the 
     // transpose's correctness. Instead, we perform a checkSum on a 
     // sample of elements.
@@ -393,7 +393,7 @@ int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
 
  // Reference result on CPU
  stackTransp(stack, n_stack, mat, mat_trs, mat_m, mat_n);
- sumCPU = checkSumTransp(mat_trs, n, mat_m, mat_n);
+ sumCPU = checkSumTransp(mat_trs, n, n_stack, mat_m, mat_n);
 
  // Compute on GPU
  cudaMemcpy(d_mat, mat, n * mat_m * mat_n * sizeof(double), cudaMemcpyHostToDevice);
@@ -429,7 +429,7 @@ int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
    error_counter++;
  }
 
- sumGPU = checkSumTransp(mat_trs, n, mat_m, mat_n);
+ sumGPU = checkSumTransp(mat_trs, n, n_stack, mat_m, mat_n);
  if(sumGPU != sumCPU){
      printf("%sERROR %s checksum_diff: %g\n", msg_prefix, descr, sumGPU-sumCPU);
      error_counter++;
