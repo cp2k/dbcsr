@@ -20,6 +20,9 @@ SRC_TESTS += dbcsr_tensor_unittest.F
 dbcsr_tensor_unittest: BIN_DEPS = 
 
 ifneq ($(NVCC),)
-SRC_TESTS += libcusmm_unittest.cu
-libcusmm_unittest: BIN_DEPS =
+SRC_TESTS += libcusmm_unittest_multiply.cu
+libcusmm_unittest_multiply.cu: BIN_DEPS =
+
+SRC_TESTS += libcusmm_unittest_transpose.cu
+libcusmm_unittest_transpose.cu: BIN_DEPS =
 endif

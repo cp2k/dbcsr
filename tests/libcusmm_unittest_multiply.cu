@@ -14,13 +14,12 @@
 
 
 /****************************************************************************\
- \brief Checks correctness of every libcusmm kernel and measures its performance.
+ \brief Checks correctness of every libcusmm multiplication kernel and measures its performance.
 \****************************************************************************/
 
 int main(int argc, char** argv){
 
     KernelLauncher launcher_mm = libcusmm_process_d;
-    TransposeLauncher launcher_tr = libcusmm_transpose_d;
 
     char buffer[1000];
     char * kernel_descr[1] = {buffer};
@@ -41,21 +40,18 @@ int main(int argc, char** argv){
     libcusmm_benchmark_t* handle;
     libcusmm_benchmark_init(&handle, false, max_m, max_n, max_k);
 
-    int errors_mm = 0;
-    int errors_tr = 0;
+    int errors = 0;
     for(int i=0; i<n_triplets; i++){
         int m = libcusmm_triplets[i][0];
         int n = libcusmm_triplets[i][1];
         int k = libcusmm_triplets[i][2];
         sprintf(buffer, "%d x %d x %d", m, n, k);
-        errors_mm += libcusmm_benchmark(handle, m, n, k, 1, &launcher_mm, kernel_descr);
-        errors_tr += libcusmm_benchmark_transpose(handle, m, n, k, &launcher_tr, kernel_descr);
+        errors += libcusmm_benchmark(handle, m, n, k, 1, &launcher_mm, kernel_descr);
     }
     libcusmm_benchmark_finalize(handle);
 
-    printf("# Done, found %d matrix-matrix multiplication errors.\n", errors_mm);
-    printf("# Done, found %d transpose errors.\n", errors_tr);
-    return errors_mm + errors_tr;
+    printf("# Done, found %d matrix-matrix multiplication errors.\n", errors);
+    return errors;
 }
 
 //EOF

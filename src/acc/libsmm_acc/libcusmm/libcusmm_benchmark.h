@@ -59,7 +59,7 @@ void libcusmm_benchmark_finalize(libcusmm_benchmark_t*);
 int libcusmm_benchmark(libcusmm_benchmark_t* handle,
               int mat_m, int mat_n, int mat_k, int nkernel,
               KernelLauncher* launchers, char** kernel_descr);
-int libcusmm_benchmark_transpose(libcusmm_benchmark_t* handle, int mat_m, int mat_n, int mat_k, 
+int libcusmm_benchmark_transpose(libcusmm_benchmark_t* handle, int mat_m, int mat_n, 
                                  TransposeLauncher* launcher, char** kernel_descr);
 int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
                                   double* mat, double* mat_trs, double* d_mat,
