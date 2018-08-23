@@ -7,6 +7,8 @@
 
 #include <cuda.h>
 
+#define MAX_BLOCK_DIM 80
+
 typedef int (*KernelLauncher)(int *param_stack, int stack_size, CUstream stream,
                               int m_max, int n_max, int k_max,
                               double *a_data, double *b_data, double *c_data);
