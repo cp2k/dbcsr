@@ -39,12 +39,18 @@ set(DBCSR_TESTS
   )
 
 # For each test, set a variable testname_SRCS defining the sources of that test
-set(dbcsr_unittest_SRCS
+set(dbcsr_unittest1_SRCS
   dbcsr_unittest1.F
+  dbcsr_test_add.F
+  dbcsr_test_multiply.F
+  )
+
+set(dbcsr_unittest2_SRCS
   dbcsr_unittest2.F
   dbcsr_test_add.F
   dbcsr_test_multiply.F
   )
+
 set(dbcsr_tensor_unittest_SRCS
   dbcsr_tensor_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS
