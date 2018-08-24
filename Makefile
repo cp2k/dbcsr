@@ -18,6 +18,7 @@ TESTSDIR     := $(DBCSRHOME)/tests
 EXAMPLESDIR  := $(DBCSRHOME)/examples
 PREFIX       ?= $(DBCSRHOME)/install
 INCLUDEMAKE  ?= $(DBCSRHOME)/Makefile.inc
+VERSION       = $(DBCSRHOME)/VERSION
 NPROCS       ?= 1
 
 # Default Target ============================================================
@@ -28,6 +29,12 @@ default_target: $(LIBRARY)
 # Read the configuration ====================================================
 MODDEPS = "lower"
 include $(INCLUDEMAKE)
+
+# Read the version ==========================================================
+include $(VERSION)
+ifeq ($(DATE),)
+DATE = "Development Version"
+endif
 
 # Set the compute version and NVFLAGS =======================================
 ifeq ($(GPUVER),K20X)
@@ -71,7 +78,7 @@ endif
          doxify doxifyclean \
          pretty prettyclean doxygen/clean doxygen \
          install clean realclean help \
-         test
+	 version test
 
 # Discover files and directories ============================================
 ALL_SRC_DIRS := $(shell find $(SRCDIR) -type d | awk '{printf("%s:",$$1)}')
@@ -127,6 +134,10 @@ dirs:
 	@mkdir -p $(OBJDIR)
 	@mkdir -p $(LIBDIR)
 
+version:
+	@echo "DCBSR Version: "$(MAJOR)"."$(MINOR)"."$(PATCH)" ("$(DATE)")"
+OTHER_HELP += "version : Print DBCSR version"
+
 toolversions:
 ifneq ($(FC),)
 	@echo "=========== FC ==========="
@@ -164,6 +175,8 @@ endif
 	@echo "========= Python ========="
 	/usr/bin/env python --version
 
+OTHER_HELP += "toolversions : Print versions of build tools"
+
 else
 # stage 2: Include $(OBJDIR)/all.dep, expand target all, and get list of dependencies.
 all: $(foreach e, $(BIN_NAMES), $(e))
@@ -181,8 +194,6 @@ $(BINDIR)/%.x: %.o $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT)
 endif
 
 endif
-
-OTHER_HELP += "toolversions : Print versions of build tools"
 
 #   extract help text from doxygen "\brief"-tag
 help:
