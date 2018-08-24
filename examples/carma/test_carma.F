@@ -279,7 +279,7 @@ PROGRAM dbcsr_example_3
        
        !CALL dbcsr_print(matrix_c_cannon)
        
-        if (mynode == 0) print *,"checksum cannon", dbcsr_checksum(matrix_c_cannon)
+        print *,"checksum cannon", dbcsr_checksum(matrix_c_cannon)
    
    else
 
@@ -288,18 +288,20 @@ PROGRAM dbcsr_example_3
            t1 = m_walltime()
            
            call carma_mm(matrix_a%prv, matrix_b%prv, matrix_c%prv)
-           
            CALL mp_sync(group)
            
            max_times(1) = max_times(1) + m_walltime()-t1
        enddo
 
+       !print *,"coco"
        !CALL dbcsr_multiply('T', 'N', 1.0_real_8, matrix_a, matrix_b, 0.0_real_8, matrix_c_cannon)
-        if (mynode == 0) print *,"checksum carma", dbcsr_checksum(matrix_c)!, dbcsr_checksum(matrix_c_cannon)
+       !call dbcsr_print(matrix_c) 
+       !if (mynode == 0) 
+       print *,"checksum carma", dbcsr_checksum(matrix_c)!, dbcsr_checksum(matrix_c_cannon)
        !print *,"+++++ carma time :", m_walltime()-t1
-       
+       !print *,"finita"       
   endif 
-  
+ 
    call mp_max(max_times, group)
    
    if (mynode == 0) print *,"!!!!!!!!!!!!!!!!!!!! max times: carma, cannon: ", max_times/niter

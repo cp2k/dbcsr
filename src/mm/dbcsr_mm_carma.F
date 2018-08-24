@@ -51,6 +51,21 @@ module dbcsr_mm_carma
     
     use dbcsr_util
     use dbcsr_reshape, only: dbcsr_redistribute
+
+
+
+
+   IMPLICIT NONE
+   PRIVATE
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_mm_carma'
+
+   PUBLIC :: &
+      carma_mm
+
+
+
+
+
 contains
     
   !
@@ -219,12 +234,13 @@ contains
     ! multiply local matrices
     CALL dbcsr_multiply('T', 'N', 1.0d0, loc_matr_a, loc_matr_b, 0.0d0, loc_matr_c)
    
-    !call dbcsr_finalize(loc_matr_c)
+!    call dbcsr_finalize(loc_matr_c)
 
-   !CALL mp_sync(group)
-   
-
+!   CALL mp_sync(group)
+    
     call dbcsr_redistribute(loc_matr_c, matrix_c)
+   
+!    CALL mp_sync(group)
 !    call dbcsr_finalize(matrix_c)
 
 
@@ -234,8 +250,8 @@ contains
     !call dbcsr_redistribute(loc_matr_c, matrix_c)
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !     print *, "==================== result matrix ================="
- !   call dbcsr_print(matrix_c)
-    !print *,"checksum carma", dbcsr_checksum(loc_matr_c)
+!    call dbcsr_print(matrix_c)
+!    print *,"checksum carma", dbcsr_checksum(matrix_c)
     
     !call dbcsr_copy(matrix_c, loc_matr_c)
     
@@ -251,6 +267,7 @@ contains
    CALL dbcsr_distribution_release(loc_dist_a)
    CALL dbcsr_distribution_release(loc_dist_b)
    CALL dbcsr_distribution_release(loc_dist_c)
+     
     
   end subroutine carma_mm
   

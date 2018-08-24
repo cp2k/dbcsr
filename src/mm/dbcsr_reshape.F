@@ -32,7 +32,7 @@ MODULE dbcsr_reshape
                                               
    use dbcsr_work_operations,           only: dbcsr_create, dbcsr_finalize                        
    use dbcsr_dist_operations,           only: dbcsr_get_stored_coordinates
-   USE dbcsr_methods,                   ONLY: dbcsr_get_data_type
+   USE dbcsr_methods,                   ONLY: dbcsr_get_data_type, dbcsr_release
                                                   
 !   USE dbcsr_tensor_types,              ONLY: &
 !                                              dbcsr_t_create,&
@@ -116,6 +116,11 @@ CONTAINS
   
       real(8)                     :: alpha, beta
       
+      INTEGER                                   :: handle
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_redistribute', &
+         routineP = moduleN//':'//routineN
+
+      CALL timeset(routineN, handle)
       
       !type(dbcsr_mp_obj)              ::  total_mp_env
       
@@ -255,6 +260,10 @@ CONTAINS
          
          call dbcsr_batched_add_anytype_end(matrix_out)
          
+         DO iproc = 0, numnodes - 1
+            call dbcsr_release(local_matrices(iproc))
+         enddo
+
       ELSE
          !call dbcsr_finalize(matrix_out)
          !ALL dbcsr_t_create(matrix_in, matrix_out)
@@ -262,6 +271,7 @@ CONTAINS
          !CALL dbcsr_copy(matrix_out%matrix_rep, matrix_in%matrix_rep, shallow_data=.TRUE.)
       ENDIF
 
+      CALL timestop(handle)
    END SUBROUTINE
 
 ! **************************************************************************************************
