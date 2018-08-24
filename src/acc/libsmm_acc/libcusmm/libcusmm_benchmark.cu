@@ -76,13 +76,19 @@ void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, benchmark_mode mode,
 void libcusmm_benchmark_finalize(libcusmm_benchmark_t* handle){
     cudaEventDestroy(handle->t_stop);
     cudaEventDestroy(handle->t_start);
+    cudaFree(handle->d_stack_trs_b);
+    cudaFree(handle->d_stack_trs_a);
     cudaFree(handle->d_stack);
     cudaFree(handle->d_mat_c);
     cudaFree(handle->d_mat_b);
     cudaFree(handle->d_mat_a);
+    free(handle->stack_trs_b);
+    free(handle->stack_trs_a);
     free(handle->stack);
     free(handle->mat_c);
+    free(handle->mat_trs_b);
     free(handle->mat_b);
+    free(handle->mat_trs_a);
     free(handle->mat_a);
     free(handle);
     cudaError_t cudaError = cudaGetLastError();
