@@ -30,7 +30,6 @@ MODULE dbcsr_dist_util
                                               int_8,&
                                               real_4,&
                                               real_8
-   USE dbcsr_message_passing,           ONLY: mp_sum
    USE dbcsr_methods,                   ONLY: dbcsr_blk_col_offset,&
                                               dbcsr_blk_row_offset,&
                                               dbcsr_has_symmetry,&
@@ -38,6 +37,7 @@ MODULE dbcsr_dist_util
    USE dbcsr_mp_methods,                ONLY: dbcsr_mp_group,&
                                               dbcsr_mp_mypcol,&
                                               dbcsr_mp_myprow
+   USE dbcsr_mpiwrap,                   ONLY: mp_sum
    USE dbcsr_toollib,                   ONLY: sort,&
                                               swap
    USE dbcsr_types,                     ONLY: &

@@ -13,31 +13,34 @@
 !> - Created 2010
 ! **************************************************************************************************
 PROGRAM dbcsr_performance_driver
+   USE dbcsr_config,                    ONLY: dbcsr_print_config
    USE dbcsr_error_handling,            ONLY: dbcsr_error_handling_setup
+   USE dbcsr_files,                     ONLY: open_file
    USE dbcsr_kinds,                     ONLY: default_string_length,&
                                               dp
    USE dbcsr_lib,                       ONLY: dbcsr_finalize_lib,&
                                               dbcsr_init_lib
-   USE dbcsr_machine,                   ONLY: default_output_unit
-   USE dbcsr_message_passing,           ONLY: &
-        add_mp_perf_env, mp_bcast, mp_cart_create, mp_cart_rank, mp_comm_free, mp_environ, &
-        mp_world_finalize, mp_world_init, rm_mp_perf_env
+   USE dbcsr_log_handling,              ONLY: dbcsr_add_default_logger,&
+                                              dbcsr_logger_create,&
+                                              dbcsr_logger_release,&
+                                              dbcsr_logger_type,&
+                                              dbcsr_rm_default_logger
+   USE dbcsr_machine,                   ONLY: default_output_unit,&
+                                              m_getarg,&
+                                              m_iargc
    USE dbcsr_mp_methods,                ONLY: dbcsr_mp_new,&
                                               dbcsr_mp_release
-   USE dbcsr_para_env,                  ONLY: dbcsr_para_env_create,&
-                                              dbcsr_para_env_release
-   USE dbcsr_para_types,                ONLY: dbcsr_para_env_type
+   USE dbcsr_mpiwrap,                   ONLY: &
+        add_mp_perf_env, mp_bcast, mp_cart_create, mp_cart_rank, mp_comm_free, mp_environ, &
+        mp_world_finalize, mp_world_init, rm_mp_perf_env
    USE dbcsr_performance_multiply,      ONLY: dbcsr_perf_multiply
-   USE dbcsr_string_table,              ONLY: string_table_allocate,&
-                                              string_table_deallocate
-   USE dbcsr_test_methods,              ONLY: atoi,&
-                                              dbcsr_test_read_args
    USE dbcsr_timings,                   ONLY: add_timer_env,&
                                               rm_timer_env,&
                                               timings_register_hooks
    USE dbcsr_timings_report,            ONLY: cost_type_time,&
                                               timings_report_callgraph,&
                                               timings_report_print
+   USE dbcsr_toollib,                   ONLY: atoi
    USE dbcsr_types,                     ONLY: dbcsr_mp_obj
 #include "base/dbcsr_base_uses.f90"
 
@@ -54,7 +57,7 @@ PROGRAM dbcsr_performance_driver
 
    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_multiply'
 
-   TYPE(dbcsr_para_env_type), POINTER          :: para_env
+   TYPE(dbcsr_logger_type), POINTER            :: logger
 
    !***************************************************************************************
 
@@ -62,27 +65,9 @@ PROGRAM dbcsr_performance_driver
    ! initialize mpi
    CALL mp_world_init(mp_comm)
 
-   ! DBCSR timers
-   NULLIFY (para_env)
-   CALL dbcsr_para_env_create(para_env, group=mp_comm, owns_group=.FALSE.)
-   CALL dbcsr_error_handling_setup()
-   CALL timings_register_hooks()
-   CALL string_table_allocate()
-   CALL add_mp_perf_env()
-   CALL add_timer_env()
-
-   !
-   ! initialize libdbcsr errors
-   CALL timeset(routineN, handle)
-
    !
    ! Number of nodes and rankid
    CALL mp_environ(numnodes, mynode, mp_comm)
-
-   !
-   ! set standard output parameters
-   io_unit = 0
-   IF (mynode .EQ. 0) io_unit = default_output_unit
 
    !
    ! read and distribute input args
@@ -115,8 +100,34 @@ PROGRAM dbcsr_performance_driver
    DEALLOCATE (pgrid)
 
    !
+   ! set standard output parameters
+   io_unit = 0
+   IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
+
+   !
+   ! Timers
+   NULLIFY (logger)
+   CALL dbcsr_logger_create(logger, mp_env=mp_env, &
+                            default_global_unit_nr=io_unit, &
+                            close_global_unit_on_dealloc=.FALSE.)
+   CALL dbcsr_add_default_logger(logger)
+   CALL dbcsr_logger_release(logger)
+   CALL dbcsr_error_handling_setup()
+   CALL timings_register_hooks()
+   CALL add_mp_perf_env()
+   CALL add_timer_env()
+
+   !
+   ! initialize libdbcsr errors
+   CALL timeset(routineN, handle)
+
+   !
    ! initialize libdbcsr
    CALL dbcsr_init_lib()
+
+   !
+   ! print DBCSR configuration
+   CALL dbcsr_print_config(io_unit)
 
    !
    ! select the operation
@@ -132,30 +143,72 @@ PROGRAM dbcsr_performance_driver
    CALL dbcsr_finalize_lib(mp_comm, io_unit)
 
    !
+   ! finalize libdbcsr errors
+   CALL timestop(handle)
+
+   ! Print timers
+   CALL timings_report_print(io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
+   ! Dump callgraph
+   CALL timings_report_callgraph("test.callgraph")
+
+   !
    ! clean mp enviroment
    CALL dbcsr_mp_release(mp_env)
+
+   !
+   ! Remove logger
+   CALL dbcsr_rm_default_logger()
 
    !
    ! free comm
    CALL mp_comm_free(group)
 
    !
-   ! finalize libdbcsr errors
-   CALL timestop(handle)
-
-   ! Print timers
-   CALL timings_report_print(io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., para_env)
-
-   CALL timings_report_callgraph("test.callgraph")
-
    ! Remove timers
-   CALL rm_timer_env()
    CALL rm_mp_perf_env()
-   CALL string_table_deallocate(0)
-   CALL dbcsr_para_env_release(para_env)
+   CALL rm_timer_env()
 
    !
    ! finalize mpi
    CALL mp_world_finalize()
+
+CONTAINS
+
+   ! **************************************************************************************************
+   !> \brief ...
+   !> \param narg ...
+   !> \param args ...
+   ! **************************************************************************************************
+! **************************************************************************************************
+!> \brief ...
+!> \param narg ...
+!> \param args ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_test_read_args(narg, args)
+      INTEGER, INTENT(out)                               :: narg
+      CHARACTER(len=*), DIMENSION(:), INTENT(out)        :: args
+
+      CHARACTER(len=1000)                                :: line
+      INTEGER                                            :: istat, unit
+
+      ! Read for standard input
+      unit = 5
+      !
+      ! Read from a file
+      IF (m_iargc() .GT. 0) THEN
+         CALL m_getarg(1, line)
+         CALL open_file(TRIM(line), unit_number=unit)
+      ENDIF
+
+      narg = 0
+      DO
+         READ (unit, *, IOSTAT=istat) line
+         IF (istat .NE. 0) EXIT
+         IF (line(1:1) .EQ. '#') CYCLE
+         narg = narg+1
+         args(narg) = line
+      ENDDO
+
+   END SUBROUTINE dbcsr_test_read_args
 
 END PROGRAM dbcsr_performance_driver

@@ -14,47 +14,60 @@
 !> - Created 2010
 ! **************************************************************************************************
 PROGRAM dbcsr_example_1
+   USE mpi
    USE dbcsr_api,                       ONLY: &
         dbcsr_create, dbcsr_distribution_new, dbcsr_distribution_release, dbcsr_distribution_type, &
         dbcsr_finalize, dbcsr_finalize_lib, dbcsr_init_lib, dbcsr_print, dbcsr_release, &
-        dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8, default_output_unit, &
-        dbcsr_mp_cart_create, dbcsr_mp_comm_free, dbcsr_mp_environ, dbcsr_mp_world_finalize, &
-        dbcsr_mp_world_init
+        dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
    IMPLICIT NONE
 
-   TYPE(dbcsr_type)                          :: matrix_a
+   TYPE(dbcsr_type)                         :: matrix_a
 
    INTEGER, DIMENSION(:), POINTER           :: col_blk_sizes, row_blk_sizes
-   INTEGER                                  :: mp_comm, group, numnodes, mynode, nblkrows_total, nblkcols_total, io_unit
+   INTEGER                                  :: group, numnodes, mynode, nblkrows_total, &
+                                               nblkcols_total, ierr
    INTEGER, DIMENSION(2)                    :: npdims, myploc
    INTEGER, DIMENSION(:), POINTER           :: col_dist, row_dist
-   TYPE(dbcsr_distribution_type)             :: dist
+   TYPE(dbcsr_distribution_type)            :: dist
+   LOGICAL, DIMENSION(2)                    :: period = .TRUE.
+!$ INTEGER                                  :: provided_tsl
 
    !***************************************************************************************
 
    !
    ! initialize mpi
-   CALL dbcsr_mp_world_init(mp_comm)
-
+!$ IF ( .FALSE. ) THEN
+      CALL mpi_init(ierr)
+      IF (ierr /= 0) STOP "Error in MPI_Init"
+!$ ELSE
+!$    CALL mpi_init_thread(MPI_THREAD_FUNNELED, provided_tsl, ierr)
+!$    IF (ierr /= 0) STOP "Error in MPI_Init_thread"
+!$    IF (provided_tsl .LT. MPI_THREAD_FUNNELED) THEN
+!$       STOP "MPI library does not support the requested level of threading (MPI_THREAD_FUNNELED)."
+!$    ENDIF
+!$ ENDIF
+      
    !
    ! setup the mp enviroment
+   CALL mpi_comm_size(MPI_COMM_WORLD, numnodes, ierr)
+   IF (ierr /= 0) STOP "Error in MPI_Comm_size"
    npdims(:) = 0
-   CALL dbcsr_mp_cart_create(mp_comm, 2, npdims, myploc, group)
-   CALL dbcsr_mp_environ(numnodes, mynode, group)
+   CALL mpi_dims_create(numnodes, 2, npdims, ierr)
+   IF (ierr /= 0) STOP "Error in MPI_Dims_create"
+   CALL mpi_cart_create(MPI_COMM_WORLD, 2, npdims, period, .FALSE., group, ierr)
+   IF (ierr /= 0) STOP "Error in MPI_Cart_create"
+
+   CALL mpi_comm_rank(MPI_COMM_WORLD, mynode, ierr)
+   IF (ierr /= 0) STOP "Error in MPI_Comm_rank"
    WRITE (*, *) 'mynode ', mynode, ' numnodes', numnodes
 
    !***************************************************************************************
    !
    ! initialize libdbcsr
    CALL dbcsr_init_lib()
-
-   !
-   ! set standard output parameters
-   io_unit = 0
-   IF (mynode .EQ. 0) io_unit = default_output_unit
 
    !
    ! the matrix will contain nblkrows_total row blocks and nblkcols_total column blocks
@@ -109,14 +122,16 @@ PROGRAM dbcsr_example_1
    !***************************************************************************************
    !
    ! finalize libdbcsr
-   CALL dbcsr_finalize_lib(mp_comm, io_unit)
+   CALL dbcsr_finalize_lib(MPI_COMM_WORLD)
 
    ! free comm
-   CALL dbcsr_mp_comm_free(group)
+   CALL mpi_comm_free(group, ierr)
+   IF (ierr /= 0) STOP "Error in MPI_Comm_free"
 
    !
    ! finalize mpi
-   CALL dbcsr_mp_world_finalize()
+   CALL mpi_finalize(ierr)
+   IF (ierr /= 0) STOP "Error in MPI_finalize"
 
    !***************************************************************************************
 

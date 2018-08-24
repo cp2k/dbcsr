@@ -33,7 +33,7 @@ MODULE dbcsr_tensor_test
    USE dbcsr_kinds,                     ONLY: ${uselist(dtype_float_prec)}$,&
                                               default_string_length,&
                                               int_8
-   USE dbcsr_message_passing,           ONLY: mp_environ, &
+   USE dbcsr_mpiwrap,                   ONLY: mp_environ, &
                                               mp_bcast, &
                                               mp_comm_free, &
                                               mp_comm_free, &

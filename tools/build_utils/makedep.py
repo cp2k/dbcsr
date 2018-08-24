@@ -74,7 +74,7 @@ def main():
     n_deps = 0
     for fn in src_files:
         p = normpath(dirname(fn))
-        if(not parsed_files[fn]['program']):
+        if not parsed_files[fn]['program']:
             packages[p]['objects'].append(src2obj(basename(fn)))
         deps = collect_include_deps(parsed_files, fn, src_dir)
         deps += [ mod2fn[m] for m in collect_use_deps(parsed_files, fn, src_dir) if m in mod2fn.keys() ]

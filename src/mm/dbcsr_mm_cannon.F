@@ -103,7 +103,7 @@ MODULE dbcsr_mm_cannon
                                               sp
    USE dbcsr_machine,                   ONLY: default_output_unit,&
                                               m_memory
-   USE dbcsr_message_passing,           ONLY: mp_allgather,&
+   USE dbcsr_mpiwrap,                   ONLY: mp_allgather,&
                                               mp_alltoall,&
                                               mp_irecv,&
                                               mp_isend,&

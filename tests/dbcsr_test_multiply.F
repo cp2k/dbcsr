@@ -25,13 +25,13 @@ MODULE dbcsr_test_multiply
    USE dbcsr_io,                        ONLY: dbcsr_print
    USE dbcsr_kinds,                     ONLY: real_4,&
                                               real_8
-   USE dbcsr_message_passing,           ONLY: mp_bcast,&
-                                              mp_environ
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_get_data_type, &
         dbcsr_get_matrix_type, dbcsr_name, dbcsr_nblkcols_total, dbcsr_nblkrows_total, &
         dbcsr_nfullcols_total, dbcsr_nfullrows_total, dbcsr_release, dbcsr_row_block_offsets, &
         dbcsr_row_block_sizes
+   USE dbcsr_mpiwrap,                   ONLY: mp_bcast,&
+                                              mp_environ
    USE dbcsr_multiply_api,              ONLY: dbcsr_multiply
    USE dbcsr_operations,                ONLY: dbcsr_copy,&
                                               dbcsr_get_occupation,&
@@ -121,7 +121,7 @@ CONTAINS
       CHARACTER                                          :: a_symm, b_symm, c_symm, transa, transb
       INTEGER                                            :: a_c, a_r, a_tr, b_c, b_r, b_tr, c_c, &
                                                             c_r, handle, isymm, itype, mynode, &
-                                                            numnodes, TYPE
+                                                            numnodes, numthreads, TYPE
       INTEGER, DIMENSION(:), POINTER                     :: my_sizes_k, my_sizes_m, my_sizes_n, &
                                                             sizes_k, sizes_m, sizes_n
       LOGICAL                                            :: do_complex
@@ -139,6 +139,13 @@ CONTAINS
       CALL mp_environ(numnodes, mynode, mp_group)
       IF (io_unit .GT. 0) THEN
          WRITE (io_unit, *) 'test_name ', test_name
+         numthreads = 1
+!$OMP PARALLEL
+!$OMP MASTER
+!$       numthreads = omp_get_num_threads()
+!$OMP END MASTER
+!$OMP END PARALLEL
+         WRITE (io_unit, *) 'numthreads', numthreads
          WRITE (io_unit, *) 'numnodes', numnodes
          WRITE (io_unit, *) 'matrix_sizes', matrix_sizes
          WRITE (io_unit, *) 'sparsities', sparsities
@@ -779,18 +786,19 @@ CONTAINS
       ! printing
       IF (io_unit .GT. 0) THEN
          WRITE (io_unit, *) 'test_name ', test_name
-         WRITE (io_unit, '(3(A,E12.5))') ' residual ', residual, ', a_norm ', a_norm, ', b_norm ', b_norm
-         WRITE (io_unit, '(3(A,E12.5))') ' c_norm_in ', c_norm_in, ', c_norm_out ', c_norm_out, &
-            ', c_norm_dbcsr ', c_norm_dbcsr
-         WRITE (io_unit, '(A)') ' Checking the norm of the difference against reference GEMM '
-         WRITE (io_unit, '(A,E12.5)') ' -- ||C_dbcsr-C_dense||_oo/((||A||_oo+||B||_oo+||C||_oo).N.eps)=', &
-            residual/((a_norm+b_norm+c_norm_in)*n*eps)
          !
          ! check for nan or inf here
          IF (success) THEN
             WRITE (io_unit, '(A)') ' The solution is CORRECT !'
          ELSE
             WRITE (io_unit, '(A)') ' The solution is suspicious !'
+
+            WRITE (io_unit, '(3(A,E12.5))') ' residual ', residual, ', a_norm ', a_norm, ', b_norm ', b_norm
+            WRITE (io_unit, '(3(A,E12.5))') ' c_norm_in ', c_norm_in, ', c_norm_out ', c_norm_out, &
+               ', c_norm_dbcsr ', c_norm_dbcsr
+            WRITE (io_unit, '(A)') ' Checking the norm of the difference against reference GEMM '
+            WRITE (io_unit, '(A,E12.5)') ' -- ||C_dbcsr-C_dense||_oo/((||A||_oo+||B||_oo+||C||_oo).N.eps)=', &
+               residual/((a_norm+b_norm+c_norm_in)*n*eps)
          END IF
 
       END IF

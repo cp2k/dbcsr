@@ -1,6 +1,0 @@
-{
-"description": "wrappers of the mpi routines",
-"archive": "libdbcsr",
-"requires": ["../base"],
-"implicit": "MPI_.*",
-}

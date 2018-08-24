@@ -8,7 +8,7 @@
 !> \author  Ole Schuett
 ! **************************************************************************************************
 MODULE dbcsr_acc_devmem
-#if  defined (__ACC)
+#if  defined (__DBCSR_ACC)
   USE ISO_C_BINDING, ONLY: C_INT, C_SIZE_T, C_PTR, C_LOC, C_NULL_PTR
 #endif
   USE dbcsr_kinds,                     ONLY: int_4,&
@@ -68,12 +68,12 @@ MODULE dbcsr_acc_devmem
    TYPE acc_devmem_type
       PRIVATE
       INTEGER                      :: size_in_bytes = -1
-#if  defined (__ACC)
+#if  defined (__DBCSR_ACC)
       TYPE(C_PTR)                  :: cptr = C_NULL_PTR
 #endif
    END TYPE acc_devmem_type
 
-#if  defined (__ACC)
+#if  defined (__DBCSR_ACC)
 
    INTERFACE
       FUNCTION dc_dev_mem_info_cu(free, avail) RESULT(istat) BIND(C, name="acc_dev_mem_info")
@@ -190,13 +190,13 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: requested_size_in_bytes
       LOGICAL, INTENT(IN), OPTIONAL            :: nocopy, zero_pad
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
       MARK_USED(stream)
       MARK_USED(requested_size_in_bytes)
       MARK_USED(nocopy)
       MARK_USED(zero_pad)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
 
       LOGICAL                                  :: my_nocopy, my_zero_pad
@@ -280,7 +280,7 @@ CONTAINS
 !> \return false (accelerator support is not enabled)
 !> \author  Ole Schuett
 ! **************************************************************************************************
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
    FUNCTION acc_devmem_cptr(this) RESULT(res)
       INTEGER, INTENT(IN)                                :: this
       LOGICAL                                            :: res
@@ -316,12 +316,12 @@ CONTAINS
       TYPE(acc_devmem_type), INTENT(IN)        :: pointee
       INTEGER, INTENT(IN)                      :: size_in_bytes, lb_in_bytes
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
       MARK_USED(pointee)
       MARK_USED(size_in_bytes)
       MARK_USED(lb_in_bytes)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
 
       INTEGER                                  :: istat
@@ -353,9 +353,9 @@ CONTAINS
    SUBROUTINE acc_devmem_info(free, avail)
       INTEGER, INTENT(OUT)                     :: free, avail
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       avail = -1; free = -1 ! assign intent-out arguments to silence compiler warnings
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       istat = dc_dev_mem_info_cu(free, avail)
@@ -374,10 +374,10 @@ CONTAINS
       TYPE(acc_devmem_type), INTENT(INOUT)     :: this
       INTEGER, INTENT(IN)                      :: size_in_bytes
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
       MARK_USED(size_in_bytes)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_allocate', &
                                      routineP = moduleN//':'//routineN
@@ -403,9 +403,9 @@ CONTAINS
    SUBROUTINE acc_devmem_deallocate(this)
       TYPE(acc_devmem_type), INTENT(INOUT) :: this
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_deallocate', &
                                      routineP = moduleN//':'//routineN
@@ -438,12 +438,12 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL        :: first_byte, last_byte
       TYPE(acc_stream_type), INTENT(IN)    :: stream
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
       MARK_USED(first_byte)
       MARK_USED(last_byte)
       MARK_USED(stream)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_setzero', &
                                      routineP = moduleN//':'//routineN
@@ -475,7 +475,7 @@ CONTAINS
 !> \param[in] stream stream used for memory transfer
 !> \author  Ole Schuett
 ! **************************************************************************************************
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
    SUBROUTINE host2dev_raw(this, hostmem_cptr, n_bytes, stream)
       TYPE(acc_devmem_type), INTENT(IN)                  :: this
       TYPE(C_PTR)                                        :: hostmem_cptr
@@ -508,7 +508,7 @@ CONTAINS
 !> \param[in] stream stream used for memory transfer
 !> \author  Ole Schuett
 ! **************************************************************************************************
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
    SUBROUTINE dev2host_raw(this, hostmem_cptr, n_bytes, stream)
       TYPE(acc_devmem_type), INTENT(IN)                  :: this
       TYPE(C_PTR)                                        :: hostmem_cptr
@@ -555,11 +555,11 @@ CONTAINS
     ${type}$, DIMENSION(:), POINTER          :: hostmem
     TYPE(acc_stream_type), INTENT(IN)        :: stream
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
     MARK_USED(this)
     MARK_USED(hostmem)
     MARK_USED(stream)
-    DBCSR_ABORT("__ACC not compiled in.")
+    DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
     CALL host2dev_raw(this, C_LOC(hostmem(1)), ${size}$*SIZE(hostmem), stream)
 #endif
@@ -578,11 +578,11 @@ CONTAINS
     ${type}$, DIMENSION(:, :), POINTER       :: hostmem
     TYPE(acc_stream_type), INTENT(IN)        :: stream
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
     MARK_USED(this)
     MARK_USED(hostmem)
     MARK_USED(stream)
-    DBCSR_ABORT("__ACC not compiled in.")
+    DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
     CALL host2dev_raw(this, C_LOC(hostmem(1,1)), ${size}$*SIZE(hostmem), stream)
 #endif
@@ -601,11 +601,11 @@ CONTAINS
     ${type}$, DIMENSION(:), POINTER          :: hostmem
     TYPE(acc_stream_type), INTENT(IN)        :: stream
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
     MARK_USED(this)
     MARK_USED(hostmem)
     MARK_USED(stream)
-    DBCSR_ABORT("__ACC not compiled in.")
+    DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
     CALL dev2host_raw(this, C_LOC(hostmem(1)), ${size}$*SIZE(hostmem), stream)
 #endif

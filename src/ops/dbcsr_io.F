@@ -28,11 +28,6 @@ MODULE dbcsr_io
                                               real_8_size,&
                                               sp
    USE dbcsr_machine,                   ONLY: default_output_unit
-   USE dbcsr_message_passing,           ONLY: &
-        file_amode_create, file_amode_rdonly, file_amode_wronly, file_offset, mp_allgather, &
-        mp_environ, mp_file_close, mp_file_get_size, mp_file_open, mp_file_read_at_all, &
-        mp_file_write_at, mp_file_write_at_all, mp_sum, mp_type_descriptor_type, mp_type_size, &
-        mpi_character_size, mpi_integer_size
    USE dbcsr_methods,                   ONLY: &
         dbcsr_data_area, dbcsr_distribution, dbcsr_get_data_size, dbcsr_get_data_type, &
         dbcsr_get_matrix_type, dbcsr_get_num_blocks, dbcsr_name, dbcsr_nblkcols_total, &
@@ -40,6 +35,11 @@ MODULE dbcsr_io
    USE dbcsr_mp_methods,                ONLY: dbcsr_mp_group,&
                                               dbcsr_mp_pgrid
    USE dbcsr_mp_operations,             ONLY: dbcsr_mp_type_from_anytype
+   USE dbcsr_mpiwrap,                   ONLY: &
+        file_amode_create, file_amode_rdonly, file_amode_wronly, file_offset, mp_allgather, &
+        mp_environ, mp_file_close, mp_file_get_size, mp_file_open, mp_file_read_at_all, &
+        mp_file_write_at, mp_file_write_at_all, mp_sum, mp_type_descriptor_type, mp_type_size, &
+        mpi_character_size, mpi_integer_size
    USE dbcsr_transformations,           ONLY: dbcsr_datablock_redistribute
    USE dbcsr_types,                     ONLY: dbcsr_data_obj,&
                                               dbcsr_distribution_obj,&

@@ -8,6 +8,10 @@
  extern "C" {
 #endif
 
+// cuda driver initialization and finalization
+int acc_init();
+int acc_finalize();
+
 // devices
 int acc_get_ndevices(int* n_devices);
 int acc_set_active_device(int device_id);

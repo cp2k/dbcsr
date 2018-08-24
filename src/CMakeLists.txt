@@ -2,106 +2,96 @@
 include(fypp-sources)
 
 add_fypp_sources(DBCSR_SRCS
+  dbcsr_api.F
+  acc/cublaswrap/dbcsr_cublas.F
   acc/dbcsr_acc_device.F
   acc/dbcsr_acc_devmem.F
   acc/dbcsr_acc_event.F
   acc/dbcsr_acc_hostmem.F
+  acc/dbcsr_acc_init.F
   acc/dbcsr_acc_stream.F
-  acc/cublaswrap/dbcsr_cublas.F
   base/dbcsr_base_hooks.F
   base/dbcsr_kinds.F
   base/dbcsr_machine.F
   base/dbcsr_machine_internal.F
   block/dbcsr_block_access.F
   block/dbcsr_block_operations.F
-  block/dbcsr_data_operations.F
   block/dbcsr_index_operations.F
   block/dbcsr_iterator_operations.F
-  block/dbcsr_work_operations.F
-  common/dbcsr_array_sort.F
-  common/dbcsr_array_utils.F
-  common/dbcsr_cuda_profiling.F
-  common/dbcsr_dict.F
-  common/dbcsr_distribution_1d_types.F
-  common/dbcsr_error_handling.F
-  common/dbcsr_files.F
-  common/dbcsr_iter_types.F
-  common/dbcsr_kahan_sum.F
-  common/dbcsr_list.F
-  common/dbcsr_list_callstackentry.F
-  common/dbcsr_list_routinereport.F
-  common/dbcsr_list_routinestat.F
-  common/dbcsr_list_timerenv.F
-  common/dbcsr_log_handling.F
-  common/dbcsr_memory_utilities.F
-  common/dbcsr_para_env.F
-  common/dbcsr_para_types.F
-  common/dbcsr_parallel_rng_types.F
-  common/dbcsr_print_messages.F
-  common/dbcsr_result_methods.F
-  common/dbcsr_result_types.F
-  common/dbcsr_string_table.F
-  common/dbcsr_string_utilities.F
-  common/dbcsr_timings.F
-  common/dbcsr_timings_base_type.F
-  common/dbcsr_timings_report.F
-  common/dbcsr_timings_types.F
-  common/dbcsr_toollib.F
-  common/dbcsr_util.F
-  common/dbcsr_xml_parser.F
+  core/dbcsr_array_types.F
+  core/dbcsr_config.F
+  core/dbcsr_lib.F
+  core/dbcsr_methods.F
+  core/dbcsr_types.F
+  data/dbcsr_data_operations.F
   data/dbcsr_data_methods.F
   data/dbcsr_data_methods_low.F
   data/dbcsr_data_types.F
   data/dbcsr_mem_methods.F
   data/dbcsr_ptr_util.F
-  dbcsr_api.F
-  dbcsr_base/dbcsr_array_types.F
-  dbcsr_base/dbcsr_btree.F
-  dbcsr_base/dbcsr_config.F
-  dbcsr_base/dbcsr_methods.F
-  dbcsr_base/dbcsr_types.F
-  dbcsr_lib.F
-  dbcsr_test_methods.F
-  dbcsr_tests.F
   dist/dbcsr_dist_methods.F
   dist/dbcsr_dist_operations.F
   dist/dbcsr_dist_util.F
-  dist/dbcsr_min_heap.F
-  dist/dbcsr_mp_methods.F
-  dist/dbcsr_mp_operations.F
+  extras/dbcsr_cuda_profiling.F
+  extras/dbcsr_dict.F
+  extras/dbcsr_error_handling.F
+  extras/dbcsr_iter_types.F
+  extras/dbcsr_list_callstackentry.F
+  extras/dbcsr_list.F
+  extras/dbcsr_list_routinereport.F
+  extras/dbcsr_list_routinestat.F
+  extras/dbcsr_list_timerenv.F
+  extras/dbcsr_log_handling.F
+  extras/dbcsr_memory_utilities.F
+  extras/dbcsr_print_messages.F
+  extras/dbcsr_timings_base_type.F
+  extras/dbcsr_timings.F
+  extras/dbcsr_timings_report.F
+  extras/dbcsr_timings_types.F
   mm/dbcsr_acc_operations.F
-  mm/dbcsr_mm.F
   mm/dbcsr_mm_3d.F
   mm/dbcsr_mm_accdrv.F
   mm/dbcsr_mm_cannon.F
   mm/dbcsr_mm_common.F
   mm/dbcsr_mm_csr.F
   mm/dbcsr_mm_dist_operations.F
+  mm/dbcsr_mm.F
   mm/dbcsr_mm_hostdrv.F
   mm/dbcsr_mm_multrec.F
   mm/dbcsr_mm_sched.F
   mm/dbcsr_mm_types.F
   mm/dbcsr_multiply_api.F
-  mpiwrap/dbcsr_message_passing.F
-  ops/dbcsr_blas_operations.F
+  mpi/dbcsr_mp_methods.F
+  mpi/dbcsr_mp_operations.F
+  mpi/dbcsr_mpiwrap.F
   ops/dbcsr_csr_conversions.F
   ops/dbcsr_io.F
   ops/dbcsr_operations.F
+  ops/dbcsr_test_methods.F
+  ops/dbcsr_tests.F
   ops/dbcsr_transformations.F
   tensors/dbcsr_allocate_wrap.F
   tensors/dbcsr_array_list_methods.F
-  tensors/dbcsr_tensor.F
   tensors/dbcsr_tensor_api.F
   tensors/dbcsr_tensor_block.F
+  tensors/dbcsr_tensor.F
   tensors/dbcsr_tensor_index.F
   tensors/dbcsr_tensor_reshape.F
   tensors/dbcsr_tensor_test.F
   tensors/dbcsr_tensor_types.F
+  utils/dbcsr_array_sort.F
+  utils/dbcsr_blas_operations.F
+  utils/dbcsr_btree.F
+  utils/dbcsr_files.F
+  utils/dbcsr_min_heap.F
+  utils/dbcsr_string_utilities.F
+  utils/dbcsr_toollib.F
+  work/dbcsr_work_operations.F
   )
 
-add_library(dbcsr SHARED ${DBCSR_SRCS})
+add_library(dbcsr ${DBCSR_SRCS})
 target_link_libraries(dbcsr ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${MPI_Fortran_LIBRARIES})
-target_include_directories(dbcsr PRIVATE base common) # do not export those includes
+target_include_directories(dbcsr PRIVATE base) # do not export those includes
 # but make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
 target_include_directories(dbcsr PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}) 
 target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL)
@@ -129,3 +119,14 @@ foreach (dbcsr_src ${DBCSR_SRCS})
   file(RELATIVE_PATH short_file "${CMAKE_CURRENT_BINARY_DIR}" "${dbcsr_src}")
   set_source_files_properties(${dbcsr_src} PROPERTIES COMPILE_DEFINITIONS __SHORT_FILE__="dbcsr/${short_file}")
 endforeach ()
+
+if (WITH_C_API)
+  # Build the C API as a separate library
+  add_fypp_sources(DBCSR_C_SRCS dbcsr_api_c.F)
+
+  add_library(dbcsr_c ${DBCSR_C_SRCS})
+  set_target_properties(dbcsr_c PROPERTIES
+    LINKER_LANGUAGE Fortran
+    COMPILE_FLAGS "${F2008_COMPILER_FLAGS}")
+  target_link_libraries(dbcsr_c dbcsr)
+endif ()

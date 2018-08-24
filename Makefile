@@ -12,24 +12,54 @@ OBJDIR       ?= $(DBCSRHOME)/obj
 PRETTYOBJDIR := $(OBJDIR)/prettified
 DOXIFYOBJDIR := $(OBJDIR)/doxified
 TOOLSRC      := $(DBCSRHOME)/tools
+FYPPEXE      ?= $(TOOLSRC)/build_utils/fypp/bin/fypp
 SRCDIR       := $(DBCSRHOME)/src
 TESTSDIR     := $(DBCSRHOME)/tests
 EXAMPLESDIR  := $(DBCSRHOME)/examples
 PREFIX       ?= $(DBCSRHOME)/install
 INCLUDEMAKE  ?= $(DBCSRHOME)/Makefile.inc
+VERSION       = $(DBCSRHOME)/VERSION
+NPROCS       ?= 1
 
 # Default Target ============================================================
 LIBNAME      := dbcsr
 LIBRARY      := lib$(LIBNAME)
 default_target: $(LIBRARY)
 
+# Read the configuration ====================================================
+MODDEPS = "lower"
+include $(INCLUDEMAKE)
+
+# Read the version ==========================================================
+include $(VERSION)
+ifeq ($(DATE),)
+DATE = "Development Version"
+endif
+
+# Set the compute version and NVFLAGS =======================================
+ifeq ($(GPUVER),K20X)
+ ARCH_NUMBER = 35
+else ifeq ($(GPUVER),K40)
+ ARCH_NUMBER = 35
+else ifeq ($(GPUVER),K80)
+ ARCH_NUMBER = 37
+else ifeq ($(GPUVER),P100)
+ ARCH_NUMBER = 60
+else ifeq ($(GPUVER),) # Default to the newest GPU
+ ARCH_NUMBER = 60
+else
+ $(error GPUVER not recognized)
+endif
+
+ifneq ($(ARCH_NUMBER),)
+ NVFLAGS += -arch sm_$(ARCH_NUMBER)
+endif
+
 # Test programs =========================================================
 include $(TESTSDIR)/Makefile.inc
 BIN_TESTS := $(sort $(addprefix $(TESTSDIR)/, $(SRC_TESTS)))
 
-# Read and set the configuration ============================================
-MODDEPS = "lower"
-include $(INCLUDEMAKE)
+# Set the configuration ============================================
 # the only binaries for the moment are the tests
 BIN_FILES := $(BIN_TESTS)
 BIN_NAMES := $(basename $(notdir $(BIN_FILES)))
@@ -48,7 +78,7 @@ endif
          doxify doxifyclean \
          pretty prettyclean doxygen/clean doxygen \
          install clean realclean help \
-         test
+	 version test
 
 # Discover files and directories ============================================
 ALL_SRC_DIRS := $(shell find $(SRCDIR) -type d | awk '{printf("%s:",$$1)}')
@@ -57,22 +87,26 @@ LIBCUSMM_DIR := $(shell cd $(SRCDIR) ; find . -type d -name "libcusmm")
 LIBCUSMM_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libcusmm")
 
 ALL_PKG_FILES := $(shell find $(SRCDIR) -name "PACKAGE")
-OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . -name "*.F")
+OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . ! -name "dbcsr_api_c.F" -name "*.F")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cpp")
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -name "libcusmm.cpp" ! -name "parameters_utils_for_py.cpp" -name "*.cpp")
+
+ifneq ($(NVCC),)
+OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find .  -name "*.cu")
+OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cpp
+endif
+
+ifneq ($(CINT),)
+OBJ_SRC_FILES += ./dbcsr_api_c.F
+PUBLICHEADERS += $(SRCDIR)/dbcsr.h
+endif
 
 # OBJECTS used for pretty and doxify
 ALL_OBJECTS   := $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
-ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(SRCDIR);  find . ! -name "libcusmm.cu" ! -name "libcusmm_part*.cu" -name "*.cu"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.F"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.c"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cpp"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cu"))))
-
-ifneq ($(NVCC),)
-OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "libcusmm.cu" -name "*.cu")
-OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cu
-endif
 
 # Included files used by Fypp preprocessor and standard includes
 INCLUDED_SRC_FILES := $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR) -name "*.f90")))
@@ -99,6 +133,10 @@ all: $(LIBRARY)
 dirs:
 	@mkdir -p $(OBJDIR)
 	@mkdir -p $(LIBDIR)
+
+version:
+	@echo "DCBSR Version: "$(MAJOR)"."$(MINOR)"."$(PATCH)" ("$(DATE)")"
+OTHER_HELP += "version : Print DBCSR version"
 
 toolversions:
 ifneq ($(FC),)
@@ -137,6 +175,8 @@ endif
 	@echo "========= Python ========="
 	/usr/bin/env python --version
 
+OTHER_HELP += "toolversions : Print versions of build tools"
+
 else
 # stage 2: Include $(OBJDIR)/all.dep, expand target all, and get list of dependencies.
 all: $(foreach e, $(BIN_NAMES), $(e))
@@ -149,18 +189,11 @@ else
 # stage 3: Perform actual build.
 $(BIN_NAME).o: $(BIN_DEPS)
 
-$(BINDIR)/%.x: %.o $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) | silent
+$(BINDIR)/%.x: %.o $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT)
 	$(LD) $(LDFLAGS) -L$(LIBDIR) -o $@ $< $(BIN_DEPS) -l$(LIBNAME) $(LIBS)
-
-# Silent the target if it is already up to date
-silent:
-	@:
-
 endif
 
 endif
-
-OTHER_HELP += "toolversions : Print versions of build tools"
 
 #   extract help text from doxygen "\brief"-tag
 help:
@@ -212,15 +245,20 @@ endif
 OTHER_HELP += "install : Install the library and modules under PREFIX=<directory> (default $(PREFIX))"
 
 test:
+	@export OMP_NUM_THREADS=2 ; \
 	for test in $(UNITTESTS); do \
-		mpirun $(BINDIR)/$$test.x || exit 1; \
+		mpirun -np $(NPROCS) $(BINDIR)/$$test.x || exit 1; \
+	done
+	@export OMP_NUM_THREADS=2 ; \
+	for input in $(PERFTESTS); do \
+		mpirun -np $(NPROCS) $(BINDIR)/dbcsr_performance_driver.x $$input || exit 1; \
 	done
 
 OTHER_HELP += "test    : Run the unittests available in tests/"
 
 clean:
-	rm -rf $(LIBCUSMM_ABS_DIR)/libcusmm.cu $(LIBCUSMM_ABS_DIR)/libcusmm_part*.cu
 	rm -rf $(OBJDIR)
+	rm -f $(LIBCUSMM_ABS_DIR)/parameters.h $(LIBCUSMM_ABS_DIR)/cusmm_kernels.h $(LIBCUSMM_ABS_DIR)/*.so
 OTHER_HELP += "clean : Remove intermediate object and mod files, but not the libraries and executables"
 
 #
@@ -230,6 +268,7 @@ OTHER_HELP += "clean : Remove intermediate object and mod files, but not the lib
 realclean: clean doxygen/clean
 	rm -rf $(BINDIR) $(LIBDIR) $(PREFIX) 
 	rm -rf `find $(DBCSRHOME) -name "*.pyc"`
+	rm -rf `find $(DBCSRHOME) -name "*.callgraph"`
 OTHER_HELP += "realclean : Remove all files"
 
 # Prettyfier stuff ==========================================================
@@ -322,8 +361,11 @@ TOOL_HELP += "doxygen : Generate the doxygen documentation"
 
 
 # Libcusmm stuff ============================================================
-$(LIBCUSMM_ABS_DIR)/libcusmm.cu: $(LIBCUSMM_ABS_DIR)/generate.py $(LIBCUSMM_ABS_DIR)/parameters_P100.txt $(wildcard $(LIBCUSMM_ABS_DIR)/kernels/*.py)
-	cd $(LIBCUSMM_ABS_DIR); ./generate.py $(LIBCUSMM_FLAGS)
+$(LIBCUSMM_ABS_DIR)/parameters.h: $(LIBCUSMM_ABS_DIR)/generate_parameters.py $(wildcard $(LIBCUSMM_ABS_DIR)/parameters_*.txt)
+	cd $(LIBCUSMM_ABS_DIR); ./generate_parameters.py --gpu_version=$(GPUVER)
+
+$(LIBCUSMM_ABS_DIR)/cusmm_kernels.h: $(LIBCUSMM_ABS_DIR)/generate_kernels.py $(wildcard $(LIBCUSMM_ABS_DIR)/kernels/*.h)
+	cd $(LIBCUSMM_ABS_DIR); ./generate_kernels.py
 
 
 # automatic dependency generation ===========================================
@@ -366,13 +408,10 @@ vpath %.cpp   $(ALL_SRC_DIRS)
 
 FYPPFLAGS ?= -n
 
-define compile_file
-	$(TOOLSRC)/build_utils/fypp $(FYPPFLAGS) $(1) $(2)
-	$(FC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(notdir $(1))\"" -I'$(dir $(1))' -I'$(SRCDIR)' $(2) $(FCLOGPIPE)
-endef
-
 %.o %.mod: %.F
-	$(call compile_file, $<, $*.F90)
+	@rm -f $*.mod
+	$(FYPPEXE) $(FYPPFLAGS) $< $*.F90
+	$(FC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(notdir $<)\"" -I'$(dir $<)' -I'$(SRCDIR)' $*.F90 $(FCLOGPIPE)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $<
@@ -380,7 +419,13 @@ endef
 %.o: %.cpp
 	$(CXX) -c $(CXXFLAGS) $<
 
+libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
+	$(CXX) -c $(CXXFLAGS) -DARCH_NUMBER=$(ARCH_NUMBER) $<
+
 %.o: %.cu
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+
+libcusmm_benchmark.o: libcusmm_benchmark.cu parameters.h
 	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
 
 $(LIBDIR)/%:

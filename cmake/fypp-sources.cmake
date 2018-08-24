@@ -1,6 +1,6 @@
 
 # Use a system-provided fypp if available, otherwise the bundled one
-find_program(FYPP_EXECUTABLE fypp DOC "The FYPP preprocessor" PATHS tools/build_utils/)
+find_program(FYPP_EXECUTABLE fypp DOC "The FYPP preprocessor" PATHS ../tools/build_utils/fypp/bin)
 if (NOT FYPP_EXECUTABLE)
   message(FATAL_ERROR "Failed to find the FYPP preprocessor.")
 else ()

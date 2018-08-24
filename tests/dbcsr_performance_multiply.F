@@ -27,24 +27,24 @@ MODULE dbcsr_performance_multiply
                                               real_4,&
                                               real_8
    USE dbcsr_machine,                   ONLY: m_walltime
-   USE dbcsr_message_passing,           ONLY: mp_environ,&
-                                              mp_sum,&
-                                              mp_sync
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_distribution, dbcsr_get_data_type, &
         dbcsr_get_matrix_type, dbcsr_name, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
         dbcsr_release, dbcsr_row_block_offsets, dbcsr_row_block_sizes
    USE dbcsr_mp_methods,                ONLY: dbcsr_mp_npcols,&
                                               dbcsr_mp_nprows
+   USE dbcsr_mpiwrap,                   ONLY: mp_environ,&
+                                              mp_sum,&
+                                              mp_sync
    USE dbcsr_multiply_api,              ONLY: dbcsr_multiply
    USE dbcsr_operations,                ONLY: dbcsr_copy,&
                                               dbcsr_scale
-   USE dbcsr_test_methods,              ONLY: atoi,&
-                                              atol,&
-                                              ator,&
-                                              dbcsr_make_random_block_sizes,&
+   USE dbcsr_test_methods,              ONLY: dbcsr_make_random_block_sizes,&
                                               dbcsr_make_random_matrix,&
                                               dbcsr_reset_randmat_seed
+   USE dbcsr_toollib,                   ONLY: atoi,&
+                                              atol,&
+                                              ator
    USE dbcsr_transformations,           ONLY: dbcsr_redistribute
    USE dbcsr_types,                     ONLY: &
         dbcsr_conjugate_transpose, dbcsr_distribution_obj, dbcsr_mp_obj, dbcsr_no_transpose, &
@@ -92,25 +92,29 @@ CONTAINS
                                                             matrix_sizes(3), mblk_to_read, &
                                                             nblk_to_read, nrep, TYPE
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: bs_k, bs_m, bs_n
-      LOGICAL                                            :: retain_sparsity
-      REAL(real_8)                                       :: alpha(2), beta(2), sparsities(3)
+      LOGICAL                                            :: chksum_check, retain_sparsity
+      REAL(real_8)                                       :: alpha(2), beta(2), chksum_ref, &
+                                                            chksum_ref_pos, chksum_threshold, &
+                                                            sparsities(3)
 
 !
 ! parsing
 
-      IF (narg .LT. 28) THEN
-         WRITE (*, *) "Input file format:"
-         WRITE (*, *) "      dbcsr_multiply \\"
-         WRITE (*, *) "      M N K \\"
-         WRITE (*, *) "      SpA SpB SpC \\"
-         WRITE (*, *) "      TrA TrB \\"
-         WRITE (*, *) "      SymA SymB SymC \\"
-         WRITE (*, *) "      data_type \\"
-         WRITE (*, *) "      Re(alpha) Im(alpha) Re(beta) Im(beta) \\"
-         WRITE (*, *) "      limRowL limRowU limColL limColU limKL limKU \\"
-         WRITE (*, *) "      retain_sparsity nrep \\"
-         WRITE (*, *) "      nmblksizes nnblksizes nkblksizes \\"
-         WRITE (*, *) "      [mblksizes] [nblksizes] [kblksizes]"
+      IF (narg .LT. 33) THEN
+         WRITE (io_unit, *) "Input file format:"
+         WRITE (io_unit, *) "      npcols for MPI grid \\"
+         WRITE (io_unit, *) "      dbcsr_multiply \\"
+         WRITE (io_unit, *) "      M N K \\"
+         WRITE (io_unit, *) "      SpA SpB SpC \\"
+         WRITE (io_unit, *) "      TrA TrB \\"
+         WRITE (io_unit, *) "      SymA SymB SymC \\"
+         WRITE (io_unit, *) "      data_type \\"
+         WRITE (io_unit, *) "      Re(alpha) Im(alpha) Re(beta) Im(beta) \\"
+         WRITE (io_unit, *) "      limRowL limRowU limColL limColU limKL limKU \\"
+         WRITE (io_unit, *) "      retain_sparsity nrep \\"
+         WRITE (io_unit, *) "      nmblksizes nnblksizes nkblksizes \\"
+         WRITE (io_unit, *) "      [mblksizes] [nblksizes] [kblksizes] \\"
+         WRITE (io_unit, *) "      checksum_check checksum_threshold checksum_ref checksum_ref_pos"
          DBCSR_ABORT("narg not correct")
       ENDIF
 
@@ -142,7 +146,7 @@ CONTAINS
       nblk_to_read = atoi(args(28))
       kblk_to_read = atoi(args(29))
 
-      IF (narg < 28+2*(mblk_to_read+nblk_to_read+kblk_to_read)) &
+      IF (narg < 33+2*(mblk_to_read+nblk_to_read+kblk_to_read)) &
          DBCSR_ABORT("narg not correct")
 
       ALLOCATE (bs_m(2*mblk_to_read), bs_n(2*nblk_to_read), bs_k(2*kblk_to_read))
@@ -167,6 +171,12 @@ CONTAINS
          bs_k(2*(iblk-1)+2) = atoi(args(i))
       ENDDO
 
+      chksum_check = atol(args(i+1))
+      chksum_threshold = ator(args(i+2))
+      IF (chksum_check .AND. chksum_threshold .LE. 0.0) DBCSR_ABORT("Checksum threshold must be positive!")
+      chksum_ref = ator(args(i+3))
+      chksum_ref_pos = ator(args(i+4))
+
       !
       ! do checks here
 
@@ -183,7 +193,9 @@ CONTAINS
       ! lets go !
       CALL dbcsr_perf_multiply_low(group, mp_env, npdims, io_unit, matrix_sizes, &
                                    bs_m, bs_n, bs_k, sparsities, trans, symmetries, TYPE, &
-                                   alpha, beta, limits, retain_sparsity, nrep)
+                                   alpha, beta, limits, retain_sparsity, nrep, &
+                                   chksum_check, chksum_threshold, chksum_ref, &
+                                   chksum_ref_pos)
 
       DEALLOCATE (bs_m, bs_n, bs_k)
 
@@ -209,10 +221,15 @@ CONTAINS
 !> \param limits ...
 !> \param retain_sparsity ...
 !> \param nrep ...
+!> \param chksum_check ...
+!> \param chksum_threshold ...
+!> \param chksum_ref ...
+!> \param chksum_ref_pos ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_perf_multiply_low(mp_group, mp_env, npdims, io_unit, &
                                       matrix_sizes, bs_m, bs_n, bs_k, sparsities, trans, symmetries, data_type, &
-                                      alpha_in, beta_in, limits, retain_sparsity, nrep)
+                                      alpha_in, beta_in, limits, retain_sparsity, nrep, &
+                                      chksum_check, chksum_threshold, chksum_ref, chksum_ref_pos)
       INTEGER, INTENT(IN)                                :: mp_group
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
@@ -226,12 +243,15 @@ CONTAINS
       INTEGER, DIMENSION(6), INTENT(in)                  :: limits
       LOGICAL, INTENT(in)                                :: retain_sparsity
       INTEGER, INTENT(IN)                                :: nrep
+      LOGICAL, INTENT(in)                                :: chksum_check
+      REAL(real_8), INTENT(in)                           :: chksum_threshold, chksum_ref, &
+                                                            chksum_ref_pos
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_perf_multiply_low', &
          routineP = moduleN//':'//routineN
 
       CHARACTER                                          :: a_symm, b_symm, c_symm, transa, transb
-      INTEGER                                            :: handle, mynode, numnodes
+      INTEGER                                            :: handle, mynode, numnodes, numthreads
       INTEGER, DIMENSION(:), POINTER :: col_dist_a, col_dist_b, col_dist_c, my_sizes_k, &
          my_sizes_m, my_sizes_n, row_dist_a, row_dist_b, row_dist_c, sizes_k, sizes_m, sizes_n
       LOGICAL                                            :: do_complex
@@ -250,6 +270,13 @@ CONTAINS
       ! print
       CALL mp_environ(numnodes, mynode, mp_group)
       IF (io_unit .GT. 0) THEN
+         numthreads = 1
+!$OMP PARALLEL
+!$OMP MASTER
+!$       numthreads = omp_get_num_threads()
+!$OMP END MASTER
+!$OMP END PARALLEL
+         WRITE (io_unit, *) 'numthreads', numthreads
          WRITE (io_unit, *) 'numnodes', numnodes
          WRITE (io_unit, *) 'matrix_sizes', matrix_sizes
          WRITE (io_unit, *) 'sparsities', sparsities
@@ -433,7 +460,9 @@ CONTAINS
                          transa, transb, &
                          alpha, beta, &
                          limits, retain_sparsity, &
-                         nrep)
+                         nrep, &
+                         chksum_check, chksum_threshold, chksum_ref, &
+                         chksum_ref_pos)
 
       !
       ! cleanup
@@ -461,11 +490,16 @@ CONTAINS
 !> \param limits ...
 !> \param retain_sparsity ...
 !> \param nrep ...
+!> \param chksum_check ...
+!> \param chksum_threshold ...
+!> \param chksum_ref ...
+!> \param chksum_ref_pos ...
 ! **************************************************************************************************
    SUBROUTINE perf_multiply(mp_group, mp_env, io_unit, &
                             matrix_a, matrix_b, matrix_c, &
                             transa, transb, alpha, beta, limits, retain_sparsity, &
-                            nrep)
+                            nrep, chksum_check, chksum_threshold, chksum_ref, chksum_ref_pos)
+
       INTEGER, INTENT(IN)                                :: mp_group
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, INTENT(IN)                                :: io_unit
@@ -475,6 +509,9 @@ CONTAINS
       INTEGER, DIMENSION(6), INTENT(in)                  :: limits
       LOGICAL, INTENT(in)                                :: retain_sparsity
       INTEGER, INTENT(IN)                                :: nrep
+      LOGICAL, INTENT(in)                                :: chksum_check
+      REAL(real_8), INTENT(in)                           :: chksum_threshold, chksum_ref, &
+                                                            chksum_ref_pos
 
       CHARACTER(len=*), PARAMETER :: routineN = 'perf_multiply', routineP = moduleN//':'//routineN
 
@@ -486,9 +523,10 @@ CONTAINS
       INTEGER, DIMENSION(:), POINTER                     :: blk_offsets, col_dist_a, col_dist_b, &
                                                             col_dist_c, row_dist_a, row_dist_b, &
                                                             row_dist_c
+      LOGICAL                                            :: chksum_err
       REAL(real_8)                                       :: chksum_a, chksum_b, chksum_c_in, &
                                                             chksum_c_out, chksum_c_out_pos, &
-                                                            std_all, std_t, t1, t2
+                                                            rel_diff, std_all, std_t, t1, t2
       REAL(real_8), ALLOCATABLE, DIMENSION(:)            :: flops_all, flops_node, flops_thread, &
                                                             load_imb, t, t_max, t_min
       REAL(real_8), ALLOCATABLE, DIMENSION(:, :)         :: times
@@ -564,9 +602,9 @@ CONTAINS
 
       IF (.FALSE.) THEN
          blk_offsets => dbcsr_row_block_offsets(matrix_c)
-         WRITE (*, *) 'row_block_offsets(matrix_c)', blk_offsets
+         WRITE (io_unit, *) 'row_block_offsets(matrix_c)', blk_offsets
          blk_offsets => dbcsr_col_block_offsets(matrix_c)
-         WRITE (*, *) 'col_block_offsets(matrix_c)', blk_offsets
+         WRITE (io_unit, *) 'col_block_offsets(matrix_c)', blk_offsets
       ENDIF
 
       IF (.FALSE.) THEN
@@ -644,7 +682,7 @@ CONTAINS
             ", ", dbcsr_get_matrix_type(m_b), &
             ", ", dbcsr_get_matrix_type(m_c), &
             ")"
-         WRITE (io_unit, '(T4,3(A,I6,A,I6),A)') &
+         WRITE (io_unit, '(T4,3(A,I9,A,I9),A)') &
             "matrix sizes A(", r_a, " x", c_a, "), B(", r_b, " x", c_b, ") and C(", r_c, " x", c_c, ")"
          WRITE (io_unit, '(T4,A,I5,A,I3,A,I3,A)') 'numnodes (nprows X npcols) = ', numnodes, &
             "(", dbcsr_mp_nprows(mp_env), " X ", &
@@ -655,6 +693,26 @@ CONTAINS
          WRITE (io_unit, '(T4,A,E26.15)') 'checksum(C_in)  = ', chksum_c_in
          WRITE (io_unit, '(T4,A,E26.15)') 'checksum(C_out) = ', chksum_c_out
          WRITE (io_unit, '(T4,A,E26.15)') 'checksum(C_out) POS = ', chksum_c_out_pos
+         IF (chksum_check) THEN
+            chksum_err = .FALSE.
+            rel_diff = ABS(chksum_c_out/MAX(chksum_ref, chksum_threshold)-1.)
+            IF (rel_diff .GT. chksum_threshold) THEN
+               WRITE (io_unit, '(T4,A,E26.15,A,E26.15,A,E26.15)') "Wrong checksum(C_out), ref = ", &
+                  chksum_ref, &
+                  "  rel_diff = ", rel_diff, &
+                  "  threshold = ", chksum_threshold
+               chksum_err = .TRUE.
+            ENDIF
+            rel_diff = ABS(chksum_c_out_pos/MAX(chksum_ref_pos, chksum_threshold)-1.)
+            IF (rel_diff .GT. chksum_threshold) THEN
+               WRITE (io_unit, '(T4,A,E26.15,A,E26.15,A,E26.15)') "Wrong checksum(C_out) POS, ref = ", &
+                  chksum_ref_pos, &
+                  "  rel_diff = ", rel_diff, &
+                  "  threshold = ", chksum_threshold
+               chksum_err = .TRUE.
+            ENDIF
+            IF (chksum_err) DBCSR_ABORT("Test failed!")
+         ENDIF
          WRITE (io_unit, *)
          WRITE (io_unit, *)
          WRITE (io_unit, '(T4,A)') "                       mean        std         minmin      maxmax"

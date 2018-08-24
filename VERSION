@@ -1,0 +1,6 @@
+MAJOR = 1
+MINOR = 0
+PATCH = 0
+# A specific DATE (Month/Year) fixes an official release, otherwise
+# it is considered Development version.
+DATE  = 

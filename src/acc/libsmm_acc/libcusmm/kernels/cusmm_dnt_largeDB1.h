@@ -9,9 +9,6 @@
  *           Ole Schuett <ole.schuett@mat.ethz.ch>                           *
  *****************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <cuda.h>
 #include "cusmm_common.h"
 
 
@@ -111,6 +108,47 @@ __device__ static inline void store_results_into_smem(double* from, double* dest
 } //end of namespace
 
 //**************************************************************************//
+/*
+ * Execution configuration:
+ * gridDim.x = (stack_size + (grouping-1))/grouping
+ * blockIdx.x = {0, ..., gridDim.x-1}
+ * blockDim.x = threads
+ * threadIdx.x = {0, ..., threads-1}
+
+ * Execute sparse matrix-matrix multiplication C += A*B
+ * according to a stack parameter list, decomposed into mutliple block
+ * multiplications c_block += a_block * b_block
+ *     c_block, dimension (m x n)
+ *     a_block, dimension (m x k)
+ *     b_block, dimension (k x n)
+
+ * Template parameters
+ * --- m, n, k: triplet of integers characterising the block multiplication dimensions
+ * --- M, N: dimensions of the tile T (submatrix of c_block) to compute by one thread
+ * --- w: matrices a_block and b_block are processed (i.e. copied from global memory to shared memory) in slabs of width 'w'
+ * --- v: matrix c_block is written back from registers to smem in slabs of width 'v'
+ * --- threads: number of CUDA threads this kernel is run with
+ * --- grouping: number of stack parameter entries to process per thread block
+ * --- minblocks: the desired minimum number of resident blocks per multiprocessor (used in __launch_bounds__)
+
+ * Function arguments
+ * --- param_stack: parameter stack array (pointers to global memory):
+ *     array of stack entries (index triplets), indicating which elements of
+ *     a_data, b_data to multiply and to which element of c_data to add them to
+ * --- stack_size: number of entries (3 integer triplets) in param_stack,
+ *     corresponds to the number of block-matrix multiplications to run in total
+ * --- a_data, b_data, c_data (pointers to global memory):
+ *     arrays containing the values of matrices A, B, C
+
+ * Algorithm specificities:
+ * 'DB' stands for double-buffering
+ * In order to limit shared memory utilization (indeed, large shared memory
+ * utilization can limit the number of concurrent thread blocks launched on one
+ * streaming multiprocessor), a_block and b_block are copied to shared memory in
+ * slabs P_a, P_b instead of all at once.
+ * For coalesced writes: slabs of C (P_c with width 'v') are put in shared memory
+ * and only then added to the C in global memory using atomic compare-and-swap
+ */
 template < int m, int n, int k, int M, int N, int w, int v, int threads, int grouping, int minblocks >
 __global__
 __launch_bounds__(threads, minblocks)
@@ -119,62 +157,82 @@ void cusmm_dnt_largeDB1(const int* param_stack, const int stack_size,
 
   using namespace ns_cusmm_dnt_largeDB1;
 
+  /* Number of parameters per stack entry in parameter stack */
   const int npar = 3;
+
+  /* nrun: number of runs: number of stack entries to process in this thread */
   const int nrun = (((blockIdx.x + 1) * grouping) > stack_size)? stack_size % grouping: grouping;
 
-  // registers to store input slabs during double buffering
-  // If there are too few thread, each thread has to store
-  // multiple elements of the input slabs in it's registers.
+  /* Registers to store input slabs during double buffering
+   * If there are too few thread, each thread has to store
+   * multiple elements of the input slabs in its registers.
+   * slab P_a has dimensions (m x w)
+   * slab P_b has dimensions (w x n)
+   * registers are thread-local, so we divide the amount of memory needed to store
+   * the slabs by the number of threads to get the amount of memory that THIS thread needs */
   const int mya_size = (w * m + threads - 1) / threads;
   const int myb_size = (w * n + threads - 1) / threads;
   const int buff_tmp  = MAX(        (w - 1) * m + ((m + M - 1) / M) * M,
                             m * w + (w - 1) * n + ((n + N - 1) / N) * N);
+  /* v x m = number of elements in P_c */
   const int buff_size = MAX(buff_tmp, v * m);
 
-  // registers to buffer and store thread's result tile
+  /* Registers to buffer/store input slabs P_a, P_b during double-buffering */
   double mya[mya_size];
   double myb[myb_size];
+
+  /* Registers to store the partial result of the tile T of c_block that this thread will compute */
   double myc[M * N];
 
-  //__shared__ int    param_stack_s[npar * grouping]; // by putting this here: regs= 92-->128 (why?)
+  /* Arrays in shared memory
+   * buff: shared memory buffer containing the elemnts of P_c to be written from regs to smem in slabs */
   __shared__ double buff[buff_size];
+
+  /* param_stack_s: shared memory buffer containing the stack entries this thread should process
+   *                number of stack entries in param_stack_s = grouping,
+   *                number of integers per stack entry: 3 */
   __shared__ int    param_stack_s[npar * grouping];
 
-  double* buff_l = buff;
-  double* buff_r = &(buff[m * w]);
+  double* buff_l = buff; /* pointer to the beginning of a_block in buffer */
+  double* buff_r = &(buff[m * w]); /* pointer to the beginning of b_block in buffer */
 
-  /* set the partial sum to zero */
+  /* Set the partial sum (tile T) to zero */
   for (int i = 0; i < M * N; i++)
       myc[i] = 0.0;
 
-  /* load and pack stack data for current block into smem */
+  /* Load and pack stack data for current block from global memory into smem
+   * Get parameter stack entries from index "psp" to "psp + (nrun-1)*npar + 2"
+   * Each triplet indicates the beginning of a submatrix to multiply */
   int psp = blockIdx.x * npar * grouping;
 #pragma unroll 3
   for (int i = threadIdx.x; i < nrun; i += threads){
-    param_stack_s[i * npar    ] = __ldg(&param_stack[psp + i * npar    ]) - 1;
-    param_stack_s[i * npar + 1] = __ldg(&param_stack[psp + i * npar + 1]) - 1;
-    param_stack_s[i * npar + 2] = __ldg(&param_stack[psp + i * npar + 2]) - 1;
+    param_stack_s[i * npar    ] = __ldg(&param_stack[psp + i * npar    ]) - 1; /* value = index in a_data */
+    param_stack_s[i * npar + 1] = __ldg(&param_stack[psp + i * npar + 1]) - 1; /* value = index in b_data */
+    param_stack_s[i * npar + 2] = __ldg(&param_stack[psp + i * npar + 2]) - 1; /* value = index in c_data */
   }
 
-  // in each run we process one stack entry
+  /* In each run, we process one stack entry from param_stack_s */
   for (int run = 0; run < nrun; run++){
     psp = run * npar;
 
     syncthreads();
 
-    // get the offsets for the a-block and the b-block from the stack
+    /* Index in a_data, b_data and c_data arrays
+     * indicating where to fetch resp. write back matrix elements for this run
+     * srcA, B, C corresponding to the starting indices (i.e. offsets) of block submatrices to multiply */
     int srcA = param_stack_s[psp];
     int srcB = param_stack_s[psp + 1];
 
-    // start off double buffering by loading the first
+    // Start off double buffering by loading the first
     // input slab directly from global into shared memory
     load_gmem_into_smem(&a_data[srcA], buff_l, m * w, threads);
     load_gmem_into_smem(&b_data[srcB], buff_r, n * w, threads);
 
-    // this is the acutall double buffering loop
+    // Actual double buffering loop:
     for (int t = 0; t < (k / w - 1) * w ; t += w){
       syncthreads();
       // load next input slab from global memory into registers
+      /* increment block submatrices offset to next input slab */
       srcA += m * w;
       srcB += n * w;
       load_gmem_into_regs(&a_data[srcA], mya, m * w, threads);
@@ -182,6 +240,7 @@ void cusmm_dnt_largeDB1(const int* param_stack, const int stack_size,
       // multiply previous slab, which is stored in shared memory,
       // and accumulate the results in the registers myc
       multiply(buff_l, buff_r, myc, w, m, n, M, N);
+      /* wait for multiplication to be done before overwriting smem buffers in next step */
       syncthreads();
       // copy next slab from registers to shared memory
       load_regs_into_smem(mya, buff_l, m * w, threads);

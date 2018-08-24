@@ -29,7 +29,7 @@ MODULE dbcsr_tensor_reshape
    USE dbcsr_kinds,                     ONLY: default_string_length
    USE dbcsr_kinds,                     ONLY: ${uselist(dtype_float_prec)}$
    USE dbcsr_api,                       ONLY: ${uselist(dtype_float_param)}$
-   USE dbcsr_message_passing,           ONLY: mp_alltoall,&
+   USE dbcsr_mpiwrap,                   ONLY: mp_alltoall,&
                                               mp_environ,&
                                               mp_irecv,&
                                               mp_isend,&

@@ -18,6 +18,15 @@ from kernels.cusmm_dnt_tiny     import Kernel_dnt_tiny
 ALL_KERNELS = (Kernel_dnt_tiny, Kernel_dnt_small, Kernel_dnt_medium, Kernel_dnt_largeDB1, Kernel_dnt_largeDB2,)
 
 #===============================================================================
+# Correspondance between CUDA compute versions and parameter_file
+arch_number = {
+    "parameters_K20X.txt": 35, 
+    "parameters_K40.txt": 35,
+    "parameters_K80.txt": 37,
+    "parameters_P100.txt": 60
+}
+
+#===============================================================================
 def main():
     usage = "Usage: tune.py <blocksize 1> ... <blocksize N>"
     parser = OptionParser(usage)
@@ -32,10 +41,12 @@ def main():
 
     # read existing parameters
     param_fn = options.params
+    assert param_fn in arch_number.keys(), "Cannot find compute version for file " + param_fn
+    arch = arch_number[param_fn]
     all_kernels = eval(open(param_fn).read())
     print("Libcusmm: Found %d existing parameter sets."%len(all_kernels))
 
-    blocksizes = [int(i) for i in sys.argv[1:]]
+    blocksizes = [int(i) for i in args[1:]]
     assert(len(set(blocksizes)) == len(blocksizes))
     blocksizes.sort()
 
@@ -54,7 +65,7 @@ def main():
         os.mkdir(outdir)
         gen_benchmark(outdir, m, n, k)
         gen_jobfile(outdir, m, n, k)
-        gen_makefile(outdir)
+        gen_makefile(outdir, arch)
 
     #gen_collect(outdir, triples)
 
@@ -133,7 +144,7 @@ def gen_benchmark(outdir, m, n, k):
         for j in range(B-A):
             output += "launchers[%d]    = %s;\n"%(j, launchers[A+j])
             output += 'kernel_descr[%d] = (char *) "%s";\n'%(j, kernel_descr[A+j])
-        output += "libcusmm_benchmark_init(&handle, true, %d, %d, %d);\n"%(m, n, k)
+        output += "libcusmm_benchmark_init(&handle, tune, %d, %d, %d);\n"%(m, n, k)
         output += "return libcusmm_benchmark(handle, %d, %d, %d, %d, launchers, kernel_descr);\n"%(m, n, k, B-A)
         output += "libcusmm_benchmark_finalize(handle);\n"
         output += "}\n"
@@ -185,7 +196,7 @@ def gen_jobfile(outdir, m, n, k):
 
 
 #===============================================================================
-def gen_makefile(outdir):
+def gen_makefile(outdir, arch):
     output  = ".SECONDARY:\n"
     output += "vpath %.cu ../\n\n"
     all_exe_src = sorted([basename(fn) for fn in glob(outdir+"/tune_*_main.cu")])
@@ -195,11 +206,12 @@ def gen_makefile(outdir):
     output += "do_nothing:\n\n"
     output += "build_all: " +  " ".join(build_targets) + "\n\n"
 
-    output += "libcusmm_benchmark.o : libcusmm_benchmark.cu\n\n"
+    output += "libcusmm_benchmark.o : libcusmm_benchmark.cu\n"
+    output += "\tnvcc -O3 -arch=sm_" + str(arch) + " -w -c -std=c++11 $<\n\n"
 
     headers = " ".join( ["."+fn for fn in glob("./kernels/*.h")] )
     output += "%.o : %.cu "+headers+"\n"
-    output += "\tnvcc -O3 -arch=sm_60 -w -c $<\n\n"
+    output += "\tnvcc -O3 -arch=sm_" + str(arch) + " -w -c $<\n\n"
 
     for exe_src in all_exe_src:
         absparts = sorted(glob(outdir+"/"+exe_src.replace("_main.cu", "_part*")))
@@ -208,7 +220,7 @@ def gen_makefile(outdir):
         deps_obj = " ".join([fn.replace(".cu", ".o") for fn in deps])
         exe = exe_src.replace("_main.cu", "")
         output += exe + " : " + deps_obj +"\n"
-        output += "\tnvcc -O3 -arch=sm_60 -w -o $@ $^\n\n"
+        output += "\tnvcc -O3 -arch=sm_" + str(arch) + " -w -o $@ $^ -L $(CUDA_PATH) -lcuda\n\n"
 
     writefile(outdir+"/Makefile", output)
 

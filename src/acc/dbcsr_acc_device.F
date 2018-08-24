@@ -4,7 +4,7 @@
 !--------------------------------------------------------------------------------------------------!
 
 MODULE dbcsr_acc_device
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
    USE ISO_C_BINDING, ONLY: C_INT
 #endif
 #include "base/dbcsr_base_uses.f90"
@@ -17,7 +17,7 @@ MODULE dbcsr_acc_device
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_acc_device'
 
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
    INTERFACE
       FUNCTION acc_get_ndevices_cu(n_devices) RESULT(istat) &
          BIND(C, name="acc_get_ndevices")
@@ -51,12 +51,12 @@ CONTAINS
    FUNCTION acc_get_ndevices() RESULT(n)
       INTEGER                                  :: n
 
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
       INTEGER                                  :: istat
 #endif
 
       n = 0
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
       istat = acc_get_ndevices_cu(n)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_get_ndevices: failed")
@@ -70,7 +70,7 @@ CONTAINS
    SUBROUTINE acc_set_active_device(dev_id)
       INTEGER :: dev_id
 
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
       INTEGER :: istat
 
 !$OMP PARALLEL DEFAULT(NONE) PRIVATE(istat) SHARED(dev_id)
@@ -81,7 +81,7 @@ CONTAINS
 
 #else
       MARK_USED(dev_id)
-      DBCSR_ABORT("__ACC not compiled in")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in")
 #endif
    END SUBROUTINE acc_set_active_device
 
@@ -89,10 +89,10 @@ CONTAINS
 !> \brief Clear CUDA errors
 ! **************************************************************************************************
    SUBROUTINE acc_clear_errors()
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
       CALL acc_clear_errors_cu()
 #else
-      DBCSR_ABORT("__ACC not compiled in")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in")
 #endif
    END SUBROUTINE acc_clear_errors
 

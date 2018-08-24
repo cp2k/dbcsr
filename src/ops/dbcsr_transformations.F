@@ -65,8 +65,6 @@ MODULE dbcsr_transformations
    USE dbcsr_kinds,                     ONLY: dp,&
                                               int_8,&
                                               sp
-   USE dbcsr_message_passing,           ONLY: mp_allgather,&
-                                              mp_alltoall
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_sizes, dbcsr_distribution, dbcsr_get_data_type, dbcsr_get_matrix_type, &
         dbcsr_has_symmetry, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_nfullcols_total, &
@@ -82,6 +80,8 @@ MODULE dbcsr_transformations
                                               hybrid_alltoall_i1,&
                                               hybrid_alltoall_s1,&
                                               hybrid_alltoall_z1
+   USE dbcsr_mpiwrap,                   ONLY: mp_allgather,&
+                                              mp_alltoall
    USE dbcsr_operations,                ONLY: dbcsr_set
    USE dbcsr_ptr_util,                  ONLY: pointer_view
    USE dbcsr_types,                     ONLY: &
@@ -1588,11 +1588,12 @@ CONTAINS
 !> \param[in] matrix          matrix to redistribute
 !> \param[in,out] redist      redistributed matrix
 !> \param[in] keep_sparsity   (optional) retains the sparsity of the redist matrix
+!> \param[in] summation       (optional) sum blocks with identical row and col from different processes
 ! **************************************************************************************************
-  SUBROUTINE dbcsr_complete_redistribute(matrix, redist, keep_sparsity)
+  SUBROUTINE dbcsr_complete_redistribute(matrix, redist, keep_sparsity, summation)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       TYPE(dbcsr_type), INTENT(INOUT)                    :: redist
-      LOGICAL, INTENT(IN), OPTIONAL                      :: keep_sparsity
+      LOGICAL, INTENT(IN), OPTIONAL                      :: keep_sparsity, summation
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_complete_redistribute', &
          routineP = moduleN//':'//routineN
@@ -1613,8 +1614,8 @@ CONTAINS
                                                             col_dist_new, row_blk_size_new, &
                                                             row_blk_size_old, row_dist_new
       INTEGER, DIMENSION(:, :), POINTER                  :: pgrid
-      LOGICAL                                            :: found, my_keep_sparsity, sym, tr, &
-                                                            valid_block
+      LOGICAL                                            :: found, my_keep_sparsity, my_summation, &
+                                                            sym, tr, valid_block
       REAL(kind=dp)                                      :: cs1, cs2
       TYPE(dbcsr_data_obj)                               :: buff_data, data_block, recv_data, &
                                                             send_data
@@ -1635,6 +1636,9 @@ CONTAINS
     !
     my_keep_sparsity = .FALSE.
     IF (PRESENT (keep_sparsity)) my_keep_sparsity = keep_sparsity
+    !
+    my_summation = .FALSE.
+    IF (PRESENT (summation)) my_summation = summation
 
     ! zero blocks that might be present in the target (redist) but not in the source (matrix)
     CALL dbcsr_set(redist, 0.0_dp)
@@ -1933,11 +1937,11 @@ CONTAINS
           ENDIF
 
           data_offset_l = data_offset_l + nze_rle
-          IF (.NOT. found .AND. valid_block) THEN
+          IF ((.NOT. found .OR. my_summation) .AND. valid_block) THEN
              IF (dbg) WRITE(*,*)routineN//" Adding new block at",&
                   stored_row_new, stored_col_new
              CALL dbcsr_put_block(redist, stored_row_new, stored_col_new,&
-                  data_block, transposed=tr)
+                  data_block, transposed=tr, summation=my_summation)
              !DEALLOCATE (r2_dp)
           ELSE
              IF (.NOT. my_keep_sparsity .AND. dbg) &
