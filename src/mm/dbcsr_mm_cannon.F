@@ -1478,11 +1478,15 @@ CONTAINS
                                     grp, right_data_sr(v_ki+1), tag=right_dst_vrow)
                CALL mp_isend(right_index_sp, right_send_p, &
                              grp, right_index_sr(v_ki+1), tag=right_dst_vrow)
-               dbcsr_mpi_statistics%nexchanged = dbcsr_mpi_statistics%nexchanged+1
-               CALL count_mpi_statistics(dbcsr_mpi_statistics%data_size(1, :), &
-                                         dbcsr_data_get_size(right_data_rp), &
-                                         data_type_byte, &
-                                         dbcsr_mpi_statistics%data_size_breakdown(:, :, 1))
+               
+               IF (right_myprow /= right_recv_p) THEN
+                  dbcsr_mpi_statistics%nexchanged = dbcsr_mpi_statistics%nexchanged+1
+                  CALL count_mpi_statistics(dbcsr_mpi_statistics%data_size(1, :), &
+                       dbcsr_data_get_size(right_data_rp), &
+                       data_type_byte, &
+                       dbcsr_mpi_statistics%data_size_breakdown(:, :, 1))
+               ENDIF
+               
                CALL timestop(handle2)
             ENDDO
          ENDIF xfer_right
@@ -1601,11 +1605,15 @@ CONTAINS
                                     grp, left_data_sr(v_ki+1), tag=left_dst_vcol)
                CALL mp_isend(left_index_sp, left_send_p, &
                              grp, left_index_sr(v_ki+1), tag=left_dst_vcol)
-               dbcsr_mpi_statistics%nexchanged = dbcsr_mpi_statistics%nexchanged+1
-               CALL count_mpi_statistics(dbcsr_mpi_statistics%data_size(2, :), &
-                                         dbcsr_data_get_size(left_data_rp), &
-                                         data_type_byte, &
-                                         dbcsr_mpi_statistics%data_size_breakdown(:, :, 2))
+               
+               IF (left_mypcol /= left_recv_p) THEN
+                  dbcsr_mpi_statistics%nexchanged = dbcsr_mpi_statistics%nexchanged+1
+                  CALL count_mpi_statistics(dbcsr_mpi_statistics%data_size(2, :), &
+                       dbcsr_data_get_size(left_data_rp), &
+                       data_type_byte, &
+                       dbcsr_mpi_statistics%data_size_breakdown(:, :, 2))
+               ENDIF
+               
                CALL timestop(handle2)
             ENDDO
          ENDIF xfer_left

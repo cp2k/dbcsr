@@ -102,6 +102,8 @@ MODULE dbcsr_mm
    USE dbcsr_work_operations,           ONLY: dbcsr_add_wm_from_matrix,&
                                               dbcsr_finalize,&
                                               dbcsr_work_create
+                                              
+   use dbcsr_mm_carma,                  only: dbcsr_carma
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
@@ -379,6 +381,51 @@ CONTAINS
                                      first_row, last_row, first_column, last_column, first_k, last_k, &
                                      retain_sparsity, filter_eps, &
                                      flop)
+      CHARACTER(LEN=1), INTENT(IN)                       :: transa, transb
+      TYPE(dbcsr_scalar_type), INTENT(IN)                :: alpha
+      TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a, matrix_b
+      TYPE(dbcsr_scalar_type), INTENT(IN)                :: beta
+      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_c
+      INTEGER, INTENT(IN), OPTIONAL                      :: first_row, last_row, first_column, &
+                                                            last_column, first_k, last_k
+      LOGICAL, INTENT(IN), OPTIONAL                      :: retain_sparsity
+      REAL(KIND=real_8), INTENT(IN), OPTIONAL            :: filter_eps
+      INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL         :: flop
+
+      TYPE(dbcsr_mp_obj)                                 :: mp_obj
+      integer                                            :: npcols, nprows, numnodes
+      
+      mp_obj = dbcsr_distribution_mp(matrix_c%dist)
+      numnodes = dbcsr_mp_numnodes(mp_obj)
+      nprows = dbcsr_mp_nprows(mp_obj)
+      npcols = dbcsr_mp_npcols(mp_obj)
+      
+      if (nprows == numnodes .and. npcols == 1 .and. transa .NE. dbcsr_no_transpose &
+          .and. .not. present(first_row)    .and. .not. present(last_row) &
+          .and. .not. present(first_column) .and. .not. present(last_column) &
+          .and. .not. present(first_k)      .and. .not. present(last_k) ) then
+         call dbcsr_carma(transa, matrix_a, matrix_b, matrix_c)
+      else
+         call dbcsr_multiply_generic_low(transa, transb, &
+                                     alpha, matrix_a, matrix_b, beta, matrix_c, &
+                                     first_row, last_row, first_column, last_column, first_k, last_k, &
+                                     retain_sparsity, filter_eps, &
+                                     flop)
+      endif
+      
+   end subroutine
+
+
+
+! **************************************************************************************************
+!> \brief Performs a multiplication of two dbcsr_type matrices,
+!>        as  C := alpha * op( A ) * op( B ) + beta * C.
+! **************************************************************************************************
+   SUBROUTINE dbcsr_multiply_generic_low(transa, transb, &
+                                     alpha, matrix_a, matrix_b, beta, matrix_c, &
+                                     first_row, last_row, first_column, last_column, first_k, last_k, &
+                                     retain_sparsity, filter_eps, &
+                                     flop)
 
       CHARACTER(LEN=1), INTENT(IN)                       :: transa, transb
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: alpha
@@ -391,7 +438,7 @@ CONTAINS
       REAL(KIND=real_8), INTENT(IN), OPTIONAL            :: filter_eps
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL         :: flop
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_generic', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_generic_low', &
          routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
       REAL(real_8), PARAMETER                            :: make_dense_occ_thresh = 1.0_dp
@@ -977,7 +1024,7 @@ CONTAINS
       output_unit = default_output_unit
       num_multiplications = num_multiplications+1
       CALL timestop(handle)
-   END SUBROUTINE dbcsr_multiply_generic
+   END SUBROUTINE dbcsr_multiply_generic_low
 
 ! **************************************************************************************************
 !> \brief ...
