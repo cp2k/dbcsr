@@ -20,7 +20,7 @@
 # c) set the GPUVER variable, e.g. GPUVER = K20 for K20 card 
 #    or GPUVER = P100 for P100 card
 # d) set the NVFLAGS variable, 
-#    e.g. NVFLAGS = -O3 -w --std=c++11
+#    e.g. NVFLAGS = -O3 -g -w --std=c++11
 #    in the Makefile, the -arch will be appended with the correct compute version
 # e) specify the CUDA include path in the CXXFLAGS variable, 
 #    e.g. CXXFLAGS += -I${CUDA_PATH}/include 
@@ -111,7 +111,7 @@ ifneq ($(GPU),)
 NVCC        = nvcc
 FCFLAGS    += -D__DBCSR_ACC
 GPUVER      = K40
-NVFLAGS     = -O3 -w --std=c++11
+NVFLAGS     = -O3 -g -w --std=c++11
 CXXFLAGS   += -I${CUDA_PATH}/include
 LIBS       += -lstdc++ -lcudart -lnvrtc -lcuda
 # CUBLAS (off by default)

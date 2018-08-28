@@ -559,10 +559,10 @@ CONTAINS
       ! Row & column distributions
       row_dist_c => dbcsr_distribution_row_dist(dbcsr_distribution(matrix_c))
       col_dist_c => dbcsr_distribution_col_dist(dbcsr_distribution(matrix_c))
-      row_dist_a => row_dist_c
+      row_dist_a => dbcsr_distribution_row_dist(dbcsr_distribution(matrix_a))
       col_dist_a => dbcsr_distribution_col_dist(dbcsr_distribution(matrix_a))
       row_dist_b => dbcsr_distribution_row_dist(dbcsr_distribution(matrix_b))
-      col_dist_b => col_dist_c
+      col_dist_b => dbcsr_distribution_col_dist(dbcsr_distribution(matrix_b))
 
       CALL dbcsr_distribution_new(dist_a, mp_env, row_dist_a, col_dist_a)
       CALL dbcsr_distribution_new(dist_b, mp_env, row_dist_b, col_dist_b)
@@ -711,7 +711,7 @@ CONTAINS
                   "  threshold = ", chksum_threshold
                chksum_err = .TRUE.
             ENDIF
-            IF (chksum_err) DBCSR_ABORT("Test failed!")
+            IF (chksum_err) DBCSR_ABORT("Wrong Checksums. Test failed!")
          ENDIF
          WRITE (io_unit, *)
          WRITE (io_unit, *)
