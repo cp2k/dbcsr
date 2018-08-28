@@ -28,6 +28,7 @@ MODULE dbcsr_mm_reshape
    USE dbcsr_types,                     only: dbcsr_iterator,&
                                               dbcsr_type,&
                                               dbcsr_data_obj,&
+                                              dbcsr_scalar_type, &
                                               ${uselist(dkind1)}$
                                               
    use dbcsr_work_operations,           only: dbcsr_create, dbcsr_finalize                        
@@ -53,7 +54,10 @@ MODULE dbcsr_mm_reshape
    USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_mp
 
    USE dbcsr_mp_methods,                ONLY: dbcsr_mp_group
-   use dbcsr_data_methods,              only: dbcsr_data_set_pointer, dbcsr_data_init, dbcsr_data_new, dbcsr_data_release
+   use dbcsr_data_methods,              only: dbcsr_data_set_pointer, dbcsr_data_init, &
+                                              dbcsr_data_new, dbcsr_data_release, &
+                                              dbcsr_scalar_one
+
    use dbcsr_base_hooks
    
    use dbcsr_index_operations, only: dbcsr_repoint_index
@@ -90,8 +94,8 @@ CONTAINS
 !> \param matrix_in ...
 !> \param matrix_out ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_reshape(matrix_in, matrix_out)
-
+   SUBROUTINE dbcsr_reshape( alpha , matrix_in, matrix_out)
+      TYPE(dbcsr_scalar_type), INTENT(IN)           :: alpha
       TYPE(dbcsr_type), INTENT(INOUT)               :: matrix_in, matrix_out
 
       INTEGER                                            :: blk, iproc, mp_comm, mynode, &
@@ -113,7 +117,7 @@ CONTAINS
       logical :: tr
       integer :: lb_b
   
-      real(8)                     :: alpha, beta
+      TYPE(dbcsr_scalar_type)                  :: beta
       
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_redistribute', &
@@ -126,9 +130,10 @@ CONTAINS
       num_tot_recv = 0
       
       sum_nze_nblks(:) = 0
-      ! for summation
-      alpha = 0.0
-      beta= 1.0
+      
+
+      ! for summation matrix_out = alpha * matrix_out + beta * reshaped( matrix_in )
+      beta  = dbcsr_scalar_one(dbcsr_get_data_type(matrix_in))
     
       call dbcsr_data_init( blk_data )
       call dbcsr_data_new( blk_data, matrix_out % data_type)

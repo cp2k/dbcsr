@@ -138,7 +138,7 @@ USE dbcsr_work_operations,           ONLY: dbcsr_add_wm_from_matrix,&
 
    PUBLIC :: dbcsr_multiply_lib_init, dbcsr_multiply_lib_finalize
    PUBLIC :: dbcsr_multiply_clear_mempools
-   PUBLIC :: dbcsr_multiply_generic
+   PUBLIC :: dbcsr_multiply_generic,dbcsr_carma
 
 CONTAINS
 
@@ -487,7 +487,7 @@ CONTAINS
     ! multiply local matrices
     CALL dbcsr_multiply_generic_low(transa, 'N', alpha, loc_matr_a, loc_matr_b, beta, loc_matr_c)
 
-    call dbcsr_reshape(loc_matr_c, matrix_c)
+    call dbcsr_reshape(beta, loc_matr_c, matrix_c)
 
    call mp_comm_free(row_group)
 
@@ -582,11 +582,13 @@ CONTAINS
       numnodes = dbcsr_mp_numnodes(mp_obj)
       nprows = dbcsr_mp_nprows(mp_obj)
       npcols = dbcsr_mp_npcols(mp_obj)
-      
-      if (nprows == numnodes .and. npcols == 1 .and. transa .NE. dbcsr_no_transpose &
-          .and. .not. present(first_row)    .and. .not. present(last_row) &
-          .and. .not. present(first_column) .and. .not. present(last_column) &
-          .and. .not. present(first_k)      .and. .not. present(last_k) ) then
+     
+      if (nprows == numnodes .and. npcols == 1 &
+          .and. transa /= dbcsr_no_transpose &
+          .and. transb == dbcsr_no_transpose) then ! &
+      !    .and. .not. present(first_row)    .and. .not. present(last_row) &
+      !    .and. .not. present(first_column) .and. .not. present(last_column) &
+      !    .and. .not. present(first_k)      .and. .not. present(last_k) ) then
          call dbcsr_carma(transa, alpha, matrix_a, matrix_b, beta, matrix_c)
       else
          call dbcsr_multiply_generic_low(transa, transb, &

@@ -538,13 +538,12 @@ CONTAINS
 !>
 !> \param flop ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_batched_add_anytype_begin(matrix_a, matrix_b, alpha_scalar_r, beta_scalar_r,&
+   SUBROUTINE dbcsr_batched_add_anytype_begin(matrix_a, matrix_b, alpha_scalar, beta_scalar,&
                                               b_max_nze, b_max_nblocks)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_b
-      real(8),intent(in), optional                       :: alpha_scalar_r, beta_scalar_r
+      TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: alpha_scalar, beta_scalar    
       integer(8),intent(in)                              :: b_max_nze, b_max_nblocks
-!      TYPE(dbcsr_scalar_type)                            :: alpha_scalar, beta_scalar
 
      
 
@@ -569,7 +568,7 @@ CONTAINS
       data_type_b = dbcsr_get_data_type(matrix_b)
       !
       my_beta_scalar = dbcsr_scalar_one(data_type_b)
-      IF (PRESENT(beta_scalar_r)) my_beta_scalar = dbcsr_scalar(beta_scalar_r)
+      IF (PRESENT(beta_scalar)) my_beta_scalar = beta_scalar
       !
       ! let's go
       IF ((dbcsr_nblkrows_total(matrix_a) .NE. dbcsr_nblkrows_total(matrix_b)) .OR. &
@@ -580,8 +579,8 @@ CONTAINS
       IF (data_type_a .NE. my_beta_scalar%data_type) &
          DBCSR_ABORT("beta type parameter not consistent with matrices type")
 
-      IF (PRESENT(alpha_scalar_r)) THEN
-         CALL dbcsr_scale(matrix_a, alpha_scalar=dbcsr_scalar(alpha_scalar_r))
+      IF (PRESENT(alpha_scalar)) THEN
+         CALL dbcsr_scale(matrix_a, alpha_scalar=alpha_scalar)
       ENDIF
 
       IF ((.NOT. dbcsr_scalar_are_equal(my_beta_scalar, &
@@ -597,7 +596,6 @@ CONTAINS
 
          nblks_guess = MIN(matrix_b % nblkrows_total * matrix_b % nblkcols_total, int(b_max_nblocks, KIND=int_4))
          
-         print *,"size work",  size_work
 !$OMP        PARALLEL DEFAULT (NONE) &
 !$OMP                 SHARED (matrix_a, matrix_b, size_work, nblks_guess) 
          CALL dbcsr_work_create(matrix_a, &
@@ -622,10 +620,10 @@ CONTAINS
 !>
 !> \param flop ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_batched_add_anytype(matrix_a, matrix_b, beta_scalar_r, flop)
+   SUBROUTINE dbcsr_batched_add_anytype(matrix_a, matrix_b, beta_scalar, flop)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_b
-      real(8),intent(in), optional                       :: beta_scalar_r
+      TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: beta_scalar    
       INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL       :: flop
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_batched_add_anytype', &
@@ -642,18 +640,17 @@ CONTAINS
       !----------------------------------------------------------------------------
 
       CALL timeset(routineN, handle)
-      my_beta_scalar = dbcsr_scalar_one(data_type_b)
-
-      IF (PRESENT(beta_scalar_r)) then
-         my_beta_scalar=dbcsr_scalar(beta_scalar_r)
-      endif
-
-      do_scale = .NOT. dbcsr_scalar_are_equal(my_beta_scalar, dbcsr_scalar_one(data_type_b))
-
+      
       data_type_a = dbcsr_get_data_type(matrix_a)
       data_type_b = dbcsr_get_data_type(matrix_b)
       
-      
+      my_beta_scalar = dbcsr_scalar_one(data_type_b)
+
+      IF (PRESENT(beta_scalar)) then
+         my_beta_scalar = beta_scalar
+      endif
+
+      do_scale = .NOT. dbcsr_scalar_are_equal(my_beta_scalar, dbcsr_scalar_one(data_type_b))
       
       IF ((.NOT. dbcsr_scalar_are_equal(my_beta_scalar, &
                                         dbcsr_scalar_zero(data_type_b))) .AND. &
