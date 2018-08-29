@@ -1,5 +1,0 @@
-{
-"description": "Generic accelerated library for small matrix multiplications",
-"archive": "libdbcsr",
-"requires": ["libcusmm", "libclsmm", "libmicsmm"]
-}

@@ -52,10 +52,6 @@ MODULE dbcsr_mm_3d
                                               sp
    USE dbcsr_machine,                   ONLY: m_memory
    USE dbcsr_mem_methods,               ONLY: dbcsr_mempool_limit_capacity
-   USE dbcsr_message_passing,           ONLY: &
-        mp_allgather, mp_alltoall, mp_comm_free, mp_comm_null, mp_comm_split_direct, &
-        mp_iallgather, mp_isendrecv, mp_isum, mp_request_null, mp_rget, mp_wait, mp_waitall, &
-        mp_win_create, mp_win_free, mp_win_lock_all, mp_win_unlock_all
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_distribution, dbcsr_get_data_type, &
         dbcsr_has_symmetry, dbcsr_max_col_size, dbcsr_max_row_size, dbcsr_nblkcols_local, &
@@ -88,6 +84,10 @@ MODULE dbcsr_mm_3d
                                               dbcsr_win_create_any,&
                                               hybrid_alltoall_any,&
                                               hybrid_alltoall_i1
+   USE dbcsr_mpiwrap,                   ONLY: &
+        mp_allgather, mp_alltoall, mp_comm_free, mp_comm_null, mp_comm_split_direct, &
+        mp_iallgather, mp_isendrecv, mp_isum, mp_request_null, mp_rget, mp_wait, mp_waitall, &
+        mp_win_create, mp_win_free, mp_win_lock_all, mp_win_unlock_all
    USE dbcsr_ptr_util,                  ONLY: ensure_array_size,&
                                               memory_deallocate
    USE dbcsr_types,                     ONLY: &

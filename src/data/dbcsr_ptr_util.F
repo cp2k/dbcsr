@@ -28,7 +28,7 @@ MODULE dbcsr_ptr_util
                                               int_8,&
                                               real_4,&
                                               real_8
-   USE dbcsr_message_passing,           ONLY: mp_allocate,&
+   USE dbcsr_mpiwrap,                   ONLY: mp_allocate,&
                                               mp_deallocate
 #include "base/dbcsr_base_uses.f90"
 

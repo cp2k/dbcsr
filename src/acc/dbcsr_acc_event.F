@@ -9,7 +9,7 @@
 !> \date    2013-04
 ! **************************************************************************************************
 MODULE dbcsr_acc_event
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
    USE ISO_C_BINDING, ONLY: C_INT, C_NULL_PTR, C_PTR, C_ASSOCIATED, C_NULL_PTR
 #endif
    USE dbcsr_acc_stream, ONLY: acc_stream_cptr, &
@@ -29,14 +29,14 @@ MODULE dbcsr_acc_event
 
    TYPE acc_event_type
       PRIVATE
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
       TYPE(C_PTR) :: cptr = C_NULL_PTR
 #else
       INTEGER :: dummy = 1
 #endif
    END TYPE acc_event_type
 
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
 
    INTERFACE
       FUNCTION cuda_event_create(event_ptr) RESULT(istat) BIND(C, name="acc_event_create")
@@ -106,10 +106,10 @@ CONTAINS
       TYPE(acc_stream_type), INTENT(IN) :: stream
       TYPE(acc_event_type), INTENT(IN)  :: event
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(stream)
       MARK_USED(event)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       TYPE(C_PTR)                              :: stream_cptr
@@ -135,10 +135,10 @@ CONTAINS
       TYPE(acc_event_type), INTENT(IN)  :: this
       TYPE(acc_stream_type), INTENT(IN) :: stream
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
       MARK_USED(stream)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       TYPE(C_PTR)                              :: stream_cptr
@@ -163,9 +163,9 @@ CONTAINS
       TYPE(acc_event_type), &
          INTENT(INOUT)                          :: this
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
 
@@ -186,9 +186,9 @@ CONTAINS
       TYPE(acc_event_type), &
          INTENT(INOUT)                          :: this
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
@@ -210,10 +210,10 @@ CONTAINS
       TYPE(acc_event_type), INTENT(IN)         :: this
       LOGICAL                                  :: res
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       res = .FALSE.
       MARK_USED(this)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat, has_occured
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
@@ -233,9 +233,9 @@ CONTAINS
    SUBROUTINE acc_event_synchronize(this)
       TYPE(acc_event_type), INTENT(IN)  :: this
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       IF (.NOT. C_ASSOCIATED(this%cptr)) &

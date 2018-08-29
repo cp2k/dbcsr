@@ -12,29 +12,56 @@ OBJDIR       ?= $(DBCSRHOME)/obj
 PRETTYOBJDIR := $(OBJDIR)/prettified
 DOXIFYOBJDIR := $(OBJDIR)/doxified
 TOOLSRC      := $(DBCSRHOME)/tools
+FYPPEXE      ?= $(TOOLSRC)/build_utils/fypp/bin/fypp
 SRCDIR       := $(DBCSRHOME)/src
 TESTSDIR     := $(DBCSRHOME)/tests
 EXAMPLESDIR  := $(DBCSRHOME)/examples
 PREFIX       ?= $(DBCSRHOME)/install
 INCLUDEMAKE  ?= $(DBCSRHOME)/Makefile.inc
+VERSION       = $(DBCSRHOME)/VERSION
+NPROCS       ?= 1
 
 # Default Target ============================================================
 LIBNAME      := dbcsr
 LIBRARY      := lib$(LIBNAME)
 default_target: $(LIBRARY)
 
+# Read the configuration ====================================================
+MODDEPS = "lower"
+include $(INCLUDEMAKE)
+
+# Read the version ==========================================================
+include $(VERSION)
+ifeq ($(DATE),)
+DATE = "Development Version"
+endif
+
+# Set the compute version and NVFLAGS =======================================
+ifeq ($(GPUVER),K20X)
+ ARCH_NUMBER = 35
+else ifeq ($(GPUVER),K40)
+ ARCH_NUMBER = 35
+else ifeq ($(GPUVER),K80)
+ ARCH_NUMBER = 37
+else ifeq ($(GPUVER),P100)
+ ARCH_NUMBER = 60
+else ifeq ($(GPUVER),) # Default to the newest GPU
+ ARCH_NUMBER = 60
+else
+ $(error GPUVER not recognized)
+endif
+
+ifneq ($(ARCH_NUMBER),)
+ NVFLAGS += -arch sm_$(ARCH_NUMBER)
+endif
+
 # Test programs =========================================================
 include $(TESTSDIR)/Makefile.inc
 BIN_TESTS := $(sort $(addprefix $(TESTSDIR)/, $(SRC_TESTS)))
 
-# Read and set the configuration ============================================
-MODDEPS = "lower"
-include $(INCLUDEMAKE)
-ifeq ($(NVCC),)
-BIN_FILES := $(filter-out %.cu, $(BIN_TESTS))
-else
+# Set the configuration ============================================
+# the only binaries for the moment are the tests
 BIN_FILES := $(BIN_TESTS)
-endif
 BIN_NAMES := $(basename $(notdir $(BIN_FILES)))
 #
 ifneq ($(LD_SHARED),)
@@ -50,7 +77,8 @@ endif
          toolversions \
          doxify doxifyclean \
          pretty prettyclean doxygen/clean doxygen \
-         install clean realclean help
+         install clean realclean help \
+	 version test
 
 # Discover files and directories ============================================
 ALL_SRC_DIRS := $(shell find $(SRCDIR) -type d | awk '{printf("%s:",$$1)}')
@@ -58,29 +86,30 @@ ALL_SRC_DIRS += $(TESTSDIR)
 LIBCUSMM_DIR := $(shell cd $(SRCDIR) ; find . -type d -name "libcusmm")
 LIBCUSMM_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libcusmm")
 
-ALL_PKG_FILES  = $(shell find $(SRCDIR) -name "PACKAGE")
-OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . -name "*.F")
+ALL_PKG_FILES := $(shell find $(SRCDIR) -name "PACKAGE")
+OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . ! -name "dbcsr_api_c.F" -name "*.F")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cpp")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cxx")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.cc")
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -name "libcusmm.cpp" ! -name "parameters_utils_for_py.cpp" -name "*.cpp")
+
+ifneq ($(NVCC),)
+OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find .  -name "*.cu")
+OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cpp
+endif
+
+ifneq ($(CINT),)
+OBJ_SRC_FILES += ./dbcsr_api_c.F
+PUBLICHEADERS += $(SRCDIR)/dbcsr.h
+endif
 
 # OBJECTS used for pretty and doxify
 ALL_OBJECTS   := $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
-ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(SRCDIR);  find . ! -name "libcusmm.cu" ! -name "libcusmm_part*.cu" -name "*.cu"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.F"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.c"))))
-ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cxx"))))
-ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cc"))))
+ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cpp"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cu"))))
 
-ifneq ($(NVCC),)
-OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "libcusmm.cu" -name "*.cu")
-OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cu
-endif
-
 # Included files used by Fypp preprocessor and standard includes
-INCLUDED_SRC_FILES  = $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR) -name "*.f90")))
+INCLUDED_SRC_FILES := $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR) -name "*.f90")))
 INCLUDED_SRC_FILES += $(notdir $(shell find $(TESTSDIR) -name "*.f90"))
 
 # Include also source files which won't compile into an object file
@@ -88,8 +117,6 @@ ALL_SRC_FILES  = $(strip $(subst $(NULL) .,$(NULL) $(SRCDIR),$(NULL) $(OBJ_SRC_F
 ALL_SRC_FILES += $(filter-out base_uses.f90, $(shell find $(SRCDIR) -name "*.f90"))
 ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.h")
 ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hpp")
-ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hxx")
-ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hcc")
 
 # stage 1: create dirs and run makedep.py.
 #          Afterwards, call make recursively again with -C $(OBJDIR) and INCLUDE_DEPS=true
@@ -106,6 +133,10 @@ all: $(LIBRARY)
 dirs:
 	@mkdir -p $(OBJDIR)
 	@mkdir -p $(LIBDIR)
+
+version:
+	@echo "DCBSR Version: "$(MAJOR)"."$(MINOR)"."$(PATCH)" ("$(DATE)")"
+OTHER_HELP += "version : Print DBCSR version"
 
 toolversions:
 ifneq ($(FC),)
@@ -144,6 +175,8 @@ endif
 	@echo "========= Python ========="
 	/usr/bin/env python --version
 
+OTHER_HELP += "toolversions : Print versions of build tools"
+
 else
 # stage 2: Include $(OBJDIR)/all.dep, expand target all, and get list of dependencies.
 all: $(foreach e, $(BIN_NAMES), $(e))
@@ -156,18 +189,11 @@ else
 # stage 3: Perform actual build.
 $(BIN_NAME).o: $(BIN_DEPS)
 
-$(BINDIR)/%.x: %.o $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) | silent
+$(BINDIR)/%.x: %.o $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT)
 	$(LD) $(LDFLAGS) -L$(LIBDIR) -o $@ $< $(BIN_DEPS) -l$(LIBNAME) $(LIBS)
-
-# Silent the target if it is already up to date
-silent:
-	@:
-
 endif
 
 endif
-
-OTHER_HELP += "toolversions : Print versions of build tools"
 
 #   extract help text from doxygen "\brief"-tag
 help:
@@ -192,26 +218,47 @@ ifeq ($(INCLUDE_DEPS),)
 install: $(LIBRARY)
 	@echo "Remove any previous installation directory"
 	@rm -rf $(PREFIX)
-	@echo "Copying files..."
+	@echo "Copying files ..."
 	@mkdir -p $(PREFIX)
 	@mkdir -p $(PREFIX)/lib
 	@mkdir -p $(PREFIX)/include
-	@echo "  ...library..."
+	@echo -n "  ... library ..."
 	@cp $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) $(PREFIX)/lib
+	@echo " done."
 	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) install INCLUDE_DEPS=true DBCSRHOME=$(DBCSRHOME)
-	@echo "...installation done at $(PREFIX)."
+	@echo "... installation done at $(PREFIX)."
 else
-install: $(PUBLICFILES:.F=.mod)
-	@echo "  ...modules..."
-	@cp $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)) $(PREFIX)/include
+install:
+	@echo -n "  ... modules ..."
+	@if [[ -n "$(wildcard $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)))" ]] ; then \
+		cp $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)) $(PREFIX)/include ; \
+		echo " done." ; \
+	else echo " no modules were installed!" ; fi
+	@echo -n "  ... headers ..."
+	@if [[ -n "$(PUBLICHEADERS)" ]] ; then \
+		cp $(PUBLICHEADERS) $(PREFIX)/include ; \
+		echo " done." ; \
+	else echo " no headers were installed!" ; fi
 endif
 
 
 OTHER_HELP += "install : Install the library and modules under PREFIX=<directory> (default $(PREFIX))"
 
+test:
+	@export OMP_NUM_THREADS=2 ; \
+	for test in $(UNITTESTS); do \
+		mpirun -np $(NPROCS) $(BINDIR)/$$test.x || exit 1; \
+	done
+	@export OMP_NUM_THREADS=2 ; \
+	for input in $(PERFTESTS); do \
+		mpirun -np $(NPROCS) $(BINDIR)/dbcsr_performance_driver.x $$input || exit 1; \
+	done
+
+OTHER_HELP += "test    : Run the unittests available in tests/"
+
 clean:
-	rm -rf $(LIBCUSMM_ABS_DIR)/libcusmm.cu $(LIBCUSMM_ABS_DIR)/libcusmm_part*.cu
 	rm -rf $(OBJDIR)
+	rm -f $(LIBCUSMM_ABS_DIR)/parameters.h $(LIBCUSMM_ABS_DIR)/cusmm_kernels.h $(LIBCUSMM_ABS_DIR)/*.so
 OTHER_HELP += "clean : Remove intermediate object and mod files, but not the libraries and executables"
 
 #
@@ -221,6 +268,7 @@ OTHER_HELP += "clean : Remove intermediate object and mod files, but not the lib
 realclean: clean doxygen/clean
 	rm -rf $(BINDIR) $(LIBDIR) $(PREFIX) 
 	rm -rf `find $(DBCSRHOME) -name "*.pyc"`
+	rm -rf `find $(DBCSRHOME) -name "*.callgraph"`
 OTHER_HELP += "realclean : Remove all files"
 
 # Prettyfier stuff ==========================================================
@@ -313,18 +361,17 @@ TOOL_HELP += "doxygen : Generate the doxygen documentation"
 
 
 # Libcusmm stuff ============================================================
-$(LIBCUSMM_ABS_DIR)/libcusmm.cu: $(LIBCUSMM_ABS_DIR)/generate.py $(LIBCUSMM_ABS_DIR)/parameters_P100.txt $(wildcard $(LIBCUSMM_ABS_DIR)/kernels/*.py)
-	cd $(LIBCUSMM_ABS_DIR); ./generate.py $(LIBCUSMM_FLAGS)
+$(LIBCUSMM_ABS_DIR)/parameters.h: $(LIBCUSMM_ABS_DIR)/generate_parameters.py $(wildcard $(LIBCUSMM_ABS_DIR)/parameters_*.txt)
+	cd $(LIBCUSMM_ABS_DIR); ./generate_parameters.py --gpu_version=$(GPUVER)
+
+$(LIBCUSMM_ABS_DIR)/cusmm_kernels.h: $(LIBCUSMM_ABS_DIR)/generate_kernels.py $(wildcard $(LIBCUSMM_ABS_DIR)/kernels/*.h)
+	cd $(LIBCUSMM_ABS_DIR); ./generate_kernels.py
 
 
 # automatic dependency generation ===========================================
 MAKEDEPMODE = "normal"
 ifeq ($(HACKDEP),yes)
 MAKEDEPMODE = "hackdep"
-else
- ifneq ($(MC),)
- MAKEDEPMODE = "mod_compiler"
- endif
 endif
 
 # this happens on stage 1
@@ -350,38 +397,21 @@ endif
 ### Slave rules ###
 vpath %.F     $(ALL_SRC_DIRS)
 vpath %.h     $(ALL_SRC_DIRS)
+vpath %.hpp   $(ALL_SRC_DIRS)
 vpath %.f90   $(ALL_SRC_DIRS)
 vpath %.cu    $(ALL_SRC_DIRS)
 vpath %.c     $(ALL_SRC_DIRS)
 vpath %.cpp   $(ALL_SRC_DIRS)
-vpath %.cxx   $(ALL_SRC_DIRS)
-vpath %.cc    $(ALL_SRC_DIRS)
 
-ifneq ($(CPP),)
-# always add the SRCDIR to the include path (-I here might not be portable)
-CPPFLAGS += $(CPPSHELL) -I$(SRCDIR)
-else
-FCFLAGS += $(CPPSHELL)
-endif
-
-# the rule how to generate the .o from the .F
-# only if CPP is different from null we do a step over the C preprocessor (which is slower)
-# in the other case the fortran compiler takes care of this directly
-#
 # $(FCLOGPIPE) can be used to store compiler output, e.g. warnings, for each F-file separately.
 # This is used e.g. by the convention checker.
 
 FYPPFLAGS ?= -n
 
-%.o: %.F
-ifneq ($(CPP),)
-	$(TOOLSRC)/build_utils/fypp $(FYPPFLAGS) $< $*.fypped
-	$(CPP) $(CPPFLAGS) -D__SHORT_FILE__="\"$(notdir $<)\"" -I'$(dir $<)' $*.fypped > $*.f90
-	$(FC) -c $(FCFLAGS) $*.f90 $(FCLOGPIPE)
-else
-	$(TOOLSRC)/build_utils/fypp $(FYPPFLAGS) $< $*.F90
+%.o %.mod: %.F
+	@rm -f $*.mod
+	$(FYPPEXE) $(FYPPFLAGS) $< $*.F90
 	$(FC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(notdir $<)\"" -I'$(dir $<)' -I'$(SRCDIR)' $*.F90 $(FCLOGPIPE)
-endif
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $<
@@ -389,7 +419,15 @@ endif
 %.o: %.cpp
 	$(CXX) -c $(CXXFLAGS) $<
 
-ifneq ($(LIBDIR),)
+libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
+	$(CXX) -c $(CXXFLAGS) -DARCH_NUMBER=$(ARCH_NUMBER) $<
+
+%.o: %.cu
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+
+libcusmm_benchmark.o: libcusmm_benchmark.cu parameters.h
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+
 $(LIBDIR)/%:
 ifneq ($(LD_SHARED),)
 	@echo "Creating shared library $@"
@@ -397,34 +435,6 @@ ifneq ($(LD_SHARED),)
 else
 	@echo "Updating archive $@"
 	@$(AR) $@ $?
-endif
-ifneq ($(RANLIB),)
-	@$(RANLIB) $@
-endif
-endif
-
-%.o: %.cu
-	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
-
-
-# module compiler magic =====================================================
-ifeq ($(MC),)
-#
-# here we cheat... this tells make that .mod can be generated from .o (this holds in CP2K) by doing nothing
-# it avoids recompilation if .o is more recent than .F, but .mod is older than .F
-# (because it didn't change, as e.g. g95 can do)
-#
-# this is problematic if the module names are uppercase e.g. KINDS.mod (because this rule expands to kinds.mod)
-#
-%.mod: %.o
-	@true
-else
-#
-# if MC is defined, it is our 'module compiler' which generates the .mod file from the source file
-# it is useful in a two-stage compile.
-#
-%.mod: %.F
-	$(MC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(notdir $<)\"" $<
 endif
 
 #EOF

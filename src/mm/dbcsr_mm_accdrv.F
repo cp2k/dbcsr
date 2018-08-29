@@ -639,7 +639,7 @@ CONTAINS
 
       CALL acc_stream_wait_event(stackbuf%stream, stackbuf%ready)
 
-      CALL dbcsr_acc_do_mm_stack(stackbuf%devmem, stack_size, c_area%data_type, &
+      CALL dbcsr_acc_do_mm_stack(params, stackbuf%devmem, stack_size, c_area%data_type, &
                                  a_data=a_area%acc_devmem, &
                                  b_data=b_area%acc_devmem, &
                                  c_data=c_area%acc_devmem, &

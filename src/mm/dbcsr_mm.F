@@ -13,6 +13,8 @@
 ! **************************************************************************************************
 MODULE dbcsr_mm
    USE dbcsr_acc_device,                ONLY: acc_clear_errors
+   USE dbcsr_acc_init,                  ONLY: acc_finalize,&
+                                              acc_init
    USE dbcsr_acc_stream,                ONLY: acc_stream_associated,&
                                               acc_stream_create,&
                                               acc_stream_destroy
@@ -47,14 +49,6 @@ MODULE dbcsr_mm
                                               dbcsr_mempool_destruct,&
                                               dbcsr_mempool_limit_capacity,&
                                               dbcsr_memtype_setup
-   USE dbcsr_message_passing,           ONLY: mp_get_library_version,&
-                                              mp_isync,&
-                                              mp_max,&
-                                              mp_max_library_version_string,&
-                                              mp_min,&
-                                              mp_request_null,&
-                                              mp_sum,&
-                                              mp_wait
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_destroy_array, dbcsr_distribution, &
         dbcsr_get_matrix_type, dbcsr_has_symmetry, dbcsr_image_dist_release, dbcsr_nblkcols_total, &
@@ -83,6 +77,14 @@ MODULE dbcsr_mm
                                               dbcsr_mp_npcols,&
                                               dbcsr_mp_nprows,&
                                               dbcsr_mp_numnodes
+   USE dbcsr_mpiwrap,                   ONLY: mp_get_library_version,&
+                                              mp_isync,&
+                                              mp_max,&
+                                              mp_max_library_version_string,&
+                                              mp_min,&
+                                              mp_request_null,&
+                                              mp_sum,&
+                                              mp_wait
    USE dbcsr_operations,                ONLY: dbcsr_conjg,&
                                               dbcsr_copy,&
                                               dbcsr_get_occupation,&
@@ -127,6 +129,12 @@ CONTAINS
    SUBROUTINE dbcsr_multiply_lib_init()
 
       INTEGER                                            :: ithread, nthreads
+
+!$OMP     MASTER
+      IF (has_acc) &
+         CALL acc_init()
+!$OMP     END MASTER
+!$OMP     BARRIER
 
       nthreads = 1; ithread = 0
 !$    nthreads = OMP_GET_NUM_THREADS(); ithread = OMP_GET_THREAD_NUM()
@@ -260,11 +268,9 @@ CONTAINS
          IF (isqrt*isqrt .NE. dbcsr_mpi_statistics%last_mpi_ranks_used) THEN
             WRITE (UNIT=output_unit, FMT="(T2,A)") REPEAT("-", 79)
             WRITE (UNIT=msg, FMT="(A,I0,A,2(I0,1X))") &
-               "Using a non-square number of MPI    ranks might lead to poor performance."// &
-               REPEAT(" ", 10)// &
-               "Used ranks: ", dbcsr_mpi_statistics%last_mpi_ranks_used, &
-               REPEAT(" ", 10)// &
-               "Suggested: ", isqrt**2, isqrt2**2
+               "Using a non-square number of MPI ranks might lead to poor performance."// &
+               " Used ranks: ", dbcsr_mpi_statistics%last_mpi_ranks_used, &
+               " Suggested: ", isqrt**2, isqrt2**2
             DBCSR_WARN(msg)
          ENDIF
       ENDIF
@@ -282,6 +288,8 @@ CONTAINS
          CALL acc_stream_destroy(stream_1)
       IF (acc_stream_associated(stream_2)) &
          CALL acc_stream_destroy(stream_2)
+      IF (has_acc) &
+         CALL acc_finalize()
 !$OMP      END MASTER
    END SUBROUTINE dbcsr_multiply_lib_finalize
 
@@ -563,8 +571,7 @@ CONTAINS
          DBCSR_ABORT("A cols/B rows not equal")
       !
       ! No dense multiplication when filtering is used.
-      use_dense_mult = .NOT. PRESENT(filter_eps)
-      IF (has_acc) use_dense_mult = .FALSE.
+      use_dense_mult = dbcsr_cfg%mm_densification .AND. (.NOT. PRESENT(filter_eps))
       !
       mp_obj = dbcsr_distribution_mp(matrix_c%dist)
       numnodes = dbcsr_mp_numnodes(mp_obj)

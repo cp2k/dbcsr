@@ -91,7 +91,7 @@ MODULE dbcsr_operations
                                               real_4,&
                                               real_8,&
                                               sp
-   USE dbcsr_message_passing,           ONLY: mp_allgather,&
+   USE dbcsr_mpiwrap,                   ONLY: mp_allgather,&
                                               mp_max,&
                                               mp_sum
 #include "base/dbcsr_base_uses.f90"

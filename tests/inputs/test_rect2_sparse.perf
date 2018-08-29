@@ -1,0 +1,60 @@
+# npcols MPI grid, 0 leaves MPI to find the best grid.
+# Note that the total number of processors must be divisible per npcols
+1
+# operation
+dbcsr_multiply
+# matrix sizes (M, N, K)
+1000
+1000
+5000
+# sparsity (A, B, C)
+0.9d0
+0.9d0
+0.9d0
+# transposes
+T
+N
+# symmetries
+N
+N
+N
+# data type
+3
+# alpha (real, imag)
+1.0d0
+0.0d0
+# beta (real, imag)
+1.0d0
+0.0d0          
+# limits (0 means full size)
+# row
+0
+0
+# col
+0
+0
+# k
+0
+0
+# retain sparsity (T/F)
+F
+# number of repetitions
+1
+# number of different blocks to read (m, n, k)
+1
+1
+1
+# the m blocks (multiplicity, block size, ...)
+1
+5
+# the n blocks (multiplicity, block size, ...)
+1
+5
+# the k blocks (multiplicity, block size, ...)
+1
+5
+# checksum (check, threshold, references)
+T
+0.1E-10
+0.176967186312957E+09
+0.149098274728932E+09

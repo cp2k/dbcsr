@@ -12,7 +12,7 @@ PROGRAM dbcsr_tensor_unittest
                                               dbcsr_init_lib,&
                                               dbcsr_type_real_8
    USE dbcsr_machine,                   ONLY: default_output_unit
-   USE dbcsr_message_passing,           ONLY: mp_cart_create,&
+   USE dbcsr_mpiwrap,                   ONLY: mp_cart_create,&
                                               mp_comm_free,&
                                               mp_environ,&
                                               mp_world_finalize,&

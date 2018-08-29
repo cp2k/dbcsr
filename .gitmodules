@@ -1,0 +1,3 @@
+[submodule "tools/build_utils/fypp"]
+	path = tools/build_utils/fypp
+	url = https://github.com/aradi/fypp.git

@@ -9,7 +9,7 @@
 !> \date    2013-04
 ! **************************************************************************************************
 MODULE dbcsr_acc_stream
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
    USE ISO_C_BINDING, ONLY: C_INT, C_CHAR, C_PTR, C_NULL_PTR, C_NULL_CHAR, C_ASSOCIATED
 #endif
 #include "base/dbcsr_base_uses.f90"
@@ -29,14 +29,14 @@ MODULE dbcsr_acc_stream
 
    TYPE acc_stream_type
       PRIVATE
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
       TYPE(C_PTR) :: cptr = C_NULL_PTR
 #else
       INTEGER :: dummy = 1
 #endif
    END TYPE acc_stream_type
 
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
 
    INTERFACE
       FUNCTION cuda_stream_create(stream_ptr, name, priority) RESULT(istat) BIND(C, name="acc_stream_create")
@@ -84,7 +84,7 @@ CONTAINS
 !> \return false (accelerator support is not enabled)
 !> \author  Ole Schuett
 ! **************************************************************************************************
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
    FUNCTION acc_stream_cptr(this) RESULT(res)
       INTEGER, INTENT(in)                                :: this
       LOGICAL                                            :: res
@@ -120,11 +120,11 @@ CONTAINS
       CHARACTER(LEN=*), INTENT(IN)             :: name
       INTEGER, INTENT(IN), OPTIONAL            :: priority
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
       MARK_USED(name)
       MARK_USED(priority)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat, my_priority
 
@@ -151,9 +151,9 @@ CONTAINS
       TYPE(acc_stream_type), &
          INTENT(INOUT)                          :: this
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
@@ -174,9 +174,9 @@ CONTAINS
       TYPE(acc_stream_type), &
          INTENT(IN)                             :: this
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
@@ -196,9 +196,9 @@ CONTAINS
    SUBROUTINE acc_stream_priority_range(least, greatest)
       INTEGER, INTENT(OUT)                     :: least, greatest
 
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       least = -1; greatest = -1 ! assign intent-out arguments to silence compiler warnings
-      DBCSR_ABORT("__ACC not compiled in.")
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
       istat = cuda_stream_priority_range(least, greatest)
@@ -217,7 +217,7 @@ CONTAINS
    FUNCTION acc_stream_equal(this, other) RESULT(res)
       TYPE(acc_stream_type), INTENT(IN) :: this, other
       LOGICAL                                  :: res
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
       MARK_USED(other)
       res = .TRUE.
@@ -235,7 +235,7 @@ CONTAINS
    FUNCTION acc_stream_associated(this) RESULT(res)
       TYPE(acc_stream_type), INTENT(IN) :: this
       LOGICAL                                  :: res
-#if ! defined (__ACC)
+#if ! defined (__DBCSR_ACC)
       MARK_USED(this)
       res = .FALSE.
 #else

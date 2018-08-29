@@ -3,10 +3,15 @@ lib/
 obj/
 bin/
 doc/
-src/libsmm_acc/libcusmm/libcusmm.cu
-src/libsmm_acc/libcusmm/libcusmm_part*.cu
+src/acc/libsmm_acc/libcusmm/parameters.h
+src/acc/libsmm_acc/libcusmm/cusmm_kernels.h
+src/acc/libsmm_acc/libcusmm/libcusmm_parameters_utils.so
 install/
 examples/*.x
+*.callgraph
+
+# exclude personal makefile
+Makefile.inc.*
 
 # The following covers some more,
 # Created by https://www.gitignore.io/api/vim,emacs,python,fortran

@@ -14,13 +14,24 @@
 !> - 2014-04, Ole Schuett: generalized into acc-framework
 ! **************************************************************************************************
 MODULE dbcsr_acc_operations
-   USE ISO_C_BINDING,                   ONLY: C_INT,&
-                                              C_PTR
-   USE dbcsr_acc_devmem,                ONLY: acc_devmem_cptr,&
-                                              acc_devmem_type
-   USE dbcsr_acc_stream,                ONLY: acc_stream_cptr,&
-                                              acc_stream_type
-   USE dbcsr_mm_types,                  ONLY: dbcsr_ps_width
+   USE ISO_C_BINDING, ONLY: C_INT, &
+      C_PTR, &
+      C_LOC
+   USE dbcsr_acc_devmem, ONLY: acc_devmem_cptr, &
+      acc_devmem_type
+   USE dbcsr_acc_stream, ONLY: acc_stream_cptr, &
+      acc_stream_type
+   USE dbcsr_config, ONLY: cublas_handles, max_kernel_dim
+   USE dbcsr_mm_types, ONLY: dbcsr_ps_width
+   USE dbcsr_kinds, ONLY: real_8, dp
+   USE dbcsr_types, ONLY: dbcsr_type_real_8
+
+#if (__DBCSR_ACC == 2)
+   USE dbcsr_cublas, ONLY: cublas_dgemm_loop_cu
+#endif
+
+!$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
+
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -72,7 +83,8 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Launch an accelerated kernel for processing a stack.
-!> \param param_stack ...
+!> \param param_stack_host ...
+!> \param param_stack_dev ...
 !> \param stack_size ...
 !> \param datatype ...
 !> \param a_data ...
@@ -85,21 +97,22 @@ CONTAINS
 !> \param stream ...
 !> \param success ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_acc_do_mm_stack(param_stack, stack_size, datatype, &
+   SUBROUTINE dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, datatype, &
                                     a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stream, success)
-      TYPE(acc_devmem_type), INTENT(IN)        :: param_stack
-      INTEGER, INTENT(IN)                      :: stack_size
-      INTEGER, INTENT(IN)                      :: datatype
-      TYPE(acc_devmem_type), INTENT(IN)        :: a_data, b_data
-      TYPE(acc_devmem_type), &
-         INTENT(INOUT)                          :: c_data
-      INTEGER, INTENT(IN)                      :: m_max, n_max, k_max
-      LOGICAL, INTENT(IN)                      :: def_mnk
-      TYPE(acc_stream_type), INTENT(IN)        :: stream
-      LOGICAL, INTENT(INOUT)                   :: success
+      INTEGER, DIMENSION(:, :), TARGET, INTENT(IN) :: param_stack_host
+      TYPE(acc_devmem_type), INTENT(IN)            :: param_stack_dev
+      INTEGER, INTENT(IN)                          :: stack_size
+      INTEGER, INTENT(IN)                          :: datatype
+      TYPE(acc_devmem_type), INTENT(IN)            :: a_data, b_data
+      TYPE(acc_devmem_type), INTENT(INOUT)         :: c_data
+      INTEGER, INTENT(IN)                          :: m_max, n_max, k_max
+      LOGICAL, INTENT(IN)                          :: def_mnk
+      TYPE(acc_stream_type), INTENT(IN)            :: stream
+      LOGICAL, INTENT(INOUT)                       :: success
 
 #if ! defined (__DBCSR_ACC)
-      MARK_USED(param_stack)
+      MARK_USED(param_stack_host)
+      MARK_USED(param_stack_dev)
       MARK_USED(stack_size)
       MARK_USED(datatype)
       MARK_USED(a_data)
@@ -117,27 +130,71 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_acc_do_mm_stack', &
                                      routineP = moduleN//':'//routineN
 
-      INTEGER                                  :: error_handle, istat
+      INTEGER                                  :: error_handle, istat, ithread
       INTEGER(KIND=C_INT)                      :: mnk
 
       IF (careful_mod) CALL timeset(routineN, error_handle)
 
       mnk = 0
       IF (def_mnk) mnk = 1
+      istat = -100 ! big kernels
 
-      istat = libsmm_acc_process_cu(acc_devmem_cptr(param_stack), &
-                                    INT(stack_size, KIND=C_INT), &
-                                    INT(dbcsr_ps_width, KIND=C_INT), &
-                                    INT(datatype, KIND=C_INT), &
-                                    acc_devmem_cptr(a_data), &
-                                    acc_devmem_cptr(b_data), &
-                                    acc_devmem_cptr(c_data), &
-                                    INT(m_max, KIND=C_INT), &
-                                    INT(n_max, KIND=C_INT), &
-                                    INT(k_max, KIND=C_INT), &
-                                    mnk, acc_stream_cptr(stream))
+      ! Limits the call to small kernels
+      IF (m_max .LE. max_kernel_dim .AND. &
+          n_max .LE. max_kernel_dim .AND. &
+          k_max .LE. max_kernel_dim) THEN
+         istat = libsmm_acc_process_cu(acc_devmem_cptr(param_stack_dev), &
+                                       INT(stack_size, KIND=C_INT), &
+                                       INT(dbcsr_ps_width, KIND=C_INT), &
+                                       INT(datatype, KIND=C_INT), &
+                                       acc_devmem_cptr(a_data), &
+                                       acc_devmem_cptr(b_data), &
+                                       acc_devmem_cptr(c_data), &
+                                       INT(m_max, KIND=C_INT), &
+                                       INT(n_max, KIND=C_INT), &
+                                       INT(k_max, KIND=C_INT), &
+                                       mnk, acc_stream_cptr(stream))
+         IF (istat == 100) DBCSR_ABORT("failed due to accGetLastError().")
+      ENDIF
 
-      IF (istat == 100) DBCSR_ABORT("failed due to accGetLastError().")
+#if (__DBCSR_ACC == 2)
+      ! Call Cublas for big kernels
+      IF (datatype .EQ. dbcsr_type_real_8 .AND. istat .EQ. -100) THEN
+         ithread = 0
+!$       ithread = omp_get_thread_num()
+         IF (n_max .LE. max_kernel_dim .AND. &
+             k_max .LE. max_kernel_dim) THEN
+            ! Transpose for B-blocks
+            istat = cublas_dgemm_loop_cu(cublas_handles(ithread+1)%handle_ptr, &
+                                         'N', 'T', &
+                                         C_LOC(param_stack_host(1, 1)), &
+                                         dbcsr_ps_width, stack_size, &
+                                         acc_devmem_cptr(a_data), &
+                                         acc_devmem_cptr(b_data), &
+                                         acc_devmem_cptr(c_data), &
+                                         1.0_dp, 1.0_dp, &
+                                         acc_stream_cptr(stream))
+         ELSE
+            ! Only uniform stacks, otherwise we have to check
+            ! the transposity for each block
+            IF (mnk .EQ. 1) THEN
+               istat = cublas_dgemm_loop_cu(cublas_handles(ithread+1)%handle_ptr, &
+                                            'N', 'N', &
+                                            C_LOC(param_stack_host(1, 1)), &
+                                            dbcsr_ps_width, stack_size, &
+                                            acc_devmem_cptr(a_data), &
+                                            acc_devmem_cptr(b_data), &
+                                            acc_devmem_cptr(c_data), &
+                                            1.0_dp, 1.0_dp, &
+                                            acc_stream_cptr(stream))
+            ENDIF
+         ENDIF
+         IF (istat /= 0) DBCSR_ABORT("failed to run CUBLAS.")
+      ENDIF
+#else
+      MARK_USED(param_stack_host)
+      MARK_USED(ithread)
+#endif
 
       success = (istat == 0) ! false if no suitable kernel was found
 
@@ -184,15 +241,20 @@ CONTAINS
       INTEGER                                  :: error_handle, istat
 
       IF (careful_mod) CALL timeset(routineN, error_handle)
+      istat = 0
 
-      istat = libsmm_acc_transpose_cu(acc_devmem_cptr(trs_stack), &
-                                      INT(offset, KIND=C_INT), &
-                                      INT(nblks, KIND=C_INT), &
-                                      acc_devmem_cptr(buffer), &
-                                      INT(datatype, KIND=C_INT), &
-                                      INT(m, KIND=C_INT), &
-                                      INT(n, KIND=C_INT), &
-                                      acc_stream_cptr(stream))
+      ! Limits the call to small kernels
+      IF (m .LE. max_kernel_dim .AND. &
+          n .LE. max_kernel_dim) THEN
+         istat = libsmm_acc_transpose_cu(acc_devmem_cptr(trs_stack), &
+                                         INT(offset, KIND=C_INT), &
+                                         INT(nblks, KIND=C_INT), &
+                                         acc_devmem_cptr(buffer), &
+                                         INT(datatype, KIND=C_INT), &
+                                         INT(m, KIND=C_INT), &
+                                         INT(n, KIND=C_INT), &
+                                         acc_stream_cptr(stream))
+      ENDIF
 
       IF (istat /= 0) DBCSR_ABORT("something went wrong.")
       IF (careful_mod) CALL timestop(error_handle)

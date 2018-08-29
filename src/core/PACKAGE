@@ -1,0 +1,6 @@
+{
+"description": "Core DBCSR matrix datastructure",
+"archive": "libdbcsr",
+"requires": ["../acc", "../acc/cublaswrap", "../mpi", "../base",
+"../data", "../mm", "../utils"],
+}

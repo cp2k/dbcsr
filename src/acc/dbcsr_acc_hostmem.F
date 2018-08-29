@@ -9,7 +9,7 @@
 !> \date    2013-04
 ! **************************************************************************************************
 MODULE dbcsr_acc_hostmem
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
     USE ISO_C_BINDING, ONLY: C_INT, C_SIZE_T, C_PTR, C_LOC, C_F_POINTER
 #endif
   USE dbcsr_kinds,                     ONLY: int_4,&
@@ -53,7 +53,7 @@ MODULE dbcsr_acc_hostmem
       MODULE PROCEDURE acc_hostmem_dealloc_c4_2D, acc_hostmem_dealloc_c8_2D
    END INTERFACE
 
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
 
    INTERFACE
       FUNCTION cuda_host_mem_alloc_cu(mem, n, stream_ptr) RESULT(istat) BIND(C, name="acc_host_mem_allocate")
@@ -87,7 +87,7 @@ CONTAINS
 !> \param n_bytes number of bytes to allocate
 !> \param stream ...
 ! **************************************************************************************************
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
    SUBROUTINE acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
       TYPE(C_PTR), INTENT(OUT)                           :: host_mem_c_ptr
       INTEGER, INTENT(IN)                                :: n_bytes
@@ -110,7 +110,7 @@ CONTAINS
    END SUBROUTINE acc_hostmem_alloc_raw
 #endif
 
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
 ! **************************************************************************************************
 !> \brief ...
 !> \param host_mem_c_ptr ...
@@ -158,7 +158,7 @@ CONTAINS
     ${type}$, DIMENSION(:), POINTER          :: host_mem
     INTEGER, INTENT(IN)                      :: n
     TYPE(acc_stream_type), INTENT(IN)        :: stream
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
     TYPE(C_PTR)                              :: host_mem_c_ptr
 
     CALL acc_hostmem_alloc_raw(host_mem_c_ptr, MAX(1,n)*${size}$, stream)
@@ -185,7 +185,7 @@ CONTAINS
     ${type}$, DIMENSION(:,:), POINTER        :: host_mem
     INTEGER, INTENT(IN)                      :: n1, n2
     TYPE(acc_stream_type), INTENT(IN)        :: stream
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
     TYPE(C_PTR)                              :: host_mem_c_ptr
     INTEGER                                  :: n_bytes
 
@@ -215,7 +215,7 @@ CONTAINS
       routineP = moduleN//':'//routineN
 
     IF (SIZE (host_mem) == 0) RETURN
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
     CALL acc_hostmem_dealloc_raw(C_LOC(host_mem(1)), stream)
 #else
     MARK_USED(host_mem)
@@ -238,7 +238,7 @@ CONTAINS
       routineP = moduleN//':'//routineN
 
     IF (SIZE (host_mem) == 0) RETURN
-#if defined (__ACC)
+#if defined (__DBCSR_ACC)
     CALL acc_hostmem_dealloc_raw(C_LOC(host_mem(1,1)), stream)
 #else
     MARK_USED(host_mem)
