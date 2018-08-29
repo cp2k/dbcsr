@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from kernels import cusmm_dnt
+from math import ceil
+import cusmm_common as cu
 
 
 class Kernel_dnt_medium(cusmm_dnt.Kernel):
@@ -29,30 +31,47 @@ class Kernel_dnt_medium(cusmm_dnt.Kernel):
     @staticmethod
     def promising_parameters(m, n, k):
         params = []
-        for minblocks in range(1, 28, 1):
-            for grouping in range(1, 33, 1):
-                for threads in range (32, 257, 32):
-                    if(threads * minblocks > 2048): # hard: too much concurrent threads per SM
-                        continue
-                    for tm in range(1, 7):
-                        for tn in range(1, 7):
-                            if (tm * tn > 16):
-                                continue #heuristic:
-                            min_threads = ((m + tm - 1) // tm) * ((n + tn - 1) // tn)
-                            if (min_threads > threads):
-                                continue #hard: not enough threads to cover result matrix
-    
-                            if (threads > 4 * min_threads):
-                                continue #heuristic: too many threads unused during calculation
-    
-                            cmax = ((n + tn - 1) // tn)
-                            rmax = ((m + tm - 1) // tm)
-                            buf_sz = max(m * n, m * k + k * tn * cmax, tm * rmax * k + 1)
-                            sizeof_int = 4; sizeof_double = 8
-                            smem_tot = buf_sz * sizeof_double + 3 * grouping * sizeof_int
-                            if(smem_tot * minblocks > 48 * 1024): # hard: see cudaFuncSetCacheConfig() docu
-                                continue #hard: uses too much shared memory
-    
+        for minblocks in range(1, 28):  # heuristic: the optimal minblocks is never > 28
+            if m >= 28: # heuristic: investigate a smaller search space of grouping for large matrices 
+                grouping_range = (3, 4, 5, 24, 26, 29, 32)
+            else: 
+                grouping_range = range(1, 32 + 1, 1)
+            for grouping in grouping_range:
+                for tm in range(1, min(32, m) + 1):
+                    for tn in range(1, min(32, n) + 1):
+
+                        if (tm * tn > 16):
+                            continue # heuristic: performance decreases for very large tiles
+
+                        # Number of tiled columns, rows
+                        cmax = (n + tn - 1) // tn
+                        rmax = (m + tm - 1) // tm
+
+                        # Max work ("operations") which can be run concurrently
+                        max_concurrent_work = max(grouping, m*k, k*n, m*n, cmax*rmax)
+
+                        # Miniumum number of threads required to have one thread per tile
+                        # i.e., cover the result matrix
+                        min_threads = cmax * rmax
+
+                        # Set shared memory buffer size
+                        buf_sz = max(m * n, m * k + k * tn * cmax, tm * rmax * k + 1)
+                        smem_tot = buf_sz * gpu.sizeof_double + 3 * grouping * gpu.sizeof_int
+                        if (smem_tot > gpu.SMEMperBLOCK):
+                            continue
+                        if (smem_tot * minblocks > gpu.SMEMperSM):
+                            continue
+
+                        # Use all concurrency available: fill warps
+                        for threads in range(gpu.warp_size, gpu.maxTHREADSperBLOCK + 1, gpu.warp_size):
+
+                            if threads > gpu.round_up_to_multiple(max_concurrent_work, gpu.warp_size):
+                                continue
+                            if threads * minblocks > gpu.maxTHREADSperSM:
+                                continue
+                            if threads < min_threads:
+                                continue
+
                             params.append({'m':m, 'n':n, 'k':k,
                                            'tile_m':tm, 'tile_n':tn,
                                            'threads':threads,
