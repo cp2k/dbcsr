@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from kernels import cusmm_dnt
-from math import ceil
 import cusmm_common as cu
 
 
@@ -55,8 +54,8 @@ class Kernel_dnt_medium(cusmm_dnt.Kernel):
                         min_threads = cmax * rmax
 
                         # Set shared memory buffer size
-                        buf_sz = max(m * n, m * k + k * tn * cmax, tm * rmax * k + 1)
-                        smem_tot = buf_sz * gpu.sizeof_double + 3 * grouping * gpu.sizeof_int
+                        buf_sz = max(m*n, m*k + k*tn*cmax, tm*rmax*k + 1)
+                        smem_tot = buf_sz * cu.sizeof_double + cu.npar * grouping * cu.sizeof_int
                         if (smem_tot > gpu.SMEMperBLOCK):
                             continue
                         if (smem_tot * minblocks > gpu.SMEMperSM):
@@ -65,8 +64,8 @@ class Kernel_dnt_medium(cusmm_dnt.Kernel):
                         # Use all concurrency available: fill warps
                         for threads in range(gpu.warp_size, gpu.maxTHREADSperBLOCK + 1, gpu.warp_size):
 
-                            if threads > gpu.round_up_to_multiple(max_concurrent_work, gpu.warp_size):
-                                continue
+                            if threads > cu.round_up_to_multiple(max_concurrent_work, gpu.warp_size):
+                                continue  # soft: too much concurrency harms performance
                             if threads * minblocks > gpu.maxTHREADSperSM:
                                 continue
                             if threads < min_threads:

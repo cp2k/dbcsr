@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 from kernels import cusmm_dnt
 import cusmm_P100 as gpu
-
-def round_up_to_multiple(x, step): 
-    if x % step == 0:
-        return x 
-    else:
-        return x + step - x % step
+import cusmm_common as cu
 
 
 class Kernel_dnt_tiny(cusmm_dnt.Kernel):
@@ -46,7 +41,7 @@ class Kernel_dnt_tiny(cusmm_dnt.Kernel):
                 max_concurrent_work = max(grouping, m*k, k*n, m*n)
 
                 # Shared memory utilisation (bytes)
-                smem_tot = buf_sz * gpu.sizeof_double + 3 * grouping * gpu.sizeof_int
+                smem_tot = buf_sz * cu.sizeof_double + cu.npar * grouping * cu.sizeof_int
                 if (smem_tot > gpu.SMEMperBLOCK):
                     continue
                 if (smem_tot * minblocks > gpu.SMEMperSM):
@@ -55,8 +50,8 @@ class Kernel_dnt_tiny(cusmm_dnt.Kernel):
                 # Use all concurrency available: fill warps
                 for threads in range(gpu.warp_size, gpu.maxTHREADSperBLOCK + 1, gpu.warp_size):
 
-                    if threads > round_up_to_multiple(max_concurrent_work, gpu.warp_size): 
-                        continue
+                    if threads > cu.round_up_to_multiple(max_concurrent_work, gpu.warp_size): 
+                        continue # soft: too much concurrency harms performance  
                     if threads * minblocks > gpu.maxTHREADSperSM:
                         continue
                     if threads < min_threads: 
