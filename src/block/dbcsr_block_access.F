@@ -611,18 +611,18 @@ CONTAINS
       ALLOCATE (new_col_i(nblks_new))
       ALLOCATE (new_blk_p(nblks_new))
       ! Merge the two indices
-      IF (PRESENT(blk_pointers)) THEN
-         CALL merge_index_arrays(new_row_i, new_col_i, new_blk_p, nblks_new, &
-                                 old_row_i, matrix%col_i, matrix%blk_p, nblks_old, &
-                                 added_blk_info, nblks_added, added_nblks=nblks_actual_added)
-         data_size_new = 0
-      ELSE
+      !IF (PRESENT(blk_pointers)) THEN
+      !   CALL merge_index_arrays(new_row_i, new_col_i, new_blk_p, nblks_new, &
+      !                           old_row_i, matrix%col_i, matrix%blk_p, nblks_old, &
+      !                           added_blk_info, nblks_added, added_nblks=nblks_actual_added)
+      !   data_size_new = 0
+      !ELSE
          CALL merge_index_arrays(new_row_i, new_col_i, new_blk_p, nblks_new, &
                                  old_row_i, matrix%col_i, matrix%blk_p, nblks_old, &
                                  added_blk_info, nblks_added, added_nblks=nblks_actual_added, &
                                  added_sizes=added_sizes, added_size_offset=data_size_old+1, &
                                  added_size=data_size_new)
-      ENDIF
+      !ENDIF
       nblks_new = nblks_actual_added+nblks_old
       ! Free some memory
       DEALLOCATE (added_blk_info)
