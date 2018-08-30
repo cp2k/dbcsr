@@ -383,14 +383,6 @@ CONTAINS
     dist_nrows_a = dbcsr_distribution_nrows(dist)
     dist_ncols_a = dbcsr_distribution_ncols(dist)
 
-!     print *,"from carma"
-    !print *,dist_nrows_a    
-    !print *,dist_ncols_a
-    
-    !print *,size(matrix_a%row_blk_size%low%data) 
-    !print *,size(matrix_a%col_blk_size%low%data) 
-
-        
     total_mp_env = dbcsr_distribution_mp(dist)
     group = dbcsr_mp_group(total_mp_env)
     
@@ -444,7 +436,6 @@ CONTAINS
                                 col_dist_block = local_col_dist_c, reuse_arrays=.TRUE.)
 
     ! create local matrix a
-    ! TODO , make_index=.false.
     call dbcsr_create(matrix = loc_matr_a, template = matrix_a, dist = loc_dist_a, &
                       data_buffer = matrix_a % data_area)
     
@@ -500,7 +491,6 @@ CONTAINS
    CALL dbcsr_distribution_release(loc_dist_b)
    CALL dbcsr_distribution_release(loc_dist_c)
      
-    
   end subroutine 
 
 
@@ -586,6 +576,7 @@ CONTAINS
       if (nprows == numnodes .and. npcols == 1 &
           .and. transa /= dbcsr_no_transpose &
           .and. transb == dbcsr_no_transpose) then ! &
+      !TODO use the limits properly
       !    .and. .not. present(first_row)    .and. .not. present(last_row) &
       !    .and. .not. present(first_column) .and. .not. present(last_column) &
       !    .and. .not. present(first_k)      .and. .not. present(last_k) ) then

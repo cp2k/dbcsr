@@ -5,14 +5,12 @@
 
 ! **************************************************************************************************
 !> \brief Routines to reshape / redistribute tensors
-!> \author Patrick Seewald
+!> \author Patrick Seewald, Ilia Sivkov
 ! **************************************************************************************************
 MODULE dbcsr_mm_reshape
 
 #:include "../data/dbcsr.fypp"
 
-
-   !USE allocate_wrap,                   ONLY: allocate_any
    use dbcsr_operations,                only: dbcsr_copy, dbcsr_get_info,dbcsr_batched_add_anytype_begin,&
                                               dbcsr_batched_add_anytype,&
                                               dbcsr_batched_add_anytype_end
@@ -35,12 +33,6 @@ MODULE dbcsr_mm_reshape
    use dbcsr_dist_operations,           only: dbcsr_get_stored_coordinates
    USE dbcsr_methods,                   ONLY: dbcsr_get_data_type, dbcsr_release
                                                   
-!   USE dbcsr_tensor_types,              ONLY: &
-!                                              dbcsr_t_create,&
-!                                              dbcsr_t_get_data_type,&
-!                                              dbcsr_t_type,&
-!                                              ndims_tensor,&
-!                                              dbcsr_t_get_stored_coordinates
                                               
    USE dbcsr_kinds,                           ONLY: default_string_length
    USE dbcsr_kinds,                           ONLY: ${uselist(kind1)}$
@@ -62,7 +54,6 @@ MODULE dbcsr_mm_reshape
    
    use dbcsr_index_operations, only: dbcsr_repoint_index
    
-!#include "../base/base_uses.f90"
    use dbcsr_io, only: dbcsr_print
 
    IMPLICIT NONE
@@ -99,19 +90,19 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)               :: matrix_in, matrix_out
 
       INTEGER                                            :: blk, iproc, mp_comm, mynode, &
-                                                            numnodes !, ndata 
+                                                            numnodes 
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: num_blocks_recv, num_blocks_send, &
                                                             num_entries_recv, num_entries_send, &
                                                             num_rec, num_send
-      INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: req_array!, index_recv
+      INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: req_array
       TYPE(dbcsr_iterator)                               :: iter
       TYPE(dbcsr_data_obj)                               :: blk_data
       TYPE(block_buffer_type), ALLOCATABLE, DIMENSION(:) :: buffer_recv, buffer_send
       type(dbcsr_type), allocatable, dimension(:)        :: local_matrices
       
-      ! temp hack
+      !TODO, temp hack
       INTEGER                                            :: ndims_tensor = 2, num_tot_recv
-      INTEGER, DIMENSION(2)       :: blk_size, ind_nd!, index
+      INTEGER, DIMENSION(2)       :: blk_size, ind_nd
       integer(8), DIMENSION(2) :: sum_nze_nblks
       
       logical :: tr
@@ -124,8 +115,6 @@ CONTAINS
          routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
-      
-      !type(dbcsr_mp_obj)              ::  total_mp_env
       
       num_tot_recv = 0
       
@@ -140,9 +129,6 @@ CONTAINS
       
       IF (matrix_out%valid) THEN
 
-         !CALL dbcsr_get_info(matrix_in, group=mp_comm)
-         
-         !total_mp_env = dbcsr_distribution_mp(dist)
          mp_comm = dbcsr_mp_group(dbcsr_distribution_mp(matrix_out % dist))
          
          CALL mp_environ(numnodes, mynode, mp_comm)
@@ -193,15 +179,9 @@ CONTAINS
          
          DO WHILE (dbcsr_iterator_blocks_left(iter))
             CALL dbcsr_iterator_next_block(iter, ind_nd(1), ind_nd(2), blk, tr, lb_b, blk_size(1), blk_size(2))
-!                  print *,"blk_size",blk_size, PRODUCT(blk_size)
             call set_wrap_blk_pointer(matrix_in % data_area, lb_b, PRODUCT(blk_size), blk_data)
-            
             CALL dbcsr_get_stored_coordinates(matrix_out, ind_nd(1), ind_nd(2), iproc)
-            
-            !      print *,buffer_send(0) % indx(:,1)
             CALL block_buffer_add_anyd_block(buffer_send(iproc), ind_nd, blk_data)
-            
-            !print *,buffer_send(0) % indx(:,1)
          ENDDO
          
          CALL dbcsr_iterator_stop(iter)
@@ -217,42 +197,14 @@ CONTAINS
             call dbcsr_create(matrix = local_matrices(iproc), template = matrix_out, &
                               data_buffer = buffer_recv(iproc) % data, nze = num_entries_recv(iproc))
 
-           ! local_matrices(iproc) % nze = num_entries_recv(iproc)
-            
             CALL dbcsr_reserve_blocks(local_matrices(iproc), buffer_recv(iproc) % indx(:,1), &
                                       buffer_recv(iproc) % indx(:,2), buffer_recv(iproc) % indx(:,3))
 
-!            call dbcsr_finalize(local_matrices(iproc))
             call dbcsr_repoint_index(local_matrices(iproc))
             local_matrices(iproc) % valid=.true.
             
             sum_nze_nblks(1) = sum_nze_nblks(1) + local_matrices(iproc) % nze
             sum_nze_nblks(2) = sum_nze_nblks(2) + local_matrices(iproc) % nblks
-     
-    !     print *,"recv proc", iproc
-    !     print *,  buffer_recv(iproc) % indx(:,1)
-    !     print *,  buffer_recv(iproc) % indx(:,2)
-    !     print *,  buffer_recv(iproc) % indx(:,3)
-    !     print *,"send proc", iproc
-    !     print *,  buffer_send(iproc) % indx(:,1)
-    !     print *,  buffer_send(iproc) % indx(:,2)
-    !     print *,  buffer_send(iproc) % indx(:,3)
-         
-         ! First, we need to get the index to create block
-            !TODO
-            !CALL block_buffer_get_index(buffer_recv(iproc), index_recv)
-            
-!            CALL dbcsr_reserve_blocks(matrix_out, buffer_recv(iproc) % indx(:,1), buffer_recv(iproc) % indx(:,2))
-            
-!            DO WHILE (block_buffer_blocks_left(buffer_recv(iproc)))
-!               ! get actual block data
-!               call block_buffer_get_next_anyd_block(buffer_recv(iproc), ndata, index, blk_data)
-!               CALL dbcsr_put_block(matrix_out, index(1), index(2), blk_data, summation = .true.)
-!            ENDDO
-
-
-            !CALL block_buffer_destroy(buffer_recv(iproc))
-            !CALL block_buffer_destroy(buffer_send(iproc))
          ENDDO
 
          call dbcsr_batched_add_anytype_begin(matrix_out, local_matrices(0),  alpha, beta, sum_nze_nblks(1), sum_nze_nblks(2))
@@ -268,11 +220,6 @@ CONTAINS
             call dbcsr_release(local_matrices(iproc))
          enddo
 
-      ELSE
-         !call dbcsr_finalize(matrix_out)
-         !ALL dbcsr_t_create(matrix_in, matrix_out)
-         !CALL dbcsr_t_reserve_blocks(matrix_in, matrix_out)
-         !CALL dbcsr_copy(matrix_out%matrix_rep, matrix_in%matrix_rep, shallow_data=.TRUE.)
       ENDIF
 
       CALL timestop(handle)
@@ -518,9 +465,6 @@ CONTAINS
       ${dtype}$, DIMENSION(ndata), INTENT(IN)              :: block
       INTEGER, DIMENSION(ndims_buffer(buffer)), INTENT(IN) :: index
       INTEGER                                              :: p, ndims, p_data
-      !CPASSERT(buffer%data_type .EQ. ${dparam}$)
-      
-       
        
       ndims = ndims_buffer(buffer)
       
@@ -528,35 +472,9 @@ CONTAINS
       
       p_data = buffer%datasize
       
-      !IF (p .EQ. 0) THEN
-      !   p_data = 0
-      !ELSE
-      !   p_data = buffer%datasize !indx(p, ndims+1)
-      !ENDIF
- 
-
-!      print *,"bl add",buffer % indx(:,1)
-!      print *,"bl add",buffer % indx(:,2)
-!      print *,"bl add",buffer % indx(:,3)
-      
       buffer % data % d % ${dsuffix}$ (p_data+1:p_data+ndata) = block(:)
-      
-!      print *,"bl add",buffer % indx(:,1)
-      
-!      print *,"block add",index, buffer%indx(p+1, 1:ndims), p+1
- !     print *,buffer % indx(:,1)
-
       buffer%indx(p+1, 1:ndims) = index(:)
-!      print *,buffer % indx(:,1)
-      
       buffer%indx(p+1,ndims+1) = buffer%datasize + 1
-      
-      !IF (p > 0) THEN
-      !   buffer%indx(p+1,ndims+1) = buffer%indx(p,ndims+1)+ndata
-      !ELSE
-      !   buffer%indx(p+1, ndims+1) = 1 !ndata         
-      !ENDIF
-      
       buffer%datasize = buffer%datasize + ndata
       buffer%endpos = buffer%endpos+1
    END SUBROUTINE
@@ -587,7 +505,6 @@ CONTAINS
          do_advance = .TRUE.
       ENDIF
 
-      !CPASSERT(buffer%data_type .EQ. ${dparam}$)
       ndims = ndims_buffer(buffer)
       p = buffer%endpos
       IF (p .EQ. 0) THEN
