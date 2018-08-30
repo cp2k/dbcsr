@@ -15,6 +15,10 @@
 #:set type1 = ['REAL(kind=real_8)', 'REAL(kind=real_4)', 'COMPLEX(kind=real_8)', 'COMPLEX(kind=real_4)']
 #:set dkind1 = ['dbcsr_type_real_8', 'dbcsr_type_real_4', 'dbcsr_type_complex_8', 'dbcsr_type_complex_4']
 
+#:set dtype_float_suffix = ['r_dp', 'r_sp', 'c_dp', 'c_sp']
+
+#:set dtype_float_list = list(zip(dkind1, type1, dtype_float_suffix))
+
 #:set gemmname1 = ['DGEMM', 'SGEMM', 'ZGEMM', 'CGEMM']
 #:set normname1 = ['SQRT(DDOT', 'SQRT(SDOT', '(DZNRM2', '(SCNRM2']
 
@@ -35,4 +39,9 @@
 
 #:set inst_params_float = list(zip(n_inst, nametype1, base1, prec1, kind1, type1, dkind1, normname1))
 #:set inst_params_all = list(zip(nametype_all1, type_all1, zero_all1))
+
+#:def uselist(list_in)
+#!    comma-separated list of unique entries of list_in
+$:    ", ".join(list(set(list_in)))
+#:enddef
 #:endmute

@@ -448,20 +448,22 @@
 !> \param[in]    iw             ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_update_contiguous_blocks_${nametype1}$(matrix_a, matrix_b, first_lb_a, first_lb_b, nze, &
-                                                           do_scale, my_beta_scalar, found, iw)
+                                                           do_scale, my_beta_scalar, ifound, iw)
       
       TYPE(dbcsr_type), INTENT(INOUT)                         :: matrix_a
       TYPE(dbcsr_type), INTENT(IN)                            :: matrix_b
       TYPE(dbcsr_scalar_type), INTENT(IN)                     :: my_beta_scalar
       INTEGER, INTENT(IN)                                     :: first_lb_a, first_lb_b, nze, iw    
-      LOGICAL, INTENT(IN)                                     :: found, do_scale
+      LOGICAL, INTENT(IN)                                     :: do_scale
+      integer, intent(in)                                     :: ifound
       
       INTEGER                                                 :: ub_a, ub_b
 
       ub_a = first_lb_a + nze - 1
       ub_b = first_lb_b + nze - 1
 
-      IF (found) THEN
+      ! if block was wound in 'a' then add b-block directly in 'a'
+      IF (ifound == 0) THEN
          IF (do_scale) THEN
            CALL ${nametype1}$axpy (nze, my_beta_scalar % ${base1}$_${prec1}$,  &
                        matrix_b % data_area % d % ${base1}$_${prec1}$ (first_lb_b : ub_b), 1, &
@@ -471,7 +473,25 @@
                 matrix_a % data_area % d % ${base1}$_${prec1}$ (first_lb_a : ub_a) + &
                 matrix_b % data_area % d % ${base1}$_${prec1}$ (first_lb_b : ub_b)
          ENDIF
-      ELSE
+      endif
+      
+      ! if block was found in workspace of 'a' then add += to the workspace found place
+      ! TODO: probably merge this two cases, check performance
+      if (ifound == 1) then
+         IF (do_scale) THEN
+           matrix_a % wms(iw) % data_area % d % ${base1}$_${prec1}$ (first_lb_a : ub_a) = &
+                matrix_a % wms(iw) % data_area % d % ${base1}$_${prec1}$ (first_lb_a : ub_a) + &
+                my_beta_scalar % ${base1}$_${prec1}$ * &
+                matrix_b % data_area % d % ${base1}$_${prec1}$ (first_lb_b : ub_b)
+         ELSE
+           matrix_a % wms(iw) % data_area % d % ${base1}$_${prec1}$ (first_lb_a : ub_a) = &
+                matrix_a % wms(iw) % data_area % d % ${base1}$_${prec1}$ (first_lb_a : ub_a) + &
+                matrix_b % data_area % d % ${base1}$_${prec1}$ (first_lb_b : ub_b)
+         ENDIF
+      ENDIF
+      
+      ! if block was not found neither in 'a' nor in workspace of 'a' then assign = it to workspace found place
+      if (ifound == 2) then
          IF (do_scale) THEN
            matrix_a % wms(iw) % data_area % d % ${base1}$_${prec1}$ (first_lb_a : ub_a) = &
                 my_beta_scalar % ${base1}$_${prec1}$ * &
@@ -481,6 +501,7 @@
                 matrix_b % data_area % d % ${base1}$_${prec1}$ (first_lb_b : ub_b)
          ENDIF
       ENDIF
+      
    END SUBROUTINE dbcsr_update_contiguous_blocks_${nametype1}$
 
 
@@ -496,7 +517,7 @@
 ! **************************************************************************************************
 
    SUBROUTINE dbcsr_add_anytype_${nametype1}$(matrix_a, matrix_b, iter, iw, do_scale, &
-                                              my_beta_scalar, my_flop)
+                                              my_beta_scalar, my_flop, use_hashes_par)
      TYPE(dbcsr_type), INTENT(INOUT)                         :: matrix_a
      TYPE(dbcsr_type), INTENT(IN)                            :: matrix_b
      TYPE(dbcsr_iterator), INTENT(INOUT)                     :: iter
@@ -504,20 +525,40 @@
      LOGICAL, INTENT(IN)                                     :: do_scale
      TYPE(dbcsr_scalar_type), INTENT(IN)                     :: my_beta_scalar
      INTEGER(KIND=int_8), INTENT(INOUT)                      :: my_flop
+     logical, intent(in),optional                            :: use_hashes_par
+     logical                                                 :: use_hashes
 
      INTEGER                                                 :: row, col, row_size, col_size, &
                                                                 nze, tot_nze, blk, & 
                                                                 lb_a, first_lb_a, lb_a_val, &
-                                                                lb_b, first_lb_b 
+                                                                lb_b, first_lb_b, ifound , iwas_found, c_blk_id
+                                                                
      INTEGER, DIMENSION(2)                                   :: lb_row_blk
-     LOGICAL                                                 :: was_found, found, tr
+     LOGICAL                                                 :: found, tr
+     type(array_i1d_obj)                                     :: map_row_g2l
     
+     ! ifound = 0, 1 ,2
+     ! 0 - found in a matrix
+     ! 1 - found in workspace of a matrix
+     ! 2 - not found in workspace of a matrix
+     
      ! some start values
      lb_row_blk(:) = 0
      first_lb_a = matrix_a%wms(iw)%datasize + 1
      first_lb_b = 0
      tot_nze = 0
      !
+     use_hashes = .false.
+     if (present(use_hashes_par)) then
+        use_hashes = use_hashes_par
+        ! we assume map was initialized and this call just retust the wrapped pointer map_row_g2l. So no race condition
+        call dbcsr_get_global_row_map(matrix_a % dist, map_row_g2l) 
+     endif
+     
+     if (matrix_a % wms(iw) % hashes_are_valid .eqv. .false.) use_hashes = .false.
+     
+     !print *,"hashes are valid", matrix_a % wms(iw) % hashes_are_valid
+     
      DO WHILE (dbcsr_iterator_blocks_left(iter))
         CALL dbcsr_iterator_next_block(iter, row, col, blk, tr, lb_b, row_size, col_size)
         nze = row_size*col_size
@@ -534,40 +575,60 @@
         IF (found) THEN
            my_flop = my_flop + nze * 2
            lb_a = ABS (matrix_a%blk_p(blk))
+           ifound = 0;
         ELSE
-           lb_a = matrix_a%wms(iw)%datasize + 1
-           lb_a_val = lb_a
-           IF (tr) lb_a_val = -lb_a
-           matrix_a%wms(iw)%lastblk = matrix_a%wms(iw)%lastblk+1
-           matrix_a%wms(iw)%row_i(matrix_a%wms(iw)%lastblk) = row
-           matrix_a%wms(iw)%col_i(matrix_a%wms(iw)%lastblk) = col
-           matrix_a%wms(iw)%blk_p(matrix_a%wms(iw)%lastblk) = lb_a_val
-           matrix_a%wms(iw)%datasize = matrix_a%wms(iw)%datasize + nze
+           ifound = 2
+           ! try to find saved blocks using hash map
+           if ( use_hashes ) then   
+              c_blk_id = hash_table_get(matrix_a % wms(iw) % c_hashes( map_row_g2l % low % data(row) ), col)
+              ! save block lower bound if we found and add to hash new block id if not
+              if (c_blk_id > 0) then
+                 ifound = 1
+                 lb_a = matrix_a%wms(iw)%blk_p(c_blk_id)
+                 !print *,"block found in wms", row, col, c_blk_id, lb_a
+              else
+                 call hash_table_add(matrix_a % wms(iw) % c_hashes( map_row_g2l % low % data(row) ), col, matrix_a%wms(iw)%lastblk + 1)   
+                 !print *,"block not found in wms ..."
+              endif   
+           endif
+           
+           if ( ifound == 2 ) then
+               lb_a = matrix_a%wms(iw)%datasize + 1
+               lb_a_val = lb_a
+               IF (tr) lb_a_val = -lb_a
+               matrix_a%wms(iw)%lastblk = matrix_a%wms(iw)%lastblk+1
+               matrix_a%wms(iw)%row_i(matrix_a%wms(iw)%lastblk) = row
+               matrix_a%wms(iw)%col_i(matrix_a%wms(iw)%lastblk) = col
+               matrix_a%wms(iw)%blk_p(matrix_a%wms(iw)%lastblk) = lb_a_val
+               matrix_a%wms(iw)%datasize = matrix_a%wms(iw)%datasize + nze
+               
+               !print *,"block not found in wms", row, col, matrix_a%wms(iw)%lastblk, lb_a
+           endif
         ENDIF
         ! at the first iteration we skip this and go directly to initialization after
-        IF (first_lb_b .NE. 0) THEN        
+        IF (first_lb_b /= 0) THEN        
            ! if found status is the same as before then probably we are in contiguous blocks
-           IF ((found .EQV. was_found) .AND. &
-               (first_lb_b + tot_nze .EQ. lb_b) .AND. &
-               (first_lb_a + tot_nze) .EQ. lb_a) THEN
+           IF ((ifound == iwas_found) .and. &
+               (first_lb_b + tot_nze == lb_b) .AND. &
+               (first_lb_a + tot_nze) == lb_a) THEN
               tot_nze = tot_nze + nze
               CYCLE
           ENDIF
           ! save block chunk
           CALL dbcsr_update_contiguous_blocks_${nametype1}$(matrix_a, matrix_b, first_lb_a, first_lb_b, tot_nze, &
-                                                           do_scale, my_beta_scalar, was_found, iw)
+                                                           do_scale, my_beta_scalar, iwas_found, iw)
         ENDIF
         !
         first_lb_a = lb_a
         first_lb_b = lb_b
         tot_nze = nze
-        was_found = found        
+        iwas_found = ifound        
      ENDDO
         
      ! save the last block or chunk of blocks
      IF (first_lb_b .NE. 0) THEN 
         call dbcsr_update_contiguous_blocks_${nametype1}$(matrix_a, matrix_b, first_lb_a, first_lb_b, tot_nze, &
-                                                          do_scale, my_beta_scalar, was_found, iw)
+                                                          do_scale, my_beta_scalar, iwas_found, iw)
      ENDIF
 
    END SUBROUTINE dbcsr_add_anytype_${nametype1}$

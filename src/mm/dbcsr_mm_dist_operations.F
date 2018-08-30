@@ -52,7 +52,7 @@ MODULE dbcsr_mm_dist_operations
    PUBLIC :: dbcsr_create_image_dist, dbcsr_make_dists_dense
    PUBLIC :: image_calculator, make_sizes_dense
    PUBLIC :: dbcsr_reset_locals, dbcsr_reset_vlocals
-   PUBLIC :: dbcsr_get_local_vrows, dbcsr_get_local_vcols
+   PUBLIC :: dbcsr_get_local_vrows, dbcsr_get_local_vcols, dbcsr_get_global_row_map
 
    LOGICAL, PARAMETER :: careful_mod = .FALSE.
    LOGICAL, PARAMETER :: debug_mod = .FALSE.
