@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from kernels import cusmm_dnt
+from math import ceil
+import cusmm_P100 as gpu
+import cusmm_common as cu
 
 
 class Kernel_dnt_largeDB2(cusmm_dnt.Kernel):
@@ -35,48 +38,55 @@ class Kernel_dnt_largeDB2(cusmm_dnt.Kernel):
         params = []
         grouping = 16
 
-        for minblocks in (1, 2, 4, 8, 12):
-            for threads in range (64, 257, 32):
+        for minblocks in (1,2,4,8,12,): # range(1, gpu.maxBLOCKSperSM + 1):
+            for threads in range(gpu.warp_size, gpu.maxTHREADSperBLOCK + 1, gpu.warp_size):
 
-                # invalid: too many threads per SM
-                if(threads * minblocks > 2048): continue
+                if threads * minblocks > gpu.maxTHREADSperSM:
+                    continue
 
-                for tm in range(1, 12):
-                    for tn in range(1, 12):
+                for tm in range(1, min(9, m) + 1):
+                    for tn in range(1, min(9, n) + 1):
 
-                        # invalid: not enough threads to cover result matrix
-                        min_threads = ((m + tm - 1) // tm) * ((n + tn - 1) // tn)
-                        if (min_threads > threads): continue
+                        # Number of tiled columns, rows 
+                        cmax = (n + tn - 1) // tn
+                        rmax = (m + tm - 1) // tm
 
-                        # heuristic: too many threads unused during calculation
-                        if (min_threads < (threads - 16)): continue
+                        # Miniumum number of threads required to have one thread per tile
+                        min_threads = cmax * rmax
+                        if threads < min_threads:
+                            continue
+                        if (min_threads < (threads - 32)):
+                            continue  # heuristic: too many threads unused during calculation
 
-                        # heuristic: only even numbers
-                        for w in range(2, k + 1, 2):
+                        for w in range(4, (k + 1)/2, 2):  # heuristic: only even numbers
 
-                            # invalid: input slap too small
-                            if (w < tn): continue
+                            if (w < tn): 
+                                continue  # invalid: input slap too small
+                            if (2 * w > k): 
+                                continue  # heuristic: do at least one double-buffering step
 
-                            # heuristic: do at least one double-buffering step
-                            if (2 * w > k): continue
+                            for v in range(4, n + 1, 2):  # heuristic: only even numbers
 
-                            # heuristic: only even numbers
-                            for v in range(2, n + 1, 2):
+                                if (v < tm): 
+                                    continue  # invalid: output slab too small 
 
-                                # invalid: output slap too small
-                                if (v < tm): continue
-
-                                #heuristic: too many registers used
+                                # Number of registers
                                 n_regs = tm * tn + (w * m + threads - 1) // threads + (w * n + threads - 1) // threads
-                                if (n_regs * threads * minblocks > 15000): continue
+                                if (n_regs * threads * minblocks > 15000): 
+                                    continue  # heuristic: too many registers used
 
-                                # invalid: uses too much shared memory
-                                cmax = ((n + tn - 1) // tn)
-                                rmax = ((m + tm - 1) // tm)
+                                # Max work ("operations") which can be run concurrently
+                                max_concurrent_work = max(grouping, m*w, k*n, m*v, cmax*rmax)
+                                if threads > cu.round_up_to_multiple(max_concurrent_work, gpu.warp_size):
+                                    continue  # heurstics: too much concurrency harms performance
+
+                                # Shared memory buffer size
                                 buf_sz = max((w - 1) * m + rmax * tm, m * w + (w - 1) * n + cmax * tn, v * m)
-                                sizeof_int = 4; sizeof_double = 8
-                                smem_tot = buf_sz * sizeof_double + 3 * grouping * sizeof_int
-                                if (smem_tot * minblocks > 48 * 1024): continue # hard: see cudaFuncSetCacheConfig() docu
+                                smem_tot = buf_sz * cu.sizeof_double + cu.npar * grouping * cu.sizeof_int
+                                if (smem_tot > gpu.SMEMperBLOCK):
+                                    continue  # invalid: uses too much shared memory
+                                if (smem_tot * minblocks > gpu.SMEMperSM):
+                                    continue
 
                                 params.append({'m':m, 'n':n, 'k':k,
                                                'tile_m':tm, 'tile_n':tn,
