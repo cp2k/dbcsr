@@ -92,7 +92,19 @@ def gen_benchmark(outdir, m, n, k):
     launchers = []
     kernel_descr = []
 
-    for kernclass in ALL_KERNELS:
+    # Get the kernels compatible with the given size: 
+    compatible_kernels = list(ALL_KERNELS)
+    max_sizes = max(m*k, n*k, m*n) 
+    if max_sizes > 64: 
+        compatible_kernels.remove(Kernel_dnt_tiny) 
+    if max_sizes > 128:
+        compatible_kernels.remove(Kernel_dnt_small) 
+    if max_sizes < 250:
+        compatible_kernels.remove(Kernel_dnt_largeDB1) 
+        compatible_kernels.remove(Kernel_dnt_largeDB2) 
+
+
+    for kernclass in compatible_kernels:
         params = kernclass.promising_parameters(m, n, k)
         if params == 0:
             continue
