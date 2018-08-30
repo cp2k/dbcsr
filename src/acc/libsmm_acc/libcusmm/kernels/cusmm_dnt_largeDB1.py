@@ -38,7 +38,8 @@ class Kernel_dnt_largeDB1(cusmm_dnt.Kernel):
         params = []
         grouping = 16
 
-        for minblocks in (1, 2, 4, 8, 12):  # range(1, gpu.maxBLOCKSperSM + 1):
+        for minblocks in (1, 2, 4, 8, 12):  # in strict terms, it should be: range(1, gpu.maxBLOCKSperSM + 1):
+                                            # but heuristically reduce the search space
             for threads in range(gpu.warp_size, gpu.maxTHREADSperBLOCK + 1, gpu.warp_size):
 
                 if threads * minblocks > gpu.maxTHREADSperSM:
@@ -46,6 +47,9 @@ class Kernel_dnt_largeDB1(cusmm_dnt.Kernel):
 
                 for tm in range(1, min(9, m) + 1):
                     for tn in range(1, min(9, n) + 1):
+
+                        if (tm * tn > 56):
+                            continue # heuristic: performance decreases for very large tiles
 
                         # Number of tiled columns, rows
                         cmax = (n + tn - 1) // tn

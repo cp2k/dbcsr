@@ -28,11 +28,15 @@ class Kernel_dnt_small(cusmm_dnt.Kernel):
     @staticmethod
     def promising_parameters(m, n, k):
 
+        # Parameter space:
         params = []
         for minblocks in range(1, gpu.maxBLOCKSperSM + 1):
-            for grouping in range(1, 32 + 1, 1):
-                for tm in range(1, min(32, m) + 1):
-                    for tn in range(1, min(32, n) + 1):
+            for grouping in range(2, 32 + 1, 1):  # heuristic: never seen optimal=1 hence start from 2
+                for tm in range(1, min(12, m) + 1): # heuristic: the optimal tile_m is never above 12
+                    for tn in range(1, min(12, n) + 1): # heuristic: the optimal tile_n is never above 12
+
+                        if (tm * tn > 16):
+                            continue # heuristic: performance decreases for very large tiles
 
                         # Number of tiled columns, rows
                         cmax = (n + tn - 1) // tn
@@ -44,7 +48,7 @@ class Kernel_dnt_small(cusmm_dnt.Kernel):
                         # Max work ("operations") which can be run concurrently
                         max_concurrent_work = max(grouping, m*k, k*n, m*n, min_threads)
 
-                        # Set shared memory buffer size
+                        # Shared memory buffer size
                         buf_sz = max(m*n, m*k + k*tn*cmax, tm*rmax*k + 1)
                         smem_tot = buf_sz * cu.sizeof_double + cu.npar * grouping * cu.sizeof_int
                         if (smem_tot > gpu.SMEMperBLOCK):
