@@ -1,8 +1,10 @@
+# Helper variables/functions used in all kernels 
+
 # Number of parameters in one stack entry
 stack_size = 16005
-npar=3
+npar = 3
 
-# sizeof
+# Sizes in bytes 
 sizeof_int = 4
 sizeof_double = 8
 

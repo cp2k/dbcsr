@@ -26,7 +26,7 @@ class Kernel_dnt_tiny(cusmm_dnt.Kernel):
     @staticmethod
     def promising_parameters(m, n, k):
         
-	# Set shared memory buffer size
+	# Shared memory buffer size
         buf_sz = k * (m + n) # number of elements in the a_block buffer = mk 
                              # and in the b_block buffer = kn
         # Minimum number of threads required to cover the result matrix c
@@ -34,8 +34,8 @@ class Kernel_dnt_tiny(cusmm_dnt.Kernel):
 
         # Parameter space: 
         params = []
-        for minblocks in range(1, gpu.maxBLOCKSperSM + 1): #(1, 2, 3, 4, 7, 11, 15, 19, 23, 27, 31)
-            for grouping in range(2, 32 + 1, 1): # soft: never seen optimal=1, reflection from nblks
+        for minblocks in range(1, gpu.maxBLOCKSperSM + 1):
+            for grouping in range(2, 32 + 1, 1): # heuristic: never seen optimal=1 hence start from 2
             
                 # Max work ("operations")  which can be run concurrently
                 max_concurrent_work = max(grouping, m*k, k*n, m*n)

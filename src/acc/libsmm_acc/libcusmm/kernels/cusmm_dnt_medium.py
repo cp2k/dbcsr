@@ -30,14 +30,15 @@ class Kernel_dnt_medium(cusmm_dnt.Kernel):
     @staticmethod
     def promising_parameters(m, n, k):
         params = []
-        for minblocks in range(1, 28):  # heuristic: the optimal minblocks is never > 28
+        for minblocks in range(1, 28): # for exhaustive search: range(1, gpu.maxBLOCKSperSM + 1):
+                                       # heuristic: the optimal minblocks is never > 28
             if m >= 28: # heuristic: investigate a smaller search space of grouping for large matrices 
-                grouping_range = (3, 4, 5, 24, 26, 29, 32)
+                grouping_range = (3, 4, 5, 24, 26, 29, 32,)
             else: 
                 grouping_range = range(1, 32 + 1, 1)
             for grouping in grouping_range:
-                for tm in range(1, min(32, m) + 1):
-                    for tn in range(1, min(32, n) + 1):
+                for tm in range(1, min(12, m) + 1):  # heuristic: the optimal tile_m is never above 12
+                    for tn in range(1, min(12, n) + 1):  # heuristic: the optimal tile_m is never above 12
 
                         if (tm * tn > 16):
                             continue # heuristic: performance decreases for very large tiles
@@ -53,7 +54,7 @@ class Kernel_dnt_medium(cusmm_dnt.Kernel):
                         # i.e., cover the result matrix
                         min_threads = cmax * rmax
 
-                        # Set shared memory buffer size
+                        # Shared memory buffer size
                         buf_sz = max(m*n, m*k + k*tn*cmax, tm*rmax*k + 1)
                         smem_tot = buf_sz * cu.sizeof_double + cu.npar * grouping * cu.sizeof_int
                         if (smem_tot > gpu.SMEMperBLOCK):
