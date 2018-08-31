@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from kernels import cusmm_dnt
-import cusmm_P100 as gpu
 import cusmm_common as cu
 
 
@@ -24,8 +23,8 @@ class Kernel_dnt_tiny(cusmm_dnt.Kernel):
         return "cusmm_dnt_tiny<%(m)d,%(n)d,%(k)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n" % self.__dict__
 
     @staticmethod
-    def promising_parameters(m, n, k):
-        
+    def promising_parameters(m, n, k, gpu):
+
 	# Shared memory buffer size
         buf_sz = k * (m + n) # number of elements in the a_block buffer = mk 
                              # and in the b_block buffer = kn
@@ -34,7 +33,7 @@ class Kernel_dnt_tiny(cusmm_dnt.Kernel):
 
         # Parameter space: 
         params = []
-        for minblocks in range(1, gpu.maxBLOCKSperSM + 1):
+        for minblocks in range(1, gpu["maxBLOCKSperSM"] + 1):
             for grouping in range(2, 32 + 1, 1): # heuristic: never seen optimal=1 hence start from 2
             
                 # Max work ("operations")  which can be run concurrently
@@ -42,17 +41,17 @@ class Kernel_dnt_tiny(cusmm_dnt.Kernel):
 
                 # Shared memory utilisation (bytes)
                 smem_tot = buf_sz * cu.sizeof_double + cu.npar * grouping * cu.sizeof_int
-                if (smem_tot > gpu.SMEMperBLOCK):
+                if (smem_tot > gpu["SMEMperBLOCK"]):
                     continue
-                if (smem_tot * minblocks > gpu.SMEMperSM):
+                if (smem_tot * minblocks > gpu["SMEMperSM"]):
                     continue
 
                 # Use all concurrency available: fill warps
-                for threads in range(gpu.warp_size, gpu.maxTHREADSperBLOCK + 1, gpu.warp_size):
+                for threads in range(gpu["warp_size"], gpu["maxTHREADSperBLOCK"] + 1, gpu["warp_size"]):
 
-                    if threads > cu.round_up_to_multiple(max_concurrent_work, gpu.warp_size): 
+                    if threads > cu.round_up_to_multiple(max_concurrent_work, gpu["warp_size"]): 
                         continue # soft: too much concurrency harms performance  
-                    if threads * minblocks > gpu.maxTHREADSperSM:
+                    if threads * minblocks > gpu["maxTHREADSperSM"]:
                         continue
                     if threads < min_threads: 
                         continue

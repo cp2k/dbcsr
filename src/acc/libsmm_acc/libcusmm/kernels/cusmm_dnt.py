@@ -46,7 +46,7 @@ class Kernel:
         return output
 
     @staticmethod
-    def promising_parameters(m, n, k):
+    def promising_parameters(m, n, k, gpu):
         raise NotImplementedError()
 
 
