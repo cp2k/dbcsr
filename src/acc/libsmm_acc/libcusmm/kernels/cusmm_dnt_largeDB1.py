@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from kernels import cusmm_dnt
 from math import ceil
-import cusmm_P100 as gpu
 import cusmm_common as cu
 
 
@@ -34,15 +33,15 @@ class Kernel_dnt_largeDB1(cusmm_dnt.Kernel):
                % self.__dict__
 
     @staticmethod
-    def promising_parameters(m, n, k):
+    def promising_parameters(m, n, k, gpu):
         params = []
         grouping = 16
 
         for minblocks in (1, 2, 4, 8, 12):  # in strict terms, it should be: range(1, gpu.maxBLOCKSperSM + 1):
                                             # but heuristically reduce the search space
-            for threads in range(gpu.warp_size, gpu.maxTHREADSperBLOCK + 1, gpu.warp_size):
+            for threads in range(gpu["warp_size"], gpu["maxTHREADSperBLOCK"] + 1, gpu["warp_size"]):
 
-                if threads * minblocks > gpu.maxTHREADSperSM:
+                if threads * minblocks > gpu["maxTHREADSperSM"]:
                     continue
 
                 for tm in range(1, min(9, m) + 1):
@@ -81,15 +80,15 @@ class Kernel_dnt_largeDB1(cusmm_dnt.Kernel):
 
                                 # Max work ("operations") which can be run concurrently
                                 max_concurrent_work = max(grouping, m*w, k*n, m*v, cmax*rmax)
-                                if threads > cu.round_up_to_multiple(max_concurrent_work, gpu.warp_size):
+                                if threads > cu.round_up_to_multiple(max_concurrent_work, gpu["warp_size"]):
                                     continue  # heurstics: too much concurrency harms performance
 
                                 # Shared memory buffer size
                                 buf_sz = max((w - 1) * m + rmax * tm, m * w + (w - 1) * n + cmax * tn, v * m)
                                 smem_tot = buf_sz * cu.sizeof_double + cu.npar * grouping * cu.sizeof_int
-                                if (smem_tot > gpu.SMEMperBLOCK):
+                                if (smem_tot > gpu["SMEMperBLOCK"]):
                                     continue  # invalid: uses too much shared memory
-                                if (smem_tot * minblocks > gpu.SMEMperSM):
+                                if (smem_tot * minblocks > gpu["SMEMperSM"]):
                                     continue
 
                                 params.append({'m':m, 'n':n, 'k':k,

@@ -42,6 +42,7 @@ def main():
     param_fn = options.params
     assert param_fn in arch_number.keys(), "Cannot find compute version for file " + param_fn
     arch = arch_number[param_fn]
+    gpu_properties = json.load(open('kernels/gpu_properties.json'))["sm_" + str(arch)]
     all_kernels = [get_kernel(**params) for params in json.load(open(param_fn))]
     print("Libcusmm: Found %d existing parameter sets."%len(all_kernels))
 
@@ -62,7 +63,7 @@ def main():
             print("Directory %s exists already, skipping."%outdir)
             continue
         os.mkdir(outdir)
-        gen_benchmark(outdir, m, n, k)
+        gen_benchmark(outdir, gpu_properties, m, n, k)
         gen_jobfile(outdir, m, n, k)
         gen_makefile(outdir, arch)
 
@@ -86,7 +87,7 @@ def format_params(params):
 
 
 #===============================================================================
-def gen_benchmark(outdir, m, n, k):
+def gen_benchmark(outdir, gpu_properties, m, n, k):
     includes = []
     launcher_codes = []
     launchers = []
@@ -105,8 +106,8 @@ def gen_benchmark(outdir, m, n, k):
 
 
     for kernclass in compatible_kernels:
-        params = kernclass.promising_parameters(m, n, k)
-        if params == 0:
+        params = kernclass.promising_parameters(m, n, k, gpu_properties)
+        if(params == 0):
             continue
 
         for p in params:
