@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from kernels import cusmm_dnt
-from math import ceil
 import cusmm_common as cu
 
 
@@ -37,38 +36,38 @@ class Kernel_dnt_largeDB1(cusmm_dnt.Kernel):
         params = []
         grouping = 16
 
-        for minblocks in (1, 2, 4, 8, 12):  # in strict terms, it should be: range(1, gpu.maxBLOCKSperSM + 1):
+        for minblocks in (1, 2, 4, 8, 12):  # for exhaustive search, it should be: range(1, gpu.maxBLOCKSperSM + 1):
                                             # but heuristically reduce the search space
             for threads in range(gpu["warp_size"], gpu["maxTHREADSperBLOCK"] + 1, gpu["warp_size"]):
 
                 if threads * minblocks > gpu["maxTHREADSperSM"]:
                     continue
 
-                for tm in range(1, min(9, m) + 1):
-                    for tn in range(1, min(9, n) + 1):
+                for tm in range(1, min(12, m + 1)):
+                    for tn in range(1, min(12, n + 1)):
 
-                        if (tm * tn > 56):
+                        if (tm * tn > 49):
                             continue # heuristic: performance decreases for very large tiles
 
                         # Number of tiled columns, rows
                         cmax = (n + tn - 1) // tn
                         rmax = (m + tm - 1) // tm
 
-                        # Miniumum number of threads required to have one thread per tile
+                        # Miniumum number of threads required to have one thread per tile, 
+			# i.e., cover the result matrix
                         min_threads = cmax * rmax
                         if threads < min_threads:
                             continue
                         if (min_threads < (threads - 32)): 
                             continue  # heuristic: too many threads unused during calculation
 
-                        for w in range(4, (k + 1)/2, 2):  # heuristic: only even numbers
-
+                        for w in range(4, (k + 1)/2, 2):  # heuristic: even numbers yield better performance
                             if (w < tn):
                                 continue  # invalid: input slap too small
                             if (2 * w > k):
                                 continue  # heuristic: do at least one double-buffering step
 
-                            for v in range(4, n + 1, 2):  # heuristic: only even numbers
+                            for v in range(2, n + 1, 2):  # heuristic: even numbers yield better performance
 
                                 if (v < tm):
                                     continue  # invalid: output slab too small
@@ -79,7 +78,7 @@ class Kernel_dnt_largeDB1(cusmm_dnt.Kernel):
                                     continue  # heuristic: too many registers used
 
                                 # Max work ("operations") which can be run concurrently
-                                max_concurrent_work = max(grouping, m*w, k*n, m*v, cmax*rmax)
+                                max_concurrent_work = max(grouping, m*w, w*n, m*v, cmax*rmax)
                                 if threads > cu.round_up_to_multiple(max_concurrent_work, gpu["warp_size"]):
                                     continue  # heurstics: too much concurrency harms performance
 
@@ -89,7 +88,7 @@ class Kernel_dnt_largeDB1(cusmm_dnt.Kernel):
                                 if (smem_tot > gpu["SMEMperBLOCK"]):
                                     continue  # invalid: uses too much shared memory
                                 if (smem_tot * minblocks > gpu["SMEMperSM"]):
-                                    continue
+                                    continue  # invalid: uses too much shared memory
 
                                 params.append({'m':m, 'n':n, 'k':k,
                                                'tile_m':tm, 'tile_n':tn,
