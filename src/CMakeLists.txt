@@ -58,6 +58,7 @@ add_fypp_sources(DBCSR_SRCS
   mm/dbcsr_mm.F
   mm/dbcsr_mm_hostdrv.F
   mm/dbcsr_mm_multrec.F
+  mm/dbcsr_mm_reshape.F
   mm/dbcsr_mm_sched.F
   mm/dbcsr_mm_types.F
   mm/dbcsr_multiply_api.F
