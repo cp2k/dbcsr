@@ -558,7 +558,7 @@ CONTAINS
          DBCSR_ABORT("Size of rows and columns array must match.")
       IF (PRESENT(blk_pointers)) THEN
          IF (SIZE(rows) /= SIZE(blk_pointers)) &
-            DBCSR_ABORT("Size of rows and block pointecs arrays must match.")
+            DBCSR_ABORT("Size of rows and block pointers arrays must match.")
          data_size_old = 0
       ELSE
          ! Get current data size

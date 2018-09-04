@@ -27,9 +27,6 @@ MODULE dbcsr_types
    USE dbcsr_kinds,                     ONLY: default_string_length,&
                                               int_8
 
-                                              
-   use hash_table
-
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
    IMPLICIT NONE
@@ -108,6 +105,8 @@ MODULE dbcsr_types
              dbcsr_func_asin, &
              dbcsr_func_truncate, &
              dbcsr_func_cos
+
+   PUBLIC :: hash_ele_type, hash_table_type
 
    PUBLIC :: dbcsr_2d_array_obj
 
@@ -363,6 +362,24 @@ MODULE dbcsr_types
       TYPE(dbcsr_mutable_type), POINTER :: m => Null()
    END TYPE dbcsr_mutable_obj
 
+! *****************************************************************************
+!> \brief Types needed for the hashtable.
+! *****************************************************************************
+  TYPE hash_ele_type
+     INTEGER :: c = 0
+     INTEGER :: p = 0
+  END TYPE hash_ele_type
+
+! **************************************************************************************************
+!> \brief Hash table type
+! **************************************************************************************************
+  TYPE hash_table_type
+     TYPE(hash_ele_type), DIMENSION(:), POINTER :: table
+     INTEGER :: nele = 0
+     INTEGER :: nmax = 0
+     INTEGER :: prime = 0
+  END TYPE hash_table_type
+
 ! **************************************************************************************************
 !> \brief Used for assembling a real matrix.
 !> \var m           the final bcsr matrix
@@ -384,10 +401,9 @@ MODULE dbcsr_types
       INTEGER                                 :: lastblk = -1
       INTEGER                                 :: datasize = -1
       INTEGER                                 :: datasize_after_filtering = -1
-      !TYPE(btree_i8_dp2d)                       :: tree
       TYPE(dbcsr_mutable_obj)                 :: mutable
       TYPE(hash_table_type), DIMENSION(:), POINTER  :: c_hashes => Null()
-      logical                                       :: hashes_are_valid = .false.
+      LOGICAL                                       :: hashes_are_valid = .FALSE.
    END TYPE dbcsr_work_type
 
 ! **************************************************************************************************

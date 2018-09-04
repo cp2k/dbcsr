@@ -30,7 +30,6 @@ MODULE dbcsr_mm_csr
    USE dbcsr_kinds,                     ONLY: int_1,&
                                               int_4,&
                                               int_8,&
-                                              real_8,&
                                               sp
    USE dbcsr_mm_sched,                  ONLY: &
         dbcsr_mm_sched_barrier, dbcsr_mm_sched_begin_burst, dbcsr_mm_sched_dev2host_init, &
@@ -44,17 +43,9 @@ MODULE dbcsr_mm_csr
    USE dbcsr_toollib,                   ONLY: sort
    USE dbcsr_types,                     ONLY: dbcsr_data_obj,&
                                               dbcsr_type,&
-                                              dbcsr_work_type
-
-   
-                                       
-                                       
-                                       
-                                       
-  
-   use  dbcsr_work_operations
-   use  hash_table
-
+                                              dbcsr_work_type,&
+                                              hash_ele_type,&
+                                              hash_table_type
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -90,8 +81,6 @@ MODULE dbcsr_mm_csr
       INTEGER, DIMENSION(:), POINTER           :: stacks_fillcount => Null()
       TYPE(dbcsr_mm_sched_type)                      :: sched
    END TYPE dbcsr_mm_csr_type
-
-!#include "../dbcsr_base/dbcsr_hash_table_types.f90"
 
 ! **************************************************************************************************
    PUBLIC :: dbcsr_mm_csr_type
@@ -645,50 +634,6 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_csr_init
 
-!! **************************************************************************************************
-!!> \brief Fills row hashtable from an existing matrix.
-!!> \param hashes ...
-!!> \param matrix ...
-!!> \param[in] block_estimate guess for the number of blocks in the product matrix, can be zero
-!!> \param row_map ...
-!!> \param col_map ...
-!! **************************************************************************************************
-   !SUBROUTINE fill_hash_tables(hashes, matrix, block_estimate, row_map, col_map)
-      !TYPE(hash_table_type), DIMENSION(:), INTENT(inout) :: hashes
-      !TYPE(dbcsr_type), INTENT(IN)                       :: matrix
-      !INTEGER                                            :: block_estimate
-      !INTEGER, DIMENSION(:), INTENT(IN)                  :: row_map, col_map
-
-      !CHARACTER(len=*), PARAMETER :: routineN = 'fill_hash_tables', &
-         !routineP = moduleN//':'//routineN
-
-      !INTEGER                                            :: col, handle, i, imat, n_rows, row
-
-!!   ---------------------------------------------------------------------------
-
-      !CALL timeset(routineN, handle)
-      !imat = 1
-!!$    imat = OMP_GET_THREAD_NUM()+1
-      !n_rows = matrix%nblkrows_local
-      !IF (SIZE(hashes) /= n_rows) &
-         !DBCSR_ABORT("Local row count mismatch")
-      !DO row = 1, n_rows
-         !! create the hash table row with a reasonable initial size
-         !CALL hash_table_create(hashes(row), &
-                                !MAX(8, (3*block_estimate)/MAX(1, n_rows)))
-      !ENDDO
-      !! We avoid using the iterator because we will use the existing
-      !! work matrix instead of the BCSR index.
-      !DO i = 1, matrix%wms(imat)%lastblk
-         !row = matrix%wms(imat)%row_i(i)
-         !col = matrix%wms(imat)%col_i(i)
-         !row = row_map(row)
-         !col = col_map(col)
-         !CALL hash_table_add(hashes(row), col, i)
-      !ENDDO
-      !CALL timestop(handle)
-   !END SUBROUTINE fill_hash_tables
-
 ! **************************************************************************************************
 !> \brief Signal approaching end of multiplication
 !> \param this ...
@@ -993,6 +938,6 @@ CONTAINS
 
    END FUNCTION my_checker_tr
 
-!#include "../dbcsr_base/dbcsr_hash_table.f90"
+#include "utils/dbcsr_hash_table.f90"
 
 END MODULE dbcsr_mm_csr

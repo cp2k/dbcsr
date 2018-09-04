@@ -46,7 +46,7 @@ MODULE dbcsr_operations
    USE dbcsr_dist_operations,           ONLY: checker_square_proc,&
                                               checker_tr,&
                                               dbcsr_find_column,&
-                                              dbcsr_get_stored_coordinates, &
+                                              dbcsr_get_stored_coordinates,&
                                               dbcsr_get_stored_block_info
    USE dbcsr_index_operations,          ONLY: dbcsr_index_checksum,&
                                               dbcsr_index_compact,&
@@ -80,7 +80,7 @@ MODULE dbcsr_operations
         dbcsr_norm_maxabsnorm, dbcsr_repl_full, dbcsr_repl_none, dbcsr_scalar_type, dbcsr_type, &
         dbcsr_type_antihermitian, dbcsr_type_antisymmetric, dbcsr_type_complex_4, &
         dbcsr_type_complex_8, dbcsr_type_hermitian, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
-        dbcsr_type_real_8, dbcsr_type_symmetric
+        dbcsr_type_real_8, dbcsr_type_symmetric, hash_ele_type, hash_table_type
    USE dbcsr_dist_util,                 ONLY: find_block_of_element
    USE dbcsr_work_operations,           ONLY: dbcsr_create,&
                                               dbcsr_finalize,&
@@ -95,10 +95,7 @@ MODULE dbcsr_operations
    USE dbcsr_mpiwrap,                   ONLY: mp_allgather,&
                                               mp_max,&
                                               mp_sum
-
-   use hash_table
-   use dbcsr_mm_dist_operations, only: dbcsr_get_global_row_map
-   
+   USE dbcsr_mm_dist_operations,        ONLY: dbcsr_get_global_row_map
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -2931,5 +2928,7 @@ CONTAINS
    END FUNCTION dbcsr_get_occupation
 
 #:include "dbcsr_operations.f90"
+
+#include "utils/dbcsr_hash_table.f90"
 
 END MODULE dbcsr_operations

@@ -80,7 +80,7 @@
                                  inv_hash_table_fill = 2.5_sp
 
      INTEGER                                  :: i, j
-     TYPE(ele_type), ALLOCATABLE, &
+     TYPE(hash_ele_type), ALLOCATABLE, &
         DIMENSION(:)                           :: tmp_hash
 
 ! if too small, make a copy and rehash in a larger table
@@ -156,6 +156,50 @@
      p = HUGE(p)
 
   END FUNCTION hash_table_get
+
+! **************************************************************************************************
+!> \brief Fills row hashtable from an existing matrix.
+!> \param hashes ...
+!> \param matrix ...
+!> \param[in] block_estimate guess for the number of blocks in the product matrix, can be zero
+!> \param row_map ...
+!> \param col_map ...
+! **************************************************************************************************
+  SUBROUTINE fill_hash_tables(hashes, matrix, block_estimate, row_map, col_map)
+     TYPE(hash_table_type), DIMENSION(:), INTENT(inout) :: hashes
+     TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+     INTEGER                                            :: block_estimate
+     INTEGER, DIMENSION(:), INTENT(IN)                  :: row_map, col_map
+
+     CHARACTER(len=*), PARAMETER :: routineN = 'fill_hash_tables', &
+        routineP = moduleN//':'//routineN
+
+     INTEGER                                            :: col, handle, i, imat, n_rows, row
+
+!  ---------------------------------------------------------------------------
+
+     CALL timeset(routineN, handle)
+     imat = 1
+!$   imat = OMP_GET_THREAD_NUM()+1
+     n_rows = matrix%nblkrows_local
+     IF (SIZE(hashes) /= n_rows) &
+         DBCSR_ABORT("Local row count mismatch")
+     DO row = 1, n_rows
+        ! create the hash table row with a reasonable initial size
+        CALL hash_table_create(hashes(row), &
+                               MAX(8, (3*block_estimate)/MAX(1, n_rows)))
+     ENDDO
+     ! We avoid using the iterator because we will use the existing
+     ! work matrix instead of the BCSR index.
+     DO i = 1, matrix%wms(imat)%lastblk
+        row = matrix%wms(imat)%row_i(i)
+        col = matrix%wms(imat)%col_i(i)
+        row = row_map(row)
+        col = col_map(col)
+        CALL hash_table_add(hashes(row), col, i)
+     ENDDO
+     CALL timestop(handle)
+   END SUBROUTINE fill_hash_tables
 
 ! End of hashtable
 ! -----------------------------------------------------------------------------
