@@ -178,7 +178,7 @@ OTHER_HELP += "toolversions : Print versions of build tools"
 
 else
 # stage 2: Include $(OBJDIR)/all.dep, expand target all, and get list of dependencies.
-all: $(foreach e, $(BIN_NAMES), $(e))
+all: | $(foreach e, $(BIN_NAMES), $(e))
 
 ifeq ($(BIN_NAME),)
 $(BIN_NAMES):
