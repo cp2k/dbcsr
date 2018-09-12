@@ -57,11 +57,10 @@ endif
 
 # Test programs =========================================================
 include $(TESTSDIR)/Makefile.inc
-BIN_TESTS := $(sort $(addprefix $(TESTSDIR)/, $(SRC_TESTS)))
 
 # Set the configuration ============================================
 # the only binaries for the moment are the tests
-BIN_FILES := $(BIN_TESTS)
+BIN_FILES := $(sort $(addprefix $(TESTSDIR)/, $(SRC_TESTS)))
 BIN_NAMES := $(basename $(notdir $(BIN_FILES)))
 #
 ifneq ($(LD_SHARED),)
