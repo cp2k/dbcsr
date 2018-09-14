@@ -86,7 +86,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_distribution_new', &
          routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: handle, i, lcmv, mypcoor, npcols, &
+      INTEGER                                            :: handle, i, mypcoor, npcols, &
                                                             nprows, seq
       INTEGER, DIMENSION(:), POINTER                     :: col_dist_tmp, row_dist_tmp
 
@@ -96,7 +96,6 @@ CONTAINS
 
       nprows = dbcsr_mp_nprows(mp_env)
       npcols = dbcsr_mp_npcols(mp_env)
-      lcmv = lcm(nprows, npcols)
 
       ALLOCATE (dist%d)
       dist%d%refcount = 1
