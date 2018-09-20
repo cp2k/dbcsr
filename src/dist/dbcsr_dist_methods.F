@@ -86,8 +86,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_distribution_new', &
          routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: handle, i, mypcoor, npcols, &
-                                                            nprows, seq
+      INTEGER                                            :: handle, i, mypcoor, npcols, nprows, seq
       INTEGER, DIMENSION(:), POINTER                     :: col_dist_tmp, row_dist_tmp
 
 !   ---------------------------------------------------------------------------

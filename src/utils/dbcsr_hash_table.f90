@@ -172,7 +172,7 @@
      INTEGER, DIMENSION(:), INTENT(IN)                  :: row_map, col_map
 
      CHARACTER(len=*), PARAMETER :: routineN = 'fill_hash_tables', &
-        routineP = moduleN//':'//routineN
+                                    routineP = moduleN//':'//routineN
 
      INTEGER                                            :: col, handle, i, imat, n_rows, row
 
@@ -183,7 +183,7 @@
 !$   imat = OMP_GET_THREAD_NUM()+1
      n_rows = matrix%nblkrows_local
      IF (SIZE(hashes) /= n_rows) &
-         DBCSR_ABORT("Local row count mismatch")
+        DBCSR_ABORT("Local row count mismatch")
      DO row = 1, n_rows
         ! create the hash table row with a reasonable initial size
         CALL hash_table_create(hashes(row), &
@@ -199,7 +199,7 @@
         CALL hash_table_add(hashes(row), col, i)
      ENDDO
      CALL timestop(handle)
-   END SUBROUTINE fill_hash_tables
+  END SUBROUTINE fill_hash_tables
 
 ! End of hashtable
 ! -----------------------------------------------------------------------------

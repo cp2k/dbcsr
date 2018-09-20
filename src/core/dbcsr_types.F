@@ -365,20 +365,20 @@ MODULE dbcsr_types
 ! *****************************************************************************
 !> \brief Types needed for the hashtable.
 ! *****************************************************************************
-  TYPE hash_ele_type
-     INTEGER :: c = 0
-     INTEGER :: p = 0
-  END TYPE hash_ele_type
+   TYPE hash_ele_type
+      INTEGER :: c = 0
+      INTEGER :: p = 0
+   END TYPE hash_ele_type
 
 ! **************************************************************************************************
 !> \brief Hash table type
 ! **************************************************************************************************
-  TYPE hash_table_type
-     TYPE(hash_ele_type), DIMENSION(:), POINTER :: table
-     INTEGER :: nele = 0
-     INTEGER :: nmax = 0
-     INTEGER :: prime = 0
-  END TYPE hash_table_type
+   TYPE hash_table_type
+      TYPE(hash_ele_type), DIMENSION(:), POINTER :: table
+      INTEGER :: nele = 0
+      INTEGER :: nmax = 0
+      INTEGER :: prime = 0
+   END TYPE hash_table_type
 
 ! **************************************************************************************************
 !> \brief Used for assembling a real matrix.

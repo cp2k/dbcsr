@@ -644,7 +644,7 @@ CONTAINS
       IF (.NOT. dist%d%has_other_l_rows) THEN
          dist%d%has_other_l_rows = .TRUE.
          nprows = dbcsr_mp_nprows(dbcsr_distribution_mp(dist))
-         ALLOCATE (dist%d%other_l_rows(0:dbcsr_mp_nprows(dist%d%mp_env)-1))
+         ALLOCATE (dist%d%other_l_rows(0:nprows-1))
          ALLOCATE (nle(0:nprows-1))
          row_dist => dbcsr_distribution_row_dist(dist)
          ! Count the number of local elements per row.

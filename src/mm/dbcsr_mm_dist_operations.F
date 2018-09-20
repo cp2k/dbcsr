@@ -314,8 +314,8 @@ CONTAINS
       IF (.NOT. dbcsr_distribution_has_threads(product_dist)) &
          DBCSR_ABORT("Product distribution must have threads.")
       tdist => array_data(dbcsr_distribution_thread_dist(product_dist))
-      old_m_dist = product_dist%d%row_dist_block
-      old_n_dist = product_dist%d%col_dist_block
+      old_m_dist = left_rdist%i%main%d%row_dist_block
+      old_n_dist = right_rdist%i%main%d%col_dist_block
       old_k_vdist = right_rdist%i%vrow_dist
       m_nbins = dbcsr_mp_nprows(product_dist%d%mp_env)
       n_nbins = dbcsr_mp_npcols(product_dist%d%mp_env)

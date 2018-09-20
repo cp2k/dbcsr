@@ -159,11 +159,12 @@ CONTAINS
                        f_k, l_k, f_row, l_row, f_col, l_col, &
                        row_blk_size, col_blk_size, &
                        k_vmap, m_map, n_map, &
+                       local_mult, &
                        alpha)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       TYPE(dbcsr_2d_array_type), INTENT(OUT), POINTER    :: m2s
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: rdist, dense_rdist
-      LOGICAL, INTENT(IN)                                :: use_dense_mult, ab_dense
+      LOGICAL, INTENT(IN)                                :: use_dense_mult, ab_dense, local_mult
       CHARACTER, INTENT(IN)                              :: predistribute
       INTEGER, INTENT(IN)                                :: f_k, l_k, f_row, l_row, f_col, l_col
       TYPE(array_i1d_obj), INTENT(INOUT)                 :: row_blk_size, col_blk_size
@@ -190,10 +191,13 @@ CONTAINS
       IF (do_scale) THEN
          ! Copy and scale matrix if alpha is not 1.
          CALL dbcsr_make_images(matrix, m2s, rdist, &
+                                local_mult=local_mult, &
                                 predistribute=predistribute, &
-                                no_copy_data=use_dense_mult, scale_value=alpha)
+                                no_copy_data=use_dense_mult, &
+                                scale_value=alpha)
       ELSE
          CALL dbcsr_make_images(matrix, m2s, rdist, &
+                                local_mult=local_mult, &
                                 predistribute=predistribute, &
                                 no_copy_data=use_dense_mult)
       END IF
@@ -277,11 +281,12 @@ CONTAINS
 !> \param[in] no_copy_data    (optional) try to not merge data at the end
 !> \param[in] scale_value     (optional) scale with this value
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_make_images(source, normalized, target_image_dist, &
+   SUBROUTINE dbcsr_make_images(source, normalized, target_image_dist, local_mult, &
                                 predistribute, no_copy_data, scale_value)
       TYPE(dbcsr_type), INTENT(IN)                       :: source
       TYPE(dbcsr_2d_array_type), INTENT(OUT)             :: normalized
       TYPE(dbcsr_imagedistribution_obj), INTENT(IN)      :: target_image_dist
+      LOGICAL, INTENT(IN)                                :: local_mult
       CHARACTER, INTENT(IN), OPTIONAL                    :: predistribute
       LOGICAL, INTENT(IN), OPTIONAL                      :: no_copy_data
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale_value
@@ -293,7 +298,9 @@ CONTAINS
       IF (.NOT. dbcsr_valid_index(source)) &
          DBCSR_ABORT("Matrix not initialized.")
       CALL make_images(source, normalized, &
-                       target_image_dist, desymmetrize=dbcsr_has_symmetry(source), &
+                       target_image_dist, &
+                       local_mult, &
+                       desymmetrize=dbcsr_has_symmetry(source), &
                        predistribute=predistribute, &
                        no_copy_data=no_copy_data, &
                        scale_value=scale_value)
@@ -311,11 +318,12 @@ CONTAINS
 !> \param[in] no_copy_data    (optional) try to not merge data at the end
 !> \param[in] scale_value     (optional) scale with this value
 ! **************************************************************************************************
-   SUBROUTINE make_images(ism, ums, target_imgdist, desymmetrize, predistribute, &
+   SUBROUTINE make_images(ism, ums, target_imgdist, local_mult, desymmetrize, predistribute, &
                           no_copy_data, scale_value)
       TYPE(dbcsr_type), INTENT(IN)                       :: ism
       TYPE(dbcsr_2d_array_type), INTENT(OUT)             :: ums
       TYPE(dbcsr_imagedistribution_obj), INTENT(IN)      :: target_imgdist
+      LOGICAL, INTENT(IN)                                :: local_mult
       LOGICAL, INTENT(IN), OPTIONAL                      :: desymmetrize
       CHARACTER, INTENT(IN), OPTIONAL                    :: predistribute
       LOGICAL, INTENT(IN), OPTIONAL                      :: no_copy_data
@@ -443,10 +451,14 @@ CONTAINS
       !
       ! Allocate and init mats
       !
-      ALLOCATE (ums%mats(nrow_images, ncol_images))
+      IF (local_mult) THEN
+         ALLOCATE (ums%mats(1, 1))
+      ELSE
+         ALLOCATE (ums%mats(nrow_images, ncol_images))
+      ENDIF
       data_memory_type = memtype_abpanel_1
-      DO row_img = 1, nrow_images
-         DO col_img = 1, ncol_images
+      DO row_img = 1, SIZE(ums%mats, 1)
+         DO col_img = 1, SIZE(ums%mats, 2)
             ums%mats(row_img, col_img) = dbcsr_type()
             CALL dbcsr_create(ums%mats(row_img, col_img), "imaged "//sm%name, &
                               target_dist, &
@@ -599,8 +611,8 @@ CONTAINS
          CALL dbcsr_data_init(received_data_area)
          received_data_area = recv_data_area
          CALL dbcsr_data_hold(received_data_area)
-         DO row_img = 1, nrow_images
-            DO col_img = 1, ncol_images
+         DO row_img = 1, SIZE(ums%mats, 1)
+            DO col_img = 1, SIZE(ums%mats, 2)
                CALL dbcsr_work_create(ums%mats(row_img, col_img), &
                                       SUM(recv_count(1, row_img, col_img, :)), n=1)
                CALL dbcsr_data_hold(received_data_area)
@@ -714,17 +726,17 @@ CONTAINS
 
       ! Finalize the actual imaged matrices from the work matrices
       !
-      DO row_img = 1, nrow_images
-         DO col_img = 1, ncol_images
+      DO row_img = 1, SIZE(ums%mats, 1)
+         DO col_img = 1, SIZE(ums%mats, 2)
             ums%mats(row_img, col_img)%wms(1)%lastblk = blks(row_img, col_img)-1
             ums%mats(row_img, col_img)%wms(1)%datasize = blk_ps(row_img, col_img)-1
             !
-            CALL dbcsr_data_set_size_referenced( &
-               ums%mats(row_img, col_img)%wms(1)%data_area, &
-               ums%mats(row_img, col_img)%wms(1)%datasize)
             IF (nrow_images .EQ. 1 .AND. ncol_images .EQ. 1 .OR. nocopy) THEN
                CALL dbcsr_special_finalize(ums%mats(row_img, col_img), reshuffle=.FALSE.)
             ELSE
+            CALL dbcsr_data_set_size_referenced( &
+               ums%mats(row_img, col_img)%wms(1)%data_area, &
+               ums%mats(row_img, col_img)%wms(1)%datasize)
                CALL dbcsr_special_finalize(ums%mats(row_img, col_img), reshuffle=.TRUE.)
             ENDIF
 
@@ -800,8 +812,8 @@ CONTAINS
       CALL timeset(routineN, handle)
       old_rdist = images%image_dist
       !
-      DO mat_row = 1, images%image_dist%i%row_decimation
-         DO mat_col = 1, images%image_dist%i%col_decimation
+      DO mat_row = 1, SIZE(images%mats, 1)
+         DO mat_col = 1, SIZE(images%mats, 2)
             IF (dbg) THEN
                cs = dbcsr_checksum(images%mats(mat_row, mat_col))
                WRITE (*, *) routineN//" cs pre", cs
