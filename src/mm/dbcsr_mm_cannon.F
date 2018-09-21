@@ -873,10 +873,12 @@ CONTAINS
 !> \param[out] flop                (optional) effective flop
 ! **************************************************************************************************
    SUBROUTINE multiply_cannon(left_set, right_set, product_matrix, &
+                              local_mult, &
                               retain_sparsity, &
                               filter_eps, flop)
       TYPE(dbcsr_2d_array_type), POINTER                 :: left_set, right_set
       TYPE(dbcsr_type), INTENT(INOUT)                    :: product_matrix
+      LOGICAL, INTENT(IN)                                :: local_mult
       LOGICAL, INTENT(IN), OPTIONAL                      :: retain_sparsity
       REAL(kind=real_8), INTENT(in), OPTIONAL            :: filter_eps
       INTEGER(KIND=int_8), INTENT(OUT)                   :: flop
@@ -899,7 +901,8 @@ CONTAINS
          output_unit, right_col_image, right_col_mult, right_col_nimages, right_dst_icol, &
          right_dst_irow, right_dst_p, right_dst_pcol, right_dst_prow, right_dst_vcol, &
          right_dst_vrow, right_max_nblks, right_max_nze, right_myfirstvcol, right_myfirstvrow, &
-         right_mypcol, right_myprow, right_npcols, right_nprows, right_recv_icol, right_recv_irow
+         right_mypcol, right_myprow, right_npcols, right_nprows, right_recv_icol, right_recv_irow, &
+         product_nprows, product_npcols
       INTEGER :: right_recv_p, right_recv_pcol, right_recv_prow, right_recv_vcol, right_recv_vrow, &
          right_row_image, right_row_mult, right_row_nimages, right_send_icol, right_send_irow, &
          right_send_p, right_send_pcol, right_send_prow, right_send_vcol, right_send_vrow, &
@@ -969,31 +972,49 @@ CONTAINS
       ! Set up variables
       data_type = dbcsr_get_data_type(product_matrix)
       data_type_byte = dbcsr_datatype_sizeof(data_type)
-      left_row_nimages = left_set%image_dist%i%row_decimation
-      left_row_mult = left_set%image_dist%i%row_multiplicity
-      left_col_nimages = left_set%image_dist%i%col_decimation
-      left_col_mult = left_set%image_dist%i%col_multiplicity
-      right_row_nimages = right_set%image_dist%i%row_decimation
-      right_row_mult = right_set%image_dist%i%row_multiplicity
-      right_col_nimages = right_set%image_dist%i%col_decimation
-      right_col_mult = right_set%image_dist%i%col_multiplicity
+      left_row_nimages = SIZE(left_set%mats, 1)
+      left_col_nimages = SIZE(left_set%mats, 2)
+      right_row_nimages = SIZE(right_set%mats, 1)
+      right_col_nimages = SIZE(right_set%mats, 2)
       left_mp_obj = dbcsr_distribution_mp(left_set%image_dist%i%main)
       right_mp_obj = dbcsr_distribution_mp(right_set%image_dist%i%main)
       product_mp_obj = dbcsr_distribution_mp(product_matrix%dist)
-      numnodes = dbcsr_mp_numnodes(product_mp_obj)
       mynode = dbcsr_mp_mynode(product_mp_obj)
-      left_nprows = dbcsr_mp_nprows(left_mp_obj)
-      left_npcols = dbcsr_mp_npcols(left_mp_obj)
       left_myprow = dbcsr_mp_myprow(left_mp_obj)
       left_mypcol = dbcsr_mp_mypcol(left_mp_obj)
-      left_myfirstvrow = dbcsr_mp_myprow(left_mp_obj)*left_row_nimages
-      left_myfirstvcol = dbcsr_mp_mypcol(left_mp_obj)*left_col_nimages
-      right_nprows = dbcsr_mp_nprows(right_mp_obj)
-      right_npcols = dbcsr_mp_npcols(right_mp_obj)
+      left_myfirstvrow = left_myprow*left_row_nimages
+      left_myfirstvcol = left_mypcol*left_col_nimages
       right_myprow = dbcsr_mp_myprow(right_mp_obj)
       right_mypcol = dbcsr_mp_mypcol(right_mp_obj)
-      right_myfirstvrow = dbcsr_mp_myprow(right_mp_obj)*right_row_nimages
-      right_myfirstvcol = dbcsr_mp_mypcol(right_mp_obj)*right_col_nimages
+      right_myfirstvrow = right_myprow*right_row_nimages
+      right_myfirstvcol = right_mypcol*right_col_nimages
+      !
+      ! Force local multiplication only
+      IF (local_mult) THEN
+         left_row_mult = 1
+         left_col_mult = 1
+         right_row_mult = 1
+         right_col_mult = 1
+         numnodes = 1
+         left_nprows = 1
+         left_npcols = 1
+         right_nprows = 1
+         right_npcols = 1
+         product_nprows = 1
+         product_npcols = 1
+      ELSE
+         left_row_mult = left_set%image_dist%i%row_multiplicity
+         left_col_mult = left_set%image_dist%i%col_multiplicity
+         right_row_mult = right_set%image_dist%i%row_multiplicity
+         right_col_mult = right_set%image_dist%i%col_multiplicity
+         numnodes = dbcsr_mp_numnodes(product_mp_obj)
+         left_nprows = dbcsr_mp_nprows(left_mp_obj)
+         left_npcols = dbcsr_mp_npcols(left_mp_obj)
+         right_nprows = dbcsr_mp_nprows(right_mp_obj)
+         right_npcols = dbcsr_mp_npcols(right_mp_obj)
+         product_nprows = dbcsr_mp_nprows(product_mp_obj)
+         product_npcols = dbcsr_mp_npcols(product_mp_obj)
+      ENDIF
       mp_group = dbcsr_mp_group(product_mp_obj)
       left_pgrid => dbcsr_mp_pgrid(left_mp_obj)
       right_pgrid => dbcsr_mp_pgrid(right_mp_obj)
@@ -1011,10 +1032,10 @@ CONTAINS
       IF (left_col_nimages*left_npcols .NE. right_row_nimages*right_nprows) &
          DBCSR_ABORT("Left/Right total mismatch")
       ! product/left matching
-      IF (left_row_mult*dbcsr_mp_nprows(product_mp_obj) .NE. left_row_nimages*left_nprows) &
+      IF (left_row_mult*product_nprows .NE. left_row_nimages*left_nprows) &
          DBCSR_ABORT("Product/Left total mismatch")
       ! product/left matching
-      IF (right_col_mult*dbcsr_mp_npcols(product_mp_obj) .NE. right_col_nimages*right_npcols) &
+      IF (right_col_mult*product_npcols .NE. right_col_nimages*right_npcols) &
          DBCSR_ABORT("Product/Right total mismatch")
       ! Limitations
       IF (left_row_nimages .NE. 1) &
@@ -1057,7 +1078,11 @@ CONTAINS
 
       ALLOCATE (all_sizes(4, LBOUND(my_sizes, 2):UBOUND(my_sizes, 2), &
                           LBOUND(my_sizes, 3):UBOUND(my_sizes, 3), 0:numnodes-1))
-      CALL mp_allgather(my_sizes, all_sizes, mp_group)
+      IF (local_mult) THEN
+         all_sizes(:, :, :, 0) = my_sizes
+      ELSE
+         CALL mp_allgather(my_sizes, all_sizes, mp_group)
+      ENDIF
       !
       ! Count the maximum possible multiplies per row for on-the-fly
       ! filtering.
@@ -1149,58 +1174,61 @@ CONTAINS
       nvirt_k = left_npcols*left_col_nimages
       nsteps_k = nvirt_k/min_nimages
       !
-      ! Translate the all_sizes to account for pre-distribution.  This
-      ! is just done to simplify lookups.
-      ALLOCATE (left_sizes(2, 0:left_nprows*left_row_nimages-1, 0:nvirt_k-1))
-      left_sizes = -1
-      DO left_src_vcol = 0, left_col_nimages*left_npcols-1
-         DO left_src_vrow = 0, left_row_nimages*left_nprows-1
-            ! Calculate what was shifted.  The left_src_v{row,col} are
-            ! the "source" rows/columns; the left_dst are the shifted
-            ! targets where the data was placed in make_images.
-            CALL image_calculator(left_set%image_dist, &
-                                  prow=left_dst_prow, pcol=left_dst_pcol, &
-                                  rowi=left_dst_irow, coli=left_dst_icol, &
-                                  myvprow=left_src_vrow, myvpcol=left_src_vcol, &
-                                  shifting='l')
-            left_dst_p = left_pgrid(left_dst_prow, left_dst_pcol)
-            left_sizes(idata, left_src_vrow, left_src_vcol) = &
-               all_sizes( &
-               idata+ileft, left_dst_irow, left_dst_icol, left_dst_p)
-            left_sizes(imeta, left_src_vrow, left_src_vcol) = &
-               all_sizes( &
-               imeta+ileft, left_dst_irow, left_dst_icol, left_dst_p)
+      IF (.NOT. local_mult) THEN
+         !
+         ! Translate the all_sizes to account for pre-distribution.  This
+         ! is just done to simplify lookups.
+         ALLOCATE (left_sizes(2, 0:left_nprows*left_row_nimages-1, 0:nvirt_k-1))
+         left_sizes = -1
+         DO left_src_vcol = 0, left_col_nimages*left_npcols-1
+            DO left_src_vrow = 0, left_row_nimages*left_nprows-1
+               ! Calculate what was shifted.  The left_src_v{row,col} are
+               ! the "source" rows/columns; the left_dst are the shifted
+               ! targets where the data was placed in make_images.
+               CALL image_calculator(left_set%image_dist, &
+                                     prow=left_dst_prow, pcol=left_dst_pcol, &
+                                     rowi=left_dst_irow, coli=left_dst_icol, &
+                                     myvprow=left_src_vrow, myvpcol=left_src_vcol, &
+                                     shifting='l')
+               left_dst_p = left_pgrid(left_dst_prow, left_dst_pcol)
+               left_sizes(idata, left_src_vrow, left_src_vcol) = &
+                    all_sizes( &
+                    idata+ileft, left_dst_irow, left_dst_icol, left_dst_p)
+               left_sizes(imeta, left_src_vrow, left_src_vcol) = &
+                    all_sizes( &
+                    imeta+ileft, left_dst_irow, left_dst_icol, left_dst_p)
+            ENDDO
          ENDDO
-      ENDDO
-      !
-      ALLOCATE (right_sizes(2, 0:nvirt_k-1, 0:right_npcols*right_col_nimages-1))
-      right_sizes = -1
-      DO right_src_vcol = 0, right_col_nimages*right_npcols-1
-         DO right_src_vrow = 0, right_row_nimages*right_nprows-1
-            ! Calculate what was shifted.  The right_src_v{row,col} are
-            ! the "source" rows/columns; the right_dst are the shifted
-            ! targets where the data was placed in make_images.
-            CALL image_calculator(right_set%image_dist, &
-                                  prow=right_dst_prow, pcol=right_dst_pcol, &
-                                  rowi=right_dst_irow, coli=right_dst_icol, &
-                                  myvprow=right_src_vrow, myvpcol=right_src_vcol, &
-                                  shifting='r')
-            right_dst_p = right_pgrid(right_dst_prow, right_dst_pcol)
-            right_sizes(idata, right_src_vrow, right_src_vcol) = &
-               all_sizes( &
-               idata+iright, right_dst_irow, right_dst_icol, right_dst_p)
-            right_sizes(imeta, right_src_vrow, right_src_vcol) = &
-               all_sizes( &
-               imeta+iright, right_dst_irow, right_dst_icol, right_dst_p)
+         !
+         ALLOCATE (right_sizes(2, 0:nvirt_k-1, 0:right_npcols*right_col_nimages-1))
+         right_sizes = -1
+         DO right_src_vcol = 0, right_col_nimages*right_npcols-1
+            DO right_src_vrow = 0, right_row_nimages*right_nprows-1
+               ! Calculate what was shifted.  The right_src_v{row,col} are
+               ! the "source" rows/columns; the right_dst are the shifted
+               ! targets where the data was placed in make_images.
+               CALL image_calculator(right_set%image_dist, &
+                                     prow=right_dst_prow, pcol=right_dst_pcol, &
+                                     rowi=right_dst_irow, coli=right_dst_icol, &
+                                     myvprow=right_src_vrow, myvpcol=right_src_vcol, &
+                                     shifting='r')
+               right_dst_p = right_pgrid(right_dst_prow, right_dst_pcol)
+               right_sizes(idata, right_src_vrow, right_src_vcol) = &
+                    all_sizes( &
+                    idata+iright, right_dst_irow, right_dst_icol, right_dst_p)
+               right_sizes(imeta, right_src_vrow, right_src_vcol) = &
+                    all_sizes( &
+                    imeta+iright, right_dst_irow, right_dst_icol, right_dst_p)
+            ENDDO
          ENDDO
-      ENDDO
+      ENDIF
       !
       ! Setup product work areas
       left_max_nze = MAXVAL(all_sizes(idata+ileft, :, :, :))
       left_max_nblks = MAXVAL(all_sizes(imeta+ileft, :, :, :))
       right_max_nze = MAXVAL(all_sizes(idata+iright, :, :, :))
       right_max_nblks = MAXVAL(all_sizes(imeta+iright, :, :, :))
-      !!
+      !
       ! Evaluate sizes for workspaces
       IF (.NOT. keep_sparsity) THEN
          IF (has_acc) THEN
@@ -1261,7 +1289,6 @@ CONTAINS
       !
       CALL buffer_matrices_ensure_size(left_set, index_size=left_max_nblks, &
                                        data_size=left_max_nze)
-
       CALL setup_buffer_matrices(left_buffer_2, left_row_mult, left_col_nimages, &
                                  left_set%mats(1, 1), index_size=left_max_nblks, &
                                  data_size=left_max_nze)
@@ -1678,7 +1705,7 @@ CONTAINS
 !$OMP         keep_sparsity,threads_finished, &
 !$OMP         right_data_sr, right_data_rr, right_index_sr, right_index_rr, &
 !$OMP         left_data_sr, left_data_rr, left_index_sr, left_index_rr, &
-!$OMP         dbcsr_cfg, k_sizes, nvirt_k, metronome) &
+!$OMP         dbcsr_cfg, k_sizes, nvirt_k, metronome, mynode, local_mult) &
 !$OMP PRIVATE (ithread,nthreads,threads_finished_read) &
 !$OMP REDUCTION (+: flop_single)
          ithread = 0; nthreads = 1
@@ -1688,6 +1715,10 @@ CONTAINS
               CALL dbcsr_mm_multrec_phaseout(multrec(ithread)%p)
 !$OMP BARRIER
          CALL timeset(routineN//"_multrec", handle2)
+
+!         IF (local_mult) &
+!         print *,mynode,"AAAA",left_buffer_calc%mats(1, v_ki_left)%data_area%d%r_dp(1:4), &
+!              "BBBB", right_buffer_calc%mats(v_ki_right, 1)%data_area%d%r_dp(1:4)
 
          CALL dbcsr_mm_multrec_multiply(multrec(ithread)%p, &
                                         left=left_buffer_calc%mats(1, v_ki_left), &
@@ -1703,7 +1734,7 @@ CONTAINS
 
 !$OMP ATOMIC
          threads_finished = threads_finished+1
-         IF (dbcsr_cfg%use_comm_thread .AND. (ithread .EQ. 0)) THEN
+         IF (dbcsr_cfg%use_comm_thread .AND. (ithread .EQ. 0) .AND. (.NOT. local_mult)) THEN
             DO
 ! requires OMP 3.1 (e.g. gcc >=4.7), for correctness, otherwise we keep fingers crossed
 #if defined _OPENMP && _OPENMP >= 200711

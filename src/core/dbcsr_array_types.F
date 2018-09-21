@@ -26,8 +26,7 @@ MODULE dbcsr_array_types
    PUBLIC :: array_data, &
              array_size, &
              array_equality
-   PUBLIC :: array_get, &
-             array_set
+   PUBLIC :: array_get
 
    INTERFACE array_new
       MODULE PROCEDURE array_new_i1d, array_new_i1d_lb
@@ -252,15 +251,4 @@ CONTAINS
 
       value = array(index1)
    END FUNCTION array_get_i1
-! **************************************************************************************************
-!> \brief ...
-!> \param array ...
-!> \param val ...
-! **************************************************************************************************
-   SUBROUTINE array_set(array, val)
-      TYPE(array_i1d_obj), INTENT(INOUT)                 :: array
-      INTEGER, INTENT(IN)                                :: val
-
-      array%low%data(:) = val
-   END SUBROUTINE array_set
 END MODULE dbcsr_array_types

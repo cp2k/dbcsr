@@ -278,6 +278,7 @@ CONTAINS
 !> \param dense_left_rdist ...
 !> \param dense_right_rdist ...
 !> \param partial ...
+!> \param local_mult ...
 !> \param m_map ...
 !> \param k_vmap ...
 !> \param n_map ...
@@ -285,14 +286,14 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_make_dists_dense(product_dist, left_rdist, right_rdist, &
                                      dense_product_dist, dense_left_rdist, dense_right_rdist, &
-                                     partial, &
+                                     partial, local_mult, &
                                      m_map, k_vmap, n_map, &
                                      old_m_sizes)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: product_dist
       TYPE(dbcsr_imagedistribution_obj), INTENT(IN)      :: left_rdist, right_rdist
       TYPE(dbcsr_distribution_obj), INTENT(OUT)          :: dense_product_dist
       TYPE(dbcsr_imagedistribution_obj), INTENT(OUT)     :: dense_left_rdist, dense_right_rdist
-      LOGICAL, INTENT(IN)                                :: partial
+      LOGICAL, INTENT(IN)                                :: partial, local_mult
       TYPE(array_i1d_obj), INTENT(OUT)                   :: m_map, k_vmap, n_map
       TYPE(array_i1d_obj), INTENT(IN)                    :: old_m_sizes
 
@@ -335,7 +336,8 @@ CONTAINS
          CALL array_new(n_map, (/(i, i=1, array_size(new_n_dist))/), lb=1)
       ELSE
          CALL dbcsr_make_1dist_dense(m_nbins, old_m_dist, new_m_dist, m_map, &
-                                     nthreads, tdist)
+                                     nthreads, tdist, local_mult)
+         ! Make dense row-distribution replicated over all processors.
          CALL dbcsr_make_1dist_dense(n_nbins, old_n_dist, new_n_dist, n_map, 0)
          CALL dbcsr_distribution_new(dense_product_dist, product_dist%d%mp_env, &
                                      array_data(new_m_dist), array_data(new_n_dist))
@@ -743,19 +745,23 @@ CONTAINS
 !> \param[out] dist_map        Map from current to dense distribution
 !> \param[in] nsubdist         Number of bins in the subdistribution
 !> \param[in] subdist          Subdistribution
+!> \param[in] local_mult       The row-block distribution is replicated over all processors
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_make_1dist_dense(nbins, old_dist, dense_dist, dist_map, nsubdist, subdist)
+   SUBROUTINE dbcsr_make_1dist_dense(nbins, old_dist, dense_dist, dist_map, nsubdist, subdist, &
+                                     local_mult)
       INTEGER, INTENT(IN)                                :: nbins
       TYPE(array_i1d_obj), INTENT(IN)                    :: old_dist
       TYPE(array_i1d_obj), INTENT(OUT)                   :: dense_dist, dist_map
       INTEGER, INTENT(IN)                                :: nsubdist
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: subdist
+      LOGICAL, INTENT(IN), OPTIONAL                      :: local_mult
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_1dist_dense', &
          routineP = moduleN//':'//routineN
 
       INTEGER                                            :: b, i, n_new_bins
       INTEGER, DIMENSION(:), POINTER                     :: dense, map, old_d
+      LOGICAL                                            :: my_local_mult
 
 !   ---------------------------------------------------------------------------
 
@@ -772,9 +778,18 @@ CONTAINS
          dense(:) = (/(b, b=0, n_new_bins-1)/)
          map(:) = old_d(:)+1
       ELSE
-         DO i = 1, nbins
-            dense((i-1)*nsubdist+1:(i)*nsubdist) = i-1
-         ENDDO
+         my_local_mult = .FALSE.
+         IF (PRESENT(local_mult)) THEN
+            my_local_mult = local_mult
+         ENDIF
+         IF (my_local_mult) THEN
+            ! Replicate the row-distribution for all processors
+            dense(:) = old_d(1)
+         ELSE
+            DO i = 1, nbins
+               dense((i-1)*nsubdist+1:(i)*nsubdist) = i-1
+            ENDDO
+         ENDIF
          map(:) = old_d(:)*nsubdist+subdist(:)+1
       ENDIF
       !
