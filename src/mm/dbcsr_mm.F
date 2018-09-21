@@ -40,8 +40,7 @@ MODULE dbcsr_mm
         dbcsr_distribution_row_dist
    USE dbcsr_dist_util,                 ONLY: dbcsr_checksum,&
                                               dbcsr_verify_matrix
-   USE dbcsr_index_operations,          ONLY: dbcsr_make_index_canonical,&
-                                              dbcsr_repoint_index
+   USE dbcsr_index_operations,          ONLY: dbcsr_make_index_canonical
    USE dbcsr_io,                        ONLY: dbcsr_print
    USE dbcsr_kinds,                     ONLY: dp,&
                                               int_8,&
@@ -54,9 +53,9 @@ MODULE dbcsr_mm
    USE dbcsr_methods,                   ONLY: &
         dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_destroy_array, dbcsr_distribution, &
         dbcsr_get_data_type, dbcsr_get_matrix_type, dbcsr_has_symmetry, dbcsr_image_dist_release, &
-        dbcsr_max_col_size, dbcsr_max_row_size, dbcsr_mp_release, dbcsr_name, &
-        dbcsr_nblkcols_total, dbcsr_nfullcols_total, dbcsr_nfullrows_total, dbcsr_release, &
-        dbcsr_release_locals, dbcsr_row_block_offsets
+        dbcsr_max_col_size, dbcsr_max_row_size, dbcsr_name, dbcsr_nblkcols_total, &
+        dbcsr_nfullcols_total, dbcsr_nfullrows_total, dbcsr_release, dbcsr_release_locals, &
+        dbcsr_row_block_offsets
    USE dbcsr_mm_3D,                     ONLY: buffers_release,&
                                               dbcsr_make_buffers,&
                                               get_max_layers_3D,&
@@ -76,16 +75,19 @@ MODULE dbcsr_mm
                                               make_sizes_dense
    USE dbcsr_mm_multrec,                ONLY: dbcsr_mm_multrec_lib_finalize,&
                                               dbcsr_mm_multrec_lib_init
-   USE dbcsr_mm_reshape,                ONLY: dbcsr_reshape
    USE dbcsr_mp_methods,                ONLY: dbcsr_mp_group,&
                                               dbcsr_mp_mynode,&
-                                              dbcsr_mp_new,&
                                               dbcsr_mp_npcols,&
                                               dbcsr_mp_nprows,&
                                               dbcsr_mp_numnodes
-   USE dbcsr_mpiwrap,                   ONLY: &
-        mp_cart_sub, mp_comm_free, mp_get_library_version, mp_isync, mp_max, &
-        mp_max_library_version_string, mp_min, mp_request_null, mp_sum, mp_wait
+   USE dbcsr_mpiwrap,                   ONLY: mp_get_library_version,&
+                                              mp_isync,&
+                                              mp_max,&
+                                              mp_max_library_version_string,&
+                                              mp_min,&
+                                              mp_request_null,&
+                                              mp_sum,&
+                                              mp_wait
    USE dbcsr_operations,                ONLY: dbcsr_conjg,&
                                               dbcsr_copy,&
                                               dbcsr_get_occupation,&
@@ -99,9 +101,8 @@ MODULE dbcsr_mm
    USE dbcsr_types,                     ONLY: &
         dbcsr_2d_array_type, dbcsr_conjugate_transpose, dbcsr_distribution_obj, &
         dbcsr_imagedistribution_obj, dbcsr_mp_obj, dbcsr_mpi_size_limits, dbcsr_no_transpose, &
-        dbcsr_scalar_type, dbcsr_slot_nfullcols_local, dbcsr_slot_nfullcols_total, &
-        dbcsr_slot_nfullrows_local, dbcsr_slot_nfullrows_total, dbcsr_transpose, dbcsr_type, &
-        dbcsr_type_antisymmetric, dbcsr_type_no_symmetry
+        dbcsr_scalar_type, dbcsr_transpose, dbcsr_type, dbcsr_type_antisymmetric, &
+        dbcsr_type_no_symmetry
    USE dbcsr_work_operations,           ONLY: dbcsr_add_wm_from_matrix,&
                                               dbcsr_create,&
                                               dbcsr_finalize,&
@@ -413,8 +414,8 @@ CONTAINS
          old_product_row_blk_offsets, old_product_row_blk_sizes
       TYPE(dbcsr_2d_array_type), POINTER                 :: m2s_left, m2s_right
       TYPE(dbcsr_distribution_obj)                       :: dense_product_distribution, &
-                                                            old_product_distribution, &
-                                                            local_distribution
+                                                            local_distribution, &
+                                                            old_product_distribution
       TYPE(dbcsr_imagedistribution_obj)                  :: dense_rdist_left, dense_rdist_right, &
                                                             rdist_left, rdist_right
       TYPE(dbcsr_mp_obj)                                 :: mp_obj
@@ -1015,7 +1016,7 @@ CONTAINS
             CALL dbcsr_copy(matrix_c_local, product_matrix, shallow_data=.TRUE.)
          ENDIF
          CALL dbcsr_release(product_matrix)
-!         CALL dbcsr_reshape(matrix_c_local, matrix_c)         
+!         CALL dbcsr_reshape(matrix_c_local, matrix_c)
          CALL dbcsr_release(matrix_c_local)
       ELSE
          CALL dbcsr_release(matrix_c)
