@@ -587,7 +587,8 @@
                  lb_a = matrix_a%wms(iw)%blk_p(c_blk_id)
                  !print *,"block found in wms", row, col, c_blk_id, lb_a
               else
-                 call hash_table_add(matrix_a % wms(iw) % c_hashes( map_row_g2l % low % data(row) ), col, matrix_a%wms(iw)%lastblk + 1)   
+                 call hash_table_add(matrix_a % wms(iw) % c_hashes( map_row_g2l % low % data(row) ), &
+                      col, matrix_a%wms(iw)%lastblk + 1)
                  !print *,"block not found in wms ..."
               endif   
            endif

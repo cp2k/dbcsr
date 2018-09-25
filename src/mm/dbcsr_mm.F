@@ -405,7 +405,7 @@ CONTAINS
          nimages_left_rows, nimages_match, nimages_right_cols, npcols, nprows, numnodes, &
          output_unit
       INTEGER(KIND=int_8)                                :: my_flop
-      INTEGER, DIMENSION(:), POINTER                     :: local_dist_cols, local_dist_rows
+      INTEGER, DIMENSION(:), POINTER                     :: dist_cols, dist_rows
       LOGICAL :: ab_dense, keep_product_data, keep_sparsity, product_reindex, release_tdist, &
          transpose_left, transpose_right, use_dense_mult, use_rect_algo
       REAL(KIND=dp)                                      :: cs
@@ -507,6 +507,7 @@ CONTAINS
           dbcsr_nfullrows_total(matrix_a) .GT. dbcsr_nfullcols_total(matrix_c)) THEN
          use_rect_algo = .TRUE.
       ENDIF
+!      use_rect_algo = .FALSE.
 
       ! check parameters ---------------------------------------------------------
       transa_l = transa
@@ -555,12 +556,12 @@ CONTAINS
                                       transpose_distribution=.FALSE.)
          ELSE IF (use_rect_algo) THEN
             ! The row-block distribution is replicated over all processors
-            ALLOCATE (local_dist_rows(matrix_a%nblkcols_total), &
-                      local_dist_cols(matrix_a%nblkrows_total))
-            local_dist_rows(:) = mynode
-            local_dist_cols(:) = 0
+            ALLOCATE (dist_rows(matrix_a%nblkcols_total), &
+                      dist_cols(matrix_a%nblkrows_total))
+            dist_rows(:) = mynode
+            dist_cols(:) = 0
             CALL dbcsr_distribution_new(local_distribution, mp_obj, &
-                                        local_dist_rows, local_dist_cols, &
+                                        dist_rows, dist_cols, &
                                         reuse_arrays=.TRUE.)
             CALL dbcsr_new_transposed(matrix_left, matrix_a, &
                                       shallow_data_copy=.TRUE., redistribute=.FALSE., &
@@ -777,8 +778,13 @@ CONTAINS
                                    nimages_rows=nimages_match, &
                                    nimages_cols=nimages_right_cols)
       !
+      IF (use_rect_algo) THEN
+         dist_rows => dbcsr_distribution_row_dist(matrix_left%dist)
+      ELSE
+         dist_rows => dbcsr_distribution_row_dist(matrix_c%dist)
+      ENDIF
       CALL dbcsr_create_image_dist(rdist_left, matrix_left%dist, &
-                                   match_row_pdist=dbcsr_distribution_row_dist(matrix_left%dist), &
+                                   match_row_pdist=dist_rows, &
                                    match_row_nbins=nprows, &
                                    match_col_pdist=dbcsr_distribution_row_dist(rdist_right%i%main), &
                                    match_col_idist=array_data(rdist_right%i%row_image), &
@@ -835,12 +841,12 @@ CONTAINS
          ! Make an empty product matrix for the rectangular algorithm.
          ! The row-block distribution is replicated over all processors.
          IF (use_rect_algo) THEN
-            ALLOCATE (local_dist_rows(matrix_a%nblkcols_total), &
-                      local_dist_cols(matrix_b%nblkcols_total))
-            local_dist_rows(:) = mynode
-            local_dist_cols(:) = 0
+            ALLOCATE (dist_rows(matrix_a%nblkcols_total), &
+                      dist_cols(matrix_b%nblkcols_total))
+            dist_rows(:) = mynode
+            dist_cols(:) = 0
             CALL dbcsr_distribution_new(local_distribution, mp_obj, &
-                                        local_dist_rows, local_dist_cols, reuse_arrays=.TRUE.)
+                                        dist_rows, dist_cols, reuse_arrays=.TRUE.)
             CALL dbcsr_create(product_matrix, name=TRIM(dbcsr_name(matrix_c))//"_rect_transpose", &
                               dist=local_distribution, &
                               matrix_type=dbcsr_type_no_symmetry, &
@@ -1000,12 +1006,12 @@ CONTAINS
       IF (use_rect_algo) THEN
          matrix_c_local = dbcsr_type()
          IF (use_dense_mult) THEN
-            ALLOCATE (local_dist_rows(matrix_a%nblkcols_total), &
-                      local_dist_cols(matrix_b%nblkcols_total))
-            local_dist_rows(:) = mynode
-            local_dist_cols(:) = 0
+            ALLOCATE (dist_rows(matrix_a%nblkcols_total), &
+                      dist_cols(matrix_b%nblkcols_total))
+            dist_rows(:) = mynode
+            dist_cols(:) = 0
             CALL dbcsr_distribution_new(local_distribution, mp_obj, &
-                                        local_dist_rows, local_dist_cols, reuse_arrays=.TRUE.)
+                                        dist_rows, dist_cols, reuse_arrays=.TRUE.)
             CALL dbcsr_make_undense(product_matrix, matrix_c_local, &
                                     local_distribution, &
                                     matrix_c%row_blk_offset, matrix_c%col_blk_offset, &
@@ -1016,6 +1022,7 @@ CONTAINS
             CALL dbcsr_copy(matrix_c_local, product_matrix, shallow_data=.TRUE.)
          ENDIF
          CALL dbcsr_release(product_matrix)
+!         STOP "alfio"
 !         CALL dbcsr_reshape(matrix_c_local, matrix_c)
          CALL dbcsr_release(matrix_c_local)
       ELSE
