@@ -75,6 +75,7 @@ MODULE dbcsr_mm
                                               make_sizes_dense
    USE dbcsr_mm_multrec,                ONLY: dbcsr_mm_multrec_lib_finalize,&
                                               dbcsr_mm_multrec_lib_init
+   USE dbcsr_mm_reshape,                ONLY: dbcsr_reshape
    USE dbcsr_mp_methods,                ONLY: dbcsr_mp_group,&
                                               dbcsr_mp_mynode,&
                                               dbcsr_mp_npcols,&
@@ -485,6 +486,16 @@ CONTAINS
       CALL dbcsr_memtype_setup(memtype_mpi_buffer, mpi=.TRUE.)
       CALL dbcsr_memtype_setup(memtype_mpi_product, mpi=.TRUE., has_pool=.TRUE.)
       !
+      ! The index of the product matrix is twiddled into canonical form
+      ! if it is (anti)symmetric (i.e., rows and columns are where the
+      ! row/column distributions say they are). Doing this in advance
+      ! makes the local multiply more efficient.
+      IF (dbcsr_has_symmetry(matrix_c)) THEN
+         product_reindex = .TRUE.
+      ELSE
+         product_reindex = .FALSE.
+      ENDIF
+      !
       ! Introducing an optimized algoritm for a 1D grid,
       ! where all ranks are organized over row processors.
       ! The left matrix must be distributed over row-processors,
@@ -502,12 +513,12 @@ CONTAINS
       use_rect_algo = .FALSE.
       IF (numnodes .GT. 1 .AND. nprows .EQ. numnodes .AND. &
           npcols .EQ. 1 .AND. transa .EQ. dbcsr_transpose .AND. &
+          (.NOT. product_reindex) .AND. & 
           (.NOT. dbcsr_cfg%use_mpi_rma) .AND. &
           dbcsr_nfullrows_total(matrix_a) .GT. dbcsr_nfullrows_total(matrix_c) .AND. &
           dbcsr_nfullrows_total(matrix_a) .GT. dbcsr_nfullcols_total(matrix_c)) THEN
          use_rect_algo = .TRUE.
       ENDIF
-!      use_rect_algo = .FALSE.
 
       ! check parameters ---------------------------------------------------------
       transa_l = transa
@@ -737,15 +748,6 @@ CONTAINS
                           limits=(/f_row, l_row, f_col, l_col/))
       ENDIF
       !
-      ! The index of the product matrix is twiddled into canonical form
-      ! if it is (anti)symmetric (i.e., rows and columns are where the
-      ! row/column distributions say they are). Doing this in advance
-      ! makes the local multiply more efficient.
-      IF (dbcsr_has_symmetry(matrix_c)) THEN
-         product_reindex = .TRUE.
-      ELSE
-         product_reindex = .FALSE.
-      ENDIF
       ! Product can not be made dense; however, A & B may still be made
       ! dense unless previously determined otherwise.
       IF ((product_reindex .OR. keep_sparsity) .AND. (.NOT. use_rect_algo)) THEN
@@ -998,7 +1000,7 @@ CONTAINS
       CALL dbcsr_release_locals(product_matrix)
       ! The index of the product matrix is reset to the CP2K form if it
       ! was previously set to the canonical form.
-      IF (product_reindex) THEN
+      IF (product_reindex .AND. (.NOT. use_rect_algo)) THEN
          IF (debug_mod) WRITE (*, *) routineN//" Making CP2K index"
          CALL dbcsr_make_index_canonical(product_matrix, cp2k=.TRUE.)
       ENDIF
@@ -1022,8 +1024,7 @@ CONTAINS
             CALL dbcsr_copy(matrix_c_local, product_matrix, shallow_data=.TRUE.)
          ENDIF
          CALL dbcsr_release(product_matrix)
-!         STOP "alfio"
-!         CALL dbcsr_reshape(matrix_c_local, matrix_c)
+         CALL dbcsr_reshape(matrix_c_local, matrix_c)
          CALL dbcsr_release(matrix_c_local)
       ELSE
          CALL dbcsr_release(matrix_c)
