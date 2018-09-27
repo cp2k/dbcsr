@@ -530,24 +530,17 @@ CONTAINS
 !>    A = alpha*A + beta*B or
 !> \param[in,out] matrix_a   DBCSR matrix
 !> \param[in] matrix_b       DBCSR matrix
-!> \param[in] alpha_scalar   (optional) ...
-!> \param[in] beta_scalar    (optional) ...
 !>
 !> \param flop ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_batched_add_anytype_begin(matrix_a, matrix_b, alpha_scalar, beta_scalar,&
-                                              b_max_nze, b_max_nblocks)
+   SUBROUTINE dbcsr_batched_add_anytype_begin(matrix_a, matrix_b, b_max_nze, b_max_nblocks)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_b
-      TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: alpha_scalar, beta_scalar    
-      integer(8),intent(in)                              :: b_max_nze, b_max_nblocks
-
-     
+      INTEGER, INTENT(IN)                               :: b_max_nze, b_max_nblocks
 
       INTEGER                                            :: data_type_a, data_type_b, &
                                                             size_work, nblks_guess
       INTEGER(KIND=int_8)                                :: local_matrix_size
-      TYPE(dbcsr_scalar_type)                            :: my_beta_scalar
 
 !   ---------------------------------------------------------------------------
       
@@ -564,47 +557,32 @@ CONTAINS
       data_type_a = dbcsr_get_data_type(matrix_a)
       data_type_b = dbcsr_get_data_type(matrix_b)
       !
-      my_beta_scalar = dbcsr_scalar_one(data_type_b)
-      IF (PRESENT(beta_scalar)) my_beta_scalar = beta_scalar
-      !
       ! let's go
       IF ((dbcsr_nblkrows_total(matrix_a) .NE. dbcsr_nblkrows_total(matrix_b)) .OR. &
           (dbcsr_nblkcols_total(matrix_a) .NE. dbcsr_nblkcols_total(matrix_b)) .OR. &
           (data_type_a .NE. data_type_b)) &
          DBCSR_ABORT("matrices not consistent")
 
-      IF (data_type_a .NE. my_beta_scalar%data_type) &
-         DBCSR_ABORT("beta type parameter not consistent with matrices type")
+      ! Pre-size work arrays of matrix_a to avoid continuous reallocation.
+      ! Overestimate for summetric matrix and multiple threads!
+      local_matrix_size = INT(dbcsr_nfullrows_local(matrix_a), KIND=int_8)* &
+           dbcsr_nfullcols_local(matrix_a)
 
-      IF (PRESENT(alpha_scalar)) THEN
-         CALL dbcsr_scale(matrix_a, alpha_scalar=alpha_scalar)
-      ENDIF
+      size_work = MAX(0, INT(MIN(local_matrix_size-INT(dbcsr_get_nze(matrix_a), KIND=int_8), &
+           INT(b_max_nze, KIND=int_8)), KIND=int_4))
 
-      IF ((.NOT. dbcsr_scalar_are_equal(my_beta_scalar, &
-                                        dbcsr_scalar_zero(data_type_b))) ) THEN
-
-         ! Pre-size work arrays of matrix_a to avoid continuous reallocation.
-         ! Overestimate for summetric matrix and multiple threads!
-         local_matrix_size = INT(dbcsr_nfullrows_local(matrix_a), KIND=int_8)* &
-              dbcsr_nfullcols_local(matrix_a)
-
-         size_work = MAX(0, INT(MIN(local_matrix_size-INT(dbcsr_get_nze(matrix_a), KIND=int_8), &
-                                    b_max_nze), KIND=int_4))
-
-         nblks_guess = MIN(matrix_b % nblkrows_total * matrix_b % nblkcols_total, int(b_max_nblocks, KIND=int_4))
+      nblks_guess = MIN(matrix_b % nblkrows_total * matrix_b % nblkcols_total, b_max_nblocks)
          
 !$OMP        PARALLEL DEFAULT (NONE) &
 !$OMP                 SHARED (matrix_a, matrix_b, size_work, nblks_guess) 
-         CALL dbcsr_work_create(matrix_a, &
-                                nblks_guess = nblks_guess, &
-                                sizedata_guess = size_work, &
-                                work_mutable=.FALSE.,create_hashes_par = .true.)
+      CALL dbcsr_work_create(matrix_a, &
+           nblks_guess = nblks_guess, &
+           sizedata_guess = size_work, &
+           work_mutable=.FALSE.,create_hashes_par = .true.)
 
 !$OMP        END PARALLEL
 
-      endif
-
-   END SUBROUTINE 
+    END SUBROUTINE dbcsr_batched_add_anytype_begin
 
 
 ! **************************************************************************************************
