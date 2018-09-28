@@ -1715,11 +1715,6 @@ CONTAINS
               CALL dbcsr_mm_multrec_phaseout(multrec(ithread)%p)
 !$OMP BARRIER
          CALL timeset(routineN//"_multrec", handle2)
-
-!         IF (local_mult) &
-!         print *,mynode,"AAAA",left_buffer_calc%mats(1, v_ki_left)%data_area%d%r_dp(1:4), &
-!              "BBBB", right_buffer_calc%mats(v_ki_right, 1)%data_area%d%r_dp(1:4)
-
          CALL dbcsr_mm_multrec_multiply(multrec(ithread)%p, &
                                         left=left_buffer_calc%mats(1, v_ki_left), &
                                         right=right_buffer_calc%mats(v_ki_right, 1), &

@@ -514,9 +514,9 @@ CONTAINS
       !             -----
       !
       use_rect_algo = .FALSE.
-      IF (numnodes .GT. 1 .AND. nprows .EQ. numnodes .AND. &
-          npcols .EQ. 1 .AND. transa .EQ. dbcsr_transpose .AND. &
-          (.NOT. product_reindex) .AND. & 
+      IF (nprows .EQ. numnodes .AND. npcols .EQ. 1 .AND. &
+          transa .EQ. dbcsr_transpose .AND. &
+          (.NOT. product_reindex) .AND. &
           (.NOT. keep_sparsity) .AND. &
           (.NOT. dbcsr_cfg%use_mpi_rma) .AND. &
           dbcsr_nfullrows_total(matrix_a) .GT. dbcsr_nfullrows_total(matrix_c) .AND. &
@@ -844,8 +844,8 @@ CONTAINS
          ! Make an empty product matrix for the rectangular algorithm.
          ! The row-block distribution is replicated over all processors.
          IF (use_rect_algo) THEN
-            ALLOCATE (dist_rows(matrix_a%nblkcols_total), &
-                      dist_cols(matrix_b%nblkcols_total))
+            ALLOCATE (dist_rows(matrix_left%nblkrows_total), &
+                      dist_cols(matrix_right%nblkcols_total))
             dist_rows(:) = mynode
             dist_cols(:) = 0
             CALL dbcsr_distribution_new(local_distribution, mp_obj, &

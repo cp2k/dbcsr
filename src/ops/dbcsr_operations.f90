@@ -516,7 +516,7 @@
 !> \param[inout] my_flop ...
 ! **************************************************************************************************
 
-   SUBROUTINE dbcsr_add_anytype_${nametype1}$(matrix_a, matrix_b, iter, iw, do_scale, &
+   SUBROUTINE dbcsr_add_iter_${nametype1}$(matrix_a, matrix_b, iter, iw, do_scale, &
                                               my_beta_scalar, my_flop, use_hashes_par)
      TYPE(dbcsr_type), INTENT(INOUT)                         :: matrix_a
      TYPE(dbcsr_type), INTENT(IN)                            :: matrix_b
@@ -632,5 +632,5 @@
                                                           do_scale, my_beta_scalar, iwas_found, iw)
      ENDIF
 
-   END SUBROUTINE dbcsr_add_anytype_${nametype1}$
+   END SUBROUTINE dbcsr_add_iter_${nametype1}$
 #:endfor

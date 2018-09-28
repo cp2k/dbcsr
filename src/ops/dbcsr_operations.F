@@ -61,7 +61,7 @@ MODULE dbcsr_operations
         dbcsr_get_replication_type, dbcsr_has_symmetry, dbcsr_max_col_size, dbcsr_max_row_size, &
         dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
         dbcsr_row_block_offsets, dbcsr_valid_index, dbcsr_get_nze, dbcsr_nfullcols_local, &
-        dbcsr_nfullrows_local, dbcsr_get_num_blocks
+        dbcsr_nfullrows_local
    USE dbcsr_mp_methods,                ONLY: dbcsr_mp_group,&
                                               dbcsr_mp_mynode,&
                                               dbcsr_mp_mypcol,&
@@ -112,9 +112,6 @@ MODULE dbcsr_operations
 
    PUBLIC :: dbcsr_trace, dbcsr_add_on_diag, &
              dbcsr_set, dbcsr_scale, dbcsr_add, dbcsr_copy, &
-             dbcsr_batched_add_anytype_begin,&
-             dbcsr_batched_add_anytype,&
-             dbcsr_batched_add_anytype_end,&
              dbcsr_copy_into_existing, &
              dbcsr_get_diag, dbcsr_set_diag, &
              dbcsr_get_block_diag, dbcsr_hadamard_product, &
@@ -128,6 +125,7 @@ MODULE dbcsr_operations
 
    PUBLIC :: dbcsr_crop_matrix
    PUBLIC :: dbcsr_get_info, dbcsr_may_be_dense, dbcsr_get_occupation
+   PUBLIC :: dbcsr_add_iter_s, dbcsr_add_iter_d, dbcsr_add_iter_c, dbcsr_add_iter_z
 
 ! The interfaces for the generic routines found in the generated
 ! generic files.
@@ -526,165 +524,13 @@ CONTAINS
    END SUBROUTINE dbcsr_scale_by_vector_anytype
 
 ! **************************************************************************************************
-!> \brief start batched add and scale matrices 
-!>    A = alpha*A + beta*B or
-!> \param[in,out] matrix_a   DBCSR matrix
-!> \param[in] matrix_b       DBCSR matrix
-!>
-!> \param flop ...
-! **************************************************************************************************
-   SUBROUTINE dbcsr_batched_add_anytype_begin(matrix_a, matrix_b, b_max_nze, b_max_nblocks)
-      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
-      TYPE(dbcsr_type), INTENT(IN)                       :: matrix_b
-      INTEGER, INTENT(IN)                               :: b_max_nze, b_max_nblocks
-
-      INTEGER                                            :: data_type_a, data_type_b, &
-                                                            size_work, nblks_guess
-      INTEGER(KIND=int_8)                                :: local_matrix_size
-
-!   ---------------------------------------------------------------------------
-      
-      IF (.NOT. dbcsr_valid_index(matrix_a)) &
-         DBCSR_ABORT("Invalid matrix")
-
-      IF ((dbcsr_get_matrix_type(matrix_a) .EQ. dbcsr_type_symmetric .OR. &
-           dbcsr_get_matrix_type(matrix_a) .EQ. dbcsr_type_antisymmetric) .NEQV. &
-          (dbcsr_get_matrix_type(matrix_b) .EQ. dbcsr_type_symmetric .OR. &
-           dbcsr_get_matrix_type(matrix_b) .EQ. dbcsr_type_antisymmetric)) THEN
-         DBCSR_ABORT("Summing general with symmetric matrix NYI")
-      ENDIF
-
-      data_type_a = dbcsr_get_data_type(matrix_a)
-      data_type_b = dbcsr_get_data_type(matrix_b)
-      !
-      ! let's go
-      IF ((dbcsr_nblkrows_total(matrix_a) .NE. dbcsr_nblkrows_total(matrix_b)) .OR. &
-          (dbcsr_nblkcols_total(matrix_a) .NE. dbcsr_nblkcols_total(matrix_b)) .OR. &
-          (data_type_a .NE. data_type_b)) &
-         DBCSR_ABORT("matrices not consistent")
-
-      ! Pre-size work arrays of matrix_a to avoid continuous reallocation.
-      ! Overestimate for summetric matrix and multiple threads!
-      local_matrix_size = INT(dbcsr_nfullrows_local(matrix_a), KIND=int_8)* &
-           dbcsr_nfullcols_local(matrix_a)
-
-      size_work = MAX(0, INT(MIN(local_matrix_size-INT(dbcsr_get_nze(matrix_a), KIND=int_8), &
-           INT(b_max_nze, KIND=int_8)), KIND=int_4))
-
-      nblks_guess = MIN(matrix_b % nblkrows_total * matrix_b % nblkcols_total, b_max_nblocks)
-         
-!$OMP        PARALLEL DEFAULT (NONE) &
-!$OMP                 SHARED (matrix_a, matrix_b, size_work, nblks_guess) 
-      CALL dbcsr_work_create(matrix_a, &
-           nblks_guess = nblks_guess, &
-           sizedata_guess = size_work, &
-           work_mutable=.FALSE.,create_hashes_par = .true.)
-
-!$OMP        END PARALLEL
-
-    END SUBROUTINE dbcsr_batched_add_anytype_begin
-
-
-! **************************************************************************************************
-!> \brief batched add and scale matrices 
-!>    A = alpha*A + beta*B or
-!> \param[in,out] matrix_a   DBCSR matrix
-!> \param[in] matrix_b       DBCSR matrix
-!> \param[in] alpha_scalar   (optional) ...
-!> \param[in] beta_scalar    (optional) ...
-!>
-!> \param flop ...
-! **************************************************************************************************
-   SUBROUTINE dbcsr_batched_add_anytype(matrix_a, matrix_b, beta_scalar, flop)
-      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
-      TYPE(dbcsr_type), INTENT(IN)                       :: matrix_b
-      TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: beta_scalar    
-      INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL       :: flop
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_batched_add_anytype', &
-         routineP = moduleN//':'//routineN
-
-      INTEGER                                            :: data_type_a, data_type_b, &
-                                                            handle, iw
-      INTEGER(KIND=int_8)                                :: my_flop
-      LOGICAL                                            :: do_scale
-      TYPE(dbcsr_iterator)                               :: iter
-      TYPE(dbcsr_scalar_type)                            :: my_beta_scalar
-
-      type(array_i1d_obj)                                     :: map_row_g2l
-      !----------------------------------------------------------------------------
-
-      CALL timeset(routineN, handle)
-      
-      data_type_a = dbcsr_get_data_type(matrix_a)
-      data_type_b = dbcsr_get_data_type(matrix_b)
-      
-      my_beta_scalar = dbcsr_scalar_one(data_type_b)
-
-      IF (PRESENT(beta_scalar)) then
-         my_beta_scalar = beta_scalar
-      endif
-
-      do_scale = .NOT. dbcsr_scalar_are_equal(my_beta_scalar, dbcsr_scalar_one(data_type_b))
-      
-      IF ((.NOT. dbcsr_scalar_are_equal(my_beta_scalar, &
-                                        dbcsr_scalar_zero(data_type_b))) .AND. &
-           dbcsr_get_num_blocks(matrix_b) .GT. 0) THEN
-           
-         ! just to initialize if it was not initialized, map_row_g2l is not used
-         call dbcsr_get_global_row_map(matrix_a % dist, map_row_g2l) 
-
-         
-!$OMP        PARALLEL DEFAULT (NONE) &
-!$OMP                 PRIVATE (iter, iw) &
-!$OMP                 SHARED (matrix_a, matrix_b, data_type_b) &
-!$OMP                 SHARED (do_scale, my_beta_scalar) &
-!$OMP                 REDUCTION (+ : my_flop)
-         iw = 1
-!$       iw = omp_get_thread_num () + 1
-         CALL dbcsr_iterator_start(iter, matrix_b, &
-                                   shared=.TRUE., read_only=.TRUE., contiguous_pointers=.FALSE.)
-         SELECT CASE (data_type_b)
-         CASE (dbcsr_type_real_4)
-            CALL dbcsr_add_anytype_s(matrix_a, matrix_b, iter, iw, do_scale, my_beta_scalar, my_flop, .true.)
-         CASE (dbcsr_type_real_8)
-            CALL dbcsr_add_anytype_d(matrix_a, matrix_b, iter, iw, do_scale, my_beta_scalar, my_flop, .true.)
-         CASE (dbcsr_type_complex_4)
-            CALL dbcsr_add_anytype_c(matrix_a, matrix_b, iter, iw, do_scale, my_beta_scalar, my_flop, .true.)
-         CASE (dbcsr_type_complex_8)
-            CALL dbcsr_add_anytype_z(matrix_a, matrix_b, iter, iw, do_scale, my_beta_scalar, my_flop, .true.)
-         CASE default
-            DBCSR_ABORT("Invalid data type")
-         END SELECT
-         
-         CALL dbcsr_iterator_stop(iter)
-
-!$OMP        END PARALLEL
-         IF (PRESENT(flop)) flop = flop+my_flop
-
-      ENDIF
-      CALL timestop(handle)
-
-   END SUBROUTINE
-
-
-
-   SUBROUTINE dbcsr_batched_add_anytype_end(matrix_a)
-      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
-
-      CALL dbcsr_finalize(matrix_a)
-   END SUBROUTINE
-
-
-! **************************************************************************************************
 !> \brief add and scale matrices 
 !>    A = alpha*A + beta*B or
 !> \param[in,out] matrix_a   DBCSR matrix
 !> \param[in] matrix_b       DBCSR matrix
 !> \param[in] alpha_scalar   (optional) ...
 !> \param[in] beta_scalar    (optional) ...
-!>
-!> \param flop ...
+!> \param[inout] flop        (optional)  ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_add_anytype(matrix_a, matrix_b, alpha_scalar, beta_scalar, flop)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
@@ -741,7 +587,7 @@ CONTAINS
            dbcsr_get_num_blocks(matrix_b) .GT. 0) THEN
 
          ! Pre-size work arrays of matrix_a to avoid continuous reallocation.
-         ! Overestimate for summetric matrix and multiple threads!
+         ! Overestimate for symmetric matrix and multiple threads!
          local_matrix_size = INT(dbcsr_nfullrows_local(matrix_a), KIND=int_8)* &
               dbcsr_nfullcols_local(matrix_a)
          size_work = MAX(0, INT(MIN(local_matrix_size-INT(dbcsr_get_nze(matrix_a), KIND=int_8), &
@@ -764,13 +610,13 @@ CONTAINS
                                    dynamic=.TRUE., dynamic_byrows=.TRUE.)
          SELECT CASE (data_type_b)
          CASE (dbcsr_type_real_4)
-            CALL dbcsr_add_anytype_s(matrix_a, matrix_b, iter, iw, do_scale, my_beta_scalar, my_flop)
+            CALL dbcsr_add_iter_s(matrix_a, matrix_b, iter, iw, do_scale, my_beta_scalar, my_flop)
          CASE (dbcsr_type_real_8)
-            CALL dbcsr_add_anytype_d(matrix_a, matrix_b, iter, iw, do_scale, my_beta_scalar, my_flop)
+            CALL dbcsr_add_iter_d(matrix_a, matrix_b, iter, iw, do_scale, my_beta_scalar, my_flop)
          CASE (dbcsr_type_complex_4)
-            CALL dbcsr_add_anytype_c(matrix_a, matrix_b, iter, iw, do_scale, my_beta_scalar, my_flop)
+            CALL dbcsr_add_iter_c(matrix_a, matrix_b, iter, iw, do_scale, my_beta_scalar, my_flop)
          CASE (dbcsr_type_complex_8)
-            CALL dbcsr_add_anytype_z(matrix_a, matrix_b, iter, iw, do_scale, my_beta_scalar, my_flop)
+            CALL dbcsr_add_iter_z(matrix_a, matrix_b, iter, iw, do_scale, my_beta_scalar, my_flop)
          CASE default
             DBCSR_ABORT("Invalid data type")
          END SELECT
