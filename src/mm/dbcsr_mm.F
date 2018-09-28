@@ -496,6 +496,9 @@ CONTAINS
          product_reindex = .FALSE.
       ENDIF
       !
+      keep_sparsity = .FALSE.
+      IF (PRESENT(retain_sparsity)) keep_sparsity = retain_sparsity
+      !
       ! Introducing an optimized algoritm for a 1D grid,
       ! where all ranks are organized over row processors.
       ! The left matrix must be distributed over row-processors,
@@ -514,6 +517,7 @@ CONTAINS
       IF (numnodes .GT. 1 .AND. nprows .EQ. numnodes .AND. &
           npcols .EQ. 1 .AND. transa .EQ. dbcsr_transpose .AND. &
           (.NOT. product_reindex) .AND. & 
+          (.NOT. keep_sparsity) .AND. &
           (.NOT. dbcsr_cfg%use_mpi_rma) .AND. &
           dbcsr_nfullrows_total(matrix_a) .GT. dbcsr_nfullrows_total(matrix_c) .AND. &
           dbcsr_nfullrows_total(matrix_a) .GT. dbcsr_nfullcols_total(matrix_c)) THEN
@@ -734,10 +738,7 @@ CONTAINS
       ! Product data needs to be retained when
       ! * beta != 0; or
       ! * there is column limiting (l_col > 0) and the limiting column
-      !   is less than the number of full columns in theproduct matrix
-      keep_sparsity = .FALSE.
-      IF (PRESENT(retain_sparsity)) keep_sparsity = retain_sparsity
-      !
+      !   is less than the number of full columns in the product matrix
       keep_product_data = keep_sparsity &
                           .OR. .NOT. dbcsr_scalar_are_equal(beta, dbcsr_scalar_zero(beta%data_type)) &
                           .OR. (l_col .GT. 0 .AND. l_col .LT. dbcsr_nfullcols_total(matrix_c)) &
@@ -1024,6 +1025,12 @@ CONTAINS
             CALL dbcsr_copy(matrix_c_local, product_matrix, shallow_data=.TRUE.)
          ENDIF
          CALL dbcsr_release(product_matrix)
+         IF (.NOT. keep_product_data) THEN
+            matrix_c%nblks = 0
+            matrix_c%nze = 0
+            matrix_c%row_p(:) = 0
+            CALL dbcsr_data_set_size_referenced(matrix_c%data_area, 0)
+         ENDIF
          CALL dbcsr_reshape(matrix_c_local, matrix_c)
          CALL dbcsr_release(matrix_c_local)
       ELSE
