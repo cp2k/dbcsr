@@ -498,31 +498,6 @@ CONTAINS
       !
       keep_sparsity = .FALSE.
       IF (PRESENT(retain_sparsity)) keep_sparsity = retain_sparsity
-      !
-      ! Introducing an optimized algoritm for a 1D grid,
-      ! where all ranks are organized over row processors.
-      ! The left matrix must be distributed over row-processors,
-      ! i.e. it is transposed.
-      ! This algorithm is particular beneficial for rectangular
-      ! matrix multiplications, where K>>{M, N}, and it is a variant
-      ! of the CARMA algorithm.
-      !
-      !  --------   -----
-      !  |      | x |   |
-      !  --------   |   |
-      !             |   |
-      !             -----
-      !
-      use_rect_algo = .FALSE.
-      IF (nprows .EQ. numnodes .AND. npcols .EQ. 1 .AND. &
-          transa .EQ. dbcsr_transpose .AND. &
-          (.NOT. product_reindex) .AND. &
-          (.NOT. keep_sparsity) .AND. &
-          (.NOT. dbcsr_cfg%use_mpi_rma) .AND. &
-          dbcsr_nfullrows_total(matrix_a) .GT. dbcsr_nfullrows_total(matrix_c) .AND. &
-          dbcsr_nfullrows_total(matrix_a) .GT. dbcsr_nfullcols_total(matrix_c)) THEN
-         use_rect_algo = .TRUE.
-      ENDIF
 
       ! check parameters ---------------------------------------------------------
       transa_l = transa
@@ -553,6 +528,32 @@ CONTAINS
             CALL dbcsr_print(matrix_b, nodata=.TRUE.)
             CALL dbcsr_print(matrix_c, nodata=.TRUE.)
          ENDIF
+      ENDIF
+      !
+      ! Introducing an optimized algoritm for a 1D grid,
+      ! where all ranks are organized over row processors.
+      ! The left matrix must be distributed over row-processors,
+      ! i.e. it is transposed.
+      ! This algorithm is particular beneficial for rectangular
+      ! matrix multiplications, where K>>{M, N}, and it is a variant
+      ! of the CARMA algorithm.
+      !
+      !  --------   -----
+      !  |      | x |   |
+      !  --------   |   |
+      !             |   |
+      !             -----
+      !
+      use_rect_algo = .FALSE.
+      IF (nprows .EQ. numnodes .AND. npcols .EQ. 1 .AND. &
+          transa_l .EQ. dbcsr_transpose .AND. &
+          transb_l .EQ. dbcsr_no_transpose .AND. &
+          (.NOT. product_reindex) .AND. &
+          (.NOT. keep_sparsity) .AND. &
+          (.NOT. dbcsr_cfg%use_mpi_rma) .AND. &
+          dbcsr_nfullrows_total(matrix_a) .GT. dbcsr_nfullrows_total(matrix_c) .AND. &
+          dbcsr_nfullrows_total(matrix_a) .GT. dbcsr_nfullcols_total(matrix_c)) THEN
+         use_rect_algo = .TRUE.
       ENDIF
 
       ! transpose/conjg left and/or right matrices if needed
@@ -1009,8 +1010,8 @@ CONTAINS
       IF (use_rect_algo) THEN
          matrix_c_local = dbcsr_type()
          IF (use_dense_mult) THEN
-            ALLOCATE (dist_rows(matrix_a%nblkcols_total), &
-                      dist_cols(matrix_b%nblkcols_total))
+            ALLOCATE (dist_rows(matrix_left%nblkrows_total), &
+                      dist_cols(matrix_right%nblkcols_total))
             dist_rows(:) = mynode
             dist_cols(:) = 0
             CALL dbcsr_distribution_new(local_distribution, mp_obj, &

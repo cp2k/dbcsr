@@ -246,10 +246,16 @@ OTHER_HELP += "install : Install the library and modules under PREFIX=<directory
 test:
 	@export OMP_NUM_THREADS=2 ; \
 	for test in $(UNITTESTS); do \
+		echo "****" ; \
+		echo "**** Unit test: $$test" ; \
+		echo "****" ; \
 		mpirun -np $(NPROCS) $(BINDIR)/$$test.x || exit 1; \
 	done
 	@export OMP_NUM_THREADS=2 ; \
 	for input in $(PERFTESTS); do \
+		echo "****" ; \
+		echo "Test: $$input" ; \
+		echo "****" ; \
 		mpirun -np $(NPROCS) $(BINDIR)/dbcsr_performance_driver.x $$input || exit 1; \
 	done
 
