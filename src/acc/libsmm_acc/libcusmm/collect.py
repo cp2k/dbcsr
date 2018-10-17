@@ -3,13 +3,8 @@
 
 import sys
 import os
-from os import path
-from os.path import basename
 from glob import glob
-from itertools import product, chain
-from optparse import OptionParser
 import re
-from pprint import pprint
 
 re_mnk    = re.compile("tune_(\d+)x(\d+)x(\d+)_")
 re_winner = re.compile("\nWINNER: \d+ (.+)\n")
@@ -21,13 +16,13 @@ def main():
     winners = dict()
 
     for d in glob("tune_*"):
-        if(not path.isdir(d)):
+        if(not os.path.isdir(d)):
             continue
 
         for exe_fn in glob(d+"/tune_*main.cu"):
             mnk = tuple([int(i) for i in re_mnk.search(exe_fn).groups()])
             log_fn = exe_fn.replace("_main.cu", ".log")
-            if(not path.exists(log_fn)):
+            if(not os.path.exists(log_fn)):
                 winners[mnk] = "log missing: "+log_fn
                 continue
 
@@ -47,14 +42,12 @@ def main():
     f.close()
 
     print("Wrote parameters.txt")
-    ##pprint(winners)
 
 #===============================================================================
 def process_log(log_fn, mnk, winners):
     print("Reading: "+log_fn)
 
     f = open(log_fn)
-    #f.seek(-1000, os.SEEK_END)
     content = f.read()
     f.close()
 
