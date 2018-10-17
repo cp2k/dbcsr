@@ -3,10 +3,8 @@
 
 import sys
 import os
-from os import path
-from os.path import basename
 from glob import glob
-from itertools import product, chain
+from itertools import product
 from optparse import OptionParser
 
 from kernels.cusmm_dnt_largeDB1 import Kernel_dnt_largeDB1
@@ -59,7 +57,7 @@ def main():
             continue
 
         outdir = "tune_%dx%dx%d/"%(m,n,k)
-        if(path.exists(outdir)):
+        if(os.path.exists(outdir)):
             print("Directory %s exists already, skipping."%outdir)
             continue
         os.mkdir(outdir)
@@ -73,7 +71,7 @@ def main():
 #===============================================================================
 def format_params(params):
     output = []
-    order = ['m','n','k','tile_m', 'tile_n', 'w', 'v', 'split_thread', 'threads', 'blockdim', 'grouping']
+    order = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'split_thread', 'threads', 'blockdim', 'grouping']
     for k in order:
         if(params.has_key(k)):
             output.append("%s=%d"%(k, params[k]))
@@ -155,7 +153,7 @@ def gen_benchmark(outdir, m, n, k):
 #===============================================================================
 def gen_jobfile(outdir, m, n, k):
     t = "/tune_%dx%dx%d"%(m,n,k)
-    all_exe_src = [basename(fn) for fn in glob(outdir+t+"_*_main.cu")]
+    all_exe_src = [os.path.basename(fn) for fn in glob(outdir+t+"_*_main.cu")]
     all_exe = sorted([fn.replace("_main.cu", "") for fn in all_exe_src])
 
     output  = "#!/bin/bash -l\n"
@@ -199,7 +197,7 @@ def gen_jobfile(outdir, m, n, k):
 def gen_makefile(outdir, arch):
     output  = ".SECONDARY:\n"
     output += "vpath %.cu ../\n\n"
-    all_exe_src = sorted([basename(fn) for fn in glob(outdir+"/tune_*_main.cu")])
+    all_exe_src = sorted([os.path.basename(fn) for fn in glob(outdir+"/tune_*_main.cu")])
     build_targets = [fn.replace("_main.cu", "") for fn in all_exe_src]
 
     output += ".PHONY: do_nothing build_all \n\n"
@@ -215,7 +213,7 @@ def gen_makefile(outdir, arch):
 
     for exe_src in all_exe_src:
         absparts = sorted(glob(outdir+"/"+exe_src.replace("_main.cu", "_part*")))
-        parts = [basename(fn) for fn in absparts]
+        parts = [os.path.basename(fn) for fn in absparts]
         deps = [exe_src, "libcusmm_benchmark.cu"] + parts
         deps_obj = " ".join([fn.replace(".cu", ".o") for fn in deps])
         exe = exe_src.replace("_main.cu", "")
