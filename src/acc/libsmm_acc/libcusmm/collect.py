@@ -9,11 +9,11 @@ import json
 from ast import literal_eval
 from kernels.cusmm_dnt import kernel_algorithm
 
-re_mnk    = re.compile("tune_(\d+)x(\d+)x(\d+)_")
-re_winner = re.compile("\nWINNER: \d+ (.+)\n")
-re_gflops = re.compile("# ([0-9.]+) GFlop/s")
-re_errors = re.compile("Number of errors: (\d+)\n")
-re_kernel_descr = re.compile("Kernel_dnt_(\w+)(\(.*\)) , # (\d+\.\d+) GFlop/s")
+re_mnk    = re.compile(r"tune_(\d+)x(\d+)x(\d+)_")
+re_winner = re.compile(r"\nWINNER: \d+ (.+)\n")
+re_gflops = re.compile(r"# ([0-9.]+) GFlop/s")
+re_errors = re.compile(r"Number of errors: (\d+)\n")
+re_kernel_descr = re.compile(r"Kernel_dnt_(\w+)(\(.*\)) , # (\d+\.\d+) GFlop/s")
 
 def get_kernel(kernel_descr):
     match = re_kernel_descr.search(kernel_descr).groups()
