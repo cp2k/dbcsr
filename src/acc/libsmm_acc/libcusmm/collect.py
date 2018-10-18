@@ -73,7 +73,7 @@ def process_log(log_fn, mnk, winners):
         return
 
     old_gflops = 0.0
-    if(winners.has_key(mnk)):
+    if(mnk in winners.keys()):
         m = re_gflops.search(winners[mnk])
         if(not m):
             return
