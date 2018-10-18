@@ -93,7 +93,7 @@ add_library(dbcsr ${DBCSR_SRCS})
 target_link_libraries(dbcsr ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${MPI_Fortran_LIBRARIES})
 target_include_directories(dbcsr PRIVATE base) # do not export those includes
 # but make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
-target_include_directories(dbcsr PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}) 
+target_include_directories(dbcsr PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL)
 set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
 
@@ -130,3 +130,16 @@ if (WITH_C_API)
     COMPILE_FLAGS "${F2008_COMPILER_FLAGS}")
   target_link_libraries(dbcsr_c dbcsr)
 endif ()
+
+# Install targets:
+SET(TARGETLIBEXPORT "dbcsr")
+install (TARGETS dbcsr EXPORT ${TARGETLIBEXPORT}
+         LIBRARY DESTINATION lib
+         ARCHIVE DESTINATION lib)
+if (WITH_C_API)
+  install (TARGETS dbcsr_c EXPORT ${TARGETLIBEXPORT}
+          LIBRARY DESTINATION lib
+          ARCHIVE DESTINATION lib)
+  install (FILES "${CMAKE_SOURCE_DIR}/src/dbcsr.h"
+           DESTINATION include)
+endif()
