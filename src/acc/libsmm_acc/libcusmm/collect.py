@@ -5,11 +5,26 @@ import sys
 import os
 from glob import glob
 import re
+import json
+from ast import literal_eval
+from kernels.cusmm_dnt import kernel_algorithm
 
 re_mnk    = re.compile("tune_(\d+)x(\d+)x(\d+)_")
 re_winner = re.compile("\nWINNER: \d+ (.+)\n")
 re_gflops = re.compile("# ([0-9.]+) GFlop/s")
 re_errors = re.compile("Number of errors: (\d+)\n")
+re_kernel_descr = re.compile("Kernel_dnt_(\w+)(\(.*\)) , # (\d+\.\d+) GFlop/s")
+
+def get_kernel(kernel_descr):
+    match = re_kernel_descr.search(kernel_descr).groups()
+    algo = match[0]
+    m = match[1].replace('=', '\':')
+    m = m.replace(', ', ', \'')
+    m = m.replace('(', '{\'')
+    m = m.replace(')', '}')
+    params = dict(literal_eval(m))
+    params['perf'] = match[2]
+    return kernel_algorithm[algo](**params)
 
 #===============================================================================
 def main():
@@ -28,18 +43,14 @@ def main():
 
             process_log(log_fn, mnk, winners)
 
-    f = open("parameters.txt","w")
-    f.write("# *****************************************************************************\n")
-    f.write("# * CP2K: A general program to perform molecular dynamics simulations         *\n")
-    f.write("# * Copyright (C) 2000 - 2018  CP2K developers group                          *\n")
-    f.write("# *****************************************************************************\n")
-    f.write("\n[\n")
-
-    for w in sorted(winners.values()):
-        f.write("  "+w+"\n")
-
-    f.write("]\n\n#EOF\n")
-    f.close()
+    # Get kernel objects from list of strings
+    kernels = [get_kernel(kernel_descr) for kernel_descr in winners.values()]
+    with open("parameters.txt", 'w') as f:
+        s = json.dumps([kernel.as_dict for kernel in kernels])
+        s = s.replace('}, ', '},\n')
+        s = s.replace('[', '[\n')
+        s = s.replace(']', '\n]')
+        f.write(s)
 
     print("Wrote parameters.txt")
 
