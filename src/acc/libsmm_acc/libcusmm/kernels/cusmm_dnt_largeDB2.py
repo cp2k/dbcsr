@@ -5,27 +5,30 @@ from kernels import cusmm_dnt
 class Kernel_dnt_largeDB2(cusmm_dnt.Kernel):
 
     algorithm = "largeDB2"
+    launch_parameters = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks']
 
-    def __init__(self, **params):
-        self.__dict__.update(params)
-        self.name  = "cusmm_dnt_largeDB2_"
-        self.name += "_".join([str(params[k]) for k in sorted(params.keys())])
+    def __init__(self, *, m, n, k, threads, tile_m, tile_n, w, v, grouping, minblocks, perf):
+        self.m = m
+        self.n = n
+        self.k = k
+        self.tile_m = tile_m
+        self.tile_n = tile_n
+        self.w = w
+        self.v = v
+        self.threads = threads
+        self.grouping = grouping
+        self.minblocks = minblocks
+        self.perf = perf
         assert(self.threads * self.minblocks <= 2048)
         min_threads = ((self.m+self.tile_m-1)//self.tile_m) * ((self.n+self.tile_n-1)//self.tile_n)
         assert(min_threads <= self.threads)
         assert(self.tile_m <= self.v)
         assert(self.tile_n <= self.w)
 
-    def include(self):
-        return("cusmm_dnt_largeDB2.h")
-
-    def to_dict(self):
-        d = {**self.__dict__, **{'algorithm': self.algorithm}}
-        return dict([(e, d[e]) for e in super().characteristic_parameters if e in d.keys()])
-
-    def launcher_code(self):
-        sign = "cusmm_dnt_largeDB2<%(m)d,%(n)d,%(k)d,%(tile_m)d,%(tile_n)d,%(w)d,%(v)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n"%self.__dict__
-        return super().compose_launcher_code(sign)
+    @property
+    def func_signature(self):
+        return "cusmm_dnt_largeDB2<%(m)d,%(n)d,%(k)d,%(tile_m)d,%(tile_n)d,%(w)d,%(v)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n"\
+               % self.__dict__
 
     @staticmethod
     def promising_parameters(m, n, k):

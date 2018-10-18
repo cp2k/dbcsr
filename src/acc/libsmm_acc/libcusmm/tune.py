@@ -13,7 +13,6 @@ from kernels.cusmm_dnt_largeDB2 import Kernel_dnt_largeDB2
 from kernels.cusmm_dnt_medium   import Kernel_dnt_medium
 from kernels.cusmm_dnt_small    import Kernel_dnt_small
 from kernels.cusmm_dnt_tiny     import Kernel_dnt_tiny
-from kernels.cusmm_dnt          import *
 
 kernel_algorithm = {
     'tiny': Kernel_dnt_tiny,
@@ -25,7 +24,7 @@ kernel_algorithm = {
 
 
 def get_kernel(**params):
-    return kernel_algorithm[params['algorithm']](**params)
+    return kernel_algorithm[params.pop('algorithm')](**params)
 
 
 ALL_KERNELS = (Kernel_dnt_tiny, Kernel_dnt_small, Kernel_dnt_medium, Kernel_dnt_largeDB1, Kernel_dnt_largeDB2,)
