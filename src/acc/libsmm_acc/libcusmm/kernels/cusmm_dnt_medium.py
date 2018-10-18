@@ -5,25 +5,26 @@ from kernels import cusmm_dnt
 class Kernel_dnt_medium(cusmm_dnt.Kernel):
 
     algorithm = 'medium'
+    launch_parameters = ['m', 'n', 'k', 'tile_m', 'tile_n', 'threads', 'grouping', 'minblocks']
 
-    def __init__(self, **params):
-        self.__dict__.update(params)
-        self.name  = "cusmm_dnt_medium_"
-        self.name += "_".join([str(params[k]) for k in sorted(super().naming_parameters) if k in params.keys()])
+    def __init__(self, *, m, n, k, threads, tile_m, tile_n, grouping, minblocks, perf):
+        self.m = m
+        self.n = n
+        self.k = k
+        self.tile_m = tile_m
+        self.tile_n = tile_n
+        self.threads = threads
+        self.grouping = grouping
+        self.minblocks = minblocks
+        self.perf = perf
         assert(self.threads * self.minblocks <= 2048)
         min_threads = ((self.m + self.tile_m - 1) // self.tile_m) * ((self.n + self.tile_n - 1) // self.tile_n)
         assert(min_threads <= self.threads)
 
-    def include(self):
-        return("cusmm_dnt_medium.h")
-
-    def to_dict(self):
-        d = {**self.__dict__, **{'algorithm': self.algorithm}}
-        return dict([(e, d[e]) for e in super().characteristic_parameters if e in d.keys()])
-
-    def launcher_code(self):
-        sign = "cusmm_dnt_medium<%(m)d,%(n)d,%(k)d,%(tile_m)d,%(tile_n)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n" % self.__dict__
-        return super().compose_launcher_code(sign)
+    @property
+    def func_signature(self):
+        return "cusmm_dnt_medium<%(m)d,%(n)d,%(k)d,%(tile_m)d,%(tile_n)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n" \
+               % self.__dict__
 
     @staticmethod
     def promising_parameters(m, n, k):
