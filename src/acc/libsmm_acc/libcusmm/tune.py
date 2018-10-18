@@ -34,7 +34,7 @@ def main():
         help="Default: %default")
 
     (options, args) = parser.parse_args(sys.argv)
-    if(len(sys.argv) < 2):
+    if len(sys.argv) < 2:
         print(usage)
         sys.exit(1)
 
@@ -46,19 +46,19 @@ def main():
     print("Libcusmm: Found %d existing parameter sets."%len(all_kernels))
 
     blocksizes = [int(i) for i in args[1:]]
-    assert(len(set(blocksizes)) == len(blocksizes))
+    assert len(set(blocksizes)) == len(blocksizes)
     blocksizes.sort()
 
     triples  = combinations(*blocksizes)
 
     for (m, n, k)  in triples:
         existing = [kern for kern in all_kernels if kern.can_handle(m,n,k)]
-        if(existing):
+        if existing:
             print("Found existing parameter set for %dx%dx%d, skipping."%(m,n,k))
             continue
 
         outdir = "tune_%dx%dx%d/"%(m,n,k)
-        if(os.path.exists(outdir)):
+        if os.path.exists(outdir):
             print("Directory %s exists already, skipping."%outdir)
             continue
         os.mkdir(outdir)
@@ -74,14 +74,14 @@ def format_params(params):
     output = []
     order = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'split_thread', 'threads', 'blockdim', 'grouping']
     for k in order:
-        if(params.has_key(k)):
+        if params.has_key(k):
             output.append("%s=%d"%(k, params[k]))
 
     for k in params.keys():
-        if(k not in order):
+        if k not in order:
             output.append("%s=%d"%(k, params[k]))
 
-    return("(" + ", ".join(output) +")")
+    return "(" + ", ".join(output) +")"
 
 
 
@@ -94,7 +94,7 @@ def gen_benchmark(outdir, m, n, k):
 
     for kernclass in ALL_KERNELS:
         params = kernclass.promising_parameters(m, n, k)
-        if(params == 0):
+        if params == 0:
             continue
 
         for p in params:
@@ -105,7 +105,7 @@ def gen_benchmark(outdir, m, n, k):
             kernel_descr.append(kernclass.__name__ + format_params(p))
 
     print("Found %d parameter sets for %dx%dx%d"%(len(launchers), m, n, k))
-    if(len(launchers)==0): return
+    if len(launchers)==0: return
     #assert(len(launchers)> 0)
 
     incl_output = '#include "../kernels/cusmm_common.h"\n'
@@ -238,11 +238,11 @@ def gen_collect(outdir, triples):
 
 #===============================================================================
 def writefile(fn, content):
-    if(path.exists(fn)):
+    if path.exists(fn):
         f = open(fn, "r")
         old_content = f.read()
         f.close()
-        if(old_content == content):
+        if old_content == content:
             return
 
     f = open(fn, "w")
@@ -253,7 +253,7 @@ def writefile(fn, content):
 
 #===============================================================================
 def combinations(*sizes):
-     return(list(product(sizes, sizes, sizes)))
+     return list(product(sizes, sizes, sizes))
 
 #===============================================================================
 if(len(sys.argv)==2 and sys.argv[-1]=="--selftest"):
