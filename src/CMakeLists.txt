@@ -1,5 +1,6 @@
 
 include(fypp-sources)
+include(GNUInstallDirs)  # required to the a proper LIBDIR variable
 
 add_fypp_sources(DBCSR_SRCS
   dbcsr_api.F
@@ -132,14 +133,13 @@ if (WITH_C_API)
 endif ()
 
 # Install targets:
-SET(TARGETLIBEXPORT "dbcsr")
-install (TARGETS dbcsr EXPORT ${TARGETLIBEXPORT}
-         LIBRARY DESTINATION lib
-         ARCHIVE DESTINATION lib)
+install(TARGETS dbcsr EXPORT dbcsr
+  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 if (WITH_C_API)
-  install (TARGETS dbcsr_c EXPORT ${TARGETLIBEXPORT}
-          LIBRARY DESTINATION lib
-          ARCHIVE DESTINATION lib)
-  install (FILES "${CMAKE_SOURCE_DIR}/src/dbcsr.h"
-           DESTINATION include)
+  install(TARGETS dbcsr_c EXPORT dbcsr_c
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/dbcsr.h"
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 endif()
