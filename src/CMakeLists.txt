@@ -92,9 +92,13 @@ add_fypp_sources(DBCSR_SRCS
 
 add_library(dbcsr ${DBCSR_SRCS})
 target_link_libraries(dbcsr ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${MPI_Fortran_LIBRARIES})
-target_include_directories(dbcsr PRIVATE base) # do not export those includes
-# but make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
-target_include_directories(dbcsr PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(dbcsr PRIVATE base) # do not export those includes, but some srcs do an unprefixed include
+# make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
+target_include_directories(dbcsr PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+  )
 target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL)
 set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
 
@@ -110,7 +114,7 @@ if (MPI_FOUND)
   # compiler flags at this point.
   # when built against MPI, a dbcsr consumer has to specify the MPI flags as well, therefore: PUBLIC
   target_compile_options(dbcsr PUBLIC ${MPI_Fortran_COMPILE_FLAGS})
-  target_include_directories(dbcsr PUBLIC ${MPI_Fortran_INCLUDE_DIRS})
+  target_include_directories(dbcsr SYSTEM PUBLIC ${MPI_Fortran_INCLUDE_DIRS})
 endif ()
 
 # set the __SHORT_FILE__ per file for dbcsr sources
