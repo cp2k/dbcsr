@@ -15,22 +15,11 @@ import json
 from glob import glob
 from itertools import product
 from optparse import OptionParser
-from kernels.cusmm_dnt_helper import kernel_algorithm, params_dict_to_kernel
-from kernels.cusmm_dnt_tiny import Kernel_dnt_tiny
-from kernels.cusmm_dnt_small import Kernel_dnt_small
-from kernels.cusmm_dnt_largeDB1 import Kernel_dnt_largeDB1
-from kernels.cusmm_dnt_largeDB2 import Kernel_dnt_largeDB2
+from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel
+
 
 ALL_KERNELS = tuple(kernel_algorithm.values())
 
-#===============================================================================
-# Correspondance between CUDA compute versions and parameter_file
-arch_number = {
-    "parameters_K20X.json": 35,
-    "parameters_K40.json": 35,
-    "parameters_K80.json": 37,
-    "parameters_P100.json": 60
-}
 
 #===============================================================================
 def main():

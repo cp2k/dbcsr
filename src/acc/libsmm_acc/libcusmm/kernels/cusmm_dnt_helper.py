@@ -7,6 +7,17 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
+#===============================================================================
+# Correspondance between CUDA compute versions and parameter_file
+arch_number = {
+    "parameters_K20X.json": 35,
+    "parameters_K40.json": 35,
+    "parameters_K80.json": 37,
+    "parameters_P100.json": 60
+}
+
+
+#===============================================================================
 from kernels.cusmm_dnt_largeDB1 import Kernel_dnt_largeDB1
 from kernels.cusmm_dnt_largeDB2 import Kernel_dnt_largeDB2
 from kernels.cusmm_dnt_medium import Kernel_dnt_medium
