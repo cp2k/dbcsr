@@ -8,12 +8,14 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
+
 #===============================================================================
 # Helper variables/functions used in all kernels
 
 # Number of parameters in one stack entry
 stack_size = 16005
 npar = 3
+atomicAdd_factor = 5
 
 # Sizes in bytes
 sizeof_int = 4

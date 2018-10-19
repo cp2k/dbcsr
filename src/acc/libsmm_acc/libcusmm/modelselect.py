@@ -25,8 +25,8 @@ flags.DEFINE_string('tune', 'DT', 'Model to tune (Options: DT, RF, all)')
 flags.DEFINE_integer('nruns', '10', '#times to run train-test split, variable selection and GridSearch on model')
 flags.DEFINE_integer('splits', '5', 'number of cross-validation splits used in RFECV and GridSearchCV')
 flags.DEFINE_integer('njobs', '-1', 'number of cross-validation splits used in RFECV and GridSearchCV')
-flags.DEFINE_integer('nrows', None, 'Number of rows of data to load. Default: 0 (load all)')
-flags.DEFINE_string('gs', '', 'Path to pickled GridSearchCV object to load instead of recomputing')
+flags.DEFINE_integer('nrows', 20000, 'Number of rows of data to load. Default: 0 (load all)')
+flags.DEFINE_string('gs', 'model_selection/medium/2018-10-22--06-01/', 'Path to pickled GridSearchCV object to load instead of recomputing')
 FLAGS = flags.FLAGS
 
 
@@ -755,7 +755,11 @@ def main(argv):
 
         eval = FLAGS.eval
         log = print_and_log("Reading GridSearCV from " + FLAGS.gs, log)
-        X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, gs = pickle.load(open(FLAGS.gs, 'rb'))
+        if FLAGS.algo == 'medium':
+            cv_results = pickle.load(open(os.path.join(FLAGS.gs, "cv_results_.p"), 'rb'))
+            feature_names, best_estimator = pickle.load(open(os.path.join(FLAGS.gs, "feature_tree.p"), 'rb'))
+        else:
+            X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, gs = pickle.load(open(FLAGS.gs, 'rb'))
 
     ####################################################################################################################
     # Model description

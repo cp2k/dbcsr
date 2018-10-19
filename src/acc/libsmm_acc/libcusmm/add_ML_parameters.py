@@ -1,18 +1,15 @@
-########################################################################################################################
-# DBCSR optimal parameters prediction
-# Shoshana Jakobovits
-# August-September 2018
-########################################################################################################################
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-import numpy as np
 import pandas as pd
+import os
 import sys
 import pickle
 import json
 from itertools import product
 from optparse import OptionParser
-from kernels.cusmm_dnt import kernel_algorithm
-from parameter_space_utils import get_feature
+from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm
+from parameter_space_utils import PredictiveParameters
 from sklearn.tree import DecisionTreeRegressor
 
 
@@ -23,7 +20,7 @@ def get_kernel(**params):
     return kernel_algorithm[params.pop('algorithm')](**params)
 
 
-def combinations(*sizes):
+def combinations(sizes):
     return list(product(sizes, sizes, sizes))
 
 
@@ -85,39 +82,28 @@ def mean_scorer_top5(estimator, X, y):
 ########################################################################################################################
 # Predict performances
 ########################################################################################################################
-def get_features(features, params):
-    """
-
-    :param features: names of features to compute
-    :param params: base parameters from which to compute features
-    :return:
-    """
-    feat_values = list()
-    for feat in features:
-        feat_values.append(get_feature(feat, **params))
-    return feat_values
-
-
-def get_parameter_space(m, n, k):
+def get_parameter_space(m, n, k, gpu):
     param_space = list()
-    for kernel_algo in kernel_algorithm.values():
-        param_space += kernel_algo.promising_parameters(m, n, k)
+    for algo, kernel_algo in kernel_algorithm.items():
+        param_space_algo = kernel_algo.promising_parameters(m, n, k, gpu, autotuning)
+        param_space += [{**p, **{'algorithm': algo}} for p in param_space_algo]
     return param_space
 
 
-def predict_performances(tree, parameter_space):
+def predict_performances(tree, parameter_space, gpu, autotuning):
     """
-
-    :param tree:
+    Given a list of Kernel objects, predict their performance using the given decision tree
+    :param tree: decision tree, predicts the performance in Gflop/s of a given set of kernel parameters
     :param parameter_space: list of kernel objects
-    :return: parameter_space: list of kernel objects with predicted performance
+    :return: parameter_space: list of kernel objects with predicted performance (field in dict)
     """
-    for algo in kernel_algorithm.values():
-        parameter_space_ = [p for p in parameter_space if p.algorithm == algo]
-        if len(parameter_space_) > 0:
-            for params in parameter_space_:
-                features = get_features(tree[algo]['features'], params)
-                params['perf'] = tree[algo]['tree'].predict(features)
+    for kernel_algo in kernel_algorithm.keys():
+        parameter_space_algo = [p for p in parameter_space if p['algorithm'] == kernel_algo]
+        if len(parameter_space_algo) > 0:
+            for params in parameter_space_algo:
+                p = PredictiveParameters(params, gpu, autotuning)
+                features = p.get_features(tree[kernel_algo]['features'])
+                params['perf'] = tree[kernel_algo]['tree'].predict(features)
 
     return parameter_space
 
@@ -127,50 +113,55 @@ def predict_performances(tree, parameter_space):
 ########################################################################################################################
 def main(argv):
     """
-    Update parameter file with new predictions given newly trained decision trees
+    Update parameter file with new optimal parameter predictions given newly trained decision trees
     """
     del argv  # unused
 
     parser = OptionParser()
-    parser.add_option("-p", "--params", metavar="filename.txt",
-                      default="parameters_P100.txt", help="Default: %default")
-    (options, args) = parser.parse_args(sys.argv)
+    parser.add_option("-p", "--params", metavar="filename.json",
+                      default="parameters_P100.json", help="Default: %default")
+    parser.add_option("-t", "--trees", metavar="folder/",
+                      default="predictive_model/", help="Default: %default")
+    options, args = parser.parse_args(sys.argv)
 
     ####################################################################################################################
     # Load pre-autotuned parameters
-    all_kernels = [get_kernel(**params) for params in json.load(open(options.params))]
-    print("Libcusmm: Found %d existing parameter sets."%len(all_kernels))
-    autotuned_mnks = [(k.m, k.n, k.k) for k in all_kernels if k['autotuned']]
-    autotuned_kernels_ = [k for k in all_kernels if k['autotuned']]
+    assert options.params in arch_number.keys(), "Cannot find compute version for file " + str(options.params)
+    arch = arch_number[options.params]
+    with open('kernels/gpu_properties.json') as f:
+        gpu_properties = json.load(f)["sm_" + str(arch)]
+    with open(options.params) as f:
+        all_kernels = [get_kernel(**params) for params in json.load(f)]
+    print("Libcusmm: Found %d existing parameter sets." % len(all_kernels))
+    autotuned_mnks = [(k.m, k.n, k.k) for k in all_kernels if k.autotuned]
+    autotuned_kernels_ = [k for k in all_kernels if k.autotuned]
     autotuned_kernels = dict(zip(autotuned_mnks, autotuned_kernels_))
 
     ####################################################################################################################
     # Load GridSearchCV objects
-    tree = {
-        'tiny':     {'file': 'model_selection/tiny/2018-10-11--16-00_RUNS20/Decision_Tree_0/cv.p'},
-        #'small':    {'file': ''},
-        #'medium':   {'file': ''},
-        'largeDB1': {'file': 'model_selection/largeDB1/2018-10-15--09-29/Decision_Tree_0/cv.p'},
-        'largeDB2': {'file': 'model_selection/largeDB2/2018-10-15--07-43/Decision_Tree_0/cv.p'}
-    }
-
-    for algo, v in tree.items():
-        x_train, _, _, _, _, _, gs = pickle.load(open(v['file'], 'rb'))
-        tree[algo]['tree'] = gs.best_estimator_
-        tree[algo]['features'] = x_train.columns.values
+    tree = dict()
+    for algo, v in kernel_algorithm.items():
+        if algo in ['tiny', 'largeDB2']:
+            tree[algo] = dict()
+            tree[algo]['file'] = os.path.join(str(options.trees), 'tree_' + algo + '.p')
+            x_train, _, _, _, _, _, gs = pickle.load(open(tree[algo]['file'], 'rb'))
+            tree[algo]['tree'] = gs.best_estimator_
+            features = x_train.columns.values.tolist()
+            features.remove('mnk')
+            tree[algo]['features'] = features
 
     ####################################################################################################################
     # Evaluation
-    optimal_kernels = ''
+    optimal_kernels = list()
     top_k = 1
-    for m, n, k in combinations(range(4, 46)):
+    for m, n, k in combinations(list(range(4, 46))):
         if (m, n, k) in autotuned_kernels.keys():
-            optimal_kernels += autotuned_kernels[(m, n, k)]
+            optimal_kernels.append(autotuned_kernels[(m, n, k)])
         else:
-            parameter_space = get_parameter_space(m, n, k)
-            parameter_space = predict_performances(tree, parameter_space)
+            parameter_space = get_parameter_space(m, n, k, gpu_properties)
+            parameter_space = predict_performances(tree, parameter_space, gpu_properties, autotuning_properties)
             optimal_kernel = sorted(parameter_space, key=lambda x: x['perf'], reverse=True)[:top_k]
-            optimal_kernels += optimal_kernel
+            optimal_kernels.append(optimal_kernel)
 
     ####################################################################################################################
     # Write to file
@@ -180,6 +171,7 @@ def main(argv):
         s = s.replace('[', '[\n')
         s = s.replace(']', '\n]')
         f.write(s)
+
 
 #===============================================================================
 main(argv=sys.argv[1:])
