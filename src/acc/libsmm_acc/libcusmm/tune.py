@@ -19,18 +19,18 @@ ALL_KERNELS = tuple(kernel_algorithm.values())
 #===============================================================================
 # Correspondance between CUDA compute versions and parameter_file
 arch_number = {
-    "parameters_K20X.txt": 35, 
-    "parameters_K40.txt": 35,
-    "parameters_K80.txt": 37,
-    "parameters_P100.txt": 60
+    "parameters_K20X.json": 35,
+    "parameters_K40.json": 35,
+    "parameters_K80.json": 37,
+    "parameters_P100.json": 60
 }
 
 #===============================================================================
 def main():
     usage = "Usage: tune.py <blocksize 1> ... <blocksize N>"
     parser = OptionParser(usage)
-    parser.add_option("-p", "--params", metavar="filename.txt",
-        default="parameters_P100.txt",
+    parser.add_option("-p", "--params", metavar="filename.json",
+        default="parameters_P100.json",
         help="Default: %default")
 
     (options, args) = parser.parse_args(sys.argv)

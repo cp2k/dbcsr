@@ -45,14 +45,14 @@ def main():
 
     # Get kernel objects from list of strings
     kernels = [get_kernel(kernel_descr) for kernel_descr in winners.values()]
-    with open("parameters.txt", 'w') as f:
+    with open("parameters.json", 'w') as f:
         s = json.dumps([kernel.as_dict for kernel in kernels])
         s = s.replace('}, ', '},\n')
         s = s.replace('[', '[\n')
         s = s.replace(']', '\n]')
         f.write(s)
 
-    print("Wrote parameters.txt")
+    print("Wrote parameters.json")
 
 #===============================================================================
 def process_log(log_fn, mnk, winners):
