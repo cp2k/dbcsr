@@ -19,7 +19,7 @@ def main(argv):
 
     # Read existing parameters
     print("GPU version:\n", options.gpu_version)
-    param_fn = "parameters_" + options.gpu_version + ".txt"
+    param_fn = "parameters_" + options.gpu_version + ".json"
     with open(param_fn) as f:
         content = f.read().splitlines()
     print("About to process", len(content), "lines from file", param_fn)
