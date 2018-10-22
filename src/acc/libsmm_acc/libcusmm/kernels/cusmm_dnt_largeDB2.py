@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from kernels import cusmm_dnt
-import cusmm_common as cu
+from kernels import cusmm_dnt as cu
 
 
-class Kernel_dnt_largeDB2(cusmm_dnt.Kernel):
+class Kernel_dnt_largeDB2(cu.Kernel):
 
     algorithm = "largeDB2"
     launch_parameters = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks']
