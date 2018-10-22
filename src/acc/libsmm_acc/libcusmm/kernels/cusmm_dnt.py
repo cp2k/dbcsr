@@ -43,6 +43,15 @@ class Kernel:
         return {**self.__dict__, **{'algorithm': self.algorithm}}
 
     @property
+    def as_key_value(self):
+        key = (self.m, self.n, self.k)
+        self_props = self.as_dict
+        self_props['algorithm'] = self.algorithm_num
+        value_list = ['algorithm', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks']
+        value = [self_props[prop] if prop in self_props.keys() else 0 for prop in value_list]
+        return key, value
+
+    @property
     def launcher_code(self):
         output  = "int launch_" + self.name + "(int *param_stack, int stack_size, "
         output += "cudaStream_t stream, int m_max, int n_max, int k_max, "
@@ -69,19 +78,5 @@ class Kernel:
     def promising_parameters(m, n, k, gpu):
         raise NotImplementedError()
 
-
-from kernels.cusmm_dnt_largeDB1 import Kernel_dnt_largeDB1
-from kernels.cusmm_dnt_largeDB2 import Kernel_dnt_largeDB2
-from kernels.cusmm_dnt_medium   import Kernel_dnt_medium
-from kernels.cusmm_dnt_small    import Kernel_dnt_small
-from kernels.cusmm_dnt_tiny     import Kernel_dnt_tiny
-
-kernel_algorithm = {
-    'tiny': Kernel_dnt_tiny,
-    'small': Kernel_dnt_small,
-    'medium': Kernel_dnt_medium,
-    'largeDB1': Kernel_dnt_largeDB1,
-    'largeDB2': Kernel_dnt_largeDB2
-}
 
 #EOF

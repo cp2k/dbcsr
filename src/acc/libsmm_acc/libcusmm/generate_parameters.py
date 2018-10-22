@@ -4,8 +4,9 @@
 from __future__ import print_function
 
 import sys
-import re
+import json
 from optparse import OptionParser
+from kernels.cusmm_dnt_helper import params_dict_to_kernel
 
 
 #===============================================================================
@@ -21,9 +22,12 @@ def main(argv):
     print("GPU version:\n", options.gpu_version)
     param_fn = "parameters_" + options.gpu_version + ".json"
     with open(param_fn) as f:
-        content = f.read().splitlines()
-    print("About to process", len(content), "lines from file", param_fn)
-    parameters = get_parameters_from_file(content)
+        all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
+    print("About to process", len(all_kernels), "kernels from file", param_fn)
+    parameters = dict()
+    for kernel in all_kernels:
+        (m, n, k), pars = kernel.as_key_value
+        parameters[(m, n, k)] = pars
 
     # Construct output
     out, all_pars = write_parameters_file(parameters)
@@ -34,102 +38,6 @@ def main(argv):
     print('Printing them to file', file_h)
     with open(file_h, 'w') as f:
         f.write(out)
-
-
-#===============================================================================
-def get_parameters_from_file(content):
-    """
-    Get parameters from a parameters file
-    :param content: content of a parameter-file:
-                    list of strings where each element is a line in the original parameter file
-    :return: dictionary of parameters
-             keys:
-             values:
-    """
-    # medium, small
-    parameter_line_pattern_ms = \
-        '\s*Kernel_dnt_(medium|small)\(m=(\d+), n=(\d+), k=(\d+), tile_m=(\d+), tile_n=(\d+), threads=(\d+), grouping=(\d+), minblocks=(\d+)\)'
-    # largeDB1, largeDB2
-    parameter_line_pattern_l = \
-        '\s*Kernel_dnt_(largeDB[12])\(m=(\d+), n=(\d+), k=(\d+), tile_m=(\d+), tile_n=(\d+), w=(\d+), v=(\d+), threads=(\d+), grouping=(\d+), minblocks=(\d+)\)'
-    # tiny
-    parameter_line_pattern_t = \
-        '\s*Kernel_dnt_(tiny)\(m=(\d+), n=(\d+), k=(\d+), threads=(\d+), grouping=(\d+), minblocks=(\d+)\)'
-
-    parameters = dict()
-    for line in content:
-        if len(line) > 1 and line[0] is not '#':  # skip empty lines, single-character lines and comments
-
-            # medium or small (most common case)
-            match = re.match(parameter_line_pattern_ms, line.strip())
-            if match is not None:
-                if match.group(1) == 'medium':
-                    algo = 3
-                elif match.group(1) == 'small':
-                    algo = 4
-                else:
-                    assert False, 'Could not identify algorithm ' + match.group(1) + ' in line:\n' + line
-                m = int(match.group(2))
-                n = int(match.group(3))
-                k = int(match.group(4))
-                parameters[(m, n, k)] = \
-                    [algo,                  # algo
-                     int(match.group(5)),   # tile_m
-                     int(match.group(6)),   # tile_n
-                     0,                     # w
-                     0,                     # v
-                     int(match.group(7)),   # threads
-                     int(match.group(8)),   # grouping
-                     int(match.group(9))]   # minblocks
-                continue  # go to next line
-
-            # largeDB1 or largeDB2
-            match = re.match(parameter_line_pattern_l, line.strip())
-            if match is not None:
-                if match.group(1) == 'largeDB1':
-                    algo = 1
-                elif match.group(1) == 'largeDB2':
-                    algo = 2
-                else:
-                    assert False, 'Could not identify algorithm ' + match.group(1) + ' in line ' + line
-                m = int(match.group(2))
-                n = int(match.group(3))
-                k = int(match.group(4))
-                parameters[(m, n, k)] = \
-                    [algo,                   # algo
-                     int(match.group(5)),    # tile_m
-                     int(match.group(6)),    # tile_n
-                     int(match.group(7)),    # w
-                     int(match.group(8)),    # v
-                     int(match.group(9)),    # threads
-                     int(match.group(10)),   # grouping
-                     int(match.group(11))]   # minblocks
-                continue  # go to next line
-
-            # tiny
-            match = re.match(parameter_line_pattern_t, line.strip())
-            if match is not None:
-                if match.group(1) == 'tiny':
-                    algo = 5
-                else:
-                    assert False, 'Could not identify algorithm ' + match.group(1) + ' in line:\n' + line
-                m = int(match.group(2))
-                n = int(match.group(3))
-                k = int(match.group(4))
-                parameters[(m, n, k)] = \
-                    [algo,                 # algo
-                     0,                    # tile_m
-                     0,                    # tile_n
-                     0,                    # w
-                     0,                    # v
-                     int(match.group(5)),  # threads
-                     int(match.group(6)),  # grouping
-                     int(match.group(7))]  # minblocks
-                continue  # go to next line
-
-            assert False, 'Could not read parameters from line:\n' + line
-
-    return parameters
 
 
 #===============================================================================

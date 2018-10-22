@@ -5,6 +5,7 @@ from kernels import cusmm_dnt as cu
 class Kernel_dnt_largeDB1(cu.Kernel):
 
     algorithm = "largeDB1"
+    algorithm_num = 1
     launch_parameters = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks']
 
     def __init__(self, *, m, n, k, threads, tile_m, tile_n, w, v, grouping, minblocks, perf):

@@ -5,6 +5,7 @@ from kernels import cusmm_dnt as cu
 class Kernel_dnt_small(cu.Kernel):
 
     algorithm = "small"
+    algorithm_num = 4
     launch_parameters = ['m', 'n', 'k', 'tile_m', 'tile_n', 'threads', 'grouping', 'minblocks']
 
     def __init__(self, *, m, n, k, threads, tile_m, tile_n, grouping, minblocks, perf):
