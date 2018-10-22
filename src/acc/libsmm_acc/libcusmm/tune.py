@@ -7,11 +7,7 @@ import json
 from glob import glob
 from itertools import product
 from optparse import OptionParser
-from kernels.cusmm_dnt import kernel_algorithm
-
-
-def get_kernel(**params):
-    return kernel_algorithm[params.pop('algorithm')](**params)
+from kernels.cusmm_dnt_helper import kernel_algorithm, params_dict_to_kernel
 
 
 ALL_KERNELS = tuple(kernel_algorithm.values())
@@ -45,7 +41,7 @@ def main():
     with open('kernels/gpu_properties.json') as f:
         gpu_properties = json.load(f)["sm_" + str(arch)]
     with open(param_fn) as f:
-        all_kernels = [get_kernel(**params) for params in json.load(f)]
+        all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
     print("Libcusmm: Found %d existing parameter sets."%len(all_kernels))
 
     blocksizes = [int(i) for i in args[1:]]
