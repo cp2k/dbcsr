@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from kernels import cusmm_dnt
-import cusmm_common as cu
+from kernels import cusmm_dnt as cu
 
 
-class Kernel_dnt_tiny(cusmm_dnt.Kernel):
+class Kernel_dnt_tiny(cu.Kernel):
 
     algorithm = "tiny"
     launch_parameters = ['m', 'n', 'k', 'threads', 'grouping', 'minblocks']
