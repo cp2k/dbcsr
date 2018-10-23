@@ -87,7 +87,7 @@ static const std::unordered_map<Triplet, KernelParameters> ht  = {
     init_list_line = \
         "    {{ {{{{{m:3}, {n:3}, {k:3}}}}}," + \
         " {{{{ {algorithm:1}, {tile_m:2}, {tile_n:2}, {w:2}, {v:2}, {threads:3}, {grouping:2}, {minblocks:2} }}}} }}, " + \
-        "  // perf: {perf} \n"
+        "  // perf: {perf} {source}\n"
     for pars in all_pars:
         out += init_list_line.format(**pars.as_dict_for_parameters_h)
 

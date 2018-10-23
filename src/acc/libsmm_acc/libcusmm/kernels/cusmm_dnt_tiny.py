@@ -17,7 +17,7 @@ class Kernel_dnt_tiny(cu.Kernel):
     algorithm_num = 5
     launch_parameters = ['m', 'n', 'k', 'threads', 'grouping', 'minblocks']
 
-    def __init__(self, m, n, k, threads, grouping, minblocks, perf):
+    def __init__(self, m, n, k, threads, grouping, minblocks, perf, source):
         self.m = m
         self.n = n
         self.k = k
@@ -25,6 +25,7 @@ class Kernel_dnt_tiny(cu.Kernel):
         self.grouping = grouping
         self.minblocks = minblocks
         self.perf = perf
+        self.source = source
         assert self.m * self.n <= self.threads
 
     @property

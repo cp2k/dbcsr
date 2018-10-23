@@ -17,7 +17,7 @@ class Kernel_dnt_largeDB1(cu.Kernel):
     algorithm_num = 1
     launch_parameters = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks']
 
-    def __init__(self, m, n, k, threads, tile_m, tile_n, w, v, grouping, minblocks, perf):
+    def __init__(self, m, n, k, threads, tile_m, tile_n, w, v, grouping, minblocks, perf, source):
         self.m = m
         self.n = n
         self.k = k
@@ -29,6 +29,7 @@ class Kernel_dnt_largeDB1(cu.Kernel):
         self.grouping = grouping
         self.minblocks = minblocks
         self.perf = perf
+        self.source = source
         assert self.threads * self.minblocks <= 2048
         min_threads = ((self.m+self.tile_m-1)//self.tile_m) * ((self.n+self.tile_n-1)//self.tile_n)
         assert min_threads <= self.threads
