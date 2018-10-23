@@ -60,7 +60,7 @@ class Kernel_dnt_largeDB1(cu.Kernel):
                         if min_threads < (threads - 32):
                             continue  # heuristic: too many threads unused during calculation
 
-                        for w in range(4, (k + 1)/2, 2):  # heuristic: even numbers yield better performance
+                        for w in range(4, (k + 1)//2, 2):  # heuristic: even numbers yield better performance
                             if w < tn:
                                 continue  # invalid: input slap too small
                             if 2 * w > k:
