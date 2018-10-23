@@ -25,17 +25,13 @@ def main(gpu_version, base_dir):
     with open(param_fn) as f:
         all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
     print("About to process", len(all_kernels), "kernels from file", param_fn)
-    parameters = dict()
-    for kernel in all_kernels:
-        (m, n, k), pars = kernel.as_key_value
-        parameters[(m, n, k)] = pars
 
     # Construct output
-    out, all_pars = write_parameters_file(parameters)
+    out, all_pars = write_parameters_file(all_kernels)
 
     # Write to c++ header-file
     file_h = "parameters.h"
-    print('Found', len(parameters), 'kernels in', param_fn)
+    print('Found', len(all_kernels), 'kernels in', param_fn)
     print('Printing them to file', file_h)
     with open(file_h, 'w') as f:
         f.write(out)
@@ -89,10 +85,11 @@ static const std::unordered_map<Triplet, KernelParameters> ht  = {
     # Initializer list body
     print("Get parameters and write to file")
     init_list_line = \
-        "    {{ {{{{{m:3}, {n:3}, {k:3}}}}}, {{{{ {algo}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} }}}} }},\n"
-    for (m, n, k), pars in sorted(all_pars.items()):
-        out += init_list_line.format(algo=pars[0], tile_m=pars[1], tile_n=pars[2], w=pars[3], v=pars[4],
-                                     threads=pars[5], grouping=pars[6], minblocks=pars[7], m=m, n=n, k=k)
+        "    {{ {{{{{m:3}, {n:3}, {k:3}}}}}," + \
+        " {{{{ {algorithm:1}, {tile_m:2}, {tile_n:2}, {w:2}, {v:2}, {threads:3}, {grouping:2}, {minblocks:2} }}}} }}, " + \
+        "  // perf: {perf} \n"
+    for pars in all_pars:
+        out += init_list_line.format(**pars.as_dict_for_parameters_h)
 
     # Footer
     out += """\

@@ -53,13 +53,13 @@ class Kernel:
         return dict(algorithm=self.algorithm, **self.__dict__)
 
     @property
-    def as_key_value(self):
-        key = (self.m, self.n, self.k)
-        self_props = self.as_dict
-        self_props['algorithm'] = self.algorithm_num
-        value_list = ['algorithm', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks']
-        value = [self_props[prop] if prop in self_props.keys() else 0 for prop in value_list]
-        return key, value
+    def as_dict_for_parameters_h(self):
+        value_list = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks', 'perf']
+        d = dict()
+        for v in value_list:
+            d[v] = self.as_dict[v] if v in self.as_dict.keys() else 0
+        d['algorithm'] = self.algorithm_num
+        return d
 
     @property
     def launcher_code(self):
