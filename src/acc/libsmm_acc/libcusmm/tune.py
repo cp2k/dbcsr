@@ -42,8 +42,10 @@ def main():
     param_fn = options.params
     assert param_fn in arch_number.keys(), "Cannot find compute version for file " + param_fn
     arch = arch_number[param_fn]
-    gpu_properties = json.load(open('kernels/gpu_properties.json'))["sm_" + str(arch)]
-    all_kernels = [get_kernel(**params) for params in json.load(open(param_fn))]
+    with open('kernels/gpu_properties.json') as f:
+        gpu_properties = json.load(f)["sm_" + str(arch)]
+    with open(param_fn) as f:
+        all_kernels = [get_kernel(**params) for params in json.load(f)]
     print("Libcusmm: Found %d existing parameter sets."%len(all_kernels))
 
     blocksizes = [int(i) for i in args[1:]]
@@ -251,18 +253,14 @@ def gen_collect(outdir, triples):
 
 #===============================================================================
 def writefile(fn, content):
-    if path.exists(fn):
-        f = open(fn, "r")
-        old_content = f.read()
-        f.close()
+    if os.path.exists(fn):
+        with open(fn, "r") as f:
+            old_content = f.read()
         if old_content == content:
             return
 
-    f = open(fn, "w")
-    f.write(content)
-    f.close()
-
-    #print("Wrote: "+fn)
+    with open(fn, "w") as f:
+        f.write(content)
 
 #===============================================================================
 def combinations(*sizes):
