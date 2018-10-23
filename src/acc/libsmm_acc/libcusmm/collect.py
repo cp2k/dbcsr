@@ -58,9 +58,8 @@ def main():
 def process_log(log_fn, mnk, winners):
     print("Reading: "+log_fn)
 
-    f = open(log_fn)
-    content = f.read()
-    f.close()
+    with open(log_fn) as f:
+        content = f.read()
 
     m = re_errors.search(content)
     if not m:
