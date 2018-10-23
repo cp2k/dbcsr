@@ -38,7 +38,7 @@ class Kernel_dnt_medium(cu.Kernel):
                % self.__dict__
 
     @staticmethod
-    def promising_parameters(m, n, k, gpu):
+    def promising_parameters(m, n, k, gpu, autotuning):
         params = []
         for minblocks in range(1, 28):  # for exhaustive search: range(1, gpu.maxBLOCKSperSM + 1):
                                         # heuristic: the optimal minblocks is never > 28
@@ -66,7 +66,7 @@ class Kernel_dnt_medium(cu.Kernel):
 
                         # Shared memory buffer size
                         buf_sz = max(m*n, m*k + k*tn*cmax, tm*rmax*k + 1)
-                        smem_tot = buf_sz * cu.sizeof_double + cu.npar * grouping * cu.sizeof_int
+                        smem_tot = buf_sz * autotuning["sizeof_double"] + autotuning["npar"] * grouping * autotuning["sizeof_int"]
                         if smem_tot > gpu["SMEMperBLOCK"]:
                             continue
                         if smem_tot * minblocks > gpu["SMEMperSM"]:

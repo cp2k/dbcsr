@@ -33,7 +33,7 @@ class Kernel_dnt_tiny(cu.Kernel):
         return "cusmm_dnt_tiny<%(m)d,%(n)d,%(k)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n" % self.__dict__
 
     @staticmethod
-    def promising_parameters(m, n, k, gpu):
+    def promising_parameters(m, n, k, gpu, autotuning):
 
         # Shared memory buffer size
         buf_sz = k * (m + n)   # number of elements in the a_block buffer = mk, and in the b_block buffer = kn
@@ -50,7 +50,7 @@ class Kernel_dnt_tiny(cu.Kernel):
                 max_concurrent_work = max(grouping, m*k, k*n, m*n)
 
                 # Shared memory utilisation (bytes)
-                smem_tot = buf_sz * cu.sizeof_double + cu.npar * grouping * cu.sizeof_int
+                smem_tot = buf_sz * autotuning["sizeof_double"] + autotuning["npar"] * grouping * autotuning["sizeof_int"]
                 if smem_tot > gpu["SMEMperBLOCK"]:
                     continue
                 if smem_tot * minblocks > gpu["SMEMperSM"]:

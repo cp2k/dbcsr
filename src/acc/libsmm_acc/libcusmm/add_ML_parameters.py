@@ -82,11 +82,10 @@ def mean_scorer_top5(estimator, X, y):
 ########################################################################################################################
 # Predict performances
 ########################################################################################################################
-def get_parameter_space(m, n, k, gpu):
+def get_parameter_space(m, n, k, gpu, autotuning):
     param_space = list()
-    for algo, kernel_algo in kernel_algorithm.items():
-        param_space_algo = kernel_algo.promising_parameters(m, n, k, gpu, autotuning)
-        param_space += [{**p, **{'algorithm': algo}} for p in param_space_algo]
+    for kernel_algo in kernel_algorithm.values():
+        param_space += kernel_algo.promising_parameters(m, n, k, gpu, autotuning)
     return param_space
 
 
@@ -130,6 +129,8 @@ def main(argv):
     arch = arch_number[options.params]
     with open('kernels/gpu_properties.json') as f:
         gpu_properties = json.load(f)["sm_" + str(arch)]
+    with open('kernels/autotuning_properties.json') as f:
+        autotuning_properties = json.load(f)
     with open(options.params) as f:
         all_kernels = [get_kernel(**params) for params in json.load(f)]
     print("Libcusmm: Found %d existing parameter sets." % len(all_kernels))
@@ -158,7 +159,7 @@ def main(argv):
         if (m, n, k) in autotuned_kernels.keys():
             optimal_kernels.append(autotuned_kernels[(m, n, k)])
         else:
-            parameter_space = get_parameter_space(m, n, k, gpu_properties)
+            parameter_space = get_parameter_space(m, n, k, gpu_properties, autotuning_properties)
             parameter_space = predict_performances(tree, parameter_space, gpu_properties, autotuning_properties)
             optimal_kernel = sorted(parameter_space, key=lambda x: x['perf'], reverse=True)[:top_k]
             optimal_kernels.append(optimal_kernel)

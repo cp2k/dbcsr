@@ -40,6 +40,8 @@ def main():
     arch = arch_number[param_fn]
     with open('kernels/gpu_properties.json') as f:
         gpu_properties = json.load(f)["sm_" + str(arch)]
+    with open('kernels/autotuning_properties.json') as f:
+        autotuning_properties = json.load(f)
     with open(param_fn) as f:
         all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
     print("Libcusmm: Found %d existing parameter sets."%len(all_kernels))
@@ -61,7 +63,7 @@ def main():
             print("Directory %s exists already, skipping."%outdir)
             continue
         os.mkdir(outdir)
-        gen_benchmark(outdir, gpu_properties, m, n, k)
+        gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k)
         gen_jobfile(outdir, m, n, k)
         gen_makefile(outdir, arch)
 
@@ -85,7 +87,7 @@ def format_params(params):
 
 
 #===============================================================================
-def gen_benchmark(outdir, gpu_properties, m, n, k):
+def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
     includes = []
     launcher_codes = []
     launchers = []
@@ -104,7 +106,7 @@ def gen_benchmark(outdir, gpu_properties, m, n, k):
 
 
     for kernclass in compatible_kernels:
-        params = kernclass.promising_parameters(m, n, k, gpu_properties)
+        params = kernclass.promising_parameters(m, n, k, gpu_properties, autotuning_properties)
         if(params == 0):
             continue
 
