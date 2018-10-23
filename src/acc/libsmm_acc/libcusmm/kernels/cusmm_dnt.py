@@ -49,16 +49,21 @@ class Kernel:
                "_".join([str(self.__dict__[k]) for k in sorted(self.launch_parameters)])
 
     @property
+    def autotuned(self):
+        return True if self.source == 'autotuned' else False
+
+    @property
     def as_dict(self):
         return dict(algorithm=self.algorithm, **self.__dict__)
 
     @property
     def as_dict_for_parameters_h(self):
-        value_list = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks', 'perf']
+        fields = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks', 'perf', 'source']
         d = dict()
-        for v in value_list:
-            d[v] = self.as_dict[v] if v in self.as_dict.keys() else 0
+        for f in fields:
+            d[f] = self.as_dict[f] if f in self.as_dict.keys() else 0
         d['algorithm'] = self.algorithm_num
+        d['source'] = '(predicted)' if not self.autotuned else ''
         return d
 
     @property

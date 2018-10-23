@@ -17,7 +17,7 @@ class Kernel_dnt_small(cu.Kernel):
     algorithm_num = 4
     launch_parameters = ['m', 'n', 'k', 'tile_m', 'tile_n', 'threads', 'grouping', 'minblocks']
 
-    def __init__(self, m, n, k, threads, tile_m, tile_n, grouping, minblocks, perf):
+    def __init__(self, m, n, k, threads, tile_m, tile_n, grouping, minblocks, perf, source):
         self.m = m
         self.n = n
         self.k = k
@@ -27,6 +27,7 @@ class Kernel_dnt_small(cu.Kernel):
         self.grouping = grouping
         self.minblocks = minblocks
         self.perf = perf
+        self.source = source
 
     @property
     def func_signature(self):

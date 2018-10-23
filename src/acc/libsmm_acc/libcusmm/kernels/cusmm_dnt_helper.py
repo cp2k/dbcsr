@@ -37,7 +37,7 @@ def params_dict_to_kernel(**params):
     return kernel_algorithm[params.pop('algorithm')](**params)
 
 
-def descr_to_kernel(kernel_descr):
+def descr_to_kernel(kernel_descr, source='autotuned'):
     import re
     from ast import literal_eval
     re_kernel_descr = re.compile(r"Kernel_dnt_(\w+)(\(.*\)) , # (\d+\.\d+) GFlop/s")
@@ -49,4 +49,5 @@ def descr_to_kernel(kernel_descr):
     m = m.replace(')', '}')
     params = dict(literal_eval(m))
     params['perf'] = float(match[2])
+    params['source'] = source
     return kernel_algorithm[algo](**params)
