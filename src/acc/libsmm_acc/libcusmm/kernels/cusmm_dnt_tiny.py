@@ -43,7 +43,7 @@ class Kernel_dnt_tiny(cu.Kernel):
 
         # Parameter space: 
         params = []
-        for minblocks in range(1, gpu["maxBLOCKSperSM"] + 1):
+        for minblocks in range(1, gpu["Thread_Blocks_/_Multiprocessor"] + 1):
             for grouping in range(2, 32 + 1, 1):  # heuristic: never seen optimal=1 hence start from 2
             
                 # Max work ("operations")  which can be run concurrently
@@ -51,17 +51,17 @@ class Kernel_dnt_tiny(cu.Kernel):
 
                 # Shared memory utilisation (bytes)
                 smem_tot = buf_sz * autotuning["sizeof_double"] + autotuning["npar"] * grouping * autotuning["sizeof_int"]
-                if smem_tot > gpu["SMEMperBLOCK"]:
+                if smem_tot > gpu["Max_Shared_Memory_/_Block_(bytes)"]:
                     continue
-                if smem_tot * minblocks > gpu["SMEMperSM"]:
+                if smem_tot * minblocks > gpu["Max_Shared_Memory_/_Block_(bytes)"]:
                     continue
 
                 # Use all concurrency available: fill warps
-                for threads in range(gpu["warp_size"], gpu["maxTHREADSperBLOCK"] + 1, gpu["warp_size"]):
+                for threads in range(gpu["Threads_/_Warp"], gpu["Max_Thread_Block_Size"] + 1, gpu["Threads_/_Warp"]):
 
-                    if threads > cu.round_up_to_multiple(max_concurrent_work, gpu["warp_size"]): 
+                    if threads > cu.round_up_to_multiple(max_concurrent_work, gpu["Threads_/_Warp"]):
                         continue  # soft: too much concurrency harms performance
-                    if threads * minblocks > gpu["maxTHREADSperSM"]:
+                    if threads * minblocks > gpu["Threads_/_Multiprocessor"]:
                         continue
                     if threads < min_threads: 
                         continue

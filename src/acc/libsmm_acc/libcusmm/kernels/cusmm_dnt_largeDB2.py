@@ -48,9 +48,9 @@ class Kernel_dnt_largeDB2(cu.Kernel):
 
         for minblocks in (1, 2, 4, 8, 12):  # for exhaustive search, it should be: range(1, gpu.maxBLOCKSperSM + 1):
                                             # but heuristically reduce the search space
-            for threads in range(gpu["warp_size"], gpu["maxTHREADSperBLOCK"] + 1, gpu["warp_size"]):
+            for threads in range(gpu["Threads_/_Warp"], gpu["Max_Thread_Block_Size"] + 1, gpu["Threads_/_Warp"]):
 
-                if threads * minblocks > gpu["maxTHREADSperSM"]:
+                if threads * minblocks > gpu["Threads_/_Multiprocessor"]:
                     continue
 
                 for tm in range(1, min(12, m + 1)):
@@ -90,15 +90,15 @@ class Kernel_dnt_largeDB2(cu.Kernel):
 
                                 # Max work ("operations") which can be run concurrently
                                 max_concurrent_work = max(grouping, m*w, w*n, m*v, cmax*rmax)
-                                if threads > cu.round_up_to_multiple(max_concurrent_work, gpu["warp_size"]):
+                                if threads > cu.round_up_to_multiple(max_concurrent_work, gpu["Threads_/_Warp"]):
                                     continue  # heuristics: too much concurrency harms performance
 
                                 # Shared memory buffer size
                                 buf_sz = max((w - 1) * m + rmax * tm, m * w + (w - 1) * n + cmax * tn, v * m)
                                 smem_tot = buf_sz * autotuning["sizeof_double"] + autotuning["npar"] * grouping * autotuning["sizeof_int"]
-                                if smem_tot > gpu["SMEMperBLOCK"]:
+                                if smem_tot > gpu["Max_Shared_Memory_/_Block_(bytes)"]:
                                     continue  # invalid: uses too much shared memory
-                                if smem_tot * minblocks > gpu["SMEMperSM"]:
+                                if smem_tot * minblocks > gpu["Shared_Memory_/_Multiprocessor_(bytes)"]:
                                     continue  # invalid: uses too much shared memory
 
                                 params.append({'m': m, 'n': n, 'k': k,
