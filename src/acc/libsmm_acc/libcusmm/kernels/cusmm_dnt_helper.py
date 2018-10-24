@@ -34,7 +34,25 @@ kernel_algorithm = {
 
 
 def params_dict_to_kernel(**params):
-    return kernel_algorithm[params.pop('algorithm')](**params)
+
+    algo = params.pop('algorithm')
+    kernel_init_params = ['m', 'n', 'k', 'threads', 'grouping', 'minblocks', 'perf', 'source']
+    if algo in ['small', 'medium', 'largeDB1', 'largeDB2']:
+        kernel_init_params.append("tile_m")
+        kernel_init_params.append("tile_n")
+        if algo in ['largeDB1', 'largeDB2']:
+            kernel_init_params.append("v")
+            kernel_init_params.append("w")
+
+    kernel_init_params_dict = dict()
+    if 'threads_per_blk' in params.keys():
+        kernel_init_params_dict['threads'] = params['threads_per_blk']
+        kernel_init_params.remove('threads')
+
+    for k in kernel_init_params:
+        kernel_init_params_dict[k] = params[k]
+
+    return kernel_algorithm[algo](**kernel_init_params_dict)
 
 
 def descr_to_kernel(kernel_descr, source='autotuned'):
