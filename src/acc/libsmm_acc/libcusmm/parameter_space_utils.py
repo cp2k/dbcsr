@@ -25,42 +25,49 @@ def ceil_division(a, b):
 ########################################################################################################################
 class PredictiveParameters:
 
-    def __init__(self, params, gpu, autotuning):
-        self.algo = params["algorithm"]
-        self.m = params["m"]
-        self.n = params["n"]
-        self.k = params["k"]
-        self.threads_per_blk = params["threads"]
-        self.grouping = params["grouping"]
-        self.minblocks = params["minblocks"]
-        if self.algo in ['small', 'medium', 'largeDB1', 'largeDB2']:
-            self.tile_m = params["tile_m"]
-            self.tile_n = params["tile_n"]
-            if self.algo in ['largeDB1', 'largeDB2']:
-                self.w = params["w"]
-                self.v = params["v"]
-        if 'nbytes_smem' in params.keys() and 'regs_per_thread' in params.keys():
-            # If compilation information is available:
-            self.nbytes_smem = params["nbytes_smem"]
-            self.regs_per_thread = params["regs_per_thread"]
+    def __init__(self, params_df, gpu, autotuning):
+        assert "m" in params_df.columns.values
+        assert "n" in params_df.columns.values
+        assert "k" in params_df.columns.values
+        assert "threads" in params_df.columns.values
+        assert "grouping" in params_df.columns.values
+        assert "minblocks" in params_df.columns.values
+        algos = np.unique(params_df["algorithm"].values)
+        assert len(algos) == 1
+        algo = algos[0]
+        if algo in ['small', 'medium', 'largeDB1', 'largeDB2']:
+            assert "tile_m" in params_df.columns.values
+            assert "tile_n" in params_df.columns.values
+            if algo in ['largeDB1', 'largeDB2']:
+                assert "w" in params_df.columns.values
+                assert "v" in params_df.columns.values
+        # Possible additional fields, if compilatio information is available:
+        # 'nbytes_smem', 'regs_per_thread'
+
+        self.params = params_df
+        self.params.rename(columns={'threads': 'threads_per_blk'}, inplace=True)
         self.gpu = gpu
         self.autotuning = autotuning
+        self.atomicAdd_factor = 5
 
     def get(self, feature_name):
-        if feature_name not in self.__dict__.keys():
-            feature_val = getattr(self, "get_" + feature_name)()
-            self.__dict__.update({feature_name: feature_val})
-        return self.__dict__[feature_name]
+        #print(feature_name)
+        if feature_name not in self.params.columns.values:
+            vget = np.vectorize(getattr(self, "get_" + feature_name))
+            feature_val = vget()
+        else:
+            feature_val = self.params[feature_name].values
+        return feature_val
 
     def get_features(self, feature_names):
         """
         :param feature_names: names of features to compute
         :return: feature_values: list of feature values computed from raw parameters
         """
-        feature_values = list()
         for feat in feature_names:
-            feature_values.append(self.get(feat))
-        return feature_values
+            #print('----', feat)
+            self.params[feat] = self.get(feat)
+        return self.params[feature_names]
 
     ####################################################################################################################
     # Matrix sizes
@@ -80,16 +87,16 @@ class PredictiveParameters:
     # Launch parameters
     def get_need_sync(self):
         """(mn > warp_size || mk > warp_size || kn > warp_size || threads > warp_size)"""
-        return self.get('size_c') > self.gpu['Threads per Warp'] \
-               | self.get('size_a') > self.gpu['Threads per Warp'] \
-               | self.get('size_b') > self.gpu['Threads per Warp'] \
-               | self.get('threads_per_blk') > self.gpu['Threads per Warp']
+        return np.where(self.get('size_c') > self.gpu['Threads_/_Warp'], True, False) \
+               | np.where(self.get('size_a') > self.gpu['Threads_/_Warp'], True, False) \
+               | np.where(self.get('size_b') > self.gpu['Threads_/_Warp'], True, False) \
+               | np.where(self.get('threads_per_blk') > self.gpu['Threads_/_Warp'], True, False)
 
     def get_nblks(self):
         return ceil_division(self.autotuning['stack_size'], self.get('grouping'))
 
     def get_warps_per_blk(self):
-        return ceil_division(self.get('threads_per_blk'), self.gpu['Threads per Warp'])
+        return ceil_division(self.gpu['Max_Thread_Block_Size'], self.gpu['Threads_/_Warp'])
 
     def get_nwarps(self):
         return self.get('warps_per_blk') * self.get('nblks')
@@ -108,26 +115,27 @@ class PredictiveParameters:
     # Note: these features need compilation information: nbytes of shared memory used and number of registers used
     def get_nblocks_per_sm_lim_blks_warps(self):
         """Resource occupations in terms of warps and blocks (Follows CUDA calculator sheet)"""
-        return np.minimum(self.gpu['Max Thread Blocks per Multiprocessor'],
-                          np.floor(self.gpu['Max Warps per Multiprocessor'] / self.get('warps_per_blk')))
+        return np.minimum(self.gpu['Threads_/_Multiprocessor'],
+                          np.floor(self.gpu['Warps_/_Multiprocessor'] / self.get('warps_per_blk')))
 
     def get_nblocks_per_sm_lim_reg(self):
         """Resource occupations in terms of warps and blocks (Follows CUDA calculator sheet)"""
         intermediate1 = flooring(
-            self.gpu['Max Registers per Thread Block'] / ceiling(
-                self.get('regs_per_thread') * self.gpu['Threads per Warp'],
-                self.gpu['Register allocation unit size']),
-            self.gpu['Warp allocation granularity'])
+            self.gpu['Max_Registers_/_Block'] / ceiling(
+                self.get('regs_per_thread') * self.gpu['Threads_/_Warp'],
+                self.gpu['Register_Allocation_Unit_Size']),
+            self.gpu['Warp_Allocation_Granularity'])
         intermediate2 = np.floor(intermediate1 / self.get('warps_per_blk')) * \
-                        math.floor(self.gpu['Registers per Multiprocessor'] / self.gpu['Max Registers per Thread Block'])
+                        math.floor(self.gpu['Register_File_Size_/_Multiprocessor_(32-bit_registers)'] /
+                                   self.gpu['Max_Registers_/_Block'])
         return intermediate2 if intermediate2 != 0 else 1
 
     def get_smem_per_block(self):
         """Resource occupations in terms of shared memory (Follows CUDA calculator sheet)"""
-        return ceiling(self.get('nbytes_smem'), self.gpu['Shared Memory allocation unit size'])
+        return ceiling(self.get('nbytes_smem'), self.gpu['Shared_Memory_Allocation_Unit_Size'])
 
     def get_nblocks_per_sm_lim_smem(self):
-        return np.floor(self.gpu['Shared Memory per Multiprocessor (bytes)'] / self.get('smem_per_block'), 1)
+        return np.floor(self.gpu['Shared_Memory_/_Multiprocessor_(bytes)'] / self.get('smem_per_block'), 1)
 
     def get_nblks_per_sm(self):
         return np.minimum(self.get('nblocks_per_sm_lim_blks_warps'),
@@ -144,7 +152,7 @@ class PredictiveParameters:
         return ceiling(self.get('nsm'), self.gpu['Multiprocessors'])
 
     def get_occupancy(self):
-        return self.get('nwarps_per_sm') / self.gpu['Max Warps per Multiprocessor']
+        return self.get('nwarps_per_sm') / self.gpu['Warps_/_Multiprocessor']
 
     ####################################################################################################################
     # Resource usage (common)
@@ -156,7 +164,7 @@ class PredictiveParameters:
         return ceil_division(1., self.get('ru_param_stack_unroll_factor'))
 
     def get_n_iter(self):
-        return max([3, 12500 * (1 // (self.get('m') * self.get('n') * self.get('k')))])
+        return np.maximum(3, 12500 * (1 // (self.get('m') * self.get('n') * self.get('k'))))
 
     def get_Gflops(self):
         return self.get('n_iter') * self.autotuning['stack_size'] * self.get('m') * self.get('n') * self.get('k') * 2 * 10**(-9)
@@ -187,20 +195,20 @@ class PredictiveParameters:
     ####################################################################################################################
     # Resource usage (tiny)
     def get_ru_tiny_max_parallel_work(self):
-        return max([self.get('grouping'), self.get('size_a'), self.get('size_b'), self.get('size_c')])
+        return np.maximum.reduce([self.get('grouping'), self.get('size_a'), self.get('size_b'), self.get('size_c')])
 
     def get_ru_tiny_min_threads(self):
         return self.get('size_c')
 
     def get_ru_tiny_max_threads(self):
-        return ceiling(self.get('ru_tiny_max_parallel_work'), self.gpu['Threads per Warp'])
+        return ceiling(self.get('ru_tiny_max_parallel_work'), self.gpu['Threads_/_Warp'])
 
     def get_ru_tiny_buf_size(self):
         return self.get('k') * (self.get('m') + self.get('n'))
 
     def get_ru_tiny_smem_per_block(self):
-        return (self.get('ru_tiny_buf_size') * self.autotuning['sizeof double']) + (
-            self.autotuning['npars'] * self.get('grouping') * self.autotuning['sizeof int'])
+        return (self.get('ru_tiny_buf_size') * self.autotuning['sizeof_double']) + (
+            self.autotuning['npars'] * self.get('grouping') * self.autotuning['sizeof_int'])
 
     def get_ru_tiny_nblks_per_sm(self):
         """Occupancy estimation: assumption (verified on a sample of mnks): nblks is always limited by number of threads"""
@@ -216,7 +224,7 @@ class PredictiveParameters:
         return ceiling(self.get('nsm'), self.gpu['Multiprocessors'])
 
     def get_ru_tiny_occupancy(self):
-        return self.get('nwarps_per_sm') / self.gpu['Max Warps per Multiprocessor']
+        return self.get('nwarps_per_sm') / self.gpu['Warps_/_Multiprocessor']
 
     ####################################################################################################################
     # Resource usage (small, medium, large)
@@ -247,20 +255,20 @@ class PredictiveParameters:
         return self.get('k') * self.get('tile_m') * self.get('tile_n')
 
     def get_ru_smallmed_max_parallel_work(self):
-        return max([self.get('grouping'), self.get('size_a'), self.get('size_b'), self.get('size_c'),
-                    self.get('ru_smallmedlarge_min_threads')])
+        return np.maximum.reduce([self.get('grouping'), self.get('size_a'), self.get('size_b'), self.get('size_c'),
+                                  self.get('ru_smallmedlarge_min_threads')])
 
     def get_ru_smallmed_max_threads(self):
-        return ceiling(self.get('ru_smallmed_max_parallel_work'), self.gpu['Threads per Warp'])
+        return ceiling(self.get('ru_smallmed_max_parallel_work'), self.gpu['Threads_/_Warp'])
 
     def get_ru_smallmed_buf_size(self):
         intermediate1 = self.get('size_a') + self.get('k') * self.get('tile_n') * self.get('ru_smallmedlarge_cmax')
         intermediate2 = self.get('tile_m') * self.get('ru_smallmedlarge_rmax') * self.get('k') + 1
-        return max([self.get('size_c'), intermediate1, intermediate2])
+        return np.maximum.reduce([self.get('size_c'), intermediate1, intermediate2])
 
     def get_ru_smallmed_smem_per_block(self):
-        return (self.get('ru_smallmed_buf_size') * self.autotuning['sizeof double']) + (
-                self.autotuning['npars'] * self.get('grouping') * self.autotuning['sizeof int'])
+        return (self.get('ru_smallmed_buf_size') * self.autotuning['sizeof_double']) + (
+                self.autotuning['npars'] * self.get('grouping') * self.autotuning['sizeof_int'])
 
     def get_ru_smallmed_regs_per_thread(self):
         return self.get('tile_m') * self.get('tile_n') + (self.get('m') * self.get('k') +
@@ -310,8 +318,8 @@ class PredictiveParameters:
         return self.get('w') * self.get('tile_m') * self.get('tile_n')
 
     def get_ru_large_max_concurrent_work(self):
-        return max([self.get('grouping'), self.get('ru_large_Pa'), self.get('ru_large_Pb'),
-                    self.get('ru_large_Pc'), self.get('ru_smallmedlarge_T')])
+        return np.maximum.reduce([self.get('grouping'), self.get('ru_large_Pa'), self.get('ru_large_Pb'),
+                                  self.get('ru_large_Pc'), self.get('ru_smallmedlarge_T')])
 
     def get_ru_large_regs_per_thread(self):
         return self.get('tile_m') * self.get('tile_n') + \
@@ -325,21 +333,21 @@ class PredictiveParameters:
         intermediate1 = (self.get('w') - 1) * self.get('m') + self.get('ru_smallmedlarge_rmax') * self.get('tile_m')
         intermediate2 = self.get('m') * self.get('w') + (self.get('w') - 1) * self.get('n') + \
                         self.get('ru_smallmedlarge_cmax') * self.get('tile_n')
-        return max([self.get('ru_large_Pc'), intermediate1, intermediate2])
+        return np.maximum.reduce([self.get('ru_large_Pc'), intermediate1, intermediate2])
 
     def get_ru_large_smem_per_block(self):
-        return self.get('ru_large_buf_size') * self.autotuning['sizeof double'] + \
-               self.autotuning['npars'] * self.get('grouping') * self.autotuning['sizeof int']
+        return self.get('ru_large_buf_size') * self.autotuning['sizeof_double'] + \
+               self.autotuning['npars'] * self.get('grouping') * self.autotuning['sizeof_int']
 
     ####################################################################################################################
     # Kothapalli et al. metrics
     def kothapalli_nmem(self, nmem_glob, nmem_shared):
-        return self.gpu['Global memory access latency'] * nmem_glob + \
-               self.gpu['Shared memory access latency'] * nmem_shared
+        return self.gpu['Global_memory_access_latency'] * nmem_glob + \
+               self.gpu['Shared_memory_access_latency'] * nmem_shared
 
     def kothapalli_perf(self, n_mem, nblks, threads_per_blk, gflops):
         c_K = nblks * threads_per_blk * n_mem  # ignore number of threads per warp
-        return gflops / c_K # ignore clock rate
+        return gflops / c_K  # ignore clock rate
 
     # tiny
     def get_Koth_tiny_Nmem_shared(self):
@@ -368,13 +376,14 @@ class PredictiveParameters:
                 2 * self.get('k') * self.get('tile_m') * self.get('tile_n') +
                 self.get('tile_m') * self.get('tile_n'))
 
-        return i + self.autotuning['atomicAdd_factor'] * self.get('ru_smallmed_unroll_factor_c') \
-            if self.get('tile_m') > 1 and self.get('tile_n') > 1 else i
+        return np.where(np.logical_and(self.get('tile_m') > 1, self.get('tile_n') > 1),
+                        i + self.atomicAdd_factor * self.get('ru_smallmed_unroll_factor_c'),
+                        i)
 
     def get_Koth_small_Nmem_glob(self):
         return 3 * self.get('grouping') + self.get('grouping') * (
                 self.get('ru_tinysmallmed_unroll_factor_a') + self.get('ru_tinysmallmed_unroll_factor_b') +
-                self.get('atomicAdd_factor') * self.get('ru_smallmed_unroll_factor_c'))
+                self.atomicAdd_factor * self.get('ru_smallmed_unroll_factor_c'))
 
     def get_Koth_small_Nmem(self):
         return self.kothapalli_nmem(self.get('Koth_small_Nmem_glob'), self.get('Koth_small_Nmem_shared'))
@@ -390,14 +399,14 @@ class PredictiveParameters:
                 2 + self.get('n_mkloads') * self.get('load_unroll_factor_1') +
                 self.get('n_knloads') * self.get('load_unroll_factor_2') +
                 2 + 2 * self.get('k') * self.get('tile_m') * self.get('tile_n') + 1)
-        return i + self.autotuning['atomicAdd_factor'] * self.get('ru_smallmed_unroll_factor_c') \
+        return i + self.atomicAdd_factor * self.get('ru_smallmed_unroll_factor_c') \
             if self.get('tile_m') > 1 and self.get('tile_n') > 1 else i
 
     def get_Koth_med_Nmem_glob(self):
         return 3 * self.get('grouping') + self.get('grouping') * (
                 2 * self.get('n_mkloads') * self.get('load_unroll_factor_1') +
                 self.get('n_knloads') * self.get('load_unroll_factor_2') +
-                self.autotuning['atomicAdd_factor'] * self.get('ru_smallmed_unroll_factor_c'))
+                self.atomicAdd_factor * self.get('ru_smallmed_unroll_factor_c'))
 
     def get_Koth_med_Nmem(self):
         return self.kothapalli_nmem(self.get('Koth_med_Nmem_glob'), self.get('Koth_med_Nmem_shared'))
@@ -414,7 +423,7 @@ class PredictiveParameters:
                 (self.get('n') * self.get('w')) // self.get('threads_per_blk') +  # load_gmem_into_smem
                 (self.get('k') // self.get('w')) * (
                         (self.get('m') * self.get('w')) // self.get('threads_per_blk') +
-                        (self.get('n') * self.get('w')) // self.get('threads_per_blk') + # load_regs_into_smem
+                        (self.get('n') * self.get('w')) // self.get('threads_per_blk') +  # load_regs_into_smem
                         3 * self.get('w') * self.get('tile_m') * self.get('tile_n')  # multiply
                 ) +  # double-buffering
                 (self.get('n') // self.get('v')) * (
@@ -434,7 +443,7 @@ class PredictiveParameters:
                 ) +  # double-buffering
                 (self.get('n') // self.get('v')) * (
                     # result accumulation
-                    self.autotuning['atomicAdd_factor'] * (self.get('ru_large_Pc') // self.get('threads_per_blk'))
+                    self.atomicAdd_factor * (self.get('ru_large_Pc') // self.get('threads_per_blk'))
                 )  # write out
         )
 
