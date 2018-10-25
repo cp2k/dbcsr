@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import gc
 import sys
 import pickle
 import json
@@ -9,6 +10,7 @@ import numpy as np
 import pandas as pd
 from itertools import product
 from optparse import OptionParser
+from joblib import Parallel, delayed
 from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel
 from parameter_space_utils import PredictiveParameters
 from sklearn.tree import DecisionTreeRegressor
@@ -31,6 +33,66 @@ def safe_pickle_load(file_path):
     return pickle.loads(bytes_in)
 
 
+def dump_file(dump_folder, m, n, k, algo):
+    return os.path.join(dump_folder, "optker_{}x{}x{}_{}".format(m, n, k, algo))
+
+
+def find_optimal_kernel(mnk, algo, tree, tree_features, top_k, gpu_properties, autotuning_properties, dump_folder):
+    """
+    Find the optimal kernel parameters for a given (m, n, k) and a given algorithm
+    :return: optimal_kernels: dictionary, keys: (m, n, k), values: Kernel object describing best parameters
+             number of elements in dictionary = top_k
+    """
+
+    # Find optimal parameter set for this (m, n, k)
+    m, n, k = mnk
+
+    # Has this configuration already been computed?
+    file_to_dump = dump_file(dump_folder, m, n, k, algo)
+    if os.path.exists(file_to_dump):
+        if os.stat(file_to_dump).st_size == 0:
+            optimal_kernels = dict()
+        else:
+            from joblib import load
+            optimal_kernels = load(file_to_dump)
+
+    else:
+
+        # Get parameter space for this (m, n, k) and this algorithm
+        parameter_space_ = kernel_algorithm[algo].promising_parameters(m, n, k, gpu_properties, autotuning_properties)
+        parameter_space = pd.DataFrame(parameter_space_)
+        del parameter_space_
+        parameter_space['algorithm'] = [algo] * len(parameter_space.index)  # Add "algorithm" column
+        if len(parameter_space.index) == 0:
+            optimal_kernels = dict()
+
+        else:
+
+            # Predict performances
+            parameter_sets = PredictiveParameters(parameter_space, gpu_properties, autotuning_properties)
+            predictors = np.array(parameter_sets.get_features(tree_features))
+            performances = np.sqrt(tree.predict(predictors))
+            del predictors
+            parameter_performances = parameter_sets.params
+            del parameter_sets
+            parameter_performances['perf'] = performances
+            del performances
+
+            # Store kernels of this algorithm that are candidates for the top-k
+            candidate_kernels = sorted(parameter_performances.to_dict('records'),
+                                       key=lambda x: x['perf'], reverse=True)[:top_k]
+            del parameter_performances
+
+            # Aggregate results from the different algorithms: sort and pick top_k
+            optimal_kernels = dict()
+            optimal_kernel_dicts = sorted(candidate_kernels, key=lambda x: x['perf'], reverse=True)[:top_k]
+            del candidate_kernels
+            for d in optimal_kernel_dicts:
+                optimal_kernels[(m, n, k)] = params_dict_to_kernel(**d, source='predicted')
+
+    return optimal_kernels
+
+
 ########################################################################################################################
 # Main
 ########################################################################################################################
@@ -45,6 +107,10 @@ def main(argv):
                       default="parameters_P100.json", help="Default: %default")
     parser.add_option("-t", "--trees", metavar="folder/",
                       default="predictive_model/", help="Default: %default")
+    parser.add_option("-j", "--njobs", type=int,
+                      default=-4, help="Number of joblib jobs. Default: %default")
+    parser.add_option("-c", "--chunk_size", type=int,
+                      default=20000, help="Chunk size for dispatching joblib jobs. Default: %default")
     options, args = parser.parse_args(sys.argv)
 
     ####################################################################################################################
@@ -75,48 +141,82 @@ def main(argv):
 
     ####################################################################################################################
     # Evaluation
-    optimal_kernels = list()
+    mnks = combinations(list(range(4, 46)))
     top_k = 1
-    for i, mnk in enumerate(combinations(list(range(4, 46)))):
+    optimal_kernels = dict()
+    mnks_to_predict = list()
+    dump_folder = 'optimal_kernels_dump'
 
-        m, n, k = mnk
-        print(m, "x", n, "x", k, "(", i, "/", len(combinations(list(range(4, 46)))), ")")
-
+    for m, n, k in mnks:
         if (m, n, k) in autotuned_kernels.keys():
-            optimal_kernels.append(autotuned_kernels[(m, n, k)])
+            optimal_kernels[(m, n, k)] = autotuned_kernels[(m, n, k)]
+        else:
+            mnks_to_predict.append((m, n, k))
 
-        else:  # find optimal parameter set for this (m, n, k)
+    # optimal_kernels_list is a list of dictionaries
+    # - keys: (m, n, k),
+    # - values: Kernel object describing best parameters
+    # - number of elements in each dictionary = top_k
+    # each element of the list corresponds to the search of optimal kernels for a given mnk and a given algorithm
+    n_jobs = options.njobs
+    if n_jobs == 1:
 
-            candidate_kernels = list()
-            for algo, kernel_algo in kernel_algorithm.items():
+        # Ignore joblib and run serially:
+        optimal_kernels_list = list()
+        for mnk, algo in product(mnks_to_predict, kernel_algorithm.keys()):
+            gc.collect()
+            print("Find optimal kernels for mnk=", mnk, ", algo=", algo)
+            optimal_kernels_list.append(
+                find_optimal_kernel(
+                    mnk, algo, tree[algo]['tree'], tree[algo]['features'],
+                    top_k, gpu_properties, autotuning_properties, dump_folder
+                )
+            )
+    else:
 
-                # Get parameter space for this (m, n, k) and this algorithm
-                parameter_space = kernel_algo.promising_parameters(m, n, k, gpu_properties, autotuning_properties)
-                parameter_space = pd.DataFrame(parameter_space)
-                parameter_space['algorithm'] = [algo] * len(parameter_space.index)
-                if len(parameter_space.index) == 0:
-                    break  # if this algorithm is not compatible with this (m, n, k), move on
+        # Chunk up tasks
+        optimal_kernels_list = list()
+        chunk_size = options.chunk_size
+        mnk_by_algo = list(product(mnks_to_predict, kernel_algorithm.keys()))
+        num_mnks_by_algo = len(list(mnk_by_algo))
 
-                # Predict performances
-                parameter_sets = PredictiveParameters(parameter_space, gpu_properties, autotuning_properties)
-                predictors = np.array(parameter_sets.get_features(tree[algo]['features']))
-                performances = np.sqrt(tree[algo]['tree'].predict(predictors))
-                parameter_performances = parameter_sets.params
-                parameter_performances['perf'] = performances
+        for i in range(0, num_mnks_by_algo+1, chunk_size):
+            start_chunk = i
+            end_chunk = min(start_chunk + chunk_size, num_mnks_by_algo+1)
+            print("Completed", i, "tasks out of", num_mnks_by_algo)
 
-                # Store kernels of this algorithm that are candidates for the top-k
-                candidate_kernels = sorted(parameter_performances.to_dict('records'),
-                                           key=lambda x: x['perf'], reverse=True)[:top_k]
+            # Run prediction tasks in parallel with joblib
+            optimal_kernels_list_ = Parallel(n_jobs=n_jobs, verbose=3)(
+                delayed(
+                    find_optimal_kernel, check_pickle=True)(
+                        mnk, algo, tree[algo]['tree'], tree[algo]['features'],
+                        top_k, gpu_properties, autotuning_properties, dump_folder
+                    )
+                for mnk, algo in mnk_by_algo[start_chunk:end_chunk])
 
-            # Aggregate results from the different algorithms: sort and pick top_k
-            optimal_kernel_dicts = sorted(candidate_kernels, key=lambda x: x['perf'], reverse=True)[:top_k]
-            for d in optimal_kernel_dicts:
-                optimal_kernels.append(params_dict_to_kernel(**d, source='predicted'))
+            optimal_kernels_list += optimal_kernels_list_
+
+
+    print("Finished gathering candidates for optimal parameter space")
+
+    optimal_kernels_mnk_algo = dict()
+    for optimal_kernel_mnk in optimal_kernels_list:
+        for mnk, kernels_mnk in optimal_kernel_mnk.items():
+            m, n, k = mnk
+            if (m, n, k) in optimal_kernels_mnk_algo.keys():
+                optimal_kernels_mnk_algo[(m, n, k)].append(kernels_mnk)
+            else:
+                optimal_kernels_mnk_algo[(m, n, k)] = [kernels_mnk]
+
+    for mnk, candidate_kernels in optimal_kernels_mnk_algo.items():
+        m, n, k = mnk
+        optimal_kernel_mnk = sorted(candidate_kernels, key=lambda x: x.perf, reverse=True)[:top_k]
+        optimal_kernels[(m, n, k)] = optimal_kernel_mnk[0]
 
     ####################################################################################################################
     # Write to file
     with open(options.params, 'w') as f:
-        s = json.dumps([kernel.as_dict for kernel in optimal_kernels])
+        s = json.dumps([optimal_kernels[kernel].as_dict_for_parameters_json for kernel in sorted(optimal_kernels.keys())])
         s = s.replace('}, ', '},\n')
         s = s.replace('[', '[\n')
         s = s.replace(']', '\n]')

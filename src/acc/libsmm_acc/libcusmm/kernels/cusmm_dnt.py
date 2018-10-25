@@ -44,6 +44,23 @@ class Kernel:
         return dict(algorithm=self.algorithm, **self.__dict__)
 
     @property
+    def as_dict_for_parameters_json(self):
+        fields = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks', 'algorithm', 'perf', 'source']
+        d = dict()
+        for f in fields:
+            d[f] = self.as_dict[f] if f in self.as_dict.keys() else 0
+        return d
+
+    @property
+    def as_dict_for_parameters_json(self):
+        fields = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks', 'algorithm', 'perf', 'source']
+        d = dict()
+        for f in fields:
+            if f in self.as_dict.keys():
+                d[f] = self.as_dict[f]
+        return d
+
+    @property
     def as_dict_for_parameters_h(self):
         fields = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks', 'perf', 'source']
         d = dict()
