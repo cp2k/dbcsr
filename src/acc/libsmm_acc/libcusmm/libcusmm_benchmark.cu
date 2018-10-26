@@ -481,4 +481,4 @@ int libcusmm_benchmark_transpose(libcusmm_benchmark_t* handle,
 
 }
 
-//EOF§
+//EOF
