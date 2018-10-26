@@ -8,7 +8,7 @@ class Kernel_dnt_largeDB2(cu.Kernel):
     algorithm_num = 2
     launch_parameters = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks']
 
-    def __init__(self, *, m, n, k, threads, tile_m, tile_n, w, v, grouping, minblocks, perf):
+    def __init__(self, m, n, k, threads, tile_m, tile_n, w, v, grouping, minblocks, perf):
         self.m = m
         self.n = n
         self.k = k
