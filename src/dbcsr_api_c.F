@@ -143,8 +143,6 @@ CONTAINS
       TYPE(dbcsr_distribution_type), POINTER             :: dist
       TYPE(dbcsr_type), POINTER                          :: matrix
 
-!character(len=*),pointer                :: fname
-
       ! associate pointers
       row_blk_sizes => c_row_blk_sizes
       col_blk_sizes => c_col_blk_sizes
@@ -300,9 +298,6 @@ CONTAINS
       ENDIF
    END SUBROUTINE
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! JKN: additional routines for dp
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! **************************************************************************************************
 !> \brief ...
 !> \param c_matrix_a ...
@@ -375,13 +370,12 @@ CONTAINS
       TYPE(c_ptr), INTENT(in)                            :: c_matrix_a
 
       TYPE(dbcsr_type), POINTER                          :: matrix_a, matrix_b
-      !REAL(kind=c_double), INTENT(inout), value            :: retval
       REAL(kind=c_double), INTENT(inout)                   :: retval
 
       CALL c_f_pointer(c_matrix_a, matrix_a)
       CALL c_f_pointer(c_matrix_b, matrix_b)
       retval = 0.0
-      call dbcsr_trace(matrix_a, matrix_b, retval)
+      CALL dbcsr_trace(matrix_a, matrix_b, retval)
    END SUBROUTINE
 
 ! **************************************************************************************************
@@ -396,12 +390,11 @@ CONTAINS
       TYPE(c_ptr), INTENT(in)                            :: c_matrix_a
 
       TYPE(dbcsr_type), POINTER                          :: matrix_a
-      !REAL(kind=c_double), INTENT(inout), value            :: retval
       REAL(kind=c_double), INTENT(inout)                   :: retval
 
       CALL c_f_pointer(c_matrix_a, matrix_a)
       retval = 0.0
-      call dbcsr_trace(matrix_a, retval)
+      CALL dbcsr_trace(matrix_a, retval)
    END SUBROUTINE
 
 ! **************************************************************************************************
@@ -421,7 +414,7 @@ CONTAINS
       REAL(kind=c_double), INTENT(IN)                    :: diags(tot_dim)
 
       CALL c_f_pointer(c_matrix_a, matrix_a)
-      call dbcsr_set_diag(matrix_a, diags)
+      CALL dbcsr_set_diag(matrix_a, diags)
    END SUBROUTINE
 
 ! **************************************************************************************************
@@ -439,7 +432,7 @@ CONTAINS
       REAL(kind=c_double),  INTENT(in), value            :: scl
 
       CALL c_f_pointer(c_matrix_a, matrix_a)
-      call dbcsr_set(matrix_a, scl)
+      CALL dbcsr_set(matrix_a, scl)
    END SUBROUTINE
 
 ! **************************************************************************************************
@@ -458,7 +451,7 @@ CONTAINS
 
       CALL c_f_pointer(c_matrix_a, matrix_a)
 
-      call dbcsr_filter(matrix_a, eps)
+      CALL dbcsr_filter(matrix_a, eps)
 
    END SUBROUTINE
    
@@ -493,11 +486,11 @@ CONTAINS
       rowp1 = row+1
       colp1 = col+1
       CALL dbcsr_get_block_p(matrix_a, rowp1, colp1, data_ptr, found_loc)
-      if (found_loc) then
-        do iii=1,row_size*col_size 
+      IF (found_loc) THEN
+        DO iii=1,row_size*col_size 
           data_block(iii) = data_ptr(iii)
-        enddo
-      endif
+        ENDDO
+      ENDIF
       found_it = found_loc
    END SUBROUTINE
 
@@ -530,7 +523,7 @@ CONTAINS
       CALL c_f_pointer(c_matrix_b, matrix_b)
       CALL c_f_pointer(c_matrix_c, matrix_c)
 
-      ret_sp = .false.
+      ret_sp = .FALSE.
       CALL dbcsr_multiply(transa, transb, alpha, matrix_a, matrix_b, beta, matrix_c, retain_sparsity=ret_sp, filter_eps=sthr)
    END SUBROUTINE
 
@@ -550,14 +543,14 @@ CONTAINS
       TYPE(c_ptr), INTENT(in)                            :: c_matrix_a 
       INTEGER(kind=c_int), INTENT(IN), value             :: nblocks, tot_dim
       INTEGER(kind=c_int), INTENT(IN)                    :: bdims(nblocks)
+      ! return row-sums (sums) and diagonal values (diags) of local block,
+      ! Gershgorin-discs are finalized in calling routine (allreduce)
       REAL(kind=c_double), INTENT(INOUT)                 :: sums(tot_dim), diags(tot_dim)
 
       TYPE(dbcsr_type), POINTER                          :: matrix_a
       REAL(kind=8), DIMENSION(:,:), POINTER              :: data_ptr
       INTEGER                                            :: irow, icol, ii, jj, row_dim, col_dim, orow
       LOGICAL                                            :: found_loc
-      !REAL(kind=8), ALLOCATABLE, DIMENSION(:)            :: diags_loc, sums_loc
-      !REAL(kind=8)                                       :: diags_loc(tot_dim), sums_loc(tot_dim)
 
       CALL c_f_pointer(c_matrix_a, matrix_a)
 
@@ -567,23 +560,23 @@ CONTAINS
       CALL dbcsr_get_diag(matrix_a, diags)
 
       orow = 0
-      do irow=1,nblocks
+      DO irow=1,nblocks
         row_dim = bdims(irow)
-        do icol=1,nblocks
+        DO icol=1,nblocks
           NULLIFY (data_ptr)
           found_loc = .FALSE.
           CALL dbcsr_get_block_p(matrix_a, irow, icol, data_ptr, found_loc)
-          if (found_loc) then
+          IF (found_loc) THEN
             col_dim = bdims(icol)
-            do jj=1,col_dim
-              do ii=1,row_dim
+            DO jj=1,col_dim
+              DO ii=1,row_dim
                 sums(orow+ii) = sums(orow+ii) + abs(data_ptr(ii,jj))
-              enddo
-            enddo
-          endif
-        enddo
+              ENDDO
+            ENDDO
+          ENDIF
+        ENDDO
         orow = orow + row_dim
-      enddo
+      ENDDO
 
    END SUBROUTINE
 
@@ -602,7 +595,7 @@ CONTAINS
       TYPE(dbcsr_type), POINTER                          :: matrix_a
 
       CALL c_f_pointer(c_matrix_a, matrix_a)
-      call dbcsr_scale(matrix_a,scl)
+      CALL dbcsr_scale(matrix_a,scl)
    END SUBROUTINE
 
 ! **************************************************************************************************
