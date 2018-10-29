@@ -300,4 +300,377 @@ CONTAINS
       ENDIF
    END SUBROUTINE
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! JKN: additional routines for dp
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix_a ...
+!> \param c_matrix_b ...
+!> \param C ...
+!> \param name="c_dbcsr_copy_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_copy_d(c_matrix_a, c_matrix_b) &
+      bind(C, name="c_dbcsr_copy_d")
+      TYPE(c_ptr), INTENT(in)                            :: c_matrix_b
+      TYPE(c_ptr), INTENT(inout)                         :: c_matrix_a
+
+      LOGICAL                                            :: fa
+      TYPE(dbcsr_type), POINTER                          :: matrix_a, matrix_b
+      CHARACTER                                          :: c_matrix_type
+
+      c_matrix_type = 'N'
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+      CALL c_f_pointer(c_matrix_b, matrix_b)
+      fa = .FALSE.
+      CALL dbcsr_copy(matrix_a, matrix_b,"matrix-copy", fa,fa,fa,c_matrix_type)
+   END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix_a ...
+!> \param c_matrix_b ...
+!> \param faca ...
+!> \param facb ...
+!> \param C ...
+!> \param name="c_dbcsr_add_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_add_d(c_matrix_a, c_matrix_b, faca, facb) &
+      bind(C, name="c_dbcsr_add_d")
+      TYPE(c_ptr), INTENT(in)                            :: c_matrix_b
+      TYPE(c_ptr), INTENT(inout)                         :: c_matrix_a
+      REAL(kind=c_double), INTENT(in), value             :: faca,facb
+
+      TYPE(dbcsr_type), POINTER                          :: matrix_a, matrix_b
+
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+      CALL c_f_pointer(c_matrix_b, matrix_b)
+      CALL dbcsr_add(matrix_a, matrix_b, faca, facb)
+
+   END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief ...
+!> \param fcomm ...
+!> \param C ...
+!> \param name="c_dbcsr_finalize_lib_silent" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_finalise_lib_silent(fcomm) bind(C, name="c_dbcsr_finalize_lib_aux_silent")
+      INTEGER(kind=c_int), INTENT(in)                    :: fcomm
+
+      CALL dbcsr_finalize_lib(fcomm,-1)
+   END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix_a ...
+!> \param c_matrix_b ...
+!> \param retval ...
+!> \param C ...
+!> \param name="c_dbcsr_trace_ab_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_trace_ab_d(c_matrix_a, c_matrix_b, retval) &
+      bind(C, name="c_dbcsr_trace_ab_d")
+      TYPE(c_ptr), INTENT(in)                            :: c_matrix_b
+      TYPE(c_ptr), INTENT(in)                            :: c_matrix_a
+
+      TYPE(dbcsr_type), POINTER                          :: matrix_a, matrix_b
+      !REAL(kind=c_double), INTENT(inout), value            :: retval
+      REAL(kind=c_double), INTENT(inout)                   :: retval
+
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+      CALL c_f_pointer(c_matrix_b, matrix_b)
+      retval = 0.0
+      call dbcsr_trace(matrix_a, matrix_b, retval)
+   END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix_a ...
+!> \param retval ...
+!> \param C ...
+!> \param name="c_dbcsr_trace_a_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_trace_a_d(c_matrix_a, retval) &
+      bind(C, name="c_dbcsr_trace_a_d")
+      TYPE(c_ptr), INTENT(in)                            :: c_matrix_a
+
+      TYPE(dbcsr_type), POINTER                          :: matrix_a
+      !REAL(kind=c_double), INTENT(inout), value            :: retval
+      REAL(kind=c_double), INTENT(inout)                   :: retval
+
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+      retval = 0.0
+      call dbcsr_trace(matrix_a, retval)
+   END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix_a ...
+!> \param diags ...
+!> \param tot_dim ...
+!> \param C ...
+!> \param name="c_dbcsr_set_diag_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_set_diag_d(c_matrix_a, diags, tot_dim) &
+      bind(C, name="c_dbcsr_set_diag_d")
+      TYPE(c_ptr), INTENT(inout)                         :: c_matrix_a
+      INTEGER(kind=c_int), INTENT(in), value             :: tot_dim
+
+      TYPE(dbcsr_type), POINTER                          :: matrix_a
+      REAL(kind=c_double), INTENT(IN)                    :: diags(tot_dim)
+
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+      call dbcsr_set_diag(matrix_a, diags)
+   END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix_a ...
+!> \param scl ...
+!> \param C ...
+!> \param name="c_dbcsr_set_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_set_d(c_matrix_a, scl) &
+      bind(C, name="c_dbcsr_set_d")
+      TYPE(c_ptr), INTENT(inout)                         :: c_matrix_a
+
+      TYPE(dbcsr_type), POINTER                          :: matrix_a
+      REAL(kind=c_double),  INTENT(in), value            :: scl
+
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+      call dbcsr_set(matrix_a, scl)
+   END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix_a ...
+!> \param eps ...
+!> \param C ...
+!> \param name="c_dbcsr_filter_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_filter_d(c_matrix_a, eps) &
+      bind(C, name="c_dbcsr_filter_d")
+
+      TYPE(c_ptr), INTENT(inout)                         :: c_matrix_a
+      TYPE(dbcsr_type), POINTER                          :: matrix_a
+      REAL(kind=c_double),  INTENT(in), value                   :: eps
+
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+
+      call dbcsr_filter(matrix_a, eps)
+
+   END SUBROUTINE
+   
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix_a ...
+!> \param row ...
+!> \param col ...
+!> \param data_block ...
+!> \param found_it ...
+!> \param row_size ...
+!> \param col_size ...
+!> \param C ...
+!> \param name="c_dbcsr_get_block_p_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_get_block_d(c_matrix_a, row, col, data_block, found_it, row_size, col_size) bind(C, name="c_dbcsr_get_block_d")
+
+      INTEGER(c_int), INTENT(in), value                        :: row, col, row_size, col_size
+      TYPE(c_ptr), INTENT(in)                                  :: c_matrix_a
+      REAL(kind=c_double), INTENT(INOUT)                       :: data_block(row_size*col_size)
+      LOGICAL(kind=c_bool), INTENT(out)                        :: found_it
+
+      TYPE(dbcsr_type), POINTER                                :: matrix_a
+      INTEGER                                                  :: rowp1, colp1
+      LOGICAL                                                  :: found_loc
+      REAL(kind=8), DIMENSION(:), POINTER :: data_ptr
+      INTEGER :: iii
+
+      NULLIFY (data_ptr)
+      found_loc = .FALSE.
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+      rowp1 = row+1
+      colp1 = col+1
+      CALL dbcsr_get_block_p(matrix_a, rowp1, colp1, data_ptr, found_loc)
+      if (found_loc) then
+        do iii=1,row_size*col_size 
+          data_block(iii) = data_ptr(iii)
+        enddo
+      endif
+      found_it = found_loc
+   END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief ...
+!> \param trans_a ...
+!> \param trans_b ...
+!> \param alpha ...
+!> \param c_matrix_a ...
+!> \param c_matrix_b ...
+!> \param beta ...
+!> \param c_matrix_c ...
+!> \param sthr ...
+!> \param C ...
+!> \param name="c_dbcsr_multiply_eps_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_multiply_eps_d(transa, transb, alpha, c_matrix_a, c_matrix_b, beta, c_matrix_c, sthr) &
+      bind(C, name="c_dbcsr_multiply_eps_d")
+      CHARACTER(kind=c_char), INTENT(in), value          :: transa, transb
+      REAL(kind=c_double), INTENT(in), value             :: alpha
+      TYPE(c_ptr), INTENT(in)                            :: c_matrix_a, c_matrix_b
+      REAL(kind=c_double), INTENT(in), value             :: beta
+      TYPE(c_ptr), INTENT(inout)                         :: c_matrix_c
+      REAL(kind=c_double), INTENT(in), value             :: sthr
+
+      LOGICAL                                            :: ret_sp
+      TYPE(dbcsr_type), POINTER                          :: matrix_a, matrix_b, matrix_c
+
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+      CALL c_f_pointer(c_matrix_b, matrix_b)
+      CALL c_f_pointer(c_matrix_c, matrix_c)
+
+      ret_sp = .false.
+      CALL dbcsr_multiply(transa, transb, alpha, matrix_a, matrix_b, beta, matrix_c, retain_sparsity=ret_sp, filter_eps=sthr)
+   END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix_a ...
+!> \param bdims ...
+!> \param nblocks ...
+!> \param tot_dim ...
+!> \param sums ...
+!> \param diags ...
+!> \param C ...
+!> \param name="c_dbcsr_gershgorin_estimate_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_gershgorin_estimate_d(c_matrix_a, bdims, nblocks, tot_dim, sums, diags) &
+      bind(C, name="c_dbcsr_gershgorin_estimate_d")
+      TYPE(c_ptr), INTENT(in)                            :: c_matrix_a 
+      INTEGER(kind=c_int), INTENT(IN), value             :: nblocks, tot_dim
+      INTEGER(kind=c_int), INTENT(IN)                    :: bdims(nblocks)
+      REAL(kind=c_double), INTENT(INOUT)                 :: sums(tot_dim), diags(tot_dim)
+
+      TYPE(dbcsr_type), POINTER                          :: matrix_a
+      REAL(kind=8), DIMENSION(:,:), POINTER              :: data_ptr
+      INTEGER                                            :: irow, icol, ii, jj, row_dim, col_dim, orow
+      LOGICAL                                            :: found_loc
+      !REAL(kind=8), ALLOCATABLE, DIMENSION(:)            :: diags_loc, sums_loc
+      !REAL(kind=8)                                       :: diags_loc(tot_dim), sums_loc(tot_dim)
+
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+
+      diags = 0.0
+      sums = 0.0
+
+      CALL dbcsr_get_diag(matrix_a, diags)
+
+      orow = 0
+      do irow=1,nblocks
+        row_dim = bdims(irow)
+        do icol=1,nblocks
+          NULLIFY (data_ptr)
+          found_loc = .FALSE.
+          CALL dbcsr_get_block_p(matrix_a, irow, icol, data_ptr, found_loc)
+          if (found_loc) then
+            col_dim = bdims(icol)
+            do jj=1,col_dim
+              do ii=1,row_dim
+                sums(orow+ii) = sums(orow+ii) + abs(data_ptr(ii,jj))
+              enddo
+            enddo
+          endif
+        enddo
+        orow = orow + row_dim
+      enddo
+
+   END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix_a ...
+!> \param scl ...
+!> \param C ...
+!> \param name="c_dbcsr_gershgorin_estimate_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_scale_d(c_matrix_a, scl) &
+      bind(C, name="c_dbcsr_scale_d")
+      TYPE(c_ptr), INTENT(in)                            :: c_matrix_a 
+      REAL(kind=c_double), INTENT(IN), value             :: scl
+
+      TYPE(dbcsr_type), POINTER                          :: matrix_a
+
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+      call dbcsr_scale(matrix_a,scl)
+   END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix_a ...
+!> \param cfname ...
+!> \param c_dist ...
+!> \param C ...
+!> \param name="c_dbcsr_read_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_read_d(c_matrix_a, cfname, c_dist) &
+      bind(C, name="c_dbcsr_read_d")
+      TYPE(c_ptr), INTENT(inout)                         :: c_matrix_a 
+      TYPE(c_ptr), INTENT(in), value                     :: cfname
+      TYPE(c_ptr), INTENT(in)                            :: c_dist
+
+      TYPE(dbcsr_type), POINTER                          :: matrix_a
+      TYPE(dbcsr_distribution_type), POINTER             :: dist
+      CHARACTER(:, kind=c_char), ALLOCATABLE             :: ffname
+
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+      CALL c_f_pointer(c_dist, dist)
+      CALL c_f_string(cfname, ffname)
+
+      CALL dbcsr_binary_read(filepath=ffname, distribution=dist, matrix_new=matrix_a)
+
+      deallocate(ffname)
+   END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix_a ...
+!> \param cfname ...
+!> \param C ...
+!> \param name="c_dbcsr_write_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_write_d(c_matrix_a, cfname) &
+      bind(C, name="c_dbcsr_write_d")
+      TYPE(c_ptr), INTENT(in)                            :: c_matrix_a 
+      TYPE(c_ptr), INTENT(in), value                     :: cfname
+
+      TYPE(dbcsr_type), POINTER                          :: matrix_a
+      CHARACTER(:, kind=c_char), ALLOCATABLE             :: ffname
+
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+      CALL c_f_string(cfname, ffname)
+
+      CALL dbcsr_binary_write(matrix_a, ffname)
+
+      deallocate(ffname)
+   END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix_a ...
+!> \param amv ...
+!> \param C ...
+!> \param name="c_dbcsr_maxabs_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_maxabs_d(c_matrix_a, amv) &
+      bind(C, name="c_dbcsr_maxabs_d")
+      TYPE(c_ptr), INTENT(in)                            :: c_matrix_a 
+      REAL(kind=c_double), INTENT(out)                   :: amv
+
+      TYPE(dbcsr_type), POINTER                          :: matrix_a
+
+      CALL c_f_pointer(c_matrix_a, matrix_a)
+      amv = dbcsr_maxabs(matrix_a)
+   END SUBROUTINE
+
 END MODULE
