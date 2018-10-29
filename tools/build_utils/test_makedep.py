@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Unittests for the makedep.py script
@@ -10,6 +11,7 @@ import unittest
 import tempfile
 import shutil
 import json
+import io
 import os
 from os import path
 
@@ -72,6 +74,41 @@ class TestCheckArchives(unittest.TestCase):
                 "public": ["*.F"],
                 "requires": []
                 }, fhandle)
+
+        makedep.main(
+            out_fn,
+            "lower", "normal", ".a",
+            my_dir, ["./single.F"])
+
+        with open(out_fn, 'r') as fhandle:
+            no_comment_lines = [l.strip() for l in fhandle if not l.startswith('#') and l.strip()]
+
+        self.assertEqual(
+            no_comment_lines,
+            ['$(LIBDIR)/test.a : single.o', 'install: PUBLICFILES += *.F', 'single.o : single.F'])
+
+
+    def test_unicode(self):
+        """
+        running on a dir with a single file
+        """
+
+        my_dir = path.join(self.base_dir, "unicode")
+        out_fn = path.join(my_dir, "all.dep")
+        single_fn = path.join(my_dir, "single.F")
+        pkg_fn = path.join(my_dir, "PACKAGE")
+
+        os.mkdir(my_dir)
+        with io.open(single_fn, 'w', encoding='utf8') as fhandle:
+            fhandle.write(u"! Ångström\n")
+
+        with io.open(pkg_fn, 'w', encoding='utf8') as fhandle:
+            fhandle.write(u"""{
+    "description": "unicode test with just an Ångström 😉",
+    "archive": "test",
+    "public": ["*.F"],
+    "requires": []
+}""")
 
         makedep.main(
             out_fn,
