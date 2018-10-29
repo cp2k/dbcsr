@@ -17,20 +17,11 @@ re_incl_fort = re.compile(r"\n\s*include\s+['\"](.+)['\"]")
 
 
 #=============================================================================
-def main():
+def main(out_fn, mod_format, mode, archive_ext, src_dir, src_files):
     messages = []
     #process command line arguments
-    out_fn  = sys.argv[1]
-    mod_format = sys.argv[2]
-    mode = sys.argv[3]
-    archive_ext = sys.argv[4]
-    src_dir = sys.argv[5]
-    src_files_tmp = sys.argv[6:]
-    src_files = []
-    for fn_part in src_files_tmp:
-        fn_part = fn_part[1:]
-        fn = src_dir + fn_part
-        src_files.append(fn)
+    src_files = [path.join(src_dir, f) for f in src_files]
+
     if(mod_format not in ('lower', 'upper', 'no')):
         error('Module filename format must be eighter of "lower", "upper", or "no".')
     if(mode not in ('normal', 'hackdep', 'mod_compiler')):
@@ -348,17 +339,12 @@ def error(msg):
     sys.exit(1)
 
 #=============================================================================
-# Python 2.4 compatibility
-def all(iterable):
-    for element in iterable:
-        if(not element):
-            return(False)
-    return(True)
 
-#=============================================================================
-if(len(sys.argv)==2 and sys.argv[-1]=="--selftest"):
-    pass #TODO implement selftest
-else:
-    main()
+if __name__ == '__main__':
+    if len(sys.argv) < 7:
+        print("Usage: {} <outfile> <format> <mode> <archive.ext> <src-dir> <src-file1> [<src-file2> ...]"
+              .format(sys.argv[0]))
+        sys.exit(1)
 
-#EOF
+    main(out_fn=sys.argv[1], mod_format=sys.argv[2], mode=sys.argv[3], archive_ext=sys.argv[4],
+         src_dir=sys.argv[5], src_files=sys.argv[6:])
