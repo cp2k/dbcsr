@@ -144,9 +144,9 @@ def main(out_fn, mod_format, mode, archive_ext, src_dir, src_files):
             makefile += " " + " ".join(provides)
         makefile += "\n\n"
 
-    f = open(out_fn, "w")
-    f.write(makefile)
-    f.close()
+    with open(out_fn, "w") as fhandle:
+        fhandle.write(makefile)
+        fhandle.close()
 
 
 #=============================================================================
@@ -161,7 +161,8 @@ def cmp_mods(mod):
 def parse_file(parsed_files, fn, src_dir):
     if(fn in parsed_files): return
 
-    content = open(fn).read()
+    with open(fn) as fhandle:
+        content = fhandle.read()
 
     # re.IGNORECASE is horribly expensive. Converting to lower-case upfront
     content_lower = content.lower()
@@ -210,7 +211,9 @@ def read_pkg_manifest(packages, p):
     fn = p+"/PACKAGE"
     if(not path.exists(fn)):
         error("Could not open PACKAGE manifest: "+fn)
-    content = open(fn).read()
+
+    with open(fn) as fhandle:
+        content = fhandle.read()
 
     packages[p] = eval(content)
     packages[p]['objects'] = []
