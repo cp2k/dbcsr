@@ -3,6 +3,7 @@
 
 import re
 import sys
+import ast
 from os import path
 from os.path import dirname, basename, normpath
 import glob
@@ -219,14 +220,14 @@ def read_pkg_manifest(project_name, packages, p):
     if p in packages.keys():
         return
 
-    fn = p+"/PACKAGE"
+    fn = path.join(p, "PACKAGE")
     if not path.exists(fn):
         error("Could not open PACKAGE manifest: " + fn)
 
     with open(fn) as fhandle:
         content = fhandle.read()
 
-    packages[p] = eval(content)
+    packages[p] = ast.literal_eval(content)
     packages[p]['objects'] = []
     if "archive" not in packages[p].keys():
         packages[p]['archive'] = "lib{}{}".format(project_name, basename(p))
@@ -239,7 +240,7 @@ def read_pkg_manifest(project_name, packages, p):
     if "public" in packages[p].keys():
         public_files = []
         for fn in packages[p]["public"]:
-            public_files += glob.glob(p+"/"+fn)
+            public_files += glob.glob(path.join(p, fn))
         packages[p]["public_files"] = [basename(fn) for fn in public_files]
 
 # ============================================================================
