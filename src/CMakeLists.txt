@@ -92,6 +92,9 @@ add_fypp_sources(DBCSR_SRCS
 
 add_library(dbcsr ${DBCSR_SRCS})
 target_link_libraries(dbcsr ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${MPI_Fortran_LIBRARIES})
+if (TARGET PkgConfig::deps)
+  target_link_libraries(dbcsr PkgConfig::deps)
+endif ()
 target_include_directories(dbcsr PRIVATE base) # do not export those includes, but some srcs do an unprefixed include
 # make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
 target_include_directories(dbcsr PUBLIC
@@ -99,7 +102,7 @@ target_include_directories(dbcsr PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
-target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL)
+target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL ${SMM_INTERNAL_DEF})
 set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
 
 if (MPI_FOUND)
