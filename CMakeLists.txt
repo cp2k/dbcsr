@@ -12,6 +12,8 @@ option(USE_OPENMP "Build with OpenMP support" ON)
 option(WITH_C_API "Build the C API library" ON)
 cmake_dependent_option(WITH_EXAMPLES "Build the examples" ON "USE_MPI" OFF) # all examples require MPI
 set(TEST_MPI_RANKS "auto" CACHE STRING "Number of MPI ranks for testing")
+set(USE_SMM "blas" CACHE STRING "Small Matrix Multiplication implementation to use (default: blas)")
+set_property(CACHE USE_SMM PROPERTY STRINGS blas libxsmm)
 
 if (WITH_C_API AND WITH_EXAMPLES)
   set(ENABLED_LANGUAGES Fortran CXX)
@@ -26,9 +28,21 @@ enable_testing() # enables the `make test` target
 
 find_package(BLAS REQUIRED)
 find_package(LAPACK REQUIRED)
+find_package(PkgConfig)
 
 if (USE_MPI)
   find_package(MPI COMPONENTS ${ENABLED_LANGUAGES} REQUIRED)
+endif ()
+
+if (USE_SMM MATCHES "blas")
+  message("-- Using BLAS for Small Matrix Multiplication")
+elseif (USE_SMM MATCHES "libxsmm")
+  # rely on pkg-config since it's quiet hard to link against libxsmm properly
+  pkg_check_modules(deps REQUIRED IMPORTED_TARGET GLOBAL libxsmmf)
+  message("-- Using libxsmm for Small Matrix Multiplication")
+  set(SMM_INTERNAL_DEF "__LIBXSMM")
+else()
+  message(FATAL_ERROR "Unknown SMM library specified" )
 endif ()
 
 # make sure that the default is a RELEASE
