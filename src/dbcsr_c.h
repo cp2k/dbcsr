@@ -6,8 +6,8 @@
 extern "C" {
   void c_dbcsr_add_d(dm_dbcsr* mat_a, dm_dbcsr* mat_b, double pa, double pb);
   void c_dbcsr_init_lib();
-  void c_dbcsr_distribution_new(void** dist, MPI_Comm comm, int* row_dist, int row_dist_size,
-                                int* col_dist, int col_dist_size);
+  void c_dbcsr_distribution_new_aux(void** dist, MPI_Fint* comm, int* row_dist, int row_dist_size,
+                                    int* col_dist, int col_dist_size);
   void c_dbcsr_create_new_d(dm_dbcsr* matrix, const char* name, void* dist, char matrix_type, int* row_blk_sizes,
                             int row_blk_sizes_length, int* col_blk_sizes, int col_blk_sizes_length);
   void c_dbcsr_release(dm_dbcsr* matrix);
@@ -31,10 +31,10 @@ extern "C" {
   void c_dbcsr_filter_d(dm_dbcsr* mat_a, double eps);
   void c_dbcsr_gershgorin_estimate_d(dm_dbcsr*, int* bdims, int nblocks, int tot_dim, double* sums, double* diags);
   void c_dbcsr_scale_d(dm_dbcsr* mat_a, double eps);
-  void c_dbcsr_print(void* matrix);
-  void c_dbcsr_read_d(void** matrix, char* cfname, void** fdist);
-  void c_dbcsr_write_d(void** matrix, char* cfname);
-  void c_dbcsr_maxabs_d(void** matrix, double* amv);
+  void c_dbcsr_print(dm_dbcsr matrix);
+  void c_dbcsr_read_d(dm_dbcsr* matrix, char* cfname, void** fdist);
+  void c_dbcsr_write_d(dm_dbcsr* matrix, char* cfname);
+  void c_dbcsr_maxabs_d(dm_dbcsr* matrix, double* amv);
 
 }
 #endif

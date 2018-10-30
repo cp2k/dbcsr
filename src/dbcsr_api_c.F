@@ -570,7 +570,7 @@ CONTAINS
             col_dim = bdims(icol)
             DO jj=1,col_dim
               DO ii=1,row_dim
-                sums(orow+ii) = sums(orow+ii) + abs(data_ptr(ii,jj))
+                sums(orow+ii) = sums(orow+ii) + dabs(data_ptr(ii,jj))
               ENDDO
             ENDDO
           ENDIF
