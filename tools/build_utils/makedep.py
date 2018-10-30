@@ -18,7 +18,7 @@ re_incl_fort = re.compile(r"\n\s*include\s+['\"](.+)['\"]")
 
 
 # ============================================================================
-def main(out_fn, mod_format, mode, archive_ext, src_dir, src_files):
+def main(out_fn, project_name, mod_format, mode, archive_ext, src_dir, src_files):
     messages = []
     # process command line arguments
     src_files = [path.join(src_dir, f) for f in src_files]
@@ -62,7 +62,7 @@ def main(out_fn, mod_format, mode, archive_ext, src_dir, src_files):
     packages = dict()
     for fn in src_files:
         p = normpath(dirname(fn))
-        read_pkg_manifest(packages, p)
+        read_pkg_manifest(project_name, packages, p)
     messages.append("Read %d package manifests" % len(packages))
 
     # check dependencies against package manifests
@@ -215,7 +215,7 @@ def parse_file(parsed_files, fn, src_dir):
 
 
 # ============================================================================
-def read_pkg_manifest(packages, p):
+def read_pkg_manifest(project_name, packages, p):
     if p in packages.keys():
         return
 
@@ -229,12 +229,12 @@ def read_pkg_manifest(packages, p):
     packages[p] = eval(content)
     packages[p]['objects'] = []
     if "archive" not in packages[p].keys():
-        packages[p]['archive'] = "libdbcsr"+basename(p)
+        packages[p]['archive'] = "lib{}{}".format(project_name, basename(p))
     packages[p]['allowed_deps'] = [normpath(p)]
     packages[p]['allowed_deps'] += [normpath(path.join(p, r)) for r in packages[p]['requires']]
 
     for r in packages[p]['requires']:
-        read_pkg_manifest(packages, normpath(path.join(p, r)))
+        read_pkg_manifest(project_name, packages, normpath(path.join(p, r)))
 
     if "public" in packages[p].keys():
         public_files = []
@@ -246,10 +246,13 @@ def read_pkg_manifest(packages, p):
 def mod2modfile(m, mod_format):
     if mod_format == 'no':
         return ""
+
     if mod_format == 'lower':
         return m.lower() + ".mod"
+
     if mod_format == 'upper':
         return m.upper() + ".mod"
+
     assert False  # modeps unknown
 
 
@@ -358,10 +361,11 @@ def error(msg):
 # ============================================================================
 
 if __name__ == '__main__':
-    if len(sys.argv) < 7:
-        print("Usage: {} <outfile> <format> <mode> <archive.ext> <src-dir> <src-file1> [<src-file2> ...]"
+    if len(sys.argv) < 8:
+        print("Usage: {} <outfile> <project_name> <format> <mode> <archive.ext> <src-dir> <src-file1> [<src-file2> ...]"
               .format(sys.argv[0]))
         sys.exit(1)
 
-    main(out_fn=sys.argv[1], mod_format=sys.argv[2], mode=sys.argv[3], archive_ext=sys.argv[4],
-         src_dir=sys.argv[5], src_files=sys.argv[6:])
+    main(out_fn=sys.argv[1], project_name=sys.argv[2],
+         mod_format=sys.argv[3], mode=sys.argv[4], archive_ext=sys.argv[5],
+         src_dir=sys.argv[6], src_files=sys.argv[7:])
