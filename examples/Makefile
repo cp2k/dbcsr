@@ -17,7 +17,7 @@ all: dbcsr_example_1.x dbcsr_example_2.x dbcsr_example_3.x
 
 # Include C/C++ examples if the dbcsr.h is installed
 ifneq (,$(wildcard $(DBCSRDIR)/include/dbcsr.h))
-all: dbcsr_example_3_cpp.x
+all: dbcsr_example_3_cpp.x dbcsr_example_4_cpp.x dbcsr_example_5_cpp.x
 endif
 
 %.x: %.F
