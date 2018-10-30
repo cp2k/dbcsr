@@ -21,53 +21,146 @@ flags.DEFINE_string('in_folder', 'tune_big/', 'Folder from which to read data')
 flags.DEFINE_string('algo', 'tiny', 'Algorithm to train on')
 flags.DEFINE_boolean('print_tree', False,
                      'Whether to export the best estimator tree to SVG (Warning: can be very slow for large trees)')
-flags.DEFINE_string('tune', 'DT', 'Model to tune (Options: DT, RF, all)')
-flags.DEFINE_integer('nruns', '10', '#times to run train-test split, variable selection and GridSearch on model')
+flags.DEFINE_boolean('tune', False, 'Rune recursive feature selection and grid search on hyperparameters')
+flags.DEFINE_string('model', 'RF', 'Model to train. Options: DT (Decision Trees), RF (Random Forests)')
+#flags.DEFINE_integer('nruns', '10', '#times to run train-test split, variable selection and GridSearch on model')
 flags.DEFINE_integer('splits', '5', 'number of cross-validation splits used in RFECV and GridSearchCV')
+flags.DEFINE_integer('ntrees', '10', 'number of estimators in RF')
 flags.DEFINE_integer('njobs', '-1', 'number of cross-validation splits used in RFECV and GridSearchCV')
-flags.DEFINE_integer('nrows', 20000, 'Number of rows of data to load. Default: 0 (load all)')
-flags.DEFINE_string('gs', 'model_selection/medium/2018-10-22--06-01/', 'Path to pickled GridSearchCV object to load instead of recomputing')
+flags.DEFINE_integer('nrows', None, 'Number of rows of data to load. Default: None (load all)')
+flags.DEFINE_string('gs', '', 'Path to pickled GridSearchCV object to load instead of recomputing')
 FLAGS = flags.FLAGS
 
 
 ########################################################################################################################
-# Optimized Hyperparameters
+# Selected features and optimized hyperparameters
 ########################################################################################################################
-contributing_features = {
-    'tiny': [
-        'm', 'n', 'k', 'size_a', 'size_b', 'size_c',
-        'threads_per_blk', 'grouping', 'minblocks', 'nblks', 'Gflops',
-        'ru_tiny_smem_per_block', 'ru_tiny_buf_size',
+selected_features = {
+    'tiny': [  # 2018-10-11--16-00_RUNS20/Decision_Tree_12
+        'nblks',
+        'ru_tinysmallmed_unroll_factor_c_total',
+        'ru_tiny_smem_per_block',
+        'Gflops',
+        'size_a',
+        'size_c',
+        'threads_per_blk',
         'ru_tiny_max_parallel_work',
         'ru_tinysmallmed_unroll_factor_a_total',
-        'ru_tinysmallmed_unroll_factor_c_total'
+        'ru_tiny_buf_size'
     ],
+    'small': [  # 2018-10-16--15-26
+        'grouping',
+        'k',
+        'm',
+        'minblocks',
+        'threads_per_blk',
+        'nthreads',
+        'Gflops',
+        'ru_tinysmallmed_unroll_factor_b',
+        'ru_smallmedlarge_cmax',
+        'ru_smallmedlarge_T',
+        'ru_smallmedlarge_min_threads',
+        'ru_smallmed_buf_size',
+        'Koth_small_Nmem_shared',
+        'mnk'
+    ],
+    'medium': [  # result of one of the RFECVs, copied to journal
+        'k',
+        'm',
+        'n',
+        'minblocks',
+        'threads_per_blk',
+        'tile_m',
+        'tile_n',
+        'size_a',
+        'size_c',
+        'nthreads',
+        'sm_desired',
+        'nblocks_per_sm_lim_blks_warps',
+        'Gflops',
+        'ru_tinysmallmed_unroll_factor_a',
+        'ru_tinysmallmed_unroll_factor_b',
+        'ru_tinysmallmed_unroll_factor_c_total',
+        'ru_smallmedlarge_cmax',
+        'ru_smallmedlarge_rmax',
+        'ru_smallmedlarge_T',
+        'ru_smallmedlarge_min_threads',
+        'ru_smallmed_unroll_factor_c',
+        'ru_smallmed_loop_matmul',
+        'ru_smallmed_max_parallel_work',
+        'ru_smallmed_regs_per_thread'
+    ],
+    'largeDB1': [  # 2018-10-15--02-47
+        'size_b',
+        'minblocks',
+        'tile_n',
+        'ru_large_Pc',
+        'size_c',
+        'size_a',
+        'Koth_large_Nmem_glob',
+        'nblocks_per_sm_lim_blks_warps',
+        'ru_smallmedlarge_cmax',
+        'tile_m',
+        'm',
+        'sm_desired',
+        'ru_large_Pa',
+        'ru_large_loop_matmul',
+        'ru_smallmedlarge_rmax',
+        'w',
+        'ru_large_unroll_factor_b',
+        'threads_per_blk',
+        'ru_large_unroll_factor_a',
+        'ru_large_Pb',
+        'k',
+        'Gflops'
+    ],
+    'largeDB2': [  # 2018-10-15--07-43
+        'size_a',
+        'size_b',
+        'tile_m',
+        'sm_desired',
+        'ru_smallmedlarge_rmax',
+        'ru_large_loop_matmul',
+        'm',
+        'Koth_large_Nmem_glob',
+        'ru_large_unroll_factor_b',
+        'tile_n',
+        'w',
+        'ru_large_Pc',
+        'k',
+        'ru_smallmedlarge_cmax',
+        'ru_large_Pa',
+        'ru_large_unroll_factor_a',
+        'size_c',
+        'threads_per_blk',
+        'mnk'
+    ]
 }
 optimized_hyperparameters = {
     'tiny': {
-        'max_depth': [4, 5, 6, 7, 8, 9, 10, 13, 14, 15, 17, 18],
-        'min_samples_split': [2, 8, 11, 14, 17],
-        'min_samples_leaf': [2, 3, 11, 14]
+        'max_depth': 39,
+        'min_samples_leaf': 8,
+        'min_samples_split': 11
     },
     'small': {
-        'max_depth': [np.NaN],
-        'min_samples_split': [np.NaN],
-        'min_samples_leaf': [np.NaN]
+        'max_depth': 12,
+        'min_samples_leaf': 2,
+        'min_samples_split': 2
     },
-    'medium': {
-        'max_depth': [np.NaN],
-        'min_samples_split': [np.NaN],
-        'min_samples_leaf': [np.NaN]
+    'medium': {  # common sense
+        'max_depth': 18,
+        'min_samples_leaf': 2,
+        'min_samples_split': 2
     },
     'largeDB1': {
-        'max_depth': [np.NaN],
-        'min_samples_split': [np.NaN],
-        'min_samples_leaf': [np.NaN]
+        'max_depth': 18,
+        'min_samples_leaf': 13,
+        'min_samples_split': 5
     },
     'largeDB2': {
-        'max_depth': [np.NaN],
-        'min_samples_split': [np.NaN],
-        'min_samples_leaf': [np.NaN]
+        'max_depth': 18,
+        'min_samples_leaf': 5,
+        'min_samples_split': 5
     }
 }
 
@@ -75,18 +168,13 @@ optimized_hyperparameters = {
 ########################################################################################################################
 # Formatting and printing helpers
 ########################################################################################################################
-algo_dict = {'tiny': 0, 'small': 1, 'medium': 2, 'largeDB1': 3, 'largeDB2': 4}  # category-encoder
-algo_dict_rev = {0: 'tiny', 1: 'small', 2: 'medium', 3: 'largeDB1', 4: 'largeDB2'}
-npars = 3   # number of parameters in stack list
-max_bytes = 2**31 - 1  # Maximum number of bytes to pickle in one chunk
-
-
 def safe_pickle(data, file):
     """
     Pickle big files safely by processing them in chunks
     :param data: data to be pickled
     :param file: file to pickle it into
     """
+    max_bytes = 2**31 - 1  # Maximum number of bytes to pickle in one chunk
     pickle_out = pickle.dumps(data)
     n_bytes = sys.getsizeof(pickle_out)
     with open(file, 'wb') as f:
@@ -285,7 +373,7 @@ def read_data():
 
     read_from = FLAGS.in_folder
     log = print_and_log('Read training data X ...', log)
-    X = pd.read_csv(os.path.join(read_from, 'train_all_' + FLAGS.algo + '_X.csv'), index_col=0, nrows=FLAGS.nrows)
+    X = pd.read_csv(os.path.join(read_from, 'train_all_' + FLAGS.algo + '_X.csv'), index_col=0)
     log = print_and_log('X    : {:>8} x {:>8} ({:>2} MB)'.format(X.shape[0], X.shape[1], sys.getsizeof(X)/10**6), log)
 
     # Fix Gflops and Koth_perf, if needed
@@ -384,9 +472,9 @@ def get_DecisionTree_model(n_features):
     model_DT = DecisionTreeRegressor(
         criterion=splitting_criterion,
         splitter=splitter,
-        min_samples_split=3,
-        min_samples_leaf=1,
-        max_depth=n_features,
+        min_samples_split=optimized_hyperparameters[FLAGS.algo]["min_samples_split"],
+        min_samples_leaf=optimized_hyperparameters[FLAGS.algo]["min_samples_leaf"],
+        max_depth=optimized_hyperparameters[FLAGS.algo]["max_depth"],
         max_features=max_features,
         max_leaf_nodes=max_leaf_nodes
     )
@@ -402,9 +490,9 @@ def get_RandomForest_model():
     model_name_RF = "Random Forest"
     bootstrap = True
     splitting_criterion = "mse"
-    max_depth = optimized_hyperparameters[FLAGS.algo]['max_depth'][len(optimized_hyperparameters[FLAGS.algo]['max_depth'])//2]
-    min_samples_split = optimized_hyperparameters[FLAGS.algo]['min_samples_split'][len(optimized_hyperparameters[FLAGS.algo]['min_samples_split'])//2]
-    min_samples_leaf = optimized_hyperparameters[FLAGS.algo]['min_samples_leaf'][len(optimized_hyperparameters[FLAGS.algo]['min_samples_leaf'])//2]
+    #max_depth = optimized_hyperparameters[FLAGS.algo]['max_depth'][len(optimized_hyperparameters[FLAGS.algo]['max_depth'])//2]
+    #min_samples_split = optimized_hyperparameters[FLAGS.algo]['min_samples_split'][len(optimized_hyperparameters[FLAGS.algo]['min_samples_split'])//2]
+    #min_samples_leaf = optimized_hyperparameters[FLAGS.algo]['min_samples_leaf'][len(optimized_hyperparameters[FLAGS.algo]['min_samples_leaf'])//2]
     max_features = 'sqrt'
 
     # Parameters to optimize
@@ -416,11 +504,11 @@ def get_RandomForest_model():
     # Random Forest model
     model_RF = RandomForestRegressor(
         criterion=splitting_criterion,
-        n_estimators=30,
-        max_depth=max_depth,
-        min_samples_split=min_samples_split,
+        n_estimators=FLAGS.ntrees,
+        min_samples_split=optimized_hyperparameters[FLAGS.algo]["min_samples_split"],
+        min_samples_leaf=optimized_hyperparameters[FLAGS.algo]["min_samples_leaf"],
+        max_depth=optimized_hyperparameters[FLAGS.algo]["max_depth"],
         bootstrap=bootstrap,
-        min_samples_leaf=min_samples_leaf,
         max_features=max_features,
         n_jobs=FLAGS.njobs
     )
@@ -435,141 +523,143 @@ def tune_and_train():
     X, X_mnk, Y, folder_ = read_data()
 
     ####################################################################################################################
-    # Decision tree
-    model_DT, model_name_DT, param_grid_DT = get_DecisionTree_model(len(X.columns.values))
-
-    ####################################################################################################################
-    # Random Forest
-    model_RF, model_name_RF, param_grid_RF = get_RandomForest_model()
-
-    ####################################################################################################################
-    # Tune hyperparameters
-    tune = FLAGS.tune
-    if tune == "DT":
-        models_to_tune = [(model_DT, model_name_DT, param_grid_DT)]
-    elif tune == "RF":
-        models_to_tune = [(model_RF, model_name_RF, param_grid_RF)]
-    elif tune == "all":
-        models_to_tune = [(model_DT, model_name_DT, param_grid_DT), (model_RF, model_name_RF, param_grid_RF)]
+    # Predictive model
+    if FLAGS.model == "DT":
+        model, model_name, param_grid = get_DecisionTree_model(len(X.columns.values))
+    elif FLAGS.model == "RF":
+        model, model_name, param_grid = get_RandomForest_model()
     else:
-        assert False, "Unrecognized option for tune:" + str(tune)
+        assert False, "Cannot recognize model: " + FLAGS.model + ". Options: DT, RF"
 
-    for model, model_name, param_grid in models_to_tune:
+    ############################################################################################################
+    # Setup folder and log
+    folder = os.path.join(folder_, model_name)
+    log_file = os.path.join(folder, 'log.txt')
+    log = ''
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+    decisive_score = 'worse_top-3'
 
-        if model_name == model_name_RF:
-            X = X[contributing_features[FLAGS.algo]]
+    print('\n')
+    print('###############################################################################################')
+    print("Start hyperparameter optimization for model", model_name)
+    print('###############################################################################################')
 
-        N_RUNS = FLAGS.nruns
-        for i in range(N_RUNS):
+    ########################################################################################################
+    # Train/test split
+    from sklearn.model_selection import GroupShuffleSplit
+    cv = GroupShuffleSplit(n_splits=2, test_size=0.2)
+    train, test = cv.split(X, Y, groups=X_mnk['mnk'])
+    train = train[0]
+    test = test[0]
+    X_train = X.iloc[train, :]  # train: use for hyperparameter optimization (via CV) and training
+    X_test  = X.iloc[test,  :]  # test : use for evaluation of 'selected/final' model
+    del X
+    X_mnk_train = X_mnk.iloc[train, :]
+    X_mnk_test = X_mnk.iloc[test, :]
+    del X_mnk
+    Y_train = Y.iloc[train, :]
+    Y_test  = Y.iloc[test,  :]
+    del Y
 
-            ############################################################################################################
-            # Setup folder and log
-            folder = os.path.join(folder_, model_name + "_" + str(i))
-            log_file = os.path.join(folder, 'log.txt')
-            log = ''
-            if not os.path.exists(folder):
-                os.makedirs(folder)
-            decisive_score = 'worse_top-3'
+    ########################################################################################################
+    # Cross-validation splitter
+    n_splits = FLAGS.splits
+    test_size = 0.3
+    cv = GroupShuffleSplit(n_splits=n_splits, test_size=test_size)
+    predictor_names = X_train.columns.values
 
-            print('\n')
-            print('###############################################################################################')
-            print("Start hyperparameter optimization for model", model_name, ", run number", i+1, "/", N_RUNS)
-            print('###############################################################################################')
+    if FLAGS.tune:
 
-            ########################################################################################################
-            # Train/test split
-            from sklearn.model_selection import GroupShuffleSplit
-            cv = GroupShuffleSplit(n_splits=2, test_size=0.2)
-            train, test = cv.split(X, Y, groups=X_mnk['mnk'])
-            train = train[0]
-            test = test[0]
-            X_train = X.iloc[train, :]  # train: use for hyperparameter optimization (via CV) and training
-            X_test  = X.iloc[test,  :]  # test : use for evaluation of 'selected/final' model
-            if i == N_RUNS-1:  # if this is the last run, free some memory
-                del X
-            X_mnk_train = X_mnk.iloc[train, :]
-            X_mnk_test = X_mnk.iloc[test, :]
-            if i == N_RUNS-1:
-                del X_mnk
-            Y_train = Y.iloc[train, :]
-            Y_test  = Y.iloc[test,  :]
-            if i == N_RUNS-1:
-                del Y
+        ########################################################################################################
+        # Feature selection
+        from sklearn.feature_selection import RFECV
+        log = print_and_log("Selecting optimal features among:\n" + str(predictor_names), log)
+        if 'mnk' in X_train.columns.values:
+            X_train.drop(["mnk"], axis=1, inplace=True)  # leftover from previous iteration (?)
+        if FLAGS.algo in ['small', 'medium']:
+            rfecv = RFECV(estimator=model, step=3, n_jobs=FLAGS.njobs, cv=cv, verbose=2)
+        else:
+            rfecv = RFECV(estimator=model, step=1, n_jobs=FLAGS.njobs, cv=cv, verbose=1)
+        fit = rfecv.fit(X_train, Y_train, X_mnk_train['mnk'])
+        log = print_and_log("Optimal number of features : %d" % rfecv.n_features_, log)
+        selected_features_ = list()
+        for i, f in enumerate(predictor_names):
+            if fit.support_[i]:
+                selected_features_.append(f)
+        log = print_and_log("Selected Features:", log)
+        for feature in selected_features_:
+            log = print_and_log("\t{}".format(feature), log)
 
-            ########################################################################################################
-            # Cross-validation splitter
-            n_splits = FLAGS.splits
-            test_size = 0.3
-            cv = GroupShuffleSplit(n_splits=n_splits, test_size=test_size)
+        features_to_drop = [f for f in predictor_names if f not in selected_features_]
+        for f in features_to_drop:
+            X_train.drop([f], axis=1, inplace=True)
+            X_test.drop([f], axis=1, inplace=True)
 
-            ########################################################################################################
-            # Feature selection
-            from sklearn.feature_selection import RFECV
-            predictor_names = X_train.columns.values
-            log = print_and_log("Selecting optimal features among:\n" + str(predictor_names), log)
-            if 'mnk' in X_train.columns.values:
-                X_train.drop(["mnk"], axis=1, inplace=True)  # leftover from previous iteration (?)
-            if FLAGS.algo in ['small', 'medium']:
-                rfecv = RFECV(estimator=model, step=3, n_jobs=FLAGS.njobs, cv=cv, verbose=2)
-            else:
-                rfecv = RFECV(estimator=model, step=1, n_jobs=FLAGS.njobs, cv=cv, verbose=1)
-            fit = rfecv.fit(X_train, Y_train, X_mnk_train['mnk'])
-            log = print_and_log("Optimal number of features : %d" % rfecv.n_features_, log)
-            selected_features_ = list()
-            for i, f in enumerate(predictor_names):
-                if fit.support_[i]:
-                    selected_features_.append(f)
-            log = print_and_log("Selected Features:", log)
-            for feature in selected_features_:
-                log = print_and_log("\t{}".format(feature), log)
+        ########################################################################################################
+        # Hyperparameter optimization
 
-            features_to_drop = [f for f in predictor_names if f not in selected_features_]
-            for f in features_to_drop:
-                X_train.drop([f], axis=1, inplace=True)
-                X_test.drop([f], axis=1, inplace=True)
+        # Grid search
+        from sklearn.model_selection import GridSearchCV
+        log = print_and_log('----------------------------------------------------------------------------', log)
+        log = print_and_log('Parameter grid:\n' + str(param_grid), log)
+        X_train["mnk"] = X_mnk_train['mnk']  # add to X-DataFrame (needed for scoring function)
+        scoring = {
+            'worse_top-1': worse_case_scorer_top1, 'mean_top-1': mean_scorer_top1,
+            'worse_top-3': worse_case_scorer_top3, 'mean_top-3': mean_scorer_top3,
+            'worse_top-5': worse_case_scorer_top5, 'mean_top-5': mean_scorer_top5
+        }
+        gs = GridSearchCV(
+            estimator=model,
+            param_grid=param_grid,
+            cv=cv,
+            scoring=scoring,
+            pre_dispatch=8,
+            n_jobs=FLAGS.njobs,
+            verbose=2,
+            refit=decisive_score,
+            return_train_score=False  # incompatible with ignore_in_fit
+        )
+        log = print_and_log('----------------------------------------------------------------------------', log)
+        gs.fit(X_train, Y_train, X_mnk_train['mnk'], ignore_in_fit=["mnk"])
 
-            ########################################################################################################
-            # Hyperparameter optimization
+        describe_model(gs, X_train, X_test, Y_train, Y_test, '')
 
-            # Grid search
-            from sklearn.model_selection import GridSearchCV
-            log = print_and_log('----------------------------------------------------------------------------', log)
-            log = print_and_log('Parameter grid:\n' + str(param_grid), log)
-            X_train["mnk"] = X_mnk_train['mnk']  # add to X-DataFrame (needed for scoring function)
-            scoring = {
-                'worse_top-1': worse_case_scorer_top1, 'mean_top-1': mean_scorer_top1,
-                'worse_top-3': worse_case_scorer_top3, 'mean_top-3': mean_scorer_top3,
-                'worse_top-5': worse_case_scorer_top5, 'mean_top-5': mean_scorer_top5
-            }
-            gs = GridSearchCV(
-                estimator=model,
-                param_grid=param_grid,
-                cv=cv,
-                scoring=scoring,
-                pre_dispatch=8,
-                n_jobs=FLAGS.njobs,
-                verbose=2,
-                refit=decisive_score,
-                return_train_score=False  # incompatible with ignore_in_fit
-            )
-            log = print_and_log('----------------------------------------------------------------------------', log)
-            gs.fit(X_train, Y_train, X_mnk_train['mnk'], ignore_in_fit=["mnk"])
+        safe_pickle([gs.cv_results_], os.path.join(folder, "cv_results_.p"))
+        safe_pickle([X_train.columns.values, gs.best_estimator_], os.path.join(folder, "feature_tree.p"))
+        if FLAGS.algo not in ['small', 'medium']:
+            safe_pickle([X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, gs],
+                        os.path.join(folder, "cv.p"))
+        return_model = gs
 
-            describe_model(gs, X_train, X_test, Y_train, Y_test, '')
+    else:
 
-            safe_pickle([gs.cv_results_], os.path.join(folder, "cv_results_.p"))
-            safe_pickle([X_train.columns.values, gs.best_estimator_], os.path.join(folder, "feature_tree.p"))
-            if FLAGS.algo != 'medium':
-                safe_pickle([X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, gs],
-                            os.path.join(folder, "cv.p"))
+        ########################################################################################################
+        # Load selected features and hyperparameters
+        features_to_drop = [f for f in predictor_names if f not in selected_features[FLAGS.algo]]
+        for f in features_to_drop:
+            X_train.drop([f], axis=1, inplace=True)
+            X_test.drop([f], axis=1, inplace=True)
 
-            ############################################################################################################
-            # Print log
-            with open(log_file, 'w') as f:
-                f.write(log)
 
-            # Return
-            return X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, gs
+        ########################################################################################################
+        # Fit
+        model.fit(X_train, Y_train)
+        safe_pickle([X_train.columns.values, model], os.path.join(folder, "model.p"))
+        if FLAGS.algo not in ['small', 'medium']:
+            safe_pickle([X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model],
+                        os.path.join(folder, "cv.p"))
+        return_model = model
+
+
+
+    ############################################################################################################
+    # Print log
+    with open(log_file, 'w') as f:
+        f.write(log)
+
+    # Return
+    return X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, return_model
 
 
 ########################################################################################################################
@@ -679,11 +769,14 @@ def plot_cv_scores(param_grid, scoring, results, best_pars, folder, algo):
 
 def evaluate_model(gs, X_train, X_test, X_mnk_train, X_mnk_test, Y_train, Y_test, log, folder):
 
-    best_estimator = gs.best_estimator_
-    scoring = gs.scorer_
+    if FLAGS.tune:
+        best_estimator = gs.best_estimator_
+        scoring = gs.scorer_
+        X_train.drop(['mnk'], axis=1, inplace=True)
+    else:
+        best_estimator = gs
 
     # Training error
-    X_train.drop(['mnk'], axis=1, inplace=True)
     best_estimator.fit(X_train, Y_train)
     y_train_pred = best_estimator.predict(X_train)
     log = print_and_log('\nTraining error: (train&val)', log)
@@ -699,8 +792,9 @@ def evaluate_model(gs, X_train, X_test, X_mnk_train, X_mnk_test, Y_train, Y_test
     plot_loss_histogram(Y_test, y_test_pred, X_mnk_test, folder)
 
     # Plot CV results by evaluation metric
-    log = print_and_log('\nPlot CV scores:', log)
-    plot_cv_scores(gs.param_grid, scoring, gs.cv_results, gs.best_params_, folder, FLAGS.algo)
+    if FLAGS.tune:
+        log = print_and_log('\nPlot CV scores:', log)
+        plot_cv_scores(gs.param_grid, scoring, gs.cv_results, gs.best_params_, folder, FLAGS.algo)
 
     return log
 
@@ -748,14 +842,16 @@ def main(argv):
     # Get or train model
     if len(FLAGS.gs) == 0:
 
+        # Train model
         eval = True
         X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, gs = tune_and_train()
 
     else:
 
+        # Get pre-trained model
         eval = FLAGS.eval
         log = print_and_log("Reading GridSearCV from " + FLAGS.gs, log)
-        if FLAGS.algo == 'medium':
+        if FLAGS.algo in ['medium', 'small']:
             cv_results = pickle.load(open(os.path.join(FLAGS.gs, "cv_results_.p"), 'rb'))
             feature_names, best_estimator = pickle.load(open(os.path.join(FLAGS.gs, "feature_tree.p"), 'rb'))
         else:
@@ -763,7 +859,8 @@ def main(argv):
 
     ####################################################################################################################
     # Model description
-    log = describe_model(gs, X_train, X_test, Y_train, Y_test, log)
+    if FLAGS.tune:
+        log = describe_model(gs, X_train, X_test, Y_train, Y_test, log)
 
     ####################################################################################################################
     # Model evaluation
