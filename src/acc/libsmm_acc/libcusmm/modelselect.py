@@ -261,7 +261,10 @@ def perf_loss(y_true, y_pred, top_k, X_mnk):
         assert (len(idx_mnk) > 0), "idx_mnk is empty"
         y_true_mnk = y_true.iloc[idx_mnk]
         y_pred_mnk = y_pred[idx_mnk]
-        top_k_idx = np.argpartition(-y_pred_mnk, top_k)[:top_k]
+        if top_k != 1:
+            top_k_idx = np.argpartition(-y_pred_mnk, top_k)[:top_k]
+        else:
+            top_k_idx = np.argmax(y_pred_mnk, top_k)
         y_correspmax = y_true_mnk.iloc[top_k_idx]
 
         # Max. performances
@@ -694,7 +697,8 @@ def describe_model(gs, X_train, X_test, Y_train, Y_test, log):
 
 def print_error(y_true, y_pred, X_mnk, log):
     result_line = "top-{}: worse: {:>6.3f} mean: {:>6.3f}"
-    for top_k in [1, 3, 5]:
+    #for top_k in [1, 3, 5]:
+    for top_k in [1]:
         log = print_and_log(result_line.format(top_k,
                                                worse_rel_perf_loss_of_k(y_true, y_pred, top_k, X_mnk),
                                                mean_rel_perf_loss_of_k(y_true, y_pred, top_k, X_mnk)), log)
@@ -773,14 +777,15 @@ def evaluate_model(gs, X_train, X_test, X_mnk_train, X_mnk_test, Y_train, Y_test
         best_estimator = gs.best_estimator_
         scoring = gs.scorer_
         X_train.drop(['mnk'], axis=1, inplace=True)
+        best_estimator.fit(X_train, Y_train)
     else:
         best_estimator = gs
 
-    # Training error
-    best_estimator.fit(X_train, Y_train)
-    y_train_pred = best_estimator.predict(X_train)
-    log = print_and_log('\nTraining error: (train&val)', log)
-    log = print_error(Y_train, y_train_pred, X_mnk_train, log)
+    if FLAGS.algo != 'medium':
+        # Training error
+        y_train_pred = best_estimator.predict(X_train)
+        log = print_and_log('\nTraining error: (train&val)', log)
+        log = print_error(Y_train, y_train_pred, X_mnk_train, log)
 
     # Test error
     y_test_pred = best_estimator.predict(X_test)
