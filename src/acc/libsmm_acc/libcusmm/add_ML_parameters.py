@@ -14,6 +14,7 @@ from joblib import Parallel, delayed
 from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel
 from parameter_space_utils import PredictiveParameters
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
 
 
 ########################################################################################################################
