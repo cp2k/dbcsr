@@ -21,6 +21,7 @@ MODULE dbcsr_toollib
    USE dbcsr_kinds,                     ONLY: int_4,&
                                               int_8,&
                                               real_8
+#include "../base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
@@ -219,7 +220,7 @@ CONTAINS
 ! **************************************************************************************************
    FUNCTION joaat_hash(key) RESULT(hash_index)
       ! LIBXSMM: at least v1.9.0.6 is required
-#if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) <= VERSION4(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
+#if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
       USE libxsmm
       INTEGER, DIMENSION(:), INTENT(IN)                  :: key
       INTEGER                                            :: hash_index
