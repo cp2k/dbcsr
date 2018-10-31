@@ -297,7 +297,7 @@
     ${type1}$, DIMENSION(*), INTENT(OUT)  :: extent_out
     ${type1}$, DIMENSION(*), INTENT(IN)   :: extent_in
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_d', &
+    CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_${nametype1}$', &
       routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
@@ -341,7 +341,7 @@
     ${type1}$, DIMENSION(rows,columns), INTENT(OUT) :: extent_out
     ${type1}$, DIMENSION(:), INTENT(IN)             :: extent_in
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d1d_${nametype1}$', &
+    CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d1d_${nametype1}$', &
       routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
@@ -362,7 +362,7 @@
     ${type1}$, DIMENSION(rows*columns), INTENT(OUT) :: extent_out
     ${type1}$, DIMENSION(rows*columns), INTENT(IN)  :: extent_in
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_1d1d_${nametype1}$', &
+    CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d1d_${nametype1}$', &
       routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
@@ -383,7 +383,7 @@
     ${type1}$, DIMENSION(rows,columns), INTENT(OUT) :: extent_out
     ${type1}$, DIMENSION(rows,columns), INTENT(IN)  :: extent_in
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d2d_${nametype1}$', &
+    CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d2d_${nametype1}$', &
       routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
@@ -494,7 +494,7 @@
 !> There are no checks done for correctness!
 !> \param[in] dst        destination data area
 !> \param[in] lb         lower bound for destination (and source if
-!>                       not given explicity)
+!>                       not given explicitly)
 !> \param[in] data_size  number of elements to copy
 !> \param[in] src        source data array
 !> \param[in] source_lb  (optional) lower bound of source
