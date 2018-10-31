@@ -219,7 +219,7 @@ CONTAINS
 ! **************************************************************************************************
    FUNCTION joaat_hash(key) RESULT(hash_index)
       ! LIBXSMM: at least v1.9.0.6 is required
-#if defined(__LIBXSMM)
+#if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) <= VERSION4(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
       USE libxsmm
       INTEGER, DIMENSION(:), INTENT(IN)                  :: key
       INTEGER                                            :: hash_index
