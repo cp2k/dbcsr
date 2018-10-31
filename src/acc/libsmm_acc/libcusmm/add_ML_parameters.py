@@ -135,9 +135,15 @@ def main(argv):
     for algo, v in kernel_algorithm.items():
         tree[algo] = dict()
         tree[algo]['file'] = os.path.join(str(options.trees), algo + '_')
-        tree[algo]['tree'] = safe_pickle_load(tree[algo]['file'] + 'predictive_tree.p')
-        features = safe_pickle_load(tree[algo]['file'] + 'feature_names.p')
-        features.remove('mnk')
+        if os.path.exists(tree[algo]['file'] + 'predictive_tree.p'):
+            tree[algo]['tree'] = safe_pickle_load(tree[algo]['file'] + 'predictive_tree.p')
+            features = safe_pickle_load(tree[algo]['file'] + 'feature_names.p')
+            features.remove('mnk')
+        elif os.path.exists(tree[algo]['file'] + 'model.p'):
+            features, tree[algo]['tree'] = safe_pickle_load(tree[algo]['file'] + 'model.p')
+            features = features.tolist()
+        else:
+            assert False, "Cannot find model files in folder:" + options.trees
         tree[algo]['features'] = features
 
     ####################################################################################################################
