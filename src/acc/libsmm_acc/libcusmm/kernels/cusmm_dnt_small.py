@@ -59,7 +59,7 @@ class Kernel_dnt_small(cu.Kernel):
 
                         # Shared memory buffer size
                         buf_sz = max(m*n, m*k + k*tn*cmax, tm*rmax*k + 1)
-                        smem_tot = buf_sz * autotuning["sizeof_double"] + autotuning["npar"] * grouping * autotuning["sizeof_int"]
+                        smem_tot = buf_sz * autotuning["sizeof_double"] + autotuning["npars"] * grouping * autotuning["sizeof_int"]
                         if smem_tot > gpu["Max_Shared_Memory_/_Block_(bytes)"]:
                             continue
                         if smem_tot * minblocks > gpu["Shared_Memory_/_Multiprocessor_(bytes)"]:
