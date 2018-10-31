@@ -109,7 +109,7 @@ def main(argv):
     parser.add_option("-t", "--trees", metavar="folder/",
                       default="predictive_model/", help="Default: %default")
     parser.add_option("-j", "--njobs", type=int,
-                      default=-4, help="Number of joblib jobs. Default: %default")
+                      default=-1, help="Number of joblib jobs. Default: %default")
     parser.add_option("-c", "--chunk_size", type=int,
                       default=20000, help="Chunk size for dispatching joblib jobs. Default: %default")
     options, args = parser.parse_args(sys.argv)

@@ -50,7 +50,7 @@ class Kernel_dnt_tiny(cu.Kernel):
                 max_concurrent_work = max(grouping, m*k, k*n, m*n)
 
                 # Shared memory utilisation (bytes)
-                smem_tot = buf_sz * autotuning["sizeof_double"] + autotuning["npar"] * grouping * autotuning["sizeof_int"]
+                smem_tot = buf_sz * autotuning["sizeof_double"] + autotuning["npars"] * grouping * autotuning["sizeof_int"]
                 if smem_tot > gpu["Max_Shared_Memory_/_Block_(bytes)"]:
                     continue
                 if smem_tot * minblocks > gpu["Max_Shared_Memory_/_Block_(bytes)"]:

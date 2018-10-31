@@ -94,7 +94,7 @@ class Kernel_dnt_largeDB1(cu.Kernel):
 
                                 # Shared memory buffer size
                                 buf_sz = max((w - 1) * m + rmax * tm, m * w + (w - 1) * n + cmax * tn, v * m)
-                                smem_tot = buf_sz * autotuning["sizeof_double"] + autotuning["npar"] * grouping * autotuning["sizeof_int"]
+                                smem_tot = buf_sz * autotuning["sizeof_double"] + autotuning["npars"] * grouping * autotuning["sizeof_int"]
                                 if smem_tot > gpu["Max_Shared_Memory_/_Block_(bytes)"]:
                                     continue  # invalid: uses too much shared memory
                                 if smem_tot * minblocks > gpu["Shared_Memory_/_Multiprocessor_(bytes)"]:
