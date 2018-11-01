@@ -17,6 +17,10 @@ set(TEST_MPI_RANKS "auto" CACHE STRING "Number of MPI ranks for testing")
 set(USE_SMM "blas" CACHE STRING "Small Matrix Multiplication implementation to use (default: blas)")
 set_property(CACHE USE_SMM PROPERTY STRINGS blas libxsmm)
 
+option(USE_CUDA "Build with CUDA support" OFF)
+cmake_dependent_option(USE_CUBLAS "Build with CUBLAS support" OFF "USE_CUDA" OFF)
+set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if CUDA is enabled (default: P100)")
+set_property(CACHE WITH_GPU PROPERTY STRINGS K20X K40 K80 P100)
 
 enable_language(Fortran)
 enable_testing() # enables the `make test` target
@@ -24,6 +28,15 @@ enable_testing() # enables the `make test` target
 if (WITH_C_API AND WITH_EXAMPLES)
   enable_language(CXX)
 endif ()
+
+if (USE_CUDA)
+  enable_language(CXX CUDA)
+
+  set(CUDA_ARCH_NUMBER_K20X 35)
+  set(CUDA_ARCH_NUMBER_K40  35)
+  set(CUDA_ARCH_NUMBER_K80  37)
+  set(CUDA_ARCH_NUMBER_P100 60)
+  set(CUDA_ARCH_NUMBER ${CUDA_ARCH_NUMBER_${WITH_GPU}})
 endif ()
 
 
@@ -46,6 +59,14 @@ elseif (USE_SMM MATCHES "libxsmm")
   message("-- Using libxsmm for Small Matrix Multiplication")
 else()
   message(FATAL_ERROR "Unknown SMM library specified" )
+endif ()
+
+if (USE_CUBLAS)
+  # the rest of CUDA is detected by enabling the language
+  find_library(CUBLAS cublas HINT ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
+  if (NOT CUBLAS)
+    message(FATAL_ERROR "cuBLAS library not found but support requested")
+  endif ()
 endif ()
 
 if (USE_OPENMP)
