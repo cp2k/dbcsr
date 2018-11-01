@@ -45,6 +45,10 @@ else()
   message(FATAL_ERROR "Unknown SMM library specified" )
 endif ()
 
+if (USE_OPENMP)
+  find_package(OpenMP REQUIRED)
+endif ()
+
 # make sure that the default is a RELEASE
 if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RELEASE CACHE STRING
@@ -56,16 +60,14 @@ endif ()
 
 get_filename_component(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
 
+set(CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS}")
+set(CMAKE_Fortran_FLAGS "${OpenMP_Fortran_FLAGS}")
+
 if (Fortran_COMPILER_NAME MATCHES "gfortran.*")
-  set(CMAKE_CXX_FLAGS              "")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
   set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -fprofile-arcs -ftest-coverage")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -ggdb")
   set(CMAKE_Fortran_FLAGS          "-ffree-form -ffree-line-length-none -std=f2003")
-  if (USE_OPENMP)
-    set(CMAKE_CXX_FLAGS              "${CMAKE_CXX_FLAGS} -fopenmp")
-    set(CMAKE_Fortran_FLAGS          "${CMAKE_Fortran_FLAGS} -fopenmp")
-  endif ()
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -funroll-loops")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -ggdb")
   set(CMAKE_Fortran_FLAGS_COVERAGE "-O0 -fprofile-arcs -ftest-coverage")
@@ -74,10 +76,6 @@ elseif (Fortran_COMPILER_NAME MATCHES "ifort.*")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -debug")
   set(CMAKE_Fortran_FLAGS          "-free -stand f03 -fpp")
-  if (USE_OPENMP)
-    set(CMAKE_CXX_FLAGS              "${CMAKE_CXX_FLAGS} -openmp")
-    set(CMAKE_Fortran_FLAGS          "${CMAKE_Fortran_FLAGS} -openmp")
-  endif ()
   # Disable the line-length-extension warning #5268
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -diag-disable=5268")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -debug")

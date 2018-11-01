@@ -91,10 +91,12 @@ add_fypp_sources(DBCSR_SRCS
   )
 
 add_library(dbcsr ${DBCSR_SRCS})
-target_link_libraries(dbcsr ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${MPI_Fortran_LIBRARIES})
+
 if (TARGET PkgConfig::deps)
-  target_link_libraries(dbcsr PkgConfig::deps)
+  target_link_libraries(dbcsr PUBLIC PkgConfig::deps)
 endif ()
+
+target_link_libraries(dbcsr PUBLIC ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${MPI_Fortran_LIBRARIES} ${OpenMP_Fortran_LIBRARIES})
 target_include_directories(dbcsr PRIVATE base) # do not export those includes, but some srcs do an unprefixed include
 # make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
 target_include_directories(dbcsr PUBLIC
