@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-import re
+from __future__ import print_function
 
+import os
+from os import path
+import re
+import argparse
 
 #===============================================================================
 # Helper variables
@@ -29,19 +32,19 @@ cusmm_header = '/***************************************************************
 
 
 #===============================================================================
-def main():
+def main(kernels_folder):
     """
     Find files corresponding to CUDA kernels and write them as strings into a
     C++ header file to be read for JIT-ing
     """
     # Find all files containing "cusmm" kernels in the "kernel" subfolder
-    kernels_folder = "kernels/"
     kernels_folder_files = os.listdir(kernels_folder)
     kernel_files = list()
     for f in kernels_folder_files:
         if f[:6] == "cusmm_" and f[-2:] == ".h":
             kernel_files.append(os.path.join(kernels_folder, f))
-    print("Found", len(kernel_files), "kernel files:\n", kernel_files)
+    print("Found", len(kernel_files), "kernel files:")
+    print(*("<- {}".format(kf) for kf in kernel_files), sep='\n')
 
     # Read
     kernels_h = dict()  # key: path to kernel file (string), value: file content (list of string)
@@ -53,7 +56,8 @@ def main():
     print("Re-write kernels as strings...")
     file_h = cusmm_header
     for kernel_file, kernel in kernels_h.items():
-        file_h += '\n' + separator + cpp_function_to_string(kernel, kernel_file) + '\n'
+        kernel_name, _ = path.splitext(path.basename(kernel_file))  # use the filename as name for the kernel
+        file_h += '\n' + separator + cpp_function_to_string(kernel, kernel_name) + '\n'
     file_h += '#endif\n'
     file_h += '//EOF'
 
@@ -61,19 +65,21 @@ def main():
     file_h_path = "cusmm_kernels.h"
     with open(file_h_path, 'w') as f:
         f.write(file_h)
-    print("Wrote kernel string to file", file_h_path)
+    print("Wrote kernel string to file\n->", file_h_path)
 
 
 #===============================================================================
-def cpp_function_to_string(cpp_file, cpp_file_name):
+def cpp_function_to_string(cpp_file, kernel_name):
     """
     Transform a C++ function into a char array
     :param cpp_file: file content
                     (list of strings, each element is a line in the original file)
-    :param cpp_file_name: path to kernel file (string)
+    :param kernel_name: name of the kernel (string, must be usable as a C++ variable name)
     :return: string containing the kernel written as a C++ char array
     """
-    out = variable_declaration.format(var_name=cpp_file_name[8:-2]) + "\n"
+    assert re.match(r'^[a-zA-Z]\w*', kernel_name), "kernel_name must be a valid C/C++ variable name"
+
+    out = variable_declaration.format(var_name=kernel_name) + "\n"
     in_comment = False
     for l in cpp_file:
         if not in_comment:
@@ -94,7 +100,10 @@ def cpp_function_to_string(cpp_file, cpp_file_name):
     return out + end_string
 
 
-#===============================================================================
-main()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Pack CUDA kernels for JIT'ing")
+    parser.add_argument('kernels_folder', metavar='KERNELS_FOLDER', type=str, nargs='?', default="./kernels",
+                        help="directory with the kernel header files. Default: %(default)s")
 
-#EOF
+    args = parser.parse_args()
+    main(args.kernels_folder)

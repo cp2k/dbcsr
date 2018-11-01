@@ -3,24 +3,17 @@
 
 from __future__ import print_function
 
-import sys
 import json
-from optparse import OptionParser
+import argparse
+from os import path
+
 from kernels.cusmm_dnt_helper import params_dict_to_kernel
 
 
-#===============================================================================
-def main(argv):
-    usage = "Generator of LibCuSMM. The Library for Cuda Small Matrix Multiplications."
-    parser = OptionParser(usage)
-    parser.add_option("-g", "--gpu_version", metavar="GPU_VERSION", default="P100",
-                      help="GPU card version, used to select the appropriate libcusmm parameters file. Default: %default")
-    (options, args) = parser.parse_args(argv)
-    assert(len(args) == 0)
-
+def main(gpu_version, base_dir):
     # Read existing parameters
-    print("GPU version:\n", options.gpu_version)
-    param_fn = "parameters_" + options.gpu_version + ".json"
+    print("GPU version:\n", gpu_version)
+    param_fn = path.join(base_dir, "parameters_{}.json".format(gpu_version))
     with open(param_fn) as f:
         all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
     print("About to process", len(all_kernels), "kernels from file", param_fn)
@@ -44,7 +37,7 @@ def main(argv):
 def write_parameters_file(all_pars):
 
     # Header
-    out  = """\
+    out = """\
 /*****************************************************************************
  *  CP2K: A general program to perform molecular dynamics simulations        *
  *  Copyright (C) 2000 - 2018  CP2K developers group                         *
@@ -100,7 +93,12 @@ static const std::unordered_map<Triplet, KernelParameters> ht  = {
     return out, all_pars
 
 
-#===============================================================================
-main(argv=sys.argv[1:])
-
-#EOF
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="Generator of LibCuSMM. The Library for Cuda Small Matrix Multiplications.")
+    parser.add_argument("-g", "--gpu_version", metavar="GPU_VERSION", default="P100",
+                        help="GPU card version, used to select the appropriate libcusmm parameters file. Default: %(default)s")
+    parser.add_argument("-d", "--base_dir", metavar="BASE_DIR", default=".",
+                        help="Set the base directory to look for the parameter files. Default: %(default)s")
+    args = parser.parse_args()
+    main(args.gpu_version, args.base_dir)
