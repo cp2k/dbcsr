@@ -96,6 +96,11 @@ if (TARGET PkgConfig::deps)
   target_link_libraries(dbcsr PUBLIC PkgConfig::deps)
 endif ()
 
+if (USE_SMM MATCHES "libxsmm")
+  # linker/include flags are managed by pkg-config (above)
+  target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
+endif ()
+
 target_link_libraries(dbcsr PUBLIC ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${MPI_Fortran_LIBRARIES} ${OpenMP_Fortran_LIBRARIES})
 target_include_directories(dbcsr PRIVATE base) # do not export those includes, but some srcs do an unprefixed include
 # make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
@@ -104,7 +109,7 @@ target_include_directories(dbcsr PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
-target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL ${SMM_INTERNAL_DEF})
+target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL)
 set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
 
 if (MPI_FOUND)
