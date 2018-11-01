@@ -90,6 +90,16 @@ add_fypp_sources(DBCSR_SRCS
   work/dbcsr_work_operations.F
   )
 
+set(DBCSR_CUDA_SRCS
+  acc/cuda/acc_cuda_dev.cu
+  acc/cuda/acc_cuda_error.cu
+  acc/cuda/acc_cuda_event.cu
+  acc/cuda/acc_cuda_mem.cu
+  acc/cuda/acc_cuda_stream.cu
+  acc/cuda/acc_cuda_init.cu
+  acc/cublaswrap/cublas.cu
+  )
+
 add_library(dbcsr ${DBCSR_SRCS})
 
 if (TARGET PkgConfig::deps)
@@ -99,6 +109,25 @@ endif ()
 if (USE_SMM MATCHES "libxsmm")
   # linker/include flags are managed by pkg-config (above)
   target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
+endif ()
+
+if (USE_CUDA)
+  set(CMAKE_CUDA_FLAGS "-arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
+  target_link_libraries(dbcsr PUBLIC ${CUDA_LIBRARY} cuda nvrtc)
+
+  # add libcusmm requiring special treatment
+  add_subdirectory(acc/libsmm_acc/libcusmm)
+  target_link_libraries(dbcsr PRIVATE $<TARGET_OBJECTS:libcusmm>)
+
+  # add the rest of the CUDA sources directly to the lib
+  target_sources(dbcsr PRIVATE ${DBCSR_CUDA_SRCS})
+
+  if (USE_CUBLAS)
+    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC=2)
+    target_link_libraries(dbcsr PUBLIC ${CUBLAS})
+  else ()
+    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
+  endif ()
 endif ()
 
 target_link_libraries(dbcsr PUBLIC ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${MPI_Fortran_LIBRARIES} ${OpenMP_Fortran_LIBRARIES})
