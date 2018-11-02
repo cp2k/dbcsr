@@ -18,9 +18,8 @@ env:
   - PKG_CONFIG_PATH=${TRAVIS_BUILD_DIR}/libxsmm-${LIBXSMM_VERSION}/lib
 
 install:
-  - wget https://github.com/hfp/libxsmm/archive/${LIBXSMM_VERSION}.tar.gz
-  - tar xf libxsmm-${LIBXSMM_VERSION}.tar.gz
-  - cd libxsmm-${LIBXSMM_VERSION}; make -j; cd ..
+  - wget https://github.com/hfp/libxsmm/archive/${LIBXSMM_VERSION}.tar.gz -O /tmp/libxsmm.tar.gz
+  - tar xf /tmp/libxsmm.tar.gz && cd libxsmm-${LIBXSMM_VERSION} && make -j && cd ..
   - pkg-config libxsmm --exists
   # Update cmake to the minimal required version (shamelessly copied from the boost travis config):
   - DEPS_DIR="${HOME}/deps"
