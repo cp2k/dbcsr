@@ -23,7 +23,7 @@
 #if defined(NDEBUG)
 # define DBCSR_ASSERT(cond)
 #else
-#define DBCSR_ASSERT(cond) IF(.NOT.(cond))CALL dbcsr__a(__SHORT_FILE__,__LINE__)
+# define DBCSR_ASSERT(cond) IF(.NOT.(cond))CALL dbcsr__a(__SHORT_FILE__,__LINE__)
 #endif
 
 ! The MARK_USED macro can be used to mark an argument/variable as used.
