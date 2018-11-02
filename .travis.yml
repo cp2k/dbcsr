@@ -11,7 +11,17 @@ addons:
       - libopenmpi-dev
       - openmpi-bin
 
+env:
+  global:
+  # LIBXSMM: update to v1.10 or later
+  - LIBXSMM_VERSION=531c000d1218f5925aaf3ea34dca8eb3033d2dff
+  - PKG_CONFIG_PATH=${TRAVIS_BUILD_DIR}/libxsmm-${LIBXSMM_VERSION}/lib
+
 install:
+  - wget https://github.com/hfp/libxsmm/archive/${LIBXSMM_VERSION}.tar.gz
+  - tar xf libxsmm-${LIBXSMM_VERSION}.tar.gz
+  - cd libxsmm-${LIBXSMM_VERSION}; make -j; cd ..
+  - pkg-config libxsmm --exists
   # Update cmake to the minimal required version (shamelessly copied from the boost travis config):
   - DEPS_DIR="${HOME}/deps"
   - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
@@ -53,7 +63,7 @@ jobs:
         - mkdir -p build
         - cd build
         # all examples need MPI atm
-        - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF ..
+        - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF -DUSE_SMM=libxsmm ..
         - make -j
         - make CTEST_OUTPUT_ON_FAILURE=1 test
     - # run this in parallel with the other builds
