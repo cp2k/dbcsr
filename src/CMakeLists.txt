@@ -115,12 +115,18 @@ if (USE_CUDA)
   set(CMAKE_CUDA_FLAGS "-arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
   target_link_libraries(dbcsr PUBLIC ${CUDA_LIBRARY} cuda nvrtc)
 
-  # add libcusmm requiring special treatment
+  # add libcusmm which has its own CMakeLists.txt due to code generation
   add_subdirectory(acc/libsmm_acc/libcusmm)
   target_link_libraries(dbcsr PRIVATE $<TARGET_OBJECTS:libcusmm>)
 
   # add the rest of the CUDA sources directly to the lib
   target_sources(dbcsr PRIVATE ${DBCSR_CUDA_SRCS})
+
+  # tests need some of the libcusmm headers and for CMake <3.12
+  # compatibility, we can't set it on the the object library itself
+  target_include_directories(dbcsr PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc/libcusmm>
+    )
 
   if (USE_CUBLAS)
     target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC=2)
