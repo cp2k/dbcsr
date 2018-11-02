@@ -12,7 +12,7 @@ from itertools import product
 from optparse import OptionParser
 from joblib import Parallel, delayed
 from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel
-from parameter_space_utils import PredictiveParameters
+from kernels.parameter_space_utils import PredictiveParameters
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 
@@ -110,6 +110,10 @@ def main(argv):
                       default="predictive_model/", help="Default: %default")
     parser.add_option("-j", "--njobs", type=int,
                       default=-1, help="Number of joblib jobs. Default: %default")
+    parser.add_option("-s", "--start_slice", type=int,
+                      default=0, help="Start mnk slice. Default: %default")
+    parser.add_option("-e", "--slice_size", type=int,
+                      default=None, help="Size mnk slice. Default: %default")
     parser.add_option("-c", "--chunk_size", type=int,
                       default=20000, help="Chunk size for dispatching joblib jobs. Default: %default")
     options, args = parser.parse_args(sys.argv)
@@ -165,12 +169,18 @@ def main(argv):
     # - values: Kernel object describing best parameters
     # - number of elements in each dictionary = top_k
     # each element of the list corresponds to the search of optimal kernels for a given mnk and a given algorithm
+    optimal_kernels_list = list()
+    mnk_by_algo = list(product(mnks_to_predict, kernel_algorithm.keys()))
+    if options.slice_size is not None:
+        start_slice = options.start_slice
+        end_slice = min(start_slice + options.slice_size, len(list(mnk_by_algo)))
+        mnk_by_algo = mnk_by_algo[start_slice:end_slice]
+    num_mnks_by_algo = len(mnk_by_algo)
     n_jobs = options.njobs
     if n_jobs == 1:
 
         # Ignore joblib and run serially:
-        optimal_kernels_list = list()
-        for mnk, algo in product(mnks_to_predict, kernel_algorithm.keys()):
+        for mnk, algo in mnk_by_algo:
             gc.collect()
             print("Find optimal kernels for mnk=", mnk, ", algo=", algo)
             optimal_kernels_list.append(
@@ -182,11 +192,7 @@ def main(argv):
     else:
 
         # Chunk up tasks
-        optimal_kernels_list = list()
         chunk_size = options.chunk_size
-        mnk_by_algo = list(product(mnks_to_predict, kernel_algorithm.keys()))
-        num_mnks_by_algo = len(list(mnk_by_algo))
-
         for i in range(0, num_mnks_by_algo+1, chunk_size):
             start_chunk = i
             end_chunk = min(start_chunk + chunk_size, num_mnks_by_algo+1)
@@ -202,7 +208,6 @@ def main(argv):
                 for mnk, algo in mnk_by_algo[start_chunk:end_chunk])
 
             optimal_kernels_list += optimal_kernels_list_
-
 
     print("Finished gathering candidates for optimal parameter space")
 
