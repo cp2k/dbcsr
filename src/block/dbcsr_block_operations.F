@@ -36,6 +36,17 @@ MODULE dbcsr_block_operations
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
    IMPLICIT NONE
+#if !defined(__MKL) && !defined(__LIBXSMM)
+!  MKL: routines are impure, LIBXSMM: C_LOC is impure (F-standard mistake)
+#  define PURE_TCOPY PURE
+#  define PURE_TRANS PURE
+#else
+#  if defined(__MKL)
+#  include "mkl_trans.fi"
+#  endif
+#  define PURE_TCOPY
+#  define PURE_TRANS
+#endif
    PRIVATE
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_block_operations'
