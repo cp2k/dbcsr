@@ -315,7 +315,11 @@
 ! **************************************************************************************************
   PURE_TCOPY SUBROUTINE block_transpose_copy_${nametype1}$(extent_out, extent_in,&
        rows, columns)
+#:if nametype1=="s" or nametype1=="d"
 #if defined(__LIBXSMM)
+#:else
+#if 0
+#:endif
     USE libxsmm, ONLY: libxsmm_otrans
     USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_LOC
     ${type1}$, DIMENSION(:), INTENT(OUT), TARGET :: extent_out
@@ -331,7 +335,11 @@
 
 !   ---------------------------------------------------------------------------
 
+#:if nametype1=="s" or nametype1=="d"
 #if defined(__LIBXSMM)
+#:else
+#if 0
+#:endif
     CALL libxsmm_otrans(C_LOC(extent_out(1)), C_LOC(extent_in(1)), &
                         ${typesize1[n]}$, rows, columns, rows, columns)
 #elif defined(__MKL)
@@ -415,7 +423,11 @@
 ! **************************************************************************************************
   PURE_TCOPY SUBROUTINE block_transpose_copy_2d1d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
+#:if nametype1=="s" or nametype1=="d"
 #if defined(__LIBXSMM)
+#:else
+#if 0
+#:endif
     USE libxsmm, ONLY: libxsmm_otrans
     USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_LOC
     INTEGER, INTENT(IN)                                     :: rows, columns
@@ -431,7 +443,11 @@
 
 !   ---------------------------------------------------------------------------
 
+#:if nametype1=="s" or nametype1=="d"
 #if defined(__LIBXSMM)
+#:else
+#if 0
+#:endif
     CALL libxsmm_otrans(C_LOC(extent_out(1,1)), C_LOC(extent_in(1)), &
                         ${typesize1[n]}$, rows, columns, rows, columns)
 #elif defined(__MKL)
@@ -472,7 +488,11 @@
 ! **************************************************************************************************
   PURE_TCOPY SUBROUTINE block_transpose_copy_1d2d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
+#:if nametype1=="s" or nametype1=="d"
 #if defined(__LIBXSMM)
+#:else
+#if 0
+#:endif
     USE libxsmm, ONLY: libxsmm_otrans
     USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_LOC
     INTEGER, INTENT(IN)                                    :: rows, columns
@@ -488,7 +508,11 @@
 
 !   ---------------------------------------------------------------------------
 
+#:if nametype1=="s" or nametype1=="d"
 #if defined(__LIBXSMM)
+#:else
+#if 0
+#:endif
     CALL libxsmm_otrans(C_LOC(extent_out(1)), C_LOC(extent_in(1,1)), &
                         ${typesize1[n]}$, rows, columns, rows, columns)
 #elif defined(__MKL)
@@ -506,7 +530,7 @@
 !> \param[in] columns input matrix size
 ! **************************************************************************************************
   PURE_TRANS SUBROUTINE block_transpose_inplace_${nametype1}$(extent, rows, columns)
-#if defined(__LIBXSMM)
+#if defined(__LIBXSMM) && 0
     USE libxsmm, ONLY: libxsmm_itrans
     USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_LOC
     INTEGER, INTENT(IN)                                       :: rows, columns
