@@ -3,14 +3,12 @@
 # Shoshana Jakobovits
 # August-September 2018
 ########################################################################################################################
-
-import numpy as np
-import pandas as pd
-from dtreeviz.trees import *
 import os
 import sys
 import pickle
 import datetime
+import numpy as np
+import pandas as pd
 
 
 ########################################################################################################################
@@ -22,8 +20,7 @@ flags.DEFINE_string('algo', 'tiny', 'Algorithm to train on')
 flags.DEFINE_boolean('print_tree', False,
                      'Whether to export the best estimator tree to SVG (Warning: can be very slow for large trees)')
 flags.DEFINE_boolean('tune', False, 'Rune recursive feature selection and grid search on hyperparameters')
-flags.DEFINE_string('model', 'RF', 'Model to train. Options: DT (Decision Trees), RF (Random Forests)')
-#flags.DEFINE_integer('nruns', '10', '#times to run train-test split, variable selection and GridSearch on model')
+flags.DEFINE_string('model', 'DT', 'Model to train. Options: DT (Decision Trees), RF (Random Forests)')
 flags.DEFINE_integer('splits', '5', 'number of cross-validation splits used in RFECV and GridSearchCV')
 flags.DEFINE_integer('ntrees', '10', 'number of estimators in RF')
 flags.DEFINE_integer('njobs', '-1', 'number of cross-validation splits used in RFECV and GridSearchCV')
@@ -62,7 +59,6 @@ selected_features = {
         'ru_smallmedlarge_min_threads',
         'ru_smallmed_buf_size',
         'Koth_small_Nmem_shared',
-        'mnk'
     ],
     'medium': [  # result of one of the RFECVs, copied to journal
         'k',
@@ -133,7 +129,6 @@ selected_features = {
         'ru_large_unroll_factor_a',
         'size_c',
         'threads_per_blk',
-        'mnk'
     ]
 }
 optimized_hyperparameters = {
@@ -249,8 +244,6 @@ def perf_loss(y_true, y_pred, top_k, X_mnk):
     :return: perf_losses: array of relative performance losses (in %), one element per mnk
     """
     check_consistent_length(y_true, y_pred, X_mnk)
-    y_true = np.sqrt(y_true)
-    y_pred = np.sqrt(y_pred)
     perf_losses = list()
 
     mnks = np.unique(X_mnk['mnk'].values)
@@ -264,16 +257,16 @@ def perf_loss(y_true, y_pred, top_k, X_mnk):
         if top_k != 1:
             top_k_idx = np.argpartition(-y_pred_mnk, top_k)[:top_k]
         else:
-            top_k_idx = np.argmax(y_pred_mnk, top_k)
+            top_k_idx = np.argmax(y_pred_mnk)
         y_correspmax = y_true_mnk.iloc[top_k_idx]
-
-        # Max. performances
-        maxperf = float(y_true_mnk.max(axis=0))  # true max. performance
-        assert maxperf >= 0, "Found non-positive value for maxperf: " + str(maxperf)
         maxperf_chosen = np.amax(y_correspmax)  # chosen max perf. among predicted max performances
 
+        # True Max. performances
+        # maxperf = float(y_true_mnk.max(axis=0))  # true max. performance (this is always going to be = 1)
+        # assert maxperf >= 0, "Found non-positive value for maxperf: " + str(maxperf)
+
         # perf. loss incurred by using model-predicted parameters instead of autotuned ones
-        perf_loss = 100 * (maxperf - maxperf_chosen) / maxperf
+        perf_loss = 100 * (1.0 - maxperf_chosen)
         perf_losses.append(perf_loss)
 
     return perf_losses
@@ -368,15 +361,48 @@ def create_log_folder():
     return log_file, folder
 
 
+def scale(Y, X_mnk):
+
+    # For each mnk, get autotuned max
+    autotuned_max = dict()
+    mnks = np.unique(X_mnk['mnk'].values)
+    assert 'perf' in Y.columns.values
+
+    for mnk in mnks:
+
+        # Get performances per mnk
+        idx_mnk = np.where(X_mnk == mnk)[0].tolist()
+        y_mnk = Y.iloc[idx_mnk]
+
+        # Store maxperf
+        maxperf = float(y_mnk.max(axis=0))  # max. performance found through autotuning
+        autotuned_max[mnk] = maxperf
+
+    def scale_perf(perf, mnk):
+        max_perf = autotuned_max[mnk]
+        return perf / max_perf
+
+    vec_scale_perf = np.vectorize(scale_perf)
+    Y_scaled = vec_scale_perf(Y.values, X_mnk.values)
+    assert np.any(Y_scaled >= 0)  # sanity check
+    assert np.any(Y_scaled <= 1)  # sanity check
+    print("Scaled!")
+    return Y_scaled
+
+
 def read_data():
 
+    ####################################################################################################################
     # Create folder to store results of this training
     log = ''
     log_file, folder_ = create_log_folder()
-
     read_from = FLAGS.in_folder
+
+    ####################################################################################################################
+    # Read and fix 'X'
     log = print_and_log('Read training data X ...', log)
-    X = pd.read_csv(os.path.join(read_from, 'train_all_' + FLAGS.algo + '_X.csv'), index_col=0)
+    X_file = os.path.join(read_from, 'train_all_' + FLAGS.algo + '_X.csv')
+    X = pd.read_csv(X_file, index_col=0)
     log = print_and_log('X    : {:>8} x {:>8} ({:>2} MB)'.format(X.shape[0], X.shape[1], sys.getsizeof(X)/10**6), log)
 
     # Fix Gflops and Koth_perf, if needed
@@ -391,41 +417,62 @@ def read_data():
             gpu = {'Shared memory access latency': 4, 'Global memory access latency': 500}
             add_Kothapalli(X, gpu, 'Koth_med_Nmem_glob', 'Koth_med_Nmem_shared', 'Koth_med_Nmem', 'Koth_med_perf_K')
 
-    log = print_and_log('Read training data Y ...', log)
-    Y = pd.read_csv(os.path.join(read_from, 'train_all_' + FLAGS.algo + '_Y.csv'), index_col=0, nrows=FLAGS.nrows)
-    log = print_and_log('Y    : {:>8} x {:>8} ({:>2} MB)'.format(Y.shape[0], Y.shape[1], sys.getsizeof(Y)/10**6), log)
-    if 'perf_squared' not in Y.columns.values:
-        assert 'perf' in Y.columns.values, "Y has column names:" + str(*Y.columns.values)
-        Y['perf'] = Y['perf'] * Y['perf']
-        Y.rename(columns={'perf': 'perf_squared'}, inplace=True)
-
-
+    ####################################################################################################################
+    # Read and fix 'X_mnk'
     log = print_and_log('Read training data X_mnk ...', log)
-    X_mnk = pd.read_csv(os.path.join(read_from, 'train_all_' + FLAGS.algo + '_X_mnk.csv'), index_col=0, nrows=FLAGS.nrows)
+    X_mnk_file = os.path.join(read_from, 'train_all_' + FLAGS.algo + '_X_mnk.csv')
+    X_mnk = pd.read_csv(X_mnk_file, index_col=0, nrows=FLAGS.nrows)
     log = print_and_log('X_mnk: {:>8} x {:>8} ({:>2} MB)'.format(X_mnk.shape[0], X_mnk.shape[1],
                                                                  sys.getsizeof(X_mnk)/10**6), log)
 
-    # Remove 0-performances if they exist
-    if 0 in Y['perf_squared'].tolist():
-        print('X', X.shape)
-        print('Y', Y.shape)
-        print('X_mnk', X_mnk.shape)
-        X['perf_squared'] = Y['perf_squared']
-        X['mnk'] = X_mnk['mnk']
-        print(X.shape)
-        X = X.loc[X['perf_squared'] != 0]
-        print(X.shape)
-        del Y
-        Y = pd.DataFrame()
-        Y['perf_squared'] = X['perf_squared']
-        del X_mnk
-        X_mnk = pd.DataFrame()
-        X_mnk['mnk'] = X['mnk']
-        X.drop(['perf_squared', 'mnk'], axis=1, inplace=True)
-        print('X', X.shape)
-        print('Y', Y.shape)
-        print('X_mnk', X_mnk.shape)
+    ####################################################################################################################
+    # Read and fix 'Y'
+    log = print_and_log('Read training data Y ...', log)
+    Y_scaled_file = os.path.join(read_from, 'train_all_' + FLAGS.algo + '_Y_scaled.csv')
+    if os.path.exists(Y_scaled_file):
 
+        Y = pd.read_csv(Y_scaled_file, index_col=0, nrows=FLAGS.nrows)
+
+    else:
+        Y_raw_file = os.path.join(read_from, 'train_all_' + FLAGS.algo + '_Y_perf.csv')
+        Y = pd.read_csv(Y_raw_file, index_col=0, nrows=FLAGS.nrows)
+
+        # Remove 0-performances if they exist
+        if 0 in Y['perf'].tolist():
+            print("Found 0-values in perf")
+            X['perf'] = Y['perf']
+            X['mnk'] = X_mnk['mnk']
+            print(X.shape)
+            X = X.loc[X['perf'] != 0]
+            del Y
+            Y = pd.DataFrame()
+            Y['perf'] = X['perf']
+            del X_mnk
+            X_mnk = pd.DataFrame()
+            X_mnk['mnk'] = X['mnk']
+            X.drop(['perf', 'mnk'], axis=1, inplace=True)
+
+        Y['perf_scaled'] = scale(Y, X_mnk)
+        Y.drop(['perf'], axis=1, inplace=True)
+        print((Y["perf_scaled"] == 1.0).sum(), ", ", len(np.unique(X_mnk["mnk"].values)))
+
+        # Re-write CSVs
+        Y.to_csv(Y_scaled_file)
+        X_mnk.to_csv(X_mnk_file)
+        X.to_csv(X_file)
+
+        #assert (Y["perf_scaled"] == 1.0).sum() == len(np.unique(X_mnk["mnk"].values))
+
+        # WHEN WORKING WITH PERF_SQUARED
+        # if 'perf_squared' not in Y.columns.values:
+        #     assert 'perf' in Y.columns.values, "Y has column names:" + str(*Y.columns.values)
+        #     Y['perf'] = Y['perf'] * Y['perf']
+        #     Y.rename(columns={'perf': 'perf_squared'}, inplace=True)
+
+    log = print_and_log('Y    : {:>8} x {:>8} ({:>2} MB)'.format(Y.shape[0], Y.shape[1], sys.getsizeof(Y)/10**6), log)
+
+    ####################################################################################################################
+    # Describe and log
     n_features = len(list(X.columns))
     predictor_names = X.columns.values
     log = print_and_log('Predictor variables: (' + str(n_features) + ')', log)
@@ -465,11 +512,16 @@ def get_DecisionTree_model(n_features):
         min_samples_split = [2, 5, 13, 18]
         min_samples_leaf = [2, 5, 13, 18]
 
-    param_grid_DT = {
-        'max_depth': list(max_depth),
-        'min_samples_split': list(min_samples_split),
-        'min_samples_leaf': list(min_samples_leaf)
-    }
+    if FLAGS.algo != 'medium':
+        param_grid_DT = {
+            'max_depth': list(max_depth),
+            'min_samples_split': list(min_samples_split),
+            'min_samples_leaf': list(min_samples_leaf)
+        }
+    else:
+        param_grid_DT = {
+            'max_depth': list(max_depth)
+        }
 
     # Tree model
     model_DT = DecisionTreeRegressor(
@@ -541,32 +593,34 @@ def tune_and_train():
     log = ''
     if not os.path.exists(folder):
         os.makedirs(folder)
-    decisive_score = 'worse_top-3'
+    decisive_score = 'mean_top-1'
+
+    if FLAGS.algo == 'tiny':
+        plot_training_data(Y, X_mnk, folder)
 
     print('\n')
-    print('###############################################################################################')
-    print("Start hyperparameter optimization for model", model_name)
-    print('###############################################################################################')
+    print("Start hyperparameter optimization for model", model_name, "with parameters")
+    print(model)
 
     ########################################################################################################
-    # Train/test split
+    # Testing splitter (train/test-split)
     from sklearn.model_selection import GroupShuffleSplit
     cv = GroupShuffleSplit(n_splits=2, test_size=0.2)
     train, test = cv.split(X, Y, groups=X_mnk['mnk'])
     train = train[0]
     test = test[0]
     X_train = X.iloc[train, :]  # train: use for hyperparameter optimization (via CV) and training
-    X_test  = X.iloc[test,  :]  # test : use for evaluation of 'selected/final' model
+    X_test = X.iloc[test, :]  # test : use for evaluation of 'selected/final' model
     del X
     X_mnk_train = X_mnk.iloc[train, :]
     X_mnk_test = X_mnk.iloc[test, :]
     del X_mnk
     Y_train = Y.iloc[train, :]
-    Y_test  = Y.iloc[test,  :]
+    Y_test = Y.iloc[test, :]
     del Y
 
     ########################################################################################################
-    # Cross-validation splitter
+    # Cross-validation splitter (train/validation-split)
     n_splits = FLAGS.splits
     test_size = 0.3
     cv = GroupShuffleSplit(n_splits=n_splits, test_size=test_size)
@@ -609,8 +663,6 @@ def tune_and_train():
         X_train["mnk"] = X_mnk_train['mnk']  # add to X-DataFrame (needed for scoring function)
         scoring = {
             'worse_top-1': worse_case_scorer_top1, 'mean_top-1': mean_scorer_top1,
-            'worse_top-3': worse_case_scorer_top3, 'mean_top-3': mean_scorer_top3,
-            'worse_top-5': worse_case_scorer_top5, 'mean_top-5': mean_scorer_top5
         }
         gs = GridSearchCV(
             estimator=model,
@@ -685,6 +737,7 @@ def describe_model(gs, X_train, X_test, Y_train, Y_test, log):
 
     # Export tree SVG
     if FLAGS.print_tree:
+        from dtreeviz.trees import dtreeviz
         log = print_and_log('\nExport tree to SVG:', log)
         viz = dtreeviz(best_estimator, X_test.values, Y_test.values.ravel(),
                        target_name='perf',
@@ -703,6 +756,31 @@ def print_error(y_true, y_pred, X_mnk, log):
                                                worse_rel_perf_loss_of_k(y_true, y_pred, top_k, X_mnk),
                                                mean_rel_perf_loss_of_k(y_true, y_pred, top_k, X_mnk)), log)
     return log
+
+
+def plot_training_data(Y, X_mnk, folder):
+    import re
+    import matplotlib.pyplot as plt
+
+    mnks_strings = X_mnk['mnk'].values
+    mnks = list()
+    mnk_str = re.compile(r"(\d+)x(\d+)x(\d+)")
+    for mnk_s in mnks_strings:
+        match = mnk_str.match(mnk_s)
+        mnks.append((int(match.group(1)), int(match.group(2)), int(match.group(3))))
+
+    perf_scaled = zip(mnks, Y["perf_scaled"])
+    mnk_products_perf_sorted = [(mnk[0]*mnk[1]*mnk[2], p) for mnk, p in sorted(perf_scaled, key=lambda x: x[0][0]*x[0][1]*x[0][2])]
+    tmp = list(zip(*mnk_products_perf_sorted))
+    mnk_products_sorted = tmp[0]
+    perf_scaled_sorted = tmp[1]
+
+    # Plot
+    plt.plot(mnk_products_sorted, 100*np.array(perf_scaled_sorted), '.', markersize=1)
+    plt.xlabel('Training (m, n, k) triplets (in order of increasing m*n*k)')
+    plt.ylabel('Scaled performance [%]')
+    plt.title('Scaled performance on training data (' + FLAGS.algo + ')')
+    plt.savefig(os.path.join(folder, "y_scaled.svg"))
 
 
 def plot_loss_histogram(y_true, y_pred, X_mnk, folder):
@@ -742,7 +820,7 @@ def plot_cv_scores(param_grid, scoring, results, best_pars, folder, algo):
         X_axis = np.array(results_['param_' + p].values, dtype=float)
         X_axis_p = results_['param_' + p]
 
-        for scorer, color in zip(scoring, ['b']*2 + ['g']*2 + ['k']*2):
+        for scorer, color in zip(scoring, ['b', 'g']):
             sample = 'test'
             style = '-'
             sample_score_mean = results_['mean_%s_%s' % (sample, scorer)]
@@ -799,7 +877,7 @@ def evaluate_model(gs, X_train, X_test, X_mnk_train, X_mnk_test, Y_train, Y_test
     # Plot CV results by evaluation metric
     if FLAGS.tune:
         log = print_and_log('\nPlot CV scores:', log)
-        plot_cv_scores(gs.param_grid, scoring, gs.cv_results, gs.best_params_, folder, FLAGS.algo)
+        plot_cv_scores(gs.param_grid, scoring, gs.cv_results_, gs.best_params_, folder, FLAGS.algo)
 
     return log
 
