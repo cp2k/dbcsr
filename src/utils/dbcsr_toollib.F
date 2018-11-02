@@ -219,7 +219,7 @@ CONTAINS
 !>       we return already the index in the table as a final result
 ! **************************************************************************************************
    FUNCTION joaat_hash(key) RESULT(hash_index)
-      ! LIBXSMM: at least v1.9.0.6 is required
+      ! LIBXSMM: at least v1.9.0-6 is required
 #if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
       USE libxsmm
       INTEGER, PARAMETER                                 :: seed = 0
