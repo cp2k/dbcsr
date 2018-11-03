@@ -44,9 +44,7 @@ MODULE dbcsr_block_operations
 #  define PURE_TCOPY PURE
 #  define PURE_TRANS PURE
 #else
-#  if defined(__MKL)
-#  include "mkl_trans.fi"
-#  endif
+! MKL: mkl_trans.fi header is obsolescent (use implicit "interface") 
 #  define PURE_TCOPY
 #  define PURE_TRANS
 #endif
