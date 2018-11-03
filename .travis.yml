@@ -3,13 +3,13 @@ language: c
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - gfortran
-      - libblas-dev
-      - liblapack-dev
-      - libopenmpi-dev
-      - openmpi-bin
+    - gfortran
+    - libblas-dev
+    - liblapack-dev
+    - libopenmpi-dev
+    - openmpi-bin
 
 env:
   global:
@@ -40,37 +40,37 @@ before_script:
 
 jobs:
   include:
-    - stage: build
-      name: "Build and test MPI+OpenMP version with make"
-      script:
-        - make -j FC="mpif90" LD="mpif90" OPTFLAGS="-fprofile-arcs -ftest-coverage -O0 -D__MPI_VERSION=2" all
-        - make test
-        - bash <(curl -s https://codecov.io/bash)
-    - # run this in parallel with the other builds
-      name: "Build and test MPI+OpenMP version with cmake"
-      script:
-        - mkdir -p build
-        - cd build
-        # C++ example fails with this ancient version of MPI,
-        # we see all system CPUs, but can use only 1, causing nproc auto-detection to fail
-        - cmake -DCMAKE_BUILD_TYPE=Coverage -DWITH_EXAMPLES=OFF -DTEST_MPI_RANKS=1 ..
-        - make -j
-        - make CTEST_OUTPUT_ON_FAILURE=1 test
-    - # run this in parallel with the other builds
-      name: "Build and test OpenMP version with cmake"
-      script:
-        - mkdir -p build
-        - cd build
-        # all examples need MPI atm
-        - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF -DUSE_SMM=libxsmm ..
-        - make -j
-        - make CTEST_OUTPUT_ON_FAILURE=1 test
-    - # run this in parallel with the other builds
-      name: "Build and test MPI version with cmake"
-      script:
-        - mkdir -p build
-        - cd build
-        # all examples need MPI atm
-        - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_OPENMP=OFF -DWITH_EXAMPLES=OFF -DTEST_MPI_RANKS=1 ..
-        - make -j
-        - make CTEST_OUTPUT_ON_FAILURE=1 test
+  - stage: build
+    name: "Build and test MPI+OpenMP version with make"
+    script:
+    - make -j FC="mpif90" LD="mpif90" OPTFLAGS="-fprofile-arcs -ftest-coverage -O0 -D__MPI_VERSION=2" all
+    - make test
+    - bash <(curl -s https://codecov.io/bash)
+  - # run this in parallel with the other builds
+    name: "Build and test MPI+OpenMP version with cmake"
+    script:
+    - mkdir -p build
+    - cd build
+    # C++ example fails with this ancient version of MPI,
+    # we see all system CPUs, but can use only 1, causing nproc auto-detection to fail
+    - cmake -DCMAKE_BUILD_TYPE=Coverage -DWITH_EXAMPLES=OFF -DTEST_MPI_RANKS=1 ..
+    - make -j
+    - make CTEST_OUTPUT_ON_FAILURE=1 test
+  - # run this in parallel with the other builds
+    name: "Build and test OpenMP version with cmake"
+    script:
+    - mkdir -p build
+    - cd build
+    # all examples need MPI atm
+    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF -DUSE_SMM=libxsmm ..
+    - make -j
+    - make CTEST_OUTPUT_ON_FAILURE=1 test
+  - # run this in parallel with the other builds
+    name: "Build and test MPI version with cmake"
+    script:
+    - mkdir -p build
+    - cd build
+    # all examples need MPI atm
+    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_OPENMP=OFF -DWITH_EXAMPLES=OFF -DTEST_MPI_RANKS=1 ..
+    - make -j
+    - make CTEST_OUTPUT_ON_FAILURE=1 test
