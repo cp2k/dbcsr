@@ -44,7 +44,7 @@ endif ()
 
 find_package(BLAS REQUIRED)
 
-if (BLAS_VENDOR_FOUND MATCHES "Intel" OR BLAS_VENDOR MATCHES "Intel" OR BLAS_LIBRARIES MATCHES "mkl_")
+if (BLA_VENDOR_FOUND MATCHES "Intel" OR BLA_VENDOR MATCHES "Intel" OR BLAS_LIBRARIES MATCHES "mkl_")
   add_definitions(-D__MKL)
 endif ()
 
