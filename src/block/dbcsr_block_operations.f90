@@ -45,7 +45,6 @@
       routineP = moduleN//':'//routineN
 
     INTEGER                                  :: col, row
-
 !   ---------------------------------------------------------------------------
 ! Factors out the 4 combinations to remove branches from the inner loop.
 !  rs is the logical row size so it always remains the leading dimension.
@@ -116,7 +115,6 @@
       routineP = moduleN//':'//routineN
 
     INTEGER                                  :: col, row
-
 !   ---------------------------------------------------------------------------
 ! Factors out the 4 combinations to remove branches from the inner loop. rs is the logical row size so it always remains the leading dimension.
     IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
@@ -149,6 +147,7 @@
        END DO
     ENDIF
   END SUBROUTINE block_partial_copy_1d2d_${nametype1}$
+
 ! **************************************************************************************************
 !> \brief Copies a block subset
 !> \param dst ...
@@ -186,7 +185,6 @@
       routineP = moduleN//':'//routineN
 
     INTEGER                                  :: col, row
-
 !   ---------------------------------------------------------------------------
 ! Factors out the 4 combinations to remove branches from the inner loop. rs is the logical row size so it always remains the leading dimension.
     IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
@@ -219,6 +217,7 @@
        END DO
     ENDIF
   END SUBROUTINE block_partial_copy_2d1d_${nametype1}$
+
 ! **************************************************************************************************
 !> \brief Copies a block subset
 !> \param dst ...
@@ -249,7 +248,6 @@
       routineP = moduleN//':'//routineN
 
     INTEGER                                  :: col, row
-
 !   ---------------------------------------------------------------------------
 ! Factors out the 4 combinations to remove branches from the inner loop. rs is the logical row size so it always remains the leading dimension.
     IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
@@ -283,7 +281,6 @@
     ENDIF
   END SUBROUTINE block_partial_copy_2d2d_${nametype1}$
 
-
 ! **************************************************************************************************
 !> \brief Copy a block
 !> \param[out] extent_out     output data
@@ -299,12 +296,9 @@
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_${nametype1}$', &
       routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
-
     extent_out(out_fe : out_fe+n-1) = extent_in(in_fe : in_fe+n-1)
   END SUBROUTINE block_copy_${nametype1}$
-
 
 ! **************************************************************************************************
 !> \brief Copy and transpose block.
@@ -315,32 +309,18 @@
 ! **************************************************************************************************
   PURE_TCOPY SUBROUTINE block_transpose_copy_${nametype1}$(extent_out, extent_in,&
        rows, columns)
-#:if nametype1=="s" or nametype1=="d"
 #if defined(__LIBXSMM)
-#:else
-#if 0
-#:endif
-    USE libxsmm, ONLY: libxsmm_otrans
-    USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_LOC
-    ${type1}$, DIMENSION(:), INTENT(OUT), TARGET :: extent_out
-    ${type1}$, DIMENSION(:), INTENT(IN),  TARGET :: extent_in
-#else
+    USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1
+#endif
     ${type1}$, DIMENSION(:), INTENT(OUT) :: extent_out
     ${type1}$, DIMENSION(:), INTENT(IN)  :: extent_in
-#endif
     INTEGER, INTENT(IN) :: rows, columns
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_${nametype1}$', &
       routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
-
-#:if nametype1=="s" or nametype1=="d"
 #if defined(__LIBXSMM)
-#:else
-#if 0
-#:endif
-    CALL libxsmm_otrans(C_LOC(extent_out(1)), C_LOC(extent_in(1)), &
+    CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr1(extent_in), &
                         ${typesize1[n]}$, rows, columns, rows, columns)
 #elif defined(__MKL)
     CALL mkl_${nametype1}$omatcopy('C', 'T', rows, columns, ${one1[n]}$, extent_in, rows, extent_out, columns)
@@ -359,15 +339,13 @@
 ! **************************************************************************************************
   PURE SUBROUTINE block_copy_2d1d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
-    INTEGER, INTENT(IN)                             :: rows, columns
     ${type1}$, DIMENSION(rows,columns), INTENT(OUT) :: extent_out
     ${type1}$, DIMENSION(:), INTENT(IN)             :: extent_in
+    INTEGER, INTENT(IN) :: rows, columns
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d1d_${nametype1}$', &
       routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
-
     extent_out = RESHAPE(extent_in, (/rows, columns/))
   END SUBROUTINE block_copy_2d1d_${nametype1}$
 
@@ -380,15 +358,13 @@
 ! **************************************************************************************************
   PURE SUBROUTINE block_copy_1d1d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
-    INTEGER, INTENT(IN)                           :: rows, columns
     ${type1}$, DIMENSION(rows*columns), INTENT(OUT) :: extent_out
     ${type1}$, DIMENSION(rows*columns), INTENT(IN)  :: extent_in
+    INTEGER, INTENT(IN) :: rows, columns
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d1d_${nametype1}$', &
       routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
-
     extent_out(:) = extent_in(:)
   END SUBROUTINE block_copy_1d1d_${nametype1}$
 
@@ -401,18 +377,15 @@
 ! **************************************************************************************************
   PURE SUBROUTINE block_copy_2d2d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
-    INTEGER, INTENT(IN)                           :: rows, columns
     ${type1}$, DIMENSION(rows,columns), INTENT(OUT) :: extent_out
     ${type1}$, DIMENSION(rows,columns), INTENT(IN)  :: extent_in
+    INTEGER, INTENT(IN) :: rows, columns
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d2d_${nametype1}$', &
       routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
-
     extent_out(:,:) = extent_in(:,:)
   END SUBROUTINE block_copy_2d2d_${nametype1}$
-
 
 ! **************************************************************************************************
 !> \brief Copy and transpose block.
@@ -423,32 +396,18 @@
 ! **************************************************************************************************
   PURE_TCOPY SUBROUTINE block_transpose_copy_2d1d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
-#:if nametype1=="s" or nametype1=="d"
 #if defined(__LIBXSMM)
-#:else
-#if 0
-#:endif
-    USE libxsmm, ONLY: libxsmm_otrans
-    USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_LOC
-    INTEGER, INTENT(IN)                                     :: rows, columns
-    ${type1}$, DIMENSION(columns,rows), INTENT(OUT), TARGET :: extent_out
-    ${type1}$, DIMENSION(:), INTENT(IN), TARGET             :: extent_in
-#else
-    INTEGER, INTENT(IN)                                     :: rows, columns
-    ${type1}$, DIMENSION(columns,rows), INTENT(OUT)         :: extent_out
-    ${type1}$, DIMENSION(:), INTENT(IN)                     :: extent_in
+    USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
 #endif
+    ${type1}$, DIMENSION(columns,rows), INTENT(OUT) :: extent_out
+    ${type1}$, DIMENSION(:), INTENT(IN)             :: extent_in
+    INTEGER, INTENT(IN) :: rows, columns
+
     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d1d_${nametype1}$', &
       routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
-
-#:if nametype1=="s" or nametype1=="d"
 #if defined(__LIBXSMM)
-#:else
-#if 0
-#:endif
-    CALL libxsmm_otrans(C_LOC(extent_out(1,1)), C_LOC(extent_in(1)), &
+    CALL libxsmm_otrans(libxsmm_ptr2(extent_out), libxsmm_ptr1(extent_in), &
                         ${typesize1[n]}$, rows, columns, rows, columns)
 #elif defined(__MKL)
     CALL mkl_${nametype1}$omatcopy('C', 'T', rows, columns, ${one1[n]}$, extent_in, rows, extent_out, columns)
@@ -466,18 +425,15 @@
 ! **************************************************************************************************
   PURE SUBROUTINE block_copy_1d2d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
-    ${type1}$, DIMENSION(:), INTENT(OUT)            :: extent_out
-    INTEGER, INTENT(IN)                           :: rows, columns
-    ${type1}$, DIMENSION(rows,columns), INTENT(IN)  :: extent_in
+    ${type1}$, DIMENSION(:), INTENT(OUT)           :: extent_out
+    ${type1}$, DIMENSION(rows,columns), INTENT(IN) :: extent_in
+    INTEGER, INTENT(IN) :: rows, columns
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d2d_${nametype1}$', &
       routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
-
     extent_out = RESHAPE(extent_in, (/rows*columns/))
   END SUBROUTINE block_copy_1d2d_${nametype1}$
-
 
 ! **************************************************************************************************
 !> \brief Copy and transpose block.
@@ -488,32 +444,18 @@
 ! **************************************************************************************************
   PURE_TCOPY SUBROUTINE block_transpose_copy_1d2d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
-#:if nametype1=="s" or nametype1=="d"
 #if defined(__LIBXSMM)
-#:else
-#if 0
-#:endif
-    USE libxsmm, ONLY: libxsmm_otrans
-    USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_LOC
-    INTEGER, INTENT(IN)                                    :: rows, columns
-    ${type1}$, DIMENSION(:), INTENT(OUT), TARGET           :: extent_out
-    ${type1}$, DIMENSION(rows,columns), INTENT(IN), TARGET :: extent_in
-#else
-    INTEGER, INTENT(IN)                                    :: rows, columns
-    ${type1}$, DIMENSION(:), INTENT(OUT)                   :: extent_out
-    ${type1}$, DIMENSION(rows,columns), INTENT(IN)         :: extent_in
+    USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
 #endif
+    ${type1}$, DIMENSION(:), INTENT(OUT)           :: extent_out
+    ${type1}$, DIMENSION(rows,columns), INTENT(IN) :: extent_in
+    INTEGER, INTENT(IN) :: rows, columns
+
     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_1d2d_${nametype1}$', &
       routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
-
-#:if nametype1=="s" or nametype1=="d"
 #if defined(__LIBXSMM)
-#:else
-#if 0
-#:endif
-    CALL libxsmm_otrans(C_LOC(extent_out(1)), C_LOC(extent_in(1,1)), &
+    CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr2(extent_in), &
                         ${typesize1[n]}$, rows, columns, rows, columns)
 #elif defined(__MKL)
     CALL mkl_${nametype1}$omatcopy('C', 'T', rows, columns, ${one1[n]}$, extent_in, rows, extent_out, columns)
@@ -521,7 +463,6 @@
     extent_out = RESHAPE(TRANSPOSE(extent_in), (/rows*columns/))
 #endif
   END SUBROUTINE block_transpose_copy_1d2d_${nametype1}$
-
 
 ! **************************************************************************************************
 !> \brief In-place block transpose.
@@ -531,24 +472,20 @@
 ! **************************************************************************************************
   PURE_TRANS SUBROUTINE block_transpose_inplace_${nametype1}$(extent, rows, columns)
 #if defined(__LIBXSMM) && 0
-    USE libxsmm, ONLY: libxsmm_itrans
-    USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_LOC
-    INTEGER, INTENT(IN)                                       :: rows, columns
-    ${type1}$, DIMENSION(rows*columns), INTENT(INOUT), TARGET :: extent
+    USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
 #else
-    INTEGER, INTENT(IN)                                       :: rows, columns
-    ${type1}$, DIMENSION(rows*columns), INTENT(INOUT)         :: extent
+    ${type1}$, DIMENSION(rows*columns)                :: extent_tr
 #endif
-    ${type1}$, DIMENSION(rows*columns)                        :: extent_tr
+    ${type1}$, DIMENSION(rows*columns), INTENT(INOUT) :: extent
+    INTEGER, INTENT(IN) :: rows, columns
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_inplace_${nametype1}$', &
       routineP = moduleN//':'//routineN
 
     INTEGER :: r, c
 !   ---------------------------------------------------------------------------
-
 #if defined(__LIBXSMM) && 0
-    CALL libxsmm_itrans(C_LOC(extent(1,1)), ${typesize1[n]}$, rows, columns, rows)
+    CALL libxsmm_itrans(libxsmm_ptr1(extent), ${typesize1[n]}$, rows, columns, rows)
 #elif defined(__MKL)
     CALL mkl_${nametype1}$imatcopy('C', 'T', rows, columns, ${one1[n]}$, extent, rows, columns)
 #else
@@ -564,7 +501,6 @@
     END DO
 #endif
   END SUBROUTINE block_transpose_inplace_${nametype1}$
-
 
 ! **************************************************************************************************
 !> \brief Copy data from a double real array to a data area
@@ -612,9 +548,9 @@
 !> \param len ...
 ! **************************************************************************************************
   PURE SUBROUTINE block_add_${nametype1}$(block_a, block_b, len)
-    INTEGER, INTENT(IN)                    :: len
     ${type1}$, DIMENSION(len), INTENT(INOUT) :: block_a
     ${type1}$, DIMENSION(len), INTENT(IN)    :: block_b
+    INTEGER, INTENT(IN) :: len
     block_a(1:len) = block_a(1:len) + block_b(1:len)
   END SUBROUTINE block_add_${nametype1}$
 #:endfor
