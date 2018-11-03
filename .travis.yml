@@ -14,7 +14,7 @@ addons:
 env:
   global:
   # LIBXSMM: update to v1.10 or later
-  - LIBXSMM_VERSION=531c000d1218f5925aaf3ea34dca8eb3033d2dff
+  - LIBXSMM_VERSION=eb4e85c6c7ef080658d1a8b36cc27be13afd9694
   - PKG_CONFIG_PATH=${TRAVIS_BUILD_DIR}/libxsmm-${LIBXSMM_VERSION}/lib
 
 install:

@@ -36,7 +36,10 @@ MODULE dbcsr_block_operations
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
    IMPLICIT NONE
-#if !defined(__MKL) && !defined(__LIBXSMM)
+#if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
+# define __LIBXSMM_TRANS
+#endif
+#if !defined(__MKL) && !defined(__LIBXSMM_TRANS)
 !  MKL: routines are impure, LIBXSMM: C_LOC is impure (F-standard mistake)
 #  define PURE_TCOPY PURE
 #  define PURE_TRANS PURE

@@ -309,7 +309,7 @@
 ! **************************************************************************************************
   PURE_TCOPY SUBROUTINE block_transpose_copy_${nametype1}$(extent_out, extent_in,&
        rows, columns)
-#if defined(__LIBXSMM)
+#if defined(__LIBXSMM_TRANS)
     USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1
 #endif
     ${type1}$, DIMENSION(:), INTENT(OUT) :: extent_out
@@ -319,7 +319,7 @@
     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_${nametype1}$', &
       routineP = moduleN//':'//routineN
 !   ---------------------------------------------------------------------------
-#if defined(__LIBXSMM)
+#if defined(__LIBXSMM_TRANS)
     CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr1(extent_in), &
                         ${typesize1[n]}$, rows, columns, rows, columns)
 #elif defined(__MKL)
@@ -396,7 +396,7 @@
 ! **************************************************************************************************
   PURE_TCOPY SUBROUTINE block_transpose_copy_2d1d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
-#if defined(__LIBXSMM)
+#if defined(__LIBXSMM_TRANS)
     USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
 #endif
     INTEGER, INTENT(IN) :: rows, columns
@@ -406,7 +406,7 @@
     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d1d_${nametype1}$', &
       routineP = moduleN//':'//routineN
 !   ---------------------------------------------------------------------------
-#if defined(__LIBXSMM)
+#if defined(__LIBXSMM_TRANS)
     CALL libxsmm_otrans(libxsmm_ptr2(extent_out), libxsmm_ptr1(extent_in), &
                         ${typesize1[n]}$, rows, columns, rows, columns)
 #elif defined(__MKL)
@@ -444,7 +444,7 @@
 ! **************************************************************************************************
   PURE_TCOPY SUBROUTINE block_transpose_copy_1d2d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
-#if defined(__LIBXSMM)
+#if defined(__LIBXSMM_TRANS)
     USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
 #endif
     INTEGER, INTENT(IN) :: rows, columns
@@ -454,7 +454,7 @@
     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_1d2d_${nametype1}$', &
       routineP = moduleN//':'//routineN
 !   ---------------------------------------------------------------------------
-#if defined(__LIBXSMM)
+#if defined(__LIBXSMM_TRANS)
     CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr2(extent_in), &
                         ${typesize1[n]}$, rows, columns, rows, columns)
 #elif defined(__MKL)
@@ -471,7 +471,7 @@
 !> \param[in] columns input matrix size
 ! **************************************************************************************************
   PURE_TRANS SUBROUTINE block_transpose_inplace_${nametype1}$(extent, rows, columns)
-#if defined(__LIBXSMM) && 0
+#if defined(__LIBXSMM_TRANS) && 0
     USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
     INTEGER, INTENT(IN) :: rows, columns
 #else
@@ -485,7 +485,7 @@
 
     INTEGER :: r, c
 !   ---------------------------------------------------------------------------
-#if defined(__LIBXSMM) && 0
+#if defined(__LIBXSMM_TRANS) && 0
     CALL libxsmm_itrans(libxsmm_ptr1(extent), ${typesize1[n]}$, rows, columns, rows)
 #elif defined(__MKL)
     CALL mkl_${nametype1}$imatcopy('C', 'T', rows, columns, ${one1[n]}$, extent, rows, columns)
