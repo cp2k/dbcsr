@@ -290,9 +290,9 @@
 !> \param[in] in_fe           first element of input
 ! **************************************************************************************************
   PURE SUBROUTINE block_copy_${nametype1}$(extent_out, extent_in, n, out_fe, in_fe)
-    INTEGER, INTENT(IN)                           :: n, out_fe, in_fe
-    ${type1}$, DIMENSION(*), INTENT(OUT)  :: extent_out
-    ${type1}$, DIMENSION(*), INTENT(IN)   :: extent_in
+    INTEGER, INTENT(IN) :: n, out_fe, in_fe
+    ${type1}$, DIMENSION(*), INTENT(OUT) :: extent_out
+    ${type1}$, DIMENSION(*), INTENT(IN)  :: extent_in
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_${nametype1}$', &
       routineP = moduleN//':'//routineN
@@ -339,9 +339,9 @@
 ! **************************************************************************************************
   PURE SUBROUTINE block_copy_2d1d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
+    INTEGER, INTENT(IN) :: rows, columns
     ${type1}$, DIMENSION(rows,columns), INTENT(OUT) :: extent_out
     ${type1}$, DIMENSION(:), INTENT(IN)             :: extent_in
-    INTEGER, INTENT(IN) :: rows, columns
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d1d_${nametype1}$', &
       routineP = moduleN//':'//routineN
@@ -358,9 +358,9 @@
 ! **************************************************************************************************
   PURE SUBROUTINE block_copy_1d1d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
+    INTEGER, INTENT(IN) :: rows, columns
     ${type1}$, DIMENSION(rows*columns), INTENT(OUT) :: extent_out
     ${type1}$, DIMENSION(rows*columns), INTENT(IN)  :: extent_in
-    INTEGER, INTENT(IN) :: rows, columns
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d1d_${nametype1}$', &
       routineP = moduleN//':'//routineN
@@ -377,9 +377,9 @@
 ! **************************************************************************************************
   PURE SUBROUTINE block_copy_2d2d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
+    INTEGER, INTENT(IN) :: rows, columns
     ${type1}$, DIMENSION(rows,columns), INTENT(OUT) :: extent_out
     ${type1}$, DIMENSION(rows,columns), INTENT(IN)  :: extent_in
-    INTEGER, INTENT(IN) :: rows, columns
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d2d_${nametype1}$', &
       routineP = moduleN//':'//routineN
@@ -399,9 +399,9 @@
 #if defined(__LIBXSMM)
     USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
 #endif
+    INTEGER, INTENT(IN) :: rows, columns
     ${type1}$, DIMENSION(columns,rows), INTENT(OUT) :: extent_out
     ${type1}$, DIMENSION(:), INTENT(IN)             :: extent_in
-    INTEGER, INTENT(IN) :: rows, columns
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d1d_${nametype1}$', &
       routineP = moduleN//':'//routineN
@@ -425,9 +425,9 @@
 ! **************************************************************************************************
   PURE SUBROUTINE block_copy_1d2d_${nametype1}$(extent_out, extent_in,&
        rows, columns)
+    INTEGER, INTENT(IN) :: rows, columns
     ${type1}$, DIMENSION(:), INTENT(OUT)           :: extent_out
     ${type1}$, DIMENSION(rows,columns), INTENT(IN) :: extent_in
-    INTEGER, INTENT(IN) :: rows, columns
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d2d_${nametype1}$', &
       routineP = moduleN//':'//routineN
@@ -447,9 +447,9 @@
 #if defined(__LIBXSMM)
     USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
 #endif
+    INTEGER, INTENT(IN) :: rows, columns
     ${type1}$, DIMENSION(:), INTENT(OUT)           :: extent_out
     ${type1}$, DIMENSION(rows,columns), INTENT(IN) :: extent_in
-    INTEGER, INTENT(IN) :: rows, columns
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_1d2d_${nametype1}$', &
       routineP = moduleN//':'//routineN
@@ -473,11 +473,12 @@
   PURE_TRANS SUBROUTINE block_transpose_inplace_${nametype1}$(extent, rows, columns)
 #if defined(__LIBXSMM) && 0
     USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
+    INTEGER, INTENT(IN) :: rows, columns
 #else
-    ${type1}$, DIMENSION(rows*columns)                :: extent_tr
+    INTEGER, INTENT(IN) :: rows, columns
+    ${type1}$, DIMENSION(rows*columns) :: extent_tr
 #endif
     ${type1}$, DIMENSION(rows*columns), INTENT(INOUT) :: extent
-    INTEGER, INTENT(IN) :: rows, columns
 
     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_inplace_${nametype1}$', &
       routineP = moduleN//':'//routineN
