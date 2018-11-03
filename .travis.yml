@@ -10,6 +10,9 @@ addons:
     - liblapack-dev
     - libopenmpi-dev
     - openmpi-bin
+  homebrew:
+    packages:
+    - cmake
 
 env:
   global:
@@ -29,8 +32,6 @@ install:
       CMAKE_URL="https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.tar.gz"
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
-    else
-      brew install cmake || brew upgrade cmake
     fi
   - cmake --version
 
