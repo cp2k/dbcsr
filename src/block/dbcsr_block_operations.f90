@@ -549,9 +549,9 @@
 !> \param len ...
 ! **************************************************************************************************
   PURE SUBROUTINE block_add_${nametype1}$(block_a, block_b, len)
+    INTEGER, INTENT(IN) :: len
     ${type1}$, DIMENSION(len), INTENT(INOUT) :: block_a
     ${type1}$, DIMENSION(len), INTENT(IN)    :: block_b
-    INTEGER, INTENT(IN) :: len
     block_a(1:len) = block_a(1:len) + block_b(1:len)
   END SUBROUTINE block_add_${nametype1}$
 #:endfor
