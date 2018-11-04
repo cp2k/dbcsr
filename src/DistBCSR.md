@@ -37,6 +37,7 @@ Each object of `DistBCSR` contains a pointer to a valid `DBCSR_Environment`-obje
 allows a compact representation of matrix operations. 
 
 ### Constructor
++ `DistBCSR()`
 + `DistBCSR(DBCSR_Environment* dbcsr_env, const std::string& mname="default matrix name")`
 + `DistBCSR(DistBCSR& ref)`, `DistBCSR(const DistBCSR& ref)`
 + `DistBCSR(size_t nrow, size_t ncol, std::vector<int>& row_dims, std::vector<int>& col_dims, DBCSR_Environment* dbcsr_env,

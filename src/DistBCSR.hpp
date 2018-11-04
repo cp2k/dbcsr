@@ -250,6 +250,11 @@ class DistBCSR {
     double dbcsr_thresh;
 
   public:
+    DistBCSR(){
+      dbcsr_matrix = nullptr;
+      dbcsr_env    = nullptr;
+    };
+
     DistBCSR(DBCSR_Environment* dbcsr_env_in, const std::string& mname_in="default matrix name"){
       mname = mname_in;
       dbcsr_env = dbcsr_env_in;
