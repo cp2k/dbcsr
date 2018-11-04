@@ -10,8 +10,6 @@ extern "C" {
                                     int* col_dist, int col_dist_size);
   void c_dbcsr_create_new_d(dm_dbcsr* matrix, const char* name, void* dist, char matrix_type, int* row_blk_sizes,
                             int row_blk_sizes_length, int* col_blk_sizes, int col_blk_sizes_length);
-  void c_dbcsr_create_new_mutable_d(dm_dbcsr* matrix, const char* name, void* dist, char matrix_type, int* row_blk_sizes,
-                            int row_blk_sizes_length, int* col_blk_sizes, int col_blk_sizes_length);
   void c_dbcsr_release(dm_dbcsr* matrix);
   void c_dbcsr_multiply_d(char transa, char transb, double alpha, dm_dbcsr* c_matrix_a, dm_dbcsr* c_matrix_b,
                           double beta, dm_dbcsr* c_matrix_c, bool* retain_sparsity);
@@ -59,12 +57,6 @@ namespace dbcsr {
   inline void create_new(dm_dbcsr& matrix, const char* name, void* dist, char matrix_type, int* row_blk_sizes,
                          int row_blk_sizes_length, int* col_blk_sizes, int col_blk_sizes_length){
     c_dbcsr_create_new_d(&matrix,name,dist,matrix_type,row_blk_sizes,
-                         row_blk_sizes_length,col_blk_sizes,col_blk_sizes_length);
-  }
-
-  inline void create_new_mutable(dm_dbcsr& matrix, const char* name, void* dist, char matrix_type, int* row_blk_sizes,
-                         int row_blk_sizes_length, int* col_blk_sizes, int col_blk_sizes_length){
-    c_dbcsr_create_new_mutable_d(&matrix,name,dist,matrix_type,row_blk_sizes,
                          row_blk_sizes_length,col_blk_sizes,col_blk_sizes_length);
   }
 

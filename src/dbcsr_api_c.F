@@ -166,57 +166,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief ...
 !> \param c_matrix ...
-!> \param c_name ...
-!> \param c_dist ...
-!> \param c_matrix_type ...
-!> \param c_row_blk_sizes ...
-!> \param c_row_blk_sizes_length ...
-!> \param c_col_blk_sizes ...
-!> \param c_col_blk_sizes_length ...
-!> \param C ...
-!> \param name="c_dbcsr_create_new_d" ...
-! **************************************************************************************************
-   SUBROUTINE c_dbcsr_create_new_mutable_d(c_matrix, c_name, c_dist, c_matrix_type, &
-                                   c_row_blk_sizes, c_row_blk_sizes_length, &
-                                   c_col_blk_sizes, c_col_blk_sizes_length) &
-      bind(C, name="c_dbcsr_create_new_mutable_d")
-      TYPE(c_ptr), INTENT(out)                           :: c_matrix
-      TYPE(c_ptr), INTENT(in), value                     :: c_name, c_dist
-      CHARACTER(kind=c_char), INTENT(in), value          :: c_matrix_type
-      INTEGER(kind=c_int), INTENT(in), value             :: c_row_blk_sizes_length
-      INTEGER(kind=c_int), INTENT(in), TARGET :: c_row_blk_sizes(c_row_blk_sizes_length)
-      INTEGER(kind=c_int), INTENT(in), value             :: c_col_blk_sizes_length
-      INTEGER(kind=c_int), INTENT(in), TARGET :: c_col_blk_sizes(c_col_blk_sizes_length)
-
-      CHARACTER(:, kind=c_char), ALLOCATABLE             :: fname
-      INTEGER, POINTER                                   :: col_blk_sizes(:), row_blk_sizes(:)
-      TYPE(dbcsr_distribution_type), POINTER             :: dist
-      TYPE(dbcsr_type), POINTER                          :: matrix
-
-      ! associate pointers
-      row_blk_sizes => c_row_blk_sizes
-      col_blk_sizes => c_col_blk_sizes
-
-      ! convert normal distribution pointer to fortran pointer
-      CALL c_f_pointer(c_dist, dist)
-
-      ! allocate heap memory for matrix structure
-      ALLOCATE (matrix)
-
-      ! convert normal name to fortran name
-      CALL c_f_string(c_name, fname)
-
-      CALL dbcsr_create(matrix=matrix, name=fname, dist=dist, &
-                        matrix_type=c_matrix_type, row_blk_size=row_blk_sizes, &
-                        col_blk_size=col_blk_sizes, data_type=dbcsr_type_real_8,mutable_work=.TRUE.)
-
-      c_matrix = c_loc(matrix)
-   END SUBROUTINE
-
-
-! **************************************************************************************************
-!> \brief ...
-!> \param c_matrix ...
 !> \param C ...
 !> \param name="c_dbcsr_finalize" ...
 ! **************************************************************************************************
