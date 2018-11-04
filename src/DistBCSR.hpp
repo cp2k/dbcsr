@@ -529,6 +529,45 @@ class DistBCSR {
       this->set_diag(dvals.data());
     }
 
+    void add_diag(double const* dvals){
+      assert(nrow == ncol);
+      int max_dim = *(std::max_element(row_dims.begin(),row_dims.end()));
+      std::vector<double> block1(max_dim*max_dim,0.e0);
+    
+      int ioff = 0;
+      for(int i = 0; i < (int)row_dims.size(); i++){
+        int idim = row_dims[i];
+        bool found1 = false;
+        c_dbcsr_get_block_d(&(dbcsr_matrix), i, i, block1.data(), found1, idim, idim);
+        if (found1){
+          for(int ii=0;ii<idim;ii++) block1[ii+ii*idim] += dvals[ii+ioff];
+          c_dbcsr_put_block_d(dbcsr_matrix, i, i, block1.data(), idim*idim);
+        }
+        ioff += idim;
+      }
+    }
+
+    void add_diag(const std::vector<double>& dvals){
+      this->add_diag(dvals.data());
+    }
+
+    void add_diag(const double scl){
+      assert(nrow == ncol);
+      int max_dim = *(std::max_element(row_dims.begin(),row_dims.end()));
+      std::vector<double> block1(max_dim*max_dim,0.e0);
+    
+      for(int i = 0; i < (int)row_dims.size(); i++){
+        int idim = row_dims[i];
+        bool found1 = false;
+        c_dbcsr_get_block_d(&(dbcsr_matrix), i, i, block1.data(), found1, idim, idim);
+        if (found1){
+          for(int ii=0;ii<idim;ii++) block1[ii+ii*idim] += scl;
+          c_dbcsr_put_block_d(dbcsr_matrix, i, i, block1.data(), idim*idim);
+        }
+      }
+
+    }
+
     void set(const double scl){
       c_dbcsr_set_d(&(this->dbcsr_matrix),scl);
     }
@@ -807,6 +846,18 @@ class DistBCSR {
     };
 
     dm_dbcsr& get_dbcsr(){return dbcsr_matrix;};
+    DBCSR_Environment* get_env(){return dbcsr_env;};
+
+    void      set_dbcsr(dm_dbcsr& din){
+      if (dbcsr_matrix != nullptr){
+        c_dbcsr_release(&dbcsr_matrix);
+        dbcsr_matrix = nullptr;
+      }
+      dbcsr_matrix = din;
+    };
+    
+    std::vector<int>& get_row_dims(){return row_dims;};
+    std::vector<int>& get_col_dims(){return col_dims;};
 
 };
 
