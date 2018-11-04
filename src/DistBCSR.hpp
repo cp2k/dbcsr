@@ -859,6 +859,9 @@ class DistBCSR {
     std::vector<int>& get_row_dims(){return row_dims;};
     std::vector<int>& get_col_dims(){return col_dims;};
 
+    size_t get_nrow(){return nrow;};
+    size_t get_ncol(){return ncol;};
+
 };
 
 #endif
