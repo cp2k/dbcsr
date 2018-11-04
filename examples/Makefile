@@ -19,6 +19,10 @@ all: dbcsr_example_1.x dbcsr_example_2.x dbcsr_example_3.x
 ifneq (,$(wildcard $(DBCSRDIR)/include/dbcsr.h))
 all: dbcsr_example_3_cpp.x dbcsr_example_4_cpp.x dbcsr_example_5_cpp.x
 endif
+# Include C++ examples if the DistBCSR.hpp is installed
+ifneq (,$(wildcard $(DBCSRDIR)/include/DistBCSR.hpp))
+all: DistBCSR_example_1_cpp.x DistBCSR_example_2_cpp.x
+endif
 
 %.x: %.F
 	$(FC) $(FCFLAGS) $< $(LIBS) -o $@

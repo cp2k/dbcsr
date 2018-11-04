@@ -100,6 +100,7 @@ ifneq ($(CINT),)
 OBJ_SRC_FILES += ./dbcsr_api_c.F
 PUBLICHEADERS += $(SRCDIR)/dbcsr.h
 PUBLICHEADERS += $(SRCDIR)/dbcsr_c.h
+PUBLICHEADERS += $(SRCDIR)/DistBCSR.hpp
 endif
 
 # OBJECTS used for pretty and doxify
