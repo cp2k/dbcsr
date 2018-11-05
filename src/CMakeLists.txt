@@ -140,6 +140,11 @@ if (USE_CUDA)
   endif ()
 endif ()
 
+if (APPLE)
+  # fix /proc/self/statm can not be opened on macOS
+  target_compile_definitions(dbcsr PRIVATE __NO_STATM_ACCESS)
+endif()
+
 target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 target_include_directories(dbcsr PRIVATE base) # do not export those includes, but some srcs do an unprefixed include
 # make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
