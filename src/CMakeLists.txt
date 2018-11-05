@@ -1,6 +1,7 @@
 
 include(fypp-sources)
-include(GNUInstallDirs)  # required to the a proper LIBDIR variable
+include(GNUInstallDirs)  # required to get a proper LIBDIR variable
+include(CMakePackageConfigHelpers)
 
 add_fypp_sources(DBCSR_SRCS
   dbcsr_api.F
@@ -199,23 +200,44 @@ if (WITH_C_API)
     )
 endif ()
 
+set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+set(config_namespace "DBCSR::")
+
 # Install targets:
-install(TARGETS dbcsr EXPORT dbcsr
+install(TARGETS dbcsr
+  EXPORT DBCSRTargets
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/dbcsr_api.mod"
   DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
-install(EXPORT dbcsr
-  DESTINATION "${CMAKE_INSTALL_LIBDIR}/dbcsr"
-  FILE DBCSRTargets.cmake)
 
 if (WITH_C_API)
-  install(TARGETS dbcsr_c EXPORT dbcsr_c
+  install(TARGETS dbcsr_c
+    EXPORT DBCSRTargets
+    COMPONENT C
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    )
   install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/dbcsr.h"
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
-  install(EXPORT dbcsr_c
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/dbcsr"
-    FILE DBCSRCTargets.cmake)
+    COMPONENT C
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+    )
 endif()
+
+configure_package_config_file(cmake/DBCSRConfig.cmake.in
+  "${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake"
+  INSTALL_DESTINATION "${config_install_dir}"
+  )
+write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake"
+  VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+  COMPATIBILITY SameMajorVersion
+  )
+install(EXPORT DBCSRTargets
+  NAMESPACE "${config_namespace}"
+  DESTINATION "${config_install_dir}"
+  )
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake
+  DESTINATION ${config_install_dir}
+  )
