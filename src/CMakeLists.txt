@@ -103,7 +103,7 @@ set(DBCSR_CUDA_SRCS
 add_library(dbcsr ${DBCSR_SRCS})
 
 if (TARGET PkgConfig::deps)
-  target_link_libraries(dbcsr PUBLIC PkgConfig::deps)
+  target_link_libraries(dbcsr PRIVATE PkgConfig::deps)
 endif ()
 
 if (USE_SMM MATCHES "libxsmm")
@@ -140,7 +140,7 @@ if (USE_CUDA)
   endif ()
 endif ()
 
-target_link_libraries(dbcsr PUBLIC ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${MPI_Fortran_LIBRARIES} ${OpenMP_Fortran_LIBRARIES})
+target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 target_include_directories(dbcsr PRIVATE base) # do not export those includes, but some srcs do an unprefixed include
 # make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
 target_include_directories(dbcsr PUBLIC
@@ -150,6 +150,10 @@ target_include_directories(dbcsr PUBLIC
   )
 target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL)
 set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
+
+if (OpenMP_FOUND)
+  target_link_libraries(dbcsr PRIVATE OpenMP::OpenMP_Fortran)
+endif ()
 
 if (MPI_FOUND)
   # once built, a user of the dbcsr library can not influence anything anymore by setting those flags:
@@ -162,8 +166,7 @@ if (MPI_FOUND)
   # as the Fortran compiler we found prior. Otherwise we might be adding incompatible
   # compiler flags at this point.
   # when built against MPI, a dbcsr consumer has to specify the MPI flags as well, therefore: PUBLIC
-  target_compile_options(dbcsr PUBLIC ${MPI_Fortran_COMPILE_FLAGS})
-  target_include_directories(dbcsr SYSTEM PUBLIC ${MPI_Fortran_INCLUDE_DIRS})
+  target_link_libraries(dbcsr PUBLIC MPI::MPI_Fortran)
 endif ()
 
 # set the __SHORT_FILE__ per file for dbcsr sources
@@ -182,7 +185,13 @@ if (WITH_C_API)
   set_target_properties(dbcsr_c PROPERTIES
     LINKER_LANGUAGE Fortran
     COMPILE_FLAGS "${F2008_COMPILER_FLAGS}")
-  target_link_libraries(dbcsr_c dbcsr)
+  target_link_libraries(dbcsr_c PRIVATE dbcsr)
+  target_link_libraries(dbcsr_c PUBLIC MPI::MPI_C)  # the C API always needs MPI
+  target_include_directories(dbcsr_c PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    )
 endif ()
 
 # Install targets:

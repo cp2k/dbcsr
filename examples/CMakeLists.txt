@@ -14,7 +14,6 @@ endforeach ()
 
 if (WITH_C_API)
   add_executable(dbcsr_example_3_cpp dbcsr_example_3.cpp)
-  target_link_libraries(dbcsr_example_3_cpp dbcsr_c ${MPI_CXX_LIBRARIES})
+  target_link_libraries(dbcsr_example_3_cpp dbcsr_c MPI::MPI_CXX)
   target_compile_features(dbcsr_example_3_cpp PRIVATE cxx_std_14)
-  target_compile_options(dbcsr_example_3_cpp PUBLIC ${MPI_CXX_COMPILE_FLAGS})
 endif ()
