@@ -128,3 +128,24 @@ add_subdirectory(tests)
 if (WITH_EXAMPLES)
   add_subdirectory(examples)
 endif ()
+
+file(STRINGS VERSION VERSION_INFO)
+foreach(line ${VERSION_INFO})
+  if (${line} MATCHES "^([^#].*)=[ \t]*(.*)$")
+    set(key ${CMAKE_MATCH_1})
+    set(value ${CMAKE_MATCH_2})
+    string(REGEX REPLACE "[ \t\n]+$" "" key "${key}")
+    string(REGEX REPLACE "[ \t\n]+$" "" value "${value}")
+    set(VERSION_${key} "${value}")
+    continue ()
+  endif ()
+endforeach()
+
+set(ARCHIVE_NAME "${CMAKE_PROJECT_NAME}-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+add_custom_target(dist
+  COMMAND ${CMAKE_COMMAND} -E echo "Building distribution: ${ARCHIVE_NAME}"
+  COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/dist"
+  COMMAND git archive-all "${CMAKE_BINARY_DIR}/dist/${ARCHIVE_NAME}.tar.gz"
+  COMMAND ${CMAKE_COMMAND} -E echo "SHA512 Digests:"
+  COMMAND ${CMAKE_COMMAND} -E sha512sum "${CMAKE_BINARY_DIR}/dist/${ARCHIVE_NAME}.tar.gz"
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
