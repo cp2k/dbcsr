@@ -109,13 +109,6 @@ else ()
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -g")
 endif ()
 
-add_subdirectory(src)
-add_subdirectory(tests)
-
-if (WITH_EXAMPLES)
-  add_subdirectory(examples)
-endif ()
-
 file(STRINGS VERSION VERSION_INFO)
 foreach(line ${VERSION_INFO})
   if (${line} MATCHES "^([^#].*)=[ \t]*(.*)$")
@@ -127,6 +120,13 @@ foreach(line ${VERSION_INFO})
     continue ()
   endif ()
 endforeach()
+
+add_subdirectory(src)
+add_subdirectory(tests)
+
+if (WITH_EXAMPLES)
+  add_subdirectory(examples)
+endif ()
 
 set(ARCHIVE_NAME "${CMAKE_PROJECT_NAME}-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 add_custom_target(dist
