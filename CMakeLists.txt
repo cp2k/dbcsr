@@ -109,11 +109,6 @@ else ()
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -g")
 endif ()
 
-if (APPLE)
-  # fix /proc/self/statm can not be opened on macOS
-  add_definitions(-D__NO_STATM_ACCESS)
-endif()
-
 add_subdirectory(src)
 add_subdirectory(tests)
 
