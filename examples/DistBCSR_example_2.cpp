@@ -176,5 +176,8 @@ int main(int argc, char* argv[])
     if (dbcsr_env.mpi_rank == 0) printf("Operator '*= 2.5':   ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
+    dbcsr_env.free();
+    MPI_Finalize();
+
     return 0;
 }

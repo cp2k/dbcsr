@@ -301,5 +301,8 @@ int main(int argc, char* argv[])
 
     fflush(stdout);
 
+    dbcsr_env.free();
+    MPI_Finalize();
+
     return 0;
 }
