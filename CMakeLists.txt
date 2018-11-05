@@ -84,9 +84,6 @@ endif ()
 
 get_filename_component(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
 
-set(CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS}")
-set(CMAKE_Fortran_FLAGS "${OpenMP_Fortran_FLAGS}")
-
 if (Fortran_COMPILER_NAME MATCHES "gfortran.*")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
   set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -fprofile-arcs -ftest-coverage")
