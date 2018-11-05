@@ -666,4 +666,23 @@ CONTAINS
       amv = dbcsr_maxabs(matrix_a)
    END SUBROUTINE
 
+! **************************************************************************************************
+!> \brief ...
+!> \param c_matrix ...
+!> \param row ...
+!> \param col ...
+!> \param C ...
+!> \param name="c_remove_block_d" ...
+! **************************************************************************************************
+   SUBROUTINE c_dbcsr_remove_blk_d(c_matrix, row, col, block_dim) &
+      bind(C, name="c_dbcsr_remove_block_d")
+      TYPE(c_ptr), INTENT(inout)                         :: c_matrix 
+      INTEGER(kind=c_int), INTENT(IN), value             :: row, col, block_dim
+
+      TYPE(dbcsr_type), POINTER                          :: matrix
+
+      CALL c_f_pointer(c_matrix, matrix)
+      CALL dbcsr_remove_blk(matrix, row+1, col+1, block_dim)
+   END SUBROUTINE
+
 END MODULE

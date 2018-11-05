@@ -37,6 +37,8 @@ extern "C" {
   void c_dbcsr_write_d(dm_dbcsr* matrix, char* cfname);
   void c_dbcsr_maxabs_d(dm_dbcsr* matrix, double* amv);
 
+  void c_dbcsr_remove_blk_d(dm_dbcsr* matrix, int row, int col, int block_dim);
+
 }
 
 namespace dbcsr {
@@ -130,6 +132,10 @@ namespace dbcsr {
     c_dbcsr_filter_d(&mat_a,eps);
   }
 
+  inline void remove_blk(dm_dbcsr& mat_a, int row, int col, int block_dim){
+    c_dbcsr_remove_blk_d(&mat_a,row,col,block_dim);
+  }
+
   inline void gershgorin_estimate(dm_dbcsr& mat, int* bdims, int nblocks, int tot_dim, double* sums, double* diags){
     c_dbcsr_gershgorin_estimate_d(&mat,bdims,nblocks,tot_dim,sums,diags);
   }
@@ -171,7 +177,6 @@ class DBCSR_Environment {
     MPI_Comm dbcsr_group;
     std::vector<int> dbcsr_row_dist;
     std::vector<int> dbcsr_col_dist;
-    double dbcsr_default_thresh;
 
     int mpi_rank;
     int mpi_size;
@@ -220,15 +225,19 @@ class DBCSR_Environment {
     };
 
     ~DBCSR_Environment(){
+      this->free();
+    };
+
+    void free(){
       if (dbcsr_dist == nullptr) return;
       c_dbcsr_distribution_release(&dbcsr_dist);
+      dbcsr_dist = nullptr;
       MPI_Fint fcomm = MPI_Comm_c2f(dbcsr_group);
     //if (verbose)
     //  c_dbcsr_finalize_lib_aux(&fcomm);
     //else
         c_dbcsr_finalize_lib_aux_silent(&fcomm);
       MPI_Comm_free(&dbcsr_group);
-      MPI_Finalize();
     };
 
 };
@@ -251,16 +260,7 @@ class DistBCSR {
 
   public:
     DistBCSR(){
-      dbcsr_matrix = nullptr;
-      dbcsr_env    = nullptr;
-    };
-
-    DistBCSR(DBCSR_Environment* dbcsr_env_in, const std::string& mname_in="default matrix name"){
-      mname = mname_in;
-      dbcsr_env = dbcsr_env_in;
-      dbcsr_matrix = nullptr;
-      nrow = 0;
-      ncol = 0;
+      this->free();
     };
 
     DistBCSR(DistBCSR& ref){
@@ -270,21 +270,7 @@ class DistBCSR {
       ncol = ref.ncol;
       row_dims = ref.row_dims;
       col_dims = ref.col_dims;
-
-      dbcsr_matrix = nullptr;
-      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
-                            row_dims.data(), (int)row_dims.size(),
-                            col_dims.data(), (int)col_dims.size());
-      c_dbcsr_finalize(dbcsr_matrix);
-    };
-
-    DistBCSR(const DistBCSR& ref){ ///< Constructor
-      mname = ref.mname;
-      dbcsr_env = ref.dbcsr_env;
-      nrow = ref.nrow;
-      ncol = ref.ncol;
-      row_dims = ref.row_dims;
-      col_dims = ref.col_dims;
+      dbcsr_thresh = ref.dbcsr_thresh;
 
       dbcsr_matrix = nullptr;
       c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
@@ -294,37 +280,86 @@ class DistBCSR {
       this->copy(ref);
     };
 
-    DistBCSR(size_t nrow_in, size_t ncol_in, std::vector<int>& row_dims_in, std::vector<int>& col_dims_in, DBCSR_Environment* dbcsr_env_in,
-          const std::string& mname_in="default matrix name"){
-      mname = mname_in;
-      dbcsr_env = dbcsr_env_in;
-      nrow = nrow_in;
-      ncol = ncol_in;
-      row_dims = row_dims_in;
-      col_dims = col_dims_in;
+    DistBCSR(const DistBCSR& ref){ ///< Constructor
+      assert(ref.dbcsr_env != nullptr);
+      mname = ref.mname;
+      mname += ":copy";
+      dbcsr_env = ref.dbcsr_env;
+      nrow = ref.nrow;
+      ncol = ref.ncol;
+      row_dims = ref.row_dims;
+      col_dims = ref.col_dims;
+      dbcsr_thresh = ref.dbcsr_thresh;
 
       dbcsr_matrix = nullptr;
       c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
                             row_dims.data(), (int)row_dims.size(),
                             col_dims.data(), (int)col_dims.size());
       c_dbcsr_finalize(dbcsr_matrix);
-
+      this->copy(ref);
     };
 
-    DistBCSR(size_t ldim, std::vector<int>& dims_in, DBCSR_Environment* dbcsr_env_in, bool add_zero_diag=false, const std::string& mname_in="default matrix name"){
-      mname = mname_in;
-      dbcsr_env = dbcsr_env_in;
-      nrow = ldim;
-      ncol = ldim;
-      row_dims = dims_in;
-      col_dims = dims_in;
+    DistBCSR(DistBCSR&& ref){ ///< move Constructor
+      assert(ref.dbcsr_env != nullptr);
+      mname = ref.mname;
+      mname += ":copy";
+      dbcsr_env = ref.dbcsr_env;
+      nrow = ref.nrow;
+      ncol = ref.ncol;
+      row_dims = ref.row_dims;
+      col_dims = ref.col_dims;
+      dbcsr_thresh = ref.dbcsr_thresh;
 
       dbcsr_matrix = nullptr;
       c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
                             row_dims.data(), (int)row_dims.size(),
                             col_dims.data(), (int)col_dims.size());
+      c_dbcsr_finalize(dbcsr_matrix);
+      this->copy(ref);
+      // free ref...
+      ref.free();
+    };
 
-      if (add_zero_diag){
+
+    DistBCSR(size_t nrow_in, size_t ncol_in, std::vector<int>& row_dims_in, std::vector<int>& col_dims_in, DBCSR_Environment* dbcsr_env_in,
+             double thr_in=0.e0, const std::string& mname_in="default matrix name"){
+      this->init(nrow_in,ncol_in,row_dims_in,col_dims_in,dbcsr_env_in,thr_in,false,mname_in);
+    };
+
+    DistBCSR(size_t ldim, std::vector<int>& dims_in, DBCSR_Environment* dbcsr_env_in, double thr_in=0.e0,
+             bool add_zero_diag=false, const std::string& mname_in="default matrix name"){
+      this->init(ldim,ldim,dims_in,dims_in,dbcsr_env_in,thr_in,add_zero_diag,mname_in);
+    };
+
+    void init (size_t nrow_in, size_t ncol_in, std::vector<int>& row_dims_in, std::vector<int>& col_dims_in, DBCSR_Environment* dbcsr_env_in,
+               double thr_in=0.e0, bool add_zero_diag=false, const std::string& mname_in="default matrix name"){
+      mname = mname_in;
+      dbcsr_env = dbcsr_env_in;
+      nrow = nrow_in;
+      ncol = ncol_in;
+      row_dims = row_dims_in;
+      col_dims = col_dims_in;
+      dbcsr_thresh = thr_in;
+
+      dbcsr_matrix = nullptr;
+      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
+                            row_dims.data(), (int)row_dims.size(),
+                            col_dims.data(), (int)col_dims.size());
+      if (add_zero_diag){ // only valid for square matrices...
+        bool roweqcol = false;
+        if (row_dims.size() == col_dims.size()){
+          roweqcol = true;
+          for(size_t ii=0;ii<row_dims.size();ii++){
+            if (row_dims[ii] != col_dims[ii]){
+              roweqcol = false;
+              break;
+            }
+          }
+        }
+        if (!roweqcol){
+          printf("\n  Error: zero-diag only for square matrices\n\n");
+          exit(1);
+        }
         int max_dim = *(std::max_element(row_dims.begin(),row_dims.end()));
         std::vector<double> block(max_dim*max_dim,0.e0);
         for(int i = 0; i < (int)row_dims.size(); i++){
@@ -337,18 +372,31 @@ class DistBCSR {
           }
         }
       }
-
       c_dbcsr_finalize(dbcsr_matrix);
 
     };
 
+
     ~DistBCSR(){
-       c_dbcsr_release(&dbcsr_matrix);
+      this->free();
+    };
+
+    void free(){
+       if (dbcsr_matrix != nullptr){
+         c_dbcsr_release(&dbcsr_matrix);
+       }
        dbcsr_matrix = nullptr;
+       nrow = 0L;
+       ncol = 0L;
+       row_dims.clear();
+       col_dims.clear();
+       dbcsr_thresh = 0.e0;
+       dbcsr_env = nullptr;
     };
 
     // Load from dense array
     void load(double const* src, double cthr=-1.e0){
+      assert(this->dbcsr_env != nullptr);
       if (dbcsr_matrix != nullptr){
         c_dbcsr_release(&(this->dbcsr_matrix));
         dbcsr_matrix = nullptr;
@@ -400,6 +448,7 @@ class DistBCSR {
 
     // Collect matrix in local vector
     std::vector<double> gather(){
+      assert(this->dbcsr_env != nullptr);
       assert(dbcsr_matrix != nullptr);
       std::vector<double> ret(nrow*ncol,0.e0);
       std::vector<double> loc(nrow*ncol,0.e0);
@@ -458,6 +507,9 @@ class DistBCSR {
     };
 
     void mult(char mA, char mB, const DistBCSR& A, const DistBCSR& B, double alpha=1.e0, double beta=0.e0, double cthr=-1.e0){
+      assert(this->dbcsr_env != nullptr);
+      assert(A.dbcsr_env != nullptr);
+      assert(B.dbcsr_env != nullptr);
       if (cthr > 0.e0){
         c_dbcsr_multiply_eps_d(mA,mB,alpha,(dm_dbcsr*)&(A.dbcsr_matrix),(dm_dbcsr*)&(B.dbcsr_matrix),beta,&(this->dbcsr_matrix),cthr);
       }else{
@@ -467,27 +519,39 @@ class DistBCSR {
     };
 
     void copy(const DistBCSR& src){
+      assert(this->dbcsr_env != nullptr);
+      assert(src.dbcsr_env != nullptr);
       c_dbcsr_copy_d(&(this->dbcsr_matrix),(dm_dbcsr*)&(src.dbcsr_matrix));
     }
     
     void add(const DistBCSR& A){
+      assert(this->dbcsr_env != nullptr);
+      assert(A.dbcsr_env != nullptr);
       double done = 1.e0;
       c_dbcsr_add_d(&(this->dbcsr_matrix), (dm_dbcsr*)&(A.dbcsr_matrix), done, done);
     }
 
     void sub(const DistBCSR& A){
+      assert(this->dbcsr_env != nullptr);
+      assert(A.dbcsr_env != nullptr);
       double done = 1.e0;
       double mdone = -1.e0;
       c_dbcsr_add_d(&(this->dbcsr_matrix), (dm_dbcsr*)&(A.dbcsr_matrix), done, mdone);
     }
 
     void add(const DistBCSR& A, const DistBCSR& B){
+      assert(this->dbcsr_env != nullptr);
+      assert(A.dbcsr_env != nullptr);
+      assert(B.dbcsr_env != nullptr);
       this->copy(A);
       double done = 1.e0;
       c_dbcsr_add_d(&(this->dbcsr_matrix), (dm_dbcsr*)&(B.dbcsr_matrix), done, done);
     }
 
     void sub(const DistBCSR& A, const DistBCSR& B){
+      assert(this->dbcsr_env != nullptr);
+      assert(A.dbcsr_env != nullptr);
+      assert(B.dbcsr_env != nullptr);
       this->copy(A);
       double done = 1.e0;
       double mdone = -1.e0;
@@ -495,6 +559,8 @@ class DistBCSR {
     }
 
     void axpy(const DistBCSR& A, const double fac){
+      assert(this->dbcsr_env != nullptr);
+      assert(A.dbcsr_env != nullptr);
       double done = 1.e0;
       c_dbcsr_add_d(&(this->dbcsr_matrix), (dm_dbcsr*)&(A.dbcsr_matrix), done, fac);
     }
@@ -506,6 +572,7 @@ class DistBCSR {
     }
 
     double trace(){
+      assert(this->dbcsr_env != nullptr);
       assert(nrow == ncol);
       double ret = 0.e0;
       c_dbcsr_trace_a_d(&(this->dbcsr_matrix),ret);
@@ -513,6 +580,7 @@ class DistBCSR {
     }
 
     void set_diag(const double scl){
+      assert(this->dbcsr_env != nullptr);
       assert(nrow == ncol);
       int dim = this->nrow;
       std::vector<double> dvals(nrow,scl);
@@ -520,6 +588,7 @@ class DistBCSR {
     }
 
     void set_diag(double const* dvals){
+      assert(this->dbcsr_env != nullptr);
       assert(nrow == ncol);
       int dim = this->nrow;
       c_dbcsr_set_diag_d(&(this->dbcsr_matrix),(double*)dvals,dim);
@@ -530,6 +599,7 @@ class DistBCSR {
     }
 
     void add_diag(double const* dvals){
+      assert(this->dbcsr_env != nullptr);
       assert(nrow == ncol);
       int max_dim = *(std::max_element(row_dims.begin(),row_dims.end()));
       std::vector<double> block1(max_dim*max_dim,0.e0);
@@ -569,10 +639,12 @@ class DistBCSR {
     }
 
     void set(const double scl){
+      assert(this->dbcsr_env != nullptr);
       c_dbcsr_set_d(&(this->dbcsr_matrix),scl);
     }
 
     void zero(){
+      assert(this->dbcsr_env != nullptr);
       // best to remove old matrix and generate new one...
       if (dbcsr_matrix != nullptr){
         c_dbcsr_release(&(this->dbcsr_matrix));
@@ -601,35 +673,68 @@ class DistBCSR {
     }
 
     double dot(const DistBCSR& A){
+      assert(this->dbcsr_env != nullptr);
+      assert(A.dbcsr_env != nullptr);
       double tr = 0.e0;
       c_dbcsr_trace_ab_d(&(this->dbcsr_matrix),(dm_dbcsr*)&(A.dbcsr_matrix),tr);
       return tr;
     }
 
     void filter(double eps=-1.e0){
+      assert(this->dbcsr_env != nullptr);
       if (eps < 0.e0) eps = dbcsr_thresh;
       c_dbcsr_filter_d(&(this->dbcsr_matrix),eps);
     }
 
+    void recompress(double eps=-1.e0){
+      assert(this->dbcsr_env != nullptr);
+      if (eps < 0.e0) eps = dbcsr_thresh;
+      int max_dimr = *(std::max_element(row_dims.begin(),row_dims.end()));
+      int max_dimc = *(std::max_element(col_dims.begin(),col_dims.end()));
+      std::vector<double> block(max_dimr*max_dimc);
+      for(int i = 0; i < (int)row_dims.size(); i++){
+        int idim = row_dims[i];
+        for(int j = 0; j < (int)col_dims.size(); j++){
+          int jdim = col_dims[j];
+          bool found = false;
+          c_dbcsr_get_block_d(&dbcsr_matrix, i, j, block.data(), found, idim, jdim);
+          if(found){
+            int bdim = idim*jdim;
+            double ddot = 0.e0;
+            for(int ii=0;ii<bdim;ii++) ddot += block[ii] * block[ii];
+            if (sqrt(ddot/((double)(bdim))) < eps){
+              c_dbcsr_remove_blk_d(&dbcsr_matrix, i, j, bdim);
+            }
+          }
+        }
+      }
+    }
+
     void scale(const double fac){
+      assert(this->dbcsr_env != nullptr);
       c_dbcsr_scale_d(&(this->dbcsr_matrix),fac);
     }
 
     void load(const std::string& cfname){
+      assert(this->dbcsr_env != nullptr);
       c_dbcsr_read_d(&(this->dbcsr_matrix),(char*)cfname.c_str(),&(dbcsr_env->dbcsr_dist));
     }
 
     void write(const std::string& cfname){
+      assert(this->dbcsr_env != nullptr);
       c_dbcsr_write_d(&(this->dbcsr_matrix),(char*)cfname.c_str());
     }
 
     double maxabs(){
+      assert(this->dbcsr_env != nullptr);
       double amv = 0.e0;
       c_dbcsr_maxabs_d(&(this->dbcsr_matrix),&amv);
       return amv;
     }
 
     void hadamard(const DistBCSR& rhs){
+      assert(this->dbcsr_env != nullptr);
+      assert(rhs.dbcsr_env != nullptr);
       int max_dimr = *(std::max_element(row_dims.begin(),row_dims.end()));
       int max_dimc = *(std::max_element(col_dims.begin(),col_dims.end()));
 
@@ -669,6 +774,8 @@ class DistBCSR {
     };
 
     void hadamard_inv(const DistBCSR& rhs){
+      assert(this->dbcsr_env != nullptr);
+      assert(rhs.dbcsr_env != nullptr);
       int max_dimr = *(std::max_element(row_dims.begin(),row_dims.end()));
       int max_dimc = *(std::max_element(col_dims.begin(),col_dims.end()));
 
@@ -711,6 +818,7 @@ class DistBCSR {
     };
 
     void gershgorin_estimate(double& eps0, double& epsn){
+      assert(this->dbcsr_env != nullptr);
       assert(nrow == ncol);
       std::vector<double> sums(nrow,0.e0);
       std::vector<double> diags(nrow,0.e0);
@@ -752,6 +860,9 @@ class DistBCSR {
 
     // some operators...
     DistBCSR& operator=(const DistBCSR& rhs){
+      assert(this->dbcsr_env != nullptr);
+      assert(rhs.dbcsr_env != nullptr);
+      if (this == &rhs) return *this;
       if (dbcsr_matrix != nullptr){
         c_dbcsr_release(&dbcsr_matrix);
         dbcsr_matrix = nullptr;
@@ -774,23 +885,27 @@ class DistBCSR {
     };
 
     DistBCSR& operator=(DistBCSR&& rhs){
-      if (dbcsr_matrix != nullptr){
-        c_dbcsr_release(&dbcsr_matrix);
+      assert(this->dbcsr_env != nullptr);
+      assert(rhs.dbcsr_env != nullptr);
+      if (this != &rhs){
+        this->free();
+        mname = rhs.mname;
+        dbcsr_env = rhs.dbcsr_env;
+        nrow = rhs.nrow;
+        ncol = rhs.ncol;
+        row_dims = rhs.row_dims;
+        col_dims = rhs.col_dims;
+  
         dbcsr_matrix = nullptr;
+        c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
+                              row_dims.data(), (int)row_dims.size(),
+                              col_dims.data(), (int)col_dims.size());
+        c_dbcsr_finalize(dbcsr_matrix);
+        this->copy((DistBCSR&)rhs);
+        // free rhs...
+        rhs.free();
       }
-      mname = rhs.mname;
-      dbcsr_env = rhs.dbcsr_env;
-      nrow = rhs.nrow;
-      ncol = rhs.ncol;
-      row_dims = rhs.row_dims;
-      col_dims = rhs.col_dims;
 
-      dbcsr_matrix = nullptr;
-      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
-                            row_dims.data(), (int)row_dims.size(),
-                            col_dims.data(), (int)col_dims.size());
-      c_dbcsr_finalize(dbcsr_matrix);
-      this->copy((DistBCSR&)rhs);
       return *this;
     };
 
@@ -840,15 +955,14 @@ class DistBCSR {
     };
 
     void print(const std::string& tit){
+      assert(this->dbcsr_env != nullptr);
       if (dbcsr_env->mpi_rank == 0) printf("  %s\n",tit.c_str());
       MPI_Barrier(dbcsr_env->dbcsr_group);
       dbcsr::print(this->dbcsr_matrix);
     };
 
-    dm_dbcsr& get_dbcsr(){return dbcsr_matrix;};
-    DBCSR_Environment* get_env(){return dbcsr_env;};
-
     void      set_dbcsr(dm_dbcsr& din){
+      assert(this->dbcsr_env != nullptr);
       if (dbcsr_matrix != nullptr){
         c_dbcsr_release(&dbcsr_matrix);
         dbcsr_matrix = nullptr;
@@ -856,12 +970,103 @@ class DistBCSR {
       dbcsr_matrix = din;
     };
     
-    std::vector<int>& get_row_dims(){return row_dims;};
-    std::vector<int>& get_col_dims(){return col_dims;};
+    std::vector<double> get_row(size_t row){
+      assert(this->dbcsr_env != nullptr);
+      std::vector<double> the_row(ncol);
+      std::vector<double> loc_row(ncol);
+      std::fill(the_row.begin(),the_row.end(),0);
+      std::fill(loc_row.begin(),loc_row.end(),0);
+    
+      int which_row = 0;
+      int rr = 0;
+      while(which_row < (int)row_dims.size()){
+        int bdim_act = row_dims[which_row];
+        if (((int)row) >= rr && ((int)row) < (rr + bdim_act)){
+          break;
+        }
+        which_row++;
+        rr += bdim_act;
+      }
+      if (which_row == (int)row_dims.size()){
+        printf("\n  Error: Illegal row-index!\n\n");
+        exit(1);
+      }
+      int roff = ((int)row) - rr;
+    
+      int max_dimc = *(std::max_element(col_dims.begin(),col_dims.end()));
+      int idim1 = row_dims[which_row];
+      std::vector<double> block1(max_dimc*idim1,0.e0);
 
+      int joff = 0;
+      for(int j = 0; j < (int)col_dims.size(); j++){
+        int jdim = col_dims[j];
+        bool found1 = false;
+        c_dbcsr_get_block_d(&dbcsr_matrix, which_row, j, block1.data(), found1, idim1, jdim);
+        if(found1){
+          for(int jj=0;jj<jdim;jj++) loc_row[jj+joff] = block1[roff+jj*idim1];
+        }
+        joff += jdim;
+      }
+    
+      MPI_Allreduce(loc_row.data(),the_row.data(),(int)nrow,MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+
+      return the_row;
+
+    };
+
+    std::vector<double> get_column(size_t col){
+      assert(this->dbcsr_env != nullptr);
+      std::vector<double> the_col(nrow);
+      std::vector<double> loc_col(nrow);
+      std::fill(the_col.begin(),the_col.end(),0);
+      std::fill(loc_col.begin(),loc_col.end(),0);
+    
+      int which_col = 0;
+      int cc = 0;
+      while(which_col < (int)col_dims.size()){
+        int bdim_act = col_dims[which_col];
+        if (((int)col) >= cc && ((int)col) < (cc + bdim_act)){
+          break;
+        }
+        which_col++;
+        cc += bdim_act;
+      }
+      if (which_col == (int)col_dims.size()){
+        printf("\n  Error: Illegal column-index!\n\n");
+        exit(1);
+      }
+      int coff = ((int)col) - cc;
+    
+      int max_dimr = *(std::max_element(row_dims.begin(),row_dims.end()));
+      int jdim1 = col_dims[which_col];
+      std::vector<double> block1(max_dimr*jdim1,0.e0);
+
+      int ioff = 0;
+      for(int i = 0; i < (int)row_dims.size(); i++){
+        int idim = row_dims[i];
+        bool found1 = false;
+        c_dbcsr_get_block_d(&dbcsr_matrix, i, which_col, block1.data(), found1, idim, jdim1);
+        if(found1){
+          for(int ii=0;ii<idim;ii++) loc_col[ii+ioff] = block1[ii+coff*idim];
+        }
+        ioff += idim;
+      }
+    
+      MPI_Allreduce(loc_col.data(),the_col.data(),(int)nrow,MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+
+      return the_col;
+
+    };
+
+
+    dm_dbcsr& get_dbcsr(){return dbcsr_matrix;};
+    DBCSR_Environment* get_env(){return dbcsr_env;};
     size_t get_nrow(){return nrow;};
     size_t get_ncol(){return ncol;};
-
+    std::vector<int>& get_row_dims(){return row_dims;};
+    std::vector<int>& get_col_dims(){return col_dims;};
+    double get_thresh(){return dbcsr_thresh;};
+    void   set_thresh(double din){dbcsr_thresh = din;};
 };
 
 #endif

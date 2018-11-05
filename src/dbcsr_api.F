@@ -21,7 +21,9 @@ MODULE dbcsr_api
                                               dbcsr_reserve_all_blocks_prv  => dbcsr_reserve_all_blocks,&
                                               dbcsr_reserve_block2d_prv     => dbcsr_reserve_block2d,&
                                               dbcsr_reserve_blocks_prv      => dbcsr_reserve_blocks,&
-                                              dbcsr_reserve_diag_blocks_prv => dbcsr_reserve_diag_blocks
+                                              dbcsr_reserve_diag_blocks_prv => dbcsr_reserve_diag_blocks,&
+                                              dbcsr_remove_block
+
    USE dbcsr_config,                    ONLY: dbcsr_get_default_config,&
                                               dbcsr_print_config,&
                                               dbcsr_set_config
@@ -180,6 +182,7 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_release
    PUBLIC :: dbcsr_release_p
    PUBLIC :: dbcsr_deallocate_matrix
+   PUBLIC :: dbcsr_remove_blk
 
    ! primitive matrix operations
    PUBLIC :: dbcsr_set
@@ -1681,6 +1684,24 @@ CONTAINS
 
    END SUBROUTINE dbcsr_set_hooks
 
+! **************************************************************************************************
+!> \brief Emulation of sparse_matrix_types/add_block_node mapped
+!>        to add_real_matrix_block.... should not be used any longer
+!>
+!> It adds a block to the dbcsr matrix and returns a rank-2 pointer to the
+!> block. Currently it only and always uses the mutable data.
+!> \param[in,out] matrix      DBCSR matrix
+!> \param[in]  block_row      the row
+!> \param[in]  block_col      the column
+!> \param[in]  block          the block to put
+! **************************************************************************************************
+   SUBROUTINE dbcsr_remove_blk(matrix, block_row, block_col, block_dim)
+      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+      INTEGER, INTENT(IN)                                :: block_row, block_col, block_dim
+
+      CALL dbcsr_remove_block(matrix%prv, block_row, block_col, block_dim)
+
+   END SUBROUTINE
 
 #:include "dbcsr_api.f90"
 

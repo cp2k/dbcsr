@@ -38,11 +38,10 @@ allows a compact representation of matrix operations.
 
 ### Constructor
 + `DistBCSR()`
-+ `DistBCSR(DBCSR_Environment* dbcsr_env, const std::string& mname="default matrix name")`
-+ `DistBCSR(DistBCSR& ref)`, `DistBCSR(const DistBCSR& ref)`
++ `DistBCSR(DistBCSR& ref)`, `DistBCSR(const DistBCSR& ref)`, `DistBCSR(DistBCSR&& ref)`
 + `DistBCSR(size_t nrow, size_t ncol, std::vector<int>& row_dims, std::vector<int>& col_dims, DBCSR_Environment* dbcsr_env,
-            const std::string& mname="default matrix name")`
-+ `DistBCSR(size_t ldim, std::vector<int>& dims, DBCSR_Environment* dbcsr_env, bool add_zero_diag=false, const std::string& mname="default matrix name")`
+            double thresh, const std::string& mname="default matrix name")`
++ `DistBCSR(size_t ldim, std::vector<int>& dims, DBCSR_Environment* dbcsr_env, double thresh, bool add_zero_diag=false, const std::string& mname="default matrix name")`
 
 with:
 
@@ -54,6 +53,9 @@ with:
 `~DistBCSR()`: releases the dbcsr-matrix.
 
 ### Methods
++  `void init(size_t nrow, size_t ncol, std::vector<int>& row_dims, std::vector<int>& col_dims, DBCSR_Environment* dbcsr_env,
+              double thresh, bool add_zero_diag, const std::string& mname_in)`: initialize matrix, also called by constructors
++ `free()`: deallocate matrix, also called by destructor
 + `void load(double const* src, double cthr=-1.e0)`: distribute dense matrix `src`
 + `void load(std::vector<double>& src, double cthr=-1.e0)`: distribute dense matrix `src`
 + `std::vector<double> gather()`: return dense matrix
@@ -81,6 +83,18 @@ with:
 + `void hadamard_inv(const DistBCSR& rhs)`: element-wise division (if |rhs| > 0)
 + `void gershgorin_estimate(double& eps0, double& epsn)`: Evaluate gershgorin-estimate
 + `dm_dbcsr& get_dbcsr()`: returns handle to FORTRAN-object
++ `std::vector<double> get_row(size_t row)`: returns *row*-th row
++ `std::vector<double> get_col(size_t col)`: returns *col*-th column
++ `void set_dbcsr(dm_dbcsr& din)`: replaces dbcsr-matrix
++ `dm_dbcsr& get_dbcsr()`: returns dbcsr-matrix
++ `DBCSR_Environment* get_env()`: return DBCSR_Environment object (pointer)
++ `size_t get_nrow()`: return row-dimension
++ `size_t get_ncol()`: returns column-dimension
++ `std::vector<int>& get_row_dims()`: returns vector with row-dimensions
++ `std::vector<int>& get_col_dims()`: returns vector with column-dimensions
++ `void set_thresh(double)`: set compression-threshold
++ `double get_thresh()`: return compression-threshold
+
 
 ### Overloaded Operators
 + `DistBCSR& operator=(const DistBCSR& rhs)`

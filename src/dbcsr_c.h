@@ -36,6 +36,8 @@ extern "C" {
   void c_dbcsr_write_d(dm_dbcsr* matrix, char* cfname);
   void c_dbcsr_maxabs_d(dm_dbcsr* matrix, double* amv);
 
+  void c_dbcsr_remove_block_d(dm_dbcsr* matrix, int row, int col, int block_dim);
+
 }
 
 namespace dbcsr {
@@ -127,6 +129,10 @@ namespace dbcsr {
 
   inline void filter(dm_dbcsr& mat_a, double eps){
     c_dbcsr_filter_d(&mat_a,eps);
+  }
+
+  inline void remove_block(dm_dbcsr& mat_a, int row, int col, int block_dim){
+    c_dbcsr_remove_block_d(&mat_a,row,col,block_dim);
   }
 
   inline void gershgorin_estimate(dm_dbcsr& mat, int* bdims, int nblocks, int tot_dim, double* sums, double* diags){
