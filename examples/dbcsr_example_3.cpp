@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
         << ", (" << coord[0] << ", " << coord[1] << ") in the 2D grid"
         << std::endl;
 
-    dbcsr::init_lib();
+    c_dbcsr_init_lib();
 
     // Total number of blocks
     int nblkrows_total = 4;
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 
     void* dist = nullptr;
 
-    dbcsr::distribution_new(&dist, group,
+    c_dbcsr_distribution_new(&dist, group,
         row_dist.data(), row_dist.size(),
         col_dist.data(), col_dist.size());
 
@@ -83,13 +83,13 @@ int main(int argc, char* argv[])
             for(int j = 0; j < nblkcols_total; j++)
             {
                 int blk_proc = -1;
-                dbcsr::get_stored_coordinates(matrix, i, j, &blk_proc);
+                c_dbcsr_get_stored_coordinates(matrix, i, j, &blk_proc);
 
                 if(blk_proc == mpi_rank)
                 {
                     block.resize(row_blk_sizes[i] * col_blk_sizes[j]);
                     std::generate(block.begin(), block.end(), [&](){ return static_cast<double>(std::rand())/RAND_MAX; });
-                    dbcsr::put_block_d(matrix, i, j, block.data(), block.size());
+                    c_dbcsr_put_block_d(matrix, i, j, block.data(), block.size());
                 }
             }
         }
@@ -97,41 +97,41 @@ int main(int argc, char* argv[])
 
     // create and fill matrix a
     void* matrix_a = nullptr;
-    dbcsr::create_new_d(&matrix_a, "this is my matrix a", dist, 'N',
+    c_dbcsr_create_new_d(&matrix_a, "this is my matrix a", dist, 'N',
         row_blk_sizes.data(), row_blk_sizes.size(),
         col_blk_sizes.data(), col_blk_sizes.size());
     fill_matrix(matrix_a);
-    dbcsr::finalize(matrix_a);
+    c_dbcsr_finalize(matrix_a);
 
     // create and fill matrix b
     void* matrix_b = nullptr;
-    dbcsr::create_new_d(&matrix_b, "this is my matrix b", dist, 'N',
+    c_dbcsr_create_new_d(&matrix_b, "this is my matrix b", dist, 'N',
         row_blk_sizes.data(), row_blk_sizes.size(),
         col_blk_sizes.data(), col_blk_sizes.size());
     fill_matrix(matrix_b);
-    dbcsr::finalize(matrix_b);
+    c_dbcsr_finalize(matrix_b);
 
     // create matrix c, empty
     void* matrix_c = nullptr;
-    dbcsr::create_new_d(&matrix_c, "matrix c", dist, 'N',
+    c_dbcsr_create_new_d(&matrix_c, "matrix c", dist, 'N',
         row_blk_sizes.data(), row_blk_sizes.size(),
         col_blk_sizes.data(), col_blk_sizes.size());
-    dbcsr::finalize(matrix_c);
+    c_dbcsr_finalize(matrix_c);
 
     // multiply the matrices
-    dbcsr::multiply_d('N', 'N', 1.0, &matrix_a, &matrix_b, 0.0, &matrix_c, nullptr);
+    c_dbcsr_multiply_d('N', 'N', 1.0, &matrix_a, &matrix_b, 0.0, &matrix_c, nullptr);
 
-    dbcsr::print(matrix_a);
-    dbcsr::print(matrix_b);
-    dbcsr::print(matrix_c);
+    c_dbcsr_print(matrix_a);
+    c_dbcsr_print(matrix_b);
+    c_dbcsr_print(matrix_c);
 
-    dbcsr::release(&matrix_a);
-    dbcsr::release(&matrix_b);
-    dbcsr::release(&matrix_c);
+    c_dbcsr_release(&matrix_a);
+    c_dbcsr_release(&matrix_b);
+    c_dbcsr_release(&matrix_c);
 
-    dbcsr::distribution_release(&dist);
+    c_dbcsr_distribution_release(&dist);
 
-    dbcsr::finalize_lib(group);
+    c_dbcsr_finalize_lib(group);
 
     MPI_Comm_free(&group);
     MPI_Finalize();
