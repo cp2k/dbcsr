@@ -2,8 +2,41 @@
 # -*- coding: utf-8 -*-
 
 import re
+import sys
+import os
+import pickle
+
 import matplotlib.pyplot as plt
 import numpy as np
+
+
+########################################################################################################################
+# I/O helpers
+########################################################################################################################
+def safe_pickle(data, file):
+    """
+    Pickle big files safely by processing them in chunks
+    :param data: data to be pickled
+    :param file: file to pickle it into
+    """
+    max_bytes = 2**31 - 1  # Maximum number of bytes to pickle in one chunk
+    pickle_out = pickle.dumps(data)
+    n_bytes = sys.getsizeof(pickle_out)
+    with open(file, 'wb') as f:
+        count = 0
+        for i in range(0, n_bytes, max_bytes):
+            f.write(pickle_out[i:min(n_bytes, i + max_bytes)])
+            count += 1
+
+
+def safe_pickle_load(file_path):
+    max_bytes = 2 ** 31 - 1
+    bytes_in = bytearray(0)
+    input_size = os.path.getsize(file_path)
+    with open(file_path, 'rb') as f:
+        for _ in range(0, input_size, max_bytes):
+            bytes_in += f.read(max_bytes)
+    return pickle.loads(bytes_in)
 
 
 def read_result_file(file):
@@ -21,6 +54,9 @@ def read_result_file(file):
     return results
 
 
+########################################################################################################################
+# Model evaluation helpers
+########################################################################################################################
 def performance_gain(baseline, current):
     """
     Compute the absolute perfomance gain, in Gflop/s between a baseline and a 'current'
@@ -30,6 +66,36 @@ def performance_gain(baseline, current):
     return dict(zip(sorted(current.keys()),
                     [current[(m, n, k)] - baseline[(m, n, k)]
                      for m, n, k in sorted(current.keys())]))
+
+
+def plot_training_data(Y, X_mnk, folder, algo, file_name):
+    import re
+    import matplotlib.pyplot as plt
+
+    print("Plotting training data...")
+
+    mnks_strings = X_mnk['mnk'].values
+    mnks = list()
+    mnk_str = re.compile(r"(\d+)x(\d+)x(\d+)")
+    for mnk_s in mnks_strings:
+        match = mnk_str.match(mnk_s)
+        mnks.append((int(match.group(1)), int(match.group(2)), int(match.group(3))))
+
+    perf_scaled = zip(mnks, Y["perf_scaled"])
+    mnk_products_perf_sorted = [(mnk[0]*mnk[1]*mnk[2], p) for mnk, p in sorted(perf_scaled, key=lambda x: x[0][0]*x[0][1]*x[0][2])]
+    tmp = list(zip(*mnk_products_perf_sorted))
+    mnk_products_sorted = tmp[0]
+    perf_scaled_sorted = tmp[1]
+
+    # Plot
+    plt.plot(mnk_products_sorted, 100*np.array(perf_scaled_sorted), '.', markersize=1)
+    plt.xlabel('Training (m, n, k) triplets (in order of increasing m*n*k)')
+    plt.ylabel('Scaled performance [%]')
+    plt.title('Scaled performance on training data (' + algo + ')')
+    if file_name != '':
+        plt.savefig(file_name)
+    else:
+        plt.show()
 
 
 def relative_performance_gain(baseline, current):

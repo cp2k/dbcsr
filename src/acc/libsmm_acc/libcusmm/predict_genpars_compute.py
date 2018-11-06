@@ -4,13 +4,13 @@
 import os
 import gc
 import sys
-import pickle
 import json
 import numpy as np
 import pandas as pd
 from itertools import product
 from optparse import OptionParser
 from joblib import Parallel, delayed
+from predict_helpers import *
 from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel
 from kernels.parameter_space_utils import PredictiveParameters
 from sklearn.tree import DecisionTreeRegressor
@@ -22,16 +22,6 @@ from sklearn.ensemble import RandomForestRegressor
 ########################################################################################################################
 def combinations(sizes):
     return list(product(sizes, sizes, sizes))
-
-
-def safe_pickle_load(file_path):
-    max_bytes = 2 ** 31 - 1
-    bytes_in = bytearray(0)
-    input_size = os.path.getsize(file_path)
-    with open(file_path, 'rb') as f:
-        for _ in range(0, input_size, max_bytes):
-            bytes_in += f.read(max_bytes)
-    return pickle.loads(bytes_in)
 
 
 def dump_file(dump_folder, m, n, k, algo):
@@ -112,6 +102,11 @@ def main(argv):
                       default=-1, help="Number of joblib jobs. Default: %default")
     parser.add_option("-s", "--start_slice", type=int,
                       default=0, help="Start mnk slice. Default: %default")
+    parser.add_option("-a", "--algo",
+                      default='small', help="Investigate only a given algorithm. Default: %default")
+    parser.add_option("-o", "--overwrite_autotuned",
+                      action="store_true",
+                      default=False, help="Overwrite autotuned kernels with predicted optimal sets. Default: %default")
     parser.add_option("-e", "--slice_size", type=int,
                       default=None, help="Size mnk slice. Default: %default")
     parser.add_option("-c", "--chunk_size", type=int,
@@ -136,33 +131,44 @@ def main(argv):
     ####################################################################################################################
     # Load Predictive trees and feature list
     tree = dict()
-    for algo, v in kernel_algorithm.items():
+    if options.algo is not None:
+        print("Investigating only", options.algo)
+        kernel_to_investigate = {options.algo: kernel_algorithm[options.algo]}
+    else:
+        kernel_to_investigate = kernel_algorithm
+
+    for algo, v in kernel_to_investigate.items():
         tree[algo] = dict()
         tree[algo]['file'] = os.path.join(str(options.trees), algo + '_')
         if os.path.exists(tree[algo]['file'] + 'predictive_tree.p'):
             tree[algo]['tree'] = safe_pickle_load(tree[algo]['file'] + 'predictive_tree.p')
             features = safe_pickle_load(tree[algo]['file'] + 'feature_names.p')
-            features.remove('mnk')
-        elif os.path.exists(tree[algo]['file'] + 'model.p'):
-            features, tree[algo]['tree'] = safe_pickle_load(tree[algo]['file'] + 'model.p')
+        elif os.path.exists(tree[algo]['file'] + 'feature_tree.p'):
+            features, tree[algo]['tree'], _ = safe_pickle_load(tree[algo]['file'] + 'feature_tree.p')
             features = features.tolist()
         else:
             assert False, "Cannot find model files in folder:" + options.trees
+        if 'mnk' in features:
+            features.remove('mnk')
         tree[algo]['features'] = features
 
     ####################################################################################################################
     # Evaluation
+    dump_folder = 'optimal_kernels_dump'
     mnks = combinations(list(range(4, 46)))
     top_k = 1
     optimal_kernels = dict()
-    mnks_to_predict = list()
-    dump_folder = 'optimal_kernels_dump'
 
-    for m, n, k in mnks:
-        if (m, n, k) in autotuned_kernels.keys():
-            optimal_kernels[(m, n, k)] = autotuned_kernels[(m, n, k)]
-        else:
-            mnks_to_predict.append((m, n, k))
+    if options.overwrite_autotuned:
+        mnks_to_predict = autotuned_mnks
+        #mnks_to_predict = mnks
+    else:
+        mnks_to_predict = list()
+        for m, n, k in mnks:
+            if (m, n, k) in autotuned_kernels.keys():
+                optimal_kernels[(m, n, k)] = autotuned_kernels[(m, n, k)]
+            else:
+                mnks_to_predict.append((m, n, k))
 
     # optimal_kernels_list is a list of dictionaries
     # - keys: (m, n, k),
@@ -170,7 +176,7 @@ def main(argv):
     # - number of elements in each dictionary = top_k
     # each element of the list corresponds to the search of optimal kernels for a given mnk and a given algorithm
     optimal_kernels_list = list()
-    mnk_by_algo = list(product(mnks_to_predict, kernel_algorithm.keys()))
+    mnk_by_algo = list(product(mnks_to_predict, kernel_to_investigate.keys()))
     if options.slice_size is not None:
         start_slice = options.start_slice
         end_slice = min(start_slice + options.slice_size, len(list(mnk_by_algo)))
@@ -211,6 +217,7 @@ def main(argv):
 
     print("Finished gathering candidates for optimal parameter space")
 
+    # Group optimal kernel candidates by (m,n,k) in a dictionary
     optimal_kernels_mnk_algo = dict()
     for optimal_kernel_mnk in optimal_kernels_list:
         for mnk, kernels_mnk in optimal_kernel_mnk.items():
