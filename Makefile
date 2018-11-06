@@ -18,7 +18,6 @@ TESTSDIR     := $(DBCSRHOME)/tests
 EXAMPLESDIR  := $(DBCSRHOME)/examples
 PREFIX       ?= $(DBCSRHOME)/install
 INCLUDEMAKE  ?= $(DBCSRHOME)/Makefile.inc
-VERSION       = $(DBCSRHOME)/VERSION
 NPROCS       ?= 1
 
 # Default Target ============================================================
@@ -31,7 +30,7 @@ MODDEPS = "lower"
 include $(INCLUDEMAKE)
 
 # Read the version ==========================================================
-include $(VERSION)
+include $(DBCSRHOME)/VERSION
 ifeq ($(DATE),)
 DATE = "Development Version"
 endif
@@ -266,7 +265,7 @@ OTHER_HELP += "clean : Remove intermediate object and mod files, but not the lib
 # Use this if you want to fully rebuild an executable (for a given compiler)
 #
 realclean: clean doxygen/clean
-	rm -rf $(BINDIR) $(LIBDIR) $(PREFIX) 
+	rm -rf $(BINDIR) $(LIBDIR) $(PREFIX)
 	rm -rf `find $(DBCSRHOME) -name "*.pyc"`
 	rm -rf `find $(DBCSRHOME) -name "*.callgraph"`
 OTHER_HELP += "realclean : Remove all files"
