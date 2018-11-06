@@ -84,7 +84,7 @@ with:
 + `void gershgorin_estimate(double& eps0, double& epsn)`: Evaluate gershgorin-estimate
 + `dm_dbcsr& get_dbcsr()`: returns handle to FORTRAN-object
 + `std::vector<double> get_row(size_t row)`: returns *row*-th row
-+ `std::vector<double> get_col(size_t col)`: returns *col*-th column
++ `std::vector<double> get_column(size_t col)`: returns *col*-th column
 + `void set_dbcsr(dm_dbcsr& din)`: replaces dbcsr-matrix
 + `dm_dbcsr& get_dbcsr()`: returns dbcsr-matrix
 + `DBCSR_Environment* get_env()`: return DBCSR_Environment object (pointer)
@@ -94,6 +94,10 @@ with:
 + `std::vector<int>& get_col_dims()`: returns vector with column-dimensions
 + `void set_thresh(double)`: set compression-threshold
 + `double get_thresh()`: return compression-threshold
++ `void remove_block(int blk_row, int blk_col)`: remove block
++ `void add_block(int blk_row, int blk_col, double const* data)`, `void add_block(int blk_row, int blk_col, const std::vector<double>& data)`: add/modify block
++ `std::vector<double> get_block(int blk_row, int blk_col, bool reduce=false)`: return values of block
++ `bool local_block(int blk_row, int blk_col)`: returns true if (potential) block is local
 
 
 ### Overloaded Operators
@@ -114,3 +118,4 @@ In folder `examples/` are two files that use most of the class-functionalities:
 
 + `DistBCSR_example_1`: basic methods
 + `DistBCSR_example_2`: overloaded operators
++ `DistBCSR_example_3`: retrieve row/column, symv, Hadamard-product
