@@ -111,6 +111,10 @@ if (USE_SMM MATCHES "libxsmm")
   target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
 endif ()
 
+if (BLAS_LIBRARIES MATCHES "mkl_")
+  target_compile_definitions(dbcsr PRIVATE __MKL)
+endif ()
+
 if (USE_CUDA)
   set(CMAKE_CUDA_FLAGS "-arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
   target_link_libraries(dbcsr PUBLIC ${CUDA_LIBRARY} cuda nvrtc)
