@@ -111,6 +111,10 @@ if (USE_SMM MATCHES "libxsmm")
   target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
 endif ()
 
+if (BLAS_LIBRARIES MATCHES "mkl_")
+  target_compile_definitions(dbcsr PRIVATE __MKL)
+endif ()
+
 if (USE_CUDA)
   set(CMAKE_CUDA_FLAGS "-arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
   target_link_libraries(dbcsr PUBLIC ${CUDA_LIBRARY} cuda nvrtc)
@@ -148,7 +152,7 @@ target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL)
 set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
 
 if (MPI_FOUND)
-  # once built, a user of the dbcsr library can not influence anything anmore by setting those flags:
+  # once built, a user of the dbcsr library can not influence anything anymore by setting those flags:
   target_compile_definitions(dbcsr PRIVATE __parallel __MPI_VERSION=${MPI_Fortran_VERSION_MAJOR})
 
   # Instead of resetting the compiler for MPI, we are adding the compiler flags
