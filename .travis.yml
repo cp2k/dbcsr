@@ -58,7 +58,7 @@ jobs:
     - cd build
     # C++ example fails with this ancient version of MPI,
     # we see all system CPUs, but can use only 1, causing nproc auto-detection to fail
-    - cmake -DCMAKE_BUILD_TYPE=Coverage -DWITH_EXAMPLES=OFF -DTEST_MPI_RANKS=1 ..
+    - cmake -DCMAKE_BUILD_TYPE=Coverage -DTEST_MPI_RANKS=1 ..
     - make -j
     - make CTEST_OUTPUT_ON_FAILURE=1 test
   - # run this in parallel with the other builds
@@ -67,7 +67,7 @@ jobs:
     - mkdir -p build
     - cd build
     # all examples need MPI atm
-    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF ..
+    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF ..
     - make -j
     - make CTEST_OUTPUT_ON_FAILURE=1 test
   - # run this in parallel with the other builds
@@ -76,7 +76,7 @@ jobs:
     - mkdir -p build
     - cd build
     # all examples need MPI atm
-    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF -DUSE_SMM=libxsmm ..
+    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF -DUSE_SMM=libxsmm ..
     - make -j
     - make CTEST_OUTPUT_ON_FAILURE=1 test
   - # run this in parallel with the other builds
@@ -85,7 +85,7 @@ jobs:
     - mkdir -p build
     - cd build
     # all examples need MPI atm
-    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_OPENMP=OFF -DWITH_EXAMPLES=OFF -DTEST_MPI_RANKS=1 ..
+    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_OPENMP=OFF -DTEST_MPI_RANKS=1 ..
     - make -j
     - make CTEST_OUTPUT_ON_FAILURE=1 test
   - stage: GitHub Release
