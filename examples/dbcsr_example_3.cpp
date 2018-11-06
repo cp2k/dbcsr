@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
     // Make 2D grid
     int dims[2] = {0};
     MPI_Dims_create(mpi_size, 2, dims);
-    const int periods[2] = {1};
+    int periods[2] = {1};
     int reorder = 0;
     MPI_Comm group;
     MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, reorder, &group);
