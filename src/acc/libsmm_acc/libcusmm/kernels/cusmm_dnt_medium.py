@@ -8,7 +8,7 @@ class Kernel_dnt_medium(cu.Kernel):
     algorithm_num = 3
     launch_parameters = ['m', 'n', 'k', 'tile_m', 'tile_n', 'threads', 'grouping', 'minblocks']
 
-    def __init__(self, *, m, n, k, threads, tile_m, tile_n, grouping, minblocks, perf):
+    def __init__(self, m, n, k, threads, tile_m, tile_n, grouping, minblocks, perf):
         self.m = m
         self.n = n
         self.k = k

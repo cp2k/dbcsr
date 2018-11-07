@@ -40,7 +40,7 @@ class Kernel:
 
     @property
     def as_dict(self):
-        return {**self.__dict__, **{'algorithm': self.algorithm}}
+        return dict(algorithm=self.algorithm, **self.__dict__)
 
     @property
     def as_key_value(self):

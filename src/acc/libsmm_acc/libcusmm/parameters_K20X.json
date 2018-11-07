@@ -3157,14 +3157,5 @@
 {"m": 64, "n": 64, "k": 16, "tile_m": 4, "tile_n": 4, "w": 6, "v": 16, "threads": 256, "grouping": 16, "minblocks": 1, "algorithm": "largeDB1", "perf": 363.539},
 {"m": 64, "n": 64, "k": 22, "tile_m": 4, "tile_n": 4, "w": 8, "v": 16, "threads": 256, "grouping": 16, "minblocks": 1, "algorithm": "largeDB1", "perf": 410.791},
 {"m": 64, "n": 64, "k": 64, "tile_m": 3, "tile_n": 6, "w": 16, "v": 32, "threads": 256, "grouping": 16, "minblocks": 1, "algorithm": "largeDB1", "perf": 563.614},
-{"m": 78, "n": 78, "k": 78, "tile_m": 5, "tile_n": 5, "w": 8, "v": 26, "threads": 256, "grouping": 16, "minblocks": 1, "algorithm": "largeDB1", "perf": 589.26},
-{"m": 81, "n": 9, "k": 9, "tile_m": 3, "tile_n": 3, "w": 4, "v": 6, "threads": 128, "grouping": 16, "minblocks": 8, "algorithm": "largeDB1", "perf": 189.642},
-{"m": 96, "n": 96, "k": 96, "tile_m": 6, "tile_n": 3, "w": 14, "v": 48, "threads": 512, "grouping": 16, "minblocks": 1, "algorithm": "largeDB1", "perf": 614.588},
-{"m": 100, "n": 10, "k": 10, "tile_m": 2, "tile_n": 2, "threads": 256, "grouping": 16, "minblocks": 4, "algorithm": "medium", "perf": 226.917},
-{"m": 121, "n": 11, "k": 11, "tile_m": 5, "tile_n": 3, "threads": 128, "grouping": 16, "minblocks": 1, "algorithm": "medium", "perf": 233.211},
-{"m": 144, "n": 12, "k": 12, "tile_m": 2, "tile_n": 4, "w": 6, "v": 8, "threads": 288, "grouping": 16, "minblocks": 4, "algorithm": "largeDB1", "perf": 268.209},
-{"m": 169, "n": 13, "k": 13, "tile_m": 3, "tile_n": 4, "w": 6, "v": 10, "threads": 256, "grouping": 16, "minblocks": 1, "algorithm": "largeDB1", "perf": 221.427},
-{"m": 196, "n": 14, "k": 14, "tile_m": 6, "tile_n": 2, "threads": 256, "grouping": 16, "minblocks": 1, "algorithm": "medium", "perf": 243.838},
-{"m": 225, "n": 15, "k": 15, "tile_m": 3, "tile_n": 3, "w": 4, "v": 12, "threads": 384, "grouping": 16, "minblocks": 1, "algorithm": "largeDB1", "perf": 248.307},
-{"m": 256, "n": 16, "k": 16, "tile_m": 2, "tile_n": 6, "w": 6, "v": 10, "threads": 384, "grouping": 16, "minblocks": 1, "algorithm": "largeDB1", "perf": 309.19}
+{"m": 78, "n": 78, "k": 78, "tile_m": 5, "tile_n": 5, "w": 8, "v": 26, "threads": 256, "grouping": 16, "minblocks": 1, "algorithm": "largeDB1", "perf": 589.26}
 ]

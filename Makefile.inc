@@ -36,16 +36,26 @@
 
 #######################################################################################
 #
-# Optional configurations:
+# Optional configuration:
 #
 # *** LIBXSMM ***
 #
 # Performance of the library can be improved on the CPU execution by using
 # the libxsmm, a library for small matrix multiplications which 
 # is provided by Intel: https://github.com/hfp/libxsmm/.
-# Add -D__LIBXSMM flag to the FCFLAGS variable and specify the library in the LIBS
-# variable, .e.g LIBS += -L${LIBXSMM_DIR)/lib -lxsmmf -lxsmm -ldl
+# Provide LIBXSMM_DIR or adjust the FCFLAGS variable e.g.,
+# FCFLAGS += -I${LIBXSMM_DIR}/include -D__LIBXSMM
+# and specify the library in the LIBS variable, e.g.
+# LIBS += -L${LIBXSMM_DIR}/lib -lxsmmf -lxsmm -ldl
+
+ifneq (,$(LIBXSMM_DIR))
+  FCFLAGS += -I${LIBXSMM_DIR}/include -D__LIBXSMM
+  LIBS += -L${LIBXSMM_DIR}/lib -lxsmmf -lxsmm -ldl
+endif
+
+#######################################################################################
 #
+# Optional configuration:
 #
 # *** CUBLAS ***
 #
@@ -65,23 +75,50 @@
 # LD  => Linker, e.g. gfortran or mpifort
 # AR  => Archive command, e.g. ar -r
 
-CC          = mpicc
-CXX         = mpicxx
-FC          = mpifort
-LD          = mpifort
-AR          = ar -r
+ifneq (0,$(MPI))
+  ifneq (0,$(GNU)) # DEFAULT, just edit...
+    CXX = mpigxx
+    CC  = mpigcc
+    FC  = mpif90
+    LD  = mpif90
+    AR  = gcc-ar -r
+    # flags
+    CXXFLAGS += -std=c++11
+    FCFLAGS  += -fopenmp -ffree-form -fimplicit-none -ffree-line-length-512
+    OPTFLAGS += -O3 -g -fno-omit-frame-pointer -funroll-loops
+  else
+    CXX = mpiicpc
+    CC  = mpiicc
+    FC  = mpiifort
+    LD  = mpiifort
+    AR  = xiar -r
+    # flags
+    CXXFLAGS += -std=c++11
+    FCFLAGS  += -fopenmp -free
+    OPTFLAGS += -O2 -g
+  endif
+else # no MPI
+  CXX = g++
+  CC  = gcc
+  FC  = gfortran
+  LD  = gfortran
+  AR  = ar -r
+  # flags
+  CXXFLAGS += -std=c++11
+  FCFLAGS  += -fopenmp -std=f2003 -ffree-form -fimplicit-none -ffree-line-length-512
+  OPTFLAGS += -O3 -g -fno-omit-frame-pointer -funroll-loops
+endif
 
 #######################################################################################
 #
 # Corresponding command flags.
 # Note the -fopenmp flag to have OpenMP parallelization.
 
-OPTFLAGS    = -O3 -g -fno-omit-frame-pointer -funroll-loops
-CFLAGS      = $(OPTFLAGS)
-CXXFLAGS    = $(OPTFLAGS) -std=c++11
-FCFLAGS     = -fopenmp $(OPTFLAGS) \
-              -std=f2003 -ffree-form -fimplicit-none -ffree-line-length-512
-LDFLAGS     = $(FCFLAGS)
+OPTFLAGS    += 
+CFLAGS      += $(OPTFLAGS)
+CXXFLAGS    += $(OPTFLAGS)
+FCFLAGS     += $(OPTFLAGS)
+LDFLAGS     += $(FCFLAGS)
 
 #######################################################################################
 #
@@ -95,7 +132,9 @@ endif
 #
 # Macro for MPI parallelization.
 
-FCFLAGS    += -D__parallel
+ifneq (0,$(MPI))
+FCFLAGS += -D__parallel
+endif
 
 #######################################################################################
 #
@@ -126,6 +165,7 @@ endif
 # We do not simply use -Wall since some warnings for Fortran are misleading.
 # For the checks use `make CHECKS=1` to enable them.
 
+ifneq (0,$(GNU))
 WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=intrinsic-shadow -Werror=intrinsics-std \
               -Werror=line-truncation \
@@ -136,6 +176,8 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=zerotrip \
               -Werror=uninitialized -Wno-maybe-uninitialized -Wuse-without-only \
               -Werror
+endif
+
 FCFLAGS    += $(WFLAGS)
 
 ifneq ($(CHECKS),)

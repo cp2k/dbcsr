@@ -5,7 +5,7 @@
 
 ! **************************************************************************************************
 !> \brief   DBCSR pointer and unmanaged array utilities
-!> \author  Urban Borstndik
+!> \author  Urban Borstnik
 !> \date    2010-02-18
 !> \version 0.9
 !>

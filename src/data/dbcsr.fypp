@@ -9,6 +9,7 @@
 #:set n_inst = [0, 1, 2, 3]
 
 #:set nametype1 = ['d','s','z','c']
+#:set typesize1 = ['8','4','16','8']
 #:set base1 = ['r', 'r', 'c', 'c']
 #:set prec1 = ['dp','sp','dp','sp']
 #:set kind1 = ['real_8', 'real_4', 'real_8', 'real_4']

@@ -3,65 +3,107 @@ language: c
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - gfortran
-      - libblas-dev
-      - liblapack-dev
-      - libopenmpi-dev
-      - openmpi-bin
+    - gfortran
+    - libblas-dev
+    - liblapack-dev
+    - libopenmpi-dev
+    - openmpi-bin
+  homebrew:
+    packages:
+    - cmake
+
+env:
+  global:
+  # LIBXSMM: update to v1.10 or later
+  - LIBXSMM_VERSION=f1171cc08fbe8f65a2aad6d6d9af71ceb975ef91
 
 install:
   # Update cmake to the minimal required version (shamelessly copied from the boost travis config):
   - DEPS_DIR="${HOME}/deps"
   - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
   - |
-    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
-      CMAKE_URL="https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.tar.gz"
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then
+      CMAKE_URL="https://cmake.org/files/v3.10/cmake-3.10.3-Linux-x86_64.tar.gz"
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
-    else
-      brew install cmake || brew upgrade cmake
     fi
   - cmake --version
+  - |
+    LIBXSMM_URL="https://github.com/hfp/libxsmm/archive/${LIBXSMM_VERSION}.tar.gz"
+    mkdir libxsmm && travis_retry wget --no-check-certificate --quiet -O - ${LIBXSMM_URL} | tar --strip-components=1 -xz -C libxsmm
+    make -C libxsmm -j
+    export PKG_CONFIG_PATH=${DEPS_DIR}/libxsmm/lib
+  - pkg-config libxsmm --exists
 
 before_script:
   # make sure we are back into the top directory again
   - cd "${TRAVIS_BUILD_DIR}"
+  - export PATH=$HOME/.local/bin:$PATH
+  - pip install --user git-archive-all
 
 jobs:
   include:
-    - stage: build
-      name: "Build and test MPI+OpenMP version with make"
-      script:
-        - make -j FC="mpif90" LD="mpif90" OPTFLAGS="-fprofile-arcs -ftest-coverage -O0 -D__MPI_VERSION=2" all
-        - make test
-        - bash <(curl -s https://codecov.io/bash)
-    - # run this in parallel with the other builds
-      name: "Build and test MPI+OpenMP version with cmake"
-      script:
-        - mkdir -p build
-        - cd build
-        # C++ example fails with this ancient version of MPI,
-        # we see all system CPUs, but can use only 1, causing nproc auto-detection to fail
-        - cmake -DCMAKE_BUILD_TYPE=Coverage -DWITH_EXAMPLES=OFF -DTEST_MPI_RANKS=1 ..
-        - make -j
-        - make CTEST_OUTPUT_ON_FAILURE=1 test
-    - # run this in parallel with the other builds
-      name: "Build and test OpenMP version with cmake"
-      script:
-        - mkdir -p build
-        - cd build
-        # all examples need MPI atm
-        - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF -DWITH_EXAMPLES=OFF ..
-        - make -j
-        - make CTEST_OUTPUT_ON_FAILURE=1 test
-    - # run this in parallel with the other builds
-      name: "Build and test MPI version with cmake"
-      script:
-        - mkdir -p build
-        - cd build
-        # all examples need MPI atm
-        - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_OPENMP=OFF -DWITH_EXAMPLES=OFF -DTEST_MPI_RANKS=1 ..
-        - make -j
-        - make CTEST_OUTPUT_ON_FAILURE=1 test
+  - stage: build
+    name: "Build and test MPI+OpenMP version with make"
+    script:
+    - make -j FC="mpif90" LD="mpif90" OPTFLAGS="-fprofile-arcs -ftest-coverage -O0 -D__MPI_VERSION=2" all
+    - make test
+    - bash <(curl -s https://codecov.io/bash)
+  - # run this in parallel with the other builds
+    name: "Build and test MPI+OpenMP version with cmake"
+    script:
+    - mkdir -p build
+    - cd build
+    # C++ example fails with this ancient version of MPI,
+    # we see all system CPUs, but can use only 1, causing nproc auto-detection to fail
+    - cmake -DCMAKE_BUILD_TYPE=Coverage -DTEST_MPI_RANKS=1 ..
+    - make -j
+    - make CTEST_OUTPUT_ON_FAILURE=1 test
+  - # run this in parallel with the other builds
+    name: "Build and test OpenMP version with cmake"
+    script:
+    - mkdir -p build
+    - cd build
+    # all examples need MPI atm
+    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF ..
+    - make -j
+    - make CTEST_OUTPUT_ON_FAILURE=1 test
+  - # run this in parallel with the other builds
+    name: "Build and test OpenMP version with cmake and libxsmm"
+    script:
+    - mkdir -p build
+    - cd build
+    # all examples need MPI atm
+    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF -DUSE_SMM=libxsmm ..
+    - make -j
+    - make CTEST_OUTPUT_ON_FAILURE=1 test
+  - # run this in parallel with the other builds
+    name: "Build and test MPI version with cmake"
+    script:
+    - mkdir -p build
+    - cd build
+    # all examples need MPI atm
+    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_OPENMP=OFF -DTEST_MPI_RANKS=1 ..
+    - make -j
+    - make CTEST_OUTPUT_ON_FAILURE=1 test
+  - stage: GitHub Release
+    if: tag IS present
+    script:
+      # do an in-source config for simplicity since we are not building anything here
+      - cmake .
+      - make dist
+    deploy:
+      provider: releases
+      api_key:  # encrypted token of the `dbcsr` GitHub service user
+        secure: Bn6fUntJ6ZMiwKF6LQmb0rhMWbCozeeMaw8klKzxQvPnLttufLaKnUbsbWM4ZUEVcNMDlzAF1JRb2hRhpqyK9mcEbUWh5/xUIT5h2BWq8cmf6lfUitEO3kqgE5c0kIs7dFWZb79aiJl9JIiz5o/fyFoYbdL6R9fJYkBpzkCXcq43t60JPtlMo61f70ca819u/fW89tJyeRyw4hSt6isYwjEv3OalQ1wup55bq+kaAnt6nnv5tPRXbPzwoVJ28pbttg/yx8YC34ZEzHtnSos0EmI8u0ruVViwwKBwUfc7uAONFGdTWXdqtKixOPtblu1ij/RlUy1APw88xRNfrFj7HS3Dlct03O3MpA3FrL0w6PR63jBBvSb/uKV8JkzIpLOWgn6pnzzcTmDwsJZnj8OnROSORjN1qSBYrshQmLQzHEq/FZUXqg+s26GKLPtqJzM2Ds8pOWSYZABwNIFbUOXUmpJcmzLkXcIboBp4WTtOc/P4KRpbmewCAANFYSjMUYaHrSXOv6UC4T6uhKQFPkqN213MDB5VJLxFbAR694+oBCrNMG6ki0hdPPA2GKzlXdWrbibxnSBsNEM2nED0+REAqPa47gFt0m+vLj1gX1gL9UkP9iw0GEM4nTUJ02WazMIu6crBkjqeOf7FPWun1doTD38/DCcUJQC9hmnhQ0E6X+8=
+      skip_cleanup: true
+      file_glob: true
+      file: dist/*
+      draft: true
+      # the following 2 lines work around an issue in TravisCI with draft=true:
+      tag_name: $TRAVIS_TAG
+      target_commitish: $TRAVIS_COMMIT
+      on:
+        tags: true
