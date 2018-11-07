@@ -96,7 +96,7 @@ class PredictiveParameters:
         return ceil_division(self.autotuning['stack_size'], self.get('grouping'))
 
     def get_warps_per_blk(self):
-        return ceil_division(self.gpu['Max_Thread_Block_Size'], self.gpu['Threads_/_Warp'])
+        return ceil_division(self.get('threads_per_blk'), self.gpu['Threads_/_Warp'])
 
     def get_nwarps(self):
         return self.get('warps_per_blk') * self.get('nblks')
