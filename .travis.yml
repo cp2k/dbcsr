@@ -41,7 +41,7 @@ before_script:
   # make sure we are back into the top directory again
   - cd "${TRAVIS_BUILD_DIR}"
   - export PATH=$HOME/.local/bin:$PATH
-  - pip install --user git-archive-all
+  - pip install --user git-archive-all pre-commit
 
 jobs:
   include:
@@ -88,6 +88,11 @@ jobs:
     - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_OPENMP=OFF -DTEST_MPI_RANKS=1 ..
     - make -j
     - make CTEST_OUTPUT_ON_FAILURE=1 test
+  - # run this in parallel with the other builds
+    name: "Run pre-commit hook on changed files"
+    script:
+    - set -o pipefail
+    - git diff --name-only --diff-filter=AM HEAD...$TRAVIS_BRANCH | xargs pre-commit run --files
   - stage: GitHub Release
     if: tag IS present
     script:
