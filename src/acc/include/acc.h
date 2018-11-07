@@ -44,5 +44,3 @@ int acc_dev_mem_info(size_t* free, size_t* avail);
 #ifdef __cplusplus
  }
 #endif
-
-//EOF

@@ -310,5 +310,3 @@ void cusmm_dnt_largeDB1(const int* param_stack, const int stack_size,
     }
   }
 }
-
-//EOF
