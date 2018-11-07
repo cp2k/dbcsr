@@ -17,7 +17,10 @@ You absolutely need:
 * a BLAS implementation (reference, OpenBLAS-bundled and MKL have been tested)
 * a Python version installed (2.7 and 3.5+ have been tested)
 
-Optionally, you can install [libxsmm](https://github.com/hfp/libxsmm).
+Optionally:
+
+* [libxsmm](https://github.com/hfp/libxsmm) for Small Matrix Multiplication acceleration
+* [CMake](https://cmake.org/) (3.10+)
 
 To build with CUDA support you further need:
 
@@ -43,9 +46,6 @@ Update the provided [Makefile.inc](Makefile.inc) to fit your needs
 
     make <target>
 
-Support for `cmake` is still considered experimental and may not cover all functionalities yet.
-If you are using `cmake` to build DBCSR, please make sure you can reproduce any errors using the plain `Makefile` before reporting them.
-
 Some examples on how to use the library (which is the only current documentation) are available under the examples directory (see [readme](examples/README.md)).
 
 ## C/C++ Interface
@@ -56,3 +56,22 @@ You can compile with
 
 to generate the C interface. Make sure your Fortran compiler supports F2008
 standard (including the TS) by updating the flag in the Makefile.inc.
+
+## CMake
+
+Building with CMake is also supported:
+
+    mkdir build
+    cd build
+    cmake ..
+    
+The configuration flags are (default first):
+
+    -DUSE_MPI=<ON|OFF>
+    -DUSE_OPENMP=<ON|OFF>
+    -DUSE_SMM=<blas|libxsmm>
+    -DUSE_CUDA=<OFF|ON>
+    -DWITH_C_API=<ON|OFF>
+    -DWITH_EXAMPLES=<ON|OFF>
+    -DWITH_GPU=<P100|K20X|K40|K80>
+    -DTEST_MPI_RANKS=<auto,N>
