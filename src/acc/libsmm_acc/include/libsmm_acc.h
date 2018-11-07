@@ -17,5 +17,3 @@ int libsmm_acc_transpose (void *trs_stack, int offset, int nblks,
 #ifdef __cplusplus
  }
 #endif
-
-//EOF

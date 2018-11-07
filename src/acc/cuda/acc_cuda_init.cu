@@ -1,7 +1,11 @@
-/*****************************************************************************
- *  CP2K: A general program to perform molecular dynamics simulations        *
- *  Copyright (C) 2000 - 2018  CP2K developers group                         *
- *****************************************************************************/
+/*------------------------------------------------------------------------------------------------*
+ * Copyright (C) by the DBCSR developers group - All rights reserved                              *
+ * This file is part of the DBCSR library.                                                        *
+ *                                                                                                *
+ * For information on the license, see the LICENSE file.                                          *
+ * For further information please visit https://dbcsr.cp2k.org                                    *
+ * SPDX-License-Identifier: GPL-2.0+                                                              *
+ *------------------------------------------------------------------------------------------------*/
 
 #include <cuda.h>
 #include <cuda_runtime.h>

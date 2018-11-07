@@ -12,5 +12,3 @@ fi
 
 set -x
 tar czf $fn .
-
-#EOF

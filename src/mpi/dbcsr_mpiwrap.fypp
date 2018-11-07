@@ -1,8 +1,14 @@
 #!-------------------------------------------------------------------------------------------------!
-#!   CP2K: A general program to perform molecular dynamics simulations                             !
-#!   Copyright (C) 2000 - 2018  CP2K developers group                                              !
+#! Copyright (C) by the DBCSR developers group - All rights reserved                               !
+#! This file is part of the DBCSR library.                                                         !
+#!                                                                                                 !
+#! For information on the license, see the LICENSE file.                                           !
+#! For further information please visit https://dbcsr.cp2k.org                                     !
+#! SPDX-License-Identifier: GPL-2.0+                                                               !
 #!-------------------------------------------------------------------------------------------------!
+
 #:mute
+
 #:set nametype1 = ['i', 'l', 'd', 'r', 'z', 'c']
 #:set type1 = ['INTEGER(KIND=int_4)', 'INTEGER(KIND=int_8)', 'REAL(kind=real_8)', 'REAL(kind=real_4)', 'COMPLEX(kind=real_8)', 'COMPLEX(kind=real_4)']
 #:set mpi_type1 = ['MPI_INTEGER', 'MPI_INTEGER8', 'MPI_DOUBLE_PRECISION', 'MPI_REAL', 'MPI_DOUBLE_COMPLEX', 'MPI_COMPLEX']

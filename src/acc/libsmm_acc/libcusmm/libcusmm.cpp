@@ -1,7 +1,12 @@
-/*****************************************************************************
- *  CP2K: A general program to perform molecular dynamics simulations        *
- *  Copyright (C) 2000 - 2018  CP2K developers group                         *
- *****************************************************************************/
+/*------------------------------------------------------------------------------------------------*
+ * Copyright (C) by the DBCSR developers group - All rights reserved                              *
+ * This file is part of the DBCSR library.                                                        *
+ *                                                                                                *
+ * For information on the license, see the LICENSE file.                                          *
+ * For further information please visit https://dbcsr.cp2k.org                                    *
+ * SPDX-License-Identifier: GPL-2.0+                                                              *
+ *------------------------------------------------------------------------------------------------*/
+
 #include "../include/libsmm_acc.h"
 #include "parameters.h"
 #include "parameters_utils.h"
@@ -313,6 +318,4 @@ extern "C" int libsmm_acc_transpose (void *trs_stack, int offset, int nblks, voi
     if(m>MAX_BLOCK_DIM || n>MAX_BLOCK_DIM)
       return 0; // maximum size over any dimention
     return libcusmm_transpose_d((int *) trs_stack, offset, nblks, (double *) buffer, m, n, *((CUstream *) stream));
-};
-
-//EOF
+}

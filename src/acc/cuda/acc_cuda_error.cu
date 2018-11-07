@@ -1,7 +1,11 @@
-/*****************************************************************************
- *  CP2K: A general program to perform molecular dynamics simulations        *
- *  Copyright (C) 2000 - 2018  CP2K developers group                         *
- *****************************************************************************/
+/*------------------------------------------------------------------------------------------------*
+ * Copyright (C) by the DBCSR developers group - All rights reserved                              *
+ * This file is part of the DBCSR library.                                                        *
+ *                                                                                                *
+ * For information on the license, see the LICENSE file.                                          *
+ * For further information please visit https://dbcsr.cp2k.org                                    *
+ * SPDX-License-Identifier: GPL-2.0+                                                              *
+ *------------------------------------------------------------------------------------------------*/
 
 #include <cuda_runtime.h>
 #include <stdio.h>
@@ -15,10 +19,8 @@ int cuda_error_check (cudaError_t cudaError){
       return -1;
     }
   return 0;
-};
+}
 
 extern "C" void acc_clear_errors () {
   cudaGetLastError();
-};
-
-//EOF
+}
