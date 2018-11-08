@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR data operations
-! **************************************************************************************************
 MODULE dbcsr_data_operations
+   !! DBCSR data operations
 
    USE dbcsr_block_operations, ONLY: dbcsr_block_transpose, &
                                      dbcsr_data_copy, &

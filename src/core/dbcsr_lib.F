@@ -7,11 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Routines that affect the DBCSR library as a whole
-! **************************************************************************************************
 
 MODULE dbcsr_lib
+
+   !! Routines that affect the DBCSR library as a whole
    USE dbcsr_config, ONLY: cublas_handles
    USE dbcsr_cublas, ONLY: cublas_handle_destroy, &
                            cublas_handle_init
@@ -93,10 +92,8 @@ MODULE dbcsr_lib
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Initialize the DBCSR library using internal loggers and timer callbacks
-! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib_def(mp_comm, io_unit)
+      !! Initialize the DBCSR library using internal loggers and timer callbacks
       INTEGER, INTENT(IN)  :: mp_comm
       INTEGER, INTENT(IN), OPTIONAL :: io_unit
 
@@ -124,10 +121,8 @@ CONTAINS
       CALL dbcsr_init_lib_low()
    END SUBROUTINE dbcsr_init_lib_def
 
-! **************************************************************************************************
-!> \brief Initialize the DBCSR library using external loggers and timer callbacks
-! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib_hooks(mp_comm, &
+      !! Initialize the DBCSR library using external loggers and timer callbacks
                                    in_timeset_hook, in_timestop_hook, &
                                    in_abort_hook, in_warn_hook, io_unit)
       INTEGER, INTENT(IN)  :: mp_comm
@@ -323,19 +318,15 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_print_statistics
 
-! **************************************************************************************************
-!> \brief Print timers
-! **************************************************************************************************
    SUBROUTINE dbcsr_print_timers()
+      !! Print timers
       IF (ASSOCIATED(logger)) THEN
          CALL timings_report_print(ext_io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
       ENDIF
    END SUBROUTINE dbcsr_print_timers
 
-! **************************************************************************************************
-!> \brief  Deallocate memory contained in mempools
-! **************************************************************************************************
    SUBROUTINE dbcsr_clear_mempools()
+      !! Deallocate memory contained in mempools
 
 !$OMP     PARALLEL DEFAULT(NONE)
       CALL dbcsr_multiply_clear_mempools()

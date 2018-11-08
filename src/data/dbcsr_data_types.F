@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Types related to DBCSR data area
-! **************************************************************************************************
 MODULE dbcsr_data_types
+   !! Types related to DBCSR data area
    USE dbcsr_acc_devmem, ONLY: acc_devmem_type
    USE dbcsr_acc_event, ONLY: acc_event_type
    USE dbcsr_acc_stream, ONLY: acc_stream_type
@@ -62,10 +60,8 @@ MODULE dbcsr_data_types
       TYPE(dbcsr_data_area_type), POINTER           :: d => Null()
    END TYPE dbcsr_data_obj
 
-! **************************************************************************************************
-!> \brief Memory related types
-! **************************************************************************************************
    TYPE dbcsr_mempool_type
+      !! Memory related types
       TYPE(dbcsr_mempool_entry_type), POINTER :: root => Null()
       INTEGER                                 :: capacity = 1
 !$    INTEGER(KIND=omp_lock_kind)          :: lock
@@ -143,10 +139,8 @@ MODULE dbcsr_data_types
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Helper-routine, returns size of given datatype in terms of bytes.
-! **************************************************************************************************
    FUNCTION dbcsr_datatype_sizeof(datatype) RESULT(size)
+      !! Helper-routine, returns size of given datatype in terms of bytes.
       INTEGER, INTENT(IN)                                :: datatype
       INTEGER                                            :: size
 

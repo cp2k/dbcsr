@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Wrappers to BLAS calls.
-! **************************************************************************************************
 MODULE dbcsr_blas_operations
+   !! Wrappers to BLAS calls.
    USE dbcsr_kinds, ONLY: int_8
    USE dbcsr_types, ONLY: dbcsr_data_obj, &
                           dbcsr_type_complex_4, &

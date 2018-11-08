@@ -89,10 +89,8 @@ CONTAINS
 #endif
    END SUBROUTINE dbcsr_acc_set_active_device
 
-! **************************************************************************************************
-!> \brief Clear CUDA errors
-! **************************************************************************************************
    SUBROUTINE dbcsr_acc_clear_errors()
+      !! Clear CUDA errors
 #if defined (__DBCSR_ACC)
       CALL acc_clear_errors_cu()
 #else

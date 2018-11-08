@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Routines for basic block transformations.
-! **************************************************************************************************
 MODULE dbcsr_block_operations
+   !! Routines for basic block transformations.
 
    USE dbcsr_acc_devmem, ONLY: acc_devmem_allocated, &
                                acc_devmem_setzero_bytes
@@ -1013,10 +1011,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_data_copy_aa2
 
-! **************************************************************************************************
-!> \brief Clears a data area, possibly transposed.
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_clear_nt(area, lb, ub, value, lb2, ub2, tr)
+      !! Clears a data area, possibly transposed.
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
       INTEGER, INTENT(IN), OPTIONAL                      :: lb, ub
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: value

@@ -101,10 +101,8 @@ CONTAINS
       heap%n = 0
    END SUBROUTINE dbcsr_heap_release
 
-! **************************************************************************************************
-!> \brief Fill heap with given values
-! **************************************************************************************************
    SUBROUTINE dbcsr_heap_fill(heap, values)
+      !! Fill heap with given values
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
       INTEGER(KIND=valt), DIMENSION(:), INTENT(IN)       :: values
 
@@ -126,10 +124,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_heap_fill
 
-! **************************************************************************************************
-!> \brief Returns the first heap element without removing it.
-! **************************************************************************************************
    SUBROUTINE dbcsr_heap_get_first(heap, key, value, found)
+      !! Returns the first heap element without removing it.
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
       INTEGER(KIND=keyt), INTENT(OUT)                    :: key
       INTEGER(KIND=valt), INTENT(OUT)                    :: value
@@ -188,10 +184,8 @@ CONTAINS
       CALL bubble_down(heap, new_pos)
    END SUBROUTINE dbcsr_heap_reset_node
 
-! **************************************************************************************************
-!> \brief Changes the value of the minimum heap element and rebalances the heap.
-! **************************************************************************************************
    SUBROUTINE dbcsr_heap_reset_first(heap, value)
+      !! Changes the value of the minimum heap element and rebalances the heap.
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
       INTEGER(KIND=valt), INTENT(IN)                     :: value
 
@@ -218,10 +212,8 @@ CONTAINS
       heap%index(key2) = e1
    END SUBROUTINE dbcsr_heap_swap
 
-! **************************************************************************************************
-!> \brief Sets node e1 to e2
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_heap_copy_node(heap, e1, e2)
+      !! Sets node e1 to e2
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
       INTEGER, INTENT(IN)                                :: e1, e2
 
@@ -236,10 +228,8 @@ CONTAINS
       heap%index(key2) = e1
    END SUBROUTINE dbcsr_heap_copy_node
 
-! **************************************************************************************************
-!> \brief Balances a heap by bubbling down from the given element.
-! **************************************************************************************************
    SUBROUTINE bubble_down(heap, first)
+      !! Balances a heap by bubbling down from the given element.
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
       INTEGER, INTENT(IN)                                :: first
 
@@ -286,10 +276,8 @@ CONTAINS
       ENDDO
    END SUBROUTINE bubble_down
 
-! **************************************************************************************************
-!> \brief Balances a heap by bubbling up from the given element.
-! **************************************************************************************************
    SUBROUTINE bubble_up(heap, first, new_pos)
+      !! Balances a heap by bubbling up from the given element.
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
       INTEGER, INTENT(IN)                                :: first
       INTEGER, INTENT(OUT)                               :: new_pos

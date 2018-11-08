@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Accelerator support for DBCSR
-! **************************************************************************************************
 MODULE dbcsr_acc_operations
+   !! Accelerator support for DBCSR
    USE ISO_C_BINDING, ONLY: C_INT, &
                             C_PTR, &
                             C_CHAR
@@ -79,10 +77,8 @@ MODULE dbcsr_acc_operations
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Launch an accelerated kernel for processing a stack.
-! **************************************************************************************************
    SUBROUTINE dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, datatype, &
+      !! Launch an accelerated kernel for processing a stack.
                                     a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stream, success)
       INTEGER, DIMENSION(:, :), TARGET, INTENT(IN) :: param_stack_host
       TYPE(acc_devmem_type), INTENT(IN)            :: param_stack_dev
@@ -186,10 +182,8 @@ CONTAINS
 #endif
    END SUBROUTINE dbcsr_acc_do_mm_stack
 
-! **************************************************************************************************
-!> \brief Launch an accelerated transpose kernel
-! **************************************************************************************************
    SUBROUTINE dbcsr_acc_transpose(trs_stack, offset, nblks, datatype, buffer, m, n, stream)
+      !! Launch an accelerated transpose kernel
       TYPE(acc_devmem_type), INTENT(IN)        :: trs_stack
       INTEGER, INTENT(IN)                      :: offset
       INTEGER, INTENT(IN)                      :: nblks

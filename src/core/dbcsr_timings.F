@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Timing routines for accounting
-! **************************************************************************************************
 MODULE dbcsr_timings
+   !! Timing routines for accounting
    USE dbcsr_base_hooks, ONLY: timeset_hook, &
                                timestop_hook
    USE dbcsr_cuda_profiling, ONLY: cuda_mem_info, &
@@ -61,10 +59,8 @@ MODULE dbcsr_timings
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Registers handlers with base_hooks.F
-! **************************************************************************************************
    SUBROUTINE timings_register_hooks()
+      !! Registers handlers with base_hooks.F
       timeset_hook => timeset_handler
       timestop_hook => timestop_handler
    END SUBROUTINE timings_register_hooks
@@ -90,10 +86,8 @@ CONTAINS
       CALL list_push(timers_stack, timer_env_)
    END SUBROUTINE add_timer_env
 
-! **************************************************************************************************
-!> \brief creates a new timer env
-! **************************************************************************************************
    SUBROUTINE timer_env_create(timer_env)
+      !! creates a new timer env
       TYPE(timer_env_type), POINTER                      :: timer_env
 
       INTEGER                                            :: stat
@@ -124,10 +118,8 @@ CONTAINS
       IF (list_size(timers_stack) == 0) CALL list_destroy(timers_stack)
    END SUBROUTINE rm_timer_env
 
-! **************************************************************************************************
-!> \brief returns the current timer env from the stack
-! **************************************************************************************************
    FUNCTION get_timer_env() RESULT(timer_env)
+      !! returns the current timer env from the stack
       TYPE(timer_env_type), POINTER                      :: timer_env
 
       timer_env => list_peek(timers_stack)
@@ -186,10 +178,8 @@ CONTAINS
       DEALLOCATE (timer_env)
    END SUBROUTINE timer_env_release
 
-! **************************************************************************************************
-!> \brief Start timer
-! **************************************************************************************************
    SUBROUTINE timeset_handler(routineN, handle)
+      !! Start timer
       CHARACTER(LEN=*), INTENT(IN)                       :: routineN
       INTEGER, INTENT(OUT)                               :: handle
 
@@ -260,10 +250,8 @@ CONTAINS
 
    END SUBROUTINE timeset_handler
 
-! **************************************************************************************************
-!> \brief End timer
-! **************************************************************************************************
    SUBROUTINE timestop_handler(handle)
+      !! End timer
       INTEGER, INTENT(in)                                :: handle
 
       CHARACTER(LEN=400)                                 :: line, mystring
@@ -398,10 +386,8 @@ CONTAINS
 
    END SUBROUTINE timings_setup_tracing
 
-! **************************************************************************************************
-!> \brief Print current routine stack
-! **************************************************************************************************
    SUBROUTINE print_stack(unit_nr)
+      !! Print current routine stack
       INTEGER, INTENT(IN)                                :: unit_nr
 
       INTEGER                                            :: i

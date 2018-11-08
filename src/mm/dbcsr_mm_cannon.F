@@ -133,10 +133,8 @@ MODULE dbcsr_mm_cannon
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Make images from the matrix (left or right)
-! **************************************************************************************************
    SUBROUTINE make_m2s(matrix, m2s, rdist, dense_rdist, &
+      !! Make images from the matrix (left or right)
                        use_dense_mult, ab_dense, predistribute, &
                        f_k, l_k, f_row, l_row, f_col, l_col, &
                        row_blk_size, col_blk_size, &
@@ -1893,10 +1891,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE setup_rec_index_2d
 
-! **************************************************************************************************
-!> \brief Used to thunk a call to rec_sort_index
-! **************************************************************************************************
    SUBROUTINE call_rec_sort_index(m, n, nblks, idx)
+      !! Used to thunk a call to rec_sort_index
       INTEGER, INTENT(IN)                                :: m, n, nblks
       INTEGER, DIMENSION(3, 1:nblks), INTENT(INOUT)      :: idx
 
@@ -1905,10 +1901,8 @@ CONTAINS
       CALL rec_sort_index(1, m, 1, n, nblks, idx, 0)
    END SUBROUTINE call_rec_sort_index
 
-! **************************************************************************************************
-!> \brief Switches pointers between two matrix sets
-! **************************************************************************************************
    SUBROUTINE dbcsr_switch_sets(set1p, set2p)
+      !! Switches pointers between two matrix sets
       TYPE(dbcsr_2d_array_type), POINTER                 :: set1p, set2p
 
       TYPE(dbcsr_2d_array_type), POINTER                 :: tmp_set
@@ -1920,10 +1914,8 @@ CONTAINS
       set2p => tmp_set
    END SUBROUTINE dbcsr_switch_sets
 
-! **************************************************************************************************
-!> \brief Switches pointers between two data areas
-! **************************************************************************************************
    SUBROUTINE dbcsr_switch_d_ptrs(area1p, area2p)
+      !! Switches pointers between two data areas
       TYPE(dbcsr_data_obj), POINTER                      :: area1p, area2p
 
       TYPE(dbcsr_data_obj), POINTER                      :: tmp_p

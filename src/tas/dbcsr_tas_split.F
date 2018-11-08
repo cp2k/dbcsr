@@ -172,10 +172,8 @@ CONTAINS
       CALL timestop(handle)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Get optimal process grid dimensions consistent with dbcsr_tas_create_split
-! **************************************************************************************************
    FUNCTION dbcsr_tas_mp_dims(numproc, split_rowcol, nsplit)
+      !! Get optimal process grid dimensions consistent with dbcsr_tas_create_split
       INTEGER, INTENT(IN)                                :: numproc
       INTEGER, INTENT(IN)                                :: split_rowcol
       INTEGER, INTENT(IN)                                :: nsplit
@@ -387,10 +385,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Whether to accept proposed process grid dimensions (based on ratio of dimensions)
-! **************************************************************************************************
    FUNCTION accept_pgrid_dims(dims, relative)
+      !! Whether to accept proposed process grid dimensions (based on ratio of dimensions)
       INTEGER, DIMENSION(2), INTENT(IN)          :: dims
       LOGICAL, INTENT(IN)                        :: relative
       INTEGER, DIMENSION(2)                      :: dims_opt
@@ -585,10 +581,8 @@ CONTAINS
       END SELECT
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief map global block index to group local index
-! **************************************************************************************************
    SUBROUTINE block_index_global_to_local(info, dist, row, column, row_group, column_group)
+      !! map global block index to group local index
       TYPE(dbcsr_tas_split_info), INTENT(IN)               :: info
       TYPE(dbcsr_tas_distribution_type), INTENT(IN)        :: dist
       INTEGER(KIND=int_8), INTENT(IN), OPTIONAL          :: row, column
@@ -632,10 +626,8 @@ CONTAINS
       END ASSOCIATE
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief binary search for 8-byte integers
-! **************************************************************************************************
    FUNCTION i8_bsearch(array, el, l_index, u_index) result(res)
+      !! binary search for 8-byte integers
       INTEGER(KIND=int_8), intent(in) :: array(:)
       INTEGER(KIND=int_8), intent(in) :: el
       INTEGER, INTENT(in), OPTIONAL   :: l_index, u_index

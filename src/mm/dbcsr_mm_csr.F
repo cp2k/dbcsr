@@ -93,25 +93,19 @@ MODULE dbcsr_mm_csr
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Initialize the library
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_csr_lib_init()
+      !! Initialize the library
 
       CALL dbcsr_mm_sched_lib_init()
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Finalize the library
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_csr_lib_finalize()
+      !! Finalize the library
       CALL dbcsr_mm_sched_lib_finalize()
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief A wrapper around dbcsr_mm_csr_multiply_low to avoid expensive dereferencings.
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_csr_multiply(this, left, right, mi, mf, ni, nf, ki, kf, &
+      !! A wrapper around dbcsr_mm_csr_multiply_low to avoid expensive dereferencings.
                                     ai, af, &
                                     bi, bf, &
                                     m_sizes, n_sizes, k_sizes, &
@@ -184,10 +178,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_csr_multiply
 
-! **************************************************************************************************
-!> \brief Performs multiplication of smaller submatrices.
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_csr_multiply_low(this, left, right, mi, mf, ki, kf, &
+      !! Performs multiplication of smaller submatrices.
                                         ai, af, bi, bf, &
                                         c_row_i, c_col_i, c_blk_p, lastblk, datasize, &
                                         m_sizes, n_sizes, k_sizes, &
@@ -370,10 +362,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_csr_multiply_low
 
-! **************************************************************************************************
-!> \brief Initializes a multiplication cycle for new set of C-blocks.
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_csr_init(this, left, right, product, &
+      !! Initializes a multiplication cycle for new set of C-blocks.
                                 m_sizes, n_sizes, block_estimate, right_row_blk_size, &
                                 nlayers)
       TYPE(dbcsr_mm_csr_type), INTENT(INOUT)             :: this
@@ -588,19 +578,15 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE fill_hash_tables
 
-! **************************************************************************************************
-!> \brief Signal approaching end of multiplication
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_csr_phaseout(this)
+      !! Signal approaching end of multiplication
       TYPE(dbcsr_mm_csr_type), INTENT(INOUT)             :: this
 
       CALL dbcsr_mm_sched_phaseout(this%sched)
    END SUBROUTINE dbcsr_mm_csr_phaseout
 
-! **************************************************************************************************
-!> \brief Finalizes a multiplication cycle for a set of C-blocks.
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_csr_finalize(this)
+      !! Finalizes a multiplication cycle for a set of C-blocks.
       TYPE(dbcsr_mm_csr_type), INTENT(INOUT)             :: this
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_csr_finalize', &
@@ -631,10 +617,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_csr_dev2host_init
 
-! **************************************************************************************************
-!> \brief Make the reduction of the 3D layers in the local csr object
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_csr_red3D(this, meta_buffer, data_buffer, flop, m_sizes, n_sizes, &
+      !! Make the reduction of the 3D layers in the local csr object
                                  g2l_map_rows, g2l_map_cols, original_lastblk, &
                                  keep_sparsity)
       TYPE(dbcsr_mm_csr_type), INTENT(INOUT)             :: this
@@ -767,10 +751,8 @@ CONTAINS
       CALL dbcsr_mm_sched_end_burst()
    END SUBROUTINE flush_stacks
 
-! **************************************************************************************************
-!> \brief  Builds and sorts a CSR index from a list index.
-! **************************************************************************************************
    SUBROUTINE build_csr_index(mi, mf, ai, af, row_p, blk_info, list_index, &
+      !! Builds and sorts a CSR index from a list index.
                               nnorms, csr_norms, list_norms)
       INTEGER, INTENT(IN)                                :: mi, mf, ai, af
       INTEGER, DIMENSION(mi:mf + 1), INTENT(OUT)           :: row_p

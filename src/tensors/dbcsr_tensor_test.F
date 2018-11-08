@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief General methods for testing DBCSR tensors.
-! **************************************************************************************************
 MODULE dbcsr_tensor_test
+   !! General methods for testing DBCSR tensors.
 
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
@@ -90,10 +88,8 @@ MODULE dbcsr_tensor_test
    END INTERFACE
 CONTAINS
 
-! **************************************************************************************************
-!> \brief check if two (arbitrarily mapped and distributed) tensors are equal.
-! **************************************************************************************************
    FUNCTION dbcsr_t_equal(tensor1, tensor2)
+      !! check if two (arbitrarily mapped and distributed) tensors are equal.
       TYPE(dbcsr_t_type), INTENT(INOUT)          :: tensor1, tensor2
       LOGICAL                                    :: dbcsr_t_equal
 
@@ -131,10 +127,8 @@ CONTAINS
       CALL dbcsr_t_destroy(tensor2_tmp)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief check if two blocks are equal
-! **************************************************************************************************
    PURE FUNCTION blocks_equal(block1, block2)
+      !! check if two blocks are equal
       TYPE(block_nd), INTENT(IN) :: block1, block2
       LOGICAL                    :: blocks_equal
 
@@ -147,20 +141,16 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Compute factorial
-! **************************************************************************************************
    PURE FUNCTION factorial(n)
+      !! Compute factorial
       INTEGER, INTENT(IN) :: n
       INTEGER             :: k
       INTEGER             :: factorial
       factorial = PRODUCT((/(k, k=1, n)/))
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Compute all permutations p of (1, 2, ..., n)
-! **************************************************************************************************
    SUBROUTINE permute(n, p)
+      !! Compute all permutations p of (1, 2, ..., n)
       INTEGER, INTENT(IN)                              :: n
       INTEGER                                          :: i, c
       INTEGER, DIMENSION(n)                            :: pp
@@ -828,10 +818,8 @@ CONTAINS
    END SUBROUTINE
 
 #:for ndim in ndims
-! **************************************************************************************************
-!> \brief Write nd array
-! **************************************************************************************************
    SUBROUTINE write_${ndim}$d_array(array, unit_nr, array_compare)
+      !! Write nd array
       REAL(KIND=real_8), DIMENSION(${shape_colon(ndim)}$), INTENT(IN) :: array
       INTEGER, INTENT(IN)                                             :: unit_nr
       REAL(KIND=real_8), DIMENSION(${shape_colon(ndim)}$), INTENT(IN), OPTIONAL :: array_compare
@@ -853,20 +841,16 @@ CONTAINS
    END SUBROUTINE
 #:endfor
 
-! **************************************************************************************************
-!> \brief mapped sizes in 2d
-! **************************************************************************************************
    FUNCTION sizes_2d(nd_sizes, map1, map2)
+      !! mapped sizes in 2d
       INTEGER, DIMENSION(:), INTENT(IN) :: nd_sizes, map1, map2
       INTEGER, DIMENSION(2)             :: sizes_2d
       sizes_2d(1) = PRODUCT(nd_sizes(map1))
       sizes_2d(2) = PRODUCT(nd_sizes(map2))
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief checksum of a tensor consistent with dbcsr_checksum
-! **************************************************************************************************
    FUNCTION dbcsr_t_checksum(tensor, local, pos)
+      !! checksum of a tensor consistent with dbcsr_checksum
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       REAL(KIND=real_8) :: dbcsr_t_checksum
       LOGICAL, INTENT(IN), OPTIONAL     :: local, pos

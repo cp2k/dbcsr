@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Routines related to DBCSR distributions
-! **************************************************************************************************
 MODULE dbcsr_dist_methods
+   !! Routines related to DBCSR distributions
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_i1d_obj, &
                                 array_new, &
@@ -206,10 +204,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_distribution_new_low
 
-! **************************************************************************************************
-!> \brief Get distribution parameters
-! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_get(dist, row_dist, col_dist, &
+      !! Get distribution parameters
                                      nrows, ncols, has_threads, &
                                      group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, &
                                      subgroups_defined, prow_group, pcol_group)
@@ -243,10 +239,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_distribution_get
 
-! **************************************************************************************************
-!> \brief Marks another use of the distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_hold(dist)
+      !! Marks another use of the distribution
       TYPE(dbcsr_distribution_obj), INTENT(INOUT)        :: dist
 
 !   ---------------------------------------------------------------------------

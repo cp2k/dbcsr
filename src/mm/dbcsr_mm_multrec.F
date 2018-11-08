@@ -137,18 +137,14 @@ MODULE dbcsr_mm_multrec
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Initialize the library
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_lib_init()
+      !! Initialize the library
 
       CALL dbcsr_mm_csr_lib_init()
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Finalize the library
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_lib_finalize()
+      !! Finalize the library
       CALL dbcsr_mm_csr_lib_finalize()
    END SUBROUTINE
 
@@ -366,19 +362,15 @@ CONTAINS
       !
    END SUBROUTINE dbcsr_mm_multrec_multiply
 
-! **************************************************************************************************
-!> \brief Signal approaching end of multiplication
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_phaseout(this)
+      !! Signal approaching end of multiplication
       TYPE(dbcsr_mm_multrec_type), INTENT(INOUT)         :: this
 
       CALL dbcsr_mm_csr_phaseout(this%csr)
    END SUBROUTINE dbcsr_mm_multrec_phaseout
 
-! **************************************************************************************************
-!> \brief Sets up recursive multiplication
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_dev2host_init(this)
+      !! Sets up recursive multiplication
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
 
 !   ---------------------------------------------------------------------------
@@ -388,10 +380,8 @@ CONTAINS
       CALL dbcsr_mm_csr_dev2host_init(this%csr)
    END SUBROUTINE dbcsr_mm_multrec_dev2host_init
 
-! **************************************************************************************************
-!> \brief Sets up recursive multiplication
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_finalize(this, meta_buffer)
+      !! Sets up recursive multiplication
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
       INTEGER, DIMENSION(:), INTENT(INOUT), OPTIONAL     :: meta_buffer
 
@@ -444,10 +434,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_mm_multrec_finalize
 
-! **************************************************************************************************
-!> \brief Applying in-place filtering on the workspace
-! **************************************************************************************************
    SUBROUTINE multrec_filtering(this)
+      !! Applying in-place filtering on the workspace
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
 
       CHARACTER(len=*), PARAMETER :: routineN = 'multrec_filtering', &
@@ -502,10 +490,8 @@ CONTAINS
 
    END SUBROUTINE multrec_filtering
 
-! **************************************************************************************************
-!> \brief Make the reduction of the 3D layers in the local multrec object
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_red3D(this, meta_buffer, data_buffer, flop, g2l_map_rows, g2l_map_cols)
+      !! Make the reduction of the 3D layers in the local multrec object
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
       INTEGER, DIMENSION(:), INTENT(IN)                  :: meta_buffer
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: data_buffer
@@ -529,10 +515,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_mm_multrec_red3D
 
-! **************************************************************************************************
-!> \brief Return number of blocks
-! **************************************************************************************************
    FUNCTION dbcsr_mm_multrec_get_nblks(this) RESULT(nblks)
+      !! Return number of blocks
       TYPE(dbcsr_mm_multrec_type), INTENT(IN)            :: this
       INTEGER                                            :: nblks
 
@@ -540,10 +524,8 @@ CONTAINS
 
    END FUNCTION dbcsr_mm_multrec_get_nblks
 
-! **************************************************************************************************
-!> \brief Return data size
-! **************************************************************************************************
    FUNCTION dbcsr_mm_multrec_get_nze(this) RESULT(nze)
+      !! Return data size
       TYPE(dbcsr_mm_multrec_type), INTENT(IN)            :: this
       INTEGER                                            :: nze
 
@@ -551,10 +533,8 @@ CONTAINS
 
    END FUNCTION dbcsr_mm_multrec_get_nze
 
-! **************************************************************************************************
-!> \brief Performs recursive multiplication
-! **************************************************************************************************
    RECURSIVE SUBROUTINE sparse_multrec(this, left, right, mi, mf, ni, nf, ki, kf, &
+      !! Performs recursive multiplication
                                        ai, af, a_index, bi, bf, b_index, &
                                        d)
       TYPE(dbcsr_mm_multrec_type), INTENT(INOUT)         :: this

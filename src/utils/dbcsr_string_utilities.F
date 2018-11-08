@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Utilities for string manipulations
-! **************************************************************************************************
 MODULE dbcsr_string_utilities
+   !! Utilities for string manipulations
 
    USE dbcsr_kinds, ONLY: default_blank_character
 
@@ -108,10 +106,8 @@ CONTAINS
       WRITE (UNIT=string, FMT='(I0)') inumber
    END SUBROUTINE integer_to_string
 
-! **************************************************************************************************
-!> \brief   Convert a string to sequence of integer numbers.
-! **************************************************************************************************
    SUBROUTINE string_to_ascii(string, nascii)
+      !! Convert a string to sequence of integer numbers.
 
       CHARACTER(LEN=*), INTENT(IN)                       :: string
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: nascii
@@ -126,10 +122,8 @@ CONTAINS
 
    END SUBROUTINE string_to_ascii
 
-! **************************************************************************************************
-!> \brief   remove a word from a string (words are separated by white spaces)
-! **************************************************************************************************
    SUBROUTINE remove_word(string)
+      !! remove a word from a string (words are separated by white spaces)
       CHARACTER(LEN=*), INTENT(INOUT)                    :: string
 
       INTEGER                                            :: i
@@ -147,10 +141,8 @@ CONTAINS
 
    END SUBROUTINE remove_word
 
-! **************************************************************************************************
-!> \brief   Convert all upper case characters in a string to lower case.
-! **************************************************************************************************
    SUBROUTINE lowercase(string)
+      !! Convert all upper case characters in a string to lower case.
       CHARACTER(LEN=*), INTENT(INOUT)                    :: string
 
       INTEGER                                            :: i, iascii
@@ -164,10 +156,8 @@ CONTAINS
 
    END SUBROUTINE lowercase
 
-! **************************************************************************************************
-!> \brief   Convert all lower case characters in a string to upper case.
-! **************************************************************************************************
    SUBROUTINE uppercase(string)
+      !! Convert all lower case characters in a string to upper case.
       CHARACTER(LEN=*), INTENT(INOUT)                    :: string
 
       INTEGER                                            :: i, iascii
@@ -212,10 +202,8 @@ CONTAINS
       equal = (str1(i1:i2) == str2(j1:j2))
    END FUNCTION str_comp
 
-! **************************************************************************************************
-!> \brief returns .true. if the character passed is a whitespace char.
-! **************************************************************************************************
    FUNCTION is_whitespace(testchar) RESULT(resval)
+      !! returns .true. if the character passed is a whitespace char.
       CHARACTER(LEN=1), INTENT(IN)                       :: testchar
       LOGICAL                                            :: resval
 

@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Utility routines to open and close files.
-! **************************************************************************************************
 MODULE dbcsr_files
+   !! Utility routines to open and close files.
 
    USE dbcsr_kinds, ONLY: default_path_length
    USE dbcsr_machine, ONLY: default_input_unit, &
@@ -42,10 +40,8 @@ MODULE dbcsr_files
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Add an entry to the list of preconnected units
-! **************************************************************************************************
    SUBROUTINE assign_preconnection(file_name, unit_number)
+      !! Add an entry to the list of preconnected units
 
       CHARACTER(LEN=*), INTENT(IN)                       :: file_name
       INTEGER, INTENT(IN)                                :: unit_number
@@ -179,10 +175,8 @@ CONTAINS
 
    END SUBROUTINE close_file
 
-! **************************************************************************************************
-!> \brief Remove an entry from the list of preconnected units
-! **************************************************************************************************
    SUBROUTINE delete_preconnection(file_name, unit_number)
+      !! Remove an entry from the list of preconnected units
 
       CHARACTER(LEN=*), INTENT(IN)                       :: file_name
       INTEGER                                            :: unit_number
@@ -248,10 +242,8 @@ CONTAINS
 
    END FUNCTION get_unit_number
 
-! **************************************************************************************************
-!> \brief Allocate and initialise the list of preconnected units
-! **************************************************************************************************
    SUBROUTINE init_preconnection_list()
+      !! Allocate and initialise the list of preconnected units
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'init_preconnection_list', &
                                      routineP = moduleN//':'//routineN
@@ -449,10 +441,8 @@ CONTAINS
 
    END SUBROUTINE open_file
 
-! **************************************************************************************************
-!> \brief Checks if file exists, considering also the file discovery mechanism.
-! **************************************************************************************************
    FUNCTION file_exists(file_name) RESULT(exist)
+      !! Checks if file exists, considering also the file discovery mechanism.
       CHARACTER(LEN=*), INTENT(IN)                       :: file_name
       LOGICAL                                            :: exist
 

@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief communication routines to reshape / replicate / merge tall-and-skinny matrices.
-! **************************************************************************************************
 MODULE dbcsr_tas_reshape_ops
+   !! communication routines to reshape / replicate / merge tall-and-skinny matrices.
 #:include "dbcsr_tas.fypp"
 
    USE dbcsr_block_access, ONLY: &
@@ -618,10 +616,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief get all indices from buffer
-! **************************************************************************************************
    SUBROUTINE block_buffer_get_index(buffer, index)
+      !! get all indices from buffer
       TYPE(block_buffer_type), INTENT(IN)                :: buffer
       INTEGER(KIND=int_8), ALLOCATABLE, &
          DIMENSION(:, :), INTENT(OUT)                    :: index
@@ -639,19 +635,15 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Reset buffer block iterator
-! **************************************************************************************************
    SUBROUTINE block_buffer_iterator_reset(buffer)
+      !! Reset buffer block iterator
       TYPE(block_buffer_type), INTENT(INOUT)             :: buffer
 
       buffer%endpos = 0
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief how many blocks left in iterator
-! **************************************************************************************************
    PURE FUNCTION block_buffer_blocks_left(buffer)
+      !! how many blocks left in iterator
       TYPE(block_buffer_type), INTENT(IN)                :: buffer
       LOGICAL                                            :: block_buffer_blocks_left
 
@@ -810,10 +802,8 @@ CONTAINS
 #:endfor
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
-! **************************************************************************************************
    SUBROUTINE block_buffer_get_next_block_${dsuffix}$ (buffer, ndata, index, block, advance_iter)
+      !! get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
       INTEGER, INTENT(OUT)                        :: ndata
       INTEGER(KIND=int_8), DIMENSION(2), &
@@ -854,10 +844,8 @@ CONTAINS
    END SUBROUTINE
 #:endfor
 
-! **************************************************************************************************
-!> \brief communicate buffer
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_communicate_buffer(mp_comm, buffer_recv, buffer_send, req_array)
+      !! communicate buffer
       INTEGER, INTENT(IN)                    :: mp_comm
       TYPE(block_buffer_type), DIMENSION(0:), INTENT(INOUT) :: buffer_recv, buffer_send
       INTEGER, DIMENSION(:, :), INTENT(OUT)               :: req_array

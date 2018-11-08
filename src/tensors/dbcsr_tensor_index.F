@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief tensor index and mapping to DBCSR index.
-! **************************************************************************************************
 MODULE dbcsr_tensor_index
+   !! tensor index and mapping to DBCSR index
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_kinds, ONLY: int_8
 #include "base/dbcsr_base_uses.f90"
@@ -320,10 +318,8 @@ CONTAINS
       ind_out(map%map2_2d) = ind_2
    END FUNCTION get_nd_indices
 
-! **************************************************************************************************
-!> \brief Invert order
-! **************************************************************************************************
    FUNCTION dbcsr_t_inverse_order(order)
+      !! Invert order
       INTEGER, DIMENSION(:), INTENT(IN)                  :: order
       INTEGER, DIMENSION(SIZE(order))                    :: dbcsr_t_inverse_order
 
@@ -332,10 +328,8 @@ CONTAINS
       dbcsr_t_inverse_order(order) = (/(i, i=1, SIZE(order))/)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief reorder tensor index (no data)
-! **************************************************************************************************
    SUBROUTINE permute_index(map_in, map_out, order)
+      !! reorder tensor index (no data)
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map_in
       TYPE(nd_to_2d_mapping), INTENT(OUT)                :: map_out
       INTEGER, DIMENSION(ndims_mapping(map_in)), &

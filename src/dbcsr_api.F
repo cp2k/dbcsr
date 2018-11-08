@@ -791,10 +791,8 @@ CONTAINS
       CALL dbcsr_print_prv(matrix%prv, nodata, matlab_format, variable_name, unit_nr)
    END SUBROUTINE dbcsr_print
 
-! **************************************************************************************************
-!> \brief Prints the sum of the elements in each block
-! **************************************************************************************************
    SUBROUTINE dbcsr_print_block_sum(matrix, unit_nr)
+      !! Prints the sum of the elements in each block
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER, OPTIONAL                                  :: unit_nr
 
@@ -847,10 +845,8 @@ CONTAINS
                                       reuse_arrays)
    END SUBROUTINE dbcsr_distribution_new
 
-! **************************************************************************************************
-!> \brief Print statistics
-! **************************************************************************************************
    SUBROUTINE dbcsr_print_statistics(print_timers, callgraph_filename)
+      !! Print statistics
       LOGICAL, INTENT(IN), OPTIONAL          :: print_timers
       CHARACTER(len=*), INTENT(IN), OPTIONAL :: callgraph_filename
 
@@ -1070,10 +1066,8 @@ CONTAINS
       CALL dbcsr_to_csr_filter_prv(dbcsr_mat%prv, csr_sparsity%prv, eps)
    END SUBROUTINE dbcsr_to_csr_filter
 
-! **************************************************************************************************
-!> \brief Clear a matrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_clear(dbcsr_mat)
+      !! Clear a matrix
       TYPE(dbcsr_type), INTENT(INOUT) :: dbcsr_mat
 
       CALL dbcsr_clear_prv(dbcsr_mat%prv)

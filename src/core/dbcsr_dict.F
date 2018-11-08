@@ -155,10 +155,8 @@ $:fct
 
    END SUBROUTINE dict_${keytype}$_${valuetype}$_init
 
-! **************************************************************************************************
-!> \brief Test if the given dictionary has been initialized.
-! **************************************************************************************************
    FUNCTION dict_${keytype}$_${valuetype}$_isready(dict) RESULT(res)
+      !! Test if the given dictionary has been initialized.
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
       LOGICAL                                               :: res
       res = ASSOCIATED(dict%buckets)
@@ -191,10 +189,8 @@ $:fct
 
    END SUBROUTINE dict_${keytype}$_${valuetype}$_destroy
 
-! **************************************************************************************************
-!> \brief Stores, and possibly overwrites, a given value under a given key.
-! **************************************************************************************************
    SUBROUTINE dict_${keytype}$_${valuetype}$_set(dict, key, value)
+      !! Stores, and possibly overwrites, a given value under a given key.
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
       ${keytype_fort}$, intent(in)                          :: key
       ${valuetype_fort}$, intent(in)                          :: value
@@ -206,10 +202,8 @@ $:fct
       call set_hashed_${keytype}$_${valuetype}$ (dict, key, value, hash)
    END SUBROUTINE dict_${keytype}$_${valuetype}$_set
 
-! **************************************************************************************************
-!> \brief Common code used internally by dict_set() and change_capacity().
-! **************************************************************************************************
    RECURSIVE SUBROUTINE set_hashed_${keytype}$_${valuetype}$ (dict, key, value, hash)
+      !! Common code used internally by dict_set() and change_capacity().
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
       ${keytype_fort}$, intent(in)                          :: key
       ${valuetype_fort}$, intent(in)                          :: value
@@ -248,10 +242,8 @@ $:fct
 
    END SUBROUTINE set_hashed_${keytype}$_${valuetype}$
 
-! **************************************************************************************************
-!> \brief Internal routine for changing the dictionary's capacity.
-! **************************************************************************************************
    RECURSIVE SUBROUTINE change_capacity_${keytype}$_${valuetype}$ (dict, new_capacity)
+      !! Internal routine for changing the dictionary's capacity.
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
       INTEGER, intent(in) :: new_capacity
       INTEGER :: i, old_size, new_cap
@@ -287,12 +279,11 @@ $:fct
       IF (old_size /= dict%size) &
          DBCSR_ABORT("dict_${keytype}$_${valuetype}$_change_capacity: assertion failed")
    END SUBROUTINE change_capacity_${keytype}$_${valuetype}$
-! **************************************************************************************************
-!> \brief Gets a value for a given key from the dictionary.
-!>        If the key is not found the default_value will be returned.
-!>        If the key is not found and default_value was not provided the program stops.
-! **************************************************************************************************
+
    FUNCTION dict_${keytype}$_${valuetype}$_get(dict, key, default_value) RESULT(value)
+      !! Gets a value for a given key from the dictionary.
+      !! If the key is not found the default_value will be returned.
+      !! If the key is not found and default_value was not provided the program stops.
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
       ${keytype_fort}$                                        :: key
       ${valuetype_fort}$, intent(in), optional                :: default_value
@@ -363,10 +354,8 @@ $:fct
       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_del: Key not found in dictionary.")
    END SUBROUTINE dict_${keytype}$_${valuetype}$_del
 
-! **************************************************************************************************
-!> \brief Returns the number of key/value-items currently stored in the dictionary.
-! **************************************************************************************************
    FUNCTION dict_${keytype}$_${valuetype}$_size(dict) RESULT(size)
+      !! Returns the number of key/value-items currently stored in the dictionary.
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
       INTEGER :: size
 
@@ -376,10 +365,8 @@ $:fct
       size = dict%size
    END FUNCTION dict_${keytype}$_${valuetype}$_size
 
-! **************************************************************************************************
-!> \brief Checks whether a given key is currently stored in the dictionary.
-! **************************************************************************************************
    FUNCTION dict_${keytype}$_${valuetype}$_haskey(dict, key) RESULT(res)
+      !! Checks whether a given key is currently stored in the dictionary.
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
       ${keytype_fort}$                                        :: key
       LOGICAL                                               :: res
@@ -408,11 +395,9 @@ $:fct
 
    END FUNCTION dict_${keytype}$_${valuetype}$_haskey
 
-! **************************************************************************************************
-!> \brief Returns a pointer to an array of all key/value-items stored in the dictionary.
-!>        Caution: The caller is responsible for deallocating targeted array after usage.
-! **************************************************************************************************
    FUNCTION dict_${keytype}$_${valuetype}$_items(dict) RESULT(items)
+      !! Returns a pointer to an array of all key/value-items stored in the dictionary.
+      !! Caution: The caller is responsible for deallocating targeted array after usage.
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
       TYPE(dict_${keytype}$_${valuetype}$_item_type), dimension(:), POINTER :: items
 

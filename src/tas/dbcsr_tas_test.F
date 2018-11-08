@@ -7,11 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief testing infrastructure for tall-and-skinny matrices
-! **************************************************************************************************
 
 MODULE dbcsr_tas_test
+
+   !! testing infrastructure for tall-and-skinny matrices
    USE dbcsr_types, ONLY: dbcsr_type_real_8
    USE dbcsr_data_methods, ONLY: dbcsr_scalar
    USE dbcsr_methods, ONLY: &
@@ -59,10 +58,8 @@ MODULE dbcsr_tas_test
       dbcsr_tas_test_mm
 
 CONTAINS
-! **************************************************************************************************
-!> \brief Setup tall-and-skinny matrix for testing
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_setup_test_matrix(matrix, mp_comm_out, mp_comm, nrows, ncols, rbsizes, cbsizes, &
+      !! Setup tall-and-skinny matrix for testing
                                           dist_splitsize, name, sparsity, reuse_comm)
 
       TYPE(dbcsr_tas_type), INTENT(OUT)                    :: matrix
@@ -256,10 +253,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Test tall-and-skinny matrix multiplication for accuracy
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_test_mm(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, unit_nr, log_verbose)
+      !! Test tall-and-skinny matrix multiplication for accuracy
       CHARACTER(LEN=1), INTENT(IN)                       :: transa, transb, transc
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix_a, matrix_b, matrix_c
       INTEGER, INTENT(IN)                                :: unit_nr
@@ -382,10 +377,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Calculate checksum of tall-and-skinny matrix consistent with dbcsr_checksum
-! **************************************************************************************************
    FUNCTION dbcsr_tas_checksum(matrix, local, pos)
+      !! Calculate checksum of tall-and-skinny matrix consistent with dbcsr_checksum
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       LOGICAL, INTENT(IN), OPTIONAL  :: local, pos
       TYPE(dbcsr_type)               :: dbcsr_m
@@ -396,10 +389,8 @@ CONTAINS
       CALL dbcsr_release(dbcsr_m)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Create random block sizes
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_random_bsizes(sizes, repeat, block_sizes)
+      !! Create random block sizes
       INTEGER, DIMENSION(:), INTENT(IN)                  :: sizes
       INTEGER, INTENT(IN)                                :: repeat
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: block_sizes
@@ -412,10 +403,8 @@ CONTAINS
       ENDDO
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Create random distribution
-! **************************************************************************************************
    SUBROUTINE random_dist(dist_array, dist_size, nbins)
+      !! Create random distribution
       INTEGER, DIMENSION(:), INTENT(out), POINTER        :: dist_array
       INTEGER, INTENT(in)                                :: dist_size, nbins
 

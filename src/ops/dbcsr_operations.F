@@ -320,10 +320,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_conjg
 
-! **************************************************************************************************
-!> \brief fill a dbcsr matrix with zeros
-! **************************************************************************************************
    SUBROUTINE dbcsr_zero(matrix_a)
+      !! fill a dbcsr matrix with zeros
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_zero', routineP = moduleN//':'//routineN
@@ -709,10 +707,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_add_anytype
 
-! **************************************************************************************************
-!> \brief Interface for dbcsr_add
-! **************************************************************************************************
    SUBROUTINE dbcsr_add_d(matrix_a, matrix_b, alpha_scalar, beta_scalar)
+      !! Interface for dbcsr_add
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_b
       REAL(real_8), INTENT(IN)                           :: alpha_scalar, beta_scalar
@@ -1099,10 +1095,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_hadamard_product
 
-! **************************************************************************************************
-!> \brief ... TODO : unify with other version which is generic in the data_type
-! **************************************************************************************************
    SUBROUTINE dbcsr_init_random(matrix, keep_sparsity)
+      !! ... TODO : unify with other version which is generic in the data_type
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       LOGICAL, OPTIONAL                                  :: keep_sparsity
 
@@ -2491,10 +2485,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_sum_replicated
 
-! **************************************************************************************************
-!> \brief check if a block is not in the limits
-! **************************************************************************************************
    FUNCTION dbcsr_block_in_limits(row, col, block_row_limits, block_column_limits)
+      !! check if a block is not in the limits
       INTEGER, INTENT(in)                                :: row, col
       INTEGER, DIMENSION(2), INTENT(in), OPTIONAL        :: block_row_limits, block_column_limits
       LOGICAL                                            :: dbcsr_block_in_limits
@@ -2643,10 +2635,8 @@ CONTAINS
       ENDIF
    END FUNCTION dbcsr_get_occupation
 
-! **************************************************************************************************
-!> \brief Clear a matrix (remove all blocks)
-! **************************************************************************************************
    SUBROUTINE dbcsr_clear(matrix)
+      !! Clear a matrix (remove all blocks)
       TYPE(dbcsr_type), INTENT(INOUT)                       :: matrix
       TYPE(dbcsr_type)                                      :: matrix_tmp
 
@@ -2890,10 +2880,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_dot_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Interface for matrix scaling by a scalar
-! **************************************************************************************************
    SUBROUTINE dbcsr_scale_${nametype1}$ (matrix_a, alpha_scalar, last_column)
+      !! Interface for matrix scaling by a scalar
       TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_a
       ${type1}$, INTENT(IN)                      :: alpha_scalar
       INTEGER, INTENT(IN), OPTIONAL            :: last_column
@@ -2918,10 +2906,8 @@ CONTAINS
       CALL timestop(error_handler)
    END SUBROUTINE dbcsr_scale_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Interface for matrix scaling by a vector
-! **************************************************************************************************
    SUBROUTINE dbcsr_scale_by_vector_${nametype1}$ (matrix_a, alpha, side)
+      !! Interface for matrix scaling by a vector
       TYPE(dbcsr_type), INTENT(INOUT)            :: matrix_a
       ${type1}$, DIMENSION(:), INTENT(IN), TARGET :: alpha
       CHARACTER(LEN=*), INTENT(IN)              :: side
@@ -2939,10 +2925,8 @@ CONTAINS
       CALL dbcsr_data_release(enc_alpha_vec)
    END SUBROUTINE dbcsr_scale_by_vector_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Interface for dbcsr_set
-! **************************************************************************************************
    SUBROUTINE dbcsr_set_${nametype1}$ (matrix, alpha)
+      !! Interface for dbcsr_set
       TYPE(dbcsr_type), INTENT(INOUT)           :: matrix
       ${type1}$, INTENT(IN)                      :: alpha
 

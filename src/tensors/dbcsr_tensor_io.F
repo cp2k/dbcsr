@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief DBCSR tensor Input / Output
-! **************************************************************************************************
 MODULE dbcsr_tensor_io
+   !! DBCSR tensor Input / Output
 
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
@@ -109,10 +107,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Write info on tensor distribution & load balance
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_write_tensor_dist(tensor, output_unit)
+      !! Write info on tensor distribution & load balance
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER, INTENT(IN)            :: output_unit
       INTEGER                        :: nproc, myproc, nblock_max, nelement_max

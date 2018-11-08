@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR data methods
-! **************************************************************************************************
 MODULE dbcsr_data_methods_low
+   !! DBCSR data methods
 
    USE dbcsr_acc_devmem, ONLY: acc_devmem_allocate_bytes, &
                                acc_devmem_allocated, &
@@ -948,10 +946,8 @@ CONTAINS
       END SELECT
    END FUNCTION dbcsr_scalar_negative
 
-! **************************************************************************************************
-!> \brief Returns an encapsulated scalar as a negation of the given
-! **************************************************************************************************
    ELEMENTAL FUNCTION dbcsr_scalar_add(s1, s2) RESULT(s_sum)
+      !! Returns an encapsulated scalar as a negation of the given
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: s1, s2
       TYPE(dbcsr_scalar_type)                            :: s_sum
 

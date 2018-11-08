@@ -48,10 +48,8 @@ MODULE dbcsr_array_list_methods
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief number of arrays stored in list
-! **************************************************************************************************
    PURE FUNCTION number_of_arrays(list)
+      !! number of arrays stored in list
       TYPE(array_list), INTENT(IN) :: list
       INTEGER                      :: number_of_arrays
 
@@ -138,10 +136,8 @@ CONTAINS
 #:endfor
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief destroy array list.
-! **************************************************************************************************
    SUBROUTINE destroy_array_list(list)
+      !! destroy array list.
       TYPE(array_list), INTENT(INOUT) :: list
 
       DEALLOCATE (list%ptr, list%col_data)
@@ -181,10 +177,8 @@ CONTAINS
 
    END SUBROUTINE get_arrays
 
-! **************************************************************************************************
-!> \brief get ith array
-! **************************************************************************************************
    SUBROUTINE get_ith_array(list, i, array)
+      !! get ith array
       TYPE(array_list), INTENT(IN)                    :: list
       INTEGER, INTENT(IN)                             :: i
       INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT) :: array
@@ -196,10 +190,8 @@ CONTAINS
       END ASSOCIATE
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief sizes of arrays stored in list
-! **************************************************************************************************
    FUNCTION sizes_of_arrays(list)
+      !! sizes of arrays stored in list
       TYPE(array_list), INTENT(IN)       :: list
       INTEGER, ALLOCATABLE, DIMENSION(:) :: sizes_of_arrays
 
@@ -212,10 +204,8 @@ CONTAINS
       ENDDO
    END FUNCTION sizes_of_arrays
 
-! **************************************************************************************************
-!> \brief sum of all elements for each array stored in list
-! **************************************************************************************************
    FUNCTION sum_of_arrays(list)
+      !! sum of all elements for each array stored in list
       TYPE(array_list), INTENT(IN)       :: list
       INTEGER, ALLOCATABLE, DIMENSION(:) :: sum_of_arrays
 
@@ -229,10 +219,8 @@ CONTAINS
 
    END FUNCTION sum_of_arrays
 
-! **************************************************************************************************
-!> \brief partial sums of array elements.
-! **************************************************************************************************
    SUBROUTINE array_offsets(list_in, list_out)
+      !! partial sums of array elements.
       TYPE(array_list), INTENT(IN)  :: list_in
       TYPE(array_list), INTENT(OUT) :: list_out
 
@@ -250,10 +238,8 @@ CONTAINS
       ENDDO
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief reorder array list.
-! **************************************************************************************************
    SUBROUTINE reorder_arrays(list_in, list_out, order)
+      !! reorder array list.
       TYPE(array_list), INTENT(IN)                     :: list_in
       TYPE(array_list), INTENT(OUT)                    :: list_out
       INTEGER, ALLOCATABLE, DIMENSION(:)               :: ${varlist("data")}$
@@ -270,20 +256,16 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief check whether two array lists are equal
-! **************************************************************************************************
    FUNCTION check_equal(list1, list2)
+      !! check whether two array lists are equal
       TYPE(array_list), INTENT(IN)  :: list1, list2
       LOGICAL :: check_equal
 
       check_equal = array_eq_i(list1%col_data, list2%col_data) .AND. array_eq_i(list1%ptr, list2%ptr)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief check whether two arrays are equal
-! **************************************************************************************************
    PURE FUNCTION array_eq_i(arr1, arr2)
+      !! check whether two arrays are equal
       INTEGER, INTENT(IN), DIMENSION(:) :: arr1
       INTEGER, INTENT(IN), DIMENSION(:) :: arr2
       LOGICAL                           :: array_eq_i

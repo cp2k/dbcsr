@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR operations on distributions related to matrix multiplication
-! **************************************************************************************************
 MODULE dbcsr_mm_dist_operations
+   !! DBCSR operations on distributions related to matrix multiplication
 
    USE dbcsr_array_types, ONLY: &
       array_data, array_equality, array_exists, array_hold, array_i1d_obj, array_new, &
@@ -259,10 +257,8 @@ CONTAINS
       !
    END SUBROUTINE dbcsr_new_image_dist
 
-! **************************************************************************************************
-!> \brief Prepares distributions for making dense matrices.
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_dists_dense(product_dist, left_rdist, right_rdist, &
+      !! Prepares distributions for making dense matrices.
                                      dense_product_dist, dense_left_rdist, dense_right_rdist, &
                                      partial, &
                                      m_map, k_vmap, n_map, &
@@ -377,10 +373,8 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_make_dists_dense
 
-! **************************************************************************************************
-!> \brief Resets local rows, columns to the correct arrays and values.
-! **************************************************************************************************
    SUBROUTINE dbcsr_reset_locals(matrix)
+      !! Resets local rows, columns to the correct arrays and values.
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
 
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
@@ -737,10 +731,8 @@ CONTAINS
       CALL array_new(dist_map, map, gift=.TRUE.)
    END SUBROUTINE dbcsr_make_1dist_dense
 
-! **************************************************************************************************
-!> \brief Converts virtual 1-D distribution to process and image
-! **************************************************************************************************
    pure SUBROUTINE v_to_p_i_dist(nel, vdist, nim, pdist, idist)
+      !! Converts virtual 1-D distribution to process and image
       INTEGER, INTENT(in)                                :: nel
       INTEGER, DIMENSION(1:nel), INTENT(in)              :: vdist
       INTEGER, INTENT(in)                                :: nim

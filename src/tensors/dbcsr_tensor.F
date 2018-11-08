@@ -746,10 +746,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief align tensor index with data
-! **************************************************************************************************
    SUBROUTINE align_tensor(tensor_in, contract_in, notcontract_in, &
+      !! align tensor index with data
                            tensor_out, contract_out, notcontract_out, indp_in, indp_out)
       TYPE(dbcsr_t_type), INTENT(INOUT)               :: tensor_in
       INTEGER, DIMENSION(:), INTENT(IN)            :: contract_in, notcontract_in
@@ -1090,10 +1088,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Check if 2d index is compatible with tensor index
-! **************************************************************************************************
    FUNCTION compat_map(nd_index, compat_ind)
+      !! Check if 2d index is compatible with tensor index
       TYPE(nd_to_2d_mapping), INTENT(IN) :: nd_index
       INTEGER, DIMENSION(:), INTENT(IN)  :: compat_ind
       INTEGER, DIMENSION(:), ALLOCATABLE :: map1, map2
@@ -1302,10 +1298,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Create new tensor by reordering index, data is copied exactly (shallow copy)
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_permute_index(tensor_in, tensor_out, order)
+      !! Create new tensor by reordering index, data is copied exactly (shallow copy)
       TYPE(dbcsr_t_type), INTENT(INOUT)                  :: tensor_in
       TYPE(dbcsr_t_type), INTENT(OUT)                 :: tensor_out
       INTEGER, DIMENSION(ndims_tensor(tensor_in)), &

@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Interface to the message passing library MPI
-! **************************************************************************************************
 MODULE dbcsr_mpiwrap
+   !! Interface to the message passing library MPI
    USE ISO_C_BINDING, ONLY: C_F_POINTER, &
                             C_PTR
    USE dbcsr_kinds, ONLY: &
@@ -781,10 +779,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_reordering
 
-! **************************************************************************************************
-!> \brief finalizes the system default communicator
-! **************************************************************************************************
    SUBROUTINE mp_world_finalize()
+      !! finalizes the system default communicator
 
 #if defined(__parallel)
       INTEGER                                  :: ierr
@@ -961,10 +957,8 @@ CONTAINS
       CALL mp_perf_env_describe(perf_env, scr)
    END SUBROUTINE describe_mp_perf_env
 
-! **************************************************************************************************
-!> \brief adds the performance informations of one call
-! **************************************************************************************************
    SUBROUTINE add_perf(perf_id, count, msg_size)
+      !! adds the performance informations of one call
       INTEGER, INTENT(in)                      :: perf_id
       INTEGER, INTENT(in), OPTIONAL            :: count
       INTEGER, INTENT(in), OPTIONAL            :: msg_size
@@ -1549,10 +1543,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_waitall_1
 
-! **************************************************************************************************
-!> \brief waits for completion of the given requests
-! **************************************************************************************************
    SUBROUTINE mp_waitall_2(requests)
+      !! waits for completion of the given requests
       INTEGER, DIMENSION(:, :), INTENT(inout)  :: requests
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_waitall_2', &
@@ -1599,10 +1591,8 @@ CONTAINS
    END SUBROUTINE mpi_waitall_internal
 #endif
 
-! **************************************************************************************************
-!> \brief waits for completion of any of the given requests
-! **************************************************************************************************
    SUBROUTINE mp_waitany(requests, completed)
+      !! waits for completion of any of the given requests
       INTEGER, DIMENSION(:), INTENT(inout)     :: requests
       INTEGER, INTENT(out)                     :: completed
 
@@ -1686,10 +1676,8 @@ CONTAINS
 #endif
    END SUBROUTINE mp_test_1
 
-! **************************************************************************************************
-!> \brief tests for completion of the given requests
-! **************************************************************************************************
    SUBROUTINE mp_testany_1(requests, completed, flag)
+      !! tests for completion of the given requests
       INTEGER, DIMENSION(:), INTENT(inout)  :: requests
       INTEGER, INTENT(out), OPTIONAL           :: completed
       LOGICAL, INTENT(out), OPTIONAL           :: flag
@@ -1720,10 +1708,8 @@ CONTAINS
 #endif
    END SUBROUTINE mp_testany_1
 
-! **************************************************************************************************
-!> \brief tests for completion of the given requests
-! **************************************************************************************************
    SUBROUTINE mp_testany_2(requests, completed, flag)
+      !! tests for completion of the given requests
       INTEGER, DIMENSION(:, :), INTENT(inout)   :: requests
       INTEGER, INTENT(out), OPTIONAL           :: completed
       LOGICAL, INTENT(out), OPTIONAL           :: flag
@@ -2871,10 +2857,8 @@ CONTAINS
 
    END SUBROUTINE mp_type_free_v
 
-! **************************************************************************************************
-!> \brief Non-blocking send of custom type
-! **************************************************************************************************
    SUBROUTINE mp_isend_custom(msgin, dest, comm, request, tag)
+      !! Non-blocking send of custom type
       TYPE(mp_type_descriptor_type), INTENT(IN)          :: msgin
       INTEGER, INTENT(IN)                                :: dest, comm
       INTEGER, INTENT(out)                               :: request
@@ -2906,10 +2890,8 @@ CONTAINS
 #endif
    END SUBROUTINE mp_isend_custom
 
-! **************************************************************************************************
-!> \brief Non-blocking receive of vector data
-! **************************************************************************************************
    SUBROUTINE mp_irecv_custom(msgout, source, comm, request, tag)
+      !! Non-blocking receive of vector data
       TYPE(mp_type_descriptor_type), INTENT(INOUT)       :: msgout
       INTEGER, INTENT(IN)                                :: source, comm
       INTEGER, INTENT(out)                               :: request
@@ -2941,10 +2923,8 @@ CONTAINS
 #endif
    END SUBROUTINE mp_irecv_custom
 
-! **************************************************************************************************
-!> \brief Window free
-! **************************************************************************************************
    SUBROUTINE mp_win_free(win)
+      !! Window free
       INTEGER, INTENT(INOUT)                             :: win
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_free', routineP = moduleN//':'//routineN
@@ -2967,10 +2947,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_win_free
 
-! **************************************************************************************************
-!> \brief Window flush
-! **************************************************************************************************
    SUBROUTINE mp_win_flush_all(win)
+      !! Window flush
       INTEGER, INTENT(IN)                                :: win
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_flush_all', &
@@ -2995,10 +2973,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_win_flush_all
 
-! **************************************************************************************************
-!> \brief Window lock
-! **************************************************************************************************
    SUBROUTINE mp_win_lock_all(win)
+      !! Window lock
       INTEGER, INTENT(INOUT)                             :: win
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_lock_all', &
@@ -3026,10 +3002,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_win_lock_all
 
-! **************************************************************************************************
-!> \brief Window lock
-! **************************************************************************************************
    SUBROUTINE mp_win_unlock_all(win)
+      !! Window lock
       INTEGER, INTENT(INOUT)                             :: win
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_unlock_all', &

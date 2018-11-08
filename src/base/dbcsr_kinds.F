@@ -60,10 +60,8 @@ MODULE dbcsr_kinds
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Print informations about the used data types.
-! **************************************************************************************************
    SUBROUTINE print_kind_info(iw)
+      !! Print informations about the used data types.
 
       INTEGER, INTENT(IN)                                :: iw
 

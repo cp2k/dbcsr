@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR operations on distributions
-! **************************************************************************************************
 MODULE dbcsr_dist_operations
+   !! DBCSR operations on distributions
 
    USE dbcsr_array_types, ONLY: array_i1d_obj, &
                                 array_new
@@ -135,10 +133,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_get_stored_coordinates
 
-! **************************************************************************************************
-!> \brief Canonical logic
-! **************************************************************************************************
    PURE SUBROUTINE get_stored_canonical(matrix, row, column, &
+      !! Canonical logic
                                         transpose, processor)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER, INTENT(INOUT)                             :: row, column

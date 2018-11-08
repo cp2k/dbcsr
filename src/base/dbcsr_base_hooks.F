@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Central dispatch for basic hooks
-! **************************************************************************************************
 MODULE dbcsr_base_hooks
+   !! Central dispatch for basic hooks
    USE dbcsr_kinds, ONLY: default_string_length
    USE dbcsr_machine, ONLY: default_output_unit, &
                             m_abort, &
@@ -60,10 +58,8 @@ MODULE dbcsr_base_hooks
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Terminate the program
-! **************************************************************************************************
    SUBROUTINE dbcsr_abort(location, message)
+      !! Terminate the program
       CHARACTER(len=*), INTENT(in)                       :: location, message
 
       IF (ASSOCIATED(dbcsr_abort_hook)) THEN
@@ -77,10 +73,8 @@ CONTAINS
       STOP "Never return from here"
    END SUBROUTINE dbcsr_abort
 
-! **************************************************************************************************
-!> \brief Issue a warning
-! **************************************************************************************************
    SUBROUTINE dbcsr_warn(location, message)
+      !! Issue a warning
       CHARACTER(len=*), INTENT(in)                       :: location, message
 
       IF (ASSOCIATED(dbcsr_warn_hook)) THEN
@@ -91,10 +85,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_warn
 
-! **************************************************************************************************
-!> \brief Start timer
-! **************************************************************************************************
    SUBROUTINE timeset(routineN, handle)
+      !! Start timer
       CHARACTER(LEN=*), INTENT(IN)                       :: routineN
       INTEGER, INTENT(OUT)                               :: handle
 
@@ -105,10 +97,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE timeset
 
-! **************************************************************************************************
-!> \brief Stop timer
-! **************************************************************************************************
    SUBROUTINE timestop(handle)
+      !! Stop timer
       INTEGER, INTENT(IN)                                :: handle
 
       IF (ASSOCIATED(timestop_hook)) THEN
@@ -119,10 +109,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE timestop
 
-! **************************************************************************************************
-!> \brief DBCSR_ASSERT handler
-! **************************************************************************************************
    SUBROUTINE dbcsr__a(filename, lineNr)
+      !! DBCSR_ASSERT handler
       CHARACTER(len=*), INTENT(in)                       :: filename
       INTEGER, INTENT(in)                                :: lineNr
 
@@ -131,10 +119,8 @@ CONTAINS
       STOP "Never return from here"
    END SUBROUTINE dbcsr__a
 
-! **************************************************************************************************
-!> \brief DBCSR_ABORT handler
-! **************************************************************************************************
    SUBROUTINE dbcsr__b(filename, lineNr, message)
+      !! DBCSR_ABORT handler
       CHARACTER(len=*), INTENT(in)                       :: filename
       INTEGER, INTENT(in)                                :: lineNr
       CHARACTER(len=*), INTENT(in)                       :: message
@@ -144,10 +130,8 @@ CONTAINS
       STOP "Never return from here"
    END SUBROUTINE dbcsr__b
 
-! **************************************************************************************************
-!> \brief DBCSR_WARN handler
-! **************************************************************************************************
    SUBROUTINE dbcsr__w(filename, lineNr, message)
+      !! DBCSR_WARN handler
       CHARACTER(len=*), INTENT(in)                       :: filename
       INTEGER, INTENT(in)                                :: lineNr
       CHARACTER(len=*), INTENT(in)                       :: message
@@ -155,10 +139,8 @@ CONTAINS
       CALL dbcsr_warn(location=dbcsr__l(filename, lineNr), message=message)
    END SUBROUTINE dbcsr__w
 
-! **************************************************************************************************
-!> \brief Helper routine to assemble __LOCATION__
-! **************************************************************************************************
    FUNCTION dbcsr__l(filename, lineNr) RESULT(location)
+      !! Helper routine to assemble __LOCATION__
       CHARACTER(len=*), INTENT(in)                       :: filename
       INTEGER, INTENT(in)                                :: lineNr
       CHARACTER(len=default_string_length)               :: location

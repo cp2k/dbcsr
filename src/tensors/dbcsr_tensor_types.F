@@ -412,10 +412,8 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Release the MPI communicator.
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_nd_mp_free(mp_comm)
+      !! Release the MPI communicator.
       INTEGER, INTENT(INOUT)                               :: mp_comm
 
       CALL mp_comm_free(mp_comm)
@@ -521,10 +519,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Destroy tensor distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_distribution_destroy(dist)
+      !! Destroy tensor distribution
       TYPE(dbcsr_t_distribution_type), INTENT(INOUT) :: dist
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_distribution_destroy', &
@@ -711,10 +707,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief create a tensor from template
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_create_template(tensor_in, tensor, name)
+      !! create a tensor from template
       TYPE(dbcsr_t_type), INTENT(INOUT)      :: tensor_in
       TYPE(dbcsr_t_type), INTENT(OUT)        :: tensor
       CHARACTER(len=*), INTENT(IN), OPTIONAL :: name
@@ -756,10 +750,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Create 2-rank tensor from matrix.
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_create_matrix(matrix_in, tensor, order, name)
+      !! Create 2-rank tensor from matrix.
       TYPE(dbcsr_type), INTENT(IN)                :: matrix_in
       TYPE(dbcsr_t_type), INTENT(OUT)             :: tensor
       INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: order
@@ -817,10 +809,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Destroy a tensor
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_destroy(tensor)
+      !! Destroy a tensor
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_destroy', &
@@ -873,20 +863,16 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief tensor rank
-! **************************************************************************************************
    PURE FUNCTION ndims_tensor(tensor)
+      !! tensor rank
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER                        :: ndims_tensor
 
       ndims_tensor = tensor%nd_index%ndim_nd
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief tensor dimensions
-! **************************************************************************************************
    SUBROUTINE dims_tensor(tensor, dims)
+      !! tensor dimensions
       TYPE(dbcsr_t_type), INTENT(IN)              :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
          INTENT(OUT)                              :: dims
@@ -895,10 +881,8 @@ CONTAINS
       dims = tensor%nd_index%dims_nd
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief tensor block dimensions
-! **************************************************************************************************
    SUBROUTINE blk_dims_tensor(tensor, dims)
+      !! tensor block dimensions
       TYPE(dbcsr_t_type), INTENT(IN)              :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
          INTENT(OUT)                              :: dims
@@ -907,20 +891,16 @@ CONTAINS
       dims = tensor%nd_index_blk%dims_nd
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief tensor data type
-! **************************************************************************************************
    FUNCTION dbcsr_t_get_data_type(tensor) RESULT(data_type)
+      !! tensor data type
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER                        :: data_type
 
       CALL dbcsr_tas_get_info(tensor%matrix_rep, data_type=data_type)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Size of tensor block
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_blk_sizes(tensor, ind, blk_size)
+      !! Size of tensor block
       TYPE(dbcsr_t_type), INTENT(IN)              :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
          INTENT(IN)                               :: ind
@@ -946,10 +926,8 @@ CONTAINS
       blk_offset(:) = get_array_elements(tensor%blk_offsets, ind)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Generalization of dbcsr_get_stored_coordinates for tensors.
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_get_stored_coordinates(tensor, ind_nd, processor)
+      !! Generalization of dbcsr_get_stored_coordinates for tensors.
       TYPE(dbcsr_t_type), INTENT(IN)               :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
          INTENT(IN)                                :: ind_nd
@@ -1067,10 +1045,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief as mp_environ but for special pgrid type
-! **************************************************************************************************
    SUBROUTINE mp_environ_pgrid(pgrid, dims, task_coor)
+      !! as mp_environ but for special pgrid type
       TYPE(dbcsr_t_pgrid_type), INTENT(IN) :: pgrid
       INTEGER, DIMENSION(ndims_mapping(pgrid%nd_index_grid)), INTENT(OUT) :: dims
       INTEGER, DIMENSION(ndims_mapping(pgrid%nd_index_grid)), INTENT(OUT) :: task_coor
@@ -1084,10 +1060,8 @@ CONTAINS
    END SUBROUTINE
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief As dbcsr_set
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_set_${dsuffix}$ (tensor, alpha)
+      !! As dbcsr_set
       TYPE(dbcsr_t_type), INTENT(INOUT)                   :: tensor
       ${dtype}$, INTENT(IN)                               :: alpha
       CALL dbcsr_tas_set(tensor%matrix_rep, alpha)
@@ -1180,37 +1154,29 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief As dbcsr_get_num_blocks: get number of local blocks
-! **************************************************************************************************
    PURE FUNCTION dbcsr_t_get_num_blocks(tensor) RESULT(num_blocks)
+      !! As dbcsr_get_num_blocks: get number of local blocks
       TYPE(dbcsr_t_type), INTENT(IN)    :: tensor
       INTEGER                           :: num_blocks
       num_blocks = dbcsr_tas_get_num_blocks(tensor%matrix_rep)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Get total number of blocks
-! **************************************************************************************************
    FUNCTION dbcsr_t_get_num_blocks_total(tensor) RESULT(num_blocks)
+      !! Get total number of blocks
       TYPE(dbcsr_t_type), INTENT(IN)    :: tensor
       INTEGER(KIND=int_8)               :: num_blocks
       num_blocks = dbcsr_tas_get_num_blocks_total(tensor%matrix_rep)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief As dbcsr_get_data_size
-! **************************************************************************************************
    FUNCTION dbcsr_t_get_data_size(tensor) RESULT(data_size)
+      !! As dbcsr_get_data_size
       TYPE(dbcsr_t_type), INTENT(IN)    :: tensor
       INTEGER                           :: data_size
       data_size = dbcsr_tas_get_data_size(tensor%matrix_rep)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Clear tensor (s.t. it does not contain any blocks)
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_clear(tensor)
+      !! Clear tensor (s.t. it does not contain any blocks)
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
 
       CALL dbcsr_tas_clear(tensor%matrix_rep)
@@ -1225,10 +1191,8 @@ CONTAINS
       CALL dbcsr_tas_finalize(tensor%matrix_rep)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief as dbcsr_scale
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_scale(tensor, alpha)
+      !! as dbcsr_scale
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
       TYPE(dbcsr_scalar_type), INTENT(IN) :: alpha
       CALL dbcsr_scale(tensor%matrix_rep%matrix, alpha)

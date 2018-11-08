@@ -201,10 +201,8 @@ MODULE dbcsr_mm_3d
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Prepare orig images for MPI windows
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_buffers(matrix, imgdist, is_left, &
+      !! Prepare orig images for MPI windows
                                  f_row, l_row, f_col, l_col, &
                                  otf_filtering, alpha)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
@@ -234,10 +232,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_make_buffers
 
-! **************************************************************************************************
-!> \brief Prepare orig images for MPI windows
-! **************************************************************************************************
    SUBROUTINE make_buffers(matrix, imgdist, is_left, &
+      !! Prepare orig images for MPI windows
                            f_row, l_row, f_col, l_col, &
                            otf_filtering, scale_value)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
@@ -982,10 +978,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE make_buffers
 
-! **************************************************************************************************
-!> \brief Make communicators for A and B matrices
-! **************************************************************************************************
    SUBROUTINE make_layers_3D_AB(my_num_layers_3D, side3D, mp_obj, is_left, buffer)
+      !! Make communicators for A and B matrices
       INTEGER, INTENT(IN)                                :: my_num_layers_3D, side3D
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_obj
       LOGICAL, INTENT(IN)                                :: is_left
@@ -1029,20 +1023,16 @@ CONTAINS
       buffer%num_layers_3D = my_num_layers_3D
    END SUBROUTINE make_layers_3D_AB
 
-! **************************************************************************************************
-!> \brief Return the rank of the 3D layer (3D communicator for C), Column-major order
-! **************************************************************************************************
    PURE FUNCTION get_rank3D(myprow, mypcol, nprows, side3D)
+      !! Return the rank of the 3D layer (3D communicator for C), Column-major order
       INTEGER, INTENT(IN)                                :: myprow, mypcol, nprows, side3D
       INTEGER                                            :: get_rank3D
 
       get_rank3D = myprow/side3D+(nprows/side3D)*(mypcol/side3D)
    END FUNCTION get_rank3D
 
-! **************************************************************************************************
-!> \brief Make communicators for 3D layers for C-reduction
-! **************************************************************************************************
    SUBROUTINE make_layers_3D_C_reduction(my_num_layers_3D, mp_obj)
+      !! Make communicators for 3D layers for C-reduction
       INTEGER, INTENT(IN)                                :: my_num_layers_3D
       TYPE(dbcsr_mp_obj), INTENT(INOUT)                  :: mp_obj
 
@@ -1115,10 +1105,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE make_layers_3D_C_reduction
 
-! **************************************************************************************************
-!> \brief Release communicators for 3D layers for C-reduction
-! **************************************************************************************************
    SUBROUTINE release_layers_3D_C_reduction(release_buffers)
+      !! Release communicators for 3D layers for C-reduction
       LOGICAL, OPTIONAL                                  :: release_buffers
 
       INTEGER                                            :: ibuff
@@ -2521,10 +2509,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE setup_rec_index_images
 
-! **************************************************************************************************
-!> \brief Init buffer
-! **************************************************************************************************
    SUBROUTINE buffer_init(buffer, data_type, &
+      !! Init buffer
                           data_size, meta_size, &
                           num_data, &
                           data_memory_type, trs_memory_type)
@@ -2600,10 +2586,8 @@ CONTAINS
       buffer%is_comm = .FALSE.
    END SUBROUTINE buffer_init
 
-! **************************************************************************************************
-!> \brief Release all buffers
-! **************************************************************************************************
    SUBROUTINE buffers_release()
+      !! Release all buffers
       IF (request_sync_mult .NE. mp_request_null) CALL mp_wait(request_sync_mult)
       request_sync_mult = mp_request_null
       CALL buffer_release(buffers_1%right)
@@ -2619,10 +2603,8 @@ CONTAINS
       IF (ASSOCIATED(make_buffers_meta_recv)) CALL memory_deallocate(make_buffers_meta_recv, memtype_mpi_buffer)
    END SUBROUTINE buffers_release
 
-! **************************************************************************************************
-!> \brief Release buffer
-! **************************************************************************************************
    SUBROUTINE buffer_release(buffer)
+      !! Release buffer
       TYPE(dbcsr_buffer), INTENT(INOUT)                  :: buffer
 
       IF (buffer%has_rma_win) THEN
@@ -2662,10 +2644,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE buffer_release
 
-! **************************************************************************************************
-!> \brief Create meta indices
-! **************************************************************************************************
    SUBROUTINE make_meta(buffer, ntotal_images, &
+      !! Create meta indices
                         vprow, vpcol, &
                         imgdist, do_merge_rows, &
                         global_indices, &
@@ -2726,10 +2706,8 @@ CONTAINS
       buffer%matrix%valid = .TRUE.
    END SUBROUTINE make_meta
 
-! **************************************************************************************************
-!> \brief Remap the 4-rank array in a 3-rank array by introducing the virtual coordinate
-! **************************************************************************************************
    SUBROUTINE remap_layers3D(refs_size, refs_size_layers3D, refs_displ_layers3D, &
+      !! Remap the 4-rank array in a 3-rank array by introducing the virtual coordinate
                              data_size, meta_size)
       INTEGER, DIMENSION(:, :, :, :), INTENT(IN), &
          POINTER                                         :: refs_size

@@ -7,11 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Routines to split blocks and to convert between tensors with different block sizes.
-! **************************************************************************************************
 
 MODULE dbcsr_tensor_split
+
+   !! Routines to split blocks and to convert between tensors with different block sizes.
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)

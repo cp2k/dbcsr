@@ -7,11 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief often used utilities for tall-and-skinny matrices
-! **************************************************************************************************
 
 MODULE dbcsr_tas_util
+
+   !! often used utilities for tall-and-skinny matrices
 
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_new
    USE dbcsr_types, ONLY: dbcsr_mp_obj, &
@@ -41,10 +40,8 @@ MODULE dbcsr_tas_util
    END INTERFACE
 
 CONTAINS
-! **************************************************************************************************
-!> \brief Create a dbcsr mp environment from communicator
-! **************************************************************************************************
    FUNCTION dbcsr_mp_environ(mp_comm)
+      !! Create a dbcsr mp environment from communicator
       INTEGER, INTENT(IN)                                :: mp_comm
       TYPE(dbcsr_mp_obj)                                 :: dbcsr_mp_environ
 
@@ -87,10 +84,8 @@ CONTAINS
       arr(2) = tmp
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Get all unique elements in index_in
-! **************************************************************************************************
    SUBROUTINE index_unique(index_in, index_out)
+      !! Get all unique elements in index_in
       INTEGER, DIMENSION(:, :), INTENT(IN)   :: index_in
       INTEGER, ALLOCATABLE, &
          DIMENSION(:, :), INTENT(OUT)                    :: index_out

@@ -66,22 +66,16 @@ MODULE dbcsr_mm_hostdrv
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Initialize the library
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_lib_init()
+      !! Initialize the library
    END SUBROUTINE dbcsr_mm_hostdrv_lib_init
 
-! **************************************************************************************************
-!> \brief Finalize the library
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_lib_finalize()
+      !! Finalize the library
    END SUBROUTINE dbcsr_mm_hostdrv_lib_finalize
 
-! **************************************************************************************************
-!> \brief Initialize the library
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_init(this, product_wm)
+      !! Initialize the library
       TYPE(dbcsr_mm_hostdrv_type), INTENT(INOUT)         :: this
       TYPE(dbcsr_work_type), POINTER                     :: product_wm
 
@@ -254,10 +248,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_hostdrv_process
 
-! **************************************************************************************************
-!> \brief Helper-routine used by dbcsr_mm_hostdrv_process to print debug info.
-! **************************************************************************************************
    SUBROUTINE print_gemm_parameters(params)
+      !! Helper-routine used by dbcsr_mm_hostdrv_process to print debug info.
       INTEGER, DIMENSION(:, :), INTENT(in)               :: params
 
       INTEGER                                            :: sp

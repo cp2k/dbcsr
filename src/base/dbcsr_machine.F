@@ -156,10 +156,8 @@ CONTAINS
    END FUNCTION m_energy
 
 #if defined(__CRAY_PM_ACCEL_ENERGY) || defined(__CRAY_PM_ENERGY)
-! **************************************************************************************************
-!> \brief reads energy values from the sys-filesystem
-! **************************************************************************************************
    FUNCTION read_energy(filename) RESULT(wt)
+      !! reads energy values from the sys-filesystem
       CHARACTER(LEN=*)                                   :: filename
       REAL(KIND=dp)                                      :: wt
 
@@ -183,10 +181,8 @@ CONTAINS
    END FUNCTION read_energy
 #endif
 
-! **************************************************************************************************
-!> \brief returns a datum in human readable format using a standard Fortran routine
-! **************************************************************************************************
    SUBROUTINE m_datum(cal_date)
+      !! returns a datum in human readable format using a standard Fortran routine
       CHARACTER(len=*), INTENT(OUT)                      :: cal_date
 
       CHARACTER(len=10)                                  :: time

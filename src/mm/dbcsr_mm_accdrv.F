@@ -127,10 +127,8 @@ MODULE dbcsr_mm_accdrv
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Initialize the library
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_lib_init()
+      !! Initialize the library
 
       INTEGER                                            :: nthreads
 
@@ -143,10 +141,8 @@ CONTAINS
 !$OMP     BARRIER
    END SUBROUTINE dbcsr_mm_accdrv_lib_init
 
-! **************************************************************************************************
-!> \brief Finalize the library
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_lib_finalize()
+      !! Finalize the library
 
       INTEGER                                            :: ithread
       TYPE(thread_private_type), POINTER                 :: thread_privates
@@ -174,10 +170,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_accdrv_lib_finalize
 
-! **************************************************************************************************
-!> \brief Initializes a multiplication cycle for new set of C-blocks.
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_init(this, product_wm, nlayers)
+      !! Initializes a multiplication cycle for new set of C-blocks.
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
       TYPE(dbcsr_work_type), POINTER                     :: product_wm
       INTEGER, OPTIONAL                                  :: nlayers
@@ -225,10 +219,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_mm_accdrv_init
 
-! **************************************************************************************************
-!> \brief Helper routine used by dbcsr_mm_accdrv_init()
-! **************************************************************************************************
    SUBROUTINE setup_streams()
+      !! Helper routine used by dbcsr_mm_accdrv_init()
 
       INTEGER                                            :: greatest_priority, least_priority
 
@@ -248,10 +240,8 @@ CONTAINS
 
    END SUBROUTINE setup_streams
 
-! **************************************************************************************************
-!> \brief Helper routine used by setup_streams() and dbcsr_mm_accdrv_lib_finalize()
-! **************************************************************************************************
    SUBROUTINE deallocate_streams()
+      !! Helper routine used by setup_streams() and dbcsr_mm_accdrv_lib_finalize()
 
 !$OMP MASTER
       IF (acc_stream_associated(upload_stream)) &
@@ -263,10 +253,8 @@ CONTAINS
 
    END SUBROUTINE deallocate_streams
 
-! **************************************************************************************************
-!> \brief Helper routine
-! **************************************************************************************************
    SUBROUTINE stream_array_force_size(streams, basename, n, events, priority)
+      !! Helper routine
       TYPE(acc_stream_type), DIMENSION(:), POINTER       :: streams
       CHARACTER(len=*), INTENT(IN)                       :: basename
       INTEGER, INTENT(IN)                                :: n
@@ -299,10 +287,8 @@ CONTAINS
       END IF
    END SUBROUTINE stream_array_force_size
 
-! **************************************************************************************************
-!> \brief Helper routine used by dbcsr_mm_accdrv_init()
-! **************************************************************************************************
    SUBROUTINE setup_stackbuffers(this)
+      !! Helper routine used by dbcsr_mm_accdrv_init()
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
 
       INTEGER                                            :: i, ithread, my_posterior_buffers, &
@@ -352,10 +338,8 @@ CONTAINS
       END IF
    END SUBROUTINE setup_stackbuffers
 
-! **************************************************************************************************
-!> \brief Helper routine used by setup_stackbuffers() and dbcsr_mm_accdrv_lib_finalize()
-! **************************************************************************************************
    SUBROUTINE deallocate_stackbuffers()
+      !! Helper routine used by setup_stackbuffers() and dbcsr_mm_accdrv_lib_finalize()
 
       INTEGER                                            :: i, ithread
       TYPE(stack_buffer_type), DIMENSION(:), POINTER     :: stack_buffers
@@ -373,10 +357,8 @@ CONTAINS
       DEALLOCATE (stack_buffers)
    END SUBROUTINE deallocate_stackbuffers
 
-! **************************************************************************************************
-!> \brief Finalizes a multiplication cycle for a set of C-blocks.
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_dev2host_init(this)
+      !! Finalizes a multiplication cycle for a set of C-blocks.
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
 
 ! Transfer C-data from device to host and adding it to host's result
@@ -387,10 +369,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_mm_accdrv_dev2host_init
 
-! **************************************************************************************************
-!> \brief Finalizes a multiplication cycle for a set of C-blocks.
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_finalize(this)
+      !! Finalizes a multiplication cycle for a set of C-blocks.
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
 
       TYPE(dbcsr_data_obj)                               :: c_area
@@ -408,10 +388,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_accdrv_finalize
 
-! **************************************************************************************************
-!> \brief Sort stack entries with respect to the c_id.
-! **************************************************************************************************
    SUBROUTINE stack_sort(params_in, params_out, stack_size)
+      !! Sort stack entries with respect to the c_id.
       INTEGER, INTENT(IN)                                :: stack_size
       INTEGER, &
          DIMENSION(dbcsr_ps_acc_width, stack_size), &
@@ -432,10 +410,8 @@ CONTAINS
 
    END SUBROUTINE stack_sort
 
-! **************************************************************************************************
-!> \brief Roughly order stacks with a cheaper Binning-scheme by Peter Messmer
-! **************************************************************************************************
    SUBROUTINE stack_binning(params_in, params_out, stack_size)
+      !! Roughly order stacks with a cheaper Binning-scheme by Peter Messmer
       INTEGER, INTENT(IN)                                :: stack_size
       INTEGER, &
          DIMENSION(dbcsr_ps_acc_width, stack_size), &
@@ -473,10 +449,8 @@ CONTAINS
 
    END SUBROUTINE stack_binning
 
-! **************************************************************************************************
-!> \brief Signal approaching end of multiplication
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_phaseout(this)
+      !! Signal approaching end of multiplication
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
 
       this%phase_out = .TRUE.
@@ -506,10 +480,8 @@ CONTAINS
 !$OMP     END CRITICAL
    END SUBROUTINE dbcsr_mm_accdrv_barrier
 
-! **************************************************************************************************
-!> \brief Processes a given stack using accelerator
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_process(this, left, right, params, stack_size, &
+      !! Processes a given stack using accelerator
                                       stack_descr, success)
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
       TYPE(dbcsr_type), INTENT(IN)                       :: left, right

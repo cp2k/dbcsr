@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR Memory Pool to avoid slow allocations of accelerator memory
-! **************************************************************************************************
 MODULE dbcsr_mem_methods
+   !! DBCSR Memory Pool to avoid slow allocations of accelerator memory
 
    USE dbcsr_acc_stream, ONLY: acc_stream_associated, &
                                acc_stream_equal, &
@@ -43,10 +41,8 @@ MODULE dbcsr_mem_methods
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Creates a memory pool.
-! **************************************************************************************************
    SUBROUTINE dbcsr_mempool_create(pool)
+      !! Creates a memory pool.
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_create', &
@@ -58,10 +54,8 @@ CONTAINS
       ALLOCATE (pool%root) !root always allocated, but unused. Simplifies looping.
    END SUBROUTINE dbcsr_mempool_create
 
-! **************************************************************************************************
-!> \brief Ensures that mempool has at least the given capacity.
-! **************************************************************************************************
    SUBROUTINE dbcsr_mempool_limit_capacity(pool, capacity)
+      !! Ensures that mempool has at least the given capacity.
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
       INTEGER, INTENT(IN)                                :: capacity
 
@@ -75,10 +69,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mempool_limit_capacity
 
-! **************************************************************************************************
-!> \brief Picks a suitable data_area from mempool, returns Null() if none found.
-! **************************************************************************************************
    FUNCTION dbcsr_mempool_get(memtype, datatype, datasize) RESULT(res)
+      !! Picks a suitable data_area from mempool, returns Null() if none found.
       TYPE(dbcsr_memtype_type)                           :: memtype
       INTEGER, INTENT(IN)                                :: datatype, datasize
       TYPE(dbcsr_data_obj)                               :: res
@@ -128,10 +120,8 @@ CONTAINS
          CALL mempool_collect_garbage(pool)
    END FUNCTION dbcsr_mempool_get
 
-! **************************************************************************************************
-!> \brief Adds an unused (refcount==0) data_area to the pool.
-! **************************************************************************************************
    SUBROUTINE dbcsr_mempool_add(area)
+      !! Adds an unused (refcount==0) data_area to the pool.
       TYPE(dbcsr_data_obj)                               :: area
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_add', &
@@ -155,10 +145,8 @@ CONTAINS
 !$    CALL OMP_UNSET_LOCK(pool%lock)
    END SUBROUTINE dbcsr_mempool_add
 
-! **************************************************************************************************
-!> \brief Ensures that pool_size < max_size, e.g. that there is a free slot.
-! **************************************************************************************************
    SUBROUTINE mempool_collect_garbage(pool)
+      !! Ensures that pool_size < max_size, e.g. that there is a free slot.
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mempool_collect_garbage', &
@@ -189,10 +177,8 @@ CONTAINS
 !$    CALL OMP_UNSET_LOCK(pool%lock)
    END SUBROUTINE mempool_collect_garbage
 
-! **************************************************************************************************
-!> \brief Finalizes mempool, includes deallocation of all contained data_areas.
-! **************************************************************************************************
    SUBROUTINE dbcsr_mempool_destruct(pool)
+      !! Finalizes mempool, includes deallocation of all contained data_areas.
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_destruct', &
@@ -208,10 +194,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mempool_destruct
 
-! **************************************************************************************************
-!> \brief Deallocates all data_areas contained in given mempool.
-! **************************************************************************************************
    SUBROUTINE dbcsr_mempool_clear(pool)
+      !! Deallocates all data_areas contained in given mempool.
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_clear', &
@@ -239,10 +223,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_mempool_clear
 
-! **************************************************************************************************
-!> \brief Ensures that given memtype has requested settings.
-! **************************************************************************************************
    SUBROUTINE dbcsr_memtype_setup(memtype, acc_hostalloc, acc_devalloc, mpi, &
+      !! Ensures that given memtype has requested settings.
                                   acc_stream, oversize_factor, has_pool)
       TYPE(dbcsr_memtype_type), INTENT(INOUT)            :: memtype
       LOGICAL, INTENT(IN), OPTIONAL                      :: acc_hostalloc, acc_devalloc, mpi
@@ -291,10 +273,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_memtype_setup
 
-! **************************************************************************************************
-!> \brief Test if two memtypes are equal
-! **************************************************************************************************
    FUNCTION dbcsr_memtype_equal(mt1, mt2) RESULT(res)
+      !! Test if two memtypes are equal
       TYPE(dbcsr_memtype_type), INTENT(in)               :: mt1, mt2
       LOGICAL                                            :: res
 

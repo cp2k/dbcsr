@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR sparse matrix utility routines
-! **************************************************************************************************
 MODULE dbcsr_dist_util
+   !! DBCSR sparse matrix utility routines
 
    USE dbcsr_array_types, ONLY: array_data
    USE dbcsr_data_methods, ONLY: dbcsr_data_get_size, &
