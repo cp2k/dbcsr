@@ -9,9 +9,7 @@
 
 ! **************************************************************************************************
 !> \brief Representation of arbitrary number of 1d integer arrays with arbitrary sizes.
-!>
 !> This is needed for generic handling of dimension-specific tensor quantities (such as block index).
-!> \author Patrick Seewald
 ! **************************************************************************************************
 MODULE dbcsr_array_list_methods
 
@@ -52,8 +50,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief number of arrays stored in list
-!> \param list ...
-!> \return ...
 ! **************************************************************************************************
    PURE FUNCTION number_of_arrays(list)
       TYPE(array_list), INTENT(IN) :: list
@@ -65,9 +61,7 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Get an element for each array.
-!> \param list ...
 !> \param indices element index for each array
-!> \return ...
 ! **************************************************************************************************
    FUNCTION get_array_elements(list, indices)
       TYPE(array_list), INTENT(IN)                           :: list
@@ -90,7 +84,6 @@ CONTAINS
 !> \param ndata number of arrays
 !> \param data_1 array 1
 !> \param data_2 array 2
-!> \param data_3 ...
 ! **************************************************************************************************
    SUBROUTINE create_array_list(list, ndata, ${varlist("data")}$)
       TYPE(array_list), INTENT(OUT)               :: list
@@ -147,7 +140,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief destroy array list.
-!> \param list ...
 ! **************************************************************************************************
    SUBROUTINE destroy_array_list(list)
       TYPE(array_list), INTENT(INOUT) :: list
@@ -157,10 +149,8 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Get all arrays contained in list
-!> \param list ...
 !> \param data_1 array 1
 !> \param data_2 array 2
-!> \param data_3 ...
 !> \param i_selected array numbers to retrieve (if not present, all arrays are returned)
 ! **************************************************************************************************
    SUBROUTINE get_arrays(list, ${varlist("data")}$, i_selected)
@@ -193,9 +183,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief get ith array
-!> \param list ...
-!> \param i ...
-!> \param array ...
 ! **************************************************************************************************
    SUBROUTINE get_ith_array(list, i, array)
       TYPE(array_list), INTENT(IN)                    :: list
@@ -211,8 +198,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief sizes of arrays stored in list
-!> \param list ...
-!> \return ...
 ! **************************************************************************************************
    FUNCTION sizes_of_arrays(list)
       TYPE(array_list), INTENT(IN)       :: list
@@ -229,8 +214,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief sum of all elements for each array stored in list
-!> \param list ...
-!> \return ...
 ! **************************************************************************************************
    FUNCTION sum_of_arrays(list)
       TYPE(array_list), INTENT(IN)       :: list
@@ -248,8 +231,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief partial sums of array elements.
-!> \param list_in ...
-!> \param list_out ...
 ! **************************************************************************************************
    SUBROUTINE array_offsets(list_in, list_out)
       TYPE(array_list), INTENT(IN)  :: list_in
@@ -271,9 +252,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief reorder array list.
-!> \param list_in ...
-!> \param list_out ...
-!> \param order ...
 ! **************************************************************************************************
    SUBROUTINE reorder_arrays(list_in, list_out, order)
       TYPE(array_list), INTENT(IN)                     :: list_in
@@ -294,8 +272,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief check whether two array lists are equal
-!> \param list1 ...
-!> \param list2 ...
 ! **************************************************************************************************
    FUNCTION check_equal(list1, list2)
       TYPE(array_list), INTENT(IN)  :: list1, list2
@@ -306,8 +282,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief check whether two arrays are equal
-!> \param arr1 ...
-!> \param arr2 ...
 ! **************************************************************************************************
    PURE FUNCTION array_eq_i(arr1, arr2)
       INTEGER, INTENT(IN), DIMENSION(:) :: arr1

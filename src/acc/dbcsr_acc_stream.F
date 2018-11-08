@@ -9,8 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Accelerator support
-!> \author  Ole Schuett
-!> \date    2013-04
 ! **************************************************************************************************
 MODULE dbcsr_acc_stream
 #if defined (__DBCSR_ACC)
@@ -86,7 +84,6 @@ CONTAINS
 !> \brief Returns C-pointer of given stream.
 !> \param[in] this stream ID
 !> \return false (accelerator support is not enabled)
-!> \author  Ole Schuett
 ! **************************************************************************************************
 #if ! defined (__DBCSR_ACC)
    FUNCTION acc_stream_cptr(this) RESULT(res)
@@ -102,7 +99,6 @@ CONTAINS
 !> \brief Returns C-pointer of given stream.
 !> \param[in] this stream ID
 !> \return C-pointer of a given stream
-!> \author  Ole Schuett
 ! **************************************************************************************************
    FUNCTION acc_stream_cptr(this) RESULT(res)
       TYPE(acc_stream_type), INTENT(in)                  :: this
@@ -117,7 +113,6 @@ CONTAINS
 !> \param[out] this stream
 !> \param[in] name stream name
 !> \param[in] priority (optional) stream priority
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_stream_create(this, name, priority)
       TYPE(acc_stream_type), INTENT(OUT) :: this
@@ -149,7 +144,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Fortran-wrapper for cudaStreamDestroy.
 !> \param[in,out] this stream
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_stream_destroy(this)
       TYPE(acc_stream_type), &
@@ -172,7 +166,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Fortran-wrapper for cudaStreamSynchronize.
 !> \param[in] this stream
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_stream_synchronize(this)
       TYPE(acc_stream_type), &
@@ -195,7 +188,6 @@ CONTAINS
 !> \brief Fortran-wrapper for cudaDeviceGetStreamPriorityRange.
 !> \param[out] least least priority
 !> \param[out] greatest greatest priroity
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_stream_priority_range(least, greatest)
       INTEGER, INTENT(OUT)                     :: least, greatest
@@ -216,7 +208,6 @@ CONTAINS
 !> \param[in] this first stream
 !> \param[in] other second stream
 !> \return true if equal, false otherwise
-!> \author  Ole Schuett
 ! **************************************************************************************************
    FUNCTION acc_stream_equal(this, other) RESULT(res)
       TYPE(acc_stream_type), INTENT(IN) :: this, other
@@ -234,7 +225,6 @@ CONTAINS
 !> \brief Checks if a streams is associated
 !> \param[in] this stream
 !> \return true if associated, false otherwise
-!> \author  Ole Schuett
 ! **************************************************************************************************
    FUNCTION acc_stream_associated(this) RESULT(res)
       TYPE(acc_stream_type), INTENT(IN) :: this

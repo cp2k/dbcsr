@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   DBCSR sparse matrix utility routines
-!> \author  Urban Borstnik
-!> \date    2009-05-12
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - Created 2009-05-12
 ! **************************************************************************************************
 MODULE dbcsr_dist_util
 
@@ -84,7 +78,6 @@ CONTAINS
 !> \brief Finds block to which a full element belongs.
 !> \param[in] full            full element
 !> \param[out] block          block to which full belongs
-!> \param nblocks ...
 !> \param[in] block_offsets   starting full elements of blocks
 !> \param[in] hint            where to start looking; ignored if 0
 !> \par Assumptions
@@ -149,7 +142,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Converts sizes to offsets
-!>
 !> \param[in] sizes           array with sizes
 !> \param[out] offsets_start  offsets of starts
 !> \param[out] offsets_stop   (optional) offsets of ends
@@ -195,10 +187,8 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Converts offsets to sizes
-!>
 !> If the offsets of ends are not given, then the array of sizes is assumed
 !> to be one greater than the desired sizes.
-!>
 !> \param[in] offsets_start  offsets of starts
 !> \param[out] sizes         array with sizes
 !> \param[in] offsets_stop   (optional) offsets of ends
@@ -285,14 +275,8 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finds internal offsets
-!>
 !> For all local blocks in blk_local_els, it calculates its offset in
 !> the dense block to which it belongs.
-!> \param blk_local_els ...
-!> \param el_map ...
-!> \param blk_el_offsets ...
-!> \param dense_el_offsets ...
-!> \param internal_offsets ...
 ! **************************************************************************************************
    SUBROUTINE get_internal_offsets(blk_local_els, el_map, blk_el_offsets, &
                                    dense_el_offsets, internal_offsets)
@@ -348,13 +332,6 @@ CONTAINS
 !$OMP     END DO
    END SUBROUTINE dbcsr_calc_block_sizes
 
-! **************************************************************************************************
-!> \brief ...
-!> \param n ...
-!> \param oldsign ...
-!> \param x ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION sgn(n, oldsign, x) RESULT(val)
       INTEGER, INTENT(IN)                                :: n, oldsign
       LOGICAL, INTENT(IN)                                :: x
@@ -605,16 +582,6 @@ CONTAINS
       CALL timestop(handle)
    END FUNCTION dbcsr_checksum
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ld ...
-!> \param od ...
-!> \param DATA ...
-!> \param tr ...
-!> \param ro ...
-!> \param co ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION pd_blk_cs(ld, od, DATA, tr, ro, co) RESULT(pd_cs)
       INTEGER, INTENT(IN)                                :: ld, od
       REAL(KIND=dp), DIMENSION(ld, od), INTENT(IN)       :: DATA
@@ -801,13 +768,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_verify_matrix
 
-! **************************************************************************************************
-!> \brief ...
-!> \param nelements ...
-!> \param bins ...
-!> \param nbins ...
-!> \param bin_counts ...
-! **************************************************************************************************
    PURE SUBROUTINE count_bins(nelements, bins, nbins, bin_counts)
       INTEGER, INTENT(IN)                                :: nelements
       INTEGER, DIMENSION(1:nelements), INTENT(IN)        :: bins
@@ -831,7 +791,6 @@ CONTAINS
 !> \param[in] nmost_common           The number of most common elements
 !> \param[out] most_common_elements  The most common elements in array
 !> \param[in] size_limit             Limit maximum size to this value
-!> \param max_val ...
 !> \par Lookup table
 !>      The lookup table is indexed by the most common array values
 !>      (i.e., block sizes).  Its values are the order of their frequency.

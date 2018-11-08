@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief Timing routines for accounting
-!> \par History
-!>      02.2004 made a stacked version (of stacks...) [Joost VandeVondele]
-!>      11.2004 storable timer_envs (for f77 interface) [fawzi]
-!>      10.2005 binary search to speed up lookup in timeset [fawzi]
-!>      12.2012 Complete rewrite based on dictionaries. [ole]
-!> \author JGH
 ! **************************************************************************************************
 MODULE dbcsr_timings
    USE dbcsr_base_hooks, ONLY: timeset_hook, &
@@ -69,7 +63,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Registers handlers with base_hooks.F
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE timings_register_hooks()
       timeset_hook => timeset_handler
@@ -78,9 +71,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief adds the given timer_env to the top of the stack
-!> \param timer_env ...
-!> \par History
-!>      02.2004 created [Joost VandeVondele]
 !> \note
 !>      for each init_timer_env there should be the symmetric call to
 !>      rm_timer_env
@@ -102,8 +92,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief creates a new timer env
-!> \param timer_env ...
-!> \author fawzi
 ! **************************************************************************************************
    SUBROUTINE timer_env_create(timer_env)
       TYPE(timer_env_type), POINTER                      :: timer_env
@@ -124,8 +112,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief removes the current timer env from the stack
-!> \par History
-!>      02.2004 created [Joost VandeVondele]
 !> \note
 !>      for each rm_timer_env there should have been the symmetric call to
 !>      add_timer_env
@@ -140,8 +126,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief returns the current timer env from the stack
-!> \return ...
-!> \author fawzi
 ! **************************************************************************************************
    FUNCTION get_timer_env() RESULT(timer_env)
       TYPE(timer_env_type), POINTER                      :: timer_env
@@ -152,7 +136,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief retains the given timer env
 !> \param timer_env the timer env to retain
-!> \author fawzi
 ! **************************************************************************************************
    SUBROUTINE timer_env_retain(timer_env)
       TYPE(timer_env_type), POINTER                      :: timer_env
@@ -167,7 +150,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief releases the given timer env
 !> \param timer_env the timer env to release
-!> \author fawzi
 ! **************************************************************************************************
    SUBROUTINE timer_env_release(timer_env)
       TYPE(timer_env_type), POINTER                      :: timer_env
@@ -206,11 +188,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Start timer
-!> \param routineN ...
-!> \param handle ...
-!> \par History
-!>      none
-!> \author JGH
 ! **************************************************************************************************
    SUBROUTINE timeset_handler(routineN, handle)
       CHARACTER(LEN=*), INTENT(IN)                       :: routineN
@@ -285,10 +262,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief End timer
-!> \param handle ...
-!> \par History
-!>      none
-!> \author JGH
 ! **************************************************************************************************
    SUBROUTINE timestop_handler(handle)
       INTEGER, INTENT(in)                                :: handle
@@ -397,9 +370,6 @@ CONTAINS
 !> \param routine_names List of routine-names.
 !>                     If provided only these routines will be traced.
 !>                     If not present all routines will traced.
-!> \par History
-!>       12.2012  added ability to trace only certain routines [ole]
-!> \author JGH
 ! **************************************************************************************************
    SUBROUTINE timings_setup_tracing(trace_max, unit_nr, trace_str, routine_names)
       INTEGER, INTENT(IN)                                :: trace_max, unit_nr
@@ -430,10 +400,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Print current routine stack
-!> \param unit_nr ...
-!> \par History
-!>      none
-!> \author JGH
 ! **************************************************************************************************
    SUBROUTINE print_stack(unit_nr)
       INTEGER, INTENT(IN)                                :: unit_nr
@@ -464,9 +430,6 @@ CONTAINS
 !> \brief Internal routine used by timeset_handler and timings_setup_tracing.
 !>        If no routine with given name is found in timer_env%routine_names
 !>        then a new entry is created.
-!> \param routineN ...
-!> \return ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    FUNCTION routine_name2id(routineN) RESULT(routine_id)
       CHARACTER(LEN=default_string_length), INTENT(IN)   :: routineN

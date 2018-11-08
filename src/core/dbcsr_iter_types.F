@@ -32,7 +32,6 @@ MODULE dbcsr_iter_types
 ! **************************************************************************************************
 !> \brief contains the information about the current state of the program
 !>      to be able to decide if output is necessary
-!> \author fawzi
 ! **************************************************************************************************
    TYPE dbcsr_iteration_info_type
       INTEGER                              :: ref_count, id_nr
@@ -50,7 +49,6 @@ CONTAINS
 !> \brief creates an output info object
 !> \param iteration_info the object to create
 !> \param project_name name of the project, used to create the filenames
-!> \author fawzi
 ! **************************************************************************************************
    SUBROUTINE dbcsr_iteration_info_create(iteration_info, project_name)
       TYPE(dbcsr_iteration_info_type), POINTER           :: iteration_info
@@ -95,7 +93,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief retains the iteration_info (see doc/ReferenceCounting.html)
 !> \param iteration_info the iteration_info to retain
-!> \author fawzi
 ! **************************************************************************************************
    SUBROUTINE dbcsr_iteration_info_retain(iteration_info)
       TYPE(dbcsr_iteration_info_type), POINTER           :: iteration_info
@@ -115,7 +112,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief releases the iteration_info (see doc/ReferenceCounting.html)
 !> \param iteration_info the iteration_info to release
-!> \author fawzi
 ! **************************************************************************************************
    SUBROUTINE dbcsr_iteration_info_release(iteration_info)
       TYPE(dbcsr_iteration_info_type), POINTER           :: iteration_info
@@ -147,7 +143,6 @@ CONTAINS
 !> \brief Copies iterations info of an iteration info into another iteration info
 !> \param iteration_info_in the iteration_info to be copied
 !> \param iteration_info_out the iteration_info results of the copy
-!> \author Teodoro Laino [tlaino]
 ! **************************************************************************************************
    SUBROUTINE dbcsr_iteration_info_copy_iter(iteration_info_in, iteration_info_out)
       TYPE(dbcsr_iteration_info_type), POINTER           :: iteration_info_in, iteration_info_out

@@ -9,7 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief Methods to operate on n-dimensional tensor blocks.
-!> \author Patrick Seewald
 ! **************************************************************************************************
 MODULE dbcsr_tensor_block
 
@@ -148,9 +147,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Create block without data
-!> \param block ...
-!> \param sizes ...
-!> \param data_type ...
 ! **************************************************************************************************
    SUBROUTINE create_block_nodata(block, sizes, data_type)
       TYPE(block_nd), INTENT(OUT)       :: block
@@ -168,7 +164,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Destroy block
-!> \param block ...
 ! **************************************************************************************************
    SUBROUTINE destroy_block(block)
       TYPE(block_nd), INTENT(INOUT) :: block
@@ -184,8 +179,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief block size
-!> \param block ...
-!> \return ...
 ! **************************************************************************************************
    FUNCTION block_size(block)
       TYPE(block_nd), INTENT(IN)         :: block
@@ -201,8 +194,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Generalization of dbcsr_iterator_start for tensors.
-!> \param iterator ...
-!> \param tensor ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_iterator_start(iterator, tensor)
       TYPE(dbcsr_t_iterator_type), INTENT(OUT)           :: iterator
@@ -225,7 +216,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Generalization of dbcsr_iterator_stop for tensors.
-!> \param iterator ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_iterator_stop(iterator)
       TYPE(dbcsr_t_iterator_type), INTENT(INOUT) :: iterator
@@ -245,8 +235,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Number of dimensions.
-!> \param iterator ...
-!> \return ...
 !> \par Note: specification function below must be defined before it is used in
 !>      the source due to a bug in the IBM XL Fortran compiler (compilation fails)
 ! **************************************************************************************************
@@ -260,7 +248,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief iterate over nd blocks of an nd rank tensor, index only (blocks must be retrieved by calling
 !>        dbcsr_t_get_block on tensor).
-!> \param iterator ...
 !> \param ind_nd nd index of block
 !> \param blk is this needed?
 !> \param blk_p is this needed?
@@ -295,8 +282,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Generalization of dbcsr_iterator_blocks_left for tensors.
-!> \param iterator ...
-!> \return ...
 ! **************************************************************************************************
    FUNCTION dbcsr_t_iterator_blocks_left(iterator)
       TYPE(dbcsr_t_iterator_type), INTENT(IN) :: iterator
@@ -313,8 +298,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief reserve blocks from indices as array object
-!> \param tensor ...
-!> \param blk_ind ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserve_blocks_index_array(tensor, blk_ind)
       TYPE(dbcsr_t_type), INTENT(INOUT)   :: tensor
@@ -335,10 +318,7 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief reserve tensor blocks using block indices
-!> \param tensor ...
 !> \param blk_ind_1 index of blocks to reserve in each dimension
-!> \param blk_ind_2 ...
-!> \param blk_ind_3 ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserve_blocks_index(tensor, ${varlist("blk_ind")}$)
       TYPE(dbcsr_t_type), INTENT(INOUT)           :: tensor
@@ -375,7 +355,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief reserve tensor blocks using template
 !> \param tensor_in template tensor
-!> \param tensor_out ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserve_blocks_template(tensor_in, tensor_out)
       TYPE(dbcsr_t_type), INTENT(IN)    :: tensor_in
@@ -396,8 +375,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief reserve tensor blocks using matrix template
-!> \param matrix_in ...
-!> \param tensor_out ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserve_blocks_matrix_to_tensor(matrix_in, tensor_out)
       TYPE(dbcsr_type), TARGET, INTENT(IN) :: matrix_in
@@ -483,8 +460,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief indices of non-zero blocks
-!> \param tensor ...
-!> \param blk_ind ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserved_block_indices(tensor, blk_ind)
       TYPE(dbcsr_t_type), INTENT(IN)            :: tensor
@@ -511,9 +486,6 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
 ! **************************************************************************************************
 !> \brief Create block from array, array can be n-dimensional.
-!> \param block ...
-!> \param sizes ...
-!> \param array ...
 ! **************************************************************************************************
    SUBROUTINE create_block_data_${dsuffix}$ (block, sizes, array)
       TYPE(block_nd), INTENT(OUT)                       :: block
@@ -531,8 +503,6 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
 ! **************************************************************************************************
 !> \brief Create and allocate block, but no data.
-!> \param block ...
-!> \param sizes ...
 ! **************************************************************************************************
    SUBROUTINE create_block_nodata_${dsuffix}$ (block, sizes)
       INTEGER, INTENT(IN), DIMENSION(:)       :: sizes
@@ -543,10 +513,6 @@ CONTAINS
 #:endfor
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief ...
-!> \param block ...
-! **************************************************************************************************
    SUBROUTINE destroy_block_${dsuffix}$ (block)
       TYPE(block_nd_${dsuffix}$), INTENT(INOUT) :: block
       DEALLOCATE (block%blk)
@@ -556,7 +522,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Generic implementation of dbcsr_t_get_block (arbitrary tensor rank and arbitrary datatype)
-!> \param tensor ...
 !> \param ind block index
 !> \param block block to get
 !> \param found whether block was found
@@ -583,7 +548,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Generic implementation of dbcsr_t_put_block (arbitrary tensor rank and arbitrary datatype)
-!> \param tensor ...
 !> \param ind block index
 !> \param block block to put
 !> \param summation whether block should be summed to existing block
@@ -618,7 +582,6 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
 ! **************************************************************************************************
 !> \brief Generic implementation of dbcsr_t_put_block, template for datatype
-!> \param tensor ...
 !> \param ind block index
 !> \param block block to put
 !> \param summation whether block should be summed to existing block
@@ -644,7 +607,6 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
 ! **************************************************************************************************
 !> \brief Generic implementation of dbcsr_t_get_block (arbitrary tensor rank)
-!> \param tensor ...
 !> \param ind block index
 !> \param block block to get
 !> \param found whether block was found
@@ -675,7 +637,6 @@ CONTAINS
 #:for ndim in ndims
 ! **************************************************************************************************
 !> \brief Template for dbcsr_t_put_block.
-!> \param tensor ...
 !> \param ind block index
 !> \param sizes block size
 !> \param block block to put
@@ -732,7 +693,6 @@ CONTAINS
 #:for ndim in ndims
 ! **************************************************************************************************
 !> \brief allocate and get block
-!> \param tensor ...
 !> \param ind block index
 !> \param block block to get
 !> \param found whether block was found
@@ -757,7 +717,6 @@ CONTAINS
 #:for ndim in ndims
 ! **************************************************************************************************
 !> \brief Template for dbcsr_t_get_block.
-!> \param tensor ...
 !> \param ind block index
 !> \param sizes block size
 !> \param block block to get
@@ -809,9 +768,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief reshape matrix to tensor block
-!> \param map ...
-!> \param block_2d ...
-!> \param block ...
 ! **************************************************************************************************
    SUBROUTINE reshape_block_m2t_${ndim}$d_${dsuffix}$ (map, block_2d, block)
       TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
@@ -830,9 +786,6 @@ CONTAINS
 #:for ndim in ndims
 ! **************************************************************************************************
 !> \brief reshape tensor to matrix block
-!> \param map ...
-!> \param block ...
-!> \param block_2d ...
 ! **************************************************************************************************
    SUBROUTINE reshape_block_t2m_${ndim}$d_${dsuffix}$ (map, block, block_2d)
       TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map

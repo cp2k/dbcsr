@@ -9,11 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief Utilities for string manipulations
-!> \par History
-!>      Adapted compress and uppercase for use in CP2K (JGH)
-!>      string_to_integer and integer_to_string added (06.02.2001, MK)
-!>      Cleaned (04.01.2004,MK)
-!> \author MK & JGH
 ! **************************************************************************************************
 MODULE dbcsr_string_utilities
 
@@ -38,11 +33,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Convert a sequence of integer numbers (ASCII code) to a string.
 !>         Blanks are inserted for invalid ASCII code numbers.
-!> \param nascii ...
-!> \param string ...
-!> \date    19.10.2000
-!> \author  MK
-!> \version 1.0
 ! **************************************************************************************************
    SUBROUTINE ascii_to_string(nascii, string)
 
@@ -66,11 +56,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief   Eliminate multiple space characters in a string.
 !>          If full is .TRUE., then all spaces are eliminated.
-!> \param string ...
-!> \param full ...
-!> \date    23.06.1998
-!> \author  MK
-!> \version 1.0
 ! **************************************************************************************************
    SUBROUTINE compress(string, full)
 
@@ -114,11 +99,6 @@ CONTAINS
 !>          The WRITE statement will return an error message, if the number of
 !>          digits of the integer number is larger the than the length of the
 !>          supplied string.
-!> \param inumber ...
-!> \param string ...
-!> \date    05.01.2004
-!> \author  MK
-!> \version 1.0
 ! **************************************************************************************************
    SUBROUTINE integer_to_string(inumber, string)
 
@@ -130,11 +110,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief   Convert a string to sequence of integer numbers.
-!> \param string ...
-!> \param nascii ...
-!> \date    19.10.2000
-!> \author  MK
-!> \version 1.0
 ! **************************************************************************************************
    SUBROUTINE string_to_ascii(string, nascii)
 
@@ -153,8 +128,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief   remove a word from a string (words are separated by white spaces)
-!> \param string ...
-!> \version 1.0
 ! **************************************************************************************************
    SUBROUTINE remove_word(string)
       CHARACTER(LEN=*), INTENT(INOUT)                    :: string
@@ -176,10 +149,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief   Convert all upper case characters in a string to lower case.
-!> \param string ...
-!> \date    14.08.2013
-!> \author  Matthias Krack (MK)
-!> \version 1.0
 ! **************************************************************************************************
    SUBROUTINE lowercase(string)
       CHARACTER(LEN=*), INTENT(INOUT)                    :: string
@@ -197,10 +166,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief   Convert all lower case characters in a string to upper case.
-!> \param string ...
-!> \date    22.06.1998
-!> \author  MK
-!> \version 1.0
 ! **************************************************************************************************
    SUBROUTINE uppercase(string)
       CHARACTER(LEN=*), INTENT(INOUT)                    :: string
@@ -216,12 +181,6 @@ CONTAINS
 
    END SUBROUTINE uppercase
 
-! **************************************************************************************************
-!> \brief ...
-!> \param string ...
-!> \param ia ...
-!> \param ib ...
-! **************************************************************************************************
    SUBROUTINE xstring(string, ia, ib)
 
       CHARACTER(LEN=*), INTENT(IN)                       :: string
@@ -237,12 +196,6 @@ CONTAINS
 
    END SUBROUTINE xstring
 
-! **************************************************************************************************
-!> \brief ...
-!> \param str1 ...
-!> \param str2 ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION str_comp(str1, str2) RESULT(equal)
 
       CHARACTER(LEN=*), INTENT(IN)                       :: str1, str2
@@ -261,10 +214,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief returns .true. if the character passed is a whitespace char.
-!> \param testchar ...
-!> \return ...
-!> \par History
-!>      02.2008 created, AK
 ! **************************************************************************************************
    FUNCTION is_whitespace(testchar) RESULT(resval)
       CHARACTER(LEN=1), INTENT(IN)                       :: testchar

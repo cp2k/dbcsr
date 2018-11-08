@@ -9,12 +9,10 @@
 
 ! **************************************************************************************************
 !> \brief DBCSR tensor framework for block-sparse tensor contraction.
-!>
 !> Representation of n-rank tensors as DBCSR tall-and-skinny matrices.
 !> Support for arbitrary redistribution between different representations.
 !> Support for arbitrary tensor contractions
 !> \todo implement checks and error messages
-!> \author Patrick Seewald
 ! **************************************************************************************************
 MODULE dbcsr_tensor
 
@@ -112,7 +110,6 @@ CONTAINS
 !> \brief Copy tensor data.
 !>        Redistributes tensor data according to distributions of target and source tensor.
 !>        Permutes tensor index according to `order` argument (if present).
-!>
 !> Source and target tensor formats are arbitrary as long as the following requirements are met:
 !> * source and target tensors have the same number of blocks in each dimension and the same block sizes.
 !>   If `order` argument is present, this must be the case after index permutation.
@@ -222,8 +219,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief copy matrix to tensor.
-!> \param matrix_in ...
-!> \param tensor_out ...
 !> \param summation tensor_out = tensor_out + matrix_in
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_copy_matrix_to_tensor(matrix_in, tensor_out, summation)
@@ -280,8 +275,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief copy tensor to matrix
-!> \param tensor_in ...
-!> \param matrix_out ...
 !> \param summation matrix_out = matrix_out + tensor_in
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_copy_tensor_to_matrix(tensor_in, matrix_out, summation)
@@ -332,10 +325,8 @@ CONTAINS
 !>        tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
 !>                                        * tensor_2(contract_2, notcontract_2)
 !>                                 + beta * tensor_3(map_1, map_2)
-!> \param alpha ...
 !> \param tensor_1 first tensor (in)
 !> \param tensor_2 second tensor (in)
-!> \param beta ...
 !> \param tensor_3 contracted tensor (out)
 !> \param contract_1 indices of tensor_1 to contract
 !> \param notcontract_1 indices of tensor_1 not to contract
@@ -757,12 +748,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief align tensor index with data
-!> \param tensor_in ...
-!> \param contract_in ...
-!> \param notcontract_in ...
-!> \param tensor_out ...
-!> \param contract_out ...
-!> \param notcontract_out ...
 ! **************************************************************************************************
    SUBROUTINE align_tensor(tensor_in, contract_in, notcontract_in, &
                            tensor_out, contract_out, notcontract_out, indp_in, indp_out)
@@ -794,7 +779,6 @@ CONTAINS
 !> \param tensor2_out tensor 2 out
 !> \param ind1_free indices of tensor 1 that are "free" (not linked to any index of tensor 2)
 !> \param ind1_linked indices of tensor 1 that are linked to indices of tensor 2
-!> \param ind2_free ...
 !> \param ind2_linked 1:1 correspondence with ind1_linked
 !> \param trans1 transpose flag of matrix rep. of tensor 1
 !> \param trans2 transpose flag of matrix rep. tensor 2
@@ -1108,8 +1092,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Check if 2d index is compatible with tensor index
-!> \param nd_index ...
-!> \param compat_ind ...
 ! **************************************************************************************************
    FUNCTION compat_map(nd_index, compat_ind)
       TYPE(nd_to_2d_mapping), INTENT(IN) :: nd_index
@@ -1164,10 +1146,6 @@ CONTAINS
 !> \brief Default distribution that is more or less cyclic (round robin) and load balanced with different
 !> weights for each element.
 !> This is used for creating adhoc distributions whenever tensors are mapped to new grids.
-!> \param nel ...
-!> \param nbin ...
-!> \param weights ...
-!> \param dist ...
 ! **************************************************************************************************
    SUBROUTINE new_default_dist(nel, nbin, weights, dist)
       INTEGER, INTENT(IN) :: nel
@@ -1197,11 +1175,8 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Copy tensor to tensor with modified index mapping
-!> \param tensor_in ...
 !> \param map1_2d new index mapping
 !> \param map2_2d new index mapping
-!> \param tensor_out ...
-!> \param name ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_remap(tensor_in, map1_2d, map2_2d, tensor_out, comm_2d, dist1, dist2, &
                             mp_dims_1, mp_dims_2, name, nodata, move_data)
@@ -1303,8 +1278,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Align index with data
-!> \param tensor_in ...
-!> \param tensor_out ...
 !> \param order permutation resulting from alignment
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_align_index(tensor_in, tensor_out, order)
@@ -1331,9 +1304,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Create new tensor by reordering index, data is copied exactly (shallow copy)
-!> \param tensor_in ...
-!> \param tensor_out ...
-!> \param order ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_permute_index(tensor_in, tensor_out, order)
       TYPE(dbcsr_t_type), INTENT(INOUT)                  :: tensor_in
@@ -1383,7 +1353,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Get all indices along one dimension that have at least one occupied block
-!> \param tensor ...
 !> \param dim which dimension
 !> \param bounds bounds of (full) tensor index
 !> \param ind indices with occupied blocks
@@ -1420,15 +1389,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief check whether we need to contract two tensors (whether the contraction indices of both tensors
 !> have common occupied blocks). See documentation of dbcsr_t_contract.
-!> \param tensor_1 ...
-!> \param tensor_2 ...
-!> \param contract_1 ...
-!> \param notcontract_1 ...
-!> \param contract_2 ...
-!> \param notcontract_2 ...
-!> \param bounds_1 ...
-!> \param bounds_2 ...
-!> \param bounds_3 ...
 ! **************************************************************************************************
    FUNCTION dbcsr_t_need_contract(tensor_1, tensor_2, contract_1, notcontract_1, &
                                   contract_2, notcontract_2, &
@@ -1484,17 +1444,9 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Map contraction bounds to bounds referring to tensor indices
-!>
 !>        see dbcsr_t_contract for docu of dummy arguments
-!> \param tensor_1 ...
-!> \param tensor_2 ...
-!> \param contract_1 ...
-!> \param notcontract_1 ...
 !> \param bounds_t1 bounds mapped to tensor_1
 !> \param bounds_t2 bounds mapped to tensor_2
-!> \param bounds_1 ...
-!> \param bounds_2 ...
-!> \param bounds_3 ...
 !> \param do_crop_1 whether tensor 1 should be cropped
 !> \param do_crop_2 whether tensor 2 should be cropped
 ! **************************************************************************************************
@@ -1553,11 +1505,8 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief print tensor contraction indices in a human readable way
-!> \param tensor_1 ...
 !> \param indchar1 characters printed for index of tensor 1
-!> \param tensor_2 ...
 !> \param indchar2 characters printed for index of tensor 2
-!> \param tensor_3 ...
 !> \param indchar3 characters printed for index of tensor 3
 !> \param unit_nr output unit
 ! **************************************************************************************************

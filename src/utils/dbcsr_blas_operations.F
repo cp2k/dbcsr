@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Wrappers to BLAS calls.
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2010-02-18 Moved from dbcsr_util
 ! **************************************************************************************************
 MODULE dbcsr_blas_operations
    USE dbcsr_kinds, ONLY: int_8
@@ -65,8 +59,6 @@ CONTAINS
 !> \brief fills an array with random numbers
 !> \param idist type of distribution (1..3, see lapack docs)
 !> \param iseed requires each int to be in the range 0..2**12, and the iseed(4) odd
-!> \param n ...
-!> \param x ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_lapack_larnv(idist, iseed, n, x)
       INTEGER, INTENT(IN)                                :: idist

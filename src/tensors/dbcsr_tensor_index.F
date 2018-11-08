@@ -9,7 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief tensor index and mapping to DBCSR index.
-!> \author Patrick Seewald
 ! **************************************************************************************************
 MODULE dbcsr_tensor_index
    USE dbcsr_allocate_wrap, ONLY: allocate_any
@@ -101,10 +100,6 @@ CONTAINS
 
    END SUBROUTINE create_nd_to_2d_mapping
 
-! **************************************************************************************************
-!> \brief ...
-!> \param map ...
-! **************************************************************************************************
    SUBROUTINE destroy_nd_to_2d_mapping(map)
       TYPE(nd_to_2d_mapping), INTENT(INOUT)              :: map
 
@@ -116,11 +111,6 @@ CONTAINS
       DEALLOCATE (map%dims_nd)
    END SUBROUTINE destroy_nd_to_2d_mapping
 
-! **************************************************************************************************
-!> \brief ...
-!> \param map ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION ndims_mapping(map)
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
       INTEGER                                            :: ndims_mapping
@@ -134,7 +124,6 @@ CONTAINS
 !> \param ndim_nd number of dimensions
 !> \param ndim1_2d number of dimensions that map to first 2d index
 !> \param ndim2_2d number of dimensions that map to first 2d index
-!> \param dims_2d_i8 ...
 !> \param dims_2d 2d dimensions
 !> \param dims_nd nd dimensions
 !> \param dims1_2d dimensions that map to first 2d index
@@ -333,8 +322,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Invert order
-!> \param order ...
-!> \return ...
 ! **************************************************************************************************
    FUNCTION dbcsr_t_inverse_order(order)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: order
@@ -347,9 +334,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief reorder tensor index (no data)
-!> \param map_in ...
-!> \param map_out ...
-!> \param order ...
 ! **************************************************************************************************
    SUBROUTINE permute_index(map_in, map_out, order)
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map_in

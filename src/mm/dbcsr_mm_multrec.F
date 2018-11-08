@@ -10,9 +10,6 @@
 ! **************************************************************************************************
 !> \brief  Second layer of the dbcsr matrix-matrix multiplication.
 !>            It divides the multiplication in a cache-oblivious manner.
-!>
-!> \author  Urban Borstnik
-!>
 !> <b>Modification history:</b>
 !>  - 2010-02-23 Moved from dbcsr_operations
 !>  - 2011-11    Moved parameter-stack processing routines to
@@ -106,7 +103,6 @@ MODULE dbcsr_mm_multrec
 !> \var b_norms           Norms of B matrix blocks.
 !> \var my_wm             Work matrix associated with this thread
 !> \var lastblk           Number of elements in the work matrix
-!>
 !> \var datasize          Data size of the work matrix (view of
 !>                        same work matrix variable).
 !> \var original_lastblk  Number of work matrix blocks before addition
@@ -143,7 +139,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Initialize the library
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_lib_init()
 
@@ -152,7 +147,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finalize the library
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_lib_finalize()
       CALL dbcsr_mm_csr_lib_finalize()
@@ -160,21 +154,12 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Sets up recursive multiplication
-!>
-!>
-!> \param this ...
 !> \param[in] left left DBCSR matrix
 !> \param[in] right right DBCSR matrix
 !> \param[in,out] product     resulting DBCSR product matrix
 !> \param[in] keep_sparsity (optional) retain the sparsity of the
 !>                                 existing product matrix, default is no
 !> \param[in] eps             (optional) on-the-fly filtering epsilon
-!> \param row_max_epss ...
-!> \param block_estimate ...
-!> \param right_row_blk_size ...
-!> \param m_sizes ...
-!> \param n_sizes ...
-!> \param nlayers ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_init(this, left, right, product, &
                                     keep_sparsity, eps, row_max_epss, block_estimate, right_row_blk_size, &
@@ -315,20 +300,16 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Multiplies two DBCSR matrices using recursive algorithm
-!>
 !> This routine sets up the multiplication.  Specifically, it <ul>
 !> <li> verifies input sanity
 !> <li> converts everything into "local indexing"
 !> </ul>
-!>
-!> \param this ...
 !> \param[in] left left DBCSR matrix
 !> \param[in] right right DBCSR matrix
 !> \param[out] flop           (optional) number of effective double-precision
 !>                            floating point operations performed
 !> \param[in] a_norms         (optional) norms of left-matrix blocks
 !> \param[in] b_norms         (optional) norms of right-matrix blocks
-!> \param k_sizes ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_multiply(this, left, right, flop, &
                                         a_norms, b_norms, k_sizes)
@@ -387,8 +368,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Signal approaching end of multiplication
-!> \param this ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_phaseout(this)
       TYPE(dbcsr_mm_multrec_type), INTENT(INOUT)         :: this
@@ -398,9 +377,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Sets up recursive multiplication
-!>
-!>
-!> \param this ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_dev2host_init(this)
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
@@ -414,11 +390,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Sets up recursive multiplication
-!>
-!>
-!> \param this ...
-!> \param meta_buffer ...
-!> \param data_buffer ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_finalize(this, meta_buffer)
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
@@ -533,13 +504,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Make the reduction of the 3D layers in the local multrec object
-!>
-!> \param this ...
-!> \param meta_buffer ...
-!> \param data_buffer ...
-!> \param flop ...
-!> \param g2l_map_rows ...
-!> \param g2l_map_cols ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_red3D(this, meta_buffer, data_buffer, flop, g2l_map_rows, g2l_map_cols)
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
@@ -567,9 +531,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Return number of blocks
-!> \param this ...
-!> \return ...
-!> \author Alfio Lazzaro
 ! **************************************************************************************************
    FUNCTION dbcsr_mm_multrec_get_nblks(this) RESULT(nblks)
       TYPE(dbcsr_mm_multrec_type), INTENT(IN)            :: this
@@ -581,9 +542,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Return data size
-!> \param this ...
-!> \return ...
-!> \author Alfio Lazzaro
 ! **************************************************************************************************
    FUNCTION dbcsr_mm_multrec_get_nze(this) RESULT(nze)
       TYPE(dbcsr_mm_multrec_type), INTENT(IN)            :: this
@@ -595,23 +553,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Performs recursive multiplication
-!> \param this ...
-!> \param left ...
-!> \param right ...
-!> \param mi ...
-!> \param mf ...
-!> \param ni ...
-!> \param nf ...
-!> \param ki ...
-!> \param kf ...
-!> \param ai ...
-!> \param af ...
-!> \param a_index ...
-!> \param bi ...
-!> \param bf ...
-!> \param b_index ...
-!> \param d ...
-!> \author Joost VandeVondele
 ! **************************************************************************************************
    RECURSIVE SUBROUTINE sparse_multrec(this, left, right, mi, mf, ni, nf, ki, kf, &
                                        ai, af, a_index, bi, bf, b_index, &
@@ -705,15 +646,6 @@ CONTAINS
    END SUBROUTINE sparse_multrec
 
 ! ***************************************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param ai ...
-!> \param af ...
-!> \param a ...
-!> \param val ...
-!> \return ...
-!> \author JV
-! **************************************************************************************************
    PURE FUNCTION find_cut_row(ai, af, a, val) RESULT(res)
       INTEGER, INTENT(IN)                                :: ai, af
       INTEGER, DIMENSION(3, 1:af), INTENT(IN)            :: a
@@ -755,15 +687,6 @@ CONTAINS
    END FUNCTION find_cut_row
 
 ! ***************************************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param ai ...
-!> \param af ...
-!> \param a ...
-!> \param val ...
-!> \return ...
-!> \author JV
-! **************************************************************************************************
    PURE FUNCTION find_cut_col(ai, af, a, val) RESULT(res)
       INTEGER, INTENT(IN)                                :: ai, af
       INTEGER, DIMENSION(3, 1:af), INTENT(IN)            :: a
@@ -806,12 +729,6 @@ CONTAINS
 
 ! ***************************************************************************************************
 !> \brief Packs a globally-indexed array into a locally-indexed array.
-!> \param row_i ...
-!> \param col_i ...
-!> \param local_rows ...
-!> \param local_cols ...
-!> \param first ...
-!> \param last ...
 ! **************************************************************************************************
    PURE SUBROUTINE remap_local2global(row_i, col_i, local_rows, local_cols, &
                                       first, last)
@@ -830,10 +747,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Gathers the local elements from all data (full_data) for
 !>        single precision elements.
-!> \param full_data ...
-!> \param nle ...
-!> \param local_elements ...
-!> \param local_data ...
 ! **************************************************************************************************
    PURE SUBROUTINE local_filter_sp(full_data, nle, local_elements, local_data)
       REAL(KIND=sp), DIMENSION(:), INTENT(IN)            :: full_data

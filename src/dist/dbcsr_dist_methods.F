@@ -9,8 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Routines related to DBCSR distributions
-!> \author  Ole Schuett
-!> \date    10-2014
 ! **************************************************************************************************
 MODULE dbcsr_dist_methods
    USE dbcsr_array_types, ONLY: array_data, &
@@ -73,12 +71,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Creates new distribution from a template distribution
 !> \param[out] dist           distribution
-!> \param template ...
-!> \param group ...
-!> \param pgrid ...
-!> \param row_dist ...
-!> \param col_dist ...
-!> \param reuse_arrays ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_new_template(dist, template, group, pgrid, row_dist, col_dist, &
                                               reuse_arrays)
@@ -121,11 +113,6 @@ CONTAINS
 !> \brief Creates new distribution
 !> \param[out] dist           distribution
 !> \param[in] mp_env          multiprocessing environment
-!> \param row_dist_block ...
-!> \param col_dist_block ...
-!> \param local_rows ...
-!> \param local_cols ...
-!> \param reuse_arrays ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_dist_block, &
                                          local_rows, local_cols, &
@@ -221,23 +208,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Get distribution parameters
-!> \param dist ...
-!> \param row_dist ...
-!> \param col_dist ...
-!> \param nrows ...
-!> \param ncols ...
-!> \param has_threads ...
-!> \param group ...
-!> \param mynode ...
-!> \param numnodes ...
-!> \param nprows ...
-!> \param npcols ...
-!> \param myprow ...
-!> \param mypcol ...
-!> \param pgrid ...
-!> \param subgroups_defined ...
-!> \param prow_group ...
-!> \param pcol_group ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_get(dist, row_dist, col_dist, &
                                      nrows, ncols, has_threads, &
@@ -275,7 +245,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Marks another use of the distribution
-!> \param dist ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_hold(dist)
       TYPE(dbcsr_distribution_obj), INTENT(INOUT)        :: dist
@@ -286,11 +255,6 @@ CONTAINS
       dist%d%refcount = dist%d%refcount + 1
    END SUBROUTINE dbcsr_distribution_hold
 
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_distribution_mp(dist) RESULT(mp_env)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       TYPE(dbcsr_mp_obj)                                 :: mp_env
@@ -299,33 +263,18 @@ CONTAINS
 
       mp_env = dist%d%mp_env
    END FUNCTION dbcsr_distribution_mp
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_distribution_nrows(dist) RESULT(nrows)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       INTEGER                                            :: nrows
 
       nrows = array_size(dist%d%row_dist_block)
    END FUNCTION dbcsr_distribution_nrows
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_distribution_ncols(dist) RESULT(ncols)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       INTEGER                                            :: ncols
 
       ncols = array_size(dist%d%col_dist_block)
    END FUNCTION dbcsr_distribution_ncols
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_distribution_row_dist(dist) RESULT(row_dist)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       INTEGER, DIMENSION(:), POINTER                     :: row_dist
@@ -335,11 +284,6 @@ CONTAINS
       row_dist => array_data(dist%d%row_dist_block)
    END FUNCTION dbcsr_distribution_row_dist
 
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_distribution_col_dist(dist) RESULT(col_dist)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       INTEGER, DIMENSION(:), POINTER                     :: col_dist
@@ -349,11 +293,6 @@ CONTAINS
       col_dist => array_data(dist%d%col_dist_block)
    END FUNCTION dbcsr_distribution_col_dist
 
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_distribution_max_row_dist(dist) RESULT(max_row_dist)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       INTEGER                                            :: max_row_dist
@@ -363,11 +302,6 @@ CONTAINS
       max_row_dist = dist%d%max_row_dist
    END FUNCTION dbcsr_distribution_max_row_dist
 
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_distribution_max_col_dist(dist) RESULT(max_col_dist)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       INTEGER                                            :: max_col_dist
@@ -377,66 +311,36 @@ CONTAINS
       max_col_dist = dist%d%max_col_dist
    END FUNCTION dbcsr_distribution_max_col_dist
 
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_distribution_nlocal_rows(dist) RESULT(nlocalrows)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       INTEGER                                            :: nlocalrows
 
       nlocalrows = array_size(dist%d%local_rows)
    END FUNCTION dbcsr_distribution_nlocal_rows
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_distribution_nlocal_cols(dist) RESULT(nlocalcols)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       INTEGER                                            :: nlocalcols
 
       nlocalcols = array_size(dist%d%local_cols)
    END FUNCTION dbcsr_distribution_nlocal_cols
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_distribution_local_rows(dist) RESULT(local_rows)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       INTEGER, DIMENSION(:), POINTER                     :: local_rows
 
       local_rows => array_data(dist%d%local_rows)
    END FUNCTION dbcsr_distribution_local_rows
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_distribution_local_rows_obj(dist) RESULT(local_rows)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       TYPE(array_i1d_obj)                                :: local_rows
 
       local_rows = dist%d%local_rows
    END FUNCTION dbcsr_distribution_local_rows_obj
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_distribution_local_cols(dist) RESULT(local_cols)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       INTEGER, DIMENSION(:), POINTER                     :: local_cols
 
       local_cols => array_data(dist%d%local_cols)
    END FUNCTION dbcsr_distribution_local_cols
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_distribution_local_cols_obj(dist) RESULT(local_cols)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       TYPE(array_i1d_obj)                                :: local_cols
@@ -444,13 +348,6 @@ CONTAINS
       local_cols = dist%d%local_cols
    END FUNCTION dbcsr_distribution_local_cols_obj
    !
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \param row ...
-!> \param col ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_distribution_processor(dist, row, col) &
       RESULT(processor)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
@@ -473,11 +370,6 @@ CONTAINS
                                          dist%d%col_dist_block%low%data(c))
    END FUNCTION dbcsr_distribution_processor
 
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_distribution_thread_dist(dist) RESULT(thread_dist)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       TYPE(array_i1d_obj)                                :: thread_dist
@@ -487,11 +379,6 @@ CONTAINS
       thread_dist = dist%d%thread_dist
    END FUNCTION dbcsr_distribution_thread_dist
 
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_distribution_has_threads(dist) RESULT(has_thread_dist)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       LOGICAL                                            :: has_thread_dist
@@ -501,11 +388,6 @@ CONTAINS
       has_thread_dist = dist%d%has_thread_dist
    END FUNCTION dbcsr_distribution_has_threads
 
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_distribution_num_threads(dist) RESULT(num_threads)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       INTEGER                                            :: num_threads
@@ -518,7 +400,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Count number of images in the product matrix
 !> \param[in] matrix_dense_size_1d  1D size of the (equivalent) dense matrix
-!> \param nblocks ...
 !> \param[in] nprows                Number of row processors
 !> \param[in] npcols                Number of column processors
 !> \return Number of images
@@ -584,7 +465,6 @@ CONTAINS
 !>      When row_sizes is present then the thread distribution
 !>      attempts to distribute rows to threads such that the sum of
 !>      delegated row sizes is approximately matched for all rows.
-!>
 !>      When row_sizes is not present then a random distribution is chosen.
 ! **************************************************************************************************
    SUBROUTINE make_threads(dist, row_sizes)
@@ -709,7 +589,6 @@ CONTAINS
    END SUBROUTINE make_threads
 
 !> \brief Removes the thread distribution from a distribution
-!> \param dist ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_no_threads(dist)
       TYPE(dbcsr_distribution_obj), INTENT(INOUT)        :: dist

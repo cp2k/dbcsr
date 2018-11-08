@@ -10,7 +10,6 @@
 ! **************************************************************************************************
 !> \brief DBCSR tensor framework for block-sparse tensor contraction: Types and create/destroy
 !>        routines.
-!> \author Patrick Seewald
 ! **************************************************************************************************
 MODULE dbcsr_tensor_types
 
@@ -415,7 +414,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Release the MPI communicator.
-!> \param mp_comm ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_nd_mp_free(mp_comm)
       INTEGER, INTENT(INOUT)                               :: mp_comm
@@ -425,14 +423,11 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Create a tensor distribution.
-!>
-!> \param dist ...
 !> \param pgrid process grid
 !> \param map1_2d which nd-indices map to first matrix index and in which order
 !> \param map2_2d which nd-indices map to second matrix index and in which order
 !> \param nd_dist_1 distribution vector for first dimension
 !> \param nd_dist_2 distribution vector for second dimension
-!> \param nd_dist_3 ...
 !> \param own_comm whether distribution should own communicator
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_distribution_new(dist, pgrid, map1_2d, map2_2d, ${varlist("nd_dist")}$, own_comm)
@@ -528,7 +523,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Destroy tensor distribution
-!> \param dist ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_distribution_destroy(dist)
       TYPE(dbcsr_t_distribution_type), INTENT(INOUT) :: dist
@@ -565,7 +559,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief reference counting for distribution (only needed for communicator handle that must be freed
 !> when no longer needed)
-!> \param dist ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_distribution_hold(dist)
       TYPE(dbcsr_t_distribution_type), INTENT(IN) :: dist
@@ -580,7 +573,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief get distribution from tensor
-!> \param tensor ...
 !> \return distribution
 ! **************************************************************************************************
    FUNCTION dbcsr_t_distribution(tensor)
@@ -595,14 +587,9 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief create a tensor
-!> \param tensor ...
-!> \param name ...
-!> \param dist ...
 !> \param map1_2d which nd-indices to map to first 2d index and in which order
 !> \param map2_2d which nd-indices to map to first 2d index and in which order
-!> \param data_type ...
 !> \param blk_size_1 blk sizes in each dimension
-!> \param blk_size_2 ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_create_new(tensor, name, dist, map1_2d, map2_2d, data_type, &
                                  ${varlist("blk_size")}$)
@@ -711,7 +698,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief reference counting for tensors (only needed for communicator handle that must be freed
 !> when no longer needed)
-!> \param dist ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_hold(tensor)
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
@@ -727,9 +713,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief create a tensor from template
-!> \param tensor_in ...
-!> \param tensor ...
-!> \param name ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_create_template(tensor_in, tensor, name)
       TYPE(dbcsr_t_type), INTENT(INOUT)      :: tensor_in
@@ -775,10 +758,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Create 2-rank tensor from matrix.
-!> \param matrix_in ...
-!> \param tensor ...
-!> \param order ...
-!> \param name ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_create_matrix(matrix_in, tensor, order, name)
       TYPE(dbcsr_type), INTENT(IN)                :: matrix_in
@@ -840,7 +819,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Destroy a tensor
-!> \param tensor ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_destroy(tensor)
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
@@ -897,8 +875,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief tensor rank
-!> \param tensor ...
-!> \return ...
 ! **************************************************************************************************
    PURE FUNCTION ndims_tensor(tensor)
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
@@ -909,8 +885,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief tensor dimensions
-!> \param tensor ...
-!> \param dims ...
 ! **************************************************************************************************
    SUBROUTINE dims_tensor(tensor, dims)
       TYPE(dbcsr_t_type), INTENT(IN)              :: tensor
@@ -923,8 +897,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief tensor block dimensions
-!> \param tensor ...
-!> \param dims ...
 ! **************************************************************************************************
    SUBROUTINE blk_dims_tensor(tensor, dims)
       TYPE(dbcsr_t_type), INTENT(IN)              :: tensor
@@ -937,8 +909,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief tensor data type
-!> \param tensor ...
-!> \return ...
 ! **************************************************************************************************
    FUNCTION dbcsr_t_get_data_type(tensor) RESULT(data_type)
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
@@ -949,9 +919,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Size of tensor block
-!> \param tensor ...
-!> \param ind block index ...
-!> \param blk_size block size ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_blk_sizes(tensor, ind, blk_size)
       TYPE(dbcsr_t_type), INTENT(IN)              :: tensor
@@ -965,7 +932,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief offset of tensor block
-!> \param tensor ...
 !> \param ind block index
 !> \param blk_offset block offset
 ! **************************************************************************************************
@@ -982,9 +948,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Generalization of dbcsr_get_stored_coordinates for tensors.
-!> \param tensor ...
-!> \param ind_nd ...
-!> \param processor ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_get_stored_coordinates(tensor, ind_nd, processor)
       TYPE(dbcsr_t_type), INTENT(IN)               :: tensor
@@ -1000,15 +963,12 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Create an n-dimensional process grid.
-!>
 !> We can not use a n-dimensional MPI cartesian grid for tensors since the mapping between
 !> n-dim. and 2-dim. index allows for an arbitrary reordering of tensor index. Therefore we can not
 !> use n-dim. MPI Cartesian grid because it may not be consistent with the respective 2d grid.
 !> The 2d Cartesian MPI grid is the reference grid (since tensor data is stored as DBCSR matrix)
 !> and this routine creates an object that is a n-dim. interface to this grid.
-!>
 !> map1_2d and map2_2d don't need to be specified (correctly), grid may be redefined in dbcsr_t_distribution_new
-!>
 !> Note that pgrid is equivalent to a MPI cartesian grid only if map1_2d and map2_2d don't reorder indices
 !> (which is the case if [map1_2d, map2_2d] == [1, 2, ..., ndims]). Otherwise the mapping of grid
 !> coordinates to processes depends on the ordering of the indices and is not equivalent to a MPI
@@ -1065,7 +1025,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief destroy process grid
-!> \param pgrid ...
 !> \param keep_comm if .TRUE. communicator is not freed
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_pgrid_destroy(pgrid, keep_comm)
@@ -1087,10 +1046,8 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief remap a process grid (needed when mapping between tensor and matrix index is changed)
-!> \param pgrid_in ...
 !> \param map1_2d new mapping
 !> \param map2_2d new mapping
-!> \param pgrid_out ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_pgrid_remap(pgrid_in, map1_2d, map2_2d, pgrid_out)
       TYPE(dbcsr_t_pgrid_type), INTENT(IN) :: pgrid_in
@@ -1112,9 +1069,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief as mp_environ but for special pgrid type
-!> \param pgrid ...
-!> \param dims ...
-!> \param task_coor ...
 ! **************************************************************************************************
    SUBROUTINE mp_environ_pgrid(pgrid, dims, task_coor)
       TYPE(dbcsr_t_pgrid_type), INTENT(IN) :: pgrid
@@ -1132,8 +1086,6 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
 ! **************************************************************************************************
 !> \brief As dbcsr_set
-!> \param tensor ...
-!> \param alpha ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_set_${dsuffix}$ (tensor, alpha)
       TYPE(dbcsr_t_type), INTENT(INOUT)                   :: tensor
@@ -1145,9 +1097,6 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
 ! **************************************************************************************************
 !> \brief As dbcsr_filter
-!> \param tensor ...
-!> \param eps ...
-!> \param method ...
 !> \param use_absolute
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_filter_${dsuffix}$ (tensor, eps, method, use_absolute)
@@ -1163,7 +1112,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief As dbcsr_get_info but for tensors
-!> \param tensor ...
 !> \param nblks_total number of blocks along each dimension
 !> \param nfull_total number of elements along each dimension
 !> \param nblks_local local number of blocks along each dimension
@@ -1172,16 +1120,12 @@ CONTAINS
 !> \param my_ploc process coordinates in process grid
 !> \param blks_local_1 local blocks along dimension 1
 !> \param blks_local_2 local blocks along dimension 2
-!> \param blks_local_...
 !> \param proc_dist_1 distribution vector along dimension 1
 !> \param proc_dist_2 distribution vector along dimension 2
-!> \param proc_dist_...
 !> \param blk_size_1 block sizes along dimension 1
 !> \param blk_size_2 block sizes along dimension 2
-!> \param blk_size_...
 !> \param blk_offset_1 block offsets along dimension 1
 !> \param blk_offset_2 block offsets along dimension 2
-!> \param blk_offset_...
 !> \param distribution distribution object
 !> \param name name of tensor
 !> \param data_type data type of tensor
@@ -1238,8 +1182,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief As dbcsr_get_num_blocks: get number of local blocks
-!> \param tensor ...
-!> \return ...
 ! **************************************************************************************************
    PURE FUNCTION dbcsr_t_get_num_blocks(tensor) RESULT(num_blocks)
       TYPE(dbcsr_t_type), INTENT(IN)    :: tensor
@@ -1249,8 +1191,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Get total number of blocks
-!> \param tensor ...
-!> \return ...
 ! **************************************************************************************************
    FUNCTION dbcsr_t_get_num_blocks_total(tensor) RESULT(num_blocks)
       TYPE(dbcsr_t_type), INTENT(IN)    :: tensor
@@ -1260,8 +1200,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief As dbcsr_get_data_size
-!> \param tensor ...
-!> \return ...
 ! **************************************************************************************************
    FUNCTION dbcsr_t_get_data_size(tensor) RESULT(data_size)
       TYPE(dbcsr_t_type), INTENT(IN)    :: tensor
@@ -1271,7 +1209,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Clear tensor (s.t. it does not contain any blocks)
-!> \param tensor ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_clear(tensor)
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
@@ -1282,7 +1219,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Finalize tensor, as dbcsr_finalize. This should be taken care of internally in dbcsr tensors,
 !>        there should not be any need to call this routine outside of dbcsr tensors.
-!> \param tensor ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_finalize(tensor)
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
@@ -1291,8 +1227,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief as dbcsr_scale
-!> \param tensor ...
-!> \param alpha ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_scale(tensor, alpha)
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor

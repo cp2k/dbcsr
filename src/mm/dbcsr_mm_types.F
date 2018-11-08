@@ -9,9 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Datatypes used by the dbcsr matrix-matrix multiplication machinery.
-!>
-!> \author  Urban Borstnik
-!>
 !> <b>Modification history:</b>
 !>  - 2013-01    reorganized code (Ole Schuett)
 ! **************************************************************************************************

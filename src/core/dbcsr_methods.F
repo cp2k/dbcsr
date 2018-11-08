@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Base methods on DBCSR data structures
-!> \author  Urban Borstnik
-!> \date    2009-05-12
-!> \version 0.95
-!>
-!> <b>Modification history:</b>
-!> - Created
 ! **************************************************************************************************
 MODULE dbcsr_methods
    USE dbcsr_array_types, ONLY: array_data, &
@@ -97,7 +91,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Releases a reference for a DBCSR matrix
-!>
 !> If there are no references left, the matrix is destroyed.
 !> \param[in,out] matrix DBCSR matrix
 ! **************************************************************************************************
@@ -158,7 +151,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Releases and potentially destroys a distribution
-!> \param dist ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_release(dist)
       TYPE(dbcsr_distribution_obj), INTENT(INOUT)        :: dist
@@ -183,10 +175,6 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_distribution_release
 
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_dist_release_locals(dist)
       TYPE(dbcsr_distribution_obj), INTENT(INOUT)        :: dist
 
@@ -248,10 +236,6 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_mp_grid_remove
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_release_locals(matrix)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
 
@@ -289,11 +273,6 @@ CONTAINS
 
 ! Pertaining to the dbcsr matrix.
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_nblkrows_total(matrix) RESULT(nblkrows_total)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER                                            :: nblkrows_total
@@ -301,99 +280,54 @@ CONTAINS
       nblkrows_total = matrix%nblkrows_total
    END FUNCTION dbcsr_nblkrows_total
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_nblkcols_total(matrix) RESULT(nblkcols_total)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER                                            :: nblkcols_total
 
       nblkcols_total = matrix%nblkcols_total
    END FUNCTION dbcsr_nblkcols_total
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_nfullrows_total(matrix) RESULT(nfullrows_total)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER                                            :: nfullrows_total
 
       nfullrows_total = matrix%nfullrows_total
    END FUNCTION dbcsr_nfullrows_total
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_nfullcols_total(matrix) RESULT(nfullcols_total)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER                                            :: nfullcols_total
 
       nfullcols_total = matrix%nfullcols_total
    END FUNCTION dbcsr_nfullcols_total
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_nblkrows_local(matrix) RESULT(nblkrows_local)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER                                            :: nblkrows_local
 
       nblkrows_local = matrix%nblkrows_local
    END FUNCTION dbcsr_nblkrows_local
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_nblkcols_local(matrix) RESULT(nblkcols_local)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER                                            :: nblkcols_local
 
       nblkcols_local = matrix%nblkcols_local
    END FUNCTION dbcsr_nblkcols_local
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_nfullrows_local(matrix) RESULT(nfullrows_local)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER                                            :: nfullrows_local
 
       nfullrows_local = matrix%nfullrows_local
    END FUNCTION dbcsr_nfullrows_local
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_nfullcols_local(matrix) RESULT(nfullcols_local)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER                                            :: nfullcols_local
 
       nfullcols_local = matrix%nfullcols_local
    END FUNCTION dbcsr_nfullcols_local
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_max_row_size(matrix) RESULT(max_row_size)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER                                            :: max_row_size
 
       max_row_size = matrix%max_rbs
    END FUNCTION dbcsr_max_row_size
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_max_col_size(matrix) RESULT(max_col_size)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER                                            :: max_col_size
@@ -401,11 +335,6 @@ CONTAINS
       max_col_size = matrix%max_cbs
    END FUNCTION dbcsr_max_col_size
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_distribution(matrix) RESULT(distribution)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       TYPE(dbcsr_distribution_obj)                       :: distribution
@@ -413,11 +342,6 @@ CONTAINS
       distribution = matrix%dist
    END FUNCTION dbcsr_distribution
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_name(matrix) RESULT(name)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       CHARACTER(len=default_string_length)               :: name
@@ -425,12 +349,6 @@ CONTAINS
       name = matrix%name
    END FUNCTION dbcsr_name
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \param newname ...
-!> \return ...
-! **************************************************************************************************
 
    SUBROUTINE dbcsr_setname(matrix, newname)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
@@ -469,11 +387,6 @@ CONTAINS
       use_mutable = matrix%work_mutable
    END FUNCTION dbcsr_use_mutable
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_row_block_sizes(matrix) RESULT(row_blk_sizes)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER, DIMENSION(:), POINTER                     :: row_blk_sizes
@@ -481,11 +394,6 @@ CONTAINS
       row_blk_sizes => array_data(matrix%row_blk_size)
    END FUNCTION dbcsr_row_block_sizes
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_col_block_sizes(matrix) RESULT(col_blk_sizes)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER, DIMENSION(:), POINTER                     :: col_blk_sizes
@@ -493,11 +401,6 @@ CONTAINS
       col_blk_sizes => array_data(matrix%col_blk_size)
    END FUNCTION dbcsr_col_block_sizes
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_col_block_offsets(matrix) RESULT(col_blk_offsets)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER, DIMENSION(:), POINTER                     :: col_blk_offsets
@@ -505,11 +408,6 @@ CONTAINS
       col_blk_offsets => array_data(matrix%col_blk_offset)
    END FUNCTION dbcsr_col_block_offsets
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_row_block_offsets(matrix) RESULT(row_blk_offsets)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER, DIMENSION(:), POINTER                     :: row_blk_offsets
@@ -519,7 +417,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Returns the blocked row size of a row
-!>
 !> This routine is optimized for speed and no checks are performed.
 !> \param[in] matrix          DBCSR matrix
 !> \param[in] row             row number
@@ -533,12 +430,6 @@ CONTAINS
       row_size = matrix%row_blk_size%low%data(row)
    END FUNCTION dbcsr_blk_row_size
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \param row ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_blk_row_offset(matrix, row) RESULT(row_offset)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER, INTENT(IN)                                :: row
@@ -549,7 +440,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Returns the blocked column size of a column
-!>
 !> This routine is optimized for speed and no checks are performed.
 !> \param[in] matrix          DBCSR matrix
 !> \param[in] column          column number
@@ -563,12 +453,6 @@ CONTAINS
       column_size = matrix%col_blk_size%low%data(column)
    END FUNCTION dbcsr_blk_column_size
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \param col ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_blk_col_offset(matrix, col) RESULT(col_offset)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER, INTENT(IN)                                :: col
@@ -774,7 +658,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Returns the number of blocks in the matrix
 !> \param matrix     matrix from which to get data
-!> \return ...
 ! **************************************************************************************************
    PURE FUNCTION dbcsr_get_num_blocks(matrix) RESULT(num_blocks)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
@@ -786,7 +669,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Returns the number of non-zero elements in the matrix
 !> \param matrix     matrix from which to get data
-!> \return ...
 ! **************************************************************************************************
    PURE FUNCTION dbcsr_get_nze(matrix) RESULT(num_nze)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
@@ -846,7 +728,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Releases a reference to and possible deallocates an image
 !>         distribution
-!> \param imgdist ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_image_dist_release(imgdist)
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
@@ -862,7 +743,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Retains a reference to an image distribution
-!> \param imgdist ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_image_dist_hold(imgdist)
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
@@ -872,7 +752,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Initialized an image distribution
-!> \param imgdist ...
 !> \par Akin to nullify.
 ! **************************************************************************************************
    SUBROUTINE dbcsr_image_dist_init(imgdist)
@@ -967,7 +846,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Unregisters a reference to the mutable data type
-!>
 !> The object is destroy when there is no reference to it left.
 !> \param[in,out] mutable     mutable data
 ! **************************************************************************************************
@@ -989,7 +867,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Creates a new mutable instance.
-!>
 !> \param[in,out] mutable     mutable data
 !> \param[in] data_type       data type to be stored here (see dbcsr_types for
 !>                            possibilities)
@@ -1021,7 +898,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Unregisters a reference to the mutable data type
-!>
 !> The object is destroy when there is no reference to it left.
 !> \param[in] mutable         mutable data
 !> \return whether the object is instantiated

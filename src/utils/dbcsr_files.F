@@ -9,11 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief Utility routines to open and close files.
-!> \par History
-!>      - Creation CP2K_WORKSHOP 1.0 TEAM
-!>      - Revised (18.02.2011,MK)
-!>      - Enhanced error checking (22.02.2011,MK)
-!> \author Matthias Krack (MK)
 ! **************************************************************************************************
 MODULE dbcsr_files
 
@@ -49,11 +44,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Add an entry to the list of preconnected units
-!> \param file_name ...
-!> \param unit_number ...
-!> \par History
-!>      - Creation (22.02.2011,MK)
-!> \author Matthias Krack (MK)
 ! **************************************************************************************************
    SUBROUTINE assign_preconnection(file_name, unit_number)
 
@@ -112,10 +102,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Close an open file given by its logical unit number.
 !>        Optionally, keep the file and unit preconnected.
-!> \param unit_number ...
-!> \param file_status ...
-!> \param keep_preconnection ...
-!> \author Matthias Krack (MK)
 ! **************************************************************************************************
    SUBROUTINE close_file(unit_number, file_status, keep_preconnection)
 
@@ -195,11 +181,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Remove an entry from the list of preconnected units
-!> \param file_name ...
-!> \param unit_number ...
-!> \par History
-!>      - Creation (22.02.2011,MK)
-!> \author Matthias Krack (MK)
 ! **************************************************************************************************
    SUBROUTINE delete_preconnection(file_name, unit_number)
 
@@ -234,9 +215,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Returns the first logical unit that is not preconnected
-!> \param file_name ...
-!> \return ...
-!> \author Matthias Krack (MK)
 !> \note
 !>       -1 if no free unit exists
 ! **************************************************************************************************
@@ -272,9 +250,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Allocate and initialise the list of preconnected units
-!> \par History
-!>      - Creation (22.02.2011,MK)
-!> \author Matthias Krack (MK)
 ! **************************************************************************************************
    SUBROUTINE init_preconnection_list()
 
@@ -300,17 +275,7 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Opens the requested file using a free unit number
-!> \param file_name ...
-!> \param file_status ...
-!> \param file_form ...
-!> \param file_action ...
-!> \param file_position ...
-!> \param file_pad ...
-!> \param unit_number ...
-!> \param debug ...
-!> \param skip_get_unit_number ...
 !> \param file_access file access mode
-!> \author Matthias Krack (MK)
 ! **************************************************************************************************
    SUBROUTINE open_file(file_name, file_status, file_form, file_action, &
                         file_position, file_pad, unit_number, debug, &
@@ -486,9 +451,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Checks if file exists, considering also the file discovery mechanism.
-!> \param file_name ...
-!> \return ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    FUNCTION file_exists(file_name) RESULT(exist)
       CHARACTER(LEN=*), INTENT(IN)                       :: file_name
@@ -500,9 +462,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Print the list of preconnected units
 !> \param output_unit which unit to print to (optional)
-!> \par History
-!>      - Creation (22.02.2011,MK)
-!> \author Matthias Krack (MK)
 ! **************************************************************************************************
    SUBROUTINE print_preconnection_list(output_unit)
       INTEGER, INTENT(IN), OPTIONAL                      :: output_unit

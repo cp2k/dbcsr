@@ -19,8 +19,6 @@
 !> \param[out] block_number  (optional) block number
 !> \param[out] row_size      (optional) logical row size of block
 !> \param[out] col_size      (optional) logical column size of block
-!> \param row_offset ...
-!> \param col_offset ...
 ! **************************************************************************************************
   SUBROUTINE iterator_next_1d_block_${nametype1}$ (iterator, row, column, block, &
                                                    transposed, block_number, row_size, col_size, row_offset, col_offset)
@@ -79,8 +77,6 @@
 !> \param[out] block_number  (optional) block number
 !> \param[out] row_size      (optional) logical row size of block
 !> \param[out] col_size      (optional) logical column size of block
-!> \param row_offset ...
-!> \param col_offset ...
 ! **************************************************************************************************
   SUBROUTINE iterator_next_2d_block_${nametype1}$ (iterator, row, column, &
                                                    block, transposed, &

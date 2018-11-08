@@ -9,10 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   DBCSR iterator operations
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
 !> <b>Modification history:</b>
 !  - 2010-02-18 Moved from dbcsr_operations and dbcsr_methods
 ! **************************************************************************************************
@@ -110,7 +106,6 @@ CONTAINS
 !>                                 to be contiguous; default is FALSE.
 !> \param[in] read_only            (optional) User promises not to change
 !>                                 returned data; default is FALSE
-!>
 !> \par Contiguous pointers
 !> Contiguous pointers may incur reallocation penalties but enable quick
 !> passing of arrays to routines with unspecified interfaces (i.e., direct
@@ -316,7 +311,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finds the first valid block, inclusive from the current position.
-!>
 !> If there is no valid block, pos is set to 0
 !> \param[in,out] pos        input: current position; output: next valid
 !>                           position or 0
@@ -347,7 +341,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finds the row to which the current block belongs
-!>
 !> If there is no valid block, pos is set to 0
 !> \param[in] pos            current position
 !> \param[in,out] row        input: current row; output: the row corresponding
@@ -386,7 +379,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finds the next proper position accounting for threads
-!>
 !> First time: pos and row are set to 0.
 !> If there is no valid block, pos is set to 0
 !> \param[inout] pos         current position and updated position
@@ -398,7 +390,6 @@ CONTAINS
 !> \param[in] row_p          row pointers
 !> \param[in] tdist          (optional) thread distribution
 !> \param[in] tid            my thread number
-!> \param local2global ...
 ! **************************************************************************************************
    PURE SUBROUTINE find_proper_position(pos, row, maxpos, maxrows, &
                                         blk_p, row_p, tdist, tid, local2global)
@@ -531,11 +522,6 @@ CONTAINS
       ENDIF
    END SUBROUTINE iterator_advance
 
-! **************************************************************************************************
-!> \brief ...
-!> \param iterator ...
-!> \param use_ithread ...
-! **************************************************************************************************
    SUBROUTINE find_proper_position_caller(iterator, use_ithread)
       TYPE(dbcsr_iterator), INTENT(INOUT)                :: iterator
       INTEGER, INTENT(in), OPTIONAL                      :: use_ithread
@@ -757,7 +743,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Returns whether there any blocks left in the iterator.
 !> \param[in] iterator       the iterator
-!> \return ...
 !> \param[in]
 ! **************************************************************************************************
    PURE FUNCTION dbcsr_iterator_blocks_left(iterator) RESULT(blocks_left)

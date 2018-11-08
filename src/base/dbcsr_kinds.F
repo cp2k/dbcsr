@@ -18,9 +18,6 @@
 !>          - NAG_F90
 !>          - SUN
 !>          - HITACHI
-!> \par History
-!>      Adapted for CP2K by JGH
-!> \author Matthias Krack
 ! **************************************************************************************************
 MODULE dbcsr_kinds
 
@@ -65,10 +62,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Print informations about the used data types.
-!> \param iw ...
-!> \par History
-!>      Adapted by JGH for Cp2k
-!> \author Matthias Krack
 ! **************************************************************************************************
    SUBROUTINE print_kind_info(iw)
 

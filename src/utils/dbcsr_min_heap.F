@@ -42,11 +42,6 @@ CONTAINS
 
    ! Lookup functions
 
-! **************************************************************************************************
-!> \brief ...
-!> \param n ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION get_parent(n) RESULT(parent)
       INTEGER, INTENT(IN)                                :: n
       INTEGER                                            :: parent
@@ -54,11 +49,6 @@ CONTAINS
       parent = INT(n/2)
    END FUNCTION get_parent
 
-! **************************************************************************************************
-!> \brief ...
-!> \param n ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION get_left_child(n) RESULT(child)
       INTEGER, INTENT(IN)                                :: n
       INTEGER                                            :: child
@@ -66,11 +56,6 @@ CONTAINS
       child = 2*n
    END FUNCTION get_left_child
 
-! **************************************************************************************************
-!> \brief ...
-!> \param n ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION get_right_child(n) RESULT(child)
       INTEGER, INTENT(IN)                                :: n
       INTEGER                                            :: child
@@ -78,12 +63,6 @@ CONTAINS
       child = 2*n + 1
    END FUNCTION get_right_child
 
-! **************************************************************************************************
-!> \brief ...
-!> \param heap ...
-!> \param n ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION get_value(heap, n) RESULT(value)
       TYPE(dbcsr_heap_type), INTENT(IN)                  :: heap
       INTEGER, INTENT(IN)                                :: n
@@ -92,12 +71,6 @@ CONTAINS
       value = heap%nodes(n)%node%value
    END FUNCTION get_value
 
-! **************************************************************************************************
-!> \brief ...
-!> \param heap ...
-!> \param key ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION get_value_by_key(heap, key) RESULT(value)
       TYPE(dbcsr_heap_type), INTENT(IN)                  :: heap
       INTEGER(KIND=keyt), INTENT(IN)                     :: key
@@ -111,11 +84,6 @@ CONTAINS
 
    ! Initialization functions
 
-! **************************************************************************************************
-!> \brief ...
-!> \param heap ...
-!> \param n ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_heap_new(heap, n)
       TYPE(dbcsr_heap_type), INTENT(OUT)                 :: heap
       INTEGER, INTENT(IN)                                :: n
@@ -125,10 +93,6 @@ CONTAINS
       ALLOCATE (heap%nodes(n))
    END SUBROUTINE dbcsr_heap_new
 
-! **************************************************************************************************
-!> \brief ...
-!> \param heap ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_heap_release(heap)
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
 
@@ -139,8 +103,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Fill heap with given values
-!> \param heap ...
-!> \param values ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_heap_fill(heap, values)
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
@@ -166,10 +128,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Returns the first heap element without removing it.
-!> \param heap ...
-!> \param key ...
-!> \param value ...
-!> \param found ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_heap_get_first(heap, key, value, found)
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
@@ -189,10 +147,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Returns and removes the first heap element and rebalances
 !>        the heap.
-!> \param heap ...
-!> \param key ...
-!> \param value ...
-!> \param found ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_heap_pop(heap, key, value, found)
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
@@ -217,9 +171,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Changes the value of the heap element with given key and
 !>        rebalances the heap.
-!> \param heap ...
-!> \param key ...
-!> \param value ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_heap_reset_node(heap, key, value)
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
@@ -239,8 +190,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Changes the value of the minimum heap element and rebalances the heap.
-!> \param heap ...
-!> \param value ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_heap_reset_first(heap, value)
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
@@ -251,12 +200,6 @@ CONTAINS
       CALL bubble_down(heap, 1)
    END SUBROUTINE dbcsr_heap_reset_first
 
-! **************************************************************************************************
-!> \brief ...
-!> \param heap ...
-!> \param e1 ...
-!> \param e2 ...
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_heap_swap(heap, e1, e2)
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
       INTEGER, INTENT(IN)                                :: e1, e2
@@ -277,9 +220,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Sets node e1 to e2
-!> \param heap ...
-!> \param e1 ...
-!> \param e2 ...
 ! **************************************************************************************************
    PURE SUBROUTINE dbcsr_heap_copy_node(heap, e1, e2)
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
@@ -298,8 +238,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Balances a heap by bubbling down from the given element.
-!> \param heap ...
-!> \param first ...
 ! **************************************************************************************************
    SUBROUTINE bubble_down(heap, first)
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
@@ -350,9 +288,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Balances a heap by bubbling up from the given element.
-!> \param heap ...
-!> \param first ...
-!> \param new_pos ...
 ! **************************************************************************************************
    SUBROUTINE bubble_up(heap, first, new_pos)
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap

@@ -9,7 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief Routines to split blocks and to convert between tensors with different block sizes.
-!> \author Patrick Seewald
 ! **************************************************************************************************
 
 MODULE dbcsr_tensor_split
@@ -63,7 +62,6 @@ CONTAINS
 !> \param tensor_in Input tensor
 !> \param tensor_out Output tensor (splitted blocks)
 !> \param block_size_1 block sizes for each of the tensor dimensions
-!> \param block_size_2 ...
 !> \param nodata don't copy data from tensor_in to tensor_out
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_split_blocks_generic(tensor_in, tensor_out, ${varlist("blk_size")}$, nodata)
@@ -341,7 +339,6 @@ CONTAINS
 !> \brief Copy tensor with split blocks to tensor with original block sizes.
 !> \param tensor_split_in tensor with smaller blocks
 !> \param tensor_out original tensor
-!> \param summation ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_split_copyback(tensor_split_in, tensor_out, summation)
       TYPE(dbcsr_t_type), INTENT(INOUT)               :: tensor_split_in

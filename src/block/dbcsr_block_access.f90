@@ -293,7 +293,6 @@
 
 ! **************************************************************************************************
 !> \brief Inserts a block in a dbcsr matrix.
-!>
 !> If the block exists, the current data is overwritten.
 !> \param[in]  matrix         DBCSR matrix
 !> \param[in]  row            the logical row

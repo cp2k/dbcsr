@@ -10,7 +10,6 @@
 ! **************************************************************************************************
 !> \brief Wrapper for allocating, copying and reshaping arrays.
 !> \todo: with fortran 2008 support, this should be replaced by plain ALLOCATE
-!> \author Patrick Seewald
 ! **************************************************************************************************
 MODULE dbcsr_allocate_wrap
 

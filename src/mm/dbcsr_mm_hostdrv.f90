@@ -11,7 +11,6 @@
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
 ! **************************************************************************************************
 !> \brief Processes MM stack and issues BLAS xGEMM calls
-!>
 !> \param[in] params           Stack of MM parameters
 !> \param[in] stack_size       Number of parameters
 !> \param[in] a_data           Left-matrix data
@@ -52,7 +51,6 @@
 
 ! **************************************************************************************************
 !> \brief Processes MM stack and issues internal MM calls.
-!>
 !> \param[in] params           Stack of MM parameters
 !> \param[in] stack_size       Number of parameters
 !> \param[in] a_data           Left-matrix data
@@ -88,8 +86,6 @@
 
 ! **************************************************************************************************
 !> \brief Processes MM stack and issues SMM library calls
-!>
-!> \param stack_descr ...
 !> \param[in] params           Stack of MM parameters
 !> \param[in] stack_size       Number of parameters
 !> \param[in] a_data           Left-matrix data
@@ -149,15 +145,12 @@
 
 ! **************************************************************************************************
 !> \brief Processes MM stack and issues libxsmm calls
-!>
-!> \param stack_descr ...
 !> \param[in] params           Stack of MM parameters
 !> \param[in] stack_size       Number of parameters
 !> \param[in] a_data           Left-matrix data
 !> \param[in] b_data           Right-matrix data
 !> \param[in,out] c_data       Product data
 !> \param[out] used_smm        Flag to signal if an efficient kernel was used
-!> \author Ole Schuett
 ! **************************************************************************************************
 #if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
   SUBROUTINE xsmm_process_mm_batch_${nametype1}$ (stack_descr, params, &
@@ -221,15 +214,12 @@
 
 ! **************************************************************************************************
 !> \brief Processes MM stack and issues libxsmm calls
-!>
-!> \param stack_descr ...
 !> \param[in] params           Stack of MM parameters
 !> \param[in] stack_size       Number of parameters
 !> \param[in] a_data           Left-matrix data
 !> \param[in] b_data           Right-matrix data
 !> \param[in,out] c_data       Product data
 !> \param[out] used_smm        Flag to signal if an efficient kernel was used
-!> \author Ole Schuett
 ! **************************************************************************************************
   SUBROUTINE xsmm_process_mm_stack_${nametype1}$ (stack_descr, params, &
                                                   stack_size, a_data, b_data, c_data, used_smm)
@@ -360,15 +350,6 @@
 #endif
   END SUBROUTINE xsmm_process_mm_stack_${nametype1}$
 
-! **************************************************************************************************
-!> \brief ...
-!> \param M ...
-!> \param N ...
-!> \param K ...
-!> \param A ...
-!> \param B ...
-!> \param C ...
-! **************************************************************************************************
   PURE SUBROUTINE internal_mm_${nametype1}$_nn( &
      M, N, K, A, B, C)
      INTEGER, INTENT(IN)                      :: M, N, K

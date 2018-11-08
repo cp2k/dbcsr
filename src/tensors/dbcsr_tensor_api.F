@@ -14,7 +14,6 @@
 !>          Ultimately, a reduced subset and well defined api will remain,
 !>          possibly grouped in to standard and expert api.
 !>          Currently, this is work in progress.
-!> \author  Alfio Lazzaro
 ! **************************************************************************************************
 MODULE dbcsr_tensor_api
    USE dbcsr_tensor, ONLY: &

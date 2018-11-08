@@ -9,10 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Stacks of small matrix multiplications
-!> \author  Urban Borstnik
-!> \date    2011-09-26
-!> \version 0.9
-!>
 !> <b>Modification history:</b>
 !  - 2011-09-26 Split dbcsr_internal_operations
 ! **************************************************************************************************
@@ -72,22 +68,18 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Initialize the library
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_lib_init()
    END SUBROUTINE dbcsr_mm_hostdrv_lib_init
 
 ! **************************************************************************************************
 !> \brief Finalize the library
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_lib_finalize()
    END SUBROUTINE dbcsr_mm_hostdrv_lib_finalize
 
 ! **************************************************************************************************
 !> \brief Initialize the library
-!> \param this ...
-!> \param product_wm ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_init(this, product_wm)
       TYPE(dbcsr_mm_hostdrv_type), INTENT(INOUT)         :: this
@@ -108,15 +100,9 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Calls the various drivers that process the stack.
-!>
-!> \param this ...
 !> \param[in] left Left-matrix data
 !> \param[in] right Right-matrix data
 !> \param[in] params           Stack of GEMM parameters
-!> \param stack_size ...
-!> \param stack_descr ...
-!> \param success ...
-!> \param used_smm ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_process(this, left, right, params, stack_size, &
                                        stack_descr, success, used_smm)
@@ -270,7 +256,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Helper-routine used by dbcsr_mm_hostdrv_process to print debug info.
-!> \param params ...
 ! **************************************************************************************************
    SUBROUTINE print_gemm_parameters(params)
       INTEGER, DIMENSION(:, :), INTENT(in)               :: params

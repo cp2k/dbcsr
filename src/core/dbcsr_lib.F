@@ -9,8 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Routines that affect the DBCSR library as a whole
-!> \author  Ole Schuett
-!> \date    10-2014
 ! **************************************************************************************************
 
 MODULE dbcsr_lib
@@ -97,8 +95,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Initialize the DBCSR library using internal loggers and timer callbacks
-!> \param mp_comm ...
-!> \param io_unit ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib_def(mp_comm, io_unit)
       INTEGER, INTENT(IN)  :: mp_comm
@@ -130,12 +126,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Initialize the DBCSR library using external loggers and timer callbacks
-!> \param mp_comm ...
-!> \param in_timeset_hook ...
-!> \param in_timestop_hook ...
-!> \param in_abort_hook ...
-!> \param in_warn_hook ...
-!> \param io_unit ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib_hooks(mp_comm, &
                                    in_timeset_hook, in_timestop_hook, &
@@ -166,10 +156,7 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Initialize the DBCSR library
-!>
 !> Prepares the DBCSR library for use.
-!> \param mp_comm ...
-!> \param io_unit ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib_pre(mp_comm, io_unit)
 #if defined(__LIBXSMM)
@@ -213,7 +200,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Initialize the DBCSR library
-!>
 !> Prepares the DBCSR library for use.
 ! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib_low()
@@ -258,7 +244,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finalize the DBCSR library
-!>
 !> Cleans up after the DBCSR library.  Used to deallocate persistent objects.
 ! **************************************************************************************************
    SUBROUTINE dbcsr_finalize_lib()
@@ -306,10 +291,7 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Show the whole DBCSR statistics
-!>
 !> Prepares the DBCSR library for use.
-!> \param print_timers ...
-!> \param callgraph_filename ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_print_statistics(print_timers, callgraph_filename)
       LOGICAL, INTENT(IN), OPTIONAL          :: print_timers

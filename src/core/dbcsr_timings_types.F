@@ -12,9 +12,6 @@
 !>        Due to the fortran restriction on circular module-dependencies
 !>        the types, which are used through dict or list had to go
 !>        into the separate module timings_base_type.F
-!> \par History
-!>      12.2012 Created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
 MODULE dbcsr_timings_types
    USE dbcsr_dict, ONLY: dict_i4tuple_callstat_type, &

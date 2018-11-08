@@ -9,8 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Types related to DBCSR data area
-!> \author  Ole Schuett
-!> \date    10-2014
 ! **************************************************************************************************
 MODULE dbcsr_data_types
    USE dbcsr_acc_devmem, ONLY: acc_devmem_type
@@ -147,9 +145,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Helper-routine, returns size of given datatype in terms of bytes.
-!> \param datatype ...
-!> \return ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    FUNCTION dbcsr_datatype_sizeof(datatype) RESULT(size)
       INTEGER, INTENT(IN)                                :: datatype

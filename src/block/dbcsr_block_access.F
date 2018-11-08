@@ -9,10 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   DBCSR block access
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
 !> <b>Modification history:</b>
 !  - 2010-02-18 Moved from dbcsr_operations and dbcsr_methods
 !  - 2010-04-22 Added block buffer operations
@@ -147,7 +143,6 @@ CONTAINS
 !> \param[in]  matrix         DBCSR matrix
 !> \param[in]  row            row of block to remove
 !> \param[in]  col            column of block to remove
-!> \param block_nze ...
 !> \param[in]  block_number   (optional) the block number, if it is known
 ! **************************************************************************************************
    SUBROUTINE dbcsr_remove_block(matrix, row, col, block_nze, block_number)
@@ -293,18 +288,8 @@ CONTAINS
 !>                  matrix(dp) [+]= [scale(dp)] * block(dp)
 !>                  matrix(dp) [+]= [scale(dp)] * block(sp)
 !>                  matrix(sp) [+]= [scale(dp)] * block(sp)
-!> \param matrix ...
-!> \param row ...
-!> \param col ...
-!> \param block ...
-!> \param lb_row_col ...
-!> \param transposed ...
-!> \param summation ...
-!> \param flop ...
-!> \param scale ...
 !> \param[in]
 !> \param[out]
-!>
 ! **************************************************************************************************
    SUBROUTINE dbcsr_put_block_area(matrix, row, col, block, lb_row_col, transposed, &
                                    summation, flop, scale)

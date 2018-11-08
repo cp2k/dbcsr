@@ -9,8 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Routines related to message passing
-!> \author  Ole Schuett
-!> \date    10-2014
 ! **************************************************************************************************
 MODULE dbcsr_mp_methods
    USE dbcsr_methods, ONLY: dbcsr_mp_grid_remove, &
@@ -52,7 +50,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Initializes a new process grid
-!> \param mp_env ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mp_init(mp_env)
       TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
@@ -62,8 +59,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Checks whether this process is part of the message passing environment
-!> \param mp_env ...
-!> \return ...
 ! **************************************************************************************************
    FUNCTION dbcsr_mp_active(mp_env) RESULT(active)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
@@ -75,16 +70,9 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Creates new process grid
 !> \param[out] mp_env         multiprocessor environment
-!> \param[in] mp_group ...
 !> \param[in] pgrid           process grid
 !> \param[in] mynode          my processor number
 !> \param[in] numnodes        total number of processors (processes)
-!> \param myprow ...
-!> \param mypcol ...
-!> \param source ...
-!> \par History
-!>      UB (2010-02-04)       Duplicates own communicator and sets up
-!>                            cartesian grid
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mp_new_grid(mp_env, mp_group, pgrid, mynode, &
                                 numnodes, myprow, mypcol, source)
@@ -132,10 +120,7 @@ CONTAINS
 
    ! **************************************************************************************************
 !> \brief Creates a new dbcsr_mp_obj based on a input template
-!> \param mp_env ...
-!> \param mp_group ...
 !> \param pgrid Optional, if not provided group is assumed to be a 2D cartesian communicator
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mp_new_group(mp_env, mp_group, pgrid)
       TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
@@ -299,13 +284,6 @@ CONTAINS
       mp_env%mp%refcount = mp_env%mp%refcount + 1
    END SUBROUTINE dbcsr_mp_hold
 
-! **************************************************************************************************
-!> \brief ...
-!> \param mp_env ...
-!> \param prow ...
-!> \param pcol ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_mp_get_process(mp_env, prow, pcol) RESULT(process)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, INTENT(IN)                                :: prow, pcol
@@ -314,121 +292,66 @@ CONTAINS
       process = mp_env%mp%pgrid(prow, pcol)
    END FUNCTION dbcsr_mp_get_process
 
-! **************************************************************************************************
-!> \brief ...
-!> \param mp_env ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_mp_pgrid(mp_env) RESULT(pgrid)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(:, :), POINTER                  :: pgrid
 
       pgrid => mp_env%mp%pgrid
    END FUNCTION dbcsr_mp_pgrid
-! **************************************************************************************************
-!> \brief ...
-!> \param mp_env ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_mp_numnodes(mp_env) RESULT(numnodes)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: numnodes
 
       numnodes = mp_env%mp%numnodes
    END FUNCTION dbcsr_mp_numnodes
-! **************************************************************************************************
-!> \brief ...
-!> \param mp_env ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_mp_mynode(mp_env) RESULT(mynode)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: mynode
 
       mynode = mp_env%mp%mynode
    END FUNCTION dbcsr_mp_mynode
-! **************************************************************************************************
-!> \brief ...
-!> \param mp_env ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_mp_group(mp_env) RESULT(mp_group)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: mp_group
 
       mp_group = mp_env%mp%mp_group
    END FUNCTION dbcsr_mp_group
-! **************************************************************************************************
-!> \brief ...
-!> \param mp_env ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_mp_nprows(mp_env) RESULT(nprows)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: nprows
 
       nprows = SIZE(mp_env%mp%pgrid, 1)
    END FUNCTION dbcsr_mp_nprows
-! **************************************************************************************************
-!> \brief ...
-!> \param mp_env ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_mp_npcols(mp_env) RESULT(npcols)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: npcols
 
       npcols = SIZE(mp_env%mp%pgrid, 2)
    END FUNCTION dbcsr_mp_npcols
-! **************************************************************************************************
-!> \brief ...
-!> \param mp_env ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_mp_myprow(mp_env) RESULT(myprow)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: myprow
 
       myprow = mp_env%mp%myprow
    END FUNCTION dbcsr_mp_myprow
-! **************************************************************************************************
-!> \brief ...
-!> \param mp_env ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_mp_mypcol(mp_env) RESULT(mypcol)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: mypcol
 
       mypcol = mp_env%mp%mypcol
    END FUNCTION dbcsr_mp_mypcol
-! **************************************************************************************************
-!> \brief ...
-!> \param mp_env ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_mp_has_subgroups(mp_env) RESULT(has_subgroups)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       LOGICAL                                            :: has_subgroups
 
       has_subgroups = mp_env%mp%subgroups_defined
    END FUNCTION dbcsr_mp_has_subgroups
-! **************************************************************************************************
-!> \brief ...
-!> \param mp_env ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_mp_my_row_group(mp_env) RESULT(row_group)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: row_group
 
       row_group = mp_env%mp%prow_group
    END FUNCTION dbcsr_mp_my_row_group
-! **************************************************************************************************
-!> \brief ...
-!> \param mp_env ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_mp_my_col_group(mp_env) RESULT(col_group)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: col_group
