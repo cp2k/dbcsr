@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Accelerator support
-! **************************************************************************************************
 MODULE dbcsr_acc_event
+   !! Accelerator support
 #if defined (__DBCSR_ACC)
    USE ISO_C_BINDING, ONLY: C_INT, C_NULL_PTR, C_PTR, C_ASSOCIATED, C_NULL_PTR
 #endif

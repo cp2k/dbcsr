@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR data methods
-! **************************************************************************************************
 MODULE dbcsr_data_methods
+   !! DBCSR data methods
    USE dbcsr_acc_devmem, ONLY: acc_devmem_allocate_bytes, &
                                acc_devmem_allocated, &
                                acc_devmem_dev2host, &
@@ -73,10 +71,8 @@ MODULE dbcsr_data_methods
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Transfers data from host- to device-buffer, asynchronously.
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_host2dev(area)
+      !! Transfers data from host- to device-buffer, asynchronously.
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_host2dev', &
@@ -118,10 +114,8 @@ CONTAINS
       CALL acc_event_record(area%d%acc_ready, area%d%memory_type%acc_stream)
    END SUBROUTINE dbcsr_data_host2dev
 
-! **************************************************************************************************
-!> \brief Transfers data from device- to host-buffer, asynchronously.
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_dev2host(area)
+      !! Transfers data from device- to host-buffer, asynchronously.
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_dev2host', &

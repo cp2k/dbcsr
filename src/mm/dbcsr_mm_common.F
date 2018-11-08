@@ -279,10 +279,8 @@ CONTAINS
 
    END SUBROUTINE rec_split
 
-! **************************************************************************************************
-!> \brief Enumerate all occurring blocksizes
-! **************************************************************************************************
    SUBROUTINE enumerate_blk_sizes(blk_sizes, max_size, enum, rev_enum)
+      !! Enumerate all occurring blocksizes
       INTEGER, DIMENSION(:), POINTER                     :: blk_sizes
       INTEGER, INTENT(IN)                                :: max_size
       INTEGER, DIMENSION(:), POINTER                     :: enum, rev_enum
@@ -317,10 +315,8 @@ CONTAINS
 
    END SUBROUTINE enumerate_blk_sizes
 
-! **************************************************************************************************
-!> \brief write out a stack for transposing the blocks
-! **************************************************************************************************
    SUBROUTINE acc_transpose_blocks(matrix, trs_stackbuf, &
+      !! write out a stack for transposing the blocks
                                    row_blk_sizes, col_blk_sizes, &
                                    row_blk_sizes2enum, enum2row_blk_sizes, &
                                    col_blk_sizes2enum, enum2col_blk_sizes, &
@@ -470,10 +466,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE acc_transpose_blocks
 
-! **************************************************************************************************
-!> \brief Guess the size of the product matrix from the A and B sparsities
-! **************************************************************************************************
    FUNCTION product_matrix_size_guess(matrix_left, matrix_right, product_matrix, &
+      !! Guess the size of the product matrix from the A and B sparsities
                                       left_data_size, right_data_size, &
                                       left_col_nimages, right_row_nimages, &
                                       nthreads) RESULT(size_guess)

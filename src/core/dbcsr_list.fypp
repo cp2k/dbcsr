@@ -58,10 +58,8 @@ END TYPE list_${valuetype}$_type
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Test if the given list has been initialized.
-! **************************************************************************************************
 FUNCTION list_${valuetype}$_isready(list) RESULT(res)
+   !! Test if the given list has been initialized.
     TYPE(list_${valuetype}$_type), intent(in)  :: list
     LOGICAL                                     :: res
     res = ASSOCIATED(list%arr)
@@ -134,10 +132,8 @@ SUBROUTINE list_${valuetype}$_set(list, value, pos)
 END SUBROUTINE list_${valuetype}$_set
 
 
-! **************************************************************************************************
-!> \brief Appends the given value at the end of the list.
-! **************************************************************************************************
 SUBROUTINE list_${valuetype}$_push(list, value)
+   !! Appends the given value at the end of the list.
     TYPE(list_${valuetype}$_type), intent(inout)  :: list
     ${valuetype_in}$, intent(in)                  :: value
     INTEGER                                     :: stat
@@ -227,10 +223,8 @@ END FUNCTION list_${valuetype}$_pop
 
 
 
-! **************************************************************************************************
-!> \brief Removes all values from the list. The list itself is not deallocated.
-! **************************************************************************************************
 SUBROUTINE list_${valuetype}$_clear(list)
+   !! Removes all values from the list. The list itself is not deallocated.
     TYPE(list_${valuetype}$_type), intent(inout)  :: list
     INTEGER :: i
 
@@ -291,10 +285,8 @@ SUBROUTINE list_${valuetype}$_del(list, pos)
 
 END SUBROUTINE list_${valuetype}$_del
 
-! **************************************************************************************************
-!> \brief Returns the current size of the list.
-! **************************************************************************************************
 FUNCTION list_${valuetype}$_size(list) RESULT(size)
+   !! Returns the current size of the list.
     TYPE(list_${valuetype}$_type), intent(in)  :: list
     INTEGER :: size
 
@@ -305,10 +297,8 @@ FUNCTION list_${valuetype}$_size(list) RESULT(size)
 END FUNCTION list_${valuetype}$_size
 
 
-! **************************************************************************************************
-!> \brief Internal routine for changing the size of the internal array.
-! **************************************************************************************************
 SUBROUTINE change_capacity_${valuetype}$(list, new_capacity)
+   !! Internal routine for changing the size of the internal array.
    TYPE(list_${valuetype}$_type), intent(inout)  :: list
    INTEGER, intent(in) :: new_capacity
    INTEGER :: i, new_cap, stat

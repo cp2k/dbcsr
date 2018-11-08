@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Wrappers to message passing calls.
-! **************************************************************************************************
 MODULE dbcsr_mp_operations
+   !! Wrappers to message passing calls.
 
    USE dbcsr_config, ONLY: has_MPI
    USE dbcsr_data_methods, ONLY: dbcsr_data_get_type
@@ -426,10 +424,8 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_irecv_any
 
-! **************************************************************************************************
-!> \brief Window initialization function of encapsulated data.
-! **************************************************************************************************
    SUBROUTINE dbcsr_win_create_any(base, comm, win)
+      !! Window initialization function of encapsulated data.
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
       INTEGER, INTENT(IN)                                :: comm
       INTEGER, INTENT(OUT)                               :: win
@@ -451,10 +447,8 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_win_create_any
 
-! **************************************************************************************************
-!> \brief Single-sided Get function of encapsulated data.
-! **************************************************************************************************
    SUBROUTINE dbcsr_rget_any(base, source, win, win_data, myproc, disp, request, &
+      !! Single-sided Get function of encapsulated data.
                              origin_datatype, target_datatype)
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
       INTEGER, INTENT(IN)                                :: source, win
@@ -487,10 +481,8 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_rget_any
 
-! **************************************************************************************************
-!> \brief Bcast function of encapsulated data.
-! **************************************************************************************************
    SUBROUTINE dbcsr_ibcast_any(base, source, grp, request)
+      !! Bcast function of encapsulated data.
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
       INTEGER, INTENT(IN)                                :: source, grp
       INTEGER, INTENT(INOUT)                             :: request
@@ -512,10 +504,8 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_ibcast_any
 
-! **************************************************************************************************
-!> \brief Scatter function of encapsulated data.
-! **************************************************************************************************
    SUBROUTINE dbcsr_iscatterv_any(base, counts, displs, msg, recvcount, root, grp, request)
+      !! Scatter function of encapsulated data.
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
       INTEGER, DIMENSION(:), INTENT(IN)                  :: counts, displs
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: msg
@@ -542,10 +532,8 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_iscatterv_any
 
-! **************************************************************************************************
-!> \brief Gather function of encapsulated data.
-! **************************************************************************************************
    SUBROUTINE dbcsr_gatherv_any(base, ub_base, msg, counts, displs, root, grp)
+      !! Gather function of encapsulated data.
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
       INTEGER, INTENT(IN)                                :: ub_base
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: msg
@@ -572,10 +560,8 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_gatherv_any
 
-! **************************************************************************************************
-!> \brief Send/Recv function of encapsulated data.
-! **************************************************************************************************
    SUBROUTINE dbcsr_isendrecv_any(msgin, dest, msgout, source, grp, send_request, recv_request)
+      !! Send/Recv function of encapsulated data.
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: dest
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: msgout

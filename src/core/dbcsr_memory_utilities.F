@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Utility routines for the memory handling.
-! **************************************************************************************************
 MODULE dbcsr_memory_utilities
+   !! Utility routines for the memory handling.
 
    USE dbcsr_kinds, ONLY: default_path_length, &
                           default_string_length, &
@@ -75,10 +73,8 @@ CONTAINS
 
 #:enddef
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a complex vector with a new dimension
-! **************************************************************************************************
    SUBROUTINE reallocate_c1(p, lb1_new, ub1_new)
+      !! (Re)Allocate a complex vector with a new dimension
 
       COMPLEX(KIND=dp), DIMENSION(:), POINTER            :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new
@@ -92,10 +88,8 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_c1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a complex array 2D with a new dimension
-! **************************************************************************************************
    SUBROUTINE reallocate_c2(p, lb1_new, ub1_new, lb2_new, ub2_new)
+      !! (Re)Allocate a complex array 2D with a new dimension
 
       COMPLEX(KIND=dp), DIMENSION(:, :), POINTER         :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new
@@ -109,10 +103,8 @@ $: reallocate(rank=2)
 
    END SUBROUTINE reallocate_c2
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a complex array 3D with a new dimension
-! **************************************************************************************************
    SUBROUTINE reallocate_c3(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new)
+      !! (Re)Allocate a complex array 3D with a new dimension
 
       COMPLEX(KIND=dp), DIMENSION(:, :, :), POINTER      :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new, &
@@ -127,10 +119,8 @@ $: reallocate(rank=3)
 
    END SUBROUTINE reallocate_c3
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a complex array 4D with a new dimension
-! **************************************************************************************************
    SUBROUTINE reallocate_c4(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new, &
+      !! (Re)Allocate a complex array 4D with a new dimension
                             lb4_new, ub4_new)
 
       COMPLEX(KIND=dp), DIMENSION(:, :, :, :), POINTER   :: p
@@ -147,10 +137,8 @@ $: reallocate(rank=4)
 
    END SUBROUTINE reallocate_c4
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an integer vector with a new dimension.
-! **************************************************************************************************
    SUBROUTINE reallocate_i1(p, lb1_new, ub1_new)
+      !! (Re)Allocate an integer vector with a new dimension.
 
       INTEGER, DIMENSION(:), POINTER                     :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new
@@ -164,10 +152,8 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_i1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an integer array with a new dimension.
-! **************************************************************************************************
    SUBROUTINE reallocate_i2(p, lb1_new, ub1_new, lb2_new, ub2_new)
+      !! (Re)Allocate an integer array with a new dimension.
 
       INTEGER, DIMENSION(:, :), POINTER                  :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new
@@ -181,10 +167,8 @@ $: reallocate(rank=2)
 
    END SUBROUTINE reallocate_i2
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an integer array 3D with a new dimension.
-! **************************************************************************************************
    SUBROUTINE reallocate_i3(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new)
+      !! (Re)Allocate an integer array 3D with a new dimension.
 
       INTEGER, DIMENSION(:, :, :), POINTER               :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new, &
@@ -199,10 +183,8 @@ $: reallocate(rank=3)
 
    END SUBROUTINE reallocate_i3
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an integer array 3D with a new dimension.
-! **************************************************************************************************
    SUBROUTINE reallocate_i4(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new, &
+      !! (Re)Allocate an integer array 3D with a new dimension.
                             lb4_new, ub4_new)
 
       INTEGER, DIMENSION(:, :, :, :), POINTER            :: p
@@ -218,10 +200,8 @@ $: reallocate(rank=4)
 
    END SUBROUTINE reallocate_i4
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an integer (int_8) vector with a new dimension.
-! **************************************************************************************************
    SUBROUTINE reallocate_8i1(p, lb1_new, ub1_new)
+      !! (Re)Allocate an integer (int_8) vector with a new dimension.
 
       INTEGER(KIND=int_8), DIMENSION(:), POINTER         :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new
@@ -235,10 +215,8 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_8i1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an integer (int_8) array with a new dimension.
-! **************************************************************************************************
    SUBROUTINE reallocate_8i2(p, lb1_new, ub1_new, lb2_new, ub2_new)
+      !! (Re)Allocate an integer (int_8) array with a new dimension.
 
       INTEGER(kind=int_8), DIMENSION(:, :), POINTER      :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new
@@ -252,10 +230,8 @@ $: reallocate(rank=2)
 
    END SUBROUTINE reallocate_8i2
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an real vector with a new dimension.
-! **************************************************************************************************
    SUBROUTINE reallocate_r1(p, lb1_new, ub1_new)
+      !! (Re)Allocate an real vector with a new dimension.
 
       REAL(KIND=dp), DIMENSION(:), POINTER               :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new
@@ -269,10 +245,8 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_r1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an real array with new dimensions.
-! **************************************************************************************************
    SUBROUTINE reallocate_r2(p, lb1_new, ub1_new, lb2_new, ub2_new)
+      !! (Re)Allocate an real array with new dimensions.
 
       REAL(KIND=dp), DIMENSION(:, :), POINTER            :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new
@@ -286,10 +260,8 @@ $: reallocate(rank=2)
 
    END SUBROUTINE reallocate_r2
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an real array 3D with new dimensions.
-! **************************************************************************************************
    SUBROUTINE reallocate_r3(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new)
+      !! (Re)Allocate an real array 3D with new dimensions.
 
       REAL(KIND=dp), DIMENSION(:, :, :), POINTER         :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new, &
@@ -304,10 +276,8 @@ $: reallocate(rank=3)
 
    END SUBROUTINE reallocate_r3
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an real array 4D with new dimensions.
-! **************************************************************************************************
    SUBROUTINE reallocate_r4(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new, &
+      !! (Re)Allocate an real array 4D with new dimensions.
                             lb4_new, ub4_new)
 
       REAL(KIND=dp), DIMENSION(:, :, :, :), POINTER      :: p
@@ -323,10 +293,8 @@ $: reallocate(rank=4)
 
    END SUBROUTINE reallocate_r4
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an real array 5D with new dimensions.
-! **************************************************************************************************
    SUBROUTINE reallocate_r5(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new, &
+      !! (Re)Allocate an real array 5D with new dimensions.
                             lb4_new, ub4_new, lb5_new, ub5_new)
 
       REAL(KIND=dp), DIMENSION(:, :, :, :, :), POINTER   :: p
@@ -344,10 +312,8 @@ $: reallocate(rank=5)
 
    END SUBROUTINE reallocate_r5
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a logical vector with a new dimension.
-! **************************************************************************************************
    SUBROUTINE reallocate_l1(p, lb1_new, ub1_new)
+      !! (Re)Allocate a logical vector with a new dimension.
 
       LOGICAL, DIMENSION(:), POINTER                     :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new

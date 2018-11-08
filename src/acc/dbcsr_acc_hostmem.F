@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Accelerator support
-! **************************************************************************************************
 MODULE dbcsr_acc_hostmem
+   !! Accelerator support
 #if defined (__DBCSR_ACC)
    USE ISO_C_BINDING, ONLY: C_INT, C_SIZE_T, C_PTR, C_LOC, C_F_POINTER
 #endif

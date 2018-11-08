@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR work matrix utilities
-! **************************************************************************************************
 MODULE dbcsr_work_operations
+   !! DBCSR work matrix utilities
 
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_hold, &
@@ -1331,10 +1329,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_work_destroy
 
-! **************************************************************************************************
-!> \brief Deallocates and destroys a work matrix.
-! **************************************************************************************************
    SUBROUTINE dbcsr_work_destroy_all(m)
+      !! Deallocates and destroys a work matrix.
       TYPE(dbcsr_type), INTENT(INOUT)                    :: m
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_work_destroy_all', &
@@ -1769,10 +1765,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_merge_single_wm
 
-! **************************************************************************************************
-!> \brief Builds a new index from several work matrices.
-! **************************************************************************************************
    SUBROUTINE merge_index(new_row_p, new_col_i, new_blk_p, &
+      !! Builds a new index from several work matrices.
                           blk_d, old_row_p, old_col_i, old_blk_p, &
                           all_row_p, all_col_i, all_blk_p, &
                           all_data_offsets, nwms, nrows, max_row_count, sort_data)

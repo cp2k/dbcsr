@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR transformations
-! **************************************************************************************************
 MODULE dbcsr_transformations
+   !! DBCSR transformations
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_hold, &
                                 array_i1d_obj, &
@@ -284,10 +282,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_new_transposed
 
-! **************************************************************************************************
-!> \brief Transposes a DBCSR matrix, keeping the same distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_transposed(transposed, normal, shallow_data_copy, &
+      !! Transposes a DBCSR matrix, keeping the same distribution
                                transpose_data, transpose_distribution, use_distribution)
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: transposed

@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Tests for CP2K DBCSR operations
-! **************************************************************************************************
 MODULE dbcsr_test_methods
+   !! Tests for CP2K DBCSR operations
    USE dbcsr_blas_operations, ONLY: dbcsr_lapack_larnv, &
                                     set_larnv_seed
    USE dbcsr_block_access, ONLY: dbcsr_put_block
@@ -80,10 +78,8 @@ MODULE dbcsr_test_methods
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Reset the seed used for generating random matrices to default value
-! **************************************************************************************************
    SUBROUTINE dbcsr_reset_randmat_seed()
+      !! Reset the seed used for generating random matrices to default value
       randmat_counter = rand_seed_init
    END SUBROUTINE
 

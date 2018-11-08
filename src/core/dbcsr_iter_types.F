@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Collection of routines to handle the iteration info
-! **************************************************************************************************
 MODULE dbcsr_iter_types
+   !! Collection of routines to handle the iteration info
    USE dbcsr_kinds, ONLY: default_path_length, &
                           default_string_length
 #include "base/dbcsr_base_uses.f90"

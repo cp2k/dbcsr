@@ -7,11 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief tall-and-skinny matrices: Input / Output
-! **************************************************************************************************
 
 MODULE dbcsr_tas_io
+
+   !! tall-and-skinny matrices: Input / Output
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_type, dbcsr_tas_split_info
    USE dbcsr_tas_global, ONLY: &
@@ -182,10 +181,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Print info on how matrix is split
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_write_split_info(info, io_unit, name)
+      !! Print info on how matrix is split
       TYPE(dbcsr_tas_split_info), INTENT(IN)             :: info
       INTEGER, INTENT(IN) :: io_unit
       CHARACTER(len=*), INTENT(IN), OPTIONAL             :: name

@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Operations on the DBCSR index
-! **************************************************************************************************
 MODULE dbcsr_index_operations
+   !! Operations on the DBCSR index
 
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_size
@@ -213,10 +211,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE make_index_triangular
 
-! **************************************************************************************************
-!> \brief Collapses a row_p index
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_dbcsr_index(row_p, row_i, nrows, nblks)
+      !! Collapses a row_p index
       INTEGER, INTENT(in)                                :: nrows, nblks
       INTEGER, DIMENSION(1:nrows + 1), INTENT(out)       :: row_p
       INTEGER, DIMENSION(1:nblks), INTENT(in)            :: row_i
@@ -250,10 +246,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_make_dbcsr_index
 
-! **************************************************************************************************
-!> \brief Expands a row_p index
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_expand_row_index(row_p, row_i, nrows, nblks)
+      !! Expands a row_p index
       INTEGER, INTENT(IN)                                   :: nrows, nblks
       INTEGER, DIMENSION(1:nrows + 1), INTENT(IN)           :: row_p
       INTEGER, DIMENSION(1:nblks), INTENT(OUT)              :: row_i
@@ -265,10 +259,8 @@ CONTAINS
       ENDDO
    END SUBROUTINE dbcsr_expand_row_index
 
-! **************************************************************************************************
-!> \brief Expands a row_p index
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_expand_row_index_2d(row_p, row_i, nrows, dst_i)
+      !! Expands a row_p index
       INTEGER, INTENT(IN)                                   :: nrows, dst_i
       INTEGER, DIMENSION(1:nrows + 1), INTENT(IN)           :: row_p
       INTEGER, DIMENSION(:,:), INTENT(OUT)                  :: row_i

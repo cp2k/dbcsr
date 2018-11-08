@@ -126,10 +126,8 @@ MODULE dbcsr_mm
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Initialize the library
-! **************************************************************************************************
    SUBROUTINE dbcsr_multiply_lib_init()
+      !! Initialize the library
 
       INTEGER                                            :: ithread, nthreads
 
@@ -164,10 +162,8 @@ CONTAINS
       CALL dbcsr_mempool_limit_capacity(memtype_product_wm(ithread)%p%pool, capacity=MAX(1, dbcsr_cfg%num_layers_3D))
    END SUBROUTINE dbcsr_multiply_lib_init
 
-! **************************************************************************************************
-!> \brief Finalize the library
-! **************************************************************************************************
    SUBROUTINE dbcsr_multiply_lib_finalize()
+      !! Finalize the library
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_lib_finalize', &
                                      routineP = moduleN//':'//routineN
@@ -213,10 +209,8 @@ CONTAINS
 !$OMP      END MASTER
    END SUBROUTINE dbcsr_multiply_lib_finalize
 
-! **************************************************************************************************
-!> \brief Print statistics
-! **************************************************************************************************
    SUBROUTINE dbcsr_multiply_print_statistics(group, output_unit)
+      !! Print statistics
       INTEGER, INTENT(IN)                                :: group, output_unit
 
       INTEGER(KIND=int_8)                                :: total_nexchanged
@@ -304,10 +298,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_multiply_print_statistics
 
-! **************************************************************************************************
-!> \brief Deallocate memory contained in mempools
-! **************************************************************************************************
    SUBROUTINE dbcsr_multiply_clear_mempools()
+      !! Deallocate memory contained in mempools
 
       INTEGER                                            :: ithread
 
@@ -991,10 +983,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_multiply_generic
 
-! **************************************************************************************************
-!> \brief Check if RMA is used with buggy OpenMPI (version<1.10.4 or 2.0.1)
-! **************************************************************************************************
    SUBROUTINE check_openmpi_rma()
+      !! Check if RMA is used with buggy OpenMPI (version<1.10.4 or 2.0.1)
       CHARACTER(LEN=mp_max_library_version_string)       :: mpi_library_version
       INTEGER                                            :: ipos, jpos, major, minor, patch, &
                                                             resultlen, jpos_next

@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Accelerator support
-! **************************************************************************************************
 MODULE dbcsr_acc_init
+   !! Accelerator support
 #if defined (__DBCSR_ACC)
    USE ISO_C_BINDING, ONLY: C_INT, C_CHAR, C_PTR, C_NULL_PTR, C_NULL_CHAR, C_ASSOCIATED
 #endif
@@ -43,10 +41,8 @@ MODULE dbcsr_acc_init
 #endif
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Fortran-wrapper for acc_init
-! **************************************************************************************************
    SUBROUTINE acc_init()
+      !! Fortran-wrapper for acc_init
 
 #if ! defined (__DBCSR_ACC)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
@@ -58,10 +54,8 @@ CONTAINS
 #endif
    END SUBROUTINE acc_init
 
-! **************************************************************************************************
-!> \brief Fortran-wrapper for acc_finalize
-! **************************************************************************************************
    SUBROUTINE acc_finalize()
+      !! Fortran-wrapper for acc_finalize
 
 #if ! defined (__DBCSR_ACC)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")

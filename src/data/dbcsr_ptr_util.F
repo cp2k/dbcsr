@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR pointer and unmanaged array utilities
-! **************************************************************************************************
 MODULE dbcsr_ptr_util
+   !! DBCSR pointer and unmanaged array utilities
    USE dbcsr_acc_hostmem, ONLY: acc_hostmem_allocate, &
                                 acc_hostmem_deallocate
    USE dbcsr_data_types, ONLY: dbcsr_data_obj, &

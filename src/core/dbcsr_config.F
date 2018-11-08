@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Configuration options for DBCSR
-! **************************************************************************************************
 MODULE dbcsr_config
+   !! Configuration options for DBCSR
    USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices
    USE dbcsr_cublas, ONLY: cublas_handle_type
    USE dbcsr_kinds, ONLY: default_string_length, &
@@ -331,10 +329,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_get_default_config
 
-! **************************************************************************************************
-!> \brief Prints configuration for DBCSR
-! **************************************************************************************************
    SUBROUTINE dbcsr_print_config(unit_nr)
+      !! Prints configuration for DBCSR
       INTEGER, INTENT(IN)                                :: unit_nr
 
       CHARACTER(len=default_string_length)               :: mm_name

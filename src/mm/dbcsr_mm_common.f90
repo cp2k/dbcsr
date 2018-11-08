@@ -9,11 +9,9 @@
 
 #:include '../data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
-! **************************************************************************************************
-!> \brief Calculates norms of the entire matrix with minimal overhead.
-! **************************************************************************************************
   SUBROUTINE calc_norms_${nametype1}$ (norms, nblks, &
                                        blki, rbs, cbs, DATA)
+     !! Calculates norms of the entire matrix with minimal overhead.
      REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
      INTEGER, INTENT(IN)                      :: nblks
      INTEGER, DIMENSION(3, nblks), INTENT(IN)  :: blki

@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Tests for CP2K DBCSR operations
-! **************************************************************************************************
 MODULE dbcsr_tests
+   !! Tests for CP2K DBCSR operations
    USE dbcsr_data_methods, ONLY: dbcsr_scalar
    USE dbcsr_dist_methods, ONLY: dbcsr_distribution_mp, &
                                  dbcsr_distribution_new, &

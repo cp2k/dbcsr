@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR data types
-! **************************************************************************************************
 MODULE dbcsr_types
+   !! DBCSR data types
    USE dbcsr_array_types, ONLY: array_i1d_obj
    USE dbcsr_btree, ONLY: btree_i8_cp2d, &
                           btree_i8_dp2d, &
@@ -349,10 +347,8 @@ MODULE dbcsr_types
       INTEGER                   :: data_type = -1
    END TYPE dbcsr_mutable_type
 
-! **************************************************************************************************
-!> \brief Object for the mutable data type
-! **************************************************************************************************
    TYPE dbcsr_mutable_obj
+      !! Object for the mutable data type
       TYPE(dbcsr_mutable_type), POINTER :: m => Null()
    END TYPE dbcsr_mutable_obj
 
@@ -617,10 +613,8 @@ MODULE dbcsr_types
       TYPE(dbcsr_imagedistribution_obj)         :: image_dist
    END TYPE dbcsr_2d_array_type
 
-! **************************************************************************************************
-!> \brief DBCSR MPI statistics
-! **************************************************************************************************
    TYPE dbcsr_mpi_statistics_type
+      !! DBCSR MPI statistics
       INTEGER                                                             :: last_mpi_ranks_used = -1
       INTEGER                                                             :: nimages = -1
       INTEGER                                                             :: nexchanged = -1

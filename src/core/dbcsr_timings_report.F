@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Timing routines for accounting
-! **************************************************************************************************
 MODULE dbcsr_timings_report
+   !! Timing routines for accounting
    USE dbcsr_dict, ONLY: dict_get, &
                          dict_haskey, &
                          dict_i4tuple_callstat_item_type, &
@@ -80,10 +78,8 @@ CONTAINS
 
    END SUBROUTINE timings_report_print
 
-! **************************************************************************************************
-!> \brief Collects the timing or energy reports from all MPI ranks.
-! **************************************************************************************************
    SUBROUTINE collect_reports_from_ranks(reports, cost_type, mp_env)
+      !! Collects the timing or energy reports from all MPI ranks.
       TYPE(list_routinereport_type), INTENT(INOUT)       :: reports
       INTEGER, INTENT(IN)                                :: cost_type
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
@@ -189,10 +185,8 @@ CONTAINS
 
    END SUBROUTINE collect_reports_from_ranks
 
-! **************************************************************************************************
-!> \brief Print the collected reports
-! **************************************************************************************************
    SUBROUTINE print_reports(reports, iw, threshold, sort_by_exclusiv_cost, cost_type, report_maxloc, mp_env)
+      !! Print the collected reports
       TYPE(list_routinereport_type), INTENT(IN)          :: reports
       INTEGER, INTENT(IN)                                :: iw
       REAL(KIND=dp), INTENT(IN)                          :: threshold

@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Tools usually found in a standard library.
-! **************************************************************************************************
 MODULE dbcsr_toollib
+   !! Tools usually found in a standard library.
 
    USE dbcsr_array_sort, ONLY: dbcsr_1d_d_sort, &
                                dbcsr_1d_i4_sort, &
@@ -209,10 +207,8 @@ CONTAINS
 #endif
    END FUNCTION joaat_hash
 
-! **************************************************************************************************
-!> \brief search a value in an ordered array of indices
-! **************************************************************************************************
    PURE SUBROUTINE ordered_search(array, key, loc, found, lb, ub)
+      !! search a value in an ordered array of indices
       INTEGER, DIMENSION(:), INTENT(IN)                  :: array
       INTEGER, INTENT(IN)                                :: key
       INTEGER, INTENT(OUT)                               :: loc

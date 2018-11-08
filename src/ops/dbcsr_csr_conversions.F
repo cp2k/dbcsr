@@ -7,12 +7,9 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief DBCSR to CSR matrix format conversion
-! **************************************************************************************************
 
 MODULE dbcsr_csr_conversions
-
+   !! DBCSR to CSR matrix format conversion
    USE dbcsr_block_access, ONLY: dbcsr_put_block
    USE dbcsr_data_methods, ONLY: dbcsr_data_clear_pointer, &
                                  dbcsr_data_init, &
@@ -395,10 +392,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE csr_create_nzerow
 
-! **************************************************************************************************
-!> \brief destroy a CSR matrix
-! **************************************************************************************************
    SUBROUTINE csr_destroy(csr_mat)
+      !! destroy a CSR matrix
       TYPE(csr_type), INTENT(INOUT)                      :: csr_mat
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_destroy', routineP = moduleN//':'//routineN
@@ -1381,10 +1376,8 @@ CONTAINS
 
    END SUBROUTINE csr_write
 
-! **************************************************************************************************
-!> \brief Print CSR sparsity
-! **************************************************************************************************
    SUBROUTINE csr_print_sparsity(csr_mat, unit_nr)
+      !! Print CSR sparsity
       TYPE(csr_type), INTENT(IN)                         :: csr_mat
       INTEGER, INTENT(IN)                                :: unit_nr
 

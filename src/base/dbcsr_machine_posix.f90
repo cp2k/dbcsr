@@ -7,9 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! *****************************************************************************
-!> \brief Implementation of machine interface based on Fortran 2003 and POSIX
-! *****************************************************************************
+!! Implementation of machine interface based on Fortran 2003 and POSIX
+
   USE dbcsr_kinds, ONLY: dp, int_8, default_path_length, &
                          default_string_length
   USE ISO_C_BINDING, ONLY: C_INT, C_NULL_CHAR, C_CHAR, C_PTR, C_NULL_PTR, C_ASSOCIATED, C_F_POINTER
@@ -26,10 +25,8 @@
 
 CONTAINS
 
-! *****************************************************************************
-!> \brief Can be used to get a nice core
-! **************************************************************************************************
   SUBROUTINE m_abort()
+     !! Can be used to get a nice core
      INTERFACE
         SUBROUTINE abort() BIND(C, name="abort")
         END SUBROUTINE
@@ -38,29 +35,23 @@ CONTAINS
      CALL abort()
   END SUBROUTINE m_abort
 
-! *****************************************************************************
-!> \brief The number of arguments of the fortran program
-! **************************************************************************************************
   FUNCTION m_iargc() RESULT(ic)
+     !! The number of arguments of the fortran program
      INTEGER                                  :: ic
 
      ic = COMMAND_ARGUMENT_COUNT()
   END FUNCTION m_iargc
 
-! *****************************************************************************
-!> \brief Flush a given unit
-! **************************************************************************************************
   SUBROUTINE m_flush(lunit)
+     !! Flush a given unit
      INTEGER, INTENT(IN)                      :: lunit
 
      FLUSH(lunit)
   END SUBROUTINE m_flush
 
-! *****************************************************************************
-!> \brief Returns if a process is running on the local machine
-!>        1 if yes and 0 if not
-! **************************************************************************************************
   FUNCTION m_procrun(pid) RESULT(run_on)
+     !! Returns if a process is running on the local machine
+     !! 1 if yes and 0 if not
      INTEGER, INTENT(IN)       ::   pid
      INTEGER                   ::   run_on
      INTEGER                   ::   istat
@@ -86,10 +77,8 @@ CONTAINS
 
   END FUNCTION m_procrun
 
-! *****************************************************************************
-!> \brief Returns the total amount of memory [bytes] in use, if known, zero otherwise
-! **************************************************************************************************
   SUBROUTINE m_memory(mem)
+     !! Returns the total amount of memory [bytes] in use, if known, zero otherwise
 
      INTEGER(KIND=int_8), OPTIONAL, INTENT(OUT)         :: mem
      INTEGER(KIND=int_8)                      :: mem_local
@@ -147,13 +136,13 @@ CONTAINS
 
   END SUBROUTINE m_memory
 
-! *****************************************************************************
+! **************************************************************************************************
 ! *** get more detailed memory info, all units are bytes.
 ! *** the only 'useful' option is MemLikelyFree which is an estimate of remaining memory
 ! *** assumed to give info like /proc/meminfo while MeMLikelyFree is the amount of
 ! *** memory we're likely to be able to allocate, but not necessarily in one chunk
 ! *** zero means not available
-! *****************************************************************************
+! **************************************************************************************************
   SUBROUTINE m_memory_details(MemTotal, MemFree, Buffers, Cached, Slab, SReclaimable, MemLikelyFree)
 
      INTEGER(kind=int_8), OPTIONAL :: MemTotal, MemFree, Buffers, Cached, Slab, SReclaimable, MemLikelyFree

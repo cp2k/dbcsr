@@ -121,30 +121,24 @@ MODULE dbcsr_tas_global
    END TYPE
 
    ABSTRACT INTERFACE
-! **************************************************************************************************
-!> \brief map matrix rows/cols to distribution rows/cols:
-! **************************************************************************************************
       FUNCTION rowcol_dist(t, rowcol)
+         !! map matrix rows/cols to distribution rows/cols:
          IMPORT :: dbcsr_tas_distribution, int_8
          CLASS(dbcsr_tas_distribution), INTENT(IN) :: t
          INTEGER(KIND=int_8), INTENT(IN) :: rowcol
          INTEGER :: rowcol_dist
       END FUNCTION
 
-! **************************************************************************************************
-!> \brief map distribution rows/cols to matrix rows/cols:
-! **************************************************************************************************
       FUNCTION dist_rowcols(t, dist)
+         !! map distribution rows/cols to matrix rows/cols:
          IMPORT :: dbcsr_tas_distribution, int_8
          CLASS(dbcsr_tas_distribution), INTENT(IN) :: t
          INTEGER, INTENT(IN) :: dist
          INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE :: dist_rowcols
       END FUNCTION
 
-! **************************************************************************************************
-!> \brief integer data for each block row / col
-! **************************************************************************************************
       FUNCTION rowcol_data(t, rowcol)
+         !! integer data for each block row / col
          IMPORT :: dbcsr_tas_rowcol_data, int_8
          CLASS(dbcsr_tas_rowcol_data), INTENT(IN) :: t
          INTEGER(KIND=int_8), INTENT(IN) :: rowcol

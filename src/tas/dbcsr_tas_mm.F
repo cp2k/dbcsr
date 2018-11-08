@@ -970,10 +970,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Check whether matrices have same distribution and same split.
-! **************************************************************************************************
    FUNCTION dist_compatible(mat_a, mat_b, split_rc_a, split_rc_b, io_unit)
+      !! Check whether matrices have same distribution and same split.
       TYPE(dbcsr_tas_type), INTENT(IN)           :: mat_a, mat_b
       INTEGER, INTENT(IN)                        :: split_rc_a, split_rc_b
       INTEGER, INTENT(IN), OPTIONAL              :: io_unit
@@ -1037,10 +1035,8 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Reshape matrix_in s.t. it has same process grid, distribution and split as template
-! **************************************************************************************************
    SUBROUTINE reshape_mm_template(template, matrix_in, matrix_out, trans, split_rc, nodata, move_data)
+      !! Reshape matrix_in s.t. it has same process grid, distribution and split as template
       TYPE(dbcsr_tas_type), INTENT(IN)           :: template
       TYPE(dbcsr_tas_type), INTENT(INOUT)        :: matrix_in
       TYPE(dbcsr_tas_type), INTENT(OUT)          :: matrix_out
@@ -1195,10 +1191,8 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Create a matrix with block sizes one that contains the block norms of matrix_in
-! **************************************************************************************************
    SUBROUTINE create_block_norms_matrix(matrix_in, matrix_out, nodata)
+      !! Create a matrix with block sizes one that contains the block norms of matrix_in
       TYPE(dbcsr_tas_type), INTENT(INOUT)        :: matrix_in
       TYPE(dbcsr_tas_type), INTENT(OUT)          :: matrix_out
       LOGICAL, INTENT(IN), OPTIONAL              :: nodata

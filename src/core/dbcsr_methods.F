@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Base methods on DBCSR data structures
-! **************************************************************************************************
 MODULE dbcsr_methods
+   !! Base methods on DBCSR data structures
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_release
    USE dbcsr_btree, ONLY: btree_delete, &
@@ -149,10 +147,8 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_destroy
 
-! **************************************************************************************************
-!> \brief Releases and potentially destroys a distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_release(dist)
+      !! Releases and potentially destroys a distribution
       TYPE(dbcsr_distribution_obj), INTENT(INOUT)        :: dist
 
 !   ---------------------------------------------------------------------------
@@ -741,10 +737,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_image_dist_release
 
-! **************************************************************************************************
-!> \brief Retains a reference to an image distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_image_dist_hold(imgdist)
+      !! Retains a reference to an image distribution
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
 
       imgdist%i%refcount = imgdist%i%refcount + 1

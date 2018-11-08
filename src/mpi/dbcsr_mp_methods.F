@@ -7,9 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Routines related to message passing
-! **************************************************************************************************
 MODULE dbcsr_mp_methods
    USE dbcsr_methods, ONLY: dbcsr_mp_grid_remove, &
                             dbcsr_mp_release
@@ -48,19 +45,15 @@ MODULE dbcsr_mp_methods
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Initializes a new process grid
-! **************************************************************************************************
    SUBROUTINE dbcsr_mp_init(mp_env)
+      !! Initializes a new process grid
       TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
 
       NULLIFY (mp_env%mp)
    END SUBROUTINE dbcsr_mp_init
 
-! **************************************************************************************************
-!> \brief Checks whether this process is part of the message passing environment
-! **************************************************************************************************
    FUNCTION dbcsr_mp_active(mp_env) RESULT(active)
+      !! Checks whether this process is part of the message passing environment
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       LOGICAL                                            :: active
 
