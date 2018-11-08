@@ -9,7 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief Central dispatch for basic hooks
-!> \author Ole Schuett
 ! **************************************************************************************************
 MODULE dbcsr_base_hooks
    USE dbcsr_kinds, ONLY: default_string_length
@@ -63,9 +62,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Terminate the program
-!> \param location ...
-!> \param message ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_abort(location, message)
       CHARACTER(len=*), INTENT(in)                       :: location, message
@@ -83,9 +79,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Issue a warning
-!> \param location ...
-!> \param message ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_warn(location, message)
       CHARACTER(len=*), INTENT(in)                       :: location, message
@@ -100,9 +93,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Start timer
-!> \param routineN ...
-!> \param handle ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE timeset(routineN, handle)
       CHARACTER(LEN=*), INTENT(IN)                       :: routineN
@@ -117,8 +107,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Stop timer
-!> \param handle ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE timestop(handle)
       INTEGER, INTENT(IN)                                :: handle
@@ -133,9 +121,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief DBCSR_ASSERT handler
-!> \param filename ...
-!> \param lineNr ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr__a(filename, lineNr)
       CHARACTER(len=*), INTENT(in)                       :: filename
@@ -148,10 +133,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief DBCSR_ABORT handler
-!> \param filename ...
-!> \param lineNr ...
-!> \param message ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr__b(filename, lineNr, message)
       CHARACTER(len=*), INTENT(in)                       :: filename
@@ -165,10 +146,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief DBCSR_WARN handler
-!> \param filename ...
-!> \param lineNr ...
-!> \param message ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr__w(filename, lineNr, message)
       CHARACTER(len=*), INTENT(in)                       :: filename
@@ -180,10 +157,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Helper routine to assemble __LOCATION__
-!> \param filename ...
-!> \param lineNr ...
-!> \return ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    FUNCTION dbcsr__l(filename, lineNr) RESULT(location)
       CHARACTER(len=*), INTENT(in)                       :: filename

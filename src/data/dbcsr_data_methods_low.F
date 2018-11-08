@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   DBCSR data methods
-!> \author  Urban Borstnik
-!> \date    2010-06-15
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2010-02-18 Moved from dbcsr_methods
 ! **************************************************************************************************
 MODULE dbcsr_data_methods_low
 
@@ -136,11 +130,6 @@ CONTAINS
       unique = area%d%refcount .EQ. 1
    END FUNCTION dbcsr_data_unique
 
-! **************************************************************************************************
-!> \brief ...
-!> \param area ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_data_get_memory_type(area) RESULT(memory_type)
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
       TYPE(dbcsr_memtype_type)                           :: memory_type
@@ -430,7 +419,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Points data area data pointers to another data area
-!>
 !> Assumes that no memory will be lost when repointing the pointer in the data
 !> area and that the area is initialized.
 !> \param[in,out] area         data area to repoint
@@ -667,8 +655,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Clears a part of the data area
 !> \param[in] area         data area
-!> \param lb ...
-!> \param ub ...
 !> \note Optimized for clearing big 1-D data areas from all data types.
 ! **************************************************************************************************
    SUBROUTINE dbcsr_data_zero(area, lb, ub)
@@ -964,9 +950,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Returns an encapsulated scalar as a negation of the given
-!> \param s1 ...
-!> \param s2 ...
-!> \return ...
 ! **************************************************************************************************
    ELEMENTAL FUNCTION dbcsr_scalar_add(s1, s2) RESULT(s_sum)
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: s1, s2
@@ -987,12 +970,6 @@ CONTAINS
       END SELECT
    END FUNCTION dbcsr_scalar_add
 
-! **************************************************************************************************
-!> \brief ...
-!> \param s1 ...
-!> \param s2 ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION dbcsr_scalar_multiply(s1, s2) RESULT(s_product)
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: s1, s2
       TYPE(dbcsr_scalar_type)                            :: s_product
@@ -1027,7 +1004,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Sets data type of a scalar
 !> \param[in] scalar       scalar
-!> \param data_type ...
 ! **************************************************************************************************
    ELEMENTAL SUBROUTINE dbcsr_scalar_set_type(scalar, data_type)
       TYPE(dbcsr_scalar_type), INTENT(INOUT)             :: scalar
@@ -1069,7 +1045,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Checks whether the data type is 2-D.
-!> \param data_type ...
 !> \return Data type is 2-D.
 ! **************************************************************************************************
    PURE FUNCTION dbcsr_type_is_2d(data_type)
@@ -1084,7 +1059,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Returns 1-d data type corresponding to the given 2-D one.
-!> \param data_type ...
 !> \return 1-D data type
 ! **************************************************************************************************
    PURE FUNCTION dbcsr_type_2d_to_1d(data_type)
@@ -1115,7 +1089,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Returns 2-D data type corresponding to the given 1-D one.
-!> \param data_type ...
 !> \return 2-D data type
 ! **************************************************************************************************
    PURE FUNCTION dbcsr_type_1d_to_2d(data_type)

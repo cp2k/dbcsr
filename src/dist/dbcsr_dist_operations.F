@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   DBCSR operations on distributions
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2010-02-18 Moved from dbcsr_util
 ! **************************************************************************************************
 MODULE dbcsr_dist_operations
 
@@ -76,7 +70,6 @@ CONTAINS
 !> \brief Determines whether a transpose must be applied
 !> \param[in] row   The absolute matrix row.
 !> \param[in] column          The absolute matrix column.
-!> \return ...
 ! **************************************************************************************************
    ELEMENTAL FUNCTION checker_tr(row, column) RESULT(transpose)
       INTEGER, INTENT(IN)                                :: row, column
@@ -144,11 +137,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Canonical logic
-!> \param matrix ...
-!> \param row ...
-!> \param column ...
-!> \param transpose ...
-!> \param processor ...
 ! **************************************************************************************************
    PURE SUBROUTINE get_stored_canonical(matrix, row, column, &
                                         transpose, processor)
@@ -222,7 +210,6 @@ CONTAINS
 !> \param[out] found          whether the block was found
 !> \param[out] block_number   returns the block number of the row
 !>                            and column
-!> \param lb_row_col ...
 !> \param[out] data_offset    (optional) data offset for the block; 0 if
 !>                            nonexistent
 !> \param[out] transposed     (optional) whether the block is stored transposed
@@ -481,11 +468,6 @@ CONTAINS
 !>      elements they have in common. The third element specifies the
 !>      offset of the intersection in the old block while the fourth
 !>      specifies the offset of the intersection in the new block.
-!> \par History
-!>      UB [2009] Created
-!>      UB [2010-03-22] Offsets of the intersections in the old/new blocks
-!>                      are calculated & saved. Zero-length blocks are
-!>                      skipped.
 !> \note This routine is used in the counting and sending loops in
 !>       dbcsr_complete_redistribute
 ! **************************************************************************************************
@@ -566,7 +548,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finds the block that has the given column.
-!>
 !>        If the block having the queried column is found, the blk parameter
 !>        is set to this block number and the found parameter is true.
 !>        Otherwise found is false and the block number is invalid.
@@ -598,7 +579,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finds the local virtual elements
-!>
 !> All elements are mapped at once.  Therefore an entry in the
 !> resulting array can be used as a lookup index for any of the local
 !> element arrays.  The distribution itself tells into which array to
@@ -726,7 +706,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Determines whether most blocks are stored transposed in normally.
 !> \param[in] blk_p           Pointers to blocks
-!> \return ...
 !> \note Tries to be quick and not necessarily accurate.
 ! **************************************************************************************************
    PURE FUNCTION mostly_non_transposed(blk_p)
@@ -758,14 +737,6 @@ CONTAINS
       ENDIF
       RETURN
    CONTAINS
-! **************************************************************************************************
-!> \brief ...
-!> \param blk_p ...
-!> \param lb ...
-!> \param ub ...
-!> \param sntr ...
-!> \param str ...
-! **************************************************************************************************
       PURE SUBROUTINE check_range(blk_p, lb, ub, sntr, str)
          INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_p
          INTEGER, INTENT(IN)                                :: lb, ub

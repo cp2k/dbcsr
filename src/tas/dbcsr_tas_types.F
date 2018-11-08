@@ -9,9 +9,7 @@
 
 ! **************************************************************************************************
 !> \brief DBCSR tall-and-skinny base types.
-!>
 !> Mostly wrappers around existing DBCSR routines.
-!> \author Patrick Seewald
 ! **************************************************************************************************
 
 MODULE dbcsr_tas_types

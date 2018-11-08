@@ -13,9 +13,6 @@
 !>        If this array reaches a load-factor of 75%, a new array with twice the
 !>        size will be allocated and the items are then copied over.
 !>        This ensures that the dictionary will perform operations in O(1).
-!> \par History
-!>      12.2012 first version [ole]
-!> \author Ole Schuett
 ! ***************************************************************************************************
 
 #:include 'dbcsr_dict.fypp'
@@ -137,11 +134,7 @@ $:fct
 #:for keytype, valuetype, keytype_fort, valuetype_fort, key_assign, value_assign, isequal in inst_params
 ! **************************************************************************************************
 !> \brief Allocates the internal data-structures of the given dictionary.
-!> \param dict ...
 !> \param initial_capacity The initial size of the internal array (default=11).
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dict_${keytype}$_${valuetype}$_init(dict, initial_capacity)
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
@@ -164,11 +157,6 @@ $:fct
 
 ! **************************************************************************************************
 !> \brief Test if the given dictionary has been initialized.
-!> \param dict ...
-!> \return ...
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    FUNCTION dict_${keytype}$_${valuetype}$_isready(dict) RESULT(res)
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
@@ -180,10 +168,6 @@ $:fct
 !> \brief Deallocated the internal data-structures if the given dictionary.
 !>        Caution: If the stored keys or values are pointers, their targets will
 !>                 not get deallocated by this routine.
-!> \param dict ...
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dict_${keytype}$_${valuetype}$_destroy(dict)
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
@@ -209,12 +193,6 @@ $:fct
 
 ! **************************************************************************************************
 !> \brief Stores, and possibly overwrites, a given value under a given key.
-!> \param dict ...
-!> \param key ...
-!> \param value ...
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dict_${keytype}$_${valuetype}$_set(dict, key, value)
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
@@ -230,13 +208,6 @@ $:fct
 
 ! **************************************************************************************************
 !> \brief Common code used internally by dict_set() and change_capacity().
-!> \param dict ...
-!> \param key ...
-!> \param value ...
-!> \param hash ...
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    RECURSIVE SUBROUTINE set_hashed_${keytype}$_${valuetype}$ (dict, key, value, hash)
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
@@ -279,11 +250,6 @@ $:fct
 
 ! **************************************************************************************************
 !> \brief Internal routine for changing the dictionary's capacity.
-!> \param dict ...
-!> \param new_capacity ...
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    RECURSIVE SUBROUTINE change_capacity_${keytype}$_${valuetype}$ (dict, new_capacity)
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
@@ -325,13 +291,6 @@ $:fct
 !> \brief Gets a value for a given key from the dictionary.
 !>        If the key is not found the default_value will be returned.
 !>        If the key is not found and default_value was not provided the program stops.
-!> \param dict ...
-!> \param key ...
-!> \param default_value ...
-!> \return ...
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    FUNCTION dict_${keytype}$_${valuetype}$_get(dict, key, default_value) RESULT(value)
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
@@ -369,11 +328,6 @@ $:fct
 ! **************************************************************************************************
 !> \brief Remove the value for a given key from the dictionary.
 !>        If the key is not found the program stops.
-!> \param dict ...
-!> \param key ...
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dict_${keytype}$_${valuetype}$_del(dict, key)
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
@@ -411,11 +365,6 @@ $:fct
 
 ! **************************************************************************************************
 !> \brief Returns the number of key/value-items currently stored in the dictionary.
-!> \param dict ...
-!> \return ...
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    FUNCTION dict_${keytype}$_${valuetype}$_size(dict) RESULT(size)
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
@@ -429,12 +378,6 @@ $:fct
 
 ! **************************************************************************************************
 !> \brief Checks whether a given key is currently stored in the dictionary.
-!> \param dict ...
-!> \param key ...
-!> \return ...
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    FUNCTION dict_${keytype}$_${valuetype}$_haskey(dict, key) RESULT(res)
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
@@ -468,11 +411,6 @@ $:fct
 ! **************************************************************************************************
 !> \brief Returns a pointer to an array of all key/value-items stored in the dictionary.
 !>        Caution: The caller is responsible for deallocating targeted array after usage.
-!> \param dict ...
-!> \return ...
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    FUNCTION dict_${keytype}$_${valuetype}$_items(dict) RESULT(items)
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
@@ -507,9 +445,6 @@ $:fct
 !>        The two dictionaries have to be of the same type.
 !> \param dict destination of items
 !> \param from_dict source of items - will not be change
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dict_${keytype}$_${valuetype}$_update(dict, from_dict)
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict

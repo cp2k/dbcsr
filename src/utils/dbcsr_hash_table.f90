@@ -17,8 +17,6 @@
 !
 ! *****************************************************************************
 !> \brief finds a prime equal or larger than i, needed at creation
-!> \param i ...
-!> \return ...
 ! **************************************************************************************************
   FUNCTION matching_prime(i) RESULT(res)
      INTEGER, INTENT(IN)                      :: i
@@ -41,8 +39,6 @@
 ! *****************************************************************************
 !> \brief create a hash_table of given initial size.
 !>        the hash table will expand as needed (but this requires rehashing)
-!> \param hash_table ...
-!> \param table_size ...
 ! **************************************************************************************************
   SUBROUTINE hash_table_create(hash_table, table_size)
      TYPE(hash_table_type)                    :: hash_table
@@ -63,8 +59,6 @@
   END SUBROUTINE hash_table_create
 
 ! *****************************************************************************
-!> \brief ...
-!> \param hash_table ...
 ! **************************************************************************************************
   SUBROUTINE hash_table_release(hash_table)
      TYPE(hash_table_type)                    :: hash_table
@@ -77,7 +71,6 @@
 
 ! *****************************************************************************
 !> \brief add a pair (c,p) to the hash table
-!> \param hash_table ...
 !> \param c this value is being hashed
 !> \param p this is being stored
 ! **************************************************************************************************
@@ -128,10 +121,6 @@
   END SUBROUTINE hash_table_add
 
 ! *****************************************************************************
-!> \brief ...
-!> \param hash_table ...
-!> \param c ...
-!> \return ...
 ! **************************************************************************************************
   PURE FUNCTION hash_table_get(hash_table, c) RESULT(p)
      TYPE(hash_table_type), INTENT(IN)        :: hash_table

@@ -9,9 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief DBCSR to CSR matrix format conversion
-!> \par History
-!>       2014.10 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
 
 MODULE dbcsr_csr_conversions
@@ -97,9 +94,6 @@ MODULE dbcsr_csr_conversions
 !>                          distributed), representing the original block
 !>                          structure.
 !> \param has_dbcsr_block_data    whether dbcsr_* fields are defined
-!> \par History
-!>      10.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    TYPE csr_mapping_data
       PRIVATE
@@ -122,9 +116,6 @@ MODULE dbcsr_csr_conversions
 !> \param c_sp            complex, single precision data array
 !> \param c_sp            complex, double precision data array
 !> \param data_type       data type of CSR matrix
-!> \par History
-!>      11.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    TYPE csr_data_area_type
       REAL(KIND=real_4), DIMENSION(:), POINTER      :: r_sp => Null()
@@ -151,9 +142,6 @@ MODULE dbcsr_csr_conversions
 !>                         completely allocated
 !> \param has_indices      whether rowptr_local and colind_local are defined
 !> \param mp_group         message-passing group ID
-!> \par History
-!>      10.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    TYPE csr_type
       INTEGER                                  :: nrows_total, ncols_total, &
@@ -195,11 +183,7 @@ CONTAINS
 !> \param[in] nze_total      total number of non-zero elements
 !> \param[in] nze_local      local number of non-zero elements
 !> \param[in] nrows_local    local number of rows
-!> \param mp_group ...
 !> \param[in] data_type      data type of the CSR matrix (default real double prec.)
-!> \par History
-!>      10.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE csr_create_new(csr_mat, nrows_total, ncols_total, nze_total, &
                              nze_local, nrows_local, mp_group, data_type)
@@ -270,9 +254,6 @@ CONTAINS
 !>        an existing CSR matrix. Copies the indices but no actual matrix data.
 !> \param[out] matrix_b Target CSR matrix
 !> \param[int] matrix_a Source CSR matrix
-!> \par History
-!>      11.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE csr_create_template(matrix_b, matrix_a)
       TYPE(csr_type), INTENT(OUT)                        :: matrix_b
@@ -337,9 +318,6 @@ CONTAINS
 !> \brief Copy a CSR matrix.
 !> \param[out] matrix_b Target CSR matrix
 !> \param[in] matrix_a Source CSR matrix
-!> \par History
-!>      10.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE csr_copy(matrix_b, matrix_a)
       TYPE(csr_type), INTENT(OUT)                        :: matrix_b
@@ -395,9 +373,6 @@ CONTAINS
 !> row of a CSR matrix
 !> \param[in] csr_mat   CSR matrix
 !> \param[out] nzerow  number of non-zero elements in each row
-!> \par History
-!>      11.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE csr_create_nzerow(csr_mat, nzerow)
       TYPE(csr_type), INTENT(IN)                         :: csr_mat
@@ -422,10 +397,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief destroy a CSR matrix
-!> \param[in,out] csr_mat ...
-!> \par History
-!>      10.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE csr_destroy(csr_mat)
       TYPE(csr_type), INTENT(INOUT)                      :: csr_mat
@@ -486,9 +457,6 @@ CONTAINS
 !> \param[in] brd_mat block-row-distributed DBCSR matrix
 !> \param[out] csr_mat CSR matrix
 !> \param[in] csr_sparsity_brd BRD matrix representing sparsity pattern of CSR matrix
-!> \par History
-!>      10.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE csr_create_from_brd(brd_mat, csr_mat, csr_sparsity_brd)
       TYPE(dbcsr_type), INTENT(IN)                       :: brd_mat
@@ -551,9 +519,6 @@ CONTAINS
 !> \param[out] csr_index       dbcsr to csr index mapping
 !> \param[out] csr_nze_local   number of local non-zero elements
 !> \param[in] csr_sparsity_brd     sparsity of CSR matrix represented in BRD format
-!> \par History
-!>      10.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE csr_get_dbcsr_mapping(brd_mat, dbcsr_index, csr_index, csr_nze_local, &
                                     csr_sparsity_brd)
@@ -682,9 +647,6 @@ CONTAINS
 !>        The DBCSR matrix must have a block structure consistent with the CSR matrix.
 !> \param[in,out] brd_mat    block-row distributed DBCSR matrix
 !> \param[in] csr_mat        CSR matrix
-!> \par History
-!>      10.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE convert_csr_to_brd(brd_mat, csr_mat)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: brd_mat
@@ -735,9 +697,6 @@ CONTAINS
 !>        The DBCSR matrix must have a block structure consistent with the CSR matrix.
 !> \param[in] brd_mat        block-row distributed DBCSR matrix
 !> \param[in,out] csr_mat    CSR matrix
-!> \par History
-!>      10.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE convert_brd_to_csr(brd_mat, csr_mat)
       TYPE(dbcsr_type), INTENT(IN)                       :: brd_mat
@@ -881,8 +840,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief create CSR matrix including dbcsr_mapping from arbitrary DBCSR matrix
 !>        in order to prepare conversion.
-!> \param[in] dbcsr_mat ...
-!> \param[out] csr_mat ...
 !> \param[in] dist_format     how to distribute CSR rows over processes:
 !>                            csr_dbcsr_blkrow_dist: the number of rows per process
 !>                            is adapted to the row block sizes in the DBCSR format
@@ -897,9 +854,6 @@ CONTAINS
 !> \param[in] numnodes        number of nodes to use for distributing CSR matrix
 !>                            (optional, default is number of nodes used for
 !>                            DBCSR matrix)
-!> \par History
-!>      10.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_sparsity, numnodes)
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
@@ -1011,12 +965,7 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Helper function to assert that two DBCSR matrices have the same block
 !>        structure and same sparsity pattern
-!> \param[in] matrix_a  ...
-!> \param[in] matrix_b ...
 !> \return whether matrix_a and matrix_b have the same block structure
-!> \par History
-!>      11.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    FUNCTION dbcsr_has_same_block_structure(matrix_a, matrix_b) RESULT(is_equal)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a, matrix_b
@@ -1039,11 +988,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Helper function to assert that a given CSR matrix and a given DBCSR
 !>        matrix are consistent before doing the conversion
-!> \param[in] csr_mat ...
-!> \param[in] dbcsr_mat ...
-!> \par History
-!>      11.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE csr_assert_consistency_with_dbcsr(csr_mat, dbcsr_mat)
       TYPE(csr_type), INTENT(IN)                         :: csr_mat
@@ -1090,9 +1034,6 @@ CONTAINS
 !> \brief Convert a DBCSR matrix to a CSR matrix.
 !> \param[in] dbcsr_mat DBCSR matrix to convert
 !> \param[in,out] csr_mat correctly allocated CSR matrix
-!> \par History
-!>      10.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE convert_dbcsr_to_csr(dbcsr_mat, csr_mat)
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
@@ -1136,9 +1077,6 @@ CONTAINS
 !> \brief convert a CSR matrix to a DBCSR matrix
 !> \param[in,out] dbcsr_mat correctly allocated DBCSR matrix
 !> \param[in,out] csr_mat CSR matrix to convert
-!> \par History
-!>      10.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE convert_csr_to_dbcsr(dbcsr_mat, csr_mat)
 
@@ -1185,9 +1123,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Apply filtering threshold eps to DBCSR blocks in order to improve
 !>        CSR sparsity (currently only used for testing purposes)
-!> \param dbcsr_mat ...
-!> \param csr_sparsity ...
-!> \param eps ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_to_csr_filter(dbcsr_mat, csr_sparsity, eps)
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
@@ -1246,15 +1181,10 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Write a CSR matrix to file
-!> \param[in] csr_mat ...
 !> \param[in] unit_nr           unit number to which output is written
 !> \param[in] upper_triangle    If true (default: false), write only upper
 !>                              triangular part of matrix
 !> \param[in] threshold         threshold on the absolute value of the elements to be printed
-!> \param binary ...
-!> \par History
-!>      11.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE csr_write(csr_mat, unit_nr, upper_triangle, threshold, binary)
       TYPE(csr_type), INTENT(IN)                         :: csr_mat
@@ -1453,11 +1383,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Print CSR sparsity
-!> \param csr_mat ...
-!> \param unit_nr ...
-!> \par History
-!>      02.2015 created [Patrick Seewald]
-!> \author Patrick Seewald
 ! **************************************************************************************************
    SUBROUTINE csr_print_sparsity(csr_mat, unit_nr)
       TYPE(csr_type), INTENT(IN)                         :: csr_mat
@@ -1507,10 +1432,6 @@ CONTAINS
 !> \param[in] equal_dist       see documentation of csr_create_from_dbcsr
 !> \param[in] floor_dist       see documentation of csr_create_from_dbcsr
 !> \param[in] numnodes         number of nodes to use for block row distribution
-!> \par History
-!>      04.2013 created [Hossein Bani-Hashemian]
-!>      11.2014 modified [Patrick Seewald]
-!> \author Mohammad Hossein Bani-Hashemian
 ! **************************************************************************************************
    SUBROUTINE dbcsr_create_brd(dbcsr_mat, brd_mat, equal_dist, floor_dist, numnodes)
 

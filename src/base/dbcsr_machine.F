@@ -7,13 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \par History
-!>      JGH (05.07.2001) : added G95 interface
-!>      - m_flush added (12.06.2002,MK)
-!>      - Missing print_memory added (24.09.2002,MK)
-!> \author APSI & JGH
-! **************************************************************************************************
 MODULE dbcsr_machine
    USE ISO_FORTRAN_ENV, ONLY: input_unit, &
                               output_unit
@@ -51,9 +44,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief flushes units if the &GLOBAL flag is set accordingly
-!> \param lunit ...
-!> \par History
-!>      10.2008 created [Joost VandeVondele]
 !> \note
 !>      flushing might degrade performance significantly (30% and more)
 ! **************************************************************************************************
@@ -65,9 +55,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief returns time from a real-time clock, protected against rolling
 !>      early/easily
-!> \return ...
-!> \par History
-!>      03.2006 created [Joost VandeVondele]
 !> \note
 !>      same implementation for all machines.
 !>      might still roll, if not called multiple times per count_max/count_rate
@@ -154,9 +141,6 @@ CONTAINS
 !> \brief returns the energy used since some time in the past.
 !>        The precise meaning depends on the infrastructure is available.
 !>        In the cray_pm_energy case, this is the energy used by the node in kJ.
-!> \return ...
-!> \par History
-!>      09.2013 created [Joost VandeVondele, Ole Schuett]
 ! **************************************************************************************************
    FUNCTION m_energy() RESULT(wt)
       REAL(KIND=dp)                            :: wt
@@ -174,10 +158,6 @@ CONTAINS
 #if defined(__CRAY_PM_ACCEL_ENERGY) || defined(__CRAY_PM_ENERGY)
 ! **************************************************************************************************
 !> \brief reads energy values from the sys-filesystem
-!> \param filename ...
-!> \return ...
-!> \par History
-!>      09.2013 created [Joost VandeVondele, Ole Schuett]
 ! **************************************************************************************************
    FUNCTION read_energy(filename) RESULT(wt)
       CHARACTER(LEN=*)                                   :: filename
@@ -205,9 +185,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief returns a datum in human readable format using a standard Fortran routine
-!> \param cal_date ...
-!> \par History
-!>      10.2009 created [Joost VandeVondele]
 ! **************************************************************************************************
    SUBROUTINE m_datum(cal_date)
       CHARACTER(len=*), INTENT(OUT)                      :: cal_date

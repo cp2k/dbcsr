@@ -9,7 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief communication routines to reshape / replicate / merge tall-and-skinny matrices.
-!> \author Patrick Seewald
 ! **************************************************************************************************
 MODULE dbcsr_tas_reshape_ops
 #:include "dbcsr_tas.fypp"
@@ -97,10 +96,7 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief copy data (involves reshape)
-!> \param matrix_in ...
-!> \param matrix_out ...
 !> \param summation whether matrix_out = matrix_out + matrix_in
-!> \param transposed ...
 !> \param move_data memory optimization: move data to matrix_out such that matrix_in is empty on return
 ! **************************************************************************************************
    RECURSIVE SUBROUTINE dbcsr_tas_reshape(matrix_in, matrix_out, summation, transposed, move_data)
@@ -274,9 +270,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Replicate matrix_in such that each submatrix of matrix_out is an exact copy of matrix_in
-!> \param matrix_in ...
-!> \param info ...
-!> \param matrix_out ...
 !> \param nodata Don't copy data but create matrix_out
 !> \param move_data memory optimization: move data to matrix_out such that matrix_in is empty on return
 ! **************************************************************************************************
@@ -484,8 +477,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Merge submatrices of matrix_in to matrix_out by sum
-!> \param matrix_out ...
-!> \param matrix_in ...
 !> \param move_data memory optimization: move data to matrix_out such that matrix_in is empty on return
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_merge(matrix_out, matrix_in, move_data)
@@ -629,8 +620,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief get all indices from buffer
-!> \param buffer ...
-!> \param index ...
 ! **************************************************************************************************
    SUBROUTINE block_buffer_get_index(buffer, index)
       TYPE(block_buffer_type), INTENT(IN)                :: buffer
@@ -652,7 +641,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Reset buffer block iterator
-!> \param buffer ...
 ! **************************************************************************************************
    SUBROUTINE block_buffer_iterator_reset(buffer)
       TYPE(block_buffer_type), INTENT(INOUT)             :: buffer
@@ -662,8 +650,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief how many blocks left in iterator
-!> \param buffer ...
-!> \return ...
 ! **************************************************************************************************
    PURE FUNCTION block_buffer_blocks_left(buffer)
       TYPE(block_buffer_type), INTENT(IN)                :: buffer
@@ -677,7 +663,6 @@ CONTAINS
 !> \param buffer block buffer
 !> \param nblock number of blocks
 !> \param ndata total number of block entries
-!> \param data_type ...
 ! **************************************************************************************************
    SUBROUTINE block_buffer_create(buffer, nblock, ndata, data_type)
       TYPE(block_buffer_type), INTENT(OUT) :: buffer
@@ -695,10 +680,6 @@ CONTAINS
       ALLOCATE (buffer%indx(nblock, 3))
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param buffer ...
-! **************************************************************************************************
    SUBROUTINE block_buffer_destroy(buffer)
       TYPE(block_buffer_type), INTENT(INOUT) :: buffer
 
@@ -714,13 +695,6 @@ CONTAINS
       buffer%endpos = -1
    END SUBROUTINE block_buffer_destroy
 
-! **************************************************************************************************
-!> \brief ...
-!> \param buffer ...
-!> \param index ...
-!> \param block ...
-!> \param transposed ...
-! **************************************************************************************************
    SUBROUTINE block_buffer_add_area_block(buffer, index, block, transposed)
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
       INTEGER(KIND=int_8), DIMENSION(2), &
@@ -741,14 +715,6 @@ CONTAINS
       END SELECT
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param buffer ...
-!> \param ndata ...
-!> \param index ...
-!> \param block ...
-!> \param advance_iter ...
-! **************************************************************************************************
    SUBROUTINE block_buffer_get_next_area_block(buffer, ndata, index, block, advance_iter)
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
       INTEGER, INTENT(OUT)                        :: ndata
@@ -791,10 +757,8 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
 ! **************************************************************************************************
 !> \brief insert a block into block buffer (at current iterator position)
-!> \param buffer ...
 !> \param index index of block
 !> \param block block
-!> \param transposed ...
 ! **************************************************************************************************
    SUBROUTINE block_buffer_add_block_${dsuffix}$ (buffer, index, block, transposed)
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
@@ -848,11 +812,6 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
 ! **************************************************************************************************
 !> \brief get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
-!> \param buffer ...
-!> \param ndata ...
-!> \param index ...
-!> \param block ...
-!> \param advance_iter ...
 ! **************************************************************************************************
    SUBROUTINE block_buffer_get_next_block_${dsuffix}$ (buffer, ndata, index, block, advance_iter)
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
@@ -897,10 +856,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief communicate buffer
-!> \param mp_comm ...
-!> \param buffer_recv ...
-!> \param buffer_send ...
-!> \param req_array ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_communicate_buffer(mp_comm, buffer_recv, buffer_send, req_array)
       INTEGER, INTENT(IN)                    :: mp_comm

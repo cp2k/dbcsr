@@ -9,7 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief General methods for testing DBCSR tensors.
-!> \author Patrick Seewald
 ! **************************************************************************************************
 MODULE dbcsr_tensor_test
 
@@ -93,9 +92,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief check if two (arbitrarily mapped and distributed) tensors are equal.
-!> \param tensor1 ...
-!> \param tensor2 ...
-!> \return ...
 ! **************************************************************************************************
    FUNCTION dbcsr_t_equal(tensor1, tensor2)
       TYPE(dbcsr_t_type), INTENT(INOUT)          :: tensor1, tensor2
@@ -137,9 +133,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief check if two blocks are equal
-!> \param block1 ...
-!> \param block2 ...
-!> \return ...
 ! **************************************************************************************************
    PURE FUNCTION blocks_equal(block1, block2)
       TYPE(block_nd), INTENT(IN) :: block1, block2
@@ -156,8 +149,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Compute factorial
-!> \param n ...
-!> \return ...
 ! **************************************************************************************************
    PURE FUNCTION factorial(n)
       INTEGER, INTENT(IN) :: n
@@ -168,8 +159,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Compute all permutations p of (1, 2, ..., n)
-!> \param n ...
-!> \param p ...
 ! **************************************************************************************************
    SUBROUTINE permute(n, p)
       INTEGER, INTENT(IN)                              :: n
@@ -396,9 +385,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Create test distribution
-!> \param dist_array ...
-!> \param dist_size ...
-!> \param nbins ...
 !> \param mp_comm
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_random_dist(dist_array, dist_size, nbins, mp_comm)
@@ -423,7 +409,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Allocate and fill test tensor - entries are enumerated by their index s.t. they only depend
 !>        on global properties of the tensor but not on distribution, matrix representation, etc.
-!> \param tensor ...
 !> \param mp_comm communicator
 !> \param blk_ind_1 index along dimension 1 of non-zero blocks
 ! **************************************************************************************************
@@ -516,7 +501,6 @@ CONTAINS
 !> \param tensor_size global tensor sizes
 !> \blk_2 block values for 2 dimensions
 !> \blk_3 block values for 3 dimensions
-!> \blk_4 ...
 ! **************************************************************************************************
    SUBROUTINE enumerate_block_elements(blk_size, blk_offset, tensor_size, ${varlist("blk", nmin=2)}$)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_size, blk_offset, tensor_size
@@ -595,7 +579,6 @@ CONTAINS
 #:for dprec, dparam, dtype, dsuffix in dtype_float_list_prec
 #:for ndim in ndims
 ! **************************************************************************************************
-!> \brief ...
 !> \param tensor
 !> \param array
 ! **************************************************************************************************
@@ -633,17 +616,7 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief test tensor contraction
 !> \note for testing/debugging, simply replace a call to dbcsr_t_contract with a call to this routine
-!> \param tensor_1 ...
-!> \param tensor_2 ...
-!> \param contract_1 ...
-!> \param notcontract_1 ...
-!> \param contract_2 ...
-!> \param notcontract_2 ...
-!> \param map_1 ...
-!> \param map_2 ...
 !> \param unit_nr
-!> \param log_verbose ...
-!> \param write_int ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_contract_test(alpha, tensor_1, tensor_2, beta, tensor_3, &
                                     contract_1, notcontract_1, &
@@ -857,9 +830,6 @@ CONTAINS
 #:for ndim in ndims
 ! **************************************************************************************************
 !> \brief Write nd array
-!> \param array ...
-!> \param unit_nr ...
-!> \param array_compare ...
 ! **************************************************************************************************
    SUBROUTINE write_${ndim}$d_array(array, unit_nr, array_compare)
       REAL(KIND=real_8), DIMENSION(${shape_colon(ndim)}$), INTENT(IN) :: array
@@ -885,9 +855,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief mapped sizes in 2d
-!> \param nd_sizes ...
-!> \param map1 ...
-!> \param map2 ...
 ! **************************************************************************************************
    FUNCTION sizes_2d(nd_sizes, map1, map2)
       INTEGER, DIMENSION(:), INTENT(IN) :: nd_sizes, map1, map2
@@ -898,9 +865,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief checksum of a tensor consistent with dbcsr_checksum
-!> \param tensor ...
-!> \param local ...
-!> \param pos ...
 ! **************************************************************************************************
    FUNCTION dbcsr_t_checksum(tensor, local, pos)
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor

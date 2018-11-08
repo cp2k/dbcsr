@@ -9,8 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Accelerator support
-!> \author  Ole Schuett
-!> \date    2013-04
 ! **************************************************************************************************
 MODULE dbcsr_acc_event
 #if defined (__DBCSR_ACC)
@@ -104,7 +102,6 @@ CONTAINS
 !>        Because of fortran circular dependency restriction this can not go into acc_stream.F
 !> \param[in] stream stream
 !> \param[in] event event
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_stream_wait_event(stream, event)
       TYPE(acc_stream_type), INTENT(IN) :: stream
@@ -133,7 +130,6 @@ CONTAINS
 !> \brief Fortran-wrapper for cudaEventRecord.
 !> \param[in] this event
 !> \param[in] stream stream
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_event_record(this, stream)
       TYPE(acc_event_type), INTENT(IN)  :: this
@@ -161,7 +157,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Fortran-wrapper for cudaEventCreate.
 !> \param[in,out] this event
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_event_create(this)
       TYPE(acc_event_type), &
@@ -184,7 +179,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Fortran-wrapper for cudaEventDestroy.
 !> \param[in,out] this event
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_event_destroy(this)
       TYPE(acc_event_type), &
@@ -208,7 +202,6 @@ CONTAINS
 !> \brief Fortran-wrapper for cudaEventQuery.
 !> \param[in] this event
 !> \return true if event has occurred, false otherwise
-!> \author  Ole Schuett
 ! **************************************************************************************************
    FUNCTION acc_event_query(this) RESULT(res)
       TYPE(acc_event_type), INTENT(IN)         :: this
@@ -232,7 +225,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Fortran-wrapper for cudaEventSynchronize.
 !> \param[in] this event
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_event_synchronize(this)
       TYPE(acc_event_type), INTENT(IN)  :: this

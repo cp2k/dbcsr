@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   DBCSR data methods
-!> \author  Urban Borstnik
-!> \date    2010-06-15
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2010-02-18 Moved from dbcsr_methods
 ! **************************************************************************************************
 MODULE dbcsr_data_methods
    USE dbcsr_acc_devmem, ONLY: acc_devmem_allocate_bytes, &
@@ -81,8 +75,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Transfers data from host- to device-buffer, asynchronously.
-!> \param area ...
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_data_host2dev(area)
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
@@ -128,8 +120,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Transfers data from device- to host-buffer, asynchronously.
-!> \param area ...
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_data_dev2host(area)
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
@@ -238,7 +228,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Ensures a minimum size of a previously-setup data area.
-!>
 !> The data area must have been previously setup with dbcsr_data_new.
 !> \param[inout] area         data area
 !> \param[in] data_size       allocate this much data
@@ -246,7 +235,6 @@ CONTAINS
 !>                            default is to keep it
 !> \param[in] zero_pad        (optional) pad new data with zeros
 !> \param[in] factor          (optional) increase size by this factor
-!> \param area_resize ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_data_ensure_size(area, data_size, nocopy, zero_pad, factor, &
                                      area_resize)

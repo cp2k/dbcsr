@@ -21,23 +21,16 @@
 !>      in my idea they should have been with variable length,
 !>      (i.e. they should have returned a trim(adjustl(actual_result)))
 !>      As a logger should be robust, at the moment I have given up.
-!>
 !>      At the moment logging and output refer to the same object
 !>      (dbcsr_logger_type)
 !>      as these are actually different it might be better to separate them
 !>      (they have already separate routines in a separate module
 !>      @see dbcsr_output_handling).
-!>
 !>      some practices (use of print *, no dbcsr_error_type,
 !>      manual retain release of some objects) are dictated by the need to
 !>      have minimal dependency
-!> \par History
-!>      08.2002 major update: retain, release, printkeys, mp_env,
-!>              local logging [fawzi]
-!>      02.2004 made a stack of default loggers [Joost VandeVondele]
 !> \par
 !>      @see dbcsr_error_handling
-!> \author Fawzi Mohamed
 !>      @version 12.2001
 ! **************************************************************************************************
 MODULE dbcsr_log_handling
@@ -130,11 +123,6 @@ MODULE dbcsr_log_handling
 !>      moved to another module and there is no "friend" keyword, they
 !>      are public.
 !>      DO NOT USE THE INTERNAL COMPONENTS DIRECTLY!!!
-!> \par History
-!>      04.2002 revised [fawzi]
-!>      08.2002 major update: retain, release, printkeys, mp_env,
-!>              local logging [fawzi]
-!> \author Fawzi Mohamed
 ! **************************************************************************************************
    TYPE dbcsr_logger_type
       INTEGER :: id_nr, ref_count
@@ -165,11 +153,6 @@ MODULE dbcsr_log_handling
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief ...
-!> \return ...
-!> \author fawzi
-! **************************************************************************************************
    FUNCTION dbcsr_default_logger_stack_size() RESULT(res)
       INTEGER                                            :: res
 
@@ -182,8 +165,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief adds a default logger.
 !>      MUST be called before logging occurs
-!> \param logger ...
-!> \author Fawzi Mohamed
 !> \note
 !>      increments a stack of default loggers the latest one will be
 !>      available within the program
@@ -211,7 +192,6 @@ CONTAINS
 !> \brief the cousin of dbcsr_add_default_logger, decrements the stack, so that
 !>      the default logger is what it has
 !>      been
-!> \author Joost VandeVondele
 ! **************************************************************************************************
    SUBROUTINE dbcsr_rm_default_logger()
       IF (stack_pointer - 1 < 0) THEN
@@ -227,10 +207,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief returns the default logger
-!> \return ...
-!> \par History
-!>      4.2002 created [fawzi]
-!> \author Fawzi Mohamed
 !> \note
 !>      initializes the default loggers if necessary
 ! **************************************************************************************************
@@ -269,14 +245,10 @@ CONTAINS
 !> \param close_global_unit_on_dealloc if the unit should be closed when the
 !>        logger is deallocated (defaults to true if a local_filename is given,
 !>        to false otherwise)
-!> \param iter_info ...
 !> \param close_local_unit_on_dealloc if the unit should be closed when the
 !>        logger is deallocated (defaults to true)
 !> \param suffix the suffix that should be added to all the generated filenames
 !> \param template_logger a logger from where to take the unspecified things
-!> \par History
-!>      4.2002 created [fawzi]
-!> \author Fawzi Mohamed
 !> \note
 !>      the handling of *_filename, default_*_unit_nr, close_*_unit_on_dealloc
 !>      tries to take the right decision with different inputs, and thus is a
@@ -407,9 +379,6 @@ CONTAINS
 !> \brief retains the given logger (to be called to keep a shared copy of
 !>      the logger)
 !> \param logger the logger to retain
-!> \par History
-!>      08.2002 created [fawzi]
-!> \author Fawzi Mohamed
 ! **************************************************************************************************
    SUBROUTINE dbcsr_logger_retain(logger)
       TYPE(dbcsr_logger_type), POINTER                   :: logger
@@ -427,9 +396,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief releases this logger
 !> \param logger the logger to release
-!> \par History
-!>      4.2002 created [fawzi]
-!> \author Fawzi Mohamed
 ! **************************************************************************************************
    SUBROUTINE dbcsr_logger_release(logger)
       TYPE(dbcsr_logger_type), POINTER                   :: logger
@@ -470,10 +436,6 @@ CONTAINS
 !> \param logger the logger you want to log in
 !> \param level describes the of the message: dbcsr_fatal_level(3),
 !>     dbcsr_failure_level(2), dbcsr_warning_level(1), dbcsr_note_level(0).
-!> \return ...
-!> \par History
-!>      4.2002 revised [fawzi]
-!> \author Fawzi Mohamed
 ! **************************************************************************************************
    FUNCTION dbcsr_logger_would_log(logger, level) RESULT(res)
       TYPE(dbcsr_logger_type), POINTER                   :: logger
@@ -500,10 +462,6 @@ CONTAINS
 !>     returns a global logger (only the process with mp_env%mp%mynode==
 !>     mp_env%mp%source should write to the global logger). Defaults to
 !>     false
-!> \return ...
-!> \par History
-!>      4.2002 revised [fawzi]
-!> \author Fawzi Mohamed
 ! **************************************************************************************************
    FUNCTION dbcsr_logger_get_unit_nr(logger, local) RESULT(res)
       TYPE(dbcsr_logger_type), POINTER                   :: logger
@@ -517,10 +475,6 @@ CONTAINS
 !> \brief returns the unit nr for the ionode (-1 on all other processors)
 !>        skips as well checks if the procs calling this function is not the ionode
 !> \param logger the logger you want to log in
-!> \return ...
-!> \par History
-!>      12.2009 created [tlaino]
-!> \author Teodoro Laino
 ! **************************************************************************************************
    FUNCTION dbcsr_logger_get_default_io_unit(logger) RESULT(res)
       TYPE(dbcsr_logger_type), OPTIONAL, POINTER         :: logger
@@ -547,9 +501,6 @@ CONTAINS
 !>      given wo not be printed.
 !> \param logger the logger to change
 !> \param level the new logging level for the logger
-!> \par History
-!>      4.2002 revised [fawzi]
-!> \author Fawzi Mohamed
 ! **************************************************************************************************
    SUBROUTINE dbcsr_logger_set_log_level(logger, level)
       TYPE(dbcsr_logger_type), POINTER                   :: logger
@@ -570,11 +521,6 @@ CONTAINS
 !>      try to use dbcsr_logger_get_unit_nr
 !> \param logger the logger you want info from
 !> \param local if you want the local unit nr (defaults to false)
-!> \param skip_not_ionode ...
-!> \return ...
-!> \par History
-!>      4.2002 revised [fawzi]
-!> \author Fawzi Mohamed
 ! **************************************************************************************************
    RECURSIVE FUNCTION dbcsr_logger_get_default_unit_nr(logger, local, skip_not_ionode) RESULT(res)
       TYPE(dbcsr_logger_type), OPTIONAL, POINTER         :: logger
@@ -673,14 +619,10 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief generates a unique filename (ie adding eventual suffixes and
 !>      process ids)
-!> \param logger ...
 !> \param res the resulting string
 !> \param root the start of filename
 !> \param postfix the end of the name
 !> \param local if the name should be local to this task (defaults to false)
-!> \par History
-!>      08.2002 created [fawzi]
-!> \author Fawzi Mohamed
 !> \note
 !>      this should be a function returning a variable length string.
 !>      All spaces are moved to the end of the string.
@@ -724,7 +666,6 @@ CONTAINS
 !>        logging
 !> \param global_filename the root of the name of the file used for
 !>        global logging
-!> \author Fawzi Mohamed
 ! **************************************************************************************************
    SUBROUTINE dbcsr_logger_set(logger, local_filename, global_filename)
       TYPE(dbcsr_logger_type), POINTER                   :: logger
@@ -744,10 +685,6 @@ CONTAINS
 !>      (should be a variable length string, but that does not work with
 !>      all the compilers)
 !> \param i the integer to convert
-!> \return ...
-!> \par History
-!>      4.2002 revised [fawzi]
-!> \author Fawzi Mohamed
 ! **************************************************************************************************
    FUNCTION dbcsr_int_to_string(i) RESULT(res)
       INTEGER, INTENT(in)                                :: i
@@ -776,10 +713,6 @@ CONTAINS
 !>      (should be a variable length string, but that does not work with
 !>      all the compilers)
 !> \param val the number to convert
-!> \return ...
-!> \par History
-!>      4.2002 revised [fawzi]
-!> \author Fawzi Mohamed
 ! **************************************************************************************************
    FUNCTION dbcsr_real_dp_to_string(val) RESULT(res)
       REAL(KIND=dp), INTENT(in)                          :: val
@@ -791,8 +724,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief convert a logical in a string ('T' or 'F')
 !> \param val the number to convert
-!> \return ...
-!> \author fawzi
 ! **************************************************************************************************
    FUNCTION dbcsr_logical_to_string(val) RESULT(res)
       LOGICAL, INTENT(in)                                :: val

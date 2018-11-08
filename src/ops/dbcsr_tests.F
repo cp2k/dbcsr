@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Tests for CP2K DBCSR operations
-!> \author  Urban Borstnik
-!> \date    2010-02-08
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created 2010-02-08
 ! **************************************************************************************************
 MODULE dbcsr_tests
    USE dbcsr_data_methods, ONLY: dbcsr_scalar
@@ -94,10 +88,8 @@ CONTAINS
 !> \param[in] alpha alpha value to use in multiply
 !> \param[in] beta beta value to use in multiply
 !> \param[in] data_type         matrix data type
-!> \param test_type ...
 !> \param[in] n_loops           number of repetition for each multiplication
 !> \param[in] eps               eps value for filtering
-!> \param retain_sparsity ...
 !> \param[in] always_checksum   checksum after each multiplication
 ! **************************************************************************************************
    SUBROUTINE dbcsr_run_tests(mp_group, io_unit, nproc, &
@@ -308,16 +300,7 @@ CONTAINS
 !> \param matrix_a matrices to multiply
 !> \param matrix_b matrices to multiply
 !> \param matrix_c matrices to multiply
-!> \param transa ...
-!> \param transb ...
-!> \param alpha ...
-!> \param beta ...
-!> \param limits ...
-!> \param retain_sparsity ...
-!> \param n_loops ...
-!> \param eps ...
 !> \param[in] io_unit           which unit to write to, if not negative
-!> \param always_checksum ...
 ! **************************************************************************************************
    SUBROUTINE test_multiplies_multiproc(group_sizes, &
                                         matrix_a, matrix_b, matrix_c, &

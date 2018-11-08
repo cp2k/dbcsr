@@ -9,8 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief tall-and-skinny matrices: Input / Output
-!>
-!> \author Patrick Seewald
 ! **************************************************************************************************
 
 MODULE dbcsr_tas_io
@@ -44,8 +42,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Write basic infos of tall-and-skinny matrix: block dimensions, full dimensions, process grid dimensions
-!> \param matrix ...
-!> \param output_unit ...
 !> \param full_info Whether to print distribution and block size vectors
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_write_matrix_info(matrix, output_unit, full_info)
@@ -105,8 +101,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Write info on tall-and-skinny matrix distribution & load balance
-!> \param matrix ...
-!> \param output_unit ...
 !> \param full_info Whether to print subgroup DBCSR distribution
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_write_dist(matrix, output_unit, full_info)
@@ -190,9 +184,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Print info on how matrix is split
-!> \param info ...
-!> \param io_unit ...
-!> \param name ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_write_split_info(info, io_unit, name)
       TYPE(dbcsr_tas_split_info), INTENT(IN)             :: info

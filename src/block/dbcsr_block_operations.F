@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Routines for basic block transformations.
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2009-05-12 moved from dbcsr_util
 ! **************************************************************************************************
 MODULE dbcsr_block_operations
 
@@ -127,7 +121,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Copy data from one data area to another.
-!>
 !> There are no checks done for correctness!
 !> \param[in] dst        destination data area
 !> \param[in] src        source data area
@@ -289,7 +282,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Copy data from one data area to another.
-!>
 !> There are no checks done for correctness!
 !> \param[in] dst        destination data area
 !> \param[in] src        source data area
@@ -393,9 +385,7 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Scale a data area.
-!>
 !> There are no checks done for correctness!
-!> \param dst ...
 !> \param[in] scale      (optional) scale data
 !> \param[in] row_size   row size of existing block
 !> \param[in] col_size   column size of existing block
@@ -470,9 +460,7 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Negates the real part of a block
-!>
 !> There are no checks done for correctness!
-!> \param dst ...
 !> \param[in] row_size   row size of existing block
 !> \param[in] col_size   column size of existing block
 !> \param[in] lb         (optional) lower bound for destination (and source if
@@ -555,9 +543,7 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Conjugate a data area.
-!>
 !> There are no checks done for correctness!
-!> \param dst ...
 !> \param[in] row_size   row size of existing block
 !> \param[in] col_size   column size of existing block
 !> \param[in] lb         (optional) lower bound for destination (and source if
@@ -628,7 +614,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief In-place transpose of encapsulated data
-!>
 !> There are no checks done for correctness!
 !> \param[in] area       encapsulated data area
 !> \param[in] row_size   number of rows in existing block
@@ -667,7 +652,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Copy data from one data area to another.
-!>
 !> There are no checks done for correctness!
 !> \param[in] dst        destination data area
 !> \param[in] lb         lower bound for destination (and source if
@@ -854,7 +838,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Copy data from one data area to another, the most basic form.
-!>
 !> There are no checks done for correctness!
 !> \param[in,out] dst    destination data area
 !> \param[in] dst_lb     lower bounds for destination
@@ -1032,13 +1015,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Clears a data area, possibly transposed.
-!> \param area ...
-!> \param lb ...
-!> \param ub ...
-!> \param value ...
-!> \param lb2 ...
-!> \param ub2 ...
-!> \param tr ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_data_clear_nt(area, lb, ub, value, lb2, ub2, tr)
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
@@ -1430,7 +1406,6 @@ CONTAINS
 !> \brief Adds two blocks
 !> \param[in,out] block_a      Block to add to
 !> \param[in] block_b          Block to add to block_a
-!> \param len ...
 ! **************************************************************************************************
    SUBROUTINE block_add_anytype(block_a, block_b, len)
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: block_a
@@ -1481,9 +1456,6 @@ CONTAINS
 !> \brief Adds two blocks
 !> \param[in,out] block_a      Block to add to
 !> \param[in] block_b          Block to add to block_a
-!> \param lb_a ...
-!> \param lb_b ...
-!> \param len ...
 ! **************************************************************************************************
    SUBROUTINE block_add_anytype_bounds(block_a, block_b, lb_a, lb_b, len)
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: block_a

@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Tools usually found in a standard library.
-!> \author  Urban Borstnik
-!> \date    2011-11-02
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created 2011-11-02
 ! **************************************************************************************************
 MODULE dbcsr_toollib
 
@@ -56,12 +50,6 @@ MODULE dbcsr_toollib
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief ...
-!> \param most ...
-!> \param least ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION make_coordinate_tuple(most, least) RESULT(tuple)
       INTEGER, INTENT(IN)                                :: most, least
       INTEGER(KIND=int_8)                                :: tuple
@@ -133,12 +121,6 @@ CONTAINS
       ENDDO
    END SUBROUTINE dbcsr_unpack_i8_2i4
 
-! **************************************************************************************************
-!> \brief ...
-!> \param a ...
-!> \param b ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION gcd(a, b)
       INTEGER, INTENT(IN)                                :: a, b
       INTEGER                                            :: gcd
@@ -167,12 +149,6 @@ CONTAINS
       ENDIF
    END FUNCTION gcd
 
-! **************************************************************************************************
-!> \brief ...
-!> \param a ...
-!> \param b ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION lcm(a, b)
       INTEGER, INTENT(IN)                                :: a, b
       INTEGER                                            :: lcm
@@ -191,10 +167,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief generates the hash of a string and the index in the table
 !> \param key a string of any length
-!> \return ...
-!> \par History
-!>       09.2006 created [Joost VandeVondele]
-!>       2010-11-23 copied from CP2K and converted to take integers
 !> \note
 !>       http://en.wikipedia.org/wiki/Hash_table
 !>       http://www.burtleburtle.net/bob/hash/doobs.html
@@ -239,15 +211,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief search a value in an ordered array of indices
-!> \param array ...
-!> \param key ...
-!> \param loc ...
-!> \param found ...
-!> \param lb ...
-!> \param ub ...
-!> \return ...
-!> \par History
-!>       04.2015 created [Alfio Lazzaro]
 ! **************************************************************************************************
    PURE SUBROUTINE ordered_search(array, key, loc, found, lb, ub)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: array
@@ -284,11 +247,6 @@ CONTAINS
       ENDDO
    END SUBROUTINE ordered_search
 
-! **************************************************************************************************
-!> \brief ...
-!> \param a ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION atoi(a)
       CHARACTER(len=*), INTENT(in)                       :: a
       INTEGER                                            :: atoi
@@ -296,11 +254,6 @@ CONTAINS
       READ (a, '(I9)') atoi
    END FUNCTION atoi
 
-! **************************************************************************************************
-!> \brief ...
-!> \param a ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION atol(a)
       CHARACTER(len=*), INTENT(in)                       :: a
       LOGICAL                                            :: atol
@@ -308,11 +261,6 @@ CONTAINS
       READ (a, '(L1)') atol
    END FUNCTION atol
 
-! **************************************************************************************************
-!> \brief ...
-!> \param a ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION ator(a)
       CHARACTER(len=*), INTENT(in)                       :: a
       REAL(real_8)                                       :: ator

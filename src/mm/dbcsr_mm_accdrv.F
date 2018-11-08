@@ -11,9 +11,6 @@
 !> \brief  Fourth layer of the dbcsr matrix-matrix multiplication.
 !>         It hides the differences between performing calculations on the
 !>         accelerator device or on the CPU.
-!>
-!> \author  Urban Borstnik
-!>
 !> <b>Modification history:</b>
 !>  - 2010-02-23 Moved from dbcsr_operations
 !>  - 2011-11    Moved parameter-stack processing routines to
@@ -132,7 +129,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Initialize the library
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_lib_init()
 
@@ -149,7 +145,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finalize the library
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_lib_finalize()
 
@@ -181,10 +176,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Initializes a multiplication cycle for new set of C-blocks.
-!> \param this ...
-!> \param product_wm ...
-!> \param nlayers ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_init(this, product_wm, nlayers)
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
@@ -236,7 +227,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Helper routine used by dbcsr_mm_accdrv_init()
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE setup_streams()
 
@@ -260,7 +250,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Helper routine used by setup_streams() and dbcsr_mm_accdrv_lib_finalize()
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE deallocate_streams()
 
@@ -276,12 +265,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Helper routine
-!> \param streams ...
-!> \param basename ...
-!> \param n ...
-!> \param events ...
-!> \param priority ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE stream_array_force_size(streams, basename, n, events, priority)
       TYPE(acc_stream_type), DIMENSION(:), POINTER       :: streams
@@ -318,8 +301,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Helper routine used by dbcsr_mm_accdrv_init()
-!> \param this ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE setup_stackbuffers(this)
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
@@ -373,7 +354,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Helper routine used by setup_stackbuffers() and dbcsr_mm_accdrv_lib_finalize()
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE deallocate_stackbuffers()
 
@@ -395,8 +375,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finalizes a multiplication cycle for a set of C-blocks.
-!> \param this ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_dev2host_init(this)
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
@@ -411,8 +389,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finalizes a multiplication cycle for a set of C-blocks.
-!> \param this ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_finalize(this)
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
@@ -434,10 +410,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Sort stack entries with respect to the c_id.
-!> \param params_in ...
-!> \param params_out ...
-!> \param stack_size ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE stack_sort(params_in, params_out, stack_size)
       INTEGER, INTENT(IN)                                :: stack_size
@@ -462,10 +434,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Roughly order stacks with a cheaper Binning-scheme by Peter Messmer
-!> \param params_in ...
-!> \param params_out ...
-!> \param stack_size ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE stack_binning(params_in, params_out, stack_size)
       INTEGER, INTENT(IN)                                :: stack_size
@@ -507,8 +475,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Signal approaching end of multiplication
-!> \param this ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_phaseout(this)
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
@@ -519,7 +485,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief After being called by ALL threads, it installs a special barrier that
 !>        forces the priority-streams to wait for the normal-streams.
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_barrier()
 
@@ -543,14 +508,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Processes a given stack using accelerator
-!> \param this ...
-!> \param left ...
-!> \param right ...
-!> \param params ...
-!> \param stack_size ...
-!> \param stack_descr ...
-!> \param success ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_process(this, left, right, params, stack_size, &
                                       stack_descr, success)

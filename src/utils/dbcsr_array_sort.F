@@ -14,12 +14,8 @@
 !> \note
 !>      CP2K:
 !>      Please use the interface defined in util.F for calling sort().
-!>
 !>      DBCSR:
 !>      Please use the interface defined in dbcsr_toollib.F for calling sort().
-!> \par History
-!>      12.2012 first version [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
 MODULE dbcsr_array_sort
 
@@ -44,9 +40,6 @@ CONTAINS
 !> \param arr the array to sort
 !> \param n length of array
 !> \param indices returns elements-indices before the sort
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    subroutine dbcsr_1d_${nametype1}$_sort(arr, n, indices)
       integer, intent(in)                  :: n
@@ -77,9 +70,6 @@ CONTAINS
 !> \param indices elements-indices before the sort
 !> \param tmp_arr scratch space
 !> \param tmp_idx scratch space
-!> \par History
-!>      12.2012 created [ole]
-!> \author Ole Schuett
 ! **************************************************************************************************
    recursive subroutine dbcsr_1d_${nametype1}$_sort_low(arr, indices, tmp_arr, tmp_idx)
       ${type1}$, dimension(:), intent(inout) :: arr

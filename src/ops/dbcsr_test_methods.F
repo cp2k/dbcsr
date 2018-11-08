@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Tests for CP2K DBCSR operations
-!> \author  Urban Borstnik
-!> \date    2010-02-08
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created 2010-02-08
 ! **************************************************************************************************
 MODULE dbcsr_test_methods
    USE dbcsr_blas_operations, ONLY: dbcsr_lapack_larnv, &
@@ -93,12 +87,6 @@ CONTAINS
       randmat_counter = rand_seed_init
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param z ...
-!> \param data_type ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION compx_to_dbcsr_scalar(z, data_type) RESULT(res)
       COMPLEX(real_8)                                    :: z
       INTEGER                                            :: data_type
@@ -121,7 +109,6 @@ CONTAINS
 !> \brief Impose sparsity on a dense matrix based on a dbcsr
 !> \param[in] sparse          sparse matrix
 !> \param[inout] dense        dense matrix
-!>
 !> Take into account the symmetry of the sparse matrix.
 !> The dense matrix need to be valid.
 !> The operation is done locally.
@@ -237,7 +224,6 @@ CONTAINS
 !> \brief Convert a sparse matrix to a dense matrix
 !> \param[in] sparse          sparse matrix
 !> \param[inout] dense        dense matrix
-!>
 !> Take into account the symmetry of the sparse matrix.
 !> The dense matrix need to be valid.
 !> The operation is done locally.
@@ -330,12 +316,6 @@ CONTAINS
 
    END SUBROUTINE dbcsr_to_dense_local
 
-! **************************************************************************************************
-!> \brief ...
-!> \param dist_array ...
-!> \param dist_size ...
-!> \param nbins ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_random_dist(dist_array, dist_size, nbins)
       INTEGER, DIMENSION(:), INTENT(out), POINTER        :: dist_array
       INTEGER, INTENT(in)                                :: dist_size, nbins
@@ -350,15 +330,6 @@ CONTAINS
    END SUBROUTINE dbcsr_random_dist
 
 !> \brief Creates a random matrix.
-!> \param matrix ...
-!> \param row_blk_sizes ...
-!> \param col_blk_sizes ...
-!> \param name ...
-!> \param sparsity ...
-!> \param mp_group ...
-!> \param data_type ...
-!> \param symmetry ...
-!> \param dist ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes, &
                                        name, sparsity, mp_group, data_type, symmetry, dist)
@@ -509,12 +480,6 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_make_random_matrix
 
-! **************************************************************************************************
-!> \brief ...
-!> \param block_sizes ...
-!> \param size_sum ...
-!> \param size_mix ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_random_block_sizes(block_sizes, size_sum, size_mix)
       INTEGER, DIMENSION(:), INTENT(out), POINTER        :: block_sizes
       INTEGER, INTENT(in)                                :: size_sum
@@ -567,11 +532,6 @@ CONTAINS
 
    END SUBROUTINE dbcsr_make_random_block_sizes
 
-! **************************************************************************************************
-!> \brief ...
-!> \param mp_env ...
-!> \param group ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_null_mp(mp_env, group)
       TYPE(dbcsr_mp_obj), INTENT(out)                    :: mp_env
       INTEGER, INTENT(in), OPTIONAL                      :: group
@@ -592,13 +552,6 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_make_null_mp
    !
-! **************************************************************************************************
-!> \brief ...
-!> \param distribution ...
-!> \param nblkrows ...
-!> \param nblkcols ...
-!> \param group ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_null_dist(distribution, nblkrows, nblkcols, group)
       TYPE(dbcsr_distribution_obj), INTENT(out)          :: distribution
       INTEGER, INTENT(in)                                :: nblkrows, nblkcols

@@ -9,7 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief Routines to reshape / redistribute tensors
-!> \author Patrick Seewald
 ! **************************************************************************************************
 MODULE dbcsr_tensor_reshape
 
@@ -69,8 +68,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief copy data (involves reshape)
-!> \param tensor_in ...
-!> \param tensor_out ...
 !> \param summation tensor_out = tensor_out + tensor_in
 !> move_data memory optimization: transfer data from tensor_in to tensor_out s.t. tensor_in is empty
 !> on return
@@ -193,7 +190,6 @@ CONTAINS
 !> \param buffer block buffer
 !> \param nblock number of blocks
 !> \param ndata total number of block entries
-!> \param data_type ...
 !> \param ndim number of dimensions
 ! **************************************************************************************************
    SUBROUTINE block_buffer_create(buffer, nblock, ndata, data_type, ndim)
@@ -213,10 +209,6 @@ CONTAINS
       ALLOCATE (buffer%indx(nblock, ndim + 1))
    END SUBROUTINE block_buffer_create
 
-! **************************************************************************************************
-!> \brief ...
-!> \param buffer ...
-! **************************************************************************************************
    SUBROUTINE block_buffer_destroy(buffer)
       TYPE(block_buffer_type), INTENT(INOUT) :: buffer
 
@@ -233,11 +225,6 @@ CONTAINS
       buffer%endpos = -1
    END SUBROUTINE block_buffer_destroy
 
-! **************************************************************************************************
-!> \brief ...
-!> \param buffer ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION ndims_buffer(buffer)
       TYPE(block_buffer_type), INTENT(IN) :: buffer
       INTEGER                             :: ndims_buffer
@@ -247,7 +234,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief insert a block into block buffer (at current iterator position)
-!> \param buffer ...
 !> \param index index of block
 !> \param block block
 ! **************************************************************************************************
@@ -267,11 +253,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
-!> \param buffer ...
-!> \param ndata ...
-!> \param index ...
-!> \param block ...
-!> \param advance_iter ...
 ! **************************************************************************************************
    SUBROUTINE block_buffer_get_next_anyd_block(buffer, ndata, index, block, advance_iter)
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
@@ -307,7 +288,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Reset buffer block iterator
-!> \param buffer ...
 ! **************************************************************************************************
    SUBROUTINE block_buffer_iterator_reset(buffer)
       TYPE(block_buffer_type), INTENT(INOUT) :: buffer
@@ -317,8 +297,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief how many blocks left in iterator
-!> \param buffer ...
-!> \return ...
 ! **************************************************************************************************
    PURE FUNCTION block_buffer_blocks_left(buffer)
       TYPE(block_buffer_type), INTENT(IN) :: buffer
@@ -329,10 +307,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief communicate buffer
-!> \param mp_comm ...
-!> \param buffer_recv ...
-!> \param buffer_send ...
-!> \param req_array ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_communicate_buffer(mp_comm, buffer_recv, buffer_send, req_array)
       INTEGER, INTENT(IN)                    :: mp_comm
@@ -404,10 +378,6 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
 ! **************************************************************************************************
 !> \brief add block to buffer.
-!> \param buffer ...
-!> \param ndata ...
-!> \param index ...
-!> \param block ...
 ! **************************************************************************************************
    SUBROUTINE block_buffer_add_block_${dsuffix}$ (buffer, ndata, index, block)
       TYPE(block_buffer_type), INTENT(INOUT)               :: buffer
@@ -438,10 +408,6 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
 ! **************************************************************************************************
 !> \brief get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
-!> \param buffer ...
-!> \param ndata ...
-!> \param index ...
-!> \param block ...
 !> \param advance_iter
 ! **************************************************************************************************
    SUBROUTINE block_buffer_get_next_block_${dsuffix}$ (buffer, ndata, index, block, advance_iter)

@@ -9,9 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Entry point of the dbcsr matrix-matrix multiplication.
-!>
-!> \author  Alfio Lazzaro
-!>
 !> <b>Modification history:</b>
 !>  - 2016-08    Code organization (Alfio Lazzaro).
 ! **************************************************************************************************
@@ -131,7 +128,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Initialize the library
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_multiply_lib_init()
 
@@ -170,7 +166,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finalize the library
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_multiply_lib_finalize()
 
@@ -220,8 +215,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Print statistics
-!> \param group ...
-!> \param output_unit ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_multiply_print_statistics(group, output_unit)
       INTEGER, INTENT(IN)                                :: group, output_unit
@@ -313,7 +306,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Deallocate memory contained in mempools
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_multiply_clear_mempools()
 

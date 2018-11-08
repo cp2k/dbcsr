@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   DBCSR transformations
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2010-02-18 Moved from dbcsr_util and dbcsr_operations
 ! **************************************************************************************************
 MODULE dbcsr_transformations
    USE dbcsr_array_types, ONLY: array_data, &
@@ -292,12 +286,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Transposes a DBCSR matrix, keeping the same distribution
-!> \param transposed ...
-!> \param normal ...
-!> \param shallow_data_copy ...
-!> \param transpose_data ...
-!> \param transpose_distribution ...
-!> \param use_distribution ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_transposed(transposed, normal, shallow_data_copy, &
                                transpose_data, transpose_distribution, use_distribution)
@@ -336,7 +324,6 @@ CONTAINS
 !>        matrices
 !> \param[in] sm              input symmetric matrix
 !> \param[out] desm           desymmetrized matrix
-!> \param untransposed_data ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_desymmetrize_deep(sm, desm, untransposed_data)
       TYPE(dbcsr_type), INTENT(IN)                       :: sm
@@ -757,12 +744,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Makes a dense matrix, inplace.
 !> \param[in,out] matrix      matrix to make dense
-!> \param dense_matrix ...
-!> \param dense_dist ...
-!> \param dense_row_sizes ...
-!> \param dense_col_sizes ...
-!> \param row_map ...
-!> \param col_map ...
 !> \note Used for making matrices dense/undense
 ! **************************************************************************************************
    SUBROUTINE dbcsr_make_dense(matrix, dense_matrix, dense_dist, &
@@ -1135,17 +1116,8 @@ CONTAINS
 !> \param[in,out] dense_data         Dense data
 !> \param[in] nfullrows size of new data
 !> \param[in] nfullcols size of new data
-!> \param und_row_blk_offsets ...
-!> \param und_col_blk_offsets ...
-!> \param dense_row_blk_offsets ...
-!> \param dense_col_blk_offsets ...
-!> \param row_map ...
-!> \param col_map ...
-!> \param row_internal_offsets ...
-!> \param col_internal_offsets ...
 !> \param[in] join_rows           (optional) make rows dense, default is yes
-!> \param[in] join_cols           (optional) make columns dense, default is
-!>                                yes
+!> \param[in] join_cols           (optional) make columns dense, default is yes
 !> \param[in] make_tr             (optional) make the dense blocks transposed
 !> \note Used for making matrices dense/undense
 ! **************************************************************************************************
@@ -1259,8 +1231,6 @@ CONTAINS
 !> \param[in] dense_col_blk_offsets  column block offsets for dense data
 !> \param[in] row_map                mapping from undense to dense rows
 !> \param[in] col_map                mapping from undense to dense rows
-!> \param row_internal_offsets ...
-!> \param col_internal_offsets ...
 !> \note Used for making matrices dense/undense
 ! **************************************************************************************************
    SUBROUTINE make_undense_data(matrix, dense_data, nfullrows, nfullcols, &
@@ -1618,7 +1588,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Fully redistributes a DBCSR matrix.
-!>
 !>        The new distribution may be arbitrary as long as the total
 !>        number full rows and columns matches that of the existing
 !>        matrix.
@@ -2025,7 +1994,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Redistributes a DBCSR matrix.
-!>
 !>        The new distribution should have compatible row and column blocks.
 !> \param[in] matrix          matrix to redistribute
 !> \param[in,out] redist      redistributed matrix, which should already be
@@ -2259,7 +2227,6 @@ CONTAINS
 !> \brief Redistributes data blocks of a DBCSR matrix read from a file.
 !>        This routine should be used with dbcsr_binary_read in the module
 !>        dbcsr_io.F
-!>
 !> \param[in] dblk data blocks of the DBCSR matrix that the current node possesses after reading the
 !>    data file
 !> \param[in] row_p row_p of the DBCSR matrix that the current node possesses after reading the
@@ -2275,9 +2242,6 @@ CONTAINS
 !>    of those nodes of the mp environment, that created the file,
 !>    whose contents have been read by the current node of the present mp environment
 !> \param[in,out] new_matrix   redistributed matrix
-!>
-!> \par History
-!>      11.2012 created [Hossein Bani-Hashemian]
 ! **************************************************************************************************
    SUBROUTINE dbcsr_datablock_redistribute(dblk, row_p, col_i, blk_p, &
                                            proc_nblks, proc_darea_sizes, new_matrix)
@@ -2511,11 +2475,6 @@ CONTAINS
       CALL timestop(handle)
    CONTAINS
 
-! **************************************************************************************************
-!> \brief ...
-!> \param arr ...
-!> \param cumsum ...
-! **************************************************************************************************
       SUBROUTINE cumsum_l(arr, cumsum)
          INTEGER(kind=int_8), DIMENSION(:), INTENT(IN)      :: arr
          INTEGER(kind=int_8), DIMENSION(:), INTENT(OUT)     :: cumsum

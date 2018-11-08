@@ -9,13 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   DBCSR pointer and unmanaged array utilities
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2010-02-18 Moved from dbcsr_util
-!> - 2010-06-18 Moved all pointer methods into here.
 ! **************************************************************************************************
 MODULE dbcsr_ptr_util
    USE dbcsr_acc_hostmem, ONLY: acc_hostmem_allocate, &

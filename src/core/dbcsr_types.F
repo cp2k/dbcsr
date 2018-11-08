@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   DBCSR data types
-!> \author  Urban Borstnik
-!> \date    2009-05-12
-!> \version 0.95
-!>
-!> <b>Modification history:</b>
-!> - Created 2009-05-12
 ! **************************************************************************************************
 MODULE dbcsr_types
    USE dbcsr_array_types, ONLY: array_i1d_obj
@@ -206,7 +200,6 @@ MODULE dbcsr_types
 ! **************************************************************************************************
 !> \brief Image distributions are used to map incompatible processor row and
 !>        column distributions.
-!>
 !> Used to ease storage or transfer between two different-sizes
 !> sets. For example, if there are 4 real processor rows that are
 !> mapped to 8 "virtual" processor rows, then there are two images for
@@ -626,12 +619,6 @@ MODULE dbcsr_types
 
 ! **************************************************************************************************
 !> \brief DBCSR MPI statistics
-!> \var last_mpi_ranks_used ...
-!> \var nimages ...
-!> \var nexchanged ...
-!> \var nfiltered ...
-!> \var data_size ...
-!> \var data_size_breakdown ...
 ! **************************************************************************************************
    TYPE dbcsr_mpi_statistics_type
       INTEGER                                                             :: last_mpi_ranks_used = -1

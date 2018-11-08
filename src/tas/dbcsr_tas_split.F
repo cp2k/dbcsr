@@ -9,9 +9,7 @@
 
 ! **************************************************************************************************
 !> \brief methods to split tall-and-skinny matrices along longest dimension.
-!>
 !> Basically, we are splitting process grid and each subgrid holds its own DBCSR matrix.
-!> \author Patrick Seewald
 ! **************************************************************************************************
 MODULE dbcsr_tas_split
 
@@ -69,7 +67,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief split mpi grid by rows or columns
-!> \param split_info ...
 !> \param mp_comm global mpi communicator with a 2d cartesian grid
 !> \param ngroup number of groups
 !> \param igroup my group ID
@@ -150,9 +147,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Create default cartesian process grid that is consistent with default split heuristic
 !>        of dbcsr_tas_create_split
-!> \param mp_comm ...
-!> \param split_rowcol ...
-!> \param nsplit ...
 !> \return new communicator
 ! **************************************************************************************************
    FUNCTION dbcsr_tas_mp_comm(mp_comm, split_rowcol, nsplit)
@@ -180,10 +174,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Get optimal process grid dimensions consistent with dbcsr_tas_create_split
-!> \param numproc ...
-!> \param split_rowcol ...
-!> \param nsplit ...
-!> \return ...
 ! **************************************************************************************************
    FUNCTION dbcsr_tas_mp_dims(numproc, split_rowcol, nsplit)
       INTEGER, INTENT(IN)                                :: numproc
@@ -309,7 +299,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Derive optimal cartesian process grid from matrix sizes. This ensures optimality for
 !>        dense matrices only
-!> \param mp_comm ...
 !> \param nblkrows total number of block rows
 !> \param nblkcols total number of block columns
 !> \return MPI communicator
@@ -338,7 +327,6 @@ CONTAINS
 !> \param split_rowcol split rows or columns
 !> \param nsplit desired split factor, set to 0 if split factor of exactly 1 is required
 !> \param own_comm whether split_info should own communicator
-!> \param opt_nsplit ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_create_split(split_info, mp_comm, split_rowcol, nsplit, own_comm, opt_nsplit)
       TYPE(dbcsr_tas_split_info), INTENT(OUT)            :: split_info
@@ -401,9 +389,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Whether to accept proposed process grid dimensions (based on ratio of dimensions)
-!> \param dims ...
-!> \param relative ...
-!> \return ...
 ! **************************************************************************************************
    FUNCTION accept_pgrid_dims(dims, relative)
       INTEGER, DIMENSION(2), INTENT(IN)          :: dims
@@ -422,7 +407,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Get info on split
-!> \param info ...
 !> \param mp_comm communicator (global process grid)
 !> \param nsplit split factor
 !> \param igroup which group do I belong to
@@ -453,10 +437,6 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param split_info ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_release_info(split_info)
       TYPE(dbcsr_tas_split_info), INTENT(INOUT)          :: split_info
       LOGICAL                                            :: abort
@@ -482,10 +462,6 @@ CONTAINS
       ENDIF
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param split_info ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_info_hold(split_info)
       TYPE(dbcsr_tas_split_info), INTENT(IN)             :: split_info
 
@@ -576,8 +552,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief map group local block index to global matrix index
-!> \param info ...
-!> \param dist ...
 !> \param row_group group local row block index
 !> \param column_group group local column block index
 !> \param row global block row
@@ -613,12 +587,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief map global block index to group local index
-!> \param info ...
-!> \param dist ...
-!> \param row ...
-!> \param column ...
-!> \param row_group ...
-!> \param column_group ...
 ! **************************************************************************************************
    SUBROUTINE block_index_global_to_local(info, dist, row, column, row_group, column_group)
       TYPE(dbcsr_tas_split_info), INTENT(IN)               :: info
@@ -648,7 +616,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief map matrix rows/column to group local rows/column
-!> \param dist ...
 !> \param rowcol global row/column to map
 !> \param rowcol_group group local row/column
 ! **************************************************************************************************
@@ -667,11 +634,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief binary search for 8-byte integers
-!> \param array ...
-!> \param el ...
-!> \param l_index ...
-!> \param u_index ...
-!> \return ...
 ! **************************************************************************************************
    FUNCTION i8_bsearch(array, el, l_index, u_index) result(res)
       INTEGER(KIND=int_8), intent(in) :: array(:)
@@ -699,8 +661,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief maps a process subgroup to matrix rows/columns
-!> \param info ...
-!> \param rowcol_dist ...
 !> \param igroup group ID
 !> \param rowcols rows/ columns on this group
 ! **************************************************************************************************

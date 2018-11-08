@@ -9,18 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief Interface to the message passing library MPI
-!> \par History
-!>      JGH (02-Jan-2001): New error handling
-!>                         Performance tools
-!>      JGH (14-Jan-2001): New routines mp_comm_compare, mp_cart_coords,
-!>                                      mp_rank_compare, mp_alltoall
-!>      JGH (06-Feb-2001): New routines mp_comm_free
-!>      JGH (22-Mar-2001): New routines mp_comm_dup
-!>      fawzi (04-NOV-2004): storable performance info (for f77 interface)
-!>      Wrapper routine for mpi_gatherv added (22.12.2005,MK)
-!>      JGH (13-Feb-2006): Flexible precision
-!>      JGH (15-Feb-2006): single precision mp_alltoall
-!> \author JGH
 ! **************************************************************************************************
 MODULE dbcsr_mpiwrap
    USE ISO_C_BINDING, ONLY: C_F_POINTER, &
@@ -692,8 +680,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief initializes the system default communicator
 !> \param mp_comm [output] : handle of the default communicator
-!> \par History
-!>      2.2004 created [Joost VandeVondele ]
 !> \note
 !>      should only be called once
 ! **************************************************************************************************
@@ -750,10 +736,6 @@ CONTAINS
 !> \brief re-create the system default communicator with a different MPI
 !>        rank order
 !> \param mp_comm [output] : handle of the default communicator
-!> \param mp_new_comm ...
-!> \param ranks_order ...
-!> \par History
-!>      1.2012 created [ Christiane Pousa ]
 !> \note
 !>      should only be called once, at very beginning of CP2K run
 ! **************************************************************************************************
@@ -801,8 +783,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief finalizes the system default communicator
-!> \par History
-!>      2.2004 created [Joost VandeVondele]
 ! **************************************************************************************************
    SUBROUTINE mp_world_finalize()
 
@@ -830,9 +810,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief start and stop the performance indicators
 !>      for every call to start there has to be (exactly) one call to stop
-!> \param perf_env ...
-!> \par History
-!>      2.2004 created [Joost VandeVondele]
 !> \note
 !>      can be used to measure performance of a sub-part of a program.
 !>      timings measured here will not show up in the outer start/stops
@@ -855,10 +832,6 @@ CONTAINS
       END IF
    END SUBROUTINE add_mp_perf_env
 
-! **************************************************************************************************
-!> \brief ...
-!> \param perf_env ...
-! **************************************************************************************************
    SUBROUTINE mp_perf_env_create(perf_env)
       TYPE(mp_perf_env_type), OPTIONAL, POINTER          :: perf_env
 
@@ -880,10 +853,6 @@ CONTAINS
 
    END SUBROUTINE mp_perf_env_create
 
-! **************************************************************************************************
-!> \brief ...
-!> \param perf_env ...
-! **************************************************************************************************
    SUBROUTINE mp_perf_env_release(perf_env)
       TYPE(mp_perf_env_type), POINTER                    :: perf_env
 
@@ -899,10 +868,6 @@ CONTAINS
       NULLIFY (perf_env)
    END SUBROUTINE mp_perf_env_release
 
-! **************************************************************************************************
-!> \brief ...
-!> \param perf_env ...
-! **************************************************************************************************
    SUBROUTINE mp_perf_env_retain(perf_env)
       TYPE(mp_perf_env_type), POINTER                    :: perf_env
 
@@ -916,11 +881,6 @@ CONTAINS
    END SUBROUTINE mp_perf_env_retain
 
 !.. reports the performance counters for the MPI run
-! **************************************************************************************************
-!> \brief ...
-!> \param perf_env ...
-!> \param iw ...
-! **************************************************************************************************
    SUBROUTINE mp_perf_env_describe(perf_env, iw)
       TYPE(mp_perf_env_type), POINTER          :: perf_env
       INTEGER, INTENT(IN)                      :: iw
@@ -966,9 +926,6 @@ CONTAINS
 #endif
    END SUBROUTINE mp_perf_env_describe
 
-! **************************************************************************************************
-!> \brief ...
-! **************************************************************************************************
    SUBROUTINE rm_mp_perf_env()
       IF (stack_pointer < 1) THEN
          DBCSR_ABORT("no perf_env in the stack : mpiwrap @ rm_mp_perf_env")
@@ -977,10 +934,6 @@ CONTAINS
       stack_pointer = stack_pointer - 1
    END SUBROUTINE rm_mp_perf_env
 
-! **************************************************************************************************
-!> \brief ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION has_mp_perf_env() RESULT(res)
       LOGICAL :: res
 
@@ -990,10 +943,6 @@ CONTAINS
       res = .TRUE.
    END FUNCTION has_mp_perf_env
 
-! **************************************************************************************************
-!> \brief ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_mp_perf_env() RESULT(res)
       TYPE(mp_perf_env_type), POINTER                    :: res
 
@@ -1003,10 +952,6 @@ CONTAINS
       res => mp_perf_stack(stack_pointer)%mp_perf_env
    END FUNCTION get_mp_perf_env
 
-! **************************************************************************************************
-!> \brief ...
-!> \param scr ...
-! **************************************************************************************************
    SUBROUTINE describe_mp_perf_env(scr)
       INTEGER, INTENT(in)                                :: scr
 
@@ -1018,10 +963,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief adds the performance informations of one call
-!> \param perf_id ...
-!> \param count ...
-!> \param msg_size ...
-!> \author fawzi
 ! **************************************************************************************************
    SUBROUTINE add_perf(perf_id, count, msg_size)
       INTEGER, INTENT(in)                      :: perf_id
@@ -1072,7 +1013,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief stops *after an mpi error* translating the error code
 !> \param ierr an error code * returned by an mpi call *
-!> \param prg_code ...
 !> \note
 !>       this function is private to mpiwrap.F
 ! **************************************************************************************************
@@ -1127,7 +1067,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief synchronizes with a barrier a given group of mpi tasks
 !> \param group mpi communicator
-!> \param request ...
 ! **************************************************************************************************
    SUBROUTINE mp_isync(group, request)
       INTEGER, INTENT(IN)                                :: group
@@ -1161,8 +1100,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief returns number of tasks and task id for a given mpi group
 !>       simple and cartesian version.. recursive needed in case of failing mpi_comm_rank.
-!> \param numtask ...
-!> \param taskid ...
 !> \param groupid mpi communicator
 !> \note
 !>         ..mp_world_setup is gone, use mp_environ instead (i.e. give a groupid explicitly)
@@ -1198,13 +1135,6 @@ CONTAINS
 
    END SUBROUTINE mp_environ_l
 
-! **************************************************************************************************
-!> \brief ...
-!> \param numtask ...
-!> \param dims ...
-!> \param task_coor ...
-!> \param groupid ...
-! **************************************************************************************************
    SUBROUTINE mp_environ_c(numtask, dims, task_coor, groupid)
 
       INTEGER, INTENT(OUT)                     :: numtask, dims(2), &
@@ -1237,14 +1167,6 @@ CONTAINS
 
    END SUBROUTINE mp_environ_c
 
-! **************************************************************************************************
-!> \brief ...
-!> \param comm ...
-!> \param ndims ...
-!> \param dims ...
-!> \param task_coor ...
-!> \param periods ...
-! **************************************************************************************************
    SUBROUTINE mp_environ_c2(comm, ndims, dims, task_coor, periods)
 
       INTEGER, INTENT(IN)                                :: comm, ndims
@@ -1272,14 +1194,6 @@ CONTAINS
    END SUBROUTINE mp_environ_c2
 
 !..mp_cart_create
-! **************************************************************************************************
-!> \brief ...
-!> \param comm_old ...
-!> \param ndims ...
-!> \param dims ...
-!> \param pos ...
-!> \param comm_cart ...
-! **************************************************************************************************
    SUBROUTINE mp_cart_create(comm_old, ndims, dims, pos, comm_cart)
 
       INTEGER, INTENT(IN)                      :: comm_old, ndims
@@ -1334,12 +1248,6 @@ CONTAINS
    END SUBROUTINE mp_cart_create
 
 !..mp_cart_coords
-! **************************************************************************************************
-!> \brief ...
-!> \param comm ...
-!> \param rank ...
-!> \param coords ...
-! **************************************************************************************************
    SUBROUTINE mp_cart_coords(comm, rank, coords)
 
       INTEGER, INTENT(IN)                                :: comm, rank
@@ -1366,12 +1274,6 @@ CONTAINS
    END SUBROUTINE mp_cart_coords
 
 !..mp_comm_compare
-! **************************************************************************************************
-!> \brief ...
-!> \param comm1 ...
-!> \param comm2 ...
-!> \param res ...
-! **************************************************************************************************
    SUBROUTINE mp_comm_compare(comm1, comm2, res)
 
       INTEGER, INTENT(IN)                                :: comm1, comm2
@@ -1411,12 +1313,6 @@ CONTAINS
    END SUBROUTINE mp_comm_compare
 
 !..mp_cart_sub
-! **************************************************************************************************
-!> \brief ...
-!> \param comm ...
-!> \param rdim ...
-!> \param sub_comm ...
-! **************************************************************************************************
    SUBROUTINE mp_cart_sub(comm, rdim, sub_comm)
 
       INTEGER, INTENT(IN)                                :: comm
@@ -1444,10 +1340,6 @@ CONTAINS
    END SUBROUTINE mp_cart_sub
 
 !..mp_comm_free
-! **************************************************************************************************
-!> \brief ...
-!> \param comm ...
-! **************************************************************************************************
    SUBROUTINE mp_comm_free(comm)
 
       INTEGER, INTENT(INOUT)                             :: comm
@@ -1471,11 +1363,6 @@ CONTAINS
    END SUBROUTINE mp_comm_free
 
 !..mp_comm_dup
-! **************************************************************************************************
-!> \brief ...
-!> \param comm1 ...
-!> \param comm2 ...
-! **************************************************************************************************
    SUBROUTINE mp_comm_dup(comm1, comm2)
 
       INTEGER, INTENT(IN)                                :: comm1
@@ -1500,12 +1387,6 @@ CONTAINS
    END SUBROUTINE mp_comm_dup
 
 !..mp_rank_compare
-! **************************************************************************************************
-!> \brief ...
-!> \param comm1 ...
-!> \param comm2 ...
-!> \param rank ...
-! **************************************************************************************************
    SUBROUTINE mp_rank_compare(comm1, comm2, rank)
 
       INTEGER, INTENT(IN)                      :: comm1, comm2
@@ -1559,11 +1440,6 @@ CONTAINS
    END SUBROUTINE mp_rank_compare
 
 !..mp_dims_create
-! **************************************************************************************************
-!> \brief ...
-!> \param nodes ...
-!> \param dims ...
-! **************************************************************************************************
    SUBROUTINE mp_dims_create(nodes, dims)
 
       INTEGER, INTENT(IN)                                :: nodes
@@ -1589,12 +1465,6 @@ CONTAINS
    END SUBROUTINE mp_dims_create
 
 !..mp_cart_rank
-! **************************************************************************************************
-!> \brief ...
-!> \param group ...
-!> \param pos ...
-!> \param rank ...
-! **************************************************************************************************
    SUBROUTINE mp_cart_rank(group, pos, rank)
       INTEGER, INTENT(IN)                                :: group
       INTEGER, DIMENSION(:), INTENT(IN)                  :: pos
@@ -1621,10 +1491,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief waits for completion of the given request
-!> \param request ...
-!> \par History
-!>      08.2003 created [f&j]
-!> \author joost & fawzi
 !> \note
 !>      see isendrecv
 ! **************************************************************************************************
@@ -1652,10 +1518,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief waits for completion of the given requests
-!> \param requests ...
-!> \par History
-!>      08.2003 created [f&j]
-!> \author joost & fawzi
 !> \note
 !>      see isendrecv
 ! **************************************************************************************************
@@ -1689,10 +1551,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief waits for completion of the given requests
-!> \param requests ...
-!> \par History
-!>      08.2003 created [f&j]
-!> \author joost & fawzi
 ! **************************************************************************************************
    SUBROUTINE mp_waitall_2(requests)
       INTEGER, DIMENSION(:, :), INTENT(inout)  :: requests
@@ -1727,11 +1585,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief wrapper needed to deal with interfaces as present in openmpi 1.8.1
 !>        the issue is with the rank or requests
-!> \param count ...
-!> \param array_of_requests ...
-!> \param array_of_statuses ...
-!> \param ierr ...
-!> \author Joost VandeVondele
 ! **************************************************************************************************
 #if defined(__parallel)
    SUBROUTINE mpi_waitall_internal(count, array_of_requests, array_of_statuses, ierr)
@@ -1748,11 +1601,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief waits for completion of any of the given requests
-!> \param requests ...
-!> \param completed ...
-!> \par History
-!>      09.2008 created
-!> \author Iain Bethune (c) The Numerical Algorithms Group (NAG) Ltd, 2008 on behalf of the HECToR project
 ! **************************************************************************************************
    SUBROUTINE mp_waitany(requests, completed)
       INTEGER, DIMENSION(:), INTENT(inout)     :: requests
@@ -1788,9 +1636,6 @@ CONTAINS
 !> \brief We use mpi_test so that we can use a single status.
 !> \param requests the list of requests to test
 !> \return logical which determines if requests are complete
-!> \par History
-!>      3.2016 adapted to any shape [Nico Holmberg]
-!> \author Alfio Lazzaro
 ! **************************************************************************************************
    FUNCTION mp_testall_tv(requests) RESULT(flag)
       INTEGER, DIMENSION(:)                 :: requests
@@ -1823,9 +1668,6 @@ CONTAINS
 !> \brief Tests for completion of the given request.
 !> \param request the request
 !> \param flag logical which determines if the request is completed
-!> \par History
-!>      3.2016 created
-!> \author Nico Holmberg
 ! **************************************************************************************************
    SUBROUTINE mp_test_1(request, flag)
       INTEGER, INTENT(inout)                             :: request
@@ -1846,12 +1688,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief tests for completion of the given requests
-!> \param requests ...
-!> \param completed ...
-!> \param flag ...
-!> \par History
-!>      08.2011 created
-!> \author Iain Bethune
 ! **************************************************************************************************
    SUBROUTINE mp_testany_1(requests, completed, flag)
       INTEGER, DIMENSION(:), INTENT(inout)  :: requests
@@ -1886,12 +1722,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief tests for completion of the given requests
-!> \param requests ...
-!> \param completed ...
-!> \param flag ...
-!> \par History
-!>      08.2011 created
-!> \author Iain Bethune
 ! **************************************************************************************************
    SUBROUTINE mp_testany_2(requests, completed, flag)
       INTEGER, DIMENSION(:, :), INTENT(inout)   :: requests
@@ -1927,13 +1757,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief wrapper needed to deal with interfaces as present in openmpi 1.8.1
 !>        the issue is with the rank or requests
-!> \param count ...
-!> \param array_of_requests ...
-!> \param index ...
-!> \param flag ...
-!> \param status ...
-!> \param ierr ...
-!> \author Joost VandeVondele
 ! **************************************************************************************************
 #if defined(__parallel)
    SUBROUTINE mpi_testany_internal(count, array_of_requests, index, flag, status, ierr)
@@ -1952,11 +1775,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief the direct way to split a communicator each color is a sub_comm,
 !>        the rank order is accoring to the order in the orig comm
-!> \param comm ...
-!> \param sub_comm ...
-!> \param color ...
-!> \param key ...
-!> \author Joost VandeVondele
 ! **************************************************************************************************
    SUBROUTINE mp_comm_split_direct(comm, sub_comm, color, key)
       INTEGER, INTENT(in)                                :: comm
@@ -2000,10 +1818,6 @@ CONTAINS
 !> \param group_partition n_subgroups sized array containing the number of cpus wanted per group.
 !>                         should match the total number of cpus (only used if present and associated) (0..ngroups-1)
 !> \param stride create groups using a stride (default=1) through the ranks of the comm to be split.
-!> \par History
-!>      10.2003 created [fawzi]
-!>      02.2004 modified [Joost VandeVondele]
-!> \author Fawzi Mohamed
 !> \note
 !>      at least one of subgroup_min_size and n_subgroups is needed,
 !>      the other default to the value needed to use most processors.
@@ -2124,7 +1938,6 @@ CONTAINS
 !>        MP_ANY_SOURCE if there is no incoming message
 !> \param[in] comm the communicator
 !> \param[out] tag the tag of the incoming message
-!> \author Mandes
 ! **************************************************************************************************
    SUBROUTINE mp_probe(source, comm, tag)
       INTEGER                                  :: source
@@ -2174,12 +1987,6 @@ CONTAINS
 ! Here come the data routines with none of the standard data types.
 ! **************************************************************************************************
 
-! **************************************************************************************************
-!> \brief ...
-!> \param msg ...
-!> \param source ...
-!> \param gid ...
-! **************************************************************************************************
    SUBROUTINE mp_bcast_b(msg, source, gid)
       LOGICAL                                            :: msg
       INTEGER                                            :: source, gid
@@ -2204,12 +2011,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_bcast_b
 
-! **************************************************************************************************
-!> \brief ...
-!> \param msg ...
-!> \param source ...
-!> \param gid ...
-! **************************************************************************************************
    SUBROUTINE mp_bcast_bv(msg, source, gid)
       LOGICAL                                            :: msg(:)
       INTEGER                                            :: source, gid
@@ -2240,9 +2041,6 @@ CONTAINS
 !> \param comm  the communicator object
 !> \param request communication request index
 !> \param tag message tag
-!> \par History
-!>      3.2016 added _bv subroutine [Nico Holmberg]
-!> \author fawzi
 !> \note see mp_irecv_iv
 !> \note
 !>      arrays can be pointers or assumed shape, but they must be contiguous!
@@ -2299,9 +2097,6 @@ CONTAINS
 !> \param comm  the communicator object
 !> \param request communication request index
 !> \param tag message tag
-!> \par History
-!>      3.2016 added _bv subroutine [Nico Holmberg]
-!> \author fawzi
 !> \note see mp_irecv_iv
 !> \note
 !>      arrays can be pointers or assumed shape, but they must be contiguous!
@@ -2351,12 +2146,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_irecv_bv
 
-! **************************************************************************************************
-!> \brief ...
-!> \param msg ...
-!> \param source ...
-!> \param gid ...
-! **************************************************************************************************
    SUBROUTINE mp_bcast_av(msg, source, gid)
       CHARACTER(LEN=*)                         :: msg
       INTEGER                                  :: source, gid
@@ -2404,12 +2193,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_bcast_av
 
-! **************************************************************************************************
-!> \brief ...
-!> \param msg ...
-!> \param source ...
-!> \param gid ...
-! **************************************************************************************************
    SUBROUTINE mp_bcast_am(msg, source, gid)
       CHARACTER(LEN=*)                         :: msg(:)
       INTEGER                                  :: source, gid
@@ -2626,7 +2409,6 @@ CONTAINS
 !> \param[in,out] msg         Datum to perform inclusive disjunction (input)
 !>                            and resultant inclusive disjunction (output)
 !> \param[in] gid             Message passing environment identifier
-!> \param request ...
 !> \par MPI mapping
 !>      mpi_allreduce
 ! **************************************************************************************************
@@ -2729,13 +2511,9 @@ CONTAINS
 !> \param[out] fh        file handle (file storage unit)
 !> \param[in] filepath   path to the file
 !> \param amode_status   access mode
-!> \param info ...
 !> \par MPI-I/O mapping  mpi_file_open
 !> \par STREAM-I/O mapping  OPEN
-!>
 !> \param[in](optional) info   info object
-!> \par History
-!>      11.2012 created [Hossein Bani-Hashemian]
 ! **************************************************************************************************
    SUBROUTINE mp_file_open(groupid, fh, filepath, amode_status, info)
       INTEGER, INTENT(IN)                      :: groupid
@@ -2792,8 +2570,6 @@ CONTAINS
 !>        Only the master processor should call this routine.
 !> \param[in] filepath   path to the file
 !> \param[in](optional) info   info object
-!> \par History
-!>      11.2017 created [Nico Holmberg]
 ! **************************************************************************************************
    SUBROUTINE mp_file_delete(filepath, info)
       CHARACTER(LEN=*), INTENT(IN)             :: filepath
@@ -2825,9 +2601,6 @@ CONTAINS
 !> \param[in] fh   file handle (file storage unit)
 !> \par MPI-I/O mapping   mpi_file_close
 !> \par STREAM-I/O mapping   CLOSE
-!>
-!> \par History
-!>      11.2012 created [Hossein Bani-Hashemian]
 ! **************************************************************************************************
    SUBROUTINE mp_file_close(fh)
       INTEGER, INTENT(INOUT)                             :: fh
@@ -2850,9 +2623,6 @@ CONTAINS
 !> \param[out] file_size  the file size
 !> \par MPI-I/O mapping   mpi_file_get_size
 !> \par STREAM-I/O mapping   INQUIRE
-!>
-!> \par History
-!>      12.2012 created [Hossein Bani-Hashemian]
 ! **************************************************************************************************
    SUBROUTINE mp_file_get_size(fh, file_size)
       INTEGER, INTENT(IN)                                :: fh
@@ -2876,9 +2646,6 @@ CONTAINS
 !> \param[out] file_size  the file position
 !> \par MPI-I/O mapping   mpi_file_get_position
 !> \par STREAM-I/O mapping   INQUIRE
-!>
-!> \par History
-!>      11.2017 created [Nico Holmberg]
 ! **************************************************************************************************
    SUBROUTINE mp_file_get_position(fh, pos)
       INTEGER, INTENT(IN)                                :: fh
@@ -2896,12 +2663,6 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_get_position
 
-! **************************************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
-! **************************************************************************************************
    SUBROUTINE mp_file_write_at_ch(fh, offset, msg)
       CHARACTER(LEN=*), INTENT(IN)               :: msg
       INTEGER, INTENT(IN)                        :: fh
@@ -2921,12 +2682,6 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_write_at_ch
 
-! **************************************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
-! **************************************************************************************************
    SUBROUTINE mp_file_write_at_all_ch(fh, offset, msg)
       CHARACTER(LEN=*), INTENT(IN)               :: msg
       INTEGER, INTENT(IN)                        :: fh
@@ -2946,12 +2701,6 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_write_at_all_ch
 
-! **************************************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
-! **************************************************************************************************
    SUBROUTINE mp_file_read_at_ch(fh, offset, msg)
       CHARACTER(LEN=*), INTENT(OUT)              :: msg
       INTEGER, INTENT(IN)                        :: fh
@@ -2971,12 +2720,6 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_read_at_ch
 
-! **************************************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
-! **************************************************************************************************
    SUBROUTINE mp_file_read_at_all_ch(fh, offset, msg)
       CHARACTER(LEN=*), INTENT(OUT)              :: msg
       INTEGER, INTENT(IN)                        :: fh
@@ -3002,7 +2745,6 @@ CONTAINS
 !> \param[out] type_size       size of the data type
 !> \par MPI mapping
 !>      mpi_type_size
-!>
 ! **************************************************************************************************
    SUBROUTINE mp_type_size(type_descriptor, type_size)
       TYPE(mp_type_descriptor_type), INTENT(IN)          :: type_descriptor
@@ -3031,13 +2773,6 @@ CONTAINS
 #endif
    END SUBROUTINE mp_type_size
 
-! **************************************************************************************************
-!> \brief ...
-!> \param subtypes ...
-!> \param vector_descriptor ...
-!> \param index_descriptor ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION mp_type_make_struct(subtypes, &
                                 vector_descriptor, index_descriptor) &
       RESULT(type_descriptor)
@@ -3096,10 +2831,6 @@ CONTAINS
       ENDIF
    END FUNCTION mp_type_make_struct
 
-! **************************************************************************************************
-!> \brief ...
-!> \param type_descriptor ...
-! **************************************************************************************************
    RECURSIVE SUBROUTINE mp_type_free_m(type_descriptor)
       TYPE(mp_type_descriptor_type), INTENT(inout)       :: type_descriptor
 
@@ -3128,10 +2859,6 @@ CONTAINS
 
    END SUBROUTINE mp_type_free_m
 
-! **************************************************************************************************
-!> \brief ...
-!> \param type_descriptors ...
-! **************************************************************************************************
    SUBROUTINE mp_type_free_v(type_descriptors)
       TYPE(mp_type_descriptor_type), DIMENSION(:), &
          INTENT(inout)                                   :: type_descriptors
@@ -3146,11 +2873,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Non-blocking send of custom type
-!> \param msgin ...
-!> \param dest ...
-!> \param comm ...
-!> \param request ...
-!> \param tag ...
 ! **************************************************************************************************
    SUBROUTINE mp_isend_custom(msgin, dest, comm, request, tag)
       TYPE(mp_type_descriptor_type), INTENT(IN)          :: msgin
@@ -3186,11 +2908,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Non-blocking receive of vector data
-!> \param msgout ...
-!> \param source ...
-!> \param comm ...
-!> \param request ...
-!> \param tag ...
 ! **************************************************************************************************
    SUBROUTINE mp_irecv_custom(msgout, source, comm, request, tag)
       TYPE(mp_type_descriptor_type), INTENT(INOUT)       :: msgout
@@ -3226,7 +2943,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Window free
-!> \param win ...
 ! **************************************************************************************************
    SUBROUTINE mp_win_free(win)
       INTEGER, INTENT(INOUT)                             :: win
@@ -3253,7 +2969,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Window flush
-!> \param win ...
 ! **************************************************************************************************
    SUBROUTINE mp_win_flush_all(win)
       INTEGER, INTENT(IN)                                :: win
@@ -3282,7 +2997,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Window lock
-!> \param win ...
 ! **************************************************************************************************
    SUBROUTINE mp_win_lock_all(win)
       INTEGER, INTENT(INOUT)                             :: win
@@ -3314,7 +3028,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Window lock
-!> \param win ...
 ! **************************************************************************************************
    SUBROUTINE mp_win_unlock_all(win)
       INTEGER, INTENT(INOUT)                             :: win
@@ -3456,10 +3169,6 @@ CONTAINS
 
 ! *****************************************************************************
 !> \brief All-to-all data exchange, rank-2 arrays, equal sizes
-!> \param sb ...
-!> \param rb ...
-!> \param count ...
-!> \param group ...
 !> \note see mp_alltoall_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_alltoall_${nametype1}$22(sb, rb, count, group)
@@ -3498,10 +3207,6 @@ CONTAINS
 
 ! *****************************************************************************
 !> \brief All-to-all data exchange, rank 4 data, equal sizes
-!> \param sb ...
-!> \param rb ...
-!> \param count ...
-!> \param group ...
 !> \note see mp_alltoall_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_alltoall_${nametype1}$44(sb, rb, count, group)
@@ -3580,9 +3285,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Send rank-1 data to another process
 !> \param[in] msg             Rank-1 data to send
-!> \param dest ...
-!> \param tag ...
-!> \param gid ...
 !> \note see mp_send_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_send_${nametype1}$v(msg, dest, tag, gid)
@@ -3661,9 +3363,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Receive rank-1 data from another process
 !> \param[in,out] msg         Place received data into this rank-1 array
-!> \param source ...
-!> \param tag ...
-!> \param gid ...
 !> \note see mp_recv_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_recv_${nametype1}$v(msg, source, tag, gid)
@@ -3781,8 +3480,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Broadcasts rank-1 data to all processes
 !> \param[in] msg             Data to broadcast
-!> \param source ...
-!> \param gid ...
 !> \note see mp_bcast_${nametype1}$1
 ! *****************************************************************************
    SUBROUTINE mp_bcast_${nametype1}$v(msg, source, gid)
@@ -3812,8 +3509,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Broadcasts rank-1 data to all processes
 !> \param[in] msg             Data to broadcast
-!> \param source ...
-!> \param gid ...
 !> \note see mp_bcast_${nametype1}$1
 ! *****************************************************************************
    SUBROUTINE mp_ibcast_${nametype1}$v(msg, source, gid, request)
@@ -3852,8 +3547,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Broadcasts rank-2 data to all processes
 !> \param[in] msg             Data to broadcast
-!> \param source ...
-!> \param gid ...
 !> \note see mp_bcast_${nametype1}$1
 ! *****************************************************************************
    SUBROUTINE mp_bcast_${nametype1}$m(msg, source, gid)
@@ -3883,8 +3576,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Broadcasts rank-3 data to all processes
 !> \param[in] msg             Data to broadcast
-!> \param source ...
-!> \param gid ...
 !> \note see mp_bcast_${nametype1}$1
 ! *****************************************************************************
    SUBROUTINE mp_bcast_${nametype1}$3(msg, source, gid)
@@ -3945,7 +3636,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Element-wise sum of a rank-1 array on all processes.
 !> \param[in,out] msg         Vector to sum and result
-!> \param gid ...
 !> \note see mp_sum_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_sum_${nametype1}$v(msg, gid)
@@ -3980,7 +3670,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Element-wise sum of a rank-1 array on all processes.
 !> \param[in,out] msg         Vector to sum and result
-!> \param gid ...
 !> \note see mp_sum_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_isum_${nametype1}$v(msg, gid, request)
@@ -4027,7 +3716,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Element-wise sum of a rank-2 array on all processes.
 !> \param[in] msg             Matrix to sum and result
-!> \param gid ...
 !> \note see mp_sum_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_sum_${nametype1}$m(msg, gid)
@@ -4069,7 +3757,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Element-wise sum of a rank-3 array on all processes.
 !> \param[in] msg             Array to sum and result
-!> \param gid ...
 !> \note see mp_sum_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_sum_${nametype1}$m3(msg, gid)
@@ -4100,7 +3787,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Element-wise sum of a rank-4 array on all processes.
 !> \param[in] msg             Array to sum and result
-!> \param gid ...
 !> \note see mp_sum_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_sum_${nametype1}$m4(msg, gid)
@@ -4134,7 +3820,6 @@ CONTAINS
 !>        one.
 !> \param[in,out] msg         Vector to sum (input) and (only on process root)
 !>                            result (output)
-!> \param root ...
 !> \param[in] gid             Message passing environment identifier
 !> \par MPI mapping
 !>      mpi_reduce
@@ -4183,8 +3868,6 @@ CONTAINS
 !>        one.
 !> \param[in,out] msg         Matrix to sum (input) and (only on process root)
 !>                            result (output)
-!> \param root ...
-!> \param gid ...
 !> \note see mp_sum_root_${nametype1}$v
 ! *****************************************************************************
    SUBROUTINE mp_sum_root_${nametype1}$m(msg, root, gid)
@@ -4302,7 +3985,6 @@ CONTAINS
 !>        all processes.
 !> \param[in,out] msg         Find maximum among these data (input) and
 !>                            maximum (output)
-!> \param gid ...
 !> \note see mp_max_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_max_${nametype1}$v(msg, gid)
@@ -4365,7 +4047,6 @@ CONTAINS
 !>        all processes.
 !> \param[in,out] msg         Find minimum among these data (input) and
 !>                            maximum (output)
-!> \param gid ...
 !> \par MPI mapping
 !>      mpi_allreduce
 !> \note see mp_min_${nametype1}$
@@ -4644,9 +4325,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Gathers data from all processes to one
 !> \param[in] msg             Datum to send to root
-!> \param msg_gather ...
-!> \param root ...
-!> \param gid ...
 !> \par Data length
 !>      All data (msg) is equal-sized
 !> \par MPI mapping
@@ -4683,9 +4361,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Gathers data from all processes to one
 !> \param[in] msg             Datum to send to root
-!> \param msg_gather ...
-!> \param root ...
-!> \param gid ...
 !> \par Data length
 !>      All data (msg) is equal-sized
 !> \par MPI mapping
@@ -5011,8 +4686,6 @@ CONTAINS
 !> \brief Gathers matrix data from all processes and all processes receive the
 !>        same data
 !> \param[in] msgout          Rank-2 data to send
-!> \param msgin ...
-!> \param gid ...
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$23(msgout, msgin, gid)
@@ -5049,8 +4722,6 @@ CONTAINS
 !> \brief Gathers rank-3 data from all processes and all processes receive the
 !>        same data
 !> \param[in] msgout          Rank-3 data to send
-!> \param msgin ...
-!> \param gid ...
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$34(msgout, msgin, gid)
@@ -5087,8 +4758,6 @@ CONTAINS
 !> \brief Gathers rank-2 data from all processes and all processes receive the
 !>        same data
 !> \param[in] msgout          Rank-2 data to send
-!> \param msgin ...
-!> \param gid ...
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$22(msgout, msgin, gid)
@@ -5125,9 +4794,6 @@ CONTAINS
 !> \brief Gathers rank-1 data from all processes and all processes receive the
 !>        same data
 !> \param[in] msgout          Rank-1 data to send
-!> \param msgin ...
-!> \param gid ...
-!> \param request ...
 !> \note see mp_allgather_${nametype1}$11
 ! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$11(msgout, msgin, gid, request)
@@ -5176,9 +4842,6 @@ CONTAINS
 !> \brief Gathers rank-2 data from all processes and all processes receive the
 !>        same data
 !> \param[in] msgout          Rank-2 data to send
-!> \param msgin ...
-!> \param gid ...
-!> \param request ...
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$13(msgout, msgin, gid, request)
@@ -5227,9 +4890,6 @@ CONTAINS
 !> \brief Gathers rank-2 data from all processes and all processes receive the
 !>        same data
 !> \param[in] msgout          Rank-2 data to send
-!> \param msgin ...
-!> \param gid ...
-!> \param request ...
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$22(msgout, msgin, gid, request)
@@ -5278,9 +4938,6 @@ CONTAINS
 !> \brief Gathers rank-2 data from all processes and all processes receive the
 !>        same data
 !> \param[in] msgout          Rank-2 data to send
-!> \param msgin ...
-!> \param gid ...
-!> \param request ...
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$24(msgout, msgin, gid, request)
@@ -5329,9 +4986,6 @@ CONTAINS
 !> \brief Gathers rank-3 data from all processes and all processes receive the
 !>        same data
 !> \param[in] msgout          Rank-3 data to send
-!> \param msgin ...
-!> \param gid ...
-!> \param request ...
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$33(msgout, msgin, gid, request)
@@ -5544,11 +5198,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief wrapper needed to deal with interfaces as present in openmpi 1.8.1
 !>        the issue is with the rank of rcount and rdispl
-!> \param count ...
-!> \param array_of_requests ...
-!> \param array_of_statuses ...
-!> \param ierr ...
-!> \author Alfio Lazzaro
 ! **************************************************************************************************
 #if defined(__parallel) && (__MPI_VERSION > 2)
    SUBROUTINE mp_iallgatherv_${nametype1}$v_internal(msgout, scount, msgin, rsize, rcount, rdispl, gid, request, ierr)
@@ -5657,8 +5306,6 @@ CONTAINS
 !> \param[in] tag             (optional) tag to differentiate requests
 !> \par Implementation
 !>      Calls mpi_isend and mpi_irecv.
-!> \par History
-!>      02.2005 created [Alfio Lazzaro]
 ! *****************************************************************************
    SUBROUTINE mp_isendrecv_${nametype1}$ (msgin, dest, msgout, source, comm, send_request, &
                                           recv_request, tag)
@@ -5717,8 +5364,6 @@ CONTAINS
 !> \param[in] tag             (optional) tag to differentiate requests
 !> \par Implementation
 !>      Calls mpi_isend and mpi_irecv.
-!> \par History
-!>      11.2004 created [Joost VandeVondele]
 !> \note
 !>      arrays can be pointers or assumed shape, but they must be contiguous!
 ! *****************************************************************************
@@ -5783,13 +5428,6 @@ CONTAINS
 
 ! *****************************************************************************
 !> \brief Non-blocking send of vector data
-!> \param msgin ...
-!> \param dest ...
-!> \param comm ...
-!> \param request ...
-!> \param tag ...
-!> \par History
-!>      08.2003 created [f&j]
 !> \note see mp_isendrecv_${nametype1}$v
 !> \note
 !>      arrays can be pointers or assumed shape, but they must be contiguous!
@@ -5842,14 +5480,6 @@ CONTAINS
 
 ! *****************************************************************************
 !> \brief Non-blocking send of matrix data
-!> \param msgin ...
-!> \param dest ...
-!> \param comm ...
-!> \param request ...
-!> \param tag ...
-!> \par History
-!>      2009-11-25 [UB] Made type-generic for templates
-!> \author fawzi
 !> \note see mp_isendrecv_${nametype1}$v
 !> \note see mp_isend_${nametype1}$v
 !> \note
@@ -5903,14 +5533,6 @@ CONTAINS
 
 ! *****************************************************************************
 !> \brief Non-blocking receive of vector data
-!> \param msgout ...
-!> \param source ...
-!> \param comm ...
-!> \param request ...
-!> \param tag ...
-!> \par History
-!>      08.2003 created [f&j]
-!>      2009-11-25 [UB] Made type-generic for templates
 !> \note see mp_isendrecv_${nametype1}$v
 !> \note
 !>      arrays can be pointers or assumed shape, but they must be contiguous!
@@ -5962,14 +5584,6 @@ CONTAINS
 
 ! *****************************************************************************
 !> \brief Non-blocking receive of matrix data
-!> \param msgout ...
-!> \param source ...
-!> \param comm ...
-!> \param request ...
-!> \param tag ...
-!> \par History
-!>      2009-11-25 [UB] Made type-generic for templates
-!> \author fawzi
 !> \note see mp_isendrecv_${nametype1}$v
 !> \note see mp_irecv_${nametype1}$v
 !> \note
@@ -6022,11 +5636,6 @@ CONTAINS
 
 ! *****************************************************************************
 !> \brief Window initialization function for vector data
-!> \param base ...
-!> \param comm ...
-!> \param win ...
-!> \par History
-!>      02.2015 created [Alfio Lazzaro]
 !> \note
 !>      arrays can be pointers or assumed shape, but they must be contiguous!
 ! *****************************************************************************
@@ -6068,11 +5677,6 @@ CONTAINS
 
 ! *****************************************************************************
 !> \brief Single-sided get function for vector data
-!> \param base ...
-!> \param comm ...
-!> \param win ...
-!> \par History
-!>      02.2015 created [Alfio Lazzaro]
 !> \note
 !>      arrays can be pointers or assumed shape, but they must be contiguous!
 ! *****************************************************************************
@@ -6174,11 +5778,6 @@ CONTAINS
    END SUBROUTINE mp_rget_${nametype1}$v
 
 ! *****************************************************************************
-!> \brief ...
-!> \param count ...
-!> \param lengths ...
-!> \param displs ...
-!> \return ...
 ! ***************************************************************************
    FUNCTION mp_type_indexed_make_${nametype1}$ (count, lengths, displs) &
       RESULT(type_descriptor)
@@ -6221,7 +5820,6 @@ CONTAINS
 !> \param[in]  DATA      pointer to integer array to allocate
 !> \param[in]  len       number of integers to allocate
 !> \param[out] stat      (optional) allocation status result
-!> \author UB
 ! *****************************************************************************
    SUBROUTINE mp_allocate_${nametype1}$ (DATA, len, stat)
       ${type1}$, DIMENSION(:), POINTER    :: DATA
@@ -6254,8 +5852,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief Deallocates special parallel memory
 !> \param[in] DATA         pointer to special memory to deallocate
-!> \param stat ...
-!> \author UB
 ! *****************************************************************************
    SUBROUTINE mp_deallocate_${nametype1}$ (DATA, stat)
       ${type1}$, DIMENSION(:), POINTER    :: DATA
@@ -6291,7 +5887,6 @@ CONTAINS
 !> \param[in] fh     file handle (file storage unit)
 !> \param[in] offset file offset (position)
 !> \param[in] msg    data to be written to the file
-!> \param msglen ...
 !> \par MPI-I/O mapping   mpi_file_write_at
 !> \par STREAM-I/O mapping   WRITE
 !> \param[in](optional) msglen number of the elements of data
@@ -6320,10 +5915,6 @@ CONTAINS
    END SUBROUTINE mp_file_write_at_${nametype1}$v
 
 ! *****************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
 ! *****************************************************************************
    SUBROUTINE mp_file_write_at_${nametype1}$ (fh, offset, msg)
       ${type1}$, INTENT(IN)                      :: msg
@@ -6348,10 +5939,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief (parallel) Blocking collective file write using explicit offsets
 !>        (serial) Unformatted stream write
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
-!> \param msglen ...
 !> \par MPI-I/O mapping   mpi_file_write_at_all
 !> \par STREAM-I/O mapping   WRITE
 ! *****************************************************************************
@@ -6380,10 +5967,6 @@ CONTAINS
    END SUBROUTINE mp_file_write_at_all_${nametype1}$v
 
 ! *****************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
 ! *****************************************************************************
    SUBROUTINE mp_file_write_at_all_${nametype1}$ (fh, offset, msg)
       ${type1}$, INTENT(IN)                      :: msg
@@ -6411,7 +5994,6 @@ CONTAINS
 !> \param[in] fh     file handle (file storage unit)
 !> \param[in] offset file offset (position)
 !> \param[out] msg   data to be read from the file
-!> \param msglen ...
 !> \par MPI-I/O mapping   mpi_file_read_at
 !> \par STREAM-I/O mapping   READ
 !> \param[in](optional) msglen  number of elements of data
@@ -6441,10 +6023,6 @@ CONTAINS
    END SUBROUTINE mp_file_read_at_${nametype1}$v
 
 ! *****************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
 ! *****************************************************************************
    SUBROUTINE mp_file_read_at_${nametype1}$ (fh, offset, msg)
       ${type1}$, INTENT(OUT)                     :: msg
@@ -6469,10 +6047,6 @@ CONTAINS
 ! *****************************************************************************
 !> \brief (parallel) Blocking collective file read using explicit offsets
 !>        (serial) Unformatted stream read
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
-!> \param msglen ...
 !> \par MPI-I/O mapping    mpi_file_read_at_all
 !> \par STREAM-I/O mapping   READ
 ! *****************************************************************************
@@ -6500,10 +6074,6 @@ CONTAINS
    END SUBROUTINE mp_file_read_at_all_${nametype1}$v
 
 ! *****************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
 ! *****************************************************************************
    SUBROUTINE mp_file_read_at_all_${nametype1}$ (fh, offset, msg)
       ${type1}$, INTENT(OUT)                     :: msg
@@ -6526,11 +6096,6 @@ CONTAINS
    END SUBROUTINE mp_file_read_at_all_${nametype1}$
 
 ! *****************************************************************************
-!> \brief ...
-!> \param ptr ...
-!> \param vector_descriptor ...
-!> \param index_descriptor ...
-!> \return ...
 ! *****************************************************************************
    FUNCTION mp_type_make_${nametype1}$ (ptr, &
                                         vector_descriptor, index_descriptor) &

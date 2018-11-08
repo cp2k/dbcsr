@@ -9,7 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   Accelerator support
-!> \author  Ole Schuett
 ! **************************************************************************************************
 MODULE dbcsr_acc_devmem
 #if  defined (__DBCSR_ACC)
@@ -185,7 +184,6 @@ CONTAINS
 !> \param[in] requested_size_in_bytes requested size in bytes
 !> \param[in] nocopy (optional) if after growin old content should NOT be copied over. Default: false.
 !> \param[in] zero_pad (optional) if after growing the new memory should be zeroed. Default: false.
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_devmem_ensure_size_bytes(this, stream, requested_size_in_bytes, nocopy, zero_pad)
       TYPE(acc_devmem_type), &
@@ -254,7 +252,6 @@ CONTAINS
 !> \brief Returns a logical, which indicates if the given devmem is allocated.
 !> \param[in] this device memory
 !> \return true if device memory is allocated, false otherwise
-!> \author  Ole Schuett
 ! **************************************************************************************************
    FUNCTION acc_devmem_allocated(this) RESULT(res)
       TYPE(acc_devmem_type), INTENT(IN)                  :: this
@@ -267,7 +264,6 @@ CONTAINS
 !> \brief Returns size of given devmem in terms of item count (not bytes!)
 !> \param[in] this device memory
 !> \return size of device memory (item count)
-!> \author  Ole Schuett
 ! **************************************************************************************************
    FUNCTION acc_devmem_size_in_bytes(this) RESULT(res)
       TYPE(acc_devmem_type), INTENT(IN)                  :: this
@@ -282,7 +278,6 @@ CONTAINS
 !> \brief Returns C-pointer to data of given devmem.
 !> \param[in] this device memory
 !> \return false (accelerator support is not enabled)
-!> \author  Ole Schuett
 ! **************************************************************************************************
 #if ! defined (__DBCSR_ACC)
    FUNCTION acc_devmem_cptr(this) RESULT(res)
@@ -297,7 +292,6 @@ CONTAINS
 !> \brief Returns C-pointer to data of given devmem.
 !> \param[in] this device memory
 !> \return C-pointer to data of given devmem
-!> \author  Ole Schuett
 ! **************************************************************************************************
    FUNCTION acc_devmem_cptr(this) RESULT(res)
       TYPE(acc_devmem_type), INTENT(IN)                  :: this
@@ -313,7 +307,6 @@ CONTAINS
 !> \brief Allocates a given devmem.
 !> \param[in,out] this device memory
 !> \param[in] size_in_bytes size in bytes
-!> \author  Alfio Lazzaro
 ! **************************************************************************************************
    SUBROUTINE acc_devmem_set_cptr(this, pointee, size_in_bytes, lb_in_bytes)
       TYPE(acc_devmem_type), INTENT(INOUT)     :: this
@@ -351,7 +344,6 @@ CONTAINS
 !> \brief Fortran-wrapper for cudaMemGetInfo.
 !> \param[out] free free device memory
 !> \param[out] avail available device memory
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_devmem_info(free, avail)
       INTEGER, INTENT(OUT)                     :: free, avail
@@ -371,7 +363,6 @@ CONTAINS
 !> \brief Allocates a given devmem.
 !> \param[in,out] this device memory
 !> \param[in] size_in_bytes size in bytes
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_devmem_allocate_bytes(this, size_in_bytes)
       TYPE(acc_devmem_type), INTENT(INOUT)     :: this
@@ -401,7 +392,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Deallocates a given devmem.
 !> \param[in,out] this device memory
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_devmem_deallocate(this)
       TYPE(acc_devmem_type), INTENT(INOUT) :: this
@@ -434,7 +424,6 @@ CONTAINS
 !> \param[in] first_byte (optional) begin of region to zero, defaults to 1 if not given.
 !> \param[in] last_byte (optional) end of region to zero, defaults to size if not given.
 !> \param[in] stream stream on which zeroing is performed.
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE acc_devmem_setzero_bytes(this, first_byte, last_byte, stream)
       TYPE(acc_devmem_type), INTENT(INOUT) :: this
@@ -476,7 +465,6 @@ CONTAINS
 !> \param hostmem_cptr host memory
 !> \param[in] n_bytes number of bytes
 !> \param[in] stream stream used for memory transfer
-!> \author  Ole Schuett
 ! **************************************************************************************************
 #if defined (__DBCSR_ACC)
    SUBROUTINE host2dev_raw(this, hostmem_cptr, n_bytes, stream)
@@ -509,7 +497,6 @@ CONTAINS
 !> \param hostmem_cptr host memory
 !> \param[in] n_bytes number of bytes
 !> \param[in] stream stream used for memory transfer
-!> \author  Ole Schuett
 ! **************************************************************************************************
 #if defined (__DBCSR_ACC)
    SUBROUTINE dev2host_raw(this, hostmem_cptr, n_bytes, stream)
@@ -553,7 +540,6 @@ CONTAINS
 !> \param[in] this device memory
 !> \param hostmem host memory
 !> \param[in] stream stream
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE host2dev_${nametype}$_1D(this, hostmem, stream)
       TYPE(acc_devmem_type), INTENT(IN)        :: this
@@ -575,7 +561,6 @@ CONTAINS
 !> \param[in] this device memory
 !> \param hostmem host memory
 !> \param[in] stream stream
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE host2dev_${nametype}$_2D(this, hostmem, stream)
       TYPE(acc_devmem_type), INTENT(IN)        :: this
@@ -597,7 +582,6 @@ CONTAINS
 !> \param[in] this device memory
 !> \param hostmem host memory
 !> \param[in] stream stream
-!> \author  Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dev2host_${nametype}$_1D(this, hostmem, stream)
       TYPE(acc_devmem_type), INTENT(IN)        :: this

@@ -9,7 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief DBCSR tensor Input / Output
-!> \author Patrick Seewald
 ! **************************************************************************************************
 MODULE dbcsr_tensor_io
 
@@ -46,8 +45,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Write tensor global info: block dimensions, full dimensions and process grid dimensions
-!> \param tensor ...
-!> \param output_unit ...
 !> \param full_info Whether to print distribution and block size vectors
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_write_tensor_info(tensor, output_unit, full_info)
@@ -114,8 +111,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Write info on tensor distribution & load balance
-!> \param tensor ...
-!> \param output_unit ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_write_tensor_dist(tensor, output_unit)
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
@@ -162,7 +157,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Write all tensor blocks
-!> \param tensor ...
 !> \param io_unit_master for global output
 !> \param io_unit_all for local output
 !> \param write_int convert to integers (useful for testing with integer tensors)
@@ -211,7 +205,6 @@ CONTAINS
 !> \param proc which process am I
 !> \param unit_nr unit number
 !> \param blk_values_2 block values for 2 dimensions
-!> \param blk_values_3 block values for 3 dimensions ...
 !> \param write_int convert values to integers
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_write_block(name, blk_size, blk_index, proc, unit_nr, &

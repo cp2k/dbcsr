@@ -9,7 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief Module that contains the routines for error handling
-!> \author Ole Schuett
 ! **************************************************************************************************
 MODULE dbcsr_error_handling
    USE dbcsr_base_hooks, ONLY: dbcsr_abort_hook, &
@@ -42,7 +41,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Registers handlers with base_hooks.F
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_error_handling_setup()
       dbcsr_abort_hook => dbcsr_abort_handler
@@ -51,9 +49,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Abort program with error message
-!> \param location ...
-!> \param message ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_abort_handler(location, message)
       CHARACTER(len=*), INTENT(in)                       :: location, message
@@ -75,9 +70,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Signal a warning
-!> \param location ...
-!> \param message ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_warn_handler(location, message)
       CHARACTER(len=*), INTENT(in)                       :: location, message
@@ -97,7 +89,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Delay non-master ranks/threads, used by dbcsr_abort_handler()
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE delay_non_master()
       INTEGER                                            :: unit_nr
@@ -125,10 +116,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Prints a nicely formatted abort message box
-!> \param message ...
-!> \param location ...
-!> \param output_unit ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE print_abort_message(message, location, output_unit)
       CHARACTER(LEN=*), INTENT(IN)                       :: message, location
@@ -210,11 +197,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Helper routine for print_abort_message()
-!> \param message ...
-!> \param pos ...
-!> \param rowlen ...
-!> \return ...
-!> \author Ole Schuett
 ! **************************************************************************************************
    FUNCTION next_linebreak(message, pos, rowlen) RESULT(ibreak)
       CHARACTER(LEN=*), INTENT(IN)                       :: message

@@ -11,7 +11,6 @@
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
 ! **************************************************************************************************
 !> \brief Converts mutable data to linear (array) type.
-!>
 !> \param[in,out] wm      work matrix to convert
 ! **************************************************************************************************
   SUBROUTINE tree_to_linear_${nametype1}$ (wm)

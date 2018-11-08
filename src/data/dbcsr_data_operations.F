@@ -9,12 +9,6 @@
 
 ! **************************************************************************************************
 !> \brief   DBCSR data operations
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2010-02-18 Moved from dbcsr_util
 ! **************************************************************************************************
 MODULE dbcsr_data_operations
 
@@ -302,7 +296,6 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Sorts the data in a matrix so that the data blocks follow
 !>        sequentially and does various transposing options.
-!>
 !> As opposed to dbcsr_sort_data, this routine calculates block sizes
 !> \param[out] blk_p          re-arranged block pointers reflecting the new
 !>                            data order
@@ -387,7 +380,6 @@ CONTAINS
 !> \param[out] dsts           sorted data
 !> \param[in] src             existing unordered data
 !> \param[in] srcs            (optional) multiple source areas
-!> \param old_blk_d ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_sort_data(blk_p, old_blk_p, sizes, dsts, src, &
                               srcs, old_blk_d)
