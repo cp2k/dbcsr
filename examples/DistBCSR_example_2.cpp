@@ -81,10 +81,7 @@ std::vector<double> random_matrix(int nrow, int ncol){
 
 }
 
-int main(int argc, char* argv[])
-{
-    MPI_Init(&argc, &argv);
-
+void run_test(){
 
     dbcsr::init_lib();
 
@@ -97,12 +94,12 @@ int main(int argc, char* argv[])
     assert(nblkrows_total == nblkcols_total);
 
     // environment-object...
-    DBCSR_Environment dbcsr_env(nblkrows_total,nblkcols_total);
+    std::shared_ptr<const DBCSR_Environment> dbcsr_env = std::make_shared<DBCSR_Environment>(nblkrows_total,nblkcols_total);
 
     std::cout
-        << "I'm processor " << dbcsr_env.mpi_rank
-        << " over " << dbcsr_env.mpi_size << " proc"
-        << ", (" << dbcsr_env.dbcsr_coords[0] << ", " << dbcsr_env.dbcsr_coords[1] << ") in the 2D grid"
+        << "I'm processor " << dbcsr_env->mpi_rank
+        << " over " << dbcsr_env->mpi_size << " proc"
+        << ", (" << dbcsr_env->dbcsr_coords[0] << ", " << dbcsr_env->dbcsr_coords[1] << ") in the 2D grid"
         << std::endl;
 
     // Block sizes
@@ -112,12 +109,12 @@ int main(int argc, char* argv[])
     int ncol_tot = nblkcols_total*dim_per_block;
     // create and fill matrix a
     auto loc_matrix_a = random_matrix(nrow_tot,ncol_tot);
-    DistBCSR matrix_a(nrow_tot,ncol_tot,row_blk_sizes,col_blk_sizes,&dbcsr_env);
+    DistBCSR matrix_a(nrow_tot,ncol_tot,row_blk_sizes,col_blk_sizes,dbcsr_env);
     matrix_a.load(loc_matrix_a.data(),sthr);
 
     // create and fill matrix b
     auto loc_matrix_b = random_matrix(nrow_tot,ncol_tot);
-    DistBCSR matrix_b(nrow_tot,ncol_tot,row_blk_sizes,col_blk_sizes,&dbcsr_env);
+    DistBCSR matrix_b(nrow_tot,ncol_tot,row_blk_sizes,col_blk_sizes,dbcsr_env);
     matrix_b.load(loc_matrix_b.data(),sthr);
 
     // multiply the matrices
@@ -131,7 +128,7 @@ int main(int argc, char* argv[])
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)loc_matrix_c.size()));
-    if (dbcsr_env.mpi_rank == 0) printf("Operator '*':        ||C_dist - C_loc|| = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->mpi_rank == 0) printf("Operator '*':        ||C_dist - C_loc|| = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
     // copy a to b and subtract (a -= b)
@@ -145,7 +142,7 @@ int main(int argc, char* argv[])
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)loc_matrix_a.size()));
-    if (dbcsr_env.mpi_rank == 0) printf("Operator '=' & '-=': ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->mpi_rank == 0) printf("Operator '=' & '-=': ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
     // restore dist-mat b
@@ -161,7 +158,7 @@ int main(int argc, char* argv[])
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)loc_matrix_b.size()));
-    if (dbcsr_env.mpi_rank == 0) printf("Operator '+=':       ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->mpi_rank == 0) printf("Operator '+=':       ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
     // scale
@@ -173,11 +170,21 @@ int main(int argc, char* argv[])
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)loc_matrix_b.size()));
-    if (dbcsr_env.mpi_rank == 0) printf("Operator '*= 2.5':   ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->mpi_rank == 0) printf("Operator '*= 2.5':   ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
-    dbcsr_env.free();
+
+}
+
+int main(int argc, char* argv[])
+{
+
+    MPI_Init(&argc, &argv);
+
+    run_test();
+
     MPI_Finalize();
 
     return 0;
 }
+

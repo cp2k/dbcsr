@@ -2,6 +2,7 @@
 #define DISTBCSR_H
 
 #include <climits>
+#include <memory>
 #define dm_dbcsr   void*
 
 extern "C" {
@@ -187,11 +188,11 @@ class DBCSR_Environment {
       env_id = "invalid";
     };
 
-    DBCSR_Environment(int nblk_row_in, int nblk_col_in, const std::string& id_in="dbcsr_env_default"){
+    DBCSR_Environment(const int nblk_row_in, const int nblk_col_in, const std::string& id_in="dbcsr_env_default"){
       this->init(nblk_row_in,nblk_col_in,id_in);
     };
 
-    void init(int nblk_row_in, int nblk_col_in, const std::string& id_in="dbcsr_env_default"){
+    void init(const int nblk_row_in, const int nblk_col_in, const std::string& id_in="dbcsr_env_default"){
       env_id = id_in;
       nblk_row = nblk_row_in;
       nblk_col = nblk_col_in;
@@ -236,7 +237,7 @@ class DBCSR_Environment {
       this->free();
     };
 
-    void free(){
+    void free() const{
       if (dbcsr_dist == nullptr) return;
       c_dbcsr_distribution_release(&dbcsr_dist);
       dbcsr_dist = nullptr;
@@ -256,7 +257,7 @@ class DBCSR_Environment {
 class DistBCSR {
 
   private:
-    DBCSR_Environment* dbcsr_env;
+    std::shared_ptr<const DBCSR_Environment> dbcsr_env;
 
     dm_dbcsr dbcsr_matrix;
     std::string mname;
@@ -330,18 +331,18 @@ class DistBCSR {
     };
 
 
-    DistBCSR(size_t nrow_in, size_t ncol_in, std::vector<int>& row_dims_in, std::vector<int>& col_dims_in, DBCSR_Environment* dbcsr_env_in,
-             double thr_in=0.e0, const std::string& mname_in="default matrix name"){
+    DistBCSR(const size_t nrow_in, const size_t ncol_in, const std::vector<int>& row_dims_in, const std::vector<int>& col_dims_in, std::shared_ptr<const DBCSR_Environment> dbcsr_env_in,
+             const double thr_in=0.e0, const std::string& mname_in="default matrix name"){
       this->init(nrow_in,ncol_in,row_dims_in,col_dims_in,dbcsr_env_in,thr_in,false,mname_in);
     };
 
-    DistBCSR(size_t ldim, std::vector<int>& dims_in, DBCSR_Environment* dbcsr_env_in, double thr_in=0.e0,
-             bool add_zero_diag=false, const std::string& mname_in="default matrix name"){
+    DistBCSR(const size_t ldim, const std::vector<int>& dims_in, std::shared_ptr<const DBCSR_Environment> dbcsr_env_in, const double thr_in=0.e0,
+             const bool add_zero_diag=false, const std::string& mname_in="default matrix name"){
       this->init(ldim,ldim,dims_in,dims_in,dbcsr_env_in,thr_in,add_zero_diag,mname_in);
     };
 
-    void init(size_t nrow_in, size_t ncol_in, std::vector<int>& row_dims_in, std::vector<int>& col_dims_in, DBCSR_Environment* dbcsr_env_in,
-              double thr_in=0.e0, bool add_zero_diag=false, const std::string& mname_in="default matrix name"){
+    void init(const size_t nrow_in, const size_t ncol_in, const std::vector<int>& row_dims_in, const std::vector<int>& col_dims_in, std::shared_ptr<const DBCSR_Environment> dbcsr_env_in,
+              const double thr_in=0.e0, const bool add_zero_diag=false, const std::string& mname_in="default matrix name"){
       assert(dbcsr_env_in->env_id != "invalid");
       mname = mname_in;
       dbcsr_env = dbcsr_env_in;
@@ -386,8 +387,8 @@ class DistBCSR {
 
     };
 
-    void init(size_t ldim, std::vector<int>& block_dims, DBCSR_Environment* dbcsr_env_in,
-              double thr_in=0.e0, bool add_zero_diag=false, const std::string& mname_in="default matrix name"){
+    void init(const size_t ldim, const std::vector<int>& block_dims, std::shared_ptr<const DBCSR_Environment> dbcsr_env_in,
+              const double thr_in=0.e0, const bool add_zero_diag=false, const std::string& mname_in="default matrix name"){
       this->init(ldim,ldim,block_dims,block_dims,dbcsr_env_in,thr_in,add_zero_diag,mname_in);
     };
 
@@ -409,7 +410,7 @@ class DistBCSR {
     };
 
     // Load from dense array
-    void load(double const* src, double cthr=-1.e0){
+    void load(double const* src, const double cthr=-1.e0){
       assert(this->dbcsr_env != nullptr);
       if (dbcsr_matrix != nullptr){
         c_dbcsr_release(&(this->dbcsr_matrix));
@@ -456,7 +457,7 @@ class DistBCSR {
 
     };
 
-    void load(std::vector<double>& src, double cthr=-1.e0){
+    void load(const std::vector<double>& src, const double cthr=-1.e0){
       this->load(src.data(),cthr);
     };
 
@@ -520,7 +521,7 @@ class DistBCSR {
       return ret;
     };
 
-    void mult(char mA, char mB, const DistBCSR& A, const DistBCSR& B, double alpha=1.e0, double beta=0.e0, double cthr=-1.e0){
+    void mult(const char mA, const char mB, const DistBCSR& A, const DistBCSR& B, const double alpha=1.e0, const double beta=0.e0, const double cthr=-1.e0){
       assert(this->dbcsr_env != nullptr);
       assert(A.dbcsr_env != nullptr);
       assert(B.dbcsr_env != nullptr);
@@ -774,7 +775,7 @@ class DistBCSR {
 
     void load(const std::string& cfname){
       assert(this->dbcsr_env != nullptr);
-      c_dbcsr_read_d(&(this->dbcsr_matrix),(char*)cfname.c_str(),&(dbcsr_env->dbcsr_dist));
+      c_dbcsr_read_d(&(this->dbcsr_matrix),(char*)cfname.c_str(),(void**)&(dbcsr_env->dbcsr_dist));
     }
 
     void write(const std::string& cfname){
@@ -1029,7 +1030,7 @@ class DistBCSR {
       dbcsr_matrix = din;
     };
     
-    std::vector<double> get_row(size_t row){
+    std::vector<double> get_row(const size_t row){
       assert(this->dbcsr_env != nullptr);
       std::vector<double> the_row(ncol);
       std::vector<double> loc_row(ncol);
@@ -1073,7 +1074,7 @@ class DistBCSR {
 
     };
 
-    std::vector<double> get_column(size_t col){
+    std::vector<double> get_column(const size_t col){
       assert(this->dbcsr_env != nullptr);
       std::vector<double> the_col(nrow);
       std::vector<double> loc_col(nrow);
@@ -1117,7 +1118,7 @@ class DistBCSR {
 
     };
 
-    void remove_block(int blk_row, int blk_col){
+    void remove_block(const int blk_row, const int blk_col){
       assert(this->dbcsr_env != nullptr);
 
       int blk_proc = -1;
@@ -1129,7 +1130,7 @@ class DistBCSR {
 
     };
 
-    void add_block(int blk_row, int blk_col, double const* data){
+    void add_block(const int blk_row, const int blk_col, double const* data){
       assert(this->dbcsr_env != nullptr);
       int blk_proc = -1;
       c_dbcsr_get_stored_coordinates(dbcsr_matrix, blk_row, blk_col, &blk_proc);
@@ -1144,7 +1145,7 @@ class DistBCSR {
       this->add_block(blk_row,blk_col,data.data());
     };
 
-    std::vector<double> get_block(int blk_row, int blk_col, bool reduce=false){
+    std::vector<double> get_block(const int blk_row, const int blk_col, bool reduce=false){
       assert(this->dbcsr_env != nullptr);
       std::vector<double> ret;
       int idim = row_dims[blk_row];
@@ -1171,7 +1172,7 @@ class DistBCSR {
       return ret;
     };
 
-    bool local_block(int blk_row, int blk_col){
+    bool local_block(const int blk_row, const int blk_col){
       assert(this->dbcsr_env != nullptr);
       int blk_proc = -1;
       c_dbcsr_get_stored_coordinates(dbcsr_matrix, blk_row, blk_col, &blk_proc);
@@ -1179,13 +1180,13 @@ class DistBCSR {
     };
 
     dm_dbcsr& get_dbcsr(){return dbcsr_matrix;};
-    DBCSR_Environment* get_env(){return dbcsr_env;};
+    std::shared_ptr<const DBCSR_Environment> get_env(){return dbcsr_env;};
     size_t get_nrow(){return nrow;};
     size_t get_ncol(){return ncol;};
     std::vector<int>& get_row_dims(){return row_dims;};
     std::vector<int>& get_col_dims(){return col_dims;};
     double get_thresh(){return dbcsr_thresh;};
-    void   set_thresh(double din){dbcsr_thresh = din;};
+    void   set_thresh(const double din){dbcsr_thresh = din;};
 };
 
 #endif

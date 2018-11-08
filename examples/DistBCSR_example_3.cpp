@@ -79,10 +79,7 @@ std::vector<double> random_matrix(int nrow, int ncol){
 
 }
 
-int main(int argc, char* argv[])
-{
-    MPI_Init(&argc, &argv);
-
+void run_test(){
 
     dbcsr::init_lib();
 
@@ -95,12 +92,12 @@ int main(int argc, char* argv[])
     assert(nblkrows_total == nblkcols_total);
 
     // environment-object...
-    DBCSR_Environment dbcsr_env(nblkrows_total,nblkcols_total);
+    std::shared_ptr<const DBCSR_Environment> dbcsr_env = std::make_shared<DBCSR_Environment>(nblkrows_total,nblkcols_total);
 
     std::cout
-        << "I'm processor " << dbcsr_env.mpi_rank
-        << " over " << dbcsr_env.mpi_size << " proc"
-        << ", (" << dbcsr_env.dbcsr_coords[0] << ", " << dbcsr_env.dbcsr_coords[1] << ") in the 2D grid"
+        << "I'm processor " << dbcsr_env->mpi_rank
+        << " over " << dbcsr_env->mpi_size << " proc"
+        << ", (" << dbcsr_env->dbcsr_coords[0] << ", " << dbcsr_env->dbcsr_coords[1] << ") in the 2D grid"
         << std::endl;
 
     // Block sizes
@@ -110,12 +107,12 @@ int main(int argc, char* argv[])
     int ncol_tot = nblkcols_total*dim_per_block;
     // create and fill matrix a
     auto loc_matrix_a = random_matrix(nrow_tot,ncol_tot);
-    DistBCSR matrix_a(nrow_tot,ncol_tot,row_blk_sizes,col_blk_sizes,&dbcsr_env);
+    DistBCSR matrix_a(nrow_tot,ncol_tot,row_blk_sizes,col_blk_sizes,dbcsr_env);
     matrix_a.load(loc_matrix_a.data(),sthr);
 
     // create and fill matrix b
     auto loc_matrix_b = random_matrix(nrow_tot,ncol_tot);
-    DistBCSR matrix_b(nrow_tot,ncol_tot,row_blk_sizes,col_blk_sizes,&dbcsr_env);
+    DistBCSR matrix_b(nrow_tot,ncol_tot,row_blk_sizes,col_blk_sizes,dbcsr_env);
     matrix_b.load(loc_matrix_b.data(),sthr);
 
     // get 2nd and 3rd row/column
@@ -137,7 +134,7 @@ int main(int argc, char* argv[])
       ddd += d3*d3;
     }
     ddd = sqrt(ddd/((double)(2*nrow_tot+2*ncol_tot)));
-    if (dbcsr_env.mpi_rank == 0) printf("Get row/column:      ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->mpi_rank == 0) printf("Get row/column:      ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
     // symv
@@ -153,7 +150,7 @@ int main(int argc, char* argv[])
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)r3_ref.size()));
-    if (dbcsr_env.mpi_rank == 0) printf("Symv:                ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->mpi_rank == 0) printf("Symv:                ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
     
     // hadamard
@@ -167,10 +164,18 @@ int main(int argc, char* argv[])
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)hada_ref.size()));
-    if (dbcsr_env.mpi_rank == 0) printf("Hadamard:            ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->mpi_rank == 0) printf("Hadamard:            ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
-    dbcsr_env.free();
+}
+
+int main(int argc, char* argv[])
+{
+
+    MPI_Init(&argc, &argv);
+
+    run_test();
+
     MPI_Finalize();
 
     return 0;
