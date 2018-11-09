@@ -15,11 +15,11 @@ You absolutely need:
 * a Fortran compiler which supports at least Fortran 2003 (respectively 2008+TS when using the C-bindings)
 * a LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested)
 * a BLAS implementation (reference, OpenBLAS-bundled and MKL have been tested)
-* a Python version installed (2.7 and 3.5+ have been tested)
+* a Python version installed (2.7 or 3.6+ have been tested)
 
 Optionally:
 
-* [libxsmm](https://github.com/hfp/libxsmm) for Small Matrix Multiplication acceleration
+* [libxsmm](https://github.com/hfp/libxsmm) (1.8.2+ with make-only, 1.10+ with cmake) for Small Matrix Multiplication acceleration
 * [CMake](https://cmake.org/) (3.10+)
 
 To build with CUDA support you further need:
