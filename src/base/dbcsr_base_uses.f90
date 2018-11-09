@@ -50,4 +50,7 @@
 ! Allows macro-toggles (in addition to parameters).
 #if defined(__LIBXSMM)
 #include <libxsmm_config.h>
+#if !defined(LIBXSMM_CONFIG_VERSION)
+#error LIBXSMM v1.8.2 or later is required!
+#endif
 #endif
