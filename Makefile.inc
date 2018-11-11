@@ -1,4 +1,3 @@
-
 #######################################################################################
 #
 # DBCSR can be compiled in 4 main variants:
@@ -8,22 +7,22 @@
 # 4) OpenMP+MPI
 #
 # Except the 1) variant (not useful for real production cases), all others are tested.
-# Variants 2) and 4) requires to add the compiler flag to enable OpenMP, 
+# Variants 2) and 4) requires to add the compiler flag to enable OpenMP,
 # e.g. -fopenmp for GNU and Intel compilers.
 # Variants 3) and 4) requires to use MPI wrappers for the compilation and to specify
 # -D__parallel in the FCFLAGS variable.
 #
-# The 4 variants can be combined with the CUDA compilation. In this case, it further 
+# The 4 variants can be combined with the CUDA compilation. In this case, it further
 # requires:
 # a) set the NVCC variable, e.g. NVCC = nvcc
 # b) specify -D__DBCSR_ACC in FCFLAGS variable
-# c) set the GPUVER variable, e.g. GPUVER = K20 for K20 card 
+# c) set the GPUVER variable, e.g. GPUVER = K20 for K20 card
 #    or GPUVER = P100 for P100 card
-# d) set the NVFLAGS variable, 
+# d) set the NVFLAGS variable,
 #    e.g. NVFLAGS = -O3 -g -w --std=c++11
 #    in the Makefile, the -arch will be appended with the correct compute version
-# e) specify the CUDA include path in the CXXFLAGS variable, 
-#    e.g. CXXFLAGS += -I${CUDA_PATH}/include 
+# e) specify the CUDA include path in the CXXFLAGS variable,
+#    e.g. CXXFLAGS += -I${CUDA_PATH}/include
 # f) specify the corresponding CUDA libraries in the LIBS variable,
 #    e.g. LIBS += -lstdc++ -lcudart -lnvrtc -lcuda
 #
@@ -33,6 +32,14 @@
 # GPU compilation example can be enabled with `make GPU=1`.
 # Make sure that the env variable ${CUDA_PATH} is set.
 #
+# For convenience, some variables can be set during compilation,
+# e.g. make `VARIABLE=value` (multiple variables are possible):
+# 1) MPI=0    : disable MPI compilation
+# 2) GNU=0    : disable GNU compiler compilation and enable Intel compiler compilation
+# 3) CHECKS=1 : enable GNU compiler checks
+# 4) CINT=1   : generate the C interface
+# 5) GPU=1    : enable GPU support
+#
 
 #######################################################################################
 #
@@ -41,7 +48,7 @@
 # *** LIBXSMM ***
 #
 # Performance of the library can be improved on the CPU execution by using
-# the libxsmm, a library for small matrix multiplications which 
+# the libxsmm, a library for small matrix multiplications which
 # is provided by Intel: https://github.com/hfp/libxsmm/.
 # Provide LIBXSMM_DIR or adjust the FCFLAGS variable e.g.,
 # FCFLAGS += -I${LIBXSMM_DIR}/include -D__LIBXSMM
@@ -59,9 +66,9 @@ endif
 #
 # *** CUBLAS ***
 #
-# For multiplications of dense matrices, it can be beneficial to "densify" the matrices 
+# For multiplications of dense matrices, it can be beneficial to "densify" the matrices
 # and then use DGEMM for the local multiplication. This is the default behavior for the
-# CPU execution, while it requires to link CUBLAS for the GPU execution 
+# CPU execution, while it requires to link CUBLAS for the GPU execution
 # (LIBS += -lcublas) and to specify the macro -D__DBCSR_ACC=2 in the FCFLAGS and NVFLAGS
 # variables.
 #
@@ -82,39 +89,65 @@ ifneq (0,$(MPI))
     FC  = mpif90
     LD  = mpif90
     AR  = gcc-ar -r
-    # flags
-    CXXFLAGS += -std=c++11
-    FCFLAGS  += -fopenmp -ffree-form -fimplicit-none -ffree-line-length-512
-    OPTFLAGS += -O3 -g -fno-omit-frame-pointer -funroll-loops
   else
+    # Intel compiler
     CXX = mpiicpc
     CC  = mpiicc
     FC  = mpiifort
     LD  = mpiifort
     AR  = xiar -r
-    # flags
-    CXXFLAGS += -std=c++11
-    FCFLAGS  += -fopenmp -free
-    OPTFLAGS += -O2 -g
   endif
 else # no MPI
+  # By default use GNU
+  GNU = 1
   CXX = g++
   CC  = gcc
   FC  = gfortran
   LD  = gfortran
   AR  = ar -r
-  # flags
-  CXXFLAGS += -std=c++11
-  FCFLAGS  += -fopenmp -std=f2003 -ffree-form -fimplicit-none -ffree-line-length-512
-  OPTFLAGS += -O3 -g -fno-omit-frame-pointer -funroll-loops
 endif
 
 #######################################################################################
 #
 # Corresponding command flags.
 # Note the -fopenmp flag to have OpenMP parallelization.
+# A set of macros is available:
+# 1) -D__parallel          : enable MPI runs
+# 2) -D__MKL               : link the MKL library
+# 3) -D__NO_STATM_ACCESS,
+#    -D__STATM_RESIDENT or
+#    -D__STATM_TOTAL       : toggle memory usage reporting between resident memory
+#                            and total memory. In particular, MacOS users must use
+#                            -D__NO_STATM_ACCESS
+# 4) -D__NO_ABORT          : avoid calling abort, but STOP instead (useful for
+#                            coverage testing, and to avoid core dumps on some
+#                            systems)
+# 5) -D__LIBXSMM           : enable LIBXSMM link (read LIBXSMM section above)
+# 6) -D__DBCSR_ACC         : compile with CUDA support. -D__DBCSR_ACC=2
+#                            enables CUBLAS link (read CUDA support description
+#                            above)
+# 7) -D__ACCELERATE        : must be defined on MacOS when Apple's Accelerate
+#                            framework is used for BLAS and LAPACK (this is due to
+#                            some interface incompatibilities between Accelerate
+#                            and reference BLAS/LAPACK)
+# 8) -DNDEBUG              : assertions are stripped ("compiled out"),
+#                            regular release builds may carry assertions for safety.
+#
 
-OPTFLAGS    += 
+FCFLAGS +=  -DNDEBUG
+
+ifneq (0,$(GNU)) # DEFAULT, just edit...
+  CXXFLAGS += -std=c++11
+  FCFLAGS  += -fopenmp -std=f2003 -ffree-form -fimplicit-none -ffree-line-length-512
+  OPTFLAGS += -O3 -g -fno-omit-frame-pointer -funroll-loops
+else
+ # Intel compiler flags
+  CXXFLAGS += -std=c++11
+  FCFLAGS  += -fopenmp -free
+  OPTFLAGS += -O2 -g
+endif
+
+OPTFLAGS    +=
 CFLAGS      += $(OPTFLAGS)
 CXXFLAGS    += $(OPTFLAGS)
 FCFLAGS     += $(OPTFLAGS)
@@ -176,13 +209,14 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=zerotrip \
               -Werror=uninitialized -Wno-maybe-uninitialized -Wuse-without-only \
               -Werror
-endif
 
 FCFLAGS    += $(WFLAGS)
 
 ifneq ($(CHECKS),)
 FCFLAGS    += -fsanitize=leak
 FCFLAGS    += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
+endif
+
 endif
 
 #######################################################################################
