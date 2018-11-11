@@ -25,6 +25,11 @@ LIBNAME      := dbcsr
 LIBRARY      := lib$(LIBNAME)
 default_target: $(LIBRARY)
 
+# Check if FYPP is available  ===============================================
+ifeq (, $(shell which $(FYPPEXE) 2>/dev/null ))
+$(error "No FYPP submodule available, please read README.md on how to properly download DBCSR")
+endif
+
 # Read the configuration ====================================================
 MODDEPS = "lower"
 include $(INCLUDEMAKE)
@@ -36,6 +41,7 @@ DATE = "Development Version"
 endif
 
 # Set the compute version and NVFLAGS =======================================
+ifneq ($(NVCC),)
 ifeq ($(GPUVER),K20X)
  ARCH_NUMBER = 35
 else ifeq ($(GPUVER),K40)
@@ -52,6 +58,7 @@ endif
 
 ifneq ($(ARCH_NUMBER),)
  NVFLAGS += -arch sm_$(ARCH_NUMBER)
+endif
 endif
 
 # Test programs =========================================================
