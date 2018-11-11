@@ -1,3 +1,14 @@
+/*
+!--------------------------------------------------------------------------------------------------!
+! Copyright (C) by the DBCSR developers group - All rights reserved                                !
+! This file is part of the DBCSR library.                                                          !
+!                                                                                                  !
+! For information on the license, see the LICENSE file.                                            !
+! For further information please visit https://dbcsr.cp2k.org                                      !
+! SPDX-License-Identifier: GPL-2.0+                                                                !
+!--------------------------------------------------------------------------------------------------!
+*/
+
 #ifndef DBCSR_H
 #define DBCSR_H
 
@@ -8,18 +19,18 @@
 extern "C" {
 #endif
     void c_dbcsr_init_lib();
-    
+
     void c_dbcsr_finalize_lib_aux(MPI_Fint* fcomm);
-    
+
     static void c_dbcsr_finalize_lib(MPI_Comm comm)
     {
         MPI_Fint fcomm = MPI_Comm_c2f(comm);
         c_dbcsr_finalize_lib_aux(&fcomm);
     }
-  
+
     void c_dbcsr_distribution_new_aux(void** dist, MPI_Fint* fcomm, int* row_dist, int row_dist_size,
                                       int* col_dist, int col_dist_size);
-    
+
     static void c_dbcsr_distribution_new(void** dist, MPI_Comm comm, int* row_dist, int row_dist_size,
                                          int* col_dist, int col_dist_size)
     {
@@ -33,7 +44,7 @@ extern "C" {
                               int row_blk_sizes_length, int* col_blk_sizes, int col_blk_sizes_length);
 
     void c_dbcsr_finalize(void* matrix);
-    
+
     void c_dbcsr_release(void** matrix);
 
     void c_dbcsr_print(void* matrix);
