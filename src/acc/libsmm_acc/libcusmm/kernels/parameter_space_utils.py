@@ -25,33 +25,34 @@ def ceil_division(a, b):
 ########################################################################################################################
 class PredictiveParameters:
 
-    def __init__(self, params_df, gpu, autotuning):
+    def __init__(self, params_df, gpu, autotuning, partial_initialization=False):
         assert "m" in params_df.columns.values
         assert "n" in params_df.columns.values
         assert "k" in params_df.columns.values
-        assert "threads" in params_df.columns.values
-        assert "grouping" in params_df.columns.values
-        assert "minblocks" in params_df.columns.values
-        algos = np.unique(params_df["algorithm"].values)
-        assert len(algos) == 1
-        algo = algos[0]
-        if algo in ['small', 'medium', 'largeDB1', 'largeDB2']:
-            assert "tile_m" in params_df.columns.values
-            assert "tile_n" in params_df.columns.values
-            if algo in ['largeDB1', 'largeDB2']:
-                assert "w" in params_df.columns.values
-                assert "v" in params_df.columns.values
-        # Possible additional fields, if compilatio information is available:
-        # 'nbytes_smem', 'regs_per_thread'
-
-        self.params = params_df
-        self.params.rename(columns={'threads': 'threads_per_blk'}, inplace=True)
         self.gpu = gpu
         self.autotuning = autotuning
         self.atomicAdd_factor = 5
 
+        if not partial_initialization:
+            assert "threads" in params_df.columns.values
+            params_df.rename(columns={'threads': 'threads_per_blk'}, inplace=True)
+            assert "grouping" in params_df.columns.values
+            assert "minblocks" in params_df.columns.values
+            algos = np.unique(params_df["algorithm"].values)
+            assert len(algos) == 1
+            algo = algos[0]
+            if algo in ['small', 'medium', 'largeDB1', 'largeDB2']:
+                assert "tile_m" in params_df.columns.values
+                assert "tile_n" in params_df.columns.values
+                if algo in ['largeDB1', 'largeDB2']:
+                    assert "w" in params_df.columns.values
+                    assert "v" in params_df.columns.values
+            # Possible additional fields, if compilatio information is available:
+            # 'nbytes_smem', 'regs_per_thread'
+
+        self.params = params_df
+
     def get(self, feature_name):
-        #print(feature_name)
         if feature_name not in self.params.columns.values:
             vget = np.vectorize(getattr(self, "get_" + feature_name))
             feature_val = vget()
@@ -65,7 +66,6 @@ class PredictiveParameters:
         :return: feature_values: list of feature values computed from raw parameters
         """
         for feat in feature_names:
-            #print('----', feat)
             self.params[feat] = self.get(feat)
         return self.params[feature_names]
 
@@ -82,6 +82,9 @@ class PredictiveParameters:
 
     def get_mnk(self):
         return self.get('m').astype(str) + 'x' + self.get('n').astype(str) + 'x' + self.get('k').astype(str)
+
+    def get_mxnxk(self):
+        return self.get('m') * self.get('n') * self.get('k')
 
     ####################################################################################################################
     # Launch parameters
