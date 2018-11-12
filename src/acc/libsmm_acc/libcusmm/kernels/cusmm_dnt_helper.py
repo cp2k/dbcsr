@@ -69,3 +69,19 @@ def descr_to_kernel(kernel_descr, source='autotuned'):
     params['perf'] = float(match[2])
     params['source'] = source
     return kernel_algorithm[algo](**params)
+
+
+def compatible_mnk(algo, m, n, k):
+    max_sizes = max(m * k, n * k, m * n)
+    compatible = True
+    if algo == 'tiny':
+        if max_sizes > 64:
+            compatible = False
+    elif algo == 'small':
+        if max_sizes > 128:
+            compatible = False
+    elif algo in ['largeDB1', 'largeDB2']:
+        if max_sizes < 250:
+            compatible = False
+
+    return compatible

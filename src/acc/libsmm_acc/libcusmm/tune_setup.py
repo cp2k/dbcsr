@@ -15,7 +15,7 @@ import json
 from glob import glob
 from itertools import product
 from optparse import OptionParser
-from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel
+from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel, compatible_mnk
 
 
 from kernels.cusmm_dnt_largeDB1 import Kernel_dnt_largeDB1
@@ -99,15 +99,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
     kernel_descr = []
 
     # Get the kernels compatible with the given size: 
-    compatible_kernels = list(ALL_KERNELS)
-    max_sizes = max(m*k, n*k, m*n) 
-    if max_sizes > 64: 
-        compatible_kernels.remove(Kernel_dnt_tiny) 
-    if max_sizes > 128:
-        compatible_kernels.remove(Kernel_dnt_small) 
-    if max_sizes < 250:
-        compatible_kernels.remove(Kernel_dnt_largeDB1) 
-        compatible_kernels.remove(Kernel_dnt_largeDB2) 
+    compatible_kernels = [k for k in list(ALL_KERNELS) if compatible_mnk(kernel_algorithm[k], m, n, k)]
 
     for kernclass in compatible_kernels:
         params = kernclass.promising_parameters(m, n, k, gpu_properties, autotuning_properties)
