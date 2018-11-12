@@ -6,8 +6,11 @@ import sys
 import os
 import pickle
 
-import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from kernels.cusmm_dnt_helper import kernel_algorithm, compatible_mnk
+
 
 
 ########################################################################################################################
@@ -147,6 +150,57 @@ def plot_performance_gains(perf_gain1, perf_gain2, mnk_names, perf_gain1_name, p
     plt.xscale('log')
     plt.legend([perf_gain1_name, perf_gain2_name])
     plt.title('Performance of ' + perf_gain1_name + ' and ' + perf_gain2_name + ' parameter set')
+    if file_name != '':
+        plt.savefig(file_name)
+    else:
+        plt.show()
+
+
+def plot_choice_goodness(m, n, k, path_to_training_data, file_name=''):
+
+    # Read data corresponding to the given mnk
+    chunksize = 100000
+    data_mnk = pd.DataFrame()
+    mnk = "{}x{}x{}".format(m, n, k)
+    compatible_algos = [algo for algo in list(kernel_algorithm.keys()) if compatible_mnk(algo, m, n, k)]
+    for algo in compatible_algos:
+
+        # I should actually be loading the raw parameters
+
+        data_algo_file_pars = os.path.join(path_to_training_data, 'train_all_' + algo + '_X.csv')
+        reader_pars = pd.read_csv(data_algo_file_pars, index_col=0, chunksize=chunksize, iterator=True),
+        data_algo_file_mnk = os.path.join(path_to_training_data, 'train_all_' + algo + '_X_mnk.csv')
+        reader_mnk = pd.read_csv(data_algo_file_mnk, index_col=0, chunksize=chunksize, iterator=True),
+        data_algo_file_pers = os.path.join(path_to_training_data, 'train_all_' + algo + '_Y_perf.csv')
+        reader_perf = pd.read_csv(data_algo_file_pers, index_col=0, chunksize=chunksize, iterator=True),
+
+        for chunk_pars, chunk_mnk, chunk_perf in zip(reader_pars, reader_mnk, reader_perf):
+
+            chunk_pars = chunk_pars.read()
+            chunk_mnk = chunk_mnk.read()
+            chunk_perf = chunk_perf.read()
+            idx_mnk = np.where(chunk_mnk == mnk)[0].tolist()
+            if len(idx_mnk) > 0:
+                df_tmp = chunk_pars.iloc[idx_mnk]
+                df_tmp.loc[:, 'mnk'] = chunk_mnk.iloc[idx_mnk]
+                df_tmp.loc[:, 'perf'] = chunk_perf.iloc[idx_mnk]
+                data_mnk = data_mnk.append(df_tmp, ignore_index=True)
+
+    # Sort in ascending performances
+    data_mnk.sort_values(by='perf', inplace=True)
+
+    # Plot
+    marker_size = 1
+    par_set_ids = range(len(data_mnk.index.values))
+    plt.plot(par_set_ids, data_mnk['perf'], '-', markersize=marker_size)
+    plt.xlabel('Parameter set id')
+    plt.ylabel('Performance [Gflops]')
+    plt.title('Performance profile of parameter sets for ' + str((m, n, k)) + '-triplet')
+
+    # Annotate
+    # plt.text(, 'max:')
+    # plt.text(, 'chosen:')
+    # plt.text(, 'naive:')
     if file_name != '':
         plt.savefig(file_name)
     else:

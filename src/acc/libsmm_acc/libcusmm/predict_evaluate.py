@@ -47,6 +47,7 @@ def main(argv):
     autotuned_mnks = [(k.m, k.n, k.k) for k in all_kernels if k.autotuned]
     autotuned_perfs_ = [k.perf for k in all_kernels if k.autotuned]
     autotuned_perfs = dict(zip(autotuned_mnks, autotuned_perfs_))
+    autotuned_kernels = dict(zip(autotuned_mnks, [k for k in all_kernels if k.autotuned]))
 
     # Read optimal-parameter-prediction result file
     with open(options.file) as f:
@@ -127,6 +128,9 @@ def main(argv):
     plt.title('Performance of autotuned, naive and predicted parameter set')
     plt.show()
 
+    m, n, k = (4, 4, 4)
+    path_to_training_data = 'tune_big/'
+    plot_choice_goodness(m, n, k, path_to_training_data)
 
     ####################################################################################################################
     # Plot results (testing set: predictive modelling VS naïve)
