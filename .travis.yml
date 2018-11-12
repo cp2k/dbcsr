@@ -22,7 +22,7 @@ cache:
 env:
   global:
   # LIBXSMM: update to v1.10 or later
-  - LIBXSMM_VERSION=f1171cc08fbe8f65a2aad6d6d9af71ceb975ef91
+  - LIBXSMM_VERSION=930952e33bb70dc6167af051af744922aad5a4ad
   - CMAKE_VERSION=3.10.3
 
 install:
