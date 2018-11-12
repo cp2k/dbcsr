@@ -790,13 +790,6 @@ def plot_cv_scores(param_grid, results, best_pars, folder, algo, splits):
         plt.savefig(os.path.join(folder, "cv_results_" + algo + "_" + p + ".svg"))
 
 
-def plot_choice_goodness(mnk, y_true_mnk, y_pred_mnk):
-
-    # ...
-
-    return
-
-
 ########################################################################################################################
 # Main
 ########################################################################################################################
@@ -977,7 +970,10 @@ def main():
     plot_relative_performance_gain(rel_perf_gain_res_over_naive, 'Tested', 'naive', 'predictive model')
     plot_performance_gains(results_naive, results, 'Tested', 'naive', 'predictive model')
 
-
+    # Plot goodness of choice
+    # mnks_to_plot = [(4, 4, 4), (13, 13, 13), (5, 5, 5)]
+    # for m, n, k in mnks_to_plot:
+    #     plot_choice_goodness()
 
     ####################################################################################################################
     # Print log
