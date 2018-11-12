@@ -1,5 +1,9 @@
 language: c
 
+os:
+  - linux
+  - osx
+
 addons:
   apt:
     sources:
@@ -12,17 +16,35 @@ addons:
     - openmpi-bin
   homebrew:
     packages:
+    - gcc
     - cmake
+    - openmpi
 
 cache:
   pip: true
   directories:
-    - $HOME/deps
+  - $HOME/deps
 
 env:
   global:
   - LIBXSMM_VERSION=1.10
   - CMAKE_VERSION=3.10.3
+  matrix:
+  - USE_MPI=ON USE_OPENMP=ON USE_SMM=blas
+  - USE_MPI=OFF USE_OPENMP=ON USE_SMM=blas
+  - USE_MPI=ON USE_OPENMP=OFF USE_SMM=blas
+  - USE_MPI=OFF USE_OPENMP=OFF USE_SMM=blas
+  - USE_MPI=OFF USE_OPENMP=ON USE_SMM=libxsmm
+  - USE_MPI=OFF USE_OPENMP=OFF USE_SMM=libxsmm
+
+matrix:
+  exclude:
+    - os: osx
+      env: USE_MPI=ON USE_OPENMP=ON USE_SMM=blas
+    - os: osx
+      env: USE_MPI=OFF USE_OPENMP=ON USE_SMM=blas
+    - os: osx
+      env: USE_MPI=OFF USE_OPENMP=ON USE_SMM=libxsmm
 
 install:
   # Update cmake to the minimal required version (shamelessly copied from the boost travis config):
@@ -58,53 +80,23 @@ before_script:
   - export PATH=$HOME/.local/bin:$PATH
   - pip install --user git-archive-all pre-commit
 
-jobs:
+script:  # multiplied by matrix envs and os settings
+  - mkdir -p build
+  - cd build
+  # C++ example fails with this ancient version of MPI,
+  # we see all system CPUs, but can use only 1, causing nproc auto-detection to fail
+  - cmake -DCMAKE_BUILD_TYPE=Coverage -DTEST_MPI_RANKS=1  -DUSE_MPI=$USE_MPI -DUSE_OPENMP=$USE_OPENMP -DUSE_SMM=$USE_SMM ..
+  - make -j
+  - make CTEST_OUTPUT_ON_FAILURE=1 test
+
+jobs:  # the following jobs inherit only the first OS
   include:
-  - stage: build
-    name: "Build and test MPI+OpenMP version with make"
+  - name: "Build and test MPI+OpenMP version with make"
     script:
     - make -j FC="mpif90" LD="mpif90" OPTFLAGS="-fprofile-arcs -ftest-coverage -O0 -D__MPI_VERSION=2" all
     - make test
     - bash <(curl -s https://codecov.io/bash)
-  - # run this in parallel with the other builds
-    name: "Build and test MPI+OpenMP version with cmake"
-    script:
-    - mkdir -p build
-    - cd build
-    # C++ example fails with this ancient version of MPI,
-    # we see all system CPUs, but can use only 1, causing nproc auto-detection to fail
-    - cmake -DCMAKE_BUILD_TYPE=Coverage -DTEST_MPI_RANKS=1 ..
-    - make -j
-    - make CTEST_OUTPUT_ON_FAILURE=1 test
-  - # run this in parallel with the other builds
-    name: "Build and test OpenMP version with cmake"
-    script:
-    - mkdir -p build
-    - cd build
-    # all examples need MPI atm
-    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF ..
-    - make -j
-    - make CTEST_OUTPUT_ON_FAILURE=1 test
-  - # run this in parallel with the other builds
-    name: "Build and test OpenMP version with cmake and libxsmm"
-    script:
-    - mkdir -p build
-    - cd build
-    # all examples need MPI atm
-    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_MPI=OFF -DUSE_SMM=libxsmm ..
-    - make -j
-    - make CTEST_OUTPUT_ON_FAILURE=1 test
-  - # run this in parallel with the other builds
-    name: "Build and test MPI version with cmake"
-    script:
-    - mkdir -p build
-    - cd build
-    # all examples need MPI atm
-    - cmake -DCMAKE_BUILD_TYPE=Coverage -DUSE_OPENMP=OFF -DTEST_MPI_RANKS=1 ..
-    - make -j
-    - make CTEST_OUTPUT_ON_FAILURE=1 test
-  - # run this in parallel with the other builds
-    name: "Run pre-commit hook on changed files"
+  - name: "Run pre-commit hook on changed files"
     script:
     - set -o pipefail
     - git diff --name-only --diff-filter=AM HEAD...$TRAVIS_BRANCH | xargs pre-commit run --files
