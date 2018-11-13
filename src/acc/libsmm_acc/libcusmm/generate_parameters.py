@@ -9,6 +9,7 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
+
 from __future__ import print_function
 
 import json
@@ -37,7 +38,7 @@ def main(gpu_version, base_dir):
         f.write(out)
 
 
-#===============================================================================
+# ===============================================================================
 def write_parameters_file(all_pars):
 
     # Header
@@ -102,6 +103,7 @@ static const std::unordered_map<Triplet, KernelParameters> ht  = {
     return out, all_pars
 
 
+# ===============================================================================
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description="Generator of LibCuSMM. The Library for Cuda Small Matrix Multiplications.")

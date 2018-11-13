@@ -9,6 +9,7 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
+
 from __future__ import print_function
 
 import os
@@ -16,7 +17,7 @@ from os import path
 import re
 import argparse
 
-#===============================================================================
+# ===============================================================================
 # Helper variables
 separator = "//===========================================================================\n"
 line_in_string = "{:<70}\\n\\"
@@ -43,7 +44,7 @@ cusmm_header = '/*--------------------------------------------------------------
              + '#include <string>\n'
 
 
-#===============================================================================
+# ===============================================================================
 def main(kernels_folder):
     """
     Find files corresponding to CUDA kernels and write them as strings into a
@@ -80,7 +81,7 @@ def main(kernels_folder):
     print("Wrote kernel string to file\n->", file_h_path)
 
 
-#===============================================================================
+# ===============================================================================
 def cpp_function_to_string(cpp_file, kernel_name):
     """
     Transform a C++ function into a char array
@@ -97,7 +98,7 @@ def cpp_function_to_string(cpp_file, kernel_name):
         if not in_comment:
             # ignore comments and empty lines
             if re.match(commented_line, l) is not None or len(l) == 0 \
-                or "#include \"cusmm_common.h\"" in l:
+                    or "#include \"cusmm_common.h\"" in l:
                 pass
             elif re.match(open_comment, l) is not None:
                 in_comment = True

@@ -1,6 +1,14 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+####################################################################################################
+# Copyright (C) by the DBCSR developers group - All rights reserved                                #
+# This file is part of the DBCSR library.                                                          #
+#                                                                                                  #
+# For information on the license, see the LICENSE file.                                            #
+# For further information please visit https://dbcsr.cp2k.org                                      #
+# SPDX-License-Identifier: GPL-2.0+                                                                #
+####################################################################################################
 
+predict_genpars_compute.py
 import re
 import sys
 import os
@@ -12,10 +20,8 @@ import matplotlib.pyplot as plt
 from kernels.cusmm_dnt_helper import kernel_algorithm, compatible_mnk
 
 
-
-########################################################################################################################
+# ===============================================================================
 # I/O helpers
-########################################################################################################################
 def safe_pickle(data, file):
     """
     Pickle big files safely by processing them in chunks
@@ -57,9 +63,8 @@ def read_result_file(file):
     return results
 
 
-########################################################################################################################
+# ===============================================================================
 # Model evaluation helpers
-########################################################################################################################
 def performance_gain(baseline, current):
     """
     Compute the absolute perfomance gain, in Gflop/s between a baseline and a 'current'

@@ -9,6 +9,7 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
+
 import sys
 import os
 import json
@@ -16,14 +17,6 @@ from glob import glob
 from itertools import product
 from optparse import OptionParser
 from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel, compatible_mnk
-
-
-from kernels.cusmm_dnt_largeDB1 import Kernel_dnt_largeDB1
-from kernels.cusmm_dnt_largeDB2 import Kernel_dnt_largeDB2
-from kernels.cusmm_dnt_small    import Kernel_dnt_small
-from kernels.cusmm_dnt_tiny     import Kernel_dnt_tiny
-
-ALL_KERNELS = tuple(kernel_algorithm.values())
 
 
 # ===============================================================================
@@ -99,7 +92,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
     kernel_descr = []
 
     # Get the kernels compatible with the given size: 
-    compatible_kernels = [k for k in list(ALL_KERNELS) if compatible_mnk(kernel_algorithm[k], m, n, k)]
+    compatible_kernels = [k for k in kernel_algorithm.values() if compatible_mnk(kernel_algorithm[k], m, n, k)]
 
     for kernclass in compatible_kernels:
         params = kernclass.promising_parameters(m, n, k, gpu_properties, autotuning_properties)

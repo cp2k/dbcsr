@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+####################################################################################################
+# Copyright (C) by the DBCSR developers group - All rights reserved                                #
+# This file is part of the DBCSR library.                                                          #
+#                                                                                                  #
+# For information on the license, see the LICENSE file.                                            #
+# For further information please visit https://dbcsr.cp2k.org                                      #
+# SPDX-License-Identifier: GPL-2.0+                                                                #
+####################################################################################################
+
 
 import os
 import sys
@@ -13,10 +22,8 @@ from predict_helpers import *
 from kernels.cusmm_dnt_helper import params_dict_to_kernel
 
 
-
-########################################################################################################################
+# ===============================================================================
 # Selected features and optimized hyperparameters
-########################################################################################################################
 selected_features = {
     'tiny': [  # 2018-10-11--16-00_RUNS20/Decision_Tree_12
         'nblks',
@@ -145,9 +152,8 @@ optimized_hyperparameters = {
 }
 
 
-########################################################################################################################
+# ===============================================================================
 # Printing and dumping helpers
-########################################################################################################################
 def get_log_folder(algo, prefitted_model_folder):
     """Create a unique log folder for this run in which logs, plots etc. will be stored """
     if len(prefitted_model_folder) == 0:
@@ -172,9 +178,8 @@ def print_and_log(msg):
     return log
 
 
-########################################################################################################################
+# ===============================================================================
 # Custom loss functions and scorers
-########################################################################################################################
 def perf_loss(y_true, y_pred, top_k, X_mnk):
     """
     Compute the relative performance losses per mnk if one were to measure the top-k best predicted sets of parameters
@@ -266,9 +271,8 @@ def mean_scorer_top1(estimator, X, y):
     return mean_scorer(estimator, X, y, 1)
 
 
-########################################################################################################################
+# ===============================================================================
 # Read and prepare data
-########################################################################################################################
 def perf_Kothapalli(N_mem, nblks, threads_per_blk, Gflops):
     c_K = nblks * threads_per_blk * N_mem  # ignore number of threads per warp
     return Gflops / c_K # ignore clock rate
@@ -334,7 +338,7 @@ def scale(Y, X_mnk, scale_on_all_algos, params=None):
 
 def read_data(algo, read_from, nrows, scale_on_all_algos, params, log):
 
-    ####################################################################################################################
+    # ===============================================================================
     # Read and fix 'X'
     X_file = os.path.join(read_from, 'train_all_' + algo + '_X.csv')
     log += print_and_log('Read training data X from ' + X_file)
@@ -353,7 +357,7 @@ def read_data(algo, read_from, nrows, scale_on_all_algos, params, log):
             gpu = {'Shared memory access latency': 4, 'Global memory access latency': 500}
             add_Kothapalli(X, gpu, 'Koth_med_Nmem_glob', 'Koth_med_Nmem_shared', 'Koth_med_Nmem', 'Koth_med_perf_K')
 
-    ####################################################################################################################
+    # ===============================================================================
     # Read and fix 'X_mnk'
     X_mnk_file = os.path.join(read_from, 'train_all_' + algo + '_X_mnk.csv')
     log += print_and_log('Read training data X_mnk from ' + X_mnk_file)
@@ -361,7 +365,7 @@ def read_data(algo, read_from, nrows, scale_on_all_algos, params, log):
     log += print_and_log('X_mnk: {:>8} x {:>8} ({:>2} MB)'.format(X_mnk.shape[0], X_mnk.shape[1],
                                                                   sys.getsizeof(X_mnk)/10**6))
 
-    ####################################################################################################################
+    # ===============================================================================
     # Read and fix 'Y'
     log += print_and_log('Read training data Y ...')
     if scale_on_all_algos:
@@ -413,7 +417,7 @@ def read_data(algo, read_from, nrows, scale_on_all_algos, params, log):
 
     log += print_and_log('Y    : {:>8} x {:>8} ({:>2} MB)'.format(Y.shape[0], Y.shape[1], sys.getsizeof(Y)/10**6))
 
-    ####################################################################################################################
+    # ===============================================================================
     # Describe and log
     n_features = len(list(X.columns))
     predictor_names = X.columns.values
@@ -424,9 +428,8 @@ def read_data(algo, read_from, nrows, scale_on_all_algos, params, log):
     return X, X_mnk, Y, log
 
 
-########################################################################################################################
+# ===============================================================================
 # Predictive modelling
-########################################################################################################################
 def get_DecisionTree_model(algo, n_features):
     from itertools import chain
     from sklearn.tree import DecisionTreeRegressor
@@ -528,8 +531,7 @@ def get_train_test_partition(X, Y, X_mnk, test, train=None):
 
 def tune_and_train(X, X_mnk, Y, options, folder, log):
 
-
-    ####################################################################################################################
+    # ===============================================================================
     # Get options
     algo = options.algo
     model_to_train = options.model
@@ -540,7 +542,7 @@ def tune_and_train(X, X_mnk, Y, options, folder, log):
     ntrees = options.ntrees
     results_file = os.path.join(folder, "feature_tree.p")
 
-    ####################################################################################################################
+    # ===============================================================================
     # Predictive model
     if model_to_train == "DT":
         model, model_name, param_grid = get_DecisionTree_model(algo, len(X.columns.values))
@@ -551,7 +553,7 @@ def tune_and_train(X, X_mnk, Y, options, folder, log):
     log += print_and_log("\nStart tune/train for model " + model_name + " with parameters:")
     log += print_and_log(model)
 
-    ####################################################################################################################
+    # ===============================================================================
     # Testing splitter (train/test-split)
     from sklearn.model_selection import GroupShuffleSplit
     cv = GroupShuffleSplit(n_splits=2, test_size=0.2)
@@ -562,7 +564,7 @@ def tune_and_train(X, X_mnk, Y, options, folder, log):
     del X, X_mnk, Y  # free memory
     log += print_and_log("\nComplete train/test split")
 
-    ####################################################################################################################
+    # ===============================================================================
     # Cross-validation splitter (train/validation-split)
     n_splits = splits
     test_size = 0.3
@@ -573,7 +575,7 @@ def tune_and_train(X, X_mnk, Y, options, folder, log):
 
         log += print_and_log("\nStart feature selection")
 
-        ################################################################################################################
+        # ===============================================================================
         # Feature selection
         from sklearn.feature_selection import RFECV
         log += print_and_log('----------------------------------------------------------------------------')
@@ -598,7 +600,7 @@ def tune_and_train(X, X_mnk, Y, options, folder, log):
         X_train = X_train.drop(features_to_drop, axis=1)
         X_test = X_test.drop(features_to_drop, axis=1)
 
-        ################################################################################################################
+        # ===============================================================================
         # Hyperparameter optimization
         log += print_and_log("\nCompleted feature selection, start hyperparameter optimization")
 
@@ -639,13 +641,13 @@ def tune_and_train(X, X_mnk, Y, options, folder, log):
 
     else:
 
-        ################################################################################################################
+        # ===============================================================================
         # Load selected features and hyperparameters
         features_to_drop = [f for f in predictor_names if f not in selected_features[algo]]
         X_train = X_train.drop(features_to_drop, axis=1)
         X_test = X_test.drop(features_to_drop, axis=1)
 
-        ################################################################################################################
+        # ===============================================================================
         # Fit
         log += print_and_log('----------------------------------------------------------------------------')
         log += print_and_log("\nStart fitting model with predictors:\n")
@@ -662,9 +664,8 @@ def tune_and_train(X, X_mnk, Y, options, folder, log):
     return X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, return_model, log
 
 
-########################################################################################################################
+# ===============================================================================
 # Describe and evaluate model
-########################################################################################################################
 def describe_hpo(gs, X, Y, log, plot_all):
     predictor_names = X.columns.values.tolist()
     log += print_and_log('Predictor variables:')
@@ -790,9 +791,8 @@ def plot_cv_scores(param_grid, results, best_pars, folder, algo, splits):
         plt.savefig(os.path.join(folder, "cv_results_" + algo + "_" + p + ".svg"))
 
 
-########################################################################################################################
+# ===============================================================================
 # Main
-########################################################################################################################
 def main():
 
     parser = OptionParser()
@@ -840,12 +840,12 @@ def main():
                       help="Naive result file to evaluate. Default: %default")
     options, args = parser.parse_args(sys.argv)
 
-    ####################################################################################################################
+    # ===============================================================================
     # Create folder to store results of this training and start a log
     folder, log_file = get_log_folder(options.algo, options.prefitted_model)
     log = ''
 
-    ####################################################################################################################
+    # ===============================================================================
     # Read data
     log += print_and_log('----------------------------------------------------------------------------')
     X, X_mnk, Y, log = read_data(options.algo, options.in_folder, options.nrows,
@@ -853,7 +853,7 @@ def main():
     if options.plot_all:
         plot_training_data(Y, X_mnk, folder, options.algo, os.path.join(folder, "y_scaled.svg"))
 
-    ####################################################################################################################
+    # ===============================================================================
     # Get or train model
     log += print_and_log('----------------------------------------------------------------------------')
     if len(options.prefitted_model) == 0:  # train a model
@@ -878,7 +878,7 @@ def main():
         X_train = X_train.drop(features_to_drop, axis=1)
         X_test = X_test.drop(features_to_drop, axis=1)
 
-    ####################################################################################################################
+    # ===============================================================================
     # Evaluate model
     log += print_and_log('----------------------------------------------------------------------------')
     log += print_and_log('Start model evaluation')
@@ -975,7 +975,7 @@ def main():
     # for m, n, k in mnks_to_plot:
     #     plot_choice_goodness()
 
-    ####################################################################################################################
+    # ===============================================================================
     # Print log
     log += print_and_log('----------------------------------------------------------------------------')
     with open(log_file, 'w') as f:

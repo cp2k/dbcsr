@@ -9,15 +9,6 @@
 ####################################################################################################
 
 
-#===============================================================================
-def round_up_to_multiple(x, step):
-    if x % step == 0:
-        return x
-    else:
-        return x + step - x % step
-
-
-#===============================================================================
 class Kernel:
 
     def __repr__(self):
@@ -42,14 +33,6 @@ class Kernel:
     @property
     def as_dict(self):
         return dict(algorithm=self.algorithm, **self.__dict__)
-
-    @property
-    def as_dict_for_parameters_json(self):
-        fields = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks', 'algorithm', 'perf', 'source']
-        d = dict()
-        for f in fields:
-            d[f] = self.as_dict[f] if f in self.as_dict.keys() else 0
-        return d
 
     @property
     def as_dict_for_parameters_json(self):

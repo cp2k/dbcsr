@@ -9,6 +9,7 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
+
 import sys
 import json
 from optparse import OptionParser
@@ -53,8 +54,5 @@ def main():
     print("Wrote", new_file)
 
 
-#===============================================================================
-if len(sys.argv)==2 and sys.argv[-1]=="--selftest":
-    pass #TODO implement selftest
-else:
-    main()
+# ===============================================================================
+main()
