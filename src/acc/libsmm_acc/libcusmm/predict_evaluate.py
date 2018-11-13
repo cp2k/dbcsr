@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+####################################################################################################
+# Copyright (C) by the DBCSR developers group - All rights reserved                                #
+# This file is part of the DBCSR library.                                                          #
+#                                                                                                  #
+# For information on the license, see the LICENSE file.                                            #
+# For further information please visit https://dbcsr.cp2k.org                                      #
+# SPDX-License-Identifier: GPL-2.0+                                                                #
+####################################################################################################
+
 
 import sys
 import json
@@ -8,7 +17,7 @@ from kernels.cusmm_dnt_helper import params_dict_to_kernel
 from predict_helpers import *
 
 
-########################################################################################################################
+# ===============================================================================
 # Main
 def main(argv):
     """
@@ -37,7 +46,7 @@ def main(argv):
                       help="Naive result file to evaluate (autotuned mnks). Default: %default")
     options, args = parser.parse_args(sys.argv)
 
-    ####################################################################################################################
+    # ===============================================================================
     # Read parameter file
     with open(options.params) as f:
         all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
@@ -78,8 +87,7 @@ def main(argv):
     perf_gain_autotuning_over_naive = performance_gain(results_naive_autotuned, autotuned_perfs)
     rel_gain_autotuning_over_naive = relative_performance_gain(results_naive_autotuned, autotuned_perfs)
 
-
-    ####################################################################################################################
+    # ===============================================================================
     # Print results
     header = "m, n, k: predicted perf. [Gflops], naive perf. [Gflops], measured perf. [Gflops]"
     print(header)
@@ -103,7 +111,7 @@ def main(argv):
     print("")
     print("Mean performance gain overall: {:.2f} Gflops".format(np.mean(list(perf_gain_res_over_naive.values()))))
 
-    ####################################################################################################################
+    # ===============================================================================
     # Plot results (training set: autotuned VS naïve)
     plot_absolute_performance_gain(perf_gain_autotuning_over_naive, 'Autotuned', 'naive', 'autotuned')
     plot_relative_performance_gain(rel_gain_autotuning_over_naive, 'Autotuned', 'naive', 'autotuned')
@@ -132,7 +140,7 @@ def main(argv):
     path_to_training_data = 'tune_big/'
     plot_choice_goodness(m, n, k, path_to_training_data)
 
-    ####################################################################################################################
+    # ===============================================================================
     # Plot results (testing set: predictive modelling VS naïve)
     plot_absolute_performance_gain(perf_gain_res_over_naive, 'Tested', 'naive', 'predictive model')
     plot_relative_performance_gain(rel_perf_gain_res_over_naive, 'Tested', 'naive', 'predictive model')

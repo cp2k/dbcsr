@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+####################################################################################################
+# Copyright (C) by the DBCSR developers group - All rights reserved                                #
+# This file is part of the DBCSR library.                                                          #
+#                                                                                                  #
+# For information on the license, see the LICENSE file.                                            #
+# For further information please visit https://dbcsr.cp2k.org                                      #
+# SPDX-License-Identifier: GPL-2.0+                                                                #
+####################################################################################################
+
 
 import os
 import gc
@@ -11,15 +20,13 @@ from itertools import product
 from optparse import OptionParser
 from joblib import Parallel, delayed
 from predict_helpers import *
-from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel
-from kernels.parameter_space_utils import PredictiveParameters
+from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel, PredictiveParameters
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 
 
-########################################################################################################################
+# ===============================================================================
 # Helpers
-########################################################################################################################
 def combinations(sizes):
     return list(product(sizes, sizes, sizes))
 
@@ -84,9 +91,8 @@ def find_optimal_kernel(mnk, algo, tree, tree_features, top_k, gpu_properties, a
     return optimal_kernels
 
 
-########################################################################################################################
+# ===============================================================================
 # Main
-########################################################################################################################
 def main(argv):
     """
     Update parameter file with new optimal parameter predictions given newly trained decision trees
@@ -113,7 +119,7 @@ def main(argv):
                       default=20000, help="Chunk size for dispatching joblib jobs. Default: %default")
     options, args = parser.parse_args(sys.argv)
 
-    ####################################################################################################################
+    # ===============================================================================
     # Load GPU and autotuning properties as well as pre-autotuned parameters
     assert options.params in arch_number.keys(), "Cannot find compute version for file " + str(options.params)
     arch = arch_number[options.params]
@@ -128,7 +134,7 @@ def main(argv):
     autotuned_kernels_ = [k for k in all_kernels if k.autotuned]
     autotuned_kernels = dict(zip(autotuned_mnks, autotuned_kernels_))
 
-    ####################################################################################################################
+    # ===============================================================================
     # Load Predictive trees and feature list
     tree = dict()
     if options.algo is not None:
@@ -152,7 +158,7 @@ def main(argv):
             features.remove('mnk')
         tree[algo]['features'] = features
 
-    ####################################################################################################################
+    # ===============================================================================
     # Evaluation
     dump_folder = 'optimal_kernels_dump'
     mnks = combinations(list(range(4, 46)))
@@ -232,7 +238,7 @@ def main(argv):
         optimal_kernel_mnk = sorted(candidate_kernels, key=lambda x: x.perf, reverse=True)[:top_k]
         optimal_kernels[(m, n, k)] = optimal_kernel_mnk[0]
 
-    ####################################################################################################################
+    # ===============================================================================
     # Write to file
     with open(options.params, 'w') as f:
         s = json.dumps([optimal_kernels[kernel].as_dict_for_parameters_json for kernel in sorted(optimal_kernels.keys())])
@@ -243,7 +249,7 @@ def main(argv):
     print("Wrote new predicted parameters to file", options.params)
 
 
-#===============================================================================
+# ===============================================================================
 main(argv=sys.argv[1:])
 
 #EOF

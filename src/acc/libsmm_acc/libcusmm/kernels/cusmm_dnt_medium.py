@@ -8,10 +8,12 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-from kernels import cusmm_dnt as cu
+
+from kernels.cusmm_dnt import Kernel
+from kernels.cusmm_dnt_helper import round_up_to_multiple
 
 
-class Kernel_dnt_medium(cu.Kernel):
+class Kernel_dnt_medium(Kernel):
 
     algorithm = 'medium'
     algorithm_num = 3
@@ -75,7 +77,7 @@ class Kernel_dnt_medium(cu.Kernel):
                         # Use all concurrency available: fill warps
                         for threads in range(gpu["Threads_/_Warp"], gpu["Max_Thread_Block_Size"] + 1, gpu["Threads_/_Warp"]):
 
-                            if threads > cu.round_up_to_multiple(max_concurrent_work, gpu["Threads_/_Warp"]):
+                            if threads > round_up_to_multiple(max_concurrent_work, gpu["Threads_/_Warp"]):
                                 continue  # soft: too much concurrency harms performance
                             if threads * minblocks > gpu["Threads_/_Multiprocessor"]:
                                 continue

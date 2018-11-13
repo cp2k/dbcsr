@@ -8,10 +8,12 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-from kernels import cusmm_dnt as cu
+
+from kernels.cusmm_dnt import Kernel
+from kernels.cusmm_dnt_helper import round_up_to_multiple
 
 
-class Kernel_dnt_largeDB2(cu.Kernel):
+class Kernel_dnt_largeDB2(Kernel):
 
     algorithm = "largeDB2"
     algorithm_num = 2
@@ -90,7 +92,7 @@ class Kernel_dnt_largeDB2(cu.Kernel):
 
                                 # Max work ("operations") which can be run concurrently
                                 max_concurrent_work = max(grouping, m*w, w*n, m*v, cmax*rmax)
-                                if threads > cu.round_up_to_multiple(max_concurrent_work, gpu["Threads_/_Warp"]):
+                                if threads > round_up_to_multiple(max_concurrent_work, gpu["Threads_/_Warp"]):
                                     continue  # heuristics: too much concurrency harms performance
 
                                 # Shared memory buffer size

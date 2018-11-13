@@ -9,6 +9,7 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
+
 import sys
 import os
 from glob import glob
@@ -22,7 +23,7 @@ re_gflops = re.compile(r"# ([0-9.]+) GFlop/s")
 re_errors = re.compile(r"Number of errors: (\d+)\n")
 
 
-#===============================================================================
+# ===============================================================================
 def main():
     winners = dict()
 
@@ -50,7 +51,8 @@ def main():
 
     print("Wrote parameters.json")
 
-#===============================================================================
+
+# ===============================================================================
 def process_log(log_fn, mnk, winners):
     print("Reading: "+log_fn)
 
@@ -81,8 +83,5 @@ def process_log(log_fn, mnk, winners):
         winners[mnk] = new_winner
 
 
-#===============================================================================
-if len(sys.argv)==2 and sys.argv[-1]=="--selftest":
-    pass #TODO implement selftest
-else:
-    main()
+# ===============================================================================
+main()
