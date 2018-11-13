@@ -1,7 +1,7 @@
 #ifndef DISTBCSR_H
 #define DISTBCSR_H
 
-#include <climits>
+#include <limits>
 #include <memory>
 #define dm_dbcsr   void*
 
@@ -171,8 +171,11 @@ namespace dbcsr {
  *  It can not be modified by objects of 'DistBCSR'.
  */
 class DBCSR_Environment {
-  public:
+
+  private:
+
     std::string env_id;              ///< ID-string for MPI-setup
+    std::string dist_pattern;        ///< Node distribution pattern
     int dbcsr_dims[2];               ///< # of nodes in 2D-grid
     int dbcsr_periods[2];            ///< Holds periodic-flags of 2D-grid (true)
     int dbcsr_coords[2];             ///< Holds cartesian coordinates of this process
@@ -187,23 +190,27 @@ class DBCSR_Environment {
     int nblk_row;                    ///< # of blocks (row)
     int nblk_col;                    ///< # of blocks (columns)
 
+  public:
     
     /*! \brief Constructor
      * Requires the number of blocks for rows and columns.
-     */
-    DBCSR_Environment(const int nblk_row_in, const int nblk_col_in, const std::string& id_in="dbcsr_env_default"){
-      this->init(nblk_row_in,nblk_col_in,id_in);
-    };
-
-    /*! \brief Initialization
      * Sets up the comm-group and dbcsr-distribution.
+     * 
+     *  @param nlk_row_in # of row-blocks in 2D MPI-grid
+     *  @param nlk_col_in # of column-blocks in 2D MPI-grid
+     *  @param id_in string-identifier
+     *  @param pattern ID of distribution pattern
+     *  @param mpi_comm MPI-communicator
+     *
      */
-    void init(const int nblk_row_in, const int nblk_col_in, const std::string& id_in="dbcsr_env_default"){
+    DBCSR_Environment(const int nblk_row_in, const int nblk_col_in, const std::string& id_in="dbcsr_env_default",
+                      const std::string& pattern="default", MPI_Comm mpi_comm=MPI_COMM_WORLD){
       env_id = id_in;
+      dist_pattern = pattern;
       nblk_row = nblk_row_in;
       nblk_col = nblk_col_in;
-      MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
-      MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
+      MPI_Comm_size(mpi_comm, &mpi_size);
+      MPI_Comm_rank(mpi_comm, &mpi_rank);
 
       // Make 2D grid
       dbcsr_dims[0] = 0;
@@ -212,7 +219,7 @@ class DBCSR_Environment {
       dbcsr_periods[0] = 1;
       dbcsr_periods[1] = 1;
       dbcsr_reorder = 0;
-      MPI_Cart_create(MPI_COMM_WORLD, 2, dbcsr_dims, dbcsr_periods, dbcsr_reorder, &dbcsr_group);
+      MPI_Cart_create(mpi_comm, 2, dbcsr_dims, dbcsr_periods, dbcsr_reorder, &dbcsr_group);
 
       MPI_Cart_coords(dbcsr_group, mpi_rank, 2, dbcsr_coords);
 
@@ -221,11 +228,16 @@ class DBCSR_Environment {
       dbcsr_row_dist.resize(nblk_row);
       dbcsr_col_dist.resize(nblk_col);
 
-      for(int i=0; i < nblk_row; i++){
-       dbcsr_row_dist[i] = (i+1) % dbcsr_dims[0];
-      }
-      for(int i=0; i < nblk_col; i++){
-       dbcsr_col_dist[i] = (i+1) % dbcsr_dims[1];
+      if (dist_pattern == "default"){
+        for(int i=0; i < nblk_row; i++){
+         dbcsr_row_dist[i] = (i+1) % dbcsr_dims[0];
+        }
+        for(int i=0; i < nblk_col; i++){
+         dbcsr_col_dist[i] = (i+1) % dbcsr_dims[1];
+        }
+      }else{
+        printf("\n  Error: illegal option for distribution-pattern!\n\n");
+        exit(1);
       }
 
       dbcsr_dist = nullptr;
@@ -240,26 +252,37 @@ class DBCSR_Environment {
     };
 
     /*! \brief Destructor
-     * Release comm/dist by calling 'free'.
+     * Release comm/dist by calling 'free'. Must be called before 'MPI_Finalize()'
      */
     ~DBCSR_Environment(){
-      this->free();
-    };
-
-    /*! \brief Free object
-     * Release comm/dist. has to be called before 'MPI_Finalize()'.
-     */
-    void free(){
       if (dbcsr_dist == nullptr) return;
       c_dbcsr_distribution_release((void**)&dbcsr_dist);
       dbcsr_dist = nullptr;
       MPI_Fint fcomm = MPI_Comm_c2f(dbcsr_group);
-    //if (verbose)
-    //  c_dbcsr_finalize_lib_aux(&fcomm);
-    //else
-        c_dbcsr_finalize_lib_aux_silent(&fcomm);
+      c_dbcsr_finalize_lib_aux_silent(&fcomm);
       MPI_Comm_free(&dbcsr_group);
     };
+
+    /*! \brief Access-functions
+     */
+    std::string      get_id()       const {return env_id;};
+    void*            get_dist()     const {return dbcsr_dist;};
+    void**           get_dist_ptr() const {return ((void**)&dbcsr_dist);};
+    int              get_rank()     const {return mpi_rank;};
+    int              get_size()     const {return mpi_size;};
+    MPI_Comm         get_comm()     const {return dbcsr_group;};
+    int              get_nblk_row() const {return nblk_row;};
+    int              get_nblk_col() const {return nblk_col;};
+    std::vector<int> get_row_dist() const {return dbcsr_row_dist;};
+    std::vector<int> get_col_dist() const {return dbcsr_col_dist;};
+    int              get_dims(int which) const {
+      assert(which == 0 || which == 1);
+      return dbcsr_dims[which];
+    }
+    int              get_coords(int which) const {
+      assert(which == 0 || which == 1);
+      return dbcsr_coords[which];
+    }
 
 };
 
@@ -306,7 +329,7 @@ class DistBCSR {
       dbcsr_thresh = ref.dbcsr_thresh;
 
       dbcsr_matrix = nullptr;
-      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
+      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->get_dist(), 'N',
                             row_dims.data(), (int)row_dims.size(),
                             col_dims.data(), (int)col_dims.size());
       c_dbcsr_finalize(dbcsr_matrix);
@@ -327,7 +350,7 @@ class DistBCSR {
       dbcsr_thresh = ref.dbcsr_thresh;
 
       dbcsr_matrix = nullptr;
-      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
+      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->get_dist(), 'N',
                             row_dims.data(), (int)row_dims.size(),
                             col_dims.data(), (int)col_dims.size());
       c_dbcsr_finalize(dbcsr_matrix);
@@ -348,7 +371,7 @@ class DistBCSR {
       dbcsr_thresh = ref.dbcsr_thresh;
 
       dbcsr_matrix = nullptr;
-      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
+      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->get_dist(), 'N',
                             row_dims.data(), (int)row_dims.size(),
                             col_dims.data(), (int)col_dims.size());
       c_dbcsr_finalize(dbcsr_matrix);
@@ -361,35 +384,49 @@ class DistBCSR {
     /*! \brief Constructor w/ initialization
      * Allows to create non-square matrices.
      *
-     * nrow_in/ncol_in: # of rows/columns in dense matrix
-     * row/col_dims_in: dimensions of blocks in rows/columns
+     * @param nrow_in # of rows/columns in dense matrix
+     * @param ncol_in # of rows/columns in dense matrix
+     * @param row_dims_in dimensions of blocks in rows
+     * @param col_dims_in dimensions of blocks in columns
+     * @param dbcsr_env DBCSR MPI-environment
+     * @param thr_in sparse compression threshold
+     * @param mname_in matrix-ID
      *
      */
-    DistBCSR(const size_t nrow_in, const size_t ncol_in, const std::vector<int>& row_dims_in, const std::vector<int>& col_dims_in, std::shared_ptr<const DBCSR_Environment> dbcsr_env_in,
-             const double thr_in=0.e0, const std::string& mname_in="default matrix name"){
+    DistBCSR(const size_t nrow_in, const size_t ncol_in, const std::vector<int>& row_dims_in, const std::vector<int>& col_dims_in,
+             std::shared_ptr<const DBCSR_Environment> dbcsr_env_in, const double thr_in=0.e0, const std::string& mname_in="default matrix name"){
       this->init(nrow_in,ncol_in,row_dims_in,col_dims_in,dbcsr_env_in,thr_in,false,mname_in);
     };
 
     /*! \brief Constructor w/ initialization of square matrix
      *
-     * ldim:    leading dimension of square matrix (rows/columns)
-     * dims_in: dimensions of blocks in rows/columns
+     * @param ldim leading dimension of square matrix
+     * @param dims_in dimensions of blocks in rows/columns
+     * @param dbcsr_env DBCSR MPI-environment
+     * @param thr_in sparse compression threshold
+     * @param mname_in matrix-ID
      *
      */
     DistBCSR(const size_t ldim, const std::vector<int>& dims_in, std::shared_ptr<const DBCSR_Environment> dbcsr_env_in, const double thr_in=0.e0,
              const bool add_zero_diag=false, const std::string& mname_in="default matrix name"){
-      this->init(ldim,ldim,dims_in,dims_in,dbcsr_env_in,thr_in,add_zero_diag,mname_in);
+      this->init(ldim,dims_in,dbcsr_env_in,thr_in,add_zero_diag,mname_in);
     };
 
     /*! \brief Initialization (non-square matrix)
      *
-     * nrow_in/ncol_in: # of rows/columns in dense matrix
-     * row/col_dims_in: dimensions of blocks in rows/columns
+     * @param nrow_in # of rows/columns in dense matrix
+     * @param ncol_in # of rows/columns in dense matrix
+     * @param row_dims_in dimensions of blocks in rows
+     * @param col_dims_in dimensions of blocks in columns
+     * @param dbcsr_env DBCSR MPI-environment
+     * @param thr_in sparse compression threshold
+     * @param mname_in matrix-ID
      *
      */
-    void init(const size_t nrow_in, const size_t ncol_in, const std::vector<int>& row_dims_in, const std::vector<int>& col_dims_in, std::shared_ptr<const DBCSR_Environment> dbcsr_env_in,
-              const double thr_in=0.e0, const bool add_zero_diag=false, const std::string& mname_in="default matrix name"){
-      assert(dbcsr_env_in->env_id != "invalid");
+    void init(const size_t nrow_in, const size_t ncol_in, const std::vector<int>& row_dims_in, const std::vector<int>& col_dims_in,
+              std::shared_ptr<const DBCSR_Environment> dbcsr_env_in, const double thr_in=0.e0, const bool add_zero_diag=false,
+              const std::string& mname_in="default matrix name"){
+      assert(dbcsr_env_in->get_id() != "invalid");
       mname = mname_in;
       dbcsr_env = dbcsr_env_in;
       nrow = nrow_in;
@@ -399,7 +436,7 @@ class DistBCSR {
       dbcsr_thresh = thr_in;
 
       dbcsr_matrix = nullptr;
-      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
+      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->get_dist(), 'N',
                             row_dims.data(), (int)row_dims.size(),
                             col_dims.data(), (int)col_dims.size());
       if (add_zero_diag){ // only valid for square matrices...
@@ -423,7 +460,7 @@ class DistBCSR {
           int blk_proc = -1;
           c_dbcsr_get_stored_coordinates(dbcsr_matrix, i, i, &blk_proc);
 
-          if(blk_proc == dbcsr_env->mpi_rank){
+          if(blk_proc == dbcsr_env->get_rank()){
             int idim = row_dims[i];
             c_dbcsr_put_block_d(dbcsr_matrix, i, i, block.data(), idim*idim);
           }
@@ -435,8 +472,11 @@ class DistBCSR {
 
     /*! \brief Initialization (square matrix)
      *
-     * ldim:    leading dimension of square matrix (rows/columns)
-     * dims_in: dimensions of blocks in rows/columns
+     * @param ldim leading dimension of square matrix
+     * @param dims_in dimensions of blocks in rows/columns
+     * @param dbcsr_env DBCSR MPI-environment
+     * @param thr_in sparse compression threshold
+     * @param mname_in matrix-ID
      *
      */
     void init(const size_t ldim, const std::vector<int>& block_dims, std::shared_ptr<const DBCSR_Environment> dbcsr_env_in,
@@ -466,6 +506,10 @@ class DistBCSR {
     };
 
     /*! \brief Load values from dense/local array
+     *
+     * @param src values of dense matrix of appropriate dimension
+     * @param cthr sparse compression threshold
+     *
      */
     void load(double const* src, const double cthr=-1.e0){
       assert(this->dbcsr_env != nullptr);
@@ -474,7 +518,7 @@ class DistBCSR {
         dbcsr_matrix = nullptr;
       }
 
-      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
+      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->get_dist(), 'N',
                             row_dims.data(), (int)row_dims.size(),
                             col_dims.data(), (int)col_dims.size());
 
@@ -492,7 +536,7 @@ class DistBCSR {
               int blk_proc = -1;
               c_dbcsr_get_stored_coordinates(dbcsr_matrix, i, j, &blk_proc);
   
-              if(blk_proc == dbcsr_env->mpi_rank)
+              if(blk_proc == dbcsr_env->get_rank())
               {
                   block.resize(idim*jdim);
                   double sum = 0.e0;
@@ -515,8 +559,13 @@ class DistBCSR {
     };
 
     /*! \brief Load values from dense/local array
+     *
+     * @param src values of dense matrix of appropriate dimension
+     * @param cthr sparse compression threshold
+     *
      */
     void load(const std::vector<double>& src, const double cthr=-1.e0){
+      assert(src.size() >= nrow*ncol);
       this->load(src.data(),cthr);
     };
 
@@ -541,7 +590,7 @@ class DistBCSR {
               int blk_proc = -1;
               c_dbcsr_get_stored_coordinates(dbcsr_matrix, i, j, &blk_proc);
     
-              if(blk_proc == dbcsr_env->mpi_rank)
+              if(blk_proc == dbcsr_env->get_rank())
               {
                   block.resize(idim*jdim);
                   std::fill(block.begin(),block.end(),0);
@@ -562,20 +611,20 @@ class DistBCSR {
       }
 
       size_t tot_dim = nrow * ncol;
-      if (tot_dim > INT_MAX){
+      if (tot_dim > std::numeric_limits<int>::max()){
         size_t off = 0;
-        int    idim_act = INT_MAX;
+        int    idim_act = std::numeric_limits<int>::max();
         while((off+idim_act) < tot_dim){
-          idim_act = INT_MAX;
+          idim_act = std::numeric_limits<int>::max();
           if ((off+idim_act) > tot_dim) idim_act = (int)(tot_dim - off);
           MPI_Allreduce(loc.data() + off, ret.data() + off, idim_act,
-                        MPI_DOUBLE, MPI_SUM, dbcsr_env->dbcsr_group);
+                        MPI_DOUBLE, MPI_SUM, dbcsr_env->get_comm());
           off += idim_act;
         }
       }else{
         int idim = (int) tot_dim;
         MPI_Allreduce(loc.data(), ret.data(), idim,
-                      MPI_DOUBLE, MPI_SUM, dbcsr_env->dbcsr_group);
+                      MPI_DOUBLE, MPI_SUM, dbcsr_env->get_comm());
       }
 
       return ret;
@@ -584,6 +633,14 @@ class DistBCSR {
     /*! \brief Matrix multiplication
      *
      *  this = beta * this + alpha * op(A,mA) \times op(B,mB)
+     *
+     * @param mA op(A), 'N' or 'T'
+     * @param mB op(B), 'N' or 'T'
+     * @param A input matrix (lhs)
+     * @param B input matrix (rhs)
+     * @param alpha scaling-factor for product
+     * @param beta  scaling-factor for (initial) output-matrix
+     * @param cthr sparse compression threshold
      *
      */
     void mult(const char mA, const char mB, const DistBCSR& A, const DistBCSR& B, const double alpha=1.e0, const double beta=0.e0, const double cthr=-1.e0){
@@ -602,8 +659,14 @@ class DistBCSR {
      *
      *  y = beta * y + alpha * A \times x
      *
+     * @param x vector
+     * @param alpha scaling factor
+     * @param y vector [output]
+     * @param beta scaling factor
+     *
      */
     void symv(double const* x, const double alpha, double* y, const double beta){
+      assert(this->nrow == this->ncol);
       if (fabs(beta) < 1e-13) 
         for(size_t ii=0;ii<nrow;ii++) y[ii] = 0.e0;
       else
@@ -635,7 +698,7 @@ class DistBCSR {
         }
         rowoff += irowdim;
       }
-      MPI_Allreduce(Ax_loc.data(),Ax.data(), ((int)nrow), MPI_DOUBLE, MPI_SUM, dbcsr_env->dbcsr_group);
+      MPI_Allreduce(Ax_loc.data(),Ax.data(), ((int)nrow), MPI_DOUBLE, MPI_SUM, dbcsr_env->get_comm());
 
       for(size_t ii=0;ii<nrow;ii++) y[ii] += alpha*Ax[ii];
     };
@@ -643,6 +706,11 @@ class DistBCSR {
     /*! \brief Symv
      *
      *  y = beta * y + alpha * A \times x
+     *
+     * @param x vector
+     * @param alpha scaling factor
+     * @param y vector [output]
+     * @param beta scaling factor
      *
      */
     void symv(const std::vector<double>& x, const double alpha, std::vector<double>& y, const double beta){
@@ -652,6 +720,8 @@ class DistBCSR {
     /*! \brief Copy matrix
      *
      * Copy from matrix 'src'
+     *
+     * @param src input matrix
      *
      */
     void copy(const DistBCSR& src){
@@ -664,6 +734,8 @@ class DistBCSR {
      *
      * this += A
      *
+     * @param A input matrix
+     *
      */
     void add(const DistBCSR& A){
       assert(this->dbcsr_env != nullptr);
@@ -675,6 +747,8 @@ class DistBCSR {
     /*! \brief Subtract matrix
      *
      * this -= A
+     *
+     * @param A input matrix
      *
      */
     void sub(const DistBCSR& A){
@@ -689,6 +763,9 @@ class DistBCSR {
      *
      * this = A + B
      *
+     * @param A input matrix
+     * @param B input matrix
+     *
      */
     void add(const DistBCSR& A, const DistBCSR& B){
       assert(this->dbcsr_env != nullptr);
@@ -702,6 +779,9 @@ class DistBCSR {
     /*! \brief Subtract matrices
      *
      * this = A - B
+     *
+     * @param A input matrix
+     * @param B input matrix
      *
      */
     void sub(const DistBCSR& A, const DistBCSR& B){
@@ -718,6 +798,9 @@ class DistBCSR {
      *
      * this += fac * A
      *
+     * @param A input matrix
+     * @param fac scaling factor
+     *
      */
     void axpy(const DistBCSR& A, const double fac){
       assert(this->dbcsr_env != nullptr);
@@ -729,6 +812,10 @@ class DistBCSR {
     /*! \brief Axpy
      *
      * this = A + fac * B
+     *
+     * @param A input matrix
+     * @param B input matrix
+     * @param fac scaling factor
      *
      */
     void axpy(const DistBCSR& A, const DistBCSR& B, const double fac){
@@ -748,35 +835,49 @@ class DistBCSR {
     }
 
     /*! \brief Set diagonal elements
+     *
+     * @param val diagonal value
+     *
      */
-    void set_diag(const double scl){
+    void set_diag(const double val){
       assert(this->dbcsr_env != nullptr);
       assert(nrow == ncol);
       int dim = (int)this->nrow;
-      std::vector<double> dvals(nrow,scl);
+      std::vector<double> dvals(nrow,val);
       c_dbcsr_set_diag_d(&(this->dbcsr_matrix),dvals.data(),dim);
     }
 
     /*! \brief Set diagonal elements
+     *
+     * @param dvals diagonal values
+     *
      */
     void set_diag(double const* dvals){
       assert(this->dbcsr_env != nullptr);
-      assert(nrow == ncol);
+      assert(this->nrow == this->ncol);
       int dim = (int)this->nrow;
       c_dbcsr_set_diag_d(&(this->dbcsr_matrix),(double*)dvals,dim);
     }
 
     /*! \brief Set diagonal elements
+     *
+     * @param dvals diagonal values
+     *
      */
     void set_diag(const std::vector<double>& dvals){
+      assert(this->nrow == this->ncol);
+      assert(this->nrow <= dvals.size());
       this->set_diag(dvals.data());
     }
 
     /*! \brief Add to diagonal elements
+     *
+     * @param dvals values to add to diagonal
+     *
      */
     void add_diag(double const* dvals){
       assert(this->dbcsr_env != nullptr);
-      assert(nrow == ncol);
+      assert(this->nrow == this->ncol);
       int max_dim = *(std::max_element(row_dims.begin(),row_dims.end()));
       std::vector<double> block1(max_dim*max_dim,0.e0);
     
@@ -795,14 +896,22 @@ class DistBCSR {
     }
 
     /*! \brief Add to diagonal elements
+     *
+     * @param dvals values to add to diagonal
+     *
      */
     void add_diag(const std::vector<double>& dvals){
+      assert(this->nrow == this->ncol);
+      assert(this->nrow <= dvals.size());
       this->add_diag(dvals.data());
     }
 
     /*! \brief Add to diagonal elements
+     *
+     * @param val value to add to diagonal
+     *
      */
-    void add_diag(const double scl){
+    void add_diag(const double val){
       assert(nrow == ncol);
       int max_dim = *(std::max_element(row_dims.begin(),row_dims.end()));
       std::vector<double> block1(max_dim*max_dim,0.e0);
@@ -812,7 +921,7 @@ class DistBCSR {
         bool found1 = false;
         c_dbcsr_get_block_d(&(dbcsr_matrix), i, i, block1.data(), found1, idim, idim);
         if (found1){
-          for(int ii=0;ii<idim;ii++) block1[ii+ii*idim] += scl;
+          for(int ii=0;ii<idim;ii++) block1[ii+ii*idim] += val;
           c_dbcsr_put_block_d(dbcsr_matrix, i, i, block1.data(), idim*idim);
           c_dbcsr_finalize(dbcsr_matrix);
         }
@@ -821,10 +930,13 @@ class DistBCSR {
     }
 
     /*! \brief Set elements of matrix
+     *
+     * @param val value
+     *
      */
-    void set(const double scl){
+    void set(const double val){
       assert(this->dbcsr_env != nullptr);
-      c_dbcsr_set_d(&(this->dbcsr_matrix),scl);
+      c_dbcsr_set_d(&(this->dbcsr_matrix),val);
     }
 
     /*! \brief Zero matrix
@@ -837,7 +949,7 @@ class DistBCSR {
         dbcsr_matrix = nullptr;
       }
 
-      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
+      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->get_dist(), 'N',
                             row_dims.data(), (int)row_dims.size(),
                             col_dims.data(), (int)col_dims.size());
 
@@ -847,7 +959,7 @@ class DistBCSR {
         int blk_proc = -1;
         c_dbcsr_get_stored_coordinates(dbcsr_matrix, i, i, &blk_proc);
 
-        if(blk_proc == dbcsr_env->mpi_rank){
+        if(blk_proc == dbcsr_env->get_rank()){
           int idim = row_dims[i];
           c_dbcsr_put_block_d(dbcsr_matrix, i, i, block.data(), idim*idim);
         }
@@ -862,6 +974,8 @@ class DistBCSR {
      *
      * retval = sum_ij(A_ij * this_ij)
      *
+     * @param A input matrix
+     *
      */
     double dot(const DistBCSR& A){
       assert(this->dbcsr_env != nullptr);
@@ -872,6 +986,9 @@ class DistBCSR {
     }
 
     /*! \brief Filter matrix
+     *
+     * @param eps sparse compression threshold
+     *
      */
     void filter(double eps=-1.e0){
       assert(this->dbcsr_env != nullptr);
@@ -880,6 +997,9 @@ class DistBCSR {
     }
 
     /*! \brief Filter matrix (block-norm)
+     *
+     * @param eps sparse compression threshold
+     *
      */
     void recompress(double eps=-1.e0){
       assert(this->dbcsr_env != nullptr);
@@ -909,6 +1029,8 @@ class DistBCSR {
      *
      * this *= fac
      *
+     * @param fac scaling factor
+     *
      */
     void scale(const double fac){
       assert(this->dbcsr_env != nullptr);
@@ -916,13 +1038,19 @@ class DistBCSR {
     }
 
     /*! \brief Load matrix from disk
+     *
+     * @param cfname file-name
+     *
      */
     void load(const std::string& cfname){
       assert(this->dbcsr_env != nullptr);
-      c_dbcsr_read_d(&(this->dbcsr_matrix),(char*)cfname.c_str(),(void**)&(dbcsr_env->dbcsr_dist));
+      c_dbcsr_read_d(&(this->dbcsr_matrix),(char*)cfname.c_str(),dbcsr_env->get_dist_ptr());
     }
 
     /*! \brief Write matrix to disk
+     *
+     * @param cfname file-name
+     *
      */
     void write(const std::string& cfname){
       assert(this->dbcsr_env != nullptr);
@@ -941,6 +1069,8 @@ class DistBCSR {
     /*! \brief Hadamard product
      *
      * this_ij *= A_ij
+     *
+     * @param rhs input matrix
      *
      */
     void hadamard(const DistBCSR& rhs){
@@ -989,6 +1119,8 @@ class DistBCSR {
      *
      * if (fabs(A_ij) > 1e-13): this_ij /= A_ij
      * else:                    this_ij  = 0.0
+     *
+     * @param rhs input matrix
      *
      */
     void hadamard_inv(const DistBCSR& rhs){
@@ -1041,6 +1173,9 @@ class DistBCSR {
      * Returns estimate of min/max eigenvalues of matrix
      * based on Gershgorin discs
      *
+     * @param eps0 estimate of min. eigenvalue [output]
+     * @param epsn estimate of max. eigenvalue [output]
+     *
      */
     void gershgorin_estimate(double& eps0, double& epsn){
       assert(this->dbcsr_env != nullptr);
@@ -1053,15 +1188,15 @@ class DistBCSR {
       dbcsr::gershgorin_estimate(this->dbcsr_matrix,row_dims.data(),(int)col_dims.size(),(int)nrow,sums.data(),diags.data());
     
       // gather results
-      MPI_Allreduce(sums.data(),red_sums.data(), ((int)nrow), MPI_DOUBLE, MPI_SUM, dbcsr_env->dbcsr_group);
-      MPI_Allreduce(diags.data(),red_diags.data(), ((int)nrow), MPI_DOUBLE, MPI_SUM, dbcsr_env->dbcsr_group);
+      MPI_Allreduce(sums.data(),red_sums.data(), ((int)nrow), MPI_DOUBLE, MPI_SUM, dbcsr_env->get_comm());
+      MPI_Allreduce(diags.data(),red_diags.data(), ((int)nrow), MPI_DOUBLE, MPI_SUM, dbcsr_env->get_comm());
     
       double disc_min[2];
-      disc_min[0] =  9999.e0;
-      disc_min[1] = -9999.e0;
+      disc_min[0] = std::numeric_limits<double>::max();
+      disc_min[1] = std::numeric_limits<double>::lowest();
       double disc_max[2];
-      disc_max[0] = -9999.e0;
-      disc_max[1] = -9999.e0;
+      disc_max[0] = std::numeric_limits<double>::lowest();
+      disc_max[1] = std::numeric_limits<double>::lowest();
     
       for(size_t i=0;i<nrow;++i){
         // remove diagonal value from row-sum
@@ -1102,7 +1237,7 @@ class DistBCSR {
       col_dims = rhs.col_dims;
 
       dbcsr_matrix = nullptr;
-      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
+      c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->get_dist(), 'N',
                             row_dims.data(), (int)row_dims.size(),
                             col_dims.data(), (int)col_dims.size());
       c_dbcsr_finalize(dbcsr_matrix);
@@ -1125,7 +1260,7 @@ class DistBCSR {
         col_dims = rhs.col_dims;
   
         dbcsr_matrix = nullptr;
-        c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->dbcsr_dist, 'N',
+        c_dbcsr_create_new_d(&dbcsr_matrix, mname.data(), dbcsr_env->get_dist(), 'N',
                               row_dims.data(), (int)row_dims.size(),
                               col_dims.data(), (int)col_dims.size());
         c_dbcsr_finalize(dbcsr_matrix);
@@ -1199,15 +1334,21 @@ class DistBCSR {
     };
 
     /*! \brief Print matrix
+     *
+     * @param tit title-string
+     *
      */
     void print(const std::string& tit){
       assert(this->dbcsr_env != nullptr);
-      if (dbcsr_env->mpi_rank == 0) printf("  %s\n",tit.c_str());
-      MPI_Barrier(dbcsr_env->dbcsr_group);
+      if (dbcsr_env->get_rank() == 0) printf("  %s\n",tit.c_str());
+      MPI_Barrier(dbcsr_env->get_comm());
       dbcsr::print(this->dbcsr_matrix);
     };
 
     /*! \brief Set FORTRAN-handle
+     *
+     * @param din FORTRAN-handle for dbcsr-matrix
+     *
      */
     void      set_dbcsr(dm_dbcsr& din){
       assert(this->dbcsr_env != nullptr);
@@ -1219,6 +1360,9 @@ class DistBCSR {
     };
     
     /*! \brief Return row of matrix
+     *
+     * @param row row-index
+     *
      */
     std::vector<double> get_row(const size_t row){
       assert(this->dbcsr_env != nullptr);
@@ -1258,13 +1402,16 @@ class DistBCSR {
         joff += jdim;
       }
     
-      MPI_Allreduce(loc_row.data(),the_row.data(),(int)nrow,MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+      MPI_Allreduce(loc_row.data(),the_row.data(),(int)nrow,MPI_DOUBLE, MPI_SUM, dbcsr_env->get_comm());
 
       return the_row;
 
     };
 
     /*! \brief Return column of matrix
+     *
+     * @param col column-index
+     *
      */
     std::vector<double> get_column(const size_t col){
       assert(this->dbcsr_env != nullptr);
@@ -1304,20 +1451,24 @@ class DistBCSR {
         ioff += idim;
       }
     
-      MPI_Allreduce(loc_col.data(),the_col.data(),(int)nrow,MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+      MPI_Allreduce(loc_col.data(),the_col.data(),(int)nrow,MPI_DOUBLE, MPI_SUM, dbcsr_env->get_comm());
 
       return the_col;
 
     };
 
     /*! \brief Remove block of dbcsr-matrix
+     *
+     * @param blk_row row block-index
+     * @param blk_col column block-index
+     *
      */
     void remove_block(const int blk_row, const int blk_col){
       assert(this->dbcsr_env != nullptr);
 
       int blk_proc = -1;
       c_dbcsr_get_stored_coordinates(dbcsr_matrix, blk_row, blk_col, &blk_proc);
-      if (blk_proc == dbcsr_env->mpi_rank){
+      if (blk_proc == dbcsr_env->get_rank()){
         int bdim = row_dims[blk_row] * col_dims[blk_col];
         c_dbcsr_remove_blk_d(&dbcsr_matrix, blk_row, blk_col, bdim);
       }
@@ -1325,12 +1476,17 @@ class DistBCSR {
     };
 
     /*! \brief Add/Overwrite block of dbcsr-matrix
+     *
+     * @param blk_row row block-index
+     * @param blk_col column block-index
+     * @param data input values for requested block
+     *
      */
     void add_block(const int blk_row, const int blk_col, double const* data){
       assert(this->dbcsr_env != nullptr);
       int blk_proc = -1;
       c_dbcsr_get_stored_coordinates(dbcsr_matrix, blk_row, blk_col, &blk_proc);
-      if (blk_proc == dbcsr_env->mpi_rank){
+      if (blk_proc == dbcsr_env->get_rank()){
         int bdim = row_dims[blk_row] * col_dims[blk_col];
         c_dbcsr_put_block_d(dbcsr_matrix, blk_row, blk_col, (double*)data, bdim);
         c_dbcsr_finalize(dbcsr_matrix);
@@ -1338,6 +1494,11 @@ class DistBCSR {
     };
 
     /*! \brief Add/Overwrite block of dbcsr-matrix
+     *
+     * @param blk_row row block-index
+     * @param blk_col column block-index
+     * @param data input values for requested block
+     *
      */
     void add_block(int blk_row, int blk_col, const std::vector<double>& data){
       this->add_block(blk_row,blk_col,data.data());
@@ -1346,6 +1507,10 @@ class DistBCSR {
     /*! \brief Get block of dbcsr-matrix
      *
      * If block is not available, the functions returns an empty vector.
+     *
+     * @param blk_row row block-index
+     * @param blk_col column block-index
+     * @param reduce flag: return block to all mpi-processes
      *
      */
     std::vector<double> get_block(const int blk_row, const int blk_col, bool reduce=false){
@@ -1357,7 +1522,7 @@ class DistBCSR {
       bool found = false;
       int blk_proc = -1;
       c_dbcsr_get_stored_coordinates(dbcsr_matrix, blk_row, blk_col, &blk_proc);
-      if (blk_proc == dbcsr_env->mpi_rank)
+      if (blk_proc == dbcsr_env->get_rank())
         c_dbcsr_get_block_d(&dbcsr_matrix, blk_row, blk_col, blk.data(), found, idim, jdim);
       if(found){
         if (!reduce){
@@ -1370,44 +1535,59 @@ class DistBCSR {
       }
 
       if (reduce){
-        MPI_Allreduce(blk.data(), ret.data(), idim*jdim,MPI_DOUBLE, MPI_SUM, dbcsr_env->dbcsr_group);
+        MPI_Allreduce(blk.data(), ret.data(), idim*jdim,MPI_DOUBLE, MPI_SUM, dbcsr_env->get_comm());
       }
       return ret;
     };
 
     /*! \brief Returns if block is local
+     *
+     * @param blk_row row block-index
+     * @param blk_col column block-index
+     *
      */
     bool local_block(const int blk_row, const int blk_col){
       assert(this->dbcsr_env != nullptr);
       int blk_proc = -1;
       c_dbcsr_get_stored_coordinates(dbcsr_matrix, blk_row, blk_col, &blk_proc);
-      return (blk_proc == dbcsr_env->mpi_rank ? true : false);
+      return (blk_proc == dbcsr_env->get_rank() ? true : false);
     };
 
     /*! \brief Returns FORTRAN-handle to dbcsr-matrix
      */
     dm_dbcsr& get_dbcsr(){return dbcsr_matrix;};
+
     /*! \brief Returns DBCSR_Environment object
      */
     std::shared_ptr<const DBCSR_Environment> get_env(){return dbcsr_env;};
+
     /*! \brief Returns number of rows in dense matrix
      */
     size_t get_nrow(){return nrow;};
+
     /*! \brief Returns number of columns in dense matrix
      */
     size_t get_ncol(){return ncol;};
+
     /*! \brief Returns dimensions of row-blocks
      */
     std::vector<int>& get_row_dims(){return row_dims;};
+
     /*! \brief Returns dimensions of column-blocks
      */
     std::vector<int>& get_col_dims(){return col_dims;};
+
     /*! \brief Returns sparse-threshold
      */
     double get_thresh(){return dbcsr_thresh;};
+
     /*! \brief Sets sparse-threshold
+     *
+     * @param din sparse compression threshold
+     *
      */
     void   set_thresh(const double din){dbcsr_thresh = din;};
+
 };
 
 #endif

@@ -95,9 +95,9 @@ void run_test(){
     std::shared_ptr<const DBCSR_Environment> dbcsr_env = std::make_shared<DBCSR_Environment>(nblkrows_total,nblkcols_total);
 
     std::cout
-        << "I'm processor " << dbcsr_env->mpi_rank
-        << " over " << dbcsr_env->mpi_size << " proc"
-        << ", (" << dbcsr_env->dbcsr_coords[0] << ", " << dbcsr_env->dbcsr_coords[1] << ") in the 2D grid"
+        << "I'm processor " << dbcsr_env->get_rank()
+        << " over " << dbcsr_env->get_size() << " proc"
+        << ", (" << dbcsr_env->get_coords(0) << ", " << dbcsr_env->get_coords(1) << ") in the 2D grid"
         << std::endl;
 
     // Block sizes
@@ -134,7 +134,7 @@ void run_test(){
       ddd += d3*d3;
     }
     ddd = sqrt(ddd/((double)(2*nrow_tot+2*ncol_tot)));
-    if (dbcsr_env->mpi_rank == 0) printf("Get row/column:      ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Get row/column:      ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
     // symv
@@ -150,7 +150,7 @@ void run_test(){
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)r3_ref.size()));
-    if (dbcsr_env->mpi_rank == 0) printf("Symv:                ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Symv:                ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
     
     // hadamard
@@ -164,7 +164,7 @@ void run_test(){
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)hada_ref.size()));
-    if (dbcsr_env->mpi_rank == 0) printf("Hadamard:            ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Hadamard:            ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
 }

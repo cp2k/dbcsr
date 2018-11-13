@@ -97,9 +97,9 @@ void run_test(){
     std::shared_ptr<const DBCSR_Environment> dbcsr_env = std::make_shared<DBCSR_Environment>(nblkrows_total,nblkcols_total);
 
     std::cout
-        << "I'm processor " << dbcsr_env->mpi_rank
-        << " over " << dbcsr_env->mpi_size << " proc"
-        << ", (" << dbcsr_env->dbcsr_coords[0] << ", " << dbcsr_env->dbcsr_coords[1] << ") in the 2D grid"
+        << "I'm processor " << dbcsr_env->get_rank()
+        << " over " << dbcsr_env->get_size() << " proc"
+        << ", (" << dbcsr_env->get_coords(0) << ", " << dbcsr_env->get_coords(1) << ") in the 2D grid"
         << std::endl;
 
     // Block sizes
@@ -128,7 +128,7 @@ void run_test(){
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)loc_matrix_c.size()));
-    if (dbcsr_env->mpi_rank == 0) printf("Operator '*':        ||C_dist - C_loc|| = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Operator '*':        ||C_dist - C_loc|| = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
     // copy a to b and subtract (a -= b)
@@ -142,7 +142,7 @@ void run_test(){
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)loc_matrix_a.size()));
-    if (dbcsr_env->mpi_rank == 0) printf("Operator '=' & '-=': ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Operator '=' & '-=': ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
     // restore dist-mat b
@@ -158,7 +158,7 @@ void run_test(){
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)loc_matrix_b.size()));
-    if (dbcsr_env->mpi_rank == 0) printf("Operator '+=':       ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Operator '+=':       ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
     // scale
@@ -170,7 +170,7 @@ void run_test(){
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)loc_matrix_b.size()));
-    if (dbcsr_env->mpi_rank == 0) printf("Operator '*= 2.5':   ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Operator '*= 2.5':   ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
 

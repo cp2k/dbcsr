@@ -128,9 +128,9 @@ void run_test(){
     std::shared_ptr<const DBCSR_Environment> dbcsr_env = std::make_shared<DBCSR_Environment>(nblkrows_total,nblkcols_total);
 
     std::cout
-        << "I'm processor " << dbcsr_env->mpi_rank
-        << " over " << dbcsr_env->mpi_size << " proc"
-        << ", (" << dbcsr_env->dbcsr_coords[0] << ", " << dbcsr_env->dbcsr_coords[1] << ") in the 2D grid"
+        << "I'm processor " << dbcsr_env->get_rank()
+        << " over " << dbcsr_env->get_size() << " proc"
+        << ", (" << dbcsr_env->get_coords(0) << ", " << dbcsr_env->get_coords(1) << ") in the 2D grid"
         << std::endl;
 
     // Block sizes
@@ -156,7 +156,7 @@ void run_test(){
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)loc_matrix_a.size()));
-    if (dbcsr_env->mpi_rank == 0) printf("Distribute & Gather: ||A_dist - A_loc|| = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Distribute & Gather: ||A_dist - A_loc|| = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
     // multiply the matrices
@@ -171,7 +171,7 @@ void run_test(){
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)loc_matrix_c.size()));
-    if (dbcsr_env->mpi_rank == 0) printf("Multiplication:      ||C_dist - C_loc|| = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Multiplication:      ||C_dist - C_loc|| = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
     // copy a to b and subtract (a -= b)
@@ -185,7 +185,7 @@ void run_test(){
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)loc_matrix_c.size()));
-    if (dbcsr_env->mpi_rank == 0) printf("Copy & Subtract:     ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Copy & Subtract:     ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
     // restore dist-mats
@@ -197,7 +197,7 @@ void run_test(){
     double ltr = 0.e0;
     for(int ii=0;ii<nrow_tot;ii++) ltr += loc_matrix_a[ii+ii*nrow_tot];
     ddd = fabs(dtr-ltr);
-    if (dbcsr_env->mpi_rank == 0) printf("Trace[A]:            ||Dist-Loc||       = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Trace[A]:            ||Dist-Loc||       = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
 
     // trace ab
@@ -211,7 +211,7 @@ void run_test(){
       }
     }
     ddd = fabs(dtr-ltr);
-    if (dbcsr_env->mpi_rank == 0) printf("Trace[AB]:           ||Dist-Loc||       = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Trace[AB]:           ||Dist-Loc||       = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
     
     // set & set diag
@@ -232,7 +232,7 @@ void run_test(){
       }
     }
     ddd = sqrt(ddd/((double)loc_matrix_c.size()));
-    if (dbcsr_env->mpi_rank == 0) printf("Set & SetDiag:       ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Set & SetDiag:       ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
     // scale
     matrix_b.scale(2.5e0);
@@ -243,7 +243,7 @@ void run_test(){
       ddd += dif*dif;
     }
     ddd = sqrt(ddd/((double)loc_matrix_c.size()));
-    if (dbcsr_env->mpi_rank == 0) printf("Scale:               ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Scale:               ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
     // max. absolute value
     double amv = matrix_b.maxabs();
@@ -253,7 +253,7 @@ void run_test(){
       ddd = (ddd > act ? ddd : act);
     }
     ddd = fabs(ddd-amv);
-    if (dbcsr_env->mpi_rank == 0) printf("abs(max)             ||Dist-Loc||       = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("abs(max)             ||Dist-Loc||       = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     fflush(stdout);
     // gershgorin w/ an inappropriate matrix
     matrix_c.load(loc_matrix_c);
@@ -264,7 +264,7 @@ void run_test(){
     double epsn_dst = 0.e0;
     matrix_c.gershgorin_estimate(eps0_dst,epsn_dst);
     ddd = fabs(((eps0_loc-eps0_dst)+(epsn_loc-epsn_dst))*0.5e0);
-    if (dbcsr_env->mpi_rank == 0)
+    if (dbcsr_env->get_rank() == 0)
       printf("Gershgorin           ||Diff||           = %20.10e --- %s\n                     local = (%e,%e), distr = (%e,%e)\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"),
              eps0_loc,epsn_loc,eps0_dst,epsn_dst);
     fflush(stdout);
@@ -280,14 +280,14 @@ void run_test(){
       ddd = act*act;
     }
     ddd = sqrt(ddd/((double)bmc_ref.size()));
-    if (dbcsr_env->mpi_rank == 0) printf("Write/Read           ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
+    if (dbcsr_env->get_rank() == 0) printf("Write/Read           ||Diff||           = %20.10e --- %s\n",ddd,(ddd < 1e-13 ? "OK" : "FAILED!"));
     // new stuff...
     //void dbcsr::filter(dm_dbcsr* mat_a, double eps);
     fflush(stdout);
     matrix_c.print("matrix_c.print()\n");
     fflush(stdout);
     c_ref = matrix_c.gather();
-    if (dbcsr_env->mpi_rank == 0){
+    if (dbcsr_env->get_rank() == 0){
       printf("(loc_matrix_c):\n");
       for(int irow=0;irow<nrow_tot;irow++){
         for(int icol=0;icol<ncol_tot;icol++){
