@@ -115,6 +115,22 @@ def descr_to_kernel(kernel_descr, source='autotuned'):
     return kernel_algorithm[algo](**params)
 
 
+def to_string(*iterable):
+    mnk_string = '{}x{}x{}'
+    return [mnk_string.format(m, n, k) for m, n, k in iterable]
+
+
+def to_tuple(*iterable):
+    import re
+    mnk_pattern = re.compile('(\d+)x(\d+)x(\d+)')
+    tuple_mnks = list()
+    for mnk in iterable:
+        match_ = mnk_pattern.match(mnk).groups()
+        m, n, k = match_
+        tuple_mnks.append((int(m), int(n), int(k)))
+    return tuple_mnks
+
+
 # ===============================================================================
 # Lists of raw/derived parameters to be computed y algorithm
 raw_parameters = ['m', 'n', 'k',
@@ -125,9 +141,10 @@ raw_parameters_withcompileinfo = raw_parameters + ['regs_per_thread', 'nbytes_sm
 derived_parameters = {
     'common': [
         'mxnxk', 'size_a', 'size_b', 'size_c',
-        'nblks', 'warps_per_blk', 'nwarps', 'sm_desired', 'nthreads',
-        'ru_param_stack_unroll_factor', 'Gflops',
-        'perf_squared', 'perf_scaled', 'perf_scaled_by_algo'
+        # 'nblks', 'nthreads',  # constant value for largeDB, since the grouping is always = 16
+        'sm_desired'
+        # 'warps_per_blk', 'nwarps',  # linearly dependent on threads_per_blk, nthreads
+        # 'ru_param_stack_unroll_factor',  # always = 1 for tiny, added to each algo
     ],
     'tiny': [
         # tiny, small, medium: resource occupation
@@ -144,6 +161,9 @@ derived_parameters = {
 
     ],
     'small': [
+
+        'grouping', 'nblks', 'nthreads',
+
         # tiny, small, medium: resource occupation
         'ru_tinysmallmed_unroll_factor_a', 'ru_tinysmallmed_unroll_factor_a_total',
         'ru_tinysmallmed_unroll_factor_b', 'ru_tinysmallmed_unroll_factor_b_total',
@@ -163,13 +183,17 @@ derived_parameters = {
 
     ],
     'medium': [
+
+        'grouping', 'nblks', 'nthreads',
+
         # tiny, small, medium: resource occupation
         'ru_tinysmallmed_unroll_factor_a', 'ru_tinysmallmed_unroll_factor_a_total',
         'ru_tinysmallmed_unroll_factor_b', 'ru_tinysmallmed_unroll_factor_b_total',
         'ru_tinysmallmed_unroll_factor_c_total',
 
         # medium: resource occupation
-        'load_unroll_factor_1', 'load_unroll_factor_2', 'n_mkloads', 'n_knloads',
+        # 'load_unroll_factor_1', 'load_unroll_factor_2',  # highly correlated with ru_tinysmallmed_unroll_factor_a,b
+        # 'n_mkloads', 'n_knloads',  # constant value
 
         # small, medium: resource occupation
         'ru_smallmed_unroll_factor_c', 'ru_smallmed_loop_matmul',
@@ -240,7 +264,7 @@ derived_parameters_withcompileinfo = {
 # ===============================================================================
 def get_max_performances_per_mnk(data):
     """
-    Get dictionary:
+    Construct dictionary:
         keys: (m, n, k)-tuple,
         values: maximum performance found over all algorithms for this given (m, n, k)
     """
@@ -256,13 +280,75 @@ def get_max_performances_per_mnk(data):
         idx_mnk = np.where(data['mnk'] == mnk)[0].tolist()
 
         # Get performances per mnk
-        perf_mnk_algo = data['perf (Gflop/s)'][idx_mnk]
+        perf_mnk_algo = data['perf (Gflop/s)'].values[idx_mnk]
 
         # Store maxperf
         maxperf = float(perf_mnk_algo.max(axis=0))  # max. performance found through autotuning
         max_perf[mnk] = maxperf
 
     return max_perf
+
+
+# ===============================================================================
+def get_baseline_performances_per_mnk(data, algorithm):
+    """
+    Construct dictionary:
+        keys: (m, n, k)-tuple,
+        values: baseline performance for this given (m, n, k) and the given algorithm
+    """
+    from predict_helpers import baseline
+
+    # Get list of different (m, n, k)s occurring in this instance
+    data['mnk'] = list(zip(data['m'], data['n'], data['k']))
+    mnks = np.unique(data['mnk'])
+
+    # Get baseline performance per (m, n, k)
+    baseline_perf = dict()
+
+    for mnk in mnks:
+        m, n, k = mnk
+        baseline_pars = baseline(m, n, k, algorithm)
+
+        if np.isnan(baseline_pars['tile_m']):
+            idx_baseline = data[
+                (data.m == baseline_pars['m']) &
+                (data.n == baseline_pars['n']) &
+                (data.k == baseline_pars['k']) &
+                (data.threads_per_blk == baseline_pars['threads']) &
+                (data.grouping == baseline_pars['grouping']) &
+                (data.minblocks == baseline_pars['minblocks'])
+            ].index.tolist()
+        elif np.isnan(baseline_pars['w']):
+            idx_baseline = data[
+                (data.m == baseline_pars['m']) &
+                (data.n == baseline_pars['n']) &
+                (data.k == baseline_pars['k']) &
+                (data.threads_per_blk == baseline_pars['threads']) &
+                (data.grouping == baseline_pars['grouping']) &
+                (data.minblocks == baseline_pars['minblocks']) &
+                (data.tile_m == baseline_pars['tile_m']) &
+                (data.tile_n == baseline_pars['tile_n'])
+            ].index.tolist()
+        else:
+            idx_baseline = data[
+                (data.m == baseline_pars['m']) &
+                (data.n == baseline_pars['n']) &
+                (data.k == baseline_pars['k']) &
+                (data.threads_per_blk == baseline_pars['threads']) &
+                (data.grouping == baseline_pars['grouping']) &
+                (data.minblocks == baseline_pars['minblocks']) &
+                (data.tile_m == baseline_pars['tile_m']) &
+                (data.tile_n == baseline_pars['tile_n']) &
+                (data.tile_m == baseline_pars['w']) &
+                (data.tile_n == baseline_pars['v'])
+            ].index.tolist()
+
+        assert len(idx_baseline) == 1
+        idx_baseline = idx_baseline[0]
+
+        baseline_perf[mnk] = data['perf (Gflop/s)'][idx_baseline]
+
+    return baseline_perf
 
 
 # ===============================================================================
@@ -283,8 +369,7 @@ class PredictiveParameters:
         self.atomicAdd_factor = 5
 
         if not partial_initialization:
-            assert "threads" in params_df.columns.values
-            params_df.rename(columns={'threads': 'threads_per_blk'}, inplace=True)
+            assert "threads_per_blk" in params_df.columns.values
             assert "grouping" in params_df.columns.values
             assert "minblocks" in params_df.columns.values
             algos = np.unique(params_df["algorithm"].values)
@@ -296,8 +381,9 @@ class PredictiveParameters:
                 if algo in ['largeDB1', 'largeDB2']:
                     assert "w" in params_df.columns.values
                     assert "v" in params_df.columns.values
+
             # Possible additional fields, if compilation information is available:
-            # 'nbytes_smem', 'regs_per_thread'
+            # 'nbytes_smem', 'regs_per_thread', nytes_cmem
 
         self.params = params_df
 
@@ -321,7 +407,7 @@ class PredictiveParameters:
         :param feature_names: list of names of features to compute
         """
         for feat in feature_names:
-            self.params[feat] = self.get(feat)
+            self.params.loc[:, feat] = self.get(feat)
         return self.params[feature_names]
 
     # ===============================================================================
@@ -527,20 +613,21 @@ class PredictiveParameters:
             self.autotuning['npars'] * self.get('grouping') * self.autotuning['sizeof_int'])
 
     def get_ru_tiny_nblks_per_sm(self):
-        """Occupancy estimation: assumption (verified on a sample of mnks): nblks is always limited by number of threads"""
+        """Occupancy estimation: assumption (verified on a sample of mnks): nblks is always limited by number of threads
+        for algorithm tiny"""
         return self.get('nblocks_per_sm_lim_blks_warps')
 
     def get_ru_tiny_nwarps_per_sm(self):
-        return self.get('nblks_per_sm') * self.get('warps_per_blk')
+        return self.get('ru_tiny_nblks_per_sm') * self.get('warps_per_blk')
 
     def get_ru_tiny_nsm(self):
-        return np.ceil(self.get('nblks') / self.get('nblks_per_sm'))
+        return np.ceil(self.get('nblks') / self.get('ru_tiny_nblks_per_sm'))
 
     def get_ru_tiny_ngpu(self):
-        return np.ceil(self.get('nsm') / self.gpu['Multiprocessors'])
+        return np.ceil(self.get('ru_tiny_nsm') / self.gpu['Multiprocessors'])
 
     def get_ru_tiny_occupancy(self):
-        return self.get('nwarps_per_sm') / self.gpu['Warps_/_Multiprocessor']
+        return self.get('ru_tiny_nwarps_per_sm') / self.gpu['Warps_/_Multiprocessor']
 
     # ===============================================================================
     # Resource usage (small, medium, large)

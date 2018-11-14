@@ -17,7 +17,7 @@ import pickle
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from kernels.cusmm_dnt_helper import kernel_algorithm, compatible_mnk
+from kernels.cusmm_dnt_helper import kernel_algorithm, compatible_mnk, round_up_to_nearest_multiple
 
 
 # ===============================================================================
@@ -76,6 +76,44 @@ def performance_gain(baseline, current):
                      for m, n, k in sorted(current.keys())]))
 
 
+def baseline(m, n, k, algorithm='medium'):
+    """Compute a baseline parameter set, whose performance can be compared against"""
+
+    grp = 16
+    minblk = 2
+    tm = np.NaN
+    tn = np.NaN
+    w = np.NaN
+    v = np.NaN
+
+    if algorithm == 'tiny':
+        min_threads = m * n
+
+    elif algorithm in ['small', 'medium', 'largeDB1', 'largeDB2']:
+        tm = 2
+        tn = 2
+        cmax = (n + tn - 1) // tn
+        rmax = (m + tm - 1) // tm
+        min_threads = cmax * rmax
+
+        if algorithm in ['largeDB1', 'largeDB2']:
+            w = 8
+            v = 8
+            if 2 * w > k:
+                w = 4
+
+    else:
+        assert False, "Cannot recognize algorithm " + algorithm
+
+    return {'m': m, 'n': n, 'k': k,
+            'algorithm': algorithm,
+            'threads': round_up_to_nearest_multiple(min_threads, 32),
+            'grouping': grp, 'minblocks': minblk,
+            'tile_m': tm, 'tile_n': tn,
+            'w': w, 'v': v,
+            'perf': 0, 'source': 'predicted'}
+
+
 def plot_training_data(Y, X_mnk, folder, algo, file_name):
     import re
     import matplotlib.pyplot as plt
@@ -117,37 +155,44 @@ def relative_performance_gain(baseline, current):
                      for m, n, k in sorted(current.keys())]))
 
 
-def plot_absolute_performance_gain(perf_gain, mnk_names, baseline_name, current_name, file_name=''):
+def plot_absolute_performance_gain(perf_gain, mnk_names, baseline_name, current_name, pp=None):
     mnk_products = [m*n*k for m, n, k in sorted(perf_gain.keys(), key=lambda x: x[0]*x[1]*x[2])]
-    plt.plot(mnk_products, list(perf_gain.values()), '.', markersize=1)
+
+    plt.figure()
+    plt.plot(mnk_products, list(perf_gain.values()), '.', markersize=3)
+    plt.plot([mnk_products[0], mnk_products[-1]], [0, 0], '-r')
     plt.xlabel(mnk_names + ' (m, n, k) triplets (in order of increasing m*n*k)')
     plt.ylabel('Performance Gain [Gflops]')
     plt.title('Performance gain of ' + current_name + ' VS ' + baseline_name + ' parameter set')
-    if file_name != '':
-        plt.savefig(file_name)
+    if pp is not None:
+        pp.savefig()
     else:
         plt.show()
 
 
-def plot_relative_performance_gain(rel_perf_gain, mnk_names, baseline_name, current_name, file_name=''):
+def plot_relative_performance_gain(rel_perf_gain, mnk_names, baseline_name, current_name, pp=None):
     mnk_products = [m*n*k for m, n, k in sorted(rel_perf_gain.keys(), key=lambda x: x[0]*x[1]*x[2])]
-    plt.plot(mnk_products, 100*np.array(list(rel_perf_gain.values())), '.', markersize=1)
+
+    plt.figure()
+    plt.plot(mnk_products, 100*np.array(list(rel_perf_gain.values())), '.', markersize=3)
+    plt.plot([mnk_products[0], mnk_products[-1]], [0, 0], '-r')
     plt.xlabel(mnk_names + ' (m, n, k) triplets (in order of increasing m*n*k)')
     plt.ylabel('Performance Gain [%]')
     plt.title('Relative performance gain of ' + current_name + ' VS ' + baseline_name + ' parameter set')
-    if file_name != '':
-        plt.savefig(file_name)
+    if pp is not None:
+        pp.savefig()
     else:
         plt.show()
 
 
-def plot_performance_gains(perf_gain1, perf_gain2, mnk_names, perf_gain1_name, perf_gain2_name, file_name=''):
-    mnks = [(m, n, k) for m, n, k in sorted(perf_gain1.keys(), key=lambda x: x[0]*x[1]*x[2])]
-    mnk_products = [m*n*k for m, n, k in sorted(perf_gain1.keys(), key=lambda x: x[0]*x[1]*x[2])]
+def plot_performance_gains(perf_gain1, perf_gain2, mnk_names, perf_gain1_name, perf_gain2_name, pp=None):
+    mnks = [(m, n, k) for m, n, k in sorted(perf_gain2.keys(), key=lambda x: x[0]*x[1]*x[2])]
+    mnk_products = [m*n*k for m, n, k in sorted(perf_gain2.keys(), key=lambda x: x[0]*x[1]*x[2])]
     res1 = [perf_gain1[mnk] for mnk in mnks]
     res2 = [perf_gain2[mnk] for mnk in mnks]
 
-    marker_size = 1
+    marker_size = 3
+    plt.figure()
     plt.plot(mnk_products, res1, '.', markersize=marker_size)
     plt.plot(mnk_products, res2, '.', color='#d62728', markersize=marker_size)
     plt.xlabel(mnk_names + ' (m, n, k) triplets (in order of increasing m*n*k)')
@@ -155,13 +200,86 @@ def plot_performance_gains(perf_gain1, perf_gain2, mnk_names, perf_gain1_name, p
     plt.xscale('log')
     plt.legend([perf_gain1_name, perf_gain2_name])
     plt.title('Performance of ' + perf_gain1_name + ' and ' + perf_gain2_name + ' parameter set')
-    if file_name != '':
-        plt.savefig(file_name)
+    if pp is not None:
+        pp.savefig()
     else:
         plt.show()
 
 
-def plot_choice_goodness(m, n, k, path_to_training_data, file_name=''):
+def plot_scaled_performance_gains(perf_gain1, perf_gain2, mnk_names, perf_gain1_name, perf_gain2_name, pp=None):
+    mnks = [(m, n, k) for m, n, k in sorted(perf_gain2.keys(), key=lambda x: x[0]*x[1]*x[2])]
+    mnk_products = [m*n*k for m, n, k in sorted(perf_gain2.keys(), key=lambda x: x[0]*x[1]*x[2])]
+    res1 = np.array([perf_gain1[mnk] for mnk in mnks])
+    res2 = np.array([perf_gain2[mnk] for mnk in mnks])
+
+    marker_size = 3
+    plt.figure()
+    plt.plot(mnk_products, 100*res1, '.', markersize=marker_size)
+    plt.plot(mnk_products, 100*res2, '.', color='#d62728', markersize=marker_size)
+    plt.xlabel(mnk_names + ' (m, n, k) triplets (in order of increasing m*n*k)')
+    plt.ylabel('Scaled performance [%]')
+    plt.xscale('log')
+    plt.legend([perf_gain1_name, perf_gain2_name])
+    plt.title('Performance of ' + perf_gain1_name + ' and ' + perf_gain2_name + ' parameter set')
+    if pp is not None:
+        pp.savefig()
+    else:
+        plt.show()
+
+
+def plot_choice_goodness(m, n, k, baseline_performances, max_performances, y_true, y_pred, train, folder, scaled=True):
+
+    # Sort in ascending performances
+    data_mnk = pd.DataFrame()
+    if scaled:
+        data_mnk['perf_true'] = (100 * y_true.flatten()).tolist()
+        data_mnk['perf_pred'] = (100 * y_pred).tolist()
+    else:
+        data_mnk['perf_true'] = y_true.flatten().tolist()
+        data_mnk['perf_pred'] = y_pred.tolist()
+    data_mnk.sort_values(by='perf_true', inplace=True)
+
+    # Plot
+    plt.figure()
+    marker_size = 1
+    par_set_ids = range(len(data_mnk.index.values))
+    plt.plot(par_set_ids, data_mnk['perf_true'], 'b.', markersize=marker_size, label='measured performances')
+    plt.xlabel('Parameter set id')
+    plt.ylabel('Performance scaled [%]')
+    plt.title('Performance profile of parameter sets for ' + str((m, n, k)) + '-triplet')
+
+    # Annotate
+    x = [0, len(y_true)]
+    y = np.array([1, 1])
+    perf_num = "{:2.2f}"
+
+    # autotuning
+    perf_autotuned_algo = data_mnk['perf_true'].max()
+    plt.plot(x, perf_autotuned_algo * y, 'k-', label='max (for this algo): ' + perf_num.format(perf_autotuned_algo))
+
+    # chosen
+    idx_perf_chosen = data_mnk['perf_pred'].idxmax()
+    perf_chosen = data_mnk['perf_true'][idx_perf_chosen]
+    plt.plot(x, perf_chosen * y, 'r-', label='chosen: ' + perf_num.format(perf_chosen))
+
+    # baseline
+    mnk_string = "{}x{}x{}"
+    if scaled:
+        # baseline = per algo, scale it to 0-1
+        perf_baseline = 100 * baseline_performances[mnk_string.format(m, n, k)] / max_performances["{}x{}x{}".format(m, n, k)]
+    else:
+        perf_baseline = baseline_performances[mnk_string.format(m, n, k)]
+    plt.plot(x, perf_baseline * y, 'g-', label='baseline: ' + perf_num.format(perf_baseline))
+
+    type = 'train' if train else 'test'
+    plot_file_path = os.path.join(folder, "choice_plot_" + type + '_' +
+                                  str(m) + 'x' + str(n) + 'x' + str(k) + ".svg")
+    plt.legend(loc="lower right")
+    plt.savefig(plot_file_path)
+    print(plot_file_path)
+
+
+def plot_choice_goodness_old(m, n, k, path_to_training_data, perf_type, file_name=''):
 
     # Read data corresponding to the given mnk
     chunksize = 100000
@@ -171,19 +289,42 @@ def plot_choice_goodness(m, n, k, path_to_training_data, file_name=''):
     for algo in compatible_algos:
 
         # I should actually be loading the raw parameters
+        data_algo_file_raw = os.path.join(path_to_training_data, 'raw_training_data_' + algo + '.csv')
+        reader_raw = pd.read_csv(data_algo_file_raw, index_col=0, chunksize=chunksize, iterator=True),
 
-        data_algo_file_pars = os.path.join(path_to_training_data, 'train_all_' + algo + '_X.csv')
-        reader_pars = pd.read_csv(data_algo_file_pars, index_col=0, chunksize=chunksize, iterator=True),
-        data_algo_file_mnk = os.path.join(path_to_training_data, 'train_all_' + algo + '_X_mnk.csv')
-        reader_mnk = pd.read_csv(data_algo_file_mnk, index_col=0, chunksize=chunksize, iterator=True),
-        data_algo_file_pers = os.path.join(path_to_training_data, 'train_all_' + algo + '_Y_perf.csv')
-        reader_perf = pd.read_csv(data_algo_file_pers, index_col=0, chunksize=chunksize, iterator=True),
+        data_algo_file_derived = os.path.join(path_to_training_data, 'training_data_' + algo + '.csv')
+        reader_derived = pd.read_csv(data_algo_file_derived, index_col=0, chunksize=chunksize, iterator=True),
 
-        for chunk_pars, chunk_mnk, chunk_perf in zip(reader_pars, reader_mnk, reader_perf):
+        for chunk_raw, chunk_derived in zip(reader_raw, reader_derived):
 
-            chunk_pars = chunk_pars.read()
-            chunk_mnk = chunk_mnk.read()
-            chunk_perf = chunk_perf.read()
+            chunk_raw = chunk_raw.read()
+            chunk_derived = chunk_derived.read()
+
+            # ===============================================================================
+            # Read 'X'
+            to_drop = list()
+            if algo in ['tiny', 'small', 'medium']:
+                to_drop = ['w', 'v']
+                if algo in ['tiny']:
+                    to_drop += ['tile_m', 'tile_n']
+            chunk_pars = pd.concat([chunk_raw.drop(to_drop + ['perf (Gflop/s)'], axis=1),
+                                    chunk_derived.drop(['perf_squared', 'perf_scaled', 'perf_scaled_by_algo'], axis=1)],
+                                   axis=1)
+
+            # ===============================================================================
+            # Read 'Y'
+            chunk_perf = pd.DataFrame()
+            if perf_type == 'perf':
+                chunk_perf[perf_type] = chunk_raw[perf_type + ' (Gflop/s)']
+            else:
+                chunk_perf[perf_type] = chunk_derived[perf_type]
+
+            # ===============================================================================
+            # Construct 'X_mnk'
+            chunk_mnk = pd.DataFrame()
+            chunk_mnk['mnk'] = chunk_pars['m'].astype(str) + 'x' + chunk_pars['n'].astype(str) + 'x' + chunk_pars['k'].astype(str)
+
+            # ===============================================================================
             idx_mnk = np.where(chunk_mnk == mnk)[0].tolist()
             if len(idx_mnk) > 0:
                 df_tmp = chunk_pars.iloc[idx_mnk]
