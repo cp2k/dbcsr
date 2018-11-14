@@ -10,7 +10,7 @@
 
 
 from kernels.cusmm_dnt import Kernel
-from kernels.cusmm_dnt_helper import round_up_to_multiple
+from kernels.cusmm_dnt_helper import round_up_to_nearest_multiple
 
 
 class Kernel_dnt_largeDB1(Kernel):
@@ -91,7 +91,7 @@ class Kernel_dnt_largeDB1(Kernel):
 
                                 # Max work ("operations") which can be run concurrently
                                 max_concurrent_work = max(grouping, m*w, w*n, m*v, cmax*rmax)
-                                if threads > round_up_to_multiple(max_concurrent_work, gpu["Threads_/_Warp"]):
+                                if threads > round_up_to_nearest_multiple(max_concurrent_work, gpu["Threads_/_Warp"]):
                                     continue  # heuristics: too much concurrency harms performance
 
                                 # Shared memory buffer size
