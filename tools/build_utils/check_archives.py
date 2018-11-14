@@ -1,31 +1,32 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+Check that a static archive contains only the objects specified in the PACKAGES files.
+"""
+
 # author: Ole Schuett
 
-import sys, os
+from __future__ import print_function
+
+import sys
 import subprocess
+import os
 from os import path
-from glob import glob
-from sets import Set
+
 
 KNOWN_EXTENSIONS = ("F", "c", "cu", "cpp", "cxx", "cc", )
 
-#=============================================================================
-def main():
-    if(len(sys.argv) != 4):
-        print("Usage: check_archives.py <ar-executable> <src-dir> <lib-dir>")
-        sys.exit(1)
 
-    ar_exe  = sys.argv[1]
-    src_dir = sys.argv[2]
-    lib_dir = sys.argv[3]
-
+def main(ar_exe, src_dir, lib_dir):
     # Search all files belonging to a given archive
-    archives_files={}
-    for root, dirs, files in os.walk(src_dir):
+    archives_files = {}
+
+    for root, _, files in os.walk(src_dir):
         if "PACKAGE" in files:
-            content = open(path.join(root,"PACKAGE")).read()
+            with open(path.join(root, "PACKAGE")) as fhandle:
+                content = fhandle.read()
+
             package = eval(content)
 
             archive = "libdbcsr" + path.basename(root)
@@ -36,38 +37,33 @@ def main():
             src_basenames = [parts[0] for parts in file_parts if parts[-1] in KNOWN_EXTENSIONS]
 
             if archive in archives_files:
-                archives_files[archive] |= Set(src_basenames)
+                archives_files[archive] |= set(src_basenames)
             else:
-                archives_files[archive] = Set(src_basenames)
+                archives_files[archive] = set(src_basenames)
 
     # Check if the symbols in each archive have a corresponding source file
     for archive in archives_files:
         archive_fn = path.join(lib_dir, archive+".a")
-        if(not path.exists(archive_fn)):
+
+        if not path.exists(archive_fn):
             continue
 
-        output = check_output([ar_exe, "t", archive_fn])
-        for line in output.strip().split("\n"):
-            if(line == "__.SYMDEF SORTED"): continue  # needed for MacOS
-            assert(line.endswith(".o"))
-            if(line[:-2] not in archives_files[archive]):
-                print("Could not find source for object %s in archive %s , removing archive."%(line, archive_fn))
+        output = subprocess.check_output([ar_exe, "t", archive_fn])
+        for line in output.decode('utf8').strip().splitlines():
+            if line == "__.SYMDEF SORTED":
+                continue  # needed for MacOS
+
+            assert line.endswith(".o"), "discovered a non-object file inside a static archive"
+
+            if line[:-2] not in archives_files[archive]:
+                print("Could not find source for object '{}' in archive '{}', removing archive."
+                      .format(line, archive_fn))
                 os.remove(archive_fn)
                 break
 
+if __name__ == '__main__':
+    if len(sys.argv) != 4:
+        print("Usage: check_archives.py <ar-executable> <src-dir> <lib-dir>")
+        sys.exit(1)
 
-#=============================================================================
-def check_output(*popenargs, **kwargs):
-    """ backport for Python 2.4 """
-    p = subprocess.Popen(stdout=subprocess.PIPE, *popenargs, **kwargs)
-    output = p.communicate()[0]
-    assert(p.wait() == 0)
-    return output.decode()
-
-#=============================================================================
-if(len(sys.argv)==2 and sys.argv[-1]=="--selftest"):
-    pass #TODO implement selftest
-else:
-    main()
-
-#EOF
+    main(sys.argv[1], sys.argv[2], sys.argv[3])

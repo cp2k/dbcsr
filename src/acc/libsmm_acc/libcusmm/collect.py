@@ -1,91 +1,88 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+####################################################################################################
+# Copyright (C) by the DBCSR developers group - All rights reserved                                #
+# This file is part of the DBCSR library.                                                          #
+#                                                                                                  #
+# For information on the license, see the LICENSE file.                                            #
+# For further information please visit https://dbcsr.cp2k.org                                      #
+# SPDX-License-Identifier: GPL-2.0+                                                                #
+####################################################################################################
 
 import sys
 import os
-from os import path
-from os.path import basename
 from glob import glob
-from itertools import product, chain
-from optparse import OptionParser
 import re
-from pprint import pprint
+import json
+from kernels.cusmm_dnt_helper import descr_to_kernel
 
-re_mnk    = re.compile("tune_(\d+)x(\d+)x(\d+)_")
-re_winner = re.compile("\nWINNER: \d+ (.+)\n")
-re_gflops = re.compile("# ([0-9.]+) GFlop/s")
-re_errors = re.compile("Number of errors: (\d+)\n")
+re_mnk    = re.compile(r"tune_(\d+)x(\d+)x(\d+)_")
+re_winner = re.compile(r"\nWINNER: \d+ (.+)\n")
+re_gflops = re.compile(r"# ([0-9.]+) GFlop/s")
+re_errors = re.compile(r"Number of errors: (\d+)\n")
+
 
 #===============================================================================
 def main():
     winners = dict()
 
     for d in glob("tune_*"):
-        if(not path.isdir(d)):
+        if not os.path.isdir(d):
             continue
 
         for exe_fn in glob(d+"/tune_*main.cu"):
             mnk = tuple([int(i) for i in re_mnk.search(exe_fn).groups()])
             log_fn = exe_fn.replace("_main.cu", ".log")
-            if(not path.exists(log_fn)):
+            if not os.path.exists(log_fn):
                 winners[mnk] = "log missing: "+log_fn
                 continue
 
             process_log(log_fn, mnk, winners)
 
-    f = open("parameters.txt","w")
-    f.write("# *****************************************************************************\n")
-    f.write("# * CP2K: A general program to perform molecular dynamics simulations         *\n")
-    f.write("# * Copyright (C) 2000 - 2018  CP2K developers group                          *\n")
-    f.write("# *****************************************************************************\n")
-    f.write("\n[\n")
+    # Get kernel objects from list of strings
+    kernels = [descr_to_kernel(kernel_descr) for kernel_descr in winners.values()]
+    with open("parameters.json", 'w') as f:
+        s = json.dumps([kernel.as_dict for kernel in kernels])
+        s = s.replace('}, ', '},\n')
+        s = s.replace('[', '[\n')
+        s = s.replace(']', '\n]')
+        f.write(s)
 
-    for w in sorted(winners.values()):
-        f.write("  "+w+"\n")
-
-    f.write("]\n\n#EOF\n")
-    f.close()
-
-    print("Wrote parameters.txt")
-    ##pprint(winners)
+    print("Wrote parameters.json")
 
 #===============================================================================
 def process_log(log_fn, mnk, winners):
     print("Reading: "+log_fn)
 
-    f = open(log_fn)
-    #f.seek(-1000, os.SEEK_END)
-    content = f.read()
-    f.close()
+    with open(log_fn) as f:
+        content = f.read()
 
     m = re_errors.search(content)
-    if(not m):
+    if not m:
         winners[mnk] = "log incomplete: "+log_fn
         return
 
     n_errors = int(m.group(1))
-    if(n_errors != 0):
+    if n_errors != 0:
         winners[mnk] = "errors: "+log_fn
         return
 
     old_gflops = 0.0
-    if(winners.has_key(mnk)):
+    if mnk in winners.keys():
         m = re_gflops.search(winners[mnk])
-        if(not m):
+        if not m:
             return
         old_gflops = float(m.group(1))
 
     new_winner = re_winner.search(content).group(1).strip().replace("GFlops","GFlop/s")
     new_gflops = float(re_gflops.search(new_winner).group(1))
 
-    if(new_gflops > old_gflops):
+    if new_gflops > old_gflops :
         winners[mnk] = new_winner
 
 
 #===============================================================================
-if(len(sys.argv)==2 and sys.argv[-1]=="--selftest"):
+if len(sys.argv)==2 and sys.argv[-1]=="--selftest":
     pass #TODO implement selftest
 else:
     main()
-
-#EOF

@@ -38,27 +38,27 @@ set(DBCSR_TESTS
   dbcsr_test_csr_conversions
   )
 
+# Common object files linked to all tests
+set(dbcsr_unittest_common_SRCS
+  dbcsr_test_add.F
+  dbcsr_test_multiply.F
+  )
+
 # For each test, set a variable testname_SRCS defining the sources of that test
-set(dbcsr_unittest1_SRCS
-  dbcsr_unittest1.F
-  dbcsr_test_add.F
-  dbcsr_test_multiply.F
-  )
+set(dbcsr_unittest1_SRCS dbcsr_unittest1.F)
+set(dbcsr_unittest2_SRCS dbcsr_unittest2.F)
+set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
+set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
 
-set(dbcsr_unittest2_SRCS
-  dbcsr_unittest2.F
-  dbcsr_test_add.F
-  dbcsr_test_multiply.F
-  )
-
-set(dbcsr_tensor_unittest_SRCS
-  dbcsr_tensor_unittest.F)
-set(dbcsr_test_csr_conversions_SRCS
-  dbcsr_test_csr_conversions.F)
+# instead of building a full-blown lib, it would be better to simply build an OBJECT lib,
+# but we would need cmake 3.12 to be able to specify target_link_libraries on those to get
+# the proper compile flags
+add_library(dbcsr_unittest_common STATIC ${dbcsr_unittest_common_SRCS})
+target_link_libraries(dbcsr_unittest_common dbcsr)
 
 foreach (dbcsr_test ${DBCSR_TESTS})
   add_executable(${dbcsr_test} ${${dbcsr_test}_SRCS})
-  target_link_libraries(${dbcsr_test} dbcsr)
+  target_link_libraries(${dbcsr_test} dbcsr_unittest_common)
   # register unittest executable with CMake
   if (USE_MPI)
     add_test(NAME ${dbcsr_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ${dbcsr_test} ${MPIEXEC_POSTFLAGS})
@@ -67,3 +67,25 @@ foreach (dbcsr_test ${DBCSR_TESTS})
   endif ()
   set_tests_properties(${dbcsr_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${num_threads})
 endforeach ()
+
+if (USE_CUDA)
+  set(LIBCUSMM_TESTS
+    libcusmm_unittest_multiply
+    libcusmm_unittest_transpose
+    libcusmm_timer_multiply
+    )
+
+  set(CMAKE_CUDA_FLAGS "-arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
+
+  foreach (libcusmm_test ${LIBCUSMM_TESTS})
+    add_executable(${libcusmm_test} ${libcusmm_test}.cu)
+    target_link_libraries(${libcusmm_test} dbcsr)
+    # register unittest executable with CMake
+    if (USE_MPI)
+      add_test(NAME ${libcusmm_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ${libcusmm_test} ${MPIEXEC_POSTFLAGS})
+    else ()
+      add_test(NAME ${libcusmm_test} COMMAND ${libcusmm_test})
+    endif ()
+    set_tests_properties(${libcusmm_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${num_threads})
+  endforeach ()
+endif ()

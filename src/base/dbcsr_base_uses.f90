@@ -1,3 +1,12 @@
+!--------------------------------------------------------------------------------------------------!
+! Copyright (C) by the DBCSR developers group - All rights reserved                                !
+! This file is part of the DBCSR library.                                                          !
+!                                                                                                  !
+! For information on the license, see the LICENSE file.                                            !
+! For further information please visit https://dbcsr.cp2k.org                                      !
+! SPDX-License-Identifier: GPL-2.0+                                                                !
+!--------------------------------------------------------------------------------------------------!
+
 ! Basic use statements and preprocessor macros
 ! should be included in the use statements
 
@@ -18,7 +27,13 @@
 #define __LOCATION__ dbcsr__l(__SHORT_FILE__,__LINE__)
 #define DBCSR_WARN(msg) CALL dbcsr__w(__SHORT_FILE__,__LINE__,msg)
 #define DBCSR_ABORT(msg) CALL dbcsr__b(__SHORT_FILE__,__LINE__,msg)
-#define DBCSR_ASSERT(cond) IF(.NOT.(cond))CALL dbcsr__a(__SHORT_FILE__,__LINE__)
+
+! DBCSR_ASSERT can be elided if NDEBUG is defined.
+#if defined(NDEBUG)
+# define DBCSR_ASSERT(cond)
+#else
+# define DBCSR_ASSERT(cond) IF(.NOT.(cond))CALL dbcsr__a(__SHORT_FILE__,__LINE__)
+#endif
 
 ! The MARK_USED macro can be used to mark an argument/variable as used.
 ! It is intended to make it possible to switch on -Werror=unused-dummy-argument,
@@ -26,3 +41,16 @@
 ! This code should be valid for any Fortran variable, is always standard conforming,
 ! and will be optimized away completely by the compiler
 #define MARK_USED(foo) IF(.FALSE.)THEN; DO ; IF(SIZE(SHAPE(foo))==-1) EXIT ;  END DO ; ENDIF
+
+! Calculate version number from 3-components. Can be used for comparison e.g.,
+! TO_VERSION(4, 9, 0) <= TO_VERSION(__GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__)
+#define TO_VERSION(MAJOR, MINOR, UPDATE) ((MAJOR) * 10000 + (MINOR) * 100 + (UPDATE))
+
+! LIBXSMM has a FORTRAN-suitable header with macro/version definitions (since v1.8.2).
+! Allows macro-toggles (in addition to parameters).
+#if defined(__LIBXSMM)
+#include <libxsmm_config.h>
+#if !defined(LIBXSMM_CONFIG_VERSION)
+#error LIBXSMM v1.8.2 or later is required!
+#endif
+#endif

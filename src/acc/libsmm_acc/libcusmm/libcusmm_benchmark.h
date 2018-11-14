@@ -68,4 +68,3 @@ int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
                                   CUevent start, CUevent stop, char** kernel_descr,
                                   TransposeLauncher* launcher);
 #endif
-//EOF

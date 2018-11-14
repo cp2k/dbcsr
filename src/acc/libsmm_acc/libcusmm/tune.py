@@ -1,41 +1,44 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+####################################################################################################
+# Copyright (C) by the DBCSR developers group - All rights reserved                                #
+# This file is part of the DBCSR library.                                                          #
+#                                                                                                  #
+# For information on the license, see the LICENSE file.                                            #
+# For further information please visit https://dbcsr.cp2k.org                                      #
+# SPDX-License-Identifier: GPL-2.0+                                                                #
+####################################################################################################
 
 import sys
 import os
-from os import path
-from os.path import basename
+import json
 from glob import glob
-from itertools import product, chain
+from itertools import product
 from optparse import OptionParser
+from kernels.cusmm_dnt_helper import kernel_algorithm, params_dict_to_kernel
 
-from kernels.cusmm_dnt_largeDB1 import Kernel_dnt_largeDB1
-from kernels.cusmm_dnt_largeDB2 import Kernel_dnt_largeDB2
-from kernels.cusmm_dnt_medium   import Kernel_dnt_medium
-from kernels.cusmm_dnt_small    import Kernel_dnt_small
-from kernels.cusmm_dnt_tiny     import Kernel_dnt_tiny
 
-ALL_KERNELS = (Kernel_dnt_tiny, Kernel_dnt_small, Kernel_dnt_medium, Kernel_dnt_largeDB1, Kernel_dnt_largeDB2,)
+ALL_KERNELS = tuple(kernel_algorithm.values())
 
 #===============================================================================
 # Correspondance between CUDA compute versions and parameter_file
 arch_number = {
-    "parameters_K20X.txt": 35, 
-    "parameters_K40.txt": 35,
-    "parameters_K80.txt": 37,
-    "parameters_P100.txt": 60
+    "parameters_K20X.json": 35,
+    "parameters_K40.json": 35,
+    "parameters_K80.json": 37,
+    "parameters_P100.json": 60
 }
 
 #===============================================================================
 def main():
     usage = "Usage: tune.py <blocksize 1> ... <blocksize N>"
     parser = OptionParser(usage)
-    parser.add_option("-p", "--params", metavar="filename.txt",
-        default="parameters_P100.txt",
+    parser.add_option("-p", "--params", metavar="filename.json",
+        default="parameters_P100.json",
         help="Default: %default")
 
     (options, args) = parser.parse_args(sys.argv)
-    if(len(sys.argv) < 2):
+    if len(sys.argv) < 2:
         print(usage)
         sys.exit(1)
 
@@ -43,27 +46,30 @@ def main():
     param_fn = options.params
     assert param_fn in arch_number.keys(), "Cannot find compute version for file " + param_fn
     arch = arch_number[param_fn]
-    all_kernels = eval(open(param_fn).read())
+    with open('kernels/gpu_properties.json') as f:
+        gpu_properties = json.load(f)["sm_" + str(arch)]
+    with open(param_fn) as f:
+        all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
     print("Libcusmm: Found %d existing parameter sets."%len(all_kernels))
 
     blocksizes = [int(i) for i in args[1:]]
-    assert(len(set(blocksizes)) == len(blocksizes))
+    assert len(set(blocksizes)) == len(blocksizes)
     blocksizes.sort()
 
     triples  = combinations(*blocksizes)
 
     for (m, n, k)  in triples:
         existing = [kern for kern in all_kernels if kern.can_handle(m,n,k)]
-        if(existing):
+        if existing:
             print("Found existing parameter set for %dx%dx%d, skipping."%(m,n,k))
             continue
 
         outdir = "tune_%dx%dx%d/"%(m,n,k)
-        if(path.exists(outdir)):
+        if os.path.exists(outdir):
             print("Directory %s exists already, skipping."%outdir)
             continue
         os.mkdir(outdir)
-        gen_benchmark(outdir, m, n, k)
+        gen_benchmark(outdir, gpu_properties, m, n, k)
         gen_jobfile(outdir, m, n, k)
         gen_makefile(outdir, arch)
 
@@ -73,28 +79,40 @@ def main():
 #===============================================================================
 def format_params(params):
     output = []
-    order = ['m','n','k','tile_m', 'tile_n', 'w', 'v', 'split_thread', 'threads', 'blockdim', 'grouping']
+    order = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'split_thread', 'threads', 'blockdim', 'grouping']
     for k in order:
-        if(params.has_key(k)):
+        if params.has_key(k):
             output.append("%s=%d"%(k, params[k]))
 
     for k in params.keys():
-        if(k not in order):
+        if k not in order:
             output.append("%s=%d"%(k, params[k]))
 
-    return("(" + ", ".join(output) +")")
+    return "(" + ", ".join(output) +")"
 
 
 
 #===============================================================================
-def gen_benchmark(outdir, m, n, k):
+def gen_benchmark(outdir, gpu_properties, m, n, k):
     includes = []
     launcher_codes = []
     launchers = []
     kernel_descr = []
 
-    for kernclass in ALL_KERNELS:
-        params = kernclass.promising_parameters(m, n, k)
+    # Get the kernels compatible with the given size: 
+    compatible_kernels = list(ALL_KERNELS)
+    max_sizes = max(m*k, n*k, m*n) 
+    if max_sizes > 64: 
+        compatible_kernels.remove(Kernel_dnt_tiny) 
+    if max_sizes > 128:
+        compatible_kernels.remove(Kernel_dnt_small) 
+    if max_sizes < 250:
+        compatible_kernels.remove(Kernel_dnt_largeDB1) 
+        compatible_kernels.remove(Kernel_dnt_largeDB2) 
+
+
+    for kernclass in compatible_kernels:
+        params = kernclass.promising_parameters(m, n, k, gpu_properties)
         if(params == 0):
             continue
 
@@ -106,7 +124,7 @@ def gen_benchmark(outdir, m, n, k):
             kernel_descr.append(kernclass.__name__ + format_params(p))
 
     print("Found %d parameter sets for %dx%dx%d"%(len(launchers), m, n, k))
-    if(len(launchers)==0): return
+    if len(launchers)==0: return
     #assert(len(launchers)> 0)
 
     incl_output = '#include "../kernels/cusmm_common.h"\n'
@@ -155,7 +173,7 @@ def gen_benchmark(outdir, m, n, k):
 #===============================================================================
 def gen_jobfile(outdir, m, n, k):
     t = "/tune_%dx%dx%d"%(m,n,k)
-    all_exe_src = [basename(fn) for fn in glob(outdir+t+"_*_main.cu")]
+    all_exe_src = [os.path.basename(fn) for fn in glob(outdir+t+"_*_main.cu")]
     all_exe = sorted([fn.replace("_main.cu", "") for fn in all_exe_src])
 
     output  = "#!/bin/bash -l\n"
@@ -199,7 +217,7 @@ def gen_jobfile(outdir, m, n, k):
 def gen_makefile(outdir, arch):
     output  = ".SECONDARY:\n"
     output += "vpath %.cu ../\n\n"
-    all_exe_src = sorted([basename(fn) for fn in glob(outdir+"/tune_*_main.cu")])
+    all_exe_src = sorted([os.path.basename(fn) for fn in glob(outdir+"/tune_*_main.cu")])
     build_targets = [fn.replace("_main.cu", "") for fn in all_exe_src]
 
     output += ".PHONY: do_nothing build_all \n\n"
@@ -215,7 +233,7 @@ def gen_makefile(outdir, arch):
 
     for exe_src in all_exe_src:
         absparts = sorted(glob(outdir+"/"+exe_src.replace("_main.cu", "_part*")))
-        parts = [basename(fn) for fn in absparts]
+        parts = [os.path.basename(fn) for fn in absparts]
         deps = [exe_src, "libcusmm_benchmark.cu"] + parts
         deps_obj = " ".join([fn.replace(".cu", ".o") for fn in deps])
         exe = exe_src.replace("_main.cu", "")
@@ -239,28 +257,21 @@ def gen_collect(outdir, triples):
 
 #===============================================================================
 def writefile(fn, content):
-    if(path.exists(fn)):
-        f = open(fn, "r")
-        old_content = f.read()
-        f.close()
-        if(old_content == content):
+    if os.path.exists(fn):
+        with open(fn, "r") as f:
+            old_content = f.read()
+        if old_content == content:
             return
 
-    f = open(fn, "w")
-    f.write(content)
-    f.close()
-
-    #print("Wrote: "+fn)
+    with open(fn, "w") as f:
+        f.write(content)
 
 #===============================================================================
 def combinations(*sizes):
-     return(list(product(sizes, sizes, sizes)))
+     return list(product(sizes, sizes, sizes))
 
 #===============================================================================
 if(len(sys.argv)==2 and sys.argv[-1]=="--selftest"):
     pass #TODO implement selftest
 else:
     main()
-
-#EOF
-

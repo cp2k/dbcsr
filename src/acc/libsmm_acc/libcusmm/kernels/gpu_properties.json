@@ -1,0 +1,32 @@
+{
+    "info": {
+        "header": "Hardware-dependent constraints (GPU P100, compute capability 6.0)", 
+        "source": "CUDA occupancy calculator", 
+        "source_url": "http://developer.download.nvidia.com/compute/cuda/CUDA_Occupancy_calculator.xls"
+    }, 
+    "sm_35": {
+        "warp_size": 32,
+        "maxTHREADSperBLOCK": 1024,
+        "maxTHREADSperSM": 2048,
+        "maxBLOCKSperSM": 16,
+        "SMEMperBLOCK": 49152,
+        "SMEMperSM": 49152
+    },
+    "sm_37": {
+        "warp_size": 32,
+        "maxTHREADSperBLOCK": 1024,
+        "maxTHREADSperSM": 2048,
+        "maxBLOCKSperSM": 16,
+        "SMEMperBLOCK": 49152,
+        "SMEMperSM": 114688
+    },
+    "sm_60": {
+        "warp_size": 32, 
+        "maxTHREADSperBLOCK": 1024,
+        "maxTHREADSperSM": 2048,
+        "maxBLOCKSperSM": 32,
+        "SMEMperBLOCK": 49152,
+        "SMEMperSM": 65536
+    }
+}
+

@@ -37,4 +37,3 @@ inline void get_libcusmm_triplets(std::vector<Triplet>& v, std::unordered_map<Tr
 }
 
 #endif
-//EOF

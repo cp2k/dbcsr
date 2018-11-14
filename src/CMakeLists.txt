@@ -1,5 +1,7 @@
 
 include(fypp-sources)
+include(GNUInstallDirs)  # required to get a proper LIBDIR variable
+include(CMakePackageConfigHelpers)
 
 add_fypp_sources(DBCSR_SRCS
   dbcsr_api.F
@@ -89,16 +91,106 @@ add_fypp_sources(DBCSR_SRCS
   work/dbcsr_work_operations.F
   )
 
+set(DBCSR_CUDA_SRCS
+  acc/cuda/acc_cuda_dev.cu
+  acc/cuda/acc_cuda_error.cu
+  acc/cuda/acc_cuda_event.cu
+  acc/cuda/acc_cuda_mem.cu
+  acc/cuda/acc_cuda_stream.cu
+  acc/cuda/acc_cuda_init.cu
+  acc/cublaswrap/cublas.cu
+  )
+
 add_library(dbcsr ${DBCSR_SRCS})
-target_link_libraries(dbcsr ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${MPI_Fortran_LIBRARIES})
-target_include_directories(dbcsr PRIVATE base) # do not export those includes
-# but make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
-target_include_directories(dbcsr PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}) 
+
+if (TARGET PkgConfig::deps)
+  target_link_libraries(dbcsr PRIVATE PkgConfig::deps)
+endif ()
+
+if (USE_SMM MATCHES "libxsmm")
+  # linker/include flags are managed by pkg-config (above)
+  target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
+endif ()
+
+if (BLAS_LIBRARIES MATCHES "mkl_")
+  target_compile_definitions(dbcsr PRIVATE __MKL)
+endif ()
+
+# from https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html
+function(CUDA_CONVERT_FLAGS EXISTING_TARGET)
+    get_property(old_flags TARGET ${EXISTING_TARGET} PROPERTY INTERFACE_COMPILE_OPTIONS)
+    if(NOT "${old_flags}" STREQUAL "")
+        string(REPLACE ";" "," CUDA_flags "${old_flags}")
+        set_property(TARGET ${EXISTING_TARGET} PROPERTY INTERFACE_COMPILE_OPTIONS
+            "$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CXX>>:${old_flags}>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CUDA>>:-Xcompiler=${CUDA_flags}>"
+            )
+    endif()
+endfunction()
+
+if (USE_CUDA)
+  set(CMAKE_CUDA_FLAGS "-arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
+
+  target_link_libraries(dbcsr PRIVATE cuda)
+
+  # add libcusmm which has its own CMakeLists.txt due to code generation
+  add_subdirectory(acc/libsmm_acc/libcusmm)
+  target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:libcusmm>)
+  target_link_libraries(dbcsr PRIVATE nvrtc)
+
+  # add the rest of the CUDA sources directly to the main lib
+  target_sources(dbcsr PRIVATE ${DBCSR_CUDA_SRCS})
+
+  # tests need some of the libcusmm headers and for CMake <3.12
+  # compatibility, we can't set it on the the object library itself
+  target_include_directories(dbcsr PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc/libcusmm>
+    )
+
+  # workaround for CUDA support with CMake <3.13, see also
+  # see https://gitlab.kitware.com/cmake/cmake/issues/17929
+  # and https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html
+  if (OpenMP_FOUND)
+    cuda_convert_flags(OpenMP::OpenMP_Fortran)
+  endif ()
+  if (MPI_FOUND)
+    cuda_convert_flags(MPI::MPI_Fortran)
+  endif ()
+
+  if (USE_CUBLAS)
+    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC=2)
+    target_link_libraries(dbcsr PRIVATE ${CUBLAS})
+  else ()
+    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
+  endif ()
+
+  if (APPLE)
+    # Help the static cuda runtime find the driver (libcuda.dyllib) at runtime.
+    set_property(TARGET dbcsr PROPERTY BUILD_RPATH ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
+  endif ()
+endif ()
+
+if (APPLE)
+  # fix /proc/self/statm can not be opened on macOS
+  target_compile_definitions(dbcsr PRIVATE __NO_STATM_ACCESS)
+endif()
+
+target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
+target_include_directories(dbcsr PRIVATE base) # do not export those includes, but some srcs do an unprefixed include
+# make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
+target_include_directories(dbcsr PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+  )
 target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL)
 set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
 
+if (OpenMP_FOUND)
+  target_link_libraries(dbcsr PRIVATE OpenMP::OpenMP_Fortran)
+endif ()
+
 if (MPI_FOUND)
-  # once built, a user of the dbcsr library can not influence anything anmore by setting those flags:
+  # once built, a user of the dbcsr library can not influence anything anymore by setting those flags:
   target_compile_definitions(dbcsr PRIVATE __parallel __MPI_VERSION=${MPI_Fortran_VERSION_MAJOR})
 
   # Instead of resetting the compiler for MPI, we are adding the compiler flags
@@ -108,8 +200,7 @@ if (MPI_FOUND)
   # as the Fortran compiler we found prior. Otherwise we might be adding incompatible
   # compiler flags at this point.
   # when built against MPI, a dbcsr consumer has to specify the MPI flags as well, therefore: PUBLIC
-  target_compile_options(dbcsr PUBLIC ${MPI_Fortran_COMPILE_FLAGS})
-  target_include_directories(dbcsr PUBLIC ${MPI_Fortran_INCLUDE_DIRS})
+  target_link_libraries(dbcsr PUBLIC MPI::MPI_Fortran)
 endif ()
 
 # set the __SHORT_FILE__ per file for dbcsr sources
@@ -128,5 +219,53 @@ if (WITH_C_API)
   set_target_properties(dbcsr_c PROPERTIES
     LINKER_LANGUAGE Fortran
     COMPILE_FLAGS "${F2008_COMPILER_FLAGS}")
-  target_link_libraries(dbcsr_c dbcsr)
+  target_link_libraries(dbcsr_c PRIVATE dbcsr)
+  target_link_libraries(dbcsr_c PUBLIC MPI::MPI_C)  # the C API always needs MPI
+  target_include_directories(dbcsr_c PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    )
 endif ()
+
+set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+set(config_namespace "DBCSR::")
+
+# Install targets:
+install(TARGETS dbcsr
+  EXPORT DBCSRTargets
+  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/dbcsr_api.mod"
+  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+
+if (WITH_C_API)
+  install(TARGETS dbcsr_c
+    EXPORT DBCSRTargets
+    COMPONENT C
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    )
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/dbcsr.h"
+    COMPONENT C
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+    )
+endif()
+
+configure_package_config_file(cmake/DBCSRConfig.cmake.in
+  "${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake"
+  INSTALL_DESTINATION "${config_install_dir}"
+  )
+write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake"
+  VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+  COMPATIBILITY SameMajorVersion
+  )
+install(EXPORT DBCSRTargets
+  NAMESPACE "${config_namespace}"
+  DESTINATION "${config_install_dir}"
+  )
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake
+  DESTINATION ${config_install_dir}
+  )

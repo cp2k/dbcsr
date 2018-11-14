@@ -27,5 +27,3 @@ __global__ void transpose_d(int *trs_stack, double* mat){
  }
 
 }
-
-//EOF

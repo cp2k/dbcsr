@@ -1,87 +1,60 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+####################################################################################################
+# Copyright (C) by the DBCSR developers group - All rights reserved                                #
+# This file is part of the DBCSR library.                                                          #
+#                                                                                                  #
+# For information on the license, see the LICENSE file.                                            #
+# For further information please visit https://dbcsr.cp2k.org                                      #
+# SPDX-License-Identifier: GPL-2.0+                                                                #
+####################################################################################################
 
 import sys
-import os
-import operator
-import fileinput
-from os import path
+import json
 from optparse import OptionParser
+from kernels.cusmm_dnt_helper import params_dict_to_kernel
+
 
 def main():
-    usage = "Write a new kernel parameter file as an unique merge of an old parameter file and a new one called parameters.txt as created by collect.py"
+    usage = "Write a new kernel parameter file as an unique merge of an old parameter file and a new one called " + \
+            "parameters.json as created by collect.py. If a kernel (m, n, k) is listed in both the old parameter" + \
+            "file and the new parameter file, retain its parameters as defined in the new parameter file."
     parser = OptionParser(usage)
-    parser.add_option("-p", "--params", metavar="filename.txt",
-          default="parameters_P100.txt",
+    parser.add_option("-p", "--params", metavar="filename.json",
+          default="parameters_P100.json",
           help="Default: %default")
 
     (options, args) = parser.parse_args()
-    assert(len(args) == 0)
+    assert len(args) == 0
     param_fn = options.params
 
-    list = []
-    f = fileinput.input(files=(param_fn, "parameters.txt"))
-    for line in f:
-       if line.find("Kernel") > -1:
-          i1 = line.find("m=") + 2
-          i2 = line[i1:].find(",")
-          m = int(line[i1:i1+i2])
-          i1 = line.find("n=") + 2
-          i2 = line[i1:].find(",")
-          n = int(line[i1:i1+i2])
-          i1 = line.find("k=") + 2
-          i2 = line[i1:].find(",")
-          k = int(line[i1:i1+i2])
-          list.append([m,n,k,line.rstrip("\n")])
-    f.close()
+    # Read new kernel parameters
+    with open("parameters.json") as f:
+        new_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
 
-    f = open("parameters.new","w")
-    f.write("# *****************************************************************************\n")
-    f.write("# * CP2K: A general program to perform molecular dynamics simulations         *\n")
-    f.write("# * Copyright (C) 2000 - 2018  CP2K developers group                          *\n")
-    f.write("# *****************************************************************************\n")
-    f.write("\n[\n")
+    # Read old kernel parameters
+    with open(param_fn) as f:
+        old_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
 
-    sorted_list = sorted(list)
-    i = 0
-    while i < len(sorted_list):
-       m1 = sorted_list[i][0]
-       n1 = sorted_list[i][1]
-       k1 = sorted_list[i][2]
-       i1 = sorted_list[i][3].find("#") + 2
-       i2 = sorted_list[i][3].find("GFlop") - 1
-       pwin = float(sorted_list[i][3][i1:i2])
-       iwin = i
-       j = i
-       while j < len(sorted_list):
-          if j == len(sorted_list) - 1:
-             break
-          j += 1
-          m = sorted_list[j][0]
-          n = sorted_list[j][1]
-          k = sorted_list[j][2]
-          i1 = sorted_list[j][3].find("#") + 2
-          i2 = sorted_list[j][3].find("GFlop") - 1
-          p = float(sorted_list[j][3][i1:i2])
-          if m == m1 and n == n1 and k == k1:
-             if p > pwin:
-                pwin = p
-                iwin = j
-             i = j
-          else:
-             break
-       f.write(sorted_list[iwin][3]+"\n")
-       i += 1
+    # Merge two parameter lists
+    kernels_dict = dict(zip([(k.m, k.n, k.k) for k in old_kernels], old_kernels))
+    new_kernels_dict = dict(zip([(k.m, k.n, k.k) for k in new_kernels], new_kernels))
+    kernels_dict.update(new_kernels_dict)
 
-    f.write("]\n\n#EOF\n")
-    f.close()
+    # Write kernel parameters to new file
+    new_file = "parameters.new.json"
+    with open(new_file, 'w') as f:
+        s = json.dumps([kernels_dict[kernel].as_dict for kernel in sorted(kernels_dict.keys())])
+        s = s.replace('}, ', '},\n')
+        s = s.replace('[', '[\n')
+        s = s.replace(']', '\n]')
+        f.write(s)
 
-    print("Wrote parameters.new")
+    print("Wrote", new_file)
+
 
 #===============================================================================
-if(len(sys.argv)==2 and sys.argv[-1]=="--selftest"):
+if len(sys.argv)==2 and sys.argv[-1]=="--selftest":
     pass #TODO implement selftest
 else:
     main()
-
-#EOF

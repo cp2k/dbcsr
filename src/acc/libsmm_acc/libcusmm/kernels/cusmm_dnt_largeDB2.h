@@ -325,5 +325,3 @@ cusmm_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
     }
   }
 }
-
-//EOF

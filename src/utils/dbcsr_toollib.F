@@ -1,6 +1,10 @@
 !--------------------------------------------------------------------------------------------------!
-!   CP2K: A general program to perform molecular dynamics simulations                              !
-!   Copyright (C) 2000 - 2018  CP2K developers group                                               !
+! Copyright (C) by the DBCSR developers group - All rights reserved                                !
+! This file is part of the DBCSR library.                                                          !
+!                                                                                                  !
+! For information on the license, see the LICENSE file.                                            !
+! For further information please visit https://dbcsr.cp2k.org                                      !
+! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
 ! **************************************************************************************************
@@ -21,6 +25,7 @@ MODULE dbcsr_toollib
    USE dbcsr_kinds,                     ONLY: int_4,&
                                               int_8,&
                                               real_8
+#include "../base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
@@ -218,6 +223,14 @@ CONTAINS
 !>       we return already the index in the table as a final result
 ! **************************************************************************************************
    FUNCTION joaat_hash(key) RESULT(hash_index)
+      ! LIBXSMM: at least v1.9.0-6 is required
+#if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
+      USE libxsmm
+      INTEGER, PARAMETER                                 :: seed = 0
+      INTEGER, DIMENSION(:), INTENT(IN)                  :: key
+      INTEGER                                            :: hash_index
+      hash_index = libxsmm_hash(key, seed)
+#else
       INTEGER, DIMENSION(:), INTENT(IN)                  :: key
       INTEGER                                            :: hash_index
 
@@ -241,6 +254,7 @@ CONTAINS
       ! In fortran 4-byte-integers have only 31 bits because they are signed
       ! In fortran the rightmost (least significant) bit is in position 0
       hash_index = INT(IBCLR(hash, 31))
+#endif
    END FUNCTION joaat_hash
 
 ! **************************************************************************************************

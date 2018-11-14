@@ -62,4 +62,3 @@ int libcusmm_transpose_d(int *trs_stack, int offset, int nblks, double *buffer,
                          int m, int n, CUstream stream);
 
 #endif
-//EOF

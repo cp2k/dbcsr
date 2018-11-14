@@ -1,61 +1,72 @@
 # -*- coding: utf-8 -*-
+####################################################################################################
+# Copyright (C) by the DBCSR developers group - All rights reserved                                #
+# This file is part of the DBCSR library.                                                          #
+#                                                                                                  #
+# For information on the license, see the LICENSE file.                                            #
+# For further information please visit https://dbcsr.cp2k.org                                      #
+# SPDX-License-Identifier: GPL-2.0+                                                                #
+####################################################################################################
 
-class Kernel_dnt_tiny(object):
-    def __init__(self, **params):
-        self.__dict__.update(params)
-        self.name  = "cusmm_dnt_tiny_"
-        self.name += "_".join([str(params[k]) for k in sorted(params.keys())])
-        assert(self.m * self.n <= self.threads)
+from kernels import cusmm_dnt as cu
 
-    def __repr__(self):
-        return("<%s>"%self.name)
 
-    def can_handle(self, m, n, k):
-        return(self.m==m and self.n==n and self.k==k)
+class Kernel_dnt_tiny(cu.Kernel):
 
-    def include(self):
-        return("cusmm_dnt_tiny.h")
+    algorithm = "tiny"
+    algorithm_num = 5
+    launch_parameters = ['m', 'n', 'k', 'threads', 'grouping', 'minblocks']
 
-    def launcher_code(self):
-       output  = "int launch_"+self.name+"(int *param_stack, int stack_size, "
-       output += "cudaStream_t stream, int m_max, int n_max, int k_max, "
-       output += "double *a_data, double *b_data, double *c_data){\n"
-       output += "int shared_size = 0;\n"
-       output += "//%s\n"%str(self.__dict__)
-       output += "typedef void (*kernel)(const int*, int, const double*, const double*, double*);\n"
-       output += "static kernel kern_func = cusmm_dnt_tiny<%(m)d,%(n)d,%(k)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n"%self.__dict__
-       output += "static bool configured = false;\n"
-       output += "if(configured == false){\n"
-       output += "  cudaError_t err = cudaFuncSetSharedMemConfig(kern_func, cudaSharedMemBankSizeEightByte);\n"
-       output += "  if(err != cudaSuccess) return(-1);\n"
-       output += "  configured = true;\n"
-       output += "}\n"
-       output += "kern_func<<< ((stack_size + %(grouping)d - 1) / %(grouping)d), %(threads)d, shared_size, stream >>>\n"%self.__dict__
-       output += "(param_stack, stack_size, \n"
-       output += "a_data, b_data, c_data);\n"
-       output += "return(0);\n"
-       output += "}\n"
-       return(output)
+    def __init__(self, m, n, k, threads, grouping, minblocks, perf):
+        self.m = m
+        self.n = n
+        self.k = k
+        self.threads = threads
+        self.grouping = grouping
+        self.minblocks = minblocks
+        self.perf = perf
+        assert self.m * self.n <= self.threads
+
+    @property
+    def func_signature(self):
+        return "cusmm_dnt_tiny<%(m)d,%(n)d,%(k)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n" % self.__dict__
 
     @staticmethod
-    def promising_parameters(m, n, k):
-        params = []
-        for minblocks in (7, 8, 14, 28):              # heuristic: kernel dependent optimum
-            for grouping in range(1, 33, 1):          # soft: divide stack work in chunks of grouping + the rest
-                for threads in (16, 32, 64):          # heuristic: not more than 2 warps per SM (sm_60)
-                    if (m * n > threads):
-                       continue                       # hard: not enough threads to cover result matrix
-                
-                    buf_sz = k * (m + n)
-                    sizeof_int = 4; sizeof_double = 8
-                    smem_tot = buf_sz * sizeof_double + 3 * grouping * sizeof_int
-                    if (smem_tot * minblocks > 48 * 1024): # hard: see cudaFuncSetCacheConfig() docu
-                       continue                       # hard: uses too much shared memory
-                
-                    params.append({'m':m, 'n':n, 'k':k,
-                                   'threads':threads,
-                                   'grouping':grouping,
-                                   'minblocks':minblocks})
-        return(params)
+    def promising_parameters(m, n, k, gpu):
 
-#EOF
+        # Shared memory buffer size
+        buf_sz = k * (m + n)   # number of elements in the a_block buffer = mk, and in the b_block buffer = kn
+
+        # Minimum number of threads required to cover the result matrix c
+        min_threads = m*n 
+
+        # Parameter space: 
+        params = []
+        for minblocks in range(1, gpu["maxBLOCKSperSM"] + 1):
+            for grouping in range(2, 32 + 1, 1):  # heuristic: never seen optimal=1 hence start from 2
+            
+                # Max work ("operations")  which can be run concurrently
+                max_concurrent_work = max(grouping, m*k, k*n, m*n)
+
+                # Shared memory utilisation (bytes)
+                smem_tot = buf_sz * cu.sizeof_double + cu.npar * grouping * cu.sizeof_int
+                if smem_tot > gpu["SMEMperBLOCK"]:
+                    continue
+                if smem_tot * minblocks > gpu["SMEMperSM"]:
+                    continue
+
+                # Use all concurrency available: fill warps
+                for threads in range(gpu["warp_size"], gpu["maxTHREADSperBLOCK"] + 1, gpu["warp_size"]):
+
+                    if threads > cu.round_up_to_multiple(max_concurrent_work, gpu["warp_size"]): 
+                        continue  # soft: too much concurrency harms performance
+                    if threads * minblocks > gpu["maxTHREADSperSM"]:
+                        continue
+                    if threads < min_threads: 
+                        continue
+
+                    params.append({'m': m, 'n': n, 'k': k,
+                                   'threads': threads,
+                                   'grouping': grouping,
+                                   'minblocks': minblocks})
+        return params
