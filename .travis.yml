@@ -126,3 +126,6 @@ jobs:
       # the following 2 lines work around an issue in TravisCI with draft=true:
       tag_name: $TRAVIS_TAG
       target_commitish: $TRAVIS_COMMIT
+      on:
+        repo: cp2k/dbcsr
+        tags: true  # default is "restricted by branch"
