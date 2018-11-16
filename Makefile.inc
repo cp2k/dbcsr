@@ -84,7 +84,7 @@ endif
 
 ifneq (0,$(MPI))
   ifneq (0,$(GNU)) # DEFAULT, just edit...
-    CXX = mpigxx
+    CXX = mpicxx
     CC  = mpigcc
     FC  = mpif90
     LD  = mpif90
