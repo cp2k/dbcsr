@@ -206,7 +206,6 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=underflow \
               -Werror=unused-but-set-variable -Werror=unused-variable \
               -Werror=unused-dummy-argument -Werror=conversion \
-              -Werror=zerotrip \
               -Werror=uninitialized -Wno-maybe-uninitialized \
               -Werror
 
