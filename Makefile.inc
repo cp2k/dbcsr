@@ -205,9 +205,9 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=tabs -Werror=realloc-lhs-all -Werror=target-lifetime \
               -Werror=underflow \
               -Werror=unused-but-set-variable -Werror=unused-variable \
-              -Werror=unused-dummy-argument -Werror=conversion
+              -Werror=unused-dummy-argument -Werror=conversion \
               -Werror=zerotrip \
-              -Werror=uninitialized -Wno-maybe-uninitialized -Wuse-without-only \
+              -Werror=uninitialized -Wno-maybe-uninitialized \
               -Werror
 
 FCFLAGS    += $(WFLAGS)
