@@ -36,7 +36,7 @@
 # e.g. make `VARIABLE=value` (multiple variables are possible):
 # 1) MPI=0    : disable MPI compilation
 # 2) GNU=0    : disable GNU compiler compilation and enable Intel compiler compilation
-# 3) CHECKS=1 : enable GNU compiler checks
+# 3) CHECKS=1 : enable GNU compiler checks and DBCSR asserts
 # 4) CINT=1   : generate the C interface
 # 5) GPU=1    : enable GPU support
 #
@@ -88,7 +88,7 @@ ifneq (0,$(MPI))
     CC  = mpigcc
     FC  = mpif90
     LD  = mpif90
-    AR  = gcc-ar -r
+    AR  = ar -r
   else
     # Intel compiler
     CXX = mpiicpc
@@ -134,8 +134,6 @@ endif
 #                            regular release builds may carry assertions for safety.
 #
 
-FCFLAGS +=  -DNDEBUG
-
 ifneq (0,$(GNU)) # DEFAULT, just edit...
   CXXFLAGS += -std=c++11
   FCFLAGS  += -fopenmp -std=f2003 -ffree-form -fimplicit-none -ffree-line-length-512
@@ -157,7 +155,7 @@ LDFLAGS     += $(FCFLAGS)
 #
 # C interface requires new F2008ts standard
 
-ifneq ($(CINT),)
+ifeq ($(CINT),1)
 FCFLAGS    := $(subst -std=f2003,-std=f2008ts,$(FCFLAGS))
 endif
 
@@ -179,7 +177,7 @@ LIBS        = -L${LAPACK_PATH}/lib -llapack -lblas
 #
 # GPU compilation. Use `make GPU=1` to enable it.
 
-ifneq ($(GPU),)
+ifeq ($(GPU),1)
 NVCC        = nvcc
 FCFLAGS    += -D__DBCSR_ACC
 GPUVER      = K40
@@ -202,20 +200,23 @@ ifneq (0,$(GNU))
 WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=intrinsic-shadow -Werror=intrinsics-std \
               -Werror=line-truncation \
-              -Werror=tabs -Werror=realloc-lhs-all -Werror=target-lifetime \
+              -Werror=tabs -Werror=target-lifetime \
               -Werror=underflow \
               -Werror=unused-but-set-variable -Werror=unused-variable \
               -Werror=unused-dummy-argument -Werror=conversion \
-              -Werror=uninitialized -Wno-maybe-uninitialized \
-              -Werror
+              -Werror=uninitialized -Wno-maybe-uninitialized
 
 FCFLAGS    += $(WFLAGS)
 
-ifneq ($(CHECKS),)
+ifeq ($(CHECKS),1)
 FCFLAGS    += -fsanitize=leak
 FCFLAGS    += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
 endif
 
+endif
+
+ifneq ($(CHECKS),1)
+FCFLAGS +=  -DNDEBUG
 endif
 
 #######################################################################################
