@@ -2003,6 +2003,8 @@
     IF ( ierr /= 0 ) CALL mp_stop( ierr, "mpi_allgather @ "//routineN )
 #else
     MARK_USED(gid)
+    MARK_USED(msgin)
+    MARK_USED(msgout)
     request = mp_request_null
     DBCSR_ABORT("mp_iallgather requires MPI-3 standard")
 #endif
@@ -4059,4 +4061,3 @@
 #endif
    END SUBROUTINE mp_free_mem_${nametype1}$
 #:endfor
-
