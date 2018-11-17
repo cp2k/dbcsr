@@ -1988,7 +1988,7 @@ CONTAINS
                CASE (dbcsr_filter_frobenius)
                   !
                   ! Frobenius based
-                  nrm_s = SQRT(SDOT(SIZE(data_s), data_s(1), 1, data_s(1), 1))
+                  nrm_s = SQRT(REAL(SDOT(SIZE(data_s), data_s(1), 1, data_s(1), 1), KIND=real_4))
                   IF (nrm_s .LT. my_absolute*eps%r_sp) &
                      CALL dbcsr_remove_block(matrix, row, col, blk_nze, blk)
                CASE DEFAULT
