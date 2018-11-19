@@ -172,6 +172,10 @@ endif ()
 if (APPLE)
   # fix /proc/self/statm can not be opened on macOS
   target_compile_definitions(dbcsr PRIVATE __NO_STATM_ACCESS)
+
+  if (BLAS_LIBRARIES MATCHES "Accelerate")
+    target_compile_definitions(dbcsr PRIVATE __ACCELERATE)
+  endif ()
 endif()
 
 target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
