@@ -77,6 +77,15 @@ jobs:
     - make -j
     - make CTEST_OUTPUT_ON_FAILURE=1 test
   - # run this in parallel with the other builds
+    name: "Build and test NDEBUG version with cmake"
+    script:
+    - mkdir -p build
+    - cd build
+    # aim to cover all code paths hence enable MPI+OpenMP
+    - cmake -DCMAKE_BUILD_TYPE=Coverage -DTEST_MPI_RANKS=1 -DNDEBUG=ON ..
+    - make -j
+    - make CTEST_OUTPUT_ON_FAILURE=1 test
+  - # run this in parallel with the other builds
     name: "Build and test OpenMP version with cmake"
     script:
     - mkdir -p build

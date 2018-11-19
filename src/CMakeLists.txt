@@ -103,6 +103,10 @@ set(DBCSR_CUDA_SRCS
 
 add_library(dbcsr ${DBCSR_SRCS})
 
+if (USE_NDEBUG)
+  target_compile_definitions(dbcsr PRIVATE NDEBUG)
+endif ()
+
 if (TARGET PkgConfig::deps)
   target_link_libraries(dbcsr PRIVATE PkgConfig::deps)
 endif ()
