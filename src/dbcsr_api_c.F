@@ -152,8 +152,6 @@ CONTAINS
       TYPE(dbcsr_distribution_type), POINTER             :: dist
       TYPE(dbcsr_type), POINTER                          :: matrix
 
-!character(len=*),pointer                :: fname
-
       ! associate pointers
       row_blk_sizes => c_row_blk_sizes
       col_blk_sizes => c_col_blk_sizes
