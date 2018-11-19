@@ -11,8 +11,14 @@
 ! **************************************************************************************************
 
 MODULE dbcsr_vector
-   USE dbcsr_api,                       ONLY: dbcsr_copy,&
-                                              dbcsr_create,&
+   USE dbcsr_work_operations,           only: dbcsr_create  
+   use dbcsr_operations,                only: dbcsr_copy
+   use dbcsr_types,                     only: dbcsr_type, dbcsr_distribution_obj
+   use dbcsr_methods,                   only: dbcsr_release
+   use dbcsr_block_access,              only: dbcsr_reserve_all_blocks
+
+
+   USE dbcsr_api,                       ONLY: &
                                               dbcsr_distribution_get,&
                                               dbcsr_distribution_new,&
                                               dbcsr_distribution_release,&
@@ -38,9 +44,9 @@ MODULE dbcsr_vector
                                               dbcsr_type_real_8,&
                                               dbcsr_type_real_8,&
                                               dbcsr_type_symmetric
-   USE kinds,                           ONLY: real_4,&
+   USE dbcsr_kinds,                           ONLY: real_4,&
                                               real_8
-   USE message_passing,                 ONLY: mp_bcast,&
+   USE dbcsr_mpiwrap,                 ONLY: mp_bcast,&
                                               mp_sum
 
 
@@ -55,7 +61,7 @@ MODULE dbcsr_vector
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_vector_operations'
 
 !    ! the following types provide fast access to distributed dbcsr vectors
-#include "hash_table_types.f90"
+#include "../utils/hash_table_types.f90"
 
    TYPE block_ptr_d
       REAL(real_8), DIMENSION(:, :), POINTER          :: ptr => NULL()
@@ -114,23 +120,31 @@ CONTAINS
 
       INTEGER                                            :: handle, npcols, data_type
       INTEGER, DIMENSION(:), POINTER                     :: row_blk_size, col_blk_size, row_dist, col_dist
-      TYPE(dbcsr_distribution_type)                      :: dist_col_vec, dist
+      TYPE(dbcsr_distribution_obj)                      :: dist_col_vec, dist
 
       CALL timeset(routineN, handle)
 
-      CALL dbcsr_get_info(matrix, data_type=data_type, row_blk_size=row_blk_size, distribution=dist)
-      CALL dbcsr_distribution_get(dist, npcols=npcols, row_dist=row_dist)
+      !CALL dbcsr_get_info(matrix, data_type=data_type, row_blk_size=row_blk_size, distribution=dist)
+      data_type=data_type = matrix % data_type
+      row_blk_size        = matrix % row_blk_size
+      dist                = matrix % dist
+      
+      !CALL dbcsr_distribution_get(dist, npcols=npcols, row_dist=row_dist)
+      npcols   = dist % npcols
+      row_dist = dist % row_dist
 
       ALLOCATE (col_dist(1), col_blk_size(1))
       col_dist(1) = 0
       col_blk_size(1) = ncol
-      CALL dbcsr_distribution_new(dist_col_vec, template=dist, row_dist=row_dist, col_dist=col_dist)
-
+      !CALL dbcsr_distribution_new(dist_col_vec, template=dist, row_dist=row_dist, col_dist=col_dist)
+      call dbcsr_distribution_new(dist_col_vec, dist % d % mp_env, row_dist_block=row_dist, col_dist_block=col_dist)      
+      
       CALL dbcsr_create(dbcsr_vec, "D", dist_col_vec,&
                         matrix_type=dbcsr_type_no_symmetry, &
                         row_blk_size=row_blk_size,&
                         col_blk_size=col_blk_size, &
                         nze=0, data_type=data_type)
+      
       CALL dbcsr_reserve_all_blocks(dbcsr_vec)
 
       CALL dbcsr_distribution_release(dist_col_vec)
@@ -156,17 +170,24 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
 
       INTEGER                                            :: handle, nprows, data_type
       INTEGER, DIMENSION(:), POINTER                     :: row_blk_size, col_blk_size, row_dist, col_dist
-      TYPE(dbcsr_distribution_type)                      :: dist_row_vec, dist
+      TYPE(dbcsr_distribution_obj)                      :: dist_row_vec, dist
 
       CALL timeset(routineN, handle)
 
-      CALL dbcsr_get_info(matrix, data_type=data_type, col_blk_size=col_blk_size, distribution=dist)
-      CALL dbcsr_distribution_get(dist, nprows=nprows, col_dist=col_dist)
+      !CALL dbcsr_get_info(matrix, data_type=data_type, col_blk_size=col_blk_size, distribution=dist)
+      data_type=data_type = matrix % data_type
+      col_blk_size        = matrix % col_blk_size
+      dist                = matrix % dist
+      
+      !CALL dbcsr_distribution_get(dist, nprows=nprows, col_dist=col_dist)
+      npcols   = dist % nprows
+      col_dist = dist % col_dist
 
       ALLOCATE (row_dist(1), row_blk_size(1))
       row_dist(1) = 0
       row_blk_size(1) = nrow
-      CALL dbcsr_distribution_new(dist_row_vec, template=dist, row_dist=row_dist, col_dist=col_dist)
+      !CALL dbcsr_distribution_new(dist_row_vec, template=dist, row_dist=row_dist, col_dist=col_dist)
+      call dbcsr_distribution_new(dist_row_vec, dist % d % mp_env, row_dist_block=row_dist, col_dist_block=col_dist)      
 
       CALL dbcsr_create(dbcsr_vec, "D", dist_row_vec,&
                         matrix_type=dbcsr_type_no_symmetry, &
@@ -199,18 +220,25 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
 
       INTEGER                                            :: handle, npcols, data_type, i
       INTEGER, DIMENSION(:), POINTER                     :: row_blk_size, col_blk_size, row_dist, col_dist
-      TYPE(dbcsr_distribution_type)                      :: dist_col_vec, dist
+      TYPE(dbcsr_distribution_obj)                      :: dist_col_vec, dist
       CALL timeset(routineN, handle)
 
-      CALL dbcsr_get_info(matrix, data_type=data_type, row_blk_size=row_blk_size, distribution=dist)
-      CALL dbcsr_distribution_get(dist, npcols=npcols, row_dist=row_dist)
+      !CALL dbcsr_get_info(matrix, data_type=data_type, row_blk_size=row_blk_size, distribution=dist)
+      data_type=data_type = matrix % data_type
+      row_blk_size        = matrix % row_blk_size
+      dist                = matrix % dist
+      
+      !CALL dbcsr_distribution_get(dist, npcols=npcols, row_dist=row_dist)
+      npcols   = dist % npcols
+      row_dist = dist % row_dist
 
       ALLOCATE (col_dist(npcols), col_blk_size(npcols))
       col_blk_size(:) = ncol
       DO i = 0, npcols-1
          col_dist(i+1) = i
       END DO
-      CALL dbcsr_distribution_new(dist_col_vec, template=dist, row_dist=row_dist, col_dist=col_dist)
+      !CALL dbcsr_distribution_new(dist_col_vec, template=dist, row_dist=row_dist, col_dist=col_dist)
+      call dbcsr_distribution_new(dist_row_vec, dist % d % mp_env, row_dist_block=row_dist, col_dist_block=col_dist)      
 
       CALL dbcsr_create(dbcsr_vec, "D", dist_col_vec, &
                         matrix_type=dbcsr_type_no_symmetry, &
@@ -247,15 +275,22 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
 
       CALL timeset(routineN, handle)
 
-      CALL dbcsr_get_info(matrix, distribution=dist, col_blk_size=col_blk_size, data_type=data_type)
-      CALL dbcsr_distribution_get(dist, nprows=nprows, col_dist=col_dist)
+      !CALL dbcsr_get_info(matrix, distribution=dist, col_blk_size=col_blk_size, data_type=data_type)
+      data_type=data_type = matrix % data_type
+      col_blk_size        = matrix % col_blk_size
+      dist                = matrix % dist
+      
+      !CALL dbcsr_distribution_get(dist, nprows=nprows, col_dist=col_dist)
+      npcols   = dist % nprows
+      col_dist = dist % col_dist
 
       ALLOCATE (row_dist(nprows), row_blk_size(nprows))
       row_blk_size(:) = nrow
       DO i = 0, nprows-1
          row_dist(i+1) = i
       END DO
-      CALL dbcsr_distribution_new(dist_row_vec, template=dist, row_dist=row_dist, col_dist=col_dist)
+      !CALL dbcsr_distribution_new(dist_row_vec, template=dist, row_dist=row_dist, col_dist=col_dist)
+      call dbcsr_distribution_new(dist_row_vec, dist % d % mp_env, row_dist_block=row_dist, col_dist_block=col_dist)      
 
       CALL dbcsr_create(dbcsr_vec, "D", dist_row_vec, dbcsr_type_no_symmetry, &
                         row_blk_size=row_blk_size, col_blk_size=col_blk_size, &
@@ -282,8 +317,9 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
       INTEGER                                            :: handle, data_type
 
       CALL timeset(routineN, handle)
-
-      CALL dbcsr_get_info(vec, data_type=data_type)
+      
+      !CALL dbcsr_get_info(vec, data_type=data_type)
+      data_type = vec % data_type
 
       SELECT CASE (data_type)
       CASE (dbcsr_type_real_8)
@@ -315,7 +351,8 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
 
       CALL timeset(routineN, handle)
 
-      CALL dbcsr_get_info(vec, data_type=data_type)
+      !CALL dbcsr_get_info(vec, data_type=data_type)
+      data_type = vec % data_type
 
       SELECT CASE (data_type)
       CASE (dbcsr_type_real_8)
@@ -355,7 +392,7 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
 
    END SUBROUTINE release_fast_vec_access
 
-#include "hash_table.f90"
+#include "../utils/hash_table.f90"
 
 #:set instances = [ ('s', 'REAL(kind=real_4)',    '0.0_real_4'), &
                     ('d', 'REAL(kind=real_8)',    '0.0_real_8'), &
@@ -393,9 +430,9 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
        CALL dbcsr_sym_matrix_vector_mult_${nametype}$(matrix, vec_in, vec_out, alpha, beta, work_row, work_col)
     CASE(dbcsr_type_antisymmetric)
         ! Not yet implemented, should mainly be some prefactor magic, but who knows how antisymmetric matrices are stored???
-       CPABORT("NYI, antisymmetric matrix not permitted")
+       DBCSR_ABORT("NYI, antisymmetric matrix not permitted")
     CASE DEFAULT
-       CPABORT("Unknown matrix type, ...")
+       DBCSR_ABORT("Unknown matrix type, ...")
     END SELECT
 
   END SUBROUTINE dbcsr_matrix_colvec_multiply_${nametype}$
@@ -769,7 +806,7 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
     ALLOCATE(fast_vec_access%blk_map_${nametype}$(0:nblk_local))
 
     CALL dbcsr_get_info(matrix=vec, nblkcols_local=col)
-    IF (col.GT.1) CPABORT("BUG")
+    IF (col.GT.1) DBCSR_ABORT("BUG")
 
     ! go through the blocks of the vector
     iblock=0
@@ -821,7 +858,7 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
 
     ! sanity check
     CALL dbcsr_get_info(matrix=vec, nblkrows_local=row)
-    IF (row.GT.1) CPABORT("BUG")
+    IF (row.GT.1) DBCSR_ABORT("BUG")
 
     ! go through the blocks of the vector
     iblock=0
