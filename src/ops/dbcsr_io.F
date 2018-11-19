@@ -738,7 +738,7 @@ CONTAINS
 
       IF (default_string_length /= 80) &
          CALL dbcsr_warn(__LOCATION__, "Changing the default string length affects "// &
-                         "the format of the writen matrix. Version needs to be adjusted")
+                         "the format of the written matrix. Version needs to be adjusted")
 
       nblkrows_total = dbcsr_nblkrows_total(matrix)
       nblkcols_total = dbcsr_nblkcols_total(matrix)

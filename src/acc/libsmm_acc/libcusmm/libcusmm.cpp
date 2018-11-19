@@ -226,7 +226,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 //===========================================================================
 extern "C" int libsmm_acc_process (void *param_stack, int stack_size, int nparams, int datatype, void *a_data, void *b_data, void *c_data, int m, int n, int k, int def_mnk, void *stream){
     if(def_mnk!=1)
-        return(-1); // inhomogenous stacks not supported
+        return(-1); // inhomogeneous stacks not supported
     if(datatype==dbcsr_type_real_8) {
       if(m>MAX_BLOCK_DIM || n>MAX_BLOCK_DIM || k>MAX_BLOCK_DIM)
 	return(-1); // maximum size over any dimention

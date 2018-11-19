@@ -184,7 +184,7 @@ CONTAINS
       ! The product's data_area could already contain some data.
       ! ( see: keep_product_data in dbcsr_operations.F )
       ! But this data might not occupy all the allocated memory in the data_area.
-      ! Since, we don't want to keep track of unitialized memory we just zero it now.
+      ! Since, we don't want to keep track of uninitialized memory we just zero it now.
 
       used_datasize = this%product_wm_orig_datasize
       allocated_datasize = dbcsr_data_get_size(this%product_wm%data_area)
@@ -215,7 +215,7 @@ CONTAINS
 
       ! Clearing the product_wm takes too long, we gonna do it later and
       ! return now to allow for MPI to progress.
-      ! We just have to remeber its datasize, in case it already contains data.
+      ! We just have to remember its datasize, in case it already contains data.
       this%product_wm_orig_datasize = this%product_wm%datasize
 
       CALL dbcsr_mm_hostdrv_init(this%hostdrv, product_wm)
@@ -363,7 +363,7 @@ CONTAINS
                                   factor=default_resize_factor, zero_pad=.TRUE.)
 
       !!From here on there is no boundary checking due to assumed-SIZE-arguments.
-      !!This is usefull to check stack parameters, BUT it works only for kind=dp
+      !!This is useful to check stack parameters, BUT it works only for kind=dp
       IF (.FALSE.) THEN
          DO sp = 1, stack_fillcount
             IF (stack_data(p_a_first, sp) > SIZE(left%data_area%d%r_dp)) &
@@ -379,15 +379,15 @@ CONTAINS
       ENDIF
 
       IF (.FALSE.) THEN
-         ! Check if homogenous stacks are indeed homogenous
+         ! Check if homogeneous stacks are indeed homogeneous
          IF (stack_descr%defined_mnk) THEN
             DO sp = 1, stack_fillcount
                IF (stack_data(p_m, sp) /= stack_descr%m) &
-                  DBCSR_ABORT("homogenous stacks check failed")
+                  DBCSR_ABORT("homogeneous stacks check failed")
                IF (stack_data(p_n, sp) /= stack_descr%n) &
-                  DBCSR_ABORT("homogenous stacks check failed")
+                  DBCSR_ABORT("homogeneous stacks check failed")
                IF (stack_data(p_k, sp) /= stack_descr%k) &
-                  DBCSR_ABORT("homogenous stacks check failed")
+                  DBCSR_ABORT("homogeneous stacks check failed")
             END DO
          ENDIF
       ENDIF
@@ -399,7 +399,7 @@ CONTAINS
       IF (has_acc .AND. &
           flop_per_entry > dbcsr_cfg%accdrv_min_flop_process .AND. &
           (.NOT. this%avoid_accdrv) .AND. &
-          (stack_descr%defined_mnk .OR. dbcsr_cfg%accdrv_do_inhomogenous)) THEN
+          (stack_descr%defined_mnk .OR. dbcsr_cfg%accdrv_do_inhomogeneous)) THEN
          CALL dbcsr_mm_accdrv_process( &
             this%accdrv, &
             left, right, &
@@ -615,7 +615,7 @@ CONTAINS
       ALLOCATE (mnk_collected(SIZE(report%num_mnk_stacks, 1)))
       mnk_collected = 0 ! init all to false
 
-      ! broadcast stats of all mnk-combinations, which occured on any mpi rank
+      ! broadcast stats of all mnk-combinations, which occurred on any mpi rank
       DO
          ! each rank with uncollected stats tries to become the sending_rank
          sending_rank = -1

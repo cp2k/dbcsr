@@ -9,7 +9,7 @@
 
 ! **************************************************************************************************
 !> \brief Types used by timings.F and timings_report.F
-!>        Due to the fortran restriction on cicular module-dependencies
+!>        Due to the fortran restriction on circular module-dependencies
 !>        the types, which are used through dict or list had to go
 !>        into the separate module timings_base_type.F
 !> \par History

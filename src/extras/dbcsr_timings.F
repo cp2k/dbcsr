@@ -463,7 +463,7 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Internal routine used by timestet and timings_setup_tracing.
 !>        If no routine with given name is found in timer_env%routine_names
-!>        then a new entiry is created.
+!>        then a new entry is created.
 !> \param routineN ...
 !> \return ...
 !> \author Ole Schuett

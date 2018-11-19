@@ -544,11 +544,11 @@ CONTAINS
             ! together). The group is divided into equally-sized blocks
             ! (block_size0, block_size).  Leftover rows (those that can
             ! not be equally distributed to threads) are then assigned
-            ! to threads so that each thread's commulative load attempts
+            ! to threads so that each thread's cumulative load attempts
             ! to be equal. This distribution is achieved using a heap.
             !
             ! The heap is used to distribute "leftover"rows to threads.
-            ! Lefotver rows are those of the same size that can not be
+            ! Leftover rows are those of the same size that can not be
             ! evenly distributed among all threads.
             CALL dbcsr_heap_new(t_heap, nthreads - 1)
             ! We do not want thread 0 to be in the heap.

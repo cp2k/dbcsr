@@ -27,7 +27,7 @@ int acc_stream_wait_event(void* stream, void* event);
 int acc_event_create(void** event_p);
 int acc_event_destroy(void* event);
 int acc_event_record(void* event, void* stream);
-int acc_event_query(void* event, int* has_occured);
+int acc_event_query(void* event, int* has_occurred);
 int acc_event_synchronize(void* event);
 
 // memory

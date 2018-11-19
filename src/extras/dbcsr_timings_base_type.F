@@ -11,7 +11,7 @@
 !> \brief Types used by timings.F and timings_report.F
 !>        The types in this module are used within dict or list, which are
 !>          in turn used in timer_env_type from timings_type.F
-!>        Due to the fortran restriction on cicular module-dependencies these
+!>        Due to the fortran restriction on circular module-dependencies these
 !>        "inner-types" had to go into a separate module.
 !> \par History
 !>      12.2012 Created [ole]

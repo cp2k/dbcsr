@@ -270,7 +270,7 @@
 
      IF (.NOT. processed) THEN
         ! Dispatch interface was not used, call regular interface.
-        ! Should only happen for inhomgenous stacks, then prefetching makes no sense.
+        ! Should only happen for inhomogeneous stacks, then prefetching makes no sense.
         DO sp = 1, stack_size
            m = params(p_m, sp)
            n = params(p_n, sp)

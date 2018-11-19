@@ -262,7 +262,7 @@
         IF (dbcsr_get_data_type(matrix) /= ${dkind1}$) &
            DBCSR_ABORT("Incompatible data types")
 
-        !TODO: could be speedup by direct assigment to data_area, similar to dbcsr_zero()
+        !TODO: could be speedup by direct assignment to data_area, similar to dbcsr_zero()
         CALL dbcsr_iterator_start(iter, matrix)
         DO WHILE (dbcsr_iterator_blocks_left(iter))
            CALL dbcsr_iterator_next_block(iter, row, col, block, tr)

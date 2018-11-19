@@ -318,7 +318,7 @@ CONTAINS
    END SUBROUTINE rec_split
 
 ! **************************************************************************************************
-!> \brief Enumerate all occuring blocksizes
+!> \brief Enumerate all occurring blocksizes
 !> \param blk_sizes ...
 !> \param max_size ...
 !> \param enum ...
@@ -489,7 +489,7 @@ CONTAINS
       CALL timeset(routineN//"_sync", handle1)
       !transfer all stacks
       CALL dbcsr_data_host2dev(trs_stackbuf)
-      ! make sure block-buffer is uploaded befor running the kernels
+      ! make sure block-buffer is uploaded before running the kernels
       CALL acc_stream_wait_event(trs_stackbuf%d%memory_type%acc_stream, matrix%data_area%d%acc_ready)
       CALL timestop(handle1)
 
@@ -514,7 +514,7 @@ CONTAINS
       CALL timestop(handle1)
 
       CALL timeset(routineN//"_sync", handle1)
-      ! make sure block-buffer are not used until transpose kernels finnished
+      ! make sure block-buffer are not used until transpose kernels finished
       CALL acc_event_record(trs_stackbuf%d%acc_ready, trs_stackbuf%d%memory_type%acc_stream)
       CALL acc_stream_wait_event(matrix%data_area%d%memory_type%acc_stream, trs_stackbuf%d%acc_ready)
       CALL acc_event_record(matrix%data_area%d%acc_ready, matrix%data_area%d%memory_type%acc_stream)

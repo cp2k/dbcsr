@@ -666,7 +666,7 @@
 ! *****************************************************************************
 !> \brief Receive one datum from another process
 !> \param[in,out] msg         Place received data into this variable
-!> \param[in,out] source      Process to receieve from
+!> \param[in,out] source      Process to receive from
 !> \param[in,out] tag         Transfer identifier
 !> \param[in] gid             Message passing environment identifier
 !> \par MPI mapping
@@ -710,7 +710,7 @@
 
 ! *****************************************************************************
 !> \brief Receive rank-1 data from another process
-!> \param[in,out] msg         Place receieved data into this rank-1 array
+!> \param[in,out] msg         Place received data into this rank-1 array
 !> \param source ...
 !> \param tag ...
 !> \param gid ...
@@ -1447,7 +1447,7 @@
 !> \brief Multiplies a set of numbers scattered across a number of processes,
 !>        then replicates the result.
 !> \param[in,out] msg         a number to multiply (input) and result (output)
-!> \param[in] gid             mssage passing environment identifier
+!> \param[in] gid             message passing environment identifier
 !> \par MPI mapping
 !>      mpi_allreduce
 ! *****************************************************************************
@@ -2834,7 +2834,7 @@
   END SUBROUTINE mp_sendrecv_${nametype1}$m4
 
 ! *****************************************************************************
-!> \brief Non-blocking send and receieve of a scalar
+!> \brief Non-blocking send and receive of a scalar
 !> \param[in] msgin           Scalar data to send
 !> \param[in] dest            Which process to send to
 !> \param[out] msgout         Receive data into this pointer
@@ -2894,7 +2894,7 @@
   END SUBROUTINE mp_isendrecv_${nametype1}$
 
 ! *****************************************************************************
-!> \brief Non-blocking send and receieve of a vector
+!> \brief Non-blocking send and receive of a vector
 !> \param[in] msgin           Vector data to send
 !> \param[in] dest            Which process to send to
 !> \param[out] msgout         Receive data into this pointer
@@ -3721,7 +3721,7 @@
 !>        (serial) Unformatted stream write
 !> \param[in] fh     file handle (file storage unit)
 !> \param[in] offset file offset (position)
-!> \param[in] msg    data to be writen to the file
+!> \param[in] msg    data to be written to the file
 !> \param msglen ...
 !> \par MPI-I/O mapping   mpi_file_write_at
 !> \par STREAM-I/O mapping   WRITE
