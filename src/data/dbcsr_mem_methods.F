@@ -13,20 +13,20 @@
 ! **************************************************************************************************
 MODULE dbcsr_mem_methods
 
-   USE dbcsr_acc_stream,                ONLY: acc_stream_associated,&
-                                              acc_stream_equal,&
-                                              acc_stream_type
-   USE dbcsr_data_methods_low,          ONLY: dbcsr_data_exists,&
-                                              dbcsr_data_get_size,&
-                                              internal_data_deallocate
-   USE dbcsr_data_types,                ONLY: dbcsr_data_obj,&
-                                              dbcsr_mempool_entry_type,&
-                                              dbcsr_mempool_type,&
-                                              dbcsr_memtype_type
-   USE dbcsr_kinds,                     ONLY: dp
+   USE dbcsr_acc_stream, ONLY: acc_stream_associated, &
+                               acc_stream_equal, &
+                               acc_stream_type
+   USE dbcsr_data_methods_low, ONLY: dbcsr_data_exists, &
+                                     dbcsr_data_get_size, &
+                                     internal_data_deallocate
+   USE dbcsr_data_types, ONLY: dbcsr_data_obj, &
+                               dbcsr_mempool_entry_type, &
+                               dbcsr_mempool_type, &
+                               dbcsr_memtype_type
+   USE dbcsr_kinds, ONLY: dp
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, &
-!$    omp_set_lock, omp_unset_lock, omp_init_lock, omp_lock_kind, omp_destroy_lock
+!$                    omp_set_lock, omp_unset_lock, omp_init_lock, omp_lock_kind, omp_destroy_lock
 
 #include "base/dbcsr_base_uses.f90"
 
@@ -53,7 +53,7 @@ CONTAINS
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_create', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       IF (ASSOCIATED(pool)) DBCSR_ABORT("pool already allocated")
       ALLOCATE (pool)
@@ -72,7 +72,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: capacity
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_limit_capacity', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       IF (.NOT. ASSOCIATED(pool)) DBCSR_ABORT("pool not allocated")
 !$    CALL OMP_SET_LOCK(pool%lock)
@@ -95,7 +95,7 @@ CONTAINS
       TYPE(dbcsr_data_obj)                               :: res
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_get', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: best_size, s
       TYPE(dbcsr_mempool_entry_type), POINTER            :: best_cur, best_prev, cur, prev
@@ -148,7 +148,7 @@ CONTAINS
       TYPE(dbcsr_data_obj)                               :: area
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_add', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       TYPE(dbcsr_mempool_entry_type), POINTER            :: new_entry
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
@@ -177,7 +177,7 @@ CONTAINS
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mempool_collect_garbage', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: n
       TYPE(dbcsr_mempool_entry_type), POINTER            :: cur, prev
@@ -189,7 +189,7 @@ CONTAINS
       cur => pool%root%next
       n = 0
       DO WHILE (ASSOCIATED(cur))
-         n = n+1
+         n = n + 1
          IF (n >= pool%capacity) THEN
             CALL internal_data_deallocate(cur%area%d)
             DEALLOCATE (cur%area%d)
@@ -213,7 +213,7 @@ CONTAINS
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_destruct', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       IF (.NOT. ASSOCIATED(pool)) DBCSR_ABORT("pool not allocated")
 
@@ -234,7 +234,7 @@ CONTAINS
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_clear', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
       TYPE(dbcsr_mempool_entry_type), POINTER            :: cur, prev
@@ -278,7 +278,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: has_pool
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_memtype_setup', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       LOGICAL                                            :: is_ok, my_has_pool
       TYPE(dbcsr_memtype_type)                           :: aim

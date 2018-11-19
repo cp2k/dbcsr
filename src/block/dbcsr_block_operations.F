@@ -18,24 +18,24 @@
 ! **************************************************************************************************
 MODULE dbcsr_block_operations
 
-   USE dbcsr_acc_devmem,                ONLY: acc_devmem_allocated,&
-                                              acc_devmem_setzero_bytes
-   USE dbcsr_data_methods_low,          ONLY: dbcsr_data_exists,&
-                                              dbcsr_data_get_size,&
-                                              dbcsr_data_get_size_referenced,&
-                                              dbcsr_data_get_type,&
-                                              dbcsr_data_verify_bounds,&
-                                              dbcsr_type_2d_to_1d,&
-                                              dbcsr_type_is_2d
-   USE dbcsr_ptr_util,                  ONLY: memory_copy
-   USE dbcsr_types,                     ONLY: &
-        dbcsr_data_obj, dbcsr_datatype_sizeof, dbcsr_scalar_type, dbcsr_type_complex_4, &
-        dbcsr_type_complex_4_2d, dbcsr_type_complex_8, dbcsr_type_complex_8_2d, dbcsr_type_real_4, &
-        dbcsr_type_real_4_2d, dbcsr_type_real_8, dbcsr_type_real_8_2d
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              real_4,&
-                                              real_8,&
-                                              sp
+   USE dbcsr_acc_devmem, ONLY: acc_devmem_allocated, &
+                               acc_devmem_setzero_bytes
+   USE dbcsr_data_methods_low, ONLY: dbcsr_data_exists, &
+                                     dbcsr_data_get_size, &
+                                     dbcsr_data_get_size_referenced, &
+                                     dbcsr_data_get_type, &
+                                     dbcsr_data_verify_bounds, &
+                                     dbcsr_type_2d_to_1d, &
+                                     dbcsr_type_is_2d
+   USE dbcsr_ptr_util, ONLY: memory_copy
+   USE dbcsr_types, ONLY: &
+      dbcsr_data_obj, dbcsr_datatype_sizeof, dbcsr_scalar_type, dbcsr_type_complex_4, &
+      dbcsr_type_complex_4_2d, dbcsr_type_complex_8, dbcsr_type_complex_8_2d, dbcsr_type_real_4, &
+      dbcsr_type_real_4_2d, dbcsr_type_real_8, dbcsr_type_real_8_2d
+   USE dbcsr_kinds, ONLY: dp, &
+                          real_4, &
+                          real_8, &
+                          sp
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -48,7 +48,7 @@ MODULE dbcsr_block_operations
 #  define PURE_TCOPY PURE
 #  define PURE_TRANS PURE
 #else
-! MKL: mkl_trans.fi header is obsolescent (use implicit "interface") 
+! MKL: mkl_trans.fi header is obsolescent (use implicit "interface")
 #  define PURE_TCOPY
 #  define PURE_TRANS
 #endif
@@ -149,7 +149,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: lb2, source_lb2
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_transpose_aa', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: data_size, lb2_s, lb2_t, lb_s, lb_t, &
                                                             ub_s, ub_t
@@ -183,10 +183,10 @@ CONTAINS
       data_size = row_size*col_size
       lb_t = 1
       IF (PRESENT(lb)) lb_t = lb
-      ub_t = lb_t+data_size-1
+      ub_t = lb_t + data_size - 1
       IF (PRESENT(source_lb)) THEN
          lb_s = source_lb
-         ub_s = source_lb+data_size-1
+         ub_s = source_lb + data_size - 1
       ELSE
          lb_s = lb_t
          ub_s = ub_t
@@ -241,47 +241,47 @@ CONTAINS
          ENDIF
       CASE (dbcsr_type_real_8_2d)
          IF (PRESENT(scale)) THEN
-            dst%d%r2_dp(lb_t:lb_t+col_size-1, lb2_t:lb2_t+row_size-1) = &
+            dst%d%r2_dp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
                TRANSPOSE( &
-               src%d%r2_dp(lb_s:lb_s+row_size-1, lb2_s:lb2_s+col_size-1) &
+               src%d%r2_dp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1) &
                *scale%r_dp)
          ELSE
-            dst%d%r2_dp(lb_t:lb_t+col_size-1, lb2_t:lb2_t+row_size-1) = &
+            dst%d%r2_dp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
                TRANSPOSE( &
-               src%d%r2_dp(lb_s:lb_s+row_size-1, lb2_s:lb2_s+col_size-1))
+               src%d%r2_dp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1))
          ENDIF
       CASE (dbcsr_type_real_4_2d)
          IF (PRESENT(scale)) THEN
-            dst%d%r2_sp(lb_t:lb_t+col_size-1, lb2_t:lb2_t+row_size-1) = &
+            dst%d%r2_sp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
                TRANSPOSE( &
-               src%d%r2_sp(lb_s:lb_s+row_size-1, lb2_s:lb2_s+col_size-1) &
+               src%d%r2_sp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1) &
                *scale%r_sp)
          ELSE
-            dst%d%r2_sp(lb_t:lb_t+col_size-1, lb2_t:lb2_t+row_size-1) = &
+            dst%d%r2_sp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
                TRANSPOSE( &
-               src%d%r2_sp(lb_s:lb_s+row_size-1, lb2_s:lb2_s+col_size-1))
+               src%d%r2_sp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1))
          ENDIF
       CASE (dbcsr_type_complex_8_2d)
          IF (PRESENT(scale)) THEN
-            dst%d%c2_dp(lb_t:lb_t+col_size-1, lb2_t:lb2_t+row_size-1) = &
+            dst%d%c2_dp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
                TRANSPOSE( &
-               src%d%c2_dp(lb_s:lb_s+row_size-1, lb2_s:lb2_s+col_size-1) &
+               src%d%c2_dp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1) &
                *scale%c_dp)
          ELSE
-            dst%d%c2_dp(lb_t:lb_t+col_size-1, lb2_t:lb2_t+row_size-1) = &
+            dst%d%c2_dp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
                TRANSPOSE( &
-               src%d%c2_dp(lb_s:lb_s+row_size-1, lb2_s:lb2_s+col_size-1))
+               src%d%c2_dp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1))
          ENDIF
       CASE (dbcsr_type_complex_4_2d)
          IF (PRESENT(scale)) THEN
-            dst%d%c2_sp(lb_t:lb_t+col_size-1, lb2_t:lb2_t+row_size-1) = &
+            dst%d%c2_sp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
                TRANSPOSE( &
-               src%d%c2_sp(lb_s:lb_s+row_size-1, lb2_s:lb2_s+col_size-1) &
+               src%d%c2_sp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1) &
                *scale%c_sp)
          ELSE
-            dst%d%c2_sp(lb_t:lb_t+col_size-1, lb2_t:lb2_t+row_size-1) = &
+            dst%d%c2_sp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
                TRANSPOSE( &
-               src%d%c2_sp(lb_s:lb_s+row_size-1, lb2_s:lb2_s+col_size-1))
+               src%d%c2_sp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1))
          ENDIF
       CASE default
          DBCSR_ABORT("Incorrect data type.")
@@ -310,7 +310,7 @@ CONTAINS
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_copy_aa', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: data_size, lb_s, lb_t, ub_s, ub_t
 
@@ -339,10 +339,10 @@ CONTAINS
       data_size = row_size*col_size
       lb_t = 1
       IF (PRESENT(lb)) lb_t = lb
-      ub_t = lb_t+data_size-1
+      ub_t = lb_t + data_size - 1
       IF (PRESENT(source_lb)) THEN
          lb_s = source_lb
-         ub_s = source_lb+data_size-1
+         ub_s = source_lb + data_size - 1
       ELSE
          lb_s = lb_t
          ub_s = ub_t
@@ -416,7 +416,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: lb, lb2
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_scale', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: data_size, handle, lb2_t, lb_t, ub_t
 
@@ -442,7 +442,7 @@ CONTAINS
       data_size = row_size*col_size
       lb_t = 1
       IF (PRESENT(lb)) lb_t = lb
-      ub_t = lb_t+data_size-1
+      ub_t = lb_t + data_size - 1
       lb2_t = 1
       IF (PRESENT(lb2)) lb2_t = lb2
       SELECT CASE (dst%d%data_type)
@@ -455,17 +455,17 @@ CONTAINS
       CASE (dbcsr_type_complex_4)
          dst%d%c_sp(lb_t:ub_t) = dst%d%c_sp(lb_t:ub_t)*scale%c_sp
       CASE (dbcsr_type_real_8_2d)
-         dst%d%r2_dp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
-            dst%d%r2_dp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1)*scale%r_dp
+         dst%d%r2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            dst%d%r2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)*scale%r_dp
       CASE (dbcsr_type_real_4_2d)
-         dst%d%r2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
-            dst%d%r2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1)*scale%r_sp
+         dst%d%r2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            dst%d%r2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)*scale%r_sp
       CASE (dbcsr_type_complex_8_2d)
-         dst%d%c2_dp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
-            dst%d%c2_dp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1)*scale%c_dp
+         dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)*scale%c_dp
       CASE (dbcsr_type_complex_4_2d)
-         dst%d%c2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
-            dst%d%c2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1)*scale%c_sp
+         dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)*scale%c_sp
       CASE default
          DBCSR_ABORT("Incorrect data type.")
       END SELECT
@@ -493,7 +493,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: lb, lb2
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_real_neg', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: data_size, handle, lb2_t, lb_t, ub_t
 
@@ -517,7 +517,7 @@ CONTAINS
       data_size = row_size*col_size
       lb_t = 1
       IF (PRESENT(lb)) lb_t = lb
-      ub_t = lb_t+data_size-1
+      ub_t = lb_t + data_size - 1
       lb2_t = 1
       IF (PRESENT(lb2)) lb2_t = lb2
       SELECT CASE (dst%d%data_type)
@@ -536,22 +536,22 @@ CONTAINS
                                  AIMAG(dst%d%c_sp(lb_t:ub_t)), &
                                  KIND=real_4)
       CASE (dbcsr_type_real_8_2d)
-         dst%d%r2_dp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
-            -dst%d%r2_dp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1)
+         dst%d%r2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            -dst%d%r2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)
       CASE (dbcsr_type_real_4_2d)
-         dst%d%r2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
-            -dst%d%r2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1)
+         dst%d%r2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            -dst%d%r2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)
       CASE (dbcsr_type_complex_8_2d)
-         dst%d%c2_dp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
+         dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
             CMPLX( &
-            -REAL(dst%d%c2_dp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1), KIND=real_8), &
-            AIMAG(dst%d%c2_dp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1)), &
+            -REAL(dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1), KIND=real_8), &
+            AIMAG(dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)), &
             KIND=real_8)
       CASE (dbcsr_type_complex_4_2d)
-         dst%d%c2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
+         dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
             CMPLX( &
-            -REAL(dst%d%c2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1), KIND=real_4), &
-            AIMAG(dst%d%c2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1)), &
+            -REAL(dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1), KIND=real_4), &
+            AIMAG(dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)), &
             KIND=real_4)
       CASE default
          DBCSR_ABORT("Incorrect data type.")
@@ -580,7 +580,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: lb, lb2
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_conjg', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: data_size, handle, lb2_t, lb_t, ub_t
 
@@ -604,7 +604,7 @@ CONTAINS
       data_size = row_size*col_size
       lb_t = 1
       IF (PRESENT(lb)) lb_t = lb
-      ub_t = lb_t+data_size-1
+      ub_t = lb_t + data_size - 1
       lb2_t = 1
       IF (PRESENT(lb2)) lb2_t = lb2
       SELECT CASE (dst%d%data_type)
@@ -617,17 +617,17 @@ CONTAINS
       CASE (dbcsr_type_complex_4)
          dst%d%c_sp(lb_t:ub_t) = CONJG(dst%d%c_sp(lb_t:ub_t))
       CASE (dbcsr_type_real_8_2d)
-         dst%d%r2_dp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
-            dst%d%r2_dp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1)
+         dst%d%r2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            dst%d%r2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)
       CASE (dbcsr_type_real_4_2d)
-         dst%d%r2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
-            dst%d%r2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1)
+         dst%d%r2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            dst%d%r2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)
       CASE (dbcsr_type_complex_8_2d)
-         dst%d%c2_dp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
-            CONJG(dst%d%c2_dp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1))
+         dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            CONJG(dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1))
       CASE (dbcsr_type_complex_4_2d)
-         dst%d%c2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1) = &
-            CONJG(dst%d%c2_sp(lb_t:lb_t+row_size-1, lb2_t:lb2_t+col_size-1))
+         dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            CONJG(dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1))
       CASE default
          DBCSR_ABORT("Incorrect data type.")
       END SELECT
@@ -647,7 +647,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: row_size, col_size
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_transpose_a', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
 
@@ -700,7 +700,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: lb2, data_size2, source_lb2
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_copy_aa', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: lb2_s, lb_s, ub, ub2, ub2_s, ub_s
 
@@ -721,10 +721,10 @@ CONTAINS
                DBCSR_ABORT("Incomptable data types")
          ENDIF
       ENDIF
-      ub = lb+data_size-1
+      ub = lb + data_size - 1
       IF (PRESENT(source_lb)) THEN
          lb_s = source_lb
-         ub_s = source_lb+data_size-1
+         ub_s = source_lb + data_size - 1
       ELSE
          lb_s = lb
          ub_s = ub
@@ -740,10 +740,10 @@ CONTAINS
             IF (.NOT. dbcsr_type_is_2d(src%d%data_type)) &
                DBCSR_WARN("Should not specify lb2 for 1-D data")
          ENDIF
-         ub2 = lb2+data_size2-1
+         ub2 = lb2 + data_size2 - 1
          IF (PRESENT(source_lb2)) THEN
             lb2_s = source_lb2
-            ub2_s = source_lb2+data_size2-1
+            ub2_s = source_lb2 + data_size2 - 1
          ELSE
             lb2_s = lb2
             ub2_s = ub2
@@ -883,7 +883,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: src_lb, src_sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_copy_aa2', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: dst_d, dst_dt, handle, src_d, src_dt
       INTEGER, DIMENSION(2)                              :: dst_ub, src_ub
@@ -904,8 +904,8 @@ CONTAINS
       ELSE
          dst_d = 1
       ENDIF
-      src_ub(1:src_d) = src_lb(1:src_d)+src_sizes(1:src_d)-1
-      dst_ub(1:dst_d) = dst_lb(1:dst_d)+dst_sizes(1:dst_d)-1
+      src_ub(1:src_d) = src_lb(1:src_d) + src_sizes(1:src_d) - 1
+      dst_ub(1:dst_d) = dst_lb(1:dst_d) + dst_sizes(1:dst_d) - 1
       IF (careful_mod) THEN
          IF (.NOT. dbcsr_data_exists(dst)) &
             DBCSR_ABORT("Invalid target data area")
@@ -1062,7 +1062,7 @@ CONTAINS
       LOGICAL, INTENT(in)                                :: tr
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_clear_nt', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
@@ -1089,7 +1089,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: lb2, ub2
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_clear0', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: l, l2, s, u, u2
 
@@ -1321,7 +1321,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: dst_offset, src_offset
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_partial_copy', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: verification = careful_mod
 
       INTEGER                                            :: dst_o, src_o
@@ -1337,18 +1337,18 @@ CONTAINS
       IF (PRESENT(dst_offset)) dst_o = dst_offset
       IF (PRESENT(src_offset)) src_o = src_offset
       IF (verification) THEN
-         IF (dst_r_lb+nrow-1 > dst_rs) &
+         IF (dst_r_lb + nrow - 1 > dst_rs) &
             DBCSR_ABORT("Incompatible dst row sizes")
-         IF (dst_c_lb+ncol-1 > dst_cs) &
+         IF (dst_c_lb + ncol - 1 > dst_cs) &
             DBCSR_ABORT("Incompatible dst col sizes")
-         IF (src_r_lb+nrow-1 > src_rs) &
+         IF (src_r_lb + nrow - 1 > src_rs) &
             DBCSR_ABORT("Incompatible src row sizes")
-         IF (src_c_lb+ncol-1 > src_cs) &
+         IF (src_c_lb + ncol - 1 > src_cs) &
             DBCSR_ABORT("Incompatible src col sizes")
       ENDIF
       !
       src_is_2d = dbcsr_type_is_2d(dbcsr_data_get_type(src))
-      SELECT CASE (dbcsr_data_get_type (dst))
+      SELECT CASE (dbcsr_data_get_type(dst))
       CASE (dbcsr_type_real_4)
          IF (src_is_2d) THEN
             CALL block_partial_copy_1d2d_s(dst%d%r_sp, dst_rs, dst_cs, dst_tr, &
@@ -1458,7 +1458,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: len
 
       CHARACTER(len=*), PARAMETER :: routineN = 'block_add_anytype', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: n
 
@@ -1477,7 +1477,7 @@ CONTAINS
       ENDIF
       IF (dbcsr_data_get_size(block_a) < n) &
          DBCSR_ABORT("Block A too small.")
-      SELECT CASE (dbcsr_data_get_type (block_a))
+      SELECT CASE (dbcsr_data_get_type(block_a))
       CASE (dbcsr_type_real_4)
          CALL block_add_s(block_a%d%r_sp, block_b%d%r_sp, n)
       CASE (dbcsr_type_real_8)
@@ -1513,7 +1513,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: lb_a, lb_b, len
 
       CHARACTER(len=*), PARAMETER :: routineN = 'block_add_anytype_bounds', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
@@ -1521,11 +1521,11 @@ CONTAINS
          IF (dbcsr_data_get_type(block_a) /= dbcsr_data_get_type(block_a)) &
             DBCSR_ABORT("Mismatched data types.")
       ENDIF
-      IF (dbcsr_data_get_size(block_b) < lb_b+len-1) &
+      IF (dbcsr_data_get_size(block_b) < lb_b + len - 1) &
          DBCSR_ABORT("Block B too small.")
-      IF (dbcsr_data_get_size(block_a) < lb_a+len-1) &
+      IF (dbcsr_data_get_size(block_a) < lb_a + len - 1) &
          DBCSR_ABORT("Block A too small.")
-      SELECT CASE (dbcsr_data_get_type (block_a))
+      SELECT CASE (dbcsr_data_get_type(block_a))
       CASE (dbcsr_type_real_4)
          CALL block_add_s(block_a%d%r_sp(lb_a:), block_b%d%r_sp(lb_b:), len)
       CASE (dbcsr_type_real_8)

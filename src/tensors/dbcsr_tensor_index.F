@@ -12,7 +12,7 @@
 !> \author Patrick Seewald
 ! **************************************************************************************************
 MODULE dbcsr_tensor_index
-   USE dbcsr_allocate_wrap,             ONLY: allocate_any
+   USE dbcsr_allocate_wrap, ONLY: allocate_any
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -94,7 +94,7 @@ CONTAINS
 
       ALLOCATE (map%map_nd(map%ndim_nd))
       map%map_nd(map1_2d) = (/(i, i=1, SIZE(map1_2d))/)
-      map%map_nd(map2_2d) = (/(i+SIZE(map1_2d), i=1, SIZE(map2_2d))/)
+      map%map_nd(map2_2d) = (/(i + SIZE(map1_2d), i=1, SIZE(map2_2d))/)
 
       map%dims_2d = [PRODUCT(map%dims1_2d), PRODUCT(map%dims2_2d)]
 
@@ -220,18 +220,18 @@ CONTAINS
       ENDIF
 
       IF (my_col_major) THEN
-         i_dim = SIZE(dims)-1
-         ind_out = ind_in(i_dim+1)
+         i_dim = SIZE(dims) - 1
+         ind_out = ind_in(i_dim + 1)
          DO WHILE (i_dim .GE. 1)
-            ind_out = (ind_out-my_base)*dims(i_dim)+(ind_in(i_dim)-my_base)+my_base
-            i_dim = i_dim-1
+            ind_out = (ind_out - my_base)*dims(i_dim) + (ind_in(i_dim) - my_base) + my_base
+            i_dim = i_dim - 1
          ENDDO
       ELSE
          i_dim = 2
-         ind_out = ind_in(i_dim-1)
+         ind_out = ind_in(i_dim - 1)
          DO WHILE (i_dim .LE. SIZE(dims))
-            ind_out = (ind_out-my_base)*dims(i_dim)+(ind_in(i_dim)-my_base)+my_base
-            i_dim = i_dim+1
+            ind_out = (ind_out - my_base)*dims(i_dim) + (ind_in(i_dim) - my_base) + my_base
+            i_dim = i_dim + 1
          ENDDO
       ENDIF
    END FUNCTION combine_index
@@ -270,17 +270,17 @@ CONTAINS
          i_dim = 1
          tmp = ind_in
          DO WHILE (i_dim .LE. SIZE(dims))
-            ind_out(i_dim) = MOD(tmp-my_base, dims(i_dim))+my_base
-            tmp = (tmp-my_base)/dims(i_dim)+my_base
-            i_dim = i_dim+1
+            ind_out(i_dim) = MOD(tmp - my_base, dims(i_dim)) + my_base
+            tmp = (tmp - my_base)/dims(i_dim) + my_base
+            i_dim = i_dim + 1
          END DO
       ELSE
          i_dim = SIZE(dims)
          tmp = ind_in
          DO WHILE (i_dim .GE. 1)
-            ind_out(i_dim) = MOD(tmp-my_base, dims(i_dim))+my_base
-            tmp = (tmp-my_base)/dims(i_dim)+my_base
-            i_dim = i_dim-1
+            ind_out(i_dim) = MOD(tmp - my_base, dims(i_dim)) + my_base
+            tmp = (tmp - my_base)/dims(i_dim) + my_base
+            i_dim = i_dim - 1
          END DO
       ENDIF
    END FUNCTION split_index

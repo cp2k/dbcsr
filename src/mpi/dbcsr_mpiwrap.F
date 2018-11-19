@@ -23,12 +23,12 @@
 !> \author JGH
 ! **************************************************************************************************
 MODULE dbcsr_mpiwrap
-  USE ISO_C_BINDING,                   ONLY: C_F_POINTER,&
-                                             C_PTR
-  USE dbcsr_kinds,                           ONLY: &
-       dp, int_4, int_4_size, int_8, int_8_size, real_4, real_4_size, real_8, &
-       real_8_size
-  USE dbcsr_machine,                         ONLY: m_abort
+   USE ISO_C_BINDING, ONLY: C_F_POINTER, &
+                            C_PTR
+   USE dbcsr_kinds, ONLY: &
+      dp, int_4, int_4_size, int_8, int_8_size, real_4, real_4_size, real_8, &
+      real_8_size
+   USE dbcsr_machine, ONLY: m_abort
 
 #include "base/dbcsr_base_uses.f90"
 
@@ -37,7 +37,7 @@ MODULE dbcsr_mpiwrap
 #endif
 
 #if defined(__parallel) && ! defined(__HAS_NO_MPI_MOD)
-  USE mpi  ! compiler *errors* mean mpi installation and fortran compiler mismatch: see INSTALL (-D__HAS_NO_MPI_MOD)
+   USE mpi  ! compiler *errors* mean mpi installation and fortran compiler mismatch: see INSTALL (-D__HAS_NO_MPI_MOD)
 ! subroutines: unfortunately, mpi implementations do not provide interfaces for all subroutines (problems with types and ranks explosion),
 !              we do not quite know what is in the module, so we can not include any....
 !              to nevertheless get checking for what is included, we use the mpi module without use clause, getting all there is
@@ -86,7 +86,7 @@ MODULE dbcsr_mpiwrap
    INTEGER, PARAMETER, PUBLIC :: mp_status_size = MPI_STATUS_SIZE
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = MPI_PROC_NULL
    ! Set max allocatable memory by MPI to 2 GiByte
-   INTEGER(KIND=MPI_ADDRESS_KIND), PARAMETER, PRIVATE :: mp_max_memory_size = HUGE(INT(1,KIND=int_4))
+   INTEGER(KIND=MPI_ADDRESS_KIND), PARAMETER, PRIVATE :: mp_max_memory_size = HUGE(INT(1, KIND=int_4))
 
 #if __MPI_VERSION > 2
    INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = MPI_MAX_LIBRARY_VERSION_STRING
@@ -798,7 +798,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr);
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")
@@ -813,7 +813,7 @@ CONTAINS
 
       ! update the system default communicator
       mp_new_comm = newcomm
-      debug_comm_count = debug_comm_count+1
+      debug_comm_count = debug_comm_count + 1
 
       CALL add_perf(perf_id=1, count=1)
 #else
@@ -835,7 +835,7 @@ CONTAINS
       CALL mpi_barrier(MPI_COMM_WORLD, ierr) ! call mpi directly to avoid 0 stack pointer
       CALL rm_mp_perf_env()
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_barrier @ mp_world_finalize")
-      debug_comm_count = debug_comm_count-1
+      debug_comm_count = debug_comm_count - 1
       IF (debug_comm_count .NE. 0) THEN
          ! A bug, we're leaking or double-freeing communicators. Needs to be fixed where the leak happens.
          ! Memory leak checking might be helpful to locate the culprit
@@ -865,7 +865,7 @@ CONTAINS
    SUBROUTINE add_mp_perf_env(perf_env)
       TYPE(mp_perf_env_type), OPTIONAL, POINTER          :: perf_env
 
-      stack_pointer = stack_pointer+1
+      stack_pointer = stack_pointer + 1
       IF (stack_pointer > max_stack_size) THEN
          DBCSR_ABORT("stack_pointer too large : mpiwrap @ add_mp_perf_env")
       ENDIF
@@ -893,7 +893,7 @@ CONTAINS
       IF (stat /= 0) THEN
          DBCSR_ABORT("allocation failed in mp_perf_env_create")
       ENDIF
-      last_mp_perf_env_id = last_mp_perf_env_id+1
+      last_mp_perf_env_id = last_mp_perf_env_id + 1
       perf_env%id_nr = last_mp_perf_env_id
       perf_env%ref_count = 1
       DO i = 1, MAX_PERF
@@ -915,7 +915,7 @@ CONTAINS
          IF (perf_env%ref_count < 1) THEN
             DBCSR_ABORT("invalid ref_count: mpiwrap @ mp_perf_env_release")
          END IF
-         perf_env%ref_count = perf_env%ref_count-1
+         perf_env%ref_count = perf_env%ref_count - 1
          IF (perf_env%ref_count == 0) THEN
             DEALLOCATE (perf_env)
          END IF
@@ -936,7 +936,7 @@ CONTAINS
       IF (perf_env%ref_count < 1) THEN
          DBCSR_ABORT("invalid ref_count: mpiwrap @ mp_perf_env_retain")
       END IF
-      perf_env%ref_count = perf_env%ref_count+1
+      perf_env%ref_count = perf_env%ref_count + 1
    END SUBROUTINE mp_perf_env_retain
 
 !.. reports the performance counters for the MPI run
@@ -974,11 +974,11 @@ CONTAINS
                vol = perf_env%mp_perfs(i)%msg_size/REAL(perf_env%mp_perfs(i)%count, KIND=dp)
                IF (vol < 1.0_dp) THEN
                   WRITE (iw, '(1X,A15,T17,I10)') &
-                       ADJUSTL(perf_env%mp_perfs(i)%name), perf_env%mp_perfs(i)%count
+                     ADJUSTL(perf_env%mp_perfs(i)%name), perf_env%mp_perfs(i)%count
                ELSE
                   WRITE (iw, '(1X,A15,T17,I10,T40,F11.0)') &
-                       ADJUSTL(perf_env%mp_perfs(i)%name), perf_env%mp_perfs(i)%count, &
-                       vol
+                     ADJUSTL(perf_env%mp_perfs(i)%name), perf_env%mp_perfs(i)%count, &
+                     vol
                END IF
             ENDIF
 
@@ -998,7 +998,7 @@ CONTAINS
          DBCSR_ABORT("no perf_env in the stack : mpiwrap @ rm_mp_perf_env")
       ENDIF
       CALL mp_perf_env_release(mp_perf_stack(stack_pointer)%mp_perf_env)
-      stack_pointer = stack_pointer-1
+      stack_pointer = stack_pointer - 1
    END SUBROUTINE rm_mp_perf_env
 
 ! **************************************************************************************************
@@ -1006,7 +1006,7 @@ CONTAINS
 !> \return ...
 ! **************************************************************************************************
    PURE FUNCTION has_mp_perf_env() RESULT(res)
-     LOGICAL :: res
+      LOGICAL :: res
 
       res = .FALSE.
       IF (stack_pointer < 1) RETURN
@@ -1026,7 +1026,6 @@ CONTAINS
       ENDIF
       res => mp_perf_stack(stack_pointer)%mp_perf_env
    END FUNCTION get_mp_perf_env
-
 
 ! **************************************************************************************************
 !> \brief ...
@@ -1061,10 +1060,10 @@ CONTAINS
 
       mp_perf => mp_perf_stack(stack_pointer)%mp_perf_env%mp_perfs(perf_id)
       IF (PRESENT(count)) THEN
-         mp_perf%count = mp_perf%count+count
+         mp_perf%count = mp_perf%count + count
       END IF
       IF (PRESENT(msg_size)) THEN
-         mp_perf%msg_size = mp_perf%msg_size+REAL(msg_size, dp)
+         mp_perf%msg_size = mp_perf%msg_size + REAL(msg_size, dp)
       END IF
 #else
       MARK_USED(perf_id)
@@ -1108,7 +1107,7 @@ CONTAINS
 #if defined(__parallel)
       INTEGER                                  :: istat, len
       CHARACTER(LEN=MPI_MAX_ERROR_STRING)     :: error_string
-      CHARACTER(LEN=MPI_MAX_ERROR_STRING+512)  :: full_error
+      CHARACTER(LEN=MPI_MAX_ERROR_STRING + 512)  :: full_error
 #else
       CHARACTER(LEN=512)                       :: full_error
 #endif
@@ -1344,7 +1343,7 @@ CONTAINS
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_create @ mp_cart_create")
 
       IF (comm_cart /= MPI_COMM_NULL) THEN
-         debug_comm_count = debug_comm_count+1
+         debug_comm_count = debug_comm_count + 1
          CALL mpi_cart_get(comm_cart, ndims, dims, period, pos, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_get @ mp_cart_create")
       END IF
@@ -1403,7 +1402,7 @@ CONTAINS
       INTEGER, INTENT(OUT)                               :: res
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_comm_compare', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr, iout
 
@@ -1459,7 +1458,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_cart_sub(comm, rdim, sub_comm, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_sub @ mp_cart_sub")
-      debug_comm_count = debug_comm_count+1
+      debug_comm_count = debug_comm_count + 1
 #else
       MARK_USED(comm)
       MARK_USED(rdim)
@@ -1487,7 +1486,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_comm_free(comm, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_free @ mp_comm_free")
-      debug_comm_count = debug_comm_count-1
+      debug_comm_count = debug_comm_count - 1
 #else
       MARK_USED(comm)
 #endif
@@ -1516,7 +1515,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_comm_dup(comm1, comm2, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_dup @ mp_comm_dup")
-      debug_comm_count = debug_comm_count+1
+      debug_comm_count = debug_comm_count + 1
 #else
       comm2 = comm1
 #endif
@@ -1559,10 +1558,10 @@ CONTAINS
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_rank_compare")
       CALL mpi_comm_group(comm2, g2, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_rank_compare")
-      ALLOCATE (rin(0:n-1), STAT=ierr)
+      ALLOCATE (rin(0:n - 1), STAT=ierr)
       IF (ierr /= 0) &
          DBCSR_ABORT("allocate @ mp_rank_compare")
-      DO i = 0, n-1
+      DO i = 0, n - 1
          rin(i) = i
       END DO
       CALL mpi_group_translate_ranks(g1, n, rin, g2, rank, ierr)
@@ -1990,7 +1989,7 @@ CONTAINS
       INTEGER, INTENT(in), OPTIONAL                      :: key
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_comm_split_direct', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr, my_key
 
@@ -2001,7 +2000,7 @@ CONTAINS
 #if defined(__parallel)
       IF (PRESENT(key)) my_key = key
       CALL mpi_comm_split(comm, color, my_key, sub_comm, ierr)
-      debug_comm_count = debug_comm_count+1
+      debug_comm_count = debug_comm_count + 1
       IF (ierr /= mpi_success) CALL mp_stop(ierr, routineN)
       CALL add_perf(perf_id=10, count=1)
 #else
@@ -2069,7 +2068,7 @@ CONTAINS
 
       CALL mp_environ(nnodes, mepos, comm)
 
-      IF (UBOUND(group_distribution, 1) .NE. nnodes-1) THEN
+      IF (UBOUND(group_distribution, 1) .NE. nnodes - 1) THEN
          DBCSR_ABORT(routineP//" group_distribution wrong bounds")
       ENDIF
 
@@ -2095,28 +2094,28 @@ CONTAINS
       ! rank_permutation: is a permutation of ranks, so that groups are not necessarily continuous in rank of the master group
       ! while the order is not critical (we only color ranks), it can e.g. be used to make groups that have just 1 rank per node
       ! (by setting stride equal to the number of mpi ranks per node), or by sharing  a node between two groups (stride 2).
-      ALLOCATE (rank_permutation(0:nnodes-1))
+      ALLOCATE (rank_permutation(0:nnodes - 1))
       local_stride = 1
       IF (PRESENT(stride)) local_stride = stride
       k = 0
       DO istride = 1, local_stride
-         DO irank = istride-1, nnodes-1, local_stride
+         DO irank = istride - 1, nnodes - 1, local_stride
             rank_permutation(k) = irank
-            k = k+1
+            k = k + 1
          ENDDO
       ENDDO
 
-      DO i = 0, nnodes-1
-         group_distribution(rank_permutation(i)) = MIN(i/my_subgroup_min_size, ngroups-1)
+      DO i = 0, nnodes - 1
+         group_distribution(rank_permutation(i)) = MIN(i/my_subgroup_min_size, ngroups - 1)
       ENDDO
       ! even the user gave a partition, see if we can use it to overwrite this choice
       IF (PRESENT(group_partition)) THEN
          IF (ALL(group_partition > 0) .AND. (SUM(group_partition) .EQ. nnodes) .AND. (ngroups == SIZE(group_partition))) THEN
             k = 0
-            DO i = 0, SIZE(group_partition)-1
+            DO i = 0, SIZE(group_partition) - 1
                DO j = 1, group_partition(i)
                   group_distribution(rank_permutation(k)) = i
-                  k = k+1
+                  k = k + 1
                ENDDO
             ENDDO
          ELSE
@@ -2125,7 +2124,7 @@ CONTAINS
       ENDIF
       color = group_distribution(mepos)
       CALL mpi_comm_split(comm, color, 0, sub_comm, ierr)
-      debug_comm_count = debug_comm_count+1
+      debug_comm_count = debug_comm_count + 1
       IF (ierr /= mpi_success) CALL mp_stop(ierr, "in "//routineP//" split")
 
       CALL add_perf(perf_id=10, count=1)
@@ -2589,7 +2588,7 @@ CONTAINS
       k = 0
       DO j = 1, msgsiz
          DO i = 1, imsglen(j)
-            k = k+1
+            k = k + 1
             imsg(k) = ICHAR(msg(j) (i:i))
          END DO
       END DO
@@ -2599,7 +2598,7 @@ CONTAINS
       k = 0
       DO j = 1, msgsiz
          DO i = 1, imsglen(j)
-            k = k+1
+            k = k + 1
             msg(j) (i:i) = CHAR(imsg(k))
          END DO
       END DO
@@ -3083,12 +3082,12 @@ CONTAINS
       INTEGER, INTENT(OUT)                               :: resultlen
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_get_library_version', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ierr
 
       ierr = 0
-      
+
       version = ''
 
 #if defined(__parallel)
@@ -3155,8 +3154,8 @@ CONTAINS
          fposition = "REWIND"
       END IF
       IF ((amode .EQ. file_amode_create) .OR. &
-          (amode .EQ. file_amode_create+file_amode_wronly) .OR. &
-          (amode .EQ. file_amode_create+file_amode_wronly+file_amode_excl)) THEN
+          (amode .EQ. file_amode_create + file_amode_wronly) .OR. &
+          (amode .EQ. file_amode_create + file_amode_wronly + file_amode_excl)) THEN
          fstatus = "UNKNOWN"
       ELSE
          fstatus = "OLD"
@@ -3192,7 +3191,7 @@ CONTAINS
       ierr = 0
       my_info = mpi_info_null
       IF (PRESENT(info)) my_info = info
-      INQUIRE(FILE=filepath, EXIST=exists)
+      INQUIRE (FILE=filepath, EXIST=exists)
       IF (exists) CALL mpi_file_delete(filepath, my_info, ierr)
       IF (ierr .NE. 0) CALL mp_stop(ierr, "mpi_file_set_errhandler @ mp_file_delete")
 #else
@@ -3309,7 +3308,7 @@ CONTAINS
          DBCSR_ABORT("mpi_file_write_at_chv @ "//routineN)
 #else
       MARK_USED(msglen)
-      WRITE (UNIT=fh, POS=offset+1) msg
+      WRITE (UNIT=fh, POS=offset + 1) msg
 #endif
    END SUBROUTINE mp_file_write_at_chv
 
@@ -3334,7 +3333,7 @@ CONTAINS
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_ch @ "//routineN)
 #else
-      WRITE (UNIT=fh, POS=offset+1) msg
+      WRITE (UNIT=fh, POS=offset + 1) msg
 #endif
    END SUBROUTINE mp_file_write_at_ch
 
@@ -3367,7 +3366,7 @@ CONTAINS
          DBCSR_ABORT("mpi_file_write_at_all_chv @ "//routineN)
 #else
       MARK_USED(msglen)
-      WRITE (UNIT=fh, POS=offset+1) msg
+      WRITE (UNIT=fh, POS=offset + 1) msg
 #endif
    END SUBROUTINE mp_file_write_at_all_chv
 
@@ -3392,7 +3391,7 @@ CONTAINS
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_all_ch @ "//routineN)
 #else
-      WRITE (UNIT=fh, POS=offset+1) msg
+      WRITE (UNIT=fh, POS=offset + 1) msg
 #endif
    END SUBROUTINE mp_file_write_at_all_ch
 
@@ -3426,7 +3425,7 @@ CONTAINS
          DBCSR_ABORT("mpi_file_read_at_chv @ "//routineN)
 #else
       MARK_USED(msglen)
-      READ (UNIT=fh, POS=offset+1) msg
+      READ (UNIT=fh, POS=offset + 1) msg
 #endif
    END SUBROUTINE mp_file_read_at_chv
 
@@ -3451,7 +3450,7 @@ CONTAINS
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_read_at_ch @ "//routineN)
 #else
-      READ (UNIT=fh, POS=offset+1) msg
+      READ (UNIT=fh, POS=offset + 1) msg
 #endif
    END SUBROUTINE mp_file_read_at_ch
 
@@ -3484,7 +3483,7 @@ CONTAINS
          DBCSR_ABORT("mpi_file_read_at_all_chv @ "//routineN)
 #else
       MARK_USED(msglen)
-      READ (UNIT=fh, POS=offset+1) msg
+      READ (UNIT=fh, POS=offset + 1) msg
 #endif
    END SUBROUTINE mp_file_read_at_all_chv
 
@@ -3509,7 +3508,7 @@ CONTAINS
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_read_at_all_ch @ "//routineN)
 #else
-      READ (UNIT=fh, POS=offset+1) msg
+      READ (UNIT=fh, POS=offset + 1) msg
 #endif
    END SUBROUTINE mp_file_read_at_all_ch
 
@@ -3679,21 +3678,21 @@ CONTAINS
       TYPE(mp_file_descriptor_type)             :: type_descriptor
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_hindexed_make_chv', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER :: ierr, handle
 
       ierr = 0
-      CALL timeset(routineN,handle)
+      CALL timeset(routineN, handle)
       type_descriptor%type_handle = 0
 
 #if defined(__parallel)
       CALL MPI_Type_create_hindexed(count, lengths, displs, MPI_CHARACTER, &
                                     type_descriptor%type_handle, ierr)
-      IF (ierr /= 0)&
+      IF (ierr /= 0) &
          DBCSR_ABORT("MPI_Type_create_hindexed @ "//routineN)
       CALL MPI_Type_commit(type_descriptor%type_handle, ierr)
-      IF (ierr /= 0)&
+      IF (ierr /= 0) &
          DBCSR_ABORT("MPI_Type_commit @ "//routineN)
 #else
       type_descriptor%type_handle = 68
@@ -3721,12 +3720,12 @@ CONTAINS
       TYPE(mp_file_descriptor_type)            :: type_descriptor
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_set_view_chv', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                   :: ierr, handle
 
       ierr = 0
-      CALL timeset(routineN,handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       CALL mpi_file_set_errhandler(fh, MPI_ERRORS_RETURN, ierr)
@@ -3742,7 +3741,7 @@ CONTAINS
 
       CALL timestop(handle)
 
-  END SUBROUTINE mp_file_type_set_view_chv
+   END SUBROUTINE mp_file_type_set_view_chv
 
 ! **************************************************************************************************
 !> \brief (parallel) Collective, blocking read of a character array from a file. File access pattern
@@ -3764,13 +3763,13 @@ CONTAINS
          INTENT(IN), OPTIONAL                   :: type_descriptor
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_read_all_chv', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                   :: ierr, handle, i
 
       i = 0
       ierr = 0
-      CALL timeset(routineN,handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       MARK_USED(type_descriptor)
@@ -3782,13 +3781,13 @@ CONTAINS
       MARK_USED(ndims)
       IF (.NOT. PRESENT(type_descriptor)) &
          CALL dbcsr_abort(__LOCATION__, &
-                       "Container for mp_file_descriptor_type must be present in serial call.")
+                          "Container for mp_file_descriptor_type must be present in serial call.")
       IF (.NOT. type_descriptor%has_indexing) &
          CALL dbcsr_abort(__LOCATION__, &
-                       "File view has not been set in mp_file_descriptor_type.")
+                          "File view has not been set in mp_file_descriptor_type.")
       ! Use explicit offsets
       DO i = 1, ndims
-         READ(fh, POS=type_descriptor%index_descriptor%chunks(i)) buffer(i)
+         READ (fh, POS=type_descriptor%index_descriptor%chunks(i)) buffer(i)
       END DO
 #endif
 
@@ -3816,13 +3815,13 @@ CONTAINS
          INTENT(IN), OPTIONAL                   :: type_descriptor
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_write_all_chv', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                   :: ierr, handle, i
 
       i = 0
       ierr = 0
-      CALL timeset(routineN,handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       MARK_USED(type_descriptor)
@@ -3835,13 +3834,13 @@ CONTAINS
       MARK_USED(ndims)
       IF (.NOT. PRESENT(type_descriptor)) &
          CALL dbcsr_abort(__LOCATION__, &
-                       "Container for mp_file_descriptor_type must be present in serial call.")
+                          "Container for mp_file_descriptor_type must be present in serial call.")
       IF (.NOT. type_descriptor%has_indexing) &
          CALL dbcsr_abort(__LOCATION__, &
-                       "File view has not been set in mp_file_descriptor_type.")
+                          "File view has not been set in mp_file_descriptor_type.")
       ! Use explicit offsets
       DO i = 1, ndims
-         WRITE(fh, POS=type_descriptor%index_descriptor%chunks(i)) buffer(i)
+         WRITE (fh, POS=type_descriptor%index_descriptor%chunks(i)) buffer(i)
       END DO
 #endif
 
@@ -3858,16 +3857,16 @@ CONTAINS
       TYPE(mp_file_descriptor_type)             :: type_descriptor
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_type_free', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                   :: ierr, handle
 
       ierr = 0
-      CALL timeset(routineN,handle)
+      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       CALL MPI_Type_free(type_descriptor%type_handle, ierr)
-      IF (ierr /= 0)&
+      IF (ierr /= 0) &
          DBCSR_ABORT("MPI_Type_free @ "//routineN)
 #endif
       type_descriptor%length = -1
@@ -3895,13 +3894,13 @@ CONTAINS
 !> \param position   should the file be appended or rewound
 !> \author Nico Holmberg [11.2017]
 ! **************************************************************************************************
-      SUBROUTINE mp_file_get_amode(mpi_io, replace, amode, form, action, status, position)
+   SUBROUTINE mp_file_get_amode(mpi_io, replace, amode, form, action, status, position)
       LOGICAL, INTENT(INOUT)                             :: mpi_io, replace
       INTEGER, INTENT(OUT)                               :: amode
       CHARACTER(len=*), INTENT(IN)                       :: form, action, status, position
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_get_amode', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       amode = -1
 #if defined(__parallel)
@@ -4036,7 +4035,7 @@ CONTAINS
       INTEGER, INTENT(in), OPTIONAL                      :: tag
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_isend_custom', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ierr, my_tag
 
@@ -4076,7 +4075,7 @@ CONTAINS
       INTEGER, INTENT(in), OPTIONAL                      :: tag
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_irecv_custom', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ierr, my_tag
 
@@ -4136,7 +4135,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: win
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_win_flush_all', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
 
@@ -4165,7 +4164,7 @@ CONTAINS
       INTEGER, INTENT(INOUT)                             :: win
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_win_lock_all', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
 
@@ -4197,7 +4196,7 @@ CONTAINS
       INTEGER, INTENT(INOUT)                             :: win
 
       CHARACTER(len=*), PARAMETER :: routineN = 'mp_win_unlock_all', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
 

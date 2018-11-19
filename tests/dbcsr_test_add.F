@@ -17,40 +17,40 @@
 !> - Created 2010
 ! **************************************************************************************************
 MODULE dbcsr_test_add
-   USE dbcsr_data_methods,              ONLY: dbcsr_data_get_sizes,&
-                                              dbcsr_data_init,&
-                                              dbcsr_data_new,&
-                                              dbcsr_data_release,&
-                                              dbcsr_type_1d_to_2d
-   USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_new,&
-                                              dbcsr_distribution_release
-   USE dbcsr_io,                        ONLY: dbcsr_print
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              real_4,&
-                                              real_8
-   USE dbcsr_methods,                   ONLY: &
-        dbcsr_col_block_sizes, dbcsr_get_data_type, dbcsr_get_matrix_type, dbcsr_name, &
-        dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
-        dbcsr_release, dbcsr_row_block_sizes
-   USE dbcsr_mpiwrap,                   ONLY: mp_bcast,&
-                                              mp_environ
-   USE dbcsr_operations,                ONLY: dbcsr_add,&
-                                              dbcsr_get_occupation
-   USE dbcsr_test_methods,              ONLY: compx_to_dbcsr_scalar,&
-                                              dbcsr_impose_sparsity,&
-                                              dbcsr_make_random_block_sizes,&
-                                              dbcsr_make_random_matrix,&
-                                              dbcsr_random_dist,&
-                                              dbcsr_to_dense_local
-   USE dbcsr_transformations,           ONLY: dbcsr_redistribute,&
-                                              dbcsr_replicate_all
-   USE dbcsr_types,                     ONLY: &
-        dbcsr_data_obj, dbcsr_distribution_obj, dbcsr_mp_obj, dbcsr_scalar_type, dbcsr_type, &
-        dbcsr_type_antihermitian, dbcsr_type_antisymmetric, dbcsr_type_complex_4, &
-        dbcsr_type_complex_4_2d, dbcsr_type_complex_8, dbcsr_type_complex_8_2d, &
-        dbcsr_type_hermitian, dbcsr_type_no_symmetry, dbcsr_type_real_4, dbcsr_type_real_4_2d, &
-        dbcsr_type_real_8, dbcsr_type_real_8_2d, dbcsr_type_symmetric
-   USE dbcsr_work_operations,           ONLY: dbcsr_create
+   USE dbcsr_data_methods, ONLY: dbcsr_data_get_sizes, &
+                                 dbcsr_data_init, &
+                                 dbcsr_data_new, &
+                                 dbcsr_data_release, &
+                                 dbcsr_type_1d_to_2d
+   USE dbcsr_dist_methods, ONLY: dbcsr_distribution_new, &
+                                 dbcsr_distribution_release
+   USE dbcsr_io, ONLY: dbcsr_print
+   USE dbcsr_kinds, ONLY: dp, &
+                          real_4, &
+                          real_8
+   USE dbcsr_methods, ONLY: &
+      dbcsr_col_block_sizes, dbcsr_get_data_type, dbcsr_get_matrix_type, dbcsr_name, &
+      dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
+      dbcsr_release, dbcsr_row_block_sizes
+   USE dbcsr_mpiwrap, ONLY: mp_bcast, &
+                            mp_environ
+   USE dbcsr_operations, ONLY: dbcsr_add, &
+                               dbcsr_get_occupation
+   USE dbcsr_test_methods, ONLY: compx_to_dbcsr_scalar, &
+                                 dbcsr_impose_sparsity, &
+                                 dbcsr_make_random_block_sizes, &
+                                 dbcsr_make_random_matrix, &
+                                 dbcsr_random_dist, &
+                                 dbcsr_to_dense_local
+   USE dbcsr_transformations, ONLY: dbcsr_redistribute, &
+                                    dbcsr_replicate_all
+   USE dbcsr_types, ONLY: &
+      dbcsr_data_obj, dbcsr_distribution_obj, dbcsr_mp_obj, dbcsr_scalar_type, dbcsr_type, &
+      dbcsr_type_antihermitian, dbcsr_type_antisymmetric, dbcsr_type_complex_4, &
+      dbcsr_type_complex_4_2d, dbcsr_type_complex_8, dbcsr_type_complex_8_2d, &
+      dbcsr_type_hermitian, dbcsr_type_no_symmetry, dbcsr_type_real_4, dbcsr_type_real_4_2d, &
+      dbcsr_type_real_8, dbcsr_type_real_8_2d, dbcsr_type_symmetric
+   USE dbcsr_work_operations, ONLY: dbcsr_create
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -96,13 +96,15 @@ CONTAINS
       LOGICAL, INTENT(in)                                :: retain_sparsity
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_test_adds', &
-         routineP = moduleN//':'//routineN
-      CHARACTER, DIMENSION(2, 5), PARAMETER :: symmetries = RESHAPE((/dbcsr_type_no_symmetry, &
-         dbcsr_type_no_symmetry, dbcsr_type_symmetric, dbcsr_type_symmetric, &
-         dbcsr_type_antisymmetric, dbcsr_type_antisymmetric, dbcsr_type_hermitian, &
-         dbcsr_type_hermitian, dbcsr_type_antihermitian, dbcsr_type_antihermitian/), (/2, 5/))
+                                     routineP = moduleN//':'//routineN
+      CHARACTER, DIMENSION(2, 5), PARAMETER :: symmetries = &
+                                               RESHAPE((/dbcsr_type_no_symmetry, dbcsr_type_no_symmetry, &
+                                                         dbcsr_type_symmetric, dbcsr_type_symmetric, &
+                                                         dbcsr_type_antisymmetric, dbcsr_type_antisymmetric, &
+                                                         dbcsr_type_hermitian, dbcsr_type_hermitian, &
+                                                         dbcsr_type_antihermitian, dbcsr_type_antihermitian/), (/2, 5/))
       INTEGER, DIMENSION(4), PARAMETER :: types = (/dbcsr_type_real_4, dbcsr_type_real_8, &
-         dbcsr_type_complex_4, dbcsr_type_complex_8/)
+                                                    dbcsr_type_complex_4, dbcsr_type_complex_8/)
 
       CHARACTER                                          :: a_symm, b_symm
       INTEGER                                            :: a_c, a_r, b_c, b_r, handle, isymm, &
@@ -429,8 +431,8 @@ CONTAINS
          DBCSR_ABORT("dense matrix not valid")
       !
       !
-      m = limits(2)-limits(1)+1
-      n = limits(4)-limits(3)+1
+      m = limits(2) - limits(1) + 1
+      n = limits(4) - limits(3) + 1
       row = limits(1); col = limits(3)
 
       !
@@ -449,8 +451,8 @@ CONTAINS
          b_norm = dlange(norm, row_size, col_size, dense_b%d%r2_dp(1, 1), ld, work)
          a_norm_dbcsr = dlange(norm, row_size, col_size, dense_a_dbcsr%d%r2_dp(1, 1), ld, work)
          !
-         dense_a%d%r2_dp(row:row+m-1, col:col+n-1) = alpha%r_dp*dense_a%d%r2_dp(row:row+m-1, col:col+n-1)+ &
-                                                     beta%r_dp*dense_b%d%r2_dp(row:row+m-1, col:col+n-1)
+         dense_a%d%r2_dp(row:row + m - 1, col:col + n - 1) = alpha%r_dp*dense_a%d%r2_dp(row:row + m - 1, col:col + n - 1) + &
+                                                             beta%r_dp*dense_b%d%r2_dp(row:row + m - 1, col:col + n - 1)
          !
          ! impose the sparsity if needed
          IF (retain_sparsity) CALL dbcsr_impose_sparsity(matrix_a, dense_a)
@@ -458,7 +460,7 @@ CONTAINS
          a_norm_out = dlange(norm, row_size, col_size, dense_a%d%r2_dp(1, 1), ld, work)
          !
          ! take the difference dense/sparse
-         dense_a%d%r2_dp = dense_a%d%r2_dp-dense_a_dbcsr%d%r2_dp
+         dense_a%d%r2_dp = dense_a%d%r2_dp - dense_a_dbcsr%d%r2_dp
          !
          ! compute the residual
          residual = dlange(norm, row_size, col_size, dense_a%d%r2_dp(1, 1), ld, work)
@@ -472,8 +474,8 @@ CONTAINS
          b_norm = slange(norm, row_size, col_size, dense_b%d%r2_sp(1, 1), ld, work_sp)
          a_norm_dbcsr = slange(norm, row_size, col_size, dense_a_dbcsr%d%r2_sp(1, 1), ld, work_sp)
          !
-         dense_a%d%r2_sp(row:row+m-1, col:col+n-1) = alpha%r_sp*dense_a%d%r2_sp(row:row+m-1, col:col+n-1)+ &
-                                                     beta%r_sp*dense_b%d%r2_sp(row:row+m-1, col:col+n-1)
+         dense_a%d%r2_sp(row:row + m - 1, col:col + n - 1) = alpha%r_sp*dense_a%d%r2_sp(row:row + m - 1, col:col + n - 1) + &
+                                                             beta%r_sp*dense_b%d%r2_sp(row:row + m - 1, col:col + n - 1)
          !
          ! impose the sparsity if needed
          IF (retain_sparsity) CALL dbcsr_impose_sparsity(matrix_a, dense_a)
@@ -481,7 +483,7 @@ CONTAINS
          a_norm_out = slange(norm, row_size, col_size, dense_a%d%r2_sp(1, 1), ld, work_sp)
          !
          ! take the difference dense/sparse
-         dense_a%d%r2_sp = dense_a%d%r2_sp-dense_a_dbcsr%d%r2_sp
+         dense_a%d%r2_sp = dense_a%d%r2_sp - dense_a_dbcsr%d%r2_sp
          !
          ! compute the residual
          residual = REAL(slange(norm, row_size, col_size, dense_a%d%r2_sp(1, 1), ld, work_sp), real_8)
@@ -495,8 +497,8 @@ CONTAINS
          b_norm = zlange(norm, row_size, col_size, dense_b%d%c2_dp(1, 1), ld, work)
          a_norm_dbcsr = zlange(norm, row_size, col_size, dense_a_dbcsr%d%c2_dp(1, 1), ld, work)
          !
-         dense_a%d%c2_dp(row:row+m-1, col:col+n-1) = alpha%c_dp*dense_a%d%c2_dp(row:row+m-1, col:col+n-1)+ &
-                                                     beta%c_dp*dense_b%d%c2_dp(row:row+m-1, col:col+n-1)
+         dense_a%d%c2_dp(row:row + m - 1, col:col + n - 1) = alpha%c_dp*dense_a%d%c2_dp(row:row + m - 1, col:col + n - 1) + &
+                                                             beta%c_dp*dense_b%d%c2_dp(row:row + m - 1, col:col + n - 1)
          !
          ! impose the sparsity if needed
          IF (retain_sparsity) CALL dbcsr_impose_sparsity(matrix_a, dense_a)
@@ -504,7 +506,7 @@ CONTAINS
          a_norm_out = zlange(norm, row_size, col_size, dense_a%d%c2_dp(1, 1), ld, work)
          !
          ! take the difference dense/sparse
-         dense_a%d%c2_dp = dense_a%d%c2_dp-dense_a_dbcsr%d%c2_dp
+         dense_a%d%c2_dp = dense_a%d%c2_dp - dense_a_dbcsr%d%c2_dp
          !
          ! compute the residual
          residual = zlange(norm, row_size, col_size, dense_a%d%c2_dp(1, 1), ld, work)
@@ -534,8 +536,8 @@ CONTAINS
             ENDDO
          ENDIF
 
-         dense_a%d%c2_sp(row:row+m-1, col:col+n-1) = alpha%c_sp*dense_a%d%c2_sp(row:row+m-1, col:col+n-1)+ &
-                                                     beta%c_sp*dense_b%d%c2_sp(row:row+m-1, col:col+n-1)
+         dense_a%d%c2_sp(row:row + m - 1, col:col + n - 1) = alpha%c_sp*dense_a%d%c2_sp(row:row + m - 1, col:col + n - 1) + &
+                                                             beta%c_sp*dense_b%d%c2_sp(row:row + m - 1, col:col + n - 1)
          !
          ! impose the sparsity if needed
          IF (retain_sparsity) CALL dbcsr_impose_sparsity(matrix_a, dense_a)
@@ -560,7 +562,7 @@ CONTAINS
          a_norm_out = clange(norm, row_size, col_size, dense_a%d%c2_sp(1, 1), ld, work_sp)
          !
          ! take the difference dense/sparse
-         dense_a%d%c2_sp = dense_a%d%c2_sp-dense_a_dbcsr%d%c2_sp
+         dense_a%d%c2_sp = dense_a%d%c2_sp - dense_a_dbcsr%d%c2_sp
          !
          ! compute the residual
          residual = REAL(clange(norm, row_size, col_size, dense_a%d%c2_sp(1, 1), ld, work_sp), real_8)
@@ -570,7 +572,7 @@ CONTAINS
       END SELECT
 
       IF (mynode .EQ. 0) THEN
-         IF (residual/((a_norm_in+b_norm)*REAL(row_size, real_8)*eps) .GT. 10.0_real_8) THEN
+         IF (residual/((a_norm_in + b_norm)*REAL(row_size, real_8)*eps) .GT. 10.0_real_8) THEN
             success = .FALSE.
          ELSE
             success = .TRUE.
@@ -588,7 +590,7 @@ CONTAINS
             ', a_norm_dbcsr ', a_norm_dbcsr
          WRITE (io_unit, '(A)') ' Checking the norm of the difference against reference ADD '
          WRITE (io_unit, '(A,E12.5)') ' -- ||A_dbcsr-A_dense||_oo/((||A||_oo+||B||_oo).N.eps)=', &
-            residual/((a_norm_in+b_norm)*n*eps)
+            residual/((a_norm_in + b_norm)*n*eps)
          !
          ! check for nan or inf here
          IF (success) THEN

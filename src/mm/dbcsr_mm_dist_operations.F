@@ -18,29 +18,29 @@
 ! **************************************************************************************************
 MODULE dbcsr_mm_dist_operations
 
-   USE dbcsr_array_types,               ONLY: &
-        array_data, array_equality, array_exists, array_hold, array_i1d_obj, array_new, &
-        array_nullify, array_release, array_size
-   USE dbcsr_dist_methods,              ONLY: &
-        dbcsr_distribution_col_dist, dbcsr_distribution_has_threads, dbcsr_distribution_hold, &
-        dbcsr_distribution_make_threads, dbcsr_distribution_mp, dbcsr_distribution_ncols, &
-        dbcsr_distribution_new, dbcsr_distribution_no_threads, dbcsr_distribution_nrows, &
-        dbcsr_distribution_release, dbcsr_distribution_row_dist, dbcsr_distribution_thread_dist
-   USE dbcsr_dist_operations,           ONLY: dbcsr_get_local_cols,&
-                                              dbcsr_get_local_rows,&
-                                              find_all_local_elements,&
-                                              rebin_distribution
-   USE dbcsr_methods,                   ONLY: dbcsr_distribution,&
-                                              dbcsr_release_locals
-   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_mypcol,&
-                                              dbcsr_mp_myprow,&
-                                              dbcsr_mp_npcols,&
-                                              dbcsr_mp_nprows
-   USE dbcsr_toollib,                   ONLY: gcd
-   USE dbcsr_types,                     ONLY: &
-        dbcsr_distribution_obj, dbcsr_imagedistribution_obj, dbcsr_mp_obj, dbcsr_slot_home_pcol, &
-        dbcsr_slot_home_prow, dbcsr_slot_home_vpcol, dbcsr_slot_home_vprow, &
-        dbcsr_slot_nblkcols_local, dbcsr_slot_nblkrows_local, dbcsr_type
+   USE dbcsr_array_types, ONLY: &
+      array_data, array_equality, array_exists, array_hold, array_i1d_obj, array_new, &
+      array_nullify, array_release, array_size
+   USE dbcsr_dist_methods, ONLY: &
+      dbcsr_distribution_col_dist, dbcsr_distribution_has_threads, dbcsr_distribution_hold, &
+      dbcsr_distribution_make_threads, dbcsr_distribution_mp, dbcsr_distribution_ncols, &
+      dbcsr_distribution_new, dbcsr_distribution_no_threads, dbcsr_distribution_nrows, &
+      dbcsr_distribution_release, dbcsr_distribution_row_dist, dbcsr_distribution_thread_dist
+   USE dbcsr_dist_operations, ONLY: dbcsr_get_local_cols, &
+                                    dbcsr_get_local_rows, &
+                                    find_all_local_elements, &
+                                    rebin_distribution
+   USE dbcsr_methods, ONLY: dbcsr_distribution, &
+                            dbcsr_release_locals
+   USE dbcsr_mp_methods, ONLY: dbcsr_mp_mypcol, &
+                               dbcsr_mp_myprow, &
+                               dbcsr_mp_npcols, &
+                               dbcsr_mp_nprows
+   USE dbcsr_toollib, ONLY: gcd
+   USE dbcsr_types, ONLY: &
+      dbcsr_distribution_obj, dbcsr_imagedistribution_obj, dbcsr_mp_obj, dbcsr_slot_home_pcol, &
+      dbcsr_slot_home_prow, dbcsr_slot_home_vpcol, dbcsr_slot_home_vprow, &
+      dbcsr_slot_nblkcols_local, dbcsr_slot_nblkrows_local, dbcsr_type
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -97,7 +97,7 @@ CONTAINS
                                                             nimages_cols
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_create_image_dist', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ncols, npcols, nprows, nrows
       INTEGER, DIMENSION(:), POINTER                     :: col_dist_data, col_img_data, col_vdist, &
@@ -108,7 +108,7 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
-      idid = idid+1
+      idid = idid + 1
       ALLOCATE (imgdist%i)
       imgdist%i%refcount = 1
       imgdist%i%id = idid
@@ -246,11 +246,11 @@ CONTAINS
       TYPE(dbcsr_imagedistribution_obj), INTENT(IN)      :: template
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_new_image_dist', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
-      idid = idid+1
+      idid = idid + 1
       ALLOCATE (imgdist%i)
       imgdist%i%refcount = 1
       imgdist%i%id = idid
@@ -301,7 +301,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(IN)                    :: old_m_sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_dists_dense', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, i, j, k_nbins, m_nbins, &
                                                             n_nbins, nthreads
@@ -350,7 +350,7 @@ CONTAINS
          tdist => array_data(dbcsr_distribution_thread_dist(dense_product_dist))
          ! Resets the thread distribution to be in-order.
          DO i = 1, m_nbins
-            tdist((i-1)*nthreads+1:(i)*nthreads) = (/(j, j=0, nthreads-1)/)
+            tdist((i - 1)*nthreads + 1:(i)*nthreads) = (/(j, j=0, nthreads - 1)/)
          ENDDO
       ENDIF
       !
@@ -509,7 +509,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: local_vprow
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_vrows', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: el, error_handle, nvprows, vprow
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: itmp, nle
@@ -521,16 +521,16 @@ CONTAINS
          imgdist%i%has_other_vl_rows = .TRUE.
          nvprows = dbcsr_mp_nprows(dbcsr_distribution_mp(imgdist%i%main)) &
                    *imgdist%i%row_decimation
-         ALLOCATE (imgdist%i%other_vl_rows(0:nvprows-1))
-         ALLOCATE (nle(0:nvprows-1))
+         ALLOCATE (imgdist%i%other_vl_rows(0:nvprows - 1))
+         ALLOCATE (nle(0:nvprows - 1))
          vrow_dist => array_data(imgdist%i%vrow_dist)
          ! Count the number of local elements per row.
          nle(:) = 0
          DO el = 1, SIZE(vrow_dist)
             vprow = vrow_dist(el)
-            nle(vprow) = nle(vprow)+1
+            nle(vprow) = nle(vprow) + 1
          ENDDO
-         DO vprow = 0, nvprows-1
+         DO vprow = 0, nvprows - 1
             ALLOCATE (itmp(nle(vprow)))
             itmp = 0
             CALL array_new(imgdist%i%other_vl_rows(vprow), &
@@ -559,7 +559,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: local_vpcol
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_vcols', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: el, error_handle, nvpcols, vpcol
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: nle
@@ -571,16 +571,16 @@ CONTAINS
          imgdist%i%has_other_vl_cols = .TRUE.
          nvpcols = dbcsr_mp_npcols(dbcsr_distribution_mp(imgdist%i%main)) &
                    *imgdist%i%col_decimation
-         ALLOCATE (imgdist%i%other_vl_cols(0:nvpcols-1))
-         ALLOCATE (nle(0:nvpcols-1))
+         ALLOCATE (imgdist%i%other_vl_cols(0:nvpcols - 1))
+         ALLOCATE (nle(0:nvpcols - 1))
          vcol_dist => array_data(imgdist%i%vcol_dist)
          ! Count the number of local elements per col.
          nle(:) = 0
          DO el = 1, SIZE(vcol_dist)
             vpcol = vcol_dist(el)
-            nle(vpcol) = nle(vpcol)+1
+            nle(vpcol) = nle(vpcol) + 1
          ENDDO
-         DO vpcol = 0, nvpcols-1
+         DO vpcol = 0, nvpcols - 1
             ALLOCATE (itmp(nle(vpcol)))
             itmp = 0
             CALL array_new(imgdist%i%other_vl_cols(vpcol), &
@@ -633,7 +633,7 @@ CONTAINS
       CHARACTER, INTENT(IN), OPTIONAL                    :: shifting
 
       CHARACTER(len=*), PARAMETER :: routineN = 'image_calculator', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: col_mult, my_pcol, my_prow, ncol_images, &
                                                             npcols, nprows, nrow_images, nvpcols, &
@@ -673,36 +673,36 @@ CONTAINS
       ENDIF
       !
       IF (.NOT. PRESENT(myvprow)) THEN
-         vrow = my_prow*nrow_images+myrowi-1
+         vrow = my_prow*nrow_images + myrowi - 1
       ELSE
          vrow = myvprow
       ENDIF
       IF (.NOT. PRESENT(myvpcol)) THEN
-         vcol = my_pcol*ncol_images+mycoli-1
+         vcol = my_pcol*ncol_images + mycoli - 1
       ELSE
          vcol = myvpcol
       ENDIF
       !
-      IF (PRESENT(vprow_shift)) vrow = vrow+vprow_shift
-      IF (PRESENT(vpcol_shift)) vcol = vcol+vpcol_shift
+      IF (PRESENT(vprow_shift)) vrow = vrow + vprow_shift
+      IF (PRESENT(vpcol_shift)) vcol = vcol + vpcol_shift
       IF (PRESENT(shifting)) THEN
          SELECT CASE (shifting)
          CASE ('R')
-            vrow = vrow+my_pcol*row_mult
+            vrow = vrow + my_pcol*row_mult
          CASE ('L')
-            vcol = vcol+my_prow*col_mult
+            vcol = vcol + my_prow*col_mult
          CASE ('r')
-            vrow = vrow-my_pcol*row_mult
+            vrow = vrow - my_pcol*row_mult
          CASE ('l')
-            vcol = vcol-my_prow*col_mult
+            vcol = vcol - my_prow*col_mult
          END SELECT
       ENDIF
       vrow = MODULO(vrow, nvprows)
       vcol = MODULO(vcol, nvpcols)
       IF (PRESENT(prow)) prow = vrow/nrow_images
-      IF (PRESENT(rowi)) rowi = MODULO(vrow, nrow_images)+1
+      IF (PRESENT(rowi)) rowi = MODULO(vrow, nrow_images) + 1
       IF (PRESENT(pcol)) pcol = vcol/ncol_images
-      IF (PRESENT(coli)) coli = MODULO(vcol, ncol_images)+1
+      IF (PRESENT(coli)) coli = MODULO(vcol, ncol_images) + 1
       IF (PRESENT(vprow)) vprow = vrow
       IF (PRESENT(vpcol)) vpcol = vcol
    END SUBROUTINE image_calculator
@@ -721,7 +721,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(OUT)                   :: new_sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'make_sizes_dense', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: el, nel_old
       INTEGER, DIMENSION(:), POINTER                     :: map, new_s, old_s
@@ -734,7 +734,7 @@ CONTAINS
       ALLOCATE (new_s(nel_new))
       new_s(:) = 0
       DO el = 1, nel_old
-         new_s(map(el)) = new_s(map(el))+old_s(el)
+         new_s(map(el)) = new_s(map(el)) + old_s(el)
       ENDDO
       CALL array_new(new_sizes, new_s, gift=.TRUE.)
    END SUBROUTINE make_sizes_dense
@@ -756,7 +756,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: subdist
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_1dist_dense', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: b, i, n_new_bins
       INTEGER, DIMENSION(:), POINTER                     :: dense, map, old_d
@@ -773,13 +773,13 @@ CONTAINS
       ALLOCATE (map(array_size(old_dist)))
       !
       IF (nsubdist .EQ. 0) THEN
-         dense(:) = (/(b, b=0, n_new_bins-1)/)
-         map(:) = old_d(:)+1
+         dense(:) = (/(b, b=0, n_new_bins - 1)/)
+         map(:) = old_d(:) + 1
       ELSE
          DO i = 1, nbins
-            dense((i-1)*nsubdist+1:(i)*nsubdist) = i-1
+            dense((i - 1)*nsubdist + 1:(i)*nsubdist) = i - 1
          ENDDO
-         map(:) = old_d(:)*nsubdist+subdist(:)+1
+         map(:) = old_d(:)*nsubdist + subdist(:) + 1
       ENDIF
       !
       CALL array_new(dense_dist, dense, gift=.TRUE.)
@@ -804,7 +804,7 @@ CONTAINS
 
       DO i = 1, nel
          pdist(i) = vdist(i)/nim
-         idist(i) = MOD(vdist(i), nim)+1
+         idist(i) = MOD(vdist(i), nim) + 1
       END DO
    END SUBROUTINE v_to_p_i_dist
 
@@ -841,7 +841,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(OUT)                   :: row_map
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_row_map', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, nprows
       INTEGER, DIMENSION(:), POINTER                     :: rmap, row_dist
@@ -873,7 +873,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(OUT)                   :: col_map
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_col_map', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, npcols
       INTEGER, DIMENSION(:), POINTER                     :: cmap, col_dist
@@ -905,7 +905,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(OUT)                   :: vrow_map
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_vrow_map', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, nvprows
       INTEGER, DIMENSION(:), POINTER                     :: rmap, vrow_dist
@@ -938,7 +938,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(OUT)                   :: vcol_map
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_vcol_map', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, nvpcols
       INTEGER, DIMENSION(:), POINTER                     :: rmap, vcol_dist
@@ -979,12 +979,12 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: nbins
 
       INTEGER                                            :: bin, el
-      INTEGER, DIMENSION(0:nbins-1)                      :: nlve
+      INTEGER, DIMENSION(0:nbins - 1)                      :: nlve
 
       nlve(:) = 0
       DO el = 1, SIZE(bin_distribution)
          bin = bin_distribution(el)
-         nlve(bin) = nlve(bin)+1
+         nlve(bin) = nlve(bin) + 1
          global_elements(el) = nlve(bin)
       ENDDO
    END SUBROUTINE map_all_local_elements
@@ -1028,19 +1028,19 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: nbins, nimages
 
       CHARACTER(len=*), PARAMETER :: routineN = 'reimage_distribution', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: bin, i
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: bin_multiplier
 
 !   ---------------------------------------------------------------------------
 
-      ALLOCATE (bin_multiplier(0:nbins-1))
+      ALLOCATE (bin_multiplier(0:nbins - 1))
       bin_multiplier(:) = 0
       DO i = 1, SIZE(my_bins)
          bin = my_bins(i)
-         images(i) = 1+bin_multiplier(bin)
-         bin_multiplier(bin) = bin_multiplier(bin)+1
+         images(i) = 1 + bin_multiplier(bin)
+         bin_multiplier(bin) = bin_multiplier(bin) + 1
          IF (bin_multiplier(bin) .GE. nimages) THEN
             bin_multiplier(bin) = 0
          ENDIF
@@ -1063,14 +1063,14 @@ CONTAINS
       INTEGER, DIMENSION(nelements), INTENT(IN)          :: images
 
       CHARACTER(len=*), PARAMETER :: routineN = 'make_vdistribution', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: el
 
 !   ---------------------------------------------------------------------------
 
       DO el = 1, nelements
-         vbins(el) = bins(el)*decimation+images(el)-1
+         vbins(el) = bins(el)*decimation + images(el) - 1
       END DO
    END SUBROUTINE make_vdistribution
 
@@ -1113,7 +1113,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: nbins, multiplicity, nimages
 
       CHARACTER(len=*), PARAMETER :: routineN = 'rebin_imaged_distribution', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: i, virtual_bin
 
@@ -1121,13 +1121,13 @@ CONTAINS
 
       DO i = 1, SIZE(new_bins)
          IF (i .LE. SIZE(source_bins)) THEN
-            virtual_bin = source_bins(i)*multiplicity+source_images(i)-1
+            virtual_bin = source_bins(i)*multiplicity + source_images(i) - 1
          ELSE
             ! Fill remainder with a cyclic distribution
             virtual_bin = MOD(i, nbins*nimages)
          ENDIF
          new_bins(i) = virtual_bin/nimages
-         images(i) = 1+MOD(virtual_bin, nimages)
+         images(i) = 1 + MOD(virtual_bin, nimages)
          IF (new_bins(i) .GE. nbins) &
             DBCSR_ABORT("Wrong bin calculation")
          IF (images(i) .GT. nimages) &

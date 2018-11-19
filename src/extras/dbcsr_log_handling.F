@@ -41,22 +41,22 @@
 !>      @version 12.2001
 ! **************************************************************************************************
 MODULE dbcsr_log_handling
-   USE dbcsr_files,                     ONLY: close_file,&
-                                              open_file
-   USE dbcsr_iter_types,                ONLY: dbcsr_iteration_info_create,&
-                                              dbcsr_iteration_info_release,&
-                                              dbcsr_iteration_info_retain,&
-                                              dbcsr_iteration_info_type
-   USE dbcsr_kinds,                     ONLY: default_path_length,&
-                                              default_string_length,&
-                                              dp
-   USE dbcsr_machine,                   ONLY: default_output_unit,&
-                                              m_getpid,&
-                                              m_hostnm
-   USE dbcsr_methods,                   ONLY: dbcsr_mp_release
-   USE dbcsr_string_utilities,          ONLY: compress
-   USE dbcsr_timings,                   ONLY: print_stack
-   USE dbcsr_types,                     ONLY: dbcsr_mp_obj
+   USE dbcsr_files, ONLY: close_file, &
+                          open_file
+   USE dbcsr_iter_types, ONLY: dbcsr_iteration_info_create, &
+                               dbcsr_iteration_info_release, &
+                               dbcsr_iteration_info_retain, &
+                               dbcsr_iteration_info_type
+   USE dbcsr_kinds, ONLY: default_path_length, &
+                          default_string_length, &
+                          dp
+   USE dbcsr_machine, ONLY: default_output_unit, &
+                            m_getpid, &
+                            m_hostnm
+   USE dbcsr_methods, ONLY: dbcsr_mp_release
+   USE dbcsr_string_utilities, ONLY: compress
+   USE dbcsr_timings, ONLY: print_stack
+   USE dbcsr_types, ONLY: dbcsr_mp_obj
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -174,7 +174,7 @@ CONTAINS
       INTEGER                                            :: res
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_default_logger_stack_size', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       res = stack_pointer
    END FUNCTION dbcsr_default_logger_stack_size
@@ -192,14 +192,14 @@ CONTAINS
       TYPE(dbcsr_logger_type), POINTER                   :: logger
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_default_logger', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
-      IF (stack_pointer+1 > max_stack_pointer) THEN
+      IF (stack_pointer + 1 > max_stack_pointer) THEN
          CALL dbcsr_abort(__LOCATION__, routineP// &
                           "too many default loggers, increase max_stack_pointer in "//moduleN)
       ENDIF
 
-      stack_pointer = stack_pointer+1
+      stack_pointer = stack_pointer + 1
       NULLIFY (default_logger_stack(stack_pointer)%dbcsr_default_logger)
 
       default_logger_stack(stack_pointer)%dbcsr_default_logger => logger
@@ -214,14 +214,14 @@ CONTAINS
 !> \author Joost VandeVondele
 ! **************************************************************************************************
    SUBROUTINE dbcsr_rm_default_logger()
-      IF (stack_pointer-1 < 0) THEN
+      IF (stack_pointer - 1 < 0) THEN
          CALL dbcsr_abort(__LOCATION__, moduleN//":dbcsr_rm_default_logger"// &
                           "can not destroy default logger "//moduleN)
       ENDIF
 
       CALL dbcsr_logger_release(default_logger_stack(stack_pointer)%dbcsr_default_logger)
       NULLIFY (default_logger_stack(stack_pointer)%dbcsr_default_logger)
-      stack_pointer = stack_pointer-1
+      stack_pointer = stack_pointer - 1
 
    END SUBROUTINE dbcsr_rm_default_logger
 
@@ -298,7 +298,7 @@ CONTAINS
       TYPE(dbcsr_logger_type), OPTIONAL, POINTER         :: template_logger
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_create', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: stat
 
@@ -308,7 +308,7 @@ CONTAINS
 
       NULLIFY (logger%iter_info)
       logger%ref_count = 1
-      last_logger_id_nr = last_logger_id_nr+1
+      last_logger_id_nr = last_logger_id_nr + 1
       logger%id_nr = last_logger_id_nr
 
       IF (PRESENT(template_logger)) THEN
@@ -353,7 +353,7 @@ CONTAINS
 
       IF (logger%mp_env%mp%refcount < 1) &
          DBCSR_ABORT(routineP//" mp_env%ref_count<1")
-      logger%mp_env%mp%refcount = logger%mp_env%mp%refcount+1
+      logger%mp_env%mp%refcount = logger%mp_env%mp%refcount + 1
 
       IF (PRESENT(print_level)) logger%print_level = print_level
 
@@ -415,13 +415,13 @@ CONTAINS
       TYPE(dbcsr_logger_type), POINTER                   :: logger
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_retain', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       IF (.NOT. ASSOCIATED(logger)) &
          DBCSR_ABORT(routineP//" logger not associated")
       IF (logger%ref_count < 1) &
          DBCSR_ABORT(routineP//" logger%ref_count<1")
-      logger%ref_count = logger%ref_count+1
+      logger%ref_count = logger%ref_count + 1
    END SUBROUTINE dbcsr_logger_retain
 
 ! **************************************************************************************************
@@ -435,12 +435,12 @@ CONTAINS
       TYPE(dbcsr_logger_type), POINTER                   :: logger
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_release', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       IF (ASSOCIATED(logger)) THEN
          IF (logger%ref_count < 1) &
             DBCSR_ABORT(routineP//" logger%ref_count<1")
-         logger%ref_count = logger%ref_count-1
+         logger%ref_count = logger%ref_count - 1
          IF (logger%ref_count == 0) THEN
             IF (logger%close_global_unit_on_dealloc .AND. &
                 logger%default_global_unit_nr >= 0) THEN
@@ -482,7 +482,7 @@ CONTAINS
       LOGICAL                                            :: res
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_would_log', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       TYPE(dbcsr_logger_type), POINTER                   :: lggr
 
@@ -557,7 +557,7 @@ CONTAINS
       INTEGER, INTENT(in)                                :: level
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_set_log_level', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       IF (.NOT. ASSOCIATED(logger)) &
          DBCSR_ABORT(routineP//" logger not associated")
@@ -583,7 +583,7 @@ CONTAINS
       INTEGER                                            :: res
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_get_default_unit_nr', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CHARACTER(len=default_path_length)                 :: filename, host_name
       INTEGER                                            :: iostat, pid
@@ -696,7 +696,7 @@ CONTAINS
       LOGICAL, INTENT(in), OPTIONAL                      :: local
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_generate_filename', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       LOGICAL                                            :: loc
       TYPE(dbcsr_logger_type), POINTER                   :: lggr
@@ -732,7 +732,7 @@ CONTAINS
       CHARACTER(len=*), INTENT(in), OPTIONAL             :: local_filename, global_filename
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_logger_set', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       IF (.NOT. ASSOCIATED(logger)) &
          DBCSR_ABORT(routineP//" unassociated logger")

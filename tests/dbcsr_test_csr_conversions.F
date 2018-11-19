@@ -14,23 +14,23 @@
 !> \author Patrick Seewald
 ! **************************************************************************************************
 PROGRAM dbcsr_test_csr_conversions
-   USE dbcsr_api,                       ONLY: &
-        convert_csr_to_dbcsr, convert_dbcsr_to_csr, csr_create_from_dbcsr, csr_destroy, &
-        csr_eqrow_ceil_dist, csr_type, dbcsr_add, dbcsr_copy, dbcsr_create, &
-        dbcsr_distribution_get, dbcsr_distribution_new, dbcsr_distribution_release, &
-        dbcsr_distribution_type, dbcsr_finalize, dbcsr_finalize_lib, dbcsr_get_stored_coordinates, &
-        dbcsr_init_lib, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_norm, &
-        dbcsr_norm_maxabsnorm, dbcsr_put_block, dbcsr_release, dbcsr_to_csr_filter, dbcsr_type, &
-        dbcsr_type_no_symmetry, dbcsr_type_real_8
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              real_8
-   USE dbcsr_machine,                   ONLY: default_output_unit
-   USE dbcsr_mpiwrap,                   ONLY: mp_bcast,&
-                                              mp_cart_create,&
-                                              mp_comm_free,&
-                                              mp_environ,&
-                                              mp_world_finalize,&
-                                              mp_world_init
+   USE dbcsr_api, ONLY: &
+      convert_csr_to_dbcsr, convert_dbcsr_to_csr, csr_create_from_dbcsr, csr_destroy, &
+      csr_eqrow_ceil_dist, csr_type, dbcsr_add, dbcsr_copy, dbcsr_create, &
+      dbcsr_distribution_get, dbcsr_distribution_new, dbcsr_distribution_release, &
+      dbcsr_distribution_type, dbcsr_finalize, dbcsr_finalize_lib, dbcsr_get_stored_coordinates, &
+      dbcsr_init_lib, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_norm, &
+      dbcsr_norm_maxabsnorm, dbcsr_put_block, dbcsr_release, dbcsr_to_csr_filter, dbcsr_type, &
+      dbcsr_type_no_symmetry, dbcsr_type_real_8
+   USE dbcsr_kinds, ONLY: dp, &
+                          real_8
+   USE dbcsr_machine, ONLY: default_output_unit
+   USE dbcsr_mpiwrap, ONLY: mp_bcast, &
+                            mp_cart_create, &
+                            mp_comm_free, &
+                            mp_environ, &
+                            mp_world_finalize, &
+                            mp_world_init
 
    IMPLICIT NONE
 
@@ -84,10 +84,10 @@ PROGRAM dbcsr_test_csr_conversions
       CALL RANDOM_SEED(put=seed)
 
       CALL RANDOM_NUMBER(rn)
-      nblkrows_total = FLOOR(rn*(max_blks_total))+1
+      nblkrows_total = FLOOR(rn*(max_blks_total)) + 1
 
       CALL RANDOM_NUMBER(rn)
-      nblkcols_total = FLOOR(rn*(max_blks_total))+1
+      nblkcols_total = FLOOR(rn*(max_blks_total)) + 1
 
       ALLOCATE (rn_array(MAX(nblkcols_total, nblkrows_total)))
       ALLOCATE (col_blk_sizes(nblkcols_total))
@@ -96,10 +96,10 @@ PROGRAM dbcsr_test_csr_conversions
       ALLOCATE (col_dist(nblkcols_total))
 
       CALL RANDOM_NUMBER(rn_array)
-      col_blk_sizes = FLOOR(rn_array(1:nblkcols_total)*(max_blk_size))+1
+      col_blk_sizes = FLOOR(rn_array(1:nblkcols_total)*(max_blk_size)) + 1
 
       CALL RANDOM_NUMBER(rn_array)
-      row_blk_sizes = FLOOR(rn_array(1:nblkrows_total)*(max_blk_size))+1
+      row_blk_sizes = FLOOR(rn_array(1:nblkrows_total)*(max_blk_size)) + 1
 
       CALL RANDOM_NUMBER(rn)
       sparsity = rn

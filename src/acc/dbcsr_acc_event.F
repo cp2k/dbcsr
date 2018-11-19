@@ -17,7 +17,7 @@ MODULE dbcsr_acc_event
    USE ISO_C_BINDING, ONLY: C_INT, C_NULL_PTR, C_PTR, C_ASSOCIATED, C_NULL_PTR
 #endif
    USE dbcsr_acc_stream, ONLY: acc_stream_cptr, &
-      acc_stream_type
+                               acc_stream_type
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE

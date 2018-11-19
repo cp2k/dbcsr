@@ -17,10 +17,10 @@
 !> \author Ole Schuett
 ! **************************************************************************************************
 MODULE dbcsr_timings_types
-   USE dbcsr_dict,                      ONLY: dict_i4tuple_callstat_type,&
-                                              dict_str_i4_type
-   USE dbcsr_list_callstackentry,       ONLY: list_callstackentry_type
-   USE dbcsr_list_routinestat,          ONLY: list_routinestat_type
+   USE dbcsr_dict, ONLY: dict_i4tuple_callstat_type, &
+                         dict_str_i4_type
+   USE dbcsr_list_callstackentry, ONLY: list_callstackentry_type
+   USE dbcsr_list_routinestat, ONLY: list_routinestat_type
 
    IMPLICIT NONE
    PRIVATE

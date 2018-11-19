@@ -16,38 +16,38 @@
 !>  - 2016-08    Code organization (Alfio Lazzaro).
 ! **************************************************************************************************
 MODULE dbcsr_mm_common
-   USE dbcsr_acc_event,                 ONLY: acc_event_record,&
-                                              acc_event_synchronize,&
-                                              acc_stream_wait_event
-   USE dbcsr_acc_stream,                ONLY: acc_stream_type
-   USE dbcsr_array_types,               ONLY: array_data,&
-                                              array_hold
-   USE dbcsr_acc_operations,            ONLY: dbcsr_acc_transpose
-   USE dbcsr_data_methods,              ONLY: dbcsr_data_ensure_size,&
-                                              dbcsr_data_get_size,&
-                                              dbcsr_data_host2dev,&
-                                              dbcsr_data_set_size_referenced,&
-                                              dbcsr_get_data_p_c,&
-                                              dbcsr_get_data_p_d,&
-                                              dbcsr_get_data_p_s,&
-                                              dbcsr_get_data_p_z
-   USE dbcsr_methods,                   ONLY: dbcsr_get_data_type,&
-                                              dbcsr_get_index_memory_type,&
-                                              dbcsr_nfullcols_local,&
-                                              dbcsr_nfullrows_local,&
-                                              dbcsr_valid_index
-   USE dbcsr_mm_multrec,                ONLY: dbcsr_mm_multrec_type
-   USE dbcsr_ptr_util,                  ONLY: ensure_array_size
-   USE dbcsr_types,                     ONLY: &
-        dbcsr_data_obj, dbcsr_memtype_type, dbcsr_mpi_size_limits, dbcsr_mpi_statistics_type, &
-        dbcsr_type, dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_int_4, &
-        dbcsr_type_real_4, dbcsr_type_real_8
-   USE dbcsr_work_operations,           ONLY: dbcsr_create
-   USE dbcsr_kinds,                     ONLY: int_4,&
-                                              int_8,&
-                                              real_4,&
-                                              real_8,&
-                                              sp
+   USE dbcsr_acc_event, ONLY: acc_event_record, &
+                              acc_event_synchronize, &
+                              acc_stream_wait_event
+   USE dbcsr_acc_stream, ONLY: acc_stream_type
+   USE dbcsr_array_types, ONLY: array_data, &
+                                array_hold
+   USE dbcsr_acc_operations, ONLY: dbcsr_acc_transpose
+   USE dbcsr_data_methods, ONLY: dbcsr_data_ensure_size, &
+                                 dbcsr_data_get_size, &
+                                 dbcsr_data_host2dev, &
+                                 dbcsr_data_set_size_referenced, &
+                                 dbcsr_get_data_p_c, &
+                                 dbcsr_get_data_p_d, &
+                                 dbcsr_get_data_p_s, &
+                                 dbcsr_get_data_p_z
+   USE dbcsr_methods, ONLY: dbcsr_get_data_type, &
+                            dbcsr_get_index_memory_type, &
+                            dbcsr_nfullcols_local, &
+                            dbcsr_nfullrows_local, &
+                            dbcsr_valid_index
+   USE dbcsr_mm_multrec, ONLY: dbcsr_mm_multrec_type
+   USE dbcsr_ptr_util, ONLY: ensure_array_size
+   USE dbcsr_types, ONLY: &
+      dbcsr_data_obj, dbcsr_memtype_type, dbcsr_mpi_size_limits, dbcsr_mpi_statistics_type, &
+      dbcsr_type, dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_int_4, &
+      dbcsr_type_real_4, dbcsr_type_real_8
+   USE dbcsr_work_operations, ONLY: dbcsr_create
+   USE dbcsr_kinds, ONLY: int_4, &
+                          int_8, &
+                          real_4, &
+                          real_8, &
+                          sp
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -128,22 +128,22 @@ CONTAINS
       ! change in bytes
       data_size_bytes = INT(data_size, KIND=int_8)*INT(element_size_bytes, KIND=int_8)
       !
-      mpi_statistics(1) = mpi_statistics(1)+REAL(data_size_bytes)
+      mpi_statistics(1) = mpi_statistics(1) + REAL(data_size_bytes)
       mpi_statistics(2) = MIN(mpi_statistics(2), REAL(data_size_bytes))
       mpi_statistics(3) = MAX(mpi_statistics(3), REAL(data_size_bytes))
       IF (PRESENT(size_breakdown)) THEN
          nlimits = SIZE(dbcsr_mpi_size_limits)
          ! check for oversize messages
          IF (data_size_bytes .GT. dbcsr_mpi_size_limits(nlimits)) THEN
-            size_breakdown(nlimits+1, 1) = size_breakdown(nlimits+1, 1)+1
-            size_breakdown(nlimits+1, 2) = size_breakdown(nlimits+1, 2)+data_size_bytes
+            size_breakdown(nlimits + 1, 1) = size_breakdown(nlimits + 1, 1) + 1
+            size_breakdown(nlimits + 1, 2) = size_breakdown(nlimits + 1, 2) + data_size_bytes
             RETURN
          ENDIF
          llimit = 0
          DO ilimit = 1, nlimits
             IF (data_size_bytes .GE. llimit .AND. data_size_bytes .LE. dbcsr_mpi_size_limits(ilimit)) THEN
-               size_breakdown(ilimit, 1) = size_breakdown(ilimit, 1)+1
-               size_breakdown(ilimit, 2) = size_breakdown(ilimit, 2)+data_size_bytes
+               size_breakdown(ilimit, 1) = size_breakdown(ilimit, 1) + 1
+               size_breakdown(ilimit, 2) = size_breakdown(ilimit, 2) + data_size_bytes
                RETURN
             ENDIF
             llimit = dbcsr_mpi_size_limits(ilimit)
@@ -251,18 +251,18 @@ CONTAINS
          ENDIF
       ENDIF
       ALLOCATE (tmp(3, nele))
-      M = mf-mi+1
-      N = nf-ni+1
+      M = mf - mi + 1
+      N = nf - ni + 1
       IF (M > N) THEN
          half = M/2
          CALL rec_split(nele, a, tmp, 1, nlow, mi, half)
          a = tmp
          DEALLOCATE (tmp)
          IF (nlow .GT. 1) THEN
-            CALL rec_sort_index(mi, mi+half-1, ni, nf, nlow, a(:, 1:nlow), d+1)
+            CALL rec_sort_index(mi, mi + half - 1, ni, nf, nlow, a(:, 1:nlow), d + 1)
          ENDIF
-         IF (nele-nlow .GT. 1) THEN
-            CALL rec_sort_index(mi+half, mf, ni, nf, nele-nlow, a(:, nlow+1:nele), d+1)
+         IF (nele - nlow .GT. 1) THEN
+            CALL rec_sort_index(mi + half, mf, ni, nf, nele - nlow, a(:, nlow + 1:nele), d + 1)
          ENDIF
       ELSE
          half = N/2
@@ -270,10 +270,10 @@ CONTAINS
          a = tmp
          DEALLOCATE (tmp)
          IF (nlow .GT. 1) THEN
-            CALL rec_sort_index(mi, mf, ni, ni+half-1, nlow, a(:, 1:nlow), d+1)
+            CALL rec_sort_index(mi, mf, ni, ni + half - 1, nlow, a(:, 1:nlow), d + 1)
          ENDIF
-         IF (nele-nlow .GT. 1) THEN
-            CALL rec_sort_index(mi, mf, ni+half, nf, nele-nlow, a(:, nlow+1:nele), d+1)
+         IF (nele - nlow .GT. 1) THEN
+            CALL rec_sort_index(mi, mf, ni + half, nf, nele - nlow, a(:, nlow + 1:nele), d + 1)
          ENDIF
       ENDIF
    END SUBROUTINE rec_sort_index
@@ -300,19 +300,19 @@ CONTAINS
 
       INTEGER                                            :: el, half_m, p_high, p_low
 
-      half_m = mi+half-1
+      half_m = mi + half - 1
       p_low = 1
       p_high = nele
       DO el = 1, nele
          IF (a(row_or_col, el) <= half_m) THEN
             split(1:3, p_low) = a(1:3, el)
-            p_low = p_low+1
+            p_low = p_low + 1
          ELSE
             split(1:3, p_high) = a(1:3, el)
-            p_high = p_high-1
+            p_high = p_high - 1
          ENDIF
       ENDDO
-      nlow = p_low-1
+      nlow = p_low - 1
       DBCSR_ASSERT(p_high .EQ. nlow)
 
    END SUBROUTINE rec_split
@@ -331,7 +331,7 @@ CONTAINS
       INTEGER, DIMENSION(:), POINTER                     :: enum, rev_enum
 
       CHARACTER(len=*), PARAMETER :: routineN = 'enumerate_blk_sizes', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, i, n
 
@@ -348,9 +348,9 @@ CONTAINS
       ALLOCATE (rev_enum(n))
 
       n = 0
-      DO i = 0, SIZE(enum)-1
+      DO i = 0, SIZE(enum) - 1
          IF (enum(i) > 0) THEN
-            n = n+1
+            n = n + 1
             enum(i) = n
             rev_enum(n) = i
          END IF
@@ -381,11 +381,11 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: trs_stackbuf
       INTEGER, DIMENSION(:), INTENT(IN), POINTER :: row_blk_sizes, col_blk_sizes, &
-         row_blk_sizes2enum, enum2row_blk_sizes, col_blk_sizes2enum, enum2col_blk_sizes
+                                                    row_blk_sizes2enum, enum2row_blk_sizes, col_blk_sizes2enum, enum2col_blk_sizes
       LOGICAL, INTENT(IN), OPTIONAL                      :: noresize
 
       CHARACTER(len=*), PARAMETER :: routineN = 'acc_transpose_blocks', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: blk_p, handle, handle1, i, m, mi, &
                                                             mi_max, n, nblks, ni, ni_max, offset, x, &
@@ -434,19 +434,19 @@ CONTAINS
       ! Simplified algorithm for single size blocks
       IF (mi_max .EQ. 1 .AND. ni_max .EQ. 1) THEN
          DO i = 1, nblks
-            blk_p = blk_index(3*(i-1)+3)
+            blk_p = blk_index(3*(i - 1) + 3)
             IF (blk_p == 0) CYCLE
-            counters(1, 1) = counters(1, 1)+1
-            trs_stack(counters(1, 1)) = blk_p-1
+            counters(1, 1) = counters(1, 1) + 1
+            trs_stack(counters(1, 1)) = blk_p - 1
          ENDDO
       ELSE
          ALLOCATE (tmp_stack(3, nblks))
          ! collect block addresses and dimensions in a temporary stack
          ! while doing so, also count number of blocks per block-dimensions
          DO i = 1, nblks
-            row = blk_index(3*(i-1)+1)
-            col = blk_index(3*(i-1)+2)
-            blk_p = blk_index(3*(i-1)+3)
+            row = blk_index(3*(i - 1) + 1)
+            col = blk_index(3*(i - 1) + 2)
+            blk_p = blk_index(3*(i - 1) + 3)
             IF (blk_p == 0) CYCLE
             m = row_blk_sizes(row)
             n = col_blk_sizes(col)
@@ -454,15 +454,15 @@ CONTAINS
             ni = col_blk_sizes2enum(n)
             tmp_stack(1, i) = mi
             tmp_stack(2, i) = ni
-            tmp_stack(3, i) = blk_p-1
-            counters(mi, ni) = counters(mi, ni)+1
+            tmp_stack(3, i) = blk_p - 1
+            counters(mi, ni) = counters(mi, ni) + 1
          ENDDO
          ! calculate offsets for first element of each sub-stack
          offset = 0
          DO mi = 1, mi_max
             DO ni = 1, ni_max
                offsets(mi, ni) = offset
-               offset = offset+counters(mi, ni)
+               offset = offset + counters(mi, ni)
             ENDDO
          ENDDO
          ! write all sub-stacks into the host-pinned buffer
@@ -472,9 +472,9 @@ CONTAINS
             mi = tmp_stack(1, i)
             ni = tmp_stack(2, i)
             blk_p = tmp_stack(3, i)
-            x = offsets(mi, ni)+filled(mi, ni)+1
+            x = offsets(mi, ni) + filled(mi, ni) + 1
             trs_stack(x) = blk_p
-            filled(mi, ni) = filled(mi, ni)+1
+            filled(mi, ni) = filled(mi, ni) + 1
          ENDDO
          !sanity check
          DO ni = 1, ni_max
@@ -584,7 +584,7 @@ CONTAINS
       INTEGER, DIMENSION(:), POINTER, INTENT(IN)         :: row_blk_sizes, col_blk_sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'calculate_norms', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: data_type, handle, nblks
 

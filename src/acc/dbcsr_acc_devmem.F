@@ -13,20 +13,20 @@
 ! **************************************************************************************************
 MODULE dbcsr_acc_devmem
 #if  defined (__DBCSR_ACC)
-  USE ISO_C_BINDING, ONLY: C_INT, C_SIZE_T, C_PTR, C_LOC, C_NULL_PTR
+   USE ISO_C_BINDING, ONLY: C_INT, C_SIZE_T, C_PTR, C_LOC, C_NULL_PTR
 #endif
-  USE dbcsr_kinds,                     ONLY: int_4,&
-                                             int_4_size,&
-                                             int_8,&
-                                             int_8_size,&
-                                             real_4,&
-                                             real_4_size,&
-                                             real_8,&
-                                             real_8_size
-  USE dbcsr_acc_stream,                ONLY: acc_stream_associated,&
-                                             acc_stream_cptr,&
-                                             acc_stream_synchronize,&
-                                             acc_stream_type
+   USE dbcsr_kinds, ONLY: int_4, &
+                          int_4_size, &
+                          int_8, &
+                          int_8_size, &
+                          real_4, &
+                          real_4_size, &
+                          real_8, &
+                          real_8_size
+   USE dbcsr_acc_stream, ONLY: acc_stream_associated, &
+                               acc_stream_cptr, &
+                               acc_stream_synchronize, &
+                               acc_stream_type
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -110,12 +110,12 @@ MODULE dbcsr_acc_devmem
 
    INTERFACE
       FUNCTION dc_acc_dev_mem_set_ptr(mem, other, lb) RESULT(istat) BIND(C, name="acc_dev_mem_set_ptr")
-        IMPORT
-        TYPE(C_PTR)                              :: mem
-        TYPE(C_PTR), VALUE                       :: other
-        INTEGER(KIND=C_SIZE_T), INTENT(IN), &
-            VALUE                                :: lb 
-        INTEGER(KIND=C_INT)                      :: istat
+         IMPORT
+         TYPE(C_PTR)                              :: mem
+         TYPE(C_PTR), VALUE                       :: other
+         INTEGER(KIND=C_SIZE_T), INTENT(IN), &
+            VALUE                                :: lb
+         INTEGER(KIND=C_INT)                      :: istat
 
       END FUNCTION dc_acc_dev_mem_set_ptr
    END INTERFACE
@@ -230,7 +230,7 @@ CONTAINS
          my_zero_pad = .FALSE.
          IF (PRESENT(zero_pad)) my_zero_pad = zero_pad
          IF (my_zero_pad) &
-            CALL acc_devmem_setzero_bytes(this, first_byte=old_size+1, stream=stream)
+            CALL acc_devmem_setzero_bytes(this, first_byte=old_size + 1, stream=stream)
 
          my_nocopy = .FALSE.
          IF (PRESENT(nocopy)) my_nocopy = nocopy
@@ -332,10 +332,10 @@ CONTAINS
 
       IF (this%size_in_bytes >= 0) &
          DBCSR_ABORT("acc_devmem_sep_cptr: already allocated")
-      IF (pointee%size_in_bytes < 0 .AND. size_in_bytes > 0 ) &
+      IF (pointee%size_in_bytes < 0 .AND. size_in_bytes > 0) &
          DBCSR_ABORT("acc_devmem_sep_cptr: out-of-bounds")
       IF (size_in_bytes > 0) THEN
-         IF ((lb_in_bytes+size_in_bytes) .GT. pointee%size_in_bytes) &
+         IF ((lb_in_bytes + size_in_bytes) .GT. pointee%size_in_bytes) &
             DBCSR_ABORT("acc_devmem_set_cptr: out-of-bounds")
          this%size_in_bytes = size_in_bytes
          istat = dc_acc_dev_mem_set_ptr(this%cptr, pointee%cptr, INT(lb_in_bytes, KIND=C_SIZE_T))
@@ -346,7 +346,6 @@ CONTAINS
       ENDIF
 #endif
    END SUBROUTINE acc_devmem_set_cptr
-
 
 ! **************************************************************************************************
 !> \brief Fortran-wrapper for cudaMemGetInfo.
@@ -457,9 +456,9 @@ CONTAINS
       TYPE(C_PTR)                              :: stream_cptr
 
       offset = 0
-      IF (PRESENT(first_byte)) offset = first_byte-1
-      length = this%size_in_bytes-offset
-      IF (PRESENT(last_byte)) length = last_byte-offset
+      IF (PRESENT(first_byte)) offset = first_byte - 1
+      length = this%size_in_bytes - offset
+      IF (PRESENT(last_byte)) length = last_byte - offset
 
       stream_cptr = acc_stream_cptr(stream)
 
@@ -554,21 +553,20 @@ CONTAINS
 !> \param[in] stream stream
 !> \author  Ole Schuett
 ! **************************************************************************************************
- SUBROUTINE host2dev_${nametype}$_1D(this, hostmem, stream)
-    TYPE(acc_devmem_type), INTENT(IN)        :: this
-    ${type}$, DIMENSION(:), POINTER          :: hostmem
-    TYPE(acc_stream_type), INTENT(IN)        :: stream
+   SUBROUTINE host2dev_${nametype}$_1D(this, hostmem, stream)
+      TYPE(acc_devmem_type), INTENT(IN)        :: this
+      ${type}$, DIMENSION(:), POINTER          :: hostmem
+      TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
-    MARK_USED(this)
-    MARK_USED(hostmem)
-    MARK_USED(stream)
-    DBCSR_ABORT("__DBCSR_ACC not compiled in.")
+      MARK_USED(this)
+      MARK_USED(hostmem)
+      MARK_USED(stream)
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-    CALL host2dev_raw(this, C_LOC(hostmem(1)), ${size}$*SIZE(hostmem), stream)
+      CALL host2dev_raw(this, C_LOC(hostmem(1)), ${size}$*SIZE(hostmem), stream)
 #endif
- END SUBROUTINE host2dev_${nametype}$_1D
-
+   END SUBROUTINE host2dev_${nametype}$_1D
 
 ! **************************************************************************************************
 !> \brief Transfers 2D fortran-array from host to cuda devmem.
@@ -577,21 +575,20 @@ CONTAINS
 !> \param[in] stream stream
 !> \author  Ole Schuett
 ! **************************************************************************************************
- SUBROUTINE host2dev_${nametype}$_2D(this, hostmem, stream)
-    TYPE(acc_devmem_type), INTENT(IN)        :: this
-    ${type}$, DIMENSION(:, :), POINTER       :: hostmem
-    TYPE(acc_stream_type), INTENT(IN)        :: stream
+   SUBROUTINE host2dev_${nametype}$_2D(this, hostmem, stream)
+      TYPE(acc_devmem_type), INTENT(IN)        :: this
+      ${type}$, DIMENSION(:, :), POINTER       :: hostmem
+      TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
-    MARK_USED(this)
-    MARK_USED(hostmem)
-    MARK_USED(stream)
-    DBCSR_ABORT("__DBCSR_ACC not compiled in.")
+      MARK_USED(this)
+      MARK_USED(hostmem)
+      MARK_USED(stream)
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-    CALL host2dev_raw(this, C_LOC(hostmem(1,1)), ${size}$*SIZE(hostmem), stream)
+      CALL host2dev_raw(this, C_LOC(hostmem(1, 1)), ${size}$*SIZE(hostmem), stream)
 #endif
- END SUBROUTINE host2dev_${nametype}$_2D
-
+   END SUBROUTINE host2dev_${nametype}$_2D
 
 ! **************************************************************************************************
 !> \brief Transfers cuda devmem to 1D fortran-array.
@@ -600,20 +597,20 @@ CONTAINS
 !> \param[in] stream stream
 !> \author  Ole Schuett
 ! **************************************************************************************************
- SUBROUTINE dev2host_${nametype}$_1D(this, hostmem, stream)
-    TYPE(acc_devmem_type), INTENT(IN)        :: this
-    ${type}$, DIMENSION(:), POINTER          :: hostmem
-    TYPE(acc_stream_type), INTENT(IN)        :: stream
+   SUBROUTINE dev2host_${nametype}$_1D(this, hostmem, stream)
+      TYPE(acc_devmem_type), INTENT(IN)        :: this
+      ${type}$, DIMENSION(:), POINTER          :: hostmem
+      TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
-    MARK_USED(this)
-    MARK_USED(hostmem)
-    MARK_USED(stream)
-    DBCSR_ABORT("__DBCSR_ACC not compiled in.")
+      MARK_USED(this)
+      MARK_USED(hostmem)
+      MARK_USED(stream)
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-    CALL dev2host_raw(this, C_LOC(hostmem(1)), ${size}$*SIZE(hostmem), stream)
+      CALL dev2host_raw(this, C_LOC(hostmem(1)), ${size}$*SIZE(hostmem), stream)
 #endif
- END SUBROUTINE dev2host_${nametype}$_1D
+   END SUBROUTINE dev2host_${nametype}$_1D
 
 #:endfor
 

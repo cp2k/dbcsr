@@ -29,58 +29,58 @@
 !> \param src_offset ...
 !> \note see block_partial_copy_a
 ! **************************************************************************************************
-  SUBROUTINE block_partial_copy_${nametype1}$(dst, dst_rs, dst_cs, dst_tr,&
-       src, src_rs, src_cs, src_tr,&
-       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol,&
-       dst_offset, src_offset)
-    ${type1}$, DIMENSION(:), &
-      INTENT(INOUT)                          :: dst
-    INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
-    INTEGER, INTENT(IN)                      :: src_offset, dst_offset
-    LOGICAL                                  :: dst_tr
-    ${type1}$, DIMENSION(:), &
-      INTENT(IN)                             :: src
-    INTEGER, INTENT(IN)                      :: src_rs, src_cs
-    LOGICAL                                  :: src_tr
-    INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
-                                                src_c_lb, nrow, ncol
+  SUBROUTINE block_partial_copy_${nametype1}$ (dst, dst_rs, dst_cs, dst_tr, &
+                                               src, src_rs, src_cs, src_tr, &
+                                               dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                               dst_offset, src_offset)
+     ${type1}$, DIMENSION(:), &
+        INTENT(INOUT)                          :: dst
+     INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
+     INTEGER, INTENT(IN)                      :: src_offset, dst_offset
+     LOGICAL                                  :: dst_tr
+     ${type1}$, DIMENSION(:), &
+        INTENT(IN)                             :: src
+     INTEGER, INTENT(IN)                      :: src_rs, src_cs
+     LOGICAL                                  :: src_tr
+     INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                 src_c_lb, nrow, ncol
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_${nametype1}$', &
-      routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
 
-    INTEGER                                  :: col, row
+     INTEGER                                  :: col, row
 !   ---------------------------------------------------------------------------
 ! Factors out the 4 combinations to remove branches from the inner loop.
 !  rs is the logical row size so it always remains the leading dimension.
-    IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_offset+dst_r_lb+row + (dst_c_lb+col-1)*dst_rs) &
-                = src(src_offset+src_r_lb+row+(src_c_lb+col-1)*src_rs)
-         END DO
-       END DO
-    ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_offset+dst_c_lb+col + (dst_r_lb+row-1)*dst_cs) &
-              = src(src_offset+src_r_lb+row+(src_c_lb+col-1)*src_rs)
-         END DO
-       END DO
-    ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_offset+dst_r_lb+row + (dst_c_lb+col-1)*dst_rs) &
-             = src(src_offset+src_c_lb+col+(src_r_lb+row-1)*src_cs)
-         END DO
-       END DO
-    ELSEIF (dst_tr .AND. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_offset+dst_c_lb+col + (dst_r_lb+row-1)*dst_cs)&
-             = src(src_offset + src_c_lb+col+(src_r_lb+row-1)*src_cs)
-         END DO
-       END DO
-    ENDIF
+     IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                 = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+           END DO
+        END DO
+     ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                 = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+           END DO
+        END DO
+     ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                 = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+           END DO
+        END DO
+     ELSEIF (dst_tr .AND. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                 = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+           END DO
+        END DO
+     ENDIF
   END SUBROUTINE block_partial_copy_${nametype1}$
 
 ! **************************************************************************************************
@@ -100,56 +100,56 @@
 !> \param dst_offset ...
 !> \note see block_partial_copy_a
 ! **************************************************************************************************
-  SUBROUTINE block_partial_copy_1d2d_${nametype1}$(dst, dst_rs, dst_cs, dst_tr,&
-       src, src_tr,&
-       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol,&
-       dst_offset)
-    ${type1}$, DIMENSION(:), &
-      INTENT(INOUT)                          :: dst
-    INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
-    INTEGER, INTENT(IN)                      :: dst_offset
-    LOGICAL                                  :: dst_tr
-    ${type1}$, DIMENSION(:,:), &
-      INTENT(IN)                             :: src
-    LOGICAL                                  :: src_tr
-    INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
-                                                src_c_lb, nrow, ncol
+  SUBROUTINE block_partial_copy_1d2d_${nametype1}$ (dst, dst_rs, dst_cs, dst_tr, &
+                                                    src, src_tr, &
+                                                    dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                    dst_offset)
+     ${type1}$, DIMENSION(:), &
+        INTENT(INOUT)                          :: dst
+     INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
+     INTEGER, INTENT(IN)                      :: dst_offset
+     LOGICAL                                  :: dst_tr
+     ${type1}$, DIMENSION(:, :), &
+        INTENT(IN)                             :: src
+     LOGICAL                                  :: src_tr
+     INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                 src_c_lb, nrow, ncol
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_1d2d_${nametype1}$', &
-      routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_1d2d_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
 
-    INTEGER                                  :: col, row
+     INTEGER                                  :: col, row
 !   ---------------------------------------------------------------------------
 ! Factors out the 4 combinations to remove branches from the inner loop. rs is the logical row size so it always remains the leading dimension.
-    IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_offset+dst_r_lb+row + (dst_c_lb+col-1)*dst_rs) &
-                = src(src_r_lb+row, src_c_lb+col)
-         END DO
-       END DO
-    ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_offset+dst_c_lb+col + (dst_r_lb+row-1)*dst_cs) &
-              = src(src_r_lb+row, src_c_lb+col)
-         END DO
-       END DO
-    ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_offset+dst_r_lb+row + (dst_c_lb+col-1)*dst_rs) &
-             = src(src_c_lb+col, src_r_lb+row)
-         END DO
-       END DO
-    ELSEIF (dst_tr .AND. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_offset+dst_c_lb+col + (dst_r_lb+row-1)*dst_cs)&
-             = src(src_c_lb+col, src_r_lb+row)
-         END DO
-       END DO
-    ENDIF
+     IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                 = src(src_r_lb + row, src_c_lb + col)
+           END DO
+        END DO
+     ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                 = src(src_r_lb + row, src_c_lb + col)
+           END DO
+        END DO
+     ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                 = src(src_c_lb + col, src_r_lb + row)
+           END DO
+        END DO
+     ELSEIF (dst_tr .AND. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                 = src(src_c_lb + col, src_r_lb + row)
+           END DO
+        END DO
+     ENDIF
   END SUBROUTINE block_partial_copy_1d2d_${nametype1}$
 
 ! **************************************************************************************************
@@ -170,56 +170,56 @@
 !> \param src_offset ...
 !> \note see block_partial_copy_a
 ! **************************************************************************************************
-  SUBROUTINE block_partial_copy_2d1d_${nametype1}$(dst, dst_tr,&
-       src, src_rs, src_cs, src_tr,&
-       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol,&
-       src_offset)
-    ${type1}$, DIMENSION(:,:), &
-      INTENT(INOUT)                          :: dst
-    INTEGER, INTENT(IN)                      :: src_offset
-    LOGICAL                                  :: dst_tr
-    ${type1}$, DIMENSION(:), &
-      INTENT(IN)                             :: src
-    INTEGER, INTENT(IN)                      :: src_rs, src_cs
-    LOGICAL                                  :: src_tr
-    INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
-                                                src_c_lb, nrow, ncol
+  SUBROUTINE block_partial_copy_2d1d_${nametype1}$ (dst, dst_tr, &
+                                                    src, src_rs, src_cs, src_tr, &
+                                                    dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                    src_offset)
+     ${type1}$, DIMENSION(:, :), &
+        INTENT(INOUT)                          :: dst
+     INTEGER, INTENT(IN)                      :: src_offset
+     LOGICAL                                  :: dst_tr
+     ${type1}$, DIMENSION(:), &
+        INTENT(IN)                             :: src
+     INTEGER, INTENT(IN)                      :: src_rs, src_cs
+     LOGICAL                                  :: src_tr
+     INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                 src_c_lb, nrow, ncol
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_2d1d_${nametype1}$', &
-      routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_2d1d_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
 
-    INTEGER                                  :: col, row
+     INTEGER                                  :: col, row
 !   ---------------------------------------------------------------------------
 ! Factors out the 4 combinations to remove branches from the inner loop. rs is the logical row size so it always remains the leading dimension.
-    IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_r_lb+row, dst_c_lb+col) &
-                = src(src_offset+src_r_lb+row+(src_c_lb+col-1)*src_rs)
-         END DO
-       END DO
-    ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_c_lb+col, dst_r_lb+row) &
-              = src(src_offset+src_r_lb+row+(src_c_lb+col-1)*src_rs)
-         END DO
-       END DO
-    ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_r_lb+row, dst_c_lb+col) &
-             = src(src_offset+src_c_lb+col+(src_r_lb+row-1)*src_cs)
-         END DO
-       END DO
-    ELSEIF (dst_tr .AND. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_c_lb+col, dst_r_lb+row)&
-             = src(src_offset + src_c_lb+col+(src_r_lb+row-1)*src_cs)
-         END DO
-       END DO
-    ENDIF
+     IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_r_lb + row, dst_c_lb + col) &
+                 = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+           END DO
+        END DO
+     ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_c_lb + col, dst_r_lb + row) &
+                 = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+           END DO
+        END DO
+     ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_r_lb + row, dst_c_lb + col) &
+                 = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+           END DO
+        END DO
+     ELSEIF (dst_tr .AND. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_c_lb + col, dst_r_lb + row) &
+                 = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+           END DO
+        END DO
+     ENDIF
   END SUBROUTINE block_partial_copy_2d1d_${nametype1}$
 
 ! **************************************************************************************************
@@ -236,53 +236,53 @@
 !> \param ncol ...
 !> \note see block_partial_copy_a
 ! **************************************************************************************************
-  SUBROUTINE block_partial_copy_2d2d_${nametype1}$(dst, dst_tr,&
-       src, src_tr,&
-       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
-    ${type1}$, DIMENSION(:,:), &
-      INTENT(INOUT)                          :: dst
-    LOGICAL                                  :: dst_tr
-    ${type1}$, DIMENSION(:,:), &
-      INTENT(IN)                             :: src
-    LOGICAL                                  :: src_tr
-    INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
-                                                src_c_lb, nrow, ncol
+  SUBROUTINE block_partial_copy_2d2d_${nametype1}$ (dst, dst_tr, &
+                                                    src, src_tr, &
+                                                    dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
+     ${type1}$, DIMENSION(:, :), &
+        INTENT(INOUT)                          :: dst
+     LOGICAL                                  :: dst_tr
+     ${type1}$, DIMENSION(:, :), &
+        INTENT(IN)                             :: src
+     LOGICAL                                  :: src_tr
+     INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                 src_c_lb, nrow, ncol
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_2d2d_${nametype1}$', &
-      routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_2d2d_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
 
-    INTEGER                                  :: col, row
+     INTEGER                                  :: col, row
 !   ---------------------------------------------------------------------------
 ! Factors out the 4 combinations to remove branches from the inner loop. rs is the logical row size so it always remains the leading dimension.
-    IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_r_lb+row, dst_c_lb+col) &
-                = src(src_r_lb+row, src_c_lb+col)
-         END DO
-       END DO
-    ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_c_lb+col, dst_r_lb+row) &
-              = src(src_r_lb+row, src_c_lb+col)
-         END DO
-       END DO
-    ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_r_lb+row, dst_c_lb+col) &
-             = src(src_c_lb+col, src_r_lb+row)
-         END DO
-       END DO
-    ELSEIF (dst_tr .AND. src_tr) THEN
-       DO col = 0,ncol-1
-         DO row = 0,nrow-1
-          dst(dst_c_lb+col, dst_r_lb+row)&
-             = src(src_c_lb+col, src_r_lb+row)
-         END DO
-       END DO
-    ENDIF
+     IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_r_lb + row, dst_c_lb + col) &
+                 = src(src_r_lb + row, src_c_lb + col)
+           END DO
+        END DO
+     ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_c_lb + col, dst_r_lb + row) &
+                 = src(src_r_lb + row, src_c_lb + col)
+           END DO
+        END DO
+     ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_r_lb + row, dst_c_lb + col) &
+                 = src(src_c_lb + col, src_r_lb + row)
+           END DO
+        END DO
+     ELSEIF (dst_tr .AND. src_tr) THEN
+        DO col = 0, ncol - 1
+           DO row = 0, nrow - 1
+              dst(dst_c_lb + col, dst_r_lb + row) &
+                 = src(src_c_lb + col, src_r_lb + row)
+           END DO
+        END DO
+     ENDIF
   END SUBROUTINE block_partial_copy_2d2d_${nametype1}$
 
 ! **************************************************************************************************
@@ -293,15 +293,15 @@
 !> \param[in] out_fe          first element of output
 !> \param[in] in_fe           first element of input
 ! **************************************************************************************************
-  PURE SUBROUTINE block_copy_${nametype1}$(extent_out, extent_in, n, out_fe, in_fe)
-    INTEGER, INTENT(IN) :: n, out_fe, in_fe
-    ${type1}$, DIMENSION(*), INTENT(OUT) :: extent_out
-    ${type1}$, DIMENSION(*), INTENT(IN)  :: extent_in
+  PURE SUBROUTINE block_copy_${nametype1}$ (extent_out, extent_in, n, out_fe, in_fe)
+     INTEGER, INTENT(IN) :: n, out_fe, in_fe
+     ${type1}$, DIMENSION(*), INTENT(OUT) :: extent_out
+     ${type1}$, DIMENSION(*), INTENT(IN)  :: extent_in
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_${nametype1}$', &
-      routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
 !   ---------------------------------------------------------------------------
-    extent_out(out_fe : out_fe+n-1) = extent_in(in_fe : in_fe+n-1)
+     extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
   END SUBROUTINE block_copy_${nametype1}$
 
 ! **************************************************************************************************
@@ -311,26 +311,26 @@
 !> \param[in] rows input matrix size
 !> \param[in] columns input matrix size
 ! **************************************************************************************************
-  PURE_TCOPY SUBROUTINE block_transpose_copy_${nametype1}$(extent_out, extent_in,&
-       rows, columns)
+  PURE_TCOPY SUBROUTINE block_transpose_copy_${nametype1}$ (extent_out, extent_in, &
+                                                            rows, columns)
 #if defined(__LIBXSMM_TRANS)
-    USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1
+     USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1
 #endif
-    ${type1}$, DIMENSION(:), INTENT(OUT) :: extent_out
-    ${type1}$, DIMENSION(:), INTENT(IN)  :: extent_in
-    INTEGER, INTENT(IN) :: rows, columns
+     ${type1}$, DIMENSION(:), INTENT(OUT) :: extent_out
+     ${type1}$, DIMENSION(:), INTENT(IN)  :: extent_in
+     INTEGER, INTENT(IN) :: rows, columns
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_${nametype1}$', &
-      routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
 !   ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
-    CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr1(extent_in), &
-                        ${typesize1[n]}$, rows, columns, rows, columns)
+     CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr1(extent_in), &
+                         ${typesize1[n]}$, rows, columns, rows, columns)
 #elif defined(__MKL)
-    CALL mkl_${nametype1}$omatcopy('C', 'T', rows, columns, ${one1[n]}$, extent_in, rows, extent_out, columns)
+     CALL mkl_${nametype1}$omatcopy('C', 'T', rows, columns, ${one1[n]}$, extent_in, rows, extent_out, columns)
 #else
-    extent_out(1:rows*columns) = RESHAPE(TRANSPOSE(&
-         RESHAPE(extent_in(1:rows*columns), (/rows, columns/))), (/rows*columns/))
+     extent_out(1:rows*columns) = RESHAPE(TRANSPOSE( &
+                                          RESHAPE(extent_in(1:rows*columns), (/rows, columns/))), (/rows*columns/))
 #endif
   END SUBROUTINE block_transpose_copy_${nametype1}$
 
@@ -341,16 +341,16 @@
 !> \param[in] rows input matrix size
 !> \param[in] columns input matrix size
 ! **************************************************************************************************
-  PURE SUBROUTINE block_copy_2d1d_${nametype1}$(extent_out, extent_in,&
-       rows, columns)
-    INTEGER, INTENT(IN) :: rows, columns
-    ${type1}$, DIMENSION(rows,columns), INTENT(OUT) :: extent_out
-    ${type1}$, DIMENSION(:), INTENT(IN)             :: extent_in
+  PURE SUBROUTINE block_copy_2d1d_${nametype1}$ (extent_out, extent_in, &
+                                                 rows, columns)
+     INTEGER, INTENT(IN) :: rows, columns
+     ${type1}$, DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+     ${type1}$, DIMENSION(:), INTENT(IN)             :: extent_in
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d1d_${nametype1}$', &
-      routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d1d_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
 !   ---------------------------------------------------------------------------
-    extent_out = RESHAPE(extent_in, (/rows, columns/))
+     extent_out = RESHAPE(extent_in, (/rows, columns/))
   END SUBROUTINE block_copy_2d1d_${nametype1}$
 
 ! **************************************************************************************************
@@ -360,16 +360,16 @@
 !> \param[in] rows input matrix size
 !> \param[in] columns input matrix size
 ! **************************************************************************************************
-  PURE SUBROUTINE block_copy_1d1d_${nametype1}$(extent_out, extent_in,&
-       rows, columns)
-    INTEGER, INTENT(IN) :: rows, columns
-    ${type1}$, DIMENSION(rows*columns), INTENT(OUT) :: extent_out
-    ${type1}$, DIMENSION(rows*columns), INTENT(IN)  :: extent_in
+  PURE SUBROUTINE block_copy_1d1d_${nametype1}$ (extent_out, extent_in, &
+                                                 rows, columns)
+     INTEGER, INTENT(IN) :: rows, columns
+     ${type1}$, DIMENSION(rows*columns), INTENT(OUT) :: extent_out
+     ${type1}$, DIMENSION(rows*columns), INTENT(IN)  :: extent_in
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d1d_${nametype1}$', &
-      routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d1d_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
 !   ---------------------------------------------------------------------------
-    extent_out(:) = extent_in(:)
+     extent_out(:) = extent_in(:)
   END SUBROUTINE block_copy_1d1d_${nametype1}$
 
 ! **************************************************************************************************
@@ -379,16 +379,16 @@
 !> \param[in] rows input matrix size
 !> \param[in] columns input matrix size
 ! **************************************************************************************************
-  PURE SUBROUTINE block_copy_2d2d_${nametype1}$(extent_out, extent_in,&
-       rows, columns)
-    INTEGER, INTENT(IN) :: rows, columns
-    ${type1}$, DIMENSION(rows,columns), INTENT(OUT) :: extent_out
-    ${type1}$, DIMENSION(rows,columns), INTENT(IN)  :: extent_in
+  PURE SUBROUTINE block_copy_2d2d_${nametype1}$ (extent_out, extent_in, &
+                                                 rows, columns)
+     INTEGER, INTENT(IN) :: rows, columns
+     ${type1}$, DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+     ${type1}$, DIMENSION(rows, columns), INTENT(IN)  :: extent_in
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d2d_${nametype1}$', &
-      routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d2d_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
 !   ---------------------------------------------------------------------------
-    extent_out(:,:) = extent_in(:,:)
+     extent_out(:, :) = extent_in(:, :)
   END SUBROUTINE block_copy_2d2d_${nametype1}$
 
 ! **************************************************************************************************
@@ -398,25 +398,25 @@
 !> \param[in] rows input matrix size
 !> \param[in] columns input matrix size
 ! **************************************************************************************************
-  PURE_TCOPY SUBROUTINE block_transpose_copy_2d1d_${nametype1}$(extent_out, extent_in,&
-       rows, columns)
+  PURE_TCOPY SUBROUTINE block_transpose_copy_2d1d_${nametype1}$ (extent_out, extent_in, &
+                                                                 rows, columns)
 #if defined(__LIBXSMM_TRANS)
-    USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
+     USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
 #endif
-    INTEGER, INTENT(IN) :: rows, columns
-    ${type1}$, DIMENSION(columns,rows), INTENT(OUT) :: extent_out
-    ${type1}$, DIMENSION(:), INTENT(IN)             :: extent_in
+     INTEGER, INTENT(IN) :: rows, columns
+     ${type1}$, DIMENSION(columns, rows), INTENT(OUT) :: extent_out
+     ${type1}$, DIMENSION(:), INTENT(IN)             :: extent_in
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d1d_${nametype1}$', &
-      routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d1d_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
 !   ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
-    CALL libxsmm_otrans(libxsmm_ptr2(extent_out), libxsmm_ptr1(extent_in), &
-                        ${typesize1[n]}$, rows, columns, rows, columns)
+     CALL libxsmm_otrans(libxsmm_ptr2(extent_out), libxsmm_ptr1(extent_in), &
+                         ${typesize1[n]}$, rows, columns, rows, columns)
 #elif defined(__MKL)
-    CALL mkl_${nametype1}$omatcopy('C', 'T', rows, columns, ${one1[n]}$, extent_in, rows, extent_out, columns)
+     CALL mkl_${nametype1}$omatcopy('C', 'T', rows, columns, ${one1[n]}$, extent_in, rows, extent_out, columns)
 #else
-    extent_out = TRANSPOSE(RESHAPE(extent_in, (/rows, columns/)))
+     extent_out = TRANSPOSE(RESHAPE(extent_in, (/rows, columns/)))
 #endif
   END SUBROUTINE block_transpose_copy_2d1d_${nametype1}$
 
@@ -427,16 +427,16 @@
 !> \param[in] rows input matrix size
 !> \param[in] columns input matrix size
 ! **************************************************************************************************
-  PURE SUBROUTINE block_copy_1d2d_${nametype1}$(extent_out, extent_in,&
-       rows, columns)
-    INTEGER, INTENT(IN) :: rows, columns
-    ${type1}$, DIMENSION(:), INTENT(OUT)           :: extent_out
-    ${type1}$, DIMENSION(rows,columns), INTENT(IN) :: extent_in
+  PURE SUBROUTINE block_copy_1d2d_${nametype1}$ (extent_out, extent_in, &
+                                                 rows, columns)
+     INTEGER, INTENT(IN) :: rows, columns
+     ${type1}$, DIMENSION(:), INTENT(OUT)           :: extent_out
+     ${type1}$, DIMENSION(rows, columns), INTENT(IN) :: extent_in
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d2d_${nametype1}$', &
-      routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d2d_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
 !   ---------------------------------------------------------------------------
-    extent_out = RESHAPE(extent_in, (/rows*columns/))
+     extent_out = RESHAPE(extent_in, (/rows*columns/))
   END SUBROUTINE block_copy_1d2d_${nametype1}$
 
 ! **************************************************************************************************
@@ -446,25 +446,25 @@
 !> \param[in] rows input matrix size
 !> \param[in] columns input matrix size
 ! **************************************************************************************************
-  PURE_TCOPY SUBROUTINE block_transpose_copy_1d2d_${nametype1}$(extent_out, extent_in,&
-       rows, columns)
+  PURE_TCOPY SUBROUTINE block_transpose_copy_1d2d_${nametype1}$ (extent_out, extent_in, &
+                                                                 rows, columns)
 #if defined(__LIBXSMM_TRANS)
-    USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
+     USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
 #endif
-    INTEGER, INTENT(IN) :: rows, columns
-    ${type1}$, DIMENSION(:), INTENT(OUT)           :: extent_out
-    ${type1}$, DIMENSION(rows,columns), INTENT(IN) :: extent_in
+     INTEGER, INTENT(IN) :: rows, columns
+     ${type1}$, DIMENSION(:), INTENT(OUT)           :: extent_out
+     ${type1}$, DIMENSION(rows, columns), INTENT(IN) :: extent_in
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_1d2d_${nametype1}$', &
-      routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_1d2d_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
 !   ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
-    CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr2(extent_in), &
-                        ${typesize1[n]}$, rows, columns, rows, columns)
+     CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr2(extent_in), &
+                         ${typesize1[n]}$, rows, columns, rows, columns)
 #elif defined(__MKL)
-    CALL mkl_${nametype1}$omatcopy('C', 'T', rows, columns, ${one1[n]}$, extent_in, rows, extent_out, columns)
+     CALL mkl_${nametype1}$omatcopy('C', 'T', rows, columns, ${one1[n]}$, extent_in, rows, extent_out, columns)
 #else
-    extent_out = RESHAPE(TRANSPOSE(extent_in), (/rows*columns/))
+     extent_out = RESHAPE(TRANSPOSE(extent_in), (/rows*columns/))
 #endif
   END SUBROUTINE block_transpose_copy_1d2d_${nametype1}$
 
@@ -474,36 +474,36 @@
 !> \param[in] rows input matrix size
 !> \param[in] columns input matrix size
 ! **************************************************************************************************
-  PURE_TRANS SUBROUTINE block_transpose_inplace_${nametype1}$(extent, rows, columns)
+  PURE_TRANS SUBROUTINE block_transpose_inplace_${nametype1}$ (extent, rows, columns)
 #if defined(__LIBXSMM_TRANS) && 0
-    USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
-    INTEGER, INTENT(IN) :: rows, columns
+     USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
+     INTEGER, INTENT(IN) :: rows, columns
 #else
-    INTEGER, INTENT(IN) :: rows, columns
-    ${type1}$, DIMENSION(rows*columns) :: extent_tr
+     INTEGER, INTENT(IN) :: rows, columns
+     ${type1}$, DIMENSION(rows*columns) :: extent_tr
 #endif
-    ${type1}$, DIMENSION(rows*columns), INTENT(INOUT) :: extent
+     ${type1}$, DIMENSION(rows*columns), INTENT(INOUT) :: extent
 
-    CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_inplace_${nametype1}$', &
-      routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_inplace_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
 
-    INTEGER :: r, c
+     INTEGER :: r, c
 !   ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS) && 0
-    CALL libxsmm_itrans(libxsmm_ptr1(extent), ${typesize1[n]}$, rows, columns, rows)
+     CALL libxsmm_itrans(libxsmm_ptr1(extent), ${typesize1[n]}$, rows, columns, rows)
 #elif defined(__MKL)
-    CALL mkl_${nametype1}$imatcopy('C', 'T', rows, columns, ${one1[n]}$, extent, rows, columns)
+     CALL mkl_${nametype1}$imatcopy('C', 'T', rows, columns, ${one1[n]}$, extent, rows, columns)
 #else
-    DO r = 1 , columns
-      DO c = 1 , rows
-       extent_tr(r + (c-1)*columns) = extent(c + (r-1)*rows)
-      END DO
-    END DO
-    DO r = 1 , columns
-      DO c = 1 , rows
-       extent(r + (c-1)*columns) = extent_tr(r + (c-1)*columns)
-      END DO
-    END DO
+     DO r = 1, columns
+        DO c = 1, rows
+           extent_tr(r + (c - 1)*columns) = extent(c + (r - 1)*rows)
+        END DO
+     END DO
+     DO r = 1, columns
+        DO c = 1, rows
+           extent(r + (c - 1)*columns) = extent_tr(r + (c - 1)*columns)
+        END DO
+     END DO
 #endif
   END SUBROUTINE block_transpose_inplace_${nametype1}$
 
@@ -518,32 +518,32 @@
 !> \param[in] src        source data array
 !> \param[in] source_lb  (optional) lower bound of source
 ! **************************************************************************************************
-  SUBROUTINE dbcsr_data_set_a${nametype1}$(dst, lb, data_size, src, source_lb)
-    TYPE(dbcsr_data_obj), INTENT(INOUT)      :: dst
-    INTEGER, INTENT(IN)                      :: lb, data_size
-    ${type1}$, DIMENSION(:), INTENT(IN)        :: src
-    INTEGER, INTENT(IN), OPTIONAL            :: source_lb
-    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_set_a${nametype1}$', &
-         routineP = moduleN//':'//routineN
-    INTEGER                                  :: lb_s, ub, ub_s
+  SUBROUTINE dbcsr_data_set_a${nametype1}$ (dst, lb, data_size, src, source_lb)
+     TYPE(dbcsr_data_obj), INTENT(INOUT)      :: dst
+     INTEGER, INTENT(IN)                      :: lb, data_size
+     ${type1}$, DIMENSION(:), INTENT(IN)        :: src
+     INTEGER, INTENT(IN), OPTIONAL            :: source_lb
+     CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_set_a${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
+     INTEGER                                  :: lb_s, ub, ub_s
 !   ---------------------------------------------------------------------------
-    IF (debug_mod) THEN
-       IF(.NOT.ASSOCIATED (dst%d))&
-          DBCSR_ABORT("Target data area must be setup.")
-       IF(SIZE(src) .LT. data_size)&
-          DBCSR_ABORT("Not enough source data.")
-       IF(dst%d%data_type .NE. ${dkind1}$)&
-          DBCSR_ABORT("Data type mismatch.")
-    ENDIF
-    ub = lb + data_size - 1
-    IF (PRESENT (source_lb)) THEN
-       lb_s = source_lb
-       ub_s = source_lb + data_size-1
-    ELSE
-       lb_s = lb
-       ub_s = ub
-    ENDIF
-    CALL memory_copy(dst%d%${base1}$_${prec1}$(lb:ub),src(lb_s:ub_s),data_size)
+     IF (debug_mod) THEN
+        IF (.NOT. ASSOCIATED(dst%d)) &
+           DBCSR_ABORT("Target data area must be setup.")
+        IF (SIZE(src) .LT. data_size) &
+           DBCSR_ABORT("Not enough source data.")
+        IF (dst%d%data_type .NE. ${dkind1}$) &
+           DBCSR_ABORT("Data type mismatch.")
+     ENDIF
+     ub = lb + data_size - 1
+     IF (PRESENT(source_lb)) THEN
+        lb_s = source_lb
+        ub_s = source_lb + data_size - 1
+     ELSE
+        lb_s = lb
+        ub_s = ub
+     ENDIF
+     CALL memory_copy(dst%d%${base1}$_${prec1}$ (lb:ub), src(lb_s:ub_s), data_size)
   END SUBROUTINE dbcsr_data_set_a${nametype1}$
 
 ! **************************************************************************************************
@@ -552,10 +552,10 @@
 !> \param block_b ...
 !> \param len ...
 ! **************************************************************************************************
-  PURE SUBROUTINE block_add_${nametype1}$(block_a, block_b, len)
-    INTEGER, INTENT(IN) :: len
-    ${type1}$, DIMENSION(len), INTENT(INOUT) :: block_a
-    ${type1}$, DIMENSION(len), INTENT(IN)    :: block_b
-    block_a(1:len) = block_a(1:len) + block_b(1:len)
+  PURE SUBROUTINE block_add_${nametype1}$ (block_a, block_b, len)
+     INTEGER, INTENT(IN) :: len
+     ${type1}$, DIMENSION(len), INTENT(INOUT) :: block_a
+     ${type1}$, DIMENSION(len), INTENT(IN)    :: block_b
+     block_a(1:len) = block_a(1:len) + block_b(1:len)
   END SUBROUTINE block_add_${nametype1}$
 #:endfor

@@ -18,24 +18,24 @@
 ! **************************************************************************************************
 MODULE dbcsr_data_operations
 
-   USE dbcsr_block_operations,          ONLY: dbcsr_block_transpose,&
-                                              dbcsr_data_copy,&
-                                              dbcsr_data_set
-   USE dbcsr_data_methods,              ONLY: dbcsr_data_get_size,&
-                                              dbcsr_data_get_size_referenced,&
-                                              dbcsr_data_hold,&
-                                              dbcsr_data_release,&
-                                              dbcsr_data_set_size_referenced,&
-                                              dbcsr_get_data
-   USE dbcsr_dist_util,                 ONLY: sgn
-   USE dbcsr_kinds,                     ONLY: real_4,&
-                                              real_8
-   USE dbcsr_types,                     ONLY: dbcsr_data_obj,&
-                                              dbcsr_type,&
-                                              dbcsr_type_complex_4,&
-                                              dbcsr_type_complex_8,&
-                                              dbcsr_type_real_4,&
-                                              dbcsr_type_real_8
+   USE dbcsr_block_operations, ONLY: dbcsr_block_transpose, &
+                                     dbcsr_data_copy, &
+                                     dbcsr_data_set
+   USE dbcsr_data_methods, ONLY: dbcsr_data_get_size, &
+                                 dbcsr_data_get_size_referenced, &
+                                 dbcsr_data_hold, &
+                                 dbcsr_data_release, &
+                                 dbcsr_data_set_size_referenced, &
+                                 dbcsr_get_data
+   USE dbcsr_dist_util, ONLY: sgn
+   USE dbcsr_kinds, ONLY: real_4, &
+                          real_8
+   USE dbcsr_types, ONLY: dbcsr_data_obj, &
+                          dbcsr_type, &
+                          dbcsr_type_complex_4, &
+                          dbcsr_type_complex_8, &
+                          dbcsr_type_real_4, &
+                          dbcsr_type_real_8
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -65,7 +65,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(OUT), OPTIONAL        :: previous_data_area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_switch_data_area', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
 
@@ -94,7 +94,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: shallow
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_copyall', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: i, n
       LOGICAL                                            :: shallow_copy
@@ -162,7 +162,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: drop_real, multiply_by_i
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_convert', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER        :: s_data_c, t_data_c
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER        :: s_data_z, t_data_z
@@ -326,7 +326,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: mark_transposed, transpose_blocks
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy_sort_data', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: blk, col_size, nblks, nrows, nze, &
                                                             nze_prev, row, row_size
@@ -341,7 +341,7 @@ CONTAINS
       IF (PRESENT(transpose_blocks)) trb = transpose_blocks
       !
       nblks = SIZE(old_blk_p)
-      nrows = SIZE(row_p)-1
+      nrows = SIZE(row_p) - 1
       IF (SIZE(blk_p) < nblks) &
          DBCSR_ABORT('Destination blk_p too small.')
       IF (nblks .GE. 1) &
@@ -349,15 +349,15 @@ CONTAINS
       nze_prev = 0
       DO row = 1, nrows
          row_size = rbs(row)
-         DO blk = row_p(row)+1, row_p(row+1)
+         DO blk = row_p(row) + 1, row_p(row + 1)
             IF (old_blk_p(blk) .NE. 0) THEN
                col_size = cbs(col_i(blk))
                nze = row_size*col_size
                IF (blk .GT. 1) THEN
-                  blk_p(blk) = SGN(ABS(blk_p(blk-1))+nze_prev, old_blk_p(blk), &
+                  blk_p(blk) = SGN(ABS(blk_p(blk - 1)) + nze_prev, old_blk_p(blk), &
                                    mark)
                ENDIF
-               IF (ABS(blk_p(blk))+nze-1 > dbcsr_data_get_size(dst)) &
+               IF (ABS(blk_p(blk)) + nze - 1 > dbcsr_data_get_size(dst)) &
                   DBCSR_ABORT('Destination data space is too small.')
                IF (.NOT. trb) THEN
                   CALL dbcsr_data_copy(dst=dst, dst_lb=(/ABS(blk_p(blk))/), &
@@ -400,7 +400,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: old_blk_d
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_sort_data', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, i, nblks
       LOGICAL                                            :: multidata
@@ -415,10 +415,10 @@ CONTAINS
 !$OMP        MASTER
          blk_p(1) = SIGN(1, old_blk_p(1))
          DO i = 2, nblks
-            blk_p(i) = SIGN(ABS(blk_p(i-1))+sizes(i-1), old_blk_p(i))
+            blk_p(i) = SIGN(ABS(blk_p(i - 1)) + sizes(i - 1), old_blk_p(i))
          ENDDO
          CALL dbcsr_data_set_size_referenced(dsts, &
-                                             ABS(blk_p(nblks))+sizes(nblks)-1)
+                                             ABS(blk_p(nblks)) + sizes(nblks) - 1)
 !$OMP        END MASTER
 !$OMP        BARRIER
 !$OMP        DO

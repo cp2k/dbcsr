@@ -17,30 +17,30 @@ MODULE dbcsr_tensor_types
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
 
-   USE dbcsr_array_list_methods,        ONLY: array_list,&
-                                              array_offsets,&
-                                              create_array_list,&
-                                              destroy_array_list,&
-                                              get_array_elements,&
-                                              sizes_of_arrays,&
-                                              sum_of_arrays
-   USE dbcsr_api,                       ONLY: &
-        dbcsr_create, dbcsr_distribution_get, &
-        dbcsr_distribution_new, dbcsr_distribution_type, &
-        dbcsr_distribution_release, dbcsr_distribution_get, dbcsr_finalize, &
-        dbcsr_get_info, dbcsr_type, dbcsr_release, dbcsr_get_stored_coordinates
-   USE dbcsr_tensor_index,              ONLY: get_2d_indices,&
-                                              get_nd_indices,&
-                                              create_nd_to_2d_mapping,&
-                                              destroy_nd_to_2d_mapping,&
-                                              get_mapping_info,&
-                                              nd_to_2d_mapping
-   USE dbcsr_kinds,                     ONLY: default_string_length
-   USE dbcsr_mpiwrap,                   ONLY: mp_cart_create,&
-                                              mp_cart_rank,&
-                                              mp_environ, &
-                                              mp_dims_create, &
-                                              mp_comm_free
+   USE dbcsr_array_list_methods, ONLY: array_list, &
+                                       array_offsets, &
+                                       create_array_list, &
+                                       destroy_array_list, &
+                                       get_array_elements, &
+                                       sizes_of_arrays, &
+                                       sum_of_arrays
+   USE dbcsr_api, ONLY: &
+      dbcsr_create, dbcsr_distribution_get, &
+      dbcsr_distribution_new, dbcsr_distribution_type, &
+      dbcsr_distribution_release, dbcsr_distribution_get, dbcsr_finalize, &
+      dbcsr_get_info, dbcsr_type, dbcsr_release, dbcsr_get_stored_coordinates
+   USE dbcsr_tensor_index, ONLY: get_2d_indices, &
+                                 get_nd_indices, &
+                                 create_nd_to_2d_mapping, &
+                                 destroy_nd_to_2d_mapping, &
+                                 get_mapping_info, &
+                                 nd_to_2d_mapping
+   USE dbcsr_kinds, ONLY: default_string_length
+   USE dbcsr_mpiwrap, ONLY: mp_cart_create, &
+                            mp_cart_rank, &
+                            mp_environ, &
+                            mp_dims_create, &
+                            mp_comm_free
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -118,7 +118,7 @@ CONTAINS
 
       CALL mp_environ(numtask, dims_2d, task_coor, comm_2d)
 
-      IF(.NOT. PRESENT(dims_nd)) THEN
+      IF (.NOT. PRESENT(dims_nd)) THEN
          dims1_nd = 0; dims2_nd = 0
          CALL mp_dims_create(dims_2d(1), dims1_nd)
          CALL mp_dims_create(dims_2d(2), dims2_nd)
@@ -130,7 +130,7 @@ CONTAINS
          dims_nd_prv = dims_nd
       ENDIF
 
-      CALL mp_cart_create(comm_2d, ndim1+ndim2, dims_nd_prv, pos, dbcsr_t_nd_mp_comm)
+      CALL mp_cart_create(comm_2d, ndim1 + ndim2, dims_nd_prv, pos, dbcsr_t_nd_mp_comm)
 
    END FUNCTION
 
@@ -139,9 +139,9 @@ CONTAINS
 !>
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_nd_mp_free(mp_comm)
-     INTEGER, INTENT(INOUT)                               :: mp_comm
-     
-     CALL mp_comm_free(mp_comm)
+      INTEGER, INTENT(INOUT)                               :: mp_comm
+
+      CALL mp_comm_free(mp_comm)
    END SUBROUTINE dbcsr_t_nd_mp_free
 
 ! **************************************************************************************************
@@ -170,17 +170,17 @@ CONTAINS
       INTEGER, DIMENSION(2)                           :: bdims_2d, pdims_2d_check, &
                                                          dist_2d, pdims_2d, task_coor_2d
       INTEGER, DIMENSION(:), POINTER                  :: col_dist, row_dist
-      INTEGER, DIMENSION(SIZE(map1_2d)+SIZE(map2_2d)) :: dims, ind, nblks_nd, task_coor
-      LOGICAL, DIMENSION(SIZE(map1_2d)+SIZE(map2_2d)) :: periods
+      INTEGER, DIMENSION(SIZE(map1_2d) + SIZE(map2_2d)) :: dims, ind, nblks_nd, task_coor
+      LOGICAL, DIMENSION(SIZE(map1_2d) + SIZE(map2_2d)) :: periods
       LOGICAL, DIMENSION(2)                           :: periods_2d
       TYPE(array_list)                                :: nd_dist
       TYPE(nd_to_2d_mapping)                          :: map_blks, map_grid
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_distribution_new', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
-      ndims = SIZE(map1_2d)+SIZE(map2_2d)
+      ndims = SIZE(map1_2d) + SIZE(map2_2d)
       DBCSR_ASSERT(ndims .GE. 2 .AND. ndims .LE. ${maxdim}$)
 
       CALL create_array_list(nd_dist, ndims, ${varlist("nd_dist")}$)
@@ -238,7 +238,7 @@ CONTAINS
       TYPE(dbcsr_t_distribution_type), INTENT(INOUT) :: dist
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_distribution_destroy', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       CALL dbcsr_distribution_release(dist%dist)
@@ -282,10 +282,10 @@ CONTAINS
       TYPE(nd_to_2d_mapping)                            :: map
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_create_new', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
-      ndims = SIZE(map1_2d)+SIZE(map2_2d)
+      ndims = SIZE(map1_2d) + SIZE(map2_2d)
       CALL create_array_list(blk_size, ndims, ${varlist("blk_size")}$)
       dims = sizes_of_arrays(blk_size)
 
@@ -355,7 +355,7 @@ CONTAINS
       CHARACTER(len=*), INTENT(IN), OPTIONAL :: name
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_create_template', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       CALL dbcsr_create(tensor%matrix_rep, template=tensor_in%matrix_rep)
@@ -398,7 +398,7 @@ CONTAINS
       INTEGER, DIMENSION(:), POINTER              :: col_dist, row_dist
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_create_matrix', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       IF (PRESENT(name)) THEN
@@ -444,7 +444,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_destroy', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       CALL dbcsr_release(tensor%matrix_rep)

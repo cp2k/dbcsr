@@ -18,22 +18,22 @@
 !> - 2010-06-18 Moved all pointer methods into here.
 ! **************************************************************************************************
 MODULE dbcsr_ptr_util
-   USE dbcsr_acc_hostmem,               ONLY: acc_hostmem_allocate,&
-                                              acc_hostmem_deallocate
-   USE dbcsr_data_types,                ONLY: dbcsr_data_obj,&
-                                              dbcsr_memtype_default,&
-                                              dbcsr_memtype_type,&
-                                              dbcsr_type_complex_4,&
-                                              dbcsr_type_complex_8,&
-                                              dbcsr_type_real_4,&
-                                              dbcsr_type_real_8
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              int_4,&
-                                              int_8,&
-                                              real_4,&
-                                              real_8
-   USE dbcsr_mpiwrap,                   ONLY: mp_allocate,&
-                                              mp_deallocate
+   USE dbcsr_acc_hostmem, ONLY: acc_hostmem_allocate, &
+                                acc_hostmem_deallocate
+   USE dbcsr_data_types, ONLY: dbcsr_data_obj, &
+                               dbcsr_memtype_default, &
+                               dbcsr_memtype_type, &
+                               dbcsr_type_complex_4, &
+                               dbcsr_type_complex_8, &
+                               dbcsr_type_real_4, &
+                               dbcsr_type_real_8
+   USE dbcsr_kinds, ONLY: dp, &
+                          int_4, &
+                          int_8, &
+                          real_4, &
+                          real_8
+   USE dbcsr_mpiwrap, ONLY: mp_allocate, &
+                            mp_deallocate
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -100,7 +100,6 @@ MODULE dbcsr_ptr_util
    PUBLIC :: dbcsr_data_allocation_type
    TYPE(dbcsr_data_allocation_type), PUBLIC, SAVE :: dbcsr_data_allocation = dbcsr_data_allocation_type() ! defaults
 
-
 CONTAINS
 
 ! **************************************************************************************************
@@ -125,13 +124,13 @@ CONTAINS
       IF (PRESENT(len)) THEN
          SELECT CASE (area%d%data_type)
          CASE (dbcsr_type_real_4)
-            new_area%d%r_sp => area%d%r_sp(offset:offset+len-1)
+            new_area%d%r_sp => area%d%r_sp(offset:offset + len - 1)
          CASE (dbcsr_type_real_8)
-            new_area%d%r_dp => area%d%r_dp(offset:offset+len-1)
+            new_area%d%r_dp => area%d%r_dp(offset:offset + len - 1)
          CASE (dbcsr_type_complex_4)
-            new_area%d%c_sp => area%d%c_sp(offset:offset+len-1)
+            new_area%d%c_sp => area%d%c_sp(offset:offset + len - 1)
          CASE (dbcsr_type_complex_8)
-            new_area%d%c_dp => area%d%c_dp(offset:offset+len-1)
+            new_area%d%c_dp => area%d%c_dp(offset:offset + len - 1)
          CASE default
             DBCSR_ABORT("Invalid data type.")
          END SELECT

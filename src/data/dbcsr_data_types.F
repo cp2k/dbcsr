@@ -13,11 +13,11 @@
 !> \date    10-2014
 ! **************************************************************************************************
 MODULE dbcsr_data_types
-   USE dbcsr_acc_devmem,                ONLY: acc_devmem_type
-   USE dbcsr_acc_event,                 ONLY: acc_event_type
-   USE dbcsr_acc_stream,                ONLY: acc_stream_type
-   USE dbcsr_kinds,                     ONLY: &
-        dp, int_4, int_4_size, int_8, int_8_size, real_4, real_4_size, real_8, real_8_size
+   USE dbcsr_acc_devmem, ONLY: acc_devmem_type
+   USE dbcsr_acc_event, ONLY: acc_event_type
+   USE dbcsr_acc_stream, ONLY: acc_stream_type
+   USE dbcsr_kinds, ONLY: &
+      dp, int_4, int_4_size, int_8, int_8_size, real_4, real_4_size, real_8, real_8_size
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, omp_lock_kind
 
@@ -156,7 +156,7 @@ CONTAINS
       INTEGER                                            :: size
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_datatype_sizeof', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       SELECT CASE (datatype)
       CASE (dbcsr_type_int_4)

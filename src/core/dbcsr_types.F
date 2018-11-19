@@ -17,19 +17,19 @@
 !> - Created 2009-05-12
 ! **************************************************************************************************
 MODULE dbcsr_types
-   USE dbcsr_array_types,               ONLY: array_i1d_obj
-   USE dbcsr_btree,                     ONLY: btree_i8_cp2d,&
-                                              btree_i8_dp2d,&
-                                              btree_i8_sp2d,&
-                                              btree_i8_zp2d
-   USE dbcsr_data_types,                ONLY: &
-        dbcsr_data_area_type, dbcsr_data_obj, dbcsr_datatype_sizeof, dbcsr_memtype_default, &
-        dbcsr_memtype_type, dbcsr_scalar_type, dbcsr_type_complex_4, dbcsr_type_complex_4_2d, &
-        dbcsr_type_complex_8, dbcsr_type_complex_8_2d, dbcsr_type_complex_default, &
-        dbcsr_type_int_4, dbcsr_type_real_4, dbcsr_type_real_4_2d, dbcsr_type_real_8, &
-        dbcsr_type_real_8_2d, dbcsr_type_real_default
-   USE dbcsr_kinds,                     ONLY: default_string_length,&
-                                              int_8
+   USE dbcsr_array_types, ONLY: array_i1d_obj
+   USE dbcsr_btree, ONLY: btree_i8_cp2d, &
+                          btree_i8_dp2d, &
+                          btree_i8_sp2d, &
+                          btree_i8_zp2d
+   USE dbcsr_data_types, ONLY: &
+      dbcsr_data_area_type, dbcsr_data_obj, dbcsr_datatype_sizeof, dbcsr_memtype_default, &
+      dbcsr_memtype_type, dbcsr_scalar_type, dbcsr_type_complex_4, dbcsr_type_complex_4_2d, &
+      dbcsr_type_complex_8, dbcsr_type_complex_8_2d, dbcsr_type_complex_default, &
+      dbcsr_type_int_4, dbcsr_type_real_4, dbcsr_type_real_4_2d, dbcsr_type_real_8, &
+      dbcsr_type_real_8_2d, dbcsr_type_real_default
+   USE dbcsr_kinds, ONLY: default_string_length, &
+                          int_8
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
@@ -561,12 +561,12 @@ MODULE dbcsr_types
    ! The number of meta fields.  Its value should be the index of the
    ! last slot listed above.
    INTEGER, PARAMETER          :: dbcsr_meta_size = 19
-   INTEGER, PARAMETER          :: dbcsr_slot_row_p = dbcsr_meta_size+2
-   INTEGER, PARAMETER          :: dbcsr_slot_col_i = dbcsr_meta_size+4
-   INTEGER, PARAMETER          :: dbcsr_slot_blk_p = dbcsr_meta_size+6
-   INTEGER, PARAMETER          :: dbcsr_slot_thr_c = dbcsr_meta_size+8
-   INTEGER, PARAMETER          :: dbcsr_slot_coo_l = dbcsr_meta_size+10
-   INTEGER, PARAMETER          :: dbcsr_num_slots = dbcsr_meta_size+11 ! previous + 1
+   INTEGER, PARAMETER          :: dbcsr_slot_row_p = dbcsr_meta_size + 2
+   INTEGER, PARAMETER          :: dbcsr_slot_col_i = dbcsr_meta_size + 4
+   INTEGER, PARAMETER          :: dbcsr_slot_blk_p = dbcsr_meta_size + 6
+   INTEGER, PARAMETER          :: dbcsr_slot_thr_c = dbcsr_meta_size + 8
+   INTEGER, PARAMETER          :: dbcsr_slot_coo_l = dbcsr_meta_size + 10
+   INTEGER, PARAMETER          :: dbcsr_num_slots = dbcsr_meta_size + 11 ! previous + 1
 
    ! MPI message size limits (in bytes): 128, 8192, 32KB, 128KB, 4MB, 16MB
    INTEGER(KIND=int_8), DIMENSION(6), PARAMETER :: dbcsr_mpi_size_limits = &
@@ -643,7 +643,7 @@ MODULE dbcsr_types
       ! rank 2: 1=total, 2=min, 3=max
       REAL, DIMENSION(2, 3)                                               :: data_size = 0.0
       ! message size breakdown
-      INTEGER(KIND=int_8), DIMENSION(SIZE(dbcsr_mpi_size_limits)+1, 2, 2) :: data_size_breakdown = -1
+      INTEGER(KIND=int_8), DIMENSION(SIZE(dbcsr_mpi_size_limits) + 1, 2, 2) :: data_size_breakdown = -1
    END TYPE dbcsr_mpi_statistics_type
 
 END MODULE dbcsr_types

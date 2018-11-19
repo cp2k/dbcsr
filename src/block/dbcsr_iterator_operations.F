@@ -17,25 +17,25 @@
 !  - 2010-02-18 Moved from dbcsr_operations and dbcsr_methods
 ! **************************************************************************************************
 MODULE dbcsr_iterator_operations
-   USE dbcsr_array_types,               ONLY: array_data,&
-                                              array_exists
-   USE dbcsr_data_methods,              ONLY: dbcsr_data_hold,&
-                                              dbcsr_data_release,&
-                                              dbcsr_data_set_pointer,&
-                                              dbcsr_get_data
-   USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_has_threads,&
-                                              dbcsr_distribution_num_threads,&
-                                              dbcsr_distribution_thread_dist
-   USE dbcsr_methods,                   ONLY: dbcsr_distribution
-   USE dbcsr_ptr_util,                  ONLY: pointer_rank_remap2
-   USE dbcsr_toollib,                   ONLY: swap
-   USE dbcsr_types,                     ONLY: dbcsr_data_obj,&
-                                              dbcsr_distribution_obj,&
-                                              dbcsr_iterator,&
-                                              dbcsr_scalar_type,&
-                                              dbcsr_type
-   USE dbcsr_kinds,                     ONLY: real_4,&
-                                              real_8
+   USE dbcsr_array_types, ONLY: array_data, &
+                                array_exists
+   USE dbcsr_data_methods, ONLY: dbcsr_data_hold, &
+                                 dbcsr_data_release, &
+                                 dbcsr_data_set_pointer, &
+                                 dbcsr_get_data
+   USE dbcsr_dist_methods, ONLY: dbcsr_distribution_has_threads, &
+                                 dbcsr_distribution_num_threads, &
+                                 dbcsr_distribution_thread_dist
+   USE dbcsr_methods, ONLY: dbcsr_distribution
+   USE dbcsr_ptr_util, ONLY: pointer_rank_remap2
+   USE dbcsr_toollib, ONLY: swap
+   USE dbcsr_types, ONLY: dbcsr_data_obj, &
+                          dbcsr_distribution_obj, &
+                          dbcsr_iterator, &
+                          dbcsr_scalar_type, &
+                          dbcsr_type
+   USE dbcsr_kinds, ONLY: real_4, &
+                          real_8
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, omp_in_parallel
@@ -157,7 +157,7 @@ CONTAINS
                                                             contiguous_pointers, read_only
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_start', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle
       TYPE(dbcsr_distribution_obj)                       :: dist
@@ -234,10 +234,10 @@ CONTAINS
       !   DBCSR_ABORT("Locally-indexed matrices can only have a dynamic iterator.")
       IF (iterator%local_indexing .AND. .NOT. array_exists(matrix%local_rows)) &
          CALL dbcsr_abort(__LOCATION__, &
-                       "Local rows mapping array should exist when local indexing is used.")
+                          "Local rows mapping array should exist when local indexing is used.")
       IF (iterator%local_indexing .AND. .NOT. array_exists(matrix%global_rows)) &
          CALL dbcsr_abort(__LOCATION__, &
-                       "Global rows mapping array should exist when local indexing is used.")
+                          "Global rows mapping array should exist when local indexing is used.")
       iterator%global_rows => array_data(matrix%global_rows)
       iterator%local_rows => array_data(matrix%local_rows)
 
@@ -268,7 +268,7 @@ CONTAINS
 !$          iterator%common_pos = omp_get_num_threads()
 !$       ENDIF
 !$OMP           END SINGLE
-!$       CALL dbcsr_iterator_seek(iterator, omp_get_thread_num()+1)
+!$       CALL dbcsr_iterator_seek(iterator, omp_get_thread_num() + 1)
 !$    ELSE
          CALL dbcsr_iterator_seek(iterator, 1)
 !$    ENDIF
@@ -283,7 +283,7 @@ CONTAINS
       TYPE(dbcsr_iterator), INTENT(INOUT)                :: iterator
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_stop', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle
 
@@ -329,7 +329,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_p
 
       CHARACTER(len=*), PARAMETER :: routineN = 'find_first_valid_block', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 !IF (pos .LT. 1) pos = 1
@@ -337,7 +337,7 @@ CONTAINS
       DO WHILE (pos .LE. maxpos)
          IF (blk_p(pos) .EQ. 0) THEN
             !WRITE(*,*)routineN//" Skipping deleted block."
-            pos = pos+1
+            pos = pos + 1
          ELSE
             EXIT
          ENDIF
@@ -362,7 +362,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: row_p
 
       CHARACTER(len=*), PARAMETER :: routineN = 'find_proper_row', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
@@ -372,8 +372,8 @@ CONTAINS
          ELSEIF (row .GT. maxrows) THEN
             row = maxrows
          ENDIF
-         DO WHILE (row_p(row+1) .LT. pos)
-            row = row+1
+         DO WHILE (row_p(row + 1) .LT. pos)
+            row = row + 1
             IF (row .GT. maxrows) THEN
                row = 0
                EXIT
@@ -411,7 +411,7 @@ CONTAINS
       INTEGER, DIMENSION(1:*), INTENT(IN), OPTIONAL      :: local2global
 
       CHARACTER(len=*), PARAMETER :: routineN = 'find_proper_position', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       LOGICAL                                            :: local, row_inrange, row_ok
 
@@ -435,8 +435,8 @@ CONTAINS
 !$          ENDIF
 !$       ENDIF
          DO WHILE (row_inrange .AND. .NOT. row_ok)
-            row = row+1
-            pos = row_p(row)+1
+            row = row + 1
+            pos = row_p(row) + 1
             IF (row .GT. maxrows) THEN
                row = 0
                EXIT
@@ -482,7 +482,7 @@ CONTAINS
             ! into the next row, then we have to find the correct one.
             advance = .TRUE.
             DO WHILE (advance)
-               iterator%pos = iterator%pos+1
+               iterator%pos = iterator%pos + 1
                my_old_row = iterator%row
                CALL find_proper_position_caller(iterator)
                jumped_row = iterator%row .GT. my_old_row
@@ -490,9 +490,9 @@ CONTAINS
                IF (jumped_row) THEN
 !$OMP                 CRITICAL (crit_common_pos)
                   ! Set the common_pos to the next available row.
-                  next_row = MAX(iterator%common_pos+1, iterator%row)
-                  next_row = next_row-iterator%common_pos
-                  iterator%common_pos = iterator%common_pos+next_row
+                  next_row = MAX(iterator%common_pos + 1, iterator%row)
+                  next_row = next_row - iterator%common_pos
+                  iterator%common_pos = iterator%common_pos + next_row
                   iterator%row = iterator%common_pos
 !$OMP                 END CRITICAL (crit_common_pos)
                   IF (iterator%row .GT. iterator%nblkrows_total) THEN
@@ -513,7 +513,7 @@ CONTAINS
             ! In this case common_pos holds the last-assigned block.
             !
 !$OMP           CRITICAL (crit_common_pos)
-            iterator%common_pos = iterator%common_pos+1
+            iterator%common_pos = iterator%common_pos + 1
             iterator%pos = iterator%common_pos
             CALL find_proper_position_caller(iterator)
             p = iterator%pos
@@ -521,12 +521,12 @@ CONTAINS
 !$OMP           END CRITICAL (crit_common_pos)
          ENDIF
       ELSEIF (iterator%shared) THEN
-         iterator%pos = iterator%pos+1
+         iterator%pos = iterator%pos + 1
          ithread = 0
 !$       ithread = OMP_GET_THREAD_NUM()
          CALL find_proper_position_caller(iterator, use_ithread=ithread)
       ELSE
-         iterator%pos = iterator%pos+1
+         iterator%pos = iterator%pos + 1
          CALL find_proper_position_caller(iterator)
       ENDIF
    END SUBROUTINE iterator_advance
@@ -612,7 +612,7 @@ CONTAINS
       INTEGER, INTENT(in)                                :: row
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_seek', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle
 
@@ -656,7 +656,7 @@ CONTAINS
                                                             col_offset
 
       CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_block_index', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: bp, error_handle
 
@@ -710,7 +710,7 @@ CONTAINS
                                                             row_offset, col_offset
 
       CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_area_block', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: blk_p, block_col_size, block_row_size, &
                                                             bp, csize, error_handle, nze, rsize

@@ -17,50 +17,50 @@
 !> - Created 2010-02-08
 ! **************************************************************************************************
 MODULE dbcsr_tests
-   USE dbcsr_data_methods,              ONLY: dbcsr_scalar
-   USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_mp,&
-                                              dbcsr_distribution_new,&
-                                              dbcsr_distribution_release
-   USE dbcsr_dist_operations,           ONLY: dbcsr_dist_bin
-   USE dbcsr_dist_util,                 ONLY: dbcsr_checksum
-   USE dbcsr_io,                        ONLY: dbcsr_binary_read,&
-                                              dbcsr_binary_write
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              int_8,&
-                                              real_8
-   USE dbcsr_machine,                   ONLY: m_flush,&
-                                              m_walltime
-   USE dbcsr_methods,                   ONLY: dbcsr_col_block_sizes,&
-                                              dbcsr_distribution,&
-                                              dbcsr_get_data_type,&
-                                              dbcsr_name,&
-                                              dbcsr_nblkcols_total,&
-                                              dbcsr_nblkrows_total,&
-                                              dbcsr_release,&
-                                              dbcsr_row_block_sizes
-   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_active,&
-                                              dbcsr_mp_group,&
-                                              dbcsr_mp_init,&
-                                              dbcsr_mp_new,&
-                                              dbcsr_mp_npcols,&
-                                              dbcsr_mp_nprows,&
-                                              dbcsr_mp_release
-   USE dbcsr_mpiwrap,                   ONLY: &
-        mp_cart_create, mp_cart_rank, mp_comm_free, mp_comm_null, mp_dims_create, mp_environ, &
-        mp_max, mp_sum, mp_sync
-   USE dbcsr_multiply_api,              ONLY: dbcsr_multiply
-   USE dbcsr_operations,                ONLY: dbcsr_add,&
-                                              dbcsr_copy,&
-                                              dbcsr_frobenius_norm
-   USE dbcsr_test_methods,              ONLY: dbcsr_make_random_block_sizes,&
-                                              dbcsr_make_random_matrix
-   USE dbcsr_transformations,           ONLY: dbcsr_redistribute
-   USE dbcsr_types,                     ONLY: dbcsr_distribution_obj,&
-                                              dbcsr_mp_obj,&
-                                              dbcsr_scalar_type,&
-                                              dbcsr_type,&
-                                              dbcsr_type_no_symmetry
-   USE dbcsr_work_operations,           ONLY: dbcsr_create
+   USE dbcsr_data_methods, ONLY: dbcsr_scalar
+   USE dbcsr_dist_methods, ONLY: dbcsr_distribution_mp, &
+                                 dbcsr_distribution_new, &
+                                 dbcsr_distribution_release
+   USE dbcsr_dist_operations, ONLY: dbcsr_dist_bin
+   USE dbcsr_dist_util, ONLY: dbcsr_checksum
+   USE dbcsr_io, ONLY: dbcsr_binary_read, &
+                       dbcsr_binary_write
+   USE dbcsr_kinds, ONLY: dp, &
+                          int_8, &
+                          real_8
+   USE dbcsr_machine, ONLY: m_flush, &
+                            m_walltime
+   USE dbcsr_methods, ONLY: dbcsr_col_block_sizes, &
+                            dbcsr_distribution, &
+                            dbcsr_get_data_type, &
+                            dbcsr_name, &
+                            dbcsr_nblkcols_total, &
+                            dbcsr_nblkrows_total, &
+                            dbcsr_release, &
+                            dbcsr_row_block_sizes
+   USE dbcsr_mp_methods, ONLY: dbcsr_mp_active, &
+                               dbcsr_mp_group, &
+                               dbcsr_mp_init, &
+                               dbcsr_mp_new, &
+                               dbcsr_mp_npcols, &
+                               dbcsr_mp_nprows, &
+                               dbcsr_mp_release
+   USE dbcsr_mpiwrap, ONLY: &
+      mp_cart_create, mp_cart_rank, mp_comm_free, mp_comm_null, mp_dims_create, mp_environ, &
+      mp_max, mp_sum, mp_sync
+   USE dbcsr_multiply_api, ONLY: dbcsr_multiply
+   USE dbcsr_operations, ONLY: dbcsr_add, &
+                               dbcsr_copy, &
+                               dbcsr_frobenius_norm
+   USE dbcsr_test_methods, ONLY: dbcsr_make_random_block_sizes, &
+                                 dbcsr_make_random_matrix
+   USE dbcsr_transformations, ONLY: dbcsr_redistribute
+   USE dbcsr_types, ONLY: dbcsr_distribution_obj, &
+                          dbcsr_mp_obj, &
+                          dbcsr_scalar_type, &
+                          dbcsr_type, &
+                          dbcsr_type_no_symmetry
+   USE dbcsr_work_operations, ONLY: dbcsr_create
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -115,7 +115,7 @@ CONTAINS
       LOGICAL, INTENT(in)                                :: retain_sparsity, always_checksum
 
       CHARACTER(len=*), PARAMETER :: fmt_desc = '(A,3(1X,I6),1X,A,2(1X,I5),1X,A,2(1X,L1))', &
-         routineN = 'dbcsr_run_tests', routineP = moduleN//':'//routineN
+                                     routineN = 'dbcsr_run_tests', routineP = moduleN//':'//routineN
 
       CHARACTER                                          :: t_a, t_b
       INTEGER                                            :: bmax, bmin, cart_group, error_handle, &
@@ -335,7 +335,7 @@ CONTAINS
       LOGICAL                                            :: always_checksum
 
       CHARACTER(len=*), PARAMETER :: routineN = 'test_multiplies_multiproc', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: cart_group, error_handle, group, &
                                                             loop_iter, mynode, numnodes, test
@@ -466,9 +466,9 @@ CONTAINS
                                          filter_eps=eps)
                   ENDIF
                ENDIF
-               t1 = t1+m_walltime()
-               t2 = t2+t1
-               flop_sum = flop_sum+flop
+               t1 = t1 + m_walltime()
+               t2 = t2 + t1
+               flop_sum = flop_sum + flop
                !
                CALL mp_max(t1, group)
                CALL mp_sum(flop, group)
@@ -516,7 +516,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: pgrid_dims
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mp_make_env', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, mynode, numnodes, pcol, &
                                                             prow
@@ -544,9 +544,9 @@ CONTAINS
       alive = cart_group .NE. mp_comm_null
       IF (alive) THEN
          CALL mp_environ(numnodes, mynode, cart_group)
-         ALLOCATE (pgrid(0:npdims(1)-1, 0:npdims(2)-1))
-         DO prow = 0, npdims(1)-1
-            DO pcol = 0, npdims(2)-1
+         ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
+         DO prow = 0, npdims(1) - 1
+            DO pcol = 0, npdims(2) - 1
                coord = (/prow, pcol/)
                CALL mp_cart_rank(cart_group, coord, pgrid(prow, pcol))
             ENDDO

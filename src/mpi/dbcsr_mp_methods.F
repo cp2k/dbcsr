@@ -13,12 +13,12 @@
 !> \date    10-2014
 ! **************************************************************************************************
 MODULE dbcsr_mp_methods
-   USE dbcsr_methods,                   ONLY: dbcsr_mp_grid_remove,&
-                                              dbcsr_mp_release
-   USE dbcsr_mpiwrap,                   ONLY: mp_cart_create,&
-                                              mp_cart_sub,&
-                                              mp_comm_free
-   USE dbcsr_types,                     ONLY: dbcsr_mp_obj
+   USE dbcsr_methods, ONLY: dbcsr_mp_grid_remove, &
+                            dbcsr_mp_release
+   USE dbcsr_mpiwrap, ONLY: mp_cart_create, &
+                            mp_cart_sub, &
+                            mp_comm_free
+   USE dbcsr_types, ONLY: dbcsr_mp_obj
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
@@ -90,7 +90,7 @@ CONTAINS
 
       ALLOCATE (mp_env%mp)
       mp_env%mp%refcount = 1
-      ALLOCATE (mp_env%mp%pgrid(0:SIZE(pgrid, 1)-1, 0:SIZE(pgrid, 2)-1))
+      ALLOCATE (mp_env%mp%pgrid(0:SIZE(pgrid, 1) - 1, 0:SIZE(pgrid, 2) - 1))
       mp_env%mp%pgrid(:, :) = pgrid(:, :)
       mp_env%mp%mynode = mynode
       mp_env%mp%mp_group = mp_group
@@ -164,7 +164,7 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
-      mp_env%mp%refcount = mp_env%mp%refcount+1
+      mp_env%mp%refcount = mp_env%mp%refcount + 1
    END SUBROUTINE dbcsr_mp_hold
 
 ! **************************************************************************************************

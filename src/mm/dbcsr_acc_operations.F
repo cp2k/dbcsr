@@ -19,12 +19,12 @@
 ! **************************************************************************************************
 MODULE dbcsr_acc_operations
    USE ISO_C_BINDING, ONLY: C_INT, &
-      C_PTR, &
-      C_LOC
+                            C_PTR, &
+                            C_LOC
    USE dbcsr_acc_devmem, ONLY: acc_devmem_cptr, &
-      acc_devmem_type
+                               acc_devmem_type
    USE dbcsr_acc_stream, ONLY: acc_stream_cptr, &
-      acc_stream_type
+                               acc_stream_type
    USE dbcsr_config, ONLY: cublas_handles, max_kernel_dim
    USE dbcsr_mm_types, ONLY: dbcsr_ps_width
    USE dbcsr_kinds, ONLY: real_8, dp
@@ -169,7 +169,7 @@ CONTAINS
          IF (n_max .LE. max_kernel_dim .AND. &
              k_max .LE. max_kernel_dim) THEN
             ! Transpose for B-blocks
-            istat = cublas_dgemm_loop_cu(cublas_handles(ithread+1)%handle_ptr, &
+            istat = cublas_dgemm_loop_cu(cublas_handles(ithread + 1)%handle_ptr, &
                                          'N', 'T', &
                                          C_LOC(param_stack_host(1, 1)), &
                                          dbcsr_ps_width, stack_size, &
@@ -182,7 +182,7 @@ CONTAINS
             ! Only uniform stacks, otherwise we have to check
             ! the transposity for each block
             IF (mnk .EQ. 1) THEN
-               istat = cublas_dgemm_loop_cu(cublas_handles(ithread+1)%handle_ptr, &
+               istat = cublas_dgemm_loop_cu(cublas_handles(ithread + 1)%handle_ptr, &
                                             'N', 'N', &
                                             C_LOC(param_stack_host(1, 1)), &
                                             dbcsr_ps_width, stack_size, &

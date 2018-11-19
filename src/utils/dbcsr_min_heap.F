@@ -8,7 +8,7 @@
 !--------------------------------------------------------------------------------------------------!
 
 MODULE dbcsr_min_heap
-   USE dbcsr_kinds,                     ONLY: int_4
+   USE dbcsr_kinds, ONLY: int_4
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -75,7 +75,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: n
       INTEGER                                            :: child
 
-      child = 2*n+1
+      child = 2*n + 1
    END FUNCTION get_right_child
 
 ! **************************************************************************************************
@@ -206,10 +206,10 @@ CONTAINS
       IF (found) THEN
          IF (heap%n .GT. 1) THEN
             CALL dbcsr_heap_copy_node(heap, 1, heap%n)
-            heap%n = heap%n-1
+            heap%n = heap%n - 1
             CALL bubble_down(heap, 1)
          ELSE
-            heap%n = heap%n-1
+            heap%n = heap%n - 1
          ENDIF
       ENDIF
    END SUBROUTINE dbcsr_heap_pop
@@ -330,7 +330,7 @@ CONTAINS
                smallest = left_child
             ENDIF
          ENDIF
-         right_child = left_child+1
+         right_child = left_child + 1
          IF (right_child .LE. heap%n) THEN
             right_child_value = get_value(heap, right_child)
             IF (right_child_value .LT. min_value) THEN

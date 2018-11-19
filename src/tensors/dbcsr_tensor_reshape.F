@@ -17,28 +17,27 @@ MODULE dbcsr_tensor_reshape
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)
 
-   USE dbcsr_allocate_wrap,             ONLY: allocate_any
-   USE dbcsr_api,                       ONLY: dbcsr_copy, &
-                                              dbcsr_get_info
-   USE dbcsr_tensor_block,              ONLY: &
-        block_nd, create_block, destroy_block, dbcsr_t_iterator_type, dbcsr_t_iterator_next_block, &
-        dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_start, dbcsr_t_iterator_stop, dbcsr_t_get_block, &
-        dbcsr_t_reserve_blocks, dbcsr_t_put_block, reshape_2d_to_nd_block
-   USE dbcsr_tensor_types,              ONLY: dbcsr_t_blk_sizes,&
-                                              dbcsr_t_create,&
-                                              dbcsr_t_get_data_type,&
-                                              dbcsr_t_type,&
-                                              ndims_tensor,&
-                                              dbcsr_t_get_stored_coordinates
-   USE dbcsr_kinds,                     ONLY: default_string_length
-   USE dbcsr_kinds,                     ONLY: ${uselist(dtype_float_prec)}$
-   USE dbcsr_api,                       ONLY: ${uselist(dtype_float_param)}$
-   USE dbcsr_mpiwrap,                   ONLY: mp_alltoall,&
-                                              mp_environ,&
-                                              mp_irecv,&
-                                              mp_isend,&
-                                              mp_waitall
-
+   USE dbcsr_allocate_wrap, ONLY: allocate_any
+   USE dbcsr_api, ONLY: dbcsr_copy, &
+                        dbcsr_get_info
+   USE dbcsr_tensor_block, ONLY: &
+      block_nd, create_block, destroy_block, dbcsr_t_iterator_type, dbcsr_t_iterator_next_block, &
+      dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_start, dbcsr_t_iterator_stop, dbcsr_t_get_block, &
+      dbcsr_t_reserve_blocks, dbcsr_t_put_block, reshape_2d_to_nd_block
+   USE dbcsr_tensor_types, ONLY: dbcsr_t_blk_sizes, &
+                                 dbcsr_t_create, &
+                                 dbcsr_t_get_data_type, &
+                                 dbcsr_t_type, &
+                                 ndims_tensor, &
+                                 dbcsr_t_get_stored_coordinates
+   USE dbcsr_kinds, ONLY: default_string_length
+   USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$
+   USE dbcsr_api, ONLY: ${uselist(dtype_float_param)}$
+   USE dbcsr_mpiwrap, ONLY: mp_alltoall, &
+                            mp_environ, &
+                            mp_irecv, &
+                            mp_isend, &
+                            mp_waitall
 
 #include "base/dbcsr_base_uses.f90"
 
@@ -178,10 +177,10 @@ CONTAINS
       SELECT CASE (data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
       CASE (${dparam}$)
-         ALLOCATE (buffer%msg_${dsuffix}$(ndata))
+         ALLOCATE (buffer%msg_${dsuffix}$ (ndata))
 #:endfor
       END SELECT
-      ALLOCATE (buffer%indx(nblock, ndim+1))
+      ALLOCATE (buffer%indx(nblock, ndim + 1))
    END SUBROUTINE block_buffer_create
 
 ! **************************************************************************************************
@@ -231,7 +230,7 @@ CONTAINS
       SELECT CASE (block%data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
       CASE (${dparam}$)
-         CALL block_buffer_add_block_${dsuffix}$(buffer, SIZE(block%${dsuffix}$%blk), index, block%${dsuffix}$%blk)
+         CALL block_buffer_add_block_${dsuffix}$ (buffer, SIZE(block%${dsuffix}$%blk), index, block%${dsuffix}$%blk)
 #:endfor
       END SELECT
    END SUBROUTINE
@@ -256,9 +255,9 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
       CASE (${dparam}$)
          IF (PRESENT(block)) THEN
-            CALL block_buffer_get_next_block_${dsuffix}$(buffer, ndata, index, block%${dsuffix}$%blk, advance_iter=advance_iter)
+            CALL block_buffer_get_next_block_${dsuffix}$ (buffer, ndata, index, block%${dsuffix}$%blk, advance_iter=advance_iter)
          ELSE
-            CALL block_buffer_get_next_block_${dsuffix}$(buffer, ndata, index, advance_iter=advance_iter)
+            CALL block_buffer_get_next_block_${dsuffix}$ (buffer, ndata, index, advance_iter=advance_iter)
          ENDIF
 #:endfor
       END SELECT
@@ -269,10 +268,10 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE block_buffer_get_index(buffer, index)
       TYPE(block_buffer_type), INTENT(IN)               :: buffer
-      INTEGER, INTENT(OUT), DIMENSION(:,:), ALLOCATABLE :: index
+      INTEGER, INTENT(OUT), DIMENSION(:, :), ALLOCATABLE :: index
       INTEGER, DIMENSION(2)                             :: indx_shape
 
-      indx_shape = SHAPE(buffer%indx) - [0,1]
+      indx_shape = SHAPE(buffer%indx) - [0, 1]
       CALL allocate_any(index, source=buffer%indx(1:indx_shape(1), 1:indx_shape(2)))
    END SUBROUTINE
 
@@ -314,7 +313,7 @@ CONTAINS
                                                 send_counter
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'communicate_buffer', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       CALL mp_environ(numnodes, mynode, mp_comm)
@@ -324,11 +323,11 @@ CONTAINS
          send_counter = 0
          rec_counter = 0
 
-         DO iproc = 0, numnodes-1
+         DO iproc = 0, numnodes - 1
             IF (buffer_recv(iproc)%nblock > 0) THEN
-               rec_counter = rec_counter+1
+               rec_counter = rec_counter + 1
                CALL mp_irecv(buffer_recv(iproc)%indx, iproc, mp_comm, req_array(rec_counter, 3), tag=4)
-               SELECT CASE (buffer_recv (iproc)%data_type)
+               SELECT CASE (buffer_recv(iproc)%data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
                CASE (${dparam}$)
                   CALL mp_irecv(buffer_recv(iproc)%msg_${dsuffix}$, iproc, mp_comm, req_array(rec_counter, 4), tag=7)
@@ -337,11 +336,11 @@ CONTAINS
             END IF
          END DO
 
-         DO iproc = 0, numnodes-1
+         DO iproc = 0, numnodes - 1
             IF (buffer_send(iproc)%nblock > 0) THEN
-               send_counter = send_counter+1
+               send_counter = send_counter + 1
                CALL mp_isend(buffer_send(iproc)%indx, iproc, mp_comm, req_array(send_counter, 1), tag=4)
-               SELECT CASE (buffer_recv (iproc)%data_type)
+               SELECT CASE (buffer_recv(iproc)%data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
                CASE (${dparam}$)
                   CALL mp_isend(buffer_send(iproc)%msg_${dsuffix}$, iproc, mp_comm, req_array(send_counter, 2), tag=7)
@@ -360,10 +359,10 @@ CONTAINS
       ELSE
          IF (buffer_recv(0)%nblock > 0) THEN
             buffer_recv(0)%indx(:, :) = buffer_send(0)%indx(:, :)
-            SELECT CASE (buffer_recv (0)%data_type)
+            SELECT CASE (buffer_recv(0)%data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
             CASE (${dparam}$)
-               buffer_recv(0)%msg_${dsuffix}$(:) = buffer_send(0)%msg_${dsuffix}$(:)
+               buffer_recv(0)%msg_${dsuffix}$ (:) = buffer_send(0)%msg_${dsuffix}$ (:)
 #:endfor
             END SELECT
          ENDIF
@@ -380,7 +379,7 @@ CONTAINS
 !> \param index ...
 !> \param block ...
 ! **************************************************************************************************
-   SUBROUTINE block_buffer_add_block_${dsuffix}$(buffer, ndata, index, block)
+   SUBROUTINE block_buffer_add_block_${dsuffix}$ (buffer, ndata, index, block)
       TYPE(block_buffer_type), INTENT(INOUT)               :: buffer
       INTEGER, INTENT(IN)                                  :: ndata
       ${dtype}$, DIMENSION(ndata), INTENT(IN)              :: block
@@ -392,17 +391,17 @@ CONTAINS
       IF (p .EQ. 0) THEN
          p_data = 0
       ELSE
-         p_data = buffer%indx(p, ndims+1)
+         p_data = buffer%indx(p, ndims + 1)
       ENDIF
 
-      buffer%msg_${dsuffix}$(p_data+1:p_data+ndata) = block(:)
-      buffer%indx(p+1, 1:ndims) = index(:)
+      buffer%msg_${dsuffix}$ (p_data + 1:p_data + ndata) = block(:)
+      buffer%indx(p + 1, 1:ndims) = index(:)
       IF (p > 0) THEN
-         buffer%indx(p+1,ndims+1) = buffer%indx(p,ndims+1)+ndata
+         buffer%indx(p + 1, ndims + 1) = buffer%indx(p, ndims + 1) + ndata
       ELSE
-         buffer%indx(p+1, ndims+1) = ndata
+         buffer%indx(p + 1, ndims + 1) = ndata
       ENDIF
-      buffer%endpos = buffer%endpos+1
+      buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
 #:endfor
 
@@ -415,7 +414,7 @@ CONTAINS
 !> \param block ...
 !> \param advance_iter
 ! **************************************************************************************************
-   SUBROUTINE block_buffer_get_next_block_${dsuffix}$(buffer, ndata, index, block, advance_iter)
+   SUBROUTINE block_buffer_get_next_block_${dsuffix}$ (buffer, ndata, index, block, advance_iter)
       TYPE(block_buffer_type), INTENT(INOUT)                      :: buffer
       INTEGER, INTENT(OUT)                                        :: ndata
       ${dtype}$, DIMENSION(:), ALLOCATABLE, OPTIONAL, INTENT(OUT) :: block
@@ -437,19 +436,19 @@ CONTAINS
       IF (p .EQ. 0) THEN
          p_data = 0
       ELSE
-         p_data = buffer%indx(p, ndims+1)
+         p_data = buffer%indx(p, ndims + 1)
       ENDIF
       IF (p > 0) THEN
-         ndata = buffer%indx(p+1, ndims+1)-buffer%indx(p, ndims+1)
+         ndata = buffer%indx(p + 1, ndims + 1) - buffer%indx(p, ndims + 1)
       ELSE
-         ndata = buffer%indx(p+1, ndims+1)
+         ndata = buffer%indx(p + 1, ndims + 1)
       ENDIF
-      index(:) = buffer%indx(p+1,1:ndims)
+      index(:) = buffer%indx(p + 1, 1:ndims)
       IF (PRESENT(block)) THEN
-         CALL allocate_any(block, source=buffer%msg_${dsuffix}$(p_data+1:p_data+ndata))
+         CALL allocate_any(block, source=buffer%msg_${dsuffix}$ (p_data + 1:p_data + ndata))
       ENDIF
 
-      IF(do_advance) buffer%endpos = buffer%endpos+1
+      IF (do_advance) buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
 #:endfor
 

@@ -12,10 +12,10 @@
 !> \author Ole Schuett
 ! **************************************************************************************************
 MODULE dbcsr_base_hooks
-   USE dbcsr_kinds,                     ONLY: default_string_length
-   USE dbcsr_machine,                   ONLY: default_output_unit,&
-                                              m_abort,&
-                                              m_flush
+   USE dbcsr_kinds, ONLY: default_string_length
+   USE dbcsr_machine, ONLY: default_output_unit, &
+                            m_abort, &
+                            m_flush
 
    IMPLICIT NONE
    PRIVATE
@@ -33,23 +33,23 @@ MODULE dbcsr_base_hooks
    ! the regular subroutines/functions - otherwise prettify.py will screw up.
    INTERFACE
       SUBROUTINE dbcsr_abort_interface(location, message)
-      CHARACTER(len=*), INTENT(in)                       :: location, message
+         CHARACTER(len=*), INTENT(in)                       :: location, message
 
       END SUBROUTINE dbcsr_abort_interface
 
       SUBROUTINE dbcsr_warn_interface(location, message)
-      CHARACTER(len=*), INTENT(in)                       :: location, message
+         CHARACTER(len=*), INTENT(in)                       :: location, message
 
       END SUBROUTINE dbcsr_warn_interface
 
       SUBROUTINE timeset_interface(routineN, handle)
-      CHARACTER(LEN=*), INTENT(IN)                       :: routineN
-      INTEGER, INTENT(OUT)                               :: handle
+         CHARACTER(LEN=*), INTENT(IN)                       :: routineN
+         INTEGER, INTENT(OUT)                               :: handle
 
       END SUBROUTINE timeset_interface
 
       SUBROUTINE timestop_interface(handle)
-      INTEGER, INTENT(IN)                                :: handle
+         INTEGER, INTENT(IN)                                :: handle
 
       END SUBROUTINE timestop_interface
    END INTERFACE

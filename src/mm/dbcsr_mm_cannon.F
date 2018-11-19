@@ -20,101 +20,101 @@
 !>  - 2013-01    reorganized code (Ole Schuett)
 ! **************************************************************************************************
 MODULE dbcsr_mm_cannon
-   USE dbcsr_acc_event,                 ONLY: acc_event_synchronize
-   USE dbcsr_array_types,               ONLY: array_data,&
-                                              array_exists,&
-                                              array_i1d_obj,&
-                                              array_size
-   USE dbcsr_block_operations,          ONLY: dbcsr_block_conjg,&
-                                              dbcsr_block_copy_aa,&
-                                              dbcsr_block_real_neg,&
-                                              dbcsr_block_scale,&
-                                              dbcsr_block_transpose_aa,&
-                                              dbcsr_block_transpose
-   USE dbcsr_config,                    ONLY: dbcsr_cfg,&
-                                              has_acc
-   USE dbcsr_data_methods,              ONLY: &
-        dbcsr_data_clear_pointer, dbcsr_data_ensure_size, dbcsr_data_get_size, &
-        dbcsr_data_get_size_referenced, dbcsr_data_hold, dbcsr_data_host2dev, dbcsr_data_init, &
-        dbcsr_data_new, dbcsr_data_release, dbcsr_data_set_pointer, &
-        dbcsr_data_set_size_referenced, dbcsr_scalar_are_equal, dbcsr_scalar_negative, &
-        dbcsr_scalar_one, dbcsr_get_data_p_s, dbcsr_get_data_p_d, dbcsr_get_data_p_c, dbcsr_get_data_p_z
-   USE dbcsr_data_types,                ONLY: dbcsr_datatype_sizeof
-   USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_col_dist,&
-                                              dbcsr_distribution_has_threads,&
-                                              dbcsr_distribution_max_col_dist,&
-                                              dbcsr_distribution_max_row_dist,&
-                                              dbcsr_distribution_mp,&
-                                              dbcsr_distribution_row_dist
-   USE dbcsr_index_operations,          ONLY: dbcsr_count_row_index,&
-                                              dbcsr_has_local_row_index,&
-                                              dbcsr_index_prune_deleted,&
-                                              dbcsr_make_index_list,&
-                                              dbcsr_make_index_local_row,&
-                                              dbcsr_repoint_index
-   USE dbcsr_io,                        ONLY: dbcsr_print
-   USE dbcsr_iterator_operations,       ONLY: dbcsr_iterator_blocks_left,&
-                                              dbcsr_iterator_next_block,&
-                                              dbcsr_iterator_start,&
-                                              dbcsr_iterator_stop
-   USE dbcsr_mem_methods,               ONLY: dbcsr_mempool_limit_capacity
-   USE dbcsr_methods,                   ONLY: &
-        dbcsr_destroy_array, dbcsr_distribution, dbcsr_get_data_type, dbcsr_get_index_memory_type, &
-        dbcsr_has_symmetry, dbcsr_image_dist_hold, dbcsr_image_dist_init, &
-        dbcsr_image_dist_release, dbcsr_max_col_size, dbcsr_max_row_size, dbcsr_nblkcols_local, &
-        dbcsr_nblkrows_local, dbcsr_nblkrows_total, dbcsr_release, dbcsr_valid_index
-   USE dbcsr_mm_common,                 ONLY: &
-        acc_transpose_blocks, calculate_norms, count_mpi_statistics, dbcsr_mm_multrec_type_p, &
-        dbcsr_mpi_statistics, enumerate_blk_sizes, huge_norm, local_filter, max_memory, &
-        memtype_abpanel_1, memtype_abpanel_2, memtype_mpi_buffer, memtype_trsbuffer_1, &
-        memtype_trsbuffer_2, product_matrix_size_guess, rec_sort_index, setup_buffer_matrix
-   USE dbcsr_mm_dist_operations,        ONLY: dbcsr_get_local_vcols,&
-                                              dbcsr_get_local_vrows,&
-                                              dbcsr_reset_vlocals,&
-                                              image_calculator
-   USE dbcsr_mm_multrec,                ONLY: dbcsr_mm_multrec_finalize,&
-                                              dbcsr_mm_multrec_init,&
-                                              dbcsr_mm_multrec_multiply,&
-                                              dbcsr_mm_multrec_phaseout
-   USE dbcsr_mp_methods,                ONLY: &
-        dbcsr_mp_grid_setup, dbcsr_mp_group, dbcsr_mp_has_subgroups, dbcsr_mp_my_col_group, &
-        dbcsr_mp_my_row_group, dbcsr_mp_mynode, dbcsr_mp_mypcol, dbcsr_mp_myprow, dbcsr_mp_npcols, &
-        dbcsr_mp_nprows, dbcsr_mp_numnodes, dbcsr_mp_pgrid
-   USE dbcsr_mp_operations,             ONLY: dbcsr_irecv_any,&
-                                              dbcsr_isend_any,&
-                                              hybrid_alltoall_any,&
-                                              hybrid_alltoall_i1
-   USE dbcsr_operations,                ONLY: dbcsr_copy,&
-                                              dbcsr_crop_matrix
-   USE dbcsr_ptr_util,                  ONLY: ensure_array_size
-   USE dbcsr_transformations,           ONLY: dbcsr_make_dense_low
-   USE dbcsr_types,                     ONLY: &
-        dbcsr_2d_array_type, dbcsr_data_obj, dbcsr_distribution_obj, dbcsr_imagedistribution_obj, &
-        dbcsr_iterator, dbcsr_memtype_type, dbcsr_meta_size, dbcsr_mp_obj, dbcsr_scalar_type, &
-        dbcsr_slot_home_coli, dbcsr_slot_home_pcol, dbcsr_slot_home_prow, dbcsr_slot_home_rowi, &
-        dbcsr_slot_home_vpcol, dbcsr_slot_home_vprow, dbcsr_slot_size, dbcsr_type, &
-        dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_int_4, dbcsr_type_no_symmetry, &
-        dbcsr_type_real_4, dbcsr_type_real_8
-   USE dbcsr_dist_util,                 ONLY: count_bins,&
-                                              dbcsr_checksum
-   USE dbcsr_work_operations,           ONLY: dbcsr_create,&
-                                              dbcsr_special_finalize,&
-                                              dbcsr_work_create
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              int_8,&
-                                              real_4,&
-                                              real_8,&
-                                              sp
-   USE dbcsr_machine,                   ONLY: default_output_unit,&
-                                              m_memory
-   USE dbcsr_mpiwrap,                   ONLY: mp_allgather,&
-                                              mp_alltoall,&
-                                              mp_irecv,&
-                                              mp_isend,&
-                                              mp_request_null,&
-                                              mp_sum,&
-                                              mp_testany,&
-                                              mp_waitall
+   USE dbcsr_acc_event, ONLY: acc_event_synchronize
+   USE dbcsr_array_types, ONLY: array_data, &
+                                array_exists, &
+                                array_i1d_obj, &
+                                array_size
+   USE dbcsr_block_operations, ONLY: dbcsr_block_conjg, &
+                                     dbcsr_block_copy_aa, &
+                                     dbcsr_block_real_neg, &
+                                     dbcsr_block_scale, &
+                                     dbcsr_block_transpose_aa, &
+                                     dbcsr_block_transpose
+   USE dbcsr_config, ONLY: dbcsr_cfg, &
+                           has_acc
+   USE dbcsr_data_methods, ONLY: &
+      dbcsr_data_clear_pointer, dbcsr_data_ensure_size, dbcsr_data_get_size, &
+      dbcsr_data_get_size_referenced, dbcsr_data_hold, dbcsr_data_host2dev, dbcsr_data_init, &
+      dbcsr_data_new, dbcsr_data_release, dbcsr_data_set_pointer, &
+      dbcsr_data_set_size_referenced, dbcsr_scalar_are_equal, dbcsr_scalar_negative, &
+      dbcsr_scalar_one, dbcsr_get_data_p_s, dbcsr_get_data_p_d, dbcsr_get_data_p_c, dbcsr_get_data_p_z
+   USE dbcsr_data_types, ONLY: dbcsr_datatype_sizeof
+   USE dbcsr_dist_methods, ONLY: dbcsr_distribution_col_dist, &
+                                 dbcsr_distribution_has_threads, &
+                                 dbcsr_distribution_max_col_dist, &
+                                 dbcsr_distribution_max_row_dist, &
+                                 dbcsr_distribution_mp, &
+                                 dbcsr_distribution_row_dist
+   USE dbcsr_index_operations, ONLY: dbcsr_count_row_index, &
+                                     dbcsr_has_local_row_index, &
+                                     dbcsr_index_prune_deleted, &
+                                     dbcsr_make_index_list, &
+                                     dbcsr_make_index_local_row, &
+                                     dbcsr_repoint_index
+   USE dbcsr_io, ONLY: dbcsr_print
+   USE dbcsr_iterator_operations, ONLY: dbcsr_iterator_blocks_left, &
+                                        dbcsr_iterator_next_block, &
+                                        dbcsr_iterator_start, &
+                                        dbcsr_iterator_stop
+   USE dbcsr_mem_methods, ONLY: dbcsr_mempool_limit_capacity
+   USE dbcsr_methods, ONLY: &
+      dbcsr_destroy_array, dbcsr_distribution, dbcsr_get_data_type, dbcsr_get_index_memory_type, &
+      dbcsr_has_symmetry, dbcsr_image_dist_hold, dbcsr_image_dist_init, &
+      dbcsr_image_dist_release, dbcsr_max_col_size, dbcsr_max_row_size, dbcsr_nblkcols_local, &
+      dbcsr_nblkrows_local, dbcsr_nblkrows_total, dbcsr_release, dbcsr_valid_index
+   USE dbcsr_mm_common, ONLY: &
+      acc_transpose_blocks, calculate_norms, count_mpi_statistics, dbcsr_mm_multrec_type_p, &
+      dbcsr_mpi_statistics, enumerate_blk_sizes, huge_norm, local_filter, max_memory, &
+      memtype_abpanel_1, memtype_abpanel_2, memtype_mpi_buffer, memtype_trsbuffer_1, &
+      memtype_trsbuffer_2, product_matrix_size_guess, rec_sort_index, setup_buffer_matrix
+   USE dbcsr_mm_dist_operations, ONLY: dbcsr_get_local_vcols, &
+                                       dbcsr_get_local_vrows, &
+                                       dbcsr_reset_vlocals, &
+                                       image_calculator
+   USE dbcsr_mm_multrec, ONLY: dbcsr_mm_multrec_finalize, &
+                               dbcsr_mm_multrec_init, &
+                               dbcsr_mm_multrec_multiply, &
+                               dbcsr_mm_multrec_phaseout
+   USE dbcsr_mp_methods, ONLY: &
+      dbcsr_mp_grid_setup, dbcsr_mp_group, dbcsr_mp_has_subgroups, dbcsr_mp_my_col_group, &
+      dbcsr_mp_my_row_group, dbcsr_mp_mynode, dbcsr_mp_mypcol, dbcsr_mp_myprow, dbcsr_mp_npcols, &
+      dbcsr_mp_nprows, dbcsr_mp_numnodes, dbcsr_mp_pgrid
+   USE dbcsr_mp_operations, ONLY: dbcsr_irecv_any, &
+                                  dbcsr_isend_any, &
+                                  hybrid_alltoall_any, &
+                                  hybrid_alltoall_i1
+   USE dbcsr_operations, ONLY: dbcsr_copy, &
+                               dbcsr_crop_matrix
+   USE dbcsr_ptr_util, ONLY: ensure_array_size
+   USE dbcsr_transformations, ONLY: dbcsr_make_dense_low
+   USE dbcsr_types, ONLY: &
+      dbcsr_2d_array_type, dbcsr_data_obj, dbcsr_distribution_obj, dbcsr_imagedistribution_obj, &
+      dbcsr_iterator, dbcsr_memtype_type, dbcsr_meta_size, dbcsr_mp_obj, dbcsr_scalar_type, &
+      dbcsr_slot_home_coli, dbcsr_slot_home_pcol, dbcsr_slot_home_prow, dbcsr_slot_home_rowi, &
+      dbcsr_slot_home_vpcol, dbcsr_slot_home_vprow, dbcsr_slot_size, dbcsr_type, &
+      dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_int_4, dbcsr_type_no_symmetry, &
+      dbcsr_type_real_4, dbcsr_type_real_8
+   USE dbcsr_dist_util, ONLY: count_bins, &
+                              dbcsr_checksum
+   USE dbcsr_work_operations, ONLY: dbcsr_create, &
+                                    dbcsr_special_finalize, &
+                                    dbcsr_work_create
+   USE dbcsr_kinds, ONLY: dp, &
+                          int_8, &
+                          real_4, &
+                          real_8, &
+                          sp
+   USE dbcsr_machine, ONLY: default_output_unit, &
+                            m_memory
+   USE dbcsr_mpiwrap, ONLY: mp_allgather, &
+                            mp_alltoall, &
+                            mp_irecv, &
+                            mp_isend, &
+                            mp_request_null, &
+                            mp_sum, &
+                            mp_testany, &
+                            mp_waitall
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -331,9 +331,9 @@ CONTAINS
 
       CHARACTER                                          :: predist_type, predist_type_fwd
       INTEGER :: blk, blk_l, blk_p, bp, col, col_img, col_size, coli, data_type, dst_p, handle, &
-         handle2, ithread, mp_group, ncol_images, nrow_images, nsymmetries, nthreads, numproc, &
-         nze, pcol, prow, row, row_img, row_size, rowi, sd_pos, sm_pos, src_p, stored_blk_p, &
-         stored_col, stored_row, symmetry_i, tr_col_size, tr_row_size, vcol, vrow
+                 handle2, ithread, mp_group, ncol_images, nrow_images, nsymmetries, nthreads, numproc, &
+                 nze, pcol, prow, row, row_img, row_size, rowi, sd_pos, sm_pos, src_p, stored_blk_p, &
+                 stored_col, stored_row, symmetry_i, tr_col_size, tr_row_size, vcol, vrow
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: myt_sdp, myt_smp, rd_disp, recv_meta, &
                                                             rm_disp, sd_disp, sdp, send_meta, &
                                                             sm_disp, smp
@@ -431,17 +431,17 @@ CONTAINS
 
       ! Allocate shared temporary buffers
       !
-      ALLOCATE (send_count(2, nrow_images, ncol_images, 0:numproc-1)); send_count = 0
-      ALLOCATE (recv_count(2, nrow_images, ncol_images, 0:numproc-1))
-      ALLOCATE (total_send_count(2, 0:numproc-1)); total_send_count = 0
-      ALLOCATE (total_recv_count(2, 0:numproc-1))
-      ALLOCATE (sdp(0:numproc-1))
-      ALLOCATE (smp(0:numproc-1))
-      ALLOCATE (sd_disp(0:numproc-1)); sd_disp(0) = 1
-      ALLOCATE (sm_disp(0:numproc-1)); sm_disp(0) = 1
-      ALLOCATE (rd_disp(0:numproc-1)); rd_disp(0) = 1
-      ALLOCATE (rm_disp(0:numproc-1)); rm_disp(0) = 1
-      ALLOCATE (all_total_send_offset(2, 0:numproc-1))
+      ALLOCATE (send_count(2, nrow_images, ncol_images, 0:numproc - 1)); send_count = 0
+      ALLOCATE (recv_count(2, nrow_images, ncol_images, 0:numproc - 1))
+      ALLOCATE (total_send_count(2, 0:numproc - 1)); total_send_count = 0
+      ALLOCATE (total_recv_count(2, 0:numproc - 1))
+      ALLOCATE (sdp(0:numproc - 1))
+      ALLOCATE (smp(0:numproc - 1))
+      ALLOCATE (sd_disp(0:numproc - 1)); sd_disp(0) = 1
+      ALLOCATE (sm_disp(0:numproc - 1)); sm_disp(0) = 1
+      ALLOCATE (rd_disp(0:numproc - 1)); rd_disp(0) = 1
+      ALLOCATE (rm_disp(0:numproc - 1)); rm_disp(0) = 1
+      ALLOCATE (all_total_send_offset(2, 0:numproc - 1))
       ALLOCATE (blk_ps(nrow_images, ncol_images)); blk_ps = 1
       ALLOCATE (blks(nrow_images, ncol_images)); blks = 1
       !
@@ -492,10 +492,10 @@ CONTAINS
 
       ! Allocate thread private data
       !
-      ALLOCATE (myt_send_count(2, nrow_images, ncol_images, 0:numproc-1)); myt_send_count(:, :, :, :) = 0
-      ALLOCATE (myt_total_send_count(2, 0:numproc-1))
+      ALLOCATE (myt_send_count(2, nrow_images, ncol_images, 0:numproc - 1)); myt_send_count(:, :, :, :) = 0
+      ALLOCATE (myt_total_send_count(2, 0:numproc - 1))
       ! Thread-local pointers of the current adding position into the send buffers
-      ALLOCATE (myt_smp(0:numproc-1), myt_sdp(0:numproc-1))
+      ALLOCATE (myt_smp(0:numproc - 1), myt_sdp(0:numproc - 1))
 
       ! Count sizes for sending
       !
@@ -527,20 +527,20 @@ CONTAINS
             dst_p = blacs2mpi(prow, pcol)
             ! These counts are meant for the thread that processes this row.
             myt_send_count(1, rowi, coli, dst_p) = &
-               myt_send_count(1, rowi, coli, dst_p)+1
+               myt_send_count(1, rowi, coli, dst_p) + 1
             myt_send_count(2, rowi, coli, dst_p) = &
-               myt_send_count(2, rowi, coli, dst_p)+nze
+               myt_send_count(2, rowi, coli, dst_p) + nze
          END DO ! symmetry_i
       END DO
       CALL dbcsr_iterator_stop(iter)
-      DO dst_p = 0, numproc-1
+      DO dst_p = 0, numproc - 1
          myt_total_send_count(1, dst_p) = SUM(myt_send_count(1, :, :, dst_p))
          myt_total_send_count(2, dst_p) = SUM(myt_send_count(2, :, :, dst_p))
       END DO
       ! Merge the send counts
 !$OMP CRITICAL
-      send_count(:, :, :, :) = send_count(:, :, :, :)+myt_send_count(:, :, :, :)
-      total_send_count(:, :) = total_send_count(:, :)+myt_total_send_count(:, :)
+      send_count(:, :, :, :) = send_count(:, :, :, :) + myt_send_count(:, :, :, :)
+      total_send_count(:, :) = total_send_count(:, :) + myt_total_send_count(:, :)
 !$OMP END CRITICAL
 !$OMP BARRIER
 !$OMP MASTER
@@ -552,7 +552,7 @@ CONTAINS
 !$OMP BARRIER
       ! Fill in the meta data structures and copy the data.
 !$OMP DO
-      DO dst_p = 0, numproc-1
+      DO dst_p = 0, numproc - 1
          total_recv_count(1, dst_p) = SUM(recv_count(1, :, :, dst_p))
          total_recv_count(2, dst_p) = SUM(recv_count(2, :, :, dst_p))
       ENDDO
@@ -572,21 +572,21 @@ CONTAINS
       CALL dbcsr_data_new(send_data_area, data_type, SUM(total_send_count(2, :)))
       ALLOCATE (send_meta(metalen*SUM(total_send_count(1, :))))
       ! Calculate displacements for processors needed for the exchanges.
-      DO dst_p = 1, numproc-1
-         sm_disp(dst_p) = sm_disp(dst_p-1) &
-                          +metalen*total_send_count(1, dst_p-1)
-         sd_disp(dst_p) = sd_disp(dst_p-1) &
-                          +total_send_count(2, dst_p-1)
-         rm_disp(dst_p) = rm_disp(dst_p-1) &
-                          +metalen*total_recv_count(1, dst_p-1)
-         rd_disp(dst_p) = rd_disp(dst_p-1) &
-                          +total_recv_count(2, dst_p-1)
+      DO dst_p = 1, numproc - 1
+         sm_disp(dst_p) = sm_disp(dst_p - 1) &
+                          + metalen*total_send_count(1, dst_p - 1)
+         sd_disp(dst_p) = sd_disp(dst_p - 1) &
+                          + total_send_count(2, dst_p - 1)
+         rm_disp(dst_p) = rm_disp(dst_p - 1) &
+                          + metalen*total_recv_count(1, dst_p - 1)
+         rd_disp(dst_p) = rd_disp(dst_p - 1) &
+                          + total_recv_count(2, dst_p - 1)
       ENDDO
       myt_smp(:) = sm_disp(:)
       myt_sdp(:) = sd_disp(:)
       IF (nthreads .GT. 1) THEN
-         all_total_send_offset(1, :) = myt_smp(:)+metalen*myt_total_send_count(1, :)
-         all_total_send_offset(2, :) = myt_sdp(:)+myt_total_send_count(2, :)
+         all_total_send_offset(1, :) = myt_smp(:) + metalen*myt_total_send_count(1, :)
+         all_total_send_offset(2, :) = myt_sdp(:) + myt_total_send_count(2, :)
       ENDIF
 !$OMP END MASTER
 !$OMP BARRIER
@@ -595,9 +595,9 @@ CONTAINS
          myt_smp(:) = all_total_send_offset(1, :)
          myt_sdp(:) = all_total_send_offset(2, :)
          all_total_send_offset(1, :) &
-            = all_total_send_offset(1, :)+metalen*myt_total_send_count(1, :)
+            = all_total_send_offset(1, :) + metalen*myt_total_send_count(1, :)
          all_total_send_offset(2, :) &
-            = all_total_send_offset(2, :)+myt_total_send_count(2, :)
+            = all_total_send_offset(2, :) + myt_total_send_count(2, :)
 !$OMP END CRITICAL
       ELSE
          CALL dbcsr_data_init(received_data_area)
@@ -684,13 +684,13 @@ CONTAINS
       ! there are only very few processors that need to exchange data.
       ! The hybrid_alltoall deals with this by doing point to point communication
       CALL timeset(routineN//"_data", handle2)
-      CALL hybrid_alltoall_any(send_data_area, total_send_count(2, :), sd_disp(:)-1, &
-                               recv_data_area, total_recv_count(2, :), rd_disp(:)-1, &
+      CALL hybrid_alltoall_any(send_data_area, total_send_count(2, :), sd_disp(:) - 1, &
+                               recv_data_area, total_recv_count(2, :), rd_disp(:) - 1, &
                                mp_obj, &
                                most_ptp=.TRUE., remainder_ptp=.TRUE., no_hybrid=.FALSE.)
       CALL hybrid_alltoall_i1( &
-         send_meta(:), metalen*total_send_count(1, :), sm_disp(:)-1, &
-         recv_meta(:), metalen*total_recv_count(1, :), rm_disp(:)-1, &
+         send_meta(:), metalen*total_send_count(1, :), sm_disp(:) - 1, &
+         recv_meta(:), metalen*total_recv_count(1, :), rm_disp(:) - 1, &
          most_ptp=.TRUE., remainder_ptp=.TRUE., no_hybrid=.FALSE., &
          mp_env=mp_obj)
       CALL timestop(handle2)
@@ -698,21 +698,21 @@ CONTAINS
       ! Now create the work index and/or copy the relevant data from the
       ! receive buffer into the local indices.
       !
-      DO src_p = 0, numproc-1
+      DO src_p = 0, numproc - 1
          DO blk_l = 1, total_recv_count(1, src_p)
-            stored_row = recv_meta(rm_disp(src_p)+metalen*(blk_l-1))
-            stored_col = recv_meta(rm_disp(src_p)+metalen*(blk_l-1)+1)
-            stored_blk_p = recv_meta(rm_disp(src_p)+metalen*(blk_l-1)+2)
-            row_img = recv_meta(rm_disp(src_p)+metalen*(blk_l-1)+3)
-            col_img = recv_meta(rm_disp(src_p)+metalen*(blk_l-1)+4)
+            stored_row = recv_meta(rm_disp(src_p) + metalen*(blk_l - 1))
+            stored_col = recv_meta(rm_disp(src_p) + metalen*(blk_l - 1) + 1)
+            stored_blk_p = recv_meta(rm_disp(src_p) + metalen*(blk_l - 1) + 2)
+            row_img = recv_meta(rm_disp(src_p) + metalen*(blk_l - 1) + 3)
+            col_img = recv_meta(rm_disp(src_p) + metalen*(blk_l - 1) + 4)
             nze = row_blk_size(stored_row)*col_blk_size(stored_col)
             blk = blks(row_img, col_img)
-            blks(row_img, col_img) = blks(row_img, col_img)+1
-            blk_ps(row_img, col_img) = blk_ps(row_img, col_img)+nze
+            blks(row_img, col_img) = blks(row_img, col_img) + 1
+            blk_ps(row_img, col_img) = blk_ps(row_img, col_img) + nze
             ums%mats(row_img, col_img)%wms(1)%row_i(blk) = stored_row
             ums%mats(row_img, col_img)%wms(1)%col_i(blk) = stored_col
             ums%mats(row_img, col_img)%wms(1)%blk_p(blk) = &
-               SIGN(rd_disp(src_p)+ABS(stored_blk_p)-1, stored_blk_p)
+               SIGN(rd_disp(src_p) + ABS(stored_blk_p) - 1, stored_blk_p)
          ENDDO
       ENDDO
 
@@ -720,8 +720,8 @@ CONTAINS
       !
       DO row_img = 1, nrow_images
          DO col_img = 1, ncol_images
-            ums%mats(row_img, col_img)%wms(1)%lastblk = blks(row_img, col_img)-1
-            ums%mats(row_img, col_img)%wms(1)%datasize = blk_ps(row_img, col_img)-1
+            ums%mats(row_img, col_img)%wms(1)%lastblk = blks(row_img, col_img) - 1
+            ums%mats(row_img, col_img)%wms(1)%datasize = blk_ps(row_img, col_img) - 1
             !
             CALL dbcsr_data_set_size_referenced( &
                ums%mats(row_img, col_img)%wms(1)%data_area, &
@@ -786,7 +786,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)                       :: new_template
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_images_dense', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle, mat_col, mat_row, mat_vpcol, &
@@ -874,38 +874,38 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(OUT)                   :: flop
 
       CHARACTER(len=*), PARAMETER :: routineN = 'multiply_cannon', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
       INTEGER, PARAMETER                                 :: idata = 1, ileft = 0, imeta = 2, &
                                                             iright = 2, M_L = 2, M_P = 1, M_R = 3
 
       INTEGER :: data_type, data_type_byte, grp, handle, handle2, handle3, i, ithread, &
-         left_col_image, left_col_mult, left_col_nimages, left_dst_icol, left_dst_irow, &
-         left_dst_p, left_dst_pcol, left_dst_prow, left_dst_vcol, left_dst_vrow, left_max_nblks, &
-         left_max_nze, left_myfirstvcol, left_myfirstvrow, left_mypcol, left_myprow, left_npcols, &
-         left_nprows, left_recv_icol, left_recv_irow, left_recv_p, left_recv_pcol, left_recv_prow, &
-         left_recv_vcol, left_recv_vrow, left_row_image, left_row_mult, left_row_nimages, &
-         left_send_icol, left_send_irow, left_send_p, left_send_pcol, left_send_prow
+                 left_col_image, left_col_mult, left_col_nimages, left_dst_icol, left_dst_irow, &
+                 left_dst_p, left_dst_pcol, left_dst_prow, left_dst_vcol, left_dst_vrow, left_max_nblks, &
+                 left_max_nze, left_myfirstvcol, left_myfirstvrow, left_mypcol, left_myprow, left_npcols, &
+                 left_nprows, left_recv_icol, left_recv_irow, left_recv_p, left_recv_pcol, left_recv_prow, &
+                 left_recv_vcol, left_recv_vrow, left_row_image, left_row_mult, left_row_nimages, &
+                 left_send_icol, left_send_irow, left_send_p, left_send_pcol, left_send_prow
       INTEGER :: left_send_vcol, left_send_vrow, left_src_icol, left_src_irow, left_src_p, &
-         left_src_pcol, left_src_prow, left_src_vcol, left_src_vrow, metronome, min_nimages, &
-         mp_group, mynode, nblkrows_total, nblkrows_used, nsteps_k, nthreads, numnodes, nvirt_k, &
-         output_unit, right_col_image, right_col_mult, right_col_nimages, right_dst_icol, &
-         right_dst_irow, right_dst_p, right_dst_pcol, right_dst_prow, right_dst_vcol, &
-         right_dst_vrow, right_max_nblks, right_max_nze, right_myfirstvcol, right_myfirstvrow, &
-         right_mypcol, right_myprow, right_npcols, right_nprows, right_recv_icol, right_recv_irow
+                 left_src_pcol, left_src_prow, left_src_vcol, left_src_vrow, metronome, min_nimages, &
+                 mp_group, mynode, nblkrows_total, nblkrows_used, nsteps_k, nthreads, numnodes, nvirt_k, &
+                 output_unit, right_col_image, right_col_mult, right_col_nimages, right_dst_icol, &
+                 right_dst_irow, right_dst_p, right_dst_pcol, right_dst_prow, right_dst_vcol, &
+                 right_dst_vrow, right_max_nblks, right_max_nze, right_myfirstvcol, right_myfirstvrow, &
+                 right_mypcol, right_myprow, right_npcols, right_nprows, right_recv_icol, right_recv_irow
       INTEGER :: right_recv_p, right_recv_pcol, right_recv_prow, right_recv_vcol, right_recv_vrow, &
-         right_row_image, right_row_mult, right_row_nimages, right_send_icol, right_send_irow, &
-         right_send_p, right_send_pcol, right_send_prow, right_send_vcol, right_send_vrow, &
-         right_src_icol, right_src_irow, right_src_p, right_src_pcol, right_src_prow, &
-         right_src_vcol, right_src_vrow, row, size_guess, size_guess_init, stat, threads_finished, &
-         threads_finished_read, v_ki, v_ki_left, v_ki_right
+                 right_row_image, right_row_mult, right_row_nimages, right_send_icol, right_send_irow, &
+                 right_send_p, right_send_pcol, right_send_prow, right_send_vcol, right_send_vrow, &
+                 right_src_icol, right_src_irow, right_src_p, right_src_pcol, right_src_prow, &
+                 right_src_vcol, right_src_vrow, row, size_guess, size_guess_init, stat, threads_finished, &
+                 threads_finished_read, v_ki, v_ki_left, v_ki_right
       INTEGER(KIND=int_8)                                :: flop_single, flop_total, mem
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: row_counts, total_row_counts
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :)           :: left_sizes, my_sizes, right_sizes
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :, :)        :: all_sizes
       INTEGER, DIMENSION(:), POINTER :: col_blk_sizes2enum, enum2col_blk_sizes, &
-         enum2row_blk_sizes, k_sizes, left_data_rr, left_data_sr, left_index_rp, left_index_rr, &
-         left_index_sp, left_index_sr, local_rows, m_sizes, n_sizes, right_data_rr, right_data_sr, &
-         right_index_rp, right_index_rr, right_index_sp, right_index_sr, row_blk_sizes2enum
+                                        enum2row_blk_sizes, k_sizes, left_data_rr, left_data_sr, left_index_rp, left_index_rr, &
+                                        left_index_sp, left_index_sr, local_rows, m_sizes, n_sizes, right_data_rr, right_data_sr, &
+                                        right_index_rp, right_index_rr, right_index_sp, right_index_sr, row_blk_sizes2enum
       INTEGER, DIMENSION(:, :), POINTER                  :: left_pgrid, product_pgrid, right_pgrid
       INTEGER, SAVE                                      :: mult_id = 0
       LOGICAL                                            :: keep_sparsity, list_indexing, &
@@ -934,7 +934,7 @@ CONTAINS
       NULLIFY (k_sizes)
       !
       ALLOCATE (left_buffer_2, right_buffer_2)
-      mult_id = mult_id+1
+      mult_id = mult_id + 1
 
       IF (PRESENT(retain_sparsity)) THEN
          keep_sparsity = retain_sparsity
@@ -952,7 +952,7 @@ CONTAINS
          DBCSR_ABORT("Work matrices do not exist")
       IF (SIZE(product_matrix%wms) .NE. nthreads) &
          DBCSR_ABORT("Work matrices not correctly sized.")
-      ALLOCATE (multrec(0:nthreads-1))
+      ALLOCATE (multrec(0:nthreads - 1))
 !$OMP END MASTER
 !$OMP END PARALLEL
 
@@ -1027,10 +1027,10 @@ CONTAINS
       my_sizes(:, :, :) = 0
       DO left_row_image = 1, left_row_nimages
          DO left_col_image = 1, left_col_nimages
-            my_sizes(idata+ileft, left_row_image, left_col_image) &
+            my_sizes(idata + ileft, left_row_image, left_col_image) &
                = dbcsr_data_get_size_referenced( &
                  left_set%mats(left_row_image, left_col_image)%data_area)
-            my_sizes(imeta+ileft, left_row_image, left_col_image) = &
+            my_sizes(imeta + ileft, left_row_image, left_col_image) = &
                left_set%mats(left_row_image, left_col_image)%index &
                (dbcsr_slot_size)
          ENDDO
@@ -1038,17 +1038,17 @@ CONTAINS
 
       DO right_row_image = 1, right_row_nimages
          DO right_col_image = 1, right_col_nimages
-            my_sizes(idata+iright, right_row_image, right_col_image) &
+            my_sizes(idata + iright, right_row_image, right_col_image) &
                = dbcsr_data_get_size_referenced( &
                  right_set%mats(right_row_image, right_col_image)%data_area)
-            my_sizes(imeta+iright, right_row_image, right_col_image) = &
+            my_sizes(imeta + iright, right_row_image, right_col_image) = &
                right_set%mats(right_row_image, right_col_image)%index &
                (dbcsr_slot_size)
          ENDDO
       ENDDO
 
       ALLOCATE (all_sizes(4, LBOUND(my_sizes, 2):UBOUND(my_sizes, 2), &
-                          LBOUND(my_sizes, 3):UBOUND(my_sizes, 3), 0:numnodes-1))
+                          LBOUND(my_sizes, 3):UBOUND(my_sizes, 3), 0:numnodes - 1))
       CALL mp_allgather(my_sizes, all_sizes, mp_group)
       !
       ! Count the maximum possible multiplies per row for on-the-fly
@@ -1093,7 +1093,7 @@ CONTAINS
                          SIZE(left_set%mats(left_row_image, left_col_image)%coo_l)) &
                         DBCSR_ABORT("Row count mismatch")
                   ELSE
-                     IF (nblkrows_used+1 .NE. SIZE(left_set%mats(left_row_image, left_col_image)%row_p)) &
+                     IF (nblkrows_used + 1 .NE. SIZE(left_set%mats(left_row_image, left_col_image)%row_p)) &
                         DBCSR_ABORT("Row count mismatch")
                   ENDIF
                ENDIF
@@ -1112,10 +1112,10 @@ CONTAINS
                   IF (SIZE(local_rows) .NE. SIZE(row_counts)) &
                      DBCSR_ABORT("Mismatch in number of local rows.")
                   total_row_counts(local_rows) = total_row_counts(local_rows) &
-                                                 +row_counts(1:nblkrows_used)
+                                                 + row_counts(1:nblkrows_used)
                ELSE
                   total_row_counts(:) = total_row_counts(:) &
-                                        +row_counts(:)
+                                        + row_counts(:)
                ENDIF
             ENDDO
          ENDDO
@@ -1143,10 +1143,10 @@ CONTAINS
       !
       ! Translate the all_sizes to account for pre-distribution.  This
       ! is just done to simplify lookups.
-      ALLOCATE (left_sizes(2, 0:left_nprows*left_row_nimages-1, 0:nvirt_k-1))
+      ALLOCATE (left_sizes(2, 0:left_nprows*left_row_nimages - 1, 0:nvirt_k - 1))
       left_sizes = -1
-      DO left_src_vcol = 0, left_col_nimages*left_npcols-1
-         DO left_src_vrow = 0, left_row_nimages*left_nprows-1
+      DO left_src_vcol = 0, left_col_nimages*left_npcols - 1
+         DO left_src_vrow = 0, left_row_nimages*left_nprows - 1
             ! Calculate what was shifted.  The left_src_v{row,col} are
             ! the "source" rows/columns; the left_dst are the shifted
             ! targets where the data was placed in make_images.
@@ -1158,17 +1158,17 @@ CONTAINS
             left_dst_p = left_pgrid(left_dst_prow, left_dst_pcol)
             left_sizes(idata, left_src_vrow, left_src_vcol) = &
                all_sizes( &
-               idata+ileft, left_dst_irow, left_dst_icol, left_dst_p)
+               idata + ileft, left_dst_irow, left_dst_icol, left_dst_p)
             left_sizes(imeta, left_src_vrow, left_src_vcol) = &
                all_sizes( &
-               imeta+ileft, left_dst_irow, left_dst_icol, left_dst_p)
+               imeta + ileft, left_dst_irow, left_dst_icol, left_dst_p)
          ENDDO
       ENDDO
       !
-      ALLOCATE (right_sizes(2, 0:nvirt_k-1, 0:right_npcols*right_col_nimages-1))
+      ALLOCATE (right_sizes(2, 0:nvirt_k - 1, 0:right_npcols*right_col_nimages - 1))
       right_sizes = -1
-      DO right_src_vcol = 0, right_col_nimages*right_npcols-1
-         DO right_src_vrow = 0, right_row_nimages*right_nprows-1
+      DO right_src_vcol = 0, right_col_nimages*right_npcols - 1
+         DO right_src_vrow = 0, right_row_nimages*right_nprows - 1
             ! Calculate what was shifted.  The right_src_v{row,col} are
             ! the "source" rows/columns; the right_dst are the shifted
             ! targets where the data was placed in make_images.
@@ -1180,18 +1180,18 @@ CONTAINS
             right_dst_p = right_pgrid(right_dst_prow, right_dst_pcol)
             right_sizes(idata, right_src_vrow, right_src_vcol) = &
                all_sizes( &
-               idata+iright, right_dst_irow, right_dst_icol, right_dst_p)
+               idata + iright, right_dst_irow, right_dst_icol, right_dst_p)
             right_sizes(imeta, right_src_vrow, right_src_vcol) = &
                all_sizes( &
-               imeta+iright, right_dst_irow, right_dst_icol, right_dst_p)
+               imeta + iright, right_dst_irow, right_dst_icol, right_dst_p)
          ENDDO
       ENDDO
       !
       ! Setup product work areas
-      left_max_nze = MAXVAL(all_sizes(idata+ileft, :, :, :))
-      left_max_nblks = MAXVAL(all_sizes(imeta+ileft, :, :, :))
-      right_max_nze = MAXVAL(all_sizes(idata+iright, :, :, :))
-      right_max_nblks = MAXVAL(all_sizes(imeta+iright, :, :, :))
+      left_max_nze = MAXVAL(all_sizes(idata + ileft, :, :, :))
+      left_max_nblks = MAXVAL(all_sizes(imeta + ileft, :, :, :))
+      right_max_nze = MAXVAL(all_sizes(idata + iright, :, :, :))
+      right_max_nblks = MAXVAL(all_sizes(imeta + iright, :, :, :))
       !!
       ! Evaluate sizes for workspaces
       IF (.NOT. keep_sparsity) THEN
@@ -1215,7 +1215,7 @@ CONTAINS
       !
 !$    ithread = OMP_GET_THREAD_NUM()
       ! The work arrays have to be setup (actually, not quite sure).
-      i = ithread+1
+      i = ithread + 1
       size_guess = product_matrix%wms(i)%datasize ! Should be minimal
       IF (.NOT. keep_sparsity) THEN
          size_guess = MAX(size_guess, size_guess_init)
@@ -1234,10 +1234,10 @@ CONTAINS
       ! update capacity of memory-pools, +1 for the dense case
       IF (ASSOCIATED(memtype_abpanel_1%pool)) &
          CALL dbcsr_mempool_limit_capacity(memtype_abpanel_1%pool, &
-                                           capacity=left_row_mult*left_col_nimages+right_row_nimages*right_col_mult+1)
+                                           capacity=left_row_mult*left_col_nimages + right_row_nimages*right_col_mult + 1)
       IF (ASSOCIATED(memtype_abpanel_2%pool)) &
          CALL dbcsr_mempool_limit_capacity(memtype_abpanel_2%pool, &
-                                           capacity=left_row_mult*left_col_nimages+right_row_nimages*right_col_mult+1)
+                                           capacity=left_row_mult*left_col_nimages + right_row_nimages*right_col_mult + 1)
       IF (has_acc) THEN
          ! enumerate the blocksizes to keep the following 2D-arrays small.
          CALL enumerate_blk_sizes(array_data(right_set%mats(1, 1)%row_blk_size), &
@@ -1365,7 +1365,7 @@ CONTAINS
       ! sources. In the remaining iterations, the data are exchanged
       ! among neighbors.  In the last loop only calculations take place.
 
-      grouped_k_index: DO metronome = 0, nvirt_k-1
+      grouped_k_index: DO metronome = 0, nvirt_k - 1
          ! Wait for right matrix transfer completion. Wait in all but
          ! the first loop iteration.
          CALL timeset(routineN//"_metrocomm1", handle2)
@@ -1380,17 +1380,17 @@ CONTAINS
             CALL mp_waitall(right_index_rr)
             !
             ! Repoint indices of right matrices
-            DO v_ki = 0, right_row_nimages-1
-               CALL dbcsr_repoint_index(right_buffer_calc%mats(v_ki+1, 1))
-               right_buffer_calc%mats(v_ki+1, 1)%valid = .TRUE.
+            DO v_ki = 0, right_row_nimages - 1
+               CALL dbcsr_repoint_index(right_buffer_calc%mats(v_ki + 1, 1))
+               right_buffer_calc%mats(v_ki + 1, 1)%valid = .TRUE.
             ENDDO
          ENDIF wait_right
          CALL timestop(handle2)
          !
          ! Right matrix transfer. Transfer in all but the last loop
          ! iteration.
-         xfer_right: IF (v_ki_right .EQ. 0 .AND. metronome+right_row_nimages .LT. nvirt_k) THEN
-            DO v_ki = 0, right_row_nimages-1
+         xfer_right: IF (v_ki_right .EQ. 0 .AND. metronome + right_row_nimages .LT. nvirt_k) THEN
+            DO v_ki = 0, right_row_nimages - 1
                ! Calculate the process to send to.  It's the virtual
                ! process row -min_nimages up (i.e., smaller row number)
                ! from me.
@@ -1399,7 +1399,7 @@ CONTAINS
                                      pcol=right_send_pcol, coli=right_send_icol, & ! output
                                      vprow=right_send_vrow, vpcol=right_send_vcol, & ! output
                                      ! myvprow goes through all of my (process row) images
-                                     myvprow=v_ki+right_myfirstvrow, &
+                                     myvprow=v_ki + right_myfirstvrow, &
                                      myvpcol=right_myfirstvcol, & ! nothing happens in the columns
                                      vprow_shift=-right_row_nimages, &
                                      shifting='0')
@@ -1409,7 +1409,7 @@ CONTAINS
                                      pcol=right_dst_pcol, coli=right_dst_icol, &
                                      vprow=right_dst_vrow, vpcol=right_dst_vcol, &
                                      ! myvprows goes through all of my (process row) images
-                                     myvprow=v_ki+right_myfirstvrow, &
+                                     myvprow=v_ki + right_myfirstvrow, &
                                      myvpcol=right_myfirstvcol, & ! nothing happens in the columns
                                      vprow_shift=metronome, &
                                      ! This is with relative shifting.
@@ -1419,9 +1419,9 @@ CONTAINS
                   area=right_data_sp, &
                   rsize=right_sizes(idata, right_dst_vrow, right_dst_vcol), &
                   csize=1, &
-                  pointee=right_buffer_calc%mats(v_ki+1, 1)%data_area)
+                  pointee=right_buffer_calc%mats(v_ki + 1, 1)%data_area)
                right_index_sp => right_buffer_calc%mats( &
-                                 v_ki+1, 1 &
+                                 v_ki + 1, 1 &
                                  )%index(1: &
                                          right_sizes(imeta, right_dst_vrow, right_dst_vcol))
                !
@@ -1430,7 +1430,7 @@ CONTAINS
                                      prow=right_recv_prow, rowi=right_recv_irow, &
                                      pcol=right_recv_pcol, coli=right_recv_icol, &
                                      vprow=right_recv_vrow, vpcol=right_recv_vcol, &
-                                     myvprow=v_ki+right_myfirstvrow, &
+                                     myvprow=v_ki + right_myfirstvrow, &
                                      myvpcol=right_myfirstvcol, &
                                      vprow_shift=+right_row_nimages, & ! just the opposite as "send to"
                                      shifting='0')
@@ -1439,15 +1439,15 @@ CONTAINS
                                      prow=right_src_prow, rowi=right_src_irow, &
                                      pcol=right_src_pcol, coli=right_src_icol, &
                                      vprow=right_src_vrow, vpcol=right_src_vcol, &
-                                     myvprow=v_ki+right_myfirstvrow, &
+                                     myvprow=v_ki + right_myfirstvrow, &
                                      myvpcol=right_myfirstvcol, &
                                      ! receive window moves with the metronome
-                                     vprow_shift=metronome+right_row_nimages, &
+                                     vprow_shift=metronome + right_row_nimages, &
                                      shifting='R')
                !
                IF (has_acc) THEN
                   CALL timeset(routineN//"_acc_sync_right", handle3)
-                  CALL acc_event_synchronize(right_buffer_comm%mats(v_ki+1, 1)%data_area%d%acc_ready)
+                  CALL acc_event_synchronize(right_buffer_comm%mats(v_ki + 1, 1)%data_area%d%acc_ready)
                   CALL timestop(handle3)
                ENDIF
 
@@ -1456,9 +1456,9 @@ CONTAINS
                   area=right_data_rp, &
                   rsize=right_sizes(idata, right_src_vrow, right_src_vcol), &
                   csize=1, &
-                  pointee=right_buffer_comm%mats(v_ki+1, 1)%data_area)
+                  pointee=right_buffer_comm%mats(v_ki + 1, 1)%data_area)
                right_index_rp => right_buffer_comm%mats( &
-                                 v_ki+1, 1 &
+                                 v_ki + 1, 1 &
                                  )%index(1: &
                                          right_sizes(imeta, right_src_vrow, right_src_vcol))
                !
@@ -1475,14 +1475,14 @@ CONTAINS
                !
                CALL timeset(routineN//"_metrocomm2", handle2)
                CALL dbcsr_irecv_any(right_data_rp, right_recv_p, &
-                                    grp, right_data_rr(v_ki+1), tag=right_src_vrow)
+                                    grp, right_data_rr(v_ki + 1), tag=right_src_vrow)
                CALL mp_irecv(right_index_rp, right_recv_p, &
-                             grp, right_index_rr(v_ki+1), tag=right_src_vrow)
+                             grp, right_index_rr(v_ki + 1), tag=right_src_vrow)
                CALL dbcsr_isend_any(right_data_sp, right_send_p, &
-                                    grp, right_data_sr(v_ki+1), tag=right_dst_vrow)
+                                    grp, right_data_sr(v_ki + 1), tag=right_dst_vrow)
                CALL mp_isend(right_index_sp, right_send_p, &
-                             grp, right_index_sr(v_ki+1), tag=right_dst_vrow)
-               dbcsr_mpi_statistics%nexchanged = dbcsr_mpi_statistics%nexchanged+1
+                             grp, right_index_sr(v_ki + 1), tag=right_dst_vrow)
+               dbcsr_mpi_statistics%nexchanged = dbcsr_mpi_statistics%nexchanged + 1
                CALL count_mpi_statistics(dbcsr_mpi_statistics%data_size(1, :), &
                                          dbcsr_data_get_size(right_data_rp), &
                                          data_type_byte, &
@@ -1504,16 +1504,16 @@ CONTAINS
             CALL mp_waitall(left_index_rr)
             !
             ! Repoint indices of left matrices
-            DO v_ki = 0, left_col_nimages-1
-               CALL dbcsr_repoint_index(left_buffer_calc%mats(1, v_ki+1))
-               left_buffer_calc%mats(1, v_ki+1)%valid = .TRUE.
+            DO v_ki = 0, left_col_nimages - 1
+               CALL dbcsr_repoint_index(left_buffer_calc%mats(1, v_ki + 1))
+               left_buffer_calc%mats(1, v_ki + 1)%valid = .TRUE.
             ENDDO
          ENDIF wait_left
          CALL timestop(handle2)
          !
          ! Left matrix transfer. Transfer in all but the last processor images.
-         xfer_left: IF (v_ki_left .EQ. 0 .AND. metronome+left_col_nimages .LT. nvirt_k) THEN
-            DO v_ki = 0, left_col_nimages-1
+         xfer_left: IF (v_ki_left .EQ. 0 .AND. metronome + left_col_nimages .LT. nvirt_k) THEN
+            DO v_ki = 0, left_col_nimages - 1
                ! Calculate the process to send to.
                CALL image_calculator(left_set%image_dist, &
                                      prow=left_send_prow, rowi=left_send_irow, & ! output
@@ -1521,7 +1521,7 @@ CONTAINS
                                      vprow=left_send_vrow, vpcol=left_send_vcol, & ! output
                                      myvprow=left_myfirstvrow, & ! nothing happens in the rows
                                      ! go through all my column images
-                                     myvpcol=v_ki+left_myfirstvcol, &
+                                     myvpcol=v_ki + left_myfirstvcol, &
                                      ! send to process left_col_nimages left in the grid
                                      vpcol_shift=-left_col_nimages, &
                                      shifting='0')
@@ -1532,7 +1532,7 @@ CONTAINS
                                      vprow=left_dst_vrow, vpcol=left_dst_vcol, &
                                      myvprow=left_myfirstvrow, &
                                      ! go through all my column images
-                                     myvpcol=v_ki+left_myfirstvcol, &
+                                     myvpcol=v_ki + left_myfirstvcol, &
                                      vpcol_shift=metronome, &
                                      ! This is with relative shifting.
                                      shifting='L')
@@ -1542,9 +1542,9 @@ CONTAINS
                   area=left_data_sp, &
                   rsize=left_sizes(idata, left_dst_vrow, left_dst_vcol), &
                   csize=1, &
-                  pointee=left_buffer_calc%mats(1, v_ki+1)%data_area)
+                  pointee=left_buffer_calc%mats(1, v_ki + 1)%data_area)
                left_index_sp => left_buffer_calc%mats( &
-                                1, v_ki+1 &
+                                1, v_ki + 1 &
                                 )%index(1: &
                                         left_sizes(imeta, left_dst_vrow, left_dst_vcol))
                !
@@ -1554,7 +1554,7 @@ CONTAINS
                                      pcol=left_recv_pcol, coli=left_recv_icol, &
                                      vprow=left_recv_vrow, vpcol=left_recv_vcol, &
                                      myvprow=left_myfirstvrow, &
-                                     myvpcol=v_ki+left_myfirstvcol, &
+                                     myvpcol=v_ki + left_myfirstvcol, &
                                      vpcol_shift=+left_col_nimages, & ! just the opposite as "send to"
                                      shifting='0')
                ! Calculate which data I receive
@@ -1563,14 +1563,14 @@ CONTAINS
                                      pcol=left_src_pcol, coli=left_src_icol, &
                                      vprow=left_src_vrow, vpcol=left_src_vcol, &
                                      myvprow=left_myfirstvrow, &
-                                     myvpcol=v_ki+left_myfirstvcol, &
+                                     myvpcol=v_ki + left_myfirstvcol, &
                                      ! receive window moves with the metronome
-                                     vpcol_shift=metronome+left_col_nimages, &
+                                     vpcol_shift=metronome + left_col_nimages, &
                                      shifting='L')
                !
                IF (has_acc) THEN
                   CALL timeset(routineN//"_acc_sync_left", handle3)
-                  CALL acc_event_synchronize(left_buffer_comm%mats(1, v_ki+1)%data_area%d%acc_ready)
+                  CALL acc_event_synchronize(left_buffer_comm%mats(1, v_ki + 1)%data_area%d%acc_ready)
                   CALL timestop(handle3)
                ENDIF
 
@@ -1579,9 +1579,9 @@ CONTAINS
                   area=left_data_rp, &
                   rsize=left_sizes(idata, left_src_vrow, left_src_vcol), &
                   csize=1, &
-                  pointee=left_buffer_comm%mats(1, v_ki+1)%data_area)
+                  pointee=left_buffer_comm%mats(1, v_ki + 1)%data_area)
                left_index_rp => left_buffer_comm%mats( &
-                                1, v_ki+1 &
+                                1, v_ki + 1 &
                                 )%index(1: &
                                         left_sizes(imeta, left_src_vrow, left_src_vcol))
                !
@@ -1598,14 +1598,14 @@ CONTAINS
                !
                CALL timeset(routineN//"_metrocomm4", handle2)
                CALL dbcsr_irecv_any(left_data_rp, left_recv_p, &
-                                    grp, left_data_rr(v_ki+1), tag=left_src_vcol)
+                                    grp, left_data_rr(v_ki + 1), tag=left_src_vcol)
                CALL mp_irecv(left_index_rp, left_recv_p, &
-                             grp, left_index_rr(v_ki+1), tag=left_src_vcol)
+                             grp, left_index_rr(v_ki + 1), tag=left_src_vcol)
                CALL dbcsr_isend_any(left_data_sp, left_send_p, &
-                                    grp, left_data_sr(v_ki+1), tag=left_dst_vcol)
+                                    grp, left_data_sr(v_ki + 1), tag=left_dst_vcol)
                CALL mp_isend(left_index_sp, left_send_p, &
-                             grp, left_index_sr(v_ki+1), tag=left_dst_vcol)
-               dbcsr_mpi_statistics%nexchanged = dbcsr_mpi_statistics%nexchanged+1
+                             grp, left_index_sr(v_ki + 1), tag=left_dst_vcol)
+               dbcsr_mpi_statistics%nexchanged = dbcsr_mpi_statistics%nexchanged + 1
                CALL count_mpi_statistics(dbcsr_mpi_statistics%data_size(2, :), &
                                          dbcsr_data_get_size(left_data_rp), &
                                          data_type_byte, &
@@ -1676,8 +1676,8 @@ CONTAINS
          ithread = 0; nthreads = 1
 !$       ithread = omp_get_thread_num(); nthreads = omp_get_num_threads()
 
-         IF (metronome == nvirt_k-1) &
-              CALL dbcsr_mm_multrec_phaseout(multrec(ithread)%p)
+         IF (metronome == nvirt_k - 1) &
+            CALL dbcsr_mm_multrec_phaseout(multrec(ithread)%p)
 !$OMP BARRIER
          CALL timeset(routineN//"_multrec", handle2)
 
@@ -1688,13 +1688,13 @@ CONTAINS
                                         a_norms=left_norms, b_norms=right_norms, &
                                         k_sizes=k_sizes)
 
-         IF (metronome == nvirt_k-1) THEN
+         IF (metronome == nvirt_k - 1) THEN
             CALL dbcsr_mm_multrec_finalize(multrec(ithread)%p)
             DEALLOCATE (multrec(ithread)%p)
          ENDIF
 
 !$OMP ATOMIC
-         threads_finished = threads_finished+1
+         threads_finished = threads_finished + 1
          IF (dbcsr_cfg%use_comm_thread .AND. (ithread .EQ. 0)) THEN
             DO
 ! requires OMP 3.1 (e.g. gcc >=4.7), for correctness, otherwise we keep fingers crossed
@@ -1717,7 +1717,7 @@ CONTAINS
          CALL timestop(handle2)
 
 !$OMP END PARALLEL
-         flop_total = flop_total+flop_single
+         flop_total = flop_total + flop_single
          !
          ! Move to the next images
          IF (v_ki_left .EQ. left_col_nimages) THEN
@@ -1802,7 +1802,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: data_size
 
       CHARACTER(len=*), PARAMETER :: routineN = 'setup_buffer_matrices', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: col_image, handle, row_image
 
@@ -1852,7 +1852,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: index_size, data_size
 
       CHARACTER(len=*), PARAMETER :: routineN = 'buffer_matrices_ensure_size', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: col_image, handle, row_image
 
@@ -1884,7 +1884,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: n_rows, n_cols
 
       CHARACTER(len=*), PARAMETER :: routineN = 'setup_rec_index_2d', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle, i_col, i_row, t_f, t_l, t_size
@@ -1921,17 +1921,17 @@ CONTAINS
 !$OMP       SHARED (matrix_set, i_row, i_col, thread_redist)
 !$          ithread = OMP_GET_THREAD_NUM()
 !$          IF (thread_redist) THEN
-!$             t_f = matrix_set%mats(i_row, i_col)%thr_c(ithread+1)+1
-!$             t_l = matrix_set%mats(i_row, i_col)%thr_c(ithread+2)
+!$             t_f = matrix_set%mats(i_row, i_col)%thr_c(ithread + 1) + 1
+!$             t_l = matrix_set%mats(i_row, i_col)%thr_c(ithread + 2)
 !$          ENDIF
-            t_size = t_l-t_f+1
+            t_size = t_l - t_f + 1
 !$OMP       BARRIER
             IF (t_size .GT. 0) THEN
                CALL call_rec_sort_index( &
                   dbcsr_nblkrows_local(matrix_set%mats(i_row, i_col)), &
                   dbcsr_nblkcols_local(matrix_set%mats(i_row, i_col)), &
                   t_size, &
-                  matrix_set%mats(i_row, i_col)%coo_l((t_f*3-2):(t_l*3)))
+                  matrix_set%mats(i_row, i_col)%coo_l((t_f*3 - 2):(t_l*3)))
             ENDIF
 !$OMP       END PARALLEL
          ENDDO

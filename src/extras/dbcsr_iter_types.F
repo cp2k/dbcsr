@@ -11,8 +11,8 @@
 !> \brief Collection of routines to handle the iteration info
 ! **************************************************************************************************
 MODULE dbcsr_iter_types
-   USE dbcsr_kinds,                     ONLY: default_path_length,&
-                                              default_string_length
+   USE dbcsr_kinds, ONLY: default_path_length, &
+                          default_string_length
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -28,47 +28,6 @@ MODULE dbcsr_iter_types
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_iter_types'
    LOGICAL, PRIVATE, PARAMETER          :: debug_this_module = .FALSE.
    INTEGER, SAVE, PRIVATE               :: last_it_info_id = 0
-
-   ! When adding a new iteration level PLEASE update the following list with the proper name!
-   CHARACTER(LEN=default_path_length), PARAMETER, PUBLIC, DIMENSION(18) :: each_possible_labels = (/ &
-                                                                           "__ROOT__          ", &
-                                                                           "JUST_ENERGY       ", &
-                                                                           "POWELL_OPT        ", &
-                                                                           "QS_SCF            ", &
-                                                                           "XAS_SCF           ", &
-                                                                           "MD                ", &
-                                                                           "PINT              ", &
-                                                                           "METADYNAMICS      ", &
-                                                                           "GEO_OPT           ", &
-                                                                           "ROT_OPT           ", &
-                                                                           "CELL_OPT          ", &
-                                                                           "BAND              ", &
-                                                                           "EP_LIN_SOLVER     ", &
-                                                                           "SPLINE_FIND_COEFFS", &
-                                                                           "REPLICA_EVAL      ", &
-                                                                           "BSSE              ", &
-                                                                           "SHELL_OPT         ", &
-                                                                           "TDDFT_SCF         "/)
-
-   CHARACTER(LEN=default_path_length), PARAMETER, PUBLIC, DIMENSION(18) ::  each_desc_labels = (/ &
-                                                "Iteration level for __ROOT__ (fictitious iteration level)                      ", &
-                                                "Iteration level for an ENERGY/ENERGY_FORCE calculation.                        ", &
-                                                "Iteration level for POWELL based optimization steps.                           ", &
-                                                "Iteration level for the SCF steps.                                             ", &
-                                                "Iteration level for the X-Ray Absorption Spectroscopy (XAS) SCF steps.         ", &
-                                                "Iteration level for the MD steps.                                              ", &
-                                                "Iteration level for the Path integral md steps.                                ", &
-                                                "Iteration level for the METADYNAMICS steps (number of hills added).            ", &
-                                                "Iteration level for the Geometry optimization steps.                           ", &
-                                                "Iteration level for the Rotational optimization steps in the Dimer calculation.", &
-                                                "Iteration level for the Cell optimization steps.                               ", &
-                                                "Iteration level for the BAND calculation steps                                 ", &
-                                                "Iteration level for the Energy Perturbation (EP) linear solver                 ", &
-                                                "Iteration level for the solution of the coefficients of the splines            ", &
-                                                "Iteration level for the evaluation of the Replica Environment                  ", &
-                                                "Iteration level for the Basis Set Superposition Error (BSSE) calculation       ", &
-                                                "Iteration level for the Shell-Core distances optimization steps                ", &
-                                                 "Iteration level for the Time-Dependent Density Functional Theory SCF steps.    "/)
 
 ! **************************************************************************************************
 !> \brief contains the information about the current state of the program
@@ -98,7 +57,7 @@ CONTAINS
       CHARACTER(len=*), INTENT(in)                       :: project_name
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iteration_info_create', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: stat
 
@@ -106,7 +65,7 @@ CONTAINS
       IF (stat /= 0) &
          DBCSR_ABORT(routineP//" could not allocate iteration_info")
 
-      last_it_info_id = last_it_info_id+1
+      last_it_info_id = last_it_info_id + 1
       iteration_info%id_nr = last_it_info_id
       iteration_info%ref_count = 1
       iteration_info%print_level = 2
@@ -142,7 +101,7 @@ CONTAINS
       TYPE(dbcsr_iteration_info_type), POINTER           :: iteration_info
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iteration_info_retain', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       IF (.NOT. ASSOCIATED(iteration_info)) THEN
          DBCSR_ABORT(routineP//" iteration_info not associated")
@@ -150,7 +109,7 @@ CONTAINS
       IF (iteration_info%ref_count <= 0) THEN
          DBCSR_ABORT(routineP//" iteration_info%ref_counf<=0")
       END IF
-      iteration_info%ref_count = iteration_info%ref_count+1
+      iteration_info%ref_count = iteration_info%ref_count + 1
    END SUBROUTINE dbcsr_iteration_info_retain
 
 ! **************************************************************************************************
@@ -162,13 +121,13 @@ CONTAINS
       TYPE(dbcsr_iteration_info_type), POINTER           :: iteration_info
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iteration_info_release', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       IF (ASSOCIATED(iteration_info)) THEN
          IF (iteration_info%ref_count <= 0) THEN
             DBCSR_ABORT(routineP//" iteration_info%ref_counf<=0")
          END IF
-         iteration_info%ref_count = iteration_info%ref_count-1
+         iteration_info%ref_count = iteration_info%ref_count - 1
          IF (iteration_info%ref_count == 0) THEN
             IF (ASSOCIATED(iteration_info%iteration)) THEN
                DEALLOCATE (iteration_info%iteration)
@@ -194,7 +153,7 @@ CONTAINS
       TYPE(dbcsr_iteration_info_type), POINTER           :: iteration_info_in, iteration_info_out
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iteration_info_copy_iter', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: i, stat
 
@@ -232,4 +191,3 @@ CONTAINS
    END SUBROUTINE dbcsr_iteration_info_copy_iter
 
 END MODULE dbcsr_iter_types
-

@@ -17,36 +17,36 @@
 !> - 2010-02-18 Moved from dbcsr_methods
 ! **************************************************************************************************
 MODULE dbcsr_data_methods
-   USE dbcsr_acc_devmem,                ONLY: acc_devmem_allocate_bytes,&
-                                              acc_devmem_allocated,&
-                                              acc_devmem_dev2host,&
-                                              acc_devmem_ensure_size_bytes,&
-                                              acc_devmem_host2dev,&
-                                              acc_devmem_setzero_bytes,&
-                                              acc_devmem_size_in_bytes
-   USE dbcsr_acc_event,                 ONLY: acc_event_record
-   USE dbcsr_data_methods_low,          ONLY: &
-        dbcsr_data_clear_pointer, dbcsr_data_exists, dbcsr_data_get_memory_type, &
-        dbcsr_data_get_size, dbcsr_data_get_size_referenced, dbcsr_data_get_sizes, &
-        dbcsr_data_get_type, dbcsr_data_hold, dbcsr_data_init, dbcsr_data_set_pointer, &
-        dbcsr_data_set_size_referenced, dbcsr_data_valid, dbcsr_data_zero, dbcsr_get_data, &
-        dbcsr_get_data_p, dbcsr_get_data_p_c, dbcsr_get_data_p_d, dbcsr_get_data_p_s, &
-        dbcsr_get_data_p_z, dbcsr_scalar, dbcsr_scalar_are_equal, dbcsr_scalar_fill_all, &
-        dbcsr_scalar_get_type, dbcsr_scalar_get_value, dbcsr_scalar_negative, dbcsr_scalar_one, &
-        dbcsr_scalar_set_type, dbcsr_scalar_zero, dbcsr_type_1d_to_2d, dbcsr_type_2d_to_1d, &
-        dbcsr_type_is_2d, internal_data_allocate, internal_data_deallocate
-   USE dbcsr_data_types,                ONLY: &
-        dbcsr_data_obj, dbcsr_datatype_sizeof, dbcsr_memtype_default, dbcsr_memtype_type, &
-        dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_int_4, dbcsr_type_int_8, &
-        dbcsr_type_real_4, dbcsr_type_real_8
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              int_4,&
-                                              int_8,&
-                                              real_4,&
-                                              real_8
-   USE dbcsr_mem_methods,               ONLY: dbcsr_mempool_add,&
-                                              dbcsr_mempool_get
-   USE dbcsr_ptr_util,                  ONLY: ensure_array_size
+   USE dbcsr_acc_devmem, ONLY: acc_devmem_allocate_bytes, &
+                               acc_devmem_allocated, &
+                               acc_devmem_dev2host, &
+                               acc_devmem_ensure_size_bytes, &
+                               acc_devmem_host2dev, &
+                               acc_devmem_setzero_bytes, &
+                               acc_devmem_size_in_bytes
+   USE dbcsr_acc_event, ONLY: acc_event_record
+   USE dbcsr_data_methods_low, ONLY: &
+      dbcsr_data_clear_pointer, dbcsr_data_exists, dbcsr_data_get_memory_type, &
+      dbcsr_data_get_size, dbcsr_data_get_size_referenced, dbcsr_data_get_sizes, &
+      dbcsr_data_get_type, dbcsr_data_hold, dbcsr_data_init, dbcsr_data_set_pointer, &
+      dbcsr_data_set_size_referenced, dbcsr_data_valid, dbcsr_data_zero, dbcsr_get_data, &
+      dbcsr_get_data_p, dbcsr_get_data_p_c, dbcsr_get_data_p_d, dbcsr_get_data_p_s, &
+      dbcsr_get_data_p_z, dbcsr_scalar, dbcsr_scalar_are_equal, dbcsr_scalar_fill_all, &
+      dbcsr_scalar_get_type, dbcsr_scalar_get_value, dbcsr_scalar_negative, dbcsr_scalar_one, &
+      dbcsr_scalar_set_type, dbcsr_scalar_zero, dbcsr_type_1d_to_2d, dbcsr_type_2d_to_1d, &
+      dbcsr_type_is_2d, internal_data_allocate, internal_data_deallocate
+   USE dbcsr_data_types, ONLY: &
+      dbcsr_data_obj, dbcsr_datatype_sizeof, dbcsr_memtype_default, dbcsr_memtype_type, &
+      dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_int_4, dbcsr_type_int_8, &
+      dbcsr_type_real_4, dbcsr_type_real_8
+   USE dbcsr_kinds, ONLY: dp, &
+                          int_4, &
+                          int_8, &
+                          real_4, &
+                          real_8
+   USE dbcsr_mem_methods, ONLY: dbcsr_mempool_add, &
+                                dbcsr_mempool_get
+   USE dbcsr_ptr_util, ONLY: ensure_array_size
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -88,7 +88,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_host2dev', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER        :: c_sp
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER        :: c_dp
@@ -135,7 +135,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_dev2host', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER        :: c_sp
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER        :: c_dp
@@ -220,7 +220,7 @@ CONTAINS
       IF (.NOT. ASSOCIATED(area%d)) THEN
          ALLOCATE (area%d)
 !$OMP        CRITICAL (crit_area_id)
-         id = id+1
+         id = id + 1
          area%d%id = id
 !$OMP        END CRITICAL (crit_area_id)
          area%d%refcount = 1
@@ -257,7 +257,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT), OPTIONAL      :: area_resize
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_ensure_size', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: current_size, handle, wanted_size
       LOGICAL                                            :: nocp, pad
@@ -284,7 +284,7 @@ CONTAINS
 
       ! allocate some more as padding for libsmm kernels which read over the end.
       IF (data_size .GT. 0) THEN
-         wanted_size = data_size+10
+         wanted_size = data_size + 10
       ELSE
          wanted_size = data_size
       ENDIF
@@ -453,7 +453,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_release', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
 
@@ -470,7 +470,7 @@ CONTAINS
                DBCSR_WARN("Data seems to be unreferenced.")
          ENDIF
          !
-         area%d%refcount = area%d%refcount-1
+         area%d%refcount = area%d%refcount - 1
          ! If we're releasing the last reference, then free the memory.
          IF (area%d%refcount .EQ. 0) THEN
             IF (.NOT. dbcsr_data_exists(area)) THEN

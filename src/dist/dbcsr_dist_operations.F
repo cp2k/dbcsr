@@ -18,30 +18,30 @@
 ! **************************************************************************************************
 MODULE dbcsr_dist_operations
 
-   USE dbcsr_array_types,               ONLY: array_i1d_obj,&
-                                              array_new
-   USE dbcsr_dist_methods,              ONLY: &
-        dbcsr_distribution_col_dist, dbcsr_distribution_local_cols, dbcsr_distribution_local_rows, &
-        dbcsr_distribution_mp, dbcsr_distribution_ncols, dbcsr_distribution_new, &
-        dbcsr_distribution_nrows, dbcsr_distribution_processor, dbcsr_distribution_row_dist
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              sp
-   USE dbcsr_min_heap,                  ONLY: dbcsr_heap_fill,&
-                                              dbcsr_heap_get_first,&
-                                              dbcsr_heap_new,&
-                                              dbcsr_heap_release,&
-                                              dbcsr_heap_reset_first,&
-                                              dbcsr_heap_type
-   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_new_transposed,&
-                                              dbcsr_mp_npcols,&
-                                              dbcsr_mp_nprows,&
-                                              dbcsr_mp_release
-   USE dbcsr_toollib,                   ONLY: gcd,&
-                                              lcm,&
-                                              ordered_search
-   USE dbcsr_types,                     ONLY: dbcsr_distribution_obj,&
-                                              dbcsr_mp_obj,&
-                                              dbcsr_type
+   USE dbcsr_array_types, ONLY: array_i1d_obj, &
+                                array_new
+   USE dbcsr_dist_methods, ONLY: &
+      dbcsr_distribution_col_dist, dbcsr_distribution_local_cols, dbcsr_distribution_local_rows, &
+      dbcsr_distribution_mp, dbcsr_distribution_ncols, dbcsr_distribution_new, &
+      dbcsr_distribution_nrows, dbcsr_distribution_processor, dbcsr_distribution_row_dist
+   USE dbcsr_kinds, ONLY: dp, &
+                          sp
+   USE dbcsr_min_heap, ONLY: dbcsr_heap_fill, &
+                             dbcsr_heap_get_first, &
+                             dbcsr_heap_new, &
+                             dbcsr_heap_release, &
+                             dbcsr_heap_reset_first, &
+                             dbcsr_heap_type
+   USE dbcsr_mp_methods, ONLY: dbcsr_mp_new_transposed, &
+                               dbcsr_mp_npcols, &
+                               dbcsr_mp_nprows, &
+                               dbcsr_mp_release
+   USE dbcsr_toollib, ONLY: gcd, &
+                            lcm, &
+                            ordered_search
+   USE dbcsr_types, ONLY: dbcsr_distribution_obj, &
+                          dbcsr_mp_obj, &
+                          dbcsr_type
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -82,7 +82,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: row, column
       LOGICAL                                            :: transpose
 
-      transpose = BTEST(column+row, 0) .EQV. column .GE. row
+      transpose = BTEST(column + row, 0) .EQV. column .GE. row
 
    END FUNCTION checker_tr
 
@@ -243,7 +243,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       IF (ASSOCIATED(matrix%row_p)) THEN
-         blk_last = matrix%row_p(row+1)
+         blk_last = matrix%row_p(row + 1)
          blk_offset = 0
          IF (blk_last .GT. 0) THEN
             IF (PRESENT(lb_row_col)) THEN
@@ -251,10 +251,10 @@ CONTAINS
                   blk_offset = lb_row_col(2)
                ENDIF
             ENDIF
-            CALL dbcsr_find_column(column, matrix%row_p(row)+blk_offset+1, blk_last, &
+            CALL dbcsr_find_column(column, matrix%row_p(row) + blk_offset + 1, blk_last, &
                                    matrix%col_i, matrix%blk_p, &
                                    block_number, found)
-            blk_offset = block_number-matrix%row_p(row)
+            blk_offset = block_number - matrix%row_p(row)
          ELSE
             found = .FALSE.
          ENDIF
@@ -404,7 +404,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: nbins, multiplicity, nimages
 
       CHARACTER(len=*), PARAMETER :: routineN = 'rebin_distribution', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: bin, i, old_nbins, virtual_bin
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: bin_multiplier
@@ -414,7 +414,7 @@ CONTAINS
       IF (MOD(nbins*nimages, multiplicity) .NE. 0) &
          DBCSR_WARN("mulitplicity is not divisor of new process grid coordinate")
       old_nbins = (nbins*nimages)/multiplicity
-      ALLOCATE (bin_multiplier(0:old_nbins-1))
+      ALLOCATE (bin_multiplier(0:old_nbins - 1))
       bin_multiplier(:) = 0
       DO i = 1, SIZE(new_bins)
          IF (i .LE. SIZE(source_bins)) THEN
@@ -423,10 +423,10 @@ CONTAINS
             ! Fill remainder with a cyclic distribution
             bin = MOD(i, old_nbins)
          ENDIF
-         virtual_bin = bin*multiplicity+bin_multiplier(bin)
+         virtual_bin = bin*multiplicity + bin_multiplier(bin)
          new_bins(i) = virtual_bin/nimages
-         images(i) = 1+MOD(virtual_bin, nimages)
-         bin_multiplier(bin) = bin_multiplier(bin)+1
+         images(i) = 1 + MOD(virtual_bin, nimages)
+         bin_multiplier(bin) = bin_multiplier(bin) + 1
          IF (bin_multiplier(bin) .GE. multiplicity) THEN
             bin_multiplier(bin) = 0
          ENDIF
@@ -448,9 +448,9 @@ CONTAINS
 
       maxbinsize = CEILING(REAL(SIZE(array), KIND=dp)/REAL(nbins, KIND=dp))
       DO bin = 1, nbins
-         first = 1+(bin-1)*maxbinsize
-         last = MIN(1+(bin)*maxbinsize-1, SIZE(array))
-         array(first:last) = bin-1
+         first = 1 + (bin - 1)*maxbinsize
+         last = MIN(1 + (bin)*maxbinsize - 1, SIZE(array))
+         array(first:last) = bin - 1
       ENDDO
    END SUBROUTINE evenly_bin
 
@@ -497,7 +497,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: src_sizes, dst_sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reblocking_targets', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: common_extent, current_dst, current_int, &
                                                             current_src, dst_off, n_dst, n_src, &
@@ -511,21 +511,21 @@ CONTAINS
       current_src = 0
       s_src = 0 ! HUGE(0)
       DO WHILE (s_src .EQ. 0 .AND. current_src .LE. n_src)
-         current_src = current_src+1
+         current_src = current_src + 1
          src_off = 1
          IF (current_src .LE. n_src) THEN
             s_src = src_sizes(current_src)
-            n_src_dsts(:, current_src) = (/current_int+1, 0/)
+            n_src_dsts(:, current_src) = (/current_int + 1, 0/)
          ENDIF
       END DO
       current_dst = 0
       s_dst = 0 ! HUGE(0)
       DO WHILE (s_dst .EQ. 0 .AND. current_dst .LE. n_dst)
-         current_dst = current_dst+1
+         current_dst = current_dst + 1
          dst_off = 1
          IF (current_dst .LE. n_dst) s_dst = dst_sizes(current_dst)
       END DO
-      current_int = current_int+1
+      current_int = current_int + 1
       DO WHILE (current_src .LE. n_src .AND. current_dst .LE. n_dst)
          IF (current_int > numints) &
             DBCSR_ABORT("Ran out of space.")
@@ -537,31 +537,31 @@ CONTAINS
          ints(3, current_int) = src_off
          ints(4, current_int) = dst_off
          ! We've used up the common extents.
-         s_src = s_src-common_extent
-         s_dst = s_dst-common_extent
-         src_off = src_off+common_extent
-         dst_off = dst_off+common_extent
+         s_src = s_src - common_extent
+         s_dst = s_dst - common_extent
+         src_off = src_off + common_extent
+         dst_off = dst_off + common_extent
          ! We've used up another block.
-         n_src_dsts(2, current_src) = n_src_dsts(2, current_src)+1
+         n_src_dsts(2, current_src) = n_src_dsts(2, current_src) + 1
          ! Check if we've used up the whole source block.
          DO WHILE (s_src .EQ. 0 .AND. current_src .LE. n_src)
-            current_src = current_src+1
+            current_src = current_src + 1
             src_off = 1
             IF (current_src .LE. n_src) THEN
                s_src = src_sizes(current_src)
-               n_src_dsts(:, current_src) = (/current_int+1, 0/)
+               n_src_dsts(:, current_src) = (/current_int + 1, 0/)
             ENDIF
          END DO
          DO WHILE (s_dst .EQ. 0 .AND. current_dst .LE. n_dst)
-            current_dst = current_dst+1
+            current_dst = current_dst + 1
             dst_off = 1
             IF (current_dst .LE. n_dst) s_dst = dst_sizes(current_dst)
          END DO
-         current_int = current_int+1
+         current_int = current_int + 1
       ENDDO
       IF (current_src .LT. n_src) &
-         n_src_dsts(:, current_src+1:n_src) = -7
-      numints = current_int-1
+         n_src_dsts(:, current_src + 1:n_src) = -7
+      numints = current_int - 1
    END SUBROUTINE dbcsr_reblocking_targets
 
 ! **************************************************************************************************
@@ -611,16 +611,16 @@ CONTAINS
                                       bin_distribution, nbins)
       INTEGER, INTENT(IN)                                :: nbins
       INTEGER, DIMENSION(:), INTENT(IN)                  :: bin_distribution
-      TYPE(array_i1d_obj), DIMENSION(0:nbins-1), &
+      TYPE(array_i1d_obj), DIMENSION(0:nbins - 1), &
          INTENT(INOUT)                                   :: local_elements
 
       INTEGER                                            :: bin, el
-      INTEGER, DIMENSION(0:nbins-1)                      :: nlve
+      INTEGER, DIMENSION(0:nbins - 1)                      :: nlve
 
       nlve(:) = 0
       DO el = 1, SIZE(bin_distribution)
          bin = bin_distribution(el)
-         nlve(bin) = nlve(bin)+1
+         nlve(bin) = nlve(bin) + 1
          local_elements(bin)%low%data(nlve(bin)) = el
       ENDDO
    END SUBROUTINE find_all_local_elements
@@ -637,7 +637,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: local_prow
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_rows', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: el, error_handle, nprows, prow
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: nle
@@ -648,16 +648,16 @@ CONTAINS
       IF (.NOT. dist%d%has_other_l_rows) THEN
          dist%d%has_other_l_rows = .TRUE.
          nprows = dbcsr_mp_nprows(dbcsr_distribution_mp(dist))
-         ALLOCATE (dist%d%other_l_rows(0:dbcsr_mp_nprows(dist%d%mp_env)-1))
-         ALLOCATE (nle(0:nprows-1))
+         ALLOCATE (dist%d%other_l_rows(0:dbcsr_mp_nprows(dist%d%mp_env) - 1))
+         ALLOCATE (nle(0:nprows - 1))
          row_dist => dbcsr_distribution_row_dist(dist)
          ! Count the number of local elements per row.
          nle(:) = 0
          DO el = 1, SIZE(row_dist)
             prow = row_dist(el)
-            nle(prow) = nle(prow)+1
+            nle(prow) = nle(prow) + 1
          ENDDO
-         DO prow = 0, nprows-1
+         DO prow = 0, nprows - 1
             ALLOCATE (itmp(nle(prow)))
             itmp = 0
             CALL array_new(dist%d%other_l_rows(prow), &
@@ -686,7 +686,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: local_pcol
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_cols', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: el, error_handle, npcols, pcol
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: nle
@@ -697,16 +697,16 @@ CONTAINS
       IF (.NOT. dist%d%has_other_l_cols) THEN
          dist%d%has_other_l_cols = .TRUE.
          npcols = dbcsr_mp_npcols(dbcsr_distribution_mp(dist))
-         ALLOCATE (dist%d%other_l_cols(0:dbcsr_mp_npcols(dist%d%mp_env)-1))
-         ALLOCATE (nle(0:npcols-1))
+         ALLOCATE (dist%d%other_l_cols(0:dbcsr_mp_npcols(dist%d%mp_env) - 1))
+         ALLOCATE (nle(0:npcols - 1))
          col_dist => dbcsr_distribution_col_dist(dist)
          ! Count the number of local elements per col.
          nle(:) = 0
          DO el = 1, SIZE(col_dist)
             pcol = col_dist(el)
-            nle(pcol) = nle(pcol)+1
+            nle(pcol) = nle(pcol) + 1
          ENDDO
-         DO pcol = 0, npcols-1
+         DO pcol = 0, npcols - 1
             ALLOCATE (itmp(nle(pcol)))
             itmp = 0
             CALL array_new(dist%d%other_l_cols(pcol), &
@@ -745,16 +745,16 @@ CONTAINS
       sntr = 0
       CALL check_range(blk_p, 1, allcheck_cutoff, sntr, str)
       IF (n .GT. 4*allcheck_cutoff) THEN
-         CALL check_range(blk_p, (n-allcheck_cutoff)/2, (n+allcheck_cutoff)/2, &
+         CALL check_range(blk_p, (n - allcheck_cutoff)/2, (n + allcheck_cutoff)/2, &
                           sntr, str)
-         CALL check_range(blk_p, n-allcheck_cutoff, n, sntr, str)
+         CALL check_range(blk_p, n - allcheck_cutoff, n, sntr, str)
       ENDIF
       IF (str .EQ. 0) THEN
          mostly_non_transposed = .TRUE.
          RETURN
       ELSE
          ! Bias towards .TRUE.
-         mostly_non_transposed = ((2*str)/(1+str+sntr)) .EQ. 0
+         mostly_non_transposed = ((2*str)/(1 + str + sntr)) .EQ. 0
       ENDIF
       RETURN
    CONTAINS
@@ -767,16 +767,16 @@ CONTAINS
 !> \param str ...
 ! **************************************************************************************************
       PURE SUBROUTINE check_range(blk_p, lb, ub, sntr, str)
-      INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_p
-      INTEGER, INTENT(IN)                                :: lb, ub
-      INTEGER, INTENT(INOUT)                             :: sntr, str
+         INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_p
+         INTEGER, INTENT(IN)                                :: lb, ub
+         INTEGER, INTENT(INOUT)                             :: sntr, str
 
-      INTEGER                                            :: b1, b2
+         INTEGER                                            :: b1, b2
 
          b1 = MAX(1, lb)
          b2 = MIN(SIZE(blk_p), ub)
-         sntr = sntr+COUNT(blk_p(b1:b2) .GT. 0)
-         str = str+COUNT(blk_p(b1:b2) .LT. 0)
+         sntr = sntr + COUNT(blk_p(b1:b2) .GT. 0)
+         str = str + COUNT(blk_p(b1:b2) .LT. 0)
       END SUBROUTINE check_range
    END FUNCTION mostly_non_transposed
 
@@ -807,11 +807,11 @@ CONTAINS
          IF (SIZE(element_sizes) /= nelements) &
             DBCSR_ABORT("Array of element sizes does not match the number of elements.")
          CALL dbcsr_heap_new(bin_heap, nbins)
-         CALL dbcsr_heap_fill(bin_heap, (/(0, bin=0, nbins-1)/))
+         CALL dbcsr_heap_fill(bin_heap, (/(0, bin=0, nbins - 1)/))
          DO i = 1, nelements
             CALL dbcsr_heap_get_first(bin_heap, bin, bin_cnt, found)
-            bin_dist(i) = bin-1
-            bin_cnt = bin_cnt+element_sizes(i)
+            bin_dist(i) = bin - 1
+            bin_cnt = bin_cnt + element_sizes(i)
             CALL dbcsr_heap_reset_first(bin_heap, bin_cnt)
          ENDDO
          CALL dbcsr_heap_release(bin_heap)

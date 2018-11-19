@@ -17,46 +17,46 @@
 !> - Created 2010
 ! **************************************************************************************************
 MODULE dbcsr_performance_multiply
-   USE dbcsr_data_methods,              ONLY: dbcsr_scalar,&
-                                              dbcsr_scalar_negative,&
-                                              dbcsr_scalar_one
-   USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_col_dist,&
-                                              dbcsr_distribution_new,&
-                                              dbcsr_distribution_release,&
-                                              dbcsr_distribution_row_dist
-   USE dbcsr_dist_operations,           ONLY: dbcsr_dist_bin
-   USE dbcsr_dist_util,                 ONLY: dbcsr_checksum
-   USE dbcsr_io,                        ONLY: dbcsr_print
-   USE dbcsr_kinds,                     ONLY: int_8,&
-                                              real_4,&
-                                              real_8
-   USE dbcsr_machine,                   ONLY: m_walltime
-   USE dbcsr_methods,                   ONLY: &
-        dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_distribution, dbcsr_get_data_type, &
-        dbcsr_get_matrix_type, dbcsr_name, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
-        dbcsr_release, dbcsr_row_block_offsets, dbcsr_row_block_sizes
-   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_npcols,&
-                                              dbcsr_mp_nprows
-   USE dbcsr_mpiwrap,                   ONLY: mp_environ,&
-                                              mp_sum,&
-                                              mp_sync
-   USE dbcsr_multiply_api,              ONLY: dbcsr_multiply
-   USE dbcsr_operations,                ONLY: dbcsr_copy,&
-                                              dbcsr_scale
-   USE dbcsr_test_methods,              ONLY: dbcsr_make_random_block_sizes,&
-                                              dbcsr_make_random_matrix,&
-                                              dbcsr_reset_randmat_seed
-   USE dbcsr_toollib,                   ONLY: atoi,&
-                                              atol,&
-                                              ator
-   USE dbcsr_transformations,           ONLY: dbcsr_redistribute
-   USE dbcsr_types,                     ONLY: &
-        dbcsr_conjugate_transpose, dbcsr_distribution_obj, dbcsr_mp_obj, dbcsr_no_transpose, &
-        dbcsr_scalar_type, dbcsr_transpose, dbcsr_type, dbcsr_type_antisymmetric, &
-        dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
-        dbcsr_type_real_8
-   USE dbcsr_work_operations,           ONLY: dbcsr_create,&
-                                              dbcsr_finalize
+   USE dbcsr_data_methods, ONLY: dbcsr_scalar, &
+                                 dbcsr_scalar_negative, &
+                                 dbcsr_scalar_one
+   USE dbcsr_dist_methods, ONLY: dbcsr_distribution_col_dist, &
+                                 dbcsr_distribution_new, &
+                                 dbcsr_distribution_release, &
+                                 dbcsr_distribution_row_dist
+   USE dbcsr_dist_operations, ONLY: dbcsr_dist_bin
+   USE dbcsr_dist_util, ONLY: dbcsr_checksum
+   USE dbcsr_io, ONLY: dbcsr_print
+   USE dbcsr_kinds, ONLY: int_8, &
+                          real_4, &
+                          real_8
+   USE dbcsr_machine, ONLY: m_walltime
+   USE dbcsr_methods, ONLY: &
+      dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_distribution, dbcsr_get_data_type, &
+      dbcsr_get_matrix_type, dbcsr_name, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
+      dbcsr_release, dbcsr_row_block_offsets, dbcsr_row_block_sizes
+   USE dbcsr_mp_methods, ONLY: dbcsr_mp_npcols, &
+                               dbcsr_mp_nprows
+   USE dbcsr_mpiwrap, ONLY: mp_environ, &
+                            mp_sum, &
+                            mp_sync
+   USE dbcsr_multiply_api, ONLY: dbcsr_multiply
+   USE dbcsr_operations, ONLY: dbcsr_copy, &
+                               dbcsr_scale
+   USE dbcsr_test_methods, ONLY: dbcsr_make_random_block_sizes, &
+                                 dbcsr_make_random_matrix, &
+                                 dbcsr_reset_randmat_seed
+   USE dbcsr_toollib, ONLY: atoi, &
+                            atol, &
+                            ator
+   USE dbcsr_transformations, ONLY: dbcsr_redistribute
+   USE dbcsr_types, ONLY: &
+      dbcsr_conjugate_transpose, dbcsr_distribution_obj, dbcsr_mp_obj, dbcsr_no_transpose, &
+      dbcsr_scalar_type, dbcsr_transpose, dbcsr_type, dbcsr_type_antisymmetric, &
+      dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
+      dbcsr_type_real_8
+   USE dbcsr_work_operations, ONLY: dbcsr_create, &
+                                    dbcsr_finalize
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -89,7 +89,7 @@ CONTAINS
       CHARACTER(len=*), DIMENSION(:), INTENT(IN)         :: args
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_perf_multiply', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CHARACTER                                          :: symmetries(3), trans(2)
       INTEGER                                            :: i, iblk, kblk_to_read, limits(6), &
@@ -150,36 +150,36 @@ CONTAINS
       nblk_to_read = atoi(args(28))
       kblk_to_read = atoi(args(29))
 
-      IF (narg < 33+2*(mblk_to_read+nblk_to_read+kblk_to_read)) &
+      IF (narg < 33 + 2*(mblk_to_read + nblk_to_read + kblk_to_read)) &
          DBCSR_ABORT("narg not correct")
 
       ALLOCATE (bs_m(2*mblk_to_read), bs_n(2*nblk_to_read), bs_k(2*kblk_to_read))
 
       i = 29
       DO iblk = 1, mblk_to_read
-         i = i+1
-         bs_m(2*(iblk-1)+1) = atoi(args(i))
-         i = i+1
-         bs_m(2*(iblk-1)+2) = atoi(args(i))
+         i = i + 1
+         bs_m(2*(iblk - 1) + 1) = atoi(args(i))
+         i = i + 1
+         bs_m(2*(iblk - 1) + 2) = atoi(args(i))
       ENDDO
       DO iblk = 1, nblk_to_read
-         i = i+1
-         bs_n(2*(iblk-1)+1) = atoi(args(i))
-         i = i+1
-         bs_n(2*(iblk-1)+2) = atoi(args(i))
+         i = i + 1
+         bs_n(2*(iblk - 1) + 1) = atoi(args(i))
+         i = i + 1
+         bs_n(2*(iblk - 1) + 2) = atoi(args(i))
       ENDDO
       DO iblk = 1, kblk_to_read
-         i = i+1
-         bs_k(2*(iblk-1)+1) = atoi(args(i))
-         i = i+1
-         bs_k(2*(iblk-1)+2) = atoi(args(i))
+         i = i + 1
+         bs_k(2*(iblk - 1) + 1) = atoi(args(i))
+         i = i + 1
+         bs_k(2*(iblk - 1) + 2) = atoi(args(i))
       ENDDO
 
-      chksum_check = atol(args(i+1))
-      chksum_threshold = ator(args(i+2))
+      chksum_check = atol(args(i + 1))
+      chksum_threshold = ator(args(i + 2))
       IF (chksum_check .AND. chksum_threshold .LE. 0.0) DBCSR_ABORT("Checksum threshold must be positive!")
-      chksum_ref = ator(args(i+3))
-      chksum_ref_pos = ator(args(i+4))
+      chksum_ref = ator(args(i + 3))
+      chksum_ref_pos = ator(args(i + 4))
 
       !
       ! do checks here
@@ -252,12 +252,12 @@ CONTAINS
                                                             chksum_ref_pos
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_perf_multiply_low', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CHARACTER                                          :: a_symm, b_symm, c_symm, transa, transb
       INTEGER                                            :: handle, mynode, numnodes, numthreads
       INTEGER, DIMENSION(:), POINTER :: col_dist_a, col_dist_b, col_dist_c, my_sizes_k, &
-         my_sizes_m, my_sizes_n, row_dist_a, row_dist_b, row_dist_c, sizes_k, sizes_m, sizes_n
+                                        my_sizes_m, my_sizes_n, row_dist_a, row_dist_b, row_dist_c, sizes_k, sizes_m, sizes_n
       LOGICAL                                            :: do_complex
       LOGICAL, DIMENSION(2)                              :: trs
       TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c
@@ -546,7 +546,7 @@ CONTAINS
       nthreads = 1
 !$    nthreads = OMP_GET_MAX_THREADS()
 
-      ALLOCATE (times(0:numnodes-1, nrep), flops(0:numnodes-1, nrep), t_max(nrep), &
+      ALLOCATE (times(0:numnodes - 1, nrep), flops(0:numnodes - 1, nrep), t_max(nrep), &
                 flops_node(nrep), flops_thread(nrep), flops_all(nrep), flop_sum(nrep), &
                 t_min(nrep), t(nrep), load_imb(nrep))
       times(:, :) = 0.0_real_8
@@ -653,7 +653,7 @@ CONTAINS
                              retain_sparsity=retain_sparsity, &
                              flop=flop)
          t2 = m_walltime()
-         times(mynode, irep) = t2-t1
+         times(mynode, irep) = t2 - t1
          flops(mynode, irep) = flop
       ENDDO
 
@@ -673,7 +673,7 @@ CONTAINS
       flops_all(:) = REAL(flop_sum(:), KIND=real_8)/t_max(:) !* 1.0e-9_real_8
       flops_node(:) = flops_all(:)/REAL(numnodes, real_8)
       flops_thread(:) = flops_node(:)/REAL(nthreads, real_8)
-      load_imb(:) = t_max(:)-t(:)/REAL(numnodes, real_8)
+      load_imb(:) = t_max(:) - t(:)/REAL(numnodes, real_8)
 
       std_t = 1.0_real_8
       std_all = 1.0_real_8
@@ -699,7 +699,7 @@ CONTAINS
          WRITE (io_unit, '(T4,A,E26.15)') 'checksum(C_out) POS = ', chksum_c_out_pos
          IF (chksum_check) THEN
             chksum_err = .FALSE.
-            rel_diff = ABS(chksum_c_out/MAX(chksum_ref, chksum_threshold)-1.)
+            rel_diff = ABS(chksum_c_out/MAX(chksum_ref, chksum_threshold) - 1.)
             IF (rel_diff .GT. chksum_threshold) THEN
                WRITE (io_unit, '(T4,A,E26.15,A,E26.15,A,E26.15)') "Wrong checksum(C_out), ref = ", &
                   chksum_ref, &
@@ -707,7 +707,7 @@ CONTAINS
                   "  threshold = ", chksum_threshold
                chksum_err = .TRUE.
             ENDIF
-            rel_diff = ABS(chksum_c_out_pos/MAX(chksum_ref_pos, chksum_threshold)-1.)
+            rel_diff = ABS(chksum_c_out_pos/MAX(chksum_ref_pos, chksum_threshold) - 1.)
             IF (rel_diff .GT. chksum_threshold) THEN
                WRITE (io_unit, '(T4,A,E26.15,A,E26.15,A,E26.15)') "Wrong checksum(C_out) POS, ref = ", &
                   chksum_ref_pos, &
@@ -762,7 +762,7 @@ CONTAINS
       mean = 0.0_real_8
       n = SIZE(v, 1)
       DO i = 1, n
-         mean = mean+v(i)
+         mean = mean + v(i)
       ENDDO
       mean = mean/REAL(n, real_8)
    END FUNCTION mean
@@ -782,7 +782,7 @@ CONTAINS
       std = 0.0_real_8
       n = SIZE(v, 1)
       DO i = 1, n
-         std = std+(v(i)-mn)**2
+         std = std + (v(i) - mn)**2
       ENDDO
       std = SQRT(std)/REAL(n, real_8)
    END FUNCTION std

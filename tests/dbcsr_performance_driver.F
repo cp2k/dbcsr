@@ -17,35 +17,35 @@
 !> - Created 2010
 ! **************************************************************************************************
 PROGRAM dbcsr_performance_driver
-   USE dbcsr_config,                    ONLY: dbcsr_print_config
-   USE dbcsr_error_handling,            ONLY: dbcsr_error_handling_setup
-   USE dbcsr_files,                     ONLY: open_file
-   USE dbcsr_kinds,                     ONLY: default_string_length,&
-                                              dp
-   USE dbcsr_lib,                       ONLY: dbcsr_finalize_lib,&
-                                              dbcsr_init_lib
-   USE dbcsr_log_handling,              ONLY: dbcsr_add_default_logger,&
-                                              dbcsr_logger_create,&
-                                              dbcsr_logger_release,&
-                                              dbcsr_logger_type,&
-                                              dbcsr_rm_default_logger
-   USE dbcsr_machine,                   ONLY: default_output_unit,&
-                                              m_getarg,&
-                                              m_iargc
-   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_new,&
-                                              dbcsr_mp_release
-   USE dbcsr_mpiwrap,                   ONLY: &
-        add_mp_perf_env, mp_bcast, mp_cart_create, mp_cart_rank, mp_comm_free, mp_environ, &
-        mp_world_finalize, mp_world_init, rm_mp_perf_env
-   USE dbcsr_performance_multiply,      ONLY: dbcsr_perf_multiply
-   USE dbcsr_timings,                   ONLY: add_timer_env,&
-                                              rm_timer_env,&
-                                              timings_register_hooks
-   USE dbcsr_timings_report,            ONLY: cost_type_time,&
-                                              timings_report_callgraph,&
-                                              timings_report_print
-   USE dbcsr_toollib,                   ONLY: atoi
-   USE dbcsr_types,                     ONLY: dbcsr_mp_obj
+   USE dbcsr_config, ONLY: dbcsr_print_config
+   USE dbcsr_error_handling, ONLY: dbcsr_error_handling_setup
+   USE dbcsr_files, ONLY: open_file
+   USE dbcsr_kinds, ONLY: default_string_length, &
+                          dp
+   USE dbcsr_lib, ONLY: dbcsr_finalize_lib, &
+                        dbcsr_init_lib
+   USE dbcsr_log_handling, ONLY: dbcsr_add_default_logger, &
+                                 dbcsr_logger_create, &
+                                 dbcsr_logger_release, &
+                                 dbcsr_logger_type, &
+                                 dbcsr_rm_default_logger
+   USE dbcsr_machine, ONLY: default_output_unit, &
+                            m_getarg, &
+                            m_iargc
+   USE dbcsr_mp_methods, ONLY: dbcsr_mp_new, &
+                               dbcsr_mp_release
+   USE dbcsr_mpiwrap, ONLY: &
+      add_mp_perf_env, mp_bcast, mp_cart_create, mp_cart_rank, mp_comm_free, mp_environ, &
+      mp_world_finalize, mp_world_init, rm_mp_perf_env
+   USE dbcsr_performance_multiply, ONLY: dbcsr_perf_multiply
+   USE dbcsr_timings, ONLY: add_timer_env, &
+                            rm_timer_env, &
+                            timings_register_hooks
+   USE dbcsr_timings_report, ONLY: cost_type_time, &
+                                   timings_report_callgraph, &
+                                   timings_report_print
+   USE dbcsr_toollib, ONLY: atoi
+   USE dbcsr_types, ONLY: dbcsr_mp_obj
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -93,9 +93,9 @@ PROGRAM dbcsr_performance_driver
       npdims(1) = numnodes/npdims(2)
    ENDIF
    CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
-   ALLOCATE (pgrid(0:npdims(1)-1, 0:npdims(2)-1))
-   DO prow = 0, npdims(1)-1
-      DO pcol = 0, npdims(2)-1
+   ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
+   DO prow = 0, npdims(1) - 1
+      DO pcol = 0, npdims(2) - 1
          CALL mp_cart_rank(group, (/prow, pcol/), pgrid(prow, pcol))
       ENDDO
    ENDDO
@@ -135,7 +135,7 @@ PROGRAM dbcsr_performance_driver
 
    !
    ! select the operation
-   SELECT CASE (args (2))
+   SELECT CASE (args(2))
    CASE ('dbcsr_multiply')
       CALL dbcsr_perf_multiply(group, mp_env, npdims, io_unit, narg, args)
    CASE DEFAULT
@@ -209,7 +209,7 @@ CONTAINS
          READ (unit, *, IOSTAT=istat) line
          IF (istat .NE. 0) EXIT
          IF (line(1:1) .EQ. '#') CYCLE
-         narg = narg+1
+         narg = narg + 1
          args(narg) = line
       ENDDO
 

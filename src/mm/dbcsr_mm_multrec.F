@@ -22,31 +22,31 @@
 
 MODULE dbcsr_mm_multrec
 
-   USE dbcsr_array_types,               ONLY: array_data,&
-                                              array_equality
-   USE dbcsr_block_operations,          ONLY: dbcsr_data_set
-   USE dbcsr_config,                    ONLY: dbcsr_cfg
-   USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_col_dist,&
-                                              dbcsr_distribution_has_threads,&
-                                              dbcsr_distribution_local_cols,&
-                                              dbcsr_distribution_local_cols_obj,&
-                                              dbcsr_distribution_local_rows,&
-                                              dbcsr_distribution_local_rows_obj,&
-                                              dbcsr_distribution_row_dist,&
-                                              dbcsr_distribution_thread_dist
-   USE dbcsr_mm_csr,                    ONLY: &
-        dbcsr_mm_csr_dev2host_init, dbcsr_mm_csr_finalize, dbcsr_mm_csr_init, &
-        dbcsr_mm_csr_lib_finalize, dbcsr_mm_csr_lib_init, dbcsr_mm_csr_multiply, &
-        dbcsr_mm_csr_phaseout, dbcsr_mm_csr_purge_stacks, dbcsr_mm_csr_red3D, dbcsr_mm_csr_type
-   USE dbcsr_types,                     ONLY: dbcsr_data_obj,&
-                                              dbcsr_type,&
-                                              dbcsr_work_type,&
-                                              dbcsr_type_complex_4, dbcsr_type_complex_8, &
-                                              dbcsr_type_real_4, dbcsr_type_real_8
-   USE dbcsr_kinds,                     ONLY: int_8,&
-                                              real_4,&
-                                              real_8,&
-                                              sp
+   USE dbcsr_array_types, ONLY: array_data, &
+                                array_equality
+   USE dbcsr_block_operations, ONLY: dbcsr_data_set
+   USE dbcsr_config, ONLY: dbcsr_cfg
+   USE dbcsr_dist_methods, ONLY: dbcsr_distribution_col_dist, &
+                                 dbcsr_distribution_has_threads, &
+                                 dbcsr_distribution_local_cols, &
+                                 dbcsr_distribution_local_cols_obj, &
+                                 dbcsr_distribution_local_rows, &
+                                 dbcsr_distribution_local_rows_obj, &
+                                 dbcsr_distribution_row_dist, &
+                                 dbcsr_distribution_thread_dist
+   USE dbcsr_mm_csr, ONLY: &
+      dbcsr_mm_csr_dev2host_init, dbcsr_mm_csr_finalize, dbcsr_mm_csr_init, &
+      dbcsr_mm_csr_lib_finalize, dbcsr_mm_csr_lib_init, dbcsr_mm_csr_multiply, &
+      dbcsr_mm_csr_phaseout, dbcsr_mm_csr_purge_stacks, dbcsr_mm_csr_red3D, dbcsr_mm_csr_type
+   USE dbcsr_types, ONLY: dbcsr_data_obj, &
+                          dbcsr_type, &
+                          dbcsr_work_type, &
+                          dbcsr_type_complex_4, dbcsr_type_complex_8, &
+                          dbcsr_type_real_4, dbcsr_type_real_8
+   USE dbcsr_kinds, ONLY: int_8, &
+                          real_4, &
+                          real_8, &
+                          sp
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -195,7 +195,7 @@ CONTAINS
       INTEGER, OPTIONAL                                  :: nlayers
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_init', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: c_nblkcols_local, c_nblkrows_local, &
@@ -236,9 +236,9 @@ CONTAINS
       this%keep_sparsity = keep_sparsity
       this%c_has_symmetry = product%symmetry
       this%use_eps = PRESENT(eps)
-      this%original_lastblk = product%wms(ithread+1)%lastblk
+      this%original_lastblk = product%wms(ithread + 1)%lastblk
       this%flop = INT(0, int_8)
-      this%product_wm => product%wms(ithread+1)
+      this%product_wm => product%wms(ithread + 1)
 
       IF (PRESENT(eps)) THEN
          this%eps = eps
@@ -343,7 +343,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: k_sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_multiply', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !$    INTEGER                                            :: ithread
       INTEGER                                            :: t_a_f, t_a_l, t_b_f, t_b_l
@@ -372,8 +372,8 @@ CONTAINS
       t_b_l = right%nblks
 !$    IF (ASSOCIATED(left%thr_c)) THEN
 !$       ithread = OMP_GET_THREAD_NUM()
-!$       t_a_f = left%thr_c(ithread+1)+1
-!$       t_a_l = left%thr_c(ithread+2)
+!$       t_a_f = left%thr_c(ithread + 1) + 1
+!$       t_a_l = left%thr_c(ithread + 2)
 !$    ENDIF
       CALL sparse_multrec(this, left, right, &
                           1, left%nblkrows_local, &
@@ -385,7 +385,7 @@ CONTAINS
 
       CALL dbcsr_mm_csr_purge_stacks(this%csr, left, right)
 
-      flop = flop+this%flop
+      flop = flop + this%flop
       !
    END SUBROUTINE dbcsr_mm_multrec_multiply
 
@@ -429,7 +429,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(INOUT), OPTIONAL     :: meta_buffer
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_finalize', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ithread, lb_meta, &
                                                             nblocks, nthreads, ub_meta
@@ -449,21 +449,21 @@ CONTAINS
          ithread = 0; nthreads = 1
 !$       ithread = OMP_GET_THREAD_NUM(); nthreads = OMP_GET_NUM_THREADS()
          ! Copy wms data into matrix
-         lb_meta = meta_buffer(ithread+1)
-         nblocks = (meta_buffer(ithread+2)-lb_meta)/3
-         ub_meta = lb_meta+nblocks
-         meta_buffer(lb_meta+1:ub_meta) = this%product_wm%row_i(1:nblocks)
+         lb_meta = meta_buffer(ithread + 1)
+         nblocks = (meta_buffer(ithread + 2) - lb_meta)/3
+         ub_meta = lb_meta + nblocks
+         meta_buffer(lb_meta + 1:ub_meta) = this%product_wm%row_i(1:nblocks)
          lb_meta = ub_meta
-         ub_meta = lb_meta+nblocks
-         meta_buffer(lb_meta+1:ub_meta) = this%product_wm%col_i(1:nblocks)
+         ub_meta = lb_meta + nblocks
+         meta_buffer(lb_meta + 1:ub_meta) = this%product_wm%col_i(1:nblocks)
          lb_meta = ub_meta
-         ub_meta = lb_meta+nblocks
-         meta_buffer(lb_meta+1:ub_meta) = this%product_wm%blk_p(1:nblocks)
+         ub_meta = lb_meta + nblocks
+         meta_buffer(lb_meta + 1:ub_meta) = this%product_wm%blk_p(1:nblocks)
       ELSE
          CALL remap_local2global(this%product_wm%row_i, &
                                  this%product_wm%col_i, &
                                  this%c_local_rows, this%c_local_cols, &
-                                 this%original_lastblk+1, this%product_wm%lastblk)
+                                 this%original_lastblk + 1, this%product_wm%lastblk)
 
          ! if filtering is requested remove small blocks, unless the sparsity needs to be kept
          IF (this%use_eps .AND. .NOT. this%keep_sparsity) THEN
@@ -484,7 +484,7 @@ CONTAINS
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
 
       CHARACTER(len=*), PARAMETER :: routineN = 'multrec_filtering', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
 
@@ -493,40 +493,40 @@ CONTAINS
       SELECT CASE (this%product_wm%data_area%d%data_type)
       CASE (dbcsr_type_real_4)
          CALL multrec_filtering_s(this%eps, &
-              this%product_wm%lastblk, &
-              this%product_wm%row_i, &
-              this%product_wm%col_i, &
-              this%product_wm%blk_p, &
-              this%m_global_sizes, this%n_global_sizes, &
-              this%product_wm%datasize_after_filtering, &
-              this%product_wm%data_area%d%r_sp)
+                                  this%product_wm%lastblk, &
+                                  this%product_wm%row_i, &
+                                  this%product_wm%col_i, &
+                                  this%product_wm%blk_p, &
+                                  this%m_global_sizes, this%n_global_sizes, &
+                                  this%product_wm%datasize_after_filtering, &
+                                  this%product_wm%data_area%d%r_sp)
       CASE (dbcsr_type_real_8)
          CALL multrec_filtering_d(this%eps, &
-              this%product_wm%lastblk, &
-              this%product_wm%row_i, &
-              this%product_wm%col_i, &
-              this%product_wm%blk_p, &
-              this%m_global_sizes, this%n_global_sizes, &
-              this%product_wm%datasize_after_filtering, &
-              this%product_wm%data_area%d%r_dp)
+                                  this%product_wm%lastblk, &
+                                  this%product_wm%row_i, &
+                                  this%product_wm%col_i, &
+                                  this%product_wm%blk_p, &
+                                  this%m_global_sizes, this%n_global_sizes, &
+                                  this%product_wm%datasize_after_filtering, &
+                                  this%product_wm%data_area%d%r_dp)
       CASE (dbcsr_type_complex_4)
          CALL multrec_filtering_c(this%eps, &
-              this%product_wm%lastblk, &
-              this%product_wm%row_i, &
-              this%product_wm%col_i, &
-              this%product_wm%blk_p, &
-              this%m_global_sizes, this%n_global_sizes, &
-              this%product_wm%datasize_after_filtering, &
-              this%product_wm%data_area%d%c_sp)
+                                  this%product_wm%lastblk, &
+                                  this%product_wm%row_i, &
+                                  this%product_wm%col_i, &
+                                  this%product_wm%blk_p, &
+                                  this%m_global_sizes, this%n_global_sizes, &
+                                  this%product_wm%datasize_after_filtering, &
+                                  this%product_wm%data_area%d%c_sp)
       CASE (dbcsr_type_complex_8)
          CALL multrec_filtering_z(this%eps, &
-              this%product_wm%lastblk, &
-              this%product_wm%row_i, &
-              this%product_wm%col_i, &
-              this%product_wm%blk_p, &
-              this%m_global_sizes, this%n_global_sizes, &
-              this%product_wm%datasize_after_filtering, &
-              this%product_wm%data_area%d%c_dp)
+                                  this%product_wm%lastblk, &
+                                  this%product_wm%row_i, &
+                                  this%product_wm%col_i, &
+                                  this%product_wm%blk_p, &
+                                  this%m_global_sizes, this%n_global_sizes, &
+                                  this%product_wm%datasize_after_filtering, &
+                                  this%product_wm%data_area%d%c_dp)
       CASE DEFAULT
          DBCSR_ABORT("Invalid data type.")
       END SELECT
@@ -553,7 +553,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: g2l_map_rows, g2l_map_cols
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_red3D', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
 
@@ -645,8 +645,8 @@ CONTAINS
          ENDIF
       ENDIF
 
-      IF (af-ai+1 <= dbcsr_cfg%multrec_limit .AND. bf-bi+1 <= dbcsr_cfg%multrec_limit) THEN
-         IF (af-ai+1 .GT. 0 .AND. bf-bi+1 .GT. 0) &
+      IF (af - ai + 1 <= dbcsr_cfg%multrec_limit .AND. bf - bi + 1 <= dbcsr_cfg%multrec_limit) THEN
+         IF (af - ai + 1 .GT. 0 .AND. bf - bi + 1 .GT. 0) &
             CALL dbcsr_mm_csr_multiply(this%csr, left, right, &
                                        mi=mi, mf=mf, ni=ni, nf=nf, ki=ki, kf=kf, &
                                        ai=ai, af=af, &
@@ -661,9 +661,9 @@ CONTAINS
          RETURN
       ENDIF
 
-      M = mf-mi+1
-      N = nf-ni+1
-      K = kf-ki+1
+      M = mf - mi + 1
+      N = nf - ni + 1
+      K = kf - ki + 1
       IF (dbg) THEN
          WRITE (*, *) 'm,k,n', M, K, N
       ENDIF
@@ -673,38 +673,38 @@ CONTAINS
       SELECT CASE (cut)
       CASE (1)
          s1 = M/2
-         acut = find_cut_row(ai, af, a_index, mi+s1-1)
-         CALL sparse_multrec(this, left, right, mi, mi+s1-1, ni, nf, ki, kf, &
-                             ai, acut-1, a_index, bi, bf, b_index, d+1)
-         CALL sparse_multrec(this, left, right, mi+s1, mf, ni, nf, ki, kf, &
-                             acut, af, a_index, bi, bf, b_index, d+1)
+         acut = find_cut_row(ai, af, a_index, mi + s1 - 1)
+         CALL sparse_multrec(this, left, right, mi, mi + s1 - 1, ni, nf, ki, kf, &
+                             ai, acut - 1, a_index, bi, bf, b_index, d + 1)
+         CALL sparse_multrec(this, left, right, mi + s1, mf, ni, nf, ki, kf, &
+                             acut, af, a_index, bi, bf, b_index, d + 1)
       CASE (2)
          s1 = K/2
-         acut = find_cut_col(ai, af, a_index, ki+s1-1)
+         acut = find_cut_col(ai, af, a_index, ki + s1 - 1)
          IF (dbg) THEN
-            WRITE (*, *) N, s1, ni+s1-1, "/", ai, af, acut
+            WRITE (*, *) N, s1, ni + s1 - 1, "/", ai, af, acut
             WRITE (*, '(3(I7))') a_index
          ENDIF
-         bcut = find_cut_row(bi, bf, b_index, ki+s1-1)
+         bcut = find_cut_row(bi, bf, b_index, ki + s1 - 1)
          IF (dbg) THEN
-            WRITE (*, *) N, s1, ni+s1-1, "/", bi, bf, bcut
+            WRITE (*, *) N, s1, ni + s1 - 1, "/", bi, bf, bcut
             WRITE (*, '(3(I7))') b_index
          ENDIF
-         CALL sparse_multrec(this, left, right, mi, mf, ni, nf, ki, ki+s1-1, &
-                             ai, acut-1, a_index, bi, bcut-1, b_index, d+1)
-         CALL sparse_multrec(this, left, right, mi, mf, ni, nf, ki+s1, kf, &
-                             acut, af, a_index, bcut, bf, b_index, d+1)
+         CALL sparse_multrec(this, left, right, mi, mf, ni, nf, ki, ki + s1 - 1, &
+                             ai, acut - 1, a_index, bi, bcut - 1, b_index, d + 1)
+         CALL sparse_multrec(this, left, right, mi, mf, ni, nf, ki + s1, kf, &
+                             acut, af, a_index, bcut, bf, b_index, d + 1)
       CASE (3)
          s1 = N/2
-         bcut = find_cut_col(bi, bf, b_index, ni+s1-1)
+         bcut = find_cut_col(bi, bf, b_index, ni + s1 - 1)
          IF (dbg) THEN
-            WRITE (*, *) N, s1, ni+s1-1, "/", bi, bf, bcut
+            WRITE (*, *) N, s1, ni + s1 - 1, "/", bi, bf, bcut
             WRITE (*, '(3(I7))') b_index
          ENDIF
-         CALL sparse_multrec(this, left, right, mi, mf, ni, ni+s1-1, ki, kf, &
-                             ai, af, a_index, bi, bcut-1, b_index, d+1)
-         CALL sparse_multrec(this, left, right, mi, mf, ni+s1, nf, ki, kf, &
-                             ai, af, a_index, bcut, bf, b_index, d+1)
+         CALL sparse_multrec(this, left, right, mi, mf, ni, ni + s1 - 1, ki, kf, &
+                             ai, af, a_index, bi, bcut - 1, b_index, d + 1)
+         CALL sparse_multrec(this, left, right, mi, mf, ni + s1, nf, ki, kf, &
+                             ai, af, a_index, bcut, bf, b_index, d + 1)
       END SELECT
    END SUBROUTINE sparse_multrec
 
@@ -736,13 +736,13 @@ CONTAINS
 
       ihigh = af
       IF (a(1, ihigh) <= val) THEN
-         res = ihigh+1
+         res = ihigh + 1
          RETURN
       ENDIF
 
       DO
-         IF (ihigh-ilow == 1) EXIT
-         i = (ilow+ihigh)/2
+         IF (ihigh - ilow == 1) EXIT
+         i = (ilow + ihigh)/2
          IF (a(1, i) > val) THEN
             ihigh = i
          ELSE
@@ -786,13 +786,13 @@ CONTAINS
 
       ihigh = af
       IF (a(2, ihigh) <= val) THEN
-         res = ihigh+1
+         res = ihigh + 1
          RETURN
       ENDIF
 
       DO
-         IF (ihigh-ilow == 1) EXIT
-         i = (ilow+ihigh)/2
+         IF (ihigh - ilow == 1) EXIT
+         i = (ilow + ihigh)/2
          IF (a(2, i) > val) THEN
             ihigh = i
          ELSE

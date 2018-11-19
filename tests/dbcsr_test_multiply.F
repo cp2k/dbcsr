@@ -17,44 +17,44 @@
 !> - Created 2010
 ! **************************************************************************************************
 MODULE dbcsr_test_multiply
-   USE dbcsr_data_methods,              ONLY: dbcsr_data_get_sizes,&
-                                              dbcsr_data_init,&
-                                              dbcsr_data_new,&
-                                              dbcsr_data_release,&
-                                              dbcsr_scalar_negative,&
-                                              dbcsr_scalar_one,&
-                                              dbcsr_type_1d_to_2d
-   USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_new,&
-                                              dbcsr_distribution_release
-   USE dbcsr_io,                        ONLY: dbcsr_print
-   USE dbcsr_kinds,                     ONLY: real_4,&
-                                              real_8
-   USE dbcsr_methods,                   ONLY: &
-        dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_get_data_type, &
-        dbcsr_get_matrix_type, dbcsr_name, dbcsr_nblkcols_total, dbcsr_nblkrows_total, &
-        dbcsr_nfullcols_total, dbcsr_nfullrows_total, dbcsr_release, dbcsr_row_block_offsets, &
-        dbcsr_row_block_sizes
-   USE dbcsr_mpiwrap,                   ONLY: mp_bcast,&
-                                              mp_environ
-   USE dbcsr_multiply_api,              ONLY: dbcsr_multiply
-   USE dbcsr_operations,                ONLY: dbcsr_copy,&
-                                              dbcsr_get_occupation,&
-                                              dbcsr_scale
-   USE dbcsr_test_methods,              ONLY: compx_to_dbcsr_scalar,&
-                                              dbcsr_impose_sparsity,&
-                                              dbcsr_make_random_block_sizes,&
-                                              dbcsr_make_random_matrix,&
-                                              dbcsr_random_dist,&
-                                              dbcsr_to_dense_local
-   USE dbcsr_transformations,           ONLY: dbcsr_redistribute,&
-                                              dbcsr_replicate_all
-   USE dbcsr_types,                     ONLY: &
-        dbcsr_conjugate_transpose, dbcsr_data_obj, dbcsr_distribution_obj, dbcsr_mp_obj, &
-        dbcsr_no_transpose, dbcsr_scalar_type, dbcsr_transpose, dbcsr_type, &
-        dbcsr_type_antisymmetric, dbcsr_type_complex_4, dbcsr_type_complex_4_2d, &
-        dbcsr_type_complex_8, dbcsr_type_complex_8_2d, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
-        dbcsr_type_real_4_2d, dbcsr_type_real_8, dbcsr_type_real_8_2d, dbcsr_type_symmetric
-   USE dbcsr_work_operations,           ONLY: dbcsr_create
+   USE dbcsr_data_methods, ONLY: dbcsr_data_get_sizes, &
+                                 dbcsr_data_init, &
+                                 dbcsr_data_new, &
+                                 dbcsr_data_release, &
+                                 dbcsr_scalar_negative, &
+                                 dbcsr_scalar_one, &
+                                 dbcsr_type_1d_to_2d
+   USE dbcsr_dist_methods, ONLY: dbcsr_distribution_new, &
+                                 dbcsr_distribution_release
+   USE dbcsr_io, ONLY: dbcsr_print
+   USE dbcsr_kinds, ONLY: real_4, &
+                          real_8
+   USE dbcsr_methods, ONLY: &
+      dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_get_data_type, &
+      dbcsr_get_matrix_type, dbcsr_name, dbcsr_nblkcols_total, dbcsr_nblkrows_total, &
+      dbcsr_nfullcols_total, dbcsr_nfullrows_total, dbcsr_release, dbcsr_row_block_offsets, &
+      dbcsr_row_block_sizes
+   USE dbcsr_mpiwrap, ONLY: mp_bcast, &
+                            mp_environ
+   USE dbcsr_multiply_api, ONLY: dbcsr_multiply
+   USE dbcsr_operations, ONLY: dbcsr_copy, &
+                               dbcsr_get_occupation, &
+                               dbcsr_scale
+   USE dbcsr_test_methods, ONLY: compx_to_dbcsr_scalar, &
+                                 dbcsr_impose_sparsity, &
+                                 dbcsr_make_random_block_sizes, &
+                                 dbcsr_make_random_matrix, &
+                                 dbcsr_random_dist, &
+                                 dbcsr_to_dense_local
+   USE dbcsr_transformations, ONLY: dbcsr_redistribute, &
+                                    dbcsr_replicate_all
+   USE dbcsr_types, ONLY: &
+      dbcsr_conjugate_transpose, dbcsr_data_obj, dbcsr_distribution_obj, dbcsr_mp_obj, &
+      dbcsr_no_transpose, dbcsr_scalar_type, dbcsr_transpose, dbcsr_type, &
+      dbcsr_type_antisymmetric, dbcsr_type_complex_4, dbcsr_type_complex_4_2d, &
+      dbcsr_type_complex_8, dbcsr_type_complex_8_2d, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
+      dbcsr_type_real_4_2d, dbcsr_type_real_8, dbcsr_type_real_8_2d, dbcsr_type_symmetric
+   USE dbcsr_work_operations, ONLY: dbcsr_create
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -104,23 +104,30 @@ CONTAINS
       LOGICAL, INTENT(in)                                :: retain_sparsity
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_test_multiplies', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
       CHARACTER, DIMENSION(3), PARAMETER :: &
          trans = (/dbcsr_no_transpose, dbcsr_transpose, dbcsr_conjugate_transpose/)
-      CHARACTER, DIMENSION(3, 12), PARAMETER :: symmetries = RESHAPE((/dbcsr_type_no_symmetry, &
-         dbcsr_type_no_symmetry, dbcsr_type_no_symmetry, dbcsr_type_symmetric, &
-         dbcsr_type_no_symmetry, dbcsr_type_no_symmetry, dbcsr_type_antisymmetric, &
-         dbcsr_type_no_symmetry, dbcsr_type_no_symmetry, dbcsr_type_no_symmetry, &
-         dbcsr_type_symmetric, dbcsr_type_no_symmetry, dbcsr_type_symmetric, dbcsr_type_symmetric, &
-         dbcsr_type_no_symmetry, dbcsr_type_antisymmetric, dbcsr_type_symmetric, &
-         dbcsr_type_no_symmetry, dbcsr_type_no_symmetry, dbcsr_type_antisymmetric, &
-         dbcsr_type_no_symmetry, dbcsr_type_symmetric, dbcsr_type_antisymmetric, &
-         dbcsr_type_no_symmetry, dbcsr_type_antisymmetric, dbcsr_type_antisymmetric, &
-         dbcsr_type_no_symmetry, dbcsr_type_no_symmetry, dbcsr_type_no_symmetry, &
-         dbcsr_type_symmetric, dbcsr_type_symmetric, dbcsr_type_symmetric, dbcsr_type_symmetric, &
-         dbcsr_type_antisymmetric, dbcsr_type_antisymmetric, dbcsr_type_symmetric/), (/3, 12/))
+      CHARACTER, DIMENSION(3, 12), PARAMETER :: symmetries = &
+                                                RESHAPE((/dbcsr_type_no_symmetry, dbcsr_type_no_symmetry, &
+                                                          dbcsr_type_no_symmetry, dbcsr_type_symmetric, &
+                                                          dbcsr_type_no_symmetry, dbcsr_type_no_symmetry, &
+                                                          dbcsr_type_antisymmetric, dbcsr_type_no_symmetry, &
+                                                          dbcsr_type_no_symmetry, dbcsr_type_no_symmetry, &
+                                                          dbcsr_type_symmetric, dbcsr_type_no_symmetry, &
+                                                          dbcsr_type_symmetric, dbcsr_type_symmetric, &
+                                                          dbcsr_type_no_symmetry, dbcsr_type_antisymmetric, &
+                                                          dbcsr_type_symmetric, dbcsr_type_no_symmetry, &
+                                                          dbcsr_type_no_symmetry, dbcsr_type_antisymmetric, &
+                                                          dbcsr_type_no_symmetry, dbcsr_type_symmetric, &
+                                                          dbcsr_type_antisymmetric, dbcsr_type_no_symmetry, &
+                                                          dbcsr_type_antisymmetric, dbcsr_type_antisymmetric, &
+                                                          dbcsr_type_no_symmetry, dbcsr_type_no_symmetry, &
+                                                          dbcsr_type_no_symmetry, dbcsr_type_symmetric, &
+                                                          dbcsr_type_symmetric, dbcsr_type_symmetric, &
+                                                          dbcsr_type_symmetric, dbcsr_type_antisymmetric, &
+                                                          dbcsr_type_antisymmetric, dbcsr_type_symmetric/), (/3, 12/))
       INTEGER, DIMENSION(4), PARAMETER :: types = (/dbcsr_type_real_4, dbcsr_type_real_8, &
-         dbcsr_type_complex_4, dbcsr_type_complex_8/)
+                                                    dbcsr_type_complex_4, dbcsr_type_complex_8/)
 
       CHARACTER                                          :: a_symm, b_symm, c_symm, transa, transb
       INTEGER                                            :: a_c, a_r, a_tr, b_c, b_r, b_tr, c_c, &
@@ -608,9 +615,9 @@ CONTAINS
          DBCSR_ABORT("dense matrix not valid")
       !
       !
-      m = limits(2)-limits(1)+1
-      n = limits(4)-limits(3)+1
-      k = limits(6)-limits(5)+1
+      m = limits(2) - limits(1) + 1
+      n = limits(4) - limits(3) + 1
+      k = limits(6) - limits(5) + 1
       a_row = limits(1); a_col = limits(5)
       b_row = limits(5); b_col = limits(3)
       c_row = limits(1); c_col = limits(3)
@@ -661,7 +668,7 @@ CONTAINS
          c_norm_out = dlange(norm, m, n, dense_c%d%r2_dp(c_row, c_col), ldc, work)
          !
          ! take the difference dense/sparse
-         dense_c%d%r2_dp = dense_c%d%r2_dp-dense_c_dbcsr%d%r2_dp
+         dense_c%d%r2_dp = dense_c%d%r2_dp - dense_c_dbcsr%d%r2_dp
          !
          ! compute the residual
          residual = dlange(norm, c_row_size, c_col_size, dense_c%d%r2_dp(1, 1), ldc, work)
@@ -719,7 +726,7 @@ CONTAINS
          c_norm_out = slange(norm, m, n, dense_c%d%r2_sp(c_row, c_col), ldc, work_sp)
          !
          ! take the difference dense/sparse
-         dense_c%d%r2_sp = dense_c%d%r2_sp-dense_c_dbcsr%d%r2_sp
+         dense_c%d%r2_sp = dense_c%d%r2_sp - dense_c_dbcsr%d%r2_sp
          !
          ! compute the residual
          residual = REAL(slange(norm, c_row_size, c_col_size, dense_c%d%r2_sp(1, 1), ldc, work_sp), real_8)
@@ -743,7 +750,7 @@ CONTAINS
          c_norm_out = zlange(norm, m, n, dense_c%d%c2_dp(c_row, c_col), ldc, work)
          !
          ! take the difference dense/sparse
-         dense_c%d%c2_dp = dense_c%d%c2_dp-dense_c_dbcsr%d%c2_dp
+         dense_c%d%c2_dp = dense_c%d%c2_dp - dense_c_dbcsr%d%c2_dp
          !
          ! compute the residual
          residual = zlange(norm, c_row_size, c_col_size, dense_c%d%c2_dp(1, 1), ldc, work)
@@ -767,7 +774,7 @@ CONTAINS
          c_norm_out = clange(norm, m, n, dense_c%d%c2_sp(c_row, c_col), ldc, work_sp)
          !
          ! take the difference dense/sparse
-         dense_c%d%c2_sp = dense_c%d%c2_sp-dense_c_dbcsr%d%c2_sp
+         dense_c%d%c2_sp = dense_c%d%c2_sp - dense_c_dbcsr%d%c2_sp
          !
          ! compute the residual
          residual = clange(norm, c_row_size, c_col_size, dense_c%d%c2_sp(1, 1), ldc, work_sp)
@@ -777,7 +784,7 @@ CONTAINS
       END SELECT
 
       IF (mynode .EQ. 0) THEN
-         IF (residual/((a_norm+b_norm+c_norm_in)*REAL(n, real_8)*eps) .GT. 10.0_real_8) THEN
+         IF (residual/((a_norm + b_norm + c_norm_in)*REAL(n, real_8)*eps) .GT. 10.0_real_8) THEN
             success = .FALSE.
          ELSE
             success = .TRUE.
@@ -802,7 +809,7 @@ CONTAINS
                ', c_norm_dbcsr ', c_norm_dbcsr
             WRITE (io_unit, '(A)') ' Checking the norm of the difference against reference GEMM '
             WRITE (io_unit, '(A,E12.5)') ' -- ||C_dbcsr-C_dense||_oo/((||A||_oo+||B||_oo+||C||_oo).N.eps)=', &
-               residual/((a_norm+b_norm+c_norm_in)*n*eps)
+               residual/((a_norm + b_norm + c_norm_in)*n*eps)
          END IF
 
       END IF

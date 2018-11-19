@@ -17,55 +17,55 @@
 !> - Created 2010-02-08
 ! **************************************************************************************************
 MODULE dbcsr_test_methods
-   USE dbcsr_blas_operations,           ONLY: dbcsr_lapack_larnv,&
-                                              set_larnv_seed
-   USE dbcsr_block_access,              ONLY: dbcsr_put_block
-   USE dbcsr_block_operations,          ONLY: dbcsr_block_conjg,&
-                                              dbcsr_block_partial_copy,&
-                                              dbcsr_block_scale,&
-                                              dbcsr_block_transpose,&
-                                              dbcsr_data_clear,&
-                                              dbcsr_data_set
-   USE dbcsr_data_methods,              ONLY: &
-        dbcsr_data_clear_pointer, dbcsr_data_get_sizes, dbcsr_data_get_type, dbcsr_data_init, &
-        dbcsr_data_new, dbcsr_data_release, dbcsr_scalar, dbcsr_scalar_negative, dbcsr_scalar_one, &
-        dbcsr_type_1d_to_2d, dbcsr_type_2d_to_1d
-   USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_hold,&
-                                              dbcsr_distribution_mp,&
-                                              dbcsr_distribution_new,&
-                                              dbcsr_distribution_release
-   USE dbcsr_dist_operations,           ONLY: dbcsr_get_stored_coordinates
-   USE dbcsr_dist_util,                 ONLY: dbcsr_verify_matrix
-   USE dbcsr_iterator_operations,       ONLY: dbcsr_iterator_blocks_left,&
-                                              dbcsr_iterator_next_block,&
-                                              dbcsr_iterator_start,&
-                                              dbcsr_iterator_stop
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              int_8,&
-                                              real_4,&
-                                              real_8
-   USE dbcsr_methods,                   ONLY: dbcsr_get_matrix_type,&
-                                              dbcsr_max_col_size,&
-                                              dbcsr_max_row_size,&
-                                              dbcsr_nblkcols_total,&
-                                              dbcsr_nblkrows_total,&
-                                              dbcsr_nfullcols_total,&
-                                              dbcsr_nfullrows_total
-   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_mynode,&
-                                              dbcsr_mp_new,&
-                                              dbcsr_mp_numnodes,&
-                                              dbcsr_mp_release
-   USE dbcsr_mpiwrap,                   ONLY: mp_comm_null,&
-                                              mp_environ
-   USE dbcsr_ptr_util,                  ONLY: ensure_array_size
-   USE dbcsr_types,                     ONLY: &
-        dbcsr_data_obj, dbcsr_distribution_obj, dbcsr_iterator, dbcsr_mp_obj, dbcsr_scalar_type, &
-        dbcsr_type, dbcsr_type_antihermitian, dbcsr_type_antisymmetric, dbcsr_type_complex_4, &
-        dbcsr_type_complex_8, dbcsr_type_hermitian, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
-        dbcsr_type_real_8, dbcsr_type_real_default, dbcsr_type_symmetric
-   USE dbcsr_work_operations,           ONLY: dbcsr_create,&
-                                              dbcsr_finalize,&
-                                              dbcsr_work_create
+   USE dbcsr_blas_operations, ONLY: dbcsr_lapack_larnv, &
+                                    set_larnv_seed
+   USE dbcsr_block_access, ONLY: dbcsr_put_block
+   USE dbcsr_block_operations, ONLY: dbcsr_block_conjg, &
+                                     dbcsr_block_partial_copy, &
+                                     dbcsr_block_scale, &
+                                     dbcsr_block_transpose, &
+                                     dbcsr_data_clear, &
+                                     dbcsr_data_set
+   USE dbcsr_data_methods, ONLY: &
+      dbcsr_data_clear_pointer, dbcsr_data_get_sizes, dbcsr_data_get_type, dbcsr_data_init, &
+      dbcsr_data_new, dbcsr_data_release, dbcsr_scalar, dbcsr_scalar_negative, dbcsr_scalar_one, &
+      dbcsr_type_1d_to_2d, dbcsr_type_2d_to_1d
+   USE dbcsr_dist_methods, ONLY: dbcsr_distribution_hold, &
+                                 dbcsr_distribution_mp, &
+                                 dbcsr_distribution_new, &
+                                 dbcsr_distribution_release
+   USE dbcsr_dist_operations, ONLY: dbcsr_get_stored_coordinates
+   USE dbcsr_dist_util, ONLY: dbcsr_verify_matrix
+   USE dbcsr_iterator_operations, ONLY: dbcsr_iterator_blocks_left, &
+                                        dbcsr_iterator_next_block, &
+                                        dbcsr_iterator_start, &
+                                        dbcsr_iterator_stop
+   USE dbcsr_kinds, ONLY: dp, &
+                          int_8, &
+                          real_4, &
+                          real_8
+   USE dbcsr_methods, ONLY: dbcsr_get_matrix_type, &
+                            dbcsr_max_col_size, &
+                            dbcsr_max_row_size, &
+                            dbcsr_nblkcols_total, &
+                            dbcsr_nblkrows_total, &
+                            dbcsr_nfullcols_total, &
+                            dbcsr_nfullrows_total
+   USE dbcsr_mp_methods, ONLY: dbcsr_mp_mynode, &
+                               dbcsr_mp_new, &
+                               dbcsr_mp_numnodes, &
+                               dbcsr_mp_release
+   USE dbcsr_mpiwrap, ONLY: mp_comm_null, &
+                            mp_environ
+   USE dbcsr_ptr_util, ONLY: ensure_array_size
+   USE dbcsr_types, ONLY: &
+      dbcsr_data_obj, dbcsr_distribution_obj, dbcsr_iterator, dbcsr_mp_obj, dbcsr_scalar_type, &
+      dbcsr_type, dbcsr_type_antihermitian, dbcsr_type_antisymmetric, dbcsr_type_complex_4, &
+      dbcsr_type_complex_8, dbcsr_type_hermitian, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
+      dbcsr_type_real_8, dbcsr_type_real_default, dbcsr_type_symmetric
+   USE dbcsr_work_operations, ONLY: dbcsr_create, &
+                                    dbcsr_finalize, &
+                                    dbcsr_work_create
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -131,7 +131,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(inout)                :: dense
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_impose_sparsity', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CHARACTER                                          :: symm
       INTEGER                                            :: blk, col, col_offset, col_size, &
@@ -247,7 +247,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(inout)                :: dense
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_to_dense_local', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CHARACTER                                          :: symm
       INTEGER                                            :: col, col_offset, col_size, data_type, &
@@ -345,7 +345,7 @@ CONTAINS
       ALLOCATE (dist_array(dist_size))
       !CALL RANDOM_NUMBER (dist_array)
       DO i = 1, dist_size
-         dist_array(i) = MODULO(nbins-i, nbins)
+         dist_array(i) = MODULO(nbins - i, nbins)
       END DO
    END SUBROUTINE dbcsr_random_dist
 
@@ -372,7 +372,7 @@ CONTAINS
       TYPE(dbcsr_distribution_obj), INTENT(IN), OPTIONAL :: dist
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_random_matrix', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CHARACTER                                          :: my_symmetry
       INTEGER                                            :: col, error_handle, max_nze, &
@@ -392,7 +392,7 @@ CONTAINS
       ! Check that the counter was initialised (or has not overflowed)
       DBCSR_ASSERT(randmat_counter .NE. 0)
       ! the counter goes into the seed. Every new call gives a new random matrix
-      randmat_counter = randmat_counter+1
+      randmat_counter = randmat_counter + 1
       ! Create the matrix
       IF (PRESENT(dist)) THEN
          new_dist = dist
@@ -421,10 +421,10 @@ CONTAINS
       CALL dbcsr_work_create(matrix, &
                              nblks_guess=INT(REAL(dbcsr_nblkrows_total(matrix), KIND=dp) &
                                              *REAL(dbcsr_nblkcols_total(matrix), KIND=dp) &
-                                             *(1.0_dp-sparsity)*1.1_dp/numproc), &
+                                             *(1.0_dp - sparsity)*1.1_dp/numproc), &
                              sizedata_guess=INT(REAL(dbcsr_nfullrows_total(matrix), KIND=dp) &
                                                 *REAL(dbcsr_nfullcols_total(matrix), KIND=dp) &
-                                                *(1.0_dp-sparsity)*1.1_dp/numproc), &
+                                                *(1.0_dp - sparsity)*1.1_dp/numproc), &
                              work_mutable=.TRUE.)
 
       max_nze = dbcsr_max_row_size(matrix)*dbcsr_max_col_size(matrix)
@@ -445,15 +445,15 @@ CONTAINS
          ! we number the blocks of the matrix and jump to the next one
          CALL dlarnv(1, jseed, 1, value)
          IF (my_sparsity > 0) THEN
-            increment = 1+FLOOR(LOG(value(1))/LOG(my_sparsity), KIND=int_8)
+            increment = 1 + FLOOR(LOG(value(1))/LOG(my_sparsity), KIND=int_8)
          ELSE
             increment = 1
          ENDIF
-         ele = ele+increment
+         ele = ele + increment
          IF (ele >= nmax) EXIT
-         counter = counter+1
-         row = INT(ele/ncol)+1
-         col = INT(MOD(ele, INT(ncol, KIND=KIND(ele))))+1
+         counter = counter + 1
+         row = INT(ele/ncol) + 1
+         col = INT(MOD(ele, INT(ncol, KIND=KIND(ele)))) + 1
 
          ! build the upper matrix if some symmetry, and only deal with the local blocks.
          s_row = row; s_col = col
@@ -521,7 +521,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(in)                  :: size_mix
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_random_block_sizes', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: block_size, current_sum, nblocks, &
                                                             nsize_mix, selector
@@ -533,7 +533,7 @@ CONTAINS
       NULLIFY (sizes)
       nsize_mix = SIZE(size_mix)/2
       ALLOCATE (mixer(3, nsize_mix))
-      mixer(1, :) = size_mix(1:nsize_mix*2-1:2)
+      mixer(1, :) = size_mix(1:nsize_mix*2 - 1:2)
       mixer(2, :) = size_mix(2:nsize_mix*2:2)
       mixer(3, :) = 1
       nblocks = 0
@@ -543,19 +543,19 @@ CONTAINS
       selector = 1
       !
       DO WHILE (current_sum .LT. size_sum)
-         nblocks = nblocks+1
+         nblocks = nblocks + 1
          !CALL RANDOM_NUMBER(value)
          !block_size = MIN (INT (value(1) * size_max),&
          !                  size_sum - current_sum)
          block_size = MIN(mixer(2, selector), &
-                          size_sum-current_sum)
+                          size_sum - current_sum)
          sizes(nblocks) = block_size
-         current_sum = current_sum+block_size
-         CALL ensure_array_size(sizes, ub=nblocks+1, factor=2.0_dp)
-         mixer(3, selector) = mixer(3, selector)+1
+         current_sum = current_sum + block_size
+         CALL ensure_array_size(sizes, ub=nblocks + 1, factor=2.0_dp)
+         mixer(3, selector) = mixer(3, selector) + 1
          IF (mixer(3, selector) .GT. mixer(1, selector)) THEN
             mixer(3, selector) = 1
-            selector = MOD(selector, nsize_mix)+1
+            selector = MOD(selector, nsize_mix) + 1
          ENDIF
       ENDDO
       ALLOCATE (block_sizes(nblocks))

@@ -19,9 +19,9 @@
 ! **************************************************************************************************
 MODULE dbcsr_timings_base_type
 
-   USE dbcsr_kinds,                     ONLY: default_string_length,&
-                                              dp,&
-                                              int_8
+   USE dbcsr_kinds, ONLY: default_string_length, &
+                          dp, &
+                          int_8
 
    IMPLICIT NONE
    PRIVATE

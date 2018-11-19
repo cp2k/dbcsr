@@ -13,31 +13,31 @@
 !> \date    10-2014
 ! **************************************************************************************************
 MODULE dbcsr_dist_methods
-   USE dbcsr_array_types,               ONLY: array_data,&
-                                              array_i1d_obj,&
-                                              array_new,&
-                                              array_nullify,&
-                                              array_release,&
-                                              array_size
-   USE dbcsr_config,                    ONLY: dbcsr_cfg
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              sp
-   USE dbcsr_methods,                   ONLY: dbcsr_distribution_release
-   USE dbcsr_min_heap,                  ONLY: dbcsr_heap_fill,&
-                                              dbcsr_heap_get_first,&
-                                              dbcsr_heap_new,&
-                                              dbcsr_heap_release,&
-                                              dbcsr_heap_reset_first,&
-                                              dbcsr_heap_type
-   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_hold,&
-                                              dbcsr_mp_mypcol,&
-                                              dbcsr_mp_myprow,&
-                                              dbcsr_mp_npcols,&
-                                              dbcsr_mp_nprows
-   USE dbcsr_toollib,                   ONLY: lcm,&
-                                              sort
-   USE dbcsr_types,                     ONLY: dbcsr_distribution_obj,&
-                                              dbcsr_mp_obj
+   USE dbcsr_array_types, ONLY: array_data, &
+                                array_i1d_obj, &
+                                array_new, &
+                                array_nullify, &
+                                array_release, &
+                                array_size
+   USE dbcsr_config, ONLY: dbcsr_cfg
+   USE dbcsr_kinds, ONLY: dp, &
+                          sp
+   USE dbcsr_methods, ONLY: dbcsr_distribution_release
+   USE dbcsr_min_heap, ONLY: dbcsr_heap_fill, &
+                             dbcsr_heap_get_first, &
+                             dbcsr_heap_new, &
+                             dbcsr_heap_release, &
+                             dbcsr_heap_reset_first, &
+                             dbcsr_heap_type
+   USE dbcsr_mp_methods, ONLY: dbcsr_mp_hold, &
+                               dbcsr_mp_mypcol, &
+                               dbcsr_mp_myprow, &
+                               dbcsr_mp_npcols, &
+                               dbcsr_mp_nprows
+   USE dbcsr_toollib, ONLY: lcm, &
+                            sort
+   USE dbcsr_types, ONLY: dbcsr_distribution_obj, &
+                          dbcsr_mp_obj
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, OMP_IN_PARALLEL
@@ -88,7 +88,7 @@ CONTAINS
       LOGICAL, OPTIONAL                                  :: reuse_arrays
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_distribution_new', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, i, lcmv, mypcoor, npcols, &
                                                             nprows, seq
@@ -142,7 +142,7 @@ CONTAINS
          DO i = 1, SIZE(row_dist_block)
             IF (row_dist_block(i) .EQ. mypcoor) THEN
                row_dist_tmp(seq) = i
-               seq = seq+1
+               seq = seq + 1
             ENDIF
          ENDDO
          CALL array_new(dist%d%local_rows, row_dist_tmp, gift=.TRUE.)
@@ -157,7 +157,7 @@ CONTAINS
          DO i = 1, SIZE(col_dist_block)
             IF (col_dist_block(i) .EQ. mypcoor) THEN
                col_dist_tmp(seq) = i
-               seq = seq+1
+               seq = seq + 1
             ENDIF
          ENDDO
          CALL array_new(dist%d%local_cols, col_dist_tmp, gift=.TRUE.)
@@ -192,7 +192,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
 !$OMP ATOMIC
-      dist%d%refcount = dist%d%refcount+1
+      dist%d%refcount = dist%d%refcount + 1
    END SUBROUTINE dbcsr_distribution_hold
 
 ! **************************************************************************************************
@@ -550,9 +550,9 @@ CONTAINS
             ! The heap is used to distribute "leftover"rows to threads.
             ! Lefotver rows are those of the same size that can not be
             ! evenly distributed among all threads.
-            CALL dbcsr_heap_new(t_heap, nthreads-1)
+            CALL dbcsr_heap_new(t_heap, nthreads - 1)
             ! We do not want thread 0 to be in the heap.
-            CALL dbcsr_heap_fill(t_heap, (/(0, i=1, nthreads-1)/))
+            CALL dbcsr_heap_fill(t_heap, (/(0, i=1, nthreads - 1)/))
             ALLOCATE (sorted_row_sizes(nrows))
             ALLOCATE (reorder(nrows))
             sorted_row_sizes(:) = row_sizes(:)
@@ -560,40 +560,40 @@ CONTAINS
 
             row = 1
             DO WHILE (row .LE. nrows)
-               cur_block = sorted_row_sizes(nrows-row+1)
+               cur_block = sorted_row_sizes(nrows - row + 1)
                assigned = .FALSE.
                group_size = 0
 
-               last_row = nrows-row+1
+               last_row = nrows - row + 1
                DO i = last_row, 1, -1
                   IF (cur_block == sorted_row_sizes(i)) THEN
-                     group_size = group_size+1
-                     row = row+1
+                     group_size = group_size + 1
+                     row = row + 1
                   ELSE
                      EXIT
                   END IF
                END DO
 
-               soft_thr = load_fraction+nthreads-1
+               soft_thr = load_fraction + nthreads - 1
                block_size0 = INT(load_fraction*(group_size/soft_thr))
                block_size = INT(group_size/soft_thr)
 
                !blocks for master thread
                IF (block_size0 > 0) &
-                  td(reorder(last_row:last_row-block_size0+1:-1)) = 0
+                  td(reorder(last_row:last_row - block_size0 + 1:-1)) = 0
 
                !Other threads
                IF (block_size > 0) THEN
-                  DO t = 1, nthreads-1
-                     td(reorder(last_row-block_size0-(t-1)*block_size: &
-                                last_row-block_size0-(t)*block_size+1:-1)) = t
+                  DO t = 1, nthreads - 1
+                     td(reorder(last_row - block_size0 - (t - 1)*block_size: &
+                                last_row - block_size0 - (t)*block_size + 1:-1)) = t
                   END DO
                END IF
 
                !Leftover bocks
-               DO i = last_row-block_size0-(nthreads-1)*block_size, last_row+1-group_size, -1
+               DO i = last_row - block_size0 - (nthreads - 1)*block_size, last_row + 1 - group_size, -1
                   CALL dbcsr_heap_get_first(t_heap, t, t_cnt, found)
-                  t_cnt = t_cnt+cur_block
+                  t_cnt = t_cnt + cur_block
                   CALL dbcsr_heap_reset_first(t_heap, t_cnt)
                   td(reorder(i)) = t
                END DO
@@ -605,7 +605,7 @@ CONTAINS
          ELSE
             DO t = 1, nrows
                IF (.FALSE.) THEN
-                  td(t) = MOD(t-1, nthreads)
+                  td(t) = MOD(t - 1, nthreads)
                ELSE
                   CALL RANDOM_NUMBER(rn)
                   ! Makes sure the numbers are in the proper integer range.

@@ -8,11 +8,11 @@
 !--------------------------------------------------------------------------------------------------!
 
 MODULE dbcsr_cublas
-   USE ISO_C_BINDING,                   ONLY: C_CHAR,&
-                                              C_DOUBLE,&
-                                              C_INT,&
-                                              C_NULL_PTR,&
-                                              C_PTR
+   USE ISO_C_BINDING, ONLY: C_CHAR, &
+                            C_DOUBLE, &
+                            C_INT, &
+                            C_NULL_PTR, &
+                            C_PTR
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE

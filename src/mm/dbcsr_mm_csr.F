@@ -24,30 +24,30 @@
 ! **************************************************************************************************
 MODULE dbcsr_mm_csr
 
-   USE dbcsr_array_types,               ONLY: array_data
-   USE dbcsr_block_operations,          ONLY: block_add,&
-                                              dbcsr_block_copy_aa
-   USE dbcsr_config,                    ONLY: dbcsr_cfg,&
-                                              default_resize_factor
-   USE dbcsr_data_methods,              ONLY: dbcsr_data_ensure_size
-   USE dbcsr_dist_util,                 ONLY: map_most_common
-   USE dbcsr_kinds,                     ONLY: int_1,&
-                                              int_4,&
-                                              int_8,&
-                                              sp
-   USE dbcsr_mm_sched,                  ONLY: &
-        dbcsr_mm_sched_barrier, dbcsr_mm_sched_begin_burst, dbcsr_mm_sched_dev2host_init, &
-        dbcsr_mm_sched_end_burst, dbcsr_mm_sched_finalize, dbcsr_mm_sched_init, &
-        dbcsr_mm_sched_lib_finalize, dbcsr_mm_sched_lib_init, dbcsr_mm_sched_phaseout, &
-        dbcsr_mm_sched_process, dbcsr_mm_sched_set_orig_datasize, dbcsr_mm_sched_type
-   USE dbcsr_mm_types,                  ONLY: &
-        dbcsr_ps_width, p_a_first, p_b_first, p_c_blk, p_c_first, p_k, p_m, p_n, &
-        stack_descriptor_type
-   USE dbcsr_ptr_util,                  ONLY: ensure_array_size
-   USE dbcsr_toollib,                   ONLY: sort
-   USE dbcsr_types,                     ONLY: dbcsr_data_obj,&
-                                              dbcsr_type,&
-                                              dbcsr_work_type
+   USE dbcsr_array_types, ONLY: array_data
+   USE dbcsr_block_operations, ONLY: block_add, &
+                                     dbcsr_block_copy_aa
+   USE dbcsr_config, ONLY: dbcsr_cfg, &
+                           default_resize_factor
+   USE dbcsr_data_methods, ONLY: dbcsr_data_ensure_size
+   USE dbcsr_dist_util, ONLY: map_most_common
+   USE dbcsr_kinds, ONLY: int_1, &
+                          int_4, &
+                          int_8, &
+                          sp
+   USE dbcsr_mm_sched, ONLY: &
+      dbcsr_mm_sched_barrier, dbcsr_mm_sched_begin_burst, dbcsr_mm_sched_dev2host_init, &
+      dbcsr_mm_sched_end_burst, dbcsr_mm_sched_finalize, dbcsr_mm_sched_init, &
+      dbcsr_mm_sched_lib_finalize, dbcsr_mm_sched_lib_init, dbcsr_mm_sched_phaseout, &
+      dbcsr_mm_sched_process, dbcsr_mm_sched_set_orig_datasize, dbcsr_mm_sched_type
+   USE dbcsr_mm_types, ONLY: &
+      dbcsr_ps_width, p_a_first, p_b_first, p_c_blk, p_c_first, p_k, p_m, p_n, &
+      stack_descriptor_type
+   USE dbcsr_ptr_util, ONLY: ensure_array_size
+   USE dbcsr_toollib, ONLY: sort
+   USE dbcsr_types, ONLY: dbcsr_data_obj, &
+                          dbcsr_type, &
+                          dbcsr_work_type
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -177,10 +177,10 @@ CONTAINS
       ! This has to be done here because ensure_array_size() expects a pointer.
       ! the maximum number of blocks can be safely estimated by considering both the rowxcol,
       ! but also the blocks the latter can never be larger than norec**2, which is a 'small' constant
-      max_new_nblks = INT(MIN(INT(mf-mi+1, int_8)*INT(nf-ni+1, int_8), &
-                              INT(af-ai+1, int_8)*INT(bf-bi+1, int_8)))
+      max_new_nblks = INT(MIN(INT(mf - mi + 1, int_8)*INT(nf - ni + 1, int_8), &
+                              INT(af - ai + 1, int_8)*INT(bf - bi + 1, int_8)))
 
-      nblks_new = this%product_wm%lastblk+max_new_nblks
+      nblks_new = this%product_wm%lastblk + max_new_nblks
 
       CALL ensure_array_size(this%product_wm%row_i, ub=nblks_new, &
                              factor=default_resize_factor)
@@ -292,14 +292,14 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: row_size_maps_size, k_size_maps_size, &
                                                             col_size_maps_size
       INTEGER(KIND=int_4), &
-         DIMENSION(0:row_size_maps_size-1), INTENT(IN)   :: row_size_maps
+         DIMENSION(0:row_size_maps_size - 1), INTENT(IN)   :: row_size_maps
       INTEGER(KIND=int_4), &
-         DIMENSION(0:col_size_maps_size-1), INTENT(IN)   :: col_size_maps
+         DIMENSION(0:col_size_maps_size - 1), INTENT(IN)   :: col_size_maps
       INTEGER(KIND=int_4), &
-         DIMENSION(0:k_size_maps_size-1), INTENT(IN)     :: k_size_maps
+         DIMENSION(0:k_size_maps_size - 1), INTENT(IN)     :: k_size_maps
       INTEGER, INTENT(IN)                                :: nm_stacks, nn_stacks, nk_stacks
-      INTEGER(KIND=int_1), DIMENSION(nn_stacks+1, &
-         nk_stacks+1, nm_stacks+1), INTENT(IN)           :: stack_map
+      INTEGER(KIND=int_1), DIMENSION(nn_stacks + 1, &
+                                     nk_stacks + 1, nm_stacks + 1), INTENT(IN)           :: stack_map
       INTEGER, DIMENSION(:, :, :), INTENT(INOUT)         :: stacks_data
       INTEGER, DIMENSION(:), INTENT(INOUT)               :: stacks_fillcount
       TYPE(hash_table_type), DIMENSION(:), INTENT(INOUT) :: c_hashes
@@ -308,21 +308,21 @@ CONTAINS
       REAL(KIND=sp), DIMENSION(:), POINTER               :: a_norms, b_norms
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_csr_multiply_low', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER :: a_blk, a_col_l, a_row_l, b_blk, b_col_l, c_blk_id, c_col_logical, c_nze, &
-         c_row_logical, ithread, k_size, m_size, mapped_col_size, mapped_k_size, mapped_row_size, &
-         n_a_norms, n_b_norms, n_size, nstacks, s_dp, ws
-      INTEGER, DIMENSION(mi:mf+1)                        :: a_row_p
-      INTEGER, DIMENSION(ki:kf+1)                        :: b_row_p
-      INTEGER, DIMENSION(2, bf-bi+1)                     :: b_blk_info
-      INTEGER, DIMENSION(2, af-ai+1)                     :: a_blk_info
+                 c_row_logical, ithread, k_size, m_size, mapped_col_size, mapped_k_size, mapped_row_size, &
+                 n_a_norms, n_b_norms, n_size, nstacks, s_dp, ws
+      INTEGER, DIMENSION(mi:mf + 1)                        :: a_row_p
+      INTEGER, DIMENSION(ki:kf + 1)                        :: b_row_p
+      INTEGER, DIMENSION(2, bf - bi + 1)                     :: b_blk_info
+      INTEGER, DIMENSION(2, af - ai + 1)                     :: a_blk_info
       INTEGER(KIND=int_4)                                :: offset
       LOGICAL                                            :: block_exists
       REAL(kind=sp)                                      :: a_norm, a_row_eps, b_norm
-      REAL(KIND=sp), DIMENSION(1:af-ai+1)                :: left_norms
-      REAL(KIND=sp), DIMENSION(1:bf-bi+1)                :: right_norms
+      REAL(KIND=sp), DIMENSION(1:af - ai + 1)                :: left_norms
+      REAL(KIND=sp), DIMENSION(1:bf - bi + 1)                :: right_norms
 
 !   ---------------------------------------------------------------------------
 
@@ -332,8 +332,8 @@ CONTAINS
       nstacks = SIZE(this%stacks_data, 3)
 
       IF (use_eps) THEN
-         n_a_norms = af-ai+1
-         n_b_norms = bf-bi+1
+         n_a_norms = af - ai + 1
+         n_b_norms = bf - bi + 1
       ELSE
          n_a_norms = 0
          n_b_norms = 0
@@ -352,14 +352,14 @@ CONTAINS
          a_row_eps = row_max_epss(a_row_l)
          mapped_row_size = row_size_maps(m_size)
 
-         a_blk_cycle: DO a_blk = a_row_p(a_row_l)+1, a_row_p(a_row_l+1)
+         a_blk_cycle: DO a_blk = a_row_p(a_row_l) + 1, a_row_p(a_row_l + 1)
             a_col_l = a_blk_info(1, a_blk)
             IF (debug_mod) WRITE (*, *) ithread, routineN//" A col", a_col_l, ";", a_row_l
             k_size = k_sizes(a_col_l)
             mapped_k_size = k_size_maps(k_size)
 
             a_norm = left_norms(a_blk)
-            b_blk_cycle: DO b_blk = b_row_p(a_col_l)+1, b_row_p(a_col_l+1)
+            b_blk_cycle: DO b_blk = b_row_p(a_col_l) + 1, b_row_p(a_col_l + 1)
                IF (dbg) THEN
                   WRITE (*, '(1X,A,3(1X,I7),1X,A,1X,I16)') routineN//" trying B", &
                      a_row_l, b_blk_info(1, b_blk), a_col_l, "at", b_blk_info(2, b_blk)
@@ -398,9 +398,9 @@ CONTAINS
                ELSE
                   IF (keep_sparsity) CYCLE
 
-                  offset = datasize+1
-                  lastblk = lastblk+1
-                  datasize = datasize+c_nze
+                  offset = datasize + 1
+                  lastblk = lastblk + 1
+                  datasize = datasize + c_nze
                   c_blk_id = lastblk ! assign a new c-block-id
 
                   IF (dbg) WRITE (*, *) routineN//" new block offset, nze", offset, c_nze
@@ -428,7 +428,7 @@ CONTAINS
 
                mapped_col_size = col_size_maps(n_size)
                ws = stack_map(mapped_col_size, mapped_k_size, mapped_row_size)
-               stacks_fillcount(ws) = stacks_fillcount(ws)+1
+               stacks_fillcount(ws) = stacks_fillcount(ws) + 1
                s_dp = stacks_fillcount(ws)
 
                stacks_data(p_m, s_dp, ws) = m_size
@@ -439,7 +439,7 @@ CONTAINS
                stacks_data(p_c_first, s_dp, ws) = offset
                stacks_data(p_c_blk, s_dp, ws) = c_blk_id
 
-               flop = flop+INT(2*c_nze, int_8)*INT(k_size, int_8)
+               flop = flop + INT(2*c_nze, int_8)*INT(k_size, int_8)
 
                IF (stacks_fillcount(ws) >= SIZE(stacks_data, 2)) &
                   CALL flush_stacks(this, left=left, right=right)
@@ -475,7 +475,7 @@ CONTAINS
       INTEGER, OPTIONAL                                  :: nlayers
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_csr_init', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: default_stack, handle, istack, ithread, &
                                                             k_map, k_size, m_map, m_size, n_map, &
@@ -510,7 +510,7 @@ CONTAINS
       this%nm_stacks = dbcsr_cfg%nm_stacks
       this%nn_stacks = dbcsr_cfg%nn_stacks
       this%nk_stacks = dbcsr_cfg%nk_stacks
-      nstacks = dbcsr_cfg%nm_stacks*dbcsr_cfg%nn_stacks*dbcsr_cfg%nk_stacks+1
+      nstacks = dbcsr_cfg%nm_stacks*dbcsr_cfg%nn_stacks*dbcsr_cfg%nk_stacks + 1
       IF (nstacks > INT(HUGE(this%stack_map))) &
          DBCSR_ABORT("Too many stacks requested (global/dbcsr/n_size_*_stacks in input)")
 
@@ -540,22 +540,22 @@ CONTAINS
       ! (carrier%*_sizes) to a stack number.  Triples with even one
       ! uncommon size will be mapped to a general, non-size-specific
       ! stack.
-      ALLOCATE (this%stack_map(dbcsr_cfg%nn_stacks+1, dbcsr_cfg%nk_stacks+1, dbcsr_cfg%nm_stacks+1))
+      ALLOCATE (this%stack_map(dbcsr_cfg%nn_stacks + 1, dbcsr_cfg%nk_stacks + 1, dbcsr_cfg%nm_stacks + 1))
       default_stack = nstacks
 
-      DO m_map = 1, dbcsr_cfg%nm_stacks+1
+      DO m_map = 1, dbcsr_cfg%nm_stacks + 1
          IF (m_map .LE. dbcsr_cfg%nm_stacks) THEN
             m_size = most_common_m(m_map)
          ELSE
             m_size = 777
          ENDIF
-         DO k_map = 1, dbcsr_cfg%nk_stacks+1
+         DO k_map = 1, dbcsr_cfg%nk_stacks + 1
             IF (k_map .LE. dbcsr_cfg%nk_stacks) THEN
                k_size = most_common_k(k_map)
             ELSE
                k_size = 888
             ENDIF
-            DO n_map = 1, dbcsr_cfg%nn_stacks+1
+            DO n_map = 1, dbcsr_cfg%nn_stacks + 1
                IF (n_map .LE. dbcsr_cfg%nn_stacks) THEN
                   n_size = most_common_n(n_map)
                ELSE
@@ -565,9 +565,9 @@ CONTAINS
                    .AND. k_map .LE. dbcsr_cfg%nk_stacks &
                    .AND. n_map .LE. dbcsr_cfg%nn_stacks) THEN
                   ! This is the case when m, n, and k are all defined.
-                  ps_g = (m_map-1)*dbcsr_cfg%nn_stacks*dbcsr_cfg%nk_stacks+ &
-                         (k_map-1)*dbcsr_cfg%nn_stacks+n_map
-                  ps_g = nstacks-ps_g
+                  ps_g = (m_map - 1)*dbcsr_cfg%nn_stacks*dbcsr_cfg%nk_stacks + &
+                         (k_map - 1)*dbcsr_cfg%nn_stacks + n_map
+                  ps_g = nstacks - ps_g
                   this%stack_map(n_map, k_map, m_map) = INT(ps_g, kind=int_1)
                   ! Also take care of the stack m, n, k descriptors
                   this%stacks_descr(ps_g)%m = m_size
@@ -602,23 +602,23 @@ CONTAINS
       ! last. Next, sort according to flops, first stack lots of flops, last
       ! stack, few flops
       ! The default stack shall remain at the end of the gridcolumn
-      ALLOCATE (flop_list(nstacks-1), flop_index(nstacks-1), tmp_descr(nstacks))
-      DO istack = 1, nstacks-1
+      ALLOCATE (flop_list(nstacks - 1), flop_index(nstacks - 1), tmp_descr(nstacks))
+      DO istack = 1, nstacks - 1
          flop_list(istack) = -2*this%stacks_descr(istack)%m &
                              *this%stacks_descr(istack)%n &
                              *this%stacks_descr(istack)%k
       ENDDO
 
-      CALL sort(flop_list, nstacks-1, flop_index)
+      CALL sort(flop_list, nstacks - 1, flop_index)
       tmp_descr(:) = this%stacks_descr
-      DO istack = 1, nstacks-1
+      DO istack = 1, nstacks - 1
          this%stacks_descr(istack) = tmp_descr(flop_index(istack))
       ENDDO
 
       DO m_map = 1, SIZE(this%stack_map, 1)
          DO k_map = 1, SIZE(this%stack_map, 2)
             map_loop: DO n_map = 1, SIZE(this%stack_map, 1)
-               DO istack = 1, nstacks-1
+               DO istack = 1, nstacks - 1
                   IF (this%stack_map(m_map, k_map, n_map) == flop_index(istack)) THEN
                      this%stack_map(m_map, k_map, n_map) = INT(istack, kind=int_1)
                      CYCLE map_loop
@@ -629,7 +629,7 @@ CONTAINS
       ENDDO
       DEALLOCATE (flop_list, flop_index, tmp_descr)
 
-      this%product_wm => product%wms(ithread+1)
+      this%product_wm => product%wms(ithread + 1)
       CALL dbcsr_mm_sched_init(this%sched, &
                                product_wm=this%product_wm, &
                                nlayers=nlayers)
@@ -653,7 +653,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: row_map, col_map
 
       CHARACTER(len=*), PARAMETER :: routineN = 'fill_hash_tables', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: col, handle, i, imat, n_rows, row
 
@@ -661,7 +661,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       imat = 1
-!$    imat = OMP_GET_THREAD_NUM()+1
+!$    imat = OMP_GET_THREAD_NUM() + 1
       n_rows = matrix%nblkrows_local
       IF (SIZE(hashes) /= n_rows) &
          DBCSR_ABORT("Local row count mismatch")
@@ -702,7 +702,7 @@ CONTAINS
       TYPE(dbcsr_mm_csr_type), INTENT(INOUT)             :: this
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_csr_finalize', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: i
 
@@ -769,13 +769,13 @@ CONTAINS
 
       ithread = 0; nthreads = 1
 !$    ithread = OMP_GET_THREAD_NUM(); nthreads = OMP_GET_NUM_THREADS()
-      lb_meta = meta_buffer(ithread+1)
-      nblocks = (meta_buffer(ithread+2)-lb_meta)/3
-      ub_meta = lb_meta+nblocks
-      row_i => meta_buffer(lb_meta+1:ub_meta)
+      lb_meta = meta_buffer(ithread + 1)
+      nblocks = (meta_buffer(ithread + 2) - lb_meta)/3
+      ub_meta = lb_meta + nblocks
+      row_i => meta_buffer(lb_meta + 1:ub_meta)
       lb_meta = ub_meta
-      ub_meta = lb_meta+nblocks
-      col_i => meta_buffer(lb_meta+1:ub_meta)
+      ub_meta = lb_meta + nblocks
+      col_i => meta_buffer(lb_meta + 1:ub_meta)
       ! Make local indexing if needed
       IF (keep_sparsity) THEN
          DO iblock = 1, original_lastblk
@@ -784,8 +784,8 @@ CONTAINS
          ENDDO
       ENDIF
       lb_meta = ub_meta
-      ub_meta = lb_meta+nblocks
-      blk_p => meta_buffer(lb_meta+1:ub_meta)
+      ub_meta = lb_meta + nblocks
+      blk_p => meta_buffer(lb_meta + 1:ub_meta)
       !
       ! Get sizes
       nze_max = this%product_wm%datasize
@@ -796,8 +796,8 @@ CONTAINS
          c_blk_id = hash_table_get(this%c_hashes(row_i(iblock)), col_i(iblock))
          block_exists = c_blk_id .GT. 0
          IF (block_exists) CYCLE
-         nblks_max = nblks_max+1
-         nze_max = nze_max+nze
+         nblks_max = nblks_max + 1
+         nze_max = nze_max + nze
       ENDDO
       ! Resize buffers
       CALL dbcsr_data_ensure_size(this%product_wm%data_area, &
@@ -819,11 +819,11 @@ CONTAINS
             lb = this%product_wm%blk_p(c_blk_id)
             CALL block_add(this%product_wm%data_area, data_buffer, &
                            lb, lb_data, nze)
-            flop = flop+nze
+            flop = flop + nze
          ELSE
-            lb = this%product_wm%datasize+1
-            this%product_wm%lastblk = this%product_wm%lastblk+1
-            this%product_wm%datasize = this%product_wm%datasize+nze
+            lb = this%product_wm%datasize + 1
+            this%product_wm%lastblk = this%product_wm%lastblk + 1
+            this%product_wm%datasize = this%product_wm%datasize + nze
             c_blk_id = this%product_wm%lastblk ! assign a new c-block-id
             CALL hash_table_add(this%c_hashes(row_i(iblock)), col_i(iblock), c_blk_id)
             this%product_wm%row_i(this%product_wm%lastblk) = row_i(iblock)
@@ -916,15 +916,15 @@ CONTAINS
    SUBROUTINE build_csr_index(mi, mf, ai, af, row_p, blk_info, list_index, &
                               nnorms, csr_norms, list_norms)
       INTEGER, INTENT(IN)                                :: mi, mf, ai, af
-      INTEGER, DIMENSION(mi:mf+1), INTENT(OUT)           :: row_p
-      INTEGER, DIMENSION(2, 1:af-ai+1), INTENT(OUT)      :: blk_info
+      INTEGER, DIMENSION(mi:mf + 1), INTENT(OUT)           :: row_p
+      INTEGER, DIMENSION(2, 1:af - ai + 1), INTENT(OUT)      :: blk_info
       INTEGER, DIMENSION(3, 1:af), INTENT(IN)            :: list_index
       INTEGER, INTENT(IN)                                :: nnorms
-      REAL(KIND=sp), DIMENSION(1:af-ai+1), INTENT(OUT)   :: csr_norms
+      REAL(KIND=sp), DIMENSION(1:af - ai + 1), INTENT(OUT)   :: csr_norms
       REAL(KIND=sp), DIMENSION(:), INTENT(IN)            :: list_norms
 
       CHARACTER(len=*), PARAMETER :: routineN = 'build_csr_index', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: careful = .FALSE., dbg = .FALSE.
 
       INTEGER                                            :: i, row
@@ -944,25 +944,25 @@ CONTAINS
             IF (list_index(1, i) < mi) DBCSR_ABORT("Out of range")
             IF (list_index(1, i) > mf) DBCSR_ABORT("Out of range")
          ENDIF
-         counts(list_index(1, i)) = counts(list_index(1, i))+1
+         counts(list_index(1, i)) = counts(list_index(1, i)) + 1
       ENDDO
       row_p(mi) = 0
-      DO i = mi+1, mf+1
-         row_p(i) = row_p(i-1)+counts(i-1)
+      DO i = mi + 1, mf + 1
+         row_p(i) = row_p(i - 1) + counts(i - 1)
       ENDDO
       ! Adds every block to its corresponding row.
       counts(:) = 0
       DO i = ai, af
          row = list_index(1, i)
-         counts(row) = counts(row)+1
+         counts(row) = counts(row) + 1
          IF (careful) THEN
-            IF (row_p(row)+counts(row) > af-ai+1) DBCSR_ABORT("Out of range")
-            IF (row_p(row)+counts(row) < 1) DBCSR_ABORT("Out of range")
+            IF (row_p(row) + counts(row) > af - ai + 1) DBCSR_ABORT("Out of range")
+            IF (row_p(row) + counts(row) < 1) DBCSR_ABORT("Out of range")
          ENDIF
-         blk_info(1, row_p(row)+counts(row)) = list_index(2, i)
-         blk_info(2, row_p(row)+counts(row)) = list_index(3, i)
+         blk_info(1, row_p(row) + counts(row)) = list_index(2, i)
+         blk_info(2, row_p(row) + counts(row)) = list_index(3, i)
          IF (nnorms .GT. 0) THEN
-            csr_norms(row_p(row)+counts(row)) = list_norms(i)
+            csr_norms(row_p(row) + counts(row)) = list_norms(i)
          ENDIF
       ENDDO
       IF (nnorms .EQ. 0) THEN
@@ -982,7 +982,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: row, column
       LOGICAL                                            :: transpose
 
-      transpose = BTEST(column+row, 0) .EQV. column .GE. row
+      transpose = BTEST(column + row, 0) .EQV. column .GE. row
 
    END FUNCTION my_checker_tr
 

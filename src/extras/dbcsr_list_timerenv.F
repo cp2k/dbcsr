@@ -22,7 +22,7 @@
 #:include 'dbcsr_list.fypp'
 #:set n_inst = 0
 MODULE dbcsr_list_timerenv
-USE dbcsr_timings_types,           ONLY: ${uselist(usetimings)}$
+   USE dbcsr_timings_types, ONLY: ${uselist(usetimings)}$
 
 $:list_body(valuetype[n_inst], valuetype_in[n_inst], valuetype_out[n_inst], value_assign[n_inst])
 

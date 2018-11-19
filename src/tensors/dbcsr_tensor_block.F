@@ -17,35 +17,35 @@ MODULE dbcsr_tensor_block
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)
 
-   USE dbcsr_allocate_wrap,             ONLY: allocate_any
-   USE dbcsr_api,                       ONLY: ${uselist(dtype_float_param)}$,&
-                                              dbcsr_iterator_type, &
-                                              dbcsr_iterator_blocks_left,&
-                                              dbcsr_iterator_next_block, &
-                                              dbcsr_iterator_start,&
-                                              dbcsr_iterator_stop, &
-                                              dbcsr_get_block_p, &
-                                              dbcsr_put_block,&
-                                              dbcsr_reserve_blocks,&
-                                              dbcsr_type
-   USE dbcsr_kinds,                     ONLY: ${uselist(dtype_float_prec)}$
-   USE dbcsr_tensor_index,              ONLY: nd_to_2d_mapping, &
-                                              ndims_mapping, &
-                                              get_nd_indices, &
-                                              destroy_nd_to_2d_mapping,&
-                                              get_2d_indices, &
-                                              get_mapping_info,&
-                                              create_nd_to_2d_mapping
-   USE dbcsr_array_list_methods,        ONLY: array_list, &
-                                              get_array_elements, &
-                                              destroy_array_list, &
-                                              sizes_of_arrays, &
-                                              create_array_list, &
-                                              get_arrays
-   USE dbcsr_tensor_types,              ONLY: dbcsr_t_type,&
-                                              ndims_tensor,&
-                                              dbcsr_t_get_data_type,&
-                                              dbcsr_t_blk_sizes
+   USE dbcsr_allocate_wrap, ONLY: allocate_any
+   USE dbcsr_api, ONLY: ${uselist(dtype_float_param)}$, &
+                        dbcsr_iterator_type, &
+                        dbcsr_iterator_blocks_left, &
+                        dbcsr_iterator_next_block, &
+                        dbcsr_iterator_start, &
+                        dbcsr_iterator_stop, &
+                        dbcsr_get_block_p, &
+                        dbcsr_put_block, &
+                        dbcsr_reserve_blocks, &
+                        dbcsr_type
+   USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$
+   USE dbcsr_tensor_index, ONLY: nd_to_2d_mapping, &
+                                 ndims_mapping, &
+                                 get_nd_indices, &
+                                 destroy_nd_to_2d_mapping, &
+                                 get_2d_indices, &
+                                 get_mapping_info, &
+                                 create_nd_to_2d_mapping
+   USE dbcsr_array_list_methods, ONLY: array_list, &
+                                       get_array_elements, &
+                                       destroy_array_list, &
+                                       sizes_of_arrays, &
+                                       create_array_list, &
+                                       get_arrays
+   USE dbcsr_tensor_types, ONLY: dbcsr_t_type, &
+                                 ndims_tensor, &
+                                 dbcsr_t_get_data_type, &
+                                 dbcsr_t_blk_sizes
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -62,9 +62,9 @@ MODULE dbcsr_tensor_block
       dbcsr_t_iterator_stop, &
       dbcsr_t_iterator_type, &
       dbcsr_t_put_block, &
-      dbcsr_t_reserve_blocks,&
+      dbcsr_t_reserve_blocks, &
       destroy_block, &
-      ndims_iterator,&
+      ndims_iterator, &
       reshape_2d_to_nd_block, &
       reshape_nd_to_2d_block
 
@@ -74,7 +74,6 @@ MODULE dbcsr_tensor_block
       TYPE(nd_to_2d_mapping)      :: nd_index
       TYPE(array_list)            :: blk_sizes, blk_offsets
    END TYPE dbcsr_t_iterator_type
-
 
 #:for dparam, dtype, dsuffix in dtype_float_list
    PUBLIC :: block_nd_${dsuffix}$
@@ -95,14 +94,12 @@ MODULE dbcsr_tensor_block
       INTEGER          :: data_type = -1
    END TYPE
 
-
    INTERFACE create_block
 #:for dparam, dtype, dsuffix in dtype_float_list
       MODULE PROCEDURE create_block_data_${dsuffix}$
 #:endfor
       MODULE PROCEDURE create_block_nodata
    END INTERFACE
-
 
    INTERFACE reshape_nd_to_2d_block
 #:for dparam, dtype, dsuffix in dtype_float_list
@@ -164,7 +161,7 @@ CONTAINS
       SELECT CASE (data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
       CASE (${dparam}$)
-         CALL create_block_nodata_${dsuffix}$(block%${dsuffix}$, sizes)
+         CALL create_block_nodata_${dsuffix}$ (block%${dsuffix}$, sizes)
 #:endfor
       END SELECT
    END SUBROUTINE
@@ -179,7 +176,7 @@ CONTAINS
       SELECT CASE (block%data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
       CASE (${dparam}$)
-         CALL destroy_block_${dsuffix}$(block%${dsuffix}$)
+         CALL destroy_block_${dsuffix}$ (block%${dsuffix}$)
 #:endfor
       END SELECT
 
@@ -212,7 +209,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(IN)                     :: tensor
       INTEGER                                            :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_iterator_start', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       DBCSR_ASSERT(tensor%valid)
@@ -234,7 +231,7 @@ CONTAINS
       TYPE(dbcsr_t_iterator_type), INTENT(INOUT) :: iterator
       INTEGER                                    :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_iterator_stop', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       CALL dbcsr_iterator_stop(iterator%iter)
@@ -282,7 +279,7 @@ CONTAINS
       INTEGER, DIMENSION(2)                          :: ind_2d
       INTEGER                                        :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_iterator_next_block', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       CALL dbcsr_iterator_next_block(iterator%iter, ind_2d(1), ind_2d(2), blk, blk_p=blk_p)
@@ -306,7 +303,7 @@ CONTAINS
       LOGICAL                                 :: dbcsr_t_iterator_blocks_left
       INTEGER                                 :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_iterator_blocks_left', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       dbcsr_t_iterator_blocks_left = dbcsr_iterator_blocks_left(iterator%iter)
@@ -320,7 +317,7 @@ CONTAINS
       INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("blk_ind")}$
       INTEGER                            :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_index_list', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
 #:for ndim in ndims
@@ -334,10 +331,10 @@ CONTAINS
 
    SUBROUTINE dbcsr_t_reserve_blocks_index_array(tensor, blk_ind)
       TYPE(dbcsr_t_type), INTENT(INOUT)   :: tensor
-      INTEGER, DIMENSION(:,:), INTENT(IN) :: blk_ind
+      INTEGER, DIMENSION(:, :), INTENT(IN) :: blk_ind
       INTEGER                             :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_index_array', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
 #:for ndim in ndims
@@ -365,7 +362,7 @@ CONTAINS
       TYPE(array_list)                            :: blks
       INTEGER, DIMENSION(ndims_tensor(tensor))   :: iblk_nd, ind_nd, nblk_tmp
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_index', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       DBCSR_ASSERT(tensor%valid)
@@ -399,7 +396,7 @@ CONTAINS
 
       TYPE(array_list)                  :: blk_ind
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_template', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
 
@@ -424,7 +421,7 @@ CONTAINS
       TYPE(dbcsr_iterator_type)          :: iter
       INTEGER                            :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_matrix', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       nblk = 0
@@ -491,14 +488,14 @@ CONTAINS
       nblk = nblocks_reserved(tensor)
 
 #:for dim in range(1, maxdim+1)
-      IF (ndims_tensor(tensor) >= ${dim}$) ALLOCATE (blk_ind_${dim}$(nblk))
+      IF (ndims_tensor(tensor) >= ${dim}$) ALLOCATE (blk_ind_${dim}$ (nblk))
 #:endfor
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO iblk = 1, nblk
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk)
 #:for dim in range(1, maxdim+1)
-         IF (ndims_tensor(tensor) >= ${dim}$) blk_ind_${dim}$(iblk) = ind_nd(${dim}$)
+         IF (ndims_tensor(tensor) >= ${dim}$) blk_ind_${dim}$ (iblk) = ind_nd(${dim}$)
 #:endfor
       ENDDO
       CALL dbcsr_t_iterator_stop(iterator)
@@ -518,15 +515,15 @@ CONTAINS
 !> \param sizes ...
 !> \param array ...
 ! **************************************************************************************************
-   SUBROUTINE create_block_data_${dsuffix}$(block, sizes, array)
+   SUBROUTINE create_block_data_${dsuffix}$ (block, sizes, array)
       TYPE(block_nd), INTENT(OUT)                       :: block
       INTEGER, DIMENSION(:), INTENT(IN)                 :: sizes
-      ${dtype}$, DIMENSION(PRODUCT(sizes)),  INTENT(IN) :: array
+      ${dtype}$, DIMENSION(PRODUCT(sizes)), INTENT(IN) :: array
 
-      ASSOCIATE(blk => block%${dsuffix}$)
-      block%data_type = ${dparam}$
-      CALL allocate_any(blk%sizes, source=sizes)
-      CALL allocate_any(blk%blk, source=array)
+      ASSOCIATE (blk=>block%${dsuffix}$)
+         block%data_type = ${dparam}$
+         CALL allocate_any(blk%sizes, source=sizes)
+         CALL allocate_any(blk%blk, source=array)
       END ASSOCIATE
    END SUBROUTINE
 #:endfor
@@ -537,11 +534,11 @@ CONTAINS
 !> \param block ...
 !> \param sizes ...
 ! **************************************************************************************************
-   SUBROUTINE create_block_nodata_${dsuffix}$(block, sizes)
+   SUBROUTINE create_block_nodata_${dsuffix}$ (block, sizes)
       INTEGER, INTENT(IN), DIMENSION(:)       :: sizes
       TYPE(block_nd_${dsuffix}$), INTENT(OUT) :: block
       CALL allocate_any(block%sizes, source=sizes)
-      ALLOCATE(block%blk(PRODUCT(sizes)))
+      ALLOCATE (block%blk(PRODUCT(sizes)))
    END SUBROUTINE
 #:endfor
 
@@ -550,10 +547,10 @@ CONTAINS
 !> \brief ...
 !> \param block ...
 ! **************************************************************************************************
-   SUBROUTINE destroy_block_${dsuffix}$(block)
+   SUBROUTINE destroy_block_${dsuffix}$ (block)
       TYPE(block_nd_${dsuffix}$), INTENT(INOUT) :: block
-      DEALLOCATE(block%blk)
-      DEALLOCATE(block%sizes)
+      DEALLOCATE (block%blk)
+      DEALLOCATE (block%sizes)
    END SUBROUTINE
 #:endfor
 
@@ -570,13 +567,13 @@ CONTAINS
       TYPE(block_nd), INTENT(OUT)                  :: block
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_anyd_block', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       SELECT CASE (dbcsr_t_get_data_type(tensor))
 #:for dparam, dtype, dsuffix in dtype_float_list
       CASE (${dparam}$)
-         CALL dbcsr_t_get_anyd_block_${dsuffix}$(tensor, ind, block)
+         CALL dbcsr_t_get_anyd_block_${dsuffix}$ (tensor, ind, block)
 #:endfor
       END SELECT
       CALL timestop(handle)
@@ -595,13 +592,13 @@ CONTAINS
       TYPE(block_nd), INTENT(IN)                   :: block
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_anyd_block', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       SELECT CASE (block%data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
       CASE (${dparam}$)
-         CALL dbcsr_t_put_anyd_block_${dsuffix}$(tensor, ind, block%${dsuffix}$)
+         CALL dbcsr_t_put_anyd_block_${dsuffix}$ (tensor, ind, block%${dsuffix}$)
 #:endfor
       END SELECT
       CALL timestop(handle)
@@ -614,16 +611,16 @@ CONTAINS
 !> \param ind block index
 !> \param block block to put
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_t_put_anyd_block_${dsuffix}$(tensor, ind, block)
+   SUBROUTINE dbcsr_t_put_anyd_block_${dsuffix}$ (tensor, ind, block)
       TYPE(block_nd_${dsuffix}$), INTENT(IN)       :: block
       TYPE(dbcsr_t_type), INTENT(INOUT)            :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
          INTENT(IN)                                :: ind
 
-      SELECT CASE(ndims_tensor(tensor))
+      SELECT CASE (ndims_tensor(tensor))
 #:for ndim in ndims
-      CASE(${ndim}$)
-         CALL dbcsr_t_put_${ndim}$d_block_${dsuffix}$(tensor, ind, block%sizes, block%blk)
+      CASE (${ndim}$)
+         CALL dbcsr_t_put_${ndim}$d_block_${dsuffix}$ (tensor, ind, block%sizes, block%blk)
 #:endfor
       END SELECT
    END SUBROUTINE
@@ -636,7 +633,7 @@ CONTAINS
 !> \param ind block index
 !> \param block block to get
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_t_get_anyd_block_${dsuffix}$(tensor, ind, block)
+   SUBROUTINE dbcsr_t_get_anyd_block_${dsuffix}$ (tensor, ind, block)
       TYPE(block_nd), INTENT(OUT)                  :: block
       TYPE(dbcsr_t_type), INTENT(INOUT)            :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
@@ -645,12 +642,12 @@ CONTAINS
       ${dtype}$, DIMENSION(:), ALLOCATABLE         :: block_arr
 
       CALL dbcsr_t_blk_sizes(tensor, ind, blk_size)
-      ALLOCATE(block_arr(PRODUCT(blk_size)))
+      ALLOCATE (block_arr(PRODUCT(blk_size)))
 
-      SELECT CASE(ndims_tensor(tensor))
+      SELECT CASE (ndims_tensor(tensor))
 #:for ndim in ndims
-      CASE(${ndim}$)
-         CALL dbcsr_t_get_${ndim}$d_block_${dsuffix}$(tensor, ind, blk_size, block_arr)
+      CASE (${ndim}$)
+         CALL dbcsr_t_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, blk_size, block_arr)
 #:endfor
       END SELECT
       CALL create_block(block, blk_size, block_arr)
@@ -666,7 +663,7 @@ CONTAINS
 !> \param sizes block size
 !> \param block block to put
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_t_put_${ndim}$d_block_${dsuffix}$(tensor, ind, sizes, block)
+   SUBROUTINE dbcsr_t_put_${ndim}$d_block_${dsuffix}$ (tensor, ind, sizes, block)
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
       INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
@@ -679,7 +676,7 @@ CONTAINS
       TYPE(nd_to_2d_mapping)                                :: map_blk
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_${ndim}$d_block_${dsuffix}$', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       ! reshape block
@@ -701,7 +698,7 @@ CONTAINS
 
 #:for dparam, dtype, dsuffix in dtype_float_list
 #:for ndim in ndims
-   SUBROUTINE dbcsr_t_allocate_and_get_${ndim}$d_block_${dsuffix}$(tensor, ind, block)
+   SUBROUTINE dbcsr_t_allocate_and_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, block)
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
       ${dtype}$, DIMENSION(${shape_colon(ndim)}$), &
@@ -710,12 +707,11 @@ CONTAINS
 
       CALL dbcsr_t_blk_sizes(tensor, ind, blk_size)
       CALL allocate_any(block, shape_spec=blk_size)
-      CALL dbcsr_t_get_${ndim}$d_block_${dsuffix}$(tensor, ind, blk_size, block)
+      CALL dbcsr_t_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, blk_size, block)
 
    END SUBROUTINE
 #:endfor
 #:endfor
-
 
 #:for dparam, dtype, dsuffix in dtype_float_list
 #:for ndim in ndims
@@ -726,7 +722,7 @@ CONTAINS
 !> \param sizes block size
 !> \param block block to get
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_t_get_${ndim}$d_block_${dsuffix}$(tensor, ind, sizes, block)
+   SUBROUTINE dbcsr_t_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, sizes, block)
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
       INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
@@ -735,13 +731,13 @@ CONTAINS
 
       INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER, DIMENSION(2)                                 :: ind_2d
-      ${dtype}$, DIMENSION(:,:), POINTER                    :: block_2d_ptr
-      ${dtype}$, DIMENSION(:,:), ALLOCATABLE                :: block_2d
+      ${dtype}$, DIMENSION(:, :), POINTER                    :: block_2d_ptr
+      ${dtype}$, DIMENSION(:, :), ALLOCATABLE                :: block_2d
       TYPE(nd_to_2d_mapping)                                :: map_blk
       LOGICAL                                               :: found
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_${ndim}$d_block_${dsuffix}$', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
 
@@ -772,7 +768,7 @@ CONTAINS
 !> \param block_2d ...
 !> \param block ...
 ! **************************************************************************************************
-   SUBROUTINE reshape_block_m2t_${ndim}$d_${dsuffix}$(map, block_2d, block)
+   SUBROUTINE reshape_block_m2t_${ndim}$d_${dsuffix}$ (map, block_2d, block)
       TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
       ${dtype}$, DIMENSION(:, :), INTENT(IN)                    :: block_2d
       ${dtype}$, DIMENSION(${arrlist("map%dims_nd", nmax=ndim)}$), &
@@ -793,7 +789,7 @@ CONTAINS
 !> \param block_2d ...
 !> \param block ...
 ! **************************************************************************************************
-   SUBROUTINE reshape_block_t2m_${ndim}$d_${dsuffix}$(map, block, block_2d)
+   SUBROUTINE reshape_block_t2m_${ndim}$d_${dsuffix}$ (map, block, block_2d)
       TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
       ${dtype}$, DIMENSION(${arrlist("map%dims_nd", nmax=ndim)}$), INTENT(IN) :: block
       ${dtype}$, DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d

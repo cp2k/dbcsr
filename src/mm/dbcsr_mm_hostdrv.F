@@ -17,33 +17,33 @@
 !  - 2011-09-26 Split dbcsr_internal_operations
 ! **************************************************************************************************
 MODULE dbcsr_mm_hostdrv
-   USE dbcsr_config,                    ONLY: dbcsr_cfg,&
-                                              has_acc,&
-                                              mm_driver_blas,&
-                                              mm_driver_matmul,&
-                                              mm_driver_smm,&
-                                              mm_driver_xsmm
-   USE dbcsr_data_methods,              ONLY: dbcsr_data_get_size
-   USE dbcsr_mm_types,                  ONLY: dbcsr_ps_width,&
-                                              p_a_first,&
-                                              p_b_first,&
-                                              p_c_first,&
-                                              p_k,&
-                                              p_m,&
-                                              p_n,&
-                                              stack_descriptor_type
-   USE dbcsr_types,                     ONLY: dbcsr_data_obj,&
-                                              dbcsr_type,&
-                                              dbcsr_type_complex_4,&
-                                              dbcsr_type_complex_8,&
-                                              dbcsr_type_real_4,&
-                                              dbcsr_type_real_8,&
-                                              dbcsr_work_type
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              int_8,&
-                                              real_4,&
-                                              real_8,&
-                                              sp
+   USE dbcsr_config, ONLY: dbcsr_cfg, &
+                           has_acc, &
+                           mm_driver_blas, &
+                           mm_driver_matmul, &
+                           mm_driver_smm, &
+                           mm_driver_xsmm
+   USE dbcsr_data_methods, ONLY: dbcsr_data_get_size
+   USE dbcsr_mm_types, ONLY: dbcsr_ps_width, &
+                             p_a_first, &
+                             p_b_first, &
+                             p_c_first, &
+                             p_k, &
+                             p_m, &
+                             p_n, &
+                             stack_descriptor_type
+   USE dbcsr_types, ONLY: dbcsr_data_obj, &
+                          dbcsr_type, &
+                          dbcsr_type_complex_4, &
+                          dbcsr_type_complex_8, &
+                          dbcsr_type_real_4, &
+                          dbcsr_type_real_8, &
+                          dbcsr_work_type
+   USE dbcsr_kinds, ONLY: dp, &
+                          int_8, &
+                          real_4, &
+                          real_8, &
+                          sp
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -76,7 +76,7 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_lib_init()
 #if defined(__LIBXSMM)
-    USE libxsmm,                           ONLY:  libxsmm_init
+      USE libxsmm, ONLY: libxsmm_init
 !$OMP     MASTER
       CALL libxsmm_init()
 !$OMP     END MASTER
@@ -90,7 +90,7 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_lib_finalize()
 #if defined(__LIBXSMM)
-    USE libxsmm,                           ONLY:  libxsmm_finalize
+      USE libxsmm, ONLY: libxsmm_finalize
 !$OMP     BARRIER
 !$OMP     MASTER
       CALL libxsmm_finalize()
@@ -108,7 +108,7 @@ CONTAINS
       TYPE(dbcsr_work_type), POINTER                     :: product_wm
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_hostdrv_init', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
 
@@ -143,7 +143,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                               :: success, used_smm
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_hostdrv_process', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: careful = careful_mod, dbg = .FALSE.
 
       INTEGER                                            :: error_handle, sp
@@ -166,11 +166,11 @@ CONTAINS
       ! Verify stack consistency.  Only the upper bound is verified.
       IF (careful) THEN
          DO sp = 1, stack_size
-            IF (params(p_a_first, sp)+params(p_m, sp)*params(p_k, sp)-1 > dbcsr_data_get_size(left%data_area)) &
+            IF (params(p_a_first, sp) + params(p_m, sp)*params(p_k, sp) - 1 > dbcsr_data_get_size(left%data_area)) &
                DBCSR_ABORT("A data out of bounds.")
-            IF (params(p_b_first, sp)+params(p_k, sp)*params(p_n, sp)-1 > dbcsr_data_get_size(right%data_area)) &
+            IF (params(p_b_first, sp) + params(p_k, sp)*params(p_n, sp) - 1 > dbcsr_data_get_size(right%data_area)) &
                DBCSR_ABORT("B data out of bounds.")
-            IF (params(p_c_first, sp)+params(p_m, sp)*params(p_n, sp)-1 > dbcsr_data_get_size(this%data_area)) &
+            IF (params(p_c_first, sp) + params(p_m, sp)*params(p_n, sp) - 1 > dbcsr_data_get_size(this%data_area)) &
                DBCSR_ABORT("C data out of bounds.")
          ENDDO
       ENDIF
