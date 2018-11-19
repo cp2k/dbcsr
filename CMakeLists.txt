@@ -109,10 +109,21 @@ elseif (Fortran_COMPILER_NAME MATCHES "ifort.*")
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -diag-disable=5268")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -debug")
   set(F2008_COMPILER_FLAGS         "-stand f08")
+elseif (Fortran_COMPILER_NAME MATCHES "pgfortran.*")
+  set(CMAKE_CXX_FLAGS_RELEASE      "-fast")
+  set(CMAKE_CXX_FLAGS_DEBUG        "-g")
+  set(CMAKE_Fortran_FLAGS          "-Mfreeform -Mextend -Mallocatable=03")
+  set(CMAKE_Fortran_FLAGS_RELEASE  "-fast")
+  set(CMAKE_Fortran_FLAGS_DEBUG    "-g")
+  set(F2008_COMPILER_FLAGS         "")
 else ()
+  message(WARNING "\
+Unknown compiler, trying with just '-O2'/'-O0 -g'.\n\
+You will most likely have to pass additonal options for free-form Fortran 2003/2008 for your compiler!\n\
+Please open an issue at https://github.com/cp2k/dbcsr/issues with the reported compiler name and the required flags.")
   message("CMAKE_Fortran_COMPILER full path: " ${CMAKE_Fortran_COMPILER})
-  message("Fortran compiler: " ${Fortran_COMPILER_NAME})
-  message("No optimized Fortran compiler flags are known, we just try -O2...")
+  message("Fortran_COMPILER_NAME: " ${Fortran_COMPILER_NAME})
+
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O2")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -g")
 endif ()
