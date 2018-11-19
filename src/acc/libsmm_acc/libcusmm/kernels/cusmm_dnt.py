@@ -76,6 +76,10 @@ class Kernel:
         output += "}\n"
         return output
 
+    @property
+    def func_signature(self):
+        raise NotImplementedError('func_signature must be implemented in subclass')
+
     @staticmethod
     def promising_parameters(m, n, k, gpu, autotuning):
-        raise NotImplementedError()
+        raise NotImplementedError('promising_parameters must be implemented in subclass')
