@@ -7,7 +7,7 @@ project(dbcsr)
 
 include(CMakeDependentOption)
 
-option(USE_NDEBUG "Build with NDEBUG" OFF)
+option(USE_NDEBUG "Build with NDEBUG" ON)
 option(USE_MPI "Build with MPI support" ON)
 option(USE_OPENMP "Build with OpenMP support" ON)
 cmake_dependent_option(WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "USE_MPI" OFF) # the ISO_C_BINDINGS require MPI unconditionally
