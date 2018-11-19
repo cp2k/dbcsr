@@ -333,7 +333,7 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Builds row index array from a columns-per-row count, in-place.
-!> \param[in,out] rows        count of the number of colums per row (input);
+!> \param[in,out] rows        count of the number of columns per row (input);
 !>                            the row_p index (output)
 !> \param[in] nrows           number of rows
 ! **************************************************************************************************
@@ -356,8 +356,8 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Builds row index array from a columns-per-row count.
-!> \param[in] counts          count of the number of colums per row
-!> \param[out] rows           count of the number of colums per row (input);
+!> \param[in] counts          count of the number of columns per row
+!> \param[out] rows           count of the number of columns per row (input);
 !>                            the row_p index (output)
 !> \param[in] nrows           number of rows
 ! **************************************************************************************************
@@ -378,7 +378,7 @@ CONTAINS
    END SUBROUTINE dbcsr_build_row_index_copy
 
 ! **************************************************************************************************
-!> \brief Adds data to the index. Incleases the index size when neccessary.
+!> \brief Adds data to the index. Increases the index size when necessary.
 !> \param[in,out] matrix      bcsr matrix
 !> \param[in] slot  which index array to add (e.g., dbcsr_slot_row_blk_sizes)
 !> \param[in] DATA  (optional) array holding the index data to add to the index

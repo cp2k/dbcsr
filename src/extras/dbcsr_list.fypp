@@ -133,7 +133,7 @@ END SUBROUTINE list_${valuetype}$_destroy
 !>        If the position is out of bounds, the program stops.
 !> \param list ...
 !> \param value ...
-!> \param pos Position in the list - musst fulfill 0 < pos < list_size+1.
+!> \param pos Position in the list - must fulfill 0 < pos < list_size+1.
 !> \par History
 !>      12.2012 created [ole]
 !> \author Ole Schuett
@@ -183,7 +183,7 @@ END SUBROUTINE list_${valuetype}$_push
 !>        Values which lay behind the insertion-position move one position up.
 !> \param list ...
 !> \param value ...
-!> \param pos Position in the list - musst fulfill 0 < pos < list_size+2 .
+!> \param pos Position in the list - must fulfill 0 < pos < list_size+2 .
 !> \par History
 !>      12.2012 created [ole]
 !> \author Ole Schuett
@@ -291,7 +291,7 @@ END SUBROUTINE list_${valuetype}$_clear
 ! **************************************************************************************************
 !> \brief Returns the value at the given position from the list.
 !> \param list ...
-!> \param pos Position in the list - musst fulfill 0 < pos < list_size+1 .
+!> \param pos Position in the list - must fulfill 0 < pos < list_size+1 .
 !> \return ...
 !> \par History
 !>      12.2012 created [ole]
@@ -317,7 +317,7 @@ END FUNCTION list_${valuetype}$_get
 ! **************************************************************************************************
 !> \brief Removes the value at the given position from the list.
 !> \param list ...
-!> \param pos Position in the list - musst fulfill 0 < pos < list_size+1 .
+!> \param pos Position in the list - must fulfill 0 < pos < list_size+1 .
 !> \par History
 !>      12.2012 created [ole]
 !> \author Ole Schuett

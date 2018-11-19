@@ -152,7 +152,7 @@
            a_col = matrix_a%col_i(a_blk)
            a_col_size = a_col_blk_size(a_col)
            !
-           ! find the b_blk we assume here that the colums are ordered !
+           ! find the b_blk we assume here that the columns are ordered !
            CALL dbcsr_find_column(a_col, b_frst_blk, b_last_blk, matrix_b%col_i, &
                                   matrix_b%blk_p, b_blk, found)
            IF (found) THEN

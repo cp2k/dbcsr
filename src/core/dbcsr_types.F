@@ -174,7 +174,7 @@ MODULE dbcsr_types
 !> \var col_map               distribution map for columns
 !> \var thread_dist           thread distribution (of the rows)
 !> \var numthreads            number of threads in the environment
-!> \var mp_env                mulitprocessor environment on which the
+!> \var mp_env                multiprocessor environment on which the
 !>                            distribution is based
 !> \var refcount              reference counter
 ! **************************************************************************************************
@@ -343,7 +343,7 @@ MODULE dbcsr_types
    END TYPE dbcsr_iterator
 
 ! **************************************************************************************************
-!> \brief Data area with random acces reads, insertions, and deletions.
+!> \brief Data area with random access reads, insertions, and deletions.
 !> \var tree_s, tree_d, tree_c, tree_z  Data types for the various types
 !> \var refcount                        Reference counter
 !> \var data_type                       The data type that is stored
