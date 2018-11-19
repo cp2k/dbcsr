@@ -7,6 +7,8 @@ We support Make and CMake for compilation, please keep the build system updated 
 
 It is also appreciated to have examples (under the directory [examples](https://github.com/cp2k/dbcsr/tree/develop/examples)). They must be independent of the DBCSR compilation and only use the DBCSR API. 
 
+DBCSR developers can find additional information on the [Development](https://github.com/cp2k/dbcsr/wiki/Development) wiki page.
+
 ## Fortran Code conventions
 
 The code can be formatted with the prettify tool by running `make -j pretty`.
