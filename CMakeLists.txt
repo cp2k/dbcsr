@@ -93,6 +93,14 @@ if (Fortran_COMPILER_NAME MATCHES "gfortran.*")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -ggdb")
   set(CMAKE_Fortran_FLAGS_COVERAGE "-O0 -fprofile-arcs -ftest-coverage")
   set(F2008_COMPILER_FLAGS         "-std=f2008ts")
+
+  # on Apple we may compile with GCC Fortran, but build/link C/C++ code with Apple's clang, requiring special treatment
+  if (APPLE AND CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
+    if (CMAKE_BUILD_TYPE MATCHES Coverage)
+      # when building with coverage suppport, shared libs/executables must be explicitly linked to avoid undefined symbols
+      SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -lgcov --coverage")
+    endif ()
+  endif ()
 elseif (Fortran_COMPILER_NAME MATCHES "ifort.*")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -debug")
