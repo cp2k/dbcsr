@@ -40,17 +40,18 @@ MODULE dbcsr_block_operations
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
    IMPLICIT NONE
-#if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
-# define __LIBXSMM_TRANS
+#if defined(__LIBXSMM) && TO_VERSION(1, 10, 0)  < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
+#  define __LIBXSMM_BLOCKOPS
 #endif
-#if !defined(__MKL) && !defined(__LIBXSMM_TRANS)
-!  MKL: routines are impure, LIBXSMM: C_LOC is impure (F-standard mistake)
-#  define PURE_TCOPY PURE
-#  define PURE_TRANS PURE
+#if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
+#  define __LIBXSMM_TRANS
+#endif
+#if defined(__MKL) || defined(__LIBXSMM_TRANS) || defined(__LIBXSMM_BLOCKOPS) || !defined(NDEBUG)
+!  MKL: mkl_trans.fi header is obsolescent (use implicit "interface")
+#  define PURE_BLOCKOPS
 #else
-! MKL: mkl_trans.fi header is obsolescent (use implicit "interface")
-#  define PURE_TCOPY
-#  define PURE_TRANS
+!  MKL: routines are impure, LIBXSMM: C_LOC is impure (F-standard mistake)
+#  define PURE_BLOCKOPS PURE
 #endif
    PRIVATE
 
@@ -133,7 +134,7 @@ CONTAINS
 !> \param[in] row_size   row size of existing block
 !> \param[in] col_size   column size of existing block
 !> \param[in] lb         (optional) lower bound for destination (and source if
-!>                       not given explicity)
+!>                       not given explicitly)
 !> \param[in] source_lb  (optional) lower bound of source
 !> \param[in] scale      (optional) scale data
 !> \param[in] lb2        (optional) lower bound of 2nd dimension for target
@@ -153,9 +154,7 @@ CONTAINS
 
       INTEGER                                            :: data_size, lb2_s, lb2_t, lb_s, lb_t, &
                                                             ub_s, ub_t
-
-!   ---------------------------------------------------------------------------
-
+!     ---------------------------------------------------------------------------
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d) .OR. .NOT. ASSOCIATED(src%d)) &
             DBCSR_ABORT("Data areas must be setup.")
@@ -297,7 +296,7 @@ CONTAINS
 !> \param[in] row_size   row size of existing block
 !> \param[in] col_size   column size of existing block
 !> \param[in] lb         (optional) lower bound for destination (and source if
-!>                       not given explicity)
+!>                       not given explicitly)
 !> \param[in] source_lb  (optional) lower bound of source
 !> \param[in] scale      (optional) scale data
 ! **************************************************************************************************
@@ -314,8 +313,7 @@ CONTAINS
 
       INTEGER                                            :: data_size, lb_s, lb_t, ub_s, ub_t
 
-!   ---------------------------------------------------------------------------
-
+!     ---------------------------------------------------------------------------
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d) .OR. .NOT. ASSOCIATED(src%d)) &
             DBCSR_ABORT("Data areas must be setup.")
@@ -402,7 +400,7 @@ CONTAINS
 !> \param[in] row_size   row size of existing block
 !> \param[in] col_size   column size of existing block
 !> \param[in] lb         (optional) lower bound for destination (and source if
-!>                       not given explicity)
+!>                       not given explicitly)
 !> \param[in] lb2        (optional) lower bound of 2nd dimension for target
 !> \par History
 !> - 2010-09 [??] Copied from block_transpose?
@@ -419,9 +417,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: data_size, handle, lb2_t, lb_t, ub_t
-
-!   ---------------------------------------------------------------------------
-
+!     ---------------------------------------------------------------------------
       IF (careful_mod) CALL timeset(routineN, handle)
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d)) &
@@ -480,7 +476,7 @@ CONTAINS
 !> \param[in] row_size   row size of existing block
 !> \param[in] col_size   column size of existing block
 !> \param[in] lb         (optional) lower bound for destination (and source if
-!>                       not given explicity)
+!>                       not given explicitly)
 !> \param[in] lb2        (optional) lower bound of 2nd dimension for target
 !> \par History
 !> - 2010-09 [??] Copied from block_transpose?
@@ -496,9 +492,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: data_size, handle, lb2_t, lb_t, ub_t
-
-!   ---------------------------------------------------------------------------
-
+!     ---------------------------------------------------------------------------
       IF (careful_mod) CALL timeset(routineN, handle)
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d)) &
@@ -567,7 +561,7 @@ CONTAINS
 !> \param[in] row_size   row size of existing block
 !> \param[in] col_size   column size of existing block
 !> \param[in] lb         (optional) lower bound for destination (and source if
-!>                       not given explicity)
+!>                       not given explicitly)
 !> \param[in] lb2        (optional) lower bound of 2nd dimension for target
 !> \par History
 !> - 2010-09 [??] Copied from block_transpose?
@@ -583,9 +577,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: data_size, handle, lb2_t, lb_t, ub_t
-
-!   ---------------------------------------------------------------------------
-
+!     ---------------------------------------------------------------------------
       IF (careful_mod) CALL timeset(routineN, handle)
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d)) &
@@ -650,9 +642,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
-
-!   ---------------------------------------------------------------------------
-
+!     ---------------------------------------------------------------------------
       IF (careful_mod) &
          CALL timeset(routineN, handle)
       SELECT CASE (area%d%data_type)
@@ -681,7 +671,7 @@ CONTAINS
 !> There are no checks done for correctness!
 !> \param[in] dst        destination data area
 !> \param[in] lb         lower bound for destination (and source if
-!>                       not given explicity)
+!>                       not given explicitly)
 !> \param[in] data_size  number of elements to copy
 !> \param[in] src        source data area
 !> \param[in] source_lb  (optional) lower bound of source
@@ -703,9 +693,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: lb2_s, lb_s, ub, ub2, ub2_s, ub_s
-
-!   ---------------------------------------------------------------------------
-
+!     ---------------------------------------------------------------------------
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d) .OR. .NOT. ASSOCIATED(src%d)) &
             DBCSR_ABORT("Data areas must be setup.")
@@ -887,9 +875,7 @@ CONTAINS
 
       INTEGER                                            :: dst_d, dst_dt, handle, src_d, src_dt
       INTEGER, DIMENSION(2)                              :: dst_ub, src_ub
-
-!   ---------------------------------------------------------------------------
-
+!     ---------------------------------------------------------------------------
       CALL timeset(routineN, handle)
       !
       src_dt = dbcsr_data_get_type(src)
@@ -1063,9 +1049,7 @@ CONTAINS
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_clear_nt', &
                                      routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
-
+!     ---------------------------------------------------------------------------
       IF (tr) THEN
          CALL dbcsr_data_clear0(area, lb=lb2, ub=ub2, value=value, lb2=lb, ub2=ub)
       ELSE
@@ -1092,10 +1076,8 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: l, l2, s, u, u2
-
-!   ---------------------------------------------------------------------------
-! CALL timeset(routineN, handle)
-
+!     ---------------------------------------------------------------------------
+!     CALL timeset(routineN, handle)
       IF (.NOT. ASSOCIATED(area%d)) &
          DBCSR_ABORT("Data area must be setup.")
       IF (PRESENT(value)) THEN
@@ -1326,9 +1308,7 @@ CONTAINS
 
       INTEGER                                            :: dst_o, src_o
       LOGICAL                                            :: src_is_2d
-
-!   ---------------------------------------------------------------------------
-
+!     ---------------------------------------------------------------------------
       IF (careful_mod) THEN
          IF (dbcsr_type_2d_to_1d(dbcsr_data_get_type(dst)) /= dbcsr_type_2d_to_1d(dbcsr_data_get_type(src))) &
             DBCSR_ABORT("Incompatible data types.")
@@ -1461,9 +1441,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: n
-
-!   ---------------------------------------------------------------------------
-
+!     ---------------------------------------------------------------------------
       IF (careful_mod) THEN
          IF (dbcsr_data_get_type(block_a) /= dbcsr_data_get_type(block_a)) &
             DBCSR_ABORT("Mismatched data types.")
@@ -1514,9 +1492,7 @@ CONTAINS
 
       CHARACTER(len=*), PARAMETER :: routineN = 'block_add_anytype_bounds', &
                                      routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
-
+!     ---------------------------------------------------------------------------
       IF (careful_mod) THEN
          IF (dbcsr_data_get_type(block_a) /= dbcsr_data_get_type(block_a)) &
             DBCSR_ABORT("Mismatched data types.")

@@ -16,8 +16,8 @@
 # requires:
 # a) set the NVCC variable, e.g. NVCC = nvcc
 # b) specify -D__DBCSR_ACC in FCFLAGS variable
-# c) set the GPUVER variable, e.g. GPUVER = K20 for K20 card
-#    or GPUVER = P100 for P100 card
+# c) set the GPUVER variable, e.g. GPUVER = P100 for P100 card
+#    (possible values are K20X, K40, K80, P100)
 # d) set the NVFLAGS variable,
 #    e.g. NVFLAGS = -O3 -g -w --std=c++11
 #    in the Makefile, the -arch will be appended with the correct compute version
@@ -84,8 +84,8 @@ endif
 
 ifneq (0,$(MPI))
   ifneq (0,$(GNU)) # DEFAULT, just edit...
-    CXX = mpigxx
-    CC  = mpigcc
+    CXX = mpicxx
+    CC  = mpicc
     FC  = mpif90
     LD  = mpif90
     AR  = ar -r
@@ -209,7 +209,9 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
 FCFLAGS    += $(WFLAGS)
 
 ifeq ($(CHECKS),1)
+ifneq ($(LEAKS),0)
 FCFLAGS    += -fsanitize=leak
+endif
 FCFLAGS    += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
 endif
 
