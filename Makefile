@@ -204,13 +204,13 @@ endif
 #   extract help text from doxygen "\brief"-tag
 help:
 	@echo "=================== Default ===================="
-	@echo -e "$(LIBRARY)                     Build DBCSR library"
+	@printf "%s\n" "$(LIBRARY)                     Build DBCSR library"
 	@echo ""
 	@echo "=================== Binaries ===================="
 	@echo "all                          Builds all executables"
 	@for i in $(BIN_FILES); do \
 	basename  $$i | sed 's/^\(.*\)\..*/\1/' | awk '{printf "%-29s", $$1}'; \
-	grep "brief" $$i | head -n 1 | sed 's/^.*\\brief\s*//'; \
+	grep "brief" $$i | head -n 1 | sed 's/^.*\\brief\s*//' | awk '{$$1=$$1};1'; \
 	done
 	@echo ""
 	@echo "===================== Tools ====================="
@@ -228,19 +228,19 @@ install: $(LIBRARY)
 	@mkdir -p $(PREFIX)
 	@mkdir -p $(PREFIX)/lib
 	@mkdir -p $(PREFIX)/include
-	@echo -n "  ... library ..."
+	@printf "  ... library ..."
 	@cp $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) $(PREFIX)/lib
 	@echo " done."
 	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) install INCLUDE_DEPS=true DBCSRHOME=$(DBCSRHOME)
 	@echo "... installation done at $(PREFIX)."
 else
 install:
-	@echo -n "  ... modules ..."
+	@printf "  ... modules ..."
 	@if [[ -n "$(wildcard $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)))" ]] ; then \
 		cp $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)) $(PREFIX)/include ; \
 		echo " done." ; \
 	else echo " no modules were installed!" ; fi
-	@echo -n "  ... headers ..."
+	@printf "  ... headers ..."
 	@if [[ -n "$(PUBLICHEADERS)" ]] ; then \
 		cp $(PUBLICHEADERS) $(PREFIX)/include ; \
 		echo " done." ; \
