@@ -291,7 +291,7 @@ TOOL_HELP += "prettyclean : Remove prettify marker files"
 define pretty_func
 	@mkdir -p $(PRETTYOBJDIR)
 	@rm -f $2
-	$(TOOLSRC)/fprettify/fprettify.py -s $1 > $2
+	$(TOOLSRC)/fprettify/fprettify.py --disable-whitespace -s $1 > $2
 	@cmp -s $1 $2; \
 	RETVAL=$$?; \
 	if [ $$RETVAL -ne 0 ]; then \
