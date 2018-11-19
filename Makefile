@@ -42,7 +42,9 @@ endif
 
 # Set the compute version and NVFLAGS =======================================
 ifneq ($(NVCC),)
-ifeq ($(GPUVER),K20X)
+ifeq ($(GPUVER),K20)
+ ARCH_NUMBER = 35
+else ifeq ($(GPUVER),K20X)
  ARCH_NUMBER = 35
 else ifeq ($(GPUVER),K40)
  ARCH_NUMBER = 35
