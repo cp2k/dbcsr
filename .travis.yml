@@ -86,7 +86,7 @@ script:  # multiplied by matrix envs and os settings
   # C++ example fails with this ancient version of MPI,
   # we see all system CPUs, but can use only 1, causing nproc auto-detection to fail
   - cmake -DCMAKE_BUILD_TYPE=Coverage -DTEST_MPI_RANKS=1  -DUSE_MPI=$USE_MPI -DUSE_OPENMP=$USE_OPENMP -DUSE_SMM=$USE_SMM ..
-  - make -j
+  - make VERBOSE=1 -j
   - make CTEST_OUTPUT_ON_FAILURE=1 test
 
 jobs:  # the following jobs inherit only the first OS
