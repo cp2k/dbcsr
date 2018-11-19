@@ -826,11 +826,11 @@ class DistBCSR {
 
     /*! \brief Trace
      */
-    double trace(){
+    double trace() const {
       assert(this->dbcsr_env != nullptr);
       assert(nrow == ncol);
       double ret = 0.e0;
-      c_dbcsr_trace_a_d(&(this->dbcsr_matrix),ret);
+      c_dbcsr_trace_a_d((void**)&(this->dbcsr_matrix),ret);
       return ret;
     }
 
@@ -1364,7 +1364,7 @@ class DistBCSR {
      * @param row row-index
      *
      */
-    std::vector<double> get_row(const size_t row){
+    std::vector<double> get_row(const size_t row) const {
       assert(this->dbcsr_env != nullptr);
       std::vector<double> the_row(ncol);
       std::vector<double> loc_row(ncol);
@@ -1395,7 +1395,7 @@ class DistBCSR {
       for(int j = 0; j < (int)col_dims.size(); j++){
         int jdim = col_dims[j];
         bool found1 = false;
-        c_dbcsr_get_block_d(&dbcsr_matrix, which_row, j, block1.data(), found1, idim1, jdim);
+        c_dbcsr_get_block_d((void**)&dbcsr_matrix, which_row, j, block1.data(), found1, idim1, jdim);
         if(found1){
           for(int jj=0;jj<jdim;jj++) loc_row[jj+joff] = block1[roff+jj*idim1];
         }
@@ -1413,7 +1413,7 @@ class DistBCSR {
      * @param col column-index
      *
      */
-    std::vector<double> get_column(const size_t col){
+    std::vector<double> get_column(const size_t col) const {
       assert(this->dbcsr_env != nullptr);
       std::vector<double> the_col(nrow);
       std::vector<double> loc_col(nrow);
@@ -1444,7 +1444,7 @@ class DistBCSR {
       for(int i = 0; i < (int)row_dims.size(); i++){
         int idim = row_dims[i];
         bool found1 = false;
-        c_dbcsr_get_block_d(&dbcsr_matrix, i, which_col, block1.data(), found1, idim, jdim1);
+        c_dbcsr_get_block_d((void**)&dbcsr_matrix, i, which_col, block1.data(), found1, idim, jdim1);
         if(found1){
           for(int ii=0;ii<idim;ii++) loc_col[ii+ioff] = block1[ii+coff*idim];
         }
@@ -1513,7 +1513,7 @@ class DistBCSR {
      * @param reduce flag: return block to all mpi-processes
      *
      */
-    std::vector<double> get_block(const int blk_row, const int blk_col, bool reduce=false){
+    std::vector<double> get_block(const int blk_row, const int blk_col, bool reduce=false) const {
       assert(this->dbcsr_env != nullptr);
       std::vector<double> ret;
       int idim = row_dims[blk_row];
@@ -1523,7 +1523,7 @@ class DistBCSR {
       int blk_proc = -1;
       c_dbcsr_get_stored_coordinates(dbcsr_matrix, blk_row, blk_col, &blk_proc);
       if (blk_proc == dbcsr_env->get_rank())
-        c_dbcsr_get_block_d(&dbcsr_matrix, blk_row, blk_col, blk.data(), found, idim, jdim);
+        c_dbcsr_get_block_d((void**)&dbcsr_matrix, blk_row, blk_col, blk.data(), found, idim, jdim);
       if(found){
         if (!reduce){
           ret = blk;
@@ -1546,7 +1546,7 @@ class DistBCSR {
      * @param blk_col column block-index
      *
      */
-    bool local_block(const int blk_row, const int blk_col){
+    bool local_block(const int blk_row, const int blk_col) const {
       assert(this->dbcsr_env != nullptr);
       int blk_proc = -1;
       c_dbcsr_get_stored_coordinates(dbcsr_matrix, blk_row, blk_col, &blk_proc);
@@ -1559,27 +1559,27 @@ class DistBCSR {
 
     /*! \brief Returns DBCSR_Environment object
      */
-    std::shared_ptr<const DBCSR_Environment> get_env(){return dbcsr_env;};
+    std::shared_ptr<const DBCSR_Environment> get_env() const {return dbcsr_env;};
 
     /*! \brief Returns number of rows in dense matrix
      */
-    size_t get_nrow(){return nrow;};
+    size_t get_nrow() const {return nrow;};
 
     /*! \brief Returns number of columns in dense matrix
      */
-    size_t get_ncol(){return ncol;};
+    size_t get_ncol() const {return ncol;};
 
     /*! \brief Returns dimensions of row-blocks
      */
-    std::vector<int>& get_row_dims(){return row_dims;};
+    std::vector<int> get_row_dims() const {return row_dims;};
 
     /*! \brief Returns dimensions of column-blocks
      */
-    std::vector<int>& get_col_dims(){return col_dims;};
+    std::vector<int> get_col_dims() const {return col_dims;};
 
     /*! \brief Returns sparse-threshold
      */
-    double get_thresh(){return dbcsr_thresh;};
+    double get_thresh() const {return dbcsr_thresh;};
 
     /*! \brief Sets sparse-threshold
      *
