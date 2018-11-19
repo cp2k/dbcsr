@@ -1,3 +1,6 @@
 [submodule "tools/build_utils/fypp"]
 	path = tools/build_utils/fypp
 	url = https://github.com/aradi/fypp.git
+[submodule "tools/fprettify"]
+	path = tools/fprettify
+	url = https://github.com/pseewald/fprettify

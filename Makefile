@@ -287,15 +287,23 @@ prettyclean:
 	-rm -rf $(PRETTYOBJDIR)
 TOOL_HELP += "prettyclean : Remove prettify marker files"
 
-$(PRETTYOBJDIR)/%.pretty: %.F $(DOXIFYOBJDIR)/%.doxified
+# Pretty function, check if the file requires update
+define pretty_func
 	@mkdir -p $(PRETTYOBJDIR)
-	cd $(dir $<); $(TOOLSRC)/prettify/prettify.py --do-backup --backup-dir=$(PRETTYOBJDIR) --src-dir=$(SRCDIR) $(notdir $<)
-	@touch $@
+	@rm -f $2
+	$(TOOLSRC)/fprettify/fprettify.py -s $1 > $2
+	@cmp -s $1 $2; \
+	RETVAL=$$?; \
+	if [ $$RETVAL -ne 0 ]; then \
+	    cp $2 $1; \
+	fi
+endef
+
+$(PRETTYOBJDIR)/%.pretty: %.F $(DOXIFYOBJDIR)/%.doxified
+	$(call pretty_func, $<, $@)
 
 $(PRETTYOBJDIR)/%.pretty_included: %.f90 $(DOXIFYOBJDIR)/%.doxified_included
-	@mkdir -p $(PRETTYOBJDIR)
-	cd $(dir $<); $(TOOLSRC)/prettify/prettify.py --do-backup --backup-dir=$(PRETTYOBJDIR) --src-dir=$(SRCDIR) $(notdir $<)
-	@touch $@
+	$(call pretty_func, $<, $@)
 
 $(PRETTYOBJDIR)/%.pretty: %.c $(DOXIFYOBJDIR)/%.doxified
 #   TODO: call indent here?
