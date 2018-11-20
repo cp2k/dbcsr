@@ -665,7 +665,7 @@ class DistBCSR {
      * @param beta scaling factor
      *
      */
-    void symv(double const* x, const double alpha, double* y, const double beta){
+    void symv(double const* x, const double alpha, double* y, const double beta) const {
       assert(this->nrow == this->ncol);
       if (fabs(beta) < 1e-13) 
         for(size_t ii=0;ii<nrow;ii++) y[ii] = 0.e0;
@@ -713,7 +713,7 @@ class DistBCSR {
      * @param beta scaling factor
      *
      */
-    void symv(const std::vector<double>& x, const double alpha, std::vector<double>& y, const double beta){
+    void symv(const std::vector<double>& x, const double alpha, std::vector<double>& y, const double beta) const {
       this->symv(x.data(),alpha,y.data(),beta);
     }
 
@@ -977,11 +977,11 @@ class DistBCSR {
      * @param A input matrix
      *
      */
-    double dot(const DistBCSR& A){
+    double dot(const DistBCSR& A) const{
       assert(this->dbcsr_env != nullptr);
       assert(A.dbcsr_env != nullptr);
       double tr = 0.e0;
-      c_dbcsr_trace_ab_d(&(this->dbcsr_matrix),(dm_dbcsr*)&(A.dbcsr_matrix),tr);
+      c_dbcsr_trace_ab_d((dm_dbcsr*)&(this->dbcsr_matrix),(dm_dbcsr*)&(A.dbcsr_matrix),tr);
       return tr;
     }
 
@@ -1059,10 +1059,10 @@ class DistBCSR {
 
     /*! \brief Returns maximal absolute value of matrix
      */
-    double maxabs(){
+    double maxabs() const {
       assert(this->dbcsr_env != nullptr);
       double amv = 0.e0;
-      c_dbcsr_maxabs_d(&(this->dbcsr_matrix),&amv);
+      c_dbcsr_maxabs_d((dm_dbcsr*)&(this->dbcsr_matrix),&amv);
       return amv;
     }
 
@@ -1177,7 +1177,7 @@ class DistBCSR {
      * @param epsn estimate of max. eigenvalue [output]
      *
      */
-    void gershgorin_estimate(double& eps0, double& epsn){
+    void gershgorin_estimate(double& eps0, double& epsn) const {
       assert(this->dbcsr_env != nullptr);
       assert(nrow == ncol);
       std::vector<double> sums(nrow,0.e0);
@@ -1185,7 +1185,8 @@ class DistBCSR {
       std::vector<double> red_sums(nrow,0.e0);
       std::vector<double> red_diags(nrow,0.e0);
     
-      dbcsr::gershgorin_estimate(this->dbcsr_matrix,row_dims.data(),(int)col_dims.size(),(int)nrow,sums.data(),diags.data());
+      //dbcsr::gershgorin_estimate((dm_dbcsr)this->dbcsr_matrix,row_dims.data(),(int)col_dims.size(),(int)nrow,sums.data(),diags.data());
+      c_dbcsr_gershgorin_estimate_d((dm_dbcsr*)&(this->dbcsr_matrix),(int*)row_dims.data(),(int)col_dims.size(),(int)nrow,sums.data(),diags.data());
     
       // gather results
       MPI_Allreduce(sums.data(),red_sums.data(), ((int)nrow), MPI_DOUBLE, MPI_SUM, dbcsr_env->get_comm());
@@ -1338,11 +1339,12 @@ class DistBCSR {
      * @param tit title-string
      *
      */
-    void print(const std::string& tit){
+    void print(const std::string& tit) const {
       assert(this->dbcsr_env != nullptr);
       if (dbcsr_env->get_rank() == 0) printf("  %s\n",tit.c_str());
       MPI_Barrier(dbcsr_env->get_comm());
-      dbcsr::print(this->dbcsr_matrix);
+      //dbcsr::print((dm_dbcsr)this->dbcsr_matrix);
+      c_dbcsr_print((dm_dbcsr)this->dbcsr_matrix);
     };
 
     /*! \brief Set FORTRAN-handle
