@@ -399,7 +399,7 @@ CONTAINS
       IF (has_acc .AND. &
           flop_per_entry > dbcsr_cfg%accdrv_min_flop_process .AND. &
           (.NOT. this%avoid_accdrv) .AND. &
-          (stack_descr%defined_mnk .OR. dbcsr_cfg%accdrv_do_inhomogeneous)) THEN
+          (stack_descr%defined_mnk .OR. dbcsr_cfg%accdrv_do_inhomogenous)) THEN
          CALL dbcsr_mm_accdrv_process( &
             this%accdrv, &
             left, right, &
