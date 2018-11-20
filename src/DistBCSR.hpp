@@ -1168,7 +1168,7 @@ class DistBCSR {
       }
     };
 
-    /*! \brief Gershdoring estimate
+    /*! \brief Gershgorin estimate
      *
      * Returns estimate of min/max eigenvalues of matrix
      * based on Gershgorin discs
@@ -1216,6 +1216,17 @@ class DistBCSR {
 
     }
 
+    /*! \brief Gershgorin estimate
+     *
+     * Returns estimate of min/max eigenvalues of matrix
+     * based on Gershgorin discs (py)
+     *
+     */
+    std::vector<double>  gershgorin_estimate() const {
+      std::vector<double> epsv(2,0.e0);
+      this->gershgorin_estimate(epsv[0],epsv[1]);
+      return epsv;
+    }
 
     // todo: transpose,...
 
