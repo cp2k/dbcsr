@@ -152,7 +152,7 @@
            a_col = matrix_a%col_i(a_blk)
            a_col_size = a_col_blk_size(a_col)
            !
-           ! find the b_blk we assume here that the colums are ordered !
+           ! find the b_blk we assume here that the columns are ordered !
            CALL dbcsr_find_column(a_col, b_frst_blk, b_last_blk, matrix_b%col_i, &
                                   matrix_b%blk_p, b_blk, found)
            IF (found) THEN
@@ -262,7 +262,7 @@
         IF (dbcsr_get_data_type(matrix) /= ${dkind1}$) &
            DBCSR_ABORT("Incompatible data types")
 
-        !TODO: could be speedup by direct assigment to data_area, similar to dbcsr_zero()
+        !TODO: could be speedup by direct assignment to data_area, similar to dbcsr_zero()
         CALL dbcsr_iterator_start(iter, matrix)
         DO WHILE (dbcsr_iterator_blocks_left(iter))
            CALL dbcsr_iterator_next_block(iter, row, col, block, tr)

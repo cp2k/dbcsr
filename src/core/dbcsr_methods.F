@@ -157,7 +157,7 @@ CONTAINS
    END SUBROUTINE dbcsr_destroy
 
 ! **************************************************************************************************
-!> \brief Releases and potentially destrops a distribution
+!> \brief Releases and potentially destroys a distribution
 !> \param dist ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_release(dist)
@@ -219,7 +219,7 @@ CONTAINS
    END SUBROUTINE dbcsr_dist_release_locals
 
 ! **************************************************************************************************
-!> \brief Releases and potentially destrops an mp_env
+!> \brief Releases and potentially destroys an mp_env
 !> \param[in,out] mp_env         multiprocessor environment
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mp_release(mp_env)
@@ -697,7 +697,7 @@ CONTAINS
 !
 !
 !! **************************************************************************************************
-!!> \brief Returns whether the data area uses speciall-allocated memory
+!!> \brief Returns whether the data area uses special-allocated memory
 !!> \param[in] data_area       query this data area
 !!> \param[out] uses_special   whether the data area uses specially allocated
 !!>                            memory
@@ -802,7 +802,7 @@ CONTAINS
 ! **************************************************************************************************
 
 ! **************************************************************************************************
-!> \brief Releases all matrices in a 1-d arrray.
+!> \brief Releases all matrices in a 1-d array.
 !> \param[in,out] marray      matrix array
 ! **************************************************************************************************
    SUBROUTINE dbcsr_destroy_1d_array(marray)
@@ -823,7 +823,7 @@ CONTAINS
    END SUBROUTINE dbcsr_destroy_1d_array
 
 ! **************************************************************************************************
-!> \brief Releases all matrices in 2-d arrray.
+!> \brief Releases all matrices in 2-d array.
 !> \param[in,out] marray      matrix array
 ! **************************************************************************************************
    SUBROUTINE dbcsr_destroy_2d_array(marray)
@@ -968,7 +968,7 @@ CONTAINS
    END SUBROUTINE dbcsr_mutable_destroy
 
 ! **************************************************************************************************
-!> \brief Deregisters a reference to the mutable data type
+!> \brief Unregisters a reference to the mutable data type
 !>
 !> The object is destroy when there is no reference to it left.
 !> \param[in,out] mutable     mutable data
@@ -1022,7 +1022,7 @@ CONTAINS
    END SUBROUTINE dbcsr_mutable_new
 
 ! **************************************************************************************************
-!> \brief Deregisters a reference to the mutable data type
+!> \brief Unregisters a reference to the mutable data type
 !>
 !> The object is destroy when there is no reference to it left.
 !> \param[in] mutable         mutable data

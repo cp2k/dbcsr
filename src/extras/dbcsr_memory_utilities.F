@@ -516,7 +516,7 @@ $: reallocate(rank=1)
 !>      none
 !> \author Matthias Krack (18.07.2002,MK)
 !> \note
-!>      (Maybe outdated) This routine doesnt work on SUN/Solaris!!!
+!>      (Maybe outdated) This routine does not work on SUN/Solaris!!!
 !>                       It should probably not be used. (Thomas Chassaing)
 ! **************************************************************************************************
    SUBROUTINE reallocate_s1(p_short, lb_new, ub_new, p_long)
@@ -549,7 +549,7 @@ $: reallocate(rank=1)
 !> \author Thomas Chassaing
 !> \author Matthias Krack (18.07.2002,MK)
 !> \note
-!>      (Maybe outdated) This routine doesnt work on SUN/Solaris!!!
+!>      (Maybe outdated) This routine does not work on SUN/Solaris!!!
 !>                       It should probably not be used. (Thomas Chassaing)
 ! **************************************************************************************************
    SUBROUTINE reallocate_ss1(p, lb1_new, ub1_new)
@@ -577,7 +577,7 @@ $: reallocate(rank=1)
 !>      none
 !> \author Matthias Krack (18.07.2002,MK)
 !> \note
-!>      (Maybe outdated) This routine doesnt work on SUN/Solaris!!!
+!>      (Maybe outdated) This routine does not work on SUN/Solaris!!!
 !>                       It should probably not be used. (Thomas Chassaing)
 ! **************************************************************************************************
    SUBROUTINE reallocate_ls1(p, lb1_new, ub1_new)

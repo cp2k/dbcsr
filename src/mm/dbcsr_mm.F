@@ -515,7 +515,7 @@ CONTAINS
          IF (dbcsr_get_matrix_type(matrix_a) .EQ. dbcsr_type_antisymmetric) THEN
             !
             ! For antisymmetric matrix, we need to do a hard copy
-            ! shallow_data_copy=.TRUE. doesnt handle properly antisymm matrices
+            ! shallow_data_copy=.TRUE. does not handle properly antisymm matrices
             CALL dbcsr_new_transposed(matrix_left, matrix_a, &
                                       shallow_data_copy=.FALSE., redistribute=.FALSE., &
                                       transpose_distribution=.FALSE.)
@@ -545,7 +545,7 @@ CONTAINS
          IF (dbcsr_get_matrix_type(matrix_b) .EQ. dbcsr_type_antisymmetric) THEN
             !
             ! For antisymmetric matrix, we need to do a hard copy
-            ! shallow_data_copy=.TRUE. doesnt handle properly antisymm matrices
+            ! shallow_data_copy=.TRUE. does not handle properly antisymm matrices
             CALL dbcsr_new_transposed(matrix_right, matrix_b, &
                                       shallow_data_copy=.FALSE., redistribute=.FALSE., &
                                       transpose_distribution=.FALSE.)
@@ -679,7 +679,7 @@ CONTAINS
       ! Product data needs to be retained when
       ! * beta != 0; or
       ! * there is column limiting (l_col > 0) and the limiting column
-      !   is less than the number of full columns in theproduct matrix
+      !   is less than the number of full columns in the product matrix
       keep_sparsity = .FALSE.
       IF (PRESENT(retain_sparsity)) keep_sparsity = retain_sparsity
       !

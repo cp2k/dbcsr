@@ -342,7 +342,7 @@ CONTAINS
       IF (PRESENT(col_blk_offset)) THEN
          IF (dbcsr_distribution_ncols(dist) + 1 /= array_size(col_blk_offset)) &
             CALL dbcsr_abort(__LOCATION__, &
-                             "Number of blocked offset columns does match blocked colum distribution.")
+                             "Number of blocked offset columns does match blocked column distribution.")
          matrix%col_blk_offset = col_blk_offset
          CALL array_hold(matrix%col_blk_offset)
       ELSE
@@ -903,7 +903,7 @@ CONTAINS
 !$OMP     BARRIER
       can_quick = can_quickly_finalize(matrix)
 !$OMP     BARRIER
-      ! If the matrix, work matricies, and environment fit several
+      ! If the matrix, work matrices, and environment fit several
       ! criteria, then a quick O(1) finalization is performed.
       IF (can_quick .AND. .NOT. sort_data) THEN
          CALL quick_finalize(matrix)
@@ -1038,7 +1038,7 @@ CONTAINS
       can_quick = can_quickly_finalize(matrix)
 !$OMP     BARRIER
 
-      ! If the matrix, work matricies, and environment fit several
+      ! If the matrix, work matrices, and environment fit several
       ! criteria, then a quick O(1) finalization is performed.
       IF (can_quick .AND. .NOT. sort_data) THEN
          CALL quick_finalize(matrix)

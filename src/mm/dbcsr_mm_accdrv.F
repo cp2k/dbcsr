@@ -217,7 +217,7 @@ CONTAINS
       IF (PRESENT(nlayers)) my_nlayers = nlayers
       CALL dbcsr_mempool_limit_capacity(thread_privates%memtype_cbuffer%pool, capacity=my_nlayers)
 
-      ! Setup things for this particular multipcation
+      ! Setup things for this particular multiplication
       !------------------------------------------------------------------------
       this%product_wm => product_wm
       c_area = this%product_wm%data_area
@@ -517,7 +517,7 @@ CONTAINS
    END SUBROUTINE dbcsr_mm_accdrv_phaseout
 
 ! **************************************************************************************************
-!> \brief After beeing called by ALL threads, it installs a special barrier that
+!> \brief After being called by ALL threads, it installs a special barrier that
 !>        forces the priority-streams to wait for the normal-streams.
 !> \author Ole Schuett
 ! **************************************************************************************************

@@ -691,7 +691,7 @@ sub processSubroutineDefinition {
             print $OUTPUT $notes;
         }
         if ($remainders ne $EMPTY) {
-            # Dumps out whatever else remainded in the header (e.g. stuff begining !> without a \ or stuff beginning with just a !) for the SUBROUTINE/FUNCTION at the end
+            # Dumps out whatever else remainded in the header (e.g. stuff beginning !> without a \ or stuff beginning with just a !) for the SUBROUTINE/FUNCTION at the end
             print $OUTPUT $remainders;
         }
         print $OUTPUT "! **************************************************************************************************\n";

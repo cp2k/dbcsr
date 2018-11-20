@@ -152,7 +152,7 @@ CONTAINS
       IF (has_acc) & !for cpu-only runs this is called too often
          CALL timeset(routineN, error_handle)
 
-      success = .TRUE. !host driver never failes...hopefully
+      success = .TRUE. !host driver never fails...hopefully
       used_smm = .FALSE.
 
       IF (dbg) THEN

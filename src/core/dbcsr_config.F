@@ -457,7 +457,7 @@ CONTAINS
             WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
                "DBCSR| ACC: Avoid driver after busy ", dbcsr_cfg%accdrv_avoid_after_busy
             WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
-               "DBCSR| ACC: Process inhomogenous stacks", dbcsr_cfg%accdrv_do_inhomogenous
+               "DBCSR| ACC: Process inhomogeneous stacks", dbcsr_cfg%accdrv_do_inhomogenous
             WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
                "DBCSR| ACC: Min. flop for processing", dbcsr_cfg%accdrv_min_flop_process
             IF (dbcsr_cfg%accdrv_stack_sort) THEN

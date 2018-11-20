@@ -487,7 +487,7 @@ CONTAINS
                              SUM(recv_count(imeta, :)), &
                              SUM(recv_count(idata, :)), n=1, &
                              work_mutable=.FALSE.)
-      ! Switch data data area of the work matrix with the receieved data
+      ! Switch data data area of the work matrix with the received data
       ! (avoids copying).
       CALL dbcsr_data_hold(recv_data)
       CALL dbcsr_data_release(desm%wms(1)%data_area)
@@ -623,7 +623,7 @@ CONTAINS
             ENDIF
          ENDDO
          CALL dbcsr_iterator_stop(iter)
-         ! Preallocate the erray
+         ! Preallocate the array
          CALL dbcsr_work_create(distributed, nblks_guess=nblks, &
                                 sizedata_guess=nze, work_mutable=.FALSE.)
          ! Now actually do the work

@@ -325,7 +325,7 @@ CONTAINS
       n_nbins = dbcsr_mp_npcols(product_dist%d%mp_env)
       k_nbins = dbcsr_mp_nprows(right_rdist%i%main%d%mp_env)*right_rdist%i%row_decimation
       IF (.NOT. array_equality(old_k_vdist, left_rdist%i%vcol_dist)) &
-         DBCSR_ABORT("k distribution mismtach")
+         DBCSR_ABORT("k distribution mismatch")
       nthreads = product_dist%d%num_threads
       !
       IF (partial) THEN
@@ -548,9 +548,9 @@ CONTAINS
    END SUBROUTINE dbcsr_get_local_vrows
 
 ! **************************************************************************************************
-!> \brief Determines mapping from local to global virtual process columnss
+!> \brief Determines mapping from local to global virtual process columns
 !> \param[in] imgdist           image distribution
-!> \param[out] local_vcols       local columnss
+!> \param[out] local_vcols       local columns
 !> \param[in] local_vpcol       the local virtual process column
 ! **************************************************************************************************
    SUBROUTINE dbcsr_get_local_vcols(imgdist, local_vcols, local_vpcol)
@@ -929,9 +929,9 @@ CONTAINS
    END SUBROUTINE dbcsr_get_global_vrow_map
 
 ! **************************************************************************************************
-!> \brief Determines mapping from global to virtual local columnss
+!> \brief Determines mapping from global to virtual local columns
 !> \param[in] imgdist           mapping for this image distribution
-!> \param[in] vcol_map           mapping to local columnss
+!> \param[in] vcol_map           mapping to local columns
 ! **************************************************************************************************
    SUBROUTINE dbcsr_get_global_vcol_map(imgdist, vcol_map)
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
@@ -991,7 +991,7 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Makes new distribution with decimation and multiplicity
-!>        Multiplicity is beeing ignored, maybe this is a bug
+!>        Multiplicity is being ignored, maybe this is a bug
 !> \param[out] images        new image distribution
 !> \param[in] my_bins        Basis for the new images
 !> \param[in] nbins          number of bins in the new real distribution

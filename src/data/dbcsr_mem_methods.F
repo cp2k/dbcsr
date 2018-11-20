@@ -58,7 +58,7 @@ CONTAINS
       IF (ASSOCIATED(pool)) DBCSR_ABORT("pool already allocated")
       ALLOCATE (pool)
 !$    CALL OMP_INIT_LOCK(pool%lock)
-      ALLOCATE (pool%root) !root allways allocated, but unsused. Simplifies looping.
+      ALLOCATE (pool%root) !root always allocated, but unused. Simplifies looping.
    END SUBROUTINE dbcsr_mempool_create
 
 ! **************************************************************************************************

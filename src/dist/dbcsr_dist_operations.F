@@ -436,7 +436,7 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Evenly distributes elements into bins
 !> \param[out] array          elements to bin
-!> \param[in] nbins           number of bins into which elemnts are distributed
+!> \param[in] nbins           number of bins into which elements are distributed
 ! **************************************************************************************************
    PURE SUBROUTINE evenly_bin(array, nbins)
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: array
@@ -477,9 +477,9 @@ CONTAINS
 !>      new block to map into and the second element tells you into
 !>      how many new blocks N you have to map.  You then look up rows
 !>      F to F+N-1 in ints. The first block tells you into which block
-!>      it is mapped and the secend element tells you how many
+!>      it is mapped and the second element tells you how many
 !>      elements they have in common. The third element specifies the
-!>      offset of the intesection in the old block while the fourth
+!>      offset of the intersection in the old block while the fourth
 !>      specifies the offset of the intersection in the new block.
 !> \par History
 !>      UB [2009] Created
@@ -629,7 +629,7 @@ CONTAINS
 !> \brief Determines mapping from local to global rows
 !> \param[in] dist              mapping for this distribution
 !> \param[in] local_rows        local elements for specified row
-!> \param[in] local_prow find local elemnts for this local row
+!> \param[in] local_prow find local elements for this local row
 ! **************************************************************************************************
    SUBROUTINE dbcsr_get_local_rows(dist, local_rows, local_prow)
       TYPE(dbcsr_distribution_obj), INTENT(INOUT)        :: dist
@@ -675,10 +675,10 @@ CONTAINS
    END SUBROUTINE dbcsr_get_local_rows
 
 ! **************************************************************************************************
-!> \brief Determines mapping from local to global columnss
+!> \brief Determines mapping from local to global columns
 !> \param[in] dist              mapping for this distribution
 !> \param[in] local_cols        local elements for specified column
-!> \param[in] local_pcol         find local elemnts for this local column
+!> \param[in] local_pcol         find local elements for this local column
 ! **************************************************************************************************
    SUBROUTINE dbcsr_get_local_cols(dist, local_cols, local_pcol)
       TYPE(dbcsr_distribution_obj), INTENT(INOUT)        :: dist

@@ -18,7 +18,7 @@
 !>      JGH (22-Mar-2001): New routines mp_comm_dup
 !>      fawzi (04-NOV-2004): storable performance info (for f77 interface)
 !>      Wrapper routine for mpi_gatherv added (22.12.2005,MK)
-!>      JGH (13-Feb-2006): Flexibel precision
+!>      JGH (13-Feb-2006): Flexible precision
 !>      JGH (15-Feb-2006): single precision mp_alltoall
 !> \author JGH
 ! **************************************************************************************************
@@ -232,7 +232,7 @@ MODULE dbcsr_mpiwrap
    END INTERFACE
 
    !
-   ! interfaces to deal easily with scalars / vectors / matrice / ...
+   ! interfaces to deal easily with scalars / vectors / matrices / ...
    ! of the different types (integers, doubles, logicals, characters)
    !
    INTERFACE mp_minloc
@@ -779,7 +779,7 @@ CONTAINS
 !> \par History
 !>      1.2012 created [ Christiane Pousa ]
 !> \note
-!>      should only be called once, st very begining of CP2K run
+!>      should only be called once, at very beginning of CP2K run
 ! **************************************************************************************************
    SUBROUTINE mp_reordering(mp_comm, mp_new_comm, ranks_order)
       INTEGER, INTENT(IN)                      :: mp_comm
@@ -2014,7 +2014,7 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief splits the given communicator in group in subgroups trying to organize
 !>      them in a way that the communication within each subgroup is
-!>      efficent (but not necessarily the comunication between subgroups)
+!>      efficent (but not necessarily the communication between subgroups)
 !> \param comm the mpi communicator that you want to split
 !> \param sub_comm the communicator for the subgroup (created, needs to be freed later)
 !> \param ngroups actual number of groups
@@ -2140,14 +2140,14 @@ CONTAINS
    END SUBROUTINE mp_comm_split
 
 ! **************************************************************************************************
-!> \brief probes for an incomming message with any tag
-!> \param[inout] source the source of the possible incomming message,
+!> \brief probes for an incoming message with any tag
+!> \param[inout] source the source of the possible incoming message,
 !>        if MP_ANY_SOURCE it is a blocking one and return value is the source
-!>        of the next incomming message
+!>        of the next incoming message
 !>        if source is a different value it is a non-blocking probe retuning
-!>        MP_ANY_SOURCE if there is no incomming message
+!>        MP_ANY_SOURCE if there is no incoming message
 !> \param[in] comm the communicator
-!> \param[out] tag the tag of the incomming message
+!> \param[out] tag the tag of the incoming message
 !> \author Mandes
 ! **************************************************************************************************
    SUBROUTINE mp_probe(source, comm, tag)
@@ -2317,7 +2317,7 @@ CONTAINS
    END SUBROUTINE mp_isend_bv
 
 ! **************************************************************************************************
-!> \brief Non-blocking recieve of logical vector data
+!> \brief Non-blocking receive of logical vector data
 !> \param msgout the received message
 !> \param source the source processor
 !> \param comm  the communicator object
@@ -2523,7 +2523,7 @@ CONTAINS
       CALL mp_bcast(msglen, source, gid)
       ! this is a workaround to avoid problems on the T3E
       ! at the moment we have a data alignment error when trying to
-      ! broadcats characters on the T3E (not always!)
+      ! broadcast characters on the T3E (not always!)
       ! JH 19/3/99 on galileo
       ! CALL mpi_bcast(msg,msglen,MPI_CHARACTER,source,gid,ierr)
       ALLOCATE (imsg(1:msglen))
@@ -2572,7 +2572,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mp_environ(numtask, taskid, gid)
       msgsiz = SIZE(msg)
-      ! Determine size of the minimum array of integers to bradcast the string
+      ! Determine size of the minimum array of integers to broadcast the string
       ALLOCATE (imsglen(1:msgsiz))
       DO j = 1, msgsiz
          IF (taskid == source) imsglen(j) = LEN_TRIM(msg(j))
@@ -2581,7 +2581,7 @@ CONTAINS
       msglen = SUM(imsglen)
       ! this is a workaround to avoid problems on the T3E
       ! at the moment we have a data alignment error when trying to
-      ! broadcats characters on the T3E (not always!)
+      ! broadcast characters on the T3E (not always!)
       ! JH 19/3/99 on galileo
       ! CALL mpi_bcast(msg,msglen,MPI_CHARACTER,source,gid,ierr)
       ALLOCATE (imsg(1:msglen))
@@ -3115,7 +3115,7 @@ CONTAINS
 !> \par MPI-I/O mapping  mpi_file_open
 !> \par STREAM-I/O mapping  OPEN
 !>
-!> \param[in](optinal) info   info object
+!> \param[in](optional) info   info object
 !> \par History
 !>      11.2012 created [Hossein Bani-Hashemian]
 ! **************************************************************************************************
@@ -3170,10 +3170,10 @@ CONTAINS
    END SUBROUTINE mp_file_open
 
 ! **************************************************************************************************
-!> \brief Deletes a file. Auxialiry routine to emulate 'replace' action for mp_file_open.
+!> \brief Deletes a file. Auxiliary routine to emulate 'replace' action for mp_file_open.
 !>        Only the master processor should call this routine.
 !> \param[in] filepath   path to the file
-!> \param[in](optinal) info   info object
+!> \param[in](optional) info   info object
 !> \par History
 !>      11.2017 created [Nico Holmberg]
 ! **************************************************************************************************
@@ -3283,7 +3283,7 @@ CONTAINS
 !>        (serial) Unformatted stream write
 !> \param[in] fh     file handle (file storage unit)
 !> \param[in] offset file offset (position)
-!> \param[in] msg    data to be writen to the file
+!> \param[in] msg    data to be written to the file
 !> \param msglen ...
 !> \par MPI-I/O mapping   mpi_file_write_at
 !> \par STREAM-I/O mapping   WRITE
@@ -3710,7 +3710,7 @@ CONTAINS
 !> \brief Uses a previously created indexed MPI character type to tell the MPI processes
 !>        how to partition (set_view) an opened file
 !> \param fh      the file handle associated with the input file
-!> \param offset  global offset determing where the relevant data begins
+!> \param offset  global offset determining where the relevant data begins
 !> \param type_descriptor container for the MPI type
 !> \author Nico Holmberg [05.2017]
 ! **************************************************************************************************
@@ -3922,7 +3922,7 @@ CONTAINS
             ! Try to open new file for writing, crash if file already exists
             amode = amode + file_amode_create + file_amode_excl
          CASE ("UNKNOWN")
-            ! Open file for writing and create it if file doesnt exist
+            ! Open file for writing and create it if file does not exist
             amode = amode + file_amode_create
             SELECT CASE (position)
             CASE ("APPEND")
@@ -3975,7 +3975,7 @@ CONTAINS
             ! Try to open new file, crash if file already exists
             amode = amode + file_amode_create + file_amode_excl
          CASE ("UNKNOWN")
-            ! Open file and create it if file doesnt exist
+            ! Open file and create it if file does not exist
             amode = amode + file_amode_create
             SELECT CASE (position)
             CASE ("APPEND")

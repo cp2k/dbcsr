@@ -185,7 +185,7 @@ void cusmm_dnt_largeDB1(const int* param_stack, const int stack_size,
   double myc[M * N];
 
   /* Arrays in shared memory
-   * buff: shared memory buffer containing the elemnts of P_c to be written from regs to smem in slabs */
+   * buff: shared memory buffer containing the elements of P_c to be written from regs to smem in slabs */
   __shared__ double buff[buff_size];
 
   /* param_stack_s: shared memory buffer containing the stack entries this thread should process

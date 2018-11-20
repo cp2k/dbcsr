@@ -27,7 +27,7 @@
 !> \param[in,out] array       array to verify and possibly resize
 !> \param[in] lb    (optional) desired array lower bound
 !> \param[in] ub    desired array upper bound
-!> \param[in] factor          (optional) factor by which to exagerrate
+!> \param[in] factor          (optional) factor by which to exaggerate
 !>                            enlargements
 !> \param[in] nocopy          (optional) copy array on enlargement; default
 !>                            is to copy

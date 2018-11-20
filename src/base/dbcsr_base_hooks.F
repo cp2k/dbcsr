@@ -29,7 +29,7 @@ MODULE dbcsr_base_hooks
    !API
    PUBLIC :: dbcsr__a, dbcsr__b, dbcsr__w, dbcsr__l
 
-   ! this interface (with subroutines in it) musst to be defined right before
+   ! this interface (with subroutines in it) must to be defined right before
    ! the regular subroutines/functions - otherwise prettify.py will screw up.
    INTERFACE
       SUBROUTINE dbcsr_abort_interface(location, message)

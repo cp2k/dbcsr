@@ -248,7 +248,7 @@ $:fct
 
       idx = MOD(hash, INT(size(dict%buckets), KIND=int_8)) + 1
 
-      ! if allready in dict just update its value
+      ! if already in dict just update its value
       item => dict%buckets(idx)%p
       do while (ASSOCIATED(item))
          IF (item%hash == hash) THEN
@@ -368,7 +368,7 @@ $:fct
 
 ! **************************************************************************************************
 !> \brief Remove the value for a given key from the dictionary.
-!>        If the key is not found the proigram stops.
+!>        If the key is not found the program stops.
 !> \param dict ...
 !> \param key ...
 !> \par History
@@ -502,8 +502,8 @@ $:fct
 
 ! **************************************************************************************************
 !> \brief Copies all key/values-items from one dictionary to another.
-!>        Afterards dict will contain all items from the from_dict and
-!>        additionaly all its previous items, which were not overwritten.
+!>        Afterwards dict will contain all items from the from_dict and
+!>        additionally all its previous items, which were not overwritten.
 !>        The two dictionaries have to be of the same type.
 !> \param dict destination of items
 !> \param from_dict source of items - will not be change
