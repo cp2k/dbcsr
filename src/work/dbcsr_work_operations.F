@@ -903,7 +903,7 @@ CONTAINS
 !$OMP     BARRIER
       can_quick = can_quickly_finalize(matrix)
 !$OMP     BARRIER
-      ! If the matrix, work matricies, and environment fit several
+      ! If the matrix, work matrices, and environment fit several
       ! criteria, then a quick O(1) finalization is performed.
       IF (can_quick .AND. .NOT. sort_data) THEN
          CALL quick_finalize(matrix)
@@ -1038,7 +1038,7 @@ CONTAINS
       can_quick = can_quickly_finalize(matrix)
 !$OMP     BARRIER
 
-      ! If the matrix, work matricies, and environment fit several
+      ! If the matrix, work matrices, and environment fit several
       ! criteria, then a quick O(1) finalization is performed.
       IF (can_quick .AND. .NOT. sort_data) THEN
          CALL quick_finalize(matrix)
