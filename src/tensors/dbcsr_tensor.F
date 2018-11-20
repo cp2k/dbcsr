@@ -598,7 +598,7 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Split tensor blocks into smaller blocks of maximum size PRODUCT(block_sizes).
 !> \param tensor_in Input tensor
-!> \param tensor_out Output tensor (splitted blocks)
+!> \param tensor_out Output tensor (split blocks)
 !> \param block_sizes block sizes for each of the tensor dimensions
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_split_blocks(tensor_in, tensor_out, block_sizes)

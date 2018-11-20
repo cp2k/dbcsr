@@ -118,7 +118,7 @@ MODULE dbcsr_config
       INTEGER  :: accdrv_min_flop_process = 0
       LOGICAL  :: accdrv_stack_sort = .TRUE.
       INTEGER  :: accdrv_min_flop_sort = 4000
-      LOGICAL  :: accdrv_do_inhomogenous = .TRUE.
+      LOGICAL  :: accdrv_do_inhomogeneous = .TRUE.
       INTEGER  :: accdrv_binning_nbins = 4096
       INTEGER  :: accdrv_binning_binsize = 16
    END TYPE dbcsr_config_type
@@ -161,7 +161,7 @@ CONTAINS
 !> \param accdrv_min_flop_process ...
 !> \param accdrv_stack_sort ...
 !> \param accdrv_min_flop_sort ...
-!> \param accdrv_do_inhomogenous ...
+!> \param accdrv_do_inhomogeneous ...
 !> \param accdrv_binning_nbins ...
 !> \param accdrv_binning_binsize ...
 ! **************************************************************************************************
@@ -186,7 +186,7 @@ CONTAINS
       accdrv_min_flop_process, &
       accdrv_stack_sort, &
       accdrv_min_flop_sort, &
-      accdrv_do_inhomogenous, &
+      accdrv_do_inhomogeneous, &
       accdrv_binning_nbins, &
       accdrv_binning_binsize)
 !
@@ -205,7 +205,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: accdrv_min_flop_process
       LOGICAL, INTENT(IN), OPTIONAL                      :: accdrv_stack_sort
       INTEGER, INTENT(IN), OPTIONAL                      :: accdrv_min_flop_sort
-      LOGICAL, INTENT(IN), OPTIONAL                      :: accdrv_do_inhomogenous
+      LOGICAL, INTENT(IN), OPTIONAL                      :: accdrv_do_inhomogeneous
       INTEGER, INTENT(IN), OPTIONAL                      :: accdrv_binning_nbins, &
                                                             accdrv_binning_binsize
 
@@ -227,7 +227,7 @@ CONTAINS
       IF (PRESENT(accdrv_min_flop_process)) dbcsr_cfg%accdrv_min_flop_process = accdrv_min_flop_process
       IF (PRESENT(accdrv_stack_sort)) dbcsr_cfg%accdrv_stack_sort = accdrv_stack_sort
       IF (PRESENT(accdrv_min_flop_sort)) dbcsr_cfg%accdrv_min_flop_sort = accdrv_min_flop_sort
-      IF (PRESENT(accdrv_do_inhomogenous)) dbcsr_cfg%accdrv_do_inhomogenous = accdrv_do_inhomogenous
+      IF (PRESENT(accdrv_do_inhomogeneous)) dbcsr_cfg%accdrv_do_inhomogeneous = accdrv_do_inhomogeneous
       IF (PRESENT(accdrv_binning_nbins)) dbcsr_cfg%accdrv_binning_nbins = accdrv_binning_nbins
       IF (PRESENT(accdrv_binning_binsize)) dbcsr_cfg%accdrv_binning_binsize = accdrv_binning_binsize
 
@@ -297,7 +297,7 @@ CONTAINS
 !> \param accdrv_min_flop_process ...
 !> \param accdrv_stack_sort ...
 !> \param accdrv_min_flop_sort ...
-!> \param accdrv_do_inhomogenous ...
+!> \param accdrv_do_inhomogeneous ...
 !> \param accdrv_binning_nbins ...
 !> \param accdrv_binning_binsize ...
 ! **************************************************************************************************
@@ -321,7 +321,7 @@ CONTAINS
       accdrv_min_flop_process, &
       accdrv_stack_sort, &
       accdrv_min_flop_sort, &
-      accdrv_do_inhomogenous, &
+      accdrv_do_inhomogeneous, &
       accdrv_binning_nbins, &
       accdrv_binning_binsize)
 !
@@ -339,7 +339,7 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL                     :: accdrv_min_flop_process
       LOGICAL, INTENT(OUT), OPTIONAL                     :: accdrv_stack_sort
       INTEGER, INTENT(OUT), OPTIONAL                     :: accdrv_min_flop_sort
-      LOGICAL, INTENT(OUT), OPTIONAL                     :: accdrv_do_inhomogenous
+      LOGICAL, INTENT(OUT), OPTIONAL                     :: accdrv_do_inhomogeneous
       INTEGER, INTENT(OUT), OPTIONAL                     :: accdrv_binning_nbins, &
                                                             accdrv_binning_binsize
 
@@ -364,7 +364,7 @@ CONTAINS
       IF (PRESENT(accdrv_min_flop_process)) accdrv_min_flop_process = default_cfg%accdrv_min_flop_process
       IF (PRESENT(accdrv_stack_sort)) accdrv_stack_sort = default_cfg%accdrv_stack_sort
       IF (PRESENT(accdrv_min_flop_sort)) accdrv_min_flop_sort = default_cfg%accdrv_min_flop_sort
-      IF (PRESENT(accdrv_do_inhomogenous)) accdrv_do_inhomogenous = default_cfg%accdrv_do_inhomogenous
+      IF (PRESENT(accdrv_do_inhomogeneous)) accdrv_do_inhomogeneous = default_cfg%accdrv_do_inhomogeneous
       IF (PRESENT(accdrv_binning_nbins)) accdrv_binning_nbins = default_cfg%accdrv_binning_nbins
       IF (PRESENT(accdrv_binning_binsize)) accdrv_binning_binsize = default_cfg%accdrv_binning_binsize
 
@@ -457,7 +457,7 @@ CONTAINS
             WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
                "DBCSR| ACC: Avoid driver after busy ", dbcsr_cfg%accdrv_avoid_after_busy
             WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
-               "DBCSR| ACC: Process inhomogenous stacks", dbcsr_cfg%accdrv_do_inhomogenous
+               "DBCSR| ACC: Process inhomogeneous stacks", dbcsr_cfg%accdrv_do_inhomogeneous
             WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
                "DBCSR| ACC: Min. flop for processing", dbcsr_cfg%accdrv_min_flop_process
             IF (dbcsr_cfg%accdrv_stack_sort) THEN

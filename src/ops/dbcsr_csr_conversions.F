@@ -886,7 +886,7 @@ CONTAINS
 !> \param[in] dist_format     how to distribute CSR rows over processes:
 !>                            csr_dbcsr_blkrow_dist: the number of rows per process
 !>                            is adapted to the row block sizes in the DBCSR format
-!>                            such that blocks are not splitted over different processes.
+!>                            such that blocks are not split over different processes.
 !>                            csr_eqrow_ceil_dist: each process holds ceiling(N/P) CSR rows.
 !>                            csr_eqrow_floor_dist: each process holds floor(N/P) CSR rows.
 !> \param[in] csr_sparsity    DBCSR matrix containing 0 and 1, representing CSR sparsity pattern

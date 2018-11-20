@@ -180,7 +180,7 @@ CONTAINS
                                          acc_stream_cptr(stream))
          ELSE
             ! Only uniform stacks, otherwise we have to check
-            ! the transposity for each block
+            ! the transpose flag for each block
             IF (mnk .EQ. 1) THEN
                istat = cublas_dgemm_loop_cu(cublas_handles(ithread + 1)%handle_ptr, &
                                             'N', 'N', &

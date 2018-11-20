@@ -308,7 +308,7 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Makes column-based and row-based images of a matrix.
 !> \param[in] ism input symmetric matrix
-!> \param[in,out] ums         normalied matrices
+!> \param[in,out] ums         normalized matrices
 !> \param[in] target_imgdist  image distribution to normalize to
 !> \param[in] desymmetrize    (optional) desymmetrize a symmetric matrix
 !> \param[in] predistribute   (optional) predistribute data for multiplication
@@ -1836,10 +1836,10 @@ CONTAINS
 ! ***************************************************************************************************
 !> \brief Enlarge left_set and right_set to hold any a/b-panel.
 !>  left_set and right_set are created by make_images to hold the a/b-panels
-!>  used for the inital cannon-tick. This routine ensures that these buffers
-!>  can hold any a/b-panel occuring during a matrix multiply and makes them
+!>  used for the initial cannon-tick. This routine ensures that these buffers
+!>  can hold any a/b-panel occurring during a matrix multiply and makes them
 !>  therefore suitable as buffers for the entire cannon algorithm.
-!>  This saves memory since no seperate buffers for the first cannon-tick
+!>  This saves memory since no separate buffers for the first cannon-tick
 !>  have to be allocated.
 !>
 !> \param buffer_set ...

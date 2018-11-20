@@ -13,10 +13,10 @@
 !> \brief Routine for sorting an array
 !> \note
 !>      CP2K:
-!>      Please use the interface definded in util.F for calling sort().
+!>      Please use the interface defined in util.F for calling sort().
 !>
 !>      DBCSR:
-!>      Please use the interface definded in dbcsr_toollib.F for calling sort().
+!>      Please use the interface defined in dbcsr_toollib.F for calling sort().
 !> \par History
 !>      12.2012 first version [ole]
 !> \author Ole Schuett
@@ -89,7 +89,7 @@ CONTAINS
       ${type1}$ :: a
       integer :: t, m, i, j, k
       LOGICAL :: swapped
-      ! a,t:  used during swaping of elements in arr and indices
+      ! a,t:  used during swapping of elements in arr and indices
 
       swapped = .TRUE.
 
@@ -115,21 +115,21 @@ CONTAINS
          return
       endif
 
-      ! split list in half and recusively sort both sublists
+      ! split list in half and recursively sort both sublists
       m = (size(arr) + 1)/2 ! index where we going to divide the list in two
       call dbcsr_1d_${nametype1}$_sort_low(arr(1:m), indices(1:m), tmp_arr, tmp_idx)
       call dbcsr_1d_${nametype1}$_sort_low(arr(m + 1:), indices(m + 1:), tmp_arr, tmp_idx)
 
-      ! Check for a special case: Can we just concate the two sorted sublists?
+      ! Check for a special case: Can we just concatenate the two sorted sublists?
       ! This leads to O(n) scaling if the input is already sorted.
       if (@{lessQ(arr(m+1), arr(m))}@) then
          ! ...no - let's merge the two sorted sublists arr(:m) and arr(m+1:)
          ! Merge will be performed directly in arr. Need backup of first sublist.
          tmp_arr(1:m) = arr(1:m)
          tmp_idx(1:m) = indices(1:m)
-         i = 1; ! number of elemens consumed from 1st sublist
-         j = 1; ! number of elemens consumed from 2nd sublist
-         k = 1; ! number of elemens already merged
+         i = 1; ! number of elements consumed from 1st sublist
+         j = 1; ! number of elements consumed from 2nd sublist
+         k = 1; ! number of elements already merged
 
          do while (i <= m .and. j <= size(arr) - m)
          if (@{lessQ(arr(m+j), tmp_arr(i))}@) then

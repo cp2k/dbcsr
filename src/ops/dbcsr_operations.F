@@ -589,7 +589,7 @@ CONTAINS
           dbcsr_get_num_blocks(matrix_b) .GT. 0) THEN
 
          ! Pre-size work arrays of matrix_a to avoid continuous reallocation.
-         ! Overestimate for summetric matrix and multiple threads!
+         ! Overestimate for symmetric matrix and multiple threads!
          local_matrix_size = INT(dbcsr_nfullrows_local(matrix_a), KIND=int_8)* &
                              dbcsr_nfullcols_local(matrix_a)
          size_work = MAX(0, INT(MIN(local_matrix_size - INT(dbcsr_get_nze(matrix_a), KIND=int_8), &
@@ -780,7 +780,7 @@ CONTAINS
    END SUBROUTINE dbcsr_add_on_diag_ds
 
 ! **************************************************************************************************
-!> \brief Computes varios functions (defined by func) of matrix elements
+!> \brief Computes various functions (defined by func) of matrix elements
 !> \param[in] matrix_a        DBCSR matrix
 !> \param func ...
 !> \param a0 ...
@@ -1388,7 +1388,7 @@ CONTAINS
       CALL dbcsr_iterator_start(src_iter, matrix_a)
       CALL dbcsr_iterator_start(dst_iter, matrix_b)
       ! Iterate through the blocks of the source and destination
-      ! matrix. There are three possibilites: 1. copy the data for
+      ! matrix. There are three possibilities: 1. copy the data for
       ! blocks present in both; 2 skip source blocks not present in the
       ! target; 3 zero blocks not present in the source.
       IF (dbcsr_iterator_blocks_left(src_iter)) THEN
@@ -2655,7 +2655,7 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
-      !vw avoid massive priting of warnings
+      !vw avoid massive printing of warnings
       !DBCSR_WARN("Invalid matrix")
       IF (PRESENT(nblkrows_total)) nblkrows_total = matrix%nblkrows_total
       IF (PRESENT(nblkcols_total)) nblkcols_total = matrix%nblkcols_total
@@ -2689,7 +2689,7 @@ CONTAINS
    END SUBROUTINE dbcsr_get_info
 
 ! **************************************************************************************************
-!> \brief Returns whether the matrix could be represeneted in a dense form
+!> \brief Returns whether the matrix could be represented in a dense form
 !> \param[in] matrix          matrix
 !> \param occ_thresh ...
 !> \return use the mutable and not append-only working

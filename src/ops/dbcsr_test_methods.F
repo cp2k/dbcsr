@@ -124,7 +124,7 @@ CONTAINS
 !>
 !> Take into account the symmetry of the sparse matrix.
 !> The dense matrix need to be valid.
-!> The operation is done localy.
+!> The operation is done locally.
 ! **************************************************************************************************
    SUBROUTINE dbcsr_impose_sparsity(sparse, dense)
       TYPE(dbcsr_type), INTENT(IN)                       :: sparse
@@ -240,7 +240,7 @@ CONTAINS
 !>
 !> Take into account the symmetry of the sparse matrix.
 !> The dense matrix need to be valid.
-!> The operation is done localy.
+!> The operation is done locally.
 ! **************************************************************************************************
    SUBROUTINE dbcsr_to_dense_local(sparse, dense)
       TYPE(dbcsr_type), INTENT(in)                       :: sparse

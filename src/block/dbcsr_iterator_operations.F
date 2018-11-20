@@ -196,7 +196,7 @@ CONTAINS
          ! All threads point into the master thread's data space
          ! (temporarily using the common_int_pointer variable). This is
          ! not the nicest OpenMP way of doing this but it is also not
-         ! explicity forbidden.
+         ! explicitly forbidden.
          !
 !$OMP        BARRIER
 !$OMP        MASTER

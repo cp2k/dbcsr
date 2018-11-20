@@ -108,13 +108,13 @@ MODULE dbcsr_log_handling
 !> \param default_global_unit_nr default unit for global logging
 !>        (-1 if not yet initialized). This unit is valid only on the
 !>        processor with %mp_env%mp%mynode==%mv_env%mp%source.
-!> \param mp_env the parallel environement for the output.
+!> \param mp_env the parallel environment for the output.
 !> \param close_local_unit_on_dealloc if the local unit should be closed
 !>        when this logger is deallocated
 !> \param close_global_unit_on_dealloc whether the global unit should be
 !>        closed when this logger is deallocated
 !> \param suffix a short string that is used as suffix in all the filenames
-!>        created by this logger. Can be used to guarantee the unicity of
+!>        created by this logger. Can be used to guarantee the uniqueness of
 !>        generated filename
 !> \param local_filename the root of the name of the file used for local
 !>        logging (can be different from the name of the file corresponding
@@ -181,7 +181,7 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief adds a default logger.
-!>      MUST be called before logging occours
+!>      MUST be called before logging occurs
 !> \param logger ...
 !> \author Fawzi Mohamed
 !> \note
@@ -261,10 +261,10 @@ CONTAINS
 !>        (if not given, and no file is given defaults to the standard output)
 !> \param default_local_unit_nr the default unit number for local (i.e. task)
 !>        output. If not given defaults to a out.taskid file created upon
-!> \param global_filename a new file to open (can be given instread of the
+!> \param global_filename a new file to open (can be given instead of the
 !>        global_unit_nr)
 !> \param local_filename a new file to open (with suffix and mp_env%mp%mynode
-!>        appended). Can be given instread of the default_local_unit_nr).
+!>        appended). Can be given instead of the default_local_unit_nr).
 !>        the file is created only upon the first local logging request
 !> \param close_global_unit_on_dealloc if the unit should be closed when the
 !>        logger is deallocated (defaults to true if a local_filename is given,
@@ -685,7 +685,7 @@ CONTAINS
 !> \note
 !>      this should be a function returning a variable length string.
 !>      All spaces are moved to the end of the string.
-!>      Not fully optimized: result must be a littel longer than the
+!>      Not fully optimized: result must be a little longer than the
 !>      resulting compressed filename
 ! **************************************************************************************************
    SUBROUTINE dbcsr_logger_generate_filename(logger, res, root, postfix, &

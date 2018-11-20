@@ -131,7 +131,7 @@ CONTAINS
 !> \brief The sum of a subset of rows/columns
 !> \param[in] all_offsets     ordered offsets of all the elements
 !> \param[in] local_elements  enumerated local elements
-!> \return sum of sizes of local elemetns
+!> \return sum of sizes of local elements
 !> \note Used for making matrices dense/undense
 ! **************************************************************************************************
    PURE FUNCTION nfull_elements(all_offsets, local_elements)

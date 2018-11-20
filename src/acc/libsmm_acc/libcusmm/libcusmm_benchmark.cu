@@ -241,7 +241,7 @@ double checkSumTransp(double* mat, int n, int n_stack, int mat_m, int mat_n){
 
 
 //===========================================================================
-//Removes special symbols so that the output is usefull for awk and gnuplot.
+//Removes special symbols so that the output is useful for awk and gnuplot.
 static void clean_string(char* str_in, char* str_out){
     for(int i=0; i<1000 ; i++){
         if(str_in[i] == '=' || str_in[i] == ',' || str_in[i] == '(' || str_in[i] == ')'){

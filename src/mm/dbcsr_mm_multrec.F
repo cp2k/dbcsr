@@ -81,7 +81,7 @@ MODULE dbcsr_mm_multrec
 !>                        columns (index) to local columns (value).
 !> \var max_m             Maximum size of C or A matrix row block size.
 !> \var max_n             Maximum size of C or B matrix column block size.
-!> \var max_k             Maximum size of A matrix colum and B matrix row block
+!> \var max_k             Maximum size of A matrix column and B matrix row block
 !>                        size.
 !> \var m_size_maps       Map from an A matrix row block size to an index of
 !>                        the most common A matrix row block sizes.

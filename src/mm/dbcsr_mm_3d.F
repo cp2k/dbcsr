@@ -639,7 +639,7 @@ CONTAINS
       !
       ! Evaluate the local size for each image, accumulating over threads and procs.
       ! Take the local displacement for each image.
-      ! Note that diplacement starts at zero.
+      ! Note that displacement starts at zero.
       my_size_recv(:) = 0
       local_images_size(:, :) = 0
       ALLOCATE (local_images_displ(idata:imeta, nimages))
@@ -678,7 +678,7 @@ CONTAINS
       !
       ! Set send and recv buffers sizes and displacements for each proc.
       ! Accumulate over images and threads.
-      ! Here diplacement starts at one.
+      ! Here displacement starts at one.
       ALLOCATE (send_displs(idata:imeta, 0:nthreads - 1, &
                             nimages, 0:nprocs_total - 1))
       ! Displs for local data arrangement, starting at one.
@@ -1664,7 +1664,7 @@ CONTAINS
       istep_k_comm => istep_k_comm_curr
       grouped_steps_index: DO istep_k = leftovers_first_k, last_step_k
          !
-         ! Wait data.  Exclude the first interation.
+         ! Wait data.  Exclude the first iteration.
          wait: IF (istep_k .GT. leftovers_first_k) THEN
             IF (debug_mod) WRITE (*, '(1X,A)') routineN//" waiting for right and left"
             right_buffer_p => right_buffers(iright_buffer_calc)
@@ -1946,7 +1946,7 @@ CONTAINS
             product_matrix3D%mats(irow3D, icol3D)%matrix%valid = .FALSE.
          ENDIF
          !
-         ! Do the multiplication.  Exclude the first interation.
+         ! Do the multiplication.  Exclude the first iteration.
          calc: IF (istep_k .GT. leftovers_first_k) THEN
             right_buffer_p => right_buffers(iright_buffer_calc)
             left_buffer_p => left_buffers(ileft_buffer_calc)
