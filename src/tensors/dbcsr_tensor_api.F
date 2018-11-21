@@ -8,7 +8,7 @@
 !--------------------------------------------------------------------------------------------------!
 
 ! **************************************************************************************************
-!> \brief   This is the start of a dbcsr_tensor_api, all publically needed functions
+!> \brief   This is the start of a dbcsr_tensor_api, all publicly needed functions
 !>          are exported here. The others remain private to the library.
 !>          Currently, this is the CP2K used set.
 !>          Ultimately, a reduced subset and well defined api will remain,

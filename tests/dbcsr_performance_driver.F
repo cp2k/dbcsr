@@ -156,7 +156,7 @@ PROGRAM dbcsr_performance_driver
    CALL timings_report_callgraph("test.callgraph")
 
    !
-   ! clean mp enviroment
+   ! clean mp environment
    CALL dbcsr_mp_release(mp_env)
 
    !

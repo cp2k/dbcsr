@@ -364,7 +364,7 @@ CONTAINS
       CALL dbcsr_make_random_block_sizes(sizes_k, matrix_sizes(3), bs_k)
 
       !
-      ! if we have symmetry the row and column block sizes hae to match
+      ! if we have symmetry the row and column block sizes have to match
       IF (c_symm .NE. dbcsr_type_no_symmetry .AND. a_symm .NE. dbcsr_type_no_symmetry .AND. &
           b_symm .NE. dbcsr_type_no_symmetry) THEN
          my_sizes_m => sizes_m; my_sizes_n => sizes_m; my_sizes_k => sizes_m

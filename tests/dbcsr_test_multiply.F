@@ -791,7 +791,7 @@ CONTAINS
          END IF
       END IF
       !
-      ! syncronize the result...
+      ! synchronize the result...
       CALL mp_bcast(success, 0, mp_group)
       !
       ! printing
