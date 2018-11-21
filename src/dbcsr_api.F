@@ -8,7 +8,7 @@
 !--------------------------------------------------------------------------------------------------!
 
 ! **************************************************************************************************
-!> \brief   This is the start of a dbcsr_api, all publically needed functions
+!> \brief   This is the start of a dbcsr_api, all publicly needed functions
 !>          are exported here. The others remain private to the library.
 !>          Currently, this is the CP2K used set.
 !>          Ultimately, a reduced subset and well defined api will remain,
@@ -1125,7 +1125,7 @@ CONTAINS
       ELSE IF (PRESENT(group)) THEN
          CALL dbcsr_mp_new(mp_env, group, pgrid)
       ELSE
-         DBCSR_ABORT("dbcsr_distribution_new: neigther template nor group supplied")
+         DBCSR_ABORT("dbcsr_distribution_new: neither template nor group supplied")
       ENDIF
 
       NULLIFY (my_row_cluster, my_col_cluster)
@@ -1208,7 +1208,7 @@ CONTAINS
 
       DBCSR_ASSERT(mynode == mypgrid(myprow, mypcol))
 
-      ! create the new mp enviroment
+      ! create the new mp environment
       CALL dbcsr_mp_new_prv(mp_env, pgrid=mypgrid, mp_group=group, &
                             mynode=mynode, numnodes=numnodes, myprow=myprow, mypcol=mypcol)
 
@@ -1687,7 +1687,7 @@ CONTAINS
 #:include 'data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
 ! **************************************************************************************************
-!> \brief Encapsulates a given scalar value and makes it conformant to the
+!> \brief Encapsulates a given scalar value and makes it conform with the
 !>        type of the matrix.
 !> \param scalar ...
 !> \param matrix ...

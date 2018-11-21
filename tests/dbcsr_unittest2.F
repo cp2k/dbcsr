@@ -126,7 +126,7 @@ PROGRAM dbcsr_unittest
    CALL dbcsr_finalize_lib(mp_comm, io_unit)
 
    !
-   ! clean mp enviroment
+   ! clean mp environment
    CALL dbcsr_mp_release(mp_env)
 
    !

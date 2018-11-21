@@ -60,7 +60,7 @@ PROGRAM dbcsr_example_3
 !$ ENDIF
 
    !
-   ! setup the mp enviroment
+   ! setup the mp environment
    CALL mpi_comm_size(MPI_COMM_WORLD, numnodes, ierr)
    IF (ierr /= 0) STOP "Error in MPI_Comm_size"
    npdims(:) = 0
