@@ -20,23 +20,34 @@ import numpy as np
 import pandas as pd
 from optparse import OptionParser
 from predict_helpers import *
-from kernels.cusmm_dnt_helper import params_dict_to_kernel, to_tuple, to_string
+from kernels.cusmm_dnt_helper import to_tuple, to_string
 
 
 # ===============================================================================
 # Selected features and optimized hyperparameters
-selected_features = {
-    'tiny': [  # 2018-10-11--16-00_RUNS20/Decision_Tree_12
-        'nblks',
-        'ru_tinysmallmed_unroll_factor_c_total',
-        'ru_tiny_smem_per_block',
-        'Gflops',
-        'size_a',
-        'size_c',
+pre_selected_features = {
+    'tiny': [  # 2018-11-26--12-21
+        'm',
+        'n',
+        'k',
         'threads_per_blk',
-        'ru_tiny_max_parallel_work',
+        'minblocks',
+        'mxnxk',
+        'size_a',
+        'size_b',
+        'size_c',
+        'grouping',
+        'nblks',
+        'nthreads',
+        'ru_tinysmallmed_unroll_factor_a',
         'ru_tinysmallmed_unroll_factor_a_total',
-        'ru_tiny_buf_size'
+        'ru_tinysmallmed_unroll_factor_b',
+        'ru_tinysmallmed_unroll_factor_b_total',
+        'ru_tinysmallmed_unroll_factor_c_total',
+        'ru_tiny_max_parallel_work',
+        'ru_tiny_smem_per_block',
+        'ru_tiny_nsm',
+        'Koth_tiny_Nmem'
     ],
     'small': [  # 2018-10-16--15-26
         'grouping',
@@ -53,31 +64,20 @@ selected_features = {
         'ru_smallmed_buf_size',
         'Koth_small_Nmem_shared',
     ],
-    'medium': [  # result of one of the RFECVs, copied to journal
-        'k',
-        'm',
-        'n',
-        'minblocks',
+    'medium': [  # From: 2018-11-22--01-38
         'threads_per_blk',
-        'tile_m',
-        'tile_n',
+        'mxnxk',
         'size_a',
-        'size_c',
-        'nthreads',
-        'sm_desired',
-        'nblocks_per_sm_lim_blks_warps',
-        'Gflops',
-        'ru_tinysmallmed_unroll_factor_a',
+        'grouping',
         'ru_tinysmallmed_unroll_factor_b',
         'ru_tinysmallmed_unroll_factor_c_total',
-        'ru_smallmedlarge_cmax',
-        'ru_smallmedlarge_rmax',
-        'ru_smallmedlarge_T',
-        'ru_smallmedlarge_min_threads',
         'ru_smallmed_unroll_factor_c',
         'ru_smallmed_loop_matmul',
         'ru_smallmed_max_parallel_work',
-        'ru_smallmed_regs_per_thread'
+        'ru_smallmed_regs_per_thread',
+        'ru_smallmedlarge_T',
+        'Koth_med_Nmem'
+
     ],
     'largeDB1': [  # 2018-10-15--02-47
         'size_b',
@@ -124,31 +124,37 @@ selected_features = {
         'threads_per_blk',
     ]
 }
-optimized_hyperparameters = {
+
+optimized_hyperparameters = {  # chosen by common sense, then trial and error
     'tiny': {
-        'max_depth': 39,
-        'min_samples_leaf': 8,
-        'min_samples_split': 11
+        'max_depth': 16,
+        'min_samples_leaf': 2,
+        'min_samples_split': 15,
+        'n_features_to_drop': 2
     },
     'small': {
-        'max_depth': 18,
+        'max_depth': 16,
         'min_samples_leaf': 2,
-        'min_samples_split': 13
+        'min_samples_split': 15,
+        'n_features_to_drop': 5
     },
-    'medium': {  # common sense
+    'medium': {
         'max_depth': 18,
         'min_samples_leaf': 2,
-        'min_samples_split': 13
+        'min_samples_split': 13,
+        'n_features_to_drop': 12
     },
     'largeDB1': {
         'max_depth': 18,
         'min_samples_leaf': 13,
-        'min_samples_split': 5
+        'min_samples_split': 5,
+        'n_features_to_drop': 12
     },
     'largeDB2': {
         'max_depth': 18,
         'min_samples_leaf': 5,
-        'min_samples_split': 5
+        'min_samples_split': 5,
+        'n_features_to_drop': 12
     }
 }
 
@@ -158,20 +164,31 @@ optimized_hyperparameters = {
 def get_log_folder(algo, prefitted_model_folder):
     """Create a unique log folder for this run in which logs, plots etc. will be stored """
     if len(prefitted_model_folder) == 0:
+
+        # Create a new folder for this model
         file_signature = datetime.datetime.now().strftime("%Y-%m-%d--%H-%M")
         folder = os.path.join("model_selection", os.path.join(algo, file_signature))
         log_file = os.path.join(folder, "log.txt")
         if not os.path.exists(folder):
             os.makedirs(folder)
-    else:  # Use the original folder as a log folder, but create a new log file
+
+    else:
+
+        # If loading a pre-fitted model, use this pre-fitted model's folder as a log folder, but create a new log file
         folder = prefitted_model_folder
         log_file_signature = datetime.datetime.now().strftime("%Y-%m-%d--%H-%M")
         log_file = os.path.join(folder, "log_" + log_file_signature + ".txt")
 
-    return folder, log_file
+    # Log folder and file
+    log = ''
+    log += print_and_log('\nLogging to:')
+    log += print_and_log('\t' + folder)
+    log += print_and_log('\t' + log_file)
+
+    return folder, log_file, log
 
 
-def dump_or_load_options(pgm_options, folder):
+def dump_or_load_options(pgm_options, folder, log):
 
     options_file_name = os.path.join(folder, 'options.json')
 
@@ -193,7 +210,12 @@ def dump_or_load_options(pgm_options, folder):
         for opt in characteristic_options:
             pgm_options.__dict__[opt] = options_dict[opt]
 
-    return pgm_options
+    # Log options
+    log += print_and_log('Predict-train running with options:')
+    for opt, opt_val in pgm_options.__dict__.items():
+        log += print_and_log('{:<15}: {}'.format(opt, opt_val))
+
+    return pgm_options, log
 
 
 def print_and_log(msg):
@@ -302,7 +324,30 @@ def mean_scorer_top1(estimator, X, y):
 
 # ===============================================================================
 # Read and prepare data
-def read_data(algo, read_from, nrows, perf_type, log):
+def get_reference_performances(in_folder, algo, perf_type):
+    import json
+    maxperf_file = os.path.join(in_folder, 'max_performances.json')
+    with open(maxperf_file) as f:
+        max_performances = json.load(f)
+
+    maxperf_file = os.path.join(in_folder, 'max_performances_by_algo.json')
+    with open(maxperf_file) as f:
+        max_performances_algo = json.load(f)[algo]
+
+    max_performances_ref = None
+    if perf_type == 'perf_scaled':
+        max_performances_ref = max_performances
+    elif perf_type == 'perf_scaled_by_algo':
+        max_performances_ref = max_performances_algo
+
+    baseline_file = os.path.join(in_folder, 'baseline_performances_by_algo.json')
+    with open(baseline_file) as f:
+        baseline_performances_algo = json.load(f)[algo]
+
+    return max_performances, max_performances_algo, max_performances_ref, baseline_performances_algo
+
+
+def read_data(algo, read_from, nrows, perf_type, plot_all, folder, log):
 
     # ===============================================================================
     # Read data from CSV
@@ -345,13 +390,15 @@ def read_data(algo, read_from, nrows, perf_type, log):
         Y[perf_type] = derived_data[perf_type]
     Y.dropna(axis=0, inplace=True)
     log += print_and_log('Y    : {:>8,} ({:>2.2} MB)'.format(Y.size, sys.getsizeof(Y)/10**6))
-
     # ===============================================================================
     # Get 'X_mnk'
     log += print_and_log('\nWrite X_mnk: ' + perf_type)
     X_mnk = pd.DataFrame()
     X_mnk['mnk'] = X['m'].astype(str) + 'x' + X['n'].astype(str) + 'x' + X['k'].astype(str)
     log += print_and_log('X_mnk : {:>8,} ({:>2.2} MB)'.format(X_mnk.size, sys.getsizeof(X_mnk)/10**6))
+
+    if plot_all:
+        plot_training_data(Y, X_mnk, algo, folder)
 
     return X, X_mnk, Y, log
 
@@ -360,37 +407,38 @@ def read_data(algo, read_from, nrows, perf_type, log):
 # Predictive modelling
 def get_DecisionTree_model(algo, n_features):
     from itertools import chain
-    from sklearn.tree import DecisionTreeRegressor
 
     # Fixed parameters
     model_name = "Decision_Tree"
     splitting_criterion = "mse"
-    splitter = "random"
+    splitter = "best"
     max_features = None
     max_leaf_nodes = None
 
     # Hyper-parameters to optimize
     if algo == 'medium':
-        max_depth = chain(range(6, 13, 2), range(15, 19, 3))
-        param_grid = {'max_depth': list(max_depth)}
+        max_depth = [10, 13, 16, 18, 21, 24]
+        min_samples_split = [2, 8, 12, 18]
+        min_samples_leaf = [2, 8, 12, 18]
     else:
         if algo == 'tiny':
-            step_small = 1
-            step_med = 3
-            max_depth = chain(range(4, n_features, step_small), range(n_features, n_features*3, step_med))
-            min_samples_split = chain(range(2, 5, step_small), range(8, n_features, step_med))
-            min_samples_leaf = chain(range(1, 5, step_small), range(8, n_features, step_med))
+            step = 3
+            max_depth = chain(range(4, int(np.ceil(0.75*n_features)), step),
+                              range(int(np.ceil(0.75*n_features)), int(np.ceil(n_features)), step))
+            min_samples_split = range(2, 21, step)
+            min_samples_leaf = range(2, 21, step)
         else:
             max_depth = chain(range(4, 13, 2), range(15, 19, 3))
             min_samples_split = [2, 5, 13, 18]
             min_samples_leaf = [2, 5, 13, 18]
-        param_grid = {
-            'max_depth': list(max_depth),
-            'min_samples_split': list(min_samples_split),
-            'min_samples_leaf': list(min_samples_leaf)
-        }
+    param_grid = {
+        model_name + '__estimator__' + 'max_depth': list(max_depth),
+        model_name + '__estimator__' + 'min_samples_split': list(min_samples_split),
+        model_name + '__estimator__' + 'min_samples_leaf': list(min_samples_leaf)
+    }
 
     # Tree model
+    from sklearn.tree import DecisionTreeRegressor
     model = DecisionTreeRegressor(
         criterion=splitting_criterion,
         splitter=splitter,
@@ -401,7 +449,10 @@ def get_DecisionTree_model(algo, n_features):
         max_leaf_nodes=max_leaf_nodes
     )
 
-    return model, model_name, param_grid
+    from eli5.sklearn import PermutationImportance
+    model_perm = PermutationImportance(model, cv=None)
+
+    return model_perm, model_name, param_grid
 
 
 def get_RandomForest_model(algo, njobs, ntrees):
@@ -409,7 +460,7 @@ def get_RandomForest_model(algo, njobs, ntrees):
     from sklearn.ensemble import RandomForestRegressor
 
     # Fixed parameters
-    model_name = "Random Forest"
+    model_name = "Random_Forest"
     bootstrap = True
     splitting_criterion = "mse"
     max_features = 'sqrt'
@@ -418,7 +469,7 @@ def get_RandomForest_model(algo, njobs, ntrees):
     step_big = 50
     step_small = 5
     n_estimators = chain(range(1, 10, step_small), range(50, 200, step_big))
-    param_grid = {'n_estimators': list(n_estimators)}
+    param_grid = {model_name + '__' + 'n_estimators': list(n_estimators)}
 
     # Random Forest model
     model = RandomForestRegressor(
@@ -471,17 +522,6 @@ def train_model(X, X_mnk, Y, options, folder, log):
     results_file = os.path.join(folder, "feature_tree.p")
 
     # ===============================================================================
-    # Predictive model
-    if model_to_train == "DT":
-        model, model_name, param_grid = get_DecisionTree_model(algo, len(X.columns.values))
-    elif model_to_train == "RF":
-        model, model_name, param_grid = get_RandomForest_model(algo, njobs, ntrees)
-    else:
-        assert False, "Cannot recognize model: " + model_to_train + ". Options: DT, RF"
-    log += print_and_log("\nStart tune/train for model " + model_name + " with parameters:")
-    log += print_and_log(model)
-
-    # ===============================================================================
     # Testing splitter (train/test-split)
     from sklearn.model_selection import GroupShuffleSplit
     cv = GroupShuffleSplit(n_splits=2, test_size=0.2)
@@ -501,84 +541,168 @@ def train_model(X, X_mnk, Y, options, folder, log):
     test_size = 0.3
     cv = GroupShuffleSplit(n_splits=n_splits, test_size=test_size)
     predictor_names = X_train.columns.values
+    n_predictors = len(predictor_names)
+
+    # ===============================================================================
+    # Predictive model
+    if model_to_train == "DT":
+        model, model_name, param_grid = get_DecisionTree_model(algo, len(X_train.columns.values))
+    elif model_to_train == "RF":
+        model, model_name, param_grid = get_RandomForest_model(algo, njobs, ntrees)
+    else:
+        assert False, "Cannot recognize model: " + model_to_train + ". Options: DT, RF"
+    log += print_and_log("\nStart tune/train for model " + model_name + " with parameters:")
+    log += print_and_log(model)
+
+    from sklearn.feature_selection import SelectFromModel
+    feature_importance_threshold = -np.inf
+    max_features = n_predictors - optimized_hyperparameters[algo]['n_features_to_drop']
+    split_indices = cv.split(X_train.values, Y_train.values, groups=X_mnk_train.values)
+    model.cv = split_indices
+    model.fit(X_train.values, Y_train.values)
+    model_fs = SelectFromModel(model, threshold=feature_importance_threshold, max_features=max_features, prefit=True)
+    print(model_fs)
 
     if tune:  # Perform feature selection and hyperparameter optimization
 
-        log += print_and_log("\nStart feature selection")
+        log += print_and_log('----------------------------------------------------------------------------')
+        log += print_and_log("\nBuild Pipeline")
 
         # ===============================================================================
         # Feature selection
-        from sklearn.feature_selection import RFECV
-        log += print_and_log('----------------------------------------------------------------------------')
         log += print_and_log("Selecting optimal features among:\n" + str(predictor_names) + '\n')
-        if algo in ['small', 'medium']:
-            rfecv = RFECV(estimator=model, step=3, n_jobs=njobs, cv=cv, scoring='neg_mean_squared_error', verbose=2, min_features_to_select=14)
-        else:
-            rfecv = RFECV(estimator=model, step=1, n_jobs=njobs, cv=cv, scoring='neg_mean_absolute_error', verbose=1, min_features_to_select=5)
-        fit = rfecv.fit(X_train, Y_train, X_mnk_train['mnk'])
-        log += print_and_log("Optimal number of features : %d" % rfecv.n_features_)
-        selected_features_ = list()
-        for i, f in enumerate(predictor_names):
-            if fit.support_[i]:
-                selected_features_.append(f)
-        log += print_and_log("\nSelected features:")
-        for feature in selected_features_:
-            log += print_and_log("\t{}".format(feature))
-        log += print_and_log("\n")
 
-        plot_rfecv(rfecv, folder)
-        plot_feature_importance(rfecv, selected_features_, folder)
+        feature_selection_name = 'select_features'
 
-        features_to_drop = [f for f in predictor_names if f not in selected_features_]
-        X_train = X_train.drop(features_to_drop, axis=1)
-        X_test = X_test.drop(features_to_drop, axis=1)
+        from sklearn.pipeline import Pipeline
+        pipe = Pipeline(steps=[
+            (feature_selection_name, model_fs),
+            (model_name, model)
+        ])
 
         # ===============================================================================
-        # Hyperparameter optimization
-        log += print_and_log("\nCompleted feature selection, start hyperparameter optimization")
+        # Hyperparameter optimization (Grid search)
+        log += print_and_log('Parameter grid:')
+        for par_name, par_value in param_grid.items():
+            log += print_and_log('{}: {}'.format(par_name, par_value))
 
-        # Grid search
         from sklearn.model_selection import GridSearchCV
-        log += print_and_log('----------------------------------------------------------------------------')
-        log += print_and_log('Parameter grid:\n' + str(param_grid))
-        X_train["mnk"] = X_mnk_train['mnk']  # add to X-DataFrame (needed for scoring function)
-        scoring = {'worse_top-1': worse_case_scorer_top1, 'mean_top-1': mean_scorer_top1}
-        decisive_score = 'mean_top-1'
         if algo in ['tiny', 'largeDB1', 'largeDB2']:
-            verbosity_level = 1
+            verbosity_level = 2
         else:
             verbosity_level = 2
         gs = GridSearchCV(
-            estimator=model,
+            estimator=pipe,
             param_grid=param_grid,
             cv=cv,
-            scoring=scoring,
+            scoring=mean_scorer_top1,
             pre_dispatch=8,
             n_jobs=njobs,
             verbose=verbosity_level,
-            refit=decisive_score,
-            return_train_score=False  # incompatible with ignore_in_fit
+            return_train_score=False
         )
-        gs.fit(X_train, Y_train, X_mnk_train['mnk'], ignore_in_fit=["mnk"])
 
+        # ===============================================================================
+        # Fit and get best feature selection and model
+        log += print_and_log('\n----------------------------------------------------------------------------')
+        log += print_and_log('Start fit')
+        X_train["mnk"] = X_mnk_train['mnk']  # add to X-DataFrame (needed for scoring function)
+        gs.fit(X_train, Y_train, X_mnk_train['mnk'], ignore_in_fit=["mnk"])
+        best_pipe = gs.best_estimator_.get_params()
+        best_feature_selection = best_pipe[feature_selection_name]
+        best_model = best_pipe[model_name]
+
+        # ===============================================================================
+        # Info on feature selection
+        all_feature_names = X_train.columns.values.tolist()
+        all_feature_names.remove('mnk')
+        feature_support = best_feature_selection.get_support()
+        features_importances = best_feature_selection.estimator_.feature_importances_
+        feature_name_importance = zip(all_feature_names, features_importances, feature_support)
+        feature_name_importance = sorted(feature_name_importance, key=lambda x: x[1], reverse=True)
+
+        log += print_and_log('\n----------------------------------------------------------------------------')
+        n_selected_features = np.sum(feature_support)
+        log += print_and_log("Optimal number of features : {}".format(n_selected_features))
+
+        # Selected features
+        log += print_and_log("\nFeatures:")
+        selected_features = list()
+        selected_feature_importances = list()
+        for i, (feat_name, feat_imp, feat_in) in enumerate(feature_name_importance):
+            in_or_out = 'accepted' if feat_in else ' x rejected'
+            log += print_and_log("{:>2}) {:<28}, imp: {:>1.3f} {}".format(i+1, feat_name, feat_imp, in_or_out))
+            if feat_in:
+                selected_features.append(feat_name)
+                selected_feature_importances.append(feat_imp)
+
+        # Drop non-selected features
+        features_to_drop = [f for f in predictor_names if f not in selected_features]
+        X_train = X_train.drop(features_to_drop, axis=1)
+        X_train = X_train.drop(['mnk'], axis=1)
+        X_test = X_test.drop(features_to_drop, axis=1)
+
+        print('Refiting underlying model...')
+        best_model = best_model.wrapped_estimator_
+        best_model.fit(X_train, Y_train)
+
+        log += print_and_log("\nPlot feature importance:")
+        plot_feature_importance(selected_feature_importances, selected_features, folder)
+
+        # ===============================================================================
+        # Info on GridSearch
         describe_hpo(gs, X_test, Y_test, '', plot_all)
 
         safe_pickle([gs.param_grid, gs.cv_results_, gs.best_params_], os.path.join(folder, "cv_results.p"))
-        safe_pickle([X_train.columns.values, gs.best_estimator_, test], results_file)
+        safe_pickle([selected_features, best_model, test], results_file)
 
         plot_cv_scores(gs.param_grid, gs.cv_results_, gs.best_params_, folder, algo, splits)
 
         log += print_and_log("\nCompleted hyperparameter optimization, wrote results to " + results_file)
         log += print_and_log('----------------------------------------------------------------------------')
-        return_model = gs
+        return_model = best_model
 
     else:
 
-        # ===============================================================================
-        # Load selected features and hyperparameters
-        features_to_drop = [f for f in predictor_names if f not in selected_features[algo]]
-        X_train = X_train.drop(features_to_drop, axis=1)
-        X_test = X_test.drop(features_to_drop, axis=1)
+        featsel = True
+        if featsel:
+
+            # ===============================================================================
+            # Info on feature selection
+            all_feature_names = X_train.columns.values.tolist()
+            feature_support = model_fs.get_support()
+            features_importances = model.feature_importances_
+            feature_name_importance = zip(all_feature_names, features_importances, feature_support)
+            feature_name_importance = sorted(feature_name_importance, key=lambda x: x[1], reverse=True)
+
+            log += print_and_log('\n----------------------------------------------------------------------------')
+            n_selected_features = np.sum(feature_support)
+            log += print_and_log("Optimal number of features : {}".format(n_selected_features))
+
+            # Selected features
+            log += print_and_log("\nFeatures:")
+            selected_features = list()
+            selected_feature_importances = list()
+            for i, (feat_name, feat_imp, feat_in) in enumerate(feature_name_importance):
+                in_or_out = 'accepted' if feat_in else ' x rejected'
+                log += print_and_log("{:>2}) {:<40}, imp: {:>1.3f} {}".format(i + 1, feat_name, feat_imp, in_or_out))
+                if feat_in:
+                    selected_features.append(feat_name)
+                    selected_feature_importances.append(feat_imp)
+
+            # Drop non-selected features
+            features_to_drop = [f for f in predictor_names if f not in selected_features]
+            X_train = X_train.drop(features_to_drop, axis=1)
+            X_test = X_test.drop(features_to_drop, axis=1)
+            model.cv = None
+
+        else:
+            # ===============================================================================
+            # Load selected features and hyperparameters
+            selected_features = pre_selected_features[algo]
+            features_to_drop = [f for f in predictor_names if f not in selected_features]
+            X_train = X_train.drop(features_to_drop, axis=1)
+            X_test = X_test.drop(features_to_drop, axis=1)
 
         # ===============================================================================
         # Fit
@@ -588,6 +712,7 @@ def train_model(X, X_mnk, Y, options, folder, log):
             log += print_and_log("\t{:>2}) {}".format(i+1, p))
 
         model.fit(X_train, Y_train)
+
         safe_pickle([X_train.columns.values, model, test], results_file)
         log += print_and_log("\nCompleted fit, wrote results to " + results_file)
         log += print_and_log('----------------------------------------------------------------------------')
@@ -608,7 +733,6 @@ def fetch_pre_trained_model(X, X_mnk, Y, model_path, log):
 
     # Load pre-trained model, selected features and indices of test-set
     features, model, test_indices = safe_pickle_load(os.path.join(model_path, 'feature_tree.p'))
-    features = features.tolist()
     if 'mnk' in features:
         features.remove('mnk')
 
@@ -636,15 +760,17 @@ def fetch_pre_trained_model(X, X_mnk, Y, model_path, log):
 # Describe and evaluate model
 def describe_hpo(gs, X, Y, log, plot_all):
     predictor_names = X.columns.values.tolist()
+    log += print_and_log('\n----------------------------------------------------------------------------')
     log += print_and_log('Predictor variables:')
     for p in predictor_names:
         log += print_and_log("\t{}".format(p))
 
     log += print_and_log("\nBest parameters set found on development set:")
-    log += print_and_log(gs.best_params_)
+    for bestpar_name, bestpar_value in gs.best_params_.items():
+        log += print_and_log("\t{}: {}".format(bestpar_name, bestpar_value))
 
     log += print_and_log("\nBest estimator:")
-    best_estimator = gs.best_estimator_
+    best_estimator = gs.best_estimator_._final_estimator
     log += print_and_log(best_estimator)
     log += print_and_log('----------------------------------------------------------------------------')
 
@@ -765,23 +891,15 @@ def plot_rfecv(rfecv, folder):
     print(plot_file_path)
 
 
-def plot_feature_importance(rfecv, names, folder):
-    importances = rfecv.estimator_.feature_importances_
-    indices = np.argsort(importances)[::-1]
-
-    print("Feature ranking:")
-    for f in range(len(names)):
-        print("%d. feature %s (%f)" % (f + 1,
-                                       names[indices[f]],
-                                       importances[indices[f]]))
+def plot_feature_importance(importances, names, folder):
 
     plt.rcdefaults()
     fig, ax = plt.subplots()
 
     ax.set_title("Feature importances")
-    ax.barh(range(len(names)), importances[indices], color="g", align="center")
-    ax.set_yticks( np.arange(len(importances)))
-    ax.set_yticklabels([names[i] for i in indices])
+    ax.barh(range(len(names)), importances, color="g", align="center")
+    ax.set_yticks(np.arange(len(importances)))
+    ax.set_yticklabels(names)
     ax.invert_yaxis()
     plot_file_path = os.path.join(folder, "feature_importance.svg")
     plt.savefig(plot_file_path)
@@ -807,7 +925,7 @@ def plot_loss_histogram(y_true, y_pred, X_mnk, folder):
     print(plot_file_path)
 
 
-def plot_prediction_accuracy(m, n, k, y_true, y_pred, train, folder):
+def plot_prediction_accuracy(m, n, k, y_true, y_pred, train, pp):
     import matplotlib.pyplot as plt
 
     plt.figure()
@@ -819,10 +937,7 @@ def plot_prediction_accuracy(m, n, k, y_true, y_pred, train, folder):
     plt.ylabel("predicted scaled performance [%]")
     type = 'train' if train else 'test'
     plt.title("Prediction accuracy for kernel " + str((m, n, k)) + " (" + type + ")")
-    plot_file_path = os.path.join(folder, "prediction_accuracy_" + type + '_' +
-                                  str(m) + 'x' + str(n) + 'x' + str(k) + ".svg")
-    plt.savefig(plot_file_path)
-    print(plot_file_path)
+    pp.savefig()
 
 
 def plot_cv_scores(param_grid, results, best_pars, folder, algo, splits):
@@ -834,41 +949,38 @@ def plot_cv_scores(param_grid, results, best_pars, folder, algo, splits):
 
         plt.figure()
         plt.title("CV scores (" + algo + ")")
-        plt.xlabel("parameter: " + p + " (chosen: " + str(best_pars) + ")")
+        plt.xlabel("parameter: " + p + " (chosen: " + str(best_pars[p]) + ")")
         plt.ylabel("cv-score: relative perf loss [%] (mean over " + str(splits) + " folds)")
         ax = plt.gca()
 
         # Get the regular numpy array from the dataframe
-        results = pd.DataFrame(results)
+        results_ = pd.DataFrame(results)
         groups_to_fix = list(best_pars.keys())
         groups_to_fix.remove(p)
         for g in groups_to_fix:
-            results = results.groupby('param_' + g).get_group(best_pars[g])
-        X_axis = np.array(results['param_' + p].values, dtype=float)
-        X_axis_p = results['param_' + p]
+            results_ = results_.groupby('param_' + g).get_group(best_pars[g])
+        X_axis = np.array(results_['param_' + p].values, dtype=float)
+        X_axis_p = results_['param_' + p]
 
-        for scorer, color in zip({'worse_top-1': worse_case_scorer_top1, 'mean_top-1': mean_scorer_top1}, ['b', 'g']):
-            sample = 'test'
-            style = '-'
-            sample_score_mean = results['mean_%s_%s' % (sample, scorer)]
-            sample_score_std = results['std_%s_%s' % (sample, scorer)]
-            ax.fill_between(X_axis, sample_score_mean - sample_score_std,
-                            sample_score_mean + sample_score_std,
-                            alpha=0.05 if sample == 'test' else 0, color=color)
-            ax.plot(X_axis, sample_score_mean, style, color=color,
-                    alpha=1 if sample == 'test' else 0.7,
-                    label="%s (%s)" % (scorer, sample))
+        sample = 'test'
+        style = '-'
+        scorer = 'score'
+        color = 'b'
+        sample_score_mean = results_['mean_%s_%s' % (sample, scorer)]
+        sample_score_std = results_['std_%s_%s' % (sample, scorer)]
+        ax.fill_between(X_axis, sample_score_mean - sample_score_std,
+                        sample_score_mean + sample_score_std,
+                        alpha=0.05, color=color)
+        ax.plot(X_axis, sample_score_mean, style, color=color,
+                alpha=1 if sample == 'test' else 0.7,
+                label="%s (%s)" % (scorer, sample))
 
-            best_index = np.argmin(results['rank_test_%s' % scorer])
-            best_score = results['mean_test_%s' % scorer][best_index]
+        best_index = np.argmin(results['rank_test_%s' % scorer])
+        best_score = results['mean_test_%s' % scorer][best_index]
 
-            # Plot a dotted vertical line at the best score for that scorer marked by x
-            # ax.plot([X_axis_p[best_index], ] * 2, [0, best_score],
-            #         linestyle='-.', color=color, marker='x', markeredgewidth=3, ms=8)
-
-            # Annotate the best score for that scorer
-            ax.annotate("%0.2f" % best_score,
-                        (X_axis_p[best_index], best_score + 0.005))
+        # Annotate the best score for that scorer
+        ax.annotate("%0.2f" % best_score,
+                    (X_axis_p[best_index], best_score + 0.005))
 
         plt.legend(loc="best")
         plt.grid(False)
@@ -928,118 +1040,13 @@ def get_predive_model_performances(y_true, y_pred, x_mnk, max_performances_ref, 
 
 
 # ===============================================================================
-# Main
-def main():
+def evaluate_model(model,
+                   X_train, X_mnk_train, Y_train,
+                   X_test, X_mnk_test, Y_test,
+                   max_performances_ref, max_performances_algo, baseline_performances_algo,
+                   options, log, folder):
+    """Main evaluation function"""
 
-    parser = OptionParser()
-    parser.add_option('-f', '--in_folder', metavar="foldername/",
-                      default='tune_dataset/',
-                      #default='tune_sample_25_to_32/',
-                      #default='tune_sample_4_to_12_logs_and_compileinfo',
-                      help='Folder from which to read data')
-    parser.add_option('-a', '--algo', metavar="algoname",
-                      #default='tiny',
-                      #default='small',
-                      default='medium',
-                      #default='largeDB1',
-                      #default='largeDB2',
-                      help='Algorithm to train on')
-    parser.add_option("-d", "--perf_type", metavar="PERFTYPE",
-                      default="perf_scaled",
-                      help="Type of performance. " +
-                           "Options: perf, perf_squared, perf_scaled, perf_scaled_by_algo. Default: %default")
-    parser.add_option('-c', '--plot_all',
-                      default=False,
-                      help='Plot more stuff' +
-                           '(Warning: can be very slow for large trees and create very large files)')
-    parser.add_option('-t', '--tune',
-                      default=False,
-                      help='Rune recursive feature selection and grid search on hyperparameters')
-    parser.add_option('-m', '--model',
-                      default='DT',
-                      help='Model to train. Options: DT (Decision Trees), RF (Random Forests)')
-    parser.add_option('-s', '--splits',
-                      default=5, metavar="NUMBER", type="int",
-                      help='Number of cross-validation splits used in RFECV and GridSearchCV')
-    parser.add_option('-e', '--ntrees',
-                      default=3, metavar="NUMBER", type="int",
-                      help='Number of estimators in RF')
-    parser.add_option('-j', '--njobs',
-                      default=-1, metavar="NUMBER", type="int",
-                      help='Number of cross-validation splits used in RFECV and GridSearchCV')
-    parser.add_option('-r', '--nrows',
-                      default=None, metavar="NUMBER", type="int",
-                      help='Number of rows of data to load. Default: None (load all)')
-    parser.add_option('-g', '--prefitted_model',
-                      metavar="filename",
-                      default='',
-                      #default='model_selection/tiny/2018-11-20--10-34_tune_4-12/',
-                      #default='model_selection/tiny/2018-11-19--09-50/',
-                      #default='model_selection/tiny/2018-11-07--12-01',
-                      #default='model_selection/tiny/2018-11-07--16-10',
-                      #default='model_selection/tiny/2018-11-21--11-32',
-                      help='Path to pickled GridSearchCV object to load instead of recomputing')
-    options, args = parser.parse_args(sys.argv)
-
-    # ===============================================================================
-    # Create folder to store results of this training and start a log
-    folder, log_file = get_log_folder(options.algo, options.prefitted_model)
-    log = ''
-
-    # ===============================================================================
-    # Override algorithm option if working on a pre-fitted model
-    options = dump_or_load_options(options, folder)
-
-    # ===============================================================================
-    # Read data
-    log += print_and_log('----------------------------------------------------------------------------')
-    X, X_mnk, Y, log = \
-        read_data(options.algo, options.in_folder, options.nrows, options.perf_type, log)
-    if options.plot_all:
-        plot_training_data(Y, X_mnk, folder, options.algo, os.path.join(folder, "y_scaled.svg"))
-
-    # ===============================================================================
-    # Get maximum and baseline performances
-    import json
-    maxperf_file = os.path.join(options.in_folder, 'max_performances.json')
-    with open(maxperf_file) as f:
-        max_performances = json.load(f)
-
-    maxperf_file = os.path.join(options.in_folder, 'max_performances_by_algo.json')
-    with open(maxperf_file) as f:
-        max_performances_algo = json.load(f)[options.algo]
-
-    max_performances_ref = None
-    if options.perf_type == 'perf_scaled':
-        max_performances_ref = max_performances
-    elif options.perf_type == 'perf_scaled_by_algo':
-        max_performances_ref = max_performances_algo
-
-    baseline_file = os.path.join(options.in_folder, 'baseline_performances_by_algo.json')
-    with open(baseline_file) as f:
-        baseline_performances_algo = json.load(f)[options.algo]
-
-    # ===============================================================================
-    # Get or train model
-    log += print_and_log('----------------------------------------------------------------------------')
-    if len(options.prefitted_model) == 0:  # train a model
-
-        log += print_and_log("\nPreparing to fit model...")
-        X_train, Y_train, X_mnk_train, \
-        X_test, Y_test, X_mnk_test, \
-        model, log = \
-            train_model(X, X_mnk, Y, options, folder, log)
-
-    else:  # fetch pre-trained model
-
-        log += print_and_log("\nReading pre-fitted model from " + options.prefitted_model)
-        X_train, Y_train, X_mnk_train, \
-        X_test, Y_test, X_mnk_test, \
-        model, log = \
-            fetch_pre_trained_model(X, X_mnk, Y, options.prefitted_model, log)
-
-    # ===============================================================================
-    # Evaluate model
     scaled_perf = True if options.perf_type in ['perf_scaled', 'perf_scaled_by_algo'] else False
 
     log += print_and_log('----------------------------------------------------------------------------')
@@ -1079,26 +1086,6 @@ def main():
     plot_loss_histogram(Y_test, y_test_pred, X_mnk_test, folder)
 
     # ===============================================================================
-    # Plot prediction accuracy and goodness of choice for a few mnks (training-set)
-    n_samples = 1
-    mnks_to_plot = random.sample(X_mnk_train['mnk'].values.tolist(), n_samples)
-    mnk_string_pattern = re.compile("(\d+)x(\d+)x(\d+)")
-    for mnk_string in mnks_to_plot:
-
-        # Get performances per mnk
-        idx_mnk = np.where(X_mnk_train == mnk_string)[0].tolist()
-        assert (len(idx_mnk) > 0), "idx_mnk is empty"
-        mnk = mnk_string_pattern.match(mnk_string).groups()
-        m_, n_, k_ = mnk
-
-        log += print_and_log('\nPrediction accuracy plot: ' + str(mnk_string))
-        plot_prediction_accuracy(int(m_), int(n_), int(k_), Y_train.iloc[idx_mnk], y_train_pred[idx_mnk], True, folder)
-
-        log += print_and_log('\nGoodness plot: ' + str(mnk_string))
-        plot_choice_goodness(int(m_), int(n_), int(k_), baseline_performances_algo, max_performances_ref,
-                             Y_train.iloc[idx_mnk].values, y_train_pred[idx_mnk], True, folder, scaled_perf)
-
-    # ===============================================================================
     # Plot CV results by evaluation metric
     if options.tune:
         cv_results_file = os.path.join(options.prefitted_model, "cv_results.p")
@@ -1108,6 +1095,31 @@ def main():
             plot_cv_scores(param_grid, cv_results, best_params, folder, options.algo, options.splits)
         else:
             print("File", cv_results_file, "does not exist")
+
+    # ===============================================================================
+    # Plot prediction accuracy and goodness of choice for a few mnks (training-set)
+    n_samples = 10
+    mnks_to_plot = random.sample(X_mnk_train['mnk'].values.tolist(), n_samples)
+    mnk_string_pattern = re.compile("(\d+)x(\d+)x(\d+)")
+
+    from matplotlib.backends.backend_pdf import PdfPages
+    plot_file_path = os.path.join(folder, 'evaluation_by_mnk.pdf')
+    pp = PdfPages(plot_file_path)
+
+    for mnk_string in mnks_to_plot:
+
+        # Get performances per mnk
+        idx_mnk = np.where(X_mnk_train == mnk_string)[0].tolist()
+        assert (len(idx_mnk) > 0), "idx_mnk is empty"
+        mnk = mnk_string_pattern.match(mnk_string).groups()
+        m_, n_, k_ = mnk
+
+        log += print_and_log('Prediction accuracy plot: ' + str(mnk_string))
+        plot_prediction_accuracy(int(m_), int(n_), int(k_), Y_train.iloc[idx_mnk], y_train_pred[idx_mnk], True, pp)
+
+        log += print_and_log('Goodness plot: ' + str(mnk_string))
+        plot_choice_goodness(int(m_), int(n_), int(k_), baseline_performances_algo, max_performances_ref,
+                             Y_train.iloc[idx_mnk].values, y_train_pred[idx_mnk], True, pp, scaled_perf)
 
     # ===============================================================================
     # Plot prediction accuracy for a few mnks (testing-set)
@@ -1120,12 +1132,14 @@ def main():
         mnk = mnk_string_pattern.match(mnk_string).groups()
         m_, n_, k_ = mnk
 
-        log += print_and_log('\nPrediction accuracy plot: ' + str(mnk_string))
-        plot_prediction_accuracy(int(m_), int(n_), int(k_), Y_test.iloc[idx_mnk], y_test_pred[idx_mnk], False, folder)
+        log += print_and_log('Prediction accuracy plot: ' + str(mnk_string))
+        plot_prediction_accuracy(int(m_), int(n_), int(k_), Y_test.iloc[idx_mnk], y_test_pred[idx_mnk], False, pp)
 
-        log += print_and_log('\nGoodness plot: ' + str(mnk_string))
+        log += print_and_log('Goodness plot: ' + str(mnk_string))
         plot_choice_goodness(int(m_), int(n_), int(k_), baseline_performances_algo, max_performances_ref,
-                             Y_test.iloc[idx_mnk].values, y_test_pred[idx_mnk], False, folder, scaled_perf)
+                             Y_test.iloc[idx_mnk].values, y_test_pred[idx_mnk], False, pp, scaled_perf)
+
+    pp.close()
 
     # ===============================================================================
     # Scale baseline and max performances
@@ -1150,7 +1164,7 @@ def main():
     # ===============================================================================
     # Compare max performances and baseline
     from matplotlib.backends.backend_pdf import PdfPages
-    plot_file_path = os.path.join(folder, 'evaluation_plots.pdf')
+    plot_file_path = os.path.join(folder, 'evaluation_overall.pdf')
     pp = PdfPages(plot_file_path)
 
     plot_performance_gains(max_performances_algo, baseline_performances_algo, 'trained',
@@ -1221,6 +1235,109 @@ def main():
                            'max. performance per algorithm', 'predictive model', pp)
 
     pp.close()
+
+    return log
+
+
+# ===============================================================================
+# Main
+def main():
+
+    parser = OptionParser()
+    parser.add_option('-f', '--in_folder', metavar="foldername/",
+                      #default='tune_dataset/',
+                      #default='tune_sample_25_to_32/',
+                      default='tune_sample_4_to_12_logs_and_compileinfo',
+                      help='Folder from which to read data')
+    parser.add_option('-a', '--algo', metavar="algoname",
+                      #default='tiny',
+                      #default='small',
+                      default='medium',
+                      #default='largeDB1',
+                      #default='largeDB2',
+                      help='Algorithm to train on')
+    parser.add_option("-d", "--perf_type", metavar="PERFTYPE",
+                      default="perf_scaled",
+                      #default="perf_scaled_by_algo",
+                      help="Type of performance. " +
+                           "Options: perf, perf_squared, perf_scaled, perf_scaled_by_algo. Default: %default")
+    parser.add_option('-c', '--plot_all',
+                      default=False,
+                      help='Plot more stuff' +
+                           '(Warning: can be very slow for large trees and create very large files)')
+    parser.add_option('-t', '--tune',
+                      default=False,
+                      help='Rune recursive feature selection and grid search on hyperparameters')
+    parser.add_option('-m', '--model',
+                      default='DT',
+                      help='Model to train. Options: DT (Decision Trees), RF (Random Forests)')
+    parser.add_option('-s', '--splits',
+                      default=3, metavar="NUMBER", type="int",
+                      help='Number of cross-validation splits used in RFECV and GridSearchCV')
+    parser.add_option('-e', '--ntrees',
+                      default=3, metavar="NUMBER", type="int",
+                      help='Number of estimators in RF')
+    parser.add_option('-j', '--njobs',
+                      default=-1, metavar="NUMBER", type="int",
+                      help='Number of cross-validation splits used in RFECV and GridSearchCV')
+    parser.add_option('-r', '--nrows',
+                      default=None, metavar="NUMBER", type="int",
+                      help='Number of rows of data to load. Default: None (load all)')
+    parser.add_option('-g', '--prefitted_model',
+                      metavar="filename",
+                      default='',
+                      #default='model_selection/tiny/2018-11-20--10-34_tune_4-12/',
+                      #default='model_selection/tiny/2018-11-19--09-50/',
+                      #default='model_selection/tiny/2018-11-07--12-01',
+                      #default='model_selection/tiny/2018-11-07--16-10',
+                      #default='model_selection/tiny/2018-11-21--11-32',
+                      help='Path to pickled GridSearchCV object to load instead of recomputing')
+    options, args = parser.parse_args(sys.argv)
+
+    # ===============================================================================
+    # Create folder to store results of this training and start a log
+    folder, log_file, log = get_log_folder(options.algo, options.prefitted_model)
+
+    # ===============================================================================
+    # Override algorithm option if working on a pre-fitted model, and log program options
+    log += print_and_log('----------------------------------------------------------------------------')
+    options, log = dump_or_load_options(options, folder, log)
+
+    # ===============================================================================
+    # Get maximum and baseline performances
+    max_performances, max_performances_algo, max_performances_ref, baseline_performances_algo = \
+        get_reference_performances(options.in_folder, options.algo, options.perf_type)
+
+    # ===============================================================================
+    # Read data
+    log += print_and_log('----------------------------------------------------------------------------')
+    X, X_mnk, Y, log = \
+        read_data(options.algo, options.in_folder, options.nrows, options.perf_type, options.plot_all, folder, log)
+
+    # ===============================================================================
+    # Get or train model
+    log += print_and_log('----------------------------------------------------------------------------')
+    if len(options.prefitted_model) == 0:  # train a model
+
+        log += print_and_log("\nPreparing to fit model...")
+        X_train, Y_train, X_mnk_train, \
+        X_test, Y_test, X_mnk_test, \
+        model, log = \
+            train_model(X, X_mnk, Y, options, folder, log)
+
+    else:  # load pre-trained model
+
+        log += print_and_log("\nReading pre-fitted model from " + options.prefitted_model)
+        X_train, Y_train, X_mnk_train, \
+        X_test, Y_test, X_mnk_test, \
+        model, log = \
+            fetch_pre_trained_model(X, X_mnk, Y, options.prefitted_model, log)
+
+    # ===============================================================================
+    # Evaluate model
+    log = evaluate_model(model, X_train, X_mnk_train, Y_train, X_test, X_mnk_test, Y_test,
+                         max_performances_ref, max_performances_algo, baseline_performances_algo,
+                         options, log, folder)
 
     # ===============================================================================
     # Print log

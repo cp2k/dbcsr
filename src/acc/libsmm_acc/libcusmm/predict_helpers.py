@@ -114,7 +114,7 @@ def baseline(m, n, k, algorithm='medium'):
             'perf': 0, 'source': 'predicted'}
 
 
-def plot_training_data(Y, X_mnk, folder, algo, file_name):
+def plot_training_data(Y, X_mnk, algo, folder=''):
     import re
     import matplotlib.pyplot as plt
 
@@ -138,8 +138,10 @@ def plot_training_data(Y, X_mnk, folder, algo, file_name):
     plt.xlabel('Training (m, n, k) triplets (in order of increasing m*n*k)')
     plt.ylabel('Scaled performance [%]')
     plt.title('Scaled performance on training data (' + algo + ')')
-    if file_name != '':
+    if folder != '':
+        file_name = os.path.join(folder, "y_scaled.svg")
         plt.savefig(file_name)
+        print(file_name)
     else:
         plt.show()
 
@@ -227,7 +229,7 @@ def plot_scaled_performance_gains(perf_gain1, perf_gain2, mnk_names, perf_gain1_
         plt.show()
 
 
-def plot_choice_goodness(m, n, k, baseline_performances, max_performances, y_true, y_pred, train, folder, scaled=True):
+def plot_choice_goodness(m, n, k, baseline_performances, max_performances, y_true, y_pred, train, pp, scaled=True):
 
     # Sort in ascending performances
     data_mnk = pd.DataFrame()
@@ -272,11 +274,8 @@ def plot_choice_goodness(m, n, k, baseline_performances, max_performances, y_tru
     plt.plot(x, perf_baseline * y, 'g-', label='baseline: ' + perf_num.format(perf_baseline))
 
     type = 'train' if train else 'test'
-    plot_file_path = os.path.join(folder, "choice_plot_" + type + '_' +
-                                  str(m) + 'x' + str(n) + 'x' + str(k) + ".svg")
     plt.legend(loc="lower right")
-    plt.savefig(plot_file_path)
-    print(plot_file_path)
+    pp.savefig()
 
 
 def plot_choice_goodness_old(m, n, k, path_to_training_data, perf_type, file_name=''):
