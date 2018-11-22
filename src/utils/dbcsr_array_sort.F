@@ -71,7 +71,7 @@ CONTAINS
    end subroutine dbcsr_1d_${nametype1}$_sort
 
 ! **************************************************************************************************
-!> \brief The actual sort routing.
+!> \brief The actual sort routine.
 !>            Only dbcsr_1d_${nametype1}$_sort and itself should call this.
 !> \param arr the array to sort
 !> \param indices elements-indices before the sort

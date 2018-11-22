@@ -62,7 +62,7 @@ CONTAINS
       iseed(1) = INT(MODULO(IEOR(map, 2029_int_8), 2_int_8**12)); map = map/2_int_8**12
    END SUBROUTINE set_larnv_seed
 ! **************************************************************************************************
-!> \brief fils an array with random numbers
+!> \brief fills an array with random numbers
 !> \param idist type of distribution (1..3, see lapack docs)
 !> \param iseed requires each int to be in the range 0..2**12, and the iseed(4) odd
 !> \param n ...
