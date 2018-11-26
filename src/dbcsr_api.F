@@ -138,6 +138,16 @@ MODULE dbcsr_api
    USE dbcsr_mpiwrap, ONLY: mp_cart_rank, &
                             mp_environ
 
+
+   use dbcsr_vector,                    only: create_col_vec_from_matrix_prv => create_col_vec_from_matrix,&
+                                              create_row_vec_from_matrix_prv => create_row_vec_from_matrix,&
+                                              create_replicated_col_vec_from_matrix_prv => create_replicated_col_vec_from_matrix,&
+                                              create_replicated_row_vec_from_matrix_prv => create_replicated_row_vec_from_matrix,&
+                                              dbcsr_matrix_colvec_multiply_prv => dbcsr_matrix_colvec_multiply 
+
+
+
+
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 #include "base/dbcsr_base_uses.f90"
 
@@ -202,6 +212,9 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_trace
    PUBLIC :: dbcsr_complete_redistribute
    PUBLIC :: dbcsr_get_block_p
+
+   ! matrix-vector operations
+   PUBLIC :: dbcsr_matrix_colvec_multiply
 
    ! block reservation
    PUBLIC :: dbcsr_reserve_diag_blocks
@@ -369,6 +382,13 @@ MODULE dbcsr_api
 
    INTERFACE dbcsr_multiply
       MODULE PROCEDURE dbcsr_multiply_d, dbcsr_multiply_s, dbcsr_multiply_c, dbcsr_multiply_z
+   END INTERFACE
+
+   INTERFACE dbcsr_matrix_colvec_multiply
+      MODULE PROCEDURE dbcsr_matrix_colvec_multiply_d
+      MODULE PROCEDURE dbcsr_matrix_colvec_multiply_s 
+      MODULE PROCEDURE dbcsr_matrix_colvec_multiply_c 
+      MODULE PROCEDURE dbcsr_matrix_colvec_multiply_z
    END INTERFACE
 
    INTERFACE dbcsr_get_block_p
@@ -2103,6 +2123,51 @@ CONTAINS
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
 
    END FUNCTION dbcsr_get_data_${nametype1}$
+
+
+
+  SUBROUTINE dbcsr_matrix_colvec_multiply_${nametype1}$(matrix, vec_in, vec_out,&
+                                                        alpha, beta, work_row, work_col)
+     TYPE(dbcsr_type),intent(inout)            :: matrix, vec_in, vec_out
+     ${type1}$, intent(in)                   :: alpha, beta
+     TYPE(dbcsr_type), intent(inout)           :: work_row, work_col
+
+     call dbcsr_matrix_colvec_multiply_prv(matrix % prv, vec_in % prv, vec_out % prv, &
+                                           alpha, beta, work_row % prv, work_col % prv)
+  end SUBROUTINE
+
 #:endfor
+   
+   SUBROUTINE create_col_vec_from_matrix(dbcsr_vec, matrix, ncol)
+      TYPE(dbcsr_type), intent(inout)       :: dbcsr_vec, matrix
+      INTEGER, intent(in)                   :: ncol
+
+      call create_col_vec_from_matrix_prv(dbcsr_vec % prv, matrix % prv, ncol)
+   end SUBROUTINE
+
+
+   SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
+      TYPE(dbcsr_type), intent(inout)       :: dbcsr_vec, matrix
+      INTEGER, intent(in)                   :: nrow
+
+      call create_row_vec_from_matrix_prv(dbcsr_vec % prv, matrix % prv, nrow)
+   end SUBROUTINE
+
+   SUBROUTINE create_replicated_col_vec_from_matrix(dbcsr_vec, matrix, ncol)
+      TYPE(dbcsr_type), intent(inout)       :: dbcsr_vec, matrix
+      INTEGER, intent(in)                   :: ncol
+
+      call create_replicated_col_vec_from_matrix_prv(dbcsr_vec % prv, matrix % prv, ncol)
+   end SUBROUTINE
+
+
+   SUBROUTINE create_replicated_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
+      TYPE(dbcsr_type), intent(inout)       :: dbcsr_vec, matrix
+      INTEGER, intent(in)                   :: nrow
+
+      call create_replicated_row_vec_from_matrix_prv(dbcsr_vec % prv, matrix % prv, nrow)
+   end SUBROUTINE
+
+
 
 END MODULE dbcsr_api
