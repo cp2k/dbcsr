@@ -93,7 +93,8 @@ def main():
                     dict(zip(to_string(*max_performances_algo.keys()), max_performances_algo.values())))
 
                 # Collect baseline performances per algo, per (m, n, k)
-                baseline_performances_algo = get_baseline_performances_per_mnk(data_algo, name_algo)
+                baseline_performances_algo = get_baseline_performances_per_mnk(data_algo, name_algo,
+                                                                               gpu_properties, autotuning_properties)
                 baseline_performances_per_algo_per_mnk[name_algo].update(
                     dict(zip(to_string(*baseline_performances_algo.keys()), baseline_performances_algo.values())))
 

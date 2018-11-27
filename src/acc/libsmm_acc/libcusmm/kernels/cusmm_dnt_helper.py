@@ -290,13 +290,12 @@ def get_max_performances_per_mnk(data):
 
 
 # ===============================================================================
-def get_baseline_performances_per_mnk(data, algorithm):
+def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
     """
     Construct dictionary:
         keys: (m, n, k)-tuple,
         values: baseline performance for this given (m, n, k) and the given algorithm
     """
-    from predict_helpers import baseline
 
     # Get list of different (m, n, k)s occurring in this instance
     data['mnk'] = list(zip(data['m'], data['n'], data['k']))
@@ -307,7 +306,8 @@ def get_baseline_performances_per_mnk(data, algorithm):
 
     for mnk in mnks:
         m, n, k = mnk
-        baseline_pars = baseline(m, n, k, algorithm)
+
+        baseline_pars = kernel_algorithm[algorithm].baseline(m, n, k, gpu, autotuning)
 
         if np.isnan(baseline_pars['tile_m']):
             idx_baseline = data[
@@ -339,13 +339,20 @@ def get_baseline_performances_per_mnk(data, algorithm):
                 (data.minblocks == baseline_pars['minblocks']) &
                 (data.tile_m == baseline_pars['tile_m']) &
                 (data.tile_n == baseline_pars['tile_n']) &
-                (data.tile_m == baseline_pars['w']) &
-                (data.tile_n == baseline_pars['v'])
+                (data.w == baseline_pars['w']) &
+                (data.v == baseline_pars['v'])
             ].index.tolist()
 
-        assert len(idx_baseline) == 1
-        idx_baseline = idx_baseline[0]
+        if len(idx_baseline) < 1:
+            idx_baseline = data[
+                (data.m == baseline_pars['m']) &
+                (data.n == baseline_pars['n']) &
+                (data.k == baseline_pars['k']) &
+                (data.threads_per_blk == baseline_pars['threads'])
+             ].index.tolist()
+            assert len(idx_baseline) > 0
 
+        idx_baseline = idx_baseline[0]
         baseline_perf[mnk] = data['perf (Gflop/s)'][idx_baseline]
 
     return baseline_perf
