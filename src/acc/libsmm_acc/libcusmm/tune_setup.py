@@ -146,8 +146,9 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
             output += "launchers[%d]    = %s;\n" % (j, launchers[A+j])
             output += 'kernel_descr[%d] = (char *) "%s";\n' % (j, kernel_descr[A+j])
         output += "libcusmm_benchmark_init(&handle, tune, %d, %d, %d);\n" % (m, n, k)
-        output += "return libcusmm_benchmark(handle, %d, %d, %d, %d, launchers, kernel_descr);\n" % (m, n, k, B-A)
+        output += "int result = libcusmm_benchmark(handle, %d, %d, %d, %d, launchers, kernel_descr);\n" % (m, n, k, chunk_b-chunk_a)
         output += "libcusmm_benchmark_finalize(handle);\n"
+        output += "return result;"
         output += "}\n"
 
         fn = outdir+"/tune_%dx%dx%d_exe%d_main.cu" % (m, n, k, i)
