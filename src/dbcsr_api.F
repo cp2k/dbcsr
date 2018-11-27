@@ -2169,5 +2169,4 @@ CONTAINS
    end SUBROUTINE
 
 
-
 END MODULE dbcsr_api
