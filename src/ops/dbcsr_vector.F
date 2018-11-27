@@ -54,7 +54,10 @@ MODULE dbcsr_vector
                                               
    USE dbcsr_array_types,               ONLY: array_data
                                               
-                                              
+  USE dbcsr_dist_methods, ONLY: &
+                                dbcsr_distribution_new,&
+                                dbcsr_distribution_release
+                                 
                                               
                                               
                                               
