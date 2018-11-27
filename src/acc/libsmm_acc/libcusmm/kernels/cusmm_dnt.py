@@ -83,3 +83,8 @@ class Kernel:
     @staticmethod
     def promising_parameters(m, n, k, gpu, autotuning):
         raise NotImplementedError('promising_parameters must be implemented in subclass')
+
+    @staticmethod
+    def baseline(m, n, k, gpu, autotuning):
+        """Compute a baseline parameter set, whose performance can be compared against"""
+        raise NotImplementedError('baseline must be implemented in subclass')

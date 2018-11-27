@@ -76,44 +76,6 @@ def performance_gain(baseline, current):
                      for m, n, k in sorted(current.keys())]))
 
 
-def baseline(m, n, k, algorithm='medium'):
-    """Compute a baseline parameter set, whose performance can be compared against"""
-
-    grp = 16
-    minblk = 2
-    tm = np.NaN
-    tn = np.NaN
-    w = np.NaN
-    v = np.NaN
-
-    if algorithm == 'tiny':
-        min_threads = m * n
-
-    elif algorithm in ['small', 'medium', 'largeDB1', 'largeDB2']:
-        tm = 2
-        tn = 2
-        cmax = (n + tn - 1) // tn
-        rmax = (m + tm - 1) // tm
-        min_threads = cmax * rmax
-
-        if algorithm in ['largeDB1', 'largeDB2']:
-            w = 8
-            v = 8
-            if 2 * w > k:
-                w = 4
-
-    else:
-        assert False, "Cannot recognize algorithm " + algorithm
-
-    return {'m': m, 'n': n, 'k': k,
-            'algorithm': algorithm,
-            'threads': round_up_to_nearest_multiple(min_threads, 32),
-            'grouping': grp, 'minblocks': minblk,
-            'tile_m': tm, 'tile_n': tn,
-            'w': w, 'v': v,
-            'perf': 0, 'source': 'predicted'}
-
-
 def plot_training_data(Y, X_mnk, algo, folder=''):
     import re
     import matplotlib.pyplot as plt

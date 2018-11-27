@@ -9,6 +9,7 @@
 ####################################################################################################
 
 
+import numpy as np
 from kernels.cusmm_dnt import Kernel
 from kernels.cusmm_dnt_helper import round_up_to_nearest_multiple
 
@@ -35,7 +36,8 @@ class Kernel_dnt_tiny(Kernel):
         return "cusmm_dnt_tiny<%(m)d,%(n)d,%(k)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n" % self.__dict__
 
     @staticmethod
-    def promising_parameters(m, n, k, gpu, autotuning):
+    def promising_parameters(m, n, k, gpu, autotuning,
+                             threads=None, grouping=None, minblocks=None, tile_m=None, tile_n=None, w=None, v=None):
 
         # Shared memory buffer size
         buf_sz = k * (m + n)   # number of elements in the a_block buffer = mk, and in the b_block buffer = kn
@@ -45,32 +47,57 @@ class Kernel_dnt_tiny(Kernel):
 
         # Parameter space: 
         params = []
-        for minblocks in range(1, gpu["Thread_Blocks_/_Multiprocessor"] + 1):
-            for grouping in range(2, 32 + 1, 1):  # heuristic: never seen optimal=1 hence start from 2
-            
+        for minblocks_ in range(1, gpu["Thread_Blocks_/_Multiprocessor"] + 1) \
+                if minblocks is None else [minblocks]:
+            # heuristic: never seen optimal=1 hence start from 2
+            for grouping_ in range(2, 32 + 1, 1) \
+                    if grouping is None else [grouping]:
+
                 # Max work ("operations")  which can be run concurrently
-                max_concurrent_work = max(grouping, m*k, k*n, m*n)
+                max_concurrent_work = max(grouping_, m * k, k * n, m * n)
 
                 # Shared memory utilisation (bytes)
-                smem_tot = buf_sz * autotuning["sizeof_double"] + autotuning["npars"] * grouping * autotuning["sizeof_int"]
+                smem_tot = buf_sz * autotuning["sizeof_double"] + autotuning["npars"] * grouping_ * autotuning["sizeof_int"]
                 if smem_tot > gpu["Max_Shared_Memory_/_Block_(bytes)"]:
                     continue
-                if smem_tot * minblocks > gpu["Max_Shared_Memory_/_Block_(bytes)"]:
+                if smem_tot * minblocks_ > gpu["Max_Shared_Memory_/_Block_(bytes)"]:
                     continue
 
                 # Use all concurrency available: fill warps
-                for threads in range(gpu["Threads_/_Warp"], gpu["Max_Thread_Block_Size"] + 1, gpu["Threads_/_Warp"]):
+                for threads_ in range(gpu["Threads_/_Warp"], gpu["Max_Thread_Block_Size"] + 1, gpu["Threads_/_Warp"]) \
+                        if threads is None else [threads]:
 
-                    if threads > round_up_to_nearest_multiple(max_concurrent_work, gpu["Threads_/_Warp"]):
+                    if threads_ > round_up_to_nearest_multiple(max_concurrent_work, gpu["Threads_/_Warp"]):
                         continue  # soft: too much concurrency harms performance
-                    if threads * minblocks > gpu["Threads_/_Multiprocessor"]:
+                    if threads_ * minblocks_ > gpu["Threads_/_Multiprocessor"]:
                         continue
-                    if threads < min_threads: 
+                    if threads_ < min_threads:
                         continue
 
                     params.append({'m': m, 'n': n, 'k': k,
-                                   'threads': threads,
-                                   'grouping': grouping,
-                                   'minblocks': minblocks,
-                                   'perf': 0})
+                                   'threads': threads_,
+                                   'grouping': grouping_,
+                                   'minblocks': minblocks_})
         return params
+
+    @staticmethod
+    def baseline(m, n, k, gpu, autotuning):
+
+        grp = 16
+        minblk = 2
+        min_threads = m * n
+
+        base = {'threads': round_up_to_nearest_multiple(min_threads, 32),
+                'grouping': grp, 'minblocks': minblk,
+                'tile_m': np.NaN, 'tile_n': np.NaN,
+                'w': np.NaN, 'v': np.NaN}
+
+        if len(Kernel_dnt_tiny.promising_parameters(m, n, k, gpu, autotuning, **base)) > 0:
+            base = Kernel_dnt_tiny.promising_parameters(m, n, k, gpu, autotuning)[0]
+            base.update(dict([('tile_m', np.NaN), ('tile_n', np.NaN), ('w', np.NaN), ('v', np.NaN)]))
+
+        base.update(dict([('m', m), ('n', n), ('k', k),
+                          ('algorithm', 'tiny'),
+                          ('perf', 0),
+                          ('source', 'predicted')]))
+        return base
