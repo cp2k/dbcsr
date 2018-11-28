@@ -48,21 +48,6 @@ def safe_pickle_load(file_path):
     return pickle.loads(bytes_in)
 
 
-def read_result_file(file):
-    results = dict()
-    result_line = re.compile(r"OK (\d+) x (\d+) x (\d+) GFlop/s (\d+(?:\.\d+)?)")
-    for line in file:
-        match = result_line.match(line)
-        if match is not None:
-            m = int(match.group(1))
-            n = int(match.group(2))
-            k = int(match.group(3))
-            perf = float(match.group(4))
-            results[(m, n, k)] = perf
-
-    return results
-
-
 # ===============================================================================
 # Model evaluation helpers
 def performance_gain(baseline, current):
