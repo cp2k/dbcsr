@@ -94,7 +94,7 @@ MODULE dbcsr_mm
                                dbcsr_get_occupation, &
                                dbcsr_may_be_dense, &
                                dbcsr_scale
-   USE dbcsr_toollib, ONLY: uppercase
+   USE dbcsr_string_utilities, ONLY: uppercase
    USE dbcsr_transformations, ONLY: dbcsr_make_dense, &
                                     dbcsr_make_undense, &
                                     dbcsr_make_untransposed_blocks, &
