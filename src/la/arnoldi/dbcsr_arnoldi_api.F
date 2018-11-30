@@ -10,8 +10,8 @@
 !> \author Florian Schiffmann
 ! **************************************************************************************************
 
-MODULE arnoldi_api
-   USE arnoldi_data_methods,            ONLY: arnoldi_is_converged,&
+MODULE dbcsr_arnoldi_api
+   USE dbcsr_arnoldi_data_methods,            ONLY: arnoldi_is_converged,&
                                               deallocate_arnoldi_data,&
                                               get_nrestart,&
                                               get_selected_ritz_val,&
@@ -19,22 +19,22 @@ MODULE arnoldi_api
                                               select_evals,&
                                               set_arnoldi_initial_vector,&
                                               setup_arnoldi_data
-   USE arnoldi_methods,                 ONLY: arnoldi_init,&
+   USE dbcsr_arnoldi_methods,                 ONLY: arnoldi_init,&
                                               arnoldi_iram,&
                                               build_subspace,&
                                               compute_evals,&
                                               gev_arnoldi_init,&
                                               gev_build_subspace,&
                                               gev_update_data
-   USE arnoldi_types,                   ONLY: arnoldi_control_type,&
+   USE dbcsr_arnoldi_types,                   ONLY: arnoldi_control_type,&
                                               arnoldi_data_type,&
                                               get_control,&
                                               m_x_v_vectors_type
    USE dbcsr_api,                       ONLY: &
         dbcsr_add, dbcsr_copy, dbcsr_get_block_p, dbcsr_get_info, dbcsr_iterator_blocks_left, &
         dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, dbcsr_iterator_type, &
-        dbcsr_p_type, dbcsr_release, dbcsr_set, dbcsr_type, create_col_vec_from_matrix,&
-        create_replicated_col_vec_from_matrix, create_replicated_row_vec_from_matrix,&
+        dbcsr_p_type, dbcsr_release, dbcsr_set, dbcsr_type, dbcsr_create_col_vec_from_matrix,&
+        dbcsr_create_replicated_col_vec_from_matrix, dbcsr_create_replicated_row_vec_from_matrix,&
         dbcsr_matrix_colvec_multiply
    !USE dbcsr_vector,                    ONLY: create_col_vec_from_matrix,&
                                               !create_replicated_col_vec_from_matrix,&
@@ -42,13 +42,13 @@ MODULE arnoldi_api
                                               !dbcsr_matrix_colvec_multiply
    USE dbcsr_kinds,                           ONLY: dp
    USE dbcsr_mpiwrap,                 ONLY: mp_sum
-#include "../../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 
    PRIVATE
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'arnoldi_api'
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_arnoldi_api'
 
    PUBLIC :: arnoldi_ev, arnoldi_extremal, arnoldi_conjugate_gradient
    PUBLIC :: arnoldi_data_type, setup_arnoldi_data, deallocate_arnoldi_data
@@ -114,10 +114,10 @@ CONTAINS
       CALL timeset(routineN, handle)
 
 !prepare the vector like matrives needed in the matrix vector products, they will be reused throughout the iterations
-      CALL create_col_vec_from_matrix(vectors % input_vec , matrix(1) % matrix , 1)
+      CALL dbcsr_create_col_vec_from_matrix(vectors % input_vec , matrix(1) % matrix , 1)
       CALL dbcsr_copy(vectors%result_vec, vectors%input_vec)
-      CALL create_replicated_col_vec_from_matrix(vectors%rep_col_vec, matrix(1)%matrix, 1)
-      CALL create_replicated_row_vec_from_matrix(vectors%rep_row_vec, matrix(1)%matrix, 1)
+      CALL dbcsr_create_replicated_col_vec_from_matrix(vectors%rep_col_vec, matrix(1)%matrix, 1)
+      CALL dbcsr_create_replicated_row_vec_from_matrix(vectors%rep_row_vec, matrix(1)%matrix, 1)
 
 ! Tells whether we have local data available on the processor (usually all in pcol 0 but even ther can be some without data)
       control => get_control(arnoldi_data)
@@ -199,10 +199,10 @@ CONTAINS
       matrix_arnoldi(2)%matrix => matrix(2)%matrix
 
 !prepare the vector like matrives needed in the matrix vector products, they will be reused throughout the iterations
-      CALL create_col_vec_from_matrix(vectors%input_vec, matrix(1)%matrix, 1)
+      CALL dbcsr_create_col_vec_from_matrix(vectors%input_vec, matrix(1)%matrix, 1)
       CALL dbcsr_copy(vectors%result_vec, vectors%input_vec)
-      CALL create_replicated_col_vec_from_matrix(vectors%rep_col_vec, matrix(1)%matrix, 1)
-      CALL create_replicated_row_vec_from_matrix(vectors%rep_row_vec, matrix(1)%matrix, 1)
+      CALL dbcsr_create_replicated_col_vec_from_matrix(vectors%rep_col_vec, matrix(1)%matrix, 1)
+      CALL dbcsr_create_replicated_row_vec_from_matrix(vectors%rep_row_vec, matrix(1)%matrix, 1)
 
 ! Tells whether we have local data available on the processor (usually all in pcol 0 but even ther can be some without data)
       control => get_control(arnoldi_data)
@@ -329,10 +329,10 @@ CONTAINS
 
       !prepare the vector like matrices needed in the matrix vector products,
       !they will be reused throughout the iterations
-      CALL create_col_vec_from_matrix(vectors%input_vec, matrix_a, 1)
+      CALL dbcsr_create_col_vec_from_matrix(vectors%input_vec, matrix_a, 1)
       CALL dbcsr_copy(vectors%result_vec, vectors%input_vec)
-      CALL create_replicated_col_vec_from_matrix(vectors%rep_col_vec, matrix_a, 1)
-      CALL create_replicated_row_vec_from_matrix(vectors%rep_row_vec, matrix_a, 1)
+      CALL dbcsr_create_replicated_col_vec_from_matrix(vectors%rep_col_vec, matrix_a, 1)
+      CALL dbcsr_create_replicated_row_vec_from_matrix(vectors%rep_row_vec, matrix_a, 1)
       !
       CALL dbcsr_copy(x, vectors%input_vec)
       !
@@ -538,4 +538,4 @@ CONTAINS
 
    END FUNCTION vec_dot_vec
 
-END MODULE arnoldi_api
+END MODULE dbcsr_arnoldi_api

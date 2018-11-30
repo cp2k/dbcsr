@@ -2,5 +2,5 @@
 "description": "Arnoldi iteration eigenvalue algorithm",
 "archive": "libdbcsr",
 "requires": ["../base", "../", "../ops", "../mpi", "arnoldi"],
-"public" : ["iterate_matrix.F"],
+"public" : ["dbcsr_iterate_matrix.F"],
 }

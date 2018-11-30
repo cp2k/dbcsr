@@ -10,7 +10,7 @@
 !> \author Florian Schiffmann
 ! **************************************************************************************************
 
-MODULE arnoldi_types
+MODULE dbcsr_arnoldi_types
    USE dbcsr_api,                       ONLY: dbcsr_type
    USE dbcsr_kinds,                           ONLY: real_4,&
                                               real_8
@@ -94,7 +94,7 @@ MODULE arnoldi_types
 
    PRIVATE
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'arnoldi_types'
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_arnoldi_types'
 
    PUBLIC :: arnoldi_data_type, m_x_v_vectors_type, get_data_d, get_data_s, get_sel_ind, &
              get_data_z, get_data_c, get_control, has_s_real, has_d_real, arnoldi_control_type, &
@@ -349,4 +349,4 @@ CONTAINS
 
    END FUNCTION get_evals_c
 
-END MODULE arnoldi_types
+END MODULE dbcsr_arnoldi_types

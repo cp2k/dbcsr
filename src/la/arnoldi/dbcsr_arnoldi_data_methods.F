@@ -12,8 +12,8 @@
 !> \author Florian Schiffmann
 ! **************************************************************************************************
 
-MODULE arnoldi_data_methods
-   USE arnoldi_types,                   ONLY: &
+MODULE dbcsr_arnoldi_data_methods
+   USE dbcsr_arnoldi_types,                   ONLY: &
         arnoldi_control_type, arnoldi_data_c_type, arnoldi_data_d_type, arnoldi_data_s_type, &
         arnoldi_data_type, arnoldi_data_z_type, get_control, get_data_c, get_data_d, get_data_s, &
         get_data_z, get_evals_c, get_evals_d, get_evals_s, get_evals_z, get_sel_ind, has_d_cmplx, &
@@ -23,18 +23,18 @@ MODULE arnoldi_data_methods
         dbcsr_distribution_get, dbcsr_distribution_type, dbcsr_get_data_p, dbcsr_get_data_type, &
         dbcsr_get_info, dbcsr_get_matrix_type, dbcsr_mp_grid_setup, dbcsr_p_type, dbcsr_release, &
         dbcsr_type, dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_real_4, &
-        dbcsr_type_real_8, dbcsr_type_symmetric, create_col_vec_from_matrix
+        dbcsr_type_real_8, dbcsr_type_symmetric,  dbcsr_create_col_vec_from_matrix
    !USE dbcsr_vector,                    ONLY: create_col_vec_from_matrix
    USE dbcsr_kinds,                           ONLY: real_4,&
                                               real_8
    !USE util,                            ONLY: sort
-#include "../../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 
    PRIVATE
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'arnoldi_data_methods'
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_arnoldi_data_methods'
 
    PUBLIC :: select_evals, get_selected_ritz_val, arnoldi_is_converged, &
              arnoldi_data_type, get_nrestart, set_arnoldi_initial_vector, &
@@ -407,5 +407,5 @@ CONTAINS
 
 #:include 'arnoldi_data_selection.f90'
 #:include 'arnoldi_data_manipulation.f90'
-END MODULE arnoldi_data_methods
+END MODULE dbcsr_arnoldi_data_methods
 

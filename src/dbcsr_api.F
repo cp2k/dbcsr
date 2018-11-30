@@ -139,10 +139,10 @@ MODULE dbcsr_api
                             mp_environ
 
 
-   use dbcsr_vector,                    only: create_col_vec_from_matrix_prv => create_col_vec_from_matrix,&
-                                              create_row_vec_from_matrix_prv => create_row_vec_from_matrix,&
-                                              create_replicated_col_vec_from_matrix_prv => create_replicated_col_vec_from_matrix,&
-                                              create_replicated_row_vec_from_matrix_prv => create_replicated_row_vec_from_matrix,&
+   use dbcsr_vector,                    only: dbcsr_create_col_vec_from_matrix_prv => dbcsr_create_col_vec_from_matrix,&
+                                              dbcsr_create_row_vec_from_matrix_prv => dbcsr_create_row_vec_from_matrix,&
+                                              dbcsr_create_replicated_col_vec_from_matrix_prv => dbcsr_create_replicated_col_vec_from_matrix,&
+                                              dbcsr_create_replicated_row_vec_from_matrix_prv => dbcsr_create_replicated_row_vec_from_matrix,&
                                               dbcsr_matrix_colvec_multiply_prv => dbcsr_matrix_colvec_multiply 
 
 
@@ -215,10 +215,10 @@ MODULE dbcsr_api
 
    ! matrix-vector operations
    PUBLIC :: dbcsr_matrix_colvec_multiply
-   PUBLIC :: create_col_vec_from_matrix
-   PUBLIC :: create_row_vec_from_matrix
-   PUBLIC ::  create_replicated_col_vec_from_matrix
-   PUBLIC ::  create_replicated_row_vec_from_matrix
+   PUBLIC :: dbcsr_create_col_vec_from_matrix
+   PUBLIC :: dbcsr_create_row_vec_from_matrix
+   PUBLIC :: dbcsr_create_replicated_col_vec_from_matrix
+   PUBLIC :: dbcsr_create_replicated_row_vec_from_matrix
 
    ! block reservation
    PUBLIC :: dbcsr_reserve_diag_blocks
@@ -2142,34 +2142,34 @@ CONTAINS
 
 #:endfor
    
-   SUBROUTINE create_col_vec_from_matrix(dbcsr_vec, matrix, ncol)
+   SUBROUTINE dbcsr_create_col_vec_from_matrix(dbcsr_vec, matrix, ncol)
       TYPE(dbcsr_type)       :: dbcsr_vec, matrix
       INTEGER                  :: ncol
 
-      call create_col_vec_from_matrix_prv(dbcsr_vec % prv, matrix % prv, ncol)
+      call dbcsr_create_col_vec_from_matrix_prv(dbcsr_vec % prv, matrix % prv, ncol)
    end SUBROUTINE
 
 
-   SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
+   SUBROUTINE dbcsr_create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
       TYPE(dbcsr_type)       :: dbcsr_vec, matrix
       INTEGER                :: nrow
 
-      call create_row_vec_from_matrix_prv(dbcsr_vec % prv, matrix % prv, nrow)
+      call dbcsr_create_row_vec_from_matrix_prv(dbcsr_vec % prv, matrix % prv, nrow)
    end SUBROUTINE
 
-   SUBROUTINE create_replicated_col_vec_from_matrix(dbcsr_vec, matrix, ncol)
+   SUBROUTINE dbcsr_create_replicated_col_vec_from_matrix(dbcsr_vec, matrix, ncol)
       TYPE(dbcsr_type)     :: dbcsr_vec, matrix
       INTEGER                  :: ncol
 
-      call create_replicated_col_vec_from_matrix_prv(dbcsr_vec % prv, matrix % prv, ncol)
+      call dbcsr_create_replicated_col_vec_from_matrix_prv(dbcsr_vec % prv, matrix % prv, ncol)
    end SUBROUTINE
 
 
-   SUBROUTINE create_replicated_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
+   SUBROUTINE dbcsr_create_replicated_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
       TYPE(dbcsr_type)      :: dbcsr_vec, matrix
       INTEGER                :: nrow
 
-      call create_replicated_row_vec_from_matrix_prv(dbcsr_vec % prv, matrix % prv, nrow)
+      call dbcsr_create_replicated_row_vec_from_matrix_prv(dbcsr_vec % prv, matrix % prv, nrow)
    end SUBROUTINE
 
 

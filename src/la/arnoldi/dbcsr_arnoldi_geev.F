@@ -10,16 +10,16 @@
 !> \author Florian Schiffmann
 ! **************************************************************************************************
 
-MODULE arnoldi_geev
+MODULE dbcsr_arnoldi_geev
    USE dbcsr_kinds,                           ONLY: real_4,&
                                               real_8
-#include "../../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 
    PRIVATE
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'arnoldi_geev'
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_arnoldi_geev'
 
    PUBLIC :: arnoldi_general_local_diag, arnoldi_tridiag_local_diag, arnoldi_symm_local_diag
 
@@ -470,4 +470,4 @@ CONTAINS
 
    END SUBROUTINE arnoldi_cgeev
 
-END MODULE arnoldi_geev
+END MODULE dbcsr_arnoldi_geev

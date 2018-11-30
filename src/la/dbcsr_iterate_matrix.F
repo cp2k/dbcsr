@@ -8,8 +8,8 @@
 !>       2010.10 created [Joost VandeVondele]
 !> \author Joost VandeVondele
 ! **************************************************************************************************
-MODULE iterate_matrix
-   USE arnoldi_api,                     ONLY: arnoldi_data_type,&
+MODULE dbcsr_iterate_matrix
+   USE dbcsr_arnoldi_api,                     ONLY: arnoldi_data_type,&
                                               arnoldi_extremal
    !USE cp_log_handling,                 ONLY: cp_get_default_logger,&
                                               !cp_logger_get_default_unit_nr,&
@@ -26,13 +26,13 @@ MODULE iterate_matrix
                                               m_walltime
    !USE mathconstants,                   ONLY: ifac
    !USE mathlib,                         ONLY: abnormal_value
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 
    PRIVATE
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'iterate_matrix'
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_iterate_matrix'
 
    INTERFACE purify_mcweeny
       MODULE PROCEDURE purify_mcweeny_orth, purify_mcweeny_nonorth
@@ -1237,4 +1237,4 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE purify_mcweeny_nonorth
 
-END MODULE iterate_matrix
+END MODULE dbcsr_iterate_matrix

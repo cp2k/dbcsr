@@ -11,11 +11,11 @@
 ! **************************************************************************************************
 
 #:include 'arnoldi.fypp'
-MODULE arnoldi_methods
-   USE arnoldi_geev,                    ONLY: arnoldi_general_local_diag,&
+MODULE dbcsr_arnoldi_methods
+   USE dbcsr_arnoldi_geev,                    ONLY: arnoldi_general_local_diag,&
                                               arnoldi_symm_local_diag,&
                                               arnoldi_tridiag_local_diag
-   USE arnoldi_types,                   ONLY: &
+   USE dbcsr_arnoldi_types,                   ONLY: &
         arnoldi_control_type, arnoldi_data_c_type, arnoldi_data_d_type, arnoldi_data_s_type, &
         arnoldi_data_type, arnoldi_data_z_type, get_control, get_data_c, get_data_d, get_data_s, &
         get_data_z, has_d_cmplx, has_d_real, has_s_cmplx, has_s_real, m_x_v_vectors_type
@@ -28,13 +28,13 @@ MODULE arnoldi_methods
                                               real_8
    USE dbcsr_mpiwrap,                         ONLY: mp_bcast,&
                                               mp_sum
-#include "../../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 
    PRIVATE
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'arnoldi_methods'
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_arnoldi_methods'
 
    PUBLIC :: arnoldi_init, build_subspace, compute_evals, arnoldi_iram, &
              gev_arnoldi_init, gev_build_subspace, gev_update_data
@@ -1034,4 +1034,4 @@ CONTAINS
   END SUBROUTINE gev_update_data_${nametype1}$
 #:endfor
 
-END MODULE arnoldi_methods
+END MODULE dbcsr_arnoldi_methods

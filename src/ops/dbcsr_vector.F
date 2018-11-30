@@ -59,41 +59,8 @@ MODULE dbcsr_vector
                                 dbcsr_distribution_release
                                  
                                               
-                                              
-                                              
 
-
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                                          
-   !USE dbcsr_api,                       ONLY: &
-                                              !dbcsr_distribution_get,&
-                                              !dbcsr_distribution_new,&
-                                              !dbcsr_distribution_release,&
-                                              !dbcsr_distribution_type,&
-                                              !dbcsr_get_info,&
-                                              !dbcsr_iterator_blocks_left,&
-                                              !dbcsr_iterator_next_block,&
-                                              !dbcsr_iterator_start,&
-                                              !dbcsr_iterator_stop,&
-                                              !dbcsr_iterator_type,&
-                                              !dbcsr_release,&
-                                              !dbcsr_reserve_all_blocks,&
-                                              !dbcsr_set,dbcsr_get_data_p,&
-                                              !dbcsr_type,&
-                                              !dbcsr_type_antisymmetric,&
-                                              !dbcsr_type_complex_4,&
-                                              !dbcsr_type_complex_4,&
-                                              !dbcsr_type_complex_8,&
-                                              !dbcsr_type_complex_8,&
-                                              !dbcsr_type_no_symmetry,&
-                                              !dbcsr_type_real_4,&
-                                              !dbcsr_type_real_4,&
-                                              !dbcsr_type_real_8,&
-                                              !dbcsr_type_real_8,&
-                                              !dbcsr_type_symmetric
-
-
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
@@ -104,7 +71,7 @@ MODULE dbcsr_vector
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_vector_operations'
 
 !    ! the following types provide fast access to distributed dbcsr vectors
-#include "../utils/dbcsr_hash_table_types.f90"
+#include "utils/dbcsr_hash_table_types.f90"
 
    TYPE block_ptr_d
       REAL(real_8), DIMENSION(:, :), POINTER          :: ptr => NULL()
@@ -132,10 +99,10 @@ MODULE dbcsr_vector
    END TYPE
 
    PUBLIC :: dbcsr_matrix_colvec_multiply, &
-             create_col_vec_from_matrix, &
-             create_row_vec_from_matrix, &
-             create_replicated_col_vec_from_matrix, &
-             create_replicated_row_vec_from_matrix
+             dbcsr_create_col_vec_from_matrix, &
+             dbcsr_create_row_vec_from_matrix, &
+             dbcsr_create_replicated_col_vec_from_matrix, &
+             dbcsr_create_replicated_row_vec_from_matrix
 
    INTERFACE dbcsr_matrix_colvec_multiply
       MODULE PROCEDURE dbcsr_matrix_colvec_multiply_d
@@ -155,7 +122,7 @@ CONTAINS
 !> \param matrix a dbcsr matrix used as template
 !> \param ncol number of vectors in the dbcsr_typeect (1 for vector, n for skinny matrix)
 ! **************************************************************************************************
-   SUBROUTINE create_col_vec_from_matrix(dbcsr_vec, matrix, ncol)
+   SUBROUTINE dbcsr_create_col_vec_from_matrix(dbcsr_vec, matrix, ncol)
       TYPE(dbcsr_type)                                   :: dbcsr_vec, matrix
       INTEGER                                            :: ncol
 
@@ -194,7 +161,7 @@ CONTAINS
       DEALLOCATE (col_dist, col_blk_size)
       CALL timestop(handle)
 
-   END SUBROUTINE create_col_vec_from_matrix
+   END SUBROUTINE dbcsr_create_col_vec_from_matrix
 
 ! **************************************************************************************************
 !> \brief creates a dbcsr row vector like object which lives on proc_row 0
@@ -205,7 +172,7 @@ CONTAINS
 !> \param matrix a dbcsr matrix used as template
 !> \param nrow number of vectors in the dbcsr_typeect (1 for vector, n for skinny matrix)
 ! **************************************************************************************************
-SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
+SUBROUTINE dbcsr_create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
       TYPE(dbcsr_type)                                   :: dbcsr_vec, matrix
       INTEGER                                            :: nrow
 
@@ -243,7 +210,7 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
       DEALLOCATE (row_dist, row_blk_size)
       CALL timestop(handle)
 
-   END SUBROUTINE create_row_vec_from_matrix
+   END SUBROUTINE dbcsr_create_row_vec_from_matrix
 
 
 ! **************************************************************************************************
@@ -255,7 +222,7 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
 !> \param matrix a dbcsr matrix used as template
 !> \param ncol number of vectors in the dbcsr_typeect (1 for vector, n for skinny matrix)
 ! **************************************************************************************************
-   SUBROUTINE create_replicated_col_vec_from_matrix(dbcsr_vec, matrix, ncol)
+   SUBROUTINE dbcsr_create_replicated_col_vec_from_matrix(dbcsr_vec, matrix, ncol)
       TYPE(dbcsr_type)                                   :: dbcsr_vec, matrix
       INTEGER                                            :: ncol
 
@@ -294,7 +261,7 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
       DEALLOCATE (col_dist, col_blk_size)
       CALL timestop(handle)
 
-   END SUBROUTINE create_replicated_col_vec_from_matrix
+   END SUBROUTINE dbcsr_create_replicated_col_vec_from_matrix
 
 ! **************************************************************************************************
 !> \brief creates a row vector like object whose blocks can be replicated
@@ -305,7 +272,7 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
 !> \param matrix a dbcsr matrix used as template
 !> \param nrow number of vectors in the dbcsr_typeect (1 for vector, n for skinny matrix)
 ! **************************************************************************************************
-   SUBROUTINE create_replicated_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
+   SUBROUTINE dbcsr_create_replicated_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
       TYPE(dbcsr_type)                                   :: dbcsr_vec
       TYPE(dbcsr_type)                                   :: matrix
       INTEGER                                            :: nrow
@@ -344,7 +311,7 @@ SUBROUTINE create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
       DEALLOCATE (row_dist, row_blk_Size)
       CALL timestop(handle)
 
-   END SUBROUTINE create_replicated_row_vec_from_matrix
+   END SUBROUTINE dbcsr_create_replicated_row_vec_from_matrix
 
 ! **************************************************************************************************
 !> \brief given a column vector, prepare the fast_vec_access container
