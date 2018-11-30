@@ -28,6 +28,7 @@ MODULE dbcsr_arnoldi_data_methods
    USE dbcsr_kinds,                           ONLY: real_4,&
                                               real_8
    USE dbcsr_toollib,                            ONLY: sort
+
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -149,22 +150,20 @@ CONTAINS
       control%generalized_ev = generalized_ev
 
       IF (control%nval_req > 1 .AND. control%nrestart > 0 .AND. .NOT. control%iram) &
-         CALL cp_abort(__LOCATION__, 'with more than one eigenvalue requested '// &
-                       'internal restarting with a previous EVEC is a bad idea, set IRAM or nrestsart=0')
+         DBCSR_ABORT('with more than one eigenvalue requested internal restarting')
+    
+     !&
+                     !with a previous EVEC is a bad idea, set IRAM or nrestsart=0')
 
 ! some checks for the generalized EV mode
       IF (control%generalized_ev .AND. selection_crit == 1) &
-         CALL cp_abort(__LOCATION__, &
-                       'generalized ev can only highest OR lowest EV')
+         DBCSR_ABORT ('generalized ev can only highest OR lowest EV')
       IF (control%generalized_ev .AND. nval_request .NE. 1) &
-         CALL cp_abort(__LOCATION__, &
-                       'generalized ev can only compute one EV at the time')
+         DBCSR_ABORT ('generalized ev can only compute one EV at the time')
       IF (control%generalized_ev .AND. control%nrestart == 0) &
-         CALL cp_abort(__LOCATION__, &
-                       'outer loops are mandatory for generalized EV, set nrestart appropriatly')
+         DBCSR_ABORT ('outer loops are mandatory for generalized EV, set nrestart appropriatly')
       IF (SIZE(matrix) .NE. 2 .AND. control%generalized_ev) &
-         CALL cp_abort(__LOCATION__, &
-                       'generalized ev needs exactly two matrices as input (2nd is the metric)')
+         DBCSR_ABORT ('generalized ev needs exactly two matrices as input (2nd is the metric)')
 
       ALLOCATE (control%selected_ind(max_iter))
       CALL set_control(arnoldi_data, control)

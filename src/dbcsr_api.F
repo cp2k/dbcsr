@@ -139,11 +139,16 @@ MODULE dbcsr_api
                             mp_environ
 
 
-   use dbcsr_vector,                    only: dbcsr_create_col_vec_from_matrix_prv => dbcsr_create_col_vec_from_matrix,&
-                                              dbcsr_create_row_vec_from_matrix_prv => dbcsr_create_row_vec_from_matrix,&
-                                              dbcsr_create_replicated_col_vec_from_matrix_prv => dbcsr_create_replicated_col_vec_from_matrix,&
-                                              dbcsr_create_replicated_row_vec_from_matrix_prv => dbcsr_create_replicated_row_vec_from_matrix,&
-                                              dbcsr_matrix_colvec_multiply_prv => dbcsr_matrix_colvec_multiply 
+   use dbcsr_vector,                    only: dbcsr_create_col_vec_from_matrix_prv =>&
+                                                 dbcsr_create_col_vec_from_matrix,&
+                                              dbcsr_create_row_vec_from_matrix_prv =>&
+                                                 dbcsr_create_row_vec_from_matrix,&
+                                              dbcsr_create_replicated_col_vec_from_matrix_prv =>&
+                                                 dbcsr_create_replicated_col_vec_from_matrix,&
+                                              dbcsr_create_replicated_row_vec_from_matrix_prv =>&
+                                                 dbcsr_create_replicated_row_vec_from_matrix,&
+                                              dbcsr_matrix_colvec_multiply_prv =>&
+                                                 dbcsr_matrix_colvec_multiply 
 
 
 
