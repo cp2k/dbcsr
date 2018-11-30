@@ -422,10 +422,12 @@ vpath %.cpp   $(ALL_SRC_DIRS)
 
 FYPPFLAGS ?= -n
 
-%.o %.mod: %.F
-	@rm -f $*.mod
+%.o: %.F
 	$(FYPPEXE) $(FYPPFLAGS) $< $*.F90
 	$(FC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(notdir $<)\"" -I'$(dir $<)' -I'$(SRCDIR)' $*.F90 $(FCLOGPIPE)
+
+%.mod: %.o
+	@true
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $<
