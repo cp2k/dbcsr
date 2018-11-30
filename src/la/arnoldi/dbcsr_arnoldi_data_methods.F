@@ -27,7 +27,7 @@ MODULE dbcsr_arnoldi_data_methods
    !USE dbcsr_vector,                    ONLY: create_col_vec_from_matrix
    USE dbcsr_kinds,                           ONLY: real_4,&
                                               real_8
-   !USE util,                            ONLY: sort
+   USE dbcsr_toollib,                            ONLY: sort
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE

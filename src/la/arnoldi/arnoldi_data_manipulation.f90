@@ -87,7 +87,7 @@
     ritz_v=CMPLX(0.0,0.0,${type_prec}$)
 
     CALL dbcsr_release(vector)
-    CALL create_col_vec_from_matrix(vector,matrix,1)
+    CALL dbcsr_create_col_vec_from_matrix(vector,matrix,1)
     IF(control%local_comp)THEN
        DO i=1,sspace_size
           ritz_v(:)=ritz_v(:)+ar_data%local_history(:,i)*ar_data%revec(i,myind)
