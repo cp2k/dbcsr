@@ -208,10 +208,10 @@ CONTAINS
          matrix = dbcsr_type()
          matrix%refcount = 1
       ENDIF
-!$OMP     CRITICAL
+!$OMP     CRITICAL (crit_counter)
       matrix%serial_number = dbcsr_matrix_counter
       dbcsr_matrix_counter = dbcsr_matrix_counter + 1
-!$OMP     END CRITICAL
+!$OMP     END CRITICAL (crit_counter)
       ! Mark matrix index as having an invalid index.
       matrix%valid = .FALSE.
       matrix%name = name
