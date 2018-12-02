@@ -282,12 +282,11 @@ CONTAINS
             DBCSR_ABORT("Cannot use memory pool with previous data area.")
       ENDIF
 
+      wanted_size = data_size
 #if defined(__HAS_smm_dnn) && defined(__HAS_smm_vec)
       ! allocate some more as padding for libsmm kernels which read over the end.
       IF (data_size .GT. 0) THEN
          wanted_size = data_size + 10
-      ELSE
-         wanted_size = data_size
       ENDIF
 #endif
 
