@@ -38,8 +38,6 @@ MODULE dbcsr_toollib
    ! Block sizes and arrays
    PUBLIC :: dbcsr_unpack_i8_2i4, make_coordinate_tuple
    PUBLIC :: swap
-   ! string routines
-   PUBLIC :: uppercase
    ! math routines
    PUBLIC :: gcd, lcm
    ! utility routines
@@ -134,24 +132,6 @@ CONTAINS
          array_lower(i) = INT(IAND(merged(i), lmask8), KIND=int_4)
       ENDDO
    END SUBROUTINE dbcsr_unpack_i8_2i4
-
-! **************************************************************************************************
-!> \brief ...
-!> \param string ...
-! **************************************************************************************************
-   SUBROUTINE uppercase(string)
-      CHARACTER(LEN=*), INTENT(INOUT)                    :: string
-
-      INTEGER                                            :: i, iascii
-
-      DO i = 1, LEN_TRIM(string)
-         iascii = ICHAR(string(i:i))
-         IF ((iascii >= 97) .AND. (iascii <= 122)) THEN
-            string(i:i) = CHAR(iascii - 32)
-         END IF
-      END DO
-
-   END SUBROUTINE uppercase
 
 ! **************************************************************************************************
 !> \brief ...

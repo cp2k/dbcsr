@@ -73,8 +73,8 @@ MODULE dbcsr_work_operations
       dbcsr_row_block_sizes, dbcsr_use_mutable, dbcsr_valid_index, dbcsr_wm_use_mutable
    USE dbcsr_ptr_util, ONLY: ensure_array_size
    USE dbcsr_toollib, ONLY: dbcsr_unpack_i8_2i4, &
-                            sort, &
-                            uppercase
+                            sort
+   USE dbcsr_string_utilities, ONLY: uppercase
    USE dbcsr_types, ONLY: &
       dbcsr_data_obj, dbcsr_distribution_obj, dbcsr_iterator, dbcsr_memtype_default, &
       dbcsr_memtype_type, dbcsr_meta_size, dbcsr_num_slots, dbcsr_repl_col, dbcsr_repl_full, &

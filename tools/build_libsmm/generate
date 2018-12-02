@@ -58,7 +58,7 @@ show_help() {
     echo "   small1 : it runs the small phase. Batch execution if requested."
     echo "   small2 : collect the results of the small phase. "
     echo "            Run automatically during small1 when there is no batch execution."
-    echo "   lib    : generate the libray. Batch execution if requested (a single job needed)."
+    echo "   lib    : generate the library. Batch execution if requested (a single job needed)."
     echo "   check1 : run the checks on the library. Batch execution if requested."
     echo "   check2 : collect the results of the checks."
     echo "            Run automatically during check1 when there is no batch execution."

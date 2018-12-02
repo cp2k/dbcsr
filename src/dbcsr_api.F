@@ -104,7 +104,7 @@ MODULE dbcsr_api
    USE dbcsr_tests, ONLY: dbcsr_run_tests, &
                           dbcsr_test_binary_io, &
                           dbcsr_test_mm
-   USE dbcsr_toollib, ONLY: uppercase
+   USE dbcsr_string_utilities, ONLY: uppercase
    USE dbcsr_transformations, ONLY: dbcsr_complete_redistribute_prv => dbcsr_complete_redistribute, &
                                     dbcsr_desymmetrize_deep_prv => dbcsr_desymmetrize_deep, &
                                     dbcsr_distribute_prv => dbcsr_distribute, &
