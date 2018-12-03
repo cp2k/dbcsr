@@ -17,7 +17,7 @@ import pickle
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from kernels.cusmm_dnt_helper import kernel_algorithm, compatible_mnk, round_up_to_nearest_multiple
+from kernels.cusmm_dnt_helper import kernel_algorithm
 
 
 # ===============================================================================

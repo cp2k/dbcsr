@@ -44,6 +44,7 @@ def find_optimal_kernel(mnk, algo, tree, tree_features, top_k, gpu_properties, a
     # Get parameter space for this (m, n, k) and this algorithm
     parameter_space_ = kernel_algorithm[algo].promising_parameters(m, n, k, gpu_properties, autotuning_properties)
     parameter_space = pd.DataFrame(parameter_space_)
+    parameter_space = parameter_space.rename(columns={'threads': 'threads_per_blk'}) 
     del parameter_space_
     parameter_space['algorithm'] = [algo] * len(parameter_space.index)  # Add "algorithm" column
     if len(parameter_space.index) == 0:
@@ -52,7 +53,7 @@ def find_optimal_kernel(mnk, algo, tree, tree_features, top_k, gpu_properties, a
     else:
 
         # Predict performances
-        parameter_sets = PredictiveParameters(parameter_space, gpu_properties, autotuning_properties)
+        parameter_sets = PredictiveParameters(parameter_space, gpu_properties, autotuning_properties, None)
         predictors = np.array(parameter_sets.get_features(tree_features))
         performances = np.sqrt(tree.predict(predictors))
         del predictors
