@@ -11,22 +11,6 @@ import numpy as np
 
 
 # ===============================================================================
-#  Computing helpers
-def round_up_to_nearest_multiple(x, step):
-    result = np.where(x % step == 0, x, x + step - x % step).astype(float)
-    if result.size == 1:
-        result = result.item()  # extract single element of numpy array
-    return result
-
-
-def round_down_to_nearest_multiple(x, step):
-    result = np.where(x % step == 0, x, x - x % step).astype(float)
-    if result.size == 1:
-        result = result.item()  # extract single element of numpy array
-    return result
-
-
-# ===============================================================================
 # Available kernel algorithms and the classes that implement them
 from kernels.cusmm_dnt_largeDB1 import Kernel_dnt_largeDB1
 from kernels.cusmm_dnt_largeDB2 import Kernel_dnt_largeDB2
@@ -376,18 +360,25 @@ class PredictiveParameters:
         self.atomicAdd_factor = 5
 
         if not partial_initialization:
-            assert "threads_per_blk" in params_df.columns.values
-            assert "grouping" in params_df.columns.values
-            assert "minblocks" in params_df.columns.values
+            assert "threads_per_blk" in params_df.columns.values, \
+                "Missing column: threads_per_blk. Available columns:\n" + str(params_df.columns.values)
+            assert "grouping" in params_df.columns.values, \
+                "Missing column: grouping. Available columns:\n" + str(params_df.columns.values)
+            assert "minblocks" in params_df.columns.values, \
+                "Missing column: minblocks. Available columns:\n" + str(params_df.columns.values)
             algos = np.unique(params_df["algorithm"].values)
             assert len(algos) == 1
             algo = algos[0]
             if algo in ['small', 'medium', 'largeDB1', 'largeDB2']:
-                assert "tile_m" in params_df.columns.values
-                assert "tile_n" in params_df.columns.values
+                assert "tile_m" in params_df.columns.values, \
+                    "Missing column: tile_m. Available columns:\n" + str(params_df.columns.values)
+                assert "tile_n" in params_df.columns.values, \
+                    "Missing column: tile_n. Available columns:\n" + str(params_df.columns.values)
                 if algo in ['largeDB1', 'largeDB2']:
-                    assert "w" in params_df.columns.values
-                    assert "v" in params_df.columns.values
+                    assert "w" in params_df.columns.values, \
+                        "Missing column: w. Available columns:\n" + str(params_df.columns.values)
+                    assert "v" in params_df.columns.values, \
+                        "Missing column: v. Available columns:\n" + str(params_df.columns.values)
 
             # Possible additional fields, if compilation information is available:
             # 'nbytes_smem', 'regs_per_thread', nytes_cmem
@@ -528,6 +519,8 @@ class PredictiveParameters:
     # ===============================================================================
     # Resource occupancy estimations
     # Note: these features need compilation information: nbytes of shared memory used and number of registers used
+    from kernels.cusmm_dnt import round_up_to_nearest_multiple, round_down_to_nearest_multiple
+
     def get_nblocks_per_sm_lim_blks_warps(self):
         """Resource occupations in terms of warps and blocks (Follows CUDA calculator sheet)"""
         return np.minimum(self.gpu['Thread_Blocks_/_Multiprocessor'],

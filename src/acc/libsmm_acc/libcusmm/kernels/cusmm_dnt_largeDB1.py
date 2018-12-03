@@ -9,10 +9,7 @@
 ####################################################################################################
 
 
-from kernels.cusmm_dnt import Kernel
-from kernels.cusmm_dnt_helper import round_up_to_nearest_multiple
-
-grouping = 16
+from kernels.cusmm_dnt import Kernel, round_up_to_nearest_multiple
 
 
 class Kernel_dnt_largeDB1(Kernel):
@@ -50,6 +47,7 @@ class Kernel_dnt_largeDB1(Kernel):
                              threads=None, grouping=None, minblocks=None,
                              tile_m=None, tile_n=None, w=None, v=None):
         params = []
+        grouping = 16
 
         for minblocks_ in (1, 2, 4, 8, 12) if minblocks is None else [minblocks]:
             # for exhaustive search, it should be: range(1, gpu["Thread_Blocks_/_Multiprocessor"] + 1):
