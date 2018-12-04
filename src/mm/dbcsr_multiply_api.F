@@ -13,18 +13,18 @@
 !> \date    10-2014
 ! **************************************************************************************************
 MODULE dbcsr_multiply_api
-   USE dbcsr_data_methods,              ONLY: dbcsr_scalar
-   USE dbcsr_kinds,                     ONLY: int_8,&
-                                              real_4,&
-                                              real_8
-   USE dbcsr_methods,                   ONLY: dbcsr_get_data_type
-   USE dbcsr_mm,                        ONLY: dbcsr_multiply_clear_mempools,&
-                                              dbcsr_multiply_generic,&
-                                              dbcsr_multiply_lib_finalize,&
-                                              dbcsr_multiply_lib_init
-   USE dbcsr_types,                     ONLY: dbcsr_type,&
-                                              dbcsr_type_real_4,&
-                                              dbcsr_type_real_8
+   USE dbcsr_data_methods, ONLY: dbcsr_scalar
+   USE dbcsr_kinds, ONLY: int_8, &
+                          real_4, &
+                          real_8
+   USE dbcsr_methods, ONLY: dbcsr_get_data_type
+   USE dbcsr_mm, ONLY: dbcsr_multiply_clear_mempools, &
+                       dbcsr_multiply_generic, &
+                       dbcsr_multiply_lib_finalize, &
+                       dbcsr_multiply_lib_init
+   USE dbcsr_types, ONLY: dbcsr_type, &
+                          dbcsr_type_real_4, &
+                          dbcsr_type_real_8
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
@@ -126,7 +126,7 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL         :: flop
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_d', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       IF (dbcsr_get_data_type(matrix_a) .EQ. dbcsr_type_real_4 .AND. &
           dbcsr_get_data_type(matrix_b) .EQ. dbcsr_type_real_4 .AND. &

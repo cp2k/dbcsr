@@ -17,34 +17,34 @@ MODULE dbcsr_tensor_test
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)
 
-   USE dbcsr_api,                       ONLY: ${uselist(dtype_float_param)}$, &
-                                              dbcsr_get_info
-   USE dbcsr_tensor,                    ONLY: &
-        dbcsr_t_copy, dbcsr_t_get_block, dbcsr_t_iterator_type, dbcsr_t_iterator_blocks_left, &
-        dbcsr_t_iterator_next_block, dbcsr_t_iterator_start, dbcsr_t_iterator_stop, dbcsr_t_ndims, &
-        dbcsr_t_reserve_blocks, dbcsr_t_get_stored_coordinates, dbcsr_t_put_block, &
-        dbcsr_t_contract, dbcsr_t_inverse_order, dbcsr_t_dims
-   USE dbcsr_tensor_block,              ONLY: block_nd
-   USE dbcsr_tensor_types,              ONLY: dbcsr_t_create,&
-                                              dbcsr_t_destroy,&
-                                              dbcsr_t_type,&
-                                              dbcsr_t_distribution_type,&
-                                              dbcsr_t_distribution_destroy,&
-                                              dims_tensor,&
-                                              dbcsr_t_distribution_new,&
-                                              dbcsr_t_nd_mp_comm,&
-                                              dbcsr_t_get_data_type
-   USE dbcsr_kinds,                     ONLY: ${uselist(dtype_float_prec)}$,&
-                                              default_string_length,&
-                                              int_8
-   USE dbcsr_mpiwrap,                   ONLY: mp_environ, &
-                                              mp_bcast, &
-                                              mp_comm_free, &
-                                              mp_comm_free, &
-                                              mp_sum
-   USE dbcsr_allocate_wrap,             ONLY: allocate_any
-   USE dbcsr_tensor_index,              ONLY: combine_index, &
-                                              get_mapping_info
+   USE dbcsr_api, ONLY: ${uselist(dtype_float_param)}$, &
+                        dbcsr_get_info
+   USE dbcsr_tensor, ONLY: &
+      dbcsr_t_copy, dbcsr_t_get_block, dbcsr_t_iterator_type, dbcsr_t_iterator_blocks_left, &
+      dbcsr_t_iterator_next_block, dbcsr_t_iterator_start, dbcsr_t_iterator_stop, dbcsr_t_ndims, &
+      dbcsr_t_reserve_blocks, dbcsr_t_get_stored_coordinates, dbcsr_t_put_block, &
+      dbcsr_t_contract, dbcsr_t_inverse_order, dbcsr_t_dims
+   USE dbcsr_tensor_block, ONLY: block_nd
+   USE dbcsr_tensor_types, ONLY: dbcsr_t_create, &
+                                 dbcsr_t_destroy, &
+                                 dbcsr_t_type, &
+                                 dbcsr_t_distribution_type, &
+                                 dbcsr_t_distribution_destroy, &
+                                 dims_tensor, &
+                                 dbcsr_t_distribution_new, &
+                                 dbcsr_t_nd_mp_comm, &
+                                 dbcsr_t_get_data_type
+   USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$, &
+                          default_string_length, &
+                          int_8
+   USE dbcsr_mpiwrap, ONLY: mp_environ, &
+                            mp_bcast, &
+                            mp_comm_free, &
+                            mp_comm_free, &
+                            mp_sum
+   USE dbcsr_allocate_wrap, ONLY: allocate_any
+   USE dbcsr_tensor_index, ONLY: combine_index, &
+                                 get_mapping_info
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -52,9 +52,9 @@ MODULE dbcsr_tensor_test
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tensor_test'
 
    PUBLIC :: &
-      dbcsr_t_setup_test_tensor,&
-      dbcsr_t_random_dist,&
-      dbcsr_t_contract_test,&
+      dbcsr_t_setup_test_tensor, &
+      dbcsr_t_random_dist, &
+      dbcsr_t_contract_test, &
       dbcsr_t_test_formats
 
    INTERFACE repl_dense_array_to_dist_sparse_tensor
@@ -132,7 +132,7 @@ CONTAINS
       SELECT CASE (block1%data_type)
 #:for dprec, dparam, dtype, dsuffix in dtype_float_list_prec
       CASE (${dparam}$)
-         blocks_equal = MAXVAL(ABS(block1%${dsuffix}$%blk-block2%${dsuffix}$%blk)) .LT. 1.0E-12_${dprec}$
+         blocks_equal = MAXVAL(ABS(block1%${dsuffix}$%blk - block2%${dsuffix}$%blk)) .LT. 1.0E-12_${dprec}$
 #:endfor
       END SELECT
 
@@ -170,13 +170,13 @@ CONTAINS
          INTEGER :: j, t
          IF (i == n) THEN
             p(:, c) = pp(:)
-            c = c+1
+            c = c + 1
          ELSE
             DO j = i, n
                t = pp(i)
                pp(i) = pp(j)
                pp(j) = t
-               call perm(i+1)
+               call perm(i + 1)
                t = pp(i)
                pp(i) = pp(j)
                pp(j) = t
@@ -195,8 +195,8 @@ CONTAINS
 !> \param blk_ind_1 index along dimension 1 of non-zero blocks
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_test_formats(ndims, mp_comm_2d, unit_nr, verbose, &
-                                  ${varlist("blk_size")}$, &
-                                  ${varlist("blk_ind")}$)
+                                   ${varlist("blk_size")}$, &
+                                   ${varlist("blk_ind")}$)
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: ${varlist("blk_size")}$
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: ${varlist("blk_ind")}$
       INTEGER, INTENT(IN)                         :: ndims
@@ -227,41 +227,41 @@ CONTAINS
 
       CALL permute(ndims, perm)
       CALL allocate_any(map1_ref, source=perm(1:ndims/2, 1))
-      CALL allocate_any(map2_ref, source=perm(ndims/2+1:ndims, 1))
+      CALL allocate_any(map2_ref, source=perm(ndims/2 + 1:ndims, 1))
 
       mp_comm_ref = dbcsr_t_nd_mp_comm(mp_comm_2d, map1_ref, map2_ref)
       CALL mp_environ(numnodes, mynode, mp_comm_ref)
       CALL mp_environ(mp_comm_ref, ndims, pdims_ref, myploc, periods)
 
-      IF(io_unit > 0) THEN
-         WRITE(io_unit, *)
-         WRITE(io_unit, '(A)') repeat("-",80)
-         WRITE(io_unit, '(A,1X,I1)') "Testing matrix representations of tensor rank", ndims
-         WRITE(io_unit, '(A)') repeat("-",80)
-         WRITE(io_unit,'(A)') "Block sizes:"
+      IF (io_unit > 0) THEN
+         WRITE (io_unit, *)
+         WRITE (io_unit, '(A)') repeat("-", 80)
+         WRITE (io_unit, '(A,1X,I1)') "Testing matrix representations of tensor rank", ndims
+         WRITE (io_unit, '(A)') repeat("-", 80)
+         WRITE (io_unit, '(A)') "Block sizes:"
 
 #:for dim in range(1, maxdim+1)
-         IF (ndims>=${dim}$) THEN
-            WRITE(io_unit,'(T4,A,1X,I1,A,1X)', advance='no') 'Dim', ${dim}$,':'
-            DO iblk=1, SIZE(blk_size_${dim}$)
-               WRITE(io_unit,'(I2,1X)', advance='no') blk_size_${dim}$(iblk)
+         IF (ndims >= ${dim}$) THEN
+            WRITE (io_unit, '(T4,A,1X,I1,A,1X)', advance='no') 'Dim', ${dim}$, ':'
+            DO iblk = 1, SIZE(blk_size_${dim}$)
+               WRITE (io_unit, '(I2,1X)', advance='no') blk_size_${dim}$ (iblk)
             ENDDO
-            WRITE(io_unit,*)
+            WRITE (io_unit, *)
          ENDIF
 #:endfor
 
-         WRITE(io_unit,'(A)') "Non-zero blocks:"
-         DO iblk=1,SIZE(blk_ind_1)
+         WRITE (io_unit, '(A)') "Non-zero blocks:"
+         DO iblk = 1, SIZE(blk_ind_1)
 #:for ndim in ndims
-            IF (ndims==${ndim}$) THEN
-               WRITE(io_unit,'(T4,A, I3, A, ${ndim}$I3, 1X, A)') &
-                  'Block',iblk, ': (', ${varlist("blk_ind", nmax=ndim, suffix='(iblk)')}$, ')'
+            IF (ndims == ${ndim}$) THEN
+               WRITE (io_unit, '(T4,A, I3, A, ${ndim}$I3, 1X, A)') &
+                  'Block', iblk, ': (', ${varlist("blk_ind", nmax=ndim, suffix='(iblk)')}$, ')'
             ENDIF
 #:endfor
          ENDDO
 
-         WRITE(io_unit, *)
-         WRITE(io_unit,'(A,1X)', advance='no') "Reference map:"
+         WRITE (io_unit, *)
+         WRITE (io_unit, '(A,1X)', advance='no') "Reference map:"
          WRITE (io_unit, '(A1,1X)', advance='no') "("
          DO imap = 1, SIZE(map1_ref)
             WRITE (io_unit, '(I1,1X)', advance='no') map1_ref(imap)
@@ -276,11 +276,11 @@ CONTAINS
 
       icount = 0
       DO iperm = 1, factorial(ndims)
-         DO isep = 1, ndims-1
-            icount = icount+1
+         DO isep = 1, ndims - 1
+            icount = icount + 1
 
-            CALL allocate_any(map1, source=perm(1:isep,iperm))
-            CALL allocate_any(map2, source=perm(isep+1:ndims,iperm))
+            CALL allocate_any(map1, source=perm(1:isep, iperm))
+            CALL allocate_any(map2, source=perm(isep + 1:ndims, iperm))
 
             mp_comm_test = dbcsr_t_nd_mp_comm(mp_comm_2d, map1, map2)
             CALL mp_environ(numnodes, mynode, mp_comm_test)
@@ -294,10 +294,10 @@ CONTAINS
             ENDIF
 #:endfor
 
-            IF(io_unit > 0) THEN
-               WRITE(io_unit, *)
-               WRITE(tensor_name, '(A,1X,I3,1X)') "Test", icount
-               WRITE(io_unit, '(A,A,1X)', advance='no') TRIM(tensor_name),':'
+            IF (io_unit > 0) THEN
+               WRITE (io_unit, *)
+               WRITE (tensor_name, '(A,1X,I3,1X)') "Test", icount
+               WRITE (io_unit, '(A,A,1X)', advance='no') TRIM(tensor_name), ':'
                WRITE (io_unit, '(A1,1X)', advance='no') "("
                DO imap = 1, SIZE(map1)
                   WRITE (io_unit, '(I1,1X)', advance='no') map1(imap)
@@ -308,31 +308,31 @@ CONTAINS
                ENDDO
                WRITE (io_unit, '(A1)') ")"
 
-               WRITE(io_unit,'(T4,A)') "Reference distribution:"
+               WRITE (io_unit, '(T4,A)') "Reference distribution:"
 #:for dim in range(1, maxdim+1)
                IF (${dim}$ <= ndims) THEN
-                  WRITE(io_unit, '(T7,A,1X)', advance='no') "Dist vec ${dim}$:"
+                  WRITE (io_unit, '(T7,A,1X)', advance='no') "Dist vec ${dim}$:"
                   DO idist = 1, SIZE(dist2_${dim}$)
-                     WRITE(io_unit, '(I2,1X)', advance='no') dist2_${dim}$(idist)
+                     WRITE (io_unit, '(I2,1X)', advance='no') dist2_${dim}$ (idist)
                   ENDDO
-                  WRITE(io_unit, *)
+                  WRITE (io_unit, *)
                ENDIF
 #:endfor
 
-               WRITE(io_unit,'(T4,A)') "Test distribution:"
+               WRITE (io_unit, '(T4,A)') "Test distribution:"
 #:for dim in range(1, maxdim+1)
                IF (${dim}$ <= ndims) THEN
-                  WRITE(io_unit, '(T7,A,1X)', advance='no') "Dist vec ${dim}$:"
+                  WRITE (io_unit, '(T7,A,1X)', advance='no') "Dist vec ${dim}$:"
                   DO idist = 1, SIZE(dist2_${dim}$)
-                     WRITE(io_unit, '(I2,1X)', advance='no') dist1_${dim}$(idist)
+                     WRITE (io_unit, '(I2,1X)', advance='no') dist1_${dim}$ (idist)
                   ENDDO
-                  WRITE(io_unit, *)
+                  WRITE (io_unit, *)
                ENDIF
 #:endfor
             ENDIF
 
 #:for ndim in ndims
-            IF (ndims==${ndim}$) THEN
+            IF (ndims == ${ndim}$) THEN
                CALL dbcsr_t_distribution_new(dist2, mp_comm_ref, mp_comm_2d, map1_ref, map2_ref, ${varlist("dist2", nmax=ndim)}$)
                CALL dbcsr_t_create(tensor2, "Ref", dist2, map1_ref, map2_ref, &
                                    dbcsr_type_real_8, ${varlist("blk_size", nmax=ndim)}$)
@@ -340,10 +340,10 @@ CONTAINS
             ENDIF
 #:endfor
 
-            IF(verbose) CALL write_tensor_blocks(tensor2, io_unit, unit_nr)
+            IF (verbose) CALL write_tensor_blocks(tensor2, io_unit, unit_nr)
 
 #:for ndim in ndims
-            IF (ndims==${ndim}$) THEN
+            IF (ndims == ${ndim}$) THEN
                CALL dbcsr_t_distribution_new(dist1, mp_comm_test, mp_comm_2d, map1, map2, ${varlist("dist1", nmax=ndim)}$)
                CALL dbcsr_t_create(tensor1, tensor_name, dist1, map1, map2, &
                                    dbcsr_type_real_8, ${varlist("blk_size", nmax=ndim)}$)
@@ -351,18 +351,17 @@ CONTAINS
             ENDIF
 #:endfor
 
-            IF(verbose) CALL write_tensor_blocks(tensor1, io_unit, unit_nr)
+            IF (verbose) CALL write_tensor_blocks(tensor1, io_unit, unit_nr)
 
             eql = dbcsr_t_equal(tensor1, tensor2)
 
-
             IF (.NOT. eql) THEN
-               IF (io_unit > 0) WRITE(io_unit,'(A,1X,A)') TRIM(tensor_name), 'failed!'
+               IF (io_unit > 0) WRITE (io_unit, '(A,1X,A)') TRIM(tensor_name), 'failed!'
                DBCSR_ABORT('')
             ELSE
-               IF (io_unit > 0) WRITE(io_unit,'(A,1X,A)') TRIM(tensor_name), 'passed!'
+               IF (io_unit > 0) WRITE (io_unit, '(A,1X,A)') TRIM(tensor_name), 'passed!'
             ENDIF
-            DEALLOCATE(map1, map2)
+            DEALLOCATE (map1, map2)
 
             CALL dbcsr_t_destroy(tensor1)
             CALL dbcsr_t_distribution_destroy(dist1)
@@ -417,7 +416,7 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: ${varlist("my_blk_ind")}$
       INTEGER, DIMENSION(dbcsr_t_ndims(tensor))          :: blk_index, blk_offset, blk_size, &
                                                             tensor_dims
-      INTEGER, DIMENSION(:,:), ALLOCATABLE               :: ind_nd
+      INTEGER, DIMENSION(:, :), ALLOCATABLE               :: ind_nd
 #:for ndim in ndims
       REAL(KIND=real_8), ALLOCATABLE, &
          DIMENSION(${shape_colon(ndim)}$)                :: blk_values_${ndim}$
@@ -427,41 +426,41 @@ CONTAINS
       nblks_alloc = SIZE(blk_ind_1)
       CALL mp_environ(numnodes, mynode, mp_comm)
 
-      ALLOCATE(ind_nd(nblks_alloc, dbcsr_t_ndims(tensor)))
+      ALLOCATE (ind_nd(nblks_alloc, dbcsr_t_ndims(tensor)))
       my_nblks_alloc = 0
       DO ib = 1, nblks_alloc
 #:for ndim in ndims
-         IF(dbcsr_t_ndims(tensor) == ${ndim}$) THEN
-            ind_nd(ib,:) = [${varlist("blk_ind", nmax=ndim, suffix="(ib)")}$]
+         IF (dbcsr_t_ndims(tensor) == ${ndim}$) THEN
+            ind_nd(ib, :) = [${varlist("blk_ind", nmax=ndim, suffix="(ib)")}$]
          ENDIF
 #:endfor
-         CALL dbcsr_t_get_stored_coordinates(tensor, ind_nd(ib,:), proc)
+         CALL dbcsr_t_get_stored_coordinates(tensor, ind_nd(ib, :), proc)
          IF (proc == mynode) THEN
-            my_nblks_alloc = my_nblks_alloc+1
+            my_nblks_alloc = my_nblks_alloc + 1
          ENDIF
       ENDDO
 
 #:for dim in range(1, maxdim+1)
-      IF(dbcsr_t_ndims(tensor) >= ${dim}$) THEN
-         ALLOCATE (my_blk_ind_${dim}$(my_nblks_alloc))
+      IF (dbcsr_t_ndims(tensor) >= ${dim}$) THEN
+         ALLOCATE (my_blk_ind_${dim}$ (my_nblks_alloc))
       ENDIF
 #:endfor
 
       i = 0
       DO ib = 1, nblks_alloc
-         CALL dbcsr_t_get_stored_coordinates(tensor, ind_nd(ib,:), proc)
+         CALL dbcsr_t_get_stored_coordinates(tensor, ind_nd(ib, :), proc)
          IF (proc == mynode) THEN
-            i = i+1
+            i = i + 1
 #:for dim in range(1, maxdim+1)
-            IF(dbcsr_t_ndims(tensor) >= ${dim}$) THEN
-               my_blk_ind_${dim}$(i) = blk_ind_${dim}$(ib)
+            IF (dbcsr_t_ndims(tensor) >= ${dim}$) THEN
+               my_blk_ind_${dim}$ (i) = blk_ind_${dim}$ (ib)
             ENDIF
 #:endfor
          ENDIF
       ENDDO
 
 #:for ndim in ndims
-      IF(dbcsr_t_ndims(tensor) == ${ndim}$) THEN
+      IF (dbcsr_t_ndims(tensor) == ${ndim}$) THEN
          CALL dbcsr_t_reserve_blocks(tensor, ${varlist("my_blk_ind", nmax=ndim)}$)
       ENDIF
 #:endfor
@@ -471,7 +470,7 @@ CONTAINS
          CALL dbcsr_t_iterator_next_block(iterator, blk_index, blk, blk_size=blk_size, blk_offset=blk_offset)
 
 #:for ndim in ndims
-         IF(dbcsr_t_ndims(tensor) == ${ndim}$) THEN
+         IF (dbcsr_t_ndims(tensor) == ${ndim}$) THEN
             CALL allocate_any(blk_values_${ndim}$, shape_spec=blk_size)
             CALL dims_tensor(tensor, tensor_dims)
             CALL enumerate_block_elements(blk_size, blk_offset, tensor_dims, blk_${ndim}$=blk_values_${ndim}$)
@@ -508,13 +507,13 @@ CONTAINS
 #:for ndim in ndims
       IF (ndim == ${ndim}$) THEN
 #:for idim in range(ndim,0,-1)
-            DO i_${idim}$ = 1, blk_size(${idim}$)
+         DO i_${idim}$ = 1, blk_size(${idim}$)
 #:endfor
-               arr_ind(:) = [${varlist("i", nmax=ndim)}$]
-               tens_ind(:) = arr_ind(:) + blk_offset(:) - 1
-               blk_${ndim}$(${arrlist("arr_ind", nmax=ndim)}$) = combine_index(tens_ind, tensor_size)
+            arr_ind(:) = [${varlist("i", nmax=ndim)}$]
+            tens_ind(:) = arr_ind(:) + blk_offset(:) - 1
+            blk_${ndim}$ (${arrlist("arr_ind", nmax=ndim)}$) = combine_index(tens_ind, tensor_size)
 #:for idim in range(ndim,0,-1)
-            ENDDO
+         ENDDO
 #:endfor
       ENDIF
 #:endfor
@@ -528,7 +527,7 @@ CONTAINS
       INTEGER, DIMENSION(dbcsr_t_ndims(tensor))          :: blk_index, blk_size
       INTEGER                                            :: blk, mynode, numnodes, proc
 
-      IF(io_unit_master > 0) THEN
+      IF (io_unit_master > 0) THEN
          WRITE (io_unit_master, '(T7,A)') "(block index) @ process: size"
       ENDIF
 
@@ -539,9 +538,9 @@ CONTAINS
          CALL mp_environ(numnodes, mynode, tensor%comm_nd)
          DBCSR_ASSERT(proc .EQ. mynode)
 #:for ndim in ndims
-         IF(dbcsr_t_ndims(tensor) == ${ndim}$) THEN
+         IF (dbcsr_t_ndims(tensor) == ${ndim}$) THEN
             WRITE (io_unit_all, '(T7,A,T16,A,${ndim}$I3,1X,A,1X,I3,A2,${ndim}$I3)') &
-               TRIM(tensor%name),"blk index (", blk_index,") @", proc,":", blk_size
+               TRIM(tensor%name), "blk index (", blk_index, ") @", proc, ":", blk_size
          ENDIF
 #:endfor
       ENDDO
@@ -567,7 +566,7 @@ CONTAINS
       TYPE(dbcsr_t_iterator_type)                        :: iterator
       INTEGER                                            :: proc, mynode, numnodes
 
-      IF(io_unit_master > 0) THEN
+      IF (io_unit_master > 0) THEN
          WRITE (io_unit_master, '(T7,A)') "(block index) @ process: (array index) value"
       ENDIF
       CALL dbcsr_t_iterator_start(iterator, tensor)
@@ -577,7 +576,7 @@ CONTAINS
          CALL mp_environ(numnodes, mynode, tensor%comm_nd)
          DBCSR_ASSERT(proc .EQ. mynode)
 #:for ndim in ndims
-         IF(dbcsr_t_ndims(tensor) == ${ndim}$) THEN
+         IF (dbcsr_t_ndims(tensor) == ${ndim}$) THEN
             CALL dbcsr_t_get_block(tensor, blk_index, blk_values_${ndim}$)
             CALL write_block(tensor%name, blk_size, blk_index, proc, io_unit_all, &
                              blk_values_${ndim}$=blk_values_${ndim}$, write_int=write_int)
@@ -613,7 +612,7 @@ CONTAINS
       INTEGER                                            :: ${varlist("i")}$
       INTEGER                                            :: ndim
 
-      IF(PRESENT(write_int)) THEN
+      IF (PRESENT(write_int)) THEN
          write_int_prv = write_int
       ELSE
          write_int_prv = .FALSE.
@@ -629,14 +628,14 @@ CONTAINS
 #:endfor
                IF (write_int_prv) THEN
                   WRITE (unit_nr, '(T7,A,T16,A,${ndim}$I3,1X,A,1X,I3,A,1X,A,${ndim}$I3,1X,A,1X,I20)') &
-                     TRIM(name),"(", blk_index,") @", proc, ':', &
-                     "(",${varlist("i", nmax=ndim)}$,")", &
-                     INT(blk_values_${ndim}$(${varlist("i", nmax=ndim)}$), KIND=int_8)
+                     TRIM(name), "(", blk_index, ") @", proc, ':', &
+                     "(", ${varlist("i", nmax=ndim)}$, ")", &
+                     INT(blk_values_${ndim}$ (${varlist("i", nmax=ndim)}$), KIND=int_8)
                ELSE
                   WRITE (unit_nr, '(T7,A,T16,A,${ndim}$I3,1X,A,1X,I3,A,1X,A,${ndim}$I3,1X,A,1X,F10.5)') &
-                     TRIM(name),"(", blk_index,") @", proc, ':', &
-                     "(",${varlist("i", nmax=ndim)}$,")", &
-                     blk_values_${ndim}$(${varlist("i", nmax=ndim)}$)
+                     TRIM(name), "(", blk_index, ") @", proc, ':', &
+                     "(", ${varlist("i", nmax=ndim)}$, ")", &
+                     blk_values_${ndim}$ (${varlist("i", nmax=ndim)}$)
                ENDIF
 #:for idim in range(ndim,0,-1)
             ENDDO
@@ -654,16 +653,15 @@ CONTAINS
 !> \param tensor
 !> \param array
 ! **************************************************************************************************
-   SUBROUTINE dist_sparse_tensor_to_repl_dense_${ndim}$d_array_${dsuffix}$(tensor, array)
+   SUBROUTINE dist_sparse_tensor_to_repl_dense_${ndim}$d_array_${dsuffix}$ (tensor, array)
       TYPE(dbcsr_t_type), INTENT(INOUT)                          :: tensor
-      ${dtype}$, ALLOCATABLE, DIMENSION(${shape_colon(ndim)}$),&
+      ${dtype}$, ALLOCATABLE, DIMENSION(${shape_colon(ndim)}$), &
          INTENT(OUT)                                             :: array
       ${dtype}$, ALLOCATABLE, DIMENSION(${shape_colon(ndim)}$)   :: block
       INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
       INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
-
 
       DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. ${ndim}$)
       CALL get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
@@ -677,12 +675,12 @@ CONTAINS
 
          DO idim = 1, dbcsr_t_ndims(tensor)
             blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim)+blk_size(idim) - 1
+            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
          array(${", ".join(["blk_start("+str(idim)+"):blk_end("+str(idim)+")" for idim in range(1, ndim + 1)])}$) = &
             block(${shape_colon(ndim)}$)
 
-         DEALLOCATE(block)
+         DEALLOCATE (block)
       ENDDO
       CALL dbcsr_t_iterator_stop(iterator)
       CALL mp_sum(array, tensor%comm_nd)
@@ -698,16 +696,15 @@ CONTAINS
 !> \param tensor
 !> \param array
 ! **************************************************************************************************
-   SUBROUTINE repl_dense_${ndim}$d_array_to_dist_sparse_tensor_${dsuffix}$(tensor, array)
+   SUBROUTINE repl_dense_${ndim}$d_array_to_dist_sparse_tensor_${dsuffix}$ (tensor, array)
       TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      ${dtype}$, ALLOCATABLE, DIMENSION(${shape_colon(ndim)}$),&
+      ${dtype}$, ALLOCATABLE, DIMENSION(${shape_colon(ndim)}$), &
          INTENT(INOUT)                                           :: array
       ${dtype}$, ALLOCATABLE, DIMENSION(${shape_colon(ndim)}$)   :: block
       INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
       INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
-
 
       DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. ${ndim}$)
       CALL get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
@@ -718,12 +715,12 @@ CONTAINS
          CALL allocate_any(block, shape_spec=blk_size)
          DO idim = 1, dbcsr_t_ndims(tensor)
             blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim)+blk_size(idim) - 1
+            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
          block(${shape_colon(ndim)}$) = &
             array(${", ".join(["blk_start("+str(idim)+"):blk_end("+str(idim)+")" for idim in range(1, ndim + 1)])}$)
          CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE(block)
+         DEALLOCATE (block)
       ENDDO
 
    END SUBROUTINE
@@ -749,7 +746,7 @@ CONTAINS
                                     map_1, map_2, unit_nr, write_int)
       TYPE(dbcsr_t_type), INTENT(INOUT)    :: tensor_1, tensor_2, tensor_3
       INTEGER, DIMENSION(:), INTENT(IN)    :: contract_1, contract_2, &
-                                              notcontract_1, notcontract_2,&
+                                              notcontract_1, notcontract_2, &
                                               map_1, map_2
       INTEGER, INTENT(IN)                  :: unit_nr
       LOGICAL, INTENT(IN), OPTIONAL        :: write_int
@@ -767,10 +764,10 @@ CONTAINS
                                              array_3_rs${ndim}$d
 #:endfor
       REAL(KIND=real_8), ALLOCATABLE, &
-         DIMENSION(:,:)                   :: array_1_mm, &
-                                             array_2_mm, &
-                                             array_3_mm, &
-                                             array_3_test_mm
+         DIMENSION(:, :)                   :: array_1_mm, &
+                                              array_2_mm, &
+                                              array_3_mm, &
+                                              array_3_test_mm
       LOGICAL                             :: eql
       LOGICAL, PARAMETER                  :: debug = .FALSE.
 
@@ -784,12 +781,12 @@ CONTAINS
          CALL write_tensor_blocks(tensor_1, io_unit, unit_nr, write_int)
       ENDIF
 
-      IF(io_unit > 0) THEN
-         WRITE(io_unit, *)
-         WRITE(io_unit, '(A)') repeat("-",80)
-         WRITE(io_unit, '(A,1X,A,1X,A,1X,A,1X,A,1X,A)') "Testing tensor contraction", &
+      IF (io_unit > 0) THEN
+         WRITE (io_unit, *)
+         WRITE (io_unit, '(A)') repeat("-", 80)
+         WRITE (io_unit, '(A,1X,A,1X,A,1X,A,1X,A,1X,A)') "Testing tensor contraction", &
             TRIM(tensor_1%name), "x", TRIM(tensor_2%name), "=", TRIM(tensor_3%name)
-         WRITE(io_unit, '(A)') repeat("-",80)
+         WRITE (io_unit, '(A)') repeat("-", 80)
       ENDIF
 
       CALL dbcsr_t_contract(tensor_1, tensor_2, tensor_3, &
@@ -799,9 +796,9 @@ CONTAINS
 
       ! Convert tensors to simple multidimensional arrays
 #:for i in range(1,4)
-      SELECT CASE(dbcsr_t_ndims(tensor_${i}$))
+      SELECT CASE (dbcsr_t_ndims(tensor_${i}$))
 #:for ndim in ndims
-      CASE(${ndim}$)
+      CASE (${ndim}$)
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_${i}$, array_${i}$_${ndim}$d)
 
 #:endfor
@@ -811,9 +808,9 @@ CONTAINS
       ! Get array sizes
 
 #:for i in range(1,4)
-      SELECT CASE(dbcsr_t_ndims(tensor_${i}$))
+      SELECT CASE (dbcsr_t_ndims(tensor_${i}$))
 #:for ndim in ndims
-      CASE(${ndim}$)
+      CASE (${ndim}$)
          CALL allocate_any(size_${i}$, source=SHAPE(array_${i}$_${ndim}$d))
 
 #:endfor
@@ -821,39 +818,38 @@ CONTAINS
 #:endfor
 
 #:for i in range(1,4)
-      ALLOCATE(order_t${i}$(dbcsr_t_ndims(tensor_${i}$)))
+      ALLOCATE (order_t${i}$ (dbcsr_t_ndims(tensor_${i}$)))
 #:endfor
 
-
-      ASSOCIATE(map_t1_1=>notcontract_1, map_t1_2=>contract_1, &
-                map_t2_1=>notcontract_2, map_t2_2=>contract_2, &
-                map_t3_1=>map_1, map_t3_2=>map_2)
+      ASSOCIATE (map_t1_1=>notcontract_1, map_t1_2=>contract_1, &
+                 map_t2_1=>notcontract_2, map_t2_2=>contract_2, &
+                 map_t3_1=>map_1, map_t3_2=>map_2)
 
 #:for i in range(1,4)
-      order_t${i}$(:) = dbcsr_t_inverse_order([map_t${i}$_1, map_t${i}$_2])
+         order_t${i}$ (:) = dbcsr_t_inverse_order([map_t${i}$_1, map_t${i}$_2])
 
-      SELECT CASE(dbcsr_t_ndims(tensor_${i}$))
+         SELECT CASE (dbcsr_t_ndims(tensor_${i}$))
 #:for ndim in ndims
-      CASE(${ndim}$)
-         CALL allocate_any(array_${i}$_rs${ndim}$d, source=array_${i}$_${ndim}$d, order=order_t${i}$)
-         CALL allocate_any(array_${i}$_mm, sizes_2d(size_${i}$, map_t${i}$_1, map_t${i}$_2))
-         array_${i}$_mm(:,:) = RESHAPE(array_${i}$_rs${ndim}$d, SHAPE(array_${i}$_mm))
+         CASE (${ndim}$)
+            CALL allocate_any(array_${i}$_rs${ndim}$d, source=array_${i}$_${ndim}$d, order=order_t${i}$)
+            CALL allocate_any(array_${i}$_mm, sizes_2d(size_${i}$, map_t${i}$_1, map_t${i}$_2))
+            array_${i}$_mm(:, :) = RESHAPE(array_${i}$_rs${ndim}$d, SHAPE(array_${i}$_mm))
 #:endfor
-      END SELECT
+         END SELECT
 #:endfor
 
-      CALL allocate_any(array_3_test_mm, shape_spec=SHAPE(array_3_mm))
-      array_3_test_mm(:,:) = MATMUL(array_1_mm, transpose(array_2_mm))
+         CALL allocate_any(array_3_test_mm, shape_spec=SHAPE(array_3_mm))
+         array_3_test_mm(:, :) = MATMUL(array_1_mm, transpose(array_2_mm))
 
       END ASSOCIATE
 
-      eql = MAXVAL(ABS(array_3_test_mm(:,:) - array_3_mm(:,:))) .LT. 1.0E-12_${dprec}$
+      eql = MAXVAL(ABS(array_3_test_mm(:, :) - array_3_mm(:, :))) .LT. 1.0E-12_${dprec}$
 
       IF (.NOT. eql) THEN
-         IF (io_unit > 0) WRITE(io_unit,'(A)') 'Test failed!'
+         IF (io_unit > 0) WRITE (io_unit, '(A)') 'Test failed!'
          DBCSR_ABORT('')
       ELSE
-         IF (io_unit > 0) WRITE(io_unit,'(A)') 'Test passed!'
+         IF (io_unit > 0) WRITE (io_unit, '(A)') 'Test passed!'
       ENDIF
 
    END SUBROUTINE
@@ -873,13 +869,13 @@ CONTAINS
 #:for idim in range(ndim,0,-1)
       DO i_${idim}$ = 1, SIZE(array, ${idim}$)
 #:endfor
-         IF(INT(array(${varlist("i", nmax=ndim)}$), KIND=int_8) .GT. 0) THEN
-            WRITE(unit_nr, '(${ndim+1}$I20)', advance='no') ${varlist("i", nmax=ndim)}$, INT(array(${varlist("i", nmax=ndim)}$), &
-               KIND=int_8)
-            IF(PRESENT(array_compare)) THEN
-               WRITE(unit_nr, '(I20)', advance='no') INT(array_compare(${varlist("i", nmax=ndim)}$), KIND=int_8)
+         IF (INT(array(${varlist("i", nmax=ndim)}$), KIND=int_8) .GT. 0) THEN
+            WRITE (unit_nr, '(${ndim+1}$I20)', advance='no') ${varlist("i", nmax=ndim)}$, INT(array(${varlist("i", nmax=ndim)}$), &
+                                                                                              KIND=int_8)
+            IF (PRESENT(array_compare)) THEN
+               WRITE (unit_nr, '(I20)', advance='no') INT(array_compare(${varlist("i", nmax=ndim)}$), KIND=int_8)
             ENDIF
-            WRITE(unit_nr,*)
+            WRITE (unit_nr, *)
          ENDIF
 #:for idim in range(ndim,0,-1)
       ENDDO

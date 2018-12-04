@@ -117,7 +117,7 @@ CONTAINS
 
       ALLOCATE (array%low)
       array%low%refcount = 1
-      ub = lb+SIZE(DATA)-1
+      ub = lb + SIZE(DATA) - 1
       ALLOCATE (array%low%data(lb:ub))
       array%low%data(:) = DATA(:)
    END SUBROUTINE array_new_i1d_lb
@@ -129,7 +129,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(INOUT)                 :: array
 
 !$OMP ATOMIC
-      array%low%refcount = array%low%refcount+1
+      array%low%refcount = array%low%refcount + 1
    END SUBROUTINE array_hold_i1d
 ! **************************************************************************************************
 !> \brief ...
@@ -139,7 +139,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(INOUT)                 :: array
 
       IF (ASSOCIATED(array%low)) THEN
-         array%low%refcount = array%low%refcount-1
+         array%low%refcount = array%low%refcount - 1
          IF (array%low%refcount .EQ. 0) THEN
             DEALLOCATE (array%low%data)
             DEALLOCATE (array%low)

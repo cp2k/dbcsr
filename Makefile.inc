@@ -16,8 +16,8 @@
 # requires:
 # a) set the NVCC variable, e.g. NVCC = nvcc
 # b) specify -D__DBCSR_ACC in FCFLAGS variable
-# c) set the GPUVER variable, e.g. GPUVER = K20 for K20 card
-#    or GPUVER = P100 for P100 card
+# c) set the GPUVER variable, e.g. GPUVER = P100 for P100 card
+#    (possible values are K20X, K40, K80, P100)
 # d) set the NVFLAGS variable,
 #    e.g. NVFLAGS = -O3 -g -w --std=c++11
 #    in the Makefile, the -arch will be appended with the correct compute version
@@ -36,7 +36,7 @@
 # e.g. make `VARIABLE=value` (multiple variables are possible):
 # 1) MPI=0    : disable MPI compilation
 # 2) GNU=0    : disable GNU compiler compilation and enable Intel compiler compilation
-# 3) CHECKS=1 : enable GNU compiler checks
+# 3) CHECKS=1 : enable GNU compiler checks and DBCSR asserts
 # 4) CINT=1   : generate the C interface
 # 5) GPU=1    : enable GPU support
 #
@@ -84,11 +84,11 @@ endif
 
 ifneq (0,$(MPI))
   ifneq (0,$(GNU)) # DEFAULT, just edit...
-    CXX = mpigxx
-    CC  = mpigcc
+    CXX = mpicxx
+    CC  = mpicc
     FC  = mpif90
     LD  = mpif90
-    AR  = gcc-ar -r
+    AR  = ar -r
   else
     # Intel compiler
     CXX = mpiicpc
@@ -134,8 +134,6 @@ endif
 #                            regular release builds may carry assertions for safety.
 #
 
-FCFLAGS +=  -DNDEBUG
-
 ifneq (0,$(GNU)) # DEFAULT, just edit...
   CXXFLAGS += -std=c++11
   FCFLAGS  += -fopenmp -std=f2003 -ffree-form -fimplicit-none -ffree-line-length-512
@@ -157,7 +155,7 @@ LDFLAGS     += $(FCFLAGS)
 #
 # C interface requires new F2008ts standard
 
-ifneq ($(CINT),)
+ifeq ($(CINT),1)
 FCFLAGS    := $(subst -std=f2003,-std=f2008ts,$(FCFLAGS))
 endif
 
@@ -179,7 +177,7 @@ LIBS        = -L${LAPACK_PATH}/lib -llapack -lblas
 #
 # GPU compilation. Use `make GPU=1` to enable it.
 
-ifneq ($(GPU),)
+ifeq ($(GPU),1)
 NVCC        = nvcc
 FCFLAGS    += -D__DBCSR_ACC
 GPUVER      = K40
@@ -202,21 +200,31 @@ ifneq (0,$(GNU))
 WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=intrinsic-shadow -Werror=intrinsics-std \
               -Werror=line-truncation \
-              -Werror=tabs -Werror=realloc-lhs-all -Werror=target-lifetime \
+              -Werror=tabs -Werror=target-lifetime \
               -Werror=underflow \
               -Werror=unused-but-set-variable -Werror=unused-variable \
-              -Werror=unused-dummy-argument -Werror=conversion
-              -Werror=zerotrip \
-              -Werror=uninitialized -Wno-maybe-uninitialized -Wuse-without-only \
-              -Werror
+              -Werror=unused-dummy-argument -Werror=conversion \
+              -Werror=uninitialized -Wno-maybe-uninitialized
 
 FCFLAGS    += $(WFLAGS)
 
-ifneq ($(CHECKS),)
+ifeq ($(CHECKS),1)
+ifneq ($(LEAKS),0)
 FCFLAGS    += -fsanitize=leak
+endif
 FCFLAGS    += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
 endif
 
 endif
+
+ifneq ($(CHECKS),1)
+FCFLAGS +=  -DNDEBUG
+endif
+
+#######################################################################################
+#
+# Enable for MacOS compilation (-D__ACCELERATE is for Apple Accelerate library)
+
+#FCFLAGS += -D__NO_STATM_ACCESS -D__ACCELERATE
 
 #######################################################################################

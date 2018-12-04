@@ -17,7 +17,7 @@ MODULE dbcsr_acc_event
    USE ISO_C_BINDING, ONLY: C_INT, C_NULL_PTR, C_PTR, C_ASSOCIATED, C_NULL_PTR
 #endif
    USE dbcsr_acc_stream, ONLY: acc_stream_cptr, &
-      acc_stream_type
+                               acc_stream_type
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -61,10 +61,10 @@ MODULE dbcsr_acc_event
    END INTERFACE
 
    INTERFACE
-      FUNCTION cuda_event_query(event_ptr, has_occured) RESULT(istat) BIND(C, name="acc_event_query")
+      FUNCTION cuda_event_query(event_ptr, has_occurred) RESULT(istat) BIND(C, name="acc_event_query")
          IMPORT
          TYPE(C_PTR), VALUE                       :: event_ptr
-         INTEGER(KIND=C_INT)                      :: has_occured, istat
+         INTEGER(KIND=C_INT)                      :: has_occurred, istat
 
       END FUNCTION cuda_event_query
    END INTERFACE
@@ -207,7 +207,7 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Fortran-wrapper for cudaEventQuery.
 !> \param[in] this event
-!> \return true if event has occured, false otherwise
+!> \return true if event has occurred, false otherwise
 !> \author  Ole Schuett
 ! **************************************************************************************************
    FUNCTION acc_event_query(this) RESULT(res)
@@ -219,13 +219,13 @@ CONTAINS
       MARK_USED(this)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      INTEGER                                  :: istat, has_occured
+      INTEGER                                  :: istat, has_occurred
       IF (.NOT. C_ASSOCIATED(this%cptr)) &
          DBCSR_ABORT("acc_event_query: event not allocated")
-      istat = cuda_event_query(this%cptr, has_occured)
+      istat = cuda_event_query(this%cptr, has_occurred)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_event_query failed")
-      res = (has_occured == 1)
+      res = (has_occurred == 1)
 #endif
    END FUNCTION acc_event_query
 

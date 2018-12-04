@@ -172,7 +172,15 @@ endif ()
 if (APPLE)
   # fix /proc/self/statm can not be opened on macOS
   target_compile_definitions(dbcsr PRIVATE __NO_STATM_ACCESS)
+
+  if (BLAS_LIBRARIES MATCHES "Accelerate")
+    target_compile_definitions(dbcsr PRIVATE __ACCELERATE)
+  endif ()
 endif()
+
+# set -DNDEBUG for Release or Coverage builds
+target_compile_definitions(dbcsr PRIVATE "$<$<CONFIG:Release>:NDEBUG>")
+target_compile_definitions(dbcsr PRIVATE "$<$<CONFIG:Coverage>:NDEBUG>")
 
 target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 target_include_directories(dbcsr PRIVATE base) # do not export those includes, but some srcs do an unprefixed include

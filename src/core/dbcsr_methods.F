@@ -17,22 +17,22 @@
 !> - Created
 ! **************************************************************************************************
 MODULE dbcsr_methods
-   USE dbcsr_array_types,               ONLY: array_data,&
-                                              array_release
-   USE dbcsr_btree,                     ONLY: btree_delete,&
-                                              btree_new
-   USE dbcsr_data_methods,              ONLY: dbcsr_data_get_size,&
-                                              dbcsr_data_release
-   USE dbcsr_kinds,                     ONLY: default_string_length
-   USE dbcsr_mpiwrap,                   ONLY: mp_comm_free
-   USE dbcsr_ptr_util,                  ONLY: memory_deallocate
-   USE dbcsr_types,                     ONLY: &
-        dbcsr_1d_array_type, dbcsr_2d_array_type, dbcsr_data_obj, dbcsr_distribution_obj, &
-        dbcsr_imagedistribution_obj, dbcsr_imagedistribution_type, dbcsr_memtype_type, &
-        dbcsr_mp_obj, dbcsr_mutable_obj, dbcsr_type, dbcsr_type_antihermitian, &
-        dbcsr_type_antisymmetric, dbcsr_type_complex_4, dbcsr_type_complex_8, &
-        dbcsr_type_hermitian, dbcsr_type_invalid, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
-        dbcsr_type_real_8, dbcsr_type_symmetric, dbcsr_work_type
+   USE dbcsr_array_types, ONLY: array_data, &
+                                array_release
+   USE dbcsr_btree, ONLY: btree_delete, &
+                          btree_new
+   USE dbcsr_data_methods, ONLY: dbcsr_data_get_size, &
+                                 dbcsr_data_release
+   USE dbcsr_kinds, ONLY: default_string_length
+   USE dbcsr_mpiwrap, ONLY: mp_comm_free
+   USE dbcsr_ptr_util, ONLY: memory_deallocate
+   USE dbcsr_types, ONLY: &
+      dbcsr_1d_array_type, dbcsr_2d_array_type, dbcsr_data_obj, dbcsr_distribution_obj, &
+      dbcsr_imagedistribution_obj, dbcsr_imagedistribution_type, dbcsr_memtype_type, &
+      dbcsr_mp_obj, dbcsr_mutable_obj, dbcsr_type, dbcsr_type_antihermitian, &
+      dbcsr_type_antisymmetric, dbcsr_type_complex_4, dbcsr_type_complex_8, &
+      dbcsr_type_hermitian, dbcsr_type_invalid, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
+      dbcsr_type_real_8, dbcsr_type_symmetric, dbcsr_work_type
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -108,7 +108,7 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
-      matrix%refcount = matrix%refcount-1
+      matrix%refcount = matrix%refcount - 1
       IF (matrix%refcount .EQ. 0) THEN
          CALL dbcsr_destroy(matrix)
       ENDIF
@@ -157,7 +157,7 @@ CONTAINS
    END SUBROUTINE dbcsr_destroy
 
 ! **************************************************************************************************
-!> \brief Releases and potentially destrops a distribution
+!> \brief Releases and potentially destroys a distribution
 !> \param dist ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_release(dist)
@@ -166,7 +166,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       IF (ASSOCIATED(dist%d)) THEN
-         dist%d%refcount = dist%d%refcount-1
+         dist%d%refcount = dist%d%refcount - 1
          IF (dist%d%refcount .EQ. 0) THEN
             CALL array_release(dist%d%row_dist_block)
             CALL array_release(dist%d%col_dist_block)
@@ -219,7 +219,7 @@ CONTAINS
    END SUBROUTINE dbcsr_dist_release_locals
 
 ! **************************************************************************************************
-!> \brief Releases and potentially destrops an mp_env
+!> \brief Releases and potentially destroys an mp_env
 !> \param[in,out] mp_env         multiprocessor environment
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mp_release(mp_env)
@@ -228,7 +228,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       IF (ASSOCIATED(mp_env%mp)) THEN
-         mp_env%mp%refcount = mp_env%mp%refcount-1
+         mp_env%mp%refcount = mp_env%mp%refcount - 1
          IF (mp_env%mp%refcount .LE. 0) THEN
             CALL dbcsr_mp_grid_remove(mp_env)
             DEALLOCATE (mp_env%mp%pgrid)
@@ -697,7 +697,7 @@ CONTAINS
 !
 !
 !! **************************************************************************************************
-!!> \brief Returns whether the data area uses speciall-allocated memory
+!!> \brief Returns whether the data area uses special-allocated memory
 !!> \param[in] data_area       query this data area
 !!> \param[out] uses_special   whether the data area uses specially allocated
 !!>                            memory
@@ -724,7 +724,7 @@ CONTAINS
       INTEGER                                            :: data_size
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_size', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: data_type
 
@@ -747,7 +747,7 @@ CONTAINS
       INTEGER                                            :: data_size
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_size_used', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: blk, col, error_handle, nze, row
       INTEGER, DIMENSION(:), POINTER                     :: col_blk_sizes, row_blk_sizes
@@ -761,11 +761,11 @@ CONTAINS
       data_size = 0
 !$OMP     DO
       DO row = 1, matrix%nblkrows_total
-         DO blk = matrix%row_p(row)+1, matrix%row_p(row+1)
+         DO blk = matrix%row_p(row) + 1, matrix%row_p(row + 1)
             col = matrix%col_i(blk)
             IF (matrix%blk_p(blk) .NE. 0) THEN
                nze = row_blk_sizes(row)*col_blk_sizes(col)
-               data_size = data_size+nze
+               data_size = data_size + nze
             ENDIF
          ENDDO
       ENDDO
@@ -802,14 +802,14 @@ CONTAINS
 ! **************************************************************************************************
 
 ! **************************************************************************************************
-!> \brief Releases all matrices in a 1-d arrray.
+!> \brief Releases all matrices in a 1-d array.
 !> \param[in,out] marray      matrix array
 ! **************************************************************************************************
    SUBROUTINE dbcsr_destroy_1d_array(marray)
       TYPE(dbcsr_1d_array_type), INTENT(INOUT)           :: marray
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_destroy_1d_array', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: i
 
@@ -823,14 +823,14 @@ CONTAINS
    END SUBROUTINE dbcsr_destroy_1d_array
 
 ! **************************************************************************************************
-!> \brief Releases all matrices in 2-d arrray.
+!> \brief Releases all matrices in 2-d array.
 !> \param[in,out] marray      matrix array
 ! **************************************************************************************************
    SUBROUTINE dbcsr_destroy_2d_array(marray)
       TYPE(dbcsr_2d_array_type), INTENT(INOUT)           :: marray
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_destroy_2d_array', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: col, row
 
@@ -854,7 +854,7 @@ CONTAINS
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
 
       IF (ASSOCIATED(imgdist%i)) THEN
-         imgdist%i%refcount = imgdist%i%refcount-1
+         imgdist%i%refcount = imgdist%i%refcount - 1
          IF (imgdist%i%refcount .EQ. 0) THEN
             CALL dbcsr_destroy_image_dist(imgdist%i)
             DEALLOCATE (imgdist%i)
@@ -869,7 +869,7 @@ CONTAINS
    SUBROUTINE dbcsr_image_dist_hold(imgdist)
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
 
-      imgdist%i%refcount = imgdist%i%refcount+1
+      imgdist%i%refcount = imgdist%i%refcount + 1
    END SUBROUTINE dbcsr_image_dist_hold
 
 ! **************************************************************************************************
@@ -938,7 +938,7 @@ CONTAINS
       TYPE(dbcsr_mutable_obj), INTENT(OUT)               :: mutable
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mutable_init', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
@@ -953,7 +953,7 @@ CONTAINS
       TYPE(dbcsr_mutable_obj), INTENT(INOUT)             :: mutable
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mutable_destroy', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
@@ -968,7 +968,7 @@ CONTAINS
    END SUBROUTINE dbcsr_mutable_destroy
 
 ! **************************************************************************************************
-!> \brief Deregisters a reference to the mutable data type
+!> \brief Unregisters a reference to the mutable data type
 !>
 !> The object is destroy when there is no reference to it left.
 !> \param[in,out] mutable     mutable data
@@ -977,13 +977,13 @@ CONTAINS
       TYPE(dbcsr_mutable_obj), INTENT(INOUT)             :: mutable
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mutable_release', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
       IF (.NOT. ASSOCIATED(mutable%m)) &
          DBCSR_ABORT("Mutable data area not instantiated")
-      mutable%m%refcount = mutable%m%refcount-1
+      mutable%m%refcount = mutable%m%refcount - 1
       IF (mutable%m%refcount .EQ. 0) THEN
          CALL dbcsr_mutable_destroy(mutable)
       ENDIF
@@ -1001,7 +1001,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: data_type
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mutable_new', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
@@ -1022,7 +1022,7 @@ CONTAINS
    END SUBROUTINE dbcsr_mutable_new
 
 ! **************************************************************************************************
-!> \brief Deregisters a reference to the mutable data type
+!> \brief Unregisters a reference to the mutable data type
 !>
 !> The object is destroy when there is no reference to it left.
 !> \param[in] mutable         mutable data

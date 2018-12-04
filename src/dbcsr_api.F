@@ -8,136 +8,135 @@
 !--------------------------------------------------------------------------------------------------!
 
 ! **************************************************************************************************
-!> \brief   This is the start of a dbcsr_api, all publically needed functions
+!> \brief   This is the start of a dbcsr_api, all publicly needed functions
 !>          are exported here. The others remain private to the library.
 !>          Currently, this is the CP2K used set.
 !>          Ultimately, a reduced subset and well defined api will remain,
 !>          possibly grouped in to standard and expert api.
 !>          Currently, this is work in progress.
-!> \author  Joost VandeVondele
 ! **************************************************************************************************
 MODULE dbcsr_api
-   USE dbcsr_array_types,               ONLY: array_data,&
-                                              array_exists,&
-                                              array_size
-   USE dbcsr_block_access,              ONLY: dbcsr_get_block_p_prv         => dbcsr_get_block_p,&
-                                              dbcsr_put_block_prv           => dbcsr_put_block,&
-                                              dbcsr_reserve_all_blocks_prv  => dbcsr_reserve_all_blocks,&
-                                              dbcsr_reserve_block2d_prv     => dbcsr_reserve_block2d,&
-                                              dbcsr_reserve_blocks_prv      => dbcsr_reserve_blocks,&
-                                              dbcsr_reserve_diag_blocks_prv => dbcsr_reserve_diag_blocks
-   USE dbcsr_config,                    ONLY: dbcsr_get_default_config,&
-                                              dbcsr_print_config,&
-                                              dbcsr_set_config
-   USE dbcsr_csr_conversions,           ONLY: &
-        convert_csr_to_dbcsr_prv            => convert_csr_to_dbcsr, &
-        convert_dbcsr_to_csr_prv            => convert_dbcsr_to_csr, &
-        csr_create_from_dbcsr_prv           => csr_create_from_dbcsr, csr_create_new, &
-        csr_create_template, csr_dbcsr_blkrow_dist, csr_destroy, csr_eqrow_ceil_dist, &
-        csr_eqrow_floor_dist, csr_p_type, csr_print_sparsity, csr_type, csr_write, &
-        dbcsr_to_csr_filter_prv             => dbcsr_to_csr_filter
-   USE dbcsr_data_methods,              ONLY: dbcsr_get_data_p_prv => dbcsr_get_data_p,&
-                                              dbcsr_scalar,&
-                                              dbcsr_scalar_fill_all,&
-                                              dbcsr_scalar_get_type,&
-                                              dbcsr_scalar_get_value,&
-                                              dbcsr_scalar_set_type,&
-                                              dbcsr_scalar_zero
-   USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_get_num_images => dbcsr_distribution_get_num_images_1d,&
-                                              dbcsr_distribution_hold_prv => dbcsr_distribution_hold,&
-                                              dbcsr_distribution_new_prv => dbcsr_distribution_new,&
-                                              dbcsr_distribution_release_prv => dbcsr_distribution_release
-   USE dbcsr_dist_operations,           ONLY: dbcsr_get_stored_coordinates_prv => dbcsr_get_stored_coordinates
-   USE dbcsr_io,                        ONLY: dbcsr_binary_read_prv            => dbcsr_binary_read,&
-                                              dbcsr_binary_write_prv           => dbcsr_binary_write,&
-                                              dbcsr_print_block_sum_prv        => dbcsr_print_block_sum,&
-                                              dbcsr_print_prv                  => dbcsr_print
-   USE dbcsr_iterator_operations,       ONLY: dbcsr_iterator_blocks_left_prv   => dbcsr_iterator_blocks_left,&
-                                              dbcsr_iterator_next_block_prv    => dbcsr_iterator_next_block,&
-                                              dbcsr_iterator_start_prv         => dbcsr_iterator_start,&
-                                              dbcsr_iterator_stop_prv          => dbcsr_iterator_stop
-   USE dbcsr_lib,                       ONLY: dbcsr_clear_mempools,&
-                                              dbcsr_finalize_lib,&
-                                              dbcsr_init_lib
-   USE dbcsr_methods,                   ONLY: &
-        dbcsr_get_data_size_prv             => dbcsr_get_data_size, &
-        dbcsr_get_data_type_prv             => dbcsr_get_data_type, &
-        dbcsr_get_matrix_type_prv           => dbcsr_get_matrix_type, &
-        dbcsr_get_num_blocks_prv            => dbcsr_get_num_blocks, &
-        dbcsr_has_symmetry_prv              => dbcsr_has_symmetry, &
-        dbcsr_nblkcols_total_prv            => dbcsr_nblkcols_total, &
-        dbcsr_nblkrows_total_prv            => dbcsr_nblkrows_total, &
-        dbcsr_nfullcols_total_prv           => dbcsr_nfullcols_total, &
-        dbcsr_nfullrows_total_prv           => dbcsr_nfullrows_total, &
-        dbcsr_release_prv                   => dbcsr_release, &
-        dbcsr_setname_prv                   => dbcsr_setname, &
-        dbcsr_valid_index_prv               => dbcsr_valid_index, dbcsr_wm_use_mutable
-   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_grid_setup_prv => dbcsr_mp_grid_setup,&
-                                              dbcsr_mp_group,&
-                                              dbcsr_mp_new_prv => dbcsr_mp_new,&
-                                              dbcsr_mp_release
-   USE dbcsr_multiply_api,              ONLY: dbcsr_multiply_prv => dbcsr_multiply
-   USE dbcsr_operations,                ONLY: &
-        dbcsr_add_on_diag_prv               => dbcsr_add_on_diag, &
-        dbcsr_add_prv                       => dbcsr_add, &
-        dbcsr_copy_into_existing_prv        => dbcsr_copy_into_existing, &
-        dbcsr_copy_prv                      => dbcsr_copy, &
-        dbcsr_filter_prv                    => dbcsr_filter, &
-        dbcsr_frobenius_norm_prv            => dbcsr_frobenius_norm, &
-        dbcsr_function_of_elements_prv      => dbcsr_function_of_elements, &
-        dbcsr_gershgorin_norm_prv           => dbcsr_gershgorin_norm, &
-        dbcsr_get_block_diag_prv            => dbcsr_get_block_diag, &
-        dbcsr_get_diag_prv                  => dbcsr_get_diag, &
-        dbcsr_get_info_prv                  => dbcsr_get_info, &
-        dbcsr_get_occupation_prv            => dbcsr_get_occupation, &
-        dbcsr_hadamard_product_prv          => dbcsr_hadamard_product, &
-        dbcsr_init_random_prv               => dbcsr_init_random, &
-        dbcsr_maxabs_prv                    => dbcsr_maxabs, &
-        dbcsr_norm_prv                      => dbcsr_norm, &
-        dbcsr_scale_by_vector_prv           => dbcsr_scale_by_vector, &
-        dbcsr_scale_prv                     => dbcsr_scale, &
-        dbcsr_set_diag_prv                  => dbcsr_set_diag, &
-        dbcsr_set_prv                       => dbcsr_set, &
-        dbcsr_sum_replicated_prv            => dbcsr_sum_replicated, &
-        dbcsr_trace_prv                     => dbcsr_trace, &
-        dbcsr_triu_prv                      => dbcsr_triu
-   USE dbcsr_test_methods,              ONLY: dbcsr_reset_randmat_seed
-   USE dbcsr_tests,                     ONLY: dbcsr_run_tests,&
-                                              dbcsr_test_binary_io,&
-                                              dbcsr_test_mm
-   USE dbcsr_toollib,                   ONLY: uppercase
-   USE dbcsr_transformations,           ONLY: dbcsr_complete_redistribute_prv => dbcsr_complete_redistribute,&
-                                              dbcsr_desymmetrize_deep_prv     => dbcsr_desymmetrize_deep,&
-                                              dbcsr_distribute_prv            => dbcsr_distribute,&
-                                              dbcsr_new_transposed_prv        => dbcsr_new_transposed,&
-                                              dbcsr_replicate_all_prv         => dbcsr_replicate_all
-   USE dbcsr_types,                     ONLY: &
-        dbcsr_dist_prv_obj => dbcsr_distribution_obj, dbcsr_func_artanh, dbcsr_func_dtanh, &
-        dbcsr_func_inverse, dbcsr_func_tanh, dbcsr_iterator_prv => dbcsr_iterator, dbcsr_mp_obj, &
-        dbcsr_no_transpose, dbcsr_norm_column, dbcsr_norm_frobenius, dbcsr_norm_maxabsnorm, &
-        dbcsr_prv_type => dbcsr_type, dbcsr_scalar_type, dbcsr_transpose, &
-        dbcsr_type_antisymmetric, dbcsr_type_complex_4, dbcsr_type_complex_8, &
-        dbcsr_type_complex_default, dbcsr_type_no_symmetry, dbcsr_type_real_4, dbcsr_type_real_8, &
-        dbcsr_type_real_default, dbcsr_type_symmetric
-   USE dbcsr_dist_util,                 ONLY: convert_offsets_to_sizes,&
-                                              convert_sizes_to_offsets,&
-                                              dbcsr_checksum_prv      => dbcsr_checksum,&
-                                              dbcsr_verify_matrix_prv => dbcsr_verify_matrix
-   USE dbcsr_work_operations,           ONLY: add_work_coordinate_prv => add_work_coordinate,&
-                                              dbcsr_create_prv        => dbcsr_create,&
-                                              dbcsr_finalize_prv      => dbcsr_finalize,&
-                                              dbcsr_work_create_prv   => dbcsr_work_create
-   USE dbcsr_kinds,                     ONLY: default_string_length,&
-                                              dp,&
-                                              int_8,&
-                                              real_4,&
-                                              real_8
-   USE dbcsr_base_hooks,                ONLY: timeset_hook, timestop_hook, &
-                                              timeset_interface, timestop_interface,&
-                                              dbcsr_abort_hook, dbcsr_warn_hook,&
-                                              dbcsr_abort_interface, dbcsr_warn_interface
-   USE dbcsr_mpiwrap,                   ONLY: mp_cart_rank,&
-                                              mp_environ
+   USE dbcsr_array_types, ONLY: array_data, &
+                                array_exists, &
+                                array_size
+   USE dbcsr_block_access, ONLY: dbcsr_get_block_p_prv => dbcsr_get_block_p, &
+                                 dbcsr_put_block_prv => dbcsr_put_block, &
+                                 dbcsr_reserve_all_blocks_prv => dbcsr_reserve_all_blocks, &
+                                 dbcsr_reserve_block2d_prv => dbcsr_reserve_block2d, &
+                                 dbcsr_reserve_blocks_prv => dbcsr_reserve_blocks, &
+                                 dbcsr_reserve_diag_blocks_prv => dbcsr_reserve_diag_blocks
+   USE dbcsr_config, ONLY: dbcsr_get_default_config, &
+                           dbcsr_print_config, &
+                           dbcsr_set_config
+   USE dbcsr_csr_conversions, ONLY: &
+      convert_csr_to_dbcsr_prv => convert_csr_to_dbcsr, &
+      convert_dbcsr_to_csr_prv => convert_dbcsr_to_csr, &
+      csr_create_from_dbcsr_prv => csr_create_from_dbcsr, csr_create_new, &
+      csr_create_template, csr_dbcsr_blkrow_dist, csr_destroy, csr_eqrow_ceil_dist, &
+      csr_eqrow_floor_dist, csr_p_type, csr_print_sparsity, csr_type, csr_write, &
+      dbcsr_to_csr_filter_prv => dbcsr_to_csr_filter
+   USE dbcsr_data_methods, ONLY: dbcsr_get_data_p_prv => dbcsr_get_data_p, &
+                                 dbcsr_scalar, &
+                                 dbcsr_scalar_fill_all, &
+                                 dbcsr_scalar_get_type, &
+                                 dbcsr_scalar_get_value, &
+                                 dbcsr_scalar_set_type, &
+                                 dbcsr_scalar_zero
+   USE dbcsr_dist_methods, ONLY: dbcsr_distribution_get_num_images => dbcsr_distribution_get_num_images_1d, &
+                                 dbcsr_distribution_hold_prv => dbcsr_distribution_hold, &
+                                 dbcsr_distribution_new_prv => dbcsr_distribution_new, &
+                                 dbcsr_distribution_release_prv => dbcsr_distribution_release
+   USE dbcsr_dist_operations, ONLY: dbcsr_get_stored_coordinates_prv => dbcsr_get_stored_coordinates
+   USE dbcsr_io, ONLY: dbcsr_binary_read_prv => dbcsr_binary_read, &
+                       dbcsr_binary_write_prv => dbcsr_binary_write, &
+                       dbcsr_print_block_sum_prv => dbcsr_print_block_sum, &
+                       dbcsr_print_prv => dbcsr_print
+   USE dbcsr_iterator_operations, ONLY: dbcsr_iterator_blocks_left_prv => dbcsr_iterator_blocks_left, &
+                                        dbcsr_iterator_next_block_prv => dbcsr_iterator_next_block, &
+                                        dbcsr_iterator_start_prv => dbcsr_iterator_start, &
+                                        dbcsr_iterator_stop_prv => dbcsr_iterator_stop
+   USE dbcsr_lib, ONLY: dbcsr_clear_mempools, &
+                        dbcsr_finalize_lib, &
+                        dbcsr_init_lib
+   USE dbcsr_methods, ONLY: &
+      dbcsr_get_data_size_prv => dbcsr_get_data_size, &
+      dbcsr_get_data_type_prv => dbcsr_get_data_type, &
+      dbcsr_get_matrix_type_prv => dbcsr_get_matrix_type, &
+      dbcsr_get_num_blocks_prv => dbcsr_get_num_blocks, &
+      dbcsr_has_symmetry_prv => dbcsr_has_symmetry, &
+      dbcsr_nblkcols_total_prv => dbcsr_nblkcols_total, &
+      dbcsr_nblkrows_total_prv => dbcsr_nblkrows_total, &
+      dbcsr_nfullcols_total_prv => dbcsr_nfullcols_total, &
+      dbcsr_nfullrows_total_prv => dbcsr_nfullrows_total, &
+      dbcsr_release_prv => dbcsr_release, &
+      dbcsr_setname_prv => dbcsr_setname, &
+      dbcsr_valid_index_prv => dbcsr_valid_index, dbcsr_wm_use_mutable
+   USE dbcsr_mp_methods, ONLY: dbcsr_mp_grid_setup_prv => dbcsr_mp_grid_setup, &
+                               dbcsr_mp_group, &
+                               dbcsr_mp_new_prv => dbcsr_mp_new, &
+                               dbcsr_mp_release
+   USE dbcsr_multiply_api, ONLY: dbcsr_multiply_prv => dbcsr_multiply
+   USE dbcsr_operations, ONLY: &
+      dbcsr_add_on_diag_prv => dbcsr_add_on_diag, &
+      dbcsr_add_prv => dbcsr_add, &
+      dbcsr_copy_into_existing_prv => dbcsr_copy_into_existing, &
+      dbcsr_copy_prv => dbcsr_copy, &
+      dbcsr_filter_prv => dbcsr_filter, &
+      dbcsr_frobenius_norm_prv => dbcsr_frobenius_norm, &
+      dbcsr_function_of_elements_prv => dbcsr_function_of_elements, &
+      dbcsr_gershgorin_norm_prv => dbcsr_gershgorin_norm, &
+      dbcsr_get_block_diag_prv => dbcsr_get_block_diag, &
+      dbcsr_get_diag_prv => dbcsr_get_diag, &
+      dbcsr_get_info_prv => dbcsr_get_info, &
+      dbcsr_get_occupation_prv => dbcsr_get_occupation, &
+      dbcsr_hadamard_product_prv => dbcsr_hadamard_product, &
+      dbcsr_init_random_prv => dbcsr_init_random, &
+      dbcsr_maxabs_prv => dbcsr_maxabs, &
+      dbcsr_norm_prv => dbcsr_norm, &
+      dbcsr_scale_by_vector_prv => dbcsr_scale_by_vector, &
+      dbcsr_scale_prv => dbcsr_scale, &
+      dbcsr_set_diag_prv => dbcsr_set_diag, &
+      dbcsr_set_prv => dbcsr_set, &
+      dbcsr_sum_replicated_prv => dbcsr_sum_replicated, &
+      dbcsr_trace_prv => dbcsr_trace, &
+      dbcsr_triu_prv => dbcsr_triu
+   USE dbcsr_test_methods, ONLY: dbcsr_reset_randmat_seed
+   USE dbcsr_tests, ONLY: dbcsr_run_tests, &
+                          dbcsr_test_binary_io, &
+                          dbcsr_test_mm
+   USE dbcsr_string_utilities, ONLY: uppercase
+   USE dbcsr_transformations, ONLY: dbcsr_complete_redistribute_prv => dbcsr_complete_redistribute, &
+                                    dbcsr_desymmetrize_deep_prv => dbcsr_desymmetrize_deep, &
+                                    dbcsr_distribute_prv => dbcsr_distribute, &
+                                    dbcsr_new_transposed_prv => dbcsr_new_transposed, &
+                                    dbcsr_replicate_all_prv => dbcsr_replicate_all
+   USE dbcsr_types, ONLY: &
+      dbcsr_dist_prv_obj => dbcsr_distribution_obj, dbcsr_func_artanh, dbcsr_func_dtanh, &
+      dbcsr_func_inverse, dbcsr_func_tanh, dbcsr_iterator_prv => dbcsr_iterator, dbcsr_mp_obj, &
+      dbcsr_no_transpose, dbcsr_norm_column, dbcsr_norm_frobenius, dbcsr_norm_maxabsnorm, &
+      dbcsr_prv_type => dbcsr_type, dbcsr_scalar_type, dbcsr_transpose, &
+      dbcsr_type_antisymmetric, dbcsr_type_complex_4, dbcsr_type_complex_8, &
+      dbcsr_type_complex_default, dbcsr_type_no_symmetry, dbcsr_type_real_4, dbcsr_type_real_8, &
+      dbcsr_type_real_default, dbcsr_type_symmetric
+   USE dbcsr_dist_util, ONLY: convert_offsets_to_sizes, &
+                              convert_sizes_to_offsets, &
+                              dbcsr_checksum_prv => dbcsr_checksum, &
+                              dbcsr_verify_matrix_prv => dbcsr_verify_matrix
+   USE dbcsr_work_operations, ONLY: add_work_coordinate_prv => add_work_coordinate, &
+                                    dbcsr_create_prv => dbcsr_create, &
+                                    dbcsr_finalize_prv => dbcsr_finalize, &
+                                    dbcsr_work_create_prv => dbcsr_work_create
+   USE dbcsr_kinds, ONLY: default_string_length, &
+                          dp, &
+                          int_8, &
+                          real_4, &
+                          real_8
+   USE dbcsr_base_hooks, ONLY: timeset_hook, timestop_hook, &
+                               timeset_interface, timestop_interface, &
+                               dbcsr_abort_hook, dbcsr_warn_hook, &
+                               dbcsr_abort_interface, dbcsr_warn_interface
+   USE dbcsr_mpiwrap, ONLY: mp_cart_rank, &
+                            mp_environ
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 #include "base/dbcsr_base_uses.f90"
@@ -798,8 +797,8 @@ CONTAINS
                              group)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER, INTENT(OUT), OPTIONAL :: nblkrows_total, nblkcols_total, nfullrows_total, &
-         nfullcols_total, nblkrows_local, nblkcols_local, nfullrows_local, nfullcols_local, &
-         my_prow, my_pcol
+                                        nfullcols_total, nblkrows_local, nblkcols_local, nfullrows_local, nfullcols_local, &
+                                        my_prow, my_pcol
       INTEGER, DIMENSION(:), OPTIONAL, POINTER           :: local_rows, local_cols, proc_row_dist, &
                                                             proc_col_dist, &
                                                             row_blk_size, col_blk_size, &
@@ -1126,7 +1125,7 @@ CONTAINS
       ELSE IF (PRESENT(group)) THEN
          CALL dbcsr_mp_new(mp_env, group, pgrid)
       ELSE
-         DBCSR_ABORT("dbcsr_distribution_new: neigther template nor group supplied")
+         DBCSR_ABORT("dbcsr_distribution_new: neither template nor group supplied")
       ENDIF
 
       NULLIFY (my_row_cluster, my_col_cluster)
@@ -1183,8 +1182,8 @@ CONTAINS
          pdims(2) = SIZE(pgrid, 2)
          myprow = -1; mypcol = -1
          outer: &
-            DO prow = 0, pdims(1)-1
-            DO pcol = 0, pdims(2)-1
+            DO prow = 0, pdims(1) - 1
+            DO pcol = 0, pdims(2) - 1
                IF (pgrid(prow, pcol) == mynode) THEN
                   myprow = prow
                   mypcol = pcol
@@ -1198,9 +1197,9 @@ CONTAINS
          DBCSR_ASSERT(pdims(1)*pdims(2) == numnodes)
          myprow = mycoord(1)
          mypcol = mycoord(2)
-         ALLOCATE (mypgrid(0:pdims(1)-1, 0:pdims(2)-1))
-         DO prow = 0, pdims(1)-1
-            DO pcol = 0, pdims(2)-1
+         ALLOCATE (mypgrid(0:pdims(1) - 1, 0:pdims(2) - 1))
+         DO prow = 0, pdims(1) - 1
+            DO pcol = 0, pdims(2) - 1
                coord = (/prow, pcol/)
                CALL mp_cart_rank(group, coord, mypgrid(prow, pcol))
             ENDDO
@@ -1209,7 +1208,7 @@ CONTAINS
 
       DBCSR_ASSERT(mynode == mypgrid(myprow, mypcol))
 
-      ! create the new mp enviroment
+      ! create the new mp environment
       CALL dbcsr_mp_new_prv(mp_env, pgrid=mypgrid, mp_group=group, &
                             mynode=mynode, numnodes=numnodes, myprow=myprow, mypcol=mypcol)
 
@@ -1313,7 +1312,7 @@ CONTAINS
       CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_create_template', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       IF (PRESENT(dist)) THEN
          CALL dbcsr_create_prv(matrix%prv, template%prv, &
@@ -1464,7 +1463,7 @@ CONTAINS
          OPTIONAL                                        :: use_distribution
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_transposed', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       LOGICAL                                            :: myshallow_data_copy, &
                                                             mytranspose_distribution
@@ -1624,7 +1623,7 @@ CONTAINS
       REAL(KIND=dp), DIMENSION(:, :), POINTER            :: block
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_add_block_node', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: c, ithread, mynode, p, r
       LOGICAL                                            :: dbg, existed, is_there, tr
@@ -1642,7 +1641,7 @@ CONTAINS
       ENDIF
 !$    IF (SIZE(matrix%prv%wms) .LT. omp_get_num_threads()) &
 !$       DBCSR_ABORT("Too few threads.")
-      IF (.NOT. dbcsr_wm_use_mutable(matrix%prv%wms(ithread+1))) &
+      IF (.NOT. dbcsr_wm_use_mutable(matrix%prv%wms(ithread + 1))) &
          DBCSR_ABORT("Data loss due to no conversion of appendable to mutable data")
       is_there = ASSOCIATED(block)
       !r = row ; c = col ; tr = .FALSE.
@@ -1673,19 +1672,437 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_set_hooks(in_timeset_hook, in_timestop_hook, &
                               in_abort_hook, in_warn_hook)
-     PROCEDURE(timeset_interface), INTENT(IN), POINTER :: in_timeset_hook
-     PROCEDURE(timestop_interface), INTENT(IN), POINTER :: in_timestop_hook
-     PROCEDURE(dbcsr_abort_interface), INTENT(IN), POINTER :: in_abort_hook
-     PROCEDURE(dbcsr_warn_interface), INTENT(IN), POINTER :: in_warn_hook
+      PROCEDURE(timeset_interface), INTENT(IN), POINTER :: in_timeset_hook
+      PROCEDURE(timestop_interface), INTENT(IN), POINTER :: in_timestop_hook
+      PROCEDURE(dbcsr_abort_interface), INTENT(IN), POINTER :: in_abort_hook
+      PROCEDURE(dbcsr_warn_interface), INTENT(IN), POINTER :: in_warn_hook
 
-     timeset_hook => in_timeset_hook
-     timestop_hook => in_timestop_hook
-     dbcsr_abort_hook => in_abort_hook
-     dbcsr_warn_hook => in_warn_hook
+      timeset_hook => in_timeset_hook
+      timestop_hook => in_timestop_hook
+      dbcsr_abort_hook => in_abort_hook
+      dbcsr_warn_hook => in_warn_hook
 
    END SUBROUTINE dbcsr_set_hooks
 
+#:include 'data/dbcsr.fypp'
+#:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
+! **************************************************************************************************
+!> \brief Encapsulates a given scalar value and makes it conform with the
+!>        type of the matrix.
+!> \param scalar ...
+!> \param matrix ...
+!> \return ...
+! **************************************************************************************************
+   FUNCTION make_conformant_scalar_${nametype1}$ (scalar, matrix) RESULT(encapsulated)
+      ${type1}$, INTENT(IN)                      :: scalar
+      TYPE(dbcsr_type), INTENT(IN)             :: matrix
 
-#:include "dbcsr_api.f90"
+      CHARACTER(len=*), PARAMETER :: routineN = 'make_conformant_scalar_${nametype1}$', &
+                                     routineP = moduleN//':'//routineN
+
+      TYPE(dbcsr_scalar_type)                  :: encapsulated
+      INTEGER                                  :: data_type, scalar_data_type
+
+      encapsulated = dbcsr_scalar(scalar)
+      CALL dbcsr_scalar_fill_all(encapsulated)
+      data_type = dbcsr_get_data_type_prv(matrix%prv)
+      scalar_data_type = dbcsr_scalar_get_type(encapsulated)
+      IF (scalar_data_type .EQ. dbcsr_type_complex_4 .OR. &
+          scalar_data_type .EQ. dbcsr_type_complex_8) THEN
+         IF (data_type .NE. dbcsr_type_complex_4 .AND. data_type .NE. dbcsr_type_complex_8) &
+            DBCSR_ABORT("Can not conform a complex to a real number")
+      END IF
+      CALL dbcsr_scalar_set_type(encapsulated, data_type)
+   END FUNCTION make_conformant_scalar_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param row ...
+!> \param col ...
+!> \param block ...
+!> \param transposed ...
+!> \param existed ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_reserve_block2d_${nametype1}$ (matrix, row, col, block, transposed, existed)
+      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
+      INTEGER, INTENT(IN)                      :: row, col
+      ${type1}$, DIMENSION(:, :), POINTER        :: block
+      LOGICAL, INTENT(IN), OPTIONAL            :: transposed
+      LOGICAL, INTENT(OUT), OPTIONAL           :: existed
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_block2d_${nametype1}$', &
+                                     routineP = moduleN//':'//routineN
+
+      CALL dbcsr_reserve_block2d_prv(matrix%prv, row, col, block, &
+                                     transposed, existed)
+
+   END SUBROUTINE dbcsr_reserve_block2d_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param iterator ...
+!> \param row ...
+!> \param column ...
+!> \param block ...
+!> \param block_number ...
+!> \param row_size ...
+!> \param col_size ...
+!> \param row_offset ...
+!> \param col_offset ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_iterator_next_2d_block_${nametype1}$ (iterator, row, column, block, &
+                                                          block_number, row_size, col_size, row_offset, col_offset)
+      TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
+      INTEGER, INTENT(OUT)                     :: row, column
+      ${type1}$, DIMENSION(:, :), POINTER        :: block
+      INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
+                                                  col_size, row_offset, &
+                                                  col_offset
+
+      LOGICAL                                  :: transposed
+
+      CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, transposed, &
+                                         block_number, row_size, col_size, row_offset, col_offset)
+      IF (transposed) &
+         DBCSR_ABORT("CP2K does not handle transposed blocks.")
+
+   END SUBROUTINE dbcsr_iterator_next_2d_block_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param iterator ...
+!> \param row ...
+!> \param column ...
+!> \param block ...
+!> \param block_number ...
+!> \param row_size ...
+!> \param col_size ...
+!> \param row_offset ...
+!> \param col_offset ...
+! *************************************************************************************************
+   SUBROUTINE dbcsr_iterator_next_1d_block_${nametype1}$ (iterator, row, column, block, &
+                                                          block_number, row_size, col_size, row_offset, col_offset)
+      TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
+      INTEGER, INTENT(OUT)                      :: row, column
+      ${type1}$, DIMENSION(:), POINTER            :: block
+      INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
+                                                   col_size, row_offset, &
+                                                   col_offset
+
+      LOGICAL                                   :: transposed
+
+      CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, &
+                                         transposed, block_number, row_size, col_size, row_offset, col_offset)
+      IF (transposed) &
+         DBCSR_ABORT("CP2K does not handle transposed blocks.")
+
+   END SUBROUTINE dbcsr_iterator_next_1d_block_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param row ...
+!> \param col ...
+!> \param block ...
+!> \param summation ...
+!> \param scale ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_put_block2d_${nametype1}$ (matrix, row, col, block, &
+                                               summation, scale)
+      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
+      INTEGER, INTENT(IN)                      :: row, col
+      ${type1}$, DIMENSION(:, :), INTENT(IN)     :: block
+      LOGICAL, INTENT(IN), OPTIONAL            :: summation
+      ${type1}$, INTENT(IN), OPTIONAL            :: scale
+
+      CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
+   END SUBROUTINE dbcsr_put_block2d_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param row ...
+!> \param col ...
+!> \param block ...
+!> \param summation ...
+!> \param scale ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_put_block_${nametype1}$ (matrix, row, col, block, &
+                                             summation, scale)
+      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
+      INTEGER, INTENT(IN)                      :: row, col
+      ${type1}$, DIMENSION(:), INTENT(IN)        :: block
+      LOGICAL, INTENT(IN), OPTIONAL            :: summation
+      ${type1}$, INTENT(IN), OPTIONAL            :: scale
+
+      CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
+   END SUBROUTINE dbcsr_put_block_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param row ...
+!> \param col ...
+!> \param block ...
+!> \param found ...
+!> \param row_size ...
+!> \param col_size ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_get_2d_block_p_${nametype1}$ (matrix, row, col, block, found, row_size, col_size)
+      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
+      INTEGER, INTENT(IN)                      :: row, col
+      ${type1}$, DIMENSION(:, :), POINTER        :: block
+      LOGICAL, INTENT(OUT)                     :: found
+      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
+
+      LOGICAL                                  :: tr
+
+      CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
+      IF (tr) &
+         DBCSR_ABORT("CP2K does not handle transposed blocks.")
+   END SUBROUTINE dbcsr_get_2d_block_p_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param row ...
+!> \param col ...
+!> \param block ...
+!> \param found ...
+!> \param row_size ...
+!> \param col_size ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_get_block_p_${nametype1}$ (matrix, row, col, block, found, row_size, col_size)
+      TYPE(dbcsr_type), INTENT(IN)              :: matrix
+      INTEGER, INTENT(IN)                       :: row, col
+      ${type1}$, DIMENSION(:), POINTER            :: block
+      LOGICAL, INTENT(OUT)                      :: found
+      INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
+
+      LOGICAL                                   :: tr
+
+      CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
+      IF (tr) &
+         DBCSR_ABORT("CP2K does not handle transposed blocks.")
+
+   END SUBROUTINE dbcsr_get_block_p_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix_a ...
+!> \param trace ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_trace_a_${nametype1}$ (matrix_a, trace)
+      TYPE(dbcsr_type), INTENT(IN)              :: matrix_a
+      ${type1}$, INTENT(OUT)                     :: trace
+
+      TYPE(dbcsr_scalar_type)                  :: trace_scalar
+
+      trace_scalar = dbcsr_scalar_zero(dbcsr_get_data_type(matrix_a))
+      CALL dbcsr_trace_prv(matrix_a%prv, trace_scalar)
+      CALL dbcsr_scalar_fill_all(trace_scalar)
+      CALL dbcsr_scalar_get_value(trace_scalar, trace)
+   END SUBROUTINE dbcsr_trace_a_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix_a ...
+!> \param matrix_b ...
+!> \param trace ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_trace_ab_${nametype1}$ (matrix_a, matrix_b, trace)
+      TYPE(dbcsr_type), INTENT(IN)              :: matrix_a, matrix_b
+      ${type1}$, INTENT(INOUT)                   :: trace
+
+      CALL dbcsr_trace_prv(matrix_a%prv, matrix_b%prv, trace)
+   END SUBROUTINE dbcsr_trace_ab_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param transa ...
+!> \param transb ...
+!> \param alpha ...
+!> \param matrix_a ...
+!> \param matrix_b ...
+!> \param beta ...
+!> \param matrix_c ...
+!> \param first_row ...
+!> \param last_row ...
+!> \param first_column ...
+!> \param last_column ...
+!> \param first_k ...
+!> \param last_k ...
+!> \param retain_sparsity ...
+!> \param match_matrix_sizes Enables BLAS XGEMM-style multiplication
+!>        of matrices with incompatible dimensions. By default it's disabled.
+!> \param filter_eps ...
+!> \param flop ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_multiply_${nametype1}$ (transa, transb, &
+                                            alpha, matrix_a, matrix_b, beta, matrix_c, &
+                                            first_row, last_row, first_column, last_column, first_k, last_k, &
+                                            retain_sparsity, filter_eps, flop)
+      CHARACTER(LEN=1), INTENT(IN)             :: transa, transb
+      ${type1}$, INTENT(IN)                      :: alpha
+      TYPE(dbcsr_type), INTENT(IN)             :: matrix_a, matrix_b
+      ${type1}$, INTENT(IN)                      :: beta
+      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_c
+      INTEGER, INTENT(IN), OPTIONAL            :: first_row, last_row, &
+                                                  first_column, last_column, &
+                                                  first_k, last_k
+      LOGICAL, INTENT(IN), OPTIONAL            :: retain_sparsity
+      REAL(kind=${kind2[n]}$), INTENT(IN), OPTIONAL :: filter_eps
+      INTEGER(int_8), INTENT(OUT), OPTIONAL    :: flop
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_${nametype1}$', &
+                                     routineP = moduleN//':'//routineN
+
+      CHARACTER(LEN=1)                         :: trans_a, trans_b
+
+      trans_a = transa
+      trans_b = transb
+      CALL uppercase(trans_a)
+      CALL uppercase(trans_b)
+
+      CALL dbcsr_multiply_prv(transa, transb, &
+                              alpha, matrix_a%prv, matrix_b%prv, beta, matrix_c%prv, &
+                              first_row, last_row, first_column, last_column, first_k, last_k, &
+                              retain_sparsity, &
+                              filter_eps=filter_eps, &
+                              flop=flop)
+
+   END SUBROUTINE dbcsr_multiply_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix_a ...
+!> \param alpha ...
+!> \param side ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_scale_by_vector_${nametype1}$ (matrix_a, alpha, side)
+      TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_a
+      ${type1}$, DIMENSION(:), INTENT(IN), TARGET :: alpha
+      CHARACTER(LEN=*), INTENT(IN)              :: side
+
+      CALL dbcsr_scale_by_vector_prv(matrix_a%prv, alpha, side)
+   END SUBROUTINE dbcsr_scale_by_vector_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix_a ...
+!> \param alpha_scalar ...
+!> \param last_column ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_scale_${nametype1}$ (matrix_a, alpha_scalar, last_column)
+      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
+      ${type1}$, INTENT(IN)                      :: alpha_scalar
+      INTEGER, INTENT(IN), OPTIONAL            :: last_column
+
+      CALL dbcsr_scale_prv(matrix_a%prv, alpha_scalar, last_column)
+   END SUBROUTINE dbcsr_scale_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param alpha ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_set_${nametype1}$ (matrix, alpha)
+      TYPE(dbcsr_type), INTENT(INOUT)       :: matrix
+      ${type1}$, INTENT(IN)                      :: alpha
+
+      CALL dbcsr_set_prv(matrix%prv, alpha)
+   END SUBROUTINE dbcsr_set_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix_a ...
+!> \param matrix_b ...
+!> \param alpha_scalar ...
+!> \param beta_scalar ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_add_${nametype1}$ (matrix_a, matrix_b, alpha_scalar, beta_scalar)
+      TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
+      TYPE(dbcsr_type), INTENT(IN)             :: matrix_b
+      ${type1}$, INTENT(IN)                      :: alpha_scalar, beta_scalar
+
+      CALL dbcsr_add_prv(matrix_a%prv, matrix_b%prv, alpha_scalar, beta_scalar)
+   END SUBROUTINE dbcsr_add_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param alpha_scalar ...
+!> \param first_row ...
+!> \param last_row ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_add_on_diag_${nametype1}$ (matrix, alpha_scalar)
+      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+      ${type1}$, INTENT(IN)                                :: alpha_scalar
+
+      CALL dbcsr_add_on_diag_prv(matrix%prv, alpha_scalar)
+   END SUBROUTINE dbcsr_add_on_diag_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param diag ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_set_diag_${nametype1}$ (matrix, diag)
+      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+      ${type1}$, DIMENSION(:), INTENT(IN)                  :: diag
+
+      CALL dbcsr_set_diag_prv(matrix%prv, diag)
+   END SUBROUTINE dbcsr_set_diag_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param diag ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_get_diag_${nametype1}$ (matrix, diag)
+      TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+      ${type1}$, DIMENSION(:), INTENT(OUT)                 :: diag
+
+      CALL dbcsr_get_diag_prv(matrix%prv, diag)
+   END SUBROUTINE dbcsr_get_diag_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param index_matrix ...
+!> \param lb ...
+!> \param ub ...
+!> \return ...
+! **************************************************************************************************
+   FUNCTION dbcsr_get_wms_data_${nametype1}$ (matrix, index_matrix, select_data_type, lb, ub) RESULT(DATA)
+      TYPE(dbcsr_type), INTENT(IN)     :: matrix
+      INTEGER, INTENT(IN)              :: index_matrix
+      ${type1}$, INTENT(IN)              :: select_data_type
+      ${type1}$, DIMENSION(:), POINTER   :: DATA
+      INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
+
+      DATA => dbcsr_get_data_p_prv(matrix%prv%wms(index_matrix)%data_area, select_data_type, lb, ub)
+
+   END FUNCTION dbcsr_get_wms_data_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param index_matrix ...
+!> \param lb ...
+!> \param ub ...
+!> \return ...
+! **************************************************************************************************
+   FUNCTION dbcsr_get_data_${nametype1}$ (matrix, select_data_type, lb, ub) RESULT(DATA)
+      TYPE(dbcsr_type), INTENT(IN)     :: matrix
+      ${type1}$, INTENT(IN)              :: select_data_type
+      ${type1}$, DIMENSION(:), POINTER   :: DATA
+      INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
+
+      DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
+
+   END FUNCTION dbcsr_get_data_${nametype1}$
+#:endfor
 
 END MODULE dbcsr_api

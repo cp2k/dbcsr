@@ -21,38 +21,38 @@
 !>  - 2013-01    extensive refactoring (Ole Schuett)
 ! **************************************************************************************************
 MODULE dbcsr_mm_sched
-   USE dbcsr_block_operations,          ONLY: dbcsr_data_clear
-   USE dbcsr_config,                    ONLY: dbcsr_cfg,&
-                                              default_resize_factor,&
-                                              has_acc
-   USE dbcsr_data_methods,              ONLY: dbcsr_data_ensure_size,&
-                                              dbcsr_data_get_size
-   USE dbcsr_kinds,                     ONLY: int_4,&
-                                              int_8,&
-                                              real_8
-   USE dbcsr_mm_accdrv,                 ONLY: &
-        dbcsr_mm_accdrv_barrier, dbcsr_mm_accdrv_dev2host_init, dbcsr_mm_accdrv_finalize, &
-        dbcsr_mm_accdrv_init, dbcsr_mm_accdrv_lib_finalize, dbcsr_mm_accdrv_lib_init, &
-        dbcsr_mm_accdrv_phaseout, dbcsr_mm_accdrv_process, dbcsr_mm_accdrv_type
-   USE dbcsr_mm_hostdrv,                ONLY: dbcsr_mm_hostdrv_init,&
-                                              dbcsr_mm_hostdrv_lib_finalize,&
-                                              dbcsr_mm_hostdrv_lib_init,&
-                                              dbcsr_mm_hostdrv_process,&
-                                              dbcsr_mm_hostdrv_type
-   USE dbcsr_mm_types,                  ONLY: p_a_first,&
-                                              p_b_first,&
-                                              p_c_first,&
-                                              p_k,&
-                                              p_m,&
-                                              p_n,&
-                                              stack_descriptor_type
-   USE dbcsr_mpiwrap,                   ONLY: mp_bcast,&
-                                              mp_environ,&
-                                              mp_max,&
-                                              mp_sum
-   USE dbcsr_toollib,                   ONLY: sort
-   USE dbcsr_types,                     ONLY: dbcsr_type,&
-                                              dbcsr_work_type
+   USE dbcsr_block_operations, ONLY: dbcsr_data_clear
+   USE dbcsr_config, ONLY: dbcsr_cfg, &
+                           default_resize_factor, &
+                           has_acc
+   USE dbcsr_data_methods, ONLY: dbcsr_data_ensure_size, &
+                                 dbcsr_data_get_size
+   USE dbcsr_kinds, ONLY: int_4, &
+                          int_8, &
+                          real_8
+   USE dbcsr_mm_accdrv, ONLY: &
+      dbcsr_mm_accdrv_barrier, dbcsr_mm_accdrv_dev2host_init, dbcsr_mm_accdrv_finalize, &
+      dbcsr_mm_accdrv_init, dbcsr_mm_accdrv_lib_finalize, dbcsr_mm_accdrv_lib_init, &
+      dbcsr_mm_accdrv_phaseout, dbcsr_mm_accdrv_process, dbcsr_mm_accdrv_type
+   USE dbcsr_mm_hostdrv, ONLY: dbcsr_mm_hostdrv_init, &
+                               dbcsr_mm_hostdrv_lib_finalize, &
+                               dbcsr_mm_hostdrv_lib_init, &
+                               dbcsr_mm_hostdrv_process, &
+                               dbcsr_mm_hostdrv_type
+   USE dbcsr_mm_types, ONLY: p_a_first, &
+                             p_b_first, &
+                             p_c_first, &
+                             p_k, &
+                             p_m, &
+                             p_n, &
+                             stack_descriptor_type
+   USE dbcsr_mpiwrap, ONLY: mp_bcast, &
+                            mp_environ, &
+                            mp_max, &
+                            mp_sum
+   USE dbcsr_toollib, ONLY: sort
+   USE dbcsr_types, ONLY: dbcsr_type, &
+                          dbcsr_work_type
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -132,7 +132,7 @@ CONTAINS
 !$    nthreads = OMP_GET_NUM_THREADS(); ithread = OMP_GET_THREAD_NUM()
 
 !$OMP     MASTER
-      ALLOCATE (stats_per_thread(0:nthreads-1))
+      ALLOCATE (stats_per_thread(0:nthreads - 1))
 !$OMP     END MASTER
 
 !$OMP     BARRIER
@@ -184,11 +184,11 @@ CONTAINS
       ! The product's data_area could already contain some data.
       ! ( see: keep_product_data in dbcsr_operations.F )
       ! But this data might not occupy all the allocated memory in the data_area.
-      ! Since, we don't want to keep track of unitialized memory we just zero it now.
+      ! Since, we don't want to keep track of uninitialized memory we just zero it now.
 
       used_datasize = this%product_wm_orig_datasize
       allocated_datasize = dbcsr_data_get_size(this%product_wm%data_area)
-      CALL dbcsr_data_clear(this%product_wm%data_area, lb=used_datasize+1, ub=allocated_datasize)
+      CALL dbcsr_data_clear(this%product_wm%data_area, lb=used_datasize + 1, ub=allocated_datasize)
       this%product_wm_cleared = .TRUE.
    END SUBROUTINE ensure_product_wm_cleared
 
@@ -205,7 +205,7 @@ CONTAINS
       INTEGER, OPTIONAL                                  :: nlayers
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_sched_init', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
 
@@ -215,7 +215,7 @@ CONTAINS
 
       ! Clearing the product_wm takes too long, we gonna do it later and
       ! return now to allow for MPI to progress.
-      ! We just have to remeber its datasize, in case it already contains data.
+      ! We just have to remember its datasize, in case it already contains data.
       this%product_wm_orig_datasize = this%product_wm%datasize
 
       CALL dbcsr_mm_hostdrv_init(this%hostdrv, product_wm)
@@ -250,7 +250,7 @@ CONTAINS
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_sched_finalize', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
 
@@ -276,7 +276,7 @@ CONTAINS
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_sched_dev2host_init', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
 
@@ -342,7 +342,7 @@ CONTAINS
       TYPE(stack_descriptor_type), INTENT(IN)            :: stack_descr
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mm_sched_process', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ithread, sp, stacked_datasize
       INTEGER(kind=int_8)                                :: flop_per_entry, total_flop
@@ -363,7 +363,7 @@ CONTAINS
                                   factor=default_resize_factor, zero_pad=.TRUE.)
 
       !!From here on there is no boundary checking due to assumed-SIZE-arguments.
-      !!This is usefull to check stack parameters, BUT it works only for kind=dp
+      !!This is useful to check stack parameters, BUT it works only for kind=dp
       IF (.FALSE.) THEN
          DO sp = 1, stack_fillcount
             IF (stack_data(p_a_first, sp) > SIZE(left%data_area%d%r_dp)) &
@@ -379,15 +379,15 @@ CONTAINS
       ENDIF
 
       IF (.FALSE.) THEN
-         ! Check if homogenous stacks are indeed homogenous
+         ! Check if homogeneous stacks are indeed homogeneous
          IF (stack_descr%defined_mnk) THEN
             DO sp = 1, stack_fillcount
                IF (stack_data(p_m, sp) /= stack_descr%m) &
-                  DBCSR_ABORT("homogenous stacks check failed")
+                  DBCSR_ABORT("homogeneous stacks check failed")
                IF (stack_data(p_n, sp) /= stack_descr%n) &
-                  DBCSR_ABORT("homogenous stacks check failed")
+                  DBCSR_ABORT("homogeneous stacks check failed")
                IF (stack_data(p_k, sp) /= stack_descr%k) &
-                  DBCSR_ABORT("homogenous stacks check failed")
+                  DBCSR_ABORT("homogeneous stacks check failed")
             END DO
          ENDIF
       ENDIF
@@ -410,8 +410,8 @@ CONTAINS
 
          IF (success) THEN
             ! update statistics
-            mystats%acc_num_stacks = mystats%acc_num_stacks+1
-            mystats%acc_flop = mystats%acc_flop+total_flop
+            mystats%acc_num_stacks = mystats%acc_num_stacks + 1
+            mystats%acc_flop = mystats%acc_flop + total_flop
             CALL stats_add(mystats, &
                            m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, &
                            stacksize_acc=INT(stack_fillcount, kind=int_8))
@@ -436,14 +436,14 @@ CONTAINS
 
       ! update statistics
       IF (used_smm) THEN
-         mystats%smm_num_stacks = mystats%smm_num_stacks+1
-         mystats%smm_flop = mystats%smm_flop+total_flop
+         mystats%smm_num_stacks = mystats%smm_num_stacks + 1
+         mystats%smm_flop = mystats%smm_flop + total_flop
          CALL stats_add(mystats, &
                         m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, &
                         stacksize_smm=INT(stack_fillcount, kind=int_8))
       ELSE
-         mystats%cpu_num_stacks = mystats%cpu_num_stacks+1
-         mystats%cpu_flop = mystats%cpu_flop+total_flop
+         mystats%cpu_num_stacks = mystats%cpu_num_stacks + 1
+         mystats%cpu_flop = mystats%cpu_flop + total_flop
          CALL stats_add(mystats, &
                         m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, &
                         stacksize_cpu=INT(stack_fillcount, kind=int_8))
@@ -509,12 +509,12 @@ CONTAINS
          IF (stats%num_mnk_stacks(i, 1) == m .AND. &
              stats%num_mnk_stacks(i, 2) == n .AND. &
              stats%num_mnk_stacks(i, 3) == k) THEN
-            stats%num_mnk_stacks(i, 4) = stats%num_mnk_stacks(i, 4)+my_stacksize_cpu
-            stats%num_mnk_stacks(i, 5) = stats%num_mnk_stacks(i, 5)+my_stacksize_smm
-            stats%num_mnk_stacks(i, 6) = stats%num_mnk_stacks(i, 6)+my_stacksize_acc
-            stats%num_mnk_stacks(i, 7) = stats%num_mnk_stacks(i, 7)+my_nstacks_cpu
-            stats%num_mnk_stacks(i, 8) = stats%num_mnk_stacks(i, 8)+my_nstacks_smm
-            stats%num_mnk_stacks(i, 9) = stats%num_mnk_stacks(i, 9)+my_nstacks_acc
+            stats%num_mnk_stacks(i, 4) = stats%num_mnk_stacks(i, 4) + my_stacksize_cpu
+            stats%num_mnk_stacks(i, 5) = stats%num_mnk_stacks(i, 5) + my_stacksize_smm
+            stats%num_mnk_stacks(i, 6) = stats%num_mnk_stacks(i, 6) + my_stacksize_acc
+            stats%num_mnk_stacks(i, 7) = stats%num_mnk_stacks(i, 7) + my_nstacks_cpu
+            stats%num_mnk_stacks(i, 8) = stats%num_mnk_stacks(i, 8) + my_nstacks_smm
+            stats%num_mnk_stacks(i, 9) = stats%num_mnk_stacks(i, 9) + my_nstacks_acc
             RETURN
          ENDIF
       END DO
@@ -524,17 +524,17 @@ CONTAINS
       ALLOCATE (tmp(s, 9))
       tmp(:, :) = stats%num_mnk_stacks(:, :)
       DEALLOCATE (stats%num_mnk_stacks)
-      ALLOCATE (stats%num_mnk_stacks(s+1, 9))
+      ALLOCATE (stats%num_mnk_stacks(s + 1, 9))
       stats%num_mnk_stacks(1:s, :) = tmp(:, :)
-      stats%num_mnk_stacks(s+1, 1) = m
-      stats%num_mnk_stacks(s+1, 2) = n
-      stats%num_mnk_stacks(s+1, 3) = k
-      stats%num_mnk_stacks(s+1, 4) = my_stacksize_cpu
-      stats%num_mnk_stacks(s+1, 5) = my_stacksize_smm
-      stats%num_mnk_stacks(s+1, 6) = my_stacksize_acc
-      stats%num_mnk_stacks(s+1, 7) = my_nstacks_cpu
-      stats%num_mnk_stacks(s+1, 8) = my_nstacks_smm
-      stats%num_mnk_stacks(s+1, 9) = my_nstacks_acc
+      stats%num_mnk_stacks(s + 1, 1) = m
+      stats%num_mnk_stacks(s + 1, 2) = n
+      stats%num_mnk_stacks(s + 1, 3) = k
+      stats%num_mnk_stacks(s + 1, 4) = my_stacksize_cpu
+      stats%num_mnk_stacks(s + 1, 5) = my_stacksize_smm
+      stats%num_mnk_stacks(s + 1, 6) = my_stacksize_acc
+      stats%num_mnk_stacks(s + 1, 7) = my_nstacks_cpu
+      stats%num_mnk_stacks(s + 1, 8) = my_nstacks_smm
+      stats%num_mnk_stacks(s + 1, 9) = my_nstacks_acc
       DEALLOCATE (tmp)
    END SUBROUTINE stats_add
 
@@ -554,14 +554,14 @@ CONTAINS
       nthreads = 1
 !$    nthreads = OMP_GET_NUM_THREADS()
 
-      DO i = 0, nthreads-1
+      DO i = 0, nthreads - 1
          istats => stats_per_thread(i)
-         report%cpu_num_stacks = report%cpu_num_stacks+istats%cpu_num_stacks
-         report%smm_num_stacks = report%smm_num_stacks+istats%smm_num_stacks
-         report%acc_num_stacks = report%acc_num_stacks+istats%acc_num_stacks
-         report%acc_flop = report%acc_flop+istats%acc_flop
-         report%smm_flop = report%smm_flop+istats%smm_flop
-         report%cpu_flop = report%cpu_flop+istats%cpu_flop
+         report%cpu_num_stacks = report%cpu_num_stacks + istats%cpu_num_stacks
+         report%smm_num_stacks = report%smm_num_stacks + istats%smm_num_stacks
+         report%acc_num_stacks = report%acc_num_stacks + istats%acc_num_stacks
+         report%acc_flop = report%acc_flop + istats%acc_flop
+         report%smm_flop = report%smm_flop + istats%smm_flop
+         report%cpu_flop = report%cpu_flop + istats%cpu_flop
 
          DO j = 1, SIZE(istats%num_mnk_stacks, 1)
             CALL stats_add(report, &
@@ -615,7 +615,7 @@ CONTAINS
       ALLOCATE (mnk_collected(SIZE(report%num_mnk_stacks, 1)))
       mnk_collected = 0 ! init all to false
 
-      ! broadcast stats of all mnk-combinations, which occured on any mpi rank
+      ! broadcast stats of all mnk-combinations, which occurred on any mpi rank
       DO
          ! each rank with uncollected stats tries to become the sending_rank
          sending_rank = -1
@@ -661,7 +661,7 @@ CONTAINS
       WRITE (output_unit, "(1X,A,T45,A,T57,A,T68,A,T78,A)") "COUNTER", "TOTAL", "BLAS", "SMM", "ACC"
 
       !sorting stat entries by flops per multiplication
-      ALLOCATE (sort_key(SIZE(report%num_mnk_stacks, 1)-1))
+      ALLOCATE (sort_key(SIZE(report%num_mnk_stacks, 1) - 1))
       sort_key(:) = 2*PRODUCT(report%num_mnk_stacks(2:, 1:3), DIM=2)*SUM(report%num_mnk_stacks(2:, 4:6), DIM=2)
       ALLOCATE (sort_idx(SIZE(sort_key)))
       CALL sort(sort_key, SIZE(sort_key), sort_idx)
@@ -669,23 +669,23 @@ CONTAINS
       total_flops_homo = 0
       flops_homo(:) = 0
       DO i = 1, SIZE(sort_idx)
-         j = sort_idx(i)+1
+         j = sort_idx(i) + 1
          total = SUM(report%num_mnk_stacks(j, 4:6))
          flops = 2*total*PRODUCT(report%num_mnk_stacks(j, 1:3))
-         total_flops_homo = total_flops_homo+flops
-         flops_homo(:) = flops_homo(:)+2*report%num_mnk_stacks(j, 4:6)*PRODUCT(report%num_mnk_stacks(j, 1:3))
+         total_flops_homo = total_flops_homo + flops
+         flops_homo(:) = flops_homo(:) + 2*report%num_mnk_stacks(j, 4:6)*PRODUCT(report%num_mnk_stacks(j, 1:3))
          WRITE (output_unit, "(A,I5,' x ',I5,' x ',I5,T30,I20,5X,F5.1,'%',4X,F5.1,'%',4X,F5.1,'%')") &
             " flops ", report%num_mnk_stacks(j, 1:3), &
             flops, &
             100*REAL(report%num_mnk_stacks(j, 4:6))/REAL(MAX(INT(1, KIND=int_8), total))
       END DO
 
-      total = report%cpu_flop+report%smm_flop+report%acc_flop
+      total = report%cpu_flop + report%smm_flop + report%acc_flop
       WRITE (output_unit, "(A,T30,I20,5X,F5.1,'%',4X,F5.1,'%',4X,F5.1,'%')") &
-         " flops inhomo. stacks", total-total_flops_homo, &
-         100*REAL(report%cpu_flop-flops_homo(1))/REAL(MAX(INT(1, KIND=int_8), total-total_flops_homo)), &
-         100*REAL(report%smm_flop-flops_homo(2))/REAL(MAX(INT(1, KIND=int_8), total-total_flops_homo)), &
-         100*REAL(report%acc_flop-flops_homo(3))/REAL(MAX(INT(1, KIND=int_8), total-total_flops_homo))
+         " flops inhomo. stacks", total - total_flops_homo, &
+         100*REAL(report%cpu_flop - flops_homo(1))/REAL(MAX(INT(1, KIND=int_8), total - total_flops_homo)), &
+         100*REAL(report%smm_flop - flops_homo(2))/REAL(MAX(INT(1, KIND=int_8), total - total_flops_homo)), &
+         100*REAL(report%acc_flop - flops_homo(3))/REAL(MAX(INT(1, KIND=int_8), total - total_flops_homo))
 
       WRITE (output_unit, "(A,T30,EN20.6,5X,F5.1,'%',4X,F5.1,'%',4X,F5.1,'%')") &
          " flops total", REAL(total, KIND=real_8), &
@@ -693,7 +693,7 @@ CONTAINS
          100*REAL(report%smm_flop)/REAL(MAX(INT(1, KIND=int_8), total)), &
          100*REAL(report%acc_flop)/REAL(MAX(INT(1, KIND=int_8), total))
 
-      total = report%max_cpu_flop+report%max_smm_flop+report%max_acc_flop
+      total = report%max_cpu_flop + report%max_smm_flop + report%max_acc_flop
       WRITE (output_unit, "(A,T30,EN20.6,5X,F5.1,'%',4X,F5.1,'%',4X,F5.1,'%')") &
          " flops max/rank", REAL(total, KIND=real_8), &
          100*REAL(report%max_cpu_flop)/REAL(MAX(INT(1, KIND=int_8), total)), &
@@ -710,7 +710,7 @@ CONTAINS
          " matmuls total", total, &
          100*REAL(SUM(report%num_mnk_stacks(:, 4:6), DIM=1))/REAL(MAX(INT(1, KIND=int_8), total))
 
-      total = report%cpu_num_stacks+report%smm_num_stacks+report%acc_num_stacks
+      total = report%cpu_num_stacks + report%smm_num_stacks + report%acc_num_stacks
       WRITE (output_unit, "(A,T30,I20,5X,F5.1,'%',4X,F5.1,'%',4X,F5.1,'%')") &
          " number of processed stacks", total, &
          100*REAL(report%cpu_num_stacks)/REAL(MAX(INT(1, KIND=int_8), total)), &

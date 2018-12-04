@@ -24,54 +24,53 @@ MODULE dbcsr_tensor
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)
 
-   USE dbcsr_allocate_wrap,             ONLY: allocate_any
-   USE dbcsr_array_list_methods,        ONLY: get_arrays,&
-                                              reorder_arrays,&
-                                              get_ith_array
-   USE dbcsr_api,                       ONLY: &
-        dbcsr_copy, dbcsr_type, dbcsr_create, dbcsr_iterator_type, dbcsr_iterator_blocks_left, &
-        dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, &
-        dbcsr_finalize, dbcsr_transpose, dbcsr_no_transpose, dbcsr_get_data_type, dbcsr_multiply, &
-        dbcsr_get_info, ${uselist(dtype_float_param)}$
-   USE dbcsr_tensor_block,              ONLY: dbcsr_t_iterator_type, &
-                                              dbcsr_t_get_block, &
-                                              dbcsr_t_put_block, &
-                                              dbcsr_t_iterator_start, &
-                                              dbcsr_t_iterator_blocks_left, &
-                                              dbcsr_t_iterator_stop, &
-                                              dbcsr_t_iterator_next_block, &
-                                              ndims_iterator,&
-                                              dbcsr_t_reserve_blocks, &
-                                              block_nd
-   USE dbcsr_tensor_index,              ONLY: get_mapping_info,&
-                                              nd_to_2d_mapping,&
-                                              dbcsr_t_inverse_order,&
-                                              permute_index
-   USE dbcsr_tensor_types,              ONLY: dbcsr_t_create,&
-                                              dbcsr_t_get_data_type,&
-                                              dbcsr_t_type,&
-                                              ndims_tensor,&
-                                              dims_tensor,&
-                                              dbcsr_t_distribution_type,&
-                                              dbcsr_t_distribution,&
-                                              dbcsr_t_nd_mp_comm,&
-                                              dbcsr_t_destroy,&
-                                              dbcsr_t_distribution_destroy,&
-                                              dbcsr_t_distribution_new,&
-                                              dbcsr_t_get_stored_coordinates
-   USE dbcsr_kinds,                     ONLY: ${uselist(dtype_float_prec)}$,&
-                                              default_string_length
-   USE dbcsr_mpiwrap,                   ONLY: mp_environ,&
-                                              mp_comm_free
-   USE dbcsr_toollib,                   ONLY: sort
-   USE dbcsr_tensor_reshape,            ONLY: dbcsr_t_reshape
+   USE dbcsr_allocate_wrap, ONLY: allocate_any
+   USE dbcsr_array_list_methods, ONLY: get_arrays, &
+                                       reorder_arrays, &
+                                       get_ith_array
+   USE dbcsr_api, ONLY: &
+      dbcsr_copy, dbcsr_type, dbcsr_create, dbcsr_iterator_type, dbcsr_iterator_blocks_left, &
+      dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, &
+      dbcsr_finalize, dbcsr_transpose, dbcsr_no_transpose, dbcsr_get_data_type, dbcsr_multiply, &
+      dbcsr_get_info, ${uselist(dtype_float_param)}$
+   USE dbcsr_tensor_block, ONLY: dbcsr_t_iterator_type, &
+                                 dbcsr_t_get_block, &
+                                 dbcsr_t_put_block, &
+                                 dbcsr_t_iterator_start, &
+                                 dbcsr_t_iterator_blocks_left, &
+                                 dbcsr_t_iterator_stop, &
+                                 dbcsr_t_iterator_next_block, &
+                                 ndims_iterator, &
+                                 dbcsr_t_reserve_blocks, &
+                                 block_nd
+   USE dbcsr_tensor_index, ONLY: get_mapping_info, &
+                                 nd_to_2d_mapping, &
+                                 dbcsr_t_inverse_order, &
+                                 permute_index
+   USE dbcsr_tensor_types, ONLY: dbcsr_t_create, &
+                                 dbcsr_t_get_data_type, &
+                                 dbcsr_t_type, &
+                                 ndims_tensor, &
+                                 dims_tensor, &
+                                 dbcsr_t_distribution_type, &
+                                 dbcsr_t_distribution, &
+                                 dbcsr_t_nd_mp_comm, &
+                                 dbcsr_t_destroy, &
+                                 dbcsr_t_distribution_destroy, &
+                                 dbcsr_t_distribution_new, &
+                                 dbcsr_t_get_stored_coordinates
+   USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$, &
+                          default_string_length
+   USE dbcsr_mpiwrap, ONLY: mp_environ, &
+                            mp_comm_free
+   USE dbcsr_toollib, ONLY: sort
+   USE dbcsr_tensor_reshape, ONLY: dbcsr_t_reshape
 
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tensor'
-
 
    PUBLIC :: &
       dbcsr_t_contract, &
@@ -124,7 +123,7 @@ CONTAINS
       INTEGER                                        :: handle
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
 
@@ -156,7 +155,7 @@ CONTAINS
 
       INTEGER                                            :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_matrix', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
       DBCSR_ASSERT(tensor_out%valid)
@@ -216,7 +215,7 @@ CONTAINS
       TYPE(dbcsr_t_type)                             :: tensor_3_tmp
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_contract', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
 
@@ -258,17 +257,17 @@ CONTAINS
       CALL allocate_any(sort_indices, shape_spec=SHAPE(contract_1_mod))
       CALL sort(contract_1_mod, SIZE(contract_1_mod), sort_indices)
       contract_2_mod(:) = contract_2_mod(sort_indices)
-      DEALLOCATE(sort_indices)
+      DEALLOCATE (sort_indices)
 
       CALL allocate_any(sort_indices, shape_spec=SHAPE(notcontract_1_mod))
       CALL sort(notcontract_1_mod, SIZE(notcontract_1_mod), sort_indices)
       map_1_mod(:) = map_1(sort_indices)
-      DEALLOCATE(sort_indices)
+      DEALLOCATE (sort_indices)
 
       CALL allocate_any(sort_indices, shape_spec=SHAPE(notcontract_2_mod))
       CALL sort(notcontract_2_mod, SIZE(notcontract_2_mod), sort_indices)
       map_2_mod(:) = map_2(sort_indices)
-      DEALLOCATE(sort_indices)
+      DEALLOCATE (sort_indices)
 
       CALL prep_tensor_lhs(tensor_tmp_1, contract_1_mod, notcontract_1_mod, 2, tensor_contr_1, trans_1)
       CALL prep_tensor_lhs(tensor_tmp_2, contract_2_mod, notcontract_2_mod, 1, tensor_contr_2, trans_2)
@@ -277,15 +276,15 @@ CONTAINS
       CALL dbcsr_t_destroy(tensor_tmp_2)
 
       ! create temporary tensor according to format of tensor 1, tensor 2
-      map_1_tmp(:) = (/(i, i=1,ndims_2d_3(1))/)
-      map_2_tmp(:) = (/(i, i=ndims_2d_3(1)+1,ndims_2d_3(1)+ndims_2d_3(2))/)
+      map_1_tmp(:) = (/(i, i=1, ndims_2d_3(1))/)
+      map_2_tmp(:) = (/(i, i=ndims_2d_3(1) + 1, ndims_2d_3(1) + ndims_2d_3(2))/)
 
       CALL dbcsr_get_info(tensor_contr_1%matrix_rep, group=mp_comm_2d)
       mp_comm_nd = dbcsr_t_nd_mp_comm(mp_comm_2d, map_1_tmp, map_2_tmp)
 
-      ALLOCATE(pdims_3(SUM(ndims_2d_3)))
-      ALLOCATE(myploc(SUM(ndims_2d_3)))
-      ALLOCATE(periods(SUM(ndims_2d_3)))
+      ALLOCATE (pdims_3(SUM(ndims_2d_3)))
+      ALLOCATE (myploc(SUM(ndims_2d_3)))
+      ALLOCATE (periods(SUM(ndims_2d_3)))
       CALL mp_environ(mp_comm_nd, SUM(ndims_2d_3), pdims_3, myploc, periods)
 
 #:for dim in range(1, maxdim+1)
@@ -319,7 +318,7 @@ CONTAINS
                           tensor_3_tmp%matrix_rep)
 
       order(:) = [map_1_mod, map_2_mod]
-      CALL dbcsr_t_copy(tensor_3_tmp, tensor_3, order = order)
+      CALL dbcsr_t_copy(tensor_3_tmp, tensor_3, order=order)
 
       CALL dbcsr_t_destroy(tensor_contr_1)
       CALL dbcsr_t_destroy(tensor_contr_2)
@@ -386,21 +385,21 @@ CONTAINS
 
          DBCSR_ASSERT(compat > 0)
 
-         SELECT CASE(contract_index)
-         CASE(1)
+         SELECT CASE (contract_index)
+         CASE (1)
             compat_1_trans = dbcsr_no_transpose
             compat_2_trans = dbcsr_transpose
-         CASE(2)
+         CASE (2)
             compat_1_trans = dbcsr_transpose
             compat_2_trans = dbcsr_no_transpose
          CASE DEFAULT
             DBCSR_ABORT('')
          END SELECT
 
-         SELECT CASE(compat)
-         CASE(1)
+         SELECT CASE (compat)
+         CASE (1)
             trans = compat_1_trans
-         CASE(2)
+         CASE (2)
             trans = compat_2_trans
          CASE DEFAULT
             DBCSR_ABORT('')
@@ -422,9 +421,9 @@ CONTAINS
          CALL get_mapping_info(nd_index, map1_2d=map1, map2_2d=map2)
 
          compat_map = 0
-         IF(array_eq_i(map1, contract)) THEN
+         IF (array_eq_i(map1, contract)) THEN
             compat_map = 1
-         ELSEIF(array_eq_i(map2, contract)) THEN
+         ELSEIF (array_eq_i(map2, contract)) THEN
             compat_map = 2
          ENDIF
 
@@ -458,7 +457,7 @@ CONTAINS
       INTEGER, INTENT(in)                             :: dist_size, nbins
       INTEGER                                         :: i
 
-      CALL allocate_any(dist_array, source=(/(MODULO(nbins-i, nbins), i=1, dist_size)/))
+      CALL allocate_any(dist_array, source=(/(MODULO(nbins - i, nbins), i=1, dist_size)/))
 
    END SUBROUTINE cyclic_dist
 
@@ -476,14 +475,14 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(OUT)        :: tensor_out
       CHARACTER(len=*), INTENT(IN), OPTIONAL :: name
       CHARACTER(len=default_string_length)   :: name_tmp
-      INTEGER, DIMENSION(:), ALLOCATABLE     :: ${varlist("blk_sizes")}$,&
+      INTEGER, DIMENSION(:), ALLOCATABLE     :: ${varlist("blk_sizes")}$, &
                                                 ${varlist("nd_dist")}$
       TYPE(dbcsr_t_distribution_type)        :: dist
       INTEGER                                :: comm_2d, comm_nd, handle
       INTEGER, DIMENSION(dbcsr_t_ndims(tensor_in)) :: pdims, myploc
       LOGICAL, DIMENSION(dbcsr_t_ndims(tensor_in)) :: periods
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_remap', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
 
@@ -518,7 +517,7 @@ CONTAINS
 #:for ndim in ndims
       IF (ndims_tensor(tensor_in) == ${ndim}$) THEN
          CALL dbcsr_t_create(tensor_out, name_tmp, dist, &
-                             map1_2d, map2_2d, dbcsr_get_data_type(tensor_in%matrix_rep),&
+                             map1_2d, map2_2d, dbcsr_get_data_type(tensor_in%matrix_rep), &
                              ${varlist("blk_sizes", nmax=ndim)}$)
          tensor_out%comm_prv = .TRUE. ! since this tensor is created internally (not by user)
       ENDIF
@@ -544,7 +543,7 @@ CONTAINS
          INTENT(OUT), OPTIONAL                        :: order
       INTEGER, DIMENSION(ndims_tensor(tensor_in))     :: order_prv
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_align_index', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
       INTEGER                                         :: handle
 
       CALL timeset(routineN, handle)
@@ -553,7 +552,7 @@ CONTAINS
       order_prv = dbcsr_t_inverse_order([map1_2d, map2_2d])
       CALL dbcsr_t_permute_index(tensor_in, tensor_out, order=order_prv)
 
-      IF(PRESENT(order)) order = order_prv
+      IF (PRESENT(order)) order = order_prv
 
       CALL timestop(handle)
    END SUBROUTINE
@@ -572,7 +571,7 @@ CONTAINS
 
       TYPE(nd_to_2d_mapping)                          :: nd_index_blk_rs, nd_index_rs
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_permute_index', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
       INTEGER                                         :: handle
 
       CALL timeset(routineN, handle)
@@ -599,7 +598,7 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Split tensor blocks into smaller blocks of maximum size PRODUCT(block_sizes).
 !> \param tensor_in Input tensor
-!> \param tensor_out Output tensor (splitted blocks)
+!> \param tensor_out Output tensor (split blocks)
 !> \param block_sizes block sizes for each of the tensor dimensions
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_split_blocks(tensor_in, tensor_out, block_sizes)
@@ -616,9 +615,9 @@ CONTAINS
       INTEGER                                         :: ${varlist("split_blk")}$
       INTEGER :: idim, i, isplit_sum, blk_remainder, comm_2d, blk, nsplit, isplit
       INTEGER, DIMENSION(:), ALLOCATABLE :: dist_d, blk_size_d, blk_size_split_d, dist_split_d, &
-         map1_2d, map2_2d
+                                            map1_2d, map2_2d
       INTEGER, DIMENSION(dbcsr_t_ndims(tensor_in)) :: blk_index, blk_size, blk_offset, nsplit_blk, &
-         isplit_sum_blk, blk_remainder_nd, blk_shape
+                                                      isplit_sum_blk, blk_remainder_nd, blk_shape
       INTEGER, DIMENSION(${maxdim}$) :: split_index
 
 #:for dparam, dtype, dsuffix in dtype_float_list
@@ -635,25 +634,25 @@ CONTAINS
 
 #:for idim in range(1, maxdim+1)
          IF (idim == ${idim}$) THEN
-            ALLOCATE(index_split_offset_${idim}$(SIZE(dist_d)))
+            ALLOCATE (index_split_offset_${idim}$ (SIZE(dist_d)))
          ENDIF
 #:endfor
 
-         isplit_sum=0
+         isplit_sum = 0
          DO i = 1, SIZE(dist_d)
-            nsplit = (blk_size_d(i)+block_sizes(idim)-1)/block_sizes(idim)
-            isplit_sum = isplit_sum+nsplit
+            nsplit = (blk_size_d(i) + block_sizes(idim) - 1)/block_sizes(idim)
+            isplit_sum = isplit_sum + nsplit
          ENDDO
-         ALLOCATE(dist_split_d(isplit_sum))
-         ALLOCATE(blk_size_split_d(isplit_sum))
+         ALLOCATE (dist_split_d(isplit_sum))
+         ALLOCATE (blk_size_split_d(isplit_sum))
 
          isplit_sum = 0
          DO i = 1, SIZE(dist_d)
-            nsplit = (blk_size_d(i)+block_sizes(idim)-1)/block_sizes(idim)
+            nsplit = (blk_size_d(i) + block_sizes(idim) - 1)/block_sizes(idim)
             blk_remainder = blk_size_d(i)
 #:for idim in range(1, maxdim+1)
-            IF(idim == ${idim}$) THEN
-               index_split_offset_${idim}$(i) = isplit_sum
+            IF (idim == ${idim}$) THEN
+               index_split_offset_${idim}$ (i) = isplit_sum
             ENDIF
 #:endfor
             DO isplit = 1, nsplit
@@ -666,13 +665,13 @@ CONTAINS
          ENDDO
 
 #:for idim in range(1, maxdim+1)
-         IF(idim == ${idim}$) THEN
+         IF (idim == ${idim}$) THEN
             CALL allocate_any(nd_dist_split_${idim}$, source=dist_split_d)
             CALL allocate_any(nd_blk_size_split_${idim}$, source=blk_size_split_d)
          ENDIF
 #:endfor
-         DEALLOCATE(dist_split_d)
-         DEALLOCATE(blk_size_split_d)
+         DEALLOCATE (dist_split_d)
+         DEALLOCATE (blk_size_split_d)
 
       ENDDO
 
@@ -738,7 +737,7 @@ CONTAINS
 
 #:for dparam, dtype, dsuffix in dtype_float_list
             IF (dbcsr_t_get_data_type(tensor_in) == ${dparam}$) THEN
-               DEALLOCATE(block_${dsuffix}$_${ndim}$d)
+               DEALLOCATE (block_${dsuffix}$_${ndim}$d)
             ENDIF
 #:endfor
          ENDIF

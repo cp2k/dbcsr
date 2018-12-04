@@ -214,7 +214,7 @@ cusmm_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
    *                number of integers per stack entry: 3 */
   __shared__ int    param_stack_s[npar * grouping];
 
-  /* buff: shared memory buffer containing the elemnts of P_c to be written from regs to smem in slabs */
+  /* buff: shared memory buffer containing the elements of P_c to be written from regs to smem in slabs */
   __shared__ double buff[buff_size];
 
   double* buff_l = buff; /* pointer to the beginning of a_block in buffer */

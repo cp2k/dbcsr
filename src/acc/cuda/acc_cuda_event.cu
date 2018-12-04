@@ -55,19 +55,19 @@ extern "C" int acc_event_record(void* event, void* stream){
 
 
 /****************************************************************************/
-extern "C" int acc_event_query(void* event, int* has_occured){
+extern "C" int acc_event_query(void* event, int* has_occurred){
     if(verbose_print) printf("cuda_event_query called\n");
 
     cudaEvent_t* cuevent = (cudaEvent_t*) event;
     cudaError_t cErr = cudaEventQuery(*cuevent);
     //if(cuda_error_check(cudaGetLastError ())) return -1;
     if(cErr==cudaSuccess){
-         *has_occured = 1;
+         *has_occurred = 1;
          return 0;
     }
 
     if(cErr==cudaErrorNotReady){
-        *has_occured = 0;
+        *has_occurred = 0;
         return 0;
     }
 

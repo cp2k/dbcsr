@@ -18,24 +18,24 @@
 ! **************************************************************************************************
 MODULE dbcsr_data_methods_low
 
-   USE dbcsr_acc_devmem,                ONLY: acc_devmem_allocate_bytes,&
-                                              acc_devmem_allocated,&
-                                              acc_devmem_deallocate, &
-                                              acc_devmem_set_cptr
-   USE dbcsr_acc_event,                 ONLY: acc_event_create,&
-                                              acc_event_destroy
-   USE dbcsr_data_types,                ONLY: &
-        dbcsr_data_area_type, dbcsr_data_obj, dbcsr_datatype_sizeof, dbcsr_memtype_type, &
-        dbcsr_scalar_type, dbcsr_type_complex_4, dbcsr_type_complex_4_2d, dbcsr_type_complex_8, &
-        dbcsr_type_complex_8_2d, dbcsr_type_int_4, dbcsr_type_int_8, dbcsr_type_real_4, &
-        dbcsr_type_real_4_2d, dbcsr_type_real_8, dbcsr_type_real_8_2d
-   USE dbcsr_ptr_util,                  ONLY: memory_allocate,&
-                                              memory_deallocate,&
-                                              memory_zero,&
-                                              pointer_rank_remap2
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              real_4,&
-                                              real_8
+   USE dbcsr_acc_devmem, ONLY: acc_devmem_allocate_bytes, &
+                               acc_devmem_allocated, &
+                               acc_devmem_deallocate, &
+                               acc_devmem_set_cptr
+   USE dbcsr_acc_event, ONLY: acc_event_create, &
+                              acc_event_destroy
+   USE dbcsr_data_types, ONLY: &
+      dbcsr_data_area_type, dbcsr_data_obj, dbcsr_datatype_sizeof, dbcsr_memtype_type, &
+      dbcsr_scalar_type, dbcsr_type_complex_4, dbcsr_type_complex_4_2d, dbcsr_type_complex_8, &
+      dbcsr_type_complex_8_2d, dbcsr_type_int_4, dbcsr_type_int_8, dbcsr_type_real_4, &
+      dbcsr_type_real_4_2d, dbcsr_type_real_8, dbcsr_type_real_8_2d
+   USE dbcsr_ptr_util, ONLY: memory_allocate, &
+                             memory_deallocate, &
+                             memory_zero, &
+                             pointer_rank_remap2
+   USE dbcsr_kinds, ONLY: dp, &
+                          real_4, &
+                          real_8
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -168,14 +168,14 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_allocate', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle
 
 !   ---------------------------------------------------------------------------
 
       IF (careful_mod) &
-           CALL timeset(routineN, error_handle)
+         CALL timeset(routineN, error_handle)
       IF (debug_mod) &
          WRITE (*, *) routineN//" Setting to sizes", sizes
       IF (dbcsr_type_is_2d(area%data_type)) THEN
@@ -220,7 +220,7 @@ CONTAINS
       ENDIF
 
       IF (careful_mod) &
-           CALL timestop(error_handle)
+         CALL timestop(error_handle)
 
    END SUBROUTINE internal_data_allocate
 
@@ -232,14 +232,14 @@ CONTAINS
       TYPE(dbcsr_data_area_type), INTENT(INOUT)          :: area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_deallocate', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
 
 !   ---------------------------------------------------------------------------
 
       IF (careful_mod) &
-           CALL timeset(routineN, handle)
+         CALL timeset(routineN, handle)
 
       SELECT CASE (area%data_type)
       CASE (dbcsr_type_int_4)
@@ -285,7 +285,7 @@ CONTAINS
       ENDIF
 
       IF (careful_mod) &
-           CALL timestop(handle)
+         CALL timestop(handle)
    END SUBROUTINE internal_data_deallocate
 
 ! **************************************************************************************************
@@ -296,7 +296,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_clear_pointer', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
@@ -342,7 +342,7 @@ CONTAINS
       LOGICAL                                            :: valid
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_valid', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
@@ -359,7 +359,7 @@ CONTAINS
       LOGICAL                                            :: valid
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_exists', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle
 
@@ -411,7 +411,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_hold', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
@@ -425,7 +425,7 @@ CONTAINS
          RETURN
       ENDIF
 !$OMP ATOMIC
-      area%d%refcount = area%d%refcount+1
+      area%d%refcount = area%d%refcount + 1
    END SUBROUTINE dbcsr_data_hold
 
 ! **************************************************************************************************
@@ -446,7 +446,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: source_lb
 
       CHARACTER(len=*), PARAMETER :: routineN = 'set_data_area_area', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER        :: c_sp
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER        :: c_dp
@@ -474,53 +474,53 @@ CONTAINS
          ! Check if size is OK.
          IF (bp < 1) &
             DBCSR_ABORT("Attempt to point out of bounds")
-         IF (bp+nze-1 > dbcsr_data_get_size(pointee)) &
+         IF (bp + nze - 1 > dbcsr_data_get_size(pointee)) &
             DBCSR_ABORT("Attempt to point out of bounds")
       ENDIF
       ! There's a remap if the ranks are compatible but not equal.
       rmp = dt1 .NE. dt2
       SELECT CASE (dt2)
       CASE (dbcsr_type_int_4)
-         area%d%i4 => pointee%d%i4(bp:bp+nze-1)
+         area%d%i4 => pointee%d%i4(bp:bp + nze - 1)
       CASE (dbcsr_type_real_4_2d)
          area%d%r2_sp => pointee%d%r2_sp(1:rsize, 1:csize)
       CASE (dbcsr_type_real_4)
          IF (rmp) THEN
-            r_sp => dbcsr_get_data_p_s(pointee, bp, bp+nze-1)
+            r_sp => dbcsr_get_data_p_s(pointee, bp, bp + nze - 1)
             CALL pointer_rank_remap2(area%d%r2_sp, rsize, csize, &
                                      r_sp)
          ELSE
-            area%d%r_sp => dbcsr_get_data_p_s(pointee, bp, bp+nze-1)
+            area%d%r_sp => dbcsr_get_data_p_s(pointee, bp, bp + nze - 1)
          ENDIF
       CASE (dbcsr_type_real_8_2d)
          area%d%r2_dp => pointee%d%r2_dp(1:rsize, 1:csize)
       CASE (dbcsr_type_real_8)
          IF (rmp) THEN
-            r_dp => dbcsr_get_data_p_d(pointee, bp, bp+nze-1)
+            r_dp => dbcsr_get_data_p_d(pointee, bp, bp + nze - 1)
             CALL pointer_rank_remap2(area%d%r2_dp, rsize, csize, &
                                      r_dp)
          ELSE
-            area%d%r_dp => dbcsr_get_data_p_d(pointee, bp, bp+nze-1)
+            area%d%r_dp => dbcsr_get_data_p_d(pointee, bp, bp + nze - 1)
          ENDIF
       CASE (dbcsr_type_complex_4_2d)
          area%d%c2_sp => pointee%d%c2_sp(1:rsize, 1:csize)
       CASE (dbcsr_type_complex_4)
          IF (rmp) THEN
-            c_sp => dbcsr_get_data_p_c(pointee, bp, bp+nze-1)
+            c_sp => dbcsr_get_data_p_c(pointee, bp, bp + nze - 1)
             CALL pointer_rank_remap2(area%d%c2_sp, rsize, csize, &
                                      c_sp)
          ELSE
-            area%d%c_sp => dbcsr_get_data_p_c(pointee, bp, bp+nze-1)
+            area%d%c_sp => dbcsr_get_data_p_c(pointee, bp, bp + nze - 1)
          ENDIF
       CASE (dbcsr_type_complex_8_2d)
          area%d%c2_dp => pointee%d%c2_dp(1:rsize, 1:csize)
       CASE (dbcsr_type_complex_8)
          IF (rmp) THEN
-            c_dp => dbcsr_get_data_p_z(pointee, bp, bp+nze-1)
+            c_dp => dbcsr_get_data_p_z(pointee, bp, bp + nze - 1)
             CALL pointer_rank_remap2(area%d%c2_dp, rsize, csize, &
                                      c_dp)
          ELSE
-            area%d%c_dp => dbcsr_get_data_p_z(pointee, bp, bp+nze-1)
+            area%d%c_dp => dbcsr_get_data_p_z(pointee, bp, bp + nze - 1)
          ENDIF
       CASE default
          DBCSR_ABORT("Invalid data type")
@@ -535,9 +535,9 @@ CONTAINS
          IF (pointee_is_2d) &
             DBCSR_ABORT("Setting GPU pointers for 2D data is not available!")
          CALL acc_devmem_set_cptr(area%d%acc_devmem, &
-              pointee%d%acc_devmem, &
-              dbcsr_datatype_sizeof(area%d%data_type)*nze, &
-              dbcsr_datatype_sizeof(area%d%data_type)*(bp-1))
+                                  pointee%d%acc_devmem, &
+                                  dbcsr_datatype_sizeof(area%d%data_type)*nze, &
+                                  dbcsr_datatype_sizeof(area%d%data_type)*(bp - 1))
       ENDIF
    END SUBROUTINE set_data_area_area
 
@@ -551,7 +551,7 @@ CONTAINS
       INTEGER                                            :: data_size
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_size', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       data_size = 0
       IF (ASSOCIATED(area%d)) THEN
@@ -606,7 +606,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: lb, ub
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_verify_bounds', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: data_type, handle
 
@@ -676,7 +676,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(in)                  :: lb, ub
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_zero', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle
 
@@ -727,7 +727,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                               :: valid
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_any', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
 
@@ -793,7 +793,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                               :: valid
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_2', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
       INTEGER, DIMENSION(2)                              :: s
@@ -829,7 +829,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                               :: valid
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_1', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle
       INTEGER, DIMENSION(1)                              :: s
@@ -975,13 +975,13 @@ CONTAINS
       s_sum = dbcsr_scalar_zero(s1%data_type)
       SELECT CASE (s1%data_type)
       CASE (dbcsr_type_real_4)
-         s_sum%r_sp = s1%r_sp+s2%r_sp
+         s_sum%r_sp = s1%r_sp + s2%r_sp
       CASE (dbcsr_type_real_8)
-         s_sum%r_dp = s1%r_dp+s2%r_dp
+         s_sum%r_dp = s1%r_dp + s2%r_dp
       CASE (dbcsr_type_complex_4)
-         s_sum%c_sp = s1%c_sp+s2%c_sp
+         s_sum%c_sp = s1%c_sp + s2%c_sp
       CASE (dbcsr_type_complex_8)
-         s_sum%c_dp = s1%c_dp+s2%c_dp
+         s_sum%c_dp = s1%c_dp + s2%c_dp
       CASE default
          s_sum = dbcsr_scalar_zero(s1%data_type)
       END SELECT

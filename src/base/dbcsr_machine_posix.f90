@@ -11,8 +11,8 @@
 !> \brief Implementation of machine interface based on Fortran 2003 and POSIX
 !> \author Ole Schuett
 ! *****************************************************************************
-  USE dbcsr_kinds,                     ONLY: dp, int_8, default_path_length,&
-                                             default_string_length
+  USE dbcsr_kinds, ONLY: dp, int_8, default_path_length, &
+                         default_string_length
   USE ISO_C_BINDING, ONLY: C_INT, C_NULL_CHAR, C_CHAR, C_PTR, C_NULL_PTR, C_ASSOCIATED, C_F_POINTER
 
   IMPLICIT NONE
@@ -23,7 +23,7 @@
             m_iargc, m_abort, m_chdir, m_mov, &
             m_memory_details, m_procrun
 
-  INTEGER(KIND=int_8), PUBLIC, SAVE :: m_memory_max=0
+  INTEGER(KIND=int_8), PUBLIC, SAVE :: m_memory_max = 0
 
 CONTAINS
 
@@ -31,36 +31,33 @@ CONTAINS
 !> \brief Can be used to get a nice core
 ! **************************************************************************************************
   SUBROUTINE m_abort()
-    INTERFACE
-      SUBROUTINE abort() BIND(C,name="abort")
-      END SUBROUTINE
-    END INTERFACE
+     INTERFACE
+        SUBROUTINE abort() BIND(C, name="abort")
+        END SUBROUTINE
+     END INTERFACE
 
-    CALL abort()
+     CALL abort()
   END SUBROUTINE m_abort
-
 
 ! *****************************************************************************
 !> \brief The number of arguments of the fortran program
 !> \return ...
 ! **************************************************************************************************
-  FUNCTION m_iargc() RESULT (ic)
-    INTEGER                                  :: ic
+  FUNCTION m_iargc() RESULT(ic)
+     INTEGER                                  :: ic
 
-    ic = COMMAND_ARGUMENT_COUNT ()
+     ic = COMMAND_ARGUMENT_COUNT()
   END FUNCTION m_iargc
-
 
 ! *****************************************************************************
 !> \brief Flush a given unit
 !> \param lunit ...
 ! **************************************************************************************************
   SUBROUTINE m_flush(lunit)
-    INTEGER, INTENT(IN)                      :: lunit
+     INTEGER, INTENT(IN)                      :: lunit
 
-    FLUSH(lunit)
+     FLUSH(lunit)
   END SUBROUTINE m_flush
-
 
 ! *****************************************************************************
 !> \brief Returns if a process is running on the local machine
@@ -68,32 +65,31 @@ CONTAINS
 !> \param pid ...
 !> \return ...
 ! **************************************************************************************************
-  FUNCTION m_procrun(pid) RESULT (run_on)
-    INTEGER, INTENT(IN)       ::   pid
-    INTEGER                   ::   run_on
-    INTEGER                   ::   istat
+  FUNCTION m_procrun(pid) RESULT(run_on)
+     INTEGER, INTENT(IN)       ::   pid
+     INTEGER                   ::   run_on
+     INTEGER                   ::   istat
 
-    INTERFACE
-      FUNCTION kill(pid, sig) BIND(C,name="kill") RESULT(errno)
-        IMPORT
-        INTEGER(KIND=C_INT),VALUE                :: pid, sig
-        INTEGER(KIND=C_INT)                      :: errno
-      END FUNCTION
-    END INTERFACE
+     INTERFACE
+        FUNCTION kill(pid, sig) BIND(C, name="kill") RESULT(errno)
+           IMPORT
+           INTEGER(KIND=C_INT), VALUE                :: pid, sig
+           INTEGER(KIND=C_INT)                      :: errno
+        END FUNCTION
+     END INTERFACE
 
-    ! If sig is 0, then no signal is sent, but error checking is still
-    ! performed; this can be used to check for the existence of a process
-    ! ID or process group ID.
+     ! If sig is 0, then no signal is sent, but error checking is still
+     ! performed; this can be used to check for the existence of a process
+     ! ID or process group ID.
 
-    istat = kill(pid=pid, sig=0)
-    IF(istat == 0) THEN
-       run_on = 1 ! no error, process exists
-    ELSE
-       run_on = 0 ! error, process probably does not exist
-    ENDIF
+     istat = kill(pid=pid, sig=0)
+     IF (istat == 0) THEN
+        run_on = 1 ! no error, process exists
+     ELSE
+        run_on = 0 ! error, process probably does not exist
+     ENDIF
 
   END FUNCTION m_procrun
-
 
 ! *****************************************************************************
 !> \brief Returns the total amount of memory [bytes] in use, if known, zero otherwise
@@ -101,59 +97,59 @@ CONTAINS
 ! **************************************************************************************************
   SUBROUTINE m_memory(mem)
 
-      INTEGER(KIND=int_8), OPTIONAL, INTENT(OUT)         :: mem
-      INTEGER(KIND=int_8)                      :: mem_local
+     INTEGER(KIND=int_8), OPTIONAL, INTENT(OUT)         :: mem
+     INTEGER(KIND=int_8)                      :: mem_local
 
-      !
-      ! __NO_STATM_ACCESS can be used to disable the stuff, if getpagesize
-      ! lead to linking errors or /proc/self/statm can not be opened
-      !
+     !
+     ! __NO_STATM_ACCESS can be used to disable the stuff, if getpagesize
+     ! lead to linking errors or /proc/self/statm can not be opened
+     !
 #if defined(__NO_STATM_ACCESS)
-      mem_local=0
+     mem_local = 0
 #else
-      INTEGER(KIND=int_8)                      :: m1,m2,m3
-      CHARACTER(LEN=80) :: DATA
-      INTEGER :: iostat,i
+     INTEGER(KIND=int_8)                      :: m1, m2, m3
+     CHARACTER(LEN=80) :: DATA
+     INTEGER :: iostat, i
 
-      ! the size of a page, might not be available everywhere
-      INTERFACE
-       FUNCTION getpagesize() BIND(C,name="getpagesize") RESULT(RES)
-         IMPORT
-         INTEGER(C_INT) :: RES
-       END FUNCTION
-      END INTERFACE
+     ! the size of a page, might not be available everywhere
+     INTERFACE
+        FUNCTION getpagesize() BIND(C, name="getpagesize") RESULT(RES)
+           IMPORT
+           INTEGER(C_INT) :: RES
+        END FUNCTION
+     END INTERFACE
 
-      !
-      ! reading from statm
-      !
-      mem_local=-1
-      DATA=""
-      OPEN(121245,FILE="/proc/self/statm",ACTION="READ",STATUS="OLD",ACCESS="STREAM")
-      DO I=1,80
-         READ(121245,END=999) DATA(I:I)
-      ENDDO
-999   CLOSE(121245)
-      DATA(I:80)=""
-      ! m1 = total
-      ! m2 = resident
-      ! m3 = shared
-      READ(DATA,*,IOSTAT=iostat) m1,m2,m3
-      IF (iostat.NE.0) THEN
-         mem_local=0
-      ELSE
-         mem_local=m2
+     !
+     ! reading from statm
+     !
+     mem_local = -1
+     DATA = ""
+     OPEN (121245, FILE="/proc/self/statm", ACTION="READ", STATUS="OLD", ACCESS="STREAM")
+     DO I = 1, 80
+        READ (121245, END=999) DATA(I:I)
+     ENDDO
+999  CLOSE (121245)
+     DATA(I:80) = ""
+     ! m1 = total
+     ! m2 = resident
+     ! m3 = shared
+     READ (DATA, *, IOSTAT=iostat) m1, m2, m3
+     IF (iostat .NE. 0) THEN
+        mem_local = 0
+     ELSE
+        mem_local = m2
 #if defined(__STATM_TOTAL)
-         mem_local=m1
+        mem_local = m1
 #endif
 #if defined(__STATM_RESIDENT)
-         mem_local=m2
+        mem_local = m2
 #endif
-         mem_local=mem_local*getpagesize()
-      ENDIF
+        mem_local = mem_local*getpagesize()
+     ENDIF
 #endif
 
-      m_memory_max=MAX(mem_local,m_memory_max)
-      IF (PRESENT(mem)) mem=mem_local
+     m_memory_max = MAX(mem_local, m_memory_max)
+     IF (PRESENT(mem)) mem = mem_local
 
   END SUBROUTINE m_memory
 
@@ -174,46 +170,44 @@ CONTAINS
 !> \param SReclaimable ...
 !> \param MemLikelyFree ...
 ! **************************************************************************************************
-  SUBROUTINE m_memory_details(MemTotal,MemFree,Buffers,Cached,Slab,SReclaimable,MemLikelyFree)
+  SUBROUTINE m_memory_details(MemTotal, MemFree, Buffers, Cached, Slab, SReclaimable, MemLikelyFree)
 
-     INTEGER(kind=int_8), OPTIONAL :: MemTotal,MemFree,Buffers,Cached,Slab,SReclaimable,MemLikelyFree
+     INTEGER(kind=int_8), OPTIONAL :: MemTotal, MemFree, Buffers, Cached, Slab, SReclaimable, MemLikelyFree
 
-     INTEGER, PARAMETER :: Nbuffer=10000
+     INTEGER, PARAMETER :: Nbuffer = 10000
      CHARACTER(LEN=Nbuffer) :: meminfo
-
 
      INTEGER :: i
 
-     MemTotal=0
-     MemFree=0
-     Buffers=0
-     Cached=0
-     Slab=0
-     SReclaimable=0
-     MemLikelyFree=0
-     meminfo=""
+     MemTotal = 0
+     MemFree = 0
+     Buffers = 0
+     Cached = 0
+     Slab = 0
+     SReclaimable = 0
+     MemLikelyFree = 0
+     meminfo = ""
 
-     OPEN(UNIT=8123,file="/proc/meminfo",ACCESS="STREAM",ERR=901)
-     i=0
+     OPEN (UNIT=8123, file="/proc/meminfo", ACCESS="STREAM", ERR=901)
+     i = 0
      DO
-       i=i+1
-       IF (i>Nbuffer) EXIT
-       READ(8123,END=900,ERR=900) meminfo(i:i)
+        i = i + 1
+        IF (i > Nbuffer) EXIT
+        READ (8123, END=900, ERR=900) meminfo(i:i)
      ENDDO
- 900 CONTINUE
-     meminfo(i:Nbuffer)=""
- 901 CONTINUE
-     CLOSE(8123,ERR=902)
- 902 CONTINUE
-     MemTotal=get_field_value_in_bytes('MemTotal:')
-     MemFree=get_field_value_in_bytes('MemFree:')
-     Buffers=get_field_value_in_bytes('Buffers:')
-     Cached=get_field_value_in_bytes('Cached:')
-     Slab=get_field_value_in_bytes('Slab:')
-     SReclaimable=get_field_value_in_bytes('SReclaimable:')
+900  CONTINUE
+     meminfo(i:Nbuffer) = ""
+901  CONTINUE
+     CLOSE (8123, ERR=902)
+902  CONTINUE
+     MemTotal = get_field_value_in_bytes('MemTotal:')
+     MemFree = get_field_value_in_bytes('MemFree:')
+     Buffers = get_field_value_in_bytes('Buffers:')
+     Cached = get_field_value_in_bytes('Cached:')
+     Slab = get_field_value_in_bytes('Slab:')
+     SReclaimable = get_field_value_in_bytes('SReclaimable:')
      ! opinions here vary but this might work
-     MemLikelyFree=MemFree+Buffers+Cached+SReclaimable
-
+     MemLikelyFree = MemFree + Buffers + Cached + SReclaimable
 
   CONTAINS
 ! **************************************************************************************************
@@ -221,24 +215,23 @@ CONTAINS
 !> \param field ...
 !> \return ...
 ! **************************************************************************************************
-        INTEGER(int_8) FUNCTION get_field_value_in_bytes(field)
-           CHARACTER(LEN=*) :: field
-           INTEGER :: start
-           INTEGER(KIND=int_8) :: value
-           get_field_value_in_bytes=0
-           start=INDEX(meminfo,field)
-           IF (start.NE.0) THEN
-              start=start+LEN_TRIM(field)
-              IF (start.LT.Nbuffer) THEN
-                 READ(meminfo(start:),*,ERR=999,END=999) value
-                 ! XXXXXXX convert from Kb to bytes XXXXXXXX
-                 get_field_value_in_bytes=value*1024
- 999             CONTINUE
-              ENDIF
+     INTEGER(int_8) FUNCTION get_field_value_in_bytes(field)
+        CHARACTER(LEN=*) :: field
+        INTEGER :: start
+        INTEGER(KIND=int_8) :: value
+        get_field_value_in_bytes = 0
+        start = INDEX(meminfo, field)
+        IF (start .NE. 0) THEN
+           start = start + LEN_TRIM(field)
+           IF (start .LT. Nbuffer) THEN
+              READ (meminfo(start:), *, ERR=999, END=999) value
+              ! XXXXXXX convert from Kb to bytes XXXXXXXX
+              get_field_value_in_bytes = value*1024
+999           CONTINUE
            ENDIF
-        END FUNCTION
+        ENDIF
+     END FUNCTION
   END SUBROUTINE m_memory_details
-
 
 ! *****************************************************************************
 ! **************************************************************************************************
@@ -246,47 +239,46 @@ CONTAINS
 !> \param source ...
 !> \param TARGET ...
 ! **************************************************************************************************
-  SUBROUTINE m_mov(source,TARGET)
+  SUBROUTINE m_mov(source, TARGET)
 
-    CHARACTER(LEN=*), INTENT(IN)             :: source, TARGET
+     CHARACTER(LEN=*), INTENT(IN)             :: source, TARGET
 
-    INTEGER                                  :: istat
+     INTEGER                                  :: istat
 
-    INTERFACE
-      FUNCTION unlink(path) BIND(C,name="unlink") RESULT(errno)
-        IMPORT
-        CHARACTER(KIND=C_CHAR), DIMENSION(*)     :: path
-        INTEGER(KIND=C_INT)                      :: errno
-      END FUNCTION
-    END INTERFACE
+     INTERFACE
+        FUNCTION unlink(path) BIND(C, name="unlink") RESULT(errno)
+           IMPORT
+           CHARACTER(KIND=C_CHAR), DIMENSION(*)     :: path
+           INTEGER(KIND=C_INT)                      :: errno
+        END FUNCTION
+     END INTERFACE
 
-    INTERFACE
-      FUNCTION rename(src, dest) BIND(C,name="rename") RESULT(errno)
-        IMPORT
-        CHARACTER(KIND=C_CHAR), DIMENSION(*)     :: src, dest
-        INTEGER(KIND=C_INT)                      :: errno
-      END FUNCTION
-    END INTERFACE
+     INTERFACE
+        FUNCTION rename(src, dest) BIND(C, name="rename") RESULT(errno)
+           IMPORT
+           CHARACTER(KIND=C_CHAR), DIMENSION(*)     :: src, dest
+           INTEGER(KIND=C_INT)                      :: errno
+        END FUNCTION
+     END INTERFACE
 
-    IF (TARGET==source) THEN
-       WRITE(*,*) "Warning: m_mov ",TRIM(TARGET)," equals ", TRIM(source)
-       RETURN
-    ENDIF
+     IF (TARGET == source) THEN
+        WRITE (*, *) "Warning: m_mov ", TRIM(TARGET), " equals ", TRIM(source)
+        RETURN
+     ENDIF
 
-    ! first remove target (needed on windows / mingw)
-    istat = unlink(TRIM(TARGET)//c_null_char)
-    ! ignore istat of unlink
+     ! first remove target (needed on windows / mingw)
+     istat = unlink(TRIM(TARGET)//c_null_char)
+     ! ignore istat of unlink
 
-    ! now move
-    istat = rename(TRIM(source)//c_null_char, TRIM(TARGET)//c_null_char)
-    IF (istat .NE. 0) THEN
-      WRITE(*,*) "Trying to move "//TRIM(source)//" to "//TRIM(TARGET)//"."
-      WRITE(*,*) "rename returned status: ",istat
-      WRITE(*,*) "Problem moving file"
-      CALL m_abort()
-    ENDIF
+     ! now move
+     istat = rename(TRIM(source)//c_null_char, TRIM(TARGET)//c_null_char)
+     IF (istat .NE. 0) THEN
+        WRITE (*, *) "Trying to move "//TRIM(source)//" to "//TRIM(TARGET)//"."
+        WRITE (*, *) "rename returned status: ", istat
+        WRITE (*, *) "Problem moving file"
+        CALL m_abort()
+     ENDIF
   END SUBROUTINE m_mov
-
 
 ! *****************************************************************************
 ! **************************************************************************************************
@@ -294,29 +286,28 @@ CONTAINS
 !> \param hname ...
 ! **************************************************************************************************
   SUBROUTINE m_hostnm(hname)
-    CHARACTER(len=*), INTENT(OUT)            :: hname
+     CHARACTER(len=*), INTENT(OUT)            :: hname
 
-    INTEGER                                  :: istat, i
-    CHARACTER(len=default_path_length)       :: buf
+     INTEGER                                  :: istat, i
+     CHARACTER(len=default_path_length)       :: buf
 
-    INTERFACE
-      FUNCTION  gethostname(buf, buflen) BIND(C,name="gethostname") RESULT(errno)
-        IMPORT
-        CHARACTER(KIND=C_CHAR), DIMENSION(*)     :: buf
-        INTEGER(KIND=C_INT), VALUE               :: buflen
-        INTEGER(KIND=C_INT)                      :: errno
-      END FUNCTION
-    END INTERFACE
+     INTERFACE
+        FUNCTION gethostname(buf, buflen) BIND(C, name="gethostname") RESULT(errno)
+           IMPORT
+           CHARACTER(KIND=C_CHAR), DIMENSION(*)     :: buf
+           INTEGER(KIND=C_INT), VALUE               :: buflen
+           INTEGER(KIND=C_INT)                      :: errno
+        END FUNCTION
+     END INTERFACE
 
-    istat = gethostname(buf, LEN(buf))
-    IF(istat /= 0) THEN
-       WRITE (*,*) "m_hostnm failed"
-       CALL m_abort()
-    ENDIF
-    i = INDEX(buf, c_null_char) -1
-    hname = buf(1:i)
+     istat = gethostname(buf, LEN(buf))
+     IF (istat /= 0) THEN
+        WRITE (*, *) "m_hostnm failed"
+        CALL m_abort()
+     ENDIF
+     i = INDEX(buf, c_null_char) - 1
+     hname = buf(1:i)
   END SUBROUTINE m_hostnm
-
 
 ! *****************************************************************************
 ! **************************************************************************************************
@@ -324,29 +315,28 @@ CONTAINS
 !> \param curdir ...
 ! **************************************************************************************************
   SUBROUTINE m_getcwd(curdir)
-    CHARACTER(len=*), INTENT(OUT)            :: curdir
-    TYPE(C_PTR)                              :: stat
-    INTEGER                                  :: i
-    CHARACTER(len=default_path_length), TARGET  :: tmp
+     CHARACTER(len=*), INTENT(OUT)            :: curdir
+     TYPE(C_PTR)                              :: stat
+     INTEGER                                  :: i
+     CHARACTER(len=default_path_length), TARGET  :: tmp
 
-    INTERFACE
-      FUNCTION  getcwd(buf, buflen) BIND(C,name="getcwd") RESULT(stat)
-        IMPORT
-        CHARACTER(KIND=C_CHAR), DIMENSION(*)     :: buf
-        INTEGER(KIND=C_INT), VALUE               :: buflen
-        TYPE(C_PTR)                              :: stat
-      END FUNCTION
-    END INTERFACE
+     INTERFACE
+        FUNCTION getcwd(buf, buflen) BIND(C, name="getcwd") RESULT(stat)
+           IMPORT
+           CHARACTER(KIND=C_CHAR), DIMENSION(*)     :: buf
+           INTEGER(KIND=C_INT), VALUE               :: buflen
+           TYPE(C_PTR)                              :: stat
+        END FUNCTION
+     END INTERFACE
 
-    stat = getcwd(tmp, LEN(tmp))
-    IF(.NOT. C_ASSOCIATED(stat)) THEN
-       WRITE (*,*) "m_getcwd failed"
-       CALL m_abort()
-    ENDIF
-    i = INDEX(tmp, c_null_char) -1
-    curdir = tmp(1:i)
+     stat = getcwd(tmp, LEN(tmp))
+     IF (.NOT. C_ASSOCIATED(stat)) THEN
+        WRITE (*, *) "m_getcwd failed"
+        CALL m_abort()
+     ENDIF
+     i = INDEX(tmp, c_null_char) - 1
+     curdir = tmp(1:i)
   END SUBROUTINE m_getcwd
-
 
 ! *****************************************************************************
 ! **************************************************************************************************
@@ -354,21 +344,20 @@ CONTAINS
 !> \param dir ...
 !> \param ierror ...
 ! **************************************************************************************************
-  SUBROUTINE m_chdir(dir,ierror)
-    CHARACTER(len=*), INTENT(IN)             :: dir
-    INTEGER, INTENT(OUT)                     :: ierror
+  SUBROUTINE m_chdir(dir, ierror)
+     CHARACTER(len=*), INTENT(IN)             :: dir
+     INTEGER, INTENT(OUT)                     :: ierror
 
-    INTERFACE
-      FUNCTION chdir(path) BIND(C,name="chdir") RESULT(errno)
-        IMPORT
-        CHARACTER(KIND=C_CHAR), DIMENSION(*)     :: path
-        INTEGER(KIND=C_INT)                      :: errno
-      END FUNCTION
-    END INTERFACE
+     INTERFACE
+        FUNCTION chdir(path) BIND(C, name="chdir") RESULT(errno)
+           IMPORT
+           CHARACTER(KIND=C_CHAR), DIMENSION(*)     :: path
+           INTEGER(KIND=C_INT)                      :: errno
+        END FUNCTION
+     END INTERFACE
 
-    ierror = chdir(TRIM(dir)//c_null_char)
+     ierror = chdir(TRIM(dir)//c_null_char)
   END SUBROUTINE m_chdir
-
 
 ! *****************************************************************************
 ! **************************************************************************************************
@@ -376,20 +365,19 @@ CONTAINS
 !> \param user ...
 ! **************************************************************************************************
   SUBROUTINE m_getlog(user)
-    CHARACTER(len=*), INTENT(OUT)            :: user
-    INTEGER :: status
+     CHARACTER(len=*), INTENT(OUT)            :: user
+     INTEGER :: status
 
-    ! on a posix system LOGNAME should be defined
-    CALL get_environment_variable("LOGNAME", value=user, status=status)
-    ! nope, check alternative
-    IF (status/=0) &
-       CALL get_environment_variable("USER", value=user, status=status)
-    ! fall back
-    IF (status/=0) &
-       user="root ;-)"
+     ! on a posix system LOGNAME should be defined
+     CALL get_environment_variable("LOGNAME", value=user, status=status)
+     ! nope, check alternative
+     IF (status /= 0) &
+        CALL get_environment_variable("USER", value=user, status=status)
+     ! fall back
+     IF (status /= 0) &
+        user = "root ;-)"
 
   END SUBROUTINE m_getlog
-
 
 ! *****************************************************************************
 ! **************************************************************************************************
@@ -397,18 +385,17 @@ CONTAINS
 !> \param uid ...
 ! **************************************************************************************************
   SUBROUTINE m_getuid(uid)
-   INTEGER, INTENT(OUT)                     :: uid
+     INTEGER, INTENT(OUT)                     :: uid
 
-   INTERFACE
-     FUNCTION getuid() BIND(C,name="getuid") RESULT(uid)
-       IMPORT
-       INTEGER(KIND=C_INT)              :: uid
-     END FUNCTION
-   END INTERFACE
+     INTERFACE
+        FUNCTION getuid() BIND(C, name="getuid") RESULT(uid)
+           IMPORT
+           INTEGER(KIND=C_INT)              :: uid
+        END FUNCTION
+     END INTERFACE
 
-   uid = getuid()
+     uid = getuid()
   END SUBROUTINE m_getuid
-
 
 ! *****************************************************************************
 ! **************************************************************************************************
@@ -416,18 +403,17 @@ CONTAINS
 !> \param pid ...
 ! **************************************************************************************************
   SUBROUTINE m_getpid(pid)
-   INTEGER, INTENT(OUT)                     :: pid
+     INTEGER, INTENT(OUT)                     :: pid
 
-   INTERFACE
-     FUNCTION getpid() BIND(C,name="getpid") RESULT(pid)
-       IMPORT
-       INTEGER(KIND=C_INT)              :: pid
-     END FUNCTION
-   END INTERFACE
+     INTERFACE
+        FUNCTION getpid() BIND(C, name="getpid") RESULT(pid)
+           IMPORT
+           INTEGER(KIND=C_INT)              :: pid
+        END FUNCTION
+     END INTERFACE
 
-   pid = getpid()
+     pid = getpid()
   END SUBROUTINE m_getpid
-
 
 ! *****************************************************************************
 ! **************************************************************************************************
@@ -435,17 +421,17 @@ CONTAINS
 !> \param i ...
 !> \param arg ...
 ! **************************************************************************************************
-  SUBROUTINE m_getarg(i,arg)
-    INTEGER, INTENT(IN)                      :: i
-    CHARACTER(len=*), INTENT(OUT)            :: arg
-    CHARACTER(len=1024)                      :: tmp
-    INTEGER                                  :: istat
+  SUBROUTINE m_getarg(i, arg)
+     INTEGER, INTENT(IN)                      :: i
+     CHARACTER(len=*), INTENT(OUT)            :: arg
+     CHARACTER(len=1024)                      :: tmp
+     INTEGER                                  :: istat
 
-    CALL GET_COMMAND_ARGUMENT(i, tmp, status=istat)
-    IF(istat /= 0) THEN
-       WRITE (*,*) "m_getarg failed"
-       CALL m_abort()
-    ENDIF
-    arg = TRIM(tmp)
+     CALL GET_COMMAND_ARGUMENT(i, tmp, status=istat)
+     IF (istat /= 0) THEN
+        WRITE (*, *) "m_getarg failed"
+        CALL m_abort()
+     ENDIF
+     arg = TRIM(tmp)
   END SUBROUTINE m_getarg
 

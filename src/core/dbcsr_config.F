@@ -17,12 +17,12 @@
 !> - Created 2011-04-05
 ! **************************************************************************************************
 MODULE dbcsr_config
-   USE dbcsr_acc_device,                ONLY: acc_get_ndevices
-   USE dbcsr_cublas,                    ONLY: cublas_handle_type
-   USE dbcsr_kinds,                     ONLY: default_string_length,&
-                                              dp
-   USE dbcsr_ptr_util,                  ONLY: dbcsr_data_allocation,&
-                                              dbcsr_data_allocation_type
+   USE dbcsr_acc_device, ONLY: acc_get_ndevices
+   USE dbcsr_cublas, ONLY: cublas_handle_type
+   USE dbcsr_kinds, ONLY: default_string_length, &
+                          dp
+   USE dbcsr_ptr_util, ONLY: dbcsr_data_allocation, &
+                             dbcsr_data_allocation_type
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads
@@ -200,7 +200,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: comm_thread_load
       LOGICAL, INTENT(IN), OPTIONAL                      :: mm_densification
       INTEGER, INTENT(IN), OPTIONAL :: multrec_limit, accdrv_priority_streams, &
-         accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers
+                                       accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers
       LOGICAL, INTENT(IN), OPTIONAL                      :: accdrv_avoid_after_busy
       INTEGER, INTENT(IN), OPTIONAL                      :: accdrv_min_flop_process
       LOGICAL, INTENT(IN), OPTIONAL                      :: accdrv_stack_sort
@@ -239,7 +239,7 @@ CONTAINS
             ELSE
                nthreads = 1
 !$             nthreads = OMP_GET_MAX_THREADS()
-               dbcsr_cfg%comm_thread_load = MAX(0, 90-(30*nthreads)/8)
+               dbcsr_cfg%comm_thread_load = MAX(0, 90 - (30*nthreads)/8)
             ENDIF
          ENDIF
       ENDIF
@@ -334,7 +334,7 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL                     :: comm_thread_load
       LOGICAL, INTENT(OUT), OPTIONAL                     :: mm_densification
       INTEGER, INTENT(OUT), OPTIONAL :: multrec_limit, accdrv_priority_streams, &
-         accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers
+                                        accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers
       LOGICAL, INTENT(OUT), OPTIONAL                     :: accdrv_avoid_after_busy
       INTEGER, INTENT(OUT), OPTIONAL                     :: accdrv_min_flop_process
       LOGICAL, INTENT(OUT), OPTIONAL                     :: accdrv_stack_sort
@@ -457,7 +457,7 @@ CONTAINS
             WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
                "DBCSR| ACC: Avoid driver after busy ", dbcsr_cfg%accdrv_avoid_after_busy
             WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
-               "DBCSR| ACC: Process inhomogenous stacks", dbcsr_cfg%accdrv_do_inhomogenous
+               "DBCSR| ACC: Process inhomogeneous stacks", dbcsr_cfg%accdrv_do_inhomogenous
             WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11)') &
                "DBCSR| ACC: Min. flop for processing", dbcsr_cfg%accdrv_min_flop_process
             IF (dbcsr_cfg%accdrv_stack_sort) THEN

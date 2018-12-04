@@ -204,13 +204,13 @@ endif
 #   extract help text from doxygen "\brief"-tag
 help:
 	@echo "=================== Default ===================="
-	@echo -e "$(LIBRARY)                     Build DBCSR library"
+	@printf "%s\n" "$(LIBRARY)                     Build DBCSR library"
 	@echo ""
 	@echo "=================== Binaries ===================="
 	@echo "all                          Builds all executables"
 	@for i in $(BIN_FILES); do \
 	basename  $$i | sed 's/^\(.*\)\..*/\1/' | awk '{printf "%-29s", $$1}'; \
-	grep "brief" $$i | head -n 1 | sed 's/^.*\\brief\s*//'; \
+	grep "brief" $$i | head -n 1 | sed 's/^.*\\brief\s*//' | awk '{$$1=$$1};1'; \
 	done
 	@echo ""
 	@echo "===================== Tools ====================="
@@ -228,19 +228,19 @@ install: $(LIBRARY)
 	@mkdir -p $(PREFIX)
 	@mkdir -p $(PREFIX)/lib
 	@mkdir -p $(PREFIX)/include
-	@echo -n "  ... library ..."
+	@printf "  ... library ..."
 	@cp $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) $(PREFIX)/lib
 	@echo " done."
 	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) install INCLUDE_DEPS=true DBCSRHOME=$(DBCSRHOME)
 	@echo "... installation done at $(PREFIX)."
 else
 install:
-	@echo -n "  ... modules ..."
+	@printf "  ... modules ..."
 	@if [[ -n "$(wildcard $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)))" ]] ; then \
 		cp $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)) $(PREFIX)/include ; \
 		echo " done." ; \
 	else echo " no modules were installed!" ; fi
-	@echo -n "  ... headers ..."
+	@printf "  ... headers ..."
 	@if [[ -n "$(PUBLICHEADERS)" ]] ; then \
 		cp $(PUBLICHEADERS) $(PREFIX)/include ; \
 		echo " done." ; \
@@ -287,15 +287,23 @@ prettyclean:
 	-rm -rf $(PRETTYOBJDIR)
 TOOL_HELP += "prettyclean : Remove prettify marker files"
 
-$(PRETTYOBJDIR)/%.pretty: %.F $(DOXIFYOBJDIR)/%.doxified
+# Pretty function, check if the file requires update
+define pretty_func
 	@mkdir -p $(PRETTYOBJDIR)
-	cd $(dir $<); $(TOOLSRC)/prettify/prettify.py --do-backup --backup-dir=$(PRETTYOBJDIR) --src-dir=$(SRCDIR) $(notdir $<)
-	@touch $@
+	@rm -f $2
+	$(TOOLSRC)/fprettify/fprettify.py --disable-whitespace -s $1 > $2
+	@cmp -s $1 $2; \
+	RETVAL=$$?; \
+	if [ $$RETVAL -ne 0 ]; then \
+	    cp $2 $1; \
+	fi
+endef
+
+$(PRETTYOBJDIR)/%.pretty: %.F $(DOXIFYOBJDIR)/%.doxified
+	$(call pretty_func, $<, $@)
 
 $(PRETTYOBJDIR)/%.pretty_included: %.f90 $(DOXIFYOBJDIR)/%.doxified_included
-	@mkdir -p $(PRETTYOBJDIR)
-	cd $(dir $<); $(TOOLSRC)/prettify/prettify.py --do-backup --backup-dir=$(PRETTYOBJDIR) --src-dir=$(SRCDIR) $(notdir $<)
-	@touch $@
+	$(call pretty_func, $<, $@)
 
 $(PRETTYOBJDIR)/%.pretty: %.c $(DOXIFYOBJDIR)/%.doxified
 #   TODO: call indent here?
@@ -414,10 +422,12 @@ vpath %.cpp   $(ALL_SRC_DIRS)
 
 FYPPFLAGS ?= -n
 
-%.o %.mod: %.F
-	@rm -f $*.mod
+%.o: %.F
 	$(FYPPEXE) $(FYPPFLAGS) $< $*.F90
 	$(FC) -c $(FCFLAGS) -D__SHORT_FILE__="\"$(notdir $<)\"" -I'$(dir $<)' -I'$(SRCDIR)' $*.F90 $(FCLOGPIPE)
+
+%.mod: %.o
+	@true
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $<

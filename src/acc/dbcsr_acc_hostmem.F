@@ -14,19 +14,19 @@
 ! **************************************************************************************************
 MODULE dbcsr_acc_hostmem
 #if defined (__DBCSR_ACC)
-    USE ISO_C_BINDING, ONLY: C_INT, C_SIZE_T, C_PTR, C_LOC, C_F_POINTER
+   USE ISO_C_BINDING, ONLY: C_INT, C_SIZE_T, C_PTR, C_LOC, C_F_POINTER
 #endif
-  USE dbcsr_kinds,                     ONLY: int_4,&
-                                             int_4_size,&
-                                             int_8,&
-                                             int_8_size,&
-                                             real_4,&
-                                             real_4_size,&
-                                             real_8,&
-                                             real_8_size
-  USE dbcsr_acc_stream,                ONLY: acc_stream_associated,&
-                                             acc_stream_cptr,&
-                                             acc_stream_type
+   USE dbcsr_kinds, ONLY: int_4, &
+                          int_4_size, &
+                          int_8, &
+                          int_8_size, &
+                          real_4, &
+                          real_4_size, &
+                          real_8, &
+                          real_8_size
+   USE dbcsr_acc_stream, ONLY: acc_stream_associated, &
+                               acc_stream_cptr, &
+                               acc_stream_type
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -84,7 +84,6 @@ MODULE dbcsr_acc_hostmem
 
 CONTAINS
 
-
 ! **************************************************************************************************
 !> \brief Helper-routine performing allocation of host-pinned cuda memory.
 !> \param host_mem_c_ptr pointer to allocated memory
@@ -98,7 +97,7 @@ CONTAINS
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
 
       CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_alloc_raw', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: istat
       TYPE(C_PTR)                                        :: stream_cptr
@@ -125,7 +124,7 @@ CONTAINS
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
 
       CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_raw', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: istat
       TYPE(C_PTR)                                        :: stream_cptr
@@ -140,7 +139,6 @@ CONTAINS
          DBCSR_ABORT("acc_hostmem_dealloc_raw: Could not deallocate host pinned memory")
    END SUBROUTINE acc_hostmem_dealloc_raw
 #endif
-
 
 #:set instances = [ ('i4', 'int_4_size',    'INTEGER(kind=int_4)'), &
                     ('i8', 'int_8_size',    'INTEGER(kind=int_8)'), &
@@ -158,24 +156,22 @@ CONTAINS
 !> \param stream ...
 !> \author  Ole Schuett
 ! **************************************************************************************************
-  SUBROUTINE acc_hostmem_alloc_${nametype}$ (host_mem, n, stream)
-    ${type}$, DIMENSION(:), POINTER          :: host_mem
-    INTEGER, INTENT(IN)                      :: n
-    TYPE(acc_stream_type), INTENT(IN)        :: stream
+   SUBROUTINE acc_hostmem_alloc_${nametype}$ (host_mem, n, stream)
+      ${type}$, DIMENSION(:), POINTER          :: host_mem
+      INTEGER, INTENT(IN)                      :: n
+      TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
-    TYPE(C_PTR)                              :: host_mem_c_ptr
+      TYPE(C_PTR)                              :: host_mem_c_ptr
 
-    CALL acc_hostmem_alloc_raw(host_mem_c_ptr, MAX(1,n)*${size}$, stream)
-    CALL C_F_POINTER (host_mem_c_ptr, host_mem, (/ MAX(1,n) /))
+      CALL acc_hostmem_alloc_raw(host_mem_c_ptr, MAX(1, n)*${size}$, stream)
+      CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
 #else
-    MARK_USED(host_mem)
-    MARK_USED(n)
-    MARK_USED(stream)
-    DBCSR_ABORT("acc_hostmem_alloc_${nametype}$: ACC not compiled in.")
+      MARK_USED(host_mem)
+      MARK_USED(n)
+      MARK_USED(stream)
+      DBCSR_ABORT("acc_hostmem_alloc_${nametype}$: ACC not compiled in.")
 #endif
-  END SUBROUTINE acc_hostmem_alloc_${nametype}$
-
-
+   END SUBROUTINE acc_hostmem_alloc_${nametype}$
 
 ! **************************************************************************************************
 !> \brief Allocates 2D fortan-array as cuda host-pinned memory.
@@ -185,26 +181,25 @@ CONTAINS
 !> \param stream ...
 !> \author  Ole Schuett
 ! **************************************************************************************************
-  SUBROUTINE acc_hostmem_alloc_${nametype}$_2D (host_mem, n1, n2, stream)
-    ${type}$, DIMENSION(:,:), POINTER        :: host_mem
-    INTEGER, INTENT(IN)                      :: n1, n2
-    TYPE(acc_stream_type), INTENT(IN)        :: stream
+   SUBROUTINE acc_hostmem_alloc_${nametype}$_2D(host_mem, n1, n2, stream)
+      ${type}$, DIMENSION(:, :), POINTER        :: host_mem
+      INTEGER, INTENT(IN)                      :: n1, n2
+      TYPE(acc_stream_type), INTENT(IN)        :: stream
 #if defined (__DBCSR_ACC)
-    TYPE(C_PTR)                              :: host_mem_c_ptr
-    INTEGER                                  :: n_bytes
+      TYPE(C_PTR)                              :: host_mem_c_ptr
+      INTEGER                                  :: n_bytes
 
-    n_bytes = MAX(1,n1)*MAX(1,n2)*${size}$
-    CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
-    CALL C_F_POINTER (host_mem_c_ptr, host_mem, (/ MAX(1,n1),MAX(1,n2) /))
+      n_bytes = MAX(1, n1)*MAX(1, n2)*${size}$
+      CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
+      CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
 #else
-    MARK_USED(host_mem)
-    MARK_USED(n1)
-    MARK_USED(n2)
-    MARK_USED(stream)
-    DBCSR_ABORT("acc_hostmem_alloc_${nametype}$_2D: ACC not compiled in.")
+      MARK_USED(host_mem)
+      MARK_USED(n1)
+      MARK_USED(n2)
+      MARK_USED(stream)
+      DBCSR_ABORT("acc_hostmem_alloc_${nametype}$_2D: ACC not compiled in.")
 #endif
-  END SUBROUTINE acc_hostmem_alloc_${nametype}$_2D
-
+   END SUBROUTINE acc_hostmem_alloc_${nametype}$_2D
 
 ! **************************************************************************************************
 !> \brief Deallocates a 1D fortan-array, which is cuda host-pinned memory.
@@ -212,22 +207,21 @@ CONTAINS
 !> \param stream ...
 !> \author  Ole Schuett
 ! **************************************************************************************************
-  SUBROUTINE acc_hostmem_dealloc_${nametype}$ (host_mem, stream)
-    ${type}$, DIMENSION(:), POINTER          :: host_mem
-    TYPE(acc_stream_type), INTENT(IN)        :: stream
-    CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_${nametype}$', &
-      routineP = moduleN//':'//routineN
+   SUBROUTINE acc_hostmem_dealloc_${nametype}$ (host_mem, stream)
+      ${type}$, DIMENSION(:), POINTER          :: host_mem
+      TYPE(acc_stream_type), INTENT(IN)        :: stream
+      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_${nametype}$', &
+                                     routineP = moduleN//':'//routineN
 
-    IF (SIZE (host_mem) == 0) RETURN
+      IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
-    CALL acc_hostmem_dealloc_raw(C_LOC(host_mem(1)), stream)
+      CALL acc_hostmem_dealloc_raw(C_LOC(host_mem(1)), stream)
 #else
-    MARK_USED(host_mem)
-    MARK_USED(stream)
-    DBCSR_ABORT("acc_hostmem_dealloc_${nametype}$: ACC not compiled in.")
+      MARK_USED(host_mem)
+      MARK_USED(stream)
+      DBCSR_ABORT("acc_hostmem_dealloc_${nametype}$: ACC not compiled in.")
 #endif
-  END SUBROUTINE acc_hostmem_dealloc_${nametype}$
-
+   END SUBROUTINE acc_hostmem_dealloc_${nametype}$
 
 ! **************************************************************************************************
 !> \brief Deallocates a 2D fortan-array, which is cuda host-pinned memory.
@@ -235,21 +229,21 @@ CONTAINS
 !> \param stream ...
 !> \author  Ole Schuett
 ! **************************************************************************************************
-  SUBROUTINE acc_hostmem_dealloc_${nametype}$_2D (host_mem, stream)
-    ${type}$, DIMENSION(:,:), POINTER        :: host_mem
-    TYPE(acc_stream_type), INTENT(IN)        :: stream
-    CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_${nametype}$_2D', &
-      routineP = moduleN//':'//routineN
+   SUBROUTINE acc_hostmem_dealloc_${nametype}$_2D(host_mem, stream)
+      ${type}$, DIMENSION(:, :), POINTER        :: host_mem
+      TYPE(acc_stream_type), INTENT(IN)        :: stream
+      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_${nametype}$_2D', &
+                                     routineP = moduleN//':'//routineN
 
-    IF (SIZE (host_mem) == 0) RETURN
+      IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
-    CALL acc_hostmem_dealloc_raw(C_LOC(host_mem(1,1)), stream)
+      CALL acc_hostmem_dealloc_raw(C_LOC(host_mem(1, 1)), stream)
 #else
-    MARK_USED(host_mem)
-    MARK_USED(stream)
-    DBCSR_ABORT("acc_hostmem_dealloc_${nametype}$: ACC not compiled in.")
+      MARK_USED(host_mem)
+      MARK_USED(stream)
+      DBCSR_ABORT("acc_hostmem_dealloc_${nametype}$: ACC not compiled in.")
 #endif
-  END SUBROUTINE acc_hostmem_dealloc_${nametype}$_2D
+   END SUBROUTINE acc_hostmem_dealloc_${nametype}$_2D
 
 #:endfor
 

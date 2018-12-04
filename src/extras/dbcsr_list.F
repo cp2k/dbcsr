@@ -26,11 +26,11 @@
 
 MODULE dbcsr_list
 
-USE dbcsr_timings_base_type,       ONLY: ${uselist(usetimingsbase)}$
-USE dbcsr_list_callstackentry,     ONLY: @{uselist_listmethods(callstackentry)}@
-USE dbcsr_list_routinereport,      ONLY: @{uselist_listmethods(routinereport)}@
-USE dbcsr_list_routinestat,        ONLY: @{uselist_listmethods(routinestat)}@
-USE dbcsr_list_timerenv,           ONLY: @{uselist_listmethods(timerenv)}@
+   USE dbcsr_timings_base_type, ONLY: ${uselist(usetimingsbase)}$
+   USE dbcsr_list_callstackentry, ONLY: @{uselist_listmethods(callstackentry)}@
+   USE dbcsr_list_routinereport, ONLY: @{uselist_listmethods(routinereport)}@
+   USE dbcsr_list_routinestat, ONLY: @{uselist_listmethods(routinestat)}@
+   USE dbcsr_list_timerenv, ONLY: @{uselist_listmethods(timerenv)}@
 
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
@@ -61,7 +61,7 @@ USE dbcsr_list_timerenv,           ONLY: @{uselist_listmethods(timerenv)}@
 #:for vtype in valuetype
       MODULE PROCEDURE list_${vtype}$_push
 #:endfor
-END INTERFACE
+   END INTERFACE
 
    INTERFACE list_pop
 #:for vtype in valuetype

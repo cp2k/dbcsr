@@ -17,12 +17,12 @@
 !> - 2010-02-18 Moved from dbcsr_util
 ! **************************************************************************************************
 MODULE dbcsr_blas_operations
-   USE dbcsr_kinds,                     ONLY: int_8
-   USE dbcsr_types,                     ONLY: dbcsr_data_obj,&
-                                              dbcsr_type_complex_4,&
-                                              dbcsr_type_complex_8,&
-                                              dbcsr_type_real_4,&
-                                              dbcsr_type_real_8
+   USE dbcsr_kinds, ONLY: int_8
+   USE dbcsr_types, ONLY: dbcsr_data_obj, &
+                          dbcsr_type_complex_4, &
+                          dbcsr_type_complex_8, &
+                          dbcsr_type_real_4, &
+                          dbcsr_type_real_8
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -55,14 +55,14 @@ CONTAINS
 
       INTEGER(KIND=int_8)                                :: map
 
-      map = ((irow-1+icol*INT(nrow, int_8))*(1+MODULO(ival, 2**16)))*2+1+0*ncol ! ncol used
+      map = ((irow - 1 + icol*INT(nrow, int_8))*(1 + MODULO(ival, 2**16)))*2 + 1 + 0*ncol ! ncol used
       iseed(4) = INT(MODULO(map, 2_int_8**12)); map = map/2_int_8**12; ! keep odd
       iseed(3) = INT(MODULO(IEOR(map, 3541_int_8), 2_int_8**12)); map = map/2_int_8**12
       iseed(2) = INT(MODULO(IEOR(map, 1153_int_8), 2_int_8**12)); map = map/2_int_8**12
       iseed(1) = INT(MODULO(IEOR(map, 2029_int_8), 2_int_8**12)); map = map/2_int_8**12
    END SUBROUTINE set_larnv_seed
 ! **************************************************************************************************
-!> \brief fils an array with random numbers
+!> \brief fills an array with random numbers
 !> \param idist type of distribution (1..3, see lapack docs)
 !> \param iseed requires each int to be in the range 0..2**12, and the iseed(4) odd
 !> \param n ...
@@ -75,7 +75,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: x
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_lapack_larnv', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       SELECT CASE (x%d%data_type)
       CASE (dbcsr_type_real_4)

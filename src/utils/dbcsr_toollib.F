@@ -18,13 +18,13 @@
 ! **************************************************************************************************
 MODULE dbcsr_toollib
 
-   USE dbcsr_array_sort,                ONLY: dbcsr_1d_d_sort,&
-                                              dbcsr_1d_i4_sort,&
-                                              dbcsr_1d_i8_sort,&
-                                              dbcsr_1d_s_sort
-   USE dbcsr_kinds,                     ONLY: int_4,&
-                                              int_8,&
-                                              real_8
+   USE dbcsr_array_sort, ONLY: dbcsr_1d_d_sort, &
+                               dbcsr_1d_i4_sort, &
+                               dbcsr_1d_i8_sort, &
+                               dbcsr_1d_s_sort
+   USE dbcsr_kinds, ONLY: int_4, &
+                          int_8, &
+                          real_8
 #include "../base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -38,8 +38,6 @@ MODULE dbcsr_toollib
    ! Block sizes and arrays
    PUBLIC :: dbcsr_unpack_i8_2i4, make_coordinate_tuple
    PUBLIC :: swap
-   ! string routines
-   PUBLIC :: uppercase
    ! math routines
    PUBLIC :: gcd, lcm
    ! utility routines
@@ -137,24 +135,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief ...
-!> \param string ...
-! **************************************************************************************************
-   SUBROUTINE uppercase(string)
-      CHARACTER(LEN=*), INTENT(INOUT)                    :: string
-
-      INTEGER                                            :: i, iascii
-
-      DO i = 1, LEN_TRIM(string)
-         iascii = ICHAR(string(i:i))
-         IF ((iascii >= 97) .AND. (iascii <= 122)) THEN
-            string(i:i) = CHAR(iascii-32)
-         END IF
-      END DO
-
-   END SUBROUTINE uppercase
-
-! **************************************************************************************************
-!> \brief ...
 !> \param a ...
 !> \param b ...
 !> \return ...
@@ -234,7 +214,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: key
       INTEGER                                            :: hash_index
 
-      INTEGER(KIND=int_8), PARAMETER                     :: b32 = 2_int_8**32-1_int_8
+      INTEGER(KIND=int_8), PARAMETER                     :: b32 = 2_int_8**32 - 1_int_8
 
       INTEGER                                            :: i, j
       INTEGER(KIND=int_8)                                :: byte, hash
@@ -243,14 +223,14 @@ CONTAINS
       DO i = 1, SIZE(key)
          DO j = 0, 3
             byte = IAND(ISHFT(key(i), -j*8), 255)
-            hash = IAND(hash+byte, b32)
-            hash = IAND(hash+IAND(ISHFT(hash, 10), b32), b32)
+            hash = IAND(hash + byte, b32)
+            hash = IAND(hash + IAND(ISHFT(hash, 10), b32), b32)
             hash = IAND(IEOR(hash, IAND(ISHFT(hash, -6), b32)), b32)
          ENDDO
       ENDDO
-      hash = IAND(hash+IAND(ISHFT(hash, 3), b32), b32)
+      hash = IAND(hash + IAND(ISHFT(hash, 3), b32), b32)
       hash = IAND(IEOR(hash, IAND(ISHFT(hash, -11), b32)), b32)
-      hash = IAND(hash+IAND(ISHFT(hash, 15), b32), b32)
+      hash = IAND(hash + IAND(ISHFT(hash, 15), b32), b32)
       ! In fortran 4-byte-integers have only 31 bits because they are signed
       ! In fortran the rightmost (least significant) bit is in position 0
       hash_index = INT(IBCLR(hash, 31))
@@ -289,26 +269,21 @@ CONTAINS
       ELSE
          high = UBOUND(array, 1)
       ENDIF
-      loc = (low+high)/2
+      loc = (low + high)/2
       DO WHILE (loc .GE. low .AND. loc .LE. high)
          val = array(loc)
          IF (val .EQ. key) THEN
             found = .TRUE.
             EXIT
          ELSEIF (val .LT. key) THEN
-            low = loc+1
+            low = loc + 1
          ELSE
-            high = loc-1
+            high = loc - 1
          ENDIF
-         loc = (low+high)/2
+         loc = (low + high)/2
       ENDDO
    END SUBROUTINE ordered_search
 
-   ! **************************************************************************************************
-   !> \brief ...
-   !> \param a ...
-   !> \return ...
-   ! **************************************************************************************************
 ! **************************************************************************************************
 !> \brief ...
 !> \param a ...
@@ -321,11 +296,6 @@ CONTAINS
       READ (a, '(I9)') atoi
    END FUNCTION atoi
 
-   ! **************************************************************************************************
-   !> \brief ...
-   !> \param a ...
-   !> \return ...
-   ! **************************************************************************************************
 ! **************************************************************************************************
 !> \brief ...
 !> \param a ...
@@ -338,11 +308,6 @@ CONTAINS
       READ (a, '(L1)') atol
    END FUNCTION atol
 
-   ! **************************************************************************************************
-   !> \brief ...
-   !> \param a ...
-   !> \return ...
-   ! **************************************************************************************************
 ! **************************************************************************************************
 !> \brief ...
 !> \param a ...

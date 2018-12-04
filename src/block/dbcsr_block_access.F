@@ -18,57 +18,57 @@
 !  - 2010-04-22 Added block buffer operations
 ! **************************************************************************************************
 MODULE dbcsr_block_access
-   USE dbcsr_array_types,               ONLY: array_data
-   USE dbcsr_btree,                     ONLY: btree_add,&
-                                              btree_data_cp2d,&
-                                              btree_data_dp2d,&
-                                              btree_data_sp2d,&
-                                              btree_data_zp2d,&
-                                              btree_find
-   USE dbcsr_block_operations,          ONLY: dbcsr_data_clear,&
-                                              dbcsr_data_set
-   USE dbcsr_config,                    ONLY: default_resize_factor
-   USE dbcsr_data_methods,              ONLY: dbcsr_data_clear_pointer,&
-                                              dbcsr_data_ensure_size,&
-                                              dbcsr_data_get_size_referenced,&
-                                              dbcsr_data_set_pointer,&
-                                              dbcsr_get_data,&
-                                              dbcsr_get_data_p,&
-                                              dbcsr_get_data_p_s,&
-                                              dbcsr_get_data_p_d,&
-                                              dbcsr_get_data_p_c
-   USE dbcsr_dist_methods,              ONLY: dbcsr_distribution_local_cols,&
-                                              dbcsr_distribution_local_rows,&
-                                              dbcsr_distribution_mp
-   USE dbcsr_dist_operations,           ONLY: dbcsr_get_block_index,&
-                                              dbcsr_get_stored_block_info,&
-                                              dbcsr_get_stored_coordinates
-   USE dbcsr_index_operations,          ONLY: dbcsr_addto_index_array,&
-                                              dbcsr_clearfrom_index_array,&
-                                              dbcsr_expand_row_index,&
-                                              dbcsr_make_dbcsr_index,&
-                                              dbcsr_sort_indices,&
-                                              merge_index_arrays
-   USE dbcsr_methods,                   ONLY: &
-        dbcsr_blk_column_size, dbcsr_blk_row_size, dbcsr_distribution, dbcsr_get_data_type, &
-        dbcsr_get_num_blocks, dbcsr_mutable_instantiated, dbcsr_mutable_new, dbcsr_nblkrows_total, &
-        dbcsr_use_mutable, dbcsr_wm_use_mutable
-   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_mynode
-   USE dbcsr_ptr_util,                  ONLY: pointer_rank_remap2,&
-                                              pointer_view
-   USE dbcsr_toollib,                   ONLY: make_coordinate_tuple,&
-                                              swap
-   USE dbcsr_types,                     ONLY: &
-        dbcsr_data_obj, dbcsr_scalar_type, dbcsr_slot_blk_p, dbcsr_slot_col_i, dbcsr_slot_nblks, &
-        dbcsr_slot_nze, dbcsr_type, dbcsr_type_complex_4, dbcsr_type_complex_4_2d, &
-        dbcsr_type_complex_8, dbcsr_type_complex_8_2d, dbcsr_type_real_4, dbcsr_type_real_4_2d, &
-        dbcsr_type_real_8, dbcsr_type_real_8_2d
-   USE dbcsr_work_operations,           ONLY: add_work_coordinate,&
-                                              dbcsr_work_create
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              int_8,&
-                                              real_4,&
-                                              real_8
+   USE dbcsr_array_types, ONLY: array_data
+   USE dbcsr_btree, ONLY: btree_add, &
+                          btree_data_cp2d, &
+                          btree_data_dp2d, &
+                          btree_data_sp2d, &
+                          btree_data_zp2d, &
+                          btree_find
+   USE dbcsr_block_operations, ONLY: dbcsr_data_clear, &
+                                     dbcsr_data_set
+   USE dbcsr_config, ONLY: default_resize_factor
+   USE dbcsr_data_methods, ONLY: dbcsr_data_clear_pointer, &
+                                 dbcsr_data_ensure_size, &
+                                 dbcsr_data_get_size_referenced, &
+                                 dbcsr_data_set_pointer, &
+                                 dbcsr_get_data, &
+                                 dbcsr_get_data_p, &
+                                 dbcsr_get_data_p_s, &
+                                 dbcsr_get_data_p_d, &
+                                 dbcsr_get_data_p_c
+   USE dbcsr_dist_methods, ONLY: dbcsr_distribution_local_cols, &
+                                 dbcsr_distribution_local_rows, &
+                                 dbcsr_distribution_mp
+   USE dbcsr_dist_operations, ONLY: dbcsr_get_block_index, &
+                                    dbcsr_get_stored_block_info, &
+                                    dbcsr_get_stored_coordinates
+   USE dbcsr_index_operations, ONLY: dbcsr_addto_index_array, &
+                                     dbcsr_clearfrom_index_array, &
+                                     dbcsr_expand_row_index, &
+                                     dbcsr_make_dbcsr_index, &
+                                     dbcsr_sort_indices, &
+                                     merge_index_arrays
+   USE dbcsr_methods, ONLY: &
+      dbcsr_blk_column_size, dbcsr_blk_row_size, dbcsr_distribution, dbcsr_get_data_type, &
+      dbcsr_get_num_blocks, dbcsr_mutable_instantiated, dbcsr_mutable_new, dbcsr_nblkrows_total, &
+      dbcsr_use_mutable, dbcsr_wm_use_mutable
+   USE dbcsr_mp_methods, ONLY: dbcsr_mp_mynode
+   USE dbcsr_ptr_util, ONLY: pointer_rank_remap2, &
+                             pointer_view
+   USE dbcsr_toollib, ONLY: make_coordinate_tuple, &
+                            swap
+   USE dbcsr_types, ONLY: &
+      dbcsr_data_obj, dbcsr_scalar_type, dbcsr_slot_blk_p, dbcsr_slot_col_i, dbcsr_slot_nblks, &
+      dbcsr_slot_nze, dbcsr_type, dbcsr_type_complex_4, dbcsr_type_complex_4_2d, &
+      dbcsr_type_complex_8, dbcsr_type_complex_8_2d, dbcsr_type_real_4, dbcsr_type_real_4_2d, &
+      dbcsr_type_real_8, dbcsr_type_real_8_2d
+   USE dbcsr_work_operations, ONLY: add_work_coordinate, &
+                                    dbcsr_work_create
+   USE dbcsr_kinds, ONLY: dp, &
+                          int_8, &
+                          real_4, &
+                          real_8
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -156,7 +156,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: block_number
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_remove_block', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: b, c, error_handle, r
       LOGICAL                                            :: found, tr
@@ -178,7 +178,7 @@ CONTAINS
          matrix%blk_p(b) = 0
          matrix%valid = .FALSE.
          ! update nze accordingly
-         matrix%nze = matrix%nze-block_nze
+         matrix%nze = matrix%nze - block_nze
          IF (debug_mod) THEN
             IF (matrix%nze < 0) DBCSR_ABORT("nze < 0!")
          ENDIF
@@ -214,7 +214,7 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL                     :: row_size, col_size
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_p_area', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: blk, csize, error_handle, iw, offset, &
                                                             rsize, stored_col, stored_row
@@ -242,7 +242,7 @@ CONTAINS
          CALL dbcsr_set_block_pointer(matrix, block, rsize, csize, stored_tr, offset)
       ELSEIF (ASSOCIATED(matrix%wms)) THEN
          iw = 1
-!$       iw = omp_get_thread_num()+1
+!$       iw = omp_get_thread_num() + 1
          IF (.NOT. dbcsr_use_mutable(matrix)) &
             DBCSR_ABORT("Can not retrieve blocks from non-mutable work matrices.")
          IF (dbcsr_mutable_instantiated(matrix%wms(iw)%mutable)) THEN
@@ -317,7 +317,7 @@ CONTAINS
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block_area', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: data_type_m, error_handle
       LOGICAL                                            :: do_scale
@@ -425,7 +425,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_all_blocks', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: blk_count, col, col_local, col_s, &
                                                             error_handle, myrank, rank, row, &
@@ -450,7 +450,7 @@ CONTAINS
             row_s = row; col_s = col
             CALL dbcsr_get_stored_coordinates(matrix, row_s, col_s, rank)
             ! is that the correct condition for symmetric matrices ?
-            IF (rank .EQ. myrank .AND. row_s .EQ. row .AND. col_s .EQ. col) blk_count = blk_count+1
+            IF (rank .EQ. myrank .AND. row_s .EQ. row .AND. col_s .EQ. col) blk_count = blk_count + 1
          ENDDO
       ENDDO
 
@@ -465,7 +465,7 @@ CONTAINS
             row_s = row; col_s = col
             CALL dbcsr_get_stored_coordinates(matrix, row_s, col_s, rank)
             IF (rank .EQ. myrank .AND. row_s .EQ. row .AND. col_s .EQ. col) THEN
-               blk_count = blk_count+1
+               blk_count = blk_count + 1
                rows(blk_count) = row
                columns(blk_count) = col
             ENDIF
@@ -486,7 +486,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_diag_blocks', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: blk_count, col, col_s, myrank, rank, &
                                                             row, row_s
@@ -502,7 +502,7 @@ CONTAINS
          tr = .FALSE.
          row_s = row; col_s = col
          CALL dbcsr_get_stored_coordinates(matrix, row_s, col_s, rank)
-         IF (rank .EQ. myrank .AND. row_s .EQ. row .AND. col_s .EQ. col) blk_count = blk_count+1
+         IF (rank .EQ. myrank .AND. row_s .EQ. row .AND. col_s .EQ. col) blk_count = blk_count + 1
       ENDDO
 
       ALLOCATE (rows(blk_count), columns(blk_count))
@@ -514,7 +514,7 @@ CONTAINS
          row_s = row; col_s = col
          CALL dbcsr_get_stored_coordinates(matrix, row_s, col_s, rank)
          IF (rank .EQ. myrank .AND. row_s .EQ. row .AND. col_s .EQ. col) THEN
-            blk_count = blk_count+1
+            blk_count = blk_count + 1
             rows(blk_count) = row
             columns(blk_count) = col
          ENDIF
@@ -546,10 +546,10 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: blk_pointers
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_blocks', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER :: blk, blk_p, data_size_new, data_size_old, handle, nblkrows, nblks_actual_added, &
-         nblks_added, nblks_new, nblks_old, new_data_sizes, nze
+                 nblks_added, nblks_new, nblks_old, new_data_sizes, nze
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: add_blkp, add_cols, add_rows, &
                                                             added_sizes, new_blk_p, new_col_i, &
                                                             new_row_i, old_row_i
@@ -593,7 +593,7 @@ CONTAINS
                                   nblkrows, nblks_old)
       ! Calculate new block pointers. Possibly high estimates.
       new_data_sizes = 0
-      blk_p = data_size_old+1 ! New blocks start at the end of the old
+      blk_p = data_size_old + 1 ! New blocks start at the end of the old
       ALLOCATE (added_blk_info(3, nblks_added))
       ALLOCATE (added_sizes(nblks_added))
       DO blk = 1, nblks_added
@@ -604,13 +604,13 @@ CONTAINS
          nze = dbcsr_blk_row_size(matrix, add_rows(blk)) &
                *dbcsr_blk_column_size(matrix, add_cols(blk))
          added_sizes(blk) = nze
-         blk_p = blk_p+nze
+         blk_p = blk_p + nze
       ENDDO
       DEALLOCATE (add_rows)
       DEALLOCATE (add_cols)
       IF (PRESENT(blk_pointers)) DEALLOCATE (add_blkp)
       !
-      nblks_new = nblks_old+nblks_added ! Possibly high estimate
+      nblks_new = nblks_old + nblks_added ! Possibly high estimate
       ALLOCATE (new_row_i(nblks_new))
       ALLOCATE (new_col_i(nblks_new))
       ALLOCATE (new_blk_p(nblks_new))
@@ -624,10 +624,10 @@ CONTAINS
          CALL merge_index_arrays(new_row_i, new_col_i, new_blk_p, nblks_new, &
                                  old_row_i, matrix%col_i, matrix%blk_p, nblks_old, &
                                  added_blk_info, nblks_added, added_nblks=nblks_actual_added, &
-                                 added_sizes=added_sizes, added_size_offset=data_size_old+1, &
+                                 added_sizes=added_sizes, added_size_offset=data_size_old + 1, &
                                  added_size=data_size_new)
       ENDIF
-      nblks_new = nblks_actual_added+nblks_old
+      nblks_new = nblks_actual_added + nblks_old
       ! Free some memory
       DEALLOCATE (added_blk_info)
       DEALLOCATE (added_sizes)
@@ -636,7 +636,7 @@ CONTAINS
       IF (nblks_actual_added .GT. 0) THEN
          ! Write the new index
          matrix%nblks = nblks_new
-         matrix%nze = matrix%nze+data_size_new
+         matrix%nze = matrix%nze + data_size_new
          matrix%index(dbcsr_slot_nblks) = matrix%nblks
          matrix%index(dbcsr_slot_nze) = matrix%index(dbcsr_slot_nze)
          CALL dbcsr_clearfrom_index_array(matrix, dbcsr_slot_col_i)
@@ -654,7 +654,7 @@ CONTAINS
                                         data_size=matrix%nze)
             ! Zero the new data blocks.
             CALL dbcsr_data_clear(matrix%data_area, &
-                                  lb=data_size_old+1, ub=matrix%nze)
+                                  lb=data_size_old + 1, ub=matrix%nze)
          ENDIF
       ENDIF
       CALL timestop(handle)
@@ -678,7 +678,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: base_offset
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_block_pointer_any', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 

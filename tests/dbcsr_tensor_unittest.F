@@ -12,26 +12,26 @@
 !> \author Patrick Seewald
 ! **************************************************************************************************
 PROGRAM dbcsr_tensor_unittest
-   USE dbcsr_api,                       ONLY: dbcsr_finalize_lib,&
-                                              dbcsr_init_lib,&
-                                              dbcsr_type_real_8
-   USE dbcsr_machine,                   ONLY: default_output_unit
-   USE dbcsr_mpiwrap,                   ONLY: mp_cart_create,&
-                                              mp_comm_free,&
-                                              mp_environ,&
-                                              mp_world_finalize,&
-                                              mp_world_init
-   USE dbcsr_tensor_test,               ONLY: dbcsr_t_contract_test,&
-                                              dbcsr_t_random_dist,&
-                                              dbcsr_t_setup_test_tensor,&
-                                              dbcsr_t_test_formats
-   USE dbcsr_tensor_types,              ONLY: dbcsr_t_create,&
-                                              dbcsr_t_destroy,&
-                                              dbcsr_t_distribution_destroy,&
-                                              dbcsr_t_distribution_new,&
-                                              dbcsr_t_distribution_type,&
-                                              dbcsr_t_nd_mp_comm,&
-                                              dbcsr_t_type
+   USE dbcsr_api, ONLY: dbcsr_finalize_lib, &
+                        dbcsr_init_lib, &
+                        dbcsr_type_real_8
+   USE dbcsr_machine, ONLY: default_output_unit
+   USE dbcsr_mpiwrap, ONLY: mp_cart_create, &
+                            mp_comm_free, &
+                            mp_environ, &
+                            mp_world_finalize, &
+                            mp_world_init
+   USE dbcsr_tensor_test, ONLY: dbcsr_t_contract_test, &
+                                dbcsr_t_random_dist, &
+                                dbcsr_t_setup_test_tensor, &
+                                dbcsr_t_test_formats
+   USE dbcsr_tensor_types, ONLY: dbcsr_t_create, &
+                                 dbcsr_t_destroy, &
+                                 dbcsr_t_distribution_destroy, &
+                                 dbcsr_t_distribution_new, &
+                                 dbcsr_t_distribution_type, &
+                                 dbcsr_t_nd_mp_comm, &
+                                 dbcsr_t_type
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE

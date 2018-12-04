@@ -18,34 +18,34 @@
 !> \author JGH
 ! **************************************************************************************************
 MODULE dbcsr_timings_report
-   USE dbcsr_dict,                      ONLY: dict_get,&
-                                              dict_haskey,&
-                                              dict_i4tuple_callstat_item_type,&
-                                              dict_items
-   USE dbcsr_files,                     ONLY: close_file,&
-                                              open_file
-   USE dbcsr_kinds,                     ONLY: default_string_length,&
-                                              dp,&
-                                              int_8
-   USE dbcsr_list,                      ONLY: list_destroy,&
-                                              list_get,&
-                                              list_init,&
-                                              list_isready,&
-                                              list_pop,&
-                                              list_push,&
-                                              list_size
-   USE dbcsr_list_routinereport,        ONLY: list_routinereport_type
-   USE dbcsr_mpiwrap,                   ONLY: mp_bcast,&
-                                              mp_max,&
-                                              mp_maxloc,&
-                                              mp_sum
-   USE dbcsr_timings,                   ONLY: get_timer_env
-   USE dbcsr_timings_base_type,         ONLY: call_stat_type,&
-                                              routine_report_type,&
-                                              routine_stat_type
-   USE dbcsr_timings_types,             ONLY: timer_env_type
-   USE dbcsr_toollib,                   ONLY: sort
-   USE dbcsr_types,                     ONLY: dbcsr_mp_obj
+   USE dbcsr_dict, ONLY: dict_get, &
+                         dict_haskey, &
+                         dict_i4tuple_callstat_item_type, &
+                         dict_items
+   USE dbcsr_files, ONLY: close_file, &
+                          open_file
+   USE dbcsr_kinds, ONLY: default_string_length, &
+                          dp, &
+                          int_8
+   USE dbcsr_list, ONLY: list_destroy, &
+                         list_get, &
+                         list_init, &
+                         list_isready, &
+                         list_pop, &
+                         list_push, &
+                         list_size
+   USE dbcsr_list_routinereport, ONLY: list_routinereport_type
+   USE dbcsr_mpiwrap, ONLY: mp_bcast, &
+                            mp_max, &
+                            mp_maxloc, &
+                            mp_sum
+   USE dbcsr_timings, ONLY: get_timer_env
+   USE dbcsr_timings_base_type, ONLY: call_stat_type, &
+                                      routine_report_type, &
+                                      routine_stat_type
+   USE dbcsr_timings_types, ONLY: timer_env_type
+   USE dbcsr_toollib, ONLY: sort
+   USE dbcsr_types, ONLY: dbcsr_mp_obj
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -341,7 +341,7 @@ CONTAINS
 !> http://kcachegrind.sourceforge.net/cgi-bin/show.cgi/KcacheGrindCalltreeFormat
 !> \param filename ...
 !> \par History
-!>     12.2012  intial version[ole]
+!>     12.2012  initial version[ole]
 !> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE timings_report_callgraph(filename)

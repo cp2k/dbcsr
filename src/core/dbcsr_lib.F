@@ -14,21 +14,21 @@
 ! **************************************************************************************************
 
 MODULE dbcsr_lib
-   USE dbcsr_config,                    ONLY: cublas_handles
-   USE dbcsr_cublas,                    ONLY: cublas_handle_destroy,&
-                                              cublas_handle_init
-   USE dbcsr_kinds,                     ONLY: int_1_size,&
-                                              int_2_size,&
-                                              int_4_size,&
-                                              int_8_size
-   USE dbcsr_machine,                   ONLY: default_output_unit
-   USE dbcsr_mpiwrap,                   ONLY: add_mp_perf_env,&
-                                              describe_mp_perf_env,&
-                                              has_mp_perf_env,&
-                                              mp_environ
-   USE dbcsr_multiply_api,              ONLY: dbcsr_multiply_clear_mempools,&
-                                              dbcsr_multiply_lib_finalize,&
-                                              dbcsr_multiply_lib_init
+   USE dbcsr_config, ONLY: cublas_handles
+   USE dbcsr_cublas, ONLY: cublas_handle_destroy, &
+                           cublas_handle_init
+   USE dbcsr_kinds, ONLY: int_1_size, &
+                          int_2_size, &
+                          int_4_size, &
+                          int_8_size
+   USE dbcsr_machine, ONLY: default_output_unit
+   USE dbcsr_mpiwrap, ONLY: add_mp_perf_env, &
+                            describe_mp_perf_env, &
+                            has_mp_perf_env, &
+                            mp_environ
+   USE dbcsr_multiply_api, ONLY: dbcsr_multiply_clear_mempools, &
+                                 dbcsr_multiply_lib_finalize, &
+                                 dbcsr_multiply_lib_init
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
@@ -86,7 +86,7 @@ CONTAINS
       ithread = 0
 !$    ithread = omp_get_thread_num()
       ! init cublas. Internal check for cublas existing
-      CALL cublas_handle_init(cublas_handles(ithread+1))
+      CALL cublas_handle_init(cublas_handles(ithread + 1))
 !$OMP     END PARALLEL
 
       is_initialized = .TRUE.
@@ -106,7 +106,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: output_unit
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize_lib', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, io_unit, ithread, mynode
 
@@ -133,7 +133,7 @@ CONTAINS
       CALL dbcsr_multiply_lib_finalize(group, io_unit)
       ithread = 0
 !$    ithread = omp_get_thread_num()
-      CALL cublas_handle_destroy(cublas_handles(ithread+1))
+      CALL cublas_handle_destroy(cublas_handles(ithread + 1))
 !$OMP BARRIER
 !$OMP MASTER
       DEALLOCATE (cublas_handles)

@@ -45,7 +45,7 @@ CONTAINS
 !> \note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
 !>        have same rank.
 ! *********************************************************************************
-   SUBROUTINE allocate_${dim}$d_${dsuffix}$(array, shape_spec, source, order)
+   SUBROUTINE allocate_${dim}$d_${dsuffix}$ (array, shape_spec, source, order)
       ${dtype}$, DIMENSION(${shape_colon(dim)}$), ALLOCATABLE, INTENT(OUT) :: array
       INTEGER, DIMENSION(${dim}$), INTENT(IN), OPTIONAL                    :: shape_spec
       ${dtype}$, DIMENSION(${shape_colon(dim)}$), INTENT(IN), OPTIONAL     :: source
@@ -56,19 +56,19 @@ CONTAINS
 
       DBCSR_ASSERT(PRESENT(shape_spec) .OR. PRESENT(source))
 
-      IF(PRESENT(order)) THEN
+      IF (PRESENT(order)) THEN
          order_prv(:) = order(:)
       ELSE
          order_prv(:) = (/(i, i=1, ${dim}$)/)
       ENDIF
 
-      IF(PRESENT(source) .AND. .NOT. PRESENT(shape_spec)) THEN
+      IF (PRESENT(source) .AND. .NOT. PRESENT(shape_spec)) THEN
          shape_prv(order_prv) = SHAPE(source)
       ELSE
          shape_prv(order_prv) = shape_spec
       ENDIF
 
-      ALLOCATE(array(${arrlist("shape_prv", nmax=dim)}$))
+      ALLOCATE (array(${arrlist("shape_prv", nmax=dim)}$))
 
       IF (PRESENT(source)) THEN
          array(${shape_colon(dim)}$) = RESHAPE(source, shape_prv, order=order_prv)

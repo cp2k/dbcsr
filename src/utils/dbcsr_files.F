@@ -17,10 +17,10 @@
 ! **************************************************************************************************
 MODULE dbcsr_files
 
-   USE dbcsr_kinds,                     ONLY: default_path_length
-   USE dbcsr_machine,                   ONLY: default_input_unit,&
-                                              default_output_unit,&
-                                              m_getcwd
+   USE dbcsr_kinds, ONLY: default_path_length
+   USE dbcsr_machine, ONLY: default_input_unit, &
+                            default_output_unit, &
+                            m_getcwd
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -61,7 +61,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: unit_number
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'assign_preconnection', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ic, islot, nc
 
@@ -90,7 +90,7 @@ CONTAINS
          END IF
       END DO
 
-      ! Seach for an unused entry
+      ! Search for an unused entry
       islot = -1
       DO ic = 1, nc
          IF (preconnected(ic)%unit_number == -1) THEN
@@ -207,13 +207,13 @@ CONTAINS
       INTEGER                                            :: unit_number
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'delete_preconnection', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ic, nc
 
       nc = SIZE(preconnected)
 
-      ! Seach for preconnection entry and delete it when found
+      ! Search for preconnection entry and delete it when found
       DO ic = 1, nc
          IF (TRIM(preconnected(ic)%file_name) == TRIM(file_name)) THEN
             IF (preconnected(ic)%unit_number == unit_number) THEN
@@ -279,7 +279,7 @@ CONTAINS
    SUBROUTINE init_preconnection_list()
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'init_preconnection_list', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ic, nc
 
@@ -327,7 +327,7 @@ CONTAINS
       CHARACTER(LEN=*), PARAMETER :: routineN = 'open_file', routineP = moduleN//':'//routineN
 
       CHARACTER(LEN=11) :: access_string, action_string, current_action, current_form, &
-         form_string, pad_string, position_string, status_string
+                           form_string, pad_string, position_string, status_string
       CHARACTER(LEN=2*default_path_length)               :: message
       CHARACTER(LEN=default_path_length)                 :: cwd, iomsgstr
       INTEGER                                            :: debug_unit, istat
@@ -508,7 +508,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: output_unit
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'print_preconnection_list', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ic, nc, unit
 

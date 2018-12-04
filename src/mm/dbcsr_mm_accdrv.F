@@ -22,55 +22,55 @@
 !>  - 2014-04    generalized into acc-framework (Ole Schuett)
 ! **************************************************************************************************
 MODULE dbcsr_mm_accdrv
-   USE dbcsr_acc_devmem,                ONLY: acc_devmem_allocate_bytes,&
-                                              acc_devmem_allocated,&
-                                              acc_devmem_deallocate,&
-                                              acc_devmem_host2dev,&
-                                              acc_devmem_setzero_bytes,&
-                                              acc_devmem_type
-   USE dbcsr_acc_event,                 ONLY: acc_event_create,&
-                                              acc_event_destroy,&
-                                              acc_event_query,&
-                                              acc_event_record,&
-                                              acc_event_type,&
-                                              acc_stream_wait_event
-   USE dbcsr_acc_hostmem,               ONLY: acc_hostmem_allocate,&
-                                              acc_hostmem_deallocate
-   USE dbcsr_acc_operations,            ONLY: dbcsr_acc_do_mm_stack
-   USE dbcsr_acc_stream,                ONLY: acc_stream_associated,&
-                                              acc_stream_create,&
-                                              acc_stream_destroy,&
-                                              acc_stream_priority_range,&
-                                              acc_stream_synchronize,&
-                                              acc_stream_type
-   USE dbcsr_block_operations,          ONLY: block_add
-   USE dbcsr_config,                    ONLY: dbcsr_cfg,&
-                                              default_resize_factor
+   USE dbcsr_acc_devmem, ONLY: acc_devmem_allocate_bytes, &
+                               acc_devmem_allocated, &
+                               acc_devmem_deallocate, &
+                               acc_devmem_host2dev, &
+                               acc_devmem_setzero_bytes, &
+                               acc_devmem_type
+   USE dbcsr_acc_event, ONLY: acc_event_create, &
+                              acc_event_destroy, &
+                              acc_event_query, &
+                              acc_event_record, &
+                              acc_event_type, &
+                              acc_stream_wait_event
+   USE dbcsr_acc_hostmem, ONLY: acc_hostmem_allocate, &
+                                acc_hostmem_deallocate
+   USE dbcsr_acc_operations, ONLY: dbcsr_acc_do_mm_stack
+   USE dbcsr_acc_stream, ONLY: acc_stream_associated, &
+                               acc_stream_create, &
+                               acc_stream_destroy, &
+                               acc_stream_priority_range, &
+                               acc_stream_synchronize, &
+                               acc_stream_type
+   USE dbcsr_block_operations, ONLY: block_add
+   USE dbcsr_config, ONLY: dbcsr_cfg, &
+                           default_resize_factor
    !accdrv_binning_binsize, accdrv_binning_nbins, accdrv_min_flop_sort, &
    !accdrv_posterior_buffers, accdrv_posterior_streams, accdrv_priority_buffers, &
    !accdrv_priority_streams, default_resize_factor, mm_stack_size
-   USE dbcsr_data_methods,              ONLY: dbcsr_data_dev2host,&
-                                              dbcsr_data_ensure_size,&
-                                              dbcsr_data_get_size,&
-                                              dbcsr_data_get_type,&
-                                              dbcsr_data_new,&
-                                              dbcsr_data_release
-   USE dbcsr_kinds,                     ONLY: default_string_length,&
-                                              int_4,&
-                                              int_4_size,&
-                                              int_8
-   USE dbcsr_mem_methods,               ONLY: dbcsr_mempool_destruct,&
-                                              dbcsr_mempool_limit_capacity,&
-                                              dbcsr_memtype_setup
-   USE dbcsr_mm_types,                  ONLY: dbcsr_ps_acc_width,&
-                                              dbcsr_ps_width,&
-                                              stack_descriptor_type
-   USE dbcsr_toollib,                   ONLY: sort
-   USE dbcsr_types,                     ONLY: dbcsr_data_area_type,&
-                                              dbcsr_data_obj,&
-                                              dbcsr_memtype_type,&
-                                              dbcsr_type,&
-                                              dbcsr_work_type
+   USE dbcsr_data_methods, ONLY: dbcsr_data_dev2host, &
+                                 dbcsr_data_ensure_size, &
+                                 dbcsr_data_get_size, &
+                                 dbcsr_data_get_type, &
+                                 dbcsr_data_new, &
+                                 dbcsr_data_release
+   USE dbcsr_kinds, ONLY: default_string_length, &
+                          int_4, &
+                          int_4_size, &
+                          int_8
+   USE dbcsr_mem_methods, ONLY: dbcsr_mempool_destruct, &
+                                dbcsr_mempool_limit_capacity, &
+                                dbcsr_memtype_setup
+   USE dbcsr_mm_types, ONLY: dbcsr_ps_acc_width, &
+                             dbcsr_ps_width, &
+                             stack_descriptor_type
+   USE dbcsr_toollib, ONLY: sort
+   USE dbcsr_types, ONLY: dbcsr_data_area_type, &
+                          dbcsr_data_obj, &
+                          dbcsr_memtype_type, &
+                          dbcsr_type, &
+                          dbcsr_work_type
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -142,7 +142,7 @@ CONTAINS
 !$    nthreads = OMP_GET_NUM_THREADS()
 
 !$OMP     MASTER
-      ALLOCATE (all_thread_privates(0:nthreads-1))
+      ALLOCATE (all_thread_privates(0:nthreads - 1))
 !$OMP     END MASTER
 !$OMP     BARRIER
    END SUBROUTINE dbcsr_mm_accdrv_lib_init
@@ -192,7 +192,7 @@ CONTAINS
       INTEGER, OPTIONAL                                  :: nlayers
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_accdrv_init', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, i, ithread, my_nlayers, nthreads
       TYPE(dbcsr_data_obj)                               :: c_area
@@ -210,14 +210,14 @@ CONTAINS
       CALL setup_stackbuffers(this)
 
       !Each thread has its own memtype with its own mempool
-      i = MOD(ithread, SIZE(priority_streams))+1
+      i = MOD(ithread, SIZE(priority_streams)) + 1
       CALL dbcsr_memtype_setup(thread_privates%memtype_cbuffer, has_pool=.TRUE., acc_hostalloc=.TRUE., &
                                acc_devalloc=.TRUE., acc_stream=priority_streams(i))
       my_nlayers = 1
       IF (PRESENT(nlayers)) my_nlayers = nlayers
       CALL dbcsr_mempool_limit_capacity(thread_privates%memtype_cbuffer%pool, capacity=my_nlayers)
 
-      ! Setup things for this particular multipcation
+      ! Setup things for this particular multiplication
       !------------------------------------------------------------------------
       this%product_wm => product_wm
       c_area = this%product_wm%data_area
@@ -341,7 +341,7 @@ CONTAINS
       my_posterior_buffers = CEILING(REAL(dbcsr_cfg%accdrv_posterior_buffers)/REAL(nthreads), int_4)
 
       this%nbuffers_phaseout = my_priority_buffers
-      my_total_buffers = my_posterior_buffers+my_priority_buffers
+      my_total_buffers = my_posterior_buffers + my_priority_buffers
 
       IF (ASSOCIATED(thread_privates%stack_buffers)) THEN
          IF (SIZE(thread_privates%stack_buffers) /= my_total_buffers) &
@@ -356,10 +356,10 @@ CONTAINS
             CALL acc_devmem_allocate_bytes(thread_privates%stack_buffers(i)%devmem, &
                                            int_4_size*dbcsr_ps_acc_width*dbcsr_cfg%mm_stack_size)
             IF (i <= my_priority_buffers) THEN
-               curr_priority_stream = MOD(curr_priority_stream, SIZE(priority_streams))+1
+               curr_priority_stream = MOD(curr_priority_stream, SIZE(priority_streams)) + 1
                thread_privates%stack_buffers(i)%stream = priority_streams(curr_priority_stream)
             ELSE
-               curr_posterior_stream = MOD(curr_posterior_stream, SIZE(posterior_streams))+1
+               curr_posterior_stream = MOD(curr_posterior_stream, SIZE(posterior_streams)) + 1
                thread_privates%stack_buffers(i)%stream = posterior_streams(curr_posterior_stream)
             ENDIF
             CALL acc_hostmem_allocate(thread_privates%stack_buffers(i)%hostmem, &
@@ -478,28 +478,28 @@ CONTAINS
       INTEGER                                            :: bin_id, i, top
       INTEGER, DIMENSION(dbcsr_cfg%accdrv_binning_nbins) :: bin_top
       INTEGER, DIMENSION(dbcsr_ps_acc_width)             :: val
-      INTEGER, DIMENSION(dbcsr_ps_acc_width, dbcsr_cfg%&
-         accdrv_binning_binsize, dbcsr_cfg%&
-         accdrv_binning_nbins)                           :: bin_arr
+      INTEGER, DIMENSION(dbcsr_ps_acc_width, dbcsr_cfg% &
+                         accdrv_binning_binsize, dbcsr_cfg% &
+                         accdrv_binning_nbins)                           :: bin_arr
 
       bin_top = 1
       top = 1
       DO i = 1, stack_size
          val(1:3) = params_in(4:6, i)
-         bin_id = 1+INT(MODULO(INT(val(3)*(val(3)+3), KIND=int_8), &
-                               INT(dbcsr_cfg%accdrv_binning_nbins, KIND=int_8)))
+         bin_id = 1 + INT(MODULO(INT(val(3)*(val(3) + 3), KIND=int_8), &
+                                 INT(dbcsr_cfg%accdrv_binning_nbins, KIND=int_8)))
          IF (bin_top(bin_id) > dbcsr_cfg%accdrv_binning_binsize) THEN
-            params_out(1:3, top:top+bin_top(bin_id)-2) = bin_arr(1:3, 1:bin_top(bin_id)-1, bin_id)
-            top = top+bin_top(bin_id)-1
+            params_out(1:3, top:top + bin_top(bin_id) - 2) = bin_arr(1:3, 1:bin_top(bin_id) - 1, bin_id)
+            top = top + bin_top(bin_id) - 1
             bin_top(bin_id) = 1
          ENDIF
          bin_arr(1:3, bin_top(bin_id), bin_id) = val(1:3)
-         bin_top(bin_id) = bin_top(bin_id)+1
+         bin_top(bin_id) = bin_top(bin_id) + 1
       END DO
       DO i = 1, dbcsr_cfg%accdrv_binning_nbins
          IF (bin_top(i) > 1) THEN
-            params_out(1:3, top:top+bin_top(i)-2) = bin_arr(1:3, 1:bin_top(i)-1, i)
-            top = top+bin_top(i)-1
+            params_out(1:3, top:top + bin_top(i) - 2) = bin_arr(1:3, 1:bin_top(i) - 1, i)
+            top = top + bin_top(i) - 1
          ENDIF
       END DO
 
@@ -517,7 +517,7 @@ CONTAINS
    END SUBROUTINE dbcsr_mm_accdrv_phaseout
 
 ! **************************************************************************************************
-!> \brief After beeing called by ALL threads, it installs a special barrier that
+!> \brief After being called by ALL threads, it installs a special barrier that
 !>        forces the priority-streams to wait for the normal-streams.
 !> \author Ole Schuett
 ! **************************************************************************************************
@@ -529,7 +529,7 @@ CONTAINS
 !$    nthreads = OMP_GET_NUM_THREADS()
 
 !$OMP     CRITICAL
-      barrier_counter = MOD(barrier_counter+1, nthreads)
+      barrier_counter = MOD(barrier_counter + 1, nthreads)
       IF (barrier_counter == 0) THEN
          DO i = 1, SIZE(posterior_streams)
             CALL acc_event_record(barrier_events(i), stream=posterior_streams(i))
@@ -563,7 +563,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                               :: success
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_accdrv_process', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, error_handle2, &
                                                             flop_per_entry, i, ithread, &

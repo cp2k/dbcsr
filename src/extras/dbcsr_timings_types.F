@@ -9,7 +9,7 @@
 
 ! **************************************************************************************************
 !> \brief Types used by timings.F and timings_report.F
-!>        Due to the fortran restriction on cicular module-dependencies
+!>        Due to the fortran restriction on circular module-dependencies
 !>        the types, which are used through dict or list had to go
 !>        into the separate module timings_base_type.F
 !> \par History
@@ -17,10 +17,10 @@
 !> \author Ole Schuett
 ! **************************************************************************************************
 MODULE dbcsr_timings_types
-   USE dbcsr_dict,                      ONLY: dict_i4tuple_callstat_type,&
-                                              dict_str_i4_type
-   USE dbcsr_list_callstackentry,       ONLY: list_callstackentry_type
-   USE dbcsr_list_routinestat,          ONLY: list_routinestat_type
+   USE dbcsr_dict, ONLY: dict_i4tuple_callstat_type, &
+                         dict_str_i4_type
+   USE dbcsr_list_callstackentry, ONLY: list_callstackentry_type
+   USE dbcsr_list_routinestat, ONLY: list_routinestat_type
 
    IMPLICIT NONE
    PRIVATE

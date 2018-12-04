@@ -16,96 +16,96 @@
 !>  - 2016-08    Code organization (Alfio Lazzaro).
 ! **************************************************************************************************
 MODULE dbcsr_mm
-   USE dbcsr_acc_device,                ONLY: acc_clear_errors
-   USE dbcsr_acc_init,                  ONLY: acc_finalize,&
-                                              acc_init
-   USE dbcsr_acc_stream,                ONLY: acc_stream_associated,&
-                                              acc_stream_create,&
-                                              acc_stream_destroy
-   USE dbcsr_array_types,               ONLY: array_data,&
-                                              array_equality,&
-                                              array_hold,&
-                                              array_i1d_obj,&
-                                              array_nullify,&
-                                              array_release
-   USE dbcsr_config,                    ONLY: dbcsr_cfg,&
-                                              dbcsr_set_config,&
-                                              default_resize_factor,&
-                                              has_acc
-   USE dbcsr_data_methods,              ONLY: dbcsr_data_set_size_referenced,&
-                                              dbcsr_scalar_are_equal,&
-                                              dbcsr_scalar_one,&
-                                              dbcsr_scalar_zero
-   USE dbcsr_dist_methods,              ONLY: &
-        dbcsr_distribution_col_dist, dbcsr_distribution_get_num_images_1d, &
-        dbcsr_distribution_has_threads, dbcsr_distribution_hold, dbcsr_distribution_make_threads, &
-        dbcsr_distribution_mp, dbcsr_distribution_ncols, dbcsr_distribution_no_threads, &
-        dbcsr_distribution_nrows, dbcsr_distribution_release, dbcsr_distribution_row_dist
-   USE dbcsr_dist_util,                 ONLY: dbcsr_checksum,&
-                                              dbcsr_verify_matrix
-   USE dbcsr_index_operations,          ONLY: dbcsr_make_index_canonical
-   USE dbcsr_io,                        ONLY: dbcsr_print
-   USE dbcsr_kinds,                     ONLY: dp,&
-                                              int_8,&
-                                              real_8
-   USE dbcsr_machine,                   ONLY: default_output_unit
-   USE dbcsr_mem_methods,               ONLY: dbcsr_mempool_clear,&
-                                              dbcsr_mempool_destruct,&
-                                              dbcsr_mempool_limit_capacity,&
-                                              dbcsr_memtype_setup
-   USE dbcsr_methods,                   ONLY: &
-        dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_destroy_array, dbcsr_distribution, &
-        dbcsr_get_matrix_type, dbcsr_has_symmetry, dbcsr_image_dist_release, dbcsr_nblkcols_total, &
-        dbcsr_nfullcols_total, dbcsr_nfullrows_total, dbcsr_release, dbcsr_release_locals, &
-        dbcsr_row_block_offsets
-   USE dbcsr_mm_3D,                     ONLY: buffers_release,&
-                                              dbcsr_make_buffers,&
-                                              get_max_layers_3D,&
-                                              make_layers_3D_C_reduction,&
-                                              multiply_3D,&
-                                              release_layers_3D_C_reduction,&
-                                              request_sync_mult
-   USE dbcsr_mm_cannon,                 ONLY: make_m2s,&
-                                              multiply_cannon
-   USE dbcsr_mm_common,                 ONLY: &
-        dbcsr_mpi_statistics, max_memory, memtype_abpanel_1, memtype_abpanel_2, &
-        memtype_mpi_buffer, memtype_mpi_product, memtype_product_wm, memtype_trsbuffer_1, &
-        memtype_trsbuffer_2, num_multiplications, stream_1, stream_2
-   USE dbcsr_mm_dist_operations,        ONLY: dbcsr_create_image_dist,&
-                                              dbcsr_make_dists_dense,&
-                                              dbcsr_reset_locals,&
-                                              make_sizes_dense
-   USE dbcsr_mm_multrec,                ONLY: dbcsr_mm_multrec_lib_finalize,&
-                                              dbcsr_mm_multrec_lib_init
-   USE dbcsr_mp_methods,                ONLY: dbcsr_mp_group,&
-                                              dbcsr_mp_npcols,&
-                                              dbcsr_mp_nprows,&
-                                              dbcsr_mp_numnodes
-   USE dbcsr_mpiwrap,                   ONLY: mp_get_library_version,&
-                                              mp_isync,&
-                                              mp_max,&
-                                              mp_max_library_version_string,&
-                                              mp_min,&
-                                              mp_request_null,&
-                                              mp_sum,&
-                                              mp_wait
-   USE dbcsr_operations,                ONLY: dbcsr_conjg,&
-                                              dbcsr_copy,&
-                                              dbcsr_get_occupation,&
-                                              dbcsr_may_be_dense,&
-                                              dbcsr_scale
-   USE dbcsr_toollib,                   ONLY: uppercase
-   USE dbcsr_transformations,           ONLY: dbcsr_make_dense,&
-                                              dbcsr_make_undense,&
-                                              dbcsr_make_untransposed_blocks,&
-                                              dbcsr_new_transposed
-   USE dbcsr_types,                     ONLY: &
-        dbcsr_2d_array_type, dbcsr_conjugate_transpose, dbcsr_distribution_obj, &
-        dbcsr_imagedistribution_obj, dbcsr_mp_obj, dbcsr_mpi_size_limits, dbcsr_no_transpose, &
-        dbcsr_scalar_type, dbcsr_transpose, dbcsr_type, dbcsr_type_antisymmetric
-   USE dbcsr_work_operations,           ONLY: dbcsr_add_wm_from_matrix,&
-                                              dbcsr_finalize,&
-                                              dbcsr_work_create
+   USE dbcsr_acc_device, ONLY: acc_clear_errors
+   USE dbcsr_acc_init, ONLY: acc_finalize, &
+                             acc_init
+   USE dbcsr_acc_stream, ONLY: acc_stream_associated, &
+                               acc_stream_create, &
+                               acc_stream_destroy
+   USE dbcsr_array_types, ONLY: array_data, &
+                                array_equality, &
+                                array_hold, &
+                                array_i1d_obj, &
+                                array_nullify, &
+                                array_release
+   USE dbcsr_config, ONLY: dbcsr_cfg, &
+                           dbcsr_set_config, &
+                           default_resize_factor, &
+                           has_acc
+   USE dbcsr_data_methods, ONLY: dbcsr_data_set_size_referenced, &
+                                 dbcsr_scalar_are_equal, &
+                                 dbcsr_scalar_one, &
+                                 dbcsr_scalar_zero
+   USE dbcsr_dist_methods, ONLY: &
+      dbcsr_distribution_col_dist, dbcsr_distribution_get_num_images_1d, &
+      dbcsr_distribution_has_threads, dbcsr_distribution_hold, dbcsr_distribution_make_threads, &
+      dbcsr_distribution_mp, dbcsr_distribution_ncols, dbcsr_distribution_no_threads, &
+      dbcsr_distribution_nrows, dbcsr_distribution_release, dbcsr_distribution_row_dist
+   USE dbcsr_dist_util, ONLY: dbcsr_checksum, &
+                              dbcsr_verify_matrix
+   USE dbcsr_index_operations, ONLY: dbcsr_make_index_canonical
+   USE dbcsr_io, ONLY: dbcsr_print
+   USE dbcsr_kinds, ONLY: dp, &
+                          int_8, &
+                          real_8
+   USE dbcsr_machine, ONLY: default_output_unit
+   USE dbcsr_mem_methods, ONLY: dbcsr_mempool_clear, &
+                                dbcsr_mempool_destruct, &
+                                dbcsr_mempool_limit_capacity, &
+                                dbcsr_memtype_setup
+   USE dbcsr_methods, ONLY: &
+      dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_destroy_array, dbcsr_distribution, &
+      dbcsr_get_matrix_type, dbcsr_has_symmetry, dbcsr_image_dist_release, dbcsr_nblkcols_total, &
+      dbcsr_nfullcols_total, dbcsr_nfullrows_total, dbcsr_release, dbcsr_release_locals, &
+      dbcsr_row_block_offsets
+   USE dbcsr_mm_3D, ONLY: buffers_release, &
+                          dbcsr_make_buffers, &
+                          get_max_layers_3D, &
+                          make_layers_3D_C_reduction, &
+                          multiply_3D, &
+                          release_layers_3D_C_reduction, &
+                          request_sync_mult
+   USE dbcsr_mm_cannon, ONLY: make_m2s, &
+                              multiply_cannon
+   USE dbcsr_mm_common, ONLY: &
+      dbcsr_mpi_statistics, max_memory, memtype_abpanel_1, memtype_abpanel_2, &
+      memtype_mpi_buffer, memtype_mpi_product, memtype_product_wm, memtype_trsbuffer_1, &
+      memtype_trsbuffer_2, num_multiplications, stream_1, stream_2
+   USE dbcsr_mm_dist_operations, ONLY: dbcsr_create_image_dist, &
+                                       dbcsr_make_dists_dense, &
+                                       dbcsr_reset_locals, &
+                                       make_sizes_dense
+   USE dbcsr_mm_multrec, ONLY: dbcsr_mm_multrec_lib_finalize, &
+                               dbcsr_mm_multrec_lib_init
+   USE dbcsr_mp_methods, ONLY: dbcsr_mp_group, &
+                               dbcsr_mp_npcols, &
+                               dbcsr_mp_nprows, &
+                               dbcsr_mp_numnodes
+   USE dbcsr_mpiwrap, ONLY: mp_get_library_version, &
+                            mp_isync, &
+                            mp_max, &
+                            mp_max_library_version_string, &
+                            mp_min, &
+                            mp_request_null, &
+                            mp_sum, &
+                            mp_wait
+   USE dbcsr_operations, ONLY: dbcsr_conjg, &
+                               dbcsr_copy, &
+                               dbcsr_get_occupation, &
+                               dbcsr_may_be_dense, &
+                               dbcsr_scale
+   USE dbcsr_string_utilities, ONLY: uppercase
+   USE dbcsr_transformations, ONLY: dbcsr_make_dense, &
+                                    dbcsr_make_undense, &
+                                    dbcsr_make_untransposed_blocks, &
+                                    dbcsr_new_transposed
+   USE dbcsr_types, ONLY: &
+      dbcsr_2d_array_type, dbcsr_conjugate_transpose, dbcsr_distribution_obj, &
+      dbcsr_imagedistribution_obj, dbcsr_mp_obj, dbcsr_mpi_size_limits, dbcsr_no_transpose, &
+      dbcsr_scalar_type, dbcsr_transpose, dbcsr_type, dbcsr_type_antisymmetric
+   USE dbcsr_work_operations, ONLY: dbcsr_add_wm_from_matrix, &
+                                    dbcsr_finalize, &
+                                    dbcsr_work_create
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
@@ -155,7 +155,7 @@ CONTAINS
 
       marketing_flops = 0
       max_memory = 0
-      ALLOCATE (memtype_product_wm(0:nthreads-1))
+      ALLOCATE (memtype_product_wm(0:nthreads - 1))
 !$OMP     END MASTER
 !$OMP     BARRIER
 
@@ -175,13 +175,13 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: group, output_unit
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_lib_finalize', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
 
       CHARACTER(len=1000)                                :: msg
       INTEGER                                            :: ilimit, isqrt, isqrt2, ithread
       INTEGER(KIND=int_8)                                :: total_nexchanged
       INTEGER(KIND=int_8), &
-         DIMENSION(SIZE(dbcsr_mpi_size_limits)+1, 2, 2)  :: total_recv_breakdown
+         DIMENSION(SIZE(dbcsr_mpi_size_limits) + 1, 2, 2)  :: total_recv_breakdown
       REAL                                               :: average, total_marketing_flops, &
                                                             total_max_memory
       REAL, DIMENSION(2)                                 :: max_recv_data, min_recv_data, &
@@ -258,13 +258,13 @@ CONTAINS
             WRITE (output_unit, '(A,I8,T40,I10,T55,I20)') "             size <= ", dbcsr_mpi_size_limits(1), &
                SUM(total_recv_breakdown(1, 1, :)), SUM(total_recv_breakdown(1, 2, :))
             DO ilimit = 2, SIZE(dbcsr_mpi_size_limits)
-               WRITE (output_unit, '(A,I8,A,I8,T40,I10,T55,I20)') "  ", dbcsr_mpi_size_limits(ilimit-1), &
+               WRITE (output_unit, '(A,I8,A,I8,T40,I10,T55,I20)') "  ", dbcsr_mpi_size_limits(ilimit - 1), &
                   " < size <= ", dbcsr_mpi_size_limits(ilimit), &
                   SUM(total_recv_breakdown(ilimit, 1, :)), SUM(total_recv_breakdown(ilimit, 2, :))
             ENDDO
             ilimit = SIZE(dbcsr_mpi_size_limits)
             WRITE (output_unit, '(A,I8,A,T40,I10,T55,I20)') "  ", dbcsr_mpi_size_limits(ilimit), &
-               " < size    ", SUM(total_recv_breakdown(ilimit+1, 1, :)), SUM(total_recv_breakdown(ilimit+1, 2, :))
+               " < size    ", SUM(total_recv_breakdown(ilimit + 1, 1, :)), SUM(total_recv_breakdown(ilimit + 1, 2, :))
          ENDIF
 
          isqrt = NINT(SQRT(REAL(dbcsr_mpi_statistics%last_mpi_ranks_used, KIND=real_8)))
@@ -396,21 +396,21 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL         :: flop
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_generic', &
-         routineP = moduleN//':'//routineN
+                                     routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
       REAL(real_8), PARAMETER                            :: make_dense_occ_thresh = 1.0_dp
 
       CHARACTER                                          :: transa_l, transb_l
       INTEGER :: comm, f_col, f_k, f_row, handle, handle2, ithread, l_col, l_k, l_row, &
-         nimages_left_rows, nimages_match, nimages_right_cols, npcols, nprows, numnodes, &
-         output_unit
+                 nimages_left_rows, nimages_match, nimages_right_cols, npcols, nprows, numnodes, &
+                 output_unit
       INTEGER(KIND=int_8)                                :: my_flop
       LOGICAL :: ab_dense, keep_product_data, keep_sparsity, product_reindex, release_tdist, &
-         transpose_left, transpose_right, use_dense_mult
+                 transpose_left, transpose_right, use_dense_mult
       REAL(KIND=dp)                                      :: cs
       TYPE(array_i1d_obj) :: dense_col_sizes, dense_k_sizes, dense_row_sizes, k_vmap, m_map, &
-         n_map, old_product_col_blk_offsets, old_product_col_blk_sizes, &
-         old_product_row_blk_offsets, old_product_row_blk_sizes
+                             n_map, old_product_col_blk_offsets, old_product_col_blk_sizes, &
+                             old_product_row_blk_offsets, old_product_row_blk_sizes
       TYPE(dbcsr_2d_array_type), POINTER                 :: m2s_left, m2s_right
       TYPE(dbcsr_distribution_obj)                       :: dense_product_distribution, &
                                                             old_product_distribution
@@ -515,7 +515,7 @@ CONTAINS
          IF (dbcsr_get_matrix_type(matrix_a) .EQ. dbcsr_type_antisymmetric) THEN
             !
             ! For antisymmetric matrix, we need to do a hard copy
-            ! shallow_data_copy=.TRUE. doesnt handle properly antisymm matrices
+            ! shallow_data_copy=.TRUE. does not handle properly antisymm matrices
             CALL dbcsr_new_transposed(matrix_left, matrix_a, &
                                       shallow_data_copy=.FALSE., redistribute=.FALSE., &
                                       transpose_distribution=.FALSE.)
@@ -545,7 +545,7 @@ CONTAINS
          IF (dbcsr_get_matrix_type(matrix_b) .EQ. dbcsr_type_antisymmetric) THEN
             !
             ! For antisymmetric matrix, we need to do a hard copy
-            ! shallow_data_copy=.TRUE. doesnt handle properly antisymm matrices
+            ! shallow_data_copy=.TRUE. does not handle properly antisymm matrices
             CALL dbcsr_new_transposed(matrix_right, matrix_b, &
                                       shallow_data_copy=.FALSE., redistribute=.FALSE., &
                                       transpose_distribution=.FALSE.)
@@ -648,8 +648,8 @@ CONTAINS
       !
       ! update statistics (we count marketing flops per MPI rank)
       dbcsr_mpi_statistics%last_mpi_ranks_used = numnodes
-      marketing_flops = marketing_flops+ &
-                        (2.0*(l_row-f_row+1.0)*(l_col-f_col+1.0)/numnodes)*(l_k-f_k+1.0)
+      marketing_flops = marketing_flops + &
+                        (2.0*(l_row - f_row + 1.0)*(l_col - f_col + 1.0)/numnodes)*(l_k - f_k + 1.0)
       !
       ! Now optimize the default submatrix selection values away
       IF (f_row .EQ. 1) f_row = 0
@@ -679,7 +679,7 @@ CONTAINS
       ! Product data needs to be retained when
       ! * beta != 0; or
       ! * there is column limiting (l_col > 0) and the limiting column
-      !   is less than the number of full columns in theproduct matrix
+      !   is less than the number of full columns in the product matrix
       keep_sparsity = .FALSE.
       IF (PRESENT(retain_sparsity)) keep_sparsity = retain_sparsity
       !
@@ -897,7 +897,7 @@ CONTAINS
          numnodes = dbcsr_mp_numnodes(dbcsr_distribution_mp(dbcsr_distribution(matrix_c)))
          CALL mp_sum(my_flop, comm)
          IF (PRESENT(flop)) THEN
-            flop = (my_flop+numnodes-1)/numnodes
+            flop = (my_flop + numnodes - 1)/numnodes
          ENDIF
          CALL timestop(handle2)
       ELSEIF (dbcsr_cfg%use_mpi_rma) THEN
@@ -979,7 +979,7 @@ CONTAINS
           INT(SIZE(array_data(matrix_c%col_blk_size)), KIND=int_8)) &
          DBCSR_ABORT("Bug: Matrix contains too many blocks")
       output_unit = default_output_unit
-      num_multiplications = num_multiplications+1
+      num_multiplications = num_multiplications + 1
       CALL timestop(handle)
    END SUBROUTINE dbcsr_multiply_generic
 
@@ -999,21 +999,21 @@ CONTAINS
       IF (ipos .EQ. 0) RETURN
       ! Read major version
       major = 0
-      ipos = ipos+10
+      ipos = ipos + 10
       jpos = INDEX(mpi_library_version(ipos:resultlen), ".")
-      jpos = ipos+jpos-2
+      jpos = ipos + jpos - 2
       READ (mpi_library_version(ipos:jpos), *) major
       ! Read minor version
       minor = 0
-      ipos = jpos+2
+      ipos = jpos + 2
       jpos = INDEX(mpi_library_version(ipos:resultlen), ".")
-      jpos = ipos+jpos-2
+      jpos = ipos + jpos - 2
       READ (mpi_library_version(ipos:jpos), *) minor
       ! Read patch version
       patch = 0
-      ipos = jpos+2
+      ipos = jpos + 2
       jpos = INDEX(mpi_library_version(ipos:resultlen), ",")
-      jpos = ipos+jpos-2
+      jpos = ipos + jpos - 2
       READ (mpi_library_version(ipos:jpos), *) patch
 
       IF ((major .LT. 2 .AND. (minor .LT. 10 .OR. (minor .EQ. 10 .AND. patch .LT. 4))) .OR. &

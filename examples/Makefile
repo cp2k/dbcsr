@@ -3,13 +3,16 @@ DBCSRDIR  ?= ../install
 
 FC         = mpifort
 CXX        = mpicxx
-FLAGS      = -O3 -g -fopenmp
+FLAGS      = -O3 -fopenmp
 INCLUDES   = -I$(DBCSRDIR)/include
 FCFLAGS    = $(FLAGS) $(INCLUDES) -fno-omit-frame-pointer \
              -funroll-loops -ffree-form -std=f2003 -fimplicit-none
 CXXFLAGS   = $(FLAGS) $(INCLUDES) -std=c++11
 LIBS       = -L$(DBCSRDIR)/lib -ldbcsr
 LIBS      += -L${LAPACK_PATH}/lib -llapack -lblas
+# Add the MPI Fortran library (check with `mpifort -show`):
+# OpenMPI : -lmpi_mpifh
+# MPICH   : -lmpifort
 CLIBS      = $(LIBS) -lgfortran -lmpi_mpifh
 
 # Fortran examples

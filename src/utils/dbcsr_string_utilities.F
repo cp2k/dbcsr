@@ -17,59 +17,11 @@
 ! **************************************************************************************************
 MODULE dbcsr_string_utilities
 
-   USE dbcsr_kinds,                     ONLY: default_blank_character
+   USE dbcsr_kinds, ONLY: default_blank_character
 
    IMPLICIT NONE
 
    PRIVATE
-
-   CHARACTER(LEN=1), PARAMETER :: backslash = '\\'
-   CHARACTER(LEN=1), PARAMETER :: star = '*'
-   CHARACTER(LEN=1), PARAMETER :: question = '?'
-   CHARACTER(LEN=1), PARAMETER :: newline = ACHAR(10)
-
-   INTEGER, PARAMETER :: maxlen_entity_name = 10
-   CHARACTER(LEN=maxlen_entity_name), DIMENSION(252), PARAMETER :: html_entity_table = &
-                 (/"&quot;    ", "&#34;     ", "&amp;     ", "&#38;#38; ", "&apos;    ", "&#39;     ", "&lt;      ", "&#38;#60; ", &
-                   "&gt;      ", "&#62;     ", "&nbsp;    ", "&#160;    ", "&copy;    ", "&#169;    ", "&deg;     ", "&#176;    ", &
-                   "&plusmn;  ", "&#177;    ", "&sup2;    ", "&#178;    ", "&sup3;    ", "&#179;    ", "&middot;  ", "&#183;    ", &
-                   "&sup1;    ", "&#185;    ", "&Auml;    ", "&#196;    ", "&Aring;   ", "&#197;    ", "&Ccedil;  ", "&#199;    ", &
-                   "&Egrave;  ", "&#200;    ", "&Eacute;  ", "&#201;    ", "&Ecirc;   ", "&#202;    ", "&Ograve;  ", "&#210;    ", &
-                   "&Oacute;  ", "&#211;    ", "&Ocirc;   ", "&#212;    ", "&Ouml;    ", "&#214;    ", "&times;   ", "&#215;    ", &
-                   "&Uuml;    ", "&#220;    ", "&agrave;  ", "&#224;    ", "&aacute;  ", "&#225;    ", "&acirc;   ", "&#226;    ", &
-                   "&auml;    ", "&#228;    ", "&aring;   ", "&#229;    ", "&ccedil;  ", "&#231;    ", "&egrave;  ", "&#232;    ", &
-                   "&eacute;  ", "&#233;    ", "&ecirc;   ", "&#234;    ", "&ograve;  ", "&#242;    ", "&oacute;  ", "&#243;    ", &
-                   "&ocirc;   ", "&#244;    ", "&ouml;    ", "&#246;    ", "&ugrave;  ", "&#249;    ", "&uacute;  ", "&#250;    ", &
-                   "&ucirc;   ", "&#251;    ", "&uuml;    ", "&#252;    ", "&Gamma;   ", "&#915;    ", "&Delta;   ", "&#916;    ", &
-                   "&Theta;   ", "&#920;    ", "&Lambda;  ", "&#923;    ", "&Xi;      ", "&#926;    ", "&Pi;      ", "&#928;    ", &
-                   "&Sigma;   ", "&#931;    ", "&Phi;     ", "&#934;    ", "&Psi;     ", "&#936;    ", "&Omega;   ", "&#937;    ", &
-                   "&alpha;   ", "&#945;    ", "&beta;    ", "&#946;    ", "&gamma;   ", "&#947;    ", "&delta;   ", "&#948;    ", &
-                   "&epsilon; ", "&#949;    ", "&zeta;    ", "&#950;    ", "&eta;     ", "&#951;    ", "&theta;   ", "&#952;    ", &
-                   "&iota;    ", "&#953;    ", "&kappa;   ", "&#954;    ", "&lambda;  ", "&#955;    ", "&mu;      ", "&#956;    ", &
-                   "&nu;      ", "&#957;    ", "&xi;      ", "&#958;    ", "&omicron; ", "&#959;    ", "&pi;      ", "&#960;    ", &
-                   "&rho;     ", "&#961;    ", "&sigmaf;  ", "&#962;    ", "&sigma;   ", "&#963;    ", "&tau;     ", "&#964;    ", &
-                   "&upsilon; ", "&#965;    ", "&phi;     ", "&#966;    ", "&chi;     ", "&#967;    ", "&psi;     ", "&#968;    ", &
-                   "&omega;   ", "&#969;    ", "&thetasym;", "&#977;    ", "&ndash;   ", "&#8211;   ", "&mdash;   ", "&#8212;   ", &
-                   "&dagger;  ", "&#8224;   ", "&Dagger;  ", "&#8225;   ", "&bull;    ", "&#8230;   ", "&hellip;  ", "&#8230;   ", &
-                   "&permil;  ", "&#8240;   ", "&larr;    ", "&#8592;   ", "&uarr;    ", "&#8593;   ", "&rarr;    ", "&#8594;   ", &
-                   "&darr;    ", "&#8595;   ", "&harr;    ", "&#8596;   ", "&lArr;    ", "&#8656;   ", "&uArr;    ", "&#8657;   ", &
-                   "&rArr;    ", "&#8658;   ", "&dArr;    ", "&#8659;   ", "&hArr;    ", "&#8660;   ", "&forall;  ", "&#8704;   ", &
-                   "&part;    ", "&#8706;   ", "&nabla;   ", "&#8711;   ", "&isin;    ", "&#8712;   ", "&notin;   ", "&#8713;   ", &
-                   "&ni;      ", "&#8715;   ", "&prop;    ", "&#8733;   ", "&infin;   ", "&#8734;   ", "&ang;     ", "&#8736;   ", &
-                   "&and;     ", "&#8743;   ", "&or;      ", "&#8744;   ", "&cap;     ", "&#8745;   ", "&cup;     ", "&#8746;   ", &
-                   "&sim;     ", "&#8764;   ", "&cong;    ", "&#8773;   ", "&asymp;   ", "&#8776;   ", "&ne;      ", "&#8800;   ", &
-                   "&equiv;   ", "&#8801;   ", "&le;      ", "&#8804;   ", "&ge;      ", "&#8805;   ", "&sub;     ", "&#8834;   ", &
-                   "&sup;     ", "&#8835;   ", "&nsub;    ", "&#8836;   ", "&sube;    ", "&#8838;   ", "&supe;    ", "&#8839;   ", &
-                   "&oplus;   ", "&#8853;   ", "&otimes;  ", "&#8855;   ", "&perp;    ", "&#8869;   ", "&sdot;    ", "&#8901;   ", &
-                                                                     "&lang;    ", "&#9001;   ", "&rang;    ", "&#9002;   "/)
-
-   INTEGER, PARAMETER :: maxlen_tag_name = 10
-   CHARACTER(LEN=maxlen_tag_name), DIMENSION(38), PARAMETER :: html_tag_table = &
-                 (/"a         ", "b         ", "big       ", "blockquote", "br/       ", "code      ", "dd        ", "del       ", &
-                   "div       ", "dl        ", "dt        ", "em        ", "h1        ", "h2        ", "h3        ", "h4        ", &
-                   "h5        ", "h6        ", "hr        ", "i         ", "ins       ", "li        ", "ol        ", "p         ", &
-                   "span      ", "sub       ", "sup       ", "table     ", "tbody     ", "td        ", "tfoot     ", "th        ", &
-                                                "thead     ", "tr        ", "tt        ", "u         ", "ul        ", "pre       "/)
 
    PUBLIC :: ascii_to_string, &
              compress, &
@@ -79,11 +31,7 @@ MODULE dbcsr_string_utilities
              str_comp, &
              string_to_ascii, &
              uppercase, &
-             write_html_tables, &
              xstring
-
-   PUBLIC :: html_entity_table, &
-             newline
 
 CONTAINS
 
@@ -146,13 +94,13 @@ CONTAINS
             IF (string(i:i) /= " ") THEN
                tmp = string(i:i)
                string(z:z) = tmp
-               z = z+1
+               z = z + 1
             END IF
          ELSE
-            IF ((string(i:i) /= " ") .OR. (string(z-1:z-1) /= " ")) THEN
+            IF ((string(i:i) /= " ") .OR. (string(z - 1:z - 1) /= " ")) THEN
                tmp = string(i:i)
                string(z:z) = tmp
-               z = z+1
+               z = z + 1
             END IF
          END IF
       END DO
@@ -216,48 +164,15 @@ CONTAINS
       i = 1
       ! possibly clean white spaces
       DO WHILE (string(i:i) == " ")
-         i = i+1
+         i = i + 1
       END DO
       ! now remove the word
       DO WHILE (string(i:i) /= " ")
-         i = i+1
+         i = i + 1
       END DO
       string = string(i:)
 
    END SUBROUTINE remove_word
-
-! **************************************************************************************************
-!> \brief   Write the HTML entity and HTML tag table to unit output_unit
-!> \param output_unit ...
-!> \date    14.08.2013
-!> \author  Matthias Krack (MK)
-!> \version 1.0
-! **************************************************************************************************
-   SUBROUTINE write_html_tables(output_unit)
-
-      INTEGER, INTENT(IN)                                :: output_unit
-
-      INTEGER                                            :: i
-
-      WRITE (UNIT=output_unit, FMT="(T2,A)") "<CP2K_HTML>"
-
-      DO i = 1, SIZE(html_tag_table)
-         WRITE (UNIT=output_unit, FMT="(T3,A)") &
-            "<TAG>", &
-            " <NAME>&#60;"//TRIM(html_tag_table(i))//"&#62;</NAME>", &
-            "</TAG>"
-      END DO
-      DO i = 1, SIZE(html_entity_table), 2
-         WRITE (UNIT=output_unit, FMT="(T3,A)") &
-            "<ENTITY>", &
-            " <NAME>&#38;"//TRIM(html_entity_table(i) (2:))//"</NAME>", &
-            " <CODE>&#38;"//TRIM(html_entity_table(i+1) (2:))//"</CODE>", &
-            "</ENTITY>"
-      END DO
-
-      WRITE (UNIT=output_unit, FMT="(T2,A)") "</CP2K_HTML>"
-
-   END SUBROUTINE write_html_tables
 
 ! **************************************************************************************************
 !> \brief   Convert all upper case characters in a string to lower case.
@@ -274,7 +189,7 @@ CONTAINS
       DO i = 1, LEN_TRIM(string)
          iascii = ICHAR(string(i:i))
          IF ((iascii >= 65) .AND. (iascii <= 90)) THEN
-            string(i:i) = CHAR(iascii+32)
+            string(i:i) = CHAR(iascii + 32)
          END IF
       END DO
 
@@ -295,13 +210,12 @@ CONTAINS
       DO i = 1, LEN_TRIM(string)
          iascii = ICHAR(string(i:i))
          IF ((iascii >= 97) .AND. (iascii <= 122)) THEN
-            string(i:i) = CHAR(iascii-32)
+            string(i:i) = CHAR(iascii - 32)
          END IF
       END DO
 
    END SUBROUTINE uppercase
 
-   ! **************************************************************************************************
 ! **************************************************************************************************
 !> \brief ...
 !> \param string ...
@@ -317,13 +231,12 @@ CONTAINS
       ib = LEN_TRIM(string)
       IF (ib > 0) THEN
          DO WHILE (string(ia:ia) == ' ')
-            ia = ia+1
+            ia = ia + 1
          END DO
       END IF
 
    END SUBROUTINE xstring
 
-   ! **************************************************************************************************
 ! **************************************************************************************************
 !> \brief ...
 !> \param str1 ...
