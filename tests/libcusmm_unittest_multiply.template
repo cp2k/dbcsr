@@ -29,8 +29,9 @@ int main(int argc, char** argv){
     char * kernel_descr[1] = {buffer};
 
     // Get all blocksizes available in libcusmm
-    std::vector<Triplet> libcusmm_triplets;
-    get_libcusmm_triplets(libcusmm_triplets, ht);
+    std::vector<Triplet> libcusmm_triplets = {
+            [[UNITTEST_KERNELS_HERE]]
+    };
     int n_triplets = libcusmm_triplets.size();
     printf("# Libcusmm has %d blocksizes for multiplication\n", n_triplets);
 
