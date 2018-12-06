@@ -20,7 +20,7 @@ from itertools import product
 from optparse import OptionParser
 from joblib import Parallel, delayed
 from predict_helpers import *
-from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel, PredictiveParameters
+from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel, PredictiveParameters, to_string
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 
@@ -31,63 +31,85 @@ def combinations(sizes):
     return list(product(sizes, sizes, sizes))
 
 
-def find_optimal_kernel(mnk, algo, tree, tree_features, top_k, gpu_properties, autotuning_properties):
+def find_optimal_kernel(mnk, algo, tree, tree_features, gpu_properties, autotuning_properties):
     """
-    Find the optimal kernel parameters for a given (m, n, k) and a given algorithm
+    Find the optimal kernel parameter set for a given (m, n, k) and a given algorithm
     :return: optimal_kernels: dictionary, keys: (m, n, k), values: Kernel object describing best parameters
-             number of elements in dictionary = top_k
     """
-
-    # Find optimal parameter set for this (m, n, k)
-    m, n, k = mnk
 
     # Get parameter space for this (m, n, k) and this algorithm
+    m, n, k = mnk
     parameter_space_ = kernel_algorithm[algo].promising_parameters(m, n, k, gpu_properties, autotuning_properties)
     parameter_space = pd.DataFrame(parameter_space_)
-    parameter_space = parameter_space.rename(columns={'threads': 'threads_per_blk'}) 
     del parameter_space_
+    parameter_space = parameter_space.rename(columns={'threads': 'threads_per_blk'})
     parameter_space['algorithm'] = [algo] * len(parameter_space.index)  # Add "algorithm" column
     if len(parameter_space.index) == 0:
         optimal_kernels = dict()
 
     else:
 
-        # Predict performances
+        # Get predictor features from raw parameters
         parameter_sets = PredictiveParameters(parameter_space, gpu_properties, autotuning_properties, None)
         predictors = np.array(parameter_sets.get_features(tree_features))
-        performances = np.sqrt(tree.predict(predictors))
+
+        # Predict performances
+        performances_scaled = tree.predict(predictors)
         del predictors
         parameter_performances = parameter_sets.params
         del parameter_sets
-        parameter_performances['perf'] = performances
-        del performances
+        parameter_performances['perf'] = performances_scaled
+        del performances_scaled
 
-        # Store kernels of this algorithm that are candidates for the top-k
-        candidate_kernels = sorted(parameter_performances.to_dict('records'),
-                                   key=lambda x: x['perf'], reverse=True)[:top_k]
+        # Pick optimal kernel
+        optimal_kernel = max(parameter_performances.to_dict('records'), key=lambda x: x['perf'])
         del parameter_performances
-
-        # Aggregate results from the different algorithms: sort and pick top_k
         optimal_kernels = dict()
-        optimal_kernel_dicts = sorted(candidate_kernels, key=lambda x: x['perf'], reverse=True)[:top_k]
-        del candidate_kernels
-        for d in optimal_kernel_dicts:
-            optimal_kernels[(m, n, k)] = params_dict_to_kernel(**d, source='predicted')
+        optimal_kernels[(m, n, k)] = params_dict_to_kernel(**optimal_kernel, source='predicted')
 
     return optimal_kernels
 
 
-def get_optimal_kernels(mnks_to_predict, tree, options, kernel_to_investigate, gpu_properties, autotuning_properties, top_k):
+def get_optimal_kernels(mnks_to_predict, options, gpu_properties, autotuning_properties, top_k):
     # optimal_kernels_list is a list of dictionaries
     # - keys: (m, n, k),
     # - values: Kernel object describing best parameters
     # - number of elements in each dictionary = top_k
     # each element of the list corresponds to the search of optimal kernels for a given mnk and a given algorithm
+
+    print("Getting optimal kernels")
+
+    # ===============================================================================
+    # Load maximum performances per algorithm
+    maxperf_file = os.path.join(options.in_folder, 'max_performances_by_algo.json')
+    with open(maxperf_file) as f:
+        max_performances = json.load(f)
+
+    # ===============================================================================
+    # Load predictive trees and feature list
+    tree = dict()
+    kernel_to_investigate = dict()
+    for algo in kernel_algorithm.keys():
+        path_to_model = options.__dict__[algo]
+        if path_to_model is not None:
+            print('Algorithm: {:<8}, loading model from: {}'.format(algo, path_to_model))
+            tree[algo] = dict()
+            tree[algo]['file'] = path_to_model
+            features, tree[algo]['tree'] = safe_pickle_load(tree[algo]['file'])
+            tree[algo]['features'] = features.tolist()
+            kernel_to_investigate[algo] = kernel_algorithm[algo]
+        else:
+            print('Algorithm: {:<8}, no model found.'.format(algo))
+
+    if len(kernel_to_investigate) == 0:
+        print("No model found. Specify path to predictive models using ")
+        sys.exit(1)
+
+    # ===============================================================================
     optimal_kernels_list = list()
     mnk_by_algo = list(product(mnks_to_predict, kernel_to_investigate.keys()))
     num_mnks_by_algo = len(mnk_by_algo)
-    n_jobs = options.njobs
-    if n_jobs == 1:
+    if options.njobs == 1:
 
         # Ignore joblib and run serially:
         for mnk, algo in mnk_by_algo:
@@ -96,7 +118,7 @@ def get_optimal_kernels(mnks_to_predict, tree, options, kernel_to_investigate, g
             optimal_kernels_list.append(
                 find_optimal_kernel(
                     mnk, algo, tree[algo]['tree'], tree[algo]['features'],
-                    top_k, gpu_properties, autotuning_properties)
+                    gpu_properties, autotuning_properties)
             )
     else:
 
@@ -104,15 +126,15 @@ def get_optimal_kernels(mnks_to_predict, tree, options, kernel_to_investigate, g
         chunk_size = options.chunk_size
         for i in range(0, num_mnks_by_algo+1, chunk_size):
             start_chunk = i
-            end_chunk = min(start_chunk + chunk_size, num_mnks_by_algo+1)
-            print("Completed", i, "tasks out of", num_mnks_by_algo)
+            end_chunk = int(min(start_chunk + chunk_size, num_mnks_by_algo+1))
+            print("Completed {:,} tasks out of {:,}".format(i, num_mnks_by_algo))
 
             # Run prediction tasks in parallel with joblib
-            optimal_kernels_list_ = Parallel(n_jobs=n_jobs, verbose=10)(
+            optimal_kernels_list_ = Parallel(n_jobs=options.njobs, verbose=2)(
                 delayed(
                     find_optimal_kernel, check_pickle=True)(
                         mnk, algo, tree[algo]['tree'], tree[algo]['features'],
-                        top_k, gpu_properties, autotuning_properties)
+                        gpu_properties, autotuning_properties)
                 for mnk, algo in mnk_by_algo[start_chunk:end_chunk])
 
             optimal_kernels_list += optimal_kernels_list_
@@ -141,6 +163,7 @@ def get_optimal_kernels(mnks_to_predict, tree, options, kernel_to_investigate, g
 
 def get_baseline_kernels(mnks_to_predict, gpu_propertes, autotuning_properties):
 
+    print("Getting baseline kernels")
     baseline_algorithm = 'medium'
     baseline_kernels = list()
     for m, n, k in mnks_to_predict:
@@ -161,6 +184,8 @@ def main(argv):
     parser = OptionParser()
     parser.add_option("-p", "--params", metavar="filename.json", default="parameters_P100.json",
                       help="Parameter file to read and update with predictions. Default: %default")
+    parser.add_option('-f', '--in_folder', metavar="foldername/", default='',
+                      help='Folder from which to read data')
     parser.add_option("-j", "--njobs", type=int, default=-1,
                       help="Number of joblib jobs. Default: %default")
     parser.add_option("--baseline", default=False,
@@ -181,35 +206,21 @@ def main(argv):
     options, args = parser.parse_args(sys.argv)
 
     # ===============================================================================
-    # Load GPU and autotuning properties as well as pre-autotuned parameters
+    # Load GPU and autotuning properties
     assert options.params in arch_number.keys(), "Cannot find compute version for file " + str(options.params)
     arch = arch_number[options.params]
     with open('kernels/gpu_properties.json') as f:
         gpu_properties = json.load(f)["sm_" + str(arch)]
     with open('kernels/autotuning_properties.json') as f:
         autotuning_properties = json.load(f)
+
+    # Load autotuned kernel parameters
     with open(options.params) as f:
         all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
     print("Libcusmm: Found %d existing parameter sets." % len(all_kernels))
     autotuned_mnks = [(k.m, k.n, k.k) for k in all_kernels if k.autotuned]
     autotuned_kernels_ = [k for k in all_kernels if k.autotuned]
     autotuned_kernels = dict(zip(autotuned_mnks, autotuned_kernels_))
-
-    # ===============================================================================
-    # Load predictive trees and feature list
-    tree = dict()
-    kernel_to_investigate = dict()
-    for algo in kernel_algorithm.keys():
-        path_to_model = options.__dict__[algo]
-        if path_to_model is not None:
-            print('Algorithm: {:<8}, loading model from: {}'.format(algo, path_to_model))
-            tree[algo] = dict()
-            tree[algo]['file'] = path_to_model
-            features, tree[algo]['tree'] = safe_pickle_load(tree[algo]['file'])
-            tree[algo]['features'] = features.tolist()
-            kernel_to_investigate[algo] = kernel_algorithm[algo]
-        else:
-            print('Algorithm: {:<8}, no model found.'.format(algo))
 
     # ===============================================================================
     # Evaluation
@@ -226,9 +237,7 @@ def main(argv):
     if options.baseline:
         kernels = get_baseline_kernels(mnks_to_predict, gpu_properties, autotuning_properties)
     else:
-        top_k = 1
-        kernels = get_optimal_kernels(mnks_to_predict, tree, options, kernel_to_investigate,
-                                      gpu_properties, autotuning_properties, top_k)
+        kernels = get_optimal_kernels(mnks_to_predict, options, gpu_properties, autotuning_properties, 1)
 
     kernels_to_print.update(kernels)
 
