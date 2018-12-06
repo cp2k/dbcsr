@@ -178,6 +178,7 @@ CONTAINS
                                          acc_devmem_cptr(c_data), &
                                          1.0_dp, 1.0_dp, &
                                          acc_stream_cptr(stream))
+            IF (istat /= 0) DBCSR_ABORT("failed to run CUBLAS with Transpose Right-matrix.")
          ELSE
             ! Only uniform stacks, otherwise we have to check
             ! the transpose flag for each block
@@ -191,9 +192,9 @@ CONTAINS
                                             acc_devmem_cptr(c_data), &
                                             1.0_dp, 1.0_dp, &
                                             acc_stream_cptr(stream))
+               IF (istat /= 0) DBCSR_ABORT("failed to run CUBLAS.")
             ENDIF
          ENDIF
-         IF (istat /= 0) DBCSR_ABORT("failed to run CUBLAS.")
       ENDIF
 #else
       MARK_USED(param_stack_host)
