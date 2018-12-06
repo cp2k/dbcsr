@@ -20,7 +20,7 @@
 MODULE dbcsr_acc_operations
    USE ISO_C_BINDING, ONLY: C_INT, &
                             C_PTR, &
-                            C_LOC
+                            C_CHAR
    USE dbcsr_acc_devmem, ONLY: acc_devmem_cptr, &
                                acc_devmem_type
    USE dbcsr_acc_stream, ONLY: acc_stream_cptr, &
@@ -31,7 +31,7 @@ MODULE dbcsr_acc_operations
    USE dbcsr_types, ONLY: dbcsr_type_real_8
 
 #if (__DBCSR_ACC == 2)
-   USE dbcsr_cublas, ONLY: cublas_dgemm_loop_cu
+   USE dbcsr_cublas, ONLY: cublas_dgemm_cu
 #endif
 
 !$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
@@ -134,8 +134,9 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_acc_do_mm_stack', &
                                      routineP = moduleN//':'//routineN
 
-      INTEGER                                  :: error_handle, istat, ithread
+      INTEGER                                  :: error_handle, istat, ithread, istack
       INTEGER(KIND=C_INT)                      :: mnk
+      CHARACTER(KIND=C_CHAR)                   :: transb
 
       IF (careful_mod) CALL timeset(routineN, error_handle)
 
@@ -166,39 +167,35 @@ CONTAINS
       IF (datatype .EQ. dbcsr_type_real_8 .AND. istat .EQ. -100) THEN
          ithread = 0
 !$       ithread = omp_get_thread_num()
-         IF (n_max .LE. max_kernel_dim .AND. &
-             k_max .LE. max_kernel_dim) THEN
-            ! Transpose for B-blocks
-            istat = cublas_dgemm_loop_cu(cublas_handles(ithread + 1)%handle_ptr, &
-                                         'N', 'T', &
-                                         C_LOC(param_stack_host(1, 1)), &
-                                         dbcsr_ps_width, stack_size, &
-                                         acc_devmem_cptr(a_data), &
-                                         acc_devmem_cptr(b_data), &
-                                         acc_devmem_cptr(c_data), &
-                                         1.0_dp, 1.0_dp, &
-                                         acc_stream_cptr(stream))
-            IF (istat /= 0) DBCSR_ABORT("failed to run CUBLAS with Transpose Right-matrix.")
-         ELSE
-            ! Only uniform stacks, otherwise we have to check
-            ! the transpose flag for each block
-            IF (mnk .EQ. 1) THEN
-               istat = cublas_dgemm_loop_cu(cublas_handles(ithread + 1)%handle_ptr, &
-                                            'N', 'N', &
-                                            C_LOC(param_stack_host(1, 1)), &
-                                            dbcsr_ps_width, stack_size, &
-                                            acc_devmem_cptr(a_data), &
-                                            acc_devmem_cptr(b_data), &
-                                            acc_devmem_cptr(c_data), &
-                                            1.0_dp, 1.0_dp, &
-                                            acc_stream_cptr(stream))
-               IF (istat /= 0) DBCSR_ABORT("failed to run CUBLAS.")
+         DO istack = 1, stack_size
+            IF (param_stack_host(2, istack) .LE. max_kernel_dim .AND. &
+                param_stack_host(3, istack) .LE. max_kernel_dim) THEN
+               ! Transpose for B-blocks
+               transb = 'T'
+            ELSE
+               transb = 'N'
             ENDIF
-         ENDIF
+            istat = cublas_dgemm_cu(cublas_handles(ithread + 1)%handle_ptr, &
+                                    'N', transb, &
+                                    INT(param_stack_host(1, istack), KIND=C_INT), &
+                                    INT(param_stack_host(2, istack), KIND=C_INT), &
+                                    INT(param_stack_host(3, istack), KIND=C_INT), &
+                                    INT(param_stack_host(4, istack)-1, KIND=C_INT), &
+                                    INT(param_stack_host(5, istack)-1, KIND=C_INT), &
+                                    INT(param_stack_host(6, istack)-1, KIND=C_INT), &
+                                    acc_devmem_cptr(a_data), &
+                                    acc_devmem_cptr(b_data), &
+                                    acc_devmem_cptr(c_data), &
+                                    1.0_dp, 1.0_dp, &
+                                    acc_stream_cptr(stream))
+            IF (istat /= 0) DBCSR_ABORT("failed to run CUBLAS.")
+         ENDDO
       ENDIF
 #else
       MARK_USED(param_stack_host)
       MARK_USED(ithread)
+      MARK_USED(istack)
+      MARK_USED(transb)
 #endif
 
       success = (istat == 0) ! false if no suitable kernel was found
