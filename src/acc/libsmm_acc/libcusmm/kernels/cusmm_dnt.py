@@ -56,11 +56,20 @@ class Kernel:
 
     @property
     def as_dict_for_parameters_json(self):
-        fields = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks', 'algorithm', 'perf', 'source']
+        # Add common fields
+        fields = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks', 'algorithm']
         d = dict()
         for f in fields:
             if f in self.as_dict.keys():
                 d[f] = self.as_dict[f]
+
+        # Only add the performance if it was autotuned. If it was predicted, we only have a value scaled in (0,1)
+        if self.as_dict['source'] == 'autotuned':
+            d['perf'] = self.as_dict['perf']
+
+        # Add the source of this parameter set (autotuned or predicted)
+        d['source'] = self.as_dict['source']
+	
         return d
 
     @property
