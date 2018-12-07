@@ -78,8 +78,6 @@ if (USE_CUDA)
     libcusmm_timer_multiply
     )
 
-  set(CMAKE_CUDA_FLAGS "-arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
-
   foreach (libcusmm_test ${LIBCUSMM_TESTS})
     add_executable(${libcusmm_test} ${libcusmm_test}.cu)
     target_link_libraries(${libcusmm_test} dbcsr)

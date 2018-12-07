@@ -37,6 +37,9 @@ if (USE_CUDA)
   set(CUDA_ARCH_NUMBER_K80  37)
   set(CUDA_ARCH_NUMBER_P100 60)
   set(CUDA_ARCH_NUMBER ${CUDA_ARCH_NUMBER_${WITH_GPU}})
+
+  # assume that the backend compiler for nvcc understands the -std=c++11
+  set(CMAKE_CUDA_FLAGS "-std=c++11 -arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
 endif ()
 
 
@@ -86,6 +89,7 @@ endif ()
 get_filename_component(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
 
 if (Fortran_COMPILER_NAME MATCHES "gfortran.*")
+  set(CMAKE_CXX_FLAGS              "-std=c++11")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
   set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -fprofile-arcs -ftest-coverage")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -ggdb")
