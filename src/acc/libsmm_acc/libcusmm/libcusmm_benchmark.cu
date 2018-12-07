@@ -476,7 +476,7 @@ int libcusmm_benchmark_transpose(libcusmm_benchmark_t* handle,
      exit(1); 
  }
 
- int errors;
+ int errors = 0;
  errors += libcusmm_benchmark_transpose_(handle->n_stack_trs_a, handle->stack_trs_a, handle->d_stack_trs_a,
                                          handle->mat_a, handle->mat_trs_a, handle->d_mat_a,
                                          handle->n_a, mat_m, mat_n,
