@@ -31,7 +31,7 @@
 //===========================================================================
 inline int launch_kernel_from_handle(CUfunction const& kern_func, int nblks, int threads, CUstream stream, void** args){
 
-    CUDA_SAFE_CALL(
+    CU_SAFE_CALL(
         "cuLaunchKernel",
         cuLaunchKernel(kern_func,       // CUfunction
                        nblks, 1, 1,     // grid dimension x, y, z
@@ -59,19 +59,14 @@ inline void validate_kernel(CUfunction& kern_func, CUstream stream, int threads,
     double sumCPU = checkSum(h->mat_c, h->n_c, m, n);
 
     // Run the matrix-matrix multiplication kernel on the GPU
-    cudaMemcpy(h->d_mat_a, h->mat_a, h->n_a * m * k * sizeof(double), cudaMemcpyHostToDevice);
-    cudaMemcpy(h->d_mat_b, h->mat_b, h->n_b * k * n * sizeof(double), cudaMemcpyHostToDevice);
-    cudaMemcpy(h->d_stack, h->stack, h->n_stack * 3 * sizeof(int), cudaMemcpyHostToDevice);
-    cudaMemset(h->d_mat_c, 0, h->n_c * m * n * sizeof(double));
+    CUDA_SAFE_CALL("cudaMemcpy", cudaMemcpy(h->d_mat_a, h->mat_a, h->n_a * m * k * sizeof(double), cudaMemcpyHostToDevice));
+    CUDA_SAFE_CALL("cudaMemcpy", cudaMemcpy(h->d_mat_b, h->mat_b, h->n_b * k * n * sizeof(double), cudaMemcpyHostToDevice));
+    CUDA_SAFE_CALL("cudaMemcpy", cudaMemcpy(h->d_stack, h->stack, h->n_stack * 3 * sizeof(int), cudaMemcpyHostToDevice));
+    CUDA_SAFE_CALL("cudaMemset", cudaMemset(h->d_mat_c, 0, h->n_c * m * n * sizeof(double)));
 
     void *args[] = { &h->d_stack, &h->n_stack, &h->d_mat_a, &h->d_mat_b, &h->d_mat_c };
     int res = launch_kernel_from_handle(kern_func, ((h->n_stack + grouping - 1) / grouping), threads, stream, args);
-    cudaMemcpy(h->mat_c, h->d_mat_c, h->n_c * m * n * sizeof(double), cudaMemcpyDeviceToHost);
-    cudaError_t cudaError = cudaGetLastError();
-    if (cudaError != cudaSuccess){
-        printf("validate_kernel: cuda_error: %s\n", cudaGetErrorString(cudaError));
-        exit(1);
-    }
+    CUDA_SAFE_CALL("cudaMemcpy", cudaMemcpy(h->mat_c, h->d_mat_c, h->n_c * m * n * sizeof(double), cudaMemcpyDeviceToHost));
 
     // Validate the kernel based on results
     double sumGPU =  checkSum(h->mat_c, h->n_c, m, n);
@@ -156,12 +151,12 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
 
     // Get pointer to kernel from PTX
     CUmodule module;
-    CUDA_SAFE_CALL("cuModuleLoadDataEx", cuModuleLoadDataEx(&module, ptx, 0, 0, 0));
-    delete[] ptx; 
-    CUDA_SAFE_CALL("cuModuleGetFunction", cuModuleGetFunction(&kern_func, module, lowered_kernel_name));
+    CU_SAFE_CALL("cuModuleLoadDataEx", cuModuleLoadDataEx(&module, ptx, 0, 0, 0));
+    delete[] ptx;
+    CU_SAFE_CALL("cuModuleGetFunction", cuModuleGetFunction(&kern_func, module, lowered_kernel_name));
 
     // Set shared memory configuration
-    CUDA_SAFE_CALL("cuFuncSetSharedMemConfig", cuFuncSetSharedMemConfig(kern_func, CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE));
+    CU_SAFE_CALL("cuFuncSetSharedMemConfig", cuFuncSetSharedMemConfig(kern_func, CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE));
 
     // Destroy program
     NVRTC_SAFE_CALL("nvrtcDestroyProgram", nvrtcDestroyProgram(&kernel_program));
@@ -267,12 +262,12 @@ void jit_transpose_handle(CUfunction& kern_func, int m, int n){
 
     // Get pointer to kernel from PTX
     CUmodule module;
-    CUDA_SAFE_CALL("cuModuleLoadDataEx", cuModuleLoadDataEx(&module, ptx, 0, 0, 0));
+    CU_SAFE_CALL("cuModuleLoadDataEx", cuModuleLoadDataEx(&module, ptx, 0, 0, 0));
     delete[] ptx;
-    CUDA_SAFE_CALL("cuModuleGetFunction", cuModuleGetFunction(&kern_func, module, lowered_kernel_name));
+    CU_SAFE_CALL("cuModuleGetFunction", cuModuleGetFunction(&kern_func, module, lowered_kernel_name));
 
     // Set shared memory configuration
-    CUDA_SAFE_CALL("cuFuncSetSharedMemConfig", cuFuncSetSharedMemConfig(kern_func, CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE));
+    CU_SAFE_CALL("cuFuncSetSharedMemConfig", cuFuncSetSharedMemConfig(kern_func, CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE));
 
     // Destroy program
     NVRTC_SAFE_CALL("nvrtcDestroyProgram", nvrtcDestroyProgram(&kernel_program));
@@ -303,9 +298,8 @@ int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
     // Construct argument pointer list and lauch function
     int* trs_stack_ = trs_stack + offset; 
     void *args[] = { &trs_stack_, &buffer};
-    int res = launch_kernel_from_handle(kern_func, nblks, 128, stream, args); 
 
-    return(cudaGetLastError());
+    return launch_kernel_from_handle(kern_func, nblks, 128, stream, args);
 
 }
 

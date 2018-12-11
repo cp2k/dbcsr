@@ -57,35 +57,30 @@ void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, benchmark_mode mode,
     h->stack_trs_a =  (int*) malloc(h->n_stack_trs_a * sizeof(int));
     h->stack_trs_b =  (int*) malloc(h->n_stack_trs_b * sizeof(int));
 
-    cudaMalloc(&h->d_mat_a, h->n_a * max_m * max_k * sizeof(double));
-    cudaMalloc(&h->d_mat_b, h->n_b * max_k * max_n * sizeof(double));
-    cudaMalloc(&h->d_mat_c, h->n_c * max_m * max_n * sizeof(double));
-    cudaMalloc(&h->d_stack, h->n_stack * 3 * sizeof(int));
-    cudaMalloc(&h->d_stack_trs_a, h->n_stack_trs_a * sizeof(int));
-    cudaMalloc(&h->d_stack_trs_b, h->n_stack_trs_b * sizeof(int));
+    CUDA_SAFE_CALL("cudaMalloc", cudaMalloc(&h->d_mat_a, h->n_a * max_m * max_k * sizeof(double)));
+    CUDA_SAFE_CALL("cudaMalloc", cudaMalloc(&h->d_mat_b, h->n_b * max_k * max_n * sizeof(double)));
+    CUDA_SAFE_CALL("cudaMalloc", cudaMalloc(&h->d_mat_c, h->n_c * max_m * max_n * sizeof(double)));
+    CUDA_SAFE_CALL("cudaMalloc", cudaMalloc(&h->d_stack, h->n_stack * 3 * sizeof(int)));
+    CUDA_SAFE_CALL("cudaMalloc", cudaMalloc(&h->d_stack_trs_a, h->n_stack_trs_a * sizeof(int)));
+    CUDA_SAFE_CALL("cudaMalloc", cudaMalloc(&h->d_stack_trs_b, h->n_stack_trs_b * sizeof(int)));
 
-    cuEventCreate(&h->t_start, CU_EVENT_DEFAULT);
-    cuEventCreate(&h->t_stop, CU_EVENT_DEFAULT);
+    CU_SAFE_CALL("cuEventCreate", cuEventCreate(&h->t_start, CU_EVENT_DEFAULT));
+    CU_SAFE_CALL("cuEventCreate", cuEventCreate(&h->t_stop, CU_EVENT_DEFAULT));
 
-    cudaError_t cudaError = cudaGetLastError();
-    if (cudaError != cudaSuccess){
-      printf("libcusmm_benchmark_init: %s\n", cudaGetErrorString(cudaError));
-      exit(1);
-    }
 }
 
 
 //===========================================================================
 // Free memory and cuda events
 void libcusmm_benchmark_finalize(libcusmm_benchmark_t* handle){
-    cudaEventDestroy(handle->t_stop);
-    cudaEventDestroy(handle->t_start);
-    cudaFree(handle->d_stack_trs_b);
-    cudaFree(handle->d_stack_trs_a);
-    cudaFree(handle->d_stack);
-    cudaFree(handle->d_mat_c);
-    cudaFree(handle->d_mat_b);
-    cudaFree(handle->d_mat_a);
+    CUDA_SAFE_CALL("cudaEventDestroy", cudaEventDestroy(handle->t_stop));
+    CUDA_SAFE_CALL("cudaEventDestroy", cudaEventDestroy(handle->t_start));
+    CUDA_SAFE_CALL("cudaFree", cudaFree(handle->d_stack_trs_b));
+    CUDA_SAFE_CALL("cudaFree", cudaFree(handle->d_stack_trs_a));
+    CUDA_SAFE_CALL("cudaFree", cudaFree(handle->d_stack));
+    CUDA_SAFE_CALL("cudaFree", cudaFree(handle->d_mat_c));
+    CUDA_SAFE_CALL("cudaFree", cudaFree(handle->d_mat_b));
+    CUDA_SAFE_CALL("cudaFree", cudaFree(handle->d_mat_a));
     free(handle->stack_trs_b);
     free(handle->stack_trs_a);
     free(handle->stack);
@@ -95,11 +90,6 @@ void libcusmm_benchmark_finalize(libcusmm_benchmark_t* handle){
     free(handle->mat_trs_a);
     free(handle->mat_a);
     free(handle);
-    cudaError_t cudaError = cudaGetLastError();
-    if (cudaError != cudaSuccess){
-      printf("libcusmm_benchmark_finalize: %s\n", cudaGetErrorString(cudaError));
-      exit(1);
-    }
 }
 
 
@@ -286,8 +276,8 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
      break;
     }
 
- CUstream stream; 
- cuStreamCreate(&stream, CU_STREAM_DEFAULT);
+ CUstream stream;
+ CU_SAFE_CALL("cuStreamCreate", cuStreamCreate(&stream, CU_STREAM_DEFAULT));
 
  int error_counter = 0;
  int best_kernel = -1;
@@ -313,9 +303,9 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
 
  sumCPU =  checkSum(h->mat_c, h->n_c, mat_m, mat_n);
 
- cudaMemcpy(h->d_mat_a, h->mat_a, h->n_a * mat_m * mat_k * sizeof(double), cudaMemcpyHostToDevice);
- cudaMemcpy(h->d_mat_b, h->mat_b, h->n_b * mat_k * mat_n * sizeof(double), cudaMemcpyHostToDevice);
- cudaMemcpy(h->d_stack, h->stack, h->n_stack * 3 * sizeof(int), cudaMemcpyHostToDevice);
+ CUDA_SAFE_CALL("cudaMemcpy", cudaMemcpy(h->d_mat_a, h->mat_a, h->n_a * mat_m * mat_k * sizeof(double), cudaMemcpyHostToDevice));
+ CUDA_SAFE_CALL("cudaMemcpy", cudaMemcpy(h->d_mat_b, h->mat_b, h->n_b * mat_k * mat_n * sizeof(double), cudaMemcpyHostToDevice));
+ CUDA_SAFE_CALL("cudaMemcpy", cudaMemcpy(h->d_stack, h->stack, h->n_stack * 3 * sizeof(int), cudaMemcpyHostToDevice));
  // d_mat_c gets zeroed after warmup run
 
  for(int ikern=0; ikern < nkernels; ikern++){
@@ -323,30 +313,23 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
     // Warmup run (more often if n_iter is small)
     for(int i=0; i<n_warm; i++)
         launchers[ikern](h->d_stack, h->n_stack, stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
-    cudaMemset(h->d_mat_c, 0, h->n_c * mat_m * mat_n * sizeof(double));
+    CUDA_SAFE_CALL("cudaMemset", cudaMemset(h->d_mat_c, 0, h->n_c * mat_m * mat_n * sizeof(double)));
 
-    cuEventRecord(h->t_start, stream);
+    CU_SAFE_CALL("cuEventRecord", cuEventRecord(h->t_start, stream));
 
     for(int i=0; i<n_iter; i++)
         launchers[ikern](h->d_stack, h->n_stack, stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
 
-    cuEventRecord(h->t_stop, stream);
-    cuEventSynchronize(h->t_stop);
-    cuEventElapsedTime(&t_duration, h->t_start, h->t_stop);
+    CU_SAFE_CALL("cuEventRecord", cuEventRecord(h->t_stop, stream));
+    CU_SAFE_CALL("cuEventSynchronize", cuEventSynchronize(h->t_stop));
+    CU_SAFE_CALL("cuEventElapsedTime", cuEventElapsedTime(&t_duration, h->t_start, h->t_stop));
 
-    cudaMemcpy(h->mat_c, h->d_mat_c, h->n_c * mat_m * mat_n * sizeof(double), cudaMemcpyDeviceToHost);
+    CUDA_SAFE_CALL("cudaMemcpy", cudaMemcpy(h->mat_c, h->d_mat_c, h->n_c * mat_m * mat_n * sizeof(double), cudaMemcpyDeviceToHost));
 
     clean_string(kernel_descr[ikern], descr);
 
     if(h->mode == tune)
         sprintf(msg_prefix, "params %d / %d\n",ikern+1, nkernels);
-
-    cudaError = cudaGetLastError();
-    if (cudaError != cudaSuccess){
-      printf("%sERROR %s cuda_error: %s\n", msg_prefix, descr, cudaGetErrorString(cudaError));
-      error_counter++;
-      continue;
-    }
 
     sumGPU =  checkSum(h->mat_c, h->n_c, mat_m, mat_n);
     if(sumGPU != sumCPU){
@@ -362,7 +345,7 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
            best_gflops = gflops;
            best_kernel = ikern;
        }
-    }else{
+    } else {
        printf("%sOK %s\n", msg_prefix, descr);
     }
  }
@@ -375,7 +358,7 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
        printf("WINNER: None\n");
     }
     printf("Number of errors: %d\n", error_counter);
-    cudaDeviceReset();
+    CUDA_SAFE_CALL("cudaDeviceReset", cudaDeviceReset());
  }
 
  return(error_counter);
@@ -395,7 +378,7 @@ int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
  }
 
  CUstream stream;
- cuStreamCreate(&stream, CU_STREAM_DEFAULT);
+ CU_SAFE_CALL("cuStreamCreate", cuStreamCreate(&stream, CU_STREAM_DEFAULT));
 
  int offset = 0;
  int n_warm = 0;
@@ -404,7 +387,6 @@ int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
  double sumCPU, sumGPU;
  float t_duration;
  char descr[1000], msg_prefix[100]="";
- cudaError_t cudaError;
 
  // Matrix and stack initialization
  matInit(mat, n, mat_m, mat_n, 42);
@@ -416,38 +398,26 @@ int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
  sumCPU = checkSumTransp(mat_trs, n, n_stack, mat_m, mat_n);
 
  // Compute on GPU
- cudaMemcpy(d_mat, mat, n * mat_m * mat_n * sizeof(double), cudaMemcpyHostToDevice);
- cudaMemcpy(d_stack, stack, n_stack * sizeof(int), cudaMemcpyHostToDevice);
- cudaError = cudaGetLastError();
- if (cudaError != cudaSuccess){
-   printf("%sERROR %s cuda_error: %s\n", msg_prefix, descr, cudaGetErrorString(cudaError));
-   error_counter++;
- }
+ CUDA_SAFE_CALL("cudaMemcpy", cudaMemcpy(d_mat, mat, n * mat_m * mat_n * sizeof(double), cudaMemcpyHostToDevice));
+ CUDA_SAFE_CALL("cudaMemcpy", cudaMemcpy(d_stack, stack, n_stack * sizeof(int), cudaMemcpyHostToDevice));
 
  // Warmup run
  for(int i=0; i<n_warm; i++)
    launcher[0](d_stack, offset, n_stack, d_mat, mat_m, mat_n, stream);
 
  // Real runs
- cuEventRecord(start, stream);
+ CU_SAFE_CALL("cuEventRecord", cuEventRecord(start, stream));
 
  for(int i=0; i<n_iter; i++)
    launcher[0](d_stack, offset, n_stack, d_mat, mat_m, mat_n, stream);
 
- cuEventRecord(stop, stream);
- cuEventSynchronize(stop);
- cuEventElapsedTime(&t_duration, start, stop);
-
- cudaError = cudaGetLastError();
+ CU_SAFE_CALL("cuEventRecord", cuEventRecord(stop, stream));
+ CU_SAFE_CALL("cuEventSynchronize", cuEventSynchronize(stop));
+ CU_SAFE_CALL("cuEventElapsedTime", cuEventElapsedTime(&t_duration, start, stop));
 
  // Check for errors and compare libcusmm result on GPU to reference
- cudaMemcpy(mat_trs, d_mat, n * mat_m * mat_n * sizeof(double), cudaMemcpyDeviceToHost);
+ CUDA_SAFE_CALL("cudaMemcpy", cudaMemcpy(mat_trs, d_mat, n * mat_m * mat_n * sizeof(double), cudaMemcpyDeviceToHost));
  clean_string(kernel_descr[0], descr);
- cudaError = cudaGetLastError();
- if (cudaError != cudaSuccess){
-   printf("%sERROR %s cuda_error: %s\n", msg_prefix, descr, cudaGetErrorString(cudaError));
-   error_counter++;
- }
 
  sumGPU = checkSumTransp(mat_trs, n, n_stack, mat_m, mat_n);
  if(sumGPU != sumCPU){
@@ -472,8 +442,8 @@ int libcusmm_benchmark_transpose(libcusmm_benchmark_t* handle,
      exit(1);
  }
  if(handle->mode == tune){
-     printf("Tune mode not supported for benchmarking of transpose"); 
-     exit(1); 
+     printf("Tune mode not supported for benchmarking of transpose");
+     exit(1);
  }
 
  int errors = 0;
