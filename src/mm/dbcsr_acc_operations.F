@@ -24,7 +24,8 @@ MODULE dbcsr_acc_operations
    USE dbcsr_acc_devmem, ONLY: acc_devmem_cptr, &
                                acc_devmem_type
    USE dbcsr_acc_stream, ONLY: acc_stream_cptr, &
-                               acc_stream_type
+                               acc_stream_type, &
+                               acc_stream_synchronize
    USE dbcsr_config, ONLY: cublas_handles, max_kernel_dim
    USE dbcsr_mm_types, ONLY: dbcsr_ps_width
    USE dbcsr_kinds, ONLY: real_8, dp
@@ -190,6 +191,7 @@ CONTAINS
                                     acc_stream_cptr(stream))
             IF (istat /= 0) DBCSR_ABORT("failed to run CUBLAS.")
          ENDDO
+         CALL acc_stream_synchronize(stream)
       ENDIF
 #else
       MARK_USED(param_stack_host)
