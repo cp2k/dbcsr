@@ -19,23 +19,14 @@
 #include <unordered_map>
 #include <vector>
 
+// Macros for CUDA error handling
+// Wrap calls to CUDA NVRTC API
 #define NVRTC_SAFE_CALL(name, x)                                  \
   do {                                                            \
     nvrtcResult result = x;                                       \
     if (result != NVRTC_SUCCESS) {                                \
-      printf("\nerror: %s failed with error %s\n",                \
+      printf("\nNVRTC ERROR: %s failed with error %s\n",          \
              name, nvrtcGetErrorString(result));                  \
-      exit(1);                                                    \
-    }                                                             \
-  } while(0)
-#define CUDA_SAFE_CALL(name, x)                                   \
-  do {                                                            \
-    CUresult result = x;                                          \
-    if (result != CUDA_SUCCESS) {                                 \
-      const char *msg;                                            \
-      cuGetErrorName(result, &msg);                               \
-      printf("\nerror: %s failed with error %s\n",                \
-             name, msg);                                          \
       exit(1);                                                    \
     }                                                             \
   } while(0)
