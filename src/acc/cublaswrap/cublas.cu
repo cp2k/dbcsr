@@ -40,10 +40,11 @@ extern "C" int cublas_destroy(cublasHandle_t *handle)
 }
 
 /****************************************************************************/
-extern "C" int cublas_dgemm_loop(cublasHandle_t *handle, char transa, char transb, 
-				 int *stack_params, int ps_width, int stack_size,
-				 double *a_data, double *b_data, double *c_data, 
-				 double alpha, double beta, cudaStream_t *stream)
+extern "C" int cublas_dgemm(cublasHandle_t *handle, char transa, char transb,
+		            int m, int n, int k,
+			    int a_offset, int b_offset, int c_offset,
+			    double *a_data, double *b_data, double *c_data,
+			    double alpha, double beta, cudaStream_t *stream)
 {
   cublasStatus_t cStatus = cublasSetStream(*handle, *stream);
   if (cStatus != CUBLAS_STATUS_SUCCESS) {
@@ -52,27 +53,17 @@ extern "C" int cublas_dgemm_loop(cublasHandle_t *handle, char transa, char trans
   }
   cublasOperation_t cTransa = transa=='N' ? CUBLAS_OP_N : CUBLAS_OP_T;
   cublasOperation_t cTransb = transb=='N' ? CUBLAS_OP_N : CUBLAS_OP_T;
-  int m, n, k;
   int &lda = transa=='N' ? m : k;
   int &ldb = transb=='N' ? k : n;
 
-  for (int ii = 0; ii < stack_size; ii++) {
-    // get mnk from stack data
-    m = stack_params[ ps_width * ii ];
-    n = stack_params[ ps_width * ii + 1];
-    k = stack_params[ ps_width * ii + 2];
-
-    // get first element of data, index - 1 becasue data comes from fortran
-    double *a_mat = &a_data[ stack_params[ ps_width * ii + 3 ] - 1 ];
-    double *b_mat = &b_data[ stack_params[ ps_width * ii + 4 ] - 1 ];
-    double *c_mat = &c_data[ stack_params[ ps_width * ii + 5 ] - 1 ];
-
-    cublasStatus_t stat = cublasDgemm(*handle, cTransa, cTransb, m, n, k, &alpha, a_mat, lda, b_mat, ldb, &beta, c_mat, lda);
-    if (stat != CUBLAS_STATUS_SUCCESS) return(-1);
-  }
+  cublasStatus_t stat = cublasDgemm(*handle, cTransa, cTransb,
+				    m, n, k,
+				    &alpha, &a_data[ a_offset ], lda,
+				    &b_data[ b_offset], ldb,
+				    &beta, &c_data[ c_offset], lda);
+  if (stat != CUBLAS_STATUS_SUCCESS) return(-1);
   if (cuda_error_check(cudaGetLastError())) return(-1);
   return(0);
 }
 
 #endif
-

@@ -25,7 +25,7 @@ MODULE dbcsr_cublas
    PUBLIC :: cublas_handle_type
 
 #if (__DBCSR_ACC == 2)
-   PUBLIC :: cublas_dgemm_loop_cu
+   PUBLIC :: cublas_dgemm_cu
 #endif
 
    TYPE cublas_handle_type
@@ -50,21 +50,20 @@ MODULE dbcsr_cublas
          INTEGER(KIND=C_INT)                       :: istat
       END FUNCTION cublas_destroy_cu
 
-      FUNCTION cublas_dgemm_loop_cu(handle, transa, transb, &
-                                    stack_params, ps_width, stack_size, &
-                                    a_data, b_data, c_data, alpha, beta, stream) &
+      FUNCTION cublas_dgemm_cu(handle, transa, transb, &
+                               m, n, k, a_offset, b_offset, c_offset, &
+                               a_data, b_data, c_data, alpha, beta, stream) &
          RESULT(istat) &
-         BIND(C, name="cublas_dgemm_loop")
+         BIND(C, name="cublas_dgemm")
          IMPORT
          TYPE(C_PTR), INTENT(IN), VALUE            :: handle
          CHARACTER(KIND=C_CHAR), INTENT(IN), VALUE :: transa, transb
-         TYPE(C_PTR), INTENT(IN), VALUE            :: stack_params
-         INTEGER(KIND=C_INT), INTENT(IN), VALUE    :: ps_width, stack_size
+         INTEGER(KIND=C_INT), INTENT(IN), VALUE    :: m, n, k, a_offset, b_offset, c_offset
          TYPE(C_PTR), INTENT(IN), VALUE            :: a_data, b_data, c_data
          REAL(KIND=C_DOUBLE), INTENT(IN), VALUE    :: alpha, beta
          TYPE(C_PTR), INTENT(IN), VALUE            :: stream
          INTEGER(KIND=C_INT)                       :: istat
-      END FUNCTION cublas_dgemm_loop_cu
+      END FUNCTION cublas_dgemm_cu
 
    END INTERFACE
 #endif

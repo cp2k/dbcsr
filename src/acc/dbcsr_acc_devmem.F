@@ -523,6 +523,8 @@ CONTAINS
       INTEGER                                            :: istat
       TYPE(C_PTR)                                        :: stream_cptr
 
+      IF (.NOT. acc_devmem_allocated(this)) RETURN
+
       IF (this%size_in_bytes < n_bytes) &
          DBCSR_ABORT("acc_devmem_dev2host: this too small")
 

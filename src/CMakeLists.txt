@@ -128,8 +128,6 @@ function(CUDA_CONVERT_FLAGS EXISTING_TARGET)
 endfunction()
 
 if (USE_CUDA)
-  set(CMAKE_CUDA_FLAGS "-arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
-
   target_link_libraries(dbcsr PRIVATE cuda)
 
   # add libcusmm which has its own CMakeLists.txt due to code generation
