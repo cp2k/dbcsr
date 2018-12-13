@@ -387,7 +387,6 @@ CONTAINS
       TYPE(dbcsr_distribution_obj)                       :: new_dist
 
 !   ---------------------------------------------------------------------------
-
       CALL timeset(routineN, error_handle)
       ! Check that the counter was initialised (or has not overflowed)
       DBCSR_ASSERT(randmat_counter .NE. 0)

@@ -837,7 +837,7 @@ CONTAINS
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_barrier @ mp_world_finalize")
       debug_comm_count = debug_comm_count - 1
       IF (debug_comm_count .NE. 0) THEN
-         ! A bug, we're leaking or double-freeing communicators. Needs to be fixed where the leak happens.
+          ! A bug, we're leaking or double-freeing communicators. Needs to be fixed where the leak happens.
          ! Memory leak checking might be helpful to locate the culprit
          DBCSR_ABORT("mp_world_finalize: assert failed:  leaking communicators")
       ENDIF

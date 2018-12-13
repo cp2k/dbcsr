@@ -131,6 +131,7 @@ CONTAINS
       INTEGER                                            :: handle, npcols, data_type
       INTEGER, DIMENSION(:), POINTER                     :: row_blk_size, col_blk_size, row_dist, col_dist
       TYPE(dbcsr_distribution_obj)                      :: dist_col_vec, dist
+      !type(dbcsr_mp_obj)      :: mp_env
 
       CALL timeset(routineN, handle)
 
@@ -138,6 +139,7 @@ CONTAINS
       !data_type=data_type = matrix % data_type
       !row_blk_size        = matrix % row_blk_size
       dist                = matrix % dist
+      !mp_env = dist % d % mp_env
       
       !CALL dbcsr_distribution_get(dist, npcols=npcols, row_dist=row_dist)
       npcols   = SIZE(dist % d % mp_env % mp % pgrid, 2)
@@ -181,6 +183,7 @@ SUBROUTINE dbcsr_create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
       INTEGER                                            :: handle, nprows, data_type
       INTEGER, DIMENSION(:), POINTER                     :: row_blk_size, col_blk_size, row_dist, col_dist
       TYPE(dbcsr_distribution_obj)                      :: dist_row_vec, dist
+      !type(dbcsr_mp_obj)      :: mp_env
 
       CALL timeset(routineN, handle)
 
@@ -188,9 +191,10 @@ SUBROUTINE dbcsr_create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
       !data_type=data_type = matrix % data_type
       !col_blk_size        = matrix % col_blk_size
       dist                = matrix % dist
-      
+      !mp_env = dist % d % mp_env
+
       !CALL dbcsr_distribution_get(dist, nprows=nprows, col_dist=col_dist)
-      nprows   = SIZE(dist % d % mp_env % mp % pgrid, 2) 
+      nprows   = SIZE(dist % d % mp_env % mp % pgrid, 1) 
       col_dist => array_data(dist % d % col_dist_block)
 
       ALLOCATE (row_dist(1), row_blk_size(1))
@@ -291,7 +295,7 @@ SUBROUTINE dbcsr_create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
       dist                = matrix % dist
       
       !CALL dbcsr_distribution_get(dist, nprows=nprows, col_dist=col_dist)
-      nprows   = SIZE(dist % d % mp_env % mp % pgrid, 2) 
+      nprows   = SIZE(dist % d % mp_env % mp % pgrid, 1) 
       col_dist => array_data(dist % d % col_dist_block)
 
       ALLOCATE (row_dist(nprows), row_blk_size(nprows))
@@ -484,24 +488,23 @@ SUBROUTINE dbcsr_create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
 ! Collect some data about the parallel environment. We will use them later to move the vector around
     !CALL dbcsr_get_info(matrix, distribution=dist)
     dist = matrix % dist
-    
     !CALL dbcsr_distribution_get(dist, prow_group=prow_group, pcol_group=pcol_group, myprow=myprow, mypcol=mypcol)
     prow_group = dist % d % mp_env % mp % prow_group
     pcol_group = dist % d % mp_env % mp % pcol_group
     myprow     = dist % d % mp_env % mp % myprow
     mypcol     = dist % d % mp_env % mp % mypcol
-
+    
     CALL create_fast_row_vec_access(work_row, fast_vec_row)
     CALL create_fast_col_vec_access(work_col, fast_vec_col)
 
-! Transfer the correct parts of the input vector to the correct locations so we can do a local multiply
+    ! Transfer the correct parts of the input vector to the correct locations so we can do a local multiply
     CALL dbcsr_col_vec_to_rep_row_${nametype}$(vec_in, work_col, work_row, fast_vec_col)
 
-! Set the work vector for the results to 0
+    ! Set the work vector for the results to 0
     CALL dbcsr_set(work_col, ${zero}$)
 
-! Perform the local multiply. Here we exploit, that we have the blocks replicated on the mpi processes
-! It is important to note, that the input and result vector are distributed differently (row wise, col wise respectively)
+    ! Perform the local multiply. Here we exploit, that we have the blocks replicated on the mpi processes
+    ! It is important to note, that the input and result vector are distributed differently (row wise, col wise respectively)
     CALL timeset(routineN//"_local_mm", handle1)
 
 !$OMP PARALLEL DEFAULT(NONE) PRIVATE(row,col,iter,transposed,data_d,ithread,pcol,prow) &
@@ -513,6 +516,7 @@ SUBROUTINE dbcsr_create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
        prow=hash_table_get(fast_vec_col%hash_table,row)
        IF(fast_vec_col%blk_map_${nametype}$(prow)%assigned_thread .NE. ithread ) CYCLE
        pcol=hash_table_get(fast_vec_row%hash_table,col)
+       
        fast_vec_col%blk_map_${nametype}$(prow)%ptr=fast_vec_col%blk_map_${nametype}$(prow)%ptr+&
             MATMUL(data_d,TRANSPOSE(fast_vec_row%blk_map_${nametype}$(pcol)%ptr))
     END DO
@@ -702,7 +706,7 @@ SUBROUTINE dbcsr_create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
     LOGICAL                                  :: transposed
     CALL timeset(routineN, handle)
 
-! get information about the parallel environment
+    ! get information about the parallel environment
     !CALL dbcsr_get_info(vec_in, distribution=dist_in)
     dist_in = vec_in % dist
 
@@ -711,7 +715,6 @@ SUBROUTINE dbcsr_create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
                                 !pcol_group=pcol_group, &
                                 !myprow=myprow, &
                                 !mypcol=mypcol)
-    
     prow_group = dist_in % d % mp_env % mp % prow_group
     pcol_group = dist_in % d % mp_env % mp % pcol_group
     myprow     = dist_in % d % mp_env % mp % myprow
@@ -724,15 +727,15 @@ SUBROUTINE dbcsr_create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
     !CALL dbcsr_distribution_get(dist_rep_col, row_dist=row_dist)
     row_dist => array_data(dist_rep_col % d % row_dist_block)
 
-! Copy the local vector to the replicated on the first processor column (this is where vec_in lives)
+    ! Copy the local vector to the replicated on the first processor column (this is where vec_in lives)
     CALL dbcsr_get_info(matrix=rep_col_vec, nfullrows_local=nrows, nfullcols_local=ncols)
     
     data_vec_rep => dbcsr_get_data_p(rep_col_vec % data_area, select_data_type=${zero}$)
     data_vec => dbcsr_get_data_p(vec_in % data_area, select_data_type=${zero}$)
     IF(mypcol==0)data_vec_rep(1:nrows*ncols)=data_vec(1:nrows*ncols)
 ! Replicate the data along the row
-    CALL mp_bcast(data_vec_rep(1:nrows*ncols), 0, prow_group)
 
+    CALL mp_bcast(data_vec_rep(1:nrows*ncols), 0, prow_group)
 ! Here it gets a bit tricky as we are dealing with two different parallel layouts:
 ! The rep_col_vec contains all blocks local to the row distribution of the vector. 
 ! The rep_row_vec only needs the fraction which is local to the col distribution.
