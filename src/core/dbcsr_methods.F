@@ -236,7 +236,7 @@ CONTAINS
          ENDIF
       ENDIF
 
-      call dbcsr_mp_grid_remove(mp_env)
+      !call dbcsr_mp_grid_remove(mp_env)
    END SUBROUTINE dbcsr_mp_release
 
 ! **************************************************************************************************
