@@ -72,6 +72,7 @@ add_fypp_sources(DBCSR_SRCS
   ops/dbcsr_test_methods.F
   ops/dbcsr_tests.F
   ops/dbcsr_transformations.F
+  ops/dbcsr_vector.F
   tensors/dbcsr_allocate_wrap.F
   tensors/dbcsr_array_list_methods.F
   tensors/dbcsr_tensor_api.F
@@ -89,6 +90,12 @@ add_fypp_sources(DBCSR_SRCS
   utils/dbcsr_string_utilities.F
   utils/dbcsr_toollib.F
   work/dbcsr_work_operations.F
+  la/dbcsr_iterate_matrix.F
+  la/arnoldi/dbcsr_arnoldi_api.F
+  la/arnoldi/dbcsr_arnoldi_data_methods.F
+  la/arnoldi/dbcsr_arnoldi_geev.F
+  la/arnoldi/dbcsr_arnoldi_methods.F
+  la/arnoldi/dbcsr_arnoldi_types.F
   )
 
 set(DBCSR_CUDA_SRCS
