@@ -57,7 +57,10 @@ else
 endif
 
 ifneq ($(ARCH_NUMBER),)
+#if "-arch" has not yet been set in NVFLAGS
+ifeq ($(findstring "-arch", $(NVFLAGS)), '')
  NVFLAGS += -arch sm_$(ARCH_NUMBER)
+endif
 endif
 endif
 
