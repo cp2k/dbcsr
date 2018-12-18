@@ -104,5 +104,6 @@ class Kernel_dnt_largeDB1(cu.Kernel):
                                                'w': w, 'v': v,
                                                'threads': threads,
                                                'grouping': grouping,
-                                               'minblocks': minblocks})
+                                               'minblocks': minblocks,
+                                               'perf': 0})
         return params
