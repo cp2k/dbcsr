@@ -11,9 +11,9 @@
 MODULE dbcsr_iterate_matrix
    USE dbcsr_arnoldi_api,                     ONLY: arnoldi_data_type,&
                                               arnoldi_extremal
-   !USE cp_log_handling,                 ONLY: cp_get_default_logger,&
-                                              !cp_logger_get_default_unit_nr,&
-                                              !cp_logger_type
+   USE dbcsr_log_handling,                 ONLY: dbcsr_get_default_logger,&
+                                               dbcsr_logger_get_default_unit_nr,&
+                                               dbcsr_logger_type, dbcsr_logger_get_default_io_unit
    USE dbcsr_api,                       ONLY: &
         dbcsr_add, dbcsr_add_on_diag, dbcsr_copy, dbcsr_create, dbcsr_desymmetrize, dbcsr_filter, &
         dbcsr_frobenius_norm, dbcsr_gershgorin_norm, dbcsr_get_diag, dbcsr_get_info, &
@@ -23,8 +23,10 @@ MODULE dbcsr_iterate_matrix
    USE dbcsr_kinds,                           ONLY: dp,&
                                               int_8
    USE dbcsr_machine,                         ONLY: m_flush,&
-                                              m_walltime
-   !USE mathconstants,                   ONLY: ifac
+                                              m_walltime, default_output_unit
+!   use dbcsr_log_handling, only: 
+                                          
+                                          !USE mathconstants,                   ONLY: ifac
    !USE mathlib,                         ONLY: abnormal_value
 #include "base/dbcsr_base_uses.f90"
 
@@ -89,19 +91,23 @@ CONTAINS
       REAL(KIND=dp)                                      :: det0, eps_lanczos, frobnorm, maxnorm, &
                                                             occ_matrix, t1, t2, trace
       REAL(KIND=dp), ALLOCATABLE, DIMENSION(:)           :: diagonal
-!      TYPE(cp_logger_type), POINTER                      :: logger
+!      TYPE(dbcsr_logger_type), POINTER                    :: logger
       TYPE(dbcsr_type)                                   :: tmp1, tmp2, tmp3
 
       CALL timeset(routineN, handle)
 
       ! get a useful output_unit
-!      logger => cp_get_default_logger()
-!      IF (logger%para_env%mepos == logger%para_env%source) THEN
-!         unit_nr = cp_logger_get_default_unit_nr(logger, local=.TRUE.)
-!      ELSE
-!         unit_nr = -1
-!      ENDIF
+      !logger => dbcsr_get_default_logger()
 
+      unit_nr = dbcsr_logger_get_default_io_unit()
+      
+      !IF (logger % mp_env % mp % mynode == logger % mv_env % mp % source) THEN
+      !   unit_nr = dbcsr_logger_get_default_unit_nr(logger, local=.TRUE.)
+      !ELSE
+      !   unit_nr = -1
+      !ENDIF
+
+      
       ! Note: tmp1 and tmp2 have the same matrix type as the
       ! initial matrix (tmp3 does not have symmetry constraints)
       ! this might lead to uninteded results with anti-symmetric
@@ -297,12 +303,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-!      logger => cp_get_default_logger()
-!      IF (logger%para_env%mepos == logger%para_env%source) THEN
-!         unit_nr = cp_logger_get_default_unit_nr(logger, local=.TRUE.)
-!      ELSE
-!         unit_nr = -1
-!      ENDIF
+      unit_nr = dbcsr_logger_get_default_io_unit()
 
       IF (PRESENT(silent)) THEN
          IF (silent) unit_nr = -1
@@ -489,12 +490,8 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-!      logger => cp_get_default_logger()
-!      IF (logger%para_env%mepos == logger%para_env%source) THEN
-!         unit_nr = cp_logger_get_default_unit_nr(logger, local=.TRUE.)
-!      ELSE
-!         unit_nr = -1
-!      ENDIF
+      unit_nr = dbcsr_logger_get_default_io_unit()
+      
       IF (PRESENT(silent)) THEN
          IF (silent) unit_nr = -1
       END IF
@@ -647,7 +644,7 @@ CONTAINS
 
       IF (unit_nr > 0) THEN
 !           WRITE(unit_nr,'(T6,A,1X,I3,1X,F10.8,E12.3)') "Final Hotelling ",i,occ_matrix,&
-!              !frob_matrix/frob_matrix_base
+!              frob_matrix/frob_matrix_base
 !              maxnorm_matrix
          WRITE (unit_nr, '()')
          CALL m_flush(unit_nr)
@@ -686,12 +683,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-!      logger => cp_get_default_logger()
-!      IF (logger%para_env%mepos == logger%para_env%source) THEN
-!         unit_nr = cp_logger_get_default_unit_nr(logger, local=.TRUE.)
-!      ELSE
-!         unit_nr = -1
-!      ENDIF
+      unit_nr = dbcsr_logger_get_default_io_unit()
 
       CALL dbcsr_create(tmp1, template=matrix_sign)
 
@@ -805,12 +797,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-!      logger => cp_get_default_logger()
-!      IF (logger%para_env%mepos == logger%para_env%source) THEN
-!         unit_nr = cp_logger_get_default_unit_nr(logger, local=.TRUE.)
-!      ELSE
-!         unit_nr = -1
-!      ENDIF
+      unit_nr = dbcsr_logger_get_default_io_unit()
 
       IF (PRESENT(converged)) converged = .FALSE.
 
@@ -1017,19 +1004,14 @@ CONTAINS
       REAL(dp), PARAMETER                                :: one = 1.0_dp, toll = 1.E-17_dp, &
                                                             zero = 0.0_dp
 
-      INTEGER                                            :: handle, i, k!, unit_nr
+      INTEGER                                            :: handle, i, k, unit_nr
       REAL(dp)                                           :: factorial, norm_C, norm_D, norm_scalar
       !TYPE(cp_logger_type), POINTER                      :: logger
       TYPE(dbcsr_type)                                   :: B, B_square, C, D, D_product
 
       CALL timeset(routineN, handle)
 
-      !logger => cp_get_default_logger()
-      !IF (logger%para_env%mepos == logger%para_env%source) THEN
-         !unit_nr = cp_logger_get_default_unit_nr(logger, local=.TRUE.)
-      !ELSE
-         !unit_nr = -1
-      !ENDIF
+      unit_nr = dbcsr_logger_get_default_io_unit()
 
       ! Calculate the norm of the matrix alpha*matrix, and scale it until it is less than 1.0
       norm_scalar = ABS(alpha)*dbcsr_frobenius_norm(matrix)
@@ -1129,12 +1111,9 @@ CONTAINS
       TYPE(dbcsr_type)                                   :: matrix_pp, matrix_tmp
 
       CALL timeset(routineN, handle)
-      !logger => cp_get_default_logger()
-      !IF (logger%para_env%mepos == logger%para_env%source) THEN
-         !unit_nr = cp_logger_get_default_unit_nr(logger, local=.TRUE.)
-      !ELSE
-         !unit_nr = -1
-      !ENDIF
+      
+
+      unit_nr = dbcsr_logger_get_default_io_unit()
 
       CALL dbcsr_create(matrix_pp, template=matrix_p(1), matrix_type=dbcsr_type_no_symmetry)
       CALL dbcsr_create(matrix_tmp, template=matrix_p(1), matrix_type=dbcsr_type_no_symmetry)
@@ -1195,12 +1174,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-      !logger => cp_get_default_logger()
-      !IF (logger%para_env%mepos == logger%para_env%source) THEN
-         !unit_nr = cp_logger_get_default_unit_nr(logger, local=.TRUE.)
-      !ELSE
-         !unit_nr = -1
-      !ENDIF
+      unit_nr = dbcsr_logger_get_default_io_unit()
 
       CALL dbcsr_create(matrix_ps, template=matrix_p(1), matrix_type=dbcsr_type_no_symmetry)
       CALL dbcsr_create(matrix_psp, template=matrix_p(1), matrix_type=dbcsr_type_no_symmetry)

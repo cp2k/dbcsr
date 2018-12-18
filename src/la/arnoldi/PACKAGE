@@ -1,6 +1,6 @@
 {
 "description": "Arnoldi iteration eigenvalue algorithm",
 "archive": "libdbcsr",
-"requires": ["../../mpi", "../../base","../../", "../../ops","../../utils"],
+"requires": ["../../mpi", "../../base","../../", "../../ops","../../utils", "../../extras"],
 "public" : ["dbcsr_arnoldi_api.F",],
 }
