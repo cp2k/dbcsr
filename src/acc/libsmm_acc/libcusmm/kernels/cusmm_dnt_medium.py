@@ -85,5 +85,6 @@ class Kernel_dnt_medium(cu.Kernel):
                                            'tile_m': tm, 'tile_n': tn,
                                            'threads': threads,
                                            'grouping': grouping,
-                                           'minblocks': minblocks})
+                                           'minblocks': minblocks,
+                                           'perf': 0})
         return params

@@ -32,7 +32,7 @@ def descr_to_kernel(kernel_descr):
     m = m.replace('(', '{\'')
     m = m.replace(')', '}')
     params = dict(literal_eval(m))
-    params['perf'] = match[2]
+    params['perf'] = float(match[2])
     return kernel_algorithm[algo](**params)
 
 

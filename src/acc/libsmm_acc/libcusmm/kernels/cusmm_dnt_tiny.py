@@ -68,5 +68,6 @@ class Kernel_dnt_tiny(cu.Kernel):
                     params.append({'m': m, 'n': n, 'k': k,
                                    'threads': threads,
                                    'grouping': grouping,
-                                   'minblocks': minblocks})
+                                   'minblocks': minblocks,
+                                   'perf': 0})
         return params
