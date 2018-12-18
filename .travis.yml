@@ -101,7 +101,7 @@ jobs:  # the following jobs inherit only the first OS
     deploy:
       provider: releases
       api_key:  # encrypted token of the `dbcsr` GitHub service user
-        secure: r7UL7rBmG8aC+AlwfGr4EQ9t8vqFT8UYah8t9XoPDbRJD587H6tCsU28rsUkKkGMXCIezQfX4QDuBV91VyeY2esVSj7319pBBV3KBnA93m83lJMNxODiZNCEjQV/xi+mEnF4HQHPyPcOZzD3LD6WPWeELULlNSpl2Oy6kG2rkhkuvcY9dJXvZRzM+MLskDA7+xPHUbzJlrlqd5lsFVKvc/4ijNDGGgb+gmwVhtGsFPoxiylYVgoTtjXJYrqhfHtizFVTYYPqX2polPt3N090Xk1SMHbfGkhIaXNUGWfgVpYRu6Tc/45Gcu+LNUwMtwX62aYdCmLvO1rbtdwmK/icbRu6qOvrw7UHMJzxP4zdKEwpL2kBPUVp7hlaxte8N2xqygKuqBx3d1CnzDHZcn1tMgNpZLSxAxZWbPg3fYu/4E9ygXpdELZeo9CqhSR2tbhyHNlgyI+MkgD1/sekxLYH6by0w9vCqy+P48tLQzYGBRY0kpRpK83ttaYXJxVSUOfHkP9guhN6hinZ4odZZn+GYrxZhBPHakXz/mqauMmQ+sA4Z7H0dV5Ydq2XgJplmiedh88oQokvuH1tuwNw0MEHveSvTfD39IhSn4rSbgD5Fym1NEWq0/n9Kvo+0HPjxY4703r/zzT7tr0H3OK4bYoUWO7e9K3yPCM15SqgnLUcRKU=
+        secure: ID+AX1LOPs+BRGpZiYgP0H9gvOBF/a/o1tNUNDY7Mbo6uShpwVcmYxpqW/2zbWrHXeG4TNZEATED2Yw1nSSp0wj7z/t6ScDuttvYwuN8AExauW7y4WrU5o3qGCGuc9ClDmj3lnQsjqjkmFkqZasmnh2MKHldcDM5cluNs1o/48a/nJ55TEsplKvsPn6gzi+XIs0zY/yIFEZxWEeXs7SlR3Jr+0nDMBHdllnEV/AxdQGQ7y2w6sXN26B7PZNM97kQ8qBGUPnnj41vHtAvT1rGu/N7TcRu+P0n9JmPtC+ZpzBNU8RfI0YJgFOjhORP9gwUNrwNSLZBqJECo2+s6QhjZ7x+UVF9CBQePUnRPJxMjkFVKqfykd7NtREaFJiwwfcWXSq7naVj1n4aNN19jO1myeSP/4WAGMBmEHXSlaDj1jqyaijwPC9YxVeMovTwlDdg0Iv/ZsjE4+MFcgyUU8f0h5x94gbsxgmKPUMaQeuMhdw41wAQm0KcDANwWNyiiGiyw5h0QJcjvg1/HDsrfID0vgqXXMXCfbLEMwpJLWj8F5Htc/D2gGfvepLy9+chqGF/53ntpTPEkF9V1f8ke6QZv7cJhi7U7IOmxWE6OFObPB1auT6g+Got10zkzNDWulk7g6thIFZlarpYqVKUWMfhb3i0ndJLk24L6iJhRuxtp90=
       skip_cleanup: true
       file_glob: true
       file: dist/*
