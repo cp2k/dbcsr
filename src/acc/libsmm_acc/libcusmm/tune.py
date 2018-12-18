@@ -84,7 +84,7 @@ def format_params(params):
     output = []
     order = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'split_thread', 'threads', 'blockdim', 'grouping']
     for k in order:
-        if params.has_key(k):
+        if k in params:
             output.append("%s=%d"%(k, params[k]))
 
     for k in params.keys():
@@ -138,13 +138,13 @@ def gen_benchmark(outdir, gpu_properties, m, n, k):
     MAX_LAUNCHERS_PER_EXE = 10000
     LAUNCHERS_PER_OBJ = 100
 
-    n_exe_files = len(launcher_codes)/MAX_LAUNCHERS_PER_EXE + 1
-    launchers_per_exe = len(launcher_codes) / n_exe_files + 1
+    n_exe_files = len(launcher_codes)//MAX_LAUNCHERS_PER_EXE + 1
+    launchers_per_exe = len(launcher_codes) // n_exe_files + 1
 
     for i in range(n_exe_files):
         A =  i * launchers_per_exe
         B = min((i+1)*launchers_per_exe, len(launcher_codes))
-        for j in range((B-A)/LAUNCHERS_PER_OBJ + 1):
+        for j in range((B-A)//LAUNCHERS_PER_OBJ + 1):
             output = incl_output
             a = A + j*LAUNCHERS_PER_OBJ
             b = min(A + (j+1)*LAUNCHERS_PER_OBJ, B)
