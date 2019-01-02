@@ -16,7 +16,10 @@ from glob import glob
 from itertools import product
 from optparse import OptionParser
 from kernels.cusmm_dnt_helper import kernel_algorithm, params_dict_to_kernel
-
+from kernels.cusmm_dnt_tiny import Kernel_dnt_tiny
+from kernels.cusmm_dnt_small import Kernel_dnt_small
+from kernels.cusmm_dnt_largeDB1 import Kernel_dnt_largeDB1
+from kernels.cusmm_dnt_largeDB2 import Kernel_dnt_largeDB2
 
 ALL_KERNELS = tuple(kernel_algorithm.values())
 
@@ -81,7 +84,7 @@ def format_params(params):
     output = []
     order = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'split_thread', 'threads', 'blockdim', 'grouping']
     for k in order:
-        if params.has_key(k):
+        if k in params:
             output.append("%s=%d"%(k, params[k]))
 
     for k in params.keys():
@@ -118,8 +121,8 @@ def gen_benchmark(outdir, gpu_properties, m, n, k):
 
         for p in params:
             kern = kernclass(**p)
-            includes.append("../kernels/"+kern.include())
-            launcher_codes.append(kern.launcher_code())
+            includes.append("../kernels/"+kern.include)
+            launcher_codes.append(kern.launcher_code)
             launchers.append("launch_"+kern.name)
             kernel_descr.append(kernclass.__name__ + format_params(p))
 
@@ -135,13 +138,13 @@ def gen_benchmark(outdir, gpu_properties, m, n, k):
     MAX_LAUNCHERS_PER_EXE = 10000
     LAUNCHERS_PER_OBJ = 100
 
-    n_exe_files = len(launcher_codes)/MAX_LAUNCHERS_PER_EXE + 1
-    launchers_per_exe = len(launcher_codes) / n_exe_files + 1
+    n_exe_files = len(launcher_codes)//MAX_LAUNCHERS_PER_EXE + 1
+    launchers_per_exe = len(launcher_codes) // n_exe_files + 1
 
     for i in range(n_exe_files):
         A =  i * launchers_per_exe
         B = min((i+1)*launchers_per_exe, len(launcher_codes))
-        for j in range((B-A)/LAUNCHERS_PER_OBJ + 1):
+        for j in range((B-A)//LAUNCHERS_PER_OBJ + 1):
             output = incl_output
             a = A + j*LAUNCHERS_PER_OBJ
             b = min(A + (j+1)*LAUNCHERS_PER_OBJ, B)

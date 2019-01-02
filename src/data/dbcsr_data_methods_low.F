@@ -214,7 +214,7 @@ CONTAINS
       END SELECT
 
       IF (area%memory_type%acc_devalloc) THEN
-         IF (sizes(1) > 1) &
+         IF (sizes(1) >= 0) &
             CALL acc_devmem_allocate_bytes(area%acc_devmem, dbcsr_datatype_sizeof(area%data_type)*sizes(1))
          CALL acc_event_create(area%acc_ready)
       ENDIF
