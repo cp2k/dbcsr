@@ -1,7 +1,12 @@
-/*****************************************************************************
- *  CP2K: A general program to perform molecular dynamics simulations        *
- *  Copyright (C) 2000 - 2018  CP2K developers group                         *
- *****************************************************************************/
+/*------------------------------------------------------------------------------------------------*
+ * Copyright (C) by the DBCSR developers group - All rights reserved                              *
+ * This file is part of the DBCSR library.                                                        *
+ *                                                                                                *
+ * For information on the license, see the LICENSE file.                                          *
+ * For further information please visit https://dbcsr.cp2k.org                                    *
+ * SPDX-License-Identifier: GPL-2.0+                                                              *
+ *------------------------------------------------------------------------------------------------*/
+
 #ifndef LIBCUSMM_BENCHMARK_H
 #define LIBCUSMM_BENCHMARK_H
 
@@ -13,7 +18,7 @@ typedef int (*KernelLauncher)(int *param_stack, int stack_size, CUstream stream,
                               int m_max, int n_max, int k_max,
                               double *a_data, double *b_data, double *c_data);
 
-typedef int (*TransposeLauncher)(int *param_stack, int offset, int nblks, 
+typedef int (*TransposeLauncher)(int *param_stack, int offset, int nblks,
                                  double *buffer, int m, int n, CUstream stream);
 
 enum benchmark_mode {test, tune, timing};
@@ -24,7 +29,7 @@ typedef struct {
     int max_m, max_n, max_k;
     // number of blocks to allocate in each panel
     int n_a, n_b, n_c;
-    // length of stack (multiplication, transpose a, transpose b) 
+    // length of stack (multiplication, transpose a, transpose b)
     int n_stack, n_stack_trs_a, n_stack_trs_b;
     // host-buffers
     double *mat_a, *mat_b, *mat_c;
@@ -32,7 +37,7 @@ typedef struct {
     int    *stack, *stack_trs_a, *stack_trs_b;
     // device-buffers
     double *d_mat_a, *d_mat_b, *d_mat_c;
-    int    *d_stack, *d_stack_trs_a, *d_stack_trs_b; 
+    int    *d_stack, *d_stack_trs_a, *d_stack_trs_b;
     // events for measuring the runtime
     CUevent t_start, t_stop;
 } libcusmm_benchmark_t;
@@ -60,7 +65,7 @@ void libcusmm_benchmark_finalize(libcusmm_benchmark_t*);
 int libcusmm_benchmark(libcusmm_benchmark_t* handle,
               int mat_m, int mat_n, int mat_k, int nkernel,
               KernelLauncher* launchers, char** kernel_descr);
-int libcusmm_benchmark_transpose(libcusmm_benchmark_t* handle, int mat_m, int mat_n, 
+int libcusmm_benchmark_transpose(libcusmm_benchmark_t* handle, int mat_m, int mat_n,
                                  TransposeLauncher* launcher, char** kernel_descr);
 int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
                                   double* mat, double* mat_trs, double* d_mat,
