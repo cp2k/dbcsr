@@ -144,7 +144,7 @@ dirs:
 	@mkdir -p $(LIBDIR)
 
 version:
-	@echo "DCBSR Version: "$(MAJOR)"."$(MINOR)"."$(PATCH)" ("$(DATE)")"
+	@echo "DBCSR Version: "$(MAJOR)"."$(MINOR)"."$(PATCH)" ("$(DATE)")"
 OTHER_HELP += "version : Print DBCSR version"
 
 toolversions:
