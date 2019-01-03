@@ -27,7 +27,7 @@ To build with CUDA support you further need:
 * CUDA Toolkit
 * a C++ compiler which supports at least C++11 standard
 
-We test against GNU and Intel compilers on Linux systems.
+We test against GNU and Intel compilers on Linux systems, GNU compiler on MacOS systems.
 
 ## Getting started
 
