@@ -63,6 +63,16 @@ int main(int argc, char** argv){
     int n_pairs = libcusmm_transpose_pairs.size();
     printf("# Libcusmm has %d blocksizes for transposition\n", n_pairs);
 
+    // Sort (m,n) pairs in growing order
+    std::sort(libcusmm_transpose_pairs.begin(), libcusmm_transpose_pairs.end(),
+              [](std::pair<int, int> mn1, std::pair<int, int> mn2){
+                  if(mn1.first != mn2.first){
+                      return mn1.first < mn2.first;
+                  } else {
+                      return mn1.second < mn2.second;
+                  }
+              });
+
     int errors = 0;
     for(int i=0; i<n_pairs; i++){
         int m = libcusmm_transpose_pairs[i].first;
