@@ -56,7 +56,7 @@ def main(kernels_folder):
     for f in kernels_folder_files:
         if f[:6] == "cusmm_" and f[-2:] == ".h":
             kernel_files.append(os.path.join(kernels_folder, f))
-    print("Found", len(kernel_files), "kernel files:")
+    print("Found {} kernel files:".format(len(kernel_files)))
     print(*("<- {}".format(kf) for kf in kernel_files), sep='\n')
 
     # Read
@@ -78,7 +78,7 @@ def main(kernels_folder):
     file_h_path = "cusmm_kernels.h"
     with open(file_h_path, 'w') as f:
         f.write(file_h)
-    print("Wrote kernel string to file\n->", file_h_path)
+    print("Wrote kernel string to file\n-> {}".format(file_h_path))
 
 
 # ===============================================================================
