@@ -45,7 +45,7 @@ def main():
     options, args = parser.parse_args(sys.argv)
 
     # Read parameter file
-    print("GPU version:\n", options.gpu_version)
+    print("GPU version: {}".format(options.gpu_version))
     base_dir = os.path.join(options.base_folder, "src/acc/libsmm_acc/libcusmm/")
     param_fn = os.path.join(base_dir, "parameters_{}.json".format(options.gpu_version))
     with open(param_fn, 'r') as f:
@@ -72,7 +72,7 @@ def main():
     test = test.replace('[[PREDICTED_KERNELS_HERE]]', kernels_to_print_predicted.lstrip())
     with open(file_generate, 'w') as f:
         f.write(test)
-    print("Wrote", len(kernels_to_print_autotuned + kernels_to_print_predicted), "test kernels to", file_generate)
+    print("Wrote {:,} test kernels to".format(len(autotuned_kernels + kernels_to_test_predicted), file_generate))
 
 
 # ===============================================================================

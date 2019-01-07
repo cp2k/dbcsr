@@ -21,19 +21,19 @@ from kernels.cusmm_dnt_helper import params_dict_to_kernel
 
 def main(gpu_version, base_dir):
     # Read existing parameters
-    print("GPU version:\n", gpu_version)
+    print("GPU version: {}".format(gpu_version))
     param_fn = path.join(base_dir, "parameters_{}.json".format(gpu_version))
     with open(param_fn) as f:
         all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
-    print("About to process", len(all_kernels), "kernels from file", param_fn)
+    print("About to process {:,} kernels from file {}".format(len(all_kernels), param_fn))
 
     # Construct output
     out, all_pars = write_parameters_file(all_kernels)
 
     # Write to c++ header-file
     file_h = "parameters.h"
-    print('Found', len(all_kernels), 'kernels in', param_fn)
-    print('Printing them to file', file_h)
+    print('Found {:,} kernels in file {}'.format(len(all_kernels), param_fn))
+    print('Printing them to file {}'.format(file_h))
     with open(file_h, 'w') as f:
         f.write(out)
 
