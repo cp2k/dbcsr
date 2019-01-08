@@ -116,6 +116,12 @@ PROGRAM dbcsr_unittest
                               alpha=CMPLX(1.0_dp, 0.0_dp, dp), beta=CMPLX(0.0_dp, 0.0_dp, dp), &
                               bs_m=(/1, 14, 1, 29, 1, 32/), bs_n=(/1, 14, 1, 29, 1, 32/), bs_k=(/1, 14, 1, 29, 1, 32/), &
                               limits=(/1, 525, 1, 525, 1, 525/))
+   CALL dbcsr_test_multiplies("blocks_H2O", &
+                              group, mp_env, npdims, io_unit, matrix_sizes=(/552, 552, 552/), &
+                              sparsities=(/0.5_dp, 0.5_dp, 0.5_dp/), retain_sparsity=.FALSE., &
+                              alpha=CMPLX(1.0_dp, 0.0_dp, dp), beta=CMPLX(0.0_dp, 0.0_dp, dp), &
+                              bs_m=(/1, 23/), bs_n=(/1, 23/), bs_k=(/1, 23/), &
+                              limits=(/1, 552, 1, 552, 1, 552/))
 
    ! end of test cases ---------------------------------------------------------
 
