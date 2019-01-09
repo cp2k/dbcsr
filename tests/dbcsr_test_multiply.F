@@ -63,7 +63,7 @@ MODULE dbcsr_test_multiply
 
    PRIVATE
 
-   PUBLIC :: dbcsr_test_multiplies
+   PUBLIC :: dbcsr_test_multiplies, dbcsr_check_multiply
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_test_multiply'
 
@@ -621,6 +621,7 @@ CONTAINS
       a_row = limits(1); a_col = limits(5)
       b_row = limits(5); b_col = limits(3)
       c_row = limits(1); c_col = limits(3)
+      print *,"fuuuuuu limits ", a_row, " ", a_col, " ", b_row, " ", b_col, " ", c_row, " ", c_col
       !
       !
       IF (transA == dbcsr_no_transpose) THEN

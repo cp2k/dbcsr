@@ -96,6 +96,8 @@ PROGRAM dbcsr_test_mat_vec_mult
                                  dbcsr_logger_type, &
                                  dbcsr_rm_default_logger
 
+   use dbcsr_test_multiply, only: dbcsr_check_multiply
+
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -122,12 +124,12 @@ PROGRAM dbcsr_test_mat_vec_mult
     !INTEGER, DIMENSION(:), POINTER                     :: blk_offsets, col_dist_a, col_dist_b, &
                                                           !col_dist_c, row_dist_a, row_dist_b, &
                                                           !row_dist_c
-    !LOGICAL                                            :: success
+    LOGICAL                                            :: success
     !REAL(real_8)                                       :: occ_a, occ_b, occ_c_in, occ_c_out
     !TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c
     !TYPE(dbcsr_type)                                   :: m_a, m_b, m_c
 
-    integer                             ::  m, k, i ,j, nb, no, nloc
+    integer                             ::  m,n, k, i ,j, nb, no, nloc
     INTEGER, DIMENSION(2)               :: bs
     real(real_8)                        :: sparsity
     TYPE(dbcsr_type)                    :: matrix_a, input_vec, result_vec, rep_row_vec, rep_col_vec
@@ -140,10 +142,19 @@ PROGRAM dbcsr_test_mat_vec_mult
         
     INTEGER, DIMENSION(:), POINTER :: col_dist, row_dist
     TYPE(dbcsr_distribution_obj)                       :: dist
+    TYPE(dbcsr_data_obj)                               :: data_a, data_b, data_c, inp_vec, &
+                                                          res_vec, res_vec_init, diff
+    INTEGER                                            :: a_c, a_r, v_c, v_r
+    !real(real_8) :: residual
+  
+    INTEGER, DIMENSION(6)                  :: limits  
     
+    TYPE(dbcsr_scalar_type)                            :: alpha_obj, beta_obj
+
     a_symm = dbcsr_type_no_symmetry
     mtype = dbcsr_type_real_8
   
+     n = 1 
      bs(1) = 1 
      open(unit=123,file="mnkb.dat",status="old",form="formatted")
       read(123,*) m
@@ -152,6 +163,11 @@ PROGRAM dbcsr_test_mat_vec_mult
       read(123,*) sparsity
       close(123)
 
+
+    limits(:) = 1
+    limits(2) = m
+    limits(4) = n
+    limits(6) = k
 
     CALL mp_world_init(mp_comm)
 
@@ -212,19 +228,19 @@ PROGRAM dbcsr_test_mat_vec_mult
 
     CALL dbcsr_reset_randmat_seed()
  
-    print *, m,k,bs,sparsity
-    print *, sizes_m
+!    print *, m,k,bs,sparsity
+!    print *, sizes_m
     CALL dbcsr_make_random_matrix(matrix_a, sizes_m, sizes_k, "Matrix A", &
                                   sparsity, &
                                   group, data_type=mtype, dist=dist)
 
-
+    ! create vectors
     CALL dbcsr_create_col_vec_from_matrix( input_vec , matrix_a , 1) 
     CALL dbcsr_copy(result_vec, input_vec)   
     CALL dbcsr_create_replicated_col_vec_from_matrix(rep_col_vec, matrix_a, 1)
     CALL dbcsr_create_replicated_row_vec_from_matrix(rep_row_vec, matrix_a, 1)
 
-
+    ! init input vector
     CALL dbcsr_get_info(input_vec, nfullrows_local=nloc, row_blk_size=rb_size, row_blk_offset=rb_offset)
 
      CALL dbcsr_iterator_start(dbcsr_iter, input_vec)                                                                                         
@@ -237,18 +253,67 @@ PROGRAM dbcsr_test_mat_vec_mult
       CALL dbcsr_iterator_stop(dbcsr_iter)
 
 
+    ! densify matrix
+    a_r = dbcsr_nfullrows_total(matrix_a) 
+    a_c = dbcsr_nfullcols_total(matrix_a)
+    CALL dbcsr_data_init(data_a)
+    CALL dbcsr_data_new(data_a, dbcsr_type_1d_to_2d(mtype), data_size=a_r, data_size2=a_c)
+    call dbcsr_to_dense_local(matrix_a, data_a)
+
+    ! densify input vector
+    v_r = dbcsr_nfullrows_total(input_vec) 
+    v_c = dbcsr_nfullcols_total(input_vec)
+    CALL dbcsr_data_init(inp_vec)
+    CALL dbcsr_data_new(inp_vec, dbcsr_type_1d_to_2d(mtype), data_size=v_r, data_size2=v_c)
+    call dbcsr_to_dense_local(input_vec, inp_vec)
+
+    ! create result vectors
+    CALL dbcsr_data_init(res_vec)
+    CALL dbcsr_data_new(res_vec, dbcsr_type_1d_to_2d(mtype), data_size=v_r, data_size2=v_c)
+
+    CALL dbcsr_data_init(res_vec_init)
+    CALL dbcsr_data_new(res_vec_init, dbcsr_type_1d_to_2d(mtype), data_size=v_r, data_size2=v_c)
+    
+
     call dbcsr_print(matrix_a)
     call dbcsr_print(input_vec)
-    print *,"koneu,"
-      
+     
+    ! multiply mat x vec 
     CALL dbcsr_matrix_colvec_multiply(matrix_a, input_vec, result_vec, 1.0_dp, &
                                                0.0_dp, rep_row_vec, rep_col_vec)
 
-print *,"koneu,"
+                                           
+    ! densify result vector                                       
+    call dbcsr_to_dense_local(result_vec, res_vec_init)
 
-      call dbcsr_print(result_vec)
-print *,"koneu,"
 
+    !CALL dgemm('N', 'N', m, n, k, 1.0_dp, data_a%d%r2_dp(1, 1), m, &
+    !           inp_vec%d%r2_dp(1, 1), k, 0.0_dp, res_vec%d%r2_dp(1, 1), k)
+
+
+      !call dbcsr_print(result_vec)
+      !print *,"--------------------------------"
+      !print *, data_a%d%r2_dp
+      !print *,"--------------------------------"
+      !print *, inp_vec%d%r2_dp 
+      !print *,"--------------------------------"
+      !print *, res_vec%d%r2_dp
+      
+      ! create difference vector
+    !CALL dbcsr_data_init(diff)
+    !CALL dbcsr_data_new(diff, dbcsr_type_1d_to_2d(mtype), data_size=v_r, data_size2=v_c)
+
+    alpha_obj = compx_to_dbcsr_scalar((1.0_dp,0.0_dp), mtype)
+    beta_obj = compx_to_dbcsr_scalar((0.0_dp,0.0_dp), mtype)
+
+    CALL dbcsr_check_multiply("mat_vec_mult", result_vec, res_vec_init, data_a, inp_vec, res_vec, &
+                              'N', 'N', alpha_obj, beta_obj, limits, .false., io_unit, mp_comm, &
+                              success)
+    
+                            
+    !lwork = MAXVAL((/m, n, k/))
+
+    !diff % d % r2_dp = res_vec_init % d % r2_dp - res_vec % d % r2_dp 
 
       call dbcsr_release(matrix_a)
       call dbcsr_release(input_vec)
@@ -282,7 +347,6 @@ print *,"koneu,"
    ! Remove timers
    CALL rm_mp_perf_env()
    CALL rm_timer_env()
-print *,"superkoneu,"
    !
    ! finalize mpi
    CALL mp_world_finalize()
