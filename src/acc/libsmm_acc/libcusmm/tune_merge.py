@@ -10,20 +10,21 @@
 ####################################################################################################
 
 
-import sys
 import json
 from optparse import OptionParser
 from kernels.cusmm_dnt_helper import params_dict_to_kernel
 
 
 def main():
-    usage = "Write a new kernel parameter file as an unique merge of an old parameter file and a new one called " + \
-            "parameters.json as created by collect.py. If a kernel (m, n, k) is listed in both the old parameter" + \
-            "file and the new parameter file, retain its parameters as defined in the new parameter file."
+    usage = (
+        "Write a new kernel parameter file as an unique merge of an old parameter file and a new one called "
+        + "parameters.json as created by collect.py. If a kernel (m, n, k) is listed in both the old parameter"
+        + "file and the new parameter file, retain its parameters as defined in the new parameter file."
+    )
     parser = OptionParser(usage)
-    parser.add_option("-p", "--params", metavar="filename.json",
-          default="parameters_P100.json",
-          help="Default: %default")
+    parser.add_option(
+        "-p", "--params", metavar="filename.json", default="parameters_P100.json", help="Default: %default"
+    )
 
     (options, args) = parser.parse_args()
     assert len(args) == 0
@@ -44,11 +45,11 @@ def main():
 
     # Write kernel parameters to new file
     new_file = "parameters.new.json"
-    with open(new_file, 'w') as f:
+    with open(new_file, "w") as f:
         s = json.dumps([kernels_dict[kernel].as_dict for kernel in sorted(kernels_dict.keys())])
-        s = s.replace('}, ', '},\n')
-        s = s.replace('[', '[\n')
-        s = s.replace(']', '\n]')
+        s = s.replace("}, ", "},\n")
+        s = s.replace("[", "[\n")
+        s = s.replace("]", "\n]")
         f.write(s)
 
     print("Wrote", new_file)
