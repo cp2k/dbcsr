@@ -9,7 +9,8 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-import sys, os
+import sys
+import os
 from os import path
 from glob import glob
 
@@ -20,7 +21,7 @@ from subprocess import Popen, PIPE
 def main():
     do_it = sys.argv[-1] == "doit!"
 
-    cmd = ["squeue", "--user", os.environ['USER'], "--format=%j", "--nohead"]
+    cmd = ["squeue", "--user", os.environ["USER"], "--format=%j", "--nohead"]
     p = Popen(cmd, stdout=PIPE)
     submitted = p.stdout.read()
 
@@ -29,7 +30,7 @@ def main():
         if not path.isdir(d):
             continue
 
-        if len(glob(d+"/slurm-*.out")) > 0:
+        if len(glob(d + "/slurm-*.out")) > 0:
             print("%20s: Found slurm file(s)" % d)
             continue
 

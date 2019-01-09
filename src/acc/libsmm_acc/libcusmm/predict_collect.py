@@ -16,7 +16,15 @@ import sys
 import json
 import pandas as pd
 from optparse import OptionParser
-from kernels.cusmm_dnt_helper import *
+from kernels.cusmm_dnt_helper import (
+    get_max_performances_per_mnk,
+    get_baseline_performances_per_mnk,
+    to_string,
+    PredictiveParameters,
+    raw_parameters,
+    derived_parameters,
+    kernel_algorithm,
+)
 
 
 # ===============================================================================
@@ -29,41 +37,63 @@ def main():
     """
 
     parser = OptionParser()
-    parser.add_option("-f", "--folder", metavar="FOLDER", default=".",
-                      help="Folder in which the folders tune_*x*x*x/ are to be found. Default: %default")
-    parser.add_option("-a", "--arch", metavar="FOLDER", default="60",
-                      help="CUDA architecture number. Options: 35, 37, 60. Default: %default")
+    parser.add_option(
+        "-f",
+        "--folder",
+        metavar="FOLDER",
+        default=".",
+        help="Folder in which the folders tune_*x*x*x/ are to be found. Default: %default",
+    )
+    parser.add_option(
+        "-a",
+        "--arch",
+        metavar="FOLDER",
+        default="60",
+        help="CUDA architecture number. Options: 35, 37, 60. Default: %default",
+    )
 
     options, args = parser.parse_args(sys.argv)
 
     # ===============================================================================
     # Read GPU properties and autotuning properties
     arch = options.arch
-    with open('kernels/gpu_properties.json') as f:
+    with open("kernels/gpu_properties.json") as f:
         gpu_properties = json.load(f)["sm_" + str(arch)]
-    with open('kernels/autotuning_properties.json') as f:
+    with open("kernels/autotuning_properties.json") as f:
         autotuning_properties = json.load(f)
 
     # ===============================================================================
     # Find all the 'tune_MxNxK' folders
-    kernel_folder_pattern = re.compile('tune_(\d+)x(\d+)x(\d+)$')
-    mnk_string = '{}x{}x{}'
-    kernel_folders = [os.path.join(options.folder, ak) for ak in os.listdir(options.folder)
-                      if kernel_folder_pattern.match(ak) is not None]
+    kernel_folder_pattern = re.compile(r"tune_(\d+)x(\d+)x(\d+)$")
+    kernel_folders = [
+        os.path.join(options.folder, ak)
+        for ak in os.listdir(options.folder)
+        if kernel_folder_pattern.match(ak) is not None
+    ]
     n_kernels = len(kernel_folders)
-    print('Found {:,} kernel folders'.format(n_kernels))
+    print("Found {:,} kernel folders".format(n_kernels))
     max_performances_per_mnk = dict()
-    max_performances_per_algo_per_mnk = {'tiny': dict(), 'small': dict(), 'medium': dict(),
-                                         'largeDB1': dict(), 'largeDB2': dict()}
-    baseline_performances_per_algo_per_mnk = {'tiny': dict(), 'small': dict(), 'medium': dict(),
-                                              'largeDB1': dict(), 'largeDB2': dict()}
+    max_performances_per_algo_per_mnk = {
+        "tiny": dict(),
+        "small": dict(),
+        "medium": dict(),
+        "largeDB1": dict(),
+        "largeDB2": dict(),
+    }
+    baseline_performances_per_algo_per_mnk = {
+        "tiny": dict(),
+        "small": dict(),
+        "medium": dict(),
+        "largeDB1": dict(),
+        "largeDB2": dict(),
+    }
 
     # ===============================================================================
     # Collect information and write to csv
     # For each folder:
     for i, kernel_folder in enumerate(kernel_folders):
 
-        print('\nProcess folder {} ({}/{:,})'.format(kernel_folder, i + 1, n_kernels))
+        print("\nProcess folder {} ({}/{:,})".format(kernel_folder, i + 1, n_kernels))
 
         # Find (m, n, k)
         match = kernel_folder_pattern.search(kernel_folder).groups()
@@ -84,74 +114,86 @@ def main():
         for name_algo, kernel_algo in kernel_algorithm.items():
 
             # if applicable to this mnk
-            if name_algo in data['algorithm'].values:
+            if name_algo in data["algorithm"].values:
 
-                data_algo = data[data['algorithm'] == name_algo]
+                # Get the data corresponding to this algorithm
+                data_algo = data[data["algorithm"] == name_algo]
 
-                # Collect max performances per algo, per (m, n, k)
+                # Collect max performances per algorithm, per (m, n, k)
                 max_performances_algo = get_max_performances_per_mnk(data_algo)
                 max_performances_per_algo_per_mnk[name_algo].update(
-                    dict(zip(to_string(*max_performances_algo.keys()), max_performances_algo.values())))
+                    dict(zip(to_string(*max_performances_algo.keys()), max_performances_algo.values()))
+                )
 
                 # Collect baseline performances per algo, per (m, n, k)
-                baseline_performances_algo = get_baseline_performances_per_mnk(data_algo, name_algo,
-                                                                               gpu_properties, autotuning_properties)
+                baseline_performances_algo = get_baseline_performances_per_mnk(
+                    data_algo, name_algo, gpu_properties, autotuning_properties
+                )
                 baseline_performances_per_algo_per_mnk[name_algo].update(
-                    dict(zip(to_string(*baseline_performances_algo.keys()), baseline_performances_algo.values())))
+                    dict(zip(to_string(*baseline_performances_algo.keys()), baseline_performances_algo.values()))
+                )
 
                 # Does collected csv file exist already?
                 raw_parameters_file_name = os.path.join(
-                    kernel_folder, 'raw_training_data_' + mnk_string.format(m, n, k) + '_' + name_algo + '.csv')
+                    kernel_folder, "raw_training_data_" + to_string(m, n, k) + "_" + name_algo + ".csv"
+                )
                 derived_parameters_file_name = os.path.join(
-                    kernel_folder, 'training_data_' + mnk_string.format(m, n, k) + '_' + name_algo + '.csv')
+                    kernel_folder, "training_data_" + to_string(m, n, k) + "_" + name_algo + ".csv"
+                )
 
                 if os.path.exists(raw_parameters_file_name):
-                    print('\tFound csv file:', raw_parameters_file_name, ', skipping ...')
+                    print("\tFound csv file:", raw_parameters_file_name, ", skipping ...")
 
                 else:
+
                     # Write raw parameters
                     pars_to_get = raw_parameters
                     data_algo[pars_to_get].to_csv(raw_parameters_file_name)
-                    print('\tWrote', raw_parameters_file_name)
+                    print("\tWrote", raw_parameters_file_name)
 
                 if os.path.exists(derived_parameters_file_name):
-                    print('\tFound csv file:', derived_parameters_file_name, ', skipping ...')
+                    print("\tFound csv file:", derived_parameters_file_name, ", skipping ...")
 
                 else:
                     # Compute derived parameters
-                    parameter_sets = PredictiveParameters(data_algo,
-                                                          gpu_properties, autotuning_properties, max_performances)
-                    pars_to_get = derived_parameters['common'] + derived_parameters[name_algo]
+                    parameter_sets = PredictiveParameters(
+                        data_algo, gpu_properties, autotuning_properties, max_performances
+                    )
+                    pars_to_get = derived_parameters["common"] + derived_parameters[name_algo]
                     new_df = parameter_sets.get_features(pars_to_get)
                     data_algo.merge(new_df)
 
                     # Write derived parameters
                     data_algo[pars_to_get].to_csv(derived_parameters_file_name)
-                    print('\tWrote', derived_parameters_file_name)
+                    print("\tWrote", derived_parameters_file_name)
 
     # ===============================================================================
     # Print max performance dictionaries
-    max_performances_per_mnk_file = os.path.join(options.folder, 'max_performances.json')
-    with open(max_performances_per_mnk_file, 'w') as f:
+    max_performances_per_mnk_file = os.path.join(options.folder, "max_performances.json")
+    with open(max_performances_per_mnk_file, "w") as f:
         json.dump(max_performances_per_mnk, f)
-    max_performances_per_algo_per_mnk_file = os.path.join(options.folder, 'max_performances_by_algo.json')
-    with open(max_performances_per_algo_per_mnk_file, 'w') as f:
+    max_performances_per_algo_per_mnk_file = os.path.join(options.folder, "max_performances_by_algo.json")
+    with open(max_performances_per_algo_per_mnk_file, "w") as f:
         json.dump(max_performances_per_algo_per_mnk, f)
-    baseline_performances_per_algo_per_mnk_file = os.path.join(options.folder, 'baseline_performances_by_algo.json')
-    with open(baseline_performances_per_algo_per_mnk_file, 'w') as f:
+    baseline_performances_per_algo_per_mnk_file = os.path.join(options.folder, "baseline_performances_by_algo.json")
+    with open(baseline_performances_per_algo_per_mnk_file, "w") as f:
         json.dump(baseline_performances_per_algo_per_mnk, f)
-    print('\nWrote max. and baseline performances to:\n',
-          max_performances_per_mnk_file, ',\n',
-          max_performances_per_algo_per_mnk_file, ' and\n',
-          baseline_performances_per_algo_per_mnk_file)
+    print(
+        "\nWrote max. and baseline performances to:\n",
+        max_performances_per_mnk_file,
+        ",\n",
+        max_performances_per_algo_per_mnk_file,
+        " and\n",
+        baseline_performances_per_algo_per_mnk_file,
+    )
 
 
 # ===============================================================================
 # Helper variables and functions (formatting & writing)
 autotuning_line = re.compile(
-    'OK Kernel_dnt_(\w+) m (\d+)\s+n (\d+)\s+k (\d+)\s+' +
-    '(?:tile_m (\d+)\s+tile_n (\d+)\s+(?:w (\d+)\s+v (\d+)\s+)?)?' +
-    'threads (\d+)\s+grouping (\d+)\s+minblocks (\d+)\s+GFlop/s (\d+(?:\.\d+)?)'
+    r"OK Kernel_dnt_(\w+) m (\d+)\s+n (\d+)\s+k (\d+)\s+"
+    + r"(?:tile_m (\d+)\s+tile_n (\d+)\s+(?:w (\d+)\s+v (\d+)\s+)?)?"
+    + r"threads (\d+)\s+grouping (\d+)\s+minblocks (\d+)\s+GFlop/s (\d+(?:\.\d+)?)"
 )
 
 
@@ -163,44 +205,46 @@ def read_log_file(log_folder, m, n, k):
     :return: pandas Dataframe containing autotuning information
     """
     # Find log files in the log folder
-    log_files = [f for f in os.listdir(log_folder) if f[-4:] == '.log']
+    log_files = [f for f in os.listdir(log_folder) if f[-4:] == ".log"]
     assert len(log_files) > 0
     log_files = sorted(log_files)
-    print('Found log files:', log_files)
+    print("Found log files:", log_files)
 
     # Parse the log files and collect data
     data = list()
     for log_file in log_files:
 
-        print('Processing log file', log_file)
-        with open(os.path.join(log_folder, log_file), 'r') as f:
+        print("Processing log file", log_file)
+        with open(os.path.join(log_folder, log_file), "r") as f:
             log_file_content = f.read().splitlines()
 
         for l in log_file_content:
 
-            if 'OK' in l:  # this line contains autotuning data
+            if "OK" in l:  # this line contains autotuning data
 
                 # Parse the line
                 match = autotuning_line.match(l)
                 assert match is not None, "Found null match: " + l
 
                 # Get algorithm, parameters, and performance
-                data.append({
-                    'm': m,
-                    'n': n,
-                    'k': k,
-                    'algorithm': match.group(1),
-                    'threads_per_blk': int(match.group(9)),
-                    'grouping': int(match.group(10)),
-                    'minblocks': int(match.group(11)),
-                    'tile_m': int(match.group(5)) if match.group(5) is not None else None,
-                    'tile_n': int(match.group(6)) if match.group(6) is not None else None,
-                    'w': int(match.group(7)) if match.group(7) is not None else None,
-                    'v': int(match.group(8)) if match.group(8) is not None else None,
-                    'perf (Gflop/s)': float(match.group(12)),
-                })
+                data.append(
+                    {
+                        "m": m,
+                        "n": n,
+                        "k": k,
+                        "algorithm": match.group(1),
+                        "threads_per_blk": int(match.group(9)),
+                        "grouping": int(match.group(10)),
+                        "minblocks": int(match.group(11)),
+                        "tile_m": int(match.group(5)) if match.group(5) is not None else None,
+                        "tile_n": int(match.group(6)) if match.group(6) is not None else None,
+                        "w": int(match.group(7)) if match.group(7) is not None else None,
+                        "v": int(match.group(8)) if match.group(8) is not None else None,
+                        "perf (Gflop/s)": float(match.group(12)),
+                    }
+                )
 
-    print('Autotuning lines found: ', len(data))
+    print("Autotuning lines found: ", len(data))
 
     # Merge dictionaries into a pandas dataframe
     dataframe = pd.DataFrame(data)

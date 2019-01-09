@@ -29,7 +29,7 @@ For a given matrix-matrix multiplication **triplet** characterized by
 
 - **m** 
 - **n** 
-- **k**  
+- **k**
 
 `libcusmm` can run 5 different matrix-matrix multiplication **kernels**: 
 

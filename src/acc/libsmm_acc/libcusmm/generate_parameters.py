@@ -32,9 +32,9 @@ def main(gpu_version, base_dir):
 
     # Write to c++ header-file
     file_h = "parameters.h"
-    print('Found {:,} kernels in file {}'.format(len(all_kernels), param_fn))
-    print('Printing them to file {}'.format(file_h))
-    with open(file_h, 'w') as f:
+    print("Found {:,} kernels in file {}".format(len(all_kernels), param_fn))
+    print("Printing them to file {}".format(file_h))
+    with open(file_h, "w") as f:
         f.write(out)
 
 
@@ -62,7 +62,8 @@ def write_parameters_file(all_pars):
 #include "parameters_utils.h"
 
 /*
- * Lookup table: given a triplet (m, n, k) describing a matrix-matrix multiplication, look up its optimal kernel parameters
+ * Lookup table: given a triplet (m, n, k) describing a matrix-matrix multiplication,
+ * look up its optimal kernel parameters
  *
  * Keys:
  *   (m, n, k)
@@ -77,7 +78,7 @@ def write_parameters_file(all_pars):
  *   6: grouping
  *   7: minblocks
  *
- * Note: for the matrix matrix multiplication algorithms which take less than 8 parameters (i.e. "tiny", "small" and "medium"),
+ * Note: for the matrix matrix multiplication algorithms which take less than 8 parameters (i.e. tiny, small, medium),
  * the superfluous parameters are set to 0
  */
 
@@ -85,10 +86,11 @@ static const std::unordered_map<Triplet, KernelParameters> ht  = {
 """
     # Initializer list body
     print("Get parameters and write to file")
-    init_list_line = \
-        "    {{ {{{{{m:3}, {n:3}, {k:3}}}}}," + \
-        " {{{{ {algorithm:1}, {tile_m:2}, {tile_n:2}, {w:2}, {v:2}, {threads:3}, {grouping:2}, {minblocks:2} }}}} }}, " + \
-        "  // perf: {perf} {source}\n"
+    init_list_line = (
+        "    {{ {{{{{m:3}, {n:3}, {k:3}}}}},"
+        + " {{{{ {algorithm:1}, {tile_m:2}, {tile_n:2}, {w:2}, {v:2}, {threads:3}, {grouping:2}, {minblocks:2} }}}} }},"
+        + "  // perf: {perf} {source}\n"
+    )
     for pars in all_pars:
         out += init_list_line.format(**pars.as_dict_for_parameters_h)
 
@@ -104,12 +106,23 @@ static const std::unordered_map<Triplet, KernelParameters> ht  = {
 
 
 # ===============================================================================
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Generator of LibCuSMM. The Library for Cuda Small Matrix Multiplications.")
-    parser.add_argument("-g", "--gpu_version", metavar="GPU_VERSION", default="P100",
-                        help="GPU card version, used to select the appropriate libcusmm parameters file. Default: %(default)s")
-    parser.add_argument("-d", "--base_dir", metavar="BASE_DIR", default=".",
-                        help="Set the base directory to look for the parameter files. Default: %(default)s")
+        description="Generator of LibCuSMM. The Library for Cuda Small Matrix Multiplications."
+    )
+    parser.add_argument(
+        "-g",
+        "--gpu_version",
+        metavar="GPU_VERSION",
+        default="P100",
+        help="GPU card version, used to select the appropriate libcusmm parameters file. Default: %(default)s",
+    )
+    parser.add_argument(
+        "-d",
+        "--base_dir",
+        metavar="BASE_DIR",
+        default=".",
+        help="Set the base directory to look for the parameter files. Default: %(default)s",
+    )
     args = parser.parse_args()
     main(args.gpu_version, args.base_dir)

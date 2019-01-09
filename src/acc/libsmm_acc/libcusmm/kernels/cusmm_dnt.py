@@ -30,7 +30,6 @@ def round_down_to_nearest_multiple(x, step):
 
 # ===============================================================================
 class Kernel:
-
     def __repr__(self):
         return "<%s>" % self.name
 
@@ -43,12 +42,16 @@ class Kernel:
 
     @property
     def name(self):
-        return "cusmm_dnt_" + self.algorithm + "_" + \
-               "_".join([str(self.__dict__[k]) for k in sorted(self.launch_parameters)])
+        return (
+            "cusmm_dnt_"
+            + self.algorithm
+            + "_"
+            + "_".join([str(self.__dict__[k]) for k in sorted(self.launch_parameters)])
+        )
 
     @property
     def autotuned(self):
-        return True if self.source == 'autotuned' else False
+        return True if self.source == "autotuned" else False
 
     @property
     def as_dict(self):
@@ -57,34 +60,34 @@ class Kernel:
     @property
     def as_dict_for_parameters_json(self):
         # Add common fields
-        fields = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks', 'algorithm']
+        fields = ["m", "n", "k", "tile_m", "tile_n", "w", "v", "threads", "grouping", "minblocks", "algorithm"]
         d = dict()
         for f in fields:
             if f in self.as_dict.keys():
                 d[f] = self.as_dict[f]
 
         # Only add the performance if it was autotuned. If it was predicted, we only have a value scaled in (0,1)
-        if self.as_dict['source'] == 'autotuned':
-            d['perf'] = self.as_dict['perf']
+        if self.as_dict["source"] == "autotuned":
+            d["perf"] = self.as_dict["perf"]
 
         # Add the source of this parameter set (autotuned or predicted)
-        d['source'] = self.as_dict['source']
-	
+        d["source"] = self.as_dict["source"]
+
         return d
 
     @property
     def as_dict_for_parameters_h(self):
-        fields = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'threads', 'grouping', 'minblocks', 'perf', 'source']
+        fields = ["m", "n", "k", "tile_m", "tile_n", "w", "v", "threads", "grouping", "minblocks", "perf", "source"]
         d = dict()
         for f in fields:
             d[f] = self.as_dict[f] if f in self.as_dict.keys() else 0
-        d['algorithm'] = self.algorithm_num
-        d['source'] = '(predicted)' if not self.autotuned else ''
+        d["algorithm"] = self.algorithm_num
+        d["source"] = "(predicted)" if not self.autotuned else ""
         return d
 
     @property
     def launcher_code(self):
-        output  = "int launch_" + self.name + "(int *param_stack, int stack_size, "
+        output = "int launch_" + self.name + "(int *param_stack, int stack_size, "
         output += "cudaStream_t stream, int m_max, int n_max, int k_max, "
         output += "double *a_data, double *b_data, double *c_data){\n"
         output += "  int shared_size = 0;\n"
@@ -97,8 +100,10 @@ class Kernel:
         output += "    if(err != cudaSuccess) return(-1);\n"
         output += "    configured = true;\n"
         output += "  }\n"
-        output += "  kern_func<<< ((stack_size + %(grouping)d - 1) / %(grouping)d), %(threads)d, shared_size, stream >>>\n" \
-                  % self.__dict__
+        output += (
+            "  kern_func<<< ((stack_size + %(grouping)d - 1) / %(grouping)d), %(threads)d, shared_size, stream >>>\n"
+            % self.__dict__
+        )
         output += "  (param_stack, stack_size, \n"
         output += "  a_data, b_data, c_data);\n"
         output += "  return(0);\n"
@@ -107,13 +112,13 @@ class Kernel:
 
     @property
     def func_signature(self):
-        raise NotImplementedError('func_signature must be implemented in subclass')
+        raise NotImplementedError("func_signature must be implemented in subclass")
 
     @staticmethod
     def promising_parameters(m, n, k, gpu, autotuning):
-        raise NotImplementedError('promising_parameters must be implemented in subclass')
+        raise NotImplementedError("promising_parameters must be implemented in subclass")
 
     @staticmethod
     def baseline(m, n, k, gpu, autotuning):
         """Compute a baseline parameter set, whose performance can be compared against"""
-        raise NotImplementedError('baseline must be implemented in subclass')
+        raise NotImplementedError("baseline must be implemented in subclass")

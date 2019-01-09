@@ -23,9 +23,9 @@ from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_
 def main():
     usage = "Usage: tune.py <blocksize 1> ... <blocksize N>"
     parser = OptionParser(usage)
-    parser.add_option("-p", "--params", metavar="filename.json",
-                      default="parameters_P100.json",
-                      help="Default: %default")
+    parser.add_option(
+        "-p", "--params", metavar="filename.json", default="parameters_P100.json", help="Default: %default"
+    )
 
     (options, args) = parser.parse_args(sys.argv)
     if len(sys.argv) < 2:
@@ -36,16 +36,18 @@ def main():
     param_fn = options.params
     assert param_fn in arch_number.keys(), "Cannot find compute version for file " + param_fn
     arch = arch_number[param_fn]
-    with open('kernels/gpu_properties.json') as f:
+    with open("kernels/gpu_properties.json") as f:
         gpu_properties = json.load(f)["sm_" + str(arch)]
-    with open('kernels/autotuning_properties.json') as f:
+    with open("kernels/autotuning_properties.json") as f:
         autotuning_properties = json.load(f)
     with open(param_fn) as f:
         all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
     autotuned_kernels = [k for k in all_kernels if k.autotuned]
     predicted_kernels = [k for k in all_kernels if not k.autotuned]
-    print("Libcusmm: Found %d existing parameter sets, of which %d are autotuned and %d are predicted." %
-          (len(all_kernels), len(autotuned_kernels), len(predicted_kernels)))
+    print(
+        "Libcusmm: Found %d existing parameter sets, of which %d are autotuned and %d are predicted."
+        % (len(all_kernels), len(autotuned_kernels), len(predicted_kernels))
+    )
 
     blocksizes = [int(i) for i in args[1:]]
     assert len(set(blocksizes)) == len(blocksizes)
@@ -72,7 +74,7 @@ def main():
 # ===============================================================================
 def format_params(params):
     output = []
-    order = ['m', 'n', 'k', 'tile_m', 'tile_n', 'w', 'v', 'split_thread', 'threads', 'blockdim', 'grouping']
+    order = ["m", "n", "k", "tile_m", "tile_n", "w", "v", "split_thread", "threads", "blockdim", "grouping"]
     for k in order:
         if k in params.keys():
             output.append("%s=%d" % (k, params[k]))
@@ -91,8 +93,10 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
     launchers = []
     kernel_descr = []
 
-    # Get the kernels compatible with the given size: 
-    compatible_kernels = [k for k in kernel_algorithm.values() if compatible_mnk(kernel_algorithm[k], m, n, k)]
+    # Get the kernels compatible with the given size:
+    compatible_kernels = [
+        kernel_algorithm[kernclass] for kernclass in kernel_algorithm.keys() if compatible_mnk(kernclass, m, n, k)
+    ]
 
     for kernclass in compatible_kernels:
         params = kernclass.promising_parameters(m, n, k, gpu_properties, autotuning_properties)
@@ -100,7 +104,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
             continue
 
         for p in params:
-            kern = kernclass(**p, source='autotuning_candidate', perf=0)
+            kern = kernclass(**p, source="autotuning_candidate", perf=0)
             includes.append("../kernels/" + kern.include)
             launcher_codes.append(kern.launcher_code)
             launchers.append("launch_" + kern.name)
@@ -118,50 +122,60 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
     MAX_LAUNCHERS_PER_EXE = 10000
     LAUNCHERS_PER_OBJ = 100
 
-    n_exe_files = int(len(launcher_codes)/MAX_LAUNCHERS_PER_EXE) + 1
+    n_exe_files = int(len(launcher_codes) / max_launchers_per_exe) + 1
     launchers_per_exe = int(len(launcher_codes) / n_exe_files) + 1
 
     for i in range(n_exe_files):
-        A = i * launchers_per_exe
-        B = min((i+1)*launchers_per_exe, len(launcher_codes))
-        for j in range(int((B-A)/LAUNCHERS_PER_OBJ) + 1):
+        chunk_a = i * launchers_per_exe
+        chunk_b = min((i + 1) * launchers_per_exe, len(launcher_codes))
+        for j in range(int((chunk_b - chunk_a) / launchers_per_obj) + 1):
             output = incl_output
-            a = A + j*LAUNCHERS_PER_OBJ
-            b = min(A + (j+1)*LAUNCHERS_PER_OBJ, B)
+            a = chunk_a + j * launchers_per_obj
+            b = min(chunk_a + (j + 1) * launchers_per_obj, chunk_b)
             output += "\n\n".join(launcher_codes[a:b])
             fn = outdir+"/tune_%dx%dx%d_exe%d_part%d.cu" % (m, n, k, i, j)
             writefile(fn, output)
 
         output = '#include "../libcusmm_benchmark.h"\n\n'
         for l in launchers:
-            output += "int " + l + "(int *param_stack, int stack_size, cudaStream_t stream, int m_max, int n_max, int k_max, double *a_data, double *b_data, double *c_data);\n"
+            output += (
+                "int "
+                + l
+                + "(int *param_stack, int stack_size, cudaStream_t stream, int m_max, int n_max, int k_max,"
+                + " double *a_data, double *b_data, double *c_data);\n"
+            )
 
         output += "\n"
         output += "int main(int argc, char** argv){\n"
         output += "libcusmm_benchmark_t* handle;\n"
-        output += "KernelLauncher launchers[%d];\n" % (B-A)
-        output += "char *kernel_descr[%d];\n" % (B-A)
+        output += "KernelLauncher launchers[%d];\n" % (chunk_b - chunk_a)
+        output += "char *kernel_descr[%d];\n" % (chunk_b - chunk_a)
 
-        for j in range(B-A):
-            output += "launchers[%d]    = %s;\n" % (j, launchers[A+j])
-            output += 'kernel_descr[%d] = (char *) "%s";\n' % (j, kernel_descr[A+j])
+        for j in range(chunk_b - chunk_a):
+            output += "launchers[%d]    = %s;\n" % (j, launchers[chunk_a + j])
+            output += 'kernel_descr[%d] = (char *) "%s";\n' % (j, kernel_descr[chunk_a + j])
         output += "libcusmm_benchmark_init(&handle, tune, %d, %d, %d);\n" % (m, n, k)
-        output += "int result = libcusmm_benchmark(handle, %d, %d, %d, %d, launchers, kernel_descr);\n" % (m, n, k, chunk_b-chunk_a)
+        output += "int result = libcusmm_benchmark(handle, %d, %d, %d, %d, launchers, kernel_descr);\n" % (
+            m,
+            n,
+            k,
+            chunk_b - chunk_a,
+        )
         output += "libcusmm_benchmark_finalize(handle);\n"
         output += "return result;"
         output += "}\n"
 
-        fn = outdir+"/tune_%dx%dx%d_exe%d_main.cu" % (m, n, k, i)
+        fn = outdir + "/tune_%dx%dx%d_exe%d_main.cu" % (m, n, k, i)
         writefile(fn, output)
 
 
 # ===============================================================================
 def gen_jobfile(outdir, m, n, k):
     t = "/tune_%dx%dx%d" % (m, n, k)
-    all_exe_src = [os.path.basename(fn) for fn in glob(outdir+t+"_*_main.cu")]
+    all_exe_src = [os.path.basename(fn) for fn in glob(outdir + t + "_*_main.cu")]
     all_exe = sorted([fn.replace("_main.cu", "") for fn in all_exe_src])
 
-    output  = "#!/bin/bash -l\n"
+    output = "#!/bin/bash -l\n"
     output += "#SBATCH --nodes=%d\n" % len(all_exe)
     output += "#SBATCH --time=0:30:00\n"
     output += "#SBATCH --account=s238\n"
@@ -179,30 +193,43 @@ def gen_jobfile(outdir, m, n, k):
     output += "\n"
     output += "date\n"
     for exe in all_exe:
-        output += "srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=12 make -j 24 %s &\n" % exe
+        output += (
+            "srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=12 make -j 24 %s &\n"
+            % exe
+        )
     output += "wait\n"
     output += "date\n"
     output += "\n"
     for exe in all_exe:
-        output += "srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=1 ./" + exe + \
-                  " >" + exe + ".log 2>&1 & \n"
+        output += (
+            "srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=1 ./"
+            + exe
+            + " >"
+            + exe
+            + ".log 2>&1 & \n"
+        )
     output += "wait\n"
     output += "date\n"
     output += "\n"
     output += "echo Over all winner:\n"
-    output += 'grep WINNER .' + t + '_exe*.log  |  sort -n --field-separator="#" -k 2 | tail -n 1\n'
+    output += "grep WINNER ." + t + '_exe*.log  |  sort -n --field-separator="#" -k 2 | tail -n 1\n'
     output += "\n"
     output += "#EOF\n"
 
-    fn = outdir+t+".job"
+    fn = outdir + t + ".job"
     writefile(fn, output)
 
 
 # ===============================================================================
-def gen_makefile(outdir, arch):
-    output  = ".SECONDARY:\n"
+def gen_makefile(outdir, arch, compile_info=True):
+
+    compile_info_options = ""
+    if compile_info:
+        compile_info_options = " -Xptxas -v "
+
+    output = ".SECONDARY:\n"
     output += "vpath %.cu ../\n\n"
-    all_exe_src = sorted([os.path.basename(fn) for fn in glob(outdir+"/tune_*_main.cu")])
+    all_exe_src = sorted([os.path.basename(fn) for fn in glob(outdir + "/tune_*_main.cu")])
     build_targets = [fn.replace("_main.cu", "") for fn in all_exe_src]
 
     output += ".PHONY: do_nothing build_all \n\n"
@@ -225,7 +252,7 @@ def gen_makefile(outdir, arch):
         output += exe + " : " + deps_obj + "\n"
         output += "\tnvcc -O3 -arch=sm_" + str(arch) + " -w -o $@ $^ -L $(CUDA_PATH) -lcuda\n\n"
 
-    writefile(outdir+"/Makefile", output)
+    writefile(outdir + "/Makefile", output)
 
 
 # ===============================================================================
@@ -233,11 +260,11 @@ def gen_collect(outdir, triples):
     output = "#!/bin/bash\n"
     for (m, n, k) in triples:
         t = "/tune_%dx%dx%d" % (m, n, k)
-        output += 'grep WINNER .' + t + '_exe*.log  |  sort -n --field-separator="#" -k 2 | tail -n 1\n'
+        output += "grep WINNER ." + t + '_exe*.log  |  sort -n --field-separator="#" -k 2 | tail -n 1\n'
     output += "#EOF\n"
     fn = outdir + "/collect_winners.sh"
     writefile(fn, output)
-    os.system("chmod +x "+fn)
+    os.system("chmod +x " + fn)
 
 
 # ===============================================================================

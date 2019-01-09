@@ -9,9 +9,17 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-
+import re
+import sys
+import numpy as np
 from optparse import OptionParser
-from predict_helpers import *
+from predict_helpers import (
+    performance_gain,
+    relative_performance_gain,
+    plot_absolute_performance_gain,
+    plot_relative_performance_gain,
+    plot_performance_gains,
+)
 
 
 # ===============================================================================
@@ -39,10 +47,20 @@ def main(argv):
     del argv  # unused
 
     parser = OptionParser()
-    parser.add_option("-f", "--file", metavar="filename.out", default="",
-                      help="Result file to evaluate. Output of tests/libcusmm_timer_multiply.cu")
-    parser.add_option("-n", "--file_baseline", metavar="filename.out", default="",
-                      help="Baseline performance file to compare against.")
+    parser.add_option(
+        "-f",
+        "--file",
+        metavar="filename.out",
+        default="",
+        help="Result file to evaluate. Output of tests/libcusmm_timer_multiply.cu",
+    )
+    parser.add_option(
+        "-n",
+        "--file_baseline",
+        metavar="filename.out",
+        default="",
+        help="Baseline performance file to compare against.",
+    )
     options, args = parser.parse_args(sys.argv)
 
     # ===============================================================================
@@ -51,18 +69,22 @@ def main(argv):
         result_file = f.read().splitlines()
     results_predictive_model = read_result_file(result_file)
 
-    # Read naïve result file
+    # Read baseline result file
     with open(options.file_baseline) as f:
         result_file = f.read().splitlines()
     results_baseline = read_result_file(result_file)
 
     # ===============================================================================
     # Performance comparison quantities
-    improved_over_baseline = dict(zip(sorted(
-        results_predictive_model.keys()),
-        [results_predictive_model[(m, n, k)] > results_baseline[(m, n, k)]
-         for m, n, k in sorted(results_predictive_model.keys())]
-    ))
+    improved_over_baseline = dict(
+        zip(
+            sorted(results_predictive_model.keys()),
+            [
+                results_predictive_model[(m, n, k)] > results_baseline[(m, n, k)]
+                for m, n, k in sorted(results_predictive_model.keys())
+            ],
+        )
+    )
     perf_gain_over_baseline = performance_gain(results_baseline, results_predictive_model)
     rel_perf_gain_over_baseline = relative_performance_gain(results_baseline, results_predictive_model)
 
@@ -70,22 +92,38 @@ def main(argv):
     # Print results
     header = "m, n, k: baseline perf. [Gflops], predictive model perf. [Gflops], performance gain [? ]"
     print(header)
-    line = "{m:>2}, {n:>2}, {k:>2}: {baseline_perf:>7.2f}, {predictive_model_perf:>7.2f}, " + \
-           "{performance_gain:>7.2f}, {better}"
+    line = (
+        "{m:>2}, {n:>2}, {k:>2}: {baseline_perf:>7.2f}, {predictive_model_perf:>7.2f}, "
+        + "{performance_gain:>7.2f}, {better}"
+    )
     for m, n, k in sorted(results_predictive_model.keys()):
-        print(line.format(m=m, n=n, k=k,
-                          baseline_perf=results_baseline[(m, n, k)],
-                          predictive_model_perf=results_predictive_model[(m, n, k)],
-                          performance_gain=perf_gain_over_baseline[(m, n, k)],
-                          better=improved_over_baseline[(m, n, k)]))
+        print(
+            line.format(
+                m=m,
+                n=n,
+                k=k,
+                baseline_perf=results_baseline[(m, n, k)],
+                predictive_model_perf=results_predictive_model[(m, n, k)],
+                performance_gain=perf_gain_over_baseline[(m, n, k)],
+                better=improved_over_baseline[(m, n, k)],
+            )
+        )
 
-    print("\nKernel performances improved by predictive model:",
-          list(improved_over_baseline.values()).count(True), "/", len(results_predictive_model.keys()))
+    print(
+        "\nKernel performances improved by predictive model:",
+        list(improved_over_baseline.values()).count(True),
+        "/",
+        len(results_predictive_model.keys()),
+    )
     perf_gain_improved = [pg for pg in perf_gain_over_baseline.values() if pg > 0]
     print("Mean performance gain amongst improved kernels: {:.2f} Gflops".format(np.mean(perf_gain_improved)))
 
-    print("\nKernel performances reduced by predictive model:",
-          list(improved_over_baseline.values()).count(False), "/", len(results_predictive_model.keys()))
+    print(
+        "\nKernel performances reduced by predictive model:",
+        list(improved_over_baseline.values()).count(False),
+        "/",
+        len(results_predictive_model.keys()),
+    )
     perf_gain_deteriorated = [pg for pg in perf_gain_over_baseline.values() if pg < 0]
     print("Mean performance loss amongst deteriorated kernels: {:.2f} Gflops".format(np.mean(perf_gain_deteriorated)))
 
@@ -93,12 +131,12 @@ def main(argv):
 
     # ===============================================================================
     # Plot results (testing set: predictive modelling VS naïve)
-    plot_absolute_performance_gain(perf_gain_over_baseline, 'non-autotuned', 'baseline', 'predictive model')
-    plot_relative_performance_gain(rel_perf_gain_over_baseline, 'non-autotuned', 'baseline', 'predictive model')
-    plot_performance_gains(results_predictive_model, results_baseline, 'non-autotuned', 'baseline', 'predictive model')
+    plot_absolute_performance_gain(perf_gain_over_baseline, "non-autotuned", "baseline", "predictive model")
+    plot_relative_performance_gain(rel_perf_gain_over_baseline, "non-autotuned", "baseline", "predictive model")
+    plot_performance_gains(results_predictive_model, results_baseline, "non-autotuned", "baseline", "predictive model")
 
 
 # ===============================================================================
 main(argv=sys.argv[1:])
 
-#EOF
+# EOF
