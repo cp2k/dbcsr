@@ -49,13 +49,10 @@ class TestCheckArchives(unittest.TestCase):
 
         os.mkdir(my_dir)
 
-        makedep.main(
-            out_fn, "empty_project",
-            "lower", "normal", ".a",
-            my_dir, [])
+        makedep.main(out_fn, "empty_project", "lower", "normal", ".a", my_dir, [])
 
-        with open(out_fn, 'r') as fhandle:
-            no_comment_lines = [l.strip() for l in fhandle if not l.startswith('#') and l.strip()]
+        with open(out_fn, "r") as fhandle:
+            no_comment_lines = [l.strip() for l in fhandle if not l.startswith("#") and l.strip()]
 
         self.assertEqual(len(no_comment_lines), 0)
 
@@ -69,34 +66,23 @@ class TestCheckArchives(unittest.TestCase):
         single_fn = path.join(my_dir, "single.F")
 
         os.mkdir(my_dir)
-        with open(single_fn, 'w') as fhandle:
+        with open(single_fn, "w") as fhandle:
             fhandle.write("\n")
 
         with self.assertRaises(SystemExit):
             # should throw an exception due to missing PACKAGES
-            makedep.main(
-                out_fn, "faulty_project",
-                "lower", "normal", ".a",
-                my_dir, ["./single.F"])
+            makedep.main(out_fn, "faulty_project", "lower", "normal", ".a", my_dir, ["./single.F"])
 
-        _mkpkg({
-            "description": "Nothing",
-            "archive": "test",
-            "public": ["*.F"],
-            "requires": []
-            }, my_dir)
+        _mkpkg({"description": "Nothing", "archive": "test", "public": ["*.F"], "requires": []}, my_dir)
 
-        makedep.main(
-            out_fn, "single_empty",
-            "lower", "normal", ".a",
-            my_dir, ["./single.F"])
+        makedep.main(out_fn, "single_empty", "lower", "normal", ".a", my_dir, ["./single.F"])
 
-        with open(out_fn, 'r') as fhandle:
-            no_comment_lines = [l.strip() for l in fhandle if not l.startswith('#') and l.strip()]
+        with open(out_fn, "r") as fhandle:
+            no_comment_lines = [l.strip() for l in fhandle if not l.startswith("#") and l.strip()]
 
         self.assertEqual(
-            no_comment_lines,
-            ['$(LIBDIR)/test.a : single.o', 'install: PUBLICFILES += *.F', 'single.o : single.F'])
+            no_comment_lines, ["$(LIBDIR)/test.a : single.o", "install: PUBLICFILES += *.F", "single.o : single.F"]
+        )
 
     def test_unicode(self):
         """
@@ -108,28 +94,27 @@ class TestCheckArchives(unittest.TestCase):
         single_fn = path.join(my_dir, "single.F")
 
         os.mkdir(my_dir)
-        with io.open(single_fn, 'w', encoding='utf8') as fhandle:
+        with io.open(single_fn, "w", encoding="utf8") as fhandle:
             fhandle.write(u"! Ångström\n")
 
-        _mkpkg("""{
+        _mkpkg(
+            """{
     "description": "unicode test with just an Ångström 😉",
     "archive": "test",
     "public": ["*.F"],
     "requires": []
-}""", my_dir)
+}""",
+            my_dir,
+        )
 
-        makedep.main(
-            out_fn, "unicode_project",
-            "lower", "normal", ".a",
-            my_dir, ["./single.F"])
+        makedep.main(out_fn, "unicode_project", "lower", "normal", ".a", my_dir, ["./single.F"])
 
-        with open(out_fn, 'r') as fhandle:
-            no_comment_lines = [l.strip() for l in fhandle if not l.startswith('#') and l.strip()]
+        with open(out_fn, "r") as fhandle:
+            no_comment_lines = [l.strip() for l in fhandle if not l.startswith("#") and l.strip()]
 
         self.assertEqual(
-            no_comment_lines,
-            ['$(LIBDIR)/test.a : single.o', 'install: PUBLICFILES += *.F', 'single.o : single.F'])
-
+            no_comment_lines, ["$(LIBDIR)/test.a : single.o", "install: PUBLICFILES += *.F", "single.o : single.F"]
+        )
 
     def test_subpackage(self):
         """
@@ -146,62 +131,66 @@ class TestCheckArchives(unittest.TestCase):
         os.mkdir(sub_dir)
 
         for fname in [single_fn, sub_fn]:
-            with open(fname, 'w') as fhandle:
+            with open(fname, "w") as fhandle:
                 fhandle.write("")
 
-        _mkpkg("""{
+        _mkpkg(
+            """{
     "description": "test with a simple subpackage",
     "archive": "test",
     "public": ["*.F"],
     "requires": ["./sub"]
-}""", my_dir)
+}""",
+            my_dir,
+        )
 
-        _mkpkg("""{
+        _mkpkg(
+            """{
     "description": "the sub package",
     "requires": [""]
-}""", sub_dir)
+}""",
+            sub_dir,
+        )
 
-        makedep.main(
-            out_fn, "sub_pkg_without_dep",
-            "lower", "normal", ".a",
-            my_dir, ["./single.F"])
+        makedep.main(out_fn, "sub_pkg_without_dep", "lower", "normal", ".a", my_dir, ["./single.F"])
 
-        with open(out_fn, 'r') as fhandle:
-            no_comment_lines = [l.strip() for l in fhandle if not l.startswith('#') and l.strip()]
+        with open(out_fn, "r") as fhandle:
+            no_comment_lines = [l.strip() for l in fhandle if not l.startswith("#") and l.strip()]
 
         self.assertEqual(
-            no_comment_lines,
-            ['$(LIBDIR)/test.a : single.o', 'install: PUBLICFILES += *.F', 'single.o : single.F'])
+            no_comment_lines, ["$(LIBDIR)/test.a : single.o", "install: PUBLICFILES += *.F", "single.o : single.F"]
+        )
 
-        with open(single_fn, 'w') as fhandle:
-            fhandle.write("""module single
+        with open(single_fn, "w") as fhandle:
+            fhandle.write(
+                """module single
     use :: sub
-end module""")
+end module"""
+            )
 
-        with open(sub_fn, 'w') as fhandle:
-            fhandle.write("""module sub
-end module""")
+        with open(sub_fn, "w") as fhandle:
+            fhandle.write(
+                """module sub
+end module"""
+            )
 
-        makedep.main(
-            out_fn, "sub_pkg_with_dep",
-            "lower", "normal", ".a",
-            my_dir, ["./single.F", "./sub/sub.F"])
+        makedep.main(out_fn, "sub_pkg_with_dep", "lower", "normal", ".a", my_dir, ["./single.F", "./sub/sub.F"])
 
-        with open(out_fn, 'r') as fhandle:
-            no_comment_lines = [l.strip() for l in fhandle if not l.startswith('#') and l.strip()]
+        with open(out_fn, "r") as fhandle:
+            no_comment_lines = [l.strip() for l in fhandle if not l.startswith("#") and l.strip()]
 
         self.assertEqual(
             sorted(no_comment_lines),
             [
-                '$(LIBDIR)/libsub_pkg_with_depsub.a : sub.o',
-                '$(LIBDIR)/test.a : single.o',
-                'install: PUBLICFILES += *.F',
-                'single.mod : single.F',
-                'single.o : single.F',
-                'sub.o : sub.F',
-                ]
-            )
+                "$(LIBDIR)/libsub_pkg_with_depsub.a : sub.o",
+                "$(LIBDIR)/test.a : single.o",
+                "install: PUBLICFILES += *.F",
+                "single.mod : single.F",
+                "single.o : single.F",
+                "sub.o : sub.F",
+            ],
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
