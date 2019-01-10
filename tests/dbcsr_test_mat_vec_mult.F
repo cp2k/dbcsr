@@ -213,7 +213,7 @@ PROGRAM dbcsr_test_mat_vec_mult
    CALL dbcsr_init_lib()
 
 
-   CALL dbcsr_print_config(io_unit)
+   !CALL dbcsr_print_config(io_unit)
 
 
     CALL dbcsr_make_random_block_sizes(sizes_m, m, bs) 
@@ -307,9 +307,9 @@ PROGRAM dbcsr_test_mat_vec_mult
       CALL timestop(handle)
 
    ! Print timers
-   CALL timings_report_print(io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
+   !CALL timings_report_print(io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
    ! Dump callgraph
-   CALL timings_report_callgraph("test.callgraph")
+   !CALL timings_report_callgraph("test.callgraph")
 
    call dbcsr_mp_grid_remove(mp_env)
    !

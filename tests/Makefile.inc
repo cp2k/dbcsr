@@ -1,6 +1,6 @@
 
 # Add unit tests to be executed by test target in Makefile
-UNITTESTS = dbcsr_unittest1 dbcsr_unittest2 dbcsr_tensor_unittest dbcsr_test_csr_conversions,dbcsr_test_mat_vec_mult
+UNITTESTS = dbcsr_unittest1 dbcsr_unittest2 dbcsr_tensor_unittest dbcsr_test_csr_conversions dbcsr_test_mat_vec_mult
 # Input tests for the dbcsr_performance_driver
 PERFTESTS = $(wildcard $(TESTSDIR)/inputs/*.perf)
 
