@@ -142,8 +142,7 @@ PROGRAM dbcsr_test_mat_vec_mult
         
     INTEGER, DIMENSION(:), POINTER :: col_dist, row_dist
     TYPE(dbcsr_distribution_obj)                       :: dist
-    TYPE(dbcsr_data_obj)                               :: data_a, data_b, data_c, inp_vec, &
-                                                          res_vec, res_vec_init, diff
+    TYPE(dbcsr_data_obj)                               :: data_a, inp_vec, res_vec, res_vec_init
     INTEGER                                            :: a_c, a_r, v_c, v_r
     !real(real_8) :: residual
   
@@ -196,7 +195,8 @@ PROGRAM dbcsr_test_mat_vec_mult
    ! set standard output parameters
    io_unit = 0
    IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
-   
+  
+
    NULLIFY (logger)
    CALL dbcsr_logger_create(logger, mp_env=mp_env, &
                             default_global_unit_nr=io_unit, &
