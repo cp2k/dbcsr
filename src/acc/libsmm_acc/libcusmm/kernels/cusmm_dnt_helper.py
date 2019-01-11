@@ -168,9 +168,7 @@ derived_parameters = {
         'mxnxk', 'size_a', 'size_b', 'size_c',
 =======
     "common": [
-        "perf_squared",
         "perf_scaled",
-        "perf_scaled_by_algo",
         # 'Gflops', # linearly dependent on mxnxk
         "mxnxk",
         "size_a",
@@ -598,7 +596,7 @@ class PredictiveParameters:
         """Generic function to compute any feature given by name"""
 
         if feature_name not in self.params.columns.values:
-            if feature_name not in ["perf_scaled", "perf_scaled_by_algo"]:  # not vectorizable
+            if feature_name != "perf_scaled":  # not vectorizable
                 vget = getattr(self, "get_" + feature_name)
             else:
                 vget = np.vectorize(getattr(self, "get_" + feature_name))
@@ -619,51 +617,6 @@ class PredictiveParameters:
 
     # ===============================================================================
     # Performances
-    def get_perf_squared(self):
-        return self.get("perf (Gflop/s)") * self.get("perf (Gflop/s)")
-
-    def get_perf_scaled_by_algo(self):
-        """
-        Scale raw performances in [Gflop/s] between 0 and 1, where
-            0 = 0 Gflop/s
-            1 = performance equal to autotuned maximum FOR THIS SPECIFIC ALGORITHM
-        :return: numpy array of scaled performances
-        """
-        # This function is written with the assumption that all parameter sets in this object instance have the same
-        # algorithm
-        assert len(np.unique(self.get("algorithm"))) == 1, "More than one type of algorithm found"
-
-        # Get list of different (m, n, k)s occurring in this instance
-        mnks = np.unique(self.get("mnk"))
-
-        # Get max. performance per (m, n, k), per algorithm
-        autotuned_max = dict()
-
-        for mnk in mnks:
-
-            # Get indices corresponding to this mnk
-            # idx_mnk = np.where(self.get('mnk') == mnk)[0].tolist()
-            m, n, k = mnk
-            blob = np.where((self.get("m") == m) & (self.get("n") == n) & (self.get("k") == k))
-            idx_mnk_ = blob[0]
-            idx_mnk = idx_mnk_.tolist()
-
-            # Get performances per mnk
-            perf_mnk_algo = self.get("perf (Gflop/s)")[idx_mnk]
-
-            # Store maxperf
-            maxperf = float(perf_mnk_algo.max(axis=0))  # max. performance found through autotuning
-            autotuned_max[mnk] = maxperf
-
-        # Scale performances
-        def scale_perf(perf, mnk):
-            """For a given mnk and a given performance on this mnk, return the scaled performance"""
-            return perf / autotuned_max[mnk]
-
-        vec_scale_perf = np.vectorize(scale_perf)
-        ret = vec_scale_perf(self.get("perf (Gflop/s)"), self.get("mnk"))
-        return ret
-
     def get_perf_scaled(self):
         """
         Scale raw performances in [Gflop/s] between 0 and 1, where
@@ -799,6 +752,16 @@ class PredictiveParameters:
             * self.get("k")
             * 2
             * 10 ** (-9)
+        )
+
+    # ===============================================================================
+    # Resource occupancy estimations
+    # Note: these features need compilation information: nbytes of shared memory used and number of registers used
+    def get_nblocks_per_sm_lim_blks_warps(self):
+        """Resource occupations in terms of warps and blocks (Follows CUDA calculator sheet)"""
+        return np.minimum(
+            self.gpu["Thread_Blocks_/_Multiprocessor"],
+            np.floor(self.gpu["Warps_/_Multiprocessor"] / self.get("warps_per_blk")),
         )
 
     # ===============================================================================

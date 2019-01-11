@@ -282,7 +282,7 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
     X = pd.concat(
         [
             raw_data.drop(to_drop + ["perf (Gflop/s)"], axis=1),
-            derived_data.drop(["perf_squared", "perf_scaled", "perf_scaled_by_algo"], axis=1),
+            derived_data.drop(["perf_scaled"], axis=1),
         ],
         axis=1,
     )
