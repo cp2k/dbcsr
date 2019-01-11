@@ -33,7 +33,7 @@ def main():
     For more details, see predict.md
 
     Once autotuning of new kernels has been run,
-    - collect the parameter information, compilation information and performance from log files,
+    - collect the parameter information and performance from log files,
     - dump them to CSV files for data analysis and training of a predictive model
     - Write the max_performances and baseline_performances to JSON files
     """

@@ -32,7 +32,7 @@ def main():
         print(usage)
         sys.exit(1)
 
-    # read existing parameters
+    # Read existing parameters
     param_fn = options.params
     assert param_fn in arch_number.keys(), "Cannot find compute version for file " + param_fn
     arch = arch_number[param_fn]
@@ -49,10 +49,12 @@ def main():
         % (len(all_kernels), len(autotuned_kernels), len(predicted_kernels))
     )
 
+    # Get blocksizes to be autotuned
     blocksizes = [int(i) for i in args[1:]]
     assert len(set(blocksizes)) == len(blocksizes)
     blocksizes.sort()
 
+    # Get (m, n, k) triplets to be autotuned
     triples = combinations(*blocksizes)
 
     for (m, n, k) in triples:
@@ -119,8 +121,8 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
         incl_output += '#include "%s"\n' % i
     incl_output += "\n\n"
 
-    MAX_LAUNCHERS_PER_EXE = 10000
-    LAUNCHERS_PER_OBJ = 100
+    max_launchers_per_exe = 10000
+    launchers_per_obj = 100
 
     n_exe_files = int(len(launcher_codes) / max_launchers_per_exe) + 1
     launchers_per_exe = int(len(launcher_codes) / n_exe_files) + 1
@@ -133,7 +135,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
             a = chunk_a + j * launchers_per_obj
             b = min(chunk_a + (j + 1) * launchers_per_obj, chunk_b)
             output += "\n\n".join(launcher_codes[a:b])
-            fn = outdir+"/tune_%dx%dx%d_exe%d_part%d.cu" % (m, n, k, i, j)
+            fn = outdir + "/tune_%dx%dx%d_exe%d_part%d.cu" % (m, n, k, i, j)
             writefile(fn, output)
 
         output = '#include "../libcusmm_benchmark.h"\n\n'
@@ -221,11 +223,7 @@ def gen_jobfile(outdir, m, n, k):
 
 
 # ===============================================================================
-def gen_makefile(outdir, arch, compile_info=True):
-
-    compile_info_options = ""
-    if compile_info:
-        compile_info_options = " -Xptxas -v "
+def gen_makefile(outdir, arch):
 
     output = ".SECONDARY:\n"
     output += "vpath %.cu ../\n\n"
@@ -239,12 +237,12 @@ def gen_makefile(outdir, arch, compile_info=True):
     output += "libcusmm_benchmark.o : libcusmm_benchmark.cu\n"
     output += "\tnvcc -O3 -arch=sm_" + str(arch) + " -w -c -std=c++11 $<\n\n"
 
-    headers = " ".join(["."+fn for fn in glob("./kernels/*.h")])
-    output += "%.o : %.cu "+headers+"\n"
+    headers = " ".join(["." + fn for fn in glob("./kernels/*.h")])
+    output += "%.o : %.cu " + headers + "\n"
     output += "\tnvcc -O3 -arch=sm_" + str(arch) + " -w -c $<\n\n"
 
     for exe_src in all_exe_src:
-        absparts = sorted(glob(outdir+"/"+exe_src.replace("_main.cu", "_part*")))
+        absparts = sorted(glob(outdir + "/" + exe_src.replace("_main.cu", "_part*")))
         parts = [os.path.basename(fn) for fn in absparts]
         deps = [exe_src, "libcusmm_benchmark.cu"] + parts
         deps_obj = " ".join([fn.replace(".cu", ".o") for fn in deps])

@@ -10,7 +10,6 @@
 
 import re
 import numpy as np
-from kernels.cusmm_dnt import round_up_to_nearest_multiple, round_down_to_nearest_multiple
 
 
 # ===============================================================================
@@ -139,6 +138,19 @@ def to_tuple(*iterable):
 # Lists of derived parameters to use as training data for the predictive modelling
 # Some of the computable features are commented out because they are constant or (almost) linearly dependent on another
 # feature, and therefore they do not contribute to the decision tree model.
+raw_parameters = [
+    "m",
+    "n",
+    "k",
+    "threads_per_blk",
+    'grouping',
+    "minblocks",
+    "tile_m",
+    "tile_n",
+    "w",
+    "v",
+    "perf (Gflop/s)",
+]
 derived_parameters = {
     "common": [
         "perf_scaled",
@@ -252,47 +264,6 @@ derived_parameters = {
         "ru_smallmedlarge_rmax",
         "ru_smallmedlarge_T",
         "ru_smallmedlarge_min_threads",
-    ],
-}
-derived_parameters_withcompileinfo = {
-    "common": derived_parameters["common"]
-    + [
-        "nblocks_per_sm_lim_blks_warps",
-        "nblocks_per_sm_lim_reg",
-        "smem_per_block",
-        "nblocks_per_sm_lim_smem",
-        "nblks_per_sm",
-        "nwarps_per_sm",
-        "nsm",
-        "ngpu",
-        "occupancy",
-    ],
-    "tiny": [
-        p
-        for p in derived_parameters["tiny"]
-        if p
-        not in (
-            "ru_tiny_smem_per_block",  # the smem estimation is correct for algo 'tiny'
-            "ru_tiny_nblks_per_sm",  # equal to nblocks_per_sm_lim_blks_warps
-            "ru_tiny_nwarps_per_sm",  # derived quantities
-            "ru_tiny_nsm",
-            "ru_tiny_ngpu",
-            "ru_tiny_occupancy",
-        )
-    ],
-    "small": [
-        p for p in derived_parameters["small"] if p not in ("ru_smallmed_smem_per_block", "ru_smallmed_regs_per_thread")
-    ],
-    "medium": [
-        p
-        for p in derived_parameters["medium"]
-        if p not in ("ru_smallmed_smem_per_block", "ru_smallmed_regs_per_thread")
-    ],
-    "largeDB1": [
-        p for p in derived_parameters["largeDB1"] if p not in ("ru_large_regs_per_thread", "ru_large_smem_per_block")
-    ],
-    "largeDB2": [
-        p for p in derived_parameters["largeDB2"] if p not in ("ru_large_regs_per_thread", "ru_large_smem_per_block")
     ],
 }
 
@@ -440,9 +411,6 @@ class PredictiveParameters:
                         params_df.columns.values
                     )
 
-            # Possible additional fields, if compilation information is available:
-            # 'nbytes_smem', 'regs_per_thread', nytes_cmem
-
         self.params = params_df
 
     def get(self, feature_name):
@@ -540,59 +508,6 @@ class PredictiveParameters:
     def get_nthreads(self):
         """Total number of threads needed to multiply all matrices on the stack"""
         return self.get("threads") * self.get("nblks")
-
-    # ===============================================================================
-    # Resource occupancy estimations
-    # Note: these features need compilation information: nbytes of shared memory used and number of registers used
-
-    def get_nblocks_per_sm_lim_blks_warps(self):
-        """Resource occupations in terms of warps and blocks (Follows CUDA calculator sheet)"""
-        return np.minimum(
-            self.gpu["Thread_Blocks_/_Multiprocessor"],
-            np.floor(self.gpu["Warps_/_Multiprocessor"] / self.get("warps_per_blk")),
-        )
-
-    def get_nblocks_per_sm_lim_reg(self):
-        """Resource occupations in terms of warps and blocks (Follows CUDA calculator sheet)"""
-        intermediate1 = round_down_to_nearest_multiple(
-            self.gpu["Max_Registers_/_Block"]
-            / round_up_to_nearest_multiple(
-                self.get("regs_per_thread") * self.gpu["Threads_/_Warp"], self.gpu["Register_Allocation_Unit_Size"]
-            ),
-            self.gpu["Warp_Allocation_Granularity"],
-        )
-        intermediate2 = np.floor(intermediate1 / self.get("warps_per_blk")) * np.floor(
-            self.gpu["Register_File_Size_/_Multiprocessor_(32-bit_registers)"] / self.gpu["Max_Registers_/_Block"]
-        )
-        return np.where(intermediate2 != 0, intermediate2, 1)
-
-    def get_smem_per_block(self):
-        """Resource occupations in terms of shared memory (Follows CUDA calculator sheet)"""
-        return round_up_to_nearest_multiple(self.get("nbytes_smem"), self.gpu["Shared_Memory_Allocation_Unit_Size"])
-
-    def get_nblocks_per_sm_lim_smem(self):
-        return np.floor(self.gpu["Shared_Memory_/_Multiprocessor_(bytes)"] / self.get("smem_per_block"))
-
-    def get_nblks_per_sm(self):
-        return np.minimum.reduce(
-            [
-                self.get("nblocks_per_sm_lim_blks_warps"),
-                self.get("nblocks_per_sm_lim_reg"),
-                self.get("nblocks_per_sm_lim_smem"),
-            ]
-        )
-
-    def get_nwarps_per_sm(self):
-        return self.get("nblks_per_sm") * self.get("warps_per_blk")
-
-    def get_nsm(self):
-        return np.ceil(self.get("nblks") / self.get("nblks_per_sm"))
-
-    def get_ngpu(self):
-        return np.ceil(self.get("nsm") / self.gpu["Multiprocessors"])
-
-    def get_occupancy(self):
-        return self.get("nwarps_per_sm") / self.gpu["Warps_/_Multiprocessor"]
 
     # ===============================================================================
     # Resource usage (common)
