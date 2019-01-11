@@ -16,7 +16,7 @@
 !> <b>Modification history:</b>
 !> - Created 2010
 ! **************************************************************************************************
-PROGRAM dbcsr_test_mat_vec_mult
+module dbcsr_test_mat_vec_mult
    USE dbcsr_data_methods, ONLY: dbcsr_data_get_sizes, &
                                  dbcsr_data_init, &
                                  dbcsr_data_new, &
@@ -40,7 +40,8 @@ PROGRAM dbcsr_test_mat_vec_mult
       dbcsr_row_block_sizes,dbcsr_mp_grid_remove
    USE dbcsr_mpiwrap, ONLY: mp_bcast, mp_environ, add_mp_perf_env, &
                             mp_cart_create, mp_cart_rank, mp_comm_free,&
-                            mp_world_finalize, mp_world_init, rm_mp_perf_env
+                            mp_world_finalize, mp_world_init, rm_mp_perf_env, &
+                            mp_sum
 
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_new, &
                                dbcsr_mp_release,dbcsr_mp_grid_setup
@@ -104,21 +105,37 @@ PROGRAM dbcsr_test_mat_vec_mult
 
    IMPLICIT NONE
 
+
    !PRIVATE
 
    !PUBLIC :: dbcsr_test_multiplies
 
-   CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_test_multiply'
+
+contains
+
+  subroutine dbcsr_mat_vec_multiplies(test_name, mp_comm, mp_env, npdims,&
+      io_unit, matrix_size, bs_m, sparsity, alpha, beta)
+
+      CHARACTER(len=*), INTENT(IN)                       :: test_name
+      INTEGER, INTENT(IN)                                :: mp_comm
+      TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
+      INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
+      INTEGER, INTENT(IN)                                :: io_unit
+      integer, intent(in) :: matrix_size, bs_m
+      real(real_8), intent(in)                           :: sparsity
+      real(real_8), INTENT(in)                        :: alpha, beta
+
+   CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mat_vec_multiplies'
 
    LOGICAL, PARAMETER :: debug_mod = .FALSE.
 
-   TYPE(dbcsr_logger_type), POINTER            :: logger
+   !TYPE(dbcsr_logger_type), POINTER            :: logger
 
-   INTEGER                                  :: mp_comm, group, numnodes, mynode, &
-                                               prow, pcol, io_unit, handle
-   INTEGER, DIMENSION(2)                    :: npdims, myploc
-   INTEGER, DIMENSION(:, :), POINTER        :: pgrid
-   TYPE(dbcsr_mp_obj)                       :: mp_env
+   INTEGER                                  :: group, numnodes, mynode, &
+                                               handle
+   !INTEGER, DIMENSION(2)                    :: npdims, myploc
+   !INTEGER, DIMENSION(:, :), POINTER        :: pgrid
+   !TYPE(dbcsr_mp_obj)                       :: mp_env
 
     !INTEGER                                            :: c_a, c_b, c_c, handle, r_a, r_b, r_c
     !INTEGER, DIMENSION(:), POINTER                     :: blk_offsets, col_dist_a, col_dist_b, &
@@ -129,9 +146,8 @@ PROGRAM dbcsr_test_mat_vec_mult
     !TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c
     !TYPE(dbcsr_type)                                   :: m_a, m_b, m_c
 
-    integer                             ::  m,n, k, i ,j, nb, no, nloc
+    integer                             ::  m,n, k, i ,j, nb, no, nloc, numthreads
     INTEGER, DIMENSION(2)               :: bs
-    real(real_8)                        :: sparsity
     TYPE(dbcsr_type)                    :: matrix_a, input_vec, result_vec, rep_row_vec, rep_col_vec
     CHARACTER                           :: a_symm
     INTEGER                             :: mtype 
@@ -147,7 +163,6 @@ PROGRAM dbcsr_test_mat_vec_mult
     !real(real_8) :: residual
   
     INTEGER, DIMENSION(6)                  :: limits  
-    
     TYPE(dbcsr_scalar_type)                            :: alpha_obj, beta_obj
 
     a_symm = dbcsr_type_no_symmetry
@@ -155,12 +170,16 @@ PROGRAM dbcsr_test_mat_vec_mult
   
      n = 1 
      bs(1) = 1 
-     open(unit=123,file="mnkb.dat",status="old",form="formatted")
-      read(123,*) m
-      read(123,*) k
-      read(123,*) bs(2)
-      read(123,*) sparsity
-      close(123)
+     m = matrix_size
+     k = m
+     bs(2) = bs_m
+
+     !open(unit=123,file="mnkb.dat",status="old",form="formatted")
+      !read(123,*) m
+      !read(123,*) k
+      !read(123,*) bs(2)
+      !read(123,*) sparsity
+      !close(123)
 
 
     limits(:) = 1
@@ -168,49 +187,70 @@ PROGRAM dbcsr_test_mat_vec_mult
     limits(4) = n
     limits(6) = k
 
-    CALL mp_world_init(mp_comm)
+    !CALL mp_world_init(mp_comm)
 
    !
    ! Number of nodes and rankid
    CALL mp_environ(numnodes, mynode, mp_comm)
 
-   npdims(:) = 0
-   CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
+
+      IF (io_unit .GT. 0) THEN
+         WRITE (io_unit, *) 'test_name ', test_name
+         numthreads = 1
+!$OMP PARALLEL
+!$OMP MASTER
+!$       numthreads = omp_get_num_threads()
+!$OMP END MASTER
+!$OMP END PARALLEL
+         WRITE (io_unit, *) 'numthreads', numthreads
+         WRITE (io_unit, *) 'numnodes', numnodes
+         WRITE (io_unit, *) 'matrix_size', matrix_size
+         WRITE (io_unit, *) 'sparsity', sparsity
+         WRITE (io_unit, *) 'alpha', alpha
+         WRITE (io_unit, *) 'beta', beta
+         WRITE (io_unit, *) 'limits', limits
+         WRITE (io_unit, *) 'retain_sparsity', .false.
+         WRITE (io_unit, *) 'bs_m', bs_m
+         WRITE (io_unit, *) 'bs_n', bs_m
+         WRITE (io_unit, *) 'bs_k', bs_m
+      END IF
+   !npdims(:) = 0
+   !CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
 
 
   
-  ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
-   DO prow = 0, npdims(1) - 1
-      DO pcol = 0, npdims(2) - 1
-         CALL mp_cart_rank(group, (/prow, pcol/), pgrid(prow, pcol))
-      ENDDO
-   ENDDO
-   CALL dbcsr_mp_new(mp_env, pgrid, group, mynode, numnodes, &
-                     myprow=myploc(1), mypcol=myploc(2))
+  !ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
+   !DO prow = 0, npdims(1) - 1
+      !DO pcol = 0, npdims(2) - 1
+         !CALL mp_cart_rank(group, (/prow, pcol/), pgrid(prow, pcol))
+      !ENDDO
+   !ENDDO
+   !CALL dbcsr_mp_new(mp_env, pgrid, group, mynode, numnodes, &
+                     !myprow=myploc(1), mypcol=myploc(2))
    
-   call dbcsr_mp_grid_setup(mp_env)              
-   DEALLOCATE (pgrid)
+   !call dbcsr_mp_grid_setup(mp_env)              
+   !DEALLOCATE (pgrid)
 
-   !
-   ! set standard output parameters
-   io_unit = 0
-   IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
+   !!
+   !! set standard output parameters
+   !io_unit = 0
+   !IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
   
 
-   NULLIFY (logger)
-   CALL dbcsr_logger_create(logger, mp_env=mp_env, &
-                            default_global_unit_nr=io_unit, &
-                            close_global_unit_on_dealloc=.FALSE.)
-   CALL dbcsr_add_default_logger(logger)
-   CALL dbcsr_logger_release(logger)
-   CALL dbcsr_error_handling_setup()
-   CALL timings_register_hooks()
-   CALL add_mp_perf_env()
-   CALL add_timer_env()
+   !NULLIFY (logger)
+   !CALL dbcsr_logger_create(logger, mp_env=mp_env, &
+                            !default_global_unit_nr=io_unit, &
+                            !close_global_unit_on_dealloc=.FALSE.)
+   !CALL dbcsr_add_default_logger(logger)
+   !CALL dbcsr_logger_release(logger)
+   !CALL dbcsr_error_handling_setup()
+   !CALL timings_register_hooks()
+   !CALL add_mp_perf_env()
+   !CALL add_timer_env()
 
    CALL timeset(routineN, handle)
 
-   CALL dbcsr_init_lib()
+   !CALL dbcsr_init_lib()
 
 
    !CALL dbcsr_print_config(io_unit)
@@ -276,21 +316,28 @@ PROGRAM dbcsr_test_mat_vec_mult
     
      
     ! multiply mat x vec 
-    CALL dbcsr_matrix_colvec_multiply(matrix_a, input_vec, result_vec, 1.0_dp, &
-                                               0.0_dp, rep_row_vec, rep_col_vec)
+    CALL dbcsr_matrix_colvec_multiply(matrix_a, input_vec, result_vec, alpha, &
+                                               beta, rep_row_vec, rep_col_vec)
 
-                                           
+                                      
+    call dbcsr_print(matrix_a)     
+    call dbcsr_print(input_vec)     
+    call dbcsr_print(result_vec)     
     ! densify result vector                                       
     call dbcsr_to_dense_local(result_vec, res_vec_init)
 
-    alpha_obj = compx_to_dbcsr_scalar((1.0_dp,0.0_dp), mtype)
-    beta_obj = compx_to_dbcsr_scalar((0.0_dp,0.0_dp), mtype)
+    alpha_obj = compx_to_dbcsr_scalar(CMPLX(alpha,0.0_dp,dp), mtype)
+    beta_obj = compx_to_dbcsr_scalar(CMPLX(beta,0.0,dp), mtype)
+
+
+    call mp_sum(res_vec_init % d % r2_dp, mp_comm)
+    call mp_sum(data_a % d % r2_dp, mp_comm)
+    call mp_sum(inp_vec % d % r2_dp, mp_comm)
 
     ! check multiply
-    CALL dbcsr_check_multiply("mat_vec_mult", result_vec, res_vec_init, data_a, inp_vec, res_vec, &
+    CALL dbcsr_check_multiply(test_name, result_vec, res_vec_init, data_a, inp_vec, res_vec, &
                               'N', 'N', alpha_obj, beta_obj, limits, .false., io_unit, mp_comm, &
                               success)
-    
 
       call dbcsr_release(matrix_a)
       call dbcsr_release(input_vec)
@@ -302,7 +349,7 @@ PROGRAM dbcsr_test_mat_vec_mult
       call dbcsr_data_release(data_a)  
       call dbcsr_data_release(inp_vec)  
 
-      CALL dbcsr_finalize_lib(mp_comm, io_unit)
+      !CALL dbcsr_finalize_lib(mp_comm, io_unit)
   
       CALL timestop(handle)
 
@@ -311,27 +358,27 @@ PROGRAM dbcsr_test_mat_vec_mult
    ! Dump callgraph
    !CALL timings_report_callgraph("test.callgraph")
 
-   call dbcsr_mp_grid_remove(mp_env)
+   !call dbcsr_mp_grid_remove(mp_env)
    !
    ! clean mp environment
-   CALL dbcsr_mp_release(mp_env)
+   !CALL dbcsr_mp_release(mp_env)
   
 
    ! Remove logger
-   CALL dbcsr_rm_default_logger()
+   !CALL dbcsr_rm_default_logger()
 
    !
    ! free comm
-   CALL mp_comm_free(group)
+   !CALL mp_comm_free(group)
 
    !
    ! Remove timers
-   CALL rm_mp_perf_env()
-   CALL rm_timer_env()
-   !
+   !CALL rm_mp_perf_env()
+   !CALL rm_timer_env()
+   
    ! finalize mpi
-   CALL mp_world_finalize()
+   !CALL mp_world_finalize()
 
-      
+   end subroutine dbcsr_mat_vec_multiplies      
 
-END PROGRAM dbcsr_test_mat_vec_mult
+END module dbcsr_test_mat_vec_mult

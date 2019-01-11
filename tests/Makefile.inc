@@ -1,6 +1,6 @@
 
 # Add unit tests to be executed by test target in Makefile
-UNITTESTS = dbcsr_unittest1 dbcsr_unittest2 dbcsr_tensor_unittest dbcsr_test_csr_conversions dbcsr_test_mat_vec_mult
+UNITTESTS = dbcsr_unittest1 dbcsr_unittest2 dbcsr_tensor_unittest dbcsr_test_csr_conversions 
 # Input tests for the dbcsr_performance_driver
 PERFTESTS = $(wildcard $(TESTSDIR)/inputs/*.perf)
 
@@ -11,15 +11,15 @@ SRC_TESTS += dbcsr_test_csr_conversions.F
 dbcsr_test_csr_conversions: BIN_DEPS =
 
 SRC_TESTS += dbcsr_unittest1.F dbcsr_unittest2.F
-dbcsr_unittest1: BIN_DEPS = dbcsr_test_add.o dbcsr_test_multiply.o
+dbcsr_unittest1: BIN_DEPS = dbcsr_test_add.o dbcsr_test_multiply.o dbcsr_test_mat_vec_mult.o
 dbcsr_unittest2: BIN_DEPS = dbcsr_test_multiply.o
 .NOTPARALLEL: dbcsr_unittest1 dbcsr_unittest2 # Dependency because both tests share an object file
 
 SRC_TESTS += dbcsr_tensor_unittest.F
 dbcsr_tensor_unittest: BIN_DEPS =
 
-SRC_TESTS += dbcsr_test_mat_vec_mult.F
-dbcsr_test_mat_vec_mult: BIN_DEPS = dbcsr_test_multiply.o
+# SRC_TESTS += dbcsr_test_mat_vec_mult.F
+# dbcsr_test_mat_vec_mult: BIN_DEPS = dbcsr_test_multiply.o
 
 ifneq ($(NVCC),)
 UNITTESTS += libcusmm_unittest_multiply libcusmm_unittest_transpose libcusmm_timer_multiply

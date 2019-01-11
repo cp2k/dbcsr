@@ -37,6 +37,8 @@ PROGRAM dbcsr_unittest
    USE dbcsr_test_methods, ONLY: dbcsr_reset_randmat_seed
    USE dbcsr_test_multiply, ONLY: dbcsr_test_multiplies
    USE dbcsr_types, ONLY: dbcsr_mp_obj
+
+   use dbcsr_test_mat_vec_mult, only: dbcsr_mat_vec_multiplies
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -105,6 +107,9 @@ PROGRAM dbcsr_unittest
                         bs_m=(/1, 2/), bs_n=(/1, 2/), &
                         limits=(/1, 50, 1, 50/))
 
+   ! mat x vec ------------------------------------
+   call dbcsr_mat_vec_multiplies("mat x vec square", group, mp_env, npdims, io_unit, 20, 2, 0.5_dp, &
+                                 1.0_dp, 0.0_dp)
    ! multiply ------------------------------------------------------------------
 
    CALL dbcsr_test_multiplies("multiply_ALPHA", &
@@ -311,6 +316,7 @@ PROGRAM dbcsr_unittest
                               alpha=CMPLX(1.0_dp, 0.0_dp, dp), beta=CMPLX(0.0_dp, 0.0_dp, dp), &
                               bs_m=(/1, 2/), bs_n=(/1, 2/), bs_k=(/1, 2/), &
                               limits=(/1, 20, 1, 20, 9, 18/))
+
 
    ! end of test cases ---------------------------------------------------------
 
