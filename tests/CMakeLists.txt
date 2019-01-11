@@ -43,6 +43,7 @@ set(DBCSR_TESTS
 set(dbcsr_unittest_common_SRCS
   dbcsr_test_add.F
   dbcsr_test_multiply.F
+  dbcsr_test_mat_vec_mult.F
   )
 
 # For each test, set a variable testname_SRCS defining the sources of that test
