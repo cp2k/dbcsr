@@ -248,7 +248,7 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
     # Read data from CSV
     raw_data_file = os.path.join(read_from, "raw_training_data_" + algo + ".csv")
     log += print_and_log("\nRead raw data from " + raw_data_file)
-    raw_data = pd.read_csv(raw_data_file, index_col=0, nrows=nrows)
+    raw_data = pd.read_csv(raw_data_file, index_col=False, nrows=nrows)
     if algo == "medium":
         to_drop = list(set(raw_data.columns.values).intersection(set(medium_unimportant_features)))
         print("Dropping:\n", to_drop)
@@ -261,7 +261,7 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
 
     derived_data_file = os.path.join(read_from, "training_data_" + algo + ".csv")
     log += print_and_log("\nRead training data from " + derived_data_file)
-    derived_data = pd.read_csv(derived_data_file, index_col=0, nrows=nrows)
+    derived_data = pd.read_csv(derived_data_file, index_col=False, nrows=nrows)
     if algo == "medium":
         to_drop = list(set(derived_data.columns.values).intersection(set(medium_unimportant_features)))
         print("Dropping:\n", to_drop)
