@@ -1,11 +1,17 @@
+####################################################################################################
+# Copyright (C) by the DBCSR developers group - All rights reserved                                #
+# This file is part of the DBCSR library.                                                          #
+#                                                                                                  #
+# For information on the license, see the LICENSE file.                                            #
+# For further information please visit https://dbcsr.cp2k.org                                      #
+# SPDX-License-Identifier: GPL-2.0+                                                                #
+####################################################################################################
 
-
-#===============================================================================
 from kernels.cusmm_dnt_largeDB1 import Kernel_dnt_largeDB1
 from kernels.cusmm_dnt_largeDB2 import Kernel_dnt_largeDB2
-from kernels.cusmm_dnt_medium   import Kernel_dnt_medium
-from kernels.cusmm_dnt_small    import Kernel_dnt_small
-from kernels.cusmm_dnt_tiny     import Kernel_dnt_tiny
+from kernels.cusmm_dnt_medium import Kernel_dnt_medium
+from kernels.cusmm_dnt_small import Kernel_dnt_small
+from kernels.cusmm_dnt_tiny import Kernel_dnt_tiny
 
 kernel_algorithm = {
     'tiny': Kernel_dnt_tiny,
@@ -16,7 +22,6 @@ kernel_algorithm = {
 }
 
 
-#===============================================================================
 def params_dict_to_kernel(**params):
     return kernel_algorithm[params.pop('algorithm')](**params)
 
@@ -34,5 +39,3 @@ def descr_to_kernel(kernel_descr):
     params = dict(literal_eval(m))
     params['perf'] = float(match[2])
     return kernel_algorithm[algo](**params)
-
-
