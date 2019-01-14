@@ -15,3 +15,11 @@ repos:
   - id: check-ast
     stages: [manual]
     language_version: "python3"
+- repo: local
+  hooks:
+  - id: check-header
+    name: check file headers
+    entry: ./.pre-commit/check_header.py --verbose
+    language: script
+    types: [text]
+    exclude: '^tools/'
