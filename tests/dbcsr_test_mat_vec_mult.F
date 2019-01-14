@@ -320,9 +320,9 @@ contains
                                                beta, rep_row_vec, rep_col_vec)
 
                                       
-    call dbcsr_print(matrix_a)     
-    call dbcsr_print(input_vec)     
-    call dbcsr_print(result_vec)     
+    !call dbcsr_print(matrix_a)     
+    !call dbcsr_print(input_vec)     
+    !call dbcsr_print(result_vec)     
     ! densify result vector                                       
     call dbcsr_to_dense_local(result_vec, res_vec_init)
 
@@ -339,6 +339,7 @@ contains
                               'N', 'N', alpha_obj, beta_obj, limits, .false., io_unit, mp_comm, &
                               success)
 
+      !call dbcsr_distribution_release(dist)
       call dbcsr_release(matrix_a)
       call dbcsr_release(input_vec)
       call dbcsr_release(result_vec)

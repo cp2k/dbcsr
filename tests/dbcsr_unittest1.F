@@ -26,7 +26,7 @@ PROGRAM dbcsr_unittest
                         dbcsr_init_lib
    USE dbcsr_machine, ONLY: default_output_unit
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_new, &
-                               dbcsr_mp_release
+                               dbcsr_mp_release,dbcsr_mp_grid_setup
    USE dbcsr_mpiwrap, ONLY: mp_cart_create, &
                             mp_cart_rank, &
                             mp_comm_free, &
@@ -39,6 +39,8 @@ PROGRAM dbcsr_unittest
    USE dbcsr_types, ONLY: dbcsr_mp_obj
 
    use dbcsr_test_mat_vec_mult, only: dbcsr_mat_vec_multiplies
+
+   USE dbcsr_methods, ONLY:dbcsr_mp_grid_remove 
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -75,6 +77,8 @@ PROGRAM dbcsr_unittest
    ENDDO
    CALL dbcsr_mp_new(mp_env, pgrid, group, mynode, numnodes, &
                      myprow=myploc(1), mypcol=myploc(2))
+
+   call dbcsr_mp_grid_setup(mp_env)
    DEALLOCATE (pgrid)
    !
    ! set standard output parameters
@@ -323,6 +327,7 @@ PROGRAM dbcsr_unittest
    ! finalize libdbcsr
    CALL dbcsr_finalize_lib(mp_comm, io_unit)
 
+   call dbcsr_mp_grid_remove(mp_env)
    !
    ! clean mp environment
    CALL dbcsr_mp_release(mp_env)
