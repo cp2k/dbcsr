@@ -260,7 +260,7 @@ def collect_training_data(
 
                     # Write raw parameters
                     pars_to_get = raw_parameters
-                    data_algo[pars_to_get].to_csv(raw_parameters_file_name)
+                    data_algo[pars_to_get].to_csv(raw_parameters_file_name, index=False)
                     print("\tWrote", raw_parameters_file_name)
 
                 if os.path.exists(derived_parameters_file_name):
@@ -276,7 +276,7 @@ def collect_training_data(
                     data_algo.merge(new_df)
 
                     # Write derived parameters
-                    data_algo[pars_to_get].to_csv(derived_parameters_file_name)
+                    data_algo[pars_to_get].to_csv(derived_parameters_file_name, index=False)
                     print("\tWrote", derived_parameters_file_name)
 
 
