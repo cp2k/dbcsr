@@ -87,7 +87,10 @@ jobs:  # the following jobs inherit only the first OS
   - name: "Run pre-commit hook on changed files"
     script:
     - set -o pipefail
-    - git diff --name-only --diff-filter=AM HEAD...$TRAVIS_BRANCH | xargs pre-commit run --files
+      # fetch remotes first to ensure that referenced branches (other than the default) are available
+    - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+    - git fetch
+    - git diff --name-only --diff-filter=AM HEAD "origin/${TRAVIS_BRANCH}" | xargs pre-commit run --files
   - name: "Run pre-commit hook 'check-ast' on all files"
     script:
     - pre-commit run --hook-stage manual --all-files check-ast
