@@ -18,13 +18,13 @@
 #include "acc/libsmm_acc/libcusmm/parameters.h"
 
 std::vector<Triplet> combinations(std::vector<int> to_combine){
-    
-    std::vector<Triplet> v; 
+
+    std::vector<Triplet> v;
     int len = to_combine.size();
     for(size_t i=0; i<len; i++){
         for(size_t j=0; j<len; j++){
             for(size_t k=0; k<len; k++){
-                v.push_back({to_combine[i], to_combine[j], to_combine[k]}); 
+                v.push_back({to_combine[i], to_combine[j], to_combine[k]});
             }
         }
     }
@@ -32,7 +32,7 @@ std::vector<Triplet> combinations(std::vector<int> to_combine){
 }
 
 /****************************************************************************\
- \brief Checks correctness of and measures performance of common libcusmm multiplication kernels
+ \brief Checks correctness of and measures performance of randomly selected libcusmm multiplication kernels
 \****************************************************************************/
 
 int main(int argc, char** argv){
@@ -49,7 +49,7 @@ int main(int argc, char** argv){
 
       libcusmm_triplets = {
         [[AUTOTUNED_KERNELS_HERE]]
-      }; 
+      };
 
     } else if(argv[1] == std::string("predicted")){
 
@@ -60,7 +60,7 @@ int main(int argc, char** argv){
     } else {
 
         printf("Unrecognized option: %s, exiting ...\n", argv[1]);
-        return 1;  
+        return 1;
 
     }
 

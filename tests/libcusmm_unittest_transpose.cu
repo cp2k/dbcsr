@@ -20,7 +20,7 @@
 
 
 /****************************************************************************\
- \brief Checks correctness of every libcusmm transpose kernel.
+ \brief Checks correctness of all libcusmm transpose kernels
 \****************************************************************************/
 
 int main(int argc, char** argv){
@@ -46,7 +46,7 @@ int main(int argc, char** argv){
     libcusmm_benchmark_init(&handle, test, max_m, max_n, max_k);
 
     // Get (m,n) pairs to test transposition
-    std::vector<std::pair<int,int> > libcusmm_transpose_pairs; 
+    std::vector<std::pair<int,int> > libcusmm_transpose_pairs;
     for(int i=0; i<n_triplets; i++){
         int m = libcusmm_triplets[i][0];
         int n = libcusmm_triplets[i][1];
@@ -54,12 +54,12 @@ int main(int argc, char** argv){
         libcusmm_transpose_pairs.push_back(std::make_pair(m, k));
         libcusmm_transpose_pairs.push_back(std::make_pair(k, n));
     }
-    std::sort(libcusmm_transpose_pairs.begin(), libcusmm_transpose_pairs.end(), 
+    std::sort(libcusmm_transpose_pairs.begin(), libcusmm_transpose_pairs.end(),
               [](std::pair<int,int> a, std::pair<int,int> b) {
-        return (a.first > b.first) || (a.first == b.first && a.second > b.second) ;   
+        return (a.first > b.first) || (a.first == b.first && a.second > b.second) ;
     });
     auto last = std::unique(libcusmm_transpose_pairs.begin(), libcusmm_transpose_pairs.end());
-    libcusmm_transpose_pairs.erase(last, libcusmm_transpose_pairs.end()); 
+    libcusmm_transpose_pairs.erase(last, libcusmm_transpose_pairs.end());
     int n_pairs = libcusmm_transpose_pairs.size();
     printf("# Libcusmm has %d blocksizes for transposition\n", n_pairs);
 
