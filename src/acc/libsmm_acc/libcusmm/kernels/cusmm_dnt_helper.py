@@ -106,9 +106,11 @@ def descr_to_kernel(kernel_descr, source="autotuned"):
 
 def to_string(*iterable):
     mnk_string = "{}x{}x{}"
-    iterable_to_string = [mnk_string.format(m, n, k) for m, n, k in iterable]
-    print("iter_to_String: ", iterable_to_string)
-    print("length: ", len(iterable_to_string))
+    if len(iterable) == 3 and isinstance(iterable[0], int):
+        m, n, k = iterable
+        iterable_to_string = mnk_string.format(m, n, k)
+    else:
+        iterable_to_string = [mnk_string.format(m, n, k) for m, n, k in iterable]
     if len(iterable_to_string) == 1:
         iterable_to_string = iterable_to_string[0]
     return iterable_to_string
