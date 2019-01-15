@@ -16,7 +16,7 @@ import sys
 import json
 import pandas as pd
 from optparse import OptionParser
-from kernels.cusmm_dnt_helper import (
+from kernels.cusmm_predict import (
     get_max_performances_per_mnk,
     get_baseline_performances_per_mnk,
     to_string,

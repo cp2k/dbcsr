@@ -30,7 +30,7 @@ from predict_helpers import (
     plot_relative_performance_gain,
     performance_gain,
 )
-from kernels.cusmm_dnt_helper import to_tuple, to_string
+from kernels.cusmm_predict import to_tuple, to_string
 
 
 # ===============================================================================

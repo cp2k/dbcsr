@@ -16,7 +16,7 @@ import json
 import argparse
 from os import path
 
-from kernels.cusmm_dnt_helper import params_dict_to_kernel
+from kernels.cusmm_predict import params_dict_to_kernel
 
 
 # ===============================================================================
