@@ -14,7 +14,7 @@ import os
 from glob import glob
 import re
 import json
-from kernels.cusmm_dnt_helper import descr_to_kernel
+from kernels.cusmm_predict import descr_to_kernel
 
 re_mnk = re.compile(r"tune_(\d+)x(\d+)x(\d+)_")
 re_winner = re.compile(r"\nWINNER: \d+ (.+)\n")

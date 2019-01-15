@@ -19,7 +19,7 @@ from itertools import product
 from optparse import OptionParser
 from joblib import Parallel, delayed
 from predict_helpers import safe_pickle_load
-from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel, PredictiveParameters
+from kernels.cusmm_predict import arch_number, kernel_algorithm, params_dict_to_kernel, PredictiveParameters
 
 
 # ===============================================================================

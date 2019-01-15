@@ -16,7 +16,7 @@ import json
 from glob import glob
 from itertools import product
 from optparse import OptionParser
-from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_to_kernel, compatible_mnk
+from kernels.cusmm_predict import arch_number, kernel_algorithm, params_dict_to_kernel, compatible_mnk
 
 
 # ===============================================================================

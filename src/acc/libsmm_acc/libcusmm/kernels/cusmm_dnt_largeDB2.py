@@ -9,7 +9,7 @@
 ####################################################################################################
 
 
-from kernels.cusmm_dnt import Kernel, round_up_to_nearest_multiple
+from kernels.cusmm_dnt_base import Kernel, round_up_to_nearest_multiple
 
 
 class Kernel_dnt_largeDB2(Kernel):
