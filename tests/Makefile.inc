@@ -18,9 +18,6 @@ dbcsr_unittest2: BIN_DEPS = dbcsr_test_multiply.o
 SRC_TESTS += dbcsr_tensor_unittest.F
 dbcsr_tensor_unittest: BIN_DEPS =
 
-# SRC_TESTS += dbcsr_test_mat_vec_mult.F
-# dbcsr_test_mat_vec_mult: BIN_DEPS = dbcsr_test_multiply.o
-
 ifneq ($(NVCC),)
 UNITTESTS += libcusmm_unittest_multiply libcusmm_unittest_transpose libcusmm_timer_multiply
 
