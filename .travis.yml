@@ -74,7 +74,7 @@ before_script:
   # make sure we are back into the top directory again
   - cd "${TRAVIS_BUILD_DIR}"
   - export PATH=$HOME/.local/bin:$PATH
-  - pip install --user git-archive-all pre-commit
+  - pip install --user git-archive-all pre-commit ford
 
 script:  # multiplied by matrix envs and os settings
   - mkdir -p build
@@ -111,13 +111,12 @@ jobs:  # the following jobs inherit only the first OS
     name: "Build release tarball and deploy to GitHub"
     if: tag IS present
     script:
-      # do an in-source config for simplicity since we are not building anything here
       - mkdir -p build
       - cd build
       - cmake ..
-      - make dist
+      - make dist doc
     deploy:
-      provider: releases
+    - provider: releases
       api_key:  # encrypted token of the `dbcsr` GitHub service user
         secure: ID+AX1LOPs+BRGpZiYgP0H9gvOBF/a/o1tNUNDY7Mbo6uShpwVcmYxpqW/2zbWrHXeG4TNZEATED2Yw1nSSp0wj7z/t6ScDuttvYwuN8AExauW7y4WrU5o3qGCGuc9ClDmj3lnQsjqjkmFkqZasmnh2MKHldcDM5cluNs1o/48a/nJ55TEsplKvsPn6gzi+XIs0zY/yIFEZxWEeXs7SlR3Jr+0nDMBHdllnEV/AxdQGQ7y2w6sXN26B7PZNM97kQ8qBGUPnnj41vHtAvT1rGu/N7TcRu+P0n9JmPtC+ZpzBNU8RfI0YJgFOjhORP9gwUNrwNSLZBqJECo2+s6QhjZ7x+UVF9CBQePUnRPJxMjkFVKqfykd7NtREaFJiwwfcWXSq7naVj1n4aNN19jO1myeSP/4WAGMBmEHXSlaDj1jqyaijwPC9YxVeMovTwlDdg0Iv/ZsjE4+MFcgyUU8f0h5x94gbsxgmKPUMaQeuMhdw41wAQm0KcDANwWNyiiGiyw5h0QJcjvg1/HDsrfID0vgqXXMXCfbLEMwpJLWj8F5Htc/D2gGfvepLy9+chqGF/53ntpTPEkF9V1f8ke6QZv7cJhi7U7IOmxWE6OFObPB1auT6g+Got10zkzNDWulk7g6thIFZlarpYqVKUWMfhb3i0ndJLk24L6iJhRuxtp90=
       skip_cleanup: true
@@ -127,6 +126,15 @@ jobs:  # the following jobs inherit only the first OS
       # the following 2 lines work around an issue in TravisCI with draft=true:
       tag_name: $TRAVIS_TAG
       target_commitish: $TRAVIS_COMMIT
+      on:
+        repo: cp2k/dbcsr
+        tags: true  # default is "restricted by branch"
+    - provider: pages
+      github-token:  # encrypted token of the `dbcsr` GitHub service user
+        secure: ID+AX1LOPs+BRGpZiYgP0H9gvOBF/a/o1tNUNDY7Mbo6uShpwVcmYxpqW/2zbWrHXeG4TNZEATED2Yw1nSSp0wj7z/t6ScDuttvYwuN8AExauW7y4WrU5o3qGCGuc9ClDmj3lnQsjqjkmFkqZasmnh2MKHldcDM5cluNs1o/48a/nJ55TEsplKvsPn6gzi+XIs0zY/yIFEZxWEeXs7SlR3Jr+0nDMBHdllnEV/AxdQGQ7y2w6sXN26B7PZNM97kQ8qBGUPnnj41vHtAvT1rGu/N7TcRu+P0n9JmPtC+ZpzBNU8RfI0YJgFOjhORP9gwUNrwNSLZBqJECo2+s6QhjZ7x+UVF9CBQePUnRPJxMjkFVKqfykd7NtREaFJiwwfcWXSq7naVj1n4aNN19jO1myeSP/4WAGMBmEHXSlaDj1jqyaijwPC9YxVeMovTwlDdg0Iv/ZsjE4+MFcgyUU8f0h5x94gbsxgmKPUMaQeuMhdw41wAQm0KcDANwWNyiiGiyw5h0QJcjvg1/HDsrfID0vgqXXMXCfbLEMwpJLWj8F5Htc/D2gGfvepLy9+chqGF/53ntpTPEkF9V1f8ke6QZv7cJhi7U7IOmxWE6OFObPB1auT6g+Got10zkzNDWulk7g6thIFZlarpYqVKUWMfhb3i0ndJLk24L6iJhRuxtp90=
+      skip-cleanup: true
+      keep-history: true
+      local-dir: build/doc/
       on:
         repo: cp2k/dbcsr
         tags: true  # default is "restricted by branch"
