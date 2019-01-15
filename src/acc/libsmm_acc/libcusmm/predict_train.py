@@ -189,12 +189,6 @@ optimized_hyperparameters = {  # chosen by common sense, then trial and error
     "largeDB2": {"max_depth": 18, "min_samples_leaf": 2, "min_samples_split": 15, "n_features_to_drop": 12},
 }
 
-# The medium data is too large to load on and operate on entirely into memory.
-# We therefore remove some columns at read time, the ones we know will be the
-# least important features since they are consistently rejected in the other
-# algorithms
-medium_unimportant_features = ["Koth_med_perf_K", "Koth_med_Nmem"]
-
 
 # ===============================================================================
 # Printing and dumping helpers
@@ -395,10 +389,6 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
     raw_data_file = os.path.join(read_from, "raw_training_data_" + algo + ".csv")
     log += print_and_log("\nRead raw data from " + raw_data_file)
     raw_data = pd.read_csv(raw_data_file, index_col=False, nrows=nrows)
-    if algo == "medium":
-        to_drop = list(set(raw_data.columns.values).intersection(set(medium_unimportant_features)))
-        print("Dropping:\n", to_drop)
-        raw_data = raw_data.drop(to_drop, axis=1)
     log += print_and_log(
         "raw data    : {:>8,} x {:>8,} ({:>2.3} MB)".format(
             raw_data.shape[0], raw_data.shape[1], sys.getsizeof(raw_data) / 10 ** 6
@@ -408,10 +398,6 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
     derived_data_file = os.path.join(read_from, "training_data_" + algo + ".csv")
     log += print_and_log("\nRead training data from " + derived_data_file)
     derived_data = pd.read_csv(derived_data_file, index_col=False, nrows=nrows)
-    if algo == "medium":
-        to_drop = list(set(derived_data.columns.values).intersection(set(medium_unimportant_features)))
-        print("Dropping:\n", to_drop)
-        derived_data = derived_data.drop(to_drop, axis=1)
     log += print_and_log(
         "derived data    : {:>8,} x {:>8,} ({:>2.3} MB)".format(
             derived_data.shape[0], derived_data.shape[1], sys.getsizeof(derived_data) / 10 ** 6
