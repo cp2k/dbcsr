@@ -3,6 +3,14 @@
 Introduction for what this is … blahblah 
 Use notebook/autotuningbalhblah to explore…
 
+### Requirements
+
+Install all python packages required (if you do not want this project's requirements to interfere with your other Python projects, consider doing so in a (virtual environment)[https://docs.python.org/3/tutorial/venv.html]), using
+
+```%bash
+pip install -r requirements.txt
+```
+
 ### 1. Collect data for ML procedure
 
 #### Autotuning
