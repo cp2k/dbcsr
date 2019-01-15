@@ -5,12 +5,10 @@ SHELL = /bin/sh
 #
 DBCSRHOME    ?= $(CURDIR)
 MAKEFILE     := $(DBCSRHOME)/Makefile
-DOXYGENDIR   := $(DBCSRHOME)/doc
 BINDIR       := $(DBCSRHOME)/bin
 LIBDIR       ?= $(DBCSRHOME)/lib
 OBJDIR       ?= $(DBCSRHOME)/obj
 PRETTYOBJDIR := $(OBJDIR)/prettified
-DOXIFYOBJDIR := $(OBJDIR)/doxified
 TOOLSRC      := $(DBCSRHOME)/tools
 FYPPEXE      ?= $(TOOLSRC)/build_utils/fypp/bin/fypp
 SRCDIR       := $(DBCSRHOME)/src
@@ -82,8 +80,7 @@ endif
 	 default_target $(LIBRARY) all \
          toolversions \
          toolflags \
-         doxify doxifyclean \
-         pretty prettyclean doxygen/clean doxygen \
+         pretty prettyclean \
          install clean realclean help \
 	 version test
 
@@ -108,7 +105,7 @@ OBJ_SRC_FILES += ./dbcsr_api_c.F
 PUBLICHEADERS += $(SRCDIR)/dbcsr.h
 endif
 
-# OBJECTS used for pretty and doxify
+# OBJECTS used for pretty
 ALL_OBJECTS   := $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.F"))))
 ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.c"))))
@@ -252,7 +249,6 @@ endif
 
 endif
 
-#   extract help text from doxygen "\brief"-tag
 help:
 	@echo "=================== Default ===================="
 	@printf "%s\n" "$(LIBRARY)                     Build DBCSR library"
@@ -260,8 +256,7 @@ help:
 	@echo "=================== Binaries ===================="
 	@echo "all                          Builds all executables"
 	@for i in $(BIN_FILES); do \
-	basename  $$i | sed 's/^\(.*\)\..*/\1/' | awk '{printf "%-29s", $$1}'; \
-	grep "brief" $$i | head -n 1 | sed 's/^.*\\brief\s*//' | awk '{$$1=$$1};1'; \
+	basename  $$i | sed 's/^\(.*\)\..*/\1/' | awk '{printf "%-29s\n", $$1}'; \
 	done
 	@echo ""
 	@echo "===================== Tools ====================="
@@ -332,7 +327,7 @@ OTHER_HELP += "clean : Remove intermediate object and mod files, but not the lib
 # delete the intermediate files, the programs and libraries and anything that might be in the objdir or libdir directory
 # Use this if you want to fully rebuild an executable (for a given compiler)
 #
-realclean: clean doxygen/clean
+realclean: clean
 	rm -rf $(BINDIR) $(LIBDIR) $(PREFIX)
 	rm -rf `find $(DBCSRHOME) -name "*.pyc"`
 	rm -rf `find $(DBCSRHOME) -name "*.callgraph"`
@@ -360,80 +355,26 @@ define pretty_func
 	fi
 endef
 
-$(PRETTYOBJDIR)/%.pretty: %.F $(DOXIFYOBJDIR)/%.doxified
+$(PRETTYOBJDIR)/%.pretty: %.F
 	$(call pretty_func, $<, $@)
 
-$(PRETTYOBJDIR)/%.pretty_included: %.f90 $(DOXIFYOBJDIR)/%.doxified_included
+$(PRETTYOBJDIR)/%.pretty_included: %.f90
 	$(call pretty_func, $<, $@)
 
-$(PRETTYOBJDIR)/%.pretty: %.c $(DOXIFYOBJDIR)/%.doxified
+$(PRETTYOBJDIR)/%.pretty: %.c
 #   TODO: call indent here?
 	@mkdir -p $(PRETTYOBJDIR)
 	@touch $@
 
-$(PRETTYOBJDIR)/%.pretty: %.cpp $(DOXIFYOBJDIR)/%.doxified
+$(PRETTYOBJDIR)/%.pretty: %.cpp
 #   TODO: call indent here?
 	@mkdir -p $(PRETTYOBJDIR)
 	@touch $@
 
-$(PRETTYOBJDIR)/%.pretty: %.cu $(DOXIFYOBJDIR)/%.doxified
+$(PRETTYOBJDIR)/%.pretty: %.cu
 #   TODO: call indent here?
 	@mkdir -p $(PRETTYOBJDIR)
 	@touch $@
-
-# Doxyifier stuff ===========================================================
-vpath %.doxified $(DOXIFYOBJDIR)
-
-doxify: $(addprefix $(DOXIFYOBJDIR)/, $(ALL_OBJECTS:.o=.doxified)) $(addprefix $(DOXIFYOBJDIR)/, $(INCLUDED_SRC_FILES:.f90=.doxified_included))
-TOOL_HELP += "doxify : Autogenerate doxygen headers for subroutines"
-
-doxifyclean:
-	-rm -rf $(DOXIFYOBJDIR)
-TOOL_HELP += "doxifyclean : Remove doxify marker files"
-
-$(DOXIFYOBJDIR)/%.doxified: %.F
-	$(TOOLSRC)/doxify/doxify.sh $<
-	@mkdir -p $(DOXIFYOBJDIR)
-	@touch $@
-
-$(DOXIFYOBJDIR)/%.doxified_included: %.f90
-	$(TOOLSRC)/doxify/doxify.sh $<
-	@mkdir -p $(DOXIFYOBJDIR)
-	@touch $@
-
-$(DOXIFYOBJDIR)/%.doxified: %.c
-	@mkdir -p $(DOXIFYOBJDIR)
-	@touch $@
-
-$(DOXIFYOBJDIR)/%.doxified: %.cpp
-	@mkdir -p $(DOXIFYOBJDIR)
-	@touch $@
-
-$(DOXIFYOBJDIR)/%.doxified: %.cu
-	@mkdir -p $(DOXIFYOBJDIR)
-	@touch $@
-
-# doxygen stuff =============================================================
-doxygen/clean:
-	-rm -rf $(DOXYGENDIR)
-TOOL_HELP += "doxygen/clean : Remove the generated doxygen documentation"
-
-# Automatic source code documentation using Doxygen
-# Prerequisites:
-# - stable doxygen release 1.5.4 (Oct. 27, 2007)
-# - graphviz (2.16.1)
-# - webdot (2.16)
-#
-doxygen: doxygen/clean
-	@mkdir -p $(DOXYGENDIR)
-	@mkdir -p $(DOXYGENDIR)/html
-	@echo "<html><body>Sorry, the Doxygen documentation is currently being updated. Please try again in a few minutes.</body></html>" > $(DOXYGENDIR)/html/index.html
-	cp $(ALL_SRC_FILES) $(DOXYGENDIR)
-	@for i in $(DOXYGENDIR)/*.F ; do mv $${i}  $${i%%.*}.f90; done ;
-	@cat $(TOOLSRC)/doxify/Doxyfile.template > $(DOXYGENDIR)/Doxyfile
-	cd $(DOXYGENDIR); doxygen ./Doxyfile 2>&1 | tee ./html/doxygen.out
-TOOL_HELP += "doxygen : Generate the doxygen documentation"
-
 
 # Libcusmm stuff ============================================================
 $(LIBCUSMM_ABS_DIR)/parameters.h: $(LIBCUSMM_ABS_DIR)/generate_parameters.py $(wildcard $(LIBCUSMM_ABS_DIR)/parameters_*.txt)
