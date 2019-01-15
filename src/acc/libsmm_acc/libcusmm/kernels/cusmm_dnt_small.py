@@ -42,6 +42,10 @@ class Kernel_dnt_small(Kernel):
     def promising_parameters(
         m, n, k, gpu, autotuning, threads=None, grouping=None, minblocks=None, tile_m=None, tile_n=None, w=None, v=None
     ):
+        """
+        Given a certain (m,n,k)-triplet, GPU properties and autotuning properties, return a list of all possible
+        kernel parameters
+        """
 
         # Parameter space:
         params = []
@@ -110,6 +114,10 @@ class Kernel_dnt_small(Kernel):
 
     @staticmethod
     def baseline(m, n, k, gpu, autotuning):
+        """
+        Given an (m, n, k)-triplet and GPu and autotuning properties, return a set of parameters corresponding to a
+        baseline ("educated guess") of the kernel's optimal parameters
+        """
 
         grp = 16
         minblk = 2

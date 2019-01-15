@@ -19,6 +19,7 @@ from os import path
 from kernels.cusmm_dnt_helper import params_dict_to_kernel
 
 
+# ===============================================================================
 def main(gpu_version, base_dir):
     # Read existing parameters
     print("GPU version: {}".format(gpu_version))

@@ -30,6 +30,9 @@ from kernels.cusmm_dnt_helper import (
 # ===============================================================================
 def main():
     """
+    This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
+    For more details, see predictive_modelling.md
+
     Once autotuning of new kernels has been run,
     - collect the parameter information, compilation information and performance from log files,
     - dump them to CSV files for data analysis and training of a predictive model
@@ -199,6 +202,9 @@ def collect_training_data(
     max_performances_per_algo_per_mnk,
     baseline_performances_per_algo_per_mnk,
 ):
+    """
+    Collect training data from log files resulting of autotuning
+    """
 
     n_kernels = len(kernel_folders)
 
@@ -282,6 +288,9 @@ def collect_training_data(
 
 # ===============================================================================
 def print_merging_commands(kernel_folders, kernel_folder_pattern):
+    """
+    Print commands to execute in order to merge CSV files
+    """
     for algorithm in kernel_algorithm.keys():
         for data_type in ("raw_", ""):
 

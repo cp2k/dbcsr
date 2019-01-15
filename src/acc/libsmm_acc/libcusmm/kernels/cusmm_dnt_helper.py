@@ -14,7 +14,9 @@ from kernels.cusmm_dnt import round_up_to_nearest_multiple, round_down_to_neares
 
 
 # ===============================================================================
-# Available kernel algorithms and the classes that implement them
+# Dictionary of available kernel algorithms
+# keys: kernel name
+# values: kernel implementation class
 from kernels.cusmm_dnt_largeDB1 import Kernel_dnt_largeDB1
 from kernels.cusmm_dnt_largeDB2 import Kernel_dnt_largeDB2
 from kernels.cusmm_dnt_medium import Kernel_dnt_medium
@@ -31,7 +33,9 @@ kernel_algorithm = {
 
 
 # ===============================================================================
-# Correspondence between CUDA compute versions and parameter_file
+# Dictionary of available GPU architectures.
+# keys: parameter_file
+# values: CUDA compute versions
 arch_number = {
     "parameters_K20X.json": 35,
     "parameters_K40.json": 35,
@@ -42,7 +46,7 @@ arch_number = {
 
 # ===============================================================================
 def compatible_mnk(algo, m, n, k):
-    """Determine whether a given algorithm is compatible with given m, n, k values, """
+    """Determine whether a given algorithm is compatible with given m, n, k values"""
 
     max_sizes = max(m * k, n * k, m * n)
     compatible = True
@@ -87,7 +91,7 @@ def params_dict_to_kernel(**params):
 
 
 def descr_to_kernel(kernel_descr, source="autotuned"):
-    """Given a kernel description as outputed by autotuning, return the corresponding Kernel class instance"""
+    """Given a kernel description from the autotuning output, return the corresponding Kernel class instance"""
 
     from ast import literal_eval
 
@@ -105,6 +109,9 @@ def descr_to_kernel(kernel_descr, source="autotuned"):
 
 
 def to_string(*iterable):
+    """
+    Given a (list of) m,n,k-triplet(s), return the corresponding (list of) string(s) "mxnxk"
+    """
     mnk_string = "{}x{}x{}"
     if len(iterable) == 3 and isinstance(iterable[0], int):
         m, n, k = iterable
@@ -117,6 +124,9 @@ def to_string(*iterable):
 
 
 def to_tuple(*iterable):
+    """
+    Given a (list of) string(s) "mxnxk", return the corresponding (list of) m,n,k-triplet(s)
+    """
     mnk_pattern = re.compile(r"(\d+)x(\d+)x(\d+)")
     tuple_mnks = list()
     for mnk in iterable:
@@ -128,8 +138,9 @@ def to_tuple(*iterable):
 
 
 # ===============================================================================
-# Lists of raw/derived parameters to be computed y algorithm
-=======
+# Lists of raw/derived parameters to use as training data for the predictive modelling
+# Some of the computable features are commented out because they are constant or (almost) linearly dependent on another
+# feature, and therefore they do not contribute to the decision tree model.
 raw_parameters = [
     "m",
     "n",
@@ -404,6 +415,9 @@ def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
 
 # ===============================================================================
 class PredictiveParameters:
+    """
+    Class handling predictive features for the predictive modelling of libcusmm's performance
+    """
     def __init__(self, params_df, gpu, autotuning, max_performances, partial_initialization=False):
         """
         params_df: pandas Dataframe where each row corresponds to a kernel parameter set
@@ -466,7 +480,6 @@ class PredictiveParameters:
     def get_features(self, feature_names):
         """
         Compute a list of features given by name and return them as a pandas Dataframe.
-
         :param feature_names: list of names of features to compute
         """
         for feat in feature_names:
@@ -525,18 +538,26 @@ class PredictiveParameters:
         )
 
     def get_nblks(self):
+        """Number of thread blocks needed to multiply all matrices on the stack"""
         return np.ceil(self.autotuning["stack_size"] / self.get("grouping"))
 
     def get_warps_per_blk(self):
+        """Number of warps per block"""
         return np.ceil(self.get("threads_per_blk") / self.gpu["Threads_/_Warp"])
 
     def get_nwarps(self):
+        """Total number of warps needed to multiply all matrices on the stack"""
         return self.get("warps_per_blk") * self.get("nblks")
 
     def get_sm_desired(self):
+        """
+        Number of multiprocessors desired to multiply all matrices on the stack.
+        For more details, see https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#launch-bounds
+        """
         return np.ceil(self.get("nblks") / self.get("minblocks"))
 
     def get_nthreads(self):
+        """Total number of threads needed to multiply all matrices on the stack"""
         return self.get("threads_per_blk") * self.get("nblks")
 
     # ===============================================================================
@@ -595,13 +616,15 @@ class PredictiveParameters:
     # ===============================================================================
     # Resource usage (common)
     def get_ru_param_stack_unroll_factor(self):
-        """Loop counts"""
+        """Number of executions of the body of the loop that loads data from the parameter stack"""
         return np.ceil(self.get("grouping") / self.get("threads_per_blk"))
 
     def get_n_iter(self):
+        """Number of benchmark repetitions in autotuning procedure"""
         return np.maximum(3, 12500 * (1 // (self.get("m") * self.get("n") * self.get("k"))))
 
     def get_Gflops(self):
+        """Number of floating point operations in [Gflops] carried out during autotuning"""
         return (
             self.get("n_iter")
             * self.autotuning["stack_size"]
@@ -614,7 +637,6 @@ class PredictiveParameters:
 
     # ===============================================================================
     # Resource occupancy estimations
-    # Note: these features need compilation information: nbytes of shared memory used and number of registers used
     def get_nblocks_per_sm_lim_blks_warps(self):
         """Resource occupations in terms of warps and blocks (Follows CUDA calculator sheet)"""
         return np.minimum(
@@ -625,7 +647,7 @@ class PredictiveParameters:
     # ===============================================================================
     # Resource usage (tiny, small, medium)
     def get_ru_tinysmallmed_unroll_factor_a(self):
-        """loop unroll factor of the loop on m*n"""
+        """loop unroll factor of the loop on m*k"""
         return np.ceil(self.get("size_a") / self.get("threads_per_blk"))
 
     def get_ru_tinysmallmed_unroll_factor_b(self):
@@ -633,14 +655,15 @@ class PredictiveParameters:
         return np.ceil(self.get("size_b") / self.get("threads_per_blk"))
 
     def get_ru_tinysmallmed_unroll_factor_a_total(self):
-        """loop unroll factor multplied by number of times the loop is run"""
+        """loop unroll factor multiplied by number of times the loop is run"""
         return self.get("ru_tinysmallmed_unroll_factor_a") * self.get("grouping")
 
     def get_ru_tinysmallmed_unroll_factor_b_total(self):
-        """loop unroll factor multplied by number of times the loop is run"""
+        """loop unroll factor multiplied by number of times the loop is run"""
         return self.get("ru_tinysmallmed_unroll_factor_b") * self.get("grouping")
 
     def get_ru_tinysmallmed_unroll_factor_c_total(self):
+        """loop unroll factor of the loop writing back to C multiplied by number of times the loop is run"""
         return self.get("k") * self.get("grouping")
 
     # ===============================================================================
@@ -654,25 +677,32 @@ class PredictiveParameters:
         return self.get("size_c")
 
     def get_ru_tiny_buf_size(self):
+        """Buffer size"""
         return self.get("k") * (self.get("m") + self.get("n"))
 
     def get_ru_tiny_smem_per_block(self):
+        """"Shared memory usage per block (estimate)"""
         return (self.get("ru_tiny_buf_size") * self.autotuning["sizeof_double"]) + (
             self.autotuning["npars"] * self.get("grouping") * self.autotuning["sizeof_int"]
         )
 
     def get_ru_tiny_nblks_per_sm(self):
-        """Occupancy estimation: assumption (verified on a sample of mnks): nblks is always limited by number of threads
-        for algorithm tiny"""
+        """
+        Occupancy estimation: assumption (verified on a sample of mnks): nblks is always limited by number of threads
+        for algorithm tiny
+        """
         return self.get("nblocks_per_sm_lim_blks_warps")
 
     def get_ru_tiny_nwarps_per_sm(self):
+        """Number of wars per multiprocessor"""
         return self.get("ru_tiny_nblks_per_sm") * self.get("warps_per_blk")
 
     def get_ru_tiny_nsm(self):
+        """Number of multiprocessors"""
         return np.ceil(self.get("nblks") / self.get("ru_tiny_nblks_per_sm"))
 
     def get_ru_tiny_ngpu(self):
+        """Number of GPUs"""
         return np.ceil(self.get("ru_tiny_nsm") / self.gpu["Multiprocessors"])
 
     def get_ru_tiny_occupancy(self):
@@ -701,12 +731,15 @@ class PredictiveParameters:
         return self.get("n")
 
     def get_ru_smallmed_unroll_factor_c(self):
+        """loop unroll factor of the loop on m*n"""
         return np.ceil(self.get("size_c") / self.get("threads_per_blk"))
 
     def get_ru_smallmed_loop_matmul(self):
+        """Actual multiplication loop"""
         return self.get("k") * self.get("tile_m") * self.get("tile_n")
 
     def get_ru_smallmed_max_parallel_work(self):
+        """Maximum parallel work"""
         return np.maximum.reduce(
             [
                 self.get("grouping"),
@@ -718,16 +751,19 @@ class PredictiveParameters:
         )
 
     def get_ru_smallmed_buf_size(self):
+        """Buffer size"""
         intermediate1 = self.get("size_a") + self.get("k") * self.get("tile_n") * self.get("ru_smallmedlarge_cmax")
         intermediate2 = self.get("tile_m") * self.get("ru_smallmedlarge_rmax") * self.get("k") + 1
         return np.maximum.reduce([self.get("size_c"), intermediate1, intermediate2])
 
     def get_ru_smallmed_smem_per_block(self):
+        """Shared memory usage per block"""
         return (self.get("ru_smallmed_buf_size") * self.autotuning["sizeof_double"]) + (
             self.autotuning["npars"] * self.get("grouping") * self.autotuning["sizeof_int"]
         )
 
     def get_ru_smallmed_regs_per_thread(self):
+        """Register usage per thread (estimated)"""
         return (
             self.get("tile_m") * self.get("tile_n")
             + (self.get("m") * self.get("k") + self.get("threads_per_blk") - 1) // self.get("threads_per_blk")
@@ -752,15 +788,15 @@ class PredictiveParameters:
     # ===============================================================================
     # Resource usage (large)
     def get_ru_large_Pa(self):
-        """input slab size"""
+        """Input slab size"""
         return self.get("m") * self.get("w")
 
     def get_ru_large_Pb(self):
-        """input slab size"""
+        """Input slab size"""
         return self.get("w") * self.get("n")
 
     def get_ru_large_Pc(self):
-        """output slab size"""
+        """Output slab size"""
         return self.get("m") * self.get("v")
 
     def get_ru_large_unroll_factor_a(self):
@@ -776,6 +812,7 @@ class PredictiveParameters:
         return self.get("w") * self.get("tile_m") * self.get("tile_n")
 
     def get_ru_large_max_concurrent_work(self):
+        """Maximum concurrent work"""
         return np.maximum.reduce(
             [
                 self.get("grouping"),
@@ -787,6 +824,7 @@ class PredictiveParameters:
         )
 
     def get_ru_large_regs_per_thread(self):
+        """Register usage per thread (estimated)"""
         return (
             self.get("tile_m") * self.get("tile_n")
             + (self.get("w") * self.get("m") + self.get("threads_per_blk") - 1) // self.get("threads_per_blk")
@@ -798,6 +836,7 @@ class PredictiveParameters:
         return self.get("k") // (2 * self.get("w"))
 
     def get_ru_large_buf_size(self):
+        """Buffer size"""
         intermediate1 = (self.get("w") - 1) * self.get("m") + self.get("ru_smallmedlarge_rmax") * self.get("tile_m")
         intermediate2 = (
             self.get("m") * self.get("w")
@@ -807,6 +846,7 @@ class PredictiveParameters:
         return np.maximum.reduce([self.get("ru_large_Pc"), intermediate1, intermediate2])
 
     def get_ru_large_smem_per_block(self):
+        """Shared memory usage per block"""
         return (
             self.get("ru_large_buf_size") * self.autotuning["sizeof_double"]
             + self.autotuning["npars"] * self.get("grouping") * self.autotuning["sizeof_int"]
