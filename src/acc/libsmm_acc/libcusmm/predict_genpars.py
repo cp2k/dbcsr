@@ -23,6 +23,113 @@ from kernels.cusmm_dnt_helper import arch_number, kernel_algorithm, params_dict_
 
 
 # ===============================================================================
+def main(argv):
+    """
+    This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
+    For more details, see predictive_modelling.md
+
+    Update parameter file with new optimal parameter predictions given newly trained decision trees
+    """
+    del argv  # unused
+
+    parser = OptionParser()
+    parser.add_option(
+        "-p",
+        "--params",
+        metavar="filename.json",
+        default="parameters_P100.json",
+        help="Parameter file to read and update with predictions. Default: %default",
+    )
+    parser.add_option("-f", "--in_folder", metavar="foldername/", default="", help="Folder from which to read data")
+    parser.add_option("-j", "--njobs", type=int, default=-1, help="Number of joblib jobs. Default: %default")
+    parser.add_option(
+        "--baseline",
+        default=False,
+        help="Generate a parameter file corresponding to the baseline of a predictive model",
+    )
+    parser.add_option(
+        "--tiny", default=None, help="Path to model trained for algorithm 'tiny'. If not given, ignore this algorithm."
+    )
+    parser.add_option(
+        "--small",
+        default=None,
+        help="Path to model trained for algorithm 'small'. If not given, ignore this algorithm.",
+    )
+    parser.add_option(
+        "--medium",
+        default=None,
+        help="Path to model trained for algorithm 'medium'. If not given, ignore this algorithm.",
+    )
+    parser.add_option(
+        "--largeDB1",
+        default=None,
+        help="Path to model trained for algorithm 'largeDB1'. If not given, ignore this algorithm.",
+    )
+    parser.add_option(
+        "--largeDB2",
+        default=None,
+        help="Path to model trained for algorithm 'largeDB2'. If not given, ignore this algorithm.",
+    )
+    parser.add_option(
+        "-c",
+        "--chunk_size",
+        type=int,
+        default=20000,
+        help="Chunk size for dispatching joblib jobs. "
+        + "If memory errors are experienced, reduce this number. Default: %default",
+    )
+    options, args = parser.parse_args(sys.argv)
+
+    # ===============================================================================
+    # Load GPU and autotuning properties
+    assert options.params in arch_number.keys(), "Cannot find compute version for file " + str(options.params)
+    arch = arch_number[options.params]
+    with open("kernels/gpu_properties.json") as f:
+        gpu_properties = json.load(f)["sm_" + str(arch)]
+    with open("kernels/autotuning_properties.json") as f:
+        autotuning_properties = json.load(f)
+
+    # Load autotuned kernel parameters
+    with open(options.params) as f:
+        all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
+    print("Libcusmm: Found %d existing parameter sets." % len(all_kernels))
+    autotuned_mnks = [(k.m, k.n, k.k) for k in all_kernels if k.autotuned]
+    autotuned_kernels_ = [k for k in all_kernels if k.autotuned]
+    autotuned_kernels = dict(zip(autotuned_mnks, autotuned_kernels_))
+
+    # ===============================================================================
+    # Evaluation
+    mnks = combinations(list(range(4, 46)))
+    mnks_to_predict = list()
+    kernels_to_print = dict()
+
+    for m, n, k in mnks:
+        if (m, n, k) in autotuned_kernels.keys():
+            kernels_to_print[(m, n, k)] = autotuned_kernels[(m, n, k)]
+        else:
+            mnks_to_predict.append((m, n, k))
+
+    if options.baseline:
+        kernels = get_baseline_kernels(mnks_to_predict, gpu_properties, autotuning_properties)
+    else:
+        kernels = get_optimal_kernels(mnks_to_predict, options, gpu_properties, autotuning_properties, 1)
+
+    kernels_to_print.update(kernels)
+
+    # ===============================================================================
+    # Write to file
+    with open(options.params, "w") as f:
+        s = json.dumps(
+            [kernels_to_print[kernel].as_dict_for_parameters_json for kernel in sorted(kernels_to_print.keys())]
+        )
+        s = s.replace("}, ", "},\n")
+        s = s.replace("[", "[\n")
+        s = s.replace("]", "\n]")
+        f.write(s)
+    print("Wrote new predicted parameters to file", options.params)
+
+
+# ===============================================================================
 # Helpers
 def combinations(sizes):
     return list(product(sizes, sizes, sizes))
@@ -163,111 +270,6 @@ def get_baseline_kernels(mnks_to_predict, gpu_propertes, autotuning_properties):
         )
 
     return baseline_kernels
-
-
-# ===============================================================================
-# Main
-def main(argv):
-    """
-    Update parameter file with new optimal parameter predictions given newly trained decision trees
-    """
-    del argv  # unused
-
-    parser = OptionParser()
-    parser.add_option(
-        "-p",
-        "--params",
-        metavar="filename.json",
-        default="parameters_P100.json",
-        help="Parameter file to read and update with predictions. Default: %default",
-    )
-    parser.add_option("-f", "--in_folder", metavar="foldername/", default="", help="Folder from which to read data")
-    parser.add_option("-j", "--njobs", type=int, default=-1, help="Number of joblib jobs. Default: %default")
-    parser.add_option(
-        "--baseline",
-        default=False,
-        help="Generate a parameter file corresponding to the baseline of a predictive model",
-    )
-    parser.add_option(
-        "--tiny", default=None, help="Path to model trained for algorithm 'tiny'. If not given, ignore this algorithm."
-    )
-    parser.add_option(
-        "--small",
-        default=None,
-        help="Path to model trained for algorithm 'small'. If not given, ignore this algorithm.",
-    )
-    parser.add_option(
-        "--medium",
-        default=None,
-        help="Path to model trained for algorithm 'medium'. If not given, ignore this algorithm.",
-    )
-    parser.add_option(
-        "--largeDB1",
-        default=None,
-        help="Path to model trained for algorithm 'largeDB1'. If not given, ignore this algorithm.",
-    )
-    parser.add_option(
-        "--largeDB2",
-        default=None,
-        help="Path to model trained for algorithm 'largeDB2'. If not given, ignore this algorithm.",
-    )
-    parser.add_option(
-        "-c",
-        "--chunk_size",
-        type=int,
-        default=20000,
-        help="Chunk size for dispatching joblib jobs. "
-        + "If memory errors are experienced, reduce this number. Default: %default",
-    )
-    options, args = parser.parse_args(sys.argv)
-
-    # ===============================================================================
-    # Load GPU and autotuning properties
-    assert options.params in arch_number.keys(), "Cannot find compute version for file " + str(options.params)
-    arch = arch_number[options.params]
-    with open("kernels/gpu_properties.json") as f:
-        gpu_properties = json.load(f)["sm_" + str(arch)]
-    with open("kernels/autotuning_properties.json") as f:
-        autotuning_properties = json.load(f)
-
-    # Load autotuned kernel parameters
-    with open(options.params) as f:
-        all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
-    print("Libcusmm: Found %d existing parameter sets." % len(all_kernels))
-    autotuned_mnks = [(k.m, k.n, k.k) for k in all_kernels if k.autotuned]
-    autotuned_kernels_ = [k for k in all_kernels if k.autotuned]
-    autotuned_kernels = dict(zip(autotuned_mnks, autotuned_kernels_))
-
-    # ===============================================================================
-    # Evaluation
-    mnks = combinations(list(range(4, 46)))
-    mnks_to_predict = list()
-    kernels_to_print = dict()
-
-    for m, n, k in mnks:
-        if (m, n, k) in autotuned_kernels.keys():
-            kernels_to_print[(m, n, k)] = autotuned_kernels[(m, n, k)]
-        else:
-            mnks_to_predict.append((m, n, k))
-
-    if options.baseline:
-        kernels = get_baseline_kernels(mnks_to_predict, gpu_properties, autotuning_properties)
-    else:
-        kernels = get_optimal_kernels(mnks_to_predict, options, gpu_properties, autotuning_properties, 1)
-
-    kernels_to_print.update(kernels)
-
-    # ===============================================================================
-    # Write to file
-    with open(options.params, "w") as f:
-        s = json.dumps(
-            [kernels_to_print[kernel].as_dict_for_parameters_json for kernel in sorted(kernels_to_print.keys())]
-        )
-        s = s.replace("}, ", "},\n")
-        s = s.replace("[", "[\n")
-        s = s.replace("]", "\n]")
-        f.write(s)
-    print("Wrote new predicted parameters to file", options.params)
 
 
 # ===============================================================================

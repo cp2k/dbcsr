@@ -23,25 +23,11 @@ from predict_helpers import (
 
 
 # ===============================================================================
-def read_result_file(file):
-    results = dict()
-    result_line = re.compile(r"OK (\d+) x (\d+) x (\d+) GFlop/s (\d+(?:\.\d+)?)")
-    for line in file:
-        match = result_line.match(line)
-        if match is not None:
-            m = int(match.group(1))
-            n = int(match.group(2))
-            k = int(match.group(3))
-            perf = float(match.group(4))
-            results[(m, n, k)] = perf
-
-    return results
-
-
-# ===============================================================================
-# Main
 def main(argv):
     """
+    This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
+    For more details, see predictive_modelling.md
+
     Given a file containing the results of the LIBCUSMM performance test, perform evaluation of the predictive model.
     """
     del argv  # unused
@@ -134,6 +120,22 @@ def main(argv):
     plot_absolute_performance_gain(perf_gain_over_baseline, "non-autotuned", "baseline", "predictive model")
     plot_relative_performance_gain(rel_perf_gain_over_baseline, "non-autotuned", "baseline", "predictive model")
     plot_performance_gains(results_predictive_model, results_baseline, "non-autotuned", "baseline", "predictive model")
+
+
+# ===============================================================================
+def read_result_file(file):
+    results = dict()
+    result_line = re.compile(r"OK (\d+) x (\d+) x (\d+) GFlop/s (\d+(?:\.\d+)?)")
+    for line in file:
+        match = result_line.match(line)
+        if match is not None:
+            m = int(match.group(1))
+            n = int(match.group(2))
+            k = int(match.group(3))
+            perf = float(match.group(4))
+            results[(m, n, k)] = perf
+
+    return results
 
 
 # ===============================================================================

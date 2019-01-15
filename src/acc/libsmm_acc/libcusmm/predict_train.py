@@ -34,6 +34,152 @@ from kernels.cusmm_dnt_helper import to_tuple, to_string
 
 
 # ===============================================================================
+def main():
+    """
+    This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
+    For more details, see predictive_modelling.md
+
+    """
+
+    parser = OptionParser()
+    parser.add_option("-f", "--in_folder", metavar="foldername/", default="", help="Folder from which to read data")
+    parser.add_option("-a", "--algo", metavar="algoname", default="", help="Algorithm to train on")
+    parser.add_option(
+        "-c",
+        "--plot_all",
+        default=False,
+        help="Plot more stuff" + "(Warning: can be very slow for large trees and create very large files)",
+    )
+    parser.add_option(
+        "-m", "--model", default="DT", help="Model to train. Options: DT (Decision Trees), RF (Random Forests)"
+    )
+    parser.add_option(
+        "-s",
+        "--splits",
+        default=3,
+        metavar="NUMBER",
+        type="int",
+        help="Number of cross-validation splits used in RFECV and GridSearchCV",
+    )
+    parser.add_option("-e", "--ntrees", default=3, metavar="NUMBER", type="int", help="Number of estimators in RF")
+    parser.add_option(
+        "-j",
+        "--njobs",
+        default=-1,
+        metavar="NUMBER",
+        type="int",
+        help="Number of cross-validation splits used in RFECV and GridSearchCV",
+    )
+    parser.add_option(
+        "-r",
+        "--nrows",
+        default=None,
+        metavar="NUMBER",
+        type="int",
+        help="Number of rows of data to load. Default: None (load all)",
+    )
+    parser.add_option(
+        "-g",
+        "--prefitted_model",
+        metavar="filename",
+        default="",
+        help="Path to pickled GridSearchCV object to load instead of recomputing",
+    )
+    options, args = parser.parse_args(sys.argv)
+
+    # ===============================================================================
+    # Create folder to store results of this training and start a log
+    folder, log_file, log = get_log_folder(options.algo, options.prefitted_model)
+
+    # ===============================================================================
+    # Override algorithm option if working on a pre-fitted model, and log program options
+    log += print_and_log("----------------------------------------------------------------------------")
+    options, log = dump_or_load_options(options, folder, log)
+
+    # ===============================================================================
+    # Get maximum and baseline performances
+    max_performances, max_performances_algo, max_performances_ref, baseline_performances_algo = \
+        get_reference_performances(
+            options.in_folder, options.algo
+        )
+
+    # ===============================================================================
+    # Read data
+    log += print_and_log("----------------------------------------------------------------------------")
+    X, X_mnk, Y, log = read_data(options.algo, options.in_folder, options.nrows, options.plot_all, folder, log)
+
+    # ===============================================================================
+    # Get or train model
+    log += print_and_log("----------------------------------------------------------------------------")
+    if len(options.prefitted_model) == 0:  # train a model
+
+        log += print_and_log("\nPreparing to fit model...")
+        X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model, log = train_model(
+            X, X_mnk, Y, options, folder, log
+        )
+
+    else:  # load pre-trained model
+
+        log += print_and_log("\nReading pre-fitted model from " + options.prefitted_model)
+        X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model, log = fetch_pre_trained_model(
+            X, X_mnk, Y, options.prefitted_model, log
+        )
+
+    # ===============================================================================
+    # Evaluate model
+    log = evaluate_model(
+        model,
+        X_train,
+        X_mnk_train,
+        Y_train,
+        X_test,
+        X_mnk_test,
+        Y_test,
+        max_performances_ref,
+        max_performances_algo,
+        baseline_performances_algo,
+        options,
+        log,
+        folder,
+    )
+
+    # ===============================================================================
+    # Refit to the entire dataset
+    log += print_and_log("----------------------------------------------------------------------------")
+    log += print_and_log("\nRefit to the entire dataset:")
+    X = pd.concat([X_train, X_test], ignore_index=True)
+    X_mnk = pd.concat([X_mnk_train, X_mnk_test], ignore_index=True)
+    Y = pd.concat([Y_train, Y_test], ignore_index=True)
+    model.fit(X, Y)
+    results_file = os.path.join(folder, "feature_tree_refit.p")
+    safe_pickle([X.columns.values, model], results_file)
+
+    # ===============================================================================
+    # Evaluate refit-model
+    log = evaluate_model(
+        model,
+        X,
+        X_mnk,
+        Y,
+        None,
+        None,
+        None,
+        max_performances_ref,
+        max_performances_algo,
+        baseline_performances_algo,
+        options,
+        log,
+        folder,
+    )
+
+    # ===============================================================================
+    # Print log
+    log += print_and_log("----------------------------------------------------------------------------")
+    with open(log_file, "w") as f:
+        f.write(log)
+
+
+# ===============================================================================
 # Model hyperparameters
 optimized_hyperparameters = {  # chosen by common sense, then trial and error
     "tiny": {"max_depth": 16, "min_samples_leaf": 2, "min_samples_split": 15, "n_features_to_drop": 2},
@@ -1073,148 +1219,6 @@ def evaluate_model(
     pp.close()
 
     return log
-
-
-# ===============================================================================
-# Main
-def main():
-
-    parser = OptionParser()
-    parser.add_option("-f", "--in_folder", metavar="foldername/", default="", help="Folder from which to read data")
-    parser.add_option("-a", "--algo", metavar="algoname", default="", help="Algorithm to train on")
-    parser.add_option(
-        "-c",
-        "--plot_all",
-        default=False,
-        help="Plot more stuff" + "(Warning: can be very slow for large trees and create very large files)",
-    )
-    parser.add_option(
-        "-m", "--model", default="DT", help="Model to train. Options: DT (Decision Trees), RF (Random Forests)"
-    )
-    parser.add_option(
-        "-s",
-        "--splits",
-        default=3,
-        metavar="NUMBER",
-        type="int",
-        help="Number of cross-validation splits used in RFECV and GridSearchCV",
-    )
-    parser.add_option("-e", "--ntrees", default=3, metavar="NUMBER", type="int", help="Number of estimators in RF")
-    parser.add_option(
-        "-j",
-        "--njobs",
-        default=-1,
-        metavar="NUMBER",
-        type="int",
-        help="Number of cross-validation splits used in RFECV and GridSearchCV",
-    )
-    parser.add_option(
-        "-r",
-        "--nrows",
-        default=None,
-        metavar="NUMBER",
-        type="int",
-        help="Number of rows of data to load. Default: None (load all)",
-    )
-    parser.add_option(
-        "-g",
-        "--prefitted_model",
-        metavar="filename",
-        default="",
-        help="Path to pickled GridSearchCV object to load instead of recomputing",
-    )
-    options, args = parser.parse_args(sys.argv)
-
-    # ===============================================================================
-    # Create folder to store results of this training and start a log
-    folder, log_file, log = get_log_folder(options.algo, options.prefitted_model)
-
-    # ===============================================================================
-    # Override algorithm option if working on a pre-fitted model, and log program options
-    log += print_and_log("----------------------------------------------------------------------------")
-    options, log = dump_or_load_options(options, folder, log)
-
-    # ===============================================================================
-    # Get maximum and baseline performances
-    max_performances, max_performances_algo, max_performances_ref, baseline_performances_algo = \
-        get_reference_performances(
-            options.in_folder, options.algo
-        )
-
-    # ===============================================================================
-    # Read data
-    log += print_and_log("----------------------------------------------------------------------------")
-    X, X_mnk, Y, log = read_data(options.algo, options.in_folder, options.nrows, options.plot_all, folder, log)
-
-    # ===============================================================================
-    # Get or train model
-    log += print_and_log("----------------------------------------------------------------------------")
-    if len(options.prefitted_model) == 0:  # train a model
-
-        log += print_and_log("\nPreparing to fit model...")
-        X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model, log = train_model(
-            X, X_mnk, Y, options, folder, log
-        )
-
-    else:  # load pre-trained model
-
-        log += print_and_log("\nReading pre-fitted model from " + options.prefitted_model)
-        X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model, log = fetch_pre_trained_model(
-            X, X_mnk, Y, options.prefitted_model, log
-        )
-
-    # ===============================================================================
-    # Evaluate model
-    log = evaluate_model(
-        model,
-        X_train,
-        X_mnk_train,
-        Y_train,
-        X_test,
-        X_mnk_test,
-        Y_test,
-        max_performances_ref,
-        max_performances_algo,
-        baseline_performances_algo,
-        options,
-        log,
-        folder,
-    )
-
-    # ===============================================================================
-    # Refit to the entire dataset
-    log += print_and_log("----------------------------------------------------------------------------")
-    log += print_and_log("\nRefit to the entire dataset:")
-    X = pd.concat([X_train, X_test], ignore_index=True)
-    X_mnk = pd.concat([X_mnk_train, X_mnk_test], ignore_index=True)
-    Y = pd.concat([Y_train, Y_test], ignore_index=True)
-    model.fit(X, Y)
-    results_file = os.path.join(folder, "feature_tree_refit.p")
-    safe_pickle([X.columns.values, model], results_file)
-
-    # ===============================================================================
-    # Evaluate refit-model
-    log = evaluate_model(
-        model,
-        X,
-        X_mnk,
-        Y,
-        None,
-        None,
-        None,
-        max_performances_ref,
-        max_performances_algo,
-        baseline_performances_algo,
-        options,
-        log,
-        folder,
-    )
-
-    # ===============================================================================
-    # Print log
-    log += print_and_log("----------------------------------------------------------------------------")
-    with open(log_file, "w") as f:
-        f.write(log)
 
 
 # ===============================================================================
