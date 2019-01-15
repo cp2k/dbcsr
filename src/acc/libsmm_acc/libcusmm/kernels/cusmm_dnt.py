@@ -30,6 +30,9 @@ def round_down_to_nearest_multiple(x, step):
 
 # ===============================================================================
 class Kernel:
+    """
+    Base class for libcusmm's kernels
+    """
     def __repr__(self):
         return "<%s>" % self.name
 
@@ -59,6 +62,10 @@ class Kernel:
 
     @property
     def as_dict_for_parameters_json(self):
+        """
+        Return the kernel as a dictionary in such a way that it is convenient to write in a JSON file and parameters
+        always appear in the same order
+        """
         # Add common fields
         fields = ["m", "n", "k", "tile_m", "tile_n", "w", "v", "threads", "grouping", "minblocks", "algorithm"]
         d = dict()
@@ -77,10 +84,17 @@ class Kernel:
 
     @property
     def as_dict_for_parameters_h(self):
+        """
+        Return the kernel as a dictionary in such a way that it is convenient to write into the parameters.h file and
+        parameters always appear in the same order
+        """
+        # Add common fields
         fields = ["m", "n", "k", "tile_m", "tile_n", "w", "v", "threads", "grouping", "minblocks", "perf", "source"]
         d = dict()
         for f in fields:
             d[f] = self.as_dict[f] if f in self.as_dict.keys() else 0
+
+        # Add algorithm and source
         d["algorithm"] = self.algorithm_num
         d["source"] = "(predicted)" if not self.autotuned else ""
         return d

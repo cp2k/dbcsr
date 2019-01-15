@@ -13,6 +13,7 @@ from kernels.cusmm_dnt import Kernel, round_up_to_nearest_multiple
 
 
 class Kernel_dnt_largeDB2(Kernel):
+    """Kernel 'large double-buffering' 2"""
 
     algorithm = "largeDB2"
     algorithm_num = 2
@@ -49,6 +50,10 @@ class Kernel_dnt_largeDB2(Kernel):
     def promising_parameters(
         m, n, k, gpu, autotuning, threads=None, grouping=None, minblocks=None, tile_m=None, tile_n=None, w=None, v=None
     ):
+        """
+        Given a certain (m,n,k)-triplet, GPU properties and autotuning properties, return a list of all possible
+        kernel parameters
+        """
         params = []
         grouping = 16
 
@@ -137,6 +142,10 @@ class Kernel_dnt_largeDB2(Kernel):
 
     @staticmethod
     def baseline(m, n, k, gpu, autotuning):
+        """
+        Given an (m, n, k)-triplet and GPu and autotuning properties, return a set of parameters corresponding to a
+        baseline ("educated guess") of the kernel's optimal parameters
+        """
 
         grouping = 16
         minblk = 2
