@@ -127,20 +127,6 @@ def to_tuple(*iterable):
 
 # ===============================================================================
 # Lists of raw/derived parameters to be computed y algorithm
-<<<<<<< HEAD
-raw_parameters = ['m', 'n', 'k',
-                  'threads_per_blk', 'grouping', 'minblocks',
-                  'tile_m', 'tile_n', 'w', 'v',
-                  'perf (Gflop/s)']
-raw_parameters_withcompileinfo = raw_parameters + ['regs_per_thread', 'nbytes_smem', 'nbytes_cmem']
-||||||| parent of 95aac510... libcusmm: refactor, flake8 and remove obsolete options
-raw_parameters = ['m', 'n', 'k',
-                  'threads_per_blk',
-                  # 'grouping',  # fixed to 16 for largeDB1,2
-                  'minblocks',
-                  'tile_m', 'tile_n', 'w', 'v',
-                  'perf (Gflop/s)']
-raw_parameters_withcompileinfo = raw_parameters + ['regs_per_thread', 'nbytes_smem', 'nbytes_cmem']
 =======
 raw_parameters = [
     "m",
@@ -156,17 +142,7 @@ raw_parameters = [
     "perf (Gflop/s)",
 ]
 raw_parameters_withcompileinfo = raw_parameters + ["regs_per_thread", "nbytes_smem", "nbytes_cmem"]
->>>>>>> 95aac510... libcusmm: refactor, flake8 and remove obsolete options
 derived_parameters = {
-<<<<<<< HEAD
-    'common': [
-        'mxnxk', 'size_a', 'size_b', 'size_c',
-||||||| parent of 95aac510... libcusmm: refactor, flake8 and remove obsolete options
-    'common': [
-        'perf_squared', 'perf_scaled', 'perf_scaled_by_algo',
-        # 'Gflops', # linearly dependent on mxnxk
-        'mxnxk', 'size_a', 'size_b', 'size_c',
-=======
     "common": [
         "perf_scaled",
         # 'Gflops', # linearly dependent on mxnxk
@@ -174,25 +150,15 @@ derived_parameters = {
         "size_a",
         "size_b",
         "size_c",
->>>>>>> 95aac510... libcusmm: refactor, flake8 and remove obsolete options
         # 'nblks', 'nthreads',  # constant value for largeDB, since the grouping is always = 16
         "sm_desired"
         # 'warps_per_blk', 'nwarps',  # linearly dependent on threads_per_blk, nthreads
         # 'ru_param_stack_unroll_factor',  # always = 1 for tiny, added to each algo
     ],
-<<<<<<< HEAD
-    'tiny': [
-||||||| parent of 95aac510... libcusmm: refactor, flake8 and remove obsolete options
-    'tiny': [
-
-        'grouping', 'nblks', 'nthreads',
-
-=======
     "tiny": [
         "grouping",
         "nblks",
         "nthreads",
->>>>>>> 95aac510... libcusmm: refactor, flake8 and remove obsolete options
         # tiny, small, medium: resource occupation
         "ru_tinysmallmed_unroll_factor_a",
         "ru_tinysmallmed_unroll_factor_a_total",
@@ -200,26 +166,11 @@ derived_parameters = {
         "ru_tinysmallmed_unroll_factor_b_total",
         "ru_tinysmallmed_unroll_factor_c_total",
         # tiny: resource occupation
-<<<<<<< HEAD
-        'ru_tiny_max_parallel_work', 'ru_tiny_min_threads', 'ru_tiny_smem_per_block',
-        'ru_tiny_nblks_per_sm', 'ru_tiny_nwarps_per_sm', 'ru_tiny_nsm', 'ru_tiny_ngpu', 'ru_tiny_occupancy',
-
-||||||| parent of 95aac510... libcusmm: refactor, flake8 and remove obsolete options
-        'ru_tiny_max_parallel_work', 'ru_tiny_smem_per_block',
-        # 'ru_tiny_min_threads',  # equal to size_c
-        # 'ru_tiny_nblks_per_sm',  # always = 32, so also removing: 'ru_tiny_nwarps_per_sm', 'ru_tiny_occupancy'
-        'ru_tiny_nsm',  # 'ru_tiny_ngpu',  # highly correlated with ru_tiny_n_sm
-
-=======
         "ru_tiny_max_parallel_work",
         "ru_tiny_smem_per_block",
         # 'ru_tiny_min_threads',  # equal to size_c
         # 'ru_tiny_nblks_per_sm',  # always = 32, so also removing: 'ru_tiny_nwarps_per_sm', 'ru_tiny_occupancy'
         "ru_tiny_nsm",  # 'ru_tiny_ngpu',  # highly correlated with ru_tiny_n_sm
->>>>>>> 95aac510... libcusmm: refactor, flake8 and remove obsolete options
-        # Kothapalli
-        "Koth_tiny_Nmem",
-        "Koth_tiny_perf_K",
     ],
     "small": [
         "grouping",
@@ -232,33 +183,17 @@ derived_parameters = {
         "ru_tinysmallmed_unroll_factor_b_total",
         "ru_tinysmallmed_unroll_factor_c_total",
         # small, medium: resource occupation
-<<<<<<< HEAD
-        'ru_smallmed_unroll_factor_c', 'ru_smallmed_loop_matmul',
-        'ru_smallmed_max_parallel_work', 'ru_smallmed_buf_size',
-                                         'ru_smallmed_smem_per_block', 'ru_smallmed_regs_per_thread',
-
-||||||| parent of 95aac510... libcusmm: refactor, flake8 and remove obsolete options
-        'ru_smallmed_unroll_factor_c', 'ru_smallmed_loop_matmul',
-        'ru_smallmed_max_parallel_work',
-        # 'ru_smallmed_buf_size',  # highly correlated with ru_smallmed_smem_per_block
-        'ru_smallmed_smem_per_block', 'ru_smallmed_regs_per_thread',
-
-=======
         "ru_smallmed_unroll_factor_c",
         "ru_smallmed_loop_matmul",
         "ru_smallmed_max_parallel_work",
         # 'ru_smallmed_buf_size',  # highly correlated with ru_smallmed_smem_per_block
         "ru_smallmed_smem_per_block",
         "ru_smallmed_regs_per_thread",
->>>>>>> 95aac510... libcusmm: refactor, flake8 and remove obsolete options
         # small, medium, large: resource occupation
         "ru_smallmedlarge_cmax",
         "ru_smallmedlarge_rmax",
         "ru_smallmedlarge_T",
         "ru_smallmedlarge_min_threads",
-        # Kothapalli
-        "Koth_small_Nmem",
-        "Koth_small_perf_K",
     ],
     "medium": [
         "grouping",
@@ -274,51 +209,20 @@ derived_parameters = {
         # 'load_unroll_factor_1', 'load_unroll_factor_2',  # highly correlated with ru_tinysmallmed_unroll_factor_a,b
         # 'n_mkloads', 'n_knloads',  # constant value
         # small, medium: resource occupation
-<<<<<<< HEAD
-        'ru_smallmed_unroll_factor_c', 'ru_smallmed_loop_matmul',
-        'ru_smallmed_max_parallel_work', 'ru_smallmed_buf_size',
-        'ru_smallmed_smem_per_block', 'ru_smallmed_regs_per_thread',
-
-||||||| parent of 95aac510... libcusmm: refactor, flake8 and remove obsolete options
-        'ru_smallmed_unroll_factor_c', 'ru_smallmed_loop_matmul',
-        'ru_smallmed_max_parallel_work',
-        # 'ru_smallmed_buf_size',  # highly correlated with ru_smallmed_smem_per_block
-        'ru_smallmed_smem_per_block', 'ru_smallmed_regs_per_thread',
-
-=======
         "ru_smallmed_unroll_factor_c",
         "ru_smallmed_loop_matmul",
         "ru_smallmed_max_parallel_work",
         # 'ru_smallmed_buf_size',  # highly correlated with ru_smallmed_smem_per_block
         "ru_smallmed_smem_per_block",
         "ru_smallmed_regs_per_thread",
->>>>>>> 95aac510... libcusmm: refactor, flake8 and remove obsolete options
         # small, medium, large: resource occupation
         "ru_smallmedlarge_cmax",
         "ru_smallmedlarge_rmax",
         "ru_smallmedlarge_T",
         "ru_smallmedlarge_min_threads",
-        # Kothapalli
-        "Koth_med_Nmem",
-        "Koth_med_perf_K",
     ],
     "largeDB1": [
         # largeDB: resource occupation
-<<<<<<< HEAD
-        'ru_large_Pa', 'ru_large_Pb',
-        'ru_large_unroll_factor_a', 'ru_large_unroll_factor_b', 'ru_large_unroll_factor_c',
-        'ru_large_loop_matmul', 'ru_large_max_concurrent_work',
-        'ru_large_regs_per_thread', 'ru_large_n_DB_iter', 'ru_large_buf_size', 'ru_large_smem_per_block',
-
-||||||| parent of 95aac510... libcusmm: refactor, flake8 and remove obsolete options
-        'ru_large_Pa', 'ru_large_Pb',
-        'ru_large_unroll_factor_a', 'ru_large_unroll_factor_b', 'ru_large_unroll_factor_c',
-        'ru_large_loop_matmul', 'ru_large_max_concurrent_work',
-        'ru_large_n_DB_iter', 'ru_large_regs_per_thread',
-        # 'ru_large_buf_size',  # highly correlated with ru_large_smem_per_block
-        'ru_large_smem_per_block',
-
-=======
         "ru_large_Pa",
         "ru_large_Pb",
         "ru_large_unroll_factor_a",
@@ -330,33 +234,14 @@ derived_parameters = {
         "ru_large_regs_per_thread",
         # 'ru_large_buf_size',  # highly correlated with ru_large_smem_per_block
         "ru_large_smem_per_block",
->>>>>>> 95aac510... libcusmm: refactor, flake8 and remove obsolete options
         # small, medium, large: resource occupation
         "ru_smallmedlarge_cmax",
         "ru_smallmedlarge_rmax",
         "ru_smallmedlarge_T",
         "ru_smallmedlarge_min_threads",
-        # Kothapalli
-        "Koth_large_Nmem",
-        "Koth_large_perf_K",
     ],
     "largeDB2": [
         # largeDB: resource occupation
-<<<<<<< HEAD
-        'ru_large_Pa', 'ru_large_Pb',
-        'ru_large_unroll_factor_a', 'ru_large_unroll_factor_b', 'ru_large_unroll_factor_c',
-        'ru_large_loop_matmul', 'ru_large_max_concurrent_work',
-        'ru_large_regs_per_thread', 'ru_large_n_DB_iter', 'ru_large_buf_size', 'ru_large_smem_per_block',
-
-||||||| parent of 95aac510... libcusmm: refactor, flake8 and remove obsolete options
-        'ru_large_Pa', 'ru_large_Pb',
-        'ru_large_unroll_factor_a', 'ru_large_unroll_factor_b', 'ru_large_unroll_factor_c',
-        'ru_large_loop_matmul', 'ru_large_max_concurrent_work',
-        'ru_large_n_DB_iter', 'ru_large_regs_per_thread',
-        # 'ru_large_buf_size',  # highly correlated with ru_large_smem_per_block
-        'ru_large_smem_per_block',
-
-=======
         "ru_large_Pa",
         "ru_large_Pb",
         "ru_large_unroll_factor_a",
@@ -368,15 +253,11 @@ derived_parameters = {
         "ru_large_regs_per_thread",
         # 'ru_large_buf_size',  # highly correlated with ru_large_smem_per_block
         "ru_large_smem_per_block",
->>>>>>> 95aac510... libcusmm: refactor, flake8 and remove obsolete options
         # small, medium, large: resource occupation
         "ru_smallmedlarge_cmax",
         "ru_smallmedlarge_rmax",
         "ru_smallmedlarge_T",
         "ru_smallmedlarge_min_threads",
-        # Kothapalli
-        "Koth_large_Nmem",
-        "Koth_large_perf_K",
     ],
 }
 derived_parameters_withcompileinfo = {
@@ -419,30 +300,6 @@ derived_parameters_withcompileinfo = {
     "largeDB2": [
         p for p in derived_parameters["largeDB2"] if p not in ("ru_large_regs_per_thread", "ru_large_smem_per_block")
     ],
-<<<<<<< HEAD
-    'tiny': [p for p in derived_parameters['tiny']
-             if p not in ('ru_tiny_smem_per_block',  # the smem estimation is correct for algo 'tiny'
-                          'ru_tiny_nblks_per_sm')],    # equal to nblocks_per_sm_lim_blks_warps
-    'small': derived_parameters['small'],
-    'medium': derived_parameters['medium'],
-    'largeDB1': derived_parameters['largeDB1'],
-    'largeDB2': derived_parameters['largeDB2']
-||||||| parent of 95aac510... libcusmm: refactor, flake8 and remove obsolete options
-    'tiny': [p for p in derived_parameters['tiny'] if p not in
-             ('ru_tiny_smem_per_block',  # the smem estimation is correct for algo 'tiny'
-              'ru_tiny_nblks_per_sm',    # equal to nblocks_per_sm_lim_blks_warps
-              'ru_tiny_nwarps_per_sm',   # derived quantities
-              'ru_tiny_nsm', 'ru_tiny_ngpu', 'ru_tiny_occupancy')],
-    'small': [p for p in derived_parameters['small'] if p not in
-              ('ru_smallmed_smem_per_block', 'ru_smallmed_regs_per_thread')],
-    'medium': [p for p in derived_parameters['medium'] if p not in
-               ('ru_smallmed_smem_per_block', 'ru_smallmed_regs_per_thread')],
-    'largeDB1': [p for p in derived_parameters['largeDB1'] if p not in
-                 ('ru_large_regs_per_thread',  'ru_large_smem_per_block')],
-    'largeDB2': [p for p in derived_parameters['largeDB2'] if p not in
-                 ('ru_large_regs_per_thread',  'ru_large_smem_per_block')],
-=======
->>>>>>> 95aac510... libcusmm: refactor, flake8 and remove obsolete options
 }
 
 
@@ -557,7 +414,6 @@ class PredictiveParameters:
         self.max_performances = max_performances  # dictionary of max. performances
         # keys: (m, n, k)-tuple, values: maximum performance
         # found over all algorithms for this given (m, n, k)
-        self.atomicAdd_factor = 5
 
         if not partial_initialization:
             assert (
@@ -954,152 +810,3 @@ class PredictiveParameters:
             + self.autotuning["npars"] * self.get("grouping") * self.autotuning["sizeof_int"]
         )
 
-    # ===============================================================================
-    # Kothapalli et al. metrics
-    def kothapalli_nmem(self, nmem_glob, nmem_shared):
-        return (
-            self.gpu["Global_memory_access_latency"] * nmem_glob
-            + self.gpu["Shared_memory_access_latency"] * nmem_shared
-        )
-
-    def kothapalli_perf(self, n_mem, nblks, threads_per_blk, gflops):
-        c_K = nblks * threads_per_blk * n_mem  # ignore number of threads per warp
-        return gflops / c_K  # ignore clock rate (constant factor)
-
-    # ===============================================================================
-    # Kothapalli et al. metrics (for 'tiny')
-    def get_Koth_tiny_Nmem_shared(self):
-        """Kothapalli et al. modelling, under communication-bound assumption"""
-        return 3 * self.get("grouping") + self.get("grouping") * (
-            3
-            + self.get("ru_tinysmallmed_unroll_factor_a")
-            + self.get("ru_tinysmallmed_unroll_factor_b")
-            + 2 * self.get("k")
-        )
-
-    def get_Koth_tiny_Nmem_glob(self):
-        return 3 * self.get("grouping") + self.get("grouping") * (
-            self.get("ru_tinysmallmed_unroll_factor_a") + self.get("ru_tinysmallmed_unroll_factor_b")
-        )
-
-    def get_Koth_tiny_Nmem(self):
-        return self.kothapalli_nmem(self.get("Koth_tiny_Nmem_glob"), self.get("Koth_tiny_Nmem_shared"))
-
-    def get_Koth_tiny_perf_K(self):
-        return self.kothapalli_perf(
-            self.get("Koth_tiny_Nmem"), self.get("nblks"), self.get("threads_per_blk"), self.get("Gflops")
-        )
-
-    # ===============================================================================
-    # Kothapalli et al. metrics (for 'small')
-    def get_Koth_small_Nmem_shared(self):
-        """Kothapalli et al. modelling, under communication-bound assumption"""
-        i = 3 * self.get("grouping") + self.get("grouping") * (
-            3
-            + self.get("ru_tinysmallmed_unroll_factor_a")
-            + self.get("ru_tinysmallmed_unroll_factor_b")
-            + 2 * self.get("k") * self.get("tile_m") * self.get("tile_n")
-            + self.get("tile_m") * self.get("tile_n")
-        )
-
-        return np.where(
-            np.logical_and(self.get("tile_m") > 1, self.get("tile_n") > 1),
-            i + self.atomicAdd_factor * self.get("ru_smallmed_unroll_factor_c"),
-            i,
-        )
-
-    def get_Koth_small_Nmem_glob(self):
-        return 3 * self.get("grouping") + self.get("grouping") * (
-            self.get("ru_tinysmallmed_unroll_factor_a")
-            + self.get("ru_tinysmallmed_unroll_factor_b")
-            + self.atomicAdd_factor * self.get("ru_smallmed_unroll_factor_c")
-        )
-
-    def get_Koth_small_Nmem(self):
-        return self.kothapalli_nmem(self.get("Koth_small_Nmem_glob"), self.get("Koth_small_Nmem_shared"))
-
-    def get_Koth_small_perf_K(self):
-        return self.kothapalli_perf(
-            self.get("Koth_small_Nmem"), self.get("nblks"), self.get("threads_per_blk"), self.get("Gflops")
-        )
-
-    # ===============================================================================
-    # Kothapalli et al. metrics (for 'medium')
-    def get_Koth_med_Nmem_shared(self):
-        """Kothapalli et al. modelling, under communication-bound assumption"""
-        i = 3 * self.get("grouping") + self.get("grouping") * (
-            2
-            + self.get("n_mkloads") * self.get("load_unroll_factor_1")
-            + self.get("n_knloads") * self.get("load_unroll_factor_2")
-            + 2
-            + 2 * self.get("k") * self.get("tile_m") * self.get("tile_n")
-            + 1
-        )
-
-        return np.where(
-            (self.get("tile_m") > 1) & (self.get("tile_n") > 1),
-            i + self.atomicAdd_factor * self.get("ru_smallmed_unroll_factor_c"),
-            i,
-        )
-
-    def get_Koth_med_Nmem_glob(self):
-        return 3 * self.get("grouping") + self.get("grouping") * (
-            2 * self.get("n_mkloads") * self.get("load_unroll_factor_1")
-            + self.get("n_knloads") * self.get("load_unroll_factor_2")
-            + self.atomicAdd_factor * self.get("ru_smallmed_unroll_factor_c")
-        )
-
-    def get_Koth_med_Nmem(self):
-        return self.kothapalli_nmem(self.get("Koth_med_Nmem_glob"), self.get("Koth_med_Nmem_shared"))
-
-    def get_Koth_med_perf_K(self):
-        return self.kothapalli_perf(
-            self.get("Koth_med_Nmem"), self.get("nblks"), self.get("threads_per_blk"), self.get("Gflops")
-        )
-
-    # ===============================================================================
-    # Kothapalli et al. metrics (for 'largeDB')
-    def get_Koth_large_Nmem_shared(self):
-        """Kothapalli et al. modelling, under communication-bound assumption"""
-        return 3 * self.get("grouping") + self.get("grouping") * (
-            (self.get("m") * self.get("w")) // self.get("threads_per_blk")
-            + (self.get("n") * self.get("w")) // self.get("threads_per_blk")
-            + (self.get("k") // self.get("w"))  # load_gmem_into_smem
-            * (
-                (self.get("m") * self.get("w")) // self.get("threads_per_blk")
-                + (self.get("n") * self.get("w")) // self.get("threads_per_blk")
-                + 3 * self.get("w") * self.get("tile_m") * self.get("tile_n")  # load_regs_into_smem  # multiply
-            )
-            + (self.get("n") // self.get("v"))  # double-buffering
-            * (
-                self.get("tile_m") * self.get("tile_n")
-                + self.get("ru_large_Pc")  # store_results_into_smem
-                // self.get("threads_per_blk")  # result accumulation
-            )  # write out
-        )
-
-    def get_Koth_large_Nmem_glob(self):
-        return 3 * self.get("grouping") + self.get("grouping") * (
-            2
-            + (self.get("m") * self.get("w")) // self.get("threads_per_blk")
-            + (self.get("n") * self.get("w")) // self.get("threads_per_blk")
-            + (self.get("k") // self.get("w"))  # load_gmem_into_smem
-            * (
-                (self.get("m") * self.get("w")) // self.get("threads_per_blk")
-                + (self.get("n") * self.get("w")) // self.get("threads_per_blk")  # load_gmem_into_regs
-            )
-            + (self.get("n") // self.get("v"))  # double-buffering
-            * (
-                # result accumulation
-                self.atomicAdd_factor
-                * (self.get("ru_large_Pc") // self.get("threads_per_blk"))
-            )  # write out
-        )
-
-    def get_Koth_large_Nmem(self):
-        return self.kothapalli_nmem(self.get("Koth_large_Nmem_glob"), self.get("Koth_large_Nmem_shared"))
-
-    def get_Koth_large_perf_K(self):
-        return self.kothapalli_perf(
-            self.get("Koth_large_Nmem"), self.get("nblks"), self.get("threads_per_blk"), self.get("Gflops")
-        )
