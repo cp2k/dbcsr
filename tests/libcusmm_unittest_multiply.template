@@ -18,7 +18,7 @@
 
 
 /****************************************************************************\
- \brief Checks correctness of every libcusmm multiplication kernel and measures its performance.
+ \brief Checks correctness of randomly selected libcusmm multiplication kernels
 \****************************************************************************/
 
 int main(int argc, char** argv){
