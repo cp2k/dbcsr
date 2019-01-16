@@ -98,17 +98,27 @@ def main():
     # ===============================================================================
     # Print max performance dictionaries
     max_performances_per_mnk_file = os.path.join(options.folder, "max_performances.json")
+    if os.path.exists(max_performances_per_mnk_file):
+        # If this file already exists, read its contents and merge them with the content to write
+        print("Found {}, reading and merging into new data...".format(max_performances_per_mnk_file))
+        with open(max_performances_per_mnk_file, "r") as f:
+            max_performances_per_mnk_to_merge = json.load(f)
+            max_performances_per_mnk.update(max_performances_per_mnk_to_merge)
     with open(max_performances_per_mnk_file, "w") as f:
         json.dump(max_performances_per_mnk, f)
+    print("\nWrote maximum performances to:\n", max_performances_per_mnk_file)
+
+    # Print baseline performance dictionaries
     baseline_performances_per_algo_per_mnk_file = os.path.join(options.folder, "baseline_performances_by_algo.json")
+    if os.path.exists(baseline_performances_per_algo_per_mnk_file):
+        # If this file already exists, read its contents and merge them with the content to write
+        print("Found {}, reading and merging into new data...".format(baseline_performances_per_algo_per_mnk_file))
+        with open(baseline_performances_per_algo_per_mnk_file, "r") as f:
+            baseline_performances_per_algo_per_mnk_to_merge = json.load(f)
+            baseline_performances_per_algo_per_mnk.update(baseline_performances_per_algo_per_mnk_to_merge)
     with open(baseline_performances_per_algo_per_mnk_file, "w") as f:
         json.dump(baseline_performances_per_algo_per_mnk, f)
-    print(
-        "\nWrote max. and baseline performances to:\n",
-        max_performances_per_mnk_file,
-        " and\n",
-        baseline_performances_per_algo_per_mnk_file,
-    )
+    print("\nWrote baseline performances to:\n", baseline_performances_per_algo_per_mnk_file)
 
     # ===============================================================================
     # Print commands to merge CSVs into one big CSV for training data
@@ -136,7 +146,6 @@ def read_log_file(log_folder, m, n, k):
     log_files = [f for f in os.listdir(log_folder) if f[-4:] == ".log"]
     assert len(log_files) > 0
     log_files = sorted(log_files)
-    print("Found log files:", log_files)
 
     # Parse the log files and collect data
     data = list()

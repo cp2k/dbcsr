@@ -154,7 +154,6 @@ raw_parameters = [
     "v",
     "perf (Gflop/s)",
 ]
-raw_parameters_withcompileinfo = raw_parameters + ["regs_per_thread", "nbytes_smem", "nbytes_cmem"]
 derived_parameters = {
     "common": [
         "perf_scaled",
