@@ -16,7 +16,7 @@ It is MPI and OpenMP parallel and can exploit GPUs via CUDA.
 You absolutely need:
 
 * GNU make
-* a Fortran compiler which supports at least Fortran 2003 (respectively 2008+TS when using the C-bindings)
+* a Fortran compiler which supports at least Fortran 2008 (including the TS when using the C-bindings)
 * a LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested. Note: DBCSR linked to OpenBLAS 0.3.6 gives wrong results on Power9 architectures.)
 * a BLAS implementation (reference, OpenBLAS-bundled and MKL have been tested)
 * a Python version installed (2.7 or 3.6+ have been tested) with Numpy
