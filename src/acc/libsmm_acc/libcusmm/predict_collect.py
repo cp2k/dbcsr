@@ -36,7 +36,7 @@ def main():
     Once autotuning of new kernels has been run,
     - collect the parameter information, compilation information and performance from log files,
     - dump them to CSV files for data analysis and training of a predictive model
-    - Write the max_performances, max_performances_per_algo and baseline_performances to JSON files
+    - Write the max_performances and baseline_performances to JSON files
     """
 
     parser = OptionParser()
@@ -76,13 +76,6 @@ def main():
     n_kernels = len(kernel_folders)
     print("Found {:,} kernel folders".format(n_kernels))
     max_performances_per_mnk = dict()
-    max_performances_per_algo_per_mnk = {
-        "tiny": dict(),
-        "small": dict(),
-        "medium": dict(),
-        "largeDB1": dict(),
-        "largeDB2": dict(),
-    }
     baseline_performances_per_algo_per_mnk = {
         "tiny": dict(),
         "small": dict(),
@@ -99,7 +92,6 @@ def main():
         gpu_properties,
         autotuning_properties,
         max_performances_per_mnk,
-        max_performances_per_algo_per_mnk,
         baseline_performances_per_algo_per_mnk,
     )
 
@@ -108,17 +100,12 @@ def main():
     max_performances_per_mnk_file = os.path.join(options.folder, "max_performances.json")
     with open(max_performances_per_mnk_file, "w") as f:
         json.dump(max_performances_per_mnk, f)
-    max_performances_per_algo_per_mnk_file = os.path.join(options.folder, "max_performances_by_algo.json")
-    with open(max_performances_per_algo_per_mnk_file, "w") as f:
-        json.dump(max_performances_per_algo_per_mnk, f)
     baseline_performances_per_algo_per_mnk_file = os.path.join(options.folder, "baseline_performances_by_algo.json")
     with open(baseline_performances_per_algo_per_mnk_file, "w") as f:
         json.dump(baseline_performances_per_algo_per_mnk, f)
     print(
         "\nWrote max. and baseline performances to:\n",
         max_performances_per_mnk_file,
-        ",\n",
-        max_performances_per_algo_per_mnk_file,
         " and\n",
         baseline_performances_per_algo_per_mnk_file,
     )
@@ -199,7 +186,6 @@ def collect_training_data(
     gpu_properties,
     autotuning_properties,
     max_performances_per_mnk,
-    max_performances_per_algo_per_mnk,
     baseline_performances_per_algo_per_mnk,
 ):
     """
@@ -236,12 +222,6 @@ def collect_training_data(
 
                 # Get the data corresponding to this algorithm
                 data_algo = data[data["algorithm"] == name_algo]
-
-                # Collect max performances per algorithm, per (m, n, k)
-                max_performances_algo = get_max_performances_per_mnk(data_algo)
-                max_performances_per_algo_per_mnk[name_algo].update(
-                    dict(zip(to_string(*max_performances_algo.keys()), max_performances_algo.values()))
-                )
 
                 # Collect baseline performances per algo, per (m, n, k)
                 baseline_performances_algo = get_baseline_performances_per_mnk(
