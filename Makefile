@@ -84,6 +84,7 @@ endif
          dirs makedep \
 	 default_target $(LIBRARY) all \
          toolversions \
+         toolflags \
          doxify doxifyclean \
          pretty prettyclean doxygen/clean doxygen \
          install clean realclean help \
@@ -158,6 +159,11 @@ else
 	$(FC) --version
 endif
 endif
+ifneq ($(CXX),)
+	@echo "========== CXX =========="
+	$(CXX) --version
+	@echo ""
+endif
 ifneq ($(CC),)
 	@echo "=========== CC ==========="
 ifeq (Cray,$(shell $(CC) -V 2>&1 | head -n1 | cut -d' ' -f1))
@@ -167,6 +173,11 @@ else ifeq (IBM,$(shell $(CC) -qversion 2>&1 | head -n1 | cut -d' ' -f1))
 else
 	$(CC) --version
 endif
+endif
+ifneq ($(LD),)
+	@echo "========== LD =========="
+	$(LD) --version
+	@echo ""
 endif
 ifneq ($(NVCC),)
 	@echo "========== NVCC =========="
@@ -185,6 +196,40 @@ endif
 	/usr/bin/env python --version
 
 OTHER_HELP += "toolversions : Print versions of build tools"
+
+toolflags:
+ifneq ($(FCFLAGS),)
+	@echo "========== FCFLAGS =========="
+	@echo $(FCFLAGS)
+	@echo ""
+endif
+ifneq ($(CXXFLAGS),)
+	@echo "========== CXXFLAGS =========="
+	@echo $(CXXFLAGS)
+	@echo ""
+endif
+ifneq ($(CFLAGS),)
+	@echo "========== CFLAGS =========="
+	@echo $(CFLAGS)
+	@echo ""
+endif
+ifneq ($(LDFLAGS),)
+	@echo "========== LDFLAGS =========="
+	@echo $(LDFLAGS)
+	@echo ""
+endif
+ifneq ($(NVFLAGS),)
+	@echo "========== NVFLAGS =========="
+	@echo $(NVFLAGS)
+	@echo ""
+endif
+ifneq ($(GPUVER),)
+	@echo "========== GPUVER =========="
+	@echo $(GPUVER)
+	@echo ""
+endif
+
+OTHER_HELP += "toolflags : Print flags used with build tools"
 
 else
 # stage 2: Include $(OBJDIR)/all.dep, expand target all, and get list of dependencies.
