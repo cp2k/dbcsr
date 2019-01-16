@@ -26,7 +26,7 @@ from kernels.cusmm_predict import arch_number, kernel_algorithm, params_dict_to_
 def main(argv):
     """
     This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
-    For more details, see predictive_modelling.md
+    For more details, see predict.md
 
     Update parameter file with new optimal parameter predictions given newly trained decision trees
     """

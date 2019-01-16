@@ -37,7 +37,7 @@ from kernels.cusmm_predict import to_tuple, to_string
 def main():
     """
     This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
-    For more details, see predictive_modelling.md
+    For more details, see predict.md
 
     """
 

@@ -26,7 +26,7 @@ from predict_helpers import (
 def main(argv):
     """
     This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
-    For more details, see predictive_modelling.md
+    For more details, see predict.md
 
     Given a file containing the results of the LIBCUSMM performance test, perform evaluation of the predictive model.
     """
