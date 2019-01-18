@@ -146,7 +146,6 @@ def find_optimal_kernel(mnk, algo, tree, tree_features, gpu_properties, autotuni
     parameter_space_ = kernel_algorithm[algo].promising_parameters(m, n, k, gpu_properties, autotuning_properties)
     parameter_space = pd.DataFrame(parameter_space_)
     del parameter_space_
-    parameter_space = parameter_space.rename(columns={"threads": "threads_per_blk"})
     parameter_space["algorithm"] = [algo] * len(parameter_space.index)  # Add "algorithm" column
     if len(parameter_space.index) == 0:
         optimal_kernels = dict()

@@ -21,7 +21,6 @@ from kernels.cusmm_predict import (
     get_baseline_performances_per_mnk,
     to_string,
     PredictiveParameters,
-    raw_parameters,
     derived_parameters,
     kernel_algorithm,
 )
@@ -170,7 +169,7 @@ def read_log_file(log_folder, m, n, k):
                         "n": n,
                         "k": k,
                         "algorithm": match.group(1),
-                        "threads_per_blk": int(match.group(9)),
+                        "threads": int(match.group(9)),
                         "grouping": int(match.group(10)),
                         "minblocks": int(match.group(11)),
                         "tile_m": int(match.group(5)) if match.group(5) is not None else None,
@@ -254,7 +253,7 @@ def collect_training_data(
                 else:
 
                     # Write raw parameters
-                    pars_to_get = raw_parameters
+                    pars_to_get = kernel_algo.launch_parameters + ["perf (Gflop/s)"]
                     data_algo[pars_to_get].to_csv(raw_parameters_file_name, index=False)
                     print("\tWrote", raw_parameters_file_name)
 
