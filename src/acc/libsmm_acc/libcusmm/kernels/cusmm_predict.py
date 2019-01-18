@@ -70,22 +70,20 @@ def compatible_mnk(algo, m, n, k):
 def params_dict_to_kernel(**params):
     """Given a dictionary of parameters, return the corresponding Kernel class instance"""
 
+    # Get the 'algorithm' field
     algo = params.pop("algorithm")
-    kernel_init_params = ["m", "n", "k", "threads", "grouping", "minblocks", "perf", "source"]
-    if algo in ["small", "medium", "largeDB1", "largeDB2"]:
-        kernel_init_params.append("tile_m")
-        kernel_init_params.append("tile_n")
-        if algo in ["largeDB1", "largeDB2"]:
-            kernel_init_params.append("v")
-            kernel_init_params.append("w")
 
+    # Get the list of fields needed to initialize a Kernel instance of this given algorithm
+    kernel_init_params = kernel_algorithm[algo].launch_parameters + ["perf", "source"]
+
+    # Fill in dictionary fields
     kernel_init_params_dict = dict()
-    if "threads_per_blk" in params.keys():
-        kernel_init_params_dict["threads"] = params["threads_per_blk"]
-        kernel_init_params.remove("threads")
-
     for k in kernel_init_params:
-        kernel_init_params_dict[k] = params[k]
+        if k == 'perf' and params["source"] == 'predicted':
+            # the performance of predicted parameter sets is not given
+            kernel_init_params_dict["perf"] = None
+        else:
+            kernel_init_params_dict[k] = params[k]
 
     return kernel_algorithm[algo](**kernel_init_params_dict)
 
@@ -138,22 +136,9 @@ def to_tuple(*iterable):
 
 
 # ===============================================================================
-# Lists of raw/derived parameters to use as training data for the predictive modelling
+# Lists of derived parameters to use as training data for the predictive modelling
 # Some of the computable features are commented out because they are constant or (almost) linearly dependent on another
 # feature, and therefore they do not contribute to the decision tree model.
-raw_parameters = [
-    "m",
-    "n",
-    "k",
-    "threads_per_blk",
-    # 'grouping',  # fixed to 16 for largeDB1,2
-    "minblocks",
-    "tile_m",
-    "tile_n",
-    "w",
-    "v",
-    "perf (Gflop/s)",
-]
 derived_parameters = {
     "common": [
         "perf_scaled",
@@ -164,11 +149,10 @@ derived_parameters = {
         "size_c",
         # 'nblks', 'nthreads',  # constant value for largeDB, since the grouping is always = 16
         "sm_desired"
-        # 'warps_per_blk', 'nwarps',  # linearly dependent on threads_per_blk, nthreads
-        # 'ru_param_stack_unroll_factor',  # always = 1 for tiny, added to each algo
+        # 'warps_per_blk', 'nwarps',  # linearly dependent on threads, nthreads
+        # 'ru_param_stack_unroll_factor',  # constant values for each algo
     ],
     "tiny": [
-        "grouping",
         "nblks",
         "nthreads",
         # tiny, small, medium: resource occupation
@@ -185,7 +169,6 @@ derived_parameters = {
         "ru_tiny_nsm",  # 'ru_tiny_ngpu',  # highly correlated with ru_tiny_n_sm
     ],
     "small": [
-        "grouping",
         "nblks",
         "nthreads",
         # tiny, small, medium: resource occupation
@@ -208,7 +191,6 @@ derived_parameters = {
         "ru_smallmedlarge_min_threads",
     ],
     "medium": [
-        "grouping",
         "nblks",
         "nthreads",
         # tiny, small, medium: resource occupation
@@ -368,7 +350,7 @@ def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
                 (data.m == baseline_pars["m"])
                 & (data.n == baseline_pars["n"])
                 & (data.k == baseline_pars["k"])
-                & (data.threads_per_blk == baseline_pars["threads"])
+                & (data.threads == baseline_pars["threads"])
                 & (data.grouping == baseline_pars["grouping"])
                 & (data.minblocks == baseline_pars["minblocks"])
             ].index.tolist()
@@ -377,7 +359,7 @@ def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
                 (data.m == baseline_pars["m"])
                 & (data.n == baseline_pars["n"])
                 & (data.k == baseline_pars["k"])
-                & (data.threads_per_blk == baseline_pars["threads"])
+                & (data.threads == baseline_pars["threads"])
                 & (data.grouping == baseline_pars["grouping"])
                 & (data.minblocks == baseline_pars["minblocks"])
                 & (data.tile_m == baseline_pars["tile_m"])
@@ -388,7 +370,7 @@ def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
                 (data.m == baseline_pars["m"])
                 & (data.n == baseline_pars["n"])
                 & (data.k == baseline_pars["k"])
-                & (data.threads_per_blk == baseline_pars["threads"])
+                & (data.threads == baseline_pars["threads"])
                 & (data.grouping == baseline_pars["grouping"])
                 & (data.minblocks == baseline_pars["minblocks"])
                 & (data.tile_m == baseline_pars["tile_m"])
@@ -402,7 +384,7 @@ def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
                 (data.m == baseline_pars["m"])
                 & (data.n == baseline_pars["n"])
                 & (data.k == baseline_pars["k"])
-                & (data.threads_per_blk == baseline_pars["threads"])
+                & (data.threads == baseline_pars["threads"])
             ].index.tolist()
             assert len(idx_baseline) > 0
 
@@ -432,8 +414,8 @@ class PredictiveParameters:
 
         if not partial_initialization:
             assert (
-                "threads_per_blk" in params_df.columns.values
-            ), "Missing column: threads_per_blk. Available columns:\n" + str(params_df.columns.values)
+                "threads" in params_df.columns.values
+            ), "Missing column: threads. Available columns:\n" + str(params_df.columns.values)
             assert "grouping" in params_df.columns.values, "Missing column: grouping. Available columns:\n" + str(
                 params_df.columns.values
             )
@@ -533,7 +515,7 @@ class PredictiveParameters:
             np.where(self.get("size_c") > self.gpu["Threads_/_Warp"], True, False)
             | np.where(self.get("size_a") > self.gpu["Threads_/_Warp"], True, False)
             | np.where(self.get("size_b") > self.gpu["Threads_/_Warp"], True, False)
-            | np.where(self.get("threads_per_blk") > self.gpu["Threads_/_Warp"], True, False)
+            | np.where(self.get("threads") > self.gpu["Threads_/_Warp"], True, False)
         )
 
     def get_nblks(self):
@@ -542,7 +524,7 @@ class PredictiveParameters:
 
     def get_warps_per_blk(self):
         """Number of warps per block"""
-        return np.ceil(self.get("threads_per_blk") / self.gpu["Threads_/_Warp"])
+        return np.ceil(self.get("threads") / self.gpu["Threads_/_Warp"])
 
     def get_nwarps(self):
         """Total number of warps needed to multiply all matrices on the stack"""
@@ -557,7 +539,7 @@ class PredictiveParameters:
 
     def get_nthreads(self):
         """Total number of threads needed to multiply all matrices on the stack"""
-        return self.get("threads_per_blk") * self.get("nblks")
+        return self.get("threads") * self.get("nblks")
 
     # ===============================================================================
     # Resource occupancy estimations
@@ -616,7 +598,7 @@ class PredictiveParameters:
     # Resource usage (common)
     def get_ru_param_stack_unroll_factor(self):
         """Number of executions of the body of the loop that loads data from the parameter stack"""
-        return np.ceil(self.get("grouping") / self.get("threads_per_blk"))
+        return np.ceil(self.get("grouping") / self.get("threads"))
 
     def get_n_iter(self):
         """Number of benchmark repetitions in autotuning procedure"""
@@ -647,11 +629,11 @@ class PredictiveParameters:
     # Resource usage (tiny, small, medium)
     def get_ru_tinysmallmed_unroll_factor_a(self):
         """loop unroll factor of the loop on m*k"""
-        return np.ceil(self.get("size_a") / self.get("threads_per_blk"))
+        return np.ceil(self.get("size_a") / self.get("threads"))
 
     def get_ru_tinysmallmed_unroll_factor_b(self):
         """loop unroll factor of the loop on k*m"""
-        return np.ceil(self.get("size_b") / self.get("threads_per_blk"))
+        return np.ceil(self.get("size_b") / self.get("threads"))
 
     def get_ru_tinysmallmed_unroll_factor_a_total(self):
         """loop unroll factor multiplied by number of times the loop is run"""
@@ -731,7 +713,7 @@ class PredictiveParameters:
 
     def get_ru_smallmed_unroll_factor_c(self):
         """loop unroll factor of the loop on m*n"""
-        return np.ceil(self.get("size_c") / self.get("threads_per_blk"))
+        return np.ceil(self.get("size_c") / self.get("threads"))
 
     def get_ru_smallmed_loop_matmul(self):
         """Actual multiplication loop"""
@@ -765,24 +747,24 @@ class PredictiveParameters:
         """Register usage per thread (estimated)"""
         return (
             self.get("tile_m") * self.get("tile_n")
-            + (self.get("m") * self.get("k") + self.get("threads_per_blk") - 1) // self.get("threads_per_blk")
-            + (self.get("k") * self.get("n") + self.get("threads_per_blk") - 1) // self.get("threads_per_blk")
+            + (self.get("m") * self.get("k") + self.get("threads") - 1) // self.get("threads")
+            + (self.get("k") * self.get("n") + self.get("threads") - 1) // self.get("threads")
         )
 
     # ===============================================================================
     # Resource usage (medium)
     # Loop bounds
     def get_load_unroll_factor_1(self):
-        return self.get("size_a") // self.get("threads_per_blk") + 1
+        return self.get("size_a") // self.get("threads") + 1
 
     def get_load_unroll_factor_2(self):
-        return self.get("size_b") // self.get("threads_per_blk") + 1
+        return self.get("size_b") // self.get("threads") + 1
 
     def get_n_mkloads(self):
-        return self.get("size_a") // (self.get("load_unroll_factor_1") * self.get("threads_per_blk"))
+        return self.get("size_a") // (self.get("load_unroll_factor_1") * self.get("threads"))
 
     def get_n_knloads(self):
-        return self.get("size_b") // (self.get("load_unroll_factor_2") * self.get("threads_per_blk"))
+        return self.get("size_b") // (self.get("load_unroll_factor_2") * self.get("threads"))
 
     # ===============================================================================
     # Resource usage (large)
@@ -799,13 +781,13 @@ class PredictiveParameters:
         return self.get("m") * self.get("v")
 
     def get_ru_large_unroll_factor_a(self):
-        return np.ceil(self.get("ru_large_Pa") / self.get("threads_per_blk"))
+        return np.ceil(self.get("ru_large_Pa") / self.get("threads"))
 
     def get_ru_large_unroll_factor_b(self):
-        return np.ceil(self.get("ru_large_Pb") / self.get("threads_per_blk"))
+        return np.ceil(self.get("ru_large_Pb") / self.get("threads"))
 
     def get_ru_large_unroll_factor_c(self):
-        return np.ceil(self.get("ru_large_Pc") / self.get("threads_per_blk"))
+        return np.ceil(self.get("ru_large_Pc") / self.get("threads"))
 
     def get_ru_large_loop_matmul(self):
         return self.get("w") * self.get("tile_m") * self.get("tile_n")
@@ -826,8 +808,8 @@ class PredictiveParameters:
         """Register usage per thread (estimated)"""
         return (
             self.get("tile_m") * self.get("tile_n")
-            + (self.get("w") * self.get("m") + self.get("threads_per_blk") - 1) // self.get("threads_per_blk")
-            + (self.get("w") * self.get("n") + self.get("threads_per_blk") - 1) // self.get("threads_per_blk")
+            + (self.get("w") * self.get("m") + self.get("threads") - 1) // self.get("threads")
+            + (self.get("w") * self.get("n") + self.get("threads") - 1) // self.get("threads")
         )
 
     def get_ru_large_n_DB_iter(self):

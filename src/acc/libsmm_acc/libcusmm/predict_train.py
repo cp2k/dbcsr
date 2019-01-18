@@ -385,7 +385,7 @@ def get_reference_performances(in_folder, algo):
 def read_data(algo, read_from, nrows, plot_all, folder, log):
 
     # ===============================================================================
-    # Read data from CSV
+    # Read raw and derived data from CSV
     raw_data_file = os.path.join(read_from, "raw_training_data_" + algo + ".csv")
     log += print_and_log("\nRead raw data from " + raw_data_file)
     raw_data = pd.read_csv(raw_data_file, index_col=False, nrows=nrows)
@@ -406,18 +406,17 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
 
     # ===============================================================================
     # Get 'X'
-    to_drop = list()
-    if algo in ["tiny", "small", "medium"]:
-        to_drop = ["w", "v"]
-        if algo in ["tiny"]:
-            to_drop += ["tile_m", "tile_n"]
     X = pd.concat(
         [
-            raw_data.drop(to_drop + ["perf (Gflop/s)"], axis=1),
+            raw_data.drop(["perf (Gflop/s)"], axis=1),
             derived_data.drop(["perf_scaled"], axis=1),
         ],
         axis=1,
     )
+    # If there are unique-valued columns, drop these since they do not contribute to any prediction
+    for col in X.columns.values.tolist():
+        if len(X[col].unique().tolist()) == 1:
+            X = X.drop(col, axis=1)
 
     log += print_and_log(
         "X    : {:>8,} x {:>8,} ({:>2.2} MB)".format(X.shape[0], X.shape[1], sys.getsizeof(X) / 10 ** 6)
@@ -435,6 +434,7 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
     Y["perf_scaled"] = derived_data["perf_scaled"]
     Y.dropna(axis=0, inplace=True)
     log += print_and_log("Y    : {:>8,} ({:>2.2} MB)".format(Y.size, sys.getsizeof(Y) / 10 ** 6))
+
     # ===============================================================================
     # Get 'X_mnk'
     log += print_and_log("\nWrite X_mnk")
@@ -918,7 +918,7 @@ def get_predive_model_performances(y_true, y_pred, x_mnk, max_performances_ref, 
         zip(
             predictive_model_perf_scaled.keys(),
             [
-                perf_scaled * max_performances_ref[to_string(mnk)[0]]
+                perf_scaled * max_performances_ref[to_string(mnk)]
                 for mnk, perf_scaled in predictive_model_perf_scaled.items()
             ],
         )
