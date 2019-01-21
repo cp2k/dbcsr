@@ -42,7 +42,7 @@ def main():
     """
 
     parser = OptionParser()
-    parser.add_option("-f", "--in_folder", metavar="foldername/", default="", help="Folder from which to read data")
+    parser.add_option("-f", "--folder", metavar="foldername/", default="", help="Folder from which to read data")
     parser.add_option("-a", "--algo", metavar="algoname", default="", help="Algorithm to train on")
     parser.add_option(
         "-c",
@@ -100,13 +100,13 @@ def main():
     # Get maximum and baseline performances
     max_performances, max_performances_algo, max_performances_ref, baseline_performances_algo = \
         get_reference_performances(
-            options.in_folder, options.algo
+            options.folder, options.algo
         )
 
     # ===============================================================================
     # Read data
     log += print_and_log("----------------------------------------------------------------------------")
-    X, X_mnk, Y, log = read_data(options.algo, options.in_folder, options.nrows, options.plot_all, folder, log)
+    X, X_mnk, Y, log = read_data(options.algo, options.folder, options.nrows, options.plot_all, folder, log)
 
     # ===============================================================================
     # Get or train model
@@ -237,7 +237,7 @@ def dump_or_load_options(pgm_options, folder, log):
 
         # overwrite the options that characterize this program run
         characteristic_options = [
-            "in_folder",
+            "folder",
             "algo",
             "model",
             "splits",
@@ -362,20 +362,20 @@ def mean_scorer_top1(estimator, X, y):
 
 # ===============================================================================
 # Read and prepare data
-def get_reference_performances(in_folder, algo):
+def get_reference_performances(folder, algo):
     import json
 
-    maxperf_file = os.path.join(in_folder, "max_performances.json")
+    maxperf_file = os.path.join(folder, "max_performances.json")
     with open(maxperf_file) as f:
         max_performances = json.load(f)
 
-    maxperf_file = os.path.join(in_folder, "max_performances_by_algo.json")
+    maxperf_file = os.path.join(folder, "max_performances_by_algo.json")
     with open(maxperf_file) as f:
         max_performances_algo = json.load(f)[algo]
 
     max_performances_ref = max_performances
 
-    baseline_file = os.path.join(in_folder, "baseline_performances_by_algo.json")
+    baseline_file = os.path.join(folder, "baseline_performances_by_algo.json")
     with open(baseline_file) as f:
         baseline_performances_algo = json.load(f)[algo]
 
