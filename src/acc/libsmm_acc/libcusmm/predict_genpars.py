@@ -40,7 +40,6 @@ def main(argv):
         default="parameters_P100.json",
         help="Parameter file to read and update with predictions. Default: %default",
     )
-    parser.add_option("-f", "--in_folder", metavar="foldername/", default="", help="Folder from which to read data")
     parser.add_option("-j", "--njobs", type=int, default=-1, help="Number of joblib jobs. Default: %default")
     parser.add_option(
         "--baseline",
