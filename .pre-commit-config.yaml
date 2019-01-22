@@ -12,6 +12,7 @@ repos:
   - id: check-ast
     stages: [manual]
     language_version: "python2"
+    exclude: '^src/acc/libsmm_acc/libcusmm/(tune|predict)_'
   - id: check-ast
     stages: [manual]
     language_version: "python3"
