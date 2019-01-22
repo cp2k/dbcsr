@@ -9,7 +9,6 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-
 import os
 import sys
 import json
@@ -92,25 +91,20 @@ def main():
             max_performances_per_mnk.update(dict(zip(to_string(*max_performances.keys()), max_performances.values())))
 
             # Get baseline_per_mnk
-            baseline_performances_algo = get_baseline_performances_per_mnk(
-                data_chunk, name_algo, gpu_properties, autotuning_properties
-            )
+            baseline_performances_algo = get_baseline_performances_per_mnk(data_chunk, name_algo, gpu_properties,
+                                                                           autotuning_properties)
             baseline_performances_per_algo_per_mnk[name_algo].update(
-                dict(zip(to_string(*baseline_performances_algo.keys()), baseline_performances_algo.values()))
-            )
+                dict(zip(to_string(*baseline_performances_algo.keys()), baseline_performances_algo.values())))
 
             # Compute derived parameters
             data_chunk["algorithm"] = [name_algo] * len(data_chunk.index)  # add 'algorithm' column manually
-            parameter_sets = PredictiveParameters(
-                data_chunk, gpu_properties, autotuning_properties, max_performances
-            )
+            parameter_sets = PredictiveParameters(data_chunk, gpu_properties, autotuning_properties, max_performances)
             pars_to_get = derived_parameters["common"] + derived_parameters[name_algo]
             new_data = parameter_sets.get_features(pars_to_get)
 
             # Write derived parameters
-            derived_training_data_filename = os.path.join(
-                options.folder, "training_data_{}_{}.csv".format(name_algo, chunk_count - 1)
-            )
+            derived_training_data_filename = os.path.join(options.folder, "training_data_{}_{}.csv".format(
+                name_algo, chunk_count - 1))
             new_data[pars_to_get].to_csv(derived_training_data_filename, index=False)
             print("\tWrote", derived_training_data_filename)
 
@@ -136,11 +130,8 @@ def main():
         print("$ # Wrote header line to {}".format(derived_training_data_filename))
         print("$ # Append training data chunks to {} by running:".format(derived_training_data_filename))
         derived_training_data_filename_wildcard = derived_training_data_filename_base.format(name_algo, "*")
-        print(
-            "$ tail -n +2 -q {to_merge} >> {training_data_file}".format(
-                to_merge=derived_training_data_filename_wildcard, training_data_file=derived_training_data_filename
-            )
-        )
+        print("$ tail -n +2 -q {to_merge} >> {training_data_file}".format(
+            to_merge=derived_training_data_filename_wildcard, training_data_file=derived_training_data_filename))
 
     # Print max performances
     max_performances_per_mnk_file = os.path.join(options.folder, "max_performances.json")

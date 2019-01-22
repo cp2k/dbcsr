@@ -8,7 +8,6 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-
 from kernels.cusmm_dnt_base import Kernel, round_up_to_nearest_multiple
 
 
@@ -40,16 +39,23 @@ class Kernel_dnt_largeDB2(Kernel):
 
     @property
     def func_signature(self):
-        return (
-            "cusmm_dnt_largeDB2"
-            + "<%(m)d,%(n)d,%(k)d,%(tile_m)d,%(tile_n)d,%(w)d,%(v)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n"
-            % self.__dict__
-        )
+        return ("cusmm_dnt_largeDB2" +
+                "<%(m)d,%(n)d,%(k)d,%(tile_m)d,%(tile_n)d,%(w)d,%(v)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n" %
+                self.__dict__)
 
     @staticmethod
-    def promising_parameters(
-        m, n, k, gpu, autotuning, threads=None, grouping=None, minblocks=None, tile_m=None, tile_n=None, w=None, v=None
-    ):
+    def promising_parameters(m,
+                             n,
+                             k,
+                             gpu,
+                             autotuning,
+                             threads=None,
+                             grouping=None,
+                             minblocks=None,
+                             tile_m=None,
+                             tile_n=None,
+                             w=None,
+                             v=None):
         """
         Given a certain (m,n,k)-triplet, GPU properties and autotuning properties, return a list of all possible
         kernel parameters
@@ -60,11 +66,8 @@ class Kernel_dnt_largeDB2(Kernel):
         for minblocks_ in (1, 2, 4, 8, 12) if minblocks is None else [minblocks]:
             # for exhaustive search, it should be: range(1, gpu.maxBLOCKSperSM + 1):
             # but heuristically reduce the search space
-            for threads_ in (
-                range(gpu["Threads_/_Warp"], gpu["Max_Thread_Block_Size"] + 1, gpu["Threads_/_Warp"])
-                if threads is None
-                else [threads]
-            ):
+            for threads_ in (range(gpu["Threads_/_Warp"], gpu["Max_Thread_Block_Size"] + 1, gpu["Threads_/_Warp"])
+                             if threads is None else [threads]):
 
                 if threads_ * minblocks_ > gpu["Threads_/_Multiprocessor"]:
                     continue
@@ -103,8 +106,7 @@ class Kernel_dnt_largeDB2(Kernel):
 
                                 # Number of registers
                                 n_regs = (
-                                    tm * tn + (w_ * m + threads_ - 1) // threads_ + (w_ * n + threads_ - 1) // threads_
-                                )
+                                    tm * tn + (w_ * m + threads_ - 1) // threads_ + (w_ * n + threads_ - 1) // threads_)
                                 if n_regs * threads_ * minblocks_ > 15000:
                                     continue  # heuristic: too many registers used
 
@@ -115,29 +117,25 @@ class Kernel_dnt_largeDB2(Kernel):
 
                                 # Shared memory buffer size
                                 buf_sz = max((w_ - 1) * m + rmax * tm, m * w_ + (w_ - 1) * n + cmax * tn, v_ * m)
-                                smem_tot = (
-                                    buf_sz * autotuning["sizeof_double"]
-                                    + autotuning["npars"] * grouping * autotuning["sizeof_int"]
-                                )
+                                smem_tot = (buf_sz * autotuning["sizeof_double"] +
+                                            autotuning["npars"] * grouping * autotuning["sizeof_int"])
                                 if smem_tot > gpu["Max_Shared_Memory_/_Block_(bytes)"]:
                                     continue  # invalid: uses too much shared memory
                                 if smem_tot * minblocks_ > gpu["Shared_Memory_/_Multiprocessor_(bytes)"]:
                                     continue  # invalid: uses too much shared memory
 
-                                params.append(
-                                    {
-                                        "m": m,
-                                        "n": n,
-                                        "k": k,
-                                        "tile_m": tm,
-                                        "tile_n": tn,
-                                        "w": w_,
-                                        "v": v_,
-                                        "threads": threads_,
-                                        "grouping": grouping,
-                                        "minblocks": minblocks_,
-                                    }
-                                )
+                                params.append({
+                                    "m": m,
+                                    "n": n,
+                                    "k": k,
+                                    "tile_m": tm,
+                                    "tile_n": tn,
+                                    "w": w_,
+                                    "v": v_,
+                                    "threads": threads_,
+                                    "grouping": grouping,
+                                    "minblocks": minblocks_,
+                                })
         return params
 
     @staticmethod
@@ -177,6 +175,5 @@ class Kernel_dnt_largeDB2(Kernel):
                     break
 
         base.update(
-            dict([("m", m), ("n", n), ("k", k), ("algorithm", "largeDB1"), ("perf", 0), ("source", "predicted")])
-        )
+            dict([("m", m), ("n", n), ("k", k), ("algorithm", "largeDB1"), ("perf", 0), ("source", "predicted")]))
         return base

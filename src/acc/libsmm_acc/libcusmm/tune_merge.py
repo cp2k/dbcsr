@@ -9,22 +9,18 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-
 import json
 from optparse import OptionParser
 from kernels.cusmm_predict import params_dict_to_kernel
 
 
 def main():
-    usage = (
-        "Write a new kernel parameter file as an unique merge of an old parameter file and a new one called "
-        + "parameters.json as created by collect.py. If a kernel (m, n, k) is listed in both the old parameter"
-        + "file and the new parameter file, retain its parameters as defined in the new parameter file."
-    )
+    usage = ("Write a new kernel parameter file as an unique merge of an old parameter file and a new one called " +
+             "parameters.json as created by collect.py. If a kernel (m, n, k) is listed in both the old parameter" +
+             "file and the new parameter file, retain its parameters as defined in the new parameter file.")
     parser = OptionParser(usage)
     parser.add_option(
-        "-p", "--params", metavar="filename.json", default="parameters_P100.json", help="Default: %default"
-    )
+        "-p", "--params", metavar="filename.json", default="parameters_P100.json", help="Default: %default")
 
     (options, args) = parser.parse_args()
     assert len(args) == 0

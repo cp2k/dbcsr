@@ -9,7 +9,6 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-
 import sys
 import os
 import json
@@ -24,8 +23,7 @@ def main():
     usage = "Usage: tune.py <blocksize 1> ... <blocksize N>"
     parser = OptionParser(usage)
     parser.add_option(
-        "-p", "--params", metavar="filename.json", default="parameters_P100.json", help="Default: %default"
-    )
+        "-p", "--params", metavar="filename.json", default="parameters_P100.json", help="Default: %default")
 
     (options, args) = parser.parse_args(sys.argv)
     if len(sys.argv) < 2:
@@ -44,10 +42,8 @@ def main():
         all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
     autotuned_kernels = [k for k in all_kernels if k.autotuned]
     predicted_kernels = [k for k in all_kernels if not k.autotuned]
-    print(
-        "Libcusmm: Found %d existing parameter sets, of which %d are autotuned and %d are predicted."
-        % (len(all_kernels), len(autotuned_kernels), len(predicted_kernels))
-    )
+    print("Libcusmm: Found %d existing parameter sets, of which %d are autotuned and %d are predicted." %
+          (len(all_kernels), len(autotuned_kernels), len(predicted_kernels)))
 
     # Get blocksizes to be autotuned
     blocksizes = [int(i) for i in args[1:]]
@@ -141,11 +137,8 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
         output = '#include "../libcusmm_benchmark.h"\n\n'
         for l in launchers:
             output += (
-                "int "
-                + l
-                + "(int *param_stack, int stack_size, cudaStream_t stream, int m_max, int n_max, int k_max,"
-                + " double *a_data, double *b_data, double *c_data);\n"
-            )
+                "int " + l + "(int *param_stack, int stack_size, cudaStream_t stream, int m_max, int n_max, int k_max,"
+                + " double *a_data, double *b_data, double *c_data);\n")
 
         output += "\n"
         output += "int main(int argc, char** argv){\n"
@@ -196,20 +189,14 @@ def gen_jobfile(outdir, m, n, k):
     output += "date\n"
     for exe in all_exe:
         output += (
-            "srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=12 make -j 24 %s &\n"
-            % exe
-        )
+            "srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=12 make -j 24 %s &\n" %
+            exe)
     output += "wait\n"
     output += "date\n"
     output += "\n"
     for exe in all_exe:
-        output += (
-            "srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=1 ./"
-            + exe
-            + " >"
-            + exe
-            + ".log 2>&1 & \n"
-        )
+        output += ("srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=1 ./" + exe +
+                   " >" + exe + ".log 2>&1 & \n")
     output += "wait\n"
     output += "date\n"
     output += "\n"

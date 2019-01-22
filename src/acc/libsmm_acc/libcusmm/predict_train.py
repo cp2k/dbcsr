@@ -9,7 +9,6 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-
 import os
 import sys
 import datetime
@@ -51,8 +50,7 @@ def main():
         help="Plot more stuff" + "(Warning: can be very slow for large trees and create very large files)",
     )
     parser.add_option(
-        "-m", "--model", default="DT", help="Model to train. Options: DT (Decision Trees), RF (Random Forests)"
-    )
+        "-m", "--model", default="DT", help="Model to train. Options: DT (Decision Trees), RF (Random Forests)")
     parser.add_option(
         "-s",
         "--splits",
@@ -115,15 +113,13 @@ def main():
 
         log += print_and_log("\nPreparing to fit model...")
         X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model, log = train_model(
-            X, X_mnk, Y, options, folder, log
-        )
+            X, X_mnk, Y, options, folder, log)
 
     else:  # load pre-trained model
 
         log += print_and_log("\nReading pre-fitted model from " + options.prefitted_model)
         X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model, log = fetch_pre_trained_model(
-            X, X_mnk, Y, options.prefitted_model, log
-        )
+            X, X_mnk, Y, options.prefitted_model, log)
 
     # ===============================================================================
     # Evaluate model
@@ -389,20 +385,15 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
     raw_data_file = os.path.join(read_from, "raw_training_data_" + algo + ".csv")
     log += print_and_log("\nRead raw data from " + raw_data_file)
     raw_data = pd.read_csv(raw_data_file, index_col=False, nrows=nrows)
-    log += print_and_log(
-        "raw data    : {:>8,} x {:>8,} ({:>2.3} MB)".format(
-            raw_data.shape[0], raw_data.shape[1], sys.getsizeof(raw_data) / 10 ** 6
-        )
-    )
+    log += print_and_log("raw data    : {:>8,} x {:>8,} ({:>2.3} MB)".format(raw_data.shape[0], raw_data.shape[1],
+                                                                             sys.getsizeof(raw_data) / 10**6))
 
     derived_data_file = os.path.join(read_from, "training_data_" + algo + ".csv")
     log += print_and_log("\nRead training data from " + derived_data_file)
     derived_data = pd.read_csv(derived_data_file, index_col=False, nrows=nrows)
-    log += print_and_log(
-        "derived data    : {:>8,} x {:>8,} ({:>2.3} MB)".format(
-            derived_data.shape[0], derived_data.shape[1], sys.getsizeof(derived_data) / 10 ** 6
-        )
-    )
+    log += print_and_log("derived data    : {:>8,} x {:>8,} ({:>2.3} MB)".format(derived_data.shape[0],
+                                                                                 derived_data.shape[1],
+                                                                                 sys.getsizeof(derived_data) / 10**6))
 
     # ===============================================================================
     # Get 'X'
@@ -418,9 +409,7 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
         if len(X[col].unique().tolist()) == 1:
             X = X.drop(col, axis=1)
 
-    log += print_and_log(
-        "X    : {:>8,} x {:>8,} ({:>2.2} MB)".format(X.shape[0], X.shape[1], sys.getsizeof(X) / 10 ** 6)
-    )
+    log += print_and_log("X    : {:>8,} x {:>8,} ({:>2.2} MB)".format(X.shape[0], X.shape[1], sys.getsizeof(X) / 10**6))
     n_features = len(list(X.columns))
     predictor_names = X.columns.values
     log += print_and_log("\nPredictor variables: (" + str(n_features) + ")")
@@ -433,14 +422,14 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
     Y = pd.DataFrame()
     Y["perf_scaled"] = derived_data["perf_scaled"]
     Y.dropna(axis=0, inplace=True)
-    log += print_and_log("Y    : {:>8,} ({:>2.2} MB)".format(Y.size, sys.getsizeof(Y) / 10 ** 6))
+    log += print_and_log("Y    : {:>8,} ({:>2.2} MB)".format(Y.size, sys.getsizeof(Y) / 10**6))
 
     # ===============================================================================
     # Get 'X_mnk'
     log += print_and_log("\nWrite X_mnk")
     X_mnk = pd.DataFrame()
     X_mnk["mnk"] = X["m"].astype(str) + "x" + X["n"].astype(str) + "x" + X["k"].astype(str)
-    log += print_and_log("X_mnk : {:>8,} ({:>2.2} MB)".format(X_mnk.size, sys.getsizeof(X_mnk) / 10 ** 6))
+    log += print_and_log("X_mnk : {:>8,} ({:>2.2} MB)".format(X_mnk.size, sys.getsizeof(X_mnk) / 10**6))
 
     if plot_all:
         plot_training_data(Y, X_mnk, algo, folder)
@@ -574,14 +563,8 @@ def train_model(X, X_mnk, Y, options, folder, log):
     train, test = next(train_test_splits)
     X_train, X_test, Y_train, Y_test, X_mnk_train, X_mnk_test = get_train_test_partition([X, Y, X_mnk], test, train)
     plot_train_test_partition(test, train, X_mnk, folder)
-    log += print_and_log(
-        "\nComplete train/test split, total size="
-        + str(X.shape)
-        + ", test size="
-        + str(X_test.shape)
-        + ", train_size="
-        + str(X_train.shape)
-    )
+    log += print_and_log("\nComplete train/test split, total size=" + str(X.shape) + ", test size=" +
+                         str(X_test.shape) + ", train_size=" + str(X_train.shape))
     del X, X_mnk, Y  # free memory
     predictor_names = X_train.columns.values
     n_predictors = len(predictor_names)
@@ -613,9 +596,7 @@ def train_model(X, X_mnk, Y, options, folder, log):
     max_features = n_predictors - optimized_hyperparameters[algo]["n_features_to_drop"]
     model.cv = cv.split(X_train.values, Y_train.values, groups=X_mnk_train.values)
     model.fit(X_train.values, Y_train.values)
-    model_fs = SelectFromModel(
-        model, threshold=feature_importance_threshold, max_features=max_features, prefit=True
-    )
+    model_fs = SelectFromModel(model, threshold=feature_importance_threshold, max_features=max_features, prefit=True)
     print(model_fs)
     model.cv = None
 
@@ -679,14 +660,8 @@ def fetch_pre_trained_model(X, X_mnk, Y, model_path, log):
 
     log += print_and_log("\nPerform train/test split")
     X_train, X_test, Y_train, Y_test, X_mnk_train, X_mnk_test = get_train_test_partition([X, Y, X_mnk], test_indices)
-    log += print_and_log(
-        "\nComplete train/test split, total size="
-        + str(X.shape)
-        + ", test size="
-        + str(X_test.shape)
-        + ", train_size="
-        + str(X_train.shape)
-    )
+    log += print_and_log("\nComplete train/test split, total size=" + str(X.shape) + ", test size=" +
+                         str(X_test.shape) + ", train_size=" + str(X_train.shape))
     assert X_test.shape[0] < X_train.shape[0]
 
     log += print_and_log("\nDrop non-selected features")
@@ -751,16 +726,14 @@ def describe_model(model, X, Y, log, plot_all):
 
 def print_error(y_true, y_pred, X_mnk, log, scaled=True):
     result_line = (
-        "Relative performance loss compared to autotuned max:\n" + "top-{}: worse: {:>6.3f} [%], mean: {:>6.3f} [%]"
-    )
+        "Relative performance loss compared to autotuned max:\n" + "top-{}: worse: {:>6.3f} [%], mean: {:>6.3f} [%]")
     for top_k in [1]:
         log += print_and_log(
             result_line.format(
                 top_k,
                 worse_rel_perf_loss_of_k(y_true, y_pred, top_k, X_mnk, scaled),
                 mean_rel_perf_loss_of_k(y_true, y_pred, top_k, X_mnk, scaled),
-            )
-        )
+            ))
     return log
 
 
@@ -910,9 +883,7 @@ def get_predive_model_performances(y_true, y_pred, x_mnk, max_performances_ref, 
 
         perf_chosen_idx = np.argmax(y_pred[idx_mnk])
         perf_effective = y_true.iloc[idx_mnk].iloc[perf_chosen_idx].values.item()
-        predictive_model_perf_scaled[
-            (m, n, k)
-        ] = perf_effective  # 'scaled' between 0 and 1
+        predictive_model_perf_scaled[(m, n, k)] = perf_effective  # 'scaled' between 0 and 1
 
     predictive_model_perf = dict(
         zip(
@@ -921,35 +892,33 @@ def get_predive_model_performances(y_true, y_pred, x_mnk, max_performances_ref, 
                 perf_scaled * max_performances_ref[to_string(mnk)]
                 for mnk, perf_scaled in predictive_model_perf_scaled.items()
             ],
-        )
-    )
+        ))
 
     # Re-scale performances by algorithm for a fair comparison
     predictive_model_perf_scaled = dict(
         zip(
             predictive_model_perf.keys(),
             [perf / max_performances_algo[mnk] for mnk, perf in predictive_model_perf.items()],
-        )
-    )
+        ))
 
     return predictive_model_perf, predictive_model_perf_scaled
 
 
 # ===============================================================================
 def evaluate_model(
-    model,
-    X_train,
-    X_mnk_train,
-    Y_train,
-    X_test,
-    X_mnk_test,
-    Y_test,
-    max_performances_ref,
-    max_performances_algo,
-    baseline_performances_algo,
-    options,
-    log,
-    folder,
+        model,
+        X_train,
+        X_mnk_train,
+        Y_train,
+        X_test,
+        X_mnk_test,
+        Y_test,
+        max_performances_ref,
+        max_performances_algo,
+        baseline_performances_algo,
+        options,
+        log,
+        folder,
 ):
     """Main evaluation function"""
 
@@ -1059,21 +1028,18 @@ def evaluate_model(
     # ===============================================================================
     # Scale baseline and max performances
     max_performances_algo = dict(
-        zip([to_tuple(mnk_string) for mnk_string in max_performances_algo.keys()], max_performances_algo.values())
-    )
+        zip([to_tuple(mnk_string) for mnk_string in max_performances_algo.keys()], max_performances_algo.values()))
     max_performances_algo_scaled = dict(zip(max_performances_algo.keys(), [1.0] * len(max_performances_algo)))
     baseline_performances_algo = dict(
         zip(
             [to_tuple(mnk_string) for mnk_string in baseline_performances_algo.keys()],
             baseline_performances_algo.values(),
-        )
-    )
+        ))
     baseline_performances_algo_scaled = dict(
         zip(
             [(m, n, k) for m, n, k in baseline_performances_algo.keys()],
             [perf / max_performances_algo[(m, n, k)] for (m, n, k), perf in baseline_performances_algo.items()],
-        )
-    )
+        ))
 
     # ===============================================================================
     # Compare max performances and baseline
@@ -1105,66 +1071,52 @@ def evaluate_model(
     # ===============================================================================
     # 'Results' = y_true ( y_chosen )
     predictive_model_perf_train, predictive_model_perf_train_scaled = get_predive_model_performances(
-        Y_train, y_train_pred, X_mnk_train, max_performances_ref, max_performances_algo
-    )
+        Y_train, y_train_pred, X_mnk_train, max_performances_ref, max_performances_algo)
 
     if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
         predictive_model_perf_test, predictive_model_perf_test_scaled = get_predive_model_performances(
-            Y_test, y_test_pred, X_mnk_test, max_performances_ref, max_performances_algo
-        )
+            Y_test, y_test_pred, X_mnk_test, max_performances_ref, max_performances_algo)
 
     # ===============================================================================
     # Plot results (training set: predictive modelling VS naïve)
     log += print_and_log("\nPredictive model VS baseline: ")
 
     perf_gain_pred_train_over_baseline = performance_gain(baseline_performances_algo, predictive_model_perf_train)
-    plot_absolute_performance_gain(
-        perf_gain_pred_train_over_baseline, "trained", "baseline per algorithm", "predictive model", pp
-    )
+    plot_absolute_performance_gain(perf_gain_pred_train_over_baseline, "trained", "baseline per algorithm",
+                                   "predictive model", pp)
 
-    scaled_perf_gain_pred_train_over_baseline = performance_gain(
-        baseline_performances_algo_scaled, predictive_model_perf_train_scaled
-    )
-    plot_relative_performance_gain(
-        scaled_perf_gain_pred_train_over_baseline, "trained", "baseline per algorithm", "predictive model", pp
-    )
+    scaled_perf_gain_pred_train_over_baseline = performance_gain(baseline_performances_algo_scaled,
+                                                                 predictive_model_perf_train_scaled)
+    plot_relative_performance_gain(scaled_perf_gain_pred_train_over_baseline, "trained", "baseline per algorithm",
+                                   "predictive model", pp)
 
     if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
         perf_gain_pred_test_over_baseline = performance_gain(baseline_performances_algo, predictive_model_perf_test)
-        plot_absolute_performance_gain(
-            perf_gain_pred_test_over_baseline, "tested", "baseline per algorithm", "predictive model", pp
-        )
+        plot_absolute_performance_gain(perf_gain_pred_test_over_baseline, "tested", "baseline per algorithm",
+                                       "predictive model", pp)
 
-        scaled_perf_gain_pred_test_over_baseline = performance_gain(
-            baseline_performances_algo_scaled, predictive_model_perf_test_scaled
-        )
-        plot_relative_performance_gain(
-            scaled_perf_gain_pred_test_over_baseline, "tested", "baseline per algorithm", "predictive model", pp
-        )
+        scaled_perf_gain_pred_test_over_baseline = performance_gain(baseline_performances_algo_scaled,
+                                                                    predictive_model_perf_test_scaled)
+        plot_relative_performance_gain(scaled_perf_gain_pred_test_over_baseline, "tested", "baseline per algorithm",
+                                       "predictive model", pp)
 
     log += print_and_log("\nPredictive model VS autotuned: ")
     perf_gain_pred_train_over_max = performance_gain(max_performances_algo, predictive_model_perf_train)
-    plot_absolute_performance_gain(
-        perf_gain_pred_train_over_max, "trained", "max. performance per algorithm", "predictive model", pp
-    )
-    scaled_perf_gain_pred_train_over_max = performance_gain(
-        max_performances_algo_scaled, predictive_model_perf_train_scaled
-    )
-    plot_relative_performance_gain(
-        scaled_perf_gain_pred_train_over_max, "trained", "max. performance per algorithm", "predictive model", pp
-    )
+    plot_absolute_performance_gain(perf_gain_pred_train_over_max, "trained", "max. performance per algorithm",
+                                   "predictive model", pp)
+    scaled_perf_gain_pred_train_over_max = performance_gain(max_performances_algo_scaled,
+                                                            predictive_model_perf_train_scaled)
+    plot_relative_performance_gain(scaled_perf_gain_pred_train_over_max, "trained", "max. performance per algorithm",
+                                   "predictive model", pp)
 
     if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
         perf_gain_pred_test_over_max = performance_gain(max_performances_algo, predictive_model_perf_test)
-        plot_absolute_performance_gain(
-            perf_gain_pred_test_over_max, "tested", "max. performance per algorithm", "predictive model", pp
-        )
-        scaled_perf_gain_pred_test_over_max = performance_gain(
-            max_performances_algo_scaled, predictive_model_perf_test_scaled
-        )
-        plot_relative_performance_gain(
-            scaled_perf_gain_pred_test_over_max, "tested", "max. performance per algorithm", "predictive model", pp
-        )
+        plot_absolute_performance_gain(perf_gain_pred_test_over_max, "tested", "max. performance per algorithm",
+                                       "predictive model", pp)
+        scaled_perf_gain_pred_test_over_max = performance_gain(max_performances_algo_scaled,
+                                                               predictive_model_perf_test_scaled)
+        plot_relative_performance_gain(scaled_perf_gain_pred_test_over_max, "tested", "max. performance per algorithm",
+                                       "predictive model", pp)
 
     log += print_and_log("\nCompare performances: ")
     plot_performance_gains(

@@ -9,7 +9,6 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-
 from __future__ import print_function
 
 import json
@@ -88,10 +87,9 @@ static const std::unordered_map<Triplet, KernelParameters> ht  = {
     # Initializer list body
     print("Get parameters and write to file")
     init_list_line = (
-        "    {{ {{{{{m:3}, {n:3}, {k:3}}}}},"
-        + " {{{{ {algorithm:1}, {tile_m:2}, {tile_n:2}, {w:2}, {v:2}, {threads:3}, {grouping:2}, {minblocks:2} }}}} }},"
-        + "  // perf: {perf} {source}\n"
-    )
+        "    {{ {{{{{m:3}, {n:3}, {k:3}}}}}," +
+        " {{{{ {algorithm:1}, {tile_m:2}, {tile_n:2}, {w:2}, {v:2}, {threads:3}, {grouping:2}, {minblocks:2} }}}} }}," +
+        "  // perf: {perf} {source}\n")
     for pars in all_pars:
         out += init_list_line.format(**pars.as_dict_for_parameters_h)
 
@@ -109,8 +107,7 @@ static const std::unordered_map<Triplet, KernelParameters> ht  = {
 # ===============================================================================
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Generator of LibCuSMM. The Library for Cuda Small Matrix Multiplications."
-    )
+        description="Generator of LibCuSMM. The Library for Cuda Small Matrix Multiplications.")
     parser.add_argument(
         "-g",
         "--gpu_version",

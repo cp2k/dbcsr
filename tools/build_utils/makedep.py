@@ -187,7 +187,7 @@ def parse_file(parsed_files, fn, src_dir):
         uses += re_use.findall(content_lower)
         incls += re_incl_fypp.findall(content)  # Fypp includes (case-sensitiv)
         incl_fort_iter = re_incl_fort.finditer(content_lower)  # fortran includes
-        incls += [content[m.start(1): m.end(1)] for m in incl_fort_iter]
+        incls += [content[m.start(1):m.end(1)] for m in incl_fort_iter]
 
     if fn[-2:] == ".c" or fn[-3:] == ".cu":
         prog = True if re_main.search(content) is not None else False  # C is case-sensitiv
@@ -369,12 +369,9 @@ def error(msg):
 
 if __name__ == "__main__":
     if len(sys.argv) < 8:
-        print(
-            "Usage: {} "
-            + "<outfile> <project_name> <format> <mode> <archive.ext> <src-dir> <src-file1> [<src-file2> ...]".format(
-                sys.argv[0]
-            )
-        )
+        print("Usage: {} " +
+              "<outfile> <project_name> <format> <mode> <archive.ext> <src-dir> <src-file1> [<src-file2> ...]".format(
+                  sys.argv[0]))
         sys.exit(1)
 
     main(
