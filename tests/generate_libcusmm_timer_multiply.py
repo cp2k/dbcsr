@@ -9,7 +9,6 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-
 import sys
 import os
 import random
@@ -47,8 +46,8 @@ def main():
         "-n",
         "--nsamples",
         default=1000,
-        help="Number of samples from the matrix sizes space 4 <= m,n,k <= 45 (except autotuned kernels)"
-        + " to sample for performance testing. Default: %default",
+        help="Number of samples from the matrix sizes space 4 <= m,n,k <= 45 (except autotuned kernels)" +
+        " to sample for performance testing. Default: %default",
     )
 
     options, args = parser.parse_args(sys.argv)

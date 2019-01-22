@@ -8,7 +8,6 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-
 # ===============================================================================
 #  Computing helpers
 import numpy as np
@@ -33,6 +32,7 @@ class Kernel:
     """
     Base class for libcusmm's kernels
     """
+
     def __repr__(self):
         return "<%s>" % self.name
 
@@ -45,12 +45,8 @@ class Kernel:
 
     @property
     def name(self):
-        return (
-            "cusmm_dnt_"
-            + self.algorithm
-            + "_"
-            + "_".join([str(self.__dict__[k]) for k in sorted(self.launch_parameters)])
-        )
+        return ("cusmm_dnt_" + self.algorithm + "_" + "_".join(
+            [str(self.__dict__[k]) for k in sorted(self.launch_parameters)]))
 
     @property
     def autotuned(self):
@@ -115,9 +111,8 @@ class Kernel:
         output += "    configured = true;\n"
         output += "  }\n"
         output += (
-            "  kern_func<<< ((stack_size + %(grouping)d - 1) / %(grouping)d), %(threads)d, shared_size, stream >>>\n"
-            % self.__dict__
-        )
+            "  kern_func<<< ((stack_size + %(grouping)d - 1) / %(grouping)d), %(threads)d, shared_size, stream >>>\n" %
+            self.__dict__)
         output += "  (param_stack, stack_size, \n"
         output += "  a_data, b_data, c_data);\n"
         output += "  return(0);\n"

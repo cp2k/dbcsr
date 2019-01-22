@@ -9,7 +9,6 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-
 import gc
 import sys
 import json
@@ -47,8 +46,7 @@ def main(argv):
         help="Generate a parameter file corresponding to the baseline of a predictive model",
     )
     parser.add_option(
-        "--tiny", default=None, help="Path to model trained for algorithm 'tiny'. If not given, ignore this algorithm."
-    )
+        "--tiny", default=None, help="Path to model trained for algorithm 'tiny'. If not given, ignore this algorithm.")
     parser.add_option(
         "--small",
         default=None,
@@ -74,8 +72,8 @@ def main(argv):
         "--chunk_size",
         type=int,
         default=20000,
-        help="Chunk size for dispatching joblib jobs. "
-        + "If memory errors are experienced, reduce this number. Default: %default",
+        help="Chunk size for dispatching joblib jobs. " +
+        "If memory errors are experienced, reduce this number. Default: %default",
     )
     options, args = parser.parse_args(sys.argv)
 
@@ -119,8 +117,7 @@ def main(argv):
     # Write to file
     with open(options.params, "w") as f:
         s = json.dumps(
-            [kernels_to_print[kernel].as_dict_for_parameters_json for kernel in sorted(kernels_to_print.keys())]
-        )
+            [kernels_to_print[kernel].as_dict_for_parameters_json for kernel in sorted(kernels_to_print.keys())])
         s = s.replace("}, ", "},\n")
         s = s.replace("[", "[\n")
         s = s.replace("]", "\n]")
@@ -212,10 +209,8 @@ def get_optimal_kernels(mnks_to_predict, options, gpu_properties, autotuning_pro
             gc.collect()
             print("Find optimal kernels for mnk=", mnk, ", algo=", algo)
             optimal_kernels_list.append(
-                find_optimal_kernel(
-                    mnk, algo, tree[algo]["tree"], tree[algo]["features"], gpu_properties, autotuning_properties
-                )
-            )
+                find_optimal_kernel(mnk, algo, tree[algo]["tree"], tree[algo]["features"], gpu_properties,
+                                    autotuning_properties))
     else:
 
         # Chunk up tasks
@@ -226,12 +221,10 @@ def get_optimal_kernels(mnks_to_predict, options, gpu_properties, autotuning_pro
             print("Completed {:,} tasks out of {:,}".format(i, num_mnks_by_algo))
 
             # Run prediction tasks in parallel with joblib
-            optimal_kernels_list_ = Parallel(n_jobs=options.njobs, verbose=2)(
-                delayed(find_optimal_kernel, check_pickle=True)(
-                    mnk, algo, tree[algo]["tree"], tree[algo]["features"], gpu_properties, autotuning_properties
-                )
-                for mnk, algo in mnk_by_algo[start_chunk:end_chunk]
-            )
+            optimal_kernels_list_ = Parallel(
+                n_jobs=options.njobs, verbose=2)(delayed(find_optimal_kernel, check_pickle=True)(
+                    mnk, algo, tree[algo]["tree"], tree[algo]["features"], gpu_properties, autotuning_properties)
+                                                 for mnk, algo in mnk_by_algo[start_chunk:end_chunk])
 
             optimal_kernels_list += optimal_kernels_list_
 
@@ -263,9 +256,8 @@ def get_baseline_kernels(mnks_to_predict, gpu_propertes, autotuning_properties):
     baseline_algorithm = "medium"
     baseline_kernels = list()
     for m, n, k in mnks_to_predict:
-        baseline_kernels[(m, n, k)] = kernel_algorithm[baseline_algorithm].baseline(
-            m, n, k, gpu_propertes, autotuning_properties
-        )
+        baseline_kernels[(m, n, k)] = kernel_algorithm[baseline_algorithm].baseline(m, n, k, gpu_propertes,
+                                                                                    autotuning_properties)
 
     return baseline_kernels
 

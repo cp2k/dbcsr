@@ -9,7 +9,6 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-
 import os
 from glob import glob
 import re

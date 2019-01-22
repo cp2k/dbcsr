@@ -9,7 +9,6 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-
 import os
 import re
 import sys
@@ -68,8 +67,7 @@ def main():
     # Find all the 'tune_MxNxK' folders
     kernel_folder_pattern = re.compile(r"tune_(\d+)x(\d+)x(\d+)$")
     kernel_folders = [
-        os.path.join(options.folder, ak)
-        for ak in os.listdir(options.folder)
+        os.path.join(options.folder, ak) for ak in os.listdir(options.folder)
         if kernel_folder_pattern.match(ak) is not None
     ]
     n_kernels = len(kernel_folders)
@@ -127,11 +125,9 @@ def main():
 
 # ===============================================================================
 # Helper variables and functions (formatting & writing)
-autotuning_line = re.compile(
-    r"OK Kernel_dnt_(\w+) m (\d+)\s+n (\d+)\s+k (\d+)\s+"
-    + r"(?:tile_m (\d+)\s+tile_n (\d+)\s+(?:w (\d+)\s+v (\d+)\s+)?)?"
-    + r"threads (\d+)\s+grouping (\d+)\s+minblocks (\d+)\s+GFlop/s (\d+(?:\.\d+)?)"
-)
+autotuning_line = re.compile(r"OK Kernel_dnt_(\w+) m (\d+)\s+n (\d+)\s+k (\d+)\s+" +
+                             r"(?:tile_m (\d+)\s+tile_n (\d+)\s+(?:w (\d+)\s+v (\d+)\s+)?)?" +
+                             r"threads (\d+)\s+grouping (\d+)\s+minblocks (\d+)\s+GFlop/s (\d+(?:\.\d+)?)")
 
 
 def read_log_file(log_folder, m, n, k):
@@ -163,22 +159,20 @@ def read_log_file(log_folder, m, n, k):
                 assert match is not None, "Found null match: " + l
 
                 # Get algorithm, parameters, and performance
-                data.append(
-                    {
-                        "m": m,
-                        "n": n,
-                        "k": k,
-                        "algorithm": match.group(1),
-                        "threads": int(match.group(9)),
-                        "grouping": int(match.group(10)),
-                        "minblocks": int(match.group(11)),
-                        "tile_m": int(match.group(5)) if match.group(5) is not None else None,
-                        "tile_n": int(match.group(6)) if match.group(6) is not None else None,
-                        "w": int(match.group(7)) if match.group(7) is not None else None,
-                        "v": int(match.group(8)) if match.group(8) is not None else None,
-                        "perf (Gflop/s)": float(match.group(12)),
-                    }
-                )
+                data.append({
+                    "m": m,
+                    "n": n,
+                    "k": k,
+                    "algorithm": match.group(1),
+                    "threads": int(match.group(9)),
+                    "grouping": int(match.group(10)),
+                    "minblocks": int(match.group(11)),
+                    "tile_m": int(match.group(5)) if match.group(5) is not None else None,
+                    "tile_n": int(match.group(6)) if match.group(6) is not None else None,
+                    "w": int(match.group(7)) if match.group(7) is not None else None,
+                    "v": int(match.group(8)) if match.group(8) is not None else None,
+                    "perf (Gflop/s)": float(match.group(12)),
+                })
 
     print("Autotuning lines found: ", len(data))
 
@@ -189,12 +183,12 @@ def read_log_file(log_folder, m, n, k):
 
 
 def collect_training_data(
-    kernel_folders,
-    kernel_folder_pattern,
-    gpu_properties,
-    autotuning_properties,
-    max_performances_per_mnk,
-    baseline_performances_per_algo_per_mnk,
+        kernel_folders,
+        kernel_folder_pattern,
+        gpu_properties,
+        autotuning_properties,
+        max_performances_per_mnk,
+        baseline_performances_per_algo_per_mnk,
 ):
     """
     Collect training data from log files resulting of autotuning
@@ -232,20 +226,16 @@ def collect_training_data(
                 data_algo = data[data["algorithm"] == name_algo]
 
                 # Collect baseline performances per algo, per (m, n, k)
-                baseline_performances_algo = get_baseline_performances_per_mnk(
-                    data_algo, name_algo, gpu_properties, autotuning_properties
-                )
+                baseline_performances_algo = get_baseline_performances_per_mnk(data_algo, name_algo, gpu_properties,
+                                                                               autotuning_properties)
                 baseline_performances_per_algo_per_mnk[name_algo].update(
-                    dict(zip(to_string(*baseline_performances_algo.keys()), baseline_performances_algo.values()))
-                )
+                    dict(zip(to_string(*baseline_performances_algo.keys()), baseline_performances_algo.values())))
 
                 # Does collected csv file exist already?
                 raw_parameters_file_name = os.path.join(
-                    kernel_folder, "raw_training_data_" + to_string(m, n, k) + "_" + name_algo + ".csv"
-                )
+                    kernel_folder, "raw_training_data_" + to_string(m, n, k) + "_" + name_algo + ".csv")
                 derived_parameters_file_name = os.path.join(
-                    kernel_folder, "training_data_" + to_string(m, n, k) + "_" + name_algo + ".csv"
-                )
+                    kernel_folder, "training_data_" + to_string(m, n, k) + "_" + name_algo + ".csv")
 
                 if os.path.exists(raw_parameters_file_name):
                     print("\tFound csv file:", raw_parameters_file_name, ", skipping ...")
@@ -262,9 +252,8 @@ def collect_training_data(
 
                 else:
                     # Compute derived parameters
-                    parameter_sets = PredictiveParameters(
-                        data_algo, gpu_properties, autotuning_properties, max_performances
-                    )
+                    parameter_sets = PredictiveParameters(data_algo, gpu_properties, autotuning_properties,
+                                                          max_performances)
                     pars_to_get = derived_parameters["common"] + derived_parameters[name_algo]
                     new_df = parameter_sets.get_features(pars_to_get)
                     data_algo.merge(new_df)
@@ -284,8 +273,7 @@ def print_merging_commands(kernel_folders, kernel_folder_pattern):
 
             print("$ # Merge instructions for algorithm", algorithm)
             training_data_file = "{data_type}training_data_{algorithm}.csv".format(
-                data_type=data_type, algorithm=algorithm
-            )
+                data_type=data_type, algorithm=algorithm)
 
             if os.path.exists(training_data_file):
                 print("$ # Found {}, append new training data to this file:".format(training_data_file))
@@ -304,24 +292,17 @@ def print_merging_commands(kernel_folders, kernel_folder_pattern):
                     file_name = os.path.join(
                         kernel_folder,
                         "{data_type}training_data_{mnk}_{algorithm}.csv".format(
-                            data_type=data_type, mnk=to_string(m, n, k), algorithm=algorithm
-                        ),
+                            data_type=data_type, mnk=to_string(m, n, k), algorithm=algorithm),
                     )
                     if os.path.exists(file_name):
-                        print(
-                            "$ head -1 {base_file} > {training_data_file}".format(
-                                base_file=file_name, training_data_file=training_data_file
-                            )
-                        )
+                        print("$ head -1 {base_file} > {training_data_file}".format(
+                            base_file=file_name, training_data_file=training_data_file))
                         break
                 else:
                     print("Did not find any existing files for algorithm", algorithm, "and data type", data_type)
 
-            print(
-                "$ tail -n +2 -q tune_*/raw_training_data_*_{algorithm}.csv >> {training_data_file}".format(
-                    algorithm=algorithm, training_data_file=training_data_file
-                )
-            )
+            print("$ tail -n +2 -q tune_*/raw_training_data_*_{algorithm}.csv >> {training_data_file}".format(
+                algorithm=algorithm, training_data_file=training_data_file))
 
 
 # ===============================================================================

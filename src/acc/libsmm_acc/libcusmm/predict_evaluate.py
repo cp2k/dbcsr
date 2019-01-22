@@ -69,8 +69,7 @@ def main(argv):
                 results_predictive_model[(m, n, k)] > results_baseline[(m, n, k)]
                 for m, n, k in sorted(results_predictive_model.keys())
             ],
-        )
-    )
+        ))
     perf_gain_over_baseline = performance_gain(results_baseline, results_predictive_model)
     rel_perf_gain_over_baseline = relative_performance_gain(results_baseline, results_predictive_model)
 
@@ -78,10 +77,8 @@ def main(argv):
     # Print results
     header = "m, n, k: baseline perf. [Gflops], predictive model perf. [Gflops], performance gain [? ]"
     print(header)
-    line = (
-        "{m:>2}, {n:>2}, {k:>2}: {baseline_perf:>7.2f}, {predictive_model_perf:>7.2f}, "
-        + "{performance_gain:>7.2f}, {better}"
-    )
+    line = ("{m:>2}, {n:>2}, {k:>2}: {baseline_perf:>7.2f}, {predictive_model_perf:>7.2f}, " +
+            "{performance_gain:>7.2f}, {better}")
     for m, n, k in sorted(results_predictive_model.keys()):
         print(
             line.format(
@@ -92,8 +89,7 @@ def main(argv):
                 predictive_model_perf=results_predictive_model[(m, n, k)],
                 performance_gain=perf_gain_over_baseline[(m, n, k)],
                 better=improved_over_baseline[(m, n, k)],
-            )
-        )
+            ))
 
     print(
         "\nKernel performances improved by predictive model:",

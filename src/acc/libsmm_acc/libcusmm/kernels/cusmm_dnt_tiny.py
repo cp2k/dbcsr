@@ -8,7 +8,6 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-
 import numpy as np
 from kernels.cusmm_dnt_base import Kernel, round_up_to_nearest_multiple
 
@@ -35,9 +34,18 @@ class Kernel_dnt_tiny(Kernel):
         return "cusmm_dnt_tiny<%(m)d,%(n)d,%(k)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n" % self.__dict__
 
     @staticmethod
-    def promising_parameters(
-        m, n, k, gpu, autotuning, threads=None, grouping=None, minblocks=None, tile_m=None, tile_n=None, w=None, v=None
-    ):
+    def promising_parameters(m,
+                             n,
+                             k,
+                             gpu,
+                             autotuning,
+                             threads=None,
+                             grouping=None,
+                             minblocks=None,
+                             tile_m=None,
+                             tile_n=None,
+                             w=None,
+                             v=None):
         """
         Given a certain (m,n,k)-triplet, GPU properties and autotuning properties, return a list of all possible
         kernel parameters
@@ -60,19 +68,15 @@ class Kernel_dnt_tiny(Kernel):
 
                 # Shared memory utilisation (bytes)
                 smem_tot = (
-                    buf_sz * autotuning["sizeof_double"] + autotuning["npars"] * grouping_ * autotuning["sizeof_int"]
-                )
+                    buf_sz * autotuning["sizeof_double"] + autotuning["npars"] * grouping_ * autotuning["sizeof_int"])
                 if smem_tot > gpu["Max_Shared_Memory_/_Block_(bytes)"]:
                     continue
                 if smem_tot * minblocks_ > gpu["Max_Shared_Memory_/_Block_(bytes)"]:
                     continue
 
                 # Use all concurrency available: fill warps
-                for threads_ in (
-                    range(gpu["Threads_/_Warp"], gpu["Max_Thread_Block_Size"] + 1, gpu["Threads_/_Warp"])
-                    if threads is None
-                    else [threads]
-                ):
+                for threads_ in (range(gpu["Threads_/_Warp"], gpu["Max_Thread_Block_Size"] + 1, gpu["Threads_/_Warp"])
+                                 if threads is None else [threads]):
 
                     if threads_ > round_up_to_nearest_multiple(max_concurrent_work, gpu["Threads_/_Warp"]):
                         continue  # soft: too much concurrency harms performance
@@ -81,9 +85,14 @@ class Kernel_dnt_tiny(Kernel):
                     if threads_ < min_threads:
                         continue
 
-                    params.append(
-                        {"m": m, "n": n, "k": k, "threads": threads_, "grouping": grouping_, "minblocks": minblocks_}
-                    )
+                    params.append({
+                        "m": m,
+                        "n": n,
+                        "k": k,
+                        "threads": threads_,
+                        "grouping": grouping_,
+                        "minblocks": minblocks_
+                    })
         return params
 
     @staticmethod

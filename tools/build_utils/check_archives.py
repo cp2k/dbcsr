@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Check that a static archive contains only the objects specified in the PACKAGES files.
 """
@@ -13,7 +12,6 @@ import sys
 import subprocess
 import os
 from os import path
-
 
 KNOWN_EXTENSIONS = ("F", "c", "cu", "cpp", "cxx", "cc")
 
@@ -56,9 +54,8 @@ def main(ar_exe, src_dir, lib_dir):
             assert line.endswith(".o"), "discovered a non-object file inside a static archive"
 
             if line[:-2] not in archives_files[archive]:
-                print(
-                    "Could not find source for object '{}' in archive '{}', removing archive.".format(line, archive_fn)
-                )
+                print("Could not find source for object '{}' in archive '{}', removing archive.".format(
+                    line, archive_fn))
                 os.remove(archive_fn)
                 break
 
