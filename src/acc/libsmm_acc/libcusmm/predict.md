@@ -74,8 +74,8 @@ Get the data to be used for training, either by downloading data from the [dedic
 
 ##### At the end, you should end up with the following files:
 
-- `raw_training_data_ALGORITH;.csv`  (containing all *raw* parameters for training a model for algorithm ALGO)
-- `training_data_ALGORITHM.csv` (containing all *derived* parameters for training a model for algorithm ALGO)
+- `raw_training_data_ALGORITHM.csv`  (containing all *raw* parameters for training a model for algorithm ALGORITHM)
+- `training_data_ALGORITHM.csv` (containing all *derived* parameters for training a model for algorithm ALGORITHM)
 
 
 
@@ -87,7 +87,7 @@ Explore the data interactively using the [provided jupyter notebook](notebooks/i
 
 #### 3. Train
 
-For each algorithm, build a predictive model using Decision trees and feature selection based on features' permutation importance. 
+For each algorithm, build a predictive model using decision trees and feature selection based on the features' permutation importance. 
 
 
 ```%bash
@@ -95,7 +95,8 @@ For each algorithm, build a predictive model using Decision trees and feature se
 ```
 
 Repeat this step for all algorithms.
-
+This may take several hours. For example, training algorithm 'medium' for the P100 took 11 hours on a single Greina (CSCS) node.
+Moreover, depending on the size of the training data, large amounts of memory may be needed. For example, training algorithm 'medium' for the P100 was run on a 192 GB node.
 
 
 
@@ -109,8 +110,10 @@ Given predictive models (in the form of serialized [scikit-learn](https://scikit
     --largeDB1 /scratch/largeDB1/feature_tree_refit.p \
     --medium /scratch/medium/feature_tree_refit.p \
     --small /scratch/small/feature_tree_refit.p \
-    --tiny /scratch/tiny/feature_tree_refit.p \
+    --tiny /scratch/tiny/feature_tree_refit.p
 ```
+
+This may take several hours. For example, generating parameters for the P100 took 8 hours on a single Piz Daint (CSCS) node.
 
 
 
