@@ -374,9 +374,9 @@ SUBROUTINE dbcsr_create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
       CASE (dbcsr_type_real_4)
          CALL create_fast_row_vec_access_s(vec, fast_vec_access)
       CASE (dbcsr_type_complex_8)
-         CALL create_fast_row_vec_access_c(vec, fast_vec_access)
-      CASE (dbcsr_type_complex_4)
          CALL create_fast_row_vec_access_z(vec, fast_vec_access)
+      CASE (dbcsr_type_complex_4)
+         CALL create_fast_row_vec_access_c(vec, fast_vec_access)
       END SELECT
 
       CALL timestop(handle)

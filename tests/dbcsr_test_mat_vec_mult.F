@@ -114,7 +114,7 @@ module dbcsr_test_mat_vec_mult
 contains
 
   subroutine dbcsr_mat_vec_multiplies(test_name, mp_comm, mp_env, npdims,&
-      io_unit, matrix_size, bs_m, sparsity, alpha, beta)
+      io_unit, matrix_size, bs_m, sparsity, alpha, beta, mtype)
 
       CHARACTER(len=*), INTENT(IN)                       :: test_name
       INTEGER, INTENT(IN)                                :: mp_comm
@@ -123,7 +123,8 @@ contains
       INTEGER, INTENT(IN)                                :: io_unit
       integer, intent(in) :: matrix_size, bs_m
       real(real_8), intent(in)                           :: sparsity
-      real(real_8), INTENT(in)                        :: alpha, beta
+      complex(real_8), INTENT(in)                        :: alpha, beta
+      INTEGER, intent(in)                                :: mtype 
 
    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mat_vec_multiplies'
 
@@ -150,10 +151,9 @@ contains
     INTEGER, DIMENSION(2)               :: bs
     TYPE(dbcsr_type)                    :: matrix_a, input_vec, result_vec, rep_row_vec, rep_col_vec
     CHARACTER                           :: a_symm
-    INTEGER                             :: mtype 
     TYPE(dbcsr_iterator)                          :: dbcsr_iter
     INTEGER, DIMENSION(:), POINTER                     :: rb_offset, rb_size, sizes_m, sizes_k
-    REAL(KIND=real_8), DIMENSION(:, :), POINTER            :: xvec
+    complex(8), DIMENSION(:, :), POINTER            :: xvec
     logical                                          :: transposed
         
     INTEGER, DIMENSION(:), POINTER :: col_dist, row_dist
@@ -166,7 +166,7 @@ contains
     TYPE(dbcsr_scalar_type)                            :: alpha_obj, beta_obj
 
     a_symm = dbcsr_type_no_symmetry
-    mtype = dbcsr_type_real_8
+    !mtype = dbcsr_type_real_8
   
      n = 1 
      bs(1) = 1 
@@ -326,8 +326,8 @@ contains
     ! densify result vector                                       
     call dbcsr_to_dense_local(result_vec, res_vec_init)
 
-    alpha_obj = compx_to_dbcsr_scalar(CMPLX(alpha,0.0_dp,dp), mtype)
-    beta_obj = compx_to_dbcsr_scalar(CMPLX(beta,0.0,dp), mtype)
+    alpha_obj = compx_to_dbcsr_scalar(alpha, mtype)
+    beta_obj = compx_to_dbcsr_scalar(beta, mtype)
 
 
     call mp_sum(res_vec_init % d % r2_dp, mp_comm)

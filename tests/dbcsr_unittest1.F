@@ -36,7 +36,7 @@ PROGRAM dbcsr_unittest
    USE dbcsr_test_add, ONLY: dbcsr_test_adds
    USE dbcsr_test_methods, ONLY: dbcsr_reset_randmat_seed
    USE dbcsr_test_multiply, ONLY: dbcsr_test_multiplies
-   USE dbcsr_types, ONLY: dbcsr_mp_obj
+   USE dbcsr_types, ONLY: dbcsr_mp_obj, dbcsr_type_complex_8, dbcsr_type_real_8
 
    use dbcsr_test_mat_vec_mult, only: dbcsr_mat_vec_multiplies
 
@@ -95,6 +95,13 @@ PROGRAM dbcsr_unittest
 
    ! run tests
 
+   ! mat x vec ------------------------------------
+   !call dbcsr_mat_vec_multiplies("mat x vec square", group, mp_env, npdims, io_unit, 20, 2, 0.5_dp, &
+                                 !(1.0_dp, 0.0_dp), (0.0_dp, 0.0_dp), dbcsr_type_real_8)
+
+   call dbcsr_mat_vec_multiplies("mat x vec square", group, mp_env, npdims, io_unit, 20, 2, 0.5_dp, &
+                                 (1.0_dp, 2.0_dp), (3.0_dp, 4.0_dp), dbcsr_type_complex_8)
+   
    ! add -----------------------------------------------------------------------
 
    CALL dbcsr_test_adds("add_1", &
@@ -111,9 +118,6 @@ PROGRAM dbcsr_unittest
                         bs_m=(/1, 2/), bs_n=(/1, 2/), &
                         limits=(/1, 50, 1, 50/))
 
-   ! mat x vec ------------------------------------
-   call dbcsr_mat_vec_multiplies("mat x vec square", group, mp_env, npdims, io_unit, 20, 2, 0.5_dp, &
-                                 1.0_dp, 0.0_dp)
    ! multiply ------------------------------------------------------------------
 
    CALL dbcsr_test_multiplies("multiply_ALPHA", &
