@@ -8,7 +8,6 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-import sys
 import os
 import pickle
 import numpy as np
@@ -21,13 +20,15 @@ from kernels.cusmm_predict import to_string
 # I/O helpers
 def safe_pickle(data, file):
     """
-    Pickle big files safely by processing them in chunks
+    Pickle big files safely by processing them in chunks.
+    This wrapper is a workaround for a bug on OSX (https://bugs.python.org/issue24658)
+
     :param data: data to be pickled
     :param file: file to pickle it into
     """
-    max_bytes = 2**31 - 1  # Maximum number of bytes to pickle in one chunk
+    max_bytes = 2**31 - 1  # Maximum number of bytes to write in one chunk
     pickle_out = pickle.dumps(data)
-    n_bytes = sys.getsizeof(pickle_out)
+    n_bytes = len(pickle_out)
     with open(file, "wb") as f:
         count = 0
         for i in range(0, n_bytes, max_bytes):
@@ -36,7 +37,14 @@ def safe_pickle(data, file):
 
 
 def safe_pickle_load(file_path):
-    max_bytes = 2**31 - 1
+    """
+    Load big pickled files safely by processing them in chunks
+    This wrapper is a workaround a bug on OSX (https://bugs.python.org/issue24658)
+
+    :param data: data to be loaded through pickle
+    :param file: file to read from
+    """
+    max_bytes = 2**31 - 1  # Maximum number of bytes to read in one chunk
     bytes_in = bytearray(0)
     input_size = os.path.getsize(file_path)
     with open(file_path, "rb") as f:
