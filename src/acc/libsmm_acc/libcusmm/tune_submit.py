@@ -9,8 +9,8 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-import sys
 import os
+import argparse
 from os import path
 from glob import glob
 
@@ -18,8 +18,7 @@ from subprocess import Popen, PIPE
 
 
 # ===============================================================================
-def main():
-    do_it = sys.argv[-1] == "doit!"
+def main(submit_jobs):
 
     cmd = ["squeue", "--user", os.environ["USER"], "--format=%j", "--nohead"]
     p = Popen(cmd, stdout=PIPE)
@@ -39,7 +38,7 @@ def main():
             continue
 
         n_submits += 1
-        if do_it:
+        if submit_jobs:
             print("%20s: Submitting" % d)
             assert os.system("cd %s; sbatch *.job" % d) == 0
         else:
@@ -49,4 +48,20 @@ def main():
 
 
 # ===============================================================================
-main()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="""
+        Submit autotuning jobs: Each tune-directory contains a job file. Since there might be many tune-directories, the
+        convenience script submit.py can be used. It will go through all the tune_*-directories and check if it has
+        already been submitted or run. For this the script calls squeue in the background and it searches for
+        slurm-*.out files.
+
+        This script is part of the workflow for autotuning optimal libcusmm parameters.
+        For more details, see README.md#autotuning-procedure.
+        """,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('doit', metavar="doit!", nargs='?', type=str)
+
+    args = parser.parse_args()
+    submit_jobs = True if args.doit == "doit!" else False
+    main(submit_jobs)

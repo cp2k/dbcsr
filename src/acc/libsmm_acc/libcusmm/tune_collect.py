@@ -13,6 +13,7 @@ import os
 from glob import glob
 import re
 import json
+import argparse
 from kernels.cusmm_predict import descr_to_kernel
 
 re_mnk = re.compile(r"tune_(\d+)x(\d+)x(\d+)_")
@@ -82,4 +83,15 @@ def process_log(log_fn, mnk, winners):
 
 
 # ===============================================================================
-main()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="""
+        Collect autotuning results: parse all log files and to determine the best kernel for each block size
+
+        This script is part of the workflow for autotuning optimal libcusmm parameters.
+        For more details, see README.md#autotuning-procedure.
+        """,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    args = parser.parse_args()
+    main()

@@ -10,21 +10,11 @@
 ####################################################################################################
 
 import json
-from optparse import OptionParser
+import argparse
 from kernels.cusmm_predict import params_dict_to_kernel
 
 
-def main():
-    usage = ("Write a new kernel parameter file as an unique merge of an old parameter file and a new one called " +
-             "parameters.json as created by collect.py. If a kernel (m, n, k) is listed in both the old parameter" +
-             "file and the new parameter file, retain its parameters as defined in the new parameter file.")
-    parser = OptionParser(usage)
-    parser.add_option(
-        "-p", "--params", metavar="filename.json", default="parameters_P100.json", help="Default: %default")
-
-    (options, args) = parser.parse_args()
-    assert len(args) == 0
-    param_fn = options.params
+def main(param_fn):
 
     # Read new kernel parameters
     with open("parameters.json") as f:
@@ -52,4 +42,24 @@ def main():
 
 
 # ===============================================================================
-main()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="""
+        Write a new kernel parameter file as an unique merge of an old parameter file and a new one called
+        parameters.json as created by collect.py. If a kernel (m, n, k) is listed in both the old parameter
+        file and the new parameter file, retain its parameters as defined in the new parameter file.
+
+        This script is part of the workflow for autotuning optimal libcusmm parameters.
+        For more details, see README.md#autotuning-procedure.
+        """,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument(
+        "-p",
+        "--params",
+        metavar="parameters_GPU.json",
+        type=str,
+        default="parameters_P100.json",
+        help="parameter file in which to emrge the newly obtained autotuned parameters")
+
+    args = parser.parse_args()
+    main(args.params)

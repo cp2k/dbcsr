@@ -17,7 +17,7 @@ import random
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from optparse import OptionParser
+import argparse
 from predict_helpers import (
     safe_pickle,
     safe_pickle_load,
@@ -33,93 +33,47 @@ from kernels.cusmm_predict import to_tuple, to_string
 
 
 # ===============================================================================
-def main():
+def main(datadir, algo, plot_all, model_args, nrows, prefitted_model):
     """
     This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
     For more details, see predict.md
 
     """
-
-    parser = OptionParser()
-    parser.add_option("-f", "--folder", metavar="foldername/", default="", help="Folder from which to read data")
-    parser.add_option("-a", "--algo", metavar="algoname", default="", help="Algorithm to train on")
-    parser.add_option(
-        "-c",
-        "--plot_all",
-        default=False,
-        help="Plot more stuff" + "(Warning: can be very slow for large trees and create very large files)",
-    )
-    parser.add_option(
-        "-m", "--model", default="DT", help="Model to train. Options: DT (Decision Trees), RF (Random Forests)")
-    parser.add_option(
-        "-s",
-        "--splits",
-        default=3,
-        metavar="NUMBER",
-        type="int",
-        help="Number of cross-validation splits used in RFECV and GridSearchCV",
-    )
-    parser.add_option("-e", "--ntrees", default=3, metavar="NUMBER", type="int", help="Number of estimators in RF")
-    parser.add_option(
-        "-j",
-        "--njobs",
-        default=-1,
-        metavar="NUMBER",
-        type="int",
-        help="Number of cross-validation splits used in RFECV and GridSearchCV",
-    )
-    parser.add_option(
-        "-r",
-        "--nrows",
-        default=None,
-        metavar="NUMBER",
-        type="int",
-        help="Number of rows of data to load. Default: None (load all)",
-    )
-    parser.add_option(
-        "-g",
-        "--prefitted_model",
-        metavar="filename",
-        default="",
-        help="Path to pickled GridSearchCV object to load instead of recomputing",
-    )
-    options, args = parser.parse_args(sys.argv)
-
     # ===============================================================================
     # Create folder to store results of this training and start a log
-    folder, log_file, log = get_log_folder(options.algo, options.prefitted_model)
+    folder, log_file, log = get_log_folder(datadir, algo)
 
     # ===============================================================================
     # Override algorithm option if working on a pre-fitted model, and log program options
     log += print_and_log("----------------------------------------------------------------------------")
-    options, log = dump_or_load_options(options, folder, log)
+    algo, model_args, nrows, log = dump_or_load_options(algo, model_args, prefitted_model, nrows, folder, log)
 
     # ===============================================================================
     # Get maximum and baseline performances
     max_performances, max_performances_algo, max_performances_ref, baseline_performances_algo = \
         get_reference_performances(
-            options.folder, options.algo
+            datadir, algo
         )
 
     # ===============================================================================
     # Read data
     log += print_and_log("----------------------------------------------------------------------------")
-    X, X_mnk, Y, log = read_data(options.algo, options.folder, options.nrows, options.plot_all, folder, log)
+    X, X_mnk, Y, log, data_nrows = read_data(algo, datadir, nrows, plot_all, folder, log)
 
     # ===============================================================================
     # Get or train model
     log += print_and_log("----------------------------------------------------------------------------")
-    if len(options.prefitted_model) == 0:  # train a model
+    if len(prefitted_model) == 0:  # train a model
 
         log += print_and_log("\nPreparing to fit model...")
         X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model, log = train_model(
-            X, X_mnk, Y, options, folder, log)
+            X, X_mnk, Y, algo, model_args, folder, log)
 
     else:  # load pre-trained model
 
-        log += print_and_log("\nReading pre-fitted model from " + options.prefitted_model)
+        log += print_and_log("\nReading pre-fitted model from " + prefitted_model)
         X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model, log = fetch_pre_trained_model(
-            X, X_mnk, Y, options.prefitted_model, log)
+            X, X_mnk, Y, prefitted_model, log)
 
     # ===============================================================================
     # Evaluate model
@@ -134,7 +88,8 @@ def main():
         max_performances_ref,
         max_performances_algo,
         baseline_performances_algo,
-        options,
+        data_nrows,
+        plot_all,
         log,
         folder,
     )
@@ -163,7 +118,8 @@ def main():
         max_performances_ref,
         max_performances_algo,
         baseline_performances_algo,
-        options,
+        data_nrows,
+        plot_all,
         log,
         folder,
     )
@@ -215,41 +171,42 @@ def get_log_folder(algo, prefitted_model_folder):
     return folder, log_file, log
 
 
-def dump_or_load_options(pgm_options, folder, log):
+def dump_or_load_options(algo, model_args, prefitted_model, nrows, folder, log):
 
     options_file_name = os.path.join(folder, "options.json")
+    pgm_options = {"folder": folder, "algo": algo, "nrows": nrows}
+    pgm_options.update(model_args)
 
-    if len(pgm_options.prefitted_model) == 0:
+    if len(prefitted_model) == 0:
         # if we're training a model, dump options to folder so they can be reloaded in another run
         print("Dump options to", options_file_name)
         with open(options_file_name, "w") as f:
-            json.dump(pgm_options.__dict__, f)
+            json.dump(pgm_options, f)
 
     else:
         # if we're using a pre-fitted model, load options from that model
         print("Read options from", options_file_name)
         with open(options_file_name, "r") as f:
-            options_dict = json.load(f)
+            pgm_options = json.load(f)
 
-        # overwrite the options that characterize this program run
-        characteristic_options = [
-            "folder",
-            "algo",
+        algo = pgm_options["algo"]
+        model_args_list = [
             "model",
             "splits",
             "ntrees",
             "njobs",
-            "nrows",
         ]
-        for opt in characteristic_options:
-            pgm_options.__dict__[opt] = options_dict[opt]
+        model_args = dict()
+        for m in model_args_list:
+            model_args[m] = pgm_options[m]
+        nrows = pgm_options["nrows"]
 
     # Log options
     log += print_and_log("Predict-train running with options:")
-    for opt, opt_val in pgm_options.__dict__.items():
+    for opt, opt_val in pgm_options.items():
         log += print_and_log("{:<15}: {}".format(opt, opt_val))
 
-    return pgm_options, log
+    return algo, model_args, nrows, log
 
 
 def print_and_log(msg):
@@ -434,7 +391,8 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
     if plot_all:
         plot_training_data(Y, X_mnk, algo, folder)
 
-    return X, X_mnk, Y, log
+    nrows_data = len(X.index)
+    return X, X_mnk, Y, log, nrows_data
 
 
 # ===============================================================================
@@ -546,12 +504,10 @@ def get_train_test_partition(to_partition, test, train=None):
     return partitioned
 
 
-def train_model(X, X_mnk, Y, options, folder, log):
+def train_model(X, X_mnk, Y, algo, model_options, folder, log):
 
     # ===============================================================================
     # Get options
-    algo = options.algo
-    model_to_train = options.model
     results_file = os.path.join(folder, "feature_tree.p")
 
     # ===============================================================================
@@ -571,12 +527,11 @@ def train_model(X, X_mnk, Y, options, folder, log):
 
     # ===============================================================================
     # Predictive model
+    model_to_train = model_options["model"]
     if model_to_train == "DT":
         model, model_name, param_grid = get_DecisionTree_model(algo, len(X_train.columns.values))
     elif model_to_train == "RF":
-        ntrees = options.ntrees
-        njobs = options.njobs
-        model, model_name, param_grid = get_RandomForest_model(algo, njobs, ntrees)
+        model, model_name, param_grid = get_RandomForest_model(algo, model_options["njobs"], model_options["ntrees"])
     else:
         assert False, "Cannot recognize model: " + model_to_train + ". Options: DT, RF"
     log += print_and_log("\nStart tune/train for model " + model_name + " with parameters:")
@@ -584,9 +539,8 @@ def train_model(X, X_mnk, Y, options, folder, log):
 
     # ===============================================================================
     # Cross-validation splitter (train/validation-split)
-    splits = options.splits
     test_size = 0.3
-    cv = GroupShuffleSplit(n_splits=splits, test_size=test_size)
+    cv = GroupShuffleSplit(n_splits=model_options["splits"], test_size=test_size)
 
     # ===============================================================================
     # Feature selection: SelectFromModel
@@ -916,7 +870,8 @@ def evaluate_model(
         max_performances_ref,
         max_performances_algo,
         baseline_performances_algo,
-        options,
+        data_nrows,
+        plot_all,
         log,
         folder,
 ):
@@ -925,7 +880,7 @@ def evaluate_model(
     log += print_and_log("----------------------------------------------------------------------------")
     log += print_and_log("Start model evaluation")
     if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
-        log = describe_model(model, X_test, Y_test, log, options.plot_all)
+        log = describe_model(model, X_test, Y_test, log, plot_all)
 
     # Training error
     y_train_pred = model.predict(X_train)
@@ -959,9 +914,7 @@ def evaluate_model(
 
     # ===============================================================================
     # Plot prediction accuracy and goodness of choice for a few mnks (training-set)
-    n_samples = 10
-    if options.algo == "medium":
-        n_samples = 2
+    n_samples = 10 if data_nrows < 100000000 else 2
     mnks_to_plot = random.sample(X_mnk_train["mnk"].values.tolist(), n_samples)
 
     from matplotlib.backends.backend_pdf import PdfPages
@@ -1160,6 +1113,60 @@ def evaluate_model(
 
 
 # ===============================================================================
-main()
+if __name__ == '__main__':
 
-# EOF
+    parser = argparse.ArgumentParser(
+        description="""
+        Train predictive model on autotuning data
+
+        This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
+        For more details, see predict.md.
+        """,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument(
+        "-f", "--folder", metavar="FOLDER", type=str, default=".", help="Folder from which to read data")
+    parser.add_argument("-a", "--algo", metavar="algoname", default="", help="Algorithm to train on")
+    parser.add_argument(
+        "-c",
+        "--plot_all",
+        default=False,
+        help="Plot more stuff (Warning: can be very slow for large trees and create very large files)",
+    )
+    parser.add_argument(
+        "-m", "--model", default="DT", help="Model to train. Options: DT (Decision Trees), RF (Random Forests)")
+    parser.add_argument(
+        "-s",
+        "--splits",
+        default=3,
+        metavar="NUMBER",
+        type=int,
+        help="Number of cross-validation splits used in RFECV and GridSearchCV",
+    )
+    parser.add_argument("-e", "--ntrees", default=3, metavar="NUMBER", type=int, help="Number of estimators in RF")
+    parser.add_argument(
+        "-j",
+        "--njobs",
+        default=-1,
+        metavar="NUMBER",
+        type=int,
+        help="Number of cross-validation splits used in RFECV and GridSearchCV",
+    )
+    parser.add_argument(
+        "-r",
+        "--nrows",
+        default=None,
+        metavar="NUMBER",
+        type=int,
+        help="Number of rows of data to load. Default: None (load all)",
+    )
+    parser.add_argument(
+        "-g",
+        "--prefitted_model",
+        metavar="filename",
+        default="",
+        help="Path to pickled GridSearchCV object to load instead of recomputing",
+    )
+
+    args = parser.parse_args()
+    model_args = {'model': args.model, 'splits': args.splits, 'ntrees': args.ntrees, 'njobs': args.njobs}
+    main(args.folder, args.algo, args.plot_all, model_args, args.nrows, args.prefitted_model)

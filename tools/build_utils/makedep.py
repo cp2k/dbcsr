@@ -7,6 +7,7 @@ import ast
 from os import path
 from os.path import dirname, basename, normpath
 import glob
+import argparse
 
 # pre-compiled regular expressions
 re_module = re.compile(r"(?:^|\n)\s*module\s+(\w+)\s.*\n\s*end\s*module", re.DOTALL)
@@ -21,7 +22,7 @@ re_incl_fort = re.compile(r"\n\s*include\s+['\"](.+)['\"]")
 # ============================================================================
 def main(out_fn, project_name, mod_format, mode, archive_ext, src_dir, src_files):
     messages = []
-    # process command line arguments
+    # process arguments
     src_files = [path.join(src_dir, f) for f in src_files]
 
     if mod_format not in ("lower", "upper", "no"):
@@ -366,20 +367,28 @@ def error(msg):
 
 
 # ============================================================================
-
 if __name__ == "__main__":
-    if len(sys.argv) < 8:
-        print("Usage: {} " +
-              "<outfile> <project_name> <format> <mode> <archive.ext> <src-dir> <src-file1> [<src-file2> ...]".format(
-                  sys.argv[0]))
-        sys.exit(1)
+    parser = argparse.ArgumentParser(
+        description="""
+        Parse files and package manifests in the source tree to create rules for objects and executables
 
+        This script is part of the build utility scripts for DBCSR.
+        """,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("outfile", metavar="outfile", type=str)
+    parser.add_argument("project_name", metavar="project_name", type=str)
+    parser.add_argument("format", metavar="format", type=str)
+    parser.add_argument("mode", metavar="mode", type=str)
+    parser.add_argument("archive_ext", metavar="archive_ext", type=str)
+    parser.add_argument("src_dir", metavar="src_dir", type=str)
+    parser.add_argument("src_file", metavar="src_file", nargs="+", type=str)
+
+    args = parser.parse_args()
     main(
-        out_fn=sys.argv[1],
-        project_name=sys.argv[2],
-        mod_format=sys.argv[3],
-        mode=sys.argv[4],
-        archive_ext=sys.argv[5],
-        src_dir=sys.argv[6],
-        src_files=sys.argv[7:],
-    )
+        out_fn=args.outfile,
+        project_name=args.project_name,
+        mod_format=args.format,
+        mode=args.mode,
+        archive_ext=args.archive_ext,
+        src_dir=args.src_dir,
+        src_files=args.src_file)

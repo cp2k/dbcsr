@@ -107,7 +107,8 @@ static const std::unordered_map<Triplet, KernelParameters> ht  = {
 # ===============================================================================
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Generator of LibCuSMM. The Library for Cuda Small Matrix Multiplications.")
+        description="Generator of LibCuSMM. The Library for Cuda Small Matrix Multiplications.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         "-g",
         "--gpu_version",
