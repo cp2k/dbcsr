@@ -9,29 +9,18 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-import sys
 import os
 import json
 from glob import glob
 from itertools import product
-from optparse import OptionParser
+import argparse
 from kernels.cusmm_predict import arch_number, kernel_algorithm, params_dict_to_kernel, compatible_mnk
 
 
 # ===============================================================================
-def main():
-    usage = "Usage: tune.py <blocksize 1> ... <blocksize N>"
-    parser = OptionParser(usage)
-    parser.add_option(
-        "-p", "--params", metavar="filename.json", default="parameters_P100.json", help="Default: %default")
-
-    (options, args) = parser.parse_args(sys.argv)
-    if len(sys.argv) < 2:
-        print(usage)
-        sys.exit(1)
+def main(param_fn, blocksizes):
 
     # Read existing parameters
-    param_fn = options.params
     assert param_fn in arch_number.keys(), "Cannot find compute version for file " + param_fn
     arch = arch_number[param_fn]
     with open("kernels/gpu_properties.json") as f:
@@ -46,7 +35,6 @@ def main():
           (len(all_kernels), len(autotuned_kernels), len(predicted_kernels)))
 
     # Get blocksizes to be autotuned
-    blocksizes = [int(i) for i in args[1:]]
     assert len(set(blocksizes)) == len(blocksizes)
     blocksizes.sort()
 
@@ -270,4 +258,18 @@ def combinations(*sizes):
 
 
 # ===============================================================================
-main()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="""
+        Usage: tune.py <blocksize 1> ... <blocksize N> --params parameters_GPU.json
+
+        This script is part of the workflow for autotuning optimal libcusmm parameters.
+        For more details, see README.md#autotuning-procedure.
+        """,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument(
+        "-p", "--params", metavar="parameters_GPU.json", default="parameters_P100.json", help="Default: %default")
+    parser.add_argument('blocksizes', metavar="BLOCKSIZE", nargs='+', type=int, help='Blocksize to autotune')
+
+    args = parser.parse_args()
+    main(args.params, args.blocksizes)

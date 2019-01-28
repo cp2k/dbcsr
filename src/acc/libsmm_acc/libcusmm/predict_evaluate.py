@@ -10,9 +10,8 @@
 ####################################################################################################
 
 import re
-import sys
 import numpy as np
-from optparse import OptionParser
+import argparse
 from predict_helpers import (
     performance_gain,
     relative_performance_gain,
@@ -23,40 +22,21 @@ from predict_helpers import (
 
 
 # ===============================================================================
-def main(argv):
+def main(file, file_baseline):
     """
     This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
     For more details, see predict.md
 
     Given a file containing the results of the LIBCUSMM performance test, perform evaluation of the predictive model.
     """
-    del argv  # unused
-
-    parser = OptionParser()
-    parser.add_option(
-        "-f",
-        "--file",
-        metavar="filename.out",
-        default="",
-        help="Result file to evaluate. Output of tests/libcusmm_timer_multiply.cu",
-    )
-    parser.add_option(
-        "-n",
-        "--file_baseline",
-        metavar="filename.out",
-        default="",
-        help="Baseline performance file to compare against.",
-    )
-    options, args = parser.parse_args(sys.argv)
-
     # ===============================================================================
     # Read optimal-parameter-prediction result file
-    with open(options.file) as f:
+    with open(file) as f:
         result_file = f.read().splitlines()
     results_predictive_model = read_result_file(result_file)
 
     # Read baseline result file
-    with open(options.file_baseline) as f:
+    with open(file_baseline) as f:
         result_file = f.read().splitlines()
     results_baseline = read_result_file(result_file)
 
@@ -80,16 +60,15 @@ def main(argv):
     line = ("{m:>2}, {n:>2}, {k:>2}: {baseline_perf:>7.2f}, {predictive_model_perf:>7.2f}, " +
             "{performance_gain:>7.2f}, {better}")
     for m, n, k in sorted(results_predictive_model.keys()):
-        print(
-            line.format(
-                m=m,
-                n=n,
-                k=k,
-                baseline_perf=results_baseline[(m, n, k)],
-                predictive_model_perf=results_predictive_model[(m, n, k)],
-                performance_gain=perf_gain_over_baseline[(m, n, k)],
-                better=improved_over_baseline[(m, n, k)],
-            ))
+        print(line.format(
+            m=m,
+            n=n,
+            k=k,
+            baseline_perf=results_baseline[(m, n, k)],
+            predictive_model_perf=results_predictive_model[(m, n, k)],
+            performance_gain=perf_gain_over_baseline[(m, n, k)],
+            better=improved_over_baseline[(m, n, k)],
+        ))
 
     print(
         "\nKernel performances improved by predictive model:",
@@ -135,6 +114,31 @@ def read_result_file(file):
 
 
 # ===============================================================================
-main(argv=sys.argv[1:])
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="""
+        Given a file containing the results of the LIBCUSMM performance test, perform evaluation of the predictive
+        model.
+        This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
+        For more details, see predict.md.
+        """,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument(
+        "-f",
+        "--file",
+        metavar="filename.out",
+        type=str,
+        default="",
+        help="Result file to evaluate. Output of tests/libcusmm_timer_multiply.cu",
+    )
+    parser.add_argument(
+        "-n",
+        "--file_baseline",
+        metavar="filename.out",
+        type=str,
+        default="",
+        help="Baseline performance file to compare against.",
+    )
 
-# EOF
+    args = parser.parse_args()
+    main(args.file, args.file_baseline)

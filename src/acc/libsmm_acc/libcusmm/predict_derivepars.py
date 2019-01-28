@@ -10,10 +10,9 @@
 ####################################################################################################
 
 import os
-import sys
 import json
 import pandas as pd
-from optparse import OptionParser
+import argparse
 from kernels.cusmm_predict import (
     get_max_performances_per_mnk,
     get_baseline_performances_per_mnk,
@@ -25,7 +24,7 @@ from kernels.cusmm_predict import (
 
 
 # ===============================================================================
-def main():
+def main(tunedir, arch):
     """
     This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
     For more details, see predict.md.
@@ -34,28 +33,8 @@ def main():
     - Compute derived training data and write it to a CSV file
     - Record maximum and baseline performances of (m,n,k)-triplets in JSON files
     """
-
-    parser = OptionParser()
-    parser.add_option(
-        "-f",
-        "--folder",
-        metavar="FOLDER",
-        default="../../../../../dbcsr-data/P100/",
-        help="Folder in which the raw downloaded data are to be found. Default: %default",
-    )
-    parser.add_option(
-        "-a",
-        "--arch",
-        metavar="FOLDER",
-        default="60",
-        help="CUDA architecture number. Options: 35, 37, 60. Default: %default",
-    )
-
-    options, args = parser.parse_args(sys.argv)
-
     # ===============================================================================
     # Read GPU properties and autotuning properties
-    arch = options.arch
     with open("kernels/gpu_properties.json") as f:
         gpu_properties = json.load(f)["sm_" + str(arch)]
     with open("kernels/autotuning_properties.json") as f:
@@ -73,7 +52,7 @@ def main():
     }
     for name_algo, kernel_algo in kernel_algorithm.items():
 
-        raw_training_data_filename = os.path.join(options.folder, "raw_training_data_{}.csv".format(name_algo))
+        raw_training_data_filename = os.path.join(tunedir, "raw_training_data_{}.csv".format(name_algo))
         print("\nReading from {}".format(raw_training_data_filename))
 
         # Read CSV and loop over chunks
@@ -103,7 +82,7 @@ def main():
             new_data = parameter_sets.get_features(pars_to_get)
 
             # Write derived parameters
-            derived_training_data_filename = os.path.join(options.folder, "training_data_{}_{}.csv".format(
+            derived_training_data_filename = os.path.join(tunedir, "training_data_{}_{}.csv".format(
                 name_algo, chunk_count - 1))
             new_data[pars_to_get].to_csv(derived_training_data_filename, index=False)
             print("\tWrote", derived_training_data_filename)
@@ -113,7 +92,7 @@ def main():
 
     # Print header lines & merge instructions
     print("\n$ # Merge instructions:")
-    print("$ cd {}".format(options.folder))
+    print("$ cd {}".format(tunedir))
     for name_algo, kernel_algo in kernel_algorithm.items():
 
         # Print header line
@@ -134,17 +113,44 @@ def main():
             to_merge=derived_training_data_filename_wildcard, training_data_file=derived_training_data_filename))
 
     # Print max performances
-    max_performances_per_mnk_file = os.path.join(options.folder, "max_performances.json")
+    max_performances_per_mnk_file = os.path.join(tunedir, "max_performances.json")
     with open(max_performances_per_mnk_file, "w") as f:
         json.dump(max_performances_per_mnk, f)
     print("\nWrote maximum performances to:\n", max_performances_per_mnk_file)
 
     # Print baseline
-    baseline_performances_per_algo_per_mnk_file = os.path.join(options.folder, "baseline_performances_by_algo.json")
+    baseline_performances_per_algo_per_mnk_file = os.path.join(tunedir, "baseline_performances_by_algo.json")
     with open(baseline_performances_per_algo_per_mnk_file, "w") as f:
         json.dump(baseline_performances_per_algo_per_mnk, f)
     print("\nWrote baseline performances to:\n", baseline_performances_per_algo_per_mnk_file)
 
 
 # ===============================================================================
-main()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="""
+        Compute derived training data from raw parameters.
+
+        This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
+        For more details, see predict.md.
+        """,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument(
+        "-f",
+        "--folder",
+        metavar="FOLDER",
+        type=str,
+        default=".",
+        help="Folder in which the folders tune_*x*x*x/ are to be found",
+    )
+    parser.add_argument(
+        "-a",
+        "--arch",
+        metavar="ARCHITECTURE_NUMBER",
+        type=int,
+        default="60",
+        help="CUDA architecture number. Options: 35, 37, 60",
+    )
+
+    args = parser.parse_args()
+    main(args.folder, args.arch)

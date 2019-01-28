@@ -9,11 +9,10 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-import sys
 import os
 import random
 import json
-from optparse import OptionParser
+import argparse
 
 
 def format_to_cpp(kernels):
@@ -28,34 +27,16 @@ def format_to_cpp(kernels):
 
 
 # ===============================================================================
-def main():
+def main(basedir, gpu_version, nsamples):
     """
     Generate a performance test of libcusmm in the form of a CUDA file, using libcusmm_timer_multiply.template
     as a template
     """
-    parser = OptionParser()
-    parser.add_option("-f", "--base_folder", metavar="DBCSRHOME", default="", help="Default: %default")
-    parser.add_option(
-        "-g",
-        "--gpu_version",
-        metavar="GPU_VERSION",
-        default="P100",
-        help="GPU card version, used to select the appropriate libcusmm parameters file. Default: %(default)s",
-    )
-    parser.add_option(
-        "-n",
-        "--nsamples",
-        default=1000,
-        help="Number of samples from the matrix sizes space 4 <= m,n,k <= 45 (except autotuned kernels)" +
-        " to sample from the 'predicted' kernels for unit testing. Default: %default",
-    )
-
-    options, args = parser.parse_args(sys.argv)
 
     # Read parameter file
-    print("GPU version: {}".format(options.gpu_version))
-    base_dir = os.path.join(options.base_folder, "src/acc/libsmm_acc/libcusmm/")
-    param_fn = os.path.join(base_dir, "parameters_{}.json".format(options.gpu_version))
+    print("GPU version: {}".format(gpu_version))
+    base_dir = os.path.join(basedir, "src/acc/libsmm_acc/libcusmm/")
+    param_fn = os.path.join(base_dir, "parameters_{}.json".format(gpu_version))
     with open(param_fn, "r") as f:
         all_kernels = json.load(f)
 
@@ -66,11 +47,11 @@ def main():
     # Get the non-autotuned kernels to test
     predicted_kernels = [k for k in all_kernels if k["source"] != "autotuned"]
     print("Found {:,} predicted kernels".format(len(predicted_kernels)))
-    kernels_to_test_predicted = random.sample(predicted_kernels, options.nsamples)
+    kernels_to_test_predicted = random.sample(predicted_kernels, nsamples)
     kernels_to_print = format_to_cpp(autotuned_kernels + kernels_to_test_predicted)
 
     # Print to test file
-    test_directory = os.path.join(options.base_folder, "tests")
+    test_directory = os.path.join(basedir, "tests")
     file_template = os.path.join(test_directory, "libcusmm_unittest_multiply.template")
     file_generate = os.path.join(test_directory, "libcusmm_unittest_multiply.cu")
     with open(file_template, "r") as f:
@@ -82,4 +63,28 @@ def main():
 
 
 # ===============================================================================
-main()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="""
+        Generate a performance test of libcusmm in the form of a CUDA file, using libcusmm_timer_multiply.template
+        as a template
+        """,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("-f", "--base_folder", metavar="DBCSRHOME", default="")
+    parser.add_argument(
+        "-g",
+        "--gpu_version",
+        metavar="GPU_VERSION",
+        default="P100",
+        help="GPU card version, used to select the appropriate libcusmm parameters file",
+    )
+    parser.add_argument(
+        "-n",
+        "--nsamples",
+        default=1000,
+        help="Number of samples from the matrix sizes space 4 <= m,n,k <= 45 (except autotuned kernels)" +
+        " to sample for performance testing",
+    )
+
+    args = parser.parse_args()
+    main(args.base_folder, args.gpu_version, args.nsamples)

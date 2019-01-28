@@ -11,10 +11,9 @@
 
 import os
 import re
-import sys
 import json
+import argparse
 import pandas as pd
-from optparse import OptionParser
 from kernels.cusmm_predict import (
     get_max_performances_per_mnk,
     get_baseline_performances_per_mnk,
@@ -26,7 +25,7 @@ from kernels.cusmm_predict import (
 
 
 # ===============================================================================
-def main():
+def main(tunedir, arch):
     """
     This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
     For more details, see predict.md
@@ -34,30 +33,10 @@ def main():
     Once autotuning of new kernels has been run,
     - collect the parameter information and performance from log files,
     - dump them to CSV files for data analysis and training of a predictive model
-    - Write the max_performances and baseline_performances to JSON files
+    - write the max_performances and baseline_performances to JSON files
     """
-
-    parser = OptionParser()
-    parser.add_option(
-        "-f",
-        "--folder",
-        metavar="FOLDER",
-        default=".",
-        help="Folder in which the folders tune_*x*x*x/ are to be found. Default: %default",
-    )
-    parser.add_option(
-        "-a",
-        "--arch",
-        metavar="FOLDER",
-        default="60",
-        help="CUDA architecture number. Options: 35, 37, 60. Default: %default",
-    )
-
-    options, args = parser.parse_args(sys.argv)
-
     # ===============================================================================
     # Read GPU properties and autotuning properties
-    arch = options.arch
     with open("kernels/gpu_properties.json") as f:
         gpu_properties = json.load(f)["sm_" + str(arch)]
     with open("kernels/autotuning_properties.json") as f:
@@ -67,8 +46,7 @@ def main():
     # Find all the 'tune_MxNxK' folders
     kernel_folder_pattern = re.compile(r"tune_(\d+)x(\d+)x(\d+)$")
     kernel_folders = [
-        os.path.join(options.folder, ak) for ak in os.listdir(options.folder)
-        if kernel_folder_pattern.match(ak) is not None
+        os.path.join(tunedir, ak) for ak in os.listdir(tunedir) if kernel_folder_pattern.match(ak) is not None
     ]
     n_kernels = len(kernel_folders)
     print("Found {:,} kernel folders".format(n_kernels))
@@ -94,7 +72,7 @@ def main():
 
     # ===============================================================================
     # Print max performance dictionaries
-    max_performances_per_mnk_file = os.path.join(options.folder, "max_performances.json")
+    max_performances_per_mnk_file = os.path.join(tunedir, "max_performances.json")
     if os.path.exists(max_performances_per_mnk_file):
         # If this file already exists, read its contents and merge them with the content to write
         print("Found {}, reading and merging into new data...".format(max_performances_per_mnk_file))
@@ -106,7 +84,7 @@ def main():
     print("\nWrote maximum performances to:\n", max_performances_per_mnk_file)
 
     # Print baseline performance dictionaries
-    baseline_performances_per_algo_per_mnk_file = os.path.join(options.folder, "baseline_performances_by_algo.json")
+    baseline_performances_per_algo_per_mnk_file = os.path.join(tunedir, "baseline_performances_by_algo.json")
     if os.path.exists(baseline_performances_per_algo_per_mnk_file):
         # If this file already exists, read its contents and merge them with the content to write
         print("Found {}, reading and merging into new data...".format(baseline_performances_per_algo_per_mnk_file))
@@ -306,4 +284,31 @@ def print_merging_commands(kernel_folders, kernel_folder_pattern):
 
 
 # ===============================================================================
-main()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="""
+        Collect matrix-matrix multiplication parameters and performance from the log files resulting from autotuning.
+
+        This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
+        For more details, see predict.md.
+        """,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument(
+        "-f",
+        "--folder",
+        metavar="FOLDER",
+        type=str,
+        default=".",
+        help="Folder in which the folders tune_*x*x*x/ are to be found",
+    )
+    parser.add_argument(
+        "-a",
+        "--arch",
+        metavar="ARCHITECTURE_NUMBER",
+        type=int,
+        default=60,
+        help="CUDA architecture number. Options: 35, 37, 60",
+    )
+
+    args = parser.parse_args()
+    main(args.folder, args.arch)

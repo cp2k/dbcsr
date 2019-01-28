@@ -8,10 +8,10 @@ Check that a static archive contains only the objects specified in the PACKAGES 
 
 from __future__ import print_function
 
-import sys
 import subprocess
 import os
 from os import path
+import argparse
 
 KNOWN_EXTENSIONS = ("F", "c", "cu", "cpp", "cxx", "cc")
 
@@ -60,9 +60,18 @@ def main(ar_exe, src_dir, lib_dir):
                 break
 
 
+# ===============================================================================
 if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print("Usage: check_archives.py <ar-executable> <src-dir> <lib-dir>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(
+        description="""
+        Parse files and package manifests in the source tree to create rules for objects and executables
 
-    main(sys.argv[1], sys.argv[2], sys.argv[3])
+        This script is part of the build utility scripts for DBCSR.
+        """,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("ar_executable", metavar="ar_executable", type=str)
+    parser.add_argument("src_dir", metavar="src_dir", type=str)
+    parser.add_argument("lib_dir", metavar="lib_dir", type=str)
+
+    args = parser.parse_args()
+    main(ar_exe=args.ar_executable, src_dir=args.src_dir, lib_dir=args.lib_dir)
