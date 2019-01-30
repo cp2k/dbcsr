@@ -15,6 +15,8 @@ LIBS      += -L${LAPACK_PATH}/lib -llapack -lblas
 # MPICH   : -lmpifort
 CLIBS      = $(LIBS) -lgfortran -lmpi_mpifh
 
+OBJ = tight_binding.o dm_ls_scf_methods.o
+
 # Fortran examples
 all: tight_binding.x 
 
@@ -23,8 +25,12 @@ all: tight_binding.x
 #all: dbcsr_example_3_cpp.x
 #endif
 
-%.x: %.F
-	$(FC) $(FCFLAGS) $< $(LIBS) -o $@
+%.o: %.F
+	$(FC) $(FCFLAGS) -c -o $@ $<   
+
+%.x: $(OBJ)
+	$(FC) $(FCFLAGS) $(OBJ) $(LIBS) -o $@
+
 
 %_cpp.x: %.cpp
 	$(CXX) $(CXXFLAGS) $< $(CLIBS) -o $@

@@ -23,13 +23,15 @@ PROGRAM tight_binding
         dbcsr_create, dbcsr_distribution_get, dbcsr_distribution_new, dbcsr_distribution_release, &
         dbcsr_distribution_type, dbcsr_finalize, dbcsr_finalize_lib, dbcsr_get_stored_coordinates, &
         dbcsr_init_lib, dbcsr_multiply, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_print, &
-        dbcsr_put_block, dbcsr_release, dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8
-
+        dbcsr_put_block, dbcsr_release, dbcsr_type, dbcsr_type_no_symmetry, &
+        dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_add_on_diag
+   
+    use dm_ls_scf_methods, only: density_matrix_sign
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
    implicit none
 
-   type(dbcsr_type)                         :: matrix_a, matrix_b, matrix_c
+   type(dbcsr_type)                         ::  matrix_p, matrix_ks, matrix_s, matrix_s_inv
 
    integer, dimension(:), pointer           :: col_blk_sizes, row_blk_sizes
    integer                                  :: group, numnodes, mynode, ierr, &
@@ -39,13 +41,14 @@ PROGRAM tight_binding
    integer, dimension(2)                    :: npdims, myploc
    integer, dimension(:), pointer           :: col_dist, row_dist
    type(dbcsr_distribution_type)            :: dist
-   real(kind=kind(0.0d0)), dimension(:), allocatable :: values
+   complex(8), dimension(:), allocatable    :: values
    logical                                  :: tr
    logical, dimension(2)                    :: period = .true.
 
   real(8), allocatable :: rr(:,:), cell_vec(:,:) 
   real(8), allocatable :: rft(:,:)
   real(8), allocatable :: kpathc(:,:)
+  real(8) :: kc(2), mu
   integer :: nr, nrft, nkp, i, j, sys_dim, ntrans, cnt
 
 !$ integer                                  :: provided_tsl
@@ -102,11 +105,12 @@ PROGRAM tight_binding
    ! temp 1 kpoint
    allocate(kpathc(2,1))   
    kpathc(:,1) = 0.0d0
+   kc(:) = 0.0d0
    nkp = 1
+   
 
-
-   ! set cell translation, test value ntrans = 2
-   ntrans = 2
+   ! set cell translation, 0 - no translation
+   ntrans = 0  
    nrft = (2 * ntrans + 1)**2
 
    allocate(rft(sys_dim, nrft))
@@ -150,30 +154,38 @@ PROGRAM tight_binding
    ! with nblkrows_total x nblkcols_total blocks and
    ! sizes "sum(row_blk_sizes)" x "sum(col_blk_sizes)", distributed as
    ! specified by the dist object
-   CALL dbcsr_create(matrix=matrix_a, &
-                     name="this is my matrix a", &
+   CALL dbcsr_create(matrix=matrix_ks, &
+                     name="ks", &
                      dist=dist, &
                      matrix_type=dbcsr_type_no_symmetry, &
                      row_blk_size=row_blk_sizes, &
                      col_blk_size=col_blk_sizes, &
                      data_type=dbcsr_type_real_8)
 
-   !CALL dbcsr_create(matrix=matrix_b, &
-                     !name="this is my matrix b", &
-                     !dist=dist, &
-                     !matrix_type=dbcsr_type_no_symmetry, &
-                     !row_blk_size=row_blk_sizes, &
-                     !col_blk_size=col_blk_sizes, &
-                     !data_type=dbcsr_type_real_8)
+   CALL dbcsr_create(matrix=matrix_p, &
+                     name="p", &
+                     dist=dist, &
+                     matrix_type=dbcsr_type_no_symmetry, &
+                     row_blk_size=row_blk_sizes, &
+                     col_blk_size=col_blk_sizes, &
+                     data_type=dbcsr_type_real_8)
 
-   !CALL dbcsr_create(matrix=matrix_c, &
-                     !name="this is my matrix c", &
-                     !dist=dist, &
-                     !matrix_type=dbcsr_type_no_symmetry, &
-                     !row_blk_size=row_blk_sizes, &
-                     !col_blk_size=col_blk_sizes, &
-                     !data_type=dbcsr_type_real_8)
+   CALL dbcsr_create(matrix=matrix_s, &
+                     name="s", &
+                     dist=dist, &
+                     matrix_type=dbcsr_type_no_symmetry, &
+                     row_blk_size=row_blk_sizes, &
+                     col_blk_size=col_blk_sizes, &
+                     data_type=dbcsr_type_real_8)
 
+   CALL dbcsr_create(matrix=matrix_s_inv, &
+                     name="s_inv", &
+                     dist=dist, &
+                     matrix_type=dbcsr_type_no_symmetry, &
+                     row_blk_size=row_blk_sizes, &
+                     col_blk_size=col_blk_sizes, &
+                     data_type=dbcsr_type_real_8)
+   
    ! get the maximum block size of the matrix
    max_row_size = MAXVAL(row_blk_sizes)
    max_col_size = MAXVAL(col_blk_sizes)
@@ -182,64 +194,47 @@ PROGRAM tight_binding
    !
    ! set up the a matrix
    CALL dbcsr_distribution_get(dist, mynode=mynode)
+
+   !call build_ham(matrix_ks, rr, rft, kc, nr, nrft)
+
+   call build_ham_no_trans(matrix_ks, rr, nr)
+
+
+   CALL dbcsr_finalize(matrix_ks)
+   CALL dbcsr_finalize(matrix_p)
+
+
+   call dbcsr_add_on_diag(matrix_s, 1.0d0)
+   call dbcsr_add_on_diag(matrix_s_inv, 1.0d0)
    
-   !ALLOCATE (values(max_nze))
-   !DO row = 1, dbcsr_nblkrows_total(matrix_a)
-      !DO col = MAX(row-1, 1), MIN(row+1, dbcsr_nblkcols_total(matrix_a))
-         !tr = .FALSE.
-         !row_s = row; col_s = col
-         !CALL dbcsr_get_stored_coordinates(matrix_a, row_s, col_s, node_holds_blk)
-         !IF (node_holds_blk .EQ. mynode) THEN
-            !nze = row_blk_sizes(row_s)*col_blk_sizes(col_s)
-            !CALL RANDOM_NUMBER(values(1:nze))
-            !CALL dbcsr_put_block(matrix_a, row_s, col_s, values(1:nze))
-         !ENDIF
-      !ENDDO
-   !ENDDO
-   !DEALLOCATE (values)
+   
+   CALL dbcsr_finalize(matrix_s)
+   CALL dbcsr_finalize(matrix_s_inv)
 
-   !
-   ! set up the b matrix
-   !CALL dbcsr_distribution_get(dist, mynode=mynode)
-   !ALLOCATE (values(max_nze))
-   !DO row = 1, dbcsr_nblkrows_total(matrix_b)
-      !DO col = MAX(row-1, 1), MIN(row+1, dbcsr_nblkcols_total(matrix_b))
-         !tr = .FALSE.
-         !row_s = row; col_s = col
-         !CALL dbcsr_get_stored_coordinates(matrix_b, row_s, col_s, node_holds_blk)
-         !IF (node_holds_blk .EQ. mynode) THEN
-            !nze = row_blk_sizes(row_s)*col_blk_sizes(col_s)
-            !CALL RANDOM_NUMBER(values(1:nze))
-            !CALL dbcsr_put_block(matrix_b, row_s, col_s, values(1:nze))
-         !ENDIF
-      !ENDDO
-   !ENDDO
-   !DEALLOCATE (values)
+  
+   call dbcsr_print(matrix_ks) 
 
-   !
-   ! finalize the dbcsr matrices
-   !CALL dbcsr_finalize(matrix_a)
-   !CALL dbcsr_finalize(matrix_b)
-   !CALL dbcsr_finalize(matrix_c)
+   ! TODO fix
+   mu = 0.0d0
+   call density_matrix_sign(matrix_p, mu, .false., matrix_ks, matrix_s, &
+       matrix_s_inv, 1, 0.0001d0)
 
-   !
-   ! multiply the matrices
-   !CALL dbcsr_multiply('N', 'N', 1.0D0, matrix_a, matrix_b, 0.0D0, matrix_c)
+   call dbcsr_print(matrix_p)
 
-   !
-   ! print the matrices
-   !CALL dbcsr_print(matrix_a)
-   !CALL dbcsr_print(matrix_b)
-   !CALL dbcsr_print(matrix_c)
+
+   deallocate(rr, cell_vec, rft, kpathc)
 
    !
    ! release the matrices
-   CALL dbcsr_release(matrix_a)
-   !CALL dbcsr_release(matrix_b)
-   !CALL dbcsr_release(matrix_c)
+   CALL dbcsr_release(matrix_ks)
+   CALL dbcsr_release(matrix_p)
+   CALL dbcsr_release(matrix_s)
+   CALL dbcsr_release(matrix_s_inv)
 
    CALL dbcsr_distribution_release(dist)
    !DEALLOCATE (row_blk_sizes, col_blk_sizes)
+
+
 
    ! finalize libdbcsr
    CALL dbcsr_finalize_lib(mpi_comm_world)
@@ -295,7 +290,7 @@ end function
 real(8) function t_of_d(dvec)
    real(8), intent(in) :: dvec(3)
    real(8), parameter :: eps=0.00001
-   real(8) vpp_pi,vpp_sig
+   !real(8) vpp_pi,vpp_sig
    real(8) t1
    t1=sqrt(dvec(1)**2+dvec(2)**2+dvec(3)**2)
    if (abs(dvec(3)).lt.eps) then
@@ -334,17 +329,19 @@ subroutine build_ham(ham, rr, rft, kc, nr, nrft)
   real(8) r01(2),r02(2),r12(2)
   real(8) r1(3),r2(3),dvec(3)
   complex(8) tpk,tpr(nrft)
-  real(8) t_of_d
+  !real(8) t_of_d
   integer info,n,ld
   integer lwork
   real(8), allocatable :: rwork(:)
   complex(8), allocatable :: work(:)
-  complex(8) :: matrix_element
+  real(8) :: matrix_element
   !complex(8), allocatable :: ham(:,:)
-  
+  integer :: nzz
+  real(8), dimension(:), allocatable    :: values
   !allocate(ham(nr,nr))
    ALLOCATE (values(max_nze))
 
+  nzz = 0
   tpr=0.d0
   do irft=1,nrft
     ! FT phase
@@ -378,9 +375,12 @@ subroutine build_ham(ham, rr, rft, kc, nr, nrft)
  
           ! Do FT
           matrix_element = matrix_element - t_of_d(dvec) * tpr(irft) !*tpk
+          print *,ii,jj, t_of_d(dvec) * tpr(irft)
        end do
 
        if ( abs(matrix_element) > 1.0d-10) then
+          nzz = nzz + 1
+          !print *, matrix_element
    !do row = 1, dbcsr_nblkrows_total(matrix_a)
       !do col = max(row-1, 1), min(row+1, dbcsr_nblkcols_total(matrix_a))
          !tr = .false.
@@ -388,8 +388,9 @@ subroutine build_ham(ham, rr, rft, kc, nr, nrft)
          call dbcsr_get_stored_coordinates(ham, ii, jj, node_holds_blk)
          if (node_holds_blk .eq. mynode) then
             
-            !nze = row_blk_sizes(ii)*col_blk_sizes(jj)
+            nze = row_blk_sizes(ii)*col_blk_sizes(jj)
             values(1) = matrix_element
+            
             call dbcsr_put_block(ham, ii, jj, values(1:nze))
          endif
       !enddo
@@ -399,25 +400,106 @@ subroutine build_ham(ham, rr, rft, kc, nr, nrft)
     end do
   end do 
 
-
-  !! use the LAPACK routine zheev
-  !n=nr
-  !ld=nr
-  !lwork=2*n
-  !allocate(rwork(3*n),work(lwork))
-  !call zheev('V','U',n,ham,ld,eig,work,lwork,rwork,info)
-  !if (info.ne.0) then
-    !write(*,*)
-    !write(*,'("Error: diagonalisation failed")')
-    !write(*,'(" ZHEEV returned INFO = ",I8)') info
-    !write(*,*)
-    !stop
-  !end if
-  !deallocate(ham,rwork,work)
+  print *, "nonzeros ", nzz
   
    DEALLOCATE (values)
   return
 end subroutine
 
 
+subroutine build_ham_no_trans(ham, rr, nr)
+  implicit none
+  type(dbcsr_type), intent(inout)    :: ham
+  integer, intent(in) :: nr
+  real(8), intent(in) :: rr(3,nr)
+  !real(8), intent(in) :: rft(2,nrft)
+  !real(8), intent(in) :: kc(2)
+
+  !double precision, intent(out) :: eig(nr)
+  ! cutoff to assime tij=0
+  real(8), parameter :: rcut=10.d0
+  integer ii,jj,irft
+  real(8) t1,z2
+  real(8) r01(2),r02(2),r12(2)
+  real(8) r1(3),r2(3),dvec(3)
+  !complex(8) tpk,tpr(nrft)
+  !real(8) t_of_d
+  integer info,n,ld
+  integer lwork
+  real(8), allocatable :: rwork(:)
+  real(8), allocatable :: work(:)
+  real(8) :: matrix_element
+  !complex(8), allocatable :: ham(:,:)
+  integer :: nzz
+  real(8), dimension(:), allocatable    :: values
+  !allocate(ham(nr,nr))
+   ALLOCATE (values(max_nze))
+  
+   nzz = 0
+  !tpr=0.d0
+  !do irft=1,nrft
+    !! FT phase
+    !t1=dot_product(kc,rft(:,irft))
+    !tpr(irft)=cmplx(cos(t1),sin(t1),kind=8)
+  !end do
+
+  !ham=0.d0
+  do ii=1,nr
+    r01=rr(1:2,ii)
+    r1=rr(:,ii)
+    
+    do jj=ii,nr
+       r02=rr(1:2,jj)
+       ! bloch phase missing in the tb model
+       !r12(:)=r02(:)-r01(:)
+       !t1=dot_product(kc,r12)
+       !tpk=cmplx(cos(t1),sin(t1),kind=8)
+   
+       !matrix_element = 0.d0
+       ! loop over neighboring cells
+       !do irft=1,nrft
+          !r2(1)=r02(1)  !+rft(1,irft)
+          !r2(2)=r02(2)  !+rft(2,irft)
+          z2=rr(3,jj)
+          r2=(/r02(1),r02(2),z2/)
+          dvec(:)=r2(:)-r1(:)
+          t1=sqrt(dvec(1)**2+dvec(2)**2+dvec(3)**2)
+          
+          if (t1>rcut) cycle
+ 
+          ! Do FT
+          matrix_element = - t_of_d(dvec) 
+          print *,ii,jj, t_of_d(dvec) 
+       !end do
+
+       if ( abs(matrix_element) > 1.0d-10) then
+          nzz = nzz + 1
+          !print *, matrix_element
+   !do row = 1, dbcsr_nblkrows_total(matrix_a)
+      !do col = max(row-1, 1), min(row+1, dbcsr_nblkcols_total(matrix_a))
+         !tr = .false.
+         !row_s = row; col_s = col
+         call dbcsr_get_stored_coordinates(ham, ii, jj, node_holds_blk)
+         if (node_holds_blk .eq. mynode) then
+            
+            nze = row_blk_sizes(ii)*col_blk_sizes(jj)
+            print *,nze
+            values(:) = matrix_element
+            call dbcsr_put_block(ham, ii, jj, values(1:nze))
+            if (ii /= jj) then
+              call dbcsr_put_block(ham, jj, ii, values(1:nze))
+            endif
+         endif
+      !enddo
+   !enddo
+          
+       endif
+    end do
+  end do 
+
+  print *, "nonzeros ", nzz
+  
+   DEALLOCATE (values)
+  return
+end subroutine
 END PROGRAM 
