@@ -163,53 +163,97 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
 }
 
 
+void add_kernel_handle_to_jitted_kernels(CUfunction kern_func, CUstream stream, Triplet h_mnk, int& threads, int& grouping, bool& cpu_fallback){
+
+    // Check whether autotuned parameters are given for this kernel, and if so, retrieve them
+    if (ht.find(h_mnk) != ht.end()){
+
+        // Retrieve launching parameters
+        const KernelParameters params = ht.at(h_mnk);
+        libcusmm_algo algo = libcusmm_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
+        int tile_m = params[1];
+        int tile_n = params[2];
+        int w = params[3];
+        int v = params[4];
+        threads = params[5];
+        grouping = params[6];
+        int minblocks =  params[7];
+
+        // JIT and validate the kernel
+        jit_kernel(kern_func, algo, tile_m, tile_n, w, v, threads, grouping, minblocks, h_mnk[0], h_mnk[1], h_mnk[2]);
+        validate_kernel(kern_func, stream, threads, grouping, h_mnk[0], h_mnk[1], h_mnk[2]);
+
+        // Store the handle to the JIT-ed kernel
+        kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
+
+    } else { // there exist no autotuned parameters for this (m, n, k)-triplet, fall back to CPU
+
+        cpu_fallback = true;
+
+    }
+
+}
+
+
 //===========================================================================
 int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m, int n, int k, double *a_data, double *b_data, double *c_data){
 
     CUfunction kern_func;
-    int threads, grouping; 
+    int threads, grouping;
+    Triplet h_mnk = { m, n, k };
 
     // Look up the kernel in the table of already JITed kernels
-    Triplet h_mnk = { m, n, k };
-    auto kernel_it = kernel_handles.find(h_mnk);
-    if (kernel_it != kernel_handles.end()){  // the kernel has already been JITed
+    if (kernel_handles.find(h_mnk) == kernel_handles.end()){  // the kernel has not been JIT-ed yet
 
-        // Retrieve kernel launching parameters
-        kern_func = kernel_it->second.kernel_function; 
-        threads = kernel_it->second.threads; 
-        grouping = kernel_it->second.grouping;
+        static bool cpu_fallback = false;
 
-    } else {	// the kernel has not been JIT-ed yet
-
-	// Check whether autotuned parameters are given for this kernel, and if so, retrieve them 
-        auto params_it = ht.find(h_mnk);
-	if (params_it != ht.end()){
-
-            // Retrieve launching parameters
-            const KernelParameters params = ht.at(h_mnk);
-            libcusmm_algo algo = libcusmm_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
-            int tile_m = params[1];
-            int tile_n = params[2];
-            int w = params[3]; 
-            int v = params[4]; 
-            threads = params[5];
-            grouping = params[6];
-            int minblocks =  params[7];
-
-            // JIT and validate the kernel
-            jit_kernel(kern_func, algo, tile_m, tile_n, w, v, threads, grouping, minblocks, m, n, k);
-            validate_kernel(kern_func, stream, threads, grouping, m, n, k);
-
-            // Store the handle to the JIT-ed kernel
-            kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
-
-        } else { // there exist no autotuned parameters for this (m, n, k)-triplet
-
-            return -2; // fall back to CPU
-
+        // Add lock to table of locks and initialize it
+        // (Some serialization here)
+        #pragma omp critical 
+        {
+            if(kernel_locks.find(h_mnk) == kernel_locks.end()){
+                omp_lock_t lock_kernel_mnk;
+                kernel_locks.emplace(h_mnk, lock_kernel_mnk);
+                omp_init_lock(&kernel_locks.at(h_mnk));
+            }
         }
 
-    }
+        // Set lock if it exists
+        if(kernel_locks.find(h_mnk) != kernel_locks.end()){
+            omp_set_lock(&kernel_locks.at(h_mnk));
+        }
+
+        // JIT the kernel using a single thread
+        if(kernel_handles.find(h_mnk) == kernel_handles.end()){
+            add_kernel_handle_to_jitted_kernels(kern_func, stream, h_mnk, threads, grouping, cpu_fallback); 
+        }
+
+        // Unset lock and destroy
+        if(kernel_locks.find(h_mnk) != kernel_locks.end()){
+            omp_unset_lock(&kernel_locks.at(h_mnk));
+        }
+
+        #pragma omp critical 
+        {
+            if(kernel_locks.find(h_mnk) == kernel_locks.end()){
+                omp_destroy_lock(&kernel_locks.at(h_mnk));
+                auto it = kernel_locks.find(h_mnk);
+                kernel_locks.erase(it);
+            }
+        }
+
+        if(cpu_fallback)
+            return -2; // fall back to CPU
+
+    }  // now the kernel has been jitted
+
+    // Look up the kernel in the table of already JITed kernels
+    auto kernel_it = kernel_handles.find(h_mnk);
+
+    // Retrieve kernel launching parameters
+    kern_func = kernel_it->second.kernel_function;
+    threads = kernel_it->second.threads;
+    grouping = kernel_it->second.grouping;
 
     // Construct argument pointer list and launch kernel
     void *args[] = { &param_stack, &stack_size, &a_data, &b_data, &c_data };
@@ -282,19 +326,19 @@ int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
 
     // Look up the kernel in the table of already JITed kernels
     Triplet h_mnk = { m, n, 0 };
-    auto kernel_it = transpose_handles.find(h_mnk); 
+    auto kernel_it = transpose_handles.find(h_mnk);
     if(kernel_it != transpose_handles.end()){  // the kernel has already been JITed
 
         kern_func = kernel_it->second; // retrieve handle
 
-    } else {    // the kernel has not been JIT-ed yet
+    } else { // the kernel has not been JIT-ed yet
 
         // JIT and store a kernel for this transposition
         jit_transpose_handle(kern_func, m, n);
         transpose_handles.emplace(h_mnk, kern_func);
 
     }
-    
+
     // Construct argument pointer list and lauch function
     int* trs_stack_ = trs_stack + offset; 
     void *args[] = { &trs_stack_, &buffer};

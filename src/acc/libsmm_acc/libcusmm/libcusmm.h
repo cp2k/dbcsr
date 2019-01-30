@@ -16,6 +16,7 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <nvrtc.h>
+#include <omp.h>
 #include <unordered_map>
 #include <vector>
 
@@ -47,6 +48,7 @@ struct kernel_launcher {
 };
 
 static std::unordered_map<Triplet, kernel_launcher> kernel_handles;
+static std::unordered_map<Triplet, omp_lock_t> kernel_locks;
 
 int libcusmm_process_d(int *param_stack, int stack_size,
     CUstream stream, int m, int n, int k,
