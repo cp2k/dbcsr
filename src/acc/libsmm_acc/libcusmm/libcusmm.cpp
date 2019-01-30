@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <array>
 #include <iostream>
+#include <omp.h>
 
 #define dbcsr_type_real_4     1
 #define dbcsr_type_real_8     3
@@ -171,54 +172,70 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
 //===========================================================================
 int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m, int n, int k, double *a_data, double *b_data, double *c_data){
 
-    CUfunction kern_func;
-    int threads, grouping; 
 
-    // Look up the kernel in the table of already JITed kernels
-    Triplet h_mnk = { m, n, k };
-    auto kernel_it = kernel_handles.find(h_mnk);
-    if (kernel_it != kernel_handles.end()){  // the kernel has already been JITed
+    static CUfunction kern_func;
+    static int threads, grouping;
+    static bool cpu_fallback = false;
 
-        // Retrieve kernel launching parameters
-        kern_func = kernel_it->second.kernel_function; 
-        threads = kernel_it->second.threads; 
-        grouping = kernel_it->second.grouping;
 
-    } else {	// the kernel has not been JIT-ed yet
+    #pragma omp single
+    {
 
-	// Check whether autotuned parameters are given for this kernel, and if so, retrieve them 
-        auto params_it = ht.find(h_mnk);
-	if (params_it != ht.end()){
+        // Look up the kernel in the table of already JITed kernels
+        Triplet h_mnk = { m, n, k };
+        auto kernel_it = kernel_handles.find(h_mnk);
 
-            // Retrieve launching parameters
-            const KernelParameters params = ht.at(h_mnk);
-            libcusmm_algo algo = libcusmm_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
-            int tile_m = params[1];
-            int tile_n = params[2];
-            int w = params[3]; 
-            int v = params[4]; 
-            threads = params[5];
-            grouping = params[6];
-            int minblocks =  params[7];
+        if (kernel_it != kernel_handles.end()){  // the kernel has already been JITed
 
-            // JIT and validate the kernel
-            jit_kernel(kern_func, algo, tile_m, tile_n, w, v, threads, grouping, minblocks, m, n, k);
-            validate_kernel(kern_func, stream, threads, grouping, m, n, k);
+            // Retrieve kernel launching parameters
+            kern_func = kernel_it->second.kernel_function;
+            threads = kernel_it->second.threads;
+            grouping = kernel_it->second.grouping;
 
-            // Store the handle to the JIT-ed kernel
-            kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
+        } else {	// the kernel has not been JIT-ed yet
 
-        } else { // there exist no autotuned parameters for this (m, n, k)-triplet
+            // Check whether autotuned parameters are given for this kernel, and if so, retrieve them
+            auto params_it = ht.find(h_mnk);
+	    if (params_it != ht.end()){
 
-            return -2; // fall back to CPU
+                // Retrieve launching parameters
+	        const KernelParameters params = ht.at(h_mnk);
+	        libcusmm_algo algo = libcusmm_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
+	        int tile_m = params[1];
+	        int tile_n = params[2];
+	        int w = params[3];
+	        int v = params[4];
+	        threads = params[5];
+	        grouping = params[6];
+	        int minblocks =  params[7];
 
+	        // JIT and validate the kernel
+	        jit_kernel(kern_func, algo, tile_m, tile_n, w, v, threads, grouping, minblocks, m, n, k);
+	        validate_kernel(kern_func, stream, threads, grouping, m, n, k);
+
+	        // Store the handle to the JIT-ed kernel
+	        kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
+
+            } else { // there exist no autotuned parameters for this (m, n, k)-triplet
+
+                cpu_fallback = true;
+
+            }
         }
 
     }
 
-    // Construct argument pointer list and launch kernel
-    void *args[] = { &param_stack, &stack_size, &a_data, &b_data, &c_data };
-    return launch_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args);
+    if(cpu_fallback){
+
+        return -2; // fall back to CPU
+
+    } else {
+
+        // Construct argument pointer list and launch kernel
+        void *args[] = { &param_stack, &stack_size, &a_data, &b_data, &c_data };
+        return launch_kernel_from_handle(kern_func, ((stack_size + grouping - 1) / grouping), threads, stream, args);
+
+    }
 
 }
 
@@ -283,20 +300,25 @@ void jit_transpose_handle(CUfunction& kern_func, int m, int n){
 int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
                          double *buffer, int m, int n, CUstream stream) {
 
-    CUfunction kern_func;
+    static CUfunction kern_func;
 
-    // Look up the kernel in the table of already JITed kernels
-    Triplet h_mnk = { m, n, 0 };
-    auto kernel_it = transpose_handles.find(h_mnk); 
-    if(kernel_it != transpose_handles.end()){  // the kernel has already been JITed
+    #pragma omp single
+    {
 
-        kern_func = kernel_it->second; // retrieve handle
+        // Look up the kernel in the table of already JITed kernels
+        Triplet h_mnk = { m, n, 0 };
+        auto kernel_it = transpose_handles.find(h_mnk);
+        if(kernel_it != transpose_handles.end()){  // the kernel has already been JITed
 
-    } else {    // the kernel has not been JIT-ed yet
+            kern_func = kernel_it->second; // retrieve handle
 
-        // JIT and store a kernel for this transposition
-        jit_transpose_handle(kern_func, m, n);
-        transpose_handles.emplace(h_mnk, kern_func);
+        } else {    // the kernel has not been JIT-ed yet
+
+            // JIT and store a kernel for this transposition
+            jit_transpose_handle(kern_func, m, n);
+            transpose_handles.emplace(h_mnk, kern_func);
+
+        }
 
     }
     
