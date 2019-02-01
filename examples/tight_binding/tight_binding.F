@@ -51,6 +51,7 @@ PROGRAM tight_binding
   real(8) :: kc(2), mu
   integer :: nr, nrft, nkp, i, j, sys_dim, ntrans, cnt
 
+  
 !$ integer                                  :: provided_tsl
 
    !***************************************************************************************
@@ -217,7 +218,7 @@ PROGRAM tight_binding
    ! TODO fix
    mu = 0.0d0
    call density_matrix_sign(matrix_p, mu, .false., matrix_ks, matrix_s, &
-       matrix_s_inv, 1, 0.0001d0)
+       matrix_s_inv, nr/2, 0.0001d0)
 
    call dbcsr_print(matrix_p)
 
@@ -436,30 +437,14 @@ subroutine build_ham_no_trans(ham, rr, nr)
    ALLOCATE (values(max_nze))
   
    nzz = 0
-  !tpr=0.d0
-  !do irft=1,nrft
-    !! FT phase
-    !t1=dot_product(kc,rft(:,irft))
-    !tpr(irft)=cmplx(cos(t1),sin(t1),kind=8)
-  !end do
 
-  !ham=0.d0
   do ii=1,nr
     r01=rr(1:2,ii)
     r1=rr(:,ii)
     
     do jj=ii,nr
        r02=rr(1:2,jj)
-       ! bloch phase missing in the tb model
-       !r12(:)=r02(:)-r01(:)
-       !t1=dot_product(kc,r12)
-       !tpk=cmplx(cos(t1),sin(t1),kind=8)
-   
-       !matrix_element = 0.d0
-       ! loop over neighboring cells
-       !do irft=1,nrft
-          !r2(1)=r02(1)  !+rft(1,irft)
-          !r2(2)=r02(2)  !+rft(2,irft)
+
           z2=rr(3,jj)
           r2=(/r02(1),r02(2),z2/)
           dvec(:)=r2(:)-r1(:)
@@ -467,18 +452,11 @@ subroutine build_ham_no_trans(ham, rr, nr)
           
           if (t1>rcut) cycle
  
-          ! Do FT
           matrix_element = - t_of_d(dvec) 
           print *,ii,jj, t_of_d(dvec) 
-       !end do
 
        if ( abs(matrix_element) > 1.0d-10) then
           nzz = nzz + 1
-          !print *, matrix_element
-   !do row = 1, dbcsr_nblkrows_total(matrix_a)
-      !do col = max(row-1, 1), min(row+1, dbcsr_nblkcols_total(matrix_a))
-         !tr = .false.
-         !row_s = row; col_s = col
          call dbcsr_get_stored_coordinates(ham, ii, jj, node_holds_blk)
          if (node_holds_blk .eq. mynode) then
             
@@ -490,8 +468,144 @@ subroutine build_ham_no_trans(ham, rr, nr)
               call dbcsr_put_block(ham, jj, ii, values(1:nze))
             endif
          endif
-      !enddo
-   !enddo
+          
+       endif
+    end do
+  end do 
+
+  print *, "nonzeros ", nzz
+  
+   DEALLOCATE (values)
+  return
+end subroutine
+
+
+
+! ------------------------------------------------
+! functions for blocked s px py pz hamiltonian
+! ------------------------------------------------
+
+! real(8) function vpp_diag(i, vec, vpp_p, vpp_s)
+!    integer, intent(in) :: i
+!    real(8), intent(in) :: vec(3), vpp_p, vpp_s
+!    real(8) :: cos_sq
+!    
+!    
+! end function
+
+! vec_norm should be normalized vector between two atoms
+real(8) function vpp_nondiag(i, j, vec_norm, vpp_p, vpp_s)
+   integer, intent(in) :: i, j
+   real(8), intent(in) :: vec_norm(3), vpp_p, vpp_s
+   real(8) :: cos_sq
+   
+   if (i /= j) then
+      vpp_nondiag = vec_norm(i) * vec_norm(j) * ( vpp_s - vpp_p)
+   else
+      cos_sq = vec_norm(i) ** 2
+      vpp_nondiag = cos_sq * vpp_s + (1 - cos_sq) * vpp_p
+   endif
+end function
+
+! vec_norm should be normalized vector between two atoms
+real(8) function vsp_nondiag(i, vec_norm, vsp_s)
+   integer, intent(in) :: i
+   real(8), intent(in) :: vec_norm(3), vsp_s
+   
+   vsp_nondiag = vec_norm(i) *  vsp_s
+      
+end function
+
+
+
+real(8) function ff(dist)
+  real(8), intent(in) :: dist
+  ! paramterization from PRB VOLUME 54, NUMBER 7 15 AUGUST 1996-I
+  ff = 1.0d0 / (1 + exp ( (dist - 14.0d0) / 0.5d0 ) )
+end function
+
+
+real(8) function sk(dist, a, b, c, d)
+  real(8), intent(in) :: dist, a, b, c, d
+  
+  sk = (a + b * dist + c * dist**2 ) * ff(dist)
+end function
+
+
+subroutine build_ham_blocked(ham, rr, nr)
+  implicit none
+  type(dbcsr_type), intent(inout)    :: ham
+  integer, intent(in) :: nr
+  real(8), intent(in) :: rr(3,nr)
+  !real(8), intent(in) :: rft(2,nrft)
+  !real(8), intent(in) :: kc(2)
+
+  !double precision, intent(out) :: eig(nr)
+  ! cutoff to assime tij=0
+  real(8), parameter :: rcut=10.d0
+  integer ii,jj,irft, ib,jb
+  real(8) t1,z2
+  real(8) r01(2),r02(2),r12(2)
+  real(8) r1(3),r2(3),dvec(3)
+  !complex(8) tpk,tpr(nrft)
+  !real(8) t_of_d
+  integer info,n,ld
+  integer lwork
+  real(8), allocatable :: rwork(:)
+  real(8), allocatable :: work(:)
+  real(8) :: matrix_element
+  !complex(8), allocatable :: ham(:,:)
+  integer :: nzz
+  real(8), dimension(:), allocatable    :: values
+  !allocate(ham(nr,nr))
+   ALLOCATE (values(max_nze))
+  
+   nzz = 0
+
+   
+  do ii=1,nr
+    r1=rr(:,ii)
+    
+    do jj=ii,nr
+       r2=rr(:,jj)
+          dvec(:)=r2(:)-r1(:)
+          t1=sqrt(dvec(1)**2+dvec(2)**2+dvec(3)**2)
+          
+          if (ii == jj) then
+             ! calc onsite
+          else
+             ! calc non-diag
+          endif
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          if (t1>rcut) cycle
+ 
+          matrix_element = - t_of_d(dvec) 
+          print *,ii,jj, t_of_d(dvec) 
+
+       if ( abs(matrix_element) > 1.0d-10) then
+          nzz = nzz + 1
+         call dbcsr_get_stored_coordinates(ham, ii, jj, node_holds_blk)
+         if (node_holds_blk .eq. mynode) then
+            
+            nze = row_blk_sizes(ii)*col_blk_sizes(jj)
+            print *,nze
+            values(:) = matrix_element
+            call dbcsr_put_block(ham, ii, jj, values(1:nze))
+            if (ii /= jj) then
+              call dbcsr_put_block(ham, jj, ii, values(1:nze))
+            endif
+         endif
           
        endif
     end do
