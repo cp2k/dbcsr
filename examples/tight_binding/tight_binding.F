@@ -51,7 +51,9 @@ PROGRAM tight_binding
   real(8) :: kc(2), mu
   integer :: nr, nrft, nkp, i, j, sys_dim, ntrans, cnt
 
-  
+  ! parameters for TB parameters
+  real(8) :: energies(4), vsss(4), vsps(4), vpps(4), vppp(4)
+  real(8), allocatable :: ham_dense(:,:)
 !$ integer                                  :: provided_tsl
 
    !***************************************************************************************
@@ -101,7 +103,17 @@ PROGRAM tight_binding
    enddo
    close(2)
 
+   !--- energies for TB ----------
+   ! s
+   energies(1) = 0.1027
+   ! p
+   energies(2) = 0.5426
    
+   vsss = (/219.56,       -16.2132459618,  -15.5048968097, 1.26439940008/)
+   vsps = (/10.127687621, -4.4036811240, 0.2266767834, 0.92267194054/)
+   vpps = (/ -22.959028107, 1.7207707741, 1.4191307713, 1.03136916513/)
+   vppp = (/10.265449263, 4.6718241428, -2.2161562721, 1.11134828469/)
+
    !----- k points -------------
    ! temp 1 kpoint
    allocate(kpathc(2,1))   
@@ -138,8 +150,8 @@ PROGRAM tight_binding
    ! set the block size for each row and column
    ! for first TB version will be 1
    ALLOCATE (row_blk_sizes(nblkrows_total), col_blk_sizes(nblkcols_total))
-   row_blk_sizes(:) = 1
-   col_blk_sizes(:) = 1
+   row_blk_sizes(:) = 4
+   col_blk_sizes(:) = 4
 
    !
    ! set the row and column distributions (here the distribution is set randomly)
@@ -198,8 +210,11 @@ PROGRAM tight_binding
 
    !call build_ham(matrix_ks, rr, rft, kc, nr, nrft)
 
-   call build_ham_no_trans(matrix_ks, rr, nr)
+   call build_ham_blocked(matrix_ks, rr, nr)
 
+   call build_ham_blocked_dense(ham_dense, rr, nr, 4)
+   
+   print *, ham_dense
 
    CALL dbcsr_finalize(matrix_ks)
    CALL dbcsr_finalize(matrix_p)
@@ -218,7 +233,7 @@ PROGRAM tight_binding
    ! TODO fix
    mu = 0.0d0
    call density_matrix_sign(matrix_p, mu, .false., matrix_ks, matrix_s, &
-       matrix_s_inv, nr/2, 0.0001d0)
+       matrix_s_inv, nr*2, 0.0001d0)
 
    call dbcsr_print(matrix_p)
 
@@ -485,14 +500,6 @@ end subroutine
 ! functions for blocked s px py pz hamiltonian
 ! ------------------------------------------------
 
-! real(8) function vpp_diag(i, vec, vpp_p, vpp_s)
-!    integer, intent(in) :: i
-!    real(8), intent(in) :: vec(3), vpp_p, vpp_s
-!    real(8) :: cos_sq
-!    
-!    
-! end function
-
 ! vec_norm should be normalized vector between two atoms
 real(8) function vpp_nondiag(i, j, vec_norm, vpp_p, vpp_s)
    integer, intent(in) :: i, j
@@ -525,10 +532,11 @@ real(8) function ff(dist)
 end function
 
 
-real(8) function sk(dist, a, b, c, d)
-  real(8), intent(in) :: dist, a, b, c, d
+! par - params a b c d from PRB VOLUME 54, NUMBER 7
+real(8) function sk(dist, par)
+  real(8), intent(in) :: dist, par(4)
   
-  sk = (a + b * dist + c * dist**2 ) * ff(dist)
+  sk = (par(1) + par(2) * dist + par(3) * dist**2 ) * exp(- par(4)**2 * dist) * ff(dist)
 end function
 
 
@@ -553,67 +561,175 @@ subroutine build_ham_blocked(ham, rr, nr)
   integer lwork
   real(8), allocatable :: rwork(:)
   real(8), allocatable :: work(:)
-  real(8) :: matrix_element
+  real(8) :: vec_norm(3)
   !complex(8), allocatable :: ham(:,:)
   integer :: nzz
   real(8), dimension(:), allocatable    :: values
+  integer :: h, w
   !allocate(ham(nr,nr))
-   ALLOCATE (values(max_nze))
+  ALLOCATE (values(max_nze))
   
-   nzz = 0
-
+  nzz = 0
    
   do ii=1,nr
     r1=rr(:,ii)
     
     do jj=ii,nr
-       r2=rr(:,jj)
-          dvec(:)=r2(:)-r1(:)
-          t1=sqrt(dvec(1)**2+dvec(2)**2+dvec(3)**2)
-          
-          if (ii == jj) then
-             ! calc onsite
-          else
-             ! calc non-diag
-          endif
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          if (t1>rcut) cycle
- 
-          matrix_element = - t_of_d(dvec) 
-          print *,ii,jj, t_of_d(dvec) 
+      r2=rr(:,jj)
+      dvec(:)=r2(:)-r1(:)
+      t1=sqrt(dvec(1)**2+dvec(2)**2+dvec(3)**2)
+      vec_norm(:) = dvec(:) / t1
+      
+      call dbcsr_get_stored_coordinates(ham, ii, jj, node_holds_blk)
+      
+      if (node_holds_blk .eq. mynode) then
+      
+      w = row_blk_sizes(ii)
+      h = col_blk_sizes(jj)
+      
+      nze = w * h
+      nzz = nzz + nze
+      
+      values(:) = 0            
+      
+      if (ii == jj) then
+         ! calc onsite
+         ! Es
+         values(1) = energies(1)
+         ! Ep
+         do ib=2,4
+            values( ib + h * (ib - 1)  ) = energies(2)
+         enddo
 
-       if ( abs(matrix_element) > 1.0d-10) then
-          nzz = nzz + 1
-         call dbcsr_get_stored_coordinates(ham, ii, jj, node_holds_blk)
-         if (node_holds_blk .eq. mynode) then
+        call dbcsr_put_block(ham, ii, jj, values(1:nze))
+      else
+         ! calc non-diag
+         values(1) = sk(t1, vsss)
+         do jb = 2,4
+            values(jb) = vsp_nondiag(jb-1, vec_norm, sk(t1,vsps)) 
+            values(1 + h * (jb-1)) = values(jb)
             
-            nze = row_blk_sizes(ii)*col_blk_sizes(jj)
-            print *,nze
-            values(:) = matrix_element
-            call dbcsr_put_block(ham, ii, jj, values(1:nze))
-            if (ii /= jj) then
-              call dbcsr_put_block(ham, jj, ii, values(1:nze))
-            endif
-         endif
-          
-       endif
+            do ib = jb,4
+            values(ib + h * (jb-1)) = vpp_nondiag(ib-1, jb-1, vec_norm, sk(t1, vppp), sk(t1, vpps))
+            values(jb + h * (ib-1)) = values(ib + h * (jb-1))
+            enddo
+         enddo
+         call dbcsr_put_block(ham, jj, ii, values(1:nze))
+         call dbcsr_put_block(ham, ii, jj, values(1:nze))
+      endif
+      
+
+      endif
+         
     end do
   end do 
 
   print *, "nonzeros ", nzz
   
-   DEALLOCATE (values)
+  DEALLOCATE (values)
+  return
+end subroutine
+
+
+
+subroutine build_ham_blocked_dense(ham, rr, nr, block_size)
+  implicit none
+  integer, intent(in) :: nr, block_size
+  real(8), intent(in) :: rr(3,nr)
+  real(8), allocatable, intent(inout) :: ham(:,:)
+  !real(8), intent(in) :: rft(2,nrft)
+  !real(8), intent(in) :: kc(2)
+
+  !double precision, intent(out) :: eig(nr)
+  ! cutoff to assime tij=0
+  real(8), parameter :: rcut=10.d0
+  integer ii,jj,irft, ib,jb, i,j
+  real(8) t1,z2
+  real(8) r01(2),r02(2),r12(2)
+  real(8) r1(3),r2(3),dvec(3)
+  !complex(8) tpk,tpr(nrft)
+  !real(8) t_of_d
+  integer info,n,ld
+  integer lwork
+  real(8), allocatable :: rwork(:)
+  real(8), allocatable :: work(:)
+  real(8) :: vec_norm(3)
+
+  integer :: nzz
+  !real(8), dimension(:), allocatable    :: values
+  integer :: h, w
+  
+  allocate(ham(nr*block_size, nr*block_size))
+  !ALLOCATE (values(max_nze))
+  
+  ham(:,:) = 0.0d0
+  nzz = 0
+   
+  do ii=1,nr
+    r1=rr(:,ii)
+    
+    do jj=ii,nr
+      r2=rr(:,jj)
+      dvec(:)=r2(:)-r1(:)
+      t1=sqrt(dvec(1)**2+dvec(2)**2+dvec(3)**2)
+      vec_norm(:) = dvec(:) / t1
+      
+      i = (ii - 1) * block_size + 1
+      j = (jj - 1) * block_size + 1
+      !call dbcsr_get_stored_coordinates(ham, ii, jj, node_holds_blk)
+      
+      !if (node_holds_blk .eq. mynode) then
+      
+      !w = row_blk_sizes(ii)
+      !h = col_blk_sizes(jj)
+      
+      !nze = w * h
+      !nzz = nzz + nze
+      
+      !values(:) = 0            
+      
+      if (ii == jj) then
+               
+         ! calc onsite
+         ! Es
+         ham(i,i) = energies(1)
+         
+         !values( (ii - 1) * block_size + 1 ) = energies(1)
+         ! Ep
+         do ib= 1,3
+            ham(i + ib, i + ib ) = energies(2)
+         enddo
+
+        !call dbcsr_put_block(ham, ii, jj, values(1:nze))
+      else
+         ! calc non-diag
+         
+         ham(i,j) = sk(t1, vsss)
+         do jb = 1,3
+            ham(i, j+jb) = vsp_nondiag(jb, vec_norm, sk(t1,vsps)) 
+            ham(i+jb, j) = ham(i, j+jb)
+            !values(1 + h * (jb-1)) = values(jb)
+            
+            do ib = jb,3
+            ham(i+ib, j+jb) = vpp_nondiag(ib, jb, vec_norm, sk(t1, vppp), sk(t1, vpps))
+            ham(j+jb, i+ib) = ham(i+ib, j+jb)
+            !values(ib + h * (jb-1)) = vpp_nondiag(ib, jb, vec_norm, sk(t1, vppp), sk(t1, vpps))
+            !values(jb + h * (ib-1)) = values(ib + h * (jb-1))
+            enddo
+         enddo
+         !call dbcsr_put_block(ham, jj, ii, values(1:nze))
+         !call dbcsr_put_block(ham, ii, jj, values(1:nze))
+      endif
+      
+
+      !endif
+         
+    end do
+  end do 
+
+  !print *, "nonzeros ", nzz
+  
+  !DEALLOCATE (values)
   return
 end subroutine
 END PROGRAM 
