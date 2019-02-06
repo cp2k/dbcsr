@@ -34,6 +34,7 @@ endforeach ()
 set(DBCSR_TESTS
   dbcsr_unittest1
   dbcsr_unittest2
+  dbcsr_unittest3
   dbcsr_tensor_unittest
   dbcsr_test_csr_conversions
   )
@@ -47,6 +48,7 @@ set(dbcsr_unittest_common_SRCS
 # For each test, set a variable testname_SRCS defining the sources of that test
 set(dbcsr_unittest1_SRCS dbcsr_unittest1.F)
 set(dbcsr_unittest2_SRCS dbcsr_unittest2.F)
+set(dbcsr_unittest3_SRCS dbcsr_unittest3.F)
 set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
 
