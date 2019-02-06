@@ -47,7 +47,13 @@ def main(basedir, gpu_version, nsamples):
     # Get the non-autotuned kernels to test
     predicted_kernels = [k for k in all_kernels if k["source"] != "autotuned"]
     print("Found {:,} predicted kernels".format(len(predicted_kernels)))
-    kernels_to_test_predicted = random.sample(predicted_kernels, nsamples)
+    num_predicted_kernels = len(predicted_kernels)
+    if num_predicted_kernels > 0:
+        if nsamples >= num_predicted_kernels:
+            nsamples = num_predicted_kernels
+        kernels_to_test_predicted = random.sample(predicted_kernels, nsamples)
+    else:
+        kernels_to_test_predicted = list()
     kernels_to_print = format_to_cpp(autotuned_kernels + kernels_to_test_predicted)
 
     # Print to test file

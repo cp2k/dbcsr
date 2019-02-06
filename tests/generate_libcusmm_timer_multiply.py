@@ -48,8 +48,15 @@ def main(basedir, gpu_version, nsamples):
     # Get the non-autotuned kernels to test
     predicted_kernels = [k for k in all_kernels if k["source"] != "autotuned"]
     print("Found {:,} predicted kernels".format(len(predicted_kernels)))
-    kernels_to_test_predicted = random.sample(predicted_kernels, nsamples)
-    kernels_to_print_predicted = format_to_cpp(kernels_to_test_predicted)
+    num_predicted_kernels = len(predicted_kernels)
+    if num_predicted_kernels > 0:
+        if nsamples >= num_predicted_kernels:
+            nsamples = num_predicted_kernels
+        kernels_to_test_predicted = random.sample(predicted_kernels, nsamples)
+        kernels_to_print_predicted = format_to_cpp(kernels_to_test_predicted)
+    else:
+        kernels_to_test_predicted = list()
+        kernels_to_print_predicted = ''
 
     # Print to test file
     test_directory = os.path.join(basedir, "tests")
@@ -61,7 +68,7 @@ def main(basedir, gpu_version, nsamples):
     test = test.replace("[[PREDICTED_KERNELS_HERE]]", kernels_to_print_predicted.lstrip())
     with open(file_generate, "w") as f:
         f.write(test)
-    print("Wrote {:,} test kernels to".format(len(autotuned_kernels + kernels_to_test_predicted), file_generate))
+    print("Wrote {:,} test kernels to {}".format(len(autotuned_kernels + kernels_to_test_predicted), file_generate))
 
 
 # ===============================================================================
