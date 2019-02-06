@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 ####################################################################################################
 # Copyright (C) by the DBCSR developers group - All rights reserved                                #
