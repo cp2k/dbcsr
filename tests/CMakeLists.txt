@@ -80,9 +80,24 @@ if (USE_CUDA)
     libcusmm_timer_multiply
     )
 
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/libcusmm_unittest_multiply.cu
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/generate_libcusmm_unittest_multiply.py --base_folder ${CMAKE_CURRENT_SOURCE_DIR}/.. --gpu_version=${WITH_GPU}
+    DEPENDS libcusmm_unittest_multiply.template generate_libcusmm_unittest_multiply.py
+    COMMENT "Generate tests/libcusmm_unittest_multiply.cu"
+  )
+
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/libcusmm_timer_multiply.cu
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/generate_libcusmm_timer_multiply.py --base_folder ${CMAKE_CURRENT_SOURCE_DIR}/.. --gpu_version=${WITH_GPU}
+    DEPENDS libcusmm_timer_multiply.template generate_libcusmm_timer_multiply.py
+    COMMENT "Generate tests/libcusmm_timer_multiply.cu"
+  )
+
   foreach (libcusmm_test ${LIBCUSMM_TESTS})
-    add_executable(${libcusmm_test} ${libcusmm_test}.cu)
+    add_executable(${libcusmm_test} ${CMAKE_CURRENT_SOURCE_DIR}/${libcusmm_test}.cu)
     target_link_libraries(${libcusmm_test} dbcsr)
     add_test(NAME ${libcusmm_test} COMMAND ./${libcusmm_test})
   endforeach ()
+
 endif ()
