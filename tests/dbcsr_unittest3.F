@@ -93,35 +93,35 @@ PROGRAM dbcsr_unittest
 
    ! ...
    CALL dbcsr_test_multiplies("blocks_4_5_7", &
-                              group, mp_env, npdims, io_unit, matrix_sizes=(/496, 496, 496/), &
+                              group, mp_env, npdims, io_unit, matrix_sizes=(/496, 48, 48/), &
                               sparsities=(/0.5_dp, 0.5_dp, 0.5_dp/), retain_sparsity=.FALSE., &
                               alpha=CMPLX(1.0_dp, 0.0_dp, dp), beta=CMPLX(0.0_dp, 0.0_dp, dp), &
                               bs_m=(/1, 4, 1, 5, 1, 7/), bs_n=(/1, 4, 1, 5, 1, 7/), bs_k=(/1, 4, 1, 5, 1, 7/), &
-                              limits=(/1, 496, 1, 496, 1, 496/))
+                              limits=(/1, 496, 1, 48, 1, 48/))
    CALL dbcsr_test_multiplies("blocks_5_8_9", &
-                              group, mp_env, npdims, io_unit, matrix_sizes=(/506, 506, 506/), &
+                              group, mp_env, npdims, io_unit, matrix_sizes=(/506, 44, 44/), &
                               sparsities=(/0.5_dp, 0.5_dp, 0.5_dp/), retain_sparsity=.FALSE., &
                               alpha=CMPLX(1.0_dp, 0.0_dp, dp), beta=CMPLX(0.0_dp, 0.0_dp, dp), &
                               bs_m=(/1, 5, 1, 8, 1, 9/), bs_n=(/1, 5, 1, 8, 1, 9/), bs_k=(/1, 5, 1, 8, 1, 9/), &
-                              limits=(/1, 506, 1, 506, 1, 506/))
+                              limits=(/1, 506, 1, 44, 1, 44/))
    CALL dbcsr_test_multiplies("blocks_4_13_25", &
-                              group, mp_env, npdims, io_unit, matrix_sizes=(/504, 504, 504/), &
+                              group, mp_env, npdims, io_unit, matrix_sizes=(/504, 42, 42/), &
                               sparsities=(/0.5_dp, 0.5_dp, 0.5_dp/), retain_sparsity=.FALSE., &
                               alpha=CMPLX(1.0_dp, 0.0_dp, dp), beta=CMPLX(0.0_dp, 0.0_dp, dp), &
                               bs_m=(/1, 4, 1, 13, 1, 25/), bs_n=(/1, 4, 1, 13, 1, 25/), bs_k=(/1, 4, 1, 13, 1, 25/), &
-                              limits=(/1, 504, 1, 504, 1, 504/))
+                              limits=(/1, 504, 1, 42, 1, 42/))
    CALL dbcsr_test_multiplies("blocks_14_29_32", &
-                              group, mp_env, npdims, io_unit, matrix_sizes=(/525, 525, 525/), &
+                              group, mp_env, npdims, io_unit, matrix_sizes=(/525, 75, 75/), &
                               sparsities=(/0.5_dp, 0.5_dp, 0.5_dp/), retain_sparsity=.FALSE., &
                               alpha=CMPLX(1.0_dp, 0.0_dp, dp), beta=CMPLX(0.0_dp, 0.0_dp, dp), &
                               bs_m=(/1, 14, 1, 29, 1, 32/), bs_n=(/1, 14, 1, 29, 1, 32/), bs_k=(/1, 14, 1, 29, 1, 32/), &
-                              limits=(/1, 525, 1, 525, 1, 525/))
+                              limits=(/1, 525, 1, 75, 1, 75/))
    CALL dbcsr_test_multiplies("blocks_H2O", &
-                              group, mp_env, npdims, io_unit, matrix_sizes=(/552, 552, 552/), &
+                              group, mp_env, npdims, io_unit, matrix_sizes=(/552, 46, 46/), &
                               sparsities=(/0.5_dp, 0.5_dp, 0.5_dp/), retain_sparsity=.FALSE., &
                               alpha=CMPLX(1.0_dp, 0.0_dp, dp), beta=CMPLX(0.0_dp, 0.0_dp, dp), &
                               bs_m=(/1, 23/), bs_n=(/1, 23/), bs_k=(/1, 23/), &
-                              limits=(/1, 552, 1, 552, 1, 552/))
+                              limits=(/1, 552, 1, 46, 1, 46/))
 
    ! end of test cases ---------------------------------------------------------
 
