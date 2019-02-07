@@ -579,6 +579,67 @@ CONTAINS
       ENDDO
    END SUBROUTINE printmat_s
 
+
+! **************************************************************************************************
+!> \brief Prints the elements of a matrix.
+!> \param matrix ...
+!> \param rows the logical (possibly detransposed) matrix
+!>                            size, not the stored size
+!> \param cols the logical (possibly detransposed) matrix
+!>                            size, not the stored size
+!> \param iunit ...
+!> \param title ...
+!> \param[in] tr    (optional) specifies whether the elements are stored
+!>                  transposed
+! **************************************************************************************************
+   SUBROUTINE printmat_c(matrix, rows, cols, iunit, title, tr)
+      complex(KIND=real_4), DIMENSION(:), INTENT(IN)        :: matrix
+      INTEGER, INTENT(IN)                                :: rows, cols, iunit
+      CHARACTER(*), INTENT(IN), OPTIONAL                 :: title
+      LOGICAL, INTENT(IN), OPTIONAL                      :: tr
+
+      CHARACTER(30)                                      :: f
+      INTEGER                                            :: m, n, r
+      LOGICAL                                            :: t
+      complex(KIND=dp)                                      :: bit_bucket
+
+!   ---------------------------------------------------------------------------
+
+      m = rows
+      n = cols
+      t = .FALSE.
+      IF (PRESENT(title)) WRITE (iunit, *) title
+      IF (PRESENT(tr)) THEN
+         IF (tr) THEN
+            t = .TRUE.
+            m = cols
+            n = rows
+         ENDIF
+      ENDIF
+      DO r = LBOUND(matrix, 1), UBOUND(matrix, 1)
+         bit_bucket = matrix(r)
+      ENDDO
+      bit_bucket = 0.0_dp
+      DO r = LBOUND(matrix, 1), UBOUND(matrix, 1)
+         bit_bucket = bit_bucket + matrix(r)
+      ENDDO
+      IF (m .GT. 10000) m = 0
+      IF (n .GT. 10000) n = 0
+      IF (m*n .LT. 1 .OR. m*n .GT. SIZE(matrix)) RETURN
+      WRITE (f, FMT="('(',I4,'(A,F9.4,A,F9.4,A))')") cols
+      DO r = 1, rows
+         IF (.NOT. t) THEN
+            WRITE (iunit, FMT=f) '{',real(matrix(r:r + (cols - 1)*rows:rows)), ' , ', &
+                aimag(matrix(r:r + (cols - 1)*rows:rows)),' }'
+         ELSE
+            WRITE (iunit, FMT=f) '{',real(matrix((r - 1)*cols + 1:r*cols)), ' , ', &
+                aimag(matrix((r - 1)*cols + 1:r*cols)),' }'
+         
+         ENDIF
+      ENDDO
+   END SUBROUTINE printmat_c
+
+
 ! **************************************************************************************************
 !> \brief ...
 !> \param matrix ...
@@ -618,26 +679,26 @@ CONTAINS
 !> \param title ...
 !> \param tr ...
 ! **************************************************************************************************
-   SUBROUTINE printmat_c(matrix, rows, cols, iunit, title, tr)
-      COMPLEX(KIND=real_4), DIMENSION(:), INTENT(IN)     :: matrix
-      INTEGER, INTENT(IN)                                :: rows, cols, iunit
-      CHARACTER(*), INTENT(IN), OPTIONAL                 :: title
-      LOGICAL, INTENT(IN), OPTIONAL                      :: tr
+   !SUBROUTINE printmat_c(matrix, rows, cols, iunit, title, tr)
+      !COMPLEX(KIND=real_4), DIMENSION(:), INTENT(IN)     :: matrix
+      !INTEGER, INTENT(IN)                                :: rows, cols, iunit
+      !CHARACTER(*), INTENT(IN), OPTIONAL                 :: title
+      !LOGICAL, INTENT(IN), OPTIONAL                      :: tr
 
-      IF (PRESENT(title)) THEN
-         IF (PRESENT(tr)) THEN
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title, tr)
-         ELSE
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title)
-         ENDIF
-      ELSE
-         IF (PRESENT(tr)) THEN
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, tr=tr)
-         ELSE
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit)
-         ENDIF
-      ENDIF
-   END SUBROUTINE printmat_c
+      !IF (PRESENT(title)) THEN
+         !IF (PRESENT(tr)) THEN
+            !CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title, tr)
+         !ELSE
+            !CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title)
+         !ENDIF
+      !ELSE
+         !IF (PRESENT(tr)) THEN
+            !CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, tr=tr)
+         !ELSE
+            !CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit)
+         !ENDIF
+      !ENDIF
+   !END SUBROUTINE printmat_c
 
 ! **************************************************************************************************
 !> \brief ...
@@ -656,15 +717,15 @@ CONTAINS
 
       IF (PRESENT(title)) THEN
          IF (PRESENT(tr)) THEN
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title, tr)
+            CALL printmat_c(cmplx(matrix, KIND=sp), rows, cols, iunit, title, tr)
          ELSE
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title)
+            CALL printmat_c(cmplx(matrix, KIND=sp), rows, cols, iunit, title)
          ENDIF
       ELSE
          IF (PRESENT(tr)) THEN
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, tr=tr)
+            CALL printmat_c(cmplx(matrix, KIND=sp), rows, cols, iunit, tr=tr)
          ELSE
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit)
+            CALL printmat_c(cmplx(matrix, KIND=sp), rows, cols, iunit)
          ENDIF
       ENDIF
    END SUBROUTINE printmat_z

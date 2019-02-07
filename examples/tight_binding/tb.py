@@ -9,7 +9,7 @@ import time
 #np.__config__.show()
 
 # modify only this to change the angle
-m0=3
+m0=1
 
 
 r=1
@@ -90,15 +90,21 @@ for line in data:
    rr[2,ii]=z1
 
 
-
-
-#atoms_file = open("coords.dat","w")
 np.savetxt("kpath.dat",kpath)
 np.savetxt("kpath_cart.dat",np.transpose(kpathc))
 np.savetxt("recip_cell_vec.dat",bvec)
-np.savetxt("super_cell_vec.dat",avec)
-np.savetxt("coords.dat", np.transpose(rr))
 
+atoms_file = open("super_cell_vec.dat","w")
+atoms_file.write("2\n")
+np.savetxt(atoms_file, avec)
+atoms_file.close()
+
+atoms_file = open("coords.dat","w")
+atoms_file.write(str(nr)+"\n")
+np.savetxt(atoms_file, np.transpose(rr))
+atoms_file.close()
+
+np.savetxt("rft.dat", np.transpose(rft))
 #atoms_file.close()
 
 #print (len(rr[1]))
@@ -107,27 +113,4 @@ np.savetxt("coords.dat", np.transpose(rr))
 
 
 sys.exit("here")
-
-print("start FT and diag of Hamiltonian")
-start = time.time()
-eig=np.zeros((nr,nk))
-for ik in range(nk):
-  print("ik, nk: ",ik,' ',nk)
-  eig[:,ik]=module.ft_fortran(rr,rft,kpathc[:,ik],nr,nrft)
-  eig[:,ik]=np.sort(eig[:,ik])
-end = time.time()
-print("time elapsed: "+str(end-start))
-
-nr2=int(nr/2)
-e1=eig[nr2-1,0]
-e2=eig[nr2,0]
-ef=0.5*(e1+e2)
-eig[:,:]=eig[:,:]-ef
-
-plt.ylim(-1, 1)
-for i in range(nr):
-  plt.plot(dkc,eig[i,:])
-
-plt.savefig('bands.png', bbox_inches='tight',dpi=600)
-plt.gcf().clear()
 

@@ -24,14 +24,14 @@ PROGRAM tight_binding
         dbcsr_distribution_type, dbcsr_finalize, dbcsr_finalize_lib, dbcsr_get_stored_coordinates, &
         dbcsr_init_lib, dbcsr_multiply, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_print, &
         dbcsr_put_block, dbcsr_release, dbcsr_type, dbcsr_type_no_symmetry, &
-        dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_add_on_diag
+        dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_add_on_diag, dbcsr_trace
    
     use dm_ls_scf_methods, only: density_matrix_sign
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
    implicit none
 
-   type(dbcsr_type)                         ::  matrix_p, matrix_ks, matrix_s, matrix_s_inv
+   type(dbcsr_type)                         ::  matrix_p, matrix_ks, matrix_s, matrix_s_inv, rho_ham
 
    integer, dimension(:), pointer           :: col_blk_sizes, row_blk_sizes
    integer                                  :: group, numnodes, mynode, ierr, &
@@ -48,12 +48,14 @@ PROGRAM tight_binding
   real(8), allocatable :: rr(:,:), cell_vec(:,:) 
   real(8), allocatable :: rft(:,:)
   real(8), allocatable :: kpathc(:,:)
-  real(8) :: kc(2), mu
+  real(8) :: kc(2), mu, dbcsr_energy
   integer :: nr, nrft, nkp, i, j, sys_dim, ntrans, cnt
 
   ! parameters for TB parameters
   real(8) :: energies(4), vsss(4), vsps(4), vpps(4), vppp(4)
   real(8), allocatable :: ham_dense(:,:)
+  character(len=20) :: exFmt
+  integer :: block_size, nelectrons
 !$ integer                                  :: provided_tsl
 
    !***************************************************************************************
@@ -86,6 +88,9 @@ PROGRAM tight_binding
    WRITE (*, *) 'mynode ', mynode, ' numnodes', numnodes
 
 
+   
+   
+   
    !------- Read atom info ------------------
    open (unit=2, file="coords.dat")
    read (2, *) nr
@@ -95,47 +100,76 @@ PROGRAM tight_binding
    enddo
    close(2)
 
-   open (unit=2, file="super_cell_vec.dat")
-   read (2, *) sys_dim
-   allocate(cell_vec(sys_dim,sys_dim))
-   do j=1,sys_dim
-       read (2, *) cell_vec(:,j) 
-   enddo
-   close(2)
-
-   !--- energies for TB ----------
-   ! s
-   energies(1) = 0.1027
-   ! p
-   energies(2) = 0.5426
+   block_size = 4
+      
+   ! occupation is 4 spins per atoms, taking spin into account will reveal 2 per atom
+   nelectrons = nr * 2 
+      
+   print *,"Number of atoms ", nr
+   print *,"Number of orbitals (block size) ", block_size
+   print *,"Occupation (number of electrons / 2)", nelectrons
+   print *,"Problem dimension ", nr * block_size
    
-   vsss = (/219.56,       -16.2132459618,  -15.5048968097, 1.26439940008/)
-   vsps = (/10.127687621, -4.4036811240, 0.2266767834, 0.92267194054/)
-   vpps = (/ -22.959028107, 1.7207707741, 1.4191307713, 1.03136916513/)
-   vppp = (/10.265449263, 4.6718241428, -2.2161562721, 1.11134828469/)
+   if (nr < 100) then
+      print *,"Diagonalize dense hamiltonian for reference"
+   !    open (unit=2, file="super_cell_vec.dat")
+   !    read (2, *) sys_dim
+   !    allocate(cell_vec(sys_dim,sys_dim))
+   !    do j=1,sys_dim
+   !        read (2, *) cell_vec(:,j) 
+   !    enddo
+   !    close(2)
 
-   !----- k points -------------
-   ! temp 1 kpoint
-   allocate(kpathc(2,1))   
-   kpathc(:,1) = 0.0d0
-   kc(:) = 0.0d0
-   nkp = 1
+
+      !--- energies for TB ----------
+      ! s
+      energies(1) = 0.1027
+      ! p
+      energies(2) = 0.5426
+      
+      vsss = (/219.56,       -16.2132459618,  -15.5048968097, 1.26439940008/)
+      vsps = (/10.127687621, -4.4036811240, 0.2266767834, 0.92267194054/)
+      vpps = (/ -22.959028107, 1.7207707741, 1.4191307713, 1.03136916513/)
+      vppp = (/10.265449263, 4.6718241428, -2.2161562721, 1.11134828469/)
+
+      allocate(ham_dense(nr*block_size, nr*block_size))
+      
+      call build_ham_blocked_dense(ham_dense, rr, nr, block_size)
+      
+   !    write(exFmt,'("(",I0,"(F8.4))")') nr*block_size
+   !    do i=1,nr*block_size
+   !      write(*,exFmt) (ham_dense(i,j), j=1,nr*block_size)
+   !    end do
+      
+      call diag_dense(ham_dense, nelectrons, nr*block_size)
+      
    
-
-   ! set cell translation, 0 - no translation
-   ntrans = 0  
-   nrft = (2 * ntrans + 1)**2
-
-   allocate(rft(sys_dim, nrft))
+      !----- k points -------------
+      ! temp 1 kpoint
+   !    allocate(kpathc(2,1))   
+   !    kpathc(:,1) = 0.0d0
+   !    kc(:) = 0.0d0
+   !    nkp = 1
+   !    
+   ! 
+   !    ! set cell translation, 0 - no translation
+   !    ntrans = 0  
+   !    nrft = (2 * ntrans + 1)**2
+   ! 
+   !    allocate(rft(sys_dim, nrft))
+   !    
+   !    cnt = 0
+   !    do i = - ntrans, ntrans 
+   !      do j = - ntrans, ntrans 
+   !        cnt = cnt + 1
+   !          rft(:, cnt) = i * cell_vec(:,1) + j * cell_vec(:,2)
+   !      enddo
+   !    enddo
    
-   cnt = 0
-   do i = - ntrans, ntrans 
-     do j = - ntrans, ntrans 
-       cnt = cnt + 1
-         rft(:, cnt) = i * cell_vec(:,1) + j * cell_vec(:,2)
-     enddo
-   enddo
-
+   endif
+   
+   print *,"DBCSR case"
+   
    !***************************************************************************************
    !
    ! initialize libdbcsr
@@ -150,8 +184,8 @@ PROGRAM tight_binding
    ! set the block size for each row and column
    ! for first TB version will be 1
    ALLOCATE (row_blk_sizes(nblkrows_total), col_blk_sizes(nblkcols_total))
-   row_blk_sizes(:) = 4
-   col_blk_sizes(:) = 4
+   row_blk_sizes(:) = block_size
+   col_blk_sizes(:) = block_size
 
    !
    ! set the row and column distributions (here the distribution is set randomly)
@@ -198,27 +232,33 @@ PROGRAM tight_binding
                      row_blk_size=row_blk_sizes, &
                      col_blk_size=col_blk_sizes, &
                      data_type=dbcsr_type_real_8)
+                     
+   CALL dbcsr_create(matrix=rho_ham, &
+                  name="rho*ham", &
+                  dist=dist, &
+                  matrix_type=dbcsr_type_no_symmetry, &
+                  row_blk_size=row_blk_sizes, &
+                  col_blk_size=col_blk_sizes, &
+                  data_type=dbcsr_type_real_8)
    
    ! get the maximum block size of the matrix
    max_row_size = MAXVAL(row_blk_sizes)
    max_col_size = MAXVAL(col_blk_sizes)
    max_nze = max_row_size*max_col_size
 
+   
    !
    ! set up the a matrix
    CALL dbcsr_distribution_get(dist, mynode=mynode)
 
    !call build_ham(matrix_ks, rr, rft, kc, nr, nrft)
 
+      
+   ! DBCSR version, sparse and blocked   
    call build_ham_blocked(matrix_ks, rr, nr)
-
-   call build_ham_blocked_dense(ham_dense, rr, nr, 4)
    
-   print *, ham_dense
-
    CALL dbcsr_finalize(matrix_ks)
    CALL dbcsr_finalize(matrix_p)
-
 
    call dbcsr_add_on_diag(matrix_s, 1.0d0)
    call dbcsr_add_on_diag(matrix_s_inv, 1.0d0)
@@ -228,17 +268,26 @@ PROGRAM tight_binding
    CALL dbcsr_finalize(matrix_s_inv)
 
   
-   call dbcsr_print(matrix_ks) 
+!    call dbcsr_print(matrix_ks) 
 
    ! TODO fix
    mu = 0.0d0
    call density_matrix_sign(matrix_p, mu, .false., matrix_ks, matrix_s, &
-       matrix_s_inv, nr*2, 0.0001d0)
+       matrix_s_inv, nelectrons, 0.0001d0)
 
-   call dbcsr_print(matrix_p)
+!    call dbcsr_print(matrix_p)
 
 
-   deallocate(rr, cell_vec, rft, kpathc)
+   CALL dbcsr_multiply('N', 'N', 1.0D0, matrix_ks, matrix_p, 0.0D0, rho_ham)
+   
+   
+   call dbcsr_trace(rho_ham, dbcsr_energy)
+   
+     print *,"DBCSR Energy: ", dbcsr_energy
+   
+   
+   ! Release all
+   deallocate(rr)
 
    !
    ! release the matrices
@@ -246,10 +295,12 @@ PROGRAM tight_binding
    CALL dbcsr_release(matrix_p)
    CALL dbcsr_release(matrix_s)
    CALL dbcsr_release(matrix_s_inv)
+   CALL dbcsr_release(rho_ham)
 
    CALL dbcsr_distribution_release(dist)
    !DEALLOCATE (row_blk_sizes, col_blk_sizes)
 
+   deallocate(ham_dense)
 
 
    ! finalize libdbcsr
@@ -287,6 +338,10 @@ CONTAINS
 
    END SUBROUTINE random_dist
 
+   
+! Funcions for interatomic interaction 
+! for hamiltonian with block size 1, based on paper 
+! PHYSICAL REVIEW B 96, 075311 (2017)
 real(8) function vpp_pi(d)
    real(8), intent(in) :: d
    real(8), parameter :: a0=1.42028166221d0
@@ -319,16 +374,8 @@ end function
 
 
 
-subroutine read_input(rr, rft, kpathc, nr, nrft, nkp)
-  real(8), intent(inout) :: rr(:,:) 
-  real(8), intent(inout) :: rft(:,:)
-  real(8), intent(inout) :: kpathc(:,:)
-  integer, intent(inout) :: nr, nrft, nkp
-
-end subroutine
-
-
-
+! Builds hamiltonian with block size 1, based on paper 
+! PHYSICAL REVIEW B 96, 075311 (2017)
 subroutine build_ham(ham, rr, rft, kc, nr, nrft)
   implicit none
   type(dbcsr_type), intent(inout)    :: ham
@@ -337,21 +384,19 @@ subroutine build_ham(ham, rr, rft, kc, nr, nrft)
   real(8), intent(in) :: rft(2,nrft)
   real(8), intent(in) :: kc(2)
 
-  !double precision, intent(out) :: eig(nr)
-  ! cutoff to assime tij=0
   real(8), parameter :: rcut=10.d0
   integer ii,jj,irft
   real(8) t1,z2
   real(8) r01(2),r02(2),r12(2)
   real(8) r1(3),r2(3),dvec(3)
   complex(8) tpk,tpr(nrft)
-  !real(8) t_of_d
+
   integer info,n,ld
   integer lwork
   real(8), allocatable :: rwork(:)
   complex(8), allocatable :: work(:)
   real(8) :: matrix_element
-  !complex(8), allocatable :: ham(:,:)
+
   integer :: nzz
   real(8), dimension(:), allocatable    :: values
   !allocate(ham(nr,nr))
@@ -396,11 +441,7 @@ subroutine build_ham(ham, rr, rft, kc, nr, nrft)
 
        if ( abs(matrix_element) > 1.0d-10) then
           nzz = nzz + 1
-          !print *, matrix_element
-   !do row = 1, dbcsr_nblkrows_total(matrix_a)
-      !do col = max(row-1, 1), min(row+1, dbcsr_nblkcols_total(matrix_a))
-         !tr = .false.
-         !row_s = row; col_s = col
+
          call dbcsr_get_stored_coordinates(ham, ii, jj, node_holds_blk)
          if (node_holds_blk .eq. mynode) then
             
@@ -409,8 +450,7 @@ subroutine build_ham(ham, rr, rft, kc, nr, nrft)
             
             call dbcsr_put_block(ham, ii, jj, values(1:nze))
          endif
-      !enddo
-   !enddo
+
           
        endif
     end do
@@ -423,32 +463,28 @@ subroutine build_ham(ham, rr, rft, kc, nr, nrft)
 end subroutine
 
 
+! The same as before but without k-points and translation
 subroutine build_ham_no_trans(ham, rr, nr)
   implicit none
   type(dbcsr_type), intent(inout)    :: ham
   integer, intent(in) :: nr
   real(8), intent(in) :: rr(3,nr)
-  !real(8), intent(in) :: rft(2,nrft)
-  !real(8), intent(in) :: kc(2)
 
-  !double precision, intent(out) :: eig(nr)
-  ! cutoff to assime tij=0
   real(8), parameter :: rcut=10.d0
   integer ii,jj,irft
   real(8) t1,z2
   real(8) r01(2),r02(2),r12(2)
   real(8) r1(3),r2(3),dvec(3)
-  !complex(8) tpk,tpr(nrft)
-  !real(8) t_of_d
+
   integer info,n,ld
   integer lwork
   real(8), allocatable :: rwork(:)
   real(8), allocatable :: work(:)
   real(8) :: matrix_element
-  !complex(8), allocatable :: ham(:,:)
+
   integer :: nzz
   real(8), dimension(:), allocatable    :: values
-  !allocate(ham(nr,nr))
+
    ALLOCATE (values(max_nze))
   
    nzz = 0
@@ -498,6 +534,8 @@ end subroutine
 
 ! ------------------------------------------------
 ! functions for blocked s px py pz hamiltonian
+! Based on PRB VOLUME 54, NUMBER 7 15 AUGUST 1996-I
+! and PRB VOLUME 54, NUMBER 7
 ! ------------------------------------------------
 
 ! vec_norm should be normalized vector between two atoms
@@ -545,28 +583,23 @@ subroutine build_ham_blocked(ham, rr, nr)
   type(dbcsr_type), intent(inout)    :: ham
   integer, intent(in) :: nr
   real(8), intent(in) :: rr(3,nr)
-  !real(8), intent(in) :: rft(2,nrft)
-  !real(8), intent(in) :: kc(2)
 
-  !double precision, intent(out) :: eig(nr)
-  ! cutoff to assime tij=0
   real(8), parameter :: rcut=10.d0
   integer ii,jj,irft, ib,jb
   real(8) t1,z2
   real(8) r01(2),r02(2),r12(2)
   real(8) r1(3),r2(3),dvec(3)
-  !complex(8) tpk,tpr(nrft)
-  !real(8) t_of_d
+
   integer info,n,ld
   integer lwork
   real(8), allocatable :: rwork(:)
   real(8), allocatable :: work(:)
   real(8) :: vec_norm(3)
-  !complex(8), allocatable :: ham(:,:)
+
   integer :: nzz
   real(8), dimension(:), allocatable    :: values
   integer :: h, w
-  !allocate(ham(nr,nr))
+
   ALLOCATE (values(max_nze))
   
   nzz = 0
@@ -637,30 +670,19 @@ subroutine build_ham_blocked_dense(ham, rr, nr, block_size)
   integer, intent(in) :: nr, block_size
   real(8), intent(in) :: rr(3,nr)
   real(8), allocatable, intent(inout) :: ham(:,:)
-  !real(8), intent(in) :: rft(2,nrft)
-  !real(8), intent(in) :: kc(2)
 
-  !double precision, intent(out) :: eig(nr)
-  ! cutoff to assime tij=0
   real(8), parameter :: rcut=10.d0
   integer ii,jj,irft, ib,jb, i,j
   real(8) t1,z2
   real(8) r01(2),r02(2),r12(2)
   real(8) r1(3),r2(3),dvec(3)
-  !complex(8) tpk,tpr(nrft)
-  !real(8) t_of_d
   integer info,n,ld
   integer lwork
   real(8), allocatable :: rwork(:)
   real(8), allocatable :: work(:)
-  real(8) :: vec_norm(3)
-
+  real(8) :: vec_norm(3), matrix_element
   integer :: nzz
-  !real(8), dimension(:), allocatable    :: values
   integer :: h, w
-  
-  allocate(ham(nr*block_size, nr*block_size))
-  !ALLOCATE (values(max_nze))
   
   ham(:,:) = 0.0d0
   nzz = 0
@@ -676,60 +698,85 @@ subroutine build_ham_blocked_dense(ham, rr, nr, block_size)
       
       i = (ii - 1) * block_size + 1
       j = (jj - 1) * block_size + 1
-      !call dbcsr_get_stored_coordinates(ham, ii, jj, node_holds_blk)
       
-      !if (node_holds_blk .eq. mynode) then
-      
-      !w = row_blk_sizes(ii)
-      !h = col_blk_sizes(jj)
-      
-      !nze = w * h
-      !nzz = nzz + nze
-      
-      !values(:) = 0            
       
       if (ii == jj) then
                
          ! calc onsite
          ! Es
          ham(i,i) = energies(1)
-         
-         !values( (ii - 1) * block_size + 1 ) = energies(1)
+
          ! Ep
          do ib= 1,3
             ham(i + ib, i + ib ) = energies(2)
          enddo
 
-        !call dbcsr_put_block(ham, ii, jj, values(1:nze))
       else
          ! calc non-diag
-         
          ham(i,j) = sk(t1, vsss)
+         ham(j,i) = ham(i,j)
          do jb = 1,3
-            ham(i, j+jb) = vsp_nondiag(jb, vec_norm, sk(t1,vsps)) 
-            ham(i+jb, j) = ham(i, j+jb)
-            !values(1 + h * (jb-1)) = values(jb)
+            matrix_element = vsp_nondiag(jb, vec_norm, sk(t1,vsps)) 
+            
+            ham(i, j+jb) = matrix_element 
+            ham(i+jb, j) = matrix_element
+            ham(j+jb, i) = matrix_element
+            ham(j, i+jb) = matrix_element
+            
             
             do ib = jb,3
             ham(i+ib, j+jb) = vpp_nondiag(ib, jb, vec_norm, sk(t1, vppp), sk(t1, vpps))
+            ham(i+jb, j+ib) = ham(i+ib, j+jb)
             ham(j+jb, i+ib) = ham(i+ib, j+jb)
-            !values(ib + h * (jb-1)) = vpp_nondiag(ib, jb, vec_norm, sk(t1, vppp), sk(t1, vpps))
-            !values(jb + h * (ib-1)) = values(ib + h * (jb-1))
+            ham(j+ib, i+jb) = ham(i+ib, j+jb)
             enddo
          enddo
-         !call dbcsr_put_block(ham, jj, ii, values(1:nze))
-         !call dbcsr_put_block(ham, ii, jj, values(1:nze))
       endif
       
-
-      !endif
          
     end do
   end do 
 
-  !print *, "nonzeros ", nzz
-  
-  !DEALLOCATE (values)
   return
 end subroutine
+
+
+subroutine diag_dense(ham, nelec, matrix_size)
+  implicit none
+  integer, intent(in) :: nelec, matrix_size
+  real(8), allocatable, intent(inout) :: ham(:,:)
+
+  real(8), allocatable :: rwork(:)
+  real(8), allocatable :: work(:)
+  real(8), allocatable :: eigval(:)
+  integer lwork, i
+  integer info,n,ld
+  real(8) energy
+    
+    info=0
+    n = matrix_size
+    ld = matrix_size
+    lwork=3*n
+    allocate (eigval(n),work(lwork))
+    
+    call dsyev('V','U',n,ham,ld,eigval,work,lwork,info)
+    
+  if (info.ne.0) then
+    write(*,*)
+    write(*,'("Error: diagonalisation failed")')
+    write(*,'(" ZHEEV returned INFO = ",I8)') info
+    write(*,*)
+    stop
+  end if
+  
+  energy=0
+  do i=1,nelec
+    energy = energy + eigval(i)
+  enddo
+  
+  print *,"Dense Energy: ", energy
+  
+    deallocate(eigval, work)
+end subroutine
+
 END PROGRAM 
