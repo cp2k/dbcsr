@@ -34,11 +34,12 @@
 #
 # For convenience, some variables can be set during compilation,
 # e.g. make `VARIABLE=value` (multiple variables are possible):
-# 1) MPI=0    : disable MPI compilation
-# 2) GNU=0    : disable GNU compiler compilation and enable Intel compiler compilation
-# 3) CHECKS=1 : enable GNU compiler checks and DBCSR asserts
-# 4) CINT=1   : generate the C interface
-# 5) GPU=1    : enable GPU support
+# 1) OMP=0    : disable OpenMP compilation
+# 2) MPI=0    : disable MPI compilation
+# 3) GNU=0    : disable GNU compiler compilation and enable Intel compiler compilation
+# 4) CHECKS=1 : enable GNU compiler checks and DBCSR asserts
+# 5) CINT=1   : generate the C interface
+# 6) GPU=1    : enable GPU support
 #
 
 #######################################################################################
@@ -136,15 +137,18 @@ endif
 
 ifneq (0,$(GNU)) # DEFAULT, just edit...
   CXXFLAGS += -std=c++11
-  CXXOMPFLAGS += -fopenmp
-  FCFLAGS  += -fopenmp -std=f2003 -ffree-form -fimplicit-none -ffree-line-length-512
+  FCFLAGS  += -std=f2003 -ffree-form -fimplicit-none -ffree-line-length-512
   OPTFLAGS += -O3 -g -fno-omit-frame-pointer -funroll-loops
 else
  # Intel compiler flags
   CXXFLAGS += -std=c++11
-  CXXOMPFLAGS += -fopenmp
-  FCFLAGS  += -fopenmp -free
+  FCFLAGS  += -free
   OPTFLAGS += -O2 -g
+endif
+
+ifneq (0,$(OMP)) # using OpenMP
+  CXXOMPFLAGS = -fopenmp
+  FCFLAGS  += -fopenmp
 endif
 
 OPTFLAGS    +=

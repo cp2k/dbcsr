@@ -209,6 +209,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 
         // Add lock to table of locks and initialize it
         // (Some serialization here)
+#if defined _OPENMP
         #pragma omp critical 
         {
             if(kernel_locks.find(h_mnk) == kernel_locks.end()){
@@ -225,7 +226,9 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 
         // JIT the kernel using a single thread
         if(kernel_handles.find(h_mnk) == kernel_handles.end()){
+#endif
             add_kernel_handle_to_jitted_kernels(kern_func, stream, h_mnk, threads, grouping, cpu_fallback); 
+#if defined _OPENMP
         }
 
         // Unset lock and destroy
@@ -241,6 +244,7 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
                 kernel_locks.erase(it);
             }
         }
+#endif
 
         if(cpu_fallback)
             return -2; // fall back to CPU
