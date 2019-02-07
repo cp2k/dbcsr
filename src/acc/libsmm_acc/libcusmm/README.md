@@ -74,10 +74,17 @@ Follow the [predictive modelling procedure](predict.md)
 
 #### Adding support for a new GPU card
 
-1. Add the GPU's compute architecture properties to [`kernels/gpu_properties.json`](kernels/gpu_properties.json)
+1. Add the GPU's compute architecture properties to [`kernels/gpu_properties.json`](kernels/gpu_properties.json). For more information on where to find these properties, please refer to the "info" field of [`kernels/gpu_properties.json`](kernels/gpu_properties.json).
 
 2. Add the GPU to the `arch_number` data structure in [`kernels/cusmm_predict.py`](kernels/cusmm_predict.py)
 
 4. Add the necessary code for setting `ARCH_NUMBER` correctly in the [`Makefile`](../../../../Makefile) and in the [`CMakeListst`](CMakeLists.txt)
 
-3. Add matrix-matrix multiplication parameters for this GPU using *autotuning* and *predictive modelling*
+5. Add a minimal JSON file `parameters_GPU.json`, containing:
+
+```json
+{
+}
+```
+
+then add matrix-matrix multiplication parameters for this GPU using *autotuning* and *predictive modelling*
