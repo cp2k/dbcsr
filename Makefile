@@ -267,6 +267,14 @@ help:
 	@echo "================= Other Targets ================="
 	@printf "%s\n" $(OTHER_HELP) | awk -F ':' '{printf "%-28s%s\n", $$1, $$2}'
 	@echo "help                         Print this help text"
+	@echo "================= Variables ====================="
+	@echo "For convenience, some variables can be set during compilation,"
+	@echo "e.g. make VARIABLE=value (multiple variables are possible):"
+	@echo "MPI=0    : disable MPI compilation"
+	@echo "GNU=0    : disable GNU compiler compilation and enable Intel compiler compilation"
+	@echo "CHECKS=1 : enable GNU compiler checks and DBCSR asserts"
+	@echo "CINT=1   : generate the C interface"
+	@echo "GPU=1    : enable GPU support"
 
 ifeq ($(INCLUDE_DEPS),)
 install: $(LIBRARY)
