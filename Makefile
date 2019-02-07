@@ -486,7 +486,7 @@ FYPPFLAGS ?= -n
 	$(CXX) -c $(CXXFLAGS) $<
 
 libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
-	$(CXX) -c $(CXXFLAGS) -fopenmp -DARCH_NUMBER=$(ARCH_NUMBER) $<
+	$(CXX) -c $(CXXFLAGS) $(CXXOMPFLAGS) -DARCH_NUMBER=$(ARCH_NUMBER) $<
 
 %.o: %.cu
 	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<

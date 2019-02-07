@@ -136,11 +136,13 @@ endif
 
 ifneq (0,$(GNU)) # DEFAULT, just edit...
   CXXFLAGS += -std=c++11
+  CXXOMPFLAGS += -fopenmp
   FCFLAGS  += -fopenmp -std=f2003 -ffree-form -fimplicit-none -ffree-line-length-512
   OPTFLAGS += -O3 -g -fno-omit-frame-pointer -funroll-loops
 else
  # Intel compiler flags
   CXXFLAGS += -std=c++11
+  CXXOMPFLAGS += -fopenmp
   FCFLAGS  += -fopenmp -free
   OPTFLAGS += -O2 -g
 endif
