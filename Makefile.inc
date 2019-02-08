@@ -17,7 +17,7 @@
 # a) set the NVCC variable, e.g. NVCC = nvcc
 # b) specify -D__DBCSR_ACC in FCFLAGS variable
 # c) set the GPUVER variable, e.g. GPUVER = P100 for P100 card
-#    (possible values are K20X, K40, K80, P100)
+#    (possible values are K20X, K40, K80, P100, V100)
 # d) set the NVFLAGS variable,
 #    e.g. NVFLAGS = -O3 -g -w --std=c++11
 #    in the Makefile, the -arch will be appended with the correct compute version

@@ -37,6 +37,7 @@ arch_number = {
     "parameters_K40.json": 35,
     "parameters_K80.json": 37,
     "parameters_P100.json": 60,
+    "parameters_V100.json": 70,
 }
 
 

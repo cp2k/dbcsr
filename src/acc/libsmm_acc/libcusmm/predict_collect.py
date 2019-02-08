@@ -403,7 +403,7 @@ if __name__ == "__main__":
         metavar="ARCHITECTURE_NUMBER",
         type=int,
         default=60,
-        help="CUDA architecture number. Options: 35, 37, 60",
+        help="CUDA architecture number. Options: 35, 37, 60, 70",
     )
 
     args = parser.parse_args()
