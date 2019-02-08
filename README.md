@@ -73,7 +73,7 @@ The configuration flags are (default first):
     -DUSE_CUDA=<OFF|ON>
     -DWITH_C_API=<ON|OFF>
     -DWITH_EXAMPLES=<ON|OFF>
-    -DWITH_GPU=<P100|K20X|K40|K80>
+    -DWITH_GPU=<P100|K20X|K40|K80|V100>
     -DTEST_MPI_RANKS=<auto,N>
 
 ## Contributing to DBCSR

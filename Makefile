@@ -50,7 +50,9 @@ else ifeq ($(GPUVER),K80)
  ARCH_NUMBER = 37
 else ifeq ($(GPUVER),P100)
  ARCH_NUMBER = 60
-else ifeq ($(GPUVER),) # Default to the newest GPU
+else ifeq ($(GPUVER),V100)
+ ARCH_NUMBER = 70
+else ifeq ($(GPUVER),) # Default to the P100
  ARCH_NUMBER = 60
 else
  $(error GPUVER not recognized)

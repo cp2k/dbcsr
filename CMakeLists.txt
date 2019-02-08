@@ -21,7 +21,7 @@ set_property(CACHE USE_SMM PROPERTY STRINGS blas libxsmm)
 option(USE_CUDA "Build with CUDA support" OFF)
 cmake_dependent_option(USE_CUBLAS "Build with CUBLAS support" OFF "USE_CUDA" OFF)
 set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if CUDA is enabled (default: P100)")
-set_property(CACHE WITH_GPU PROPERTY STRINGS K20X K40 K80 P100)
+set_property(CACHE WITH_GPU PROPERTY STRINGS K20X K40 K80 P100 V100)
 
 enable_language(Fortran)
 enable_testing() # enables the `make test` target
@@ -37,6 +37,7 @@ if (USE_CUDA)
   set(CUDA_ARCH_NUMBER_K40  35)
   set(CUDA_ARCH_NUMBER_K80  37)
   set(CUDA_ARCH_NUMBER_P100 60)
+  set(CUDA_ARCH_NUMBER_V100 70)
   set(CUDA_ARCH_NUMBER ${CUDA_ARCH_NUMBER_${WITH_GPU}})
 
   # assume that the backend compiler for nvcc understands the -std=c++11
