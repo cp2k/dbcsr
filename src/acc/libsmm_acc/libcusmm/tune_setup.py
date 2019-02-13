@@ -18,7 +18,7 @@ from kernels.cusmm_predict import arch_number, kernel_algorithm, params_dict_to_
 
 
 # ===============================================================================
-def main(param_fn, blocksizes):
+def main(param_fn, cpus_per_node, max_num_nodes, blocksizes):
 
     # Read existing parameters
     assert param_fn in arch_number.keys(), "Cannot find compute version for file " + param_fn
@@ -29,6 +29,7 @@ def main(param_fn, blocksizes):
         autotuning_properties = json.load(f)
     with open(param_fn) as f:
         all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
+    print("Reading parameters from %s" % param_fn)
     autotuned_kernels = [k for k in all_kernels if k.autotuned]
     predicted_kernels = [k for k in all_kernels if not k.autotuned]
     print("Libcusmm: Found %d existing parameter sets, of which %d are autotuned and %d are predicted." %
@@ -53,7 +54,7 @@ def main(param_fn, blocksizes):
             continue
         os.mkdir(outdir)
         gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k)
-        gen_jobfile(outdir, m, n, k)
+        gen_jobfile(outdir, m, n, k, cpus_per_node, max_num_nodes)
         gen_makefile(outdir, arch)
 
 
@@ -79,11 +80,12 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
     launchers = []
     kernel_descr = []
 
-    # Get the kernels compatible with the given size:
+    # Get the kernel algorithms compatible with the given size:
     compatible_kernels = [
         kernel_algorithm[kernclass] for kernclass in kernel_algorithm.keys() if compatible_mnk(kernclass, m, n, k)
     ]
 
+    # Get the parameter sets to measure for this (m,n,k)
     for kernclass in compatible_kernels:
         params = kernclass.promising_parameters(m, n, k, gpu_properties, autotuning_properties)
         if params == 0:
@@ -100,28 +102,33 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
     if len(launchers) == 0:
         return
 
+    # Compose the "include" line of the benchmark code
     incl_output = '#include "../kernels/cusmm_common.h"\n'
     for i in set(includes):
         incl_output += '#include "%s"\n' % i
     incl_output += "\n\n"
-
     max_launchers_per_exe = 10000
+    # Compose the benchmark code
     launchers_per_obj = 100
-
     n_exe_files = int(len(launcher_codes) / max_launchers_per_exe) + 1
     launchers_per_exe = int(len(launcher_codes) / n_exe_files) + 1
 
+    # Compose source code for each executable file
     for i in range(n_exe_files):
         chunk_a = i * launchers_per_exe
         chunk_b = min((i + 1) * launchers_per_exe, len(launcher_codes))
-        for j in range(int((chunk_b - chunk_a) / launchers_per_obj) + 1):
-            output = incl_output
+        n_obj_files = int((chunk_b - chunk_a) / launchers_per_obj) + 1
+
+		# Compose source code for each object file
+        for j in range(n_obj_files):
             a = chunk_a + j * launchers_per_obj
             b = min(chunk_a + (j + 1) * launchers_per_obj, chunk_b)
+            output = incl_output
             output += "\n\n".join(launcher_codes[a:b])
             fn = outdir + "/tune_%dx%dx%d_exe%d_part%d.cu" % (m, n, k, i, j)
             writefile(fn, output)
 
+		# Compose source code for "main" of executable file
         output = '#include "../libcusmm_benchmark.h"\n\n'
         for l in launchers:
             output += (
@@ -153,14 +160,24 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
 
 
 # ===============================================================================
-def gen_jobfile(outdir, m, n, k):
+def gen_jobfile(outdir, m, n, k, cpus_per_node=12, max_num_nodes=0):
     t = "/tune_%dx%dx%d" % (m, n, k)
     all_exe_src = [os.path.basename(fn) for fn in glob(outdir + t + "_*_main.cu")]
     all_exe = sorted([fn.replace("_main.cu", "") for fn in all_exe_src])
+    if max_num_nodes > 0:
+        num_nodes = min(len(all_exe), max_num_nodes)
+    else:
+        num_nodes = len(all_exe)
 
     output = "#!/bin/bash -l\n"
-    output += "#SBATCH --nodes=%d\n" % len(all_exe)
-    output += "#SBATCH --time=0:30:00\n"
+    output += "#SBATCH --nodes=%d\n" % num_nodes
+    output += "#SBATCH --ntasks-per-core=1\n"
+    output += "#SBATCH --ntasks-per-node=1\n"
+    output += "#SBATCH --cpus-per-task=" + "%d\n" % cpus_per_node
+    if num_nodes < 3:
+        output += "#SBATCH --time=1:30:00\n"
+    else:
+        output += "#SBATCH --time=0:30:00\n"
     output += "#SBATCH --account=s238\n"
     output += "#SBATCH --partition=normal\n"
     output += "#SBATCH --constraint=gpu\n"
@@ -175,19 +192,36 @@ def gen_jobfile(outdir, m, n, k):
     output += "cd $SLURM_SUBMIT_DIR \n"
     output += "\n"
     output += "date\n"
+
+    # Compilation
+    num_nodes_busy = 0
     for exe in all_exe:
         output += (
-            "srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=12 make -j 24 %s &\n" %
-            exe)
+            "srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=%d make -j %d %s &\n" %
+            (cpus_per_node, 2*cpus_per_node, exe))
+        num_nodes_busy += 1
+        if num_nodes_busy == num_nodes:
+            output += "wait\n"
+            num_nodes_busy = 0
+
     output += "wait\n"
     output += "date\n"
     output += "\n"
+
+    # Execution
     for exe in all_exe:
         output += ("srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=1 ./" + exe +
                    " >" + exe + ".log 2>&1 & \n")
+        num_nodes_busy += 1
+        if num_nodes_busy == num_nodes:
+            output += "wait\n"
+            num_nodes_busy = 0
+
     output += "wait\n"
     output += "date\n"
     output += "\n"
+
+    # Winner
     output += "echo Over all winner:\n"
     output += "grep WINNER ." + t + '_exe*.log  |  sort -n --field-separator="#" -k 2 | tail -n 1\n'
     output += "\n"
@@ -268,8 +302,12 @@ if __name__ == '__main__':
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
-        "-p", "--params", metavar="parameters_GPU.json", default="parameters_P100.json", help="Default: %default")
+        "-p", "--params", metavar="parameters_GPU.json", default="parameters_P100.json", help="Parameter file to extend by this autotuning (pick the right GPU)")
+    parser.add_argument(
+        "-c", "--cpus_per_node", metavar="INT", default=12, type=int, help="Maximum number of nodes an slurm allocation can get")
+    parser.add_argument(
+        "-n", "--nodes", metavar="INT", default=0, type=int, help="Maximum number of nodes an slurm allocation can get. 0: not a limiting factor (choose this option if you can allocate jobs of 20-30 nodes without a problem.")
     parser.add_argument('blocksizes', metavar="BLOCKSIZE", nargs='+', type=int, help='Blocksize to autotune')
 
     args = parser.parse_args()
-    main(args.params, args.blocksizes)
+    main(args.params, args.cpus_per_node, args.nodes, args.blocksizes)

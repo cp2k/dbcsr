@@ -73,8 +73,8 @@ void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, benchmark_mode mode,
 //===========================================================================
 // Free memory and cuda events
 void libcusmm_benchmark_finalize(libcusmm_benchmark_t* handle){
-    CUDA_SAFE_CALL("cudaEventDestroy", cudaEventDestroy(handle->t_stop));
-    CUDA_SAFE_CALL("cudaEventDestroy", cudaEventDestroy(handle->t_start));
+    CU_SAFE_CALL("cuEventDestroy", cuEventDestroy(handle->t_start));
+    CU_SAFE_CALL("cuEventDestroy", cuEventDestroy(handle->t_stop));
     CUDA_SAFE_CALL("cudaFree", cudaFree(handle->d_stack_trs_b));
     CUDA_SAFE_CALL("cudaFree", cudaFree(handle->d_stack_trs_a));
     CUDA_SAFE_CALL("cudaFree", cudaFree(handle->d_stack));
@@ -358,7 +358,6 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
        printf("WINNER: None\n");
     }
     printf("Number of errors: %d\n", error_counter);
-    CUDA_SAFE_CALL("cudaDeviceReset", cudaDeviceReset());
  }
 
  return(error_counter);
