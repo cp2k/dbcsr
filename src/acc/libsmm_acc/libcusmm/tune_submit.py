@@ -23,6 +23,7 @@ def main(submit_jobs):
     cmd = ["squeue", "--user", os.environ["USER"], "--format=%j", "--nohead"]
     p = Popen(cmd, stdout=PIPE)
     submitted = p.stdout.read()
+    submitted = submitted.decode("utf-8")
 
     n_submits = 0
     for d in glob("tune_*"):
@@ -42,7 +43,12 @@ def main(submit_jobs):
             print("%20s: Submitting" % d)
             assert os.system("cd %s; sbatch *.job" % d) == 0
         else:
-            print('%20s: Would submit, run with "doit!"' % d)
+            if len(glob(d + "/*.job")) == 1:
+                print('%20s: Would submit, run with "doit!"' % d)
+            elif len(glob(d + "/*.job")) == 0:
+                print('%20s: Cannot find jobfile, delete this folder and re-create with tune_setup.py"' % d)
+            else:
+                print('%20s: Found multiple jobfiles, delete this folder and re-create with tune_setup.py"' % d)
 
     print("Number of jobs submitted: %d" % n_submits)
 

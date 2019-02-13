@@ -98,7 +98,7 @@ def main(tunedir, arch):
     # ===============================================================================
     # Print commands to merge CSVs into one big CSV for training data
     print("Merge all individual CSV files into one by running the following commands:\n")
-    print_merging_commands(kernel_folders, kernel_folder_pattern)
+    print_merging_commands(kernel_folders, kernel_folder_pattern, tunedir)
 
 
 # ===============================================================================
@@ -242,14 +242,15 @@ def collect_training_data(
 
 
 # ===============================================================================
-def print_merging_commands(kernel_folders, kernel_folder_pattern):
+def print_merging_commands(kernel_folders, kernel_folder_pattern, tunedir):
     """
     Print commands to execute in order to merge CSV files
     """
     for algorithm in kernel_algorithm.keys():
         for data_type in ("raw_", ""):
 
-            print("$ # Merge instructions for algorithm", algorithm)
+            data_type_name = "raw" if data_type == "raw_" else "for predictive modelling"
+            print("\n$ # Merge instructions for algorithm", algorithm, "(", data_type_name, ")")
             training_data_file = "{data_type}training_data_{algorithm}.csv".format(
                 data_type=data_type, algorithm=algorithm)
 
@@ -277,10 +278,11 @@ def print_merging_commands(kernel_folders, kernel_folder_pattern):
                             base_file=file_name, training_data_file=training_data_file))
                         break
                 else:
-                    print("Did not find any existing files for algorithm", algorithm, "and data type", data_type)
+                    print("None: did not find any existing files for algorithm", algorithm, "and data", data_type_name)
+                    continue
 
-            print("$ tail -n +2 -q tune_*/raw_training_data_*_{algorithm}.csv >> {training_data_file}".format(
-                algorithm=algorithm, training_data_file=training_data_file))
+            print("$ tail -n +2 -q {tune_directory}tune_*/{data_type}training_data_*_{algorithm}.csv >> {training_data_file}".format(
+                tune_directory=tunedir, data_type=data_type, algorithm=algorithm, training_data_file=training_data_file))
 
 
 # ===============================================================================

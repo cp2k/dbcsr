@@ -17,7 +17,8 @@ from kernels.cusmm_predict import params_dict_to_kernel
 def main(param_fn):
 
     # Read new kernel parameters
-    with open("parameters.json") as f:
+    param_new = "parameters.json"
+    with open(param_new) as f:
         new_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
 
     # Read old kernel parameters
@@ -25,6 +26,7 @@ def main(param_fn):
         old_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
 
     # Merge two parameter lists
+    print("Merging", param_new, "with", param_fn)
     kernels_dict = dict(zip([(k.m, k.n, k.k) for k in old_kernels], old_kernels))
     new_kernels_dict = dict(zip([(k.m, k.n, k.k) for k in new_kernels], new_kernels))
     kernels_dict.update(new_kernels_dict)
@@ -32,7 +34,7 @@ def main(param_fn):
     # Write kernel parameters to new file
     new_file = "parameters.new.json"
     with open(new_file, "w") as f:
-        s = json.dumps([kernels_dict[kernel].as_dict for kernel in sorted(kernels_dict.keys())])
+        s = json.dumps([kernels_dict[kernel].as_dict_for_parameters_json for kernel in sorted(kernels_dict.keys())])
         s = s.replace("}, ", "},\n")
         s = s.replace("[", "[\n")
         s = s.replace("]", "\n]")
@@ -59,7 +61,7 @@ if __name__ == '__main__':
         metavar="parameters_GPU.json",
         type=str,
         default="parameters_P100.json",
-        help="parameter file in which to emrge the newly obtained autotuned parameters")
+        help="parameter file in which to merge the newly obtained autotuned parameters")
 
     args = parser.parse_args()
     main(args.params)

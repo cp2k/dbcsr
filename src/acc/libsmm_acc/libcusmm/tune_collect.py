@@ -33,22 +33,31 @@ def main():
         for exe_fn in glob(d + "/tune_*main.cu"):
             mnk = tuple([int(i) for i in re_mnk.search(exe_fn).groups()])
             log_fn = exe_fn.replace("_main.cu", ".log")
+            error_code = 0
             if not os.path.exists(log_fn):
                 winners[mnk] = "log missing: " + log_fn
-                continue
+                print("Missing log:", log_fn, ", please re-run (cd tune_mxnxk; sbatch tune_mxnxk.job)")
+                error_code = 1
+            else:
+                error_code += process_log(log_fn, mnk, winners)
 
-            process_log(log_fn, mnk, winners)
+            if error_code > 0:
+                print("Missing or incomplete logs")
+                return
 
     # Get kernel objects from list of strings
     kernels = [descr_to_kernel(kernel_descr) for kernel_descr in winners.values()]
-    with open("parameters.json", "w") as f:
-        s = json.dumps([kernel.as_dict for kernel in kernels])
+    kernels_dict = dict(zip([(k.m, k.n, k.k) for k in kernels], kernels))
+    new_file = "parameters.json"
+    with open(new_file, "w") as f:
+        s = json.dumps([kernels_dict[kernel].as_dict_for_parameters_json for kernel in sorted(kernels_dict.keys())])
         s = s.replace("}, ", "},\n")
         s = s.replace("[", "[\n")
         s = s.replace("]", "\n]")
         f.write(s)
 
-    print("Wrote parameters.json")
+    print("\n")
+    print("Wrote", new_file)
 
 
 # ===============================================================================
@@ -61,18 +70,19 @@ def process_log(log_fn, mnk, winners):
     m = re_errors.search(content)
     if not m:
         winners[mnk] = "log incomplete: " + log_fn
-        return
+        print("Found incomplete log:", log_fn, ", please re-run (cd tune_mxnxk; sbatch tune_mxnxk.job)")
+        return 1
 
     n_errors = int(m.group(1))
     if n_errors != 0:
         winners[mnk] = "errors: " + log_fn
-        return
+        return 0
 
     old_gflops = 0.0
     if mnk in winners.keys():
         m = re_gflops.search(winners[mnk])
         if not m:
-            return
+            return 0
         old_gflops = float(m.group(1))
 
     new_winner = re_winner.search(content).group(1).strip().replace("GFlops", "GFlop/s")
@@ -80,6 +90,7 @@ def process_log(log_fn, mnk, winners):
 
     if new_gflops > old_gflops:
         winners[mnk] = new_winner
+    return 0
 
 
 # ===============================================================================
