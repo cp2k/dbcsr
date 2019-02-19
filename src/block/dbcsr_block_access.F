@@ -114,7 +114,7 @@ MODULE dbcsr_block_access
          dbcsr_set_block_pointer_2d_z
    END INTERFACE
 
-   LOGICAL, PARAMETER :: careful_mod = .FALSE.
+   LOGICAL, PARAMETER :: careful_mod = .TRUE.
    LOGICAL, PARAMETER :: debug_mod = .FALSE.
 
    INTEGER, PARAMETER, PRIVATE :: rpslot_owner = 1

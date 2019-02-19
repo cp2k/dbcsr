@@ -318,7 +318,7 @@
                                     routineP = moduleN//':'//routineN
 
      TYPE(btree_data_${nametype1}$p2d)          :: data_block, data_block2
-     INTEGER                                  :: blk, col_size, &
+     INTEGER                                  :: error_handle, blk, col_size, &
                                                  nze, offset, &
                                                  row_size, blk_p, &
                                                  stored_row, stored_col, &
@@ -327,6 +327,7 @@
      ${type1}$, DIMENSION(:), POINTER           :: block_1d
      INTEGER(KIND=int_8)                      :: my_flop
 
+     IF (careful_mod) CALL timeset(routineN, error_handle)
 !   ---------------------------------------------------------------------------
      IF (PRESENT(transposed)) THEN
         tr = transposed
@@ -459,6 +460,8 @@
 !$OMP END CRITICAL (dbcsr_put_block_critical)
      ENDIF
      IF (PRESENT(flop)) flop = flop + my_flop
+     
+     IF (careful_mod) CALL timestop(error_handle)
   END SUBROUTINE dbcsr_put_block_${nametype1}$
 
 ! **************************************************************************************************

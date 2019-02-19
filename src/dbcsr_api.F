@@ -339,7 +339,7 @@ MODULE dbcsr_api
    ! hooks
    PUBLIC :: dbcsr_set_hooks
 
-   PUBLIC :: dbcsr_init_timer,dbcsr_kill_timer
+   PUBLIC :: dbcsr_init_timer,dbcsr_kill_timer, dbcsr_print_timer
    ! -----------------------------------------------------------------------------------------------
    TYPE dbcsr_p_type
       TYPE(dbcsr_type), POINTER :: matrix => Null()
@@ -504,6 +504,7 @@ CONTAINS
          
    end subroutine
    
+   
    subroutine dbcsr_kill_timer()
       ! clean mp environment
       CALL dbcsr_mp_release(mp_env)
@@ -517,6 +518,19 @@ CONTAINS
       ! Remove timers
       CALL rm_mp_perf_env()
       CALL rm_timer_env()
+   end subroutine
+   
+   
+   subroutine dbcsr_print_timer(mp_comm)
+      integer , intent(in) :: mp_comm
+      integer :: io_unit, mynode, numnodes
+      
+      CALL mp_environ(numnodes, mynode, mp_comm)
+      
+      io_unit = 0
+      IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
+      
+      CALL timings_report_print(io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
    end subroutine
 ! **************************************************************************************************
 !> \brief ...

@@ -9,7 +9,8 @@ import time
 #np.__config__.show()
 
 # modify only this to change the angle
-m0=1
+#print (sys.argv[1])
+m0=float(sys.argv[1])
 
 
 r=1

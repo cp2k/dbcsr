@@ -25,7 +25,7 @@ PROGRAM tight_binding
         dbcsr_init_lib, dbcsr_multiply, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_print, &
         dbcsr_put_block, dbcsr_release, dbcsr_type, dbcsr_type_no_symmetry, &
         dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_add_on_diag, dbcsr_trace,dbcsr_work_create,&
-        dbcsr_init_timer, dbcsr_kill_timer
+        dbcsr_init_timer, dbcsr_kill_timer, dbcsr_print_timer
    
     use dm_ls_scf_methods, only: density_matrix_sign
     
@@ -65,6 +65,7 @@ PROGRAM tight_binding
   character(len=20) :: exFmt
   integer :: block_size, nelectrons
      TYPE(dbcsr_logger_type), POINTER            :: logger
+     CHARACTER(len=100) :: arg
 !$ integer                                  :: provided_tsl
 
    !***************************************************************************************
@@ -97,11 +98,11 @@ PROGRAM tight_binding
    WRITE (*, *) 'mynode ', mynode, ' numnodes', numnodes
 
 
-   
-   
+    CALL get_command_argument(1, arg)
+       
    
    !------- Read atom info ------------------
-   open (unit=2, file="coords.dat")
+   open (unit=2, file=arg)
    read (2, *) nr
    allocate(rr(3,nr))
    do j=1,nr
@@ -196,10 +197,12 @@ PROGRAM tight_binding
    
    !***************************************************************************************
    !
-   ! initialize libdbcsr
+     call dbcsr_init_timer(MPI_COMM_WORLD, npdims, group)
+  
+  ! initialize libdbcsr
    CALL dbcsr_init_lib()
    
-   call dbcsr_init_timer(MPI_COMM_WORLD, npdims, group)
+
    !
    ! the matrix will contain nblkrows_total row blocks and nblkcols_total column blocks
    nblkrows_total = nr
@@ -293,20 +296,24 @@ PROGRAM tight_binding
    CALL dbcsr_finalize(matrix_s_inv)
 
   
-!    call dbcsr_print(matrix_ks) 
-
-   ! TODO fix
+   if (nr < 10) then
+     print *,"!!!!!!!!!!!!!!!! Sparse Hamiltonian matrix !!!!!!!!!!!!!!!!!!!!!"
+     call dbcsr_print(matrix_ks) 
+   endif
+   
    mu = 0.0d0
-!    call density_matrix_sign(matrix_p, mu, .false., matrix_ks, matrix_s, &
-!        matrix_s_inv, nelectrons, 0.0001d0)
+   call density_matrix_sign(matrix_p, mu, .false., matrix_ks, matrix_s, &
+       matrix_s_inv, nelectrons, 0.0001d0)
 
-!    call dbcsr_print(matrix_p)
+   if (nr < 10) then
+     print *,"!!!!!!!!!!!!!!!! Sparse density matrix !!!!!!!!!!!!!!!!!!!!!"
+     call dbcsr_print(matrix_p)
+   endif
 
-
-!    CALL dbcsr_multiply('N', 'N', 1.0D0, matrix_ks, matrix_p, 0.0D0, rho_ham)
+   CALL dbcsr_multiply('N', 'N', 1.0D0, matrix_ks, matrix_p, 0.0D0, rho_ham)
    
    
-!    call dbcsr_trace(rho_ham, dbcsr_energy)
+   call dbcsr_trace(rho_ham, dbcsr_energy)
    
      print *,"DBCSR Energy: ", dbcsr_energy
    
@@ -314,6 +321,8 @@ PROGRAM tight_binding
    ! Release all
    deallocate(rr)
 
+   
+   
    !
    ! release the matrices
    CALL dbcsr_release(matrix_ks)
@@ -325,11 +334,14 @@ PROGRAM tight_binding
    CALL dbcsr_distribution_release(dist)
    !DEALLOCATE (row_blk_sizes, col_blk_sizes)
 
-   
-   call dbcsr_kill_timer()
+
 
    ! finalize libdbcsr
    CALL dbcsr_finalize_lib(mpi_comm_world)
+   
+   call dbcsr_print_timer(mpi_comm_world)
+   
+   call dbcsr_kill_timer()
 
    ! free comm
    CALL mpi_comm_free(group, ierr)
@@ -626,7 +638,7 @@ subroutine build_ham_blocked(ham, rr, nr, hnondiag_cutoff, distance_cutoff)
   integer :: h, w, datasize
   
   
-  ALLOCATE (values(max_nze))
+  
   
   nzz = 0
   datasize = 0
@@ -664,10 +676,16 @@ subroutine build_ham_blocked(ham, rr, nr, hnondiag_cutoff, distance_cutoff)
   print *,"estimated nonzero blocks", nzz
   print *,"estimated nonzero elements", datasize
 
-  ! allocate work array with specified numbers of blocks and total elements
-  call dbcsr_work_create(matrix = ham, nblks_guess = nzz, sizedata_guess = datasize)
-  
+!   ! allocate work array with specified numbers of blocks and total elements
+! !$OMP        PARALLEL &
+! !$OMP        PRIVATE (ii, jj, r1, r2, dvec, t1, vec_norm, values, ib, jb) &
+! !$OMP        SHARED (ham) &
+  call dbcsr_work_create(matrix = ham, nblks_guess = nzz, &
+                         sizedata_guess = datasize, work_mutable=.TRUE.)
+! !$OMP        BARRIER
     
+  ALLOCATE (values(max_nze))
+! !$OMP DO
   do ii=1,nr
     r1=rr(:,ii)
     do jj=ii,nr
@@ -724,10 +742,12 @@ subroutine build_ham_blocked(ham, rr, nr, hnondiag_cutoff, distance_cutoff)
     end do
 !     print *,nzz_per_site
   end do 
-
+! !$OMP END DO
   print *, "non-zero blocks ", nzz
   
   DEALLOCATE (values)
+  
+! !$OMP END PARALLEL
   return
 end subroutine
 
