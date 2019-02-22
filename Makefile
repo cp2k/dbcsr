@@ -284,12 +284,12 @@ install: $(LIBRARY)
 else
 install:
 	@printf "  ... modules ..."
-	@if [[ -n "$(wildcard $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)))" ]] ; then \
+	@if [ -n "$(wildcard $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)))" ] ; then \
 		cp $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)) $(PREFIX)/include ; \
 		echo " done." ; \
 	else echo " no modules were installed!" ; fi
 	@printf "  ... headers ..."
-	@if [[ -n "$(PUBLICHEADERS)" ]] ; then \
+	@if [ -n "$(PUBLICHEADERS)" ] ; then \
 		cp $(PUBLICHEADERS) $(PREFIX)/include ; \
 		echo " done." ; \
 	else echo " no headers were installed!" ; fi
