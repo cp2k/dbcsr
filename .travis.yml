@@ -99,7 +99,9 @@ jobs:  # the following jobs inherit only the first OS
     if: tag IS present
     script:
       # do an in-source config for simplicity since we are not building anything here
-      - cmake .
+      - mkdir -p build
+      - cd build
+      - cmake ..
       - make dist
     deploy:
       provider: releases
