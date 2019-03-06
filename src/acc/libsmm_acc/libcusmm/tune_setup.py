@@ -295,7 +295,8 @@ def combinations(*sizes):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description="""
-        Usage: tune.py <blocksize 1> ... <blocksize N> --params parameters_GPU.json
+        Set up the autotuning of specified blocksizes. This script produces folders (tune_*x*x*)
+		containing the code, Makefile and jobfiles for the autotuning of a given (m, n, k)-triplet.
 
         This script is part of the workflow for autotuning optimal libcusmm parameters.
         For more details, see README.md#autotuning-procedure.
@@ -304,10 +305,10 @@ if __name__ == '__main__':
     parser.add_argument(
         "-p", "--params", metavar="parameters_GPU.json", default="parameters_P100.json", help="Parameter file to extend by this autotuning (pick the right GPU)")
     parser.add_argument(
-        "-c", "--cpus_per_node", metavar="INT", default=12, type=int, help="Maximum number of nodes an slurm allocation can get")
+        "-c", "--cpus_per_node", metavar="INT", default=12, type=int, help="Number of CPUs per node")
     parser.add_argument(
         "-n", "--nodes", metavar="INT", default=0, type=int, help="Maximum number of nodes an slurm allocation can get. 0: not a limiting factor (choose this option if you can allocate jobs of 20-30 nodes without a problem.")
-    parser.add_argument('blocksizes', metavar="BLOCKSIZE", nargs='+', type=int, help='Blocksize to autotune')
+    parser.add_argument('blocksizes', metavar="BLOCKSIZE", nargs='+', type=int, help='Blocksize(s) to autotune')
 
     args = parser.parse_args()
     main(args.params, args.cpus_per_node, args.nodes, args.blocksizes)
