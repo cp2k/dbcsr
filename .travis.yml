@@ -38,6 +38,11 @@ env:
   - USE_MPI=OFF USE_OPENMP=OFF USE_SMM=libxsmm
 
 matrix:
+  include:
+    - os: linux
+      python: 3.6
+
+matrix:
   exclude:
     - os: osx
       env: USE_MPI=ON USE_OPENMP=ON USE_SMM=blas
@@ -90,6 +95,8 @@ jobs:  # the following jobs inherit only the first OS
       # fetch remotes first to ensure that referenced branches (other than the default) are available
     - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     - git fetch
+    # yapf requires python3.6.4+
+    - pyenv global 3.6.7 2.7.15
     - git diff --name-only --diff-filter=AM HEAD "origin/${TRAVIS_BRANCH}" | xargs pre-commit run --files
   - name: "Run pre-commit hook 'check-ast' on all files"
     script:
