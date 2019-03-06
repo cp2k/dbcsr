@@ -45,8 +45,7 @@ class Kernel:
 
     @property
     def name(self):
-        return ("cusmm_dnt_" + self.algorithm + "_" + "_".join(
-            [str(self.__dict__[k]) for k in self.launch_parameters]))
+        return ("cusmm_dnt_" + self.algorithm + "_" + "_".join([str(self.__dict__[k]) for k in self.launch_parameters]))
 
     @property
     def autotuned(self):

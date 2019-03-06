@@ -60,15 +60,16 @@ def main(file, file_baseline):
     line = ("{m:>2}, {n:>2}, {k:>2}: {baseline_perf:>7.2f}, {predictive_model_perf:>7.2f}, " +
             "{performance_gain:>7.2f}, {better}")
     for m, n, k in sorted(results_predictive_model.keys()):
-        print(line.format(
-            m=m,
-            n=n,
-            k=k,
-            baseline_perf=results_baseline[(m, n, k)],
-            predictive_model_perf=results_predictive_model[(m, n, k)],
-            performance_gain=perf_gain_over_baseline[(m, n, k)],
-            better=improved_over_baseline[(m, n, k)],
-        ))
+        print(
+            line.format(
+                m=m,
+                n=n,
+                k=k,
+                baseline_perf=results_baseline[(m, n, k)],
+                predictive_model_perf=results_predictive_model[(m, n, k)],
+                performance_gain=perf_gain_over_baseline[(m, n, k)],
+                better=improved_over_baseline[(m, n, k)],
+            ))
 
     print(
         "\nKernel performances improved by predictive model:",
