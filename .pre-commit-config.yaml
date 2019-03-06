@@ -1,3 +1,6 @@
+default_language_version:
+    python: python3.6
+
 exclude: '^tools/(prettify/fprettify|build_utils/fypp)'
 fail_fast: false
 repos:
@@ -5,6 +8,7 @@ repos:
   rev: v0.24.0
   hooks:
   - id: yapf
+    language_version: "python3"
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v2.0.0
   hooks:

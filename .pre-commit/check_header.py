@@ -46,6 +46,8 @@ def check_header(header_dir, files, verbose=False):
     for headertype in TYPES:
         with open(path.join(header_dir, headertype), 'r') as fhandle:
             header_content = fhandle.read()
+            if not hasattr(header_content, "decode"):
+                header_content = bytes(header_content, 'utf-8')
             header_re[headertype] = re.compile(re.escape(header_content))
             header_len[headertype] = len(header_content)
 
