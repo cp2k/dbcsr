@@ -281,8 +281,9 @@ def print_merging_commands(kernel_folders, kernel_folder_pattern, tunedir):
                     print("None: did not find any existing files for algorithm", algorithm, "and data", data_type_name)
                     continue
 
-            print("$ tail -n +2 -q {tune_directory}tune_*/{data_type}training_data_*_{algorithm}.csv >> {training_data_file}".format(
-                tune_directory=tunedir, data_type=data_type, algorithm=algorithm, training_data_file=training_data_file))
+            print("$ tail -n +2 -q {tunedir}tune_*/{data_type}training_data_*_{algorithm}.csv >> {training_data_file}".
+                  format(
+                      tunedir=tunedir, data_type=data_type, algorithm=algorithm, training_data_file=training_data_file))
 
 
 # ===============================================================================

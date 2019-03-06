@@ -119,7 +119,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
         chunk_b = min((i + 1) * launchers_per_exe, len(launcher_codes))
         n_obj_files = int((chunk_b - chunk_a) / launchers_per_obj) + 1
 
-		# Compose source code for each object file
+        # Compose source code for each object file
         for j in range(n_obj_files):
             a = chunk_a + j * launchers_per_obj
             b = min(chunk_a + (j + 1) * launchers_per_obj, chunk_b)
@@ -128,7 +128,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
             fn = outdir + "/tune_%dx%dx%d_exe%d_part%d.cu" % (m, n, k, i, j)
             writefile(fn, output)
 
-		# Compose source code for "main" of executable file
+# Compose source code for "main" of executable file
         output = '#include "../libcusmm_benchmark.h"\n\n'
         for l in launchers:
             output += (
@@ -198,7 +198,7 @@ def gen_jobfile(outdir, m, n, k, cpus_per_node=12, max_num_nodes=0):
     for exe in all_exe:
         output += (
             "srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=%d make -j %d %s &\n" %
-            (cpus_per_node, 2*cpus_per_node, exe))
+            (cpus_per_node, 2 * cpus_per_node, exe))
         num_nodes_busy += 1
         if num_nodes_busy == num_nodes:
             output += "wait\n"
@@ -296,18 +296,27 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description="""
         Set up the autotuning of specified blocksizes. This script produces folders (tune_*x*x*)
-		containing the code, Makefile and jobfiles for the autotuning of a given (m, n, k)-triplet.
+        containing the code, Makefile and jobfiles for the autotuning of a given (m, n, k)-triplet.
 
         This script is part of the workflow for autotuning optimal libcusmm parameters.
         For more details, see README.md#autotuning-procedure.
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
-        "-p", "--params", metavar="parameters_GPU.json", default="parameters_P100.json", help="Parameter file to extend by this autotuning (pick the right GPU)")
+        "-p",
+        "--params",
+        metavar="parameters_GPU.json",
+        default="parameters_P100.json",
+        help="Parameter file to extend by this autotuning (pick the right GPU)")
+    parser.add_argument("-c", "--cpus_per_node", metavar="INT", default=12, type=int, help="Number of CPUs per node")
     parser.add_argument(
-        "-c", "--cpus_per_node", metavar="INT", default=12, type=int, help="Number of CPUs per node")
-    parser.add_argument(
-        "-n", "--nodes", metavar="INT", default=0, type=int, help="Maximum number of nodes an slurm allocation can get. 0: not a limiting factor (choose this option if you can allocate jobs of 20-30 nodes without a problem.")
+        "-n",
+        "--nodes",
+        metavar="INT",
+        default=0,
+        type=int,
+        help="Maximum number of nodes an slurm allocation can get. 0: not a limiting factor" +
+        "(choose this option if you can allocate jobs of 20-30 nodes without a problem.")
     parser.add_argument('blocksizes', metavar="BLOCKSIZE", nargs='+', type=int, help='Blocksize(s) to autotune')
 
     args = parser.parse_args()

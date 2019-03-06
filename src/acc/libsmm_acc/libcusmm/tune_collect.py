@@ -98,8 +98,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description="""
         Collect autotuning results: parse the log files contained in folders tune_*x*x*
-		to determine the best kernel for each block size, and store the results in a
-		file "parameters.json".
+        to determine the best kernel for each block size, and store the results in a
+        file "parameters.json".
 
         This script is part of the workflow for autotuning optimal libcusmm parameters.
         For more details, see README.md#autotuning-procedure.

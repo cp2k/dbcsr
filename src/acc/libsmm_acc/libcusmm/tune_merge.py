@@ -49,8 +49,8 @@ if __name__ == '__main__':
         description="""
         Write a new kernel parameter file (parameters.new.json) as a unique merge of an
         already-existing parameter file (specified by `-p parameters_GPU.json`) and a new
-		one (parameters.json) created by tune_collect.py. If a kernel (m, n, k) is listed
-		in both the original parameter file and the new parameter file, retain its parameters
+        one (parameters.json) created by tune_collect.py. If a kernel (m, n, k) is listed
+        in both the original parameter file and the new parameter file, retain its parameters
         as defined in the new parameter file.
 
         This script is part of the workflow for autotuning optimal libcusmm parameters.
