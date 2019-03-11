@@ -59,18 +59,40 @@ The `tune_setup.py` script generates job files. You have to adapt the script to 
 
 #### 3. Run the script `tune_setup.py`
 
-Specify which GPU you are autotuning for by passing the appropriate `parameters_GPU.json` file as an argument with `-p`. In addition, the script takes as arguments the block sizes you want to add to `libcusmm`. For example, if the system you want to autotune for contains blocks of size 5 and 8, run:
+Specify which GPU you are autotuning for by passing the appropriate `parameters_GPU.json` file as an argument with `-p`.
+In addition, the script takes as arguments the block sizes you want to add to `libcusmm`. You can specify these as a list of integers or provide a the parameter file of a different GPU from which to read the block sizes to autotune.
+
+For example, if the system you want to autotune for contains blocks of size 5 and 8, run:
 
 ```bash
 $ ./tune_setup.py 5 8 -p parameters_P100.json
-Found 23 parameter sets for 5x5x5
-Found 31 parameter sets for 5x5x8
-Found 107 parameter sets for 5x8x5
-Found 171 parameter sets for 5x8x8
-Found 75 parameter sets for 8x5x5
-Found 107 parameter sets for 8x5x8
-Found 248 parameter sets for 8x8x5
-Found 424 parameter sets for 8x8x8
+Reading parameters from parameters_P100.json
+Libcusmm: Found 74096 existing parameter sets, of which 1641 are autotuned and 72455 are predicted.
+Requested to autotune 8 triplets
+Found 41824 parameter sets for 5x5x5
+Found 83648 parameter sets for 5x5x8
+Found 103072 parameter sets for 5x8x5
+Found 103072 parameter sets for 5x8x8
+Found 103072 parameter sets for 8x5x5
+Found 103072 parameter sets for 8x5x8
+Found 125344 parameter sets for 8x8x5
+Found 125344 parameter sets for 8x8x8
+```
+
+Or, if you want to obtain, for the NVIDIA P100, the parameters of the same block sizes as recorded for the NVIDIA K40, run:
+
+```bash
+$ ./tune_setup.py -p parameters_P100.json parameters_K40.json
+Reading parameters from parameters_P100.json
+Libcusmm: Found 74093 existing parameter sets, of which 1638 are autotuned and 72455 are predicted.
+Reading parameters to autotune from parameters_K40.json
+Requested to autotune 19 triplets
+Found 41824 parameter sets for 5x5x5
+Found 95648 parameter sets for 6x6x6
+Found 110496 parameter sets for 7x7x7
+Found 125344 parameter sets for 8x8x8
+Found 173764 parameter sets for 9x9x9
+...
 ```
 
 The script will create a directory for each combination of the block sizes:
