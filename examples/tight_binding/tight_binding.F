@@ -676,16 +676,15 @@ subroutine build_ham_blocked(ham, rr, nr, hnondiag_cutoff, distance_cutoff)
   print *,"estimated nonzero blocks", nzz
   print *,"estimated nonzero elements", datasize
 
-!   ! allocate work array with specified numbers of blocks and total elements
-! !$OMP        PARALLEL &
-! !$OMP        PRIVATE (ii, jj, r1, r2, dvec, t1, vec_norm, values, ib, jb) &
-! !$OMP        SHARED (ham) &
+! allocate work array with specified numbers of blocks and total elements
+!$OMP        PARALLEL &
+!$OMP        PRIVATE (node_holds_blk, r1, r2, dvec, t1, vec_norm, values, ib, jb) &
+!$OMP        SHARED (ham, mynode) 
   call dbcsr_work_create(matrix = ham, nblks_guess = nzz, &
                          sizedata_guess = datasize, work_mutable=.TRUE.)
-! !$OMP        BARRIER
-    
+!$OMP        BARRIER
   ALLOCATE (values(max_nze))
-! !$OMP DO
+!$OMP DO
   do ii=1,nr
     r1=rr(:,ii)
     do jj=ii,nr
@@ -742,12 +741,10 @@ subroutine build_ham_blocked(ham, rr, nr, hnondiag_cutoff, distance_cutoff)
     end do
 !     print *,nzz_per_site
   end do 
-! !$OMP END DO
-  print *, "non-zero blocks ", nzz
-  
+!$OMP END DO
   DEALLOCATE (values)
   
-! !$OMP END PARALLEL
+!$OMP END PARALLEL
   return
 end subroutine
 
