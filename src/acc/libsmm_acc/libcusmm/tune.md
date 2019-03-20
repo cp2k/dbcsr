@@ -126,7 +126,7 @@ The script `tune_submit.py` was written for the slurm batch system as used e.g. 
 
 #### 5. Submit Jobs
 
-Each tune-directory contains a job file. Since there might be many tune-directories, the convenience script `tune_submit.py` can be used to submit jobs. It will go through all the `tune_*`-directories and check if its job has already been submitted or run. For this, the script calls `squeue` in the background and it searches for `slurm-*.out`files.
+Each tune-directory contains a job file. Since there might be many tune-directories, the convenience script `tune_submit.py` can be used to submit jobs. It will go through all the `tune_*`-directories and check if its job has already been submitted or run. For this, the script calls `squeue` in the background and it searches for `slurm-*.out`files. In order to limit the number of jobs submitted at a time, a maximum number of jobs to submit can be specified with `-j`.
 
 When `tune_submit.py` is called without arguments, it will just list the jobs that could be submitted:
 
