@@ -29,11 +29,6 @@ PROGRAM tight_binding
    
     use dm_ls_scf_methods, only: density_matrix_sign
     
-       USE dbcsr_log_handling, ONLY: dbcsr_add_default_logger, &
-                                 dbcsr_logger_create, &
-                                 dbcsr_logger_release, &
-                                 dbcsr_logger_type, &
-                                 dbcsr_rm_default_logger
     USE dbcsr_machine, ONLY: default_output_unit
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
@@ -64,7 +59,6 @@ PROGRAM tight_binding
   real(8), allocatable :: ham_dense(:,:)
   character(len=20) :: exFmt
   integer :: block_size, nelectrons
-     TYPE(dbcsr_logger_type), POINTER            :: logger
      CHARACTER(len=100) :: arg
 !$ integer                                  :: provided_tsl
 
@@ -167,10 +161,6 @@ PROGRAM tight_binding
    
    hnondiag_cutoff = 1.0D-7 ! Ry
    dist_cutoff     = 14.0   ! Bohr
-   
-!    do i=1,20
-!       print *, i*1.5, sk(i*1.5d0,vsss), sk(i*1.5d0,vsps),  sk(i*1.5d0,vpps),  sk(i*1.5d0,vppp)
-!    enddo
    
    
    if (nr < 200) then
@@ -279,8 +269,6 @@ PROGRAM tight_binding
    ! set up the a matrix
    CALL dbcsr_distribution_get(dist, mynode=mynode)
 
-   !call build_ham(matrix_ks, rr, rft, kc, nr, nrft)
-
       
    ! DBCSR version, sparse and blocked   
    call build_ham_blocked(matrix_ks, rr, nr, hnondiag_cutoff, dist_cutoff)
@@ -332,9 +320,6 @@ PROGRAM tight_binding
    CALL dbcsr_release(rho_ham)
 
    CALL dbcsr_distribution_release(dist)
-   !DEALLOCATE (row_blk_sizes, col_blk_sizes)
-
-
 
    ! finalize libdbcsr
    CALL dbcsr_finalize_lib(mpi_comm_world)
