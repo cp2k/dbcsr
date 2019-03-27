@@ -64,7 +64,7 @@ MODULE dbcsr_operations
       dbcsr_get_replication_type, dbcsr_has_symmetry, dbcsr_max_col_size, dbcsr_max_row_size, &
       dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
       dbcsr_row_block_offsets, dbcsr_valid_index, dbcsr_get_nze, dbcsr_nfullcols_local, &
-      dbcsr_nfullrows_local, dbcsr_get_num_blocks
+      dbcsr_nfullrows_local, dbcsr_get_num_blocks, dbcsr_release
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_group, &
                                dbcsr_mp_mynode, &
                                dbcsr_mp_mypcol, &
@@ -127,6 +127,7 @@ MODULE dbcsr_operations
 
    PUBLIC :: dbcsr_crop_matrix
    PUBLIC :: dbcsr_get_info, dbcsr_may_be_dense, dbcsr_get_occupation
+   PUBLIC :: dbcsr_clear
 
 ! The interfaces for the generic routines found in the generated
 ! generic files.
@@ -2752,6 +2753,18 @@ CONTAINS
          occupation = 0.0_real_8
       ENDIF
    END FUNCTION dbcsr_get_occupation
+
+! **************************************************************************************************
+!> \brief Clear a matrix (remove all blocks)
+!> \param matrix ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_clear(matrix)
+      TYPE(dbcsr_type), INTENT(INOUT)                       :: matrix
+
+      CALL dbcsr_set(matrix, 0.0_dp)
+      CALL dbcsr_filter(matrix, 1.0_dp)
+
+   END SUBROUTINE
 
 #:include "dbcsr_operations.f90"
 
