@@ -8,7 +8,7 @@
 !--------------------------------------------------------------------------------------------------!
 
 ! **************************************************************************************************
-!> \brief   This is the start of a dbcsr_tensor_api, all publicly needed functions
+!> \brief   This is the start of a dbcsr_tensor_api, all publically needed functions
 !>          are exported here. The others remain private to the library.
 !>          Currently, this is the CP2K used set.
 !>          Ultimately, a reduced subset and well defined api will remain,
@@ -22,7 +22,10 @@ MODULE dbcsr_tensor_api
                            dbcsr_t_get_stored_coordinates, &
                            dbcsr_t_put_block, &
                            dbcsr_t_reserve_blocks, &
-                           dbcsr_t_split_blocks
+                           dbcsr_t_copy_matrix_to_tensor, &
+                           dbcsr_t_copy, &
+                           dbcsr_t_copy_tensor_to_matrix, &
+                           dbcsr_t_need_contract
    USE dbcsr_tensor_block, ONLY: dbcsr_t_iterator_blocks_left, &
                                  dbcsr_t_iterator_next_block, &
                                  dbcsr_t_iterator_start, &
@@ -35,7 +38,20 @@ MODULE dbcsr_tensor_api
                                  dbcsr_t_distribution_type, &
                                  dbcsr_t_nd_mp_comm, &
                                  dbcsr_t_nd_mp_free, &
-                                 dbcsr_t_type
+                                 dbcsr_t_type, &
+                                 dbcsr_t_pgrid_type, &
+                                 dbcsr_t_pgrid_create, &
+                                 dbcsr_t_pgrid_destroy, &
+                                 dbcsr_t_set, &
+                                 dbcsr_t_filter, &
+                                 mp_environ_pgrid, &
+                                 dbcsr_t_blk_sizes, &
+                                 dbcsr_t_get_info, &
+                                 dbcsr_t_finalize, &
+                                 dbcsr_t_scale
+   USE dbcsr_tensor_test, ONLY: dbcsr_t_contract_test, &
+                                dbcsr_t_checksum
+   USE dbcsr_tensor_split, ONLY: dbcsr_t_split_blocks
 
    IMPLICIT NONE
 
@@ -43,7 +59,7 @@ MODULE dbcsr_tensor_api
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tensor_api'
 
-   PUBLIC :: dbcsr_t_contract
+   PUBLIC :: dbcsr_t_contract, dbcsr_t_contract_test
    PUBLIC :: dbcsr_t_get_block
    PUBLIC :: dbcsr_t_get_stored_coordinates
    PUBLIC :: dbcsr_t_put_block
@@ -62,5 +78,20 @@ MODULE dbcsr_tensor_api
    PUBLIC :: dbcsr_t_iterator_start
    PUBLIC :: dbcsr_t_iterator_type
    PUBLIC :: dbcsr_t_split_blocks
+   PUBLIC :: dbcsr_t_pgrid_type
+   PUBLIC :: dbcsr_t_pgrid_create
+   PUBLIC :: dbcsr_t_pgrid_destroy
+   PUBLIC :: dbcsr_t_set
+   PUBLIC :: dbcsr_t_filter
+   PUBLIC :: mp_environ_pgrid
+   PUBLIC :: dbcsr_t_copy_matrix_to_tensor
+   PUBLIC :: dbcsr_t_blk_sizes
+   PUBLIC :: dbcsr_t_copy
+   PUBLIC :: dbcsr_t_copy_tensor_to_matrix
+   PUBLIC :: dbcsr_t_get_info
+   PUBLIC :: dbcsr_t_checksum
+   PUBLIC :: dbcsr_t_finalize
+   PUBLIC :: dbcsr_t_need_contract
+   PUBLIC :: dbcsr_t_scale
 
 END MODULE dbcsr_tensor_api
