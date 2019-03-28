@@ -440,13 +440,13 @@ CONTAINS
       CALL dbcsr_t_iterator_start(iter, tensor_out)
       DO WHILE (dbcsr_t_iterator_blocks_left(iter))
          CALL dbcsr_t_iterator_next_block(iter, blk_index, blk, blk_size=blk_size, blk_offset=blk_offset)
-#:for dparam, dtype, dsuffix in dtype_float_list
+#:for dprec, dparam, dtype, dsuffix in dtype_float_list_prec
          IF (dbcsr_t_get_data_type(tensor_out) == ${dparam}$) THEN
 
 #:for ndim in ndims
             IF (ndims_tensor(tensor_out) == ${ndim}$) THEN
                CALL allocate_any(block_${dsuffix}$_${ndim}$d, blk_size)
-               block_${dsuffix}$_${ndim}$d = 0.0_real_8
+               block_${dsuffix}$_${ndim}$d = 0.0_${dprec}$
 #:for idim in range(1,ndim+1)
                DO iblk_${idim}$ = first_split_${idim}$ (blk_index(${idim}$)), last_split_${idim}$ (blk_index(${idim}$))
 #:endfor
