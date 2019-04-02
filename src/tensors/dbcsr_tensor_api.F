@@ -48,7 +48,9 @@ MODULE dbcsr_tensor_api
                                  dbcsr_t_blk_sizes, &
                                  dbcsr_t_get_info, &
                                  dbcsr_t_finalize, &
-                                 dbcsr_t_scale
+                                 dbcsr_t_scale, &
+                                 dbcsr_t_get_nze, &
+                                 dbcsr_t_get_nze_total
    USE dbcsr_tensor_test, ONLY: dbcsr_t_contract_test, &
                                 dbcsr_t_checksum
    USE dbcsr_tensor_split, ONLY: dbcsr_t_split_blocks
@@ -93,5 +95,6 @@ MODULE dbcsr_tensor_api
    PUBLIC :: dbcsr_t_finalize
    PUBLIC :: dbcsr_t_need_contract
    PUBLIC :: dbcsr_t_scale
+   PUBLIC :: dbcsr_t_get_nze, dbcsr_t_get_nze_total
 
 END MODULE dbcsr_tensor_api
