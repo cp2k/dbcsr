@@ -97,8 +97,8 @@ CONTAINS
                ENDDO
 
             ENDIF
-            WRITE (output_unit, *)
          ENDIF
+         WRITE (output_unit, *)
       ENDIF
 
    END SUBROUTINE

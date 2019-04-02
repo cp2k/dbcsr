@@ -188,9 +188,10 @@ CONTAINS
       IF (.NOT. block_compatible) THEN
          ALLOCATE (in_tmp_2, out_tmp_1)
          new_in_2 = .TRUE.; new_out_1 = .TRUE.
-         IF (.NOT. summation_prv) THEN
-            CALL dbcsr_t_make_compatible_blocks(in_tmp_1, tensor_out, in_tmp_2, out_tmp_1, nodata2=.TRUE., move_data=move_data)
-         ENDIF
+         !IF (.NOT. summation_prv) THEN
+         CALL dbcsr_t_make_compatible_blocks(in_tmp_1, tensor_out, in_tmp_2, out_tmp_1, &
+                                             nodata2=.NOT. summation_prv, move_data=move_data)
+         !ENDIF
       ELSE
          in_tmp_2 => in_tmp_1
          out_tmp_1 => tensor_out
