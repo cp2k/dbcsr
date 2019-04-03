@@ -19,23 +19,18 @@
 #include <unordered_map>
 #include <vector>
 
+#if defined _OPENMP
+#include <omp.h>
+#endif
+
+// Macros for CUDA error handling
+// Wrap calls to CUDA NVRTC API
 #define NVRTC_SAFE_CALL(name, x)                                  \
   do {                                                            \
     nvrtcResult result = x;                                       \
     if (result != NVRTC_SUCCESS) {                                \
-      printf("\nerror: %s failed with error %s\n",                \
+      printf("\nNVRTC ERROR: %s failed with error %s\n",          \
              name, nvrtcGetErrorString(result));                  \
-      exit(1);                                                    \
-    }                                                             \
-  } while(0)
-#define CUDA_SAFE_CALL(name, x)                                   \
-  do {                                                            \
-    CUresult result = x;                                          \
-    if (result != CUDA_SUCCESS) {                                 \
-      const char *msg;                                            \
-      cuGetErrorName(result, &msg);                               \
-      printf("\nerror: %s failed with error %s\n",                \
-             name, msg);                                          \
       exit(1);                                                    \
     }                                                             \
   } while(0)
@@ -56,6 +51,9 @@ struct kernel_launcher {
 };
 
 static std::unordered_map<Triplet, kernel_launcher> kernel_handles;
+#if defined _OPENMP
+static std::unordered_map<Triplet, omp_lock_t> kernel_locks;
+#endif
 
 int libcusmm_process_d(int *param_stack, int stack_size,
     CUstream stream, int m, int n, int k,

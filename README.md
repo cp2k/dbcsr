@@ -15,19 +15,19 @@ You absolutely need:
 * a Fortran compiler which supports at least Fortran 2003 (respectively 2008+TS when using the C-bindings)
 * a LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested)
 * a BLAS implementation (reference, OpenBLAS-bundled and MKL have been tested)
-* a Python version installed (2.7 or 3.6+ have been tested)
+* a Python version installed (2.7 or 3.6+ have been tested) with Numpy
 
 Optionally:
 
 * [libxsmm](https://github.com/hfp/libxsmm) (1.8.2+ with make-only, 1.10+ with cmake) for Small Matrix Multiplication acceleration
 * [CMake](https://cmake.org/) (3.10+)
 
-To build with CUDA support you further need:
+To build [libcusmm](src/acc/libsmm_acc/libcusmm) (DBCSR's CUDA backend), you further need:
 
 * CUDA Toolkit
 * a C++ compiler which supports at least C++11 standard
 
-We test against GNU and Intel compilers on Linux systems.
+We test against GNU and Intel compilers on Linux systems, GNU compiler on MacOS systems.
 
 ## Getting started
 

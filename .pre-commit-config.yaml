@@ -1,3 +1,6 @@
+default_language_version:
+    python: python3.6
+
 exclude: '^tools/(prettify/fprettify|build_utils/fypp)'
 fail_fast: false
 repos:
@@ -5,13 +8,27 @@ repos:
   rev: v0.24.0
   hooks:
   - id: yapf
+    language_version: "python3"
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v2.0.0
   hooks:
   - id: flake8
+    language_version: "python2"
+    exclude: '^src/acc/libsmm_acc/libcusmm/(tune|predict)_'
+  - id: flake8
+    language_version: "python3"
   - id: check-ast
     stages: [manual]
     language_version: "python2"
+    exclude: '^src/acc/libsmm_acc/libcusmm/(tune|predict)_'
   - id: check-ast
     stages: [manual]
     language_version: "python3"
+- repo: local
+  hooks:
+  - id: check-header
+    name: check file headers
+    entry: ./.pre-commit/check_header.py --verbose
+    language: script
+    types: [text]
+    exclude: '^tools/'

@@ -1,0 +1,13 @@
+{
+    "info": {
+        "header": "Autotuning characteristics",
+        "stack_size": "Number of block multiplications computed in one DBCSR stack",
+        "npar": "Number of parameters in one DBCSR stack entry",
+        "sizeof_int": "size of an int (bytes)",
+        "sizeof_double": "size of a double (bytes)"
+    },
+    "stack_size": 16005,
+    "npars": 3,
+    "sizeof_int": 4,
+    "sizeof_double": 8
+}

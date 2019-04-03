@@ -38,6 +38,11 @@ env:
   - USE_MPI=OFF USE_OPENMP=OFF USE_SMM=libxsmm
 
 matrix:
+  include:
+    - os: linux
+      python: 3.6
+
+matrix:
   exclude:
     - os: osx
       env: USE_MPI=ON USE_OPENMP=ON USE_SMM=blas
@@ -87,7 +92,12 @@ jobs:  # the following jobs inherit only the first OS
   - name: "Run pre-commit hook on changed files"
     script:
     - set -o pipefail
-    - git diff --name-only --diff-filter=AM HEAD...$TRAVIS_BRANCH | xargs pre-commit run --files
+      # fetch remotes first to ensure that referenced branches (other than the default) are available
+    - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+    - git fetch
+    # yapf requires python3.6.4+
+    - pyenv global 3.6.7 2.7.15
+    - git diff --name-only --diff-filter=AM HEAD "origin/${TRAVIS_BRANCH}" | xargs pre-commit run --files
   - name: "Run pre-commit hook 'check-ast' on all files"
     script:
     - pre-commit run --hook-stage manual --all-files check-ast
@@ -96,7 +106,9 @@ jobs:  # the following jobs inherit only the first OS
     if: tag IS present
     script:
       # do an in-source config for simplicity since we are not building anything here
-      - cmake .
+      - mkdir -p build
+      - cd build
+      - cmake ..
       - make dist
     deploy:
       provider: releases

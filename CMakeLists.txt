@@ -88,6 +88,14 @@ endif ()
 
 get_filename_component(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
 
+# if the fortran compiler command is a CRAY wrapper, find out what the underlying compiler is
+if (Fortran_COMPILER_NAME MATCHES "ftn")
+  execute_process(COMMAND ftn -craype-verbose OUTPUT_VARIABLE ftn_verbose_OUT ERROR_QUIET)
+  separate_arguments(ftn_verbose_OUT NATIVE_COMMAND "${ftn_verbose_OUT}")
+  list(GET ftn_verbose_OUT 0 Fortran_COMPILER_NAME)
+endif ()
+
+# Depending on the fortran compiler, set the appropriate compiler flags
 if (Fortran_COMPILER_NAME MATCHES "gfortran.*")
   set(CMAKE_CXX_FLAGS              "-std=c++11")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")

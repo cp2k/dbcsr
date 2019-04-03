@@ -8,16 +8,17 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-from kernels import cusmm_dnt as cu
+import numpy as np
+from kernels.cusmm_dnt_base import Kernel, round_up_to_nearest_multiple
 
 
-class Kernel_dnt_small(cu.Kernel):
+class Kernel_dnt_small(Kernel):
 
     algorithm = "small"
     algorithm_num = 4
-    launch_parameters = ['m', 'n', 'k', 'tile_m', 'tile_n', 'threads', 'grouping', 'minblocks']
+    launch_parameters = ["m", "n", "k", "tile_m", "tile_n", "threads", "grouping", "minblocks"]
 
-    def __init__(self, m, n, k, threads, tile_m, tile_n, grouping, minblocks, perf):
+    def __init__(self, m, n, k, threads, tile_m, tile_n, grouping, minblocks, perf, source):
         self.m = m
         self.n = n
         self.k = k
@@ -27,21 +28,42 @@ class Kernel_dnt_small(cu.Kernel):
         self.grouping = grouping
         self.minblocks = minblocks
         self.perf = perf
+        self.source = source
 
     @property
     def func_signature(self):
-        return "cusmm_dnt_small<%(m)d,%(n)d,%(k)d,%(tile_m)d,%(tile_n)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n" \
-               % self.__dict__
+        return ("cusmm_dnt_small<%(m)d,%(n)d,%(k)d,%(tile_m)d,%(tile_n)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n" %
+                self.__dict__)
 
     @staticmethod
-    def promising_parameters(m, n, k, gpu):
+    def promising_parameters(m,
+                             n,
+                             k,
+                             gpu,
+                             autotuning,
+                             threads=None,
+                             grouping=None,
+                             minblocks=None,
+                             tile_m=None,
+                             tile_n=None,
+                             w=None,
+                             v=None):
+        """
+        Given a certain (m,n,k)-triplet, GPU properties and autotuning properties, return a list of all possible
+        kernel parameters
+        """
 
         # Parameter space:
         params = []
-        for minblocks in range(1, gpu["maxBLOCKSperSM"] + 1):
-            for grouping in range(2, 32 + 1, 1):  # heuristic: never seen optimal=1 hence start from 2
-                for tm in range(1, min(12, m) + 1):  # heuristic: the optimal tile_m is never above 12
-                    for tn in range(1, min(12, n) + 1):  # heuristic: the optimal tile_n is never above 12
+        for minblocks_ in range(1, gpu["Thread_Blocks_/_Multiprocessor"] + 1) if minblocks is None else [minblocks]:
+            for grouping_ in (range(2, 32 + 1, 1) if grouping is None else
+                              [grouping]):  # heuristic: never seen optimal=1 hence start from 2
+                for tm in (range(1,
+                                 min(12, m) + 1)
+                           if tile_m is None else [tile_m]):  # heuristic: the optimal tile_m is never above 12
+                    for tn in (range(1,
+                                     min(12, n) + 1)
+                               if tile_n is None else [tile_n]):  # heuristic: the optimal tile_n is never above 12
 
                         if tm * tn > 16:
                             continue  # heuristic: performance decreases for very large tiles
@@ -54,30 +76,68 @@ class Kernel_dnt_small(cu.Kernel):
                         min_threads = cmax * rmax
 
                         # Max work ("operations") which can be run concurrently
-                        max_concurrent_work = max(grouping, m*k, k*n, m*n, min_threads)
+                        max_concurrent_work = max(grouping_, m * k, k * n, m * n, min_threads)
 
                         # Shared memory buffer size
-                        buf_sz = max(m*n, m*k + k*tn*cmax, tm*rmax*k + 1)
-                        smem_tot = buf_sz * cu.sizeof_double + cu.npar * grouping * cu.sizeof_int
-                        if smem_tot > gpu["SMEMperBLOCK"]:
+                        buf_sz = max(m * n, m * k + k * tn * cmax, tm * rmax * k + 1)
+                        smem_tot = (buf_sz * autotuning["sizeof_double"] +
+                                    autotuning["npars"] * grouping_ * autotuning["sizeof_int"])
+                        if smem_tot > gpu["Max_Shared_Memory_/_Block_(bytes)"]:
                             continue
-                        if smem_tot * minblocks > gpu["SMEMperSM"]:
+                        if smem_tot * minblocks_ > gpu["Shared_Memory_/_Multiprocessor_(bytes)"]:
                             continue
 
                         # Use all concurrency available: fill warps
-                        for threads in range(gpu["warp_size"], gpu["maxTHREADSperBLOCK"] + 1, gpu["warp_size"]):
-        
-                            if threads > cu.round_up_to_multiple(max_concurrent_work, gpu["warp_size"]):
+                        for threads_ in (range(gpu["Threads_/_Warp"], gpu["Max_Thread_Block_Size"] + 1,
+                                               gpu["Threads_/_Warp"]) if threads is None else [threads]):
+
+                            if threads_ > round_up_to_nearest_multiple(max_concurrent_work, gpu["Threads_/_Warp"]):
                                 continue  # soft: too much concurrency harms performance
-                            if threads * minblocks > gpu["maxTHREADSperSM"]:
+                            if threads_ * minblocks_ > gpu["Threads_/_Multiprocessor"]:
                                 continue
-                            if threads < min_threads:
+                            if threads_ < min_threads:
                                 continue
 
-                            params.append({'m': m, 'n': n, 'k': k,
-                                           'tile_m': tm, 'tile_n': tn,
-                                           'threads': threads,
-                                           'grouping': grouping,
-                                           'minblocks': minblocks,
-                                           'perf': 0})
+                            params.append({
+                                "m": m,
+                                "n": n,
+                                "k": k,
+                                "tile_m": tm,
+                                "tile_n": tn,
+                                "threads": threads_,
+                                "grouping": grouping_,
+                                "minblocks": minblocks_,
+                            })
         return params
+
+    @staticmethod
+    def baseline(m, n, k, gpu, autotuning):
+        """
+        Given an (m, n, k)-triplet and GPu and autotuning properties, return a set of parameters corresponding to a
+        baseline ("educated guess") of the kernel's optimal parameters
+        """
+
+        grp = 16
+        minblk = 2
+        tm = 2
+        tn = 2
+        cmax = (n + tn - 1) // tn
+        rmax = (m + tm - 1) // tm
+        min_threads = cmax * rmax
+
+        base = {
+            "threads": round_up_to_nearest_multiple(min_threads, 32),
+            "grouping": grp,
+            "minblocks": minblk,
+            "tile_m": tn,
+            "tile_n": tn,
+            "w": np.NaN,
+            "v": np.NaN,
+        }
+
+        if len(Kernel_dnt_small.promising_parameters(m, n, k, gpu, autotuning, **base)) > 0:
+            base = Kernel_dnt_small.promising_parameters(m, n, k, gpu, autotuning)[0]
+            base.update(dict([("tile_m", np.NaN), ("tile_n", np.NaN), ("w", np.NaN), ("v", np.NaN)]))
+
+        base.update(dict([("m", m), ("n", n), ("k", k), ("algorithm", "small"), ("perf", 0), ("source", "predicted")]))
+        return base

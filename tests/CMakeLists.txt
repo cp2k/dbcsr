@@ -34,6 +34,7 @@ endforeach ()
 set(DBCSR_TESTS
   dbcsr_unittest1
   dbcsr_unittest2
+  dbcsr_unittest3
   dbcsr_tensor_unittest
   dbcsr_test_csr_conversions
   )
@@ -47,6 +48,7 @@ set(dbcsr_unittest_common_SRCS
 # For each test, set a variable testname_SRCS defining the sources of that test
 set(dbcsr_unittest1_SRCS dbcsr_unittest1.F)
 set(dbcsr_unittest2_SRCS dbcsr_unittest2.F)
+set(dbcsr_unittest3_SRCS dbcsr_unittest3.F)
 set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
 
@@ -78,9 +80,24 @@ if (USE_CUDA)
     libcusmm_timer_multiply
     )
 
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/libcusmm_unittest_multiply.cu
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/generate_libcusmm_unittest_multiply.py --base_folder ${CMAKE_CURRENT_SOURCE_DIR}/.. --gpu_version=${WITH_GPU}
+    DEPENDS libcusmm_unittest_multiply.template generate_libcusmm_unittest_multiply.py
+    COMMENT "Generate tests/libcusmm_unittest_multiply.cu"
+  )
+
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/libcusmm_timer_multiply.cu
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/generate_libcusmm_timer_multiply.py --base_folder ${CMAKE_CURRENT_SOURCE_DIR}/.. --gpu_version=${WITH_GPU}
+    DEPENDS libcusmm_timer_multiply.template generate_libcusmm_timer_multiply.py
+    COMMENT "Generate tests/libcusmm_timer_multiply.cu"
+  )
+
   foreach (libcusmm_test ${LIBCUSMM_TESTS})
-    add_executable(${libcusmm_test} ${libcusmm_test}.cu)
+    add_executable(${libcusmm_test} ${CMAKE_CURRENT_SOURCE_DIR}/${libcusmm_test}.cu)
     target_link_libraries(${libcusmm_test} dbcsr)
     add_test(NAME ${libcusmm_test} COMMAND ./${libcusmm_test})
   endforeach ()
+
 endif ()

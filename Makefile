@@ -84,6 +84,7 @@ endif
          dirs makedep \
 	 default_target $(LIBRARY) all \
          toolversions \
+         toolflags \
          doxify doxifyclean \
          pretty prettyclean doxygen/clean doxygen \
          install clean realclean help \
@@ -144,7 +145,7 @@ dirs:
 	@mkdir -p $(LIBDIR)
 
 version:
-	@echo "DCBSR Version: "$(MAJOR)"."$(MINOR)"."$(PATCH)" ("$(DATE)")"
+	@echo "DBCSR Version: "$(MAJOR)"."$(MINOR)"."$(PATCH)" ("$(DATE)")"
 OTHER_HELP += "version : Print DBCSR version"
 
 toolversions:
@@ -158,6 +159,11 @@ else
 	$(FC) --version
 endif
 endif
+ifneq ($(CXX),)
+	@echo "========== CXX =========="
+	$(CXX) --version
+	@echo ""
+endif
 ifneq ($(CC),)
 	@echo "=========== CC ==========="
 ifeq (Cray,$(shell $(CC) -V 2>&1 | head -n1 | cut -d' ' -f1))
@@ -167,6 +173,11 @@ else ifeq (IBM,$(shell $(CC) -qversion 2>&1 | head -n1 | cut -d' ' -f1))
 else
 	$(CC) --version
 endif
+endif
+ifneq ($(LD),)
+	@echo "========== LD =========="
+	$(LD) --version
+	@echo ""
 endif
 ifneq ($(NVCC),)
 	@echo "========== NVCC =========="
@@ -185,6 +196,40 @@ endif
 	/usr/bin/env python --version
 
 OTHER_HELP += "toolversions : Print versions of build tools"
+
+toolflags:
+ifneq ($(FCFLAGS),)
+	@echo "========== FCFLAGS =========="
+	@echo $(FCFLAGS)
+	@echo ""
+endif
+ifneq ($(CXXFLAGS),)
+	@echo "========== CXXFLAGS =========="
+	@echo $(CXXFLAGS)
+	@echo ""
+endif
+ifneq ($(CFLAGS),)
+	@echo "========== CFLAGS =========="
+	@echo $(CFLAGS)
+	@echo ""
+endif
+ifneq ($(LDFLAGS),)
+	@echo "========== LDFLAGS =========="
+	@echo $(LDFLAGS)
+	@echo ""
+endif
+ifneq ($(NVFLAGS),)
+	@echo "========== NVFLAGS =========="
+	@echo $(NVFLAGS)
+	@echo ""
+endif
+ifneq ($(GPUVER),)
+	@echo "========== GPUVER =========="
+	@echo $(GPUVER)
+	@echo ""
+endif
+
+OTHER_HELP += "toolflags : Print flags used with build tools"
 
 else
 # stage 2: Include $(OBJDIR)/all.dep, expand target all, and get list of dependencies.
@@ -222,6 +267,14 @@ help:
 	@echo "================= Other Targets ================="
 	@printf "%s\n" $(OTHER_HELP) | awk -F ':' '{printf "%-28s%s\n", $$1, $$2}'
 	@echo "help                         Print this help text"
+	@echo "================= Variables ====================="
+	@echo "For convenience, some variables can be set during compilation,"
+	@echo "e.g. make VARIABLE=value (multiple variables are possible):"
+	@echo "MPI=0    : disable MPI compilation"
+	@echo "GNU=0    : disable GNU compiler compilation and enable Intel compiler compilation"
+	@echo "CHECKS=1 : enable GNU compiler checks and DBCSR asserts"
+	@echo "CINT=1   : generate the C interface"
+	@echo "GPU=1    : enable GPU support"
 
 ifeq ($(INCLUDE_DEPS),)
 install: $(LIBRARY)
@@ -239,12 +292,12 @@ install: $(LIBRARY)
 else
 install:
 	@printf "  ... modules ..."
-	@if [[ -n "$(wildcard $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)))" ]] ; then \
+	@if [ -n "$(wildcard $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)))" ] ; then \
 		cp $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)) $(PREFIX)/include ; \
 		echo " done." ; \
 	else echo " no modules were installed!" ; fi
 	@printf "  ... headers ..."
-	@if [[ -n "$(PUBLICHEADERS)" ]] ; then \
+	@if [ -n "$(PUBLICHEADERS)" ] ; then \
 		cp $(PUBLICHEADERS) $(PREFIX)/include ; \
 		echo " done." ; \
 	else echo " no headers were installed!" ; fi
@@ -266,6 +319,8 @@ test:
 OTHER_HELP += "test    : Run the unittests available in tests/"
 
 clean:
+	rm -f $(TESTSDIR)/libcusmm_libcusmm_unittest_multiply.cu
+	rm -f $(TESTSDIR)/libcusmm_timer_multiply.cu
 	rm -rf $(OBJDIR)
 	rm -f $(LIBCUSMM_ABS_DIR)/parameters.h $(LIBCUSMM_ABS_DIR)/cusmm_kernels.h $(LIBCUSMM_ABS_DIR)/*.so
 OTHER_HELP += "clean : Remove intermediate object and mod files, but not the libraries and executables"
@@ -439,7 +494,7 @@ FYPPFLAGS ?= -n
 	$(CXX) -c $(CXXFLAGS) $<
 
 libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
-	$(CXX) -c $(CXXFLAGS) -DARCH_NUMBER=$(ARCH_NUMBER) $<
+	$(CXX) -c $(CXXFLAGS) $(CXXOMPFLAGS) -DARCH_NUMBER=$(ARCH_NUMBER) $<
 
 %.o: %.cu
 	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<

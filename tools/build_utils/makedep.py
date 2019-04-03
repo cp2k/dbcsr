@@ -7,6 +7,7 @@ import ast
 from os import path
 from os.path import dirname, basename, normpath
 import glob
+import argparse
 
 # pre-compiled regular expressions
 re_module = re.compile(r"(?:^|\n)\s*module\s+(\w+)\s.*\n\s*end\s*module", re.DOTALL)
@@ -21,43 +22,43 @@ re_incl_fort = re.compile(r"\n\s*include\s+['\"](.+)['\"]")
 # ============================================================================
 def main(out_fn, project_name, mod_format, mode, archive_ext, src_dir, src_files):
     messages = []
-    # process command line arguments
+    # process arguments
     src_files = [path.join(src_dir, f) for f in src_files]
 
-    if mod_format not in ('lower', 'upper', 'no'):
+    if mod_format not in ("lower", "upper", "no"):
         error('Module filename format must be eighter of "lower", "upper", or "no".')
 
-    if mode not in ('normal', 'hackdep', 'mod_compiler'):
+    if mode not in ("normal", "hackdep", "mod_compiler"):
         error('Mode must be eighter of "normal", "hackdep", or "mod_compiler".')
 
     for fn in src_files:
         if not fn.startswith("/"):
-            error("Path of source-file not absolut: "+fn)
+            error("Path of source-file not absolut: " + fn)
 
     src_basenames = [basename(fn).rsplit(".", 1)[0] for fn in src_files]
     for bfn in src_basenames:
         if src_basenames.count(bfn) > 1:
-            error("Multiple source files with the same basename: "+bfn)
+            error("Multiple source files with the same basename: " + bfn)
 
     # parse files
     parsed_files = dict()
     for fn in src_files:
-        parse_file(parsed_files, fn, src_dir) #parses also included files
+        parse_file(parsed_files, fn, src_dir)  # parses also included files
     messages.append("Parsed %d files" % len(parsed_files))
 
     # create table mapping fortan module-names to file-name
     mod2fn = dict()
     for fn in src_files:
-        for m in parsed_files[fn]['module']:
+        for m in parsed_files[fn]["module"]:
             if m in mod2fn.keys():
-                error('Multiple declarations of module "%s"'%m)
+                error('Multiple declarations of module "%s"' % m)
             mod2fn[m] = fn
     messages.append("Created mod2fn table, found %d modules." % len(mod2fn))
 
     # check "one module per file"-convention
     for m, fn in mod2fn.items():
-        if basename(fn) != m+".F":
-            error("Names of module and file do not match: "+fn)
+        if basename(fn) != m + ".F":
+            error("Names of module and file do not match: " + fn)
 
     # read package manifests
     packages = dict()
@@ -70,34 +71,34 @@ def main(out_fn, project_name, mod_format, mode, archive_ext, src_dir, src_files
     n_deps = 0
     for fn in src_files:
         p = normpath(dirname(fn))
-        if not parsed_files[fn]['program']:
-            packages[p]['objects'].append(src2obj(basename(fn)))
+        if not parsed_files[fn]["program"]:
+            packages[p]["objects"].append(src2obj(basename(fn)))
         deps = collect_include_deps(parsed_files, fn, src_dir)
         deps += [mod2fn[m] for m in collect_use_deps(parsed_files, fn, src_dir) if m in mod2fn.keys()]
         n_deps += len(deps)
         for d in deps:
             dp = normpath(dirname(d))
-            if dp not in packages[p]['allowed_deps']:
-                error("Dependency forbidden according to package manifest: %s -> %s"%(fn, d))
+            if dp not in packages[p]["allowed_deps"]:
+                error("Dependency forbidden according to package manifest: %s -> %s" % (fn, d))
             if dp != p and "public_files" in packages[dp].keys():
                 if basename(d) not in packages[dp]["public_files"]:
-                    error("File not public according to package manifest: %s -> %s"%(fn, d))
-    messages.append("Checked %d dependencies"%n_deps)
+                    error("File not public according to package manifest: %s -> %s" % (fn, d))
+    messages.append("Checked %d dependencies" % n_deps)
 
     # check for circular dependencies
     for fn in parsed_files.keys():
         find_cycles(parsed_files, mod2fn, fn, src_dir)
 
     # write messages as comments
-    makefile = "".join(["#makedep: %s\n"%m for m in messages])
+    makefile = "".join(["#makedep: %s\n" % m for m in messages])
     makefile += "\n"
 
     # write rules for archives
     for p in packages.keys():
-        if packages[p]['objects']:
-            makefile += "# Package %s\n"%p
-            makefile += "$(LIBDIR)/%s : "%(packages[p]['archive']+archive_ext)
-            makefile += " ".join(packages[p]['objects']) + "\n\n"
+        if packages[p]["objects"]:
+            makefile += "# Package %s\n" % p
+            makefile += "$(LIBDIR)/%s : " % (packages[p]["archive"] + archive_ext)
+            makefile += " ".join(packages[p]["objects"]) + "\n\n"
 
     # write rules for public files
     for p in packages.keys():
@@ -111,29 +112,29 @@ def main(out_fn, project_name, mod_format, mode, archive_ext, src_dir, src_files
     # write rules for executables
     archive_postfix = archive_ext.rsplit(".", 1)[0]
     for fn in src_files:
-        if not parsed_files[fn]['program']:
+        if not parsed_files[fn]["program"]:
             continue
 
         bfn = basename(fn).rsplit(".", 1)[0]
-        makefile += "# Program %s\n"%fn
-        makefile += "$(EXEDIR)/%s.$(ONEVERSION) : %s.o "%(bfn, bfn)
+        makefile += "# Program %s\n" % fn
+        makefile += "$(EXEDIR)/%s.$(ONEVERSION) : %s.o " % (bfn, bfn)
         p = normpath(dirname(fn))
         deps = collect_pkg_deps(packages, p)
-        makefile += " ".join(["$(LIBDIR)/"+a+archive_ext for a in deps]) + "\n"
+        makefile += " ".join(["$(LIBDIR)/" + a + archive_ext for a in deps]) + "\n"
         makefile += "\t" + "$(LD) $(LDFLAGS)"
         if fn.endswith(".c") or fn.endswith(".cu"):
             makefile += " $(LDFLAGS_C)"
-        makefile += " -L$(LIBDIR) -o $@ %s.o "%bfn
+        makefile += " -L$(LIBDIR) -o $@ %s.o " % bfn
         makefile += "$(EXTERNAL_OBJECTS) "
         assert all([a.startswith("lib") for a in deps])
-        makefile += " ".join(["-l"+a[3:]+archive_postfix for a in deps])
+        makefile += " ".join(["-l" + a[3:] + archive_postfix for a in deps])
         makefile += " $(LIBS)\n\n"
 
     # write rules for objects
     for fn in src_files:
         deps = " ".join(collect_include_deps(parsed_files, fn, src_dir))
         mods = collect_use_deps(parsed_files, fn, src_dir)
-        mods.sort(key=cmp_mods) # sort mods to speedup compilation
+        mods.sort(key=cmp_mods)  # sort mods to speedup compilation
         for m in mods:
             if m in mod2fn.keys():
                 deps += " " + mod2modfile(m, mod_format)
@@ -141,11 +142,11 @@ def main(out_fn, project_name, mod_format, mode, archive_ext, src_dir, src_files
             deps = ""
 
         bfn = basename(fn)
-        makefile += "# Object %s\n"%bfn
-        provides = [mod2modfile(m, mod_format) for m in parsed_files[fn]['module']]
+        makefile += "# Object %s\n" % bfn
+        provides = [mod2modfile(m, mod_format) for m in parsed_files[fn]["module"]]
         for mfn in provides:
-            makefile += "%s : %s "%(mfn, bfn) + deps + "\n"
-        makefile += "%s : %s "%(src2obj(bfn), bfn) + deps
+            makefile += "%s : %s " % (mfn, bfn) + deps + "\n"
+        makefile += "%s : %s " % (src2obj(bfn), bfn) + deps
         if mode == "mod_compiler":
             makefile += " " + " ".join(provides)
         makefile += "\n\n"
@@ -175,7 +176,7 @@ def parse_file(parsed_files, fn, src_dir):
     content_lower = content.lower()
 
     # all files are parsed for cpp includes
-    incls = re_incl_cpp.findall(content) #CPP includes (case-sensitiv)
+    incls = re_incl_cpp.findall(content)  # CPP includes (case-sensitiv)
 
     mods = []
     uses = []
@@ -183,14 +184,14 @@ def parse_file(parsed_files, fn, src_dir):
 
     if fn[-2:] == ".F" or fn[-4:] == ".f90" or fn[-5:] == ".fypp":
         mods += re_module.findall(content_lower)
-        prog = re_program.search(content_lower) != None
+        prog = True if re_program.search(content_lower) is not None else False
         uses += re_use.findall(content_lower)
-        incls += re_incl_fypp.findall(content) # Fypp includes (case-sensitiv)
-        incl_fort_iter = re_incl_fort.finditer(content_lower) # fortran includes
+        incls += re_incl_fypp.findall(content)  # Fypp includes (case-sensitiv)
+        incl_fort_iter = re_incl_fort.finditer(content_lower)  # fortran includes
         incls += [content[m.start(1):m.end(1)] for m in incl_fort_iter]
 
     if fn[-2:] == ".c" or fn[-3:] == ".cu":
-        prog = re_main.search(content) != None # C is case-sensitiv
+        prog = True if re_main.search(content) is not None else False  # C is case-sensitiv
 
     # exclude included files from outside the source tree
     def incl_fn(i):
@@ -203,9 +204,13 @@ def parse_file(parsed_files, fn, src_dir):
     existing_incl_src = [i for i in incls if path.exists(incl_fn_src(i))]
 
     # store everything in parsed_files cache
-    parsed_files[fn] = {'module':mods, 'program': prog, 'use':uses,
-                        'include':existing_incl,
-                        'include_src':existing_incl_src}
+    parsed_files[fn] = {
+        "module": mods,
+        "program": prog,
+        "use": uses,
+        "include": existing_incl,
+        "include_src": existing_incl_src,
+    }
 
     # parse included files
     for i in existing_incl:
@@ -228,13 +233,13 @@ def read_pkg_manifest(project_name, packages, p):
         content = fhandle.read()
 
     packages[p] = ast.literal_eval(content)
-    packages[p]['objects'] = []
+    packages[p]["objects"] = []
     if "archive" not in packages[p].keys():
-        packages[p]['archive'] = "lib{}{}".format(project_name, basename(p))
-    packages[p]['allowed_deps'] = [normpath(p)]
-    packages[p]['allowed_deps'] += [normpath(path.join(p, r)) for r in packages[p]['requires']]
+        packages[p]["archive"] = "lib{}{}".format(project_name, basename(p))
+    packages[p]["allowed_deps"] = [normpath(p)]
+    packages[p]["allowed_deps"] += [normpath(path.join(p, r)) for r in packages[p]["requires"]]
 
-    for r in packages[p]['requires']:
+    for r in packages[p]["requires"]:
         read_pkg_manifest(project_name, packages, normpath(path.join(p, r)))
 
     if "public" in packages[p].keys():
@@ -243,15 +248,16 @@ def read_pkg_manifest(project_name, packages, p):
             public_files += glob.glob(path.join(p, fn))
         packages[p]["public_files"] = [basename(fn) for fn in public_files]
 
+
 # ============================================================================
 def mod2modfile(m, mod_format):
-    if mod_format == 'no':
+    if mod_format == "no":
         return ""
 
-    if mod_format == 'lower':
+    if mod_format == "lower":
         return m.lower() + ".mod"
 
-    if mod_format == 'upper':
+    if mod_format == "upper":
         return m.upper() + ".mod"
 
     assert False  # modeps unknown
@@ -267,13 +273,13 @@ def collect_include_deps(parsed_files, fn, src_dir):
     pf = parsed_files[fn]
     incs = []
 
-    for i in pf['include']:
+    for i in pf["include"]:
         fn_inc = normpath(path.join(dirname(fn), i))
         if fn_inc in parsed_files.keys():
             incs.append(fn_inc)
             incs += collect_include_deps(parsed_files, fn_inc, src_dir)
 
-    for i in pf['include_src']:
+    for i in pf["include_src"]:
         fn_inc = normpath(path.join(src_dir, i))
         if fn_inc in parsed_files.keys():
             incs.append(fn_inc)
@@ -285,14 +291,14 @@ def collect_include_deps(parsed_files, fn, src_dir):
 # ============================================================================
 def collect_use_deps(parsed_files, fn, src_dir):
     pf = parsed_files[fn]
-    uses = pf['use']
+    uses = pf["use"]
 
-    for i in pf['include']:
+    for i in pf["include"]:
         fn_inc = normpath(path.join(dirname(fn), i))
         if fn_inc in parsed_files.keys():
             uses += collect_use_deps(parsed_files, fn_inc, src_dir)
 
-    for i in pf['include_src']:
+    for i in pf["include_src"]:
         fn_inc = normpath(path.join(src_dir, i))
         if fn_inc in parsed_files.keys():
             uses += collect_use_deps(parsed_files, fn_inc, src_dir)
@@ -303,26 +309,26 @@ def collect_use_deps(parsed_files, fn, src_dir):
 # ============================================================================
 def find_cycles(parsed_files, mod2fn, fn, src_dir, S=None):
     pf = parsed_files[fn]
-    if 'visited' in pf.keys():
+    if "visited" in pf.keys():
         return
 
     if not S:
         S = []
 
-    for m in pf['module']:
+    for m in pf["module"]:
         if m in S:
             i = S.index(m)
-            error("Circular dependency: "+ " -> ".join(S[i:] + [m]))
+            error("Circular dependency: " + " -> ".join(S[i:] + [m]))
         S.append(m)
 
     for m in collect_use_deps(parsed_files, fn, src_dir):
         if m in mod2fn.keys():
             find_cycles(parsed_files, mod2fn, mod2fn[m], src_dir, S)
 
-    for m in pf['module']:
+    for m in pf["module"]:
         S.pop()
 
-    pf['visited'] = True
+    pf["visited"] = True
 
 
 # ============================================================================
@@ -333,40 +339,56 @@ def collect_pkg_deps(packages, p, archives=None, S=None):
     if not S:
         S = []
 
-    a = packages[p]['archive']
+    a = packages[p]["archive"]
     if a in archives:
         return archives
 
     if a in S:
         i = S.index(a)
-        error("Circular package dependency: "+ " -> ".join(S[i:] + [a]))
+        error("Circular package dependency: " + " -> ".join(S[i:] + [a]))
     S.append(a)
 
-    for r in packages[p]['requires']:
+    for r in packages[p]["requires"]:
         d = normpath(path.join(p, r))
         collect_pkg_deps(packages, d, archives, S)
 
     S.pop()
 
-    if packages[p]['objects']:
-        archives.insert(0, packages[p]['archive'])
+    if packages[p]["objects"]:
+        archives.insert(0, packages[p]["archive"])
 
     return archives
 
 
 # ============================================================================
 def error(msg):
-    sys.stderr.write("makedep error: %s\n"%msg)
+    sys.stderr.write("makedep error: %s\n" % msg)
     sys.exit(1)
 
+
 # ============================================================================
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="""
+        Parse files and package manifests in the source tree to create rules for objects and executables
 
-if __name__ == '__main__':
-    if len(sys.argv) < 8:
-        print("Usage: {} <outfile> <project_name> <format> <mode> <archive.ext> <src-dir> <src-file1> [<src-file2> ...]"
-              .format(sys.argv[0]))
-        sys.exit(1)
+        This script is part of the build utility scripts for DBCSR.
+        """,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("outfile", metavar="outfile", type=str)
+    parser.add_argument("project_name", metavar="project_name", type=str)
+    parser.add_argument("format", metavar="format", type=str)
+    parser.add_argument("mode", metavar="mode", type=str)
+    parser.add_argument("archive_ext", metavar="archive_ext", type=str)
+    parser.add_argument("src_dir", metavar="src_dir", type=str)
+    parser.add_argument("src_file", metavar="src_file", nargs="+", type=str)
 
-    main(out_fn=sys.argv[1], project_name=sys.argv[2],
-         mod_format=sys.argv[3], mode=sys.argv[4], archive_ext=sys.argv[5],
-         src_dir=sys.argv[6], src_files=sys.argv[7:])
+    args = parser.parse_args()
+    main(
+        out_fn=args.outfile,
+        project_name=args.project_name,
+        mod_format=args.format,
+        mode=args.mode,
+        archive_ext=args.archive_ext,
+        src_dir=args.src_dir,
+        src_files=args.src_file)

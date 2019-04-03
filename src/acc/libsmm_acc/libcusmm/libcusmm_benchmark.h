@@ -14,6 +14,29 @@
 
 #define MAX_BLOCK_DIM 80
 
+// Macros for CUDA error handling
+// Wrap calls to CUDA APIs (CUDA driver API and CUDA runtime API)
+#define CU_SAFE_CALL(name, x)                                     \
+  do {                                                            \
+    CUresult result = x;                                          \
+    if (result != CUDA_SUCCESS) {                                 \
+      const char *msg;                                            \
+      cuGetErrorName(result, &msg);                               \
+      printf("\nCUDA DRIVER API ERROR: %s failed with error %s\n",\
+             name, msg);                                          \
+      exit(1);                                                    \
+    }                                                             \
+  } while(0)
+#define CUDA_SAFE_CALL(name, x)                                   \
+  do {                                                            \
+    cudaError_t result = x;                                       \
+    if (result != cudaSuccess) {                                  \
+      printf("\nCUDA RUNTIME API error: %s failed with error %s\n",\
+             name, cudaGetErrorName(result));                     \
+      exit(1);                                                    \
+    }                                                             \
+  } while(0)
+
 typedef int (*KernelLauncher)(int *param_stack, int stack_size, CUstream stream,
                               int m_max, int n_max, int k_max,
                               double *a_data, double *b_data, double *c_data);
