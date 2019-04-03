@@ -90,7 +90,9 @@ def descr_to_kernel(kernel_descr, source="autotuned"):
 
     from ast import literal_eval
 
-    re_kernel_descr = re.compile(r"Kernel_dnt_(\w+)(\(.*\)) , # (\d+\.\d+) GFlop/s")
+    re_kernel_descr = re.compile(
+        r"Kernel_dnt_(\w+)(\(.*\)) , # (\d+(?:\.\d+)?) GFlop/s"
+    )
     match = re_kernel_descr.search(kernel_descr).groups()
     algo = match[0]
     m = match[1].replace("=", "':")
