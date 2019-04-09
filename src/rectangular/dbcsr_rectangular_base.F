@@ -41,7 +41,8 @@ MODULE dbcsr_rectangular_base
       dbcsr_get_data_size, dbcsr_get_num_blocks, dbcsr_get_nze
    USE dbcsr_operations, ONLY: dbcsr_get_info, &
                                dbcsr_set, &
-                               dbcsr_filter
+                               dbcsr_filter, &
+                               dbcsr_clear
    USE dbcsr_rectangular_types, ONLY: dbcsr_r_distribution_type, &
                                       dbcsr_r_iterator, &
                                       dbcsr_r_split_info, &
@@ -1162,8 +1163,7 @@ CONTAINS
    SUBROUTINE dbcsr_r_clear(matrix)
       TYPE(dbcsr_r_type), INTENT(INOUT) :: matrix
 
-      CALL dbcsr_r_set(matrix, 0.0_real_8)
-      CALL dbcsr_r_filter(matrix, 1.0_real_8)
+      CALL dbcsr_clear(matrix%matrix)
    END SUBROUTINE
 
 ! **************************************************************************************************

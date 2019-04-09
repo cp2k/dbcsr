@@ -2760,9 +2760,11 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_clear(matrix)
       TYPE(dbcsr_type), INTENT(INOUT)                       :: matrix
+      TYPE(dbcsr_type)                                      :: matrix_tmp
 
-      CALL dbcsr_set(matrix, 0.0_dp)
-      CALL dbcsr_filter(matrix, 1.0_dp)
+      CALL dbcsr_create(matrix_tmp, matrix)
+      CALL dbcsr_release(matrix)
+      matrix = matrix_tmp
 
    END SUBROUTINE
 
