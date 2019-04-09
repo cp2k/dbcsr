@@ -1,6 +1,6 @@
 # Training Procedure for Predictive Modelling of Optimal Parameters in `libcusmm`
 
-The performance of the matrix-matrix multiplication kernels is highly dependant on the choice of algorithm and parameters, this is why [*autotuning*](https://www.cp2k.org/howto:libcusmm) is used to find optimal kernel parameters.
+The performance of the matrix-matrix multiplication kernels is highly dependant on the choice of algorithm and parameters, this is why [*autotuning*](tune.md) is used to find optimal kernel parameters.
 
 However, the autotuning procedure is expensive, and the space of (m,n,k)-triplets to explore is large. This predictive modeling procedure is set up to predict optimal parameters for (m,n,k)-triplets that have not been autotuned from the data gathered from autotuning other (m,n,k)-triplets.
 
@@ -60,7 +60,7 @@ Get the data to be used for training, either by downloading data from the [dedic
 
 - If you're autotuning data for a new GPU, make sure that the GPU's compute architecture properties are given in the file [`kernels/gpu_properties.json`](kernels/gpu_properties.json). If not, please add them.
 
-- Follow the [instructions for autotuning](https://www.cp2k.org/howto:libcusmm).
+- Follow the [instructions for autotuning](tune.md).
 
 - If all went well, you now have directories named `tune_mxnxk` containing log files in which parameter sets and their corresponding measured performances are recorded.
 
