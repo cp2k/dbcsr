@@ -21,8 +21,8 @@ MODULE dbcsr_rectangular_io
    USE dbcsr_kinds, ONLY: &
       int_8, real_8, default_string_length
    USE dbcsr_rectangular_base, ONLY: &
-      dbcsr_r_get_info, dbcsr_r_get_num_blocks, dbcsr_r_get_data_size, dbcsr_r_nblkrows_total, &
-      dbcsr_r_nblkcols_total
+      dbcsr_r_get_info, dbcsr_r_get_num_blocks, dbcsr_r_get_num_blocks_total, dbcsr_r_get_nze_total, &
+      dbcsr_r_get_nze, dbcsr_r_nblkrows_total, dbcsr_r_nblkcols_total
    USE dbcsr_rectangular_split, ONLY: &
       dbcsr_r_get_split_info, rowsplit, colsplit
    USE dbcsr_mpiwrap, ONLY: &
@@ -37,7 +37,7 @@ MODULE dbcsr_rectangular_io
 
    PUBLIC :: &
       dbcsr_r_write_dist, &
-      dbcsr_r_write_matrix_info,&
+      dbcsr_r_write_matrix_info, &
       dbcsr_r_write_split_info
 
 CONTAINS
@@ -117,7 +117,7 @@ CONTAINS
       CHARACTER(default_string_length) :: name
       INTEGER                          :: mp_comm, ngroup, igroup, mp_comm_group, nproc, iproc, &
                                           nblock_p_max, nelement_p_max, nblock_s, nelement_s, &
-                                          nblock_s_max, nelement_s_max
+                                          nblock_s_max, nelement_s_max, nblock, nelement
       INTEGER, DIMENSION(2)            :: tmp
       INTEGER(KIND=int_8)              :: nblock_tot, nblock_p_sum, nelement_p_sum
       REAL(KIND=real_8)                :: occupation
@@ -128,18 +128,18 @@ CONTAINS
       CALL dbcsr_r_get_split_info(matrix%dist%info, mp_comm, ngroup, igroup, mp_comm_group, split_rowcol)
       CALL mp_environ(nproc, iproc, mp_comm)
 
-      nblock_p_sum = dbcsr_r_get_num_blocks(matrix)
-      nelement_p_sum = dbcsr_r_get_data_size(matrix)
+      nblock = dbcsr_r_get_num_blocks(matrix)
+      nelement = dbcsr_r_get_nze(matrix)
 
-      tmp = INT((/nblock_p_sum, nelement_p_sum/))
-      CALL mp_sum(nblock_p_sum, mp_comm)
-      CALL mp_sum(nelement_p_sum, mp_comm)
+      nblock_p_sum = dbcsr_r_get_num_blocks_total(matrix)
+      nelement_p_sum = dbcsr_r_get_nze_total(matrix)
 
+      tmp = (/nblock, nelement/)
       CALL mp_max(tmp, mp_comm)
       nblock_p_max = tmp(1); nelement_p_max = tmp(2)
 
-      nblock_s = dbcsr_r_get_num_blocks(matrix)
-      nelement_s = dbcsr_r_get_data_size(matrix)
+      nblock_s = nblock
+      nelement_s = nelement
 
       CALL mp_sum(nblock_s, mp_comm_group)
       CALL mp_sum(nelement_s, mp_comm_group)

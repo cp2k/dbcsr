@@ -72,7 +72,8 @@ MODULE dbcsr_tensor
                                  dbcsr_t_clear, &
                                  dbcsr_t_finalize, &
                                  dbcsr_t_get_num_blocks, &
-                                 dbcsr_t_scale
+                                 dbcsr_t_scale, &
+                                 dbcsr_t_get_num_blocks_total
    USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$, &
                           default_string_length, &
                           int_8
@@ -1300,6 +1301,12 @@ CONTAINS
       mp_comm = tensor_1%pgrid%mp_comm_2d
 
       dbcsr_t_need_contract = .TRUE.
+
+      IF (dbcsr_t_get_num_blocks_total(tensor_1) == 0 .OR. dbcsr_t_get_num_blocks_total(tensor_2) == 0) THEN
+         dbcsr_t_need_contract = .FALSE.
+         CALL timestop(handle)
+         RETURN
+      ENDIF
 
       DO i = 1, SIZE(contract_1)
          CALL dbcsr_t_get_nonzero_index(tensor_1, contract_1(i), ind1)

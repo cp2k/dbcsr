@@ -174,7 +174,7 @@ CONTAINS
       tr_case = ''
 
       IF (io_unit_prv > 0) THEN
-         WRITE (io_unit_prv, "(T2,A, 1X, I8, 1X, I8, 1X, I8)") "mm dims:", dims(1), dims(2), dims(3)
+         WRITE (io_unit_prv, "(T2,A, 1X, I12, 1X, I12, 1X, I12)") "mm dims:", dims(1), dims(2), dims(3)
       ENDIF
 
       ! ideally decision which matrix to reshape should be based on occupancy not on size
@@ -257,8 +257,8 @@ CONTAINS
       ENDIF
 
       IF (PRESENT(io_unit)) THEN
-         IF(io_unit_prv > 0) THEN
-            WRITE(io_unit_prv, "(T2, A)") "SPLIT INFO"
+         IF (io_unit_prv > 0) THEN
+            WRITE (io_unit_prv, "(T2, A)") "SPLIT INFO"
          ENDIF
          CALL dbcsr_r_write_split_info(info, "Split info:", io_unit_prv)
          CALL dbcsr_r_write_matrix_info(matrix_a_rs, io_unit_prv, full_info=log_verbose)

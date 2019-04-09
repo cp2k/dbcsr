@@ -95,6 +95,7 @@ MODULE dbcsr_rectangular_base
       dbcsr_r_get_num_blocks, &
       dbcsr_r_get_nze, &
       dbcsr_r_get_nze_total, &
+      dbcsr_r_get_num_blocks_total, &
       dbcsr_r_get_stored_coordinates, &
       dbcsr_r_info, &
       dbcsr_r_iterator_blocks_left, &
@@ -1099,6 +1100,22 @@ CONTAINS
    END FUNCTION
 
 ! **************************************************************************************************
+!> \brief get total number of blocks
+!> \param matrix ...
+!> \return ...
+! **************************************************************************************************
+   FUNCTION dbcsr_r_get_num_blocks_total(matrix) RESULT(num_blocks)
+      TYPE(dbcsr_r_type), INTENT(IN) :: matrix
+      INTEGER(KIND=int_8)            :: num_blocks
+      TYPE(dbcsr_r_split_info) :: info
+
+      info = dbcsr_r_info(matrix)
+      num_blocks = dbcsr_r_get_num_blocks(matrix)
+      CALL mp_sum(num_blocks, info%mp_comm)
+
+   END FUNCTION
+
+! **************************************************************************************************
 !> \brief As dbcsr_get_nze: get number of local non-zero elements
 !> \param matrix ...
 !> \return ...
@@ -1118,7 +1135,7 @@ CONTAINS
 ! **************************************************************************************************
    FUNCTION dbcsr_r_get_nze_total(matrix)
       TYPE(dbcsr_r_type), INTENT(IN) :: matrix
-      INTEGER :: dbcsr_r_get_nze_total
+      INTEGER(KIND=int_8) :: dbcsr_r_get_nze_total
       TYPE(dbcsr_r_split_info) :: info
 
       dbcsr_r_get_nze_total = dbcsr_r_get_nze(matrix)

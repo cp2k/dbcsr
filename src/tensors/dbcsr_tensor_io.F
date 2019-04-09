@@ -18,8 +18,8 @@ MODULE dbcsr_tensor_io
 #:set ndims = range(2,maxdim+1)
 
    USE dbcsr_tensor_types, ONLY: &
-      dbcsr_t_get_info, dbcsr_t_type, ndims_tensor, dbcsr_t_get_num_blocks, dbcsr_t_get_data_size, &
-      blk_dims_tensor, dbcsr_t_get_stored_coordinates
+      dbcsr_t_get_info, dbcsr_t_type, ndims_tensor, dbcsr_t_get_num_blocks, dbcsr_t_get_num_blocks_total, &
+      blk_dims_tensor, dbcsr_t_get_stored_coordinates, dbcsr_t_get_nze, dbcsr_t_get_nze_total
    USE dbcsr_kinds, ONLY: default_string_length, int_8, real_8
    USE dbcsr_mpiwrap, ONLY: mp_environ, mp_sum, mp_max
    USE dbcsr_tensor_block, ONLY: &
@@ -80,10 +80,11 @@ CONTAINS
          DO idim = 1, ndims_tensor(tensor)
             WRITE (output_unit, "(I6)", advance="no") pdims(idim)
          ENDDO
+         WRITE (output_unit, *)
 
          IF (PRESENT(full_info)) THEN
             IF (full_info) THEN
-               WRITE (output_unit, '(/T4,A)', advance='no') "Block sizes:"
+               WRITE (output_unit, '(T4,A)', advance='no') "Block sizes:"
 #:for dim in range(1, maxdim+1)
                IF (ndims_tensor(tensor) >= ${dim}$) THEN
                   WRITE (output_unit, '(/T8,A,1X,I1,A,1X)', advance='no') 'Dim', ${dim}$, ':'
@@ -118,7 +119,7 @@ CONTAINS
       INTEGER, INTENT(IN)            :: output_unit
       INTEGER                        :: nproc, myproc, nblock_max, nelement_max
       INTEGER(KIND=int_8)            :: nblock_sum, nelement_sum, nblock_tot
-      INTEGER, ALLOCATABLE, DIMENSION(:) :: nblock, nelement
+      INTEGER                        :: nblock, nelement
       INTEGER                        :: mp_comm
       INTEGER, DIMENSION(2)          :: tmp
       INTEGER, DIMENSION(ndims_tensor(tensor)) :: bdims
@@ -127,22 +128,13 @@ CONTAINS
       mp_comm = tensor%pgrid%mp_comm_2d
       CALL mp_environ(nproc, myproc, mp_comm)
 
-      ALLOCATE (nblock(0:nproc - 1))
-      nblock(:) = 0
+      nblock = dbcsr_t_get_num_blocks(tensor)
+      nelement = dbcsr_t_get_nze(tensor)
 
-      ALLOCATE (nelement(0:nproc - 1))
-      nelement(:) = 0
+      nblock_sum = dbcsr_t_get_num_blocks_total(tensor)
+      nelement_sum = dbcsr_t_get_nze_total(tensor)
 
-      nblock(myproc) = dbcsr_t_get_num_blocks(tensor)
-      nelement(myproc) = dbcsr_t_get_data_size(tensor)
-
-      nblock_sum = nblock(myproc)
-      nblock_max = nblock(myproc)
-      nelement_sum = nelement(myproc)
-      nelement_max = nelement(myproc)
-      CALL mp_sum(nblock_sum, mp_comm)
-      CALL mp_sum(nelement_sum, mp_comm)
-      tmp = (/nblock_max, nelement_max/)
+      tmp = (/nblock, nelement/)
       CALL mp_max(tmp, mp_comm)
       nblock_max = tmp(1); nelement_max = tmp(2)
 

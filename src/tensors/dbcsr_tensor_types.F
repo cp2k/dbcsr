@@ -40,7 +40,8 @@ MODULE dbcsr_tensor_types
       dbcsr_r_create, dbcsr_r_distribution_new, &
       dbcsr_r_distribution_destroy, dbcsr_r_finalize, dbcsr_r_get_info, &
       dbcsr_r_destroy, dbcsr_r_get_stored_coordinates, dbcsr_r_set, dbcsr_r_filter, &
-      dbcsr_r_get_num_blocks, dbcsr_r_get_data_size, dbcsr_r_get_nze, dbcsr_r_get_nze_total
+      dbcsr_r_get_num_blocks, dbcsr_r_get_num_blocks_total, dbcsr_r_get_data_size, dbcsr_r_get_nze, &
+      dbcsr_r_get_nze_total
    USE dbcsr_rectangular_types, ONLY: dbcsr_r_type, dbcsr_r_distribution_type, dbcsr_r_split_info
    USE dbcsr_tensor_index, ONLY: get_2d_indices, &
                                  get_nd_indices, &
@@ -87,6 +88,7 @@ MODULE dbcsr_tensor_types
       dbcsr_t_get_data_type, &
       dbcsr_t_get_info, &
       dbcsr_t_get_num_blocks, &
+      dbcsr_t_get_num_blocks_total, &
       dbcsr_t_get_nze, &
       dbcsr_t_get_nze_total, &
       dbcsr_t_get_stored_coordinates, &
@@ -1260,6 +1262,17 @@ CONTAINS
    END FUNCTION
 
 ! **************************************************************************************************
+!> \brief Get total number of blocks
+!> \param tensor ...
+!> \return ...
+! **************************************************************************************************
+   FUNCTION dbcsr_t_get_num_blocks_total(tensor) RESULT(num_blocks)
+      TYPE(dbcsr_t_type), INTENT(IN)    :: tensor
+      INTEGER(KIND=int_8)               :: num_blocks
+      num_blocks = dbcsr_r_get_num_blocks_total(tensor%matrix_rep)
+   END FUNCTION
+
+! **************************************************************************************************
 !> \brief As dbcsr_get_data_size
 !> \param tensor ...
 !> \return ...
@@ -1309,7 +1322,7 @@ CONTAINS
 
    FUNCTION dbcsr_t_get_nze_total(tensor)
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
-      INTEGER                        :: dbcsr_t_get_nze_total
+      INTEGER(KIND=int_8)            :: dbcsr_t_get_nze_total
       dbcsr_t_get_nze_total = dbcsr_r_get_nze_total(tensor%matrix_rep)
    END FUNCTION
 
