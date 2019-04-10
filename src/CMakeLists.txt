@@ -76,7 +76,7 @@ add_fypp_sources(DBCSR_SRCS
   tas/dbcsr_tas_global.F
   tas/dbcsr_tas_io.F
   tas/dbcsr_tas_mm.F
-  tas/dbcsr_tas_reshape.F
+  tas/dbcsr_tas_reshape_ops.F
   tas/dbcsr_tas_split.F
   tas/dbcsr_tas_test.F
   tas/dbcsr_tas_types.F
