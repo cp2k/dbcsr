@@ -36,7 +36,11 @@ def main():
             error_code = 0
             if not os.path.exists(log_fn):
                 winners[mnk] = "log missing: " + log_fn
-                print("Missing log:", log_fn, ", please re-run (cd tune_mxnxk; sbatch tune_mxnxk.job)")
+                print(
+                    "Missing log:",
+                    log_fn,
+                    ", please re-run (cd tune_mxnxk; sbatch tune_mxnxk.job)",
+                )
                 error_code = 1
             else:
                 error_code += process_log(log_fn, mnk, winners)
@@ -50,7 +54,12 @@ def main():
     kernels_dict = dict(zip([(k.m, k.n, k.k) for k in kernels], kernels))
     new_file = "parameters.json"
     with open(new_file, "w") as f:
-        s = json.dumps([kernels_dict[kernel].as_dict_for_parameters_json for kernel in sorted(kernels_dict.keys())])
+        s = json.dumps(
+            [
+                kernels_dict[kernel].as_dict_for_parameters_json
+                for kernel in sorted(kernels_dict.keys())
+            ]
+        )
         s = s.replace("}, ", "},\n")
         s = s.replace("[", "[\n")
         s = s.replace("]", "\n]")
@@ -70,7 +79,11 @@ def process_log(log_fn, mnk, winners):
     m = re_errors.search(content)
     if not m:
         winners[mnk] = "log incomplete: " + log_fn
-        print("Found incomplete log:", log_fn, ", please re-run (cd tune_mxnxk; sbatch tune_mxnxk.job)")
+        print(
+            "Found incomplete log:",
+            log_fn,
+            ", please re-run (cd tune_mxnxk; sbatch tune_mxnxk.job)",
+        )
         return 1
 
     n_errors = int(m.group(1))
@@ -94,7 +107,7 @@ def process_log(log_fn, mnk, winners):
 
 
 # ===============================================================================
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""
         Collect autotuning results: parse the log files contained in folders tune_*x*x*
@@ -104,7 +117,8 @@ if __name__ == '__main__':
         This script is part of the workflow for autotuning optimal libcusmm parameters.
         For more details, see README.md#autotuning-procedure.
         """,
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
 
     args = parser.parse_args()
     main()

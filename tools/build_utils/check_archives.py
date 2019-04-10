@@ -32,7 +32,9 @@ def main(ar_exe, src_dir, lib_dir):
                 archive = package["archive"]
 
             file_parts = [fn.rsplit(".", 1) for fn in files]
-            src_basenames = [parts[0] for parts in file_parts if parts[-1] in KNOWN_EXTENSIONS]
+            src_basenames = [
+                parts[0] for parts in file_parts if parts[-1] in KNOWN_EXTENSIONS
+            ]
 
             if archive in archives_files:
                 archives_files[archive] |= set(src_basenames)
@@ -51,11 +53,16 @@ def main(ar_exe, src_dir, lib_dir):
             if line == "__.SYMDEF SORTED":
                 continue  # needed for MacOS
 
-            assert line.endswith(".o"), "discovered a non-object file inside a static archive"
+            assert line.endswith(
+                ".o"
+            ), "discovered a non-object file inside a static archive"
 
             if line[:-2] not in archives_files[archive]:
-                print("Could not find source for object '{}' in archive '{}', removing archive.".format(
-                    line, archive_fn))
+                print(
+                    "Could not find source for object '{}' in archive '{}', removing archive.".format(
+                        line, archive_fn
+                    )
+                )
                 os.remove(archive_fn)
                 break
 
@@ -68,7 +75,8 @@ if __name__ == "__main__":
 
         This script is part of the build utility scripts for DBCSR.
         """,
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument("ar_executable", metavar="ar_executable", type=str)
     parser.add_argument("src_dir", metavar="src_dir", type=str)
     parser.add_argument("lib_dir", metavar="lib_dir", type=str)

@@ -75,7 +75,7 @@ def params_dict_to_kernel(**params):
     # Fill in dictionary fields
     kernel_init_params_dict = dict()
     for k in kernel_init_params:
-        if k == 'perf' and params["source"] == 'predicted':
+        if k == "perf" and params["source"] == "predicted":
             # the performance of predicted parameter sets is not given
             kernel_init_params_dict["perf"] = None
         else:
@@ -140,7 +140,7 @@ raw_parameters = [
     "n",
     "k",
     "threads_per_blk",
-    'grouping',
+    "grouping",
     "minblocks",
     "tile_m",
     "tile_n",
@@ -287,7 +287,9 @@ def get_max_performances_per_mnk(data):
         perf_mnk_algo = data["perf (Gflop/s)"].values[idx_mnk]
 
         # Store maxperf
-        maxperf = float(perf_mnk_algo.max(axis=0))  # max. performance found through autotuning
+        maxperf = float(
+            perf_mnk_algo.max(axis=0)
+        )  # max. performance found through autotuning
         max_perf[mnk] = maxperf
 
     return max_perf
@@ -314,38 +316,46 @@ def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
         baseline_pars = kernel_algorithm[algorithm].baseline(m, n, k, gpu, autotuning)
 
         if np.isnan(baseline_pars["tile_m"]):
-            idx_baseline = data[(data.m == baseline_pars["m"])
-                                & (data.n == baseline_pars["n"])
-                                & (data.k == baseline_pars["k"])
-                                & (data.threads == baseline_pars["threads"])
-                                & (data.grouping == baseline_pars["grouping"])
-                                & (data.minblocks == baseline_pars["minblocks"])].index.tolist()
+            idx_baseline = data[
+                (data.m == baseline_pars["m"])
+                & (data.n == baseline_pars["n"])
+                & (data.k == baseline_pars["k"])
+                & (data.threads == baseline_pars["threads"])
+                & (data.grouping == baseline_pars["grouping"])
+                & (data.minblocks == baseline_pars["minblocks"])
+            ].index.tolist()
         elif np.isnan(baseline_pars["w"]):
-            idx_baseline = data[(data.m == baseline_pars["m"])
-                                & (data.n == baseline_pars["n"])
-                                & (data.k == baseline_pars["k"])
-                                & (data.threads == baseline_pars["threads"])
-                                & (data.grouping == baseline_pars["grouping"])
-                                & (data.minblocks == baseline_pars["minblocks"])
-                                & (data.tile_m == baseline_pars["tile_m"])
-                                & (data.tile_n == baseline_pars["tile_n"])].index.tolist()
+            idx_baseline = data[
+                (data.m == baseline_pars["m"])
+                & (data.n == baseline_pars["n"])
+                & (data.k == baseline_pars["k"])
+                & (data.threads == baseline_pars["threads"])
+                & (data.grouping == baseline_pars["grouping"])
+                & (data.minblocks == baseline_pars["minblocks"])
+                & (data.tile_m == baseline_pars["tile_m"])
+                & (data.tile_n == baseline_pars["tile_n"])
+            ].index.tolist()
         else:
-            idx_baseline = data[(data.m == baseline_pars["m"])
-                                & (data.n == baseline_pars["n"])
-                                & (data.k == baseline_pars["k"])
-                                & (data.threads == baseline_pars["threads"])
-                                & (data.grouping == baseline_pars["grouping"])
-                                & (data.minblocks == baseline_pars["minblocks"])
-                                & (data.tile_m == baseline_pars["tile_m"])
-                                & (data.tile_n == baseline_pars["tile_n"])
-                                & (data.w == baseline_pars["w"])
-                                & (data.v == baseline_pars["v"])].index.tolist()
+            idx_baseline = data[
+                (data.m == baseline_pars["m"])
+                & (data.n == baseline_pars["n"])
+                & (data.k == baseline_pars["k"])
+                & (data.threads == baseline_pars["threads"])
+                & (data.grouping == baseline_pars["grouping"])
+                & (data.minblocks == baseline_pars["minblocks"])
+                & (data.tile_m == baseline_pars["tile_m"])
+                & (data.tile_n == baseline_pars["tile_n"])
+                & (data.w == baseline_pars["w"])
+                & (data.v == baseline_pars["v"])
+            ].index.tolist()
 
         if len(idx_baseline) < 1:
-            idx_baseline = data[(data.m == baseline_pars["m"])
-                                & (data.n == baseline_pars["n"])
-                                & (data.k == baseline_pars["k"])
-                                & (data.threads == baseline_pars["threads"])].index.tolist()
+            idx_baseline = data[
+                (data.m == baseline_pars["m"])
+                & (data.n == baseline_pars["n"])
+                & (data.k == baseline_pars["k"])
+                & (data.threads == baseline_pars["threads"])
+            ].index.tolist()
             assert len(idx_baseline) > 0
 
         idx_baseline = idx_baseline[0]
@@ -360,7 +370,9 @@ class PredictiveParameters:
     Class handling predictive features for the predictive modelling of libcusmm's performance
     """
 
-    def __init__(self, params_df, gpu, autotuning, max_performances, partial_initialization=False):
+    def __init__(
+        self, params_df, gpu, autotuning, max_performances, partial_initialization=False
+    ):
         """
         params_df: pandas Dataframe where each row corresponds to a kernel parameter set
         """
@@ -374,25 +386,39 @@ class PredictiveParameters:
         # found over all algorithms for this given (m, n, k)
 
         if not partial_initialization:
-            assert ("threads" in params_df.columns.values), "Missing column: threads. Available columns:\n" + str(
-                params_df.columns.values)
-            assert "grouping" in params_df.columns.values, "Missing column: grouping. Available columns:\n" + str(
-                params_df.columns.values)
-            assert "minblocks" in params_df.columns.values, "Missing column: minblocks. Available columns:\n" + str(
-                params_df.columns.values)
+            assert "threads" in params_df.columns.values, (
+                "Missing column: threads. Available columns:\n"
+                + str(params_df.columns.values)
+            )
+            assert "grouping" in params_df.columns.values, (
+                "Missing column: grouping. Available columns:\n"
+                + str(params_df.columns.values)
+            )
+            assert "minblocks" in params_df.columns.values, (
+                "Missing column: minblocks. Available columns:\n"
+                + str(params_df.columns.values)
+            )
             algos = np.unique(params_df["algorithm"].values)
             assert len(algos) == 1
             algo = algos[0]
             if algo in ["small", "medium", "largeDB1", "largeDB2"]:
-                assert "tile_m" in params_df.columns.values, "Missing column: tile_m. Available columns:\n" + str(
-                    params_df.columns.values)
-                assert "tile_n" in params_df.columns.values, "Missing column: tile_n. Available columns:\n" + str(
-                    params_df.columns.values)
+                assert "tile_m" in params_df.columns.values, (
+                    "Missing column: tile_m. Available columns:\n"
+                    + str(params_df.columns.values)
+                )
+                assert "tile_n" in params_df.columns.values, (
+                    "Missing column: tile_n. Available columns:\n"
+                    + str(params_df.columns.values)
+                )
                 if algo in ["largeDB1", "largeDB2"]:
-                    assert "w" in params_df.columns.values, "Missing column: w. Available columns:\n" + str(
-                        params_df.columns.values)
-                    assert "v" in params_df.columns.values, "Missing column: v. Available columns:\n" + str(
-                        params_df.columns.values)
+                    assert "w" in params_df.columns.values, (
+                        "Missing column: w. Available columns:\n"
+                        + str(params_df.columns.values)
+                    )
+                    assert "v" in params_df.columns.values, (
+                        "Missing column: v. Available columns:\n"
+                        + str(params_df.columns.values)
+                    )
 
         self.params = params_df
 
@@ -462,10 +488,12 @@ class PredictiveParameters:
     # Launch parameters
     def get_need_sync(self):
         """(mn > warp_size || mk > warp_size || kn > warp_size || threads > warp_size)"""
-        return (np.where(self.get("size_c") > self.gpu["Threads_/_Warp"], True, False)
-                | np.where(self.get("size_a") > self.gpu["Threads_/_Warp"], True, False)
-                | np.where(self.get("size_b") > self.gpu["Threads_/_Warp"], True, False)
-                | np.where(self.get("threads") > self.gpu["Threads_/_Warp"], True, False))
+        return (
+            np.where(self.get("size_c") > self.gpu["Threads_/_Warp"], True, False)
+            | np.where(self.get("size_a") > self.gpu["Threads_/_Warp"], True, False)
+            | np.where(self.get("size_b") > self.gpu["Threads_/_Warp"], True, False)
+            | np.where(self.get("threads") > self.gpu["Threads_/_Warp"], True, False)
+        )
 
     def get_nblks(self):
         """Number of thread blocks needed to multiply all matrices on the stack"""
@@ -498,12 +526,21 @@ class PredictiveParameters:
 
     def get_n_iter(self):
         """Number of benchmark repetitions in autotuning procedure"""
-        return np.maximum(3, 12500 * (1 // (self.get("m") * self.get("n") * self.get("k"))))
+        return np.maximum(
+            3, 12500 * (1 // (self.get("m") * self.get("n") * self.get("k")))
+        )
 
     def get_Gflops(self):
         """Number of floating point operations in [Gflops] carried out during autotuning"""
-        return (self.get("n_iter") * self.autotuning["stack_size"] * self.get("m") * self.get("n") * self.get("k") * 2 *
-                10**(-9))
+        return (
+            self.get("n_iter")
+            * self.autotuning["stack_size"]
+            * self.get("m")
+            * self.get("n")
+            * self.get("k")
+            * 2
+            * 10 ** (-9)
+        )
 
     # ===============================================================================
     # Resource occupancy estimations
@@ -540,7 +577,14 @@ class PredictiveParameters:
     # Resource usage (tiny)
     def get_ru_tiny_max_parallel_work(self):
         """Total number of iterations in each loop"""
-        return np.maximum.reduce([self.get("grouping"), self.get("size_a"), self.get("size_b"), self.get("size_c")])
+        return np.maximum.reduce(
+            [
+                self.get("grouping"),
+                self.get("size_a"),
+                self.get("size_b"),
+                self.get("size_c"),
+            ]
+        )
 
     def get_ru_tiny_min_threads(self):
         """Minimum number of threads required to run the kernel and produce correct results"""
@@ -553,7 +597,10 @@ class PredictiveParameters:
     def get_ru_tiny_smem_per_block(self):
         """"Shared memory usage per block (estimate)"""
         return (self.get("ru_tiny_buf_size") * self.autotuning["sizeof_double"]) + (
-            self.autotuning["npars"] * self.get("grouping") * self.autotuning["sizeof_int"])
+            self.autotuning["npars"]
+            * self.get("grouping")
+            * self.autotuning["sizeof_int"]
+        )
 
     def get_ru_tiny_nblks_per_sm(self):
         """
@@ -609,30 +656,43 @@ class PredictiveParameters:
 
     def get_ru_smallmed_max_parallel_work(self):
         """Maximum parallel work"""
-        return np.maximum.reduce([
-            self.get("grouping"),
-            self.get("size_a"),
-            self.get("size_b"),
-            self.get("size_c"),
-            self.get("ru_smallmedlarge_min_threads"),
-        ])
+        return np.maximum.reduce(
+            [
+                self.get("grouping"),
+                self.get("size_a"),
+                self.get("size_b"),
+                self.get("size_c"),
+                self.get("ru_smallmedlarge_min_threads"),
+            ]
+        )
 
     def get_ru_smallmed_buf_size(self):
         """Buffer size"""
-        intermediate1 = self.get("size_a") + self.get("k") * self.get("tile_n") * self.get("ru_smallmedlarge_cmax")
-        intermediate2 = self.get("tile_m") * self.get("ru_smallmedlarge_rmax") * self.get("k") + 1
+        intermediate1 = self.get("size_a") + self.get("k") * self.get(
+            "tile_n"
+        ) * self.get("ru_smallmedlarge_cmax")
+        intermediate2 = (
+            self.get("tile_m") * self.get("ru_smallmedlarge_rmax") * self.get("k") + 1
+        )
         return np.maximum.reduce([self.get("size_c"), intermediate1, intermediate2])
 
     def get_ru_smallmed_smem_per_block(self):
         """Shared memory usage per block"""
         return (self.get("ru_smallmed_buf_size") * self.autotuning["sizeof_double"]) + (
-            self.autotuning["npars"] * self.get("grouping") * self.autotuning["sizeof_int"])
+            self.autotuning["npars"]
+            * self.get("grouping")
+            * self.autotuning["sizeof_int"]
+        )
 
     def get_ru_smallmed_regs_per_thread(self):
         """Register usage per thread (estimated)"""
-        return (self.get("tile_m") * self.get("tile_n") +
-                (self.get("m") * self.get("k") + self.get("threads") - 1) // self.get("threads") +
-                (self.get("k") * self.get("n") + self.get("threads") - 1) // self.get("threads"))
+        return (
+            self.get("tile_m") * self.get("tile_n")
+            + (self.get("m") * self.get("k") + self.get("threads") - 1)
+            // self.get("threads")
+            + (self.get("k") * self.get("n") + self.get("threads") - 1)
+            // self.get("threads")
+        )
 
     # ===============================================================================
     # Resource usage (medium)
@@ -644,10 +704,14 @@ class PredictiveParameters:
         return self.get("size_b") // self.get("threads") + 1
 
     def get_n_mkloads(self):
-        return self.get("size_a") // (self.get("load_unroll_factor_1") * self.get("threads"))
+        return self.get("size_a") // (
+            self.get("load_unroll_factor_1") * self.get("threads")
+        )
 
     def get_n_knloads(self):
-        return self.get("size_b") // (self.get("load_unroll_factor_2") * self.get("threads"))
+        return self.get("size_b") // (
+            self.get("load_unroll_factor_2") * self.get("threads")
+        )
 
     # ===============================================================================
     # Resource usage (large)
@@ -677,19 +741,25 @@ class PredictiveParameters:
 
     def get_ru_large_max_concurrent_work(self):
         """Maximum concurrent work"""
-        return np.maximum.reduce([
-            self.get("grouping"),
-            self.get("ru_large_Pa"),
-            self.get("ru_large_Pb"),
-            self.get("ru_large_Pc"),
-            self.get("ru_smallmedlarge_T"),
-        ])
+        return np.maximum.reduce(
+            [
+                self.get("grouping"),
+                self.get("ru_large_Pa"),
+                self.get("ru_large_Pb"),
+                self.get("ru_large_Pc"),
+                self.get("ru_smallmedlarge_T"),
+            ]
+        )
 
     def get_ru_large_regs_per_thread(self):
         """Register usage per thread (estimated)"""
-        return (self.get("tile_m") * self.get("tile_n") +
-                (self.get("w") * self.get("m") + self.get("threads") - 1) // self.get("threads") +
-                (self.get("w") * self.get("n") + self.get("threads") - 1) // self.get("threads"))
+        return (
+            self.get("tile_m") * self.get("tile_n")
+            + (self.get("w") * self.get("m") + self.get("threads") - 1)
+            // self.get("threads")
+            + (self.get("w") * self.get("n") + self.get("threads") - 1)
+            // self.get("threads")
+        )
 
     def get_ru_large_n_DB_iter(self):
         """Number of double-buffering iterations"""
@@ -697,12 +767,23 @@ class PredictiveParameters:
 
     def get_ru_large_buf_size(self):
         """Buffer size"""
-        intermediate1 = (self.get("w") - 1) * self.get("m") + self.get("ru_smallmedlarge_rmax") * self.get("tile_m")
-        intermediate2 = (self.get("m") * self.get("w") + (self.get("w") - 1) * self.get("n") +
-                         self.get("ru_smallmedlarge_cmax") * self.get("tile_n"))
-        return np.maximum.reduce([self.get("ru_large_Pc"), intermediate1, intermediate2])
+        intermediate1 = (self.get("w") - 1) * self.get("m") + self.get(
+            "ru_smallmedlarge_rmax"
+        ) * self.get("tile_m")
+        intermediate2 = (
+            self.get("m") * self.get("w")
+            + (self.get("w") - 1) * self.get("n")
+            + self.get("ru_smallmedlarge_cmax") * self.get("tile_n")
+        )
+        return np.maximum.reduce(
+            [self.get("ru_large_Pc"), intermediate1, intermediate2]
+        )
 
     def get_ru_large_smem_per_block(self):
         """Shared memory usage per block"""
-        return (self.get("ru_large_buf_size") * self.autotuning["sizeof_double"] +
-                self.autotuning["npars"] * self.get("grouping") * self.autotuning["sizeof_int"])
+        return (
+            self.get("ru_large_buf_size") * self.autotuning["sizeof_double"]
+            + self.autotuning["npars"]
+            * self.get("grouping")
+            * self.autotuning["sizeof_int"]
+        )

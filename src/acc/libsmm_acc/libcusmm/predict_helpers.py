@@ -26,13 +26,13 @@ def safe_pickle(data, file):
     :param data: data to be pickled
     :param file: file to pickle it into
     """
-    max_bytes = 2**31 - 1  # Maximum number of bytes to write in one chunk
+    max_bytes = 2 ** 31 - 1  # Maximum number of bytes to write in one chunk
     pickle_out = pickle.dumps(data)
     n_bytes = len(pickle_out)
     with open(file, "wb") as f:
         count = 0
         for i in range(0, n_bytes, max_bytes):
-            f.write(pickle_out[i:min(n_bytes, i + max_bytes)])
+            f.write(pickle_out[i : min(n_bytes, i + max_bytes)])
             count += 1
 
 
@@ -44,7 +44,7 @@ def safe_pickle_load(file_path):
     :param data: data to be loaded through pickle
     :param file: file to read from
     """
-    max_bytes = 2**31 - 1  # Maximum number of bytes to read in one chunk
+    max_bytes = 2 ** 31 - 1  # Maximum number of bytes to read in one chunk
     bytes_in = bytearray(0)
     input_size = os.path.getsize(file_path)
     with open(file_path, "rb") as f:
@@ -62,7 +62,14 @@ def performance_gain(baseline, current):
     :return: dictionary, keys: (m, n, k), values: performance difference in Gflop/s
     """
     return dict(
-        zip(sorted(current.keys()), [current[(m, n, k)] - baseline[(m, n, k)] for m, n, k in sorted(current.keys())]))
+        zip(
+            sorted(current.keys()),
+            [
+                current[(m, n, k)] - baseline[(m, n, k)]
+                for m, n, k in sorted(current.keys())
+            ],
+        )
+    )
 
 
 def plot_training_data(Y, X_mnk, algo, folder=""):
@@ -79,8 +86,10 @@ def plot_training_data(Y, X_mnk, algo, folder=""):
         mnks.append((int(match.group(1)), int(match.group(2)), int(match.group(3))))
 
     perf_scaled = zip(mnks, Y["perf_scaled"])
-    mnk_products_perf_sorted = [(mnk[0] * mnk[1] * mnk[2], p)
-                                for mnk, p in sorted(perf_scaled, key=lambda x: x[0][0] * x[0][1] * x[0][2])]
+    mnk_products_perf_sorted = [
+        (mnk[0] * mnk[1] * mnk[2], p)
+        for mnk, p in sorted(perf_scaled, key=lambda x: x[0][0] * x[0][1] * x[0][2])
+    ]
     tmp = list(zip(*mnk_products_perf_sorted))
     mnk_products_sorted = tmp[0]
     perf_scaled_sorted = tmp[1]
@@ -107,43 +116,79 @@ def relative_performance_gain(baseline, current):
     return dict(
         zip(
             sorted(current.keys()),
-            [(current[(m, n, k)] - baseline[(m, n, k)]) / baseline[(m, n, k)] for m, n, k in sorted(current.keys())],
-        ))
+            [
+                (current[(m, n, k)] - baseline[(m, n, k)]) / baseline[(m, n, k)]
+                for m, n, k in sorted(current.keys())
+            ],
+        )
+    )
 
 
-def plot_absolute_performance_gain(perf_gain, mnk_names, baseline_name, current_name, pp=None):
-    mnk_products = [m * n * k for m, n, k in sorted(perf_gain.keys(), key=lambda x: x[0] * x[1] * x[2])]
+def plot_absolute_performance_gain(
+    perf_gain, mnk_names, baseline_name, current_name, pp=None
+):
+    mnk_products = [
+        m * n * k
+        for m, n, k in sorted(perf_gain.keys(), key=lambda x: x[0] * x[1] * x[2])
+    ]
 
     plt.figure()
     plt.plot(mnk_products, list(perf_gain.values()), ".", markersize=3)
     plt.plot([mnk_products[0], mnk_products[-1]], [0, 0], "-r")
     plt.xlabel(mnk_names + " (m, n, k) triplets (in order of increasing m*n*k)")
     plt.ylabel("Performance Gain [Gflops]")
-    plt.title("Performance gain of " + current_name + " VS " + baseline_name + " parameter set")
+    plt.title(
+        "Performance gain of "
+        + current_name
+        + " VS "
+        + baseline_name
+        + " parameter set"
+    )
     if pp is not None:
         pp.savefig()
     else:
         plt.show()
 
 
-def plot_relative_performance_gain(rel_perf_gain, mnk_names, baseline_name, current_name, pp=None):
-    mnk_products = [m * n * k for m, n, k in sorted(rel_perf_gain.keys(), key=lambda x: x[0] * x[1] * x[2])]
+def plot_relative_performance_gain(
+    rel_perf_gain, mnk_names, baseline_name, current_name, pp=None
+):
+    mnk_products = [
+        m * n * k
+        for m, n, k in sorted(rel_perf_gain.keys(), key=lambda x: x[0] * x[1] * x[2])
+    ]
 
     plt.figure()
-    plt.plot(mnk_products, 100 * np.array(list(rel_perf_gain.values())), ".", markersize=3)
+    plt.plot(
+        mnk_products, 100 * np.array(list(rel_perf_gain.values())), ".", markersize=3
+    )
     plt.plot([mnk_products[0], mnk_products[-1]], [0, 0], "-r")
     plt.xlabel(mnk_names + " (m, n, k) triplets (in order of increasing m*n*k)")
     plt.ylabel("Performance Gain [%]")
-    plt.title("Relative performance gain of " + current_name + " VS " + baseline_name + " parameter set")
+    plt.title(
+        "Relative performance gain of "
+        + current_name
+        + " VS "
+        + baseline_name
+        + " parameter set"
+    )
     if pp is not None:
         pp.savefig()
     else:
         plt.show()
 
 
-def plot_performance_gains(perf_gain1, perf_gain2, mnk_names, perf_gain1_name, perf_gain2_name, pp=None):
-    mnks = [(m, n, k) for m, n, k in sorted(perf_gain2.keys(), key=lambda x: x[0] * x[1] * x[2])]
-    mnk_products = [m * n * k for m, n, k in sorted(perf_gain2.keys(), key=lambda x: x[0] * x[1] * x[2])]
+def plot_performance_gains(
+    perf_gain1, perf_gain2, mnk_names, perf_gain1_name, perf_gain2_name, pp=None
+):
+    mnks = [
+        (m, n, k)
+        for m, n, k in sorted(perf_gain2.keys(), key=lambda x: x[0] * x[1] * x[2])
+    ]
+    mnk_products = [
+        m * n * k
+        for m, n, k in sorted(perf_gain2.keys(), key=lambda x: x[0] * x[1] * x[2])
+    ]
     res1 = [perf_gain1[mnk] for mnk in mnks]
     res2 = [perf_gain2[mnk] for mnk in mnks]
 
@@ -155,16 +200,30 @@ def plot_performance_gains(perf_gain1, perf_gain2, mnk_names, perf_gain1_name, p
     plt.ylabel("Performance [Gflops]")
     plt.xscale("log")
     plt.legend([perf_gain1_name, perf_gain2_name])
-    plt.title("Performance of " + perf_gain1_name + " and " + perf_gain2_name + " parameter set")
+    plt.title(
+        "Performance of "
+        + perf_gain1_name
+        + " and "
+        + perf_gain2_name
+        + " parameter set"
+    )
     if pp is not None:
         pp.savefig()
     else:
         plt.show()
 
 
-def plot_scaled_performance_gains(perf_gain1, perf_gain2, mnk_names, perf_gain1_name, perf_gain2_name, pp=None):
-    mnks = [(m, n, k) for m, n, k in sorted(perf_gain2.keys(), key=lambda x: x[0] * x[1] * x[2])]
-    mnk_products = [m * n * k for m, n, k in sorted(perf_gain2.keys(), key=lambda x: x[0] * x[1] * x[2])]
+def plot_scaled_performance_gains(
+    perf_gain1, perf_gain2, mnk_names, perf_gain1_name, perf_gain2_name, pp=None
+):
+    mnks = [
+        (m, n, k)
+        for m, n, k in sorted(perf_gain2.keys(), key=lambda x: x[0] * x[1] * x[2])
+    ]
+    mnk_products = [
+        m * n * k
+        for m, n, k in sorted(perf_gain2.keys(), key=lambda x: x[0] * x[1] * x[2])
+    ]
     res1 = np.array([perf_gain1[mnk] for mnk in mnks])
     res2 = np.array([perf_gain2[mnk] for mnk in mnks])
 
@@ -176,14 +235,31 @@ def plot_scaled_performance_gains(perf_gain1, perf_gain2, mnk_names, perf_gain1_
     plt.ylabel("Scaled performance [%]")
     plt.xscale("log")
     plt.legend([perf_gain1_name, perf_gain2_name])
-    plt.title("Performance of " + perf_gain1_name + " and " + perf_gain2_name + " parameter set")
+    plt.title(
+        "Performance of "
+        + perf_gain1_name
+        + " and "
+        + perf_gain2_name
+        + " parameter set"
+    )
     if pp is not None:
         pp.savefig()
     else:
         plt.show()
 
 
-def plot_choice_goodness(m, n, k, baseline_performances, max_performances, y_true, y_pred, train, pp, scaled=True):
+def plot_choice_goodness(
+    m,
+    n,
+    k,
+    baseline_performances,
+    max_performances,
+    y_true,
+    y_pred,
+    train,
+    pp,
+    scaled=True,
+):
 
     # Sort in ascending performances
     data_mnk = pd.DataFrame()
@@ -199,11 +275,23 @@ def plot_choice_goodness(m, n, k, baseline_performances, max_performances, y_tru
     plt.figure()
     marker_size = 1
     par_set_ids = range(len(data_mnk.index.values))
-    plt.plot(par_set_ids, data_mnk["perf_true"], "b.", markersize=marker_size, label="measured performances")
+    plt.plot(
+        par_set_ids,
+        data_mnk["perf_true"],
+        "b.",
+        markersize=marker_size,
+        label="measured performances",
+    )
     plt.xlabel("Parameter set id")
     plt.ylabel("Performance scaled [%]")
     type = "train" if train else "test"
-    plt.title("Performance profile of parameter sets for " + str((m, n, k)) + "-triplet (" + type + ")")
+    plt.title(
+        "Performance profile of parameter sets for "
+        + str((m, n, k))
+        + "-triplet ("
+        + type
+        + ")"
+    )
 
     # Annotate
     x = [0, len(y_true)]
@@ -212,7 +300,12 @@ def plot_choice_goodness(m, n, k, baseline_performances, max_performances, y_tru
 
     # autotuning
     perf_autotuned_algo = data_mnk["perf_true"].max()
-    plt.plot(x, perf_autotuned_algo * y, "k-", label="max (for this algo): " + perf_num.format(perf_autotuned_algo))
+    plt.plot(
+        x,
+        perf_autotuned_algo * y,
+        "k-",
+        label="max (for this algo): " + perf_num.format(perf_autotuned_algo),
+    )
 
     # chosen
     idx_perf_chosen = data_mnk["perf_pred"].idxmax()
@@ -222,10 +315,16 @@ def plot_choice_goodness(m, n, k, baseline_performances, max_performances, y_tru
     # baseline
     if scaled:
         # baseline = per algo, scale it to 0-1
-        perf_baseline = 100 * baseline_performances[to_string(m, n, k)] / max_performances["{}x{}x{}".format(m, n, k)]
+        perf_baseline = (
+            100
+            * baseline_performances[to_string(m, n, k)]
+            / max_performances["{}x{}x{}".format(m, n, k)]
+        )
     else:
         perf_baseline = baseline_performances[to_string(m, n, k)]
-    plt.plot(x, perf_baseline * y, "g-", label="baseline: " + perf_num.format(perf_baseline))
+    plt.plot(
+        x, perf_baseline * y, "g-", label="baseline: " + perf_num.format(perf_baseline)
+    )
 
     plt.legend(loc="lower right")
     pp.savefig()

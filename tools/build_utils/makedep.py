@@ -74,15 +74,25 @@ def main(out_fn, project_name, mod_format, mode, archive_ext, src_dir, src_files
         if not parsed_files[fn]["program"]:
             packages[p]["objects"].append(src2obj(basename(fn)))
         deps = collect_include_deps(parsed_files, fn, src_dir)
-        deps += [mod2fn[m] for m in collect_use_deps(parsed_files, fn, src_dir) if m in mod2fn.keys()]
+        deps += [
+            mod2fn[m]
+            for m in collect_use_deps(parsed_files, fn, src_dir)
+            if m in mod2fn.keys()
+        ]
         n_deps += len(deps)
         for d in deps:
             dp = normpath(dirname(d))
             if dp not in packages[p]["allowed_deps"]:
-                error("Dependency forbidden according to package manifest: %s -> %s" % (fn, d))
+                error(
+                    "Dependency forbidden according to package manifest: %s -> %s"
+                    % (fn, d)
+                )
             if dp != p and "public_files" in packages[dp].keys():
                 if basename(d) not in packages[dp]["public_files"]:
-                    error("File not public according to package manifest: %s -> %s" % (fn, d))
+                    error(
+                        "File not public according to package manifest: %s -> %s"
+                        % (fn, d)
+                    )
     messages.append("Checked %d dependencies" % n_deps)
 
     # check for circular dependencies
@@ -188,10 +198,12 @@ def parse_file(parsed_files, fn, src_dir):
         uses += re_use.findall(content_lower)
         incls += re_incl_fypp.findall(content)  # Fypp includes (case-sensitiv)
         incl_fort_iter = re_incl_fort.finditer(content_lower)  # fortran includes
-        incls += [content[m.start(1):m.end(1)] for m in incl_fort_iter]
+        incls += [content[m.start(1) : m.end(1)] for m in incl_fort_iter]
 
     if fn[-2:] == ".c" or fn[-3:] == ".cu":
-        prog = True if re_main.search(content) is not None else False  # C is case-sensitiv
+        prog = (
+            True if re_main.search(content) is not None else False
+        )  # C is case-sensitiv
 
     # exclude included files from outside the source tree
     def incl_fn(i):
@@ -237,7 +249,9 @@ def read_pkg_manifest(project_name, packages, p):
     if "archive" not in packages[p].keys():
         packages[p]["archive"] = "lib{}{}".format(project_name, basename(p))
     packages[p]["allowed_deps"] = [normpath(p)]
-    packages[p]["allowed_deps"] += [normpath(path.join(p, r)) for r in packages[p]["requires"]]
+    packages[p]["allowed_deps"] += [
+        normpath(path.join(p, r)) for r in packages[p]["requires"]
+    ]
 
     for r in packages[p]["requires"]:
         read_pkg_manifest(project_name, packages, normpath(path.join(p, r)))
@@ -374,7 +388,8 @@ if __name__ == "__main__":
 
         This script is part of the build utility scripts for DBCSR.
         """,
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument("outfile", metavar="outfile", type=str)
     parser.add_argument("project_name", metavar="project_name", type=str)
     parser.add_argument("format", metavar="format", type=str)
@@ -391,4 +406,5 @@ if __name__ == "__main__":
         mode=args.mode,
         archive_ext=args.archive_ext,
         src_dir=args.src_dir,
-        src_files=args.src_file)
+        src_files=args.src_file,
+    )

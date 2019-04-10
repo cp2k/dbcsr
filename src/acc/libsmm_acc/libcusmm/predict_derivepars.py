@@ -52,7 +52,9 @@ def main(tunedir, arch):
     }
     for name_algo, kernel_algo in kernel_algorithm.items():
 
-        raw_training_data_filename = os.path.join(tunedir, "raw_training_data_{}.csv".format(name_algo))
+        raw_training_data_filename = os.path.join(
+            tunedir, "raw_training_data_{}.csv".format(name_algo)
+        )
         print("\nReading from {}".format(raw_training_data_filename))
 
         # Read CSV and loop over chunks
@@ -67,23 +69,39 @@ def main(tunedir, arch):
 
             # Get max_performance_per_mnk
             max_performances = get_max_performances_per_mnk(data_chunk)
-            max_performances_per_mnk.update(dict(zip(to_string(*max_performances.keys()), max_performances.values())))
+            max_performances_per_mnk.update(
+                dict(
+                    zip(to_string(*max_performances.keys()), max_performances.values())
+                )
+            )
 
             # Get baseline_per_mnk
-            baseline_performances_algo = get_baseline_performances_per_mnk(data_chunk, name_algo, gpu_properties,
-                                                                           autotuning_properties)
+            baseline_performances_algo = get_baseline_performances_per_mnk(
+                data_chunk, name_algo, gpu_properties, autotuning_properties
+            )
             baseline_performances_per_algo_per_mnk[name_algo].update(
-                dict(zip(to_string(*baseline_performances_algo.keys()), baseline_performances_algo.values())))
+                dict(
+                    zip(
+                        to_string(*baseline_performances_algo.keys()),
+                        baseline_performances_algo.values(),
+                    )
+                )
+            )
 
             # Compute derived parameters
-            data_chunk["algorithm"] = [name_algo] * len(data_chunk.index)  # add 'algorithm' column manually
-            parameter_sets = PredictiveParameters(data_chunk, gpu_properties, autotuning_properties, max_performances)
+            data_chunk["algorithm"] = [name_algo] * len(
+                data_chunk.index
+            )  # add 'algorithm' column manually
+            parameter_sets = PredictiveParameters(
+                data_chunk, gpu_properties, autotuning_properties, max_performances
+            )
             pars_to_get = derived_parameters["common"] + derived_parameters[name_algo]
             new_data = parameter_sets.get_features(pars_to_get)
 
             # Write derived parameters
-            derived_training_data_filename = os.path.join(tunedir, "training_data_{}_{}.csv".format(
-                name_algo, chunk_count - 1))
+            derived_training_data_filename = os.path.join(
+                tunedir, "training_data_{}_{}.csv".format(name_algo, chunk_count - 1)
+            )
             new_data[pars_to_get].to_csv(derived_training_data_filename, index=False)
             print("\tWrote", derived_training_data_filename)
 
@@ -97,7 +115,9 @@ def main(tunedir, arch):
 
         # Print header line
         derived_training_data_filename_base = "training_data_{}_{}.csv"
-        derived_training_data_filename_chunk = derived_training_data_filename_base.format(name_algo, 0)
+        derived_training_data_filename_chunk = derived_training_data_filename_base.format(
+            name_algo, 0
+        )
         with open(derived_training_data_filename_chunk, "r") as f:
             header_line = f.readline()
         derived_training_data_filename = "training_data_{}.csv".format(name_algo)
@@ -107,10 +127,20 @@ def main(tunedir, arch):
 
         # Print merge instructions
         print("$ # Wrote header line to {}".format(derived_training_data_filename))
-        print("$ # Append training data chunks to {} by running:".format(derived_training_data_filename))
-        derived_training_data_filename_wildcard = derived_training_data_filename_base.format(name_algo, "*")
-        print("$ tail -n +2 -q {to_merge} >> {training_data_file}".format(
-            to_merge=derived_training_data_filename_wildcard, training_data_file=derived_training_data_filename))
+        print(
+            "$ # Append training data chunks to {} by running:".format(
+                derived_training_data_filename
+            )
+        )
+        derived_training_data_filename_wildcard = derived_training_data_filename_base.format(
+            name_algo, "*"
+        )
+        print(
+            "$ tail -n +2 -q {to_merge} >> {training_data_file}".format(
+                to_merge=derived_training_data_filename_wildcard,
+                training_data_file=derived_training_data_filename,
+            )
+        )
 
     # Print max performances
     max_performances_per_mnk_file = os.path.join(tunedir, "max_performances.json")
@@ -119,14 +149,19 @@ def main(tunedir, arch):
     print("\nWrote maximum performances to:\n", max_performances_per_mnk_file)
 
     # Print baseline
-    baseline_performances_per_algo_per_mnk_file = os.path.join(tunedir, "baseline_performances_by_algo.json")
+    baseline_performances_per_algo_per_mnk_file = os.path.join(
+        tunedir, "baseline_performances_by_algo.json"
+    )
     with open(baseline_performances_per_algo_per_mnk_file, "w") as f:
         json.dump(baseline_performances_per_algo_per_mnk, f)
-    print("\nWrote baseline performances to:\n", baseline_performances_per_algo_per_mnk_file)
+    print(
+        "\nWrote baseline performances to:\n",
+        baseline_performances_per_algo_per_mnk_file,
+    )
 
 
 # ===============================================================================
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""
         Compute derived training data from raw parameters.
@@ -134,7 +169,8 @@ if __name__ == '__main__':
         This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
         For more details, see predict.md.
         """,
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
         "-f",
         "--folder",

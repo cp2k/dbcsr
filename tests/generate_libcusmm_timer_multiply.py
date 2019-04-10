@@ -56,7 +56,7 @@ def main(basedir, gpu_version, nsamples):
         kernels_to_print_predicted = format_to_cpp(kernels_to_test_predicted)
     else:
         kernels_to_test_predicted = list()
-        kernels_to_print_predicted = ''
+        kernels_to_print_predicted = ""
 
     # Print to test file
     test_directory = os.path.join(basedir, "tests")
@@ -64,21 +64,30 @@ def main(basedir, gpu_version, nsamples):
     file_generate = os.path.join(test_directory, "libcusmm_timer_multiply.cu")
     with open(file_template, "r") as f:
         test = f.read()
-    test = test.replace("[[AUTOTUNED_KERNELS_HERE]]", kernels_to_print_autotuned.lstrip())
-    test = test.replace("[[PREDICTED_KERNELS_HERE]]", kernels_to_print_predicted.lstrip())
+    test = test.replace(
+        "[[AUTOTUNED_KERNELS_HERE]]", kernels_to_print_autotuned.lstrip()
+    )
+    test = test.replace(
+        "[[PREDICTED_KERNELS_HERE]]", kernels_to_print_predicted.lstrip()
+    )
     with open(file_generate, "w") as f:
         f.write(test)
-    print("Wrote {:,} test kernels to {}".format(len(autotuned_kernels + kernels_to_test_predicted), file_generate))
+    print(
+        "Wrote {:,} test kernels to {}".format(
+            len(autotuned_kernels + kernels_to_test_predicted), file_generate
+        )
+    )
 
 
 # ===============================================================================
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""
         Generate a performance test of libcusmm in the form of a CUDA file, using libcusmm_timer_multiply.template
         as a template
         """,
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument("-f", "--base_folder", metavar="DBCSRHOME", default="")
     parser.add_argument(
         "-g",
@@ -91,8 +100,10 @@ if __name__ == '__main__':
         "-n",
         "--nsamples",
         default=1000,
-        help="Number of samples from the matrix sizes space 4 <= m,n,k <= 45 (except autotuned kernels)" +
-        " to sample for performance testing",
+        help=(
+            "Number of samples from the matrix sizes space 4 <= m,n,k <= 45 (except autotuned kernels)"
+            " to sample for performance testing"
+        ),
     )
 
     args = parser.parse_args()
