@@ -25,9 +25,15 @@ MODULE dbcsr_tas_reshape_ops
                                  dbcsr_data_set_pointer
    USE dbcsr_data_methods_low, ONLY: internal_data_allocate, &
                                      internal_data_deallocate, &
-                                     ${uselist(["dbcsr_get_data_p_2d_" + s for s in dtype_float_suffix_dbcsr])}$
+                                     dbcsr_get_data_p_2d_d, &
+                                     dbcsr_get_data_p_2d_s, &
+                                     dbcsr_get_data_p_2d_z, &
+                                     dbcsr_get_data_p_2d_c
    USE dbcsr_data_types, ONLY: dbcsr_data_obj, &
-                               ${uselist(dtype_float_param)}$
+                               dbcsr_type_real_8, &
+                               dbcsr_type_real_4, &
+                               dbcsr_type_complex_8, &
+                               dbcsr_type_complex_4
    USE dbcsr_dist_methods, ONLY: dbcsr_distribution_col_dist, &
                                  dbcsr_distribution_row_dist
    USE dbcsr_dist_operations, ONLY: dbcsr_get_stored_coordinates
