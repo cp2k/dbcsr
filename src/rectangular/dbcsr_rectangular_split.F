@@ -102,11 +102,7 @@ CONTAINS
       split_info%ngroup = ngroup
       split_info%group_size = split_info%pgrid_split_size*pdims(MOD(split_rowcol, 2) + 1)
 
-      split_info%pgrid_split_size_local = split_info%pgrid_split_size
-      split_info%group_size_local = split_info%group_size
-
-      CALL world_to_group_proc_map(iproc, pdims, split_rowcol, split_info%pgrid_split_size, igroup_check, &
-                                   split_info%pgrid_split_size_local, pdims_group, iproc_group)
+      CALL world_to_group_proc_map(iproc, pdims, split_rowcol, split_info%pgrid_split_size, igroup_check, pdims_group, iproc_group)
 
       IF (igroup_check .NE. split_info%igroup) THEN
          DBCSR_ABORT('inconsistent subgroups')
@@ -354,25 +350,19 @@ CONTAINS
 !> \param split_rowcol split rows or column
 !> \param pgrid_split_size how many process rows/cols per group
 !> \param igroup group ID
-!> \param pgrid_split_size_local how many process rows/cols in this group
 !> \param pdims_group local process grid dimensions
 !> \param iproc_group group local process ID
 ! **************************************************************************************************
-   SUBROUTINE world_to_group_proc_map(iproc, pdims, split_rowcol, pgrid_split_size, igroup, pgrid_split_size_local, &
+   SUBROUTINE world_to_group_proc_map(iproc, pdims, split_rowcol, pgrid_split_size, igroup, &
                                       pdims_group, iproc_group)
       INTEGER, INTENT(IN)                                :: iproc
       INTEGER, DIMENSION(2), INTENT(IN)                  :: pdims
       INTEGER, INTENT(IN)                                :: split_rowcol, pgrid_split_size
       INTEGER, INTENT(OUT)                               :: igroup
-      INTEGER, INTENT(IN), OPTIONAL                      :: pgrid_split_size_local
       INTEGER, DIMENSION(2), INTENT(OUT), OPTIONAL       :: pdims_group
       INTEGER, INTENT(OUT), OPTIONAL                     :: iproc_group
 
       INTEGER, DIMENSION(2)                              :: pcoord, pcoord_group
-
-      IF (PRESENT(pdims_group) .OR. PRESENT(iproc_group)) THEN
-         DBCSR_ASSERT(PRESENT(pgrid_split_size_local))
-      ENDIF
 
       IF (PRESENT(iproc_group)) THEN
          DBCSR_ASSERT(PRESENT(pdims_group))
@@ -384,10 +374,10 @@ CONTAINS
 
       SELECT CASE (split_rowcol)
       CASE (rowsplit)
-         IF (PRESENT(pdims_group)) pdims_group = [pgrid_split_size_local, pdims(2)]
+         IF (PRESENT(pdims_group)) pdims_group = [pgrid_split_size, pdims(2)]
          IF (PRESENT(iproc_group)) pcoord_group = [MOD(pcoord(1), pgrid_split_size), pcoord(2)]
       CASE (colsplit)
-         IF (PRESENT(pdims_group)) pdims_group = [pdims(1), pgrid_split_size_local]
+         IF (PRESENT(pdims_group)) pdims_group = [pdims(1), pgrid_split_size]
          IF (PRESENT(iproc_group)) pcoord_group = [pcoord(1), MOD(pcoord(2), pgrid_split_size)]
       END SELECT
       IF (PRESENT(iproc_group)) iproc_group = pcoord_group(1)*pdims_group(2) + pcoord_group(2)
@@ -399,25 +389,23 @@ CONTAINS
 !> \param pdims global process grid dimensions
 !> \param split_rowcol split rows or column
 !> \param pgrid_split_size how many process rows/cols per group
-!> \param pgrid_split_size_local how many process rows/cols in this group
 !> \param igroup group ID
 !> \param iproc_group local process ID
 ! **************************************************************************************************
-   SUBROUTINE group_to_world_proc_map(iproc, pdims, split_rowcol, pgrid_split_size, pgrid_split_size_local, &
+   SUBROUTINE group_to_world_proc_map(iproc, pdims, split_rowcol, pgrid_split_size, &
                                       igroup, iproc_group)
       INTEGER, INTENT(OUT)                               :: iproc
       INTEGER, DIMENSION(2), INTENT(IN)                  :: pdims
       INTEGER, INTENT(IN)                                :: split_rowcol, pgrid_split_size, &
-                                                            pgrid_split_size_local, igroup, &
-                                                            iproc_group
+                                                            igroup, iproc_group
 
       INTEGER, DIMENSION(2)                              :: pcoord, pcoord_group, pdims_group
 
       SELECT CASE (split_rowcol)
       CASE (rowsplit)
-         pdims_group = [pgrid_split_size_local, pdims(2)]
+         pdims_group = [pgrid_split_size, pdims(2)]
       CASE (colsplit)
-         pdims_group = [pdims(1), pgrid_split_size_local]
+         pdims_group = [pdims(1), pgrid_split_size]
       END SELECT
 
       pcoord_group = [iproc_group/pdims_group(2), MOD(iproc_group, pdims_group(2))]
