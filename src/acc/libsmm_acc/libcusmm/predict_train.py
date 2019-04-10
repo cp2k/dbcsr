@@ -45,35 +45,46 @@ def main(datadir, algo, plot_all, model_args, nrows, prefitted_model):
 
     # ===============================================================================
     # Override algorithm option if working on a pre-fitted model, and log program options
-    log += print_and_log("----------------------------------------------------------------------------")
-    algo, model_args, nrows, log = dump_or_load_options(algo, model_args, prefitted_model, nrows, folder, log)
+    log += print_and_log(
+        "----------------------------------------------------------------------------"
+    )
+    algo, model_args, nrows, log = dump_or_load_options(
+        algo, model_args, prefitted_model, nrows, folder, log
+    )
 
     # ===============================================================================
     # Get maximum and baseline performances
-    max_performances, max_performances_algo, max_performances_ref, baseline_performances_algo = \
-        get_reference_performances(
-            datadir, algo
-        )
+    max_performances, max_performances_algo, max_performances_ref, baseline_performances_algo = get_reference_performances(
+        datadir, algo
+    )
 
     # ===============================================================================
     # Read data
-    log += print_and_log("----------------------------------------------------------------------------")
-    X, X_mnk, Y, log, data_nrows = read_data(algo, datadir, nrows, plot_all, folder, log)
+    log += print_and_log(
+        "----------------------------------------------------------------------------"
+    )
+    X, X_mnk, Y, log, data_nrows = read_data(
+        algo, datadir, nrows, plot_all, folder, log
+    )
 
     # ===============================================================================
     # Get or train model
-    log += print_and_log("----------------------------------------------------------------------------")
+    log += print_and_log(
+        "----------------------------------------------------------------------------"
+    )
     if len(prefitted_model) == 0:  # train a model
 
         log += print_and_log("\nPreparing to fit model...")
         X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model, log = train_model(
-            X, X_mnk, Y, algo, model_args, folder, log)
+            X, X_mnk, Y, algo, model_args, folder, log
+        )
 
     else:  # load pre-trained model
 
         log += print_and_log("\nReading pre-fitted model from " + prefitted_model)
         X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model, log = fetch_pre_trained_model(
-            X, X_mnk, Y, prefitted_model, log)
+            X, X_mnk, Y, prefitted_model, log
+        )
 
     # ===============================================================================
     # Evaluate model
@@ -96,7 +107,9 @@ def main(datadir, algo, plot_all, model_args, nrows, prefitted_model):
 
     # ===============================================================================
     # Refit to the entire dataset
-    log += print_and_log("----------------------------------------------------------------------------")
+    log += print_and_log(
+        "----------------------------------------------------------------------------"
+    )
     log += print_and_log("\nRefit to the entire dataset:")
     X = pd.concat([X_train, X_test], ignore_index=True)
     X_mnk = pd.concat([X_mnk_train, X_mnk_test], ignore_index=True)
@@ -126,7 +139,9 @@ def main(datadir, algo, plot_all, model_args, nrows, prefitted_model):
 
     # ===============================================================================
     # Print log
-    log += print_and_log("----------------------------------------------------------------------------")
+    log += print_and_log(
+        "----------------------------------------------------------------------------"
+    )
     with open(log_file, "w") as f:
         f.write(log)
 
@@ -134,11 +149,36 @@ def main(datadir, algo, plot_all, model_args, nrows, prefitted_model):
 # ===============================================================================
 # Model hyperparameters
 optimized_hyperparameters = {  # chosen by common sense, then trial and error
-    "tiny": {"max_depth": 16, "min_samples_leaf": 2, "min_samples_split": 15, "n_features_to_drop": 2},
-    "small": {"max_depth": 16, "min_samples_leaf": 2, "min_samples_split": 15, "n_features_to_drop": 16},
-    "medium": {"max_depth": 18, "min_samples_leaf": 2, "min_samples_split": 13, "n_features_to_drop": 12},
-    "largeDB1": {"max_depth": 18, "min_samples_leaf": 2, "min_samples_split": 15, "n_features_to_drop": 12},
-    "largeDB2": {"max_depth": 18, "min_samples_leaf": 2, "min_samples_split": 15, "n_features_to_drop": 12},
+    "tiny": {
+        "max_depth": 16,
+        "min_samples_leaf": 2,
+        "min_samples_split": 15,
+        "n_features_to_drop": 2,
+    },
+    "small": {
+        "max_depth": 16,
+        "min_samples_leaf": 2,
+        "min_samples_split": 15,
+        "n_features_to_drop": 16,
+    },
+    "medium": {
+        "max_depth": 18,
+        "min_samples_leaf": 2,
+        "min_samples_split": 13,
+        "n_features_to_drop": 12,
+    },
+    "largeDB1": {
+        "max_depth": 18,
+        "min_samples_leaf": 2,
+        "min_samples_split": 15,
+        "n_features_to_drop": 12,
+    },
+    "largeDB2": {
+        "max_depth": 18,
+        "min_samples_leaf": 2,
+        "min_samples_split": 15,
+        "n_features_to_drop": 12,
+    },
 }
 
 
@@ -190,12 +230,7 @@ def dump_or_load_options(algo, model_args, prefitted_model, nrows, folder, log):
             pgm_options = json.load(f)
 
         algo = pgm_options["algo"]
-        model_args_list = [
-            "model",
-            "splits",
-            "ntrees",
-            "njobs",
-        ]
+        model_args_list = ["model", "splits", "ntrees", "njobs"]
         model_args = dict()
         for m in model_args_list:
             model_args[m] = pgm_options[m]
@@ -288,7 +323,9 @@ def worse_case_scorer(estimator, X, y, top_k):
     mnk["mnk"] = X["mnk"].copy()
     y_pred = estimator.predict(X.drop(["mnk"], axis=1))
     score = worse_rel_perf_loss_of_k(y, y_pred, top_k, mnk)
-    return -score  # by scikit-learn convention, higher numbers are better, so the value should be negated
+    return (
+        -score
+    )  # by scikit-learn convention, higher numbers are better, so the value should be negated
 
 
 def worse_case_scorer_top1(estimator, X, y):
@@ -306,7 +343,9 @@ def mean_scorer(estimator, X, y, top_k):
     mnk["mnk"] = X["mnk"].copy()
     y_pred = estimator.predict(X.drop(["mnk"], axis=1))
     score = mean_rel_perf_loss_of_k(y, y_pred, top_k, mnk)
-    return -score  # by scikit-learn convention, higher numbers are better, so the value should be negated
+    return (
+        -score
+    )  # by scikit-learn convention, higher numbers are better, so the value should be negated
 
 
 def mean_scorer_top1(estimator, X, y):
@@ -332,7 +371,12 @@ def get_reference_performances(folder, algo):
     with open(baseline_file) as f:
         baseline_performances_algo = json.load(f)[algo]
 
-    return (max_performances, max_performances_algo, max_performances_ref, baseline_performances_algo)
+    return (
+        max_performances,
+        max_performances_algo,
+        max_performances_ref,
+        baseline_performances_algo,
+    )
 
 
 def read_data(algo, read_from, nrows, plot_all, folder, log):
@@ -342,15 +386,22 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
     raw_data_file = os.path.join(read_from, "raw_training_data_" + algo + ".csv")
     log += print_and_log("\nRead raw data from " + raw_data_file)
     raw_data = pd.read_csv(raw_data_file, index_col=False, nrows=nrows)
-    log += print_and_log("raw data    : {:>8,} x {:>8,} ({:>2.3} MB)".format(raw_data.shape[0], raw_data.shape[1],
-                                                                             sys.getsizeof(raw_data) / 10**6))
+    log += print_and_log(
+        "raw data    : {:>8,} x {:>8,} ({:>2.3} MB)".format(
+            raw_data.shape[0], raw_data.shape[1], sys.getsizeof(raw_data) / 10 ** 6
+        )
+    )
 
     derived_data_file = os.path.join(read_from, "training_data_" + algo + ".csv")
     log += print_and_log("\nRead training data from " + derived_data_file)
     derived_data = pd.read_csv(derived_data_file, index_col=False, nrows=nrows)
-    log += print_and_log("derived data    : {:>8,} x {:>8,} ({:>2.3} MB)".format(derived_data.shape[0],
-                                                                                 derived_data.shape[1],
-                                                                                 sys.getsizeof(derived_data) / 10**6))
+    log += print_and_log(
+        "derived data    : {:>8,} x {:>8,} ({:>2.3} MB)".format(
+            derived_data.shape[0],
+            derived_data.shape[1],
+            sys.getsizeof(derived_data) / 10 ** 6,
+        )
+    )
 
     # ===============================================================================
     # Get 'X'
@@ -366,7 +417,11 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
         if len(X[col].unique().tolist()) == 1:
             X = X.drop(col, axis=1)
 
-    log += print_and_log("X    : {:>8,} x {:>8,} ({:>2.2} MB)".format(X.shape[0], X.shape[1], sys.getsizeof(X) / 10**6))
+    log += print_and_log(
+        "X    : {:>8,} x {:>8,} ({:>2.2} MB)".format(
+            X.shape[0], X.shape[1], sys.getsizeof(X) / 10 ** 6
+        )
+    )
     n_features = len(list(X.columns))
     predictor_names = X.columns.values
     log += print_and_log("\nPredictor variables: (" + str(n_features) + ")")
@@ -379,14 +434,20 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
     Y = pd.DataFrame()
     Y["perf_scaled"] = derived_data["perf_scaled"]
     Y.dropna(axis=0, inplace=True)
-    log += print_and_log("Y    : {:>8,} ({:>2.2} MB)".format(Y.size, sys.getsizeof(Y) / 10**6))
+    log += print_and_log(
+        "Y    : {:>8,} ({:>2.2} MB)".format(Y.size, sys.getsizeof(Y) / 10 ** 6)
+    )
 
     # ===============================================================================
     # Get 'X_mnk'
     log += print_and_log("\nWrite X_mnk")
     X_mnk = pd.DataFrame()
-    X_mnk["mnk"] = X["m"].astype(str) + "x" + X["n"].astype(str) + "x" + X["k"].astype(str)
-    log += print_and_log("X_mnk : {:>8,} ({:>2.2} MB)".format(X_mnk.size, sys.getsizeof(X_mnk) / 10**6))
+    X_mnk["mnk"] = (
+        X["m"].astype(str) + "x" + X["n"].astype(str) + "x" + X["k"].astype(str)
+    )
+    log += print_and_log(
+        "X_mnk : {:>8,} ({:>2.2} MB)".format(X_mnk.size, sys.getsizeof(X_mnk) / 10 ** 6)
+    )
 
     if plot_all:
         plot_training_data(Y, X_mnk, algo, folder)
@@ -496,9 +557,13 @@ def get_train_test_partition(to_partition, test, train=None):
 
     partitioned = list()
     for df in to_partition:
-        df_train = df.iloc[train, :]  # train: use for hyper-parameter optimization (via CV) and training
+        df_train = df.iloc[
+            train, :
+        ]  # train: use for hyper-parameter optimization (via CV) and training
         partitioned.append(df_train)
-        df_test = df.iloc[test, :]  # test : use for evaluation of 'selected/final' model
+        df_test = df.iloc[
+            test, :
+        ]  # test : use for evaluation of 'selected/final' model
         partitioned.append(df_test)
 
     return partitioned
@@ -517,10 +582,18 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
     cv = GroupShuffleSplit(n_splits=2, test_size=0.2)
     train_test_splits = cv.split(X, Y, groups=X_mnk["mnk"])
     train, test = next(train_test_splits)
-    X_train, X_test, Y_train, Y_test, X_mnk_train, X_mnk_test = get_train_test_partition([X, Y, X_mnk], test, train)
+    X_train, X_test, Y_train, Y_test, X_mnk_train, X_mnk_test = get_train_test_partition(
+        [X, Y, X_mnk], test, train
+    )
     plot_train_test_partition(test, train, X_mnk, folder)
-    log += print_and_log("\nComplete train/test split, total size=" + str(X.shape) + ", test size=" +
-                         str(X_test.shape) + ", train_size=" + str(X_train.shape))
+    log += print_and_log(
+        "\nComplete train/test split, total size="
+        + str(X.shape)
+        + ", test size="
+        + str(X_test.shape)
+        + ", train_size="
+        + str(X_train.shape)
+    )
     del X, X_mnk, Y  # free memory
     predictor_names = X_train.columns.values
     n_predictors = len(predictor_names)
@@ -529,12 +602,18 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
     # Predictive model
     model_to_train = model_options["model"]
     if model_to_train == "DT":
-        model, model_name, param_grid = get_DecisionTree_model(algo, len(X_train.columns.values))
+        model, model_name, param_grid = get_DecisionTree_model(
+            algo, len(X_train.columns.values)
+        )
     elif model_to_train == "RF":
-        model, model_name, param_grid = get_RandomForest_model(algo, model_options["njobs"], model_options["ntrees"])
+        model, model_name, param_grid = get_RandomForest_model(
+            algo, model_options["njobs"], model_options["ntrees"]
+        )
     else:
         assert False, "Cannot recognize model: " + model_to_train + ". Options: DT, RF"
-    log += print_and_log("\nStart tune/train for model " + model_name + " with parameters:")
+    log += print_and_log(
+        "\nStart tune/train for model " + model_name + " with parameters:"
+    )
     log += print_and_log(model)
 
     # ===============================================================================
@@ -550,7 +629,12 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
     max_features = n_predictors - optimized_hyperparameters[algo]["n_features_to_drop"]
     model.cv = cv.split(X_train.values, Y_train.values, groups=X_mnk_train.values)
     model.fit(X_train.values, Y_train.values)
-    model_fs = SelectFromModel(model, threshold=feature_importance_threshold, max_features=max_features, prefit=True)
+    model_fs = SelectFromModel(
+        model,
+        threshold=feature_importance_threshold,
+        max_features=max_features,
+        prefit=True,
+    )
     print(model_fs)
     model.cv = None
 
@@ -559,10 +643,16 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
     all_feature_names = X_train.columns.values.tolist()
     feature_support = model_fs.get_support()
     features_importances = model.feature_importances_
-    feature_name_importance = zip(all_feature_names, features_importances, feature_support)
-    feature_name_importance = sorted(feature_name_importance, key=lambda x: x[1], reverse=True)
+    feature_name_importance = zip(
+        all_feature_names, features_importances, feature_support
+    )
+    feature_name_importance = sorted(
+        feature_name_importance, key=lambda x: x[1], reverse=True
+    )
 
-    log += print_and_log("\n----------------------------------------------------------------------------")
+    log += print_and_log(
+        "\n----------------------------------------------------------------------------"
+    )
     n_selected_features = np.sum(feature_support)
     log += print_and_log("Optimal number of features : {}".format(n_selected_features))
 
@@ -572,7 +662,11 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
     selected_feature_importances = list()
     for i, (feat_name, feat_imp, feat_in) in enumerate(feature_name_importance):
         in_or_out = "accepted" if feat_in else " x rejected"
-        log += print_and_log("{:>2}) {:<40}, imp: {:>1.3f} {}".format(i + 1, feat_name, feat_imp, in_or_out))
+        log += print_and_log(
+            "{:>2}) {:<40}, imp: {:>1.3f} {}".format(
+                i + 1, feat_name, feat_imp, in_or_out
+            )
+        )
         if feat_in:
             selected_features.append(feat_name)
             selected_feature_importances.append(feat_imp)
@@ -584,7 +678,9 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
 
     # ===============================================================================
     # Fit
-    log += print_and_log("----------------------------------------------------------------------------")
+    log += print_and_log(
+        "----------------------------------------------------------------------------"
+    )
     log += print_and_log("\nStart fitting model with predictors:\n")
     for i, p in enumerate(X_train.columns.values):
         log += print_and_log("\t{:>2}) {}".format(i + 1, p))
@@ -593,7 +689,9 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
 
     safe_pickle([X_train.columns.values, model, test], results_file)
     log += print_and_log("\nCompleted fit, wrote results to " + results_file)
-    log += print_and_log("----------------------------------------------------------------------------")
+    log += print_and_log(
+        "----------------------------------------------------------------------------"
+    )
     return_model = model
 
     # Return
@@ -608,14 +706,24 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
 def fetch_pre_trained_model(X, X_mnk, Y, model_path, log):
 
     # Load pre-trained model, selected features and indices of test-set
-    features, model, test_indices = safe_pickle_load(os.path.join(model_path, "feature_tree.p"))
+    features, model, test_indices = safe_pickle_load(
+        os.path.join(model_path, "feature_tree.p")
+    )
     if "mnk" in features:
         features.remove("mnk")
 
     log += print_and_log("\nPerform train/test split")
-    X_train, X_test, Y_train, Y_test, X_mnk_train, X_mnk_test = get_train_test_partition([X, Y, X_mnk], test_indices)
-    log += print_and_log("\nComplete train/test split, total size=" + str(X.shape) + ", test size=" +
-                         str(X_test.shape) + ", train_size=" + str(X_train.shape))
+    X_train, X_test, Y_train, Y_test, X_mnk_train, X_mnk_test = get_train_test_partition(
+        [X, Y, X_mnk], test_indices
+    )
+    log += print_and_log(
+        "\nComplete train/test split, total size="
+        + str(X.shape)
+        + ", test size="
+        + str(X_test.shape)
+        + ", train_size="
+        + str(X_train.shape)
+    )
     assert X_test.shape[0] < X_train.shape[0]
 
     log += print_and_log("\nDrop non-selected features")
@@ -631,7 +739,9 @@ def fetch_pre_trained_model(X, X_mnk, Y, model_path, log):
 # Describe and evaluate model
 def describe_hpo(gs, X, Y, log, plot_all):
     predictor_names = X.columns.values.tolist()
-    log += print_and_log("\n----------------------------------------------------------------------------")
+    log += print_and_log(
+        "\n----------------------------------------------------------------------------"
+    )
     log += print_and_log("Available predictor variables:")
     for p in predictor_names:
         log += print_and_log("\t{}".format(p))
@@ -643,14 +753,22 @@ def describe_hpo(gs, X, Y, log, plot_all):
     log += print_and_log("\nBest estimator:")
     best_estimator = gs.best_estimator_._final_estimator
     log += print_and_log(best_estimator)
-    log += print_and_log("----------------------------------------------------------------------------")
+    log += print_and_log(
+        "----------------------------------------------------------------------------"
+    )
 
     # Export tree SVG
     if plot_all:
         from dtreeviz.trees import dtreeviz
 
         log += print_and_log("\nExport tree to SVG:")
-        viz = dtreeviz(best_estimator, X.values, Y.values.ravel(), target_name="perf", feature_names=predictor_names)
+        viz = dtreeviz(
+            best_estimator,
+            X.values,
+            Y.values.ravel(),
+            target_name="perf",
+            feature_names=predictor_names,
+        )
         viz.save("trytree.svg")
         viz.view()
 
@@ -671,7 +789,13 @@ def describe_model(model, X, Y, log, plot_all):
         from dtreeviz.trees import dtreeviz
 
         log += print_and_log("\nExport tree to SVG:")
-        viz = dtreeviz(model, X.values, Y.values.ravel(), target_name="perf", feature_names=predictor_names)
+        viz = dtreeviz(
+            model,
+            X.values,
+            Y.values.ravel(),
+            target_name="perf",
+            feature_names=predictor_names,
+        )
         viz.save("trytree.svg")
         viz.view()
 
@@ -680,19 +804,24 @@ def describe_model(model, X, Y, log, plot_all):
 
 def print_error(y_true, y_pred, X_mnk, log, scaled=True):
     result_line = (
-        "Relative performance loss compared to autotuned max:\n" + "top-{}: worse: {:>6.3f} [%], mean: {:>6.3f} [%]")
+        "Relative performance loss compared to autotuned max:\n"
+        + "top-{}: worse: {:>6.3f} [%], mean: {:>6.3f} [%]"
+    )
     for top_k in [1]:
         log += print_and_log(
             result_line.format(
                 top_k,
                 worse_rel_perf_loss_of_k(y_true, y_pred, top_k, X_mnk, scaled),
                 mean_rel_perf_loss_of_k(y_true, y_pred, top_k, X_mnk, scaled),
-            ))
+            )
+        )
     return log
 
 
 def scale_back(y_scaled, x_mnk, max_performances):
-    corresponding_maxperf = np.array([max_performances[mnk] for mnk in x_mnk["mnk"].values.tolist()])
+    corresponding_maxperf = np.array(
+        [max_performances[mnk] for mnk in x_mnk["mnk"].values.tolist()]
+    )
     return y_scaled * corresponding_maxperf
 
 
@@ -705,7 +834,9 @@ def plot_train_test_partition(test_idx, train_idx, X_mnk, folder):
     mnks_string_test = X_mnk["mnk"].iloc[test_idx].unique()
     mnks_test = to_tuple(*mnks_string_test)
 
-    y_train_product = dict()  # keys: m*n*k, values: how many times this mnk-product appears in training-mnks
+    y_train_product = (
+        dict()
+    )  # keys: m*n*k, values: how many times this mnk-product appears in training-mnks
     for m, n, k in mnks_train:
         mxnxk = m * n * k
         if mxnxk in y_train_product.keys():
@@ -805,7 +936,13 @@ def plot_loss_histogram(y_true, y_pred, X_mnk, folder):
     plt.hist(y, num_bins, facecolor="green", alpha=0.75)
     plt.xlabel("relative performance loss [%]")
     plt.ylabel("# occurrences")
-    plt.title("Performance losses for top-k=" + str(top_k) + " (" + str(len(y)) + " test mnks)")
+    plt.title(
+        "Performance losses for top-k="
+        + str(top_k)
+        + " ("
+        + str(len(y))
+        + " test mnks)"
+    )
     plot_file_path = os.path.join(folder, "result_losses.svg")
     plt.savefig(plot_file_path)
     print(plot_file_path)
@@ -825,7 +962,9 @@ def plot_prediction_accuracy(m, n, k, y_true, y_pred, train, pp):
     pp.savefig()
 
 
-def get_predive_model_performances(y_true, y_pred, x_mnk, max_performances_ref, max_performances_algo):
+def get_predive_model_performances(
+    y_true, y_pred, x_mnk, max_performances_ref, max_performances_algo
+):
 
     predictive_model_perf_scaled = dict()
 
@@ -837,7 +976,9 @@ def get_predive_model_performances(y_true, y_pred, x_mnk, max_performances_ref, 
 
         perf_chosen_idx = np.argmax(y_pred[idx_mnk])
         perf_effective = y_true.iloc[idx_mnk].iloc[perf_chosen_idx].values.item()
-        predictive_model_perf_scaled[(m, n, k)] = perf_effective  # 'scaled' between 0 and 1
+        predictive_model_perf_scaled[
+            (m, n, k)
+        ] = perf_effective  # 'scaled' between 0 and 1
 
     predictive_model_perf = dict(
         zip(
@@ -846,38 +987,45 @@ def get_predive_model_performances(y_true, y_pred, x_mnk, max_performances_ref, 
                 perf_scaled * max_performances_ref[to_string(mnk)]
                 for mnk, perf_scaled in predictive_model_perf_scaled.items()
             ],
-        ))
+        )
+    )
 
     # Re-scale performances by algorithm for a fair comparison
     predictive_model_perf_scaled = dict(
         zip(
             predictive_model_perf.keys(),
-            [perf / max_performances_algo[mnk] for mnk, perf in predictive_model_perf.items()],
-        ))
+            [
+                perf / max_performances_algo[mnk]
+                for mnk, perf in predictive_model_perf.items()
+            ],
+        )
+    )
 
     return predictive_model_perf, predictive_model_perf_scaled
 
 
 # ===============================================================================
 def evaluate_model(
-        model,
-        X_train,
-        X_mnk_train,
-        Y_train,
-        X_test,
-        X_mnk_test,
-        Y_test,
-        max_performances_ref,
-        max_performances_algo,
-        baseline_performances_algo,
-        data_nrows,
-        plot_all,
-        log,
-        folder,
+    model,
+    X_train,
+    X_mnk_train,
+    Y_train,
+    X_test,
+    X_mnk_test,
+    Y_test,
+    max_performances_ref,
+    max_performances_algo,
+    baseline_performances_algo,
+    data_nrows,
+    plot_all,
+    log,
+    folder,
 ):
     """Main evaluation function"""
 
-    log += print_and_log("----------------------------------------------------------------------------")
+    log += print_and_log(
+        "----------------------------------------------------------------------------"
+    )
     log += print_and_log("Start model evaluation")
     if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
         log = describe_model(model, X_test, Y_test, log, plot_all)
@@ -895,16 +1043,28 @@ def evaluate_model(
 
     # Training error (scaled-back)
     log += print_and_log("\nTraining error (scaled back): (train&val)")
-    y_train_pred_scaled_back = scale_back(y_train_pred, X_mnk_train, max_performances_ref)
-    y_train_scaled_back = pd.DataFrame(scale_back(Y_train.values.flatten(), X_mnk_train, max_performances_ref))
-    log = print_error(y_train_scaled_back, y_train_pred_scaled_back, X_mnk_train, log, False)
+    y_train_pred_scaled_back = scale_back(
+        y_train_pred, X_mnk_train, max_performances_ref
+    )
+    y_train_scaled_back = pd.DataFrame(
+        scale_back(Y_train.values.flatten(), X_mnk_train, max_performances_ref)
+    )
+    log = print_error(
+        y_train_scaled_back, y_train_pred_scaled_back, X_mnk_train, log, False
+    )
 
     if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
         # Test error (scaled-back)
         log += print_and_log("\nTesting error (scaled back): (test&val)")
-        y_test_pred_scaled_back = scale_back(y_test_pred, X_mnk_test, max_performances_ref)
-        y_test_scaled_back = pd.DataFrame(scale_back(Y_test.values.flatten(), X_mnk_test, max_performances_ref))
-        log = print_error(y_test_scaled_back, y_test_pred_scaled_back, X_mnk_test, log, False)
+        y_test_pred_scaled_back = scale_back(
+            y_test_pred, X_mnk_test, max_performances_ref
+        )
+        y_test_scaled_back = pd.DataFrame(
+            scale_back(Y_test.values.flatten(), X_mnk_test, max_performances_ref)
+        )
+        log = print_error(
+            y_test_scaled_back, y_test_pred_scaled_back, X_mnk_test, log, False
+        )
 
     # ===============================================================================
     # Print histogram for "best" estimator
@@ -932,7 +1092,9 @@ def evaluate_model(
         m_, n_, k_ = to_tuple(mnk_string)
 
         log += print_and_log("Prediction accuracy plot: " + str(mnk_string))
-        plot_prediction_accuracy(m_, n_, k_, Y_train.iloc[idx_mnk], y_train_pred[idx_mnk], True, pp)
+        plot_prediction_accuracy(
+            m_, n_, k_, Y_train.iloc[idx_mnk], y_train_pred[idx_mnk], True, pp
+        )
 
         log += print_and_log("Goodness plot: " + str(mnk_string))
         plot_choice_goodness(
@@ -960,7 +1122,9 @@ def evaluate_model(
             m_, n_, k_ = to_tuple(mnk_string)
 
             log += print_and_log("Prediction accuracy plot: " + str(mnk_string))
-            plot_prediction_accuracy(m_, n_, k_, Y_test.iloc[idx_mnk], y_test_pred[idx_mnk], False, pp)
+            plot_prediction_accuracy(
+                m_, n_, k_, Y_test.iloc[idx_mnk], y_test_pred[idx_mnk], False, pp
+            )
 
             log += print_and_log("Goodness plot: " + str(mnk_string))
             plot_choice_goodness(
@@ -981,18 +1145,29 @@ def evaluate_model(
     # ===============================================================================
     # Scale baseline and max performances
     max_performances_algo = dict(
-        zip([to_tuple(mnk_string) for mnk_string in max_performances_algo.keys()], max_performances_algo.values()))
-    max_performances_algo_scaled = dict(zip(max_performances_algo.keys(), [1.0] * len(max_performances_algo)))
+        zip(
+            [to_tuple(mnk_string) for mnk_string in max_performances_algo.keys()],
+            max_performances_algo.values(),
+        )
+    )
+    max_performances_algo_scaled = dict(
+        zip(max_performances_algo.keys(), [1.0] * len(max_performances_algo))
+    )
     baseline_performances_algo = dict(
         zip(
             [to_tuple(mnk_string) for mnk_string in baseline_performances_algo.keys()],
             baseline_performances_algo.values(),
-        ))
+        )
+    )
     baseline_performances_algo_scaled = dict(
         zip(
             [(m, n, k) for m, n, k in baseline_performances_algo.keys()],
-            [perf / max_performances_algo[(m, n, k)] for (m, n, k), perf in baseline_performances_algo.items()],
-        ))
+            [
+                perf / max_performances_algo[(m, n, k)]
+                for (m, n, k), perf in baseline_performances_algo.items()
+            ],
+        )
+    )
 
     # ===============================================================================
     # Compare max performances and baseline
@@ -1024,52 +1199,106 @@ def evaluate_model(
     # ===============================================================================
     # 'Results' = y_true ( y_chosen )
     predictive_model_perf_train, predictive_model_perf_train_scaled = get_predive_model_performances(
-        Y_train, y_train_pred, X_mnk_train, max_performances_ref, max_performances_algo)
+        Y_train, y_train_pred, X_mnk_train, max_performances_ref, max_performances_algo
+    )
 
     if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
         predictive_model_perf_test, predictive_model_perf_test_scaled = get_predive_model_performances(
-            Y_test, y_test_pred, X_mnk_test, max_performances_ref, max_performances_algo)
+            Y_test, y_test_pred, X_mnk_test, max_performances_ref, max_performances_algo
+        )
 
     # ===============================================================================
     # Plot results (training set: predictive modelling VS naïve)
     log += print_and_log("\nPredictive model VS baseline: ")
 
-    perf_gain_pred_train_over_baseline = performance_gain(baseline_performances_algo, predictive_model_perf_train)
-    plot_absolute_performance_gain(perf_gain_pred_train_over_baseline, "trained", "baseline per algorithm",
-                                   "predictive model", pp)
+    perf_gain_pred_train_over_baseline = performance_gain(
+        baseline_performances_algo, predictive_model_perf_train
+    )
+    plot_absolute_performance_gain(
+        perf_gain_pred_train_over_baseline,
+        "trained",
+        "baseline per algorithm",
+        "predictive model",
+        pp,
+    )
 
-    scaled_perf_gain_pred_train_over_baseline = performance_gain(baseline_performances_algo_scaled,
-                                                                 predictive_model_perf_train_scaled)
-    plot_relative_performance_gain(scaled_perf_gain_pred_train_over_baseline, "trained", "baseline per algorithm",
-                                   "predictive model", pp)
+    scaled_perf_gain_pred_train_over_baseline = performance_gain(
+        baseline_performances_algo_scaled, predictive_model_perf_train_scaled
+    )
+    plot_relative_performance_gain(
+        scaled_perf_gain_pred_train_over_baseline,
+        "trained",
+        "baseline per algorithm",
+        "predictive model",
+        pp,
+    )
 
     if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
-        perf_gain_pred_test_over_baseline = performance_gain(baseline_performances_algo, predictive_model_perf_test)
-        plot_absolute_performance_gain(perf_gain_pred_test_over_baseline, "tested", "baseline per algorithm",
-                                       "predictive model", pp)
+        perf_gain_pred_test_over_baseline = performance_gain(
+            baseline_performances_algo, predictive_model_perf_test
+        )
+        plot_absolute_performance_gain(
+            perf_gain_pred_test_over_baseline,
+            "tested",
+            "baseline per algorithm",
+            "predictive model",
+            pp,
+        )
 
-        scaled_perf_gain_pred_test_over_baseline = performance_gain(baseline_performances_algo_scaled,
-                                                                    predictive_model_perf_test_scaled)
-        plot_relative_performance_gain(scaled_perf_gain_pred_test_over_baseline, "tested", "baseline per algorithm",
-                                       "predictive model", pp)
+        scaled_perf_gain_pred_test_over_baseline = performance_gain(
+            baseline_performances_algo_scaled, predictive_model_perf_test_scaled
+        )
+        plot_relative_performance_gain(
+            scaled_perf_gain_pred_test_over_baseline,
+            "tested",
+            "baseline per algorithm",
+            "predictive model",
+            pp,
+        )
 
     log += print_and_log("\nPredictive model VS autotuned: ")
-    perf_gain_pred_train_over_max = performance_gain(max_performances_algo, predictive_model_perf_train)
-    plot_absolute_performance_gain(perf_gain_pred_train_over_max, "trained", "max. performance per algorithm",
-                                   "predictive model", pp)
-    scaled_perf_gain_pred_train_over_max = performance_gain(max_performances_algo_scaled,
-                                                            predictive_model_perf_train_scaled)
-    plot_relative_performance_gain(scaled_perf_gain_pred_train_over_max, "trained", "max. performance per algorithm",
-                                   "predictive model", pp)
+    perf_gain_pred_train_over_max = performance_gain(
+        max_performances_algo, predictive_model_perf_train
+    )
+    plot_absolute_performance_gain(
+        perf_gain_pred_train_over_max,
+        "trained",
+        "max. performance per algorithm",
+        "predictive model",
+        pp,
+    )
+    scaled_perf_gain_pred_train_over_max = performance_gain(
+        max_performances_algo_scaled, predictive_model_perf_train_scaled
+    )
+    plot_relative_performance_gain(
+        scaled_perf_gain_pred_train_over_max,
+        "trained",
+        "max. performance per algorithm",
+        "predictive model",
+        pp,
+    )
 
     if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
-        perf_gain_pred_test_over_max = performance_gain(max_performances_algo, predictive_model_perf_test)
-        plot_absolute_performance_gain(perf_gain_pred_test_over_max, "tested", "max. performance per algorithm",
-                                       "predictive model", pp)
-        scaled_perf_gain_pred_test_over_max = performance_gain(max_performances_algo_scaled,
-                                                               predictive_model_perf_test_scaled)
-        plot_relative_performance_gain(scaled_perf_gain_pred_test_over_max, "tested", "max. performance per algorithm",
-                                       "predictive model", pp)
+        perf_gain_pred_test_over_max = performance_gain(
+            max_performances_algo, predictive_model_perf_test
+        )
+        plot_absolute_performance_gain(
+            perf_gain_pred_test_over_max,
+            "tested",
+            "max. performance per algorithm",
+            "predictive model",
+            pp,
+        )
+        scaled_perf_gain_pred_test_over_max = performance_gain(
+            max_performances_algo_scaled, predictive_model_perf_test_scaled
+        )
+        plot_relative_performance_gain(
+            scaled_perf_gain_pred_test_over_max,
+            "tested",
+            "max. performance per algorithm",
+            "predictive model",
+            pp,
+        )
 
     log += print_and_log("\nCompare performances: ")
     plot_performance_gains(
@@ -1113,7 +1342,7 @@ def evaluate_model(
 
 
 # ===============================================================================
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         description="""
@@ -1122,10 +1351,19 @@ if __name__ == '__main__':
         This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
         For more details, see predict.md.
         """,
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
-        "-f", "--folder", metavar="FOLDER", type=str, default=".", help="Folder from which to read data")
-    parser.add_argument("-a", "--algo", metavar="algoname", default="", help="Algorithm to train on")
+        "-f",
+        "--folder",
+        metavar="FOLDER",
+        type=str,
+        default=".",
+        help="Folder from which to read data",
+    )
+    parser.add_argument(
+        "-a", "--algo", metavar="algoname", default="", help="Algorithm to train on"
+    )
     parser.add_argument(
         "-c",
         "--plot_all",
@@ -1133,7 +1371,11 @@ if __name__ == '__main__':
         help="Plot more stuff (Warning: can be very slow for large trees and create very large files)",
     )
     parser.add_argument(
-        "-m", "--model", default="DT", help="Model to train. Options: DT (Decision Trees), RF (Random Forests)")
+        "-m",
+        "--model",
+        default="DT",
+        help="Model to train. Options: DT (Decision Trees), RF (Random Forests)",
+    )
     parser.add_argument(
         "-s",
         "--splits",
@@ -1142,7 +1384,14 @@ if __name__ == '__main__':
         type=int,
         help="Number of cross-validation splits used in RFECV and GridSearchCV",
     )
-    parser.add_argument("-e", "--ntrees", default=3, metavar="NUMBER", type=int, help="Number of estimators in RF")
+    parser.add_argument(
+        "-e",
+        "--ntrees",
+        default=3,
+        metavar="NUMBER",
+        type=int,
+        help="Number of estimators in RF",
+    )
     parser.add_argument(
         "-j",
         "--njobs",
@@ -1168,5 +1417,17 @@ if __name__ == '__main__':
     )
 
     args = parser.parse_args()
-    model_args = {'model': args.model, 'splits': args.splits, 'ntrees': args.ntrees, 'njobs': args.njobs}
-    main(args.folder, args.algo, args.plot_all, model_args, args.nrows, args.prefitted_model)
+    model_args = {
+        "model": args.model,
+        "splits": args.splits,
+        "ntrees": args.ntrees,
+        "njobs": args.njobs,
+    }
+    main(
+        args.folder,
+        args.algo,
+        args.plot_all,
+        model_args,
+        args.nrows,
+        args.prefitted_model,
+    )

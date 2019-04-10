@@ -17,9 +17,9 @@ from os import path
 from contextlib import contextmanager
 
 TYPES = {
-    'c_cpp': ['.c', 'h', '.cc', '.hh', '.cxx', '.hpp', '.cu'],
-    'python': ['.py'],
-    'fortran': ['.F', '.f', '.f90', '.f03'],
+    "c_cpp": [".c", "h", ".cc", ".hh", ".cxx", ".hpp", ".cu"],
+    "python": [".py"],
+    "fortran": [".F", ".f", ".f90", ".f03"],
 }
 
 # max number of lines allowed between header and top of file
@@ -30,9 +30,9 @@ MAX_LINE_LENGTH = 128
 
 
 @contextmanager
-def mmap_open(name, mode='r'):
-    access = mmap.ACCESS_READ if mode == 'r' else mmap.ACCESS_WRITE
-    with open(name, mode + 'b') as fhandle:
+def mmap_open(name, mode="r"):
+    access = mmap.ACCESS_READ if mode == "r" else mmap.ACCESS_WRITE
+    with open(name, mode + "b") as fhandle:
         fmapped = mmap.mmap(fhandle.fileno(), 0, access=access)
         yield fmapped
         fmapped.close()
@@ -44,7 +44,7 @@ def check_header(header_dir, files, verbose=False):
     header_len = {}
 
     for headertype in TYPES:
-        with open(path.join(header_dir, headertype), 'rb') as fhandle:
+        with open(path.join(header_dir, headertype), "rb") as fhandle:
             header_content = fhandle.read()
             header_re[headertype] = re.compile(re.escape(header_content))
             header_len[headertype] = len(header_content)
@@ -61,16 +61,22 @@ def check_header(header_dir, files, verbose=False):
 
         with mmap_open(fpath) as fmapped:
             header_type = ext_map[fext]
-            match = header_re[header_type].search(fmapped, 0, ALLOWED_LINES * MAX_LINE_LENGTH + header_len[header_type])
+            match = header_re[header_type].search(
+                fmapped, 0, ALLOWED_LINES * MAX_LINE_LENGTH + header_len[header_type]
+            )
 
             if not match:
                 print("✗ {} ... required header not found".format(fpath))
                 retval = 1
                 continue
 
-            lines_above = fmapped[0:match.start()].splitlines()
+            lines_above = fmapped[0 : match.start()].splitlines()
             if len(lines_above) > ALLOWED_LINES:
-                print("✗ {} ... header not within first {} lines".format(fpath, ALLOWED_LINES))
+                print(
+                    "✗ {} ... header not within first {} lines".format(
+                        fpath, ALLOWED_LINES
+                    )
+                )
                 retval = 1
                 continue
 
@@ -80,11 +86,13 @@ def check_header(header_dir, files, verbose=False):
     sys.exit(retval)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Check files for header presence")
-    parser.add_argument('files', metavar='FILE', type=str, nargs='+', help="files to check")
-    parser.add_argument('--verbose', '-v', action='store_true', default=False)
+    parser.add_argument(
+        "files", metavar="FILE", type=str, nargs="+", help="files to check"
+    )
+    parser.add_argument("--verbose", "-v", action="store_true", default=False)
     args = parser.parse_args()
 
-    header_dir = path.join(path.dirname(path.abspath(__file__)), 'headers')
+    header_dir = path.join(path.dirname(path.abspath(__file__)), "headers")
     check_header(header_dir, args.files, args.verbose)

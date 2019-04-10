@@ -49,16 +49,23 @@ def main(file, file_baseline):
                 results_predictive_model[(m, n, k)] > results_baseline[(m, n, k)]
                 for m, n, k in sorted(results_predictive_model.keys())
             ],
-        ))
-    perf_gain_over_baseline = performance_gain(results_baseline, results_predictive_model)
-    rel_perf_gain_over_baseline = relative_performance_gain(results_baseline, results_predictive_model)
+        )
+    )
+    perf_gain_over_baseline = performance_gain(
+        results_baseline, results_predictive_model
+    )
+    rel_perf_gain_over_baseline = relative_performance_gain(
+        results_baseline, results_predictive_model
+    )
 
     # ===============================================================================
     # Print results
     header = "m, n, k: baseline perf. [Gflops], predictive model perf. [Gflops], performance gain [? ]"
     print(header)
-    line = ("{m:>2}, {n:>2}, {k:>2}: {baseline_perf:>7.2f}, {predictive_model_perf:>7.2f}, " +
-            "{performance_gain:>7.2f}, {better}")
+    line = (
+        "{m:>2}, {n:>2}, {k:>2}: {baseline_perf:>7.2f}, {predictive_model_perf:>7.2f}, "
+        + "{performance_gain:>7.2f}, {better}"
+    )
     for m, n, k in sorted(results_predictive_model.keys()):
         print(
             line.format(
@@ -69,7 +76,8 @@ def main(file, file_baseline):
                 predictive_model_perf=results_predictive_model[(m, n, k)],
                 performance_gain=perf_gain_over_baseline[(m, n, k)],
                 better=improved_over_baseline[(m, n, k)],
-            ))
+            )
+        )
 
     print(
         "\nKernel performances improved by predictive model:",
@@ -78,7 +86,11 @@ def main(file, file_baseline):
         len(results_predictive_model.keys()),
     )
     perf_gain_improved = [pg for pg in perf_gain_over_baseline.values() if pg > 0]
-    print("Mean performance gain amongst improved kernels: {:.2f} Gflops".format(np.mean(perf_gain_improved)))
+    print(
+        "Mean performance gain amongst improved kernels: {:.2f} Gflops".format(
+            np.mean(perf_gain_improved)
+        )
+    )
 
     print(
         "\nKernel performances reduced by predictive model:",
@@ -87,15 +99,33 @@ def main(file, file_baseline):
         len(results_predictive_model.keys()),
     )
     perf_gain_deteriorated = [pg for pg in perf_gain_over_baseline.values() if pg < 0]
-    print("Mean performance loss amongst deteriorated kernels: {:.2f} Gflops".format(np.mean(perf_gain_deteriorated)))
+    print(
+        "Mean performance loss amongst deteriorated kernels: {:.2f} Gflops".format(
+            np.mean(perf_gain_deteriorated)
+        )
+    )
 
-    print("\nMean performance gain overall: {:.2f} Gflops".format(np.mean(list(perf_gain_over_baseline.values()))))
+    print(
+        "\nMean performance gain overall: {:.2f} Gflops".format(
+            np.mean(list(perf_gain_over_baseline.values()))
+        )
+    )
 
     # ===============================================================================
     # Plot results (testing set: predictive modelling VS naïve)
-    plot_absolute_performance_gain(perf_gain_over_baseline, "non-autotuned", "baseline", "predictive model")
-    plot_relative_performance_gain(rel_perf_gain_over_baseline, "non-autotuned", "baseline", "predictive model")
-    plot_performance_gains(results_predictive_model, results_baseline, "non-autotuned", "baseline", "predictive model")
+    plot_absolute_performance_gain(
+        perf_gain_over_baseline, "non-autotuned", "baseline", "predictive model"
+    )
+    plot_relative_performance_gain(
+        rel_perf_gain_over_baseline, "non-autotuned", "baseline", "predictive model"
+    )
+    plot_performance_gains(
+        results_predictive_model,
+        results_baseline,
+        "non-autotuned",
+        "baseline",
+        "predictive model",
+    )
 
 
 # ===============================================================================
@@ -115,7 +145,7 @@ def read_result_file(file):
 
 
 # ===============================================================================
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""
         Given a file containing the results of the LIBCUSMM performance test, perform evaluation of the predictive
@@ -123,7 +153,8 @@ if __name__ == '__main__':
         This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
         For more details, see predict.md.
         """,
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
         "-f",
         "--file",

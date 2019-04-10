@@ -69,13 +69,14 @@ def main(basedir, gpu_version, nsamples):
 
 
 # ===============================================================================
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""
         Generate a performance test of libcusmm in the form of a CUDA file, using libcusmm_timer_multiply.template
         as a template
         """,
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument("-f", "--base_folder", metavar="DBCSRHOME", default="")
     parser.add_argument(
         "-g",
@@ -88,8 +89,10 @@ if __name__ == '__main__':
         "-n",
         "--nsamples",
         default=1000,
-        help="Number of samples from the matrix sizes space 4 <= m,n,k <= 45 (except autotuned kernels)" +
-        " to sample for performance testing",
+        help=(
+            "Number of samples from the matrix sizes space 4 <= m,n,k <= 45 (except autotuned kernels)"
+            " to sample for performance testing"
+        ),
     )
 
     args = parser.parse_args()

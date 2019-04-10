@@ -45,7 +45,12 @@ class Kernel:
 
     @property
     def name(self):
-        return ("cusmm_dnt_" + self.algorithm + "_" + "_".join([str(self.__dict__[k]) for k in self.launch_parameters]))
+        return (
+            "cusmm_dnt_"
+            + self.algorithm
+            + "_"
+            + "_".join([str(self.__dict__[k]) for k in self.launch_parameters])
+        )
 
     @property
     def autotuned(self):
@@ -62,7 +67,19 @@ class Kernel:
         always appear in the same order
         """
         # Add common fields
-        fields = ["m", "n", "k", "tile_m", "tile_n", "w", "v", "threads", "grouping", "minblocks", "algorithm"]
+        fields = [
+            "m",
+            "n",
+            "k",
+            "tile_m",
+            "tile_n",
+            "w",
+            "v",
+            "threads",
+            "grouping",
+            "minblocks",
+            "algorithm",
+        ]
         d = dict()
         for f in fields:
             if f in self.as_dict.keys():
@@ -84,7 +101,20 @@ class Kernel:
         parameters always appear in the same order
         """
         # Add common fields
-        fields = ["m", "n", "k", "tile_m", "tile_n", "w", "v", "threads", "grouping", "minblocks", "perf", "source"]
+        fields = [
+            "m",
+            "n",
+            "k",
+            "tile_m",
+            "tile_n",
+            "w",
+            "v",
+            "threads",
+            "grouping",
+            "minblocks",
+            "perf",
+            "source",
+        ]
         d = dict()
         for f in fields:
             d[f] = self.as_dict[f] if f in self.as_dict.keys() else 0
@@ -110,8 +140,9 @@ class Kernel:
         output += "    configured = true;\n"
         output += "  }\n"
         output += (
-            "  kern_func<<< ((stack_size + %(grouping)d - 1) / %(grouping)d), %(threads)d, shared_size, stream >>>\n" %
-            self.__dict__)
+            "  kern_func<<< ((stack_size + %(grouping)d - 1) / %(grouping)d), %(threads)d, shared_size, stream >>>\n"
+            % self.__dict__
+        )
         output += "  (param_stack, stack_size, \n"
         output += "  a_data, b_data, c_data);\n"
         output += "  return(0);\n"
@@ -124,7 +155,9 @@ class Kernel:
 
     @staticmethod
     def promising_parameters(m, n, k, gpu, autotuning):
-        raise NotImplementedError("promising_parameters must be implemented in subclass")
+        raise NotImplementedError(
+            "promising_parameters must be implemented in subclass"
+        )
 
     @staticmethod
     def baseline(m, n, k, gpu, autotuning):
