@@ -10,7 +10,7 @@
 ! **************************************************************************************************
 !> \brief DBCSR tensor framework for block-sparse tensor contraction.
 !>
-!> Representation of n-rank tensors as DBCSR rectangular matrices.
+!> Representation of n-rank tensors as DBCSR tall-and-skinny matrices.
 !> Support for arbitrary redistribution between different representations.
 !> Support for arbitrary tensor contractions
 !> \todo implement checks and error messages
@@ -35,9 +35,9 @@ MODULE dbcsr_tensor
       dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, &
       dbcsr_transpose, dbcsr_no_transpose, dbcsr_scalar, dbcsr_put_block, &
       ${uselist(dtype_float_param)}$, dbcsr_clear
-   USE dbcsr_rectangular_base, ONLY: &
-      dbcsr_r_copy, dbcsr_r_finalize, dbcsr_r_get_data_type, dbcsr_r_get_info, dbcsr_r_info
-   USE dbcsr_rectangular_mm, ONLY: dbcsr_r_multiply
+   USE dbcsr_tas_base, ONLY: &
+      dbcsr_tas_copy, dbcsr_tas_finalize, dbcsr_tas_get_data_type, dbcsr_tas_get_info, dbcsr_tas_info
+   USE dbcsr_tas_mm, ONLY: dbcsr_tas_multiply
    USE dbcsr_tensor_block, ONLY: dbcsr_t_iterator_type, &
                                  dbcsr_t_get_block, &
                                  dbcsr_t_put_block, &
@@ -81,7 +81,7 @@ MODULE dbcsr_tensor
    USE dbcsr_toollib, ONLY: sort
    USE dbcsr_tensor_reshape, ONLY: dbcsr_t_reshape
    USE dbcsr_mpiwrap, ONLY: mp_comm_free
-   USE dbcsr_rectangular_split, ONLY: dbcsr_r_mp_comm
+   USE dbcsr_tas_split, ONLY: dbcsr_tas_mp_comm
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
    USE dbcsr_tensor_split, ONLY: dbcsr_t_split_copyback, &
                                  dbcsr_t_make_compatible_blocks
@@ -208,7 +208,7 @@ CONTAINS
       ENDIF
 
       IF (dist_compatible) THEN
-         CALL dbcsr_r_copy(out_tmp_1%matrix_rep, in_tmp_2%matrix_rep, summation)
+         CALL dbcsr_tas_copy(out_tmp_1%matrix_rep, in_tmp_2%matrix_rep, summation)
          IF (move_prv) CALL dbcsr_t_clear(in_tmp_2)
       ELSE
          CALL dbcsr_t_reshape(in_tmp_2, out_tmp_1, summation, move_data=move_data)
@@ -592,11 +592,11 @@ CONTAINS
          !CALL dbcsr_t_write_tensor_dist(tensor_contr_3, unit_nr)
       ENDIF
 
-      CALL dbcsr_r_multiply(trans_1, trans_2, trans_3, alpha, &
-                            tensor_contr_1%matrix_rep, tensor_contr_2%matrix_rep, &
-                            beta, &
-                            tensor_contr_3%matrix_rep, filter_eps=filter_eps, flop=flop, &
-                            io_unit=unit_nr, log_verbose=log_verbose)
+      CALL dbcsr_tas_multiply(trans_1, trans_2, trans_3, alpha, &
+                              tensor_contr_1%matrix_rep, tensor_contr_2%matrix_rep, &
+                              beta, &
+                              tensor_contr_3%matrix_rep, filter_eps=filter_eps, flop=flop, &
+                              io_unit=unit_nr, log_verbose=log_verbose)
 
       IF (PRESENT(unit_nr)) THEN
          CALL dbcsr_t_write_tensor_info(tensor_contr_3, unit_nr, full_info=log_verbose)
@@ -780,7 +780,7 @@ CONTAINS
                CALL blk_dims_tensor(tensor1, dims)
                nblkrows = PRODUCT(INT(dims(ind1_linked), KIND=int_8))
                nblkcols = PRODUCT(INT(dims(ind1_free), KIND=int_8))
-               comm_2d = dbcsr_r_mp_comm(tensor1%pgrid%mp_comm_2d, nblkrows, nblkcols)
+               comm_2d = dbcsr_tas_mp_comm(tensor1%pgrid%mp_comm_2d, nblkrows, nblkcols)
                ALLOCATE (tensor1_out)
                CALL dbcsr_t_remap(tensor1, ind1_linked, ind1_free, tensor1_out, comm_2d=comm_2d, &
                                   nodata=nodata1, move_data=move_data)
@@ -824,7 +824,7 @@ CONTAINS
                CALL blk_dims_tensor(tensor2, dims)
                nblkrows = PRODUCT(INT(dims(ind2_linked), KIND=int_8))
                nblkcols = PRODUCT(INT(dims(ind2_free), KIND=int_8))
-               comm_2d = dbcsr_r_mp_comm(tensor2%pgrid%mp_comm_2d, nblkrows, nblkcols)
+               comm_2d = dbcsr_tas_mp_comm(tensor2%pgrid%mp_comm_2d, nblkrows, nblkcols)
                ALLOCATE (tensor2_out)
                CALL dbcsr_t_remap(tensor2, ind2_linked, ind2_free, tensor2_out, nodata=nodata2, move_data=move_data)
                CALL mp_comm_free(comm_2d)
@@ -1155,7 +1155,7 @@ CONTAINS
 #:for ndim in ndims
       IF (ndims_tensor(tensor_in) == ${ndim}$) THEN
          CALL dbcsr_t_create(tensor_out, name_tmp, dist, &
-                             map1_2d, map2_2d, dbcsr_r_get_data_type(tensor_in%matrix_rep), &
+                             map1_2d, map2_2d, dbcsr_tas_get_data_type(tensor_in%matrix_rep), &
                              ${varlist("blk_sizes", nmax=ndim)}$)
       ENDIF
 #:endfor

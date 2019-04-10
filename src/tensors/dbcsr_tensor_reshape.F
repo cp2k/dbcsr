@@ -18,7 +18,7 @@ MODULE dbcsr_tensor_reshape
 #:set ndims = range(2,maxdim+1)
 
    USE dbcsr_allocate_wrap, ONLY: allocate_any
-   USE dbcsr_rectangular_base, ONLY: dbcsr_r_copy, dbcsr_r_get_info, dbcsr_r_info
+   USE dbcsr_tas_base, ONLY: dbcsr_tas_copy, dbcsr_tas_get_info, dbcsr_tas_info
    USE dbcsr_tensor_block, ONLY: &
       block_nd, create_block, destroy_block, dbcsr_t_iterator_type, dbcsr_t_iterator_next_block, &
       dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_start, dbcsr_t_iterator_stop, dbcsr_t_get_block, &

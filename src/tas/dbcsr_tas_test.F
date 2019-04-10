@@ -8,29 +8,29 @@
 !--------------------------------------------------------------------------------------------------!
 
 ! **************************************************************************************************
-!> \brief testing infrastructure for rectangular matrices
+!> \brief testing infrastructure for tall-and-skinny matrices
 ! **************************************************************************************************
 
-MODULE dbcsr_rectangular_test
+MODULE dbcsr_tas_test
    USE dbcsr_types, ONLY: dbcsr_type_real_8
    USE dbcsr_data_methods, ONLY: dbcsr_scalar
    USE dbcsr_methods, ONLY: &
       dbcsr_release, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_row_block_sizes, dbcsr_col_block_sizes, &
       dbcsr_mp_release, dbcsr_distribution_release
    USE dbcsr_multiply_api, ONLY: dbcsr_multiply
-   USE dbcsr_rectangular_base, ONLY: &
-      dbcsr_r_convert_to_dbcsr, dbcsr_r_create, dbcsr_r_distribution_new, &
-      dbcsr_r_finalize, dbcsr_r_get_stored_coordinates, dbcsr_r_nblkcols_total, &
-      dbcsr_r_nblkrows_total, dbcsr_r_put_block, dbcsr_r_info
-   USE dbcsr_rectangular_types, ONLY: dbcsr_r_distribution_type, &
-                                      dbcsr_r_type
-   USE dbcsr_rectangular_global, ONLY: dbcsr_r_blk_size_arb, &
-                                       dbcsr_r_dist_cyclic
-   USE dbcsr_rectangular_mm, ONLY: dbcsr_r_multiply
-   USE dbcsr_rectangular_split, ONLY: dbcsr_r_mp_comm, &
-                                      dbcsr_r_get_split_info
-   USE dbcsr_rectangular_util, ONLY: dbcsr_mp_environ, &
-                                     invert_transpose_flag
+   USE dbcsr_tas_base, ONLY: &
+      dbcsr_tas_convert_to_dbcsr, dbcsr_tas_create, dbcsr_tas_distribution_new, &
+      dbcsr_tas_finalize, dbcsr_tas_get_stored_coordinates, dbcsr_tas_nblkcols_total, &
+      dbcsr_tas_nblkrows_total, dbcsr_tas_put_block, dbcsr_tas_info
+   USE dbcsr_tas_types, ONLY: dbcsr_tas_distribution_type, &
+                              dbcsr_tas_type
+   USE dbcsr_tas_global, ONLY: dbcsr_tas_blk_size_arb, &
+                               dbcsr_tas_dist_cyclic
+   USE dbcsr_tas_mm, ONLY: dbcsr_tas_multiply
+   USE dbcsr_tas_split, ONLY: dbcsr_tas_mp_comm, &
+                              dbcsr_tas_get_split_info
+   USE dbcsr_tas_util, ONLY: dbcsr_mp_environ, &
+                             invert_transpose_flag
    USE dbcsr_types, ONLY: &
       dbcsr_type, dbcsr_distribution_obj, dbcsr_mp_obj, dbcsr_no_transpose, dbcsr_transpose, &
       dbcsr_type_no_symmetry
@@ -52,15 +52,15 @@ MODULE dbcsr_rectangular_test
    PRIVATE
 
    PUBLIC :: &
-      dbcsr_r_benchmark_mm, &
-      dbcsr_r_checksum, &
-      dbcsr_r_random_bsizes, &
-      dbcsr_r_setup_test_matrix, &
-      dbcsr_r_test_mm
+      dbcsr_tas_benchmark_mm, &
+      dbcsr_tas_checksum, &
+      dbcsr_tas_random_bsizes, &
+      dbcsr_tas_setup_test_matrix, &
+      dbcsr_tas_test_mm
 
 CONTAINS
 ! **************************************************************************************************
-!> \brief Setup rectangular matrix for testing
+!> \brief Setup tall-and-skinny matrix for testing
 !> \param matrix ...
 !> \param mp_comm_out ...
 !> \param mp_comm ...
@@ -73,10 +73,10 @@ CONTAINS
 !> \param sparsity ...
 !> \param reuse_comm ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_r_setup_test_matrix(matrix, mp_comm_out, mp_comm, nrows, ncols, rbsizes, cbsizes, &
-                                        dist_splitsize, name, sparsity, reuse_comm)
+   SUBROUTINE dbcsr_tas_setup_test_matrix(matrix, mp_comm_out, mp_comm, nrows, ncols, rbsizes, cbsizes, &
+                                          dist_splitsize, name, sparsity, reuse_comm)
 
-      TYPE(dbcsr_r_type), INTENT(OUT)                    :: matrix
+      TYPE(dbcsr_tas_type), INTENT(OUT)                    :: matrix
       INTEGER, INTENT(OUT)                               :: mp_comm_out
       INTEGER, INTENT(IN)                                :: mp_comm
       INTEGER(KIND=int_8), INTENT(IN)                    :: nrows, ncols
@@ -95,10 +95,10 @@ CONTAINS
       LOGICAL                                            :: reuse_comm_prv, tr
       REAL(KIND=real_8)                                  :: rn
       REAL(KIND=real_8), ALLOCATABLE, DIMENSION(:, :)    :: values
-      TYPE(dbcsr_r_blk_size_arb)                         :: cbsize_obj, rbsize_obj
-      TYPE(dbcsr_r_dist_cyclic)                          :: col_dist_obj, row_dist_obj
-      TYPE(dbcsr_r_distribution_type)                    :: dist
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_r_setup_test_matrix'
+      TYPE(dbcsr_tas_blk_size_arb)                         :: cbsize_obj, rbsize_obj
+      TYPE(dbcsr_tas_dist_cyclic)                          :: col_dist_obj, row_dist_obj
+      TYPE(dbcsr_tas_distribution_type)                    :: dist
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_setup_test_matrix'
       INTEGER :: handle
 
       ! we don't reserve blocks prior to putting them, so this time is meaningless and should not
@@ -114,21 +114,21 @@ CONTAINS
       IF (reuse_comm_prv) THEN
          mp_comm_out = mp_comm
       ELSE
-         mp_comm_out = dbcsr_r_mp_comm(mp_comm, nrows, ncols)
+         mp_comm_out = dbcsr_tas_mp_comm(mp_comm, nrows, ncols)
       ENDIF
 
       CALL mp_environ(numnodes, mynode, mp_comm_out)
       CALL mp_environ(numnodes, pdims, pcoord, mp_comm_out)
 
-      row_dist_obj = dbcsr_r_dist_cyclic(dist_splitsize(1), pdims(1), nrows)
-      col_dist_obj = dbcsr_r_dist_cyclic(dist_splitsize(2), pdims(2), ncols)
+      row_dist_obj = dbcsr_tas_dist_cyclic(dist_splitsize(1), pdims(1), nrows)
+      col_dist_obj = dbcsr_tas_dist_cyclic(dist_splitsize(2), pdims(2), ncols)
 
-      rbsize_obj = dbcsr_r_blk_size_arb(rbsizes)
-      cbsize_obj = dbcsr_r_blk_size_arb(cbsizes)
+      rbsize_obj = dbcsr_tas_blk_size_arb(rbsizes)
+      cbsize_obj = dbcsr_tas_blk_size_arb(cbsizes)
 
-      CALL dbcsr_r_distribution_new(dist, mp_comm_out, row_dist_obj, col_dist_obj)
-      CALL dbcsr_r_create(matrix, name, dist=dist, data_type=dbcsr_type_real_8, &
-                          row_blk_size=rbsize_obj, col_blk_size=cbsize_obj, own_dist=.TRUE.)
+      CALL dbcsr_tas_distribution_new(dist, mp_comm_out, row_dist_obj, col_dist_obj)
+      CALL dbcsr_tas_create(matrix, name, dist=dist, data_type=dbcsr_type_real_8, &
+                            row_blk_size=rbsize_obj, col_blk_size=cbsize_obj, own_dist=.TRUE.)
 
       max_row_size = MAXVAL(rbsizes)
       max_col_size = MAXVAL(cbsizes)
@@ -136,26 +136,26 @@ CONTAINS
 
       ALLOCATE (values(max_row_size, max_col_size))
 
-      DO row = 1, dbcsr_r_nblkrows_total(matrix)
-         DO col = 1, dbcsr_r_nblkcols_total(matrix)
+      DO row = 1, dbcsr_tas_nblkrows_total(matrix)
+         DO col = 1, dbcsr_tas_nblkcols_total(matrix)
             CALL RANDOM_NUMBER(rn)
             IF (rn .LT. sparsity) THEN
                tr = .FALSE.
                row_s = row; col_s = col
-               CALL dbcsr_r_get_stored_coordinates(matrix, row_s, col_s, node_holds_blk)
+               CALL dbcsr_tas_get_stored_coordinates(matrix, row_s, col_s, node_holds_blk)
 
                IF (node_holds_blk .EQ. mynode) THEN
                   row_size = rbsize_obj%data(row_s)
                   col_size = cbsize_obj%data(col_s)
                   nze = row_size*col_size
                   CALL RANDOM_NUMBER(values(1:row_size, 1:col_size))
-                  CALL dbcsr_r_put_block(matrix, row_s, col_s, values(1:row_size, 1:col_size))
+                  CALL dbcsr_tas_put_block(matrix, row_s, col_s, values(1:row_size, 1:col_size))
                ENDIF
             ENDIF
          ENDDO
       ENDDO
 
-      CALL dbcsr_r_finalize(matrix)
+      CALL dbcsr_tas_finalize(matrix)
 
       CALL timestop(handle)
 
@@ -174,9 +174,9 @@ CONTAINS
 !> \param filter_eps ...
 !> \param io_unit ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_r_benchmark_mm(transa, transb, transc, matrix_a, matrix_b, matrix_c, compare_dbcsr, filter_eps, io_unit)
+   SUBROUTINE dbcsr_tas_benchmark_mm(transa, transb, transc, matrix_a, matrix_b, matrix_c, compare_dbcsr, filter_eps, io_unit)
       CHARACTER(LEN=1), INTENT(IN)                       :: transa, transb, transc
-      TYPE(dbcsr_r_type), INTENT(INOUT)                  :: matrix_a, matrix_b, matrix_c
+      TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix_a, matrix_b, matrix_c
 
       REAL(KIND=real_8), INTENT(IN), OPTIONAL            :: filter_eps
       INTEGER, INTENT(IN), OPTIONAL                      :: io_unit
@@ -193,26 +193,26 @@ CONTAINS
 
       IF (PRESENT(io_unit)) THEN
       IF (io_unit > 0) THEN
-         WRITE (io_unit, *) "starting rectangular benchmark"
+         WRITE (io_unit, *) "starting tall-and-skinny benchmark"
       ENDIF
       ENDIF
-      CALL timeset("benchmark_rectangular_mm", handle1)
-      CALL dbcsr_r_multiply(transa, transb, transc, dbcsr_scalar(1.0_real_8), matrix_a, matrix_b, &
-                            dbcsr_scalar(0.0_real_8), matrix_c, &
-                            filter_eps=filter_eps, io_unit=io_unit)
+      CALL timeset("benchmark_tas_mm", handle1)
+      CALL dbcsr_tas_multiply(transa, transb, transc, dbcsr_scalar(1.0_real_8), matrix_a, matrix_b, &
+                              dbcsr_scalar(0.0_real_8), matrix_c, &
+                              filter_eps=filter_eps, io_unit=io_unit)
       CALL timestop(handle1)
       IF (PRESENT(io_unit)) THEN
       IF (io_unit > 0) THEN
-         WRITE (io_unit, *) "rectangular benchmark completed"
+         WRITE (io_unit, *) "tall-and-skinny benchmark completed"
       ENDIF
       ENDIF
 
       IF (compare_dbcsr) THEN
-         CALL dbcsr_r_convert_to_dbcsr(matrix_a, dbcsr_a)
-         CALL dbcsr_r_convert_to_dbcsr(matrix_b, dbcsr_b)
-         CALL dbcsr_r_convert_to_dbcsr(matrix_c, dbcsr_c)
+         CALL dbcsr_tas_convert_to_dbcsr(matrix_a, dbcsr_a)
+         CALL dbcsr_tas_convert_to_dbcsr(matrix_b, dbcsr_b)
+         CALL dbcsr_tas_convert_to_dbcsr(matrix_c, dbcsr_c)
 
-         CALL dbcsr_r_get_split_info(dbcsr_r_info(matrix_a), mp_comm=mp_comm)
+         CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix_a), mp_comm=mp_comm)
          npdims(:) = 0
          CALL mp_cart_create(mp_comm, 2, npdims, myploc, comm_dbcsr)
 
@@ -276,7 +276,7 @@ CONTAINS
    END SUBROUTINE
 
 ! **************************************************************************************************
-!> \brief Test rectangular matrix multiplication for accuracy
+!> \brief Test tall-and-skinny matrix multiplication for accuracy
 !> \param transa ...
 !> \param transb ...
 !> \param transc ...
@@ -287,9 +287,9 @@ CONTAINS
 !> \param unit_nr ...
 !> \param log_verbose ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_r_test_mm(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, unit_nr, log_verbose)
+   SUBROUTINE dbcsr_tas_test_mm(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, unit_nr, log_verbose)
       CHARACTER(LEN=1), INTENT(IN)                       :: transa, transb, transc
-      TYPE(dbcsr_r_type), INTENT(INOUT)                  :: matrix_a, matrix_b, matrix_c
+      TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix_a, matrix_b, matrix_c
       INTEGER, INTENT(IN)                                :: unit_nr
       LOGICAL, INTENT(IN), OPTIONAL                      :: log_verbose
       REAL(KIND=real_8), INTENT(IN), OPTIONAL            :: filter_eps
@@ -307,18 +307,18 @@ CONTAINS
                                                             dbcsr_c_mm_check
       REAL(KIND=real_8), PARAMETER :: test_tol = 1.0E-10_real_8
 
-      CALL dbcsr_r_get_split_info(dbcsr_r_info(matrix_a), mp_comm=mp_comm)
+      CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix_a), mp_comm=mp_comm)
       CALL mp_environ(numnodes, mynode, mp_comm)
       io_unit = 0
       IF (mynode .EQ. 0) io_unit = unit_nr
 
-      CALL dbcsr_r_multiply(transa, transb, transc, dbcsr_scalar(1.0_real_8), matrix_a, matrix_b, &
-                            dbcsr_scalar(0.0_real_8), matrix_c, &
-                            filter_eps=filter_eps, io_unit=io_unit, log_verbose=log_verbose, optimize_dist=.TRUE.)
+      CALL dbcsr_tas_multiply(transa, transb, transc, dbcsr_scalar(1.0_real_8), matrix_a, matrix_b, &
+                              dbcsr_scalar(0.0_real_8), matrix_c, &
+                              filter_eps=filter_eps, io_unit=io_unit, log_verbose=log_verbose, optimize_dist=.TRUE.)
 
-      CALL dbcsr_r_convert_to_dbcsr(matrix_a, dbcsr_a)
-      CALL dbcsr_r_convert_to_dbcsr(matrix_b, dbcsr_b)
-      CALL dbcsr_r_convert_to_dbcsr(matrix_c, dbcsr_c)
+      CALL dbcsr_tas_convert_to_dbcsr(matrix_a, dbcsr_a)
+      CALL dbcsr_tas_convert_to_dbcsr(matrix_b, dbcsr_b)
+      CALL dbcsr_tas_convert_to_dbcsr(matrix_c, dbcsr_c)
 
       npdims(:) = 0
       CALL mp_cart_create(mp_comm, 2, npdims, myploc, comm_dbcsr)
@@ -410,20 +410,20 @@ CONTAINS
    END SUBROUTINE
 
 ! **************************************************************************************************
-!> \brief Calculate checksum of rectangular matrix consistent with dbcsr_checksum
+!> \brief Calculate checksum of tall-and-skinny matrix consistent with dbcsr_checksum
 !> \param matrix ...
 !> \param local ...
 !> \param pos ...
 !> \return ...
 ! **************************************************************************************************
-   FUNCTION dbcsr_r_checksum(matrix, local, pos)
-      TYPE(dbcsr_r_type), INTENT(IN) :: matrix
+   FUNCTION dbcsr_tas_checksum(matrix, local, pos)
+      TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       LOGICAL, INTENT(IN), OPTIONAL  :: local, pos
       TYPE(dbcsr_type)               :: dbcsr_m
-      REAL(KIND=real_8)              :: dbcsr_r_checksum
+      REAL(KIND=real_8)              :: dbcsr_tas_checksum
 
-      CALL dbcsr_r_convert_to_dbcsr(matrix, dbcsr_m)
-      dbcsr_r_checksum = dbcsr_checksum(dbcsr_m, local, pos)
+      CALL dbcsr_tas_convert_to_dbcsr(matrix, dbcsr_m)
+      dbcsr_tas_checksum = dbcsr_checksum(dbcsr_m, local, pos)
       CALL dbcsr_release(dbcsr_m)
    END FUNCTION
 
@@ -433,7 +433,7 @@ CONTAINS
 !> \param repeat ...
 !> \param block_sizes ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_r_random_bsizes(sizes, repeat, block_sizes)
+   SUBROUTINE dbcsr_tas_random_bsizes(sizes, repeat, block_sizes)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: sizes
       INTEGER, INTENT(IN)                                :: repeat
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: block_sizes

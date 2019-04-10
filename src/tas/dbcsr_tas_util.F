@@ -8,11 +8,11 @@
 !--------------------------------------------------------------------------------------------------!
 
 ! **************************************************************************************************
-!> \brief often used utilities for rectangular matrices
+!> \brief often used utilities for tall-and-skinny matrices
 !> \author Patrick Seewald
 ! **************************************************************************************************
 
-MODULE dbcsr_rectangular_util
+MODULE dbcsr_tas_util
 
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_new
    USE dbcsr_types, ONLY: dbcsr_mp_obj, &
@@ -27,7 +27,7 @@ MODULE dbcsr_rectangular_util
    IMPLICIT NONE
    PRIVATE
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_rectangular_util'
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tas_util'
 
    PUBLIC :: &
       array_eq_i8, &

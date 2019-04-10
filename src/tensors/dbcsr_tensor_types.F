@@ -36,13 +36,13 @@ MODULE dbcsr_tensor_types
    USE dbcsr_kinds, ONLY: &
       ${uselist(dtype_float_prec)}$, &
       default_string_length
-   USE dbcsr_rectangular_base, ONLY: &
-      dbcsr_r_create, dbcsr_r_distribution_new, &
-      dbcsr_r_distribution_destroy, dbcsr_r_finalize, dbcsr_r_get_info, &
-      dbcsr_r_destroy, dbcsr_r_get_stored_coordinates, dbcsr_r_set, dbcsr_r_filter, &
-      dbcsr_r_get_num_blocks, dbcsr_r_get_num_blocks_total, dbcsr_r_get_data_size, dbcsr_r_get_nze, &
-      dbcsr_r_get_nze_total, dbcsr_r_clear
-   USE dbcsr_rectangular_types, ONLY: dbcsr_r_type, dbcsr_r_distribution_type, dbcsr_r_split_info
+   USE dbcsr_tas_base, ONLY: &
+      dbcsr_tas_create, dbcsr_tas_distribution_new, &
+      dbcsr_tas_distribution_destroy, dbcsr_tas_finalize, dbcsr_tas_get_info, &
+      dbcsr_tas_destroy, dbcsr_tas_get_stored_coordinates, dbcsr_tas_set, dbcsr_tas_filter, &
+      dbcsr_tas_get_num_blocks, dbcsr_tas_get_num_blocks_total, dbcsr_tas_get_data_size, dbcsr_tas_get_nze, &
+      dbcsr_tas_get_nze_total, dbcsr_tas_clear
+   USE dbcsr_tas_types, ONLY: dbcsr_tas_type, dbcsr_tas_distribution_type, dbcsr_tas_create_split_info
    USE dbcsr_tensor_index, ONLY: get_2d_indices, &
                                  get_nd_indices, &
                                  create_nd_to_2d_mapping, &
@@ -52,8 +52,8 @@ MODULE dbcsr_tensor_types
                                  split_index, &
                                  combine_index, &
                                  ndims_mapping
-   USE dbcsr_rectangular_split, ONLY: dbcsr_r_split_rows_or_cols, &
-                                      dbcsr_r_release_info
+   USE dbcsr_tas_split, ONLY: dbcsr_tas_create_split_rows_or_cols, &
+                              dbcsr_tas_release_info
    USE dbcsr_kinds, ONLY: default_string_length, int_8
    USE dbcsr_mpiwrap, ONLY: mp_cart_create, &
                             mp_cart_rank, &
@@ -61,7 +61,7 @@ MODULE dbcsr_tensor_types
                             mp_dims_create, &
                             mp_comm_free, mp_comm_dup, &
                             mp_sum, mp_max
-   USE dbcsr_rectangular_global, ONLY: dbcsr_r_distribution, dbcsr_r_rowcol_data
+   USE dbcsr_tas_global, ONLY: dbcsr_tas_distribution, dbcsr_tas_rowcol_data
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
    USE dbcsr_operations, ONLY: dbcsr_scale
@@ -111,7 +111,7 @@ MODULE dbcsr_tensor_types
    END TYPE
 
    TYPE dbcsr_t_type
-      TYPE(dbcsr_r_type), POINTER          :: matrix_rep => NULL()
+      TYPE(dbcsr_tas_type), POINTER          :: matrix_rep => NULL()
       TYPE(nd_to_2d_mapping)               :: nd_index_blk
       TYPE(nd_to_2d_mapping)               :: nd_index
       TYPE(array_list)                     :: blk_sizes
@@ -129,15 +129,15 @@ MODULE dbcsr_tensor_types
    END TYPE dbcsr_t_type
 
    TYPE dbcsr_t_distribution_type
-      TYPE(dbcsr_r_distribution_type) :: dist
+      TYPE(dbcsr_tas_distribution_type) :: dist
       TYPE(dbcsr_t_pgrid_type)      :: pgrid
       TYPE(array_list)              :: nd_dist
       ! lightweight reference counting for communicators:
       INTEGER, POINTER :: refcount => NULL()
    END TYPE
 
-   ! rectangular matrix distribution function object for one matrix index
-   TYPE, EXTENDS(dbcsr_r_distribution) :: dbcsr_r_dist_t
+   ! tas matrix distribution function object for one matrix index
+   TYPE, EXTENDS(dbcsr_tas_distribution) :: dbcsr_tas_dist_t
       ! tensor dimensions only for this matrix dimension:
       INTEGER, DIMENSION(:), ALLOCATABLE :: dims
       ! grid dimensions only for this matrix dimension:
@@ -152,7 +152,7 @@ MODULE dbcsr_tensor_types
    END TYPE
 
    ! block size object for one matrix index
-   TYPE, EXTENDS(dbcsr_r_rowcol_data) :: dbcsr_r_blk_size_t
+   TYPE, EXTENDS(dbcsr_tas_rowcol_data) :: dbcsr_tas_blk_size_t
       ! tensor dimensions only for this matrix dimension:
       INTEGER, DIMENSION(:), ALLOCATABLE :: dims
       ! block size only for this matrix dimension:
@@ -167,12 +167,12 @@ MODULE dbcsr_tensor_types
       MODULE PROCEDURE dbcsr_t_create_matrix
    END INTERFACE
 
-   INTERFACE dbcsr_r_dist_t
-      MODULE PROCEDURE new_dbcsr_r_dist_t
+   INTERFACE dbcsr_tas_dist_t
+      MODULE PROCEDURE new_dbcsr_tas_dist_t
    END INTERFACE
 
-   INTERFACE dbcsr_r_blk_size_t
-      MODULE PROCEDURE new_dbcsr_r_blk_size_t
+   INTERFACE dbcsr_tas_blk_size_t
+      MODULE PROCEDURE new_dbcsr_tas_blk_size_t
    END INTERFACE
 
    INTERFACE dbcsr_t_set
@@ -197,12 +197,12 @@ CONTAINS
 !> \param which_dim for which dimension (1 or 2) distribution should be created
 !> \return distribution object
 ! **************************************************************************************************
-   FUNCTION new_dbcsr_r_dist_t(nd_dist, map_blks, map_grid, which_dim)
+   FUNCTION new_dbcsr_tas_dist_t(nd_dist, map_blks, map_grid, which_dim)
       TYPE(array_list), INTENT(IN)       :: nd_dist
       TYPE(nd_to_2d_mapping), INTENT(IN) :: map_blks, map_grid
       INTEGER, INTENT(IN)                :: which_dim
 
-      TYPE(dbcsr_r_dist_t)               :: new_dbcsr_r_dist_t
+      TYPE(dbcsr_tas_dist_t)               :: new_dbcsr_tas_dist_t
       INTEGER, DIMENSION(2)              :: grid_dims
       INTEGER(KIND=int_8), DIMENSION(2)  :: matrix_dims
       INTEGER, DIMENSION(:), ALLOCATABLE :: index_map
@@ -211,29 +211,29 @@ CONTAINS
          CALL get_mapping_info(map_blks, &
                                dims_2d_i8=matrix_dims, &
                                map1_2d=index_map, &
-                               dims1_2d=new_dbcsr_r_dist_t%dims)
+                               dims1_2d=new_dbcsr_tas_dist_t%dims)
          CALL get_mapping_info(map_grid, &
                                dims_2d=grid_dims, &
-                               dims1_2d=new_dbcsr_r_dist_t%dims_grid)
+                               dims1_2d=new_dbcsr_tas_dist_t%dims_grid)
       ELSEIF (which_dim == 2) THEN
          CALL get_mapping_info(map_blks, &
                                dims_2d_i8=matrix_dims, &
                                map2_2d=index_map, &
-                               dims2_2d=new_dbcsr_r_dist_t%dims)
+                               dims2_2d=new_dbcsr_tas_dist_t%dims)
          CALL get_mapping_info(map_grid, &
                                dims_2d=grid_dims, &
-                               dims2_2d=new_dbcsr_r_dist_t%dims_grid)
+                               dims2_2d=new_dbcsr_tas_dist_t%dims_grid)
       ELSE
          DBCSR_ABORT("Unknown value for which_dim")
       ENDIF
 
-      new_dbcsr_r_dist_t%nd_dist = array_sublist(nd_dist, index_map)
-      new_dbcsr_r_dist_t%nprowcol = grid_dims(which_dim)
-      new_dbcsr_r_dist_t%nmrowcol = matrix_dims(which_dim)
+      new_dbcsr_tas_dist_t%nd_dist = array_sublist(nd_dist, index_map)
+      new_dbcsr_tas_dist_t%nprowcol = grid_dims(which_dim)
+      new_dbcsr_tas_dist_t%nmrowcol = matrix_dims(which_dim)
    END FUNCTION
 
    FUNCTION r_dist_t(t, rowcol)
-      CLASS(dbcsr_r_dist_t), INTENT(IN) :: t
+      CLASS(dbcsr_tas_dist_t), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
       INTEGER, DIMENSION(SIZE(t%dims)) :: ind_blk
       INTEGER, DIMENSION(SIZE(t%dims)) :: dist_blk
@@ -245,7 +245,7 @@ CONTAINS
    END FUNCTION
 
    FUNCTION r_rowcols_t(t, dist)
-      CLASS(dbcsr_r_dist_t), INTENT(IN) :: t
+      CLASS(dbcsr_tas_dist_t), INTENT(IN) :: t
       INTEGER, INTENT(IN) :: dist
       INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE :: r_rowcols_t
       INTEGER, DIMENSION(SIZE(t%dims)) :: dist_blk
@@ -315,37 +315,37 @@ CONTAINS
 !> \param which_dim for which dimension (1 or 2) distribution should be created
 !> \return block size object
 ! **************************************************************************************************
-   FUNCTION new_dbcsr_r_blk_size_t(blk_size, map_blks, which_dim)
+   FUNCTION new_dbcsr_tas_blk_size_t(blk_size, map_blks, which_dim)
       TYPE(array_list), INTENT(IN)                   :: blk_size
       TYPE(nd_to_2d_mapping), INTENT(IN)             :: map_blks
       INTEGER, INTENT(IN) :: which_dim
       INTEGER(KIND=int_8), DIMENSION(2) :: matrix_dims
       INTEGER, DIMENSION(:), ALLOCATABLE :: index_map
-      TYPE(dbcsr_r_blk_size_t) :: new_dbcsr_r_blk_size_t
+      TYPE(dbcsr_tas_blk_size_t) :: new_dbcsr_tas_blk_size_t
 
       IF (which_dim == 1) THEN
          CALL get_mapping_info(map_blks, &
                                dims_2d_i8=matrix_dims, &
                                map1_2d=index_map, &
-                               dims1_2d=new_dbcsr_r_blk_size_t%dims)
+                               dims1_2d=new_dbcsr_tas_blk_size_t%dims)
       ELSEIF (which_dim == 2) THEN
          CALL get_mapping_info(map_blks, &
                                dims_2d_i8=matrix_dims, &
                                map2_2d=index_map, &
-                               dims2_2d=new_dbcsr_r_blk_size_t%dims)
+                               dims2_2d=new_dbcsr_tas_blk_size_t%dims)
       ELSE
          DBCSR_ABORT("Unknown value for which_dim")
       ENDIF
 
-      new_dbcsr_r_blk_size_t%blk_size = array_sublist(blk_size, index_map)
-      new_dbcsr_r_blk_size_t%nmrowcol = matrix_dims(which_dim)
+      new_dbcsr_tas_blk_size_t%blk_size = array_sublist(blk_size, index_map)
+      new_dbcsr_tas_blk_size_t%nmrowcol = matrix_dims(which_dim)
 
-      new_dbcsr_r_blk_size_t%nfullrowcol = PRODUCT(INT(sum_of_arrays(new_dbcsr_r_blk_size_t%blk_size), &
-                                                       KIND=int_8))
+      new_dbcsr_tas_blk_size_t%nfullrowcol = PRODUCT(INT(sum_of_arrays(new_dbcsr_tas_blk_size_t%blk_size), &
+                                                         KIND=int_8))
    END FUNCTION
 
    FUNCTION r_blk_size_t(t, rowcol)
-      CLASS(dbcsr_r_blk_size_t), INTENT(IN) :: t
+      CLASS(dbcsr_tas_blk_size_t), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
       INTEGER :: r_blk_size_t
       INTEGER, DIMENSION(SIZE(t%dims)) :: ind_blk
@@ -470,12 +470,12 @@ CONTAINS
       TYPE(array_list)                                :: nd_dist
       TYPE(nd_to_2d_mapping)                          :: map_blks, map_grid
       INTEGER                                         :: handle
-      TYPE(dbcsr_r_dist_t)                            :: row_dist_obj, col_dist_obj
+      TYPE(dbcsr_tas_dist_t)                            :: row_dist_obj, col_dist_obj
       TYPE(dbcsr_t_pgrid_type)                        :: pgrid_prv
       LOGICAL                                         :: need_pgrid_remap
       INTEGER, DIMENSION(:), ALLOCATABLE               :: map1_2d_check, map2_2d_check
       INTEGER                                         :: igroup, ngroup_prv
-      TYPE(dbcsr_r_split_info)                        :: split_info
+      TYPE(dbcsr_tas_create_split_info)                        :: split_info
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_distribution_new', &
                                      routineP = moduleN//':'//routineN
 
@@ -510,8 +510,8 @@ CONTAINS
       ! blk index mapping
       CALL create_nd_to_2d_mapping(map_blks, nblks_nd, map1_2d, map2_2d)
 
-      row_dist_obj = dbcsr_r_dist_t(nd_dist, map_blks, map_grid, 1)
-      col_dist_obj = dbcsr_r_dist_t(nd_dist, map_blks, map_grid, 2)
+      row_dist_obj = dbcsr_tas_dist_t(nd_dist, map_blks, map_grid, 1)
+      col_dist_obj = dbcsr_tas_dist_t(nd_dist, map_blks, map_grid, 2)
 
       CALL get_mapping_info(map_grid, dims_2d=pdims_2d)
 
@@ -532,14 +532,14 @@ CONTAINS
          igroup = task_coor_2d(dimsplit)/(pdims_2d(dimsplit)/ngroup)
 
          ngroup_prv = ngroup
-         CALL dbcsr_r_split_rows_or_cols(split_info, comm_2d, ngroup_prv, igroup, dimsplit)
+         CALL dbcsr_tas_create_split_rows_or_cols(split_info, comm_2d, ngroup_prv, igroup, dimsplit)
 
          DBCSR_ASSERT(ngroup_prv == ngroup)
 
-         CALL dbcsr_r_distribution_new(dist%dist, comm_2d, row_dist_obj, col_dist_obj, split_info=split_info)
-         CALL dbcsr_r_release_info(split_info)
+         CALL dbcsr_tas_distribution_new(dist%dist, comm_2d, row_dist_obj, col_dist_obj, split_info=split_info)
+         CALL dbcsr_tas_release_info(split_info)
       ELSE
-         CALL dbcsr_r_distribution_new(dist%dist, comm_2d, row_dist_obj, col_dist_obj)
+         CALL dbcsr_tas_distribution_new(dist%dist, comm_2d, row_dist_obj, col_dist_obj)
       ENDIF
 
       dist%nd_dist = nd_dist
@@ -574,7 +574,7 @@ CONTAINS
       LOGICAL :: abort
 
       CALL timeset(routineN, handle)
-      CALL dbcsr_r_distribution_destroy(dist%dist)
+      CALL dbcsr_tas_distribution_destroy(dist%dist)
       CALL destroy_array_list(dist%nd_dist)
 
       abort = .FALSE.
@@ -623,7 +623,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(IN)  :: tensor
       TYPE(dbcsr_t_distribution_type) :: dbcsr_t_distribution
 
-      CALL dbcsr_r_get_info(tensor%matrix_rep, distribution=dbcsr_t_distribution%dist)
+      CALL dbcsr_tas_get_info(tensor%matrix_rep, distribution=dbcsr_t_distribution%dist)
       dbcsr_t_distribution%pgrid = tensor%pgrid
       dbcsr_t_distribution%nd_dist = tensor%nd_dist
       dbcsr_t_distribution%refcount => dbcsr_t_distribution%refcount
@@ -651,7 +651,7 @@ CONTAINS
       INTEGER                                           :: ndims
       INTEGER(KIND=int_8), DIMENSION(2)                             :: dims_2d
       INTEGER, DIMENSION(SIZE(map1_2d) + SIZE(map2_2d)) :: dims, pdims, task_coor
-      TYPE(dbcsr_r_blk_size_t)                          :: col_blk_size_obj, row_blk_size_obj
+      TYPE(dbcsr_tas_blk_size_t)                          :: col_blk_size_obj, row_blk_size_obj
       TYPE(array_list)                                  :: blk_size, blks_local
       TYPE(nd_to_2d_mapping)                            :: map
       INTEGER                                   :: handle
@@ -670,22 +670,22 @@ CONTAINS
       CALL create_nd_to_2d_mapping(map, dims, map1_2d, map2_2d)
       CALL get_mapping_info(map, dims_2d_i8=dims_2d)
 
-      row_blk_size_obj = dbcsr_r_blk_size_t(blk_size, map, 1)
-      col_blk_size_obj = dbcsr_r_blk_size_t(blk_size, map, 2)
+      row_blk_size_obj = dbcsr_tas_blk_size_t(blk_size, map, 1)
+      col_blk_size_obj = dbcsr_tas_blk_size_t(blk_size, map, 2)
 
       ALLOCATE (tensor%matrix_rep)
-      CALL dbcsr_r_create(matrix=tensor%matrix_rep, &
-                          name=TRIM(name)//" matrix", &
-                          dist=dist%dist, &
-                          row_blk_size=row_blk_size_obj, &
-                          col_blk_size=col_blk_size_obj, &
-                          data_type=data_type)
+      CALL dbcsr_tas_create(matrix=tensor%matrix_rep, &
+                            name=TRIM(name)//" matrix", &
+                            dist=dist%dist, &
+                            row_blk_size=row_blk_size_obj, &
+                            col_blk_size=col_blk_size_obj, &
+                            data_type=data_type)
       tensor%owns_matrix = .TRUE.
 
       tensor%nd_index_blk = map
       tensor%name = name
 
-      CALL dbcsr_r_finalize(tensor%matrix_rep)
+      CALL dbcsr_tas_finalize(tensor%matrix_rep)
       CALL destroy_nd_to_2d_mapping(map)
 
       ! map element-wise tensor index
@@ -778,12 +778,12 @@ CONTAINS
       CALL timeset(routineN, handle)
       ALLOCATE (tensor%matrix_rep)
       IF (.NOT. PRESENT(name)) THEN
-         CALL dbcsr_r_create(tensor_in%matrix_rep, tensor%matrix_rep, name=TRIM(tensor_in%name)//" matrix")
+         CALL dbcsr_tas_create(tensor_in%matrix_rep, tensor%matrix_rep, name=TRIM(tensor_in%name)//" matrix")
       ELSE
-         CALL dbcsr_r_create(tensor_in%matrix_rep, tensor%matrix_rep, name=TRIM(name)//" matrix")
+         CALL dbcsr_tas_create(tensor_in%matrix_rep, tensor%matrix_rep, name=TRIM(name)//" matrix")
       ENDIF
       tensor%owns_matrix = .TRUE.
-      CALL dbcsr_r_finalize(tensor%matrix_rep)
+      CALL dbcsr_tas_finalize(tensor%matrix_rep)
 
       tensor%nd_index_blk = tensor_in%nd_index_blk
       tensor%nd_index = tensor_in%nd_index
@@ -887,7 +887,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       IF (tensor%owns_matrix) THEN
-         CALL dbcsr_r_destroy(tensor%matrix_rep)
+         CALL dbcsr_tas_destroy(tensor%matrix_rep)
          DEALLOCATE (tensor%matrix_rep)
       ELSE
          NULLIFY (tensor%matrix_rep)
@@ -980,7 +980,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER                        :: data_type
 
-      CALL dbcsr_r_get_info(tensor%matrix_rep, data_type=data_type)
+      CALL dbcsr_tas_get_info(tensor%matrix_rep, data_type=data_type)
    END FUNCTION
 
 ! **************************************************************************************************
@@ -1031,7 +1031,7 @@ CONTAINS
       INTEGER(KIND=int_8), DIMENSION(2)                        :: ind_2d
 
       ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind_nd)
-      CALL dbcsr_r_get_stored_coordinates(tensor%matrix_rep, ind_2d(1), ind_2d(2), processor)
+      CALL dbcsr_tas_get_stored_coordinates(tensor%matrix_rep, ind_2d(1), ind_2d(2), processor)
    END SUBROUTINE
 
 ! **************************************************************************************************
@@ -1152,7 +1152,7 @@ CONTAINS
    SUBROUTINE dbcsr_t_set_${dsuffix}$ (tensor, alpha)
       TYPE(dbcsr_t_type), INTENT(INOUT)                   :: tensor
       ${dtype}$, INTENT(IN)                               :: alpha
-      CALL dbcsr_r_set(tensor%matrix_rep, alpha)
+      CALL dbcsr_tas_set(tensor%matrix_rep, alpha)
    END SUBROUTINE
 #:endfor
 
@@ -1170,7 +1170,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL        :: method
       LOGICAL, INTENT(IN), OPTIONAL        :: use_absolute
 
-      CALL dbcsr_r_filter(tensor%matrix_rep, eps, method, use_absolute)
+      CALL dbcsr_tas_filter(tensor%matrix_rep, eps, method, use_absolute)
 
    END SUBROUTINE
 #:endfor
@@ -1258,7 +1258,7 @@ CONTAINS
    PURE FUNCTION dbcsr_t_get_num_blocks(tensor) RESULT(num_blocks)
       TYPE(dbcsr_t_type), INTENT(IN)    :: tensor
       INTEGER                           :: num_blocks
-      num_blocks = dbcsr_r_get_num_blocks(tensor%matrix_rep)
+      num_blocks = dbcsr_tas_get_num_blocks(tensor%matrix_rep)
    END FUNCTION
 
 ! **************************************************************************************************
@@ -1269,7 +1269,7 @@ CONTAINS
    FUNCTION dbcsr_t_get_num_blocks_total(tensor) RESULT(num_blocks)
       TYPE(dbcsr_t_type), INTENT(IN)    :: tensor
       INTEGER(KIND=int_8)               :: num_blocks
-      num_blocks = dbcsr_r_get_num_blocks_total(tensor%matrix_rep)
+      num_blocks = dbcsr_tas_get_num_blocks_total(tensor%matrix_rep)
    END FUNCTION
 
 ! **************************************************************************************************
@@ -1280,7 +1280,7 @@ CONTAINS
    FUNCTION dbcsr_t_get_data_size(tensor) RESULT(data_size)
       TYPE(dbcsr_t_type), INTENT(IN)    :: tensor
       INTEGER                           :: data_size
-      data_size = dbcsr_r_get_data_size(tensor%matrix_rep)
+      data_size = dbcsr_tas_get_data_size(tensor%matrix_rep)
    END FUNCTION
 
 ! **************************************************************************************************
@@ -1290,7 +1290,7 @@ CONTAINS
    SUBROUTINE dbcsr_t_clear(tensor)
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
 
-      CALL dbcsr_r_clear(tensor%matrix_rep)
+      CALL dbcsr_tas_clear(tensor%matrix_rep)
    END SUBROUTINE
 
 ! **************************************************************************************************
@@ -1300,7 +1300,7 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_finalize(tensor)
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
-      CALL dbcsr_r_finalize(tensor%matrix_rep)
+      CALL dbcsr_tas_finalize(tensor%matrix_rep)
    END SUBROUTINE
 
 ! **************************************************************************************************
@@ -1317,13 +1317,13 @@ CONTAINS
    PURE FUNCTION dbcsr_t_get_nze(tensor)
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER                        :: dbcsr_t_get_nze
-      dbcsr_t_get_nze = dbcsr_r_get_nze(tensor%matrix_rep)
+      dbcsr_t_get_nze = dbcsr_tas_get_nze(tensor%matrix_rep)
    END FUNCTION
 
    FUNCTION dbcsr_t_get_nze_total(tensor)
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER(KIND=int_8)            :: dbcsr_t_get_nze_total
-      dbcsr_t_get_nze_total = dbcsr_r_get_nze_total(tensor%matrix_rep)
+      dbcsr_t_get_nze_total = dbcsr_tas_get_nze_total(tensor%matrix_rep)
    END FUNCTION
 
 END MODULE

@@ -29,14 +29,14 @@ MODULE dbcsr_tensor_block
                         dbcsr_scalar_type, &
                         dbcsr_finalize, &
                         dbcsr_get_num_blocks
-   USE dbcsr_rectangular_types, ONLY: dbcsr_r_iterator
-   USE dbcsr_rectangular_base, ONLY: dbcsr_r_iterator_next_block, &
-                                     dbcsr_r_iterator_blocks_left, &
-                                     dbcsr_r_iterator_start, &
-                                     dbcsr_r_iterator_stop, &
-                                     dbcsr_r_get_block_p, &
-                                     dbcsr_r_put_block, &
-                                     dbcsr_r_reserve_blocks
+   USE dbcsr_tas_types, ONLY: dbcsr_tas_iterator
+   USE dbcsr_tas_base, ONLY: dbcsr_tas_iterator_next_block, &
+                             dbcsr_tas_iterator_blocks_left, &
+                             dbcsr_tas_iterator_start, &
+                             dbcsr_tas_iterator_stop, &
+                             dbcsr_tas_get_block_p, &
+                             dbcsr_tas_put_block, &
+                             dbcsr_tas_reserve_blocks
    USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$, &
                           int_8
    USE dbcsr_tensor_index, ONLY: nd_to_2d_mapping, &
@@ -81,7 +81,7 @@ MODULE dbcsr_tensor_block
       reshape_nd_to_2d_block
 
    TYPE dbcsr_t_iterator_type
-      TYPE(dbcsr_r_iterator)      :: iter
+      TYPE(dbcsr_tas_iterator)      :: iter
       TYPE(nd_to_2d_mapping)      :: nd_index_blk
       TYPE(nd_to_2d_mapping)      :: nd_index
       TYPE(array_list)            :: blk_sizes, blk_offsets
@@ -227,7 +227,7 @@ CONTAINS
       CALL timeset(routineN, handle)
       DBCSR_ASSERT(tensor%valid)
 
-      CALL dbcsr_r_iterator_start(iterator%iter, tensor%matrix_rep)
+      CALL dbcsr_tas_iterator_start(iterator%iter, tensor%matrix_rep)
       iterator%nd_index_blk = tensor%nd_index_blk
       iterator%nd_index = tensor%nd_index
       iterator%blk_sizes = tensor%blk_sizes
@@ -247,7 +247,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
-      CALL dbcsr_r_iterator_stop(iterator%iter)
+      CALL dbcsr_tas_iterator_stop(iterator%iter)
       CALL destroy_nd_to_2d_mapping(iterator%nd_index)
       CALL destroy_nd_to_2d_mapping(iterator%nd_index_blk)
       CALL destroy_array_list(iterator%blk_sizes)
@@ -295,7 +295,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
-      CALL dbcsr_r_iterator_next_block(iterator%iter, ind_2d(1), ind_2d(2), blk, blk_p=blk_p)
+      CALL dbcsr_tas_iterator_next_block(iterator%iter, ind_2d(1), ind_2d(2), blk, blk_p=blk_p)
 
       ind_nd(:) = get_nd_indices(iterator%nd_index_blk, ind_2d)
       IF (PRESENT(blk_size)) blk_size(:) = get_array_elements(iterator%blk_sizes, ind_nd)
@@ -319,7 +319,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
-      dbcsr_t_iterator_blocks_left = dbcsr_r_iterator_blocks_left(iterator%iter)
+      dbcsr_t_iterator_blocks_left = dbcsr_tas_iterator_blocks_left(iterator%iter)
 
       CALL timestop(handle)
    END FUNCTION
@@ -403,7 +403,7 @@ CONTAINS
          rows(iblk) = ind_2d(1); cols(iblk) = ind_2d(2)
       ENDDO
 
-      CALL dbcsr_r_reserve_blocks(tensor%matrix_rep, rows=rows, columns=cols)
+      CALL dbcsr_tas_reserve_blocks(tensor%matrix_rep, rows=rows, columns=cols)
       CALL dbcsr_t_finalize(tensor)
       CALL timestop(handle)
    END SUBROUTINE
@@ -745,8 +745,8 @@ CONTAINS
       ! convert block index
       ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
 
-      CALL dbcsr_r_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
-                             scale=scale)
+      CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
+                               scale=scale)
 
       CALL timestop(handle)
    END SUBROUTINE
@@ -812,7 +812,7 @@ CONTAINS
 
       ! convert block index
       ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
-      CALL dbcsr_r_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
       DBCSR_ASSERT(.NOT. tr)
 
       IF (found) THEN

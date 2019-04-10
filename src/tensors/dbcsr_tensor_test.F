@@ -18,7 +18,7 @@ MODULE dbcsr_tensor_test
 #:set ndims = range(2,maxdim+1)
 
    USE dbcsr_api, ONLY: ${uselist(dtype_float_param)}$
-   USE dbcsr_rectangular_base, ONLY: dbcsr_r_info
+   USE dbcsr_tas_base, ONLY: dbcsr_tas_info
    USE dbcsr_tensor, ONLY: &
       dbcsr_t_copy, dbcsr_t_get_block, dbcsr_t_iterator_type, dbcsr_t_iterator_blocks_left, &
       dbcsr_t_iterator_next_block, dbcsr_t_iterator_start, dbcsr_t_iterator_stop, dbcsr_t_ndims, &
@@ -52,7 +52,7 @@ MODULE dbcsr_tensor_test
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_tensor_index, ONLY: combine_index, &
                                  get_mapping_info
-   USE dbcsr_rectangular_test, ONLY: dbcsr_r_checksum
+   USE dbcsr_tas_test, ONLY: dbcsr_tas_checksum
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
 #include "base/dbcsr_base_uses.f90"
 
@@ -846,7 +846,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       REAL(KIND=real_8) :: dbcsr_t_checksum
       LOGICAL, INTENT(IN), OPTIONAL     :: local, pos
-      dbcsr_t_checksum = dbcsr_r_checksum(tensor%matrix_rep, local, pos)
+      dbcsr_t_checksum = dbcsr_tas_checksum(tensor%matrix_rep, local, pos)
    END FUNCTION
 
 END MODULE

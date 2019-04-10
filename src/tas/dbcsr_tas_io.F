@@ -8,23 +8,23 @@
 !--------------------------------------------------------------------------------------------------!
 
 ! **************************************************************************************************
-!> \brief Rectangular matrices: Input / Output
+!> \brief tall-and-skinny matrices: Input / Output
 !>
 !> \author Patrick Seewald
 ! **************************************************************************************************
 
-MODULE dbcsr_rectangular_io
-   USE dbcsr_rectangular_types, ONLY: &
-      dbcsr_r_type, dbcsr_r_split_info
-   USE dbcsr_rectangular_global, ONLY: &
-      dbcsr_r_rowcol_data, dbcsr_r_distribution
+MODULE dbcsr_tas_io
+   USE dbcsr_tas_types, ONLY: &
+      dbcsr_tas_type, dbcsr_tas_create_split_info
+   USE dbcsr_tas_global, ONLY: &
+      dbcsr_tas_rowcol_data, dbcsr_tas_distribution
    USE dbcsr_kinds, ONLY: &
       int_8, real_8, default_string_length
-   USE dbcsr_rectangular_base, ONLY: &
-      dbcsr_r_get_info, dbcsr_r_get_num_blocks, dbcsr_r_get_num_blocks_total, dbcsr_r_get_nze_total, &
-      dbcsr_r_get_nze, dbcsr_r_nblkrows_total, dbcsr_r_nblkcols_total
-   USE dbcsr_rectangular_split, ONLY: &
-      dbcsr_r_get_split_info, rowsplit, colsplit
+   USE dbcsr_tas_base, ONLY: &
+      dbcsr_tas_get_info, dbcsr_tas_get_num_blocks, dbcsr_tas_get_num_blocks_total, dbcsr_tas_get_nze_total, &
+      dbcsr_tas_get_nze, dbcsr_tas_nblkrows_total, dbcsr_tas_nblkcols_total
+   USE dbcsr_tas_split, ONLY: &
+      dbcsr_tas_get_split_info, rowsplit, colsplit
    USE dbcsr_mpiwrap, ONLY: &
       mp_environ, mp_sum, mp_max
    USE dbcsr_dist_methods, ONLY: &
@@ -33,38 +33,38 @@ MODULE dbcsr_rectangular_io
    IMPLICIT NONE
    PRIVATE
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_rectangular_io'
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tas_io'
 
    PUBLIC :: &
-      dbcsr_r_write_dist, &
-      dbcsr_r_write_matrix_info, &
-      dbcsr_r_write_split_info
+      dbcsr_tas_write_dist, &
+      dbcsr_tas_write_matrix_info, &
+      dbcsr_tas_write_split_info
 
 CONTAINS
 
 ! **************************************************************************************************
-!> \brief Write basic infos of rectangular matrix: block dimensions, full dimensions, process grid dimensions
+!> \brief Write basic infos of tall-and-skinny matrix: block dimensions, full dimensions, process grid dimensions
 !> \param matrix ...
 !> \param output_unit ...
 !> \param full_info Whether to print distribution and block size vectors
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_r_write_matrix_info(matrix, output_unit, full_info)
-      TYPE(dbcsr_r_type), INTENT(IN) :: matrix
+   SUBROUTINE dbcsr_tas_write_matrix_info(matrix, output_unit, full_info)
+      TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       INTEGER, INTENT(IN)            :: output_unit
       LOGICAL, OPTIONAL, INTENT(IN)  :: full_info
 
       INTEGER(KIND=int_8)                      :: nblkrows_total, nblkcols_total, nfullrows_total, &
                                                   nfullcols_total
       INTEGER                                  :: nprow, npcol
-      CLASS(dbcsr_r_distribution), ALLOCATABLE :: proc_row_dist, proc_col_dist
-      CLASS(dbcsr_r_rowcol_data), ALLOCATABLE  :: row_blk_size, col_blk_size
+      CLASS(dbcsr_tas_distribution), ALLOCATABLE :: proc_row_dist, proc_col_dist
+      CLASS(dbcsr_tas_rowcol_data), ALLOCATABLE  :: row_blk_size, col_blk_size
       INTEGER(KIND=int_8)                      :: iblk
       CHARACTER(default_string_length)         :: name
 
-      CALL dbcsr_r_get_info(matrix, nblkrows_total=nblkrows_total, nblkcols_total=nblkcols_total, &
-                            nfullrows_total=nfullrows_total, nfullcols_total=nfullcols_total, &
-                            nprow=nprow, npcol=npcol, proc_row_dist=proc_row_dist, proc_col_dist=proc_col_dist, &
-                            row_blk_size=row_blk_size, col_blk_size=col_blk_size, name=name)
+      CALL dbcsr_tas_get_info(matrix, nblkrows_total=nblkrows_total, nblkcols_total=nblkcols_total, &
+                              nfullrows_total=nfullrows_total, nfullcols_total=nfullcols_total, &
+                              nprow=nprow, npcol=npcol, proc_row_dist=proc_row_dist, proc_col_dist=proc_col_dist, &
+                              row_blk_size=row_blk_size, col_blk_size=col_blk_size, name=name)
 
       IF (output_unit > 0) THEN
          WRITE (output_unit, "(T2,A)") &
@@ -104,13 +104,13 @@ CONTAINS
    END SUBROUTINE
 
 ! **************************************************************************************************
-!> \brief Write info on rectangular matrix distribution & load balance
+!> \brief Write info on tall-and-skinny matrix distribution & load balance
 !> \param matrix ...
 !> \param output_unit ...
 !> \param full_info Whether to print subgroup DBCSR distribution
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_r_write_dist(matrix, output_unit, full_info)
-      TYPE(dbcsr_r_type), INTENT(IN)   :: matrix
+   SUBROUTINE dbcsr_tas_write_dist(matrix, output_unit, full_info)
+      TYPE(dbcsr_tas_type), INTENT(IN)   :: matrix
       INTEGER, INTENT(IN)              :: output_unit
       LOGICAL, INTENT(IN), OPTIONAL    :: full_info
 
@@ -124,15 +124,15 @@ CONTAINS
       INTEGER, DIMENSION(:), POINTER   :: rowdist, coldist
       INTEGER                          :: split_rowcol, icol, irow
 
-      CALL dbcsr_r_get_info(matrix, name=name)
-      CALL dbcsr_r_get_split_info(matrix%dist%info, mp_comm, ngroup, igroup, mp_comm_group, split_rowcol)
+      CALL dbcsr_tas_get_info(matrix, name=name)
+      CALL dbcsr_tas_get_split_info(matrix%dist%info, mp_comm, ngroup, igroup, mp_comm_group, split_rowcol)
       CALL mp_environ(nproc, iproc, mp_comm)
 
-      nblock = dbcsr_r_get_num_blocks(matrix)
-      nelement = dbcsr_r_get_nze(matrix)
+      nblock = dbcsr_tas_get_num_blocks(matrix)
+      nelement = dbcsr_tas_get_nze(matrix)
 
-      nblock_p_sum = dbcsr_r_get_num_blocks_total(matrix)
-      nelement_p_sum = dbcsr_r_get_nze_total(matrix)
+      nblock_p_sum = dbcsr_tas_get_num_blocks_total(matrix)
+      nelement_p_sum = dbcsr_tas_get_nze_total(matrix)
 
       tmp = (/nblock, nelement/)
       CALL mp_max(tmp, mp_comm)
@@ -148,7 +148,7 @@ CONTAINS
       CALL mp_max(tmp, mp_comm)
       nblock_s_max = tmp(1); nelement_s_max = tmp(2)
 
-      nblock_tot = dbcsr_r_nblkrows_total(matrix)*dbcsr_r_nblkcols_total(matrix)
+      nblock_tot = dbcsr_tas_nblkrows_total(matrix)*dbcsr_tas_nblkcols_total(matrix)
       occupation = -1.0_real_8
       IF (nblock_tot .NE. 0) occupation = 100.0_real_8*REAL(nblock_p_sum, real_8)/REAL(nblock_tot, real_8)
 
@@ -192,8 +192,8 @@ CONTAINS
 !> \param name ...
 !> \param io_unit ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_r_write_split_info(info, name, io_unit)
-      TYPE(dbcsr_r_split_info), INTENT(IN)               :: info
+   SUBROUTINE dbcsr_tas_write_split_info(info, name, io_unit)
+      TYPE(dbcsr_tas_create_split_info), INTENT(IN)               :: info
       CHARACTER(len=*), INTENT(IN)                       :: name
       INTEGER, INTENT(IN) :: io_unit
       INTEGER                                            :: groupsize, igroup, mp_comm, &
@@ -202,7 +202,7 @@ CONTAINS
       INTEGER, DIMENSION(2)                              :: coord, dims, groupcoord, groupdims, &
                                                             pgrid_offset
 
-      CALL dbcsr_r_get_split_info(info, mp_comm, nsplit, igroup, mp_comm_group, split_rowcol, pgrid_offset)
+      CALL dbcsr_tas_get_split_info(info, mp_comm, nsplit, igroup, mp_comm_group, split_rowcol, pgrid_offset)
       CALL mp_environ(numnodes, mynode, mp_comm)
       CALL mp_environ(numnodes, dims, coord, mp_comm)
       CALL mp_environ(groupsize, groupdims, groupcoord, mp_comm_group)

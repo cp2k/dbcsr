@@ -8,16 +8,16 @@
 !--------------------------------------------------------------------------------------------------!
 
 ! **************************************************************************************************
-!> \brief DBCSR rectangular base types.
+!> \brief DBCSR tall-and-skinny base types.
 !>
 !> Mostly wrappers around existing DBCSR routines.
 !> \author Patrick Seewald
 ! **************************************************************************************************
 
-MODULE dbcsr_rectangular_types
+MODULE dbcsr_tas_types
 
-   USE dbcsr_rectangular_global, ONLY: dbcsr_r_distribution, &
-                                       dbcsr_r_rowcol_data
+   USE dbcsr_tas_global, ONLY: dbcsr_tas_distribution, &
+                               dbcsr_tas_rowcol_data
    USE dbcsr_types, ONLY: dbcsr_distribution_obj, &
                           dbcsr_iterator, &
                           dbcsr_type
@@ -27,17 +27,17 @@ MODULE dbcsr_rectangular_types
    IMPLICIT NONE
    PRIVATE
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_rectangular_types'
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tas_types'
 
    PUBLIC :: &
-      dbcsr_r_distribution_type, &
-      dbcsr_r_iterator, &
-      dbcsr_r_split_info, &
-      dbcsr_r_type
+      dbcsr_tas_distribution_type, &
+      dbcsr_tas_iterator, &
+      dbcsr_tas_create_split_info, &
+      dbcsr_tas_type
 
    ! info on MPI Cartesian grid that is split on MPI subgroups.
    ! info on distribution of matrix rows / columns to different subgroups.
-   TYPE dbcsr_r_split_info
+   TYPE dbcsr_tas_create_split_info
       INTEGER :: mp_comm ! global communicator
       INTEGER :: igroup ! which subgroup do I belong to
       INTEGER :: ngroup ! how many groups in total
@@ -48,19 +48,19 @@ MODULE dbcsr_rectangular_types
       INTEGER, POINTER :: refcount => NULL() ! lightweight reference counting for communicators
    END TYPE
 
-   TYPE dbcsr_r_distribution_type
-      TYPE(dbcsr_r_split_info) :: info
+   TYPE dbcsr_tas_distribution_type
+      TYPE(dbcsr_tas_create_split_info) :: info
       TYPE(dbcsr_distribution_obj) :: dbcsr_dist
-      CLASS(dbcsr_r_distribution), ALLOCATABLE :: row_dist
-      CLASS(dbcsr_r_distribution), ALLOCATABLE :: col_dist
+      CLASS(dbcsr_tas_distribution), ALLOCATABLE :: row_dist
+      CLASS(dbcsr_tas_distribution), ALLOCATABLE :: col_dist
       INTEGER(KIND=int_8), ALLOCATABLE, DIMENSION(:) :: local_rowcols
    END TYPE
 
-   ! type for rectangular matrices
-   TYPE dbcsr_r_type
-      TYPE(dbcsr_r_distribution_type)  :: dist
-      CLASS(dbcsr_r_rowcol_data), ALLOCATABLE :: row_blk_size
-      CLASS(dbcsr_r_rowcol_data), ALLOCATABLE :: col_blk_size
+   ! type for tall-and-skinny matrices
+   TYPE dbcsr_tas_type
+      TYPE(dbcsr_tas_distribution_type)  :: dist
+      CLASS(dbcsr_tas_rowcol_data), ALLOCATABLE :: row_blk_size
+      CLASS(dbcsr_tas_rowcol_data), ALLOCATABLE :: col_blk_size
 
       TYPE(dbcsr_type) :: matrix ! matrix on subgroup
       INTEGER(KIND=int_8) :: nblkrows ! total number of rows
@@ -71,10 +71,10 @@ MODULE dbcsr_rectangular_types
       LOGICAL :: valid = .FALSE. ! has been created?
    END TYPE
 
-   TYPE dbcsr_r_iterator
-      TYPE(dbcsr_r_split_info) :: info
-      TYPE(dbcsr_r_distribution_type) :: dist
+   TYPE dbcsr_tas_iterator
+      TYPE(dbcsr_tas_create_split_info) :: info
+      TYPE(dbcsr_tas_distribution_type) :: dist
       TYPE(dbcsr_iterator) :: iter
-   END TYPE dbcsr_r_iterator
+   END TYPE dbcsr_tas_iterator
 
 END MODULE

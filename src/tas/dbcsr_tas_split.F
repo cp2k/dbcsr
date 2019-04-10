@@ -8,17 +8,17 @@
 !--------------------------------------------------------------------------------------------------!
 
 ! **************************************************************************************************
-!> \brief methods to split rectangular matrices along longest dimension.
+!> \brief methods to split tall-and-skinny matrices along longest dimension.
 !>
 !> Basically, we are splitting process grid and each subgrid holds its own DBCSR matrix.
 !> \author Patrick Seewald
 ! **************************************************************************************************
-MODULE dbcsr_rectangular_split
+MODULE dbcsr_tas_split
 
-   USE dbcsr_rectangular_types, ONLY: dbcsr_r_distribution_type, &
-                                      dbcsr_r_split_info
-   USE dbcsr_rectangular_global, ONLY: dbcsr_r_distribution
-   USE dbcsr_rectangular_util, ONLY: swap
+   USE dbcsr_tas_types, ONLY: dbcsr_tas_distribution_type, &
+                              dbcsr_tas_create_split_info
+   USE dbcsr_tas_global, ONLY: dbcsr_tas_distribution
+   USE dbcsr_tas_util, ONLY: swap
    USE dbcsr_toollib, ONLY: sort
    USE dbcsr_kinds, ONLY: int_8
    USE dbcsr_mpiwrap, ONLY: mp_bcast, &
@@ -37,19 +37,19 @@ MODULE dbcsr_rectangular_split
       block_index_global_to_local, &
       block_index_local_to_global, &
       colsplit, &
-      dbcsr_r_get_split_info, &
-      dbcsr_r_info_hold, &
-      dbcsr_r_mp_comm, &
-      dbcsr_r_release_info, &
-      dbcsr_r_split, &
-      dbcsr_r_split_rows_or_cols, &
+      dbcsr_tas_get_split_info, &
+      dbcsr_tas_info_hold, &
+      dbcsr_tas_mp_comm, &
+      dbcsr_tas_release_info, &
+      dbcsr_tas_create_split, &
+      dbcsr_tas_create_split_rows_or_cols, &
       group_to_mrowcol, &
       group_to_world_proc_map, &
       mrowcol_to_group, &
       rowsplit, &
       world_to_group_proc_map
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_rectangular_split'
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tas_split'
 
    INTEGER, PARAMETER :: rowsplit = 1, colsplit = 2
 
@@ -64,8 +64,8 @@ CONTAINS
 !> \param igroup my group ID
 !> \param split_rowcol split rows or columns
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_r_split_rows_or_cols(split_info, mp_comm, ngroup, igroup, split_rowcol)
-      TYPE(dbcsr_r_split_info), INTENT(OUT)              :: split_info
+   SUBROUTINE dbcsr_tas_create_split_rows_or_cols(split_info, mp_comm, ngroup, igroup, split_rowcol)
+      TYPE(dbcsr_tas_create_split_info), INTENT(OUT)              :: split_info
       INTEGER, INTENT(IN)                                :: mp_comm
       INTEGER, INTENT(INOUT)                             :: ngroup
       INTEGER, INTENT(IN)                                :: igroup, split_rowcol
@@ -75,7 +75,7 @@ CONTAINS
          numproc_group, numproc_group_check, handle
       INTEGER, DIMENSION(2)                              :: pcoord, pcoord_group, pdims, pdims_group
       LOGICAL                                            :: to_assert
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_r_split_rows_or_cols', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_create_split_rows_or_cols', &
                                      routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
@@ -124,19 +124,19 @@ CONTAINS
    END SUBROUTINE
 
 ! **************************************************************************************************
-!> \brief Create default cartesian grid that is consistent with default split heuristic of dbcsr_r_split
+!> \brief Create default cartesian grid that is consistent with default split heuristic of dbcsr_tas_create_split
 !>        This is experimental and should be used for testing purposes only!
 !> \param mp_comm ...
 !> \param nblkrows_total ...
 !> \param nblkcols_total ...
 !> \return new communicator
 ! **************************************************************************************************
-   FUNCTION dbcsr_r_mp_comm(mp_comm, nblkrows_total, nblkcols_total)
+   FUNCTION dbcsr_tas_mp_comm(mp_comm, nblkrows_total, nblkcols_total)
       INTEGER, INTENT(IN)                                :: mp_comm
       INTEGER(KIND=int_8), INTENT(IN)                    :: nblkrows_total, nblkcols_total
-      INTEGER                                            :: dbcsr_r_mp_comm
+      INTEGER                                            :: dbcsr_tas_mp_comm
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_r_mp_comm', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_mp_comm', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: group_size, handle, iproc, numproc, s, &
@@ -188,7 +188,7 @@ CONTAINS
          npdims(:) = [group_dims(1), group_dims(2)*s]
       END SELECT
 
-      CALL mp_cart_create(mp_comm, 2, npdims, myploc, dbcsr_r_mp_comm)
+      CALL mp_cart_create(mp_comm, 2, npdims, myploc, dbcsr_tas_mp_comm)
 
       CALL timestop(handle)
    END FUNCTION
@@ -202,13 +202,13 @@ CONTAINS
 !> \param nblkcols_total ...
 !> \param nosplit Matrix should not be split
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_r_split(split_info, mp_comm, nblkrows_total, nblkcols_total, nosplit)
-      TYPE(dbcsr_r_split_info), INTENT(OUT)              :: split_info
+   SUBROUTINE dbcsr_tas_create_split(split_info, mp_comm, nblkrows_total, nblkcols_total, nosplit)
+      TYPE(dbcsr_tas_create_split_info), INTENT(OUT)              :: split_info
       INTEGER, INTENT(IN)                                :: mp_comm
       INTEGER(KIND=int_8), INTENT(IN)                    :: nblkrows_total, nblkcols_total
       LOGICAL, INTENT(IN), OPTIONAL                      :: nosplit
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_r_split', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_create_split', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, igroup, iproc, numproc, s, &
                                                             split_rowcol
@@ -259,7 +259,7 @@ CONTAINS
          igroup = pcoord(split_rowcol)/pdims_group(split_rowcol)
 
       ENDIF
-      CALL dbcsr_r_split_rows_or_cols(split_info, mp_comm, s, igroup, split_rowcol)
+      CALL dbcsr_tas_create_split_rows_or_cols(split_info, mp_comm, s, igroup, split_rowcol)
 
       CALL timestop(handle)
 
@@ -275,8 +275,8 @@ CONTAINS
 !> \param split_rowcol split rows or columns
 !> \param pgrid_offset group-local offset in process grid
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_r_get_split_info(info, mp_comm, nsplit, igroup, mp_comm_group, split_rowcol, pgrid_offset)
-      TYPE(dbcsr_r_split_info), INTENT(IN)               :: info
+   SUBROUTINE dbcsr_tas_get_split_info(info, mp_comm, nsplit, igroup, mp_comm_group, split_rowcol, pgrid_offset)
+      TYPE(dbcsr_tas_create_split_info), INTENT(IN)               :: info
       INTEGER, INTENT(OUT), OPTIONAL                     :: mp_comm, nsplit, igroup, mp_comm_group, &
                                                             split_rowcol
       INTEGER, DIMENSION(2), INTENT(OUT), OPTIONAL       :: pgrid_offset
@@ -302,8 +302,8 @@ CONTAINS
 !> \brief ...
 !> \param split_info ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_r_release_info(split_info)
-      TYPE(dbcsr_r_split_info), INTENT(INOUT)            :: split_info
+   SUBROUTINE dbcsr_tas_release_info(split_info)
+      TYPE(dbcsr_tas_create_split_info), INTENT(INOUT)            :: split_info
       LOGICAL                                            :: abort
 
       abort = .FALSE.
@@ -331,8 +331,8 @@ CONTAINS
 !> \brief ...
 !> \param split_info ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_r_info_hold(split_info)
-      TYPE(dbcsr_r_split_info), INTENT(IN)               :: split_info
+   SUBROUTINE dbcsr_tas_info_hold(split_info)
+      TYPE(dbcsr_tas_create_split_info), INTENT(IN)               :: split_info
 
       INTEGER, POINTER                                   :: ref
 
@@ -430,8 +430,8 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE block_index_local_to_global(info, dist, row_group, column_group, &
                                           row, column)
-      TYPE(dbcsr_r_split_info), INTENT(IN)               :: info
-      TYPE(dbcsr_r_distribution_type), INTENT(IN)        :: dist
+      TYPE(dbcsr_tas_create_split_info), INTENT(IN)               :: info
+      TYPE(dbcsr_tas_distribution_type), INTENT(IN)        :: dist
       INTEGER, INTENT(IN), OPTIONAL                      :: row_group, column_group
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL         :: row, column
 
@@ -466,8 +466,8 @@ CONTAINS
 !> \param column_group ...
 ! **************************************************************************************************
    SUBROUTINE block_index_global_to_local(info, dist, row, column, row_group, column_group)
-      TYPE(dbcsr_r_split_info), INTENT(IN)               :: info
-      TYPE(dbcsr_r_distribution_type), INTENT(IN)        :: dist
+      TYPE(dbcsr_tas_create_split_info), INTENT(IN)               :: info
+      TYPE(dbcsr_tas_distribution_type), INTENT(IN)        :: dist
       INTEGER(KIND=int_8), INTENT(IN), OPTIONAL          :: row, column
       INTEGER, INTENT(OUT), OPTIONAL                     :: row_group, column_group
       CHARACTER(LEN=*), PARAMETER :: routineN = 'block_index_global_to_local', &
@@ -499,7 +499,7 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE mrowcol_to_group(dist, rowcol, rowcol_group)
 
-      CLASS(dbcsr_r_distribution_type), INTENT(IN) :: dist
+      CLASS(dbcsr_tas_distribution_type), INTENT(IN) :: dist
       INTEGER(KIND=int_8), INTENT(IN)              :: rowcol
       INTEGER, INTENT(OUT)                         :: rowcol_group
       CHARACTER(LEN=*), PARAMETER                  :: routineN = 'mrowcol_to_group', &
@@ -550,8 +550,8 @@ CONTAINS
 !> \param rowcols rows/ columns on this group
 ! **************************************************************************************************
    SUBROUTINE group_to_mrowcol(info, rowcol_dist, igroup, rowcols)
-      TYPE(dbcsr_r_split_info), INTENT(IN)                        :: info
-      CLASS(dbcsr_r_distribution), INTENT(IN)                     :: rowcol_dist
+      TYPE(dbcsr_tas_create_split_info), INTENT(IN)                        :: info
+      CLASS(dbcsr_tas_distribution), INTENT(IN)                     :: rowcol_dist
       INTEGER, INTENT(IN)                                         :: igroup
       INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE, INTENT(OUT) :: rowcols
       INTEGER, DIMENSION(0:info%pgrid_split_size - 1)             :: nrowcols_group

@@ -8,7 +8,7 @@
 !--------------------------------------------------------------------------------------------------!
 
 ! **************************************************************************************************
-!> \brief Global data (distribution and block sizes) for rectangular matrices
+!> \brief Global data (distribution and block sizes) for tall-and-skinny matrices
 !>
 !> For very sparse matrices with one very large dimension, storing array data of the same size
 !> as the matrix dimensions may require too much memory and we need to compute them on the fly for a
@@ -18,7 +18,7 @@
 !> \author Patrick Seewald
 ! **************************************************************************************************
 
-MODULE dbcsr_rectangular_global
+MODULE dbcsr_tas_global
 
    USE dbcsr_kinds, ONLY: int_8
 #include "../base/dbcsr_base_uses.f90"
@@ -26,20 +26,20 @@ MODULE dbcsr_rectangular_global
    IMPLICIT NONE
    PRIVATE
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_rectangular_global'
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tas_global'
 
    PUBLIC :: &
-      dbcsr_r_blk_size_arb, &
-      dbcsr_r_blk_size_repl, &
-      dbcsr_r_dist_arb, &
-      dbcsr_r_dist_arb_default, &
-      dbcsr_r_dist_cyclic, &
-      dbcsr_r_dist_repl, &
-      dbcsr_r_distribution, &
-      dbcsr_r_rowcol_data
+      dbcsr_tas_blk_size_arb, &
+      dbcsr_tas_blk_size_repl, &
+      dbcsr_tas_dist_arb, &
+      dbcsr_tas_dist_arb_default, &
+      dbcsr_tas_dist_cyclic, &
+      dbcsr_tas_dist_repl, &
+      dbcsr_tas_distribution, &
+      dbcsr_tas_rowcol_data
 
    ! abstract type for distribution vectors along one dimension
-   TYPE, ABSTRACT :: dbcsr_r_distribution
+   TYPE, ABSTRACT :: dbcsr_tas_distribution
       ! number of process rows / columns:
       INTEGER :: nprowcol
       ! number of matrix rows / columns:
@@ -54,7 +54,7 @@ MODULE dbcsr_rectangular_global
    ! type for cyclic (round robin) distribution:
    ! - may not be load balanced for arbitrary block sizes
    ! - memory efficient for large dimensions
-   TYPE, EXTENDS(dbcsr_r_distribution) :: dbcsr_r_dist_cyclic
+   TYPE, EXTENDS(dbcsr_tas_distribution) :: dbcsr_tas_dist_cyclic
       INTEGER :: split_size
    CONTAINS
       PROCEDURE :: dist => cyclic_dist
@@ -64,7 +64,7 @@ MODULE dbcsr_rectangular_global
    ! type for arbitrary distributions
    ! - stored as an array
    ! - not memory efficient for large dimensions
-   TYPE, EXTENDS(dbcsr_r_distribution) :: dbcsr_r_dist_arb
+   TYPE, EXTENDS(dbcsr_tas_distribution) :: dbcsr_tas_dist_arb
       INTEGER, DIMENSION(:), ALLOCATABLE :: dist_vec
    CONTAINS
       PROCEDURE :: dist => arb_dist
@@ -74,7 +74,7 @@ MODULE dbcsr_rectangular_global
    ! type for replicated distribution
    ! - a submatrix distribution replicated on all process groups
    ! - memory efficient for large dimensions
-   TYPE, EXTENDS(dbcsr_r_distribution) :: dbcsr_r_dist_repl
+   TYPE, EXTENDS(dbcsr_tas_distribution) :: dbcsr_tas_dist_repl
       INTEGER, DIMENSION(:), ALLOCATABLE :: dist_vec
       INTEGER :: nmrowcol_local
       INTEGER :: n_repl
@@ -85,7 +85,7 @@ MODULE dbcsr_rectangular_global
    END TYPE
 
    ! abstract type for integer data (e.g. block sizes) along one dimension
-   TYPE, ABSTRACT :: dbcsr_r_rowcol_data
+   TYPE, ABSTRACT :: dbcsr_tas_rowcol_data
       ! number of matrix rows / columns (blocks):
       INTEGER(KIND=int_8) :: nmrowcol
       ! number of matrix rows / columns (elements):
@@ -98,7 +98,7 @@ MODULE dbcsr_rectangular_global
    ! type for arbitrary block sizes
    ! - stored as an array
    ! - not memory efficient for large dimensions
-   TYPE, EXTENDS(dbcsr_r_rowcol_data) :: dbcsr_r_blk_size_arb
+   TYPE, EXTENDS(dbcsr_tas_rowcol_data) :: dbcsr_tas_blk_size_arb
       INTEGER, DIMENSION(:), ALLOCATABLE :: blk_size_vec
    CONTAINS
       PROCEDURE :: DATA => blk_size_arb
@@ -107,7 +107,7 @@ MODULE dbcsr_rectangular_global
    ! type for replicated block sizes
    ! - submatrix block sizes replicated on all process groups
    ! - memory efficient for large dimensions
-   TYPE, EXTENDS(dbcsr_r_rowcol_data) :: dbcsr_r_blk_size_repl
+   TYPE, EXTENDS(dbcsr_tas_rowcol_data) :: dbcsr_tas_blk_size_repl
       INTEGER, DIMENSION(:), ALLOCATABLE :: blk_size_vec
       INTEGER :: nmrowcol_local
    CONTAINS
@@ -122,8 +122,8 @@ MODULE dbcsr_rectangular_global
 !> \return ...
 ! **************************************************************************************************
       FUNCTION rowcol_dist(t, rowcol)
-         IMPORT :: dbcsr_r_distribution, int_8
-         CLASS(dbcsr_r_distribution), INTENT(IN) :: t
+         IMPORT :: dbcsr_tas_distribution, int_8
+         CLASS(dbcsr_tas_distribution), INTENT(IN) :: t
          INTEGER(KIND=int_8), INTENT(IN) :: rowcol
          INTEGER :: rowcol_dist
       END FUNCTION
@@ -135,8 +135,8 @@ MODULE dbcsr_rectangular_global
 !> \return ...
 ! **************************************************************************************************
       FUNCTION dist_rowcols(t, dist)
-         IMPORT :: dbcsr_r_distribution, int_8
-         CLASS(dbcsr_r_distribution), INTENT(IN) :: t
+         IMPORT :: dbcsr_tas_distribution, int_8
+         CLASS(dbcsr_tas_distribution), INTENT(IN) :: t
          INTEGER, INTENT(IN) :: dist
          INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE :: dist_rowcols
       END FUNCTION
@@ -148,32 +148,32 @@ MODULE dbcsr_rectangular_global
 !> \return ...
 ! **************************************************************************************************
       FUNCTION rowcol_data(t, rowcol)
-         IMPORT :: dbcsr_r_rowcol_data, int_8
-         CLASS(dbcsr_r_rowcol_data), INTENT(IN) :: t
+         IMPORT :: dbcsr_tas_rowcol_data, int_8
+         CLASS(dbcsr_tas_rowcol_data), INTENT(IN) :: t
          INTEGER(KIND=int_8), INTENT(IN) :: rowcol
          INTEGER :: rowcol_data
       END FUNCTION
 
    END INTERFACE
 
-   INTERFACE dbcsr_r_dist_cyclic
-      MODULE PROCEDURE new_dbcsr_r_dist_cyclic
+   INTERFACE dbcsr_tas_dist_cyclic
+      MODULE PROCEDURE new_dbcsr_tas_dist_cyclic
    END INTERFACE
 
-   INTERFACE dbcsr_r_dist_arb
-      MODULE PROCEDURE new_dbcsr_r_dist_arb
+   INTERFACE dbcsr_tas_dist_arb
+      MODULE PROCEDURE new_dbcsr_tas_dist_arb
    END INTERFACE
 
-   INTERFACE dbcsr_r_dist_repl
-      MODULE PROCEDURE new_dbcsr_r_dist_repl
+   INTERFACE dbcsr_tas_dist_repl
+      MODULE PROCEDURE new_dbcsr_tas_dist_repl
    END INTERFACE
 
-   INTERFACE dbcsr_r_blk_size_arb
-      MODULE PROCEDURE new_dbcsr_r_blk_size_arb
+   INTERFACE dbcsr_tas_blk_size_arb
+      MODULE PROCEDURE new_dbcsr_tas_blk_size_arb
    END INTERFACE
 
-   INTERFACE dbcsr_r_blk_size_repl
-      MODULE PROCEDURE new_dbcsr_r_blk_size_repl
+   INTERFACE dbcsr_tas_blk_size_repl
+      MODULE PROCEDURE new_dbcsr_tas_blk_size_repl
    END INTERFACE
 
 CONTAINS
@@ -184,7 +184,7 @@ CONTAINS
 !> \return ...
 ! **************************************************************************************************
    FUNCTION blk_size_arb(t, rowcol)
-      CLASS(dbcsr_r_blk_size_arb), INTENT(IN) :: t
+      CLASS(dbcsr_tas_blk_size_arb), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
       INTEGER :: blk_size_arb
       blk_size_arb = t%blk_size_vec(rowcol)
@@ -197,7 +197,7 @@ CONTAINS
 !> \return ...
 ! **************************************************************************************************
    FUNCTION blk_size_repl(t, rowcol)
-      CLASS(dbcsr_r_blk_size_repl), INTENT(IN) :: t
+      CLASS(dbcsr_tas_blk_size_repl), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
       INTEGER :: blk_size_repl
       INTEGER :: igroup
@@ -214,14 +214,14 @@ CONTAINS
 !> \param blk_size_vec ...
 !> \return ...
 ! **************************************************************************************************
-   FUNCTION new_dbcsr_r_blk_size_arb(blk_size_vec)
+   FUNCTION new_dbcsr_tas_blk_size_arb(blk_size_vec)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_size_vec
-      TYPE(dbcsr_r_blk_size_arb)                         :: new_dbcsr_r_blk_size_arb
+      TYPE(dbcsr_tas_blk_size_arb)                         :: new_dbcsr_tas_blk_size_arb
 
-      ALLOCATE (new_dbcsr_r_blk_size_arb%blk_size_vec(SIZE(blk_size_vec)))
-      new_dbcsr_r_blk_size_arb%blk_size_vec(:) = blk_size_vec(:)
-      new_dbcsr_r_blk_size_arb%nmrowcol = SIZE(blk_size_vec)
-      new_dbcsr_r_blk_size_arb%nfullrowcol = SUM(blk_size_vec)
+      ALLOCATE (new_dbcsr_tas_blk_size_arb%blk_size_vec(SIZE(blk_size_vec)))
+      new_dbcsr_tas_blk_size_arb%blk_size_vec(:) = blk_size_vec(:)
+      new_dbcsr_tas_blk_size_arb%nmrowcol = SIZE(blk_size_vec)
+      new_dbcsr_tas_blk_size_arb%nfullrowcol = SUM(blk_size_vec)
    END FUNCTION
 
 ! **************************************************************************************************
@@ -230,16 +230,16 @@ CONTAINS
 !> \param n_repl ...
 !> \return ...
 ! **************************************************************************************************
-   FUNCTION new_dbcsr_r_blk_size_repl(blk_size_vec, n_repl)
+   FUNCTION new_dbcsr_tas_blk_size_repl(blk_size_vec, n_repl)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_size_vec
       INTEGER, INTENT(IN)                                :: n_repl
-      TYPE(dbcsr_r_blk_size_repl)                        :: new_dbcsr_r_blk_size_repl
+      TYPE(dbcsr_tas_blk_size_repl)                        :: new_dbcsr_tas_blk_size_repl
 
-      new_dbcsr_r_blk_size_repl%nmrowcol_local = SIZE(blk_size_vec)
-      ALLOCATE (new_dbcsr_r_blk_size_repl%blk_size_vec(new_dbcsr_r_blk_size_repl%nmrowcol_local))
-      new_dbcsr_r_blk_size_repl%blk_size_vec(:) = blk_size_vec(:)
-      new_dbcsr_r_blk_size_repl%nmrowcol = new_dbcsr_r_blk_size_repl%nmrowcol_local*n_repl
-      new_dbcsr_r_blk_size_repl%nfullrowcol = SUM(blk_size_vec)*n_repl
+      new_dbcsr_tas_blk_size_repl%nmrowcol_local = SIZE(blk_size_vec)
+      ALLOCATE (new_dbcsr_tas_blk_size_repl%blk_size_vec(new_dbcsr_tas_blk_size_repl%nmrowcol_local))
+      new_dbcsr_tas_blk_size_repl%blk_size_vec(:) = blk_size_vec(:)
+      new_dbcsr_tas_blk_size_repl%nmrowcol = new_dbcsr_tas_blk_size_repl%nmrowcol_local*n_repl
+      new_dbcsr_tas_blk_size_repl%nfullrowcol = SUM(blk_size_vec)*n_repl
    END FUNCTION
 
 ! **************************************************************************************************
@@ -249,7 +249,7 @@ CONTAINS
 !> \return ...
 ! **************************************************************************************************
    FUNCTION arb_dist(t, rowcol)
-      CLASS(dbcsr_r_dist_arb), INTENT(IN) :: t
+      CLASS(dbcsr_tas_dist_arb), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
       INTEGER :: arb_dist
 
@@ -263,7 +263,7 @@ CONTAINS
 !> \return ...
 ! **************************************************************************************************
    FUNCTION repl_dist(t, rowcol)
-      CLASS(dbcsr_r_dist_repl), INTENT(IN) :: t
+      CLASS(dbcsr_tas_dist_repl), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
       INTEGER :: repl_dist
       INTEGER :: rowcol_local
@@ -283,7 +283,7 @@ CONTAINS
 !> \return ...
 ! **************************************************************************************************
    FUNCTION repl_rowcols(t, dist)
-      CLASS(dbcsr_r_dist_repl), INTENT(IN) :: t
+      CLASS(dbcsr_tas_dist_repl), INTENT(IN) :: t
       INTEGER, INTENT(IN) :: dist
       INTEGER :: nrowcols
       INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE :: repl_rowcols, rowcols_tmp
@@ -318,7 +318,7 @@ CONTAINS
 !> \return ...
 ! **************************************************************************************************
    FUNCTION arb_rowcols(t, dist)
-      CLASS(dbcsr_r_dist_arb), INTENT(IN) :: t
+      CLASS(dbcsr_tas_dist_arb), INTENT(IN) :: t
       INTEGER, INTENT(IN) :: dist
       INTEGER(KIND=int_8) :: rowcol, nrowcols
       INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE :: arb_rowcols, rowcols_tmp
@@ -346,14 +346,14 @@ CONTAINS
 !> \param nmrowcol ...
 !> \return ...
 ! **************************************************************************************************
-   FUNCTION new_dbcsr_r_dist_cyclic(split_size, nprowcol, nmrowcol)
+   FUNCTION new_dbcsr_tas_dist_cyclic(split_size, nprowcol, nmrowcol)
       INTEGER, INTENT(IN)                                :: split_size, nprowcol
       INTEGER(KIND=int_8), INTENT(IN)                    :: nmrowcol
-      TYPE(dbcsr_r_dist_cyclic)                          :: new_dbcsr_r_dist_cyclic
+      TYPE(dbcsr_tas_dist_cyclic)                          :: new_dbcsr_tas_dist_cyclic
 
-      new_dbcsr_r_dist_cyclic%split_size = split_size
-      new_dbcsr_r_dist_cyclic%nprowcol = nprowcol
-      new_dbcsr_r_dist_cyclic%nmrowcol = nmrowcol
+      new_dbcsr_tas_dist_cyclic%split_size = split_size
+      new_dbcsr_tas_dist_cyclic%nprowcol = nprowcol
+      new_dbcsr_tas_dist_cyclic%nmrowcol = nmrowcol
    END FUNCTION
 
 ! **************************************************************************************************
@@ -363,16 +363,16 @@ CONTAINS
 !> \param nmrowcol ...
 !> \return ...
 ! **************************************************************************************************
-   FUNCTION new_dbcsr_r_dist_arb(dist_vec, nprowcol, nmrowcol)
+   FUNCTION new_dbcsr_tas_dist_arb(dist_vec, nprowcol, nmrowcol)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: dist_vec
       INTEGER, INTENT(IN)                                :: nprowcol
       INTEGER(KIND=int_8), INTENT(IN)                    :: nmrowcol
-      TYPE(dbcsr_r_dist_arb)                             :: new_dbcsr_r_dist_arb
+      TYPE(dbcsr_tas_dist_arb)                             :: new_dbcsr_tas_dist_arb
 
-      ALLOCATE (new_dbcsr_r_dist_arb%dist_vec(nmrowcol))
-      new_dbcsr_r_dist_arb%dist_vec(:) = dist_vec(:)
-      new_dbcsr_r_dist_arb%nprowcol = nprowcol
-      new_dbcsr_r_dist_arb%nmrowcol = nmrowcol
+      ALLOCATE (new_dbcsr_tas_dist_arb%dist_vec(nmrowcol))
+      new_dbcsr_tas_dist_arb%dist_vec(:) = dist_vec(:)
+      new_dbcsr_tas_dist_arb%nprowcol = nprowcol
+      new_dbcsr_tas_dist_arb%nmrowcol = nmrowcol
    END FUNCTION
 
 ! **************************************************************************************************
@@ -385,11 +385,11 @@ CONTAINS
 !> \param block_sizes ...
 !> \return ...
 ! **************************************************************************************************
-   FUNCTION dbcsr_r_dist_arb_default(nprowcol, nmrowcol, block_sizes)
+   FUNCTION dbcsr_tas_dist_arb_default(nprowcol, nmrowcol, block_sizes)
       INTEGER                           :: nprowcol
       INTEGER(KIND=int_8), INTENT(IN)   :: nmrowcol
-      CLASS(dbcsr_r_rowcol_data), INTENT(IN) :: block_sizes
-      TYPE(dbcsr_r_dist_arb)            :: dbcsr_r_dist_arb_default
+      CLASS(dbcsr_tas_rowcol_data), INTENT(IN) :: block_sizes
+      TYPE(dbcsr_tas_dist_arb)            :: dbcsr_tas_dist_arb_default
       INTEGER, DIMENSION(nmrowcol) :: dist_vec, bsize_vec
       INTEGER(KIND=int_8) :: ind
 
@@ -398,7 +398,7 @@ CONTAINS
       ENDDO
 
       CALL cyclic_weighted_dist(INT(nmrowcol), nprowcol, bsize_vec, dist_vec)
-      dbcsr_r_dist_arb_default = dbcsr_r_dist_arb(dist_vec, nprowcol, nmrowcol)
+      dbcsr_tas_dist_arb_default = dbcsr_tas_dist_arb(dist_vec, nprowcol, nmrowcol)
    CONTAINS
 ! **************************************************************************************************
 !> \brief ...
@@ -443,18 +443,18 @@ CONTAINS
 !> \param dist_size ...
 !> \return ...
 ! **************************************************************************************************
-   FUNCTION new_dbcsr_r_dist_repl(dist_vec, nprowcol, nmrowcol, n_repl, dist_size)
+   FUNCTION new_dbcsr_tas_dist_repl(dist_vec, nprowcol, nmrowcol, n_repl, dist_size)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: dist_vec
       INTEGER, INTENT(IN)                                :: nprowcol, nmrowcol, n_repl, dist_size
-      TYPE(dbcsr_r_dist_repl)                            :: new_dbcsr_r_dist_repl
+      TYPE(dbcsr_tas_dist_repl)                            :: new_dbcsr_tas_dist_repl
 
-      new_dbcsr_r_dist_repl%n_repl = n_repl
-      new_dbcsr_r_dist_repl%dist_size = dist_size
-      ALLOCATE (new_dbcsr_r_dist_repl%dist_vec(nmrowcol))
-      new_dbcsr_r_dist_repl%dist_vec(:) = MOD(dist_vec(:), dist_size)
-      new_dbcsr_r_dist_repl%nprowcol = nprowcol
-      new_dbcsr_r_dist_repl%nmrowcol_local = nmrowcol
-      new_dbcsr_r_dist_repl%nmrowcol = nmrowcol*n_repl
+      new_dbcsr_tas_dist_repl%n_repl = n_repl
+      new_dbcsr_tas_dist_repl%dist_size = dist_size
+      ALLOCATE (new_dbcsr_tas_dist_repl%dist_vec(nmrowcol))
+      new_dbcsr_tas_dist_repl%dist_vec(:) = MOD(dist_vec(:), dist_size)
+      new_dbcsr_tas_dist_repl%nprowcol = nprowcol
+      new_dbcsr_tas_dist_repl%nmrowcol_local = nmrowcol
+      new_dbcsr_tas_dist_repl%nmrowcol = nmrowcol*n_repl
    END FUNCTION
 
 ! **************************************************************************************************
@@ -464,7 +464,7 @@ CONTAINS
 !> \return ...
 ! **************************************************************************************************
    FUNCTION cyclic_dist(t, rowcol)
-      CLASS(dbcsr_r_dist_cyclic), INTENT(IN) :: t
+      CLASS(dbcsr_tas_dist_cyclic), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
       INTEGER :: cyclic_dist
 
@@ -479,7 +479,7 @@ CONTAINS
 !> \return ...
 ! **************************************************************************************************
    FUNCTION cyclic_rowcols(t, dist)
-      CLASS(dbcsr_r_dist_cyclic), INTENT(IN) :: t
+      CLASS(dbcsr_tas_dist_cyclic), INTENT(IN) :: t
       INTEGER, INTENT(IN) :: dist
       INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE :: cyclic_rowcols
       INTEGER :: count, nsplit, isplit, irowcol, max_size
