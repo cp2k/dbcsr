@@ -90,6 +90,7 @@ jobs:  # the following jobs inherit only the first OS
     - make test
     - bash <(curl -s https://codecov.io/bash)
   - name: "Run pre-commit hook on changed files"
+    if: tag IS NOT present
     script:
     - set -o pipefail
       # fetch remotes first to ensure that referenced branches (other than the default) are available
