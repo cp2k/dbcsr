@@ -100,6 +100,7 @@ jobs:  # the following jobs inherit only the first OS
     - pyenv global 3.6.7 2.7.15
     - git diff --name-only --diff-filter=AM HEAD "origin/${TRAVIS_BRANCH}" | xargs pre-commit run --files
   - name: "Run pre-commit hook 'check-ast' on all files"
+    if: tag IS NOT present
     script:
     - pre-commit run --hook-stage manual --all-files check-ast
   - stage: release
