@@ -7,6 +7,9 @@ project(dbcsr)
 
 include(CMakeDependentOption)
 
+############################################################################
+# OPTIONS DEFINITION:
+
 option(USE_MPI "Build with MPI support" ON)
 option(USE_OPENMP "Build with OpenMP support" ON)
 cmake_dependent_option(WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "USE_MPI" OFF) # the ISO_C_BINDINGS require MPI unconditionally
@@ -43,6 +46,7 @@ if (USE_CUDA)
 endif ()
 
 
+############################################################################
 # PACKAGE DISCOVERY:
 
 find_package(BLAS REQUIRED)
@@ -84,6 +88,7 @@ if (NOT CMAKE_BUILD_TYPE)
     FORCE)
 endif ()
 
+############################################################################
 # COMPILER CONFIGURATION:
 
 get_filename_component(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
@@ -141,6 +146,15 @@ Please open an issue at https://github.com/cp2k/dbcsr/issues with the reported c
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -g")
 endif ()
 
+# Add OpenMP flags if OpenMP has been found
+if(OPENMP_FOUND)
+  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} ${OpenMP_Fortran_FLAGS}")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif()
+
+############################################################################
 file(STRINGS VERSION VERSION_INFO)
 foreach(line ${VERSION_INFO})
   if (${line} MATCHES "^([^#].*)=[ \t]*(.*)$")
