@@ -7,8 +7,8 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <cuda_runtime.h>
 #include <vector>
 #include <array>
@@ -32,14 +32,17 @@ std::vector<Triplet> combinations(std::vector<int> to_combine){
 }
 
 /****************************************************************************\
- \brief Checks correctness of and measures performance of randomly selected libcusmm multiplication kernels
-\****************************************************************************/
+  \brief Checks correctness of and measures performance of randomly selected
+         libcusmm multiplication kernels.
+  \returns -1 for invalid options, n>0 with n being the number of errors,
+           0 otherwise
+  \****************************************************************************/
 
-int main(int argc, char** argv){
+int main(int argc, char* argv[]){
 
     if(argc < 2){
-      printf("Usage: %s autotuned/predicted\n", argv[0]);
-      return 1;
+        printf("Usage: %s <autotuned|predicted>\n", argv[0]);
+        return -1;
     }
 
     printf("Time kernels: %s\n", argv[1]);
@@ -47,20 +50,20 @@ int main(int argc, char** argv){
     std::vector<Triplet> libcusmm_triplets;
     if(argv[1] == std::string("autotuned")){
 
-      libcusmm_triplets = {
-        [[AUTOTUNED_KERNELS_HERE]]
-      };
+        libcusmm_triplets = {
+            [[AUTOTUNED_KERNELS_HERE]]
+        };
 
     } else if(argv[1] == std::string("predicted")){
 
-      libcusmm_triplets = {
-        [[PREDICTED_KERNELS_HERE]]
-      };
+        libcusmm_triplets = {
+            [[PREDICTED_KERNELS_HERE]]
+        };
 
     } else {
 
         printf("Unrecognized option: %s, exiting ...\n", argv[1]);
-        return 1;
+        return -1;
 
     }
 
@@ -87,5 +90,5 @@ int main(int argc, char** argv){
     }
 
     printf("# Done, found %d errors.\n", errors);
-    return(errors);
+    return errors;
 }
