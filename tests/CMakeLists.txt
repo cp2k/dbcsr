@@ -74,9 +74,13 @@ foreach (dbcsr_test ${DBCSR_TESTS})
 endforeach ()
 
 if (USE_CUDA)
-  set(LIBCUSMM_TESTS
+  set(LIBCUSMM_SIMPLE_TESTS
     libcusmm_unittest_multiply
     libcusmm_unittest_transpose
+    )
+
+  set(LIBCUSMM_TESTS_BUILD
+    ${LIBCUSMM_SIMPLE_TESTS}
     libcusmm_timer_multiply
     )
 
@@ -94,10 +98,16 @@ if (USE_CUDA)
     COMMENT "Generate tests/libcusmm_timer_multiply.cu"
   )
 
-  foreach (libcusmm_test ${LIBCUSMM_TESTS})
+  foreach (libcusmm_test ${LIBCUSMM_TESTS_BUILD})
     add_executable(${libcusmm_test} ${CMAKE_CURRENT_SOURCE_DIR}/${libcusmm_test}.cu)
     target_link_libraries(${libcusmm_test} dbcsr)
+  endforeach ()
+
+  foreach (libcusmm_test ${LIBCUSMM_SIMPLE_TESTS})
     add_test(NAME ${libcusmm_test} COMMAND ./${libcusmm_test})
   endforeach ()
 
+  # tests needing additional arguments:
+  add_test(NAME libcusmm_timer_multiply-autotuned COMMAND ./libcusmm_timer_multiply autotuned)
+  add_test(NAME libcusmm_timer_multiply-predicted COMMAND ./libcusmm_timer_multiply predicted)
 endif ()
