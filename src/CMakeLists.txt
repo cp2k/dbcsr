@@ -116,18 +116,39 @@ if (BLAS_LIBRARIES MATCHES "mkl_")
   target_compile_definitions(dbcsr PRIVATE __MKL)
 endif ()
 
-# from https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html
+# adapted from https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html:
+# replaces in the Fortran and CXX targets the interface compile options by a more differentiated version
+# for Fortran, CXX and CUDA, where the CXX and CUDA options are taken from the CXX target
 function(CUDA_CONVERT_FLAGS EXISTING_TARGET)
-    get_property(old_flags TARGET ${EXISTING_TARGET} PROPERTY INTERFACE_COMPILE_OPTIONS)
-    if(NOT "${old_flags}" STREQUAL "")
-        string(REPLACE ";" "," CUDA_flags "${old_flags}")
-        set_property(TARGET ${EXISTING_TARGET} PROPERTY INTERFACE_COMPILE_OPTIONS
-            "$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CXX>>:${old_flags}>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CUDA>>:-Xcompiler=${CUDA_flags}>"
-            )
-    endif()
+    get_property(old_fflags TARGET ${EXISTING_TARGET}_Fortran PROPERTY INTERFACE_COMPILE_OPTIONS)
+    get_property(old_cxxflags TARGET ${EXISTING_TARGET}_CXX PROPERTY INTERFACE_COMPILE_OPTIONS)
+
+    string(REPLACE ";" "," CUDA_flags "${old_cxxflags}")
+    if (NOT "${CUDA_flags}" STREQUAL "")
+        set(CUDA_flags "-Xcompiler=${CUDA_flags}")
+    endif ()
+
+    set_property(TARGET ${EXISTING_TARGET}_Fortran PROPERTY INTERFACE_COMPILE_OPTIONS
+        "$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:Fortran>>:${old_fflags}>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CXX>>:${old_cxxflags}>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CUDA>>:${CUDA_flags}>"
+        )
+    set_property(TARGET ${EXISTING_TARGET}_CXX PROPERTY INTERFACE_COMPILE_OPTIONS
+        "$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:Fortran>>:${old_fflags}>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CXX>>:${old_cxxflags}>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CUDA>>:${CUDA_flags}>"
+        )
 endfunction()
 
 if (USE_CUDA)
+  if (${CMAKE_VERSION} VERSION_LESS 3.13)
+      # workaround for CUDA support with CMake <3.13, see also
+      # see https://gitlab.kitware.com/cmake/cmake/issues/17929
+      # and https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html
+      if (OpenMP_FOUND)
+        cuda_convert_flags(OpenMP::OpenMP)
+      endif ()
+      if (MPI_FOUND)
+        cuda_convert_flags(MPI::MPI)
+      endif ()
+  endif ()
+
   target_link_libraries(dbcsr PRIVATE cuda)
 
   # add libcusmm which has its own CMakeLists.txt due to code generation
@@ -143,16 +164,6 @@ if (USE_CUDA)
   target_include_directories(dbcsr PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc/libcusmm>
     )
-
-  # workaround for CUDA support with CMake <3.13, see also
-  # see https://gitlab.kitware.com/cmake/cmake/issues/17929
-  # and https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html
-  if (OpenMP_FOUND)
-    cuda_convert_flags(OpenMP::OpenMP_Fortran)
-  endif ()
-  if (MPI_FOUND)
-    cuda_convert_flags(MPI::MPI_Fortran)
-  endif ()
 
   if (USE_CUBLAS)
     target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC=2)
