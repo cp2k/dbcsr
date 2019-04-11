@@ -13,6 +13,7 @@ cmake_dependent_option(WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "USE_MPI
 cmake_dependent_option(WITH_EXAMPLES "Build the examples" ON "USE_MPI" OFF) # all examples require MPI
 
 set(TEST_MPI_RANKS "auto" CACHE STRING "Number of MPI ranks for testing")
+set(TEST_OMP_THREADS 2 CACHE STRING "Number of OpenMP threads for testing")
 
 set(USE_SMM "blas" CACHE STRING "Small Matrix Multiplication implementation to use (default: blas)")
 set_property(CACHE USE_SMM PROPERTY STRINGS blas libxsmm)

@@ -1,14 +1,13 @@
 
-set(num_threads 2)
 if (USE_MPI)
   if (TEST_MPI_RANKS STREQUAL "auto")
     include(ProcessorCount)
     ProcessorCount(nproc)
-    math(EXPR num_ranks "(${nproc}+1)/2")  # get half the number of procs (rounded up)
+    math(EXPR num_ranks "(${nproc}+${TEST_OMP_THREADS}-1)/${TEST_OMP_THREADS}")  # get 1/$TEST_OMP_THREADS the number of procs (rounded up)
   else ()
     set(num_ranks ${TEST_MPI_RANKS})
   endif ()
-  message("Tests will run with ${num_ranks} MPI ranks and ${num_threads} threads each")
+  message("Tests will run with ${num_ranks} MPI ranks and ${TEST_OMP_THREADS} OpenMP threads each")
 endif ()
 
 set(DBCSR_PERF_SRCS
@@ -28,7 +27,7 @@ foreach (dbcsr_perf_test ${DBCSR_PERF_TESTS})
   else ()
     add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND ./dbcsr_perf "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
   endif ()
-  set_tests_properties(dbcsr_perf:${dbcsr_perf_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${num_threads})
+  set_tests_properties(dbcsr_perf:${dbcsr_perf_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${TEST_OMP_THREADS})
 endforeach ()
 
 # Define all the tests here, will be used as the executable name
