@@ -8,25 +8,25 @@
 ! **************************************************************************************************
 
 PROGRAM dbcsr_tas_unittest
-   USE dbcsr_api,                       ONLY: dbcsr_finalize_lib,&
-                                              dbcsr_init_lib
-   USE dbcsr_tas_base,          ONLY: dbcsr_tas_destroy,&
-                                              dbcsr_tas_info,&
-                                              dbcsr_tas_nblkcols_total,&
-                                              dbcsr_tas_nblkrows_total,&
-                                              dbcsr_tas_create
-   USE dbcsr_tas_types,         ONLY: dbcsr_tas_type
-   USE dbcsr_tas_test,          ONLY: dbcsr_tas_random_bsizes,&
-                                              dbcsr_tas_setup_test_matrix, &
-                                              dbcsr_tas_test_mm
-   USE dbcsr_kinds,                     ONLY: int_8,&
-                                              real_8
-   USE dbcsr_machine,                   ONLY: default_output_unit
-   USE dbcsr_mpiwrap,                   ONLY: mp_comm_free,&
-                                              mp_environ,&
-                                              mp_world_finalize,&
-                                              mp_world_init
-   USE dbcsr_tas_io,            ONLY: dbcsr_tas_write_split_info
+   USE dbcsr_api, ONLY: dbcsr_finalize_lib, &
+                        dbcsr_init_lib
+   USE dbcsr_tas_base, ONLY: dbcsr_tas_destroy, &
+                             dbcsr_tas_info, &
+                             dbcsr_tas_nblkcols_total, &
+                             dbcsr_tas_nblkrows_total, &
+                             dbcsr_tas_create
+   USE dbcsr_tas_types, ONLY: dbcsr_tas_type
+   USE dbcsr_tas_test, ONLY: dbcsr_tas_random_bsizes, &
+                             dbcsr_tas_setup_test_matrix, &
+                             dbcsr_tas_test_mm
+   USE dbcsr_kinds, ONLY: int_8, &
+                          real_8
+   USE dbcsr_machine, ONLY: default_output_unit
+   USE dbcsr_mpiwrap, ONLY: mp_comm_free, &
+                            mp_environ, &
+                            mp_world_finalize, &
+                            mp_world_init
+   USE dbcsr_tas_io, ONLY: dbcsr_tas_write_split_info
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -80,7 +80,7 @@ PROGRAM dbcsr_tas_unittest
    CALL dbcsr_tas_write_split_info(dbcsr_tas_info(B), "B", io_unit)
    IF (mynode == 0) WRITE (io_unit, '(1X, A, 1X, A, I10, 1X, A, 1X, I10)') "Split info for matrix", &
       TRIM(Bt%matrix%name), dbcsr_tas_nblkrows_total(Bt), 'X', dbcsr_tas_nblkcols_total(Bt)
-   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(Bt), "Bt",io_unit)
+   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(Bt), "Bt", io_unit)
    IF (mynode == 0) WRITE (io_unit, '(1X, A, 1X, A, I10, 1X, A, 1X, I10)') "Split info for matrix", &
       TRIM(C%matrix%name), dbcsr_tas_nblkrows_total(C), 'X', dbcsr_tas_nblkcols_total(C)
    CALL dbcsr_tas_write_split_info(dbcsr_tas_info(C), "C", io_unit)

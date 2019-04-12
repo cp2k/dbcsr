@@ -145,7 +145,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                  :: summation, move_data
       INTEGER, INTENT(IN), OPTIONAL                  :: unit_nr
 
-      TYPE(dbcsr_t_type), POINTER                    :: in_tmp_1, in_tmp_2, out_tmp_1
+      TYPE(dbcsr_t_type), POINTER                    :: in_tmp_1 => NULL(), in_tmp_2 => NULL(), out_tmp_1 => NULL()
       INTEGER                                        :: handle
       INTEGER, DIMENSION(:), ALLOCATABLE             :: map1_in_1, map1_in_2, map2_in_1, map2_in_2
 
@@ -189,10 +189,8 @@ CONTAINS
       IF (.NOT. block_compatible) THEN
          ALLOCATE (in_tmp_2, out_tmp_1)
          new_in_2 = .TRUE.; new_out_1 = .TRUE.
-         !IF (.NOT. summation_prv) THEN
          CALL dbcsr_t_make_compatible_blocks(in_tmp_1, tensor_out, in_tmp_2, out_tmp_1, &
                                              nodata2=.NOT. summation_prv, move_data=move_data)
-         !ENDIF
       ELSE
          in_tmp_2 => in_tmp_1
          out_tmp_1 => tensor_out
@@ -250,7 +248,7 @@ CONTAINS
 
       INTEGER, DIMENSION(2)                              :: ind_2d
       REAL(KIND=real_8), ALLOCATABLE, DIMENSION(:, :)    :: block_arr
-      REAL(KIND=real_8), DIMENSION(:, :), POINTER        :: block
+      REAL(KIND=real_8), DIMENSION(:, :), POINTER        :: block => NULL()
       TYPE(dbcsr_iterator_type)                          :: iter
 
       INTEGER                                            :: handle
@@ -501,6 +499,7 @@ CONTAINS
          IF (PRESENT(unit_nr)) THEN
             IF (unit_nr > 0) THEN
                WRITE (unit_nr, '(T2,A)') "large tensors: 1, 3; small tensor: 2"
+               WRITE (unit_nr, '(T2,A)') "sorting contraction indices"
             ENDIF
          ENDIF
          CALL index_linked_sort(contract_1_mod, contract_2_mod)
@@ -589,7 +588,6 @@ CONTAINS
          IF (new_1) CALL dbcsr_t_write_tensor_dist(tensor_contr_1, unit_nr)
          IF (new_2) CALL dbcsr_t_write_tensor_info(tensor_contr_2, unit_nr, full_info=log_verbose)
          IF (new_2) CALL dbcsr_t_write_tensor_dist(tensor_contr_2, unit_nr)
-         !CALL dbcsr_t_write_tensor_dist(tensor_contr_3, unit_nr)
       ENDIF
 
       CALL dbcsr_tas_multiply(trans_1, trans_2, trans_3, alpha, &
@@ -843,7 +841,7 @@ CONTAINS
                   ALLOCATE (tensor1_out)
                   CALL dbcsr_t_remap(tensor1, ind1_linked, ind1_free, tensor1_out, comm_2d=dist_in%pgrid%mp_comm_2d, &
                                      dist1=dist_list, mp_dims_1=mp_dims, nodata=nodata1, move_data=move_data)
-               ELSEIF (compat1 == 2) THEN
+               ELSEIF (compat2 == 2) THEN
                   CALL get_mapping_info(dist_in%pgrid%nd_index_grid, dims2_2d=mp_dims)
                   ALLOCATE (tensor1_out)
                   CALL dbcsr_t_remap(tensor1, ind1_free, ind1_linked, tensor1_out, comm_2d=dist_in%pgrid%mp_comm_2d, &
@@ -919,7 +917,7 @@ CONTAINS
       SUBROUTINE reshape_mm_small(tensor_in, ind1, ind2, tensor_out, trans, new, nodata, move_data, unit_nr)
          TYPE(dbcsr_t_type), TARGET, INTENT(INOUT)   :: tensor_in
          INTEGER, DIMENSION(:), INTENT(IN)           :: ind1, ind2
-         TYPE(dbcsr_t_type), POINTER, INTENT(OUT)    :: tensor_out
+         TYPE(dbcsr_t_type), POINTER, INTENT(OUT)    :: tensor_out => NULL()
          CHARACTER(LEN=1), INTENT(OUT)               :: trans
          LOGICAL, INTENT(OUT)                        :: new
          LOGICAL, INTENT(IN), OPTIONAL               :: nodata, move_data
@@ -956,6 +954,8 @@ CONTAINS
          IF (compat1 == 0 .or. compat2 == 0) THEN ! index mapping not compatible with contract index
 
             IF (io_unit > 0) WRITE (unit_nr, '(T2,A,1X,A)') "Redistribution of", TRIM(tensor_in%name)
+
+            ALLOCATE (tensor_out)
             CALL dbcsr_t_remap(tensor_in, ind1, ind2, tensor_out, nodata=nodata, move_data=move_data)
             compat1 = 1
             compat2 = 2

@@ -605,7 +605,7 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_distribution_hold(dist)
       TYPE(dbcsr_t_distribution_type), INTENT(IN) :: dist
-      INTEGER, POINTER                            :: ref
+      INTEGER, POINTER                            :: ref => NULL()
 
       IF (dist%refcount < 1) THEN
          DBCSR_ABORT("can not hold non-existing tensor distribution")
@@ -751,7 +751,7 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_hold(tensor)
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
-      INTEGER, POINTER :: ref
+      INTEGER, POINTER :: ref => NULL()
 
       IF (tensor%refcount < 1) THEN
          DBCSR_ABORT("can not hold non-existing tensor")
@@ -827,8 +827,8 @@ CONTAINS
       INTEGER                                     :: comm_2d, data_type
       TYPE(dbcsr_distribution_type)                :: matrix_dist
       TYPE(dbcsr_t_distribution_type)             :: dist
-      INTEGER, DIMENSION(:), POINTER              :: row_blk_size, col_blk_size
-      INTEGER, DIMENSION(:), POINTER              :: col_dist, row_dist
+      INTEGER, DIMENSION(:), POINTER              :: row_blk_size => NULL(), col_blk_size => NULL()
+      INTEGER, DIMENSION(:), POINTER              :: col_dist => NULL(), row_dist => NULL()
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_create_matrix', &
                                      routineP = moduleN//':'//routineN

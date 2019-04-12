@@ -195,7 +195,7 @@ CONTAINS
 
       TYPE(dbcsr_tas_create_split_info)                       :: info
 
-      INTEGER, DIMENSION(:), POINTER                 :: row_blk_size_vec, col_blk_size_vec
+      INTEGER, DIMENSION(:), POINTER                 :: row_blk_size_vec => NULL(), col_blk_size_vec => NULL()
       INTEGER                                        :: nrows, ncols, irow, col, icol, row
       CHARACTER(LEN=*), PARAMETER                    :: routineN = 'dbcsr_tas_create_new', &
                                                         routineP = moduleN//':'//routineN
@@ -418,8 +418,8 @@ CONTAINS
 
       TYPE(dbcsr_tas_create_split_info)                           :: split_info_prv
 
-      INTEGER, DIMENSION(:), POINTER :: row_dist_vec
-      INTEGER, DIMENSION(:), POINTER ::col_dist_vec
+      INTEGER, DIMENSION(:), POINTER :: row_dist_vec => NULL()
+      INTEGER, DIMENSION(:), POINTER :: col_dist_vec => NULL()
       TYPE(dbcsr_mp_obj) :: mp_environ_tmp
       INTEGER :: nrows, ncols, irow, col, icol, row
 
@@ -568,8 +568,8 @@ CONTAINS
 
       INTEGER                                            :: handle
       INTEGER(KIND=int_8)                                :: col, row
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_vec, col_size_vec, &
-                                                            row_dist_vec, row_size_vec
+      INTEGER, DIMENSION(:), POINTER                     :: col_dist_vec => NULL(), col_size_vec => NULL(), &
+                                                            row_dist_vec => NULL(), row_size_vec => NULL()
       LOGICAL                                            :: tr
       TYPE(dbcsr_data_obj)                               :: block
       TYPE(dbcsr_distribution_obj)                       :: dist
@@ -663,7 +663,7 @@ CONTAINS
       INTEGER                                            :: col, data_type, handle, numnodes, row
       INTEGER(KIND=int_8)                                :: nbcols, nbrows
       INTEGER, DIMENSION(2)                              :: pcoord, pdims
-      INTEGER, DIMENSION(:), POINTER                     :: col_blk_size, row_blk_size
+      INTEGER, DIMENSION(:), POINTER                     :: col_blk_size => NULL(), row_blk_size => NULL()
       LOGICAL                                            :: tr
       TYPE(dbcsr_data_obj)                               :: block
       TYPE(dbcsr_distribution_obj)                       :: dbcsr_dist
@@ -1219,7 +1219,7 @@ CONTAINS
       TYPE(dbcsr_tas_create_split_info)                                        :: info
       INTEGER                                                         :: numnodes, irow, icol
       INTEGER, DIMENSION(2)                                           :: pdims, pcoord
-      INTEGER, DIMENSION(:), POINTER                                  :: local_rows_local, local_cols_local
+      INTEGER, DIMENSION(:), POINTER                                  :: local_rows_local => NULL(), local_cols_local => NULL()
 
       CALL dbcsr_get_info(matrix%matrix, nblkrows_local=nblkrows_local, nblkcols_local=nblkcols_local, &
                           nfullrows_local=nfullrows_local, nfullcols_local=nfullcols_local, &

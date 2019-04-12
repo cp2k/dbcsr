@@ -310,8 +310,8 @@ CONTAINS
 
       INTEGER                                            :: data_type, nblkcols, nblkrows
       INTEGER, DIMENSION(2)                              :: pcoord, pdims
-      INTEGER, DIMENSION(:), POINTER                     :: col_blk_size, col_dist, row_blk_size, &
-                                                            row_dist
+      INTEGER, DIMENSION(:), POINTER                     :: col_blk_size => NULL(), col_dist => NULL(), &
+                                                            row_blk_size => NULL(), row_dist => NULL()
       TYPE(dbcsr_distribution_obj)                       :: dbcsr_dist
       TYPE(dbcsr_tas_dist_arb), TARGET                     :: dir_dist
       TYPE(dbcsr_tas_dist_repl), TARGET                    :: repl_dist
@@ -750,7 +750,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL :: transposed
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-      ${dtype}$, DIMENSION(:, :), POINTER :: block_${dsuffix}$
+      ${dtype}$, DIMENSION(:, :), POINTER :: block_${dsuffix}$ => NULL()
 #:endfor
 
       SELECT CASE (buffer%data_type)
@@ -780,7 +780,7 @@ CONTAINS
       LOGICAL :: valid
       INTEGER, DIMENSION(2) :: sizes
 #:for dparam, dtype, dsuffix in dtype_float_list
-      ${dtype}$, DIMENSION(:, :), POINTER :: data_${dsuffix}$
+      ${dtype}$, DIMENSION(:, :), POINTER :: data_${dsuffix}$ => NULL()
 #:endfor
       INTEGER :: handle
 

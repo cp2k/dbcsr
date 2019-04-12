@@ -326,7 +326,8 @@ CONTAINS
       ENDDO
 
 #:for ndim in ndims
-      IF (ndims_tensor(tensor_in) == ${ndim}$) CALL dbcsr_t_split_blocks_generic(tensor_in, tensor_out, ${varlist("nd_blk_size_split", nmax=ndim)}$, &
+      IF (ndims_tensor(tensor_in) == ${ndim}$) CALL dbcsr_t_split_blocks_generic(tensor_in, tensor_out, &
+                                                                                 ${varlist("nd_blk_size_split", nmax=ndim)}$, &
                                                                                  nodata=nodata)
 #:endfor
 

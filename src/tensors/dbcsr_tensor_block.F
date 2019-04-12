@@ -798,7 +798,7 @@ CONTAINS
 
       INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
-      ${dtype}$, DIMENSION(:, :), POINTER                    :: block_2d_ptr
+      ${dtype}$, DIMENSION(:, :), POINTER                    :: block_2d_ptr => NULL()
       ${dtype}$, DIMENSION(:, :), ALLOCATABLE                :: block_2d
       TYPE(nd_to_2d_mapping)                                :: map_blk
       LOGICAL                                               :: tr

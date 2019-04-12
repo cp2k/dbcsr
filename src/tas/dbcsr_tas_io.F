@@ -121,7 +121,7 @@ CONTAINS
       INTEGER, DIMENSION(2)            :: tmp
       INTEGER(KIND=int_8)              :: nblock_tot, nblock_p_sum, nelement_p_sum
       REAL(KIND=real_8)                :: occupation
-      INTEGER, DIMENSION(:), POINTER   :: rowdist, coldist
+      INTEGER, DIMENSION(:), POINTER   :: rowdist => NULL(), coldist => NULL()
       INTEGER                          :: split_rowcol, icol, irow
 
       CALL dbcsr_tas_get_info(matrix, name=name)
