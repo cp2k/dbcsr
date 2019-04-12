@@ -23,6 +23,7 @@ file(GLOB DBCSR_PERF_TESTS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 
 foreach (dbcsr_perf_test ${DBCSR_PERF_TESTS})
   if (USE_MPI)
+    separate_arguments(MPIEXEC_PREFLAGS)
     add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ./dbcsr_perf ${MPIEXEC_POSTFLAGS} "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
   else ()
     add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND ./dbcsr_perf "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
@@ -66,6 +67,7 @@ foreach (dbcsr_test ${DBCSR_TESTS})
   target_link_libraries(${dbcsr_test} dbcsr_unittest_common)
   # register unittest executable with CMake
   if (USE_MPI)
+    separate_arguments(MPIEXEC_PREFLAGS)
     add_test(NAME ${dbcsr_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ./${dbcsr_test} ${MPIEXEC_POSTFLAGS})
   else ()
     add_test(NAME ${dbcsr_test} COMMAND ./${dbcsr_test})
