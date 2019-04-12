@@ -72,13 +72,24 @@ add_fypp_sources(DBCSR_SRCS
   ops/dbcsr_test_methods.F
   ops/dbcsr_tests.F
   ops/dbcsr_transformations.F
+  tas/dbcsr_tas_base.F
+  tas/dbcsr_tas_global.F
+  tas/dbcsr_tas_io.F
+  tas/dbcsr_tas_mm.F
+  tas/dbcsr_tas_reshape_ops.F
+  tas/dbcsr_tas_split.F
+  tas/dbcsr_tas_test.F
+  tas/dbcsr_tas_types.F
+  tas/dbcsr_tas_util.F
   tensors/dbcsr_allocate_wrap.F
   tensors/dbcsr_array_list_methods.F
   tensors/dbcsr_tensor_api.F
   tensors/dbcsr_tensor_block.F
   tensors/dbcsr_tensor.F
   tensors/dbcsr_tensor_index.F
+  tensors/dbcsr_tensor_io.F
   tensors/dbcsr_tensor_reshape.F
+  tensors/dbcsr_tensor_split.F
   tensors/dbcsr_tensor_test.F
   tensors/dbcsr_tensor_types.F
   utils/dbcsr_array_sort.F

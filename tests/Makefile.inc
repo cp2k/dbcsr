@@ -1,6 +1,5 @@
 # Add unit tests to be executed by test target in Makefile
-UNITTESTS = dbcsr_unittest1 dbcsr_unittest2 dbcsr_unittest3 dbcsr_tensor_unittest dbcsr_test_csr_conversions
-
+UNITTESTS = dbcsr_unittest1 dbcsr_unittest2 dbcsr_unittest3 dbcsr_tensor_unittest dbcsr_test_csr_conversions dbcsr_tas_unittest
 # Input tests for the dbcsr_performance_driver
 PERFTESTS = $(wildcard $(TESTSDIR)/inputs/*.perf)
 
@@ -18,6 +17,9 @@ dbcsr_unittest3: BIN_DEPS = dbcsr_test_multiply.o
 
 SRC_TESTS += dbcsr_tensor_unittest.F
 dbcsr_tensor_unittest: BIN_DEPS =
+
+SRC_TESTS += dbcsr_tas_unittest.F
+dbcsr_tas_unittest: BIN_DEPS =
 
 ifneq ($(NVCC),)
 UNITTESTS += libcusmm_unittest_multiply libcusmm_unittest_transpose libcusmm_timer_multiply

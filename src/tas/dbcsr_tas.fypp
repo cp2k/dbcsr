@@ -1,0 +1,33 @@
+#!--------------------------------------------------------------------------------------------------!
+#! Copyright (C) by the DBCSR developers group - All rights reserved                                !
+#! This file is part of the DBCSR library.                                                          !
+#!                                                                                                  !
+#! For information on the license, see the LICENSE file.                                            !
+#! For further information please visit https://dbcsr.cp2k.org                                      !
+#! SPDX-License-Identifier: GPL-2.0+                                                                !
+#!--------------------------------------------------------------------------------------------------!
+#:mute
+
+#! datatypes
+#:set dtype_float_prec = ['real_8', 'real_4', 'real_8', 'real_4']
+#:set dtype_float_type = ['REAL(kind=real_8)', 'REAL(kind=real_4)', 'COMPLEX(kind=real_8)', 'COMPLEX(kind=real_4)']
+#:set dtype_float_suffix = ['r_dp', 'r_sp', 'c_dp', 'c_sp']
+#:set dtype_float_suffix_dbcsr = ['d', 's', 'z', 'c']
+#:set dtype_float_param = ['dbcsr_type_real_8', 'dbcsr_type_real_4', 'dbcsr_type_complex_8', 'dbcsr_type_complex_4']
+
+#:set dtype_int_type = ['INTEGER']
+#:set dtype_int_suffix = ['i']
+#:set dtype_int_param = ['dbcsr_type_int_4']
+
+#:set dtype_all_type = dtype_float_type + dtype_int_type
+#:set dtype_all_suffix = dtype_float_suffix + dtype_int_suffix
+#:set dtype_all_param = dtype_float_param + dtype_int_param
+
+#:set dtype_float_list = list(zip(dtype_float_param, dtype_float_type, dtype_float_suffix))
+#:set dtype_float_list_prec = list(zip(dtype_float_prec, dtype_float_param, dtype_float_type, dtype_float_suffix))
+#:set dtype_float_list_dbcsr = list(zip(dtype_float_param, dtype_float_type, dtype_float_suffix, dtype_float_suffix_dbcsr))
+
+#:set dtype_int_list = list(zip(dtype_int_param, dtype_int_type, dtype_int_suffix))
+#:set dtype_all_list = list(zip(dtype_all_param, dtype_all_type, dtype_all_suffix))
+
+#:endmute
