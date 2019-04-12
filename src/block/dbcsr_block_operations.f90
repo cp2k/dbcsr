@@ -37,12 +37,12 @@
      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
 #endif
      ${type1}$, DIMENSION(:), &
-        INTENT(INOUT)                          :: dst
+        INTENT(INOUT)                         :: dst
      INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
      INTEGER, INTENT(IN)                      :: src_offset, dst_offset
      LOGICAL, INTENT(IN)                      :: dst_tr
      ${type1}$, DIMENSION(:), &
-        INTENT(IN)                             :: src
+        INTENT(IN)                            :: src
      INTEGER, INTENT(IN)                      :: src_rs, src_cs
      LOGICAL, INTENT(IN)                      :: src_tr
      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
@@ -69,31 +69,19 @@
         END DO
 #endif
      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
-#if defined(__LIBXSMM_BLOCKOPS)
-        CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
-                            libxsmm_ptr0(src(src_offset + src_r_lb + (src_c_lb - 1)*src_rs)), &
-                            ${typesize1[n]}$, nrow, ncol, src_rs, dst_cs)
-#else
         DO col = 0, ncol - 1
            DO row = 0, nrow - 1
               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
            END DO
         END DO
-#endif
      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
-#if defined(__LIBXSMM_BLOCKOPS)
-        CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
-                            libxsmm_ptr0(src(src_offset + src_c_lb + (src_r_lb - 1)*src_cs)), &
-                            ${typesize1[n]}$, nrow, ncol, src_cs, dst_rs)
-#else
         DO col = 0, ncol - 1
            DO row = 0, nrow - 1
               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
            END DO
         END DO
-#endif
      ELSE
         DBCSR_ASSERT(dst_tr .AND. src_tr)
 #if defined(__LIBXSMM_BLOCKOPS)
@@ -136,12 +124,12 @@
      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
 #endif
      ${type1}$, DIMENSION(:), &
-        INTENT(INOUT)                          :: dst
+        INTENT(INOUT)                         :: dst
      INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
      INTEGER, INTENT(IN)                      :: dst_offset
      LOGICAL, INTENT(IN)                      :: dst_tr
      ${type1}$, DIMENSION(:, :), &
-        INTENT(IN)                             :: src
+        INTENT(IN)                            :: src
      LOGICAL, INTENT(IN)                      :: src_tr
      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                  src_c_lb, nrow, ncol
@@ -235,11 +223,11 @@
      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
 #endif
      ${type1}$, DIMENSION(:, :), &
-        INTENT(INOUT)                          :: dst
+        INTENT(INOUT)                         :: dst
      INTEGER, INTENT(IN)                      :: src_offset
      LOGICAL, INTENT(IN)                      :: dst_tr
      ${type1}$, DIMENSION(:), &
-        INTENT(IN)                             :: src
+        INTENT(IN)                            :: src
      INTEGER, INTENT(IN)                      :: src_rs, src_cs
      LOGICAL, INTENT(IN)                      :: src_tr
      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
@@ -253,58 +241,34 @@
 !    Factors out the 4 combinations to remove branches from the inner loop.
 !    rs is the logical row size so it always remains the leading dimension.
      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
-#if defined(__LIBXSMM_BLOCKOPS)
-        CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_r_lb, dst_c_lb)), &
-                             libxsmm_ptr0(src(src_offset + src_r_lb + (src_c_lb - 1)*src_rs)), &
-                             ${typesize1[n]}$, nrow, ncol, src_rs, SIZE(dst, 1))
-#else
         DO col = 0, ncol - 1
            DO row = 0, nrow - 1
               dst(dst_r_lb + row, dst_c_lb + col) &
                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
            END DO
         END DO
-#endif
      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
-#if defined(__LIBXSMM_BLOCKOPS)
-        CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_c_lb, dst_r_lb)), &
-                            libxsmm_ptr0(src(src_offset + src_r_lb + (src_c_lb - 1)*src_rs)), &
-                            ${typesize1[n]}$, nrow, ncol, src_rs, SIZE(dst, 2))
-#else
         DO col = 0, ncol - 1
            DO row = 0, nrow - 1
               dst(dst_c_lb + col, dst_r_lb + row) &
                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
            END DO
         END DO
-#endif
      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
-#if defined(__LIBXSMM_BLOCKOPS)
-        CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_r_lb, dst_c_lb)), &
-                            libxsmm_ptr0(src(src_offset + src_c_lb + (src_r_lb - 1)*src_cs)), &
-                            ${typesize1[n]}$, nrow, ncol, src_cs, SIZE(dst, 1))
-#else
         DO col = 0, ncol - 1
            DO row = 0, nrow - 1
               dst(dst_r_lb + row, dst_c_lb + col) &
                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
            END DO
         END DO
-#endif
      ELSE
         DBCSR_ASSERT(dst_tr .AND. src_tr)
-#if defined(__LIBXSMM_BLOCKOPS)
-        CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_c_lb, dst_r_lb)), &
-                             libxsmm_ptr0(src(src_offset + src_c_lb + (src_r_lb - 1)*src_cs)), &
-                             ${typesize1[n]}$, nrow, ncol, src_cs, SIZE(dst, 2))
-#else
         DO col = 0, ncol - 1
            DO row = 0, nrow - 1
               dst(dst_c_lb + col, dst_r_lb + row) &
                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
            END DO
         END DO
-#endif
      ENDIF
   END SUBROUTINE block_partial_copy_2d1d_${nametype1}$
 
@@ -329,10 +293,10 @@
      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
 #endif
      ${type1}$, DIMENSION(:, :), &
-        INTENT(INOUT)                          :: dst
+        INTENT(INOUT)                         :: dst
      LOGICAL, INTENT(IN)                      :: dst_tr
      ${type1}$, DIMENSION(:, :), &
-        INTENT(IN)                             :: src
+        INTENT(IN)                            :: src
      LOGICAL, INTENT(IN)                      :: src_tr
      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                  src_c_lb, nrow, ncol
@@ -524,7 +488,7 @@
 #endif
      INTEGER, INTENT(IN) :: rows, columns
      ${type1}$, DIMENSION(columns, rows), INTENT(OUT) :: extent_out
-     ${type1}$, DIMENSION(:), INTENT(IN)             :: extent_in
+     ${type1}$, DIMENSION(:), INTENT(IN)              :: extent_in
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d1d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -549,7 +513,7 @@
   PURE SUBROUTINE block_copy_1d2d_${nametype1}$ (extent_out, extent_in, &
                                                  rows, columns)
      INTEGER, INTENT(IN) :: rows, columns
-     ${type1}$, DIMENSION(:), INTENT(OUT)           :: extent_out
+     ${type1}$, DIMENSION(:), INTENT(OUT)            :: extent_out
      ${type1}$, DIMENSION(rows, columns), INTENT(IN) :: extent_in
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d2d_${nametype1}$', &
@@ -571,7 +535,7 @@
      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
 #endif
      INTEGER, INTENT(IN) :: rows, columns
-     ${type1}$, DIMENSION(:), INTENT(OUT)           :: extent_out
+     ${type1}$, DIMENSION(:), INTENT(OUT)            :: extent_out
      ${type1}$, DIMENSION(rows, columns), INTENT(IN) :: extent_in
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_1d2d_${nametype1}$', &
@@ -640,7 +604,7 @@
   SUBROUTINE dbcsr_data_set_a${nametype1}$ (dst, lb, data_size, src, source_lb)
      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: dst
      INTEGER, INTENT(IN)                      :: lb, data_size
-     ${type1}$, DIMENSION(:), INTENT(IN)        :: src
+     ${type1}$, DIMENSION(:), INTENT(IN)      :: src
      INTEGER, INTENT(IN), OPTIONAL            :: source_lb
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_set_a${nametype1}$', &
                                     routineP = moduleN//':'//routineN
