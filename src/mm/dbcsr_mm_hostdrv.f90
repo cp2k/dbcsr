@@ -159,9 +159,77 @@
 !> \param[out] used_smm        Flag to signal if an efficient kernel was used
 !> \author Ole Schuett
 ! **************************************************************************************************
+#if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
+  SUBROUTINE xsmm_process_mm_batch_${nametype1}$ (stack_descr, params, &
+                                                  stack_size, a_data, b_data, c_data, used_smm)
+#if ${xsmm_supported[n]}$
+     ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
+     USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => ${'LIBXSMM_GEMM_PRECISION_F'+bits1[n]}$, &
+                        libxsmm_gemm => libxsmm_${nametype1}$gemm, &
+                        libxsmm_gemm_batch, &
+                        libxsmm_ptr0
+     REAL(${kind1}$), PARAMETER :: one = 1.0_${kind1}$
+     INTEGER :: sp
+#endif
+     INTEGER, INTENT(IN)                            :: stack_size
+     TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
+     INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
+        INTENT(IN)                                  :: params
+     ${type1}$, DIMENSION(*), TARGET, INTENT(IN)    :: a_data, b_data
+     ${type1}$, DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
+     LOGICAL, INTENT(OUT)                           :: used_smm
+
+     CHARACTER(len=*), PARAMETER :: routineN = 'xsmm_process_mm_batch_${nametype1}$', &
+                                    routineP = moduleN//':'//routineN
+#if ${xsmm_supported[n]}$
+     IF (stack_descr%defined_mnk) THEN ! homogeneous stack
+        CALL libxsmm_gemm_batch(LIBXSMM_GEMM_PRECISION, LIBXSMM_GEMM_PRECISION, 'N', 'N', &
+                                m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, &
+                                alpha=libxsmm_ptr0(one), a=libxsmm_ptr0(a_data(LBOUND(a_data,1))), &
+                                lda=stack_descr%m, &
+                                b=libxsmm_ptr0(b_data(LBOUND(b_data,1))), &
+                                ldb=stack_descr%k, &
+                                beta=libxsmm_ptr0(one),  c=libxsmm_ptr0(c_data(LBOUND(c_data,1))), &
+                                ldc=stack_descr%m, index_base=1, &
+                                index_stride=KIND(params)*dbcsr_ps_width, &
+                                stride_a=libxsmm_ptr0(params(p_a_first,1)), &
+                                stride_b=libxsmm_ptr0(params(p_b_first,1)), &
+                                stride_c=libxsmm_ptr0(params(p_c_first,1)), &
+                                batchsize=stack_size)
+        used_smm = .TRUE.
+     ELSE ! Dispatch for every (different) matrix
+        DO sp = 1, stack_size
+           CALL libxsmm_gemm(m=params(p_m, sp), n=params(p_n, sp), k=params(p_k, sp), &
+                             a=a_data(params(p_a_first,sp)), &
+                             b=b_data(params(p_b_first,sp)), &
+                             c=c_data(params(p_c_first,sp)), &
+                             alpha=one, beta=one)
+        ENDDO
+        used_smm = .FALSE.
+     ENDIF
+#else
+     MARK_USED(stack_descr)
+     ! We do not want to abort here, fall back to BLAS.
+     CALL blas_process_mm_stack_${nametype1}$ (params, stack_size, a_data, b_data, c_data)
+     used_smm = .FALSE.
+#endif
+  END SUBROUTINE xsmm_process_mm_batch_${nametype1}$
+#endif
+
+! **************************************************************************************************
+!> \brief Processes MM stack and issues libxsmm calls
+!>
+!> \param stack_descr ...
+!> \param[in] params           Stack of MM parameters
+!> \param[in] stack_size       Number of parameters
+!> \param[in] a_data           Left-matrix data
+!> \param[in] b_data           Right-matrix data
+!> \param[in,out] c_data       Product data
+!> \param[out] used_smm        Flag to signal if an efficient kernel was used
+!> \author Ole Schuett
+! **************************************************************************************************
   SUBROUTINE xsmm_process_mm_stack_${nametype1}$ (stack_descr, params, &
                                                   stack_size, a_data, b_data, c_data, used_smm)
-
 #if defined(__LIBXSMM) && ${xsmm_supported[n]}$
      ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
      USE libxsmm, ONLY: libxsmm_function => libxsmm_${nametype1}$mmfunction, &
@@ -175,35 +243,30 @@
                         LIBXSMM_COL_MAJOR, &
                         LIBXSMM_MAX_MNK, &
                         LIBXSMM_FLAGS
-
      INTEGER, PARAMETER :: LIBXSMM_DEFAULT_PREFETCH = LIBXSMM_PREFETCH
      INTEGER, PARAMETER :: LIBXSMM_DEFAULT_FLAGS = LIBXSMM_FLAGS
+     REAL(${kind1}$), PARAMETER :: one = 1.0_${kind1}$
+     REAL(${kind1}$), DIMENSION(:, :), POINTER :: a_ptr, b_ptr, c_ptr
+     INTEGER :: m, n, k, sp, fa, fb, fc
+     LOGICAL :: processed
+     TYPE(libxsmm_function) :: func
+     INTEGER(int_8) :: threshold
+     INTEGER :: pa, pb, pc
 #endif
-
-     INTEGER, INTENT(IN)                       :: stack_size
-     TYPE(stack_descriptor_type), INTENT(IN)   :: stack_descr
+     INTEGER, INTENT(IN)                            :: stack_size
+     TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
      INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
-        INTENT(IN)                              :: params
-     ${type1}$, DIMENSION(*), TARGET, INTENT(IN) :: a_data, b_data
-     ${type1}$, DIMENSION(*), TARGET, &
-        INTENT(INOUT)                           :: c_data
-     LOGICAL, INTENT(OUT)                      :: used_smm
+        INTENT(IN)                                  :: params
+     ${type1}$, DIMENSION(*), TARGET, INTENT(IN)    :: a_data, b_data
+     ${type1}$, DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
+     LOGICAL, INTENT(OUT)                           :: used_smm
 
      CHARACTER(len=*), PARAMETER :: routineN = 'libxsmm_process_mm_stack_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
-
 #if defined(__LIBXSMM) && ${xsmm_supported[n]}$
-     REAL(${kind1}$), PARAMETER                  :: one = 1.0_${kind1}$
-     LOGICAL                                   :: processed
-     INTEGER(int_8)                            :: threshold
-     INTEGER                                   :: fa, fb, fc, m, n, k, pa, pb, pc, sp
-     REAL(${kind1}$), DIMENSION(:, :), POINTER    :: a_ptr, b_ptr, c_ptr
-     TYPE(libxsmm_function)                    :: func
-
+     DBCSR_ASSERT(LIBXSMM_COL_MAJOR /= 0 .AND. LIBXSMM_ROW_MAJOR == 0)
      processed = .FALSE.
      used_smm = .FALSE.
-
-     DBCSR_ASSERT(LIBXSMM_COL_MAJOR /= 0 .AND. LIBXSMM_ROW_MAJOR == 0)
 
      ! check whether the matrix stack is homogeneous or not
      IF (stack_descr%defined_mnk) THEN
@@ -212,11 +275,7 @@
                     INT(stack_descr%k, int_8)
 
         ! check if matrices are too large for LIBXSMM (BLAS is likely more efficient)
-        IF (threshold > LIBXSMM_MAX_MNK) THEN
-           CALL blas_process_mm_stack_${nametype1}$ (params, stack_size, a_data, b_data, c_data)
-           processed = .TRUE.
-
-        ELSE
+        IF (threshold <= LIBXSMM_MAX_MNK) THEN
            ! try to get a function pointer from libxsmm
            CALL libxsmm_dispatch(func, &
                                  m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, alpha=one, beta=one, &
@@ -236,7 +295,7 @@
                  pb = params(p_b_first, sp + 1)
                  pc = params(p_c_first, sp + 1)
 
-                 ! condition evaluates at compile-time (PARAMETERS)
+                 ! condition evaluates at compile-time (PARAMETER)
                  IF (LIBXSMM_DEFAULT_PREFETCH /= LIBXSMM_PREFETCH_NONE) THEN
                     CALL libxsmm_call(func, &
                                       a=a_data(fa), b=b_data(fb), c=c_data(fc), &
@@ -251,7 +310,7 @@
               ! handle last stack entry without out-of-bounds access
               fa = pa; fb = pb; fc = pc
 
-              ! condition evaluates at compile-time (PARAMETERS)
+              ! condition evaluates at compile-time (PARAMETER)
               IF (LIBXSMM_DEFAULT_PREFETCH /= LIBXSMM_PREFETCH_NONE) THEN
                  CALL libxsmm_call(func, &
                                    a=a_data(fa), b=b_data(fb), c=c_data(fc), &
@@ -265,12 +324,16 @@
               processed = .TRUE.
               used_smm = .TRUE.
            ENDIF
+        ELSE
+           CALL blas_process_mm_stack_${nametype1}$ (params, stack_size, a_data, b_data, c_data)
+           processed = .TRUE.
         ENDIF
      ENDIF
 
      IF (.NOT. processed) THEN
         ! Dispatch interface was not used, call regular interface.
-        ! Should only happen for inhomogeneous stacks, then prefetching makes no sense.
+        ! Should only happen for inhomogeneous stacks.
+        ! Counted as used_smm = .FALSE.
         DO sp = 1, stack_size
            m = params(p_m, sp)
            n = params(p_n, sp)
@@ -278,7 +341,7 @@
            fa = params(p_a_first, sp)
            fb = params(p_b_first, sp)
            fc = params(p_c_first, sp)
-           ! somewhat expensive pointer remapping required by libxsmm interface
+           ! somewhat expensive pointer remapping required
            a_ptr(1:m, 1:k) => a_data(fa:fa + (m*k))
            b_ptr(1:k, 1:n) => b_data(fb:fb + (k*n))
            c_ptr(1:m, 1:n) => c_data(fc:fc + (m*n))
@@ -286,14 +349,12 @@
                              alpha=one, beta=one)
         ENDDO
      ENDIF
-
 #else
      MARK_USED(stack_descr)
      ! We do not want to abort here, fall back to BLAS.
      CALL blas_process_mm_stack_${nametype1}$ (params, stack_size, a_data, b_data, c_data)
      used_smm = .FALSE.
 #endif
-
   END SUBROUTINE xsmm_process_mm_stack_${nametype1}$
 
 ! **************************************************************************************************

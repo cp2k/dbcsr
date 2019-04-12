@@ -218,9 +218,23 @@ CONTAINS
          CASE default
             DBCSR_ABORT("Invalid data type")
          END SELECT
-
+#if defined(__LIBXSMM)
       CASE (mm_driver_xsmm)
          SELECT CASE (this%data_area%d%data_type)
+#if TO_VERSION(1, 10, 0) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
+         CASE (dbcsr_type_real_4)
+            CALL xsmm_process_mm_batch_s(stack_descr, params, stack_size, &
+                                         left%data_area%d%r_sp, right%data_area%d%r_sp, this%data_area%d%r_sp, used_smm)
+         CASE (dbcsr_type_real_8)
+            CALL xsmm_process_mm_batch_d(stack_descr, params, stack_size, &
+                                         left%data_area%d%r_dp, right%data_area%d%r_dp, this%data_area%d%r_dp, used_smm)
+         CASE (dbcsr_type_complex_4)
+            CALL xsmm_process_mm_batch_c(stack_descr, params, stack_size, &
+                                         left%data_area%d%c_sp, right%data_area%d%c_sp, this%data_area%d%c_sp, used_smm)
+         CASE (dbcsr_type_complex_8)
+            CALL xsmm_process_mm_batch_z(stack_descr, params, stack_size, &
+                                         left%data_area%d%c_dp, right%data_area%d%c_dp, this%data_area%d%c_dp, used_smm)
+#else
          CASE (dbcsr_type_real_4)
             CALL xsmm_process_mm_stack_s(stack_descr, params, stack_size, &
                                          left%data_area%d%r_sp, right%data_area%d%r_sp, this%data_area%d%r_sp, used_smm)
@@ -233,10 +247,11 @@ CONTAINS
          CASE (dbcsr_type_complex_8)
             CALL xsmm_process_mm_stack_z(stack_descr, params, stack_size, &
                                          left%data_area%d%c_dp, right%data_area%d%c_dp, this%data_area%d%c_dp, used_smm)
+#endif
          CASE default
             DBCSR_ABORT("Invalid data type")
          END SELECT
-
+#endif
       CASE (mm_driver_blas)
          SELECT CASE (this%data_area%d%data_type)
          CASE (dbcsr_type_real_4)
