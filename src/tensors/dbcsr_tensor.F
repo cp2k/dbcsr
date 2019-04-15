@@ -700,7 +700,7 @@ CONTAINS
                                        optimize_dist, unit_nr)
          TYPE(dbcsr_t_type), TARGET, INTENT(INOUT)   :: tensor1
          TYPE(dbcsr_t_type), TARGET, INTENT(INOUT)   :: tensor2
-         TYPE(dbcsr_t_type), POINTER, INTENT(OUT)    :: tensor1_out => NULL(), tensor2_out => NULL()
+         TYPE(dbcsr_t_type), POINTER, INTENT(OUT)    :: tensor1_out, tensor2_out
          INTEGER, DIMENSION(:), INTENT(IN)           :: ind1_free, ind2_free
          INTEGER, DIMENSION(:), INTENT(IN)           :: ind1_linked, ind2_linked
          CHARACTER(LEN=1), INTENT(OUT)               :: trans1, trans2
@@ -716,6 +716,7 @@ CONTAINS
          INTEGER(KIND=int_8)                         :: nblkrows, nblkcols
          LOGICAL                                     :: optimize_dist_prv
 
+         NULLIFY(tensor1_out, tensor2_out)
          IF (PRESENT(unit_nr)) THEN
             io_unit = unit_nr
          ELSE
@@ -917,7 +918,7 @@ CONTAINS
       SUBROUTINE reshape_mm_small(tensor_in, ind1, ind2, tensor_out, trans, new, nodata, move_data, unit_nr)
          TYPE(dbcsr_t_type), TARGET, INTENT(INOUT)   :: tensor_in
          INTEGER, DIMENSION(:), INTENT(IN)           :: ind1, ind2
-         TYPE(dbcsr_t_type), POINTER, INTENT(OUT)    :: tensor_out => NULL()
+         TYPE(dbcsr_t_type), POINTER, INTENT(OUT)    :: tensor_out
          CHARACTER(LEN=1), INTENT(OUT)               :: trans
          LOGICAL, INTENT(OUT)                        :: new
          LOGICAL, INTENT(IN), OPTIONAL               :: nodata, move_data
@@ -925,6 +926,7 @@ CONTAINS
          INTEGER                                     :: compat1, compat2, compat1_old, compat2_old, io_unit
          LOGICAL                                     :: nodata_prv
 
+         NULLIFY(tensor_out)
          IF (PRESENT(nodata)) THEN
             nodata_prv = nodata
          ELSE
