@@ -46,15 +46,21 @@ def main(submit_jobs):
             if len(glob(d + "/*.job")) == 1:
                 print('%20s: Would submit, run with "doit!"' % d)
             elif len(glob(d + "/*.job")) == 0:
-                print('%20s: Cannot find jobfile, delete this folder and re-create with tune_setup.py"' % d)
+                print(
+                    '%20s: Cannot find jobfile, delete this folder and re-create with tune_setup.py"'
+                    % d
+                )
             else:
-                print('%20s: Found multiple jobfiles, delete this folder and re-create with tune_setup.py"' % d)
+                print(
+                    '%20s: Found multiple jobfiles, delete this folder and re-create with tune_setup.py"'
+                    % d
+                )
 
     print("Number of jobs submitted: %d" % n_submits)
 
 
 # ===============================================================================
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""
         Submit autotuning jobs: Each tune-directory contains a job file. Since there might be many tune-directories, the
@@ -65,8 +71,9 @@ if __name__ == '__main__':
         This script is part of the workflow for autotuning optimal libcusmm parameters.
         For more details, see README.md#autotuning-procedure.
         """,
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('doit', metavar="doit!", nargs='?', type=str)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument("doit", metavar="doit!", nargs="?", type=str)
 
     args = parser.parse_args()
     submit_jobs = True if args.doit == "doit!" else False

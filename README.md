@@ -79,4 +79,4 @@ The configuration flags are (default first):
 ## Contributing to DBCSR
 
 Your contribution to the project is welcome! 
-Please see [Contributing.md](https://github.com/cp2k/dbcsr/blob/develop/CONTRIBUTING.md) and this [wiki page](https://github.com/cp2k/dbcsr/wiki/Development). For any help, please notify the other developers.
+Please see [Contributing.md](./CONTRIBUTING.md) and this [wiki page](https://github.com/cp2k/dbcsr/wiki/Development). For any help, please notify the other developers.

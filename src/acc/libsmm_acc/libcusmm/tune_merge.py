@@ -34,7 +34,12 @@ def main(param_fn):
     # Write kernel parameters to new file
     new_file = "parameters.new.json"
     with open(new_file, "w") as f:
-        s = json.dumps([kernels_dict[kernel].as_dict_for_parameters_json for kernel in sorted(kernels_dict.keys())])
+        s = json.dumps(
+            [
+                kernels_dict[kernel].as_dict_for_parameters_json
+                for kernel in sorted(kernels_dict.keys())
+            ]
+        )
         s = s.replace("}, ", "},\n")
         s = s.replace("[", "[\n")
         s = s.replace("]", "\n]")
@@ -44,7 +49,7 @@ def main(param_fn):
 
 
 # ===============================================================================
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""
         Write a new kernel parameter file (parameters.new.json) as a unique merge of an
@@ -56,14 +61,16 @@ if __name__ == '__main__':
         This script is part of the workflow for autotuning optimal libcusmm parameters.
         For more details, see README.md#autotuning-procedure.
         """,
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
         "-p",
         "--params",
         metavar="parameters_GPU.json",
         type=str,
         default="parameters_P100.json",
-        help="parameter file in which to merge the newly obtained autotuned parameters")
+        help="parameter file in which to merge the newly obtained autotuned parameters",
+    )
 
     args = parser.parse_args()
     main(args.params)

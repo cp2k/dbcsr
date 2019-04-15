@@ -13,6 +13,7 @@
 ! **************************************************************************************************
 MODULE dbcsr_tensor_index
    USE dbcsr_allocate_wrap, ONLY: allocate_any
+   USE dbcsr_kinds, ONLY: int_8
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -38,7 +39,7 @@ MODULE dbcsr_tensor_index
       INTEGER                                      :: ndim2_2d
 
       INTEGER, DIMENSION(:), ALLOCATABLE           :: dims_nd
-      INTEGER, DIMENSION(2)                        :: dims_2d
+      INTEGER(KIND=int_8), DIMENSION(2)            :: dims_2d
       INTEGER, DIMENSION(:), ALLOCATABLE           :: dims1_2d
       INTEGER, DIMENSION(:), ALLOCATABLE           :: dims2_2d
 
@@ -96,7 +97,7 @@ CONTAINS
       map%map_nd(map1_2d) = (/(i, i=1, SIZE(map1_2d))/)
       map%map_nd(map2_2d) = (/(i + SIZE(map1_2d), i=1, SIZE(map2_2d))/)
 
-      map%dims_2d = [PRODUCT(map%dims1_2d), PRODUCT(map%dims2_2d)]
+      map%dims_2d = [PRODUCT(INT(map%dims1_2d, KIND=int_8)), PRODUCT(INT(map%dims2_2d, KIND=int_8))]
 
    END SUBROUTINE create_nd_to_2d_mapping
 
@@ -133,6 +134,7 @@ CONTAINS
 !> \param ndim_nd number of dimensions
 !> \param ndim1_2d number of dimensions that map to first 2d index
 !> \param ndim2_2d number of dimensions that map to first 2d index
+!> \param dims_2d_i8 ...
 !> \param dims_2d 2d dimensions
 !> \param dims_nd nd dimensions
 !> \param dims1_2d dimensions that map to first 2d index
@@ -143,11 +145,12 @@ CONTAINS
 !> \param base base index
 !> \param col_major is index in column major order
 ! **************************************************************************************************
-   SUBROUTINE get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dims_2d, dims_nd, dims1_2d, dims2_2d, &
+   SUBROUTINE get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dims_2d_i8, dims_2d, dims_nd, dims1_2d, dims2_2d, &
                                map1_2d, map2_2d, map_nd, base, col_major)
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
       INTEGER, INTENT(OUT), OPTIONAL                     :: ndim_nd, ndim1_2d, ndim2_2d
-      INTEGER, DIMENSION(2), INTENT(OUT), OPTIONAL       :: dims_2d
+      INTEGER(KIND=int_8), DIMENSION(2), INTENT(OUT), OPTIONAL       :: dims_2d_i8
+      INTEGER, DIMENSION(2), INTENT(OUT), OPTIONAL :: dims_2d
       INTEGER, DIMENSION(ndims_mapping(map)), &
          INTENT(OUT), OPTIONAL                           :: dims_nd
       INTEGER, ALLOCATABLE, DIMENSION(:), INTENT(OUT), &
@@ -160,7 +163,8 @@ CONTAINS
       IF (PRESENT(ndim_nd)) ndim_nd = map%ndim_nd
       IF (PRESENT(ndim1_2d)) ndim1_2d = map%ndim1_2d
       IF (PRESENT(ndim2_2d)) ndim2_2d = map%ndim2_2d
-      IF (PRESENT(dims_2d)) dims_2d(:) = map%dims_2d(:)
+      IF (PRESENT(dims_2d_i8)) dims_2d_i8(:) = map%dims_2d(:)
+      IF (PRESENT(dims_2d)) dims_2d(:) = INT(map%dims_2d(:))
       IF (PRESENT(dims_nd)) THEN
          dims_nd(:) = map%dims_nd(:)
       ENDIF
@@ -200,7 +204,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: ind_in, dims
       INTEGER, INTENT(IN), OPTIONAL                      :: base
       LOGICAL, INTENT(IN), OPTIONAL                      :: col_major
-      INTEGER                                            :: ind_out
+      INTEGER(KIND=int_8)                                :: ind_out
 
       INTEGER                                            :: i_dim, my_base
       LOGICAL                                            :: my_col_major
@@ -245,13 +249,14 @@ CONTAINS
 !> \return nd index
 ! **************************************************************************************************
    FUNCTION split_index(ind_in, dims, base, col_major) RESULT(ind_out)
-      INTEGER, INTENT(IN)                                :: ind_in
+      INTEGER(KIND=int_8), INTENT(IN)                    :: ind_in
       INTEGER, DIMENSION(:), INTENT(IN)                  :: dims
       INTEGER, INTENT(IN), OPTIONAL                      :: base
       LOGICAL, INTENT(IN), OPTIONAL                      :: col_major
       INTEGER, DIMENSION(SIZE(dims))                     :: ind_out
 
-      INTEGER                                            :: i_dim, my_base, tmp
+      INTEGER(KIND=int_8)                                :: tmp
+      INTEGER                                            :: i_dim, my_base
       LOGICAL                                            :: my_col_major
 
       IF (PRESENT(base)) THEN
@@ -270,7 +275,7 @@ CONTAINS
          i_dim = 1
          tmp = ind_in
          DO WHILE (i_dim .LE. SIZE(dims))
-            ind_out(i_dim) = MOD(tmp - my_base, dims(i_dim)) + my_base
+            ind_out(i_dim) = INT(MOD(tmp - my_base, INT(dims(i_dim), int_8)) + my_base)
             tmp = (tmp - my_base)/dims(i_dim) + my_base
             i_dim = i_dim + 1
          END DO
@@ -278,7 +283,7 @@ CONTAINS
          i_dim = SIZE(dims)
          tmp = ind_in
          DO WHILE (i_dim .GE. 1)
-            ind_out(i_dim) = MOD(tmp - my_base, dims(i_dim)) + my_base
+            ind_out(i_dim) = INT(MOD(tmp - my_base, INT(dims(i_dim), int_8)) + my_base)
             tmp = (tmp - my_base)/dims(i_dim) + my_base
             i_dim = i_dim - 1
          END DO
@@ -294,7 +299,7 @@ CONTAINS
    FUNCTION get_2d_indices(map, ind_in) RESULT(ind_out)
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
       INTEGER, DIMENSION(ndims_mapping(map)), INTENT(IN) :: ind_in
-      INTEGER, DIMENSION(2)                              :: ind_out
+      INTEGER(KIND=int_8), DIMENSION(2)                  :: ind_out
 
       INTEGER, DIMENSION(map%ndim2_2d)                   :: ind_2
       INTEGER, DIMENSION(map%ndim1_2d)                   :: ind_1
@@ -313,7 +318,7 @@ CONTAINS
 ! **************************************************************************************************
    FUNCTION get_nd_indices(map, ind_in) RESULT(ind_out)
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
-      INTEGER, DIMENSION(2), INTENT(IN)                  :: ind_in
+      INTEGER(KIND=int_8), DIMENSION(2), INTENT(IN)      :: ind_in
       INTEGER, DIMENSION(ndims_mapping(map))             :: ind_out
 
       INTEGER, DIMENSION(map%ndim2_2d)                   :: ind_2

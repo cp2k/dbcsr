@@ -90,15 +90,13 @@ jobs:  # the following jobs inherit only the first OS
     - make test
     - bash <(curl -s https://codecov.io/bash)
   - name: "Run pre-commit hook on changed files"
+    if: tag IS NOT present
     script:
-    - set -o pipefail
-      # fetch remotes first to ensure that referenced branches (other than the default) are available
-    - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-    - git fetch
-    # yapf requires python3.6.4+
+    # ensure python 3.6.4+
     - pyenv global 3.6.7 2.7.15
-    - git diff --name-only --diff-filter=AM HEAD "origin/${TRAVIS_BRANCH}" | xargs pre-commit run --files
+    - pre-commit run --all-files
   - name: "Run pre-commit hook 'check-ast' on all files"
+    if: tag IS NOT present
     script:
     - pre-commit run --hook-stage manual --all-files check-ast
   - stage: release

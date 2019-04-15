@@ -1,0 +1,5 @@
+{
+"description": "tall-and-skinny matrices",
+"archive": "libdbcsr",
+"requires":["../base", "../data", "../mm", "../ops", "../block", "../core", "../work", "../utils", "../dist", "../mpi"],
+}

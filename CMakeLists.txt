@@ -13,6 +13,7 @@ cmake_dependent_option(WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "USE_MPI
 cmake_dependent_option(WITH_EXAMPLES "Build the examples" ON "USE_MPI" OFF) # all examples require MPI
 
 set(TEST_MPI_RANKS "auto" CACHE STRING "Number of MPI ranks for testing")
+set(TEST_OMP_THREADS 2 CACHE STRING "Number of OpenMP threads for testing")
 
 set(USE_SMM "blas" CACHE STRING "Small Matrix Multiplication implementation to use (default: blas)")
 set_property(CACHE USE_SMM PROPERTY STRINGS blas libxsmm)
@@ -96,7 +97,7 @@ if (Fortran_COMPILER_NAME MATCHES "ftn")
 endif ()
 
 # Depending on the fortran compiler, set the appropriate compiler flags
-if (Fortran_COMPILER_NAME MATCHES "gfortran.*")
+if (Fortran_COMPILER_NAME MATCHES "^gfortran.*")
   set(CMAKE_CXX_FLAGS              "-std=c++11")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
   set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -fprofile-arcs -ftest-coverage")
@@ -114,7 +115,7 @@ if (Fortran_COMPILER_NAME MATCHES "gfortran.*")
       SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -lgcov --coverage")
     endif ()
   endif ()
-elseif (Fortran_COMPILER_NAME MATCHES "ifort.*")
+elseif (Fortran_COMPILER_NAME MATCHES "^ifort.*")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -debug")
   set(CMAKE_Fortran_FLAGS          "-free -stand f03 -fpp")
@@ -122,7 +123,7 @@ elseif (Fortran_COMPILER_NAME MATCHES "ifort.*")
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -diag-disable=5268")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -debug")
   set(F2008_COMPILER_FLAGS         "-stand f08")
-elseif (Fortran_COMPILER_NAME MATCHES "pgfortran.*")
+elseif (Fortran_COMPILER_NAME MATCHES "^pgf.*")
   set(CMAKE_CXX_FLAGS_RELEASE      "-fast")
   set(CMAKE_CXX_FLAGS_DEBUG        "-g")
   set(CMAKE_Fortran_FLAGS          "-Mfreeform -Mextend -Mallocatable=03")
@@ -134,8 +135,8 @@ else ()
 Unknown compiler, trying with just '-O2'/'-O0 -g'.\n\
 You will most likely have to pass additonal options for free-form Fortran 2003/2008 for your compiler!\n\
 Please open an issue at https://github.com/cp2k/dbcsr/issues with the reported compiler name and the required flags.")
-  message("CMAKE_Fortran_COMPILER full path: " ${CMAKE_Fortran_COMPILER})
-  message("Fortran_COMPILER_NAME: " ${Fortran_COMPILER_NAME})
+  message("-- Fortran_COMPILER_NAME: " ${Fortran_COMPILER_NAME})
+  message("-- CMAKE_Fortran_COMPILER full path: " ${CMAKE_Fortran_COMPILER})
 
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O2")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -g")

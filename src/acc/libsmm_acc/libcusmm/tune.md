@@ -1,0 +1,195 @@
+# Autotuning Procedure for Finding Optimal Cuda Kernel Parameters in `libcusmm`
+
+The performance of the matrix-matrix multiplication kernels is highly dependant on the choice of algorithm and parameters, this is why autotuning is used to find optimal kernel parameters.
+
+---
+
+### Requirements
+
+Python version required: `python 3.6`
+
+If you are about to autotune parameters for a new GPU (i.e. a GPU for which there are no autotuned parameters yet), please first follow [the instructions for a new GPU](README.md#adding-support-for-a-new-gpu-card).
+
+---
+
+### Predictive modeling procedure
+
+#### 1. Go to the libcusmm directory
+
+```bash
+$ cd dbcsr/src/acc/libsmm_acc/libcusmm
+```
+
+#### 2. Adapt tune_setup.py to your environment
+
+The `tune_setup.py` script generates job files. You have to adapt the script to the environment of your supercomputer and your personal settings.
+
+```
+...
+  def gen_jobfile(outdir, m, n, k):
+      t = "/tune_%dx%dx%d" % (m, n, k)
+      all_exe_src = [os.path.basename(fn) for fn in glob(outdir + t + "_*_main.cu")]
+      all_exe = sorted([fn.replace("_main.cu", "") for fn in all_exe_src])
+
+      output = "#!/bin/bash -l\n"
+      output += "#SBATCH --nodes=%d\n" % len(all_exe)
+      output += "#SBATCH --time=0:30:00\n"
+      output += "#SBATCH --account=s238\n"
+      output += "#SBATCH --partition=normal\n"
+      output += "#SBATCH --constraint=gpu\n"
+      output += "\n"
+      output += "source ${MODULESHOME}/init/sh;\n"
+      output += "module load daint-gpu\n"
+      output += "module unload PrgEnv-cray\n"
+      output += "module load PrgEnv-gnu/6.0.3\n"
+      output += "module load cudatoolkit/8.0.54_2.2.8_ga620558-2.1\n"
+      output += "module list\n"
+      output += "export CRAY_CUDA_MPS=1\n"
+      output += "cd $SLURM_SUBMIT_DIR \n"
+      output += "\n"
+      output += "date\n"
+      for exe in all_exe:
+          output += (
+              "srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=12 make -j 24 %s &\n" %
+              exe)
+
+   ...
+...
+```
+
+#### 3. Run the script `tune_setup.py`
+
+Specify which GPU you are autotuning for by passing the appropriate `parameters_GPU.json` file as an argument with `-p`. In addition, the script takes as arguments the blocksizes you want to add to libcusmm. For example, if the system you want to autotune for contains blocks of size 5 and 8, run:
+
+```bash
+$ ./tune_setup.py 5 8 -p parameters_P100.json
+Found 23 parameter sets for 5x5x5
+Found 31 parameter sets for 5x5x8
+Found 107 parameter sets for 5x8x5
+Found 171 parameter sets for 5x8x8
+Found 75 parameter sets for 8x5x5
+Found 107 parameter sets for 8x5x8
+Found 248 parameter sets for 8x8x5
+Found 424 parameter sets for 8x8x8
+```
+
+The script will create a directory for each combination of the blocksizes:
+
+```bash
+$ ls -d tune_*
+tune_5x5x5  tune_5x5x8  tune_5x8x5  tune_5x8x8  tune_8x5x5  tune_8x5x8  tune_8x8x5  tune_8x8x8
+```
+
+Each directory contains a number of files:
+
+```bash
+$ ls -1 tune_8x8x8/
+Makefile
+tune_8x8x8_exe0_main.cu
+tune_8x8x8_exe0_part0.cu
+tune_8x8x8_exe0_part1.cu
+tune_8x8x8_exe0_part2.cu
+tune_8x8x8_exe0_part3.cu
+tune_8x8x8_exe0_part4.cu
+tune_8x8x8.job
+```
+
+For each possible parameter-set a *launcher* is generated. A launcher is a small snippet of C code, which launches the kernel by using the cuda specific `<<< >>>`-notation. It also instantiates the C++ template which contains the actual kernel code.
+
+In order to parallelize the benchmarking, the launchers are distributed over multiple executables. Currently, up to 10'000 launchers are benchmarked by one *executable*. Each executable is linked together from several `tune_*_part???.o` and a `tune_*_main.o`. Each part-files contains up to 100 launchers. This allows to parallelize the compilation over multiple CPU cores.
+
+#### 4. Adapt `tune_submit.py` to your environment
+
+The script `tune_submit.py` was written for the slurm batch system as used e.g. by CRAY supercomputers. If your computer runs a different batch system, you have to adapt `tune_submit.py` accordingly.
+
+#### 5. Submit Jobs
+
+Each tune-directory contains a job file. Since there might be many tune-directories, the convenience script `tune_submit.py` can be used to submit jobs. It will go through all the `tune_*`-directories and check if its job has already been submitted or run. For this, the script calls `squeue` in the background and it searches for `slurm-*.out`files.
+
+When `tune_submit.py` is called without arguments, it will just list the jobs that could be submitted:
+
+```bash
+$ ./tune_submit.py 
+          tune_5x5x5: Would submit, run with "doit!"
+          tune_5x5x8: Would submit, run with "doit!"
+          tune_5x8x5: Would submit, run with "doit!"
+          tune_5x8x8: Would submit, run with "doit!"
+          tune_8x5x5: Would submit, run with "doit!"
+          tune_8x5x8: Would submit, run with "doit!"
+          tune_8x8x5: Would submit, run with "doit!"
+          tune_8x8x8: Would submit, run with "doit!"
+Number of jobs submitted: 8
+```
+
+Only when `tune_submit.py` is called with `doit!` as its first argument, will it actually submit jobs:
+
+```bash
+$ ./tune_submit.py doit!
+          tune_5x5x5: Submitting
+Submitted batch job 277987
+          tune_5x5x8: Submitting
+Submitted batch job 277988
+          tune_5x8x5: Submitting
+Submitted batch job 277989
+          tune_5x8x8: Submitting
+Submitted batch job 277990
+          tune_8x5x5: Submitting
+Submitted batch job 277991
+          tune_8x5x8: Submitting
+Submitted batch job 277992
+          tune_8x8x5: Submitting
+Submitted batch job 277993
+          tune_8x8x8: Submitting
+Submitted batch job 277994
+Number of jobs submitted: 8
+```
+
+#### 6. Collect Results
+
+Run `tune_collect.py` to parse all log files and determine the best kernel for each blocksize:
+
+```bash
+$ ./tune_collect.py
+Reading: tune_5x5x5/tune_5x5x5_exe0.log
+Reading: tune_5x5x8/tune_5x5x8_exe0.log
+Reading: tune_5x8x5/tune_5x8x5_exe0.log
+Reading: tune_5x8x8/tune_5x8x8_exe0.log
+Reading: tune_8x5x5/tune_8x5x5_exe0.log
+Reading: tune_8x5x8/tune_8x5x8_exe0.log
+Reading: tune_8x8x5/tune_8x8x5_exe0.log
+Reading: tune_8x8x8/tune_8x8x8_exe0.log
+Kernel_dnt_tiny(m=5, n=5, k=5, split_thread=32, threads=64, grouping=16, minblocks=1) , # 27.9623 GFlops 
+Kernel_dnt_tiny(m=5, n=5, k=8, split_thread=32, threads=96, grouping=16, minblocks=1) , # 37.8978 GFlops
+Kernel_dnt_medium(m=5, n=8, k=5, tile_m=1, tile_n=1, threads=96, grouping=16, minblocks=8) , # 32.9231 GFlops 
+Kernel_dnt_tiny(m=5, n=8, k=8, split_thread=32, threads=96, grouping=16, minblocks=1) , # 47.0366 GFlops
+Kernel_dnt_medium(m=8, n=5, k=5, tile_m=1, tile_n=1, threads=96, grouping=16, minblocks=12) , # 33.1999 GFlops 
+Kernel_dnt_medium(m=8, n=5, k=8, tile_m=1, tile_n=1, threads=96, grouping=16, minblocks=12) , # 49.3499 GFlops
+Kernel_dnt_tiny(m=8, n=8, k=5, split_thread=32, threads=96, grouping=16, minblocks=1) , # 62.8469 GFlops 
+Kernel_dnt_tiny(m=8, n=8, k=8, split_thread=32, threads=128, grouping=16, minblocks=1) , # 90.7763 GFlops 
+
+Wrote parameters.json
+```
+
+The file `parameters.json` now contains the newly autotuned parameters.
+
+#### 7. Merge new parameters with original parameter-file
+
+Run `tune_merge.py` to merge the new parameters with the original ones:
+
+```bash
+$ ./tune_merge.py
+Merging parameters.json with parameters_P100.json
+Wrote parameters.new.json
+```
+
+The file `parameters.new.json` can now be used as a parameter file. Rename it to `parameters_GPU.json`, with the appropriate `GPU`.
+
+#### 8. Contribute parameters to the community
+
+**Contribute new optimal parameters**
+
+Submit a pull request updating the appropriate `parameters_GPU.json` file to the [DBCSR repository](https://github.com/cp2k/dbcsr).
+
+**Contribute autotuning data**
+
+See [instructions](https://github.com/cp2k/dbcsr-data#contributing)in DBCSR's [data repository](https://github.com/cp2k/dbcsr-data).

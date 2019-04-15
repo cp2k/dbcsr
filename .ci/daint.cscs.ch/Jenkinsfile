@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('prepare') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('build') {
+            steps {
+                run_batch("0:15:00")
+            }
+        }
+        stage('test') {
+            steps {
+                run_batch("1:00:00")
+            }
+        }
+    }
+}
+
+def run_batch(timelimit) {
+    def (account, basename) = env.JOB_NAME.split('/')
+    // avoid using the shell for variable expansion to
+    // get the final command displayed in Jenkins
+    try {
+        sh """
+        sbatch --wait \
+            --time="${timelimit}" \
+            --account="${account}" \
+            --job-name="${basename}" \
+            --output="sbatch.${env.BUILD_TAG}.${env.STAGE_NAME}.out" \
+            .ci/daint.cscs.ch/${env.STAGE_NAME}.sh
+        """
+    }
+    finally {
+        echo readFile("sbatch.${env.BUILD_TAG}.${env.STAGE_NAME}.out")
+    }
+}
+
+// vim: set filetype=groovy ts=4 sw=4 tw=0 :

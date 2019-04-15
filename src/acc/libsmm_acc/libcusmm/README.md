@@ -56,7 +56,7 @@ The performance of the matrix-matrix multiplication kernels is highly dependant 
 
 #### Autotuning procedure
 
-Follow the [autotuning procedure](https://www.cp2k.org/howto:libcusmm)
+Follow the [autotuning procedure](tune.md)
 
 #### Predictive modelling of kernel parameters
 

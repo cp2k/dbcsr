@@ -1,14 +1,13 @@
 
-set(num_threads 2)
 if (USE_MPI)
   if (TEST_MPI_RANKS STREQUAL "auto")
     include(ProcessorCount)
     ProcessorCount(nproc)
-    math(EXPR num_ranks "(${nproc}+1)/2")  # get half the number of procs (rounded up)
+    math(EXPR num_ranks "(${nproc}+${TEST_OMP_THREADS}-1)/${TEST_OMP_THREADS}")  # get 1/$TEST_OMP_THREADS the number of procs (rounded up)
   else ()
     set(num_ranks ${TEST_MPI_RANKS})
   endif ()
-  message("Tests will run with ${num_ranks} MPI ranks and ${num_threads} threads each")
+  message("Tests will run with ${num_ranks} MPI ranks and ${TEST_OMP_THREADS} OpenMP threads each")
 endif ()
 
 set(DBCSR_PERF_SRCS
@@ -23,11 +22,12 @@ file(GLOB DBCSR_PERF_TESTS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 
 foreach (dbcsr_perf_test ${DBCSR_PERF_TESTS})
   if (USE_MPI)
+    separate_arguments(MPIEXEC_PREFLAGS)
     add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ./dbcsr_perf ${MPIEXEC_POSTFLAGS} "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
   else ()
     add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND ./dbcsr_perf "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
   endif ()
-  set_tests_properties(dbcsr_perf:${dbcsr_perf_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${num_threads})
+  set_tests_properties(dbcsr_perf:${dbcsr_perf_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${TEST_OMP_THREADS})
 endforeach ()
 
 # Define all the tests here, will be used as the executable name
@@ -66,6 +66,7 @@ foreach (dbcsr_test ${DBCSR_TESTS})
   target_link_libraries(${dbcsr_test} dbcsr_unittest_common)
   # register unittest executable with CMake
   if (USE_MPI)
+    separate_arguments(MPIEXEC_PREFLAGS)
     add_test(NAME ${dbcsr_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ./${dbcsr_test} ${MPIEXEC_POSTFLAGS})
   else ()
     add_test(NAME ${dbcsr_test} COMMAND ./${dbcsr_test})
@@ -74,9 +75,13 @@ foreach (dbcsr_test ${DBCSR_TESTS})
 endforeach ()
 
 if (USE_CUDA)
-  set(LIBCUSMM_TESTS
+  set(LIBCUSMM_SIMPLE_TESTS
     libcusmm_unittest_multiply
     libcusmm_unittest_transpose
+    )
+
+  set(LIBCUSMM_TESTS_BUILD
+    ${LIBCUSMM_SIMPLE_TESTS}
     libcusmm_timer_multiply
     )
 
@@ -94,10 +99,16 @@ if (USE_CUDA)
     COMMENT "Generate tests/libcusmm_timer_multiply.cu"
   )
 
-  foreach (libcusmm_test ${LIBCUSMM_TESTS})
+  foreach (libcusmm_test ${LIBCUSMM_TESTS_BUILD})
     add_executable(${libcusmm_test} ${CMAKE_CURRENT_SOURCE_DIR}/${libcusmm_test}.cu)
     target_link_libraries(${libcusmm_test} dbcsr)
+  endforeach ()
+
+  foreach (libcusmm_test ${LIBCUSMM_SIMPLE_TESTS})
     add_test(NAME ${libcusmm_test} COMMAND ./${libcusmm_test})
   endforeach ()
 
+  # tests needing additional arguments:
+  add_test(NAME libcusmm_timer_multiply-autotuned COMMAND ./libcusmm_timer_multiply autotuned)
+  add_test(NAME libcusmm_timer_multiply-predicted COMMAND ./libcusmm_timer_multiply predicted)
 endif ()

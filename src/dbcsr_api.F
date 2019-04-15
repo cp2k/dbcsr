@@ -99,7 +99,8 @@ MODULE dbcsr_api
       dbcsr_set_prv => dbcsr_set, &
       dbcsr_sum_replicated_prv => dbcsr_sum_replicated, &
       dbcsr_trace_prv => dbcsr_trace, &
-      dbcsr_triu_prv => dbcsr_triu
+      dbcsr_triu_prv => dbcsr_triu, &
+      dbcsr_clear_prv => dbcsr_clear
    USE dbcsr_test_methods, ONLY: dbcsr_reset_randmat_seed
    USE dbcsr_tests, ONLY: dbcsr_run_tests, &
                           dbcsr_test_binary_io, &
@@ -163,6 +164,7 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_p_type
    PUBLIC :: dbcsr_distribution_type
    PUBLIC :: dbcsr_iterator_type
+   PUBLIC :: dbcsr_scalar_type
 
    ! lib init/finalize
    PUBLIC :: dbcsr_clear_mempools
@@ -202,6 +204,7 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_trace
    PUBLIC :: dbcsr_complete_redistribute
    PUBLIC :: dbcsr_get_block_p
+   PUBLIC :: dbcsr_clear
 
    ! block reservation
    PUBLIC :: dbcsr_reserve_diag_blocks
@@ -256,6 +259,7 @@ MODULE dbcsr_api
    PUBLIC :: convert_sizes_to_offsets
    PUBLIC :: dbcsr_run_tests
    PUBLIC :: dbcsr_test_mm
+   PUBLIC :: dbcsr_scalar
 
    ! high level matrix functions
    PUBLIC :: dbcsr_norm_frobenius
@@ -1605,6 +1609,11 @@ CONTAINS
 
       CALL dbcsr_to_csr_filter_prv(dbcsr_mat%prv, csr_sparsity%prv, eps)
    END SUBROUTINE dbcsr_to_csr_filter
+
+   SUBROUTINE dbcsr_clear(dbcsr_mat)
+      TYPE(dbcsr_type), INTENT(INOUT) :: dbcsr_mat
+      CALL dbcsr_clear_prv(dbcsr_mat%prv)
+   END SUBROUTINE
 
 ! **************************************************************************************************
 !> \brief Emulation of sparse_matrix_types/add_block_node mapped

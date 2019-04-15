@@ -28,8 +28,10 @@ MODULE dbcsr_array_list_methods
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_array_list_methods'
 
    PUBLIC  :: &
+      array_eq_i, &
       array_list, &
       array_offsets, &
+      array_sublist, &
       create_array_list, &
       destroy_array_list, &
       get_array_elements, &
@@ -38,7 +40,8 @@ MODULE dbcsr_array_list_methods
       number_of_arrays, &
       reorder_arrays, &
       sizes_of_arrays, &
-      sum_of_arrays
+      sum_of_arrays, &
+      check_equal
 
    TYPE array_list
       INTEGER, DIMENSION(:), ALLOCATABLE :: col_data
@@ -119,6 +122,28 @@ CONTAINS
 #:endfor
 
    END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief extract a subset of arrays
+!> \param list list of arrays
+!> \param i_selected array numbers to retrieve
+! **************************************************************************************************
+   FUNCTION array_sublist(list, i_selected)
+      TYPE(array_list), INTENT(IN)                           :: list
+      INTEGER, DIMENSION(:), INTENT(IN)                      :: i_selected
+      TYPE(array_list)                                       :: array_sublist
+      INTEGER :: ndata
+      INTEGER, ALLOCATABLE, DIMENSION(:) :: ${varlist("data")}$
+
+      ndata = SIZE(i_selected)
+
+#:for dim in range(1, maxdim+1)
+      IF (ndata == ${dim}$) THEN
+         CALL get_arrays(list, ${varlist("data", nmax=dim)}$, i_selected=i_selected)
+         CALL create_array_list(array_sublist, ndata, ${varlist("data", nmax=dim)}$)
+      ENDIF
+#:endfor
+   END FUNCTION
 
 ! **************************************************************************************************
 !> \brief destroy array list.
@@ -267,5 +292,31 @@ CONTAINS
 
    END SUBROUTINE
 
-END MODULE dbcsr_array_list_methods
+! **************************************************************************************************
+!> \brief check whether two array lists are equal
+!> \param list1 ...
+!> \param list2 ...
+! **************************************************************************************************
+   FUNCTION check_equal(list1, list2)
+      TYPE(array_list), INTENT(IN)  :: list1, list2
+      LOGICAL :: check_equal
 
+      check_equal = array_eq_i(list1%col_data, list2%col_data) .AND. array_eq_i(list1%ptr, list2%ptr)
+   END FUNCTION
+
+! **************************************************************************************************
+!> \brief check whether two arrays are equal
+!> \param arr1 ...
+!> \param arr2 ...
+! **************************************************************************************************
+   PURE FUNCTION array_eq_i(arr1, arr2)
+      INTEGER, INTENT(IN), DIMENSION(:) :: arr1
+      INTEGER, INTENT(IN), DIMENSION(:) :: arr2
+      LOGICAL                           :: array_eq_i
+
+      array_eq_i = .FALSE.
+      IF (SIZE(arr1) .EQ. SIZE(arr2)) array_eq_i = ALL(arr1 == arr2)
+
+   END FUNCTION
+
+END MODULE dbcsr_array_list_methods
