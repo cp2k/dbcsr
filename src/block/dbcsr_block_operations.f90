@@ -122,6 +122,8 @@
                                                                   dst_offset)
 #if defined(__LIBXSMM_BLOCKOPS)
      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#else
+     INTEGER                                  :: col, row
 #endif
      ${type1}$, DIMENSION(:), &
         INTENT(INOUT)                         :: dst
@@ -136,8 +138,6 @@
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_1d2d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
-
-     INTEGER                                  :: col, row
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
 !    rs is the logical row size so it always remains the leading dimension.
@@ -291,6 +291,8 @@
                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
 #if defined(__LIBXSMM_BLOCKOPS)
      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#else
+     INTEGER                                  :: col, row
 #endif
      ${type1}$, DIMENSION(:, :), &
         INTENT(INOUT)                         :: dst
@@ -303,8 +305,6 @@
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_2d2d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
-
-     INTEGER                                  :: col, row
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
 !    rs is the logical row size so it always remains the leading dimension.
@@ -560,23 +560,20 @@
   PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_${nametype1}$ (extent, rows, columns)
 #if defined(__LIBXSMM_TRANS) && 0
      USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
-     INTEGER, INTENT(IN) :: rows, columns
-#else
-     INTEGER, INTENT(IN) :: rows, columns
-     ${type1}$, DIMENSION(rows*columns) :: extent_tr
 #endif
+     INTEGER, INTENT(IN) :: rows, columns
      ${type1}$, DIMENSION(rows*columns), INTENT(INOUT) :: extent
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_inplace_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
-
-     INTEGER :: r, c
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS) && 0
      CALL libxsmm_itrans(libxsmm_ptr1(extent), ${typesize1[n]}$, rows, columns, rows)
 #elif defined(__MKL)
      CALL mkl_${nametype1}$imatcopy('C', 'T', rows, columns, ${one1[n]}$, extent, rows, columns)
 #else
+     ${type1}$, DIMENSION(rows*columns) :: extent_tr
+     INTEGER :: r, c
      DO r = 1, columns
         DO c = 1, rows
            extent_tr(r + (c - 1)*columns) = extent(c + (r - 1)*rows)
