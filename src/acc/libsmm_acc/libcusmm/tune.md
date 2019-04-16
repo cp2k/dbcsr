@@ -12,7 +12,7 @@ If you are about to autotune parameters for a new GPU (i.e. a GPU for which ther
 
 ---
 
-### Predictive modeling procedure
+### Autotuning procedure
 
 #### 1. Go to the libcusmm directory
 
@@ -192,4 +192,4 @@ Submit a pull request updating the appropriate `parameters_GPU.json` file to the
 
 **Contribute autotuning data**
 
-See [instructions](https://github.com/cp2k/dbcsr-data#contributing)in DBCSR's [data repository](https://github.com/cp2k/dbcsr-data).
+See [instructions](https://github.com/cp2k/dbcsr-data#contributing) in DBCSR's [data repository](https://github.com/cp2k/dbcsr-data).
