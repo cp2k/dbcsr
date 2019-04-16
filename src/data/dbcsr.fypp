@@ -16,6 +16,7 @@
 #:set typesize1 = ['8','4','16','8']
 #:set base1 = ['r', 'r', 'c', 'c']
 #:set prec1 = ['dp','sp','dp','sp']
+#:set bits1 = ['64','32','64','32']
 #:set kind1 = ['real_8', 'real_4', 'real_8', 'real_4']
 #:set type1 = ['REAL(kind=real_8)', 'REAL(kind=real_4)', 'COMPLEX(kind=real_8)', 'COMPLEX(kind=real_4)']
 #:set dkind1 = ['dbcsr_type_real_8', 'dbcsr_type_real_4', 'dbcsr_type_complex_8', 'dbcsr_type_complex_4']

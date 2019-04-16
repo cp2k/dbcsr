@@ -27,7 +27,14 @@ def format_to_cpp(kernels):
 
 
 # ===============================================================================
-def main(basedir, gpu_version, nsamples):
+def main(
+    dbcsr_base_dir,
+    libcusmm_base_dir,
+    test_template_dir,
+    test_output_dir,
+    gpu_version,
+    nsamples,
+):
     """
     Generate a performance test of libcusmm in the form of a CUDA file, using libcusmm_timer_multiply.template
     as a template
@@ -35,8 +42,7 @@ def main(basedir, gpu_version, nsamples):
 
     # Read parameter file
     print("GPU version: {}".format(gpu_version))
-    base_dir = os.path.join(basedir, "src/acc/libsmm_acc/libcusmm/")
-    param_fn = os.path.join(base_dir, "parameters_{}.json".format(gpu_version))
+    param_fn = os.path.join(libcusmm_base_dir, "parameters_{}.json".format(gpu_version))
     with open(param_fn, "r") as f:
         all_kernels = json.load(f)
 
@@ -59,9 +65,8 @@ def main(basedir, gpu_version, nsamples):
         kernels_to_print_predicted = ""
 
     # Print to test file
-    test_directory = os.path.join(basedir, "tests")
-    file_template = os.path.join(test_directory, "libcusmm_timer_multiply.template")
-    file_generate = os.path.join(test_directory, "libcusmm_timer_multiply.cu")
+    file_template = os.path.join(test_template_dir, "libcusmm_timer_multiply.template")
+    file_generate = os.path.join(test_output_dir, "libcusmm_timer_multiply.cu")
     with open(file_template, "r") as f:
         test = f.read()
     test = test.replace(
@@ -88,7 +93,16 @@ if __name__ == "__main__":
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("-f", "--base_folder", metavar="DBCSRHOME", default="")
+    parser.add_argument(
+        "-f", "--base_dir", metavar="DBCSRHOME", default="", help="DBCSR base directory"
+    )
+    parser.add_argument(
+        "-o",
+        "--out_dir",
+        metavar="OUTDIR",
+        default="tests",
+        help="Directory in which to write the generated test files. Expressed relatively to base_dir",
+    )
     parser.add_argument(
         "-g",
         "--gpu_version",
@@ -107,4 +121,17 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    main(args.base_folder, args.gpu_version, args.nsamples)
+
+    # Folders in/to which to read/write files
+    libcusmm_base_dir = os.path.join(args.base_dir, "src/acc/libsmm_acc/libcusmm/")
+    test_template_dir = os.path.join(args.base_dir, "tests")
+    test_output_dir = os.path.join(args.base_dir, args.out_dir)
+
+    main(
+        args.base_dir,
+        libcusmm_base_dir,
+        test_template_dir,
+        test_output_dir,
+        args.gpu_version,
+        args.nsamples,
+    )
