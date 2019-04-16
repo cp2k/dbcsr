@@ -465,7 +465,7 @@ CONTAINS
    SUBROUTINE reshape_mm_compatible(matrix1_in, matrix2_in, matrix1_out, matrix2_out, new1, new2, trans1, trans2, &
                                     optimize_dist, nodata1, nodata2, move_data, comm_new, unit_nr)
       TYPE(dbcsr_tas_type), TARGET, INTENT(INOUT) :: matrix1_in, matrix2_in
-      TYPE(dbcsr_tas_type), POINTER, INTENT(OUT) :: matrix1_out => NULL(), matrix2_out => NULL()
+      TYPE(dbcsr_tas_type), POINTER, INTENT(OUT) :: matrix1_out, matrix2_out
       LOGICAL, INTENT(OUT) :: new1, new2
       CHARACTER(LEN=1), INTENT(INOUT) :: trans1, trans2
       LOGICAL, INTENT(IN), OPTIONAL :: optimize_dist
@@ -483,6 +483,7 @@ CONTAINS
       TYPE(dbcsr_tas_distribution_type) :: dist_1, dist_2
       TYPE(dbcsr_tas_create_split_info) :: split_info
 
+      NULLIFY(matrix1_out, matrix2_out)
       IF (PRESENT(unit_nr)) THEN
          io_unit = unit_nr
       ELSE
