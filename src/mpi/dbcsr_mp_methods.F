@@ -118,6 +118,7 @@ CONTAINS
          ENDDO column_loop
       ENDIF
       mp_env%mp%subgroups_defined = .FALSE.
+      call dbcsr_mp_grid_setup(mp_env)
    END SUBROUTINE dbcsr_mp_new
 
 ! **************************************************************************************************

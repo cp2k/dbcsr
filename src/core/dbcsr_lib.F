@@ -20,7 +20,8 @@ MODULE dbcsr_lib
    USE dbcsr_kinds, ONLY: int_1_size, &
                           int_2_size, &
                           int_4_size, &
-                          int_8_size
+                          int_8_size, dp
+
    USE dbcsr_machine, ONLY: default_output_unit
    USE dbcsr_mpiwrap, ONLY: add_mp_perf_env, &
                             describe_mp_perf_env, &
@@ -43,6 +44,9 @@ MODULE dbcsr_lib
                                  dbcsr_logger_release, &
                                  dbcsr_logger_type, &
                                  dbcsr_rm_default_logger
+   
+   use dbcsr_types, only: dbcsr_mp_obj
+
 
 #include "base/dbcsr_base_uses.f90"
 
@@ -88,8 +92,8 @@ CONTAINS
          ENDDO
       ENDDO
 
-      CALL dbcsr_mp_new_prv(mp_env, pgrid, group, mynode, numnodes, &
-                        myprow=myploc(1), mypcol=myploc(2))
+      CALL dbcsr_mp_new(mp_env, pgrid, group, mynode, numnodes, &
+                        myploc(1), myploc(2))
       DEALLOCATE (pgrid)
 
 
