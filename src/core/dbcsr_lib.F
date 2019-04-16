@@ -29,6 +29,21 @@ MODULE dbcsr_lib
    USE dbcsr_multiply_api, ONLY: dbcsr_multiply_clear_mempools, &
                                  dbcsr_multiply_lib_finalize, &
                                  dbcsr_multiply_lib_init
+                                 
+                                 
+   USE dbcsr_timings, ONLY: add_timer_env, &
+                            rm_timer_env, &
+                            timings_register_hooks
+   USE dbcsr_timings_report, ONLY: cost_type_time, &
+                                   timings_report_callgraph, &
+                                   timings_report_print
+
+   USE dbcsr_log_handling, ONLY: dbcsr_add_default_logger, &
+                                 dbcsr_logger_create, &
+                                 dbcsr_logger_release, &
+                                 dbcsr_logger_type, &
+                                 dbcsr_rm_default_logger
+
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
@@ -39,11 +54,103 @@ MODULE dbcsr_lib
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_lib'
 
    PUBLIC :: dbcsr_init_lib, dbcsr_finalize_lib, dbcsr_clear_mempools
+   PUBLIC :: dbcsr_init_timer,dbcsr_kill_timer, dbcsr_print_timer
+
 
    LOGICAL, PRIVATE, SAVE :: is_initialized = .FALSE.
+   
+   TYPE(dbcsr_logger_type), POINTER         :: logger
+   TYPE(dbcsr_mp_obj)   , save                    :: mp_env
+
 
 CONTAINS
 
+! **************************************************************************************************
+!> \brief Initialize timers
+!>
+!> Prepares the DBCSR library for use.
+! **************************************************************************************************
+   subroutine dbcsr_init_timer(mp_comm, npdims, group)
+      integer , intent(in) :: mp_comm
+      integer, dimension(2), intent(in)  :: npdims
+      INTEGER, intent(in)                                  :: group
+      integer, dimension(2)  :: myploc
+      INTEGER, DIMENSION(:, :), POINTER        :: pgrid
+      integer :: io_unit, mynode, numnodes, pcol, prow
+
+      CALL mp_environ(numnodes, mynode, mp_comm)
+!       CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
+
+      ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
+      DO prow = 0, npdims(1) - 1
+         DO pcol = 0, npdims(2) - 1
+            CALL mp_cart_rank(group, (/prow, pcol/), pgrid(prow, pcol))
+         ENDDO
+      ENDDO
+
+      CALL dbcsr_mp_new_prv(mp_env, pgrid, group, mynode, numnodes, &
+                        myprow=myploc(1), mypcol=myploc(2))
+      DEALLOCATE (pgrid)
+
+
+      io_unit = 0
+      IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
+
+      !
+      ! Timers
+      NULLIFY (logger)
+      CALL dbcsr_logger_create(logger, mp_env=mp_env, &
+                              default_global_unit_nr=io_unit, &
+                              close_global_unit_on_dealloc=.FALSE.)
+      CALL dbcsr_add_default_logger(logger)
+      CALL dbcsr_logger_release(logger)
+      CALL dbcsr_error_handling_setup()
+      CALL timings_register_hooks()
+      CALL add_mp_perf_env()
+      CALL add_timer_env()
+
+   end subroutine
+
+   
+! **************************************************************************************************
+!> \brief Kill timers
+!>
+!> Prepares the DBCSR library for use.
+! **************************************************************************************************
+   subroutine dbcsr_kill_timer()
+      ! clean mp environment
+      CALL dbcsr_mp_release(mp_env)
+
+      !
+      ! Remove logger
+      CALL dbcsr_rm_default_logger()
+
+      !
+      !
+      ! Remove timers
+      CALL rm_mp_perf_env()
+      CALL rm_timer_env()
+   end subroutine
+
+   
+! **************************************************************************************************
+!> \brief Print timers
+!>
+!> Prepares the DBCSR library for use.
+! **************************************************************************************************
+   subroutine dbcsr_print_timer(mp_comm)
+      integer , intent(in) :: mp_comm
+      integer :: io_unit, mynode, numnodes
+
+      CALL mp_environ(numnodes, mynode, mp_comm)
+
+      io_unit = 0
+      IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
+
+      CALL timings_report_print(io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
+   end subroutine
+
+   
 ! **************************************************************************************************
 !> \brief Initialize the DBCSR library
 !>
