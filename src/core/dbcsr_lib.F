@@ -48,7 +48,9 @@ MODULE dbcsr_lib
    
    use dbcsr_types, only: dbcsr_mp_obj
 
-   use dbcsr_mp_methods, only: dbcsr_mp_new,dbcsr_mp_release
+   use dbcsr_mp_methods, only: dbcsr_mp_new, dbcsr_mp_release, &
+                               dbcsr_mp_make_env
+
 
    use dbcsr_error_handling, only: dbcsr_error_handling_setup
 
@@ -69,7 +71,7 @@ MODULE dbcsr_lib
    
    TYPE(dbcsr_logger_type), POINTER         :: logger
    TYPE(dbcsr_mp_obj)   , save                    :: mp_env
-
+   integer, save :: group
 
 CONTAINS
 
@@ -146,36 +148,13 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_lib', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, ithread, nthreads
-      integer :: comm
       
       integer, dimension(2),             :: npdims
       integer, dimension(2)              :: myploc
       INTEGER, DIMENSION(:, :), POINTER  :: pgrid      
       integer :: io_unit, group, numnodes, pcol, prow, mynode
 
-      if (present(mp_comm)) then
-          comm = mp_comm
-      else
-          comm = MPI_COMM_WORLD
-      endif
-      
-      npdims(1) = numnodes
-      npdims(2) = 1
-      
-      CALL mp_environ(numnodes, mynode, mp_comm)
-      CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
-
-      ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
-      DO prow = 0, npdims(1) - 1
-         DO pcol = 0, npdims(2) - 1
-            CALL mp_cart_rank(group, (/prow, pcol/), pgrid(prow, pcol))
-         ENDDO
-      ENDDO
-
-      CALL dbcsr_mp_new(mp_env, pgrid, group, mynode, numnodes, &
-                        myploc(1), myploc(2))
-
-      DEALLOCATE (pgrid)
+      call dbcsr_mp_make_env(mp_env, group, mp_comm)
 
       call  dbcsr_init_timer(mp_env)
 

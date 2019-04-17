@@ -157,6 +157,63 @@ CONTAINS
    END SUBROUTINE dbcsr_mp_grid_setup
 
 ! **************************************************************************************************
+!> \brief Creates a sane mp_obj from the given MPI comm that is not a cartesian one (hack)
+!> \param[out] mp_env      Message-passing environment object to create
+!> \param[out] cart_group  the created cartesian group (to be freed by the user)
+!> \param[in] mp_group     MPI group
+!> \param[in] nprocs       (optional) Number of processes
+!> \param[in] pgrid_dims   (optional) Dimensions of MPI group
+! **************************************************************************************************
+   SUBROUTINE dbcsr_mp_make_env(mp_env, cart_group, mp_group, &
+                                nprocs, pgrid_dims)
+      TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
+      INTEGER, INTENT(OUT)                               :: cart_group
+      INTEGER, INTENT(IN)                                :: mp_group
+      INTEGER, INTENT(IN), OPTIONAL                      :: nprocs
+      INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: pgrid_dims
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mp_make_env', &
+                                     routineP = moduleN//':'//routineN
+
+      INTEGER                                            :: error_handle, mynode, numnodes, pcol, &
+                                                            prow
+      INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: pgrid
+      INTEGER, DIMENSION(2)                              :: coord, myploc, npdims
+      LOGICAL                                            :: alive
+
+!   ---------------------------------------------------------------------------
+
+      CALL timeset(routineN, error_handle)
+      CALL mp_environ(numnodes, mynode, mp_group)
+      IF (PRESENT(nprocs)) THEN
+         IF (nprocs > numnodes) &
+            DBCSR_ABORT("Can not grow processes.")
+         numnodes = nprocs
+      ENDIF
+      !
+      IF (PRESENT(pgrid_dims)) THEN
+         npdims(:) = pgrid_dims
+      ELSE
+         npdims(:) = 0
+         CALL mp_dims_create(numnodes, npdims)
+      ENDIF
+      CALL mp_cart_create(mp_group, 2, npdims, myploc, cart_group)
+      CALL mp_environ(numnodes, mynode, cart_group)
+      ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
+      DO prow = 0, npdims(1) - 1
+         DO pcol = 0, npdims(2) - 1
+            coord = (/prow, pcol/)
+            CALL mp_cart_rank(cart_group, coord, pgrid(prow, pcol))
+         ENDDO
+      ENDDO
+      CALL dbcsr_mp_new(mp_env, pgrid, cart_group, mynode, numnodes, &
+                        myprow=myploc(1), mypcol=myploc(2))
+      CALL timestop(error_handle)
+   END SUBROUTINE dbcsr_mp_make_env
+
+   
+   
+! **************************************************************************************************
 !> \brief Marks another use of the mp_env
 !> \param[in,out] mp_env      multiprocessor environment
 ! **************************************************************************************************
