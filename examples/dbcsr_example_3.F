@@ -194,7 +194,7 @@ PROGRAM dbcsr_example_3
    DEALLOCATE (row_blk_sizes, col_blk_sizes)
 
    ! finalize libdbcsr
-   CALL dbcsr_finalize_lib(mpi_comm_world)
+   CALL dbcsr_finalize_lib(MPI_COMM_WORLD)
 
    ! free comm
    CALL mpi_comm_free(group, ierr)

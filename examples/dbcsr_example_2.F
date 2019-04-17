@@ -167,7 +167,7 @@ PROGRAM dbcsr_example_2
    !***************************************************************************************
    !
    ! finalize libdbcsr
-   CALL dbcsr_finalize_lib(mpi_comm_world)
+   CALL dbcsr_finalize_lib(MPI_COMM_WORLD)
 
    ! free comm
    CALL mpi_comm_free(group, ierr)
