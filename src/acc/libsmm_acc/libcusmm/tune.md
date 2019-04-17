@@ -1,6 +1,6 @@
-# Autotuning Procedure for Finding Optimal Cuda Kernel Parameters in `libcusmm`
+# Autotuning Procedure for Finding Optimal CUDA Kernel Parameters in `libcusmm`
 
-The performance of the matrix-matrix multiplication kernels is highly dependant on the choice of algorithm and parameters, this is why autotuning is used to find optimal kernel parameters.
+The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters, this is why autotuning is used to find optimal kernel parameters.
 
 ---
 
@@ -14,13 +14,13 @@ If you are about to autotune parameters for a new GPU (i.e. a GPU for which ther
 
 ### Autotuning procedure
 
-#### 1. Go to the libcusmm directory
+#### 1. Go to the `libcusmm` directory
 
 ```bash
 $ cd dbcsr/src/acc/libsmm_acc/libcusmm
 ```
 
-#### 2. Adapt tune_setup.py to your environment
+#### 2. Adapt `tune_setup.py` to your environment
 
 The `tune_setup.py` script generates job files. You have to adapt the script to the environment of your supercomputer and your personal settings.
 
@@ -59,7 +59,7 @@ The `tune_setup.py` script generates job files. You have to adapt the script to 
 
 #### 3. Run the script `tune_setup.py`
 
-Specify which GPU you are autotuning for by passing the appropriate `parameters_GPU.json` file as an argument with `-p`. In addition, the script takes as arguments the blocksizes you want to add to libcusmm. For example, if the system you want to autotune for contains blocks of size 5 and 8, run:
+Specify which GPU you are autotuning for by passing the appropriate `parameters_GPU.json` file as an argument with `-p`. In addition, the script takes as arguments the block sizes you want to add to `libcusmm`. For example, if the system you want to autotune for contains blocks of size 5 and 8, run:
 
 ```bash
 $ ./tune_setup.py 5 8 -p parameters_P100.json
@@ -73,7 +73,7 @@ Found 248 parameter sets for 8x8x5
 Found 424 parameter sets for 8x8x8
 ```
 
-The script will create a directory for each combination of the blocksizes:
+The script will create a directory for each combination of the block sizes:
 
 ```bash
 $ ls -d tune_*
@@ -94,7 +94,7 @@ tune_8x8x8_exe0_part4.cu
 tune_8x8x8.job
 ```
 
-For each possible parameter-set a *launcher* is generated. A launcher is a small snippet of C code, which launches the kernel by using the cuda specific `<<< >>>`-notation. It also instantiates the C++ template which contains the actual kernel code.
+For each possible parameter-set a *launcher* is generated. A launcher is a small snippet of C code, which launches the kernel by using the CUDA specific `<<< >>>`-notation. It also instantiates the C++ template which contains the actual kernel code.
 
 In order to parallelize the benchmarking, the launchers are distributed over multiple executables. Currently, up to 10'000 launchers are benchmarked by one *executable*. Each executable is linked together from several `tune_*_part???.o` and a `tune_*_main.o`. Each part-files contains up to 100 launchers. This allows to parallelize the compilation over multiple CPU cores.
 
@@ -184,7 +184,11 @@ Wrote parameters.new.json
 
 The file `parameters.new.json` can now be used as a parameter file. Rename it to `parameters_GPU.json`, with the appropriate `GPU`.
 
-#### 8. Contribute parameters to the community
+#### 8. (optional) Explore the data
+
+Explore the data interactively using the [provided Jupyter Notebook](notebooks/inspect_training_data.ipynb).
+
+#### 9. Contribute parameters to the community
 
 **Contribute new optimal parameters**
 
