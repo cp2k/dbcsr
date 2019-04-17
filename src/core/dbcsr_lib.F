@@ -26,7 +26,8 @@ MODULE dbcsr_lib
    USE dbcsr_mpiwrap, ONLY: add_mp_perf_env, &
                             describe_mp_perf_env, &
                             has_mp_perf_env, &
-                            mp_environ
+                            mp_environ, mp_cart_rank,&
+                            rm_mp_perf_env
    USE dbcsr_multiply_api, ONLY: dbcsr_multiply_clear_mempools, &
                                  dbcsr_multiply_lib_finalize, &
                                  dbcsr_multiply_lib_init
@@ -47,6 +48,9 @@ MODULE dbcsr_lib
    
    use dbcsr_types, only: dbcsr_mp_obj
 
+   use dbcsr_mp_methods, only: dbcsr_mp_new,dbcsr_mp_release
+
+   use dbcsr_error_handling, only: dbcsr_error_handling_setup
 
 #include "base/dbcsr_base_uses.f90"
 
@@ -74,32 +78,12 @@ CONTAINS
 !>
 !> Prepares the DBCSR library for use.
 ! **************************************************************************************************
-   subroutine dbcsr_init_timer(mp_comm, npdims, group)
-      integer , intent(in) :: mp_comm
-      integer, dimension(2), intent(in)  :: npdims
-      INTEGER, intent(in)                                  :: group
-      integer, dimension(2)  :: myploc
-      INTEGER, DIMENSION(:, :), POINTER        :: pgrid
-      integer :: io_unit, mynode, numnodes, pcol, prow
-
-      CALL mp_environ(numnodes, mynode, mp_comm)
-!       CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
-
-      ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
-      DO prow = 0, npdims(1) - 1
-         DO pcol = 0, npdims(2) - 1
-            CALL mp_cart_rank(group, (/prow, pcol/), pgrid(prow, pcol))
-         ENDDO
-      ENDDO
-
-      CALL dbcsr_mp_new(mp_env, pgrid, group, mynode, numnodes, &
-                        myploc(1), myploc(2))
-      DEALLOCATE (pgrid)
-
+   subroutine dbcsr_init_timer(mp_env)
+      TYPE(dbcsr_mp_obj) , intent(in) :: mp_env
+      integer :: io_unit
 
       io_unit = 0
-      IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
-
+      IF (mp_env % mp % mynode .EQ. mp_env % mp % source) io_unit = default_output_unit
       !
       ! Timers
       NULLIFY (logger)
@@ -112,7 +96,6 @@ CONTAINS
       CALL timings_register_hooks()
       CALL add_mp_perf_env()
       CALL add_timer_env()
-
    end subroutine
 
    
@@ -142,14 +125,11 @@ CONTAINS
 !>
 !> Prepares the DBCSR library for use.
 ! **************************************************************************************************
-   subroutine dbcsr_print_timer(mp_comm)
-      integer , intent(in) :: mp_comm
-      integer :: io_unit, mynode, numnodes
-
-      CALL mp_environ(numnodes, mynode, mp_comm)
+   subroutine dbcsr_print_timer()
+      integer :: io_unit
 
       io_unit = 0
-      IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
+      IF (mp_env % mp % mynode .EQ. mp_env % mp % source) io_unit = default_output_unit
 
       CALL timings_report_print(io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
    end subroutine
@@ -160,15 +140,44 @@ CONTAINS
 !>
 !> Prepares the DBCSR library for use.
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_init_lib()
+   SUBROUTINE dbcsr_init_lib(mp_comm)
+      INTEGER, INTENT(IN)  :: mp_comm
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_lib', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, ithread, nthreads
+      integer :: comm
+      
+      integer, dimension(2),             :: npdims
+      integer, dimension(2)              :: myploc
+      INTEGER, DIMENSION(:, :), POINTER  :: pgrid      
+      integer :: io_unit, group, numnodes, pcol, prow, mynode
 
-!n_stack_buffers,mem_type, n_stack_mem_regions, stack_size, nstacks,&
-!INTEGER, DIMENSION(3)                    :: nxstacks
-!   ---------------------------------------------------------------------------
+      if (present(mp_comm)) then
+          comm = mp_comm
+      else
+          comm = MPI_COMM_WORLD
+      endif
+      
+      npdims(1) = numnodes
+      npdims(2) = 1
+      
+      CALL mp_environ(numnodes, mynode, mp_comm)
+      CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
+
+      ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
+      DO prow = 0, npdims(1) - 1
+         DO pcol = 0, npdims(2) - 1
+            CALL mp_cart_rank(group, (/prow, pcol/), pgrid(prow, pcol))
+         ENDDO
+      ENDDO
+
+      CALL dbcsr_mp_new(mp_env, pgrid, group, mynode, numnodes, &
+                        myploc(1), myploc(2))
+
+      DEALLOCATE (pgrid)
+
+      call  dbcsr_init_timer(mp_env)
 
       IF (is_initialized) RETURN
       CALL timeset(routineN, error_handle)
@@ -257,6 +266,8 @@ CONTAINS
       is_initialized = .FALSE.
 
       CALL timestop(error_handle)
+
+      call dbcsr_kill_timer()
    END SUBROUTINE dbcsr_finalize_lib
 
 ! **************************************************************************************************
