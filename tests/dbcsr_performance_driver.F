@@ -61,7 +61,7 @@ PROGRAM dbcsr_performance_driver
 
    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_multiply'
 
-   TYPE(dbcsr_logger_type), POINTER            :: logger
+   !TYPE(dbcsr_logger_type), POINTER            :: logger
 
    !***************************************************************************************
 
@@ -110,24 +110,25 @@ PROGRAM dbcsr_performance_driver
 
    !
    ! Timers
-   NULLIFY (logger)
-   CALL dbcsr_logger_create(logger, mp_env=mp_env, &
-                            default_global_unit_nr=io_unit, &
-                            close_global_unit_on_dealloc=.FALSE.)
-   CALL dbcsr_add_default_logger(logger)
-   CALL dbcsr_logger_release(logger)
-   CALL dbcsr_error_handling_setup()
-   CALL timings_register_hooks()
-   CALL add_mp_perf_env()
-   CALL add_timer_env()
+   !NULLIFY (logger)
+   !CALL dbcsr_logger_create(logger, mp_env=mp_env, &
+                            !default_global_unit_nr=io_unit, &
+                            !close_global_unit_on_dealloc=.FALSE.)
+   !CALL dbcsr_add_default_logger(logger)
+   !CALL dbcsr_logger_release(logger)
+   !CALL dbcsr_error_handling_setup()
+   !CALL timings_register_hooks()
+   !CALL add_mp_perf_env()
+   !CALL add_timer_env()
 
    !
-   ! initialize libdbcsr errors
-   CALL timeset(routineN, handle)
 
    !
    ! initialize libdbcsr
-   CALL dbcsr_init_lib()
+   CALL dbcsr_init_lib(mp_comm)
+   
+   ! initialize libdbcsr errors
+   CALL timeset(routineN, handle)
 
    !
    ! print DBCSR configuration
@@ -143,17 +144,18 @@ PROGRAM dbcsr_performance_driver
    END SELECT
 
    !
-   ! finalize libdbcsr
-   CALL dbcsr_finalize_lib(mp_comm, io_unit)
 
    !
    ! finalize libdbcsr errors
    CALL timestop(handle)
+   
+   ! finalize libdbcsr
+   CALL dbcsr_finalize_lib(mp_comm, io_unit)
 
    ! Print timers
-   CALL timings_report_print(io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
+   !CALL timings_report_print(io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
    ! Dump callgraph
-   CALL timings_report_callgraph("test.callgraph")
+   !CALL timings_report_callgraph("test.callgraph")
 
    !
    ! clean mp environment
@@ -161,7 +163,7 @@ PROGRAM dbcsr_performance_driver
 
    !
    ! Remove logger
-   CALL dbcsr_rm_default_logger()
+   !CALL dbcsr_rm_default_logger()
 
    !
    ! free comm
@@ -169,8 +171,8 @@ PROGRAM dbcsr_performance_driver
 
    !
    ! Remove timers
-   CALL rm_mp_perf_env()
-   CALL rm_timer_env()
+   !CALL rm_mp_perf_env()
+   !CALL rm_timer_env()
 
    !
    ! finalize mpi

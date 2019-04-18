@@ -72,7 +72,7 @@ PROGRAM dbcsr_tensor_unittest
    IF (mynode .EQ. 0) io_unit = default_output_unit
 
    ! initialize libdbcsr
-   CALL dbcsr_init_lib()
+   CALL dbcsr_init_lib(mp_comm)
 
    ! Process grid
 
