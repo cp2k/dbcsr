@@ -61,7 +61,7 @@ PROGRAM dbcsr_test_csr_conversions
    npdims(:) = 0
    CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
    CALL mp_environ(numnodes, mynode, group)
-   CALL dbcsr_init_lib()
+   CALL dbcsr_init_lib(mp_comm)
 
    io_unit = 0
    IF (mynode .EQ. 0) io_unit = default_output_unit

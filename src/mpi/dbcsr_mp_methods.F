@@ -17,7 +17,10 @@ MODULE dbcsr_mp_methods
                             dbcsr_mp_release
    USE dbcsr_mpiwrap, ONLY: mp_cart_create, &
                             mp_cart_sub, &
-                            mp_comm_free
+                            mp_comm_free,&
+                            mp_environ,&
+                            mp_cart_rank,&
+                            mp_dims_create
    USE dbcsr_types, ONLY: dbcsr_mp_obj
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -37,7 +40,7 @@ MODULE dbcsr_mp_methods
              dbcsr_mp_my_row_group, dbcsr_mp_my_col_group, &
              dbcsr_mp_has_subgroups, dbcsr_mp_get_process, &
              dbcsr_mp_grid_setup, dbcsr_mp_grid_remove, &
-             dbcsr_mp_init, dbcsr_mp_active
+             dbcsr_mp_init, dbcsr_mp_active, dbcsr_mp_make_env
 
 CONTAINS
 
@@ -179,7 +182,6 @@ CONTAINS
                                                             prow
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: pgrid
       INTEGER, DIMENSION(2)                              :: coord, myploc, npdims
-      LOGICAL                                            :: alive
 
 !   ---------------------------------------------------------------------------
 

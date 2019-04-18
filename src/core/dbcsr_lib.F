@@ -27,7 +27,8 @@ MODULE dbcsr_lib
                             describe_mp_perf_env, &
                             has_mp_perf_env, &
                             mp_environ, mp_cart_rank,&
-                            rm_mp_perf_env
+                            rm_mp_perf_env,&
+                            mp_comm_free
    USE dbcsr_multiply_api, ONLY: dbcsr_multiply_clear_mempools, &
                                  dbcsr_multiply_lib_finalize, &
                                  dbcsr_multiply_lib_init
@@ -64,14 +65,13 @@ MODULE dbcsr_lib
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_lib'
 
    PUBLIC :: dbcsr_init_lib, dbcsr_finalize_lib, dbcsr_clear_mempools
-   PUBLIC :: dbcsr_init_timer,dbcsr_kill_timer, dbcsr_print_timer
 
 
    LOGICAL, PRIVATE, SAVE :: is_initialized = .FALSE.
    
    TYPE(dbcsr_logger_type), POINTER         :: logger
    TYPE(dbcsr_mp_obj)   , save                    :: mp_env
-   integer, save :: group
+   integer, save :: default_group
 
 CONTAINS
 
@@ -106,19 +106,22 @@ CONTAINS
 !>
 !> Prepares the DBCSR library for use.
 ! **************************************************************************************************
-   subroutine dbcsr_kill_timer()
+   subroutine dbcsr_finalize_timer()
       ! clean mp environment
-      CALL dbcsr_mp_release(mp_env)
+      !CALL dbcsr_mp_release(mp_env)
 
+      print *,"1"
       !
       ! Remove logger
       CALL dbcsr_rm_default_logger()
 
+      print *,"2"
       !
       !
       ! Remove timers
       CALL rm_mp_perf_env()
       CALL rm_timer_env()
+      print *,"3"
    end subroutine
 
    
@@ -149,12 +152,12 @@ CONTAINS
 
       INTEGER                                            :: error_handle, ithread, nthreads
       
-      integer, dimension(2),             :: npdims
-      integer, dimension(2)              :: myploc
-      INTEGER, DIMENSION(:, :), POINTER  :: pgrid      
-      integer :: io_unit, group, numnodes, pcol, prow, mynode
+      !integer, dimension(2)              :: npdims
+      !integer, dimension(2)              :: myploc
+      !INTEGER, DIMENSION(:, :), POINTER  :: pgrid      
+      !integer :: io_unit, group, numnodes, pcol, prow, mynode
 
-      call dbcsr_mp_make_env(mp_env, group, mp_comm)
+      call dbcsr_mp_make_env(mp_env, default_group, mp_comm)
 
       call  dbcsr_init_timer(mp_env)
 
@@ -246,7 +249,13 @@ CONTAINS
 
       CALL timestop(error_handle)
 
-      call dbcsr_kill_timer()
+      call dbcsr_print_timer()
+      call dbcsr_finalize_timer()
+      print *,"3.5"
+      call dbcsr_mp_release(mp_env)
+      print *,"4"
+      call mp_comm_free(default_group)
+      print *,"5"
    END SUBROUTINE dbcsr_finalize_lib
 
 ! **************************************************************************************************
