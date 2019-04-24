@@ -25,6 +25,22 @@ add_fypp_sources(DBCSR_SRCS
   core/dbcsr_lib.F
   core/dbcsr_methods.F
   core/dbcsr_types.F
+  core/dbcsr_cuda_profiling.F
+  core/dbcsr_dict.F
+  core/dbcsr_error_handling.F
+  core/dbcsr_iter_types.F
+  core/dbcsr_list_callstackentry.F
+  core/dbcsr_list.F
+  core/dbcsr_list_routinereport.F
+  core/dbcsr_list_routinestat.F
+  core/dbcsr_list_timerenv.F
+  core/dbcsr_log_handling.F
+  core/dbcsr_memory_utilities.F
+  core/dbcsr_print_messages.F
+  core/dbcsr_timings_base_type.F
+  core/dbcsr_timings.F
+  core/dbcsr_timings_report.F
+  core/dbcsr_timings_types.F
   data/dbcsr_data_operations.F
   data/dbcsr_data_methods.F
   data/dbcsr_data_methods_low.F
@@ -34,22 +50,6 @@ add_fypp_sources(DBCSR_SRCS
   dist/dbcsr_dist_methods.F
   dist/dbcsr_dist_operations.F
   dist/dbcsr_dist_util.F
-  extras/dbcsr_cuda_profiling.F
-  extras/dbcsr_dict.F
-  extras/dbcsr_error_handling.F
-  extras/dbcsr_iter_types.F
-  extras/dbcsr_list_callstackentry.F
-  extras/dbcsr_list.F
-  extras/dbcsr_list_routinereport.F
-  extras/dbcsr_list_routinestat.F
-  extras/dbcsr_list_timerenv.F
-  extras/dbcsr_log_handling.F
-  extras/dbcsr_memory_utilities.F
-  extras/dbcsr_print_messages.F
-  extras/dbcsr_timings_base_type.F
-  extras/dbcsr_timings.F
-  extras/dbcsr_timings_report.F
-  extras/dbcsr_timings_types.F
   mm/dbcsr_acc_operations.F
   mm/dbcsr_mm_3d.F
   mm/dbcsr_mm_accdrv.F
