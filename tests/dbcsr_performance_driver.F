@@ -125,7 +125,7 @@ PROGRAM dbcsr_performance_driver
 
    !
    ! initialize libdbcsr
-   CALL dbcsr_init_lib(mp_comm)
+   CALL dbcsr_init_lib(mp_comm,io_unit)
    
    ! initialize libdbcsr errors
    CALL timeset(routineN, handle)
@@ -150,7 +150,6 @@ PROGRAM dbcsr_performance_driver
    CALL timestop(handle)
    
    ! finalize libdbcsr
-   CALL dbcsr_finalize_lib(mp_comm, io_unit)
 
    ! Print timers
    !CALL timings_report_print(io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
@@ -169,6 +168,7 @@ PROGRAM dbcsr_performance_driver
    ! free comm
    CALL mp_comm_free(group)
 
+   CALL dbcsr_finalize_lib()
    !
    ! Remove timers
    !CALL rm_mp_perf_env()

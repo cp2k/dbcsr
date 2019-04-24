@@ -71,8 +71,8 @@ MODULE dbcsr_lib
    
    TYPE(dbcsr_logger_type), POINTER         :: logger
    TYPE(dbcsr_mp_obj)   , save                    :: mp_env
-   integer, save :: default_group
-
+   integer, save :: default_group, ext_io_unit
+   
 CONTAINS
 
 ! **************************************************************************************************
@@ -80,14 +80,16 @@ CONTAINS
 !>
 !> Prepares the DBCSR library for use.
 ! **************************************************************************************************
-   subroutine dbcsr_init_timer(mp_env)
-      TYPE(dbcsr_mp_obj) , intent(in) :: mp_env
-      integer :: io_unit
+   subroutine dbcsr_init_timer(mp_comm, io_unit)
+      INTEGER, INTENT(IN)  :: mp_comm
+      integer, intent(in) :: io_unit
 
-      io_unit = 0
-      IF (mp_env % mp % mynode .EQ. mp_env % mp % source) io_unit = default_output_unit
+      call dbcsr_mp_make_env(mp_env, default_group, mp_comm)
+      !io_unit = 0
+      !IF (mp_env % mp % mynode .EQ. mp_env % mp % source) io_unit = default_output_unit
       !
       ! Timers
+      
       NULLIFY (logger)
       CALL dbcsr_logger_create(logger, mp_env=mp_env, &
                               default_global_unit_nr=io_unit, &
@@ -107,21 +109,11 @@ CONTAINS
 !> Prepares the DBCSR library for use.
 ! **************************************************************************************************
    subroutine dbcsr_finalize_timer()
-      ! clean mp environment
-      !CALL dbcsr_mp_release(mp_env)
-
-      print *,"1"
-      !
-      ! Remove logger
       CALL dbcsr_rm_default_logger()
-
-      print *,"2"
-      !
-      !
-      ! Remove timers
+      CALL dbcsr_mp_release(mp_env)
+      call mp_comm_free(default_group)
       CALL rm_mp_perf_env()
       CALL rm_timer_env()
-      print *,"3"
    end subroutine
 
    
@@ -131,12 +123,12 @@ CONTAINS
 !> Prepares the DBCSR library for use.
 ! **************************************************************************************************
    subroutine dbcsr_print_timer()
-      integer :: io_unit
+      !integer :: io_unit
 
-      io_unit = 0
-      IF (mp_env % mp % mynode .EQ. mp_env % mp % source) io_unit = default_output_unit
+      !io_unit = 0
+      !IF (mp_env % mp % mynode .EQ. mp_env % mp % source) io_unit = default_output_unit
 
-      CALL timings_report_print(io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
+      CALL timings_report_print(ext_io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
    end subroutine
 
    
@@ -145,8 +137,9 @@ CONTAINS
 !>
 !> Prepares the DBCSR library for use.
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_init_lib(mp_comm)
+   SUBROUTINE dbcsr_init_lib(mp_comm, io_unit)
       INTEGER, INTENT(IN)  :: mp_comm
+      integer, intent(in) :: io_unit
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_lib', routineP = moduleN//':'//routineN
 
@@ -157,9 +150,9 @@ CONTAINS
       !INTEGER, DIMENSION(:, :), POINTER  :: pgrid      
       !integer :: io_unit, group, numnodes, pcol, prow, mynode
 
-      call dbcsr_mp_make_env(mp_env, default_group, mp_comm)
+      ext_io_unit = io_unit
 
-      call  dbcsr_init_timer(mp_env)
+      call dbcsr_init_timer(mp_comm, io_unit)
 
       IF (is_initialized) RETURN
       CALL timeset(routineN, error_handle)
@@ -203,25 +196,25 @@ CONTAINS
 !> \param group ...
 !> \param output_unit ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_finalize_lib(group, output_unit)
-      INTEGER, INTENT(IN)                                :: group
-      INTEGER, INTENT(IN), OPTIONAL                      :: output_unit
+   SUBROUTINE dbcsr_finalize_lib()
+      !INTEGER, INTENT(IN)                                :: group
+      !INTEGER, INTENT(IN), OPTIONAL                      :: output_unit
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize_lib', &
                                      routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: error_handle, io_unit, ithread, mynode
+      INTEGER                                            :: error_handle, io_unit, ithread !, mynode
 
       IF (.NOT. is_initialized) RETURN
       CALL timeset(routineN, error_handle)
 
-      io_unit = 0
-      IF (PRESENT(output_unit)) THEN
-         io_unit = output_unit
-      ELSE
-         CALL mp_environ(taskid=mynode, groupid=group)
-         IF (mynode .EQ. 0) io_unit = default_output_unit
-      ENDIF
+      io_unit = ext_io_unit
+      !IF (PRESENT(output_unit)) THEN
+         !io_unit = output_unit
+      !ELSE
+         !CALL mp_environ(taskid=mynode, groupid=default_group)
+         !IF (mynode .EQ. 0) io_unit = default_output_unit
+      !ENDIF
 
       IF (io_unit > 0) THEN
          WRITE (UNIT=io_unit, FMT="(/,T2,A)") REPEAT("-", 79)
@@ -231,8 +224,8 @@ CONTAINS
          WRITE (UNIT=io_unit, FMT="(T2,A)") REPEAT("-", 79)
       END IF
 
-!$OMP     PARALLEL DEFAULT(NONE) PRIVATE(ithread) SHARED(io_unit, group, cublas_handles)
-      CALL dbcsr_multiply_lib_finalize(group, io_unit)
+!$OMP     PARALLEL DEFAULT(NONE) PRIVATE(ithread) SHARED(io_unit, default_group, cublas_handles)
+      CALL dbcsr_multiply_lib_finalize(default_group, io_unit)
       ithread = 0
 !$    ithread = omp_get_thread_num()
       CALL cublas_handle_destroy(cublas_handles(ithread + 1))
@@ -251,11 +244,6 @@ CONTAINS
 
       call dbcsr_print_timer()
       call dbcsr_finalize_timer()
-      print *,"3.5"
-      call dbcsr_mp_release(mp_env)
-      print *,"4"
-      call mp_comm_free(default_group)
-      print *,"5"
    END SUBROUTINE dbcsr_finalize_lib
 
 ! **************************************************************************************************

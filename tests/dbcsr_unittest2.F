@@ -52,9 +52,6 @@ PROGRAM dbcsr_unittest
 
    !***************************************************************************************
 
-   !
-   ! initialize libdbcsr errors
-   CALL timeset(routineN, handle)
 
    !
    ! initialize mpi
@@ -82,8 +79,13 @@ PROGRAM dbcsr_unittest
    ! initialize libdbcsr
    IF (acc_get_ndevices() > 0) &
       CALL acc_set_active_device(MOD(mynode, acc_get_ndevices()))
-   CALL dbcsr_init_lib(mp_comm)
 
+   CALL dbcsr_init_lib(mp_comm, io_unit)
+
+   !
+   ! initialize libdbcsr errors
+   CALL timeset(routineN, handle)
+   
    CALL dbcsr_reset_randmat_seed()
 
    ! run tests
@@ -122,9 +124,11 @@ PROGRAM dbcsr_unittest
 
    ! end of test cases ---------------------------------------------------------
 
-   ! finalize libdbcsr
-   CALL dbcsr_finalize_lib(mp_comm, io_unit)
 
+   !
+   ! finalize libdbcsr errors
+   CALL timestop(handle)
+   
    !
    ! clean mp environment
    CALL dbcsr_mp_release(mp_env)
@@ -132,10 +136,11 @@ PROGRAM dbcsr_unittest
    !
    ! finalize mpi
    CALL mp_comm_free(group)
+   
+   ! finalize libdbcsr
+   CALL dbcsr_finalize_lib()
+   
    CALL mp_world_finalize()
 
-   !
-   ! finalize libdbcsr errors
-   CALL timestop(handle)
 
 END PROGRAM dbcsr_unittest
