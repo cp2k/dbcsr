@@ -139,7 +139,7 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib(mp_comm, io_unit)
       INTEGER, INTENT(IN)  :: mp_comm
-      integer, intent(in) :: io_unit
+      integer, intent(in), optional :: io_unit
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_lib', routineP = moduleN//':'//routineN
 
@@ -148,11 +148,18 @@ CONTAINS
       !integer, dimension(2)              :: npdims
       !integer, dimension(2)              :: myploc
       !INTEGER, DIMENSION(:, :), POINTER  :: pgrid      
-      !integer :: io_unit, group, numnodes, pcol, prow, mynode
+      integer ::  numnodes, mynode
 
-      ext_io_unit = io_unit
+      IF (PRESENT(io_unit)) THEN
+         ext_io_unit = io_unit
+      ELSE
+         ext_io_unit = 0
+         CALL mp_environ(numnodes, mynode, mp_comm)
+         IF (mynode .EQ. 0) ext_io_unit = default_output_unit
+      ENDIF
 
-      call dbcsr_init_timer(mp_comm, io_unit)
+
+      call dbcsr_init_timer(mp_comm, ext_io_unit)
 
       IF (is_initialized) RETURN
       CALL timeset(routineN, error_handle)
@@ -209,12 +216,6 @@ CONTAINS
       CALL timeset(routineN, error_handle)
 
       io_unit = ext_io_unit
-      !IF (PRESENT(output_unit)) THEN
-         !io_unit = output_unit
-      !ELSE
-         !CALL mp_environ(taskid=mynode, groupid=default_group)
-         !IF (mynode .EQ. 0) io_unit = default_output_unit
-      !ENDIF
 
       IF (io_unit > 0) THEN
          WRITE (UNIT=io_unit, FMT="(/,T2,A)") REPEAT("-", 79)

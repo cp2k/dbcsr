@@ -16,15 +16,15 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    void c_dbcsr_init_lib();
+    void c_dbcsr_init_lib_internal(MPI_Fint* fcomm, int* io_unit);
 
-    void c_dbcsr_finalize_lib_aux(MPI_Fint* fcomm);
-
-    static void c_dbcsr_finalize_lib(MPI_Comm comm)
+    static void c_dbcsr_init_lib(MPI_Comm comm, int* io_unit)
     {
         MPI_Fint fcomm = MPI_Comm_c2f(comm);
-        c_dbcsr_finalize_lib_aux(&fcomm);
+        c_dbcsr_init_lib_internal(&fcomm, io_unit);
     }
+
+    void c_dbcsr_finalize_lib();
 
     void c_dbcsr_distribution_new_aux(void** dist, MPI_Fint* fcomm, int* row_dist, int row_dist_size,
                                       int* col_dist, int col_dist_size);
