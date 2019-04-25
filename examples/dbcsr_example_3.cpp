@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
         << ", (" << coord[0] << ", " << coord[1] << ") in the 2D grid"
         << std::endl;
 
-    c_dbcsr_init_lib();
+    c_dbcsr_init_lib(MPI_COMM_WORLD, nullptr);
 
     // Total number of blocks
     int nblkrows_total = 4;
@@ -139,9 +139,11 @@ int main(int argc, char* argv[])
 
     c_dbcsr_distribution_release(&dist);
 
-    c_dbcsr_finalize_lib(group);
 
     MPI_Comm_free(&group);
+    
+    c_dbcsr_finalize_lib();
+    
     MPI_Finalize();
 
     return 0;

@@ -76,7 +76,7 @@ PROGRAM dbcsr_example_3
    !***************************************************************************************
    !
    ! initialize libdbcsr
-   CALL dbcsr_init_lib()
+   CALL dbcsr_init_lib(MPI_COMM_WORLD)
 
    !
    ! the matrix will contain nblkrows_total row blocks and nblkcols_total column blocks
@@ -193,13 +193,13 @@ PROGRAM dbcsr_example_3
    CALL dbcsr_distribution_release(dist)
    DEALLOCATE (row_blk_sizes, col_blk_sizes)
 
-   ! finalize libdbcsr
-   CALL dbcsr_finalize_lib(MPI_COMM_WORLD)
 
    ! free comm
    CALL mpi_comm_free(group, ierr)
    IF (ierr /= 0) STOP "Error in MPI_Comm_free"
 
+   ! finalize libdbcsr
+   CALL dbcsr_finalize_lib()
    !
    ! finalize mpi
    CALL mpi_finalize(ierr)
