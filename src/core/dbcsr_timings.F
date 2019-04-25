@@ -136,6 +136,8 @@ CONTAINS
       timer_env => list_pop(timers_stack)
       CALL timer_env_release(timer_env)
       IF (list_size(timers_stack) == 0) CALL list_destroy(timers_stack)
+      timeset_hook => NULL()
+      timestop_hook => NULL()
    END SUBROUTINE rm_timer_env
 
 ! **************************************************************************************************

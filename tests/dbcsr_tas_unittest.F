@@ -47,7 +47,12 @@ PROGRAM dbcsr_tas_unittest
 
    CALL mp_world_init(mp_comm)
 
-   CALL dbcsr_init_lib()
+   CALL mp_environ(numnodes, mynode, mp_comm)
+
+   io_unit = 0
+   IF (mynode .EQ. 0) io_unit = default_output_unit
+   
+   CALL dbcsr_init_lib(mp_comm, io_unit)
 
    CALL dbcsr_tas_random_bsizes([13, 8, 5, 25, 12], 2, bsize_m)
    CALL dbcsr_tas_random_bsizes([3, 78, 33, 12, 3, 15], 1, bsize_n)
@@ -141,7 +146,7 @@ PROGRAM dbcsr_tas_unittest
    CALL mp_comm_free(mp_comm_C)
    CALL mp_comm_free(mp_comm_Ct)
 
-   CALL dbcsr_finalize_lib(mp_comm, io_unit)
+   CALL dbcsr_finalize_lib()
 
    CALL mp_world_finalize()
 
