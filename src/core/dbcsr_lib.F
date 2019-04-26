@@ -86,12 +86,9 @@ MODULE dbcsr_lib
    end interface 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Initialize timers
-!>
-!> Prepares the DBCSR library for use.
-! **************************************************************************************************
-   subroutine dbcsr_init_timer(mp_comm, io_unit)
+
+
+    subroutine base_init(mp_comm, io_unit)
       INTEGER, INTENT(IN)  :: mp_comm
       integer, intent(in), optional :: io_unit
       integer ::  numnodes, mynode
@@ -105,7 +102,13 @@ CONTAINS
       ENDIF
 
       call dbcsr_mp_make_env(mp_env, default_group, mp_comm)
-      
+    end subroutine
+! **************************************************************************************************
+!> \brief Initialize timers
+!>
+!> Prepares the DBCSR library for use.
+! **************************************************************************************************
+   subroutine dbcsr_init_timer()
       NULLIFY (logger)
       CALL dbcsr_logger_create(logger, mp_env=mp_env, &
                               default_global_unit_nr=ext_io_unit, &
@@ -113,14 +116,12 @@ CONTAINS
       CALL dbcsr_add_default_logger(logger)
       CALL dbcsr_logger_release(logger)
       CALL dbcsr_error_handling_setup()
+      call timings_register_hooks()
+      CALL add_mp_perf_env()
+      CALL add_timer_env()
    end subroutine
 
 
-! final part of timer initialization
-   subroutine add_envs()
-      CALL add_mp_perf_env()
-      CALL add_timer_env()
-   end subroutine 
 ! **************************************************************************************************
 !> \brief Kill timers
 !>
@@ -152,11 +153,8 @@ CONTAINS
    SUBROUTINE dbcsr_init_lib_def(mp_comm, io_unit)
       INTEGER, INTENT(IN)  :: mp_comm
       integer, intent(in), optional :: io_unit
-
-      call dbcsr_init_timer(mp_comm, io_unit)
-      call timings_register_hooks()
-      call add_envs()
-
+      call base_init(mp_comm, io_unit)
+      call dbcsr_init_timer()
       call dbcsr_init_lib_only()   
    end subroutine
 
@@ -175,10 +173,9 @@ CONTAINS
       PROCEDURE(dbcsr_abort_interface), INTENT(IN), POINTER :: in_abort_hook
       PROCEDURE(dbcsr_warn_interface), INTENT(IN), POINTER :: in_warn_hook
       
-      call dbcsr_init_timer(mp_comm, io_unit)      
+      call base_init(mp_comm, io_unit) 
       call timings_register_hooks(in_timeset_hook, in_timestop_hook,&
                                   in_abort_hook, in_warn_hook)   
-      call add_envs()
 
       call dbcsr_init_lib_only()   
    end subroutine
