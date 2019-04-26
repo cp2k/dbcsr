@@ -71,7 +71,7 @@ foreach (dbcsr_test ${DBCSR_TESTS})
   else ()
     add_test(NAME ${dbcsr_test} COMMAND ./${dbcsr_test})
   endif ()
-  set_tests_properties(${dbcsr_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${num_threads})
+  set_tests_properties(${dbcsr_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${TEST_OMP_THREADS})
 endforeach ()
 
 if (USE_CUDA)
