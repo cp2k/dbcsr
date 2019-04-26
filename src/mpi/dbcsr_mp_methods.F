@@ -145,14 +145,10 @@ CONTAINS
          CALL mp_cart_create(mp_env%mp%mp_group, ndims, &
                              dims, my_pos, &
                              tmp_group)
-         IF (my_pos(1) .NE. mp_env%mp%myprow) then
-            error stop 1
+         IF (my_pos(1) .NE. mp_env%mp%myprow) &
             DBCSR_ABORT("Got different MPI process grid")
-        endif
-         IF (my_pos(2) .NE. mp_env%mp%mypcol) then
-             error stop 1
+         IF (my_pos(2) .NE. mp_env%mp%mypcol) &
             DBCSR_ABORT("Got different MPI process grid")
-        endif
          !
          remain = (/.FALSE., .TRUE./)
          CALL mp_cart_sub(tmp_group, remain, mp_env%mp%prow_group)
