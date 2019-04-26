@@ -59,6 +59,8 @@ PROGRAM dbcsr_test_csr_conversions
    ! Set up everything as in the dbcsr example codes
    CALL mp_world_init(mp_comm)
    
+   CALL mp_environ(numnodes, mynode, mp_comm)
+
    io_unit = 0
    IF (mynode .EQ. 0) io_unit = default_output_unit
    
