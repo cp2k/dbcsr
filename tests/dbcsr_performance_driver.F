@@ -61,7 +61,6 @@ PROGRAM dbcsr_performance_driver
 
    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_multiply'
 
-   !TYPE(dbcsr_logger_type), POINTER            :: logger
 
    !***************************************************************************************
 
@@ -109,21 +108,6 @@ PROGRAM dbcsr_performance_driver
    IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
 
    !
-   ! Timers
-   !NULLIFY (logger)
-   !CALL dbcsr_logger_create(logger, mp_env=mp_env, &
-                            !default_global_unit_nr=io_unit, &
-                            !close_global_unit_on_dealloc=.FALSE.)
-   !CALL dbcsr_add_default_logger(logger)
-   !CALL dbcsr_logger_release(logger)
-   !CALL dbcsr_error_handling_setup()
-   !CALL timings_register_hooks()
-   !CALL add_mp_perf_env()
-   !CALL add_timer_env()
-
-   !
-
-   !
    ! initialize libdbcsr
    CALL dbcsr_init_lib(mp_comm,io_unit)
    
@@ -143,19 +127,11 @@ PROGRAM dbcsr_performance_driver
       DBCSR_ABORT("operation not found")
    END SELECT
 
-   !
 
    !
    ! finalize libdbcsr errors
    CALL timestop(handle)
    
-   ! finalize libdbcsr
-
-   ! Print timers
-   !CALL timings_report_print(io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
-   ! Dump callgraph
-   !CALL timings_report_callgraph("test.callgraph")
-
    !
    ! clean mp environment
    CALL dbcsr_mp_release(mp_env)
@@ -170,10 +146,6 @@ PROGRAM dbcsr_performance_driver
 
    CALL dbcsr_finalize_lib()
    !
-   ! Remove timers
-   !CALL rm_mp_perf_env()
-   !CALL rm_timer_env()
-
    !
    ! finalize mpi
    CALL mp_world_finalize()

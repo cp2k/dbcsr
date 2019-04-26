@@ -47,6 +47,13 @@ MODULE dbcsr_lib
                                  dbcsr_logger_type, &
                                  dbcsr_rm_default_logger
    
+   USE dbcsr_base_hooks, ONLY: timeset_hook, &
+                               timestop_hook,&
+                               dbcsr_abort_hook,&
+                               dbcsr_warn_hook,&
+                               dbcsr_abort_interface, dbcsr_warn_interface, &
+                               timeset_interface, timestop_interface
+
    use dbcsr_types, only: dbcsr_mp_obj
 
    use dbcsr_mp_methods, only: dbcsr_mp_new, dbcsr_mp_release, &
@@ -72,7 +79,11 @@ MODULE dbcsr_lib
    TYPE(dbcsr_logger_type), POINTER         :: logger
    TYPE(dbcsr_mp_obj)   , save                    :: mp_env
    integer, save :: default_group, ext_io_unit
-   
+  
+   interface dbcsr_init_lib
+       module procedure dbcsr_init_lib_def
+       module procedure dbcsr_init_lib_ext
+   end interface 
 CONTAINS
 
 ! **************************************************************************************************
@@ -82,27 +93,34 @@ CONTAINS
 ! **************************************************************************************************
    subroutine dbcsr_init_timer(mp_comm, io_unit)
       INTEGER, INTENT(IN)  :: mp_comm
-      integer, intent(in) :: io_unit
+      integer, intent(in), optional :: io_unit
+      integer ::  numnodes, mynode
+
+      IF (PRESENT(io_unit)) THEN
+         ext_io_unit = io_unit
+      ELSE
+         ext_io_unit = 0
+         CALL mp_environ(numnodes, mynode, mp_comm)
+         IF (mynode .EQ. 0) ext_io_unit = default_output_unit
+      ENDIF
 
       call dbcsr_mp_make_env(mp_env, default_group, mp_comm)
-      !io_unit = 0
-      !IF (mp_env % mp % mynode .EQ. mp_env % mp % source) io_unit = default_output_unit
-      !
-      ! Timers
       
       NULLIFY (logger)
       CALL dbcsr_logger_create(logger, mp_env=mp_env, &
-                              default_global_unit_nr=io_unit, &
+                              default_global_unit_nr=ext_io_unit, &
                               close_global_unit_on_dealloc=.FALSE.)
       CALL dbcsr_add_default_logger(logger)
       CALL dbcsr_logger_release(logger)
       CALL dbcsr_error_handling_setup()
-      CALL timings_register_hooks()
-      CALL add_mp_perf_env()
-      CALL add_timer_env()
    end subroutine
 
-   
+
+! final part of timer initialization
+   subroutine add_envs()
+      CALL add_mp_perf_env()
+      CALL add_timer_env()
+   end subroutine 
 ! **************************************************************************************************
 !> \brief Kill timers
 !>
@@ -123,12 +141,46 @@ CONTAINS
 !> Prepares the DBCSR library for use.
 ! **************************************************************************************************
    subroutine dbcsr_print_timer()
-      !integer :: io_unit
-
-      !io_unit = 0
-      !IF (mp_env % mp % mynode .EQ. mp_env % mp % source) io_unit = default_output_unit
-
       CALL timings_report_print(ext_io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
+   end subroutine
+
+
+
+! **************************************************************************************************
+!> \brief Initialize the DBCSR library using internal timer callbacks
+! **************************************************************************************************
+   SUBROUTINE dbcsr_init_lib_def(mp_comm, io_unit)
+      INTEGER, INTENT(IN)  :: mp_comm
+      integer, intent(in), optional :: io_unit
+
+      call dbcsr_init_timer(mp_comm, io_unit)
+      call timings_register_hooks()
+      call add_envs()
+
+      call dbcsr_init_lib_only()   
+   end subroutine
+
+   
+! **************************************************************************************************
+!> \brief Initialize the DBCSR library using external timer callbacks
+! **************************************************************************************************
+   SUBROUTINE dbcsr_init_lib_ext(mp_comm, io_unit, &
+                                 in_timeset_hook, in_timestop_hook, &
+                                 in_abort_hook, in_warn_hook)
+      INTEGER, INTENT(IN)  :: mp_comm
+      integer, intent(in), optional :: io_unit
+
+      PROCEDURE(timeset_interface), INTENT(IN), POINTER :: in_timeset_hook
+      PROCEDURE(timestop_interface), INTENT(IN), POINTER :: in_timestop_hook
+      PROCEDURE(dbcsr_abort_interface), INTENT(IN), POINTER :: in_abort_hook
+      PROCEDURE(dbcsr_warn_interface), INTENT(IN), POINTER :: in_warn_hook
+      
+      call dbcsr_init_timer(mp_comm, io_unit)      
+      call timings_register_hooks(in_timeset_hook, in_timestop_hook,&
+                                  in_abort_hook, in_warn_hook)   
+      call add_envs()
+
+      call dbcsr_init_lib_only()   
    end subroutine
 
    
@@ -137,9 +189,7 @@ CONTAINS
 !>
 !> Prepares the DBCSR library for use.
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_init_lib(mp_comm, io_unit)
-      INTEGER, INTENT(IN)  :: mp_comm
-      integer, intent(in), optional :: io_unit
+   SUBROUTINE dbcsr_init_lib_only()
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_lib', routineP = moduleN//':'//routineN
 
@@ -148,18 +198,6 @@ CONTAINS
       !integer, dimension(2)              :: npdims
       !integer, dimension(2)              :: myploc
       !INTEGER, DIMENSION(:, :), POINTER  :: pgrid      
-      integer ::  numnodes, mynode
-
-      IF (PRESENT(io_unit)) THEN
-         ext_io_unit = io_unit
-      ELSE
-         ext_io_unit = 0
-         CALL mp_environ(numnodes, mynode, mp_comm)
-         IF (mynode .EQ. 0) ext_io_unit = default_output_unit
-      ENDIF
-
-
-      call dbcsr_init_timer(mp_comm, ext_io_unit)
 
       IF (is_initialized) RETURN
       CALL timeset(routineN, error_handle)
@@ -194,7 +232,7 @@ CONTAINS
       is_initialized = .TRUE.
 
       CALL timestop(error_handle)
-   END SUBROUTINE dbcsr_init_lib
+   END SUBROUTINE 
 
 ! **************************************************************************************************
 !> \brief Finalize the DBCSR library
