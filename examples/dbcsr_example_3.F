@@ -35,8 +35,8 @@ PROGRAM dbcsr_example_3
    INTEGER                                  :: group, numnodes, mynode, ierr, &
                                                nblkrows_total, nblkcols_total, &
                                                node_holds_blk, max_nze, nze, row, col, row_s, col_s, &
-                                               io_unit, max_row_size, max_col_size
-   INTEGER, DIMENSION(2)                    :: npdims, myploc
+                                               max_row_size, max_col_size
+   INTEGER, DIMENSION(2)                    :: npdims
    INTEGER, DIMENSION(:), POINTER           :: col_dist, row_dist
    TYPE(dbcsr_distribution_type)            :: dist
    REAL(KIND=KIND(0.0D0)), DIMENSION(:), ALLOCATABLE :: values

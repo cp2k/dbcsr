@@ -33,7 +33,7 @@ PROGRAM dbcsr_example_1
    INTEGER, DIMENSION(:), POINTER           :: col_blk_sizes, row_blk_sizes
    INTEGER                                  :: group, numnodes, mynode, nblkrows_total, &
                                                nblkcols_total, ierr
-   INTEGER, DIMENSION(2)                    :: npdims, myploc
+   INTEGER, DIMENSION(2)                    :: npdims
    INTEGER, DIMENSION(:), POINTER           :: col_dist, row_dist
    TYPE(dbcsr_distribution_type)            :: dist
    LOGICAL, DIMENSION(2)                    :: period = .TRUE.
@@ -53,7 +53,7 @@ PROGRAM dbcsr_example_1
 !$       STOP "MPI library does not support the requested level of threading (MPI_THREAD_FUNNELED)."
 !$    ENDIF
 !$ ENDIF
-      
+
    !
    ! setup the mp environment
    CALL mpi_comm_size(MPI_COMM_WORLD, numnodes, ierr)
