@@ -138,6 +138,9 @@ CONTAINS
 !> \param io_unit ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib_pre(mp_comm, io_unit)
+#if defined(__LIBXSMM)
+      USE libxsmm, ONLY: libxsmm_init
+#endif
       INTEGER, INTENT(IN)  :: mp_comm
       INTEGER, INTENT(IN), OPTIONAL :: io_unit
 
@@ -151,6 +154,9 @@ CONTAINS
          IF (mynode .EQ. 0) ext_io_unit = default_output_unit
       ENDIF
       CALL dbcsr_mp_make_env(mp_env, default_group, mp_comm)
+#if defined(__LIBXSMM)
+      CALL libxsmm_init()
+#endif
    END SUBROUTINE dbcsr_init_lib_pre
 
 ! **************************************************************************************************
@@ -205,6 +211,9 @@ CONTAINS
 !> Cleans up after the DBCSR library.  Used to deallocate persistent objects.
 ! **************************************************************************************************
    SUBROUTINE dbcsr_finalize_lib()
+#if defined(__LIBXSMM)
+      USE libxsmm, ONLY: libxsmm_finalize
+#endif
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize_lib', &
                                      routineP = moduleN//':'//routineN
 
@@ -247,11 +256,13 @@ CONTAINS
       ENDIF
       CALL dbcsr_mp_release(mp_env)
       CALL mp_comm_free(default_group)
+#if defined(__LIBXSMM)
+      CALL libxsmm_finalize()
+#endif
       NULLIFY(timeset_hook)
       NULLIFY(timestop_hook)
       NULLIFY(dbcsr_abort_hook)
       NULLIFY(dbcsr_warn_hook)
-
    END SUBROUTINE dbcsr_finalize_lib
 
 ! **************************************************************************************************
