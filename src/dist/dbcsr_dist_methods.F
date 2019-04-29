@@ -71,20 +71,16 @@ CONTAINS
 !> \param col_dist_block ...
 !> \param local_rows ...
 !> \param local_cols ...
-!> \param row_dist_cluster ...
-!> \param col_dist_cluster ...
 !> \param reuse_arrays ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_new(dist, mp_env, row_dist_block, col_dist_block, &
                                      local_rows, local_cols, &
-                                     row_dist_cluster, col_dist_cluster, &
                                      reuse_arrays)
       TYPE(dbcsr_distribution_obj), INTENT(OUT)          :: dist
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist_block, col_dist_block
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL, &
-         POINTER                                         :: local_rows, local_cols, &
-                                                            row_dist_cluster, col_dist_cluster
+         POINTER                                         :: local_rows, local_cols
       LOGICAL, OPTIONAL                                  :: reuse_arrays
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_distribution_new', &
@@ -108,19 +104,6 @@ CONTAINS
       col_dist_tmp => col_dist_block
       CALL array_new(dist%d%row_dist_block, row_dist_tmp, gift=reuse_arrays)
       CALL array_new(dist%d%col_dist_block, col_dist_tmp, gift=reuse_arrays)
-      CALL array_nullify(dist%d%row_dist_cluster)
-      CALL array_nullify(dist%d%col_dist_cluster)
-
-      IF (PRESENT(row_dist_cluster)) THEN
-         IF (ASSOCIATED(row_dist_cluster)) THEN
-            CALL array_new(dist%d%row_dist_cluster, row_dist_cluster, gift=reuse_arrays)
-         ENDIF
-      ENDIF
-      IF (PRESENT(col_dist_cluster)) THEN
-         IF (ASSOCIATED(col_dist_cluster)) THEN
-            CALL array_new(dist%d%col_dist_cluster, col_dist_cluster, gift=reuse_arrays)
-         ENDIF
-      ENDIF
 
       dist%d%mp_env = mp_env
       CALL dbcsr_mp_hold(dist%d%mp_env)

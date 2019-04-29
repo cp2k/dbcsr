@@ -839,10 +839,6 @@ CONTAINS
 !> \param dist ...
 !> \param row_dist ...
 !> \param col_dist ...
-!> \param row_cluster ...
-!> \param col_cluster ...
-!> \param has_col_clusters ...
-!> \param has_row_clusters ...
 !> \param nrows ...
 !> \param ncols ...
 !> \param has_threads ...
@@ -859,15 +855,11 @@ CONTAINS
 !> \param pcol_group ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_get(dist, row_dist, col_dist, &
-                                     row_cluster, col_cluster, &
-                                     has_col_clusters, has_row_clusters, &
                                      nrows, ncols, has_threads, &
                                      group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, &
                                      subgroups_defined, prow_group, pcol_group)
       TYPE(dbcsr_distribution_type), INTENT(IN)          :: dist
-      INTEGER, DIMENSION(:), OPTIONAL, POINTER           :: row_dist, col_dist, row_cluster, &
-                                                            col_cluster
-      LOGICAL, INTENT(OUT), OPTIONAL                     :: has_col_clusters, has_row_clusters
+      INTEGER, DIMENSION(:), OPTIONAL, POINTER           :: row_dist, col_dist
       INTEGER, INTENT(OUT), OPTIONAL                     :: nrows, ncols
       LOGICAL, INTENT(OUT), OPTIONAL                     :: has_threads
       INTEGER, INTENT(OUT), OPTIONAL                     :: group, mynode, numnodes, nprows, npcols, &
@@ -878,10 +870,6 @@ CONTAINS
 
       IF (PRESENT(row_dist)) row_dist => array_data(dist%prv%d%row_dist_block)
       IF (PRESENT(col_dist)) col_dist => array_data(dist%prv%d%col_dist_block)
-      IF (PRESENT(row_cluster)) row_cluster => array_data(dist%prv%d%row_dist_cluster)
-      IF (PRESENT(col_cluster)) col_cluster => array_data(dist%prv%d%col_dist_cluster)
-      IF (PRESENT(has_col_clusters)) has_col_clusters = array_exists(dist%prv%d%col_dist_cluster)
-      IF (PRESENT(has_row_clusters)) has_row_clusters = array_exists(dist%prv%d%row_dist_cluster)
       IF (PRESENT(nrows)) nrows = array_size(dist%prv%d%row_dist_block)
       IF (PRESENT(ncols)) ncols = array_size(dist%prv%d%col_dist_block)
       IF (PRESENT(has_threads)) has_threads = dist%prv%d%has_thread_dist
@@ -1091,23 +1079,18 @@ CONTAINS
 !> \param pgrid ...
 !> \param row_dist ...
 !> \param col_dist ...
-!> \param row_cluster ...
-!> \param col_cluster ...
 !> \param reuse_arrays ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_new(dist, template, group, pgrid, row_dist, col_dist, &
-                                     row_cluster, col_cluster, reuse_arrays)
+                                     reuse_arrays)
       TYPE(dbcsr_distribution_type), INTENT(OUT)         :: dist
       TYPE(dbcsr_distribution_type), INTENT(IN), &
          OPTIONAL                                        :: template
       INTEGER, INTENT(IN), OPTIONAL                      :: group
       INTEGER, DIMENSION(:, :), OPTIONAL, POINTER        :: pgrid
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist, col_dist
-      INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL, &
-         POINTER                                         :: row_cluster, col_cluster
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays
 
-      INTEGER, DIMENSION(:), POINTER                     :: my_col_cluster, my_row_cluster
       TYPE(dbcsr_mp_obj)                                 :: mp_env
 
       IF (PRESENT(pgrid) .AND. .NOT. PRESENT(group)) &
@@ -1125,26 +1108,9 @@ CONTAINS
          DBCSR_ABORT("dbcsr_distribution_new: neither template nor group supplied")
       ENDIF
 
-      NULLIFY (my_row_cluster, my_col_cluster)
-      IF (PRESENT(row_cluster)) THEN
-         IF (ASSOCIATED(row_cluster)) THEN
-            IF (ALL(row_cluster > 0)) &
-               my_row_cluster => row_cluster
-         ENDIF
-      ENDIF
-
-      IF (PRESENT(col_cluster)) THEN
-         IF (ASSOCIATED(col_cluster)) THEN
-            IF (ALL(col_cluster > 0)) &
-               my_col_cluster => col_cluster
-         ENDIF
-      ENDIF
-
       CALL dbcsr_distribution_new_prv(dist%prv, mp_env, &
                                       row_dist_block=row_dist, &
                                       col_dist_block=col_dist, &
-                                      row_dist_cluster=my_row_cluster, &
-                                      col_dist_cluster=my_col_cluster, &
                                       reuse_arrays=reuse_arrays)
 
       IF (.NOT. PRESENT(template)) &
