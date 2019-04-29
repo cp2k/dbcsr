@@ -500,5 +500,4 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE test_multiplies_multiproc
 
-
 END MODULE dbcsr_tests

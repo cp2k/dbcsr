@@ -20,7 +20,8 @@ MODULE dbcsr_mp_methods
                             mp_comm_free,&
                             mp_environ,&
                             mp_cart_rank,&
-                            mp_dims_create
+                            mp_dims_create,&
+                            mp_comm_null
    USE dbcsr_types, ONLY: dbcsr_mp_obj
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
@@ -182,6 +183,7 @@ CONTAINS
                                                             prow
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: pgrid
       INTEGER, DIMENSION(2)                              :: coord, myploc, npdims
+      LOGICAL                                            :: alive
 
 !   ---------------------------------------------------------------------------
 
@@ -200,21 +202,24 @@ CONTAINS
          CALL mp_dims_create(numnodes, npdims)
       ENDIF
       CALL mp_cart_create(mp_group, 2, npdims, myploc, cart_group)
-      CALL mp_environ(numnodes, mynode, cart_group)
-      ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
-      DO prow = 0, npdims(1) - 1
-         DO pcol = 0, npdims(2) - 1
-            coord = (/prow, pcol/)
-            CALL mp_cart_rank(cart_group, coord, pgrid(prow, pcol))
+      alive = cart_group .NE. mp_comm_null
+      IF (alive) THEN
+         CALL mp_environ(numnodes, mynode, cart_group)
+         ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
+         DO prow = 0, npdims(1) - 1
+            DO pcol = 0, npdims(2) - 1
+               coord = (/prow, pcol/)
+               CALL mp_cart_rank(cart_group, coord, pgrid(prow, pcol))
+            ENDDO
          ENDDO
-      ENDDO
-      CALL dbcsr_mp_new(mp_env, pgrid, cart_group, mynode, numnodes, &
-                        myprow=myploc(1), mypcol=myploc(2))
+         CALL dbcsr_mp_new(mp_env, pgrid, cart_group, mynode, numnodes, &
+                           myprow=myploc(1), mypcol=myploc(2))
+      ELSE
+         CALL dbcsr_mp_init(mp_env)
+      ENDIF
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_mp_make_env
 
-   
-   
 ! **************************************************************************************************
 !> \brief Marks another use of the mp_env
 !> \param[in,out] mp_env      multiprocessor environment
