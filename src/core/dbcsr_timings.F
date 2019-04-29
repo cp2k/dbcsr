@@ -18,11 +18,7 @@
 ! **************************************************************************************************
 MODULE dbcsr_timings
    USE dbcsr_base_hooks, ONLY: timeset_hook, &
-                               timestop_hook,&
-                               dbcsr_abort_hook,&
-                               dbcsr_warn_hook, &
-                               dbcsr_abort_interface, dbcsr_warn_interface, &
-                               timeset_interface, timestop_interface
+                               timestop_hook
    USE dbcsr_cuda_profiling, ONLY: cuda_mem_info, &
                                    cuda_nvtx_range_pop, &
                                    cuda_nvtx_range_push
@@ -69,37 +65,16 @@ MODULE dbcsr_timings
    INTEGER, PUBLIC, PARAMETER :: default_timings_level = 1
    INTEGER, PUBLIC, SAVE :: global_timings_level = default_timings_level
 
-   interface timings_register_hooks
-       MODULE PROCEDURE timings_register_hooks_def
-       MODULE PROCEDURE timings_register_hooks_ext
-   end interface
 CONTAINS
 
 ! **************************************************************************************************
 !> \brief Registers handlers with base_hooks.F
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE timings_register_hooks_def()
+   SUBROUTINE timings_register_hooks()
       timeset_hook => timeset_handler
       timestop_hook => timestop_handler
-      dbcsr_abort_hook => NULL()
-      dbcsr_warn_hook => NULL()
-   END SUBROUTINE timings_register_hooks_def
-
-
-   SUBROUTINE timings_register_hooks_ext(in_timeset_hook, in_timestop_hook, &
-                              in_abort_hook, in_warn_hook)
-      PROCEDURE(timeset_interface), INTENT(IN), POINTER :: in_timeset_hook
-      PROCEDURE(timestop_interface), INTENT(IN), POINTER :: in_timestop_hook
-      PROCEDURE(dbcsr_abort_interface), INTENT(IN), POINTER :: in_abort_hook
-      PROCEDURE(dbcsr_warn_interface), INTENT(IN), POINTER :: in_warn_hook
-
-      timeset_hook => in_timeset_hook
-      timestop_hook => in_timestop_hook
-      dbcsr_abort_hook => in_abort_hook
-      dbcsr_warn_hook => in_warn_hook
-
-   END SUBROUTINE timings_register_hooks_ext
+   END SUBROUTINE timings_register_hooks
 
 ! **************************************************************************************************
 !> \brief adds the given timer_env to the top of the stack
@@ -161,8 +136,6 @@ CONTAINS
       timer_env => list_pop(timers_stack)
       CALL timer_env_release(timer_env)
       IF (list_size(timers_stack) == 0) CALL list_destroy(timers_stack)
-      timeset_hook => NULL()
-      timestop_hook => NULL()
    END SUBROUTINE rm_timer_env
 
 ! **************************************************************************************************
