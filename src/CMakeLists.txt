@@ -12,6 +12,7 @@ add_fypp_sources(DBCSR_SRCS
   acc/dbcsr_acc_hostmem.F
   acc/dbcsr_acc_init.F
   acc/dbcsr_acc_stream.F
+  acc/cuda/dbcsr_cuda_profiling.F
   base/dbcsr_base_hooks.F
   base/dbcsr_kinds.F
   base/dbcsr_machine.F
@@ -25,7 +26,6 @@ add_fypp_sources(DBCSR_SRCS
   core/dbcsr_lib.F
   core/dbcsr_methods.F
   core/dbcsr_types.F
-  core/dbcsr_cuda_profiling.F
   core/dbcsr_dict.F
   core/dbcsr_error_handling.F
   core/dbcsr_iter_types.F
@@ -109,6 +109,7 @@ set(DBCSR_CUDA_SRCS
   acc/cuda/acc_cuda_mem.cu
   acc/cuda/acc_cuda_stream.cu
   acc/cuda/acc_cuda_init.cu
+  acc/cuda/dbcsr_cuda_nvtx_cu.cu
   acc/cublaswrap/cublas.cu
   )
 
