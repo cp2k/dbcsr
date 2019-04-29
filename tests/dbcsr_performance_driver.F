@@ -18,32 +18,19 @@
 ! **************************************************************************************************
 PROGRAM dbcsr_performance_driver
    USE dbcsr_config, ONLY: dbcsr_print_config
-   USE dbcsr_error_handling, ONLY: dbcsr_error_handling_setup
    USE dbcsr_files, ONLY: open_file
-   USE dbcsr_kinds, ONLY: default_string_length, &
-                          dp
+   USE dbcsr_kinds, ONLY: default_string_length
    USE dbcsr_lib, ONLY: dbcsr_finalize_lib, &
                         dbcsr_init_lib
-   USE dbcsr_log_handling, ONLY: dbcsr_add_default_logger, &
-                                 dbcsr_logger_create, &
-                                 dbcsr_logger_release, &
-                                 dbcsr_logger_type, &
-                                 dbcsr_rm_default_logger
    USE dbcsr_machine, ONLY: default_output_unit, &
                             m_getarg, &
                             m_iargc
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_new, &
                                dbcsr_mp_release
    USE dbcsr_mpiwrap, ONLY: &
-      add_mp_perf_env, mp_bcast, mp_cart_create, mp_cart_rank, mp_comm_free, mp_environ, &
-      mp_world_finalize, mp_world_init, rm_mp_perf_env
+      mp_bcast, mp_cart_create, mp_cart_rank, mp_comm_free, mp_environ, &
+      mp_world_finalize, mp_world_init
    USE dbcsr_performance_multiply, ONLY: dbcsr_perf_multiply
-   USE dbcsr_timings, ONLY: add_timer_env, &
-                            rm_timer_env, &
-                            timings_register_hooks
-   USE dbcsr_timings_report, ONLY: cost_type_time, &
-                                   timings_report_callgraph, &
-                                   timings_report_print
    USE dbcsr_toollib, ONLY: atoi
    USE dbcsr_types, ONLY: dbcsr_mp_obj
 #include "base/dbcsr_base_uses.f90"
@@ -60,7 +47,6 @@ PROGRAM dbcsr_performance_driver
    CHARACTER(len=default_string_length)     :: args(100)
 
    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_multiply'
-
 
    !***************************************************************************************
 
@@ -110,7 +96,7 @@ PROGRAM dbcsr_performance_driver
    !
    ! initialize libdbcsr
    CALL dbcsr_init_lib(mp_comm,io_unit)
-   
+
    ! initialize libdbcsr errors
    CALL timeset(routineN, handle)
 
@@ -127,18 +113,13 @@ PROGRAM dbcsr_performance_driver
       DBCSR_ABORT("operation not found")
    END SELECT
 
-
    !
    ! finalize libdbcsr errors
    CALL timestop(handle)
-   
+
    !
    ! clean mp environment
    CALL dbcsr_mp_release(mp_env)
-
-   !
-   ! Remove logger
-   !CALL dbcsr_rm_default_logger()
 
    !
    ! free comm

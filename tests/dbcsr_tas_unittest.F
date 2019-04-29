@@ -51,7 +51,7 @@ PROGRAM dbcsr_tas_unittest
 
    io_unit = 0
    IF (mynode .EQ. 0) io_unit = default_output_unit
-   
+
    CALL dbcsr_init_lib(mp_comm, io_unit)
 
    CALL dbcsr_tas_random_bsizes([13, 8, 5, 25, 12], 2, bsize_m)
@@ -59,9 +59,6 @@ PROGRAM dbcsr_tas_unittest
    CALL dbcsr_tas_random_bsizes([9, 64, 23, 2], 3, bsize_k)
 
    CALL mp_environ(numnodes, mynode, mp_comm)
-
-   io_unit = 0
-   IF (mynode .EQ. 0) io_unit = default_output_unit
 
    CALL dbcsr_tas_setup_test_matrix(A, mp_comm_A, mp_comm, m, k, bsize_m, bsize_k, [5, 1], "A", sparsity)
    CALL dbcsr_tas_setup_test_matrix(At, mp_comm_At, mp_comm, k, m, bsize_k, bsize_m, [3, 8], "A^t", sparsity)
