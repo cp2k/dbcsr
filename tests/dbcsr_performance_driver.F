@@ -126,7 +126,7 @@ PROGRAM dbcsr_performance_driver
    ! free comm
    CALL mp_comm_free(group)
 
-
+   call dbcsr_lib_statistics(.true.)
    CALL dbcsr_finalize_lib()
    !
    !
