@@ -307,8 +307,10 @@ CONTAINS
 !> Prepares the DBCSR library for use.
 ! **************************************************************************************************
    SUBROUTINE dbcsr_print_timers()
-      CALL describe_mp_perf_env(ext_io_unit)
-      CALL timings_report_print(ext_io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
+      IF (ASSOCIATED(logger)) THEN       
+         CALL describe_mp_perf_env(ext_io_unit)
+         CALL timings_report_print(ext_io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
+      endif
    END SUBROUTINE dbcsr_print_timers
 
 ! **************************************************************************************************
