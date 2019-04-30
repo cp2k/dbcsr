@@ -23,7 +23,8 @@ PROGRAM dbcsr_unittest
                                acc_set_active_device
    USE dbcsr_kinds, ONLY: dp
    USE dbcsr_lib, ONLY: dbcsr_finalize_lib, &
-                        dbcsr_init_lib
+                        dbcsr_init_lib, &
+                        dbcsr_lib_statistics
    USE dbcsr_machine, ONLY: default_output_unit
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_new, &
                                dbcsr_mp_release
@@ -135,6 +136,7 @@ PROGRAM dbcsr_unittest
    ! finalize mpi
    CALL mp_comm_free(group)
 
+   call dbcsr_lib_statistics(.true.)
    ! finalize libdbcsr
    CALL dbcsr_finalize_lib()
 

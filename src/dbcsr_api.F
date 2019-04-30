@@ -57,7 +57,7 @@ MODULE dbcsr_api
                                         dbcsr_iterator_stop_prv => dbcsr_iterator_stop
    USE dbcsr_lib, ONLY: dbcsr_clear_mempools, &
                         dbcsr_finalize_lib, &
-                        dbcsr_init_lib
+                        dbcsr_init_lib, dbcsr_lib_statistics
    USE dbcsr_methods, ONLY: &
       dbcsr_get_data_size_prv => dbcsr_get_data_size, &
       dbcsr_get_data_type_prv => dbcsr_get_data_type, &
@@ -171,6 +171,7 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_print_config
    PUBLIC :: dbcsr_reset_randmat_seed
    PUBLIC :: dbcsr_mp_grid_setup
+   PUBLIC :: dbcsr_print_statistics
 
    ! create / release
    PUBLIC :: dbcsr_distribution_hold
@@ -409,6 +410,13 @@ MODULE dbcsr_api
    PRIVATE
 
 CONTAINS
+
+    subroutine dbcsr_print_statistics(print_timers, callgraph_filename)
+      logical, intent(in)                    :: print_timers
+      CHARACTER(len=*), INTENT(IN), optional :: callgraph_filename
+
+      call dbcsr_lib_statistics(print_timers, callgraph_filename)    
+    end subroutine
 
 ! **************************************************************************************************
 !> \brief ...

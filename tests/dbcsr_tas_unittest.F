@@ -13,7 +13,8 @@
 
 PROGRAM dbcsr_tas_unittest
    USE dbcsr_api, ONLY: dbcsr_finalize_lib, &
-                        dbcsr_init_lib
+                        dbcsr_init_lib, &
+                        dbcsr_print_statistics
    USE dbcsr_tas_base, ONLY: dbcsr_tas_destroy, &
                              dbcsr_tas_info, &
                              dbcsr_tas_nblkcols_total, &
@@ -143,6 +144,7 @@ PROGRAM dbcsr_tas_unittest
    CALL mp_comm_free(mp_comm_C)
    CALL mp_comm_free(mp_comm_Ct)
 
+   call dbcsr_print_statistics(.true.)
    CALL dbcsr_finalize_lib()
 
    CALL mp_world_finalize()

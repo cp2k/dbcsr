@@ -30,7 +30,9 @@ MODULE dbcsr_lib
                             mp_comm_free
    USE dbcsr_multiply_api, ONLY: dbcsr_multiply_clear_mempools, &
                                  dbcsr_multiply_lib_finalize, &
-                                 dbcsr_multiply_lib_init
+                                 dbcsr_multiply_lib_init,&
+                                 dbcsr_multiply_lib_statistics
+
    USE dbcsr_timings, ONLY: add_timer_env, &
                             rm_timer_env, &
                             timings_register_hooks
@@ -63,6 +65,7 @@ MODULE dbcsr_lib
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_lib'
 
    PUBLIC :: dbcsr_init_lib, dbcsr_finalize_lib, dbcsr_clear_mempools
+   PUBLIC :: dbcsr_lib_statistics
 
    LOGICAL, PRIVATE, SAVE :: is_initialized = .FALSE.
 
@@ -211,6 +214,7 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_init_lib_low
 
+
 ! **************************************************************************************************
 !> \brief Finalize the DBCSR library
 !>
@@ -228,16 +232,9 @@ CONTAINS
       IF (.NOT. is_initialized) RETURN
       CALL timeset(routineN, error_handle)
 
-      IF (ext_io_unit > 0) THEN
-         WRITE (UNIT=ext_io_unit, FMT="(/,T2,A)") REPEAT("-", 79)
-         WRITE (UNIT=ext_io_unit, FMT="(T2,A,T80,A)") "-", "-"
-         WRITE (UNIT=ext_io_unit, FMT="(T2,A,T35,A,T80,A)") "-", "DBCSR STATISTICS", "-"
-         WRITE (UNIT=ext_io_unit, FMT="(T2,A,T80,A)") "-", "-"
-         WRITE (UNIT=ext_io_unit, FMT="(T2,A)") REPEAT("-", 79)
-      END IF
 
 !$OMP     PARALLEL DEFAULT(NONE) PRIVATE(ithread) SHARED(ext_io_unit, default_group, cublas_handles)
-      CALL dbcsr_multiply_lib_finalize(default_group, ext_io_unit)
+      CALL dbcsr_multiply_lib_finalize()
       ithread = 0
 !$    ithread = omp_get_thread_num()
       CALL cublas_handle_destroy(cublas_handles(ithread + 1))
@@ -246,12 +243,10 @@ CONTAINS
       DEALLOCATE (cublas_handles)
 !$OMP END MASTER
 !$OMP     END PARALLEL
-      IF (ext_io_unit > 0) WRITE (UNIT=ext_io_unit, FMT="(T2,A)") REPEAT("-", 79)
 
       is_initialized = .FALSE.
 
       IF (ASSOCIATED(logger)) THEN
-         CALL dbcsr_print_timers()
          CALL timestop(error_handle)
          CALL dbcsr_rm_default_logger()
          CALL rm_mp_perf_env()
@@ -271,6 +266,41 @@ CONTAINS
       NULLIFY(dbcsr_warn_hook)
    END SUBROUTINE dbcsr_finalize_lib
 
+
+
+! **************************************************************************************************
+!> \brief Print the whole DBCSR statistics
+!>
+!> Prepares the DBCSR library for use.
+! **************************************************************************************************
+   subroutine dbcsr_lib_statistics(print_timers, callgraph_filename)
+      logical, intent(in)                    :: print_timers
+      CHARACTER(len=*), INTENT(IN), optional :: callgraph_filename
+      
+      IF (ext_io_unit > 0) THEN
+         WRITE (UNIT=ext_io_unit, FMT="(/,T2,A)") REPEAT("-", 79)
+         WRITE (UNIT=ext_io_unit, FMT="(T2,A,T80,A)") "-", "-"
+         WRITE (UNIT=ext_io_unit, FMT="(T2,A,T35,A,T80,A)") "-", "DBCSR STATISTICS", "-"
+         WRITE (UNIT=ext_io_unit, FMT="(T2,A,T80,A)") "-", "-"
+         WRITE (UNIT=ext_io_unit, FMT="(T2,A)") REPEAT("-", 79)
+      END IF
+       
+      
+      call dbcsr_multiply_lib_statistics(default_group, ext_io_unit)
+      
+      IF (ext_io_unit > 0) WRITE (UNIT=ext_io_unit, FMT="(T2,A)") REPEAT("-", 79)
+      
+      if (print_timers) call dbcsr_print_timers()
+      
+      ! Dump callgraph
+      
+      if (present(callgraph_filename)) then
+         CALL timings_report_callgraph(callgraph_filename)
+      endif
+   end subroutine
+
+   
+   
 ! **************************************************************************************************
 !> \brief Print timers
 !>
@@ -279,8 +309,6 @@ CONTAINS
    SUBROUTINE dbcsr_print_timers()
       CALL describe_mp_perf_env(ext_io_unit)
       CALL timings_report_print(ext_io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
-      ! Dump callgraph
-      ! CALL timings_report_callgraph("test.callgraph")
    END SUBROUTINE dbcsr_print_timers
 
 ! **************************************************************************************************
