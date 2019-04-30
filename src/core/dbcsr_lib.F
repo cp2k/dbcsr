@@ -214,7 +214,6 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_init_lib_low
 
-
 ! **************************************************************************************************
 !> \brief Finalize the DBCSR library
 !>
@@ -231,7 +230,6 @@ CONTAINS
 
       IF (.NOT. is_initialized) RETURN
       CALL timeset(routineN, error_handle)
-
 
 !$OMP     PARALLEL DEFAULT(NONE) PRIVATE(ithread) SHARED(ext_io_unit, default_group, cublas_handles)
       CALL dbcsr_multiply_lib_finalize()
@@ -266,8 +264,6 @@ CONTAINS
       NULLIFY(dbcsr_warn_hook)
    END SUBROUTINE dbcsr_finalize_lib
 
-
-
 ! **************************************************************************************************
 !> \brief Print the whole DBCSR statistics
 !>
@@ -276,7 +272,7 @@ CONTAINS
    subroutine dbcsr_lib_statistics(print_timers, callgraph_filename)
       logical, intent(in)                    :: print_timers
       CHARACTER(len=*), INTENT(IN), optional :: callgraph_filename
-      
+
       IF (ext_io_unit > 0) THEN
          WRITE (UNIT=ext_io_unit, FMT="(/,T2,A)") REPEAT("-", 79)
          WRITE (UNIT=ext_io_unit, FMT="(T2,A,T80,A)") "-", "-"
@@ -284,30 +280,27 @@ CONTAINS
          WRITE (UNIT=ext_io_unit, FMT="(T2,A,T80,A)") "-", "-"
          WRITE (UNIT=ext_io_unit, FMT="(T2,A)") REPEAT("-", 79)
       END IF
-       
-      
+
       call dbcsr_multiply_lib_statistics(default_group, ext_io_unit)
-      
+
       IF (ext_io_unit > 0) WRITE (UNIT=ext_io_unit, FMT="(T2,A)") REPEAT("-", 79)
-      
+
       if (print_timers) call dbcsr_print_timers()
-      
+
       ! Dump callgraph
-      
+
       if (present(callgraph_filename)) then
          CALL timings_report_callgraph(callgraph_filename)
       endif
    end subroutine
 
-   
-   
 ! **************************************************************************************************
 !> \brief Print timers
 !>
 !> Prepares the DBCSR library for use.
 ! **************************************************************************************************
    SUBROUTINE dbcsr_print_timers()
-      IF (ASSOCIATED(logger)) THEN       
+      IF (ASSOCIATED(logger)) THEN
          CALL describe_mp_perf_env(ext_io_unit)
          CALL timings_report_print(ext_io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
       endif

@@ -145,8 +145,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finalize the library and prints DBCSR statistics
-!> \param group ...
-!> \param output_unit ...
 !> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_sched_lib_finalize()
@@ -155,7 +153,6 @@ CONTAINS
       CALL dbcsr_mm_hostdrv_lib_finalize()
 
    END SUBROUTINE dbcsr_mm_sched_lib_finalize
-
 
    subroutine dbcsr_mm_sched_lib_statistics(group, output_unit)
       INTEGER, INTENT(IN)                                :: group, output_unit
