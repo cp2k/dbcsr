@@ -232,7 +232,7 @@ CONTAINS
       cs_entry%walltime_start = -HUGE(1.0_dp)
       cs_entry%energy_start = -HUGE(1.0_dp)
       !
-      routine_name_dsl = routineN ! converte to default_string_length
+      routine_name_dsl = routineN ! converts to default_string_length
       routine_id = routine_name2id(routine_name_dsl)
       !
       ! Take timings when the timings_level is appropriated

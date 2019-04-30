@@ -87,14 +87,18 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL :: io_unit
 
       CALL dbcsr_init_lib_pre(mp_comm, io_unit)
-      ! Declare loggers and timers
+      !
+      ! Declare loggers
       CALL dbcsr_logger_create(logger, mp_env=mp_env, &
                                default_global_unit_nr=ext_io_unit, &
                                close_global_unit_on_dealloc=.FALSE.)
       CALL dbcsr_add_default_logger(logger)
       CALL dbcsr_logger_release(logger)
+      ! abort/warn hooks
       CALL dbcsr_error_handling_setup()
+      ! timeset/timestop hooks
       CALL timings_register_hooks()
+      ! timer environment
       CALL add_mp_perf_env()
       CALL add_timer_env()
       !
@@ -121,11 +125,13 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL :: io_unit
 
       CALL dbcsr_init_lib_pre(mp_comm, io_unit)
-      !
-      timeset_hook => in_timeset_hook
-      timestop_hook => in_timestop_hook
+      ! abort/warn hooks
       dbcsr_abort_hook => in_abort_hook
       dbcsr_warn_hook => in_warn_hook
+      ! timeset/timestop hooks
+      timeset_hook => in_timeset_hook
+      timestop_hook => in_timestop_hook
+      ! timer environment is assumed
       !
       CALL dbcsr_init_lib_low()
    END SUBROUTINE dbcsr_init_lib_hooks
@@ -244,15 +250,15 @@ CONTAINS
 
       is_initialized = .FALSE.
 
-      CALL dbcsr_print_timers()
-
-      CALL timestop(error_handle)
-
       IF (ASSOCIATED(logger)) THEN
+         CALL dbcsr_print_timers()
+         CALL timestop(error_handle)
          CALL dbcsr_rm_default_logger()
          CALL rm_mp_perf_env()
          CALL rm_timer_env()
          NULLIFY(logger)
+      ELSE
+         CALL timestop(error_handle)
       ENDIF
       CALL dbcsr_mp_release(mp_env)
       CALL mp_comm_free(default_group)
