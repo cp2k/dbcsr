@@ -106,6 +106,9 @@ MODULE dbcsr_mm
    USE dbcsr_work_operations, ONLY: dbcsr_add_wm_from_matrix, &
                                     dbcsr_finalize, &
                                     dbcsr_work_create
+
+   use dbcsr_mm_sched, only: dbcsr_mm_sched_lib_statistics 
+
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
@@ -120,7 +123,7 @@ MODULE dbcsr_mm
 
    REAL, PRIVATE, SAVE :: marketing_flops = 0
 
-   PUBLIC :: dbcsr_multiply_lib_init, dbcsr_multiply_lib_finalize
+   PUBLIC :: dbcsr_multiply_lib_init, dbcsr_multiply_lib_finalize, dbcsr_multiply_lib_statistics
    PUBLIC :: dbcsr_multiply_clear_mempools
    PUBLIC :: dbcsr_multiply_generic
 
@@ -171,23 +174,14 @@ CONTAINS
 !> \param output_unit ...
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_multiply_lib_finalize(group, output_unit)
-      INTEGER, INTENT(IN)                                :: group, output_unit
+   SUBROUTINE dbcsr_multiply_lib_finalize()
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_lib_finalize', &
                                      routineP = moduleN//':'//routineN
 
-      CHARACTER(len=1000)                                :: msg
-      INTEGER                                            :: ilimit, isqrt, isqrt2, ithread
-      INTEGER(KIND=int_8)                                :: total_nexchanged
-      INTEGER(KIND=int_8), &
-         DIMENSION(SIZE(dbcsr_mpi_size_limits) + 1, 2, 2)  :: total_recv_breakdown
-      REAL                                               :: average, total_marketing_flops, &
-                                                            total_max_memory
-      REAL, DIMENSION(2)                                 :: max_recv_data, min_recv_data, &
-                                                            total_recv_data
+      INTEGER                                            :: ithread
 
-      CALL dbcsr_mm_multrec_lib_finalize(group, output_unit)
+      CALL dbcsr_mm_multrec_lib_finalize()
 
       ithread = 0
 !$    ithread = omp_get_thread_num()
@@ -206,6 +200,41 @@ CONTAINS
 
       ! Release 3D communicators
       CALL release_layers_3D_C_reduction(release_buffers=.TRUE.)
+
+      IF (ASSOCIATED(memtype_trsbuffer_1%pool)) &
+         CALL dbcsr_mempool_destruct(memtype_trsbuffer_1%pool)
+      IF (ASSOCIATED(memtype_trsbuffer_2%pool)) &
+         CALL dbcsr_mempool_destruct(memtype_trsbuffer_2%pool)
+      IF (ASSOCIATED(memtype_abpanel_1%pool)) &
+         CALL dbcsr_mempool_destruct(memtype_abpanel_1%pool)
+      IF (ASSOCIATED(memtype_abpanel_2%pool)) &
+         CALL dbcsr_mempool_destruct(memtype_abpanel_2%pool)
+      IF (ASSOCIATED(memtype_mpi_product%pool)) &
+         CALL dbcsr_mempool_destruct(memtype_mpi_product%pool)
+      IF (acc_stream_associated(stream_1)) &
+         CALL acc_stream_destroy(stream_1)
+      IF (acc_stream_associated(stream_2)) &
+         CALL acc_stream_destroy(stream_2)
+      IF (has_acc) &
+         CALL acc_finalize()
+!$OMP      END MASTER
+   END SUBROUTINE dbcsr_multiply_lib_finalize
+
+
+   subroutine dbcsr_multiply_lib_statistics(group, output_unit)
+      INTEGER, INTENT(IN)                                :: group, output_unit
+      INTEGER(KIND=int_8)                                :: total_nexchanged
+      INTEGER(KIND=int_8), &
+         DIMENSION(SIZE(dbcsr_mpi_size_limits) + 1, 2, 2)  :: total_recv_breakdown
+      REAL                                               :: average, total_marketing_flops, &
+                                                            total_max_memory
+      REAL, DIMENSION(2)                                 :: max_recv_data, min_recv_data, &
+                                                            total_recv_data
+      INTEGER                                            :: ilimit, isqrt, isqrt2
+      CHARACTER(len=1000)                                :: msg
+   
+                                                     
+      call dbcsr_mm_sched_lib_statistics(group, output_unit)
 
       total_max_memory = max_memory
       CALL mp_max(total_max_memory, group)
@@ -278,25 +307,10 @@ CONTAINS
             DBCSR_WARN(msg)
          ENDIF
       ENDIF
-      IF (ASSOCIATED(memtype_trsbuffer_1%pool)) &
-         CALL dbcsr_mempool_destruct(memtype_trsbuffer_1%pool)
-      IF (ASSOCIATED(memtype_trsbuffer_2%pool)) &
-         CALL dbcsr_mempool_destruct(memtype_trsbuffer_2%pool)
-      IF (ASSOCIATED(memtype_abpanel_1%pool)) &
-         CALL dbcsr_mempool_destruct(memtype_abpanel_1%pool)
-      IF (ASSOCIATED(memtype_abpanel_2%pool)) &
-         CALL dbcsr_mempool_destruct(memtype_abpanel_2%pool)
-      IF (ASSOCIATED(memtype_mpi_product%pool)) &
-         CALL dbcsr_mempool_destruct(memtype_mpi_product%pool)
-      IF (acc_stream_associated(stream_1)) &
-         CALL acc_stream_destroy(stream_1)
-      IF (acc_stream_associated(stream_2)) &
-         CALL acc_stream_destroy(stream_2)
-      IF (has_acc) &
-         CALL acc_finalize()
-!$OMP      END MASTER
-   END SUBROUTINE dbcsr_multiply_lib_finalize
+   end subroutine
 
+   
+   
 ! **************************************************************************************************
 !> \brief Deallocate memory contained in mempools
 !> \author Ole Schuett

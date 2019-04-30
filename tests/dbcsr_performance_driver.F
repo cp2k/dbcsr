@@ -21,7 +21,8 @@ PROGRAM dbcsr_performance_driver
    USE dbcsr_files, ONLY: open_file
    USE dbcsr_kinds, ONLY: default_string_length
    USE dbcsr_lib, ONLY: dbcsr_finalize_lib, &
-                        dbcsr_init_lib
+                        dbcsr_init_lib,&
+                        dbcsr_lib_statistics
    USE dbcsr_machine, ONLY: default_output_unit, &
                             m_getarg, &
                             m_iargc
@@ -124,6 +125,7 @@ PROGRAM dbcsr_performance_driver
    !
    ! free comm
    CALL mp_comm_free(group)
+
 
    CALL dbcsr_finalize_lib()
    !

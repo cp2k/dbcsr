@@ -21,7 +21,8 @@ MODULE dbcsr_multiply_api
    USE dbcsr_mm, ONLY: dbcsr_multiply_clear_mempools, &
                        dbcsr_multiply_generic, &
                        dbcsr_multiply_lib_finalize, &
-                       dbcsr_multiply_lib_init
+                       dbcsr_multiply_lib_init,&
+                       dbcsr_multiply_lib_statistics
    USE dbcsr_types, ONLY: dbcsr_type, &
                           dbcsr_type_real_4, &
                           dbcsr_type_real_8
@@ -38,6 +39,7 @@ MODULE dbcsr_multiply_api
    PUBLIC :: dbcsr_multiply
    PUBLIC :: dbcsr_multiply_clear_mempools
    PUBLIC :: dbcsr_multiply_lib_finalize, dbcsr_multiply_lib_init
+   PUBLIC :: dbcsr_multiply_lib_statistics
 
    INTERFACE dbcsr_multiply
       MODULE PROCEDURE dbcsr_multiply_generic

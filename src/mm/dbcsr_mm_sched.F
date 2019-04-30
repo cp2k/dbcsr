@@ -66,7 +66,7 @@ MODULE dbcsr_mm_sched
    PUBLIC :: dbcsr_mm_sched_type
    PUBLIC :: dbcsr_mm_sched_lib_init, dbcsr_mm_sched_lib_finalize
    PUBLIC :: dbcsr_mm_sched_phaseout
-   PUBLIC :: dbcsr_mm_sched_init, dbcsr_mm_sched_finalize
+   PUBLIC :: dbcsr_mm_sched_init, dbcsr_mm_sched_finalize, dbcsr_mm_sched_lib_statistics
    PUBLIC :: dbcsr_mm_sched_process
    PUBLIC :: dbcsr_mm_sched_begin_burst, dbcsr_mm_sched_end_burst
    PUBLIC :: dbcsr_mm_sched_barrier
@@ -149,14 +149,18 @@ CONTAINS
 !> \param output_unit ...
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_mm_sched_lib_finalize(group, output_unit)
-      INTEGER, INTENT(IN)                                :: group, output_unit
-
-      TYPE(stats_type)                                   :: report
+   SUBROUTINE dbcsr_mm_sched_lib_finalize()
 
       CALL dbcsr_mm_accdrv_lib_finalize()
       CALL dbcsr_mm_hostdrv_lib_finalize()
 
+   END SUBROUTINE dbcsr_mm_sched_lib_finalize
+
+
+   subroutine dbcsr_mm_sched_lib_statistics(group, output_unit)
+      INTEGER, INTENT(IN)                                :: group, output_unit
+
+      TYPE(stats_type)                                   :: report
       ! Collect and output statistics ---------------------------------------------
 
 !$OMP    MASTER
@@ -166,9 +170,7 @@ CONTAINS
       CALL stats_print_report(report, output_unit)
       DEALLOCATE (stats_per_thread)
 !$OMP    END MASTER
-
-   END SUBROUTINE dbcsr_mm_sched_lib_finalize
-
+   end subroutine
 ! **************************************************************************************************
 !> \brief Makes sure that the product_wm is cleared.
 !> \param this ...

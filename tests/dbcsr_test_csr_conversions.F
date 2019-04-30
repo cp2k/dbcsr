@@ -21,7 +21,7 @@ PROGRAM dbcsr_test_csr_conversions
       dbcsr_distribution_type, dbcsr_finalize, dbcsr_finalize_lib, dbcsr_get_stored_coordinates, &
       dbcsr_init_lib, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_norm, &
       dbcsr_norm_maxabsnorm, dbcsr_put_block, dbcsr_release, dbcsr_to_csr_filter, dbcsr_type, &
-      dbcsr_type_no_symmetry, dbcsr_type_real_8
+      dbcsr_type_no_symmetry, dbcsr_type_real_8, dbcsr_print_statistics
    USE dbcsr_kinds, ONLY: dp, &
                           real_8
    USE dbcsr_machine, ONLY: default_output_unit
@@ -137,6 +137,7 @@ PROGRAM dbcsr_test_csr_conversions
    DEALLOCATE (seed)
 
    CALL mp_comm_free(group)
+   call dbcsr_print_statistics(.true.)
    CALL dbcsr_finalize_lib()
    CALL mp_world_finalize()
 

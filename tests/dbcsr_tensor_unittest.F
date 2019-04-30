@@ -14,7 +14,8 @@
 PROGRAM dbcsr_tensor_unittest
    USE dbcsr_api, ONLY: dbcsr_finalize_lib, &
                         dbcsr_init_lib, &
-                        dbcsr_type_real_8
+                        dbcsr_type_real_8, &
+                        dbcsr_print_statistics
    USE dbcsr_machine, ONLY: default_output_unit
    USE dbcsr_mpiwrap, ONLY: mp_cart_create, &
                             mp_comm_free, &
@@ -751,6 +752,8 @@ PROGRAM dbcsr_tensor_unittest
 !--------------------------------------------------------------------------------------------------!
 ! End tests                                                                                        !
 !--------------------------------------------------------------------------------------------------!
+   
+   call dbcsr_print_statistics(.true.)
 
    ! finalize libdbcsr
    CALL dbcsr_finalize_lib()
