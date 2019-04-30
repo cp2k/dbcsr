@@ -411,12 +411,12 @@ MODULE dbcsr_api
 
 CONTAINS
 
-    subroutine dbcsr_print_statistics(print_timers, callgraph_filename)
+   subroutine dbcsr_print_statistics(print_timers, callgraph_filename)
       logical, intent(in)                    :: print_timers
       CHARACTER(len=*), INTENT(IN), optional :: callgraph_filename
 
-      call dbcsr_lib_statistics(print_timers, callgraph_filename)    
-    end subroutine
+      call dbcsr_lib_statistics(print_timers, callgraph_filename)
+   end subroutine
 
 ! **************************************************************************************************
 !> \brief ...

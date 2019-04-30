@@ -107,7 +107,7 @@ MODULE dbcsr_mm
                                     dbcsr_finalize, &
                                     dbcsr_work_create
 
-   use dbcsr_mm_sched, only: dbcsr_mm_sched_lib_statistics 
+   use dbcsr_mm_sched, only: dbcsr_mm_sched_lib_statistics
 
 #include "base/dbcsr_base_uses.f90"
 
@@ -170,8 +170,6 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finalize the library
-!> \param group ...
-!> \param output_unit ...
 !> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_multiply_lib_finalize()
@@ -220,7 +218,6 @@ CONTAINS
 !$OMP      END MASTER
    END SUBROUTINE dbcsr_multiply_lib_finalize
 
-
    subroutine dbcsr_multiply_lib_statistics(group, output_unit)
       INTEGER, INTENT(IN)                                :: group, output_unit
       INTEGER(KIND=int_8)                                :: total_nexchanged
@@ -232,8 +229,7 @@ CONTAINS
                                                             total_recv_data
       INTEGER                                            :: ilimit, isqrt, isqrt2
       CHARACTER(len=1000)                                :: msg
-   
-                                                     
+
       call dbcsr_mm_sched_lib_statistics(group, output_unit)
 
       total_max_memory = max_memory
@@ -309,8 +305,6 @@ CONTAINS
       ENDIF
    end subroutine
 
-   
-   
 ! **************************************************************************************************
 !> \brief Deallocate memory contained in mempools
 !> \author Ole Schuett
