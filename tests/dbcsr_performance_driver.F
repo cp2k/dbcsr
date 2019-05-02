@@ -128,7 +128,6 @@ PROGRAM dbcsr_performance_driver
 
    !
    ! print statistics
-
    CALL dbcsr_print_statistics(.true., "test.callgraph")
 
    !

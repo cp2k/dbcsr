@@ -151,6 +151,9 @@ CONTAINS
    SUBROUTINE dbcsr_mm_sched_lib_finalize()
       CALL dbcsr_mm_accdrv_lib_finalize()
       CALL dbcsr_mm_hostdrv_lib_finalize()
+!$OMP    MASTER
+      DEALLOCATE (stats_per_thread)
+!$OMP    END MASTER
    END SUBROUTINE dbcsr_mm_sched_lib_finalize
 
 ! **************************************************************************************************
@@ -168,7 +171,6 @@ CONTAINS
       CALL stats_collect_from_threads(report)
       CALL stats_collect_from_ranks(report, group)
       CALL stats_print_report(report, output_unit)
-      DEALLOCATE (stats_per_thread)
    END SUBROUTINE dbcsr_mm_sched_print_statistics
 
 ! **************************************************************************************************

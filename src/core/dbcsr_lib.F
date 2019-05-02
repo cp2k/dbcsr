@@ -300,10 +300,10 @@ CONTAINS
 !> \brief Print timers
 ! **************************************************************************************************
    SUBROUTINE dbcsr_print_timers()
-     IF (ASSOCIATED(logger)) THEN
-        CALL describe_mp_perf_env(ext_io_unit)
-        CALL timings_report_print(ext_io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
-     ENDIF
+      IF (ASSOCIATED(logger)) THEN
+         CALL describe_mp_perf_env(ext_io_unit)
+         CALL timings_report_print(ext_io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
+      ENDIF
    END SUBROUTINE dbcsr_print_timers
 
 ! **************************************************************************************************
