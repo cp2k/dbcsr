@@ -108,7 +108,7 @@ void matInit(double* mat, int mat_n, int x, int y, int seed){
 
 
 //===========================================================================
-// initialize the task list ("stack" in CP2K lingo)
+// initialize the task list ("stack" in DBCSR lingo)
 // for each of the result matrices we have a random number
 void stackInit(int *stack, int n_stack, int n_c, double* mat_c,
                int n_a, double * mat_a, int n_b, double* mat_b,
@@ -149,7 +149,7 @@ void stackInit(int *stack, int n_stack, int n_c, double* mat_c,
 
 
 //===========================================================================
-// initialize the task list ("stack" in CP2K lingo)
+// initialize the task list ("stack" in DBCSR lingo)
 void stackInitTransp(int *stack, int n_stack, int mat_m, int mat_n){
 
   int* s = stack;
