@@ -25,11 +25,6 @@ LIBNAME      := dbcsr
 LIBRARY      := lib$(LIBNAME)
 default_target: $(LIBRARY)
 
-# Check if FYPP is available  ===============================================
-ifeq (, $(shell which $(FYPPEXE) 2>/dev/null ))
-$(error "No FYPP submodule available, please read README.md on how to properly download DBCSR")
-endif
-
 # Read the configuration ====================================================
 MODDEPS = "lower"
 include $(INCLUDEMAKE)
@@ -235,6 +230,12 @@ OTHER_HELP += "toolflags : Print flags used with build tools"
 
 else
 # stage 2: Include $(OBJDIR)/all.dep, expand target all, and get list of dependencies.
+
+# Check if FYPP is available  ===============================================
+ifeq (, $(shell which $(FYPPEXE) 2>/dev/null ))
+$(error "No FYPP submodule available, please read README.md on how to properly download DBCSR")
+endif
+
 all: $(foreach e, $(BIN_NAMES), $(e))
 
 ifeq ($(BIN_NAME),)
