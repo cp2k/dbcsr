@@ -152,12 +152,9 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finalize the library
-!> \param group ...
-!> \param output_unit ...
 !> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_lib_finalize()
-
       CALL dbcsr_mm_csr_lib_finalize()
    END SUBROUTINE
 
@@ -854,4 +851,3 @@ CONTAINS
 #:include "dbcsr_mm_multrec.f90"
 
 END MODULE dbcsr_mm_multrec
-

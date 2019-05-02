@@ -106,8 +106,7 @@ MODULE dbcsr_mm
    USE dbcsr_work_operations, ONLY: dbcsr_add_wm_from_matrix, &
                                     dbcsr_finalize, &
                                     dbcsr_work_create
-
-   use dbcsr_mm_sched, only: dbcsr_mm_sched_lib_statistics
+   USE dbcsr_mm_sched, ONLY: dbcsr_mm_sched_print_statistics
 
 #include "base/dbcsr_base_uses.f90"
 
@@ -123,7 +122,8 @@ MODULE dbcsr_mm
 
    REAL, PRIVATE, SAVE :: marketing_flops = 0
 
-   PUBLIC :: dbcsr_multiply_lib_init, dbcsr_multiply_lib_finalize, dbcsr_multiply_lib_statistics
+   PUBLIC :: dbcsr_multiply_lib_init, dbcsr_multiply_lib_finalize
+   PUBLIC :: dbcsr_multiply_print_statistics
    PUBLIC :: dbcsr_multiply_clear_mempools
    PUBLIC :: dbcsr_multiply_generic
 
@@ -218,8 +218,14 @@ CONTAINS
 !$OMP      END MASTER
    END SUBROUTINE dbcsr_multiply_lib_finalize
 
-   subroutine dbcsr_multiply_lib_statistics(group, output_unit)
+! **************************************************************************************************
+!> \brief Print statistics
+!> \param group ...
+!> \param output_unit ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_multiply_print_statistics(group, output_unit)
       INTEGER, INTENT(IN)                                :: group, output_unit
+
       INTEGER(KIND=int_8)                                :: total_nexchanged
       INTEGER(KIND=int_8), &
          DIMENSION(SIZE(dbcsr_mpi_size_limits) + 1, 2, 2)  :: total_recv_breakdown
@@ -230,7 +236,7 @@ CONTAINS
       INTEGER                                            :: ilimit, isqrt, isqrt2
       CHARACTER(len=1000)                                :: msg
 
-      call dbcsr_mm_sched_lib_statistics(group, output_unit)
+      call dbcsr_mm_sched_print_statistics(group, output_unit)
 
       total_max_memory = max_memory
       CALL mp_max(total_max_memory, group)
@@ -303,7 +309,7 @@ CONTAINS
             DBCSR_WARN(msg)
          ENDIF
       ENDIF
-   end subroutine
+   END SUBROUTINE dbcsr_multiply_print_statistics
 
 ! **************************************************************************************************
 !> \brief Deallocate memory contained in mempools

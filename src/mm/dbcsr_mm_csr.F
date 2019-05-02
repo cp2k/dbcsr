@@ -110,7 +110,6 @@ CONTAINS
 !> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_csr_lib_finalize()
-
       CALL dbcsr_mm_sched_lib_finalize()
    END SUBROUTINE
 

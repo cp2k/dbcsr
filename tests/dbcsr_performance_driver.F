@@ -22,7 +22,7 @@ PROGRAM dbcsr_performance_driver
    USE dbcsr_kinds, ONLY: default_string_length
    USE dbcsr_lib, ONLY: dbcsr_finalize_lib, &
                         dbcsr_init_lib,&
-                        dbcsr_lib_statistics
+                        dbcsr_print_statistics
    USE dbcsr_machine, ONLY: default_output_unit, &
                             m_getarg, &
                             m_iargc
@@ -126,7 +126,13 @@ PROGRAM dbcsr_performance_driver
    ! free comm
    CALL mp_comm_free(group)
 
-   call dbcsr_lib_statistics(.true.)
+   !
+   ! print statistics
+
+   CALL dbcsr_print_statistics(.true., "test.callgraph")
+
+   !
+   ! finalize DBCSR
    CALL dbcsr_finalize_lib()
    !
    !

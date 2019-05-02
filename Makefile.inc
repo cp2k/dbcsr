@@ -231,6 +231,6 @@ endif
 #
 # Enable for MacOS compilation (-D__ACCELERATE is for Apple Accelerate library)
 
-#FCFLAGS += -D__NO_STATM_ACCESS -D__ACCELERATE
+FCFLAGS += -D__NO_STATM_ACCESS -D__ACCELERATEa
 
 #######################################################################################

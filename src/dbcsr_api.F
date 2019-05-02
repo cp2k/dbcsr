@@ -57,7 +57,7 @@ MODULE dbcsr_api
                                         dbcsr_iterator_stop_prv => dbcsr_iterator_stop
    USE dbcsr_lib, ONLY: dbcsr_clear_mempools, &
                         dbcsr_finalize_lib, &
-                        dbcsr_init_lib, dbcsr_lib_statistics
+                        dbcsr_init_lib, dbcsr_print_statistics_prv => dbcsr_print_statistics
    USE dbcsr_methods, ONLY: &
       dbcsr_get_data_size_prv => dbcsr_get_data_size, &
       dbcsr_get_data_type_prv => dbcsr_get_data_type, &
@@ -410,13 +410,6 @@ MODULE dbcsr_api
    PRIVATE
 
 CONTAINS
-
-   subroutine dbcsr_print_statistics(print_timers, callgraph_filename)
-      logical, intent(in)                    :: print_timers
-      CHARACTER(len=*), INTENT(IN), optional :: callgraph_filename
-
-      call dbcsr_lib_statistics(print_timers, callgraph_filename)
-   end subroutine
 
 ! **************************************************************************************************
 !> \brief ...
@@ -1186,6 +1179,18 @@ CONTAINS
       IF (.NOT. PRESENT(pgrid)) DEALLOCATE (mypgrid)
 
    END SUBROUTINE dbcsr_mp_new
+
+! **************************************************************************************************
+!> \brief Print statistics
+!> \param print_timers ...
+!> \param callgraph_filename ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_print_statistics(print_timers, callgraph_filename)
+      LOGICAL, INTENT(IN), OPTIONAL          :: print_timers
+      CHARACTER(len=*), INTENT(IN), OPTIONAL :: callgraph_filename
+
+      CALL dbcsr_print_statistics_prv(print_timers, callgraph_filename)
+   END SUBROUTINE dbcsr_print_statistics
 
 ! **************************************************************************************************
 !> \brief ...
