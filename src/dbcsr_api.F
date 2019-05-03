@@ -45,7 +45,8 @@ MODULE dbcsr_api
    USE dbcsr_dist_methods, ONLY: dbcsr_distribution_get_num_images => dbcsr_distribution_get_num_images_1d, &
                                  dbcsr_distribution_hold_prv => dbcsr_distribution_hold, &
                                  dbcsr_distribution_new_prv => dbcsr_distribution_new, &
-                                 dbcsr_distribution_release_prv => dbcsr_distribution_release
+                                 dbcsr_distribution_release_prv => dbcsr_distribution_release, &
+                                 dbcsr_distribution_get_prv => dbcsr_distribution_get
    USE dbcsr_dist_operations, ONLY: dbcsr_get_stored_coordinates_prv => dbcsr_get_stored_coordinates
    USE dbcsr_io, ONLY: dbcsr_binary_read_prv => dbcsr_binary_read, &
                        dbcsr_binary_write_prv => dbcsr_binary_write, &
@@ -831,12 +832,11 @@ CONTAINS
                               col_blk_size=col_blk_size, &
                               row_blk_offset=row_blk_offset, &
                               col_blk_offset=col_blk_offset, &
+                              distribution = distribution%prv, &
                               name=name, &
                               matrix_type=matrix_type, &
-                              data_type=data_type)
-
-      IF (PRESENT(distribution)) distribution%prv = matrix%prv%dist
-      IF (PRESENT(group)) group = dbcsr_mp_group(matrix%prv%dist%d%mp_env) ! a shortcut
+                              data_type=data_type, &
+                              group = group)
 
    END SUBROUTINE dbcsr_get_info
 
@@ -874,24 +874,11 @@ CONTAINS
       LOGICAL, INTENT(OUT), OPTIONAL                     :: subgroups_defined
       INTEGER, INTENT(OUT), OPTIONAL                     :: prow_group, pcol_group
 
-      IF (PRESENT(row_dist)) row_dist => array_data(dist%prv%d%row_dist_block)
-      IF (PRESENT(col_dist)) col_dist => array_data(dist%prv%d%col_dist_block)
-      IF (PRESENT(nrows)) nrows = array_size(dist%prv%d%row_dist_block)
-      IF (PRESENT(ncols)) ncols = array_size(dist%prv%d%col_dist_block)
-      IF (PRESENT(has_threads)) has_threads = dist%prv%d%has_thread_dist
-
-      IF (PRESENT(group)) group = dist%prv%d%mp_env%mp%mp_group
-      IF (PRESENT(mynode)) mynode = dist%prv%d%mp_env%mp%mynode
-      IF (PRESENT(numnodes)) numnodes = dist%prv%d%mp_env%mp%numnodes
-      IF (PRESENT(nprows)) nprows = SIZE(dist%prv%d%mp_env%mp%pgrid, 1)
-      IF (PRESENT(npcols)) npcols = SIZE(dist%prv%d%mp_env%mp%pgrid, 2)
-      IF (PRESENT(myprow)) myprow = dist%prv%d%mp_env%mp%myprow
-      IF (PRESENT(mypcol)) mypcol = dist%prv%d%mp_env%mp%mypcol
-      IF (PRESENT(prow_group)) prow_group = dist%prv%d%mp_env%mp%prow_group
-      IF (PRESENT(pcol_group)) pcol_group = dist%prv%d%mp_env%mp%pcol_group
-      IF (PRESENT(pgrid)) pgrid => dist%prv%d%mp_env%mp%pgrid
-      IF (PRESENT(subgroups_defined)) subgroups_defined = dist%prv%d%mp_env%mp%subgroups_defined
-
+      call dbcsr_distribution_get_prv(dist % prv, row_dist, col_dist, &
+                                  nrows, ncols, has_threads, &
+                                     group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, &
+                                     subgroups_defined, prow_group, pcol_group)
+      
    END SUBROUTINE dbcsr_distribution_get
 
 ! **************************************************************************************************
