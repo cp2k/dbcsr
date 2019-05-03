@@ -59,7 +59,7 @@ MODULE dbcsr_dist_methods
              dbcsr_distribution_thread_dist, dbcsr_distribution_has_threads, &
              dbcsr_distribution_make_threads, dbcsr_distribution_no_threads, &
              dbcsr_distribution_num_threads, &
-             dbcsr_distribution_get_num_images_1d
+             dbcsr_distribution_get_num_images_1d, dbcsr_distribution_get
 
 CONTAINS
 
@@ -165,6 +165,61 @@ CONTAINS
 
    END SUBROUTINE dbcsr_distribution_new
 
+   
+! **************************************************************************************************
+!> \brief ...
+!> \param dist ...
+!> \param row_dist ...
+!> \param col_dist ...
+!> \param nrows ...
+!> \param ncols ...
+!> \param has_threads ...
+!> \param group ...
+!> \param mynode ...
+!> \param numnodes ...
+!> \param nprows ...
+!> \param npcols ...
+!> \param myprow ...
+!> \param mypcol ...
+!> \param pgrid ...
+!> \param subgroups_defined ...
+!> \param prow_group ...
+!> \param pcol_group ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_distribution_get(dist, row_dist, col_dist, &
+                                     nrows, ncols, has_threads, &
+                                     group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, &
+                                     subgroups_defined, prow_group, pcol_group)
+      TYPE(dbcsr_distribution_obj), INTENT(IN)          :: dist
+      INTEGER, DIMENSION(:), OPTIONAL, POINTER           :: row_dist, col_dist
+      INTEGER, INTENT(OUT), OPTIONAL                     :: nrows, ncols
+      LOGICAL, INTENT(OUT), OPTIONAL                     :: has_threads
+      INTEGER, INTENT(OUT), OPTIONAL                     :: group, mynode, numnodes, nprows, npcols, &
+                                                            myprow, mypcol
+      INTEGER, DIMENSION(:, :), OPTIONAL, POINTER        :: pgrid
+      LOGICAL, INTENT(OUT), OPTIONAL                     :: subgroups_defined
+      INTEGER, INTENT(OUT), OPTIONAL                     :: prow_group, pcol_group
+
+      IF (PRESENT(row_dist)) row_dist => array_data(dist%d%row_dist_block)
+      IF (PRESENT(col_dist)) col_dist => array_data(dist%d%col_dist_block)
+      IF (PRESENT(nrows)) nrows = array_size(dist%d%row_dist_block)
+      IF (PRESENT(ncols)) ncols = array_size(dist%d%col_dist_block)
+      IF (PRESENT(has_threads)) has_threads = dist%d%has_thread_dist
+
+      IF (PRESENT(group)) group = dist%d%mp_env%mp%mp_group
+      IF (PRESENT(mynode)) mynode = dist%d%mp_env%mp%mynode
+      IF (PRESENT(numnodes)) numnodes = dist%d%mp_env%mp%numnodes
+      IF (PRESENT(nprows)) nprows = SIZE(dist%d%mp_env%mp%pgrid, 1)
+      IF (PRESENT(npcols)) npcols = SIZE(dist%d%mp_env%mp%pgrid, 2)
+      IF (PRESENT(myprow)) myprow = dist%d%mp_env%mp%myprow
+      IF (PRESENT(mypcol)) mypcol = dist%d%mp_env%mp%mypcol
+      IF (PRESENT(prow_group)) prow_group = dist%d%mp_env%mp%prow_group
+      IF (PRESENT(pcol_group)) pcol_group = dist%d%mp_env%mp%pcol_group
+      IF (PRESENT(pgrid)) pgrid => dist%d%mp_env%mp%pgrid
+      IF (PRESENT(subgroups_defined)) subgroups_defined = dist%d%mp_env%mp%subgroups_defined
+
+   END SUBROUTINE dbcsr_distribution_get
+   
 ! **************************************************************************************************
 !> \brief Marks another use of the distribution
 !> \param dist ...

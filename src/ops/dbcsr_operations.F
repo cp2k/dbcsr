@@ -2606,7 +2606,7 @@ CONTAINS
                              my_prow, my_pcol, &
                              local_rows, local_cols, proc_row_dist, proc_col_dist, &
                              row_blk_size, col_blk_size, row_blk_offset, col_blk_offset, distribution, name, data_area, &
-                             matrix_type, data_type)
+                             matrix_type, data_type, group)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER, INTENT(OUT), OPTIONAL :: nblkrows_total, nblkcols_total, nfullrows_total, &
                                         nfullcols_total, nblkrows_local, nblkcols_local, nfullrows_local, nfullcols_local, &
@@ -2619,6 +2619,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(OUT), OPTIONAL        :: data_area
       CHARACTER, OPTIONAL                                :: matrix_type
       INTEGER, OPTIONAL                                  :: data_type
+      INTEGER, INTENT(OUT), OPTIONAL                     :: group
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_info', routineP = moduleN//':'//routineN
 
@@ -2650,6 +2651,7 @@ CONTAINS
       IF (PRESENT(my_pcol)) my_pcol = dbcsr_mp_mypcol(dbcsr_distribution_mp(matrix%dist))
       IF (PRESENT(matrix_type)) matrix_type = dbcsr_get_matrix_type(matrix)
 
+      IF (PRESENT(group)) group = dbcsr_mp_group(matrix%dist%d%mp_env) ! a shortcut
       !IF (PRESENT(matrix_type)) THEN
       !   matrix_type = dbcsr_get_matrix_type(matrix)
       !   IF (matrix_type .EQ. dbcsr_type_invalid) &
