@@ -10,12 +10,6 @@
 ! **************************************************************************************************
 !> \brief   DBCSR example 2
 !>          This example shows how to set a dbcsr matrix
-!> \author  V. Weber
-!> \date    2010
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created 2010
 ! **************************************************************************************************
 PROGRAM dbcsr_example_2
    USE mpi
@@ -24,8 +18,6 @@ PROGRAM dbcsr_example_2
         dbcsr_distribution_type, dbcsr_finalize, dbcsr_finalize_lib, dbcsr_get_stored_coordinates, &
         dbcsr_init_lib, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_print, dbcsr_put_block, &
         dbcsr_release, dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8
-
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
    IMPLICIT NONE
 
@@ -39,7 +31,6 @@ PROGRAM dbcsr_example_2
    INTEGER, DIMENSION(:), POINTER           :: col_dist, row_dist
    TYPE(dbcsr_distribution_type)            :: dist
    REAL(KIND=KIND(0.0D0)), DIMENSION(:), ALLOCATABLE :: values
-   LOGICAL                                  :: tr
    LOGICAL, DIMENSION(2)                    :: period = .TRUE.
 !$ INTEGER                                  :: provided_tsl
 
@@ -131,7 +122,6 @@ PROGRAM dbcsr_example_2
       DO col = MAX(row-1, 1), MIN(row+1, dbcsr_nblkcols_total(matrix_a))
          !
          ! get the node id that holds this (row, col) block
-         tr = .FALSE.
          row_s = row; col_s = col
          CALL dbcsr_get_stored_coordinates(matrix_a, row_s, col_s, node_holds_blk)
          !

@@ -10,12 +10,6 @@
 ! **************************************************************************************************
 !> \brief   DBCSR example 1
 !>          This example shows how to create a dbcsr matrix
-!> \author  V. Weber
-!> \date    2010
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created 2010
 ! **************************************************************************************************
 PROGRAM dbcsr_example_1
    USE mpi
@@ -23,8 +17,6 @@ PROGRAM dbcsr_example_1
         dbcsr_create, dbcsr_distribution_new, dbcsr_distribution_release, dbcsr_distribution_type, &
         dbcsr_finalize, dbcsr_finalize_lib, dbcsr_init_lib, dbcsr_print, dbcsr_release, &
         dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8
-
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
 
    IMPLICIT NONE
 
