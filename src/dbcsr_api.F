@@ -914,14 +914,16 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: which_norm
       REAL(dp), INTENT(OUT), OPTIONAL                    :: norm_scalar
       REAL(dp), DIMENSION(:), INTENT(OUT), OPTIONAL      :: norm_vector
-
-      IF (PRESENT(norm_scalar)) THEN
-         CALL dbcsr_norm_prv(matrix%prv, which_norm, norm_scalar=norm_scalar)
-      ELSEIF (PRESENT(norm_vector)) THEN
-         CALL dbcsr_norm_prv(matrix%prv, which_norm, norm_vector=norm_vector)
-      ELSE
-         DBCSR_ABORT("Must pass either scalar or vector norm.")
-      ENDIF
+      
+      CALL dbcsr_norm_prv(matrix%prv, which_norm, norm_scalar, norm_vector)
+      
+!       IF (PRESENT(norm_scalar)) THEN
+!          CALL dbcsr_norm_prv(matrix%prv, which_norm, norm_scalar=norm_scalar)
+!       ELSEIF (PRESENT(norm_vector)) THEN
+!          CALL dbcsr_norm_prv(matrix%prv, which_norm, norm_vector=norm_vector)
+!       ELSE
+!          DBCSR_ABORT("Must pass either scalar or vector norm.")
+!       ENDIF
    END SUBROUTINE dbcsr_norm
 
 ! **************************************************************************************************
