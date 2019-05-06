@@ -99,6 +99,7 @@ MODULE dbcsr_api
       dbcsr_set_prv => dbcsr_set, &
       dbcsr_sum_replicated_prv => dbcsr_sum_replicated, &
       dbcsr_trace_prv => dbcsr_trace, &
+      dbcsr_dot_prv => dbcsr_dot, &
       dbcsr_triu_prv => dbcsr_triu, &
       dbcsr_clear_prv => dbcsr_clear
    USE dbcsr_test_methods, ONLY: dbcsr_reset_randmat_seed
@@ -199,6 +200,7 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_get_diag
    PUBLIC :: dbcsr_filter
    PUBLIC :: dbcsr_trace
+   PUBLIC :: dbcsr_dot
    PUBLIC :: dbcsr_complete_redistribute
    PUBLIC :: dbcsr_get_block_p
    PUBLIC :: dbcsr_clear
@@ -327,10 +329,13 @@ MODULE dbcsr_api
    END INTERFACE
 
    INTERFACE dbcsr_trace
-      MODULE PROCEDURE dbcsr_trace_ab_d, dbcsr_trace_ab_s
-      MODULE PROCEDURE dbcsr_trace_a_d, dbcsr_trace_a_s
-      MODULE PROCEDURE dbcsr_trace_ab_z, dbcsr_trace_ab_c
-      MODULE PROCEDURE dbcsr_trace_a_z, dbcsr_trace_a_c
+      MODULE PROCEDURE dbcsr_trace_d, dbcsr_trace_s
+      MODULE PROCEDURE dbcsr_trace_z, dbcsr_trace_c
+   END INTERFACE
+
+   INTERFACE dbcsr_dot
+      MODULE PROCEDURE dbcsr_dot_d, dbcsr_dot_s
+      MODULE PROCEDURE dbcsr_dot_z, dbcsr_dot_c
    END INTERFACE
 
    INTERFACE dbcsr_set
@@ -1853,7 +1858,7 @@ CONTAINS
 !> \param matrix_a ...
 !> \param trace ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_trace_a_${nametype1}$ (matrix_a, trace)
+   SUBROUTINE dbcsr_trace_${nametype1}$ (matrix_a, trace)
       TYPE(dbcsr_type), INTENT(IN)              :: matrix_a
       ${type1}$, INTENT(OUT)                     :: trace
 
@@ -1863,20 +1868,20 @@ CONTAINS
       CALL dbcsr_trace_prv(matrix_a%prv, trace_scalar)
       CALL dbcsr_scalar_fill_all(trace_scalar)
       CALL dbcsr_scalar_get_value(trace_scalar, trace)
-   END SUBROUTINE dbcsr_trace_a_${nametype1}$
+   END SUBROUTINE dbcsr_trace_${nametype1}$
 
 ! **************************************************************************************************
 !> \brief ...
 !> \param matrix_a ...
 !> \param matrix_b ...
-!> \param trace ...
+!> \param result ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_trace_ab_${nametype1}$ (matrix_a, matrix_b, trace)
+   SUBROUTINE dbcsr_dot_${nametype1}$ (matrix_a, matrix_b, result)
       TYPE(dbcsr_type), INTENT(IN)              :: matrix_a, matrix_b
-      ${type1}$, INTENT(INOUT)                   :: trace
+      ${type1}$, INTENT(INOUT)                  :: result
 
-      CALL dbcsr_trace_prv(matrix_a%prv, matrix_b%prv, trace)
-   END SUBROUTINE dbcsr_trace_ab_${nametype1}$
+      CALL dbcsr_dot_prv(matrix_a%prv, matrix_b%prv, result)
+   END SUBROUTINE dbcsr_dot_${nametype1}$
 
 ! **************************************************************************************************
 !> \brief ...
