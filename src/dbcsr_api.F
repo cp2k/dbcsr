@@ -128,7 +128,8 @@ MODULE dbcsr_api
    USE dbcsr_work_operations, ONLY: add_work_coordinate_prv => add_work_coordinate, &
                                     dbcsr_create_prv => dbcsr_create, &
                                     dbcsr_finalize_prv => dbcsr_finalize, &
-                                    dbcsr_work_create_prv => dbcsr_work_create
+                                    dbcsr_work_create_prv => dbcsr_work_create, &
+                                    dbcsr_create_template_prv => dbcsr_create_template
    USE dbcsr_kinds, ONLY: default_string_length, &
                           dp, &
                           int_8, &
@@ -1201,24 +1202,11 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays, mutable_work
       CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_create_template', &
-                                     routineP = moduleN//':'//routineN
-
-      IF (PRESENT(dist)) THEN
-         CALL dbcsr_create_prv(matrix%prv, template%prv, &
-                               name=name, dist=dist%prv, matrix_type=matrix_type, &
-                               row_blk_size=row_blk_size, col_blk_size=col_blk_size, &
-                               nze=nze, data_type=data_type, &
-                               reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
-                               replication_type=replication_type)
-      ELSE
-         CALL dbcsr_create_prv(matrix%prv, template%prv, &
-                               name=name, matrix_type=matrix_type, &
-                               row_blk_size=row_blk_size, col_blk_size=col_blk_size, &
-                               nze=nze, data_type=data_type, &
-                               reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
-                               replication_type=replication_type)
-      ENDIF
+      call dbcsr_create_template_prv(matrix%prv, name, template%prv, &
+                                    dist%prv, matrix_type, &
+                                    row_blk_size, col_blk_size, nze, data_type, &
+                                    reuse_arrays, mutable_work, replication_type)
+                                    
    END SUBROUTINE dbcsr_create_template
 
 ! **************************************************************************************************
