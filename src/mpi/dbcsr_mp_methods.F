@@ -43,6 +43,10 @@ MODULE dbcsr_mp_methods
              dbcsr_mp_grid_setup, dbcsr_mp_grid_remove, &
              dbcsr_mp_init, dbcsr_mp_active, dbcsr_mp_make_env
 
+   interface dbcsr_mp_new
+      module procedure dbcsr_mp_new_wrap
+      module procedure dbcsr_mp_new_low
+   end interface
 CONTAINS
 
 ! **************************************************************************************************
@@ -81,7 +85,7 @@ CONTAINS
 !>      UB (2010-02-04)       Duplicates own communicator and sets up
 !>                            cartesian grid
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_mp_new(mp_env, pgrid, mp_group, mynode, numnodes, myprow, &
+   SUBROUTINE dbcsr_mp_new_low(mp_env, pgrid, mp_group, mynode, numnodes, myprow, &
                            mypcol, source)
       TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
       INTEGER, DIMENSION(0:, 0:), INTENT(IN)             :: pgrid
@@ -123,8 +127,72 @@ CONTAINS
       ENDIF
       mp_env%mp%subgroups_defined = .FALSE.
       !call dbcsr_mp_grid_setup(mp_env)
-   END SUBROUTINE dbcsr_mp_new
+   END SUBROUTINE dbcsr_mp_new_low
 
+   
+   ! **************************************************************************************************
+!> \brief Creates a new dbcsr_mp_obj
+!> \param mp_env ...
+!> \param group ...
+!> \param pgrid Optional, if not provided group is assumed to be a 2D cartesian communicator
+!> \author Ole Schuett
+! **************************************************************************************************
+   SUBROUTINE dbcsr_mp_new_wrap(mp_env, group, pgrid)
+      TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
+      INTEGER, INTENT(IN)                                :: group
+      INTEGER, DIMENSION(:, :), OPTIONAL, POINTER        :: pgrid
+
+      INTEGER                                            :: mynode, mypcol, myprow, numnodes, pcol, &
+                                                            prow
+      INTEGER, DIMENSION(2)                              :: coord, mycoord, pdims
+      INTEGER, DIMENSION(:, :), POINTER                  :: mypgrid
+      LOGICAL, DIMENSION(2)                              :: periods
+
+      CALL mp_environ(numnodes, mynode, group)
+
+      IF (PRESENT(pgrid)) THEN
+         mypgrid => pgrid
+         DBCSR_ASSERT(LBOUND(pgrid, 1) == 0 .AND. LBOUND(pgrid, 2) == 0)
+         pdims(1) = SIZE(pgrid, 1)
+         pdims(2) = SIZE(pgrid, 2)
+         myprow = -1; mypcol = -1
+         outer: &
+            DO prow = 0, pdims(1) - 1
+            DO pcol = 0, pdims(2) - 1
+               IF (pgrid(prow, pcol) == mynode) THEN
+                  myprow = prow
+                  mypcol = pcol
+                  EXIT outer
+               ENDIF
+            ENDDO
+         ENDDO outer
+
+      ELSE
+         CALL mp_environ(group, 2, pdims, mycoord, periods)
+         DBCSR_ASSERT(pdims(1)*pdims(2) == numnodes)
+         myprow = mycoord(1)
+         mypcol = mycoord(2)
+         ALLOCATE (mypgrid(0:pdims(1) - 1, 0:pdims(2) - 1))
+         DO prow = 0, pdims(1) - 1
+            DO pcol = 0, pdims(2) - 1
+               coord = (/prow, pcol/)
+               CALL mp_cart_rank(group, coord, mypgrid(prow, pcol))
+            ENDDO
+         ENDDO
+      ENDIF
+
+      DBCSR_ASSERT(mynode == mypgrid(myprow, mypcol))
+
+      ! create the new mp environment
+      CALL dbcsr_mp_new_low(mp_env, pgrid=mypgrid, mp_group=group, &
+                            mynode=mynode, numnodes=numnodes, myprow=myprow, mypcol=mypcol)
+
+      IF (.NOT. PRESENT(pgrid)) DEALLOCATE (mypgrid)
+
+   END SUBROUTINE dbcsr_mp_new_wrap
+   
+   
+   
 ! **************************************************************************************************
 !> \brief Sets up MPI cartesian process grid
 !> \param[in,out] mp_env      multiprocessor environment

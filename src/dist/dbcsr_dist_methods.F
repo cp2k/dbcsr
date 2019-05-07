@@ -33,7 +33,9 @@ MODULE dbcsr_dist_methods
                                dbcsr_mp_mypcol, &
                                dbcsr_mp_myprow, &
                                dbcsr_mp_npcols, &
-                               dbcsr_mp_nprows
+                               dbcsr_mp_nprows, &
+                               dbcsr_mp_new, &
+                               dbcsr_mp_release
    USE dbcsr_toollib, ONLY: lcm, &
                             sort
    USE dbcsr_types, ONLY: dbcsr_distribution_obj, &
@@ -61,7 +63,61 @@ MODULE dbcsr_dist_methods
              dbcsr_distribution_num_threads, &
              dbcsr_distribution_get_num_images_1d, dbcsr_distribution_get
 
+   interface dbcsr_distribution_new
+      module procedure dbcsr_distribution_new_wrap
+      module procedure dbcsr_distribution_new_low
+   end interface
 CONTAINS
+
+
+! **************************************************************************************************
+!> \brief Creates new distribution from blockr distributions
+!> \param[out] dist           distribution
+!> \param template ...
+!> \param group ...
+!> \param pgrid ...
+!> \param row_dist ...
+!> \param col_dist ...
+!> \param reuse_arrays ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_distribution_new_wrap(dist, template, group, pgrid, row_dist, col_dist, &
+                                     reuse_arrays)
+      TYPE(dbcsr_distribution_obj), INTENT(OUT)         :: dist
+      TYPE(dbcsr_distribution_obj), INTENT(IN), &
+         OPTIONAL                                        :: template
+      INTEGER, INTENT(IN), OPTIONAL                      :: group
+      INTEGER, DIMENSION(:, :), OPTIONAL, POINTER        :: pgrid
+      INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist, col_dist
+      LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays
+
+      TYPE(dbcsr_mp_obj)                                 :: mp_env
+
+      IF (PRESENT(pgrid) .AND. .NOT. PRESENT(group)) &
+         DBCSR_ABORT("pgrid can only be supplied together with group")
+
+      IF (PRESENT(template)) THEN
+         mp_env = template%d%mp_env
+         IF (PRESENT(group)) &
+            DBCSR_ABORT("dbcsr_distribution_new called with template and group")
+         IF (PRESENT(pgrid)) &
+            DBCSR_ABORT("dbcsr_distribution_new called with template and pgrid")
+      ELSE IF (PRESENT(group)) THEN
+         CALL dbcsr_mp_new(mp_env, group, pgrid)
+      ELSE
+         DBCSR_ABORT("dbcsr_distribution_new: neither template nor group supplied")
+      ENDIF
+
+      CALL dbcsr_distribution_new_low(dist, mp_env, &
+                                      row_dist_block=row_dist, &
+                                      col_dist_block=col_dist, &
+                                      reuse_arrays=reuse_arrays)
+
+      IF (.NOT. PRESENT(template)) &
+         CALL dbcsr_mp_release(mp_env)
+
+   END SUBROUTINE 
+   
+
 
 ! **************************************************************************************************
 !> \brief Creates new distribution
@@ -73,7 +129,7 @@ CONTAINS
 !> \param local_cols ...
 !> \param reuse_arrays ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_distribution_new(dist, mp_env, row_dist_block, col_dist_block, &
+   SUBROUTINE dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_dist_block, &
                                      local_rows, local_cols, &
                                      reuse_arrays)
       TYPE(dbcsr_distribution_obj), INTENT(OUT)          :: dist
@@ -163,7 +219,7 @@ CONTAINS
 
       CALL timestop(handle)
 
-   END SUBROUTINE dbcsr_distribution_new
+   END SUBROUTINE dbcsr_distribution_new_low
 
    
 ! **************************************************************************************************

@@ -1086,93 +1086,13 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist, col_dist
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays
 
-      TYPE(dbcsr_mp_obj)                                 :: mp_env
 
-      IF (PRESENT(pgrid) .AND. .NOT. PRESENT(group)) &
-         DBCSR_ABORT("pgrid can only be supplied together with group")
-
-      IF (PRESENT(template)) THEN
-         mp_env = template%prv%d%mp_env
-         IF (PRESENT(group)) &
-            DBCSR_ABORT("dbcsr_distribution_new called with template and group")
-         IF (PRESENT(pgrid)) &
-            DBCSR_ABORT("dbcsr_distribution_new called with template and pgrid")
-      ELSE IF (PRESENT(group)) THEN
-         CALL dbcsr_mp_new(mp_env, group, pgrid)
-      ELSE
-         DBCSR_ABORT("dbcsr_distribution_new: neither template nor group supplied")
-      ENDIF
-
-      CALL dbcsr_distribution_new_prv(dist%prv, mp_env, &
-                                      row_dist_block=row_dist, &
-                                      col_dist_block=col_dist, &
-                                      reuse_arrays=reuse_arrays)
-
-      IF (.NOT. PRESENT(template)) &
-         CALL dbcsr_mp_release(mp_env)
-
+      call dbcsr_distribution_new_prv(dist%prv, template%prv, group, pgrid, row_dist, col_dist, &
+                                       reuse_arrays)
+   
    END SUBROUTINE dbcsr_distribution_new
 
-! **************************************************************************************************
-!> \brief Creates a new dbcsr_mp_obj
-!> \param mp_env ...
-!> \param group ...
-!> \param pgrid Optional, if not provided group is assumed to be a 2D cartesian communicator
-!> \author Ole Schuett
-! **************************************************************************************************
-   SUBROUTINE dbcsr_mp_new(mp_env, group, pgrid)
-      TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
-      INTEGER, INTENT(IN)                                :: group
-      INTEGER, DIMENSION(:, :), OPTIONAL, POINTER        :: pgrid
 
-      INTEGER                                            :: mynode, mypcol, myprow, numnodes, pcol, &
-                                                            prow
-      INTEGER, DIMENSION(2)                              :: coord, mycoord, pdims
-      INTEGER, DIMENSION(:, :), POINTER                  :: mypgrid
-      LOGICAL, DIMENSION(2)                              :: periods
-
-      CALL mp_environ(numnodes, mynode, group)
-
-      IF (PRESENT(pgrid)) THEN
-         mypgrid => pgrid
-         DBCSR_ASSERT(LBOUND(pgrid, 1) == 0 .AND. LBOUND(pgrid, 2) == 0)
-         pdims(1) = SIZE(pgrid, 1)
-         pdims(2) = SIZE(pgrid, 2)
-         myprow = -1; mypcol = -1
-         outer: &
-            DO prow = 0, pdims(1) - 1
-            DO pcol = 0, pdims(2) - 1
-               IF (pgrid(prow, pcol) == mynode) THEN
-                  myprow = prow
-                  mypcol = pcol
-                  EXIT outer
-               ENDIF
-            ENDDO
-         ENDDO outer
-
-      ELSE
-         CALL mp_environ(group, 2, pdims, mycoord, periods)
-         DBCSR_ASSERT(pdims(1)*pdims(2) == numnodes)
-         myprow = mycoord(1)
-         mypcol = mycoord(2)
-         ALLOCATE (mypgrid(0:pdims(1) - 1, 0:pdims(2) - 1))
-         DO prow = 0, pdims(1) - 1
-            DO pcol = 0, pdims(2) - 1
-               coord = (/prow, pcol/)
-               CALL mp_cart_rank(group, coord, mypgrid(prow, pcol))
-            ENDDO
-         ENDDO
-      ENDIF
-
-      DBCSR_ASSERT(mynode == mypgrid(myprow, mypcol))
-
-      ! create the new mp environment
-      CALL dbcsr_mp_new_prv(mp_env, pgrid=mypgrid, mp_group=group, &
-                            mynode=mynode, numnodes=numnodes, myprow=myprow, mypcol=mypcol)
-
-      IF (.NOT. PRESENT(pgrid)) DEALLOCATE (mypgrid)
-
-   END SUBROUTINE dbcsr_mp_new
 
 ! **************************************************************************************************
 !> \brief Print statistics
