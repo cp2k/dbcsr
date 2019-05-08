@@ -1,6 +1,8 @@
 # DBCSR: Distributed Block Compressed Sparse Row matrix library 
 
 [![Build Status](https://travis-ci.org/cp2k/dbcsr.svg?branch=develop)](https://travis-ci.org/cp2k/dbcsr) [![codecov](https://codecov.io/gh/cp2k/dbcsr/branch/develop/graph/badge.svg)](https://codecov.io/gh/cp2k/dbcsr)
+[![Licence](https://img.shields.io/badge/license-GPL%20v2.0-blue.svg)](./LICENSE)
+[![GitHub Releases](https://img.shields.io/github/release-pre/cp2k/dbcsr.svg)](https://github.com/cp2k/dbcsr/releases)
 
 DBCSR is a library designed to efficiently perform sparse matrix matrix multiplication, among other operations.
 It is MPI and OpenMP parallel and can exploit GPUs via CUDA.
