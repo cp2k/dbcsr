@@ -147,7 +147,7 @@ else
 endif
 
 ifneq (0,$(OMP)) # using OpenMP
-  CXXOMPFLAGS = -fopenmp
+  CXXFLAGS += -fopenmp
   FCFLAGS  += -fopenmp
 endif
 
