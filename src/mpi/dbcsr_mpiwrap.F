@@ -2647,7 +2647,7 @@ CONTAINS
       ALLOCATE (res(1:msglen), STAT=ierr)
       IF (ierr /= 0) &
          DBCSR_ABORT("allocate @ "//routineN)
-      CALL mpi_allreduce(msg, res, 1, MPI_2DOUBLE_PRECISION, MPI_MINLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_2DOUBLE_PRECISION, MPI_MINLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2691,7 +2691,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_2INTEGER, MPI_MINLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_2INTEGER, MPI_MINLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2735,7 +2735,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_INTEGER8, MPI_MINLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_INTEGER8, MPI_MINLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2779,7 +2779,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_2REAL, MPI_MINLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_2REAL, MPI_MINLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2823,7 +2823,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_2DOUBLE_PRECISION, MPI_MAXLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_2DOUBLE_PRECISION, MPI_MAXLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2867,7 +2867,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_2INTEGER, MPI_MAXLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_2INTEGER, MPI_MAXLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2911,7 +2911,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_INTEGER8, MPI_MAXLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_INTEGER8, MPI_MAXLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2955,7 +2955,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_2REAL, MPI_MAXLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_2REAL, MPI_MAXLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
