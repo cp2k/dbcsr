@@ -361,3 +361,13 @@ extern "C" int libsmm_acc_transpose (void *trs_stack, int offset, int nblks, voi
       return 0; // maximum size over any dimention
     return libcusmm_transpose_d((int *) trs_stack, offset, nblks, (double *) buffer, m, n, *((CUstream *) stream));
 }
+
+
+//===========================================================================
+extern "C" bool libsmm_acc_libcusmm_is_thread_safe () {
+#if defined _OPENMP
+    return true;
+#else
+    return false;
+#endif
+}

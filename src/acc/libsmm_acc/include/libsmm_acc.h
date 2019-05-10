@@ -18,6 +18,8 @@ int libsmm_acc_process (void *param_stack, int stack_size,
 int libsmm_acc_transpose (void *trs_stack, int offset, int nblks,
     void *buffer, int datatype, int m, int n, void* stream);
 
+bool libsmm_acc_libcusmm_is_thread_safe ();
+
 #ifdef __cplusplus
  }
 #endif
