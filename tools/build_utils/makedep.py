@@ -23,7 +23,7 @@ re_incl_fort = re.compile(r"\n\s*include\s+['\"](.+)['\"]")
 def main(out_fn, project_name, mod_format, mode, archive_ext, src_dir, src_files):
     messages = []
     # process arguments
-    src_files = [path.join(src_dir, f) for f in src_files]
+    src_files = [normpath(path.join(src_dir, f)) for f in src_files]
 
     if mod_format not in ("lower", "upper", "no"):
         error('Module filename format must be eighter of "lower", "upper", or "no".')
