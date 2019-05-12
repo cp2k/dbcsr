@@ -100,24 +100,33 @@ def main(out_fn, project_name, mod_format, mode, archive_ext, src_dir, src_files
         find_cycles(parsed_files, mod2fn, fn, src_dir)
 
     # write messages as comments
-    makefile = "".join(["#makedep: %s\n" % m for m in messages])
-    makefile += "\n"
+    makefile = "\n".join("#makedep: {}".format(m) for m in messages)
+    makefile += "\n\n"
 
     # write rules for archives
-    for p in packages.keys():
-        if packages[p]["objects"]:
-            makefile += "# Package %s\n" % p
-            makefile += "$(LIBDIR)/%s : " % (packages[p]["archive"] + archive_ext)
-            makefile += " ".join(packages[p]["objects"]) + "\n\n"
+    for pkg in packages.keys():
+        if packages[pkg]["objects"]:
+            makefile += """\
+# Package {pkg}
+$(LIBDIR)/{archive}{ext} : {objs}
+
+""".format(
+                pkg=pkg,
+                archive=packages[pkg]["archive"],
+                ext=archive_ext,
+                objs=" ".join(packages[pkg]["objects"]),
+            )
 
     # write rules for public files
-    for p in packages.keys():
-        if "public" in packages[p].keys():
-            makefile += "# Public modules for package %s\n" % p
-            makefile += "install: PUBLICFILES += "
-            for mod in packages[p]["public"]:
-                makefile += "%s " % mod
-            makefile += "\n\n"
+    for pkg in packages.keys():
+        if "public" in packages[pkg].keys():
+            makefile += """\
+# Public modules for package {pkg}
+install: PUBLICFILES += {pubfiles}
+
+""".format(
+                pkg=pkg, pubfiles=" ".join(mod for mod in packages[pkg]["public"])
+            )
 
     # write rules for executables
     archive_postfix = archive_ext.rsplit(".", 1)[0]
@@ -126,39 +135,51 @@ def main(out_fn, project_name, mod_format, mode, archive_ext, src_dir, src_files
             continue
 
         bfn = basename(fn).rsplit(".", 1)[0]
-        makefile += "# Program %s\n" % fn
-        makefile += "$(EXEDIR)/%s.$(ONEVERSION) : %s.o " % (bfn, bfn)
         p = normpath(dirname(fn))
+
         deps = collect_pkg_deps(packages, p)
-        makefile += " ".join(["$(LIBDIR)/" + a + archive_ext for a in deps]) + "\n"
-        makefile += "\t" + "$(LD) $(LDFLAGS)"
-        if fn.endswith(".c") or fn.endswith(".cu"):
-            makefile += " $(LDFLAGS_C)"
-        makefile += " -L$(LIBDIR) -o $@ %s.o " % bfn
-        makefile += "$(EXTERNAL_OBJECTS) "
-        assert all([a.startswith("lib") for a in deps])
-        makefile += " ".join(["-l" + a[3:] + archive_postfix for a in deps])
-        makefile += " $(LIBS)\n\n"
+        assert all(a.startswith("lib") for a in deps)
+        cflagsvar = " $(LDFLAGS_C)" if fn.endswith(".c") or fn.endswith(".cu") else ""
+        makefile += """\
+# Program {fn}
+$(EXEDIR)/{bfn}.$(ONEVERSION) : {bfn}.o {deps}
+\t$(LD) $(LDFLAGS) {cflagsvar} -L$(LIBDIR) -o $@ {bfn}.o $(EXTERNAL_OBJECTS) {linkerdeps} $(LIBS)
+
+""".format(
+            fn=fn,
+            bfn=bfn,
+            deps=" ".join(["$(LIBDIR)/" + a + archive_ext for a in deps]),
+            cflagsvar=cflagsvar,
+            linkerdeps=" ".join("-l{}{}".format(a[3:], archive_postfix) for a in deps),
+        )
 
     # write rules for objects
     for fn in src_files:
-        deps = " ".join(collect_include_deps(parsed_files, fn, src_dir))
+        deps = collect_include_deps(parsed_files, fn, src_dir)
+
         mods = collect_use_deps(parsed_files, fn, src_dir)
         mods.sort(key=cmp_mods)  # sort mods to speedup compilation
-        for m in mods:
-            if m in mod2fn.keys():
-                deps += " " + mod2modfile(m, mod_format)
+        deps += [mod2modfile(m, mod_format) for m in mods if m in mod2fn.keys()]
+
         if mode == "hackdep":
-            deps = ""
+            deps = []
+
+        deps = " ".join(deps)
 
         bfn = basename(fn)
-        makefile += "# Object %s\n" % bfn
         provides = [mod2modfile(m, mod_format) for m in parsed_files[fn]["module"]]
+
+        makefile += "# Object {bfn}\n".format(bfn=bfn)
         for mfn in provides:
-            makefile += "%s : %s " % (mfn, bfn) + deps + "\n"
-        makefile += "%s : %s " % (src2obj(bfn), bfn) + deps
+            makefile += "{mfn} : {bfn} {deps}\n".format(mfn=mfn, bfn=bfn, deps=deps)
+
+        makefile += "{bfnobj} : {bfn} {deps}".format(
+            bfnobj=src2obj(bfn), bfn=bfn, deps=deps
+        )
+
         if mode == "mod_compiler":
             makefile += " " + " ".join(provides)
+
         makefile += "\n\n"
 
     with open(out_fn, "w") as fhandle:
