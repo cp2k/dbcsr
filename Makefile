@@ -508,7 +508,7 @@ libcusmm_benchmark.o: libcusmm_benchmark.cu parameters.h
 $(LIBDIR)/%:
 ifneq ($(LD_SHARED),)
 	@echo "Creating shared library $@"
-	@$(LD_SHARED) -o $(@:.a=.so) $^
+	@$(LD_SHARED) $(LDFLAGS) -o $(@:.a=.so) $^ $(LIBS)
 else
 	@echo "Updating archive $@"
 	@$(AR) $@ $?
