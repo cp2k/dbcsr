@@ -347,7 +347,7 @@ def find_cycles(parsed_files, mod2fn, fn, src_dir, S=None):
     if "visited" in pf.keys():
         return
 
-    if not S:
+    if S is None:
         S = []
 
     for m in pf["module"]:
@@ -368,10 +368,10 @@ def find_cycles(parsed_files, mod2fn, fn, src_dir, S=None):
 
 # ============================================================================
 def collect_pkg_deps(packages, p, archives=None, S=None):
-    if not archives:
+    if archives is None:
         archives = []
 
-    if not S:
+    if S is None:
         S = []
 
     a = packages[p]["archive"]
