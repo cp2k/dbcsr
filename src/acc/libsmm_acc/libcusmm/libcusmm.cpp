@@ -364,10 +364,10 @@ extern "C" int libsmm_acc_transpose (void *trs_stack, int offset, int nblks, voi
 
 
 //===========================================================================
-extern "C" bool libsmm_acc_libcusmm_is_thread_safe () {
+extern "C" int libsmm_acc_libcusmm_is_thread_safe () {
 #if defined _OPENMP
-    return true;
+    return 1;  // i.e. true, libcusmm is threaded
 #else
-    return false;
+    return 0;  // i.e. false, libcusmm is not threaded
 #endif
 }
