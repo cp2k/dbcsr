@@ -164,7 +164,11 @@ CONTAINS
       INTEGER, INTENT(IN)  :: mp_comm
       INTEGER, INTENT(IN), OPTIONAL :: io_unit
 
-      INTEGER :: numnodes, mynode, thread_safe
+      INTEGER :: numnodes, mynode
+
+#if defined(__DBCSR_ACC)
+!$    INTEGER :: thread_safe
+#endif
 
       IF (PRESENT(io_unit)) THEN
          ext_io_unit = io_unit
