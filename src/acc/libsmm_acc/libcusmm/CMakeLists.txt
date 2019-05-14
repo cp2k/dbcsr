@@ -30,11 +30,21 @@ add_library(libcusmm OBJECT
   cusmm_kernels.h
   )
 
-# use legacy directives here due to missing target_include_directories support
-# for object libraries with CMake < 3.12
-include_directories(
+if (OpenMP_FOUND)
+  # with CMake 3.12+ the following can be replaced by:
+  #   target_link_libraries(libcusmm PRIVATE OpenMP::OpenMP_CXX)
+  target_compile_options(libcusmm PRIVATE
+      $<TARGET_PROPERTY:OpenMP::OpenMP_CXX,INTERFACE_COMPILE_OPTIONS>
+    )
+endif ()
+
+target_include_directories(libcusmm PRIVATE
   ${CMAKE_CURRENT_BINARY_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}
   )
-include_directories(SYSTEM ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
-add_definitions(-DARCH_NUMBER=${CUDA_ARCH_NUMBER})
+
+target_include_directories(libcusmm SYSTEM PRIVATE
+  ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}
+  )
+
+target_compile_definitions(libcusmm PRIVATE -DARCH_NUMBER=${CUDA_ARCH_NUMBER})
