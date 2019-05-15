@@ -97,6 +97,13 @@ if (Fortran_COMPILER_NAME MATCHES "ftn")
   list(GET ftn_verbose_OUT 0 Fortran_COMPILER_NAME)
 endif ()
 
+# if the fortran compiler command is an OPENMPI wrapper, find out what the underlying compiler is
+if (Fortran_COMPILER_NAME MATCHES "mpif*")  # mpif77, mpif90 or mpifort
+  execute_process(COMMAND ${Fortran_COMPILER_NAME} --showme OUTPUT_VARIABLE mpif_verbose_OUT ERROR_QUIET)
+  separate_arguments(mpif_verbose_OUT NATIVE_COMMAND "${mpif_verbose_OUT}")
+  list(GET mpif_verbose_OUT 0 Fortran_COMPILER_NAME)
+endif ()
+
 # Depending on the fortran compiler, set the appropriate compiler flags
 if (Fortran_COMPILER_NAME MATCHES "^gfortran.*")
   set(CMAKE_CXX_FLAGS              "-std=c++11")
