@@ -72,41 +72,6 @@ def performance_gain(baseline, current):
     )
 
 
-def plot_training_data(Y, X_mnk, algo, folder=""):
-    import re
-    import matplotlib.pyplot as plt
-
-    print("Plotting training data...")
-
-    mnks_strings = X_mnk["mnk"].values
-    mnks = list()
-    mnk_str = re.compile(r"(\d+)x(\d+)x(\d+)")
-    for mnk_s in mnks_strings:
-        match = mnk_str.match(mnk_s)
-        mnks.append((int(match.group(1)), int(match.group(2)), int(match.group(3))))
-
-    perf_scaled = zip(mnks, Y["perf_scaled"])
-    mnk_products_perf_sorted = [
-        (mnk[0] * mnk[1] * mnk[2], p)
-        for mnk, p in sorted(perf_scaled, key=lambda x: x[0][0] * x[0][1] * x[0][2])
-    ]
-    tmp = list(zip(*mnk_products_perf_sorted))
-    mnk_products_sorted = tmp[0]
-    perf_scaled_sorted = tmp[1]
-
-    # Plot
-    plt.plot(mnk_products_sorted, 100 * np.array(perf_scaled_sorted), ".", markersize=1)
-    plt.xlabel("Training (m, n, k) triplets (in order of increasing m*n*k)")
-    plt.ylabel("Scaled performance [%]")
-    plt.title("Scaled performance on training data (" + algo + ")")
-    if folder != "":
-        file_name = os.path.join(folder, "y_scaled.svg")
-        plt.savefig(file_name)
-        print(file_name)
-    else:
-        plt.show()
-
-
 def relative_performance_gain(baseline, current):
     """
     Compute the relative perfomance gain (no units), between a baseline and a 'current'
@@ -264,7 +229,7 @@ def plot_choice_goodness(
     # Sort in ascending performances
     data_mnk = pd.DataFrame()
     if scaled:
-        data_mnk["perf_true"] = (100 * y_true.flatten()).tolist()
+        data_mnk["perf_true"] = (100 * y_true).tolist()
         data_mnk["perf_pred"] = (100 * y_pred).tolist()
     else:
         data_mnk["perf_true"] = y_true.flatten().tolist()
@@ -283,7 +248,7 @@ def plot_choice_goodness(
         label="measured performances",
     )
     plt.xlabel("Parameter set id")
-    plt.ylabel("Performance scaled [%]")
+    plt.ylabel("Percentage of autotuned performance achieved [%]")
     type = "train" if train else "test"
     plt.title(
         "Performance profile of parameter sets for "
@@ -298,19 +263,15 @@ def plot_choice_goodness(
     y = np.array([1, 1])
     perf_num = "{:2.2f}"
 
-    # autotuning
-    perf_autotuned_algo = data_mnk["perf_true"].max()
-    plt.plot(
-        x,
-        perf_autotuned_algo * y,
-        "k-",
-        label="max (for this algo): " + perf_num.format(perf_autotuned_algo),
-    )
-
     # chosen
     idx_perf_chosen = data_mnk["perf_pred"].idxmax()
     perf_chosen = data_mnk["perf_true"][idx_perf_chosen]
-    plt.plot(x, perf_chosen * y, "r-", label="chosen: " + perf_num.format(perf_chosen))
+    plt.plot(
+        x,
+        perf_chosen * y,
+        "r-",
+        label="perf of chosen param set: " + perf_num.format(perf_chosen) + "%",
+    )
 
     # baseline
     if scaled:
@@ -323,7 +284,10 @@ def plot_choice_goodness(
     else:
         perf_baseline = baseline_performances[to_string(m, n, k)]
     plt.plot(
-        x, perf_baseline * y, "g-", label="baseline: " + perf_num.format(perf_baseline)
+        x,
+        perf_baseline * y,
+        "g-",
+        label="perf of baseline param set: " + perf_num.format(perf_baseline) + "%",
     )
 
     plt.legend(loc="lower right")
