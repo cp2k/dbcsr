@@ -102,7 +102,9 @@ MODULE dbcsr_api
       dbcsr_trace_prv => dbcsr_trace, &
       dbcsr_dot_prv => dbcsr_dot, &
       dbcsr_triu_prv => dbcsr_triu, &
-      dbcsr_clear_prv => dbcsr_clear
+      dbcsr_clear_prv => dbcsr_clear,&
+                                 dbcsr_add_block_node_prv => dbcsr_add_block_node,&
+                                 dbcsr_conform_scalar_prv => dbcsr_conform_scalar
    USE dbcsr_test_methods, ONLY: dbcsr_reset_randmat_seed
    USE dbcsr_tests, ONLY: dbcsr_run_tests, &
                           dbcsr_test_binary_io, &
@@ -112,7 +114,8 @@ MODULE dbcsr_api
                                     dbcsr_desymmetrize_deep_prv => dbcsr_desymmetrize_deep, &
                                     dbcsr_distribute_prv => dbcsr_distribute, &
                                     dbcsr_new_transposed_prv => dbcsr_new_transposed, &
-                                    dbcsr_replicate_all_prv => dbcsr_replicate_all
+                                    dbcsr_replicate_all_prv => dbcsr_replicate_all, &
+                                    dbcsr_transposed_prv => dbcsr_transposed
    USE dbcsr_types, ONLY: &
       dbcsr_dist_prv_obj => dbcsr_distribution_obj, dbcsr_func_artanh, dbcsr_func_dtanh, &
       dbcsr_func_inverse, dbcsr_func_tanh, dbcsr_iterator_prv => dbcsr_iterator, dbcsr_mp_obj, &
@@ -918,13 +921,6 @@ CONTAINS
       
       CALL dbcsr_norm_prv(matrix%prv, which_norm, norm_scalar, norm_vector)
       
-!       IF (PRESENT(norm_scalar)) THEN
-!          CALL dbcsr_norm_prv(matrix%prv, which_norm, norm_scalar=norm_scalar)
-!       ELSEIF (PRESENT(norm_vector)) THEN
-!          CALL dbcsr_norm_prv(matrix%prv, which_norm, norm_vector=norm_vector)
-!       ELSE
-!          DBCSR_ABORT("Must pass either scalar or vector norm.")
-!       ENDIF
    END SUBROUTINE dbcsr_norm
 
 ! **************************************************************************************************
@@ -1340,25 +1336,11 @@ CONTAINS
       TYPE(dbcsr_distribution_type), INTENT(IN), &
          OPTIONAL                                        :: use_distribution
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_transposed', &
-                                     routineP = moduleN//':'//routineN
 
-      LOGICAL                                            :: myshallow_data_copy, &
-                                                            mytranspose_distribution
-      TYPE(dbcsr_dist_prv_obj)                           :: myuse_distribution
 
-!   set some defaults to make usage a bit less painful (fschiff)
-
-      myshallow_data_copy = .FALSE.
-      myuse_distribution = normal%prv%dist
-      mytranspose_distribution = .FALSE.
-      IF (PRESENT(shallow_data_copy)) myshallow_data_copy = shallow_data_copy
-      IF (PRESENT(use_distribution)) myuse_distribution = use_distribution%prv
-      IF (PRESENT(transpose_distribution)) mytranspose_distribution = transpose_distribution
-
-      CALL dbcsr_new_transposed_prv(transposed%prv, normal%prv, myshallow_data_copy, &
-                                    transpose_data, mytranspose_distribution, &
-                                    use_distribution=myuse_distribution)
+      CALL dbcsr_transposed_prv(transposed%prv, normal%prv, shallow_data_copy, &
+                                    transpose_data, transpose_distribution, &
+                                    use_distribution%prv)
    END SUBROUTINE dbcsr_transposed
 
 ! **************************************************************************************************
@@ -1504,46 +1486,8 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       INTEGER, INTENT(IN)                                :: block_row, block_col
       REAL(KIND=dp), DIMENSION(:, :), POINTER            :: block
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_add_block_node', &
-                                     routineP = moduleN//':'//routineN
-
-      INTEGER                                            :: c, ithread, mynode, p, r
-      LOGICAL                                            :: dbg, existed, is_there, tr
-      TYPE(dbcsr_distribution_type)                      :: dist
-
-!   ---------------------------------------------------------------------------
-
-      dbg = .FALSE.
-
-      ithread = 0
-!$    ithread = omp_get_thread_num()
-      IF (.NOT. ASSOCIATED(matrix%prv%wms)) THEN
-         CALL dbcsr_work_create(matrix, work_mutable=.TRUE.)
-         matrix%prv%valid = .FALSE.
-      ENDIF
-!$    IF (SIZE(matrix%prv%wms) .LT. omp_get_num_threads()) &
-!$       DBCSR_ABORT("Too few threads.")
-      IF (.NOT. dbcsr_wm_use_mutable(matrix%prv%wms(ithread + 1))) &
-         DBCSR_ABORT("Data loss due to no conversion of appendable to mutable data")
-      is_there = ASSOCIATED(block)
-      !r = row ; c = col ; tr = .FALSE.
-      !CALL dbcsr_get_stored_coordinates (matrix, r, c, tr)
-      !CALL dbcsr_reserve_block2d (matrix, row, col, block)
-      !write(*,*) 'add_block_node: block_row',block_row,' block_col',block_col
-      CALL dbcsr_reserve_block2d(matrix, block_row, block_col, block, &
-                                 existed=existed)
-!
-      IF (dbg) THEN
-         r = block_row; c = block_col; tr = .FALSE.
-         CALL dbcsr_get_stored_coordinates(matrix, r, c, p)
-         CALL dbcsr_get_info(matrix, distribution=dist)
-         CALL dbcsr_distribution_get(dist, mynode=mynode)
-         IF (p .NE. mynode) &
-            DBCSR_WARN("Adding non-local element")
-      ENDIF
-      IF (existed) DBCSR_WARN("You should not add existing blocks according to old API.")
-      IF (.NOT. is_there) block(:, :) = 0.0_dp
+        
+      call dbcsr_add_block_node_prv(matrix%prv,  block_row, block_col, block)
    END SUBROUTINE dbcsr_add_block_node
 
 #:include 'data/dbcsr.fypp'
@@ -1558,23 +1502,9 @@ CONTAINS
    FUNCTION make_conformant_scalar_${nametype1}$ (scalar, matrix) RESULT(encapsulated)
       ${type1}$, INTENT(IN)                      :: scalar
       TYPE(dbcsr_type), INTENT(IN)             :: matrix
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_conformant_scalar_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
       TYPE(dbcsr_scalar_type)                  :: encapsulated
-      INTEGER                                  :: data_type, scalar_data_type
 
-      encapsulated = dbcsr_scalar(scalar)
-      CALL dbcsr_scalar_fill_all(encapsulated)
-      data_type = dbcsr_get_data_type_prv(matrix%prv)
-      scalar_data_type = dbcsr_scalar_get_type(encapsulated)
-      IF (scalar_data_type .EQ. dbcsr_type_complex_4 .OR. &
-          scalar_data_type .EQ. dbcsr_type_complex_8) THEN
-         IF (data_type .NE. dbcsr_type_complex_4 .AND. data_type .NE. dbcsr_type_complex_8) &
-            DBCSR_ABORT("Can not conform a complex to a real number")
-      END IF
-      CALL dbcsr_scalar_set_type(encapsulated, data_type)
+      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix % prv)
    END FUNCTION make_conformant_scalar_${nametype1}$
 
 ! **************************************************************************************************
@@ -1759,12 +1689,13 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)              :: matrix_a
       ${type1}$, INTENT(OUT)                     :: trace
 
-      TYPE(dbcsr_scalar_type)                  :: trace_scalar
+      !TYPE(dbcsr_scalar_type)                  :: trace_scalar
 
-      trace_scalar = dbcsr_scalar_zero(dbcsr_get_data_type(matrix_a))
-      CALL dbcsr_trace_prv(matrix_a%prv, trace_scalar)
-      CALL dbcsr_scalar_fill_all(trace_scalar)
-      CALL dbcsr_scalar_get_value(trace_scalar, trace)
+       call dbcsr_trace_prv(matrix_a%prv, trace)
+!      trace_scalar = dbcsr_scalar_zero(dbcsr_get_data_type(matrix_a))
+!      CALL dbcsr_trace_prv(matrix_a%prv, trace_scalar)
+!      CALL dbcsr_scalar_fill_all(trace_scalar)
+!      CALL dbcsr_scalar_get_value(trace_scalar, trace)
    END SUBROUTINE dbcsr_trace_${nametype1}$
 
 ! **************************************************************************************************
@@ -1820,12 +1751,6 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
-      CHARACTER(LEN=1)                         :: trans_a, trans_b
-
-      trans_a = transa
-      trans_b = transb
-      CALL uppercase(trans_a)
-      CALL uppercase(trans_b)
 
       CALL dbcsr_multiply_prv(transa, transb, &
                               alpha, matrix_a%prv, matrix_b%prv, beta, matrix_c%prv, &

@@ -25,7 +25,8 @@ MODULE dbcsr_operations
    USE dbcsr_block_access, ONLY: dbcsr_get_block_p, &
                                  dbcsr_put_block, &
                                  dbcsr_remove_block, &
-                                 dbcsr_reserve_blocks
+                                 dbcsr_reserve_blocks, &
+                                 dbcsr_reserve_block2d
    USE dbcsr_block_operations, ONLY: dbcsr_block_conjg, &
                                      dbcsr_block_partial_copy, &
                                      dbcsr_block_real_neg, &
@@ -37,7 +38,7 @@ MODULE dbcsr_operations
       dbcsr_data_get_size_referenced, dbcsr_data_get_type, dbcsr_data_init, dbcsr_data_new, &
       dbcsr_data_release, dbcsr_data_set_pointer, dbcsr_get_data, dbcsr_scalar, &
       dbcsr_scalar_are_equal, dbcsr_scalar_fill_all, dbcsr_scalar_get_type, dbcsr_scalar_one, &
-      dbcsr_scalar_zero, dbcsr_type_1d_to_2d, dbcsr_get_data_p_d, dbcsr_get_data_p_s
+      dbcsr_scalar_zero, dbcsr_type_1d_to_2d, dbcsr_get_data_p_d, dbcsr_get_data_p_s, dbcsr_scalar_set_type
    USE dbcsr_data_operations, ONLY: dbcsr_data_convert, &
                                     dbcsr_data_copyall, &
                                     dbcsr_switch_data_area
@@ -45,7 +46,8 @@ MODULE dbcsr_operations
                                  dbcsr_distribution_local_cols, &
                                  dbcsr_distribution_local_rows, &
                                  dbcsr_distribution_mp, &
-                                 dbcsr_distribution_row_dist
+                                 dbcsr_distribution_row_dist, &
+                                 dbcsr_distribution_get
    USE dbcsr_dist_operations, ONLY: checker_square_proc, &
                                     checker_tr, &
                                     dbcsr_find_column, &
@@ -64,7 +66,7 @@ MODULE dbcsr_operations
       dbcsr_get_replication_type, dbcsr_has_symmetry, dbcsr_max_col_size, dbcsr_max_row_size, &
       dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_nfullcols_total, dbcsr_nfullrows_total, &
       dbcsr_row_block_offsets, dbcsr_valid_index, dbcsr_get_nze, dbcsr_nfullcols_local, &
-      dbcsr_nfullrows_local, dbcsr_get_num_blocks, dbcsr_release
+      dbcsr_nfullrows_local, dbcsr_get_num_blocks, dbcsr_release, dbcsr_wm_use_mutable
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_group, &
                                dbcsr_mp_mynode, &
                                dbcsr_mp_mypcol, &
@@ -127,11 +129,16 @@ MODULE dbcsr_operations
 
    PUBLIC :: dbcsr_crop_matrix
    PUBLIC :: dbcsr_get_info, dbcsr_may_be_dense, dbcsr_get_occupation
-   PUBLIC :: dbcsr_clear
+   PUBLIC :: dbcsr_clear, dbcsr_add_block_node, dbcsr_conform_scalar
 
 ! The interfaces for the generic routines found in the generated
 ! generic files.
 
+   INTERFACE dbcsr_conform_scalar
+      MODULE PROCEDURE make_conformant_scalar_d, make_conformant_scalar_s
+      MODULE PROCEDURE make_conformant_scalar_c, make_conformant_scalar_z
+   END INTERFACE
+   
    INTERFACE dbcsr_trace
       MODULE PROCEDURE dbcsr_trace_any
       MODULE PROCEDURE dbcsr_trace_s, dbcsr_trace_d, &
@@ -195,6 +202,95 @@ MODULE dbcsr_operations
    INTEGER, PARAMETER, PRIVATE :: rpnslots = 6
 
 CONTAINS
+#:include '../data/dbcsr.fypp'
+#:for n, nametype1, base1, prec1, kind1, type1, dkind1  in inst_params_float
+! **************************************************************************************************
+!> \brief Encapsulates a given scalar value and makes it conform with the
+!>        type of the matrix.
+!> \param scalar ...
+!> \param matrix ...
+!> \return ...
+! **************************************************************************************************
+   FUNCTION make_conformant_scalar_${nametype1}$ (scalar, matrix) RESULT(encapsulated)
+      ${type1}$, INTENT(IN)                      :: scalar
+      TYPE(dbcsr_type), INTENT(IN)             :: matrix
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'make_conformant_scalar_${nametype1}$', &
+                                     routineP = moduleN//':'//routineN
+
+      TYPE(dbcsr_scalar_type)                  :: encapsulated
+      INTEGER                                  :: data_type, scalar_data_type
+
+      encapsulated = dbcsr_scalar(scalar)
+      CALL dbcsr_scalar_fill_all(encapsulated)
+      data_type = dbcsr_get_data_type(matrix)
+      scalar_data_type = dbcsr_scalar_get_type(encapsulated)
+      IF (scalar_data_type .EQ. dbcsr_type_complex_4 .OR. &
+          scalar_data_type .EQ. dbcsr_type_complex_8) THEN
+         IF (data_type .NE. dbcsr_type_complex_4 .AND. data_type .NE. dbcsr_type_complex_8) &
+            DBCSR_ABORT("Can not conform a complex to a real number")
+      END IF
+      CALL dbcsr_scalar_set_type(encapsulated, data_type)
+   END FUNCTION make_conformant_scalar_${nametype1}$
+#:endfor
+
+
+! **************************************************************************************************
+!> \brief Emulation of sparse_matrix_types/add_block_node mapped
+!>        to add_real_matrix_block.... should not be used any longer
+!>
+!> It adds a block to the dbcsr matrix and returns a rank-2 pointer to the
+!> block. Currently it only and always uses the mutable data.
+!> \param[in,out] matrix      DBCSR matrix
+!> \param[in]  block_row      the row
+!> \param[in]  block_col      the column
+!> \param[in]  block          the block to put
+! **************************************************************************************************
+   SUBROUTINE dbcsr_add_block_node(matrix, block_row, block_col, block)
+      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+      INTEGER, INTENT(IN)                                :: block_row, block_col
+      REAL(KIND=dp), DIMENSION(:, :), POINTER            :: block
+
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_add_block_node', &
+                                     routineP = moduleN//':'//routineN
+
+      INTEGER                                            :: c, ithread, mynode, p, r
+      LOGICAL                                            :: dbg, existed, is_there, tr
+      TYPE(dbcsr_distribution_obj)                      :: dist
+
+!   ---------------------------------------------------------------------------
+
+      dbg = .FALSE.
+
+      ithread = 0
+!$    ithread = omp_get_thread_num()
+      IF (.NOT. ASSOCIATED(matrix%wms)) THEN
+         CALL dbcsr_work_create(matrix, work_mutable=.TRUE.)
+         matrix%valid = .FALSE.
+      ENDIF
+!$    IF (SIZE(matrix%wms) .LT. omp_get_num_threads()) &
+!$       DBCSR_ABORT("Too few threads.")
+      IF (.NOT. dbcsr_wm_use_mutable(matrix%wms(ithread + 1))) &
+         DBCSR_ABORT("Data loss due to no conversion of appendable to mutable data")
+      is_there = ASSOCIATED(block)
+      !r = row ; c = col ; tr = .FALSE.
+      !CALL dbcsr_get_stored_coordinates (matrix, r, c, tr)
+      !CALL dbcsr_reserve_block2d (matrix, row, col, block)
+      !write(*,*) 'add_block_node: block_row',block_row,' block_col',block_col
+      CALL dbcsr_reserve_block2d(matrix, block_row, block_col, block, &
+                                 existed=existed)
+!
+      IF (dbg) THEN
+         r = block_row; c = block_col; tr = .FALSE.
+         CALL dbcsr_get_stored_coordinates(matrix, r, c, p)
+         CALL dbcsr_get_info(matrix, distribution=dist)
+         CALL dbcsr_distribution_get(dist, mynode=mynode)
+         IF (p .NE. mynode) &
+            DBCSR_WARN("Adding non-local element")
+      ENDIF
+      IF (existed) DBCSR_WARN("You should not add existing blocks according to old API.")
+      IF (.NOT. is_there) block(:, :) = 0.0_dp
+   END SUBROUTINE dbcsr_add_block_node
 
 ! **************************************************************************************************
 !> \brief Conjugate a DBCSR matrix
