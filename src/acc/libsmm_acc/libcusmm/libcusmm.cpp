@@ -198,7 +198,7 @@ void add_kernel_handle_to_jitted_kernels(CUfunction kern_func, CUstream stream, 
 //===========================================================================
 int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m, int n, int k, double *a_data, double *b_data, double *c_data){
 
-    CUfunction kern_func;
+    CUfunction kern_func = NULL;
     int threads, grouping;
     Triplet h_mnk = { m, n, k };
 

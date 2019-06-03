@@ -82,6 +82,7 @@ def main(kernels_folder):
         file_h += "\n" + separator + cpp_function_to_string(kernel, kernel_name) + "\n"
     file_h += "#endif\n"
     file_h += "//EOF"
+    file_h += "\n\n"
 
     # Write
     file_h_path = "cusmm_kernels.h"
