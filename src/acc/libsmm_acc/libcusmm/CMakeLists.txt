@@ -10,14 +10,14 @@ set(CUSMM_KERNELS
 )
 
 add_custom_command(
-  COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_parameters.py --gpu_version=${WITH_GPU} --base_dir=${CMAKE_CURRENT_SOURCE_DIR}
+  COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_parameters.py --gpu_version=${WITH_GPU} --base_dir=${CMAKE_CURRENT_SOURCE_DIR}
   DEPENDS generate_parameters.py parameters_${WITH_GPU}.json
   OUTPUT parameters.h
   COMMENT "libcusmm: generating parameters for GPU ${WITH_GPU}"
 )
 
 add_custom_command(
-  COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_kernels.py ${CMAKE_CURRENT_SOURCE_DIR}/kernels
+  COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_kernels.py ${CMAKE_CURRENT_SOURCE_DIR}/kernels
   DEPENDS generate_kernels.py ${CUSMM_KERNELS}
   OUTPUT cusmm_kernels.h
   COMMENT "libcusmm: generating kernels"
