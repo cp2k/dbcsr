@@ -137,7 +137,7 @@ endif
 
 ifneq (0,$(GNU)) # DEFAULT, just edit...
   CXXFLAGS += -std=c++11
-  FCFLAGS  += -std=f2003 -ffree-form -fimplicit-none -ffree-line-length-512
+  FCFLAGS  += -std=f2008ts -ffree-form -fimplicit-none -ffree-line-length-512
   OPTFLAGS += -O3 -g -fno-omit-frame-pointer -funroll-loops
 else
  # Intel compiler flags
@@ -156,14 +156,6 @@ CFLAGS      += $(OPTFLAGS)
 CXXFLAGS    += $(OPTFLAGS)
 FCFLAGS     += $(OPTFLAGS)
 LDFLAGS     += $(FCFLAGS)
-
-#######################################################################################
-#
-# C interface requires new F2008ts standard
-
-ifeq ($(CINT),1)
-FCFLAGS    := $(subst -std=f2003,-std=f2008ts,$(FCFLAGS))
-endif
 
 #######################################################################################
 #
