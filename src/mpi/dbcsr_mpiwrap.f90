@@ -590,7 +590,7 @@
 
 ! *****************************************************************************
 !> \brief Send one datum to another process
-!> \param[in] msg             Dum to send
+!> \param[in] msg             Scalar to send
 !> \param[in] dest            Destination process
 !> \param[in] tag             Transfer identifier
 !> \param[in] gid             Message passing environment identifier
@@ -1419,7 +1419,7 @@
 !> \note see mp_min_${nametype1}$
 ! *****************************************************************************
   SUBROUTINE mp_min_${nametype1}$v(msg, gid)
-     ${type1}$, INTENT(INOUT)                   :: msg(:)
+     ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
      INTEGER, INTENT(IN)                      :: gid
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_min_${nametype1}$v', &
