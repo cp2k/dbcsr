@@ -110,11 +110,10 @@ if (Fortran_COMPILER_NAME MATCHES "^gfortran.*")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
   set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -fprofile-arcs -ftest-coverage")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -ggdb")
-  set(CMAKE_Fortran_FLAGS          "-ffree-form -ffree-line-length-none -std=f2008")
+  set(CMAKE_Fortran_FLAGS          "-ffree-form -ffree-line-length-none -std=f2008ts")
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -funroll-loops")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -ggdb")
   set(CMAKE_Fortran_FLAGS_COVERAGE "-O0 -fprofile-arcs -ftest-coverage")
-  set(F2008_COMPILER_FLAGS         "-std=f2008ts")
 
   # on Apple we may compile with GCC Fortran, but build/link C/C++ code with Apple's clang, requiring special treatment
   if (APPLE AND CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
@@ -130,14 +129,12 @@ elseif (Fortran_COMPILER_NAME MATCHES "^ifort.*")
   # Disable the line-length-extension warning #5268
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -diag-disable=5268")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -debug")
-  set(F2008_COMPILER_FLAGS         "")
 elseif (Fortran_COMPILER_NAME MATCHES "^pgf.*")
   set(CMAKE_CXX_FLAGS_RELEASE      "-fast")
   set(CMAKE_CXX_FLAGS_DEBUG        "-g")
   set(CMAKE_Fortran_FLAGS          "-Mfreeform -Mextend -Mallocatable=03")  # -Mallocatable=03: enable F2003+ assignment semantics
   set(CMAKE_Fortran_FLAGS_RELEASE  "-fast")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-g")
-  set(F2008_COMPILER_FLAGS         "")
 else ()
   message(WARNING "\
 Unknown compiler, trying with just '-O2'/'-O0 -g'.\n\

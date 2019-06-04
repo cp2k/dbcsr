@@ -247,7 +247,7 @@ if (WITH_C_API)
   add_library(dbcsr_c ${DBCSR_C_SRCS})
   set_target_properties(dbcsr_c PROPERTIES
     LINKER_LANGUAGE Fortran
-    COMPILE_FLAGS "${F2008_COMPILER_FLAGS}")
+    )
   target_link_libraries(dbcsr_c PRIVATE dbcsr)
   target_link_libraries(dbcsr_c PUBLIC MPI::MPI_C)  # the C API always needs MPI
   target_include_directories(dbcsr_c PUBLIC
