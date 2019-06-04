@@ -112,7 +112,7 @@ if (USE_CUDA)
   foreach (libcusmm_test ${LIBCUSMM_TESTS_TO_GENERATE})
     add_custom_command(
       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${libcusmm_test}.cu
-      COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/generate_${libcusmm_test}.py --base_dir ${CMAKE_CURRENT_SOURCE_DIR}/.. --out_dir ${CURRENT_BINARY_DIR_RELATIVE} --gpu_version=${WITH_GPU}
+      COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_${libcusmm_test}.py --base_dir ${CMAKE_CURRENT_SOURCE_DIR}/.. --out_dir ${CURRENT_BINARY_DIR_RELATIVE} --gpu_version=${WITH_GPU}
       DEPENDS ${libcusmm_test}.template generate_${libcusmm_test}.py
       COMMENT "Generate tests/" ${libcusmm_test}".cu"
     )
