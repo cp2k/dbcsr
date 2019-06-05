@@ -120,11 +120,11 @@ def to_string(*iterable):
     return iterable_to_string
 
 
+mnk_pattern = re.compile(r"(\d+)x(\d+)x(\d+)")
 def to_tuple(*iterable):
     """
     Given a (list of) string(s) "mxnxk", return the corresponding (list of) m,n,k-triplet(s)
     """
-    mnk_pattern = re.compile(r"(\d+)x(\d+)x(\d+)")
     tuple_mnks = list()
     for mnk in iterable:
         m, n, k = mnk_pattern.match(mnk).groups()
@@ -302,7 +302,7 @@ def get_max_performances_per_mnk(data):
 # ===============================================================================
 def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
     """
-    data: pandas DataFrame containing columns "m", "n", "k", "perf (Gflop/s)" 
+    data: pandas DataFrame containing columns "m", "n", "k", "perf (Gflop/s)"
     algorithm: algorithm for which to get the baseline performance
     gpu: gpu properties
     autotuning: autotuning properties
@@ -323,7 +323,9 @@ def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
 
         baseline_pars = kernel_algorithm[algorithm].baseline(m, n, k, gpu, autotuning)
 
-        if np.isnan(baseline_pars["tile_m"]):
+        # Look for this configuration in the data.
+        # If found, save it. Otherwise, skip: it must be in a different data chunk
+        if algorithm == "tiny":
             idx_baseline = data[
                 (data.m == baseline_pars["m"])
                 & (data.n == baseline_pars["n"])
@@ -332,7 +334,7 @@ def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
                 & (data.grouping == baseline_pars["grouping"])
                 & (data.minblocks == baseline_pars["minblocks"])
             ].index.tolist()
-        elif np.isnan(baseline_pars["w"]):
+        elif algorithm in ["small", "medium"]:
             idx_baseline = data[
                 (data.m == baseline_pars["m"])
                 & (data.n == baseline_pars["n"])
@@ -343,7 +345,7 @@ def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
                 & (data.tile_m == baseline_pars["tile_m"])
                 & (data.tile_n == baseline_pars["tile_n"])
             ].index.tolist()
-        else:
+        elif algorithm in ["largeDB1", "largeDB2"]:
             idx_baseline = data[
                 (data.m == baseline_pars["m"])
                 & (data.n == baseline_pars["n"])
@@ -356,18 +358,16 @@ def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
                 & (data.w == baseline_pars["w"])
                 & (data.v == baseline_pars["v"])
             ].index.tolist()
+        else:
+            assert False, "Cannot recognize algorithm: " + algorithm
 
-        if len(idx_baseline) < 1:
-            idx_baseline = data[
-                (data.m == baseline_pars["m"])
-                & (data.n == baseline_pars["n"])
-                & (data.k == baseline_pars["k"])
-                & (data.threads == baseline_pars["threads"])
-            ].index.tolist()
-            assert len(idx_baseline) > 0
-
-        idx_baseline = idx_baseline[0]
-        baseline_perf[mnk] = data["perf (Gflop/s)"][idx_baseline]
+        if len(idx_baseline) == 1:
+            idx_baseline = idx_baseline[0]
+            baseline_perf[mnk] = data["perf (Gflop/s)"][idx_baseline]
+        elif len(idx_baseline) > 1:
+            assert False, "Found more than one corresponding index: " + str(idx_baseline)
+        else: 
+            pass  # if none were found, they're in another data chunk. Do nothing.
 
     return baseline_perf
 
@@ -467,7 +467,7 @@ class PredictiveParameters:
             return perf / self.max_performances[mnk]
 
         vec_scale_perf = np.vectorize(scale_perf)
-        ret = vec_scale_perf(self.get("perf (Gflop/s)"), self.get("mnk"))
+        ret = vec_scale_perf(self.get("perf (Gflop/s)"), self.get("mnk_string"))
         return ret
 
     # ===============================================================================
@@ -483,6 +483,10 @@ class PredictiveParameters:
     def get_size_c(self):
         """Size of matrix B (result of of A * B = C)"""
         return self.get("m") * self.get("n")
+
+    def get_mnk_string(self):
+        """Return (m, n, k) as a descriptive string"""
+        return ["{}x{}x{}".format(m, n, k) for m, n, k in zip(self.get("m"), self.get("n"), self.get("k"))] # str
 
     def get_mnk(self):
         """Return (m, n, k) as a tuple"""

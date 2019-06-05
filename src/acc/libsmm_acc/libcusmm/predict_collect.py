@@ -76,7 +76,7 @@ def main(tunedir, arch):
             max_performances_per_mnk_to_merge = json.load(f)
             max_performances_per_mnk.update(max_performances_per_mnk_to_merge)
     with open(max_performances_per_mnk_file, "w") as f:
-        json.dump(max_performances_per_mnk, f)
+        json.dump(max_performances_per_mnk, f, indent='\t', sort_keys=True)
     print("\nWrote maximum performances to:\n", max_performances_per_mnk_file)
 
     # Print baseline performance dictionaries
@@ -96,7 +96,7 @@ def main(tunedir, arch):
                 baseline_performances_per_algo_per_mnk_to_merge
             )
     with open(baseline_performances_per_algo_per_mnk_file, "w") as f:
-        json.dump(baseline_performances_per_algo_per_mnk, f)
+        json.dump(baseline_performances_per_algo_per_mnk, f, indent='\t', sort_keys=True)
     print(
         "\nWrote baseline performances to:\n",
         baseline_performances_per_algo_per_mnk_file,
