@@ -1,8 +1,11 @@
 eli5==0.8.1
 joblib==0.13.1
+tqdm==4.32.2
 matplotlib==3.0.2
 numpy==1.16.0
 pandas==0.23.4
 scikit-learn==0.20.2
 dask[dataframe]==1.2.2
 xgboost==0.90
+fastparquet==0.3.1
+python-snappy==0.5.4

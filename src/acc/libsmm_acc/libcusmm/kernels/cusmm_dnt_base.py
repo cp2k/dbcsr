@@ -163,3 +163,40 @@ class Kernel:
     def baseline(m, n, k, gpu, autotuning):
         """Compute a baseline parameter set, whose performance can be compared against"""
         raise NotImplementedError("baseline must be implemented in subclass")
+
+    @classmethod
+    def parameter_set_distance(cls, par_set1, par_set2):
+        """
+        Compute a distance-score between two parameter sets.
+        The lower the score, the closer the two parameter sets are
+        par_set1, par_set2 are parameter set dictionaries of the form
+        {m, n, k, algorithm, minblocks, grouping, threads, tile_m, tile_n, w, v}
+        """
+        # Check that ('m', 'n', 'k') are the same
+        assert (
+            par_set1["m"] == par_set2["m"]
+        ), "The two parameter sets have different 'm'-parameters: {} and {}".format(
+            par_set1["m"], par_set2["m"]
+        )
+        assert (
+            par_set1["n"] == par_set2["n"]
+        ), "The two parameter sets have different 'n'-parameters: {} and {}".format(
+            par_set1["n"], par_set2["n"]
+        )
+        assert (
+            par_set1["k"] == par_set2["k"]
+        ), "The two parameter sets have different 'k'-parameters: {} and {}".format(
+            par_set1["k"], par_set2["k"]
+        )
+
+        # Compute distance in number of threads
+        score = abs(par_set1["threads"] - par_set2["threads"]) / 32
+        par_entries = [
+            p for p in cls.launch_parameters if p not in ("m", "n", "k", "threads")
+        ]
+
+        # Compute distance in other parameters
+        for par in par_entries:
+            score += abs(par_set1[par] - par_set2[par])
+
+        return score
