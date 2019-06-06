@@ -122,9 +122,19 @@ elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "PGI")
 elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
   set(CMAKE_CXX_FLAGS_DEBUG        "-g")
-  set(CMAKE_Fortran_FLAGS          "-f free")
+  set(CMAKE_Fortran_FLAGS          "-f free -M 3105")  # -M 3105: hide a false-positive warning about modified loop variables due to loop fusing
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O2")
-  set(CMAKE_Fortran_FLAGS_DEBUG    "-g")
+  set(CMAKE_Fortran_FLAGS_DEBUG    "-g -h error_on_warning")
+  set(CMAKE_Fortran_MODOUT_FLAG    "-ef")  # override to get lower-case module file names
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9)
+    # prevent deallocation failures due to tcmalloc's free with glibc's aligned_alloc, see https://bugzilla.redhat.com/show_bug.cgi?id=1569391
+    set(CMAKE_C_FLAGS              "${CMAKE_C_FLAGS} -h system_alloc")
+    set(CMAKE_CXX_FLAGS            "${CMAKE_CXX_FLAGS} -h system_alloc")
+    set(CMAKE_Fortran_FLAGS        "${CMAKE_Fortran_FLAGS} -h system_alloc")
+    # since the detection of the implicitly linked libraries occurs bevore we can intervene, filter them out again
+    list(FILTER CMAKE_C_IMPLICIT_LINK_LIBRARIES EXCLUDE REGEX "tcmalloc")
+    list(FILTER CMAKE_Fortran_IMPLICIT_LINK_LIBRARIES EXCLUDE REGEX "tcmalloc")
+  endif ()
 else ()
   message(WARNING "\
 Unknown compiler, trying with just '-O2'/'-O0 -g'.\n\
