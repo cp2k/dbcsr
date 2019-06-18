@@ -119,6 +119,16 @@ elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "PGI")
   set(CMAKE_Fortran_FLAGS          "-Mfreeform -Mextend -Mallocatable=03")  # -Mallocatable=03: enable F2003+ assignment semantics
   set(CMAKE_Fortran_FLAGS_RELEASE  "-fast")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-g")
+elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "NAG")
+  set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
+  set(CMAKE_CXX_FLAGS_DEBUG        "-g")
+  set(CMAKE_Fortran_FLAGS          "-f2008 -free -Warn=reallocation -Warn=subnormal")
+  set(CMAKE_Fortran_FLAGS_RELEASE  "-O2")
+  set(CMAKE_Fortran_FLAGS_DEBUG    "-g -C")
+  if (NOT OpenMP_FOUND)
+    set(CMAKE_Fortran_FLAGS_RELEASE  "${CMAKE_Fortran_FLAGS_RELEASE} -gline")  # -gline is only supported without OpenMP
+    set(CMAKE_Fortran_FLAGS_DEBUG  "${CMAKE_Fortran_FLAGS_DEBUG} -C=all")  # some checks are not available with OpenMP
+  endif ()
 elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
   set(CMAKE_CXX_FLAGS_DEBUG        "-g")
