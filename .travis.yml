@@ -17,6 +17,7 @@ addons:
   homebrew:
     packages:
     - gcc
+    - gfortran
     - cmake
     - openmpi
 
