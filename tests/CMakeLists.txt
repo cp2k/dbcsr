@@ -15,6 +15,9 @@ set(DBCSR_PERF_SRCS
   dbcsr_performance_multiply.F)
 add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
 target_link_libraries(dbcsr_perf dbcsr)
+if (OpenMP_FOUND)
+  target_link_libraries(dbcsr_perf PRIVATE OpenMP::OpenMP_Fortran)
+endif ()
 
 file(GLOB DBCSR_PERF_TESTS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     "inputs/*.perf"
@@ -71,7 +74,10 @@ foreach (dbcsr_test ${DBCSR_TESTS})
   else ()
     add_test(NAME ${dbcsr_test} COMMAND ./${dbcsr_test})
   endif ()
-  set_tests_properties(${dbcsr_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${TEST_OMP_THREADS})
+  if (OpenMP_FOUND)
+    target_link_libraries(${dbcsr_test} PRIVATE OpenMP::OpenMP_Fortran)
+    set_tests_properties(${dbcsr_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${TEST_OMP_THREADS})
+  endif ()
 endforeach ()
 
 if (USE_CUDA)
