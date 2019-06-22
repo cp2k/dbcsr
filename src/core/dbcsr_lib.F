@@ -191,15 +191,15 @@ CONTAINS
       dbcsr_thread_safe = 0  ! not threaded
 !$    dbcsr_thread_safe = 1  ! if DBCSR is compiled with openmp, set to threaded
       ! Check whether DBCSR and libcusmm (GPU backend) have the same level of threading
-       IF (dbcsr_thread_safe /= libcusmm_thread_safe) then
-          IF (dbcsr_thread_safe /= 0) then
-              DBCSR_ABORT("DBCSR's and libcusmm's threading levels do not match. DBCSR is compiled
-with threading support while libcusmm is compiled without threading support.")
-          ELSE
-              DBCSR_ABORT("DBCSR's and libcusmm's threading levels do not match. DBCSR is compiled
-without threading support while libcusmm is compiled with threading support.")
-          ENDIF
-       ENDIF
+      IF (dbcsr_thread_safe /= libcusmm_thread_safe) then
+         IF (dbcsr_thread_safe /= 0) then
+            DBCSR_ABORT("DBCSR's and libcusmm's threading levels do not match. DBCSR is compiled
+            with threading support while libcusmm is compiled without threading support.")
+         ELSE
+            DBCSR_ABORT("DBCSR's and libcusmm's threading levels do not match. DBCSR is compiled
+            without threading support while libcusmm is compiled with threading support.")
+         ENDIF
+      ENDIF
 #endif
    END SUBROUTINE dbcsr_init_lib_pre
 
