@@ -77,11 +77,6 @@ MODULE dbcsr_index_operations
    PUBLIC :: dbcsr_addto_index_array, dbcsr_clearfrom_index_array, &
              dbcsr_repoint_index, dbcsr_make_index_exist
 
-   INTERFACE dbcsr_expand_row_index
-      MODULE PROCEDURE dbcsr_expand_row_index_1d, &
-         dbcsr_expand_row_index_2d
-   END INTERFACE
-
    INTERFACE dbcsr_count_row_index
       MODULE PROCEDURE dbcsr_count_row_index_copy, &
          dbcsr_count_row_index_inplace
@@ -288,7 +283,7 @@ CONTAINS
 !> \param nrows ...
 !> \param nblks ...
 ! **************************************************************************************************
-   PURE SUBROUTINE dbcsr_expand_row_index_1d(row_p, row_i, nrows, nblks)
+   PURE SUBROUTINE dbcsr_expand_row_index(row_p, row_i, nrows, nblks)
       INTEGER, INTENT(IN)                                   :: nrows, nblks
       INTEGER, DIMENSION(1:nrows + 1), INTENT(IN)           :: row_p
       INTEGER, DIMENSION(1:nblks), INTENT(OUT)              :: row_i
@@ -298,26 +293,24 @@ CONTAINS
       DO row = 1, nrows
          row_i(row_p(row) + 1:row_p(row + 1)) = row
       ENDDO
-   END SUBROUTINE dbcsr_expand_row_index_1d
+   END SUBROUTINE dbcsr_expand_row_index
 
 ! **************************************************************************************************
 !> \brief Expands a row_p index
 !> \param row_p ...
 !> \param row_i ...
 !> \param nrows ...
-!> \param nblks ...
+!> \param dst_i ...
 ! **************************************************************************************************
-   PURE SUBROUTINE dbcsr_expand_row_index_2d(row_p, row_i, nrows, nblks)
+   PURE SUBROUTINE dbcsr_expand_row_index_2d(row_p, row_i, nrows, dst_i)
       INTEGER, INTENT(IN)                                   :: nrows, nblks
       INTEGER, DIMENSION(1:nrows + 1), INTENT(IN)           :: row_p
       INTEGER, DIMENSION(:,:), INTENT(OUT)                  :: row_i
 
       INTEGER                                               :: row
 
-      MARK_USED(nblks)
-      ! DBCSR_ASSERT(SIZE(row_i,2) .LE. nblks)
       DO row = 1, nrows
-         row_i(1, row_p(row) + 1:row_p(row + 1)) = row
+         row_i(dst_i, row_p(row) + 1:row_p(row + 1)) = row
       ENDDO
    END SUBROUTINE dbcsr_expand_row_index_2d
 
