@@ -303,7 +303,7 @@ CONTAINS
 !> \param dst_i ...
 ! **************************************************************************************************
    PURE SUBROUTINE dbcsr_expand_row_index_2d(row_p, row_i, nrows, dst_i)
-      INTEGER, INTENT(IN)                                   :: nrows, nblks
+      INTEGER, INTENT(IN)                                   :: nrows, dst_i
       INTEGER, DIMENSION(1:nrows + 1), INTENT(IN)           :: row_p
       INTEGER, DIMENSION(:,:), INTENT(OUT)                  :: row_i
 
