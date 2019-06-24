@@ -23,6 +23,20 @@ pipeline {
                         }
                     }
                 }
+                stage("Intel") {
+                    stages {
+                        stage('build') {
+                            steps {
+                                run_batch("0:30:00", "intel", "build")
+                            }
+                        }
+                        stage('test') {
+                            steps {
+                                run_batch("1:00:00", "intel", "test")
+                            }
+                        }
+                    }
+                }
             }
         }
     }
