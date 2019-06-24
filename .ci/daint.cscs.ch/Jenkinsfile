@@ -9,6 +9,21 @@ pipeline {
         }
         stage("build and test") {
             parallel {
+                stage("CRAY") {
+                    stages {
+                        stage('build') {
+                            steps {
+                                run_batch("0:30:00", "cray", "build")
+                            }
+                        }
+                        // TODO: dbcsr_tensor_unittest is broken
+                        // stage('test') {
+                        //     steps {
+                        //         run_batch("1:00:00", "cray", "test")
+                        //     }
+                        // }
+                    }
+                }
                 stage("GNU") {
                     stages {
                         stage('build') {
