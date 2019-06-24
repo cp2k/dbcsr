@@ -88,24 +88,8 @@ endif ()
 
 # COMPILER CONFIGURATION:
 
-get_filename_component(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
-
-# if the fortran compiler command is a CRAY wrapper, find out what the underlying compiler is
-if (Fortran_COMPILER_NAME MATCHES "ftn")
-  execute_process(COMMAND ftn -craype-verbose OUTPUT_VARIABLE ftn_verbose_OUT ERROR_QUIET)
-  separate_arguments(ftn_verbose_OUT NATIVE_COMMAND "${ftn_verbose_OUT}")
-  list(GET ftn_verbose_OUT 0 Fortran_COMPILER_NAME)
-endif ()
-
-# if the fortran compiler command is an OPENMPI wrapper, find out what the underlying compiler is
-if (Fortran_COMPILER_NAME MATCHES "mpif*")  # mpif77, mpif90 or mpifort
-  execute_process(COMMAND ${Fortran_COMPILER_NAME} --showme OUTPUT_VARIABLE mpif_verbose_OUT ERROR_QUIET)
-  separate_arguments(mpif_verbose_OUT NATIVE_COMMAND "${mpif_verbose_OUT}")
-  list(GET mpif_verbose_OUT 0 Fortran_COMPILER_NAME)
-endif ()
-
 # Depending on the fortran compiler, set the appropriate compiler flags
-if (Fortran_COMPILER_NAME MATCHES "^gfortran.*")
+if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS              "-std=c++11")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
   set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -fprofile-arcs -ftest-coverage")
@@ -122,25 +106,31 @@ if (Fortran_COMPILER_NAME MATCHES "^gfortran.*")
       SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -lgcov --coverage")
     endif ()
   endif ()
-elseif (Fortran_COMPILER_NAME MATCHES "^ifort.*")
+elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -debug")
   set(CMAKE_Fortran_FLAGS          "-free -stand f08 -fpp")
   # Disable the line-length-extension warning #5268
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -diag-disable=5268")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -debug")
-elseif (Fortran_COMPILER_NAME MATCHES "^pgf.*")
+elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "PGI")
   set(CMAKE_CXX_FLAGS_RELEASE      "-fast")
   set(CMAKE_CXX_FLAGS_DEBUG        "-g")
   set(CMAKE_Fortran_FLAGS          "-Mfreeform -Mextend -Mallocatable=03")  # -Mallocatable=03: enable F2003+ assignment semantics
   set(CMAKE_Fortran_FLAGS_RELEASE  "-fast")
+  set(CMAKE_Fortran_FLAGS_DEBUG    "-g")
+elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray")
+  set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
+  set(CMAKE_CXX_FLAGS_DEBUG        "-g")
+  set(CMAKE_Fortran_FLAGS          "-f free")
+  set(CMAKE_Fortran_FLAGS_RELEASE  "-O2")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-g")
 else ()
   message(WARNING "\
 Unknown compiler, trying with just '-O2'/'-O0 -g'.\n\
 You will most likely have to pass additonal options for free-form Fortran 2008 for your compiler!\n\
 Please open an issue at https://github.com/cp2k/dbcsr/issues with the reported compiler name and the required flags.")
-  message("-- Fortran_COMPILER_NAME: " ${Fortran_COMPILER_NAME})
+  message("-- CMAKE_Fortran_COMPILER_ID: " ${CMAKE_Fortran_COMPILER_ID})
   message("-- CMAKE_Fortran_COMPILER full path: " ${CMAKE_Fortran_COMPILER})
 
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O2")

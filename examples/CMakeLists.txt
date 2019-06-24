@@ -15,5 +15,11 @@ endforeach ()
 if (WITH_C_API)
   add_executable(dbcsr_example_3_cpp dbcsr_example_3.cpp)
   target_link_libraries(dbcsr_example_3_cpp dbcsr_c MPI::MPI_CXX)
-  target_compile_features(dbcsr_example_3_cpp PRIVATE cxx_std_14)
+
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "Cray")
+    # for recent Cray compiler versions CMake doesn't know
+    target_compile_options(dbcsr_example_3_cpp PRIVATE "-hstd=c++14")
+  else ()
+    target_compile_features(dbcsr_example_3_cpp PRIVATE cxx_std_14)
+  endif ()
 endif ()
