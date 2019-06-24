@@ -7,21 +7,32 @@ pipeline {
                 checkout scm
             }
         }
-        stage('build') {
-            steps {
-                run_batch("0:15:00")
-            }
-        }
-        stage('test') {
-            steps {
-                run_batch("1:00:00")
+        stage("build and test") {
+            parallel {
+                stage("GNU") {
+                    stages {
+                        stage('build') {
+                            steps {
+                                run_batch("0:15:00", "gnu", "build")
+                            }
+                        }
+                        stage('test') {
+                            steps {
+                                run_batch("1:00:00", "gnu", "test")
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 }
 
-def run_batch(timelimit) {
+def run_batch(timelimit, environment, task) {
     def (account, basename) = env.JOB_NAME.split('/')
+    def sbatch_script = ".ci/daint.cscs.ch/${environment}.${task}.sh"
+    def sbatch_out = "sbatch.${env.BUILD_TAG}.${environment}.${task}.out"
+
     // avoid using the shell for variable expansion to
     // get the final command displayed in Jenkins
     try {
@@ -29,13 +40,13 @@ def run_batch(timelimit) {
         sbatch --wait \
             --time="${timelimit}" \
             --account="${account}" \
-            --job-name="${basename}" \
-            --output="sbatch.${env.BUILD_TAG}.${env.STAGE_NAME}.out" \
-            .ci/daint.cscs.ch/${env.STAGE_NAME}.sh
+            --job-name="${basename}.${environment}.${task}" \
+            --output="${sbatch_out}" \
+            ${sbatch_script}
         """
     }
     finally {
-        echo readFile("sbatch.${env.BUILD_TAG}.${env.STAGE_NAME}.out")
+        echo readFile("${sbatch_out}")
     }
 }
 
