@@ -40,10 +40,14 @@ if (USE_CUDA)
   set(CUDA_ARCH_NUMBER_V100 70)
   set(CUDA_ARCH_NUMBER ${CUDA_ARCH_NUMBER_${WITH_GPU}})
 
-  # assume that the backend compiler for nvcc understands the -std=c++11
-  set(CMAKE_CUDA_FLAGS "-std=c++11 -arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
+  set(CMAKE_CUDA_FLAGS "-arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
+
+  set(CMAKE_CUDA_STANDARD 11)  # adds -std=c++11 if needed by the nvcc backend
+  set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 endif ()
 
+# we're always using at least C++11
+set(CMAKE_CXX_STANDARD 11)
 
 # PACKAGE DISCOVERY:
 

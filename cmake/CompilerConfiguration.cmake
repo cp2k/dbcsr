@@ -34,16 +34,13 @@ Please open an issue at https://github.com/cp2k/dbcsr/issues with the reported c
 endif ()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  set(CMAKE_CXX_FLAGS              "-std=c++11")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
   set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -fprofile-arcs -ftest-coverage")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -ggdb")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  set(CMAKE_CXX_FLAGS              "-std=c++11")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -g")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-  set(CMAKE_CXX_FLAGS              "-std=c++11")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -g")
 
