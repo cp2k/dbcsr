@@ -235,7 +235,7 @@ class Kernel_dnt_largeDB2(Kernel):
                     ("m", m),
                     ("n", n),
                     ("k", k),
-                    ("algorithm", "largeDB1"),
+                    ("algorithm", "largeDB2"),
                     ("perf", 0),
                     ("source", "predicted"),
                 ]
