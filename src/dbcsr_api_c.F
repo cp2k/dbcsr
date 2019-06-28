@@ -54,8 +54,11 @@ CONTAINS
 !> \param C ...
 !> \param name="c_dbcsr_init_lib" ...
 ! **************************************************************************************************
-   SUBROUTINE c_dbcsr_init_lib() bind(C, name="c_dbcsr_init_lib")
-      CALL dbcsr_init_lib()
+   SUBROUTINE c_dbcsr_init_lib(fcomm, io_unit) bind(C, name="c_dbcsr_init_lib_internal")
+      INTEGER(kind=c_int), INTENT(in)                    :: fcomm
+      INTEGER(kind=c_int), INTENT(in), optional          :: io_unit
+
+      CALL dbcsr_init_lib(fcomm, io_unit)
    END SUBROUTINE
 
 ! **************************************************************************************************
@@ -64,10 +67,8 @@ CONTAINS
 !> \param C ...
 !> \param name="c_dbcsr_finalize_lib_aux" ...
 ! **************************************************************************************************
-   SUBROUTINE c_dbcsr_finalise_lib(fcomm) bind(C, name="c_dbcsr_finalize_lib_aux")
-      INTEGER(kind=c_int), INTENT(in)                    :: fcomm
-
-      CALL dbcsr_finalize_lib(fcomm)
+   SUBROUTINE c_dbcsr_finalise_lib() bind(C, name="c_dbcsr_finalize_lib")
+      CALL dbcsr_finalize_lib()
    END SUBROUTINE
 
 ! **************************************************************************************************

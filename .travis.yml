@@ -19,11 +19,13 @@ addons:
     - gcc
     - cmake
     - openmpi
+    update: true
 
 cache:
   pip: true
   directories:
   - $HOME/deps
+  - $HOME/Library/Caches/Homebrew
 
 env:
   global:

@@ -160,7 +160,7 @@ CONTAINS
       IF (.NOT. ASSOCIATED(timer_env)) &
          DBCSR_ABORT("timer_env_retain: not associated")
       IF (timer_env%ref_count < 0) &
-         DBCSR_ABORT("timer_env_retain: negativ ref_count")
+         DBCSR_ABORT("timer_env_retain: negative ref_count")
       timer_env%ref_count = timer_env%ref_count + 1
    END SUBROUTINE timer_env_retain
 
@@ -180,7 +180,7 @@ CONTAINS
       IF (.NOT. ASSOCIATED(timer_env)) &
          DBCSR_ABORT("timer_env_release: not associated")
       IF (timer_env%ref_count < 0) &
-         DBCSR_ABORT("timer_env_release: negativ ref_count")
+         DBCSR_ABORT("timer_env_release: negative ref_count")
       timer_env%ref_count = timer_env%ref_count - 1
       IF (timer_env%ref_count > 0) RETURN
 
@@ -232,7 +232,7 @@ CONTAINS
       cs_entry%walltime_start = -HUGE(1.0_dp)
       cs_entry%energy_start = -HUGE(1.0_dp)
       !
-      routine_name_dsl = routineN ! converte to default_string_length
+      routine_name_dsl = routineN ! converts to default_string_length
       routine_id = routine_name2id(routine_name_dsl)
       !
       ! Take timings when the timings_level is appropriated
@@ -461,7 +461,7 @@ CONTAINS
    END SUBROUTINE print_stack
 
 ! **************************************************************************************************
-!> \brief Internal routine used by timestet and timings_setup_tracing.
+!> \brief Internal routine used by timeset_handler and timings_setup_tracing.
 !>        If no routine with given name is found in timer_env%routine_names
 !>        then a new entry is created.
 !> \param routineN ...

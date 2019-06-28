@@ -459,7 +459,6 @@ CONTAINS
             DEALLOCATE (logger)
          END IF
       END IF
-      NULLIFY (logger)
    END SUBROUTINE dbcsr_logger_release
 
 ! **************************************************************************************************
@@ -807,4 +806,3 @@ CONTAINS
    END FUNCTION dbcsr_logical_to_string
 
 END MODULE dbcsr_log_handling
-

@@ -6,7 +6,7 @@ CXX        = mpicxx
 FLAGS      = -O3 -fopenmp
 INCLUDES   = -I$(DBCSRDIR)/include
 FCFLAGS    = $(FLAGS) $(INCLUDES) -fno-omit-frame-pointer \
-             -funroll-loops -ffree-form -std=f2003 -fimplicit-none
+             -funroll-loops -ffree-form -std=f2008ts -fimplicit-none
 CXXFLAGS   = $(FLAGS) $(INCLUDES) -std=c++11
 LIBS       = -L$(DBCSRDIR)/lib -ldbcsr
 LIBS      += -L${LAPACK_PATH}/lib -llapack -lblas

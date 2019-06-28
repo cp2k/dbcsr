@@ -21,7 +21,7 @@ PROGRAM dbcsr_test_csr_conversions
       dbcsr_distribution_type, dbcsr_finalize, dbcsr_finalize_lib, dbcsr_get_stored_coordinates, &
       dbcsr_init_lib, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_norm, &
       dbcsr_norm_maxabsnorm, dbcsr_put_block, dbcsr_release, dbcsr_to_csr_filter, dbcsr_type, &
-      dbcsr_type_no_symmetry, dbcsr_type_real_8
+      dbcsr_type_no_symmetry, dbcsr_type_real_8, dbcsr_print_statistics
    USE dbcsr_kinds, ONLY: dp, &
                           real_8
    USE dbcsr_machine, ONLY: default_output_unit
@@ -58,13 +58,17 @@ PROGRAM dbcsr_test_csr_conversions
 
    ! Set up everything as in the dbcsr example codes
    CALL mp_world_init(mp_comm)
-   npdims(:) = 0
-   CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
-   CALL mp_environ(numnodes, mynode, group)
-   CALL dbcsr_init_lib()
+
+   CALL mp_environ(numnodes, mynode, mp_comm)
 
    io_unit = 0
    IF (mynode .EQ. 0) io_unit = default_output_unit
+
+   CALL dbcsr_init_lib(mp_comm, io_unit)
+
+   npdims(:) = 0
+   CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
+   CALL mp_environ(numnodes, mynode, group)
 
    ! Set seed for random number generator
    CALL RANDOM_SEED(size=seedsz)
@@ -132,8 +136,9 @@ PROGRAM dbcsr_test_csr_conversions
 
    DEALLOCATE (seed)
 
-   CALL dbcsr_finalize_lib(mp_comm, io_unit)
    CALL mp_comm_free(group)
+   call dbcsr_print_statistics(.true.)
+   CALL dbcsr_finalize_lib()
    CALL mp_world_finalize()
 
 CONTAINS

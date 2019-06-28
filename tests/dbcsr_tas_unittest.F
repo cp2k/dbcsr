@@ -13,7 +13,8 @@
 
 PROGRAM dbcsr_tas_unittest
    USE dbcsr_api, ONLY: dbcsr_finalize_lib, &
-                        dbcsr_init_lib
+                        dbcsr_init_lib, &
+                        dbcsr_print_statistics
    USE dbcsr_tas_base, ONLY: dbcsr_tas_destroy, &
                              dbcsr_tas_info, &
                              dbcsr_tas_nblkcols_total, &
@@ -47,16 +48,18 @@ PROGRAM dbcsr_tas_unittest
 
    CALL mp_world_init(mp_comm)
 
-   CALL dbcsr_init_lib()
+   CALL mp_environ(numnodes, mynode, mp_comm)
+
+   io_unit = 0
+   IF (mynode .EQ. 0) io_unit = default_output_unit
+
+   CALL dbcsr_init_lib(mp_comm, io_unit)
 
    CALL dbcsr_tas_random_bsizes([13, 8, 5, 25, 12], 2, bsize_m)
    CALL dbcsr_tas_random_bsizes([3, 78, 33, 12, 3, 15], 1, bsize_n)
    CALL dbcsr_tas_random_bsizes([9, 64, 23, 2], 3, bsize_k)
 
    CALL mp_environ(numnodes, mynode, mp_comm)
-
-   io_unit = 0
-   IF (mynode .EQ. 0) io_unit = default_output_unit
 
    CALL dbcsr_tas_setup_test_matrix(A, mp_comm_A, mp_comm, m, k, bsize_m, bsize_k, [5, 1], "A", sparsity)
    CALL dbcsr_tas_setup_test_matrix(At, mp_comm_At, mp_comm, k, m, bsize_k, bsize_m, [3, 8], "A^t", sparsity)
@@ -141,7 +144,8 @@ PROGRAM dbcsr_tas_unittest
    CALL mp_comm_free(mp_comm_C)
    CALL mp_comm_free(mp_comm_Ct)
 
-   CALL dbcsr_finalize_lib(mp_comm, io_unit)
+   call dbcsr_print_statistics(.true.)
+   CALL dbcsr_finalize_lib()
 
    CALL mp_world_finalize()
 

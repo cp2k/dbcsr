@@ -102,6 +102,7 @@ static const std::unordered_map<Triplet, KernelParameters> ht  = {
 
 #endif
 //EOF
+\n\n
 """
 
     return out, all_pars

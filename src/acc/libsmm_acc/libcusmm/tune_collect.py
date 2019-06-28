@@ -16,7 +16,7 @@ import json
 import argparse
 from kernels.cusmm_predict import descr_to_kernel
 
-re_mnk = re.compile(r"tune_(\d+)x(\d+)x(\d+)_")
+re_mnk = re.compile(r"tune_(\d+)x(\d+)x(\d+)")
 re_winner = re.compile(r"\nWINNER: \d+ (.+)\n")
 re_gflops = re.compile(r"# ([0-9.]+) GFlop/s")
 re_errors = re.compile(r"Number of errors: (\d+)\n")

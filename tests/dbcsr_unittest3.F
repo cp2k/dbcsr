@@ -24,7 +24,8 @@ PROGRAM dbcsr_unittest
                                acc_set_active_device
    USE dbcsr_kinds, ONLY: dp
    USE dbcsr_lib, ONLY: dbcsr_finalize_lib, &
-                        dbcsr_init_lib
+                        dbcsr_init_lib, &
+                        dbcsr_print_statistics
    USE dbcsr_machine, ONLY: default_output_unit
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_new, &
                                dbcsr_mp_release
@@ -39,8 +40,6 @@ PROGRAM dbcsr_unittest
    USE dbcsr_types, ONLY: dbcsr_mp_obj
 #include "base/dbcsr_base_uses.f90"
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
-
    IMPLICIT NONE
 
    INTEGER                                  :: mp_comm, group, numnodes, mynode, &
@@ -52,10 +51,6 @@ PROGRAM dbcsr_unittest
    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_multiply'
 
    !***************************************************************************************
-
-   !
-   ! initialize libdbcsr errors
-   CALL timeset(routineN, handle)
 
    !
    ! initialize mpi
@@ -83,7 +78,11 @@ PROGRAM dbcsr_unittest
    ! initialize libdbcsr
    IF (acc_get_ndevices() > 0) &
       CALL acc_set_active_device(MOD(mynode, acc_get_ndevices()))
-   CALL dbcsr_init_lib()
+
+   CALL dbcsr_init_lib(mp_comm, io_unit)
+   !
+   ! initialize libdbcsr errors
+   CALL timeset(routineN, handle)
 
    CALL dbcsr_reset_randmat_seed()
 
@@ -125,8 +124,9 @@ PROGRAM dbcsr_unittest
 
    ! end of test cases ---------------------------------------------------------
 
-   ! finalize libdbcsr
-   CALL dbcsr_finalize_lib(mp_comm, io_unit)
+   !
+   ! finalize libdbcsr errors
+   CALL timestop(handle)
 
    !
    ! clean mp environment
@@ -135,10 +135,11 @@ PROGRAM dbcsr_unittest
    !
    ! finalize mpi
    CALL mp_comm_free(group)
-   CALL mp_world_finalize()
 
-   !
-   ! finalize libdbcsr errors
-   CALL timestop(handle)
+   call dbcsr_print_statistics(.true.)
+   ! finalize libdbcsr
+   CALL dbcsr_finalize_lib()
+
+   CALL mp_world_finalize()
 
 END PROGRAM dbcsr_unittest

@@ -690,7 +690,7 @@ MODULE dbcsr_mpiwrap
       TYPE(mp_perf_env_type), POINTER         :: mp_perf_env => Null()
    END TYPE mp_perf_env_p_type
 
-   ! introduce a stack of mp_perfs, first index is the stack pointer, for convience is replacing
+   ! introduce a stack of mp_perfs, first index is the stack pointer, for convenience is replacing
    INTEGER, PARAMETER :: max_stack_size = 10
    INTEGER            :: stack_pointer = 0
    ! target attribute needed as a hack around ifc 7.1 bug
@@ -760,7 +760,11 @@ CONTAINS
 !$       ENDIF
 !$OMP END MASTER
 !$    ENDIF
+#if __MPI_VERSION > 2
+      CALL mpi_comm_set_errhandler(MPI_COMM_WORLD, MPI_ERRORS_RETURN, ierr)
+#else
       CALL mpi_errhandler_set(MPI_COMM_WORLD, MPI_ERRORS_RETURN, ierr)
+#endif
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_errhandler_set @ mp_world_init")
       mp_comm = MPI_COMM_WORLD
       debug_comm_count = 1
@@ -2014,7 +2018,7 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief splits the given communicator in group in subgroups trying to organize
 !>      them in a way that the communication within each subgroup is
-!>      efficent (but not necessarily the communication between subgroups)
+!>      efficient (but not necessarily the communication between subgroups)
 !> \param comm the mpi communicator that you want to split
 !> \param sub_comm the communicator for the subgroup (created, needs to be freed later)
 !> \param ngroups actual number of groups
@@ -2647,7 +2651,7 @@ CONTAINS
       ALLOCATE (res(1:msglen), STAT=ierr)
       IF (ierr /= 0) &
          DBCSR_ABORT("allocate @ "//routineN)
-      CALL mpi_allreduce(msg, res, 1, MPI_2DOUBLE_PRECISION, MPI_MINLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_2DOUBLE_PRECISION, MPI_MINLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2691,7 +2695,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_2INTEGER, MPI_MINLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_2INTEGER, MPI_MINLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2735,7 +2739,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_INTEGER8, MPI_MINLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_INTEGER8, MPI_MINLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2779,7 +2783,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_2REAL, MPI_MINLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_2REAL, MPI_MINLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2823,7 +2827,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_2DOUBLE_PRECISION, MPI_MAXLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_2DOUBLE_PRECISION, MPI_MAXLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2867,7 +2871,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_2INTEGER, MPI_MAXLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_2INTEGER, MPI_MAXLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2911,7 +2915,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_INTEGER8, MPI_MAXLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_INTEGER8, MPI_MAXLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
@@ -2955,7 +2959,7 @@ CONTAINS
 #if defined(__parallel)
       msglen = SIZE(msg)
       ALLOCATE (res(1:msglen))
-      CALL mpi_allreduce(msg, res, 1, MPI_2REAL, MPI_MAXLOC, gid, ierr)
+      CALL mpi_allreduce(msg, res, msglen/2, MPI_2REAL, MPI_MAXLOC, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)

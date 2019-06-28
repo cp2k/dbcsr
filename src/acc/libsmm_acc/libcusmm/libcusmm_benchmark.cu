@@ -25,23 +25,23 @@ void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, benchmark_mode mode,
     h->mode = mode;
 
     switch(mode) {
-        case tune: 
-        case timing: 
+        case tune:
+        case timing:
             h->n_a = 10000;
             h->n_b = 10000;
             h->n_c = 1000;
             h->n_stack = 16005;
             h->n_stack_trs_a = 0;
             h->n_stack_trs_b = 0;
-            break; 
-        case test: 
+            break;
+        case test:
             h->n_a = 100;
             h->n_b = 100;
             h->n_c = 10;
             h->n_stack = 100;
             h->n_stack_trs_a = h->n_a;
             h->n_stack_trs_b = h->n_b;
-            break; 
+            break;
     }
 
     h->max_m = max_m;
@@ -108,7 +108,7 @@ void matInit(double* mat, int mat_n, int x, int y, int seed){
 
 
 //===========================================================================
-// initialize the task list ("stack" in CP2K lingo)
+// initialize the task list ("stack" in DBCSR lingo)
 // for each of the result matrices we have a random number
 void stackInit(int *stack, int n_stack, int n_c, double* mat_c,
                int n_a, double * mat_a, int n_b, double* mat_b,
@@ -149,7 +149,7 @@ void stackInit(int *stack, int n_stack, int n_c, double* mat_c,
 
 
 //===========================================================================
-// initialize the task list ("stack" in CP2K lingo)
+// initialize the task list ("stack" in DBCSR lingo)
 void stackInitTransp(int *stack, int n_stack, int mat_m, int mat_n){
 
   int* s = stack;
@@ -214,18 +214,18 @@ double checkSum(double* mat_c, int n_c, int mat_m, int mat_n){
 
 //===========================================================================
 double checkSumTransp(double* mat, int n, int n_stack, int mat_m, int mat_n){
-    // for transposition, a regular checkSum does not inform about the 
-    // transpose's correctness. Instead, we perform a checkSum on a 
+    // for transposition, a regular checkSum does not inform about the
+    // transpose's correctness. Instead, we perform a checkSum on a
     // sample of elements.
     double res = 0;
     int size = mat_m * mat_n;
     int n_samples = size / 3;
-    int step = size / n_samples; 
+    int step = size / n_samples;
     for(int s=0; s < n_stack; s++){
-        int offset = s * size; 
+        int offset = s * size;
         for(int idx=s%step; idx < size; idx+=step)
-            res += mat[offset + idx]; 
-    } 
+            res += mat[offset + idx];
+    }
     return res;
 }
 
@@ -255,7 +255,7 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
      exit(1);
  }
  std::vector<Triplet> blocksizes;
- get_libcusmm_triplets(blocksizes, ht); 
+ get_libcusmm_triplets(blocksizes, ht);
  auto it = std::find(std::begin(blocksizes), std::end(blocksizes), Triplet({ mat_m, mat_n, mat_k }));
  if(it == std::end(blocksizes) && h->mode != tune){
      printf("Triplet %i x %i x %i is not defined in libcusmm\n", mat_m, mat_n, mat_k);
@@ -263,7 +263,7 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
  }
 
 
- int n_iter, n_warm; 
+ int n_iter, n_warm;
  switch(h->mode) {
    case tune:
    case timing: // for larger matrices few iteration give enough statistics
@@ -285,7 +285,6 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
  double sumCPU, sumGPU;
  float t_duration;
  char descr[1000], msg_prefix[100]="";
- cudaError_t cudaError;
 
  memset(h->mat_c, 0, h->n_c * mat_m * mat_n * sizeof(double));
  matInit(h->mat_a, h->n_a, mat_m, mat_k, 42);
@@ -366,8 +365,8 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
 
 //===========================================================================
 int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
-                                  double* mat, double* mat_trs, double* d_mat, 
-                                  int n, int mat_m, int mat_n, 
+                                  double* mat, double* mat_trs, double* d_mat,
+                                  int n, int mat_m, int mat_n,
                                   CUevent start, CUevent stop, char** kernel_descr,
                                   TransposeLauncher* launcher){
  if(mat_m > MAX_BLOCK_DIM || mat_n > MAX_BLOCK_DIM){

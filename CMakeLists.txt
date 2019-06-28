@@ -21,7 +21,7 @@ set_property(CACHE USE_SMM PROPERTY STRINGS blas libxsmm)
 option(USE_CUDA "Build with CUDA support" OFF)
 cmake_dependent_option(USE_CUBLAS "Build with CUBLAS support" OFF "USE_CUDA" OFF)
 set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if CUDA is enabled (default: P100)")
-set_property(CACHE WITH_GPU PROPERTY STRINGS K20X K40 K80 P100)
+set_property(CACHE WITH_GPU PROPERTY STRINGS K20X K40 K80 P100 V100)
 
 enable_language(Fortran)
 enable_testing() # enables the `make test` target
@@ -37,6 +37,7 @@ if (USE_CUDA)
   set(CUDA_ARCH_NUMBER_K40  35)
   set(CUDA_ARCH_NUMBER_K80  37)
   set(CUDA_ARCH_NUMBER_P100 60)
+  set(CUDA_ARCH_NUMBER_V100 70)
   set(CUDA_ARCH_NUMBER ${CUDA_ARCH_NUMBER_${WITH_GPU}})
 
   # assume that the backend compiler for nvcc understands the -std=c++11
@@ -85,62 +86,8 @@ if (NOT CMAKE_BUILD_TYPE)
     FORCE)
 endif ()
 
-# COMPILER CONFIGURATION:
-
-get_filename_component(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
-
-# if the fortran compiler command is a CRAY wrapper, find out what the underlying compiler is
-if (Fortran_COMPILER_NAME MATCHES "ftn")
-  execute_process(COMMAND ftn -craype-verbose OUTPUT_VARIABLE ftn_verbose_OUT ERROR_QUIET)
-  separate_arguments(ftn_verbose_OUT NATIVE_COMMAND "${ftn_verbose_OUT}")
-  list(GET ftn_verbose_OUT 0 Fortran_COMPILER_NAME)
-endif ()
-
-# Depending on the fortran compiler, set the appropriate compiler flags
-if (Fortran_COMPILER_NAME MATCHES "^gfortran.*")
-  set(CMAKE_CXX_FLAGS              "-std=c++11")
-  set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
-  set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -fprofile-arcs -ftest-coverage")
-  set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -ggdb")
-  set(CMAKE_Fortran_FLAGS          "-ffree-form -ffree-line-length-none -std=f2003")
-  set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -funroll-loops")
-  set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -ggdb")
-  set(CMAKE_Fortran_FLAGS_COVERAGE "-O0 -fprofile-arcs -ftest-coverage")
-  set(F2008_COMPILER_FLAGS         "-std=f2008ts")
-
-  # on Apple we may compile with GCC Fortran, but build/link C/C++ code with Apple's clang, requiring special treatment
-  if (APPLE AND CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
-    if (CMAKE_BUILD_TYPE MATCHES Coverage)
-      # when building with coverage suppport, shared libs/executables must be explicitly linked to avoid undefined symbols
-      SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -lgcov --coverage")
-    endif ()
-  endif ()
-elseif (Fortran_COMPILER_NAME MATCHES "^ifort.*")
-  set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
-  set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -debug")
-  set(CMAKE_Fortran_FLAGS          "-free -stand f03 -fpp")
-  # Disable the line-length-extension warning #5268
-  set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -diag-disable=5268")
-  set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -debug")
-  set(F2008_COMPILER_FLAGS         "-stand f08")
-elseif (Fortran_COMPILER_NAME MATCHES "^pgf.*")
-  set(CMAKE_CXX_FLAGS_RELEASE      "-fast")
-  set(CMAKE_CXX_FLAGS_DEBUG        "-g")
-  set(CMAKE_Fortran_FLAGS          "-Mfreeform -Mextend -Mallocatable=03")
-  set(CMAKE_Fortran_FLAGS_RELEASE  "-fast")
-  set(CMAKE_Fortran_FLAGS_DEBUG    "-g")
-  set(F2008_COMPILER_FLAGS         "")
-else ()
-  message(WARNING "\
-Unknown compiler, trying with just '-O2'/'-O0 -g'.\n\
-You will most likely have to pass additonal options for free-form Fortran 2003/2008 for your compiler!\n\
-Please open an issue at https://github.com/cp2k/dbcsr/issues with the reported compiler name and the required flags.")
-  message("-- Fortran_COMPILER_NAME: " ${Fortran_COMPILER_NAME})
-  message("-- CMAKE_Fortran_COMPILER full path: " ${CMAKE_Fortran_COMPILER})
-
-  set(CMAKE_Fortran_FLAGS_RELEASE  "-O2")
-  set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -g")
-endif ()
+include(CompilerConfiguration)
+include(CheckCompilerSupport)
 
 file(STRINGS VERSION VERSION_INFO)
 foreach(line ${VERSION_INFO})

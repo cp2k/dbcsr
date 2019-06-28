@@ -198,7 +198,7 @@ void add_kernel_handle_to_jitted_kernels(CUfunction kern_func, CUstream stream, 
 //===========================================================================
 int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m, int n, int k, double *a_data, double *b_data, double *c_data){
 
-    CUfunction kern_func;
+    CUfunction kern_func = NULL;
     int threads, grouping;
     Triplet h_mnk = { m, n, k };
 
@@ -360,4 +360,14 @@ extern "C" int libsmm_acc_transpose (void *trs_stack, int offset, int nblks, voi
     if(m>MAX_BLOCK_DIM || n>MAX_BLOCK_DIM)
       return 0; // maximum size over any dimention
     return libcusmm_transpose_d((int *) trs_stack, offset, nblks, (double *) buffer, m, n, *((CUstream *) stream));
+}
+
+
+//===========================================================================
+extern "C" int libsmm_acc_libcusmm_is_thread_safe () {
+#if defined _OPENMP
+    return 1;  // i.e. true, libcusmm is threaded
+#else
+    return 0;  // i.e. false, libcusmm is not threaded
+#endif
 }

@@ -67,6 +67,7 @@ MODULE dbcsr_mm_sched
    PUBLIC :: dbcsr_mm_sched_lib_init, dbcsr_mm_sched_lib_finalize
    PUBLIC :: dbcsr_mm_sched_phaseout
    PUBLIC :: dbcsr_mm_sched_init, dbcsr_mm_sched_finalize
+   PUBLIC :: dbcsr_mm_sched_print_statistics
    PUBLIC :: dbcsr_mm_sched_process
    PUBLIC :: dbcsr_mm_sched_begin_burst, dbcsr_mm_sched_end_burst
    PUBLIC :: dbcsr_mm_sched_barrier
@@ -145,29 +146,32 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finalize the library and prints DBCSR statistics
-!> \param group ...
-!> \param output_unit ...
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_mm_sched_lib_finalize(group, output_unit)
+   SUBROUTINE dbcsr_mm_sched_lib_finalize()
+      CALL dbcsr_mm_accdrv_lib_finalize()
+      CALL dbcsr_mm_hostdrv_lib_finalize()
+!$OMP    MASTER
+      DEALLOCATE (stats_per_thread)
+!$OMP    END MASTER
+   END SUBROUTINE dbcsr_mm_sched_lib_finalize
+
+! **************************************************************************************************
+!> \brief Prints DBCSR statistics
+!> \param group ...
+!> \param output_unit ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_mm_sched_print_statistics(group, output_unit)
       INTEGER, INTENT(IN)                                :: group, output_unit
 
       TYPE(stats_type)                                   :: report
-
-      CALL dbcsr_mm_accdrv_lib_finalize()
-      CALL dbcsr_mm_hostdrv_lib_finalize()
-
       ! Collect and output statistics ---------------------------------------------
 
-!$OMP    MASTER
       CALL stats_init(report)
       CALL stats_collect_from_threads(report)
       CALL stats_collect_from_ranks(report, group)
       CALL stats_print_report(report, output_unit)
-      DEALLOCATE (stats_per_thread)
-!$OMP    END MASTER
-
-   END SUBROUTINE dbcsr_mm_sched_lib_finalize
+   END SUBROUTINE dbcsr_mm_sched_print_statistics
 
 ! **************************************************************************************************
 !> \brief Makes sure that the product_wm is cleared.
@@ -549,10 +553,12 @@ CONTAINS
       INTEGER                                            :: i, j, nthreads
       TYPE(stats_type), POINTER                          :: istats
 
-!$OMP     MASTER
-
+!$OMP PARALLEL DEFAULT(NONE) SHARED(nthreads)
+!$OMP MASTER
       nthreads = 1
 !$    nthreads = OMP_GET_NUM_THREADS()
+!$OMP END MASTER
+!$OMP END PARALLEL
 
       DO i = 0, nthreads - 1
          istats => stats_per_thread(i)
@@ -576,7 +582,7 @@ CONTAINS
                            nstacks_acc=istats%num_mnk_stacks(j, 9))
          END DO
       END DO
-!$OMP     END MASTER
+
    END SUBROUTINE stats_collect_from_threads
 
 ! **************************************************************************************************
@@ -725,4 +731,3 @@ CONTAINS
    END SUBROUTINE stats_print_report
 
 END MODULE dbcsr_mm_sched
-

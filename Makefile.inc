@@ -17,7 +17,7 @@
 # a) set the NVCC variable, e.g. NVCC = nvcc
 # b) specify -D__DBCSR_ACC in FCFLAGS variable
 # c) set the GPUVER variable, e.g. GPUVER = P100 for P100 card
-#    (possible values are K20X, K40, K80, P100)
+#    (possible values are K20X, K40, K80, P100, V100)
 # d) set the NVFLAGS variable,
 #    e.g. NVFLAGS = -O3 -g -w --std=c++11
 #    in the Makefile, the -arch will be appended with the correct compute version
@@ -137,7 +137,7 @@ endif
 
 ifneq (0,$(GNU)) # DEFAULT, just edit...
   CXXFLAGS += -std=c++11
-  FCFLAGS  += -std=f2003 -ffree-form -fimplicit-none -ffree-line-length-512
+  FCFLAGS  += -std=f2008ts -ffree-form -fimplicit-none -ffree-line-length-512
   OPTFLAGS += -O3 -g -fno-omit-frame-pointer -funroll-loops
 else
  # Intel compiler flags
@@ -147,7 +147,7 @@ else
 endif
 
 ifneq (0,$(OMP)) # using OpenMP
-  CXXOMPFLAGS = -fopenmp
+  CXXFLAGS += -fopenmp
   FCFLAGS  += -fopenmp
 endif
 
@@ -156,14 +156,6 @@ CFLAGS      += $(OPTFLAGS)
 CXXFLAGS    += $(OPTFLAGS)
 FCFLAGS     += $(OPTFLAGS)
 LDFLAGS     += $(FCFLAGS)
-
-#######################################################################################
-#
-# C interface requires new F2008ts standard
-
-ifeq ($(CINT),1)
-FCFLAGS    := $(subst -std=f2003,-std=f2008ts,$(FCFLAGS))
-endif
 
 #######################################################################################
 #
@@ -230,7 +222,5 @@ endif
 #######################################################################################
 #
 # Enable for MacOS compilation (-D__ACCELERATE is for Apple Accelerate library)
-
 #FCFLAGS += -D__NO_STATM_ACCESS -D__ACCELERATE
-
 #######################################################################################

@@ -2,7 +2,7 @@
 
 #SBATCH --export=ALL
 #SBATCH --exclusive
-#SBATCH --constraint="mc"
+#SBATCH --constraint="gpu"
 #SBATCH --partition="cscsci"
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=4
@@ -16,21 +16,20 @@ set -o pipefail
 module swap PrgEnv-cray PrgEnv-gnu
 module load daint-gpu cudatoolkit CMake/3.12.0
 module unload cray-libsci_acc
+module list
 
 set -o xtrace  # do not set earlier to avoid noise from module
 
 umask 0002  # make sure group members can access the data
 
-mkdir --mode=0775 -p "${SCRATCH}/${BUILD_TAG}"
-cd "${SCRATCH}/${BUILD_TAG}"
+mkdir --mode=0775 -p "${SCRATCH}/${BUILD_TAG}.gnu"
+cd "${SCRATCH}/${BUILD_TAG}.gnu"
 
-cmake \
-    -DUSE_CUDA=ON \
-    -DUSE_CUBLAS=ON \
-    -DWITH_GPU=P100 \
-    -DMPIEXEC_EXECUTABLE="$(command -v srun)" \
-    -DTEST_MPI_RANKS=${SLURM_NTASKS} \
-    -DTEST_OMP_THREADS=${SLURM_CPUS_PER_TASK} \
-    "${WORKSPACE}" |& tee -a "${STAGE_NAME}.out"
+export CRAY_CUDA_MPS=1 # enable the CUDA proxy for MPI+CUDA
+export OMP_PROC_BIND=TRUE # set thread affinity
+# OMP_NUM_THREADS is set by cmake
 
-make VERBOSE=1 -j |& tee -a "${STAGE_NAME}.out"
+# document the current environment
+env |& tee -a "${STAGE_NAME}.out"
+
+env CTEST_OUTPUT_ON_FAILURE=1 make test |& tee -a "${STAGE_NAME}.out"

@@ -57,7 +57,7 @@ MODULE dbcsr_api
                                         dbcsr_iterator_stop_prv => dbcsr_iterator_stop
    USE dbcsr_lib, ONLY: dbcsr_clear_mempools, &
                         dbcsr_finalize_lib, &
-                        dbcsr_init_lib
+                        dbcsr_init_lib, dbcsr_print_statistics_prv => dbcsr_print_statistics
    USE dbcsr_methods, ONLY: &
       dbcsr_get_data_size_prv => dbcsr_get_data_size, &
       dbcsr_get_data_type_prv => dbcsr_get_data_type, &
@@ -99,6 +99,7 @@ MODULE dbcsr_api
       dbcsr_set_prv => dbcsr_set, &
       dbcsr_sum_replicated_prv => dbcsr_sum_replicated, &
       dbcsr_trace_prv => dbcsr_trace, &
+      dbcsr_dot_prv => dbcsr_dot, &
       dbcsr_triu_prv => dbcsr_triu, &
       dbcsr_clear_prv => dbcsr_clear
    USE dbcsr_test_methods, ONLY: dbcsr_reset_randmat_seed
@@ -132,10 +133,6 @@ MODULE dbcsr_api
                           int_8, &
                           real_4, &
                           real_8
-   USE dbcsr_base_hooks, ONLY: timeset_hook, timestop_hook, &
-                               timeset_interface, timestop_interface, &
-                               dbcsr_abort_hook, dbcsr_warn_hook, &
-                               dbcsr_abort_interface, dbcsr_warn_interface
    USE dbcsr_mpiwrap, ONLY: mp_cart_rank, &
                             mp_environ
 
@@ -175,6 +172,7 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_print_config
    PUBLIC :: dbcsr_reset_randmat_seed
    PUBLIC :: dbcsr_mp_grid_setup
+   PUBLIC :: dbcsr_print_statistics
 
    ! create / release
    PUBLIC :: dbcsr_distribution_hold
@@ -202,6 +200,7 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_get_diag
    PUBLIC :: dbcsr_filter
    PUBLIC :: dbcsr_trace
+   PUBLIC :: dbcsr_dot
    PUBLIC :: dbcsr_complete_redistribute
    PUBLIC :: dbcsr_get_block_p
    PUBLIC :: dbcsr_clear
@@ -301,9 +300,6 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_binary_read
    PUBLIC :: dbcsr_test_binary_io
 
-   ! hooks
-   PUBLIC :: dbcsr_set_hooks
-
    ! -----------------------------------------------------------------------------------------------
    TYPE dbcsr_p_type
       TYPE(dbcsr_type), POINTER :: matrix => Null()
@@ -333,10 +329,13 @@ MODULE dbcsr_api
    END INTERFACE
 
    INTERFACE dbcsr_trace
-      MODULE PROCEDURE dbcsr_trace_ab_d, dbcsr_trace_ab_s
-      MODULE PROCEDURE dbcsr_trace_a_d, dbcsr_trace_a_s
-      MODULE PROCEDURE dbcsr_trace_ab_z, dbcsr_trace_ab_c
-      MODULE PROCEDURE dbcsr_trace_a_z, dbcsr_trace_a_c
+      MODULE PROCEDURE dbcsr_trace_d, dbcsr_trace_s
+      MODULE PROCEDURE dbcsr_trace_z, dbcsr_trace_c
+   END INTERFACE
+
+   INTERFACE dbcsr_dot
+      MODULE PROCEDURE dbcsr_dot_d, dbcsr_dot_s
+      MODULE PROCEDURE dbcsr_dot_z, dbcsr_dot_c
    END INTERFACE
 
    INTERFACE dbcsr_set
@@ -846,10 +845,6 @@ CONTAINS
 !> \param dist ...
 !> \param row_dist ...
 !> \param col_dist ...
-!> \param row_cluster ...
-!> \param col_cluster ...
-!> \param has_col_clusters ...
-!> \param has_row_clusters ...
 !> \param nrows ...
 !> \param ncols ...
 !> \param has_threads ...
@@ -866,15 +861,11 @@ CONTAINS
 !> \param pcol_group ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_get(dist, row_dist, col_dist, &
-                                     row_cluster, col_cluster, &
-                                     has_col_clusters, has_row_clusters, &
                                      nrows, ncols, has_threads, &
                                      group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, &
                                      subgroups_defined, prow_group, pcol_group)
       TYPE(dbcsr_distribution_type), INTENT(IN)          :: dist
-      INTEGER, DIMENSION(:), OPTIONAL, POINTER           :: row_dist, col_dist, row_cluster, &
-                                                            col_cluster
-      LOGICAL, INTENT(OUT), OPTIONAL                     :: has_col_clusters, has_row_clusters
+      INTEGER, DIMENSION(:), OPTIONAL, POINTER           :: row_dist, col_dist
       INTEGER, INTENT(OUT), OPTIONAL                     :: nrows, ncols
       LOGICAL, INTENT(OUT), OPTIONAL                     :: has_threads
       INTEGER, INTENT(OUT), OPTIONAL                     :: group, mynode, numnodes, nprows, npcols, &
@@ -885,10 +876,6 @@ CONTAINS
 
       IF (PRESENT(row_dist)) row_dist => array_data(dist%prv%d%row_dist_block)
       IF (PRESENT(col_dist)) col_dist => array_data(dist%prv%d%col_dist_block)
-      IF (PRESENT(row_cluster)) row_cluster => array_data(dist%prv%d%row_dist_cluster)
-      IF (PRESENT(col_cluster)) col_cluster => array_data(dist%prv%d%col_dist_cluster)
-      IF (PRESENT(has_col_clusters)) has_col_clusters = array_exists(dist%prv%d%col_dist_cluster)
-      IF (PRESENT(has_row_clusters)) has_row_clusters = array_exists(dist%prv%d%row_dist_cluster)
       IF (PRESENT(nrows)) nrows = array_size(dist%prv%d%row_dist_block)
       IF (PRESENT(ncols)) ncols = array_size(dist%prv%d%col_dist_block)
       IF (PRESENT(has_threads)) has_threads = dist%prv%d%has_thread_dist
@@ -1098,23 +1085,18 @@ CONTAINS
 !> \param pgrid ...
 !> \param row_dist ...
 !> \param col_dist ...
-!> \param row_cluster ...
-!> \param col_cluster ...
 !> \param reuse_arrays ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_new(dist, template, group, pgrid, row_dist, col_dist, &
-                                     row_cluster, col_cluster, reuse_arrays)
+                                     reuse_arrays)
       TYPE(dbcsr_distribution_type), INTENT(OUT)         :: dist
       TYPE(dbcsr_distribution_type), INTENT(IN), &
          OPTIONAL                                        :: template
       INTEGER, INTENT(IN), OPTIONAL                      :: group
       INTEGER, DIMENSION(:, :), OPTIONAL, POINTER        :: pgrid
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist, col_dist
-      INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL, &
-         POINTER                                         :: row_cluster, col_cluster
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays
 
-      INTEGER, DIMENSION(:), POINTER                     :: my_col_cluster, my_row_cluster
       TYPE(dbcsr_mp_obj)                                 :: mp_env
 
       IF (PRESENT(pgrid) .AND. .NOT. PRESENT(group)) &
@@ -1132,26 +1114,9 @@ CONTAINS
          DBCSR_ABORT("dbcsr_distribution_new: neither template nor group supplied")
       ENDIF
 
-      NULLIFY (my_row_cluster, my_col_cluster)
-      IF (PRESENT(row_cluster)) THEN
-         IF (ASSOCIATED(row_cluster)) THEN
-            IF (ALL(row_cluster > 0)) &
-               my_row_cluster => row_cluster
-         ENDIF
-      ENDIF
-
-      IF (PRESENT(col_cluster)) THEN
-         IF (ASSOCIATED(col_cluster)) THEN
-            IF (ALL(col_cluster > 0)) &
-               my_col_cluster => col_cluster
-         ENDIF
-      ENDIF
-
       CALL dbcsr_distribution_new_prv(dist%prv, mp_env, &
                                       row_dist_block=row_dist, &
                                       col_dist_block=col_dist, &
-                                      row_dist_cluster=my_row_cluster, &
-                                      col_dist_cluster=my_col_cluster, &
                                       reuse_arrays=reuse_arrays)
 
       IF (.NOT. PRESENT(template)) &
@@ -1219,6 +1184,18 @@ CONTAINS
       IF (.NOT. PRESENT(pgrid)) DEALLOCATE (mypgrid)
 
    END SUBROUTINE dbcsr_mp_new
+
+! **************************************************************************************************
+!> \brief Print statistics
+!> \param print_timers ...
+!> \param callgraph_filename ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_print_statistics(print_timers, callgraph_filename)
+      LOGICAL, INTENT(IN), OPTIONAL          :: print_timers
+      CHARACTER(len=*), INTENT(IN), OPTIONAL :: callgraph_filename
+
+      CALL dbcsr_print_statistics_prv(print_timers, callgraph_filename)
+   END SUBROUTINE dbcsr_print_statistics
 
 ! **************************************************************************************************
 !> \brief ...
@@ -1672,27 +1649,6 @@ CONTAINS
       IF (.NOT. is_there) block(:, :) = 0.0_dp
    END SUBROUTINE dbcsr_add_block_node
 
-! **************************************************************************************************
-!> \brief Set time and error handlers
-!> \param[in]  in_timeset_hook
-!> \param[in]  in_timestop_hook
-!> \param[in]  in_abort_hook
-!> \param[in]  in_warn_hook
-! **************************************************************************************************
-   SUBROUTINE dbcsr_set_hooks(in_timeset_hook, in_timestop_hook, &
-                              in_abort_hook, in_warn_hook)
-      PROCEDURE(timeset_interface), INTENT(IN), POINTER :: in_timeset_hook
-      PROCEDURE(timestop_interface), INTENT(IN), POINTER :: in_timestop_hook
-      PROCEDURE(dbcsr_abort_interface), INTENT(IN), POINTER :: in_abort_hook
-      PROCEDURE(dbcsr_warn_interface), INTENT(IN), POINTER :: in_warn_hook
-
-      timeset_hook => in_timeset_hook
-      timestop_hook => in_timestop_hook
-      dbcsr_abort_hook => in_abort_hook
-      dbcsr_warn_hook => in_warn_hook
-
-   END SUBROUTINE dbcsr_set_hooks
-
 #:include 'data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
 ! **************************************************************************************************
@@ -1902,7 +1858,7 @@ CONTAINS
 !> \param matrix_a ...
 !> \param trace ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_trace_a_${nametype1}$ (matrix_a, trace)
+   SUBROUTINE dbcsr_trace_${nametype1}$ (matrix_a, trace)
       TYPE(dbcsr_type), INTENT(IN)              :: matrix_a
       ${type1}$, INTENT(OUT)                     :: trace
 
@@ -1912,20 +1868,20 @@ CONTAINS
       CALL dbcsr_trace_prv(matrix_a%prv, trace_scalar)
       CALL dbcsr_scalar_fill_all(trace_scalar)
       CALL dbcsr_scalar_get_value(trace_scalar, trace)
-   END SUBROUTINE dbcsr_trace_a_${nametype1}$
+   END SUBROUTINE dbcsr_trace_${nametype1}$
 
 ! **************************************************************************************************
 !> \brief ...
 !> \param matrix_a ...
 !> \param matrix_b ...
-!> \param trace ...
+!> \param result ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_trace_ab_${nametype1}$ (matrix_a, matrix_b, trace)
+   SUBROUTINE dbcsr_dot_${nametype1}$ (matrix_a, matrix_b, result)
       TYPE(dbcsr_type), INTENT(IN)              :: matrix_a, matrix_b
-      ${type1}$, INTENT(INOUT)                   :: trace
+      ${type1}$, INTENT(INOUT)                  :: result
 
-      CALL dbcsr_trace_prv(matrix_a%prv, matrix_b%prv, trace)
-   END SUBROUTINE dbcsr_trace_ab_${nametype1}$
+      CALL dbcsr_dot_prv(matrix_a%prv, matrix_b%prv, result)
+   END SUBROUTINE dbcsr_dot_${nametype1}$
 
 ! **************************************************************************************************
 !> \brief ...

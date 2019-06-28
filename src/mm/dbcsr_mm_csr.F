@@ -107,14 +107,10 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief Finalize the library
-!> \param group ...
-!> \param output_unit ...
 !> \author Ole Schuett
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_mm_csr_lib_finalize(group, output_unit)
-      INTEGER, INTENT(IN)                                :: group, output_unit
-
-      CALL dbcsr_mm_sched_lib_finalize(group, output_unit)
+   SUBROUTINE dbcsr_mm_csr_lib_finalize()
+      CALL dbcsr_mm_sched_lib_finalize()
    END SUBROUTINE
 
 ! **************************************************************************************************

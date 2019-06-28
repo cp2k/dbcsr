@@ -25,11 +25,6 @@ LIBNAME      := dbcsr
 LIBRARY      := lib$(LIBNAME)
 default_target: $(LIBRARY)
 
-# Check if FYPP is available  ===============================================
-ifeq (, $(shell which $(FYPPEXE) 2>/dev/null ))
-$(error "No FYPP submodule available, please read README.md on how to properly download DBCSR")
-endif
-
 # Read the configuration ====================================================
 MODDEPS = "lower"
 include $(INCLUDEMAKE)
@@ -50,7 +45,9 @@ else ifeq ($(GPUVER),K80)
  ARCH_NUMBER = 37
 else ifeq ($(GPUVER),P100)
  ARCH_NUMBER = 60
-else ifeq ($(GPUVER),) # Default to the newest GPU
+else ifeq ($(GPUVER),V100)
+ ARCH_NUMBER = 70
+else ifeq ($(GPUVER),) # Default to the P100
  ARCH_NUMBER = 60
 else
  $(error GPUVER not recognized)
@@ -233,6 +230,12 @@ OTHER_HELP += "toolflags : Print flags used with build tools"
 
 else
 # stage 2: Include $(OBJDIR)/all.dep, expand target all, and get list of dependencies.
+
+# Check if FYPP is available  ===============================================
+ifeq (, $(shell which $(FYPPEXE) 2>/dev/null ))
+$(error "No FYPP submodule available, please read README.md on how to properly download DBCSR")
+endif
+
 all: $(foreach e, $(BIN_NAMES), $(e))
 
 ifeq ($(BIN_NAME),)
@@ -494,7 +497,7 @@ FYPPFLAGS ?= -n
 	$(CXX) -c $(CXXFLAGS) $<
 
 libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
-	$(CXX) -c $(CXXFLAGS) $(CXXOMPFLAGS) -DARCH_NUMBER=$(ARCH_NUMBER) $<
+	$(CXX) -c $(CXXFLAGS) -DARCH_NUMBER=$(ARCH_NUMBER) $<
 
 %.o: %.cu
 	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
@@ -505,7 +508,7 @@ libcusmm_benchmark.o: libcusmm_benchmark.cu parameters.h
 $(LIBDIR)/%:
 ifneq ($(LD_SHARED),)
 	@echo "Creating shared library $@"
-	@$(LD_SHARED) -o $(@:.a=.so) $^
+	@$(LD_SHARED) $(LDFLAGS) -o $(@:.a=.so) $^ $(LIBS)
 else
 	@echo "Updating archive $@"
 	@$(AR) $@ $?

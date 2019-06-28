@@ -18,7 +18,7 @@ from subprocess import Popen, PIPE
 
 
 # ===============================================================================
-def main(submit_jobs):
+def main(submit_jobs, num_jobs):
 
     cmd = ["squeue", "--user", os.environ["USER"], "--format=%j", "--nohead"]
     p = Popen(cmd, stdout=PIPE)
@@ -56,6 +56,10 @@ def main(submit_jobs):
                     % d
                 )
 
+        if num_jobs > 0:
+            if n_submits >= num_jobs:
+                break
+
     print("Number of jobs submitted: %d" % n_submits)
 
 
@@ -74,7 +78,15 @@ if __name__ == "__main__":
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument("doit", metavar="doit!", nargs="?", type=str)
+    parser.add_argument(
+        "-j",
+        "--num_jobs",
+        metavar="INT",
+        default=0,
+        type=int,
+        help="Maximum number of jobs to submit. 0: submit all",
+    )
 
     args = parser.parse_args()
     submit_jobs = True if args.doit == "doit!" else False
-    main(submit_jobs)
+    main(submit_jobs, args.num_jobs)

@@ -37,6 +37,7 @@ arch_number = {
     "parameters_K40.json": 35,
     "parameters_K80.json": 37,
     "parameters_P100.json": 60,
+    "parameters_V100.json": 70,
 }
 
 
@@ -89,7 +90,9 @@ def descr_to_kernel(kernel_descr, source="autotuned"):
 
     from ast import literal_eval
 
-    re_kernel_descr = re.compile(r"Kernel_dnt_(\w+)(\(.*\)) , # (\d+\.\d+) GFlop/s")
+    re_kernel_descr = re.compile(
+        r"Kernel_dnt_(\w+)(\(.*\)) , # (\d+(?:\.\d+)?) GFlop/s"
+    )
     match = re_kernel_descr.search(kernel_descr).groups()
     algo = match[0]
     m = match[1].replace("=", "':")

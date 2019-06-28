@@ -10,12 +10,6 @@
 ! **************************************************************************************************
 !> \brief   DBCSR example 1
 !>          This example shows how to create a dbcsr matrix
-!> \author  V. Weber
-!> \date    2010
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created 2010
 ! **************************************************************************************************
 PROGRAM dbcsr_example_1
    USE mpi
@@ -24,8 +18,6 @@ PROGRAM dbcsr_example_1
         dbcsr_finalize, dbcsr_finalize_lib, dbcsr_init_lib, dbcsr_print, dbcsr_release, &
         dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
-
    IMPLICIT NONE
 
    TYPE(dbcsr_type)                         :: matrix_a
@@ -33,7 +25,7 @@ PROGRAM dbcsr_example_1
    INTEGER, DIMENSION(:), POINTER           :: col_blk_sizes, row_blk_sizes
    INTEGER                                  :: group, numnodes, mynode, nblkrows_total, &
                                                nblkcols_total, ierr
-   INTEGER, DIMENSION(2)                    :: npdims, myploc
+   INTEGER, DIMENSION(2)                    :: npdims
    INTEGER, DIMENSION(:), POINTER           :: col_dist, row_dist
    TYPE(dbcsr_distribution_type)            :: dist
    LOGICAL, DIMENSION(2)                    :: period = .TRUE.
@@ -53,7 +45,7 @@ PROGRAM dbcsr_example_1
 !$       STOP "MPI library does not support the requested level of threading (MPI_THREAD_FUNNELED)."
 !$    ENDIF
 !$ ENDIF
-      
+
    !
    ! setup the mp environment
    CALL mpi_comm_size(MPI_COMM_WORLD, numnodes, ierr)
@@ -71,7 +63,7 @@ PROGRAM dbcsr_example_1
    !***************************************************************************************
    !
    ! initialize libdbcsr
-   CALL dbcsr_init_lib()
+   CALL dbcsr_init_lib(MPI_COMM_WORLD)
 
    !
    ! the matrix will contain nblkrows_total row blocks and nblkcols_total column blocks
@@ -125,13 +117,13 @@ PROGRAM dbcsr_example_1
 
    !***************************************************************************************
    !
-   ! finalize libdbcsr
-   CALL dbcsr_finalize_lib(MPI_COMM_WORLD)
 
    ! free comm
    CALL mpi_comm_free(group, ierr)
    IF (ierr /= 0) STOP "Error in MPI_Comm_free"
 
+   ! finalize libdbcsr
+   CALL dbcsr_finalize_lib()
    !
    ! finalize mpi
    CALL mpi_finalize(ierr)

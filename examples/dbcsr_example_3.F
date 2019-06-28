@@ -10,12 +10,6 @@
 ! **************************************************************************************************
 !> \brief   DBCSR example 3
 !>          This example shows how to multiply two dbcsr matrices
-!> \author  V. Weber
-!> \date    2010
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created 2010
 ! **************************************************************************************************
 PROGRAM dbcsr_example_3
    USE mpi
@@ -25,8 +19,6 @@ PROGRAM dbcsr_example_3
         dbcsr_init_lib, dbcsr_multiply, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_print, &
         dbcsr_put_block, dbcsr_release, dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
-
    IMPLICIT NONE
 
    TYPE(dbcsr_type)                         :: matrix_a, matrix_b, matrix_c
@@ -35,12 +27,11 @@ PROGRAM dbcsr_example_3
    INTEGER                                  :: group, numnodes, mynode, ierr, &
                                                nblkrows_total, nblkcols_total, &
                                                node_holds_blk, max_nze, nze, row, col, row_s, col_s, &
-                                               io_unit, max_row_size, max_col_size
-   INTEGER, DIMENSION(2)                    :: npdims, myploc
+                                               max_row_size, max_col_size
+   INTEGER, DIMENSION(2)                    :: npdims
    INTEGER, DIMENSION(:), POINTER           :: col_dist, row_dist
    TYPE(dbcsr_distribution_type)            :: dist
    REAL(KIND=KIND(0.0D0)), DIMENSION(:), ALLOCATABLE :: values
-   LOGICAL                                  :: tr
    LOGICAL, DIMENSION(2)                    :: period = .TRUE.
 !$ INTEGER                                  :: provided_tsl
 
@@ -76,7 +67,7 @@ PROGRAM dbcsr_example_3
    !***************************************************************************************
    !
    ! initialize libdbcsr
-   CALL dbcsr_init_lib()
+   CALL dbcsr_init_lib(MPI_COMM_WORLD)
 
    !
    ! the matrix will contain nblkrows_total row blocks and nblkcols_total column blocks
@@ -138,7 +129,6 @@ PROGRAM dbcsr_example_3
    ALLOCATE (values(max_nze))
    DO row = 1, dbcsr_nblkrows_total(matrix_a)
       DO col = MAX(row-1, 1), MIN(row+1, dbcsr_nblkcols_total(matrix_a))
-         tr = .FALSE.
          row_s = row; col_s = col
          CALL dbcsr_get_stored_coordinates(matrix_a, row_s, col_s, node_holds_blk)
          IF (node_holds_blk .EQ. mynode) THEN
@@ -156,7 +146,6 @@ PROGRAM dbcsr_example_3
    ALLOCATE (values(max_nze))
    DO row = 1, dbcsr_nblkrows_total(matrix_b)
       DO col = MAX(row-1, 1), MIN(row+1, dbcsr_nblkcols_total(matrix_b))
-         tr = .FALSE.
          row_s = row; col_s = col
          CALL dbcsr_get_stored_coordinates(matrix_b, row_s, col_s, node_holds_blk)
          IF (node_holds_blk .EQ. mynode) THEN
@@ -193,13 +182,13 @@ PROGRAM dbcsr_example_3
    CALL dbcsr_distribution_release(dist)
    DEALLOCATE (row_blk_sizes, col_blk_sizes)
 
-   ! finalize libdbcsr
-   CALL dbcsr_finalize_lib(mpi_comm_world)
 
    ! free comm
    CALL mpi_comm_free(group, ierr)
    IF (ierr /= 0) STOP "Error in MPI_Comm_free"
 
+   ! finalize libdbcsr
+   CALL dbcsr_finalize_lib()
    !
    ! finalize mpi
    CALL mpi_finalize(ierr)

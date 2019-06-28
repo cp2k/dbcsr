@@ -1,19 +1,23 @@
 # DBCSR: Distributed Block Compressed Sparse Row matrix library 
 
 [![Build Status](https://travis-ci.org/cp2k/dbcsr.svg?branch=develop)](https://travis-ci.org/cp2k/dbcsr) [![codecov](https://codecov.io/gh/cp2k/dbcsr/branch/develop/graph/badge.svg)](https://codecov.io/gh/cp2k/dbcsr)
+[![Licence](https://img.shields.io/badge/license-GPL%20v2.0-blue.svg)](./LICENSE)
+[![GitHub Releases](https://img.shields.io/github/release-pre/cp2k/dbcsr.svg)](https://github.com/cp2k/dbcsr/releases)
 
 DBCSR is a library designed to efficiently perform sparse matrix matrix multiplication, among other operations.
 It is MPI and OpenMP parallel and can exploit GPUs via CUDA.
 
-![DBCSR logo](tools/logo/logo.png)
+<p align="center">
+<img src="docs/logo/logo.png" width="500">
+</p>
 
 ## Prerequisites
 
 You absolutely need:
 
 * GNU make
-* a Fortran compiler which supports at least Fortran 2003 (respectively 2008+TS when using the C-bindings)
-* a LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested)
+* a Fortran compiler which supports at least Fortran 2008 (including the TS 29113 when using the C-bindings)
+* a LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested. Note: DBCSR linked to OpenBLAS 0.3.6 gives wrong results on Power9 architectures.)
 * a BLAS implementation (reference, OpenBLAS-bundled and MKL have been tested)
 * a Python version installed (2.7 or 3.6+ have been tested) with Numpy
 
@@ -71,10 +75,19 @@ The configuration flags are (default first):
     -DUSE_OPENMP=<ON|OFF>
     -DUSE_SMM=<blas|libxsmm>
     -DUSE_CUDA=<OFF|ON>
+    -DUSE_CUBLAS=<OFF|ON>
     -DWITH_C_API=<ON|OFF>
     -DWITH_EXAMPLES=<ON|OFF>
-    -DWITH_GPU=<P100|K20X|K40|K80>
+    -DWITH_GPU=<P100|K20X|K40|K80|V100>
     -DTEST_MPI_RANKS=<auto,N>
+    -DTEST_OMP_THREADS=<2,N>
+    -DCMAKE_BUILD_TYPE=<Release|Debug|Coverage>
+
+
+Building on Cray requires an additional flag to make sure CMake is able to properly
+detect the compiler behind the compiler wrappers:
+
+    -DCMAKE_SYSTEM_NAME=CrayLinuxEnvironment
 
 ## Contributing to DBCSR
 

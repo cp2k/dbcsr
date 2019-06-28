@@ -172,8 +172,6 @@ CONTAINS
             CALL array_release(dist%d%col_dist_block)
             CALL array_release(dist%d%local_rows)
             CALL array_release(dist%d%local_cols)
-            CALL array_release(dist%d%row_dist_cluster)
-            CALL array_release(dist%d%col_dist_cluster)
             CALL dbcsr_mp_release(dist%d%mp_env)
             IF (dist%d%has_thread_dist) &
                CALL array_release(dist%d%thread_dist)

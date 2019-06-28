@@ -1,6 +1,6 @@
-# Autotuning Procedure for Finding Optimal Cuda Kernel Parameters in `libcusmm`
+# Autotuning Procedure for Finding Optimal CUDA Kernel Parameters in `libcusmm`
 
-The performance of the matrix-matrix multiplication kernels is highly dependant on the choice of algorithm and parameters, this is why autotuning is used to find optimal kernel parameters.
+The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters, this is why autotuning is used to find optimal kernel parameters.
 
 ---
 
@@ -12,15 +12,15 @@ If you are about to autotune parameters for a new GPU (i.e. a GPU for which ther
 
 ---
 
-### Predictive modeling procedure
+### Autotuning procedure
 
-#### 1. Go to the libcusmm directory
+#### 1. Go to the `libcusmm` directory
 
 ```bash
 $ cd dbcsr/src/acc/libsmm_acc/libcusmm
 ```
 
-#### 2. Adapt tune_setup.py to your environment
+#### 2. Adapt `tune_setup.py` to your environment
 
 The `tune_setup.py` script generates job files. You have to adapt the script to the environment of your supercomputer and your personal settings.
 
@@ -59,21 +59,43 @@ The `tune_setup.py` script generates job files. You have to adapt the script to 
 
 #### 3. Run the script `tune_setup.py`
 
-Specify which GPU you are autotuning for by passing the appropriate `parameters_GPU.json` file as an argument with `-p`. In addition, the script takes as arguments the blocksizes you want to add to libcusmm. For example, if the system you want to autotune for contains blocks of size 5 and 8, run:
+Specify which GPU you are autotuning for by passing the appropriate `parameters_GPU.json` file as an argument with `-p`.
+In addition, the script takes as arguments the block sizes you want to add to `libcusmm`. You can specify these as a list of integers or provide a the parameter file of a different GPU from which to read the block sizes to autotune.
+
+For example, if the system you want to autotune for contains blocks of size 5 and 8, run:
 
 ```bash
 $ ./tune_setup.py 5 8 -p parameters_P100.json
-Found 23 parameter sets for 5x5x5
-Found 31 parameter sets for 5x5x8
-Found 107 parameter sets for 5x8x5
-Found 171 parameter sets for 5x8x8
-Found 75 parameter sets for 8x5x5
-Found 107 parameter sets for 8x5x8
-Found 248 parameter sets for 8x8x5
-Found 424 parameter sets for 8x8x8
+Reading parameters from parameters_P100.json
+Libcusmm: Found 74096 existing parameter sets, of which 1641 are autotuned and 72455 are predicted.
+Requested to autotune 8 triplets
+Found 41824 parameter sets for 5x5x5
+Found 83648 parameter sets for 5x5x8
+Found 103072 parameter sets for 5x8x5
+Found 103072 parameter sets for 5x8x8
+Found 103072 parameter sets for 8x5x5
+Found 103072 parameter sets for 8x5x8
+Found 125344 parameter sets for 8x8x5
+Found 125344 parameter sets for 8x8x8
 ```
 
-The script will create a directory for each combination of the blocksizes:
+Or, if you want to obtain, for the NVIDIA P100, the parameters of the same block sizes as recorded for the NVIDIA K40, run:
+
+```bash
+$ ./tune_setup.py -p parameters_P100.json parameters_K40.json
+Reading parameters from parameters_P100.json
+Libcusmm: Found 74093 existing parameter sets, of which 1638 are autotuned and 72455 are predicted.
+Reading parameters to autotune from parameters_K40.json
+Requested to autotune 19 triplets
+Found 41824 parameter sets for 5x5x5
+Found 95648 parameter sets for 6x6x6
+Found 110496 parameter sets for 7x7x7
+Found 125344 parameter sets for 8x8x8
+Found 173764 parameter sets for 9x9x9
+...
+```
+
+The script will create a directory for each combination of the block sizes:
 
 ```bash
 $ ls -d tune_*
@@ -94,7 +116,7 @@ tune_8x8x8_exe0_part4.cu
 tune_8x8x8.job
 ```
 
-For each possible parameter-set a *launcher* is generated. A launcher is a small snippet of C code, which launches the kernel by using the cuda specific `<<< >>>`-notation. It also instantiates the C++ template which contains the actual kernel code.
+For each possible parameter-set a *launcher* is generated. A launcher is a small snippet of C code, which launches the kernel by using the CUDA specific `<<< >>>`-notation. It also instantiates the C++ template which contains the actual kernel code.
 
 In order to parallelize the benchmarking, the launchers are distributed over multiple executables. Currently, up to 10'000 launchers are benchmarked by one *executable*. Each executable is linked together from several `tune_*_part???.o` and a `tune_*_main.o`. Each part-files contains up to 100 launchers. This allows to parallelize the compilation over multiple CPU cores.
 
@@ -104,7 +126,7 @@ The script `tune_submit.py` was written for the slurm batch system as used e.g. 
 
 #### 5. Submit Jobs
 
-Each tune-directory contains a job file. Since there might be many tune-directories, the convenience script `tune_submit.py` can be used to submit jobs. It will go through all the `tune_*`-directories and check if its job has already been submitted or run. For this, the script calls `squeue` in the background and it searches for `slurm-*.out`files.
+Each tune-directory contains a job file. Since there might be many tune-directories, the convenience script `tune_submit.py` can be used to submit jobs. It will go through all the `tune_*`-directories and check if its job has already been submitted or run. For this, the script calls `squeue` in the background and it searches for `slurm-*.out`files. In order to limit the number of jobs submitted at a time, a maximum number of jobs to submit can be specified with `-j`.
 
 When `tune_submit.py` is called without arguments, it will just list the jobs that could be submitted:
 
@@ -184,7 +206,11 @@ Wrote parameters.new.json
 
 The file `parameters.new.json` can now be used as a parameter file. Rename it to `parameters_GPU.json`, with the appropriate `GPU`.
 
-#### 8. Contribute parameters to the community
+#### 8. (optional) Explore the data
+
+Explore the data interactively using the [provided Jupyter Notebook](notebooks/inspect_training_data.ipynb).
+
+#### 9. Contribute parameters to the community
 
 **Contribute new optimal parameters**
 
@@ -192,4 +218,4 @@ Submit a pull request updating the appropriate `parameters_GPU.json` file to the
 
 **Contribute autotuning data**
 
-See [instructions](https://github.com/cp2k/dbcsr-data#contributing)in DBCSR's [data repository](https://github.com/cp2k/dbcsr-data).
+See [instructions](https://github.com/cp2k/dbcsr-data#contributing) in DBCSR's [data repository](https://github.com/cp2k/dbcsr-data).

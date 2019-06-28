@@ -22,7 +22,7 @@
 ! *****************************************************************************
   SUBROUTINE mp_shift_${nametype1}$m(msg, group, displ_in)
 
-     ${type1}$, INTENT(INOUT)                   :: msg(:, :)
+     ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
      INTEGER, INTENT(IN)                      :: group
      INTEGER, INTENT(IN), OPTIONAL            :: displ_in
 
@@ -79,7 +79,7 @@
 ! *****************************************************************************
   SUBROUTINE mp_shift_${nametype1}$ (msg, group, displ_in)
 
-     ${type1}$, INTENT(INOUT)                   :: msg(:)
+     ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
      INTEGER, INTENT(IN)                      :: group
      INTEGER, INTENT(IN), OPTIONAL            :: displ_in
 
@@ -144,10 +144,10 @@
 ! *****************************************************************************
   SUBROUTINE mp_alltoall_${nametype1}$11v(sb, scount, sdispl, rb, rcount, rdispl, group)
 
-     ${type1}$, DIMENSION(:), INTENT(IN)        :: sb
-     INTEGER, DIMENSION(:), INTENT(IN)        :: scount, sdispl
-     ${type1}$, DIMENSION(:), INTENT(INOUT)     :: rb
-     INTEGER, DIMENSION(:), INTENT(IN)        :: rcount, rdispl
+     ${type1}$, CONTIGUOUS, INTENT(IN)        :: sb(:)
+     INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
+     ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: rb(:)
+     INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
      INTEGER, INTENT(IN)                      :: group
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$11v', &
@@ -197,12 +197,10 @@
 ! *****************************************************************************
   SUBROUTINE mp_alltoall_${nametype1}$22v(sb, scount, sdispl, rb, rcount, rdispl, group)
 
-     ${type1}$, DIMENSION(:, :), &
-        INTENT(IN)                             :: sb
-     INTEGER, DIMENSION(:), INTENT(IN)        :: scount, sdispl
-     ${type1}$, DIMENSION(:, :), &
-        INTENT(INOUT)                          :: rb
-     INTEGER, DIMENSION(:), INTENT(IN)        :: rcount, rdispl
+     ${type1}$, CONTIGUOUS, INTENT(IN)        :: sb(:, :)
+     INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
+     ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: rb(:, :)
+     INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
      INTEGER, INTENT(IN)                      :: group
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$22v', &
@@ -251,8 +249,8 @@
 ! *****************************************************************************
   SUBROUTINE mp_alltoall_${nametype1}$ (sb, rb, count, group)
 
-     ${type1}$, DIMENSION(:), INTENT(IN)        :: sb
-     ${type1}$, DIMENSION(:), INTENT(OUT)       :: rb
+     ${type1}$, CONTIGUOUS, INTENT(IN)        :: sb(:)
+     ${type1}$, CONTIGUOUS, INTENT(OUT)       :: rb(:)
      INTEGER, INTENT(IN)                      :: count, group
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$', &
@@ -293,8 +291,8 @@
 ! *****************************************************************************
   SUBROUTINE mp_alltoall_${nametype1}$22(sb, rb, count, group)
 
-     ${type1}$, DIMENSION(:, :), INTENT(IN)     :: sb
-     ${type1}$, DIMENSION(:, :), INTENT(OUT)    :: rb
+     ${type1}$, CONTIGUOUS, INTENT(IN)        :: sb(:, :)
+     ${type1}$, CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
      INTEGER, INTENT(IN)                      :: count, group
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$22', &
@@ -592,7 +590,7 @@
 
 ! *****************************************************************************
 !> \brief Send one datum to another process
-!> \param[in] msg             Dum to send
+!> \param[in] msg             Scalar to send
 !> \param[in] dest            Destination process
 !> \param[in] tag             Transfer identifier
 !> \param[in] gid             Message passing environment identifier
@@ -969,13 +967,13 @@
 !>      mpi_allreduce
 ! *****************************************************************************
   SUBROUTINE mp_sum_${nametype1}$ (msg, gid)
-     ${type1}$, INTENT(INOUT)                   :: msg
-     INTEGER, INTENT(IN)                      :: gid
+     ${type1}$, INTENT(INOUT)    :: msg
+     INTEGER, INTENT(IN)         :: gid
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
 
-     INTEGER                                  :: handle, ierr, msglen
+     INTEGER                     :: handle, ierr, msglen
 
      ierr = 0
      CALL timeset(routineN, handle)
@@ -999,7 +997,7 @@
 !> \note see mp_sum_${nametype1}$
 ! *****************************************************************************
   SUBROUTINE mp_sum_${nametype1}$v(msg, gid)
-     ${type1}$, INTENT(INOUT)                   :: msg(:)
+     ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
      INTEGER, INTENT(IN)                      :: gid
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$v', &
@@ -1081,7 +1079,7 @@
 !> \note see mp_sum_${nametype1}$
 ! *****************************************************************************
   SUBROUTINE mp_sum_${nametype1}$m(msg, gid)
-     ${type1}$, INTENT(INOUT)                   :: msg(:, :)
+     ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
      INTEGER, INTENT(IN)                      :: gid
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$m', &
@@ -1123,7 +1121,7 @@
 !> \note see mp_sum_${nametype1}$
 ! *****************************************************************************
   SUBROUTINE mp_sum_${nametype1}$m3(msg, gid)
-     ${type1}$, INTENT(INOUT)                   :: msg(:, :, :)
+     ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :)
      INTEGER, INTENT(IN)                      :: gid
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$m3', &
@@ -1154,7 +1152,7 @@
 !> \note see mp_sum_${nametype1}$
 ! *****************************************************************************
   SUBROUTINE mp_sum_${nametype1}$m4(msg, gid)
-     ${type1}$, INTENT(INOUT)                   :: msg(:, :, :, :)
+     ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :, :)
      INTEGER, INTENT(IN)                      :: gid
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$m4', &
@@ -1190,7 +1188,7 @@
 !>      mpi_reduce
 ! *****************************************************************************
   SUBROUTINE mp_sum_root_${nametype1}$v(msg, root, gid)
-     ${type1}$, INTENT(INOUT)                   :: msg(:)
+     ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
      INTEGER, INTENT(IN)                      :: root, gid
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_root_${nametype1}$v', &
@@ -1238,7 +1236,7 @@
 !> \note see mp_sum_root_${nametype1}$v
 ! *****************************************************************************
   SUBROUTINE mp_sum_root_${nametype1}$m(msg, root, gid)
-     ${type1}$, INTENT(INOUT)                   :: msg(:, :)
+     ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
      INTEGER, INTENT(IN)                      :: root, gid
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_root_rm', &
@@ -1283,16 +1281,16 @@
 !> \param[in] gid          Message passing environment identifier
 ! *****************************************************************************
   SUBROUTINE mp_sum_partial_${nametype1}$m(msg, res, gid)
-     ${type1}$, INTENT(IN)         :: msg(:, :)
-     ${type1}$, INTENT(OUT)        :: res(:, :)
-     INTEGER, INTENT(IN)         :: gid
+     ${type1}$, CONTIGUOUS, INTENT(IN)  :: msg(:, :)
+     ${type1}$, CONTIGUOUS, INTENT(OUT) :: res(:, :)
+     INTEGER, INTENT(IN)                :: gid
 
-     CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_partial_${nametype1}$m' &
-                                    , routineP = moduleN//':'//routineN
+     CHARACTER(len=*), PARAMETER        :: routineN = 'mp_sum_partial_${nametype1}$m', &
+                                           routineP = moduleN//':'//routineN
 
-     INTEGER                     :: handle, ierr, msglen
+     INTEGER                            :: handle, ierr, msglen
 #if defined(__parallel)
-     INTEGER                     :: taskid
+     INTEGER                            :: taskid
 #endif
 
      ierr = 0
@@ -1421,7 +1419,7 @@
 !> \note see mp_min_${nametype1}$
 ! *****************************************************************************
   SUBROUTINE mp_min_${nametype1}$v(msg, gid)
-     ${type1}$, INTENT(INOUT)                   :: msg(:)
+     ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
      INTEGER, INTENT(IN)                      :: gid
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_min_${nametype1}$v', &
@@ -1452,7 +1450,7 @@
 !>      mpi_allreduce
 ! *****************************************************************************
   SUBROUTINE mp_prod_${nametype1}$ (msg, gid)
-     ${type1}$, INTENT(INOUT)                   :: msg
+     ${type1}$, INTENT(INOUT)                 :: msg
      INTEGER, INTENT(IN)                      :: gid
 
      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$', &

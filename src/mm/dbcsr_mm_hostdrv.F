@@ -75,13 +75,6 @@ CONTAINS
 !> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_lib_init()
-#if defined(__LIBXSMM)
-      USE libxsmm, ONLY: libxsmm_init
-!$OMP     MASTER
-      CALL libxsmm_init()
-!$OMP     END MASTER
-!$OMP     BARRIER
-#endif
    END SUBROUTINE dbcsr_mm_hostdrv_lib_init
 
 ! **************************************************************************************************
@@ -89,13 +82,6 @@ CONTAINS
 !> \author Ole Schuett
 ! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_lib_finalize()
-#if defined(__LIBXSMM)
-      USE libxsmm, ONLY: libxsmm_finalize
-!$OMP     BARRIER
-!$OMP     MASTER
-      CALL libxsmm_finalize()
-!$OMP     END MASTER
-#endif
    END SUBROUTINE dbcsr_mm_hostdrv_lib_finalize
 
 ! **************************************************************************************************
