@@ -10,6 +10,10 @@ foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS})
   get_filename_component(dbcsr_program_name ${dbcsr_program_src} NAME_WE)
   add_executable(${dbcsr_program_name} ${dbcsr_program_src})
   target_link_libraries(${dbcsr_program_name} dbcsr)
+
+  # with the Intel compiler CMake 3.12 seems to forget that the source is actually Fortran
+  # and needs to be told explicitly:
+  set_target_properties(${dbcsr_program_name} PROPERTIES LINKER_LANGUAGE Fortran)
 endforeach ()
 
 if (WITH_C_API)
