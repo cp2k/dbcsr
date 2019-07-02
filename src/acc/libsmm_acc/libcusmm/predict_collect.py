@@ -26,7 +26,7 @@ from kernels.cusmm_predict import (
 
 
 # ===============================================================================
-def main(tunedir, arch):
+def main(tunedir):
     """
     This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
     For more details, see predict.md
@@ -34,15 +34,7 @@ def main(tunedir, arch):
     Once autotuning of new kernels has been run,
     - collect the parameter information and performance from log files,
     - dump them to CSV files for data analysis and training of a predictive model
-    - write the max_performances and baseline_performances to JSON files
     """
-    # ===============================================================================
-    # Read GPU properties and autotuning properties
-    with open("kernels/gpu_properties.json") as f:
-        gpu_properties = json.load(f)["sm_" + str(arch)]
-    with open("kernels/autotuning_properties.json") as f:
-        autotuning_properties = json.load(f)
-
     # ===============================================================================
     # Find all the 'tune_MxNxK' folders
     kernel_folder_pattern = re.compile(r"tune_(\d+)x(\d+)x(\d+)$")
@@ -52,58 +44,15 @@ def main(tunedir, arch):
         if kernel_folder_pattern.match(ak) is not None
     ]
     n_kernels = len(kernel_folders)
+    assert n_kernels > 0, "Found no kernel folders of format" + str(kernel_folder_pattern) + " in folder " + tunedir
     print("Found {:,} kernel folders".format(n_kernels))
 
-    # ===============================================================================
     # Collect information and write to csv
-    max_performances_per_mnk, baseline_performances_per_algo_per_mnk = collect_training_data(
+    collect_training_data(
         kernel_folders,
         kernel_folder_pattern,
-        gpu_properties,
-        autotuning_properties
     )
 
-    # ===============================================================================
-    # Print max performance dictionaries
-    max_performances_per_mnk_file = os.path.join(tunedir, "max_performances.json")
-    if os.path.exists(max_performances_per_mnk_file):
-        # If this file already exists, read its contents and merge them with the content to write
-        print(
-            "Found {}, reading and merging into new data...".format(
-                max_performances_per_mnk_file
-            )
-        )
-        with open(max_performances_per_mnk_file, "r") as f:
-            max_performances_per_mnk_to_merge = json.load(f)
-            max_performances_per_mnk.update(max_performances_per_mnk_to_merge)
-    with open(max_performances_per_mnk_file, "w") as f:
-        json.dump(max_performances_per_mnk, f, indent='\t', sort_keys=True)
-    print("\nWrote maximum performances to:\n", max_performances_per_mnk_file)
-
-    # Print baseline performance dictionaries
-    baseline_performances_per_algo_per_mnk_file = os.path.join(
-        tunedir, "baseline_performances_by_algo.json"
-    )
-    if os.path.exists(baseline_performances_per_algo_per_mnk_file):
-        # If this file already exists, read its contents and merge them with the content to write
-        print(
-            "Found {}, reading and merging into new data...".format(
-                baseline_performances_per_algo_per_mnk_file
-            )
-        )
-        with open(baseline_performances_per_algo_per_mnk_file, "r") as f:
-            baseline_performances_per_algo_per_mnk_to_merge = json.load(f)
-            baseline_performances_per_algo_per_mnk.update(
-                baseline_performances_per_algo_per_mnk_to_merge
-            )
-    with open(baseline_performances_per_algo_per_mnk_file, "w") as f:
-        json.dump(baseline_performances_per_algo_per_mnk, f, indent='\t', sort_keys=True)
-    print(
-        "\nWrote baseline performances to:\n",
-        baseline_performances_per_algo_per_mnk_file,
-    )
-
-    # ===============================================================================
     # Print commands to merge CSVs into one big CSV for training data
     print(
         "Merge all individual CSV files into one by running the following commands:\n"
@@ -187,24 +136,14 @@ def read_log_file(log_folder, m, n, k):
 def collect_training_data(
     kernel_folders,
     kernel_folder_pattern,
-    gpu_properties,
-    autotuning_properties,
 ):
     """
     Collect training data from log files resulting of autotuning
     """
-    max_performances_per_mnk = dict()
-    baseline_performances_per_algo_per_mnk = {
-        "tiny": dict(),
-        "small": dict(),
-        "medium": dict(),
-        "largeDB1": dict(),
-        "largeDB2": dict(),
-    }
 
-    n_kernels = len(kernel_folders)
-
+    # ===============================================================================
     # For each folder:
+    n_kernels = len(kernel_folders)
     for i, kernel_folder in enumerate(kernel_folders):
 
         print("\nProcess folder {} ({}/{:,})".format(kernel_folder, i + 1, n_kernels))
@@ -220,34 +159,12 @@ def collect_training_data(
         # Collect info from log files
         data = read_log_file(kernel_folder, m, n, k)
 
-        # Collect max performances per (m, n, k)
-        max_performances = get_max_performances_per_mnk(data)
-        max_performances_per_mnk.update(
-            dict(zip(to_string(*max_performances.keys()), max_performances.values()))
-        )
-
         # ===============================================================================
         # Write parameters to CSV
         for name_algo, kernel_algo in kernel_algorithm.items():
 
             # if applicable to this mnk
             if name_algo in data["algorithm"].values:
-
-                # Get the data corresponding to this algorithm
-                data_algo = data[data["algorithm"] == name_algo]
-
-                # Collect baseline performances per algo, per (m, n, k)
-                baseline_performances_algo = get_baseline_performances_per_mnk(
-                    data_algo, name_algo, gpu_properties, autotuning_properties
-                )
-                baseline_performances_per_algo_per_mnk[name_algo].update(
-                    dict(
-                        zip(
-                            to_string(*baseline_performances_algo.keys()),
-                            baseline_performances_algo.values(),
-                        )
-                    )
-                )
 
                 # Does collected csv file exist already?
                 raw_parameters_file_name = os.path.join(
@@ -258,10 +175,6 @@ def collect_training_data(
                     + name_algo
                     + ".csv",
                 )
-                derived_parameters_file_name = os.path.join(
-                    kernel_folder,
-                    "training_data_" + to_string(m, n, k) + "_" + name_algo + ".csv",
-                )
 
                 if os.path.exists(raw_parameters_file_name):
                     print(
@@ -270,39 +183,13 @@ def collect_training_data(
 
                 else:
 
+                    # Get the data corresponding to this algorithm
+                    data_algo = data[data["algorithm"] == name_algo]
+
                     # Write raw parameters
                     pars_to_get = kernel_algo.launch_parameters + ["perf (Gflop/s)"]
                     data_algo[pars_to_get].to_csv(raw_parameters_file_name, index=False)
                     print("\tWrote", raw_parameters_file_name)
-
-                if os.path.exists(derived_parameters_file_name):
-                    print(
-                        "\tFound csv file:",
-                        derived_parameters_file_name,
-                        ", skipping ...",
-                    )
-
-                else:
-                    # Compute derived parameters
-                    parameter_sets = PredictiveParameters(
-                        data_algo,
-                        gpu_properties,
-                        autotuning_properties,
-                        max_performances,
-                    )
-                    pars_to_get = (
-                        derived_parameters["common"] + derived_parameters[name_algo]
-                    )
-                    new_df = parameter_sets.get_features(pars_to_get)
-                    data_algo.merge(new_df)
-
-                    # Write derived parameters
-                    data_algo[pars_to_get].to_csv(
-                        derived_parameters_file_name, index=False
-                    )
-                    print("\tWrote", derived_parameters_file_name)
-
-    return max_performances_per_mnk, baseline_performances_per_algo_per_mnk
 
 
 # ===============================================================================
@@ -311,80 +198,70 @@ def print_merging_commands(kernel_folders, kernel_folder_pattern, tunedir):
     Print commands to execute in order to merge CSV files
     """
     for algorithm in kernel_algorithm.keys():
-        for data_type in ("raw_", ""):
 
-            data_type_name = (
-                "raw" if data_type == "raw_" else "for predictive modelling"
-            )
+        print(
+            "\n$ # Merge instructions for algorithm",
+            algorithm,
+        )
+        training_data_file = "raw_training_data_{algorithm}.csv".format(
+            algorithm=algorithm
+        )
+
+        if os.path.exists(training_data_file):
             print(
-                "\n$ # Merge instructions for algorithm",
-                algorithm,
-                "(",
-                data_type_name,
-                ")",
-            )
-            training_data_file = "{data_type}training_data_{algorithm}.csv".format(
-                data_type=data_type, algorithm=algorithm
-            )
-
-            if os.path.exists(training_data_file):
-                print(
-                    "$ # Found {}, append new training data to this file:".format(
-                        training_data_file
-                    )
+                "$ # Found {}, append new training data to this file:".format(
+                    training_data_file
                 )
+            )
 
-            else:
+        else:
 
-                # Find an (m, n, k) for this algorithm to get its header line
-                for i, kernel_folder in enumerate(kernel_folders):
+            # Find an (m, n, k) for this algorithm to get its header line
+            for i, kernel_folder in enumerate(kernel_folders):
 
-                    # Find (m, n, k)
-                    match = kernel_folder_pattern.search(kernel_folder).groups()
-                    m = int(match[0])
-                    n = int(match[1])
-                    k = int(match[2])
+                # Find (m, n, k)
+                match = kernel_folder_pattern.search(kernel_folder).groups()
+                m = int(match[0])
+                n = int(match[1])
+                k = int(match[2])
 
-                    file_name = os.path.join(
-                        kernel_folder,
-                        "{data_type}training_data_{mnk}_{algorithm}.csv".format(
-                            data_type=data_type,
-                            mnk=to_string(m, n, k),
-                            algorithm=algorithm,
-                        ),
-                    )
-                    if os.path.exists(file_name):
-                        print(
-                            "$ head -1 {base_file} > {training_data_file}".format(
-                                base_file=file_name,
-                                training_data_file=training_data_file,
-                            )
-                        )
-                        break
-                else:
+                file_name = os.path.join(
+                    kernel_folder,
+                    "raw_training_data_{mnk}_{algorithm}.csv".format(
+                        mnk=to_string(m, n, k),
+                        algorithm=algorithm,
+                    ),
+                )
+                if os.path.exists(file_name):
                     print(
-                        "None: did not find any existing files for algorithm",
-                        algorithm,
-                        "and data",
-                        data_type_name,
+                        "$ head -1 {base_file} > {training_data_file}".format(
+                            base_file=file_name,
+                            training_data_file=training_data_file,
+                        )
                     )
-                    continue
-
-            print(
-                "$ tail -n +2 -q {tunedir}tune_*/{data_type}training_data_*_{algorithm}.csv >> {training_data_file}".format(
-                    tunedir=tunedir,
-                    data_type=data_type,
-                    algorithm=algorithm,
-                    training_data_file=training_data_file,
+                    break
+            else:
+                print(
+                    "None: did not find any existing files for algorithm",
+                    algorithm,
                 )
+                continue
+
+        print(
+            "$ tail -n +2 -q {tunedir}tune_*/training_data_*_{algorithm}.csv >> {training_data_file}".format(
+                tunedir=tunedir,
+                algorithm=algorithm,
+                training_data_file=training_data_file,
             )
+        )
 
 
 # ===============================================================================
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""
-        Collect matrix-matrix multiplication parameters and performance from the log files resulting from autotuning.
+        Collect matrix-matrix multiplication parameters and performances measured during autotuning. For that,
+        parse the log files created by the autotuning and record parameter sets and their performances to CSV files.
 
         This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
         For more details, see predict.md.
@@ -399,14 +276,6 @@ if __name__ == "__main__":
         default=".",
         help="Folder in which the folders tune_*x*x*x/ are to be found",
     )
-    parser.add_argument(
-        "-a",
-        "--arch",
-        metavar="ARCHITECTURE_NUMBER",
-        type=int,
-        default=60,
-        help="CUDA architecture number. Options: 35, 37, 60, 70",
-    )
 
     args = parser.parse_args()
-    main(args.folder, args.arch)
+    main(args.folder)
