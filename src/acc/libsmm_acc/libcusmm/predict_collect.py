@@ -21,6 +21,7 @@ from kernels.cusmm_predict import (
     PredictiveParameters,
     derived_parameters,
     kernel_algorithm,
+    parameter_types,
 )
 
 
@@ -154,22 +155,22 @@ def read_log_file(log_folder, m, n, k):
                         "n": n,
                         "k": k,
                         "algorithm": match.group(1),
-                        "threads": int(match.group(9)),
-                        "grouping": int(match.group(10)),
-                        "minblocks": int(match.group(11)),
-                        "tile_m": int(match.group(5))
+                        "threads": match.group(9),
+                        "grouping": match.group(10),
+                        "minblocks": match.group(11),
+                        "tile_m": match.group(5)
                         if match.group(5) is not None
                         else None,
-                        "tile_n": int(match.group(6))
+                        "tile_n": match.group(6)
                         if match.group(6) is not None
                         else None,
-                        "w": int(match.group(7))
+                        "w": match.group(7)
                         if match.group(7) is not None
                         else None,
-                        "v": int(match.group(8))
+                        "v": match.group(8)
                         if match.group(8) is not None
                         else None,
-                        "perf (Gflop/s)": float(match.group(12)),
+                        "perf (Gflop/s)": match.group(12),
                     }
                 )
 
@@ -177,6 +178,8 @@ def read_log_file(log_folder, m, n, k):
 
     # Merge dictionaries into a pandas dataframe
     dataframe = pd.DataFrame(data)
+    for col in dataframe.columns:
+        dataframe[col] = dataframe[col].astype(parameter_types[col], errors='ignore')
 
     return dataframe
 
@@ -186,8 +189,6 @@ def collect_training_data(
     kernel_folder_pattern,
     gpu_properties,
     autotuning_properties,
-    max_performances_per_mnk,
-    baseline_performances_per_algo_per_mnk,
 ):
     """
     Collect training data from log files resulting of autotuning
