@@ -1,6 +1,6 @@
 # Autotuning Procedure for Finding Optimal CUDA Kernel Parameters in `libcusmm`
 
-The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters, this is why autotuning is used to find optimal kernel parameters.
+The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters. This is why autotuning is used to find optimal kernel parameters.
 
 ---
 
