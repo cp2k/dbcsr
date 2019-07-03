@@ -11,18 +11,10 @@
 
 import os
 import re
-import json
+import glob
 import argparse
 import pandas as pd
-from kernels.cusmm_predict import (
-    get_max_performances_per_mnk,
-    get_baseline_performances_per_mnk,
-    to_string,
-    PredictiveParameters,
-    derived_parameters,
-    kernel_algorithm,
-    parameter_types,
-)
+from kernels.cusmm_predict import to_string, kernel_algorithm, parameter_types
 
 
 # ===============================================================================
@@ -44,20 +36,19 @@ def main(tunedir):
         if kernel_folder_pattern.match(ak) is not None
     ]
     n_kernels = len(kernel_folders)
-    assert n_kernels > 0, "Found no kernel folders of format" + str(kernel_folder_pattern) + " in folder " + tunedir
+    assert n_kernels > 0, (
+        "Found no kernel folders of format"
+        + str(kernel_folder_pattern)
+        + " in folder "
+        + tunedir
+    )
     print("Found {:,} kernel folders".format(n_kernels))
 
     # Collect information and write to csv
-    collect_training_data(
-        kernel_folders,
-        kernel_folder_pattern,
-    )
+    collect_training_data(kernel_folders, kernel_folder_pattern)
 
     # Print commands to merge CSVs into one big CSV for training data
-    print(
-        "Merge all individual CSV files into one by running the following commands:\n"
-    )
-    print_merging_commands(kernel_folders, kernel_folder_pattern, tunedir)
+    merge_data_files(tunedir)
 
 
 # ===============================================================================
@@ -113,12 +104,8 @@ def read_log_file(log_folder, m, n, k):
                         "tile_n": match.group(6)
                         if match.group(6) is not None
                         else None,
-                        "w": match.group(7)
-                        if match.group(7) is not None
-                        else None,
-                        "v": match.group(8)
-                        if match.group(8) is not None
-                        else None,
+                        "w": match.group(7) if match.group(7) is not None else None,
+                        "v": match.group(8) if match.group(8) is not None else None,
                         "perf (Gflop/s)": match.group(12),
                     }
                 )
@@ -128,15 +115,12 @@ def read_log_file(log_folder, m, n, k):
     # Merge dictionaries into a pandas dataframe
     dataframe = pd.DataFrame(data)
     for col in dataframe.columns:
-        dataframe[col] = dataframe[col].astype(parameter_types[col], errors='ignore')
+        dataframe[col] = dataframe[col].astype(parameter_types[col], errors="ignore")
 
     return dataframe
 
 
-def collect_training_data(
-    kernel_folders,
-    kernel_folder_pattern,
-):
+def collect_training_data(kernel_folders, kernel_folder_pattern):
     """
     Collect training data from log files resulting of autotuning
     """
@@ -193,67 +177,64 @@ def collect_training_data(
 
 
 # ===============================================================================
-def print_merging_commands(kernel_folders, kernel_folder_pattern, tunedir):
+def merge_data_files(tunedir):
     """
-    Print commands to execute in order to merge CSV files
+    Merge CSV files
     """
     for algorithm in kernel_algorithm.keys():
 
-        print(
-            "\n$ # Merge instructions for algorithm",
-            algorithm,
-        )
-        training_data_file = "raw_training_data_{algorithm}.csv".format(
-            algorithm=algorithm
+        training_data_file = os.path.join(
+            tunedir, "raw_training_data_{algorithm}.csv".format(algorithm=algorithm)
         )
 
         if os.path.exists(training_data_file):
-            print(
-                "$ # Found {}, append new training data to this file:".format(
-                    training_data_file
-                )
-            )
+            print("\nFound {}, skipping ... ".format(training_data_file))
 
         else:
 
-            # Find an (m, n, k) for this algorithm to get its header line
-            for i, kernel_folder in enumerate(kernel_folders):
+            print("\nMerging partial CSV files into {} ... ".format(training_data_file))
 
-                # Find (m, n, k)
-                match = kernel_folder_pattern.search(kernel_folder).groups()
-                m = int(match[0])
-                n = int(match[1])
-                k = int(match[2])
-
-                file_name = os.path.join(
-                    kernel_folder,
-                    "raw_training_data_{mnk}_{algorithm}.csv".format(
-                        mnk=to_string(m, n, k),
-                        algorithm=algorithm,
-                    ),
-                )
-                if os.path.exists(file_name):
-                    print(
-                        "$ head -1 {base_file} > {training_data_file}".format(
-                            base_file=file_name,
-                            training_data_file=training_data_file,
-                        )
-                    )
-                    break
-            else:
-                print(
-                    "None: did not find any existing files for algorithm",
-                    algorithm,
-                )
-                continue
-
-        print(
-            "$ tail -n +2 -q {tunedir}tune_*/training_data_*_{algorithm}.csv >> {training_data_file}".format(
-                tunedir=tunedir,
-                algorithm=algorithm,
-                training_data_file=training_data_file,
+            filenames_pattern = os.path.join(
+                tunedir,
+                "tune_*/raw_training_data_*_{algorithm}.csv".format(
+                    algorithm=algorithm
+                ),
             )
-        )
+            print("Merging all files with pattern:", filenames_pattern)
+            filenames = glob.glob(filenames_pattern)
+            if len(filenames) == 0:
+                print("Found no files matching this pattern, skipping ...")
+
+            else:
+                print("Found {} files matching this pattern".format(len(filenames)))
+
+                with open(training_data_file, "w") as out:
+                    # Write the first file, including its header
+                    fn_1 = filenames.pop(0)
+                    with open(fn_1) as f:
+                        header_line_ref = next(f)  # read header line
+                        out.write(header_line_ref)  # write header line
+                        out.write(f.read())  # write the rest of the file
+                    # Write the rest of the files, skipping the header line each time
+                    for i, fn in enumerate(filenames):
+                        print(
+                            "writing from {} ({}/{})".format(fn, i + 1, len(filenames))
+                        )
+                        with open(fn) as f:
+                            header_line = next(f)  # skip header line
+                            assert header_line == header_line_ref, (
+                                'Cannot merge file "'
+                                + fn
+                                + '", because its header line:\n'
+                                + header_line
+                                + 'is different from the header line of file "'
+                                + fn_1
+                                + '":\n'
+                                + header_line_ref
+                            )
+                            out.write(f.read())
+
+                print("Wrote to {}".format(training_data_file))
 
 
 # ===============================================================================
