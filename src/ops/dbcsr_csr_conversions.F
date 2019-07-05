@@ -1630,7 +1630,7 @@ CONTAINS
       ENDIF
 
       pgrid(:, :) = RESHAPE((/(i, i=0, numnodes_total - 1)/), (/numnodes_total, 1/))
-      CALL dbcsr_mp_new(mp_obj_new, pgrid, mp_group, mynode, numnodes=numnodes_total)
+      CALL dbcsr_mp_new(mp_obj_new, mp_group, pgrid, mynode, numnodes=numnodes_total)
       CALL dbcsr_distribution_new(dist_new, mp_obj_new, rdist, cdist, reuse_arrays=.TRUE.)
 
       CALL dbcsr_create(brd_mat, TRIM(matrix_name)//" row-block distributed", &

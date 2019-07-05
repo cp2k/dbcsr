@@ -124,7 +124,7 @@ MODULE dbcsr_operations
              dbcsr_triu, &
              dbcsr_init_random
    PUBLIC :: dbcsr_sum_replicated
-   PUBLIC :: dbcsr_norm, dbcsr_conjg, &
+   PUBLIC :: dbcsr_norm_scalar, dbcsr_norm_r8_vec, dbcsr_conjg, &
              dbcsr_gershgorin_norm, dbcsr_maxabs, dbcsr_frobenius_norm
 
    PUBLIC :: dbcsr_crop_matrix
@@ -138,7 +138,7 @@ MODULE dbcsr_operations
       MODULE PROCEDURE make_conformant_scalar_d, make_conformant_scalar_s
       MODULE PROCEDURE make_conformant_scalar_c, make_conformant_scalar_z
    END INTERFACE
-   
+
    INTERFACE dbcsr_trace
       MODULE PROCEDURE dbcsr_trace_any
       MODULE PROCEDURE dbcsr_trace_s, dbcsr_trace_d, &
@@ -189,7 +189,6 @@ MODULE dbcsr_operations
       MODULE PROCEDURE dbcsr_set_diag_s, dbcsr_set_diag_d, dbcsr_set_diag_c, dbcsr_set_diag_z
    END INTERFACE
 
-
    LOGICAL, PARAMETER :: debug_mod = .FALSE.
    LOGICAL, PARAMETER :: careful_mod = .FALSE.
 
@@ -233,7 +232,6 @@ CONTAINS
       CALL dbcsr_scalar_set_type(encapsulated, data_type)
    END FUNCTION make_conformant_scalar_${nametype1}$
 #:endfor
-
 
 ! **************************************************************************************************
 !> \brief Emulation of sparse_matrix_types/add_block_node mapped
@@ -2152,31 +2150,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_filter_anytype
 
-   ! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \param which_norm ...
-!> \param norm_scalar ...
-!> \param norm_vector ...
-! **************************************************************************************************
-   SUBROUTINE dbcsr_norm(matrix, which_norm, norm_scalar, norm_vector)
-
-      TYPE(dbcsr_type), INTENT(INOUT), TARGET            :: matrix
-      INTEGER, INTENT(IN)                                :: which_norm
-      REAL(dp), INTENT(OUT), OPTIONAL                    :: norm_scalar
-      REAL(dp), DIMENSION(:), INTENT(OUT), OPTIONAL      :: norm_vector
-      
-      
-      IF (PRESENT(norm_scalar)) THEN
-         CALL dbcsr_norm_scalar(matrix, which_norm, norm_scalar)
-      ELSEIF (PRESENT(norm_vector)) THEN
-         CALL dbcsr_norm_r8_vec(matrix, which_norm, norm_vector)
-      ELSE
-         DBCSR_ABORT("Must pass either scalar or vector norm.")
-      ENDIF
-   END SUBROUTINE 
-   
-   
 ! **************************************************************************************************
 !> \brief compute a norm of a dbcsr matrix
 !> \param[in] matrix  the matrix
@@ -2191,7 +2164,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: which_norm
       REAL(KIND=real_8), INTENT(OUT)                     :: norm_scalar
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_norm_anytype', &
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_norm_scalar', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            ::  handle
@@ -2201,134 +2174,18 @@ CONTAINS
       CALL timeset(routineN, handle)
 
       SELECT CASE (which_norm)
-
       CASE (dbcsr_norm_frobenius)
-
          norm_scalar = dbcsr_frobenius_norm(matrix)
-
       CASE (dbcsr_norm_maxabsnorm)
-
          norm_scalar = dbcsr_maxabs(matrix)
-
       CASE (dbcsr_norm_gershgorin)
-
          norm_scalar = dbcsr_gershgorin_norm(matrix)
-
       CASE DEFAULT
-
          DBCSR_ABORT("this norm is NYI")
-
       END SELECT
       CALL timestop(handle)
-   END SUBROUTINE 
+   END SUBROUTINE
 
-   
-   
-   subroutine dbcsr_norm_vec(matrix, which_norm, norm_vector)
-      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
-      INTEGER, INTENT(IN)                                :: which_norm
-      TYPE(dbcsr_data_obj), INTENT(INOUT)       :: norm_vector
-      
-      SELECT CASE (which_norm)
-      CASE (dbcsr_norm_column)
-         call dbcsr_norm_any_vec( matrix, norm_vector)
-      CASE DEFAULT
-         DBCSR_ABORT("this norm is NYI")
-      END SELECT
-   end subroutine
-   
-   
-   
-   SUBROUTINE dbcsr_norm_any_vec(matrix, norm_vector)
-      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
-!       INTEGER, INTENT(IN)                                :: which_norm      
-      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: norm_vector
-
-      INTEGER                                            :: blk, col, col_offset, i, j, row, &
-                                                            row_offset
-      LOGICAL                                            :: tr
-      TYPE(dbcsr_data_obj)                               :: data_a
-      TYPE(dbcsr_iterator)                               :: iter
-      
-         IF (dbcsr_data_get_type(norm_vector) /= dbcsr_get_data_type(matrix)) &
-               DBCSR_ABORT("Mismatched vector/matrix data types")
-            IF (dbcsr_has_symmetry(matrix)) THEN
-               IF (dbcsr_data_get_size(norm_vector) < dbcsr_nfullrows_total(matrix)) &
-                  DBCSR_ABORT("Passed vector too small")
-            END IF
-            IF (dbcsr_data_get_size(norm_vector) < dbcsr_nfullcols_total(matrix)) &
-               DBCSR_ABORT("Passed vector too small")
-            CALL dbcsr_data_init(data_a)
-            CALL dbcsr_data_new(data_a, dbcsr_type_1d_to_2d(dbcsr_get_data_type(matrix)))
-            CALL dbcsr_data_clear(norm_vector)
-            CALL dbcsr_iterator_start(iter, matrix)
-            DO WHILE (dbcsr_iterator_blocks_left(iter))
-               CALL dbcsr_iterator_next_block(iter, row, col, data_a, tr, &
-                                              blk, row_offset=row_offset, col_offset=col_offset)
-               SELECT CASE (dbcsr_get_data_type(matrix))
-               CASE (dbcsr_type_real_4)
-                  IF (dbcsr_has_symmetry(matrix) .AND. row .NE. col) THEN
-                     DO j = 1, SIZE(data_a%d%r2_sp, 2)
-                     DO i = 1, SIZE(data_a%d%r2_sp, 1)
-                        norm_vector%d%r_sp(col_offset + j - 1) &
-                           = norm_vector%d%r_sp(col_offset + j - 1) &
-                             + data_a%d%r2_sp(i, j)**2
-                        norm_vector%d%r_sp(row_offset + i - 1) &
-                           = norm_vector%d%r_sp(row_offset + i - 1) &
-                             + data_a%d%r2_sp(i, j)**2
-                     ENDDO
-                     ENDDO
-                  ELSE
-                     DO j = 1, SIZE(data_a%d%r2_sp, 2)
-                     DO i = 1, SIZE(data_a%d%r2_sp, 1)
-                        norm_vector%d%r_sp(col_offset + j - 1) &
-                           = norm_vector%d%r_sp(col_offset + j - 1) &
-                             + data_a%d%r2_sp(i, j)*data_a%d%r2_sp(i, j)
-                     ENDDO
-                     ENDDO
-                  ENDIF
-               CASE (dbcsr_type_real_8)
-                  IF (dbcsr_has_symmetry(matrix) .AND. row .NE. col) THEN
-                     DO j = 1, SIZE(data_a%d%r2_dp, 2)
-                     DO i = 1, SIZE(data_a%d%r2_dp, 1)
-                        norm_vector%d%r_dp(col_offset + j - 1) &
-                           = norm_vector%d%r_dp(col_offset + j - 1) &
-                             + data_a%d%r2_dp(i, j)**2
-                        norm_vector%d%r_dp(row_offset + i - 1) &
-                           = norm_vector%d%r_dp(row_offset + i - 1) &
-                             + data_a%d%r2_dp(i, j)**2
-                     ENDDO
-                     ENDDO
-                  ELSE
-                     DO j = 1, SIZE(data_a%d%r2_dp, 2)
-                     DO i = 1, SIZE(data_a%d%r2_dp, 1)
-                        norm_vector%d%r_dp(col_offset + j - 1) &
-                           = norm_vector%d%r_dp(col_offset + j - 1) &
-                             + data_a%d%r2_dp(i, j)*data_a%d%r2_dp(i, j)
-                     ENDDO
-                     ENDDO
-                  ENDIF
-                  !CASE (dbcsr_type_complex_4)
-                  !CASE (dbcsr_type_complex_8)
-               CASE DEFAULT
-                  DBCSR_ABORT("Only real values")
-               END SELECT
-            ENDDO
-            CALL dbcsr_iterator_stop(iter)
-            CALL dbcsr_data_clear_pointer(data_a)
-            CALL dbcsr_data_release(data_a)
-            SELECT CASE (dbcsr_get_data_type(matrix))
-            CASE (dbcsr_type_real_4)
-               CALL mp_sum(norm_vector%d%r_sp, &
-                           dbcsr_mp_group(dbcsr_distribution_mp(matrix%dist)))
-               norm_vector%d%r_sp = SQRT(norm_vector%d%r_sp)
-            CASE (dbcsr_type_real_8)
-               CALL mp_sum(norm_vector%d%r_dp, &
-                           dbcsr_mp_group(dbcsr_distribution_mp(matrix%dist)))
-               norm_vector%d%r_dp = SQRT(norm_vector%d%r_dp)
-            END SELECT
-         
-   end subroutine
 ! **************************************************************************************************
 !> \brief ...
 !> \param matrix ...
@@ -2344,56 +2201,121 @@ CONTAINS
       REAL(KIND=real_8), DIMENSION(:), POINTER           :: v_p
       TYPE(dbcsr_data_obj)                               :: norm_vector_a
 
-        CALL dbcsr_data_init(norm_vector_a)
-        CALL dbcsr_data_new(norm_vector_a, dbcsr_type_real_8)
-        v_p => norm_vector
-        CALL dbcsr_data_set_pointer(norm_vector_a, v_p)
-        CALL dbcsr_norm_vec(matrix, which_norm, norm_vector_a)
-        CALL dbcsr_data_clear_pointer(norm_vector_a)
-        CALL dbcsr_data_release(norm_vector_a)
-     
-   END SUBROUTINE 
+      CALL dbcsr_data_init(norm_vector_a)
+      CALL dbcsr_data_new(norm_vector_a, dbcsr_type_real_8)
+      v_p => norm_vector
+      CALL dbcsr_data_set_pointer(norm_vector_a, v_p)
+      CALL dbcsr_norm_vec(matrix, which_norm, norm_vector_a)
+      CALL dbcsr_data_clear_pointer(norm_vector_a)
+      CALL dbcsr_data_release(norm_vector_a)
 
-! ! **************************************************************************************************
-! !> \brief ...
-! !> \param matrix ...
-! !> \param which_norm ...
-! !> \param norm_scalar ...
-! ! **************************************************************************************************
-!    SUBROUTINE dbcsr_norm_r4_scal(matrix, which_norm, norm_scalar)
-!       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
-!       INTEGER, INTENT(IN)                                :: which_norm
-!       REAL(KIND=real_4), INTENT(OUT)                     :: norm_scalar
-! 
-!       REAL(KIND=real_8)                                  :: norm_r8
-! 
-!       CALL dbcsr_norm_anytype(matrix, which_norm, norm_scalar=norm_r8)
-!       norm_scalar = REAL(norm_r8, KIND=real_4)
-!    END SUBROUTINE dbcsr_norm_r4_scal
-! 
-! ! **************************************************************************************************
-! !> \brief ...
-! !> \param matrix ...
-! !> \param which_norm ...
-! !> \param norm_vector ...
-! ! **************************************************************************************************
-!    SUBROUTINE dbcsr_norm_r4_vec(matrix, which_norm, norm_vector)
-!       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
-!       INTEGER, INTENT(IN)                                :: which_norm
-!       REAL(KIND=real_4), DIMENSION(:), INTENT(OUT), &
-!          TARGET                                          :: norm_vector
-! 
-!       REAL(KIND=real_4), DIMENSION(:), POINTER           :: v_p
-!       TYPE(dbcsr_data_obj)                               :: norm_vector_a
-! 
-!       CALL dbcsr_data_init(norm_vector_a)
-!       CALL dbcsr_data_new(norm_vector_a, dbcsr_type_real_4)
-!       v_p => norm_vector
-!       CALL dbcsr_data_set_pointer(norm_vector_a, v_p)
-!       CALL dbcsr_norm_anytype(matrix, which_norm, norm_vector=norm_vector_a)
-!       CALL dbcsr_data_clear_pointer(norm_vector_a)
-!       CALL dbcsr_data_release(norm_vector_a)
-!    END SUBROUTINE dbcsr_norm_r4_vec
+   END SUBROUTINE dbcsr_norm_r8_vec
+
+! **************************************************************************************************
+!> \brief compute the column norms of the dbcsr matrix
+!> \param[in] matrix  the matrix
+!> \param[in] which_norm ...
+!> \param[inout] norm_vector ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_norm_vec(matrix, which_norm, norm_vector)
+      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+      INTEGER, INTENT(IN)                                :: which_norm
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: norm_vector
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_norm_vec', &
+                                     routineP = moduleN//':'//routineN
+
+      INTEGER                                            :: blk, col, col_offset, i, j, row, &
+                                                            row_offset, handle
+      LOGICAL                                            :: tr
+      TYPE(dbcsr_data_obj)                               :: data_a
+      TYPE(dbcsr_iterator)                               :: iter
+
+      CALL timeset(routineN, handle)
+
+      SELECT CASE (which_norm)
+      CASE (dbcsr_norm_column)
+         IF (dbcsr_data_get_type(norm_vector) /= dbcsr_get_data_type(matrix)) &
+            DBCSR_ABORT("Mismatched vector/matrix data types")
+         IF (dbcsr_has_symmetry(matrix)) THEN
+            IF (dbcsr_data_get_size(norm_vector) < dbcsr_nfullrows_total(matrix)) &
+               DBCSR_ABORT("Passed vector too small")
+         END IF
+         IF (dbcsr_data_get_size(norm_vector) < dbcsr_nfullcols_total(matrix)) &
+            DBCSR_ABORT("Passed vector too small")
+         CALL dbcsr_data_init(data_a)
+         CALL dbcsr_data_new(data_a, dbcsr_type_1d_to_2d(dbcsr_get_data_type(matrix)))
+         CALL dbcsr_data_clear(norm_vector)
+         CALL dbcsr_iterator_start(iter, matrix)
+         DO WHILE (dbcsr_iterator_blocks_left(iter))
+            CALL dbcsr_iterator_next_block(iter, row, col, data_a, tr, &
+                                           blk, row_offset=row_offset, col_offset=col_offset)
+            SELECT CASE (dbcsr_get_data_type(matrix))
+            CASE (dbcsr_type_real_4)
+               IF (dbcsr_has_symmetry(matrix) .AND. row .NE. col) THEN
+                  DO j = 1, SIZE(data_a%d%r2_sp, 2)
+                     DO i = 1, SIZE(data_a%d%r2_sp, 1)
+                        norm_vector%d%r_sp(col_offset + j - 1) &
+                           = norm_vector%d%r_sp(col_offset + j - 1) &
+                             + data_a%d%r2_sp(i, j)**2
+                        norm_vector%d%r_sp(row_offset + i - 1) &
+                           = norm_vector%d%r_sp(row_offset + i - 1) &
+                             + data_a%d%r2_sp(i, j)**2
+                     ENDDO
+                  ENDDO
+               ELSE
+                  DO j = 1, SIZE(data_a%d%r2_sp, 2)
+                     DO i = 1, SIZE(data_a%d%r2_sp, 1)
+                        norm_vector%d%r_sp(col_offset + j - 1) &
+                           = norm_vector%d%r_sp(col_offset + j - 1) &
+                             + data_a%d%r2_sp(i, j)*data_a%d%r2_sp(i, j)
+                     ENDDO
+                  ENDDO
+               ENDIF
+            CASE (dbcsr_type_real_8)
+               IF (dbcsr_has_symmetry(matrix) .AND. row .NE. col) THEN
+                  DO j = 1, SIZE(data_a%d%r2_dp, 2)
+                     DO i = 1, SIZE(data_a%d%r2_dp, 1)
+                        norm_vector%d%r_dp(col_offset + j - 1) &
+                           = norm_vector%d%r_dp(col_offset + j - 1) &
+                             + data_a%d%r2_dp(i, j)**2
+                        norm_vector%d%r_dp(row_offset + i - 1) &
+                           = norm_vector%d%r_dp(row_offset + i - 1) &
+                             + data_a%d%r2_dp(i, j)**2
+                     ENDDO
+                  ENDDO
+               ELSE
+                  DO j = 1, SIZE(data_a%d%r2_dp, 2)
+                     DO i = 1, SIZE(data_a%d%r2_dp, 1)
+                        norm_vector%d%r_dp(col_offset + j - 1) &
+                           = norm_vector%d%r_dp(col_offset + j - 1) &
+                             + data_a%d%r2_dp(i, j)*data_a%d%r2_dp(i, j)
+                     ENDDO
+                  ENDDO
+               ENDIF
+            CASE DEFAULT
+               DBCSR_ABORT("Only real values")
+            END SELECT
+         ENDDO
+         CALL dbcsr_iterator_stop(iter)
+         CALL dbcsr_data_clear_pointer(data_a)
+         CALL dbcsr_data_release(data_a)
+         SELECT CASE (dbcsr_get_data_type(matrix))
+         CASE (dbcsr_type_real_4)
+            CALL mp_sum(norm_vector%d%r_sp, &
+                        dbcsr_mp_group(dbcsr_distribution_mp(matrix%dist)))
+            norm_vector%d%r_sp = SQRT(norm_vector%d%r_sp)
+         CASE (dbcsr_type_real_8)
+            CALL mp_sum(norm_vector%d%r_dp, &
+                        dbcsr_mp_group(dbcsr_distribution_mp(matrix%dist)))
+            norm_vector%d%r_dp = SQRT(norm_vector%d%r_dp)
+         END SELECT
+
+      CASE DEFAULT
+         DBCSR_ABORT("this norm is NYI")
+      END SELECT
+      CALL timestop(handle)
+   END SUBROUTINE dbcsr_norm_vec
 
 ! **************************************************************************************************
 !> \brief compute a norm of a dbcsr matrix

@@ -66,7 +66,7 @@ PROGRAM dbcsr_unittest
          CALL mp_cart_rank(group, (/prow, pcol/), pgrid(prow, pcol))
       ENDDO
    ENDDO
-   CALL dbcsr_mp_new(mp_env, pgrid, group, mynode, numnodes, &
+   CALL dbcsr_mp_new(mp_env, group, pgrid, mynode, numnodes, &
                      myprow=myploc(1), mypcol=myploc(2))
    DEALLOCATE (pgrid)
    !

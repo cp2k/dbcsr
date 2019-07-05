@@ -108,11 +108,11 @@ MODULE dbcsr_work_operations
 
    PUBLIC :: dbcsr_create, dbcsr_work_create, dbcsr_finalize, dbcsr_special_finalize
    PUBLIC :: dbcsr_add_wm_from_matrix, &
-             add_work_coordinate, dbcsr_create_template
+             add_work_coordinate
    PUBLIC :: dbcsr_work_destroy
 
    INTERFACE dbcsr_create
-      MODULE PROCEDURE dbcsr_create_new, dbcsr_create_template_low
+      MODULE PROCEDURE dbcsr_create_new, dbcsr_create_template
    END INTERFACE
 
    TYPE i_array_p
@@ -482,7 +482,7 @@ CONTAINS
 !> \param make_index ...
 !> \param replication_type ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_create_template_low(matrix, template, name, dist, matrix_type, &
+   SUBROUTINE dbcsr_create_template(matrix, template, name, dist, matrix_type, &
                                     row_blk_size, col_blk_size, nze, data_type, &
                                     data_buffer, data_memory_type, index_memory_type, &
                                     max_rbs, max_cbs, &
@@ -651,60 +651,7 @@ CONTAINS
          CALL array_release(new_col_blk_offset)
       ENDIF
 
-   END SUBROUTINE dbcsr_create_template_low
-
-   
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \param name ...
-!> \param template ...
-!> \param dist ...
-!> \param matrix_type ...
-!> \param row_blk_size ...
-!> \param col_blk_size ...
-!> \param nze ...
-!> \param data_type ...
-!> \param reuse_arrays ...
-!> \param mutable_work ...
-!> \param replication_type ...
-! **************************************************************************************************
-   SUBROUTINE dbcsr_create_template(matrix, name, template, &
-                                    dist, matrix_type, &
-                                    row_blk_size, col_blk_size, nze, data_type, &
-                                    reuse_arrays, mutable_work, replication_type)
-      TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
-      CHARACTER(len=*), INTENT(IN), OPTIONAL             :: name
-      TYPE(dbcsr_type), INTENT(IN)                       :: template
-      TYPE(dbcsr_distribution_obj), INTENT(IN), &
-         OPTIONAL                                        :: dist
-      CHARACTER, INTENT(IN), OPTIONAL                    :: matrix_type
-      INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL, &
-         POINTER                                         :: row_blk_size, col_blk_size
-      INTEGER, INTENT(IN), OPTIONAL                      :: nze, data_type
-      LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays, mutable_work
-      CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_create_template', &
-                                     routineP = moduleN//':'//routineN
-
-      IF (PRESENT(dist)) THEN
-         CALL dbcsr_create(matrix, template, &
-                               name=name, dist=dist, matrix_type=matrix_type, &
-                               row_blk_size=row_blk_size, col_blk_size=col_blk_size, &
-                               nze=nze, data_type=data_type, &
-                               reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
-                               replication_type=replication_type)
-      ELSE
-         CALL dbcsr_create(matrix, template, &
-                               name=name, matrix_type=matrix_type, &
-                               row_blk_size=row_blk_size, col_blk_size=col_blk_size, &
-                               nze=nze, data_type=data_type, &
-                               reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
-                               replication_type=replication_type)
-      ENDIF
    END SUBROUTINE dbcsr_create_template
-   
 
 ! **************************************************************************************************
 !> \brief Initializes one work matrix

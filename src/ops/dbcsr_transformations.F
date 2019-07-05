@@ -290,9 +290,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_new_transposed
 
-   
 ! **************************************************************************************************
-!> \brief ...
+!> \brief Transposes a DBCSR matrix, keeping the same distribution
 !> \param transposed ...
 !> \param normal ...
 !> \param shallow_data_copy ...
@@ -327,11 +326,10 @@ CONTAINS
       IF (PRESENT(transpose_distribution)) mytranspose_distribution = transpose_distribution
 
       CALL dbcsr_new_transposed(transposed, normal, myshallow_data_copy, &
-                                    transpose_data, mytranspose_distribution, &
-                                    use_distribution=myuse_distribution)
+                                transpose_data, mytranspose_distribution, &
+                                use_distribution=myuse_distribution)
    END SUBROUTINE dbcsr_transposed
-   
-   
+
 ! **************************************************************************************************
 !> \brief Duplicates data in symmetric matrix to make it normal (w.r.t. data
 !>        structure. Can handle symmetric/antisymmetric/hermitian/skewhermitian

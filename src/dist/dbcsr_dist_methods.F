@@ -63,15 +63,15 @@ MODULE dbcsr_dist_methods
              dbcsr_distribution_num_threads, &
              dbcsr_distribution_get_num_images_1d, dbcsr_distribution_get
 
-   interface dbcsr_distribution_new
-      module procedure dbcsr_distribution_new_wrap
-      module procedure dbcsr_distribution_new_low
-   end interface
+   INTERFACE dbcsr_distribution_new
+      MODULE PROCEDURE dbcsr_distribution_new_template
+      MODULE PROCEDURE dbcsr_distribution_new_low
+   END INTERFACE dbcsr_distribution_new
+
 CONTAINS
 
-
 ! **************************************************************************************************
-!> \brief Creates new distribution from blockr distributions
+!> \brief Creates new distribution from a template distribution
 !> \param[out] dist           distribution
 !> \param template ...
 !> \param group ...
@@ -80,8 +80,8 @@ CONTAINS
 !> \param col_dist ...
 !> \param reuse_arrays ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_distribution_new_wrap(dist, template, group, pgrid, row_dist, col_dist, &
-                                     reuse_arrays)
+   SUBROUTINE dbcsr_distribution_new_template(dist, template, group, pgrid, row_dist, col_dist, &
+                                              reuse_arrays)
       TYPE(dbcsr_distribution_obj), INTENT(OUT)         :: dist
       TYPE(dbcsr_distribution_obj), INTENT(IN), &
          OPTIONAL                                        :: template
@@ -115,9 +115,7 @@ CONTAINS
       IF (.NOT. PRESENT(template)) &
          CALL dbcsr_mp_release(mp_env)
 
-   END SUBROUTINE 
-   
-
+   END SUBROUTINE dbcsr_distribution_new_template
 
 ! **************************************************************************************************
 !> \brief Creates new distribution
@@ -130,8 +128,8 @@ CONTAINS
 !> \param reuse_arrays ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_dist_block, &
-                                     local_rows, local_cols, &
-                                     reuse_arrays)
+                                         local_rows, local_cols, &
+                                         reuse_arrays)
       TYPE(dbcsr_distribution_obj), INTENT(OUT)          :: dist
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist_block, col_dist_block
@@ -221,9 +219,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_distribution_new_low
 
-   
 ! **************************************************************************************************
-!> \brief ...
+!> \brief Get distribution parameters
 !> \param dist ...
 !> \param row_dist ...
 !> \param col_dist ...
@@ -275,7 +272,7 @@ CONTAINS
       IF (PRESENT(subgroups_defined)) subgroups_defined = dist%d%mp_env%mp%subgroups_defined
 
    END SUBROUTINE dbcsr_distribution_get
-   
+
 ! **************************************************************************************************
 !> \brief Marks another use of the distribution
 !> \param dist ...

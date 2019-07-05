@@ -141,9 +141,6 @@ MODULE dbcsr_block_access
 
 CONTAINS
 
-
-   
-   
 ! **************************************************************************************************
 !> \brief Marks a block for removal from a DBCSR matrix. Handles
 !>        symmetric matrices.
