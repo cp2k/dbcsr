@@ -225,8 +225,6 @@ MODULE dbcsr_api
    ! getters / setters
    PUBLIC :: dbcsr_get_info
    PUBLIC :: dbcsr_distribution_get
-
-   ! to remove:
    PUBLIC :: dbcsr_setname
    PUBLIC :: dbcsr_get_matrix_type
    PUBLIC :: dbcsr_get_occupation

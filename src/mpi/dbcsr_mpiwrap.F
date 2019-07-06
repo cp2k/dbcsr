@@ -160,7 +160,7 @@ MODULE dbcsr_mpiwrap
    PUBLIC :: mp_isync, mp_isum
    PUBLIC :: mp_gather, mp_alltoall, mp_sendrecv, mp_allgather, mp_iallgather
    PUBLIC :: mp_isend, mp_irecv, mp_ibcast
-   PUBLIC :: mp_shift, mp_isendrecv, mp_wait, mp_waitall, mp_waitany, mp_testany
+   PUBLIC :: mp_isendrecv, mp_wait, mp_waitall, mp_waitany, mp_testany
    PUBLIC :: mp_testall, mp_iscatter, mp_test
    PUBLIC :: mp_gatherv
    PUBLIC :: mp_send, mp_recv
@@ -247,15 +247,6 @@ MODULE dbcsr_mpiwrap
          mp_maxloc_lv, &
          mp_maxloc_rv, &
          mp_maxloc_dv
-   END INTERFACE
-
-   INTERFACE mp_shift
-      MODULE PROCEDURE mp_shift_im, mp_shift_i, &
-         mp_shift_lm, mp_shift_l, &
-         mp_shift_rm, mp_shift_r, &
-         mp_shift_dm, mp_shift_d, &
-         mp_shift_cm, mp_shift_c, &
-         mp_shift_zm, mp_shift_z
    END INTERFACE
 
    INTERFACE mp_bcast
@@ -459,23 +450,23 @@ MODULE dbcsr_mpiwrap
    END INTERFACE
 
    INTERFACE mp_alltoall
-      MODULE PROCEDURE mp_alltoall_i, mp_alltoall_i22, mp_alltoall_i33, &
-         mp_alltoall_i44, mp_alltoall_i55, mp_alltoall_i45, mp_alltoall_i34, &
+      MODULE PROCEDURE mp_alltoall_i, mp_alltoall_i22, &
+         mp_alltoall_i44, &
          mp_alltoall_i11v, mp_alltoall_i22v, mp_alltoall_i54, &
-         mp_alltoall_l, mp_alltoall_l22, mp_alltoall_l33, &
-         mp_alltoall_l44, mp_alltoall_l55, mp_alltoall_l45, mp_alltoall_l34, &
+         mp_alltoall_l, mp_alltoall_l22, &
+         mp_alltoall_l44, &
          mp_alltoall_l11v, mp_alltoall_l22v, mp_alltoall_l54, &
-         mp_alltoall_r, mp_alltoall_r22, mp_alltoall_r33, &
-         mp_alltoall_r44, mp_alltoall_r55, mp_alltoall_r45, mp_alltoall_r34, &
+         mp_alltoall_r, mp_alltoall_r22, &
+         mp_alltoall_r44, &
          mp_alltoall_r11v, mp_alltoall_r22v, mp_alltoall_r54, &
-         mp_alltoall_d, mp_alltoall_d22, mp_alltoall_d33, &
-         mp_alltoall_d44, mp_alltoall_d55, mp_alltoall_d45, mp_alltoall_d34, &
+         mp_alltoall_d, mp_alltoall_d22, &
+         mp_alltoall_d44, &
          mp_alltoall_d11v, mp_alltoall_d22v, mp_alltoall_d54, &
-         mp_alltoall_c, mp_alltoall_c22, mp_alltoall_c33, &
-         mp_alltoall_c44, mp_alltoall_c55, mp_alltoall_c45, mp_alltoall_c34, &
+         mp_alltoall_c, mp_alltoall_c22, &
+         mp_alltoall_c44, &
          mp_alltoall_c11v, mp_alltoall_c22v, mp_alltoall_c54, &
-         mp_alltoall_z, mp_alltoall_z22, mp_alltoall_z33, &
-         mp_alltoall_z44, mp_alltoall_z55, mp_alltoall_z45, mp_alltoall_z34, &
+         mp_alltoall_z, mp_alltoall_z22, &
+         mp_alltoall_z44, &
          mp_alltoall_z11v, mp_alltoall_z22v, mp_alltoall_z54
    END INTERFACE
 
@@ -802,7 +793,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr);
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")
