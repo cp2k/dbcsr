@@ -184,7 +184,7 @@ CONTAINS
       DBCSR_ASSERT(mynode == mypgrid(myprow, mypcol))
 
       ! create the new mp environment
-      CALL dbcsr_mp_new(mp_env, mp_group, pgrid, &
+      CALL dbcsr_mp_new(mp_env, mp_group, mypgrid, &
                         mynode=mynode, numnodes=numnodes, myprow=myprow, mypcol=mypcol)
 
       IF (.NOT. PRESENT(pgrid)) DEALLOCATE (mypgrid)
