@@ -114,24 +114,27 @@ endif
 # Note the -fopenmp flag to have OpenMP parallelization.
 # A set of macros is available:
 # 1) -D__parallel          : enable MPI runs
-# 2) -D__MKL               : link the MKL library
-# 3) -D__NO_STATM_ACCESS,
+# 2) -D__MPI_VERSION=N     : DBCSR assumes that the MPI library implements MPI version 3.
+#                            If you have an older version of MPI (e.g. MPI 2.0) available
+#                            you must define `-D__MPI_VERSION=2`.
+# 3) -D__MKL               : link the MKL library
+# 4) -D__NO_STATM_ACCESS,
 #    -D__STATM_RESIDENT or
 #    -D__STATM_TOTAL       : toggle memory usage reporting between resident memory
 #                            and total memory. In particular, MacOS users must use
 #                            -D__NO_STATM_ACCESS
-# 4) -D__NO_ABORT          : avoid calling abort, but STOP instead (useful for
+# 5) -D__NO_ABORT          : avoid calling abort, but STOP instead (useful for
 #                            coverage testing, and to avoid core dumps on some
 #                            systems)
-# 5) -D__LIBXSMM           : enable LIBXSMM link (read LIBXSMM section above)
-# 6) -D__DBCSR_ACC         : compile with CUDA support. -D__DBCSR_ACC=2
+# 6) -D__LIBXSMM           : enable LIBXSMM link (read LIBXSMM section above)
+# 7) -D__DBCSR_ACC         : compile with CUDA support. -D__DBCSR_ACC=2
 #                            enables CUBLAS link (read CUDA support description
 #                            above)
-# 7) -D__ACCELERATE        : must be defined on MacOS when Apple's Accelerate
+# 8) -D__ACCELERATE        : must be defined on MacOS when Apple's Accelerate
 #                            framework is used for BLAS and LAPACK (this is due to
 #                            some interface incompatibilities between Accelerate
 #                            and reference BLAS/LAPACK)
-# 8) -DNDEBUG              : assertions are stripped ("compiled out"),
+# 9) -DNDEBUG              : assertions are stripped ("compiled out"),
 #                            regular release builds may carry assertions for safety.
 #
 
