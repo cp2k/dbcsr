@@ -244,7 +244,7 @@ $(BIN_NAMES):
 	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(BINDIR)/$@.x INCLUDE_DEPS=true BIN_NAME=$@ BIN_DEPS="$(BIN_DEPS)" DBCSRHOME=$(DBCSRHOME)
 else
 # stage 3: Perform actual build.
-$(BIN_NAME).o: $(BIN_DEPS)
+$(BIN_NAME).o: $(BIN_DEPS) $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT)
 
 $(BINDIR)/%.x: %.o $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT)
 	$(LD) $(LDFLAGS) -L$(LIBDIR) -o $@ $< $(BIN_DEPS) -l$(LIBNAME) $(LIBS)
