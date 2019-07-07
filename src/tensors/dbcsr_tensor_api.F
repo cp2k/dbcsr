@@ -44,7 +44,7 @@ MODULE dbcsr_tensor_api
                                  dbcsr_t_pgrid_destroy, &
                                  dbcsr_t_set, &
                                  dbcsr_t_filter, &
-                                 mp_environ_pgrid, &
+                                 dbcsr_t_mp_environ_pgrid => mp_environ_pgrid, &
                                  dbcsr_t_blk_sizes, &
                                  dbcsr_t_get_info, &
                                  dbcsr_t_finalize, &
@@ -88,7 +88,7 @@ MODULE dbcsr_tensor_api
    PUBLIC :: dbcsr_t_pgrid_destroy
    PUBLIC :: dbcsr_t_set
    PUBLIC :: dbcsr_t_filter
-   PUBLIC :: mp_environ_pgrid
+   PUBLIC :: dbcsr_t_mp_environ_pgrid
    PUBLIC :: dbcsr_t_copy_matrix_to_tensor
    PUBLIC :: dbcsr_t_blk_sizes
    PUBLIC :: dbcsr_t_copy

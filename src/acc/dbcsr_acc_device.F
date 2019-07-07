@@ -15,7 +15,7 @@ MODULE dbcsr_acc_device
 
    IMPLICIT NONE
 
-   PUBLIC :: acc_get_ndevices, acc_set_active_device, acc_clear_errors
+   PUBLIC :: dbcsr_acc_get_ndevices, acc_set_active_device, acc_clear_errors
 
    PRIVATE
 
@@ -24,7 +24,7 @@ MODULE dbcsr_acc_device
 #if defined (__DBCSR_ACC)
    INTERFACE
       FUNCTION acc_get_ndevices_cu(n_devices) RESULT(istat) &
-         BIND(C, name="acc_get_ndevices")
+         BIND(C, name="dbcsr_acc_get_ndevices")
          IMPORT
          INTEGER(KIND=C_INT), INTENT(OUT)         :: n_devices
          INTEGER(KIND=C_INT)                      :: istat
@@ -52,7 +52,7 @@ CONTAINS
 !> \brief Get number of accelerator devices
 !> \return number of accelerator devices
 ! **************************************************************************************************
-   FUNCTION acc_get_ndevices() RESULT(n)
+   FUNCTION dbcsr_acc_get_ndevices() RESULT(n)
       INTEGER                                  :: n
 
 #if defined (__DBCSR_ACC)
@@ -63,9 +63,9 @@ CONTAINS
 #if defined (__DBCSR_ACC)
       istat = acc_get_ndevices_cu(n)
       IF (istat /= 0) &
-         DBCSR_ABORT("acc_get_ndevices: failed")
+         DBCSR_ABORT("dbcsr_acc_get_ndevices: failed")
 #endif
-   END FUNCTION acc_get_ndevices
+   END FUNCTION dbcsr_acc_get_ndevices
 
 ! **************************************************************************************************
 !> \brief Set active accelerator device

@@ -15,8 +15,9 @@
 ! **************************************************************************************************
 PROGRAM dbcsr_test_csr_conversions
    USE dbcsr_api, ONLY: &
-      convert_csr_to_dbcsr, convert_dbcsr_to_csr, csr_create_from_dbcsr, csr_destroy, &
-      csr_eqrow_ceil_dist, csr_type, dbcsr_add, dbcsr_copy, dbcsr_create, &
+      dbcsr_convert_csr_to_dbcsr, dbcsr_convert_dbcsr_to_csr, &
+      dbcsr_csr_create_from_dbcsr, dbcsr_csr_destroy, &
+      dbcsr_csr_eqrow_ceil_dist, dbcsr_csr_type, dbcsr_add, dbcsr_copy, dbcsr_create, &
       dbcsr_distribution_get, dbcsr_distribution_new, dbcsr_distribution_release, &
       dbcsr_distribution_type, dbcsr_finalize, dbcsr_finalize_lib, dbcsr_get_stored_coordinates, &
       dbcsr_init_lib, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_norm, &
@@ -35,7 +36,7 @@ PROGRAM dbcsr_test_csr_conversions
    IMPLICIT NONE
 
    TYPE(dbcsr_type)              :: matrix_a
-   TYPE(csr_type)               :: matrix_b
+   TYPE(dbcsr_csr_type)          :: matrix_b
 
    INTEGER, DIMENSION(:), POINTER :: col_blk_sizes, row_blk_sizes
    INTEGER                        :: nblkrows_total, nblkcols_total
@@ -119,9 +120,9 @@ PROGRAM dbcsr_test_csr_conversions
       WRITE (UNIT=mynode_str, FMT='(I0)') mynode
 
       CALL csr_conversion_test(matrix_a, matrix_b, norm, 0.0_dp)
-      CALL csr_destroy(matrix_b)
+      CALL dbcsr_csr_destroy(matrix_b)
       CALL csr_conversion_test(matrix_a, matrix_b, norm_eps, eps)
-      CALL csr_destroy(matrix_b)
+      CALL dbcsr_csr_destroy(matrix_b)
 
       IF ((norm > EPSILON(norm)) .OR. (norm_eps > eps)) THEN
          IF (io_unit > 0) WRITE (io_unit, *) "Conversion error > 0 for matrix no.", k_str
@@ -158,7 +159,7 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE csr_conversion_test(dbcsr_mat, csr_mat, norm, eps)
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
-      TYPE(csr_type), INTENT(OUT)                        :: csr_mat
+      TYPE(dbcsr_csr_type), INTENT(OUT)                  :: csr_mat
       REAL(KIND=real_8), INTENT(OUT)                     :: norm
       REAL(KIND=real_8), INTENT(IN)                      :: eps
 
@@ -166,12 +167,12 @@ CONTAINS
 
       CALL dbcsr_to_csr_filter(dbcsr_mat, csr_sparsity, eps)
 
-      CALL csr_create_from_dbcsr(dbcsr_mat, csr_mat, csr_eqrow_ceil_dist, csr_sparsity)
-      CALL convert_dbcsr_to_csr(dbcsr_mat, csr_mat)
+      CALL dbcsr_csr_create_from_dbcsr(dbcsr_mat, csr_mat, dbcsr_csr_eqrow_ceil_dist, csr_sparsity)
+      CALL dbcsr_convert_dbcsr_to_csr(dbcsr_mat, csr_mat)
 
       CALL dbcsr_copy(dbcsr_mat_conv, dbcsr_mat)
 
-      CALL convert_csr_to_dbcsr(dbcsr_mat_conv, csr_mat)
+      CALL dbcsr_convert_csr_to_dbcsr(dbcsr_mat_conv, csr_mat)
 
       CALL dbcsr_add(dbcsr_mat_conv, dbcsr_mat, 1.0_dp, -1.0_dp)
       CALL dbcsr_norm(dbcsr_mat_conv, dbcsr_norm_maxabsnorm, norm_scalar=norm)

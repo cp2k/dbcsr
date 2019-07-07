@@ -16,6 +16,7 @@
 !>          Currently, this is work in progress.
 ! **************************************************************************************************
 MODULE dbcsr_api
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_exists, &
                                 array_size
@@ -32,8 +33,11 @@ MODULE dbcsr_api
       convert_csr_to_dbcsr_prv => convert_csr_to_dbcsr, &
       convert_dbcsr_to_csr_prv => convert_dbcsr_to_csr, &
       csr_create_from_dbcsr_prv => csr_create_from_dbcsr, csr_create_new, &
-      csr_create_template, csr_dbcsr_blkrow_dist, csr_destroy, csr_eqrow_ceil_dist, &
-      csr_eqrow_floor_dist, csr_p_type, csr_print_sparsity, csr_type, csr_write, &
+      csr_create_template, dbcsr_csr_dbcsr_blkrow_dist => csr_dbcsr_blkrow_dist, &
+      dbcsr_csr_destroy => csr_destroy, dbcsr_csr_eqrow_ceil_dist => csr_eqrow_ceil_dist, &
+      dbcsr_csr_eqrow_floor_dist => csr_eqrow_floor_dist, dbcsr_csr_p_type => csr_p_type, &
+      dbcsr_csr_print_sparsity => csr_print_sparsity, dbcsr_csr_type => csr_type, &
+      dbcsr_csr_write => csr_write, &
       dbcsr_to_csr_filter_prv => dbcsr_to_csr_filter
    USE dbcsr_data_methods, ONLY: dbcsr_get_data_p_prv => dbcsr_get_data_p, &
                                  dbcsr_scalar, &
@@ -125,8 +129,8 @@ MODULE dbcsr_api
       dbcsr_type_antisymmetric, dbcsr_type_complex_4, dbcsr_type_complex_8, &
       dbcsr_type_complex_default, dbcsr_type_no_symmetry, dbcsr_type_real_4, dbcsr_type_real_8, &
       dbcsr_type_real_default, dbcsr_type_symmetric
-   USE dbcsr_dist_util, ONLY: convert_offsets_to_sizes, &
-                              convert_sizes_to_offsets, &
+   USE dbcsr_dist_util, ONLY: dbcsr_convert_offsets_to_sizes => convert_offsets_to_sizes, &
+                              dbcsr_convert_sizes_to_offsets => convert_sizes_to_offsets, &
                               dbcsr_checksum_prv => dbcsr_checksum, &
                               dbcsr_verify_matrix_prv => dbcsr_verify_matrix
    USE dbcsr_work_operations, ONLY: add_work_coordinate_prv => add_work_coordinate, &
@@ -147,6 +151,9 @@ MODULE dbcsr_api
    IMPLICIT NONE
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_api'
+
+   ! GPU
+   PUBLIC :: dbcsr_acc_get_ndevices
 
    ! constants
    PUBLIC :: dbcsr_type_no_symmetry
@@ -257,8 +264,8 @@ MODULE dbcsr_api
 
    ! misc
    PUBLIC :: dbcsr_distribution_get_num_images
-   PUBLIC :: convert_offsets_to_sizes
-   PUBLIC :: convert_sizes_to_offsets
+   PUBLIC :: dbcsr_convert_offsets_to_sizes
+   PUBLIC :: dbcsr_convert_sizes_to_offsets
    PUBLIC :: dbcsr_run_tests
    PUBLIC :: dbcsr_test_mm
    PUBLIC :: dbcsr_scalar
@@ -284,19 +291,19 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_triu
 
    ! csr conversion
-   PUBLIC :: csr_type
-   PUBLIC :: csr_p_type
-   PUBLIC :: convert_csr_to_dbcsr
-   PUBLIC :: convert_dbcsr_to_csr
-   PUBLIC :: csr_create_from_dbcsr
-   PUBLIC :: csr_destroy
-   PUBLIC :: csr_create
-   PUBLIC :: csr_eqrow_floor_dist
-   PUBLIC :: csr_eqrow_ceil_dist
-   PUBLIC :: csr_dbcsr_blkrow_dist
-   PUBLIC :: csr_print_sparsity
+   PUBLIC :: dbcsr_csr_type
+   PUBLIC :: dbcsr_csr_p_type
+   PUBLIC :: dbcsr_convert_csr_to_dbcsr
+   PUBLIC :: dbcsr_convert_dbcsr_to_csr
+   PUBLIC :: dbcsr_csr_create_from_dbcsr
+   PUBLIC :: dbcsr_csr_destroy
+   PUBLIC :: dbcsr_csr_create
+   PUBLIC :: dbcsr_csr_eqrow_floor_dist
+   PUBLIC :: dbcsr_csr_eqrow_ceil_dist
+   PUBLIC :: dbcsr_csr_dbcsr_blkrow_dist
+   PUBLIC :: dbcsr_csr_print_sparsity
    PUBLIC :: dbcsr_to_csr_filter
-   PUBLIC :: csr_write
+   PUBLIC :: dbcsr_csr_write
 
    ! binary io
    PUBLIC :: dbcsr_binary_write
@@ -402,7 +409,7 @@ MODULE dbcsr_api
       MODULE PROCEDURE dbcsr_reserve_block2d_c, dbcsr_reserve_block2d_z
    END INTERFACE
 
-   INTERFACE csr_create
+   INTERFACE dbcsr_csr_create
       MODULE PROCEDURE csr_create_new, csr_create_template
    END INTERFACE
 
@@ -1406,10 +1413,10 @@ CONTAINS
 !> \param csr_sparsity ...
 !> \param numnodes ...
 ! **************************************************************************************************
-   SUBROUTINE csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_sparsity, numnodes)
+   SUBROUTINE dbcsr_csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_sparsity, numnodes)
 
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
-      TYPE(csr_type), INTENT(OUT)                        :: csr_mat
+      TYPE(dbcsr_csr_type), INTENT(OUT)                  :: csr_mat
       INTEGER                                            :: dist_format
       TYPE(dbcsr_type), INTENT(IN), OPTIONAL             :: csr_sparsity
       INTEGER, INTENT(IN), OPTIONAL                      :: numnodes
@@ -1419,32 +1426,32 @@ CONTAINS
       ELSE
          CALL csr_create_from_dbcsr_prv(dbcsr_mat%prv, csr_mat, dist_format, numnodes=numnodes)
       ENDIF
-   END SUBROUTINE csr_create_from_dbcsr
+   END SUBROUTINE dbcsr_csr_create_from_dbcsr
 
 ! **************************************************************************************************
 !> \brief ...
 !> \param dbcsr_mat ...
 !> \param csr_mat ...
 ! **************************************************************************************************
-   SUBROUTINE convert_csr_to_dbcsr(dbcsr_mat, csr_mat)
+   SUBROUTINE dbcsr_convert_csr_to_dbcsr(dbcsr_mat, csr_mat)
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: dbcsr_mat
-      TYPE(csr_type), INTENT(INOUT)                      :: csr_mat
+      TYPE(dbcsr_csr_type), INTENT(INOUT)                :: csr_mat
 
       CALL convert_csr_to_dbcsr_prv(dbcsr_mat%prv, csr_mat)
-   END SUBROUTINE convert_csr_to_dbcsr
+   END SUBROUTINE dbcsr_convert_csr_to_dbcsr
 
 ! **************************************************************************************************
 !> \brief ...
 !> \param dbcsr_mat ...
 !> \param csr_mat ...
 ! **************************************************************************************************
-   SUBROUTINE convert_dbcsr_to_csr(dbcsr_mat, csr_mat)
+   SUBROUTINE dbcsr_convert_dbcsr_to_csr(dbcsr_mat, csr_mat)
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
-      TYPE(csr_type), INTENT(INOUT)                      :: csr_mat
+      TYPE(dbcsr_csr_type), INTENT(INOUT)                :: csr_mat
 
       CALL convert_dbcsr_to_csr_prv(dbcsr_mat%prv, csr_mat)
-   END SUBROUTINE convert_dbcsr_to_csr
+   END SUBROUTINE dbcsr_convert_dbcsr_to_csr
 
 ! **************************************************************************************************
 !> \brief Apply filtering threshold eps to DBCSR blocks in order to improve
