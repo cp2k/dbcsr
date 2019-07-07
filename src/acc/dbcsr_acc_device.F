@@ -24,7 +24,7 @@ MODULE dbcsr_acc_device
 #if defined (__DBCSR_ACC)
    INTERFACE
       FUNCTION acc_get_ndevices_cu(n_devices) RESULT(istat) &
-         BIND(C, name="dbcsr_acc_get_ndevices")
+         BIND(C, name="acc_get_ndevices")
          IMPORT
          INTEGER(KIND=C_INT), INTENT(OUT)         :: n_devices
          INTEGER(KIND=C_INT)                      :: istat
