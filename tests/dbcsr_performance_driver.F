@@ -17,7 +17,7 @@
 !> - Created 2010
 ! **************************************************************************************************
 PROGRAM dbcsr_performance_driver
-   USE dbcsr_config, ONLY: dbcsr_print_config
+   USE dbcsr_config, ONLY: dbcsr_set_config, dbcsr_print_config
    USE dbcsr_files, ONLY: open_file
    USE dbcsr_kinds, ONLY: default_string_length
    USE dbcsr_lib, ONLY: dbcsr_finalize_lib, &
@@ -32,7 +32,7 @@ PROGRAM dbcsr_performance_driver
       mp_bcast, mp_cart_create, mp_cart_rank, mp_comm_free, mp_environ, &
       mp_world_finalize, mp_world_init
    USE dbcsr_performance_multiply, ONLY: dbcsr_perf_multiply
-   USE dbcsr_toollib, ONLY: atoi
+   USE dbcsr_toollib, ONLY: atoi, atol
    USE dbcsr_types, ONLY: dbcsr_mp_obj
 #include "base/dbcsr_base_uses.f90"
 
@@ -101,15 +101,18 @@ PROGRAM dbcsr_performance_driver
    ! initialize libdbcsr errors
    CALL timeset(routineN, handle)
 
+   ! Check for MPI-RMA algorithm
+   CALL dbcsr_set_config(use_mpi_rma=atol(args(2)))
+
    !
    ! print DBCSR configuration
    CALL dbcsr_print_config(io_unit)
 
    !
    ! select the operation
-   SELECT CASE (args(2))
+   SELECT CASE (args(3))
    CASE ('dbcsr_multiply')
-      CALL dbcsr_perf_multiply(group, mp_env, npdims, io_unit, narg, args)
+      CALL dbcsr_perf_multiply(group, mp_env, npdims, io_unit, narg, 3, args)
    CASE DEFAULT
       DBCSR_ABORT("operation not found")
    END SELECT
