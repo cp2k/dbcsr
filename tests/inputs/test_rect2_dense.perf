@@ -1,6 +1,8 @@
 # npcols MPI grid, 0 leaves MPI to find the best grid.
 # Note that the total number of processors must be divisible per npcols
 1
+# Use MPI-RMA
+F
 # operation
 dbcsr_multiply
 # matrix sizes (M, N, K)

@@ -20,7 +20,7 @@
 ! **************************************************************************************************
 PROGRAM dbcsr_unittest
 
-   USE dbcsr_acc_device, ONLY: acc_get_ndevices, &
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices, &
                                acc_set_active_device
    USE dbcsr_kinds, ONLY: dp
    USE dbcsr_lib, ONLY: dbcsr_finalize_lib, &
@@ -66,7 +66,7 @@ PROGRAM dbcsr_unittest
          CALL mp_cart_rank(group, (/prow, pcol/), pgrid(prow, pcol))
       ENDDO
    ENDDO
-   CALL dbcsr_mp_new(mp_env, pgrid, group, mynode, numnodes, &
+   CALL dbcsr_mp_new(mp_env, group, pgrid, mynode, numnodes, &
                      myprow=myploc(1), mypcol=myploc(2))
    DEALLOCATE (pgrid)
    !
@@ -76,8 +76,8 @@ PROGRAM dbcsr_unittest
 
    !
    ! initialize libdbcsr
-   IF (acc_get_ndevices() > 0) &
-      CALL acc_set_active_device(MOD(mynode, acc_get_ndevices()))
+   IF (dbcsr_acc_get_ndevices() > 0) &
+      CALL acc_set_active_device(MOD(mynode, dbcsr_acc_get_ndevices()))
 
    CALL dbcsr_init_lib(mp_comm, io_unit)
    !

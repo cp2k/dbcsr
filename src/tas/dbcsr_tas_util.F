@@ -67,7 +67,7 @@ CONTAINS
 
       DBCSR_ASSERT(mynode == pgrid(mycoord(1), mycoord(2)))
 
-      CALL dbcsr_mp_new(dbcsr_mp_environ, pgrid, mp_comm, mynode, numnodes, mycoord(1), mycoord(2))
+      CALL dbcsr_mp_new(dbcsr_mp_environ, mp_comm, pgrid, mynode, numnodes, mycoord(1), mycoord(2))
    END FUNCTION
 
 ! **************************************************************************************************
@@ -163,4 +163,3 @@ CONTAINS
    END FUNCTION
 
 END MODULE
-

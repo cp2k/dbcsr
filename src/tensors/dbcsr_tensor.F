@@ -250,6 +250,7 @@ CONTAINS
       REAL(KIND=real_8), ALLOCATABLE, DIMENSION(:, :)    :: block_arr
       REAL(KIND=real_8), DIMENSION(:, :), POINTER        :: block => NULL()
       TYPE(dbcsr_iterator_type)                          :: iter
+      LOGICAL                                            :: tr
 
       INTEGER                                            :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_matrix_to_tensor', &
@@ -268,7 +269,7 @@ CONTAINS
 
       CALL dbcsr_iterator_start(iter, matrix_in)
       DO WHILE (dbcsr_iterator_blocks_left(iter))
-         CALL dbcsr_iterator_next_block(iter, ind_2d(1), ind_2d(2), block)
+         CALL dbcsr_iterator_next_block(iter, ind_2d(1), ind_2d(2), block, tr)
          CALL allocate_any(block_arr, source=block)
          CALL dbcsr_t_put_block(tensor_out, ind_2d, SHAPE(block_arr), block_arr, summation=summation)
          DEALLOCATE (block_arr)

@@ -580,12 +580,14 @@ CONTAINS
 
       IF (PRESENT(group)) THEN
          CALL mp_environ(numnodes, mynode, group)
-         CALL dbcsr_mp_new(mp_env, RESHAPE((/1/), (/1, 1/)), &
-                           group, mynode, numnodes, &
+         CALL dbcsr_mp_new(mp_env, group, &
+                           RESHAPE((/1/), (/1, 1/)), &
+                           mynode, numnodes, &
                            myprow=0, mypcol=0)
       ELSE
-         CALL dbcsr_mp_new(mp_env, RESHAPE((/1/), (/1, 1/)), &
-                           MP_COMM_NULL, 0, 1, &
+         CALL dbcsr_mp_new(mp_env, MP_COMM_NULL, &
+                           RESHAPE((/1/), (/1, 1/)), &
+                           0, 1, &
                            myprow=0, mypcol=0)
       ENDIF
    END SUBROUTINE dbcsr_make_null_mp

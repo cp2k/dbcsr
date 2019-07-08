@@ -110,6 +110,7 @@ MODULE dbcsr_transformations
 
    PUBLIC :: dbcsr_desymmetrize_deep, &
              dbcsr_new_transposed, &
+             dbcsr_transposed, &
              dbcsr_complete_redistribute, &
              dbcsr_redistribute, dbcsr_make_untransposed_blocks
    PUBLIC :: dbcsr_replicate_all, dbcsr_distribute, dbcsr_datablock_redistribute
@@ -288,6 +289,46 @@ CONTAINS
       ENDIF
       CALL timestop(handle)
    END SUBROUTINE dbcsr_new_transposed
+
+! **************************************************************************************************
+!> \brief Transposes a DBCSR matrix, keeping the same distribution
+!> \param transposed ...
+!> \param normal ...
+!> \param shallow_data_copy ...
+!> \param transpose_data ...
+!> \param transpose_distribution ...
+!> \param use_distribution ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_transposed(transposed, normal, shallow_data_copy, &
+                               transpose_data, transpose_distribution, use_distribution)
+
+      TYPE(dbcsr_type), INTENT(INOUT)                    :: transposed
+      TYPE(dbcsr_type), INTENT(IN)                       :: normal
+      LOGICAL, INTENT(IN), OPTIONAL                      :: shallow_data_copy, transpose_data, &
+                                                            transpose_distribution
+      TYPE(dbcsr_distribution_obj), INTENT(IN), &
+         OPTIONAL                                        :: use_distribution
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_transposed', &
+                                     routineP = moduleN//':'//routineN
+
+      LOGICAL                                            :: myshallow_data_copy, &
+                                                            mytranspose_distribution
+      TYPE(dbcsr_distribution_obj)                           :: myuse_distribution
+
+!   set some defaults to make usage a bit less painful (fschiff)
+
+      myshallow_data_copy = .FALSE.
+      myuse_distribution = normal%dist
+      mytranspose_distribution = .FALSE.
+      IF (PRESENT(shallow_data_copy)) myshallow_data_copy = shallow_data_copy
+      IF (PRESENT(use_distribution)) myuse_distribution = use_distribution
+      IF (PRESENT(transpose_distribution)) mytranspose_distribution = transpose_distribution
+
+      CALL dbcsr_new_transposed(transposed, normal, myshallow_data_copy, &
+                                transpose_data, mytranspose_distribution, &
+                                use_distribution=myuse_distribution)
+   END SUBROUTINE dbcsr_transposed
 
 ! **************************************************************************************************
 !> \brief Duplicates data in symmetric matrix to make it normal (w.r.t. data
