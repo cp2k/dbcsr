@@ -406,6 +406,10 @@ MODULE dbcsr_api
       MODULE PROCEDURE dbcsr_iterator_next_2d_block_c, dbcsr_iterator_next_2d_block_z
       MODULE PROCEDURE dbcsr_iterator_next_1d_block_d, dbcsr_iterator_next_1d_block_s
       MODULE PROCEDURE dbcsr_iterator_next_1d_block_c, dbcsr_iterator_next_1d_block_z
+      MODULE PROCEDURE dbcsr_iterator_next_2d_block_notrans_d, dbcsr_iterator_next_2d_block_notrans_s
+      MODULE PROCEDURE dbcsr_iterator_next_2d_block_notrans_c, dbcsr_iterator_next_2d_block_notrans_z
+      MODULE PROCEDURE dbcsr_iterator_next_1d_block_notrans_d, dbcsr_iterator_next_1d_block_notrans_s
+      MODULE PROCEDURE dbcsr_iterator_next_1d_block_notrans_c, dbcsr_iterator_next_1d_block_notrans_z
    END INTERFACE
 
    INTERFACE dbcsr_reserve_block2d
@@ -1576,6 +1580,35 @@ CONTAINS
 !> \param col_size ...
 !> \param row_offset ...
 !> \param col_offset ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_iterator_next_2d_block_notrans_${nametype1}$ (iterator, row, column, block, &
+                                                                  block_number, &
+                                                                  row_size, col_size, row_offset, col_offset)
+      TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
+      INTEGER, INTENT(OUT)                     :: row, column
+      ${type1}$, DIMENSION(:, :), POINTER        :: block
+      INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
+                                                  col_size, row_offset, &
+                                                  col_offset
+
+      LOGICAL                                  :: tr
+
+      CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, tr, &
+                                         block_number, row_size, col_size, row_offset, col_offset)
+      IF (tr) DBCSR_ABORT("Block is transposed!")
+   END SUBROUTINE dbcsr_iterator_next_2d_block_notrans_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param iterator ...
+!> \param row ...
+!> \param column ...
+!> \param block ...
+!> \param block_number ...
+!> \param row_size ...
+!> \param col_size ...
+!> \param row_offset ...
+!> \param col_offset ...
 ! *************************************************************************************************
    SUBROUTINE dbcsr_iterator_next_1d_block_${nametype1}$ (iterator, row, column, block, &
                                                           transposed, block_number, &
@@ -1591,6 +1624,35 @@ CONTAINS
       CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, &
                                          transposed, block_number, row_size, col_size, row_offset, col_offset)
    END SUBROUTINE dbcsr_iterator_next_1d_block_${nametype1}$
+
+! **************************************************************************************************
+!> \brief ...
+!> \param iterator ...
+!> \param row ...
+!> \param column ...
+!> \param block ...
+!> \param block_number ...
+!> \param row_size ...
+!> \param col_size ...
+!> \param row_offset ...
+!> \param col_offset ...
+! *************************************************************************************************
+   SUBROUTINE dbcsr_iterator_next_1d_block_notrans_${nametype1}$ (iterator, row, column, block, &
+                                                                  block_number, &
+                                                                  row_size, col_size, row_offset, col_offset)
+      TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
+      INTEGER, INTENT(OUT)                      :: row, column
+      ${type1}$, DIMENSION(:), POINTER            :: block
+      INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
+                                                   col_size, row_offset, &
+                                                   col_offset
+
+      LOGICAL                                   :: tr
+
+      CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, &
+                                         tr, block_number, row_size, col_size, row_offset, col_offset)
+      IF (tr) DBCSR_ABORT("Block is transposed!")
+   END SUBROUTINE dbcsr_iterator_next_1d_block_notrans_${nametype1}$
 
 ! **************************************************************************************************
 !> \brief ...
