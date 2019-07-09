@@ -57,7 +57,7 @@
 !    rs is the logical row size so it always remains the leading dimension.
      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
 #if defined(__LIBXSMM_BLOCKOPS)
-        IF (ALL(0 .LT. SHAPE(dst)) .AND. ALL(0 .LT. SHAPE(src))) THEN
+        IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                 libxsmm_ptr0(src(src_offset + src_r_lb + (src_c_lb - 1)*src_rs)), &
                                 ${typesize1[n]}$, nrow, ncol, src_rs, dst_rs)
@@ -87,7 +87,7 @@
      ELSE
         DBCSR_ASSERT(dst_tr .AND. src_tr)
 #if defined(__LIBXSMM_BLOCKOPS)
-        IF (ALL(0 .LT. SHAPE(dst)) .AND. ALL(0 .LT. SHAPE(src))) THEN
+        IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                 libxsmm_ptr0(src(src_offset + src_c_lb + (src_r_lb - 1)*src_cs)), &
                                 ${typesize1[n]}$, nrow, ncol, src_cs, dst_cs)
@@ -147,7 +147,7 @@
 !    rs is the logical row size so it always remains the leading dimension.
      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
 #if defined(__LIBXSMM_BLOCKOPS)
-        IF (ALL(0 .LT. SHAPE(dst)) .AND. ALL(0 .LT. SHAPE(src))) THEN
+        IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                 libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
                                 ${typesize1[n]}$, nrow, ncol, SIZE(src, 1), dst_rs)
@@ -162,7 +162,7 @@
 #endif
      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
 #if defined(__LIBXSMM_BLOCKOPS)
-        IF (ALL(0 .LT. SHAPE(dst)) .AND. ALL(0 .LT. SHAPE(src))) THEN
+        IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
                                ${typesize1[n]}$, nrow, ncol, SIZE(src, 1), dst_cs)
@@ -177,7 +177,7 @@
 #endif
      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
 #if defined(__LIBXSMM_BLOCKOPS)
-        IF (ALL(0 .LT. SHAPE(dst)) .AND. ALL(0 .LT. SHAPE(src))) THEN
+        IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
                                ${typesize1[n]}$, nrow, ncol, SIZE(src, 2), dst_rs)
@@ -193,7 +193,7 @@
      ELSE
         DBCSR_ASSERT(dst_tr .AND. src_tr)
 #if defined(__LIBXSMM_BLOCKOPS)
-        IF (ALL(0 .LT. SHAPE(dst)) .AND. ALL(0 .LT. SHAPE(src))) THEN
+        IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                 libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
                                 ${typesize1[n]}$, nrow, ncol, SIZE(src, 2), dst_cs)
@@ -322,7 +322,7 @@
 !    rs is the logical row size so it always remains the leading dimension.
      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
 #if defined(__LIBXSMM_BLOCKOPS)
-        IF (ALL(0 .LT. SHAPE(dst)) .AND. ALL(0 .LT. SHAPE(src))) THEN
+        IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_r_lb, dst_c_lb)), &
                                 libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
                                 ${typesize1[n]}$, nrow, ncol, &
@@ -338,7 +338,7 @@
 #endif
      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
 #if defined(__LIBXSMM_BLOCKOPS)
-        IF (ALL(0 .LT. SHAPE(dst)) .AND. ALL(0 .LT. SHAPE(src))) THEN
+        IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_c_lb, dst_r_lb)), &
                                libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
                                ${typesize1[n]}$, nrow, ncol, &
@@ -354,7 +354,7 @@
 #endif
      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
 #if defined(__LIBXSMM_BLOCKOPS)
-        IF (ALL(0 .LT. SHAPE(dst)) .AND. ALL(0 .LT. SHAPE(src))) THEN
+        IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_r_lb, dst_c_lb)), &
                                libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
                                ${typesize1[n]}$, nrow, ncol, &
@@ -371,7 +371,7 @@
      ELSE
         DBCSR_ASSERT(dst_tr .AND. src_tr)
 #if defined(__LIBXSMM_BLOCKOPS)
-        IF (ALL(0 .LT. SHAPE(dst)) .AND. ALL(0 .LT. SHAPE(src))) THEN
+        IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_c_lb, dst_r_lb)), &
                                 libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
                                 ${typesize1[n]}$, nrow, ncol, &
