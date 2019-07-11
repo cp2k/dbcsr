@@ -146,7 +146,7 @@ MODULE dbcsr_operations
    END INTERFACE
 
    INTERFACE dbcsr_dot
-      MODULE PROCEDURE dbcsr_dot_s, dbcsr_dot_d, &
+      MODULE PROCEDURE dbcsr_dot_s, dbcsr_dot_sd, &
          dbcsr_dot_c, dbcsr_dot_z
    END INTERFACE
 
@@ -2796,6 +2796,37 @@ CONTAINS
       matrix = matrix_tmp
 
    END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief Dot product of DBCSR matrices
+!> \param[in] matrix_a DBCSR matrices
+!> \param[in] matrix_b DBCSR matrices
+!> \param[out] trace             the trace of the product of the matrices
+! **************************************************************************************************
+   SUBROUTINE dbcsr_dot_sd(matrix_a, matrix_b, trace)
+      TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a, matrix_b
+      REAL(kind=real_8), INTENT(INOUT)                   :: trace
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_dot_sd', &
+                                     routineP = moduleN//':'//routineN
+
+      INTEGER                                            :: handle
+      REAL(kind=real_4)                                  :: trace_4
+
+      CALL timeset(routineN, handle)
+      IF (dbcsr_get_data_type(matrix_a) .EQ. dbcsr_type_real_8 .AND. &
+          dbcsr_get_data_type(matrix_b) .EQ. dbcsr_type_real_8) THEN
+         CALL dbcsr_dot_d(matrix_a, matrix_b, trace)
+      ELSEIF (dbcsr_get_data_type(matrix_a) .EQ. dbcsr_type_real_4 .AND. &
+              dbcsr_get_data_type(matrix_b) .EQ. dbcsr_type_real_4) THEN
+         trace_4 = 0.0_real_4
+         CALL dbcsr_dot_s(matrix_a, matrix_b, trace_4)
+         trace = REAL(trace_4, real_8)
+      ELSE
+         DBCSR_ABORT("Invalid combination of data type, NYI")
+      ENDIF
+      CALL timestop(handle)
+   END SUBROUTINE dbcsr_dot_sd
 
 #:include '../data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
