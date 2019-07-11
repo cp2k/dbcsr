@@ -15,7 +15,7 @@ MODULE dbcsr_acc_device
 
    IMPLICIT NONE
 
-   PUBLIC :: dbcsr_acc_get_ndevices, acc_set_active_device, acc_clear_errors
+   PUBLIC :: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device, dbcsr_acc_clear_errors
 
    PRIVATE
 
@@ -71,7 +71,7 @@ CONTAINS
 !> \brief Set active accelerator device
 !> \param dev_id device ID
 ! **************************************************************************************************
-   SUBROUTINE acc_set_active_device(dev_id)
+   SUBROUTINE dbcsr_acc_set_active_device(dev_id)
       INTEGER :: dev_id
 
 #if defined (__DBCSR_ACC)
@@ -87,17 +87,17 @@ CONTAINS
       MARK_USED(dev_id)
       DBCSR_ABORT("__DBCSR_ACC not compiled in")
 #endif
-   END SUBROUTINE acc_set_active_device
+   END SUBROUTINE dbcsr_acc_set_active_device
 
 ! **************************************************************************************************
 !> \brief Clear CUDA errors
 ! **************************************************************************************************
-   SUBROUTINE acc_clear_errors()
+   SUBROUTINE dbcsr_acc_clear_errors()
 #if defined (__DBCSR_ACC)
       CALL acc_clear_errors_cu()
 #else
       DBCSR_ABORT("__DBCSR_ACC not compiled in")
 #endif
-   END SUBROUTINE acc_clear_errors
+   END SUBROUTINE dbcsr_acc_clear_errors
 
 END MODULE dbcsr_acc_device

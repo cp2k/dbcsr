@@ -104,6 +104,7 @@ CONTAINS
       INTEGER, INTENT(IN)  :: mp_comm
       INTEGER, INTENT(IN), OPTIONAL :: io_unit
 
+      IF (is_initialized) RETURN
       CALL dbcsr_init_lib_pre(mp_comm, io_unit)
       !
       ! Declare loggers
@@ -142,6 +143,7 @@ CONTAINS
       PROCEDURE(dbcsr_warn_interface), INTENT(IN), POINTER :: in_warn_hook
       INTEGER, INTENT(IN), OPTIONAL :: io_unit
 
+      IF (is_initialized) RETURN
       CALL dbcsr_init_lib_pre(mp_comm, io_unit)
       ! abort/warn hooks
       dbcsr_abort_hook => in_abort_hook
@@ -193,9 +195,9 @@ CONTAINS
       ! Check whether DBCSR and libcusmm (GPU backend) have the same level of threading
       IF (dbcsr_thread_safe /= libcusmm_thread_safe) then
          IF (dbcsr_thread_safe /= 0) then
-              DBCSR_ABORT("DBCSR's and libcusmm's threading levels do not match. DBCSR is compiled with threading support while libcusmm is compiled without threading support.")
+            DBCSR_ABORT("DBCSR compiled w/ threading support while libcusmm compiled w/o threading support.")
          ELSE
-              DBCSR_ABORT("DBCSR's and libcusmm's threading levels do not match. DBCSR is compiled without threading support while libcusmm is compiled with threading support.")
+            DBCSR_ABORT("DBCSR compiled w/o threading support while libcusmm is compiled w/ threading support.")
          ENDIF
       ENDIF
 #endif
@@ -212,7 +214,6 @@ CONTAINS
 
       INTEGER                                            :: error_handle, ithread, nthreads
 
-      IF (is_initialized) RETURN
       CALL timeset(routineN, error_handle)
       !
       IF (int_1_size /= 1) &

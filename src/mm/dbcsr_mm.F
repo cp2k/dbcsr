@@ -16,7 +16,7 @@
 !>  - 2016-08    Code organization (Alfio Lazzaro).
 ! **************************************************************************************************
 MODULE dbcsr_mm
-   USE dbcsr_acc_device, ONLY: acc_clear_errors
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_clear_errors
    USE dbcsr_acc_init, ONLY: acc_finalize, &
                              acc_init
    USE dbcsr_acc_stream, ONLY: acc_stream_associated, &
@@ -450,7 +450,7 @@ CONTAINS
 
       ! Reset CUDA errors
       IF (has_acc) THEN
-         CALL acc_clear_errors()
+         CALL dbcsr_acc_clear_errors()
       ENDIF
 
       ! Check if RMA is used with buggy OpenMPI (version<1.10.4 or 2.0.1)
