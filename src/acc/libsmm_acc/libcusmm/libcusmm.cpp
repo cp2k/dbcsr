@@ -22,6 +22,10 @@
 #include <array>
 #include <iostream>
 
+#if defined _OPENMP
+#include <omp.h>
+#endif
+
 #define dbcsr_type_real_4     1
 #define dbcsr_type_real_8     3
 #define dbcsr_type_complex_4  5
@@ -201,58 +205,29 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
     CUfunction kern_func = NULL;
     int threads, grouping;
     Triplet h_mnk = { m, n, k };
+    static bool cpu_fallback = false;
+    std::unordered_map<std::array<int, 3>, kernel_launcher>::iterator kernel_it;
+
+#if defined _OPENMP
+#pragma omp critical (jit_multiplication)
+{
+#endif
 
     // Look up the kernel in the table of already JITed kernels
-    if (kernel_handles.find(h_mnk) == kernel_handles.end()){  // the kernel has not been JIT-ed yet
+    kernel_it = kernel_handles.find(h_mnk);
+    if (kernel_it == kernel_handles.end()){  // the kernel has not been JIT-ed yet
 
-        static bool cpu_fallback = false;
-
-        // Add lock to table of locks and initialize it
-        // (Some serialization here)
-#if defined _OPENMP
-        #pragma omp critical 
-        {
-            if(kernel_locks.find(h_mnk) == kernel_locks.end()){
-                omp_lock_t lock_kernel_mnk;
-                kernel_locks.emplace(h_mnk, lock_kernel_mnk);
-                omp_init_lock(&kernel_locks.at(h_mnk));
-            }
-        }
-
-        // Set lock if it exists
-        if(kernel_locks.find(h_mnk) != kernel_locks.end()){
-            omp_set_lock(&kernel_locks.at(h_mnk));
-        }
-
-        // JIT the kernel using a single thread
-        if(kernel_handles.find(h_mnk) == kernel_handles.end()){
-#endif
-            add_kernel_handle_to_jitted_kernels(kern_func, stream, h_mnk, threads, grouping, cpu_fallback); 
-#if defined _OPENMP
-        }
-
-        // Unset lock and destroy
-        if(kernel_locks.find(h_mnk) != kernel_locks.end()){
-            omp_unset_lock(&kernel_locks.at(h_mnk));
-        }
-
-        #pragma omp critical 
-        {
-            if(kernel_locks.find(h_mnk) == kernel_locks.end()){
-                omp_destroy_lock(&kernel_locks.at(h_mnk));
-                auto it = kernel_locks.find(h_mnk);
-                kernel_locks.erase(it);
-            }
-        }
-#endif
-
-        if(cpu_fallback)
-            return -2; // fall back to CPU
+        add_kernel_handle_to_jitted_kernels(kern_func, stream, h_mnk, threads, grouping, cpu_fallback);
+        kernel_it = kernel_handles.find(h_mnk);
 
     }  // now the kernel has been jitted
 
-    // Look up the kernel in the table of already JITed kernels
-    auto kernel_it = kernel_handles.find(h_mnk);
+#if defined _OPENMP
+}
+#endif
+
+    if(cpu_fallback)
+        return -2; // fall back to CPU
 
     // Retrieve kernel launching parameters
     kern_func = kernel_it->second.kernel_function;
@@ -330,20 +305,29 @@ int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
 
     // Look up the kernel in the table of already JITed kernels
     Triplet h_mnk = { m, n, 0 };
-    auto kernel_it = transpose_handles.find(h_mnk);
-    if(kernel_it != transpose_handles.end()){  // the kernel has already been JITed
+    std::unordered_map<std::array<int, 3>, CUfunction>::iterator kernel_it;
 
-        kern_func = kernel_it->second; // retrieve handle
+#if defined _OPENMP
+#pragma omp critical (jit_transpose)
+{
+#endif
 
-    } else { // the kernel has not been JIT-ed yet
+    kernel_it = transpose_handles.find(h_mnk);
+    if(kernel_it == transpose_handles.end()){  // the kernel has not been JIT-ed yet
 
         // JIT and store a kernel for this transposition
         jit_transpose_handle(kern_func, m, n);
         transpose_handles.emplace(h_mnk, kern_func);
+        kernel_it = transpose_handles.find(h_mnk);
 
     }
 
-    // Construct argument pointer list and lauch function
+#if defined _OPENMP
+}
+#endif
+
+    // Construct argument pointer list and launch function
+    kern_func = kernel_it->second; // retrieve handle
     int* trs_stack_ = trs_stack + offset; 
     void *args[] = { &trs_stack_, &buffer};
 
