@@ -140,8 +140,7 @@ MODULE dbcsr_operations
    END INTERFACE
 
    INTERFACE dbcsr_trace
-      MODULE PROCEDURE dbcsr_trace_any
-      MODULE PROCEDURE dbcsr_trace_s, dbcsr_trace_d, &
+      MODULE PROCEDURE dbcsr_trace_s, dbcsr_trace_sd, &
          dbcsr_trace_c, dbcsr_trace_z
    END INTERFACE
 
@@ -2574,39 +2573,6 @@ CONTAINS
    END SUBROUTINE dbcsr_sum_replicated
 
 ! **************************************************************************************************
-!> \brief ...
-!> \param matrix_a ...
-!> \param trace ...
-! **************************************************************************************************
-   SUBROUTINE dbcsr_trace_any(matrix_a, trace)
-      TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a
-      TYPE(dbcsr_scalar_type), INTENT(INOUT)             :: trace
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_trace_any', &
-                                     routineP = moduleN//':'//routineN
-
-      INTEGER                                            :: error_handle
-
-!   ---------------------------------------------------------------------------
-
-      CALL timeset(routineN, error_handle)
-      SELECT CASE (dbcsr_scalar_get_type(trace))
-      CASE (dbcsr_type_real_4)
-         CALL dbcsr_trace(matrix_a, trace%r_sp)
-      CASE (dbcsr_type_real_8)
-         CALL dbcsr_trace(matrix_a, trace%r_dp)
-      CASE (dbcsr_type_complex_4)
-         CALL dbcsr_trace(matrix_a, trace%c_sp)
-      CASE (dbcsr_type_complex_8)
-         CALL dbcsr_trace(matrix_a, trace%c_dp)
-      CASE default
-         DBCSR_ABORT("Invalid data type.")
-      END SELECT
-
-      CALL timestop(error_handle)
-   END SUBROUTINE dbcsr_trace_any
-
-! **************************************************************************************************
 !> \brief check if a block is not in the limits
 !> \param[in] row ...
 !> \param[in] col ...
@@ -2798,10 +2764,38 @@ CONTAINS
    END SUBROUTINE
 
 ! **************************************************************************************************
+!> \brief Trace of DBCSR matrices
+!> \param[in] matrix_a DBCSR matrices
+!> \param[out] trace             the trace of the product of the matrices
+! **************************************************************************************************
+   SUBROUTINE dbcsr_trace_sd(matrix_a, trace)
+      TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a
+      REAL(kind=real_8), INTENT(INOUT)                   :: trace
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_trace_sd', &
+                                     routineP = moduleN//':'//routineN
+
+      INTEGER                                            :: handle
+      REAL(kind=real_4)                                  :: trace_4
+
+      CALL timeset(routineN, handle)
+      IF (dbcsr_get_data_type(matrix_a) .EQ. dbcsr_type_real_8) THEN
+         CALL dbcsr_trace_d(matrix_a, trace)
+      ELSEIF (dbcsr_get_data_type(matrix_a) .EQ. dbcsr_type_real_4) THEN
+         trace_4 = 0.0_real_4
+         CALL dbcsr_trace_s(matrix_a, trace_4)
+         trace = REAL(trace_4, real_8)
+      ELSE
+         DBCSR_ABORT("Invalid combination of data type, NYI")
+      ENDIF
+      CALL timestop(handle)
+   END SUBROUTINE dbcsr_trace_sd
+
+! **************************************************************************************************
 !> \brief Dot product of DBCSR matrices
 !> \param[in] matrix_a DBCSR matrices
 !> \param[in] matrix_b DBCSR matrices
-!> \param[out] trace             the trace of the product of the matrices
+!> \param[out] result             the dot product of the matrices
 ! **************************************************************************************************
    SUBROUTINE dbcsr_dot_sd(matrix_a, matrix_b, trace)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a, matrix_b
