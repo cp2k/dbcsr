@@ -16,7 +16,7 @@
 !>          Currently, this is work in progress.
 ! **************************************************************************************************
 MODULE dbcsr_api
-   USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_exists, &
                                 array_size
@@ -154,6 +154,7 @@ MODULE dbcsr_api
 
    ! GPU
    PUBLIC :: dbcsr_acc_get_ndevices
+   PUBLIC :: dbcsr_acc_set_active_device
 
    ! constants
    PUBLIC :: dbcsr_type_no_symmetry

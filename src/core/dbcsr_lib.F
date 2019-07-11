@@ -104,6 +104,7 @@ CONTAINS
       INTEGER, INTENT(IN)  :: mp_comm
       INTEGER, INTENT(IN), OPTIONAL :: io_unit
 
+      IF (is_initialized) RETURN
       CALL dbcsr_init_lib_pre(mp_comm, io_unit)
       !
       ! Declare loggers
@@ -142,6 +143,7 @@ CONTAINS
       PROCEDURE(dbcsr_warn_interface), INTENT(IN), POINTER :: in_warn_hook
       INTEGER, INTENT(IN), OPTIONAL :: io_unit
 
+      IF (is_initialized) RETURN
       CALL dbcsr_init_lib_pre(mp_comm, io_unit)
       ! abort/warn hooks
       dbcsr_abort_hook => in_abort_hook
@@ -212,7 +214,6 @@ CONTAINS
 
       INTEGER                                            :: error_handle, ithread, nthreads
 
-      IF (is_initialized) RETURN
       CALL timeset(routineN, error_handle)
       !
       IF (int_1_size /= 1) &
