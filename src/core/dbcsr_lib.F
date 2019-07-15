@@ -329,6 +329,8 @@ CONTAINS
 
       IF (ext_io_unit > 0) WRITE (UNIT=ext_io_unit, FMT="(T2,A)") REPEAT("-", 79)
 
+      CALL describe_mp_perf_env(ext_io_unit)
+
       my_print_timers = .FALSE.
       IF (PRESENT(print_timers)) my_print_timers = print_timers
       IF (my_print_timers) CALL dbcsr_print_timers()
@@ -344,7 +346,6 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_print_timers()
       IF (ASSOCIATED(logger)) THEN
-         CALL describe_mp_perf_env(ext_io_unit)
          CALL timings_report_print(ext_io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
       ENDIF
    END SUBROUTINE dbcsr_print_timers
