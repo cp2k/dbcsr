@@ -104,7 +104,11 @@ CONTAINS
       INTEGER, INTENT(IN)  :: mp_comm
       INTEGER, INTENT(IN), OPTIONAL :: io_unit
 
-      IF (is_initialized) RETURN
+      IF (is_initialized) THEN
+         ! Update ext_io_unit
+         IF (.NOT. ASSOCIATED(logger) .AND. PRESENT(io_unit)) ext_io_unit = io_unit
+         RETURN
+      ENDIF
       CALL dbcsr_init_lib_pre(mp_comm, io_unit)
       !
       ! Declare loggers
@@ -143,7 +147,11 @@ CONTAINS
       PROCEDURE(dbcsr_warn_interface), INTENT(IN), POINTER :: in_warn_hook
       INTEGER, INTENT(IN), OPTIONAL :: io_unit
 
-      IF (is_initialized) RETURN
+      IF (is_initialized) THEN
+         ! Update ext_io_unit
+         IF (.NOT. ASSOCIATED(logger) .AND. PRESENT(io_unit)) ext_io_unit = io_unit
+         RETURN
+      ENDIF
       CALL dbcsr_init_lib_pre(mp_comm, io_unit)
       ! abort/warn hooks
       dbcsr_abort_hook => in_abort_hook
