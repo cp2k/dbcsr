@@ -772,7 +772,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr);
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")
@@ -939,7 +939,7 @@ CONTAINS
          WRITE (iw, '( " -", 77X, "-" )')
          WRITE (iw, '( " -", 21X, A, 21X, "-" )') ' DBCSR MESSAGE PASSING PERFORMANCE '
          WRITE (iw, '( " -", 77X, "-" )')
-         WRITE (iw, '( 1X, 79("-"), / )')
+         WRITE (iw, '( 1X, 79("-"))')
          WRITE (iw, '( A, A, A )') ' ROUTINE', '             CALLS ', &
             '     AVE VOLUME [Bytes]'
          DO i = 1, MAX_PERF
@@ -957,7 +957,7 @@ CONTAINS
             ENDIF
 
          END DO
-         WRITE (iw, '( 1X, 79("-"), / )')
+         WRITE (iw, '( 1X, 79("-"))')
       END IF
 #else
       MARK_USED(iw)
