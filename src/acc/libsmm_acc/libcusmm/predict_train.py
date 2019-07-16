@@ -453,138 +453,93 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
 
 # ===============================================================================
 # Predictive modelling
-def get_DecisionTree_model(algo, n_features):
-    from itertools import chain
-
-    # Fixed parameters
-    model_name = "Decision_Tree"
-    splitting_criterion = "mse"
-    splitter = "best"
-    max_features = None
-    max_leaf_nodes = None
-
+def get_hyperparameter_grid(algo, model_name, n_features):
     # Hyper-parameters to optimize
-    if algo == "medium":
-        max_depth = [10, 13, 16, 18, 21, 24]
-        min_samples_split = [2, 8, 12, 18]
-        min_samples_leaf = [2, 8, 12, 18]
-    else:
-        if algo == "tiny":
+    param_grid = dict()
+    if 'scikit' in model_name: # it is a scikit-learn model
+        if algo == "medium":
+            max_depth = [10, 13, 16, 18, 21, 24]
+            min_samples_split = [2, 8, 12, 18]
+            min_samples_leaf = [2, 8, 12, 18]
+        elif algo == "tiny":
+            step = 1
+            max_depth = range(4, int(2 * n_features) + 1, step)
+            min_samples_split = range(1, 26, step)
+            min_samples_leaf = range(1, 26, step)
+        elif algo == "small":
             step = 3
-            max_depth = chain(
-                range(4, int(np.ceil(0.75 * n_features)), step),
-                range(int(np.ceil(0.75 * n_features)), int(np.ceil(n_features)), step),
-            )
+            max_depth = range(4, int(2 * n_features) + 1, step)
+            min_samples_split = [2, 5, 8, 13, 18]
+            min_samples_leaf = [2, 5, 8, 13, 18]
+        else:  # largeDB1,2
+            step = 3
+            max_depth = range(4, int(2 * n_features) + 1, step)
             min_samples_split = range(2, 21, step)
             min_samples_leaf = range(2, 21, step)
-        else:
-            max_depth = chain(range(4, 13, 2), range(15, 19, 3))
-            min_samples_split = [2, 5, 13, 18]
-            min_samples_leaf = [2, 5, 13, 18]
-    param_grid = {
-        model_name + "__estimator__" + "max_depth": list(max_depth),
-        model_name + "__estimator__" + "min_samples_split": list(min_samples_split),
-        model_name + "__estimator__" + "min_samples_leaf": list(min_samples_leaf),
-    }
+        param_grid = {
+            model_name + "__estimator__" + "max_depth": list(max_depth),
+            model_name + "__estimator__" + "min_samples_split": list(min_samples_split),
+            model_name + "__estimator__" + "min_samples_leaf": list(min_samples_leaf),
+        }
+    elif 'xgb' in model_name: # it is an XGBOOST model
+        if algo == "medium":
+            max_depth = [16, 13]
+            n_estimators = [100, 140]
+            learning_rate = [0.1]
+        elif algo == "tiny":
+            max_depth = range(10, n_features + 2, 1)
+            n_estimators = range(30, 160, 20)
+            learning_rate = range(1, 5)
+            learning_rate = [i/10 for i in learning_rate]
+        elif algo == "small":
+            max_max_depth = 20
+            max_depth = range(10, min(max_max_depth, n_features + 2), 4)
+            n_estimators = range(50, 200, 30)
+            learning_rate = [0.1, 0.3]
+        else:  # largeDB1,2
+            max_max_depth = 20
+            max_depth = range(10, min(max_max_depth, n_features + 2), 4)
+            n_estimators = range(50, 200, 30)
+            learning_rate = [0.1, 0.3]
+        param_grid = {
+            "max_depth" : list(max_depth),
+            "learning_rate" : list(learning_rate),
+            "n_estimators" : list(n_estimators)
+        }
+    else:
+        assert False, "Cannot recognize model: " + model_name
+
+    return param_grid
+
+
+def get_scikit_DecisionTree_model(algo):
+    # Fixed parameters
+    model_name = "scikit-Decision_Tree"
 
     # Tree model
     from sklearn.tree import DecisionTreeRegressor
-
     model = DecisionTreeRegressor(
-        criterion=splitting_criterion,
-        splitter=splitter,
+        criterion="mse",
+        splitter="best",
         min_samples_split=optimized_hyperparameters[algo]["min_samples_split"],
         min_samples_leaf=optimized_hyperparameters[algo]["min_samples_leaf"],
         max_depth=optimized_hyperparameters[algo]["max_depth"],
-        max_features=max_features,
-        max_leaf_nodes=max_leaf_nodes,
+        max_features=None,
+        max_leaf_nodes=None,
     )
 
+    # Feature selection through permutation importance
     from eli5.sklearn import PermutationImportance
-
     model_perm = PermutationImportance(model, cv=None)
 
-    return model_perm, model_name, param_grid
+    return model_perm, model_name
 
-verbosity = 2
-def get_xgb_DecisionTree_model(algo, njobs, ntrees):
-
-    # Base model
-    params = {
-        'max_depth': optimized_hyperparameters[algo]["max_depth"],
-        'learning_rate': 0.3,
-        #'gamma': 10,
-        'tree_method': "exact",
-        'n_estimators': ntrees,
-        'verbosity': verbosity,
-        'objective': 'reg:squarederror',
-		'booster': 'gbtree',
-        'n_jobs': njobs,
-    }
-    model_name = "XGB-DecisionTree"
-    model = xgb.XGBRegressor(**params)
-
-    # Hyperparameter grid
-    max_depth = [6, 10, 13, 16, 18, 21, 24]
-    min_child_weight = min_samples_split = [4, 6, 8, 10, 16]
-    xgb_DT_param_grid = {
-        model_name + "__estimator__" + "max_depth": list(max_depth),
-        model_name + "__estimator__" + "min_child_weight": list(min_child_weight)
-    }
-    return model, model_name, xgb_DT_param_grid
-
-
-def get_xgb_DecisionTree_GPU_model(algo, njobs, ntrees):
-
-    # Base model
-    params = {
-        'max_depth': optimized_hyperparameters[algo]["max_depth"],
-        'learning_rate': 0.3,
-        #'gamma': 10,
-        'tree_method': "gpu_hist",
-        'n_estimators': ntrees,
-        'verbosity': verbosity,
-        'objective': 'reg:squarederror',
-		'booster': 'gbtree',
-        'n_jobs': njobs,
-    }
-    model_name = "XGB-DecisionTree-with-GPU"
-    model = xgb.XGBRegressor(**params)
-
-    # Hyperparameter grid
-    max_depth = [6, 10, 13, 16, 18, 21, 24]
-    min_child_weight = min_samples_split = [4, 6, 8, 10, 16]
-    xgb_DT_param_grid = {
-        model_name + "__estimator__" + "max_depth": list(max_depth),
-        model_name + "__estimator__" + "min_child_weight": list(min_child_weight)
-    }
-    return model, "XGB-DecisionTree-with-GPU", xgb_DT_param_grid
-
-
-def get_xgb_RandomForest_model(algo, njobs, ntrees):
-    params = {
-        'max_depth': optimized_hyperparameters[algo]["max_depth"],
-        'learning_rate': 0.3,
-        'tree_method': "exact",
-        'n_estimators': ntrees,
-        'nthread': njobs,
-        'subsample': 0.5,
-        'colsample_bynode': 0.8,
-        'num_parallel_tree': ntrees,
-        #'lambda': ,
-        'verbosity': verbosity,
-        'objective':'reg:squarederror'
-    }
-    #num_boost_round = 1
-    model = xgb.XGBRFRegressor(**params)
-    return model, "XGB-RandomForest", None
-
-def get_RandomForest_model(algo, njobs, ntrees):
+def get_scikit_RandomForest_model(algo, njobs, ntrees):
     from itertools import chain
     from sklearn.ensemble import RandomForestRegressor
 
     # Fixed parameters
-    model_name = "Random_Forest"
+    model_name = "scikit-Random_Forest"
     bootstrap = True
     splitting_criterion = "mse"
     max_features = "sqrt"
@@ -593,7 +548,6 @@ def get_RandomForest_model(algo, njobs, ntrees):
     step_big = 50
     step_small = 5
     n_estimators = chain(range(1, 10, step_small), range(50, 200, step_big))
-    param_grid = {model_name + "__" + "n_estimators": list(n_estimators)}
 
     # Random Forest model
     model = RandomForestRegressor(
@@ -607,7 +561,61 @@ def get_RandomForest_model(algo, njobs, ntrees):
         n_jobs=njobs,
     )
 
-    return model, model_name, param_grid
+    return model, model_name
+
+
+def get_xgb_DecisionTree_model(algo, njobs, ntrees):
+
+    # Base model
+    params = {
+        'max_depth': optimized_hyperparameters[algo]["max_depth"],
+        'learning_rate': 0.3,
+        'tree_method': "exact",
+        'n_estimators': ntrees,
+        'verbosity': 2,
+        'objective': 'reg:squarederror',
+		'booster': 'gbtree',
+        'n_jobs': njobs,
+    }
+    model_name = "xgb-Decision_Tree"
+    model = xgb.XGBRegressor(**params)
+
+    return model, model_name
+
+
+def get_xgb_DecisionTree_GPU_model(algo, njobs, ntrees):
+
+    # Base model
+    params = {
+        'max_depth': optimized_hyperparameters[algo]["max_depth"],
+        'learning_rate': 0.3,
+        'tree_method': "gpu_hist",
+        'n_estimators': ntrees,
+        'verbosity': 2,
+        'objective': 'reg:squarederror',
+		'booster': 'gbtree',
+        'n_jobs': njobs,
+    }
+    model_name = "xgb-Decision_Tree_GPU"
+    model = xgb.XGBRegressor(**params)
+    return model, model_name
+
+
+def get_xgb_RandomForest_model(algo, njobs, ntrees):
+    params = {
+        'max_depth': optimized_hyperparameters[algo]["max_depth"],
+        'learning_rate': 0.3,
+        'tree_method': "exact",
+        'n_estimators': ntrees,
+        'nthread': njobs,
+        'subsample': 0.5,
+        'colsample_bynode': 0.8,
+        'num_parallel_tree': ntrees,
+        'verbosity': 2,
+        'objective':'reg:squarederror'
+    }
+    model = xgb.XGBRFRegressor(**params)
+    return model, "xgb-Random_Forest"
 
 
 def get_train_test_partition(to_partition, test, train=None):
@@ -671,23 +679,21 @@ def train_model(X, X_mnk, Y, algo, model_options, plot_all, folder, log):
     # Predictive model
     model_to_train = model_options["model"]
     if model_to_train == "DT":
-        model, model_name, param_grid = get_DecisionTree_model(
-            algo, len(X_train.columns.values)
-        )
+        model, model_name = get_scikit_DecisionTree_model(algo)
     elif model_to_train == "RF":
-        model, model_name, param_grid = get_RandomForest_model(
+        model, model_name = get_scikit_RandomForest_model(
             algo, model_options["njobs"], model_options["ntrees"]
         )
     elif model_to_train == "xgb-DT":
-        model, model_name, param_grid = get_xgb_DecisionTree_model(
+        model, model_name = get_xgb_DecisionTree_model(
             algo, model_options["njobs"], model_options["ntrees"]
         )
     elif model_to_train == "xgb-DT-GPU":
-        model, model_name, param_grid = get_xgb_DecisionTree_GPU_model(
+        model, model_name = get_xgb_DecisionTree_GPU_model(
             algo, model_options["njobs"], model_options["ntrees"]
         )
     elif model_to_train == "xgb-RF":
-        model, model_name, param_grid = get_xgb_RandomForest_model(
+        model, model_name = get_xgb_RandomForest_model(
             algo, model_options["njobs"], model_options["ntrees"]
         )
     else:
@@ -706,14 +712,14 @@ def train_model(X, X_mnk, Y, algo, model_options, plot_all, folder, log):
     # Feature selection: SelectFromModel
     from sklearn.feature_selection import SelectFromModel
 
-    feature_importance_threshold = 0.015  # found by trial and error
+    feature_importance_threshold = 0.0005  # only remove the features with VERY little importance
     max_features = n_predictors - optimized_hyperparameters[algo]["n_features_to_drop"]
     model.cv = cv.split(X_train.values, Y_train.values, groups=X_mnk_train.values)
     model.fit(X_train.values, Y_train.values)
     model_fs = SelectFromModel(
         model,
         threshold=feature_importance_threshold,
-        max_features=max_features,
+        max_features=None,
         prefit=True,
     )
     print(model_fs)
@@ -755,22 +761,30 @@ def train_model(X, X_mnk, Y, algo, model_options, plot_all, folder, log):
     features_to_drop = [f for f in predictor_names if f not in selected_features]
     X_train = X_train.drop(features_to_drop, axis=1)
     X_test = X_test.drop(features_to_drop, axis=1)
+    n_features = len(X_train.columns)
 
     # ===============================================================================
     # Fit
     if model_options["hyperparameter_optimization"]:
 
         # Hyperparameter Optimization
+        param_grid = get_hyperparameter_grid(algo, model_name, n_features)
         if param_grid is None:
             assert False, "param_grid object is None. Please implement!"
         from sklearn.model_selection import GridSearchCV
         # At this point, we "cheat"/"take a shortcut" in 2 ways:
         # - we split into train/test partitions using the simple default splitter, not one that is aware of mnk-groups
-        # - we use an overall MSE scorer, not one that looks at the performance loss of predicted wrt. autotuned
-        gds = GridSearchCV(model, param_grid, cv=3, refit=True, n_jobs=model_options["njobs"], verbose=1)
-        log += print_and_log("\nStart Hyperparameter optimization & training ... :\n")
+        # - we use an overall MSE scorer, not one that looks at the performance loss of predicted mnks wrt. autotuned
+        gds = GridSearchCV(model, param_grid, cv=model_options["splits"], refit=True, n_jobs=1, verbose=2)
+        log += print_and_log(visual_separator)
+        log += print_and_log("\nStart hyperparameter optimization & training ... :\n")
+        log += print_and_log("Hyper-parameter grid:")
+        for par, values in param_grid.items():
+            log += print_and_log("\t" + par + ": " + str(values))
+        log += print_and_log("\n")
         gds.fit(X_train, Y_train)
-        describe_hpo(gds, X_train, Y_train, log)
+        log += print_and_log("... done")
+        describe_hpo(gds, log, folder)
         model = gds.best_estimator_
 
     else:
@@ -862,11 +876,31 @@ def plot_tree(gs, X, Y, log):
     viz.view()
 
 
-def describe_hpo(gs, X, Y, log):
+def describe_hpo(gs, log, folder):
+
+    # Scores obtained during hyperparameter optimization
+    columns_to_print = list()
+    for par in gs.param_grid.keys():
+        columns_to_print.append('param_' + par)
+    columns_to_print += [
+        'mean_test_score', 'std_test_score', 
+        'mean_train_score', 'std_train_score'
+    ]
+    log += print_and_log("\nHyperparameter search results (head):")
+    cv_results = pd.DataFrame(gs.cv_results_)[columns_to_print]
+    with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+        log += print_and_log(cv_results.head())
+    cv_results_path = os.path.join(folder, "hyperparameter_optimization_results.csv")
+    with open(cv_results_path, "w") as f:
+        cv_results.to_csv(f, index=False)
+    log += print_and_log("Wrote hyperparameter results to " + cv_results_path)
+
+    # Best parameter set
     log += print_and_log("\nBest parameters set found on development set:")
     for bestpar_name, bestpar_value in gs.best_params_.items():
         log += print_and_log("\t{}: {}".format(bestpar_name, bestpar_value))
 
+    # Best estimator
     log += print_and_log("\nBest estimator:")
     best_estimator = gs.best_estimator_
     log += print_and_log(best_estimator)
