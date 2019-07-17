@@ -118,6 +118,7 @@ Given predictive models (in the form of serialized [scikit-learn](https://scikit
 
 ```%bash
 ./predict_genpars.py  -c 5000 \  # chunk size
+    -j 12 \ # 12 threads
     --largeDB2 /scratch/largeDB2/feature_tree_refit.p \ # path to models
     --largeDB1 /scratch/largeDB1/feature_tree_refit.p \
     --medium /scratch/medium/feature_tree_refit.p \
@@ -125,7 +126,7 @@ Given predictive models (in the form of serialized [scikit-learn](https://scikit
     --tiny /scratch/tiny/feature_tree_refit.p
 ```
 
-This may take several hours. For example, generating parameters for the P100 took 8 hours on a single Piz Daint (CSCS) node.
+This may take several hours. For example, generating parameters for the P100 took 8 hours on a single Piz Daint (CSCS) node. For this reason, intermediate results are stored in JSON files in a folder `predict_genpars_ckpt`. Once this scipt has finished running, and you've successfully obtained a new `parameters_GPU.json` file, you may delete the checkpoint folder `predict_genpars_ckpt`.
 
 #### 6. Evaluate the predicted parameters
 
