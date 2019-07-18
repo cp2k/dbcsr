@@ -200,6 +200,12 @@ derived_parameters = {
         # 'ru_tiny_min_threads',  # equal to size_c
         # 'ru_tiny_nblks_per_sm',  # always = 32, so also removing: 'ru_tiny_nwarps_per_sm', 'ru_tiny_occupancy'
         "ru_tiny_nsm",  # 'ru_tiny_ngpu',  # highly correlated with ru_tiny_n_sm
+        # tiny: performance counter estimations based on:
+        # Kothapalli, Kishore & Mukherjee, Rishabh & Rehman, M & Patidar, Suryakant & J. Narayanan, P & Srinathan, Kannan. (2009)
+        # A performance prediction model for the CUDA GPGPU platform. 16th International Conference on High Performance Computing
+        # HiPC 2009 - Proceedings. 463-472. 10.1109/HIPC.2009.5433179.
+        "tiny_estimate_Nmem",
+        "tiny_estimate_perf",
     ],
     "small": [
         "nblks",
@@ -659,6 +665,41 @@ class PredictiveParameters:
 
     def get_ru_tiny_occupancy(self):
         return self.get("ru_tiny_nwarps_per_sm") / self.gpu["Warps_/_Multiprocessor"]  # float
+
+    def get_tiny_estimate_Nmem_shared(self):
+        """
+        Estimation of the number of cycles required for all the shared memory accesses by a thread,
+        based on Kothapalli et al., "A performance prediction model for the CUDA GPGPU platform"
+        """
+        return 3 * self.get("grouping") +\
+            self.get("grouping") *\
+            (3 + self.get("ru_tinysmallmed_unroll_factor_a") + self.get("ru_tinysmallmed_unroll_factor_b") + 2*self.get("k")) # int
+
+    def get_tiny_estimate_Nmem_global(self):
+        """
+        Estimation of the number of cycles required for all the global memory accesses by a thread,
+        based on Kothapalli et al., "A performance prediction model for the CUDA GPGPU platform"
+        """
+        return 3 * self.get("grouping") +\
+            self.get("grouping") *\
+            (self.get("ru_tinysmallmed_unroll_factor_a") + self.get("ru_tinysmallmed_unroll_factor_b")) # int
+
+    def get_tiny_estimate_Nmem(self):
+        """
+        Estimation of the number of cycles required for all the memory accesses (shared and global) by a thread,
+        based on Kothapalli et al., "A performance prediction model for the CUDA GPGPU platform"
+        """
+        return self.gpu["Global_memory_access_latency"] * self.get("tiny_estimate_Nmem_global") +\
+            self.gpu['Shared_memory_access_latency'] * self.get("tiny_estimate_Nmem_shared")
+        # int
+
+    def get_tiny_estimate_perf(self):
+        """
+        Estimation of the kernel's performance,
+        based on Kothapalli et al., "A performance prediction model for the CUDA GPGPU platform"
+        """
+        c_K = self.get("nblks") * self.get("threads") * self.get("tiny_estimate_Nmem")
+        # float
 
     # ===============================================================================
     # Resource usage (small, medium, large)
