@@ -211,7 +211,15 @@ def get_log_folder(prefitted_model_folder, destination_folder, algo):
             folder = folder_name
         log_file = os.path.join(folder, "log.txt")
         if not os.path.exists(folder):
-            os.makedirs(folder)
+            while True: # loop until we've created a folder
+                try:
+                    os.makedirs(folder)
+                    break
+                except FileExistsError:
+                    time_stamp_seconds = datetime.datetime.now().strftime("-%S")
+                    new_folder += time_stamp_seconds
+                    print("Folder {} exists already. Trying to create folder {}.".format(folder, new_folder))
+                    folder = new_folder
 
     else:
 
