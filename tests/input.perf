@@ -2,7 +2,7 @@
 # Note that the total number of processors must be divisible per npcols
 0
 # Use MPI-RMA
-0
+F
 # operation
 dbcsr_multiply
 # matrix sizes (M, N, K)
