@@ -113,6 +113,17 @@ set(DBCSR_CUDA_SRCS
   acc/cublaswrap/cublas.cu
   )
 
+set(DBCSR_HIP_SRCS
+  acc/hip/acc_hip_dev.cpp
+  acc/hip/acc_hip_error.cpp
+  acc/hip/acc_hip_event.cpp
+  acc/hip/acc_hip_mem.cpp
+  acc/hip/acc_hip_stream.cpp
+  acc/hip/acc_hip_init.cpp
+  acc/hip/dbcsr_hip_nvtx_cu.cpp
+  acc/rocblaswrap/rocblas.cpp
+  )
+
 add_library(dbcsr ${DBCSR_SRCS})
 
 if (TARGET PkgConfig::deps)
@@ -188,6 +199,38 @@ if (USE_CUDA)
     # Help the static cuda runtime find the driver (libcuda.dyllib) at runtime.
     set_property(TARGET dbcsr PROPERTY BUILD_RPATH ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
   endif ()
+endif ()
+
+if (USE_HIP)
+  target_link_libraries(dbcsr PRIVATE hip_hcc)
+
+  # add libhipsmm which has its own CMakeLists.txt due to code generation
+  add_subdirectory(acc/libsmm_acc/libhipsmm)
+  target_link_libraries(dbcsr PRIVATE libhipsmm)
+
+  #target_link_libraries(dbcsr PRIVATE nvrtc)  ## I think I just don't need to do that
+
+  # Compile the rest of the HIP source files into a static library
+  set_source_files_properties(${DBCSR_HIP_SRCS} PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
+  hip_add_library(acc_hip STATIC ${DBCSR_HIP_SRCS})
+  # target_compile_options?
+  # target_include_directories ?
+  target_compile_definitions(acc_hip PRIVATE -DARCH_NUMBER=${CUDA_ARCH_NUMBER})
+  target_link_libraries(dbcsr PRIVATE acc_hip)
+
+  # tests need some of the libcusmm headers and for CMake <3.12
+  # compatibility, we can't set it on the the object library itself
+  target_include_directories(dbcsr PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc/libhipsmm>
+    )
+
+  if (USE_ROCBLAS)
+    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC=2)
+    target_link_libraries(dbcsr PRIVATE ${ROCBLAS})
+  else ()
+    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
+  endif ()
+
 endif ()
 
 if (APPLE)
