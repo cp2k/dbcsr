@@ -36,7 +36,7 @@ visual_separator = "\n----------------------------------------------------------
 
 
 # ===============================================================================
-def main(datadir, destdir, algo, plot_all, model_args, nrows, prefitted_model_folder, run_intermediate_evaluation):
+def main(datadir, destdir, algo, model_args, nrows, prefitted_model_folder, run_intermediate_evaluation):
     """
     This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
     For more details, see predict.md
@@ -63,7 +63,7 @@ def main(datadir, destdir, algo, plot_all, model_args, nrows, prefitted_model_fo
     # Read data
     log += print_and_log(visual_separator)
     X, X_mnk, Y, log, data_nrows = read_data(
-        algo, datadir, nrows, plot_all, folder, log
+        algo, datadir, nrows, folder, log
     )
 
     # ===============================================================================
@@ -84,7 +84,7 @@ def main(datadir, destdir, algo, plot_all, model_args, nrows, prefitted_model_fo
 
         log += print_and_log("\nPreparing to fit model...")
         X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model_partial, log = train_model(
-            X, X_mnk, Y, algo, model_args, plot_all, folder, log
+            X, X_mnk, Y, algo, model_args, folder, log
         )
 
     else:  # load pre-trained model
@@ -109,7 +109,6 @@ def main(datadir, destdir, algo, plot_all, model_args, nrows, prefitted_model_fo
             max_performances_algo,
             baseline_performances_algo,
             data_nrows,
-            plot_all,
             log,
             folder,
         )
@@ -146,7 +145,6 @@ def main(datadir, destdir, algo, plot_all, model_args, nrows, prefitted_model_fo
         max_performances_algo,
         baseline_performances_algo,
         data_nrows,
-        plot_all,
         log,
         folder,
     )
@@ -415,7 +413,7 @@ def get_reference_performances(folder, algo):
     )
 
 
-def read_data(algo, read_from, nrows, plot_all, folder, log):
+def read_data(algo, read_from, nrows, folder, log):
 
     parquet_data_file = os.path.join(read_from, "training_data_" + algo + ".parquet")
     log += print_and_log("\nRead data from " + parquet_data_file)
@@ -462,9 +460,6 @@ def read_data(algo, read_from, nrows, plot_all, folder, log):
     log += print_and_log(X_mnk.head())
     log += print_and_log("# unique mnks:")
     log += print_and_log(str(X_mnk["mnk"].nunique().compute()) + '\n')
-
-    if plot_all:
-        plot_training_data(Y, X_mnk, algo, folder)
 
     return X, X_mnk, Y, log, nrows_data
 
@@ -700,7 +695,7 @@ def get_train_test_partition(to_partition, test, train=None):
     return partitioned
 
 
-def train_model(X, X_mnk, Y, algo, model_options, plot_all, folder, log):
+def train_model(X, X_mnk, Y, algo, model_options, folder, log):
 
     # ===============================================================================
     # Get options
@@ -845,8 +840,6 @@ def train_model(X, X_mnk, Y, algo, model_options, plot_all, folder, log):
         model.fit(X_train, Y_train)
 
     safe_pickle([X_train.columns.values, model, test], results_file)
-    if plot_all:
-        plot_tree(gs, X, Y, log)
     log += print_and_log("\nCompleted fit, wrote results to " + results_file)
     log += print_and_log(visual_separator)
     return_model = model
@@ -914,22 +907,6 @@ def fetch_pre_trained_model_partial(X, X_mnk, Y, model_options, model_path_folde
 
 # ===============================================================================
 # Describe and evaluate model
-def plot_tree(gs, X, Y, log):
-    # Export tree SVG
-    from dtreeviz.trees import dtreeviz
-
-    log += print_and_log("\nExport tree to SVG:")
-    viz = dtreeviz(
-        best_estimator,
-        X.values,
-        Y.values.ravel(),
-        target_name="perf",
-        feature_names=predictor_names,
-    )
-    viz.save("trytree.svg")
-    viz.view()
-
-
 def describe_hpo(gs, log, folder):
 
     # Scores obtained during hyperparameter optimization
@@ -963,7 +940,7 @@ def describe_hpo(gs, log, folder):
     return log
 
 
-def describe_model(model, X, Y, log, plot_all):
+def describe_model(model, X, Y, log):
     predictor_names = X.columns.values.tolist()
     log += print_and_log("Model:")
     log += print_and_log(model)
@@ -971,21 +948,6 @@ def describe_model(model, X, Y, log, plot_all):
     log += print_and_log("Predictor variables:")
     for p in predictor_names:
         log += print_and_log("\t{}".format(p))
-
-    # Export tree SVG
-    if plot_all:
-        from dtreeviz.trees import dtreeviz
-
-        log += print_and_log("\nExport tree to SVG:")
-        viz = dtreeviz(
-            model,
-            X.values,
-            Y.values.ravel(),
-            target_name="perf",
-            feature_names=predictor_names,
-        )
-        viz.save("trytree.svg")
-        viz.view()
 
     return log
 
@@ -1212,7 +1174,6 @@ def evaluate_model(
     max_performances_algo,
     baseline_performances_algo,
     data_nrows,
-    plot_all,
     log,
     folder,
 ):
@@ -1224,7 +1185,7 @@ def evaluate_model(
     log += print_and_log(visual_separator)
     log += print_and_log("Start model evaluation")
     if all([x is not None for x in [X_test, Y_test]]):
-        log = describe_model(model, X_test, Y_test, log, plot_all)
+        log = describe_model(model, X_test, Y_test, log)
 
     # Training error
     if all([x is not None for x in [X_train, X_mnk_train, Y_train]]):
@@ -1588,12 +1549,6 @@ if __name__ == "__main__":
         "-a", "--algo", metavar="algoname", default="", help="Algorithm to train on"
     )
     parser.add_argument(
-        "-c",
-        "--plot_all",
-        default=False,
-        help="Plot more stuff (Warning: can be very slow for large trees and create very large files)",
-    )
-    parser.add_argument(
         "-m",
         "--model",
         default="DT",
@@ -1664,7 +1619,6 @@ if __name__ == "__main__":
         args.folder,
         args.destination_folder,
         args.algo,
-        args.plot_all,
         model_args,
         args.nrows,
         args.prefitted_model,
