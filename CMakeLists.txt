@@ -23,6 +23,11 @@ cmake_dependent_option(USE_CUBLAS "Build with CUBLAS support" OFF "USE_CUDA" OFF
 set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if CUDA is enabled (default: P100)")
 set_property(CACHE WITH_GPU PROPERTY STRINGS K20X K40 K80 P100 V100)
 
+option(USE_HIP "Build with HIP support" OFF)
+cmake_dependent_option(USE_ROCBLAS "Build with ROCBLAS support" OFF "USE_HIP" OFF)
+set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if HIP is enabled (default: P100)")
+set_property(CACHE WITH_GPU PROPERTY STRINGS K20X K40 K80 P100 V100)
+
 enable_language(Fortran)
 enable_testing() # enables the `make test` target
 
@@ -30,9 +35,17 @@ if (WITH_C_API AND WITH_EXAMPLES)
   enable_language(CXX)
 endif ()
 
-if (USE_CUDA)
-  enable_language(CXX CUDA)
+# USE_CUDA and USE_HIP are mutually exclusive options: we either compile with nvcc OR with hipcc
+if (USE_CUDA AND USE_HIP)
+  message(FATAL_ERROR "USE_CUDA and USE_HIP options are mutually exclusive. Please choose one.")
+endif()
 
+if (USE_CUDA OR USE_HIP)
+  enable_language(CXX)
+endif()
+
+if (USE_CUDA)
+  enable_language(CUDA)
   set(CUDA_ARCH_NUMBER_K20X 35)
   set(CUDA_ARCH_NUMBER_K40  35)
   set(CUDA_ARCH_NUMBER_K80  37)
@@ -45,6 +58,26 @@ if (USE_CUDA)
   set(CMAKE_CUDA_STANDARD 11)  # adds -std=c++11 if needed by the nvcc backend
   set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 endif ()
+
+# Hints: https://github.com/ROCm-Developer-Tools/HIP/tree/master/samples/2_Cookbook/12_cmake_hip_add_executable
+if (USE_HIP)
+  if(NOT DEFINED HIP_PATH)
+    if(NOT DEFINED ENV{HIP_PATH})
+      set(HIP_PATH "/opt/rocm/hip" CACHE PATH "Path to HIP installation")
+    else()
+      set(HIP_PATH $ENV{HIP_PATH} CACHE PATH "Path to HIP installation")
+    endif()
+  endif()
+  set(CMAKE_MODULE_PATH "${HIP_PATH}/cmake" ${CMAKE_MODULE_PATH})
+
+  find_package(HIP)
+  if(HIP_FOUND)
+    message(STATUS "Found HIP: " ${HIP_VERSION})
+  else()
+    message(FATAL_ERROR "Could not find HIP. Ensure that HIP is either installed in /opt/rocm/hip or the variable HIP_PATH is set to point to the right location.")
+endif()
+
+endif()
 
 # we're always using at least C++11
 set(CMAKE_CXX_STANDARD 11)
@@ -83,6 +116,13 @@ if (USE_CUBLAS)
   find_library(CUBLAS cublas HINT ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
   if (NOT CUBLAS)
     message(FATAL_ERROR "cuBLAS library not found but support requested")
+  endif ()
+endif ()
+
+if (USE_ROCBLAS)
+  find_library(ROCBLAS rocblas)
+  if (NOT ROCBLAS)
+    message(FATAL_ERROR "rocBLAS library not found but support requested")
   endif ()
 endif ()
 
