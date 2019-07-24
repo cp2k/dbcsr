@@ -78,7 +78,7 @@ def main(datadir, destdir, algo, plot_all, model_args, nrows, prefitted_model_fo
     log += print_and_log("[moving to pandas] Done")
 
     # ===============================================================================
-    # Get or train model
+    # Get or train partial model (i.e. trained on the "training" part of the data, not the entire dataset)
     log += print_and_log(visual_separator)
     if len(prefitted_model_folder) == 0:  # train a model
 
@@ -89,38 +89,36 @@ def main(datadir, destdir, algo, plot_all, model_args, nrows, prefitted_model_fo
 
     else:  # load pre-trained model
 
-        log += print_and_log("\nReading pre-fitted model from " + prefitted_model_folder)
-
-        if run_intermediate_evaluation:
-            X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model_partial, log = fetch_pre_trained_model_partial(
-                X, X_mnk, Y, prefitted_model_folder, log
-            )
-        else:
-            X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model_partial = \
-            None, None, None, None, None, None, None
+        log += print_and_log("\nReading partial pre-fitted partial model from " + prefitted_model_folder)
+        X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model_partial, log = fetch_pre_trained_model_partial(
+            X, X_mnk, Y, model_args, prefitted_model_folder, log
+        )
 
     # ===============================================================================
     # Evaluate partial model
-    log = evaluate_model(
-        model_partial,
-        X_train,
-        X_mnk_train,
-        Y_train,
-        X_test,
-        X_mnk_test,
-        Y_test,
-        max_performances_ref,
-        max_performances_algo,
-        baseline_performances_algo,
-        data_nrows,
-        plot_all,
-        log,
-        folder,
-    )
+    if model_partial is not None:
+        log = evaluate_model(
+            model_partial,
+            X_train,
+            X_mnk_train,
+            Y_train,
+            X_test,
+            X_mnk_test,
+            Y_test,
+            max_performances_ref,
+            max_performances_algo,
+            baseline_performances_algo,
+            data_nrows,
+            plot_all,
+            log,
+            folder,
+        )
 
     # ===============================================================================
     # Refit to the entire dataset
-    if run_intermediate_evaluation or len(prefitted_model_folder) == 0:
+    # Get or train model fit on the entire dataset (i.e. not just on the "training" part of the data)
+    model_file = os.path.join(prefitted_model_folder, "feature_tree_refit.p")
+    if run_intermediate_evaluation or len(prefitted_model_folder) == 0 or not os.path.exists(model_file):
         log += print_and_log(visual_separator)
         log += print_and_log("\nRefit to the entire dataset:")
         X = X_train.append(X_test, ignore_index=True)
@@ -869,7 +867,7 @@ def fetch_pre_trained_model(model_path_folder, X, log):
     model_path = os.path.join(model_path_folder, "feature_tree_refit.p")
     print("fetched pre-trained model from: {}".format(model_path))
     features, model = safe_pickle_load(model_path)
-    print(model)
+    print("Pickled variables:\nfeatures:{}\nmodel:{}".format(features, model))
 
     log += print_and_log("\nDrop non-selected features")
     predictor_names = X.columns.values.tolist()
@@ -878,11 +876,11 @@ def fetch_pre_trained_model(model_path_folder, X, log):
     return X, model, log
 
 
-def fetch_pre_trained_model_partial(X, X_mnk, Y, model_path_folder, log):
+def fetch_pre_trained_model_partial(X, X_mnk, Y, model_options, model_path_folder, log):
 
     # Load pre-trained model, selected features and indices of test-set
     model_path = os.path.join(model_path_folder, "feature_tree.p")
-    print("fetched pre-trained model from: {}".format(model_path))
+    print("fetched partial pre-trained model from: {}".format(model_path))
     features, model, test_indices = safe_pickle_load(model_path)
     print("Pickled stuff:\nfeatures:{}\nmodel:{}\ntest_indices:{}".format(features, model, test_indices))
     if "mnk" in features:
@@ -906,6 +904,10 @@ def fetch_pre_trained_model_partial(X, X_mnk, Y, model_path_folder, log):
     features_to_drop = [f for f in predictor_names if f not in features]
     X_train.drop(features_to_drop, axis=1, inplace=True)
     X_test.drop(features_to_drop, axis=1, inplace=True)
+
+    out_of_memory_computation = ('dask' in model_options["model"])
+    if out_of_memory_computation:
+        X_train, Y_train = pandas_to_dask(X_train, Y_train)
 
     return X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model, log
 
@@ -940,7 +942,7 @@ def describe_hpo(gs, log, folder):
     ]
     log += print_and_log("\nHyperparameter search results (head):")
     cv_results = pd.DataFrame(gs.cv_results_)[columns_to_print]
-    with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
         log += print_and_log(cv_results.head())
     cv_results_path = os.path.join(folder, "hyperparameter_optimization_results.csv")
     with open(cv_results_path, "w") as f:
@@ -1233,7 +1235,7 @@ def evaluate_model(
 
         # Test error
         if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
-            y_test_pred = model.predict(X_test.values)
+            y_test_pred = model.predict(X_test)
             log += print_and_log("\nTesting error:")
             log = print_custom_error(Y_test, y_test_pred, X_mnk_test, log, True)
             log = print_error(Y_test, y_test_pred, log)
