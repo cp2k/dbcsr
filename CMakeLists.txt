@@ -3,10 +3,34 @@ cmake_minimum_required (VERSION 3.10)
 # include our cmake snippets
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-project(dbcsr)
+# =================================================================================================
+# REQUIRE OUT-OF-SOURCE BUILDS
+file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
+if(EXISTS "${LOC_PATH}")
+    message(FATAL_ERROR "You cannot build in a source directory (or any directory with a CMakeLists.txt file). Please make a build subdirectory.")
+endif()
 
+# =================================================================================================
+# PROJECT AND VERSION
+file(STRINGS VERSION VERSION_INFO)
+foreach(line ${VERSION_INFO})
+  if (${line} MATCHES "^([^#].*)=[ \t]*(.*)$")
+    set(key ${CMAKE_MATCH_1})
+    set(value ${CMAKE_MATCH_2})
+    string(REGEX REPLACE "[ \t\n]+$" "" key "${key}")
+    string(REGEX REPLACE "[ \t\n]+$" "" value "${value}")
+    set(VERSION_${key} "${value}")
+    continue ()
+  endif ()
+endforeach()
+
+project(dbcsr
+        VERSION ${VERSION_MAJOR}.${VERSION_MINOR}
+        DESCRIPTION "DBCSR: Distributed Block Compressed Sparse Row matrix library (https://dbcsr.cp2k.org)")
+
+# =================================================================================================
+# OPTIONS
 include(CMakeDependentOption)
-
 option(USE_MPI "Build with MPI support" ON)
 option(USE_OPENMP "Build with OpenMP support" ON)
 cmake_dependent_option(WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "USE_MPI" OFF) # the ISO_C_BINDINGS require MPI unconditionally
@@ -28,6 +52,8 @@ cmake_dependent_option(USE_ROCBLAS "Build with ROCBLAS support" OFF "USE_HIP" OF
 set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if HIP is enabled (default: P100)")
 set_property(CACHE WITH_GPU PROPERTY STRINGS K20X K40 K80 P100 V100)
 
+# =================================================================================================
+# LANGUAGES
 enable_language(Fortran)
 enable_testing() # enables the `make test` target
 
@@ -35,6 +61,8 @@ if (WITH_C_API AND WITH_EXAMPLES)
   enable_language(CXX)
 endif ()
 
+# =================================================================================================
+# CHECK OPTIONS
 # USE_CUDA and USE_HIP are mutually exclusive options: we either compile with nvcc OR with hipcc
 if (USE_CUDA AND USE_HIP)
   message(FATAL_ERROR "USE_CUDA and USE_HIP options are mutually exclusive. Please choose one.")
@@ -53,7 +81,7 @@ if (USE_CUDA)
   set(CUDA_ARCH_NUMBER_V100 70)
   set(CUDA_ARCH_NUMBER ${CUDA_ARCH_NUMBER_${WITH_GPU}})
 
-  set(CMAKE_CUDA_FLAGS "-arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
+  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
 
   set(CMAKE_CUDA_STANDARD 11)  # adds -std=c++11 if needed by the nvcc backend
   set(CMAKE_CUDA_STANDARD_REQUIRED ON)
@@ -82,6 +110,7 @@ endif()
 set(CMAKE_CXX_STANDARD 11)
 
 # PACKAGE DISCOVERY:
+# =================================================================================================
 
 # this module looks preferably for version 3 of Python. If not found, version 2 is searched
 # In CMake 3.15, if a python virtual environment is activated, it will search the virtual
@@ -129,6 +158,24 @@ else()
   message(FATAL_ERROR "Unknown SMM library specified" )
 endif ()
 
+# hints: https://github.com/ROCm-Developer-Tools/HIP/tree/master/samples/2_Cookbook/12_cmake_hip_add_executable
+if (USE_HIP)
+  if(NOT DEFINED HIP_PATH)
+    if(NOT DEFINED ENV{HIP_PATH})
+      set(HIP_PATH "/opt/rocm/hip" CACHE PATH "Path to HIP installation")
+    else()
+      set(HIP_PATH $ENV{HIP_PATH} CACHE PATH "Path to HIP installation")
+    endif()
+  endif()
+  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "/opt/rocm/hip/cmake")
+  find_package(HIP)
+  if(HIP_FOUND)
+    message(STATUS "Found HIP: " ${HIP_VERSION})
+  else()
+    message(FATAL_ERROR "Could not find HIP. Ensure that HIP is either installed in /opt/rocm/hip or the variable HIP_PATH is set to point to the right location.")
+  endif()
+endif()
+
 if (USE_CUBLAS)
   # the rest of CUDA is detected by enabling the language
   find_library(CUBLAS cublas HINT ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
@@ -148,27 +195,23 @@ if (USE_OPENMP)
   find_package(OpenMP REQUIRED)
 endif ()
 
-# make sure that the default is a RELEASE
-if (NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE RELEASE CACHE STRING
+# =================================================================================================
+# - ? -
+
+# make sure that the default build type is RELEASE
+set(default_build_type "Release")
+if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
+  set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE STRING
     "Choose the type of build, options are: Debug Release Coverage."
     FORCE)
+  # set the possible values of build type for cmake-gui
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+    "Debug" "Release" "Coverage")
 endif ()
 
 include(CompilerConfiguration)
 include(CheckCompilerSupport)
-
-file(STRINGS VERSION VERSION_INFO)
-foreach(line ${VERSION_INFO})
-  if (${line} MATCHES "^([^#].*)=[ \t]*(.*)$")
-    set(key ${CMAKE_MATCH_1})
-    set(value ${CMAKE_MATCH_2})
-    string(REGEX REPLACE "[ \t\n]+$" "" key "${key}")
-    string(REGEX REPLACE "[ \t\n]+$" "" value "${value}")
-    set(VERSION_${key} "${value}")
-    continue ()
-  endif ()
-endforeach()
 
 add_subdirectory(src)
 add_subdirectory(tests)
