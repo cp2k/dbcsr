@@ -24,7 +24,7 @@ extern "C" {
         c_dbcsr_init_lib_internal(&fcomm, io_unit);
     }
 
-    void c_dbcsr_finalize_lib();
+    void c_dbcsr_finalize_lib(void);
 
     void c_dbcsr_distribution_new_aux(void** dist, MPI_Fint* fcomm, int* row_dist, int row_dist_size,
                                       int* col_dist, int col_dist_size);
