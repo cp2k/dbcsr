@@ -23,7 +23,6 @@ import argparse
 from predict_helpers import (
     safe_pickle,
     safe_pickle_load,
-    plot_training_data,
     plot_choice_goodness,
     plot_performance_gains,
     plot_scaled_performance_gains,
@@ -32,11 +31,22 @@ from predict_helpers import (
     performance_gain,
 )
 from kernels.cusmm_predict import to_tuple, to_string
-visual_separator = "\n----------------------------------------------------------------------------"
+
+visual_separator = (
+    "\n----------------------------------------------------------------------------"
+)
 
 
 # ===============================================================================
-def main(datadir, destdir, algo, model_args, nrows, prefitted_model_folder, run_intermediate_evaluation):
+def main(
+    datadir,
+    destdir,
+    algo,
+    model_args,
+    nrows,
+    prefitted_model_folder,
+    run_intermediate_evaluation,
+):
     """
     This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
     For more details, see predict.md
@@ -62,15 +72,13 @@ def main(datadir, destdir, algo, model_args, nrows, prefitted_model_folder, run_
     # ===============================================================================
     # Read data
     log += print_and_log(visual_separator)
-    X, X_mnk, Y, log, data_nrows = read_data(
-        algo, datadir, nrows, folder, log
-    )
+    X, X_mnk, Y, log, data_nrows = read_data(algo, datadir, nrows, folder, log)
 
     # ===============================================================================
     # AT THIS POINT, WE MOVE FROM DASK (out-of-memory dataframes) TO PANDAS
     # ===============================================================================
     log += print_and_log("[moving to pandas] Compute X ...")
-    X= X.compute()
+    X = X.compute()
     log += print_and_log("[moving to pandas] Compute Y ...")
     Y = Y.compute()
     log += print_and_log("[moving to pandas] Compute X_mnk ...")
@@ -89,7 +97,9 @@ def main(datadir, destdir, algo, model_args, nrows, prefitted_model_folder, run_
 
     else:  # load pre-trained model
 
-        log += print_and_log("\nReading partial pre-fitted partial model from " + prefitted_model_folder)
+        log += print_and_log(
+            "\nReading partial pre-fitted partial model from " + prefitted_model_folder
+        )
         X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model_partial, log = fetch_pre_trained_model_partial(
             X, X_mnk, Y, model_args, prefitted_model_folder, log
         )
@@ -117,18 +127,26 @@ def main(datadir, destdir, algo, model_args, nrows, prefitted_model_folder, run_
     # Refit to the entire dataset
     # Get or train model fit on the entire dataset (i.e. not just on the "training" part of the data)
     model_file = os.path.join(prefitted_model_folder, "feature_tree_refit.p")
-    if run_intermediate_evaluation or len(prefitted_model_folder) == 0 or not os.path.exists(model_file):
+    if (
+        run_intermediate_evaluation
+        or len(prefitted_model_folder) == 0
+        or not os.path.exists(model_file)
+    ):
         log += print_and_log(visual_separator)
         log += print_and_log("\nRefit to the entire dataset:")
         X = X_train.append(X_test, ignore_index=True)
         X_mnk = X_mnk_train.append(X_mnk_test, ignore_index=True)
         Y = Y_train.append(Y_test, ignore_index=True)
         model_partial.fit(X, Y)
-        model = model_partial  # This model is fit on the entire dataset, it is not partial
+        model = (
+            model_partial
+        )  # This model is fit on the entire dataset, it is not partial
         results_file = os.path.join(folder, "feature_tree_refit.p")
         safe_pickle([X.columns.values, model], results_file)
     else:
-        log += print_and_log("\nReading pre-fitted model from " + prefitted_model_folder)
+        log += print_and_log(
+            "\nReading pre-fitted model from " + prefitted_model_folder
+        )
         X, model, log = fetch_pre_trained_model(prefitted_model_folder, X, log)
 
     # ===============================================================================
@@ -158,36 +176,48 @@ def main(datadir, destdir, algo, model_args, nrows, prefitted_model_folder, run_
 
 # ===============================================================================
 # Model hyperparameters
-optimized_hyperparameters = {  # chosen by common sense, then trial and error
+optimized_hyperparameters = {
+    # chosen by hyperparameter optimization. The optimal parameter depends on the GPU, the data ...
+    # the values below are the average of the optimal value for the P100 and the V100
     "tiny": {
-        "max_depth": 16,
-        "min_samples_leaf": 2,
-        "min_samples_split": 15,
-        "n_features_to_drop": 2,
+        "scikit_max_depth": 16,
+        "scikit_min_samples_leaf": 2,
+        "scikit_min_samples_split": 15,
+        "xgboost_max_depth": 12,
+        "xgboost_learning_rate": 0.1,
+        "xgboost_n_estimators": 100,
     },
     "small": {
-        "max_depth": 16,
-        "min_samples_leaf": 2,
-        "min_samples_split": 15,
-        "n_features_to_drop": 16,
+        "scikit_max_depth": 16,
+        "scikit_min_samples_leaf": 2,
+        "scikit_min_samples_split": 15,
+        "xgboost_max_depth": 14,
+        "xgboost_learning_rate": 0.1,
+        "xgboost_n_estimators": 170,
     },
     "medium": {
-        "max_depth": 18,
-        "min_samples_leaf": 2,
-        "min_samples_split": 13,
-        "n_features_to_drop": 12,
+        "scikit_max_depth": 18,
+        "scikit_min_samples_leaf": 2,
+        "scikit_min_samples_split": 13,
+        "xgboost_max_depth": 14,
+        "xgboost_learning_rate": 0.1,
+        "xgboost_n_estimators": 140,
     },
     "largeDB1": {
-        "max_depth": 18,
-        "min_samples_leaf": 2,
-        "min_samples_split": 15,
-        "n_features_to_drop": 12,
+        "scikit_max_depth": 18,
+        "scikit_min_samples_leaf": 2,
+        "scikit_min_samples_split": 15,
+        "xgboost_max_depth": 14,
+        "xgboost_learning_rate": 0.1,
+        "xgboost_n_estimators": 170,
     },
     "largeDB2": {
-        "max_depth": 18,
-        "min_samples_leaf": 2,
-        "min_samples_split": 15,
-        "n_features_to_drop": 12,
+        "scikit_max_depth": 18,
+        "scikit_min_samples_leaf": 2,
+        "scikit_min_samples_split": 15,
+        "xgboost_max_depth": 14,
+        "xgboost_learning_rate": 0.1,
+        "xgboost_n_estimators": 170,
     },
 }
 
@@ -200,21 +230,27 @@ def get_log_folder(prefitted_model_folder, destination_folder, algo):
 
         # Create a new folder for this model
         file_signature = datetime.datetime.now().strftime("%Y-%m-%d--%H-%M")
-        folder_name = os.path.join("model_selection", os.path.join(algo, file_signature))
-        if destination_folder is not ".":
+        folder_name = os.path.join(
+            "model_selection", os.path.join(algo, file_signature)
+        )
+        if destination_folder != ".":
             folder = os.path.join(destination_folder, folder_name)
         else:
             folder = folder_name
         log_file = os.path.join(folder, "log.txt")
         if not os.path.exists(folder):
-            while True: # loop until we've created a folder
+            while True:  # loop until we've created a folder
                 try:
                     os.makedirs(folder)
                     break
                 except FileExistsError:
                     time_stamp_seconds = datetime.datetime.now().strftime("-%S")
-                    new_folder += time_stamp_seconds
-                    print("Folder {} exists already. Trying to create folder {}.".format(folder, new_folder))
+                    new_folder = folder + time_stamp_seconds
+                    print(
+                        "Folder {} exists already. Trying to create folder {}.".format(
+                            folder, new_folder
+                        )
+                    )
                     folder = new_folder
 
     else:
@@ -420,8 +456,14 @@ def read_data(algo, read_from, nrows, folder, log):
 
     # ===============================================================================
     # Get 'X'
-    cols_to_ignore = ["perf_scaled", "mnk", "perf (Gflop/s)", "perf_scaled_by_algo", "perf_squared"]
-    X = dd.read_parquet(parquet_data_file, )
+    cols_to_ignore = [
+        "perf_scaled",
+        "mnk",
+        "perf (Gflop/s)",
+        "perf_scaled_by_algo",
+        "perf_squared",
+    ]
+    X = dd.read_parquet(parquet_data_file)
     cols_to_drop = set(cols_to_ignore).intersection(set(X.columns.values))
     log += print_and_log("\nDropping following columns from X:\n" + str(cols_to_drop))
     X = X.drop(cols_to_drop, axis=1)
@@ -459,7 +501,7 @@ def read_data(algo, read_from, nrows, folder, log):
     log += print_and_log("Head:")
     log += print_and_log(X_mnk.head())
     log += print_and_log("# unique mnks:")
-    log += print_and_log(str(X_mnk["mnk"].nunique().compute()) + '\n')
+    log += print_and_log(str(X_mnk["mnk"].nunique().compute()) + "\n")
 
     return X, X_mnk, Y, log, nrows_data
 
@@ -469,7 +511,7 @@ def read_data(algo, read_from, nrows, folder, log):
 def get_hyperparameter_grid(algo, model_name, n_features):
     # Hyper-parameters to optimize
     param_grid = dict()
-    if 'scikit' in model_name: # it is a scikit-learn model
+    if "scikit" in model_name:  # it is a scikit-learn model
         if algo == "medium":
             max_depth = [10, 13, 16, 18, 21, 24]
             min_samples_split = [2, 8, 12, 18]
@@ -494,7 +536,7 @@ def get_hyperparameter_grid(algo, model_name, n_features):
             model_name + "__estimator__" + "min_samples_split": list(min_samples_split),
             model_name + "__estimator__" + "min_samples_leaf": list(min_samples_leaf),
         }
-    elif 'xgb' in model_name: # it is an XGBOOST model
+    elif "xgb" in model_name:  # it is an XGBOOST model
         if algo == "medium":
             max_depth = [16, 13]
             n_estimators = [100, 140]
@@ -503,7 +545,7 @@ def get_hyperparameter_grid(algo, model_name, n_features):
             max_depth = range(10, n_features + 2, 1)
             n_estimators = range(30, 160, 20)
             learning_rate = range(1, 5)
-            learning_rate = [i/10 for i in learning_rate]
+            learning_rate = [i / 10 for i in learning_rate]
         elif algo == "small":
             max_max_depth = 20
             max_depth = range(10, min(max_max_depth, n_features + 2), 4)
@@ -515,9 +557,9 @@ def get_hyperparameter_grid(algo, model_name, n_features):
             n_estimators = range(50, 200, 30)
             learning_rate = [0.1, 0.3]
         param_grid = {
-            "max_depth" : list(max_depth),
-            "learning_rate" : list(learning_rate),
-            "n_estimators" : list(n_estimators)
+            "max_depth": list(max_depth),
+            "learning_rate": list(learning_rate),
+            "n_estimators": list(n_estimators),
         }
     else:
         assert False, "Cannot recognize model: " + model_name
@@ -526,128 +568,103 @@ def get_hyperparameter_grid(algo, model_name, n_features):
 
 
 def get_scikit_DecisionTree_model(algo):
-    # Fixed parameters
-    model_name = "scikit-Decision_Tree"
-
-    # Tree model
     from sklearn.tree import DecisionTreeRegressor
+
     model = DecisionTreeRegressor(
         criterion="mse",
         splitter="best",
-        min_samples_split=optimized_hyperparameters[algo]["min_samples_split"],
-        min_samples_leaf=optimized_hyperparameters[algo]["min_samples_leaf"],
-        max_depth=optimized_hyperparameters[algo]["max_depth"],
+        min_samples_split=optimized_hyperparameters[algo]["scikit_min_samples_split"],
+        min_samples_leaf=optimized_hyperparameters[algo]["scikit_min_samples_leaf"],
+        max_depth=optimized_hyperparameters[algo]["scikit_max_depth"],
         max_features=None,
         max_leaf_nodes=None,
     )
-
     # Feature selection through permutation importance
     from eli5.sklearn import PermutationImportance
-    model_perm = PermutationImportance(model, cv=None)
 
-    return model_perm, model_name
+    model_perm = PermutationImportance(model, cv=None)
+    return model_perm, "scikit-Decision_Tree"
+
 
 def get_scikit_RandomForest_model(algo, njobs, ntrees):
-    from itertools import chain
     from sklearn.ensemble import RandomForestRegressor
 
-    # Fixed parameters
-    model_name = "scikit-Random_Forest"
-    bootstrap = True
-    splitting_criterion = "mse"
-    max_features = "sqrt"
-
-    # Parameters to optimize
-    step_big = 50
-    step_small = 5
-    n_estimators = chain(range(1, 10, step_small), range(50, 200, step_big))
-
-    # Random Forest model
     model = RandomForestRegressor(
-        criterion=splitting_criterion,
+        criterion="mse",
         n_estimators=ntrees,
-        min_samples_split=optimized_hyperparameters[algo]["min_samples_split"],
-        min_samples_leaf=optimized_hyperparameters[algo]["min_samples_leaf"],
-        max_depth=optimized_hyperparameters[algo]["max_depth"],
-        bootstrap=bootstrap,
-        max_features=max_features,
+        min_samples_split=optimized_hyperparameters[algo]["scikit_min_samples_split"],
+        min_samples_leaf=optimized_hyperparameters[algo]["scikit_min_samples_leaf"],
+        max_depth=optimized_hyperparameters[algo]["scikit_max_depth"],
+        bootstrap=True,
+        max_features="sqrt",
         n_jobs=njobs,
     )
-
-    return model, model_name
+    return model, "scikit-Random_Forest"
 
 
 def get_xgb_DecisionTree_model(algo, njobs, ntrees):
-
-    # Base model
     params = {
-        'max_depth': optimized_hyperparameters[algo]["max_depth"],
-        'learning_rate': 0.3,
-        'tree_method': "exact",
-        'n_estimators': ntrees,
-        'verbosity': 2,
-        'objective': 'reg:squarederror',
-		'booster': 'gbtree',
-        'n_jobs': njobs,
+        "max_depth": optimized_hyperparameters[algo]["xgboost_max_depth"],
+        "learning_rate": optimized_hyperparameters[algo]["xgboost_learning_rate"],
+        "n_estimators": optimized_hyperparameters[algo]["xgboost_n_estimators"],
+        "tree_method": "exact",
+        "verbosity": 2,
+        "objective": "reg:squarederror",
+        "booster": "gbtree",
+        "n_jobs": njobs,
     }
-    model_name = "xgb-Decision_Tree"
     model = xgb.XGBRegressor(**params)
-
-    return model, model_name
+    return model, "xgb-Decision_Tree"
 
 
 def get_xgb_DecisionTree_dask_model(algo, njobs, ntrees):
-    from dask_ml.xgboost import XGBRegressor
-    # Base model
     params = {
-        'max_depth': optimized_hyperparameters[algo]["max_depth"],
-        'learning_rate': 0.3,
-        'tree_method': "exact",
-        'n_estimators': ntrees,
-        'verbosity': 2,
-        'objective': 'reg:squarederror',
-		'booster': 'gbtree',
-        'n_jobs': njobs,
+        "max_depth": optimized_hyperparameters[algo]["xgboost_max_depth"],
+        "learning_rate": optimized_hyperparameters[algo]["xgboost_learning_rate"],
+        "n_estimators": optimized_hyperparameters[algo]["xgboost_n_estimators"],
+        "tree_method": "exact",
+        "verbosity": 2,
+        "objective": "reg:squarederror",
+        "booster": "gbtree",
+        "n_jobs": njobs,
     }
-    model_name = "xgb-Decision_Tree_dask"
-    model = xgb.XGBRegressor(**params)
+    from dask_ml.xgboost import XGBRegressor_dask
 
-    return model, model_name
+    model = XGBRegressor_dask(**params)
+    return model, "xgb-Decision_Tree_dask"
 
 
 def get_xgb_DecisionTree_GPU_model(algo, njobs, ntrees):
-
-    # Base model
     params = {
-        'max_depth': optimized_hyperparameters[algo]["max_depth"],
-        'learning_rate': 0.3,
-        'tree_method': "gpu_hist",
-        'n_estimators': ntrees,
-        'verbosity': 2,
-        'objective': 'reg:squarederror',
-		'booster': 'gbtree',
-        'n_jobs': njobs,
+        "max_depth": optimized_hyperparameters[algo]["xgboost_max_depth"],
+        "learning_rate": optimized_hyperparameters[algo]["xgboost_learning_rate"],
+        "n_estimators": optimized_hyperparameters[algo]["xgboost_n_estimators"],
+        "tree_method": "gpu_hist",
+        "verbosity": 2,
+        "objective": "reg:squarederror",
+        "booster": "gbtree",
+        "n_jobs": njobs,
     }
-    model_name = "xgb-Decision_Tree_GPU"
     model = xgb.XGBRegressor(**params)
-    return model, model_name
+    return model, "xgb-Decision_Tree_GPU"
 
 
 def get_xgb_RandomForest_model(algo, njobs, ntrees):
     params = {
-        'max_depth': optimized_hyperparameters[algo]["max_depth"],
-        'learning_rate': 0.3,
-        'tree_method': "exact",
-        'n_estimators': ntrees,
-        'nthread': njobs,
-        'subsample': 0.5,
-        'colsample_bynode': 0.8,
-        'num_parallel_tree': ntrees,
-        'verbosity': 2,
-        'objective':'reg:squarederror'
+        "max_depth": optimized_hyperparameters[algo]["xgboost_max_depth"],
+        "learning_rate": optimized_hyperparameters[algo]["xgboost_learning_rate"],
+        "n_estimators": optimized_hyperparameters[algo]["xgboost_n_estimators"],
+        "tree_method": "exact",
+        "nthread": njobs,
+        "subsample": 0.5,
+        "colsample_bynode": 0.8,
+        "num_parallel_tree": ntrees,
+        "verbosity": 2,
+        "objective": "reg:squarederror",
     }
     model = xgb.XGBRFRegressor(**params)
     return model, "xgb-Random_Forest"
+
 
 def get_model(model_to_train, algo, njobs, ntrees):
     if model_to_train == "DT":
@@ -679,7 +696,11 @@ def get_train_test_partition(to_partition, test, train=None):
         all_indices = set(range(len(to_partition[0].index)))
         train = list(all_indices - set(test))
 
-    print("About to partition into train (len: {:,}) / test (len: {:,})".format(len(train), len(test)))
+    print(
+        "About to partition into train (len: {:,}) / test (len: {:,})".format(
+            len(train), len(test)
+        )
+    )
     partitioned = list()
     for df in to_partition:
         df_train = df.iloc[
@@ -722,7 +743,6 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
     )
     del X, X_mnk, Y  # free memory
     predictor_names = X_train.columns.values
-    n_predictors = len(predictor_names)
 
     # ===============================================================================
     # Predictive model
@@ -744,15 +764,13 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
     # Feature selection: SelectFromModel
     from sklearn.feature_selection import SelectFromModel
 
-    feature_importance_threshold = 0.0005  # only remove the features with VERY little importance
-    max_features = n_predictors - optimized_hyperparameters[algo]["n_features_to_drop"]
+    feature_importance_threshold = (
+        0.0005
+    )  # only remove the features with VERY little importance
     model.cv = cv.split(X_train.values, Y_train.values, groups=X_mnk_train.values)
     model.fit(X_train.values, Y_train.values)
     model_fs = SelectFromModel(
-        model,
-        threshold=feature_importance_threshold,
-        max_features=None,
-        prefit=True,
+        model, threshold=feature_importance_threshold, max_features=None, prefit=True
     )
     print(model_fs)
     model.cv = None
@@ -797,7 +815,7 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
 
     # ===============================================================================
     # Fit
-    out_of_memory_computation = ('dask' in model_options["model"])
+    out_of_memory_computation = "dask" in model_options["model"]
     if out_of_memory_computation:
         X_train, Y_train = pandas_to_dask(X_train, Y_train)
 
@@ -813,10 +831,25 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
         # - we use an overall MSE scorer, not one that looks at the performance loss of predicted mnks wrt. autotuned
         if out_of_memory_computation:
             from dask_ml.model_selection import GridSearchCV
-            gds_pars = {"estimator": model, "param_grid": param_grid, "cv": model_options["splits"], "refit": True, "n_jobs": 1}
+
+            gds_pars = {
+                "estimator": model,
+                "param_grid": param_grid,
+                "cv": model_options["splits"],
+                "refit": True,
+                "n_jobs": 1,
+            }
         else:
             from sklearn.model_selection import GridSearchCV
-            gds_pars = {"estimator": model, "param_grid": param_grid, "cv": model_options["splits"], "refit": True, "n_jobs": 1, "verbose": 2}
+
+            gds_pars = {
+                "estimator": model,
+                "param_grid": param_grid,
+                "cv": model_options["splits"],
+                "refit": True,
+                "n_jobs": 1,
+                "verbose": 2,
+            }
         gds = GridSearchCV(**gds_pars)
         log += print_and_log(visual_separator)
         log += print_and_log("\nStart hyperparameter optimization & training ... :\n")
@@ -875,7 +908,11 @@ def fetch_pre_trained_model_partial(X, X_mnk, Y, model_options, model_path_folde
     model_path = os.path.join(model_path_folder, "feature_tree.p")
     print("fetched partial pre-trained model from: {}".format(model_path))
     features, model, test_indices = safe_pickle_load(model_path)
-    print("Pickled stuff:\nfeatures:{}\nmodel:{}\ntest_indices:{}".format(features, model, test_indices))
+    print(
+        "Pickled stuff:\nfeatures:{}\nmodel:{}\ntest_indices:{}".format(
+            features, model, test_indices
+        )
+    )
     if "mnk" in features:
         features.remove("mnk")
 
@@ -898,7 +935,7 @@ def fetch_pre_trained_model_partial(X, X_mnk, Y, model_options, model_path_folde
     X_train.drop(features_to_drop, axis=1, inplace=True)
     X_test.drop(features_to_drop, axis=1, inplace=True)
 
-    out_of_memory_computation = ('dask' in model_options["model"])
+    out_of_memory_computation = "dask" in model_options["model"]
     if out_of_memory_computation:
         X_train, Y_train = pandas_to_dask(X_train, Y_train)
 
@@ -912,14 +949,16 @@ def describe_hpo(gs, log, folder):
     # Scores obtained during hyperparameter optimization
     columns_to_print = list()
     for par in gs.param_grid.keys():
-        columns_to_print.append('param_' + par)
+        columns_to_print.append("param_" + par)
     columns_to_print += [
-        'mean_test_score', 'std_test_score', 
-        'mean_train_score', 'std_train_score'
+        "mean_test_score",
+        "std_test_score",
+        "mean_train_score",
+        "std_train_score",
     ]
     log += print_and_log("\nHyperparameter search results (head):")
     cv_results = pd.DataFrame(gs.cv_results_)[columns_to_print]
-    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    with pd.option_context("display.max_rows", None, "display.max_columns", None):
         log += print_and_log(cv_results.head())
     cv_results_path = os.path.join(folder, "hyperparameter_optimization_results.csv")
     with open(cv_results_path, "w") as f:
@@ -970,14 +1009,11 @@ def print_custom_error(y_true, y_pred, X_mnk, log, scaled=True):
 
 def print_error(y_true, y_pred, log):
     from sklearn.metrics import mean_absolute_error, mean_squared_error
-    result_line = (
-        "\tOverall error:\n"
-        + "absolute: {:>6.3f}, mean squared {:>6.3f}"
-    )
+
+    result_line = "\tOverall error:\n" + "absolute: {:>6.3f}, mean squared {:>6.3f}"
     log += print_and_log(
         result_line.format(
-            mean_absolute_error(y_true, y_pred),
-            mean_squared_error(y_true, y_pred)
+            mean_absolute_error(y_true, y_pred), mean_squared_error(y_true, y_pred)
         )
     )
     return log
@@ -1213,9 +1249,7 @@ def evaluate_model(
         log = print_custom_error(
             y_train_scaled_back, y_train_pred_scaled_back, X_mnk_train, log, False
         )
-        log = print_error(
-            y_train_scaled_back, y_train_pred_scaled_back, log
-        )
+        log = print_error(y_train_scaled_back, y_train_pred_scaled_back, log)
 
         if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
             # Test error (scaled-back)
@@ -1229,9 +1263,7 @@ def evaluate_model(
             log = print_custom_error(
                 y_test_scaled_back, y_test_pred_scaled_back, X_mnk_test, log, False
             )
-            log = print_error(
-                y_test_scaled_back, y_test_pred_scaled_back, log
-            )
+            log = print_error(y_test_scaled_back, y_test_pred_scaled_back, log)
 
     # ===============================================================================
     # Print histogram for "best" estimator
@@ -1264,22 +1296,20 @@ def evaluate_model(
             log += print_and_log("Prediction accuracy plot: " + str(mnk_string))
 
             plot_prediction_accuracy(
-                m_, n_, k_,
-                Y_train_mnk,
-                y_train_pred_mnk, True, pp
+                m_, n_, k_, Y_train_mnk, y_train_pred_mnk, True, pp
             )
 
             log += print_and_log("Goodness plot: " + str(mnk_string))
-            Y_train_mnk_scaled_back = scale_back(
-                Y_train_mnk, X_mnk_train, max_performances_ref, mnk_string
-            )
             plot_choice_goodness(
                 m_,
                 n_,
                 k_,
                 baseline_performances_algo,
                 max_performances_ref,
-                Y_train["perf_scaled"].iloc[idx_mnk].values, y_train_pred_mnk, True, pp
+                Y_train["perf_scaled"].iloc[idx_mnk].values,
+                y_train_pred_mnk,
+                True,
+                pp,
             )
 
         # ===============================================================================
@@ -1373,12 +1403,20 @@ def evaluate_model(
     # 'Results' = y_true ( y_chosen )
     if all([x is not None for x in [X_train, X_mnk_train, Y_train]]):
         predictive_model_perf_train, predictive_model_perf_train_scaled = get_predive_model_performances(
-            Y_train, y_train_pred, X_mnk_train, max_performances_ref, max_performances_algo
+            Y_train,
+            y_train_pred,
+            X_mnk_train,
+            max_performances_ref,
+            max_performances_algo,
         )
 
         if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
             predictive_model_perf_test, predictive_model_perf_test_scaled = get_predive_model_performances(
-                Y_test, y_test_pred, X_mnk_test, max_performances_ref, max_performances_algo
+                Y_test,
+                y_test_pred,
+                X_mnk_test,
+                max_performances_ref,
+                max_performances_algo,
             )
 
     # ===============================================================================
@@ -1552,7 +1590,8 @@ if __name__ == "__main__":
         "-m",
         "--model",
         default="DT",
-        help="Model to train. Options: DT (Decision Trees), RF (Random Forests), xgb-DT, xgb-DT-dask (out-of-memory xgboost), xgb-DT-GPU (with GPU support), xgb-RF",
+        help="Model to train. Options: DT (Decision Trees), RF (Random Forests), xgb-DT, xgb-DT-dask (out-of-memory"
+        + "xgboost), xgb-DT-GPU (with GPU support), xgb-RF",
     )
     parser.add_argument(
         "-o",
@@ -1622,5 +1661,5 @@ if __name__ == "__main__":
         model_args,
         args.nrows,
         args.prefitted_model,
-        args.intermediate_evaluation
+        args.intermediate_evaluation,
     )
