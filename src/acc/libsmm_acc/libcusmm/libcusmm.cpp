@@ -39,10 +39,10 @@ inline int launch_kernel_from_handle(CUfunction const& kern_func, int nblks, int
         "cuLaunchKernel",
         cuLaunchKernel(kern_func,       // CUfunction
                        nblks, 1, 1,     // grid dimension x, y, z
-                       threads, 1, 1,	// block dimension x, y, z
+                       threads, 1, 1,   // block dimension x, y, z
                        0, stream,       // shared memory size and stream
                        args, NULL));    // arguments
-    return(0);
+    return 0;
 
 }
 
@@ -98,7 +98,7 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
         case 2:
-            kernel_code += cusmm_dnt_largeDB2; 
+            kernel_code += cusmm_dnt_largeDB2;
             kernel_name = "cusmm_dnt_largeDB2<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
@@ -106,21 +106,21 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
         case 3:
-            kernel_code += cusmm_dnt_medium; 
+            kernel_code += cusmm_dnt_medium;
             kernel_name = "cusmm_dnt_medium<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
         case 4:
-            kernel_code += cusmm_dnt_small; 
+            kernel_code += cusmm_dnt_small;
             kernel_name = "cusmm_dnt_small<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
         case 5:
-            kernel_code += cusmm_dnt_tiny; 
+            kernel_code += cusmm_dnt_tiny;
             kernel_name = "cusmm_dnt_tiny<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
@@ -244,14 +244,14 @@ int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m,
 //===========================================================================
 extern "C" int libsmm_acc_process (void *param_stack, int stack_size, int nparams, int datatype, void *a_data, void *b_data, void *c_data, int m, int n, int k, int def_mnk, void *stream){
     if(def_mnk!=1)
-        return(-1); // inhomogeneous stacks not supported
+        return -1; // inhomogeneous stacks not supported
     if(datatype==dbcsr_type_real_8) {
       if(m>MAX_BLOCK_DIM || n>MAX_BLOCK_DIM || k>MAX_BLOCK_DIM)
-	return(-1); // maximum size over any dimention
+        return -1; // maximum size over any dimension
       else
         return (libcusmm_process_d ((int *) param_stack, stack_size, *((CUstream *) stream), m, n, k, (double *) a_data, (double *) b_data, (double *) c_data));
     }
-    return(-1); // datatype not supported
+    return -1; // datatype not supported
 };
 
 
@@ -260,7 +260,7 @@ void jit_transpose_handle(CUfunction& kern_func, int m, int n){
 
     // Create nvrtcProgram
     nvrtcProgram kernel_program;
-    std::string transpose_code = cusmm_common + cusmm_transpose; 
+    std::string transpose_code = cusmm_common + cusmm_transpose;
     NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, transpose_code.c_str(), "transpose_kernel.cu", 0, NULL, NULL));
 
     // Add lowered name
@@ -328,7 +328,7 @@ int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
 
     // Construct argument pointer list and launch function
     kern_func = kernel_it->second; // retrieve handle
-    int* trs_stack_ = trs_stack + offset; 
+    int* trs_stack_ = trs_stack + offset;
     void *args[] = { &trs_stack_, &buffer};
 
     return launch_kernel_from_handle(kern_func, nblks, 128, stream, args);
@@ -342,7 +342,7 @@ extern "C" int libsmm_acc_transpose (void *trs_stack, int offset, int nblks, voi
     if(datatype != dbcsr_type_real_8)
         return 0; //transpose not needed
     if(m>MAX_BLOCK_DIM || n>MAX_BLOCK_DIM)
-      return 0; // maximum size over any dimention
+      return 0; // maximum size over any dimension
     return libcusmm_transpose_d((int *) trs_stack, offset, nblks, (double *) buffer, m, n, *((CUstream *) stream));
 }
 

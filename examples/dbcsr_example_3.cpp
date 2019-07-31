@@ -20,7 +20,7 @@
 #include <dbcsr.h>
 
 
-// Random distribution by using round-robin assignment 
+// Random distribution by using round-robin assignment
 // of blocks to processors
 std::vector<int> random_dist(int dist_size, int nbins)
 {
@@ -141,9 +141,9 @@ int main(int argc, char* argv[])
 
 
     MPI_Comm_free(&group);
-    
+
     c_dbcsr_finalize_lib();
-    
+
     MPI_Finalize();
 
     return 0;
