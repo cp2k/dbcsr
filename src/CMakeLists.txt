@@ -1,8 +1,11 @@
-
+# =================================================================================================
+# INCLUDE
 include(fypp-sources)
 include(GNUInstallDirs)  # required to get a proper LIBDIR variable
 include(CMakePackageConfigHelpers)
 
+# =================================================================================================
+# SOURCE FILE LISTS
 add_fypp_sources(DBCSR_SRCS
   dbcsr_api.F
   acc/cublaswrap/dbcsr_cublas.F
@@ -124,6 +127,17 @@ set(DBCSR_HIP_SRCS
   acc/rocblaswrap/rocblas.cpp
   )
 
+# set the __SHORT_FILE__ per file for dbcsr sources
+foreach (dbcsr_src ${DBCSR_SRCS})
+  # add_fypp_sources returns a path in the current binary dir
+  get_filename_component(dbcsr_src "${dbcsr_src}" ABSOLUTE)
+  file(RELATIVE_PATH short_file "${CMAKE_CURRENT_BINARY_DIR}" "${dbcsr_src}")
+  set_source_files_properties(${dbcsr_src} PROPERTIES COMPILE_DEFINITIONS __SHORT_FILE__="dbcsr/${short_file}")
+endforeach ()
+
+
+# =================================================================================================
+# DBCSR LIBRARY
 add_library(dbcsr ${DBCSR_SRCS})
 
 if (TARGET PkgConfig::deps)
@@ -138,6 +152,51 @@ endif ()
 if (BLAS_LIBRARIES MATCHES "mkl_")
   target_compile_definitions(dbcsr PRIVATE __MKL)
 endif ()
+
+if (APPLE)
+  # fix /proc/self/statm can not be opened on macOS
+  target_compile_definitions(dbcsr PRIVATE __NO_STATM_ACCESS)
+
+  if (BLAS_LIBRARIES MATCHES "Accelerate")
+    target_compile_definitions(dbcsr PRIVATE __ACCELERATE)
+  endif ()
+endif()
+
+# set -DNDEBUG for Release or Coverage builds
+target_compile_definitions(dbcsr PRIVATE "$<$<CONFIG:Release>:NDEBUG>")
+target_compile_definitions(dbcsr PRIVATE "$<$<CONFIG:Coverage>:NDEBUG>")
+
+target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
+target_include_directories(dbcsr PRIVATE base) # do not export those includes, but some srcs do an unprefixed include
+# make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
+target_include_directories(dbcsr PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+  )
+target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL)
+set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
+
+if (OpenMP_FOUND)
+  target_link_libraries(dbcsr PRIVATE OpenMP::OpenMP_Fortran)
+endif ()
+
+if (MPI_FOUND)
+  # once built, a user of the dbcsr library can not influence anything anymore by setting those flags:
+  target_compile_definitions(dbcsr PRIVATE __parallel __MPI_VERSION=${MPI_Fortran_VERSION_MAJOR})
+
+  # Instead of resetting the compiler for MPI, we are adding the compiler flags
+  # otherwise added by the mpifort-wrapper directly; based on hints from:
+  #   https://cmake.org/pipermail/cmake/2012-June/050991.html
+  # Here we assume that the MPI implementation found uses the same compiler
+  # as the Fortran compiler we found prior. Otherwise we might be adding incompatible
+  # compiler flags at this point.
+  # when built against MPI, a dbcsr consumer has to specify the MPI flags as well, therefore: PUBLIC
+  target_link_libraries(dbcsr PUBLIC MPI::MPI_Fortran)
+endif ()
+
+# =================================================================================================
+# DBCSR LIBRARY's CUDA BACKEND
 
 # adapted from https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html:
 # replaces in the Fortran and CXX targets the interface compile options by a more differentiated version
@@ -201,25 +260,31 @@ if (USE_CUDA)
   endif ()
 endif ()
 
+# =================================================================================================
+# DBCSR LIBRARY's HIP BACKEND
+
 if (USE_HIP)
-  target_link_libraries(dbcsr PRIVATE hip_hcc)
 
   # add libhipsmm which has its own CMakeLists.txt due to code generation
   add_subdirectory(acc/libsmm_acc/libhipsmm)
-  target_link_libraries(dbcsr PRIVATE libhipsmm)
-
-  #target_link_libraries(dbcsr PRIVATE nvrtc)  ## I think I just don't need to do that
+  target_link_libraries(dbcsr PUBLIC libhipsmm)
+  target_link_libraries(dbcsr PUBLIC ${ROCM_HIPRTC_LIB})
 
   # Compile the rest of the HIP source files into a static library
   set_source_files_properties(${DBCSR_HIP_SRCS} PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
   hip_add_library(acc_hip STATIC ${DBCSR_HIP_SRCS})
-  # target_compile_options?
-  # target_include_directories ?
-  target_compile_definitions(acc_hip PRIVATE -DARCH_NUMBER=${CUDA_ARCH_NUMBER})
-  target_link_libraries(dbcsr PRIVATE acc_hip)
+  #target_compile_definitions(acc_hip PRIVATE -DARCH_NUMBER=${CUDA_ARCH_NUMBER})
+  target_link_libraries(dbcsr PUBLIC acc_hip)
+  install(TARGETS acc_hip
+    EXPORT libcusmmTargets
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 
   # tests need some of the libcusmm headers and for CMake <3.12
   # compatibility, we can't set it on the the object library itself
+  target_include_directories(dbcsr PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/hip>
+    )
   target_include_directories(dbcsr PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc/libhipsmm>
     )
@@ -233,56 +298,8 @@ if (USE_HIP)
 
 endif ()
 
-if (APPLE)
-  # fix /proc/self/statm can not be opened on macOS
-  target_compile_definitions(dbcsr PRIVATE __NO_STATM_ACCESS)
-
-  if (BLAS_LIBRARIES MATCHES "Accelerate")
-    target_compile_definitions(dbcsr PRIVATE __ACCELERATE)
-  endif ()
-endif()
-
-# set -DNDEBUG for Release or Coverage builds
-target_compile_definitions(dbcsr PRIVATE "$<$<CONFIG:Release>:NDEBUG>")
-target_compile_definitions(dbcsr PRIVATE "$<$<CONFIG:Coverage>:NDEBUG>")
-
-target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
-target_include_directories(dbcsr PRIVATE base) # do not export those includes, but some srcs do an unprefixed include
-# make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files they usually include:
-target_include_directories(dbcsr PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-  )
-target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL)
-set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
-
-if (OpenMP_FOUND)
-  target_link_libraries(dbcsr PRIVATE OpenMP::OpenMP_Fortran)
-endif ()
-
-if (MPI_FOUND)
-  # once built, a user of the dbcsr library can not influence anything anymore by setting those flags:
-  target_compile_definitions(dbcsr PRIVATE __parallel __MPI_VERSION=${MPI_Fortran_VERSION_MAJOR})
-
-  # Instead of resetting the compiler for MPI, we are adding the compiler flags
-  # otherwise added by the mpifort-wrapper directly; based on hints from:
-  #   https://cmake.org/pipermail/cmake/2012-June/050991.html
-  # Here we assume that the MPI implementation found uses the same compiler
-  # as the Fortran compiler we found prior. Otherwise we might be adding incompatible
-  # compiler flags at this point.
-  # when built against MPI, a dbcsr consumer has to specify the MPI flags as well, therefore: PUBLIC
-  target_link_libraries(dbcsr PUBLIC MPI::MPI_Fortran)
-endif ()
-
-# set the __SHORT_FILE__ per file for dbcsr sources
-foreach (dbcsr_src ${DBCSR_SRCS})
-  # add_fypp_sources returns a path in the current binary dir
-  get_filename_component(dbcsr_src "${dbcsr_src}" ABSOLUTE)
-  file(RELATIVE_PATH short_file "${CMAKE_CURRENT_BINARY_DIR}" "${dbcsr_src}")
-  set_source_files_properties(${dbcsr_src} PROPERTIES COMPILE_DEFINITIONS __SHORT_FILE__="dbcsr/${short_file}")
-endforeach ()
-
+# =================================================================================================
+# DBCSR's C API
 if (WITH_C_API)
   # Build the C API as a separate library
   add_fypp_sources(DBCSR_C_SRCS dbcsr_api_c.F)
@@ -300,10 +317,13 @@ if (WITH_C_API)
     )
 endif ()
 
+# =================================================================================================
+# INSTALL
+
 set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 set(config_namespace "DBCSR::")
 
-# Install targets:
+# Install targets
 install(TARGETS dbcsr
   EXPORT DBCSRTargets
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"

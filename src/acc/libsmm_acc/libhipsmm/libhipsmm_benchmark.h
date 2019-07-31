@@ -7,42 +7,31 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#ifndef LIBCUSMM_BENCHMARK_H
-#define LIBCUSMM_BENCHMARK_H
+#ifndef LIBHIPSMM_BENCHMARK_H
+#define LIBHIPSMM_BENCHMARK_H
 
-#include <cuda.h>
+#include <hip/hip_runtime.h>
 
 #define MAX_BLOCK_DIM 80
 
-// Macros for CUDA error handling
-// Wrap calls to CUDA APIs (CUDA driver API and CUDA runtime API)
-#define CU_SAFE_CALL(name, x)                                     \
+// Macros for HIP error handling
+// Wrap calls to HIP API
+#define HIP_SAFE_CALL(name, x)                                    \
   do {                                                            \
-    CUresult result = x;                                          \
-    if (result != CUDA_SUCCESS) {                                 \
-      const char *msg;                                            \
-      cuGetErrorName(result, &msg);                               \
-      printf("\nCUDA DRIVER API ERROR: %s failed with error %s\n",\
-             name, msg);                                          \
-      exit(1);                                                    \
-    }                                                             \
-  } while(0)
-#define CUDA_SAFE_CALL(name, x)                                   \
-  do {                                                            \
-    hipError_t result = x;                                       \
-    if (result != hipSuccess) {                                  \
-      printf("\nCUDA RUNTIME API error: %s failed with error %s\n",\
-             name, hipGetErrorName(result));                     \
+    hipError_t result = x;                                        \
+    if (result != hipSuccess) {                                   \
+      printf("\nHIP error: %s failed with error %s\n",            \
+             name, hipGetErrorName(result));                      \
       exit(1);                                                    \
     }                                                             \
   } while(0)
 
-typedef int (*KernelLauncher)(int *param_stack, int stack_size, CUstream stream,
+typedef int (*KernelLauncher)(int *param_stack, int stack_size, hipStream_t stream,
                               int m_max, int n_max, int k_max,
                               double *a_data, double *b_data, double *c_data);
 
 typedef int (*TransposeLauncher)(int *param_stack, int offset, int nblks,
-                                 double *buffer, int m, int n, CUstream stream);
+                                 double *buffer, int m, int n, hipStream_t stream);
 
 enum benchmark_mode {test, tune, timing};
 
@@ -62,7 +51,7 @@ typedef struct {
     double *d_mat_a, *d_mat_b, *d_mat_c;
     int    *d_stack, *d_stack_trs_a, *d_stack_trs_b;
     // events for measuring the runtime
-    CUevent t_start, t_stop;
+    hipEvent_t t_start, t_stop;
 } libcusmm_benchmark_t;
 
 void matInit(double* mat, int mat_n, int x, int y, int seed);
@@ -93,6 +82,6 @@ int libcusmm_benchmark_transpose(libcusmm_benchmark_t* handle, int mat_m, int ma
 int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
                                   double* mat, double* mat_trs, double* d_mat,
                                   int n, int mat_m, int mat_n,
-                                  CUevent start, CUevent stop, char** kernel_descr,
+                                  hipEvent_t start, hipEvent_t stop, char** kernel_descr,
                                   TransposeLauncher* launcher);
 #endif

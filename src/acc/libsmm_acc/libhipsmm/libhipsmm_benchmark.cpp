@@ -57,15 +57,15 @@ void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, benchmark_mode mode,
     h->stack_trs_a =  (int*) malloc(h->n_stack_trs_a * sizeof(int));
     h->stack_trs_b =  (int*) malloc(h->n_stack_trs_b * sizeof(int));
 
-    CUDA_SAFE_CALL("hipMalloc", hipMalloc(&h->d_mat_a, h->n_a * max_m * max_k * sizeof(double)));
-    CUDA_SAFE_CALL("hipMalloc", hipMalloc(&h->d_mat_b, h->n_b * max_k * max_n * sizeof(double)));
-    CUDA_SAFE_CALL("hipMalloc", hipMalloc(&h->d_mat_c, h->n_c * max_m * max_n * sizeof(double)));
-    CUDA_SAFE_CALL("hipMalloc", hipMalloc(&h->d_stack, h->n_stack * 3 * sizeof(int)));
-    CUDA_SAFE_CALL("hipMalloc", hipMalloc(&h->d_stack_trs_a, h->n_stack_trs_a * sizeof(int)));
-    CUDA_SAFE_CALL("hipMalloc", hipMalloc(&h->d_stack_trs_b, h->n_stack_trs_b * sizeof(int)));
+    HIP_SAFE_CALL("hipMalloc", hipMalloc(&h->d_mat_a, h->n_a * max_m * max_k * sizeof(double)));
+    HIP_SAFE_CALL("hipMalloc", hipMalloc(&h->d_mat_b, h->n_b * max_k * max_n * sizeof(double)));
+    HIP_SAFE_CALL("hipMalloc", hipMalloc(&h->d_mat_c, h->n_c * max_m * max_n * sizeof(double)));
+    HIP_SAFE_CALL("hipMalloc", hipMalloc(&h->d_stack, h->n_stack * 3 * sizeof(int)));
+    HIP_SAFE_CALL("hipMalloc", hipMalloc(&h->d_stack_trs_a, h->n_stack_trs_a * sizeof(int)));
+    HIP_SAFE_CALL("hipMalloc", hipMalloc(&h->d_stack_trs_b, h->n_stack_trs_b * sizeof(int)));
 
-    CU_SAFE_CALL("cuEventCreate", cuEventCreate(&h->t_start, CU_EVENT_DEFAULT));
-    CU_SAFE_CALL("cuEventCreate", cuEventCreate(&h->t_stop, CU_EVENT_DEFAULT));
+    HIP_SAFE_CALL("hipEventCreate", hipEventCreate(&h->t_start));
+    HIP_SAFE_CALL("hipEventCreate", hipEventCreate(&h->t_stop));
 
 }
 
@@ -73,14 +73,14 @@ void libcusmm_benchmark_init(libcusmm_benchmark_t** handle, benchmark_mode mode,
 //===========================================================================
 // Free memory and cuda events
 void libcusmm_benchmark_finalize(libcusmm_benchmark_t* handle){
-    CU_SAFE_CALL("cuEventDestroy", cuEventDestroy(handle->t_start));
-    CU_SAFE_CALL("cuEventDestroy", cuEventDestroy(handle->t_stop));
-    CUDA_SAFE_CALL("hipFree", hipFree(handle->d_stack_trs_b));
-    CUDA_SAFE_CALL("hipFree", hipFree(handle->d_stack_trs_a));
-    CUDA_SAFE_CALL("hipFree", hipFree(handle->d_stack));
-    CUDA_SAFE_CALL("hipFree", hipFree(handle->d_mat_c));
-    CUDA_SAFE_CALL("hipFree", hipFree(handle->d_mat_b));
-    CUDA_SAFE_CALL("hipFree", hipFree(handle->d_mat_a));
+    HIP_SAFE_CALL("hipEventDestroy", hipEventDestroy(handle->t_start));
+    HIP_SAFE_CALL("hipEventDestroy", hipEventDestroy(handle->t_stop));
+    HIP_SAFE_CALL("hipFree", hipFree(handle->d_stack_trs_b));
+    HIP_SAFE_CALL("hipFree", hipFree(handle->d_stack_trs_a));
+    HIP_SAFE_CALL("hipFree", hipFree(handle->d_stack));
+    HIP_SAFE_CALL("hipFree", hipFree(handle->d_mat_c));
+    HIP_SAFE_CALL("hipFree", hipFree(handle->d_mat_b));
+    HIP_SAFE_CALL("hipFree", hipFree(handle->d_mat_a));
     free(handle->stack_trs_b);
     free(handle->stack_trs_a);
     free(handle->stack);
@@ -276,8 +276,8 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
      break;
     }
 
- CUstream stream;
- CU_SAFE_CALL("cuStreamCreate", cuStreamCreate(&stream, CU_STREAM_DEFAULT));
+ hipStream_t stream;
+ HIP_SAFE_CALL("hipStreamCreate", hipStreamCreate(&stream));
 
  int error_counter = 0;
  int best_kernel = -1;
@@ -302,9 +302,9 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
 
  sumCPU =  checkSum(h->mat_c, h->n_c, mat_m, mat_n);
 
- CUDA_SAFE_CALL("hipMemcpy", hipMemcpy(h->d_mat_a, h->mat_a, h->n_a * mat_m * mat_k * sizeof(double), hipMemcpyHostToDevice));
- CUDA_SAFE_CALL("hipMemcpy", hipMemcpy(h->d_mat_b, h->mat_b, h->n_b * mat_k * mat_n * sizeof(double), hipMemcpyHostToDevice));
- CUDA_SAFE_CALL("hipMemcpy", hipMemcpy(h->d_stack, h->stack, h->n_stack * 3 * sizeof(int), hipMemcpyHostToDevice));
+ HIP_SAFE_CALL("hipMemcpy", hipMemcpy(h->d_mat_a, h->mat_a, h->n_a * mat_m * mat_k * sizeof(double), hipMemcpyHostToDevice));
+ HIP_SAFE_CALL("hipMemcpy", hipMemcpy(h->d_mat_b, h->mat_b, h->n_b * mat_k * mat_n * sizeof(double), hipMemcpyHostToDevice));
+ HIP_SAFE_CALL("hipMemcpy", hipMemcpy(h->d_stack, h->stack, h->n_stack * 3 * sizeof(int), hipMemcpyHostToDevice));
  // d_mat_c gets zeroed after warmup run
 
  for(int ikern=0; ikern < nkernels; ikern++){
@@ -312,18 +312,18 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
     // Warmup run (more often if n_iter is small)
     for(int i=0; i<n_warm; i++)
         launchers[ikern](h->d_stack, h->n_stack, stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
-    CUDA_SAFE_CALL("hipMemset", hipMemset(h->d_mat_c, 0, h->n_c * mat_m * mat_n * sizeof(double)));
+    HIP_SAFE_CALL("hipMemset", hipMemset(h->d_mat_c, 0, h->n_c * mat_m * mat_n * sizeof(double)));
 
-    CU_SAFE_CALL("cuEventRecord", cuEventRecord(h->t_start, stream));
+    HIP_SAFE_CALL("hipEventRecord", hipEventRecord(h->t_start, stream));
 
     for(int i=0; i<n_iter; i++)
         launchers[ikern](h->d_stack, h->n_stack, stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
 
-    CU_SAFE_CALL("cuEventRecord", cuEventRecord(h->t_stop, stream));
-    CU_SAFE_CALL("cuEventSynchronize", cuEventSynchronize(h->t_stop));
-    CU_SAFE_CALL("cuEventElapsedTime", cuEventElapsedTime(&t_duration, h->t_start, h->t_stop));
+    HIP_SAFE_CALL("hipEventRecord", hipEventRecord(h->t_stop, stream));
+    HIP_SAFE_CALL("hipEventSynchronize", hipEventSynchronize(h->t_stop));
+    HIP_SAFE_CALL("hipEventElapsedTime", hipEventElapsedTime(&t_duration, h->t_start, h->t_stop));
 
-    CUDA_SAFE_CALL("hipMemcpy", hipMemcpy(h->mat_c, h->d_mat_c, h->n_c * mat_m * mat_n * sizeof(double), hipMemcpyDeviceToHost));
+    HIP_SAFE_CALL("hipMemcpy", hipMemcpy(h->mat_c, h->d_mat_c, h->n_c * mat_m * mat_n * sizeof(double), hipMemcpyDeviceToHost));
 
     clean_string(kernel_descr[ikern], descr);
 
@@ -367,7 +367,7 @@ int libcusmm_benchmark(libcusmm_benchmark_t* h,
 int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
                                   double* mat, double* mat_trs, double* d_mat,
                                   int n, int mat_m, int mat_n,
-                                  CUevent start, CUevent stop, char** kernel_descr,
+                                  hipEvent_t start, hipEvent_t stop, char** kernel_descr,
                                   TransposeLauncher* launcher){
  if(mat_m > MAX_BLOCK_DIM || mat_n > MAX_BLOCK_DIM){
      printf("Cannot transpose matrices with dimensions above %i, got (%i x %i)\n",
@@ -375,8 +375,8 @@ int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
      exit(1);
  }
 
- CUstream stream;
- CU_SAFE_CALL("cuStreamCreate", cuStreamCreate(&stream, CU_STREAM_DEFAULT));
+ hipStream_t stream;
+ HIP_SAFE_CALL("hipStreamCreate", hipStreamCreate(&stream));
 
  int offset = 0;
  int n_warm = 0;
@@ -396,25 +396,25 @@ int libcusmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
  sumCPU = checkSumTransp(mat_trs, n, n_stack, mat_m, mat_n);
 
  // Compute on GPU
- CUDA_SAFE_CALL("hipMemcpy", hipMemcpy(d_mat, mat, n * mat_m * mat_n * sizeof(double), hipMemcpyHostToDevice));
- CUDA_SAFE_CALL("hipMemcpy", hipMemcpy(d_stack, stack, n_stack * sizeof(int), hipMemcpyHostToDevice));
+ HIP_SAFE_CALL("hipMemcpy", hipMemcpy(d_mat, mat, n * mat_m * mat_n * sizeof(double), hipMemcpyHostToDevice));
+ HIP_SAFE_CALL("hipMemcpy", hipMemcpy(d_stack, stack, n_stack * sizeof(int), hipMemcpyHostToDevice));
 
  // Warmup run
  for(int i=0; i<n_warm; i++)
    launcher[0](d_stack, offset, n_stack, d_mat, mat_m, mat_n, stream);
 
  // Real runs
- CU_SAFE_CALL("cuEventRecord", cuEventRecord(start, stream));
+ HIP_SAFE_CALL("hipEventRecord", hipEventRecord(start, stream));
 
  for(int i=0; i<n_iter; i++)
    launcher[0](d_stack, offset, n_stack, d_mat, mat_m, mat_n, stream);
 
- CU_SAFE_CALL("cuEventRecord", cuEventRecord(stop, stream));
- CU_SAFE_CALL("cuEventSynchronize", cuEventSynchronize(stop));
- CU_SAFE_CALL("cuEventElapsedTime", cuEventElapsedTime(&t_duration, start, stop));
+ HIP_SAFE_CALL("hipEventRecord", hipEventRecord(stop, stream));
+ HIP_SAFE_CALL("hipEventSynchronize", hipEventSynchronize(stop));
+ HIP_SAFE_CALL("hipEventElapsedTime", hipEventElapsedTime(&t_duration, start, stop));
 
  // Check for errors and compare libcusmm result on GPU to reference
- CUDA_SAFE_CALL("hipMemcpy", hipMemcpy(mat_trs, d_mat, n * mat_m * mat_n * sizeof(double), hipMemcpyDeviceToHost));
+ HIP_SAFE_CALL("hipMemcpy", hipMemcpy(mat_trs, d_mat, n * mat_m * mat_n * sizeof(double), hipMemcpyDeviceToHost));
  clean_string(kernel_descr[0], descr);
 
  sumGPU = checkSumTransp(mat_trs, n, n_stack, mat_m, mat_n);

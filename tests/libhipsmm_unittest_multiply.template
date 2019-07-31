@@ -9,16 +9,16 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <cuda_runtime.h>
+#include <hip/hip_runtime.h>
 #include <vector>
 #include <array>
-#include "acc/libsmm_acc/libcusmm/libcusmm_benchmark.h"
-#include "acc/libsmm_acc/libcusmm/libcusmm.h"
-#include "acc/libsmm_acc/libcusmm/parameters.h"
+#include "acc/libsmm_acc/libhipsmm/libhipsmm_benchmark.h"
+#include "acc/libsmm_acc/libhipsmm/libhipsmm.h"
+#include "acc/libsmm_acc/libhipsmm/parameters.h"
 
 
 /****************************************************************************\
- \brief Checks correctness of randomly selected libcusmm multiplication kernels
+ \brief Checks correctness of randomly selected libhipsmm multiplication kernels
 \****************************************************************************/
 
 int main(int argc, char** argv){
@@ -33,7 +33,7 @@ int main(int argc, char** argv){
             [[UNITTEST_KERNELS_HERE]]
     };
     int n_triplets = libcusmm_triplets.size();
-    printf("# Libcusmm has %d blocksizes for multiplication\n", n_triplets);
+    printf("# Libhipsmm has %d blocksizes for multiplication\n", n_triplets);
 
     int max_m=0, max_n=0, max_k=0;
     for(int i=0; i<n_triplets; i++){

@@ -65,8 +65,8 @@ def main(
         kernels_to_print_predicted = ""
 
     # Print to test file
-    file_template = os.path.join(test_template_dir, "libcusmm_timer_multiply.template")
-    file_generate = os.path.join(test_output_dir, "libcusmm_timer_multiply.cu")
+    file_template = os.path.join(test_template_dir, "libhipsmm_timer_multiply.template")
+    file_generate = os.path.join(test_output_dir, "libhipsmm_timer_multiply.cpp")
     with open(file_template, "r") as f:
         test = f.read()
     test = test.replace(
@@ -123,13 +123,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Folders in/to which to read/write files
-    libcusmm_base_dir = os.path.join(args.base_dir, "src/acc/libsmm_acc/libcusmm/")
+    libhipsmm_base_dir = os.path.join(args.base_dir, "src/acc/libsmm_acc/libhipsmm/")
     test_template_dir = os.path.join(args.base_dir, "tests")
     test_output_dir = os.path.join(args.base_dir, args.out_dir)
 
     main(
         args.base_dir,
-        libcusmm_base_dir,
+        libhipsmm_base_dir,
         test_template_dir,
         test_output_dir,
         args.gpu_version,
