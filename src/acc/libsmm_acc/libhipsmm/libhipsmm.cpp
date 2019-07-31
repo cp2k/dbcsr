@@ -14,6 +14,8 @@
 #include "libhipsmm_benchmark.h"
 #include "cusmm_kernels.h"
 
+#include <hip/hiprtc.h>
+
 #include <sstream>
 #include <fstream>
 #include <string>
@@ -33,11 +35,13 @@
 
 
 //===========================================================================
-inline int launch_kernel_from_handle(CUfunction const& kern_func, int nblks, int threads, CUstream stream, void** args){
+inline int launch_kernel_from_handle(hipFunction_t const& kern_func, int nblks, int threads, hipStream_t stream, void** args){
+    // Get some hints here:
+    // https://github.com/libocca/occa/blob/master/src/modes/hip/kernel.cpp
 
-    CU_SAFE_CALL(
-        "cuLaunchKernel",
-        cuLaunchKernel(kern_func,       // CUfunction
+    HIP_SAFE_CALL(
+        "hipModuleLaunchKernel",
+        hipModuleLaunchKernel(kern_func,   // hipFunction_t
                        nblks, 1, 1,     // grid dimension x, y, z
                        threads, 1, 1,	// block dimension x, y, z
                        0, stream,       // shared memory size and stream
@@ -48,7 +52,7 @@ inline int launch_kernel_from_handle(CUfunction const& kern_func, int nblks, int
 
 
 //===========================================================================
-inline void validate_kernel(CUfunction& kern_func, CUstream stream, int threads, int grouping, int m, int n, int k){
+inline void validate_kernel(hipFunction_t& kern_func, hipStream_t stream, int threads, int grouping, int m, int n, int k){
 
     libcusmm_benchmark_t* h;
     libcusmm_benchmark_init(&h, test, m, n, k);
@@ -63,14 +67,14 @@ inline void validate_kernel(CUfunction& kern_func, CUstream stream, int threads,
     double sumCPU = checkSum(h->mat_c, h->n_c, m, n);
 
     // Run the matrix-matrix multiplication kernel on the GPU
-    CUDA_SAFE_CALL("hipMemcpy", hipMemcpy(h->d_mat_a, h->mat_a, h->n_a * m * k * sizeof(double), hipMemcpyHostToDevice));
-    CUDA_SAFE_CALL("hipMemcpy", hipMemcpy(h->d_mat_b, h->mat_b, h->n_b * k * n * sizeof(double), hipMemcpyHostToDevice));
-    CUDA_SAFE_CALL("hipMemcpy", hipMemcpy(h->d_stack, h->stack, h->n_stack * 3 * sizeof(int), hipMemcpyHostToDevice));
-    CUDA_SAFE_CALL("hipMemset", hipMemset(h->d_mat_c, 0, h->n_c * m * n * sizeof(double)));
+    HIP_SAFE_CALL("hipMemcpy", hipMemcpy(h->d_mat_a, h->mat_a, h->n_a * m * k * sizeof(double), hipMemcpyHostToDevice));
+    HIP_SAFE_CALL("hipMemcpy", hipMemcpy(h->d_mat_b, h->mat_b, h->n_b * k * n * sizeof(double), hipMemcpyHostToDevice));
+    HIP_SAFE_CALL("hipMemcpy", hipMemcpy(h->d_stack, h->stack, h->n_stack * 3 * sizeof(int), hipMemcpyHostToDevice));
+    HIP_SAFE_CALL("hipMemset", hipMemset(h->d_mat_c, 0, h->n_c * m * n * sizeof(double)));
 
     void *args[] = { &h->d_stack, &h->n_stack, &h->d_mat_a, &h->d_mat_b, &h->d_mat_c };
     int res = launch_kernel_from_handle(kern_func, ((h->n_stack + grouping - 1) / grouping), threads, stream, args);
-    CUDA_SAFE_CALL("hipMemcpy", hipMemcpy(h->mat_c, h->d_mat_c, h->n_c * m * n * sizeof(double), hipMemcpyDeviceToHost));
+    HIP_SAFE_CALL("hipMemcpy", hipMemcpy(h->mat_c, h->d_mat_c, h->n_c * m * n * sizeof(double), hipMemcpyDeviceToHost));
 
     // Validate the kernel based on results
     double sumGPU =  checkSum(h->mat_c, h->n_c, m, n);
@@ -83,7 +87,7 @@ inline void validate_kernel(CUfunction& kern_func, CUstream stream, int threads,
 
 
 //===========================================================================
-inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, int tile_n, int w, int v, int threads, int grouping, int minblocks, int m, int n, int k){
+inline void jit_kernel(hipFunction_t& kern_func, libcusmm_algo algo, int tile_m, int tile_n, int w, int v, int threads, int grouping, int minblocks, int m, int n, int k){
 
     // Get the code and the lowered name corresponding the kernel to launch
     std::string kernel_code = cusmm_common; // prepend include file content to code
@@ -130,44 +134,49 @@ inline void jit_kernel(CUfunction& kern_func, libcusmm_algo algo, int tile_m, in
             exit(1);
     }
 
-    // Create nvrtcProgram
-    nvrtcProgram kernel_program;
-    NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, kernel_code.c_str(), "smm_kernel.cu", 0, NULL, NULL));
+    // Create hiprtcProgram
+    hiprtcProgram kernel_program;
+    HIPRTC_SAFE_CALL("hiprtcCreateProgram", hiprtcCreateProgram(&kernel_program, kernel_code.c_str(), "smm_kernel.cpp", 0, NULL, NULL));
 
     // Add lowered name
-    NVRTC_SAFE_CALL("nvrtcAddNameExpression", nvrtcAddNameExpression(kernel_program, kernel_name.c_str()));
+    HIPRTC_SAFE_CALL("hiprtcAddNameExpression", hiprtcAddNameExpression(kernel_program, kernel_name.c_str()));
 
     // (JIT-)compile kernel program
+#ifdef __HIP_PLATFORM_NVCC__
     const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(ARCH_NUMBER);
     const char *compileOptions[] = {"-w", arch_opt.c_str()};
     size_t nOptions = 2;
-    NVRTC_SAFE_CALL("nvrtcCompileProgram", nvrtcCompileProgram(kernel_program, nOptions, compileOptions));
+#else
+    const char *compileOptions[] = {};
+    size_t nOptions = 0;
+#endif
+    HIPRTC_SAFE_CALL("hiprtcCompileProgram", hiprtcCompileProgram(kernel_program, nOptions, compileOptions));
 
-    // Obtain PTX from the program.
-    size_t ptxSize;
-    NVRTC_SAFE_CALL("nvrtcGetPTXsize", nvrtcGetPTXSize(kernel_program, &ptxSize));
-    char *ptx = new char[ptxSize];
-    NVRTC_SAFE_CALL("nvrtcGetPTX", nvrtcGetPTX(kernel_program, ptx));
+    // Obtain cdoe from the program.
+    size_t codeSize;
+    HIPRTC_SAFE_CALL("hiprtcGetCodeSize", hiprtcGetCodeSize(kernel_program, &codeSize));
+    char *code = new char[codeSize];
+    HIPRTC_SAFE_CALL("hiprtcGetCode", hiprtcGetCode(kernel_program, code));
 
     // Get lowered name
     const char *lowered_kernel_name;
-    NVRTC_SAFE_CALL("nvrtcGetLoweredName", nvrtcGetLoweredName(kernel_program, kernel_name.c_str(), &lowered_kernel_name));
+    HIPRTC_SAFE_CALL("hiprtcGetLoweredName", hiprtcGetLoweredName(kernel_program, kernel_name.c_str(), &lowered_kernel_name));
 
-    // Get pointer to kernel from PTX
-    CUmodule module;
-    CU_SAFE_CALL("cuModuleLoadDataEx", cuModuleLoadDataEx(&module, ptx, 0, 0, 0));
-    delete[] ptx;
-    CU_SAFE_CALL("cuModuleGetFunction", cuModuleGetFunction(&kern_func, module, lowered_kernel_name));
+    // Get pointer to kernel from code
+    hipModule_t module;
+    HIP_SAFE_CALL("hipModuleLoadData", hipModuleLoadData(&module, code));
+    delete[] code;
+    HIP_SAFE_CALL("hipModuleGetFunction", hipModuleGetFunction(&kern_func, module, lowered_kernel_name));
 
     // Set shared memory configuration
-    CU_SAFE_CALL("cuFuncSetSharedMemConfig", cuFuncSetSharedMemConfig(kern_func, CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE));
+    //HIP_SAFE_CALL("cuFuncSetSharedMemConfig", cuFuncSetSharedMemConfig(kern_func, CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE));
 
     // Destroy program
-    NVRTC_SAFE_CALL("nvrtcDestroyProgram", nvrtcDestroyProgram(&kernel_program));
+    HIPRTC_SAFE_CALL("hiprtcDestroyProgram", hiprtcDestroyProgram(&kernel_program));
 }
 
 
-void add_kernel_handle_to_jitted_kernels(CUfunction kern_func, CUstream stream, Triplet h_mnk, int& threads, int& grouping, bool& cpu_fallback){
+void add_kernel_handle_to_jitted_kernels(hipFunction_t kern_func, hipStream_t stream, Triplet h_mnk, int& threads, int& grouping, bool& cpu_fallback){
 
     // Check whether autotuned parameters are given for this kernel, and if so, retrieve them
     if (ht.find(h_mnk) != ht.end()){
@@ -200,9 +209,9 @@ void add_kernel_handle_to_jitted_kernels(CUfunction kern_func, CUstream stream, 
 
 
 //===========================================================================
-int libcusmm_process_d(int *param_stack, int stack_size, CUstream stream, int m, int n, int k, double *a_data, double *b_data, double *c_data){
+int libcusmm_process_d(int *param_stack, int stack_size, hipStream_t stream, int m, int n, int k, double *a_data, double *b_data, double *c_data){
 
-    CUfunction kern_func = NULL;
+    hipFunction_t kern_func = NULL;
     int threads, grouping;
     Triplet h_mnk = { m, n, k };
     static bool cpu_fallback = false;
@@ -249,63 +258,68 @@ extern "C" int libsmm_acc_process (void *param_stack, int stack_size, int nparam
       if(m>MAX_BLOCK_DIM || n>MAX_BLOCK_DIM || k>MAX_BLOCK_DIM)
 	return(-1); // maximum size over any dimention
       else
-        return (libcusmm_process_d ((int *) param_stack, stack_size, *((CUstream *) stream), m, n, k, (double *) a_data, (double *) b_data, (double *) c_data));
+        return (libcusmm_process_d ((int *) param_stack, stack_size, *((hipStream_t *) stream), m, n, k, (double *) a_data, (double *) b_data, (double *) c_data));
     }
     return(-1); // datatype not supported
 };
 
 
 //===========================================================================
-void jit_transpose_handle(CUfunction& kern_func, int m, int n){
+void jit_transpose_handle(hipFunction_t & kern_func, int m, int n){
 
-    // Create nvrtcProgram
-    nvrtcProgram kernel_program;
+    // Create hiprtcProgram
+    hiprtcProgram kernel_program;
     std::string transpose_code = cusmm_common + cusmm_transpose; 
-    NVRTC_SAFE_CALL("nvrtcCreateProgram", nvrtcCreateProgram(&kernel_program, transpose_code.c_str(), "transpose_kernel.cu", 0, NULL, NULL));
+    HIPRTC_SAFE_CALL("hiprtcCreateProgram", hiprtcCreateProgram(&kernel_program, transpose_code.c_str(), "transpose_kernel.cpp", 0, NULL, NULL));
 
     // Add lowered name
     std::string kernel_name = "transpose_d<" + std::to_string(m) + ", " + std::to_string(n) + ">";
-    NVRTC_SAFE_CALL("nvrtcAddNameExpression", nvrtcAddNameExpression(kernel_program, kernel_name.c_str()));
+    HIPRTC_SAFE_CALL("hiprtcAddNameExpression", hiprtcAddNameExpression(kernel_program, kernel_name.c_str()));
 
     // (JIT-)compile
-    size_t nOptions = 2;
+#ifdef __HIP_PLATFORM_NVCC__
     const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(ARCH_NUMBER);
+    size_t nOptions = 2;
     const char *compileOptions[] = {"-w", arch_opt.c_str()};
-    NVRTC_SAFE_CALL("nvrtcCompileProgram", nvrtcCompileProgram(kernel_program, nOptions, compileOptions));
+#else
+    size_t nOptions = 0;
+    const char *compileOptions[] = {};
+#endif
+    HIPRTC_SAFE_CALL("hiprtcCompileProgram", hiprtcCompileProgram(kernel_program, nOptions, compileOptions));
 
-    // Obtain PTX from the program.
-    size_t ptxSize;
-    NVRTC_SAFE_CALL("nvrtcGetPTXsize", nvrtcGetPTXSize(kernel_program, &ptxSize));
-    char *ptx = new char[ptxSize];
-    NVRTC_SAFE_CALL("nvrtcGetPTX", nvrtcGetPTX(kernel_program, ptx));
+    // Obtain code from the program.
+    size_t codeSize;
+    HIPRTC_SAFE_CALL("hiprtcGetCodeSize", hiprtcGetCodeSize(kernel_program, &codeSize));
+    char *code = new char[codeSize];
+    HIPRTC_SAFE_CALL("hiprtcGetCode", hiprtcGetCode(kernel_program, code));
 
     // Get lowered name
     const char *lowered_kernel_name;
-    NVRTC_SAFE_CALL("nvrtcGetLoweredName", nvrtcGetLoweredName(kernel_program, kernel_name.c_str(), &lowered_kernel_name));
+    HIPRTC_SAFE_CALL("hiprtcGetLoweredName", hiprtcGetLoweredName(kernel_program, kernel_name.c_str(), &lowered_kernel_name));
 
-    // Get pointer to kernel from PTX
-    CUmodule module;
-    CU_SAFE_CALL("cuModuleLoadDataEx", cuModuleLoadDataEx(&module, ptx, 0, 0, 0));
-    delete[] ptx;
-    CU_SAFE_CALL("cuModuleGetFunction", cuModuleGetFunction(&kern_func, module, lowered_kernel_name));
+    // Get pointer to kernel from code
+    hipModule_t module;
+    HIP_SAFE_CALL("hipModuleLoadData", hipModuleLoadData(&module, code));
+    delete[] code;
+    HIP_SAFE_CALL("hipModuleGetFunction", hipModuleGetFunction(&kern_func, module, lowered_kernel_name));
 
     // Set shared memory configuration
-    CU_SAFE_CALL("cuFuncSetSharedMemConfig", cuFuncSetSharedMemConfig(kern_func, CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE));
+    //HIP_SAFE_CALL("cuFuncSetSharedMemConfig", cuFuncSetSharedMemConfig(kern_func, CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE));
 
     // Destroy program
-    NVRTC_SAFE_CALL("nvrtcDestroyProgram", nvrtcDestroyProgram(&kernel_program));
+    HIPRTC_SAFE_CALL("hiprtcDestroyProgram", hiprtcDestroyProgram(&kernel_program));
 }
 
 
 //===========================================================================
 int libcusmm_transpose_d(int *trs_stack, int offset, int nblks,
-                         double *buffer, int m, int n, CUstream stream) {
+                         double *buffer, int m, int n, hipStream_t stream) {
 
-    CUfunction kern_func;
+    hipFunction_t kern_func;
 
     // Look up the kernel in the table of already JITed kernels
     Triplet h_mnk = { m, n, 0 };
-    std::unordered_map<std::array<int, 3>, CUfunction>::iterator kernel_it;
+    std::unordered_map<std::array<int, 3>, hipFunction_t>::iterator kernel_it;
 
 #if defined _OPENMP
 #pragma omp critical (jit_transpose)
@@ -343,7 +357,7 @@ extern "C" int libsmm_acc_transpose (void *trs_stack, int offset, int nblks, voi
         return 0; //transpose not needed
     if(m>MAX_BLOCK_DIM || n>MAX_BLOCK_DIM)
       return 0; // maximum size over any dimention
-    return libcusmm_transpose_d((int *) trs_stack, offset, nblks, (double *) buffer, m, n, *((CUstream *) stream));
+    return libcusmm_transpose_d((int *) trs_stack, offset, nblks, (double *) buffer, m, n, *((hipStream_t *) stream));
 }
 
 

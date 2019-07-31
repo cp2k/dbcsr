@@ -52,6 +52,11 @@ cmake_dependent_option(USE_ROCBLAS "Build with ROCBLAS support" OFF "USE_HIP" OF
 set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if HIP is enabled (default: P100)")
 set_property(CACHE WITH_GPU PROPERTY STRINGS K20X K40 K80 P100 V100)
 
+# USE_CUDA and USE_HIP are mutually exclusive options: we either compile with nvcc OR with hipcc
+if (USE_CUDA AND USE_HIP)
+  message(FATAL_ERROR "USE_CUDA and USE_HIP options are mutually exclusive. Please choose one.")
+endif()
+
 # =================================================================================================
 # LANGUAGES
 enable_language(Fortran)
@@ -109,9 +114,15 @@ endif()
 # we're always using at least C++11
 set(CMAKE_CXX_STANDARD 11)
 
-# PACKAGE DISCOVERY:
 # =================================================================================================
+# PACKAGE DISCOVERY
 
+# =================================== BLAS, LAPACK, PkgConfig
+find_package(BLAS REQUIRED)
+find_package(LAPACK REQUIRED)
+find_package(PkgConfig)
+
+# =================================== Python, Numpy
 # this module looks preferably for version 3 of Python. If not found, version 2 is searched
 # In CMake 3.15, if a python virtual environment is activated, it will search the virtual
 # environment for a python interpreter before searching elsewhere in the system.
@@ -135,6 +146,10 @@ find_package(BLAS REQUIRED)
 find_package(LAPACK REQUIRED)
 find_package(PkgConfig)
 
+# =================================== OpenMP, MPI
+if (USE_OPENMP)
+  find_package(OpenMP REQUIRED)
+endif ()
 if (USE_MPI)
   get_property(REQUIRED_MPI_COMPONENTS GLOBAL PROPERTY ENABLED_LANGUAGES)
   list(REMOVE_ITEM REQUIRED_MPI_COMPONENTS CUDA)  # CUDA does not have a MPI component
@@ -148,6 +163,7 @@ Intel MPI compiler wrappers. Check the INSTALL.md for more information.")
   endif ()
 endif ()
 
+# =================================== SMM
 if (USE_SMM MATCHES "blas")
   message("-- Using BLAS for Small Matrix Multiplication")
 elseif (USE_SMM MATCHES "libxsmm")
@@ -156,6 +172,27 @@ elseif (USE_SMM MATCHES "libxsmm")
   message("-- Using libxsmm for Small Matrix Multiplication")
 else()
   message(FATAL_ERROR "Unknown SMM library specified" )
+endif ()
+
+
+# =================================== GPU backend
+if (USE_CUDA OR USE_HIP)
+  enable_language(CXX)
+  set(GPU_ARCH_NUMBER_K20X 35)
+  set(GPU_ARCH_NUMBER_K40  35)
+  set(GPU_ARCH_NUMBER_K80  37)
+  set(GPU_ARCH_NUMBER_P100 60)
+  set(GPU_ARCH_NUMBER_V100 70)
+  set(GPU_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
+endif()
+
+if (USE_CUDA)
+  enable_language(CUDA)
+  set(CUDA_ARCH_NUMBER ${GPU_ARCH_NUMBER})
+  # assume that the backend compiler for nvcc understands the -std=c++11
+  set(CMAKE_CUDA_STANDARD 11)
+  set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
 endif ()
 
 # hints: https://github.com/ROCm-Developer-Tools/HIP/tree/master/samples/2_Cookbook/12_cmake_hip_add_executable
@@ -174,8 +211,15 @@ if (USE_HIP)
   else()
     message(FATAL_ERROR "Could not find HIP. Ensure that HIP is either installed in /opt/rocm/hip or the variable HIP_PATH is set to point to the right location.")
   endif()
+  find_library(ROCM_HIPRTC_LIB hiprtc HINTS ${HIP_PATH}/lib)
+  if(NOT ROCM_HIPRTC_LIB)
+    message(FATAL_ERROR "HIPRTC (HIP library for just-in-time compilation) not found")
+  endif()
+  set(HIP_ARCH_NUMBER ${GPU_ARCH_NUMBER})
+  set(CMAKE_HIP_FLAGS "${CMAKE_HIP_FLAGS} --amdgpu-target=gfx900")
 endif()
 
+# =================================== BLAS on GPU backend
 if (USE_CUBLAS)
   # the rest of CUDA is detected by enabling the language
   find_library(CUBLAS cublas HINT ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
@@ -191,12 +235,8 @@ if (USE_ROCBLAS)
   endif ()
 endif ()
 
-if (USE_OPENMP)
-  find_package(OpenMP REQUIRED)
-endif ()
-
 # =================================================================================================
-# - ? -
+# OPTION HANDLING
 
 # make sure that the default build type is RELEASE
 set(default_build_type "Release")
