@@ -26,7 +26,8 @@ MODULE dbcsr_tensor_split
                                  dbcsr_t_iterator_blocks_left, &
                                  dbcsr_t_iterator_stop, &
                                  dbcsr_t_iterator_next_block, &
-                                 dbcsr_t_reserve_blocks
+                                 dbcsr_t_reserve_blocks, &
+                                 dbcsr_t_reserved_block_indices
    USE dbcsr_tensor_index, ONLY: get_mapping_info
    USE dbcsr_tensor_types, ONLY: dbcsr_t_create, &
                                  dbcsr_t_get_data_type, &
@@ -38,7 +39,10 @@ MODULE dbcsr_tensor_split
                                  dbcsr_t_distribution_new, &
                                  dbcsr_t_clear, &
                                  dbcsr_t_finalize, &
-                                 dbcsr_t_get_num_blocks
+                                 dbcsr_t_get_num_blocks,&
+                                 dbcsr_t_filter, &
+                                 dbcsr_t_blk_offsets, &
+                                 dbcsr_t_blk_sizes
    USE dbcsr_api, ONLY: ${uselist(dtype_float_param)}$
    USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$
 
@@ -50,7 +54,8 @@ MODULE dbcsr_tensor_split
       dbcsr_t_make_compatible_blocks, &
       dbcsr_t_split_blocks, &
       dbcsr_t_split_blocks_generic, &
-      dbcsr_t_split_copyback
+      dbcsr_t_split_copyback, &
+      dbcsr_t_crop
 
 CONTAINS
 
@@ -587,6 +592,79 @@ CONTAINS
       ENDIF
 #:endfor
 
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_t_crop(tensor_in, tensor_out, bounds)
+      TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor_in
+      TYPE(dbcsr_t_type), INTENT(OUT) :: tensor_out
+      INTEGER, DIMENSION(2, ndims_tensor(tensor_in)), INTENT(IN) :: bounds
+      INTEGER, DIMENSION(2, ndims_tensor(tensor_in)) :: blk_bounds
+      TYPE(dbcsr_t_iterator_type)                     :: iter
+      INTEGER, DIMENSION(ndims_tensor(tensor_in)) :: blk_index, blk_size, blk_offset
+      LOGICAL :: found
+      INTEGER :: idim, blk, iblk, iblk_all, nblk
+      INTEGER, DIMENSION(:, :), ALLOCATABLE :: blk_ind, blk_ind_tmp
+#:for dparam, dtype, dsuffix in dtype_float_list
+#:for ndim in ndims
+      ${dtype}$, DIMENSION(${shape_colon(n=ndim)}$), ALLOCATABLE :: block_${dsuffix}$_${ndim}$d, block_put_${dsuffix}$_${ndim}$d
+#:endfor
+#:endfor
+
+      CALL dbcsr_t_create(tensor_in, tensor_out)
+
+      ! reserve blocks inside bounds
+      CALL dbcsr_t_reserved_block_indices(tensor_in, blk_ind)
+      nblk=dbcsr_t_get_num_blocks(tensor_in)
+      ALLOCATE(blk_ind_tmp(nblk, ndims_tensor(tensor_in)))
+      blk_ind_tmp(:, :) = 0
+      iblk = 0
+      blk_loop: DO iblk_all = 1, nblk
+         CALL dbcsr_t_blk_offsets(tensor_in, blk_ind(iblk_all, :), blk_offset)
+         CALL dbcsr_t_blk_sizes(tensor_in, blk_ind(iblk_all, :), blk_size)
+         DO idim = 1, ndims_tensor(tensor_in)
+            IF (bounds(1, idim) > blk_offset(idim) - 1 + blk_size(idim)) CYCLE blk_loop
+            IF (bounds(2, idim) < blk_offset(idim)) CYCLE blk_loop
+         ENDDO
+         iblk = iblk + 1
+         blk_ind_tmp(iblk, :) = blk_ind(iblk_all, :)
+      ENDDO blk_loop
+
+      DEALLOCATE(blk_ind)
+      ALLOCATE(blk_ind(iblk, ndims_tensor(tensor_in)))
+      blk_ind(:, :) = blk_ind_tmp(:iblk, :)
+
+      CALL dbcsr_t_reserve_blocks(tensor_out, blk_ind)
+
+      ! copy blocks
+      CALL dbcsr_t_iterator_start(iter, tensor_out)
+      iter_loop: DO WHILE (dbcsr_t_iterator_blocks_left(iter))
+         CALL dbcsr_t_iterator_next_block(iter, blk_index, blk, blk_size=blk_size, blk_offset=blk_offset)
+
+         DO idim = 1, ndims_tensor(tensor_in)
+            blk_bounds(1, idim) = MAX(bounds(1, idim) - blk_offset(idim) + 1, 1)
+            blk_bounds(2, idim) = MIN(bounds(2, idim) - blk_offset(idim) + 1, blk_size(idim))
+         ENDDO
+
+#:for dprec, dparam, dtype, dsuffix in dtype_float_list_prec
+         IF (dbcsr_t_get_data_type(tensor_in) == ${dparam}$) THEN
+#:for ndim in ndims
+            IF (ndims_tensor(tensor_in) == ${ndim}$) THEN
+               CALL dbcsr_t_get_block(tensor_in, blk_index, block_${dsuffix}$_${ndim}$d, found)
+
+               CALL allocate_any(block_put_${dsuffix}$_${ndim}$d, blk_size)
+               block_put_${dsuffix}$_${ndim}$d = 0.0_${dprec}$
+               block_put_${dsuffix}$_${ndim}$d(${", ".join(["blk_bounds(1, "+str(idim)+"):blk_bounds(2,"+str(idim)+")" for idim in range(1, ndim+1)])}$) = &
+                  block_${dsuffix}$_${ndim}$d(${", ".join(["blk_bounds(1, "+str(idim)+"):blk_bounds(2,"+str(idim)+")" for idim in range(1, ndim+1)])}$)
+               CALL dbcsr_t_put_block(tensor_out, blk_index, blk_size, block_put_${dsuffix}$_${ndim}$d)
+               DEALLOCATE (block_${dsuffix}$_${ndim}$d)
+               DEALLOCATE (block_put_${dsuffix}$_${ndim}$d)
+            ENDIF
+#:endfor
+         ENDIF
+#:endfor
+      ENDDO iter_loop
+      CALL dbcsr_t_iterator_stop(iter)
+      CALL dbcsr_t_finalize(tensor_out)
    END SUBROUTINE
 
 END MODULE

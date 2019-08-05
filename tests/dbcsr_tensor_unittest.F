@@ -35,9 +35,11 @@ PROGRAM dbcsr_tensor_unittest
                                  dbcsr_t_type, &
                                  dbcsr_t_pgrid_type, &
                                  dbcsr_t_pgrid_create, &
+                                 dbcsr_t_get_info, &
                                  dbcsr_t_pgrid_destroy
    USE dbcsr_data_methods, ONLY: dbcsr_scalar
-   USE dbcsr_kinds, ONLY: real_8
+   USE dbcsr_tensor,       ONLY: dbcsr_t_ndims
+   USE dbcsr_kinds,        ONLY: real_8
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -64,6 +66,8 @@ PROGRAM dbcsr_tensor_unittest
    INTEGER, DIMENSION(3)              :: pdims_3d
    INTEGER, DIMENSION(2)              :: pdims_2d
    TYPE(dbcsr_t_pgrid_type)           :: pgrid_2d, pgrid_3d, pgrid_4d
+   INTEGER, DIMENSION(:), ALLOCATABLE :: bounds_t
+   INTEGER, DIMENSION(:, :), ALLOCATABLE :: bounds, bounds_1, bounds_2
 
    CALL mp_world_init(mp_comm)
    CALL mp_environ(numnodes, mynode, mp_comm)
@@ -409,15 +413,23 @@ PROGRAM dbcsr_tensor_unittest
       CALL dbcsr_t_setup_test_tensor(tensor_B, mp_comm, .FALSE., blk_ind_3_2, blk_ind_4_2)
       CALL dbcsr_t_setup_test_tensor(tensor_C, mp_comm, .FALSE., blk_ind_1_3, blk_ind_2_3, blk_ind_4_3)
 
+      ALLOCATE(bounds_t(dbcsr_t_ndims(tensor_B)))
+      CALL dbcsr_t_get_info(tensor_B, nfull_total=bounds_t)
+
+      ALLOCATE(bounds(2,1))
+      bounds(1, 1) = 1
+      bounds(2, 1) = bounds_t(1) - 21
+
       CALL dbcsr_t_contract_test(dbcsr_scalar(0.9_real_8), tensor_B, tensor_A, dbcsr_scalar(0.1_real_8), tensor_C, &
                                  [1], [2], &
                                  [3], [1, 2], &
                                  [3], [1, 2], &
                                  default_output_unit, &
+                                 bounds_1=bounds, &
                                  log_verbose=verbose, &
                                  write_int=.TRUE.)
 
-      DEALLOCATE (map11, map12, map21, map22, map31, map32)
+      DEALLOCATE (map11, map12, map21, map22, map31, map32, bounds_t, bounds)
 
       CALL dbcsr_t_destroy(tensor_A)
       CALL dbcsr_t_destroy(tensor_B)
@@ -453,15 +465,26 @@ PROGRAM dbcsr_tensor_unittest
       CALL dbcsr_t_setup_test_tensor(tensor_B, mp_comm, .FALSE., blk_ind_3_2, blk_ind_4_2)
       CALL dbcsr_t_setup_test_tensor(tensor_C, mp_comm, .FALSE., blk_ind_1_3, blk_ind_2_3, blk_ind_4_3)
 
+      ALLOCATE(bounds_t(dbcsr_t_ndims(tensor_C)))
+      CALL dbcsr_t_get_info(tensor_C, nfull_total=bounds_t)
+
+      ALLOCATE(bounds(2,2))
+      bounds(1, 1) = 4
+      bounds(2, 1) = bounds_t(1)
+      bounds(1, 2) = 13
+      bounds(2, 2) = bounds_t(2) - 10
+      DEALLOCATE(bounds_t)
+
       CALL dbcsr_t_contract_test(dbcsr_scalar(0.2_real_8), tensor_C, tensor_B, dbcsr_scalar(0.8_real_8), tensor_A, &
                                  [3], [1, 2], &
                                  [2], [1], &
                                  [1, 2], [3], &
                                  default_output_unit, &
+                                 bounds_2=bounds, &
                                  log_verbose=verbose, &
                                  write_int=.TRUE.)
 
-      DEALLOCATE (map11, map12, map21, map22, map31, map32)
+      DEALLOCATE (map11, map12, map21, map22, map31, map32, bounds)
 
       CALL dbcsr_t_destroy(tensor_A)
       CALL dbcsr_t_destroy(tensor_B)
@@ -497,15 +520,35 @@ PROGRAM dbcsr_tensor_unittest
       CALL dbcsr_t_setup_test_tensor(tensor_B, mp_comm, .FALSE., blk_ind_1_4, blk_ind_2_4, blk_ind_4_4, blk_ind_5_4)
       CALL dbcsr_t_setup_test_tensor(tensor_C, mp_comm, .FALSE., blk_ind_3_5, blk_ind_4_5, blk_ind_5_5)
 
+      ALLOCATE(bounds_t(dbcsr_t_ndims(tensor_A)))
+      CALL dbcsr_t_get_info(tensor_A, nfull_total=bounds_t)
+      ALLOCATE(bounds_1(2, 2))
+      bounds_1(1, 1) = 7
+      bounds_1(2, 1) = bounds_t(2) - 17
+      bounds_1(1, 2) = 8
+      bounds_1(2, 2) = bounds_t(1)
+      DEALLOCATE(bounds_t)
+
+      ALLOCATE(bounds_t(dbcsr_t_ndims(tensor_B)))
+      CALL dbcsr_t_get_info(tensor_B, nfull_total=bounds_t)
+      ALLOCATE(bounds_2(2, 2))
+      bounds_2(1, 1) = 1
+      bounds_2(2, 1) = bounds_t(3)
+      bounds_2(1, 2) = 1
+      bounds_2(2, 2) = bounds_t(4) - 18
+      DEALLOCATE(bounds_t)
+
       CALL dbcsr_t_contract_test(dbcsr_scalar(0.2_real_8), tensor_A, tensor_B, dbcsr_scalar(0.8_real_8), tensor_C, &
                                  [2, 1], [3], &
                                  [2, 1], [3, 4], &
                                  [1], [2, 3], &
                                  default_output_unit, &
+                                 bounds_1=bounds_1,&
+                                 bounds_3=bounds_2, &
                                  log_verbose=verbose, &
                                  write_int=.TRUE.)
 
-      DEALLOCATE (map11, map12, map21, map22, map31, map32)
+      DEALLOCATE (map11, map12, map21, map22, map31, map32, bounds_1, bounds_2)
 
       CALL dbcsr_t_destroy(tensor_A)
       CALL dbcsr_t_destroy(tensor_B)
