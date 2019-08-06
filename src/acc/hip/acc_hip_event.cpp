@@ -21,7 +21,7 @@ extern "C" int acc_event_create(void** event_p){
   hipEvent_t* cuevent = (hipEvent_t*) *event_p;
 
   hipError_t cErr = hipEventCreate(cuevent);
-  if(verbose_print) printf("cuda_event_created:  %p -> %d\n", *event_p, *cuevent);
+  if(verbose_print) printf("cuda_event_created:  %p -> %p\n", *event_p, *cuevent);
   if (cuda_error_check(cErr)) return -1;
   if (cuda_error_check(hipGetLastError())) return -1;
   return 0;
@@ -46,7 +46,7 @@ extern "C" int acc_event_record(void* event, void* stream){
     hipEvent_t* cuevent = (hipEvent_t*) event;
     hipStream_t* custream = (hipStream_t*) stream;
 
-    if(verbose_print) printf("cuda_event_record: %p -> %d,  %p -> %d\n", cuevent, *cuevent,  custream, *custream);
+    if(verbose_print) printf("cuda_event_record: %p -> %p,  %p -> %p\n", cuevent, *cuevent,  custream, *custream);
     hipError_t cErr = hipEventRecord (*cuevent, *custream);
     if (cuda_error_check (cErr)) return -1;
     //if (cuda_error_check(hipGetLastError ())) return -1;
