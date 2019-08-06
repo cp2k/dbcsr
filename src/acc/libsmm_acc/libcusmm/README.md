@@ -78,7 +78,7 @@ Follow the [predictive modelling procedure](predict.md)
 
 2. Add the GPU to the `arch_number` data structure in [`kernels/cusmm_predict.py`](kernels/cusmm_predict.py)
 
-3. Add the necessary code for setting `ARCH_NUMBER` correctly in the [`Makefile`](../../../../Makefile) and in the [`CMakeListst`](CMakeLists.txt)
+3. Add the necessary code for setting `ARCH_NUMBER` correctly in the [`Makefile`](../../../../Makefile) and in the [`CMakeLists`](CMakeLists.txt)
 
 4. Add a minimal JSON file `parameters_GPU.json`, containing:
 
