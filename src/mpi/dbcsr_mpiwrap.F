@@ -93,6 +93,7 @@ MODULE dbcsr_mpiwrap
 #else
    INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = 1
 #endif
+   INTEGER, PARAMETER, PUBLIC :: mp_max_processor_name = MPI_MAX_PROCESSOR_NAME
 
    INTEGER, PARAMETER, PUBLIC :: file_offset = MPI_OFFSET_KIND
    INTEGER, PARAMETER, PUBLIC :: address_kind = MPI_ADDRESS_KIND
@@ -114,6 +115,7 @@ MODULE dbcsr_mpiwrap
    INTEGER, PARAMETER, PUBLIC :: mp_status_size = -6
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = -7
    INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = 1
+   INTEGER, PARAMETER, PUBLIC :: mp_max_processor_name = 1
 
    INTEGER, PARAMETER, PUBLIC :: file_offset = int_8
    INTEGER, PARAMETER, PUBLIC :: address_kind = int_8
@@ -131,7 +133,7 @@ MODULE dbcsr_mpiwrap
    INTEGER, PARAMETER, PUBLIC :: mpi_character_size = 1
    INTEGER, PARAMETER, PUBLIC :: mpi_integer_size = 4
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_mpiwrap'
+   CHARACTER(LEN=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_mpiwrap'
 
 #if defined(__parallel)
    ! internal reference counter used to debug communicator leaks
@@ -193,7 +195,7 @@ MODULE dbcsr_mpiwrap
              mp_type_indexed_make_c, mp_type_indexed_make_z
 
    ! misc
-   PUBLIC :: mp_get_library_version
+   PUBLIC :: mp_get_library_version, mp_get_processor_name
 
    ! assumed to be private
 
@@ -760,7 +762,7 @@ CONTAINS
       INTEGER, INTENT(out)                     :: mp_new_comm
       INTEGER, DIMENSION(:)                    :: ranks_order
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_reordering', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_reordering', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -772,7 +774,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr);
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")
@@ -1075,15 +1077,15 @@ CONTAINS
 !>       this function is private to mpiwrap.F
 ! **************************************************************************************************
    SUBROUTINE mp_stop(ierr, prg_code)
-      INTEGER, INTENT(IN)                      :: ierr
-      CHARACTER(LEN=*)                         :: prg_code
+      INTEGER, INTENT(IN)                       :: ierr
+      CHARACTER(LEN=*)                          :: prg_code
 
 #if defined(__parallel)
-      INTEGER                                  :: istat, len
-      CHARACTER(LEN=MPI_MAX_ERROR_STRING)     :: error_string
-      CHARACTER(LEN=MPI_MAX_ERROR_STRING + 512)  :: full_error
+      INTEGER                                   :: istat, len
+      CHARACTER(LEN=MPI_MAX_ERROR_STRING)       :: error_string
+      CHARACTER(LEN=MPI_MAX_ERROR_STRING + 512) :: full_error
 #else
-      CHARACTER(LEN=512)                       :: full_error
+      CHARACTER(LEN=512)                        :: full_error
 #endif
 
 #if defined(__parallel)
@@ -1104,7 +1106,7 @@ CONTAINS
    SUBROUTINE mp_sync(group)
       INTEGER, INTENT(IN)                                :: group
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sync', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sync', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
 
@@ -1131,7 +1133,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: group
       INTEGER, INTENT(OUT)                               :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_isync', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isync', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
 
@@ -1170,7 +1172,7 @@ CONTAINS
       INTEGER, OPTIONAL, INTENT(OUT)                     :: numtask, taskid
       INTEGER, INTENT(IN)                                :: groupid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_environ_l', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_environ_l', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
 
@@ -1209,7 +1211,7 @@ CONTAINS
                                                   task_coor(2)
       INTEGER, INTENT(IN)                      :: groupid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_environ_c', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_environ_c', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -1249,7 +1251,7 @@ CONTAINS
       INTEGER, INTENT(OUT)                               :: dims(ndims), task_coor(ndims)
       LOGICAL, INTENT(out)                               :: periods(ndims)
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_environ_c2', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_environ_c2', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
 
@@ -1284,7 +1286,7 @@ CONTAINS
       INTEGER, INTENT(INOUT)                   :: dims(:)
       INTEGER, INTENT(OUT)                     :: pos(:), comm_cart
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_cart_create', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_create', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, nodes
@@ -1343,7 +1345,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: comm, rank
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: coords
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_cart_coords', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_coords', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr, m
 
@@ -1375,7 +1377,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: comm1, comm2
       INTEGER, INTENT(OUT)                               :: res
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_comm_compare', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_comm_compare', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr, iout
@@ -1421,7 +1423,7 @@ CONTAINS
       LOGICAL, DIMENSION(:), INTENT(IN)                  :: rdim
       INTEGER, INTENT(OUT)                               :: sub_comm
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_cart_sub', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_sub', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
 
@@ -1450,7 +1452,7 @@ CONTAINS
 
       INTEGER, INTENT(INOUT)                             :: comm
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_comm_free', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_comm_free', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
 
@@ -1479,7 +1481,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: comm1
       INTEGER, INTENT(OUT)                               :: comm2
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_comm_dup', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_comm_dup', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
 
@@ -1509,7 +1511,7 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: comm1, comm2
       INTEGER, DIMENSION(:), INTENT(OUT)       :: rank
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_rank_compare', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_rank_compare', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -1567,7 +1569,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: nodes
       INTEGER, DIMENSION(:), INTENT(INOUT)               :: dims
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_dims_create', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_dims_create', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr, ndim
 
@@ -1598,7 +1600,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: pos
       INTEGER, INTENT(OUT)                               :: rank
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_cart_rank', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_rank', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
 
@@ -1629,7 +1631,7 @@ CONTAINS
    SUBROUTINE mp_wait(request)
       INTEGER, INTENT(inout)                             :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_wait', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_wait', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
 
@@ -1660,7 +1662,7 @@ CONTAINS
    SUBROUTINE mp_waitall_1(requests)
       INTEGER, DIMENSION(:), INTENT(inout)     :: requests
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_waitall_1', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_waitall_1', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -1695,7 +1697,7 @@ CONTAINS
    SUBROUTINE mp_waitall_2(requests)
       INTEGER, DIMENSION(:, :), INTENT(inout)  :: requests
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_waitall_2', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_waitall_2', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -1756,7 +1758,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(inout)     :: requests
       INTEGER, INTENT(out)                     :: completed
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_waitany', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_waitany', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -1808,7 +1810,7 @@ CONTAINS
       ALLOCATE (flags(SIZE(requests)))
       DO i = 1, SIZE(requests)
          CALL mpi_test(requests(i), flags(i), MPI_STATUS_IGNORE, ierr)
-         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_testall @ mp_testall_tv")
+         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_test @ mp_testall_tv")
          flag = flag .AND. flags(i)
       END DO
       DEALLOCATE (flags)
@@ -1856,7 +1858,7 @@ CONTAINS
       INTEGER, INTENT(out), OPTIONAL           :: completed
       LOGICAL, INTENT(out), OPTIONAL           :: flag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_testany_1', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_testany_1', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: ierr
@@ -1896,7 +1898,7 @@ CONTAINS
       INTEGER, INTENT(out), OPTIONAL           :: completed
       LOGICAL, INTENT(out), OPTIONAL           :: flag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_testany_2', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_testany_2', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: ierr
@@ -1962,7 +1964,7 @@ CONTAINS
       INTEGER, INTENT(in)                                :: color
       INTEGER, INTENT(in), OPTIONAL                      :: key
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_comm_split_direct', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_comm_split_direct', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr, my_key
@@ -2012,12 +2014,12 @@ CONTAINS
                             subgroup_min_size, n_subgroups, group_partition, stride)
       INTEGER, INTENT(in)                      :: comm
       INTEGER, INTENT(out)                     :: sub_comm, ngroups
-      INTEGER, DIMENSION(0:)                    :: group_distribution
+      INTEGER, DIMENSION(0:)                   :: group_distribution
       INTEGER, INTENT(in), OPTIONAL            :: subgroup_min_size, n_subgroups
-      INTEGER, DIMENSION(0:), OPTIONAL          :: group_partition
+      INTEGER, DIMENSION(0:), OPTIONAL         :: group_partition
       INTEGER, OPTIONAL                        :: stride
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_comm_split', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_comm_split', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, mepos, nnodes
@@ -2129,7 +2131,7 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: comm
       INTEGER, INTENT(OUT)                     :: tag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_probe', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_probe', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -2182,7 +2184,7 @@ CONTAINS
       LOGICAL                                            :: msg
       INTEGER                                            :: source, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_bcast_b', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_b', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr, msglen
 
@@ -2212,7 +2214,7 @@ CONTAINS
       LOGICAL                                            :: msg(:)
       INTEGER                                            :: source, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_bcast_bv', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_bv', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr, msglen
 
@@ -2251,7 +2253,7 @@ CONTAINS
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_isend_bv', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_bv', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -2310,7 +2312,7 @@ CONTAINS
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_irecv_bv', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_bv', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -2359,7 +2361,7 @@ CONTAINS
       CHARACTER(LEN=*)                         :: msg
       INTEGER                                  :: source, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_bcast_av', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_av', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -2412,7 +2414,7 @@ CONTAINS
       CHARACTER(LEN=*)                         :: msg(:)
       INTEGER                                  :: source, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_bcast_am', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_am', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -2483,7 +2485,7 @@ CONTAINS
       REAL(kind=real_8), INTENT(INOUT)         :: msg(:)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_minloc_dv', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_minloc_dv', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -2529,7 +2531,7 @@ CONTAINS
       REAL(kind=real_8), INTENT(INOUT)         :: msg(:)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_maxloc_dv', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_maxloc_dv', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -2571,7 +2573,7 @@ CONTAINS
       LOGICAL, INTENT(INOUT)                             :: msg
       INTEGER, INTENT(IN)                                :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_b', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_b', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr, msglen
 
@@ -2600,7 +2602,7 @@ CONTAINS
       LOGICAL, DIMENSION(:), INTENT(INOUT)               :: msg
       INTEGER, INTENT(IN)                                :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_bv', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_bv', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr, msglen
 
@@ -2633,7 +2635,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: gid
       INTEGER, INTENT(INOUT)                             :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_isum_bv', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isum_bv', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr, msglen
 
@@ -2644,7 +2646,7 @@ CONTAINS
 #if __MPI_VERSION > 2
       IF (msglen .GT. 0) THEN
          CALL mpi_iallreduce(MPI_IN_PLACE, msg, msglen, MPI_LOGICAL, MPI_LOR, gid, request, ierr)
-         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
+         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallreduce @ "//routineN)
       ELSE
          request = mp_request_null
       ENDIF
@@ -2670,10 +2672,10 @@ CONTAINS
 !>                            the result returned in version (integer)
 ! **************************************************************************************************
    SUBROUTINE mp_get_library_version(version, resultlen)
-      CHARACTER(len=*), INTENT(OUT)                      :: version
+      CHARACTER(LEN=*), INTENT(OUT)                      :: version
       INTEGER, INTENT(OUT)                               :: resultlen
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_get_library_version', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_get_library_version', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ierr
@@ -2698,6 +2700,32 @@ CONTAINS
    END SUBROUTINE mp_get_library_version
 
 ! **************************************************************************************************
+!> \brief Get a unique specifier for the actual (as opposed to virtual) node (MPI 2.1)
+!> \param[out] procname       Name of processor, declared as CHARACTER(LEN=mp_max_processor_name)
+!> \param[out] resultlen      Length (in characters) of procname (INTEGER)
+! **************************************************************************************************
+   SUBROUTINE mp_get_processor_name(procname, resultlen)
+      CHARACTER(LEN=*), INTENT(OUT)                      :: procname
+      INTEGER, INTENT(OUT)                               :: resultlen
+
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_get_processor_name', &
+                                     routineP = moduleN//':'//routineN
+
+      INTEGER                                            :: ierr
+
+      ierr = 0
+      procname = ''
+
+#if defined(__parallel)
+      CALL mpi_get_processor_name(procname, resultlen, ierr)
+      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_get_processor_name @ "//routineN)
+#else
+      MARK_USED(procname)
+      resultlen = 0
+#endif
+   END SUBROUTINE mp_get_processor_name
+
+! **************************************************************************************************
 !> \brief Opens a file
 !> \param[in] groupid    message passing environment identifier
 !> \param[out] fh        file handle (file storage unit)
@@ -2714,7 +2742,7 @@ CONTAINS
    SUBROUTINE mp_file_open(groupid, fh, filepath, amode_status, info)
       INTEGER, INTENT(IN)                      :: groupid
       INTEGER, INTENT(OUT)                     :: fh
-      CHARACTER(len=*), INTENT(IN)             :: filepath
+      CHARACTER(LEN=*), INTENT(IN)             :: filepath
       INTEGER, INTENT(IN)                      :: amode_status
       INTEGER, INTENT(IN), OPTIONAL            :: info
 
@@ -2770,7 +2798,7 @@ CONTAINS
 !>      11.2017 created [Nico Holmberg]
 ! **************************************************************************************************
    SUBROUTINE mp_file_delete(filepath, info)
-      CHARACTER(len=*), INTENT(IN)             :: filepath
+      CHARACTER(LEN=*), INTENT(IN)             :: filepath
       INTEGER, INTENT(IN), OPTIONAL            :: info
 
 #if defined(__parallel)
@@ -2881,7 +2909,7 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_write_at_ch', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_ch', &
                                      routineP = moduleN//':'//routineN
 
 #if defined(__parallel)
@@ -2906,7 +2934,7 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_write_at_all_ch', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_ch', &
                                      routineP = moduleN//':'//routineN
 
 #if defined(__parallel)
@@ -2931,7 +2959,7 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_read_at_ch', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_ch', &
                                      routineP = moduleN//':'//routineN
 
 #if defined(__parallel)
@@ -2956,7 +2984,7 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_read_at_all_ch', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_ch', &
                                      routineP = moduleN//':'//routineN
 
 #if defined(__parallel)
@@ -2982,7 +3010,7 @@ CONTAINS
       TYPE(mp_type_descriptor_type), INTENT(IN)          :: type_descriptor
       INTEGER, INTENT(OUT)                               :: type_size
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_type_size', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_size', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ierr
 
@@ -3023,7 +3051,7 @@ CONTAINS
          INTENT(IN), OPTIONAL                   :: index_descriptor
       TYPE(mp_type_descriptor_type)            :: type_descriptor
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_type_make_struct', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_make_struct', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: i, ierr, n
@@ -3077,7 +3105,7 @@ CONTAINS
    RECURSIVE SUBROUTINE mp_type_free_m(type_descriptor)
       TYPE(mp_type_descriptor_type), INTENT(inout)       :: type_descriptor
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_type_free_m', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_free_m', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, i, ierr
 
@@ -3132,7 +3160,7 @@ CONTAINS
       INTEGER, INTENT(out)                               :: request
       INTEGER, INTENT(in), OPTIONAL                      :: tag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_isend_custom', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_custom', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ierr, my_tag
@@ -3172,7 +3200,7 @@ CONTAINS
       INTEGER, INTENT(out)                               :: request
       INTEGER, INTENT(in), OPTIONAL                      :: tag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_irecv_custom', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_custom', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ierr, my_tag
@@ -3205,7 +3233,7 @@ CONTAINS
    SUBROUTINE mp_win_free(win)
       INTEGER, INTENT(INOUT)                             :: win
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_win_free', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_free', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
 
@@ -3232,7 +3260,7 @@ CONTAINS
    SUBROUTINE mp_win_flush_all(win)
       INTEGER, INTENT(IN)                                :: win
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_win_flush_all', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_flush_all', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
@@ -3261,7 +3289,7 @@ CONTAINS
    SUBROUTINE mp_win_lock_all(win)
       INTEGER, INTENT(INOUT)                             :: win
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_win_lock_all', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_lock_all', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
@@ -3293,7 +3321,7 @@ CONTAINS
    SUBROUTINE mp_win_unlock_all(win)
       INTEGER, INTENT(INOUT)                             :: win
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_win_unlock_all', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_unlock_all', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: handle, ierr
@@ -3347,7 +3375,7 @@ CONTAINS
       INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
       INTEGER, INTENT(IN)                      :: group
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$11v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$11v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -3400,7 +3428,7 @@ CONTAINS
       ${type1}$, CONTIGUOUS, INTENT(OUT)       :: rb(:)
       INTEGER, INTENT(IN)                      :: count, group
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -3442,7 +3470,7 @@ CONTAINS
       ${type1}$, CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
       INTEGER, INTENT(IN)                      :: count, group
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$22', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$22', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -3481,12 +3509,12 @@ CONTAINS
    SUBROUTINE mp_alltoall_${nametype1}$44(sb, rb, count, group)
 
       ${type1}$, DIMENSION(:, :, :, :), &
-         INTENT(IN)                             :: sb
+         INTENT(IN)                            :: sb
       ${type1}$, DIMENSION(:, :, :, :), &
-         INTENT(OUT)                            :: rb
+         INTENT(OUT)                           :: rb
       INTEGER, INTENT(IN)                      :: count, group
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$44', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$44', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -3524,10 +3552,10 @@ CONTAINS
 !>      mpi_send
 ! *****************************************************************************
    SUBROUTINE mp_send_${nametype1}$ (msg, dest, tag, gid)
-      ${type1}$                                  :: msg
+      ${type1}$                                :: msg
       INTEGER                                  :: dest, tag, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_send_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -3560,10 +3588,10 @@ CONTAINS
 !> \note see mp_send_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_send_${nametype1}$v(msg, dest, tag, gid)
-      ${type1}$                                  :: msg(:)
+      ${type1}$                                :: msg(:)
       INTEGER                                  :: dest, tag, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_send_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -3597,11 +3625,11 @@ CONTAINS
 !>      mpi_send
 ! *****************************************************************************
    SUBROUTINE mp_recv_${nametype1}$ (msg, source, tag, gid)
-      ${type1}$, INTENT(INOUT)                   :: msg
+      ${type1}$, INTENT(INOUT)                 :: msg
       INTEGER, INTENT(INOUT)                   :: source, tag
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_recv_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -3641,11 +3669,11 @@ CONTAINS
 !> \note see mp_recv_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_recv_${nametype1}$v(msg, source, tag, gid)
-      ${type1}$, INTENT(INOUT)                   :: msg(:)
+      ${type1}$, INTENT(INOUT)                 :: msg(:)
       INTEGER, INTENT(INOUT)                   :: source, tag
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_recv_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -3685,10 +3713,10 @@ CONTAINS
 !>      mpi_bcast
 ! *****************************************************************************
    SUBROUTINE mp_bcast_${nametype1}$ (msg, source, gid)
-      ${type1}$                                  :: msg
+      ${type1}$                                :: msg
       INTEGER                                  :: source, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_bcast_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -3718,11 +3746,11 @@ CONTAINS
 !>      mpi_bcast
 ! *****************************************************************************
    SUBROUTINE mp_ibcast_${nametype1}$ (msg, source, gid, request)
-      ${type1}$                                  :: msg
+      ${type1}$                                :: msg
       INTEGER                                  :: source, gid
       INTEGER, INTENT(INOUT)                   :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_ibcast_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -3760,10 +3788,10 @@ CONTAINS
 !> \note see mp_bcast_${nametype1}$1
 ! *****************************************************************************
    SUBROUTINE mp_bcast_${nametype1}$v(msg, source, gid)
-      ${type1}$                                  :: msg(:)
+      ${type1}$                                :: msg(:)
       INTEGER                                  :: source, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_bcast_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -3791,11 +3819,11 @@ CONTAINS
 !> \note see mp_bcast_${nametype1}$1
 ! *****************************************************************************
    SUBROUTINE mp_ibcast_${nametype1}$v(msg, source, gid, request)
-      ${type1}$                                  :: msg(:)
+      ${type1}$                                :: msg(:)
       INTEGER                                  :: source, gid
       INTEGER, INTENT(INOUT)                   :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_ibcast_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -3831,10 +3859,10 @@ CONTAINS
 !> \note see mp_bcast_${nametype1}$1
 ! *****************************************************************************
    SUBROUTINE mp_bcast_${nametype1}$m(msg, source, gid)
-      ${type1}$                                  :: msg(:, :)
+      ${type1}$                                :: msg(:, :)
       INTEGER                                  :: source, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_bcast_im', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_im', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -3865,7 +3893,7 @@ CONTAINS
       ${type1}$                                  :: msg(:, :, :)
       INTEGER                                  :: source, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_bcast_${nametype1}$3', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_${nametype1}$3', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -3896,7 +3924,7 @@ CONTAINS
       ${type1}$, INTENT(INOUT)    :: msg
       INTEGER, INTENT(IN)         :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                     :: handle, ierr, msglen
@@ -3926,7 +3954,7 @@ CONTAINS
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -3958,11 +3986,11 @@ CONTAINS
 !> \note see mp_sum_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_isum_${nametype1}$v(msg, gid, request)
-      ${type1}$, INTENT(INOUT)                   :: msg(:)
+      ${type1}$, INTENT(INOUT)                 :: msg(:)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(INOUT)                   :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_isum_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isum_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -4008,7 +4036,7 @@ CONTAINS
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$m', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$m', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -4050,7 +4078,7 @@ CONTAINS
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$m3', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$m3', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, &
@@ -4081,7 +4109,7 @@ CONTAINS
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$m4', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$m4', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, &
@@ -4117,7 +4145,7 @@ CONTAINS
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
       INTEGER, INTENT(IN)                      :: root, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_root_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_root_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -4165,7 +4193,7 @@ CONTAINS
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
       INTEGER, INTENT(IN)                      :: root, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_root_rm', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_root_rm', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -4211,7 +4239,7 @@ CONTAINS
       ${type1}$, CONTIGUOUS, INTENT(OUT) :: res(:, :)
       INTEGER, INTENT(IN)                :: gid
 
-      CHARACTER(len=*), PARAMETER        :: routineN = 'mp_sum_partial_${nametype1}$m', &
+      CHARACTER(LEN=*), PARAMETER        :: routineN = 'mp_sum_partial_${nametype1}$m', &
                                             routineP = moduleN//':'//routineN
 
       INTEGER                            :: handle, ierr, msglen
@@ -4248,10 +4276,10 @@ CONTAINS
 !>      mpi_allreduce
 ! *****************************************************************************
    SUBROUTINE mp_max_${nametype1}$ (msg, gid)
-      ${type1}$, INTENT(INOUT)                   :: msg
+      ${type1}$, INTENT(INOUT)                 :: msg
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_max_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -4280,10 +4308,10 @@ CONTAINS
 !> \note see mp_max_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_max_${nametype1}$v(msg, gid)
-      ${type1}$, INTENT(INOUT)                   :: msg(:)
+      ${type1}$, INTENT(INOUT)                 :: msg(:)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_max_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -4311,10 +4339,10 @@ CONTAINS
 !>      mpi_allreduce
 ! *****************************************************************************
    SUBROUTINE mp_min_${nametype1}$ (msg, gid)
-      ${type1}$, INTENT(INOUT)                   :: msg
+      ${type1}$, INTENT(INOUT)                 :: msg
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_min_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -4348,7 +4376,7 @@ CONTAINS
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_min_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -4379,7 +4407,7 @@ CONTAINS
       ${type1}$, INTENT(INOUT)                 :: msg
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -4409,11 +4437,11 @@ CONTAINS
 !>      mpi_scatter
 ! *****************************************************************************
    SUBROUTINE mp_scatter_${nametype1}$v(msg_scatter, msg, root, gid)
-      ${type1}$, INTENT(IN)                      :: msg_scatter(:)
-      ${type1}$, INTENT(OUT)                     :: msg(:)
+      ${type1}$, INTENT(IN)                    :: msg_scatter(:)
+      ${type1}$, INTENT(OUT)                   :: msg(:)
       INTEGER, INTENT(IN)                      :: root, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_scatter_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_scatter_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -4444,12 +4472,12 @@ CONTAINS
 !>      mpi_scatter
 ! *****************************************************************************
    SUBROUTINE mp_iscatter_${nametype1}$ (msg_scatter, msg, root, gid, request)
-      ${type1}$, INTENT(IN)                      :: msg_scatter(:)
-      ${type1}$, INTENT(INOUT)                   :: msg
+      ${type1}$, INTENT(IN)                    :: msg_scatter(:)
+      ${type1}$, INTENT(INOUT)                 :: msg
       INTEGER, INTENT(IN)                      :: root, gid
       INTEGER, INTENT(INOUT)                   :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_iscatter_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -4490,12 +4518,12 @@ CONTAINS
 !>      mpi_scatter
 ! *****************************************************************************
    SUBROUTINE mp_iscatter_${nametype1}$v2(msg_scatter, msg, root, gid, request)
-      ${type1}$, INTENT(IN)                      :: msg_scatter(:, :)
-      ${type1}$, INTENT(INOUT)                   :: msg(:)
+      ${type1}$, INTENT(IN)                    :: msg_scatter(:, :)
+      ${type1}$, INTENT(INOUT)                 :: msg(:)
       INTEGER, INTENT(IN)                      :: root, gid
       INTEGER, INTENT(INOUT)                   :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_iscatter_${nametype1}$v2', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_${nametype1}$v2', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -4536,13 +4564,13 @@ CONTAINS
 !>      mpi_scatter
 ! *****************************************************************************
    SUBROUTINE mp_iscatterv_${nametype1}$v(msg_scatter, sendcounts, displs, msg, recvcount, root, gid, request)
-      ${type1}$, INTENT(IN)                      :: msg_scatter(:)
+      ${type1}$, INTENT(IN)                    :: msg_scatter(:)
       INTEGER, INTENT(IN)                      :: sendcounts(:), displs(:)
-      ${type1}$, INTENT(INOUT)                   :: msg(:)
+      ${type1}$, INTENT(INOUT)                 :: msg(:)
       INTEGER, INTENT(IN)                      :: recvcount, root, gid
       INTEGER, INTENT(INOUT)                   :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_iscatterv_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatterv_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -4589,11 +4617,11 @@ CONTAINS
 !>      mpi_gather
 ! *****************************************************************************
    SUBROUTINE mp_gather_${nametype1}$ (msg, msg_gather, root, gid)
-      ${type1}$, INTENT(IN)                      :: msg
-      ${type1}$, INTENT(OUT)                     :: msg_gather(:)
+      ${type1}$, INTENT(IN)                    :: msg
+      ${type1}$, INTENT(OUT)                   :: msg_gather(:)
       INTEGER, INTENT(IN)                      :: root, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_gather_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -4628,11 +4656,11 @@ CONTAINS
 !> \note see mp_gather_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_gather_${nametype1}$v(msg, msg_gather, root, gid)
-      ${type1}$, INTENT(IN)                      :: msg(:)
-      ${type1}$, INTENT(OUT)                     :: msg_gather(:)
+      ${type1}$, INTENT(IN)                    :: msg(:)
+      ${type1}$, INTENT(OUT)                   :: msg_gather(:)
       INTEGER, INTENT(IN)                      :: root, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_gather_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -4667,11 +4695,11 @@ CONTAINS
 !> \note see mp_gather_${nametype1}$
 ! *****************************************************************************
    SUBROUTINE mp_gather_${nametype1}$m(msg, msg_gather, root, gid)
-      ${type1}$, INTENT(IN)                      :: msg(:, :)
-      ${type1}$, INTENT(OUT)                     :: msg_gather(:, :)
+      ${type1}$, INTENT(IN)                    :: msg(:, :)
+      ${type1}$, INTENT(OUT)                   :: msg_gather(:, :)
       INTEGER, INTENT(IN)                      :: root, gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_gather_${nametype1}$m', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_${nametype1}$m', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr, msglen
@@ -4710,12 +4738,12 @@ CONTAINS
 ! *****************************************************************************
    SUBROUTINE mp_gatherv_${nametype1}$v(sendbuf, recvbuf, recvcounts, displs, root, comm)
 
-      ${type1}$, DIMENSION(:), INTENT(IN)        :: sendbuf
-      ${type1}$, DIMENSION(:), INTENT(OUT)       :: recvbuf
+      ${type1}$, DIMENSION(:), INTENT(IN)      :: sendbuf
+      ${type1}$, DIMENSION(:), INTENT(OUT)     :: recvbuf
       INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
       INTEGER, INTENT(IN)                      :: root, comm
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_gatherv_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gatherv_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -4760,13 +4788,13 @@ CONTAINS
 !>      mpi_gather
 ! *****************************************************************************
    SUBROUTINE mp_igatherv_${nametype1}$v(sendbuf, sendcount, recvbuf, recvcounts, displs, root, comm, request)
-      ${type1}$, DIMENSION(:), INTENT(IN)        :: sendbuf
-      ${type1}$, DIMENSION(:), INTENT(OUT)       :: recvbuf
+      ${type1}$, DIMENSION(:), INTENT(IN)      :: sendbuf
+      ${type1}$, DIMENSION(:), INTENT(OUT)     :: recvbuf
       INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
       INTEGER, INTENT(IN)                      :: sendcount, root, comm
       INTEGER, INTENT(INOUT)                   :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_igatherv_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_igatherv_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -4779,7 +4807,7 @@ CONTAINS
       CALL mpi_igatherv(sendbuf, sendcount, ${mpi_type1}$, &
                         recvbuf, recvcounts, displs, ${mpi_type1}$, &
                         root, comm, request, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gatherv @ "//routineN)
+      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_igatherv @ "//routineN)
       CALL add_perf(perf_id=24, &
                     count=1, &
                     msg_size=sendcount*${bytes1}$)
@@ -4817,11 +4845,11 @@ CONTAINS
 !>      mpi_allgather
 ! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$ (msgout, msgin, gid)
-      ${type1}$, INTENT(IN)                      :: msgout
-      ${type1}$, INTENT(OUT)                     :: msgin(:)
+      ${type1}$, INTENT(IN)                    :: msgout
+      ${type1}$, INTENT(OUT)                   :: msgin(:)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -4858,11 +4886,11 @@ CONTAINS
 !>      mpi_allgather
 ! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$2(msgout, msgin, gid)
-      ${type1}$, INTENT(IN)                      :: msgout
-      ${type1}$, INTENT(OUT)                     :: msgin(:, :)
+      ${type1}$, INTENT(IN)                    :: msgout
+      ${type1}$, INTENT(OUT)                   :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$2', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$2', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -4899,12 +4927,12 @@ CONTAINS
 !>      mpi_allgather
 ! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$ (msgout, msgin, gid, request)
-      ${type1}$, INTENT(IN)                      :: msgout
-      ${type1}$, INTENT(OUT)                     :: msgin(:)
+      ${type1}$, INTENT(IN)                    :: msgout
+      ${type1}$, INTENT(OUT)                   :: msgin(:)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(INOUT)                   :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_iallgather_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -4922,7 +4950,7 @@ CONTAINS
       CALL MPI_IALLGATHER(msgout, scount, ${mpi_type1}$, &
                           msgin, rcount, ${mpi_type1}$, &
                           gid, request, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
+      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
       MARK_USED(gid)
       MARK_USED(msgin)
@@ -4952,11 +4980,11 @@ CONTAINS
 !>      mpi_allgather
 ! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$12(msgout, msgin, gid)
-      ${type1}$, INTENT(IN)                      :: msgout(:)
-      ${type1}$, INTENT(OUT)                     :: msgin(:, :)
+      ${type1}$, INTENT(IN)                    :: msgout(:)
+      ${type1}$, INTENT(OUT)                   :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$12', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$12', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -4990,11 +5018,11 @@ CONTAINS
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$23(msgout, msgin, gid)
-      ${type1}$, INTENT(IN)                      :: msgout(:, :)
-      ${type1}$, INTENT(OUT)                     :: msgin(:, :, :)
+      ${type1}$, INTENT(IN)                    :: msgout(:, :)
+      ${type1}$, INTENT(OUT)                   :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$23', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$23', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5028,11 +5056,11 @@ CONTAINS
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$34(msgout, msgin, gid)
-      ${type1}$, INTENT(IN)                      :: msgout(:, :, :)
-      ${type1}$, INTENT(OUT)                     :: msgin(:, :, :, :)
+      ${type1}$, INTENT(IN)                    :: msgout(:, :, :)
+      ${type1}$, INTENT(OUT)                   :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$34', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$34', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5066,11 +5094,11 @@ CONTAINS
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$22(msgout, msgin, gid)
-      ${type1}$, INTENT(IN)                      :: msgout(:, :)
-      ${type1}$, INTENT(OUT)                     :: msgin(:, :)
+      ${type1}$, INTENT(IN)                    :: msgout(:, :)
+      ${type1}$, INTENT(OUT)                   :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$22', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$22', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5105,12 +5133,12 @@ CONTAINS
 !> \note see mp_allgather_${nametype1}$11
 ! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$11(msgout, msgin, gid, request)
-      ${type1}$, INTENT(IN)                      :: msgout(:)
-      ${type1}$, INTENT(OUT)                     :: msgin(:)
+      ${type1}$, INTENT(IN)                    :: msgout(:)
+      ${type1}$, INTENT(OUT)                   :: msgin(:)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_iallgather_${nametype1}$11', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_${nametype1}$11', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5156,12 +5184,12 @@ CONTAINS
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$13(msgout, msgin, gid, request)
-      ${type1}$, INTENT(IN)                      :: msgout(:)
-      ${type1}$, INTENT(OUT)                     :: msgin(:, :, :)
+      ${type1}$, INTENT(IN)                    :: msgout(:)
+      ${type1}$, INTENT(OUT)                   :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_iallgather_${nametype1}$13', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_${nametype1}$13', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5207,12 +5235,12 @@ CONTAINS
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$22(msgout, msgin, gid, request)
-      ${type1}$, INTENT(IN)                      :: msgout(:, :)
-      ${type1}$, INTENT(OUT)                     :: msgin(:, :)
+      ${type1}$, INTENT(IN)                    :: msgout(:, :)
+      ${type1}$, INTENT(OUT)                   :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_iallgather_${nametype1}$22', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_${nametype1}$22', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5258,12 +5286,12 @@ CONTAINS
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$24(msgout, msgin, gid, request)
-      ${type1}$, INTENT(IN)                      :: msgout(:, :)
-      ${type1}$, INTENT(OUT)                     :: msgin(:, :, :, :)
+      ${type1}$, INTENT(IN)                    :: msgout(:, :)
+      ${type1}$, INTENT(OUT)                   :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_iallgather_${nametype1}$24', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_${nametype1}$24', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5309,12 +5337,12 @@ CONTAINS
 !> \note see mp_allgather_${nametype1}$12
 ! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$33(msgout, msgin, gid, request)
-      ${type1}$, INTENT(IN)                      :: msgout(:, :, :)
-      ${type1}$, INTENT(OUT)                     :: msgin(:, :, :)
+      ${type1}$, INTENT(IN)                    :: msgout(:, :, :)
+      ${type1}$, INTENT(OUT)                   :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_iallgather_${nametype1}$33', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_${nametype1}$33', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5368,11 +5396,11 @@ CONTAINS
 !>      mpi_allgather
 ! *****************************************************************************
    SUBROUTINE mp_allgatherv_${nametype1}$v(msgout, msgin, rcount, rdispl, gid)
-      ${type1}$, INTENT(IN)                      :: msgout(:)
-      ${type1}$, INTENT(OUT)                     :: msgin(:)
+      ${type1}$, INTENT(IN)                    :: msgout(:)
+      ${type1}$, INTENT(OUT)                   :: msgin(:)
       INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_allgatherv_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgatherv_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5415,12 +5443,12 @@ CONTAINS
 !>      mpi_allgather
 ! *****************************************************************************
    SUBROUTINE mp_iallgatherv_${nametype1}$v(msgout, msgin, rcount, rdispl, gid, request)
-      ${type1}$, INTENT(IN)                      :: msgout(:)
-      ${type1}$, INTENT(OUT)                     :: msgin(:)
+      ${type1}$, INTENT(IN)                    :: msgout(:)
+      ${type1}$, INTENT(OUT)                   :: msgin(:)
       INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
       INTEGER, INTENT(INOUT)                   :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_iallgatherv_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5474,12 +5502,12 @@ CONTAINS
 !>      mpi_allgather
 ! *****************************************************************************
    SUBROUTINE mp_iallgatherv_${nametype1}$v2(msgout, msgin, rcount, rdispl, gid, request)
-      ${type1}$, INTENT(IN)                      :: msgout(:)
-      ${type1}$, INTENT(OUT)                     :: msgin(:)
+      ${type1}$, INTENT(IN)                    :: msgout(:)
+      ${type1}$, INTENT(OUT)                   :: msgin(:)
       INTEGER, INTENT(IN)                      :: rcount(:, :), rdispl(:, :), gid
       INTEGER, INTENT(INOUT)                   :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_iallgatherv_${nametype1}$v2', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_${nametype1}$v2', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5547,11 +5575,11 @@ CONTAINS
 !> \param[in] gid             Message passing environment identifier
 ! *****************************************************************************
    SUBROUTINE mp_sum_scatter_${nametype1}$v(msgout, msgin, rcount, gid)
-      ${type1}$, INTENT(IN)                      :: msgout(:)
-      ${type1}$, INTENT(OUT)                     :: msgin(:)
+      ${type1}$, INTENT(IN)                    :: msgout(:)
+      ${type1}$, INTENT(OUT)                   :: msgin(:)
       INTEGER, INTENT(IN)                      :: rcount(:), gid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sum_scatter_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_scatter_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5583,12 +5611,12 @@ CONTAINS
 !> \param[in] comm            Message passing environment identifier
 ! *****************************************************************************
    SUBROUTINE mp_sendrecv_${nametype1}$v(msgin, dest, msgout, source, comm)
-      ${type1}$, INTENT(IN)                      :: msgin(:)
+      ${type1}$, INTENT(IN)                    :: msgin(:)
       INTEGER, INTENT(IN)                      :: dest
-      ${type1}$, INTENT(OUT)                     :: msgout(:)
+      ${type1}$, INTENT(OUT)                   :: msgout(:)
       INTEGER, INTENT(IN)                      :: source, comm
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_sendrecv_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sendrecv_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5636,14 +5664,14 @@ CONTAINS
 ! *****************************************************************************
    SUBROUTINE mp_isendrecv_${nametype1}$ (msgin, dest, msgout, source, comm, send_request, &
                                           recv_request, tag)
-      ${type1}$                                  :: msgin
+      ${type1}$                                :: msgin
       INTEGER, INTENT(IN)                      :: dest
-      ${type1}$                                  :: msgout
+      ${type1}$                                :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: send_request, recv_request
       INTEGER, INTENT(in), OPTIONAL            :: tag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_isendrecv_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
@@ -5698,20 +5726,20 @@ CONTAINS
 ! *****************************************************************************
    SUBROUTINE mp_isendrecv_${nametype1}$v(msgin, dest, msgout, source, comm, send_request, &
                                           recv_request, tag)
-      ${type1}$, DIMENSION(:)                    :: msgin
+      ${type1}$, DIMENSION(:)                  :: msgin
       INTEGER, INTENT(IN)                      :: dest
-      ${type1}$, DIMENSION(:)                    :: msgout
+      ${type1}$, DIMENSION(:)                  :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: send_request, recv_request
       INTEGER, INTENT(in), OPTIONAL            :: tag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_isendrecv_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
       INTEGER                                  :: msglen, my_tag
-      ${type1}$                                  :: foo
+      ${type1}$                                :: foo
 #endif
 
       ierr = 0
@@ -5769,18 +5797,18 @@ CONTAINS
 !>      arrays can be pointers or assumed shape, but they must be contiguous!
 ! *****************************************************************************
    SUBROUTINE mp_isend_${nametype1}$v(msgin, dest, comm, request, tag)
-      ${type1}$, DIMENSION(:)                    :: msgin
+      ${type1}$, DIMENSION(:)                  :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_isend_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
       INTEGER                                  :: msglen, my_tag
-      ${type1}$                                  :: foo(1)
+      ${type1}$                                :: foo(1)
 #endif
 
       ierr = 0
@@ -5830,18 +5858,18 @@ CONTAINS
 !>      arrays can be pointers or assumed shape, but they must be contiguous!
 ! *****************************************************************************
    SUBROUTINE mp_isend_${nametype1}$m2(msgin, dest, comm, request, tag)
-      ${type1}$, DIMENSION(:, :)                 :: msgin
+      ${type1}$, DIMENSION(:, :)               :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_isend_${nametype1}$m2', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_${nametype1}$m2', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
       INTEGER                                  :: msglen, my_tag
-      ${type1}$                                  :: foo(1)
+      ${type1}$                                :: foo(1)
 #endif
 
       ierr = 0
@@ -5890,18 +5918,18 @@ CONTAINS
 !>      arrays can be pointers or assumed shape, but they must be contiguous!
 ! *****************************************************************************
    SUBROUTINE mp_irecv_${nametype1}$v(msgout, source, comm, request, tag)
-      ${type1}$, DIMENSION(:)                    :: msgout
+      ${type1}$, DIMENSION(:)                  :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_irecv_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
       INTEGER                                  :: msglen, my_tag
-      ${type1}$                                  :: foo(1)
+      ${type1}$                                :: foo(1)
 #endif
 
       ierr = 0
@@ -5950,18 +5978,18 @@ CONTAINS
 !>      arrays can be pointers or assumed shape, but they must be contiguous!
 ! *****************************************************************************
    SUBROUTINE mp_irecv_${nametype1}$m2(msgout, source, comm, request, tag)
-      ${type1}$, DIMENSION(:, :)                 :: msgout
+      ${type1}$, DIMENSION(:, :)               :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_irecv_${nametype1}$m2', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_${nametype1}$m2', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: handle, ierr
 #if defined(__parallel)
       INTEGER                                  :: msglen, my_tag
-      ${type1}$                                  :: foo(1)
+      ${type1}$                                :: foo(1)
 #endif
 
       ierr = 0
@@ -6005,17 +6033,17 @@ CONTAINS
 !>      arrays can be pointers or assumed shape, but they must be contiguous!
 ! *****************************************************************************
    SUBROUTINE mp_win_create_${nametype1}$v(base, comm, win)
-      ${type1}$, DIMENSION(:)          :: base
+      ${type1}$, DIMENSION(:)        :: base
       INTEGER, INTENT(IN)            :: comm
       INTEGER, INTENT(INOUT)         :: win
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_win_create_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_create_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
-      INTEGER                                  :: ierr, handle
+      INTEGER                        :: ierr, handle
 #if defined(__parallel)
-      INTEGER(kind=mpi_address_kind)           :: len
-      ${type1}$                                  :: foo(1)
+      INTEGER(kind=mpi_address_kind) :: len
+      ${type1}$                      :: foo(1)
 #endif
 
       ierr = 0
@@ -6052,14 +6080,14 @@ CONTAINS
 ! *****************************************************************************
    SUBROUTINE mp_rget_${nametype1}$v(base, source, win, win_data, myproc, disp, request, &
                                      origin_datatype, target_datatype)
-      ${type1}$, DIMENSION(:)                               :: base
+      ${type1}$, DIMENSION(:)                             :: base
       INTEGER, INTENT(IN)                                 :: source, win
-      ${type1}$, DIMENSION(:)                               :: win_data
+      ${type1}$, DIMENSION(:)                             :: win_data
       INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
       INTEGER, INTENT(OUT)                                :: request
       TYPE(mp_type_descriptor_type), INTENT(IN), OPTIONAL :: origin_datatype, target_datatype
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_rget_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_rget_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                  :: ierr, handle
@@ -6156,11 +6184,11 @@ CONTAINS
 ! ***************************************************************************
    FUNCTION mp_type_indexed_make_${nametype1}$ (count, lengths, displs) &
       RESULT(type_descriptor)
-      INTEGER, INTENT(IN)                      :: count
+      INTEGER, INTENT(IN)                              :: count
       INTEGER, DIMENSION(1:count), INTENT(IN), TARGET  :: lengths, displs
-      TYPE(mp_type_descriptor_type)            :: type_descriptor
+      TYPE(mp_type_descriptor_type)                    :: type_descriptor
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_type_indexed_make_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_indexed_make_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER :: ierr, handle
@@ -6198,11 +6226,11 @@ CONTAINS
 !> \author UB
 ! *****************************************************************************
    SUBROUTINE mp_allocate_${nametype1}$ (DATA, len, stat)
-      ${type1}$, DIMENSION(:), POINTER      :: DATA
+      ${type1}$, DIMENSION(:), POINTER    :: DATA
       INTEGER, INTENT(IN)                 :: len
       INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_allocate_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allocate_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                             :: ierr, handle
@@ -6232,10 +6260,10 @@ CONTAINS
 !> \author UB
 ! *****************************************************************************
    SUBROUTINE mp_deallocate_${nametype1}$ (DATA, stat)
-      ${type1}$, DIMENSION(:), POINTER      :: DATA
+      ${type1}$, DIMENSION(:), POINTER    :: DATA
       INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_deallocate_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_deallocate_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                             :: ierr, handle
@@ -6276,7 +6304,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL              :: msglen
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_write_at_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                    :: ierr, msg_len
@@ -6300,11 +6328,11 @@ CONTAINS
 !> \param msg ...
 ! *****************************************************************************
    SUBROUTINE mp_file_write_at_${nametype1}$ (fh, offset, msg)
-      ${type1}$, INTENT(IN)               :: msg
+      ${type1}$, INTENT(IN)                      :: msg
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_write_at_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                    :: ierr
@@ -6336,7 +6364,7 @@ CONTAINS
       INTEGER                                    :: msg_len
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_write_at_all_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                    :: ierr
@@ -6360,11 +6388,11 @@ CONTAINS
 !> \param msg ...
 ! *****************************************************************************
    SUBROUTINE mp_file_write_at_all_${nametype1}$ (fh, offset, msg)
-      ${type1}$, INTENT(IN)               :: msg
+      ${type1}$, INTENT(IN)                      :: msg
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_write_at_all_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                    :: ierr
@@ -6397,7 +6425,7 @@ CONTAINS
       INTEGER                                    :: msg_len
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_read_at_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                    :: ierr
@@ -6421,11 +6449,11 @@ CONTAINS
 !> \param msg ...
 ! *****************************************************************************
    SUBROUTINE mp_file_read_at_${nametype1}$ (fh, offset, msg)
-      ${type1}$, INTENT(OUT)               :: msg
+      ${type1}$, INTENT(OUT)                     :: msg
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_read_at_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                    :: ierr
@@ -6456,7 +6484,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL              :: msglen
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_read_at_all_${nametype1}$v', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                    :: ierr, msg_len
@@ -6480,11 +6508,11 @@ CONTAINS
 !> \param msg ...
 ! *****************************************************************************
    SUBROUTINE mp_file_read_at_all_${nametype1}$ (fh, offset, msg)
-      ${type1}$, INTENT(OUT)               :: msg
+      ${type1}$, INTENT(OUT)                     :: msg
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_file_read_at_all_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                    :: ierr
@@ -6509,12 +6537,12 @@ CONTAINS
    FUNCTION mp_type_make_${nametype1}$ (ptr, &
                                         vector_descriptor, index_descriptor) &
       RESULT(type_descriptor)
-      ${type1}$, DIMENSION(:), POINTER                    :: ptr
+      ${type1}$, DIMENSION(:), POINTER                  :: ptr
       INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL       :: vector_descriptor
       TYPE(mp_indexing_meta_type), INTENT(IN), OPTIONAL :: index_descriptor
       TYPE(mp_type_descriptor_type)                     :: type_descriptor
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'mp_type_make_${nametype1}$', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_make_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
       INTEGER :: ierr
@@ -6546,7 +6574,7 @@ CONTAINS
 !> \param[out] stat      (optional) allocation status result
 ! *****************************************************************************
    SUBROUTINE mp_alloc_mem_${nametype1}$ (DATA, len, stat)
-      ${type1}$, DIMENSION(:), POINTER           :: DATA
+      ${type1}$, DIMENSION(:), POINTER         :: DATA
       INTEGER, INTENT(IN)                      :: len
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
 
@@ -6586,7 +6614,7 @@ CONTAINS
 ! *****************************************************************************
    SUBROUTINE mp_free_mem_${nametype1}$ (DATA, stat)
       ${type1}$, DIMENSION(:), &
-         POINTER                                :: DATA
+         POINTER                               :: DATA
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
 
 #if defined(__parallel)
