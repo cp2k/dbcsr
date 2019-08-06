@@ -48,7 +48,7 @@ set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if CUDA is enabl
 set_property(CACHE WITH_GPU PROPERTY STRINGS K20X K40 K80 P100 V100)
 
 option(USE_HIP "Build with HIP support" OFF)
-cmake_dependent_option(USE_ROCBLAS "Build with ROCBLAS support" OFF "USE_HIP" OFF)
+cmake_dependent_option(USE_HIPBLAS "Build with HIPBLAS support" OFF "USE_HIP" OFF)
 set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if HIP is enabled (default: P100)")
 set_property(CACHE WITH_GPU PROPERTY STRINGS K20X K40 K80 P100 V100)
 
@@ -228,10 +228,10 @@ if (USE_CUBLAS)
   endif ()
 endif ()
 
-if (USE_ROCBLAS)
-  find_library(ROCBLAS rocblas)
-  if (NOT ROCBLAS)
-    message(FATAL_ERROR "rocBLAS library not found but support requested")
+if (USE_HIPBLAS)
+  find_library(HIPBLAS hipblas HINTS ${HIP_PATH}/../lib)  # /opt/rocm/lib
+  if (NOT HIPBLAS)
+    message(FATAL_ERROR "hipBLAS library not found but support requested")
   endif ()
 endif ()
 

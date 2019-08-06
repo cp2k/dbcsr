@@ -9,13 +9,15 @@ include(CMakePackageConfigHelpers)
 add_fypp_sources(DBCSR_SRCS
   dbcsr_api.F
   acc/cublaswrap/dbcsr_cublas.F
+  acc/cuda/dbcsr_cuda_profiling.F
   acc/dbcsr_acc_device.F
   acc/dbcsr_acc_devmem.F
   acc/dbcsr_acc_event.F
   acc/dbcsr_acc_hostmem.F
   acc/dbcsr_acc_init.F
   acc/dbcsr_acc_stream.F
-  acc/cuda/dbcsr_cuda_profiling.F
+  acc/hipblaswrap/dbcsr_hipblas.F
+  acc/hip/dbcsr_hip_profiling.F
   base/dbcsr_base_hooks.F
   base/dbcsr_kinds.F
   base/dbcsr_machine.F
@@ -124,7 +126,7 @@ set(DBCSR_HIP_SRCS
   acc/hip/acc_hip_stream.cpp
   acc/hip/acc_hip_init.cpp
   acc/hip/dbcsr_hip_nvtx_cu.cpp
-  acc/rocblaswrap/rocblas.cpp
+  acc/hipblaswrap/hipblas.cpp
   )
 
 # set the __SHORT_FILE__ per file for dbcsr sources
@@ -289,9 +291,9 @@ if (USE_HIP)
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc/libhipsmm>
     )
 
-  if (USE_ROCBLAS)
-    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC=2)
-    target_link_libraries(dbcsr PRIVATE ${ROCBLAS})
+  if (USE_HIPBLAS)
+    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC=3)
+    target_link_libraries(dbcsr PRIVATE ${HIPBLAS})
   else ()
     target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
   endif ()
