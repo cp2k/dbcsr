@@ -44,13 +44,17 @@ set_property(CACHE USE_SMM PROPERTY STRINGS blas libxsmm)
 
 option(USE_CUDA "Build with CUDA support" OFF)
 cmake_dependent_option(USE_CUBLAS "Build with CUBLAS support" OFF "USE_CUDA" OFF)
+set(SUPPORTED_CUDA_ARCHITECTURES
+    K20X K40 K80 P100 V100)
 set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if CUDA is enabled (default: P100)")
-set_property(CACHE WITH_GPU PROPERTY STRINGS K20X K40 K80 P100 V100)
+set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES})
 
 option(USE_HIP "Build with HIP support" OFF)
 cmake_dependent_option(USE_HIPBLAS "Build with HIPBLAS support" OFF "USE_HIP" OFF)
+set(SUPPORTED_HIP_ARCHITECTURES
+    ${SUPPORTED_CUDA_ARCHITECTURES} Mi50)
 set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if HIP is enabled (default: P100)")
-set_property(CACHE WITH_GPU PROPERTY STRINGS K20X K40 K80 P100 V100)
+set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_HIP_ARCHITECTURES})
 
 # USE_CUDA and USE_HIP are mutually exclusive options: we either compile with nvcc OR with hipcc
 if (USE_CUDA AND USE_HIP)
@@ -58,7 +62,7 @@ if (USE_CUDA AND USE_HIP)
 endif()
 
 # =================================================================================================
-# LANGUAGES
+# LANGUAGES AND TESTING
 enable_language(Fortran)
 enable_testing() # enables the `make test` target
 
@@ -174,7 +178,6 @@ else()
   message(FATAL_ERROR "Unknown SMM library specified" )
 endif ()
 
-
 # =================================== GPU backend
 if (USE_CUDA OR USE_HIP)
   enable_language(CXX)
@@ -183,20 +186,41 @@ if (USE_CUDA OR USE_HIP)
   set(GPU_ARCH_NUMBER_K80  37)
   set(GPU_ARCH_NUMBER_P100 60)
   set(GPU_ARCH_NUMBER_V100 70)
-  set(GPU_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
+  set(GPU_ARCH_NUMBER_Mi50 gfx906)
 endif()
 
 if (USE_CUDA)
+
   enable_language(CUDA)
-  set(CUDA_ARCH_NUMBER ${GPU_ARCH_NUMBER})
+
+  # Make sure the GPU required is supported
+  list(FIND SUPPORTED_CUDA_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
+  if (GPU_SUPPORTED EQUAL -1)
+      message(FATAL_ERROR "GPU architecture requested (${WITH_GPU}) is not supported. Please choose from: ${SUPPORTED_CUDA_ARCHITECTURES}")
+  endif()
+
   # assume that the backend compiler for nvcc understands the -std=c++11
   set(CMAKE_CUDA_STANDARD 11)
   set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+
+  # set cuda architecture number and compilation flags
+  set(CUDA_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
   set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
+  message(STATUS "GPU target architecture: " ${WITH_GPU})
+  message(STATUS "GPU architecture number: " ${CUDA_ARCH_NUMBER})
+
 endif ()
 
-# hints: https://github.com/ROCm-Developer-Tools/HIP/tree/master/samples/2_Cookbook/12_cmake_hip_add_executable
+# inspired from https://github.com/ROCm-Developer-Tools/HIP/tree/master/samples/2_Cookbook/12_cmake_hip_add_executable
 if (USE_HIP)
+
+  # Make sure the GPU required is supported
+  list(FIND SUPPORTED_HIP_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
+  if (GPU_SUPPORTED EQUAL -1)
+      message(FATAL_ERROR "GPU architecture requested (${WITH_GPU}) is not supported. Please choose from: ${SUPPORTED_HIP_ARCHITECTURES}")
+  endif()
+
+  # Set path to HIP installation, include HIP cmake utilities
   if(NOT DEFINED HIP_PATH)
     if(NOT DEFINED ENV{HIP_PATH})
       set(HIP_PATH "/opt/rocm/hip" CACHE PATH "Path to HIP installation")
@@ -204,7 +228,9 @@ if (USE_HIP)
       set(HIP_PATH $ENV{HIP_PATH} CACHE PATH "Path to HIP installation")
     endif()
   endif()
-  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "/opt/rocm/hip/cmake")
+  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${HIP_PATH}/cmake")
+
+  # Find HIP package
   find_package(HIP)
   if(HIP_FOUND)
     message(STATUS "Found HIP: " ${HIP_VERSION})
@@ -215,8 +241,22 @@ if (USE_HIP)
   if(NOT ROCM_HIPRTC_LIB)
     message(FATAL_ERROR "HIPRTC (HIP library for just-in-time compilation) not found")
   endif()
-  set(HIP_ARCH_NUMBER ${GPU_ARCH_NUMBER})
-  set(CMAKE_HIP_FLAGS "${CMAKE_HIP_FLAGS} --amdgpu-target=gfx900")
+  set(ENV{HIP_PATH} /opt/rocm/hip)  # workaround bug in hiprtc.cpp
+
+  # Set platform to compile for (NVIDIA-nvcc or ROCm-hcc) as well as corresponding architecture and flags
+  # adapted from: https://github.com/ROCmSoftwarePlatform/hipDNN/blob/master/CMakeLists.txt
+  execute_process(COMMAND ${HIP_PATH}/bin/hipconfig -P OUTPUT_VARIABLE HIP_PLATFORM)
+  message(STATUS "Compiling for platform: " ${HIP_PLATFORM})
+
+  # set appropriate compilation flags depending on platform
+  set(HIP_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
+  if (${HIP_PLATFORM} STREQUAL "nvcc")
+    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -std=c++11 -arch=sm_${HIP_ARCH_NUMBER} --cudart static")
+  else()
+      #set(HIP_HIPCC_FLAGS "${CMAKE_HIP_FLAGS} --amdgpu-target=${HIP_ARCH_NUMBER}")
+  endif()
+  message(STATUS "GPU target architecture: " ${WITH_GPU})
+  message(STATUS "GPU architecture number: " ${HIP_ARCH_NUMBER})
 endif()
 
 # =================================== BLAS on GPU backend
