@@ -9,19 +9,22 @@ set(CUSMM_KERNELS
   kernels/cusmm_transpose.h
 )
 
-add_custom_command(
+add_custom_target(generate_parameters
   COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_parameters.py --gpu_version=${WITH_GPU} --base_dir=${CMAKE_CURRENT_SOURCE_DIR}
   DEPENDS generate_parameters.py parameters_${WITH_GPU}.json
-  OUTPUT parameters.h
+  BYPRODUCTS parameters.h
   COMMENT "libhipsmm: generating parameters for GPU ${WITH_GPU}"
 )
+set_source_files_properties(parameters.h PROPERTIES GENERATED true)
 
-add_custom_command(
+
+add_custom_target(generate_kernels
   COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_kernels.py ${CMAKE_CURRENT_SOURCE_DIR}/kernels
   DEPENDS generate_kernels.py ${CUSMM_KERNELS}
-  OUTPUT cusmm_kernels.h
+  BYPRODUCTS cusmm_kernels.h
   COMMENT "libhipsmm: generating kernels"
 )
+set_source_files_properties(cusmm_kernels.h PROPERTIES GENERATED true)
 
 set(LIBHIPSMM_SRC_FILES
   libhipsmm.cpp
@@ -43,6 +46,7 @@ install(TARGETS libhipsmm
   EXPORT libcusmmTargets
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+add_dependencies(libhipsmm generate_parameters generate_kernels)
 
 if (OpenMP_FOUND)
   # with CMake 3.12+ the following can be replaced by:
