@@ -36,7 +36,6 @@ extern "C" int acc_init(){
   HIP_SAFE_CALL("hipDeviceGet", hipDeviceGet(&hipDevice, 0));
   hipCtx_t ctx;
   HIP_SAFE_CALL("hipDevicePrimaryCtxRetain", hipDevicePrimaryCtxRetain(&ctx, hipDevice));
-  HIP_SAFE_CALL("hipCtxPushCurrent", hipCtxPushCurrent(ctx));
   return 0;
 }
 
@@ -44,8 +43,6 @@ extern "C" int acc_init(){
 extern "C" int acc_finalize(){
   // Release driver resources
   hipCtx_t ctx;
-  HIP_SAFE_CALL("hipCtxGetCurrent", hipCtxGetCurrent(&ctx));
-  HIP_SAFE_CALL("hipCtxPopCurrent", hipCtxPopCurrent(&ctx));
   hipDevice_t hipDevice;
   HIP_SAFE_CALL("hipDeviceGet", hipDeviceGet(&hipDevice, 0));
   HIP_SAFE_CALL("hipDevicePrimaryCtxRelease", hipDevicePrimaryCtxRelease(hipDevice));

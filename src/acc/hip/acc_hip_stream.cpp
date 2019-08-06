@@ -51,7 +51,7 @@ extern "C" int acc_stream_create(void** stream_p, const char* name, int priority
       cErr = hipStreamCreate(custream);
 
 
-  if (verbose_print) printf("cuda_stream_create: %p -> %d \n", *stream_p, *custream);
+  if (verbose_print) printf("hip_stream_create: %p -> %p \n", *stream_p, *custream);
   if (cuda_error_check(cErr)) return -1;
   if (cuda_error_check(hipGetLastError())) return -1;
 

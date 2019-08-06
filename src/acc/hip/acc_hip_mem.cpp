@@ -64,7 +64,7 @@ extern "C" int acc_host_mem_allocate(void **host_mem, size_t n, void *stream){
   if (host_mem == NULL)
     return -2;
   if (verbose_print)
-    printf ("Allocating %d bytes of host pinned memory at %p\n",n,  *host_mem);
+    printf ("Allocating %zu bytes of host pinned memory at %p\n", n, *host_mem);
 
   return 0;
 }
@@ -98,7 +98,7 @@ extern "C" int acc_memcpy_h2d(const void *host_mem, void *dev_mem, size_t count,
   hipError_t cErr;
   hipStream_t* custream = (hipStream_t*) stream;
   if (verbose_print)
-      printf ("Copyint %d bytes from host address %p to device address %p \n",count, host_mem, dev_mem);
+      printf ("Copying %zu bytes from host address %p to device address %p \n",count, host_mem, dev_mem);
 
   cErr = hipMemcpyAsync (dev_mem, host_mem, count, hipMemcpyHostToDevice, *custream);
 
@@ -116,7 +116,7 @@ extern "C" int acc_memcpy_d2h(const void *dev_mem, void *host_mem, size_t count,
   hipError_t cErr;
   hipStream_t* custream = (hipStream_t*) stream;
   if (verbose_print)
-      printf ("Copying %d bytes from device address %p to host address %p\n", count, dev_mem, host_mem);
+      printf ("Copying %zu bytes from device address %p to host address %p\n", count, dev_mem, host_mem);
 
   cErr = hipMemcpyAsync (host_mem, dev_mem, count, hipMemcpyDeviceToHost, *custream);
 
@@ -136,7 +136,7 @@ extern "C" int acc_memcpy_d2d(const void *devmem_src, void *devmem_dst, size_t c
   hipError_t cErr;
   hipStream_t* custream = (hipStream_t*) stream;
   if (verbose_print)
-      printf ("Coping %d bytes from device address %p to device address %p \n", count, devmem_src, devmem_dst);
+      printf ("Copying %zu bytes from device address %p to device address %p \n", count, devmem_src, devmem_dst);
 
 
   if(stream == NULL){
