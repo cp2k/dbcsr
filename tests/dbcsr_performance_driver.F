@@ -47,7 +47,7 @@ PROGRAM dbcsr_performance_driver
    TYPE(dbcsr_mp_obj)                       :: mp_env
    CHARACTER(len=default_string_length)     :: args(100)
 
-   CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_multiply'
+   CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_performance_driver'
 
    !***************************************************************************************
 
