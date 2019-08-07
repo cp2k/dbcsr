@@ -911,7 +911,6 @@ CONTAINS
       LOGICAL                                            :: keep_sparsity, list_indexing, &
                                                             otf_filtering
 
-!$    REAL(KIND=real_8)                        :: left_fill, right_fill
       REAL(kind=sp), ALLOCATABLE, DIMENSION(:) :: left_norms, right_norms, &
                                                   row_max_epss
       TYPE(dbcsr_2d_array_type), POINTER :: left_buffer_2, left_buffer_calc, &
@@ -1206,8 +1205,7 @@ CONTAINS
       ENDIF
       ithread = 0
 !$OMP PARALLEL DEFAULT(NONE) &
-!$OMP          PRIVATE (i, size_guess, &
-!$OMP                   left_fill, right_fill, ithread) &
+!$OMP          PRIVATE (i, size_guess, ithread) &
 !$OMP          SHARED (product_matrix, left_max_nze, right_max_nze) &
 !$OMP          SHARED (left_set, right_set, &
 !$OMP                 left_col_nimages, right_row_nimages) &
