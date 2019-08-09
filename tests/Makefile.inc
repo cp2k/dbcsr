@@ -10,7 +10,7 @@ SRC_TESTS += dbcsr_test_csr_conversions.F
 dbcsr_test_csr_conversions: BIN_DEPS =
 
 SRC_TESTS += dbcsr_unittest1.F dbcsr_unittest2.F dbcsr_unittest3
-dbcsr_unittest1: BIN_DEPS = dbcsr_test_add.o dbcsr_test_multiply.o
+dbcsr_unittest1: BIN_DEPS = dbcsr_test_add.o dbcsr_test_multiply.o dbcsr_test_mat_vec_mult.o
 dbcsr_unittest2: BIN_DEPS = dbcsr_test_multiply.o
 dbcsr_unittest3: BIN_DEPS = dbcsr_test_multiply.o
 .NOTPARALLEL: dbcsr_unittest1 dbcsr_unittest2 dbcsr_unittest3 # Dependency because both tests share an object file
