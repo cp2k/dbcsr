@@ -741,7 +741,7 @@ CONTAINS
       DEALLOCATE (bdata_disps, bdata_offsets)
 
       CALL timestop(handle)
-
+ 
    CONTAINS
       SUBROUTINE cumsum_l(arr, cumsum)
          INTEGER(kind=file_offset), DIMENSION(:), &
