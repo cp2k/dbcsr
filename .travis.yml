@@ -14,11 +14,13 @@ addons:
     - liblapack-dev
     - libopenmpi-dev
     - openmpi-bin
+    - lcov
   homebrew:
     packages:
     - gcc
     - cmake
     - openmpi
+    - lcov
     update: true
 
 cache:
@@ -82,15 +84,19 @@ script:  # multiplied by matrix envs and os settings
   # we see all system CPUs, but can use only 1, causing nproc auto-detection to fail
   - cmake -DCMAKE_BUILD_TYPE=Coverage -DTEST_MPI_RANKS=1  -DUSE_MPI=$USE_MPI -DUSE_OPENMP=$USE_OPENMP -DUSE_SMM=$USE_SMM ..
   - make VERBOSE=1 -j
-  - make CTEST_OUTPUT_ON_FAILURE=1 test
+  - ctest --output-on-failure
+
+after_success:
+  - cd "${TRAVIS_BUILD_DIR}"
+  - lcov --directory build --capture --output-file coverage.info
+  # remove any system headers, 3rd party objects and the test code itself from the coverage report
+  # the absolute path is required to workaround an issue in lcov which makes it change its CWD in case of errors
+  - lcov --remove coverage.info '/usr/*' "${HOME}"'/deps/*' '*/tests/*' --output-file "${TRAVIS_BUILD_DIR}/coverage.info"
+  - lcov --list coverage.info
+  - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
 
 jobs:  # the following jobs inherit only the first OS
   include:
-  - name: "Build and test MPI+OpenMP version with make"
-    script:
-    - make -j FC="mpif90" LD="mpif90" OPTFLAGS="-fprofile-arcs -ftest-coverage -O0" CHECKS=1 LEAKS=0 all
-    - make test
-    - bash <(curl -s https://codecov.io/bash)
   - name: "Run pre-commit hook on changed files"
     if: tag IS NOT present
     script:
