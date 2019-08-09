@@ -1,8 +1,8 @@
 if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
   set(CMAKE_Fortran_FLAGS          "-ffree-form -ffree-line-length-none -std=f2008ts")
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -funroll-loops")
+  set(CMAKE_Fortran_FLAGS_COVERAGE "-O0 -g --coverage")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -ggdb")
-  set(CMAKE_Fortran_FLAGS_COVERAGE "-O0 -fprofile-arcs -ftest-coverage")
 elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
   set(CMAKE_Fortran_FLAGS          "-free -stand f08 -fpp")
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -diag-disable=5268")  # Disable the line-length-extension warning #5268
@@ -35,19 +35,17 @@ endif ()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
-  set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -fprofile-arcs -ftest-coverage")
+  set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -g --coverage")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -ggdb")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
+  set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -g --coverage")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -g")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
+  set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -g --coverage")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -g")
-
-  if (CMAKE_BUILD_TYPE MATCHES Coverage)
-    # when building with coverage suppport, shared libs/executables must be explicitly linked to avoid undefined symbols
-    SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -lgcov --coverage")
-  endif ()
+  set(CMAKE_EXE_LINKER_FLAGS_COVERAGE "-lgcov")  # Apple's Clang needs an extra
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -debug")
@@ -62,7 +60,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Cray")
     set(CMAKE_C_FLAGS              "${CMAKE_C_FLAGS} -h system_alloc")
     set(CMAKE_CXX_FLAGS            "${CMAKE_CXX_FLAGS} -h system_alloc")
     set(CMAKE_Fortran_FLAGS        "${CMAKE_Fortran_FLAGS} -h system_alloc")
-    # since the detection of the implicitly linked libraries occurs bevore we can intervene, filter them out again
+    # since the detection of the implicitly linked libraries occurs before we can intervene, filter them out again
     list(FILTER CMAKE_C_IMPLICIT_LINK_LIBRARIES EXCLUDE REGEX "tcmalloc")
     list(FILTER CMAKE_Fortran_IMPLICIT_LINK_LIBRARIES EXCLUDE REGEX "tcmalloc")
   endif ()
