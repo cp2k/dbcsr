@@ -163,10 +163,13 @@
   SUBROUTINE xsmm_process_mm_batch_${nametype1}$ (stack_descr, params, &
                                                   stack_size, a_data, b_data, c_data, used_smm)
 #if ${xsmm_supported[n]}$
+#if !defined(DBCSR_LIBXSMM_GEMM_BATCH)
+#define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch
+#endif
      ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
      USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => ${'LIBXSMM_GEMM_PRECISION_F'+bits1[n]}$, &
                         libxsmm_gemm => libxsmm_${nametype1}$gemm, &
-                        libxsmm_gemm_batch, &
+                        libxsmm_gemm_batch => DBCSR_LIBXSMM_GEMM_BATCH, &
                         libxsmm_ptr0
      REAL(${kind1}$), PARAMETER :: one = 1.0_${kind1}$
      INTEGER :: sp
