@@ -14,6 +14,7 @@ addons:
     - liblapack-dev
     - libopenmpi-dev
     - openmpi-bin
+    - lcov
   homebrew:
     packages:
     - gcc
@@ -88,9 +89,14 @@ jobs:  # the following jobs inherit only the first OS
   include:
   - name: "Build and test MPI+OpenMP version with make"
     script:
-    - make -j FC="mpif90" LD="mpif90" OPTFLAGS="-fprofile-arcs -ftest-coverage -O0" CHECKS=1 LEAKS=0 all
+    - make -j FC="mpif90" LD="mpif90" OPTFLAGS="-O0 -g --coverage" FYPPFLAGS="--line-numbering --line-marker-format=gfortran5" CHECKS=1 LEAKS=0 all
     - make test
-    - bash <(curl -s https://codecov.io/bash)
+    - lcov --directory . --capture --output-file coverage.info
+    # remove any system headers, 3rd party objects and the test code itself from the coverage report
+    # the absolute path is required to workaround an issue in lcov which makes it change its CWD in case of errors
+    - lcov --remove coverage.info '/usr/*' "${HOME}"'/deps/*' '*/tests/*' --output-file "${TRAVIS_BUILD_DIR}/coverage.info"
+    - lcov --list coverage.info
+    - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
   - name: "Run pre-commit hook on changed files"
     if: tag IS NOT present
     script:
