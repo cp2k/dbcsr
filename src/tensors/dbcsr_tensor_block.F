@@ -75,6 +75,7 @@ MODULE dbcsr_tensor_block
       dbcsr_t_iterator_type, &
       dbcsr_t_put_block, &
       dbcsr_t_reserve_blocks, &
+      dbcsr_t_reserved_block_indices, &
       destroy_block, &
       ndims_iterator, &
       reshape_2d_to_nd_block, &
@@ -150,7 +151,6 @@ MODULE dbcsr_tensor_block
 
    INTERFACE dbcsr_t_reserve_blocks
       MODULE PROCEDURE dbcsr_t_reserve_blocks_index
-      MODULE PROCEDURE dbcsr_t_reserve_blocks_index_list
       MODULE PROCEDURE dbcsr_t_reserve_blocks_index_array
       MODULE PROCEDURE dbcsr_t_reserve_blocks_template
       MODULE PROCEDURE dbcsr_t_reserve_blocks_tensor_to_matrix
@@ -325,29 +325,6 @@ CONTAINS
    END FUNCTION
 
 ! **************************************************************************************************
-!> \brief reserve blocks from indices as array_list object
-!> \param tensor ...
-!> \param blk_ind ...
-! **************************************************************************************************
-   SUBROUTINE dbcsr_t_reserve_blocks_index_list(tensor, blk_ind)
-      TYPE(dbcsr_t_type), INTENT(INOUT)  :: tensor
-      TYPE(array_list), INTENT(IN)       :: blk_ind
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("blk_ind")}$
-      INTEGER                            :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_index_list', &
-                                     routineP = moduleN//':'//routineN
-
-      CALL timeset(routineN, handle)
-#:for ndim in ndims
-      IF (ndims_tensor(tensor) == ${ndim}$) THEN
-         CALL get_arrays(blk_ind, ${varlist("blk_ind", nmax=ndim)}$)
-         CALL dbcsr_t_reserve_blocks(tensor, ${varlist("blk_ind", nmax=ndim)}$)
-      ENDIF
-#:endfor
-      CALL timestop(handle)
-   END SUBROUTINE
-
-! **************************************************************************************************
 !> \brief reserve blocks from indices as array object
 !> \param tensor ...
 !> \param blk_ind ...
@@ -418,7 +395,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor_out
       INTEGER                           :: handle
 
-      TYPE(array_list)                  :: blk_ind
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: blk_ind
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_template', &
                                      routineP = moduleN//':'//routineN
 
@@ -502,34 +479,23 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserved_block_indices(tensor, blk_ind)
       TYPE(dbcsr_t_type), INTENT(IN)            :: tensor
-      INTEGER, ALLOCATABLE, DIMENSION(:)        :: ${varlist("blk_ind")}$
       INTEGER                                   :: blk, iblk, nblk
       TYPE(dbcsr_t_iterator_type)               :: iterator
       INTEGER, DIMENSION(ndims_tensor(tensor))  :: ind_nd
-      TYPE(array_list), INTENT(OUT)             :: blk_ind
+      INTEGER, DIMENSION(:, :), ALLOCATABLE, INTENT(OUT) :: blk_ind
 
       DBCSR_ASSERT(tensor%valid)
 
       nblk = dbcsr_t_get_num_blocks(tensor)
 
-#:for dim in range(1, maxdim+1)
-      IF (ndims_tensor(tensor) >= ${dim}$) ALLOCATE (blk_ind_${dim}$ (nblk))
-#:endfor
+      ALLOCATE(blk_ind(nblk, ndims_tensor(tensor)))
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO iblk = 1, nblk
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk)
-#:for dim in range(1, maxdim+1)
-         IF (ndims_tensor(tensor) >= ${dim}$) blk_ind_${dim}$ (iblk) = ind_nd(${dim}$)
-#:endfor
+         blk_ind(iblk, :) = ind_nd(:)
       ENDDO
       CALL dbcsr_t_iterator_stop(iterator)
-
-#:for ndim in ndims
-      IF (ndims_tensor(tensor) == ${ndim}$) THEN
-         CALL create_array_list(blk_ind, ndims_tensor(tensor), ${varlist("blk_ind", nmax=ndim)}$)
-      ENDIF
-#:endfor
 
    END SUBROUTINE
 

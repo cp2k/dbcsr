@@ -47,7 +47,7 @@ PROGRAM dbcsr_unittest
    INTEGER, DIMENSION(:, :), POINTER         :: pgrid
    TYPE(dbcsr_mp_obj)                       :: mp_env
 
-   CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_multiply'
+   CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_unittest'
 
    !***************************************************************************************
 
