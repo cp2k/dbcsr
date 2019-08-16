@@ -364,11 +364,11 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)              :: notcontract_1, notcontract_2
       TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_3
       INTEGER, DIMENSION(2, SIZE(contract_1)), &
-         OPTIONAL                                    :: bounds_1
+         INTENT(IN), OPTIONAL                        :: bounds_1
       INTEGER, DIMENSION(2, SIZE(notcontract_1)), &
-         OPTIONAL                                    :: bounds_2
+         INTENT(IN), OPTIONAL                        :: bounds_2
       INTEGER, DIMENSION(2, SIZE(notcontract_2)), &
-         OPTIONAL                                    :: bounds_3
+         INTENT(IN), OPTIONAL                        :: bounds_3
       LOGICAL, INTENT(IN), OPTIONAL                  :: optimize_dist
       REAL(KIND=real_8), INTENT(IN), OPTIONAL        :: filter_eps
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL       :: flop
@@ -430,30 +430,12 @@ CONTAINS
       assert_stmt = dbcsr_t_get_data_type(tensor_1) .EQ. dbcsr_t_get_data_type(tensor_2)
       DBCSR_ASSERT(assert_stmt)
 
-      do_crop_1 = .FALSE.; do_crop_2 = .FALSE.
-
-      bounds_t1(1,:) = 1
-      CALL dbcsr_t_get_info(tensor_1, nfull_total=bounds_t1(2,:))
-
-      bounds_t2(1,:) = 1
-      CALL dbcsr_t_get_info(tensor_2, nfull_total=bounds_t2(2,:))
-
-      IF(PRESENT(bounds_1)) THEN
-         bounds_t1(:,contract_1) = bounds_1
-         do_crop_1 = .TRUE.
-         bounds_t2(:,contract_2) = bounds_1
-         do_crop_2 = .TRUE.
-      ENDIF
-
-      IF(PRESENT(bounds_2)) THEN
-         bounds_t1(:,notcontract_1) = bounds_2
-         do_crop_1 = .TRUE.
-      ENDIF
-
-      IF(PRESENT(bounds_3)) THEN
-         bounds_t2(:,notcontract_2) = bounds_3
-         do_crop_2 = .TRUE.
-      ENDIF
+      CALL dbcsr_t_map_bounds_to_tensors(tensor_1, tensor_2, &
+                                         contract_1, notcontract_1, &
+                                         contract_2, notcontract_2, &
+                                         bounds_t1, bounds_t2, &
+                                         bounds_1=bounds_1, bounds_2=bounds_2, bounds_3=bounds_3, &
+                                         do_crop_1=do_crop_1, do_crop_2=do_crop_2)
 
       IF(do_crop_1) THEN
          ALLOCATE(tensor_crop_1)
@@ -1321,15 +1303,17 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Get all indices along one dimension that have at least one occupied block
 !> \param tensor ...
-!> \param dim which dim to test
+!> \param dim which dimension
+!> \param bounds bounds of (full) tensor index
 !> \param ind indices with occupied blocks
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_t_get_nonzero_index(tensor, dim, ind)
+   SUBROUTINE dbcsr_t_get_nonzero_index(tensor, dim, bounds, ind)
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER, INTENT(IN) :: dim
+      INTEGER, INTENT(IN), DIMENSION(2, ndims_tensor(tensor)) :: bounds
       LOGICAL, ALLOCATABLE, DIMENSION(:), INTENT(OUT) :: ind
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor)) :: bdims, blk_index
-      INTEGER :: bdim, blk
+      INTEGER, DIMENSION(dbcsr_t_ndims(tensor)) :: bdims, blk_index, blk_size, blk_offset
+      INTEGER :: bdim, blk, idim
       TYPE(dbcsr_t_iterator_type)                     :: iter
 
       CALL blk_dims_tensor(tensor, bdims)
@@ -1339,27 +1323,48 @@ CONTAINS
 
       CALL dbcsr_t_iterator_start(iter, tensor)
 
-      DO WHILE (dbcsr_t_iterator_blocks_left(iter))
-         CALL dbcsr_t_iterator_next_block(iter, blk_index, blk)
+      blk_loop: DO WHILE (dbcsr_t_iterator_blocks_left(iter))
+         CALL dbcsr_t_iterator_next_block(iter, blk_index, blk, blk_size=blk_size, blk_offset=blk_offset)
+         DO idim = 1, ndims_tensor(tensor)
+            IF (bounds(1, idim) > blk_offset(idim) - 1 + blk_size(idim)) CYCLE blk_loop
+            IF (bounds(2, idim) < blk_offset(idim)) CYCLE blk_loop
+         ENDDO
+
          ind(blk_index(dim)) = .TRUE.
-      ENDDO
+      ENDDO blk_loop
 
       CALL dbcsr_t_iterator_stop(iter)
    END SUBROUTINE
 
 ! **************************************************************************************************
 !> \brief check whether we need to contract two tensors (whether the contraction indices of both tensors
-!> have common occupied blocks)
+!> have common occupied blocks). See documentation of dbcsr_t_contract.
 !> \param tensor_1 ...
 !> \param tensor_2 ...
-!> \param contract_1 contraction indices of tensor 1
-!> \param contract_2 contraction indices of tensor 2
+!> \param contract_1 ...
+!> \param notcontract_1 ...
+!> \param contract_2 ...
+!> \param notcontract_2 ...
+!> \param bounds_1 ...
+!> \param bounds_2 ...
+!> \param bounds_3 ...
 ! **************************************************************************************************
-   FUNCTION dbcsr_t_need_contract(tensor_1, tensor_2, contract_1, contract_2)
+   FUNCTION dbcsr_t_need_contract(tensor_1, tensor_2, contract_1, notcontract_1, &
+                                  contract_2, notcontract_2, &
+                                  bounds_1, bounds_2, bounds_3)
       TYPE(dbcsr_t_type), INTENT(INOUT)  :: tensor_1, tensor_2
-      INTEGER, DIMENSION(:), INTENT(IN)  :: contract_1, contract_2
+      INTEGER, DIMENSION(:), INTENT(IN)  :: contract_1, contract_2,&
+                                            notcontract_1, notcontract_2
+      INTEGER, DIMENSION(2, SIZE(contract_1)), &
+         OPTIONAL                                    :: bounds_1
+      INTEGER, DIMENSION(2, SIZE(notcontract_1)), &
+         OPTIONAL                                    :: bounds_2
+      INTEGER, DIMENSION(2, SIZE(notcontract_2)), &
+         OPTIONAL                                    :: bounds_3
       INTEGER :: i
       LOGICAL, DIMENSION(:), ALLOCATABLE :: ind1, ind2
+      INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_1)) :: bounds_t1
+      INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_2)) :: bounds_t2
       LOGICAL :: dbcsr_t_need_contract
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_need_contract', &
                                      routineP = moduleN//':'//routineN
@@ -1369,17 +1374,17 @@ CONTAINS
 
       mp_comm = tensor_1%pgrid%mp_comm_2d
 
+      CALL dbcsr_t_map_bounds_to_tensors(tensor_1, tensor_2, &
+                                         contract_1, notcontract_1, &
+                                         contract_2, notcontract_2, &
+                                         bounds_t1, bounds_t2, &
+                                         bounds_1=bounds_1, bounds_2=bounds_2, bounds_3=bounds_3)
+
       dbcsr_t_need_contract = .TRUE.
 
-      IF (dbcsr_t_get_num_blocks_total(tensor_1) == 0 .OR. dbcsr_t_get_num_blocks_total(tensor_2) == 0) THEN
-         dbcsr_t_need_contract = .FALSE.
-         CALL timestop(handle)
-         RETURN
-      ENDIF
-
       DO i = 1, SIZE(contract_1)
-         CALL dbcsr_t_get_nonzero_index(tensor_1, contract_1(i), ind1)
-         CALL dbcsr_t_get_nonzero_index(tensor_2, contract_2(i), ind2)
+         CALL dbcsr_t_get_nonzero_index(tensor_1, contract_1(i), bounds_t1, ind1)
+         CALL dbcsr_t_get_nonzero_index(tensor_2, contract_2(i), bounds_t2, ind2)
 
          CALL mp_sum(ind1, mp_comm)
          CALL mp_sum(ind2, mp_comm)
@@ -1397,13 +1402,83 @@ CONTAINS
    END FUNCTION
 
 ! **************************************************************************************************
+!> \brief Map contraction bounds to bounds referring to tensor indices
+!>
+!>        see dbcsr_t_contract for docu of dummy arguments
+!> \param tensor_1 ...
+!> \param tensor_2 ...
+!> \param contract_1 ...
+!> \param notcontract_1 ...
+!> \param bounds_t1 bounds mapped to tensor_1
+!> \param bounds_t2 bounds mapped to tensor_2
+!> \param bounds_1 ...
+!> \param bounds_2 ...
+!> \param bounds_3 ...
+!> \param do_crop_1 whether tensor 1 should be cropped
+!> \param do_crop_2 whether tensor 2 should be cropped
+! **************************************************************************************************
+   SUBROUTINE dbcsr_t_map_bounds_to_tensors(tensor_1, tensor_2, &
+                                            contract_1, notcontract_1, &
+                                            contract_2, notcontract_2, &
+                                            bounds_t1, bounds_t2, &
+                                            bounds_1, bounds_2, bounds_3, &
+                                            do_crop_1, do_crop_2)
+
+      TYPE(dbcsr_t_type), INTENT(IN)      :: tensor_1, tensor_2
+      INTEGER, DIMENSION(:), INTENT(IN)   :: contract_1, contract_2, &
+                                             notcontract_1, notcontract_2
+      INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_1)), &
+         INTENT(OUT)                                 :: bounds_t1
+      INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_2)), &
+         INTENT(OUT)                                 :: bounds_t2
+      INTEGER, DIMENSION(2, SIZE(contract_1)), &
+         INTENT(IN), OPTIONAL                        :: bounds_1
+      INTEGER, DIMENSION(2, SIZE(notcontract_1)), &
+         INTENT(IN), OPTIONAL                        :: bounds_2
+      INTEGER, DIMENSION(2, SIZE(notcontract_2)), &
+         INTENT(IN), OPTIONAL                        :: bounds_3
+      LOGICAL, INTENT(OUT), OPTIONAL                 :: do_crop_1, do_crop_2
+      LOGICAL, DIMENSION(2)                          :: do_crop
+
+      !do_crop_1 = .FALSE.; do_crop_2 = .FALSE.
+      do_crop = .FALSE.
+
+      bounds_t1(1, :) = 1
+      CALL dbcsr_t_get_info(tensor_1, nfull_total=bounds_t1(2, :))
+
+      bounds_t2(1, :) = 1
+      CALL dbcsr_t_get_info(tensor_2, nfull_total=bounds_t2(2, :))
+
+      IF (PRESENT(bounds_1)) THEN
+         bounds_t1(:, contract_1) = bounds_1
+         do_crop(1) = .TRUE.
+         bounds_t2(:, contract_2) = bounds_1
+         do_crop(2) = .TRUE.
+      ENDIF
+
+      IF (PRESENT(bounds_2)) THEN
+         bounds_t1(:, notcontract_1) = bounds_2
+         do_crop(1) = .TRUE.
+      ENDIF
+
+      IF (PRESENT(bounds_3)) THEN
+         bounds_t2(:, notcontract_2) = bounds_3
+         do_crop(2) = .TRUE.
+      ENDIF
+
+      IF (PRESENT(do_crop_1)) do_crop_1 = do_crop(1)
+      IF (PRESENT(do_crop_2)) do_crop_2 = do_crop(2)
+
+   END SUBROUTINE
+
+! **************************************************************************************************
 !> \brief print tensor contraction indices in a human readable way
 !> \param tensor_1 ...
-!> \indchar1 characters printed for index of tensor 1
+!> \param indchar1 characters printed for index of tensor 1
 !> \param tensor_2 ...
-!> \indchar2 characters printed for index of tensor 2
+!> \param indchar2 characters printed for index of tensor 2
 !> \param tensor_3 ...
-!> \indchar3 characters printed for index of tensor 3
+!> \param indchar3 characters printed for index of tensor 3
 !> \param unit_nr output unit
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_print_contraction_index(tensor_1, indchar1, tensor_2, indchar2, tensor_3, indchar3, unit_nr)
