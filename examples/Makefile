@@ -9,7 +9,7 @@ FCFLAGS    = $(FLAGS) $(INCLUDES) -fno-omit-frame-pointer \
              -funroll-loops -ffree-form -std=f2008ts -fimplicit-none
 CXXFLAGS   = $(FLAGS) $(INCLUDES) -std=c++11
 LIBS       = -L$(DBCSRDIR)/lib -ldbcsr
-LIBS      += -lscalapack -L${LAPACK_PATH}/lib -llapack -lblas
+LIBS      += -L${LAPACK_PATH}/lib -llapack -lblas
 #LIBS +=  -lscalapack
 # Add the MPI Fortran library (check with `mpifort -show`):
 # OpenMPI : -lmpi_mpifh

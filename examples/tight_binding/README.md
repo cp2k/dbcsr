@@ -3,6 +3,8 @@
 The example calculates ground state energy of periodic system using the tight Binding model and parametrization only for Carbon.
 The example demonstrates how to use DBCSR matrix algebra and matrix sign function implemented in linear scaling algorithm.
 
+To run the example the ScaLAPACK is needed
+
 ### To run the example
 
 ```
