@@ -998,35 +998,54 @@ CONTAINS
    END SUBROUTINE dbcsr_multiply_generic
 
 ! **************************************************************************************************
-!> \brief ...
+!> \brief Check if RMA is used with buggy OpenMPI (version<1.10.4 or 2.0.1)
 ! **************************************************************************************************
    SUBROUTINE check_openmpi_rma()
       CHARACTER(LEN=mp_max_library_version_string)       :: mpi_library_version
       INTEGER                                            :: ipos, jpos, major, minor, patch, &
-                                                            resultlen
+                                                            resultlen, jpos_next
 
-      IF (.NOT. dbcsr_cfg%use_mpi_rma) RETURN
-      ! Check if RMA is used with buggy OpenMPI (version<1.10.4 or 2.0.1)
+      IF (.NOT. dbcsr_cfg%use_mpi_rma) &
+         RETURN
+
       CALL mp_get_library_version(mpi_library_version, resultlen)
-      IF (resultlen .EQ. 0) RETURN
+      ! ignore failure to obtain the library version string
+      IF (resultlen .EQ. 0) &
+         RETURN
+
+      ! check if Open MPI
       ipos = INDEX(mpi_library_version(1:resultlen), "Open MPI v")
-      IF (ipos .EQ. 0) RETURN
+      IF (ipos .EQ. 0) &
+         RETURN
+
       ! Read major version
       major = 0
       ipos = ipos + 10
       jpos = INDEX(mpi_library_version(ipos:resultlen), ".")
       jpos = ipos + jpos - 2
       READ (mpi_library_version(ipos:jpos), *) major
+
+      ! Open MPI 3+ is fine
+      IF (major .GT. 2) &
+         RETURN
+
       ! Read minor version
       minor = 0
       ipos = jpos + 2
       jpos = INDEX(mpi_library_version(ipos:resultlen), ".")
       jpos = ipos + jpos - 2
       READ (mpi_library_version(ipos:jpos), *) minor
+
       ! Read patch version
       patch = 0
       ipos = jpos + 2
       jpos = INDEX(mpi_library_version(ipos:resultlen), ",")
+
+      ! some version strings have additional components, filter them out:
+      jpos_next = INDEX(mpi_library_version(ipos:resultlen), ".")
+      IF ((jpos_next .GT. 0) .AND. (jpos_next .LT. jpos)) &
+         jpos = jpos_next
+
       jpos = ipos + jpos - 2
       READ (mpi_library_version(ipos:jpos), *) patch
 
