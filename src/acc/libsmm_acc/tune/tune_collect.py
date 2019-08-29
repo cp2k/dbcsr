@@ -9,6 +9,9 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
+import sys
+sys.path.append('../')
+
 import os
 from glob import glob
 import re

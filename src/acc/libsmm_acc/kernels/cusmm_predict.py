@@ -53,12 +53,14 @@ parameter_types = {
 # Dictionary of available GPU architectures.
 # keys: parameter_file
 # values: CUDA compute versions
-arch_number = {
-    "parameters_K20X.json": 35,
-    "parameters_K40.json": 35,
-    "parameters_K80.json": 37,
-    "parameters_P100.json": 60,
-    "parameters_V100.json": 70,
+gpu_architectures = {
+    "parameters_K20X.json": "sm_35",
+    "parameters_K40.json": "sm_35",
+    "parameters_K80.json": "sm_37",
+    "parameters_P100.json": "sm_60",
+    "parameters_V100.json": "sm_70",
+    "parameters_Vega10.json": "gfx900",
+    "parameters_Vega20.json": "gfx906"
 }
 
 

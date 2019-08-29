@@ -19,7 +19,7 @@ import argparse
 from joblib import Parallel, delayed
 from predict_helpers import safe_pickle_load
 from kernels.cusmm_predict import (
-    arch_number,
+    gpu_architectures,
     kernel_algorithm,
     to_string,
     to_tuple,
@@ -38,13 +38,13 @@ def main(params, njobs, baseline, paths_to_models, chunk_size):
     """
     # ===============================================================================
     # Load GPU and autotuning properties
-    assert params in arch_number.keys(), "Cannot find compute version for file " + str(
+    assert os.path.basename(params) in gpu_architectures.keys(), "Cannot find compute version for file " + str(
         params
     )
-    arch = arch_number[params]
-    with open("kernels/gpu_properties.json") as f:
-        gpu_properties = json.load(f)["sm_" + str(arch)]
-    with open("kernels/autotuning_properties.json") as f:
+    arch_code = gpu_architectures[os.path.basename(params)]
+    with open("../kernels/gpu_properties.json") as f:
+        gpu_properties = json.load(f)[arch_code]
+    with open("../kernels/autotuning_properties.json") as f:
         autotuning_properties = json.load(f)
 
     # Load autotuned kernel parameters

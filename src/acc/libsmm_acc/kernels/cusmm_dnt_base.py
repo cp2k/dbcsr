@@ -124,28 +124,36 @@ class Kernel:
         d["source"] = "(predicted)" if not self.autotuned else ""
         return d
 
-    @property
-    def launcher_code(self):
+    def launcher_code(self, compiler):
+        """
+        Compiler: either "nvcc" or "hipcc": determines the C++ dialect to use for kernel launching: either CUDA or HIP
+        """
+        indent = "  "
         output = "int launch_" + self.name + "(int *param_stack, int stack_size, "
-        output += "cudaStream_t stream, int m_max, int n_max, int k_max, "
+        if compiler == "nvcc":
+            output += "cudaStream_t stream, "
+        else: # i.e. compiler == "hipcc"
+            output += "hipStream_t stream, "
+        output += "int m_max, int n_max, int k_max, "
         output += "double *a_data, double *b_data, double *c_data){\n"
-        output += "  int shared_size = 0;\n"
-        output += "  //%s\n" % str(self.__dict__)
-        output += "  typedef void (*kernel)(const int*, int, const double*, const double*, double*);\n"
-        output += "  static kernel kern_func = " + self.func_signature
-        output += "  static bool configured = false;\n"
-        output += "  if(configured == false){\n"
-        output += "    cudaError_t err = cudaFuncSetSharedMemConfig(kern_func, cudaSharedMemBankSizeEightByte);\n"
-        output += "    if(err != cudaSuccess) return(-1);\n"
-        output += "    configured = true;\n"
-        output += "  }\n"
-        output += (
-            "  kern_func<<< ((stack_size + %(grouping)d - 1) / %(grouping)d), %(threads)d, shared_size, stream >>>\n"
-            % self.__dict__
-        )
-        output += "  (param_stack, stack_size, \n"
-        output += "  a_data, b_data, c_data);\n"
-        output += "  return(0);\n"
+        output += indent + "int shared_size = 0;\n"
+        output += indent + "//%s\n" % str(self.__dict__)
+        output += indent + "typedef void (*kernel)(const int*, int, const double*, const double*, double*);\n"
+        output += indent + "static kernel kern_func = " + self.func_signature
+
+        # The syntax for kernel launching is different in CUDA and HIP
+        if compiler == "nvcc":
+            output += (
+                indent + "kern_func<<< ((stack_size + %(grouping)d - 1) / %(grouping)d), %(threads)d, shared_size, stream >>>(\n"
+                % self.__dict__
+            )
+        else: # i.e. compiler == "hipcc"
+            output += (
+                indent + "hipLaunchKernelGGL(kern_func, (stack_size + %(grouping)d - 1) / %(grouping)d, %(threads)d, shared_size, stream, \n"
+                % self.__dict__
+            )
+        output += indent + "param_stack, stack_size, a_data, b_data, c_data);\n"
+        output += indent + "return 0;\n"
         output += "}\n"
         return output
 

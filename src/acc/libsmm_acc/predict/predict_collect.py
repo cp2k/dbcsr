@@ -28,6 +28,13 @@ def main(tunedir):
     - dump them to CSV files for data analysis and training of a predictive model
     """
     # ===============================================================================
+    # Read GPU properties and autotuning properties
+    with open("../kernels/gpu_properties.json") as f:
+        gpu_properties = json.load(f)[str(arch)]
+    with open("../kernels/autotuning_properties.json") as f:
+        autotuning_properties = json.load(f)
+
+    # ===============================================================================
     # Find all the 'tune_MxNxK' folders
     kernel_folder_pattern = re.compile(r"tune_(\d+)x(\d+)x(\d+)$")
     kernel_folders = [
@@ -256,6 +263,14 @@ if __name__ == "__main__":
         type=str,
         default=".",
         help="Folder in which the folders tune_*x*x*x/ are to be found",
+    )
+    parser.add_argument(
+        "-a",
+        "--arch",
+        metavar="ARCHITECTURE_NUMBER",
+        type=int,
+        default=60,
+        help="GPU architecture code. Options: sm_35, sm_37, sm_60, sm_70, gfx906",
     )
 
     args = parser.parse_args()

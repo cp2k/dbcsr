@@ -9,13 +9,16 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
+import sys
+sys.path.append('../')
+
 import os
 import json
 from glob import glob
 from itertools import product
 import argparse
 from kernels.cusmm_predict import (
-    arch_number,
+    gpu_architectures,
     kernel_algorithm,
     params_dict_to_kernel,
     compatible_mnk,
@@ -24,17 +27,17 @@ from kernels.cusmm_predict import (
 
 # ===============================================================================
 def main(
-    param_fn, cpus_per_node, max_num_nodes, blocksizes, blocks_from_param_file, tune_dir
+    param_fn, compiler, cpus_per_node, max_num_nodes, blocksizes, blocks_from_param_file, tune_dir
 ):
 
     # Read existing parameters
-    assert param_fn in arch_number.keys(), (
-        "Cannot find compute version for file " + param_fn
+    assert os.path.basename(param_fn) in gpu_architectures.keys(), (
+        "Cannot find GPU architecture for file " + os.path.basename(param_fn)
     )
-    arch = arch_number[param_fn]
-    with open("kernels/gpu_properties.json") as f:
-        gpu_properties = json.load(f)["sm_" + str(arch)]
-    with open("kernels/autotuning_properties.json") as f:
+    arch_code = gpu_architectures[os.path.basename(param_fn)]
+    with open("../kernels/gpu_properties.json") as f:
+        gpu_properties = json.load(f)[arch_code]
+    with open("../kernels/autotuning_properties.json") as f:
         autotuning_properties = json.load(f)
     with open(param_fn) as f:
         all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
@@ -42,7 +45,7 @@ def main(
     autotuned_kernels = [k for k in all_kernels if k.autotuned]
     predicted_kernels = [k for k in all_kernels if not k.autotuned]
     print(
-        "Libcusmm: Found %d existing parameter sets, of which %d are autotuned and %d are predicted."
+        "libsmm_acc: found %d existing parameter sets, of which %d are autotuned and %d are predicted."
         % (len(all_kernels), len(autotuned_kernels), len(predicted_kernels))
     )
 
@@ -75,9 +78,9 @@ def main(
             print("Directory %s exists already, skipping." % outdir)
             continue
         os.mkdir(outdir)
-        gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k)
-        gen_jobfile(outdir, m, n, k, cpus_per_node, max_num_nodes)
-        gen_makefile(outdir, arch)
+        gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n, k)
+        gen_jobfile(outdir, compiler, m, n, k, cpus_per_node, max_num_nodes)
+        gen_makefile(outdir, compiler, arch_code)
 
 
 # ===============================================================================
@@ -107,12 +110,18 @@ def format_params(params):
     return "(" + ", ".join(output) + ")"
 
 
+def get_file_extension_from_compiler(compiler):
+    return ".cu" if compiler == "nvcc" else ".cpp"
+
+
 # ===============================================================================
-def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
+def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n, k):
     includes = []
     launcher_codes = []
     launchers = []
     kernel_descr = []
+    indent = "  "
+    file_extension = get_file_extension_from_compiler(compiler)
 
     # Get the kernel algorithms compatible with the given size:
     compatible_kernels = [
@@ -131,8 +140,8 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
 
         for p in params:
             kern = kernclass(**p, source="autotuning_candidate", perf=0)
-            includes.append("../kernels/" + kern.include)
-            launcher_codes.append(kern.launcher_code)
+            includes.append("../../kernels/" + kern.include)
+            launcher_codes.append(kern.launcher_code(compiler))
             launchers.append("launch_" + kern.name)
             kernel_descr.append(kernclass.__name__ + format_params(p))
 
@@ -141,13 +150,13 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
         return
 
     # Compose the "include" line of the benchmark code
-    incl_output = '#include "../kernels/cusmm_common.h"\n'
+    incl_output = '#include "../../kernels/cusmm_common.h"\n'
     for i in set(includes):
         incl_output += '#include "%s"\n' % i
     incl_output += "\n\n"
-    max_launchers_per_exe = 10000
+    max_launchers_per_exe = 10000 if compiler == "nvcc" else 100
     # Compose the benchmark code
-    launchers_per_obj = 100
+    launchers_per_obj = 100 if compiler == "nvcc" else 10
     n_exe_files = int(len(launcher_codes) / max_launchers_per_exe) + 1
     launchers_per_exe = int(len(launcher_codes) / n_exe_files) + 1
 
@@ -163,49 +172,65 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, m, n, k):
             b = min(chunk_a + (j + 1) * launchers_per_obj, chunk_b)
             output = incl_output
             output += "\n\n".join(launcher_codes[a:b])
-            fn = outdir + "/tune_%dx%dx%d_exe%d_part%d.cu" % (m, n, k, i, j)
+            fn = outdir + "/tune_%dx%dx%d_exe%d_part%d%s" % (m, n, k, i, j, file_extension)
             writefile(fn, output)
 
         # Compose source code for "main" of executable file
-        output = '#include "../libcusmm_benchmark.h"\n\n'
+        output = '#include "../../libsmm_benchmark.h"\n\n'
         for l in launchers:
             output += (
                 "int "
                 + l
-                + "(int *param_stack, int stack_size, cudaStream_t stream, int m_max, int n_max, int k_max,"
+                + "(int *param_stack, int stack_size, "
+            )
+            if compiler == "nvcc":
+                output += "cudaStream_t stream, "
+            else:
+                output += "hipStream_t stream, "
+            output += (
+                "int m_max, int n_max, int k_max,"
                 + " double *a_data, double *b_data, double *c_data);\n"
             )
 
         output += "\n"
         output += "int main(int argc, char** argv){\n"
-        output += "libcusmm_benchmark_t* handle;\n"
-        output += "KernelLauncher launchers[%d];\n" % (chunk_b - chunk_a)
-        output += "char *kernel_descr[%d];\n" % (chunk_b - chunk_a)
+        if compiler == "nvcc":
+            output += indent + "cudaError_t err = cudaDeviceSetSharedMemConfig(cudaSharedMemBankSizeEightByte);\n"
+            output += indent + "if(err != cudaSuccess) return(-1);\n"
+        else: # i.e. compiler = hipcc
+            output += indent + "hipError_t err = hipDeviceSetSharedMemConfig(hipSharedMemBankSizeEightByte);\n"
+            output += indent + "if(err != hipSuccess) return(-1);\n"
+        output += indent + "libsmm_benchmark_t* handle;\n"
+        output += indent + "KernelLauncher launchers[%d];\n" % (chunk_b - chunk_a)
+        output += indent + "char *kernel_descr[%d];\n" % (chunk_b - chunk_a)
 
         for j in range(chunk_b - chunk_a):
-            output += "launchers[%d]    = %s;\n" % (j, launchers[chunk_a + j])
-            output += 'kernel_descr[%d] = (char *) "%s";\n' % (
+            output += indent + "launchers[%d]    = %s;\n" % (j, launchers[chunk_a + j])
+            output += indent + 'kernel_descr[%d] = (char *) "%s";\n' % (
                 j,
                 kernel_descr[chunk_a + j],
             )
-        output += "libcusmm_benchmark_init(&handle, tune, %d, %d, %d);\n" % (m, n, k)
+        output += indent + "libsmm_benchmark_init(&handle, tune, %d, %d, %d);\n" % (m, n, k)
         output += (
-            "int result = libcusmm_benchmark(handle, %d, %d, %d, %d, launchers, kernel_descr);\n"
+            indent + "int result = libsmm_benchmark(handle, %d, %d, %d, %d, launchers, kernel_descr);\n"
             % (m, n, k, chunk_b - chunk_a)
         )
-        output += "libcusmm_benchmark_finalize(handle);\n"
-        output += "return result;"
+        output += indent + "libsmm_benchmark_finalize(handle);\n"
+        output += indent + "return result;"
         output += "}\n"
 
-        fn = outdir + "/tune_%dx%dx%d_exe%d_main.cu" % (m, n, k, i)
+        fn = outdir + "/tune_%dx%dx%d_exe%d_main%s" % (m, n, k, i, file_extension )
         writefile(fn, output)
 
 
 # ===============================================================================
-def gen_jobfile(outdir, m, n, k, cpus_per_node=12, max_num_nodes=0):
+def gen_jobfile(outdir, compiler, m, n, k, cpus_per_node=12, max_num_nodes=0):
+
+    file_extension = get_file_extension_from_compiler(compiler)
+
     t = "/tune_%dx%dx%d" % (m, n, k)
-    all_exe_src = [os.path.basename(fn) for fn in glob(outdir + t + "_*_main.cu")]
-    all_exe = sorted([fn.replace("_main.cu", "") for fn in all_exe_src])
+    all_exe_src = [os.path.basename(fn) for fn in glob(outdir + t + "_*_main" + file_extension)]
+    all_exe = sorted([fn.replace("_main" + file_extension, "") for fn in all_exe_src])
     if max_num_nodes > 0:
         num_nodes = min(len(all_exe), max_num_nodes)
     else:
@@ -226,8 +251,11 @@ def gen_jobfile(outdir, m, n, k, cpus_per_node=12, max_num_nodes=0):
     output += "source ${MODULESHOME}/init/sh;\n"
     output += "module load daint-gpu\n"
     output += "module unload PrgEnv-cray\n"
-    output += "module load PrgEnv-gnu/6.0.3\n"
-    output += "module load cudatoolkit/8.0.61_2.4.9-6.0.7.0_17.1__g899857c\n"
+    output += "module load PrgEnv-gnu\n"
+    if compiler == "nvcc":
+        output += "module load cudatoolkit/8.0.61_2.4.9-6.0.7.0_17.1__g899857c\n"
+    else: # i.e. compiler = hipcc
+        output += "module load hip\n"
     output += "module list\n"
     output += "export CRAY_CUDA_MPS=1\n"
     output += "cd $SLURM_SUBMIT_DIR \n"
@@ -283,39 +311,63 @@ def gen_jobfile(outdir, m, n, k, cpus_per_node=12, max_num_nodes=0):
 
 
 # ===============================================================================
-def gen_makefile(outdir, arch):
+def gen_makefile(outdir, compiler, arch):
 
+    file_extension = get_file_extension_from_compiler(compiler)
+
+    # header
     output = ".SECONDARY:\n"
-    output += "vpath %.cu ../\n\n"
-    all_exe_src = sorted(
-        [os.path.basename(fn) for fn in glob(outdir + "/tune_*_main.cu")]
-    )
-    build_targets = [fn.replace("_main.cu", "") for fn in all_exe_src]
-
+    output += "vpath %" + file_extension + "../\n\n"
     output += ".PHONY: do_nothing build_all \n\n"
     output += "do_nothing:\n\n"
+
+    # target "build_all"
+    all_exe_src = sorted(
+        [os.path.basename(fn) for fn in glob(outdir + "/tune_*_main" + file_extension)]
+    )
+    build_targets = [fn.replace("_main" + file_extension, "") for fn in all_exe_src]
     output += "build_all: " + " ".join(build_targets) + "\n\n"
 
-    output += "libcusmm_benchmark.o : libcusmm_benchmark.cu\n"
-    output += "\tnvcc -O3 -arch=sm_" + str(arch) + " -w -c -std=c++11 $<\n\n"
+    # compilation rule for helper-files: libsmm_benchmark, acc_cuda/hip
+    output += "libsmm_benchmark.o : ../../libsmm_benchmark.cpp\n"
+    output += "acc.o :"
+    if compiler == "nvcc":
+        output += " ../../../cuda/acc_cuda.cpp\n\n"
+    else:
+        output += " ../../../hip/acc_hip.cpp\n\n"
 
-    headers = " ".join(["." + fn for fn in glob("./kernels/*.h")])
-    output += "%.o : %.cu " + headers + "\n"
-    output += "\tnvcc -O3 -arch=sm_" + str(arch) + " -w -c $<\n\n"
+    output += "libsmm_benchmark.o acc.o :\n"
+    if compiler == "nvcc":
+        output += "\tnvcc -O3 -D__CUDA -arch=" + str(arch) + " -w -c -o $@ -std=c++11 $<\n\n"
+    else:
+        output += "\thipcc -O3 -D__HIP -w -c -o $@ $<\n\n"
 
+    # compilation rule for kernel files
+    headers = " ".join(["../" + fn for fn in glob("../kernels/*.h")])
+    output += "%.o : %" + file_extension + " " + headers + "\n"
+    if compiler == "nvcc":
+        output += "\tnvcc -O3 -D__CUDA -arch=" + str(arch) + " -w -c $<\n\n"
+    else:
+        output += "\thipcc -O3 -D__HIP -w -c $<\n\n"
+
+    # compilation rule for autotuning executables
     for exe_src in all_exe_src:
-        absparts = sorted(glob(outdir + "/" + exe_src.replace("_main.cu", "_part*")))
+        absparts = sorted(glob(outdir + "/" + exe_src.replace("_main" + file_extension, "_part*")))
         parts = [os.path.basename(fn) for fn in absparts]
-        deps = [exe_src, "libcusmm_benchmark.cu"] + parts
-        deps_obj = " ".join([fn.replace(".cu", ".o") for fn in deps])
-        exe = exe_src.replace("_main.cu", "")
+        deps = [exe_src, "libsmm_benchmark.cpp", "acc.cpp"] + parts
+        deps_obj = " ".join([fn.replace(".cu", ".o").replace(".cpp", ".o") for fn in deps])
+        exe = exe_src.replace("_main" + file_extension, "")
         output += exe + " : " + deps_obj + "\n"
-        output += (
-            "\tnvcc -O3 -arch=sm_"
-            + str(arch)
-            + " -w -o $@ $^ -L $(CUDA_PATH) -lcuda\n\n"
-        )
+        if compiler == "nvcc":
+            output += (
+                "\tnvcc -O3 -D__CUDA -arch="
+                + str(arch)
+                + " -w -o $@ $^ -lcuda -lnvrtc\n\n"
+            )
+        else:
+            output += "\thipcc -O3 -D__HIP -w -o $@ $^ /opt/rocm/hip/lib/libhiprtc.so\n\n"
 
+    # write Makefile
     writefile(outdir + "/Makefile", output)
 
 
@@ -380,6 +432,13 @@ if __name__ == "__main__":
         help="Parameter file that this autotuning should extend (pick the right GPU)",
     )
     parser.add_argument(
+        "-b",
+        "--compiler",
+        metavar="compiler",
+        default="nvcc",
+        help="Compiler to use for compiling kernel code (Opions: nvcc, hipcc)",
+    )
+    parser.add_argument(
         "-c",
         "--cpus_per_node",
         metavar="INT",
@@ -409,6 +468,15 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # ==========
+    # Verify option choice validity
+    valid_compilers = ["nvcc", "hipcc"]
+    assert args.compiler in valid_compilers, (
+        "Compiler chosen ({}) is not valid, please choose among: {}".format(
+            args.compiler, valid_compilers
+        )
+    )
+
+    # ==========
     # Blocksizes from parameter file or as list of integers
     blocksizes_from_param_file = False
     if args.blocksizes[0].isdigit():  # blocksizes is a sequence of strings
@@ -420,6 +488,7 @@ if __name__ == "__main__":
     # ==========
     main(
         args.params,
+        args.compiler,
         args.cpus_per_node,
         args.nodes,
         args.blocksizes,
