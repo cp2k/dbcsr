@@ -18,7 +18,7 @@ from itertools import product
 import argparse
 from joblib import Parallel, delayed
 from predict_helpers import safe_pickle_load
-from kernels.cusmm_predict import (
+from kernels.smm_acc_predict import (
     gpu_architectures,
     kernel_algorithm,
     to_string,
@@ -31,16 +31,16 @@ from kernels.cusmm_predict import (
 # ===============================================================================
 def main(params, njobs, baseline, paths_to_models, chunk_size):
     """
-    This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
+    This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
     For more details, see predict.md
 
     Update parameter file with new optimal parameter predictions given newly trained decision trees
     """
     # ===============================================================================
     # Load GPU and autotuning properties
-    assert os.path.basename(params) in gpu_architectures.keys(), "Cannot find compute version for file " + str(
-        params
-    )
+    assert (
+        os.path.basename(params) in gpu_architectures.keys()
+    ), "Cannot find compute version for file " + str(params)
     arch_code = gpu_architectures[os.path.basename(params)]
     with open("../kernels/gpu_properties.json") as f:
         gpu_properties = json.load(f)[arch_code]
@@ -50,7 +50,7 @@ def main(params, njobs, baseline, paths_to_models, chunk_size):
     # Load autotuned kernel parameters
     with open(params) as f:
         all_kernels = [params_dict_to_kernel(**params) for params in json.load(f)]
-    print("Libcusmm: Found %d existing parameter sets." % len(all_kernels))
+    print("libsmm_acc: Found %d existing parameter sets." % len(all_kernels))
     autotuned_mnks = [(k.m, k.n, k.k) for k in all_kernels if k.autotuned]
     autotuned_kernels_ = [k for k in all_kernels if k.autotuned]
     autotuned_kernels = dict(zip(autotuned_mnks, autotuned_kernels_))
@@ -337,8 +337,8 @@ if __name__ == "__main__":
         description="""
         Update parameter file with new optimal parameter predictions given newly trained decision trees.
 
-        This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
-        For more details, see predict.md.
+        This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
+        For more details, see README.md.
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
@@ -347,7 +347,7 @@ if __name__ == "__main__":
         "-p",
         "--params",
         metavar="parameters_GPU.json",
-        default="parameters_P100.json",
+        default="../parameters/parameters_P100.json",
         help="Parameter file to read and update with predictions",
     )
     parser.add_argument(

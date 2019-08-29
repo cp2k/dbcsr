@@ -10,14 +10,14 @@
 ####################################################################################################
 
 import sys
-sys.path.append('../')
-
 import os
 from glob import glob
 import re
 import json
 import argparse
-from kernels.cusmm_predict import descr_to_kernel
+from kernels.smm_acc_predict import descr_to_kernel
+
+sys.path.append("../")
 
 re_mnk = re.compile(r"tune_(\d+)x(\d+)x(\d+)")
 re_winner = re.compile(r"\nWINNER: \d+ (.+)\n")
@@ -33,9 +33,9 @@ def main():
         if not os.path.isdir(d):
             continue
 
-        for exe_fn in glob(d + "/tune_*main.cu"):
+        for exe_fn in glob(d + "/tune_*main.c*"):
             mnk = tuple([int(i) for i in re_mnk.search(exe_fn).groups()])
-            log_fn = exe_fn.replace("_main.cu", ".log")
+            log_fn = exe_fn.replace("_main.cu", ".log").replace("_main.cpp", ".log")
             error_code = 0
             if not os.path.exists(log_fn):
                 winners[mnk] = "log missing: " + log_fn
@@ -55,7 +55,7 @@ def main():
     # Get kernel objects from list of strings
     kernels = [descr_to_kernel(kernel_descr) for kernel_descr in winners.values()]
     kernels_dict = dict(zip([(k.m, k.n, k.k) for k in kernels], kernels))
-    new_file = "parameters.json"
+    new_file = "../parameters/parameters.json"
     with open(new_file, "w") as f:
         s = json.dumps(
             [
@@ -117,7 +117,7 @@ if __name__ == "__main__":
         to determine the best kernel for each block size, and store the results in a
         file "parameters.json".
 
-        This script is part of the workflow for autotuning optimal libcusmm parameters.
+        This script is part of the workflow for autotuning optimal libsmm_acc parameters.
         For more details, see README.md#autotuning-procedure.
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,

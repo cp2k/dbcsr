@@ -1,4 +1,4 @@
-# libcusmm/notebooks
+# libsmm_acc/notebooks
 
 Notebooks for exploring data generated from autotuning and prediction.
 

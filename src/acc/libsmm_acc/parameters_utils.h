@@ -7,8 +7,8 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#ifndef PARAMETERS_HASH_H
-#define PARAMETERS_HASH_H
+#ifndef PARAMETERS_UTILS_H
+#define PARAMETERS_UTILS_H
 
 #include <array>
 #include <vector>
@@ -34,7 +34,7 @@ namespace std
     };
 }
 
-inline void get_libsmm_triplets(std::vector<Triplet>& v, std::unordered_map<Triplet, KernelParameters> const& ht)
+inline void get_libsmm_acc_triplets(std::vector<Triplet>& v, std::unordered_map<Triplet, KernelParameters> const& ht)
 {
     for(auto it = ht.begin(); it != ht.end(); ++it)
         v.push_back(it->first);

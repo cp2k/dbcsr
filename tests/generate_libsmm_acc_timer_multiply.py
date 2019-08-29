@@ -16,7 +16,7 @@ import argparse
 
 
 def format_to_cpp(kernels):
-    """Given a list of Kernels represented as dictionaries, return a string representing them as C++ vector of vectors
+    """Given a list of kernels represented as dictionaries, return a string representing them as C++ vector of vectors
     using initializer lists"""
     kernels = sorted(kernels, key=lambda k: (k["m"], k["n"], k["k"]))
     out = ""
@@ -29,26 +29,30 @@ def format_to_cpp(kernels):
 # ===============================================================================
 def main(
     dbcsr_base_dir,
-    libsmm_base_dir,
+    libsmm_acc_base_dir,
     test_template_dir,
     test_output_dir,
     gpu_version,
     nsamples,
 ):
     """
-    Generate a performance test of libsmm in the form of a CUDA file, using libsmm_timer_multiply.template
-    as a template
+    Generate a performance test of libsmm_acc in the form of a CUDA or HIP file, using libsmm_acc_timer_multiply.cpp.template as
+    a template
     """
 
     # Read parameter file
     print("GPU version: {}".format(gpu_version))
-    param_fn = os.path.join(libsmm_base_dir, os.path.join("parameters", "parameters_{}.json".format(gpu_version)))
+    param_fn = os.path.join(
+        libsmm_acc_base_dir,
+        os.path.join("parameters", "parameters_{}.json".format(gpu_version)),
+    )
     with open(param_fn, "r") as f:
         all_kernels = json.load(f)
 
     # Get the autotuned kernels to test
     autotuned_kernels = [k for k in all_kernels if k["source"] == "autotuned"]
     print("Found {:,} autotuned kernels".format(len(autotuned_kernels)))
+    kernels_to_print_autotuned = format_to_cpp(autotuned_kernels)
 
     # Get the non-autotuned kernels to test
     predicted_kernels = [k for k in all_kernels if k["source"] != "autotuned"]
@@ -58,29 +62,39 @@ def main(
         if nsamples >= num_predicted_kernels:
             nsamples = num_predicted_kernels
         kernels_to_test_predicted = random.sample(predicted_kernels, nsamples)
+        kernels_to_print_predicted = format_to_cpp(kernels_to_test_predicted)
     else:
         kernels_to_test_predicted = list()
-    kernels_to_print = format_to_cpp(autotuned_kernels + kernels_to_test_predicted)
+        kernels_to_print_predicted = ""
 
     # Print to test file
     file_template = os.path.join(
-        test_template_dir, "libsmm_unittest_multiply.template"
+        test_template_dir, "libsmm_acc_timer_multiply.cpp.template"
     )
-    file_generate = os.path.join(test_output_dir, "libsmm_unittest_multiply.cpp")
+    file_generate = os.path.join(test_output_dir, "libsmm_acc_timer_multiply.cpp")
     with open(file_template, "r") as f:
         test = f.read()
-    test = test.replace("[[UNITTEST_KERNELS_HERE]]", kernels_to_print.lstrip())
+    test = test.replace(
+        "[[AUTOTUNED_KERNELS_HERE]]", kernels_to_print_autotuned.lstrip()
+    )
+    test = test.replace(
+        "[[PREDICTED_KERNELS_HERE]]", kernels_to_print_predicted.lstrip()
+    )
     with open(file_generate, "w") as f:
         f.write(test)
-    print("Wrote {:,} test kernels to {}".format(len(kernels_to_print), file_generate))
+    print(
+        "Wrote {:,} test kernels to {}".format(
+            len(autotuned_kernels + kernels_to_test_predicted), file_generate
+        )
+    )
 
 
 # ===============================================================================
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""
-        Generate a performance test of libsmm in the form of a CUDA file, using libsmm_timer_multiply.template
-        as a template
+        Generate a performance test of libsmm_acc in the form of a CUDA or HIP file, using
+        libsmm_acc_timer_multiply.cpp.template as a template
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
@@ -91,15 +105,15 @@ if __name__ == "__main__":
         "-o",
         "--out_dir",
         metavar="OUTDIR",
-        default="./tests",
-        help="Directory in which to write the generated test files",
+        default="tests",
+        help="Directory in which to write the generated test files. Expressed relatively to base_dir",
     )
     parser.add_argument(
         "-g",
         "--gpu_version",
         metavar="GPU_VERSION",
         default="P100",
-        help="GPU card version, used to select the appropriate libsmm parameters file",
+        help="GPU card version, used to select the appropriate libsmm_acc parameters file",
     )
     parser.add_argument(
         "-n",
@@ -114,13 +128,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Folders in/to which to read/write files
-    libsmm_base_dir = os.path.join(args.base_dir, "src/acc/libsmm_acc/")
+    libsmm_acc_base_dir = os.path.join(args.base_dir, "src/acc/libsmm_acc")
     test_template_dir = os.path.join(args.base_dir, "tests")
     test_output_dir = os.path.join(args.base_dir, args.out_dir)
 
     main(
         args.base_dir,
-        libsmm_base_dir,
+        libsmm_acc_base_dir,
         test_template_dir,
         test_output_dir,
         args.gpu_version,

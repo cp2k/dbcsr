@@ -15,7 +15,7 @@
  *                                                                           *
  *****************************************************************************/
 
-#include "cusmm_common.h"
+#include "smm_acc_common.h"
 
 /*
  * Execution configuration:
@@ -33,9 +33,9 @@
 
  * Template parameters
  * --- m, n, k: triplet of integers characterising the block multiplication dimensions
- * --- threads: number of CUDA threads this kernel is run with
+ * --- threads: number of CUDA threads (in HIP linguo, "work items") this kernel is run with
  * --- grouping: number of stack parameter entries to process per thread block
- * --- minblocks: the desired minimum number of resident blocks per multiprocessor (used in __launch_bounds__)
+ * --- minblocks: the desired minimum number of resident blocks (in HIP linguo, "workgroup") per multiprocessor (in HIP linguo, "compute units") (used in __launch_bounds__)
 
  * Function arguments
  * --- param_stack: parameter stack array (pointers to global memory):
@@ -54,7 +54,7 @@
 template <int m, int n, int k, int threads, int grouping, int minblocks>
 __global__ void
 __launch_bounds__(threads, minblocks)
-cusmm_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
+smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
      const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data){
 
   /* Total number of elements in block matrices */

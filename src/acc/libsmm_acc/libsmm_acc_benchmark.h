@@ -7,8 +7,8 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#ifndef LIBSMM_BENCHMARK_H
-#define LIBSMM_BENCHMARK_H
+#ifndef LIBSMM_ACC_BENCHMARK_H
+#define LIBSMM_ACC_BENCHMARK_H
 
 #ifdef __CUDA
 #include "../cuda/acc_cuda.h"
@@ -44,7 +44,7 @@ typedef struct {
     int    *d_stack, *d_stack_trs_a, *d_stack_trs_b;
     // events for measuring the runtime
     ACC_DRV(event) t_start, t_stop;
-} libsmm_benchmark_t;
+} libsmm_acc_benchmark_t;
 
 void matInit(double* mat, int mat_n, int x, int y, int seed);
 
@@ -61,20 +61,20 @@ void stackTransp(int* stack, int n_stack, double *mat_a, double* mat_atrs,
 double checkSum(double* mat_c, int n_c, int mat_m, int mat_n);
 double checkSumTransp(double* mat, int n, int n_stack, int mat_m, int mat_n);
 
-void libsmm_benchmark_init(libsmm_benchmark_t** handle, benchmark_mode mode,
-                           int max_m, int max_n, int max_k);
+void libsmm_acc_benchmark_init(libsmm_acc_benchmark_t** handle, benchmark_mode mode,
+                               int max_m, int max_n, int max_k);
 
-void libsmm_benchmark_finalize(libsmm_benchmark_t*);
+void libsmm_acc_benchmark_finalize(libsmm_acc_benchmark_t*);
 
-int libsmm_benchmark(libsmm_benchmark_t* handle,
-                     int mat_m, int mat_n, int mat_k, int nkernel,
-                     KernelLauncher* launchers, char** kernel_descr);
-int libsmm_benchmark_transpose(libsmm_benchmark_t* handle, int mat_m, int mat_n,
-                               TransposeLauncher* launcher, char** kernel_descr);
-int libsmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
-                                double* mat, double* mat_trs, double* d_mat,
-                                int n, int mat_m, int mat_n,
-                                ACC_DRV(event) start, ACC_DRV(event) stop, char** kernel_descr,
-                                TransposeLauncher* launcher);
+int libsmm_acc_benchmark(libsmm_acc_benchmark_t* handle,
+                         int mat_m, int mat_n, int mat_k, int nkernel,
+                         KernelLauncher* launchers, char** kernel_descr);
+int libsmm_acc_benchmark_transpose(libsmm_acc_benchmark_t* handle, int mat_m, int mat_n,
+                                   TransposeLauncher* launcher, char** kernel_descr);
+int libsmm_acc_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
+                                    double* mat, double* mat_trs, double* d_mat,
+                                    int n, int mat_m, int mat_n,
+                                    ACC_DRV(event) start, ACC_DRV(event) stop, char** kernel_descr,
+                                    TransposeLauncher* launcher);
 
-#endif
+#endif // LIBSMM_ACC_BENCHMARK_H

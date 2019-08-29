@@ -232,9 +232,9 @@ if (USE_CUDA)
 
   target_link_libraries(dbcsr PUBLIC cuda)
 
-  # add libsmm which has its own CMakeLists.txt due to code generation
+  # add libsmm_acc which has its own CMakeLists.txt due to code generation
   add_subdirectory(acc/libsmm_acc)
-  target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:libsmm>)
+  target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:libsmm_acc>)
   target_link_libraries(dbcsr PRIVATE nvrtc)
 
   # Complete list of GPU-support sources
@@ -253,7 +253,7 @@ if (USE_CUDA)
   endif ()
 
 
-  # tests need some of the libsmm headers and for CMake <3.12
+  # tests need some of the libsmm_acc headers and for CMake <3.12
   # compatibility, we can't set it on the the object library itself
   target_include_directories(dbcsr PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc>
@@ -281,9 +281,9 @@ if (USE_HIP)
     set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -fopenmp")
   endif ()
 
-  # add libsmm which has its own CMakeLists.txt due to code generation
+  # add libsmm_acc which has its own CMakeLists.txt due to code generation
   add_subdirectory(acc/libsmm_acc)
-  target_link_libraries(dbcsr PUBLIC libsmm)
+  target_link_libraries(dbcsr PUBLIC libsmm_acc)
   target_link_libraries(dbcsr PUBLIC ${ROCM_HIPRTC_LIB})
 
   # Complete list of GPU-support sources
@@ -296,11 +296,12 @@ if (USE_HIP)
   target_compile_definitions(acc PRIVATE __HIP)
   target_link_libraries(dbcsr PUBLIC acc)
   install(TARGETS acc
-    EXPORT libsmmTargets
+    EXPORT libsmm_accTargets
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  )
 
-  # tests need some of the libcusmm headers and for CMake <3.12
+  # tests need some of the libsmm_acc headers and for CMake <3.12
   # compatibility, we can't set it on the the object library itself
   target_include_directories(dbcsr PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc>
@@ -372,6 +373,12 @@ write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion
   VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
   COMPATIBILITY SameMajorVersion
   )
+if (USE_HIP)
+  install(EXPORT libsmm_accTargets
+    NAMESPACE "${config_namespace}"
+    DESTINATION "${config_install_dir}"
+    )
+endif()
 install(EXPORT DBCSRTargets
   NAMESPACE "${config_namespace}"
   DESTINATION "${config_install_dir}"

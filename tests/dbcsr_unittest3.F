@@ -8,7 +8,7 @@
 !--------------------------------------------------------------------------------------------------!
 
 PROGRAM dbcsr_unittest
-   !! Tests for DBCSR's libcusmm backend
+   !! Tests for DBCSR's libsmm_acc backend
 
    USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices, &
                                dbcsr_acc_set_active_device

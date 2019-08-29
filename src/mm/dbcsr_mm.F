@@ -425,7 +425,7 @@ CONTAINS
       CALL array_nullify(dense_col_sizes)
       CALL array_nullify(dense_row_sizes)
 
-      ! Reset CUDA errors
+      ! Reset GPU errors
       IF (has_acc) THEN
          CALL dbcsr_acc_clear_errors()
       ENDIF
@@ -965,7 +965,7 @@ CONTAINS
       ! This tends to trigger only when all of these conditions are fulfilled:
       !  - transa=="T"
       !  - matrix_c contains already blocks and beta is not zero
-      !  - Cuda is enabled
+      !  - GPU-acceleration is enabled
       !  - multiple OpenMP threads are used
       IF (INT(matrix_c%nblks, KIND=int_8) > &
           INT(SIZE(array_data(matrix_c%row_blk_size)), KIND=int_8)* &

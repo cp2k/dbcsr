@@ -15,7 +15,7 @@ import json
 import argparse
 from os import path
 
-from kernels.cusmm_predict import params_dict_to_kernel
+from kernels.smm_acc_predict import params_dict_to_kernel
 
 
 # ===============================================================================
@@ -71,7 +71,7 @@ def write_parameters_file(all_pars):
  *   (m, n, k)
  *
  * Values: array of 8 integers with elements:
- *   0: mm algorithm (enum defined in libcusmm.h, possible values: 1, 2, 3, 4, 5)
+ *   0: mm algorithm (enum defined in libsmm_acc.h, possible values: 1, 2, 3, 4, 5)
  *   1: tile_m
  *   2: tile_n
  *   3: w
@@ -111,7 +111,7 @@ static const std::unordered_map<Triplet, KernelParameters> ht  = {
 # ===============================================================================
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Generator of LibCuSMM. The Library for Cuda Small Matrix Multiplications.",
+        description="Generator of libsmm_acc. The Library for Small Matrix Multiplications on GPU.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
@@ -119,13 +119,13 @@ if __name__ == "__main__":
         "--gpu_version",
         metavar="GPU_VERSION",
         default="P100",
-        help="GPU card version, used to select the appropriate libcusmm parameters file. Default: %(default)s",
+        help="GPU card version, used to select the appropriate libsmm_acc parameters file. Default: %(default)s",
     )
     parser.add_argument(
         "-d",
         "--base_dir",
         metavar="BASE_DIR",
-        default=".",
+        default="parameters/",
         help="Set the base directory to look for the parameter files. Default: %(default)s",
     )
     args = parser.parse_args()

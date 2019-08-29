@@ -1,7 +1,7 @@
 {
 "description": "Distributed Block Compressed Sparse Row, A sparse matrix library",
 "archive": "libdbcsr",
-"requires": ["acc", "acc/cublaswrap",  "base", "mpi", "data", "dist",
+"requires": ["acc", "acc/cublaswrap", "acc/hipblaswrap", "base", "mpi", "data", "dist",
 "block", "ops", "mm", "core", "utils", "work"],
 "public": ["*.F"]
 }

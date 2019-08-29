@@ -1,5 +1,5 @@
 {
 "description": "Generic GPU-accelerated library for small matrix multiplications",
 "archive": "libdbcsr",
-"requires": ["libcusmm", "include", "../include"]
+"requires": ["include", "../include", "../cuda/", "../hip/"]
 }

@@ -332,9 +332,9 @@ def write_baseline_and_max_records_per_algorithm(
     Writes to JSON files.
     """
     # Read GPU properties and autotuning properties
-    with open("kernels/gpu_properties.json") as f:
-        gpu_properties = json.load(f)["sm_" + str(arch)]
-    with open("kernels/autotuning_properties.json") as f:
+    with open("../kernels/gpu_properties.json") as f:
+        gpu_properties = json.load(f)[str(arch)]
+    with open("../kernels/autotuning_properties.json") as f:
         autotuning_properties = json.load(f)
 
     # Check whether record of baseline exists
@@ -791,7 +791,7 @@ if __name__ == "__main__":
         metavar="ARCHITECTURE_NUMBER",
         type=int,
         default="60",
-        help="CUDA architecture number. Options: 35, 37, 60, 70",
+        help="CUDA architecture number. Options: sm_35, sm_37, sm_60, sm_70, gfx906",
     )
     parser.add_argument(
         "-j",

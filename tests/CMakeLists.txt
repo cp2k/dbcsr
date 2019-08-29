@@ -101,77 +101,78 @@ endforeach ()
 # =================================== GPU BACKEND TESTS (CUDA / HIP)
 if (USE_CUDA OR USE_HIP)
 
-  # All libsmm tests
-  set(LIBSMM_TESTS_BUILD
-    libsmm_unittest_multiply
-    libsmm_unittest_transpose
-    libsmm_timer_multiply
+  # All libsmm_acc tests
+  set(LIBSMM_ACC_TESTS_BUILD
+    libsmm_acc_unittest_multiply
+    libsmm_acc_unittest_transpose
+    libsmm_acc_timer_multiply
     )
 
   # Tests that need no additional arguments to be run
-  set(LIBSMM_SIMPLE_TESTS
-    libsmm_unittest_multiply
-    libsmm_unittest_transpose
+  set(LIBSMM_ACC_SIMPLE_TESTS
+    libsmm_acc_unittest_multiply
+    libsmm_acc_unittest_transpose
     )
 
   # Add custom commands for the test files that need to be generated from a template
-  # libsmm_unittest_multiply, libsmm_timer_multiply
+  # libsmm_acc_unittest_multiply, libsmm_acc_timer_multiply
   file(RELATIVE_PATH CURRENT_BINARY_DIR_RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/.. ${CMAKE_CURRENT_BINARY_DIR})
 
   add_custom_command(
-    OUTPUT libsmm_unittest_multiply.cpp
-    COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_libsmm_unittest_multiply.py --base_dir ${CMAKE_CURRENT_SOURCE_DIR}/.. --out_dir ${CURRENT_BINARY_DIR_RELATIVE} --gpu_version=${WITH_GPU}
-    DEPENDS libsmm_unittest_multiply.template generate_libsmm_unittest_multiply.py
-    COMMENT "Generate tests/libsmm_unittest_multiply.cpp"
+    OUTPUT libsmm_acc_unittest_multiply.cpp
+    COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_libsmm_acc_unittest_multiply.py --base_dir ${CMAKE_CURRENT_SOURCE_DIR}/.. --out_dir ${CURRENT_BINARY_DIR_RELATIVE} --gpu_version=${WITH_GPU}
+    DEPENDS libsmm_acc_unittest_multiply.cpp.template generate_libsmm_acc_unittest_multiply.py
+    COMMENT "Generate tests/libsmm_acc_unittest_multiply.cpp"
   )
 
   add_custom_command(
-    OUTPUT libsmm_timer_multiply.cpp
-    COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_libsmm_timer_multiply.py --base_dir ${CMAKE_CURRENT_SOURCE_DIR}/.. --out_dir ${CURRENT_BINARY_DIR_RELATIVE} --gpu_version=${WITH_GPU}
-    DEPENDS libsmm_timer_multiply.template generate_libsmm_timer_multiply.py
-    COMMENT "Generate tests/libsmm_unittest_transpose.cpp"
+    OUTPUT libsmm_acc_timer_multiply.cpp
+    COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_libsmm_acc_timer_multiply.py --base_dir ${CMAKE_CURRENT_SOURCE_DIR}/.. --out_dir ${CURRENT_BINARY_DIR_RELATIVE} --gpu_version=${WITH_GPU}
+    DEPENDS libsmm_acc_timer_multiply.cpp.template generate_libsmm_acc_timer_multiply.py
+    COMMENT "Generate tests/libsmm_acc_unittest_transpose.cpp"
   )
 
-  # Add executables for all libsmm tests
+  # Add executables for all libsmm_acc tests
   if (USE_CUDA)
 
-    foreach (libsmm_test ${LIBSMM_TESTS_BUILD})
+    foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_BUILD})
 
-      add_executable(${libsmm_test} ${libsmm_test}.cpp)
-      target_compile_definitions(${libsmm_test} PRIVATE __CUDA)
-      target_include_directories(${libsmm_test} PRIVATE ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+      add_executable(${libsmm_acc_test} ${libsmm_acc_test}.cpp)
+      target_compile_definitions(${libsmm_acc_test} PRIVATE __CUDA)
+      target_include_directories(${libsmm_acc_test} PRIVATE ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
 
-      target_link_libraries(${libsmm_test} dbcsr)
+      target_link_libraries(${libsmm_acc_test} dbcsr)
 
       if (OpenMP_FOUND)
-        target_link_libraries(${libsmm_test} OpenMP::OpenMP_CXX)
+        target_link_libraries(${libsmm_acc_test} OpenMP::OpenMP_CXX)
       endif ()
 
     endforeach ()
 
   else()  # i.e. USE_HIP
 
-    foreach (libsmm_test ${LIBSMM_TESTS_BUILD})
-      set_source_files_properties(${libsmm_test}.cpp PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
+    foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_BUILD})
+      set_source_files_properties(${libsmm_acc_test}.cpp PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
     endforeach ()
 
-    hip_add_executable(libsmm_unittest_multiply ${CMAKE_CURRENT_BINARY_DIR}/libsmm_unittest_multiply.cpp)
-    hip_add_executable(libsmm_timer_multiply ${CMAKE_CURRENT_BINARY_DIR}/libsmm_timer_multiply.cpp)
-    hip_add_executable(libsmm_unittest_transpose libsmm_unittest_transpose.cpp)
+    hip_add_executable(libsmm_acc_unittest_multiply ${CMAKE_CURRENT_BINARY_DIR}/libsmm_acc_unittest_multiply.cpp)
+    hip_add_executable(libsmm_acc_timer_multiply ${CMAKE_CURRENT_BINARY_DIR}/libsmm_acc_timer_multiply.cpp)
+    hip_add_executable(libsmm_acc_unittest_transpose libsmm_acc_unittest_transpose.cpp)
 
     # Workaround issue in hip_add_library: explicitely write dependency between __ & __
-    add_custom_target(generate_libsmm_unittest_multiply_test_cpp DEPENDS libsmm_unittest_multiply.cpp)
-    add_dependencies(libsmm_unittest_multiply generate_libsmm_unittest_multiply_test_cpp)
-    add_custom_target(generate_libsmm_timer_multiply_test_cpp DEPENDS libsmm_timer_multiply.cpp)
-    add_dependencies(libsmm_timer_multiply generate_libsmm_timer_multiply_test_cpp)
+    add_custom_target(generate_libsmm_acc_unittest_multiply_test_cpp DEPENDS libsmm_acc_unittest_multiply.cpp)
+    add_dependencies(libsmm_acc_unittest_multiply generate_libsmm_acc_unittest_multiply_test_cpp)
+    add_custom_target(generate_libsmm_acc_timer_multiply_test_cpp DEPENDS libsmm_acc_timer_multiply.cpp)
+    add_dependencies(libsmm_acc_timer_multiply generate_libsmm_acc_timer_multiply_test_cpp)
 
-    foreach (libsmm_test ${LIBSMM_TESTS_BUILD})
+    foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_BUILD})
 
-      target_link_libraries(${libsmm_test} dbcsr)
-      target_compile_definitions(${libsmm_test} PRIVATE __HIP)
+      target_link_libraries(${libsmm_acc_test} dbcsr)
+      target_compile_definitions(${libsmm_acc_test} PRIVATE __HIP)
 
       if (OpenMP_FOUND)
-        target_link_libraries(${libsmm_test} OpenMP::OpenMP_CXX)
+        target_link_libraries(${libsmm_acc_test} OpenMP::OpenMP_CXX)
+        target_link_libraries(${libsmm_acc_test} /opt/rh/llvm-toolset-7/root/usr/lib64/libomp.so)
       endif ()
 
     endforeach ()
@@ -179,12 +180,12 @@ if (USE_CUDA OR USE_HIP)
   endif()
 
   # Add tests that do not need additional arguments
-  foreach (libsmm_test ${LIBSMM_SIMPLE_TESTS})
-    add_test(NAME ${libsmm_test} COMMAND ./${libsmm_test})
+  foreach (libsmm_acc_test ${LIBSMM_ACC_SIMPLE_TESTS})
+    add_test(NAME ${libsmm_acc_test} COMMAND ./${libsmm_acc_test})
   endforeach ()
 
   # Add tests needing additional arguments:
-  add_test(NAME libsmm_timer_multiply-autotuned COMMAND ./libsmm_timer_multiply autotuned)
-  add_test(NAME libsmm_timer_multiply-predicted COMMAND ./libsmm_timer_multiply predicted)
+  add_test(NAME libsmm_acc_timer_multiply-autotuned COMMAND ./libsmm_acc_timer_multiply autotuned)
+  add_test(NAME libsmm_acc_timer_multiply-predicted COMMAND ./libsmm_acc_timer_multiply predicted)
 
 endif ()
