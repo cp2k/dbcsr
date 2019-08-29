@@ -16,6 +16,9 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+
 /******************************************************************************
  * There is no native support for atomicAdd on doubles in Cuda 5.0. However   *
  * the following implementation is provided in the CUDA C Programing guide.   *

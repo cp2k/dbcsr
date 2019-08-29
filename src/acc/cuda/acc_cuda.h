@@ -7,8 +7,8 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#ifndef LIBCUSMM_H
-#define LIBCUSMM_H
+#ifndef ACC_CUDA_H
+#define ACC_CUDA_H
 
 #include <cuda.h>
 #include <cuda_runtime.h>

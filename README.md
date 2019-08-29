@@ -5,7 +5,7 @@
 [![GitHub Releases](https://img.shields.io/github/release-pre/cp2k/dbcsr.svg)](https://github.com/cp2k/dbcsr/releases)
 
 DBCSR is a library designed to efficiently perform sparse matrix matrix multiplication, among other operations.
-It is MPI and OpenMP parallel and can exploit GPUs via CUDA.
+It is MPI and OpenMP parallel and can exploit Nvidia and AMD GPUs via CUDA and HIP.
 
 <p align="center">
 <img src="docs/logo/logo.png" width="500">
@@ -26,9 +26,11 @@ Optionally:
 * [libxsmm](https://github.com/hfp/libxsmm) (1.8.2+ with make-only, 1.10+ with cmake) for Small Matrix Multiplication acceleration
 * [CMake](https://cmake.org/) (3.10+)
 
-To build [libcusmm](src/acc/libsmm_acc/libcusmm) (DBCSR's CUDA backend), you further need:
+To build [libsmm_acc](src/acc/libsmm_acc/) (DBCSR's GPU backend), you further need:
 
-* CUDA Toolkit
+* A GPU-capable compiler, either
+  * CUDA Toolkit (targets NVIDIA GPUs)
+  * or HIP compiler (targets NVIDIA or AMD GPUs)
 * a C++ compiler which supports at least C++11 standard
 
 We test against GNU and Intel compilers on Linux systems, GNU compiler on MacOS systems.
@@ -80,7 +82,7 @@ The configuration flags are (default first):
     -DUSE_HIPBLAS=<OFF|ON>
     -DWITH_C_API=<ON|OFF>
     -DWITH_EXAMPLES=<ON|OFF>
-    -DWITH_GPU=<P100|K20X|K40|K80|V100>
+    -DWITH_GPU=<P100|K20X|K40|K80|V100|Mi50>
     -DTEST_MPI_RANKS=<auto,N>
     -DTEST_OMP_THREADS=<2,N>
     -DCMAKE_BUILD_TYPE=<Release|Debug|Coverage>
@@ -90,6 +92,14 @@ For build recipes on different platforms, make sure to also read the [INSTALL.md
 If you want to use Python from a virtual environment and your CMake version is < 3.15, specify the desired python interpreter manually using:
 
     -DPython_EXECUTABLE=/path/to/python
+
+## Workaround issue in HIP
+
+HIP is a relatively new language, and some issues still need to be ironed out. As a workaround to an [issue](https://github.com/ROCm-Developer-Tools/HIP/pull/1543) in HIP's JIT infrastructure, please set the following if you've built HIP from source:
+
+    export HIP_PATH=/opt/rocm/hip
+
+before running on an AMD GPU.
 
 ## Using DBCSR in a CMake project
 

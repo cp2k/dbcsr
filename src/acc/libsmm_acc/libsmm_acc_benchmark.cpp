@@ -11,17 +11,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <algorithm>
-#include "libsmm_benchmark.h"
+#include "libsmm_acc_benchmark.h"
 #include "parameters.h"
 #include "parameters_utils.h"
 
 
 //===========================================================================
 // Allocate memory and accelerator events
-void libsmm_benchmark_init(libsmm_benchmark_t** handle, benchmark_mode mode,
-                           int max_m, int max_n, int max_k){
+void libsmm_acc_benchmark_init(libsmm_acc_benchmark_t** handle, benchmark_mode mode,
+                               int max_m, int max_n, int max_k){
 
-    libsmm_benchmark_t* h = (libsmm_benchmark_t*) malloc(sizeof(libsmm_benchmark_t));
+    libsmm_acc_benchmark_t* h = (libsmm_acc_benchmark_t*) malloc(sizeof(libsmm_acc_benchmark_t));
     *handle = h;
     h->mode = mode;
 
@@ -73,7 +73,7 @@ void libsmm_benchmark_init(libsmm_benchmark_t** handle, benchmark_mode mode,
 
 //===========================================================================
 // Free memory and accelerator events
-void libsmm_benchmark_finalize(libsmm_benchmark_t* handle){
+void libsmm_acc_benchmark_finalize(libsmm_acc_benchmark_t* handle){
     ACC_DRV_CALL(EventDestroy, (handle->t_start));
     ACC_DRV_CALL(EventDestroy, (handle->t_stop));
     ACC_API_CALL(Free, (handle->d_stack_trs_b));
@@ -247,19 +247,19 @@ static void clean_string(char* str_in, char* str_out){
 
 
 //===========================================================================
-int libsmm_benchmark(libsmm_benchmark_t* h,
-                     int mat_m, int mat_n, int mat_k,
-                     int nkernels, KernelLauncher* launchers, char ** kernel_descr){
+int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
+                         int mat_m, int mat_n, int mat_k,
+                         int nkernels, KernelLauncher* launchers, char ** kernel_descr){
 
  if(mat_m > h->max_m || mat_n > h->max_n || mat_k > h->max_k){
-     printf("libsmm_benchmark: got handle with too few resources\n");
+     printf("libsmm_acc_benchmark: got handle with too few resources\n");
      exit(1);
  }
  std::vector<Triplet> blocksizes;
- get_libsmm_triplets(blocksizes, ht);
+ get_libsmm_acc_triplets(blocksizes, ht);
  auto it = std::find(std::begin(blocksizes), std::end(blocksizes), Triplet({ mat_m, mat_n, mat_k }));
  if(it == std::end(blocksizes) && h->mode != tune){
-     printf("Triplet %i x %i x %i is not defined in libsmm\n", mat_m, mat_n, mat_k);
+     printf("Triplet %i x %i x %i is not defined in libsmm_acc\n", mat_m, mat_n, mat_k);
      exit(1);
  }
 
@@ -365,11 +365,11 @@ int libsmm_benchmark(libsmm_benchmark_t* h,
 
 
 //===========================================================================
-int libsmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
-                                double* mat, double* mat_trs, double* d_mat,
-                                int n, int mat_m, int mat_n,
-                                ACC_DRV(event) start, ACC_DRV(event) stop, char** kernel_descr,
-                                TransposeLauncher* launcher){
+int libsmm_acc_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
+                                    double* mat, double* mat_trs, double* d_mat,
+                                    int n, int mat_m, int mat_n,
+                                    ACC_DRV(event) start, ACC_DRV(event) stop, char** kernel_descr,
+                                    TransposeLauncher* launcher){
  if(mat_m > MAX_BLOCK_DIM || mat_n > MAX_BLOCK_DIM){
      printf("Cannot transpose matrices with dimensions above %i, got (%i x %i)\n",
             MAX_BLOCK_DIM, mat_m, mat_n);
@@ -414,7 +414,7 @@ int libsmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
  ACC_DRV_CALL(EventSynchronize, (stop));
  ACC_DRV_CALL(EventElapsedTime, (&t_duration, start, stop));
 
- // Check for errors and compare libsmm result on GPU to reference
+ // Check for errors and compare libsmm_acc result on GPU to reference
  ACC_API_CALL(Memcpy, (mat_trs, d_mat, n * mat_m * mat_n * sizeof(double), ACC(MemcpyDeviceToHost)));
  clean_string(kernel_descr[0], descr);
 
@@ -432,12 +432,12 @@ int libsmm_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
 
 
 //===========================================================================
-int libsmm_benchmark_transpose(libsmm_benchmark_t* handle,
-                               int mat_m, int mat_n,
-                               TransposeLauncher* launcher, char** kernel_descr){
+int libsmm_acc_benchmark_transpose(libsmm_acc_benchmark_t* handle,
+                                   int mat_m, int mat_n,
+                                   TransposeLauncher* launcher, char** kernel_descr){
 
  if(mat_m > handle->max_m || mat_n > handle->max_n){
-     printf("libsmm_benchmark_transpose: got handle with too few resources\n");
+     printf("libsmm_acc_benchmark_transpose: got handle with too few resources\n");
      exit(1);
  }
  if(handle->mode == tune){
@@ -446,7 +446,7 @@ int libsmm_benchmark_transpose(libsmm_benchmark_t* handle,
  }
 
  int errors = 0;
- errors += libsmm_benchmark_transpose_(handle->n_stack_trs_a, handle->stack_trs_a, handle->d_stack_trs_a,
+ errors += libsmm_acc_benchmark_transpose_(handle->n_stack_trs_a, handle->stack_trs_a, handle->d_stack_trs_a,
                                        handle->mat_a, handle->mat_trs_a, handle->d_mat_a,
                                        handle->n_a, mat_m, mat_n,
                                        handle->t_start, handle->t_stop, kernel_descr, launcher);

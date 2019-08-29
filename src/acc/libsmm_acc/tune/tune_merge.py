@@ -11,7 +11,7 @@
 
 import json
 import argparse
-from kernels.cusmm_predict import params_dict_to_kernel
+from kernels.smm_acc_predict import params_dict_to_kernel
 
 
 def main(param_fn):
@@ -58,7 +58,7 @@ if __name__ == "__main__":
         in both the original parameter file and the new parameter file, retain its parameters
         as defined in the new parameter file.
 
-        This script is part of the workflow for autotuning optimal libcusmm parameters.
+        This script is part of the workflow for autotuning optimal libsmm_acc parameters.
         For more details, see README.md#autotuning-procedure.
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -68,7 +68,7 @@ if __name__ == "__main__":
         "--params",
         metavar="parameters_GPU.json",
         type=str,
-        default="parameters_P100.json",
+        default="../parameters/parameters_P100.json",
         help="parameter file in which to merge the newly obtained autotuned parameters",
     )
 

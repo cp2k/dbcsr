@@ -13,7 +13,7 @@ import pickle
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from kernels.cusmm_predict import to_string
+from kernels.smm_acc_predict import to_string
 
 
 # ===============================================================================

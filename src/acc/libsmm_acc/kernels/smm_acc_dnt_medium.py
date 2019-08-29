@@ -9,7 +9,7 @@
 ####################################################################################################
 
 import numpy as np
-from kernels.cusmm_dnt_base import Kernel, round_up_to_nearest_multiple
+from kernels.smm_acc_dnt_base import Kernel, round_up_to_nearest_multiple
 
 
 class Kernel_dnt_medium(Kernel):
@@ -49,7 +49,7 @@ class Kernel_dnt_medium(Kernel):
     @property
     def func_signature(self):
         return (
-            "cusmm_dnt_medium<%(m)d,%(n)d,%(k)d,%(tile_m)d,%(tile_n)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n"
+            "smm_acc_dnt_medium<%(m)d,%(n)d,%(k)d,%(tile_m)d,%(tile_n)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n"
             % self.__dict__
         )
 

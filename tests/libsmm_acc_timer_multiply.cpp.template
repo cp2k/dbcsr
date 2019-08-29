@@ -12,8 +12,8 @@
 #include <vector>
 #include <array>
 #include <algorithm>
-#include "acc/libsmm_acc/libsmm_benchmark.h"
-#include "acc/libsmm_acc/libsmm.h"
+#include "acc/libsmm_acc/libsmm_acc_benchmark.h"
+#include "acc/libsmm_acc/libsmm_acc.h"
 #include "acc/libsmm_acc/parameters.h"
 
 std::vector<Triplet> combinations(std::vector<int> to_combine){
@@ -32,7 +32,7 @@ std::vector<Triplet> combinations(std::vector<int> to_combine){
 
 /****************************************************************************\
   \brief Checks correctness of and measures performance of randomly selected
-         libsmm multiplication kernels.
+         libsmm_acc multiplication kernels.
   \returns -1 for invalid options, n>0 with n being the number of errors,
            0 otherwise
   \****************************************************************************/
@@ -46,16 +46,16 @@ int main(int argc, char* argv[]){
 
     printf("Time kernels: %s\n", argv[1]);
 
-    std::vector<Triplet> libsmm_triplets;
+    std::vector<Triplet> libsmm_acc_triplets;
     if(argv[1] == std::string("autotuned")){
 
-        libsmm_triplets = {
+        libsmm_acc_triplets = {
             [[AUTOTUNED_KERNELS_HERE]]
         };
 
     } else if(argv[1] == std::string("predicted")){
 
-        libsmm_triplets = {
+        libsmm_acc_triplets = {
             [[PREDICTED_KERNELS_HERE]]
         };
 
@@ -67,25 +67,25 @@ int main(int argc, char* argv[]){
     }
 
     // Build benchmark
-    KernelLauncher launcher = libsmm_process_d;
+    KernelLauncher launcher = libsmm_acc_process_d;
     char buffer[1000];
     char * kernel_descr[1] = {buffer};
 
-    int n_triplets = libsmm_triplets.size();
+    int n_triplets = libsmm_acc_triplets.size();
     printf("# Time %d blocksizes ...\n", n_triplets);
 
     int errors = 0;
-    libsmm_benchmark_t* handle;
+    libsmm_acc_benchmark_t* handle;
 
     for(int i=0; i<n_triplets; i++){
         printf("\n\n");
-        int m = libsmm_triplets[i][0];
-        int n = libsmm_triplets[i][1];
-        int k = libsmm_triplets[i][2];
+        int m = libsmm_acc_triplets[i][0];
+        int n = libsmm_acc_triplets[i][1];
+        int k = libsmm_acc_triplets[i][2];
         sprintf(buffer, "%d x %d x %d", m, n, k);
-        libsmm_benchmark_init(&handle, timing, m, n, k);
-        errors += libsmm_benchmark(handle, m, n, k, 1, &launcher, kernel_descr);
-        libsmm_benchmark_finalize(handle);
+        libsmm_acc_benchmark_init(&handle, timing, m, n, k);
+        errors += libsmm_acc_benchmark(handle, m, n, k, 1, &launcher, kernel_descr);
+        libsmm_acc_benchmark_finalize(handle);
     }
 
     printf("# Done, found %d errors.\n", errors);

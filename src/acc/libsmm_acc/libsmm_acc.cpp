@@ -10,9 +10,9 @@
 #include "include/libsmm_acc.h"
 #include "parameters.h"
 #include "parameters_utils.h"
-#include "libsmm.h"
-#include "libsmm_benchmark.h"
-#include "cusmm_kernels.h"
+#include "libsmm_acc.h"
+#include "libsmm_acc_benchmark.h"
+#include "smm_acc_kernels.h"
 
 #include <sstream>
 #include <fstream>
@@ -49,8 +49,8 @@ inline int launch_kernel_from_handle(ACC_DRV(function) const& kern_func, int nbl
 //===========================================================================
 inline void validate_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream, int threads, int grouping, int m, int n, int k){
 
-    libsmm_benchmark_t* h;
-    libsmm_benchmark_init(&h, test, m, n, k);
+    libsmm_acc_benchmark_t* h;
+    libsmm_acc_benchmark_init(&h, test, m, n, k);
 
     // Run the matrix-matrix multiplication on the CPU
     memset(h->mat_c, 0, h->n_c * m * n * sizeof(double));
@@ -77,50 +77,50 @@ inline void validate_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream
         printf("Kernel validation failed for kernel %ix%ix%i\nchecksum_diff: %g\nthreads: %i, grouping: %i\n", m, n, k, sumGPU-sumCPU, threads, grouping);
         exit(1);
     }
-    libsmm_benchmark_finalize(h);
+    libsmm_acc_benchmark_finalize(h);
 }
 
 
 //===========================================================================
-inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_algo algo, int tile_m, int tile_n, int w, int v, int threads, int grouping, int minblocks, int m, int n, int k){
+inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int tile_m, int tile_n, int w, int v, int threads, int grouping, int minblocks, int m, int n, int k){
 
     // Get the code and the lowered name corresponding the kernel to launch
-    std::string kernel_code = cusmm_common; // prepend include file content to code
+    std::string kernel_code = smm_acc_common; // prepend include file content to code
     std::string kernel_name;
     switch(algo) {
         case 1:
-            kernel_code += cusmm_dnt_largeDB1;
-            kernel_name = "cusmm_dnt_largeDB1<" +
+            kernel_code += smm_acc_dnt_largeDB1;
+            kernel_name = "smm_acc_dnt_largeDB1<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
                           std::to_string(w) + ", " + std::to_string(v) + ", " +
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
         case 2:
-            kernel_code += cusmm_dnt_largeDB2;
-            kernel_name = "cusmm_dnt_largeDB2<" +
+            kernel_code += smm_acc_dnt_largeDB2;
+            kernel_name = "smm_acc_dnt_largeDB2<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
                           std::to_string(w) + ", " + std::to_string(v) + ", " +
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
         case 3:
-            kernel_code += cusmm_dnt_medium;
-            kernel_name = "cusmm_dnt_medium<" +
+            kernel_code += smm_acc_dnt_medium;
+            kernel_name = "smm_acc_dnt_medium<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
         case 4:
-            kernel_code += cusmm_dnt_small;
-            kernel_name = "cusmm_dnt_small<" +
+            kernel_code += smm_acc_dnt_small;
+            kernel_name = "smm_acc_dnt_small<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(tile_m) + ", " + std::to_string(tile_n) + ", " +
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
         case 5:
-            kernel_code += cusmm_dnt_tiny;
-            kernel_name = "cusmm_dnt_tiny<" +
+            kernel_code += smm_acc_dnt_tiny;
+            kernel_name = "smm_acc_dnt_tiny<" +
                           std::to_string(m) + ", " + std::to_string(n) + ", " + std::to_string(k) + ", " +
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
@@ -131,7 +131,7 @@ inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_algo algo, int tile_
 
     // Create JIT program
     ACC_RTC(Program) kernel_program;
-    ACC_RTC_CALL(CreateProgram, (&kernel_program, kernel_code.c_str(), "smm_kernel.cu", 0, NULL, NULL));
+    ACC_RTC_CALL(CreateProgram, (&kernel_program, kernel_code.c_str(), "smm_acc_kernel.cpp", 0, NULL, NULL));
 
     // Add lowered name
     ACC_RTC_CALL(AddNameExpression, (kernel_program, kernel_name.c_str()));
@@ -182,7 +182,7 @@ void add_kernel_handle_to_jitted_kernels(ACC_DRV(function) kern_func, ACC_DRV(st
 
         // Retrieve launching parameters
         const KernelParameters params = ht.at(h_mnk);
-        libsmm_algo algo = libsmm_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
+        libsmm_acc_algo algo = libsmm_acc_algo(params[0]); // enum {largeDB1, largeDB2, medium, small, tiny}
         int tile_m = params[1];
         int tile_n = params[2];
         int w = params[3];
@@ -208,7 +208,7 @@ void add_kernel_handle_to_jitted_kernels(ACC_DRV(function) kern_func, ACC_DRV(st
 
 
 //===========================================================================
-int libsmm_process_d(int *param_stack, int stack_size, ACC_DRV(stream) stream, int m, int n, int k, double *a_data, double *b_data, double *c_data){
+int libsmm_acc_process_d(int *param_stack, int stack_size, ACC_DRV(stream) stream, int m, int n, int k, double *a_data, double *b_data, double *c_data){
 
     ACC_DRV(function) kern_func = NULL;
     int threads, grouping;
@@ -262,7 +262,7 @@ extern "C" int libsmm_acc_process (void *param_stack, int stack_size, int nparam
       if(m>MAX_BLOCK_DIM || n>MAX_BLOCK_DIM || k>MAX_BLOCK_DIM)
         return -1; // maximum size over any dimension
       else
-        return (libsmm_process_d ((int *) param_stack, stack_size, *((ACC_DRV(stream) *) stream), m, n, k, (double *) a_data, (double *) b_data, (double *) c_data));
+        return (libsmm_acc_process_d ((int *) param_stack, stack_size, *((ACC_DRV(stream) *) stream), m, n, k, (double *) a_data, (double *) b_data, (double *) c_data));
     }
     return -1; // datatype not supported
 };
@@ -273,8 +273,8 @@ void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
 
     // Create nvrtcProgram
     ACC_RTC(Program) kernel_program;
-    std::string transpose_code = cusmm_common + cusmm_transpose;
-    ACC_RTC_CALL(CreateProgram, (&kernel_program, transpose_code.c_str(), "transpose_kernel.cu", 0, NULL, NULL));
+    std::string transpose_code = smm_acc_common + smm_acc_transpose;
+    ACC_RTC_CALL(CreateProgram, (&kernel_program, transpose_code.c_str(), "transpose_kernel.cpp", 0, NULL, NULL));
 
     // Add lowered name
     std::string kernel_name = "transpose_d<" + std::to_string(m) + ", " + std::to_string(n) + ">";
@@ -320,7 +320,7 @@ void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
 
 
 //===========================================================================
-int libsmm_transpose_d(int *trs_stack, int offset, int nblks,
+int libsmm_acc_transpose_d(int *trs_stack, int offset, int nblks,
                        double *buffer, int m, int n, ACC_DRV(stream) stream) {
 
     ACC_DRV(function) kern_func;
@@ -364,15 +364,15 @@ extern "C" int libsmm_acc_transpose (void *trs_stack, int offset, int nblks, voi
         return 0; // transpose not needed
     if(m>MAX_BLOCK_DIM || n>MAX_BLOCK_DIM)
       return 0; // maximum size over any dimension
-    return libsmm_transpose_d((int *) trs_stack, offset, nblks, (double *) buffer, m, n, *((ACC_DRV(stream) *) stream));
+    return libsmm_acc_transpose_d((int *) trs_stack, offset, nblks, (double *) buffer, m, n, *((ACC_DRV(stream) *) stream));
 }
 
 
 //===========================================================================
-extern "C" int libsmm_acc_libsmm_is_thread_safe() {
+extern "C" int libsmm_acc_is_thread_safe() {
 #if defined _OPENMP
-    return 1;  // i.e. true, libsmm is threaded
+    return 1;  // i.e. true, libsmm_acc is threaded
 #else
-    return 0;  // i.e. false, libsmm is not threaded
+    return 0;  // i.e. false, libsmm_acc is not threaded
 #endif
 }

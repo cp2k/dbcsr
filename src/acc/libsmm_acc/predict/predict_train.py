@@ -30,7 +30,7 @@ from predict_helpers import (
     plot_relative_performance_gain,
     performance_gain,
 )
-from kernels.cusmm_predict import to_tuple, to_string
+from kernels.smm_predict import to_tuple, to_string
 
 visual_separator = (
     "\n----------------------------------------------------------------------------"
@@ -48,7 +48,7 @@ def main(
     run_intermediate_evaluation,
 ):
     """
-    This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
+    This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
     For more details, see predict.md
 
     """
@@ -1597,8 +1597,8 @@ if __name__ == "__main__":
         description="""
         Train predictive model on autotuning data
 
-        This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
-        For more details, see predict.md.
+        This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
+        For more details, see README.md.
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )

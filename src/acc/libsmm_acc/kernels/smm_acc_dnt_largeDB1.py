@@ -8,14 +8,14 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-from kernels.cusmm_dnt_base import Kernel, round_up_to_nearest_multiple
+from kernels.smm_acc_dnt_base import Kernel, round_up_to_nearest_multiple
 
 
-class Kernel_dnt_largeDB2(Kernel):
-    """Kernel 'large double-buffering' 2"""
+class Kernel_dnt_largeDB1(Kernel):
+    """Kernel 'large double-buffering' 1"""
 
-    algorithm = "largeDB2"
-    algorithm_num = 2
+    algorithm = "largeDB1"
+    algorithm_num = 1
     launch_parameters = [
         "m",
         "n",
@@ -55,7 +55,7 @@ class Kernel_dnt_largeDB2(Kernel):
     @property
     def func_signature(self):
         return (
-            "cusmm_dnt_largeDB2"
+            "smm_acc_dnt_largeDB1"
             + "<%(m)d,%(n)d,%(k)d,%(tile_m)d,%(tile_n)d,%(w)d,%(v)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n"
             % self.__dict__
         )
@@ -83,7 +83,7 @@ class Kernel_dnt_largeDB2(Kernel):
         grouping = 16
 
         for minblocks_ in (1, 2, 4, 8, 12) if minblocks is None else [minblocks]:
-            # for exhaustive search, it should be: range(1, gpu.maxBLOCKSperSM + 1):
+            # for exhaustive search, it should be: range(1, gpu["Thread_Blocks_/_Multiprocessor"] + 1):
             # but heuristically reduce the search space
             for threads_ in (
                 range(
@@ -108,7 +108,7 @@ class Kernel_dnt_largeDB2(Kernel):
                         cmax = (n + tn - 1) // tn
                         rmax = (m + tm - 1) // tm
 
-                        # Minimum number of threads required to have one thread per tile
+                        # Minimum number of threads required to have one thread per tile,
                         # i.e., cover the result matrix
                         min_threads = cmax * rmax
                         if threads_ < min_threads:
@@ -118,13 +118,12 @@ class Kernel_dnt_largeDB2(Kernel):
 
                         for w_ in range(4, (k + 1) // 2, 2) if w is None else [w]:
                             # heuristic: even numbers yield better performance
-
                             if w_ < tn:
                                 continue  # invalid: input slap too small
                             if 2 * w_ > k:
                                 continue  # heuristic: do at least one double-buffering step
 
-                            for v_ in range(4, n + 1, 2) if v is None else [v]:
+                            for v_ in range(2, n + 1, 2) if v is None else [v]:
                                 # heuristic: even numbers yield better performance
 
                                 if v_ < tm:
@@ -213,7 +212,7 @@ class Kernel_dnt_largeDB2(Kernel):
             }
             if (
                 len(
-                    Kernel_dnt_largeDB2.promising_parameters(
+                    Kernel_dnt_largeDB1.promising_parameters(
                         m, n, k, gpu, autotuning, **base
                     )
                 )
@@ -224,7 +223,7 @@ class Kernel_dnt_largeDB2(Kernel):
                 if w > 1:
                     w /= 2
                 else:
-                    base = Kernel_dnt_largeDB2.promising_parameters(
+                    base = Kernel_dnt_largeDB1.promising_parameters(
                         m, n, k, gpu, autotuning
                     )[0]
                     break
@@ -235,7 +234,7 @@ class Kernel_dnt_largeDB2(Kernel):
                     ("m", m),
                     ("n", n),
                     ("k", k),
-                    ("algorithm", "largeDB2"),
+                    ("algorithm", "largeDB1"),
                     ("perf", 0),
                     ("source", "predicted"),
                 ]

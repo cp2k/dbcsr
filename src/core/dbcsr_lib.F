@@ -80,13 +80,13 @@ MODULE dbcsr_lib
 
 #if defined (__DBCSR_ACC)
    INTERFACE
-      FUNCTION libsmm_acc_libsmm_is_thread_safe() &
+      FUNCTION libsmm_acc_is_thread_safe() &
          RESULT(thread_safe) &
-         BIND(C, name="libsmm_acc_libsmm_is_thread_safe")
+         BIND(C, name="libsmm_acc_is_thread_safe")
          IMPORT
          INTEGER(KIND=C_INT)        :: thread_safe
 
-      END FUNCTION libsmm_acc_libsmm_is_thread_safe
+      END FUNCTION libsmm_acc_is_thread_safe
    END INTERFACE
 #endif
 
@@ -162,7 +162,7 @@ CONTAINS
       INTEGER :: numnodes, mynode
 
 #if defined(__DBCSR_ACC)
-      INTEGER :: dbcsr_thread_safe, libsmm_thread_safe
+      INTEGER :: dbcsr_thread_safe, libsmm_acc_thread_safe
 #endif
 
       IF (PRESENT(io_unit)) THEN
@@ -178,15 +178,15 @@ CONTAINS
 #endif
 
 #if defined(__DBCSR_ACC)
-      libsmm_thread_safe = libsmm_acc_libsmm_is_thread_safe()  ! 0: not threaded, 1: threaded
+      libsmm_acc_thread_safe = libsmm_acc_is_thread_safe()  ! 0: not threaded, 1: threaded
       dbcsr_thread_safe = 0  ! not threaded
 !$    dbcsr_thread_safe = 1  ! if DBCSR is compiled with openmp, set to threaded
-      ! Check whether DBCSR and libsmm (GPU backend) have the same level of threading
-      IF (dbcsr_thread_safe /= libsmm_thread_safe) then
+      ! Check whether DBCSR and libsmm_acc (GPU backend) have the same level of threading
+      IF (dbcsr_thread_safe /= libsmm_acc_thread_safe) then
          IF (dbcsr_thread_safe /= 0) then
-            DBCSR_ABORT("DBCSR compiled w/ threading support while libsmm compiled w/o threading support.")
+            DBCSR_ABORT("DBCSR compiled w/ threading support while libsmm_acc compiled w/o threading support.")
          ELSE
-            DBCSR_ABORT("DBCSR compiled w/o threading support while libsmm is compiled w/ threading support.")
+            DBCSR_ABORT("DBCSR compiled w/o threading support while libsmm_acc is compiled w/ threading support.")
          ENDIF
       ENDIF
 #endif

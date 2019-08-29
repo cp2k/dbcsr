@@ -30,7 +30,7 @@ def round_down_to_nearest_multiple(x, step):
 # ===============================================================================
 class Kernel:
     """
-    Base class for libcusmm's kernels
+    Base class for libsmm_acc's kernels
     """
 
     def __repr__(self):
@@ -41,12 +41,12 @@ class Kernel:
 
     @property
     def include(self):
-        return "cusmm_dnt_" + self.algorithm + ".h"
+        return "smm_acc_dnt_" + self.algorithm + ".h"
 
     @property
     def name(self):
         return (
-            "cusmm_dnt_"
+            "smm_acc_dnt_"
             + self.algorithm
             + "_"
             + "_".join([str(self.__dict__[k]) for k in self.launch_parameters])
@@ -132,24 +132,30 @@ class Kernel:
         output = "int launch_" + self.name + "(int *param_stack, int stack_size, "
         if compiler == "nvcc":
             output += "cudaStream_t stream, "
-        else: # i.e. compiler == "hipcc"
+        else:  # i.e. compiler == "hipcc"
             output += "hipStream_t stream, "
         output += "int m_max, int n_max, int k_max, "
         output += "double *a_data, double *b_data, double *c_data){\n"
         output += indent + "int shared_size = 0;\n"
         output += indent + "//%s\n" % str(self.__dict__)
-        output += indent + "typedef void (*kernel)(const int*, int, const double*, const double*, double*);\n"
+        output += (
+            indent
+            + "typedef void (*kernel)(const int*, int, const double*, const double*, double*);\n"
+        )
         output += indent + "static kernel kern_func = " + self.func_signature
 
         # The syntax for kernel launching is different in CUDA and HIP
         if compiler == "nvcc":
             output += (
-                indent + "kern_func<<< ((stack_size + %(grouping)d - 1) / %(grouping)d), %(threads)d, shared_size, stream >>>(\n"
+                indent
+                + "kern_func<<< ((stack_size + %(grouping)d - 1) / %(grouping)d), %(threads)d, shared_size, stream >>>(\n"
                 % self.__dict__
             )
-        else: # i.e. compiler == "hipcc"
+        else:  # i.e. compiler == "hipcc"
             output += (
-                indent + "hipLaunchKernelGGL(kern_func, (stack_size + %(grouping)d - 1) / %(grouping)d, %(threads)d, shared_size, stream, \n"
+                indent
+                + "hipLaunchKernelGGL"
+                + "(kern_func, (stack_size + %(grouping)d - 1) / %(grouping)d, %(threads)d, shared_size, stream, \n"
                 % self.__dict__
             )
         output += indent + "param_stack, stack_size, a_data, b_data, c_data);\n"

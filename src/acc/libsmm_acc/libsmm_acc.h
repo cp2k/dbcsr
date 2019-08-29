@@ -7,8 +7,8 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#ifndef LIBSMM_H
-#define LIBSMM_H
+#ifndef LIBSMM_ACC_H
+#define LIBSMM_ACC_H
 
 #include "parameters_utils.h"
 
@@ -22,7 +22,7 @@
 #include <unordered_map>
 #include <vector>
 
-enum libsmm_algo {
+enum libsmm_acc_algo {
     largeDB1 = 1,
     largeDB2 = 2,
     medium = 3,
@@ -39,13 +39,13 @@ struct kernel_launcher {
 
 static std::unordered_map<Triplet, kernel_launcher> kernel_handles;
 
-int libsmm_process_d(int *param_stack, int stack_size,
-                     ACC_DRV(stream) stream, int m, int n, int k,
-                     double * a_data, double * b_data, double * c_data);
+int libsmm_acc_process_d(int *param_stack, int stack_size,
+                         ACC_DRV(stream) stream, int m, int n, int k,
+                         double * a_data, double * b_data, double * c_data);
 
 static std::unordered_map<Triplet, ACC_DRV(function)> transpose_handles;
 
-int libsmm_transpose_d(int *trs_stack, int offset, int nblks, double *buffer,
-                       int m, int n, ACC_DRV(stream) stream);
+int libsmm_acc_transpose_d(int *trs_stack, int offset, int nblks, double *buffer,
+                           int m, int n, ACC_DRV(stream) stream);
 
 #endif

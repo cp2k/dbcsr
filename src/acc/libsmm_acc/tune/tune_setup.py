@@ -17,7 +17,7 @@ import json
 from glob import glob
 from itertools import product
 import argparse
-from kernels.cusmm_predict import (
+from kernels.smm_acc_predict import (
     gpu_architectures,
     kernel_algorithm,
     params_dict_to_kernel,
@@ -150,7 +150,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
         return
 
     # Compose the "include" line of the benchmark code
-    incl_output = '#include "../../kernels/cusmm_common.h"\n'
+    incl_output = '#include "../../kernels/smm_acc_common.h"\n'
     for i in set(includes):
         incl_output += '#include "%s"\n' % i
     incl_output += "\n\n"
@@ -176,7 +176,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
             writefile(fn, output)
 
         # Compose source code for "main" of executable file
-        output = '#include "../../libsmm_benchmark.h"\n\n'
+        output = '#include "../../libsmm_acc_benchmark.h"\n\n'
         for l in launchers:
             output += (
                 "int "
@@ -200,7 +200,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
         else: # i.e. compiler = hipcc
             output += indent + "hipError_t err = hipDeviceSetSharedMemConfig(hipSharedMemBankSizeEightByte);\n"
             output += indent + "if(err != hipSuccess) return(-1);\n"
-        output += indent + "libsmm_benchmark_t* handle;\n"
+        output += indent + "libsmm_acc_benchmark_t* handle;\n"
         output += indent + "KernelLauncher launchers[%d];\n" % (chunk_b - chunk_a)
         output += indent + "char *kernel_descr[%d];\n" % (chunk_b - chunk_a)
 
@@ -210,12 +210,12 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
                 j,
                 kernel_descr[chunk_a + j],
             )
-        output += indent + "libsmm_benchmark_init(&handle, tune, %d, %d, %d);\n" % (m, n, k)
+        output += indent + "libsmm_acc_benchmark_init(&handle, tune, %d, %d, %d);\n" % (m, n, k)
         output += (
-            indent + "int result = libsmm_benchmark(handle, %d, %d, %d, %d, launchers, kernel_descr);\n"
+            indent + "int result = libsmm_acc_benchmark(handle, %d, %d, %d, %d, launchers, kernel_descr);\n"
             % (m, n, k, chunk_b - chunk_a)
         )
-        output += indent + "libsmm_benchmark_finalize(handle);\n"
+        output += indent + "libsmm_acc_benchmark_finalize(handle);\n"
         output += indent + "return result;"
         output += "}\n"
 
@@ -328,15 +328,15 @@ def gen_makefile(outdir, compiler, arch):
     build_targets = [fn.replace("_main" + file_extension, "") for fn in all_exe_src]
     output += "build_all: " + " ".join(build_targets) + "\n\n"
 
-    # compilation rule for helper-files: libsmm_benchmark, acc_cuda/hip
-    output += "libsmm_benchmark.o : ../../libsmm_benchmark.cpp\n"
+    # compilation rule for helper-files: libsmm_acc_benchmark, acc_cuda/hip
+    output += "libsmm_acc_benchmark.o : ../../libsmm_acc_benchmark.cpp\n"
     output += "acc.o :"
     if compiler == "nvcc":
         output += " ../../../cuda/acc_cuda.cpp\n\n"
     else:
         output += " ../../../hip/acc_hip.cpp\n\n"
 
-    output += "libsmm_benchmark.o acc.o :\n"
+    output += "libsmm_acc_benchmark.o acc.o :\n"
     if compiler == "nvcc":
         output += "\tnvcc -O3 -D__CUDA -arch=" + str(arch) + " -w -c -o $@ -std=c++11 $<\n\n"
     else:
@@ -354,7 +354,7 @@ def gen_makefile(outdir, compiler, arch):
     for exe_src in all_exe_src:
         absparts = sorted(glob(outdir + "/" + exe_src.replace("_main" + file_extension, "_part*")))
         parts = [os.path.basename(fn) for fn in absparts]
-        deps = [exe_src, "libsmm_benchmark.cpp", "acc.cpp"] + parts
+        deps = [exe_src, "libsmm_acc_benchmark.cpp", "acc.cpp"] + parts
         deps_obj = " ".join([fn.replace(".cu", ".o").replace(".cpp", ".o") for fn in deps])
         exe = exe_src.replace("_main" + file_extension, "")
         output += exe + " : " + deps_obj + "\n"
@@ -411,7 +411,7 @@ if __name__ == "__main__":
         Set up the autotuning of specified blocksizes. This script produces folders (tune_*x*x*)
         containing the code, Makefile and jobfiles for the autotuning of a given (m, n, k)-triplet.
 
-        This script is part of the workflow for autotuning optimal libcusmm parameters.
+        This script is part of the workflow for autotuning optimal libsmm_acc parameters.
         For more details, see README.md#autotuning-procedure.
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -428,7 +428,7 @@ if __name__ == "__main__":
         "-p",
         "--params",
         metavar="parameters_GPU.json",
-        default="parameters_P100.json",
+        default="../parameters/parameters_P100.json",
         help="Parameter file that this autotuning should extend (pick the right GPU)",
     )
     parser.add_argument(

@@ -19,7 +19,7 @@ extern "C" {
 typedef void* acc_stream_t;
 typedef void* acc_event_t;
 
-/** initialization and finalization */
+/** accelerator driver initialization and finalization */
 int acc_init(void);
 int acc_finalize(void);
 int acc_clear_errors(void);

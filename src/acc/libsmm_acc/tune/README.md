@@ -1,4 +1,4 @@
-# Autotuning Procedure for Finding Optimal CUDA Kernel Parameters in `libcusmm`
+# Autotuning Procedure for Finding Optimal CUDA/HIP Kernel Parameters in `libsmm_acc`
 
 The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters. This is why autotuning is used to find optimal kernel parameters.
 
@@ -8,16 +8,16 @@ The performance of the matrix-matrix multiplication kernels is highly dependent 
 
 Python version required: `python 3.6`
 
-If you are about to autotune parameters for a new GPU (i.e. a GPU for which there are no autotuned parameters yet), please first follow [the instructions for a new GPU](README.md#adding-support-for-a-new-gpu-card).
+If you are about to autotune parameters for a new GPU (i.e. a GPU for which there are no autotuned parameters yet), please first follow [the instructions for a new GPU](../README.md#adding-support-for-a-new-gpu-card).
 
 ---
 
 ### Autotuning procedure
 
-#### 1. Go to the `libcusmm` directory
+#### 1. Go to the `libsmm_acc/tune` directory
 
 ```bash
-$ cd dbcsr/src/acc/libsmm_acc/libcusmm
+$ cd dbcsr/src/acc/libsmm_acc/libsmm_acc/tune
 ```
 
 #### 2. Adapt `tune_setup.py` to your environment
@@ -27,47 +27,48 @@ The `tune_setup.py` script generates job files. You have to adapt the script to 
 ```
 ...
   def gen_jobfile(outdir, m, n, k):
-      t = "/tune_%dx%dx%d" % (m, n, k)
-      all_exe_src = [os.path.basename(fn) for fn in glob(outdir + t + "_*_main.cu")]
-      all_exe = sorted([fn.replace("_main.cu", "") for fn in all_exe_src])
 
-      output = "#!/bin/bash -l\n"
-      output += "#SBATCH --nodes=%d\n" % len(all_exe)
-      output += "#SBATCH --time=0:30:00\n"
-      output += "#SBATCH --account=s238\n"
-      output += "#SBATCH --partition=normal\n"
-      output += "#SBATCH --constraint=gpu\n"
-      output += "\n"
-      output += "source ${MODULESHOME}/init/sh;\n"
-      output += "module load daint-gpu\n"
-      output += "module unload PrgEnv-cray\n"
-      output += "module load PrgEnv-gnu/6.0.3\n"
-      output += "module load cudatoolkit/8.0.54_2.2.8_ga620558-2.1\n"
-      output += "module list\n"
-      output += "export CRAY_CUDA_MPS=1\n"
-      output += "cd $SLURM_SUBMIT_DIR \n"
-      output += "\n"
-      output += "date\n"
-      for exe in all_exe:
-          output += (
-              "srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=12 make -j 24 %s &\n" %
-              exe)
+    ...
 
-   ...
+    output = "#!/bin/bash -l\n"
+    output += "#SBATCH --nodes=%d\n" % num_nodes
+    output += "#SBATCH --ntasks-per-core=1\n"
+    output += "#SBATCH --ntasks-per-node=1\n"
+    output += "#SBATCH --cpus-per-task=" + "%d\n" % cpus_per_node
+    output += "#SBATCH --time=%s\n" % time
+    output += "#SBATCH --partition=normal\n"
+    output += "#SBATCH --constraint=gpu\n"
+    output += "\n"
+    output += "source ${MODULESHOME}/init/sh;\n"
+    output += "module load daint-gpu\n"
+    output += "module unload PrgEnv-cray\n"
+    output += "module load PrgEnv-gnu\n"
+    if compiler == "nvcc":
+        output += "module load cudatoolkit/8.0.61_2.4.9-6.0.7.0_17.1__g899857c\n"
+    else: # i.e. compiler = hipcc
+        output += "module load hip\n"
+    output += "module list\n"
+    output += "export CRAY_CUDA_MPS=1\n"
+    output += "cd $SLURM_SUBMIT_DIR \n"
+    output += "\n"
+    output += "date\n"
+
+    ...
+
 ...
 ```
 
 #### 3. Run the script `tune_setup.py`
 
 Specify which GPU you are autotuning for by passing the appropriate `parameters_GPU.json` file as an argument with `-p`.
-In addition, the script takes as arguments the block sizes you want to add to `libcusmm`. You can specify these as a list of integers or provide a the parameter file of a different GPU from which to read the block sizes to autotune.
+In addition, the script takes as arguments the block sizes you want to add to `libsmm_acc`. You can specify these as a list of integers or provide the parameter file of a different GPU from which to read the block sizes to autotune.
 
 For example, if the system you want to autotune for contains blocks of size 5 and 8, run:
 
 ```bash
-$ ./tune_setup.py 5 8 -p parameters_P100.json
+$ ./tune_setup.py 5 8 -p ../parameters/parameters_P100.json
 Reading parameters from parameters_P100.json
-Libcusmm: Found 74096 existing parameter sets, of which 1641 are autotuned and 72455 are predicted.
+libsmm_acc: Found 74096 existing parameter sets, of which 1641 are autotuned and 72455 are predicted.
 Requested to autotune 8 triplets
 Found 41824 parameter sets for 5x5x5
 Found 83648 parameter sets for 5x5x8
@@ -82,9 +83,9 @@ Found 125344 parameter sets for 8x8x8
 Or, if you want to obtain, for the NVIDIA P100, the parameters of the same block sizes as recorded for the NVIDIA K40, run:
 
 ```bash
-$ ./tune_setup.py -p parameters_P100.json parameters_K40.json
+$ ./tune_setup.py -p ../parameters/parameters_P100.json ../parameters/parameters_K40.json
 Reading parameters from parameters_P100.json
-Libcusmm: Found 74093 existing parameter sets, of which 1638 are autotuned and 72455 are predicted.
+libsmm_acc: Found 74093 existing parameter sets, of which 1638 are autotuned and 72455 are predicted.
 Reading parameters to autotune from parameters_K40.json
 Requested to autotune 19 triplets
 Found 41824 parameter sets for 5x5x5
@@ -107,16 +108,16 @@ Each directory contains a number of files:
 ```bash
 $ ls -1 tune_8x8x8/
 Makefile
-tune_8x8x8_exe0_main.cu
-tune_8x8x8_exe0_part0.cu
-tune_8x8x8_exe0_part1.cu
-tune_8x8x8_exe0_part2.cu
-tune_8x8x8_exe0_part3.cu
-tune_8x8x8_exe0_part4.cu
+tune_8x8x8_exe0_main.cu/cpp
+tune_8x8x8_exe0_part0.cu/cpp
+tune_8x8x8_exe0_part1.cu/cpp
+tune_8x8x8_exe0_part2.cu/cpp
+tune_8x8x8_exe0_part3.cu/cpp
+tune_8x8x8_exe0_part4.cu/cpp
 tune_8x8x8.job
 ```
 
-For each possible parameter-set a *launcher* is generated. A launcher is a small snippet of C code, which launches the kernel by using the CUDA specific `<<< >>>`-notation. It also instantiates the C++ template which contains the actual kernel code.
+For each possible parameter-set a *launcher* is generated. A launcher is a small snippet of C code, which launches the kernel by using the CUDA specific `<<< >>>`-notation or HIP's `hipLaunchKernelGGL` function. It also instantiates the C++ template which contains the actual kernel code.
 
 In order to parallelize the benchmarking, the launchers are distributed over multiple executables. Currently, up to 10'000 launchers are benchmarked by one *executable*. Each executable is linked together from several `tune_*_part???.o` and a `tune_*_main.o`. Each part-files contains up to 100 launchers. This allows to parallelize the compilation over multiple CPU cores.
 
@@ -180,19 +181,19 @@ Reading: tune_8x5x5/tune_8x5x5_exe0.log
 Reading: tune_8x5x8/tune_8x5x8_exe0.log
 Reading: tune_8x8x5/tune_8x8x5_exe0.log
 Reading: tune_8x8x8/tune_8x8x8_exe0.log
-Kernel_dnt_tiny(m=5, n=5, k=5, split_thread=32, threads=64, grouping=16, minblocks=1) , # 27.9623 GFlops 
+Kernel_dnt_tiny(m=5, n=5, k=5, split_thread=32, threads=64, grouping=16, minblocks=1) , # 27.9623 GFlops
 Kernel_dnt_tiny(m=5, n=5, k=8, split_thread=32, threads=96, grouping=16, minblocks=1) , # 37.8978 GFlops
-Kernel_dnt_medium(m=5, n=8, k=5, tile_m=1, tile_n=1, threads=96, grouping=16, minblocks=8) , # 32.9231 GFlops 
+Kernel_dnt_medium(m=5, n=8, k=5, tile_m=1, tile_n=1, threads=96, grouping=16, minblocks=8) , # 32.9231 GFlops
 Kernel_dnt_tiny(m=5, n=8, k=8, split_thread=32, threads=96, grouping=16, minblocks=1) , # 47.0366 GFlops
-Kernel_dnt_medium(m=8, n=5, k=5, tile_m=1, tile_n=1, threads=96, grouping=16, minblocks=12) , # 33.1999 GFlops 
+Kernel_dnt_medium(m=8, n=5, k=5, tile_m=1, tile_n=1, threads=96, grouping=16, minblocks=12) , # 33.1999 GFlops
 Kernel_dnt_medium(m=8, n=5, k=8, tile_m=1, tile_n=1, threads=96, grouping=16, minblocks=12) , # 49.3499 GFlops
-Kernel_dnt_tiny(m=8, n=8, k=5, split_thread=32, threads=96, grouping=16, minblocks=1) , # 62.8469 GFlops 
-Kernel_dnt_tiny(m=8, n=8, k=8, split_thread=32, threads=128, grouping=16, minblocks=1) , # 90.7763 GFlops 
+Kernel_dnt_tiny(m=8, n=8, k=5, split_thread=32, threads=96, grouping=16, minblocks=1) , # 62.8469 GFlops
+Kernel_dnt_tiny(m=8, n=8, k=8, split_thread=32, threads=128, grouping=16, minblocks=1) , # 90.7763 GFlops
 
 Wrote parameters.json
 ```
 
-The file `parameters.json` now contains the newly autotuned parameters.
+The file `parameters.json` in `dbcsr/src/acc/libsmm_acc/parameters` now contains the newly autotuned parameters.
 
 #### 7. Merge new parameters with original parameter-file
 

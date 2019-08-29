@@ -7,4 +7,4 @@
 # For further information please visit https://dbcsr.cp2k.org                                      #
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
-"""Manage libcusmm kernels: their CUDA code, their parameters, and predictive features"""
+"""Manage libsmm_acc kernels: their kernel code (CUDA and HIP), their parameters, and predictive features"""

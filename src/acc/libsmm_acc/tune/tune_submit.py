@@ -72,7 +72,7 @@ if __name__ == "__main__":
         already been submitted or run. For this the script calls squeue in the background and it searches for
         slurm-*.out files.
 
-        This script is part of the workflow for autotuning optimal libcusmm parameters.
+        This script is part of the workflow for autotuning optimal libsmm_acc parameters.
         For more details, see README.md#autotuning-procedure.
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,

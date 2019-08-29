@@ -24,10 +24,10 @@ from predict_helpers import (
 # ===============================================================================
 def main(file, file_baseline):
     """
-    This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
+    This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
     For more details, see predict.md
 
-    Given a file containing the results of the LIBCUSMM performance test, perform evaluation of the predictive model.
+    Given a file containing the results of the LBSMM_ACC performance test, perform evaluation of the predictive model.
     """
     # ===============================================================================
     # Read optimal-parameter-prediction result file
@@ -148,10 +148,10 @@ def read_result_file(file):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""
-        Given a file containing the results of the LIBCUSMM performance test, perform evaluation of the predictive
+        Given a file containing the results of the LIBSMM_ACC performance test, perform evaluation of the predictive
         model.
-        This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
-        For more details, see predict.md.
+        This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
+        For more details, see README.md.
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
@@ -161,7 +161,7 @@ if __name__ == "__main__":
         metavar="filename.out",
         type=str,
         default="",
-        help="Result file to evaluate. Output of tests/libcusmm_timer_multiply.cu",
+        help="Result file to evaluate. Output of tests/libsmm_acc_timer_multiply.cpp",
     )
     parser.add_argument(
         "-n",

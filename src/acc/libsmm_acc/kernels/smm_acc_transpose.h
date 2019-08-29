@@ -12,7 +12,7 @@
  *           Nikolay Markovskiy <nmarkovskiy@nvidia.com>                     *
  *****************************************************************************/
 
-#include "cusmm_common.h"
+#include "smm_acc_common.h"
 
 template < int m, int n>
 __global__ void transpose_d(int *trs_stack, double* mat){
