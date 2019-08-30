@@ -28,7 +28,7 @@ MODULE dbcsr_mpiwrap
    USE dbcsr_kinds, ONLY: &
       dp, int_4, int_4_size, int_8, int_8_size, real_4, real_4_size, real_8, &
       real_8_size
-   USE dbcsr_machine, ONLY: m_abort
+   USE dbcsr_machine, ONLY: m_abort, m_hostnm
 
 #include "base/dbcsr_base_uses.f90"
 
