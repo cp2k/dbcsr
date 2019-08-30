@@ -2710,18 +2710,16 @@ CONTAINS
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_get_processor_name', &
                                      routineP = moduleN//':'//routineN
-
+#if defined(__parallel)
       INTEGER                                            :: ierr
 
-      ierr = 0
-      procname = ''
-
-#if defined(__parallel)
       CALL mpi_get_processor_name(procname, resultlen, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_get_processor_name @ "//routineN)
-#else
-      MARK_USED(procname)
-      resultlen = 0
+      IF (ierr /= 0) THEN
+#endif
+         CALL m_hostnm(procname)
+         resultlen = LEN_TRIM(procname)
+#if defined(__parallel)
+      ENDIF
 #endif
    END SUBROUTINE mp_get_processor_name
 
