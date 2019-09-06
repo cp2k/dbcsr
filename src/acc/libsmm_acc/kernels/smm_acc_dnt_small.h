@@ -150,7 +150,7 @@ smm_acc_dnt_small(const int* __restrict__ param_stack, int stack_size,
     int srcC = param_stack_s[psp + 2];
 
     /* Load block matrices a_block and b_block for current block and stack into smem */
-    if ( m == n){
+    if (m == n){
 #pragma unroll
       for (int i = tidx; i < mk; i += threads){
          buff_l[i] = __ldg(&a_data[srcA + i]);

@@ -7,7 +7,7 @@
 For a description of the library (some details are outdated, but this nevertheless provides a very good introduction), see Chapter 8.4 of:
 
 > WALKER, R. C., & GOETZ, A. W. (2016). Electronic structure calculations on graphics processing units: from quantum chemistry to condensed matter physics.
-> 
+>
 > Available at https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781118670712.
 
 ### Compilation
@@ -45,7 +45,7 @@ which take between 3 - 7 **parameters** (see figure at the top):
 - **threads**: number of threads per block in the execution configuration of the CUDA/HIP kernels
 - **grouping**: how many stack entries are grouped together into a CUDA/HIP thread block (if `grouping` is bigger, less blocks are launched)
 - **minblocks**: specifies the desired minimum number of resident blocks per multiprocessor
-- **tile_m**: (on the figure: **M**), tile_m * tile_n = dimensions of the result block `T`
+- **tile_m**: (on the figure: **M**), `tile_m` * `tile_n` = dimensions of the result block `T`
 - **tile_n** : (on the figure: **N**)
 - **w**: input slab width (width of slab `P_A` and `P_B`)
 - **v**: output slab width (width of slab `P_C`)
@@ -58,7 +58,7 @@ The performance of the matrix-matrix multiplication kernels is highly dependent 
 
 Follow the [autotuning procedure](tune/README.md)
 
-#### Predictive modelling of kernel parameters
+#### Predictive modeling of kernel parameters
 
 Follow the [predictive modeling procedure](predict/README.md)
 
@@ -78,7 +78,7 @@ Follow the [predictive modeling procedure](predict/README.md)
 
 2. Add the GPU to the `arch_number` data structure in [`kernels/smm_acc_predict.py`](kernels/smm_acc_predict.py)
 
-3. Add the necessary code for setting `ARCH_NUMBER` correctly in the [`Makefile`](../../../../Makefile) and in the [`CMakeLists`](CMakeLists.txt)
+3. Add the necessary code for setting `ARCH_NUMBER` correctly in the [`Makefile`](../../../../Makefile) and in the [`CMakeLists`](CMakeLists.txt). Also add this GPU to the list of `SUPPORTED_CUDA_ARCHITECTURES` or `SUPPORTED_HIP_ARCHITECTURES` in the [`CMakeLists`](CMakeLists.txt).
 
 4. Add a minimal JSON file `parameters_GPU.json`, containing:
 
@@ -87,4 +87,4 @@ Follow the [predictive modeling procedure](predict/README.md)
 }
 ```
 
-then add matrix-matrix multiplication parameters for this GPU using *autotuning* and *predictive modelling*
+then add matrix-matrix multiplication parameters for this GPU using *autotuning* and *predictive modeling*

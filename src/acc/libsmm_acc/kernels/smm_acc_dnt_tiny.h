@@ -88,7 +88,7 @@ smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
   double myc;
 
   /* Arrays in shared memory
-   *(common to all threads in a thread block, but different from thread-block to thread-block):
+   * (common to all threads in a thread block, but different from thread-block to thread-block):
    * param_stack_s: shared memory buffer containing the stack entries this thread should process
    *                number of stack entries in param_stack_s = grouping,
    *                number of integers per stack entry: 3 */
@@ -134,7 +134,7 @@ smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
     int srcB = param_stack_s[psp + 1];
     int srcC = param_stack_s[psp + 2];
 
-    /* Load block matrices a_block and b_block for current block and stack from gloabal memory into shared memory
+    /* Load block matrices a_block and b_block for current block and stack from global memory into shared memory
      * (no overlap between computation and loading)
      * once an element s loaded into shared memory, it is available for all threads of the thread block to use */
     if (m == n) {
