@@ -235,16 +235,17 @@ def gen_jobfile(outdir, compiler, m, n, k, cpus_per_node=12, max_num_nodes=0):
         num_nodes = min(len(all_exe), max_num_nodes)
     else:
         num_nodes = len(all_exe)
+    if num_nodes < 3:
+        time = "1:30:00"
+    else:
+        time = "0:30:00"
 
     output = "#!/bin/bash -l\n"
     output += "#SBATCH --nodes=%d\n" % num_nodes
     output += "#SBATCH --ntasks-per-core=1\n"
     output += "#SBATCH --ntasks-per-node=1\n"
     output += "#SBATCH --cpus-per-task=" + "%d\n" % cpus_per_node
-    if num_nodes < 3:
-        output += "#SBATCH --time=1:30:00\n"
-    else:
-        output += "#SBATCH --time=0:30:00\n"
+    output += "#SBATCH --time=%s\n" % time
     output += "#SBATCH --partition=normal\n"
     output += "#SBATCH --constraint=gpu\n"
     output += "\n"

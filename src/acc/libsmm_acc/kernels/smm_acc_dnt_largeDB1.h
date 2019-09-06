@@ -40,7 +40,7 @@ __device__ static inline void load_gmem_into_regs(const double* __restrict__ fro
       dest[0] = __ldg(&from[threadIdx.x]);
   } else {
     int i = threadIdx.x;
-    for (int ri = 0; ri < NR; ri++){  //loop with fixed bounds
+    for (int ri = 0; ri < NR; ri++){  // loop with fixed bounds
       if (i < length)
         dest[ri] = __ldg(&from[i]);
       i += threads;
@@ -72,8 +72,8 @@ __device__ static inline void load_regs_into_smem(double* from, double* dest,
 __device__ static inline void multiply(double* buff_a, double* buff_b, double* buff_c,
                                 const int w, const int m, const int n,
                                 const int M, const int N){
-    // There might be more threads than needed for the calculation.
-    // Only the first cmax*rmax threads participate in the calculation.
+  // There might be more threads than needed for the calculation.
+  // Only the first cmax*rmax threads participate in the calculation.
 
   const int cmax = (n + N - 1) / N; // max tile-column
   const int rmax = (m + M - 1) / M; //  max tile-row

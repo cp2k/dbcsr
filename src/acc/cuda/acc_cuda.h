@@ -72,4 +72,4 @@ extern CUevent_flags CUEventDefault;
 extern CUstream_flags CUStreamDefault;
 extern CUsharedconfig CUSharedMemBankSizeEightByte;
 
-#endif
+#endif // ACC_CUDA_H

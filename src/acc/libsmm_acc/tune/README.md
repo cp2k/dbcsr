@@ -20,6 +20,11 @@ If you are about to autotune parameters for a new GPU (i.e. a GPU for which ther
 $ cd dbcsr/src/acc/libsmm_acc/libsmm_acc/tune
 ```
 
+The `parameters.h` file (a C++ header file generated from the JSON record of multiplication kernels and their optimal parameters) is needed for the autotuning procedure. One can copy it over from a build directory for example, as follows:
+```bash
+$ cp ~/dbcsr/build_dir/src/acc/libsmm_acc/parameters.h ../
+```
+
 #### 2. Adapt `tune_setup.py` to your environment
 
 The `tune_setup.py` script generates job files. You have to adapt the script to the environment of your supercomputer and your personal settings.

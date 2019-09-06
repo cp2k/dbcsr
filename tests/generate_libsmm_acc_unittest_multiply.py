@@ -16,7 +16,7 @@ import argparse
 
 
 def format_to_cpp(kernels):
-    """Given a list of Kernels represented as dictionaries, return a string representing them as C++ vector of vectors
+    """Given a list of kernels represented as dictionaries, return a string representing them as C++ vector of vectors
     using initializer lists"""
     kernels = sorted(kernels, key=lambda k: (k["m"], k["n"], k["k"]))
     out = ""

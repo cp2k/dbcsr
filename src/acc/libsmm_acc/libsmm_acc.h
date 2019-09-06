@@ -48,4 +48,4 @@ static std::unordered_map<Triplet, ACC_DRV(function)> transpose_handles;
 int libsmm_acc_transpose_d(int *trs_stack, int offset, int nblks, double *buffer,
                            int m, int n, ACC_DRV(stream) stream);
 
-#endif
+#endif // LIBSMM_ACC_H

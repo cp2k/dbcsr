@@ -71,13 +71,13 @@ A few steps are needed to make the data ready for training:
 - Compute derived training data and write it to a CSV file
 - Compress training data files from CSV to Parquet files
 
-##### To complete these, run
-
 ```%bash
-./predict_prepare_data.py  # --folder /scratch/autotuning_dataset -a 60 -j12, e.g. to run with 12 threads
+./prepare_data.py  # --folder /scratch/autotuning_dataset -a 60 -j12, e.g. to run with 12 threads
 ```
 
-The data preparation is relatively computationally expensive, especially for large data sets. A good way of running it, is to
+The data preparation is relatively computationally expensive, especially for large data sets.
+A good way of running it, is to
+
 1. Compute just the maximum and baseline parameters for each algorithm separately (`-l ALGORITHM --skip_derived_data=True`), adjusting the `-j` parameter so it runs fast enough, while not running into "out-of-memory"-errors
 2. Run again with `--skip_derived_data=True` to create the files that aggregate maximum and baseline performances for all algorithms.
 3. Compute derived data records for each algorithm separately (`-l ALGORITHM`), adjusting the `-j` option.
@@ -97,22 +97,13 @@ Explore the data interactively using the [provided Jupyter notebook](notebooks/i
 
 #### 4. Train
 
-For each algorithm, build a predictive model using decision trees and feature selection based on the features' permutation importance.
+For each algorithm, build a predictive model using decision trees and feature selection based on the features' permutation importance. 
 
 ```%bash
 ./predict_train.py  # --algo medium --folder /scratch/autotuning_dataset, e.g.
 ```
 
 Use the command-line parameters `--folder` and `--destination_folder` to choose the folder from which data is read, as well as the folder to which models, logs, etc. are written.
-EXPLAIN: 
--m 
--o (recommended)
--j and what to do if memerrors
--g and what it is for
--r: remove this !?!?!?
---splits: consider changing default value to '5' meh, no real need to explain this
-There are more parameters less critical. Read more using `--help`
-
 Repeat this step for all algorithms.
 This may take several hours. For example, training algorithm 'medium' for the P100 took 11 hours on a single Greina (CSCS) node.
 Moreover, depending on the size of the training data, large amounts of memory may be needed. For example, training algorithm 'medium' for the P100 was run on a 192 GB node.

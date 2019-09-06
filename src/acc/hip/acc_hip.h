@@ -7,8 +7,8 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#ifndef LIBHIPSMM_H
-#define LIBHIPSMM_H
+#ifndef ACC_HIP_H
+#define ACC_HIP_H
 
 #include <hip/hip_runtime.h>
 #include <hip/hip_runtime_api.h>
@@ -70,4 +70,4 @@ using hipmodule = hipModule_t;
 using hipdevice = hipDevice_t;
 using hipcontext = hipCtx_t;
 
-#endif
+#endif // ACC_HIP_H
