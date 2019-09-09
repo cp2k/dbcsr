@@ -110,16 +110,18 @@ CONTAINS
 !> \param full_info Whether to print subgroup DBCSR distribution
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_write_dist(matrix, output_unit, full_info)
-      TYPE(dbcsr_tas_type), INTENT(IN)   :: matrix
+      TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       INTEGER, INTENT(IN)              :: output_unit
       LOGICAL, INTENT(IN), OPTIONAL    :: full_info
 
       CHARACTER(default_string_length) :: name
       INTEGER                          :: mp_comm, ngroup, igroup, mp_comm_group, nproc, iproc, &
-                                          nblock_p_max, nelement_p_max, nblock_s, nelement_s, &
-                                          nblock_s_max, nelement_s_max, nblock, nelement
+                                          nblock_p_max, nelement_p_max, &
+                                          nblock, nelement
+      INTEGER(KIND=int_8), DIMENSION(2) :: tmp_i8
       INTEGER, DIMENSION(2)            :: tmp
-      INTEGER(KIND=int_8)              :: nblock_tot, nblock_p_sum, nelement_p_sum
+      INTEGER(KIND=int_8)              :: nblock_tot, nblock_p_sum, nelement_p_sum, nelement_s_max, &
+                                          nblock_s, nelement_s, nblock_s_max
       REAL(KIND=real_8)                :: occupation
       INTEGER, DIMENSION(:), POINTER   :: rowdist => NULL(), coldist => NULL()
       INTEGER                          :: split_rowcol, icol, irow
@@ -144,9 +146,9 @@ CONTAINS
       CALL mp_sum(nblock_s, mp_comm_group)
       CALL mp_sum(nelement_s, mp_comm_group)
 
-      tmp = (/nblock_s, nelement_s/)
-      CALL mp_max(tmp, mp_comm)
-      nblock_s_max = tmp(1); nelement_s_max = tmp(2)
+      tmp_i8 = (/nblock_s, nelement_s/)
+      CALL mp_max(tmp_i8, mp_comm)
+      nblock_s_max = tmp_i8(1); nelement_s_max = tmp_i8(2)
 
       nblock_tot = dbcsr_tas_nblkrows_total(matrix)*dbcsr_tas_nblkcols_total(matrix)
       occupation = -1.0_real_8

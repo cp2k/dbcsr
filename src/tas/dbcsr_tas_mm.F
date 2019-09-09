@@ -173,7 +173,7 @@ CONTAINS
       IF (PRESENT(io_unit)) THEN
          IF (io_unit_prv .GT. 0) THEN
             WRITE (io_unit_prv, '(A)') repeat("-", 80)
-            WRITE (io_unit_prv, '(A,1X,A,1X,A,1X,A,1X,A,1X,A)') "DBCSR TALL-AND-SKINNY MATRIX MULTIPLICATION:", &
+            WRITE (io_unit_prv, '(A,1X,A,1X,A,1X,A,1X,A,1X,A)') "DBCSR TAS MATRIX MULTIPLICATION:", &
                TRIM(matrix_a%matrix%name), 'x', TRIM(matrix_b%matrix%name), '=', TRIM(matrix_c%matrix%name)
             WRITE (io_unit_prv, '(A)') repeat("-", 80)
          ENDIF
@@ -228,7 +228,6 @@ CONTAINS
          nsplit = 0
          max_mm_dim = MAXLOC(dims, 1)
       ENDIF
-
 
       ! reshape matrices to the optimal layout and split factor
       split_a = rowsplit; split_b=rowsplit; split_c=rowsplit
@@ -560,7 +559,7 @@ CONTAINS
       ENDIF
       IF (io_unit_prv > 0) THEN
          WRITE (io_unit_prv, '(A)') repeat("-", 80)
-         WRITE (io_unit_prv, '(A,1X,A,1X,A,1X,A,1X,A,1X,A)') "TALL-AND-SKINNY MATRIX MULTIPLICATION DONE"
+         WRITE (io_unit_prv, '(A,1X,A,1X,A,1X,A,1X,A,1X,A)') "TAS MATRIX MULTIPLICATION DONE"
          WRITE (io_unit_prv, '(A)') repeat("-", 80)
       ENDIF
 
