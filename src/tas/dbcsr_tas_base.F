@@ -39,38 +39,26 @@ MODULE dbcsr_tas_base
       dbcsr_distribution_release, dbcsr_get_data_type, dbcsr_mp_release, dbcsr_nblkcols_total, &
       dbcsr_nblkrows_total, dbcsr_nfullrows_total, dbcsr_nfullcols_total, dbcsr_release, &
       dbcsr_get_data_size, dbcsr_get_num_blocks, dbcsr_get_nze
-   USE dbcsr_operations, ONLY: dbcsr_get_info, &
-                               dbcsr_set, &
-                               dbcsr_filter, &
-                               dbcsr_clear
-   USE dbcsr_tas_types, ONLY: dbcsr_tas_distribution_type, &
-                              dbcsr_tas_iterator, &
-                              dbcsr_tas_create_split_info, &
-                              dbcsr_tas_type
-   USE dbcsr_tas_global, ONLY: dbcsr_tas_blk_size_arb, &
-                               dbcsr_tas_dist_arb, &
-                               dbcsr_tas_distribution, &
-                               dbcsr_tas_rowcol_data
+   USE dbcsr_operations, ONLY: &
+      dbcsr_get_info, dbcsr_set, dbcsr_filter, dbcsr_clear
+   USE dbcsr_tas_types, ONLY: &
+      dbcsr_tas_distribution_type, dbcsr_tas_iterator, dbcsr_tas_split_info, dbcsr_tas_type
+   USE dbcsr_tas_global, ONLY: &
+      dbcsr_tas_blk_size_arb, dbcsr_tas_dist_arb, dbcsr_tas_distribution, dbcsr_tas_rowcol_data
    USE dbcsr_tas_split, ONLY: &
       block_index_global_to_local, block_index_local_to_global, colsplit, &
       dbcsr_tas_info_hold, dbcsr_tas_release_info, dbcsr_tas_create_split, &
       group_to_mrowcol, rowsplit, dbcsr_tas_get_split_info
-   USE dbcsr_tas_util, ONLY: dbcsr_mp_environ, &
-                             index_unique
-   USE dbcsr_types, ONLY: dbcsr_distribution_obj, &
-                          dbcsr_iterator, &
-                          dbcsr_mp_obj, &
-                          dbcsr_type
-   USE dbcsr_work_operations, ONLY: dbcsr_create, &
-                                    dbcsr_finalize
-   USE dbcsr_kinds, ONLY: default_string_length, &
-                          int_8, &
-                          real_8, &
-                          real_4
-   USE dbcsr_mpiwrap, ONLY: mp_cart_rank, &
-                            mp_environ, &
-                            mp_sum, &
-                            mp_max
+   USE dbcsr_tas_util, ONLY: &
+      dbcsr_mp_environ, index_unique
+   USE dbcsr_types, ONLY: &
+      dbcsr_distribution_obj, dbcsr_iterator, dbcsr_mp_obj, dbcsr_type
+   USE dbcsr_work_operations, ONLY: &
+      dbcsr_create, dbcsr_finalize
+   USE dbcsr_kinds, ONLY: &
+      default_string_length, int_8, real_8, real_4
+   USE dbcsr_mpiwrap, ONLY: &
+      mp_cart_rank, mp_environ, mp_sum, mp_max
 #include "../base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -186,14 +174,14 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_create_new(matrix, name, dist, data_type, &
                                    row_blk_size, col_blk_size, own_dist)
-      TYPE(dbcsr_tas_type), INTENT(OUT)                :: matrix
+      TYPE(dbcsr_tas_type), INTENT(OUT)              :: matrix
       CHARACTER(len=*), INTENT(IN)                   :: name
       TYPE(dbcsr_tas_distribution_type), INTENT(INOUT) :: dist
       INTEGER, INTENT(IN)                            :: data_type
-      CLASS(dbcsr_tas_rowcol_data), INTENT(IN)         :: row_blk_size, col_blk_size
+      CLASS(dbcsr_tas_rowcol_data), INTENT(IN)       :: row_blk_size, col_blk_size
       LOGICAL, INTENT(IN), OPTIONAL                  :: own_dist
 
-      TYPE(dbcsr_tas_create_split_info)                       :: info
+      TYPE(dbcsr_tas_split_info)                     :: info
 
       INTEGER, DIMENSION(:), POINTER                 :: row_blk_size_vec => NULL(), col_blk_size_vec => NULL()
       INTEGER                                        :: nrows, ncols, irow, col, icol, row
@@ -411,17 +399,18 @@ CONTAINS
    SUBROUTINE dbcsr_tas_distribution_new(dist, mp_comm, &
                                          row_dist, col_dist, split_info, nosplit)
       TYPE(dbcsr_tas_distribution_type), INTENT(OUT)   :: dist
-      INTEGER, INTENT(IN)                            :: mp_comm
+      INTEGER, INTENT(IN)                              :: mp_comm
       CLASS(dbcsr_tas_distribution), INTENT(IN)        :: row_dist, col_dist
-      TYPE(dbcsr_tas_create_split_info), INTENT(IN), OPTIONAL :: split_info
-      LOGICAL, INTENT(IN), OPTIONAL                  :: nosplit
+      TYPE(dbcsr_tas_split_info), INTENT(IN), OPTIONAL :: split_info
+      LOGICAL, INTENT(IN), OPTIONAL                    :: nosplit
 
-      TYPE(dbcsr_tas_create_split_info)                           :: split_info_prv
+      TYPE(dbcsr_tas_split_info)                       :: split_info_prv
 
-      INTEGER, DIMENSION(:), POINTER :: row_dist_vec => NULL()
-      INTEGER, DIMENSION(:), POINTER :: col_dist_vec => NULL()
-      TYPE(dbcsr_mp_obj) :: mp_environ_tmp
-      INTEGER :: nrows, ncols, irow, col, icol, row
+      INTEGER, DIMENSION(:), POINTER                   :: row_dist_vec => NULL()
+      INTEGER, DIMENSION(:), POINTER                   :: col_dist_vec => NULL()
+      TYPE(dbcsr_mp_obj)                               :: mp_environ_tmp
+      INTEGER                                          :: nrows, ncols, irow, col, icol, row, &
+                                                          split_rowcol, nsplit
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_distribution_new', &
                                      routineP = moduleN//':'//routineN
@@ -432,7 +421,18 @@ CONTAINS
          CALL dbcsr_tas_info_hold(split_info)
          split_info_prv = split_info
       ELSE
-         CALL dbcsr_tas_create_split(split_info_prv, mp_comm, row_dist%nmrowcol, col_dist%nmrowcol, nosplit=nosplit)
+         ! default split heuristic: split into submatrices that have roughly same block dimensions
+         IF(row_dist%nmrowcol >= col_dist%nmrowcol) THEN
+            split_rowcol = rowsplit
+            nsplit = INT((row_dist%nmrowcol - 1)/col_dist%nmrowcol + 1)
+         ELSE
+            split_rowcol = colsplit
+            nsplit = INT((col_dist%nmrowcol - 1)/row_dist%nmrowcol + 1)
+         ENDIF
+         IF(PRESENT(nosplit)) THEN
+            IF(nosplit) nsplit=0
+         ENDIF
+         CALL dbcsr_tas_create_split(split_info_prv, mp_comm, split_rowcol, nsplit=nsplit)
       ENDIF
 
       SELECT CASE (split_info_prv%split_rowcol)
@@ -502,12 +502,12 @@ CONTAINS
 !> \param processor process ID
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_get_stored_coordinates(matrix, row, column, processor)
-      TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
+      TYPE(dbcsr_tas_type), INTENT(IN)                   :: matrix
       INTEGER(KIND=int_8), INTENT(IN)                    :: row, column
       INTEGER, INTENT(OUT)                               :: processor
 
       INTEGER, DIMENSION(2)                              :: pcoord
-      TYPE(dbcsr_tas_create_split_info)                           :: info
+      TYPE(dbcsr_tas_split_info)                         :: info
 
       pcoord(1) = matrix%dist%row_dist%dist(row)
       pcoord(2) = matrix%dist%col_dist%dist(column)
@@ -532,7 +532,7 @@ CONTAINS
       INTEGER                                            :: igroup
       INTEGER(KIND=int_8)                                :: col_s, row_s
       INTEGER, DIMENSION(2)                              :: pcoord
-      TYPE(dbcsr_tas_create_split_info)                           :: info
+      TYPE(dbcsr_tas_split_info)                         :: info
 
       row_s = INT(row, KIND=int_8); col_s = INT(column, KIND=int_8)
 
@@ -574,8 +574,8 @@ CONTAINS
       TYPE(dbcsr_data_obj)                               :: block
       TYPE(dbcsr_distribution_obj)                       :: dist
       TYPE(dbcsr_mp_obj)                                 :: mp_environ_tmp
-      TYPE(dbcsr_tas_iterator)                             :: iter
-      TYPE(dbcsr_tas_create_split_info)                           :: info
+      TYPE(dbcsr_tas_iterator)                           :: iter
+      TYPE(dbcsr_tas_split_info)                         :: info
       INTEGER                                            :: block_number, rb_count, nblks_local
       INTEGER, DIMENSION(:), ALLOCATABLE                 :: nz_rows, nz_cols
 
@@ -652,9 +652,9 @@ CONTAINS
 !> \param matrix_dbcsr ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_convert_to_tas(info, matrix_rect, matrix_dbcsr)
-      TYPE(dbcsr_tas_create_split_info), INTENT(IN)               :: info
+      TYPE(dbcsr_tas_split_info), INTENT(IN)               :: info
       TYPE(dbcsr_tas_type), INTENT(OUT)                    :: matrix_rect
-      TYPE(dbcsr_type), INTENT(IN)                       :: matrix_dbcsr
+      TYPE(dbcsr_type), INTENT(IN)                         :: matrix_dbcsr
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_convert_to_tas', &
                                      routineP = moduleN//':'//routineN
@@ -976,7 +976,7 @@ CONTAINS
 ! **************************************************************************************************
    FUNCTION dbcsr_tas_info(matrix)
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
-      TYPE(dbcsr_tas_create_split_info)                           :: dbcsr_tas_info
+      TYPE(dbcsr_tas_split_info)                           :: dbcsr_tas_info
 
       dbcsr_tas_info = matrix%dist%info
    END FUNCTION
@@ -1107,8 +1107,8 @@ CONTAINS
 ! **************************************************************************************************
    FUNCTION dbcsr_tas_get_num_blocks_total(matrix) RESULT(num_blocks)
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
-      INTEGER(KIND=int_8)            :: num_blocks
-      TYPE(dbcsr_tas_create_split_info) :: info
+      INTEGER(KIND=int_8)              :: num_blocks
+      TYPE(dbcsr_tas_split_info)       :: info
 
       info = dbcsr_tas_info(matrix)
       num_blocks = dbcsr_tas_get_num_blocks(matrix)
@@ -1136,8 +1136,8 @@ CONTAINS
 ! **************************************************************************************************
    FUNCTION dbcsr_tas_get_nze_total(matrix)
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
-      INTEGER(KIND=int_8) :: dbcsr_tas_get_nze_total
-      TYPE(dbcsr_tas_create_split_info) :: info
+      INTEGER(KIND=int_8)              :: dbcsr_tas_get_nze_total
+      TYPE(dbcsr_tas_split_info)       :: info
 
       dbcsr_tas_get_nze_total = dbcsr_tas_get_nze(matrix)
       info = dbcsr_tas_info(matrix)
@@ -1151,7 +1151,7 @@ CONTAINS
 ! **************************************************************************************************
    FUNCTION dbcsr_tas_get_data_size(matrix) RESULT(data_size)
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
-      INTEGER                        :: data_size
+      INTEGER                          :: data_size
 
       data_size = dbcsr_get_data_size(matrix%matrix)
    END FUNCTION
@@ -1202,21 +1202,23 @@ CONTAINS
                                  row_blk_size, col_blk_size, distribution, name, data_area, &
                                  matrix_type, data_type)
 
-      TYPE(dbcsr_tas_type), INTENT(IN)                                  :: matrix
+      TYPE(dbcsr_tas_type), INTENT(IN)                                :: matrix
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL                      :: nblkrows_total, nblkcols_total, nfullrows_total, &
                                                                          nfullcols_total
       INTEGER, INTENT(OUT), OPTIONAL                                  :: nblkrows_local, nblkcols_local, nfullrows_local, &
                                                                          nfullcols_local, nprow, npcol, my_prow, my_pcol
       INTEGER(KIND=int_8), DIMENSION(:), OPTIONAL, ALLOCATABLE        :: local_rows, local_cols
-      CLASS(dbcsr_tas_distribution), ALLOCATABLE, OPTIONAL, INTENT(OUT) :: proc_row_dist, proc_col_dist
-      CLASS(dbcsr_tas_rowcol_data), ALLOCATABLE, OPTIONAL, INTENT(OUT)  :: row_blk_size, col_blk_size
-      TYPE(dbcsr_tas_distribution_type), OPTIONAL                       :: distribution
+      CLASS(dbcsr_tas_distribution), ALLOCATABLE, OPTIONAL, &
+         INTENT(OUT)                                                  :: proc_row_dist, proc_col_dist
+      CLASS(dbcsr_tas_rowcol_data), ALLOCATABLE, OPTIONAL, &
+         INTENT(OUT)                                                  :: row_blk_size, col_blk_size
+      TYPE(dbcsr_tas_distribution_type), OPTIONAL                     :: distribution
       CHARACTER(len=*), INTENT(OUT), OPTIONAL                         :: name
       TYPE(dbcsr_data_obj), INTENT(OUT), OPTIONAL                     :: data_area
       CHARACTER, OPTIONAL                                             :: matrix_type
       INTEGER, OPTIONAL                                               :: data_type
 
-      TYPE(dbcsr_tas_create_split_info)                                        :: info
+      TYPE(dbcsr_tas_split_info)                                      :: info
       INTEGER                                                         :: numnodes, irow, icol
       INTEGER, DIMENSION(2)                                           :: pdims, pcoord
       INTEGER, DIMENSION(:), POINTER                                  :: local_rows_local => NULL(), local_cols_local => NULL()

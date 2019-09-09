@@ -781,10 +781,12 @@ PROGRAM dbcsr_tensor_unittest
 ! Cleanup for tensor contraction tests                                                             !
 !--------------------------------------------------------------------------------------------------!
 
-      DEALLOCATE (size_1, size_2, size_3, size_4)
+      DEALLOCATE (size_1, size_2, size_3, size_4, size_5)
       DEALLOCATE (blk_ind_1_1, blk_ind_2_1, blk_ind_3_1)
       DEALLOCATE (blk_ind_3_2, blk_ind_4_2)
       DEALLOCATE (blk_ind_1_3, blk_ind_2_3, blk_ind_4_3)
+      DEALLOCATE (blk_ind_1_4, blk_ind_2_4, blk_ind_4_4, blk_ind_5_4)
+      DEALLOCATE (blk_ind_3_5, blk_ind_4_5, blk_ind_5_5)
       DEALLOCATE (dist1_1, dist1_2, dist1_3, dist2_1, dist2_2, dist3_1, dist3_2, dist3_3)
       CALL dbcsr_t_pgrid_destroy(pgrid_3d)
       CALL dbcsr_t_pgrid_destroy(pgrid_2d)

@@ -44,7 +44,7 @@ MODULE dbcsr_tensor_block
                                  get_nd_indices, &
                                  destroy_nd_to_2d_mapping, &
                                  get_2d_indices, &
-                                 get_mapping_info, &
+                                 dbcsr_t_get_mapping_info, &
                                  create_nd_to_2d_mapping
    USE dbcsr_array_list_methods, ONLY: array_list, &
                                        get_array_elements, &
@@ -702,9 +702,9 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       ! reshape block
-      CALL get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
+      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
       CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-      CALL get_mapping_info(map_blk, dims_2d=dims_2d)
+      CALL dbcsr_t_get_mapping_info(map_blk, dims_2d=dims_2d)
       CALL allocate_any(block_2d, shape_spec=dims_2d)
       CALL reshape_nd_to_2d_block(map_blk, block, block_2d)
 
@@ -785,7 +785,7 @@ CONTAINS
          ! convert pointer to allocatable
          CALL allocate_any(block_2d, source=block_2d_ptr)
 
-         CALL get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
+         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
          CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
          CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
       ENDIF

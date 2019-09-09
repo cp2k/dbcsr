@@ -78,22 +78,22 @@ PROGRAM dbcsr_tas_unittest
    IF (mynode == 0) WRITE (io_unit, '(A)') "DBCSR TALL-AND-SKINNY MATRICES"
    IF (mynode == 0) WRITE (io_unit, '(1X, A, 1X, A, I10, 1X, A, 1X, I10)') "Split info for matrix", &
       TRIM(A%matrix%name), dbcsr_tas_nblkrows_total(A), 'X', dbcsr_tas_nblkcols_total(A)
-   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(A), "A", io_unit)
+   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(A), io_unit, name="A")
    IF (mynode == 0) WRITE (io_unit, '(1X, A, 1X, A, I10, 1X, A, 1X, I10)') "Split info for matrix", &
       TRIM(At%matrix%name), dbcsr_tas_nblkrows_total(At), 'X', dbcsr_tas_nblkcols_total(At)
-   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(At), "At", io_unit)
+   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(At), io_unit, name="At")
    IF (mynode == 0) WRITE (io_unit, '(1X, A, 1X, A, I10, 1X, A, 1X, I10)') "Split info for matrix", &
       TRIM(B%matrix%name), dbcsr_tas_nblkrows_total(B), 'X', dbcsr_tas_nblkcols_total(B)
-   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(B), "B", io_unit)
+   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(B), io_unit, name="B")
    IF (mynode == 0) WRITE (io_unit, '(1X, A, 1X, A, I10, 1X, A, 1X, I10)') "Split info for matrix", &
       TRIM(Bt%matrix%name), dbcsr_tas_nblkrows_total(Bt), 'X', dbcsr_tas_nblkcols_total(Bt)
-   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(Bt), "Bt", io_unit)
+   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(Bt), io_unit, name="Bt")
    IF (mynode == 0) WRITE (io_unit, '(1X, A, 1X, A, I10, 1X, A, 1X, I10)') "Split info for matrix", &
       TRIM(C%matrix%name), dbcsr_tas_nblkrows_total(C), 'X', dbcsr_tas_nblkcols_total(C)
-   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(C), "C", io_unit)
+   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(C), io_unit, name="C")
    IF (mynode == 0) WRITE (io_unit, '(1X, A, 1X, A, I10, 1X, A, 1X, I10)') "Split info for matrix", &
       TRIM(Ct%matrix%name), dbcsr_tas_nblkrows_total(Ct), 'X', dbcsr_tas_nblkcols_total(Ct)
-   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(Ct), "Ct", io_unit)
+   CALL dbcsr_tas_write_split_info(dbcsr_tas_info(Ct), io_unit, name="Ct")
 
    CALL dbcsr_tas_test_mm('N', 'N', 'N', B, A, Ct_out, unit_nr=default_output_unit, filter_eps=filter_eps)
    CALL dbcsr_tas_test_mm('T', 'N', 'N', Bt, A, Ct_out, unit_nr=default_output_unit, filter_eps=filter_eps)

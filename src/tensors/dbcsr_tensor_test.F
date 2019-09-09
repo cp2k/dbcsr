@@ -52,7 +52,7 @@ MODULE dbcsr_tensor_test
                             mp_cart_create
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_tensor_index, ONLY: combine_index, &
-                                 get_mapping_info
+                                 dbcsr_t_get_mapping_info
    USE dbcsr_tas_test, ONLY: dbcsr_tas_checksum
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
 #include "base/dbcsr_base_uses.f90"
@@ -383,6 +383,12 @@ CONTAINS
             CALL dbcsr_t_destroy(tensor2)
             CALL dbcsr_t_distribution_destroy(dist2)
 
+#:for dim in range(1, maxdim+1)
+            IF (${dim}$ <= ndims) THEN
+               DEALLOCATE(dist1_${dim}$, dist2_${dim}$)
+            ENDIF
+#:endfor
+
          ENDDO
       ENDDO
       CALL dbcsr_t_pgrid_destroy(comm_nd)
@@ -396,9 +402,10 @@ CONTAINS
 !> \param mp_comm
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_random_dist(dist_array, dist_size, nbins, mp_comm)
-      INTEGER, ALLOCATABLE, DIMENSION(:), INTENT(out) :: dist_array
+      INTEGER, ALLOCATABLE, DIMENSION(:), INTENT(OUT) :: dist_array
       INTEGER, INTENT(IN)                             :: dist_size, nbins, mp_comm
       REAL, DIMENSION(dist_size)                      :: rn
+      INTEGER, DIMENSION(dist_size)                   :: rn_int
       INTEGER                                         :: numnodes, mynode
 
       CALL mp_environ(numnodes, mynode, mp_comm)
@@ -408,7 +415,8 @@ CONTAINS
       ENDIF
       CALL mp_bcast(rn, 0, mp_comm)
 
-      CALL allocate_any(dist_array, source=FLOOR(rn*nbins))
+      rn_int = FLOOR(rn*nbins)
+      CALL allocate_any(dist_array, source=rn_int)
 
    END SUBROUTINE dbcsr_t_random_dist
 
@@ -558,7 +566,7 @@ CONTAINS
       LOGICAL                                                    :: found
 
       DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. ${ndim}$)
-      CALL get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(${shape_colon(ndim)}$) = 0.0_${dprec}$
 
@@ -602,7 +610,7 @@ CONTAINS
       INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
 
       DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. ${ndim}$)
-      CALL get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
@@ -730,6 +738,7 @@ CONTAINS
                             contract_2, notcontract_2, &
                             map_1, map_2, &
                             bounds_1=bounds_1, bounds_2=bounds_2, bounds_3=bounds_3, &
+                            filter_eps=1.0E-12_real_8, &
                             unit_nr=io_unit, log_verbose=log_verbose)
 
       cs_3 = dbcsr_t_checksum(tensor_3)
@@ -834,7 +843,7 @@ CONTAINS
       eql_diff = MAXVAL(ABS(array_3_test_mm(:, :) - array_3_mm(:, :)))
       notzero = MAXVAL(ABS(array_3_test_mm(:, :))) .GT. 1.0E-12_${dprec}$
 
-      eql = eql_diff .LT. 1.0E-12_${dprec}$
+      eql = eql_diff .LT. 1.0E-11_${dprec}$
 
       IF (.NOT. eql .OR. .NOT. notzero) THEN
          IF (io_unit > 0) WRITE (io_unit, *) 'Test failed!', eql_diff

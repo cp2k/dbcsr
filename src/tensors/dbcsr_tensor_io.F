@@ -19,12 +19,14 @@ MODULE dbcsr_tensor_io
 
    USE dbcsr_tensor_types, ONLY: &
       dbcsr_t_get_info, dbcsr_t_type, ndims_tensor, dbcsr_t_get_num_blocks, dbcsr_t_get_num_blocks_total, &
-      blk_dims_tensor, dbcsr_t_get_stored_coordinates, dbcsr_t_get_nze, dbcsr_t_get_nze_total
+      blk_dims_tensor, dbcsr_t_get_stored_coordinates, dbcsr_t_get_nze, dbcsr_t_get_nze_total, &
+      dbcsr_t_pgrid_type
    USE dbcsr_kinds, ONLY: default_string_length, int_8, real_8
    USE dbcsr_mpiwrap, ONLY: mp_environ, mp_sum, mp_max
    USE dbcsr_tensor_block, ONLY: &
       dbcsr_t_iterator_type, dbcsr_t_iterator_next_block, dbcsr_t_iterator_start, &
       dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_stop, dbcsr_t_get_block
+   USE dbcsr_tas_io, ONLY: dbcsr_tas_write_split_info
 
 #include "base/dbcsr_base_uses.f90"
 
@@ -37,7 +39,8 @@ MODULE dbcsr_tensor_io
       dbcsr_t_write_tensor_dist, &
       dbcsr_t_write_blocks, &
       dbcsr_t_write_block, &
-      dbcsr_t_write_block_indices
+      dbcsr_t_write_block_indices, &
+      dbcsr_t_write_split_info
 
 CONTAINS
 
@@ -285,5 +288,14 @@ CONTAINS
 #:endfor
       ENDDO
       CALL dbcsr_t_iterator_stop(iterator)
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_t_write_split_info(pgrid, unit_nr)
+      TYPE(dbcsr_t_pgrid_type), INTENT(IN) :: pgrid
+      INTEGER, INTENT(IN) :: unit_nr
+
+      IF(ALLOCATED(pgrid%tas_split_info)) THEN
+         CALL dbcsr_tas_write_split_info(pgrid%tas_split_info, unit_nr)
+      ENDIF
    END SUBROUTINE
 END MODULE
