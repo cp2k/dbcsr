@@ -97,9 +97,9 @@ CONTAINS
 !> \param io_unit unit number for logging output
 !> \param log_verbose only for testing: verbose output
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, matrix_b, beta, matrix_c, &
-                                 optimize_dist, split_opt, filter_eps, flop, move_data_a, &
-                                 move_data_b, simple_split, io_unit, log_verbose)
+   RECURSIVE SUBROUTINE dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, matrix_b, beta, matrix_c, &
+                                           optimize_dist, split_opt, filter_eps, flop, move_data_a, &
+                                           move_data_b, simple_split, io_unit, log_verbose)
       CHARACTER(LEN=1), INTENT(IN)               :: transa, transb, transc
       TYPE(dbcsr_scalar_type), INTENT(IN)        :: alpha, beta
       TYPE(dbcsr_tas_type), TARGET, &
