@@ -419,8 +419,8 @@
 #if defined(__LIBXSMM_TRANS)
      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1
 #endif
-     ${type1}$, DIMENSION(:), INTENT(OUT) :: extent_out
-     ${type1}$, DIMENSION(:), INTENT(IN)  :: extent_in
+     ${type1}$, DIMENSION(:), INTENT(OUT), TARGET :: extent_out
+     ${type1}$, DIMENSION(:), INTENT(IN)          :: extent_in
      INTEGER, INTENT(IN) :: rows, columns
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_${nametype1}$', &
@@ -507,8 +507,8 @@
      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
 #endif
      INTEGER, INTENT(IN) :: rows, columns
-     ${type1}$, DIMENSION(columns, rows), INTENT(OUT) :: extent_out
-     ${type1}$, DIMENSION(:), INTENT(IN)              :: extent_in
+     ${type1}$, DIMENSION(columns, rows), INTENT(OUT), TARGET :: extent_out
+     ${type1}$, DIMENSION(:), INTENT(IN)                      :: extent_in
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d1d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -555,7 +555,7 @@
      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
 #endif
      INTEGER, INTENT(IN) :: rows, columns
-     ${type1}$, DIMENSION(:), INTENT(OUT)            :: extent_out
+     ${type1}$, DIMENSION(:), INTENT(OUT), TARGET    :: extent_out
      ${type1}$, DIMENSION(rows, columns), INTENT(IN) :: extent_in
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_1d2d_${nametype1}$', &

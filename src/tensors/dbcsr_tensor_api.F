@@ -57,6 +57,8 @@ MODULE dbcsr_tensor_api
    USE dbcsr_tensor_test, ONLY: dbcsr_t_contract_test, &
                                 dbcsr_t_checksum
    USE dbcsr_tensor_split, ONLY: dbcsr_t_split_blocks
+   USE dbcsr_tensor_index, ONLY: dbcsr_t_get_mapping_info
+   USE dbcsr_tensor_io, ONLY: dbcsr_t_write_split_info
 
    IMPLICIT NONE
 
@@ -101,5 +103,7 @@ MODULE dbcsr_tensor_api
    PUBLIC :: dbcsr_t_get_num_blocks, dbcsr_t_get_num_blocks_total
    PUBLIC :: dbcsr_t_get_nze, dbcsr_t_get_nze_total
    PUBLIC :: dbcsr_t_clear
+   PUBLIC :: dbcsr_t_get_mapping_info
+   PUBLIC :: dbcsr_t_write_split_info
 
 END MODULE dbcsr_tensor_api
