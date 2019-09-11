@@ -84,9 +84,11 @@ CONTAINS
 !> \param matrix_c ...
 !> \param optimize_dist Whether distribution should be optimized internally. In the current implementation
 !>                      this guarantees optimal parameters only for dense matrices.
-!> \param split_opt optionally return split info containing optimal grid and split parameters. This
-!>                  can be used to choose optimal process grids for subsequent matrix multiplications
+!> \param split_opt optionally return split info containing optimal grid and split parameters.
+!>                  This can be used to choose optimal process grids for subsequent matrix multiplications
 !>                  with matrices of similar shape and sparsity.
+!>                  under some conditions, split_opt can not be returned, in this case the pointer is
+!>                  not associated
 !> \param filter_eps ...
 !> \param flop ...
 !> \param move_data_a memory optimization: move data to matrix_c such that matrix_a is empty on return
@@ -104,7 +106,7 @@ CONTAINS
          INTENT(INOUT)                           :: matrix_a, matrix_b, matrix_c
       LOGICAL, INTENT(IN), OPTIONAL              :: optimize_dist
       TYPE(dbcsr_tas_split_info), INTENT(OUT), &
-         OPTIONAL                                :: split_opt
+         POINTER, OPTIONAL                       :: split_opt
       REAL(KIND=real_8), INTENT(IN), OPTIONAL    :: filter_eps
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL :: flop
       LOGICAL, INTENT(IN), OPTIONAL              :: move_data_a, move_data_b, simple_split
@@ -151,9 +153,6 @@ CONTAINS
          IF(info_a%strict_split .OR. info_b%strict_split .OR. info_c%strict_split) simple_split_prv = .TRUE.
       ENDIF
 
-      IF(simple_split_prv .AND. PRESENT(split_opt)) THEN
-         DBCSR_ABORT("incompatible dummy arguments split_opt and simple_split")
-      ENDIF
 
       move_a = .FALSE.
       move_b = .FALSE.
@@ -535,9 +534,10 @@ CONTAINS
 
       CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix_c), mp_comm=mp_comm)
 
-      IF(PRESENT(split_opt)) THEN
+      IF(PRESENT(split_opt) .AND. .NOT. simple_split_prv) THEN
          ! ideally we should rederive the split factor from the actual sparsity of C, but
          ! due to parameter beta, we can not get the sparsity of AxB from DBCSR if not new_c
+         ALLOCATE(split_opt)
          mp_comm_opt = dbcsr_tas_mp_comm(mp_comm, split_rc, nsplit_opt)
          CALL dbcsr_tas_create_split(split_opt, mp_comm_opt, split_rc, nsplit_opt, own_comm=.TRUE.)
       ENDIF

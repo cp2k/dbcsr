@@ -349,7 +349,8 @@ CONTAINS
 !>                      this guarantees optimal parameters only for dense matrices.
 !> \param pgrid_opt_1 Optionally return optimal process grid for tensor_1. This can be used to choose
 !>                    optimal process grids for subsequent tensor contractions with tensors of similar
-!>                    shape and sparsity.
+!>                    shape and sparsity. Under some conditions, pgrid_opt_1 can not be returned, in this
+!>                    case the pointer is not associated.
 !> \param pgrid_opt_2 Optionally return optimal process grid for tensor_2.
 !> \param pgrid_opt_3 Optionally return optimal process grid for tensor_3.
 !> \param filter_eps As in DBCSR mm
@@ -368,7 +369,7 @@ CONTAINS
                                filter_eps, flop, move_data, unit_nr, log_verbose)
       TYPE(dbcsr_scalar_type), INTENT(IN)            :: alpha
       TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_1, tensor_2
-      TYPE(dbcsr_scalar_type), INTENT(IN) :: beta
+      TYPE(dbcsr_scalar_type), INTENT(IN)            :: beta
       INTEGER, DIMENSION(:), INTENT(IN)              :: contract_1, contract_2, map_1, map_2
       INTEGER, DIMENSION(:), INTENT(IN)              :: notcontract_1, notcontract_2
       TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_3
@@ -380,14 +381,14 @@ CONTAINS
          INTENT(IN), OPTIONAL                        :: bounds_3
       LOGICAL, INTENT(IN), OPTIONAL                  :: optimize_dist
       TYPE(dbcsr_t_pgrid_type), INTENT(OUT), &
-         OPTIONAL                                    :: pgrid_opt_1, pgrid_opt_2, pgrid_opt_3
+         POINTER, OPTIONAL                           :: pgrid_opt_1, pgrid_opt_2, pgrid_opt_3
       REAL(KIND=real_8), INTENT(IN), OPTIONAL        :: filter_eps
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL     :: flop
       LOGICAL, INTENT(IN), OPTIONAL                  :: move_data
       INTEGER, OPTIONAL, INTENT(IN)                  :: unit_nr
       LOGICAL, INTENT(IN), OPTIONAL                  :: log_verbose
 
-      TYPE(dbcsr_t_type), POINTER                    :: tensor_contr_1 => NULL(), tensor_contr_2 => NULL(), tensor_contr_3 => NULL()
+      TYPE(dbcsr_t_type), POINTER                    :: tensor_contr_1, tensor_contr_2, tensor_contr_3
       TYPE(dbcsr_t_type)                             :: tensor_algn_1, tensor_algn_2, tensor_algn_3
       TYPE(dbcsr_t_type), POINTER                    :: tensor_crop_1, tensor_crop_2
       LOGICAL                                        :: assert_stmt
@@ -406,16 +407,18 @@ CONTAINS
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_contract', &
                                      routineP = moduleN//':'//routineN
-      CHARACTER(LEN=1), DIMENSION(:), ALLOCATABLE :: indchar1, indchar2, indchar3, indchar1_mod, &
-                                                     indchar2_mod, indchar3_mod
+      CHARACTER(LEN=1), DIMENSION(:), ALLOCATABLE    :: indchar1, indchar2, indchar3, indchar1_mod, &
+                                                        indchar2_mod, indchar3_mod
       CHARACTER(LEN=1), DIMENSION(15) :: alph = &
                                          ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o']
       INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_1)) :: bounds_t1
       INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_2)) :: bounds_t2
-      LOGICAL :: do_crop_1, do_crop_2
-      TYPE(dbcsr_tas_split_info) :: split_opt
+      LOGICAL                                        :: do_crop_1, do_crop_2
+      TYPE(dbcsr_tas_split_info), POINTER            :: split_opt
 
       CALL timeset(routineN, handle)
+
+      NULLIFY(tensor_contr_1, tensor_contr_2, tensor_contr_3, tensor_crop_1, tensor_crop_2, split_opt)
 
       DBCSR_ASSERT(tensor_1%valid)
       DBCSR_ASSERT(tensor_2%valid)
@@ -667,34 +670,31 @@ CONTAINS
                               split_opt=split_opt, &
                               move_data_a=move_data_1, move_data_b=move_data_2)
 
-      IF(PRESENT(pgrid_opt_1)) THEN
-         IF(new_1) THEN
-            CALL dbcsr_abort(__LOCATION__, &
-                             "pgrid_opt_1 can not be returned because tensor_1 not in matrix multiplication compatible layout")
-         ELSE
+      IF(PRESENT(pgrid_opt_1) .AND. ASSOCIATED(split_opt)) THEN
+         IF(.NOT. new_1) THEN
+            ALLOCATE(pgrid_opt_1)
             pgrid_opt_1 = opt_pgrid(tensor_1, split_opt)
          ENDIF
       ENDIF
 
-      IF(PRESENT(pgrid_opt_2)) THEN
-         IF(new_2) THEN
-            CALL dbcsr_abort(__LOCATION__, &
-                             "pgrid_opt_2 can not be returned because tensor_2 not in matrix multiplication compatible layout")
-         ELSE
+      IF(PRESENT(pgrid_opt_2) .AND. ASSOCIATED(split_opt)) THEN
+         IF(.NOT. new_2) THEN
+            ALLOCATE(pgrid_opt_2)
             pgrid_opt_2 = opt_pgrid(tensor_2, split_opt)
          ENDIF
       ENDIF
 
-      IF(PRESENT(pgrid_opt_3)) THEN
-         IF(new_3) THEN
-            CALL dbcsr_abort(__LOCATION__, &
-                             "pgrid_opt_3 can not be returned because tensor_3 not in matrix multiplication compatible layout")
-         ELSE
+      IF(PRESENT(pgrid_opt_3) .AND. ASSOCIATED(split_opt)) THEN
+         IF(.NOT. new_3) THEN
+            ALLOCATE(pgrid_opt_3)
             pgrid_opt_3 = opt_pgrid(tensor_3, split_opt)
          ENDIF
       ENDIF
 
-      CALL dbcsr_tas_release_info(split_opt)
+      IF(ASSOCIATED(split_opt)) THEN
+         CALL dbcsr_tas_release_info(split_opt)
+         DEALLOCATE(split_opt)
+      ENDIF
 
       IF (PRESENT(unit_nr)) THEN
          CALL dbcsr_t_write_tensor_info(tensor_contr_3, unit_nr, full_info=log_verbose)
