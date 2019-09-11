@@ -500,7 +500,7 @@ CONTAINS
          DBCSR_ABORT("inconsistent process grid dimensions")
       ENDIF
 
-      IF(ALLOCATED(pgrid_prv%tas_split_info)) THEN
+      IF (ALLOCATED(pgrid_prv%tas_split_info)) THEN
          CALL dbcsr_tas_distribution_new(dist%dist, comm_2d, row_dist_obj, col_dist_obj, split_info=pgrid_prv%tas_split_info)
       ELSE
          CALL dbcsr_tas_distribution_new(dist%dist, comm_2d, row_dist_obj, col_dist_obj)
@@ -1054,10 +1054,10 @@ CONTAINS
       CALL dbcsr_t_get_mapping_info(pgrid%nd_index_grid, dims_2d=pdims_2d)
       CALL mp_cart_create(mp_comm, 2, pdims_2d, pos, pgrid%mp_comm_2d)
 
-      IF(PRESENT(nsplit)) THEN
+      IF (PRESENT(nsplit)) THEN
          DBCSR_ASSERT(PRESENT(dimsplit))
          CALL dbcsr_tas_create_split(info, pgrid%mp_comm_2d, dimsplit, nsplit, opt_nsplit=.FALSE.)
-         ALLOCATE(pgrid%tas_split_info, SOURCE=info)
+         ALLOCATE (pgrid%tas_split_info, SOURCE=info)
       ENDIF
 
       CALL timestop(handle)
@@ -1079,9 +1079,9 @@ CONTAINS
       ENDIF
       IF (.NOT. keep_comm_prv) CALL mp_comm_free(pgrid%mp_comm_2d)
       CALL destroy_nd_to_2d_mapping(pgrid%nd_index_grid)
-      IF(ALLOCATED(pgrid%tas_split_info) .AND. .NOT. keep_comm_prv) THEN
+      IF (ALLOCATED(pgrid%tas_split_info) .AND. .NOT. keep_comm_prv) THEN
          CALL dbcsr_tas_release_info(pgrid%tas_split_info)
-         DEALLOCATE(pgrid%tas_split_info)
+         DEALLOCATE (pgrid%tas_split_info)
       ENDIF
    END SUBROUTINE
 
@@ -1102,7 +1102,7 @@ CONTAINS
       ALLOCATE (dims(SIZE(map1_2d) + SIZE(map2_2d)))
       CALL dbcsr_t_get_mapping_info(pgrid_in%nd_index_grid, dims_nd=dims, map1_2d=map1_2d_old, map2_2d=map2_2d_old)
       CALL dbcsr_t_pgrid_create(pgrid_in%mp_comm_2d, dims, pgrid_out, map1_2d, map2_2d)
-      IF(array_eq_i(map1_2d_old, map1_2d) .AND. array_eq_i(map2_2d_old, map2_2d)) THEN
+      IF (array_eq_i(map1_2d_old, map1_2d) .AND. array_eq_i(map2_2d_old, map2_2d)) THEN
          IF (ALLOCATED(pgrid_in%tas_split_info)) THEN
             ALLOCATE (pgrid_out%tas_split_info, SOURCE=pgrid_in%tas_split_info)
             CALL dbcsr_tas_info_hold(pgrid_out%tas_split_info)

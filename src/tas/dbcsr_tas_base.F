@@ -416,7 +416,7 @@ CONTAINS
          split_info_prv = split_info
       ELSE
          ! default split heuristic: split into submatrices that have roughly same block dimensions
-         IF(row_dist%nmrowcol >= col_dist%nmrowcol) THEN
+         IF (row_dist%nmrowcol >= col_dist%nmrowcol) THEN
             split_rowcol = rowsplit
             nsplit = INT((row_dist%nmrowcol - 1)/col_dist%nmrowcol + 1)
          ELSE
@@ -424,8 +424,8 @@ CONTAINS
             nsplit = INT((col_dist%nmrowcol - 1)/row_dist%nmrowcol + 1)
          ENDIF
          opt_nsplit = .TRUE.
-         IF(PRESENT(nosplit)) THEN
-            IF(nosplit) THEN
+         IF (PRESENT(nosplit)) THEN
+            IF (nosplit) THEN
                nsplit = 1
                opt_nsplit = .FALSE.
             ENDIF

@@ -205,10 +205,10 @@ CONTAINS
                                                             pgrid_offset
       CHARACTER(len=:), ALLOCATABLE                      :: name_prv
 
-      IF(PRESENT(name)) THEN
-         ALLOCATE(name_prv, SOURCE=TRIM(name))
+      IF (PRESENT(name)) THEN
+         ALLOCATE (name_prv, SOURCE=TRIM(name))
       ELSE
-         ALLOCATE(name_prv, SOURCE="")
+         ALLOCATE (name_prv, SOURCE="")
       ENDIF
 
       CALL dbcsr_tas_get_split_info(info, mp_comm, nsplit, igroup, mp_comm_group, split_rowcol, pgrid_offset)

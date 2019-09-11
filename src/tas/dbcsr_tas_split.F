@@ -93,13 +93,13 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-      IF(PRESENT(own_comm)) THEN
+      IF (PRESENT(own_comm)) THEN
          own_comm_prv = own_comm
       ELSE
          own_comm_prv = .FALSE.
       ENDIF
 
-      IF(own_comm_prv) THEN
+      IF (own_comm_prv) THEN
          split_info%mp_comm = mp_comm
       ELSE
          CALL mp_comm_dup(mp_comm, split_info%mp_comm)
@@ -195,7 +195,7 @@ CONTAINS
       INTEGER                                            :: group_size
       INTEGER, DIMENSION(2)                              :: group_dims
 
-      nsplit_opt = get_opt_nsplit(numproc, nsplit, split_pgrid = .FALSE.)
+      nsplit_opt = get_opt_nsplit(numproc, nsplit, split_pgrid=.FALSE.)
 
       group_size = numproc/nsplit_opt
       group_dims(:) = 0
@@ -204,10 +204,10 @@ CONTAINS
 
       ! here we choose order of group dims s.t. a split factor < nsplit_opt is favoured w.r.t.
       ! optimal subgrid dimensions
-      SELECT CASE(split_rowcol)
-      CASE(rowsplit)
+      SELECT CASE (split_rowcol)
+      CASE (rowsplit)
          group_dims = [MINVAL(group_dims), MAXVAL(group_dims)]
-      CASE(colsplit)
+      CASE (colsplit)
          group_dims = [MAXVAL(group_dims), MINVAL(group_dims)]
       END SELECT
 
@@ -240,11 +240,11 @@ CONTAINS
 
       DBCSR_ASSERT(nsplit > 0)
 
-      IF(split_pgrid) THEN
+      IF (split_pgrid) THEN
          DBCSR_ASSERT(PRESENT(pdim_nonsplit))
       ENDIF
 
-      IF(split_pgrid) THEN
+      IF (split_pgrid) THEN
          ! if process grid dimensions are fixed, we need more flexibility in split factor in order
          ! to obtain balanced grid dimensions --> larger accept ratio
          nsplit_accept_ratio = default_nsplit_accept_ratio_2
@@ -257,9 +257,9 @@ CONTAINS
       lb = CEILING(REAL(nsplit, real_8)/nsplit_accept_ratio)
       ub = FLOOR(REAL(nsplit, real_8)*nsplit_accept_ratio)
 
-      IF(ub < lb) ub = lb
+      IF (ub < lb) ub = lb
 
-      ALLOCATE(nsplit_list(1:ub-lb+1), nsplit_list_square(1:ub-lb+1), nsplit_list_accept(1:ub-lb+1))
+      ALLOCATE (nsplit_list(1:ub - lb + 1), nsplit_list_square(1:ub - lb + 1), nsplit_list_accept(1:ub - lb + 1))
       count = 0
       count_square = 0
       count_accept = 0
@@ -280,7 +280,7 @@ CONTAINS
                nsplit_list_square(count_square) = split
                count_accept = count_accept + 1
                nsplit_list_accept(count_accept) = split
-            ELSEIF(accept_pgrid_dims(dims_sub, relative=.FALSE.)) THEN
+            ELSEIF (accept_pgrid_dims(dims_sub, relative=.FALSE.)) THEN
                count_accept = count_accept + 1
                nsplit_list_accept(count_accept) = split
             ENDIF
@@ -288,13 +288,13 @@ CONTAINS
          ENDIF
       ENDDO
 
-      IF(count_square > 0) THEN
+      IF (count_square > 0) THEN
          minpos = MINLOC(ABS(nsplit_list_square(1:count_square) - nsplit), DIM=1)
          get_opt_nsplit = nsplit_list_square(minpos)
-      ELSEIF(count_accept > 0) THEN
+      ELSEIF (count_accept > 0) THEN
          minpos = MINLOC(ABS(nsplit_list_accept(1:count_accept) - nsplit), DIM=1)
          get_opt_nsplit = nsplit_list_accept(minpos)
-      ELSEIF(count > 0) THEN
+      ELSEIF (count > 0) THEN
          minpos = MINLOC(ABS(nsplit_list(1:count) - nsplit), DIM=1)
          get_opt_nsplit = nsplit_list(minpos)
       ELSE
@@ -320,7 +320,7 @@ CONTAINS
       INTEGER                                            :: nsplit, split_rowcol
       INTEGER                                            :: mp_comm_new
 
-      IF(nblkrows >= nblkcols) THEN
+      IF (nblkrows >= nblkcols) THEN
          split_rowcol = rowsplit
          nsplit = INT((nblkrows - 1)/nblkcols + 1)
       ELSE
@@ -358,7 +358,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-      IF(PRESENT(opt_nsplit)) THEN
+      IF (PRESENT(opt_nsplit)) THEN
          opt_nsplit_prv = opt_nsplit
       ELSE
          opt_nsplit_prv = .TRUE.
@@ -381,7 +381,7 @@ CONTAINS
       IF (opt_nsplit_prv) THEN
          nsplit_opt = get_opt_nsplit(pdim_split, nsplit, split_pgrid=.TRUE., pdim_nonsplit=pdim_nonsplit)
       ELSE
-         IF(MOD(pdims(split_rowcol), nsplit) .NE. 0) THEN
+         IF (MOD(pdims(split_rowcol), nsplit) .NE. 0) THEN
             DBCSR_ABORT("Split factor does not divide process grid dimension")
          ENDIF
          nsplit_opt = nsplit
@@ -393,7 +393,7 @@ CONTAINS
       igroup = pcoord(split_rowcol)/pdims_group(split_rowcol)
 
       CALL dbcsr_tas_create_split_rows_or_cols(split_info, mp_comm, nsplit_opt, igroup, split_rowcol, own_comm=own_comm)
-      IF(.NOT. opt_nsplit_prv) split_info%strict_split = .TRUE.
+      IF (.NOT. opt_nsplit_prv) split_info%strict_split = .TRUE.
 
       CALL timestop(handle)
 
@@ -411,7 +411,7 @@ CONTAINS
       INTEGER, DIMENSION(2)                      :: dims_opt
       LOGICAL                                    :: accept_pgrid_dims
 
-      IF(relative) THEN
+      IF (relative) THEN
          dims_opt = 0
          CALL mp_dims_create(PRODUCT(dims), dims_opt)
          accept_pgrid_dims = (MAXVAL(REAL(dims, real_8))/MAXVAL(dims_opt) .LT. default_pdims_accept_ratio)

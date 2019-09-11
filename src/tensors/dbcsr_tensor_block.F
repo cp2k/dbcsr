@@ -395,7 +395,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor_out
       INTEGER                           :: handle
 
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: blk_ind
+      INTEGER, DIMENSION(:, :), ALLOCATABLE :: blk_ind
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_template', &
                                      routineP = moduleN//':'//routineN
 
@@ -488,7 +488,7 @@ CONTAINS
 
       nblk = dbcsr_t_get_num_blocks(tensor)
 
-      ALLOCATE(blk_ind(nblk, ndims_tensor(tensor)))
+      ALLOCATE (blk_ind(nblk, ndims_tensor(tensor)))
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO iblk = 1, nblk

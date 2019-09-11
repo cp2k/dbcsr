@@ -39,7 +39,7 @@ MODULE dbcsr_tensor_split
                                  dbcsr_t_distribution_new, &
                                  dbcsr_t_clear, &
                                  dbcsr_t_finalize, &
-                                 dbcsr_t_get_num_blocks,&
+                                 dbcsr_t_get_num_blocks, &
                                  dbcsr_t_blk_offsets, &
                                  dbcsr_t_blk_sizes
    USE dbcsr_api, ONLY: ${uselist(dtype_float_param)}$
@@ -610,7 +610,7 @@ CONTAINS
 #:endfor
 #:endfor
 
-      IF(PRESENT(move_data)) THEN
+      IF (PRESENT(move_data)) THEN
          move_data_prv = move_data
       ELSE
          move_data_prv = .FALSE.
@@ -620,8 +620,8 @@ CONTAINS
 
       ! reserve blocks inside bounds
       CALL dbcsr_t_reserved_block_indices(tensor_in, blk_ind)
-      nblk=dbcsr_t_get_num_blocks(tensor_in)
-      ALLOCATE(blk_ind_tmp(nblk, ndims_tensor(tensor_in)))
+      nblk = dbcsr_t_get_num_blocks(tensor_in)
+      ALLOCATE (blk_ind_tmp(nblk, ndims_tensor(tensor_in)))
       blk_ind_tmp(:, :) = 0
       iblk = 0
       blk_loop: DO iblk_all = 1, nblk
@@ -635,8 +635,8 @@ CONTAINS
          blk_ind_tmp(iblk, :) = blk_ind(iblk_all, :)
       ENDDO blk_loop
 
-      DEALLOCATE(blk_ind)
-      ALLOCATE(blk_ind(iblk, ndims_tensor(tensor_in)))
+      DEALLOCATE (blk_ind)
+      ALLOCATE (blk_ind(iblk, ndims_tensor(tensor_in)))
       blk_ind(:, :) = blk_ind_tmp(:iblk, :)
 
       CALL dbcsr_t_reserve_blocks(tensor_out, blk_ind)
@@ -672,7 +672,7 @@ CONTAINS
       CALL dbcsr_t_iterator_stop(iter)
       CALL dbcsr_t_finalize(tensor_out)
 
-      IF(move_data_prv) CALL dbcsr_t_clear(tensor_in)
+      IF (move_data_prv) CALL dbcsr_t_clear(tensor_in)
    END SUBROUTINE
 
 END MODULE

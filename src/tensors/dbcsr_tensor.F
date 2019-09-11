@@ -87,7 +87,7 @@ MODULE dbcsr_tensor
       dbcsr_tas_mp_comm, rowsplit, colsplit, dbcsr_tas_info_hold, dbcsr_tas_release_info
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
    USE dbcsr_tensor_split, ONLY: dbcsr_t_split_copyback, &
-                                 dbcsr_t_make_compatible_blocks,&
+                                 dbcsr_t_make_compatible_blocks, &
                                  dbcsr_t_crop
    USE dbcsr_tensor_io, ONLY: dbcsr_t_write_tensor_info, &
                               dbcsr_t_write_tensor_dist
@@ -418,7 +418,7 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-      NULLIFY(tensor_contr_1, tensor_contr_2, tensor_contr_3, tensor_crop_1, tensor_crop_2, split_opt)
+      NULLIFY (tensor_contr_1, tensor_contr_2, tensor_contr_3, tensor_crop_1, tensor_crop_2, split_opt)
 
       DBCSR_ASSERT(tensor_1%valid)
       DBCSR_ASSERT(tensor_2%valid)
@@ -445,7 +445,7 @@ CONTAINS
       assert_stmt = dbcsr_t_get_data_type(tensor_1) .EQ. dbcsr_t_get_data_type(tensor_2)
       DBCSR_ASSERT(assert_stmt)
 
-      IF(PRESENT(move_data)) THEN
+      IF (PRESENT(move_data)) THEN
          move_data_1 = move_data
          move_data_2 = move_data
       ELSE
@@ -460,17 +460,17 @@ CONTAINS
                                          bounds_1=bounds_1, bounds_2=bounds_2, bounds_3=bounds_3, &
                                          do_crop_1=do_crop_1, do_crop_2=do_crop_2)
 
-      IF(do_crop_1) THEN
-         ALLOCATE(tensor_crop_1)
+      IF (do_crop_1) THEN
+         ALLOCATE (tensor_crop_1)
          CALL dbcsr_t_crop(tensor_1, tensor_crop_1, bounds_t1, move_data=move_data_1)
          move_data_1 = .TRUE.
       ELSE
          tensor_crop_1 => tensor_1
       ENDIF
 
-      IF(do_crop_2) THEN
-         ALLOCATE(tensor_crop_2)
-         CALL dbcsr_t_crop(tensor_2, tensor_crop_2,  bounds_t2, move_data=move_data_2)
+      IF (do_crop_2) THEN
+         ALLOCATE (tensor_crop_2)
+         CALL dbcsr_t_crop(tensor_2, tensor_crop_2, bounds_t2, move_data=move_data_2)
          move_data_2 = .TRUE.
       ELSE
          tensor_crop_2 => tensor_2
@@ -487,13 +487,13 @@ CONTAINS
 
       IF (occ_1 == 0 .OR. occ_2 == 0) THEN
          CALL dbcsr_t_scale(tensor_3, beta)
-         IF(do_crop_1) THEN
+         IF (do_crop_1) THEN
             CALL dbcsr_t_destroy(tensor_crop_1)
-            DEALLOCATE(tensor_crop_1)
+            DEALLOCATE (tensor_crop_1)
          ENDIF
-         IF(do_crop_2) THEN
+         IF (do_crop_2) THEN
             CALL dbcsr_t_destroy(tensor_crop_2)
-            DEALLOCATE(tensor_crop_2)
+            DEALLOCATE (tensor_crop_2)
          ENDIF
          CALL timestop(handle)
          RETURN
@@ -670,30 +670,30 @@ CONTAINS
                               split_opt=split_opt, &
                               move_data_a=move_data_1, move_data_b=move_data_2)
 
-      IF(PRESENT(pgrid_opt_1) .AND. ASSOCIATED(split_opt)) THEN
-         IF(.NOT. new_1) THEN
-            ALLOCATE(pgrid_opt_1)
+      IF (PRESENT(pgrid_opt_1) .AND. ASSOCIATED(split_opt)) THEN
+         IF (.NOT. new_1) THEN
+            ALLOCATE (pgrid_opt_1)
             pgrid_opt_1 = opt_pgrid(tensor_1, split_opt)
          ENDIF
       ENDIF
 
-      IF(PRESENT(pgrid_opt_2) .AND. ASSOCIATED(split_opt)) THEN
-         IF(.NOT. new_2) THEN
-            ALLOCATE(pgrid_opt_2)
+      IF (PRESENT(pgrid_opt_2) .AND. ASSOCIATED(split_opt)) THEN
+         IF (.NOT. new_2) THEN
+            ALLOCATE (pgrid_opt_2)
             pgrid_opt_2 = opt_pgrid(tensor_2, split_opt)
          ENDIF
       ENDIF
 
-      IF(PRESENT(pgrid_opt_3) .AND. ASSOCIATED(split_opt)) THEN
-         IF(.NOT. new_3) THEN
-            ALLOCATE(pgrid_opt_3)
+      IF (PRESENT(pgrid_opt_3) .AND. ASSOCIATED(split_opt)) THEN
+         IF (.NOT. new_3) THEN
+            ALLOCATE (pgrid_opt_3)
             pgrid_opt_3 = opt_pgrid(tensor_3, split_opt)
          ENDIF
       ENDIF
 
-      IF(ASSOCIATED(split_opt)) THEN
+      IF (ASSOCIATED(split_opt)) THEN
          CALL dbcsr_tas_release_info(split_opt)
-         DEALLOCATE(split_opt)
+         DEALLOCATE (split_opt)
       ENDIF
 
       IF (PRESENT(unit_nr)) THEN
@@ -719,14 +719,14 @@ CONTAINS
       CALL dbcsr_t_destroy(tensor_algn_2)
       CALL dbcsr_t_destroy(tensor_algn_3)
 
-      IF(do_crop_1) THEN
+      IF (do_crop_1) THEN
          CALL dbcsr_t_destroy(tensor_crop_1)
-         DEALLOCATE(tensor_crop_1)
+         DEALLOCATE (tensor_crop_1)
       ENDIF
 
-      IF(do_crop_2) THEN
+      IF (do_crop_2) THEN
          CALL dbcsr_t_destroy(tensor_crop_2)
-         DEALLOCATE(tensor_crop_2)
+         DEALLOCATE (tensor_crop_2)
       ENDIF
 
       IF (new_1) THEN
@@ -828,7 +828,7 @@ CONTAINS
       INTEGER(KIND=int_8)                         :: nblkrows, nblkcols
       LOGICAL                                     :: optimize_dist_prv
 
-      NULLIFY(tensor1_out, tensor2_out)
+      NULLIFY (tensor1_out, tensor2_out)
       IF (PRESENT(unit_nr)) THEN
          io_unit = unit_nr
       ELSE
@@ -1012,8 +1012,8 @@ CONTAINS
          ENDIF
       ENDIF
 
-      IF(new1 .AND. PRESENT(move_data_1)) move_data_1 = .TRUE.
-      IF(new2 .AND. PRESENT(move_data_2)) move_data_2 = .TRUE.
+      IF (new1 .AND. PRESENT(move_data_1)) move_data_1 = .TRUE.
+      IF (new2 .AND. PRESENT(move_data_2)) move_data_2 = .TRUE.
 
    END SUBROUTINE
 
@@ -1041,7 +1041,7 @@ CONTAINS
       INTEGER                                     :: compat1, compat2, compat1_old, compat2_old, io_unit
       LOGICAL                                     :: nodata_prv
 
-      NULLIFY(tensor_out)
+      NULLIFY (tensor_out)
       IF (PRESENT(nodata)) THEN
          nodata_prv = nodata
       ELSE
@@ -1155,7 +1155,7 @@ CONTAINS
       CALL dbcsr_t_get_mapping_info(tensor%pgrid%nd_index_grid, map1_2d=map1, map2_2d=map2)
       opt_pgrid = dbcsr_t_nd_mp_comm(tas_split_info%mp_comm, map1, map2)
 
-      ALLOCATE(opt_pgrid%tas_split_info, SOURCE=tas_split_info)
+      ALLOCATE (opt_pgrid%tas_split_info, SOURCE=tas_split_info)
       CALL dbcsr_tas_info_hold(opt_pgrid%tas_split_info)
    END FUNCTION
 
@@ -1360,8 +1360,8 @@ CONTAINS
       tensor_out%nd_index = nd_index_rs
       tensor_out%nd_index_blk = nd_index_blk_rs
       tensor_out%pgrid%mp_comm_2d = tensor_in%pgrid%mp_comm_2d
-      IF(ALLOCATED(tensor_in%pgrid%tas_split_info)) THEN
-         ALLOCATE(tensor_out%pgrid%tas_split_info, SOURCE=tensor_in%pgrid%tas_split_info)
+      IF (ALLOCATED(tensor_in%pgrid%tas_split_info)) THEN
+         ALLOCATE (tensor_out%pgrid%tas_split_info, SOURCE=tensor_in%pgrid%tas_split_info)
       ENDIF
       tensor_out%refcount => tensor_in%refcount
       CALL dbcsr_t_hold(tensor_out)
@@ -1433,7 +1433,7 @@ CONTAINS
                                   contract_2, notcontract_2, &
                                   bounds_1, bounds_2, bounds_3)
       TYPE(dbcsr_t_type), INTENT(INOUT)  :: tensor_1, tensor_2
-      INTEGER, DIMENSION(:), INTENT(IN)  :: contract_1, contract_2,&
+      INTEGER, DIMENSION(:), INTENT(IN)  :: contract_1, contract_2, &
                                             notcontract_1, notcontract_2
       INTEGER, DIMENSION(2, SIZE(contract_1)), &
          OPTIONAL                                    :: bounds_1

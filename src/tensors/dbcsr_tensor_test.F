@@ -37,7 +37,7 @@ MODULE dbcsr_tensor_test
                                  mp_environ_pgrid, &
                                  dbcsr_t_pgrid_type, &
                                  dbcsr_t_pgrid_create, &
-                                 dbcsr_t_pgrid_destroy,&
+                                 dbcsr_t_pgrid_destroy, &
                                  dbcsr_t_get_info
    USE dbcsr_tensor_io, ONLY: &
       dbcsr_t_write_blocks, dbcsr_t_write_block_indices
@@ -385,7 +385,7 @@ CONTAINS
 
 #:for dim in range(1, maxdim+1)
             IF (${dim}$ <= ndims) THEN
-               DEALLOCATE(dist1_${dim}$, dist2_${dim}$)
+               DEALLOCATE (dist1_${dim}$, dist2_${dim}$)
             ENDIF
 #:endfor
 
@@ -752,26 +752,26 @@ CONTAINS
       do_crop_1 = .FALSE.; do_crop_2 = .FALSE.!; do_crop_3 = .FALSE.
 
       ! crop tensor as first step
-      bounds_t1(1,:) = 1
-      CALL dbcsr_t_get_info(tensor_1, nfull_total=bounds_t1(2,:))
+      bounds_t1(1, :) = 1
+      CALL dbcsr_t_get_info(tensor_1, nfull_total=bounds_t1(2, :))
 
-      bounds_t2(1,:) = 1
-      CALL dbcsr_t_get_info(tensor_2, nfull_total=bounds_t2(2,:))
+      bounds_t2(1, :) = 1
+      CALL dbcsr_t_get_info(tensor_2, nfull_total=bounds_t2(2, :))
 
-      IF(PRESENT(bounds_1)) THEN
-         bounds_t1(:,contract_1) = bounds_1
+      IF (PRESENT(bounds_1)) THEN
+         bounds_t1(:, contract_1) = bounds_1
          do_crop_1 = .TRUE.
-         bounds_t2(:,contract_2) = bounds_1
+         bounds_t2(:, contract_2) = bounds_1
          do_crop_2 = .TRUE.
       ENDIF
 
-      IF(PRESENT(bounds_2)) THEN
-         bounds_t1(:,notcontract_1) = bounds_2
+      IF (PRESENT(bounds_2)) THEN
+         bounds_t1(:, notcontract_1) = bounds_2
          do_crop_1 = .TRUE.
       ENDIF
 
-      IF(PRESENT(bounds_3)) THEN
-         bounds_t2(:,notcontract_2) = bounds_3
+      IF (PRESENT(bounds_3)) THEN
+         bounds_t2(:, notcontract_2) = bounds_3
          do_crop_2 = .TRUE.
       ENDIF
 

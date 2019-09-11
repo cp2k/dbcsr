@@ -294,7 +294,7 @@ CONTAINS
       TYPE(dbcsr_t_pgrid_type), INTENT(IN) :: pgrid
       INTEGER, INTENT(IN) :: unit_nr
 
-      IF(ALLOCATED(pgrid%tas_split_info)) THEN
+      IF (ALLOCATED(pgrid%tas_split_info)) THEN
          CALL dbcsr_tas_write_split_info(pgrid%tas_split_info, unit_nr)
       ENDIF
    END SUBROUTINE
