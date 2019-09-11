@@ -195,7 +195,7 @@ CONTAINS
       INTEGER                                            :: group_size
       INTEGER, DIMENSION(2)                              :: group_dims
 
-      nsplit_opt = opt_nsplit(numproc, nsplit, split_pgrid = .FALSE.)
+      nsplit_opt = get_opt_nsplit(numproc, nsplit, split_pgrid = .FALSE.)
 
       group_size = numproc/nsplit_opt
       group_dims(:) = 0
@@ -228,13 +228,13 @@ CONTAINS
 !> \param pdim_nonsplit if split_pgrid: other process grid dimension
 !> \return split factor consistent with process grid or number of processes
 ! **************************************************************************************************
-   FUNCTION opt_nsplit(numproc, nsplit, split_pgrid, pdim_nonsplit)
+   FUNCTION get_opt_nsplit(numproc, nsplit, split_pgrid, pdim_nonsplit)
       INTEGER, INTENT(IN)                        :: numproc, nsplit
       LOGICAL, INTENT(IN)                        :: split_pgrid
       INTEGER, INTENT(IN), OPTIONAL              :: pdim_nonsplit
       INTEGER, ALLOCATABLE, DIMENSION(:)         :: nsplit_list, nsplit_list_square, nsplit_list_accept
       INTEGER                                    :: lb, ub, count, count_square, count_accept, split, &
-                                                    minpos, opt_nsplit
+                                                    minpos, get_opt_nsplit
       INTEGER, DIMENSION(2)                      :: dims_sub
       REAL(KIND=real_8)                          :: nsplit_accept_ratio
 
@@ -290,17 +290,17 @@ CONTAINS
 
       IF(count_square > 0) THEN
          minpos = MINLOC(ABS(nsplit_list_square(1:count_square) - nsplit), DIM=1)
-         opt_nsplit = nsplit_list_square(minpos)
+         get_opt_nsplit = nsplit_list_square(minpos)
       ELSEIF(count_accept > 0) THEN
          minpos = MINLOC(ABS(nsplit_list_accept(1:count_accept) - nsplit), DIM=1)
-         opt_nsplit = nsplit_list_accept(minpos)
+         get_opt_nsplit = nsplit_list_accept(minpos)
       ELSEIF(count > 0) THEN
          minpos = MINLOC(ABS(nsplit_list(1:count) - nsplit), DIM=1)
-         opt_nsplit = nsplit_list(minpos)
+         get_opt_nsplit = nsplit_list(minpos)
       ELSE
-         opt_nsplit = nsplit
-         DO WHILE (MOD(numproc, opt_nsplit) .NE. 0)
-            opt_nsplit = opt_nsplit - 1
+         get_opt_nsplit = nsplit
+         DO WHILE (MOD(numproc, get_opt_nsplit) .NE. 0)
+            get_opt_nsplit = get_opt_nsplit - 1
          ENDDO
       ENDIF
 
@@ -338,13 +338,15 @@ CONTAINS
 !> \param split_rowcol split rows or columns
 !> \param nsplit desired split factor, set to 0 if split factor of exactly 1 is required
 !> \param own_comm whether split_info should own communicator
+!> \param opt_nsplit ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_tas_create_split(split_info, mp_comm, split_rowcol, nsplit, own_comm)
+   SUBROUTINE dbcsr_tas_create_split(split_info, mp_comm, split_rowcol, nsplit, own_comm, opt_nsplit)
       TYPE(dbcsr_tas_split_info), INTENT(OUT)            :: split_info
       INTEGER, INTENT(IN)                                :: mp_comm
       INTEGER, INTENT(IN)                                :: split_rowcol
       INTEGER, INTENT(IN)                                :: nsplit
       LOGICAL, INTENT(IN), OPTIONAL                      :: own_comm
+      LOGICAL, INTENT(IN), OPTIONAL                      :: opt_nsplit
 
       CHARACTER(LEN=*), PARAMETER                        :: routineN = 'dbcsr_tas_create_split', &
                                                             routineP = moduleN//':'//routineN
@@ -352,8 +354,17 @@ CONTAINS
       INTEGER                                            :: &
          handle, iproc, numproc, igroup, nsplit_opt, pdim_split, pdim_nonsplit
       INTEGER, DIMENSION(2)                              :: pcoord, pdims, pdims_group
+      LOGICAL                                            :: opt_nsplit_prv
 
       CALL timeset(routineN, handle)
+
+      IF(PRESENT(opt_nsplit)) THEN
+         opt_nsplit_prv = opt_nsplit
+      ELSE
+         opt_nsplit_prv = .TRUE.
+      ENDIF
+
+      DBCSR_ASSERT(nsplit > 0)
 
       CALL mp_environ(numproc, iproc, mp_comm)
       CALL mp_environ(numproc, pdims, pcoord, mp_comm)
@@ -367,22 +378,22 @@ CONTAINS
          pdim_nonsplit = pdims(1)
       END SELECT
 
-      IF (nsplit > 0) THEN
-         nsplit_opt = opt_nsplit(pdim_split, nsplit, split_pgrid=.TRUE., pdim_nonsplit=pdim_nonsplit)
+      IF (opt_nsplit_prv) THEN
+         nsplit_opt = get_opt_nsplit(pdim_split, nsplit, split_pgrid=.TRUE., pdim_nonsplit=pdim_nonsplit)
       ELSE
-         nsplit_opt = 1
+         IF(MOD(pdims(split_rowcol), nsplit) .NE. 0) THEN
+            DBCSR_ABORT("Split factor does not divide process grid dimension")
+         ENDIF
+         nsplit_opt = nsplit
       ENDIF
 
-      SELECT CASE (split_rowcol)
-      CASE (rowsplit)
-         pdims_group = [pdims(1)/nsplit_opt, pdims(2)]
-      CASE (colsplit)
-         pdims_group = [pdims(1), pdims(2)/nsplit_opt]
-      END SELECT
+      pdims_group = pdims
+      pdims_group(split_rowcol) = pdims_group(split_rowcol)/nsplit_opt
 
       igroup = pcoord(split_rowcol)/pdims_group(split_rowcol)
 
       CALL dbcsr_tas_create_split_rows_or_cols(split_info, mp_comm, nsplit_opt, igroup, split_rowcol, own_comm=own_comm)
+      IF(.NOT. opt_nsplit_prv) split_info%strict_split = .TRUE.
 
       CALL timestop(handle)
 

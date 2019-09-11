@@ -126,7 +126,7 @@ CONTAINS
       TYPE(dbcsr_scalar_type)                    :: zero
       LOGICAL                                    :: new_a, new_b, new_c, simple_split_prv, opt_pgrid,&
                                                     move_a, move_b
-      TYPE(dbcsr_tas_split_info)                 :: info
+      TYPE(dbcsr_tas_split_info)                 :: info, info_a, info_b, info_c
       CHARACTER(LEN=*), PARAMETER                :: routineN = 'dbcsr_tas_multiply', &
                                                     routineP = moduleN//':'//routineN
       INTEGER(KIND=int_8)                        :: nze_a, nze_b, nze_c
@@ -146,6 +146,9 @@ CONTAINS
          simple_split_prv = simple_split
       ELSE
          simple_split_prv = .FALSE.
+
+         info_a = dbcsr_tas_info(matrix_a); info_b = dbcsr_tas_info(matrix_b); info_c = dbcsr_tas_info(matrix_c)
+         IF(info_a%strict_split .OR. info_b%strict_split .OR. info_c%strict_split) simple_split_prv = .TRUE.
       ENDIF
 
       IF(simple_split_prv .AND. PRESENT(split_opt)) THEN
@@ -534,8 +537,7 @@ CONTAINS
 
       IF(PRESENT(split_opt)) THEN
          ! ideally we should rederive the split factor from the actual sparsity of C, but
-         ! due to parameter beta, we can not actually get the sparsity of AxB from DBCSR if
-         ! not new_c
+         ! due to parameter beta, we can not get the sparsity of AxB from DBCSR if not new_c
          mp_comm_opt = dbcsr_tas_mp_comm(mp_comm, split_rc, nsplit_opt)
          CALL dbcsr_tas_create_split(split_opt, mp_comm_opt, split_rc, nsplit_opt, own_comm=.TRUE.)
       ENDIF

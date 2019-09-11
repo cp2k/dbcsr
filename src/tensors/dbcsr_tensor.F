@@ -1520,7 +1520,6 @@ CONTAINS
       LOGICAL, INTENT(OUT), OPTIONAL                 :: do_crop_1, do_crop_2
       LOGICAL, DIMENSION(2)                          :: do_crop
 
-      !do_crop_1 = .FALSE.; do_crop_2 = .FALSE.
       do_crop = .FALSE.
 
       bounds_t1(1, :) = 1

@@ -44,6 +44,7 @@ MODULE dbcsr_tas_types
       INTEGER :: pgrid_split_size ! how many process rows/cols in subgroups
       INTEGER :: group_size ! group size (how many cores) of subgroups
       INTEGER :: mp_comm_group ! sub communicator
+      LOGICAL :: strict_split = .FALSE. ! if .true., split factor should not be modified (for testing only)
       INTEGER, POINTER :: refcount => NULL() ! lightweight reference counting for communicators
    END TYPE
 

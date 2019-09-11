@@ -17,24 +17,18 @@
 MODULE dbcsr_tas_base
 #:include "dbcsr_tas.fypp"
 
-   USE dbcsr_block_access, ONLY: dbcsr_get_block_p, &
-                                 dbcsr_put_block, &
-                                 dbcsr_reserve_blocks
-   USE dbcsr_data_methods, ONLY: dbcsr_data_new, &
-                                 dbcsr_data_release, &
-                                 dbcsr_type_1d_to_2d
-   USE dbcsr_data_methods_low, ONLY: dbcsr_data_clear_pointer, &
-                                     dbcsr_data_init
-   USE dbcsr_data_types, ONLY: dbcsr_data_obj, &
-                               dbcsr_scalar_type
-   USE dbcsr_dist_methods, ONLY: dbcsr_distribution_col_dist, &
-                                 dbcsr_distribution_new, &
-                                 dbcsr_distribution_row_dist, &
-                                 dbcsr_distribution_hold
-   USE dbcsr_iterator_operations, ONLY: dbcsr_iterator_blocks_left, &
-                                        dbcsr_iterator_next_block, &
-                                        dbcsr_iterator_start, &
-                                        dbcsr_iterator_stop
+   USE dbcsr_block_access, ONLY: &
+      dbcsr_get_block_p, dbcsr_put_block, dbcsr_reserve_blocks
+   USE dbcsr_data_methods, ONLY: &
+      dbcsr_data_new, dbcsr_data_release, dbcsr_type_1d_to_2d
+   USE dbcsr_data_methods_low, ONLY: &
+      dbcsr_data_clear_pointer, dbcsr_data_init
+   USE dbcsr_data_types, ONLY: &
+      dbcsr_data_obj, dbcsr_scalar_type
+   USE dbcsr_dist_methods, ONLY: &
+      dbcsr_distribution_col_dist, dbcsr_distribution_new, dbcsr_distribution_row_dist, dbcsr_distribution_hold
+   USE dbcsr_iterator_operations, ONLY: &
+      dbcsr_iterator_blocks_left, dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop
    USE dbcsr_methods, ONLY: &
       dbcsr_distribution_release, dbcsr_get_data_type, dbcsr_mp_release, dbcsr_nblkcols_total, &
       dbcsr_nblkrows_total, dbcsr_nfullrows_total, dbcsr_nfullcols_total, dbcsr_release, &
@@ -403,6 +397,7 @@ CONTAINS
       CLASS(dbcsr_tas_distribution), INTENT(IN)        :: row_dist, col_dist
       TYPE(dbcsr_tas_split_info), INTENT(IN), OPTIONAL :: split_info
       LOGICAL, INTENT(IN), OPTIONAL                    :: nosplit
+      !LOGICAL, INTENT(IN), OPTIONAL                    :: strict_split
 
       TYPE(dbcsr_tas_split_info)                       :: split_info_prv
 
@@ -410,11 +405,10 @@ CONTAINS
       INTEGER, DIMENSION(:), POINTER                   :: col_dist_vec => NULL()
       TYPE(dbcsr_mp_obj)                               :: mp_environ_tmp
       INTEGER                                          :: nrows, ncols, irow, col, icol, row, &
-                                                          split_rowcol, nsplit
-
+                                                          split_rowcol, nsplit, handle
+      LOGICAL                                          :: opt_nsplit
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_distribution_new', &
                                      routineP = moduleN//':'//routineN
-      INTEGER :: handle
 
       CALL timeset(routineN, handle)
       IF (PRESENT(split_info)) THEN
@@ -429,10 +423,14 @@ CONTAINS
             split_rowcol = colsplit
             nsplit = INT((col_dist%nmrowcol - 1)/row_dist%nmrowcol + 1)
          ENDIF
+         opt_nsplit = .TRUE.
          IF(PRESENT(nosplit)) THEN
-            IF(nosplit) nsplit=0
+            IF(nosplit) THEN
+               nsplit = 1
+               opt_nsplit = .FALSE.
+            ENDIF
          ENDIF
-         CALL dbcsr_tas_create_split(split_info_prv, mp_comm, split_rowcol, nsplit=nsplit)
+         CALL dbcsr_tas_create_split(split_info_prv, mp_comm, split_rowcol, nsplit=nsplit, opt_nsplit=opt_nsplit)
       ENDIF
 
       SELECT CASE (split_info_prv%split_rowcol)
@@ -470,6 +468,8 @@ CONTAINS
       ALLOCATE (dist%row_dist, source=row_dist)
       ALLOCATE (dist%col_dist, source=col_dist)
       CALL dbcsr_mp_release(mp_environ_tmp)
+
+      !IF(PRESENT(strict_split)) dist%strict_split = strict_split
 
       CALL timestop(handle)
    END SUBROUTINE

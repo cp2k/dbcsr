@@ -18,21 +18,11 @@ MODULE dbcsr_tensor_types
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)
 
-   USE dbcsr_array_list_methods, ONLY: array_list, &
-                                       array_offsets, &
-                                       create_array_list, &
-                                       destroy_array_list, &
-                                       get_array_elements, &
-                                       sizes_of_arrays, &
-                                       sum_of_arrays, &
-                                       array_sublist, &
-                                       get_arrays, &
-                                       get_ith_array, &
-                                       array_eq_i
+   USE dbcsr_array_list_methods, ONLY: &
+      array_list, array_offsets, create_array_list, destroy_array_list, get_array_elements, &
+      sizes_of_arrays, sum_of_arrays, array_sublist, get_arrays, get_ith_array, array_eq_i
    USE dbcsr_api, ONLY: &
-      dbcsr_distribution_get, &
-      dbcsr_distribution_type, &
-      dbcsr_get_info, dbcsr_type, &
+      dbcsr_distribution_get, dbcsr_distribution_type, dbcsr_get_info, dbcsr_type, &
       ${uselist(dtype_float_param)}$
    USE dbcsr_kinds, ONLY: &
       ${uselist(dtype_float_prec)}$, &
@@ -45,25 +35,15 @@ MODULE dbcsr_tensor_types
       dbcsr_tas_get_nze_total, dbcsr_tas_clear
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_type, dbcsr_tas_distribution_type, dbcsr_tas_split_info
-   USE dbcsr_tensor_index, ONLY: get_2d_indices, &
-                                 get_nd_indices, &
-                                 create_nd_to_2d_mapping, &
-                                 destroy_nd_to_2d_mapping, &
-                                 dbcsr_t_get_mapping_info, &
-                                 nd_to_2d_mapping, &
-                                 split_index, &
-                                 combine_index, &
-                                 ndims_mapping
-   USE dbcsr_tas_split, ONLY: dbcsr_tas_create_split_rows_or_cols, &
-                              dbcsr_tas_release_info, &
-                              dbcsr_tas_info_hold
+   USE dbcsr_tensor_index, ONLY: &
+      get_2d_indices, get_nd_indices, create_nd_to_2d_mapping, destroy_nd_to_2d_mapping, &
+      dbcsr_t_get_mapping_info, nd_to_2d_mapping, split_index, combine_index, ndims_mapping
+   USE dbcsr_tas_split, ONLY: &
+      dbcsr_tas_create_split_rows_or_cols, dbcsr_tas_release_info, dbcsr_tas_info_hold, &
+      dbcsr_tas_create_split
    USE dbcsr_kinds, ONLY: default_string_length, int_8
-   USE dbcsr_mpiwrap, ONLY: mp_cart_create, &
-                            mp_cart_rank, &
-                            mp_environ, &
-                            mp_dims_create, &
-                            mp_comm_free, mp_comm_dup, &
-                            mp_sum, mp_max
+   USE dbcsr_mpiwrap, ONLY: &
+      mp_cart_create, mp_cart_rank, mp_environ, mp_dims_create, mp_comm_free, mp_comm_dup, mp_sum, mp_max
    USE dbcsr_tas_global, ONLY: dbcsr_tas_distribution, dbcsr_tas_rowcol_data
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
@@ -109,8 +89,8 @@ MODULE dbcsr_tensor_types
       ndims_tensor
 
    TYPE dbcsr_t_pgrid_type
-      TYPE(nd_to_2d_mapping) :: nd_index_grid
-      INTEGER                :: mp_comm_2d
+      TYPE(nd_to_2d_mapping)                  :: nd_index_grid
+      INTEGER                                 :: mp_comm_2d
       TYPE(dbcsr_tas_split_info), ALLOCATABLE :: tas_split_info
    END TYPE
 
@@ -1038,15 +1018,19 @@ CONTAINS
 !> \param pgrid n-dimensional grid object
 !> \param map1_2d which nd-indices map to first matrix index and in which order
 !> \param map2_2d which nd-indices map to first matrix index and in which order
+!> \param nsplit impose a constant split factor
+!> \param dimsplit which matrix dimension to split
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_t_pgrid_create(mp_comm, dims, pgrid, map1_2d, map2_2d)
+   SUBROUTINE dbcsr_t_pgrid_create(mp_comm, dims, pgrid, map1_2d, map2_2d, nsplit, dimsplit)
       INTEGER, INTENT(IN) :: mp_comm
       INTEGER, DIMENSION(:), INTENT(INOUT) :: dims
       TYPE(dbcsr_t_pgrid_type), INTENT(OUT) :: pgrid
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: map1_2d, map2_2d
+      INTEGER, INTENT(IN), OPTIONAL :: nsplit, dimsplit
       INTEGER :: nproc, iproc, ndims, i, handle
       INTEGER, DIMENSION(2) :: pdims_2d, pos
       INTEGER, DIMENSION(:), ALLOCATABLE :: map1_2d_prv, map2_2d_prv
+      TYPE(dbcsr_tas_split_info) :: info
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_pgrid_create', &
                                      routineP = moduleN//':'//routineN
@@ -1069,6 +1053,12 @@ CONTAINS
       CALL create_nd_to_2d_mapping(pgrid%nd_index_grid, dims, map1_2d_prv, map2_2d_prv, base=0, col_major=.FALSE.)
       CALL dbcsr_t_get_mapping_info(pgrid%nd_index_grid, dims_2d=pdims_2d)
       CALL mp_cart_create(mp_comm, 2, pdims_2d, pos, pgrid%mp_comm_2d)
+
+      IF(PRESENT(nsplit)) THEN
+         DBCSR_ASSERT(PRESENT(dimsplit))
+         CALL dbcsr_tas_create_split(info, pgrid%mp_comm_2d, dimsplit, nsplit, opt_nsplit=.FALSE.)
+         ALLOCATE(pgrid%tas_split_info, SOURCE=info)
+      ENDIF
 
       CALL timestop(handle)
    END SUBROUTINE
