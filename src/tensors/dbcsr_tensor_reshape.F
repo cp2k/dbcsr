@@ -154,7 +154,7 @@ CONTAINS
 
       IF (move_prv) CALL dbcsr_t_clear(tensor_in)
 
-      CALL communicate_buffer(mp_comm, buffer_recv, buffer_send, req_array)
+      CALL dbcsr_t_communicate_buffer(mp_comm, buffer_recv, buffer_send, req_array)
       DO iproc = 0, numnodes - 1
          CALL block_buffer_destroy(buffer_send(iproc))
       ENDDO
@@ -334,7 +334,7 @@ CONTAINS
 !> \param buffer_send ...
 !> \param req_array ...
 ! **************************************************************************************************
-   SUBROUTINE communicate_buffer(mp_comm, buffer_recv, buffer_send, req_array)
+   SUBROUTINE dbcsr_t_communicate_buffer(mp_comm, buffer_recv, buffer_send, req_array)
       INTEGER, INTENT(IN)                    :: mp_comm
       TYPE(block_buffer_type), DIMENSION(0:), INTENT(INOUT) :: buffer_recv, buffer_send
       INTEGER, DIMENSION(:, :), INTENT(OUT)               :: req_array
@@ -342,7 +342,7 @@ CONTAINS
       INTEGER                                :: iproc, mynode, numnodes, rec_counter, &
                                                 send_counter
       INTEGER                                   :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'communicate_buffer', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_communicate_buffer', &
                                      routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)

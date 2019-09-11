@@ -31,12 +31,14 @@ MODULE dbcsr_tas_global
    PUBLIC :: &
       dbcsr_tas_blk_size_arb, &
       dbcsr_tas_blk_size_repl, &
+      dbcsr_tas_blk_size_one, &
       dbcsr_tas_dist_arb, &
       dbcsr_tas_dist_arb_default, &
       dbcsr_tas_dist_cyclic, &
       dbcsr_tas_dist_repl, &
       dbcsr_tas_distribution, &
-      dbcsr_tas_rowcol_data
+      dbcsr_tas_rowcol_data, &
+      cyclic_weighted_dist
 
    ! abstract type for distribution vectors along one dimension
    TYPE, ABSTRACT :: dbcsr_tas_distribution
@@ -114,6 +116,13 @@ MODULE dbcsr_tas_global
       PROCEDURE :: DATA => blk_size_repl
    END TYPE
 
+   ! type for blocks of size one
+   ! - memory efficient for large dimensions
+   TYPE, EXTENDS(dbcsr_tas_rowcol_data) :: dbcsr_tas_blk_size_one
+   CONTAINS
+      PROCEDURE :: DATA => blk_size_one
+   END TYPE
+
    ABSTRACT INTERFACE
 ! **************************************************************************************************
 !> \brief map matrix rows/cols to distribution rows/cols:
@@ -176,6 +185,10 @@ MODULE dbcsr_tas_global
       MODULE PROCEDURE new_dbcsr_tas_blk_size_repl
    END INTERFACE
 
+   INTERFACE dbcsr_tas_blk_size_one
+      MODULE PROCEDURE new_dbcsr_tas_blk_size_one
+   END INTERFACE
+
 CONTAINS
 ! **************************************************************************************************
 !> \brief ...
@@ -211,6 +224,22 @@ CONTAINS
 
 ! **************************************************************************************************
 !> \brief ...
+!> \param t ...
+!> \param rowcol ...
+!> \return ...
+! **************************************************************************************************
+   FUNCTION blk_size_one(t, rowcol)
+      CLASS(dbcsr_tas_blk_size_one), INTENT(IN) :: t
+      INTEGER(KIND=int_8), INTENT(IN) :: rowcol
+      INTEGER :: blk_size_one
+
+      MARK_USED(t)
+      MARK_USED(rowcol)
+      blk_size_one = 1
+   END FUNCTION
+
+! **************************************************************************************************
+!> \brief ...
 !> \param blk_size_vec ...
 !> \return ...
 ! **************************************************************************************************
@@ -240,6 +269,19 @@ CONTAINS
       new_dbcsr_tas_blk_size_repl%blk_size_vec(:) = blk_size_vec(:)
       new_dbcsr_tas_blk_size_repl%nmrowcol = new_dbcsr_tas_blk_size_repl%nmrowcol_local*n_repl
       new_dbcsr_tas_blk_size_repl%nfullrowcol = SUM(blk_size_vec)*n_repl
+   END FUNCTION
+
+! **************************************************************************************************
+!> \brief ...
+!> \param nrowcol ...
+!> \return ...
+! **************************************************************************************************
+   FUNCTION new_dbcsr_tas_blk_size_one(nrowcol)
+      INTEGER(KIND=int_8), INTENT(IN)      :: nrowcol
+      TYPE(dbcsr_tas_blk_size_one)         :: new_dbcsr_tas_blk_size_one
+
+      new_dbcsr_tas_blk_size_one%nmrowcol = nrowcol
+      new_dbcsr_tas_blk_size_one%nfullrowcol = nrowcol
    END FUNCTION
 
 ! **************************************************************************************************
@@ -399,7 +441,9 @@ CONTAINS
 
       CALL cyclic_weighted_dist(INT(nmrowcol), nprowcol, bsize_vec, dist_vec)
       dbcsr_tas_dist_arb_default = dbcsr_tas_dist_arb(dist_vec, nprowcol, nmrowcol)
-   CONTAINS
+
+   END FUNCTION
+
 ! **************************************************************************************************
 !> \brief ...
 !> \param nel ...
@@ -407,32 +451,30 @@ CONTAINS
 !> \param weights ...
 !> \param dist ...
 ! **************************************************************************************************
-      SUBROUTINE cyclic_weighted_dist(nel, nbin, weights, dist)
-         INTEGER, INTENT(IN) :: nel
-         INTEGER, INTENT(IN) :: nbin
-         INTEGER, DIMENSION(nel), INTENT(IN)            :: weights
-         INTEGER, DIMENSION(nel), INTENT(OUT)            :: dist
-         INTEGER, DIMENSION(nbin)                        :: occup
-         INTEGER                :: iel, ibin
-         INTEGER                :: niter
+   SUBROUTINE cyclic_weighted_dist(nel, nbin, weights, dist)
+      INTEGER, INTENT(IN) :: nel
+      INTEGER, INTENT(IN) :: nbin
+      INTEGER, DIMENSION(nel), INTENT(IN)            :: weights
+      INTEGER, DIMENSION(nel), INTENT(OUT)            :: dist
+      INTEGER, DIMENSION(nbin)                        :: occup
+      INTEGER                :: iel, ibin
+      INTEGER                :: niter
 
-         occup(:) = 0
-         ibin = 0
-         DO iel = 1, nel
-            niter = 0
+      occup(:) = 0
+      ibin = 0
+      DO iel = 1, nel
+         niter = 0
+         ibin = MOD(ibin + 1, nbin)
+         DO WHILE (occup(ibin + 1) + weights(iel) .GE. MAXVAL(occup))
+            IF (MINLOC(occup, DIM=1) == ibin + 1) EXIT
             ibin = MOD(ibin + 1, nbin)
-            DO WHILE (occup(ibin + 1) + weights(iel) .GE. MAXVAL(occup))
-               IF (MINLOC(occup, DIM=1) == ibin + 1) EXIT
-               ibin = MOD(ibin + 1, nbin)
-               niter = niter + 1
-            ENDDO
-            dist(iel) = ibin
-            occup(ibin + 1) = occup(ibin + 1) + weights(iel)
+            niter = niter + 1
          ENDDO
+         dist(iel) = ibin
+         occup(ibin + 1) = occup(ibin + 1) + weights(iel)
+      ENDDO
 
-      END SUBROUTINE
-
-   END FUNCTION
+   END SUBROUTINE
 
 ! **************************************************************************************************
 !> \brief ...

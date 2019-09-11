@@ -15,7 +15,7 @@
 
 MODULE dbcsr_tas_io
    USE dbcsr_tas_types, ONLY: &
-      dbcsr_tas_type, dbcsr_tas_create_split_info
+      dbcsr_tas_type, dbcsr_tas_split_info
    USE dbcsr_tas_global, ONLY: &
       dbcsr_tas_rowcol_data, dbcsr_tas_distribution
    USE dbcsr_kinds, ONLY: &
@@ -110,16 +110,18 @@ CONTAINS
 !> \param full_info Whether to print subgroup DBCSR distribution
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_write_dist(matrix, output_unit, full_info)
-      TYPE(dbcsr_tas_type), INTENT(IN)   :: matrix
+      TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       INTEGER, INTENT(IN)              :: output_unit
       LOGICAL, INTENT(IN), OPTIONAL    :: full_info
 
       CHARACTER(default_string_length) :: name
       INTEGER                          :: mp_comm, ngroup, igroup, mp_comm_group, nproc, iproc, &
-                                          nblock_p_max, nelement_p_max, nblock_s, nelement_s, &
-                                          nblock_s_max, nelement_s_max, nblock, nelement
+                                          nblock_p_max, nelement_p_max, &
+                                          nblock, nelement
+      INTEGER(KIND=int_8), DIMENSION(2) :: tmp_i8
       INTEGER, DIMENSION(2)            :: tmp
-      INTEGER(KIND=int_8)              :: nblock_tot, nblock_p_sum, nelement_p_sum
+      INTEGER(KIND=int_8)              :: nblock_tot, nblock_p_sum, nelement_p_sum, nelement_s_max, &
+                                          nblock_s, nelement_s, nblock_s_max
       REAL(KIND=real_8)                :: occupation
       INTEGER, DIMENSION(:), POINTER   :: rowdist => NULL(), coldist => NULL()
       INTEGER                          :: split_rowcol, icol, irow
@@ -144,9 +146,9 @@ CONTAINS
       CALL mp_sum(nblock_s, mp_comm_group)
       CALL mp_sum(nelement_s, mp_comm_group)
 
-      tmp = (/nblock_s, nelement_s/)
-      CALL mp_max(tmp, mp_comm)
-      nblock_s_max = tmp(1); nelement_s_max = tmp(2)
+      tmp_i8 = (/nblock_s, nelement_s/)
+      CALL mp_max(tmp_i8, mp_comm)
+      nblock_s_max = tmp_i8(1); nelement_s_max = tmp_i8(2)
 
       nblock_tot = dbcsr_tas_nblkrows_total(matrix)*dbcsr_tas_nblkcols_total(matrix)
       occupation = -1.0_real_8
@@ -189,18 +191,25 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Print info on how matrix is split
 !> \param info ...
-!> \param name ...
 !> \param io_unit ...
+!> \param name ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_tas_write_split_info(info, name, io_unit)
-      TYPE(dbcsr_tas_create_split_info), INTENT(IN)               :: info
-      CHARACTER(len=*), INTENT(IN)                       :: name
+   SUBROUTINE dbcsr_tas_write_split_info(info, io_unit, name)
+      TYPE(dbcsr_tas_split_info), INTENT(IN)             :: info
       INTEGER, INTENT(IN) :: io_unit
+      CHARACTER(len=*), INTENT(IN), OPTIONAL             :: name
       INTEGER                                            :: groupsize, igroup, mp_comm, &
                                                             mp_comm_group, mynode, nsplit, &
                                                             numnodes, split_rowcol
       INTEGER, DIMENSION(2)                              :: coord, dims, groupcoord, groupdims, &
                                                             pgrid_offset
+      CHARACTER(len=:), ALLOCATABLE                      :: name_prv
+
+      IF (PRESENT(name)) THEN
+         ALLOCATE (name_prv, SOURCE=TRIM(name))
+      ELSE
+         ALLOCATE (name_prv, SOURCE="")
+      ENDIF
 
       CALL dbcsr_tas_get_split_info(info, mp_comm, nsplit, igroup, mp_comm_group, split_rowcol, pgrid_offset)
       CALL mp_environ(numnodes, mynode, mp_comm)
@@ -210,16 +219,16 @@ CONTAINS
       IF (io_unit > 0) THEN
          SELECT CASE (split_rowcol)
          CASE (rowsplit)
-            WRITE (io_unit, "(T4,A,I4,1X,A,I4)") TRIM(name)//" splitting rows by factor", nsplit
+            WRITE (io_unit, "(T4,A,I4,1X,A,I4)") name_prv//"splitting rows by factor", nsplit
          CASE (colsplit)
-            WRITE (io_unit, "(T4,A,I4,1X,A,I4)") TRIM(name)//" splitting columns by factor", nsplit
+            WRITE (io_unit, "(T4,A,I4,1X,A,I4)") name_prv//"splitting columns by factor", nsplit
          END SELECT
-         WRITE (io_unit, "(T4,A, I4,A1,I4)") TRIM(name)//" global grid sizes:", dims(1), "x", dims(2)
+         WRITE (io_unit, "(T4,A,I4,A1,I4)") name_prv//"global grid sizes:", dims(1), "x", dims(2)
       ENDIF
 
       IF (io_unit > 0) THEN
          WRITE (io_unit, "(T4,A,I4,A1,I4)") &
-            TRIM(name)//" grid sizes on subgroups:", &
+            name_prv//"grid sizes on subgroups:", &
             groupdims(1), "x", groupdims(2)
       ENDIF
 

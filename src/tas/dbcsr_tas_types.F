@@ -16,11 +16,10 @@
 
 MODULE dbcsr_tas_types
 
-   USE dbcsr_tas_global, ONLY: dbcsr_tas_distribution, &
-                               dbcsr_tas_rowcol_data
-   USE dbcsr_types, ONLY: dbcsr_distribution_obj, &
-                          dbcsr_iterator, &
-                          dbcsr_type
+   USE dbcsr_tas_global, ONLY: &
+      dbcsr_tas_distribution, dbcsr_tas_rowcol_data
+   USE dbcsr_types, ONLY: &
+      dbcsr_distribution_obj, dbcsr_iterator, dbcsr_type
    USE dbcsr_kinds, ONLY: int_8
 #include "../base/dbcsr_base_uses.f90"
 
@@ -32,12 +31,12 @@ MODULE dbcsr_tas_types
    PUBLIC :: &
       dbcsr_tas_distribution_type, &
       dbcsr_tas_iterator, &
-      dbcsr_tas_create_split_info, &
+      dbcsr_tas_split_info, &
       dbcsr_tas_type
 
    ! info on MPI Cartesian grid that is split on MPI subgroups.
    ! info on distribution of matrix rows / columns to different subgroups.
-   TYPE dbcsr_tas_create_split_info
+   TYPE dbcsr_tas_split_info
       INTEGER :: mp_comm ! global communicator
       INTEGER :: igroup ! which subgroup do I belong to
       INTEGER :: ngroup ! how many groups in total
@@ -45,11 +44,12 @@ MODULE dbcsr_tas_types
       INTEGER :: pgrid_split_size ! how many process rows/cols in subgroups
       INTEGER :: group_size ! group size (how many cores) of subgroups
       INTEGER :: mp_comm_group ! sub communicator
+      LOGICAL :: strict_split = .FALSE. ! if .true., split factor should not be modified (for testing only)
       INTEGER, POINTER :: refcount => NULL() ! lightweight reference counting for communicators
    END TYPE
 
    TYPE dbcsr_tas_distribution_type
-      TYPE(dbcsr_tas_create_split_info) :: info
+      TYPE(dbcsr_tas_split_info) :: info
       TYPE(dbcsr_distribution_obj) :: dbcsr_dist
       CLASS(dbcsr_tas_distribution), ALLOCATABLE :: row_dist
       CLASS(dbcsr_tas_distribution), ALLOCATABLE :: col_dist
@@ -72,7 +72,7 @@ MODULE dbcsr_tas_types
    END TYPE
 
    TYPE dbcsr_tas_iterator
-      TYPE(dbcsr_tas_create_split_info) :: info
+      TYPE(dbcsr_tas_split_info) :: info
       TYPE(dbcsr_tas_distribution_type) :: dist
       TYPE(dbcsr_iterator) :: iter
    END TYPE dbcsr_tas_iterator

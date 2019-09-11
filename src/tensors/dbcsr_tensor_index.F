@@ -25,7 +25,7 @@ MODULE dbcsr_tensor_index
       create_nd_to_2d_mapping, &
       destroy_nd_to_2d_mapping, &
       get_2d_indices, &
-      get_mapping_info, &
+      dbcsr_t_get_mapping_info, &
       get_nd_indices, &
       nd_to_2d_mapping, &
       ndims_mapping, &
@@ -145,8 +145,8 @@ CONTAINS
 !> \param base base index
 !> \param col_major is index in column major order
 ! **************************************************************************************************
-   SUBROUTINE get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dims_2d_i8, dims_2d, dims_nd, dims1_2d, dims2_2d, &
-                               map1_2d, map2_2d, map_nd, base, col_major)
+   SUBROUTINE dbcsr_t_get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dims_2d_i8, dims_2d, dims_nd, dims1_2d, dims2_2d, &
+                                       map1_2d, map2_2d, map_nd, base, col_major)
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
       INTEGER, INTENT(OUT), OPTIONAL                     :: ndim_nd, ndim1_2d, ndim2_2d
       INTEGER(KIND=int_8), DIMENSION(2), INTENT(OUT), OPTIONAL       :: dims_2d_i8
@@ -190,7 +190,7 @@ CONTAINS
          col_major = map%col_major
       ENDIF
 
-   END SUBROUTINE get_mapping_info
+   END SUBROUTINE dbcsr_t_get_mapping_info
 
 ! **************************************************************************************************
 !> \brief transform nd index to flat index
@@ -362,7 +362,7 @@ CONTAINS
                                                             map2_2d_reorder
       INTEGER, DIMENSION(ndims_mapping(map_in))          :: dims_nd, dims_reorder
 
-      CALL get_mapping_info(map_in, ndim_nd, dims_nd=dims_nd, map1_2d=map1_2d, map2_2d=map2_2d)
+      CALL dbcsr_t_get_mapping_info(map_in, ndim_nd, dims_nd=dims_nd, map1_2d=map1_2d, map2_2d=map2_2d)
 
       dims_reorder(order) = dims_nd
 

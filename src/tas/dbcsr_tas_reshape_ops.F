@@ -14,70 +14,49 @@
 MODULE dbcsr_tas_reshape_ops
 #:include "dbcsr_tas.fypp"
 
-   USE dbcsr_block_access, ONLY: dbcsr_put_block, &
-                                 dbcsr_reserve_blocks
-   USE dbcsr_data_methods, ONLY: dbcsr_data_clear_pointer, &
-                                 dbcsr_data_init, &
-                                 dbcsr_data_new, &
-                                 dbcsr_data_release, &
-                                 dbcsr_type_1d_to_2d, &
-                                 dbcsr_data_get_sizes, &
-                                 dbcsr_data_set_pointer
-   USE dbcsr_data_methods_low, ONLY: internal_data_allocate, &
-                                     internal_data_deallocate, &
-                                     dbcsr_get_data_p_2d_d, &
-                                     dbcsr_get_data_p_2d_s, &
-                                     dbcsr_get_data_p_2d_z, &
-                                     dbcsr_get_data_p_2d_c
-   USE dbcsr_data_types, ONLY: dbcsr_data_obj, &
-                               dbcsr_type_real_8, &
-                               dbcsr_type_real_4, &
-                               dbcsr_type_complex_8, &
-                               dbcsr_type_complex_4
-   USE dbcsr_dist_methods, ONLY: dbcsr_distribution_col_dist, &
-                                 dbcsr_distribution_row_dist
-   USE dbcsr_dist_operations, ONLY: dbcsr_get_stored_coordinates
-   USE dbcsr_iterator_operations, ONLY: dbcsr_iterator_blocks_left, &
-                                        dbcsr_iterator_next_block, &
-                                        dbcsr_iterator_start, &
-                                        dbcsr_iterator_stop
-   USE dbcsr_methods, ONLY: dbcsr_blk_column_size, &
-                            dbcsr_blk_row_size
-   USE dbcsr_operations, ONLY: dbcsr_get_info, &
-                               dbcsr_clear
+   USE dbcsr_block_access, ONLY: &
+      dbcsr_put_block, dbcsr_reserve_blocks
+   USE dbcsr_data_methods, ONLY: &
+      dbcsr_data_clear_pointer, dbcsr_data_init, dbcsr_data_new, dbcsr_data_release, &
+      dbcsr_type_1d_to_2d, dbcsr_data_get_sizes, dbcsr_data_set_pointer
+   USE dbcsr_data_methods_low, ONLY: &
+      internal_data_allocate, internal_data_deallocate, dbcsr_get_data_p_2d_d, dbcsr_get_data_p_2d_s, &
+      dbcsr_get_data_p_2d_z, dbcsr_get_data_p_2d_c
+   USE dbcsr_data_types, ONLY: &
+      dbcsr_data_obj, dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_complex_4
+   USE dbcsr_dist_methods, ONLY: &
+      dbcsr_distribution_col_dist, dbcsr_distribution_row_dist
+   USE dbcsr_dist_operations, ONLY: &
+      dbcsr_get_stored_coordinates
+   USE dbcsr_iterator_operations, ONLY: &
+      dbcsr_iterator_blocks_left, dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop
+   USE dbcsr_methods, ONLY: &
+      dbcsr_blk_column_size, dbcsr_blk_row_size
+   USE dbcsr_operations, ONLY: &
+      dbcsr_get_info, dbcsr_clear
    USE dbcsr_tas_base, ONLY: &
       dbcsr_tas_blk_sizes, dbcsr_tas_create, dbcsr_tas_distribution_new, dbcsr_tas_finalize, &
       dbcsr_tas_get_data_type, dbcsr_tas_get_stored_coordinates, dbcsr_tas_info, &
       dbcsr_tas_iterator_blocks_left, dbcsr_tas_iterator_next_block, dbcsr_tas_iterator_start, &
       dbcsr_tas_iterator_stop, dbcsr_tas_put_block, dbcsr_tas_reserve_blocks, &
       dbcsr_repl_get_stored_coordinates, dbcsr_tas_clear
-   USE dbcsr_tas_types, ONLY: dbcsr_tas_distribution_type, &
-                              dbcsr_tas_iterator, &
-                              dbcsr_tas_create_split_info, &
-                              dbcsr_tas_type
-   USE dbcsr_tas_global, ONLY: dbcsr_tas_blk_size_arb, &
-                               dbcsr_tas_blk_size_repl, &
-                               dbcsr_tas_dist_arb, &
-                               dbcsr_tas_dist_repl, &
-                               dbcsr_tas_distribution, &
-                               dbcsr_tas_rowcol_data
-   USE dbcsr_tas_split, ONLY: colsplit, &
-                              dbcsr_tas_get_split_info, &
-                              rowsplit
-   USE dbcsr_types, ONLY: dbcsr_distribution_obj, &
-                          dbcsr_iterator, &
-                          dbcsr_type
-   USE dbcsr_work_operations, ONLY: dbcsr_finalize
-   USE dbcsr_kinds, ONLY: int_8, &
-                          real_8, &
-                          real_4
-   USE dbcsr_mpiwrap, ONLY: mp_alltoall, &
-                            mp_environ, &
-                            mp_isend, &
-                            mp_irecv, &
-                            mp_waitall
-
-   USE dbcsr_tas_util, ONLY: swap, index_unique
+   USE dbcsr_tas_types, ONLY: &
+      dbcsr_tas_distribution_type, dbcsr_tas_iterator, dbcsr_tas_split_info, dbcsr_tas_type
+   USE dbcsr_tas_global, ONLY: &
+      dbcsr_tas_blk_size_arb, dbcsr_tas_blk_size_repl, dbcsr_tas_dist_arb, dbcsr_tas_dist_repl, &
+      dbcsr_tas_distribution, dbcsr_tas_rowcol_data
+   USE dbcsr_tas_split, ONLY: &
+      colsplit, dbcsr_tas_get_split_info, rowsplit
+   USE dbcsr_types, ONLY: &
+      dbcsr_distribution_obj, dbcsr_iterator, dbcsr_type
+   USE dbcsr_work_operations, ONLY: &
+      dbcsr_finalize
+   USE dbcsr_kinds, ONLY: &
+      int_8, real_8, real_4
+   USE dbcsr_mpiwrap, ONLY: &
+      mp_alltoall, mp_environ, mp_isend, mp_irecv, mp_waitall
+   USE dbcsr_tas_util, ONLY: &
+      swap, index_unique
 #include "../base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -145,8 +124,8 @@ CONTAINS
       LOGICAL                                            :: tr, tr_in, move_prv
       TYPE(block_buffer_type), ALLOCATABLE, DIMENSION(:) :: buffer_recv, buffer_send
       TYPE(dbcsr_data_obj)                               :: block
-      TYPE(dbcsr_tas_iterator)                             :: iter
-      TYPE(dbcsr_tas_create_split_info)                           :: info
+      TYPE(dbcsr_tas_iterator)                           :: iter
+      TYPE(dbcsr_tas_split_info)                         :: info
 
       CALL timeset(routineN, handle)
 
@@ -303,8 +282,8 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_replicate(matrix_in, info, matrix_out, nodata, move_data)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_in
-      TYPE(dbcsr_tas_create_split_info), INTENT(IN)               :: info
-      TYPE(dbcsr_tas_type), INTENT(OUT)                    :: matrix_out
+      TYPE(dbcsr_tas_split_info), INTENT(IN)             :: info
+      TYPE(dbcsr_tas_type), INTENT(OUT)                  :: matrix_out
       LOGICAL, INTENT(IN), OPTIONAL                      :: nodata
       LOGICAL, INTENT(IN), OPTIONAL                      :: move_data
 
@@ -392,7 +371,7 @@ CONTAINS
 
       CALL dbcsr_tas_distribution_new(dist, mp_comm, row_dist_obj, col_dist_obj, split_info=info)
       CALL dbcsr_tas_create(matrix_out, TRIM(matrix_in%name)//" replicated", &
-                            dist, data_type, row_bsize_obj, col_bsize_obj)
+                            dist, data_type, row_bsize_obj, col_bsize_obj, own_dist=.TRUE.)
 
       IF (nodata_prv) THEN
          CALL dbcsr_tas_finalize(matrix_out)
@@ -529,7 +508,7 @@ CONTAINS
       TYPE(block_buffer_type), ALLOCATABLE, DIMENSION(:) :: buffer_recv, buffer_send
       TYPE(dbcsr_data_obj)                               :: block
       TYPE(dbcsr_iterator)                               :: iter
-      TYPE(dbcsr_tas_create_split_info)                           :: info
+      TYPE(dbcsr_tas_split_info)                         :: info
 
       CALL timeset(routineN, handle)
 

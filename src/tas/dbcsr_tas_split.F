@@ -15,19 +15,20 @@
 ! **************************************************************************************************
 MODULE dbcsr_tas_split
 
-   USE dbcsr_tas_types, ONLY: dbcsr_tas_distribution_type, &
-                              dbcsr_tas_create_split_info
-   USE dbcsr_tas_global, ONLY: dbcsr_tas_distribution
-   USE dbcsr_tas_util, ONLY: swap
-   USE dbcsr_toollib, ONLY: sort
-   USE dbcsr_kinds, ONLY: int_8
-   USE dbcsr_mpiwrap, ONLY: mp_bcast, &
-                            mp_cart_create, &
-                            mp_comm_dup, &
-                            mp_comm_free, &
-                            mp_comm_split_direct, &
-                            mp_dims_create, &
-                            mp_environ
+   USE dbcsr_tas_types, ONLY: &
+      dbcsr_tas_distribution_type, dbcsr_tas_split_info
+   USE dbcsr_tas_global, ONLY: &
+      dbcsr_tas_distribution
+   USE dbcsr_tas_util, ONLY: &
+      swap
+   USE dbcsr_toollib, ONLY: &
+      sort
+   USE dbcsr_kinds, ONLY: &
+      int_8
+   USE dbcsr_mpiwrap, ONLY: &
+      mp_bcast, mp_cart_create, mp_comm_dup, mp_comm_free, mp_comm_split_direct, mp_dims_create, mp_environ
+   USE dbcsr_kinds, ONLY: &
+      real_8
 #include "../base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -40,6 +41,7 @@ MODULE dbcsr_tas_split
       dbcsr_tas_get_split_info, &
       dbcsr_tas_info_hold, &
       dbcsr_tas_mp_comm, &
+      dbcsr_tas_mp_dims, &
       dbcsr_tas_release_info, &
       dbcsr_tas_create_split, &
       dbcsr_tas_create_split_rows_or_cols, &
@@ -47,11 +49,21 @@ MODULE dbcsr_tas_split
       group_to_world_proc_map, &
       mrowcol_to_group, &
       rowsplit, &
-      world_to_group_proc_map
+      world_to_group_proc_map, &
+      accept_pgrid_dims, &
+      default_nsplit_accept_ratio_1
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tas_split'
 
    INTEGER, PARAMETER :: rowsplit = 1, colsplit = 2
+   REAL(real_8), PARAMETER :: default_pdims_accept_ratio = 1.2_real_8
+   REAL(real_8), PARAMETER :: default_nsplit_accept_ratio_1 = 1.5_real_8
+   REAL(real_8), PARAMETER :: default_nsplit_accept_ratio_2 = 2.5_real_8
+
+   INTERFACE dbcsr_tas_mp_comm
+      MODULE PROCEDURE dbcsr_tas_mp_comm
+      MODULE PROCEDURE dbcsr_tas_mp_comm_from_matrix_sizes
+   END INTERFACE
 
 CONTAINS
 
@@ -59,28 +71,40 @@ CONTAINS
 !> \brief split mpi grid by rows or columns
 !> \param split_info ...
 !> \param mp_comm global mpi communicator with a 2d cartesian grid
-!> \param ngroup number of groups. Note: this number may be diminished on out in order to have a
-!>        distribution where all groups have the same number of processes
+!> \param ngroup number of groups
 !> \param igroup my group ID
 !> \param split_rowcol split rows or columns
+!> \param own_comm Whether split_info should own communicator
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_tas_create_split_rows_or_cols(split_info, mp_comm, ngroup, igroup, split_rowcol)
-      TYPE(dbcsr_tas_create_split_info), INTENT(OUT)              :: split_info
+   SUBROUTINE dbcsr_tas_create_split_rows_or_cols(split_info, mp_comm, ngroup, igroup, split_rowcol, own_comm)
+      TYPE(dbcsr_tas_split_info), INTENT(OUT)            :: split_info
       INTEGER, INTENT(IN)                                :: mp_comm
       INTEGER, INTENT(INOUT)                             :: ngroup
       INTEGER, INTENT(IN)                                :: igroup, split_rowcol
+      LOGICAL, INTENT(IN), OPTIONAL                      :: own_comm
 
       INTEGER :: &
          igroup_check, iproc, iproc_group, iproc_group_check, mp_comm_group, numproc, &
          numproc_group, numproc_group_check, handle
       INTEGER, DIMENSION(2)                              :: pcoord, pcoord_group, pdims, pdims_group
-      LOGICAL                                            :: to_assert
+      LOGICAL                                            :: to_assert, own_comm_prv
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_create_split_rows_or_cols', &
                                      routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
 
-      CALL mp_comm_dup(mp_comm, split_info%mp_comm)
+      IF (PRESENT(own_comm)) THEN
+         own_comm_prv = own_comm
+      ELSE
+         own_comm_prv = .FALSE.
+      ENDIF
+
+      IF (own_comm_prv) THEN
+         split_info%mp_comm = mp_comm
+      ELSE
+         CALL mp_comm_dup(mp_comm, split_info%mp_comm)
+      ENDIF
+
       split_info%igroup = igroup
       split_info%split_rowcol = split_rowcol
 
@@ -124,69 +148,30 @@ CONTAINS
    END SUBROUTINE
 
 ! **************************************************************************************************
-!> \brief Create default cartesian grid that is consistent with default split heuristic of dbcsr_tas_create_split
-!>        This is experimental and should be used for testing purposes only!
+!> \brief Create default cartesian process grid that is consistent with default split heuristic
+!>        of dbcsr_tas_create_split
 !> \param mp_comm ...
-!> \param nblkrows_total ...
-!> \param nblkcols_total ...
+!> \param split_rowcol ...
+!> \param nsplit ...
 !> \return new communicator
 ! **************************************************************************************************
-   FUNCTION dbcsr_tas_mp_comm(mp_comm, nblkrows_total, nblkcols_total)
+   FUNCTION dbcsr_tas_mp_comm(mp_comm, split_rowcol, nsplit)
       INTEGER, INTENT(IN)                                :: mp_comm
-      INTEGER(KIND=int_8), INTENT(IN)                    :: nblkrows_total, nblkcols_total
+      INTEGER, INTENT(IN)                                :: split_rowcol
+      INTEGER, INTENT(INOUT)                             :: nsplit
       INTEGER                                            :: dbcsr_tas_mp_comm
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_mp_comm', &
                                      routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: group_size, handle, iproc, numproc, s, &
-                                                            split_rowcol
-      INTEGER(KIND=int_8)                                :: d_max, d_min
-      INTEGER, DIMENSION(2)                              :: group_dims, mdims_group, myploc, npdims, &
-                                                            sort_indices
+      INTEGER                                            :: handle, iproc, numproc
+      INTEGER, DIMENSION(2)                              :: myploc, npdims
 
       CALL timeset(routineN, handle)
 
-      d_max = MAX(nblkrows_total, nblkcols_total)
-      d_min = MIN(nblkrows_total, nblkcols_total)
-
-      s = INT((d_max - 1)/d_min + 1)
-
       CALL mp_environ(numproc, iproc, mp_comm)
 
-      DO WHILE (MOD(numproc, s) .NE. 0)
-         s = s - 1
-      ENDDO
-
-      group_size = numproc/s
-      group_dims(:) = 0
-
-      CALL mp_dims_create(group_size, group_dims)
-      CALL sort(group_dims, 2, sort_indices)
-
-      IF (d_max == nblkrows_total) THEN
-         split_rowcol = rowsplit
-      ELSE
-         split_rowcol = colsplit
-      ENDIF
-
-      SELECT CASE (split_rowcol)
-      CASE (rowsplit)
-         mdims_group = [INT(nblkrows_total/s), INT(nblkcols_total)]
-      CASE (colsplit)
-         mdims_group = [INT(nblkrows_total), INT(nblkcols_total/s)]
-      END SELECT
-
-      IF (mdims_group(1) .GT. mdims_group(2)) THEN
-         CALL swap(group_dims)
-      ENDIF
-
-      SELECT CASE (split_rowcol)
-      CASE (rowsplit)
-         npdims(:) = [group_dims(1)*s, group_dims(2)]
-      CASE (colsplit)
-         npdims(:) = [group_dims(1), group_dims(2)*s]
-      END SELECT
+      npdims = dbcsr_tas_mp_dims(numproc, split_rowcol, nsplit)
 
       CALL mp_cart_create(mp_comm, 2, npdims, myploc, dbcsr_tas_mp_comm)
 
@@ -194,76 +179,246 @@ CONTAINS
    END FUNCTION
 
 ! **************************************************************************************************
-!> \brief Split Cartesian process grid using a default split heuristic. The split factor may not be
-!>        ideal.
-!> \param split_info object storing all data corresponding to split, submatrices and parallelization
-!> \param mp_comm ...
-!> \param nblkrows_total ...
-!> \param nblkcols_total ...
-!> \param nosplit Matrix should not be split
+!> \brief Get optimal process grid dimensions consistent with dbcsr_tas_create_split
+!> \param numproc ...
+!> \param split_rowcol ...
+!> \param nsplit ...
+!> \return ...
 ! **************************************************************************************************
-   SUBROUTINE dbcsr_tas_create_split(split_info, mp_comm, nblkrows_total, nblkcols_total, nosplit)
-      TYPE(dbcsr_tas_create_split_info), INTENT(OUT)              :: split_info
+   FUNCTION dbcsr_tas_mp_dims(numproc, split_rowcol, nsplit)
+      INTEGER, INTENT(IN)                                :: numproc
+      INTEGER, INTENT(IN)                                :: split_rowcol
+      INTEGER, INTENT(IN)                                :: nsplit
+      INTEGER, DIMENSION(2)                              :: dbcsr_tas_mp_dims
+
+      INTEGER                                            :: dbcsr_tas_mp_comm, nsplit_opt
+      INTEGER                                            :: group_size
+      INTEGER, DIMENSION(2)                              :: group_dims
+
+      nsplit_opt = get_opt_nsplit(numproc, nsplit, split_pgrid=.FALSE.)
+
+      group_size = numproc/nsplit_opt
+      group_dims(:) = 0
+
+      CALL mp_dims_create(group_size, group_dims)
+
+      ! here we choose order of group dims s.t. a split factor < nsplit_opt is favoured w.r.t.
+      ! optimal subgrid dimensions
+      SELECT CASE (split_rowcol)
+      CASE (rowsplit)
+         group_dims = [MINVAL(group_dims), MAXVAL(group_dims)]
+      CASE (colsplit)
+         group_dims = [MAXVAL(group_dims), MINVAL(group_dims)]
+      END SELECT
+
+      SELECT CASE (split_rowcol)
+      CASE (rowsplit)
+         dbcsr_tas_mp_dims(:) = [group_dims(1)*nsplit_opt, group_dims(2)]
+      CASE (colsplit)
+         dbcsr_tas_mp_dims(:) = [group_dims(1), group_dims(2)*nsplit_opt]
+      END SELECT
+
+   END FUNCTION
+
+! **************************************************************************************************
+!> \brief Heuristic to get good split factor for a given process grid OR a given number of processes
+!> \param numproc total number of processes or (if split_pgrid) process grid dimension to split
+!> \param nsplit Desired split factor
+!> \param split_pgrid whether to split process grid
+!> \param pdim_nonsplit if split_pgrid: other process grid dimension
+!> \return split factor consistent with process grid or number of processes
+! **************************************************************************************************
+   FUNCTION get_opt_nsplit(numproc, nsplit, split_pgrid, pdim_nonsplit)
+      INTEGER, INTENT(IN)                        :: numproc, nsplit
+      LOGICAL, INTENT(IN)                        :: split_pgrid
+      INTEGER, INTENT(IN), OPTIONAL              :: pdim_nonsplit
+      INTEGER, ALLOCATABLE, DIMENSION(:)         :: nsplit_list, nsplit_list_square, nsplit_list_accept
+      INTEGER                                    :: lb, ub, count, count_square, count_accept, split, &
+                                                    minpos, get_opt_nsplit
+      INTEGER, DIMENSION(2)                      :: dims_sub
+      REAL(KIND=real_8)                          :: nsplit_accept_ratio
+
+      DBCSR_ASSERT(nsplit > 0)
+
+      IF (split_pgrid) THEN
+         DBCSR_ASSERT(PRESENT(pdim_nonsplit))
+      ENDIF
+
+      IF (split_pgrid) THEN
+         ! if process grid dimensions are fixed, we need more flexibility in split factor in order
+         ! to obtain balanced grid dimensions --> larger accept ratio
+         nsplit_accept_ratio = default_nsplit_accept_ratio_2
+      ELSE
+         ! if process grid dimensions are flexible, less flexibility in split factor sufficient in
+         ! order to obtain balanced grid dimensions --> smaller accept ratio
+         nsplit_accept_ratio = default_nsplit_accept_ratio_1
+      ENDIF
+
+      lb = CEILING(REAL(nsplit, real_8)/nsplit_accept_ratio)
+      ub = FLOOR(REAL(nsplit, real_8)*nsplit_accept_ratio)
+
+      IF (ub < lb) ub = lb
+
+      ALLOCATE (nsplit_list(1:ub - lb + 1), nsplit_list_square(1:ub - lb + 1), nsplit_list_accept(1:ub - lb + 1))
+      count = 0
+      count_square = 0
+      count_accept = 0
+      DO split = lb, ub
+         IF (MOD(numproc, split) == 0) THEN
+            count = count + 1
+            nsplit_list(count) = split
+
+            dims_sub = 0
+            IF (.NOT. split_pgrid) THEN
+               CALL mp_dims_create(numproc/split, dims_sub)
+            ELSE
+               dims_sub = [numproc/split, pdim_nonsplit]
+            ENDIF
+
+            IF (dims_sub(1) == dims_sub(2)) THEN
+               count_square = count_square + 1
+               nsplit_list_square(count_square) = split
+               count_accept = count_accept + 1
+               nsplit_list_accept(count_accept) = split
+            ELSEIF (accept_pgrid_dims(dims_sub, relative=.FALSE.)) THEN
+               count_accept = count_accept + 1
+               nsplit_list_accept(count_accept) = split
+            ENDIF
+
+         ENDIF
+      ENDDO
+
+      IF (count_square > 0) THEN
+         minpos = MINLOC(ABS(nsplit_list_square(1:count_square) - nsplit), DIM=1)
+         get_opt_nsplit = nsplit_list_square(minpos)
+      ELSEIF (count_accept > 0) THEN
+         minpos = MINLOC(ABS(nsplit_list_accept(1:count_accept) - nsplit), DIM=1)
+         get_opt_nsplit = nsplit_list_accept(minpos)
+      ELSEIF (count > 0) THEN
+         minpos = MINLOC(ABS(nsplit_list(1:count) - nsplit), DIM=1)
+         get_opt_nsplit = nsplit_list(minpos)
+      ELSE
+         get_opt_nsplit = nsplit
+         DO WHILE (MOD(numproc, get_opt_nsplit) .NE. 0)
+            get_opt_nsplit = get_opt_nsplit - 1
+         ENDDO
+      ENDIF
+
+   END FUNCTION
+
+! **************************************************************************************************
+!> \brief Derive optimal cartesian process grid from matrix sizes. This ensures optimality for
+!>        dense matrices only
+!> \param mp_comm ...
+!> \param nblkrows total number of block rows
+!> \param nblkcols total number of block columns
+!> \return MPI communicator
+! **************************************************************************************************
+   FUNCTION dbcsr_tas_mp_comm_from_matrix_sizes(mp_comm, nblkrows, nblkcols) RESULT(mp_comm_new)
       INTEGER, INTENT(IN)                                :: mp_comm
-      INTEGER(KIND=int_8), INTENT(IN)                    :: nblkrows_total, nblkcols_total
-      LOGICAL, INTENT(IN), OPTIONAL                      :: nosplit
+      INTEGER(KIND=int_8), INTENT(IN)                    :: nblkrows, nblkcols
+      INTEGER                                            :: nsplit, split_rowcol
+      INTEGER                                            :: mp_comm_new
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_create_split', routineP = moduleN//':'//routineN
+      IF (nblkrows >= nblkcols) THEN
+         split_rowcol = rowsplit
+         nsplit = INT((nblkrows - 1)/nblkcols + 1)
+      ELSE
+         split_rowcol = colsplit
+         nsplit = INT((nblkcols - 1)/nblkrows + 1)
+      ENDIF
 
-      INTEGER                                            :: handle, igroup, iproc, numproc, s, &
-                                                            split_rowcol
-      INTEGER(KIND=int_8)                                :: d_max, d_min
+      mp_comm_new = dbcsr_tas_mp_comm(mp_comm, split_rowcol, nsplit)
+   END FUNCTION
+
+! **************************************************************************************************
+!> \brief Split Cartesian process grid using a default split heuristic.
+!> \param split_info object storing all data corresponding to split, submatrices and parallelization
+!> \param mp_comm MPI communicator with associated cartesian grid
+!> \param split_rowcol split rows or columns
+!> \param nsplit desired split factor, set to 0 if split factor of exactly 1 is required
+!> \param own_comm whether split_info should own communicator
+!> \param opt_nsplit ...
+! **************************************************************************************************
+   SUBROUTINE dbcsr_tas_create_split(split_info, mp_comm, split_rowcol, nsplit, own_comm, opt_nsplit)
+      TYPE(dbcsr_tas_split_info), INTENT(OUT)            :: split_info
+      INTEGER, INTENT(IN)                                :: mp_comm
+      INTEGER, INTENT(IN)                                :: split_rowcol
+      INTEGER, INTENT(IN)                                :: nsplit
+      LOGICAL, INTENT(IN), OPTIONAL                      :: own_comm
+      LOGICAL, INTENT(IN), OPTIONAL                      :: opt_nsplit
+
+      CHARACTER(LEN=*), PARAMETER                        :: routineN = 'dbcsr_tas_create_split', &
+                                                            routineP = moduleN//':'//routineN
+
+      INTEGER                                            :: &
+         handle, iproc, numproc, igroup, nsplit_opt, pdim_split, pdim_nonsplit
       INTEGER, DIMENSION(2)                              :: pcoord, pdims, pdims_group
-      LOGICAL                                            :: nosplit_prv
+      LOGICAL                                            :: opt_nsplit_prv
 
       CALL timeset(routineN, handle)
 
-      IF (PRESENT(nosplit)) THEN
-         nosplit_prv = nosplit
+      IF (PRESENT(opt_nsplit)) THEN
+         opt_nsplit_prv = opt_nsplit
       ELSE
-         nosplit_prv = .FALSE.
+         opt_nsplit_prv = .TRUE.
       ENDIF
 
-      IF (nosplit_prv) THEN
-         s = 1
-         igroup = 0
-         split_rowcol = rowsplit
+      DBCSR_ASSERT(nsplit > 0)
 
+      CALL mp_environ(numproc, iproc, mp_comm)
+      CALL mp_environ(numproc, pdims, pcoord, mp_comm)
+
+      SELECT CASE (split_rowcol)
+      CASE (rowsplit)
+         pdim_split = pdims(1)
+         pdim_nonsplit = pdims(2)
+      CASE (colsplit)
+         pdim_split = pdims(2)
+         pdim_nonsplit = pdims(1)
+      END SELECT
+
+      IF (opt_nsplit_prv) THEN
+         nsplit_opt = get_opt_nsplit(pdim_split, nsplit, split_pgrid=.TRUE., pdim_nonsplit=pdim_nonsplit)
       ELSE
-
-         d_max = MAX(nblkrows_total, nblkcols_total)
-         d_min = MIN(nblkrows_total, nblkcols_total)
-
-         s = INT((d_max - 1)/d_min + 1)
-
-         CALL mp_environ(numproc, iproc, mp_comm)
-         CALL mp_environ(numproc, pdims, pcoord, mp_comm)
-
-         IF (d_max == nblkrows_total) THEN
-            split_rowcol = rowsplit
-         ELSE
-            split_rowcol = colsplit
+         IF (MOD(pdims(split_rowcol), nsplit) .NE. 0) THEN
+            DBCSR_ABORT("Split factor does not divide process grid dimension")
          ENDIF
-
-         DO WHILE (MOD(pdims(split_rowcol), s) .NE. 0)
-            s = s - 1
-         ENDDO
-
-         SELECT CASE (split_rowcol)
-         CASE (rowsplit)
-            pdims_group = [pdims(1)/s, pdims(2)]
-         CASE (colsplit)
-            pdims_group = [pdims(1), pdims(2)/s]
-         END SELECT
-
-         igroup = pcoord(split_rowcol)/pdims_group(split_rowcol)
-
+         nsplit_opt = nsplit
       ENDIF
-      CALL dbcsr_tas_create_split_rows_or_cols(split_info, mp_comm, s, igroup, split_rowcol)
+
+      pdims_group = pdims
+      pdims_group(split_rowcol) = pdims_group(split_rowcol)/nsplit_opt
+
+      igroup = pcoord(split_rowcol)/pdims_group(split_rowcol)
+
+      CALL dbcsr_tas_create_split_rows_or_cols(split_info, mp_comm, nsplit_opt, igroup, split_rowcol, own_comm=own_comm)
+      IF (.NOT. opt_nsplit_prv) split_info%strict_split = .TRUE.
 
       CALL timestop(handle)
 
    END SUBROUTINE
+
+! **************************************************************************************************
+!> \brief Whether to accept proposed process grid dimensions (based on ratio of dimensions)
+!> \param dims ...
+!> \param relative ...
+!> \return ...
+! **************************************************************************************************
+   FUNCTION accept_pgrid_dims(dims, relative)
+      INTEGER, DIMENSION(2), INTENT(IN)          :: dims
+      LOGICAL, INTENT(IN)                        :: relative
+      INTEGER, DIMENSION(2)                      :: dims_opt
+      LOGICAL                                    :: accept_pgrid_dims
+
+      IF (relative) THEN
+         dims_opt = 0
+         CALL mp_dims_create(PRODUCT(dims), dims_opt)
+         accept_pgrid_dims = (MAXVAL(REAL(dims, real_8))/MAXVAL(dims_opt) .LT. default_pdims_accept_ratio)
+      ELSE
+         accept_pgrid_dims = (MAXVAL(REAL(dims, real_8))/MINVAL(dims) .LT. default_pdims_accept_ratio**2)
+      ENDIF
+   END FUNCTION
 
 ! **************************************************************************************************
 !> \brief Get info on split
@@ -276,7 +431,7 @@ CONTAINS
 !> \param pgrid_offset group-local offset in process grid
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_get_split_info(info, mp_comm, nsplit, igroup, mp_comm_group, split_rowcol, pgrid_offset)
-      TYPE(dbcsr_tas_create_split_info), INTENT(IN)               :: info
+      TYPE(dbcsr_tas_split_info), INTENT(IN)             :: info
       INTEGER, INTENT(OUT), OPTIONAL                     :: mp_comm, nsplit, igroup, mp_comm_group, &
                                                             split_rowcol
       INTEGER, DIMENSION(2), INTENT(OUT), OPTIONAL       :: pgrid_offset
@@ -303,7 +458,7 @@ CONTAINS
 !> \param split_info ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_release_info(split_info)
-      TYPE(dbcsr_tas_create_split_info), INTENT(INOUT)            :: split_info
+      TYPE(dbcsr_tas_split_info), INTENT(INOUT)          :: split_info
       LOGICAL                                            :: abort
 
       abort = .FALSE.
@@ -332,7 +487,7 @@ CONTAINS
 !> \param split_info ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_tas_info_hold(split_info)
-      TYPE(dbcsr_tas_create_split_info), INTENT(IN)               :: split_info
+      TYPE(dbcsr_tas_split_info), INTENT(IN)             :: split_info
 
       INTEGER, POINTER                                   :: ref => NULL()
 
@@ -430,8 +585,8 @@ CONTAINS
 ! **************************************************************************************************
    SUBROUTINE block_index_local_to_global(info, dist, row_group, column_group, &
                                           row, column)
-      TYPE(dbcsr_tas_create_split_info), INTENT(IN)               :: info
-      TYPE(dbcsr_tas_distribution_type), INTENT(IN)        :: dist
+      TYPE(dbcsr_tas_split_info), INTENT(IN)             :: info
+      TYPE(dbcsr_tas_distribution_type), INTENT(IN)      :: dist
       INTEGER, INTENT(IN), OPTIONAL                      :: row_group, column_group
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL         :: row, column
 
@@ -466,7 +621,7 @@ CONTAINS
 !> \param column_group ...
 ! **************************************************************************************************
    SUBROUTINE block_index_global_to_local(info, dist, row, column, row_group, column_group)
-      TYPE(dbcsr_tas_create_split_info), INTENT(IN)               :: info
+      TYPE(dbcsr_tas_split_info), INTENT(IN)               :: info
       TYPE(dbcsr_tas_distribution_type), INTENT(IN)        :: dist
       INTEGER(KIND=int_8), INTENT(IN), OPTIONAL          :: row, column
       INTEGER, INTENT(OUT), OPTIONAL                     :: row_group, column_group
@@ -550,8 +705,8 @@ CONTAINS
 !> \param rowcols rows/ columns on this group
 ! **************************************************************************************************
    SUBROUTINE group_to_mrowcol(info, rowcol_dist, igroup, rowcols)
-      TYPE(dbcsr_tas_create_split_info), INTENT(IN)                        :: info
-      CLASS(dbcsr_tas_distribution), INTENT(IN)                     :: rowcol_dist
+      TYPE(dbcsr_tas_split_info), INTENT(IN)                      :: info
+      CLASS(dbcsr_tas_distribution), INTENT(IN)                   :: rowcol_dist
       INTEGER, INTENT(IN)                                         :: igroup
       INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE, INTENT(OUT) :: rowcols
       INTEGER, DIMENSION(0:info%pgrid_split_size - 1)             :: nrowcols_group
