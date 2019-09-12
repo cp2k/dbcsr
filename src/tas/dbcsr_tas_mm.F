@@ -762,7 +762,7 @@ CONTAINS
          DBCSR_ASSERT(PRESENT(comm_new))
       ENDIF
 
-      IF ((.NOT. optimize_dist_prv) .AND. dist_compatible(matrix1_in, matrix2_in)) THEN
+      IF ((.NOT. optimize_dist_prv) .AND. dist_compatible(matrix1_in, matrix2_in, split_rc_1, split_rc_2)) THEN
          CALL change_split(matrix1_in, matrix1_out, nsplit_prv, split_rc_1, new1, &
                            move_data=move_data_1, nodata=nodata1)
          CALL change_split(matrix2_in, matrix2_out, nsplit_prv, split_rc_2, new2, &
@@ -991,12 +991,13 @@ CONTAINS
 !> \param io_unit ...
 !> \return ...
 ! **************************************************************************************************
-   FUNCTION dist_compatible(mat_a, mat_b, io_unit)
+   FUNCTION dist_compatible(mat_a, mat_b, split_rc_a, split_rc_b, io_unit)
       TYPE(dbcsr_tas_type), INTENT(IN)           :: mat_a, mat_b
-      INTEGER, INTENT(IN), OPTIONAL :: io_unit
+      INTEGER, INTENT(IN)                        :: split_rc_a, split_rc_b
+      INTEGER, INTENT(IN), OPTIONAL              :: io_unit
       LOGICAL                                    :: dist_compatible
 
-      INTEGER                                    :: res, same_local_rowcols
+      INTEGER                                    :: res, same_local_rowcols, split_check
       TYPE(dbcsr_tas_split_info)                 :: info_a, info_b
       INTEGER                                    :: io_unit_prv, numproc, iproc
 
@@ -1010,6 +1011,10 @@ CONTAINS
 
       info_a = dbcsr_tas_info(mat_a)
       info_b = dbcsr_tas_info(mat_b)
+      CALL dbcsr_tas_get_split_info(info_a, split_rowcol=split_check)
+      IF(split_check /= split_rc_a) RETURN
+      CALL dbcsr_tas_get_split_info(info_b, split_rowcol=split_check)
+      IF(split_check /= split_rc_b) RETURN
 
       CALL mp_environ(numproc, iproc, info_a%mp_comm)
 
