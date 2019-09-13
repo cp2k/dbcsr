@@ -155,7 +155,7 @@ __device__ static inline void store_results_into_smem(double* from, double* dest
 template < int m, int n, int k, int M, int N, int w, int v, int threads, int grouping, int minblocks >
 __global__
 __launch_bounds__(threads, minblocks)
-void smm_base_dnt_largeDB1(const int* param_stack, const int stack_size,
+void smm_acc_dnt_largeDB1(const int* param_stack, const int stack_size,
   const double* a_data, const double* b_data, double* c_data){
 
   using namespace ns_smm_acc_dnt_largeDB1;

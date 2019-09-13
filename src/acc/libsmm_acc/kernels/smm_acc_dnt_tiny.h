@@ -73,11 +73,10 @@ smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
 
   /* Number of parameters per stack entry in parameter stack */
   const int  npar      = 3;
-  const int  warp_size = 32;
 
-  /* If multiple warps are running a single block multiplication,
+  /* If multiple warps (in HIP linguo, "wavefronts") are running a single block multiplication,
    * synchronization is needed */
-  const bool need_sync = (mn > warp_size || mk > warp_size || kn > warp_size || threads > warp_size);
+  const bool need_sync = (mn > warpSize || mk > warpSize || kn > warpSize || threads > warpSize);
 
   /* psp: parameter stack position:
    *      index in the parameter stack of the first parameter stack entry to be processed by this thread

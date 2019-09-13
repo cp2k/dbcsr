@@ -41,13 +41,12 @@ class Kernel_dnt_small(Kernel):
         self.perf = perf
         self.source = source
 
-    @property
     def func_signature(self):
-        return (
-            "smm_acc_dnt_small<%(m)d,%(n)d,%(k)d,%(tile_m)d,%(tile_n)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n"
-            % self.__dict__
+        return "smm_acc_dnt_tiny< {m}, {n}, {k}, {threads}, {grouping}, {minblocks} >;\n".format(
+            self.__dict__
         )
 
+    @property
     @staticmethod
     def promising_parameters(
         m,

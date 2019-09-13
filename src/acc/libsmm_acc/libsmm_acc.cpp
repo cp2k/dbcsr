@@ -376,3 +376,8 @@ extern "C" int libsmm_acc_is_thread_safe() {
     return 0;  // i.e. false, libsmm_acc is not threaded
 #endif
 }
+
+//===========================================================================
+extern "C" int libsmm_acc_gpu_warp_size() {
+    return warpSize;
+}

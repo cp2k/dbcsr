@@ -23,6 +23,7 @@ int libsmm_acc_transpose(void* trs_stack, int offset, int nblks,
     void* buffer, int datatype, int m, int n, acc_stream_t stream);
 
 int libsmm_acc_is_thread_safe(void);
+int libsmm_acc_gpu_warp_size(void);
 
 #ifdef __cplusplus
 }
