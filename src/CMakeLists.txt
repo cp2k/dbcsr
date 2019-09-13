@@ -278,7 +278,7 @@ endif ()
 if (USE_HIP)
 
   if (OpenMP_FOUND)
-    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -fopenmp")
+    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} ${OpenMP_CXX_FLAGS}")
   endif ()
 
   # add libsmm_acc which has its own CMakeLists.txt due to code generation

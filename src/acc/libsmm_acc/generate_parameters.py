@@ -15,7 +15,7 @@ import json
 import argparse
 from os import path
 
-from kernels.smm_acc_predict import params_dict_to_kernel
+from kernels.smm_acc_predict import params_dict_to_kernel, gpu_architectures
 
 
 # ===============================================================================
@@ -29,8 +29,15 @@ def main(gpu_version, base_dir):
         "About to process {:,} kernels from file {}".format(len(all_kernels), param_fn)
     )
 
+    # Read GPU properties (warp size)
+    gpu_props_fn = path.join(base_dir, "../kernels/gpu_properties.json")
+    arch_code = gpu_architectures[path.basename(param_fn)]
+    with open(gpu_props_fn) as f:
+        gpu_warp_size = json.load(f)[arch_code]["Threads_/_Warp"]
+    print("GPU warp size: {}".format(gpu_warp_size))
+
     # Construct output
-    out, all_pars = write_parameters_file(all_kernels)
+    out, all_pars = write_parameters_file(all_kernels, gpu_warp_size)
 
     # Write to c++ header-file
     file_h = "parameters.h"
@@ -41,7 +48,7 @@ def main(gpu_version, base_dir):
 
 
 # ===============================================================================
-def write_parameters_file(all_pars):
+def write_parameters_file(all_pars, gpu_warp_size):
 
     # Header
     out = """\
@@ -84,6 +91,13 @@ def write_parameters_file(all_pars):
  * the superfluous parameters are set to 0
  */
 
+"""
+
+    # Warp size
+    out += "const int warp_size = {};\n\n".format(gpu_warp_size)
+
+    # Map of kernel parameters
+    out += """\
 static const std::unordered_map<Triplet, KernelParameters> ht  = {
 """
     # Initializer list body

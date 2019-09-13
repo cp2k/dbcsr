@@ -50,3 +50,13 @@ extern "C" int acc_set_active_device(int device_id){
 
   return 0;
 }
+
+/****************************************************************************/
+extern "C" int acc_get_gpu_warp_size(int *warp_size) {
+    int device;
+    ACC(DeviceProp) prop;
+    ACC_API_CALL(GetDevice, (&device));
+    ACC_API_CALL(GetDeviceProperties, (&prop, device));
+    *warp_size = prop.warpSize;
+    return 0;
+}

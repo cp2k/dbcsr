@@ -68,6 +68,7 @@ using hipstream = hipStream_t;
 using hipevent = hipEvent_t;
 using hipmodule = hipModule_t;
 using hipdevice = hipDevice_t;
+using hipDeviceProp = hipDeviceProp_t;
 using hipcontext = hipCtx_t;
 
 #endif // ACC_HIP_H

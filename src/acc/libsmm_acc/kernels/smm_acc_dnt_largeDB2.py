@@ -54,13 +54,11 @@ class Kernel_dnt_largeDB2(Kernel):
 
     @property
     def func_signature(self):
-        """
-        LargeDB2's kernel code does not use the warp size
-        """
         return (
             "smm_acc_dnt_largeDB2"
-            + "<%(m)d,%(n)d,%(k)d,%(tile_m)d,%(tile_n)d,%(w)d,%(v)d,%(threads)d,%(grouping)d,%(minblocks)d>;\n"
-            % self.__dict__
+            + "< {m}, {n}, {k}, {threads}, {grouping}, {minblocks} >;\n".format(
+                **self.__dict__
+            )
         )
 
     @staticmethod
