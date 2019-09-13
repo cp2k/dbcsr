@@ -762,7 +762,7 @@ CONTAINS
          DBCSR_ASSERT(PRESENT(comm_new))
       ENDIF
 
-      IF ((.NOT. optimize_dist_prv) .AND. dist_compatible(matrix1_in, matrix2_in)) THEN
+      IF ((.NOT. optimize_dist_prv) .AND. dist_compatible(matrix1_in, matrix2_in, split_rc_1, split_rc_2)) THEN
          CALL change_split(matrix1_in, matrix1_out, nsplit_prv, split_rc_1, new1, &
                            move_data=move_data_1, nodata=nodata1)
          CALL change_split(matrix2_in, matrix2_out, nsplit_prv, split_rc_2, new2, &
@@ -871,7 +871,8 @@ CONTAINS
                                  move_data=move_data_1, nodata=nodata1)
 
                ALLOCATE (matrix2_out)
-               CALL reshape_mm_template(matrix1_out, matrix2_in, matrix2_out, trans2, nodata=nodata2, move_data=move_data_2)
+               CALL reshape_mm_template(matrix1_out, matrix2_in, matrix2_out, trans2, split_rc_2, &
+                                        nodata=nodata2, move_data=move_data_2)
                new2 = .TRUE.
             CASE (2)
                IF (io_unit > 0) THEN
@@ -882,7 +883,8 @@ CONTAINS
                                  move_data=move_data_2, nodata=nodata2)
 
                ALLOCATE (matrix1_out)
-               CALL reshape_mm_template(matrix2_out, matrix1_in, matrix1_out, trans1, nodata=nodata1, move_data=move_data_1)
+               CALL reshape_mm_template(matrix2_out, matrix1_in, matrix1_out, trans1, split_rc_1, &
+                                        nodata=nodata1, move_data=move_data_1)
                new1 = .TRUE.
             END SELECT
          ENDIF
@@ -899,7 +901,7 @@ CONTAINS
 !> \brief Change split factor without redistribution
 !> \param matrix_in ...
 !> \param matrix_out ...
-!> \param nsplit new split factor, set to 0 to not split factor
+!> \param nsplit new split factor, set to 0 to not split
 !> \param split_rowcol split rows or columns
 !> \param is_new whether matrix_out is new or a pointer to matrix_in
 !> \param move_data memory optimization: move data such that matrix_in is empty on return.
@@ -989,12 +991,13 @@ CONTAINS
 !> \param io_unit ...
 !> \return ...
 ! **************************************************************************************************
-   FUNCTION dist_compatible(mat_a, mat_b, io_unit)
+   FUNCTION dist_compatible(mat_a, mat_b, split_rc_a, split_rc_b, io_unit)
       TYPE(dbcsr_tas_type), INTENT(IN)           :: mat_a, mat_b
-      INTEGER, INTENT(IN), OPTIONAL :: io_unit
+      INTEGER, INTENT(IN)                        :: split_rc_a, split_rc_b
+      INTEGER, INTENT(IN), OPTIONAL              :: io_unit
       LOGICAL                                    :: dist_compatible
 
-      INTEGER                                    :: res, same_local_rowcols
+      INTEGER                                    :: res, same_local_rowcols, split_check
       TYPE(dbcsr_tas_split_info)                 :: info_a, info_b
       INTEGER                                    :: io_unit_prv, numproc, iproc
 
@@ -1008,6 +1011,10 @@ CONTAINS
 
       info_a = dbcsr_tas_info(mat_a)
       info_b = dbcsr_tas_info(mat_b)
+      CALL dbcsr_tas_get_split_info(info_a, split_rowcol=split_check)
+      IF(split_check /= split_rc_a) RETURN
+      CALL dbcsr_tas_get_split_info(info_b, split_rowcol=split_check)
+      IF(split_check /= split_rc_b) RETURN
 
       CALL mp_environ(numproc, iproc, info_a%mp_comm)
 
@@ -1054,14 +1061,16 @@ CONTAINS
 !> \param matrix_in ...
 !> \param matrix_out ...
 !> \param trans ...
+!> \param split_rc ...
 !> \param nodata ...
 !> \param move_data ...
 ! **************************************************************************************************
-   SUBROUTINE reshape_mm_template(template, matrix_in, matrix_out, trans, nodata, move_data)
+   SUBROUTINE reshape_mm_template(template, matrix_in, matrix_out, trans, split_rc, nodata, move_data)
       TYPE(dbcsr_tas_type), INTENT(IN)           :: template
       TYPE(dbcsr_tas_type), INTENT(INOUT)        :: matrix_in
       TYPE(dbcsr_tas_type), INTENT(OUT)          :: matrix_out
       CHARACTER(LEN=1), INTENT(INOUT)            :: trans
+      INTEGER, INTENT(IN)                        :: split_rc
       LOGICAL, INTENT(IN), OPTIONAL              :: nodata, move_data
       CLASS(dbcsr_tas_distribution), ALLOCATABLE :: row_dist, col_dist
 
@@ -1086,7 +1095,7 @@ CONTAINS
       info_matrix = dbcsr_tas_info(matrix_in)
 
       dim_split_template = info_template%split_rowcol
-      dim_split_matrix = info_matrix%split_rowcol
+      dim_split_matrix = split_rc
 
       transposed = dim_split_template .NE. dim_split_matrix
       IF (transposed) THEN
