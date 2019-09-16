@@ -41,7 +41,7 @@ N
 # retain sparsity (T/F)
 F
 # number of repetitions
-3
+50
 # number of different blocks to read (m, n, k)
 1
 1
