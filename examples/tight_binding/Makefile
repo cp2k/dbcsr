@@ -9,7 +9,7 @@ FCFLAGS    = $(FLAGS) $(INCLUDES) -fno-omit-frame-pointer \
 LIBS       = -L$(DBCSRDIR)/lib -ldbcsr
 LIBS      += -lscalapack -L${LAPACK_PATH}/lib -llapack -lblas
 
-OBJ = dbcsr_scalapack.o dm_ls_scf_methods.o tight_binding.o
+OBJ = dm_ls_scf_methods.o tight_binding.o
 
 all: tight_binding.x 
 

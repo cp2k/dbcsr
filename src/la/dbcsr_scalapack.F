@@ -8,20 +8,14 @@
 !--------------------------------------------------------------------------------------------------!
 
 
-! Matrix-Matrix Multiply, C = AB
-! Adapted from http://www.nersc.gov/users/software/programming-libraries/math-libraries/libsci/libsci-example/
-!
-! input:     n nb
-!              n       number of rows/columns in matrix A
-!              nb      matrix distribution block size   
 
-! Run example:  export OMP_NUM_THREADS=2; mpirun -np 9 ./pdgemm_dbcsr 1000 10
+! Adapted from cp2k code src/cp_dbcsr_operations.F
 
 module dbcsr_scalapack
   USE dbcsr_api,                       ONLY: dbcsr_type,&
                                              dbcsr_distribution_type,&
                                              dbcsr_desymmetrize, &
-                                          dbcsr_get_data_type, &   
+                                             dbcsr_get_data_type, &   
                                              dbcsr_distribution_new,&
                                              dbcsr_complete_redistribute, &
                                              dbcsr_type_no_symmetry,&
@@ -47,13 +41,14 @@ module dbcsr_scalapack
 
 
 
+#include "base/dbcsr_base_uses.f90"
+
 contains
   !
   ! convert global index to local index in block-cyclic distribution
   !
-  subroutine g2l(i, n, np, nb, p, il)
+  subroutine g2l(i, np, nb, p, il)
     integer :: i    ! global array index, input
-    integer :: n    ! global array dimension, input
     integer :: np   ! processor array dimension, input
     integer :: nb   ! block size, input
     integer :: p    ! processor array index, output
@@ -63,15 +58,13 @@ contains
     im1 = i-1
     p   = mod((im1/nb),np)
     il  = (im1/(np*nb))*nb + mod(im1,nb) + 1
-    return
   end subroutine g2l
   !
   ! convert local index to global index in block-cyclic distribution
   !
-  subroutine l2g(il, p, n, np, nb, i)
+  subroutine l2g(il, p, np, nb, i)
     integer :: il   ! local array index, input
     integer :: p    ! processor array index, input
-    integer :: n    ! global array dimension, input
     integer :: np   ! processor array dimension, input
     integer :: nb   ! block size, input
     integer :: i    ! global array index, output
@@ -79,7 +72,6 @@ contains
 
     ilm1 = il-1
     i    = (((ilm1/nb) * np) + p)*nb + mod(ilm1,nb) + 1
-    return
   end subroutine l2g
 
   subroutine print_matrix(matrix)
@@ -115,14 +107,13 @@ contains
 !> \param[in] matrix          DBCSR matrix
 !> \param[out] fm             full matrix
 ! **************************************************************************************************
-   SUBROUTINE copy_dbcsr_to_blacs(matrix, fm, nrow_block, ncol_block, nrow_global, &
-                                  ncol_global)
-      TYPE(dbcsr_type), INTENT(IN)                    :: matrix
-      REAL(kind=dp), dimension(:,:), allocatable :: fm 
-      integer, intent(in) :: ncol_block, nrow_block, nrow_global, ncol_global
+   SUBROUTINE copy_dbcsr_to_blacs(matrix, fm, nrow_block, ncol_block)
+      TYPE(dbcsr_type), INTENT(IN)                           :: matrix
+      REAL(kind=dp), dimension(:,:), allocatable, intent(in) :: fm 
+      integer, intent(in)                    :: ncol_block, nrow_block
       INTEGER, DIMENSION(:, :), POINTER      :: pgrid
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'copy_dbcsr_to_${fm}$'
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'copy_dbcsr_to_blacs$'
 
       INTEGER, DIMENSION(:), POINTER                     :: col_blk_size, row_blk_size
       INTEGER :: handle, nfullcols_total, nfullrows_total
@@ -131,7 +122,7 @@ contains
       CHARACTER(len=100)               :: name
 
       integer :: group
-      !CALL timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       ! check compatibility
       CALL dbcsr_get_info(matrix, &
@@ -166,7 +157,7 @@ contains
 
       CALL dbcsr_release(bc_mat)
 
-      !CALL timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE copy_dbcsr_to_blacs
   
   ! **************************************************************************************
@@ -174,21 +165,21 @@ contains
                                   ncol_global, group, pgrid)
       REAL(kind=dp), dimension(:,:), allocatable :: fm 
       TYPE(dbcsr_type), INTENT(INOUT)                 :: matrix
-      !LOGICAL, INTENT(IN), OPTIONAL                      :: keep_sparsity
  
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'copy_blacs_to_dbcsr'
       TYPE(dbcsr_type)                                :: bc_mat
       INTEGER                                            :: handle, &
                  ncol_block, nrow_block, nrow_global, ncol_global,  group
       INTEGER, DIMENSION(:, :), POINTER                  :: pgrid
 
-      !CALL timeset(routineN, handle)
+      CALL timeset(routineN, handle)
 
       CALL copy_blacs_to_dbcsr_bc(fm, nrow_block, ncol_block, nrow_global, ncol_global, &
                                     group, pgrid, bc_mat)
       CALL dbcsr_complete_redistribute(bc_mat, matrix)
       CALL dbcsr_release(bc_mat)
 
-      !CALL timestop(handle)
+      CALL timestop(handle)
    END SUBROUTINE 
   
 
@@ -198,7 +189,7 @@ contains
   !
   SUBROUTINE copy_blacs_to_dbcsr_bc(fm, nrow_block, ncol_block, nrow_global, ncol_global, &
                                     group, pgrid, bc_mat)
-    REAL(kind=dp), dimension(:,:), allocatable :: fm ! full matrix
+    REAL(kind=dp), dimension(:,:), allocatable, intent(in) :: fm ! full matrix
     INTEGER, INTENT(IN)                 :: nrow_block, ncol_block, nrow_global, ncol_global, group
     INTEGER, DIMENSION(:, :), POINTER   :: pgrid    
     TYPE(dbcsr_type), INTENT(INOUT)     :: bc_mat
@@ -249,7 +240,7 @@ contains
     TYPE(dbcsr_type), INTENT(IN)                    :: bc_mat
     REAL(kind=dp), DIMENSION(:, :), ALLOCATABLE            :: fm
 
-    INTEGER :: col, handle, row
+    INTEGER :: col, row
     INTEGER, ALLOCATABLE, DIMENSION(:)              :: first_col, first_row, last_col, last_row
     REAL(kind=dp), DIMENSION(:, :), POINTER                :: dbcsr_block
     TYPE(dbcsr_iterator_type)                       :: iter

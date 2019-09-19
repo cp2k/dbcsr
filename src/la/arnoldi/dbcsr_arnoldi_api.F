@@ -40,10 +40,6 @@ MODULE dbcsr_arnoldi_api
       dbcsr_p_type, dbcsr_release, dbcsr_set, dbcsr_type, dbcsr_create_col_vec_from_matrix,&
       dbcsr_create_replicated_col_vec_from_matrix, dbcsr_create_replicated_row_vec_from_matrix,&
       dbcsr_matrix_colvec_multiply
-   !USE dbcsr_vector,                    ONLY: create_col_vec_from_matrix,&
-   !create_replicated_col_vec_from_matrix,&
-   !create_replicated_row_vec_from_matrix,&
-   !dbcsr_matrix_colvec_multiply
    USE dbcsr_kinds,                           ONLY: dp
    USE dbcsr_mpiwrap,                 ONLY: mp_sum
 #include "base/dbcsr_base_uses.f90"

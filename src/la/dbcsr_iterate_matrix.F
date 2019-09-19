@@ -29,10 +29,6 @@ MODULE dbcsr_iterate_matrix
                                                     int_8
    USE dbcsr_machine,                         ONLY: m_flush,&
                                                     m_walltime, default_output_unit
-!   use dbcsr_log_handling, only:
-
-   !USE mathconstants,                   ONLY: ifac
-   !USE mathlib,                         ONLY: abnormal_value
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -96,21 +92,11 @@ CONTAINS
       REAL(KIND=dp)                                      :: det0, eps_lanczos, frobnorm, maxnorm, &
                                                             occ_matrix, t1, t2, trace
       REAL(KIND=dp), ALLOCATABLE, DIMENSION(:)           :: diagonal
-!      TYPE(dbcsr_logger_type), POINTER                    :: logger
       TYPE(dbcsr_type)                                   :: tmp1, tmp2, tmp3
 
       CALL timeset(routineN, handle)
 
-      ! get a useful output_unit
-      !logger => dbcsr_get_default_logger()
-
       unit_nr = dbcsr_logger_get_default_io_unit()
-
-      !IF (logger % mp_env % mp % mynode == logger % mv_env % mp % source) THEN
-      !   unit_nr = dbcsr_logger_get_default_unit_nr(logger, local=.TRUE.)
-      !ELSE
-      !   unit_nr = -1
-      !ENDIF
 
       ! Note: tmp1 and tmp2 have the same matrix type as the
       ! initial matrix (tmp3 does not have symmetry constraints)
@@ -302,7 +288,6 @@ CONTAINS
       REAL(KIND=dp)                                      :: coeff, convergence, maxnorm_matrix, &
                                                             my_eps_lanczos, occ_matrix, t1, t2
       REAL(KIND=dp), ALLOCATABLE, DIMENSION(:)           :: p_diagonal
-!      TYPE(cp_logger_type), POINTER                      :: logger
       TYPE(dbcsr_type), TARGET                           :: tmp1, tmp2, tmp3_sym
 
       CALL timeset(routineN, handle)
@@ -344,7 +329,6 @@ CONTAINS
             CALL dbcsr_desymmetrize(matrix, tmp1)
             p_diagonal(:) = 0.0_dp
             CALL dbcsr_set_diag(tmp1, p_diagonal)
-            !CALL dbcsr_print(tmp1)
             ! invert the main diagonal
             CALL dbcsr_get_diag(matrix, p_diagonal)
             DO i = 1, nrows
@@ -384,7 +368,6 @@ CONTAINS
          CALL dbcsr_multiply("N", "N", 1.0_dp, tmp1, tmp2, 0.0_dp, &
                              tmp3_sym, &
                              flop=flop2, filter_eps=filter_eps)
-         !flop=flop2)
          CALL dbcsr_add(matrix_inverse, tmp3_sym, 1.0_dp, coeff)
          CALL dbcsr_release(tmp1)
          CALL dbcsr_create(tmp1, template=matrix_inverse, matrix_type=dbcsr_type_no_symmetry)
@@ -417,7 +400,6 @@ CONTAINS
       CALL dbcsr_multiply("N", "N", 1.0_dp, matrix, matrix_inverse, 0.0_dp, tmp1, &
                           filter_eps=filter_eps)
       CALL dbcsr_add_on_diag(tmp1, -1.0_dp)
-      !frob_matrix =  dbcsr_frobenius_norm(tmp1)
       CALL dbcsr_norm(tmp1, dbcsr_norm_maxabsnorm, norm_scalar=maxnorm_matrix)
       IF (unit_nr > 0) THEN
          WRITE (unit_nr, '(T6,A,E12.5)') "Final Taylor error", maxnorm_matrix
@@ -486,11 +468,8 @@ CONTAINS
                                                             use_inv_guess
       REAL(KIND=dp) :: convergence, frob_matrix, gershgorin_norm, max_ev, maxnorm_matrix, min_ev, &
                        my_eps_lanczos, my_filter_eps, occ_matrix, scalingf, t1, t2
-      !     TYPE(cp_logger_type), POINTER                      :: logger
       TYPE(dbcsr_type), TARGET                           :: tmp1, tmp2
 
-      !TYPE(arnoldi_data_type)                            :: my_arnoldi
-      !TYPE(dbcsr_p_type), DIMENSION(1)                   :: mymat
 
       CALL timeset(routineN, handle)
 
@@ -561,13 +540,6 @@ CONTAINS
          ! scale the matrix to get into the convergence range
          CALL arnoldi_extremal(tmp1, max_eV, min_eV, threshold=my_eps_lanczos, &
                                max_iter=my_max_iter_lanczos, converged=arnoldi_converged)
-         !mymat(1)%matrix => tmp1
-         !CALL setup_arnoldi_data(my_arnoldi, mymat, max_iter=30, threshold=1.0E-3_dp, selection_crit=1, &
-         !                        nval_request=2, nrestarts=2, generalized_ev=.FALSE., iram=.TRUE.)
-         !CALL arnoldi_ev(mymat, my_arnoldi)
-         !max_eV = REAL(get_selected_ritz_val(my_arnoldi, 2), dp)
-         !min_eV = REAL(get_selected_ritz_val(my_arnoldi, 1), dp)
-         !CALL deallocate_arnoldi_data(my_arnoldi)
 
          IF (unit_nr > 0) THEN
             WRITE (unit_nr, *)
@@ -647,9 +619,6 @@ CONTAINS
       END IF
 
       IF (unit_nr > 0) THEN
-!           WRITE(unit_nr,'(T6,A,1X,I3,1X,F10.8,E12.3)') "Final Hotelling ",i,occ_matrix,&
-!              frob_matrix/frob_matrix_base
-!              maxnorm_matrix
          WRITE (unit_nr, '()')
          CALL m_flush(unit_nr)
       ENDIF
@@ -937,7 +906,6 @@ CONTAINS
          floptot = floptot+flops
 
          ! done iterating
-         ! CALL dbcsr_filter(tmp2,threshold)
          CALL dbcsr_copy(matrix_sign, tmp2)
          t2 = m_walltime()
 
@@ -1006,7 +974,6 @@ CONTAINS
       INTEGER(KIND=int_8)                                :: flop0, flop1, flop2
       LOGICAL                                            :: converged, symmetrize
       REAL(KIND=dp)                                      :: frob_matrix, frob_matrix_base, occ_matrix
-      !TYPE(cp_logger_type), POINTER                      :: logger
       TYPE(dbcsr_type)                                   :: matrix2, matrix_sqrt, matrix_sqrt_inv, &
                                                             tmp1, tmp2
 
@@ -1027,10 +994,6 @@ CONTAINS
       CALL dbcsr_create(matrix2, template=matrix, matrix_type=dbcsr_type_no_symmetry)
       CALL dbcsr_multiply("N", "N", 1.0_dp, matrix, matrix, 0.0_dp, matrix2, &
                           filter_eps=threshold, flop=flop0)
-      !CALL dbcsr_filter(matrix2, threshold)
-
-      !CALL dbcsr_copy(matrix_sign, matrix)
-      !CALL dbcsr_filter(matrix_sign, threshold)
 
       IF (unit_nr > 0) WRITE (unit_nr, *)
 
@@ -1041,8 +1004,6 @@ CONTAINS
       symmetrize = .FALSE.
       CALL matrix_sqrt_proot(matrix_sqrt, matrix_sqrt_inv, matrix2, threshold, order, &
                              0.01_dp, 100, symmetrize, converged)
-!      call matrix_sqrt_Newton_Schulz(matrix_sqrt, matrix_sqrt_inv, matrix2, threshold, order, &
-!                                        0.01_dp,100, symmetrize,converged)
 
       CALL dbcsr_multiply("N", "N", 1.0_dp, matrix, matrix_sqrt_inv, 0.0_dp, matrix_sign, &
                           filter_eps=threshold, flop=flop1)
@@ -1106,7 +1067,6 @@ CONTAINS
                                                             frob_matrix_base, gershgorin_norm, &
                                                             max_ev, min_ev, oa, ob, oc, &
                                                             occ_matrix, od, scaling, t1, t2
-!      TYPE(cp_logger_type), POINTER                      :: logger
       TYPE(dbcsr_type)                                   :: tmp1, tmp2, tmp3
 
       CALL timeset(routineN, handle)
@@ -1247,7 +1207,6 @@ CONTAINS
          ! tmp2 = tmp1 * Zk = Z(k+1)
          CALL dbcsr_multiply("N", "N", 1.0_dp, tmp1, matrix_sqrt_inv, 0.0_dp, tmp2, &
                              filter_eps=threshold, flop=flop3)
-         ! CALL dbcsr_filter(tmp2,threshold)
          CALL dbcsr_copy(matrix_sqrt_inv, tmp2)
 
          occ_matrix = dbcsr_get_occupation(matrix_sqrt_inv)
@@ -1263,9 +1222,6 @@ CONTAINS
                (flop1+flop2+flop3+flop4+flop5)/(1.0E6_dp*MAX(0.001_dp, t2-t1))
             CALL m_flush(unit_nr)
          ENDIF
-
-         !IF (abnormal_value(conv)) &
-         !DBCSR_ABORT("conv is an abnormal value (NaN/Inf).")
 
          ! conv < SQRT(threshold)
          IF ((conv*conv) < threshold) THEN
@@ -1348,10 +1304,7 @@ CONTAINS
       REAL(KIND=dp)                                      :: conv, frob_matrix, frob_matrix_base, &
                                                             max_ev, min_ev, occ_matrix, scaling, &
                                                             t1, t2
-      !TYPE(cp_logger_type), POINTER                      :: logger
       TYPE(dbcsr_type)                                   :: BK2A, matrixS, Rmat, tmp1, tmp2
-
-      !CALL cite_reference(Richters2018)
 
       test = .FALSE.
 
@@ -1394,7 +1347,6 @@ CONTAINS
 
       CALL dbcsr_set(matrix_sqrt_inv, 0.0_dp)
       CALL dbcsr_add_on_diag(matrix_sqrt_inv, 1.0_dp)
-      !CALL dbcsr_filter(matrix_sqrt_inv, threshold)
 
       IF (unit_nr > 0) THEN
          WRITE (unit_nr, *)
@@ -1476,9 +1428,6 @@ CONTAINS
                (flop1+flop2+flop3+flop4+flop5)/(1.0E6_dp*MAX(0.001_dp, t2-t1))
             CALL m_flush(unit_nr)
          ENDIF
-
-         !IF (abnormal_value(conv)) &
-         !CPABORT("conv is an abnormal value (NaN/Inf).")
 
          ! conv < SQRT(threshold)
          IF ((conv*conv) < threshold) THEN
@@ -1564,7 +1513,6 @@ CONTAINS
 
       INTEGER                                            :: handle, i, k, unit_nr
       REAL(dp)                                           :: factorial, norm_C, norm_D, norm_scalar
-      !TYPE(cp_logger_type), POINTER                      :: logger
       TYPE(dbcsr_type)                                   :: B, B_square, C, D, D_product
 
       CALL timeset(routineN, handle)
@@ -1588,10 +1536,6 @@ CONTAINS
 
       CALL dbcsr_create(D, template=matrix, matrix_type=dbcsr_type_no_symmetry)
       CALL dbcsr_copy(D, C)
-
-      !   write(*,*)
-      !   write(*,*)
-      !   CALL dbcsr_print(D, nodata=.FALSE., matlab_format=.TRUE., variable_name="D", unit_nr=6)
 
       ! set the B matrix as B=Identity+D
       CALL dbcsr_create(B, template=matrix, matrix_type=dbcsr_type_no_symmetry)
@@ -1639,7 +1583,6 @@ CONTAINS
 
       ! scale matrix_exp by omega, matrix_exp=omega*B_square
       CALL dbcsr_scale(matrix_exp, alpha_scalar=omega)
-      ! write(*,*) alpha,omega
 
       CALL timestop(handle)
 
@@ -1665,7 +1608,6 @@ CONTAINS
 
       INTEGER                                            :: handle, i, ispin, unit_nr
       REAL(KIND=dp)                                      :: frob_norm, trace
-      !TYPE(cp_logger_type), POINTER                      :: logger
       TYPE(dbcsr_type)                                   :: matrix_pp, matrix_tmp
 
       CALL timeset(routineN, handle)
@@ -1726,7 +1668,6 @@ CONTAINS
 
       INTEGER                                            :: handle, i, ispin, unit_nr
       REAL(KIND=dp)                                      :: frob_norm, trace
-      !TYPE(cp_logger_type), POINTER                      :: logger
       TYPE(dbcsr_type)                                   :: matrix_ps, matrix_psp, matrix_test
 
       CALL timeset(routineN, handle)

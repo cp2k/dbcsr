@@ -18,7 +18,7 @@ PROGRAM tight_binding
     use dm_ls_scf_methods, only: density_matrix_sign
   
     use dbcsr_scalapack  
-       USE dbcsr_log_handling, ONLY: dbcsr_add_default_logger, &
+    USE dbcsr_log_handling, ONLY: dbcsr_add_default_logger, &
                                  dbcsr_logger_create, &
                                  dbcsr_logger_release, &
                                  dbcsr_logger_type, &
@@ -62,7 +62,7 @@ integer                             :: numroc  ! blacs routine
 
   integer, dimension(9)         :: ides_a, ides_b, ides_c ! scalapack array desc
 
-  integer :: icontxt, prow, pcol, myrow, mycol, n, nb
+  integer :: icontxt, prow, pcol, myrow, mycol, n, nb, unit
   REAL(8), dimension(:,:), allocatable :: myA, myB, myC
   INTEGER, DIMENSION(:, :), POINTER   :: pgrid
   integer                             :: myrows, mycols
@@ -72,6 +72,10 @@ integer                             :: numroc  ! blacs routine
  integer :: scalapack_fhandle, ls_fhandle
 
  real(8) :: t1 , t2
+ 
+ real(8), parameter :: bohr_rad = 0.529 ! Angstrom
+ integer, parameter :: max_atoms_for_printing_matrix = 10
+
  !$ integer                                  :: provided_tsl
 
    !***************************************************************************************
@@ -92,15 +96,15 @@ integer                             :: numroc  ! blacs routine
    !
    ! setup the mp environment
    CALL mpi_comm_size(MPI_COMM_WORLD, numnodes, ierr)
-   IF (ierr /= 0) STOP "Error in MPI_Comm_size"
+   IF (ierr /= 0) ERROR STOP "Error in MPI_Comm_size"
    npdims(:) = 0
    CALL mpi_dims_create(numnodes, 2, npdims, ierr)
-   IF (ierr /= 0) STOP "Error in MPI_Dims_create"
+   IF (ierr /= 0) ERROR STOP "Error in MPI_Dims_create"
    CALL mpi_cart_create(MPI_COMM_WORLD, 2, npdims, period, .FALSE., group, ierr)
-   IF (ierr /= 0) STOP "Error in MPI_Cart_create"
+   IF (ierr /= 0) ERROR STOP "Error in MPI_Cart_create"
 
    CALL mpi_comm_rank(MPI_COMM_WORLD, mynode, ierr)
-   IF (ierr /= 0) STOP "Error in MPI_Comm_rank"
+   IF (ierr /= 0) ERROR STOP "Error in MPI_Comm_rank"
 
    if (mynode == 0) WRITE (*, *) ' numnodes ', numnodes
 
@@ -110,10 +114,12 @@ integer                             :: numroc  ! blacs routine
    ALLOCATE(pgrid(0:prow-1, 0:pcol-1))
   DO myrow = 0, prow-1
      DO mycol = 0, pcol-1
-        coord = (/myrow, mycol/)
+        coord = [myrow, mycol]
         CALL mpi_cart_rank(group, coord, pgrid(myrow, mycol), ierr)
      ENDDO
   ENDDO
+
+    if (command_argument_count() < 4) ERROR STOP "too few arguments"
 
     CALL get_command_argument(1, arg)
     CALL get_command_argument(2, cell_vecs)
@@ -123,26 +129,25 @@ integer                             :: numroc  ! blacs routine
     read (thrs,*) thr
    
    !------- Read atom info ------------------
-   open (unit=2, file=arg)
-   read (2, *) nr
+   open (newunit=unit, file=arg)
+   read (unit, *) nr
    allocate(rr(3,nr))
    do j=1,nr
-       read (2, *) rr(:,j) 
+       read (unit, *) rr(:,j) 
    enddo
-   close(2)
+   close(unit)
 
-   rr = rr / 0.529
+   rr = rr / bohr_rad
    
-   sys_dim = 3 ! fixed!
-   open (unit=2, file=cell_vecs)
+   open (newunit=unit, file=cell_vecs)
    
    allocate(cell_vec(sys_dim,sys_dim))
-   do j=1,sys_dim
-       read (2, *) cell_vec(:,j) 
+   do j=1,3
+       read (unit, *) cell_vec(:,j) 
    enddo
-   close(2)
+   close(unit)
 
-   cell_vec = cell_vec / 0.529      
+   cell_vec = cell_vec / bohr_rad
   
    ! In case the example uses k-points to build Hamiltonian 
    !----- k points -------------
@@ -169,7 +174,7 @@ integer                             :: numroc  ! blacs routine
      enddo
    enddo
    
-   
+   ! carbon has 4 orbitals
    block_size = 4
    ! occupation is 4 spins per atoms, taking spin into account will reveal 2 per atom
    nelectrons = nr * 2 
@@ -227,7 +232,7 @@ integer                             :: numroc  ! blacs routine
    dist_cutoff     = cutoff   ! Bohr
   
    
-   if (nr < 500) then
+   if (nr < max_atoms_for_printing_matrix) then
       
        if (mynode == 0)  print *,"Diagonalize dense hamiltonian for reference"
 
@@ -235,10 +240,12 @@ integer                             :: numroc  ! blacs routine
           s_dense(nr*block_size, nr*block_size))
       
       call build_ham_blocked_dense(ham_dense, rr, nr, block_size, dist_cutoff, rft, nrft)
+     
+      !can be uncommented to create overlapping matrix or without translation symmetry
       !call build_ham_blocked_dense_no_trans(ham_dense2, rr, nr, block_size, dist_cutoff)
       !call build_S_blocked_dense(s_dense, rr, nr, block_size, dist_cutoff)
       
-      if (nr <= 10) then
+      if (mynode == 0) then
          write(exFmt,'("(",I0,"(F8.4))")') nr*block_size
          do i=1,nr*block_size
          write(*,exFmt) (ham_dense(i,j), j=1,nr*block_size)
@@ -356,7 +363,7 @@ integer                             :: numroc  ! blacs routine
    CALL dbcsr_finalize(matrix_s_inv)
 
   
-   if (nr <= 10 .and. mynode == 0) then
+   if (nr <= max_atoms_for_printing_matrix .and. mynode == 0) then
      print *,"!!!!!!!!!!!!!!!! Sparse Hamiltonian matrix !!!!!!!!!!!!!!!!!!!!!"
      call dbcsr_print(matrix_ks) 
    endif
@@ -390,42 +397,15 @@ integer                             :: numroc  ! blacs routine
      ides_c(i) = ides_a(i)
   enddo
 
-
- ! call sign matrix solver   
-
-  call timeset(ls_fn, ls_fhandle)
-  t1 = m_walltime()
-
-   mu = 0.58d0
-   call density_matrix_sign(matrix_p, mu, .true., matrix_ks, matrix_s, &
-       matrix_s_inv, nelectrons, thr)
-
-   t2 = m_walltime() 
-   call timestop(ls_fhandle)
-   
-   if (mynode == 0 ) print *, "DBCSR density_matrix_sign time", t2 - t1
-   
-   if (nr <= 10 .and. mynode == 0) then
-     print *,"!!!!!!!!!!!!!!!! Sparse density matrix !!!!!!!!!!!!!!!!!!!!!"
-     call dbcsr_print(matrix_p)
-   endif
-
-   CALL dbcsr_multiply('N', 'N', 1.0D0, matrix_ks, matrix_p, 0.0D0, rho_ham)
-     
-   call dbcsr_trace(rho_ham, dbcsr_energy)
-   
-   if (mynode == 0)  print *,"DBCSR Energy: ", dbcsr_energy
-    
-
   ! scalapack
   allocate(myA(myrows,mycols))
 
   if (mynode==0) print *,"copy dbcsr to blacs matrix"
 
-  call copy_dbcsr_to_blacs(matrix_ks, myA, nb, nb, n, n)
+  call copy_dbcsr_to_blacs(matrix_ks, myA, nb, nb)
   
 
-  if (nr < 10) then
+  if (nr < max_atoms_for_printing_matrix) then
          write(exFmt,'("(",I0,"(F8.4))")') myrows
          do i=1,mycols
          write(*,exFmt) (myA(i,j), j=1,myrows)
@@ -443,6 +423,34 @@ integer                             :: numroc  ! blacs routine
   if (mynode == 0 ) print *, "scalapack_pdsyev time", t2 - t1
 
   deallocate(myA)
+
+ ! call sign matrix solver   
+
+  call timeset(ls_fn, ls_fhandle)
+  t1 = m_walltime()
+
+   ! Chemical potential for Diamond is taken to be inside of a gap
+   mu = 0.58d0
+   call density_matrix_sign(matrix_p, mu, .true., matrix_ks, matrix_s, &
+       matrix_s_inv, nelectrons, thr)
+
+   t2 = m_walltime() 
+   call timestop(ls_fhandle)
+   
+   if (mynode == 0 ) print *, "DBCSR density_matrix_sign time", t2 - t1
+   
+   if (nr <= max_atoms_for_printing_matrix .and. mynode == 0) then
+     print *,"!!!!!!!!!!!!!!!! Sparse density matrix !!!!!!!!!!!!!!!!!!!!!"
+     call dbcsr_print(matrix_p)
+   endif
+
+   CALL dbcsr_multiply('N', 'N', 1.0D0, matrix_ks, matrix_p, 0.0D0, rho_ham)
+     
+   call dbcsr_trace(rho_ham, dbcsr_energy)
+   
+   if (mynode == 0)  print *,"DBCSR Energy: ", dbcsr_energy
+    
+
   
   ! Release all
    deallocate(rr)
@@ -745,7 +753,7 @@ subroutine build_ham_blocked(ham, rr, nr, hnondiag_cutoff, distance_cutoff, rft,
       do irft = 1, nrft
         r2 = rr(:,jj) + rft(:,irft)
         dvec(:)=r2(:)-r1(:)
-        t1=sqrt(dvec(1)**2+dvec(2)**2+dvec(3)**2)
+        t1=norm2(dvec)
     
         if (t1 < distance_cutoff) then
            call dbcsr_get_stored_coordinates(ham, ii, jj, node_holds_blk)
@@ -793,7 +801,7 @@ subroutine build_ham_blocked(ham, rr, nr, hnondiag_cutoff, distance_cutoff, rft,
       do irft = 1, nrft
         r2 = rr(:,jj) + rft(:,irft)
         dvec(:)=r2(:)-r1(:)
-        t1=sqrt(dvec(1)**2+dvec(2)**2+dvec(3)**2)
+        t1=norm2(dvec)
       
         if (t1 < distance_cutoff .and. ii /= jj) then
            rho = rho + rhoPart(lambda, t1) 
