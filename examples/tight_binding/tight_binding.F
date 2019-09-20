@@ -1099,7 +1099,6 @@ subroutine diag_dense_par(ham, nelec, matrix_size, first_i, first_j, desc_ham)
   integer lwork, i
   integer info,n,ld, desczdef(9)
   real(8) energy , zdef(2)
-  !real(8), allocatable :: Cmatr(:,:)
     
     info=0
     n = matrix_size
