@@ -88,9 +88,6 @@ PROGRAM dbcsr_unittest
    ! run tests
 
    ! mat x vec ------------------------------------
-   !call dbcsr_mat_vec_multiplies("mat x vec square", group, mp_env, npdims, io_unit, 20, 2, 0.5_dp, &
-   !(1.0_dp, 0.0_dp), (0.0_dp, 0.0_dp), dbcsr_type_real_8)
-
    call dbcsr_mat_vec_multiplies("mat x vec square", group, mp_env, npdims, io_unit, 20, 2, 0.5_dp, &
                                  (1.0_dp, 2.0_dp), (3.0_dp, 4.0_dp), dbcsr_type_complex_8)
 
@@ -322,9 +319,8 @@ PROGRAM dbcsr_unittest
    CALL timestop(handle)
    !
    ! clean mp environment
-   CALL dbcsr_mp_release(mp_env)
-
    call dbcsr_mp_grid_remove(mp_env)
+   CALL dbcsr_mp_release(mp_env)
 
    !
    ! finalize mpi

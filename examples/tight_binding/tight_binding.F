@@ -47,7 +47,7 @@ integer                             :: numroc  ! blacs routine
   real(8), allocatable :: rft(:,:)
   real(8), allocatable :: kpathc(:,:)
   real(8) :: kc(2), mu, dbcsr_energy, hnondiag_cutoff, dist_cutoff
-  integer :: nr, nrft, nkp, i, j, k, sys_dim, ntrans, cnt
+  integer :: nr, nrft, nkp, i, j, k,  ntrans, cnt
 
   ! parameters for TB parameters
   real(8) :: energies(4), vsss(4), vsps(4), vpps(4), vppp(4)
@@ -75,7 +75,7 @@ integer                             :: numroc  ! blacs routine
  
  real(8), parameter :: bohr_rad = 0.529 ! Angstrom
  integer, parameter :: max_atoms_for_printing_matrix = 10
-
+ integer, parameter :: sys_dim = 3 ! 3 dimensional system
  !$ integer                                  :: provided_tsl
 
    !***************************************************************************************
@@ -131,7 +131,7 @@ integer                             :: numroc  ! blacs routine
    !------- Read atom info ------------------
    open (newunit=unit, file=arg)
    read (unit, *) nr
-   allocate(rr(3,nr))
+   allocate(rr(sys_dim,nr))
    do j=1,nr
        read (unit, *) rr(:,j) 
    enddo
@@ -142,7 +142,7 @@ integer                             :: numroc  ! blacs routine
    open (newunit=unit, file=cell_vecs)
    
    allocate(cell_vec(sys_dim,sys_dim))
-   do j=1,3
+   do j=1,sys_dim
        read (unit, *) cell_vec(:,j) 
    enddo
    close(unit)
@@ -234,7 +234,7 @@ integer                             :: numroc  ! blacs routine
    
    if (nr < max_atoms_for_printing_matrix) then
       
-       if (mynode == 0)  print *,"Diagonalize dense hamiltonian for reference"
+       if (mynode == 0)  print *,"Dense hamiltonian for reference"
 
       allocate(ham_dense(nr*block_size, nr*block_size),&
           s_dense(nr*block_size, nr*block_size))
@@ -252,9 +252,6 @@ integer                             :: numroc  ! blacs routine
          end do
       endif
       
-      !call diag_dense_gen(ham_dense, s_dense, nelectrons, nr*block_size)
-      call diag_dense(ham_dense, nelectrons, nr*block_size)
-
       deallocate( ham_dense, s_dense)
    endif
    
@@ -282,8 +279,8 @@ integer                             :: numroc  ! blacs routine
 
    !
    ! set the row and column distributions (here the distribution is set randomly)
-   CALL random_dist(row_dist, nblkrows_total, npdims(1))
-   CALL random_dist(col_dist, nblkcols_total, npdims(2))
+   CALL cyclic_dist(row_dist, nblkrows_total, npdims(1))
+   CALL cyclic_dist(col_dist, nblkcols_total, npdims(2))
 
    !
    ! set the dbcsr distribution object
@@ -345,11 +342,11 @@ integer                             :: numroc  ! blacs routine
    ! set up the a matrix
    CALL dbcsr_distribution_get(dist, mynode=mynode)
 
-   !call build_ham(matrix_ks, rr, rft, kc, nr, nrft)
-
       
    ! DBCSR version, sparse and blocked   
    call build_ham_blocked(matrix_ks, rr, nr, hnondiag_cutoff, dist_cutoff, rft, nrft)
+
+   ! build matrix without translation symmetry
    !call build_ham_blocked_no_trans(matrix_ks, rr, nr, hnondiag_cutoff, dist_cutoff)
    
    CALL dbcsr_finalize(matrix_ks)
@@ -404,14 +401,6 @@ integer                             :: numroc  ! blacs routine
 
   call copy_dbcsr_to_blacs(matrix_ks, myA, nb, nb)
   
-
-  if (nr < max_atoms_for_printing_matrix) then
-         write(exFmt,'("(",I0,"(F8.4))")') myrows
-         do i=1,mycols
-         write(*,exFmt) (myA(i,j), j=1,myrows)
-         end do
-  endif
-
 
   if (mynode==0) print *,"diagonalize with scalapack"
   call timeset(scalapack_diag_fn, scalapack_fhandle)
@@ -491,7 +480,7 @@ CONTAINS
 !> \param dist_size ...
 !> \param nbins ...
 ! **************************************************************************************************
-   SUBROUTINE random_dist(dist_array, dist_size, nbins)
+   SUBROUTINE cyclic_dist(dist_array, dist_size, nbins)
       INTEGER, DIMENSION(:), INTENT(out), POINTER        :: dist_array
       INTEGER, INTENT(in)                                :: dist_size, nbins
 
@@ -502,7 +491,7 @@ CONTAINS
          dist_array(i) = MODULO(nbins-i, nbins)
       END DO
 
-   END SUBROUTINE random_dist
+   END SUBROUTINE cyclic_dist
 
    
 
@@ -735,7 +724,7 @@ subroutine build_ham_blocked(ham, rr, nr, hnondiag_cutoff, distance_cutoff, rft,
   real(8) :: vec_norm(3)
 
   integer :: nzz, nzz_per_site
-  real(8), dimension(:), pointer    :: values
+  real(8), dimension(:), allocatable    :: values
   integer :: h, w, datasize
   
   real(8) :: rho, diagVal, matrix_element
@@ -1133,14 +1122,12 @@ subroutine diag_dense_par(ham, nelec, matrix_size, first_i, first_j, desc_ham)
     write(*,'("Error: diagonalisation failed")')
     write(*,'(" ZHEEV returned INFO = ",I8)') info
     write(*,*)
-    stop
+    error stop
   end if
   
   if (mynode == 0) then
     energy=0
-    do i=1,nelec
-      energy = energy + eigval(i)
-    enddo
+    energy = sum(eigval(1:nelec))
  
     print *,"Scalapack Dense Energy, HOMO, LUMO: ", energy, eigval(nelec),eigval(nelec+1)
   endif
@@ -1161,10 +1148,12 @@ subroutine diag_dense(ham, nelec, matrix_size)
   integer info,n,ld
   real(8) energy
   !real(8), allocatable :: Cmatr(:,:)
-    
+   
+   ! set parameters for lapack eigensolver 
     info=0
     n = matrix_size
     ld = matrix_size
+    ! 3*n according to lapack manual
     lwork=3*n
     allocate (eigval(n),work(lwork))
    
@@ -1176,15 +1165,12 @@ subroutine diag_dense(ham, nelec, matrix_size)
     write(*,'("Error: diagonalisation failed")')
     write(*,'(" ZHEEV returned INFO = ",I8)') info
     write(*,*)
-    stop
+    error stop
   end if
   
   if (mynode == 0) then
     energy=0
-    do i=1,nelec
-      energy = energy + eigval(i)
-    enddo
- 
+    energy = sum(eigval(1:nelec))
  
     print *,"Dense Energy, HOMO, LUMO: ", energy, eigval(nelec),eigval(nelec+1)
   endif 
@@ -1219,14 +1205,12 @@ subroutine diag_dense_gen(ham, Smatr, nelec, matrix_size)
     write(*,'("Error: diagonalisation failed")')
     write(*,'(" ZHEEV returned INFO = ",I8)') info
     write(*,*)
-    stop
+    error stop
   end if
   
   if (mynode == 0) then
     energy=0
-    do i=1,nelec
-      energy = energy + eigval(i)
-    enddo
+    energy = sum(eigval(1:nelec))
   
     print *,"Dense Energy, HOMO, LUMO: ", energy, eigval(nelec),eigval(nelec+1)
   endif 

@@ -16,9 +16,9 @@
 !> \param max_iter ...
 ! **************************************************************************************************
   SUBROUTINE setup_arnoldi_data_${nametype1}$ (arnoldi_data, matrix, max_iter)
-     TYPE(arnoldi_data_type)                 :: arnoldi_data
-     TYPE(dbcsr_p_type), DIMENSION(:)     :: matrix
-     INTEGER                                 :: max_iter
+     TYPE(arnoldi_data_type), intent(inout)          :: arnoldi_data
+     TYPE(dbcsr_p_type), DIMENSION(:), intent(in)    :: matrix
+     INTEGER, intent(in)                             :: max_iter
 
      CHARACTER(LEN=*), PARAMETER :: routineN = 'allocate_arnoldi_data_${nametype1}$', &
                                     routineP = moduleN//':'//routineN

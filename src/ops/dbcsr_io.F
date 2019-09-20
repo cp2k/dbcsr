@@ -7,8 +7,16 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
+! **************************************************************************************************
+!> \brief   DBCSR input/output
+!> \author  Urban Borstnik
+!> \date    2010-02-18
+!> \version 0.9
+!>
+!> <b>Modification history:</b>
+!> - 2010-02-18 Moved from dbcsr_util
+! **************************************************************************************************
 MODULE dbcsr_io
-   !! DBCSR input/output
    USE dbcsr_array_types, ONLY: array_data
    USE dbcsr_data_methods, ONLY: dbcsr_data_clear_pointer, &
                                  dbcsr_data_get_size_referenced, &
@@ -69,19 +77,25 @@ MODULE dbcsr_io
    LOGICAL, PARAMETER :: bcsr_info = .FALSE.
    LOGICAL, PARAMETER :: bcsr_verbose = .FALSE.
 
+   integer, parameter :: max_matrix_dimi_to_print = 10000
+
    INTERFACE dbcsr_printmat
       MODULE PROCEDURE printmat_s, printmat_d, printmat_c, printmat_z
    END INTERFACE
 
 CONTAINS
 
+! **************************************************************************************************
+!> \brief Prints a BCSR matrix (block-style, not full)
+!> \param[in] matrix          matrix
+!> \param[in] nodata          (optional) don't print actual data
+!> \param matlab_format ...
+!> \param variable_name ...
+!> \param unit_nr ...
+! **************************************************************************************************
    SUBROUTINE dbcsr_print(matrix, nodata, matlab_format, variable_name, unit_nr)
-      !! Prints a BCSR matrix (block-style, not full)
-
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
-         !! matrix
       LOGICAL, INTENT(IN), OPTIONAL                      :: nodata, matlab_format
-         !! don't print actual data
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: variable_name
       INTEGER, INTENT(IN), OPTIONAL                      :: unit_nr
 
@@ -263,15 +277,25 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_print
 
-   SUBROUTINE dbcsr_printmat_matlab_d(matrix, rows, cols, r_offset, c_offset, iunit, tr, variable_name)
-      !! Prints the elements of a matrix.
+! **************************************************************************************************
+!> \brief Prints the elements of a matrix.
+!> \param matrix ...
+!> \param rows the logical (possibly detransposed) matrix
+!>                            size, not the stored size
+!> \param cols the logical (possibly detransposed) matrix
+!>                            size, not the stored size
+!> \param r_offset ...
+!> \param c_offset ...
+!> \param iunit ...
+!> \param[in] tr    (optional) specifies whether the elements are stored
+!>                  transposed
+!> \param variable_name ...
+! **************************************************************************************************
 
+   SUBROUTINE dbcsr_printmat_matlab_d(matrix, rows, cols, r_offset, c_offset, iunit, tr, variable_name)
       REAL(KIND=real_8), DIMENSION(:), INTENT(IN)        :: matrix
       INTEGER, INTENT(IN)                                :: rows, cols, r_offset, c_offset, iunit
-         !! the logical (possibly detransposed) matrix size, not the stored size
-         !! the logical (possibly detransposed) matrix size, not the stored size
       LOGICAL, INTENT(IN), OPTIONAL                      :: tr
-         !! specifies whether the elements are stored transposed
       CHARACTER(len=*), INTENT(in), OPTIONAL             :: variable_name
 
       INTEGER                                            :: c, c_off, m, n, r, r_off
@@ -317,6 +341,17 @@ CONTAINS
       ENDDO
    END SUBROUTINE dbcsr_printmat_matlab_d
 
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param rows ...
+!> \param cols ...
+!> \param r_offset ...
+!> \param c_offset ...
+!> \param iunit ...
+!> \param tr ...
+!> \param variable_name ...
+! **************************************************************************************************
    SUBROUTINE dbcsr_printmat_matlab_s(matrix, rows, cols, r_offset, c_offset, iunit, tr, variable_name)
       REAL(KIND=real_4), DIMENSION(:), INTENT(IN)        :: matrix
       INTEGER, INTENT(IN)                                :: rows, cols, r_offset, c_offset, iunit
@@ -366,6 +401,17 @@ CONTAINS
       ENDDO
    END SUBROUTINE dbcsr_printmat_matlab_s
 
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param rows ...
+!> \param cols ...
+!> \param r_offset ...
+!> \param c_offset ...
+!> \param iunit ...
+!> \param tr ...
+!> \param variable_name ...
+! **************************************************************************************************
    SUBROUTINE dbcsr_printmat_matlab_z(matrix, rows, cols, r_offset, c_offset, iunit, tr, variable_name)
       COMPLEX(KIND=real_8), DIMENSION(:), INTENT(IN)     :: matrix
       INTEGER, INTENT(IN)                                :: rows, cols, r_offset, c_offset, iunit
@@ -417,6 +463,17 @@ CONTAINS
       ENDDO
    END SUBROUTINE dbcsr_printmat_matlab_z
 
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param rows ...
+!> \param cols ...
+!> \param r_offset ...
+!> \param c_offset ...
+!> \param iunit ...
+!> \param tr ...
+!> \param variable_name ...
+! **************************************************************************************************
    SUBROUTINE dbcsr_printmat_matlab_c(matrix, rows, cols, r_offset, c_offset, iunit, tr, variable_name)
       COMPLEX(KIND=real_4), DIMENSION(:), INTENT(IN)     :: matrix
       INTEGER, INTENT(IN)                                :: rows, cols, r_offset, c_offset, iunit
@@ -468,16 +525,23 @@ CONTAINS
       ENDDO
    END SUBROUTINE dbcsr_printmat_matlab_c
 
+! **************************************************************************************************
+!> \brief Prints the elements of a matrix.
+!> \param matrix ...
+!> \param rows the logical (possibly detransposed) matrix
+!>                            size, not the stored size
+!> \param cols the logical (possibly detransposed) matrix
+!>                            size, not the stored size
+!> \param iunit ...
+!> \param title ...
+!> \param[in] tr    (optional) specifies whether the elements are stored
+!>                  transposed
+! **************************************************************************************************
    SUBROUTINE printmat_s(matrix, rows, cols, iunit, title, tr)
-      !! Prints the elements of a matrix.
-
       REAL(KIND=real_4), DIMENSION(:), INTENT(IN)        :: matrix
       INTEGER, INTENT(IN)                                :: rows, cols, iunit
-         !! the logical (possibly detransposed) matrix size, not the stored size
-         !! the logical (possibly detransposed) matrix size, not the stored size
       CHARACTER(*), INTENT(IN), OPTIONAL                 :: title
       LOGICAL, INTENT(IN), OPTIONAL                      :: tr
-         !! specifies whether the elements are stored transposed
 
       CHARACTER(30)                                      :: f
       INTEGER                                            :: m, n, r
@@ -504,8 +568,8 @@ CONTAINS
       DO r = LBOUND(matrix, 1), UBOUND(matrix, 1)
          bit_bucket = bit_bucket + matrix(r)
       ENDDO
-      IF (m .GT. 10000) m = 0
-      IF (n .GT. 10000) n = 0
+      IF (m .GT. max_matrix_dimi_to_print) m = 0
+      IF (n .GT. max_matrix_dimi_to_print) n = 0
       IF (m*n .LT. 1 .OR. m*n .GT. SIZE(matrix)) RETURN
       WRITE (f, FMT="('(',I4,'(F9.4))')") cols
       DO r = 1, rows
@@ -517,6 +581,74 @@ CONTAINS
       ENDDO
    END SUBROUTINE printmat_s
 
+! **************************************************************************************************
+!> \brief Prints the elements of a matrix.
+!> \param matrix ...
+!> \param rows the logical (possibly detransposed) matrix
+!>                            size, not the stored size
+!> \param cols the logical (possibly detransposed) matrix
+!>                            size, not the stored size
+!> \param iunit ...
+!> \param title ...
+!> \param[in] tr    (optional) specifies whether the elements are stored
+!>                  transposed
+! **************************************************************************************************
+   SUBROUTINE printmat_c(matrix, rows, cols, iunit, title, tr)
+      complex(KIND=real_4), DIMENSION(:), INTENT(IN)        :: matrix
+      INTEGER, INTENT(IN)                                :: rows, cols, iunit
+      CHARACTER(*), INTENT(IN), OPTIONAL                 :: title
+      LOGICAL, INTENT(IN), OPTIONAL                      :: tr
+
+      CHARACTER(30)                                      :: f
+      INTEGER                                            :: m, n, r, c
+      LOGICAL                                            :: t
+      complex(KIND=dp)                                      :: bit_bucket
+
+!   ---------------------------------------------------------------------------
+
+      m = rows
+      n = cols
+      t = .FALSE.
+      IF (PRESENT(title)) WRITE (iunit, *) title
+      IF (PRESENT(tr)) THEN
+         IF (tr) THEN
+            t = .TRUE.
+            m = cols
+            n = rows
+         ENDIF
+      ENDIF
+      DO r = LBOUND(matrix, 1), UBOUND(matrix, 1)
+         bit_bucket = matrix(r)
+      ENDDO
+      bit_bucket = 0.0_dp
+      DO r = LBOUND(matrix, 1), UBOUND(matrix, 1)
+         bit_bucket = bit_bucket + matrix(r)
+      ENDDO
+      IF (m .GT. max_matrix_dimi_to_print) m = 0
+      IF (n .GT. max_matrix_dimi_to_print) n = 0
+      IF (m*n .LT. 1 .OR. m*n .GT. SIZE(matrix)) RETURN
+      WRITE (f, FMT="('(',I4,'(A,F9.4,A,F9.4,A))')") cols
+      DO r = 1, rows
+         IF (.NOT. t) THEN
+            WRITE (iunit, FMT=f) (' (', real(matrix(r + (c-1)*rows)), ' , ', &
+                                  aimag(matrix(r + (c-1)*rows)), ' ) ', c=1,cols )
+         ELSE
+            WRITE (iunit, FMT=f) '{',real(matrix(c + cols * (r - 1))), ' , ', &
+               aimag(matrix(c + cols * (r - 1))),' }'
+
+         ENDIF
+      ENDDO
+   END SUBROUTINE printmat_c
+
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param rows ...
+!> \param cols ...
+!> \param iunit ...
+!> \param title ...
+!> \param tr ...
+! **************************************************************************************************
    SUBROUTINE printmat_d(matrix, rows, cols, iunit, title, tr)
       REAL(KIND=real_8), DIMENSION(:), INTENT(IN)        :: matrix
       INTEGER, INTENT(IN)                                :: rows, cols, iunit
@@ -538,27 +670,15 @@ CONTAINS
       ENDIF
    END SUBROUTINE printmat_d
 
-   SUBROUTINE printmat_c(matrix, rows, cols, iunit, title, tr)
-      COMPLEX(KIND=real_4), DIMENSION(:), INTENT(IN)     :: matrix
-      INTEGER, INTENT(IN)                                :: rows, cols, iunit
-      CHARACTER(*), INTENT(IN), OPTIONAL                 :: title
-      LOGICAL, INTENT(IN), OPTIONAL                      :: tr
-
-      IF (PRESENT(title)) THEN
-         IF (PRESENT(tr)) THEN
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title, tr)
-         ELSE
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title)
-         ENDIF
-      ELSE
-         IF (PRESENT(tr)) THEN
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, tr=tr)
-         ELSE
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit)
-         ENDIF
-      ENDIF
-   END SUBROUTINE printmat_c
-
+! **************************************************************************************************
+!> \brief ...
+!> \param matrix ...
+!> \param rows ...
+!> \param cols ...
+!> \param iunit ...
+!> \param title ...
+!> \param tr ...
+! **************************************************************************************************
    SUBROUTINE printmat_z(matrix, rows, cols, iunit, title, tr)
       COMPLEX(KIND=real_8), DIMENSION(:), INTENT(IN)     :: matrix
       INTEGER, INTENT(IN)                                :: rows, cols, iunit
@@ -567,43 +687,51 @@ CONTAINS
 
       IF (PRESENT(title)) THEN
          IF (PRESENT(tr)) THEN
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title, tr)
+            CALL printmat_c(cmplx(matrix, KIND=sp), rows, cols, iunit, title, tr)
          ELSE
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title)
+            CALL printmat_c(cmplx(matrix, KIND=sp), rows, cols, iunit, title)
          ENDIF
       ELSE
          IF (PRESENT(tr)) THEN
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, tr=tr)
+            CALL printmat_c(cmplx(matrix, KIND=sp), rows, cols, iunit, tr=tr)
          ELSE
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit)
+            CALL printmat_c(cmplx(matrix, KIND=sp), rows, cols, iunit)
          ENDIF
       ENDIF
    END SUBROUTINE printmat_z
 
+! **************************************************************************************************
+!> \brief Writes a DBCSR matrix in a file
+!>   file's header consists of 3 sub-headers:
+!>   sub-header1 contains:
+!>     1 string: (of length version_len) the current version of this routine,
+!>     1 string: (of length default_string_length) matrix_name,
+!>     1 character: matrix_type,
+!>     4 integers: numnodes, data_type, nblkrows_total, nblkcols_total,
+!>     2 vectors:  row_blk_size (length = nblkrows_total),
+!>                 col_blk_size (length = nblkcols_total),
+!>   sub-header2 contains:
+!>     2 integers: nblks, data_area_size,
+!>   sub-header3 contains:
+!>     3 vectors:  row_p (length = nblkrows_total+1),
+!>                 col_i (length = nblks),
+!>                 blk_p (length = nblks);
+!>   and the file's body contains the block data
+!>
+!> \param[in] matrix    DBCSR matrix
+!> \param[in] filepath  path to the file
+!>
+!> \par History
+!>      11.2012 created [Hossein Bani-Hashemian]
+!> \author Hossein Bani-Hashemian
+!> \version DBCSRv_1.0
+! **************************************************************************************************
    SUBROUTINE dbcsr_binary_write(matrix, filepath)
-      !! Writes a DBCSR matrix in a file
-      !! file's header consists of 3 sub-headers:
-      !! sub-header1 contains:
-      !! 1 string: (of length version_len) the current version of this routine,
-      !! 1 string: (of length default_string_length) matrix_name,
-      !! 1 character: matrix_type,
-      !! 4 integers: numnodes, data_type, nblkrows_total, nblkcols_total,
-      !! 2 vectors:  row_blk_size (length = nblkrows_total),
-      !! col_blk_size (length = nblkcols_total),
-      !! sub-header2 contains:
-      !! 2 integers: nblks, data_area_size,
-      !! sub-header3 contains:
-      !! 3 vectors:  row_p (length = nblkrows_total+1),
-      !! col_i (length = nblks),
-      !! blk_p (length = nblks);
-      !! and the file's body contains the block data
 
       IMPLICIT NONE
 
       TYPE(dbcsr_type), INTENT(IN)           :: matrix
-         !! DBCSR matrix
       CHARACTER(len=*), INTENT(IN)         :: filepath
-         !! path to the file
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_binary_write', &
                                      routineP = moduleN//':'//routineN
@@ -741,8 +869,13 @@ CONTAINS
       DEALLOCATE (bdata_disps, bdata_offsets)
 
       CALL timestop(handle)
- 
+
    CONTAINS
+! **************************************************************************************************
+!> \brief ...
+!> \param arr ...
+!> \param cumsum ...
+! **************************************************************************************************
       SUBROUTINE cumsum_l(arr, cumsum)
          INTEGER(kind=file_offset), DIMENSION(:), &
             INTENT(IN)                                      :: arr
@@ -758,19 +891,27 @@ CONTAINS
       END SUBROUTINE cumsum_l
    END SUBROUTINE dbcsr_binary_write
 
+! **************************************************************************************************
+!> \brief Reads a DBCSR matrix from a file
+!> \param[in] filepath             path to the file
+!> \param[in] distribution         row and column distribution
+!> \param groupid ...
+!> \param[out] matrix_new          DBCSR matrix
+!>
+!> \param[in](optional) groupid    message passing environment identifier
+!> \par History
+!>      11.2012 created [Hossein Bani-Hashemian]
+!> \author Hossein Bani-Hashemian
+!> \version DBCSRv_1.0
+! **************************************************************************************************
    SUBROUTINE dbcsr_binary_read(filepath, distribution, groupid, matrix_new)
-      !! Reads a DBCSR matrix from a file
 
       IMPLICIT NONE
 
       CHARACTER(len=*), INTENT(IN)                :: filepath
-         !! path to the file
       TYPE(dbcsr_distribution_obj), INTENT(IN)     :: distribution
-         !! row and column distribution
       INTEGER, INTENT(IN), OPTIONAL                :: groupid
-         !! message passing environment identifier
       TYPE(dbcsr_type), INTENT(INOUT)               :: matrix_new
-         !! DBCSR matrix
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_binary_read', &
                                      routineP = moduleN//':'//routineN
@@ -1071,6 +1212,11 @@ CONTAINS
 
       CALL timestop(handle)
    CONTAINS
+! **************************************************************************************************
+!> \brief ...
+!> \param arr ...
+!> \param cumsum ...
+! **************************************************************************************************
       SUBROUTINE cumsum_l(arr, cumsum)
          INTEGER(kind=file_offset), DIMENSION(:), &
             INTENT(IN)                                      :: arr
@@ -1087,11 +1233,13 @@ CONTAINS
 
    END SUBROUTINE dbcsr_binary_read
 
+! **************************************************************************************************
+!> \brief Prints the sum of the elements for each block
+!> \param[in] matrix          matrix
+!> \param unit_nr ...
+! **************************************************************************************************
    SUBROUTINE dbcsr_print_block_sum(matrix, unit_nr)
-      !! Prints the sum of the elements for each block
-
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
-         !! matrix
       INTEGER, INTENT(IN), OPTIONAL                      :: unit_nr
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_print_block_sum', &

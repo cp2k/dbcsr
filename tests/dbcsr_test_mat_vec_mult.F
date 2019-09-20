@@ -105,10 +105,6 @@ module dbcsr_test_mat_vec_mult
 
    IMPLICIT NONE
 
-   !PRIVATE
-
-   !PUBLIC :: dbcsr_test_multiplies
-
 contains
 
    subroutine dbcsr_mat_vec_multiplies(test_name, mp_comm, mp_env, npdims,&
@@ -128,22 +124,9 @@ contains
 
       LOGICAL, PARAMETER :: debug_mod = .FALSE.
 
-      !TYPE(dbcsr_logger_type), POINTER            :: logger
-
       INTEGER                                  :: group, numnodes, mynode, &
                                                   handle
-      !INTEGER, DIMENSION(2)                    :: npdims, myploc
-      !INTEGER, DIMENSION(:, :), POINTER        :: pgrid
-      !TYPE(dbcsr_mp_obj)                       :: mp_env
-
-      !INTEGER                                            :: c_a, c_b, c_c, handle, r_a, r_b, r_c
-      !INTEGER, DIMENSION(:), POINTER                     :: blk_offsets, col_dist_a, col_dist_b, &
-      !col_dist_c, row_dist_a, row_dist_b, &
-      !row_dist_c
       LOGICAL                                            :: success
-      !REAL(real_8)                                       :: occ_a, occ_b, occ_c_in, occ_c_out
-      !TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c
-      !TYPE(dbcsr_type)                                   :: m_a, m_b, m_c
 
       integer                             ::  m,n, k, i ,j, nb, no, nloc, numthreads
       INTEGER, DIMENSION(2)               :: bs
@@ -164,7 +147,6 @@ contains
       TYPE(dbcsr_scalar_type)                            :: alpha_obj, beta_obj
 
       a_symm = dbcsr_type_no_symmetry
-      !mtype = dbcsr_type_real_8
 
       n = 1
       bs(1) = 1
@@ -172,19 +154,10 @@ contains
       k = m
       bs(2) = bs_m
 
-      !open(unit=123,file="mnkb.dat",status="old",form="formatted")
-      !read(123,*) m
-      !read(123,*) k
-      !read(123,*) bs(2)
-      !read(123,*) sparsity
-      !close(123)
-
       limits(:) = 1
       limits(2) = m
       limits(4) = n
       limits(6) = k
-
-      !CALL mp_world_init(mp_comm)
 
       !
       ! Number of nodes and rankid
@@ -210,42 +183,8 @@ contains
          WRITE (io_unit, *) 'bs_n', bs_m
          WRITE (io_unit, *) 'bs_k', bs_m
       END IF
-      !npdims(:) = 0
-      !CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
-
-      !ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
-      !DO prow = 0, npdims(1) - 1
-      !DO pcol = 0, npdims(2) - 1
-      !CALL mp_cart_rank(group, (/prow, pcol/), pgrid(prow, pcol))
-      !ENDDO
-      !ENDDO
-      !CALL dbcsr_mp_new(mp_env, pgrid, group, mynode, numnodes, &
-      !myprow=myploc(1), mypcol=myploc(2))
-
-      !call dbcsr_mp_grid_setup(mp_env)
-      !DEALLOCATE (pgrid)
-
-      !!
-      !! set standard output parameters
-      !io_unit = 0
-      !IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
-
-      !NULLIFY (logger)
-      !CALL dbcsr_logger_create(logger, mp_env=mp_env, &
-      !default_global_unit_nr=io_unit, &
-      !close_global_unit_on_dealloc=.FALSE.)
-      !CALL dbcsr_add_default_logger(logger)
-      !CALL dbcsr_logger_release(logger)
-      !CALL dbcsr_error_handling_setup()
-      !CALL timings_register_hooks()
-      !CALL add_mp_perf_env()
-      !CALL add_timer_env()
 
       CALL timeset(routineN, handle)
-
-      !CALL dbcsr_init_lib()
-
-      !CALL dbcsr_print_config(io_unit)
 
       CALL dbcsr_make_random_block_sizes(sizes_m, m, bs)
       CALL dbcsr_make_random_block_sizes(sizes_k, k, bs)
@@ -259,8 +198,6 @@ contains
 
       CALL dbcsr_reset_randmat_seed()
 
-!    print *, m,k,bs,sparsity
-!    print *, sizes_m
       CALL dbcsr_make_random_matrix(matrix_a, sizes_m, sizes_k, "Matrix A", &
                                     sparsity, &
                                     group, data_type=mtype, dist=dist)
@@ -284,7 +221,7 @@ contains
 
       ! copy input vector to results vector just to not to be
       CALL dbcsr_copy(result_vec, input_vec)
-      
+
       ! densify matrix
       a_r = dbcsr_nfullrows_total(matrix_a)
       a_c = dbcsr_nfullcols_total(matrix_a)
@@ -340,7 +277,6 @@ contains
          call mp_sum(res_vec      % d % c2_sp, mp_comm)
       END SELECT
 
-
       ! check multiply
       CALL dbcsr_check_multiply(test_name, result_vec, res_vec_init, data_a, inp_vec, res_vec, &
                                 'N', 'N', alpha_obj, beta_obj, limits, .false., io_unit, mp_comm, &
@@ -356,9 +292,7 @@ contains
       call dbcsr_data_release(data_a)
       call dbcsr_data_release(inp_vec)
 
-
       CALL timestop(handle)
-
 
    end subroutine dbcsr_mat_vec_multiplies
 

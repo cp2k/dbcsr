@@ -142,7 +142,7 @@ CONTAINS
       ALLOCATE (col_dist(1), col_blk_size(1))
       col_dist(1) = 0
       col_blk_size(1) = ncol
-      
+
       call dbcsr_distribution_new(dist_col_vec, dist % d % mp_env, row_dist, col_dist)
 
       CALL dbcsr_create(dbcsr_vec, "D", dist_col_vec,&
@@ -189,7 +189,7 @@ CONTAINS
       ALLOCATE (row_dist(1), row_blk_size(1))
       row_dist(1) = 0
       row_blk_size(1) = nrow
-      
+
       call dbcsr_distribution_new(dist_row_vec, dist % d % mp_env, row_dist, col_dist)
 
       CALL dbcsr_create(dbcsr_vec, "D", dist_row_vec,&

@@ -470,7 +470,6 @@ CONTAINS
                        my_eps_lanczos, my_filter_eps, occ_matrix, scalingf, t1, t2
       TYPE(dbcsr_type), TARGET                           :: tmp1, tmp2
 
-
       CALL timeset(routineN, handle)
 
       unit_nr = dbcsr_logger_get_default_io_unit()

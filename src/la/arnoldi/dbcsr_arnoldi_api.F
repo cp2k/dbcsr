@@ -410,6 +410,8 @@ CONTAINS
       TYPE(dbcsr_type)                                   :: apvec, pvec, rvec, zvec
       TYPE(dbcsr_type), POINTER                          :: amat, pmat, xvec
 
+      real(kind=dp), parameter :: error = 1.e-24_dp
+
       control => get_control(arnoldi_data)
       control%converged = .FALSE.
       pcgrp = control%pcol_group
@@ -446,7 +448,7 @@ CONTAINS
             CALL dbcsr_copy(apvec, vectors%result_vec)
 
             pap = vec_dot_vec(pvec, apvec, mpgrp)
-            IF (ABS(pap) < 1.e-24_dp) THEN
+            IF (ABS(pap) < error) THEN
                alpha = 0.0_dp
             ELSE
                alpha = rsold/pap
@@ -485,7 +487,7 @@ CONTAINS
                                               0.0_dp, vectors%rep_row_vec, vectors%rep_col_vec)
             CALL dbcsr_copy(apvec, vectors%result_vec)
             pap = vec_dot_vec(pvec, apvec, mpgrp)
-            IF (ABS(pap) < 1.e-24_dp) THEN
+            IF (ABS(pap) < error) THEN
                alpha = 0.0_dp
             ELSE
                alpha = rsold/pap
