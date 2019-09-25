@@ -31,6 +31,15 @@
 #define dbcsr_type_complex_4  5
 #define dbcsr_type_complex_8  7
 
+// The macro ARCH_OPT, when expanded, is a string literal containing the
+// jit compiler option indictaing the target architecture
+#if defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
+#define ARCH_OPTION_ --gpu-architecture=compute_##ARCH_NUMBER
+#else
+#define ARCH_OPTION_ --amdgpu-target=##ARCH_NUMBER
+#endif
+#define STRINGIZE(A) #A
+#define ARCH_OPTION STRINGIZE(ARCH_OPTION_)
 
 //===========================================================================
 inline int launch_kernel_from_handle(ACC_DRV(function) const& kern_func, int nblks, int threads, ACC_DRV(stream) stream, void** args){
@@ -138,8 +147,7 @@ inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int t
 
     // (JIT-)compile kernel program
 #if defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
-    const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(ARCH_NUMBER);
-    const char *compileOptions[] = {"-D__CUDA", "-w", arch_opt.c_str()};
+    const char *compileOptions[] = {"-D__CUDA", "-w", ARCH_OPTION};
     size_t nOptions = 3;
 #else
     const char *compileOptions[] = {"-D__HIP"};
@@ -282,8 +290,7 @@ void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
 
     // (JIT-)compile
 #if defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
-    const std::string arch_opt = "--gpu-architecture=compute_" + std::to_string(ARCH_NUMBER);
-    const char *compileOptions[] = {"-D__CUDA", "-w", arch_opt.c_str()};
+    const char *compileOptions[] = {"-D__CUDA", "-w", ARCH_OPTION};
     size_t nOptions = 3;
 #else
     const char *compileOptions[] = {"-D__HIP"};
