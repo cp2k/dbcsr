@@ -54,7 +54,7 @@ extern "C" int acc_stream_create(void** stream_p, const char* name, int priority
       cErr = ACC(StreamCreate)(acc_stream);
 
 
-  if (verbose_print) printf("StreamCreate : %p -> %d \n", *stream_p, *acc_stream);
+  if (verbose_print) printf("StreamCreate : %p -> %p \n", *stream_p, *acc_stream);
   if (acc_error_check(cErr)) return -1;
   if (acc_error_check(ACC(GetLastError)())) return -1;
 

@@ -174,8 +174,6 @@ inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int t
     // Set shared memory configuration
 #if defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
     ACC_DRV_CALL(FuncSetSharedMemConfig, (kern_func, ACC_DRV(SharedMemBankSizeEightByte)));
-#else
-    ACC_DRV_CALL(CtxSetSharedMemConfig, (ACC_DRV(SharedMemBankSizeEightByte)));
 #endif
 
     // Destroy program
@@ -317,8 +315,6 @@ void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
     // Set shared memory configuration
 #if defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
     ACC_DRV_CALL(FuncSetSharedMemConfig, (kern_func, ACC_DRV(SharedMemBankSizeEightByte)));
-#else
-    ACC_DRV_CALL(CtxSetSharedMemConfig, (ACC_DRV(SharedMemBankSizeEightByte)));
 #endif
 
     // Destroy program

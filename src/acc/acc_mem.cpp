@@ -51,7 +51,7 @@ extern "C" int acc_host_mem_allocate(void **host_mem, size_t n, void *stream){
   if (host_mem == NULL)
     return -2;
   if (verbose_print)
-    printf ("Allocating %d bytes of host pinned memory at %p\n",n,  *host_mem);
+    printf ("Allocating %zd bytes of host pinned memory at %p\n", n, *host_mem);
 
   return 0;
 }
@@ -78,7 +78,7 @@ extern "C" int acc_dev_mem_set_ptr(void **dev_mem, void *other, size_t lb){
 extern "C" int acc_memcpy_h2d(const void *host_mem, void *dev_mem, size_t count, void* stream){
   ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
   if (verbose_print)
-      printf ("Copying %d bytes from host address %p to device address %p \n", count, host_mem, dev_mem);
+      printf ("Copying %zd bytes from host address %p to device address %p \n", count, host_mem, dev_mem);
 
   ACC_API_CALL(MemcpyAsync, (dev_mem, host_mem, count, ACC(MemcpyHostToDevice), *acc_stream));
 
@@ -90,7 +90,7 @@ extern "C" int acc_memcpy_h2d(const void *host_mem, void *dev_mem, size_t count,
 extern "C" int acc_memcpy_d2h(const void *dev_mem, void *host_mem, size_t count, void* stream){
   ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
   if (verbose_print)
-      printf ("Copying %d bytes from device address %p to host address %p\n", count, dev_mem, host_mem);
+      printf ("Copying %zd bytes from device address %p to host address %p\n", count, dev_mem, host_mem);
 
   ACC_API_CALL(MemcpyAsync, (host_mem, dev_mem, count, ACC(MemcpyHostToDevice), *acc_stream));
 
@@ -105,7 +105,7 @@ extern "C" int acc_memcpy_d2h(const void *dev_mem, void *host_mem, size_t count,
 extern "C" int acc_memcpy_d2d(const void *devmem_src, void *devmem_dst, size_t count, void* stream){
   ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
   if (verbose_print)
-      printf ("Copying %d bytes from device address %p to device address %p \n", count, devmem_src, devmem_dst);
+      printf ("Copying %zd bytes from device address %p to device address %p \n", count, devmem_src, devmem_dst);
 
 
   if(stream == NULL){

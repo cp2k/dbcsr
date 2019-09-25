@@ -9,7 +9,15 @@
 
 #include "acc_hip.h"
 
+hipError_t hipHostAlloc(void **ptr, size_t size, unsigned int flags){
+  return hipHostMalloc(ptr, size, flags);
+}
+
 unsigned int hipHostAllocDefault = hipHostMallocDefault;
+
+hipError_t hipFreeHost(void *ptr){
+  return hipHostFree(ptr);
+}
 
 hiprtcResult hiprtcGetLowLevelCode(hiprtcProgram prog, char* code){
   return hiprtcGetCode(prog, code);
