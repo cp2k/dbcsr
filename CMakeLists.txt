@@ -208,14 +208,16 @@ if (USE_HIP)
 
   # set appropriate compilation flags depending on platform
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
+  set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -D__HIP")
   if (${HIP_PLATFORM} STREQUAL "nvcc")
-    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -std=c++11 -arch=sm_${ACC_ARCH_NUMBER} --cudart static -D__HIP")
+    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -std=c++11 -arch=sm_${ACC_ARCH_NUMBER} --cudart static")
   else()
-    #set(HIP_HIPCC_FLAGS "${CMAKE_HIP_FLAGS} --amdgpu-target=${ACC_ARCH_NUMBER}")
-    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -D__HIP")
+    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} --amdgpu-target=${ACC_ARCH_NUMBER}")
+    set(HIP_ARCH_FLAGS "--amdgpu-target=${ACC_ARCH_NUMBER}")
   endif()
   message(STATUS "GPU target architecture: " ${WITH_GPU})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
+  message(STATUS "HIPCC flags: " ${HIP_HIPCC_FLAGS})
 endif()
 
 # =================================== BLAS on GPU backend
