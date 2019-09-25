@@ -208,7 +208,7 @@ if (USE_HIP)
 
   # set appropriate compilation flags depending on platform
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
-  set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -D__HIP")
+  set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -D__HIP -O3")
   if (${HIP_PLATFORM} STREQUAL "nvcc")
     set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -std=c++11 -arch=sm_${ACC_ARCH_NUMBER} --cudart static")
   else()
