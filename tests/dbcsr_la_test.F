@@ -39,9 +39,7 @@ PROGRAM dbcsr_la_test
                             mp_world_init, mp_sum
    use mpi
 
-   USE dbcsr_test_add, ONLY: dbcsr_test_adds
 
-   USE dbcsr_test_multiply, ONLY: dbcsr_test_multiplies
 
    USE dbcsr_test_methods, ONLY: compx_to_dbcsr_scalar, &
                                  dbcsr_impose_sparsity, &

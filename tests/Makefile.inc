@@ -4,6 +4,8 @@ UNITTESTS = dbcsr_la_test dbcsr_unittest1 dbcsr_unittest2 dbcsr_unittest3 dbcsr_
 PERFTESTS = $(wildcard $(TESTSDIR)/inputs/*.perf)
 
 SRC_TESTS += dbcsr_la_test.F
+dbcsr_la_test: BIN_DEPS = 
+
 SRC_TESTS += dbcsr_performance_driver.F
 dbcsr_performance_driver: BIN_DEPS = dbcsr_performance_multiply.o
 
