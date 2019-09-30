@@ -37,6 +37,7 @@ PROGRAM dbcsr_la_test
                             mp_environ, &
                             mp_world_finalize, &
                             mp_world_init, mp_sum
+   use mpi
 
    USE dbcsr_test_add, ONLY: dbcsr_test_adds
 
@@ -56,17 +57,13 @@ PROGRAM dbcsr_la_test
       dbcsr_type_real_4_2d, dbcsr_type_real_8, dbcsr_type_real_8_2d, dbcsr_type_symmetric,&
       dbcsr_iterator
 
-
-
-
-
    USE dbcsr_methods, ONLY: &
       dbcsr_col_block_offsets, dbcsr_col_block_sizes, dbcsr_get_data_type, &
       dbcsr_get_matrix_type, dbcsr_name, dbcsr_nblkcols_total, dbcsr_nblkrows_total, &
       dbcsr_row_block_offsets, &
       dbcsr_row_block_sizes,dbcsr_mp_grid_remove
-   
-  USE dbcsr_data_methods, ONLY: dbcsr_data_get_sizes, &
+
+   USE dbcsr_data_methods, ONLY: dbcsr_data_get_sizes, &
                                  dbcsr_data_init, &
                                  dbcsr_data_new, &
                                  dbcsr_data_release, &
@@ -79,16 +76,16 @@ PROGRAM dbcsr_la_test
                         dbcsr_desymmetrize, dbcsr_nfullrows_total, dbcsr_nfullcols_total, dbcsr_release,&
                         dbcsr_create, dbcsr_distribution_new
 
-  use dbcsr_arnoldi_api 
+   use dbcsr_arnoldi_api
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 
-   INTEGER                                  :: mp_comm, group, numnodes, mynode, &
-                                               prow, pcol, io_unit, handle
-   INTEGER, DIMENSION(2)                    :: npdims, myploc
-   INTEGER, DIMENSION(:, :), POINTER         :: pgrid
-   TYPE(dbcsr_mp_obj)                       :: mp_env
+   INTEGER                                  :: io_unit, group, numnodes, mynode, &
+                                               handle, ierr
+   INTEGER, DIMENSION(2)                    :: npdims
+   LOGICAL, DIMENSION(2)                    :: period = .TRUE.
+!$ INTEGER                                  :: provided_tsl
 
    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_unittest'
 
@@ -98,7 +95,6 @@ PROGRAM dbcsr_la_test
    TYPE(dbcsr_distribution_type)                       :: dist
    TYPE(dbcsr_data_obj)                               :: matrix_data
    INTEGER, DIMENSION(:), POINTER                     ::  sizes_m, sizes_n
-
 
    integer                             ::  m,n, bs_m, mtype, a_r, a_c, matrix_size
    INTEGER, DIMENSION(2)               :: bs
@@ -110,35 +106,36 @@ PROGRAM dbcsr_la_test
    real(8) :: threshold, max_ev, min_ev
 
    ! lapack
-   real(8), allocatable ::eigval(:),  work(:) , iwork(:)  
+   real(8), allocatable ::eigval(:),  work(:) , iwork(:)
    real(8) :: zarr(1)
    integer lwork
    integer info, ifail, ld, num_ev
 
    !***************************************************************************************
 
-
-   !
-
-   !
    ! initialize mpi
-   CALL mp_world_init(mp_comm)
+!$ IF ( .FALSE. ) THEN
+      CALL mpi_init(ierr)
+      IF (ierr /= 0) STOP "Error in MPI_Init"
+!$ ELSE
+!$    CALL mpi_init_thread(MPI_THREAD_FUNNELED, provided_tsl, ierr)
+!$    IF (ierr /= 0) STOP "Error in MPI_Init_thread"
+!$    IF (provided_tsl .LT. MPI_THREAD_FUNNELED) THEN
+!$       STOP "MPI library does not support the requested level of threading (MPI_THREAD_FUNNELED)."
+!$    ENDIF
+!$ ENDIF
 
-   ! setup the mp environment
+   CALL mpi_comm_size(MPI_COMM_WORLD, numnodes, ierr)
+   IF (ierr /= 0) STOP "Error in MPI_Comm_size"
    npdims(:) = 0
-   CALL mp_cart_create(mp_comm, 2, npdims, myploc, group)
-   CALL mp_environ(numnodes, mynode, group)
-   ALLOCATE (pgrid(0:npdims(1) - 1, 0:npdims(2) - 1))
-   DO prow = 0, npdims(1) - 1
-      DO pcol = 0, npdims(2) - 1
-         CALL mp_cart_rank(group, (/prow, pcol/), pgrid(prow, pcol))
-      ENDDO
-   ENDDO
-   CALL dbcsr_mp_new(mp_env, group, pgrid, mynode, numnodes, &
-                     myprow=myploc(1), mypcol=myploc(2))
+   CALL mpi_dims_create(numnodes, 2, npdims, ierr)
+   IF (ierr /= 0) STOP "Error in MPI_Dims_create"
+   CALL mpi_cart_create(MPI_COMM_WORLD, 2, npdims, period, .FALSE., group, ierr)
+   IF (ierr /= 0) STOP "Error in MPI_Cart_create"
 
-   call  dbcsr_mp_grid_setup(mp_env)
-   DEALLOCATE (pgrid)
+   CALL mpi_comm_rank(MPI_COMM_WORLD, mynode, ierr)
+   IF (ierr /= 0) STOP "Error in MPI_Comm_rank"
+
    !
    ! set standard output parameters
    io_unit = 0
@@ -149,13 +146,12 @@ PROGRAM dbcsr_la_test
    IF (dbcsr_acc_get_ndevices() > 0) &
       CALL dbcsr_acc_set_active_device(MOD(mynode, dbcsr_acc_get_ndevices()))
 
-   CALL dbcsr_init_lib(mp_comm, io_unit)
+   CALL dbcsr_init_lib(MPI_COMM_WORLD, io_unit)
 
    ! initialize libdbcsr errors
    CALL timeset(routineN, handle)
 
    CALL dbcsr_reset_randmat_seed()
-   
 
    !**********************************************************
 
@@ -172,34 +168,29 @@ PROGRAM dbcsr_la_test
    bs(2) = bs_m
 
    !setup arrays, matrices
-   allocate(sizes_n(n))
 
    CALL dbcsr_make_random_block_sizes(sizes_m, m, bs)
+   allocate(sizes_n(size(sizes_m)))
    sizes_n(:) = sizes_m(:)
 
+   CALL dbcsr_dist_bin(row_dist, SIZE(sizes_m), npdims(1), &
+                       sizes_m)
+   CALL dbcsr_dist_bin(col_dist, SIZE(sizes_n), npdims(2), &
+                       sizes_n)
 
-    CALL dbcsr_dist_bin(row_dist, SIZE(sizes_m), npdims(1), &
-                        sizes_m)
-    CALL dbcsr_dist_bin(col_dist, SIZE(sizes_n), npdims(2), &
-                        sizes_n)
+   CALL dbcsr_distribution_new(dist, group=group, row_dist=row_dist, col_dist=col_dist, reuse_arrays=.TRUE.)
 
-    CALL dbcsr_distribution_new(dist, group=group, row_dist=row_dist, col_dist=col_dist, reuse_arrays=.TRUE.)
- 
-    !CALL dbcsr_distribution_new(dist, mp_env, row_dist, col_dist)
+   CALL dbcsr_make_random_matrix(matrix_symm, sizes_m, sizes_n, "symm", &
+                                 sparsity, &
+                                 group, data_type=mtype, symmetry=dbcsr_type_symmetric, dist=dist)
 
-    CALL dbcsr_make_random_matrix(matrix_symm, sizes_m, sizes_n, "symm", &
-                                  sparsity, &
-                                  group, data_type=mtype, symmetry=dbcsr_type_symmetric, dist=dist)
+   CALL dbcsr_create(matrix, "unsymm", &
+                     dist, dbcsr_type_no_symmetry , &
+                     sizes_n, &
+                     sizes_m, &
+                     data_type=dbcsr_type_real_8)
 
-
-    CALL dbcsr_create(matrix, "unsymm", &
-                      dist, dbcsr_type_no_symmetry , &
-                      sizes_n, &
-                      sizes_m, &
-                      data_type=dbcsr_type_real_8)
-    
-    call dbcsr_desymmetrize(matrix_symm, matrix)
-
+   call dbcsr_desymmetrize(matrix_symm, matrix)
 
    ! setup arnoldi
    threshold=1.0E-8_dp
@@ -208,9 +199,9 @@ PROGRAM dbcsr_la_test
    call arnoldi_extremal(matrix, max_ev, min_ev, converged, threshold, max_iter)
 
    if (converged .eqv. .false.) then
-       error stop "arnoldi is not converged"
+      error stop "arnoldi is not converged"
    endif
-   
+
    ! check arnoldi
    a_r = dbcsr_nfullrows_total(matrix)
    a_c = dbcsr_nfullcols_total(matrix)
@@ -219,51 +210,50 @@ PROGRAM dbcsr_la_test
    call dbcsr_to_dense_local(matrix, matrix_data)
 
    ! collect to one array
-   call mp_sum(matrix_data % d % r2_dp, mp_comm)
+   call mp_sum(matrix_data % d % r2_dp, MPI_COMM_WORLD)
 
-   ! set parameters for lapack eigensolver 
-    info=0
-    ld = matrix_size
-    ! 5*n according to lapack manual
-    lwork = 8 * matrix_size
-    allocate (eigval(1),work(lwork),iwork(5*matrix_size))
+   ! set parameters for lapack eigensolver
+   info=0
+   ld = matrix_size
+   ! 5*n according to lapack manual
+   lwork = 8 * matrix_size
+   allocate (eigval(1),work(lwork),iwork(5*matrix_size))
 
-
-    call dsyevx('N','I', 'U', matrix_size, matrix_data % d % r2_dp, ld, 0, 0, 1, 1, threshold, &
+   call dsyevx('N','I', 'U', matrix_size, matrix_data % d % r2_dp, ld, 0, 0, 1, 1, threshold, &
                num_ev, eigval, zarr, 1, work, lwork, iwork, ifail, info)
 
-    if (info.ne.0) then
-    write(*,*)
-    write(*,'("Error: diagonalisation failed")')
-    write(*,'(" ZHEEV returned INFO = ",I8)') info
-    write(*,*)
-    error stop
-    end if
+   if (info.ne.0) then
+      write(*,*)
+      write(*,'("Error: diagonalisation failed")')
+      write(*,'(" ZHEEV returned INFO = ",I8)') info
+      write(*,*)
+      error stop
+   end if
 
-
-   print *, "eigvals ", min_ev, eigval(1)
-   
+   if ( abs(min_ev-eigval(1)) > threshold ) then
+      if (io_unit /= 0) then
+         WRITE (io_unit, *) " -- TESTING DBCSR_LA arnoldi_extremal ... FAILED"
+         WRITE (io_unit, *) "Arnoldi eigenvalue: ", min_ev
+         WRITE (io_unit, *) "LAPACK eigenvalue: ", eigval(1)
+      endif
+      DBCSR_ABORT('Test failed')
+   else
+      if (io_unit /= 0 ) WRITE (io_unit, *) " -- TESTING DBCSR_LA arnoldi_extremal ... PASSED"
+   endif
 
    deallocate(eigval, work, iwork)
 
    !*********************************************************
 
    CALL timestop(handle)
-   !
-   ! clean mp environment
-   call dbcsr_mp_grid_remove(mp_env)
-   CALL dbcsr_mp_release(mp_env)
+   ! free comm
+   CALL mpi_comm_free(group, ierr)
+   IF (ierr /= 0) STOP "Error in MPI_Comm_free"
 
-   !
-   ! finalize mpi
-   CALL mp_comm_free(group)
-
-   call dbcsr_print_statistics(.true.)
    ! finalize libdbcsr
    CALL dbcsr_finalize_lib()
-   CALL mp_world_finalize()
-
    !
-   ! finalize libdbcsr errors
-
+   ! finalize mpi
+   CALL mpi_finalize(ierr)
+   IF (ierr /= 0) STOP "Error in MPI_finalize"
 END PROGRAM dbcsr_la_test

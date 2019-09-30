@@ -471,7 +471,6 @@ MODULE dbcsr_api
 
 CONTAINS
 
-
    SUBROUTINE dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes, &
                                        name, sparsity, mp_group, data_type, symmetry, dist)
       TYPE(dbcsr_type), INTENT(out)                      :: matrix
@@ -483,21 +482,17 @@ CONTAINS
       CHARACTER, INTENT(in), OPTIONAL                    :: symmetry
       TYPE(dbcsr_distribution_type), INTENT(IN), OPTIONAL :: dist
 
-
-    CALL dbcsr_make_random_matrix_prv(matrix % prv, row_blk_sizes, col_blk_sizes, name, &
-                                  sparsity, &
-                                  mp_group, data_type, symmetry, dist % prv)
+      CALL dbcsr_make_random_matrix_prv(matrix % prv, row_blk_sizes, col_blk_sizes, name, &
+                                        sparsity, &
+                                        mp_group, data_type, symmetry, dist % prv)
    end subroutine dbcsr_make_random_matrix
-
-
 
    SUBROUTINE dbcsr_to_dense_local(sparse, dense)
       TYPE(dbcsr_type), INTENT(in)                       :: sparse
       TYPE(dbcsr_data_obj), INTENT(inout)                :: dense
 
-     call dbcsr_to_dense_local_prv(sparse % prv, dense) 
+      call dbcsr_to_dense_local_prv(sparse % prv, dense)
    end subroutine dbcsr_to_dense_local
-
 
 ! **************************************************************************************************
 !> \brief ...
