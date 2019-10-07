@@ -10,10 +10,9 @@
 ####################################################################################################
 
 import sys
-sys.path.append('../')
-
 import os
 import json
+import math
 from glob import glob
 from itertools import product
 import argparse
@@ -24,16 +23,24 @@ from kernels.smm_acc_predict import (
     compatible_mnk,
 )
 
+sys.path.append("../")
+
 
 # ===============================================================================
 def main(
-    param_fn, compiler, cpus_per_node, max_num_nodes, blocksizes, blocks_from_param_file, tune_dir
+    param_fn,
+    compiler,
+    cpus_per_node,
+    max_num_nodes,
+    blocksizes,
+    blocks_from_param_file,
+    tune_dir,
 ):
 
     # Read existing parameters
-    assert os.path.basename(param_fn) in gpu_architectures.keys(), (
-        "Cannot find GPU architecture for file " + os.path.basename(param_fn)
-    )
+    assert (
+        os.path.basename(param_fn) in gpu_architectures.keys()
+    ), "Cannot find GPU architecture for file " + os.path.basename(param_fn)
     arch_code = gpu_architectures[os.path.basename(param_fn)]
     with open("../kernels/gpu_properties.json") as f:
         gpu_properties = json.load(f)[arch_code]
@@ -154,8 +161,15 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
     for i in set(includes):
         incl_output += '#include "%s"\n' % i
     incl_output += "\n\n"
-    max_launchers_per_exe = 10000 if compiler == "nvcc" else 100
+
     # Compose the benchmark code
+    # The benchmark is broken down in
+    # - n_exe_files executables
+    # - each executable is made of n_obj_files object files
+    # - each object file is made up of launchers_per_obj launchers
+    # - each launcher launches 1 GPU kernel with a certain set of kernel parameters
+    # the hipcc compiler is very slow -> make a larger number of smaller executables
+    max_launchers_per_exe = 10000 if compiler == "nvcc" else 100
     launchers_per_obj = 100 if compiler == "nvcc" else 10
     n_exe_files = int(len(launcher_codes) / max_launchers_per_exe) + 1
     launchers_per_exe = int(len(launcher_codes) / n_exe_files) + 1
@@ -164,7 +178,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
     for i in range(n_exe_files):
         chunk_a = i * launchers_per_exe
         chunk_b = min((i + 1) * launchers_per_exe, len(launcher_codes))
-        n_obj_files = int((chunk_b - chunk_a) / launchers_per_obj) + 1
+        n_obj_files = math.ceil((chunk_b - chunk_a) / launchers_per_obj)
 
         # Compose source code for each object file
         for j in range(n_obj_files):
@@ -172,16 +186,21 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
             b = min(chunk_a + (j + 1) * launchers_per_obj, chunk_b)
             output = incl_output
             output += "\n\n".join(launcher_codes[a:b])
-            fn = outdir + "/tune_%dx%dx%d_exe%d_part%d%s" % (m, n, k, i, j, file_extension)
+            fn = outdir + "/tune_%dx%dx%d_exe%d_part%d%s" % (
+                m,
+                n,
+                k,
+                i,
+                j,
+                file_extension,
+            )
             writefile(fn, output)
 
         # Compose source code for "main" of executable file
         output = '#include "../../libsmm_acc_benchmark.h"\n\n'
-        for l in launchers:
+        for j in range(chunk_b - chunk_a):
             output += (
-                "int "
-                + l
-                + "(int *param_stack, int stack_size, "
+                "int " + launchers[chunk_a + j] + "(int *param_stack, int stack_size, "
             )
             if compiler == "nvcc":
                 output += "cudaStream_t stream, "
@@ -195,10 +214,16 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
         output += "\n"
         output += "int main(int argc, char** argv){\n"
         if compiler == "nvcc":
-            output += indent + "cudaError_t err = cudaDeviceSetSharedMemConfig(cudaSharedMemBankSizeEightByte);\n"
+            output += (
+                indent
+                + "cudaError_t err = cudaDeviceSetSharedMemConfig(cudaSharedMemBankSizeEightByte);\n"
+            )
             output += indent + "if(err != cudaSuccess) return(-1);\n"
-        else: # i.e. compiler = hipcc
-            output += indent + "hipError_t err = hipDeviceSetSharedMemConfig(hipSharedMemBankSizeEightByte);\n"
+        else:  # i.e. compiler = hipcc
+            output += (
+                indent
+                + "hipError_t err = hipDeviceSetSharedMemConfig(hipSharedMemBankSizeEightByte);\n"
+            )
             output += indent + "if(err != hipSuccess) return(-1);\n"
         output += indent + "libsmm_acc_benchmark_t* handle;\n"
         output += indent + "KernelLauncher launchers[%d];\n" % (chunk_b - chunk_a)
@@ -210,16 +235,21 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
                 j,
                 kernel_descr[chunk_a + j],
             )
-        output += indent + "libsmm_acc_benchmark_init(&handle, tune, %d, %d, %d);\n" % (m, n, k)
+        output += indent + "libsmm_acc_benchmark_init(&handle, tune, %d, %d, %d);\n" % (
+            m,
+            n,
+            k,
+        )
         output += (
-            indent + "int result = libsmm_acc_benchmark(handle, %d, %d, %d, %d, launchers, kernel_descr);\n"
+            indent
+            + "int result = libsmm_acc_benchmark(handle, %d, %d, %d, %d, launchers, kernel_descr);\n"
             % (m, n, k, chunk_b - chunk_a)
         )
         output += indent + "libsmm_acc_benchmark_finalize(handle);\n"
         output += indent + "return result;"
         output += "}\n"
 
-        fn = outdir + "/tune_%dx%dx%d_exe%d_main%s" % (m, n, k, i, file_extension )
+        fn = outdir + "/tune_%dx%dx%d_exe%d_main%s" % (m, n, k, i, file_extension)
         writefile(fn, output)
 
 
@@ -229,7 +259,9 @@ def gen_jobfile(outdir, compiler, m, n, k, cpus_per_node=12, max_num_nodes=0):
     file_extension = get_file_extension_from_compiler(compiler)
 
     t = "/tune_%dx%dx%d" % (m, n, k)
-    all_exe_src = [os.path.basename(fn) for fn in glob(outdir + t + "_*_main" + file_extension)]
+    all_exe_src = [
+        os.path.basename(fn) for fn in glob(outdir + t + "_*_main" + file_extension)
+    ]
     all_exe = sorted([fn.replace("_main" + file_extension, "") for fn in all_exe_src])
     if max_num_nodes > 0:
         num_nodes = min(len(all_exe), max_num_nodes)
@@ -255,7 +287,7 @@ def gen_jobfile(outdir, compiler, m, n, k, cpus_per_node=12, max_num_nodes=0):
     output += "module load PrgEnv-gnu\n"
     if compiler == "nvcc":
         output += "module load cudatoolkit/8.0.61_2.4.9-6.0.7.0_17.1__g899857c\n"
-    else: # i.e. compiler = hipcc
+    else:  # i.e. compiler = hipcc
         output += "module load hip\n"
     output += "module list\n"
     output += "export CRAY_CUDA_MPS=1\n"
@@ -339,7 +371,9 @@ def gen_makefile(outdir, compiler, arch):
 
     output += "libsmm_acc_benchmark.o acc.o :\n"
     if compiler == "nvcc":
-        output += "\tnvcc -O3 -D__CUDA -arch=" + str(arch) + " -w -c -o $@ -std=c++11 $<\n\n"
+        output += (
+            "\tnvcc -O3 -D__CUDA -arch=" + str(arch) + " -w -c -o $@ -std=c++11 $<\n\n"
+        )
     else:
         output += "\thipcc -O3 -D__HIP -w -c -o $@ $<\n\n"
 
@@ -353,10 +387,14 @@ def gen_makefile(outdir, compiler, arch):
 
     # compilation rule for autotuning executables
     for exe_src in all_exe_src:
-        absparts = sorted(glob(outdir + "/" + exe_src.replace("_main" + file_extension, "_part*")))
+        absparts = sorted(
+            glob(outdir + "/" + exe_src.replace("_main" + file_extension, "_part*"))
+        )
         parts = [os.path.basename(fn) for fn in absparts]
         deps = [exe_src, "libsmm_acc_benchmark.cpp", "acc.cpp"] + parts
-        deps_obj = " ".join([fn.replace(".cu", ".o").replace(".cpp", ".o") for fn in deps])
+        deps_obj = " ".join(
+            [fn.replace(".cu", ".o").replace(".cpp", ".o") for fn in deps]
+        )
         exe = exe_src.replace("_main" + file_extension, "")
         output += exe + " : " + deps_obj + "\n"
         if compiler == "nvcc":
@@ -366,7 +404,9 @@ def gen_makefile(outdir, compiler, arch):
                 + " -w -o $@ $^ -lcuda -lnvrtc\n\n"
             )
         else:
-            output += "\thipcc -O3 -D__HIP -w -o $@ $^ /opt/rocm/hip/lib/libhiprtc.so\n\n"
+            output += (
+                "\thipcc -O3 -D__HIP -w -o $@ $^ /opt/rocm/hip/lib/libhiprtc.so\n\n"
+            )
 
     # write Makefile
     writefile(outdir + "/Makefile", output)
@@ -471,10 +511,10 @@ if __name__ == "__main__":
     # ==========
     # Verify option choice validity
     valid_compilers = ["nvcc", "hipcc"]
-    assert args.compiler in valid_compilers, (
-        "Compiler chosen ({}) is not valid, please choose among: {}".format(
-            args.compiler, valid_compilers
-        )
+    assert (
+        args.compiler in valid_compilers
+    ), "Compiler chosen ({}) is not valid, please choose among: {}".format(
+        args.compiler, valid_compilers
     )
 
     # ==========
