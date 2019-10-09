@@ -1,5 +1,5 @@
 {
 "description": "block-sparse tensor framework on top of DBCSR",
 "archive": "libdbcsr",
-"requires": ["../base","../mpi", "../ops", "../", "../utils", "../tas", "../data"]
+"requires": ["../base","../mpi", "../ops", "../", "../utils", "../tas", "../data", "../dist"]
 }

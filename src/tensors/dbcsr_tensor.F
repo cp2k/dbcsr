@@ -22,75 +22,56 @@ MODULE dbcsr_tensor
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)
 
-   USE dbcsr_allocate_wrap, ONLY: allocate_any
-   USE dbcsr_array_list_methods, ONLY: get_arrays, &
-                                       reorder_arrays, &
-                                       get_ith_array, &
-                                       array_list, &
-                                       array_sublist, &
-                                       check_equal, &
-                                       array_eq_i
+   USE dbcsr_allocate_wrap, ONLY: &
+      allocate_any
+   USE dbcsr_array_list_methods, ONLY: &
+      get_arrays, reorder_arrays, get_ith_array, array_list, array_sublist, check_equal, array_eq_i
    USE dbcsr_api, ONLY: &
       dbcsr_type, dbcsr_iterator_type, dbcsr_iterator_blocks_left, &
       dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, &
       dbcsr_transpose, dbcsr_no_transpose, dbcsr_scalar, dbcsr_put_block, &
-      ${uselist(dtype_float_param)}$, dbcsr_clear
-   USE dbcsr_tas_types, ONLY: dbcsr_tas_split_info
+      ${uselist(dtype_float_param)}$, dbcsr_clear, &
+      dbcsr_release, dbcsr_desymmetrize, dbcsr_has_symmetry
+   USE dbcsr_tas_types, ONLY: &
+      dbcsr_tas_split_info
    USE dbcsr_tas_base, ONLY: &
       dbcsr_tas_copy, dbcsr_tas_finalize, dbcsr_tas_get_data_type, dbcsr_tas_get_info, dbcsr_tas_info
    USE dbcsr_tas_mm, ONLY: dbcsr_tas_multiply
-   USE dbcsr_tensor_block, ONLY: dbcsr_t_iterator_type, &
-                                 dbcsr_t_get_block, &
-                                 dbcsr_t_put_block, &
-                                 dbcsr_t_iterator_start, &
-                                 dbcsr_t_iterator_blocks_left, &
-                                 dbcsr_t_iterator_stop, &
-                                 dbcsr_t_iterator_next_block, &
-                                 ndims_iterator, &
-                                 dbcsr_t_reserve_blocks, &
-                                 block_nd
-   USE dbcsr_tensor_index, ONLY: dbcsr_t_get_mapping_info, &
-                                 nd_to_2d_mapping, &
-                                 dbcsr_t_inverse_order, &
-                                 permute_index
-   USE dbcsr_tensor_types, ONLY: dbcsr_t_create, &
-                                 dbcsr_t_get_data_type, &
-                                 dbcsr_t_type, &
-                                 ndims_tensor, &
-                                 dims_tensor, &
-                                 dbcsr_t_distribution_type, &
-                                 dbcsr_t_distribution, &
-                                 dbcsr_t_nd_mp_comm, &
-                                 dbcsr_t_destroy, &
-                                 dbcsr_t_distribution_destroy, &
-                                 dbcsr_t_distribution_new, &
-                                 dbcsr_t_get_stored_coordinates, &
-                                 blk_dims_tensor, &
-                                 dbcsr_t_hold, &
-                                 dbcsr_t_pgrid_type, &
-                                 mp_environ_pgrid, &
-                                 dbcsr_t_filter, &
-                                 dbcsr_t_clear, &
-                                 dbcsr_t_finalize, &
-                                 dbcsr_t_get_num_blocks, &
-                                 dbcsr_t_scale, &
-                                 dbcsr_t_get_num_blocks_total, &
-                                 dbcsr_t_get_info
-   USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$, &
-                          default_string_length, &
-                          int_8
-   USE dbcsr_mpiwrap, ONLY: mp_environ, mp_max, mp_sum
-   USE dbcsr_toollib, ONLY: sort
-   USE dbcsr_tensor_reshape, ONLY: dbcsr_t_reshape
-   USE dbcsr_mpiwrap, ONLY: mp_comm_free
+   USE dbcsr_tensor_block, ONLY: &
+      dbcsr_t_iterator_type, dbcsr_t_get_block, dbcsr_t_put_block, dbcsr_t_iterator_start, &
+      dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_stop, dbcsr_t_iterator_next_block, &
+      ndims_iterator, dbcsr_t_reserve_blocks, block_nd
+   USE dbcsr_tensor_index, ONLY: &
+      dbcsr_t_get_mapping_info, nd_to_2d_mapping, dbcsr_t_inverse_order, permute_index
+   USE dbcsr_tensor_types, ONLY: &
+      dbcsr_t_create, dbcsr_t_get_data_type, dbcsr_t_type, ndims_tensor, dims_tensor, &
+      dbcsr_t_distribution_type, dbcsr_t_distribution, dbcsr_t_nd_mp_comm, dbcsr_t_destroy, &
+      dbcsr_t_distribution_destroy, dbcsr_t_distribution_new, dbcsr_t_get_stored_coordinates, &
+      blk_dims_tensor, dbcsr_t_hold, dbcsr_t_pgrid_type, mp_environ_pgrid, dbcsr_t_filter, &
+      dbcsr_t_clear, dbcsr_t_finalize, dbcsr_t_get_num_blocks, dbcsr_t_scale, &
+      dbcsr_t_get_num_blocks_total, dbcsr_t_get_info
+   USE dbcsr_kinds, ONLY: &
+      ${uselist(dtype_float_prec)}$, default_string_length, int_8
+   USE dbcsr_mpiwrap, ONLY: &
+      mp_environ, mp_max, mp_sum
+   USE dbcsr_toollib, ONLY: &
+      sort
+   USE dbcsr_tensor_reshape, ONLY: &
+      dbcsr_t_reshape
+   USE dbcsr_mpiwrap, ONLY: &
+      mp_comm_free
    USE dbcsr_tas_split, ONLY: &
       dbcsr_tas_mp_comm, rowsplit, colsplit, dbcsr_tas_info_hold, dbcsr_tas_release_info
-   USE dbcsr_data_types, ONLY: dbcsr_scalar_type
-   USE dbcsr_tensor_split, ONLY: dbcsr_t_split_copyback, &
-                                 dbcsr_t_make_compatible_blocks, &
-                                 dbcsr_t_crop
-   USE dbcsr_tensor_io, ONLY: dbcsr_t_write_tensor_info, &
-                              dbcsr_t_write_tensor_dist
+   USE dbcsr_data_types, ONLY: &
+      dbcsr_scalar_type
+   USE dbcsr_tensor_split, ONLY: &
+      dbcsr_t_split_copyback, dbcsr_t_make_compatible_blocks, dbcsr_t_crop
+   USE dbcsr_tensor_io, ONLY: &
+      dbcsr_t_write_tensor_info, dbcsr_t_write_tensor_dist
+   USE dbcsr_dist_operations, ONLY: &
+      checker_tr
+   USE dbcsr_toollib, ONLY: &
+      swap
 
 #include "base/dbcsr_base_uses.f90"
 
@@ -246,9 +227,10 @@ CONTAINS
 !> \param summation tensor_out = tensor_out + matrix_in
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_copy_matrix_to_tensor(matrix_in, tensor_out, summation)
-      TYPE(dbcsr_type), INTENT(IN)                       :: matrix_in
+      TYPE(dbcsr_type), TARGET, INTENT(IN)               :: matrix_in
       TYPE(dbcsr_t_type), INTENT(INOUT)                  :: tensor_out
       LOGICAL, INTENT(IN), OPTIONAL                      :: summation
+      TYPE(dbcsr_type), POINTER                          :: matrix_in_desym
 
       INTEGER, DIMENSION(2)                              :: ind_2d
       REAL(KIND=real_8), ALLOCATABLE, DIMENSION(:, :)    :: block_arr
@@ -263,15 +245,22 @@ CONTAINS
       CALL timeset(routineN, handle)
       DBCSR_ASSERT(tensor_out%valid)
 
+      IF(dbcsr_has_symmetry(matrix_in)) THEN
+         ALLOCATE(matrix_in_desym)
+         CALL dbcsr_desymmetrize(matrix_in, matrix_in_desym)
+      ELSE
+         matrix_in_desym => matrix_in
+      ENDIF
+
       IF (PRESENT(summation)) THEN
          IF (.NOT. summation) CALL dbcsr_t_clear(tensor_out)
       ELSE
          CALL dbcsr_t_clear(tensor_out)
       ENDIF
 
-      CALL dbcsr_t_reserve_blocks(matrix_in, tensor_out)
+      CALL dbcsr_t_reserve_blocks(matrix_in_desym, tensor_out)
 
-      CALL dbcsr_iterator_start(iter, matrix_in)
+      CALL dbcsr_iterator_start(iter, matrix_in_desym)
       DO WHILE (dbcsr_iterator_blocks_left(iter))
          CALL dbcsr_iterator_next_block(iter, ind_2d(1), ind_2d(2), block, tr)
          CALL allocate_any(block_arr, source=block)
@@ -279,6 +268,11 @@ CONTAINS
          DEALLOCATE (block_arr)
       ENDDO
       CALL dbcsr_iterator_stop(iter)
+
+      IF(dbcsr_has_symmetry(matrix_in)) THEN
+         CALL dbcsr_release(matrix_in_desym)
+         DEALLOCATE(matrix_in_desym)
+      ENDIF
 
       CALL timestop(handle)
 
@@ -315,8 +309,12 @@ CONTAINS
       CALL dbcsr_t_iterator_start(iter, tensor_in)
       DO WHILE (dbcsr_t_iterator_blocks_left(iter))
          CALL dbcsr_t_iterator_next_block(iter, ind_2d, blk)
+         IF(dbcsr_has_symmetry(matrix_out) .AND. checker_tr(ind_2d(1), ind_2d(2))) CYCLE
+
          CALL dbcsr_t_get_block(tensor_in, ind_2d, block, found)
          DBCSR_ASSERT(found)
+
+         IF(ind_2d(1) > ind_2d(2)) CALL swap(ind_2d(1), ind_2d(2))
          CALL dbcsr_put_block(matrix_out, ind_2d(1), ind_2d(2), block, summation=summation)
          DEALLOCATE (block)
       ENDDO

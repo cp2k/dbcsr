@@ -46,7 +46,8 @@ MODULE dbcsr_tas_mm
    USE dbcsr_tas_util, ONLY: &
       swap, invert_transpose_flag, array_eq_i8, dbcsr_mp_environ
    USE dbcsr_types, ONLY: &
-      dbcsr_no_transpose, dbcsr_transpose, dbcsr_type, dbcsr_distribution_obj, dbcsr_mp_obj
+      dbcsr_no_transpose, dbcsr_transpose, dbcsr_type, dbcsr_distribution_obj, dbcsr_mp_obj, &
+      dbcsr_type_no_symmetry
    USE dbcsr_kinds, ONLY: &
       int_8, real_8, real_4, default_string_length
    USE dbcsr_mpiwrap, ONLY: &
@@ -946,7 +947,6 @@ CONTAINS
          nsplit_prv = nsplit
       ENDIF
 
-
       CALL timeset(routineN, handle)
 
       nodata_prv = .FALSE.
@@ -1360,7 +1360,7 @@ CONTAINS
       CALL dbcsr_distribution_new(dist, mp_obj, row_dist, col_dist, reuse_arrays=.TRUE.)
       CALL dbcsr_mp_release(mp_obj)
 
-      CALL dbcsr_create(matrix_out, name, dist, 'N', rbsize, rcsize, data_type=data_type)
+      CALL dbcsr_create(matrix_out, name, dist, dbcsr_type_no_symmetry, rbsize, rcsize, data_type=data_type)
       CALL dbcsr_distribution_release(dist)
 
       IF (.NOT. nodata_prv) THEN
