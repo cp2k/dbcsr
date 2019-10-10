@@ -17,47 +17,34 @@ MODULE dbcsr_tensor_block
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)
 
-   USE dbcsr_allocate_wrap, ONLY: allocate_any
-   USE dbcsr_api, ONLY: ${uselist(dtype_float_param)}$, &
-                        dbcsr_iterator_type, &
-                        dbcsr_iterator_blocks_left, &
-                        dbcsr_iterator_next_block, &
-                        dbcsr_iterator_start, &
-                        dbcsr_iterator_stop, &
-                        dbcsr_type, &
-                        dbcsr_reserve_blocks, &
-                        dbcsr_scalar_type, &
-                        dbcsr_finalize, &
-                        dbcsr_get_num_blocks
-   USE dbcsr_tas_types, ONLY: dbcsr_tas_iterator
-   USE dbcsr_tas_base, ONLY: dbcsr_tas_iterator_next_block, &
-                             dbcsr_tas_iterator_blocks_left, &
-                             dbcsr_tas_iterator_start, &
-                             dbcsr_tas_iterator_stop, &
-                             dbcsr_tas_get_block_p, &
-                             dbcsr_tas_put_block, &
-                             dbcsr_tas_reserve_blocks
-   USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$, &
-                          int_8
-   USE dbcsr_tensor_index, ONLY: nd_to_2d_mapping, &
-                                 ndims_mapping, &
-                                 get_nd_indices, &
-                                 destroy_nd_to_2d_mapping, &
-                                 get_2d_indices, &
-                                 dbcsr_t_get_mapping_info, &
-                                 create_nd_to_2d_mapping
-   USE dbcsr_array_list_methods, ONLY: array_list, &
-                                       get_array_elements, &
-                                       destroy_array_list, &
-                                       sizes_of_arrays, &
-                                       create_array_list, &
-                                       get_arrays
-   USE dbcsr_tensor_types, ONLY: dbcsr_t_type, &
-                                 ndims_tensor, &
-                                 dbcsr_t_get_data_type, &
-                                 dbcsr_t_blk_sizes, &
-                                 dbcsr_t_get_num_blocks, &
-                                 dbcsr_t_finalize
+   USE dbcsr_allocate_wrap, ONLY: &
+      allocate_any
+   USE dbcsr_api, ONLY: &
+      ${uselist(dtype_float_param)}$, dbcsr_iterator_type, dbcsr_iterator_blocks_left, &
+      dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, dbcsr_type, &
+      dbcsr_reserve_blocks, dbcsr_scalar_type, dbcsr_finalize, dbcsr_get_num_blocks, &
+      dbcsr_type_no_symmetry, dbcsr_get_matrix_type, dbcsr_desymmetrize, dbcsr_release, &
+      dbcsr_has_symmetry
+   USE dbcsr_tas_types, ONLY: &
+      dbcsr_tas_iterator
+   USE dbcsr_tas_base, ONLY: &
+      dbcsr_tas_iterator_next_block, dbcsr_tas_iterator_blocks_left, dbcsr_tas_iterator_start, &
+      dbcsr_tas_iterator_stop, dbcsr_tas_get_block_p, dbcsr_tas_put_block, dbcsr_tas_reserve_blocks
+   USE dbcsr_kinds, ONLY: &
+      ${uselist(dtype_float_prec)}$, int_8
+   USE dbcsr_tensor_index, ONLY: &
+      nd_to_2d_mapping, ndims_mapping, get_nd_indices, destroy_nd_to_2d_mapping, get_2d_indices, &
+      dbcsr_t_get_mapping_info, create_nd_to_2d_mapping
+   USE dbcsr_array_list_methods, ONLY: &
+      array_list, get_array_elements, destroy_array_list, sizes_of_arrays, create_array_list, &
+      get_arrays
+   USE dbcsr_tensor_types, ONLY: &
+      dbcsr_t_type, ndims_tensor, dbcsr_t_get_data_type, dbcsr_t_blk_sizes, dbcsr_t_get_num_blocks, &
+      dbcsr_t_finalize
+   USE dbcsr_dist_operations, ONLY: &
+      checker_tr
+   USE dbcsr_toollib, ONLY: &
+      swap
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -413,8 +400,9 @@ CONTAINS
 !> \param tensor_out ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserve_blocks_matrix_to_tensor(matrix_in, tensor_out)
-      TYPE(dbcsr_type), INTENT(IN)        :: matrix_in
+      TYPE(dbcsr_type), TARGET, INTENT(IN) :: matrix_in
       TYPE(dbcsr_t_type), INTENT(INOUT)  :: tensor_out
+      TYPE(dbcsr_type), POINTER          :: matrix_in_desym
 
       INTEGER                            :: blk, iblk, nblk
       INTEGER, ALLOCATABLE, DIMENSION(:) :: blk_ind_1, blk_ind_2
@@ -426,9 +414,16 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-      nblk = dbcsr_get_num_blocks(matrix_in)
+      IF(dbcsr_has_symmetry(matrix_in)) THEN
+         ALLOCATE(matrix_in_desym)
+         CALL dbcsr_desymmetrize(matrix_in, matrix_in_desym)
+      ELSE
+         matrix_in_desym => matrix_in
+      ENDIF
+
+      nblk = dbcsr_get_num_blocks(matrix_in_desym)
       ALLOCATE (blk_ind_1(nblk), blk_ind_2(nblk))
-      CALL dbcsr_iterator_start(iter, matrix_in)
+      CALL dbcsr_iterator_start(iter, matrix_in_desym)
       DO iblk = 1, nblk
          CALL dbcsr_iterator_next_block(iter, ind_2d(1), ind_2d(2), blk)
          blk_ind_1(iblk) = ind_2d(1); blk_ind_2(iblk) = ind_2d(2)
@@ -436,6 +431,12 @@ CONTAINS
       CALL dbcsr_iterator_stop(iter)
 
       CALL dbcsr_t_reserve_blocks(tensor_out, blk_ind_1, blk_ind_2)
+
+      IF(dbcsr_has_symmetry(matrix_in)) THEN
+         CALL dbcsr_release(matrix_in_desym)
+         DEALLOCATE(matrix_in_desym)
+      ENDIF
+
       CALL timestop(handle)
    END SUBROUTINE
 
@@ -460,13 +461,20 @@ CONTAINS
       nblk = dbcsr_t_get_num_blocks(tensor_in)
       ALLOCATE (blk_ind_1(nblk), blk_ind_2(nblk))
       CALL dbcsr_t_iterator_start(iter, tensor_in)
-      DO iblk = 1, nblk
+
+      iblk = 0
+      DO WHILE(dbcsr_t_iterator_blocks_left(iter))
          CALL dbcsr_t_iterator_next_block(iter, ind_2d, blk)
+         IF(dbcsr_has_symmetry(matrix_out) .AND. checker_tr(ind_2d(1), ind_2d(2))) CYCLE
+
+         IF(ind_2d(1) > ind_2d(2)) CALL swap(ind_2d(1), ind_2d(2))
+
+         iblk = iblk + 1
          blk_ind_1(iblk) = ind_2d(1); blk_ind_2(iblk) = ind_2d(2)
       ENDDO
       CALL dbcsr_t_iterator_stop(iter)
 
-      CALL dbcsr_reserve_blocks(matrix_out, blk_ind_1, blk_ind_2)
+      CALL dbcsr_reserve_blocks(matrix_out, blk_ind_1(:iblk), blk_ind_2(:iblk))
       CALL dbcsr_finalize(matrix_out)
 
       CALL timestop(handle)

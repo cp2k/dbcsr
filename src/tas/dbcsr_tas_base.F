@@ -46,7 +46,7 @@ MODULE dbcsr_tas_base
    USE dbcsr_tas_util, ONLY: &
       dbcsr_mp_environ, index_unique
    USE dbcsr_types, ONLY: &
-      dbcsr_distribution_obj, dbcsr_iterator, dbcsr_mp_obj, dbcsr_type
+      dbcsr_distribution_obj, dbcsr_iterator, dbcsr_mp_obj, dbcsr_type, dbcsr_type_no_symmetry
    USE dbcsr_work_operations, ONLY: &
       dbcsr_create, dbcsr_finalize
    USE dbcsr_kinds, ONLY: &
@@ -236,7 +236,7 @@ CONTAINS
       CALL dbcsr_create(matrix=matrix%matrix, &
                         name=name, &
                         dist=dist%dbcsr_dist, &
-                        matrix_type='N', &
+                        matrix_type=dbcsr_type_no_symmetry, &
                         row_blk_size=row_blk_size_vec, &
                         col_blk_size=col_blk_size_vec, &
                         data_type=data_type, &
@@ -258,7 +258,7 @@ CONTAINS
       TYPE(dbcsr_tas_type), INTENT(OUT)                    :: matrix
       CHARACTER(len=*), INTENT(IN), OPTIONAL             :: name
 
-      CALL dbcsr_create(matrix%matrix, template=matrix_in%matrix)
+      CALL dbcsr_create(matrix%matrix, template=matrix_in%matrix, matrix_type=dbcsr_type_no_symmetry)
       CALL dbcsr_finalize(matrix%matrix)
 
       CALL dbcsr_tas_copy_distribution(matrix_in%dist, matrix%dist)
@@ -605,7 +605,7 @@ CONTAINS
       CALL dbcsr_create(matrix=matrix_dbcsr, &
                         name=TRIM(matrix_rect%matrix%name), &
                         dist=dist, &
-                        matrix_type='N', &
+                        matrix_type=dbcsr_type_no_symmetry, &
                         row_blk_size=row_size_vec, &
                         col_blk_size=col_size_vec, &
                         data_type=dbcsr_get_data_type(matrix_rect%matrix), &
