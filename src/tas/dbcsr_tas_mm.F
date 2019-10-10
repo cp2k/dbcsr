@@ -46,7 +46,8 @@ MODULE dbcsr_tas_mm
    USE dbcsr_tas_util, ONLY: &
       swap, invert_transpose_flag, array_eq_i8, dbcsr_mp_environ
    USE dbcsr_types, ONLY: &
-      dbcsr_no_transpose, dbcsr_transpose, dbcsr_type, dbcsr_distribution_obj, dbcsr_mp_obj
+      dbcsr_no_transpose, dbcsr_transpose, dbcsr_type, dbcsr_distribution_obj, dbcsr_mp_obj, &
+      dbcsr_type_no_symmetry
    USE dbcsr_kinds, ONLY: &
       int_8, real_8, real_4, default_string_length
    USE dbcsr_mpiwrap, ONLY: &
@@ -907,7 +908,6 @@ CONTAINS
 !> \param move_data memory optimization: move data such that matrix_in is empty on return.
 !> \param nodata Data of matrix_in should not be copied to matrix_out
 ! **************************************************************************************************
-
    SUBROUTINE change_split(matrix_in, matrix_out, nsplit, split_rowcol, is_new, move_data, nodata)
       TYPE(dbcsr_tas_type), TARGET, &
          INTENT(INOUT)                           :: matrix_in
@@ -919,7 +919,7 @@ CONTAINS
       LOGICAL, INTENT(INOUT), OPTIONAL           :: move_data
 
       INTEGER                                    :: &
-         mp_comm, split_rc, nsplit_old, handle, data_type, nsplit_new
+         mp_comm, split_rc, nsplit_old, handle, data_type, nsplit_new, nsplit_prv
       TYPE(dbcsr_tas_split_info)                 :: split_info
       CHARACTER(len=default_string_length)       :: name
       TYPE(dbcsr_tas_distribution_type)          :: dist
@@ -932,10 +932,19 @@ CONTAINS
 
       is_new = .TRUE.
 
+      CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix_in), mp_comm=mp_comm, &
+                                    split_rowcol=split_rc, nsplit=nsplit_old)
+
       IF (nsplit == 0) THEN
-         matrix_out => matrix_in
-         is_new = .FALSE.
-         RETURN
+         IF (split_rowcol == split_rc) THEN
+            matrix_out => matrix_in
+            is_new = .FALSE.
+            RETURN
+         ELSE
+            nsplit_prv = 1
+         ENDIF
+      ELSE
+         nsplit_prv = nsplit
       ENDIF
 
       CALL timeset(routineN, handle)
@@ -943,14 +952,11 @@ CONTAINS
       nodata_prv = .FALSE.
       IF (PRESENT(nodata)) nodata_prv = nodata
 
-      CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix_in), mp_comm=mp_comm, &
-                                    split_rowcol=split_rc, nsplit=nsplit_old)
-
       CALL dbcsr_tas_get_info(matrix_in, data_type=data_type, name=name, &
                               row_blk_size=rbsize, col_blk_size=cbsize, &
                               proc_row_dist=rdist, proc_col_dist=cdist)
 
-      CALL dbcsr_tas_create_split(split_info, mp_comm, split_rowcol, nsplit)
+      CALL dbcsr_tas_create_split(split_info, mp_comm, split_rowcol, nsplit_prv)
 
       CALL dbcsr_tas_get_split_info(split_info, nsplit=nsplit_new)
 
@@ -1354,7 +1360,7 @@ CONTAINS
       CALL dbcsr_distribution_new(dist, mp_obj, row_dist, col_dist, reuse_arrays=.TRUE.)
       CALL dbcsr_mp_release(mp_obj)
 
-      CALL dbcsr_create(matrix_out, name, dist, 'N', rbsize, rcsize, data_type=data_type)
+      CALL dbcsr_create(matrix_out, name, dist, dbcsr_type_no_symmetry, rbsize, rcsize, data_type=data_type)
       CALL dbcsr_distribution_release(dist)
 
       IF (.NOT. nodata_prv) THEN
