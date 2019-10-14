@@ -314,7 +314,7 @@ CONTAINS
          CALL dbcsr_t_get_block(tensor_in, ind_2d, block, found)
          DBCSR_ASSERT(found)
 
-         IF(ind_2d(1) > ind_2d(2)) THEN
+         IF (dbcsr_has_symmetry(matrix_out) .AND. ind_2d(1) > ind_2d(2)) THEN
             CALL dbcsr_put_block(matrix_out, ind_2d(2), ind_2d(1), TRANSPOSE(block), summation=summation)
          ELSE
             CALL dbcsr_put_block(matrix_out, ind_2d(1), ind_2d(2), block, summation=summation)
