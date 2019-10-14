@@ -465,9 +465,10 @@ CONTAINS
       iblk = 0
       DO WHILE(dbcsr_t_iterator_blocks_left(iter))
          CALL dbcsr_t_iterator_next_block(iter, ind_2d, blk)
-         IF(dbcsr_has_symmetry(matrix_out) .AND. checker_tr(ind_2d(1), ind_2d(2))) CYCLE
-
-         IF(ind_2d(1) > ind_2d(2)) CALL swap(ind_2d(1), ind_2d(2))
+         IF (dbcsr_has_symmetry(matrix_out)) THEN
+            IF (checker_tr(ind_2d(1), ind_2d(2))) CYCLE
+            IF (ind_2d(1) > ind_2d(2)) CALL swap(ind_2d(1), ind_2d(2))
+         ENDIF
 
          iblk = iblk + 1
          blk_ind_1(iblk) = ind_2d(1); blk_ind_2(iblk) = ind_2d(2)
