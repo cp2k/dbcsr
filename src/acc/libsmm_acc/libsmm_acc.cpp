@@ -7,7 +7,6 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#include "include/libsmm_acc.h"
 #include "parameters.h"
 #include "parameters_utils.h"
 #include "libsmm_acc.h"
@@ -370,17 +369,3 @@ extern "C" int libsmm_acc_transpose (void *trs_stack, int offset, int nblks, voi
     return libsmm_acc_transpose_d((int *) trs_stack, offset, nblks, (double *) buffer, m, n, *((ACC_DRV(stream) *) stream));
 }
 
-
-//===========================================================================
-extern "C" int libsmm_acc_is_thread_safe() {
-#if defined _OPENMP
-    return 1;  // i.e. true, libsmm_acc is threaded
-#else
-    return 0;  // i.e. false, libsmm_acc is not threaded
-#endif
-}
-
-//===========================================================================
-extern "C" int libsmm_acc_gpu_warp_size() {
-    return warpSize;
-}
