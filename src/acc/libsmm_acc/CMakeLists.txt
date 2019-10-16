@@ -12,11 +12,13 @@ set(SMM_ACC_KERNELS
 set(LIBSMM_ACC_SRC_FILES
   libsmm_acc.cpp
   libsmm_acc_benchmark.cpp
+  libsmm_acc_init.cpp
 )
 
 set(LIBSMM_ACC_HEADER_FILES
   libsmm_acc.h
   libsmm_acc_benchmark.h
+  libsmm_acc_init.h
   parameters.h
   parameters_utils.h
   smm_acc_kernels.h

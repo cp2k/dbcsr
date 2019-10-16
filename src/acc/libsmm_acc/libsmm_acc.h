@@ -10,13 +10,8 @@
 #ifndef LIBSMM_ACC_H
 #define LIBSMM_ACC_H
 
+#include "include/libsmm_acc.h"
 #include "parameters_utils.h"
-
-#ifdef __CUDA
-#include <../cuda/acc_cuda.h>
-#else
-#include <../hip/acc_hip.h>
-#endif
 
 #include <cstdio>
 #include <unordered_map>

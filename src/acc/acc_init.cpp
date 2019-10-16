@@ -15,6 +15,7 @@
 
 #include <stdio.h>
 #include "include/acc.h"
+#include "libsmm_acc/include/libsmm_acc.h"
 
 #ifdef __CUDA_PROFILING
 #include <nvToolsExtCudaRt.h>
@@ -28,6 +29,9 @@ extern "C" int acc_init(){
   ACC_DRV_CALL(DeviceGet, (&acc_device, 0));
   ACC_DRV(context) ctx;
   ACC_DRV_CALL(DevicePrimaryCtxRetain, (&ctx, acc_device));
+
+  // Initialize libsmm_acc, DBCSR's GPU backend
+  libsmm_acc_init();
   return 0;
 }
 

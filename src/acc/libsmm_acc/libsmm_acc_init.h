@@ -6,33 +6,16 @@
  * For further information please visit https://dbcsr.cp2k.org                                    *
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
-#ifndef DBCSR_ACC_LIBSMM_H
-#define DBCSR_ACC_LIBSMM_H
 
-#include "../../include/acc.h"
+#ifndef LIBSMM_ACC_INIT_H
+#define LIBSMM_ACC_INIT_H
 
-#ifdef __CUDA
-#include "../../cuda/acc_cuda.h"
-#else
-#include "../../hip/acc_hip.h"
-#endif
+int libsmm_acc_init (void);
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+int libsmm_acc_check_gpu_warp_size_consistency (void);
 
-int libsmm_acc_process(void* param_stack, int stack_size,
-    int nparams, int datatype, void* a_data, void* b_data, void* c_data,
-    int m_max, int n_max, int k_max, int def_mnk, acc_stream_t stream);
+int acc_get_gpu_warp_size (void);
 
-int libsmm_acc_transpose(void* trs_stack, int offset, int nblks,
-    void* buffer, int datatype, int m, int n, acc_stream_t stream);
+int libsmm_acc_is_thread_safe (void);
 
-int libsmm_acc_init(void);
-int libsmm_acc_is_thread_safe(void);
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /*DBCSR_ACC_LIBSMM_H*/
+#endif // LIBSMM_ACC_INIT_H
