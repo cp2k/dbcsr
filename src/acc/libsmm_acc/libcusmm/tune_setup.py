@@ -220,7 +220,6 @@ def gen_jobfile(outdir, m, n, k, cpus_per_node=12, max_num_nodes=0):
         output += "#SBATCH --time=1:30:00\n"
     else:
         output += "#SBATCH --time=0:30:00\n"
-    output += "#SBATCH --account=s238\n"
     output += "#SBATCH --partition=normal\n"
     output += "#SBATCH --constraint=gpu\n"
     output += "\n"
@@ -228,7 +227,7 @@ def gen_jobfile(outdir, m, n, k, cpus_per_node=12, max_num_nodes=0):
     output += "module load daint-gpu\n"
     output += "module unload PrgEnv-cray\n"
     output += "module load PrgEnv-gnu/6.0.3\n"
-    output += "module load cudatoolkit/8.0.54_2.2.8_ga620558-2.1\n"
+    output += "module load cudatoolkit/8.0.61_2.4.9-6.0.7.0_17.1__g899857c\n"
     output += "module list\n"
     output += "export CRAY_CUDA_MPS=1\n"
     output += "cd $SLURM_SUBMIT_DIR \n"
