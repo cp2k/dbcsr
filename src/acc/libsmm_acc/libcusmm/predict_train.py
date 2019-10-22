@@ -278,6 +278,18 @@ def print_and_log(msg):
     return log
 
 
+def dask_to_pandas(*dfs):
+    """Convert training data dask -> pandas"""
+    pd_dfs = [df.compute() for df in dfs]
+    return pd_dfs[0] if len(pd_dfs) == 1 else pd_dfs
+
+
+def pandas_to_dask(*dfs):
+    """Convert training data pandas -> dask"""
+    dd_dfs = [dd.from_pandas(df, npartitions=3) for df in dfs]
+    return dd_dfs[0] if len(dd_dfs) == 1 else dd_dfs
+
+
 # ===============================================================================
 # Custom loss functions and scorers
 def perf_loss(y_true, y_pred, top_k, X_mnk, scaled=True):
@@ -347,7 +359,7 @@ def worse_case_scorer(estimator, X, y, top_k):
     """
     mnk = dd.DataFrame()
     mnk["mnk"] = X["mnk"].copy()
-    y_pred = estimator.predict(X.drop(["mnk"], axis=1))
+    y_pred = estimator.predict(X.drop(["mnk"].values, axis=1))
     score = worse_rel_perf_loss_of_k(y, y_pred, top_k, mnk)
     return (
         -score
@@ -367,7 +379,7 @@ def mean_scorer(estimator, X, y, top_k):
     """
     mnk = dd.DataFrame()
     mnk["mnk"] = X["mnk"].copy()
-    y_pred = estimator.predict(X.drop(["mnk"], axis=1))
+    y_pred = estimator.predict(X.drop(["mnk"].values, axis=1))
     score = mean_rel_perf_loss_of_k(y, y_pred, top_k, mnk)
     return (
         -score
@@ -591,6 +603,25 @@ def get_xgb_DecisionTree_model(algo, njobs, ntrees):
     return model, model_name
 
 
+def get_xgb_DecisionTree_dask_model(algo, njobs, ntrees):
+    from dask_ml.xgboost import XGBRegressor
+    # Base model
+    params = {
+        'max_depth': optimized_hyperparameters[algo]["max_depth"],
+        'learning_rate': 0.3,
+        'tree_method': "exact",
+        'n_estimators': ntrees,
+        'verbosity': 2,
+        'objective': 'reg:squarederror',
+		'booster': 'gbtree',
+        'n_jobs': njobs,
+    }
+    model_name = "xgb-Decision_Tree_dask"
+    model = xgb.XGBRegressor(**params)
+
+    return model, model_name
+
+
 def get_xgb_DecisionTree_GPU_model(algo, njobs, ntrees):
 
     # Base model
@@ -624,6 +655,23 @@ def get_xgb_RandomForest_model(algo, njobs, ntrees):
     }
     model = xgb.XGBRFRegressor(**params)
     return model, "xgb-Random_Forest"
+
+def get_model(model_to_train, algo, njobs, ntrees):
+    if model_to_train == "DT":
+        model, model_name = get_scikit_DecisionTree_model(algo)
+    elif model_to_train == "RF":
+        model, model_name = get_scikit_RandomForest_model(algo, njobs, ntrees)
+    elif model_to_train == "xgb-DT":
+        model, model_name = get_xgb_DecisionTree_model(algo, njobs, ntrees)
+    elif model_to_train == "xgb-DT-dask":
+        model, model_name = get_xgb_DecisionTree_dask_model(algo, njobs, ntrees)
+    elif model_to_train == "xgb-DT-GPU":
+        model, model_name = get_xgb_DecisionTree_GPU_model(algo, njobs, ntrees)
+    elif model_to_train == "xgb-RF":
+        model, model_name = get_xgb_RandomForest_model(algo, njobs, ntrees)
+    else:
+        assert False, "Cannot recognize model: " + model_to_train + ". Options: DT, RF"
+    return model, model_name
 
 
 def get_train_test_partition(to_partition, test, train=None):
@@ -686,26 +734,9 @@ def train_model(X, X_mnk, Y, algo, model_options, plot_all, folder, log):
     # ===============================================================================
     # Predictive model
     model_to_train = model_options["model"]
-    if model_to_train == "DT":
-        model, model_name = get_scikit_DecisionTree_model(algo)
-    elif model_to_train == "RF":
-        model, model_name = get_scikit_RandomForest_model(
-            algo, model_options["njobs"], model_options["ntrees"]
-        )
-    elif model_to_train == "xgb-DT":
-        model, model_name = get_xgb_DecisionTree_model(
-            algo, model_options["njobs"], model_options["ntrees"]
-        )
-    elif model_to_train == "xgb-DT-GPU":
-        model, model_name = get_xgb_DecisionTree_GPU_model(
-            algo, model_options["njobs"], model_options["ntrees"]
-        )
-    elif model_to_train == "xgb-RF":
-        model, model_name = get_xgb_RandomForest_model(
-            algo, model_options["njobs"], model_options["ntrees"]
-        )
-    else:
-        assert False, "Cannot recognize model: " + model_to_train + ". Options: DT, RF"
+    model, model_name = get_model(
+        model_to_train, algo, model_options["njobs"], model_options["ntrees"]
+    )
     log += print_and_log(
         "\nStart tune/train for model " + model_name + " with parameters:"
     )
@@ -773,24 +804,34 @@ def train_model(X, X_mnk, Y, algo, model_options, plot_all, folder, log):
 
     # ===============================================================================
     # Fit
+    out_of_memory_computation = ('dask' in model_options["model"])
+    if out_of_memory_computation:
+        X_train, Y_train = pandas_to_dask(X_train, Y_train)
+
     if model_options["hyperparameter_optimization"]:
 
         # Hyperparameter Optimization
         param_grid = get_hyperparameter_grid(algo, model_name, n_features)
         if param_grid is None:
             assert False, "param_grid object is None. Please implement!"
-        from sklearn.model_selection import GridSearchCV
+
         # At this point, we "cheat"/"take a shortcut" in 2 ways:
         # - we split into train/test partitions using the simple default splitter, not one that is aware of mnk-groups
         # - we use an overall MSE scorer, not one that looks at the performance loss of predicted mnks wrt. autotuned
-        gds = GridSearchCV(model, param_grid, cv=model_options["splits"], refit=True, n_jobs=1, verbose=2)
+        if out_of_memory_computation:
+            from dask_ml.model_selection import GridSearchCV
+            gds_pars = {"estimator": model, "param_grid": param_grid, "cv": model_options["splits"], "refit": True, "n_jobs": 1}
+        else:
+            from sklearn.model_selection import GridSearchCV
+            gds_pars = {"estimator": model, "param_grid": param_grid, "cv": model_options["splits"], "refit": True, "n_jobs": 1, "verbose": 2}
+        gds = GridSearchCV(**gds_pars)
         log += print_and_log(visual_separator)
         log += print_and_log("\nStart hyperparameter optimization & training ... :\n")
         log += print_and_log("Hyper-parameter grid:")
         for par, values in param_grid.items():
             log += print_and_log("\t" + par + ": " + str(values))
         log += print_and_log("\n")
-        gds.fit(X_train, Y_train)
+        gds.fit(X_train.values, Y_train.values)
         log += print_and_log("... done")
         describe_hpo(gds, log, folder)
         model = gds.best_estimator_
@@ -817,6 +858,9 @@ def train_model(X, X_mnk, Y, algo, model_options, plot_all, folder, log):
         X_train.drop("mnk", axis=1, inplace=True)
     if "mnk" in X_test.columns.values:
         X_train.drop("mnk", axis=1, inplace=True)
+
+    if out_of_memory_computation:
+        X_train, Y_train = dask_to_pandas(X_train, Y_train)
 
     return X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, return_model, log
 
@@ -1182,14 +1226,14 @@ def evaluate_model(
 
     # Training error
     if all([x is not None for x in [X_train, X_mnk_train, Y_train]]):
-        y_train_pred = model.predict(X_train)
+        y_train_pred = model.predict(X_train.values)
         log += print_and_log("\nTraining error: (train&val)")
         log = print_custom_error(Y_train, y_train_pred, X_mnk_train, log, True)
         log = print_error(Y_train, y_train_pred, log)
 
         # Test error
         if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
-            y_test_pred = model.predict(X_test)
+            y_test_pred = model.predict(X_test.values)
             log += print_and_log("\nTesting error:")
             log = print_custom_error(Y_test, y_test_pred, X_mnk_test, log, True)
             log = print_error(Y_test, y_test_pred, log)
@@ -1551,7 +1595,7 @@ if __name__ == "__main__":
         "-m",
         "--model",
         default="DT",
-        help="Model to train. Options: DT (Decision Trees), RF (Random Forests), xgb-DT, xgb-DT-GPU (with GPU support), xgb-RF",
+        help="Model to train. Options: DT (Decision Trees), RF (Random Forests), xgb-DT, xgb-DT-dask (out-of-memory xgboost), xgb-DT-GPU (with GPU support), xgb-RF",
     )
     parser.add_argument(
         "-o",
