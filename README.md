@@ -85,6 +85,10 @@ The configuration flags are (default first):
 
 For build recipes on different platforms, make sure to also read the [INSTALL.md](INSTALL.md).
 
+If you want to use Python from a virtual environment and your CMake version is < 3.15, specify the desired python interpreter manually using:
+
+    -DPython_EXECUTABLE=/path/to/python
+
 ## Using DBCSR in a CMake project
 
 We are providing CMake helper files to easily include DBCSR in any other CMake-based project.
