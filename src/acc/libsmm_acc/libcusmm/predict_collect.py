@@ -52,24 +52,14 @@ def main(tunedir, arch):
     ]
     n_kernels = len(kernel_folders)
     print("Found {:,} kernel folders".format(n_kernels))
-    max_performances_per_mnk = dict()
-    baseline_performances_per_algo_per_mnk = {
-        "tiny": dict(),
-        "small": dict(),
-        "medium": dict(),
-        "largeDB1": dict(),
-        "largeDB2": dict(),
-    }
 
     # ===============================================================================
     # Collect information and write to csv
-    collect_training_data(
+    max_performances_per_mnk, baseline_performances_per_algo_per_mnk = collect_training_data(
         kernel_folders,
         kernel_folder_pattern,
         gpu_properties,
-        autotuning_properties,
-        max_performances_per_mnk,
-        baseline_performances_per_algo_per_mnk,
+        autotuning_properties
     )
 
     # ===============================================================================
@@ -202,6 +192,14 @@ def collect_training_data(
     """
     Collect training data from log files resulting of autotuning
     """
+    max_performances_per_mnk = dict()
+    baseline_performances_per_algo_per_mnk = {
+        "tiny": dict(),
+        "small": dict(),
+        "medium": dict(),
+        "largeDB1": dict(),
+        "largeDB2": dict(),
+    }
 
     n_kernels = len(kernel_folders)
 
@@ -211,6 +209,7 @@ def collect_training_data(
         print("\nProcess folder {} ({}/{:,})".format(kernel_folder, i + 1, n_kernels))
 
         # Find (m, n, k)
+        # Each folder contains data for just one (m, n, k) but potentially mutliple algorithms
         match = kernel_folder_pattern.search(kernel_folder).groups()
         m = int(match[0])
         n = int(match[1])
@@ -301,6 +300,8 @@ def collect_training_data(
                         derived_parameters_file_name, index=False
                     )
                     print("\tWrote", derived_parameters_file_name)
+
+    return max_performances_per_mnk, baseline_performances_per_algo_per_mnk
 
 
 # ===============================================================================

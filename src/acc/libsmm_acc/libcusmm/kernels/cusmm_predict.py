@@ -271,20 +271,21 @@ derived_parameters = {
 # ===============================================================================
 def get_max_performances_per_mnk(data):
     """
+    data: pandas DataFrame containing columns "m", "n", "k", "perf (Gflop/s)"
     Construct dictionary:
         keys: (m, n, k)-tuple,
-        values: maximum performance found over all algorithms for this given (m, n, k)
+        values: maximum performance found in this data chunk for this given (m, n, k)
     """
-    # Get list of different (m, n, k)s occurring in this instance
-    data["mnk"] = list(zip(data["m"], data["n"], data["k"]))
-    mnks = np.unique(data["mnk"])
+    # Get list of different (m, n, k)s occurring in this chunk of data
+    data["mnk_"] = list(zip(data["m"], data["n"], data["k"]))
+    mnks = np.unique(data["mnk_"])
 
     # Get max. performance per (m, n, k)
     max_perf = dict()
 
     for mnk in mnks:
         # Get indices corresponding to this mnk
-        idx_mnk = np.where(data["mnk"] == mnk)[0].tolist()
+        idx_mnk = np.where(data["mnk_"] == mnk)[0].tolist()
 
         # Get performances per mnk
         perf_mnk_algo = data["perf (Gflop/s)"].values[idx_mnk]
@@ -301,14 +302,18 @@ def get_max_performances_per_mnk(data):
 # ===============================================================================
 def get_baseline_performances_per_mnk(data, algorithm, gpu, autotuning):
     """
+    data: pandas DataFrame containing columns "m", "n", "k", "perf (Gflop/s)" 
+    algorithm: algorithm for which to get the baseline performance
+    gpu: gpu properties
+    autotuning: autotuning properties
     Construct dictionary:
         keys: (m, n, k)-tuple,
         values: baseline performance for this given (m, n, k) and the given algorithm
     """
 
     # Get list of different (m, n, k)s occurring in this instance
-    data["mnk"] = list(zip(data["m"], data["n"], data["k"]))
-    mnks = np.unique(data["mnk"])
+    data["mnk_"] = list(zip(data["m"], data["n"], data["k"]))
+    mnks = np.unique(data["mnk_"])
 
     # Get baseline performance per (m, n, k)
     baseline_perf = dict()
