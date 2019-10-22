@@ -83,16 +83,23 @@ set(CMAKE_CXX_STANDARD 11)
 
 # PACKAGE DISCOVERY:
 
-if (CMAKE_VERSION VERSION_LESS 3.12)
-    find_package(PythonInterp REQUIRED)
-    set(Python_EXECUTABLE ${PYTHON_EXECUTABLE})
-    find_package(NUMPY REQUIRED)
-elseif (CMAKE_VERSION VERSION_LESS 3.14)
-    find_package(Python COMPONENTS Interpreter REQUIRED)
-    find_package(NUMPY REQUIRED)
-else ()
-    # CMake 3.14+ allows to search for NumPy component at the same time
-    find_package(Python COMPONENTS Interpreter NumPy REQUIRED)
+# this module looks preferably for version 3 of Python. If not found, version 2 is searched
+# In CMake 3.15, if a python virtual environment is activated, it will search the virtual
+# environment for a python interpreter before searching elsewhere in the system.
+# In CMake <3.15, the system is searched before the virtual environment.
+if (NOT Python_EXECUTABLE)
+    # If the python interpreter isn't specified as a command line option, look for it:
+    if (CMAKE_VERSION VERSION_LESS 3.12)
+      find_package(PythonInterp REQUIRED)
+      set(Python_EXECUTABLE ${PYTHON_EXECUTABLE})
+      find_package(NUMPY REQUIRED)
+    elseif (CMAKE_VERSION VERSION_LESS 3.14)
+      find_package(Python COMPONENTS Interpreter REQUIRED)
+      find_package(NUMPY REQUIRED)
+    else ()
+      # CMake 3.14+ allows to search for NumPy component at the same time
+      find_package(Python COMPONENTS Interpreter NumPy REQUIRED)
+    endif ()
 endif ()
 
 find_package(BLAS REQUIRED)
