@@ -24,7 +24,15 @@ from kernels.cusmm_predict import (
 
 
 # ===============================================================================
-def main(tunedir, arch):
+def update_maximums(dictionnary_to_update, dictionnary_partial):
+    for mnk, new_perf in dictionnary_partial.items();
+        if new_perf > dictionnary_to_update[mnk]:
+            dictionnary_to_update[mnk] = new_perf
+    return dictionnary_to_update
+
+
+# ===============================================================================
+def main(data_folder, arch):
     """
     This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
     For more details, see predict.md.
@@ -53,7 +61,7 @@ def main(tunedir, arch):
     for name_algo, kernel_algo in kernel_algorithm.items():
 
         raw_training_data_filename = os.path.join(
-            tunedir, "raw_training_data_{}.csv".format(name_algo)
+            data_folder, "raw_training_data_{}.csv".format(name_algo)
         )
         print("\nReading from {}".format(raw_training_data_filename))
 
@@ -65,15 +73,11 @@ def main(tunedir, arch):
 
             # Print progress
             chunk_count += 1
-            print("Read chunk {:5>}".format(chunk_count))
+            print("Read chunk #{:5>}".format(chunk_count))
 
             # Get max_performance_per_mnk
             max_performances = get_max_performances_per_mnk(data_chunk)
-            max_performances_per_mnk.update(
-                dict(
-                    zip(to_string(*max_performances.keys()), max_performances.values())
-                )
-            )
+            max_performances_per_mnk = update_maximums(max_performances)
 
             # Get baseline_per_mnk
             baseline_performances_algo = get_baseline_performances_per_mnk(
@@ -100,7 +104,7 @@ def main(tunedir, arch):
 
             # Write derived parameters
             derived_training_data_filename = os.path.join(
-                tunedir, "training_data_{}_{}.csv".format(name_algo, chunk_count - 1)
+                data_folder, "training_data_{}_{}.csv".format(name_algo, chunk_count - 1)
             )
             new_data[pars_to_get].to_csv(derived_training_data_filename, index=False)
             print("\tWrote", derived_training_data_filename)
@@ -110,7 +114,7 @@ def main(tunedir, arch):
 
     # Print header lines & merge instructions
     print("\n$ # Merge instructions:")
-    print("$ cd {}".format(tunedir))
+    print("$ cd {}".format(data_folder))
     for name_algo, kernel_algo in kernel_algorithm.items():
 
         # Print header line
@@ -143,14 +147,14 @@ def main(tunedir, arch):
         )
 
     # Print max performances
-    max_performances_per_mnk_file = os.path.join(tunedir, "max_performances.json")
+    max_performances_per_mnk_file = os.path.join(data_folder, "max_performances.json")
     with open(max_performances_per_mnk_file, "w") as f:
         json.dump(max_performances_per_mnk, f)
     print("\nWrote maximum performances to:\n", max_performances_per_mnk_file)
 
     # Print baseline
     baseline_performances_per_algo_per_mnk_file = os.path.join(
-        tunedir, "baseline_performances_by_algo.json"
+        data_folder, "baseline_performances_by_algo.json"
     )
     with open(baseline_performances_per_algo_per_mnk_file, "w") as f:
         json.dump(baseline_performances_per_algo_per_mnk, f)
