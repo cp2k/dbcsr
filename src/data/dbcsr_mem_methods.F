@@ -74,7 +74,7 @@ CONTAINS
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_limit_capacity', &
                                      routineP = moduleN//':'//routineN
 
-      IF (.NOT. ASSOCIATED(pool)) DBCSR_ABORT("pool not allocated")
+      IF (.NOT. ASSOCIATED(pool)) RETURN
 !$    CALL OMP_SET_LOCK(pool%lock)
       pool%capacity = MAX(pool%capacity, capacity)
 !$    CALL OMP_UNSET_LOCK(pool%lock)
