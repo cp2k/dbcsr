@@ -164,7 +164,7 @@ CONTAINS
 
       ! Each thread has its own working-matrix and its own mempool
       ALLOCATE (memtype_product_wm(ithread)%p)
-      CALL dbcsr_memtype_setup(memtype_product_wm(ithread)%p, has_pool=.TRUE.)
+      CALL dbcsr_memtype_setup(memtype_product_wm(ithread)%p, has_pool=dbcsr_cfg%use_mempools_cpu .OR. has_acc)
       CALL dbcsr_mempool_limit_capacity(memtype_product_wm(ithread)%p%pool, capacity=MAX(1, dbcsr_cfg%num_layers_3D))
    END SUBROUTINE dbcsr_multiply_lib_init
 
@@ -420,7 +420,7 @@ CONTAINS
                  output_unit
       INTEGER(KIND=int_8)                                :: my_flop
       LOGICAL :: ab_dense, keep_product_data, keep_sparsity, product_reindex, release_tdist, &
-                 transpose_left, transpose_right, use_dense_mult
+                 transpose_left, transpose_right, use_dense_mult, use_mempools
       REAL(KIND=dp)                                      :: cs
       TYPE(array_i1d_obj) :: dense_col_sizes, dense_k_sizes, dense_row_sizes, k_vmap, m_map, &
                              n_map, old_product_col_blk_offsets, old_product_col_blk_sizes, &
@@ -459,6 +459,8 @@ CONTAINS
       ithread = 0
 !$    ithread = OMP_GET_THREAD_NUM()
 
+      use_mempools = dbcsr_cfg%use_mempools_cpu .OR. has_acc
+
       ! setup driver-dependent memory-types and their memory-pools ---------------
 
       ! the ab_buffers are shared by all threads
@@ -486,7 +488,7 @@ CONTAINS
       ENDIF
 
       CALL dbcsr_memtype_setup(memtype_mpi_buffer, mpi=.TRUE.)
-      CALL dbcsr_memtype_setup(memtype_mpi_product, mpi=.TRUE., has_pool=.TRUE.)
+      CALL dbcsr_memtype_setup(memtype_mpi_product, mpi=.TRUE., has_pool=use_mempools)
 
       ! check parameters ---------------------------------------------------------
       transa_l = transa
@@ -616,8 +618,8 @@ CONTAINS
       ab_dense = use_dense_mult
       ! Use memory pools when no dense
       IF (.NOT. has_acc) THEN
-         CALL dbcsr_memtype_setup(memtype_abpanel_1, has_pool=.NOT. ab_dense, mpi=.TRUE.)
-         CALL dbcsr_memtype_setup(memtype_abpanel_2, has_pool=.NOT. ab_dense, mpi=.TRUE.)
+         CALL dbcsr_memtype_setup(memtype_abpanel_1, has_pool=.NOT. ab_dense .AND. use_mempools, mpi=.TRUE.)
+         CALL dbcsr_memtype_setup(memtype_abpanel_2, has_pool=.NOT. ab_dense .AND. use_mempools, mpi=.TRUE.)
       ENDIF
       !
       ! Submatrix selection
