@@ -65,9 +65,12 @@ def main(
 
     # ===============================================================================
     # Get maximum and baseline performances
-    max_performances, max_performances_algo, max_performances_ref, baseline_performances_algo = get_reference_performances(
-        datadir, algo
-    )
+    (
+        max_performances,
+        max_performances_algo,
+        max_performances_ref,
+        baseline_performances_algo,
+    ) = get_reference_performances(datadir, algo)
 
     # ===============================================================================
     # Read data
@@ -91,16 +94,32 @@ def main(
     if len(prefitted_model_folder) == 0:  # train a model
 
         log += print_and_log("\nPreparing to fit model...")
-        X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model_partial, log = train_model(
-            X, X_mnk, Y, algo, model_args, folder, log
-        )
+        (
+            X_train,
+            Y_train,
+            X_mnk_train,
+            X_test,
+            Y_test,
+            X_mnk_test,
+            model_partial,
+            log,
+        ) = train_model(X, X_mnk, Y, algo, model_args, folder, log)
 
     else:  # load pre-trained model
 
         log += print_and_log(
             "\nReading partial pre-fitted partial model from " + prefitted_model_folder
         )
-        X_train, Y_train, X_mnk_train, X_test, Y_test, X_mnk_test, model_partial, log = fetch_pre_trained_model_partial(
+        (
+            X_train,
+            Y_train,
+            X_mnk_train,
+            X_test,
+            Y_test,
+            X_mnk_test,
+            model_partial,
+            log,
+        ) = fetch_pre_trained_model_partial(
             X, X_mnk, Y, model_args, prefitted_model_folder, log
         )
 
@@ -139,8 +158,8 @@ def main(
         Y = Y_train.append(Y_test, ignore_index=True)
         model_partial.fit(X, Y)
         model = (
-            model_partial
-        )  # This model is fit on the entire dataset, it is not partial
+            model_partial  # This model is fit on the entire dataset, it is not partial
+        )
         results_file = os.path.join(folder, "feature_tree_refit.p")
         safe_pickle([X.columns.values, model], results_file)
     else:
@@ -729,9 +748,14 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
     cv = GroupShuffleSplit(n_splits=2, test_size=0.2)
     train_test_splits = cv.split(X, Y, groups=X_mnk["mnk"])
     train, test = next(train_test_splits)
-    X_train, X_test, Y_train, Y_test, X_mnk_train, X_mnk_test = get_train_test_partition(
-        [X, Y, X_mnk], test, train
-    )
+    (
+        X_train,
+        X_test,
+        Y_train,
+        Y_test,
+        X_mnk_train,
+        X_mnk_test,
+    ) = get_train_test_partition([X, Y, X_mnk], test, train)
     plot_train_test_partition(test, train, X_mnk, folder)
     log += print_and_log(
         "\nComplete train/test split, total size="
@@ -765,8 +789,8 @@ def train_model(X, X_mnk, Y, algo, model_options, folder, log):
     from sklearn.feature_selection import SelectFromModel
 
     feature_importance_threshold = (
-        0.0005
-    )  # only remove the features with VERY little importance
+        0.0005  # only remove the features with VERY little importance
+    )
     model.cv = cv.split(X_train.values, Y_train.values, groups=X_mnk_train.values)
     model.fit(X_train.values, Y_train.values)
     model_fs = SelectFromModel(
@@ -917,9 +941,14 @@ def fetch_pre_trained_model_partial(X, X_mnk, Y, model_options, model_path_folde
         features.remove("mnk")
 
     log += print_and_log("\nPerform train/test split")
-    X_train, X_test, Y_train, Y_test, X_mnk_train, X_mnk_test = get_train_test_partition(
-        [X, Y, X_mnk], test_indices
-    )
+    (
+        X_train,
+        X_test,
+        Y_train,
+        Y_test,
+        X_mnk_train,
+        X_mnk_test,
+    ) = get_train_test_partition([X, Y, X_mnk], test_indices)
     log += print_and_log(
         "\nComplete train/test split, total size="
         + str(X.shape)
@@ -1402,7 +1431,10 @@ def evaluate_model(
     # ===============================================================================
     # 'Results' = y_true ( y_chosen )
     if all([x is not None for x in [X_train, X_mnk_train, Y_train]]):
-        predictive_model_perf_train, predictive_model_perf_train_scaled = get_predive_model_performances(
+        (
+            predictive_model_perf_train,
+            predictive_model_perf_train_scaled,
+        ) = get_predive_model_performances(
             Y_train,
             y_train_pred,
             X_mnk_train,
@@ -1411,7 +1443,10 @@ def evaluate_model(
         )
 
         if all([x is not None for x in [X_test, X_mnk_test, Y_test]]):
-            predictive_model_perf_test, predictive_model_perf_test_scaled = get_predive_model_performances(
+            (
+                predictive_model_perf_test,
+                predictive_model_perf_test_scaled,
+            ) = get_predive_model_performances(
                 Y_test,
                 y_test_pred,
                 X_mnk_test,
