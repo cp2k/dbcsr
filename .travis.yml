@@ -102,7 +102,12 @@ jobs:  # the following jobs inherit only the first OS
     script:
     # ensure python 3.6.4+
     - pyenv global 3.6.7 2.7.15
-    - pre-commit run --all-files
+    - set -o pipefail
+    # fetch remotes first to ensure that referenced branches (other than the default) are available
+    - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+    - git fetch
+    - git diff --name-only --diff-filter=AM HEAD "origin/${TRAVIS_BRANCH}" | xargs pre-commit run --files
+
   - name: "Run pre-commit hook 'check-ast' on all files"
     if: tag IS NOT present
     script:
