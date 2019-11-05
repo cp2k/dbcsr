@@ -89,7 +89,6 @@ detect the compiler behind the compiler wrappers:
 
     -DCMAKE_SYSTEM_NAME=CrayLinuxEnvironment
 
-
 ## Using DBCSR in a CMake project
 
 We are providing CMake helper files to easily include DBCSR in any other CMake-based project.
@@ -133,6 +132,18 @@ is able to find the `DBCSR` CMake configuration:
 
     CMAKE_PREFIX_PATH=/my/dbcsr/install/location/usr/local/lib/cmake cmake ..
 
+## API documentation
+
+To build the API documentation you need [FORD](https://github.com/Fortran-FOSS-Programmers/ford).
+
+Afterwards use the `doc` target for the CMake generated Makefile:
+
+    mkdir build
+    cd build
+    cmake ..  # will look for the `ford` binary
+    make doc
+
+The documentation (HTML format) will be located in `doc/`.
 
 ## Contributing to DBCSR
 
