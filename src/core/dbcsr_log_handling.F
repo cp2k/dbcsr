@@ -117,7 +117,6 @@ MODULE dbcsr_log_handling
 !>        global logging (can be different from the name of the file
 !>        corresponding to default_global_unit_nr, only the one used if
 !>        the unit needs to be opened)
-!> \param print_keys print keys that tell what should be logged/outputted
 !> \note
 !>      This should be private, but as the output functions have been
 !>      moved to another module and there is no "friend" keyword, they

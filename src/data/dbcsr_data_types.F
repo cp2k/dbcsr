@@ -45,7 +45,6 @@ MODULE dbcsr_data_types
 !> \var r_dp        stores real values in double precision
 !> \var c_sp        stores complex values in single precision
 !> \var c_dp        stores complex values in double precision
-!> \var refcount    reference counter for current structure
 !> \var data_type   which of the data types is actually used
 ! **************************************************************************************************
    TYPE dbcsr_scalar_type

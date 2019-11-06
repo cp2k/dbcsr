@@ -2678,7 +2678,7 @@ CONTAINS
 !> \brief Dot product of DBCSR matrices
 !> \param[in] matrix_a DBCSR matrices
 !> \param[in] matrix_b DBCSR matrices
-!> \param[out] result             the dot product of the matrices
+!> \result    the dot product of the matrices
 ! **************************************************************************************************
    SUBROUTINE dbcsr_dot_sd(matrix_a, matrix_b, trace)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a, matrix_b
