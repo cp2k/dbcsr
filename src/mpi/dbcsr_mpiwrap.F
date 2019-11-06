@@ -754,7 +754,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr);
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")
@@ -2629,7 +2629,7 @@ CONTAINS
 ! **************************************************************************************************
 !> \brief Returns the file position
 !> \param[in] fh file handle (file storage unit)
-!> \param[out] file_size  the file position
+!> \param[out] pos  the file position
 !> \par MPI-I/O mapping   mpi_file_get_position
 !> \par STREAM-I/O mapping   INQUIRE
 ! **************************************************************************************************

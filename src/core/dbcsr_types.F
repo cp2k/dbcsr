@@ -108,8 +108,8 @@ MODULE dbcsr_types
 
 ! **************************************************************************************************
 !> \brief A processor (process) grid distribution
-!> \var myproc                my processor (process) number
-!> \var numproc               number of processors (processes)
+!> \var mynode                my processor/node (process) number
+!> \var numnodes              number of processors/nodes (processes)
 !> \var myprow, mypcol        my process grid row and column
 !> \var mp_group              message-passing group ID
 !> \var pgrid                 processor grid
@@ -133,12 +133,8 @@ MODULE dbcsr_types
    END TYPE dbcsr_mp_type
 
 ! **************************************************************************************************
-!> \brief A processor (process) grid distribution
-!> \var myproc                my processor (process) number
-!> \var numproc               number of processors (processes)
-!> \var myprow, mypcol        my process grid row and column
-!> \var pgrid                 processor grid
-!> \var refcount              reference counter
+!> \brief Wrapper for the dbcsr_mp_type
+!> \var mp                    pointer to a dbcsr_mp_type instance
 ! **************************************************************************************************
    TYPE dbcsr_mp_obj
       TYPE(dbcsr_mp_type), POINTER :: mp => Null()
@@ -270,7 +266,7 @@ MODULE dbcsr_types
 
 ! **************************************************************************************************
 !> \brief Object for the buffer of blocks
-!> \var t               Block buffer
+!> \var b               Block buffer
 ! **************************************************************************************************
    TYPE dbcsr_block_buffer_obj
       TYPE(dbcsr_block_buffer_type), POINTER :: b => Null()
@@ -354,7 +350,7 @@ MODULE dbcsr_types
 
 ! **************************************************************************************************
 !> \brief Used for assembling a real matrix.
-!> \var m           the final bcsr matrix
+!> \var mutable     the final bcsr matrix
 !> \var data_area   holds actual values.
 !> \var row_i       the row index of all of the blocks.
 !> \var col_i       the column index of all of the blocks.
@@ -578,7 +574,7 @@ MODULE dbcsr_types
 
 ! **************************************************************************************************
 !> \brief A 1-D array of DBCSR matrices
-!> \var s           the array of matrices
+!> \var mats           the array of matrices
 ! **************************************************************************************************
    TYPE dbcsr_1d_array_obj
       TYPE(dbcsr_type_p), DIMENSION(:), POINTER :: mats => Null()
@@ -586,7 +582,7 @@ MODULE dbcsr_types
 
 ! **************************************************************************************************
 !> \brief A 2-D array of DBCSR matrices
-!> \var s           the array of matrices
+!> \var mats           the array of matrices
 ! **************************************************************************************************
    TYPE dbcsr_2d_array_obj
       TYPE(dbcsr_type_p), DIMENSION(:, :), POINTER :: mats => Null()
@@ -595,7 +591,6 @@ MODULE dbcsr_types
 ! **************************************************************************************************
 !> \brief An array of DBCSR matrices
 !> \var mats        the matrices
-!> \var data_windows, index_windows     RMA windows
 !> \var image_dist  image distribution
 ! **************************************************************************************************
    TYPE dbcsr_1d_array_type

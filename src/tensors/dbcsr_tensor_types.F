@@ -294,7 +294,6 @@ CONTAINS
 !> \brief Create block size object for one matrix dimension
 !> \param blk_size arrays for block sizes along all dimensions
 !> \param map_blks tensor to matrix mapping object for blocks
-!> \param map_grid tensor to matrix mapping object for process grid
 !> \param which_dim for which dimension (1 or 2) distribution should be created
 !> \return block size object
 ! **************************************************************************************************

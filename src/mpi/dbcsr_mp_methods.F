@@ -111,7 +111,7 @@ CONTAINS
       !call dbcsr_mp_grid_setup(mp_env)
    END SUBROUTINE dbcsr_mp_new_grid
 
-   ! **************************************************************************************************
+! **************************************************************************************************
 !> \brief Creates a new dbcsr_mp_obj based on a input template
 !> \param pgrid Optional, if not provided group is assumed to be a 2D cartesian communicator
 ! **************************************************************************************************

@@ -38,7 +38,7 @@ CONTAINS
 #:for dim in range(1, maxdim+1)
 ! **************************************************************************************************
 !> \brief Allocate array according to shape_spec. Possibly assign array from source.
-!> \param shape shape of array to be allocated. If shape is not specified, it is derived from source.
+!> \param shape_spec shape of array to be allocated. If shape is not specified, it is derived from source.
 !> \param array target array.
 !> \param source source array to be copied to target array, must have same rank as target array.
 !> \param order in which order to copy source to array (same convention as RESHAPE intrinsic).
