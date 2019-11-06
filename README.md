@@ -99,7 +99,7 @@ As a user being able to run commands as root, use:
 
     sudo make install  # will install to /usr/local
 
-if you can not run commands as user, use the following to add a custom prefix to the installation:
+if you can not run commands as root, use the following to add a custom prefix to the installation:
 
     make DESTDIR=/my/dbcsr/install/location install
 
