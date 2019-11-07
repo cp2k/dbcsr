@@ -7,11 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief DBCSR tensor unit test.
-!> \author Patrick Seewald
-! **************************************************************************************************
 PROGRAM dbcsr_tensor_unittest
+   !! DBCSR tensor unit test.
    USE dbcsr_api, ONLY: dbcsr_finalize_lib, &
                         dbcsr_init_lib, &
                         dbcsr_type_real_8, &

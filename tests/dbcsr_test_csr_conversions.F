@@ -7,13 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Testing DBCSR to CSR conversion with random matrices
-!> \par History
-!>       2014.10 created [Patrick Seewald]
-!> \author Patrick Seewald
-! **************************************************************************************************
 PROGRAM dbcsr_test_csr_conversions
+   !! Testing DBCSR to CSR conversion with random matrices
    USE dbcsr_api, ONLY: &
       dbcsr_convert_csr_to_dbcsr, dbcsr_convert_dbcsr_to_csr, &
       dbcsr_csr_create_from_dbcsr, dbcsr_csr_destroy, &
@@ -144,20 +139,12 @@ PROGRAM dbcsr_test_csr_conversions
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Test the conversion by converting to CSR format and converting back,
-!>        where the CSR sparsity is defined by some filtering threshold eps.
-!>        The maximum norm of the differences between the original and the
-!>        back-converted matrix is calculated.
-!> \param[in] dbcsr_mat ...
-!> \param[out] csr_mat ...
-!> \param[out] norm ...
-!> \param eps ...
-!> \par History
-!>      10.2014 created [Patrick Seewald]
-!> \author Patrick Seewald
-! **************************************************************************************************
    SUBROUTINE csr_conversion_test(dbcsr_mat, csr_mat, norm, eps)
+      !! Test the conversion by converting to CSR format and converting back,
+      !! where the CSR sparsity is defined by some filtering threshold eps.
+      !! The maximum norm of the differences between the original and the
+      !! back-converted matrix is calculated.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
       TYPE(dbcsr_csr_type), INTENT(OUT)                  :: csr_mat
       REAL(KIND=real_8), INTENT(OUT)                     :: norm
@@ -181,17 +168,8 @@ CONTAINS
       CALL dbcsr_release(csr_sparsity)
    END SUBROUTINE csr_conversion_test
 
-! **************************************************************************************************
-!> \brief Create a DBCSR matrix with random values and random blocks
-!> \param matrix_a ...
-!> \param group ...
-!> \param col_blk_sizes ...
-!> \param row_blk_sizes ...
-!> \param col_dist ...
-!> \param row_dist ...
-!> \param sparsity ...
-! **************************************************************************************************
    SUBROUTINE make_random_dbcsr_matrix(matrix_a, group, &
+      !! Create a DBCSR matrix with random values and random blocks
                                        col_blk_sizes, row_blk_sizes, col_dist, row_dist, sparsity)
       TYPE(dbcsr_type), INTENT(OUT)                      :: matrix_a
       INTEGER, INTENT(IN)                                :: group

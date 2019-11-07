@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Tests for DBCSR add
-!> \author  VW
-!> \date    2010
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created 2010
-! **************************************************************************************************
 MODULE dbcsr_test_add
+   !! Tests for DBCSR add
    USE dbcsr_data_methods, ONLY: dbcsr_data_get_sizes, &
                                  dbcsr_data_init, &
                                  dbcsr_data_new, &
@@ -65,32 +57,24 @@ MODULE dbcsr_test_add
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Performs a variety of matrix add
-!> \param test_name ...
-!> \param[in] mp_group          MPI communicator
-!> \param mp_env ...
-!> \param npdims ...
-!> \param[in] io_unit           which unit to write to, if not negative
-!> \param[in] matrix_sizes      size of matrices to test
-!> \param[in] bs_m block sizes of the 3 dimensions
-!> \param[in] bs_n block sizes of the 3 dimensions
-!> \param[in] sparsities        sparsities of matrices to create
-!> \param alpha ...
-!> \param beta ...
-!> \param limits ...
-!> \param retain_sparsity ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_test_adds(test_name, mp_group, mp_env, npdims, io_unit, &
                               matrix_sizes, bs_m, bs_n, sparsities, &
                               alpha, beta, limits, retain_sparsity)
+      !! Performs a variety of matrix add
+
       CHARACTER(len=*), INTENT(IN)                       :: test_name
       INTEGER, INTENT(IN)                                :: mp_group
+         !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
       INTEGER, INTENT(IN)                                :: io_unit
+         !! which unit to write to, if not negative
       INTEGER, DIMENSION(:), INTENT(in)                  :: matrix_sizes, bs_m, bs_n
+         !! size of matrices to test
+         !! block sizes of the 3 dimensions
+         !! block sizes of the 3 dimensions
       REAL(real_8), DIMENSION(2), INTENT(in)             :: sparsities
+         !! sparsities of matrices to create
       COMPLEX(real_8)                                    :: alpha, beta
       INTEGER, DIMENSION(4), INTENT(in)                  :: limits
       LOGICAL, INTENT(in)                                :: retain_sparsity
@@ -243,33 +227,22 @@ CONTAINS
 
    END SUBROUTINE dbcsr_test_adds
 
-! **************************************************************************************************
-!> \brief Performs a variety of matrix add
-!> \param test_name ...
-!> \param[in] mp_group          MPI communicator
-!> \param mp_env ...
-!> \param npdims ...
-!> \param[in] io_unit           which unit to write to, if not negative
-!> \param[in] matrix_a matrices to add
-!> \param[in] matrix_b matrices to add
-!> \param data_a ...
-!> \param data_b ...
-!> \param data_a_dbcsr ...
-!> \param alpha ...
-!> \param beta ...
-!> \param limits ...
-!> \param retain_sparsity ...
-! **************************************************************************************************
    SUBROUTINE test_add(test_name, mp_group, mp_env, npdims, io_unit, &
                        matrix_a, matrix_b, &
                        data_a, data_b, data_a_dbcsr, &
                        alpha, beta, limits, retain_sparsity)
+      !! Performs a variety of matrix add
+
       CHARACTER(len=*), INTENT(IN)                       :: test_name
       INTEGER, INTENT(IN)                                :: mp_group
+         !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
       INTEGER, INTENT(IN)                                :: io_unit
+         !! which unit to write to, if not negative
       TYPE(dbcsr_type), INTENT(in)                       :: matrix_a, matrix_b
+         !! matrices to add
+         !! matrices to add
       TYPE(dbcsr_data_obj)                               :: data_a, data_b, data_a_dbcsr
       TYPE(dbcsr_scalar_type), INTENT(in)                :: alpha, beta
       INTEGER, DIMENSION(4), INTENT(in)                  :: limits
@@ -376,32 +349,26 @@ CONTAINS
 
    END SUBROUTINE test_add
 
-! **************************************************************************************************
-!> \brief Performs a check of matrix adds
-!> \param test_name ...
-!> \param matrix_a ...
-!> \param dense_a_dbcsr ...
-!> \param dense_a input dense matrices
-!> \param dense_b input dense matrices
-!> \param[in] alpha coefficients for the add
-!> \param[in] beta coefficients for the add
-!> \param[in] limits                    limits for the add
-!> \param retain_sparsity ...
-!> \param[in] io_unit                   io unit for printing
-!> \param mp_group ...
-!> \param[out] success                  if passed the check success=T
-! **************************************************************************************************
    SUBROUTINE dbcsr_check_add(test_name, matrix_a, dense_a_dbcsr, dense_a, dense_b, &
                               alpha, beta, limits, retain_sparsity, io_unit, mp_group, &
                               success)
+      !! Performs a check of matrix adds
+
       CHARACTER(len=*), INTENT(IN)                       :: test_name
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a
       TYPE(dbcsr_data_obj), INTENT(inout)                :: dense_a_dbcsr, dense_a, dense_b
+         !! input dense matrices
+         !! input dense matrices
       TYPE(dbcsr_scalar_type), INTENT(in)                :: alpha, beta
+         !! coefficients for the add
+         !! coefficients for the add
       INTEGER, DIMENSION(4), INTENT(in)                  :: limits
+         !! limits for the add
       LOGICAL, INTENT(in)                                :: retain_sparsity
       INTEGER, INTENT(IN)                                :: io_unit, mp_group
+         !! io unit for printing
       LOGICAL, INTENT(out)                               :: success
+         !! if passed the check success=T
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_add', &
                                      routineP = moduleN//':'//routineN
