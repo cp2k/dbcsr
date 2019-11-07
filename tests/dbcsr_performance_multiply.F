@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Performance for DBCSR multiply
-!> \author  VW
-!> \date    2010
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created 2010
-! **************************************************************************************************
 MODULE dbcsr_performance_multiply
+   !! Performance for DBCSR multiply
    USE dbcsr_data_methods, ONLY: dbcsr_scalar, &
                                  dbcsr_scalar_negative, &
                                  dbcsr_scalar_one
@@ -71,16 +63,6 @@ MODULE dbcsr_performance_multiply
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief ...
-!> \param group ...
-!> \param mp_env ...
-!> \param npdims ...
-!> \param io_unit ...
-!> \param narg ...
-!> \param args_shift ...
-!> \param args ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_perf_multiply(group, mp_env, npdims, io_unit, narg, args_shift, args)
 
       INTEGER                                            :: group
@@ -207,45 +189,34 @@ CONTAINS
 
    END SUBROUTINE dbcsr_perf_multiply
 
-! **************************************************************************************************
-!> \brief Performs a variety of matrix multiplies of same matrices on different
-!>        processor grids
-!> \param[in] mp_group          MPI communicator
-!> \param mp_env ...
-!> \param npdims ...
-!> \param[in] io_unit           which unit to write to, if not negative
-!> \param[in] matrix_sizes      size of matrices to test
-!> \param bs_m block sizes of the 3 dimensions
-!> \param bs_n block sizes of the 3 dimensions
-!> \param bs_k block sizes of the 3 dimensions
-!> \param[in] sparsities        sparsities of matrices to create
-!> \param trans transposes of the two matrices
-!> \param symmetries ...
-!> \param data_type types of matrices to create
-!> \param alpha_in alpha value to use in multiply
-!> \param beta_in beta value to use in multiply
-!> \param limits ...
-!> \param retain_sparsity ...
-!> \param nrep ...
-!> \param chksum_check ...
-!> \param chksum_threshold ...
-!> \param chksum_ref ...
-!> \param chksum_ref_pos ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_perf_multiply_low(mp_group, mp_env, npdims, io_unit, &
                                       matrix_sizes, bs_m, bs_n, bs_k, sparsities, trans, symmetries, data_type, &
                                       alpha_in, beta_in, limits, retain_sparsity, nrep, &
                                       chksum_check, chksum_threshold, chksum_ref, chksum_ref_pos)
+      !! Performs a variety of matrix multiplies of same matrices on different
+      !! processor grids
+
       INTEGER, INTENT(IN)                                :: mp_group
+         !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
       INTEGER, INTENT(IN)                                :: io_unit
+         !! which unit to write to, if not negative
       INTEGER, DIMENSION(:), INTENT(in)                  :: matrix_sizes, bs_m, bs_n, bs_k
+         !! size of matrices to test
+         !! block sizes of the 3 dimensions
+         !! block sizes of the 3 dimensions
+         !! block sizes of the 3 dimensions
       REAL(real_8), DIMENSION(3), INTENT(in)             :: sparsities
+         !! sparsities of matrices to create
       CHARACTER, DIMENSION(2), INTENT(in)                :: trans
+         !! transposes of the two matrices
       CHARACTER, DIMENSION(3), INTENT(in)                :: symmetries
       INTEGER, INTENT(IN)                                :: data_type
+         !! types of matrices to create
       REAL(real_8), DIMENSION(2), INTENT(in)             :: alpha_in, beta_in
+         !! alpha value to use in multiply
+         !! beta value to use in multiply
       INTEGER, DIMENSION(6), INTENT(in)                  :: limits
       LOGICAL, INTENT(in)                                :: retain_sparsity
       INTEGER, INTENT(IN)                                :: nrep
@@ -480,36 +451,23 @@ CONTAINS
 
    END SUBROUTINE dbcsr_perf_multiply_low
 
-! **************************************************************************************************
-!> \brief Performs a variety of matrix multiplies of same matrices on different
-!>        processor grids
-!> \param[in] mp_group          MPI communicator
-!> \param mp_env ...
-!> \param[in] io_unit           which unit to write to, if not negative
-!> \param matrix_a matrices to multiply
-!> \param matrix_b matrices to multiply
-!> \param matrix_c matrices to multiply
-!> \param transa ...
-!> \param transb ...
-!> \param alpha ...
-!> \param beta ...
-!> \param limits ...
-!> \param retain_sparsity ...
-!> \param nrep ...
-!> \param chksum_check ...
-!> \param chksum_threshold ...
-!> \param chksum_ref ...
-!> \param chksum_ref_pos ...
-! **************************************************************************************************
    SUBROUTINE perf_multiply(mp_group, mp_env, io_unit, &
                             matrix_a, matrix_b, matrix_c, &
                             transa, transb, alpha, beta, limits, retain_sparsity, &
                             nrep, chksum_check, chksum_threshold, chksum_ref, chksum_ref_pos)
+      !! Performs a variety of matrix multiplies of same matrices on different
+      !! processor grids
+
 
       INTEGER, INTENT(IN)                                :: mp_group
+         !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, INTENT(IN)                                :: io_unit
+         !! which unit to write to, if not negative
       TYPE(dbcsr_type), INTENT(in)                       :: matrix_a, matrix_b, matrix_c
+         !! matrices to multiply
+         !! matrices to multiply
+         !! matrices to multiply
       CHARACTER, INTENT(in)                              :: transa, transb
       TYPE(dbcsr_scalar_type), INTENT(in)                :: alpha, beta
       INTEGER, DIMENSION(6), INTENT(in)                  :: limits
@@ -750,11 +708,6 @@ CONTAINS
 
    END SUBROUTINE perf_multiply
 
-! **************************************************************************************************
-!> \brief ...
-!> \param v ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION mean(v)
       REAL(real_8), DIMENSION(:)                         :: v
       REAL(real_8)                                       :: mean
@@ -768,11 +721,6 @@ CONTAINS
       ENDDO
       mean = mean/REAL(n, real_8)
    END FUNCTION mean
-! **************************************************************************************************
-!> \brief ...
-!> \param v ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION std(v)
       REAL(real_8), DIMENSION(:)                         :: v
       REAL(real_8)                                       :: std

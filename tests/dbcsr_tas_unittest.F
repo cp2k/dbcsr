@@ -7,11 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief unit testing for tall-and-skinny matrices
-! **************************************************************************************************
 
 PROGRAM dbcsr_tas_unittest
+
+   !! unit testing for tall-and-skinny matrices
    USE dbcsr_api, ONLY: dbcsr_finalize_lib, &
                         dbcsr_init_lib, &
                         dbcsr_print_statistics
