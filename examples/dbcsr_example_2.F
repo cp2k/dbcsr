@@ -11,7 +11,9 @@ PROGRAM dbcsr_example_2
    !! DBCSR example 2
    !! This example shows how to set a dbcsr matrix
 
+#if !defined(__HAS_NO_MPI_MOD)
    USE mpi
+#endif
    USE dbcsr_api,                       ONLY: &
         dbcsr_create, dbcsr_distribution_get, dbcsr_distribution_new, dbcsr_distribution_release, &
         dbcsr_distribution_type, dbcsr_finalize, dbcsr_finalize_lib, dbcsr_get_stored_coordinates, &
@@ -20,6 +22,9 @@ PROGRAM dbcsr_example_2
 
    IMPLICIT NONE
 
+#if defined(__HAS_NO_MPI_MOD)
+   INCLUDE "mpif.h"
+#endif
    TYPE(dbcsr_type)                         :: matrix_a
 
    INTEGER, DIMENSION(:), POINTER           :: col_blk_sizes, row_blk_sizes
