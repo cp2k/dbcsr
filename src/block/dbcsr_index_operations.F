@@ -387,7 +387,7 @@ CONTAINS
          deplus = 0
       ENDIF
       ub = UBOUND(matrix%index, 1)
-      !> The data area was not defined or the new area is greater than the old.
+      ! The data area was not defined or the new area is greater than the old:
       IF (matrix%index(slot) .EQ. 0 .OR. &
           space .GT. matrix%index(slot + 1) - matrix%index(slot) + 1) THEN
          IF (debug_mod) WRITE (*, *) routineP//' Slot', slot, 'not filled, adding at', &
@@ -537,12 +537,10 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_repoint_index
 
-! **************************************************************************************************
-!> \param[in,out] m           Create index for this matrix
-! **************************************************************************************************
-
    SUBROUTINE dbcsr_make_index_exist(m)
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: m
+         !! Create index for this matrix
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_index_exist', &
                                      routineP = moduleN//':'//routineN
@@ -615,13 +613,13 @@ CONTAINS
          ALLOCATE (buf_d(n))
          buf_d(1:n) = blk_d(1:n)
       ENDIF
-      !> Create an ordering for both rows and columns. If the blk_p must
-      !> be rearranged, then the col_i array will be used as a
-      !> permutation vector.
+      ! Create an ordering for both rows and columns. If the blk_p must
+      ! be rearranged, then the col_i array will be used as a
+      ! permutation vector.
       ALLOCATE (sort_keys(n))
       sort_keys(:) = IOR(ISHFT(INT(row_i(1:n), int_8), 32), INT(col_i(1:n), int_8))
       IF (PRESENT(blk_p)) col_i(1:n) = (/(i, i=1, n)/)
-      !> Now do a nice quicksort.
+      ! Now do a nice quicksort.
       CALL sort(sort_keys, n, col_i)
       ! Since blk_d is usually not present we can have two loops that
       ! are essentially the same.
@@ -1131,27 +1129,27 @@ CONTAINS
       ENDIF
       nlocal_rows = matrix%nblkrows_local
       ALLOCATE (local_row_p(nlocal_rows + 1))
-      !> The existing row_p is converted from an indexing array into a
-      !> counting array.  Because it is later discarded, the counting is
-      !> done in-place.
+      ! The existing row_p is converted from an indexing array into a
+      ! counting array.  Because it is later discarded, the counting is
+      ! done in-place.
       ntotal_rows = matrix%nblkrows_total
       CALL dbcsr_count_row_index(matrix%row_p, ntotal_rows)
       ! We first have to find the local rows for the given prow.
       local_rows => array_data(matrix%local_rows)
       IF (SIZE(local_rows) /= nlocal_rows) &
          DBCSR_ABORT("Mismatch in the number of local rows.")
-      !> The counts are mapped to local rows,
+      ! The counts are mapped to local rows,
       DO lrow = 1, nlocal_rows
          local_row_p(lrow) = matrix%row_p(local_rows(lrow))
       ENDDO
       IF (SUM(matrix%row_p(1:ntotal_rows)) /= SUM(local_row_p(1:nlocal_rows))) &
          DBCSR_ABORT("Inconsistent row counts. Perhaps non-local rows contain data?.")
-      !> then converted into an index.
+      ! then converted into an index.
       CALL dbcsr_build_row_index(local_row_p, nlocal_rows)
-      !> The local row index replaces the global one.
+      ! The local row index replaces the global one.
       CALL dbcsr_clearfrom_index_array(matrix, dbcsr_slot_row_p)
       CALL dbcsr_addto_index_array(matrix, dbcsr_slot_row_p, DATA=local_row_p)
-      !> Finally the matrix is designated as having a local-based index.
+      ! Finally the matrix is designated as having a local-based index.
       matrix%local_indexing = .TRUE.
       IF (careful_mod) THEN
          IF (array_size(matrix%local_rows) /= nlocal_rows) &
@@ -1343,7 +1341,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       CALL timeset(routineN, error_handle)
-      !> Ensures the index pointers are set.
+      ! Ensures the index pointers are set.
       CALL dbcsr_repoint_index(matrix)
       ! Check that compaction is even needed.
       has_row_p = ASSOCIATED(matrix%row_p)

@@ -140,18 +140,11 @@
      MARK_USED(stack_descr)
   END SUBROUTINE smm_process_mm_stack_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Processes MM stack and issues libxsmm calls
-!> \param[in] params           Stack of MM parameters
-!> \param[in] stack_size       Number of parameters
-!> \param[in] a_data           Left-matrix data
-!> \param[in] b_data           Right-matrix data
-!> \param[in,out] c_data       Product data
-!> \param[out] used_smm        Flag to signal if an efficient kernel was used
-! **************************************************************************************************
+
 #if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
   SUBROUTINE xsmm_process_mm_batch_${nametype1}$ (stack_descr, params, &
                                                   stack_size, a_data, b_data, c_data, used_smm)
+     !! Processes MM stack and issues libxsmm calls
 #if ${xsmm_supported[n]}$
 #if !defined(DBCSR_LIBXSMM_GEMM_BATCH)
 #define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch
@@ -165,12 +158,19 @@
      INTEGER :: sp
 #endif
      INTEGER, INTENT(IN)                            :: stack_size
+        !! Number of parameters
      TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
      INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
         INTENT(IN)                                  :: params
-     ${type1}$, DIMENSION(*), TARGET, INTENT(IN)    :: a_data, b_data
+        !! Stack of MM parameters
+     ${type1}$, DIMENSION(*), TARGET, INTENT(IN)    :: a_data
+        !! Left-matrix data
+     ${type1}$, DIMENSION(*), TARGET, INTENT(IN)    :: b_data
+        !! Right-matrix data
      ${type1}$, DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
+        !! Product data
      LOGICAL, INTENT(OUT)                           :: used_smm
+        !! Flag to signal if an efficient kernel was used
 
      CHARACTER(len=*), PARAMETER :: routineN = 'xsmm_process_mm_batch_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -209,17 +209,9 @@
   END SUBROUTINE xsmm_process_mm_batch_${nametype1}$
 #endif
 
-! **************************************************************************************************
-!> \brief Processes MM stack and issues libxsmm calls
-!> \param[in] params           Stack of MM parameters
-!> \param[in] stack_size       Number of parameters
-!> \param[in] a_data           Left-matrix data
-!> \param[in] b_data           Right-matrix data
-!> \param[in,out] c_data       Product data
-!> \param[out] used_smm        Flag to signal if an efficient kernel was used
-! **************************************************************************************************
   SUBROUTINE xsmm_process_mm_stack_${nametype1}$ (stack_descr, params, &
                                                   stack_size, a_data, b_data, c_data, used_smm)
+     !! Processes MM stack and issues libxsmm calls
 #if defined(__LIBXSMM) && ${xsmm_supported[n]}$
      ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
      USE libxsmm, ONLY: libxsmm_function => libxsmm_${nametype1}$mmfunction, &
@@ -244,12 +236,19 @@
      INTEGER :: pa, pb, pc
 #endif
      INTEGER, INTENT(IN)                            :: stack_size
+        !! Number of parameters
      TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
      INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
         INTENT(IN)                                  :: params
-     ${type1}$, DIMENSION(*), TARGET, INTENT(IN)    :: a_data, b_data
+        !! Stack of MM parameters
+     ${type1}$, DIMENSION(*), TARGET, INTENT(IN)    :: a_data
+        !! Left-matrix data
+     ${type1}$, DIMENSION(*), TARGET, INTENT(IN)    :: b_data
+        !! Right-matrix data
      ${type1}$, DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
+        !! Product data
      LOGICAL, INTENT(OUT)                           :: used_smm
+        !! Flag to signal if an efficient kernel was used
 
      CHARACTER(len=*), PARAMETER :: routineN = 'libxsmm_process_mm_stack_${nametype1}$', &
                                     routineP = moduleN//':'//routineN

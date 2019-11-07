@@ -33,10 +33,7 @@ MODULE dbcsr_memory_utilities
 
 CONTAINS
 
-#! *************************************************************************************************
-#!> \brief Fypp macro for common subroutine body
-#!> \author Ole Schuett
-#! *************************************************************************************************
+#! Fypp macro for common subroutine body
 #:def reallocate(rank)
 
 #:for i in range(1, rank+1)

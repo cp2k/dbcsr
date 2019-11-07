@@ -7,12 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Stacks of small matrix multiplications
-!> <b>Modification history:</b>
-!  - 2011-09-26 Split dbcsr_internal_operations
-! **************************************************************************************************
 MODULE dbcsr_mm_hostdrv
+   !! Stacks of small matrix multiplications
    USE dbcsr_config, ONLY: dbcsr_cfg, &
                            has_acc, &
                            mm_driver_blas, &

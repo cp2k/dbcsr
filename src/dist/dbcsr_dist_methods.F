@@ -578,9 +578,8 @@ CONTAINS
 !$OMP     END MASTER
    END SUBROUTINE make_threads
 
-!> \brief Removes the thread distribution from a distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_no_threads(dist)
+      !! Removes the thread distribution from a distribution
       TYPE(dbcsr_distribution_obj), INTENT(INOUT)        :: dist
 
 !$OMP MASTER

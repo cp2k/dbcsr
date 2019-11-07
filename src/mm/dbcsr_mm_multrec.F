@@ -53,71 +53,37 @@ MODULE dbcsr_mm_multrec
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_mm_multrec'
    LOGICAL, PARAMETER :: careful_mod = .FALSE.
 
-! **************************************************************************************************
-!> \brief Used to carry data among the various calls.  Each thread has
-!>        its own private copy.
-!> \var c_has_symmetry    The product matrix has symmetry
-!> \var keep_sparsity     Sparsity of C matrix should be kept
-!> \var use_eps           Use on-the-fly filtering
-!> \var m_sizes           Block sizes of A and C matrix rows, indexed locally
-!> \var n_sizes           Block sizes of B and C matrix columns, indexed locally
-!> \var k_sizes           Block sizes of A matrix columns and B matrix rows,
-!>                        indexed locally
-!> \var c_local_rows      C and A matrix local rows.  Map from
-!>                        local row (index) to global row (value).
-!> \var c_local_cols      C and B matrix local columns.  Map from local column
-!>                        (index) to global column (value).
-!> \var k_locals          A matrix local columns and B matrix local rows.  Map
-!>                        from local row/column (index) to global row/column
-!>                        (value).
-!> \var c_global_rows     C and A matrix global rows.  Map from global rows
-!>                        (index) to local rows (value).
-!> \var c_global_cols     C and B matrix global columns.  Map from global
-!>                        columns (index) to local columns (value).
-!> \var max_m             Maximum size of C or A matrix row block size.
-!> \var max_n             Maximum size of C or B matrix column block size.
-!> \var max_k             Maximum size of A matrix column and B matrix row block
-!>                        size.
-!> \var m_size_maps       Map from an A matrix row block size to an index of
-!>                        the most common A matrix row block sizes.
-!> \var n_size_maps       Map from a B matrix column block size to an index of
-!>                        the most common B matrix column block sizes.
-!> \var k_size_maps       Map from an A matrix row or B matrix column block
-!>                        size to an index of the most row/column block sizes.
-!> \var m_size_maps_size  Size of the m_size_maps array (i.e., the maximum block
-!>                        size + 1).
-!> \var n_size_maps_size  Size of the n_size_maps array (i.e., the maximum block
-!>                        size + 1).
-!> \var k_size_maps_size  Size of the k_size_maps array (i.e., the maximum block
-!>                        size + 1).
-!> \var nm_stacks         The number of most common m blocks sizes.
-!> \var nn_stacks         The number of most common n blocks sizes.
-!> \var nk_stacks         The number of most common k blocks sizes.
-!> \var stack_map         Map from most common (n,k,m) block sizes to a stack
-!>                        number within a stack group.
-!>                        m, n, and k sizes.
-!> \var row_max_epss      Maximum eps to be used for one row.
-!> \var a_norms           Norms of A matrix blocks.
-!> \var b_norms           Norms of B matrix blocks.
-!> \var my_wm             Work matrix associated with this thread
-!> \var lastblk           Number of elements in the work matrix
-!> \var datasize          Data size of the work matrix (view of
-!>                        same work matrix variable).
-!> \var original_lastblk  Number of work matrix blocks before addition
-!> \var flop              flop count
-! **************************************************************************************************
    TYPE dbcsr_mm_multrec_type
+      !! Used to carry data among the various calls.  Each thread has
+      !! its own private copy.
+
       PRIVATE
       LOGICAL :: c_has_symmetry, keep_sparsity, use_eps
+         !! The product matrix has symmetry
+         !! Sparsity of C matrix should be kept
+         !! Use on-the-fly filtering
       INTEGER, DIMENSION(:), POINTER :: m_sizes, n_sizes, k_sizes
+         !! Block sizes of A and C matrix rows, indexed locally
+         !! Block sizes of B and C matrix columns, indexed locally
+         !! Block sizes of A matrix columns and B matrix rows, indexed locally
       INTEGER, DIMENSION(:), POINTER :: m_global_sizes, n_global_sizes
       INTEGER, DIMENSION(:), POINTER :: c_local_rows, c_local_cols, k_locals, &
                                         c_global_rows, c_global_cols
+         !! C and A matrix local rows.  Map from local row (index) to global row (value).
+         !! C and B matrix local columns.  Map from local column (index) to global column (value).
+         !! A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
+         !! C and A matrix global rows.  Map from global rows (index) to local rows (value).
+         !! C and B matrix global columns.  Map from global columns (index) to local columns (value).
 
       REAL(KIND=sp), DIMENSION(:), POINTER :: row_max_epss, a_norms, b_norms
+         !! Maximum eps to be used for one row.
+         !! Norms of A matrix blocks.
+         !! Norms of B matrix blocks.
       REAL(KIND=real_8)     :: eps
       INTEGER               :: original_lastblk
+         !! Number of work matrix blocks before addition
       INTEGER(kind=int_8)   :: flop
+         !! flop count
       TYPE(dbcsr_work_type), POINTER :: product_wm => Null()
       TYPE(dbcsr_mm_csr_type)        :: csr
       LOGICAL                        :: new_row_max_epss = .FALSE.
@@ -701,11 +667,9 @@ CONTAINS
       !res=i
    END FUNCTION find_cut_col
 
-! ***************************************************************************************************
-!> \brief Packs a globally-indexed array into a locally-indexed array.
-! **************************************************************************************************
    PURE SUBROUTINE remap_local2global(row_i, col_i, local_rows, local_cols, &
                                       first, last)
+      !! Packs a globally-indexed array into a locally-indexed array.
       INTEGER, INTENT(in)                                :: last, first
       INTEGER, DIMENSION(:), INTENT(in)                  :: local_cols, local_rows
       INTEGER, DIMENSION(1:last), INTENT(inout)          :: col_i, row_i

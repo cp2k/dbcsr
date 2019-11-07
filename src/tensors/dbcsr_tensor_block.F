@@ -299,13 +299,11 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief reserve tensor blocks using block indices
-!> \param blk_ind_1 index of blocks to reserve in each dimension
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserve_blocks_index(tensor, ${varlist("blk_ind")}$)
+      !! reserve tensor blocks using block indices
       TYPE(dbcsr_t_type), INTENT(INOUT)           :: tensor
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: ${varlist("blk_ind")}$
+         !! index of blocks to reserve in each dimension
       INTEGER                                     :: iblk, nblk, handle
       INTEGER(KIND=int_8), ALLOCATABLE, DIMENSION(:)          :: cols, rows
       INTEGER(KIND=int_8), DIMENSION(2)                       :: ind_2d

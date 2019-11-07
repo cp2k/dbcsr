@@ -1261,10 +1261,6 @@ CONTAINS
       CALL dbcsr_dot_prv(matrix_a%prv, matrix_b%prv, result)
    END SUBROUTINE dbcsr_dot_${nametype1}$
 
-! **************************************************************************************************
-!> \param match_matrix_sizes Enables BLAS XGEMM-style multiplication
-!>        of matrices with incompatible dimensions. By default it's disabled.
-! **************************************************************************************************
    SUBROUTINE dbcsr_multiply_${nametype1}$ (transa, transb, &
                                             alpha, matrix_a, matrix_b, beta, matrix_c, &
                                             first_row, last_row, first_column, last_column, first_k, last_k, &
