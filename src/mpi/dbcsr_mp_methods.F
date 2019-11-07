@@ -60,19 +60,18 @@ CONTAINS
       active = ASSOCIATED(mp_env%mp)
    END FUNCTION dbcsr_mp_active
 
-! **************************************************************************************************
-!> \brief Creates new process grid
-!> \param[out] mp_env         multiprocessor environment
-!> \param[in] pgrid           process grid
-!> \param[in] mynode          my processor number
-!> \param[in] numnodes        total number of processors (processes)
-! **************************************************************************************************
    SUBROUTINE dbcsr_mp_new_grid(mp_env, mp_group, pgrid, mynode, &
                                 numnodes, myprow, mypcol, source)
+      !! Creates new process grid
+
       TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
+         !! multiprocessor environment
       INTEGER, INTENT(IN)                                :: mp_group, mynode
+         !! my processor number
       INTEGER, DIMENSION(0:, 0:), INTENT(IN)             :: pgrid
+         !! process grid
       INTEGER, INTENT(IN), OPTIONAL                      :: numnodes, myprow, mypcol, source
+         !! total number of processors (processes)
 
       INTEGER                                            :: pcol, prow
 
@@ -111,14 +110,13 @@ CONTAINS
       !call dbcsr_mp_grid_setup(mp_env)
    END SUBROUTINE dbcsr_mp_new_grid
 
-! **************************************************************************************************
-!> \brief Creates a new dbcsr_mp_obj based on a input template
-!> \param pgrid Optional, if not provided group is assumed to be a 2D cartesian communicator
-! **************************************************************************************************
    SUBROUTINE dbcsr_mp_new_group(mp_env, mp_group, pgrid)
+      !! Creates a new dbcsr_mp_obj based on a input template
+
       TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
       INTEGER, INTENT(IN)                                :: mp_group
       INTEGER, DIMENSION(:, :), OPTIONAL, POINTER        :: pgrid
+         !! Optional, if not provided group is assumed to be a 2D cartesian communicator
 
       INTEGER                                            :: mynode, mypcol, myprow, numnodes, pcol, &
                                                             prow
@@ -169,12 +167,11 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mp_new_group
 
-! **************************************************************************************************
-!> \brief Sets up MPI cartesian process grid
-!> \param[in,out] mp_env      multiprocessor environment
-! **************************************************************************************************
    SUBROUTINE dbcsr_mp_grid_setup(mp_env)
+      !! Sets up MPI cartesian process grid
+
       TYPE(dbcsr_mp_obj), INTENT(INOUT)                  :: mp_env
+         !! multiprocessor environment
 
       INTEGER                                            :: ndims, tmp_group
       INTEGER, DIMENSION(2)                              :: dims, my_pos
@@ -204,21 +201,20 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_mp_grid_setup
 
-! **************************************************************************************************
-!> \brief Creates a sane mp_obj from the given MPI comm that is not a cartesian one (hack)
-!> \param[out] mp_env      Message-passing environment object to create
-!> \param[out] cart_group  the created cartesian group (to be freed by the user)
-!> \param[in] mp_group     MPI group
-!> \param[in] nprocs       (optional) Number of processes
-!> \param[in] pgrid_dims   (optional) Dimensions of MPI group
-! **************************************************************************************************
    SUBROUTINE dbcsr_mp_make_env(mp_env, cart_group, mp_group, &
                                 nprocs, pgrid_dims)
+      !! Creates a sane mp_obj from the given MPI comm that is not a cartesian one (hack)
+
       TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_env
+         !! Message-passing environment object to create
       INTEGER, INTENT(OUT)                               :: cart_group
+         !! the created cartesian group (to be freed by the user)
       INTEGER, INTENT(IN)                                :: mp_group
+         !! MPI group
       INTEGER, INTENT(IN), OPTIONAL                      :: nprocs
+         !! Number of processes
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: pgrid_dims
+         !! Dimensions of MPI group
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mp_make_env', &
                                      routineP = moduleN//':'//routineN
@@ -265,12 +261,11 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_mp_make_env
 
-! **************************************************************************************************
-!> \brief Marks another use of the mp_env
-!> \param[in,out] mp_env      multiprocessor environment
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_mp_hold(mp_env)
+      !! Marks another use of the mp_env
+
       TYPE(dbcsr_mp_obj), INTENT(INOUT)                  :: mp_env
+         !! multiprocessor environment
 
 !   ---------------------------------------------------------------------------
 
@@ -352,14 +347,13 @@ CONTAINS
       col_group = mp_env%mp%pcol_group
    END FUNCTION dbcsr_mp_my_col_group
 
-! **************************************************************************************************
-!> \brief Transposes a multiprocessor environment
-!> \param[out] mp_t           transposed multiprocessor environment
-!> \param[in] mp              original multiprocessor environment
-! **************************************************************************************************
    SUBROUTINE dbcsr_mp_new_transposed(mp_t, mp)
+      !! Transposes a multiprocessor environment
+
       TYPE(dbcsr_mp_obj), INTENT(OUT)                    :: mp_t
+         !! transposed multiprocessor environment
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp
+         !! original multiprocessor environment
 
 !   ---------------------------------------------------------------------------
 

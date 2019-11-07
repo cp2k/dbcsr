@@ -7,15 +7,14 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   This is the start of a dbcsr_api, all publicly needed functions
-!>          are exported here. The others remain private to the library.
-!>          Currently, this is the CP2K used set.
-!>          Ultimately, a reduced subset and well defined api will remain,
-!>          possibly grouped in to standard and expert api.
-!>          Currently, this is work in progress.
-! **************************************************************************************************
 MODULE dbcsr_api
+   !! This is the start of a dbcsr_api, all publicly needed functions
+   !! are exported here. The others remain private to the library.
+   !! Currently, this is the CP2K used set.
+   !! Ultimately, a reduced subset and well defined api will remain,
+   !! possibly grouped in to standard and expert api.
+   !! Currently, this is work in progress.
+
    USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_exists, &
@@ -628,18 +627,17 @@ CONTAINS
                                     dynamic_byrows, contiguous_pointers, read_only)
    END SUBROUTINE dbcsr_iterator_start
 
-! **************************************************************************************************
-!> \brief Gets the index information of the next block, no data.
-!> \param[in,out] iterator   the iterator
-!> \param[out] row           row of the data block
-!> \param[out] column        column of the data block
-!> \param[out] blk           block number
-!> \param[out] blk_p         (optional) index into block data array
-! **************************************************************************************************
    SUBROUTINE dbcsr_iterator_next_block_index(iterator, row, column, blk, blk_p)
+      !! Gets the index information of the next block, no data.
+
       TYPE(dbcsr_iterator_type), INTENT(INOUT)           :: iterator
+         !! the iterator
       INTEGER, INTENT(OUT)                               :: row, column, blk
+         !! row of the data block
+         !! column of the data block
+         !! block number
       INTEGER, INTENT(OUT), OPTIONAL                     :: blk_p
+         !! index into block data array
 
       CALL dbcsr_iterator_next_block_prv(iterator%prv, row=row, column=column, blk=blk, blk_p=blk_p)
    END SUBROUTINE dbcsr_iterator_next_block_index
@@ -827,13 +825,12 @@ CONTAINS
       CALL dbcsr_verify_matrix_prv(matrix%prv, verbosity, local)
    END SUBROUTINE dbcsr_verify_matrix
 
-! **************************************************************************************************
-!> \brief Creates new distribution from blockr distributions
-!> \param[out] dist           distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_new(dist, template, group, pgrid, row_dist, col_dist, &
                                      reuse_arrays)
+      !! Creates new distribution from blockr distributions
+
       TYPE(dbcsr_distribution_type), INTENT(OUT)         :: dist
+         !! distribution
       TYPE(dbcsr_distribution_type), INTENT(IN), &
          OPTIONAL                                        :: template
       INTEGER, INTENT(IN), OPTIONAL                      :: group
@@ -1002,12 +999,11 @@ CONTAINS
       CALL dbcsr_hadamard_product_prv(matrix_a%prv, matrix_b%prv, matrix_c%prv, b_assume_value)
    END SUBROUTINE dbcsr_hadamard_product
 
-! **************************************************************************************************
-!> \brief Deallocates a DBCSR matrix for compatibility with CP2K
-!> \param[in,out] matrix      DBCSR matrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_deallocate_matrix(matrix)
+      !! Deallocates a DBCSR matrix for compatibility with CP2K
+
       TYPE(dbcsr_type), POINTER                          :: matrix
+         !! DBCSR matrix
 
       CALL dbcsr_release(matrix)
       IF (dbcsr_valid_index(matrix)) &
@@ -1054,11 +1050,10 @@ CONTAINS
       CALL convert_dbcsr_to_csr_prv(dbcsr_mat%prv, csr_mat)
    END SUBROUTINE dbcsr_convert_dbcsr_to_csr
 
-! **************************************************************************************************
-!> \brief Apply filtering threshold eps to DBCSR blocks in order to improve
-!>        CSR sparsity (currently only used for testing purposes)
-! **************************************************************************************************
    SUBROUTINE dbcsr_to_csr_filter(dbcsr_mat, csr_sparsity, eps)
+      !! Apply filtering threshold eps to DBCSR blocks in order to improve
+      !! CSR sparsity (currently only used for testing purposes)
+
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
       TYPE(dbcsr_type), INTENT(OUT)                      :: csr_sparsity
       REAL(kind=real_8), INTENT(IN)                      :: eps
@@ -1073,31 +1068,29 @@ CONTAINS
       CALL dbcsr_clear_prv(dbcsr_mat%prv)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Emulation of sparse_matrix_types/add_block_node mapped
-!>        to add_real_matrix_block.... should not be used any longer
-!> It adds a block to the dbcsr matrix and returns a rank-2 pointer to the
-!> block. Currently it only and always uses the mutable data.
-!> \param[in,out] matrix      DBCSR matrix
-!> \param[in]  block_row      the row
-!> \param[in]  block_col      the column
-!> \param[in]  block          the block to put
-! **************************************************************************************************
    SUBROUTINE dbcsr_add_block_node(matrix, block_row, block_col, block)
+      !! Emulation of sparse_matrix_types/add_block_node mapped
+      !! to add_real_matrix_block.... should not be used any longer
+      !! It adds a block to the dbcsr matrix and returns a rank-2 pointer to the
+      !! block. Currently it only and always uses the mutable data.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! DBCSR matrix
       INTEGER, INTENT(IN)                                :: block_row, block_col
+         !! the row
+         !! the column
       REAL(KIND=dp), DIMENSION(:, :), POINTER            :: block
+         !! the block to put
 
       call dbcsr_add_block_node_prv(matrix%prv,  block_row, block_col, block)
    END SUBROUTINE dbcsr_add_block_node
 
 #:include 'data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
-! **************************************************************************************************
-!> \brief Encapsulates a given scalar value and makes it conform with the
-!>        type of the matrix.
-! **************************************************************************************************
    FUNCTION make_conformant_scalar_${nametype1}$ (scalar, matrix) RESULT(encapsulated)
+      !! Encapsulates a given scalar value and makes it conform with the
+      !! type of the matrix.
+
       ${type1}$, INTENT(IN)                      :: scalar
       TYPE(dbcsr_type), INTENT(IN)             :: matrix
       TYPE(dbcsr_scalar_type)                  :: encapsulated

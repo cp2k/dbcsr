@@ -66,13 +66,12 @@ MODULE dbcsr_dist_methods
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Creates new distribution from a template distribution
-!> \param[out] dist           distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_new_template(dist, template, group, pgrid, row_dist, col_dist, &
                                               reuse_arrays)
+      !! Creates new distribution from a template distribution
+
       TYPE(dbcsr_distribution_obj), INTENT(OUT)         :: dist
+         !! distribution
       TYPE(dbcsr_distribution_obj), INTENT(IN), &
          OPTIONAL                                        :: template
       INTEGER, INTENT(IN), OPTIONAL                      :: group
@@ -107,16 +106,15 @@ CONTAINS
 
    END SUBROUTINE dbcsr_distribution_new_template
 
-! **************************************************************************************************
-!> \brief Creates new distribution
-!> \param[out] dist           distribution
-!> \param[in] mp_env          multiprocessing environment
-! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_dist_block, &
                                          local_rows, local_cols, &
                                          reuse_arrays)
+      !! Creates new distribution
+
       TYPE(dbcsr_distribution_obj), INTENT(OUT)          :: dist
+         !! distribution
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
+         !! multiprocessing environment
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist_block, col_dist_block
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL, &
          POINTER                                         :: local_rows, local_cols
@@ -391,18 +389,17 @@ CONTAINS
       num_threads = dist%d%num_threads
    END FUNCTION dbcsr_distribution_num_threads
 
-! **************************************************************************************************
-!> \brief Count number of images in the product matrix
-!> \param[in] matrix_dense_size_1d  1D size of the (equivalent) dense matrix
-!> \param[in] nprows                Number of row processors
-!> \param[in] npcols                Number of column processors
-!> \return Number of images
-! **************************************************************************************************
    FUNCTION dbcsr_distribution_get_num_images_1d(matrix_dense_size_1d, nblocks, &
                                                  nprows, npcols) RESULT(num_images_1d)
+      !! Count number of images in the product matrix
+
       INTEGER, INTENT(IN)                                :: matrix_dense_size_1d, nblocks, nprows, &
                                                             npcols
+         !! 1D size of the (equivalent) dense matrix
+         !! Number of row processors
+         !! Number of column processors
       INTEGER                                            :: num_images_1d
+         !! Number of images
 
       INTEGER                                            :: lcmv
 
@@ -425,15 +422,14 @@ CONTAINS
       ENDIF
    END FUNCTION dbcsr_distribution_get_num_images_1d
 
-! **************************************************************************************************
-!> \brief Creates a distribution for threads
-!> \param[in,out] dist   Add thread distribution to this distribution
-!> \param[in] row_sizes  (optional) row block sizes
-! **************************************************************************************************
    SUBROUTINE dbcsr_distribution_make_threads(dist, row_sizes)
+      !! Creates a distribution for threads
+
       TYPE(dbcsr_distribution_obj), INTENT(INOUT), &
          TARGET                                          :: dist
+         !! Add thread distribution to this distribution
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: row_sizes
+         !! row block sizes
 
       TYPE(dbcsr_distribution_obj), POINTER              :: dist_p
 
@@ -451,19 +447,19 @@ CONTAINS
 !$    ENDIF
    END SUBROUTINE dbcsr_distribution_make_threads
 
-! **************************************************************************************************
-!> \brief Creates a distribution for threads
-!> \param[in,out] dist   Add thread distribution to this distribution
-!> \param[in] row_sizes  (optional) row block sizes
-!> \par Presence of row_sizes
-!>      When row_sizes is present then the thread distribution
-!>      attempts to distribute rows to threads such that the sum of
-!>      delegated row sizes is approximately matched for all rows.
-!>      When row_sizes is not present then a random distribution is chosen.
-! **************************************************************************************************
    SUBROUTINE make_threads(dist, row_sizes)
+      !! Creates a distribution for threads
+      !!
+      !! Presence of row_sizes
+      !! When row_sizes is present then the thread distribution
+      !! attempts to distribute rows to threads such that the sum of
+      !! delegated row sizes is approximately matched for all rows.
+      !! When row_sizes is not present then a random distribution is chosen.
+
       TYPE(dbcsr_distribution_obj), POINTER              :: dist
+         !! Add thread distribution to this distribution
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: row_sizes
+         !! row block sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'make_threads', routineP = moduleN//':'//routineN
 

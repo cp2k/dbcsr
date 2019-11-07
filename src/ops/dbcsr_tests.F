@@ -71,39 +71,38 @@ MODULE dbcsr_tests
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Performs a variety of matrix multiplies of same matrices on different
-!>        processor grids
-!> \param[in] mp_group          MPI communicator
-!> \param[in] io_unit           which unit to write to, if not negative
-!> \param[in] nproc             number of processors to test on
-!> \param[in] matrix_sizes      size of matrices to test
-!> \param[in] trs               transposes of the two matrices
-!> \param[in] bs_m block sizes of the 3 dimensions
-!> \param[in] bs_n block sizes of the 3 dimensions
-!> \param[in] bs_k block sizes of the 3 dimensions
-!> \param[in] sparsities        sparsities of matrices to create
-!> \param[in] alpha alpha value to use in multiply
-!> \param[in] beta beta value to use in multiply
-!> \param[in] data_type         matrix data type
-!> \param[in] n_loops           number of repetition for each multiplication
-!> \param[in] eps               eps value for filtering
-!> \param[in] always_checksum   checksum after each multiplication
-! **************************************************************************************************
    SUBROUTINE dbcsr_run_tests(mp_group, io_unit, nproc, &
                               matrix_sizes, trs, &
                               bs_m, bs_n, bs_k, sparsities, alpha, beta, data_type, test_type, &
                               n_loops, eps, retain_sparsity, always_checksum)
+      !! Performs a variety of matrix multiplies of same matrices on different
+      !! processor grids
+
       INTEGER, INTENT(IN)                                :: mp_group, io_unit
+         !! MPI communicator
+         !! which unit to write to, if not negative
       INTEGER, DIMENSION(:), POINTER                     :: nproc
+         !! number of processors to test on
       INTEGER, DIMENSION(:), INTENT(in)                  :: matrix_sizes
+         !! size of matrices to test
       LOGICAL, DIMENSION(2), INTENT(in)                  :: trs
+         !! transposes of the two matrices
       INTEGER, DIMENSION(:), POINTER                     :: bs_m, bs_n, bs_k
+         !! block sizes of the 3 dimensions
+         !! block sizes of the 3 dimensions
+         !! block sizes of the 3 dimensions
       REAL(kind=dp), DIMENSION(3), INTENT(in)            :: sparsities
+         !! sparsities of matrices to create
       REAL(kind=dp), INTENT(in)                          :: alpha, beta
+         !! alpha value to use in multiply
+         !! beta value to use in multiply
       INTEGER, INTENT(IN)                                :: data_type, test_type, n_loops
+         !! matrix data type
+         !! number of repetition for each multiplication
       REAL(kind=dp), INTENT(in)                          :: eps
+         !! eps value for filtering
       LOGICAL, INTENT(in)                                :: retain_sparsity, always_checksum
+         !! checksum after each multiplication
 
       CHARACTER(len=*), PARAMETER :: fmt_desc = '(A,3(1X,I6),1X,A,2(1X,I5),1X,A,2(1X,L1))', &
                                      routineN = 'dbcsr_run_tests', routineP = moduleN//':'//routineN
@@ -250,14 +249,13 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_run_tests
 
-! **************************************************************************************************
-!> \brief dumps and retrieves a dbcsr matrix, and checks a checksum
-!> \param matrix_a matrix to be written
-!> \param io_unit unit for status updates
-! **************************************************************************************************
    SUBROUTINE test_binary_io(matrix_a, io_unit)
+      !! dumps and retrieves a dbcsr matrix, and checks a checksum
+
       TYPE(dbcsr_type)                                   :: matrix_a
+         !! matrix to be written
       INTEGER                                            :: io_unit
+         !! unit for status updates
 
       CHARACTER(len=*), PARAMETER :: routineN = 'test_binary_io', routineP = moduleN//':'//routineN
 
@@ -290,23 +288,20 @@ CONTAINS
 
    END SUBROUTINE test_binary_io
 
-! **************************************************************************************************
-!> \brief Performs a variety of matrix multiplies of same matrices on different
-!>        processor grids
-!> \param[in] group_sizes       array of (sub) communicator
-!>                              sizes to test (2-D)
-!> \param matrix_a matrices to multiply
-!> \param matrix_b matrices to multiply
-!> \param matrix_c matrices to multiply
-!> \param[in] io_unit           which unit to write to, if not negative
-! **************************************************************************************************
    SUBROUTINE test_multiplies_multiproc(group_sizes, &
                                         matrix_a, matrix_b, matrix_c, &
                                         transa, transb, alpha, beta, limits, retain_sparsity, &
                                         n_loops, eps, &
                                         io_unit, always_checksum)
+      !! Performs a variety of matrix multiplies of same matrices on different
+      !! processor grids
+
       INTEGER, DIMENSION(:, :)                           :: group_sizes
+         !! array of (sub) communicator sizes to test (2-D)
       TYPE(dbcsr_type), INTENT(in)                       :: matrix_a, matrix_b, matrix_c
+         !! matrices to multiply
+         !! matrices to multiply
+         !! matrices to multiply
       CHARACTER, INTENT(in)                              :: transa, transb
       TYPE(dbcsr_scalar_type), INTENT(in)                :: alpha, beta
       INTEGER, DIMENSION(6), INTENT(in), OPTIONAL        :: limits
@@ -314,6 +309,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: n_loops
       REAL(kind=dp), INTENT(in)                          :: eps
       INTEGER, INTENT(IN)                                :: io_unit
+         !! which unit to write to, if not negative
       LOGICAL                                            :: always_checksum
 
       CHARACTER(len=*), PARAMETER :: routineN = 'test_multiplies_multiproc', &

@@ -7,16 +7,15 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Perform an abnormal program termination.
-!> \note These routines are low-level and thus provide also an error recovery
-!>       when dependencies do not allow the use of the error logger. Only
-!>       the master (root) process will dump, if para_env is available and
-!>       properly specified. Otherwise (without any information about the
-!>       parallel environment) most likely more than one process or even all
-!>       processes will send their error dump to the default output unit.
-! **************************************************************************************************
 MODULE dbcsr_print_messages
+   !! Perform an abnormal program termination.
+   !! @note These routines are low-level and thus provide also an error recovery
+   !! when dependencies do not allow the use of the error logger. Only
+   !! the master (root) process will dump, if para_env is available and
+   !! properly specified. Otherwise (without any information about the
+   !! parallel environment) most likely more than one process or even all
+   !! processes will send their error dump to the default output unit.
+
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
 
@@ -28,17 +27,16 @@ MODULE dbcsr_print_messages
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Perform a basic blocking of the text in message and print it
-!>        optionally decorated with a frame of stars as defined by declev.
-!> \note
-!>       after      : Number of empty lines after the message.
-!>       before     : Number of empty lines before the message.
-!>       declev     : Decoration level (0,1,2, ... star lines).
-!>       message    : String with the message text.
-!>       output_unit: Logical unit number of output unit.
-! **************************************************************************************************
    SUBROUTINE print_message(message, output_unit, declev, before, after)
+      !! Perform a basic blocking of the text in message and print it
+      !! optionally decorated with a frame of stars as defined by declev.
+      !! @note
+      !! after      : Number of empty lines after the message.
+      !! before     : Number of empty lines before the message.
+      !! declev     : Decoration level (0,1,2, ... star lines).
+      !! message    : String with the message text.
+      !! output_unit: Logical unit number of output unit.
+
 
       CHARACTER(LEN=*), INTENT(IN)                       :: message
       INTEGER, INTENT(IN)                                :: output_unit

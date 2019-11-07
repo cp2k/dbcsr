@@ -147,11 +147,10 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Benchmark routine. Due to random sparsity (as opposed to structured sparsity pattern), this
-!> may not be representative for actual applications.
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_benchmark_mm(transa, transb, transc, matrix_a, matrix_b, matrix_c, compare_dbcsr, filter_eps, io_unit)
+      !! Benchmark routine. Due to random sparsity (as opposed to structured sparsity pattern), this
+      !! may not be representative for actual applications.
+
       CHARACTER(LEN=1), INTENT(IN)                       :: transa, transb, transc
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix_a, matrix_b, matrix_c
 

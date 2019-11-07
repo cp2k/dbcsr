@@ -132,12 +132,11 @@ MODULE dbcsr_types
       INTEGER                            :: source = -1
    END TYPE dbcsr_mp_type
 
-! **************************************************************************************************
-!> \brief Wrapper for the dbcsr_mp_type
-!> \var mp                    pointer to a dbcsr_mp_type instance
-! **************************************************************************************************
    TYPE dbcsr_mp_obj
+      !! Wrapper for the dbcsr_mp_type
+
       TYPE(dbcsr_mp_type), POINTER :: mp => Null()
+         !! pointer to a dbcsr_mp_type instance
    END TYPE dbcsr_mp_obj
 
 ! **************************************************************************************************
@@ -243,33 +242,30 @@ MODULE dbcsr_types
    INTEGER, PARAMETER            :: dbcsr_norm_gershgorin = 3
    INTEGER, PARAMETER            :: dbcsr_norm_column = 4
 
-! **************************************************************************************************
-!> \brief Buffer for blocks
-!> \var refcount        Reference counter
-!> \var dirty           Whether any buffers are dirty
-!> \var buffers         Buffers
-!> \var rcb             Row and column and offset and dimensions of data in the
-!>                      buffer
-!> \var main            Main memory
-!> \var backing         Backing memory (in lieu of main memory)
-!> \var data_type       Data type used for the buffers
-! **************************************************************************************************
    TYPE dbcsr_block_buffer_type
+      !! Buffer for blocks
+
       INTEGER                                     :: refcount = 0
+         !! Reference counter
       LOGICAL, DIMENSION(:), POINTER              :: dirty => Null()
+         !! Whether any buffers are dirty
       TYPE(dbcsr_data_obj), DIMENSION(:), POINTER :: buffers => Null()
+         !! Buffers
       INTEGER, DIMENSION(:, :), POINTER           :: rcb => Null()
+         !! Row and column and offset and dimensions of data in the buffer
       TYPE(dbcsr_data_obj)                        :: main
+         !! Main memory
       TYPE(dbcsr_data_obj), DIMENSION(:), POINTER :: backing => Null()
+         !! Backing memory (in lieu of main memory)
       INTEGER                                     :: data_type = -1
+         !! Data type used for the buffers
    END TYPE dbcsr_block_buffer_type
 
-! **************************************************************************************************
-!> \brief Object for the buffer of blocks
-!> \var b               Block buffer
-! **************************************************************************************************
    TYPE dbcsr_block_buffer_obj
+      !! Object for the buffer of blocks
+
       TYPE(dbcsr_block_buffer_type), POINTER :: b => Null()
+         !! Block buffer
    END TYPE dbcsr_block_buffer_obj
 
 ! **************************************************************************************************
@@ -348,29 +344,26 @@ MODULE dbcsr_types
       TYPE(dbcsr_mutable_type), POINTER :: m => Null()
    END TYPE dbcsr_mutable_obj
 
-! **************************************************************************************************
-!> \brief Used for assembling a real matrix.
-!> \var mutable     the final bcsr matrix
-!> \var data_area   holds actual values.
-!> \var row_i       the row index of all of the blocks.
-!> \var col_i       the column index of all of the blocks.
-!> \var blk_p       the pointer into the data array of this block.
-!> \var lastblk     index of the last block entered into the row_i, col_i, and
-!>                  blk_p data structures
-!> \var datasize    the actual size of data present in the data element
-!> \var tree        tree used to index data blocks (alternative to the row_i,
-!>                  col_i, and blk_p indices when index is scattered).
-! **************************************************************************************************
    TYPE dbcsr_work_type
+      !! Used for assembling a real matrix.
+
       TYPE(dbcsr_data_obj)                    :: data_area
+         !! holds actual values.
       INTEGER, DIMENSION(:), POINTER          :: row_i => Null()
+         !! the row index of all of the blocks.
       INTEGER, DIMENSION(:), POINTER          :: col_i => Null()
+         !! the column index of all of the blocks.
       INTEGER, DIMENSION(:), POINTER          :: blk_p => Null()
+         !! the pointer into the data array of this block.
       INTEGER                                 :: lastblk = -1
+         !! index of the last block entered into the row_i, col_i, and blk_p data structures
       INTEGER                                 :: datasize = -1
+         !! the actual size of data present in the data element
       INTEGER                                 :: datasize_after_filtering = -1
       !TYPE(btree_i8_dp2d)                       :: tree
+         !! tree used to index data blocks (alternative to the row_i, col_i, and blk_p indices when index is scattered).
       TYPE(dbcsr_mutable_obj)                 :: mutable
+         !! the final bcsr matrix
    END TYPE dbcsr_work_type
 
 ! **************************************************************************************************
@@ -556,56 +549,50 @@ MODULE dbcsr_types
    INTEGER(KIND=int_8), DIMENSION(6), PARAMETER :: dbcsr_mpi_size_limits = &
                                                    (/2**7, 2**13, 2**15, 2**17, 2**22, 2**24/)
 
-! **************************************************************************************************
-!> \brief Pointer to a work matrix.
-!> \var w           the work matrix
-! **************************************************************************************************
    TYPE dbcsr_work_type_p
+      !! Pointer to a work matrix.
+
       TYPE(dbcsr_work_type), POINTER     :: w => Null()
+         !! the work matrix
    END TYPE dbcsr_work_type_p
 
-! **************************************************************************************************
-!> \brief Pointer to a object.
-!> \var matrix         the dbcsr_typeect
-! **************************************************************************************************
    TYPE dbcsr_type_p
+      !! Pointer to a object.
+
       TYPE(dbcsr_type), POINTER           :: matrix => Null()
+         !! the dbcsr_typeect
    END TYPE dbcsr_type_p
 
-! **************************************************************************************************
-!> \brief A 1-D array of DBCSR matrices
-!> \var mats           the array of matrices
-! **************************************************************************************************
    TYPE dbcsr_1d_array_obj
+      !! A 1-D array of DBCSR matrices
+
       TYPE(dbcsr_type_p), DIMENSION(:), POINTER :: mats => Null()
+         !! the array of matrices
    END TYPE dbcsr_1d_array_obj
 
-! **************************************************************************************************
-!> \brief A 2-D array of DBCSR matrices
-!> \var mats           the array of matrices
-! **************************************************************************************************
    TYPE dbcsr_2d_array_obj
+      !! A 2-D array of DBCSR matrices
+
       TYPE(dbcsr_type_p), DIMENSION(:, :), POINTER :: mats => Null()
+         !! the array of matrices
    END TYPE dbcsr_2d_array_obj
 
-! **************************************************************************************************
-!> \brief An array of DBCSR matrices
-!> \var mats        the matrices
-!> \var image_dist  image distribution
-! **************************************************************************************************
    TYPE dbcsr_1d_array_type
+      !! An array of DBCSR matrices
+
       TYPE(dbcsr_type), DIMENSION(:), POINTER :: mats => Null()
+         !! the matrices
       TYPE(dbcsr_imagedistribution_obj)      :: image_dist
+         !! image distribution
    END TYPE dbcsr_1d_array_type
 
-! **************************************************************************************************
-!> \brief A 2-d array of DBCSR matrices
-!> \var mats        the matrices
-!> \var image_dist  image distribution
-! **************************************************************************************************
    TYPE dbcsr_2d_array_type
+      !! A 2-d array of DBCSR matrices
+
       TYPE(dbcsr_type), DIMENSION(:, :), POINTER :: mats => Null()
+         !! the matrices
       TYPE(dbcsr_imagedistribution_obj)         :: image_dist
+         !! image distribution
    END TYPE dbcsr_2d_array_type
 
    TYPE dbcsr_mpi_statistics_type

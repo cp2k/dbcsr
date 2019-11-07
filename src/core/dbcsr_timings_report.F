@@ -48,17 +48,16 @@ MODULE dbcsr_timings_report
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Print accumulated information on timers
-!> \param mp_env is needed to collect statistics from other nodes.
-! **************************************************************************************************
    SUBROUTINE timings_report_print(iw, r_timings, sort_by_self_time, cost_type, report_maxloc, mp_env)
+      !! Print accumulated information on timers
+
       INTEGER, INTENT(IN)                                :: iw
       REAL(KIND=dp), INTENT(IN)                          :: r_timings
       LOGICAL, INTENT(IN)                                :: sort_by_self_time
       INTEGER, INTENT(IN)                                :: cost_type
       LOGICAL, INTENT(IN)                                :: report_maxloc
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
+         !! is needed to collect statistics from other nodes.
 
       TYPE(list_routinereport_type)                      :: reports
       TYPE(routine_report_type), POINTER                 :: r_report
@@ -301,11 +300,10 @@ CONTAINS
 
    END SUBROUTINE print_reports
 
-! **************************************************************************************************
-!> \brief Write accumulated callgraph information as cachegrind-file.
-!> http://kcachegrind.sourceforge.net/cgi-bin/show.cgi/KcacheGrindCalltreeFormat
-! **************************************************************************************************
    SUBROUTINE timings_report_callgraph(filename)
+      !! Write accumulated callgraph information as cachegrind-file.
+      !! http://kcachegrind.sourceforge.net/cgi-bin/show.cgi/KcacheGrindCalltreeFormat
+
       CHARACTER(len=*), INTENT(in)                       :: filename
 
       INTEGER, PARAMETER                                 :: E = 1000, T = 100000

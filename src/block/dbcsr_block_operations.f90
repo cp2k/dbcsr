@@ -9,14 +9,13 @@
 
 #:include '../data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
-! **************************************************************************************************
-!> \brief Copies a block subset
-!> \note see block_partial_copy_a
-! **************************************************************************************************
   PURE_BLOCKOPS SUBROUTINE block_partial_copy_${nametype1}$ (dst, dst_rs, dst_cs, dst_tr, &
                                                              src, src_rs, src_cs, src_tr, &
                                                              dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                              dst_offset, src_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
 #if defined(__LIBXSMM_BLOCKOPS)
      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
 #endif
@@ -87,14 +86,13 @@
      ENDIF
   END SUBROUTINE block_partial_copy_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Copies a block subset
-!> \note see block_partial_copy_a
-! **************************************************************************************************
   PURE_BLOCKOPS SUBROUTINE block_partial_copy_1d2d_${nametype1}$ (dst, dst_rs, dst_cs, dst_tr, &
                                                                   src, src_tr, &
                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                   dst_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
 #if defined(__LIBXSMM_BLOCKOPS)
      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
 #else
@@ -180,14 +178,13 @@
      ENDIF
   END SUBROUTINE block_partial_copy_1d2d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Copies a block subset
-!> \note see block_partial_copy_a
-! **************************************************************************************************
   PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d1d_${nametype1}$ (dst, dst_tr, &
                                                                   src, src_rs, src_cs, src_tr, &
                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                   src_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
 #if defined(__LIBXSMM_BLOCKOPS)
      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
 #endif
@@ -241,13 +238,12 @@
      ENDIF
   END SUBROUTINE block_partial_copy_2d1d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Copies a block subset
-!> \note see block_partial_copy_a
-! **************************************************************************************************
   PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d2d_${nametype1}$ (dst, dst_tr, &
                                                                   src, src_tr, &
                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
 #if defined(__LIBXSMM_BLOCKOPS)
      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
 #else
@@ -335,18 +331,17 @@
      ENDIF
   END SUBROUTINE block_partial_copy_2d2d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Copy a block
-!> \param[out] extent_out     output data
-!> \param[in] extent_in       input data
-!> \param[in] n               number of elements to copy
-!> \param[in] out_fe          first element of output
-!> \param[in] in_fe           first element of input
-! **************************************************************************************************
   PURE SUBROUTINE block_copy_${nametype1}$ (extent_out, extent_in, n, out_fe, in_fe)
+     !! Copy a block
+
      INTEGER, INTENT(IN) :: n, out_fe, in_fe
+        !! number of elements to copy
+        !! first element of output
+        !! first element of input
      ${type1}$, DIMENSION(*), INTENT(OUT) :: extent_out
+        !! output data
      ${type1}$, DIMENSION(*), INTENT(IN)  :: extent_in
+        !! input data
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -354,21 +349,20 @@
      extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
   END SUBROUTINE block_copy_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Copy and transpose block.
-!> \param[out] extent_out     output matrix in the form of a 1-d array
-!> \param[in] extent_in       input matrix in the form of a 1-d array
-!> \param[in] rows input matrix size
-!> \param[in] columns input matrix size
-! **************************************************************************************************
   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_${nametype1}$ (extent_out, extent_in, &
                                                                rows, columns)
+     !! Copy and transpose block.
+
 #if defined(__LIBXSMM_TRANS)
      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1
 #endif
      ${type1}$, DIMENSION(:), INTENT(OUT), TARGET :: extent_out
+        !! output matrix in the form of a 1-d array
      ${type1}$, DIMENSION(:), INTENT(IN)          :: extent_in
+        !! input matrix in the form of a 1-d array
      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -384,18 +378,17 @@
 #endif
   END SUBROUTINE block_transpose_copy_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Copy a block
-!> \param[out] extent_out     output matrix in the form of a 2-d array
-!> \param[in] extent_in       input matrix in the form of a 1-d array
-!> \param[in] rows input matrix size
-!> \param[in] columns input matrix size
-! **************************************************************************************************
   PURE SUBROUTINE block_copy_2d1d_${nametype1}$ (extent_out, extent_in, &
                                                  rows, columns)
+     !! Copy a block
+
      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
      ${type1}$, DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 2-d array
      ${type1}$, DIMENSION(:), INTENT(IN)             :: extent_in
+        !! input matrix in the form of a 1-d array
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d1d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -403,18 +396,17 @@
      extent_out = RESHAPE(extent_in, (/rows, columns/))
   END SUBROUTINE block_copy_2d1d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Copy a block
-!> \param[out] extent_out     output matrix in the form of a 1-d array
-!> \param[in] extent_in       input matrix in the form of a 1-d array
-!> \param[in] rows input matrix size
-!> \param[in] columns input matrix size
-! **************************************************************************************************
   PURE SUBROUTINE block_copy_1d1d_${nametype1}$ (extent_out, extent_in, &
                                                  rows, columns)
+     !! Copy a block
+
      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
      ${type1}$, DIMENSION(rows*columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 1-d array
      ${type1}$, DIMENSION(rows*columns), INTENT(IN)  :: extent_in
+        !! input matrix in the form of a 1-d array
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d1d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -422,18 +414,17 @@
      extent_out(:) = extent_in(:)
   END SUBROUTINE block_copy_1d1d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Copy a block
-!> \param[out] extent_out     output matrix in the form of a 2-d array
-!> \param[in] extent_in       input matrix in the form of a 2-d array
-!> \param[in] rows input matrix size
-!> \param[in] columns input matrix size
-! **************************************************************************************************
   PURE SUBROUTINE block_copy_2d2d_${nametype1}$ (extent_out, extent_in, &
                                                  rows, columns)
+     !! Copy a block
+
      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
      ${type1}$, DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 2-d array
      ${type1}$, DIMENSION(rows, columns), INTENT(IN)  :: extent_in
+        !! input matrix in the form of a 2-d array
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d2d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -441,21 +432,20 @@
      extent_out(:, :) = extent_in(:, :)
   END SUBROUTINE block_copy_2d2d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Copy and transpose block.
-!> \param[out] extent_out     output matrix in the form of a 2-d array
-!> \param[in] extent_in       input matrix in the form of a 1-d array
-!> \param[in] rows input matrix size
-!> \param[in] columns input matrix size
-! **************************************************************************************************
   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_2d1d_${nametype1}$ (extent_out, extent_in, &
                                                                     rows, columns)
+     !! Copy and transpose block.
+
 #if defined(__LIBXSMM_TRANS)
      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
 #endif
      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
      ${type1}$, DIMENSION(columns, rows), INTENT(OUT), TARGET :: extent_out
+        !! output matrix in the form of a 2-d array
      ${type1}$, DIMENSION(:), INTENT(IN)                      :: extent_in
+        !! input matrix in the form of a 1-d array
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d1d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -470,18 +460,17 @@
 #endif
   END SUBROUTINE block_transpose_copy_2d1d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Copy and transpose block.
-!> \param[out] extent_out     output matrix in the form of a 1-d array
-!> \param[in] extent_in       input matrix in the form of a 2-d array
-!> \param[in] rows input matrix size
-!> \param[in] columns input matrix size
-! **************************************************************************************************
   PURE SUBROUTINE block_copy_1d2d_${nametype1}$ (extent_out, extent_in, &
                                                  rows, columns)
+     !! Copy and transpose block.
+
      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
      ${type1}$, DIMENSION(:), INTENT(OUT)            :: extent_out
+        !! output matrix in the form of a 1-d array
      ${type1}$, DIMENSION(rows, columns), INTENT(IN) :: extent_in
+        !! input matrix in the form of a 2-d array
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d2d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -489,21 +478,20 @@
      extent_out = RESHAPE(extent_in, (/rows*columns/))
   END SUBROUTINE block_copy_1d2d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Copy and transpose block.
-!> \param[out] extent_out     output matrix in the form of a 1-d array
-!> \param[in] extent_in       input matrix in the form of a 2-d array
-!> \param[in] rows input matrix size
-!> \param[in] columns input matrix size
-! **************************************************************************************************
   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_1d2d_${nametype1}$ (extent_out, extent_in, &
                                                                     rows, columns)
+     !! Copy and transpose block.
+
 #if defined(__LIBXSMM_TRANS)
      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
 #endif
      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
      ${type1}$, DIMENSION(:), INTENT(OUT), TARGET    :: extent_out
+        !! output matrix in the form of a 1-d array
      ${type1}$, DIMENSION(rows, columns), INTENT(IN) :: extent_in
+        !! input matrix in the form of a 2-d array
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_1d2d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -518,18 +506,17 @@
 #endif
   END SUBROUTINE block_transpose_copy_1d2d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief In-place block transpose.
-!> \param[in,out] extent      Matrix in the form of a 1-d array
-!> \param[in] rows input matrix size
-!> \param[in] columns input matrix size
-! **************************************************************************************************
   PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_${nametype1}$ (extent, rows, columns)
+     !! In-place block transpose.
+
 #if defined(__LIBXSMM_TRANS) && 0
      USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
 #endif
      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
      ${type1}$, DIMENSION(rows*columns), INTENT(INOUT) :: extent
+        !! Matrix in the form of a 1-d array
 
      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_inplace_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -554,21 +541,19 @@
 #endif
   END SUBROUTINE block_transpose_inplace_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Copy data from a double real array to a data area
-!> There are no checks done for correctness!
-!> \param[in] dst        destination data area
-!> \param[in] lb         lower bound for destination (and source if
-!>                       not given explicitly)
-!> \param[in] data_size  number of elements to copy
-!> \param[in] src        source data array
-!> \param[in] source_lb  (optional) lower bound of source
-! **************************************************************************************************
   SUBROUTINE dbcsr_data_set_a${nametype1}$ (dst, lb, data_size, src, source_lb)
+     !! Copy data from a double real array to a data area
+     !! There are no checks done for correctness!
+
      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: dst
+        !! destination data area
      INTEGER, INTENT(IN)                      :: lb, data_size
+        !! lower bound for destination (and source if not given explicitly)
+        !! number of elements to copy
      ${type1}$, DIMENSION(:), INTENT(IN)      :: src
+        !! source data array
      INTEGER, INTENT(IN), OPTIONAL            :: source_lb
+        !! lower bound of source
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_set_a${nametype1}$', &
                                     routineP = moduleN//':'//routineN
      INTEGER                                  :: lb_s, ub, ub_s

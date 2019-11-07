@@ -198,11 +198,10 @@ MODULE dbcsr_operations
 CONTAINS
 #:include '../data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1  in inst_params_float
-! **************************************************************************************************
-!> \brief Encapsulates a given scalar value and makes it conform with the
-!>        type of the matrix.
-! **************************************************************************************************
    FUNCTION make_conformant_scalar_${nametype1}$ (scalar, matrix) RESULT(encapsulated)
+      !! Encapsulates a given scalar value and makes it conform with the
+      !! type of the matrix.
+
       ${type1}$, INTENT(IN)                      :: scalar
       TYPE(dbcsr_type), INTENT(IN)             :: matrix
 
@@ -225,20 +224,19 @@ CONTAINS
    END FUNCTION make_conformant_scalar_${nametype1}$
 #:endfor
 
-! **************************************************************************************************
-!> \brief Emulation of sparse_matrix_types/add_block_node mapped
-!>        to add_real_matrix_block.... should not be used any longer
-!> It adds a block to the dbcsr matrix and returns a rank-2 pointer to the
-!> block. Currently it only and always uses the mutable data.
-!> \param[in,out] matrix      DBCSR matrix
-!> \param[in]  block_row      the row
-!> \param[in]  block_col      the column
-!> \param[in]  block          the block to put
-! **************************************************************************************************
    SUBROUTINE dbcsr_add_block_node(matrix, block_row, block_col, block)
+      !! Emulation of sparse_matrix_types/add_block_node mapped
+      !! to add_real_matrix_block.... should not be used any longer
+      !! It adds a block to the dbcsr matrix and returns a rank-2 pointer to the
+      !! block. Currently it only and always uses the mutable data.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! DBCSR matrix
       INTEGER, INTENT(IN)                                :: block_row, block_col
+         !! the row
+         !! the column
       REAL(KIND=dp), DIMENSION(:, :), POINTER            :: block
+         !! the block to put
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_add_block_node', &
                                      routineP = moduleN//':'//routineN
@@ -281,12 +279,11 @@ CONTAINS
       IF (.NOT. is_there) block(:, :) = 0.0_dp
    END SUBROUTINE dbcsr_add_block_node
 
-! **************************************************************************************************
-!> \brief Conjugate a DBCSR matrix
-!> \param[inout] matrix       DBCSR matrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_conjg(matrix)
+      !! Conjugate a DBCSR matrix
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! DBCSR matrix
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_conjg', routineP = moduleN//':'//routineN
 
@@ -353,19 +350,19 @@ CONTAINS
 
    END SUBROUTINE dbcsr_zero
 
-! **************************************************************************************************
-!> \brief Scales a DBCSR matrix by alpha
-!> \param[inout] matrix_a       DBCSR matrix
-!> \param[in] alpha_scalar      (optional) a scalar
-!> \param[in] limits            (optional) Scale only a subbox
-!> \par Limits
-!> A 4-tuple describing (first_row, last_row, first_column, last_column). Set
-!> to 0 to avoid limiting.
-! **************************************************************************************************
    SUBROUTINE dbcsr_scale_anytype(matrix_a, alpha_scalar, limits)
+      !! Scales a DBCSR matrix by alpha
+      !!
+      !! Limits
+      !! A 4-tuple describing (first_row, last_row, first_column, last_column). Set
+      !! to 0 to avoid limiting.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
+         !! DBCSR matrix
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: alpha_scalar
+         !! a scalar
       INTEGER, DIMENSION(4), INTENT(IN), OPTIONAL        :: limits
+         !! Scale only a subbox
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_anytype', &
                                      routineP = moduleN//':'//routineN
@@ -464,22 +461,20 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_scale_anytype
 
-! **************************************************************************************************
-!> \brief Determines the effect of limits on a block
-!> \param[in] block_size     size of block
-!> \param[in] block_offset   global offset of block
-!> \param[in] first_limit    lower limit
-!> \param[in] last_limit     upper limit
-!> \param[out] frame_size    size of block region within the limits
-!> \param[out] frame_offset  starting position of the block region
-!>                           that is within the limits
-! **************************************************************************************************
    ELEMENTAL SUBROUTINE frame_block_limit(block_size, block_offset, &
                                           first_limit, last_limit, &
                                           frame_size, frame_offset)
+      !! Determines the effect of limits on a block
+
       INTEGER, INTENT(IN)                                :: block_size, block_offset, first_limit, &
                                                             last_limit
+         !! size of block
+         !! global offset of block
+         !! lower limit
+         !! upper limit
       INTEGER, INTENT(OUT)                               :: frame_size, frame_offset
+         !! size of block region within the limits
+         !! starting position of the block region that is within the limits
 
       INTEGER                                            :: f, l
 
@@ -489,16 +484,15 @@ CONTAINS
       frame_offset = MIN(f - block_offset + 1, block_size)
    END SUBROUTINE frame_block_limit
 
-! **************************************************************************************************
-!> \brief Scales a DBCSR matrix by alpha
-!> \param[inout] matrix_a       DBCSR matrix
-!> \param[in] alpha             the scaling vector
-!> \param[in] side              apply the scaling from the side
-! **************************************************************************************************
    SUBROUTINE dbcsr_scale_by_vector_anytype(matrix_a, alpha, side)
+      !! Scales a DBCSR matrix by alpha
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
+         !! DBCSR matrix
       TYPE(dbcsr_data_obj), INTENT(IN), OPTIONAL         :: alpha
+         !! the scaling vector
       CHARACTER(LEN=*), INTENT(IN)                       :: side
+         !! apply the scaling from the side
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_by_vector_anytype', &
                                      routineP = moduleN//':'//routineN
@@ -604,15 +598,14 @@ CONTAINS
 
    END SUBROUTINE dbcsr_scale_by_vector_anytype
 
-! **************************************************************************************************
-!> \brief add and scale matrices
-!>    A = alpha*A + beta*B or
-!> \param[in,out] matrix_a   DBCSR matrix
-!> \param[in] matrix_b       DBCSR matrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_add_anytype(matrix_a, matrix_b, alpha_scalar, beta_scalar, flop)
+      !! add and scale matrices
+      !! A = alpha*A + beta*B or
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
+         !! DBCSR matrix
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_b
+         !! DBCSR matrix
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: alpha_scalar, beta_scalar
       INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL       :: flop
 
@@ -823,30 +816,29 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_add_on_diag_ds
 
-! **************************************************************************************************
-!> \brief Computes various functions (defined by func) of matrix elements
-!> \param[in] matrix_a        DBCSR matrix
-!> \note  sign(A,B) returns the value of A with the sign of B
-!>        dbcsr_func_inverse:   1/(a1*x+a0)
-!>           fails if the inversion produces infinite numbers
-!>        dbcsr_func_inverse_special: 1/(x+sign(a0,x))
-!>           safe inverse: if a0>0 then the denominator is never zero
-!>        dbcsr_func_tanh:    tanh(a1*x+a0)
-!>        dbcsr_func_dtanh:   d(tanh(a1*x+a0)) / dx
-!>        dbcsr_func_ddtanh:  d2(tanh(a1*x+a0)) / dx2
-!>        dbcsr_func_artanh:  artanh(a1*x+a0)=ln[(1+(a1*x+a0))/(1-(a1*x+a0))]/2
-!>           fails if |a1*x+a0| >= 1
-!>        dbcsr_func_sread_from_zero:  if |x|<|a0| then x=sign(a0,x)
-!>        dbcsr_func_truncate:  if |x|>|a0| then x=sign(a0,x)
-!>        dbcsr_func_sin:     sin(a1*x+a0)
-!>        dbcsr_func_cos:     cos(a1*x+a0)
-!>        dbcsr_func_dsin:    d(sin(a1*x+a0)) / dx = a1*cos(a1*x+a0)
-!>        dbcsr_func_ddsin:   d2(sin(a1*x+a0)) / dx2 = -a1*a1*sin(a1*x+a0)
-!>        dbcsr_func_asin:    asin(a1*x+a0)
-!>           fails if |a1*x+a0| > 1
-! **************************************************************************************************
    SUBROUTINE dbcsr_function_of_elements(matrix_a, func, a0, a1, a2)
+      !! Computes various functions (defined by func) of matrix elements
+      !! @note  sign(A,B) returns the value of A with the sign of B
+      !! dbcsr_func_inverse:   1/(a1*x+a0)
+      !! fails if the inversion produces infinite numbers
+      !! dbcsr_func_inverse_special: 1/(x+sign(a0,x))
+      !! safe inverse: if a0>0 then the denominator is never zero
+      !! dbcsr_func_tanh:    tanh(a1*x+a0)
+      !! dbcsr_func_dtanh:   d(tanh(a1*x+a0)) / dx
+      !! dbcsr_func_ddtanh:  d2(tanh(a1*x+a0)) / dx2
+      !! dbcsr_func_artanh:  artanh(a1*x+a0)=ln[(1+(a1*x+a0))/(1-(a1*x+a0))]/2
+      !! fails if |a1*x+a0| >= 1
+      !! dbcsr_func_sread_from_zero:  if |x|<|a0| then x=sign(a0,x)
+      !! dbcsr_func_truncate:  if |x|>|a0| then x=sign(a0,x)
+      !! dbcsr_func_sin:     sin(a1*x+a0)
+      !! dbcsr_func_cos:     cos(a1*x+a0)
+      !! dbcsr_func_dsin:    d(sin(a1*x+a0)) / dx = a1*cos(a1*x+a0)
+      !! dbcsr_func_ddsin:   d2(sin(a1*x+a0)) / dx2 = -a1*a1*sin(a1*x+a0)
+      !! dbcsr_func_asin:    asin(a1*x+a0)
+      !! fails if |a1*x+a0| > 1
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
+         !! DBCSR matrix
       INTEGER, INTENT(IN)                                :: func
       REAL(kind=dp), INTENT(IN), OPTIONAL                :: a0, a1, a2
 
@@ -975,18 +967,17 @@ CONTAINS
 
    END SUBROUTINE dbcsr_function_of_elements
 
-! **************************************************************************************************
-!> \brief Hadamard product
-!>    C = A . B (C needs to be different from A and B)
-!> \param[in] matrix_a DBCSR matrix
-!> \param[in] matrix_b DBCSR matrix
-!> \param[in,out] matrix_c        DBCSR matrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_hadamard_product(matrix_a, matrix_b, matrix_c, &
                                      b_assume_value)
+      !! Hadamard product
+      !! C = A . B (C needs to be different from A and B)
+
 
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a, matrix_b
+         !! DBCSR matrix
+         !! DBCSR matrix
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_c
+         !! DBCSR matrix
       REAL(KIND=dp), INTENT(IN), OPTIONAL                :: b_assume_value
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_hadamard_product', &
@@ -1162,15 +1153,14 @@ CONTAINS
 
    END SUBROUTINE dbcsr_init_random
 
-! **************************************************************************************************
-!> \brief get the diagonal of a dbcsr matrix
-!> \param[in] matrix    the matrix
-!> \param[inout] diag   the diagonal
-! **************************************************************************************************
    SUBROUTINE dbcsr_get_block_diag(matrix, diag)
+      !! get the diagonal of a dbcsr matrix
+
 
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! the matrix
       TYPE(dbcsr_type), INTENT(INOUT)                    :: diag
+         !! the diagonal
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_diag', &
                                      routineP = moduleN//':'//routineN
@@ -1200,11 +1190,10 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_get_block_diag
 
-! **************************************************************************************************
-!> \brief checks if matrix symmetry and data_type are consistent
-!> \brief note: does not check the symmetry of the data itself
-! **************************************************************************************************
    LOGICAL FUNCTION symmetry_consistent(matrix_type, data_type)
+      !! checks if matrix symmetry and data_type are consistent
+      !! \brief note: does not check the symmetry of the data itself
+
       CHARACTER, INTENT(IN)                    :: matrix_type
       INTEGER, INTENT(IN)                      :: data_type
 
@@ -1230,11 +1219,10 @@ CONTAINS
 
    END FUNCTION symmetry_consistent
 
-! **************************************************************************************************
-!> \brief checks if symmetries of two matrices are compatible for copying
-!> \brief data from matrix_a(source) to matrix_b(target)
-! **************************************************************************************************
    LOGICAL FUNCTION symmetry_compatible(matrix_type_a, matrix_type_b)
+      !! checks if symmetries of two matrices are compatible for copying
+      !! \brief data from matrix_a(source) to matrix_b(target)
+
       CHARACTER, INTENT(IN)                    :: matrix_type_a, matrix_type_b
 
       CHARACTER(len=*), PARAMETER :: routineN = 'symmetry_compatible', &
@@ -1264,28 +1252,24 @@ CONTAINS
 
    END FUNCTION symmetry_compatible
 
-! **************************************************************************************************
-!> \brief copy a matrix
-!> \param[inout] matrix_b       target DBCSR matrix
-!> \param[in]    matrix_a       source DBCSR matrix
-!> \param[in]    name           (optional) name of the new matrix
-!> \param[in]    keep_sparsity  (optional) keep the target matrix sparsity;
-!>                              default is False.
-!> \param[in]    shallow_data   (optional) shallow data copy
-!> \param[in]    keep_imaginary  (optional) when copy from complex to real,&
-!>                               the default is to keep only the real part; if
-!>                               this flag is set, the imaginary part is used
-!> \param[in]    matrix_type     'N' for normal, 'T' for transposed, 'S' for
-!>                               symmetric, and 'A' for antisymmetric
-! **************************************************************************************************
    SUBROUTINE dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, &
                          shallow_data, keep_imaginary, matrix_type)
+      !! copy a matrix
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_b
+         !! target DBCSR matrix
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a
+         !! source DBCSR matrix
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: name
+         !! name of the new matrix
       LOGICAL, INTENT(IN), OPTIONAL                      :: keep_sparsity, shallow_data, &
                                                             keep_imaginary
+         !! keep the target matrix sparsity; default is False.
+         !! shallow data copy
+         !! when copy from complex to real,& the default is to keep only the real part; if this flag is set, the imaginary part is
+         !! used
       CHARACTER, INTENT(IN), OPTIONAL                    :: matrix_type
+         !! 'N' for normal, 'T' for transposed, 'S' for symmetric, and 'A' for antisymmetric
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy', routineP = moduleN//':'//routineN
 
@@ -1372,14 +1356,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_copy
 
-! **************************************************************************************************
-!> \brief copy a matrix, retaining current sparsity
-!> \param[inout] matrix_b       target DBCSR matrix
-!> \param[in]    matrix_a       source DBCSR matrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_copy_into_existing(matrix_b, matrix_a)
+      !! copy a matrix, retaining current sparsity
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_b
+         !! target DBCSR matrix
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a
+         !! source DBCSR matrix
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy_into_existing', &
                                      routineP = moduleN//':'//routineN
@@ -1475,14 +1458,13 @@ CONTAINS
 
    END SUBROUTINE dbcsr_copy_into_existing
 
-! **************************************************************************************************
-!> \brief copy a matrix, retaining current sparsity
-!> \param[inout] matrix_b       target DBCSR matrix
-!> \param[in]    matrix_a       source DBCSR matrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_copy_into_existing_sym(matrix_b, matrix_a)
+      !! copy a matrix, retaining current sparsity
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_b
+         !! target DBCSR matrix
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a
+         !! source DBCSR matrix
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy_into_existing_sym', &
                                      routineP = moduleN//':'//routineN
@@ -1553,16 +1535,12 @@ CONTAINS
 
    END SUBROUTINE dbcsr_copy_into_existing_sym
 
-! **************************************************************************************************
-!> \brief Determines the relation between two matrix positions.
-!> \return Relation between positions 1 and 2.
-!>                    0: same
-!>                   -1: pos1 < pos2
-!>                    1: pos1 > pos2
-! **************************************************************************************************
    ELEMENTAL FUNCTION pos_relation(row1, col1, row2, col2) RESULT(relation)
+      !! Determines the relation between two matrix positions.
+
       INTEGER, INTENT(IN)                                :: row1, col1, row2, col2
       INTEGER                                            :: relation
+         !! Relation between positions 1 and 2. 0: same -1: pos1 < pos2 1: pos1 > pos2
 
       IF (row1 .LT. row2) THEN
          relation = -1
@@ -1579,27 +1557,22 @@ CONTAINS
       ENDIF
    END FUNCTION pos_relation
 
-! **************************************************************************************************
-!> \brief Copy a submatrix.
-!> \param[inout] matrix_b       target DBCSR matrix
-!> \param[in]    matrix_a       source DBCSR matrix
-!> \param[in]    name           (optional) name of the new matrix
-!> \param[in]    block_row_bounds     (optional) rows to extract (array of
-!>                                    size 2 holding the lower and upper
-!>                                    inclusive bounds)
-!> \param[in]    block_column_bounds  (optional) columns to extract (array of
-!>                                    size 2 holding the lower and upper
-!>                                    inclusive bounds)
-!> \param[in]    shallow_data   (optional) shallow data copy
-! **************************************************************************************************
    SUBROUTINE dbcsr_copy_submatrix(matrix_b, matrix_a, name, &
                                    block_row_bounds, block_column_bounds, &
                                    shallow_data)
+      !! Copy a submatrix.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_b
+         !! target DBCSR matrix
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a
+         !! source DBCSR matrix
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: name
+         !! name of the new matrix
       INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL        :: block_row_bounds, block_column_bounds
+         !! rows to extract (array of size 2 holding the lower and upper inclusive bounds)
+         !! columns to extract (array of size 2 holding the lower and upper inclusive bounds)
       LOGICAL, INTENT(IN), OPTIONAL                      :: shallow_data
+         !! shallow data copy
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy_submatrix', &
                                      routineP = moduleN//':'//routineN
@@ -1700,23 +1673,18 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_copy_submatrix
 
-! **************************************************************************************************
-!> \brief Crop and copies a matrix.
-!> \param[inout] matrix_b       target DBCSR matrix
-!> \param[in]    matrix_a       source DBCSR matrix
-!> \param[in]    full_row_bounds      (optional) rows to extract (array of
-!>                                    size 2 holding the lower and upper
-!>                                    inclusive bounds)
-!> \param[in]    full_column_bounds   (optional) columns to extract (array of
-!>                                    size 2 holding the lower and upper
-!>                                    inclusive bounds)
-! **************************************************************************************************
    SUBROUTINE dbcsr_crop_matrix(matrix_b, matrix_a, &
                                 full_row_bounds, full_column_bounds, &
                                 shallow_data)
+      !! Crop and copies a matrix.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_b
+         !! target DBCSR matrix
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a
+         !! source DBCSR matrix
       INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL        :: full_row_bounds, full_column_bounds
+         !! rows to extract (array of size 2 holding the lower and upper inclusive bounds)
+         !! columns to extract (array of size 2 holding the lower and upper inclusive bounds)
       LOGICAL, INTENT(IN), OPTIONAL                      :: shallow_data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_crop_matrix', &
@@ -1889,13 +1857,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_crop_matrix
 
-! **************************************************************************************************
-!> \brief  triu of a dbcsr matrix
-!> \param[inout] matrix_a  the matrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_triu(matrix_a)
+      !! triu of a dbcsr matrix
+
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
+         !! the matrix
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_triu', routineP = moduleN//':'//routineN
 
@@ -1930,20 +1897,19 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_triu
 
-! **************************************************************************************************
-!> \brief filter a dbcsr matrix
-!> \param[inout] matrix the matrix
-!> \param[in] eps          the threshold
-!> \param[in] method       how the matrix is filtered
-!> \param[in] filter_diag  NYI
-! **************************************************************************************************
    SUBROUTINE dbcsr_filter_anytype(matrix, eps, method, &
                                    use_absolute, filter_diag)
+      !! filter a dbcsr matrix
+
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! the matrix
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: eps
+         !! the threshold
       INTEGER, INTENT(IN), OPTIONAL                      :: method
+         !! how the matrix is filtered
       LOGICAL, INTENT(in), OPTIONAL                      :: use_absolute, filter_diag
+         !! NYI
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_filter_anytype', &
                                      routineP = moduleN//':'//routineN
@@ -2078,13 +2044,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_filter_anytype
 
-! **************************************************************************************************
-!> \brief compute a norm of a dbcsr matrix
-!> \param[in] matrix  the matrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_norm_scalar(matrix, which_norm, norm_scalar)
+      !! compute a norm of a dbcsr matrix
+
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! the matrix
       INTEGER, INTENT(IN)                                :: which_norm
       REAL(KIND=real_8), INTENT(OUT)                     :: norm_scalar
 
@@ -2129,12 +2094,11 @@ CONTAINS
 
    END SUBROUTINE dbcsr_norm_r8_vec
 
-! **************************************************************************************************
-!> \brief compute the column norms of the dbcsr matrix
-!> \param[in] matrix  the matrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_norm_vec(matrix, which_norm, norm_vector)
+      !! compute the column norms of the dbcsr matrix
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! the matrix
       INTEGER, INTENT(IN)                                :: which_norm
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: norm_vector
 
@@ -2233,13 +2197,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_norm_vec
 
-! **************************************************************************************************
-!> \brief compute a norm of a dbcsr matrix
-!> \param[in] matrix  the matrix
-! **************************************************************************************************
    FUNCTION dbcsr_gershgorin_norm(matrix) RESULT(norm)
+      !! compute a norm of a dbcsr matrix
+
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! the matrix
       REAL(KIND=real_8)                                  :: norm
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_gershgorin_norm'
@@ -2326,12 +2289,11 @@ CONTAINS
 
    END FUNCTION dbcsr_gershgorin_norm
 
-! **************************************************************************************************
-!> \brief compute a norm of a dbcsr matrix
-!> \param[in] matrix  the matrix
-! **************************************************************************************************
    FUNCTION dbcsr_maxabs(matrix) RESULT(norm)
+      !! compute a norm of a dbcsr matrix
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! the matrix
       REAL(real_8)                                       :: norm
 
       COMPLEX(KIND=real_4), DIMENSION(:, :), POINTER     :: data_c
@@ -2370,13 +2332,12 @@ CONTAINS
 
    END FUNCTION dbcsr_maxabs
 
-! **************************************************************************************************
-!> \brief compute a norm of a dbcsr matrix
-!> \param[in] matrix  the matrix
-! **************************************************************************************************
    FUNCTION dbcsr_frobenius_norm(matrix, local) RESULT(norm)
+      !! compute a norm of a dbcsr matrix
+
 
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! the matrix
       LOGICAL, INTENT(in), OPTIONAL                      :: local
       REAL(KIND=real_8)                                  :: norm
 
@@ -2439,12 +2400,11 @@ CONTAINS
 
    END FUNCTION dbcsr_frobenius_norm
 
-! **************************************************************************************************
-!> \brief Sums blocks in a replicated dbcsr matrix, which has the same structure on all ranks.
-!> \param[in,out] matrix      dbcsr matrix to operate on
-! **************************************************************************************************
    SUBROUTINE dbcsr_sum_replicated(matrix)
+      !! Sums blocks in a replicated dbcsr matrix, which has the same structure on all ranks.
+
       TYPE(dbcsr_type), INTENT(inout)                    :: matrix
+         !! dbcsr matrix to operate on
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_sum_replicated', &
                                      routineP = moduleN//':'//routineN
@@ -2502,16 +2462,6 @@ CONTAINS
       ENDIF
    END FUNCTION dbcsr_block_in_limits
 
-! **************************************************************************************************
-!> \brief Gets information about a matrix
-!> \param[in] matrix          matrix to query
-!> \param[out] distribution   the data distribution of the matrix
-!> \param[out] name           matrix name
-!> \param[out] data_area      data_area
-!> \param[out] matrix_type    matrix type (regular, symmetric, see
-!>                            dbcsr_types.F for values)
-!> \param[out] data_type      data type (single/double precision real/complex)
-! **************************************************************************************************
    SUBROUTINE dbcsr_get_info(matrix, nblkrows_total, nblkcols_total, &
                              nfullrows_total, nfullcols_total, &
                              nblkrows_local, nblkcols_local, &
@@ -2520,7 +2470,10 @@ CONTAINS
                              local_rows, local_cols, proc_row_dist, proc_col_dist, &
                              row_blk_size, col_blk_size, row_blk_offset, col_blk_offset, distribution, name, data_area, &
                              matrix_type, data_type, group)
+      !! Gets information about a matrix
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! matrix to query
       INTEGER, INTENT(OUT), OPTIONAL :: nblkrows_total, nblkcols_total, nfullrows_total, &
                                         nfullcols_total, nblkrows_local, nblkcols_local, nfullrows_local, nfullcols_local, &
                                         my_prow, my_pcol
@@ -2528,10 +2481,15 @@ CONTAINS
                                                   proc_col_dist, row_blk_size, col_blk_size, row_blk_offset, col_blk_offset
       TYPE(dbcsr_distribution_obj), INTENT(OUT), &
          OPTIONAL                                        :: distribution
+         !! the data distribution of the matrix
       CHARACTER(len=*), INTENT(OUT), OPTIONAL            :: name
+         !! matrix name
       TYPE(dbcsr_data_obj), INTENT(OUT), OPTIONAL        :: data_area
+         !! data_area
       CHARACTER, OPTIONAL                                :: matrix_type
+         !! matrix type (regular, symmetric, see dbcsr_types.F for values)
       INTEGER, OPTIONAL                                  :: data_type
+         !! data type (single/double precision real/complex)
       INTEGER, INTENT(OUT), OPTIONAL                     :: group
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_info', routineP = moduleN//':'//routineN
@@ -2572,16 +2530,14 @@ CONTAINS
       !ENDIF
    END SUBROUTINE dbcsr_get_info
 
-! **************************************************************************************************
-!> \brief Returns whether the matrix could be represented in a dense form
-!> \param[in] matrix          matrix
-!> \return use the mutable and not append-only working
-!>                            structures
-! **************************************************************************************************
    FUNCTION dbcsr_may_be_dense(matrix, occ_thresh) RESULT(may_be_dense)
+      !! Returns whether the matrix could be represented in a dense form
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! matrix
       REAL(real_8), INTENT(in)                           :: occ_thresh
       LOGICAL                                            :: may_be_dense
+         !! use the mutable and not append-only working structures
 
       REAL(real_8)                                       :: occ
 
@@ -2593,12 +2549,11 @@ CONTAINS
       CALL mp_sum(may_be_dense, dbcsr_mp_group(dbcsr_distribution_mp(matrix%dist)))
    END FUNCTION dbcsr_may_be_dense
 
-! **************************************************************************************************
-!> \brief Returns the occupation of the matrix
-!> \param matrix     matrix from which to get the occupation
-! **************************************************************************************************
    FUNCTION dbcsr_get_occupation(matrix) RESULT(occupation)
+      !! Returns the occupation of the matrix
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! matrix from which to get the occupation
       REAL(KIND=real_8)                                  :: occupation
 
       INTEGER                                            :: nfullcols, nfullrows
@@ -2646,14 +2601,13 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Trace of DBCSR matrices
-!> \param[in] matrix_a DBCSR matrices
-!> \param[out] trace             the trace of the product of the matrices
-! **************************************************************************************************
    SUBROUTINE dbcsr_trace_sd(matrix_a, trace)
+      !! Trace of DBCSR matrices
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a
+         !! DBCSR matrices
       REAL(kind=real_8), INTENT(INOUT)                   :: trace
+         !! the trace of the product of the matrices
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_trace_sd', &
                                      routineP = moduleN//':'//routineN
@@ -2674,14 +2628,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_trace_sd
 
-! **************************************************************************************************
-!> \brief Dot product of DBCSR matrices
-!> \param[in] matrix_a DBCSR matrices
-!> \param[in] matrix_b DBCSR matrices
-!> \result    the dot product of the matrices
-! **************************************************************************************************
    SUBROUTINE dbcsr_dot_sd(matrix_a, matrix_b, trace)
+      !! Dot product of DBCSR matrices
+      !! \result    the dot product of the matrices
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a, matrix_b
+         !! DBCSR matrices
+         !! DBCSR matrices
       REAL(kind=real_8), INTENT(INOUT)                   :: trace
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_dot_sd', &
@@ -2707,14 +2660,13 @@ CONTAINS
 
 #:include '../data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
-! **************************************************************************************************
-!> \brief traces a DBCSR matrix
-!> \param[in] matrix_a       DBCSR matrix
-!> \param[out] trace         the trace of the matrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_trace_${nametype1}$ (matrix_a, trace)
+      !! traces a DBCSR matrix
+
       TYPE(dbcsr_type), INTENT(IN)               :: matrix_a
+         !! DBCSR matrix
       ${type1}$, INTENT(INOUT)                   :: trace
+         !! the trace of the matrix
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_trace_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -2776,15 +2728,14 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_trace_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Dot product of DBCSR matrices
-!> \param[in] matrix_a DBCSR matrices
-!> \param[in] matrix_b DBCSR matrices
-!> \param[out] trace             the trace of the product of the matrices
-! **************************************************************************************************
    SUBROUTINE dbcsr_dot_${nametype1}$ (matrix_a, matrix_b, trace)
+      !! Dot product of DBCSR matrices
+
       TYPE(dbcsr_type), INTENT(IN)               :: matrix_a, matrix_b
+         !! DBCSR matrices
+         !! DBCSR matrices
       ${type1}$, INTENT(INOUT)                   :: trace
+         !! the trace of the product of the matrices
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_dot_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -3047,14 +2998,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_get_diag_${nametype1}$
 
-! **************************************************************************************************
-!> \brief add a constant to the diagonal of a matrix
-!> \param[inout] matrix       DBCSR matrix
-!> \param[in]    alpha scalar
-! **************************************************************************************************
    SUBROUTINE dbcsr_add_on_diag_${nametype1}$ (matrix, alpha)
+      !! add a constant to the diagonal of a matrix
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! DBCSR matrix
       ${type1}$, INTENT(IN)                                :: alpha
+         !! scalar
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_on_diag'
 
@@ -3098,16 +3048,15 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_add_on_diag_${nametype1}$
 
-! **************************************************************************************************
-!> \brief  Low level function to sum contiguous chunks of blocks of the matrices (matrix_a = matrix_a + beta*matrix_b)
-!> \param[inout] matrix_a       DBCSR matrix
-!> \param[in]    matrix_b       DBCSR matrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_update_contiguous_blocks_${nametype1}$ (matrix_a, matrix_b, first_lb_a, first_lb_b, nze, &
                                                             do_scale, my_beta_scalar, found, iw)
+      !! Low level function to sum contiguous chunks of blocks of the matrices (matrix_a = matrix_a + beta*matrix_b)
+
 
       TYPE(dbcsr_type), INTENT(INOUT)                         :: matrix_a
+         !! DBCSR matrix
       TYPE(dbcsr_type), INTENT(IN)                            :: matrix_b
+         !! DBCSR matrix
       TYPE(dbcsr_scalar_type), INTENT(IN)                     :: my_beta_scalar
       INTEGER, INTENT(IN)                                     :: first_lb_a, first_lb_b, nze, iw
       LOGICAL, INTENT(IN)                                     :: found, do_scale
@@ -3139,16 +3088,14 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_update_contiguous_blocks_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Low level function to sum two matrices (matrix_a = matrix_a + beta*matrix_b
-!> \param[inout] matrix_a       DBCSR matrix
-!> \param[in]    matrix_b       DBCSR matrix
-! **************************************************************************************************
-
    SUBROUTINE dbcsr_add_anytype_${nametype1}$ (matrix_a, matrix_b, iter, iw, do_scale, &
                                                my_beta_scalar, my_flop)
+      !! Low level function to sum two matrices (matrix_a = matrix_a + beta*matrix_b
+
       TYPE(dbcsr_type), INTENT(INOUT)                         :: matrix_a
+         !! DBCSR matrix
       TYPE(dbcsr_type), INTENT(IN)                            :: matrix_b
+         !! DBCSR matrix
       TYPE(dbcsr_iterator), INTENT(INOUT)                     :: iter
       INTEGER, INTENT(IN)                                     :: iw
       LOGICAL, INTENT(IN)                                     :: do_scale

@@ -92,19 +92,18 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_hostdrv_init
 
-! **************************************************************************************************
-!> \brief Calls the various drivers that process the stack.
-!> \param[in] left Left-matrix data
-!> \param[in] right Right-matrix data
-!> \param[in] params           Stack of GEMM parameters
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_process(this, left, right, params, stack_size, &
                                        stack_descr, success, used_smm)
+      !! Calls the various drivers that process the stack.
+
       TYPE(dbcsr_mm_hostdrv_type), INTENT(INOUT)         :: this
       TYPE(dbcsr_type), INTENT(IN)                       :: left, right
+         !! Left-matrix data
+         !! Right-matrix data
       INTEGER, INTENT(IN)                                :: stack_size
       INTEGER, DIMENSION(1:dbcsr_ps_width, stack_size), &
          INTENT(INOUT)                                   :: params
+         !! Stack of GEMM parameters
       TYPE(stack_descriptor_type), INTENT(IN)            :: stack_descr
       LOGICAL, INTENT(OUT)                               :: success, used_smm
 

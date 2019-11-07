@@ -37,22 +37,22 @@ MODULE dbcsr_data_types
              dbcsr_type_complex_4_2d, dbcsr_type_complex_8_2d, &
              dbcsr_type_int_4, dbcsr_type_int_8
 
-! **************************************************************************************************
-!> \brief Stores a scalar in any of the supported data types.
-!> \par Reasoning
-!>      Easier routine interfaces
-!> \var r_sp        stores real values in single precision
-!> \var r_dp        stores real values in double precision
-!> \var c_sp        stores complex values in single precision
-!> \var c_dp        stores complex values in double precision
-!> \var data_type   which of the data types is actually used
-! **************************************************************************************************
    TYPE dbcsr_scalar_type
+      !! Stores a scalar in any of the supported data types.
+      !!
+      !! Reasoning
+      !! Easier routine interfaces
+
       REAL(KIND=real_4)    :: r_sp
+         !! stores real values in single precision
       REAL(KIND=real_8)    :: r_dp
+         !! stores real values in double precision
       COMPLEX(KIND=real_4) :: c_sp
+         !! stores complex values in single precision
       COMPLEX(KIND=real_8) :: c_dp
+         !! stores complex values in double precision
       INTEGER              :: data_type
+         !! which of the data types is actually used
    END TYPE dbcsr_scalar_type
 
    TYPE dbcsr_data_obj
@@ -83,33 +83,32 @@ MODULE dbcsr_data_types
    !providing pool=Null() explicitly to circumvent bug in ifort 12.1
    TYPE(dbcsr_memtype_type), PARAMETER :: dbcsr_memtype_default = dbcsr_memtype_type(pool=Null())
 
-! **************************************************************************************************
-!> \brief Stores actual data
-!> \var r_sp        stores real values in single precision
-!> \var r_dp        stores real values in double precision
-!> \var c_sp        stores complex values in single precision
-!> \var c_dp        stores complex values in double precision
-!> \var ref_size    last data element in array actually referenced
-!> \var refcount    reference counter for current structure
-!> \var memory_type   type of memory where data lives
-!> \var data_type   which of the data types is actually used
-! **************************************************************************************************
    TYPE dbcsr_data_area_type
+      !! Stores actual data
+
       INTEGER(KIND=int_4), DIMENSION(:), POINTER    :: i4 => Null()
       INTEGER(KIND=int_8), DIMENSION(:), POINTER    :: i8 => Null()
       REAL(KIND=real_4), DIMENSION(:), POINTER      :: r_sp => Null()
+         !! stores real values in single precision
       REAL(KIND=real_8), DIMENSION(:), POINTER      :: r_dp => Null()
+         !! stores real values in double precision
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER   :: c_sp => Null()
+         !! stores complex values in single precision
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER   :: c_dp => Null()
+         !! stores complex values in double precision
       REAL(KIND=real_4), DIMENSION(:, :), POINTER    :: r2_sp => Null()
       REAL(KIND=real_8), DIMENSION(:, :), POINTER    :: r2_dp => Null()
       COMPLEX(KIND=real_4), DIMENSION(:, :), POINTER :: c2_sp => Null()
       COMPLEX(KIND=real_8), DIMENSION(:, :), POINTER :: c2_dp => Null()
       INTEGER                                  :: ref_size = -1
+         !! last data element in array actually referenced
       INTEGER                                  :: refcount = -1
+         !! reference counter for current structure
       INTEGER                                  :: id = -1
       TYPE(dbcsr_memtype_type)                 :: memory_type = dbcsr_memtype_default
+         !! type of memory where data lives
       INTEGER                                  :: data_type = -1
+         !! which of the data types is actually used
       TYPE(acc_devmem_type)                    :: acc_devmem
       TYPE(acc_event_type)                     :: acc_ready
    END TYPE dbcsr_data_area_type

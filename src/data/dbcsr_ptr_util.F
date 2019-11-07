@@ -93,20 +93,19 @@ MODULE dbcsr_ptr_util
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Repoints a pointer into a part of a data area
-!> \param[in,out] new_area    repoints this encapsulated pointer
-!> \param[in] area            area to point into
-!> \param[in] offset          point to this offset in area
-!> \param[in] len             (optional) length of data area to point to
-!> \return copy of new_area
-! **************************************************************************************************
    FUNCTION pointer_view_a(new_area, area, offset, len) RESULT(narea2)
+      !! Repoints a pointer into a part of a data area
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: new_area
+         !! repoints this encapsulated pointer
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
+         !! area to point into
       INTEGER, INTENT(IN)                                :: offset
+         !! point to this offset in area
       INTEGER, INTENT(IN), OPTIONAL                      :: len
+         !! length of data area to point to
       TYPE(dbcsr_data_obj)                               :: narea2
+         !! copy of new_area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'pointer_view_a', routineP = moduleN//':'//routineN
 

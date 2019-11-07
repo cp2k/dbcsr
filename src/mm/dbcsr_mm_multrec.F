@@ -7,17 +7,15 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief  Second layer of the dbcsr matrix-matrix multiplication.
-!>            It divides the multiplication in a cache-oblivious manner.
-!> <b>Modification history:</b>
-!>  - 2010-02-23 Moved from dbcsr_operations
-!>  - 2011-11    Moved parameter-stack processing routines to
-!>               dbcsr_mm_methods.
-!>  - 2013-01    extensive refactoring (Ole Schuett)
-! **************************************************************************************************
-
 MODULE dbcsr_mm_multrec
+   !! Second layer of the dbcsr matrix-matrix multiplication.
+   !! It divides the multiplication in a cache-oblivious manner.
+   !! <b>Modification history:</b>
+   !! - 2010-02-23 Moved from dbcsr_operations
+   !! - 2011-11    Moved parameter-stack processing routines to
+   !! dbcsr_mm_methods.
+   !! - 2013-01    extensive refactoring (Ole Schuett)
+
 
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_equality
@@ -148,23 +146,21 @@ CONTAINS
       CALL dbcsr_mm_csr_lib_finalize()
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Sets up recursive multiplication
-!> \param[in] left left DBCSR matrix
-!> \param[in] right right DBCSR matrix
-!> \param[in,out] product     resulting DBCSR product matrix
-!> \param[in] keep_sparsity (optional) retain the sparsity of the
-!>                                 existing product matrix, default is no
-!> \param[in] eps             (optional) on-the-fly filtering epsilon
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_init(this, left, right, product, &
                                     keep_sparsity, eps, row_max_epss, block_estimate, right_row_blk_size, &
                                     m_sizes, n_sizes, nlayers)
+      !! Sets up recursive multiplication
+
       TYPE(dbcsr_mm_multrec_type), INTENT(out)           :: this
       TYPE(dbcsr_type), INTENT(IN), OPTIONAL             :: left, right
+         !! left DBCSR matrix
+         !! right DBCSR matrix
       TYPE(dbcsr_type), INTENT(INOUT)                    :: product
+         !! resulting DBCSR product matrix
       LOGICAL, INTENT(IN)                                :: keep_sparsity
+         !! retain the sparsity of the existing product matrix, default is no
       REAL(kind=real_8), INTENT(in), OPTIONAL            :: eps
+         !! on-the-fly filtering epsilon
       REAL(kind=sp), DIMENSION(:), INTENT(IN), TARGET    :: row_max_epss
       INTEGER, INTENT(IN)                                :: block_estimate
       INTEGER, DIMENSION(:), INTENT(IN)                  :: right_row_blk_size
@@ -294,25 +290,23 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_mm_multrec_init
 
-! **************************************************************************************************
-!> \brief Multiplies two DBCSR matrices using recursive algorithm
-!> This routine sets up the multiplication.  Specifically, it <ul>
-!> <li> verifies input sanity
-!> <li> converts everything into "local indexing"
-!> </ul>
-!> \param[in] left left DBCSR matrix
-!> \param[in] right right DBCSR matrix
-!> \param[out] flop           (optional) number of effective double-precision
-!>                            floating point operations performed
-!> \param[in] a_norms         (optional) norms of left-matrix blocks
-!> \param[in] b_norms         (optional) norms of right-matrix blocks
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_multiply(this, left, right, flop, &
                                         a_norms, b_norms, k_sizes)
+      !! Multiplies two DBCSR matrices using recursive algorithm
+      !! This routine sets up the multiplication.  Specifically, it <ul>
+      !! <li> verifies input sanity
+      !! <li> converts everything into "local indexing"
+      !! </ul>
+
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
       TYPE(dbcsr_type), INTENT(IN)                       :: left, right
+         !! left DBCSR matrix
+         !! right DBCSR matrix
       INTEGER(KIND=int_8), INTENT(INOUT)                 :: flop
+         !! number of effective double-precision floating point operations performed
       REAL(kind=sp), DIMENSION(:), INTENT(in), TARGET    :: a_norms, b_norms
+         !! norms of left-matrix blocks
+         !! norms of right-matrix blocks
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: k_sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_multiply', &
@@ -724,11 +718,10 @@ CONTAINS
       END DO
    END SUBROUTINE remap_local2global
 
-! **************************************************************************************************
-!> \brief Gathers the local elements from all data (full_data) for
-!>        single precision elements.
-! **************************************************************************************************
    PURE SUBROUTINE local_filter_sp(full_data, nle, local_elements, local_data)
+      !! Gathers the local elements from all data (full_data) for
+      !! single precision elements.
+
       REAL(KIND=sp), DIMENSION(:), INTENT(IN)            :: full_data
       INTEGER, INTENT(IN)                                :: nle
       INTEGER, DIMENSION(1:nle), INTENT(IN)              :: local_elements

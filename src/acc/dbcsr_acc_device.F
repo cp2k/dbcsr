@@ -48,12 +48,11 @@ MODULE dbcsr_acc_device
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Get number of accelerator devices
-!> \return number of accelerator devices
-! **************************************************************************************************
    FUNCTION dbcsr_acc_get_ndevices() RESULT(n)
+      !! Get number of accelerator devices
+
       INTEGER                                  :: n
+         !! number of accelerator devices
 
 #if defined (__DBCSR_ACC)
       INTEGER                                  :: istat
@@ -67,12 +66,11 @@ CONTAINS
 #endif
    END FUNCTION dbcsr_acc_get_ndevices
 
-! **************************************************************************************************
-!> \brief Set active accelerator device
-!> \param dev_id device ID
-! **************************************************************************************************
    SUBROUTINE dbcsr_acc_set_active_device(dev_id)
+      !! Set active accelerator device
+
       INTEGER :: dev_id
+         !! device ID
 
 #if defined (__DBCSR_ACC)
       INTEGER :: istat

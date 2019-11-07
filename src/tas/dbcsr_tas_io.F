@@ -39,14 +39,13 @@ MODULE dbcsr_tas_io
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Write basic infos of tall-and-skinny matrix: block dimensions, full dimensions, process grid dimensions
-!> \param full_info Whether to print distribution and block size vectors
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_write_matrix_info(matrix, output_unit, full_info)
+      !! Write basic infos of tall-and-skinny matrix: block dimensions, full dimensions, process grid dimensions
+
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       INTEGER, INTENT(IN)            :: output_unit
       LOGICAL, OPTIONAL, INTENT(IN)  :: full_info
+         !! Whether to print distribution and block size vectors
 
       INTEGER(KIND=int_8)                      :: nblkrows_total, nblkcols_total, nfullrows_total, &
                                                   nfullcols_total
@@ -98,14 +97,13 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Write info on tall-and-skinny matrix distribution & load balance
-!> \param full_info Whether to print subgroup DBCSR distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_write_dist(matrix, output_unit, full_info)
+      !! Write info on tall-and-skinny matrix distribution & load balance
+
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       INTEGER, INTENT(IN)              :: output_unit
       LOGICAL, INTENT(IN), OPTIONAL    :: full_info
+         !! Whether to print subgroup DBCSR distribution
 
       CHARACTER(default_string_length) :: name
       INTEGER                          :: mp_comm, ngroup, igroup, mp_comm_group, nproc, iproc, &

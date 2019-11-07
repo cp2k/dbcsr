@@ -75,25 +75,23 @@ MODULE dbcsr_methods
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Returns whether the index structure of the matrix is valid.
-!> \param[in] matrix          verify index validity of this matrix
-!> \return index validity
-! **************************************************************************************************
    PURE FUNCTION dbcsr_valid_index(matrix) RESULT(valid_index)
+      !! Returns whether the index structure of the matrix is valid.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! verify index validity of this matrix
       LOGICAL                                            :: valid_index
+         !! index validity
 
       valid_index = matrix%valid
    END FUNCTION dbcsr_valid_index
 
-! **************************************************************************************************
-!> \brief Releases a reference for a DBCSR matrix
-!> If there are no references left, the matrix is destroyed.
-!> \param[in,out] matrix DBCSR matrix
-! **************************************************************************************************
    RECURSIVE SUBROUTINE dbcsr_release(matrix)
+      !! Releases a reference for a DBCSR matrix
+      !! If there are no references left, the matrix is destroyed.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! DBCSR matrix
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_release', routineP = moduleN//':'//routineN
 
@@ -105,14 +103,13 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_release
 
-! **************************************************************************************************
-!> \brief Deallocates and destroys a matrix.
-!> \param[in,out] matrix      matrix
-!> \param[in] force           (optional) force deallocation
-! **************************************************************************************************
    RECURSIVE SUBROUTINE dbcsr_destroy(matrix, force)
+      !! Deallocates and destroys a matrix.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! matrix
       LOGICAL, INTENT(IN), OPTIONAL                      :: force
+         !! force deallocation
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_destroy', routineP = moduleN//':'//routineN
 
@@ -200,12 +197,11 @@ CONTAINS
       dist%d%has_global_col_map = .FALSE.
    END SUBROUTINE dbcsr_dist_release_locals
 
-! **************************************************************************************************
-!> \brief Releases and potentially destroys an mp_env
-!> \param[in,out] mp_env         multiprocessor environment
-! **************************************************************************************************
    SUBROUTINE dbcsr_mp_release(mp_env)
+      !! Releases and potentially destroys an mp_env
+
       TYPE(dbcsr_mp_obj), INTENT(INOUT)                  :: mp_env
+         !! multiprocessor environment
 
 !   ---------------------------------------------------------------------------
 
@@ -219,12 +215,11 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_mp_release
 
-! **************************************************************************************************
-!> \brief Removes an MPI cartesian process grid
-!> \param[in,out] mp_env      multiprocessor environment
-! **************************************************************************************************
    SUBROUTINE dbcsr_mp_grid_remove(mp_env)
+      !! Removes an MPI cartesian process grid
+
       TYPE(dbcsr_mp_obj), INTENT(INOUT)                  :: mp_env
+         !! multiprocessor environment
 
       IF (mp_env%mp%subgroups_defined) THEN
          CALL mp_comm_free(mp_env%mp%prow_group)
@@ -353,30 +348,26 @@ CONTAINS
       matrix%name = newname
    END SUBROUTINE dbcsr_setname
 
-! **************************************************************************************************
-!> \brief Returns whether this work matrix uses the mutable type
-!> \param[in] wm              work matrix
-!> \return use the mutable and not append-only working
-!>                            structures
-! **************************************************************************************************
    PURE FUNCTION dbcsr_wm_use_mutable(wm) RESULT(use_mutable)
+      !! Returns whether this work matrix uses the mutable type
+
       TYPE(dbcsr_work_type), INTENT(IN)                  :: wm
+         !! work matrix
       LOGICAL                                            :: use_mutable
+         !! use the mutable and not append-only working structures
 
 !   ---------------------------------------------------------------------------
 
       use_mutable = dbcsr_mutable_instantiated(wm%mutable)
    END FUNCTION dbcsr_wm_use_mutable
 
-! **************************************************************************************************
-!> \brief Returns whether work matrices should use the mutable data type
-!> \param[in] matrix          matrix
-!> \return use the mutable and not append-only working
-!>                            structures
-! **************************************************************************************************
    PURE FUNCTION dbcsr_use_mutable(matrix) RESULT(use_mutable)
+      !! Returns whether work matrices should use the mutable data type
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! matrix
       LOGICAL                                            :: use_mutable
+         !! use the mutable and not append-only working structures
 
 !   ---------------------------------------------------------------------------
 
@@ -411,17 +402,16 @@ CONTAINS
       row_blk_offsets => array_data(matrix%row_blk_offset)
    END FUNCTION dbcsr_row_block_offsets
 
-! **************************************************************************************************
-!> \brief Returns the blocked row size of a row
-!> This routine is optimized for speed and no checks are performed.
-!> \param[in] matrix          DBCSR matrix
-!> \param[in] row             row number
-!> \return blocked row size
-! **************************************************************************************************
    PURE FUNCTION dbcsr_blk_row_size(matrix, row) RESULT(row_size)
+      !! Returns the blocked row size of a row
+      !! This routine is optimized for speed and no checks are performed.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! DBCSR matrix
       INTEGER, INTENT(IN)                                :: row
+         !! row number
       INTEGER                                            :: row_size
+         !! blocked row size
 
       row_size = matrix%row_blk_size%low%data(row)
    END FUNCTION dbcsr_blk_row_size
@@ -434,17 +424,16 @@ CONTAINS
       row_offset = matrix%row_blk_offset%low%data(row)
    END FUNCTION dbcsr_blk_row_offset
 
-! **************************************************************************************************
-!> \brief Returns the blocked column size of a column
-!> This routine is optimized for speed and no checks are performed.
-!> \param[in] matrix          DBCSR matrix
-!> \param[in] column          column number
-!> \return blocked row size
-! **************************************************************************************************
    PURE FUNCTION dbcsr_blk_column_size(matrix, column) RESULT(column_size)
+      !! Returns the blocked column size of a column
+      !! This routine is optimized for speed and no checks are performed.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! DBCSR matrix
       INTEGER, INTENT(IN)                                :: column
+         !! column number
       INTEGER                                            :: column_size
+         !! blocked row size
 
       column_size = matrix%col_blk_size%low%data(column)
    END FUNCTION dbcsr_blk_column_size
@@ -457,27 +446,24 @@ CONTAINS
       col_offset = matrix%col_blk_offset%low%data(col)
    END FUNCTION dbcsr_blk_col_offset
 
-! **************************************************************************************************
-!> \brief Returns the data area
-!> \param matrix     matrix from which to get data
-!> \return data area
-! **************************************************************************************************
    FUNCTION dbcsr_data_area(matrix) RESULT(data_area)
+      !! Returns the data area
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! matrix from which to get data
       TYPE(dbcsr_data_obj)                               :: data_area
+         !! data area
 
       data_area = matrix%data_area
    END FUNCTION dbcsr_data_area
 
-! **************************************************************************************************
-!> \brief Returns the matrix type
-!> \param matrix              query this matrix
-!> \return matrix_type (see dbcsr_types.F for possible
-!>                            values)
-! **************************************************************************************************
    PURE FUNCTION dbcsr_get_matrix_type(matrix) RESULT(matrix_type)
+      !! Returns the matrix type
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! query this matrix
       CHARACTER                                          :: matrix_type
+         !! matrix_type (see dbcsr_types.F for possible values)
 
       matrix_type = dbcsr_type_invalid
       IF (matrix%symmetry) THEN
@@ -495,67 +481,59 @@ CONTAINS
       ENDIF
    END FUNCTION dbcsr_get_matrix_type
 
-! **************************************************************************************************
-!> \brief Whether matrix has symmetry
-!> \param matrix              query this matrix
-!> \return matrix has symmetry
-! **************************************************************************************************
    PURE FUNCTION dbcsr_has_symmetry(matrix) RESULT(has_symmetry)
+      !! Whether matrix has symmetry
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! query this matrix
       LOGICAL                                            :: has_symmetry
+         !! matrix has symmetry
 
       has_symmetry = matrix%symmetry
    END FUNCTION dbcsr_has_symmetry
 
-! **************************************************************************************************
-!> \brief Returns the data type stored in the matrix
-!> \param matrix              query this matrix
-!> \return repl_type (see dbcsr_types.F for possible
-!>                            values)
-! **************************************************************************************************
-
    PURE FUNCTION dbcsr_get_replication_type(matrix) RESULT(repl_type)
+      !! Returns the data type stored in the matrix
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! query this matrix
       CHARACTER                                          :: repl_type
+         !! repl_type (see dbcsr_types.F for possible values)
 
       repl_type = matrix%replication_type
    END FUNCTION dbcsr_get_replication_type
 
-! **************************************************************************************************
-!> \brief Returns the data type stored in the matrix
-!> \param matrix              query this matrix
-!> \return data_type (see dbcsr_types.F for possible
-!>                            values)
-! **************************************************************************************************
    PURE FUNCTION dbcsr_get_data_type(matrix) RESULT(data_type)
+      !! Returns the data type stored in the matrix
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! query this matrix
       INTEGER                                            :: data_type
+         !! data_type (see dbcsr_types.F for possible values)
 
       data_type = matrix%data_type
    END FUNCTION dbcsr_get_data_type
 
-! **************************************************************************************************
-!> \brief Returns the type of memory used for data in the matrix
-!> \param[in] matrix           query this matrix
-!> \return memory type used for data
-!> \note It returns the declared data type, not the actually used type
-! **************************************************************************************************
    FUNCTION dbcsr_get_data_memory_type(matrix) &
       RESULT(memory_type)
+      !! Returns the type of memory used for data in the matrix
+      !! @note It returns the declared data type, not the actually used type
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! query this matrix
       TYPE(dbcsr_memtype_type)                           :: memory_type
+         !! memory type used for data
 
       memory_type = matrix%data_memory_type
    END FUNCTION dbcsr_get_data_memory_type
 
-! **************************************************************************************************
-!> \brief Returns the type of memory used for the index in the matrix
-!> \param[in] matrix          query this matrix
-!> \return memory type used for the index
-! **************************************************************************************************
    FUNCTION dbcsr_get_index_memory_type(matrix) RESULT(memory_type)
+      !! Returns the type of memory used for the index in the matrix
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! query this matrix
       TYPE(dbcsr_memtype_type)                           :: memory_type
+         !! memory type used for the index
 
       memory_type = matrix%index_memory_type
    END FUNCTION dbcsr_get_index_memory_type
@@ -592,14 +570,13 @@ CONTAINS
 !  END FUNCTION uses_special_memory_area
 !
 
-! **************************************************************************************************
-!> \brief Returns the allocated data size of a DBCSR matrix
-!> \param[in] matrix      matrix
-!> \return size of data
-! **************************************************************************************************
    FUNCTION dbcsr_get_data_size(matrix) RESULT(data_size)
+      !! Returns the allocated data size of a DBCSR matrix
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! matrix
       INTEGER                                            :: data_size
+         !! size of data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_size', &
                                      routineP = moduleN//':'//routineN
@@ -615,14 +592,13 @@ CONTAINS
       data_size = dbcsr_data_get_size(matrix%data_area)
    END FUNCTION dbcsr_get_data_size
 
-! **************************************************************************************************
-!> \brief Count actual data storage used for matrix data.
-!> \param[in] matrix          Count data of this matrix
-!> \return Data size used by matrix
-! **************************************************************************************************
    FUNCTION dbcsr_get_data_size_used(matrix) RESULT(data_size)
+      !! Count actual data storage used for matrix data.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! Count data of this matrix
       INTEGER                                            :: data_size
+         !! Data size used by matrix
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_size_used', &
                                      routineP = moduleN//':'//routineN
@@ -651,23 +627,21 @@ CONTAINS
       CALL timestop(error_handle)
    END FUNCTION dbcsr_get_data_size_used
 
-! **************************************************************************************************
-!> \brief Returns the number of blocks in the matrix
-!> \param matrix     matrix from which to get data
-! **************************************************************************************************
    PURE FUNCTION dbcsr_get_num_blocks(matrix) RESULT(num_blocks)
+      !! Returns the number of blocks in the matrix
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! matrix from which to get data
       INTEGER                                            :: num_blocks
 
       num_blocks = matrix%nblks
    END FUNCTION dbcsr_get_num_blocks
 
-! **************************************************************************************************
-!> \brief Returns the number of non-zero elements in the matrix
-!> \param matrix     matrix from which to get data
-! **************************************************************************************************
    PURE FUNCTION dbcsr_get_nze(matrix) RESULT(num_nze)
+      !! Returns the number of non-zero elements in the matrix
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! matrix from which to get data
       INTEGER                                            :: num_nze
 
       num_nze = matrix%nze
@@ -677,12 +651,11 @@ CONTAINS
 ! Arrays
 ! **************************************************************************************************
 
-! **************************************************************************************************
-!> \brief Releases all matrices in a 1-d array.
-!> \param[in,out] marray      matrix array
-! **************************************************************************************************
    SUBROUTINE dbcsr_destroy_1d_array(marray)
+      !! Releases all matrices in a 1-d array.
+
       TYPE(dbcsr_1d_array_type), INTENT(INOUT)           :: marray
+         !! matrix array
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_destroy_1d_array', &
                                      routineP = moduleN//':'//routineN
@@ -698,12 +671,11 @@ CONTAINS
       DEALLOCATE (marray%mats)
    END SUBROUTINE dbcsr_destroy_1d_array
 
-! **************************************************************************************************
-!> \brief Releases all matrices in 2-d array.
-!> \param[in,out] marray      matrix array
-! **************************************************************************************************
    SUBROUTINE dbcsr_destroy_2d_array(marray)
+      !! Releases all matrices in 2-d array.
+
       TYPE(dbcsr_2d_array_type), INTENT(INOUT)           :: marray
+         !! matrix array
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_destroy_2d_array', &
                                      routineP = moduleN//':'//routineN
@@ -721,11 +693,10 @@ CONTAINS
       DEALLOCATE (marray%mats)
    END SUBROUTINE dbcsr_destroy_2d_array
 
-! **************************************************************************************************
-!> \brief Releases a reference to and possible deallocates an image
-!>         distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_image_dist_release(imgdist)
+      !! Releases a reference to and possible deallocates an image
+      !! distribution
+
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
 
       IF (ASSOCIATED(imgdist%i)) THEN
@@ -744,23 +715,22 @@ CONTAINS
       imgdist%i%refcount = imgdist%i%refcount + 1
    END SUBROUTINE dbcsr_image_dist_hold
 
-! **************************************************************************************************
-!> \brief Initialized an image distribution
-!> \par Akin to nullify.
-! **************************************************************************************************
    SUBROUTINE dbcsr_image_dist_init(imgdist)
+      !! Initialized an image distribution
+      !!
+      !! Akin to nullify.
+
       TYPE(dbcsr_imagedistribution_obj), INTENT(OUT)     :: imgdist
 
       NULLIFY (imgdist%i)
    END SUBROUTINE dbcsr_image_dist_init
 
-! **************************************************************************************************
-!> \brief Destroys a DBCSR distribution for a matrix multiplication based on
-!>        the right matrix
-!> \param imgdist product distribution repetition
-! **************************************************************************************************
    SUBROUTINE dbcsr_destroy_image_dist(imgdist)
+      !! Destroys a DBCSR distribution for a matrix multiplication based on
+      !! the right matrix
+
       TYPE(dbcsr_imagedistribution_type), INTENT(INOUT)  :: imgdist
+         !! product distribution repetition
 
       INTEGER                                            :: i
 
@@ -801,12 +771,11 @@ CONTAINS
 ! Mutable data
 ! **************************************************************************************************
 
-! **************************************************************************************************
-!> \brief Initializes a mutable data type
-!> \param[out] mutable        mutable data
-! **************************************************************************************************
    SUBROUTINE dbcsr_mutable_init(mutable)
+      !! Initializes a mutable data type
+
       TYPE(dbcsr_mutable_obj), INTENT(OUT)               :: mutable
+         !! mutable data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mutable_init', &
                                      routineP = moduleN//':'//routineN
@@ -816,12 +785,11 @@ CONTAINS
       NULLIFY (mutable%m)
    END SUBROUTINE dbcsr_mutable_init
 
-! **************************************************************************************************
-!> \brief Destroys a mutable data type
-!> \param[in,out] mutable     mutable data
-! **************************************************************************************************
    SUBROUTINE dbcsr_mutable_destroy(mutable)
+      !! Destroys a mutable data type
+
       TYPE(dbcsr_mutable_obj), INTENT(INOUT)             :: mutable
+         !! mutable data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mutable_destroy', &
                                      routineP = moduleN//':'//routineN
@@ -838,13 +806,12 @@ CONTAINS
       NULLIFY (mutable%m)
    END SUBROUTINE dbcsr_mutable_destroy
 
-! **************************************************************************************************
-!> \brief Unregisters a reference to the mutable data type
-!> The object is destroy when there is no reference to it left.
-!> \param[in,out] mutable     mutable data
-! **************************************************************************************************
    SUBROUTINE dbcsr_mutable_release(mutable)
+      !! Unregisters a reference to the mutable data type
+      !! The object is destroy when there is no reference to it left.
+
       TYPE(dbcsr_mutable_obj), INTENT(INOUT)             :: mutable
+         !! mutable data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mutable_release', &
                                      routineP = moduleN//':'//routineN
@@ -859,15 +826,13 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_mutable_release
 
-! **************************************************************************************************
-!> \brief Creates a new mutable instance.
-!> \param[in,out] mutable     mutable data
-!> \param[in] data_type       data type to be stored here (see dbcsr_types for
-!>                            possibilities)
-! **************************************************************************************************
    SUBROUTINE dbcsr_mutable_new(mutable, data_type)
+      !! Creates a new mutable instance.
+
       TYPE(dbcsr_mutable_obj), INTENT(INOUT)             :: mutable
+         !! mutable data
       INTEGER, INTENT(IN)                                :: data_type
+         !! data type to be stored here (see dbcsr_types for possibilities)
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mutable_new', &
                                      routineP = moduleN//':'//routineN
@@ -890,15 +855,14 @@ CONTAINS
       CALL btree_new(mutable%m%btree_z)
    END SUBROUTINE dbcsr_mutable_new
 
-! **************************************************************************************************
-!> \brief Unregisters a reference to the mutable data type
-!> The object is destroy when there is no reference to it left.
-!> \param[in] mutable         mutable data
-!> \return whether the object is instantiated
-! **************************************************************************************************
    PURE FUNCTION dbcsr_mutable_instantiated(mutable) RESULT(instantiated)
+      !! Unregisters a reference to the mutable data type
+      !! The object is destroy when there is no reference to it left.
+
       TYPE(dbcsr_mutable_obj), INTENT(IN)                :: mutable
+         !! mutable data
       LOGICAL                                            :: instantiated
+         !! whether the object is instantiated
 
 !   ---------------------------------------------------------------------------
 

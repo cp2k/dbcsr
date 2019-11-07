@@ -274,19 +274,18 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Split tensor blocks into smaller blocks of maximum size PRODUCT(block_sizes).
-!> \param tensor_in Input tensor
-!> \param tensor_out Output tensor (split blocks)
-!> \param block_sizes block sizes for each of the tensor dimensions
-!> \param nodata don't copy data from tensor_in to tensor_out
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_split_blocks(tensor_in, tensor_out, block_sizes, nodata)
+      !! Split tensor blocks into smaller blocks of maximum size PRODUCT(block_sizes).
+
       TYPE(dbcsr_t_type), INTENT(INOUT)               :: tensor_in
+         !! Input tensor
       TYPE(dbcsr_t_type), INTENT(OUT)                 :: tensor_out
+         !! Output tensor (split blocks)
       INTEGER, DIMENSION(ndims_tensor(tensor_in)), &
          INTENT(IN)                                   :: block_sizes
+         !! block sizes for each of the tensor dimensions
       LOGICAL, INTENT(IN), OPTIONAL                   :: nodata
+         !! don't copy data from tensor_in to tensor_out
 
       INTEGER, DIMENSION(:), ALLOCATABLE              :: ${varlist("nd_blk_size_split")}$
       INTEGER :: idim, i, isplit_sum, blk_remainder, nsplit, isplit
@@ -334,14 +333,13 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Copy tensor with split blocks to tensor with original block sizes.
-!> \param tensor_split_in tensor with smaller blocks
-!> \param tensor_out original tensor
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_split_copyback(tensor_split_in, tensor_out, summation)
+      !! Copy tensor with split blocks to tensor with original block sizes.
+
       TYPE(dbcsr_t_type), INTENT(INOUT)               :: tensor_split_in
+         !! tensor with smaller blocks
       TYPE(dbcsr_t_type), INTENT(INOUT)               :: tensor_out
+         !! original tensor
       LOGICAL, INTENT(IN), OPTIONAL                   :: summation
       INTEGER, DIMENSION(:), ALLOCATABLE              :: first_split_d, last_split_d
       INTEGER, DIMENSION(:), ALLOCATABLE              :: blk_size_split_d, blk_size_d
@@ -480,21 +478,20 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief split two tensors with same total sizes but different block sizes such that they have equal
-!> block sizes
-!> \param tensor1 tensor 1 in
-!> \param tensor2 tensor 2 in
-!> \param tensor1_split tensor 1 with split blocks
-!> \param tensor2_split tensor 2 with split blocks
-!> \param nodata1 don't copy data of tensor 1
-!> \param nodata2 don't copy data of tensor 2
-!> \move_data memory optimization: transfer data s.t. tensor1 and tensor2 may be empty on return
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_make_compatible_blocks(tensor1, tensor2, tensor1_split, tensor2_split, nodata1, nodata2, move_data)
+      !! split two tensors with same total sizes but different block sizes such that they have equal
+      !! block sizes
+      !! \move_data memory optimization: transfer data s.t. tensor1 and tensor2 may be empty on return
+
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor1, tensor2
+         !! tensor 1 in
+         !! tensor 2 in
       TYPE(dbcsr_t_type), INTENT(OUT)   :: tensor1_split, tensor2_split
+         !! tensor 1 with split blocks
+         !! tensor 2 with split blocks
       LOGICAL, INTENT(IN), OPTIONAL     :: nodata1, nodata2, move_data
+         !! don't copy data of tensor 1
+         !! don't copy data of tensor 2
       INTEGER, DIMENSION(:), ALLOCATABLE  :: ${varlist("blk_size_split")}$, &
                                              blk_size_d_1, blk_size_d_2, blk_size_d_split
       INTEGER :: size_sum_1, size_sum_2, size_sum, bind_1, bind_2, isplit, bs, idim

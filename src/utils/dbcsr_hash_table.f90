@@ -15,10 +15,9 @@
 ! on return (0 is used as a flag for not present)
 !
 !
-! *****************************************************************************
-!> \brief finds a prime equal or larger than i, needed at creation
-! **************************************************************************************************
   FUNCTION matching_prime(i) RESULT(res)
+     !! finds a prime equal or larger than i, needed at creation
+
      INTEGER, INTENT(IN)                      :: i
      INTEGER                                  :: res
 
@@ -36,11 +35,10 @@
      ENDDO
   END FUNCTION
 
-! *****************************************************************************
-!> \brief create a hash_table of given initial size.
-!>        the hash table will expand as needed (but this requires rehashing)
-! **************************************************************************************************
   SUBROUTINE hash_table_create(hash_table, table_size)
+     !! create a hash_table of given initial size.
+     !! the hash table will expand as needed (but this requires rehashing)
+
      TYPE(hash_table_type)                    :: hash_table
      INTEGER, INTENT(IN)                      :: table_size
 
@@ -69,14 +67,13 @@
 
   END SUBROUTINE hash_table_release
 
-! *****************************************************************************
-!> \brief add a pair (c,p) to the hash table
-!> \param c this value is being hashed
-!> \param p this is being stored
-! **************************************************************************************************
   RECURSIVE SUBROUTINE hash_table_add(hash_table, c, p)
+     !! add a pair (c,p) to the hash table
+
      TYPE(hash_table_type), INTENT(INOUT)     :: hash_table
      INTEGER, INTENT(IN)                      :: c, p
+        !! this value is being hashed
+        !! this is being stored
 
      REAL(KIND=sp), PARAMETER :: hash_table_expand = 1.5_sp, &
                                  inv_hash_table_fill = 2.5_sp

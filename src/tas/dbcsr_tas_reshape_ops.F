@@ -92,16 +92,15 @@ MODULE dbcsr_tas_reshape_ops
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief copy data (involves reshape)
-!> \param summation whether matrix_out = matrix_out + matrix_in
-!> \param move_data memory optimization: move data to matrix_out such that matrix_in is empty on return
-! **************************************************************************************************
    RECURSIVE SUBROUTINE dbcsr_tas_reshape(matrix_in, matrix_out, summation, transposed, move_data)
+      !! copy data (involves reshape)
+
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix_in, matrix_out
       LOGICAL, INTENT(IN), OPTIONAL                      :: summation
+         !! whether matrix_out = matrix_out + matrix_in
       LOGICAL, INTENT(IN), OPTIONAL                      :: transposed
       LOGICAL, INTENT(IN), OPTIONAL                      :: move_data
+         !! memory optimization: move data to matrix_out such that matrix_in is empty on return
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_reshape', &
                                      routineP = moduleN//':'//routineN
@@ -266,17 +265,16 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Replicate matrix_in such that each submatrix of matrix_out is an exact copy of matrix_in
-!> \param nodata Don't copy data but create matrix_out
-!> \param move_data memory optimization: move data to matrix_out such that matrix_in is empty on return
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_replicate(matrix_in, info, matrix_out, nodata, move_data)
+      !! Replicate matrix_in such that each submatrix of matrix_out is an exact copy of matrix_in
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_in
       TYPE(dbcsr_tas_split_info), INTENT(IN)             :: info
       TYPE(dbcsr_tas_type), INTENT(OUT)                  :: matrix_out
       LOGICAL, INTENT(IN), OPTIONAL                      :: nodata
+         !! Don't copy data but create matrix_out
       LOGICAL, INTENT(IN), OPTIONAL                      :: move_data
+         !! memory optimization: move data to matrix_out such that matrix_in is empty on return
 
       INTEGER                                            :: data_type, nblkcols, nblkrows
       INTEGER, DIMENSION(2)                              :: pcoord, pdims
@@ -473,14 +471,13 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Merge submatrices of matrix_in to matrix_out by sum
-!> \param move_data memory optimization: move data to matrix_out such that matrix_in is empty on return
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_merge(matrix_out, matrix_in, move_data)
+      !! Merge submatrices of matrix_in to matrix_out by sum
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_out
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix_in
       LOGICAL, INTENT(IN), OPTIONAL                      :: move_data
+         !! memory optimization: move data to matrix_out such that matrix_in is empty on return
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_merge', routineP = moduleN//':'//routineN
 
@@ -650,15 +647,14 @@ CONTAINS
       block_buffer_blocks_left = buffer%endpos .LT. buffer%nblock
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Create block buffer for MPI communication.
-!> \param buffer block buffer
-!> \param nblock number of blocks
-!> \param ndata total number of block entries
-! **************************************************************************************************
    SUBROUTINE block_buffer_create(buffer, nblock, ndata, data_type)
+      !! Create block buffer for MPI communication.
+
       TYPE(block_buffer_type), INTENT(OUT) :: buffer
+         !! block buffer
       INTEGER, INTENT(IN) :: nblock, ndata, data_type
+         !! number of blocks
+         !! total number of block entries
 
       buffer%nblock = nblock
       buffer%data_type = data_type
@@ -747,16 +743,15 @@ CONTAINS
    END SUBROUTINE
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief insert a block into block buffer (at current iterator position)
-!> \param index index of block
-!> \param block block
-! **************************************************************************************************
    SUBROUTINE block_buffer_add_block_${dsuffix}$ (buffer, index, block, transposed)
+      !! insert a block into block buffer (at current iterator position)
+
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
       INTEGER(KIND=int_8), DIMENSION(2), &
          INTENT(IN)                               :: index
+         !! index of block
       ${dtype}$, DIMENSION(:, :), INTENT(IN)                  :: block
+         !! block
       LOGICAL, INTENT(IN), OPTIONAL :: transposed
       INTEGER(KIND=int_8), DIMENSION(2)   :: index_prv
 

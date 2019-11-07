@@ -95,15 +95,14 @@ MODULE dbcsr_acc_event
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Fortran-wrapper for cudaStreamWaitEvent.
-!>        Because of fortran circular dependency restriction this can not go into acc_stream.F
-!> \param[in] stream stream
-!> \param[in] event event
-! **************************************************************************************************
    SUBROUTINE acc_stream_wait_event(stream, event)
+      !! Fortran-wrapper for cudaStreamWaitEvent.
+      !! Because of fortran circular dependency restriction this can not go into acc_stream.F
+
       TYPE(acc_stream_type), INTENT(IN) :: stream
+         !! stream
       TYPE(acc_event_type), INTENT(IN)  :: event
+         !! event
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(stream)
@@ -124,14 +123,13 @@ CONTAINS
 #endif
    END SUBROUTINE acc_stream_wait_event
 
-! **************************************************************************************************
-!> \brief Fortran-wrapper for cudaEventRecord.
-!> \param[in] this event
-!> \param[in] stream stream
-! **************************************************************************************************
    SUBROUTINE acc_event_record(this, stream)
+      !! Fortran-wrapper for cudaEventRecord.
+
       TYPE(acc_event_type), INTENT(IN)  :: this
+         !! event
       TYPE(acc_stream_type), INTENT(IN) :: stream
+         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -152,13 +150,12 @@ CONTAINS
 #endif
    END SUBROUTINE acc_event_record
 
-! **************************************************************************************************
-!> \brief Fortran-wrapper for cudaEventCreate.
-!> \param[in,out] this event
-! **************************************************************************************************
    SUBROUTINE acc_event_create(this)
+      !! Fortran-wrapper for cudaEventCreate.
+
       TYPE(acc_event_type), &
          INTENT(INOUT)                          :: this
+         !! event
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -174,13 +171,12 @@ CONTAINS
 #endif
    END SUBROUTINE acc_event_create
 
-! **************************************************************************************************
-!> \brief Fortran-wrapper for cudaEventDestroy.
-!> \param[in,out] this event
-! **************************************************************************************************
    SUBROUTINE acc_event_destroy(this)
+      !! Fortran-wrapper for cudaEventDestroy.
+
       TYPE(acc_event_type), &
          INTENT(INOUT)                          :: this
+         !! event
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -196,14 +192,13 @@ CONTAINS
 #endif
    END SUBROUTINE acc_event_destroy
 
-! **************************************************************************************************
-!> \brief Fortran-wrapper for cudaEventQuery.
-!> \param[in] this event
-!> \return true if event has occurred, false otherwise
-! **************************************************************************************************
    FUNCTION acc_event_query(this) RESULT(res)
+      !! Fortran-wrapper for cudaEventQuery.
+
       TYPE(acc_event_type), INTENT(IN)         :: this
+         !! event
       LOGICAL                                  :: res
+         !! true if event has occurred, false otherwise
 
 #if ! defined (__DBCSR_ACC)
       res = .FALSE.
@@ -220,12 +215,11 @@ CONTAINS
 #endif
    END FUNCTION acc_event_query
 
-! **************************************************************************************************
-!> \brief Fortran-wrapper for cudaEventSynchronize.
-!> \param[in] this event
-! **************************************************************************************************
    SUBROUTINE acc_event_synchronize(this)
+      !! Fortran-wrapper for cudaEventSynchronize.
+
       TYPE(acc_event_type), INTENT(IN)  :: this
+         !! event
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)

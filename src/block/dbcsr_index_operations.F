@@ -81,17 +81,17 @@ MODULE dbcsr_index_operations
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Makes a canonical index given the index arrays
-!> \par Description of canonical ordering
-!> A non-(anti)symmetric matrix is left as is. Otherwise, the row and column
-!> are stored in the position prescribed by the distribution.
-!> \note
-!> This routine uses hard-coded logic as to what constitutes a
-!> canonical ordering
-! **************************************************************************************************
    SUBROUTINE make_index_canonical(new_row_p, new_col_i, new_blk_p, &
                                    old_row_p, old_col_i, old_blk_p, matrix)
+      !! Makes a canonical index given the index arrays
+      !!
+      !! Description of canonical ordering
+      !! A non-(anti)symmetric matrix is left as is. Otherwise, the row and column
+      !! are stored in the position prescribed by the distribution.
+      !! @note
+      !! This routine uses hard-coded logic as to what constitutes a
+      !! canonical ordering
+
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: new_row_p, new_col_i, new_blk_p
       INTEGER, DIMENSION(:), INTENT(IN)                  :: old_row_p, old_col_i, old_blk_p
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
@@ -144,17 +144,17 @@ CONTAINS
       ENDIF
    END SUBROUTINE make_index_canonical
 
-! **************************************************************************************************
-!> \brief Makes a CP2K triangular index given the index arrays
-!> \par Description of canonical ordering
-!> A non-(anti)symmetric matrix is left as is. Otherwise, the row and column
-!> are stored in the position prescribed by the distribution.
-!> \note
-!> This routine uses hard-coded logic as to what constitutes a
-!> canonical ordering
-! **************************************************************************************************
    SUBROUTINE make_index_triangular(new_row_p, new_col_i, new_blk_p, &
                                     old_row_p, old_col_i, old_blk_p, matrix)
+      !! Makes a CP2K triangular index given the index arrays
+      !!
+      !! Description of canonical ordering
+      !! A non-(anti)symmetric matrix is left as is. Otherwise, the row and column
+      !! are stored in the position prescribed by the distribution.
+      !! @note
+      !! This routine uses hard-coded logic as to what constitutes a
+      !! canonical ordering
+
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: new_row_p, new_col_i, new_blk_p
       INTEGER, DIMENSION(:), INTENT(IN)                  :: old_row_p, old_col_i, old_blk_p
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
@@ -272,15 +272,13 @@ CONTAINS
       ENDDO
    END SUBROUTINE dbcsr_expand_row_index_2d
 
-! **************************************************************************************************
-!> \brief Counts columns-per-row count from row index array, in-place.
-!> \param[in,out] rows        the row_p index (input); the count of the number
-!>                            of columns per row (output)
-!> \param[in] nrows           number of rows
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_count_row_index_inplace(rows, nrows)
+      !! Counts columns-per-row count from row index array, in-place.
+
       INTEGER, INTENT(IN)                                :: nrows
+         !! number of rows
       INTEGER, DIMENSION(1:nrows + 1), INTENT(INOUT)     :: rows
+         !! the row_p index (input); the count of the number of columns per row (output)
 
       INTEGER                                            :: row
 
@@ -290,16 +288,15 @@ CONTAINS
       rows(nrows + 1) = 0
    END SUBROUTINE dbcsr_count_row_index_inplace
 
-! **************************************************************************************************
-!> \brief Counts columns-per-row count from row index array.
-!> \param[in] rows            the row_p index (input)
-!> \param[out] counts         the count of the number of columns per row
-!> \param[in] nrows           number of rows
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_count_row_index_copy(rows, counts, nrows)
+      !! Counts columns-per-row count from row index array.
+
       INTEGER, INTENT(IN)                                :: nrows
+         !! number of rows
       INTEGER, DIMENSION(1:nrows), INTENT(OUT)           :: counts
+         !! the count of the number of columns per row
       INTEGER, DIMENSION(1:nrows + 1), INTENT(IN)        :: rows
+         !! the row_p index (input)
 
       INTEGER                                            :: row
 
@@ -308,15 +305,13 @@ CONTAINS
       END DO
    END SUBROUTINE dbcsr_count_row_index_copy
 
-! **************************************************************************************************
-!> \brief Builds row index array from a columns-per-row count, in-place.
-!> \param[in,out] rows        count of the number of columns per row (input);
-!>                            the row_p index (output)
-!> \param[in] nrows           number of rows
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_build_row_index_inplace(rows, nrows)
+      !! Builds row index array from a columns-per-row count, in-place.
+
       INTEGER, INTENT(IN)                                :: nrows
+         !! number of rows
       INTEGER, DIMENSION(1:nrows + 1), INTENT(INOUT)     :: rows
+         !! count of the number of columns per row (input); the row_p index (output)
 
       INTEGER                                            :: o, old_count, row
 
@@ -331,17 +326,15 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_build_row_index_inplace
 
-! **************************************************************************************************
-!> \brief Builds row index array from a columns-per-row count.
-!> \param[in] counts          count of the number of columns per row
-!> \param[out] rows           count of the number of columns per row (input);
-!>                            the row_p index (output)
-!> \param[in] nrows           number of rows
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_build_row_index_copy(counts, rows, nrows)
+      !! Builds row index array from a columns-per-row count.
+
       INTEGER, INTENT(IN)                                :: nrows
+         !! number of rows
       INTEGER, DIMENSION(1:nrows + 1), INTENT(OUT)       :: rows
+         !! count of the number of columns per row (input); the row_p index (output)
       INTEGER, DIMENSION(1:nrows), INTENT(IN)            :: counts
+         !! count of the number of columns per row
 
 !WTF?!rows(1) = 0
 !WTF?!IF (nrows .GE. 1) THEN
@@ -354,21 +347,18 @@ CONTAINS
       CALL dbcsr_build_row_index_inplace(rows, nrows)
    END SUBROUTINE dbcsr_build_row_index_copy
 
-! **************************************************************************************************
-!> \brief Adds data to the index. Increases the index size when necessary.
-!> \param[in,out] matrix      bcsr matrix
-!> \param[in] slot  which index array to add (e.g., dbcsr_slot_row_blk_sizes)
-!> \param[in] DATA  (optional) array holding the index data to add to the index
-!>                  array
-!> \param[in] reservation     (optional) only reserve space for subsequent
-!>                            array
-!> \param[in] extra (optional) reserve extra space for later additions
-! **************************************************************************************************
    SUBROUTINE dbcsr_addto_index_array(matrix, slot, DATA, reservation, extra)
+      !! Adds data to the index. Increases the index size when necessary.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! bcsr matrix
       INTEGER, INTENT(IN)                                :: slot
+         !! which index array to add (e.g., dbcsr_slot_row_blk_sizes)
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: DATA
+         !! array holding the index data to add to the index array
       INTEGER, INTENT(IN), OPTIONAL                      :: reservation, extra
+         !! only reserve space for subsequent array
+         !! reserve extra space for later additions
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_addto_index_array', &
                                      routineP = moduleN//':'//routineN
@@ -431,14 +421,13 @@ CONTAINS
          matrix%index(matrix%index(slot):matrix%index(slot + 1)) = DATA(:)
    END SUBROUTINE dbcsr_addto_index_array
 
-! **************************************************************************************************
-!> \brief Removes data from the index.
-!> \param[in,out] matrix      bcsr matrix
-!> \param[in] slot  which index array to remove (e.g., dbcsr_slot_row_blk_sizes)
-! **************************************************************************************************
    SUBROUTINE dbcsr_clearfrom_index_array(matrix, slot)
+      !! Removes data from the index.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! bcsr matrix
       INTEGER, INTENT(IN)                                :: slot
+         !! which index array to remove (e.g., dbcsr_slot_row_blk_sizes)
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_clearfrom_index_array', &
                                      routineP = moduleN//':'//routineN
@@ -469,14 +458,13 @@ CONTAINS
       matrix%index(dbcsr_slot_size) = space
    END SUBROUTINE dbcsr_clearfrom_index_array
 
-! **************************************************************************************************
-!> \brief Updates the index pointers of a bcsr matrix
-!> \param[in,out] m           matrix for which index pointers are updated
-!> \param[in] slot            (optional) only repoint this index
-! **************************************************************************************************
    SUBROUTINE dbcsr_repoint_index(m, slot)
+      !! Updates the index pointers of a bcsr matrix
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: m
+         !! matrix for which index pointers are updated
       INTEGER, INTENT(IN), OPTIONAL                      :: slot
+         !! only repoint this index
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_repoint_index', &
                                      routineP = moduleN//':'//routineN
@@ -583,24 +571,24 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_make_index_exist
 
-! **************************************************************************************************
-!> \brief Sorts the rows & columns of a work matrix
-!> \param[in] n               number of blocks (elements) to sort
-!> \param[in,out] row_i       row indices
-!> \param[in,out] col_i       column indices
-!> \param[in,out] blk_p       (optional) block pointers
-!> \param[in,out] blk_d       (optional) data storage
-!> \par Description
-!>      Sorts the row and column indices so that the rows monotonically
-!>      increase and the columns monotonically increase within each row.
-!>      Passing the blk_p array rearranges the block pointers accordingly.
-!>      This must be done if they are pointing to valid data, otherwise
-!>      they become invalid.
-! **************************************************************************************************
    SUBROUTINE dbcsr_sort_indices(n, row_i, col_i, blk_p, blk_d)
+      !! Sorts the rows & columns of a work matrix
+      !!
+      !! Description
+      !! Sorts the row and column indices so that the rows monotonically
+      !! increase and the columns monotonically increase within each row.
+      !! Passing the blk_p array rearranges the block pointers accordingly.
+      !! This must be done if they are pointing to valid data, otherwise
+      !! they become invalid.
+
       INTEGER, INTENT(IN)                                :: n
+         !! number of blocks (elements) to sort
       INTEGER, DIMENSION(1:), INTENT(INOUT)              :: row_i, col_i
+         !! row indices
+         !! column indices
       INTEGER, DIMENSION(1:), INTENT(INOUT), OPTIONAL    :: blk_p, blk_d
+         !! block pointers
+         !! data storage
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_sort_indices', &
                                      routineP = moduleN//':'//routineN
@@ -660,13 +648,13 @@ CONTAINS
 
    END SUBROUTINE dbcsr_sort_indices
 
-! **************************************************************************************************
-!> \brief Removes the deleted blocks from the index.
-!> \param[in,out] matrix      Prune the index of this matrix.
-!> \par Description
-! **************************************************************************************************
    SUBROUTINE dbcsr_index_prune_deleted(matrix)
+      !! Removes the deleted blocks from the index.
+      !!
+      !! Description
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! Prune the index of this matrix.
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_index_prune_deleted', &
                                      routineP = moduleN//':'//routineN
@@ -723,22 +711,22 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_index_prune_deleted
 
-! **************************************************************************************************
-!> \brief Re-indexes row_p and blk_i according to columns.
-!> \param[out] new_col_p      new column pointer
-!> \param[out] new_row_i      new row index
-!> \param[in] old_row_p       old row pointer
-!> \param[in] old_col_i       old column index
-!> \param[out] new_blk_p      (optional) new block pointer
-!> \param[in] old_blk_p       (optional) old block pointer
-!> \par The re-indexing is equivalent to a local-only transpose.
-! **************************************************************************************************
    SUBROUTINE transpose_index_local(new_col_p, new_row_i, old_row_p, &
                                     old_col_i, new_blk_p, old_blk_p)
+      !! Re-indexes row_p and blk_i according to columns.
+      !!
+      !! The re-indexing is equivalent to a local-only transpose.
+
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: new_col_p, new_row_i
+         !! new column pointer
+         !! new row index
       INTEGER, DIMENSION(:), INTENT(IN)                  :: old_row_p, old_col_i
+         !! old row pointer
+         !! old column index
       INTEGER, DIMENSION(:), INTENT(OUT), OPTIONAL       :: new_blk_p
+         !! new block pointer
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: old_blk_p
+         !! old block pointer
 
       CHARACTER(len=*), PARAMETER :: routineN = 'transpose_index_local', &
                                      routineP = moduleN//':'//routineN
@@ -764,16 +752,15 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE transpose_index_local
 
-! **************************************************************************************************
-!> \brief Makes a canonical index to the distribution.
-!> \param[inout] matrix       matrix for which to make canonical index
-!> \param[in] cp2k            (optional) make CP2K triangular index
-!>                            from canonical; default is false
-!> \par Canonical means that it respects the distribution.
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_index_canonical(matrix, cp2k)
+      !! Makes a canonical index to the distribution.
+      !!
+      !! Canonical means that it respects the distribution.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! matrix for which to make canonical index
       LOGICAL, INTENT(IN), OPTIONAL                      :: cp2k
+         !! make CP2K triangular index from canonical; default is false
 
       INTEGER                                            :: nb, nc, nr
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: new_blk_p, new_col_i, new_row_p
@@ -801,35 +788,32 @@ CONTAINS
       matrix%blk_p(:) = new_blk_p
    END SUBROUTINE dbcsr_make_index_canonical
 
-! **************************************************************************************************
-!> \brief Makes the index for a dense matrix
-!> \param[out] row_p Storage for new index
-!> \param[out] col_i Storage for new index
-!> \param[out] blk_p Storage for new index
-!> \param[in] nblkrows_total                  Total blocked rows
-!> \param[in] nblkcols_total                  Total blocked columns
-!> \param[in] myblkrows                       List of blocked rows in my
-!>                                            process row
-!> \param[in] myblkcols                       List of blocked columns in my
-!>                                            process column
-!> \param[in,out] meta                        Metadata updates for new index
-!> \param[in] make_tr                         Dense blocks are transposed
-!> \note Used for making matrices dense/undense
-! **************************************************************************************************
    SUBROUTINE make_dense_index(row_p, col_i, blk_p, &
                                nblkrows_total, nblkcols_total, myblkrows, myblkcols, &
                                row_blk_offsets, col_blk_offsets, meta, make_tr)
+      !! Makes the index for a dense matrix
+      !! @note Used for making matrices dense/undense
+
 
       !INTEGER, DIMENSION(:), INTENT(OUT)       :: row_p, col_i, blk_p
       INTEGER, INTENT(IN)                                :: nblkrows_total
+         !! Total blocked rows
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: blk_p, col_i
+         !! Storage for new index
+         !! Storage for new index
       INTEGER, DIMENSION(1:nblkrows_total + 1), &
          INTENT(OUT)                                     :: row_p
+         !! Storage for new index
       INTEGER, INTENT(IN)                                :: nblkcols_total
+         !! Total blocked columns
       INTEGER, DIMENSION(:), INTENT(IN)                  :: myblkrows, myblkcols, row_blk_offsets, &
                                                             col_blk_offsets
+         !! List of blocked rows in my process row
+         !! List of blocked columns in my process column
       INTEGER, DIMENSION(dbcsr_meta_size), INTENT(INOUT) :: meta
+         !! Metadata updates for new index
       LOGICAL, INTENT(IN), OPTIONAL                      :: make_tr
+         !! Dense blocks are transposed
 
       CHARACTER(len=*), PARAMETER :: routineN = 'make_dense_index', &
                                      routineP = moduleN//':'//routineN
@@ -888,23 +872,22 @@ CONTAINS
       meta(dbcsr_slot_nblkcols_total) = nblkcols_total
    END SUBROUTINE make_dense_index
 
-! **************************************************************************************************
-!> \brief Makes a blocked index from a dense matrix
-!> \param[out] row_p Storage for new index
-!> \param[out] col_i Storage for new index
-!> \param[out] blk_p Storage for new index
-!> \param[in] distribution     Blocked distribution
-!> \param[in,out] meta         Metadata updates for new index
-!> \note Used for making matrices dense/undense
-! **************************************************************************************************
    SUBROUTINE make_undense_index( &
       row_p, col_i, blk_p, &
       distribution, local_row_offsets, local_col_offsets, &
       meta)
+      !! Makes a blocked index from a dense matrix
+      !! @note Used for making matrices dense/undense
+
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: row_p, col_i, blk_p
+         !! Storage for new index
+         !! Storage for new index
+         !! Storage for new index
       TYPE(dbcsr_distribution_obj)                       :: distribution
+         !! Blocked distribution
       INTEGER, DIMENSION(:), INTENT(IN)                  :: local_row_offsets, local_col_offsets
       INTEGER, DIMENSION(dbcsr_meta_size), INTENT(INOUT) :: meta
+         !! Metadata updates for new index
 
       CHARACTER(len=*), PARAMETER :: routineN = 'make_undense_index', &
                                      routineP = moduleN//':'//routineN
@@ -950,50 +933,46 @@ CONTAINS
       END DO
    END SUBROUTINE make_undense_index
 
-! **************************************************************************************************
-!> \brief Merges two indices
-!> \param[in,out] new_row_i merged result
-!> \param[in,out] new_col_i merged result
-!> \param[in,out] new_blk_p merged result
-!> \param[in] new_size                  size of merged index
-!> \param[in,out] old_row_i current index
-!> \param[in,out] old_col_i current index
-!> \param[in,out] old_blk_p current index
-!> \param[in] old_size                  size of current index
-!> \param[in] add_ip                    index to add into the current index
-!> \param[in] add_size                  size of index to add into the current
-!>                                      index
-!> \param[in] added_size_offset         (optional) specify base of added sizes
-!> \param[in] added_sizes               (optional) specify sizes of added
-!>                                      blocks
-!> \param[out] added_size               (optional) counts number of sizes of
-!>                                      added blocks
-!> \param[out] added_nblks              (optional) actual number of new
-!>                                      elements
-!> \par Added sizes
-!>      added_size_offset and added_sizes can be optionally
-!>      specified. This is meant for cases where the added blocks may
-!>      be duplicates of existing blocks. In this way it is possible
-!>      to recalculate new block pointers to avoid wasted space.
-!> \note Used in local multiply
-!> Assumes they are both pre-sorted
-! **************************************************************************************************
    SUBROUTINE merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, &
                                  old_row_i, old_col_i, old_blk_p, old_size, &
                                  add_ip, add_size, new_blk_d, old_blk_d, &
                                  added_size_offset, added_sizes, added_size, added_nblks)
+      !! Merges two indices
+      !!
+      !! Added sizes
+      !! added_size_offset and added_sizes can be optionally
+      !! specified. This is meant for cases where the added blocks may
+      !! be duplicates of existing blocks. In this way it is possible
+      !! to recalculate new block pointers to avoid wasted space.
+      !! @note Used in local multiply
+      !! Assumes they are both pre-sorted
+
       INTEGER, INTENT(IN)                                :: new_size
+         !! size of merged index
       INTEGER, DIMENSION(new_size), INTENT(OUT)          :: new_blk_p, new_col_i, new_row_i
+         !! merged result
+         !! merged result
+         !! merged result
       INTEGER, INTENT(IN)                                :: old_size
+         !! size of current index
       INTEGER, DIMENSION(old_size), INTENT(IN)           :: old_blk_p, old_col_i, old_row_i
+         !! current index
+         !! current index
+         !! current index
       INTEGER, INTENT(IN)                                :: add_size
+         !! size of index to add into the current index
       INTEGER, DIMENSION(3, add_size), INTENT(IN)        :: add_ip
+         !! index to add into the current index
       INTEGER, DIMENSION(new_size), INTENT(OUT), &
          OPTIONAL                                        :: new_blk_d
       INTEGER, DIMENSION(old_size), INTENT(IN), OPTIONAL :: old_blk_d
       INTEGER, INTENT(IN), OPTIONAL                      :: added_size_offset
+         !! specify base of added sizes
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: added_sizes
+         !! specify sizes of added blocks
       INTEGER, INTENT(OUT), OPTIONAL                     :: added_size, added_nblks
+         !! counts number of sizes of added blocks
+         !! actual number of new elements
 
       CHARACTER(len=*), PARAMETER :: routineN = 'merge_index_arrays', &
                                      routineP = moduleN//':'//routineN
@@ -1124,12 +1103,11 @@ CONTAINS
       ENDIF
    END SUBROUTINE merge_index_arrays
 
-! **************************************************************************************************
-!> \brief Converts BCSR global row index to local row index.
-!> \param[in,out] matrix       matrix for which to make canonical index
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_index_local_row(matrix)
+      !! Converts BCSR global row index to local row index.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! matrix for which to make canonical index
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_index_local_row', &
                                      routineP = moduleN//':'//routineN
@@ -1190,14 +1168,13 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_make_index_local_row
 
-! **************************************************************************************************
-!> \brief Converts BCSR index into list indices (similar to work matrices)
-!> \param[in,out] matrix       matrix for which to make canonical index
-!> \param[in] thread_redist    make a thread subdistribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_index_list(matrix, thread_redist)
+      !! Converts BCSR index into list indices (similar to work matrices)
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! matrix for which to make canonical index
       LOGICAL, INTENT(IN)                                :: thread_redist
+         !! make a thread subdistribution
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_index_list', &
                                      routineP = moduleN//':'//routineN
@@ -1347,12 +1324,11 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_make_index_list
 
-! **************************************************************************************************
-!> \brief Compacts an index.
-!> \param[in,out] matrix       matrix for which to make canonical index
-! **************************************************************************************************
    SUBROUTINE dbcsr_index_compact(matrix)
+      !! Compacts an index.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! matrix for which to make canonical index
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_index_compact', &
                                      routineP = moduleN//':'//routineN
@@ -1473,12 +1449,11 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_index_compact
 
-! **************************************************************************************************
-!> \brief Calculates the checksum of an index.
-!> \param[in] matrix           matrix for which to make canonical index
-! **************************************************************************************************
    SUBROUTINE dbcsr_index_checksum(matrix, checksum)
+      !! Calculates the checksum of an index.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! matrix for which to make canonical index
       INTEGER, INTENT(OUT)                               :: checksum
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_index_checksum', &

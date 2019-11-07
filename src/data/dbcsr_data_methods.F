@@ -147,20 +147,19 @@ CONTAINS
 
    END SUBROUTINE dbcsr_data_dev2host
 
-! **************************************************************************************************
-!> \brief Initializes a data area and all the actual data pointers
-!> \param[inout] area         data area
-!> \param[in] data_type       select data type to use
-!> \param[in] data_size       (optional) allocate this much data
-!> \param[in] data_size2      (optional) second dimension data size
-!> \param[in] memory_type     (optional) type of memory to use
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_new(area, data_type, data_size, data_size2, &
                              memory_type)
+      !! Initializes a data area and all the actual data pointers
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
+         !! data area
       INTEGER, INTENT(IN)                                :: data_type
+         !! select data type to use
       INTEGER, INTENT(IN), OPTIONAL                      :: data_size, data_size2
+         !! allocate this much data
+         !! second dimension data size
       TYPE(dbcsr_memtype_type), INTENT(IN), OPTIONAL     :: memory_type
+         !! type of memory to use
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_new', routineP = moduleN//':'//routineN
 
@@ -220,22 +219,20 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_data_new
 
-! **************************************************************************************************
-!> \brief Ensures a minimum size of a previously-setup data area.
-!> The data area must have been previously setup with dbcsr_data_new.
-!> \param[inout] area         data area
-!> \param[in] data_size       allocate this much data
-!> \param[in] nocopy          (optional) do not keep potentially existing data,
-!>                            default is to keep it
-!> \param[in] zero_pad        (optional) pad new data with zeros
-!> \param[in] factor          (optional) increase size by this factor
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_ensure_size(area, data_size, nocopy, zero_pad, factor, &
                                      area_resize)
+      !! Ensures a minimum size of a previously-setup data area.
+      !! The data area must have been previously setup with dbcsr_data_new.
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
+         !! data area
       INTEGER, INTENT(IN)                                :: data_size
+         !! allocate this much data
       LOGICAL, INTENT(IN), OPTIONAL                      :: nocopy, zero_pad
+         !! do not keep potentially existing data, default is to keep it
+         !! pad new data with zeros
       REAL(KIND=dp), INTENT(IN), OPTIONAL                :: factor
+         !! increase size by this factor
       TYPE(dbcsr_data_obj), INTENT(INOUT), OPTIONAL      :: area_resize
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_ensure_size', &
@@ -428,12 +425,11 @@ CONTAINS
       IF (careful_mod) CALL timestop(handle)
    END SUBROUTINE dbcsr_data_ensure_size
 
-! **************************************************************************************************
-!> \brief Removes a reference and/or clears the data area.
-!> \param[inout] area         data area
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_release(area)
+      !! Removes a reference and/or clears the data area.
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
+         !! data area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_release', &
                                      routineP = moduleN//':'//routineN

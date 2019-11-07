@@ -95,11 +95,10 @@ CONTAINS
 
    END SUBROUTINE assign_preconnection
 
-! **************************************************************************************************
-!> \brief Close an open file given by its logical unit number.
-!>        Optionally, keep the file and unit preconnected.
-! **************************************************************************************************
    SUBROUTINE close_file(unit_number, file_status, keep_preconnection)
+      !! Close an open file given by its logical unit number.
+      !! Optionally, keep the file and unit preconnected.
+
 
       INTEGER, INTENT(IN)                                :: unit_number
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: file_status
@@ -207,12 +206,11 @@ CONTAINS
 
    END SUBROUTINE delete_preconnection
 
-! **************************************************************************************************
-!> \brief Returns the first logical unit that is not preconnected
-!> \note
-!>       -1 if no free unit exists
-! **************************************************************************************************
    FUNCTION get_unit_number(file_name) RESULT(unit_number)
+      !! Returns the first logical unit that is not preconnected
+      !! @note
+      !! -1 if no free unit exists
+
 
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: file_name
       INTEGER                                            :: unit_number
@@ -265,13 +263,11 @@ CONTAINS
 
    END SUBROUTINE init_preconnection_list
 
-! **************************************************************************************************
-!> \brief Opens the requested file using a free unit number
-!> \param file_access file access mode
-! **************************************************************************************************
    SUBROUTINE open_file(file_name, file_status, file_form, file_action, &
                         file_position, file_pad, unit_number, debug, &
                         skip_get_unit_number, file_access)
+      !! Opens the requested file using a free unit number
+
 
       CHARACTER(LEN=*), INTENT(IN)                       :: file_name
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: file_status, file_form, file_action, &
@@ -280,6 +276,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: debug
       LOGICAL, INTENT(IN), OPTIONAL                      :: skip_get_unit_number
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: file_access
+         !! file access mode
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'open_file', routineP = moduleN//':'//routineN
 
@@ -449,12 +446,11 @@ CONTAINS
       INQUIRE (FILE=TRIM(file_name), exist=exist)
    END FUNCTION file_exists
 
-! **************************************************************************************************
-!> \brief Print the list of preconnected units
-!> \param output_unit which unit to print to (optional)
-! **************************************************************************************************
    SUBROUTINE print_preconnection_list(output_unit)
+      !! Print the list of preconnected units
+
       INTEGER, INTENT(IN), OPTIONAL                      :: output_unit
+         !! which unit to print to (optional)
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'print_preconnection_list', &
                                      routineP = moduleN//':'//routineN

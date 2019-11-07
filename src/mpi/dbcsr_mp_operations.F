@@ -103,24 +103,17 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE hybrid_alltoall_any
 
-! **************************************************************************************************
-!> \brief Row/column and global all-to-all
-!> \param[in] mp_env         MP Environment
-!> \param[in] most_ptp       (optional) Use point-to-point for row/column;
-!>                           default is no
-!> \param[in] remainder_ptp  (optional) Use point-to-point for remaining;
-!>                           default is no
-!> \param[in] no_hybrid      (optional) Use regular global collective; default
-!>                           is no
-!> \par Communicator selection
-!>      Uses row and column communicators for row/column
-!>      sends. Remaining sends are performed using the global
-!>      communicator.  Point-to-point isend/irecv are used if ptp is
-!>      set, otherwise a alltoall collective call is issued.
-!>      see mp_alltoall
-! **************************************************************************************************
    SUBROUTINE hybrid_alltoall_i1(sb, scount, sdispl, &
                                  rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
+      !! Row/column and global all-to-all
+      !!
+      !! Communicator selection
+      !! Uses row and column communicators for row/column
+      !! sends. Remaining sends are performed using the global
+      !! communicator.  Point-to-point isend/irecv are used if ptp is
+      !! set, otherwise a alltoall collective call is issued.
+      !! see mp_alltoall
+
       INTEGER, DIMENSION(:), INTENT(in), &
          TARGET                                 :: sb
       INTEGER, DIMENSION(:), INTENT(IN)        :: scount, sdispl
@@ -128,8 +121,12 @@ CONTAINS
          INTENT(INOUT), TARGET                  :: rb
       INTEGER, DIMENSION(:), INTENT(IN)        :: rcount, rdispl
       TYPE(dbcsr_mp_obj), INTENT(IN)           :: mp_env
+         !! MP Environment
       LOGICAL, INTENT(IN), OPTIONAL            :: most_ptp, remainder_ptp, &
                                                   no_hybrid
+         !! Use point-to-point for row/column; default is no
+         !! Use point-to-point for remaining; default is no
+         !! Use regular global collective; default is no
 
       CHARACTER(len=*), PARAMETER :: routineN = 'hybrid_alltoall_i1', &
                                      routineP = moduleN//':'//routineN
@@ -317,14 +314,13 @@ CONTAINS
       END SUBROUTINE remainder_point_to_point
    END SUBROUTINE hybrid_alltoall_i1
 
-! **************************************************************************************************
-!> \brief Creates an MPI combined type from the given anytype.
-!> \param[in] data_area       Data area of any type
-!> \return Type descriptor
-! **************************************************************************************************
    FUNCTION dbcsr_mp_type_from_anytype(data_area) RESULT(mp_type)
+      !! Creates an MPI combined type from the given anytype.
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: data_area
+         !! Data area of any type
       TYPE(mp_type_descriptor_type)                      :: mp_type
+         !! Type descriptor
 
       SELECT CASE (data_area%d%data_type)
       CASE (dbcsr_type_int_4)
@@ -340,11 +336,10 @@ CONTAINS
       END SELECT
    END FUNCTION dbcsr_mp_type_from_anytype
 
-! **************************************************************************************************
-!> \brief sendrecv of encapsulated data.
-!> \note see mp_sendrecv
-! **************************************************************************************************
    SUBROUTINE dbcsr_sendrecv_any(msgin, dest, msgout, source, comm)
+      !! sendrecv of encapsulated data.
+      !! @note see mp_sendrecv
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: dest
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: msgout
@@ -370,11 +365,10 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_sendrecv_any
 
-! **************************************************************************************************
-!> \brief Non-blocking send of encapsulated data.
-!> \note see mp_isend_iv
-! **************************************************************************************************
    SUBROUTINE dbcsr_isend_any(msgin, dest, comm, request, tag)
+      !! Non-blocking send of encapsulated data.
+      !! @note see mp_isend_iv
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: dest, comm
       INTEGER, INTENT(OUT)                               :: request
@@ -397,11 +391,10 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_isend_any
 
-! **************************************************************************************************
-!> \brief Non-blocking recv of encapsulated data.
-!> \note see mp_irecv_iv
-! **************************************************************************************************
    SUBROUTINE dbcsr_irecv_any(msgin, source, comm, request, tag)
+      !! Non-blocking recv of encapsulated data.
+      !! @note see mp_irecv_iv
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: source, comm
       INTEGER, INTENT(OUT)                               :: request
@@ -621,11 +614,10 @@ CONTAINS
 
    END FUNCTION dbcsr_mp_type_indexed_make_any
 
-! **************************************************************************************************
-!> \brief Allgather of encapsulated data
-!> \note see mp_allgatherv_dv
-! **************************************************************************************************
    SUBROUTINE dbcsr_allgatherv(send_data, scount, recv_data, recv_count, recv_displ, gid)
+      !! Allgather of encapsulated data
+      !! @note see mp_allgatherv_dv
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: send_data
       INTEGER, INTENT(IN)                                :: scount
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: recv_data
@@ -657,24 +649,17 @@ CONTAINS
 
 #:include '../data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
-! **************************************************************************************************
-!> \brief Row/column and global all-to-all
-!> \param[in] mp_env         MP Environment
-!> \param[in] most_ptp       (optional) Use point-to-point for row/column;
-!>                           default is no
-!> \param[in] remainder_ptp  (optional) Use point-to-point for remaining;
-!>                           default is no
-!> \param[in] no_hybrid      (optional) Use regular global collective; default
-!>                           is no
-!> \par Communicator selection
-!>      Uses row and column communicators for row/column
-!>      sends. Remaining sends are performed using the global
-!>      communicator.  Point-to-point isend/irecv are used if ptp is
-!>      set, otherwise a alltoall collective call is issued.
-!>      see mp_alltoall
-! **************************************************************************************************
    SUBROUTINE hybrid_alltoall_${nametype1}$1(sb, scount, sdispl, &
                                              rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
+      !! Row/column and global all-to-all
+      !!
+      !! Communicator selection
+      !! Uses row and column communicators for row/column
+      !! sends. Remaining sends are performed using the global
+      !! communicator.  Point-to-point isend/irecv are used if ptp is
+      !! set, otherwise a alltoall collective call is issued.
+      !! see mp_alltoall
+
       ${type1}$, DIMENSION(:), &
          INTENT(in), TARGET                     :: sb
       INTEGER, DIMENSION(:), INTENT(IN)        :: scount, sdispl
@@ -682,8 +667,12 @@ CONTAINS
          INTENT(INOUT), TARGET                  :: rb
       INTEGER, DIMENSION(:), INTENT(IN)        :: rcount, rdispl
       TYPE(dbcsr_mp_obj), INTENT(IN)           :: mp_env
+         !! MP Environment
       LOGICAL, INTENT(in), OPTIONAL            :: most_ptp, remainder_ptp, &
                                                   no_hybrid
+         !! Use point-to-point for row/column; default is no
+         !! Use point-to-point for remaining; default is no
+         !! Use regular global collective; default is no
 
       CHARACTER(len=*), PARAMETER :: routineN = 'hybrid_alltoall_${nametype1}$', &
                                      routineP = moduleN//':'//routineN

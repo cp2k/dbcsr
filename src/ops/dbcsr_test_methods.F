@@ -101,17 +101,14 @@ CONTAINS
 
    END FUNCTION compx_to_dbcsr_scalar
 
-! **************************************************************************************************
-!> \brief Impose sparsity on a dense matrix based on a dbcsr
-!> \param[in] sparse          sparse matrix
-!> \param[inout] dense        dense matrix
-!> Take into account the symmetry of the sparse matrix.
-!> The dense matrix need to be valid.
-!> The operation is done locally.
-! **************************************************************************************************
    SUBROUTINE dbcsr_impose_sparsity(sparse, dense)
+      !! Impose sparsity on a dense matrix based on a dbcsr
+
       TYPE(dbcsr_type), INTENT(IN)                       :: sparse
+         !! sparse matrix
       TYPE(dbcsr_data_obj), INTENT(inout)                :: dense
+         !! dense matrix Take into account the symmetry of the sparse matrix. The dense matrix need to be valid. The operation is
+         !! done locally.
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_impose_sparsity', &
                                      routineP = moduleN//':'//routineN
@@ -216,17 +213,14 @@ CONTAINS
 
    END SUBROUTINE dbcsr_impose_sparsity
 
-! **************************************************************************************************
-!> \brief Convert a sparse matrix to a dense matrix
-!> \param[in] sparse          sparse matrix
-!> \param[inout] dense        dense matrix
-!> Take into account the symmetry of the sparse matrix.
-!> The dense matrix need to be valid.
-!> The operation is done locally.
-! **************************************************************************************************
    SUBROUTINE dbcsr_to_dense_local(sparse, dense)
+      !! Convert a sparse matrix to a dense matrix
+
       TYPE(dbcsr_type), INTENT(in)                       :: sparse
+         !! sparse matrix
       TYPE(dbcsr_data_obj), INTENT(inout)                :: dense
+         !! dense matrix Take into account the symmetry of the sparse matrix. The dense matrix need to be valid. The operation is
+         !! done locally.
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_to_dense_local', &
                                      routineP = moduleN//':'//routineN

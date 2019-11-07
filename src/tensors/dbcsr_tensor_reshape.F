@@ -64,16 +64,14 @@ MODULE dbcsr_tensor_reshape
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief copy data (involves reshape)
-!> \param summation tensor_out = tensor_out + tensor_in
-!> move_data memory optimization: transfer data from tensor_in to tensor_out s.t. tensor_in is empty
-!> on return
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_reshape(tensor_in, tensor_out, summation, move_data)
+      !! copy data (involves reshape)
+
 
       TYPE(dbcsr_t_type), INTENT(INOUT)               :: tensor_in, tensor_out
       LOGICAL, INTENT(IN), OPTIONAL                    :: summation
+         !! tensor_out = tensor_out + tensor_in move_data memory optimization: transfer data from tensor_in to tensor_out s.t.
+         !! tensor_in is empty on return
       LOGICAL, INTENT(IN), OPTIONAL                    :: move_data
 
       INTEGER                                            :: blk, iproc, mp_comm, mynode, ndata, &
@@ -183,16 +181,15 @@ CONTAINS
       ENDDO
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Create block buffer for MPI communication.
-!> \param buffer block buffer
-!> \param nblock number of blocks
-!> \param ndata total number of block entries
-!> \param ndim number of dimensions
-! **************************************************************************************************
    SUBROUTINE block_buffer_create(buffer, nblock, ndata, data_type, ndim)
+      !! Create block buffer for MPI communication.
+
       TYPE(block_buffer_type), INTENT(OUT) :: buffer
+         !! block buffer
       INTEGER, INTENT(IN)                  :: nblock, ndata, data_type, ndim
+         !! number of blocks
+         !! total number of block entries
+         !! number of dimensions
 
       buffer%nblock = nblock
       buffer%data_type = data_type
@@ -230,16 +227,15 @@ CONTAINS
       ndims_buffer = buffer%ndim
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief insert a block into block buffer (at current iterator position)
-!> \param index index of block
-!> \param block block
-! **************************************************************************************************
    SUBROUTINE block_buffer_add_anyd_block(buffer, index, block)
+      !! insert a block into block buffer (at current iterator position)
+
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
       INTEGER, DIMENSION(ndims_buffer(buffer)), &
          INTENT(IN)                               :: index
+         !! index of block
       TYPE(block_nd), INTENT(IN)                  :: block
+         !! block
 
       SELECT CASE (block%data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
@@ -392,11 +388,9 @@ CONTAINS
 #:endfor
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
-!> \param advance_iter
-! **************************************************************************************************
    SUBROUTINE block_buffer_get_next_block_${dsuffix}$ (buffer, ndata, index, block, advance_iter)
+      !! get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
+
       TYPE(block_buffer_type), INTENT(INOUT)                      :: buffer
       INTEGER, INTENT(OUT)                                        :: ndata
       ${dtype}$, DIMENSION(:), ALLOCATABLE, OPTIONAL, INTENT(OUT) :: block

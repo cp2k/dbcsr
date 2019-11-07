@@ -7,19 +7,18 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief  Third layer of the dbcsr matrix-matrix multiplication.
-!>         It collects the full matrix blocks, which need to be multiplied,
-!>         and stores their parameters in various stacks.
-!>         After a certain amount of parameters is collected it dispatches
-!>         the filled stacks to either the CPU or the accelerator device.
-!> <b>Modification history:</b>
-!>  - 2010-02-23 Moved from dbcsr_operations
-!>  - 2011-11    Moved parameter-stack processing routines to
-!>               dbcsr_mm_methods.
-!>  - 2013-01    extensive refactoring (Ole Schuett)
-! **************************************************************************************************
 MODULE dbcsr_mm_csr
+   !! Third layer of the dbcsr matrix-matrix multiplication.
+   !! It collects the full matrix blocks, which need to be multiplied,
+   !! and stores their parameters in various stacks.
+   !! After a certain amount of parameters is collected it dispatches
+   !! the filled stacks to either the CPU or the accelerator device.
+   !! <b>Modification history:</b>
+   !! - 2010-02-23 Moved from dbcsr_operations
+   !! - 2011-11    Moved parameter-stack processing routines to
+   !! dbcsr_mm_methods.
+   !! - 2013-01    extensive refactoring (Ole Schuett)
+
 
    USE dbcsr_array_types, ONLY: array_data
    USE dbcsr_block_operations, ONLY: block_add, &
@@ -538,14 +537,13 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_csr_init
 
-! **************************************************************************************************
-!> \brief Fills row hashtable from an existing matrix.
-!> \param[in] block_estimate guess for the number of blocks in the product matrix, can be zero
-! **************************************************************************************************
    SUBROUTINE fill_hash_tables(hashes, matrix, block_estimate, row_map, col_map)
+      !! Fills row hashtable from an existing matrix.
+
       TYPE(hash_table_type), DIMENSION(:), INTENT(inout) :: hashes
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER                                            :: block_estimate
+         !! guess for the number of blocks in the product matrix, can be zero
       INTEGER, DIMENSION(:), INTENT(IN)                  :: row_map, col_map
 
       CHARACTER(len=*), PARAMETER :: routineN = 'fill_hash_tables', &
@@ -809,15 +807,15 @@ CONTAINS
       ENDIF
    END SUBROUTINE build_csr_index
 
-! **************************************************************************************************
-!> \brief Determines whether a transpose must be applied
-!> \param[in] row   The absolute matrix row.
-!> \param[in] column          The absolute matrix column.
-!> \par Source
-!> This function is copied from dbcsr_dist_operations for speed reasons.
-! **************************************************************************************************
    ELEMENTAL FUNCTION my_checker_tr(row, column) RESULT(transpose)
+      !! Determines whether a transpose must be applied
+      !!
+      !! Source
+      !! This function is copied from dbcsr_dist_operations for speed reasons.
+
       INTEGER, INTENT(IN)                                :: row, column
+         !! The absolute matrix row.
+         !! The absolute matrix column.
       LOGICAL                                            :: transpose
 
       transpose = BTEST(column + row, 0) .EQV. column .GE. row

@@ -7,12 +7,11 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Common variables and routines for the dbcsr matrix-matrix multiplication algorithms.
-!> <b>Modification history:</b>
-!>  - 2016-08    Code organization (Alfio Lazzaro).
-! **************************************************************************************************
 MODULE dbcsr_mm_common
+   !! Common variables and routines for the dbcsr matrix-matrix multiplication algorithms.
+   !! <b>Modification history:</b>
+   !! - 2016-08    Code organization (Alfio Lazzaro).
+
    USE dbcsr_acc_event, ONLY: acc_event_record, &
                               acc_event_synchronize, &
                               acc_stream_wait_event
@@ -195,13 +194,13 @@ CONTAINS
 
    END SUBROUTINE setup_buffer_matrix
 
-! **************************************************************************************************
-!> \brief Sorts index for recursing.
-!> \par History
-!> - 2011-02-17 [UB] modified for use in DBCSR; reduced memory usage.
-!> \note Always cut longest first. On a tie cut N
-! **************************************************************************************************
    RECURSIVE SUBROUTINE rec_sort_index(mi, mf, ni, nf, nele, a, d)
+      !! Sorts index for recursing.
+      !!
+      !! History
+      !! - 2011-02-17 [UB] modified for use in DBCSR; reduced memory usage.
+      !! @note Always cut longest first. On a tie cut N
+
       INTEGER, INTENT(IN)                                :: mi, mf, ni, nf, nele
       INTEGER, DIMENSION(3, 1:nele), INTENT(inout)       :: a
       INTEGER, INTENT(IN)                                :: d
@@ -502,15 +501,14 @@ CONTAINS
       size_guess = INT(REAL(size8, KIND=real_8)*fill_guess, KIND=int_4)
    END FUNCTION product_matrix_size_guess
 
-! **************************************************************************************************
-!> \brief Calculates per-block norms.
-!> Rewritten to be very low-level.
-!> \param[in,out] matrix     DBCSR matrix for which to calculate norms
-!> \param[out] norms         Block norms
-! **************************************************************************************************
    SUBROUTINE calculate_norms(matrix, norms, row_blk_sizes, col_blk_sizes)
+      !! Calculates per-block norms.
+      !! Rewritten to be very low-level.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! DBCSR matrix for which to calculate norms
       REAL(kind=sp), DIMENSION(:), INTENT(OUT)           :: norms
+         !! Block norms
       INTEGER, DIMENSION(:), POINTER, INTENT(IN)         :: row_blk_sizes, col_blk_sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'calculate_norms', &
@@ -550,18 +548,17 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE calculate_norms
 
-! **************************************************************************************************
-!> \brief Gathers the local elements from all data (full_data)
-!> \param[in] full_data       All elements
-!> \param[in] nle             Number of local elements
-!> \param[in] local_elements  List of local elements
-!> \param[out] local_data     Local elements obtained from all elements
-! **************************************************************************************************
    PURE SUBROUTINE local_filter(full_data, nle, local_elements, local_data)
+      !! Gathers the local elements from all data (full_data)
+
       INTEGER, DIMENSION(:), INTENT(IN)                  :: full_data
+         !! All elements
       INTEGER, INTENT(IN)                                :: nle
+         !! Number of local elements
       INTEGER, DIMENSION(1:nle), INTENT(IN)              :: local_elements
+         !! List of local elements
       INTEGER, DIMENSION(1:nle), INTENT(OUT)             :: local_data
+         !! Local elements obtained from all elements
 
       INTEGER                                            :: l
 

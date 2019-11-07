@@ -373,11 +373,9 @@ CONTAINS
       CALL dbcsr_t_pgrid_destroy(comm_nd)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Create test distribution
-!> \param mp_comm
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_random_dist(dist_array, dist_size, nbins, mp_comm)
+      !! Create test distribution
+
       INTEGER, ALLOCATABLE, DIMENSION(:), INTENT(OUT) :: dist_array
       INTEGER, INTENT(IN)                             :: dist_size, nbins, mp_comm
       REAL, DIMENSION(dist_size)                      :: rn
@@ -484,16 +482,15 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Enumerate tensor entries in block
-!> \param blk_size size of block
-!> \param blk_offset block offset (indices of first element)
-!> \param tensor_size global tensor sizes
-!> \blk_2 block values for 2 dimensions
-!> \blk_3 block values for 3 dimensions
-! **************************************************************************************************
    SUBROUTINE enumerate_block_elements(blk_size, blk_offset, tensor_size, ${varlist("blk", nmin=2)}$)
+      !! Enumerate tensor entries in block
+      !! \blk_2 block values for 2 dimensions
+      !! \blk_3 block values for 3 dimensions
+
       INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_size, blk_offset, tensor_size
+         !! size of block
+         !! block offset (indices of first element)
+         !! global tensor sizes
 #:for ndim in ndims
       REAL(KIND=real_8), DIMENSION(${shape_colon(ndim)}$), &
          OPTIONAL, INTENT(OUT)                           :: blk_${ndim}$
@@ -522,13 +519,10 @@ CONTAINS
 
 #:for dprec, dparam, dtype, dsuffix in dtype_float_list_prec
 #:for ndim in ndims
-! **************************************************************************************************
-!> \brief Transform a distributed sparse tensor to a replicated dense array. This is only useful for
-!>        testing tensor contraction by matrix multiplication of dense arrays.
-!> \param tensor
-!> \param array
-! **************************************************************************************************
    SUBROUTINE dist_sparse_tensor_to_repl_dense_${ndim}$d_array_${dsuffix}$ (tensor, array)
+      !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
+      !! testing tensor contraction by matrix multiplication of dense arrays.
+
       TYPE(dbcsr_t_type), INTENT(INOUT)                          :: tensor
       ${dtype}$, ALLOCATABLE, DIMENSION(${shape_colon(ndim)}$), &
          INTENT(OUT)                                             :: array
@@ -603,11 +597,6 @@ CONTAINS
 #:endfor
 #:endfor
 
-! **************************************************************************************************
-!> \brief test tensor contraction
-!> \note for testing/debugging, simply replace a call to dbcsr_t_contract with a call to this routine
-!> \param unit_nr
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_contract_test(alpha, tensor_1, tensor_2, beta, tensor_3, &
                                     contract_1, notcontract_1, &
                                     contract_2, notcontract_2, &
@@ -615,6 +604,10 @@ CONTAINS
                                     unit_nr, &
                                     bounds_1, bounds_2, bounds_3, &
                                     log_verbose, write_int)
+      !! test tensor contraction
+      !! @note for testing/debugging, simply replace a call to dbcsr_t_contract with a call to this routine
+      !! @endnote
+
       TYPE(dbcsr_scalar_type), INTENT(IN) :: alpha
       TYPE(dbcsr_t_type), INTENT(INOUT)    :: tensor_1, tensor_2, tensor_3
       TYPE(dbcsr_scalar_type), INTENT(IN) :: beta

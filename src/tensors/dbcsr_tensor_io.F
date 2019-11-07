@@ -41,14 +41,13 @@ MODULE dbcsr_tensor_io
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Write tensor global info: block dimensions, full dimensions and process grid dimensions
-!> \param full_info Whether to print distribution and block size vectors
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_write_tensor_info(tensor, output_unit, full_info)
+      !! Write tensor global info: block dimensions, full dimensions and process grid dimensions
+
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER, INTENT(IN)            :: output_unit
       LOGICAL, OPTIONAL, INTENT(IN)  :: full_info
+         !! Whether to print distribution and block size vectors
       INTEGER, DIMENSION(ndims_tensor(tensor)) :: nblks_total, nfull_total, pdims, my_ploc, nblks_local, nfull_local
       INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("blks_local")}$
       INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("proc_dist")}$
@@ -151,16 +150,15 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Write all tensor blocks
-!> \param io_unit_master for global output
-!> \param io_unit_all for local output
-!> \param write_int convert to integers (useful for testing with integer tensors)
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_write_blocks(tensor, io_unit_master, io_unit_all, write_int)
+      !! Write all tensor blocks
+
       TYPE(dbcsr_t_type), INTENT(INOUT)                  :: tensor
       INTEGER, INTENT(IN)                                :: io_unit_master, io_unit_all
+         !! for global output
+         !! for local output
       LOGICAL, INTENT(IN), OPTIONAL                      :: write_int
+         !! convert to integers (useful for testing with integer tensors)
       INTEGER                                            :: blk
       INTEGER, DIMENSION(ndims_tensor(tensor))          :: blk_index, blk_size
 #:for ndim in ndims

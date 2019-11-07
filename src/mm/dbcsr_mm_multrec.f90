@@ -10,12 +10,11 @@
 #:include '../data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1, normname1 in inst_params_float
 
-! **************************************************************************************************
-!> \brief Applying in-place filtering on the workspace.
-!> \brief Use Frobenius norm
-! **************************************************************************************************
   SUBROUTINE multrec_filtering_${nametype1}$ (filter_eps, nblks, rowi, coli, blkp, &
                                               rbs, cbs, nze, DATA)
+     !! Applying in-place filtering on the workspace.
+     !! \brief Use Frobenius norm
+
      REAL(kind=real_8), INTENT(IN)              :: filter_eps
      INTEGER, INTENT(INOUT)                     :: nblks, nze
      INTEGER, DIMENSION(1:nblks), INTENT(INOUT) :: rowi, coli, blkp
