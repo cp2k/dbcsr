@@ -180,23 +180,20 @@ CONTAINS
       END SUBROUTINE
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Test equivalence of all tensor formats, using a random distribution.
-!> \param ndims tensor rank
-!> \param mp_comm_2d communicator
-!> \param unit_nr output unit, needs to be a valid unit number on all mpi ranks
-!> \param verbose if .TRUE., print all tensor blocks
-!> \param blk_size_1 block sizes along dimension 1
-!> \param blk_ind_1 index along dimension 1 of non-zero blocks
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_test_formats(ndims, mp_comm, unit_nr, verbose, &
                                    ${varlist("blk_size")}$, &
                                    ${varlist("blk_ind")}$)
+      !! Test equivalence of all tensor formats, using a random distribution.
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: ${varlist("blk_size")}$
+         !! block sizes along respective dimension
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: ${varlist("blk_ind")}$
+         !! index along respective dimension of non-zero blocks
       INTEGER, INTENT(IN)                         :: ndims
+         !! tensor rank
       INTEGER, INTENT(IN)                         :: unit_nr
+         !! output unit, needs to be a valid unit number on all mpi ranks
       LOGICAL, INTENT(IN)                         :: verbose
+         !! if .TRUE., print all tensor blocks
       INTEGER, INTENT(IN)                         :: mp_comm
       TYPE(dbcsr_t_distribution_type)             :: dist1, dist2
       TYPE(dbcsr_t_type)                          :: tensor1, tensor2
@@ -394,17 +391,15 @@ CONTAINS
 
    END SUBROUTINE dbcsr_t_random_dist
 
-! **************************************************************************************************
-!> \brief Allocate and fill test tensor - entries are enumerated by their index s.t. they only depend
-!>        on global properties of the tensor but not on distribution, matrix representation, etc.
-!> \param mp_comm communicator
-!> \param blk_ind_1 index along dimension 1 of non-zero blocks
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_setup_test_tensor(tensor, mp_comm, enumerate, ${varlist("blk_ind")}$)
+      !! Allocate and fill test tensor - entries are enumerated by their index s.t. they only depend
+      !! on global properties of the tensor but not on distribution, matrix representation, etc.
       TYPE(dbcsr_t_type), INTENT(INOUT)                  :: tensor
       INTEGER, INTENT(IN)                                :: mp_comm
+         !! communicator
       LOGICAL, INTENT(IN)                                :: enumerate
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: ${varlist("blk_ind")}$
+         !! index along respective dimension of non-zero blocks
       INTEGER                                            :: blk, numnodes, mynode
 
       INTEGER                                            :: i, ib, my_nblks_alloc, nblks_alloc, proc
@@ -562,10 +557,6 @@ CONTAINS
 
 #:for dprec, dparam, dtype, dsuffix in dtype_float_list_prec
 #:for ndim in ndims
-! **************************************************************************************************
-!> \param tensor
-!> \param array
-! **************************************************************************************************
    SUBROUTINE repl_dense_${ndim}$d_array_to_dist_sparse_tensor_${dsuffix}$ (tensor, array)
       TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
       ${dtype}$, ALLOCATABLE, DIMENSION(${shape_colon(ndim)}$), &

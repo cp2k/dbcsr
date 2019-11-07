@@ -7,13 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Higher-level operations on DBCSR matrices.
-!> <b>Modification history:</b>
-!  - Created 2009-05-12
-! **************************************************************************************************
-
 MODULE dbcsr_operations
+   !! Higher-level operations on DBCSR matrices.
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_equality, &
                                 array_get

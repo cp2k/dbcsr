@@ -71,7 +71,7 @@
      IF (PRESENT(lb)) lb_new = lb
      pad = .FALSE.
      IF (PRESENT(zero_pad)) pad = zero_pad
-     !> Creates a new array if it doesn't yet exist.
+     ! Creates a new array if it doesn't yet exist.
      IF (.NOT. ASSOCIATED(array)) THEN
         IF (lb_new /= 1) &
            DBCSR_ABORT("Arrays must start at 1")

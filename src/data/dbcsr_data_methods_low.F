@@ -60,14 +60,14 @@ MODULE dbcsr_data_methods_low
 
    PUBLIC :: internal_data_allocate, internal_data_deallocate
 
-!> \brief Encapsulates a scalar.
    INTERFACE dbcsr_scalar
+      !! Encapsulates a scalar.
       MODULE PROCEDURE dbcsr_scalar_s, dbcsr_scalar_d, &
          dbcsr_scalar_c, dbcsr_scalar_z
    END INTERFACE
 
-!> \brief Encapsulates a scalar.
    INTERFACE dbcsr_scalar_get_value
+      !! Encapsulates a scalar.
       MODULE PROCEDURE dbcsr_scalar_get_value_s, dbcsr_scalar_get_value_d, &
          dbcsr_scalar_get_value_c, dbcsr_scalar_get_value_z
    END INTERFACE

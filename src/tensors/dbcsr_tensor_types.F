@@ -411,22 +411,19 @@ CONTAINS
       CALL mp_comm_free(mp_comm)
    END SUBROUTINE dbcsr_t_nd_mp_free
 
-! **************************************************************************************************
-!> \brief Create a tensor distribution.
-!> \param pgrid process grid
-!> \param map1_2d which nd-indices map to first matrix index and in which order
-!> \param map2_2d which nd-indices map to second matrix index and in which order
-!> \param nd_dist_1 distribution vector for first dimension
-!> \param nd_dist_2 distribution vector for second dimension
-!> \param own_comm whether distribution should own communicator
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_distribution_new(dist, pgrid, map1_2d, map2_2d, ${varlist("nd_dist")}$, own_comm)
-
+      !! Create a tensor distribution.
       TYPE(dbcsr_t_distribution_type), INTENT(OUT)    :: dist
       TYPE(dbcsr_t_pgrid_type), INTENT(IN)            :: pgrid
-      INTEGER, DIMENSION(:), INTENT(IN)               :: map1_2d, map2_2d
+         !! process grid
+      INTEGER, DIMENSION(:), INTENT(IN)               :: map1_2d
+         !! which nd-indices map to first matrix index and in which order
+      INTEGER, DIMENSION(:), INTENT(IN)               :: map2_2d
+         !! which nd-indices map to second matrix index and in which order
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL     :: ${varlist("nd_dist")}$
+         !! distribution vector for first and second dimension
       LOGICAL, INTENT(IN), OPTIONAL                   :: own_comm
+         !! whether distribution should own communicator
       INTEGER                                         :: ndims, comm_2d
       INTEGER, DIMENSION(2)                           :: pdims_2d_check, &
                                                          pdims_2d, task_coor_2d
@@ -571,20 +568,19 @@ CONTAINS
       dbcsr_t_distribution%refcount => dbcsr_t_distribution%refcount
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief create a tensor
-!> \param map1_2d which nd-indices to map to first 2d index and in which order
-!> \param map2_2d which nd-indices to map to first 2d index and in which order
-!> \param blk_size_1 blk sizes in each dimension
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_create_new(tensor, name, dist, map1_2d, map2_2d, data_type, &
                                  ${varlist("blk_size")}$)
+      !! create a tensor
       TYPE(dbcsr_t_type), INTENT(OUT)                   :: tensor
       CHARACTER(len=*), INTENT(IN)                      :: name
       TYPE(dbcsr_t_distribution_type), INTENT(INOUT)    :: dist
-      INTEGER, DIMENSION(:), INTENT(IN)                 :: map1_2d, map2_2d
+      INTEGER, DIMENSION(:), INTENT(IN)                 :: map1_2d
+      !! which nd-indices to map to first 2d index and in which order
+      INTEGER, DIMENSION(:), INTENT(IN)                 :: map2_2d
+      !! which nd-indices to map to first 2d index and in which order
       INTEGER, INTENT(IN), OPTIONAL                     :: data_type
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL       :: ${varlist("blk_size")}$
+      !! blk sizes in each dimension
       INTEGER                                           :: ndims
       INTEGER(KIND=int_8), DIMENSION(2)                             :: dims_2d
       INTEGER, DIMENSION(SIZE(map1_2d) + SIZE(map2_2d)) :: dims, pdims, task_coor
@@ -1067,26 +1063,6 @@ CONTAINS
    END SUBROUTINE
 #:endfor
 
-! **************************************************************************************************
-!> \brief As dbcsr_get_info but for tensors
-!> \param nblks_total number of blocks along each dimension
-!> \param nfull_total number of elements along each dimension
-!> \param nblks_local local number of blocks along each dimension
-!> \param nfull_local local number of elements along each dimension
-!> \param pdims process grid dimensions
-!> \param my_ploc process coordinates in process grid
-!> \param blks_local_1 local blocks along dimension 1
-!> \param blks_local_2 local blocks along dimension 2
-!> \param proc_dist_1 distribution vector along dimension 1
-!> \param proc_dist_2 distribution vector along dimension 2
-!> \param blk_size_1 block sizes along dimension 1
-!> \param blk_size_2 block sizes along dimension 2
-!> \param blk_offset_1 block offsets along dimension 1
-!> \param blk_offset_2 block offsets along dimension 2
-!> \param distribution distribution object
-!> \param name name of tensor
-!> \param data_type data type of tensor
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_get_info(tensor, nblks_total, &
                                nfull_total, &
                                nblks_local, &
@@ -1100,17 +1076,34 @@ CONTAINS
                                distribution, &
                                name, &
                                data_type)
+      !! As dbcsr_get_info but for tensors
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
-      INTEGER, INTENT(OUT), OPTIONAL, DIMENSION(ndims_tensor(tensor)) :: nblks_total, nfull_total, &
-                                                                         nblks_local, nfull_local, &
-                                                                         my_ploc, pdims
+      INTEGER, INTENT(OUT), OPTIONAL, DIMENSION(ndims_tensor(tensor)) :: nblks_total
+         !! number of blocks along each dimension
+      INTEGER, INTENT(OUT), OPTIONAL, DIMENSION(ndims_tensor(tensor)) :: nfull_total
+         !! number of elements along each dimension
+      INTEGER, INTENT(OUT), OPTIONAL, DIMENSION(ndims_tensor(tensor)) :: nblks_local
+         !! local number of blocks along each dimension
+      INTEGER, INTENT(OUT), OPTIONAL, DIMENSION(ndims_tensor(tensor)) :: nfull_local
+         !! local number of elements along each dimension
+      INTEGER, INTENT(OUT), OPTIONAL, DIMENSION(ndims_tensor(tensor)) :: my_ploc
+         !! process coordinates in process grid
+      INTEGER, INTENT(OUT), OPTIONAL, DIMENSION(ndims_tensor(tensor)) :: pdims
+         !! process grid dimensions
       INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: ${varlist("blks_local")}$
+         !! local blocks along dimension 1 and 2
       INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: ${varlist("proc_dist")}$
+         !! distribution vector along dimension 1 and 2
       INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: ${varlist("blk_size")}$
+         !! block sizes along dimension 1 and 2
       INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: ${varlist("blk_offset")}$
-      TYPE(dbcsr_t_distribution_type), INTENT(OUT), OPTIONAL         :: distribution
+         !! block offsets along dimension 1 and 2
+      TYPE(dbcsr_t_distribution_type), INTENT(OUT), OPTIONAL    :: distribution
+         !! distribution object
       CHARACTER(len=*), INTENT(OUT), OPTIONAL                   :: name
+         !! name of tensor
       INTEGER, INTENT(OUT), OPTIONAL                            :: data_type
+         !! data type of tensor
       INTEGER, DIMENSION(ndims_tensor(tensor))                  :: pdims_tmp, my_ploc_tmp
 
       IF (PRESENT(nblks_total)) CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, dims_nd=nblks_total)

@@ -132,13 +132,6 @@ MODULE dbcsr_config
 
 CONTAINS
 
-! **************************************************************************************************
-!> \param avg_elements_images Maximum number of elements for each image
-!> \param num_mult_images Multiplicative factor for number of virtual images
-!> \param nstacks Number of stacks to use
-!> \param use_mpi_rma RMA algorithm
-!> \param num_layers_3D 3D layers
-! **************************************************************************************************
    SUBROUTINE dbcsr_set_config( &
       mm_driver, &
       use_mpi_allocator, &
@@ -164,13 +157,20 @@ CONTAINS
       accdrv_binning_nbins, &
       accdrv_binning_binsize, &
       use_mempools_cpu)
-!
+
       CHARACTER(len=*), INTENT(IN), OPTIONAL             :: mm_driver
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_mpi_allocator
-      INTEGER, INTENT(IN), OPTIONAL                      :: mm_stack_size, avg_elements_images, &
-                                                            num_mult_images, nstacks
+      INTEGER, INTENT(IN), OPTIONAL                      :: avg_elements_images
+         !! Maximum number of elements for each image
+      INTEGER, INTENT(IN), OPTIONAL                      :: num_mult_images
+         !! Multiplicative factor for number of virtual images
+      INTEGER, INTENT(IN), OPTIONAL                      :: nstacks
+         !! Number of stacks to use
+      INTEGER, INTENT(IN), OPTIONAL                      :: mm_stack_size
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_mpi_rma
+         !! use_mpi_rma RMA algorithm
       INTEGER, INTENT(IN), OPTIONAL                      :: num_layers_3D
+         !! num_layers_3D 3D layers
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_comm_thread
       INTEGER, INTENT(IN), OPTIONAL                      :: comm_thread_load
       LOGICAL, INTENT(IN), OPTIONAL                      :: mm_densification

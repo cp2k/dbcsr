@@ -191,29 +191,28 @@ CONTAINS
       CALL dbcsr_t_iterator_stop(iterator)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Write a tensor block
-!> \param name tensor name
-!> \param blk_size block size
-!> \param blk_index block index
-!> \param proc which process am I
-!> \param unit_nr unit number
-!> \param blk_values_2 block values for 2 dimensions
-!> \param write_int convert values to integers
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_write_block(name, blk_size, blk_index, proc, unit_nr, &
                                   ${varlist("blk_values",nmin=2)}$, write_int)
-
+      !! Write a tensor block
       CHARACTER(LEN=*), INTENT(IN)                       :: name
-      INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_size, blk_index
+         !! tensor name
+      INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_size
+         !! block size
+      INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_index
+         !! block index
 #:for ndim in ndims
       REAL(KIND=real_8), &
          DIMENSION(${arrlist("blk_size", nmax=ndim)}$), &
          INTENT(IN), OPTIONAL                            :: blk_values_${ndim}$
+         !! block values for 2 dimensions
 #:endfor
       LOGICAL, INTENT(IN), OPTIONAL                      :: write_int
+         !! write_int convert values to integers
       LOGICAL                                            :: write_int_prv
-      INTEGER, INTENT(IN)                                :: unit_nr, proc
+      INTEGER, INTENT(IN)                                :: unit_nr
+         !! unit number
+      INTEGER, INTENT(IN)                                :: proc
+         !! which process am I
       INTEGER                                            :: ${varlist("i")}$
       INTEGER                                            :: ndim
 

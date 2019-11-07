@@ -7,12 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR iterator operations
-!> <b>Modification history:</b>
-!  - 2010-02-18 Moved from dbcsr_operations and dbcsr_methods
-! **************************************************************************************************
 MODULE dbcsr_iterator_operations
+   !! DBCSR iterator operations
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_exists
    USE dbcsr_data_methods, ONLY: dbcsr_data_hold, &

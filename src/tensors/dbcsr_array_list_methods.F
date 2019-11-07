@@ -73,18 +73,15 @@ CONTAINS
 
    END FUNCTION get_array_elements
 
-! **************************************************************************************************
-!> \brief collects any number of arrays of different sizes into a single array (list%col_data),
-!>        storing the indices that start a new array (list%ptr).
-!> \param list list of arrays
-!> \param ndata number of arrays
-!> \param data_1 array 1
-!> \param data_2 array 2
-! **************************************************************************************************
    SUBROUTINE create_array_list(list, ndata, ${varlist("data")}$)
+      !! collects any number of arrays of different sizes into a single array (list%col_data),
+      !! storing the indices that start a new array (list%ptr).
       TYPE(array_list), INTENT(OUT)               :: list
+         !! list of arrays
       INTEGER, INTENT(IN)                         :: ndata
+         !! number of arrays
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: ${varlist("data")}$
+         !! arrays 1 and 2
       INTEGER                                     :: ptr, size_all
 
       size_all = 0
@@ -140,18 +137,15 @@ CONTAINS
       DEALLOCATE (list%ptr, list%col_data)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Get all arrays contained in list
-!> \param data_1 array 1
-!> \param data_2 array 2
-!> \param i_selected array numbers to retrieve (if not present, all arrays are returned)
-! **************************************************************************************************
    SUBROUTINE get_arrays(list, ${varlist("data")}$, i_selected)
+      !! Get all arrays contained in list
       TYPE(array_list), INTENT(IN)                       :: list
       INTEGER, ALLOCATABLE, DIMENSION(:), INTENT(OUT), &
          OPTIONAL                                        :: ${varlist("data")}$
+         !! arrays 1 and 2
       INTEGER, DIMENSION(:), INTENT(IN), &
          OPTIONAL                                        :: i_selected
+         !! array numbers to retrieve (if not present, all arrays are returned)
       INTEGER                                            :: i, ndata
       INTEGER, DIMENSION(number_of_arrays(list))         :: o
 

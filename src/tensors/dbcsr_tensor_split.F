@@ -56,18 +56,16 @@ MODULE dbcsr_tensor_split
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Split tensor blocks into smaller blocks
-!> \param tensor_in Input tensor
-!> \param tensor_out Output tensor (splitted blocks)
-!> \param block_size_1 block sizes for each of the tensor dimensions
-!> \param nodata don't copy data from tensor_in to tensor_out
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_split_blocks_generic(tensor_in, tensor_out, ${varlist("blk_size")}$, nodata)
+      !! Split tensor blocks into smaller blocks
       TYPE(dbcsr_t_type), INTENT(INOUT)               :: tensor_in
+         !! Input tensor
       TYPE(dbcsr_t_type), INTENT(OUT)                 :: tensor_out
+         !! Output tensor (splitted blocks)
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL     :: ${varlist("blk_size")}$
+         !! block sizes for each of the tensor dimensions
       LOGICAL, INTENT(IN), OPTIONAL                   :: nodata
+         !! don't copy data from tensor_in to tensor_out
 
       TYPE(dbcsr_t_distribution_type)                 :: dist_old, dist_split
       TYPE(dbcsr_t_iterator_type)                     :: iter

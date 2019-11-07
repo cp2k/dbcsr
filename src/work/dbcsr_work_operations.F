@@ -1407,14 +1407,14 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       CALL timeset(routineN, handle)
-      !> \par Outline
 
-      !> Each thread has a work matrix.  These must be merged and made
-      !> into a new index.  If sort_data is False, then the data areas
-      !> are simply appended.  This is probably quicker but the data
-      !> blocks are not in order and the data size may expand beyond
-      !> what is needed.  If sort_data is True, then data blocks are
-      !> sorted in order.
+      ! Outline:
+      ! Each thread has a work matrix.  These must be merged and made
+      ! into a new index.  If sort_data is False, then the data areas
+      ! are simply appended.  This is probably quicker but the data
+      ! blocks are not in order and the data size may expand beyond
+      ! what is needed.  If sort_data is True, then data blocks are
+      ! sorted in order.
 
       IF (dbg) WRITE (*, *) routineN//" starting, sort?", sort_data
 !$OMP     BARRIER
@@ -1675,10 +1675,10 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       CALL timeset(routineN, handle)
-      !> \par Outline
 
-      !> There is a single work matrix.  Data blocks are sorted and copied
-      !> into the matrix data area (which is empty).  The index is made consistent
+      ! Outline:
+      ! There is a single work matrix.  Data blocks are sorted and copied
+      ! into the matrix data area (which is empty).  The index is made consistent
 
       nrows = matrix%nblkrows_total
       wm => matrix%wms(1)

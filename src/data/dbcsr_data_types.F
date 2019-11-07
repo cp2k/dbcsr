@@ -113,12 +113,12 @@ MODULE dbcsr_data_types
       TYPE(acc_event_type)                     :: acc_ready
    END TYPE dbcsr_data_area_type
 
-!> Type definitions:
-!> * bit 0: always 1
-!> * bit 1: single (0: 4) vs. double (1: 1)
-!> * bit 2: real (0) vs. complex (1)
-!> * bit 3: dimension (0: 1, 1: 2)
-!> * bit 4: floating point (0) or integer type (1)
+   ! Type definitions:
+   ! * bit 0: always 1
+   ! * bit 1: single (0: 4) vs. double (1: 1)
+   ! * bit 2: real (0) vs. complex (1)
+   ! * bit 3: dimension (0: 1, 1: 2)
+   ! * bit 4: floating point (0) or integer type (1)
    INTEGER, PARAMETER          :: dbcsr_type_real_4 = 1 !001
    INTEGER, PARAMETER          :: dbcsr_type_real_8 = 3 !011
    INTEGER, PARAMETER          :: dbcsr_type_complex_4 = 5 !101

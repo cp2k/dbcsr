@@ -327,8 +327,8 @@ MODULE dbcsr_mpiwrap
          mp_igatherv_zv
    END INTERFACE
 
-!> todo: move allgatherv to a separate declaration
    INTERFACE mp_allgather
+     !! @todo move allgatherv to a separate declaration
       MODULE PROCEDURE &
          mp_allgather_i, mp_allgather_i2, &
          mp_allgather_i12, mp_allgather_i23, mp_allgather_i34, &

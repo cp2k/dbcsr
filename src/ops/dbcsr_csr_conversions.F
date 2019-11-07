@@ -70,40 +70,33 @@ MODULE dbcsr_csr_conversions
 
    INTEGER, PARAMETER, PUBLIC           :: csr_dbcsr_blkrow_dist = 1, csr_eqrow_ceil_dist = 2, csr_eqrow_floor_dist = 3
 
-! **************************************************************************************************
-!> \brief Mapping data relating local CSR indices to local indices of a block-row
-!>          distributed (BRD) DBCSR matrix, and containing the block structure
-!>          of the original DBCSR matrix from which the CSR matrix was created.
-!> \param csr_to_brd_ind    csr_to_brd_ind(csr_ind) gives the location of a
-!>                          matrix element with CSR index csr_ind (location in
-!>                          nzval_local) inside the data_area of the corresponding
-!>                          BRD matrix. If an element of the DBCSR matrix is
-!>                          treated as 0 in the CSR format, the index of this value
-!>                          is not in csr_to_brd_ind.
-!> \param brd_to_csr_ind    same as csr_to_brd_ind but inverse mapping. If a
-!>                          given DBCSR index dbcsr_ind points to a zero element,
-!>                          then brd_to_csr_ind(dbcsr_ind) is -1.
-!> \param brd_mat DBCSR     BRD matrix acting as an intermediate step in any
-!>                          conversion from and to DBCSR format.
-!> \param dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_nblks_local,
-!>        dbcsr_row_p, dbcsr_col_i, dbcsr_row_blk_size, dbcsr_col_blk_size
-!>                          data from original DBCSR matrix (not block-row
-!>                          distributed), representing the original block
-!>                          structure.
-!> \param has_dbcsr_block_data    whether dbcsr_* fields are defined
-! **************************************************************************************************
    TYPE csr_mapping_data
+      !! Mapping data relating local CSR indices to local indices of a block-row
+      !! distributed (BRD) DBCSR matrix, and containing the block structure
+      !! of the original DBCSR matrix from which the CSR matrix was created.
+
       PRIVATE
       INTEGER, DIMENSION(:), POINTER           :: csr_to_brd_ind => NULL(), &
                                                   brd_to_csr_ind => NULL()
+         !! csr_to_brd_ind(csr_ind) gives the location of a matrix element with CSR index csr_ind (location in nzval_local) inside
+         !! the data_area of the corresponding BRD matrix. If an element of the DBCSR matrix is treated as 0 in the CSR format, the
+         !! index of this value is not in csr_to_brd_ind.
+         !! same as csr_to_brd_ind but inverse mapping. If a given DBCSR index dbcsr_ind points to a zero element, then
+         !! brd_to_csr_ind(dbcsr_ind) is -1.
       TYPE(dbcsr_type)                          :: brd_mat
+         !! DBCSR     BRD matrix acting as an intermediate step in any conversion from and to DBCSR format.
 
       LOGICAL                                  :: has_dbcsr_block_data = .FALSE.
+         !! whether dbcsr_* fields are defined
       INTEGER                                  :: dbcsr_nblkcols_total, &
                                                   dbcsr_nblkrows_total, &
                                                   dbcsr_nblks_local
+         !! data from original DBCSR matrix (not block-row distributed),
+         !! representing the original block structure.
       INTEGER, DIMENSION(:), POINTER           :: dbcsr_row_p, dbcsr_col_i, &
                                                   dbcsr_row_blk_size, dbcsr_col_blk_size
+         !! data from original DBCSR matrix (not block-row distributed),
+         !! representing the original block structure.
    ENDTYPE
 
    TYPE csr_data_area_type

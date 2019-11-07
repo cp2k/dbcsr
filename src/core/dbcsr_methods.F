@@ -538,29 +538,23 @@ CONTAINS
       memory_type = matrix%index_memory_type
    END FUNCTION dbcsr_get_index_memory_type
 
-!! **************************************************************************************************
-!!> \brief Returns whether the matrix uses specially-allocated memory
-!!> \param[in] matrix          query this matrix
-!!> \param[out] uses_special   whether the matrix uses specially allocated
-!!>                            memory
-!! **************************************************************************************************
 !  PURE FUNCTION uses_special_memory_matrix (matrix) RESULT (uses_special)
+!   !! Returns whether the matrix uses specially-allocated memory
 !    TYPE(dbcsr_type), INTENT(IN)              :: matrix
+!       !! query this matrix
 !    LOGICAL                                  :: uses_special
+!       !! whether the matrix uses specially allocated memory
 !
 !    uses_special = matrix%data_memory_type .NE. dbcsr_memory_default
 !  END FUNCTION uses_special_memory_matrix
 !
 !
-!! **************************************************************************************************
-!!> \brief Returns whether the data area uses special-allocated memory
-!!> \param[in] data_area       query this data area
-!!> \param[out] uses_special   whether the data area uses specially allocated
-!!>                            memory
-!! **************************************************************************************************
 !  PURE FUNCTION uses_special_memory_area (area) RESULT (uses_special)
+!    !! Returns whether the data area uses special-allocated memory
 !    TYPE(dbcsr_data_obj), INTENT(IN)         :: area
+!       !! query this data area
 !    LOGICAL                                  :: uses_special
+!       !! whether the data area uses specially allocated memory
 !
 !    IF (ASSOCIATED (area%d)) THEN
 !       uses_special = area%d%memory_type .NE. dbcsr_memory_default

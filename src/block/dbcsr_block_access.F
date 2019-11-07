@@ -7,13 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR block access
-!> <b>Modification history:</b>
-!  - 2010-02-18 Moved from dbcsr_operations and dbcsr_methods
-!  - 2010-04-22 Added block buffer operations
-! **************************************************************************************************
 MODULE dbcsr_block_access
+   !! DBCSR block access
    USE dbcsr_array_types, ONLY: array_data
    USE dbcsr_btree, ONLY: btree_add, &
                           btree_data_cp2d, &
@@ -283,7 +278,7 @@ CONTAINS
 
    SUBROUTINE dbcsr_put_block_area(matrix, row, col, block, lb_row_col, transposed, &
                                    summation, flop, scale)
-      !! !>          We allow :
+      !! We allow :
       !! matrix(dp) [+]= [scale(dp)] * block(dp)
       !! matrix(dp) [+]= [scale(dp)] * block(sp)
       !! matrix(sp) [+]= [scale(dp)] * block(sp)
@@ -548,7 +543,7 @@ CONTAINS
          ! Get current data size
          data_size_old = dbcsr_data_get_size_referenced(matrix%data_area)
       ENDIF
-      !> Ensures that the rows and columns are sorted.
+      ! Ensures that the rows and columns are sorted.
       nblks_added = SIZE(rows)
       ALLOCATE (add_rows(nblks_added))
       add_rows(:) = rows(:)

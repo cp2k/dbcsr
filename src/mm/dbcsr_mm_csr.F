@@ -56,9 +56,8 @@ MODULE dbcsr_mm_csr
    LOGICAL, PARAMETER :: debug_mod = .FALSE.
    LOGICAL, PARAMETER :: careful_mod = .FALSE.
 
-!> \var max_stack_block_size  The maximal block size to be specially
-!>                            treated.
    INTEGER, PARAMETER :: max_stack_block_size = HUGE(INT(0))
+      !!  max_stack_block_size  The maximal block size to be specially treated.
 
 ! **************************************************************************************************
    TYPE dbcsr_mm_csr_type

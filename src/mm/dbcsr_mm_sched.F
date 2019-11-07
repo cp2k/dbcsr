@@ -97,11 +97,8 @@ MODULE dbcsr_mm_sched
       INTEGER(kind=int_4), DIMENSION(64)               :: padding
    END TYPE stats_type
 
-! **************************************************************************************************
-!>  Statistics Counter
-! **************************************************************************************************
-   ! Counters for each thread to collect statistics
    TYPE(stats_type), DIMENSION(:), ALLOCATABLE, TARGET, SAVE :: stats_per_thread
+      !! Counters for each thread to collect statistics
 
 CONTAINS
 
