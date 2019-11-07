@@ -67,7 +67,9 @@
         "Warp_Allocation_Granularity": 2,
         "Max_Thread_Block_Size": 1024,
         "Shared_Memory_Size_Configurations_(bytes)": 65536,
-        "Warp_register_allocation_granularities": 256
+        "Warp_register_allocation_granularities": 256,
+        "Shared_memory_access_latency": 4,
+        "Global_memory_access_latency": 500
     },
     "sm_70": {
         "Compute_Capability": 7.0,
@@ -87,7 +89,9 @@
         "Warp_Allocation_Granularity": 4,
         "Max_Thread_Block_Size": 1024,
         "Shared_Memory_Size_Configurations_(bytes)": 114688,
-        "Warp_register_allocation_granularities": 256
+        "Warp_register_allocation_granularities": 256,
+        "Shared_memory_access_latency": 4,
+        "Global_memory_access_latency": 500
     }
 }
 

@@ -121,6 +121,7 @@ MODULE dbcsr_config
       LOGICAL  :: accdrv_do_inhomogenous = .TRUE.
       INTEGER  :: accdrv_binning_nbins = 4096
       INTEGER  :: accdrv_binning_binsize = 16
+      LOGICAL  :: use_mempools_cpu = .FALSE.
    END TYPE dbcsr_config_type
 
    TYPE(dbcsr_config_type), PROTECTED, SAVE :: dbcsr_cfg = dbcsr_config_type() ! defaults
@@ -164,6 +165,7 @@ CONTAINS
 !> \param accdrv_do_inhomogenous ...
 !> \param accdrv_binning_nbins ...
 !> \param accdrv_binning_binsize ...
+!> \param use_mempools_cpu ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_set_config( &
       mm_driver, &
@@ -188,7 +190,8 @@ CONTAINS
       accdrv_min_flop_sort, &
       accdrv_do_inhomogenous, &
       accdrv_binning_nbins, &
-      accdrv_binning_binsize)
+      accdrv_binning_binsize, &
+      use_mempools_cpu)
 !
       CHARACTER(len=*), INTENT(IN), OPTIONAL             :: mm_driver
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_mpi_allocator
@@ -208,6 +211,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: accdrv_do_inhomogenous
       INTEGER, INTENT(IN), OPTIONAL                      :: accdrv_binning_nbins, &
                                                             accdrv_binning_binsize
+      LOGICAL, INTENT(IN), OPTIONAL                      :: use_mempools_cpu
 
       INTEGER                                            :: nthreads
 
@@ -230,6 +234,7 @@ CONTAINS
       IF (PRESENT(accdrv_do_inhomogenous)) dbcsr_cfg%accdrv_do_inhomogenous = accdrv_do_inhomogenous
       IF (PRESENT(accdrv_binning_nbins)) dbcsr_cfg%accdrv_binning_nbins = accdrv_binning_nbins
       IF (PRESENT(accdrv_binning_binsize)) dbcsr_cfg%accdrv_binning_binsize = accdrv_binning_binsize
+      IF (PRESENT(use_mempools_cpu)) dbcsr_cfg%use_mempools_cpu = use_mempools_cpu
 
       IF (PRESENT(comm_thread_load)) THEN
          dbcsr_cfg%comm_thread_load = comm_thread_load
@@ -300,6 +305,7 @@ CONTAINS
 !> \param accdrv_do_inhomogenous ...
 !> \param accdrv_binning_nbins ...
 !> \param accdrv_binning_binsize ...
+!> \param use_mempools_cpu ...
 ! **************************************************************************************************
    SUBROUTINE dbcsr_get_default_config( &
       use_mpi_allocator, &
@@ -323,7 +329,8 @@ CONTAINS
       accdrv_min_flop_sort, &
       accdrv_do_inhomogenous, &
       accdrv_binning_nbins, &
-      accdrv_binning_binsize)
+      accdrv_binning_binsize, &
+      use_mempools_cpu)
 !
       LOGICAL, INTENT(OUT), OPTIONAL                     :: use_mpi_allocator
       INTEGER, INTENT(OUT), OPTIONAL                     :: mm_stack_size, avg_elements_images, &
@@ -342,6 +349,7 @@ CONTAINS
       LOGICAL, INTENT(OUT), OPTIONAL                     :: accdrv_do_inhomogenous
       INTEGER, INTENT(OUT), OPTIONAL                     :: accdrv_binning_nbins, &
                                                             accdrv_binning_binsize
+      LOGICAL, INTENT(OUT), OPTIONAL                     :: use_mempools_cpu
 
       TYPE(dbcsr_config_type)                            :: default_cfg
       TYPE(dbcsr_data_allocation_type)                   :: default_data_allocation
@@ -367,6 +375,7 @@ CONTAINS
       IF (PRESENT(accdrv_do_inhomogenous)) accdrv_do_inhomogenous = default_cfg%accdrv_do_inhomogenous
       IF (PRESENT(accdrv_binning_nbins)) accdrv_binning_nbins = default_cfg%accdrv_binning_nbins
       IF (PRESENT(accdrv_binning_binsize)) accdrv_binning_binsize = default_cfg%accdrv_binning_binsize
+      IF (PRESENT(use_mempools_cpu)) use_mempools_cpu = default_cfg%use_mempools_cpu
 
       DBCSR_ASSERT(default_cfg%nm_stacks == default_cfg%nn_stacks)
       DBCSR_ASSERT(default_cfg%nm_stacks == default_cfg%nk_stacks)

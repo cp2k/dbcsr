@@ -10,12 +10,12 @@ repos:
   - id: black
     language_version: "python3"
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v2.0.0
+  rev: v2.4.0
   hooks:
   - id: check-ast
     stages: [manual]
     language_version: "python2"
-    exclude: '^src/acc/libsmm_acc/libcusmm/(tune|predict)_'
+    exclude: '^src/acc/libsmm_acc/libcusmm/(tune|predict|notebooks)_'
   - id: flake8
     language_version: "python3"
   - id: check-ast
