@@ -42,24 +42,22 @@ MODULE dbcsr_machine
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief flushes units if the &GLOBAL flag is set accordingly
-!> \note
-!>      flushing might degrade performance significantly (30% and more)
-! **************************************************************************************************
    SUBROUTINE m_flush(lunit)
+      !! flushes units if the &GLOBAL flag is set accordingly
+      !! @note
+      !! flushing might degrade performance significantly (30% and more)
+
       INTEGER, INTENT(IN)                                :: lunit
 
       IF (flush_should_flush) CALL m_flush_internal(lunit)
    END SUBROUTINE
-! **************************************************************************************************
-!> \brief returns time from a real-time clock, protected against rolling
-!>      early/easily
-!> \note
-!>      same implementation for all machines.
-!>      might still roll, if not called multiple times per count_max/count_rate
-! **************************************************************************************************
    FUNCTION m_walltime() RESULT(wt)
+      !! returns time from a real-time clock, protected against rolling
+      !! early/easily
+      !! @note
+      !! same implementation for all machines.
+      !! might still roll, if not called multiple times per count_max/count_rate
+
 #if defined(__LIBXSMM)
       USE libxsmm, ONLY: libxsmm_timer_tick, libxsmm_timer_duration
 #endif
@@ -107,12 +105,11 @@ CONTAINS
 #endif
    END FUNCTION m_walltime
 
-! **************************************************************************************************
-!> \brief reads /proc/cpuinfo if it exists (i.e. Linux) to return relevant info
-!> \param model_name as obtained from the 'model name' field, UNKNOWN otherwise
-! **************************************************************************************************
    SUBROUTINE m_cpuinfo(model_name)
+      !! reads /proc/cpuinfo if it exists (i.e. Linux) to return relevant info
+
       CHARACTER(LEN=default_string_length)               :: model_name
+         !! as obtained from the 'model name' field, UNKNOWN otherwise
 
       INTEGER, PARAMETER                                 :: bufferlen = 2048
 
@@ -137,12 +134,11 @@ CONTAINS
       ENDIF
    END SUBROUTINE m_cpuinfo
 
-! **************************************************************************************************
-!> \brief returns the energy used since some time in the past.
-!>        The precise meaning depends on the infrastructure is available.
-!>        In the cray_pm_energy case, this is the energy used by the node in kJ.
-! **************************************************************************************************
    FUNCTION m_energy() RESULT(wt)
+      !! returns the energy used since some time in the past.
+      !! The precise meaning depends on the infrastructure is available.
+      !! In the cray_pm_energy case, this is the energy used by the node in kJ.
+
       REAL(KIND=dp)                            :: wt
 
 #if defined(__CRAY_PM_ENERGY)

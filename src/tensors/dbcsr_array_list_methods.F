@@ -7,11 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Representation of arbitrary number of 1d integer arrays with arbitrary sizes.
-!> This is needed for generic handling of dimension-specific tensor quantities (such as block index).
-! **************************************************************************************************
 MODULE dbcsr_array_list_methods
+   !! Representation of arbitrary number of 1d integer arrays with arbitrary sizes.
+   !! This is needed for generic handling of dimension-specific tensor quantities (such as block index).
+
 
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
@@ -57,13 +56,12 @@ CONTAINS
 
    END FUNCTION number_of_arrays
 
-! **************************************************************************************************
-!> \brief Get an element for each array.
-!> \param indices element index for each array
-! **************************************************************************************************
    FUNCTION get_array_elements(list, indices)
+      !! Get an element for each array.
+
       TYPE(array_list), INTENT(IN)                           :: list
       INTEGER, DIMENSION(number_of_arrays(list)), INTENT(IN) :: indices
+         !! element index for each array
       INTEGER, DIMENSION(number_of_arrays(list))             :: get_array_elements
 
       INTEGER                                                :: i, ind
@@ -114,14 +112,13 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief extract a subset of arrays
-!> \param list list of arrays
-!> \param i_selected array numbers to retrieve
-! **************************************************************************************************
    FUNCTION array_sublist(list, i_selected)
+      !! extract a subset of arrays
+
       TYPE(array_list), INTENT(IN)                           :: list
+         !! list of arrays
       INTEGER, DIMENSION(:), INTENT(IN)                      :: i_selected
+         !! array numbers to retrieve
       TYPE(array_list)                                       :: array_sublist
       INTEGER :: ndata
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ${varlist("data")}$

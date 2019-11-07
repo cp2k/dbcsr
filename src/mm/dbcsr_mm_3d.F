@@ -7,13 +7,12 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   3D matrix-matrix multiplication.
-!> <b>Modification history:</b>
-!>  - 2016-08    Code organization (Alfio Lazzaro).
-!>  - 2017-02    Remove clusters (Alfio Lazzaro).
-! **************************************************************************************************
 MODULE dbcsr_mm_3d
+   !! 3D matrix-matrix multiplication.
+   !! <b>Modification history:</b>
+   !! - 2016-08    Code organization (Alfio Lazzaro).
+   !! - 2017-02    Remove clusters (Alfio Lazzaro).
+
    USE dbcsr_acc_event, ONLY: acc_event_create, &
                               acc_event_destroy, &
                               acc_event_synchronize
@@ -1129,26 +1128,24 @@ CONTAINS
       ENDIF
    END SUBROUTINE release_layers_3D_C_reduction
 
-! **************************************************************************************************
-!> \brief Multiplies two DBCSR matrices (experimental MPI algorithm).
-!>        This algorithm is experimental and it should be not used in
-!>        production runs.
-!> \param[out] product_matrix      DBCSR product matrix
-!> \param[in] retain_sparsity      (optional) retain the sparsity of the
-!>                                 existing product matrix; default is no
-!> \param[out] flop                (optional) effective flop
-! **************************************************************************************************
    SUBROUTINE multiply_3D(imgdist_left, imgdist_right, &
                           matrix_left, matrix_right, &
                           product_matrix, &
                           retain_sparsity, &
                           filter_eps, flop, keep_product_data)
+      !! Multiplies two DBCSR matrices (experimental MPI algorithm).
+      !! This algorithm is experimental and it should be not used in
+      !! production runs.
+
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist_left, imgdist_right
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_left, matrix_right
       TYPE(dbcsr_type), INTENT(INOUT), TARGET            :: product_matrix
+         !! DBCSR product matrix
       LOGICAL, INTENT(IN), OPTIONAL                      :: retain_sparsity
+         !! retain the sparsity of the existing product matrix; default is no
       REAL(kind=real_8), INTENT(IN), OPTIONAL            :: filter_eps
       INTEGER(KIND=int_8), INTENT(OUT)                   :: flop
+         !! effective flop
       LOGICAL, INTENT(IN)                                :: keep_product_data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'multiply_3D', routineP = moduleN//':'//routineN
@@ -2285,11 +2282,10 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE win_setup
 
-! **************************************************************************************************
-!> \brief Apply reflected order, i.e. row increasing value for odd col value,
-!>                                    row decreasing value for even col value
-! **************************************************************************************************
    SUBROUTINE row_col_3D_reflected(irow3D, icol3D, nrows3D, ncols3D, shift3D)
+      !! Apply reflected order, i.e. row increasing value for odd col value,
+      !! row decreasing value for even col value
+
       INTEGER, INTENT(INOUT)                             :: irow3D, icol3D
       INTEGER, INTENT(IN)                                :: nrows3D, ncols3D, shift3D
 

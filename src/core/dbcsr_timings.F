@@ -65,13 +65,12 @@ CONTAINS
       timestop_hook => timestop_handler
    END SUBROUTINE timings_register_hooks
 
-! **************************************************************************************************
-!> \brief adds the given timer_env to the top of the stack
-!> \note
-!>      for each init_timer_env there should be the symmetric call to
-!>      rm_timer_env
-! **************************************************************************************************
    SUBROUTINE add_timer_env(timer_env)
+      !! adds the given timer_env to the top of the stack
+      !! @note
+      !! for each init_timer_env there should be the symmetric call to
+      !! rm_timer_env
+
       TYPE(timer_env_type), OPTIONAL, POINTER            :: timer_env
 
       TYPE(timer_env_type), POINTER                      :: timer_env_
@@ -104,13 +103,12 @@ CONTAINS
       CALL list_init(timer_env%callstack)
    END SUBROUTINE timer_env_create
 
-! **************************************************************************************************
-!> \brief removes the current timer env from the stack
-!> \note
-!>      for each rm_timer_env there should have been the symmetric call to
-!>      add_timer_env
-! **************************************************************************************************
    SUBROUTINE rm_timer_env()
+      !! removes the current timer env from the stack
+      !! @note
+      !! for each rm_timer_env there should have been the symmetric call to
+      !! add_timer_env
+
       TYPE(timer_env_type), POINTER                      :: timer_env
 
       timer_env => list_pop(timers_stack)
@@ -125,12 +123,11 @@ CONTAINS
       timer_env => list_peek(timers_stack)
    END FUNCTION get_timer_env
 
-! **************************************************************************************************
-!> \brief retains the given timer env
-!> \param timer_env the timer env to retain
-! **************************************************************************************************
    SUBROUTINE timer_env_retain(timer_env)
+      !! retains the given timer env
+
       TYPE(timer_env_type), POINTER                      :: timer_env
+         !! the timer env to retain
 
       IF (.NOT. ASSOCIATED(timer_env)) &
          DBCSR_ABORT("timer_env_retain: not associated")
@@ -139,12 +136,11 @@ CONTAINS
       timer_env%ref_count = timer_env%ref_count + 1
    END SUBROUTINE timer_env_retain
 
-! **************************************************************************************************
-!> \brief releases the given timer env
-!> \param timer_env the timer env to release
-! **************************************************************************************************
    SUBROUTINE timer_env_release(timer_env)
+      !! releases the given timer env
+
       TYPE(timer_env_type), POINTER                      :: timer_env
+         !! the timer env to release
 
       INTEGER                                            :: i
       TYPE(dict_i4tuple_callstat_item_type), &
@@ -349,21 +345,17 @@ CONTAINS
 
    END SUBROUTINE timestop_handler
 
-! **************************************************************************************************
-!> \brief Set routine tracer
-!> \param trace_max  maximum number of calls reported per routine.
-!>           Setting this to zero disables tracing.
-!> \param unit_nr output unit used for printing the trace-messages
-!> \param trace_str short info-string which is printed along with every message
-!> \param routine_names List of routine-names.
-!>                     If provided only these routines will be traced.
-!>                     If not present all routines will traced.
-! **************************************************************************************************
    SUBROUTINE timings_setup_tracing(trace_max, unit_nr, trace_str, routine_names)
+      !! Set routine tracer
+
       INTEGER, INTENT(IN)                                :: trace_max, unit_nr
+         !! maximum number of calls reported per routine. Setting this to zero disables tracing.
+         !! output unit used for printing the trace-messages
       CHARACTER(len=13), INTENT(IN)                      :: trace_str
+         !! short info-string which is printed along with every message
       CHARACTER(len=default_string_length), &
          DIMENSION(:), INTENT(IN), OPTIONAL              :: routine_names
+         !! List of routine-names. If provided only these routines will be traced. If not present all routines will traced.
 
       INTEGER                                            :: i, routine_id
       TYPE(routine_stat_type), POINTER                   :: r_stat
@@ -412,12 +404,11 @@ CONTAINS
 
    END SUBROUTINE print_stack
 
-! **************************************************************************************************
-!> \brief Internal routine used by timeset_handler and timings_setup_tracing.
-!>        If no routine with given name is found in timer_env%routine_names
-!>        then a new entry is created.
-! **************************************************************************************************
    FUNCTION routine_name2id(routineN) RESULT(routine_id)
+      !! Internal routine used by timeset_handler and timings_setup_tracing.
+      !! If no routine with given name is found in timer_env%routine_names
+      !! then a new entry is created.
+
       CHARACTER(LEN=default_string_length), INTENT(IN)   :: routineN
       INTEGER                                            :: routine_id
 

@@ -9,23 +9,22 @@
 
 #:include '../data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
-! **************************************************************************************************
-!> \brief Processes MM stack and issues BLAS xGEMM calls
-!> \param[in] params           Stack of MM parameters
-!> \param[in] stack_size       Number of parameters
-!> \param[in] a_data           Left-matrix data
-!> \param[in] b_data           Right-matrix data
-!> \param[in,out] c_data       Product data
-! **************************************************************************************************
   SUBROUTINE blas_process_mm_stack_${nametype1}$ (params, &
                                                   stack_size, &
                                                   a_data, b_data, c_data)
+     !! Processes MM stack and issues BLAS xGEMM calls
+
      INTEGER, INTENT(IN)                       :: stack_size
+        !! Number of parameters
      INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
         INTENT(IN)                              :: params
+        !! Stack of MM parameters
      ${type1}$, DIMENSION(*), INTENT(IN)         :: a_data, &
         b_data
+        !! Left-matrix data
+        !! Right-matrix data
      ${type1}$, DIMENSION(*), INTENT(INOUT)      :: c_data
+        !! Product data
 
      CHARACTER(len=*), PARAMETER :: routineN = 'blas_process_mm_stack_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -49,22 +48,21 @@
      ENDDO
   END SUBROUTINE blas_process_mm_stack_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Processes MM stack and issues internal MM calls.
-!> \param[in] params           Stack of MM parameters
-!> \param[in] stack_size       Number of parameters
-!> \param[in] a_data           Left-matrix data
-!> \param[in] b_data           Right-matrix data
-!> \param[in,out] c_data       Product data
-! **************************************************************************************************
   SUBROUTINE internal_process_mm_stack_${nametype1}$ (params, stack_size, &
                                                       a_data, b_data, c_data)
+     !! Processes MM stack and issues internal MM calls.
+
      INTEGER, INTENT(IN)                       :: stack_size
+        !! Number of parameters
      INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
         INTENT(IN)                              :: params
+        !! Stack of MM parameters
      ${type1}$, DIMENSION(*), INTENT(IN)         :: a_data, &
         b_data
+        !! Left-matrix data
+        !! Right-matrix data
      ${type1}$, DIMENSION(*), INTENT(INOUT)      :: c_data
+        !! Product data
 
      CHARACTER(len=*), PARAMETER :: routineN = 'internal_process_mm_stack_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -84,24 +82,23 @@
      ENDDO
   END SUBROUTINE internal_process_mm_stack_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Processes MM stack and issues SMM library calls
-!> \param[in] params           Stack of MM parameters
-!> \param[in] stack_size       Number of parameters
-!> \param[in] a_data           Left-matrix data
-!> \param[in] b_data           Right-matrix data
-!> \param[in,out] c_data       Product data
-! **************************************************************************************************
   SUBROUTINE smm_process_mm_stack_${nametype1}$ (stack_descr, params, &
                                                  stack_size, &
                                                  a_data, b_data, c_data, used_smm)
+     !! Processes MM stack and issues SMM library calls
+
      INTEGER, INTENT(IN)                       :: stack_size
+        !! Number of parameters
      TYPE(stack_descriptor_type), INTENT(IN)   :: stack_descr
      INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
         INTENT(IN)                              :: params
+        !! Stack of MM parameters
      ${type1}$, DIMENSION(*), INTENT(IN)         :: a_data, &
         b_data
+        !! Left-matrix data
+        !! Right-matrix data
      ${type1}$, DIMENSION(*), INTENT(INOUT)      :: c_data
+        !! Product data
      LOGICAL, INTENT(OUT)                      :: used_smm
 
      CHARACTER(len=*), PARAMETER :: routineN = 'smm_process_mm_stack_${nametype1}$', &

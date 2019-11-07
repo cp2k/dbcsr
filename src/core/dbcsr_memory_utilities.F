@@ -327,13 +327,12 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_l1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a vector of string variables
-!> \note
-!>      (Maybe outdated) This routine does not work on SUN/Solaris!!!
-!>                       It should probably not be used. (Thomas Chassaing)
-! **************************************************************************************************
    SUBROUTINE reallocate_s1(p_short, lb_new, ub_new, p_long)
+      !! (Re)Allocate a vector of string variables
+      !! @note
+      !! (Maybe outdated) This routine does not work on SUN/Solaris!!!
+      !! It should probably not be used. (Thomas Chassaing)
+
 
       CHARACTER(LEN=default_string_length), &
          DIMENSION(:), OPTIONAL, POINTER                 :: p_short
@@ -353,13 +352,12 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_s1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a vector of string variables of default string length.
-!> \note
-!>      (Maybe outdated) This routine does not work on SUN/Solaris!!!
-!>                       It should probably not be used. (Thomas Chassaing)
-! **************************************************************************************************
    SUBROUTINE reallocate_ss1(p, lb1_new, ub1_new)
+      !! (Re)Allocate a vector of string variables of default string length.
+      !! @note
+      !! (Maybe outdated) This routine does not work on SUN/Solaris!!!
+      !! It should probably not be used. (Thomas Chassaing)
+
 
       CHARACTER(LEN=default_string_length), &
          DIMENSION(:), POINTER                           :: p
@@ -375,13 +373,12 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_ss1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a vector of string variables of default path length.
-!> \note
-!>      (Maybe outdated) This routine does not work on SUN/Solaris!!!
-!>                       It should probably not be used. (Thomas Chassaing)
-! **************************************************************************************************
    SUBROUTINE reallocate_ls1(p, lb1_new, ub1_new)
+      !! (Re)Allocate a vector of string variables of default path length.
+      !! @note
+      !! (Maybe outdated) This routine does not work on SUN/Solaris!!!
+      !! It should probably not be used. (Thomas Chassaing)
+
 
       CHARACTER(LEN=default_path_length), DIMENSION(:), &
          POINTER                                         :: p

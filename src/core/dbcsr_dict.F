@@ -7,16 +7,15 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief A dictionary (also known as hashtable or hashmap).
-!>        Internally the dictionary uses an array to holds its data.
-!>        If this array reaches a load-factor of 75%, a new array with twice the
-!>        size will be allocated and the items are then copied over.
-!>        This ensures that the dictionary will perform operations in O(1).
-! ***************************************************************************************************
 
 #:include 'dbcsr_dict.fypp'
 MODULE dbcsr_dict
+   !! A dictionary (also known as hashtable or hashmap).
+   !! Internally the dictionary uses an array to holds its data.
+   !! If this array reaches a load-factor of 75%, a new array with twice the
+   !! size will be allocated and the items are then copied over.
+   !! This ensures that the dictionary will perform operations in O(1).
+
    USE dbcsr_kinds, ONLY: ${uselist(usekinds)}$
    USE dbcsr_timings_base_type, ONLY: ${uselist(usetimings)}$
 #include "base/dbcsr_base_uses.f90"
@@ -132,13 +131,12 @@ $:fct
 #:endfor
 
 #:for keytype, valuetype, keytype_fort, valuetype_fort, key_assign, value_assign, isequal in inst_params
-! **************************************************************************************************
-!> \brief Allocates the internal data-structures of the given dictionary.
-!> \param initial_capacity The initial size of the internal array (default=11).
-! **************************************************************************************************
    SUBROUTINE dict_${keytype}$_${valuetype}$_init(dict, initial_capacity)
+      !! Allocates the internal data-structures of the given dictionary.
+
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
       INTEGER, INTENT(in), OPTIONAL                         :: initial_capacity
+         !! The initial size of the internal array (default=11).
 
       INTEGER :: initial_capacity_
       initial_capacity_ = 11
@@ -162,12 +160,11 @@ $:fct
       res = ASSOCIATED(dict%buckets)
    END FUNCTION dict_${keytype}$_${valuetype}$_isready
 
-! **************************************************************************************************
-!> \brief Deallocated the internal data-structures if the given dictionary.
-!>        Caution: If the stored keys or values are pointers, their targets will
-!>                 not get deallocated by this routine.
-! **************************************************************************************************
    SUBROUTINE dict_${keytype}$_${valuetype}$_destroy(dict)
+      !! Deallocated the internal data-structures if the given dictionary.
+      !! Caution: If the stored keys or values are pointers, their targets will
+      !! not get deallocated by this routine.
+
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
       TYPE(private_item_type_${keytype}$_${valuetype}$), POINTER  :: item, prev_item
       INTEGER :: i
@@ -316,11 +313,10 @@ $:fct
       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_get: Key not found in dictionary.")
    END FUNCTION dict_${keytype}$_${valuetype}$_get
 
-! **************************************************************************************************
-!> \brief Remove the value for a given key from the dictionary.
-!>        If the key is not found the program stops.
-! **************************************************************************************************
    SUBROUTINE dict_${keytype}$_${valuetype}$_del(dict, key)
+      !! Remove the value for a given key from the dictionary.
+      !! If the key is not found the program stops.
+
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
       ${keytype_fort}$                                        :: key
       TYPE(private_item_type_${keytype}$_${valuetype}$), POINTER                      :: item, prev_item
@@ -423,17 +419,16 @@ $:fct
          DBCSR_ABORT("dict_${keytype}$_${valuetype}$_items: assertion failed!")
    END FUNCTION dict_${keytype}$_${valuetype}$_items
 
-! **************************************************************************************************
-!> \brief Copies all key/values-items from one dictionary to another.
-!>        Afterwards dict will contain all items from the from_dict and
-!>        additionally all its previous items, which were not overwritten.
-!>        The two dictionaries have to be of the same type.
-!> \param dict destination of items
-!> \param from_dict source of items - will not be change
-! **************************************************************************************************
    SUBROUTINE dict_${keytype}$_${valuetype}$_update(dict, from_dict)
+      !! Copies all key/values-items from one dictionary to another.
+      !! Afterwards dict will contain all items from the from_dict and
+      !! additionally all its previous items, which were not overwritten.
+      !! The two dictionaries have to be of the same type.
+
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
+         !! destination of items
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: from_dict
+         !! source of items - will not be change
       TYPE(dict_${keytype}$_${valuetype}$_item_type), dimension(:), &
          POINTER :: from_items
       INTEGER :: i

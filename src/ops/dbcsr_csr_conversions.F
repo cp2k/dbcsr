@@ -106,52 +106,47 @@ MODULE dbcsr_csr_conversions
                                                   dbcsr_row_blk_size, dbcsr_col_blk_size
    ENDTYPE
 
-! **************************************************************************************************
-!> \brief Data type of CSR matrices
-!> \param r_sp            real, single precision data array
-!> \param r_dp            real, double precision data array
-!> \param c_sp            complex, single precision data array
-!> \param c_sp            complex, double precision data array
-!> \param data_type       data type of CSR matrix
-! **************************************************************************************************
    TYPE csr_data_area_type
+      !! Data type of CSR matrices
+
       REAL(KIND=real_4), DIMENSION(:), POINTER      :: r_sp => Null()
+         !! real, single precision data array
       REAL(KIND=real_8), DIMENSION(:), POINTER      :: r_dp => Null()
+         !! real, double precision data array
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER   :: c_sp => Null()
+         !! complex, double precision data array
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER   :: c_dp => Null()
       INTEGER                                       :: data_type = -1
+         !! data type of CSR matrix
    ENDTYPE
 
-! **************************************************************************************************
-!> \brief Type for CSR matrices
-!> \param nrows_total      total number of rows
-!> \param ncols_total      total number of columns
-!> \param nze_total        total number of nonzero elements
-!> \param nze_local        local number of nonzero elements
-!> \param nrows_local      local number of rows
-!> \param nzval_local      values of local non-zero elements, row-wise ordering.
-!> \param rowptr_local     indices of elements inside nzval_local starting a row
-!> \param colind_local     column indices of elements inside nzval_local
-!> \param dbcsr_mapping    mapping data relating indices of nzval_local to indices
-!>                         of a block-row distributed DBCSR matrix
-!> \param has_mapping      whether dbcsr_mapping is defined
-!> \param valid            whether essential data (excluding dbcsr_mapping) is
-!>                         completely allocated
-!> \param has_indices      whether rowptr_local and colind_local are defined
-!> \param mp_group         message-passing group ID
-! **************************************************************************************************
    TYPE csr_type
+      !! Type for CSR matrices
+
       INTEGER                                  :: nrows_total, ncols_total, &
                                                   nze_local, nrows_local, mp_group
+         !! total number of rows
+         !! total number of columns
+         !! local number of nonzero elements
+         !! local number of rows
+         !! message-passing group ID
       INTEGER(KIND=int_8)                      :: nze_total
+         !! total number of nonzero elements
       INTEGER, DIMENSION(:), POINTER           :: rowptr_local => NULL(), &
                                                   colind_local => NULL(), &
                                                   nzerow_local => NULL()
+         !! indices of elements inside nzval_local starting a row
+         !! column indices of elements inside nzval_local
       TYPE(csr_data_area_type)                 :: nzval_local
+         !! values of local non-zero elements, row-wise ordering.
       TYPE(csr_mapping_data)                   :: dbcsr_mapping
+         !! mapping data relating indices of nzval_local to indices of a block-row distributed DBCSR matrix
       LOGICAL                                  :: has_mapping = .FALSE.
+         !! whether dbcsr_mapping is defined
       LOGICAL                                  :: valid = .FALSE.
+         !! whether essential data (excluding dbcsr_mapping) is completely allocated
       LOGICAL                                  :: has_indices = .FALSE.
+         !! whether rowptr_local and colind_local are defined
    ENDTYPE csr_type
 
    TYPE csr_p_type
@@ -172,23 +167,22 @@ MODULE dbcsr_csr_conversions
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Create a new CSR matrix and allocate all internal data (excluding dbcsr_mapping)
-!> \param[out] csr_mat       CSR matrix to return
-!> \param[in] nrows_total    total number of rows
-!> \param[in] ncols_total    total number of columns
-!> \param[in] nze_total      total number of non-zero elements
-!> \param[in] nze_local      local number of non-zero elements
-!> \param[in] nrows_local    local number of rows
-!> \param[in] data_type      data type of the CSR matrix (default real double prec.)
-! **************************************************************************************************
    SUBROUTINE csr_create_new(csr_mat, nrows_total, ncols_total, nze_total, &
                              nze_local, nrows_local, mp_group, data_type)
+      !! Create a new CSR matrix and allocate all internal data (excluding dbcsr_mapping)
+
       TYPE(csr_type), INTENT(OUT)                        :: csr_mat
+         !! CSR matrix to return
       INTEGER, INTENT(IN)                                :: nrows_total, ncols_total
+         !! total number of rows
+         !! total number of columns
       INTEGER(KIND=int_8)                                :: nze_total
+         !! total number of non-zero elements
       INTEGER, INTENT(IN)                                :: nze_local, nrows_local, mp_group
+         !! local number of non-zero elements
+         !! local number of rows
       INTEGER, INTENT(IN), OPTIONAL                      :: data_type
+         !! data type of the CSR matrix (default real double prec.)
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_new', routineP = moduleN//':'//routineN
 
@@ -246,15 +240,14 @@ CONTAINS
 
    END SUBROUTINE csr_create_new
 
-! **************************************************************************************************
-!> \brief Create a new CSR matrix and allocate all internal data using
-!>        an existing CSR matrix. Copies the indices but no actual matrix data.
-!> \param[out] matrix_b Target CSR matrix
-!> \param[int] matrix_a Source CSR matrix
-! **************************************************************************************************
    SUBROUTINE csr_create_template(matrix_b, matrix_a)
+      !! Create a new CSR matrix and allocate all internal data using
+      !! an existing CSR matrix. Copies the indices but no actual matrix data.
+
       TYPE(csr_type), INTENT(OUT)                        :: matrix_b
+         !! Target CSR matrix
       TYPE(csr_type), INTENT(IN)                         :: matrix_a
+         !! Source CSR matrix
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_template', &
                                      routineP = moduleN//':'//routineN
@@ -311,14 +304,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE csr_create_template
 
-! **************************************************************************************************
-!> \brief Copy a CSR matrix.
-!> \param[out] matrix_b Target CSR matrix
-!> \param[in] matrix_a Source CSR matrix
-! **************************************************************************************************
    SUBROUTINE csr_copy(matrix_b, matrix_a)
+      !! Copy a CSR matrix.
+
       TYPE(csr_type), INTENT(OUT)                        :: matrix_b
+         !! Target CSR matrix
       TYPE(csr_type), INTENT(IN)                         :: matrix_a
+         !! Source CSR matrix
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_copy', routineP = moduleN//':'//routineN
 
@@ -365,15 +357,14 @@ CONTAINS
 
    END SUBROUTINE csr_copy
 
-! **************************************************************************************************
-!> \brief create a vector containing the number of non-zero elements in each
-!> row of a CSR matrix
-!> \param[in] csr_mat   CSR matrix
-!> \param[out] nzerow  number of non-zero elements in each row
-! **************************************************************************************************
    SUBROUTINE csr_create_nzerow(csr_mat, nzerow)
+      !! create a vector containing the number of non-zero elements in each
+      !! row of a CSR matrix
+
       TYPE(csr_type), INTENT(IN)                         :: csr_mat
+         !! CSR matrix
       INTEGER, DIMENSION(:), INTENT(INOUT), POINTER      :: nzerow
+         !! number of non-zero elements in each row
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_nzerow', &
                                      routineP = moduleN//':'//routineN
@@ -446,17 +437,16 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE csr_destroy
 
-! **************************************************************************************************
-!> \brief Allocate the internals of a CSR matrix using data from a block-row
-!>        distributed DBCSR matrix
-!> \param[in] brd_mat block-row-distributed DBCSR matrix
-!> \param[out] csr_mat CSR matrix
-!> \param[in] csr_sparsity_brd BRD matrix representing sparsity pattern of CSR matrix
-! **************************************************************************************************
    SUBROUTINE csr_create_from_brd(brd_mat, csr_mat, csr_sparsity_brd)
+      !! Allocate the internals of a CSR matrix using data from a block-row
+      !! distributed DBCSR matrix
+
       TYPE(dbcsr_type), INTENT(IN)                       :: brd_mat
+         !! block-row-distributed DBCSR matrix
       TYPE(csr_type), INTENT(OUT)                        :: csr_mat
+         !! CSR matrix
       TYPE(dbcsr_type), INTENT(IN)                       :: csr_sparsity_brd
+         !! BRD matrix representing sparsity pattern of CSR matrix
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_from_brd', &
                                      routineP = moduleN//':'//routineN
@@ -506,21 +496,20 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE csr_create_from_brd
 
-! **************************************************************************************************
-!> \brief create the mapping information between a block-row distributed DBCSR
-!>        matrix and the corresponding CSR matrix
-!> \param[in] brd_mat          the block-row distributed DBCSR matrix
-!> \param[out] dbcsr_index     csr to dbcsr index mapping
-!> \param[out] csr_index       dbcsr to csr index mapping
-!> \param[out] csr_nze_local   number of local non-zero elements
-!> \param[in] csr_sparsity_brd     sparsity of CSR matrix represented in BRD format
-! **************************************************************************************************
    SUBROUTINE csr_get_dbcsr_mapping(brd_mat, dbcsr_index, csr_index, csr_nze_local, &
                                     csr_sparsity_brd)
+      !! create the mapping information between a block-row distributed DBCSR
+      !! matrix and the corresponding CSR matrix
+
       TYPE(dbcsr_type), INTENT(IN)                       :: brd_mat
+         !! the block-row distributed DBCSR matrix
       INTEGER, DIMENSION(:), INTENT(OUT), POINTER        :: dbcsr_index, csr_index
+         !! csr to dbcsr index mapping
+         !! dbcsr to csr index mapping
       INTEGER, INTENT(OUT)                               :: csr_nze_local
+         !! number of local non-zero elements
       TYPE(dbcsr_type), INTENT(IN)                       :: csr_sparsity_brd
+         !! sparsity of CSR matrix represented in BRD format
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_get_dbcsr_mapping', &
                                      routineP = moduleN//':'//routineN
@@ -637,15 +626,14 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE csr_get_dbcsr_mapping
 
-! **************************************************************************************************
-!> \brief Copies data from a CSR matrix to a block-row distributed DBCSR matrix.
-!>        The DBCSR matrix must have a block structure consistent with the CSR matrix.
-!> \param[in,out] brd_mat    block-row distributed DBCSR matrix
-!> \param[in] csr_mat        CSR matrix
-! **************************************************************************************************
    SUBROUTINE convert_csr_to_brd(brd_mat, csr_mat)
+      !! Copies data from a CSR matrix to a block-row distributed DBCSR matrix.
+      !! The DBCSR matrix must have a block structure consistent with the CSR matrix.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: brd_mat
+         !! block-row distributed DBCSR matrix
       TYPE(csr_type), INTENT(IN)                         :: csr_mat
+         !! CSR matrix
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'convert_csr_to_brd', &
                                      routineP = moduleN//':'//routineN
@@ -687,15 +675,14 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE convert_csr_to_brd
 
-! **************************************************************************************************
-!> \brief Convert a block-row distributed DBCSR matrix to a CSR matrix
-!>        The DBCSR matrix must have a block structure consistent with the CSR matrix.
-!> \param[in] brd_mat        block-row distributed DBCSR matrix
-!> \param[in,out] csr_mat    CSR matrix
-! **************************************************************************************************
    SUBROUTINE convert_brd_to_csr(brd_mat, csr_mat)
+      !! Convert a block-row distributed DBCSR matrix to a CSR matrix
+      !! The DBCSR matrix must have a block structure consistent with the CSR matrix.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: brd_mat
+         !! block-row distributed DBCSR matrix
       TYPE(csr_type), INTENT(INOUT)                      :: csr_mat
+         !! CSR matrix
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'convert_brd_to_csr', &
                                      routineP = moduleN//':'//routineN
@@ -832,30 +819,21 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE convert_brd_to_csr
 
-! **************************************************************************************************
-!> \brief create CSR matrix including dbcsr_mapping from arbitrary DBCSR matrix
-!>        in order to prepare conversion.
-!> \param[in] dist_format     how to distribute CSR rows over processes:
-!>                            csr_dbcsr_blkrow_dist: the number of rows per process
-!>                            is adapted to the row block sizes in the DBCSR format
-!>                            such that blocks are not split over different processes.
-!>                            csr_eqrow_ceil_dist: each process holds ceiling(N/P) CSR rows.
-!>                            csr_eqrow_floor_dist: each process holds floor(N/P) CSR rows.
-!> \param[in] csr_sparsity    DBCSR matrix containing 0 and 1, representing CSR sparsity pattern
-!>                            1: non-zero element
-!>                            0: zero element (not present in CSR format)
-!>                            Note: matrix must be of data_type dbcsr_type_real_4 or
-!>                            dbcsr_type_real_8 (integer types not supported)
-!> \param[in] numnodes        number of nodes to use for distributing CSR matrix
-!>                            (optional, default is number of nodes used for
-!>                            DBCSR matrix)
-! **************************************************************************************************
    SUBROUTINE csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_sparsity, numnodes)
+      !! create CSR matrix including dbcsr_mapping from arbitrary DBCSR matrix
+      !! in order to prepare conversion.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
       TYPE(csr_type), INTENT(OUT)                        :: csr_mat
       INTEGER, INTENT(IN)                                :: dist_format
+         !! how to distribute CSR rows over processes: csr_dbcsr_blkrow_dist: the number of rows per process is adapted to the row
+         !! block sizes in the DBCSR format such that blocks are not split over different processes. csr_eqrow_ceil_dist: each
+         !! process holds ceiling(N/P) CSR rows. csr_eqrow_floor_dist: each process holds floor(N/P) CSR rows.
       TYPE(dbcsr_type), INTENT(IN), OPTIONAL             :: csr_sparsity
+         !! DBCSR matrix containing 0 and 1, representing CSR sparsity pattern 1: non-zero element 0: zero element (not present in
+         !! CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_real_8 (integer types not supported)
       INTEGER, INTENT(IN), OPTIONAL                      :: numnodes
+         !! number of nodes to use for distributing CSR matrix (optional, default is number of nodes used for DBCSR matrix)
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_from_dbcsr', &
                                      routineP = moduleN//':'//routineN
@@ -957,14 +935,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE csr_create_from_dbcsr
 
-! **************************************************************************************************
-!> \brief Helper function to assert that two DBCSR matrices have the same block
-!>        structure and same sparsity pattern
-!> \return whether matrix_a and matrix_b have the same block structure
-! **************************************************************************************************
    FUNCTION dbcsr_has_same_block_structure(matrix_a, matrix_b) RESULT(is_equal)
+      !! Helper function to assert that two DBCSR matrices have the same block
+      !! structure and same sparsity pattern
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a, matrix_b
       LOGICAL                                            :: is_equal
+         !! whether matrix_a and matrix_b have the same block structure
 
       is_equal = .TRUE.
 
@@ -980,11 +957,10 @@ CONTAINS
 
    END FUNCTION dbcsr_has_same_block_structure
 
-! **************************************************************************************************
-!> \brief Helper function to assert that a given CSR matrix and a given DBCSR
-!>        matrix are consistent before doing the conversion
-! **************************************************************************************************
    SUBROUTINE csr_assert_consistency_with_dbcsr(csr_mat, dbcsr_mat)
+      !! Helper function to assert that a given CSR matrix and a given DBCSR
+      !! matrix are consistent before doing the conversion
+
       TYPE(csr_type), INTENT(IN)                         :: csr_mat
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
 
@@ -1025,14 +1001,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE csr_assert_consistency_with_dbcsr
 
-! **************************************************************************************************
-!> \brief Convert a DBCSR matrix to a CSR matrix.
-!> \param[in] dbcsr_mat DBCSR matrix to convert
-!> \param[in,out] csr_mat correctly allocated CSR matrix
-! **************************************************************************************************
    SUBROUTINE convert_dbcsr_to_csr(dbcsr_mat, csr_mat)
+      !! Convert a DBCSR matrix to a CSR matrix.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
+         !! DBCSR matrix to convert
       TYPE(csr_type), INTENT(INOUT)                      :: csr_mat
+         !! correctly allocated CSR matrix
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'convert_dbcsr_to_csr', &
                                      routineP = moduleN//':'//routineN
@@ -1068,15 +1043,14 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE convert_dbcsr_to_csr
 
-! **************************************************************************************************
-!> \brief convert a CSR matrix to a DBCSR matrix
-!> \param[in,out] dbcsr_mat correctly allocated DBCSR matrix
-!> \param[in,out] csr_mat CSR matrix to convert
-! **************************************************************************************************
    SUBROUTINE convert_csr_to_dbcsr(dbcsr_mat, csr_mat)
+      !! convert a CSR matrix to a DBCSR matrix
+
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: dbcsr_mat
+         !! correctly allocated DBCSR matrix
       TYPE(csr_type), INTENT(INOUT)                      :: csr_mat
+         !! CSR matrix to convert
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'convert_csr_to_dbcsr', &
                                      routineP = moduleN//':'//routineN
@@ -1115,11 +1089,10 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE convert_csr_to_dbcsr
 
-! **************************************************************************************************
-!> \brief Apply filtering threshold eps to DBCSR blocks in order to improve
-!>        CSR sparsity (currently only used for testing purposes)
-! **************************************************************************************************
    SUBROUTINE dbcsr_to_csr_filter(dbcsr_mat, csr_sparsity, eps)
+      !! Apply filtering threshold eps to DBCSR blocks in order to improve
+      !! CSR sparsity (currently only used for testing purposes)
+
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
       TYPE(dbcsr_type), INTENT(OUT)                      :: csr_sparsity
       REAL(kind=real_8), INTENT(IN)                      :: eps
@@ -1174,18 +1147,16 @@ CONTAINS
 
    END SUBROUTINE dbcsr_to_csr_filter
 
-! **************************************************************************************************
-!> \brief Write a CSR matrix to file
-!> \param[in] unit_nr           unit number to which output is written
-!> \param[in] upper_triangle    If true (default: false), write only upper
-!>                              triangular part of matrix
-!> \param[in] threshold         threshold on the absolute value of the elements to be printed
-! **************************************************************************************************
    SUBROUTINE csr_write(csr_mat, unit_nr, upper_triangle, threshold, binary)
+      !! Write a CSR matrix to file
+
       TYPE(csr_type), INTENT(IN)                         :: csr_mat
       INTEGER, INTENT(IN)                                :: unit_nr
+         !! unit number to which output is written
       LOGICAL, INTENT(IN), OPTIONAL                      :: upper_triangle
+         !! If true (default: false), write only upper triangular part of matrix
       REAL(KIND=real_8), INTENT(IN), OPTIONAL            :: threshold
+         !! threshold on the absolute value of the elements to be printed
       LOGICAL, INTENT(IN), OPTIONAL                      :: binary
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_write', routineP = moduleN//':'//routineN
@@ -1418,20 +1389,19 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE csr_print_sparsity
 
-! **************************************************************************************************
-!> \brief Converts a DBCSR matrix to a block row distributed matrix.
-!> \param[in] dbcsr_mat        DBCSR matrix to be converted
-!> \param[out] brd_mat         converted matrix
-!> \param[in] equal_dist       see documentation of csr_create_from_dbcsr
-!> \param[in] floor_dist       see documentation of csr_create_from_dbcsr
-!> \param[in] numnodes         number of nodes to use for block row distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_create_brd(dbcsr_mat, brd_mat, equal_dist, floor_dist, numnodes)
+      !! Converts a DBCSR matrix to a block row distributed matrix.
+
 
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
+         !! DBCSR matrix to be converted
       TYPE(dbcsr_type), INTENT(OUT)                      :: brd_mat
+         !! converted matrix
       LOGICAL, INTENT(IN)                                :: equal_dist, floor_dist
+         !! see documentation of csr_create_from_dbcsr
+         !! see documentation of csr_create_from_dbcsr
       INTEGER, INTENT(IN)                                :: numnodes
+         !! number of nodes to use for block row distribution
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_create_brd', &
                                      routineP = moduleN//':'//routineN

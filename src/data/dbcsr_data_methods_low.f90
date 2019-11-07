@@ -9,17 +9,17 @@
 
 #:include 'dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
-! **************************************************************************************************
-!> \brief Sets a data pointer.
-!> \param[inout] area     target data area
-!> \param[in]    p        source data pointer
-!> \par Assumptions
-!>      Assumes that no memory will be lost when repointing the
-!>      pointer in the data area and that the area is initialized.
-! **************************************************************************************************
   SUBROUTINE set_data_p_${nametype1}$ (area, p)
+     !! Sets a data pointer.
+     !!
+     !! Assumptions
+     !! Assumes that no memory will be lost when repointing the
+     !! pointer in the data area and that the area is initialized.
+
      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
+        !! target data area
      ${type1}$, DIMENSION(:), POINTER :: p
+        !! source data pointer
 
      CHARACTER(len=*), PARAMETER :: routineN = 'set_data_p_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -31,17 +31,17 @@
      area%d%${base1}$_${prec1}$ => p
   END SUBROUTINE set_data_p_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Sets a data pointer.
-!> \param[inout] area     target data area
-!> \param[in]    p        source data pointer
-!> \par Assumptions
-!>      Assumes that no memory will be lost when repointing the
-!>      pointer in the data area and that the area is initialized.
-! **************************************************************************************************
   SUBROUTINE set_data_p_2d_${nametype1}$ (area, p)
+     !! Sets a data pointer.
+     !!
+     !! Assumptions
+     !! Assumes that no memory will be lost when repointing the
+     !! pointer in the data area and that the area is initialized.
+
      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
+        !! target data area
      ${type1}$, DIMENSION(:, :), POINTER         :: p
+        !! source data pointer
 
      CHARACTER(len=*), PARAMETER :: routineN = 'set_data_p_2d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -54,23 +54,23 @@
      area%d%${base1}$2_${prec1}$ => p
   END SUBROUTINE set_data_p_2d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Returns the single/double precision real/complex data
-!> \param[in] area       data area
-!> \param[in] select_data_type   force datatype
-!> \param[in] lb         (optional) lower bound for pointer
-!> \param[in] ub         (optional) upper bound for pointer
-!> \return pointer to data
-!> \par Calling
-!>      This routine is hidden behind the dbcsr_get_data interface, hence the
-!>      need for the select_data_type argument.
-!>      see dbcsr_get_data_p_${nametype1}$
-! **************************************************************************************************
   FUNCTION dbcsr_get_data_c_${nametype1}$ (area, select_data_type, lb, ub) RESULT(DATA)
+     !! Returns the single/double precision real/complex data
+     !!
+     !! Calling
+     !! This routine is hidden behind the dbcsr_get_data interface, hence the
+     !! need for the select_data_type argument.
+     !! see dbcsr_get_data_p_${nametype1}$
+
      TYPE(dbcsr_data_obj), INTENT(IN)         :: area
+        !! data area
      ${type1}$, INTENT(IN)            :: select_data_type
+        !! force datatype
      INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
+        !! lower bound for pointer
+        !! upper bound for pointer
      ${type1}$, DIMENSION(:), POINTER :: DATA
+        !! pointer to data
 
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_c_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -107,20 +107,20 @@
      ENDIF
   END FUNCTION dbcsr_get_data_c_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Returns the single/double precision real/complex data
-!> \brief dbcsr_get_data_c_${nametype1}$
-!> \param[in] area       data area
-!> \param[in] lb         (optional) lower bound for pointer
-!> \param[in] ub         (optional) upper bound for pointer
-!> \return pointer to data
-!> \par Calling
-!>      This routine can be called explicitly.
-! **************************************************************************************************
   FUNCTION dbcsr_get_data_p_${nametype1}$ (area, lb, ub) RESULT(DATA)
+     !! Returns the single/double precision real/complex data
+     !! \brief dbcsr_get_data_c_${nametype1}$
+     !!
+     !! Calling
+     !! This routine can be called explicitly.
+
      TYPE(dbcsr_data_obj), INTENT(IN)         :: area
+        !! data area
      ${type1}$, DIMENSION(:), POINTER :: DATA
+        !! pointer to data
      INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
+        !! lower bound for pointer
+        !! upper bound for pointer
 
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_p_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -151,20 +151,20 @@
      ENDIF
   END FUNCTION dbcsr_get_data_p_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Returns the single/double precision real/complex data
-!> \brief dbcsr_get_data_c_${nametype1}$
-!> \param[in] area       data area
-!> \param[in] lb         (optional) lower bound for pointer
-!> \param[in] ub         (optional) upper bound for pointer
-!> \return pointer to data
-!> \par Calling
-!>      This routine can be called explicitly.
-! **************************************************************************************************
   FUNCTION dbcsr_get_data_p_2d_${nametype1}$ (area, lb, ub) RESULT(DATA)
+     !! Returns the single/double precision real/complex data
+     !! \brief dbcsr_get_data_c_${nametype1}$
+     !!
+     !! Calling
+     !! This routine can be called explicitly.
+
      TYPE(dbcsr_data_obj), INTENT(IN)            :: area
+        !! data area
      ${type1}$, DIMENSION(:, :), POINTER            :: DATA
+        !! pointer to data
      INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
+        !! lower bound for pointer
+        !! upper bound for pointer
 
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_p_2d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -199,17 +199,16 @@
      ENDIF
   END FUNCTION dbcsr_get_data_p_2d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Returns the single/double precision real/complex data
-!> \param[in] area       data area
-!> \param[out] DATA pointer to data
-!> \param[in] lb         (optional) lower bound for pointer
-!> \param[in] ub         (optional) upper bound for pointer
-! **************************************************************************************************
   SUBROUTINE get_data_${nametype1}$ (area, DATA, lb, ub)
+     !! Returns the single/double precision real/complex data
+
      TYPE(dbcsr_data_obj), INTENT(IN)  :: area
+        !! data area
      ${type1}$, DIMENSION(:), POINTER    :: DATA
+        !! pointer to data
      INTEGER, INTENT(IN), OPTIONAL     :: lb, ub
+        !! lower bound for pointer
+        !! upper bound for pointer
 
      CHARACTER(len=*), PARAMETER :: routineN = 'get_data_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -240,17 +239,16 @@
      ENDIF
   END SUBROUTINE get_data_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Returns the single/double precision real/complex data
-!> \param[in] area       data area
-!> \param[out] DATA pointer to data
-!> \param[in] lb         (optional) lower bound for pointer
-!> \param[in] ub         (optional) upper bound for pointer
-! **************************************************************************************************
   SUBROUTINE get_data_2d_${nametype1}$ (area, DATA, lb, ub)
+     !! Returns the single/double precision real/complex data
+
      TYPE(dbcsr_data_obj), INTENT(IN)            :: area
+        !! data area
      ${type1}$, DIMENSION(:, :), POINTER            :: DATA
+        !! pointer to data
      INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
+        !! lower bound for pointer
+        !! upper bound for pointer
 
      CHARACTER(len=*), PARAMETER :: routineN = 'get_data_2d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -285,14 +283,13 @@
      ENDIF
   END SUBROUTINE get_data_2d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Sets a scalar in an encapsulated data structure
-!> \param[in] scalar                    scalar to encapsulate
-!> \return encapsulated scalar
-! **************************************************************************************************
   ELEMENTAL FUNCTION dbcsr_scalar_${nametype1}$ (scalar) RESULT(encapsulated_scalar)
+     !! Sets a scalar in an encapsulated data structure
+
      ${type1}$, INTENT(IN)       :: scalar
+        !! scalar to encapsulate
      TYPE(dbcsr_scalar_type)   :: encapsulated_scalar
+        !! encapsulated scalar
 
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scalar_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -303,14 +300,13 @@
      encapsulated_scalar%${base1}$_${prec1}$ = scalar
   END FUNCTION dbcsr_scalar_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Sets a scalar in an encapsulated data structure
-!> \param[in] encapsulated_scalar          encapsulated scalar
-!> \param[out] value                       value of the scalar
-! **************************************************************************************************
   ELEMENTAL SUBROUTINE dbcsr_scalar_get_value_${nametype1}$ (encapsulated_scalar, value)
+     !! Sets a scalar in an encapsulated data structure
+
      TYPE(dbcsr_scalar_type), INTENT(IN) :: encapsulated_scalar
+        !! encapsulated scalar
      ${type1}$, INTENT(OUT)                :: value
+        !! value of the scalar
 
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scalar_get_value_${nametype1}$', &
                                     routineP = moduleN//':'//routineN

@@ -7,11 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief DBCSR tensor framework for block-sparse tensor contraction: Types and create/destroy
-!>        routines.
-! **************************************************************************************************
 MODULE dbcsr_tensor_types
+   !! DBCSR tensor framework for block-sparse tensor contraction: Types and create/destroy
+   !! routines.
+
 
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
@@ -172,18 +171,17 @@ MODULE dbcsr_tensor_types
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Create distribution object for one matrix dimension
-!> \param nd_dist arrays for distribution vectors along all dimensions
-!> \param map_blks tensor to matrix mapping object for blocks
-!> \param map_grid tensor to matrix mapping object for process grid
-!> \param which_dim for which dimension (1 or 2) distribution should be created
-!> \return distribution object
-! **************************************************************************************************
    FUNCTION new_dbcsr_tas_dist_t(nd_dist, map_blks, map_grid, which_dim)
+      !! Create distribution object for one matrix dimension
+      !! \return distribution object
+
       TYPE(array_list), INTENT(IN)       :: nd_dist
+         !! arrays for distribution vectors along all dimensions
       TYPE(nd_to_2d_mapping), INTENT(IN) :: map_blks, map_grid
+         !! tensor to matrix mapping object for blocks
+         !! tensor to matrix mapping object for process grid
       INTEGER, INTENT(IN)                :: which_dim
+         !! for which dimension (1 or 2) distribution should be created
 
       TYPE(dbcsr_tas_dist_t)               :: new_dbcsr_tas_dist_t
       INTEGER, DIMENSION(2)              :: grid_dims
@@ -290,17 +288,16 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Create block size object for one matrix dimension
-!> \param blk_size arrays for block sizes along all dimensions
-!> \param map_blks tensor to matrix mapping object for blocks
-!> \param which_dim for which dimension (1 or 2) distribution should be created
-!> \return block size object
-! **************************************************************************************************
    FUNCTION new_dbcsr_tas_blk_size_t(blk_size, map_blks, which_dim)
+      !! Create block size object for one matrix dimension
+      !! \return block size object
+
       TYPE(array_list), INTENT(IN)                   :: blk_size
+         !! arrays for block sizes along all dimensions
       TYPE(nd_to_2d_mapping), INTENT(IN)             :: map_blks
+         !! tensor to matrix mapping object for blocks
       INTEGER, INTENT(IN) :: which_dim
+         !! for which dimension (1 or 2) distribution should be created
       INTEGER(KIND=int_8), DIMENSION(2) :: matrix_dims
       INTEGER, DIMENSION(:), ALLOCATABLE :: index_map
       TYPE(dbcsr_tas_blk_size_t) :: new_dbcsr_tas_blk_size_t
@@ -339,29 +336,25 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Create a default nd process topology that is consistent with a given 2d topology.
-!>        Purpose: a nd tensor defined on the returned process grid can be represented as a DBCSR
-!>        matrix with the given 2d topology.
-!>        This is needed to enable contraction of 2 tensors (must have the same 2d process grid).
-!> \param comm_2d communicator with 2-dimensional topology
-!> \param map1_2d which nd-indices map to first matrix index and in which order
-!> \param map2_2d which nd-indices map to second matrix index and in which order
-!> \param dims_nd nd dimensions
-!> \param dims1_nd
-!> \param dims2_nd
-!> \param pdims_2d if comm_2d does not have a cartesian topology associated, can input dimensions with
-!>                 pdims_2d
-!> \return with nd cartesian grid
-! **************************************************************************************************
    FUNCTION dbcsr_t_nd_mp_comm(comm_2d, map1_2d, map2_2d, dims_nd, dims1_nd, dims2_nd, pdims_2d)
+      !! Create a default nd process topology that is consistent with a given 2d topology.
+      !! Purpose: a nd tensor defined on the returned process grid can be represented as a DBCSR
+      !! matrix with the given 2d topology.
+      !! This is needed to enable contraction of 2 tensors (must have the same 2d process grid).
+      !! \return with nd cartesian grid
+
       INTEGER, INTENT(IN)                               :: comm_2d
+         !! communicator with 2-dimensional topology
       INTEGER, DIMENSION(:), INTENT(IN)                 :: map1_2d, map2_2d
+         !! which nd-indices map to first matrix index and in which order
+         !! which nd-indices map to second matrix index and in which order
       INTEGER, DIMENSION(SIZE(map1_2d) + SIZE(map2_2d)), &
          INTENT(IN), OPTIONAL                           :: dims_nd
+         !! nd dimensions
       INTEGER, DIMENSION(SIZE(map1_2d)), INTENT(IN), OPTIONAL :: dims1_nd
       INTEGER, DIMENSION(SIZE(map2_2d)), INTENT(IN), OPTIONAL :: dims2_nd
       INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL           :: pdims_2d
+         !! if comm_2d does not have a cartesian topology associated, can input dimensions with pdims_2d
       INTEGER                                           :: ndim1, ndim2
       INTEGER                                           :: numtask
       INTEGER, DIMENSION(2)                             :: dims_2d, task_coor
@@ -551,11 +544,10 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief reference counting for distribution (only needed for communicator handle that must be freed
-!> when no longer needed)
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_distribution_hold(dist)
+      !! reference counting for distribution (only needed for communicator handle that must be freed
+      !! when no longer needed)
+
       TYPE(dbcsr_t_distribution_type), INTENT(IN) :: dist
       INTEGER, POINTER                            :: ref => NULL()
 
@@ -566,11 +558,10 @@ CONTAINS
       ref = ref + 1
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief get distribution from tensor
-!> \return distribution
-! **************************************************************************************************
    FUNCTION dbcsr_t_distribution(tensor)
+      !! get distribution from tensor
+      !! \return distribution
+
       TYPE(dbcsr_t_type), INTENT(IN)  :: tensor
       TYPE(dbcsr_t_distribution_type) :: dbcsr_t_distribution
 
@@ -690,11 +681,10 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief reference counting for tensors (only needed for communicator handle that must be freed
-!> when no longer needed)
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_hold(tensor)
+      !! reference counting for tensors (only needed for communicator handle that must be freed
+      !! when no longer needed)
+
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER, POINTER :: ref => NULL()
 
@@ -909,17 +899,16 @@ CONTAINS
       blk_size(:) = get_array_elements(tensor%blk_sizes, ind)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief offset of tensor block
-!> \param ind block index
-!> \param blk_offset block offset
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_blk_offsets(tensor, ind, blk_offset)
+      !! offset of tensor block
+
       TYPE(dbcsr_t_type), INTENT(IN)              :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
          INTENT(IN)                               :: ind
+         !! block index
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
          INTENT(OUT)                              :: blk_offset
+         !! block offset
 
       DBCSR_ASSERT(tensor%valid)
       blk_offset(:) = get_array_elements(tensor%blk_offsets, ind)
@@ -938,32 +927,31 @@ CONTAINS
       CALL dbcsr_tas_get_stored_coordinates(tensor%matrix_rep, ind_2d(1), ind_2d(2), processor)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Create an n-dimensional process grid.
-!> We can not use a n-dimensional MPI cartesian grid for tensors since the mapping between
-!> n-dim. and 2-dim. index allows for an arbitrary reordering of tensor index. Therefore we can not
-!> use n-dim. MPI Cartesian grid because it may not be consistent with the respective 2d grid.
-!> The 2d Cartesian MPI grid is the reference grid (since tensor data is stored as DBCSR matrix)
-!> and this routine creates an object that is a n-dim. interface to this grid.
-!> map1_2d and map2_2d don't need to be specified (correctly), grid may be redefined in dbcsr_t_distribution_new
-!> Note that pgrid is equivalent to a MPI cartesian grid only if map1_2d and map2_2d don't reorder indices
-!> (which is the case if [map1_2d, map2_2d] == [1, 2, ..., ndims]). Otherwise the mapping of grid
-!> coordinates to processes depends on the ordering of the indices and is not equivalent to a MPI
-!> cartesian grid.
-!> \param mp_comm simple MPI Communicator
-!> \param dims grid dimensions
-!> \param pgrid n-dimensional grid object
-!> \param map1_2d which nd-indices map to first matrix index and in which order
-!> \param map2_2d which nd-indices map to first matrix index and in which order
-!> \param nsplit impose a constant split factor
-!> \param dimsplit which matrix dimension to split
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_pgrid_create(mp_comm, dims, pgrid, map1_2d, map2_2d, nsplit, dimsplit)
+      !! Create an n-dimensional process grid.
+      !! We can not use a n-dimensional MPI cartesian grid for tensors since the mapping between
+      !! n-dim. and 2-dim. index allows for an arbitrary reordering of tensor index. Therefore we can not
+      !! use n-dim. MPI Cartesian grid because it may not be consistent with the respective 2d grid.
+      !! The 2d Cartesian MPI grid is the reference grid (since tensor data is stored as DBCSR matrix)
+      !! and this routine creates an object that is a n-dim. interface to this grid.
+      !! map1_2d and map2_2d don't need to be specified (correctly), grid may be redefined in dbcsr_t_distribution_new
+      !! Note that pgrid is equivalent to a MPI cartesian grid only if map1_2d and map2_2d don't reorder indices
+      !! (which is the case if [map1_2d, map2_2d] == [1, 2, ..., ndims]). Otherwise the mapping of grid
+      !! coordinates to processes depends on the ordering of the indices and is not equivalent to a MPI
+      !! cartesian grid.
+
       INTEGER, INTENT(IN) :: mp_comm
+         !! simple MPI Communicator
       INTEGER, DIMENSION(:), INTENT(INOUT) :: dims
+         !! grid dimensions
       TYPE(dbcsr_t_pgrid_type), INTENT(OUT) :: pgrid
+         !! n-dimensional grid object
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: map1_2d, map2_2d
+         !! which nd-indices map to first matrix index and in which order
+         !! which nd-indices map to first matrix index and in which order
       INTEGER, INTENT(IN), OPTIONAL :: nsplit, dimsplit
+         !! impose a constant split factor
+         !! which matrix dimension to split
       INTEGER :: nproc, iproc, ndims, i, handle
       INTEGER, DIMENSION(2) :: pdims_2d, pos
       INTEGER, DIMENSION(:), ALLOCATABLE :: map1_2d_prv, map2_2d_prv
@@ -1000,13 +988,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief destroy process grid
-!> \param keep_comm if .TRUE. communicator is not freed
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_pgrid_destroy(pgrid, keep_comm)
+      !! destroy process grid
+
       TYPE(dbcsr_t_pgrid_type), INTENT(INOUT) :: pgrid
       LOGICAL, INTENT(IN), OPTIONAL           :: keep_comm
+         !! if .TRUE. communicator is not freed
       LOGICAL :: keep_comm_prv
       IF (PRESENT(keep_comm)) THEN
          keep_comm_prv = keep_comm
@@ -1021,14 +1008,13 @@ CONTAINS
       ENDIF
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief remap a process grid (needed when mapping between tensor and matrix index is changed)
-!> \param map1_2d new mapping
-!> \param map2_2d new mapping
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_pgrid_remap(pgrid_in, map1_2d, map2_2d, pgrid_out)
+      !! remap a process grid (needed when mapping between tensor and matrix index is changed)
+
       TYPE(dbcsr_t_pgrid_type), INTENT(IN) :: pgrid_in
       INTEGER, DIMENSION(:), INTENT(IN) :: map1_2d, map2_2d
+         !! new mapping
+         !! new mapping
       TYPE(dbcsr_t_pgrid_type), INTENT(OUT) :: pgrid_out
       INTEGER, DIMENSION(:), ALLOCATABLE :: dims
       INTEGER, ALLOCATABLE, DIMENSION(:) :: map1_2d_old, map2_2d_old
@@ -1068,11 +1054,9 @@ CONTAINS
 #:endfor
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief As dbcsr_filter
-!> \param use_absolute
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_filter_${dsuffix}$ (tensor, eps, method, use_absolute)
+      !! As dbcsr_filter
+
       TYPE(dbcsr_t_type), INTENT(INOUT)    :: tensor
       ${dtype}$, INTENT(IN)                :: eps
       INTEGER, INTENT(IN), OPTIONAL        :: method
@@ -1181,11 +1165,10 @@ CONTAINS
       CALL dbcsr_tas_clear(tensor%matrix_rep)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Finalize tensor, as dbcsr_finalize. This should be taken care of internally in dbcsr tensors,
-!>        there should not be any need to call this routine outside of dbcsr tensors.
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_finalize(tensor)
+      !! Finalize tensor, as dbcsr_finalize. This should be taken care of internally in dbcsr tensors,
+      !! there should not be any need to call this routine outside of dbcsr tensors.
+
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
       CALL dbcsr_tas_finalize(tensor%matrix_rep)
    END SUBROUTINE

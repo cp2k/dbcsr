@@ -7,12 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Tall-and-skinny matrices: base routines similar to DBCSR API, mostly wrappers around existing
-!>        DBCSR routines.
-! **************************************************************************************************
-
 MODULE dbcsr_tas_base
+   !! Tall-and-skinny matrices: base routines similar to DBCSR API, mostly wrappers around existing
+   !! DBCSR routines.
+
 #:include "dbcsr_tas.fypp"
 
    USE dbcsr_block_access, ONLY: &
@@ -151,20 +149,19 @@ MODULE dbcsr_tas_base
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Create new tall-and-skinny matrix.
-!> Exactly like dbcsr_create_new but with custom types for row_blk_size and col_blk_size instead of
-!> arrays.
-!> \param own_dist whether matrix should own distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_create_new(matrix, name, dist, data_type, &
                                    row_blk_size, col_blk_size, own_dist)
+      !! Create new tall-and-skinny matrix.
+      !! Exactly like dbcsr_create_new but with custom types for row_blk_size and col_blk_size instead of
+      !! arrays.
+
       TYPE(dbcsr_tas_type), INTENT(OUT)              :: matrix
       CHARACTER(len=*), INTENT(IN)                   :: name
       TYPE(dbcsr_tas_distribution_type), INTENT(INOUT) :: dist
       INTEGER, INTENT(IN)                            :: data_type
       CLASS(dbcsr_tas_rowcol_data), INTENT(IN)       :: row_blk_size, col_blk_size
       LOGICAL, INTENT(IN), OPTIONAL                  :: own_dist
+         !! whether matrix should own distribution
 
       TYPE(dbcsr_tas_split_info)                     :: info
 
@@ -275,14 +272,13 @@ CONTAINS
       matrix%valid = .FALSE.
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Copy matrix_a to matrix_b
-!> \param summation Whether to sum matrices b = a + b
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_copy(matrix_b, matrix_a, summation)
+      !! Copy matrix_a to matrix_b
+
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix_b
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix_a
       LOGICAL, INTENT(IN), OPTIONAL                      :: summation
+         !! Whether to sum matrices b = a + b
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_copy', routineP = moduleN//':'//routineN
 
@@ -319,11 +315,10 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Make sure that matrix_out has same blocks reserved as matrix_in. This assumes that both
-!> matrices have same number of block rows and block columns.
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_reserve_blocks_template(matrix_in, matrix_out)
+      !! Make sure that matrix_out has same blocks reserved as matrix_in. This assumes that both
+      !! matrices have same number of block rows and block columns.
+
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix_in
       TYPE(dbcsr_tas_type), INTENT(INOUT) :: matrix_out
       TYPE(dbcsr_tas_iterator)                        :: iter
@@ -352,21 +347,19 @@ CONTAINS
       CALL dbcsr_finalize(matrix%matrix)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief create new distribution.
-!> Exactly like dbcsr_distribution_new but with custom types for row_dist and col_dist instead of
-!> arrays.
-!> \param split_info Strategy of how to split process grid (optional). If not present a default split
-!>        heuristic is applied.
-!> \param nosplit if .TRUE. don't split process grid (optional)
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_distribution_new(dist, mp_comm, &
                                          row_dist, col_dist, split_info, nosplit)
+      !! create new distribution.
+      !! Exactly like dbcsr_distribution_new but with custom types for row_dist and col_dist instead of
+      !! arrays.
+
       TYPE(dbcsr_tas_distribution_type), INTENT(OUT)   :: dist
       INTEGER, INTENT(IN)                              :: mp_comm
       CLASS(dbcsr_tas_distribution), INTENT(IN)        :: row_dist, col_dist
       TYPE(dbcsr_tas_split_info), INTENT(IN), OPTIONAL :: split_info
+         !! Strategy of how to split process grid (optional). If not present a default split heuristic is applied.
       LOGICAL, INTENT(IN), OPTIONAL                    :: nosplit
+         !! if .TRUE. don't split process grid (optional)
       !LOGICAL, INTENT(IN), OPTIONAL                    :: strict_split
 
       TYPE(dbcsr_tas_split_info)                       :: split_info_prv
@@ -460,16 +453,15 @@ CONTAINS
       CALL dbcsr_distribution_release(dist%dbcsr_dist)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief As dbcsr_get_stored_coordinates
-!> \param row global matrix blocked row
-!> \param column global matrix blocked column
-!> \param processor process ID
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_get_stored_coordinates(matrix, row, column, processor)
+      !! As dbcsr_get_stored_coordinates
+
       TYPE(dbcsr_tas_type), INTENT(IN)                   :: matrix
       INTEGER(KIND=int_8), INTENT(IN)                    :: row, column
+         !! global matrix blocked row
+         !! global matrix blocked column
       INTEGER, INTENT(OUT)                               :: processor
+         !! process ID
 
       INTEGER, DIMENSION(2)                              :: pcoord
       TYPE(dbcsr_tas_split_info)                         :: info
@@ -481,16 +473,15 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Get all processors for a given row/col combination if matrix is replicated on each process
-!>        subgroup.
-!> \param matrix tall-and-skinny matrix whose DBCSR submatrices are replicated matrices
-!> \param row row of a submatrix
-!> \param column column of a submatrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_repl_get_stored_coordinates(matrix, row, column, processors)
+      !! Get all processors for a given row/col combination if matrix is replicated on each process
+      !! subgroup.
+
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
+         !! tall-and-skinny matrix whose DBCSR submatrices are replicated matrices
       INTEGER, INTENT(IN)                                :: row, column
+         !! row of a submatrix
+         !! column of a submatrix
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: processors
 
       INTEGER                                            :: igroup
@@ -517,11 +508,10 @@ CONTAINS
       ENDDO
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Convert a tall-and-skinny matrix into a normal DBCSR matrix.
-!>        This is not recommended for matrices with a very large dimension.
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_convert_to_dbcsr(matrix_rect, matrix_dbcsr)
+      !! Convert a tall-and-skinny matrix into a normal DBCSR matrix.
+      !! This is not recommended for matrices with a very large dimension.
+
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix_rect
       TYPE(dbcsr_type), INTENT(OUT)                      :: matrix_dbcsr
 
@@ -607,12 +597,11 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Converts a DBCSR matrix into the tall-and-skinny matrix type.
-!> \param info Strategy of how to split process grid
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_convert_to_tas(info, matrix_rect, matrix_dbcsr)
+      !! Converts a DBCSR matrix into the tall-and-skinny matrix type.
+
       TYPE(dbcsr_tas_split_info), INTENT(IN)               :: info
+         !! Strategy of how to split process grid
       TYPE(dbcsr_tas_type), INTENT(OUT)                    :: matrix_rect
       TYPE(dbcsr_type), INTENT(IN)                         :: matrix_dbcsr
 
@@ -718,15 +707,14 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief As dbcsr_iterator_next_block
-!> \param row global block row
-!> \param column global block column
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_iterator_next_block_index(iterator, row, column, block_number, &
                                                   transposed, blk_p, row_size, col_size)
+      !! As dbcsr_iterator_next_block
+
       TYPE(dbcsr_tas_iterator), INTENT(INOUT)              :: iterator
       INTEGER(KIND=int_8), INTENT(OUT)                   :: row, column
+         !! global block row
+         !! global block column
       INTEGER, INTENT(OUT)                               :: block_number
       LOGICAL, INTENT(OUT), OPTIONAL                     :: transposed
       INTEGER, INTENT(OUT), OPTIONAL                     :: blk_p, row_size, col_size
@@ -827,14 +815,13 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Copy a distribution
-!> \param own_dist Whether distribution should be owned by dist_out
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_copy_distribution(dist_in, dist_out, own_dist)
+      !! Copy a distribution
+
       TYPE(dbcsr_tas_distribution_type), INTENT(INOUT)     :: dist_in
       TYPE(dbcsr_tas_distribution_type), INTENT(OUT)       :: dist_out
       LOGICAL, INTENT(IN), OPTIONAL                      :: own_dist
+         !! Whether distribution should be owned by dist_out
 
       LOGICAL                                            :: own_dist_prv
 

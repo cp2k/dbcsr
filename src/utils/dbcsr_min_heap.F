@@ -140,11 +140,10 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_heap_get_first
 
-! **************************************************************************************************
-!> \brief Returns and removes the first heap element and rebalances
-!>        the heap.
-! **************************************************************************************************
    SUBROUTINE dbcsr_heap_pop(heap, key, value, found)
+      !! Returns and removes the first heap element and rebalances
+      !! the heap.
+
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
       INTEGER(KIND=keyt), INTENT(OUT)                    :: key
       INTEGER(KIND=valt), INTENT(OUT)                    :: value
@@ -164,11 +163,10 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_heap_pop
 
-! **************************************************************************************************
-!> \brief Changes the value of the heap element with given key and
-!>        rebalances the heap.
-! **************************************************************************************************
    SUBROUTINE dbcsr_heap_reset_node(heap, key, value)
+      !! Changes the value of the heap element with given key and
+      !! rebalances the heap.
+
       TYPE(dbcsr_heap_type), INTENT(INOUT)               :: heap
       INTEGER(KIND=keyt), INTENT(IN)                     :: key
       INTEGER(KIND=valt), INTENT(IN)                     :: value

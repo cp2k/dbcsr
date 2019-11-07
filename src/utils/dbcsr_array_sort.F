@@ -9,15 +9,14 @@
 
 #:include 'dbcsr_array_sort.fypp'
 
-! **************************************************************************************************
-!> \brief Routine for sorting an array
-!> \note
-!>      CP2K:
-!>      Please use the interface defined in util.F for calling sort().
-!>      DBCSR:
-!>      Please use the interface defined in dbcsr_toollib.F for calling sort().
-! **************************************************************************************************
 MODULE dbcsr_array_sort
+   !! Routine for sorting an array
+   !! @note
+   !! CP2K:
+   !! Please use the interface defined in util.F for calling sort().
+   !! DBCSR:
+   !! Please use the interface defined in dbcsr_toollib.F for calling sort().
+
 
    USE dbcsr_kinds, ONLY: ${uselist(usekinds)}$
 
@@ -34,17 +33,16 @@ MODULE dbcsr_array_sort
 CONTAINS
 
 #:for nametype1, type1, lessQ in inst_params
-! **************************************************************************************************
-!> \brief Sorts an array inplace using a combination of merge- and bubble-sort.
-!>        It also returns the indices, which the elements had before the sort.
-!> \param arr the array to sort
-!> \param n length of array
-!> \param indices returns elements-indices before the sort
-! **************************************************************************************************
    subroutine dbcsr_1d_${nametype1}$_sort(arr, n, indices)
+      !! Sorts an array inplace using a combination of merge- and bubble-sort.
+      !! It also returns the indices, which the elements had before the sort.
+
       integer, intent(in)                  :: n
+         !! length of array
       ${type1}$, dimension(1:n), intent(inout) :: arr
+         !! the array to sort
       integer, dimension(1:n), intent(out)   :: indices
+         !! returns elements-indices before the sort
 
       integer :: i
       ${type1}$, pointer                   :: tmp_arr(:)
@@ -63,19 +61,18 @@ CONTAINS
 
    end subroutine dbcsr_1d_${nametype1}$_sort
 
-! **************************************************************************************************
-!> \brief The actual sort routine.
-!>            Only dbcsr_1d_${nametype1}$_sort and itself should call this.
-!> \param arr the array to sort
-!> \param indices elements-indices before the sort
-!> \param tmp_arr scratch space
-!> \param tmp_idx scratch space
-! **************************************************************************************************
    recursive subroutine dbcsr_1d_${nametype1}$_sort_low(arr, indices, tmp_arr, tmp_idx)
+      !! The actual sort routine.
+      !! Only dbcsr_1d_${nametype1}$_sort and itself should call this.
+
       ${type1}$, dimension(:), intent(inout) :: arr
+         !! the array to sort
       integer, dimension(size(arr)), intent(inout) :: indices
+         !! elements-indices before the sort
       ${type1}$, dimension((size(arr) + 1)/2), intent(inout) :: tmp_arr
+         !! scratch space
       integer, dimension((size(arr) + 1)/2), intent(inout) :: tmp_idx
+         !! scratch space
       ${type1}$ :: a
       integer :: t, m, i, j, k
       LOGICAL :: swapped

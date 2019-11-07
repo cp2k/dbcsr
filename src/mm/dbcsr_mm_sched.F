@@ -7,17 +7,16 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief  Fourth layer of the dbcsr matrix-matrix multiplication.
-!>         It hides the differences between performing calculations on the
-!>         accelerator device or on the CPU.
-!> <b>Modification history:</b>
-!>  - 2010-02-23 Moved from dbcsr_operations
-!>  - 2011-11    Moved parameter-stack processing routines to
-!>               dbcsr_mm_methods.
-!>  - 2013-01    extensive refactoring (Ole Schuett)
-! **************************************************************************************************
 MODULE dbcsr_mm_sched
+   !! Fourth layer of the dbcsr matrix-matrix multiplication.
+   !! It hides the differences between performing calculations on the
+   !! accelerator device or on the CPU.
+   !! <b>Modification history:</b>
+   !! - 2010-02-23 Moved from dbcsr_operations
+   !! - 2011-11    Moved parameter-stack processing routines to
+   !! dbcsr_mm_methods.
+   !! - 2013-01    extensive refactoring (Ole Schuett)
+
    USE dbcsr_block_operations, ONLY: dbcsr_data_clear
    USE dbcsr_config, ONLY: dbcsr_cfg, &
                            default_resize_factor, &
@@ -404,11 +403,10 @@ CONTAINS
 
       this%product_wm_orig_datasize = newsize
    END SUBROUTINE dbcsr_mm_sched_set_orig_datasize
-! ***************************************************************************************************
-!> \brief Helper-routine used by dbcsr_mm_sched_process to supply statistics.
-! **************************************************************************************************
    SUBROUTINE stats_add(stats, m, n, k, stacksize_cpu, stacksize_smm, stacksize_acc, &
                         nstacks_cpu, nstacks_smm, nstacks_acc)
+      !! Helper-routine used by dbcsr_mm_sched_process to supply statistics.
+
       TYPE(stats_type), INTENT(INOUT)                    :: stats
       INTEGER, INTENT(IN)                                :: m, n, k
       INTEGER(kind=int_8), OPTIONAL                      :: stacksize_cpu, stacksize_smm, &

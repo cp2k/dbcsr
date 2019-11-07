@@ -149,11 +149,10 @@ CONTAINS
       CALL dbcsr_init_lib_low()
    END SUBROUTINE dbcsr_init_lib_hooks
 
-! **************************************************************************************************
-!> \brief Initialize the DBCSR library
-!> Prepares the DBCSR library for use.
-! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib_pre(mp_comm, io_unit)
+      !! Initialize the DBCSR library
+      !! Prepares the DBCSR library for use.
+
 #if defined(__LIBXSMM)
       USE libxsmm, ONLY: libxsmm_init
 #endif
@@ -193,11 +192,10 @@ CONTAINS
 #endif
    END SUBROUTINE dbcsr_init_lib_pre
 
-! **************************************************************************************************
-!> \brief Initialize the DBCSR library
-!> Prepares the DBCSR library for use.
-! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib_low()
+      !! Initialize the DBCSR library
+      !! Prepares the DBCSR library for use.
+
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_low', routineP = moduleN//':'//routineN
 
@@ -237,11 +235,10 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_init_lib_low
 
-! **************************************************************************************************
-!> \brief Finalize the DBCSR library
-!> Cleans up after the DBCSR library.  Used to deallocate persistent objects.
-! **************************************************************************************************
    SUBROUTINE dbcsr_finalize_lib()
+      !! Finalize the DBCSR library
+      !! Cleans up after the DBCSR library.  Used to deallocate persistent objects.
+
 #if defined(__LIBXSMM)
       USE libxsmm, ONLY: libxsmm_finalize
 #endif
@@ -284,11 +281,10 @@ CONTAINS
 #endif
    END SUBROUTINE dbcsr_finalize_lib
 
-! **************************************************************************************************
-!> \brief Show the whole DBCSR statistics
-!> Prepares the DBCSR library for use.
-! **************************************************************************************************
    SUBROUTINE dbcsr_print_statistics(print_timers, callgraph_filename)
+      !! Show the whole DBCSR statistics
+      !! Prepares the DBCSR library for use.
+
       LOGICAL, INTENT(IN), OPTIONAL          :: print_timers
       CHARACTER(len=*), INTENT(IN), OPTIONAL :: callgraph_filename
 

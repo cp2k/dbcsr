@@ -7,15 +7,13 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Global data (distribution and block sizes) for tall-and-skinny matrices
-!> For very sparse matrices with one very large dimension, storing array data of the same size
-!> as the matrix dimensions may require too much memory and we need to compute them on the fly for a
-!> given row or column. Hence global array data such as distribution and block sizes are specified as
-!> function objects, leaving up to the caller how to efficiently store global data.
-! **************************************************************************************************
-
 MODULE dbcsr_tas_global
+   !! Global data (distribution and block sizes) for tall-and-skinny matrices
+   !! For very sparse matrices with one very large dimension, storing array data of the same size
+   !! as the matrix dimensions may require too much memory and we need to compute them on the fly for a
+   !! given row or column. Hence global array data such as distribution and block sizes are specified as
+   !! function objects, leaving up to the caller how to efficiently store global data.
+
 
    USE dbcsr_kinds, ONLY: int_8
 #include "../base/dbcsr_base_uses.f90"
@@ -327,13 +325,12 @@ CONTAINS
       new_dbcsr_tas_dist_arb%nmrowcol = nmrowcol
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Distribution that is more or less cyclic (round robin) and load balanced with different
-!>        weights for each element.
-!>        This is used for creating adhoc distributions whenever matrices are mapped to new grids.
-!>        Only for small dimensions since distribution is created as an array
-! **************************************************************************************************
    FUNCTION dbcsr_tas_dist_arb_default(nprowcol, nmrowcol, block_sizes)
+      !! Distribution that is more or less cyclic (round robin) and load balanced with different
+      !! weights for each element.
+      !! This is used for creating adhoc distributions whenever matrices are mapped to new grids.
+      !! Only for small dimensions since distribution is created as an array
+
       INTEGER                           :: nprowcol
       INTEGER(KIND=int_8), INTENT(IN)   :: nmrowcol
       CLASS(dbcsr_tas_rowcol_data), INTENT(IN) :: block_sizes

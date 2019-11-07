@@ -7,12 +7,11 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Entry point of the dbcsr matrix-matrix multiplication.
-!> <b>Modification history:</b>
-!>  - 2016-08    Code organization (Alfio Lazzaro).
-! **************************************************************************************************
 MODULE dbcsr_mm
+   !! Entry point of the dbcsr matrix-matrix multiplication.
+   !! <b>Modification history:</b>
+   !! - 2016-08    Code organization (Alfio Lazzaro).
+
    USE dbcsr_acc_device, ONLY: dbcsr_acc_clear_errors
    USE dbcsr_acc_init, ONLY: acc_finalize, &
                              acc_init
@@ -322,76 +321,70 @@ CONTAINS
 !$OMP      END MASTER
    END SUBROUTINE dbcsr_multiply_clear_mempools
 
-! **************************************************************************************************
-!> \brief Performs a multiplication of two dbcsr_type matrices,
-!>        as  C := alpha * op( A ) * op( B ) + beta * C.
-!> \param[in] transa specifies the form of op( A ) to be used in
-!>                            the matrix multiplication
-!>                            transa = 'N' or 'n',  op( A ) = A.
-!>                            transa = 'T' or 't',  op( A ) = transpose(A).
-!>                            transa = 'C' or 'c',  op( A ) = transpose(conjg(A)).
-!> \param[in] transb specifies the form of op( B ) to be used in
-!>                            the matrix multiplication
-!>                            transb = 'N' or 'n',  op( B ) = B.
-!>                            transb = 'T' or 't',  op( B ) = transpose(B).
-!>                            transb = 'C' or 'c',  op( B ) = transpose(conjg(B)).
-!> \param[in] alpha           scaling of product
-!> \param[in] matrix_a        left BCSR matrix
-!> \param[in] matrix_b        right BCSR matrix
-!> \param[in] beta            scaling of existing data
-!> \param[out] matrix_c       resulting BCSR product matrix.
-!> \param[in] first_row       (optional) first full row of limiting submatrix
-!> \param[in] last_row        (optional) last full row of limiting submatrix
-!> \param[in] first_column    (optional) first full column of limiting submatrix
-!> \param[in] last_column     (optional) last full column of limiting submatrix
-!> \param[in] first_k         (optional) first full column of limiting inner
-!>                            product
-!> \param[in] last_k          (optional) last full column of limiting inner
-!>                            product
-!> \param[in] retain_sparsity (optional) enforce the sparsity pattern of the
-!>                            existing product matrix; default is no
-!> \param[in] filter_eps      Filtering of the matrix
-!> \param[out] flop           (optional) effective flop
-!> \par Matrices m_a and m_b are multiplied into the m_c product matrix. If the
-!>      dist2d parameter is not specified, then a new distribution_2d is
-!>      determined for it.
-!> \par Non-equal column dimensions of the right and product matrices
-!>      The right and product matrix are allowed to have different
-!>      (full) column dimensions. If they differ, there are certain
-!>      peculiar behaviors, then the last_column is effectively set to
-!>      the minimal of the two.
-!> \par Beta scaling of the right product matrix
-!>      If the effective last_column is less than the full column
-!>      dimension of the product matrix, then the scaling of the
-!>      product matrix with beta is limited to the submatrix specified
-!>      by last_column.
-!> \par Filtering
-!>      The filter_eps parameter, if present, is used to filter the
-!>      resulting matrix.  The filtering criterion is whether the
-!>      block-frobenius norm is less than the specified epsilon.
-!>      One-the-fly filtering is done such that individual
-!>      multiplications are skipped if the product of the frobenius
-!>      norms of the left- and right-matrix blocks are less than the
-!>      specified epsilon divided by the maximum number of possible
-!>      multiplies in each row.  In addition a final filtering is done
-!>      as well with the same epsilon value.
-! **************************************************************************************************
    SUBROUTINE dbcsr_multiply_generic(transa, transb, &
                                      alpha, matrix_a, matrix_b, beta, matrix_c, &
                                      first_row, last_row, first_column, last_column, first_k, last_k, &
                                      retain_sparsity, filter_eps, &
                                      flop)
+      !! Performs a multiplication of two dbcsr_type matrices,
+      !! as  C := alpha * op( A ) * op( B ) + beta * C.
+      !!
+      !! Matrices m_a and m_b are multiplied into the m_c product matrix. If the
+      !! dist2d parameter is not specified, then a new distribution_2d is
+      !! determined for it.
+      !!
+      !! Non-equal column dimensions of the right and product matrices
+      !! The right and product matrix are allowed to have different
+      !! (full) column dimensions. If they differ, there are certain
+      !! peculiar behaviors, then the last_column is effectively set to
+      !! the minimal of the two.
+      !!
+      !! Beta scaling of the right product matrix
+      !! If the effective last_column is less than the full column
+      !! dimension of the product matrix, then the scaling of the
+      !! product matrix with beta is limited to the submatrix specified
+      !! by last_column.
+      !!
+      !! Filtering
+      !! The filter_eps parameter, if present, is used to filter the
+      !! resulting matrix.  The filtering criterion is whether the
+      !! block-frobenius norm is less than the specified epsilon.
+      !! One-the-fly filtering is done such that individual
+      !! multiplications are skipped if the product of the frobenius
+      !! norms of the left- and right-matrix blocks are less than the
+      !! specified epsilon divided by the maximum number of possible
+      !! multiplies in each row.  In addition a final filtering is done
+      !! as well with the same epsilon value.
+
 
       CHARACTER(LEN=1), INTENT(IN)                       :: transa, transb
+         !! specifies the form of op( A ) to be used in the matrix multiplication transa = 'N' or 'n',  op( A ) = A. transa = 'T' or
+         !! 't',  op( A ) = transpose(A). transa = 'C' or 'c',  op( A ) = transpose(conjg(A)).
+         !! specifies the form of op( B ) to be used in the matrix multiplication transb = 'N' or 'n',  op( B ) = B. transb = 'T' or
+         !! 't',  op( B ) = transpose(B). transb = 'C' or 'c',  op( B ) = transpose(conjg(B)).
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: alpha
+         !! scaling of product
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a, matrix_b
+         !! left BCSR matrix
+         !! right BCSR matrix
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: beta
+         !! scaling of existing data
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_c
+         !! resulting BCSR product matrix.
       INTEGER, INTENT(IN), OPTIONAL                      :: first_row, last_row, first_column, &
                                                             last_column, first_k, last_k
+         !! first full row of limiting submatrix
+         !! last full row of limiting submatrix
+         !! first full column of limiting submatrix
+         !! last full column of limiting submatrix
+         !! first full column of limiting inner product
+         !! last full column of limiting inner product
       LOGICAL, INTENT(IN), OPTIONAL                      :: retain_sparsity
+         !! enforce the sparsity pattern of the existing product matrix; default is no
       REAL(KIND=real_8), INTENT(IN), OPTIONAL            :: filter_eps
+         !! Filtering of the matrix
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL         :: flop
+         !! effective flop
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_generic', &
                                      routineP = moduleN//':'//routineN

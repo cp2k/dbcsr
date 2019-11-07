@@ -7,18 +7,17 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief  Fourth layer of the dbcsr matrix-matrix multiplication.
-!>         It hides the differences between performing calculations on the
-!>         accelerator device or on the CPU.
-!> <b>Modification history:</b>
-!>  - 2010-02-23 Moved from dbcsr_operations
-!>  - 2011-11    Moved parameter-stack processing routines to
-!>               dbcsr_mm_methods.
-!>  - 2013-01    extensive refactoring (Ole Schuett)
-!>  - 2014-04    generalized into acc-framework (Ole Schuett)
-! **************************************************************************************************
 MODULE dbcsr_mm_accdrv
+   !! Fourth layer of the dbcsr matrix-matrix multiplication.
+   !! It hides the differences between performing calculations on the
+   !! accelerator device or on the CPU.
+   !! <b>Modification history:</b>
+   !! - 2010-02-23 Moved from dbcsr_operations
+   !! - 2011-11    Moved parameter-stack processing routines to
+   !! dbcsr_mm_methods.
+   !! - 2013-01    extensive refactoring (Ole Schuett)
+   !! - 2014-04    generalized into acc-framework (Ole Schuett)
+
    USE dbcsr_acc_devmem, ONLY: acc_devmem_allocate_bytes, &
                                acc_devmem_allocated, &
                                acc_devmem_deallocate, &
@@ -456,11 +455,10 @@ CONTAINS
       this%phase_out = .TRUE.
    END SUBROUTINE dbcsr_mm_accdrv_phaseout
 
-! **************************************************************************************************
-!> \brief After being called by ALL threads, it installs a special barrier that
-!>        forces the priority-streams to wait for the normal-streams.
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_accdrv_barrier()
+      !! After being called by ALL threads, it installs a special barrier that
+      !! forces the priority-streams to wait for the normal-streams.
+
 
       INTEGER                                            :: i, j, nthreads
 

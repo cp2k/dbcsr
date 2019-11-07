@@ -7,12 +7,11 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Datatypes used by the dbcsr matrix-matrix multiplication machinery.
-!> <b>Modification history:</b>
-!>  - 2013-01    reorganized code (Ole Schuett)
-! **************************************************************************************************
 MODULE dbcsr_mm_types
+   !! Datatypes used by the dbcsr matrix-matrix multiplication machinery.
+   !! <b>Modification history:</b>
+   !! - 2013-01    reorganized code (Ole Schuett)
+
 
    IMPLICIT NONE
 
