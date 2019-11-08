@@ -316,9 +316,9 @@ CONTAINS
       INTEGER                                  :: istat
 
       IF (this%size_in_bytes >= 0) &
-         DBCSR_ABORT("acc_devmem_sep_cptr: already allocated")
+         DBCSR_ABORT("acc_devmem_set_cptr: already allocated")
       IF (pointee%size_in_bytes < 0 .AND. size_in_bytes > 0) &
-         DBCSR_ABORT("acc_devmem_sep_cptr: out-of-bounds")
+         DBCSR_ABORT("acc_devmem_set_cptr: out-of-bounds")
       IF (size_in_bytes > 0) THEN
          IF ((lb_in_bytes + size_in_bytes) .GT. pointee%size_in_bytes) &
             DBCSR_ABORT("acc_devmem_set_cptr: out-of-bounds")

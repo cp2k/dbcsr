@@ -176,6 +176,7 @@ CONTAINS
       TYPE(block_nd), INTENT(IN)         :: block
       INTEGER, ALLOCATABLE, DIMENSION(:) :: block_size
 
+      block_size = 0 ! invalid
       SELECT CASE (block%data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
       CASE (${dparam}$)
