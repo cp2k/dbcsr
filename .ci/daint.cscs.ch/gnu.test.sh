@@ -14,7 +14,7 @@ set -o nounset
 set -o pipefail
 
 module swap PrgEnv-cray PrgEnv-gnu
-module load daint-gpu cudatoolkit CMake/3.12.0
+module load daint-gpu cudatoolkit CMake/3.14.5
 module unload cray-libsci_acc
 module list
 
