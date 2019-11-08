@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <meta name="description" content="Documentation for DBCSR Library">
+   
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_error_handling.F &ndash; DBCSR Library</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR Library </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>dbcsr_error_handling.F
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.2% of total for source files.">129 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_error_handling.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">dbcsr_error_handling.F</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-0">Modules</a></h3></div>
+  <div id="mods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_error_handling.html">dbcsr_error_handling</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/dbcsr_error_handling.f.html#src">dbcsr_error_handling.F</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+      
+      
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-1">Modules</a></h3></div>
+  <div id="mods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_error_handling.html">dbcsr_error_handling</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/dbcsr_error_handling.f.html#src">dbcsr_error_handling.F</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
+<a name="ln-2"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
+<a name="ln-3"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
+<a name="ln-4"></a><span class="c">!                                                                                                  !</span>
+<a name="ln-5"></a><span class="c">! For information on the license, see the LICENSE file.                                            !</span>
+<a name="ln-6"></a><span class="c">! For further information please visit https://dbcsr.cp2k.org                                      !</span>
+<a name="ln-7"></a><span class="c">! SPDX-License-Identifier: GPL-2.0+                                                                !</span>
+<a name="ln-8"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
+<a name="ln-9"></a>
+<a name="ln-10"></a><span class="k">MODULE </span><span class="n">dbcsr_error_handling</span>
+<a name="ln-11"></a>   <span class="c">!! Module that contains the routines for error handling</span>
+<a name="ln-12"></a>   <span class="k">USE </span><span class="n">dbcsr_base_hooks</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_abort_hook</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-13"></a>                               <span class="n">dbcsr_warn_hook</span>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dp</span>
+<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_log_handling</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_logger_get_default_io_unit</span>
+<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-17"></a>                            <span class="n">m_flush</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-18"></a>                            <span class="n">m_walltime</span>
+<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">mp_abort</span>
+<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_print_messages</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">print_message</span>
+<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_timings</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">print_stack</span>
+<a name="ln-22"></a>
+<a name="ln-23"></a><span class="c">!$ USE OMP_LIB, ONLY: omp_get_thread_num</span>
+<a name="ln-24"></a>
+<a name="ln-25"></a>   <span class="k">IMPLICIT NONE</span>
+<a name="ln-26"></a><span class="k">   PRIVATE</span>
+<a name="ln-27"></a>
+<a name="ln-28"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">moduleN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_error_handling&#39;</span>
+<a name="ln-29"></a>
+<a name="ln-30"></a>   <span class="c">!API public routines</span>
+<a name="ln-31"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_error_handling_setup</span>
+<a name="ln-32"></a>
+<a name="ln-33"></a>   <span class="c">!API (via pointer assignment to hook, PR67982, not meant to be called directly)</span>
+<a name="ln-34"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_abort_handler</span><span class="p">,</span> <span class="n">dbcsr_warn_handler</span>
+<a name="ln-35"></a>
+<a name="ln-36"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PUBLIC</span><span class="p">,</span> <span class="k">SAVE</span> <span class="kd">::</span> <span class="n">warning_counter</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-37"></a>
+<a name="ln-38"></a><span class="k">CONTAINS</span>
+<a name="ln-39"></a>
+<a name="ln-40"></a><span class="k">   SUBROUTINE </span><span class="n">dbcsr_error_handling_setup</span><span class="p">()</span>
+<a name="ln-41"></a>      <span class="c">!! Registers handlers with base_hooks.F</span>
+<a name="ln-42"></a>      <span class="n">dbcsr_abort_hook</span> <span class="o">=&gt;</span> <span class="n">dbcsr_abort_handler</span>
+<a name="ln-43"></a>      <span class="n">dbcsr_warn_hook</span> <span class="o">=&gt;</span> <span class="n">dbcsr_warn_handler</span>
+<a name="ln-44"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_error_handling_setup</span>
+<a name="ln-45"></a>
+<a name="ln-46"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_abort_handler</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+<a name="ln-47"></a>      <span class="c">!! Abort program with error message</span>
+<a name="ln-48"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">location</span><span class="p">,</span> <span class="n">message</span>
+<a name="ln-49"></a>
+<a name="ln-50"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">unit_nr</span>
+<a name="ln-51"></a>
+<a name="ln-52"></a>      <span class="k">CALL </span><span class="n">delay_non_master</span><span class="p">()</span> <span class="c">! cleaner output if all ranks abort simultaneously</span>
+<a name="ln-53"></a>
+<a name="ln-54"></a>      <span class="n">unit_nr</span> <span class="o">=</span> <span class="n">dbcsr_logger_get_default_io_unit</span><span class="p">()</span>
+<a name="ln-55"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">unit_nr</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-56"></a>         <span class="n">unit_nr</span> <span class="o">=</span> <span class="n">default_output_unit</span> <span class="c">! fall back to stdout</span>
+<a name="ln-57"></a>
+<a name="ln-58"></a>      <span class="k">CALL </span><span class="n">print_abort_message</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">unit_nr</span><span class="p">)</span>
+<a name="ln-59"></a>      <span class="k">CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span>
+<a name="ln-60"></a>      <span class="k">CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span>
+<a name="ln-61"></a>
+<a name="ln-62"></a>      <span class="k">CALL </span><span class="n">mp_abort</span><span class="p">()</span>
+<a name="ln-63"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_abort_handler</span>
+<a name="ln-64"></a>
+<a name="ln-65"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_warn_handler</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+<a name="ln-66"></a>      <span class="c">!! Signal a warning</span>
+<a name="ln-67"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">location</span><span class="p">,</span> <span class="n">message</span>
+<a name="ln-68"></a>
+<a name="ln-69"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">unit_nr</span>
+<a name="ln-70"></a>
+<a name="ln-71"></a><span class="c">!$OMP MASTER</span>
+<a name="ln-72"></a>      <span class="n">warning_counter</span> <span class="o">=</span> <span class="n">warning_counter</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-73"></a><span class="c">!$OMP END MASTER</span>
+<a name="ln-74"></a>
+<a name="ln-75"></a>      <span class="n">unit_nr</span> <span class="o">=</span> <span class="n">dbcsr_logger_get_default_io_unit</span><span class="p">()</span>
+<a name="ln-76"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">unit_nr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-77"></a><span class="k">         CALL </span><span class="n">print_message</span><span class="p">(</span><span class="s2">&quot;WARNING in &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">location</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39; :: &#39;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="nb">ADJUSTL</span><span class="p">(</span><span class="n">message</span><span class="p">)),</span> <span class="n">unit_nr</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-78"></a>         <span class="k">CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span>
+<a name="ln-79"></a>      <span class="n">ENDIF</span>
+<a name="ln-80"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_warn_handler</span>
+<a name="ln-81"></a>
+<a name="ln-82"></a>   <span class="k">SUBROUTINE </span><span class="n">delay_non_master</span><span class="p">()</span>
+<a name="ln-83"></a>      <span class="c">!! Delay non-master ranks/threads, used by dbcsr_abort_handler()</span>
+<a name="ln-84"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">unit_nr</span>
+<a name="ln-85"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">t1</span><span class="p">,</span> <span class="n">wait_time</span>
+<a name="ln-86"></a>
+<a name="ln-87"></a>      <span class="n">wait_time</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
+<a name="ln-88"></a>
+<a name="ln-89"></a>      <span class="c">! we (ab)use the logger to determine the first MPI rank</span>
+<a name="ln-90"></a>      <span class="n">unit_nr</span> <span class="o">=</span> <span class="n">dbcsr_logger_get_default_io_unit</span><span class="p">()</span>
+<a name="ln-91"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">unit_nr</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-92"></a>         <span class="n">wait_time</span> <span class="o">=</span> <span class="n">wait_time</span> <span class="o">+</span> <span class="mf">1.0_dp</span> <span class="c">! rank-0 gets a head start of one second.</span>
+<a name="ln-93"></a>
+<a name="ln-94"></a><span class="c">!$    IF (omp_get_thread_num() /= 0) &amp;</span>
+<a name="ln-95"></a><span class="c">!$       wait_time = wait_time + 1.0_dp ! master threads gets another second</span>
+<a name="ln-96"></a>
+<a name="ln-97"></a>      <span class="c">! sleep</span>
+<a name="ln-98"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">wait_time</span> <span class="o">&gt;</span> <span class="mf">0.0_dp</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-99"></a><span class="k">         </span><span class="n">t1</span> <span class="o">=</span> <span class="n">m_walltime</span><span class="p">()</span>
+<a name="ln-100"></a>         <span class="k">DO</span>
+<a name="ln-101"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">m_walltime</span><span class="p">()</span> <span class="o">-</span> <span class="n">t1</span> <span class="o">&gt;</span> <span class="n">wait_time</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">t1</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">EXIT</span>
+<a name="ln-102"></a><span class="k">         </span><span class="n">ENDDO</span>
+<a name="ln-103"></a>      <span class="n">ENDIF</span>
+<a name="ln-104"></a>
+<a name="ln-105"></a>   <span class="k">END SUBROUTINE </span><span class="n">delay_non_master</span>
+<a name="ln-106"></a>
+<a name="ln-107"></a>   <span class="k">SUBROUTINE </span><span class="n">print_abort_message</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">output_unit</span><span class="p">)</span>
+<a name="ln-108"></a>      <span class="c">!! Prints a nicely formatted abort message box</span>
+<a name="ln-109"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">message</span><span class="p">,</span> <span class="n">location</span>
+<a name="ln-110"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">output_unit</span>
+<a name="ln-111"></a>
+<a name="ln-112"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">img</span> <span class="o">=</span> <span class="s2">&quot;   ___   &quot;</span><span class="o">//</span><span class="s2">&quot;  /   \  &quot;</span><span class="o">//</span><span class="s2">&quot; [ABORT] &quot;</span><span class="o">//</span><span class="s2">&quot;  \___/  &quot;</span><span class="o">//</span> <span class="p">&amp;</span>
+<a name="ln-113"></a>                                     <span class="s2">&quot;    |    &quot;</span><span class="o">//</span><span class="s2">&quot;  O/|    &quot;</span><span class="o">//</span><span class="s2">&quot; /| |    &quot;</span><span class="o">//</span><span class="s2">&quot; / \     &quot;</span>
+<a name="ln-114"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">img_height</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">img_width</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">screen_width</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-115"></a>                            <span class="n">txt_width</span> <span class="o">=</span> <span class="n">screen_width</span> <span class="o">-</span> <span class="n">img_width</span> <span class="o">-</span> <span class="mi">5</span>
+<a name="ln-116"></a>
+<a name="ln-117"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">screen_width</span><span class="p">)</span>                        <span class="kd">::</span> <span class="n">msg_line</span>
+<a name="ln-118"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">fill</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">img_start</span><span class="p">,</span> <span class="n">indent</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-119"></a>                                                            <span class="n">msg_height</span><span class="p">,</span> <span class="n">msg_start</span>
+<a name="ln-120"></a>
+<a name="ln-121"></a><span class="c">! count message lines</span>
+<a name="ln-122"></a>
+<a name="ln-123"></a>      <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">msg_height</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-124"></a>      <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">b</span> <span class="o">&lt;</span> <span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
+<a name="ln-125"></a>         <span class="n">b</span> <span class="o">=</span> <span class="n">next_linebreak</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">txt_width</span><span class="p">)</span>
+<a name="ln-126"></a>         <span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-127"></a>         <span class="n">msg_height</span> <span class="o">=</span> <span class="n">msg_height</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-128"></a>      <span class="n">ENDDO</span>
+<a name="ln-129"></a>
+<a name="ln-130"></a>      <span class="c">! calculate message and image starting lines</span>
+<a name="ln-131"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">img_height</span> <span class="o">&gt;</span> <span class="n">msg_height</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-132"></a><span class="k">         </span><span class="n">msg_start</span> <span class="o">=</span> <span class="p">(</span><span class="n">img_height</span> <span class="o">-</span> <span class="n">msg_height</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-133"></a>         <span class="n">img_start</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-134"></a>      <span class="k">ELSE</span>
+<a name="ln-135"></a><span class="k">         </span><span class="n">msg_start</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-136"></a>         <span class="n">img_start</span> <span class="o">=</span> <span class="n">msg_height</span> <span class="o">-</span> <span class="n">img_height</span> <span class="o">+</span> <span class="mi">2</span>
+<a name="ln-137"></a>      <span class="n">ENDIF</span>
+<a name="ln-138"></a>
+<a name="ln-139"></a>      <span class="c">! print empty line</span>
+<a name="ln-140"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">)</span> <span class="s2">&quot;&quot;</span>
+<a name="ln-141"></a>
+<a name="ln-142"></a>      <span class="c">! print opening line</span>
+<a name="ln-143"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A)&quot;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">screen_width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-144"></a>
+<a name="ln-145"></a>      <span class="c">! print body</span>
+<a name="ln-146"></a>      <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-147"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">img_height</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">msg_height</span><span class="p">)</span>
+<a name="ln-148"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="s2">&quot; *&quot;</span>
+<a name="ln-149"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">img_start</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-150"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">img_width</span><span class="p">)</span>
+<a name="ln-151"></a>         <span class="k">ELSE</span>
+<a name="ln-152"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="n">img</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="n">c</span> <span class="o">+</span> <span class="n">img_width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-153"></a>            <span class="n">c</span> <span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="n">img_width</span>
+<a name="ln-154"></a>         <span class="n">ENDIF</span>
+<a name="ln-155"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">msg_start</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-156"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">txt_width</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<a name="ln-157"></a>         <span class="k">ELSE</span>
+<a name="ln-158"></a><span class="k">            </span><span class="n">b</span> <span class="o">=</span> <span class="n">next_linebreak</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">txt_width</span><span class="p">)</span>
+<a name="ln-159"></a>            <span class="n">msg_line</span> <span class="o">=</span> <span class="n">message</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="n">b</span><span class="p">)</span>
+<a name="ln-160"></a>            <span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-161"></a>            <span class="n">fill</span> <span class="o">=</span> <span class="p">(</span><span class="n">txt_width</span> <span class="o">-</span> <span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">msg_line</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-162"></a>            <span class="n">indent</span> <span class="o">=</span> <span class="n">txt_width</span> <span class="o">-</span> <span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">msg_line</span><span class="p">)</span> <span class="o">-</span> <span class="n">fill</span> <span class="o">+</span> <span class="mi">2</span>
+<a name="ln-163"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">indent</span><span class="p">)</span>
+<a name="ln-164"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">msg_line</span><span class="p">)</span>
+<a name="ln-165"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">fill</span><span class="p">)</span>
+<a name="ln-166"></a>         <span class="n">ENDIF</span>
+<a name="ln-167"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">)</span> <span class="s2">&quot;*&quot;</span>
+<a name="ln-168"></a>      <span class="n">ENDDO</span>
+<a name="ln-169"></a>
+<a name="ln-170"></a>      <span class="c">! print location line</span>
+<a name="ln-171"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="s2">&quot; *&quot;</span>
+<a name="ln-172"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="n">img</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="n">c</span> <span class="o">+</span> <span class="n">img_width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-173"></a>      <span class="n">indent</span> <span class="o">=</span> <span class="n">txt_width</span> <span class="o">-</span> <span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-174"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">indent</span><span class="p">)</span>
+<a name="ln-175"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+<a name="ln-176"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">)</span> <span class="s2">&quot; *&quot;</span>
+<a name="ln-177"></a>
+<a name="ln-178"></a>      <span class="c">! print closing line</span>
+<a name="ln-179"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A)&quot;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">screen_width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-180"></a>
+<a name="ln-181"></a>      <span class="c">! print empty line</span>
+<a name="ln-182"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">)</span> <span class="s2">&quot;&quot;</span>
+<a name="ln-183"></a>
+<a name="ln-184"></a>   <span class="k">END SUBROUTINE </span><span class="n">print_abort_message</span>
+<a name="ln-185"></a>
+<a name="ln-186"></a>   <span class="k">FUNCTION </span><span class="n">next_linebreak</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">rowlen</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">ibreak</span><span class="p">)</span>
+<a name="ln-187"></a>      <span class="c">!! Helper routine for print_abort_message()</span>
+<a name="ln-188"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">message</span>
+<a name="ln-189"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">pos</span><span class="p">,</span> <span class="n">rowlen</span>
+<a name="ln-190"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ibreak</span>
+<a name="ln-191"></a>
+<a name="ln-192"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span>
+<a name="ln-193"></a>
+<a name="ln-194"></a>      <span class="n">n</span> <span class="o">=</span> <span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a name="ln-195"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">pos</span> <span class="o">&lt;=</span> <span class="n">rowlen</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-196"></a><span class="k">         </span><span class="n">ibreak</span> <span class="o">=</span> <span class="n">n</span> <span class="c">! remaining message shorter than line</span>
+<a name="ln-197"></a>      <span class="k">ELSE</span>
+<a name="ln-198"></a><span class="k">         </span><span class="n">i</span> <span class="o">=</span> <span class="nb">INDEX</span><span class="p">(</span><span class="n">message</span><span class="p">(</span><span class="n">pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">pos</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">rowlen</span><span class="p">),</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">BACK</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<a name="ln-199"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-200"></a><span class="k">            </span><span class="n">ibreak</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">rowlen</span> <span class="o">-</span> <span class="mi">1</span> <span class="c">! no space found, break mid-word</span>
+<a name="ln-201"></a>         <span class="k">ELSE</span>
+<a name="ln-202"></a><span class="k">            </span><span class="n">ibreak</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">i</span> <span class="c">! break at space closest to rowlen</span>
+<a name="ln-203"></a>         <span class="n">ENDIF</span>
+<a name="ln-204"></a>      <span class="n">ENDIF</span>
+<a name="ln-205"></a>   <span class="k">END FUNCTION </span><span class="n">next_linebreak</span>
+<a name="ln-206"></a>
+<a name="ln-207"></a><span class="k">END MODULE </span><span class="n">dbcsr_error_handling</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR Library was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>
