@@ -17,7 +17,7 @@ foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS})
 
   # __HAS_NO_MPI_MOD controls whether mpi.mod is used or if mpi.f is included
   if (MPI_FOUND AND (MPI_Fortran_LIBRARY_VERSION_STRING MATCHES "Intel") AND (NOT ${CMAKE_Fortran_COMPILER_ID} MATCHES "Intel"))
-    target_compile_definitions(dbcsr PRIVATE __HAS_NO_MPI_MOD)
+    target_compile_definitions(${dbcsr_program_name} PRIVATE __HAS_NO_MPI_MOD)
   endif ()
 endforeach ()
 
