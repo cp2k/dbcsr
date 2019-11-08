@@ -231,11 +231,8 @@ if (MPI_FOUND)
   # when built against MPI, a dbcsr consumer has to specify the MPI flags as well, therefore: PUBLIC
   target_link_libraries(dbcsr PUBLIC MPI::MPI_Fortran)
 
+  # __HAS_NO_MPI_MOD controls whether mpi.mod is used or if mpi.f is included
   if ((MPI_Fortran_LIBRARY_VERSION_STRING MATCHES "Intel") AND (NOT ${CMAKE_Fortran_COMPILER_ID} MATCHES "Intel"))
-    # get_property/set_property for COMPILE_OPTIONS does not work (NOTFOUND) may need separate library in mpi-directory
-    # see also: https://stackoverflow.com/questions/28344564/cmake-remove-a-compile-flag-for-a-single-translation-unit
-    STRING(REGEX REPLACE "-std=.[^ ]*" "" CMAKE_Fortran_FLAGS ${CMAKE_Fortran_FLAGS})  # mpi.f is not strict f2008
-    # __HAS_NO_MPI_MOD controls whether mpi.mod is used or if mpi.f is included
     target_compile_definitions(dbcsr PRIVATE __HAS_NO_MPI_MOD)
   endif ()
 endif ()

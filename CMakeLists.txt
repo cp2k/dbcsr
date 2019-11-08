@@ -106,6 +106,13 @@ foreach(line ${VERSION_INFO})
   endif ()
 endforeach()
 
+# __HAS_NO_MPI_MOD controls if mpi.f is included which may not accept strict f2008 flag during compilation
+if (MPI_FOUND AND (MPI_Fortran_LIBRARY_VERSION_STRING MATCHES "Intel") AND (NOT ${CMAKE_Fortran_COMPILER_ID} MATCHES "Intel"))
+  # get_target_property for COMPILE_OPTIONS is apparently not working even with own/separate target (NOTFOUND)
+  # see also: https://stackoverflow.com/questions/28344564/cmake-remove-a-compile-flag-for-a-single-translation-unit
+  STRING(REGEX REPLACE "-std=.[^ ]*" "" CMAKE_Fortran_FLAGS ${CMAKE_Fortran_FLAGS})  # mpi.f is not strict f2008
+endif ()
+
 add_subdirectory(src)
 add_subdirectory(tests)
 
