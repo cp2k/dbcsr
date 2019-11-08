@@ -16,6 +16,12 @@ foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS})
   set_target_properties(${dbcsr_program_name} PROPERTIES LINKER_LANGUAGE Fortran)
 endforeach ()
 
+# __HAS_NO_MPI_MOD controls whether mpi.mod is used or if mpi.f is included
+if (MPI_FOUND AND (MPI_Fortran_LIBRARY_VERSION_STRING MATCHES "Intel") AND (NOT ${CMAKE_Fortran_COMPILER_ID} MATCHES "Intel"))
+  STRING(REGEX REPLACE "-std=.[^ ]*" "" CMAKE_Fortran_FLAGS ${CMAKE_Fortran_FLAGS})  # mpi.f is not strict f2008
+  target_compile_definitions(${dbcsr_program_name} PRIVATE __HAS_NO_MPI_MOD)
+endif ()
+
 if (WITH_C_API)
   add_executable(dbcsr_example_3_cpp dbcsr_example_3.cpp)
   target_link_libraries(dbcsr_example_3_cpp dbcsr_c MPI::MPI_CXX)
