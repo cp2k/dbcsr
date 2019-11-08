@@ -113,13 +113,14 @@ jobs:  # the following jobs inherit only the first OS
     script:
     - pre-commit run --hook-stage manual --all-files check-ast
   - stage: release
-    name: "Build release tarball and deploy to GitHub"
+    name: "Build release tarball and documentation and deploy to GitHub"
     if: tag IS present
     script:
       - mkdir -p build
       - cd build
       - cmake ..
       - make dist doc
+      - touch doc/.nojekyll
     deploy:
     - provider: releases
       api_key:  # encrypted token of the `dbcsr` GitHub service user
