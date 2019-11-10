@@ -15,7 +15,7 @@ foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS})
   # and needs to be told explicitly:
   set_target_properties(${dbcsr_program_name} PROPERTIES LINKER_LANGUAGE Fortran)
 
-  # __HAS_NO_MPI_MOD controls whether mpi.mod is used or if mpi.f is included
+  # __HAS_NO_MPI_MOD controls whether mpi.mod is used or if mpi.f is included; mpi.f may not accept flags about strict Fortran standard
   if (MPI_FOUND AND (MPI_Fortran_LIBRARY_VERSION_STRING MATCHES "Intel") AND (NOT ${CMAKE_Fortran_COMPILER_ID} MATCHES "Intel"))
     target_compile_definitions(${dbcsr_program_name} PRIVATE __HAS_NO_MPI_MOD)
   endif ()
