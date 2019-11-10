@@ -27,6 +27,7 @@ cd "${SCRATCH}/${BUILD_TAG}.gnu"
 
 cmake \
     -DCMAKE_SYSTEM_NAME=CrayLinuxEnvironment \
+    -DCMAKE_CROSSCOMPILING_EMULATOR="" \
     -DUSE_CUDA=ON \
     -DUSE_CUBLAS=ON \
     -DWITH_GPU=P100 \
