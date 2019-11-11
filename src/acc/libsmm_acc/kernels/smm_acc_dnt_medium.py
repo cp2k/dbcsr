@@ -8,8 +8,7 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-import numpy as np
-from kernels.smm_acc_dnt_base import Kernel, round_up_to_nearest_multiple
+from kernels.smm_acc_dnt_base import Kernel
 
 
 class Kernel_dnt_medium(Kernel):
@@ -74,6 +73,8 @@ class Kernel_dnt_medium(Kernel):
         Given a certain (m,n,k)-triplet, GPU properties and autotuning properties, return a list of all possible
         kernel parameters
         """
+        from kernels.smm_acc_dnt_base import round_up_to_nearest_multiple
+
         params = []
         for minblocks_ in range(1, 28) if minblocks is None else [minblocks]:
             # for exhaustive search: range(1, gpu["Thread_Blocks_/_Multiprocessor"] + 1):
@@ -160,6 +161,7 @@ class Kernel_dnt_medium(Kernel):
         Given an (m, n, k)-triplet and GPu and autotuning properties, return a set of parameters corresponding to a
         baseline ("educated guess") of the kernel's optimal parameters
         """
+        from kernels.smm_acc_dnt_base import round_up_to_nearest_multiple
 
         grp = 16
         minblk = 2
@@ -177,8 +179,8 @@ class Kernel_dnt_medium(Kernel):
                 "minblocks": minblk,
                 "tile_m": tn,
                 "tile_n": tn,
-                "w": np.NaN,
-                "v": np.NaN,
+                "w": float("nan"),
+                "v": float("nan"),
             }
 
             if (
@@ -196,7 +198,7 @@ class Kernel_dnt_medium(Kernel):
                     base = Kernel_dnt_medium.promising_parameters(
                         m, n, k, gpu, autotuning
                     )[0]
-                    base.update(dict([("w", np.NaN), ("v", np.NaN)]))
+                    base.update(dict([("w", float("nan")), ("v", float("nan"))]))
                     break
 
         base.update(

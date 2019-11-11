@@ -15,7 +15,7 @@ import json
 import argparse
 from os import path
 
-from kernels.smm_acc_predict import params_dict_to_kernel, gpu_architectures
+from kernels.smm_acc import params_dict_to_kernel, gpu_architectures
 
 
 # ===============================================================================
