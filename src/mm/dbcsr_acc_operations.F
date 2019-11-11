@@ -17,7 +17,9 @@ MODULE dbcsr_acc_operations
    USE dbcsr_acc_stream, ONLY: acc_stream_cptr, &
                                acc_stream_type, &
                                acc_stream_synchronize
-   USE dbcsr_config, ONLY: cublas_handles, hipblas_handles, max_kernel_dim
+   USE dbcsr_config,     ONLY: max_kernel_dim, &
+                               cublas_handles, &
+                               hipblas_handles
    USE dbcsr_mm_types, ONLY: dbcsr_ps_width
    USE dbcsr_kinds, ONLY: real_8, dp
    USE dbcsr_types, ONLY: dbcsr_type_real_8
