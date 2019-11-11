@@ -30,15 +30,21 @@
 #define dbcsr_type_complex_4  5
 #define dbcsr_type_complex_8  7
 
-// The macro ARCH_OPT, when expanded, is a string literal containing the
-// jit compiler option indictaing the target architecture
+// MACRO HELPERS
+#define STRINGIFY_NX(x) #x
+#define STRINGIFY(x) STRINGIFY_NX(x)
+#define CONCAT_NX(A, B) A ## B
+#define CONCAT(A, B) CONCAT_NX(A, B)
+
+// The macro ARCH_OPTION, when expanded, is a string literal containing the
+// jit compiler option specifying the target architecture
 #if defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
-#define ARCH_OPTION_ --gpu-architecture=compute_##ARCH_NUMBER
+#define ARCH_OPTION_NAME --gpu-architecture=compute_
 #else
-#define ARCH_OPTION_ --amdgpu-target=##ARCH_NUMBER
+#define ARCH_OPTION_NAME --amdgpu-target=
 #endif
-#define STRINGIZE(A) #A
-#define ARCH_OPTION STRINGIZE(ARCH_OPTION_)
+#define ARCH_OPTION STRINGIFY(CONCAT(ARCH_OPTION_NAME, ARCH_NUMBER))
+
 
 //===========================================================================
 inline int launch_kernel_from_handle(ACC_DRV(function) const& kern_func, int nblks, int threads, ACC_DRV(stream) stream, void** args){
