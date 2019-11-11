@@ -8,7 +8,7 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-from kernels.smm_acc_dnt_base import Kernel, round_up_to_nearest_multiple
+from kernels.smm_acc_dnt_base import Kernel
 
 
 class Kernel_dnt_largeDB1(Kernel):
@@ -79,6 +79,8 @@ class Kernel_dnt_largeDB1(Kernel):
         Given a certain (m,n,k)-triplet, GPU properties and autotuning properties, return a list of all possible
         kernel parameters
         """
+        from kernels.smm_acc_dnt_base import round_up_to_nearest_multiple
+
         params = []
         grouping = 16
 
@@ -189,6 +191,7 @@ class Kernel_dnt_largeDB1(Kernel):
         Given an (m, n, k)-triplet and GPu and autotuning properties, return a set of parameters corresponding to a
         baseline ("educated guess") of the kernel's optimal parameters
         """
+        from kernels.smm_acc_dnt_base import round_up_to_nearest_multiple
 
         grouping = 16
         minblk = 2

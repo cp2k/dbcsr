@@ -8,8 +8,7 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
-import numpy as np
-from kernels.smm_acc_dnt_base import Kernel, round_up_to_nearest_multiple
+from kernels.smm_acc_dnt_base import Kernel
 
 
 class Kernel_dnt_tiny(Kernel):
@@ -54,6 +53,7 @@ class Kernel_dnt_tiny(Kernel):
         Given a certain (m,n,k)-triplet, GPU properties and autotuning properties, return a list of all possible
         kernel parameters
         """
+        from kernels.smm_acc_dnt_base import round_up_to_nearest_multiple
 
         # Shared memory buffer size
         buf_sz = k * (
@@ -124,6 +124,7 @@ class Kernel_dnt_tiny(Kernel):
         Given an (m, n, k)-triplet and GPu and autotuning properties, return a set of parameters corresponding to a
         baseline ("educated guess") of the kernel's optimal parameters
         """
+        from kernels.smm_acc_dnt_base import round_up_to_nearest_multiple
 
         grp = 16
         minblk = 2
@@ -133,10 +134,10 @@ class Kernel_dnt_tiny(Kernel):
             "threads": round_up_to_nearest_multiple(min_threads, 32),
             "grouping": grp,
             "minblocks": minblk,
-            "tile_m": np.NaN,
-            "tile_n": np.NaN,
-            "w": np.NaN,
-            "v": np.NaN,
+            "tile_m": float("nan"),
+            "tile_n": float("nan"),
+            "w": float("nan"),
+            "v": float("nan"),
         }
 
         if (
@@ -147,10 +148,10 @@ class Kernel_dnt_tiny(Kernel):
             base.update(
                 dict(
                     [
-                        ("tile_m", np.NaN),
-                        ("tile_n", np.NaN),
-                        ("w", np.NaN),
-                        ("v", np.NaN),
+                        ("tile_m", float("nan")),
+                        ("tile_n", float("nan")),
+                        ("w", float("nan")),
+                        ("v", float("nan")),
                     ]
                 )
             )
