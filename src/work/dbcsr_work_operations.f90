@@ -9,17 +9,15 @@
 
 #:include '../data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
-! **************************************************************************************************
-!> \brief Converts mutable data to linear (array) type.
-!>
-!> \param[in,out] wm      work matrix to convert
-! **************************************************************************************************
   SUBROUTINE tree_to_linear_${nametype1}$ (wm)
+     !! Converts mutable data to linear (array) type.
+
      USE dbcsr_btree, &
         ONLY: btree_2d_data_${nametype1}$ => btree_data_${nametype1}$p2d, &
               btree_destroy_${nametype1}$ => btree_delete, &
               btree_size_${nametype1}$ => btree_get_entries
      TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
+        !! work matrix to convert
 
      CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_${nametype1}$', &
                                     routineP = moduleN//':'//routineN

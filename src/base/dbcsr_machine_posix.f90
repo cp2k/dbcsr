@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! *****************************************************************************
-!> \brief Implementation of machine interface based on Fortran 2003 and POSIX
-!> \author Ole Schuett
-! *****************************************************************************
+!! Implementation of machine interface based on Fortran 2003 and POSIX
+
   USE dbcsr_kinds, ONLY: dp, int_8, default_path_length, &
                          default_string_length
   USE ISO_C_BINDING, ONLY: C_INT, C_NULL_CHAR, C_CHAR, C_PTR, C_NULL_PTR, C_ASSOCIATED, C_F_POINTER
@@ -27,10 +25,8 @@
 
 CONTAINS
 
-! *****************************************************************************
-!> \brief Can be used to get a nice core
-! **************************************************************************************************
   SUBROUTINE m_abort()
+     !! Can be used to get a nice core
      INTERFACE
         SUBROUTINE abort() BIND(C, name="abort")
         END SUBROUTINE
@@ -39,33 +35,23 @@ CONTAINS
      CALL abort()
   END SUBROUTINE m_abort
 
-! *****************************************************************************
-!> \brief The number of arguments of the fortran program
-!> \return ...
-! **************************************************************************************************
   FUNCTION m_iargc() RESULT(ic)
+     !! The number of arguments of the fortran program
      INTEGER                                  :: ic
 
      ic = COMMAND_ARGUMENT_COUNT()
   END FUNCTION m_iargc
 
-! *****************************************************************************
-!> \brief Flush a given unit
-!> \param lunit ...
-! **************************************************************************************************
   SUBROUTINE m_flush(lunit)
+     !! Flush a given unit
      INTEGER, INTENT(IN)                      :: lunit
 
      FLUSH(lunit)
   END SUBROUTINE m_flush
 
-! *****************************************************************************
-!> \brief Returns if a process is running on the local machine
-!>        1 if yes and 0 if not
-!> \param pid ...
-!> \return ...
-! **************************************************************************************************
   FUNCTION m_procrun(pid) RESULT(run_on)
+     !! Returns if a process is running on the local machine
+     !! 1 if yes and 0 if not
      INTEGER, INTENT(IN)       ::   pid
      INTEGER                   ::   run_on
      INTEGER                   ::   istat
@@ -91,11 +77,8 @@ CONTAINS
 
   END FUNCTION m_procrun
 
-! *****************************************************************************
-!> \brief Returns the total amount of memory [bytes] in use, if known, zero otherwise
-!> \param mem ...
-! **************************************************************************************************
   SUBROUTINE m_memory(mem)
+     !! Returns the total amount of memory [bytes] in use, if known, zero otherwise
 
      INTEGER(KIND=int_8), OPTIONAL, INTENT(OUT)         :: mem
      INTEGER(KIND=int_8)                      :: mem_local
@@ -153,22 +136,12 @@ CONTAINS
 
   END SUBROUTINE m_memory
 
-! *****************************************************************************
+! **************************************************************************************************
 ! *** get more detailed memory info, all units are bytes.
 ! *** the only 'useful' option is MemLikelyFree which is an estimate of remaining memory
 ! *** assumed to give info like /proc/meminfo while MeMLikelyFree is the amount of
 ! *** memory we're likely to be able to allocate, but not necessarily in one chunk
 ! *** zero means not available
-! *****************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param MemTotal ...
-!> \param MemFree ...
-!> \param Buffers ...
-!> \param Cached ...
-!> \param Slab ...
-!> \param SReclaimable ...
-!> \param MemLikelyFree ...
 ! **************************************************************************************************
   SUBROUTINE m_memory_details(MemTotal, MemFree, Buffers, Cached, Slab, SReclaimable, MemLikelyFree)
 
@@ -210,11 +183,6 @@ CONTAINS
      MemLikelyFree = MemFree + Buffers + Cached + SReclaimable
 
   CONTAINS
-! **************************************************************************************************
-!> \brief ...
-!> \param field ...
-!> \return ...
-! **************************************************************************************************
      INTEGER(int_8) FUNCTION get_field_value_in_bytes(field)
         CHARACTER(LEN=*) :: field
         INTEGER :: start
@@ -234,11 +202,6 @@ CONTAINS
   END SUBROUTINE m_memory_details
 
 ! *****************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param source ...
-!> \param TARGET ...
-! **************************************************************************************************
   SUBROUTINE m_mov(source, TARGET)
 
      CHARACTER(LEN=*), INTENT(IN)             :: source, TARGET
@@ -281,10 +244,6 @@ CONTAINS
   END SUBROUTINE m_mov
 
 ! *****************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param hname ...
-! **************************************************************************************************
   SUBROUTINE m_hostnm(hname)
      CHARACTER(len=*), INTENT(OUT)            :: hname
 
@@ -310,10 +269,6 @@ CONTAINS
   END SUBROUTINE m_hostnm
 
 ! *****************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param curdir ...
-! **************************************************************************************************
   SUBROUTINE m_getcwd(curdir)
      CHARACTER(len=*), INTENT(OUT)            :: curdir
      TYPE(C_PTR)                              :: stat
@@ -339,11 +294,6 @@ CONTAINS
   END SUBROUTINE m_getcwd
 
 ! *****************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param dir ...
-!> \param ierror ...
-! **************************************************************************************************
   SUBROUTINE m_chdir(dir, ierror)
      CHARACTER(len=*), INTENT(IN)             :: dir
      INTEGER, INTENT(OUT)                     :: ierror
@@ -360,10 +310,6 @@ CONTAINS
   END SUBROUTINE m_chdir
 
 ! *****************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param user ...
-! **************************************************************************************************
   SUBROUTINE m_getlog(user)
      CHARACTER(len=*), INTENT(OUT)            :: user
      INTEGER :: status
@@ -380,10 +326,6 @@ CONTAINS
   END SUBROUTINE m_getlog
 
 ! *****************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param uid ...
-! **************************************************************************************************
   SUBROUTINE m_getuid(uid)
      INTEGER, INTENT(OUT)                     :: uid
 
@@ -398,10 +340,6 @@ CONTAINS
   END SUBROUTINE m_getuid
 
 ! *****************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param pid ...
-! **************************************************************************************************
   SUBROUTINE m_getpid(pid)
      INTEGER, INTENT(OUT)                     :: pid
 
@@ -416,11 +354,6 @@ CONTAINS
   END SUBROUTINE m_getpid
 
 ! *****************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param i ...
-!> \param arg ...
-! **************************************************************************************************
   SUBROUTINE m_getarg(i, arg)
      INTEGER, INTENT(IN)                      :: i
      CHARACTER(len=*), INTENT(OUT)            :: arg

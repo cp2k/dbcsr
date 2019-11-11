@@ -7,22 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Interface to the message passing library MPI
-!> \par History
-!>      JGH (02-Jan-2001): New error handling
-!>                         Performance tools
-!>      JGH (14-Jan-2001): New routines mp_comm_compare, mp_cart_coords,
-!>                                      mp_rank_compare, mp_alltoall
-!>      JGH (06-Feb-2001): New routines mp_comm_free
-!>      JGH (22-Mar-2001): New routines mp_comm_dup
-!>      fawzi (04-NOV-2004): storable performance info (for f77 interface)
-!>      Wrapper routine for mpi_gatherv added (22.12.2005,MK)
-!>      JGH (13-Feb-2006): Flexible precision
-!>      JGH (15-Feb-2006): single precision mp_alltoall
-!> \author JGH
-! **************************************************************************************************
 MODULE dbcsr_mpiwrap
+   !! Interface to the message passing library MPI
    USE ISO_C_BINDING, ONLY: C_F_POINTER, &
                             C_PTR
    USE dbcsr_kinds, ONLY: &
@@ -341,8 +327,8 @@ MODULE dbcsr_mpiwrap
          mp_igatherv_zv
    END INTERFACE
 
-!> todo: move allgatherv to a separate declaration
    INTERFACE mp_allgather
+     !! @todo move allgatherv to a separate declaration
       MODULE PROCEDURE &
          mp_allgather_i, mp_allgather_i2, &
          mp_allgather_i12, mp_allgather_i23, mp_allgather_i34, &
@@ -689,16 +675,13 @@ MODULE dbcsr_mpiwrap
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief initializes the system default communicator
-!> \param mp_comm [output] : handle of the default communicator
-!> \par History
-!>      2.2004 created [Joost VandeVondele ]
-!> \note
-!>      should only be called once
-! **************************************************************************************************
    SUBROUTINE mp_world_init(mp_comm)
+      !! initializes the system default communicator
+      !! @note
+      !! should only be called once
+
       INTEGER, INTENT(OUT)                     :: mp_comm
+         !! [output] : handle of the default communicator
 #if defined(__parallel)
       INTEGER                                  :: ierr
 !$    INTEGER                                  :: provided_tsl
@@ -746,19 +729,14 @@ CONTAINS
       CALL add_mp_perf_env()
    END SUBROUTINE mp_world_init
 
-! **************************************************************************************************
-!> \brief re-create the system default communicator with a different MPI
-!>        rank order
-!> \param mp_comm [output] : handle of the default communicator
-!> \param mp_new_comm ...
-!> \param ranks_order ...
-!> \par History
-!>      1.2012 created [ Christiane Pousa ]
-!> \note
-!>      should only be called once, at very beginning of CP2K run
-! **************************************************************************************************
    SUBROUTINE mp_reordering(mp_comm, mp_new_comm, ranks_order)
+      !! re-create the system default communicator with a different MPI
+      !! rank order
+      !! @note
+      !! should only be called once, at very beginning of CP2K run
+
       INTEGER, INTENT(IN)                      :: mp_comm
+         !! [output] : handle of the default communicator
       INTEGER, INTENT(out)                     :: mp_new_comm
       INTEGER, DIMENSION(:)                    :: ranks_order
 
@@ -774,7 +752,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr);
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")
@@ -799,12 +777,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_reordering
 
-! **************************************************************************************************
-!> \brief finalizes the system default communicator
-!> \par History
-!>      2.2004 created [Joost VandeVondele]
-! **************************************************************************************************
    SUBROUTINE mp_world_finalize()
+      !! finalizes the system default communicator
 
 #if defined(__parallel)
       INTEGER                                  :: ierr
@@ -827,18 +801,14 @@ CONTAINS
 
 ! all the following routines should work for a given communicator, not MPI_WORLD
 
-! **************************************************************************************************
-!> \brief start and stop the performance indicators
-!>      for every call to start there has to be (exactly) one call to stop
-!> \param perf_env ...
-!> \par History
-!>      2.2004 created [Joost VandeVondele]
-!> \note
-!>      can be used to measure performance of a sub-part of a program.
-!>      timings measured here will not show up in the outer start/stops
-!>      Doesn't need a fresh communicator
-! **************************************************************************************************
    SUBROUTINE add_mp_perf_env(perf_env)
+      !! start and stop the performance indicators
+      !! for every call to start there has to be (exactly) one call to stop
+      !! @note
+      !! can be used to measure performance of a sub-part of a program.
+      !! timings measured here will not show up in the outer start/stops
+      !! Doesn't need a fresh communicator
+
       TYPE(mp_perf_env_type), OPTIONAL, POINTER          :: perf_env
 
       stack_pointer = stack_pointer + 1
@@ -855,10 +825,6 @@ CONTAINS
       END IF
    END SUBROUTINE add_mp_perf_env
 
-! **************************************************************************************************
-!> \brief ...
-!> \param perf_env ...
-! **************************************************************************************************
    SUBROUTINE mp_perf_env_create(perf_env)
       TYPE(mp_perf_env_type), OPTIONAL, POINTER          :: perf_env
 
@@ -880,10 +846,6 @@ CONTAINS
 
    END SUBROUTINE mp_perf_env_create
 
-! **************************************************************************************************
-!> \brief ...
-!> \param perf_env ...
-! **************************************************************************************************
    SUBROUTINE mp_perf_env_release(perf_env)
       TYPE(mp_perf_env_type), POINTER                    :: perf_env
 
@@ -899,10 +861,6 @@ CONTAINS
       NULLIFY (perf_env)
    END SUBROUTINE mp_perf_env_release
 
-! **************************************************************************************************
-!> \brief ...
-!> \param perf_env ...
-! **************************************************************************************************
    SUBROUTINE mp_perf_env_retain(perf_env)
       TYPE(mp_perf_env_type), POINTER                    :: perf_env
 
@@ -916,11 +874,6 @@ CONTAINS
    END SUBROUTINE mp_perf_env_retain
 
 !.. reports the performance counters for the MPI run
-! **************************************************************************************************
-!> \brief ...
-!> \param perf_env ...
-!> \param iw ...
-! **************************************************************************************************
    SUBROUTINE mp_perf_env_describe(perf_env, iw)
       TYPE(mp_perf_env_type), POINTER          :: perf_env
       INTEGER, INTENT(IN)                      :: iw
@@ -966,9 +919,6 @@ CONTAINS
 #endif
    END SUBROUTINE mp_perf_env_describe
 
-! **************************************************************************************************
-!> \brief ...
-! **************************************************************************************************
    SUBROUTINE rm_mp_perf_env()
       IF (stack_pointer < 1) THEN
          DBCSR_ABORT("no perf_env in the stack : mpiwrap @ rm_mp_perf_env")
@@ -977,10 +927,6 @@ CONTAINS
       stack_pointer = stack_pointer - 1
    END SUBROUTINE rm_mp_perf_env
 
-! **************************************************************************************************
-!> \brief ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION has_mp_perf_env() RESULT(res)
       LOGICAL :: res
 
@@ -990,10 +936,6 @@ CONTAINS
       res = .TRUE.
    END FUNCTION has_mp_perf_env
 
-! **************************************************************************************************
-!> \brief ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_mp_perf_env() RESULT(res)
       TYPE(mp_perf_env_type), POINTER                    :: res
 
@@ -1003,10 +945,6 @@ CONTAINS
       res => mp_perf_stack(stack_pointer)%mp_perf_env
    END FUNCTION get_mp_perf_env
 
-! **************************************************************************************************
-!> \brief ...
-!> \param scr ...
-! **************************************************************************************************
    SUBROUTINE describe_mp_perf_env(scr)
       INTEGER, INTENT(in)                                :: scr
 
@@ -1016,14 +954,8 @@ CONTAINS
       CALL mp_perf_env_describe(perf_env, scr)
    END SUBROUTINE describe_mp_perf_env
 
-! **************************************************************************************************
-!> \brief adds the performance informations of one call
-!> \param perf_id ...
-!> \param count ...
-!> \param msg_size ...
-!> \author fawzi
-! **************************************************************************************************
    SUBROUTINE add_perf(perf_id, count, msg_size)
+      !! adds the performance informations of one call
       INTEGER, INTENT(in)                      :: perf_id
       INTEGER, INTENT(in), OPTIONAL            :: count
       INTEGER, INTENT(in), OPTIONAL            :: msg_size
@@ -1049,11 +981,10 @@ CONTAINS
 
    END SUBROUTINE add_perf
 
-! **************************************************************************************************
-!> \brief globally stops all tasks
-!>       this is intended to be low level, most of CP2K should call dbcsr_abort()
-! **************************************************************************************************
    SUBROUTINE mp_abort()
+      !! globally stops all tasks
+      !! this is intended to be low level, most of CP2K should call dbcsr_abort()
+
       INTEGER                                            :: ierr
 
       ierr = 0
@@ -1069,15 +1000,13 @@ CONTAINS
       STOP 1
    END SUBROUTINE mp_abort
 
-! **************************************************************************************************
-!> \brief stops *after an mpi error* translating the error code
-!> \param ierr an error code * returned by an mpi call *
-!> \param prg_code ...
-!> \note
-!>       this function is private to mpiwrap.F
-! **************************************************************************************************
    SUBROUTINE mp_stop(ierr, prg_code)
+      !! stops *after an mpi error* translating the error code
+      !! @note
+      !! this function is private to mpiwrap.F
+
       INTEGER, INTENT(IN)                       :: ierr
+         !! an error code * returned by an mpi call *
       CHARACTER(LEN=*)                          :: prg_code
 
 #if defined(__parallel)
@@ -1099,12 +1028,11 @@ CONTAINS
 
    END SUBROUTINE mp_stop
 
-! **************************************************************************************************
-!> \brief synchronizes with a barrier a given group of mpi tasks
-!> \param group mpi communicator
-! **************************************************************************************************
    SUBROUTINE mp_sync(group)
+      !! synchronizes with a barrier a given group of mpi tasks
+
       INTEGER, INTENT(IN)                                :: group
+         !! mpi communicator
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sync', routineP = moduleN//':'//routineN
 
@@ -1124,13 +1052,11 @@ CONTAINS
 
    END SUBROUTINE mp_sync
 
-! **************************************************************************************************
-!> \brief synchronizes with a barrier a given group of mpi tasks
-!> \param group mpi communicator
-!> \param request ...
-! **************************************************************************************************
    SUBROUTINE mp_isync(group, request)
+      !! synchronizes with a barrier a given group of mpi tasks
+
       INTEGER, INTENT(IN)                                :: group
+         !! mpi communicator
       INTEGER, INTENT(OUT)                               :: request
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isync', routineP = moduleN//':'//routineN
@@ -1158,19 +1084,16 @@ CONTAINS
 
    END SUBROUTINE mp_isync
 
-! **************************************************************************************************
-!> \brief returns number of tasks and task id for a given mpi group
-!>       simple and cartesian version.. recursive needed in case of failing mpi_comm_rank.
-!> \param numtask ...
-!> \param taskid ...
-!> \param groupid mpi communicator
-!> \note
-!>         ..mp_world_setup is gone, use mp_environ instead (i.e. give a groupid explicitly)
-! **************************************************************************************************
    RECURSIVE SUBROUTINE mp_environ_l(numtask, taskid, groupid)
+      !! returns number of tasks and task id for a given mpi group
+      !! simple and cartesian version.. recursive needed in case of failing mpi_comm_rank.
+      !! @note
+      !! ..mp_world_setup is gone, use mp_environ instead (i.e. give a groupid explicitly)
+
 
       INTEGER, OPTIONAL, INTENT(OUT)                     :: numtask, taskid
       INTEGER, INTENT(IN)                                :: groupid
+         !! mpi communicator
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_environ_l', routineP = moduleN//':'//routineN
 
@@ -1198,13 +1121,6 @@ CONTAINS
 
    END SUBROUTINE mp_environ_l
 
-! **************************************************************************************************
-!> \brief ...
-!> \param numtask ...
-!> \param dims ...
-!> \param task_coor ...
-!> \param groupid ...
-! **************************************************************************************************
    SUBROUTINE mp_environ_c(numtask, dims, task_coor, groupid)
 
       INTEGER, INTENT(OUT)                     :: numtask, dims(2), &
@@ -1237,14 +1153,6 @@ CONTAINS
 
    END SUBROUTINE mp_environ_c
 
-! **************************************************************************************************
-!> \brief ...
-!> \param comm ...
-!> \param ndims ...
-!> \param dims ...
-!> \param task_coor ...
-!> \param periods ...
-! **************************************************************************************************
    SUBROUTINE mp_environ_c2(comm, ndims, dims, task_coor, periods)
 
       INTEGER, INTENT(IN)                                :: comm, ndims
@@ -1272,14 +1180,6 @@ CONTAINS
    END SUBROUTINE mp_environ_c2
 
 !..mp_cart_create
-! **************************************************************************************************
-!> \brief ...
-!> \param comm_old ...
-!> \param ndims ...
-!> \param dims ...
-!> \param pos ...
-!> \param comm_cart ...
-! **************************************************************************************************
    SUBROUTINE mp_cart_create(comm_old, ndims, dims, pos, comm_cart)
 
       INTEGER, INTENT(IN)                      :: comm_old, ndims
@@ -1334,12 +1234,6 @@ CONTAINS
    END SUBROUTINE mp_cart_create
 
 !..mp_cart_coords
-! **************************************************************************************************
-!> \brief ...
-!> \param comm ...
-!> \param rank ...
-!> \param coords ...
-! **************************************************************************************************
    SUBROUTINE mp_cart_coords(comm, rank, coords)
 
       INTEGER, INTENT(IN)                                :: comm, rank
@@ -1366,12 +1260,6 @@ CONTAINS
    END SUBROUTINE mp_cart_coords
 
 !..mp_comm_compare
-! **************************************************************************************************
-!> \brief ...
-!> \param comm1 ...
-!> \param comm2 ...
-!> \param res ...
-! **************************************************************************************************
    SUBROUTINE mp_comm_compare(comm1, comm2, res)
 
       INTEGER, INTENT(IN)                                :: comm1, comm2
@@ -1411,12 +1299,6 @@ CONTAINS
    END SUBROUTINE mp_comm_compare
 
 !..mp_cart_sub
-! **************************************************************************************************
-!> \brief ...
-!> \param comm ...
-!> \param rdim ...
-!> \param sub_comm ...
-! **************************************************************************************************
    SUBROUTINE mp_cart_sub(comm, rdim, sub_comm)
 
       INTEGER, INTENT(IN)                                :: comm
@@ -1444,10 +1326,6 @@ CONTAINS
    END SUBROUTINE mp_cart_sub
 
 !..mp_comm_free
-! **************************************************************************************************
-!> \brief ...
-!> \param comm ...
-! **************************************************************************************************
    SUBROUTINE mp_comm_free(comm)
 
       INTEGER, INTENT(INOUT)                             :: comm
@@ -1471,11 +1349,6 @@ CONTAINS
    END SUBROUTINE mp_comm_free
 
 !..mp_comm_dup
-! **************************************************************************************************
-!> \brief ...
-!> \param comm1 ...
-!> \param comm2 ...
-! **************************************************************************************************
    SUBROUTINE mp_comm_dup(comm1, comm2)
 
       INTEGER, INTENT(IN)                                :: comm1
@@ -1500,12 +1373,6 @@ CONTAINS
    END SUBROUTINE mp_comm_dup
 
 !..mp_rank_compare
-! **************************************************************************************************
-!> \brief ...
-!> \param comm1 ...
-!> \param comm2 ...
-!> \param rank ...
-! **************************************************************************************************
    SUBROUTINE mp_rank_compare(comm1, comm2, rank)
 
       INTEGER, INTENT(IN)                      :: comm1, comm2
@@ -1559,11 +1426,6 @@ CONTAINS
    END SUBROUTINE mp_rank_compare
 
 !..mp_dims_create
-! **************************************************************************************************
-!> \brief ...
-!> \param nodes ...
-!> \param dims ...
-! **************************************************************************************************
    SUBROUTINE mp_dims_create(nodes, dims)
 
       INTEGER, INTENT(IN)                                :: nodes
@@ -1589,12 +1451,6 @@ CONTAINS
    END SUBROUTINE mp_dims_create
 
 !..mp_cart_rank
-! **************************************************************************************************
-!> \brief ...
-!> \param group ...
-!> \param pos ...
-!> \param rank ...
-! **************************************************************************************************
    SUBROUTINE mp_cart_rank(group, pos, rank)
       INTEGER, INTENT(IN)                                :: group
       INTEGER, DIMENSION(:), INTENT(IN)                  :: pos
@@ -1619,16 +1475,11 @@ CONTAINS
 
    END SUBROUTINE mp_cart_rank
 
-! **************************************************************************************************
-!> \brief waits for completion of the given request
-!> \param request ...
-!> \par History
-!>      08.2003 created [f&j]
-!> \author joost & fawzi
-!> \note
-!>      see isendrecv
-! **************************************************************************************************
    SUBROUTINE mp_wait(request)
+      !! waits for completion of the given request
+      !! @note
+      !! see isendrecv
+
       INTEGER, INTENT(inout)                             :: request
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_wait', routineP = moduleN//':'//routineN
@@ -1650,16 +1501,11 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_wait
 
-! **************************************************************************************************
-!> \brief waits for completion of the given requests
-!> \param requests ...
-!> \par History
-!>      08.2003 created [f&j]
-!> \author joost & fawzi
-!> \note
-!>      see isendrecv
-! **************************************************************************************************
    SUBROUTINE mp_waitall_1(requests)
+      !! waits for completion of the given requests
+      !! @note
+      !! see isendrecv
+
       INTEGER, DIMENSION(:), INTENT(inout)     :: requests
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_waitall_1', &
@@ -1687,14 +1533,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_waitall_1
 
-! **************************************************************************************************
-!> \brief waits for completion of the given requests
-!> \param requests ...
-!> \par History
-!>      08.2003 created [f&j]
-!> \author joost & fawzi
-! **************************************************************************************************
    SUBROUTINE mp_waitall_2(requests)
+      !! waits for completion of the given requests
       INTEGER, DIMENSION(:, :), INTENT(inout)  :: requests
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_waitall_2', &
@@ -1724,17 +1564,11 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_waitall_2
 
-! **************************************************************************************************
-!> \brief wrapper needed to deal with interfaces as present in openmpi 1.8.1
-!>        the issue is with the rank or requests
-!> \param count ...
-!> \param array_of_requests ...
-!> \param array_of_statuses ...
-!> \param ierr ...
-!> \author Joost VandeVondele
-! **************************************************************************************************
 #if defined(__parallel)
    SUBROUTINE mpi_waitall_internal(count, array_of_requests, array_of_statuses, ierr)
+      !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
+      !! the issue is with the rank or requests
+
       INTEGER, INTENT(in)                                :: count
       INTEGER, DIMENSION(count), INTENT(inout)           :: array_of_requests
       INTEGER, DIMENSION(MPI_STATUS_SIZE, *), &
@@ -1746,15 +1580,8 @@ CONTAINS
    END SUBROUTINE mpi_waitall_internal
 #endif
 
-! **************************************************************************************************
-!> \brief waits for completion of any of the given requests
-!> \param requests ...
-!> \param completed ...
-!> \par History
-!>      09.2008 created
-!> \author Iain Bethune (c) The Numerical Algorithms Group (NAG) Ltd, 2008 on behalf of the HECToR project
-! **************************************************************************************************
    SUBROUTINE mp_waitany(requests, completed)
+      !! waits for completion of any of the given requests
       INTEGER, DIMENSION(:), INTENT(inout)     :: requests
       INTEGER, INTENT(out)                     :: completed
 
@@ -1783,18 +1610,14 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_waitany
 
-! **************************************************************************************************
-!> \brief Tests for completion of the given requests.
-!> \brief We use mpi_test so that we can use a single status.
-!> \param requests the list of requests to test
-!> \return logical which determines if requests are complete
-!> \par History
-!>      3.2016 adapted to any shape [Nico Holmberg]
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    FUNCTION mp_testall_tv(requests) RESULT(flag)
+      !! Tests for completion of the given requests.
+      !! \brief We use mpi_test so that we can use a single status.
+
       INTEGER, DIMENSION(:)                 :: requests
+         !! the list of requests to test
       LOGICAL                               :: flag
+         !! logical which determines if requests are complete
 
       INTEGER                               :: ierr
 
@@ -1819,17 +1642,13 @@ CONTAINS
 #endif
    END FUNCTION mp_testall_tv
 
-! **************************************************************************************************
-!> \brief Tests for completion of the given request.
-!> \param request the request
-!> \param flag logical which determines if the request is completed
-!> \par History
-!>      3.2016 created
-!> \author Nico Holmberg
-! **************************************************************************************************
    SUBROUTINE mp_test_1(request, flag)
+      !! Tests for completion of the given request.
+
       INTEGER, INTENT(inout)                             :: request
+         !! the request
       LOGICAL, INTENT(out)                               :: flag
+         !! logical which determines if the request is completed
 
       INTEGER                                            :: ierr
 
@@ -1844,16 +1663,8 @@ CONTAINS
 #endif
    END SUBROUTINE mp_test_1
 
-! **************************************************************************************************
-!> \brief tests for completion of the given requests
-!> \param requests ...
-!> \param completed ...
-!> \param flag ...
-!> \par History
-!>      08.2011 created
-!> \author Iain Bethune
-! **************************************************************************************************
    SUBROUTINE mp_testany_1(requests, completed, flag)
+      !! tests for completion of the given requests
       INTEGER, DIMENSION(:), INTENT(inout)  :: requests
       INTEGER, INTENT(out), OPTIONAL           :: completed
       LOGICAL, INTENT(out), OPTIONAL           :: flag
@@ -1884,16 +1695,8 @@ CONTAINS
 #endif
    END SUBROUTINE mp_testany_1
 
-! **************************************************************************************************
-!> \brief tests for completion of the given requests
-!> \param requests ...
-!> \param completed ...
-!> \param flag ...
-!> \par History
-!>      08.2011 created
-!> \author Iain Bethune
-! **************************************************************************************************
    SUBROUTINE mp_testany_2(requests, completed, flag)
+      !! tests for completion of the given requests
       INTEGER, DIMENSION(:, :), INTENT(inout)   :: requests
       INTEGER, INTENT(out), OPTIONAL           :: completed
       LOGICAL, INTENT(out), OPTIONAL           :: flag
@@ -1924,19 +1727,11 @@ CONTAINS
 #endif
    END SUBROUTINE mp_testany_2
 
-! **************************************************************************************************
-!> \brief wrapper needed to deal with interfaces as present in openmpi 1.8.1
-!>        the issue is with the rank or requests
-!> \param count ...
-!> \param array_of_requests ...
-!> \param index ...
-!> \param flag ...
-!> \param status ...
-!> \param ierr ...
-!> \author Joost VandeVondele
-! **************************************************************************************************
 #if defined(__parallel)
    SUBROUTINE mpi_testany_internal(count, array_of_requests, index, flag, status, ierr)
+      !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
+      !! the issue is with the rank or requests
+
       INTEGER, INTENT(in)                                :: count
       INTEGER, DIMENSION(count), INTENT(inout)           :: array_of_requests
       INTEGER, INTENT(out)                               :: index
@@ -1949,16 +1744,10 @@ CONTAINS
    END SUBROUTINE mpi_testany_internal
 #endif
 
-! **************************************************************************************************
-!> \brief the direct way to split a communicator each color is a sub_comm,
-!>        the rank order is accoring to the order in the orig comm
-!> \param comm ...
-!> \param sub_comm ...
-!> \param color ...
-!> \param key ...
-!> \author Joost VandeVondele
-! **************************************************************************************************
    SUBROUTINE mp_comm_split_direct(comm, sub_comm, color, key)
+      !! the direct way to split a communicator each color is a sub_comm,
+      !! the rank order is accoring to the order in the orig comm
+
       INTEGER, INTENT(in)                                :: comm
       INTEGER, INTENT(OUT)                               :: sub_comm
       INTEGER, INTENT(in)                                :: color
@@ -1987,37 +1776,32 @@ CONTAINS
       CALL timestop(handle)
 
    END SUBROUTINE mp_comm_split_direct
-! **************************************************************************************************
-!> \brief splits the given communicator in group in subgroups trying to organize
-!>      them in a way that the communication within each subgroup is
-!>      efficient (but not necessarily the communication between subgroups)
-!> \param comm the mpi communicator that you want to split
-!> \param sub_comm the communicator for the subgroup (created, needs to be freed later)
-!> \param ngroups actual number of groups
-!> \param group_distribution input  : allocated with array with the nprocs entries (0 .. nprocs-1)
-!> \param subgroup_min_size the minimum size of the subgroup
-!> \param n_subgroups the number of subgroups wanted
-!> \param group_partition n_subgroups sized array containing the number of cpus wanted per group.
-!>                         should match the total number of cpus (only used if present and associated) (0..ngroups-1)
-!> \param stride create groups using a stride (default=1) through the ranks of the comm to be split.
-!> \par History
-!>      10.2003 created [fawzi]
-!>      02.2004 modified [Joost VandeVondele]
-!> \author Fawzi Mohamed
-!> \note
-!>      at least one of subgroup_min_size and n_subgroups is needed,
-!>      the other default to the value needed to use most processors.
-!>      if less cpus are present than needed for subgroup min size, n_subgroups,
-!>      just one comm is created that contains all cpus
-! **************************************************************************************************
    SUBROUTINE mp_comm_split(comm, sub_comm, ngroups, group_distribution, &
                             subgroup_min_size, n_subgroups, group_partition, stride)
+      !! splits the given communicator in group in subgroups trying to organize
+      !! them in a way that the communication within each subgroup is
+      !! efficient (but not necessarily the communication between subgroups)
+      !! @note
+      !! at least one of subgroup_min_size and n_subgroups is needed,
+      !! the other default to the value needed to use most processors.
+      !! if less cpus are present than needed for subgroup min size, n_subgroups,
+      !! just one comm is created that contains all cpus
+
       INTEGER, INTENT(in)                      :: comm
+         !! the mpi communicator that you want to split
       INTEGER, INTENT(out)                     :: sub_comm, ngroups
+         !! the communicator for the subgroup (created, needs to be freed later)
+         !! actual number of groups
       INTEGER, DIMENSION(0:)                   :: group_distribution
+         !! input  : allocated with array with the nprocs entries (0 .. nprocs-1)
       INTEGER, INTENT(in), OPTIONAL            :: subgroup_min_size, n_subgroups
+         !! the minimum size of the subgroup
+         !! the number of subgroups wanted
       INTEGER, DIMENSION(0:), OPTIONAL         :: group_partition
+         !! n_subgroups sized array containing the number of cpus wanted per group. should match the total number of cpus (only used
+         !! if present and associated) (0..ngroups-1)
       INTEGER, OPTIONAL                        :: stride
+         !! create groups using a stride (default=1) through the ranks of the comm to be split.
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_comm_split', &
                                      routineP = moduleN//':'//routineN
@@ -2115,21 +1899,17 @@ CONTAINS
 
    END SUBROUTINE mp_comm_split
 
-! **************************************************************************************************
-!> \brief probes for an incoming message with any tag
-!> \param[inout] source the source of the possible incoming message,
-!>        if MP_ANY_SOURCE it is a blocking one and return value is the source
-!>        of the next incoming message
-!>        if source is a different value it is a non-blocking probe retuning
-!>        MP_ANY_SOURCE if there is no incoming message
-!> \param[in] comm the communicator
-!> \param[out] tag the tag of the incoming message
-!> \author Mandes
-! **************************************************************************************************
    SUBROUTINE mp_probe(source, comm, tag)
+      !! probes for an incoming message with any tag
+
       INTEGER                                  :: source
+         !! the source of the possible incoming message, if MP_ANY_SOURCE it is a blocking one and return value is the source of the
+         !! next incoming message if source is a different value it is a non-blocking probe retuning MP_ANY_SOURCE if there is no
+         !! incoming message
       INTEGER, INTENT(IN)                      :: comm
+         !! the communicator
       INTEGER, INTENT(OUT)                     :: tag
+         !! the tag of the incoming message
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_probe', &
                                      routineP = moduleN//':'//routineN
@@ -2174,12 +1954,6 @@ CONTAINS
 ! Here come the data routines with none of the standard data types.
 ! **************************************************************************************************
 
-! **************************************************************************************************
-!> \brief ...
-!> \param msg ...
-!> \param source ...
-!> \param gid ...
-! **************************************************************************************************
    SUBROUTINE mp_bcast_b(msg, source, gid)
       LOGICAL                                            :: msg
       INTEGER                                            :: source, gid
@@ -2204,12 +1978,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_bcast_b
 
-! **************************************************************************************************
-!> \brief ...
-!> \param msg ...
-!> \param source ...
-!> \param gid ...
-! **************************************************************************************************
    SUBROUTINE mp_bcast_bv(msg, source, gid)
       LOGICAL                                            :: msg(:)
       INTEGER                                            :: source, gid
@@ -2233,25 +2001,22 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_bcast_bv
 
-! **************************************************************************************************
-!> \brief Non-blocking send of logical vector data
-!> \param msgin the input message
-!> \param dest the destination processor
-!> \param comm  the communicator object
-!> \param request communication request index
-!> \param tag message tag
-!> \par History
-!>      3.2016 added _bv subroutine [Nico Holmberg]
-!> \author fawzi
-!> \note see mp_irecv_iv
-!> \note
-!>      arrays can be pointers or assumed shape, but they must be contiguous!
-! **************************************************************************************************
    SUBROUTINE mp_isend_bv(msgin, dest, comm, request, tag)
+      !! Non-blocking send of logical vector data
+      !! @note see mp_irecv_iv
+      !! @endnote
+      !! @note
+      !! arrays can be pointers or assumed shape, but they must be contiguous!
+
       LOGICAL, DIMENSION(:)                    :: msgin
+         !! the input message
       INTEGER, INTENT(IN)                      :: dest, comm
+         !! the destination processor
+         !! the communicator object
       INTEGER, INTENT(out)                     :: request
+         !! communication request index
       INTEGER, INTENT(in), OPTIONAL            :: tag
+         !! message tag
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_bv', &
                                      routineP = moduleN//':'//routineN
@@ -2292,25 +2057,22 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_isend_bv
 
-! **************************************************************************************************
-!> \brief Non-blocking receive of logical vector data
-!> \param msgout the received message
-!> \param source the source processor
-!> \param comm  the communicator object
-!> \param request communication request index
-!> \param tag message tag
-!> \par History
-!>      3.2016 added _bv subroutine [Nico Holmberg]
-!> \author fawzi
-!> \note see mp_irecv_iv
-!> \note
-!>      arrays can be pointers or assumed shape, but they must be contiguous!
-! **************************************************************************************************
    SUBROUTINE mp_irecv_bv(msgout, source, comm, request, tag)
+      !! Non-blocking receive of logical vector data
+      !! @note see mp_irecv_iv
+      !! @endnote
+      !! @note
+      !! arrays can be pointers or assumed shape, but they must be contiguous!
+
       LOGICAL, DIMENSION(:)                    :: msgout
+         !! the received message
       INTEGER, INTENT(IN)                      :: source, comm
+         !! the source processor
+         !! the communicator object
       INTEGER, INTENT(out)                     :: request
+         !! communication request index
       INTEGER, INTENT(in), OPTIONAL            :: tag
+         !! message tag
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_bv', &
                                      routineP = moduleN//':'//routineN
@@ -2351,12 +2113,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_irecv_bv
 
-! **************************************************************************************************
-!> \brief ...
-!> \param msg ...
-!> \param source ...
-!> \param gid ...
-! **************************************************************************************************
    SUBROUTINE mp_bcast_av(msg, source, gid)
       CHARACTER(LEN=*)                         :: msg
       INTEGER                                  :: source, gid
@@ -2404,12 +2160,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_bcast_av
 
-! **************************************************************************************************
-!> \brief ...
-!> \param msg ...
-!> \param source ...
-!> \param gid ...
-! **************************************************************************************************
    SUBROUTINE mp_bcast_am(msg, source, gid)
       CHARACTER(LEN=*)                         :: msg(:)
       INTEGER                                  :: source, gid
@@ -2471,19 +2221,19 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_bcast_am
 
-! **************************************************************************************************
-!> \brief Finds the location of the minimal element in a vector.
-!> \param[in,out] msg         Find location of maximum element among these
-!>                            data (input).
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_allreduce with the MPI_MINLOC reduction function identifier
-!> \par Invalid data types
-!>      This routine is invalid for (int_8) data!
-! **************************************************************************************************
    SUBROUTINE mp_minloc_dv(msg, gid)
+      !! Finds the location of the minimal element in a vector.
+      !!
+      !! MPI mapping
+      !! mpi_allreduce with the MPI_MINLOC reduction function identifier
+      !!
+      !! Invalid data types
+      !! This routine is invalid for (int_8) data!
+
       REAL(kind=real_8), INTENT(INOUT)         :: msg(:)
+         !! Find location of maximum element among these data (input).
       INTEGER, INTENT(IN)                      :: gid
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_minloc_dv', &
                                      routineP = moduleN//':'//routineN
@@ -2517,19 +2267,19 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_minloc_dv
 
-! **************************************************************************************************
-!> \brief Finds the location of the maximal element in a vector.
-!> \param[in,out] msg         Find location of maximum element among these
-!>                            data (input).
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_allreduce with the MPI_MAXLOC reduction function identifier
-!> \par Invalid data types
-!>      This routine is invalid for (int_8) data!
-! **************************************************************************************************
    SUBROUTINE mp_maxloc_dv(msg, gid)
+      !! Finds the location of the maximal element in a vector.
+      !!
+      !! MPI mapping
+      !! mpi_allreduce with the MPI_MAXLOC reduction function identifier
+      !!
+      !! Invalid data types
+      !! This routine is invalid for (int_8) data!
+
       REAL(kind=real_8), INTENT(INOUT)         :: msg(:)
+         !! Find location of maximum element among these data (input).
       INTEGER, INTENT(IN)                      :: gid
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_maxloc_dv', &
                                      routineP = moduleN//':'//routineN
@@ -2561,17 +2311,16 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_maxloc_dv
 
-! **************************************************************************************************
-!> \brief Logical OR reduction
-!> \param[in,out] msg         Datum to perform inclusive disjunction (input)
-!>                            and resultant inclusive disjunction (output)
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_allreduce
-! **************************************************************************************************
    SUBROUTINE mp_sum_b(msg, gid)
+      !! Logical OR reduction
+      !!
+      !! MPI mapping
+      !! mpi_allreduce
+
       LOGICAL, INTENT(INOUT)                             :: msg
+         !! Datum to perform inclusive disjunction (input) and resultant inclusive disjunction (output)
       INTEGER, INTENT(IN)                                :: gid
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_b', routineP = moduleN//':'//routineN
 
@@ -2590,17 +2339,16 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_sum_b
 
-! **************************************************************************************************
-!> \brief Logical OR reduction
-!> \param[in,out] msg         Datum to perform inclusive disjunction (input)
-!>                            and resultant inclusive disjunction (output)
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_allreduce
-! **************************************************************************************************
    SUBROUTINE mp_sum_bv(msg, gid)
+      !! Logical OR reduction
+      !!
+      !! MPI mapping
+      !! mpi_allreduce
+
       LOGICAL, DIMENSION(:), INTENT(INOUT)               :: msg
+         !! Datum to perform inclusive disjunction (input) and resultant inclusive disjunction (output)
       INTEGER, INTENT(IN)                                :: gid
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_bv', routineP = moduleN//':'//routineN
 
@@ -2621,18 +2369,16 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_sum_bv
 
-! **************************************************************************************************
-!> \brief Logical OR reduction
-!> \param[in,out] msg         Datum to perform inclusive disjunction (input)
-!>                            and resultant inclusive disjunction (output)
-!> \param[in] gid             Message passing environment identifier
-!> \param request ...
-!> \par MPI mapping
-!>      mpi_allreduce
-! **************************************************************************************************
    SUBROUTINE mp_isum_bv(msg, gid, request)
+      !! Logical OR reduction
+      !!
+      !! MPI mapping
+      !! mpi_allreduce
+
       LOGICAL, DIMENSION(:), INTENT(INOUT)               :: msg
+         !! Datum to perform inclusive disjunction (input) and resultant inclusive disjunction (output)
       INTEGER, INTENT(IN)                                :: gid
+         !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                             :: request
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isum_bv', routineP = moduleN//':'//routineN
@@ -2664,16 +2410,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_isum_bv
 
-! **************************************************************************************************
-!> \brief Get Version of the MPI Library (MPI 3)
-!> \param[out] version        Version of the library,
-!>                            declared as CHARACTER(LEN=mp_max_library_version_string)
-!> \param[out] resultlen      Length (in printable characters) of
-!>                            the result returned in version (integer)
-! **************************************************************************************************
    SUBROUTINE mp_get_library_version(version, resultlen)
+      !! Get Version of the MPI Library (MPI 3)
+
       CHARACTER(LEN=*), INTENT(OUT)                      :: version
+         !! Version of the library, declared as CHARACTER(LEN=mp_max_library_version_string)
       INTEGER, INTENT(OUT)                               :: resultlen
+         !! Length (in printable characters) of the result returned in version (integer)
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_get_library_version', &
                                      routineP = moduleN//':'//routineN
@@ -2699,14 +2442,13 @@ CONTAINS
 #endif
    END SUBROUTINE mp_get_library_version
 
-! **************************************************************************************************
-!> \brief Get a unique specifier for the actual (as opposed to virtual) node (MPI 2.1)
-!> \param[out] procname       Name of processor, declared as CHARACTER(LEN=mp_max_processor_name)
-!> \param[out] resultlen      Length (in characters) of procname (INTEGER)
-! **************************************************************************************************
    SUBROUTINE mp_get_processor_name(procname, resultlen)
+      !! Get a unique specifier for the actual (as opposed to virtual) node (MPI 2.1)
+
       CHARACTER(LEN=*), INTENT(OUT)                      :: procname
+         !! Name of processor, declared as CHARACTER(LEN=mp_max_processor_name)
       INTEGER, INTENT(OUT)                               :: resultlen
+         !! Length (in characters) of procname (INTEGER)
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_get_processor_name', &
                                      routineP = moduleN//':'//routineN
@@ -2723,26 +2465,23 @@ CONTAINS
 #endif
    END SUBROUTINE mp_get_processor_name
 
-! **************************************************************************************************
-!> \brief Opens a file
-!> \param[in] groupid    message passing environment identifier
-!> \param[out] fh        file handle (file storage unit)
-!> \param[in] filepath   path to the file
-!> \param amode_status   access mode
-!> \param info ...
-!> \par MPI-I/O mapping  mpi_file_open
-!> \par STREAM-I/O mapping  OPEN
-!>
-!> \param[in](optional) info   info object
-!> \par History
-!>      11.2012 created [Hossein Bani-Hashemian]
-! **************************************************************************************************
    SUBROUTINE mp_file_open(groupid, fh, filepath, amode_status, info)
+      !! Opens a file
+      !!
+      !! MPI-I/O mapping  mpi_file_open
+      !!
+      !! STREAM-I/O mapping  OPEN
+
       INTEGER, INTENT(IN)                      :: groupid
+         !! message passing environment identifier
       INTEGER, INTENT(OUT)                     :: fh
+         !! file handle (file storage unit)
       CHARACTER(LEN=*), INTENT(IN)             :: filepath
+         !! path to the file
       INTEGER, INTENT(IN)                      :: amode_status
+         !! access mode
       INTEGER, INTENT(IN), OPTIONAL            :: info
+         !! info object
 
       INTEGER                                  :: ierr, istat
 #if defined(__parallel)
@@ -2787,17 +2526,14 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_open
 
-! **************************************************************************************************
-!> \brief Deletes a file. Auxiliary routine to emulate 'replace' action for mp_file_open.
-!>        Only the master processor should call this routine.
-!> \param[in] filepath   path to the file
-!> \param[in](optional) info   info object
-!> \par History
-!>      11.2017 created [Nico Holmberg]
-! **************************************************************************************************
    SUBROUTINE mp_file_delete(filepath, info)
+      !! Deletes a file. Auxiliary routine to emulate 'replace' action for mp_file_open.
+      !! Only the master processor should call this routine.
+
       CHARACTER(LEN=*), INTENT(IN)             :: filepath
+         !! path to the file
       INTEGER, INTENT(IN), OPTIONAL            :: info
+         !! info object
 
 #if defined(__parallel)
       INTEGER                                  :: ierr
@@ -2820,17 +2556,15 @@ CONTAINS
 
    END SUBROUTINE mp_file_delete
 
-! **************************************************************************************************
-!> \brief Closes a file
-!> \param[in] fh   file handle (file storage unit)
-!> \par MPI-I/O mapping   mpi_file_close
-!> \par STREAM-I/O mapping   CLOSE
-!>
-!> \par History
-!>      11.2012 created [Hossein Bani-Hashemian]
-! **************************************************************************************************
    SUBROUTINE mp_file_close(fh)
+      !! Closes a file
+      !!
+      !! MPI-I/O mapping   mpi_file_close
+      !!
+      !! STREAM-I/O mapping   CLOSE
+
       INTEGER, INTENT(INOUT)                             :: fh
+         !! file handle (file storage unit)
 
       INTEGER                                            :: ierr
 
@@ -2844,19 +2578,17 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_close
 
-! **************************************************************************************************
-!> \brief Returns the file size
-!> \param[in] fh file handle (file storage unit)
-!> \param[out] file_size  the file size
-!> \par MPI-I/O mapping   mpi_file_get_size
-!> \par STREAM-I/O mapping   INQUIRE
-!>
-!> \par History
-!>      12.2012 created [Hossein Bani-Hashemian]
-! **************************************************************************************************
    SUBROUTINE mp_file_get_size(fh, file_size)
+      !! Returns the file size
+      !!
+      !! MPI-I/O mapping   mpi_file_get_size
+      !!
+      !! STREAM-I/O mapping   INQUIRE
+
       INTEGER, INTENT(IN)                                :: fh
+         !! file handle (file storage unit)
       INTEGER(kind=file_offset), INTENT(OUT)             :: file_size
+         !! the file size
 
       INTEGER                                            :: ierr
 
@@ -2870,19 +2602,17 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_get_size
 
-! **************************************************************************************************
-!> \brief Returns the file position
-!> \param[in] fh file handle (file storage unit)
-!> \param[out] file_size  the file position
-!> \par MPI-I/O mapping   mpi_file_get_position
-!> \par STREAM-I/O mapping   INQUIRE
-!>
-!> \par History
-!>      11.2017 created [Nico Holmberg]
-! **************************************************************************************************
    SUBROUTINE mp_file_get_position(fh, pos)
+      !! Returns the file position
+      !!
+      !! MPI-I/O mapping   mpi_file_get_position
+      !!
+      !! STREAM-I/O mapping   INQUIRE
+
       INTEGER, INTENT(IN)                                :: fh
+         !! file handle (file storage unit)
       INTEGER(kind=file_offset), INTENT(OUT)             :: pos
+         !! the file position
 
       INTEGER                                            :: ierr
 
@@ -2896,12 +2626,6 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_get_position
 
-! **************************************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
-! **************************************************************************************************
    SUBROUTINE mp_file_write_at_ch(fh, offset, msg)
       CHARACTER(LEN=*), INTENT(IN)               :: msg
       INTEGER, INTENT(IN)                        :: fh
@@ -2921,12 +2645,6 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_write_at_ch
 
-! **************************************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
-! **************************************************************************************************
    SUBROUTINE mp_file_write_at_all_ch(fh, offset, msg)
       CHARACTER(LEN=*), INTENT(IN)               :: msg
       INTEGER, INTENT(IN)                        :: fh
@@ -2946,12 +2664,6 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_write_at_all_ch
 
-! **************************************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
-! **************************************************************************************************
    SUBROUTINE mp_file_read_at_ch(fh, offset, msg)
       CHARACTER(LEN=*), INTENT(OUT)              :: msg
       INTEGER, INTENT(IN)                        :: fh
@@ -2971,12 +2683,6 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_read_at_ch
 
-! **************************************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
-! **************************************************************************************************
    SUBROUTINE mp_file_read_at_all_ch(fh, offset, msg)
       CHARACTER(LEN=*), INTENT(OUT)              :: msg
       INTEGER, INTENT(IN)                        :: fh
@@ -2996,17 +2702,16 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_read_at_all_ch
 
-! **************************************************************************************************
-!> \brief Returns the size of a data type in bytes
-!> \param[in] type_descriptor  data type
-!> \param[out] type_size       size of the data type
-!> \par MPI mapping
-!>      mpi_type_size
-!>
-! **************************************************************************************************
    SUBROUTINE mp_type_size(type_descriptor, type_size)
+      !! Returns the size of a data type in bytes
+      !!
+      !! MPI mapping
+      !! mpi_type_size
+
       TYPE(mp_type_descriptor_type), INTENT(IN)          :: type_descriptor
+         !! data type
       INTEGER, INTENT(OUT)                               :: type_size
+         !! size of the data type
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_size', routineP = moduleN//':'//routineN
 
@@ -3031,13 +2736,6 @@ CONTAINS
 #endif
    END SUBROUTINE mp_type_size
 
-! **************************************************************************************************
-!> \brief ...
-!> \param subtypes ...
-!> \param vector_descriptor ...
-!> \param index_descriptor ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION mp_type_make_struct(subtypes, &
                                 vector_descriptor, index_descriptor) &
       RESULT(type_descriptor)
@@ -3096,10 +2794,6 @@ CONTAINS
       ENDIF
    END FUNCTION mp_type_make_struct
 
-! **************************************************************************************************
-!> \brief ...
-!> \param type_descriptor ...
-! **************************************************************************************************
    RECURSIVE SUBROUTINE mp_type_free_m(type_descriptor)
       TYPE(mp_type_descriptor_type), INTENT(inout)       :: type_descriptor
 
@@ -3128,10 +2822,6 @@ CONTAINS
 
    END SUBROUTINE mp_type_free_m
 
-! **************************************************************************************************
-!> \brief ...
-!> \param type_descriptors ...
-! **************************************************************************************************
    SUBROUTINE mp_type_free_v(type_descriptors)
       TYPE(mp_type_descriptor_type), DIMENSION(:), &
          INTENT(inout)                                   :: type_descriptors
@@ -3144,15 +2834,8 @@ CONTAINS
 
    END SUBROUTINE mp_type_free_v
 
-! **************************************************************************************************
-!> \brief Non-blocking send of custom type
-!> \param msgin ...
-!> \param dest ...
-!> \param comm ...
-!> \param request ...
-!> \param tag ...
-! **************************************************************************************************
    SUBROUTINE mp_isend_custom(msgin, dest, comm, request, tag)
+      !! Non-blocking send of custom type
       TYPE(mp_type_descriptor_type), INTENT(IN)          :: msgin
       INTEGER, INTENT(IN)                                :: dest, comm
       INTEGER, INTENT(out)                               :: request
@@ -3184,15 +2867,8 @@ CONTAINS
 #endif
    END SUBROUTINE mp_isend_custom
 
-! **************************************************************************************************
-!> \brief Non-blocking receive of vector data
-!> \param msgout ...
-!> \param source ...
-!> \param comm ...
-!> \param request ...
-!> \param tag ...
-! **************************************************************************************************
    SUBROUTINE mp_irecv_custom(msgout, source, comm, request, tag)
+      !! Non-blocking receive of vector data
       TYPE(mp_type_descriptor_type), INTENT(INOUT)       :: msgout
       INTEGER, INTENT(IN)                                :: source, comm
       INTEGER, INTENT(out)                               :: request
@@ -3224,11 +2900,8 @@ CONTAINS
 #endif
    END SUBROUTINE mp_irecv_custom
 
-! **************************************************************************************************
-!> \brief Window free
-!> \param win ...
-! **************************************************************************************************
    SUBROUTINE mp_win_free(win)
+      !! Window free
       INTEGER, INTENT(INOUT)                             :: win
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_free', routineP = moduleN//':'//routineN
@@ -3251,11 +2924,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_win_free
 
-! **************************************************************************************************
-!> \brief Window flush
-!> \param win ...
-! **************************************************************************************************
    SUBROUTINE mp_win_flush_all(win)
+      !! Window flush
       INTEGER, INTENT(IN)                                :: win
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_flush_all', &
@@ -3280,11 +2950,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_win_flush_all
 
-! **************************************************************************************************
-!> \brief Window lock
-!> \param win ...
-! **************************************************************************************************
    SUBROUTINE mp_win_lock_all(win)
+      !! Window lock
       INTEGER, INTENT(INOUT)                             :: win
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_lock_all', &
@@ -3312,11 +2979,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_win_lock_all
 
-! **************************************************************************************************
-!> \brief Window lock
-!> \param win ...
-! **************************************************************************************************
    SUBROUTINE mp_win_unlock_all(win)
+      !! Window lock
       INTEGER, INTENT(INOUT)                             :: win
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_unlock_all', &
@@ -3346,32 +3010,32 @@ CONTAINS
 
 #:include 'dbcsr_mpiwrap.fypp'
 #:for nametype1, type1, mpi_type1, mpi_2type1, kind1, bytes1, handle1, zero1, one1 in inst_params
-! *****************************************************************************
-!> \brief All-to-all data exchange, rank-1 data of different sizes
-!> \param[in] sb              Data to send
-!> \param[in] scount          Data counts for data sent to other processes
-!> \param[in] sdispl          Respective data offsets for data sent to process
-!> \param[in,out] rb          Buffer into which to receive data
-!> \param[in] rcount          Data counts for data received from other
-!>                            processes
-!> \param[in] rdispl          Respective data offsets for data received from
-!>                            other processes
-!> \param[in] group           Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_alltoallv
-!> \par Array sizes
-!>      The scount, rcount, and the sdispl and rdispl arrays have a
-!>      size equal to the number of processes.
-!> \par Offsets
-!>      Values in sdispl and rdispl start with 0.
-! *****************************************************************************
    SUBROUTINE mp_alltoall_${nametype1}$11v(sb, scount, sdispl, rb, rcount, rdispl, group)
+      !! All-to-all data exchange, rank-1 data of different sizes
+      !!
+      !! MPI mapping
+      !! mpi_alltoallv
+      !!
+      !! Array sizes
+      !! The scount, rcount, and the sdispl and rdispl arrays have a
+      !! size equal to the number of processes.
+      !!
+      !! Offsets
+      !! Values in sdispl and rdispl start with 0.
+
 
       ${type1}$, CONTIGUOUS, INTENT(IN)        :: sb(:)
+         !! Data to send
       INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
+         !! Data counts for data sent to other processes
+         !! Respective data offsets for data sent to process
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: rb(:)
+         !! Buffer into which to receive data
       INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
+         !! Data counts for data received from other processes
+         !! Respective data offsets for data received from other processes
       INTEGER, INTENT(IN)                      :: group
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$11v', &
                                      routineP = moduleN//':'//routineN
@@ -3405,26 +3069,28 @@ CONTAINS
 
    END SUBROUTINE mp_alltoall_${nametype1}$11v
 
-! *****************************************************************************
-!> \brief All-to-all data exchange, rank 1 arrays, equal sizes
-!> \param[in] sb    array with data to send
-!> \param[out] rb   array into which data is received
-!> \param[in] count  number of elements to send/receive (product of the
-!>                   extents of the first two dimensions)
-!> \param[in] group           Message passing environment identifier
-!> \par Index meaning
-!> \par The first two indices specify the data while the last index counts
-!>      the processes
-!> \par Sizes of ranks
-!>      All processes have the same data size.
-!> \par MPI mapping
-!>      mpi_alltoall
-! *****************************************************************************
    SUBROUTINE mp_alltoall_${nametype1}$ (sb, rb, count, group)
+      !! All-to-all data exchange, rank 1 arrays, equal sizes
+      !!
+      !! Index meaning
+      !!
+      !! The first two indices specify the data while the last index counts
+      !! the processes
+      !!
+      !! Sizes of ranks
+      !! All processes have the same data size.
+      !!
+      !! MPI mapping
+      !! mpi_alltoall
+
 
       ${type1}$, CONTIGUOUS, INTENT(IN)        :: sb(:)
+         !! array with data to send
       ${type1}$, CONTIGUOUS, INTENT(OUT)       :: rb(:)
+         !! array into which data is received
       INTEGER, INTENT(IN)                      :: count, group
+         !! number of elements to send/receive (product of the extents of the first two dimensions)
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -3454,15 +3120,10 @@ CONTAINS
 
    END SUBROUTINE mp_alltoall_${nametype1}$
 
-! *****************************************************************************
-!> \brief All-to-all data exchange, rank-2 arrays, equal sizes
-!> \param sb ...
-!> \param rb ...
-!> \param count ...
-!> \param group ...
-!> \note see mp_alltoall_${nametype1}$
-! *****************************************************************************
    SUBROUTINE mp_alltoall_${nametype1}$22(sb, rb, count, group)
+      !! All-to-all data exchange, rank-2 arrays, equal sizes
+      !! @note see mp_alltoall_${nametype1}$
+
 
       ${type1}$, CONTIGUOUS, INTENT(IN)        :: sb(:, :)
       ${type1}$, CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
@@ -3496,15 +3157,10 @@ CONTAINS
 
    END SUBROUTINE mp_alltoall_${nametype1}$22
 
-! *****************************************************************************
-!> \brief All-to-all data exchange, rank 4 data, equal sizes
-!> \param sb ...
-!> \param rb ...
-!> \param count ...
-!> \param group ...
-!> \note see mp_alltoall_${nametype1}$
-! *****************************************************************************
    SUBROUTINE mp_alltoall_${nametype1}$44(sb, rb, count, group)
+      !! All-to-all data exchange, rank 4 data, equal sizes
+      !! @note see mp_alltoall_${nametype1}$
+
 
       ${type1}$, DIMENSION(:, :, :, :), &
          INTENT(IN)                            :: sb
@@ -3540,18 +3196,18 @@ CONTAINS
 
    END SUBROUTINE mp_alltoall_${nametype1}$44
 
-! *****************************************************************************
-!> \brief Send one datum to another process
-!> \param[in] msg             Scalar to send
-!> \param[in] dest            Destination process
-!> \param[in] tag             Transfer identifier
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_send
-! *****************************************************************************
    SUBROUTINE mp_send_${nametype1}$ (msg, dest, tag, gid)
+      !! Send one datum to another process
+      !!
+      !! MPI mapping
+      !! mpi_send
+
       ${type1}$                                :: msg
+         !! Scalar to send
       INTEGER                                  :: dest, tag, gid
+         !! Destination process
+         !! Transfer identifier
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -3577,16 +3233,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_send_${nametype1}$
 
-! *****************************************************************************
-!> \brief Send rank-1 data to another process
-!> \param[in] msg             Rank-1 data to send
-!> \param dest ...
-!> \param tag ...
-!> \param gid ...
-!> \note see mp_send_${nametype1}$
-! *****************************************************************************
    SUBROUTINE mp_send_${nametype1}$v(msg, dest, tag, gid)
+      !! Send rank-1 data to another process
+      !! @note see mp_send_${nametype1}$
+
       ${type1}$                                :: msg(:)
+         !! Rank-1 data to send
       INTEGER                                  :: dest, tag, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_${nametype1}$v', &
@@ -3613,19 +3265,19 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_send_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Receive one datum from another process
-!> \param[in,out] msg         Place received data into this variable
-!> \param[in,out] source      Process to receive from
-!> \param[in,out] tag         Transfer identifier
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_send
-! *****************************************************************************
    SUBROUTINE mp_recv_${nametype1}$ (msg, source, tag, gid)
+      !! Receive one datum from another process
+      !!
+      !! MPI mapping
+      !! mpi_send
+
       ${type1}$, INTENT(INOUT)                 :: msg
+         !! Place received data into this variable
       INTEGER, INTENT(INOUT)                   :: source, tag
+         !! Process to receive from
+         !! Transfer identifier
       INTEGER, INTENT(IN)                      :: gid
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -3658,16 +3310,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_recv_${nametype1}$
 
-! *****************************************************************************
-!> \brief Receive rank-1 data from another process
-!> \param[in,out] msg         Place received data into this rank-1 array
-!> \param source ...
-!> \param tag ...
-!> \param gid ...
-!> \note see mp_recv_${nametype1}$
-! *****************************************************************************
    SUBROUTINE mp_recv_${nametype1}$v(msg, source, tag, gid)
+      !! Receive rank-1 data from another process
+      !! @note see mp_recv_${nametype1}$
+
       ${type1}$, INTENT(INOUT)                 :: msg(:)
+         !! Place received data into this rank-1 array
       INTEGER, INTENT(INOUT)                   :: source, tag
       INTEGER, INTENT(IN)                      :: gid
 
@@ -3702,17 +3350,17 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_recv_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Broadcasts a datum to all processes.
-!> \param[in] msg             Datum to broadcast
-!> \param[in] source          Processes which broadcasts
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_bcast
-! *****************************************************************************
    SUBROUTINE mp_bcast_${nametype1}$ (msg, source, gid)
+      !! Broadcasts a datum to all processes.
+      !!
+      !! MPI mapping
+      !! mpi_bcast
+
       ${type1}$                                :: msg
+         !! Datum to broadcast
       INTEGER                                  :: source, gid
+         !! Processes which broadcasts
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -3735,17 +3383,17 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_bcast_${nametype1}$
 
-! *****************************************************************************
-!> \brief Broadcasts a datum to all processes.
-!> \param[in] msg             Datum to broadcast
-!> \param[in] source          Processes which broadcasts
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_bcast
-! *****************************************************************************
    SUBROUTINE mp_ibcast_${nametype1}$ (msg, source, gid, request)
+      !! Broadcasts a datum to all processes.
+      !!
+      !! MPI mapping
+      !! mpi_bcast
+
       ${type1}$                                :: msg
+         !! Datum to broadcast
       INTEGER                                  :: source, gid
+         !! Processes which broadcasts
+         !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_${nametype1}$', &
@@ -3778,15 +3426,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_ibcast_${nametype1}$
 
-! *****************************************************************************
-!> \brief Broadcasts rank-1 data to all processes
-!> \param[in] msg             Data to broadcast
-!> \param source ...
-!> \param gid ...
-!> \note see mp_bcast_${nametype1}$1
-! *****************************************************************************
    SUBROUTINE mp_bcast_${nametype1}$v(msg, source, gid)
+      !! Broadcasts rank-1 data to all processes
+      !! @note see mp_bcast_${nametype1}$1
+
       ${type1}$                                :: msg(:)
+         !! Data to broadcast
       INTEGER                                  :: source, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_${nametype1}$v', &
@@ -3809,15 +3454,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_bcast_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Broadcasts rank-1 data to all processes
-!> \param[in] msg             Data to broadcast
-!> \param source ...
-!> \param gid ...
-!> \note see mp_bcast_${nametype1}$1
-! *****************************************************************************
    SUBROUTINE mp_ibcast_${nametype1}$v(msg, source, gid, request)
+      !! Broadcasts rank-1 data to all processes
+      !! @note see mp_bcast_${nametype1}$1
+
       ${type1}$                                :: msg(:)
+         !! Data to broadcast
       INTEGER                                  :: source, gid
       INTEGER, INTENT(INOUT)                   :: request
 
@@ -3849,15 +3491,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_ibcast_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Broadcasts rank-2 data to all processes
-!> \param[in] msg             Data to broadcast
-!> \param source ...
-!> \param gid ...
-!> \note see mp_bcast_${nametype1}$1
-! *****************************************************************************
    SUBROUTINE mp_bcast_${nametype1}$m(msg, source, gid)
+      !! Broadcasts rank-2 data to all processes
+      !! @note see mp_bcast_${nametype1}$1
+
       ${type1}$                                :: msg(:, :)
+         !! Data to broadcast
       INTEGER                                  :: source, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_im', &
@@ -3880,15 +3519,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_bcast_${nametype1}$m
 
-! *****************************************************************************
-!> \brief Broadcasts rank-3 data to all processes
-!> \param[in] msg             Data to broadcast
-!> \param source ...
-!> \param gid ...
-!> \note see mp_bcast_${nametype1}$1
-! *****************************************************************************
    SUBROUTINE mp_bcast_${nametype1}$3(msg, source, gid)
+      !! Broadcasts rank-3 data to all processes
+      !! @note see mp_bcast_${nametype1}$1
+
       ${type1}$                                  :: msg(:, :, :)
+         !! Data to broadcast
       INTEGER                                  :: source, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_${nametype1}$3', &
@@ -3911,16 +3547,16 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_bcast_${nametype1}$3
 
-! *****************************************************************************
-!> \brief Sums a datum from all processes with result left on all processes.
-!> \param[in,out] msg         Datum to sum (input) and result (output)
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_allreduce
-! *****************************************************************************
    SUBROUTINE mp_sum_${nametype1}$ (msg, gid)
+      !! Sums a datum from all processes with result left on all processes.
+      !!
+      !! MPI mapping
+      !! mpi_allreduce
+
       ${type1}$, INTENT(INOUT)    :: msg
+         !! Datum to sum (input) and result (output)
       INTEGER, INTENT(IN)         :: gid
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -3942,14 +3578,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_sum_${nametype1}$
 
-! *****************************************************************************
-!> \brief Element-wise sum of a rank-1 array on all processes.
-!> \param[in,out] msg         Vector to sum and result
-!> \param gid ...
-!> \note see mp_sum_${nametype1}$
-! *****************************************************************************
    SUBROUTINE mp_sum_${nametype1}$v(msg, gid)
+      !! Element-wise sum of a rank-1 array on all processes.
+      !! @note see mp_sum_${nametype1}$
+
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+         !! Vector to sum and result
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$v', &
@@ -3977,14 +3611,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_sum_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Element-wise sum of a rank-1 array on all processes.
-!> \param[in,out] msg         Vector to sum and result
-!> \param gid ...
-!> \note see mp_sum_${nametype1}$
-! *****************************************************************************
    SUBROUTINE mp_isum_${nametype1}$v(msg, gid, request)
+      !! Element-wise sum of a rank-1 array on all processes.
+      !! @note see mp_sum_${nametype1}$
+
       ${type1}$, INTENT(INOUT)                 :: msg(:)
+         !! Vector to sum and result
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(INOUT)                   :: request
 
@@ -4024,14 +3656,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_isum_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Element-wise sum of a rank-2 array on all processes.
-!> \param[in] msg             Matrix to sum and result
-!> \param gid ...
-!> \note see mp_sum_${nametype1}$
-! *****************************************************************************
    SUBROUTINE mp_sum_${nametype1}$m(msg, gid)
+      !! Element-wise sum of a rank-2 array on all processes.
+      !! @note see mp_sum_${nametype1}$
+
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+         !! Matrix to sum and result
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$m', &
@@ -4066,14 +3696,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_sum_${nametype1}$m
 
-! *****************************************************************************
-!> \brief Element-wise sum of a rank-3 array on all processes.
-!> \param[in] msg             Array to sum and result
-!> \param gid ...
-!> \note see mp_sum_${nametype1}$
-! *****************************************************************************
    SUBROUTINE mp_sum_${nametype1}$m3(msg, gid)
+      !! Element-wise sum of a rank-3 array on all processes.
+      !! @note see mp_sum_${nametype1}$
+
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :)
+         !! Array to sum and result
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$m3', &
@@ -4097,14 +3725,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_sum_${nametype1}$m3
 
-! *****************************************************************************
-!> \brief Element-wise sum of a rank-4 array on all processes.
-!> \param[in] msg             Array to sum and result
-!> \param gid ...
-!> \note see mp_sum_${nametype1}$
-! *****************************************************************************
    SUBROUTINE mp_sum_${nametype1}$m4(msg, gid)
+      !! Element-wise sum of a rank-4 array on all processes.
+      !! @note see mp_sum_${nametype1}$
+
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :, :)
+         !! Array to sum and result
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$m4', &
@@ -4129,19 +3755,17 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_sum_${nametype1}$m4
 
-! *****************************************************************************
-!> \brief Element-wise sum of data from all processes with result left only on
-!>        one.
-!> \param[in,out] msg         Vector to sum (input) and (only on process root)
-!>                            result (output)
-!> \param root ...
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_reduce
-! *****************************************************************************
    SUBROUTINE mp_sum_root_${nametype1}$v(msg, root, gid)
+      !! Element-wise sum of data from all processes with result left only on
+      !! one.
+      !!
+      !! MPI mapping
+      !! mpi_reduce
+
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+         !! Vector to sum (input) and (only on process root) result (output)
       INTEGER, INTENT(IN)                      :: root, gid
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_root_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
@@ -4178,17 +3802,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_sum_root_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Element-wise sum of data from all processes with result left only on
-!>        one.
-!> \param[in,out] msg         Matrix to sum (input) and (only on process root)
-!>                            result (output)
-!> \param root ...
-!> \param gid ...
-!> \note see mp_sum_root_${nametype1}$v
-! *****************************************************************************
    SUBROUTINE mp_sum_root_${nametype1}$m(msg, root, gid)
+      !! Element-wise sum of data from all processes with result left only on
+      !! one.
+      !! @note see mp_sum_root_${nametype1}$v
+
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+         !! Matrix to sum (input) and (only on process root) result (output)
       INTEGER, INTENT(IN)                      :: root, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_root_rm', &
@@ -4226,16 +3846,15 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_sum_root_${nametype1}$m
 
-! *****************************************************************************
-!> \brief Partial sum of data from all processes with result on each process.
-!> \param[in] msg          Matrix to sum (input)
-!> \param[out] res         Matrix containing result (output)
-!> \param[in] gid          Message passing environment identifier
-! *****************************************************************************
    SUBROUTINE mp_sum_partial_${nametype1}$m(msg, res, gid)
+      !! Partial sum of data from all processes with result on each process.
+
       ${type1}$, CONTIGUOUS, INTENT(IN)  :: msg(:, :)
+         !! Matrix to sum (input)
       ${type1}$, CONTIGUOUS, INTENT(OUT) :: res(:, :)
+         !! Matrix containing result (output)
       INTEGER, INTENT(IN)                :: gid
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER        :: routineN = 'mp_sum_partial_${nametype1}$m', &
                                             routineP = moduleN//':'//routineN
@@ -4265,17 +3884,16 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_sum_partial_${nametype1}$m
 
-! *****************************************************************************
-!> \brief Finds the maximum of a datum with the result left on all processes.
-!> \param[in,out] msg         Find maximum among these data (input) and
-!>                            maximum (output)
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_allreduce
-! *****************************************************************************
    SUBROUTINE mp_max_${nametype1}$ (msg, gid)
+      !! Finds the maximum of a datum with the result left on all processes.
+      !!
+      !! MPI mapping
+      !! mpi_allreduce
+
       ${type1}$, INTENT(INOUT)                 :: msg
+         !! Find maximum among these data (input) and maximum (output)
       INTEGER, INTENT(IN)                      :: gid
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -4297,16 +3915,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_max_${nametype1}$
 
-! *****************************************************************************
-!> \brief Finds the element-wise maximum of a vector with the result left on
-!>        all processes.
-!> \param[in,out] msg         Find maximum among these data (input) and
-!>                            maximum (output)
-!> \param gid ...
-!> \note see mp_max_${nametype1}$
-! *****************************************************************************
    SUBROUTINE mp_max_${nametype1}$v(msg, gid)
+      !! Finds the element-wise maximum of a vector with the result left on
+      !! all processes.
+      !! @note see mp_max_${nametype1}$
+
       ${type1}$, INTENT(INOUT)                 :: msg(:)
+         !! Find maximum among these data (input) and maximum (output)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_${nametype1}$v', &
@@ -4328,17 +3943,16 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_max_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Finds the minimum of a datum with the result left on all processes.
-!> \param[in,out] msg         Find minimum among these data (input) and
-!>                            maximum (output)
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_allreduce
-! *****************************************************************************
    SUBROUTINE mp_min_${nametype1}$ (msg, gid)
+      !! Finds the minimum of a datum with the result left on all processes.
+      !!
+      !! MPI mapping
+      !! mpi_allreduce
+
       ${type1}$, INTENT(INOUT)                 :: msg
+         !! Find minimum among these data (input) and maximum (output)
       INTEGER, INTENT(IN)                      :: gid
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -4360,18 +3974,16 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_min_${nametype1}$
 
-! *****************************************************************************
-!> \brief Finds the element-wise minimum of vector with the result left on
-!>        all processes.
-!> \param[in,out] msg         Find minimum among these data (input) and
-!>                            maximum (output)
-!> \param gid ...
-!> \par MPI mapping
-!>      mpi_allreduce
-!> \note see mp_min_${nametype1}$
-! *****************************************************************************
    SUBROUTINE mp_min_${nametype1}$v(msg, gid)
+      !! Finds the element-wise minimum of vector with the result left on
+      !! all processes.
+      !!
+      !! MPI mapping
+      !! mpi_allreduce
+      !! @note see mp_min_${nametype1}$
+
       ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+         !! Find minimum among these data (input) and maximum (output)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_${nametype1}$v', &
@@ -4393,17 +4005,17 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_min_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Multiplies a set of numbers scattered across a number of processes,
-!>        then replicates the result.
-!> \param[in,out] msg         a number to multiply (input) and result (output)
-!> \param[in] gid             message passing environment identifier
-!> \par MPI mapping
-!>      mpi_allreduce
-! *****************************************************************************
    SUBROUTINE mp_prod_${nametype1}$ (msg, gid)
+      !! Multiplies a set of numbers scattered across a number of processes,
+      !! then replicates the result.
+      !!
+      !! MPI mapping
+      !! mpi_allreduce
+
       ${type1}$, INTENT(INOUT)                 :: msg
+         !! a number to multiply (input) and result (output)
       INTEGER, INTENT(IN)                      :: gid
+         !! message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -4425,19 +4037,19 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_prod_${nametype1}$
 
-! *****************************************************************************
-!> \brief Scatters data from one processes to all others
-!> \param[in] msg_scatter     Data to scatter (for root process)
-!> \param[out] msg            Received data
-!> \param[in] root            Process which scatters data
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_scatter
-! *****************************************************************************
    SUBROUTINE mp_scatter_${nametype1}$v(msg_scatter, msg, root, gid)
+      !! Scatters data from one processes to all others
+      !!
+      !! MPI mapping
+      !! mpi_scatter
+
       ${type1}$, INTENT(IN)                    :: msg_scatter(:)
+         !! Data to scatter (for root process)
       ${type1}$, INTENT(OUT)                   :: msg(:)
+         !! Received data
       INTEGER, INTENT(IN)                      :: root, gid
+         !! Process which scatters data
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_scatter_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
@@ -4461,18 +4073,18 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_scatter_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Scatters data from one processes to all others
-!> \param[in] msg_scatter     Data to scatter (for root process)
-!> \param[in] root            Process which scatters data
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_scatter
-! *****************************************************************************
    SUBROUTINE mp_iscatter_${nametype1}$ (msg_scatter, msg, root, gid, request)
+      !! Scatters data from one processes to all others
+      !!
+      !! MPI mapping
+      !! mpi_scatter
+
       ${type1}$, INTENT(IN)                    :: msg_scatter(:)
+         !! Data to scatter (for root process)
       ${type1}$, INTENT(INOUT)                 :: msg
       INTEGER, INTENT(IN)                      :: root, gid
+         !! Process which scatters data
+         !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_${nametype1}$', &
@@ -4507,18 +4119,18 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_iscatter_${nametype1}$
 
-! *****************************************************************************
-!> \brief Scatters data from one processes to all others
-!> \param[in] msg_scatter     Data to scatter (for root process)
-!> \param[in] root            Process which scatters data
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_scatter
-! *****************************************************************************
    SUBROUTINE mp_iscatter_${nametype1}$v2(msg_scatter, msg, root, gid, request)
+      !! Scatters data from one processes to all others
+      !!
+      !! MPI mapping
+      !! mpi_scatter
+
       ${type1}$, INTENT(IN)                    :: msg_scatter(:, :)
+         !! Data to scatter (for root process)
       ${type1}$, INTENT(INOUT)                 :: msg(:)
       INTEGER, INTENT(IN)                      :: root, gid
+         !! Process which scatters data
+         !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_${nametype1}$v2', &
@@ -4553,19 +4165,19 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_iscatter_${nametype1}$v2
 
-! *****************************************************************************
-!> \brief Scatters data from one processes to all others
-!> \param[in] msg_scatter     Data to scatter (for root process)
-!> \param[in] root            Process which scatters data
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_scatter
-! *****************************************************************************
    SUBROUTINE mp_iscatterv_${nametype1}$v(msg_scatter, sendcounts, displs, msg, recvcount, root, gid, request)
+      !! Scatters data from one processes to all others
+      !!
+      !! MPI mapping
+      !! mpi_scatter
+
       ${type1}$, INTENT(IN)                    :: msg_scatter(:)
+         !! Data to scatter (for root process)
       INTEGER, INTENT(IN)                      :: sendcounts(:), displs(:)
       ${type1}$, INTENT(INOUT)                 :: msg(:)
       INTEGER, INTENT(IN)                      :: recvcount, root, gid
+         !! Process which scatters data
+         !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatterv_${nametype1}$v', &
@@ -4605,19 +4217,19 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_iscatterv_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Gathers a datum from all processes to one
-!> \param[in] msg             Datum to send to root
-!> \param[out] msg_gather     Received data (on root)
-!> \param[in] root            Process which gathers the data
-!> \param[in] gid             Message passing environment identifier
-!> \par MPI mapping
-!>      mpi_gather
-! *****************************************************************************
    SUBROUTINE mp_gather_${nametype1}$ (msg, msg_gather, root, gid)
+      !! Gathers a datum from all processes to one
+      !!
+      !! MPI mapping
+      !! mpi_gather
+
       ${type1}$, INTENT(IN)                    :: msg
+         !! Datum to send to root
       ${type1}$, INTENT(OUT)                   :: msg_gather(:)
+         !! Received data (on root)
       INTEGER, INTENT(IN)                      :: root, gid
+         !! Process which gathers the data
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -4641,20 +4253,18 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_gather_${nametype1}$
 
-! *****************************************************************************
-!> \brief Gathers data from all processes to one
-!> \param[in] msg             Datum to send to root
-!> \param msg_gather ...
-!> \param root ...
-!> \param gid ...
-!> \par Data length
-!>      All data (msg) is equal-sized
-!> \par MPI mapping
-!>      mpi_gather
-!> \note see mp_gather_${nametype1}$
-! *****************************************************************************
    SUBROUTINE mp_gather_${nametype1}$v(msg, msg_gather, root, gid)
+      !! Gathers data from all processes to one
+      !!
+      !! Data length
+      !! All data (msg) is equal-sized
+      !!
+      !! MPI mapping
+      !! mpi_gather
+      !! @note see mp_gather_${nametype1}$
+
       ${type1}$, INTENT(IN)                    :: msg(:)
+         !! Datum to send to root
       ${type1}$, INTENT(OUT)                   :: msg_gather(:)
       INTEGER, INTENT(IN)                      :: root, gid
 
@@ -4680,20 +4290,18 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_gather_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Gathers data from all processes to one
-!> \param[in] msg             Datum to send to root
-!> \param msg_gather ...
-!> \param root ...
-!> \param gid ...
-!> \par Data length
-!>      All data (msg) is equal-sized
-!> \par MPI mapping
-!>      mpi_gather
-!> \note see mp_gather_${nametype1}$
-! *****************************************************************************
    SUBROUTINE mp_gather_${nametype1}$m(msg, msg_gather, root, gid)
+      !! Gathers data from all processes to one
+      !!
+      !! Data length
+      !! All data (msg) is equal-sized
+      !!
+      !! MPI mapping
+      !! mpi_gather
+      !! @note see mp_gather_${nametype1}$
+
       ${type1}$, INTENT(IN)                    :: msg(:, :)
+         !! Datum to send to root
       ${type1}$, INTENT(OUT)                   :: msg_gather(:, :)
       INTEGER, INTENT(IN)                      :: root, gid
 
@@ -4719,27 +4327,29 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_gather_${nametype1}$m
 
-! *****************************************************************************
-!> \brief Gathers data from all processes to one.
-!> \param[in] sendbuf         Data to send to root
-!> \param[out] recvbuf        Received data (on root)
-!> \param[in] recvcounts      Sizes of data received from processes
-!> \param[in] displs          Offsets of data received from processes
-!> \param[in] root            Process which gathers the data
-!> \param[in] comm            Message passing environment identifier
-!> \par Data length
-!>      Data can have different lengths
-!> \par Offsets
-!>      Offsets start at 0
-!> \par MPI mapping
-!>      mpi_gather
-! *****************************************************************************
    SUBROUTINE mp_gatherv_${nametype1}$v(sendbuf, recvbuf, recvcounts, displs, root, comm)
+      !! Gathers data from all processes to one.
+      !!
+      !! Data length
+      !! Data can have different lengths
+      !!
+      !! Offsets
+      !! Offsets start at 0
+      !!
+      !! MPI mapping
+      !! mpi_gather
+
 
       ${type1}$, DIMENSION(:), INTENT(IN)      :: sendbuf
+         !! Data to send to root
       ${type1}$, DIMENSION(:), INTENT(OUT)     :: recvbuf
+         !! Received data (on root)
       INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+         !! Sizes of data received from processes
+         !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: root, comm
+         !! Process which gathers the data
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gatherv_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
@@ -4770,26 +4380,28 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_gatherv_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Gathers data from all processes to one.
-!> \param[in] sendbuf         Data to send to root
-!> \param[out] recvbuf        Received data (on root)
-!> \param[in] recvcounts      Sizes of data received from processes
-!> \param[in] displs          Offsets of data received from processes
-!> \param[in] root            Process which gathers the data
-!> \param[in] comm            Message passing environment identifier
-!> \par Data length
-!>      Data can have different lengths
-!> \par Offsets
-!>      Offsets start at 0
-!> \par MPI mapping
-!>      mpi_gather
-! *****************************************************************************
    SUBROUTINE mp_igatherv_${nametype1}$v(sendbuf, sendcount, recvbuf, recvcounts, displs, root, comm, request)
+      !! Gathers data from all processes to one.
+      !!
+      !! Data length
+      !! Data can have different lengths
+      !!
+      !! Offsets
+      !! Offsets start at 0
+      !!
+      !! MPI mapping
+      !! mpi_gather
+
       ${type1}$, DIMENSION(:), INTENT(IN)      :: sendbuf
+         !! Data to send to root
       ${type1}$, DIMENSION(:), INTENT(OUT)     :: recvbuf
+         !! Received data (on root)
       INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+         !! Sizes of data received from processes
+         !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: sendcount, root, comm
+         !! Process which gathers the data
+         !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_igatherv_${nametype1}$v', &
@@ -4831,21 +4443,22 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_igatherv_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Gathers a datum from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Datum to send
-!> \param[out] msgin          Received data
-!> \param[in] gid             Message passing environment identifier
-!> \par Data size
-!>      All processes send equal-sized data
-!> \par MPI mapping
-!>      mpi_allgather
-! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$ (msgout, msgin, gid)
+      !! Gathers a datum from all processes and all processes receive the
+      !! same data
+      !!
+      !! Data size
+      !! All processes send equal-sized data
+      !!
+      !! MPI mapping
+      !! mpi_allgather
+
       ${type1}$, INTENT(IN)                    :: msgout
+         !! Datum to send
       ${type1}$, INTENT(OUT)                   :: msgin(:)
+         !! Received data
       INTEGER, INTENT(IN)                      :: gid
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -4872,21 +4485,22 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_allgather_${nametype1}$
 
-! *****************************************************************************
-!> \brief Gathers a datum from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Datum to send
-!> \param[out] msgin          Received data
-!> \param[in] gid             Message passing environment identifier
-!> \par Data size
-!>      All processes send equal-sized data
-!> \par MPI mapping
-!>      mpi_allgather
-! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$2(msgout, msgin, gid)
+      !! Gathers a datum from all processes and all processes receive the
+      !! same data
+      !!
+      !! Data size
+      !! All processes send equal-sized data
+      !!
+      !! MPI mapping
+      !! mpi_allgather
+
       ${type1}$, INTENT(IN)                    :: msgout
+         !! Datum to send
       ${type1}$, INTENT(OUT)                   :: msgin(:, :)
+         !! Received data
       INTEGER, INTENT(IN)                      :: gid
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$2', &
                                      routineP = moduleN//':'//routineN
@@ -4913,21 +4527,22 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_allgather_${nametype1}$2
 
-! *****************************************************************************
-!> \brief Gathers a datum from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Datum to send
-!> \param[out] msgin          Received data
-!> \param[in] gid             Message passing environment identifier
-!> \par Data size
-!>      All processes send equal-sized data
-!> \par MPI mapping
-!>      mpi_allgather
-! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$ (msgout, msgin, gid, request)
+      !! Gathers a datum from all processes and all processes receive the
+      !! same data
+      !!
+      !! Data size
+      !! All processes send equal-sized data
+      !!
+      !! MPI mapping
+      !! mpi_allgather
+
       ${type1}$, INTENT(IN)                    :: msgout
+         !! Datum to send
       ${type1}$, INTENT(OUT)                   :: msgin(:)
+         !! Received data
       INTEGER, INTENT(IN)                      :: gid
+         !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_${nametype1}$', &
@@ -4964,23 +4579,25 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_iallgather_${nametype1}$
 
-! *****************************************************************************
-!> \brief Gathers vector data from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Rank-1 data to send
-!> \param[out] msgin          Received data
-!> \param[in] gid             Message passing environment identifier
-!> \par Data size
-!>      All processes send equal-sized data
-!> \par Ranks
-!>      The last rank counts the processes
-!> \par MPI mapping
-!>      mpi_allgather
-! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$12(msgout, msgin, gid)
+      !! Gathers vector data from all processes and all processes receive the
+      !! same data
+      !!
+      !! Data size
+      !! All processes send equal-sized data
+      !!
+      !! Ranks
+      !! The last rank counts the processes
+      !!
+      !! MPI mapping
+      !! mpi_allgather
+
       ${type1}$, INTENT(IN)                    :: msgout(:)
+         !! Rank-1 data to send
       ${type1}$, INTENT(OUT)                   :: msgin(:, :)
+         !! Received data
       INTEGER, INTENT(IN)                      :: gid
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_${nametype1}$12', &
                                      routineP = moduleN//':'//routineN
@@ -5007,16 +4624,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_allgather_${nametype1}$12
 
-! *****************************************************************************
-!> \brief Gathers matrix data from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Rank-2 data to send
-!> \param msgin ...
-!> \param gid ...
-!> \note see mp_allgather_${nametype1}$12
-! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$23(msgout, msgin, gid)
+      !! Gathers matrix data from all processes and all processes receive the
+      !! same data
+      !! @note see mp_allgather_${nametype1}$12
+
       ${type1}$, INTENT(IN)                    :: msgout(:, :)
+         !! Rank-2 data to send
       ${type1}$, INTENT(OUT)                   :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
@@ -5045,16 +4659,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_allgather_${nametype1}$23
 
-! *****************************************************************************
-!> \brief Gathers rank-3 data from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Rank-3 data to send
-!> \param msgin ...
-!> \param gid ...
-!> \note see mp_allgather_${nametype1}$12
-! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$34(msgout, msgin, gid)
+      !! Gathers rank-3 data from all processes and all processes receive the
+      !! same data
+      !! @note see mp_allgather_${nametype1}$12
+
       ${type1}$, INTENT(IN)                    :: msgout(:, :, :)
+         !! Rank-3 data to send
       ${type1}$, INTENT(OUT)                   :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
@@ -5083,16 +4694,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_allgather_${nametype1}$34
 
-! *****************************************************************************
-!> \brief Gathers rank-2 data from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Rank-2 data to send
-!> \param msgin ...
-!> \param gid ...
-!> \note see mp_allgather_${nametype1}$12
-! *****************************************************************************
    SUBROUTINE mp_allgather_${nametype1}$22(msgout, msgin, gid)
+      !! Gathers rank-2 data from all processes and all processes receive the
+      !! same data
+      !! @note see mp_allgather_${nametype1}$12
+
       ${type1}$, INTENT(IN)                    :: msgout(:, :)
+         !! Rank-2 data to send
       ${type1}$, INTENT(OUT)                   :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
 
@@ -5121,17 +4729,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_allgather_${nametype1}$22
 
-! *****************************************************************************
-!> \brief Gathers rank-1 data from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Rank-1 data to send
-!> \param msgin ...
-!> \param gid ...
-!> \param request ...
-!> \note see mp_allgather_${nametype1}$11
-! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$11(msgout, msgin, gid, request)
+      !! Gathers rank-1 data from all processes and all processes receive the
+      !! same data
+      !! @note see mp_allgather_${nametype1}$11
+
       ${type1}$, INTENT(IN)                    :: msgout(:)
+         !! Rank-1 data to send
       ${type1}$, INTENT(OUT)                   :: msgin(:)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
@@ -5172,17 +4776,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_iallgather_${nametype1}$11
 
-! *****************************************************************************
-!> \brief Gathers rank-2 data from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Rank-2 data to send
-!> \param msgin ...
-!> \param gid ...
-!> \param request ...
-!> \note see mp_allgather_${nametype1}$12
-! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$13(msgout, msgin, gid, request)
+      !! Gathers rank-2 data from all processes and all processes receive the
+      !! same data
+      !! @note see mp_allgather_${nametype1}$12
+
       ${type1}$, INTENT(IN)                    :: msgout(:)
+         !! Rank-2 data to send
       ${type1}$, INTENT(OUT)                   :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
@@ -5223,17 +4823,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_iallgather_${nametype1}$13
 
-! *****************************************************************************
-!> \brief Gathers rank-2 data from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Rank-2 data to send
-!> \param msgin ...
-!> \param gid ...
-!> \param request ...
-!> \note see mp_allgather_${nametype1}$12
-! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$22(msgout, msgin, gid, request)
+      !! Gathers rank-2 data from all processes and all processes receive the
+      !! same data
+      !! @note see mp_allgather_${nametype1}$12
+
       ${type1}$, INTENT(IN)                    :: msgout(:, :)
+         !! Rank-2 data to send
       ${type1}$, INTENT(OUT)                   :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
@@ -5274,17 +4870,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_iallgather_${nametype1}$22
 
-! *****************************************************************************
-!> \brief Gathers rank-2 data from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Rank-2 data to send
-!> \param msgin ...
-!> \param gid ...
-!> \param request ...
-!> \note see mp_allgather_${nametype1}$12
-! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$24(msgout, msgin, gid, request)
+      !! Gathers rank-2 data from all processes and all processes receive the
+      !! same data
+      !! @note see mp_allgather_${nametype1}$12
+
       ${type1}$, INTENT(IN)                    :: msgout(:, :)
+         !! Rank-2 data to send
       ${type1}$, INTENT(OUT)                   :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
@@ -5325,17 +4917,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_iallgather_${nametype1}$24
 
-! *****************************************************************************
-!> \brief Gathers rank-3 data from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Rank-3 data to send
-!> \param msgin ...
-!> \param gid ...
-!> \param request ...
-!> \note see mp_allgather_${nametype1}$12
-! *****************************************************************************
    SUBROUTINE mp_iallgather_${nametype1}$33(msgout, msgin, gid, request)
+      !! Gathers rank-3 data from all processes and all processes receive the
+      !! same data
+      !! @note see mp_allgather_${nametype1}$12
+
       ${type1}$, INTENT(IN)                    :: msgout(:, :, :)
+         !! Rank-3 data to send
       ${type1}$, INTENT(OUT)                   :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
@@ -5376,27 +4964,30 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_iallgather_${nametype1}$33
 
-! *****************************************************************************
-!> \brief Gathers vector data from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Rank-1 data to send
-!> \param[out] msgin          Received data
-!> \param[in] rcount          Size of sent data for every process
-!> \param[in] rdispl          Offset of sent data for every process
-!> \param[in] gid             Message passing environment identifier
-!> \par Data size
-!>      Processes can send different-sized data
-!> \par Ranks
-!>      The last rank counts the processes
-!> \par Offsets
-!>      Offsets are from 0
-!> \par MPI mapping
-!>      mpi_allgather
-! *****************************************************************************
    SUBROUTINE mp_allgatherv_${nametype1}$v(msgout, msgin, rcount, rdispl, gid)
+      !! Gathers vector data from all processes and all processes receive the
+      !! same data
+      !!
+      !! Data size
+      !! Processes can send different-sized data
+      !!
+      !! Ranks
+      !! The last rank counts the processes
+      !!
+      !! Offsets
+      !! Offsets are from 0
+      !!
+      !! MPI mapping
+      !! mpi_allgather
+
       ${type1}$, INTENT(IN)                    :: msgout(:)
+         !! Rank-1 data to send
       ${type1}$, INTENT(OUT)                   :: msgin(:)
+         !! Received data
       INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+         !! Size of sent data for every process
+         !! Offset of sent data for every process
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgatherv_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
@@ -5423,27 +5014,30 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_allgatherv_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Gathers vector data from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Rank-1 data to send
-!> \param[out] msgin          Received data
-!> \param[in] rcount          Size of sent data for every process
-!> \param[in] rdispl          Offset of sent data for every process
-!> \param[in] gid             Message passing environment identifier
-!> \par Data size
-!>      Processes can send different-sized data
-!> \par Ranks
-!>      The last rank counts the processes
-!> \par Offsets
-!>      Offsets are from 0
-!> \par MPI mapping
-!>      mpi_allgather
-! *****************************************************************************
    SUBROUTINE mp_iallgatherv_${nametype1}$v(msgout, msgin, rcount, rdispl, gid, request)
+      !! Gathers vector data from all processes and all processes receive the
+      !! same data
+      !!
+      !! Data size
+      !! Processes can send different-sized data
+      !!
+      !! Ranks
+      !! The last rank counts the processes
+      !!
+      !! Offsets
+      !! Offsets are from 0
+      !!
+      !! MPI mapping
+      !! mpi_allgather
+
       ${type1}$, INTENT(IN)                    :: msgout(:)
+         !! Rank-1 data to send
       ${type1}$, INTENT(OUT)                   :: msgin(:)
+         !! Received data
       INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+         !! Size of sent data for every process
+         !! Offset of sent data for every process
+         !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_${nametype1}$v', &
@@ -5482,27 +5076,30 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_iallgatherv_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Gathers vector data from all processes and all processes receive the
-!>        same data
-!> \param[in] msgout          Rank-1 data to send
-!> \param[out] msgin          Received data
-!> \param[in] rcount          Size of sent data for every process
-!> \param[in] rdispl          Offset of sent data for every process
-!> \param[in] gid             Message passing environment identifier
-!> \par Data size
-!>      Processes can send different-sized data
-!> \par Ranks
-!>      The last rank counts the processes
-!> \par Offsets
-!>      Offsets are from 0
-!> \par MPI mapping
-!>      mpi_allgather
-! *****************************************************************************
    SUBROUTINE mp_iallgatherv_${nametype1}$v2(msgout, msgin, rcount, rdispl, gid, request)
+      !! Gathers vector data from all processes and all processes receive the
+      !! same data
+      !!
+      !! Data size
+      !! Processes can send different-sized data
+      !!
+      !! Ranks
+      !! The last rank counts the processes
+      !!
+      !! Offsets
+      !! Offsets are from 0
+      !!
+      !! MPI mapping
+      !! mpi_allgather
+
       ${type1}$, INTENT(IN)                    :: msgout(:)
+         !! Rank-1 data to send
       ${type1}$, INTENT(OUT)                   :: msgin(:)
+         !! Received data
       INTEGER, INTENT(IN)                      :: rcount(:, :), rdispl(:, :), gid
+         !! Size of sent data for every process
+         !! Offset of sent data for every process
+         !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_${nametype1}$v2', &
@@ -5541,17 +5138,11 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_iallgatherv_${nametype1}$v2
 
-! **************************************************************************************************
-!> \brief wrapper needed to deal with interfaces as present in openmpi 1.8.1
-!>        the issue is with the rank of rcount and rdispl
-!> \param count ...
-!> \param array_of_requests ...
-!> \param array_of_statuses ...
-!> \param ierr ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
 #if defined(__parallel) && (__MPI_VERSION > 2)
    SUBROUTINE mp_iallgatherv_${nametype1}$v_internal(msgout, scount, msgin, rsize, rcount, rdispl, gid, request, ierr)
+      !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
+      !! the issue is with the rank of rcount and rdispl
+
       ${type1}$, INTENT(IN)                      :: msgout(:)
       ${type1}$, INTENT(OUT)                     :: msgin(:)
       INTEGER, INTENT(IN)                      :: rsize
@@ -5564,18 +5155,16 @@ CONTAINS
    END SUBROUTINE mp_iallgatherv_${nametype1}$v_internal
 #endif
 
-! *****************************************************************************
-!> \brief Sums a vector and partitions the result among processes
-!> \param[in] msgout          Data to sum
-!> \param[out] msgin          Received portion of summed data
-!> \param[in] rcount          Partition sizes of the summed data for
-!>                            every process
-!> \param[in] gid             Message passing environment identifier
-! *****************************************************************************
    SUBROUTINE mp_sum_scatter_${nametype1}$v(msgout, msgin, rcount, gid)
+      !! Sums a vector and partitions the result among processes
+
       ${type1}$, INTENT(IN)                    :: msgout(:)
+         !! Data to sum
       ${type1}$, INTENT(OUT)                   :: msgin(:)
+         !! Received portion of summed data
       INTEGER, INTENT(IN)                      :: rcount(:), gid
+         !! Partition sizes of the summed data for every process
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_scatter_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
@@ -5600,19 +5189,18 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_sum_scatter_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Sends and receives vector data
-!> \param[in] msgin           Data to send
-!> \param[in] dest            Process to send data to
-!> \param[out] msgout         Received data
-!> \param[in] source          Process from which to receive
-!> \param[in] comm            Message passing environment identifier
-! *****************************************************************************
    SUBROUTINE mp_sendrecv_${nametype1}$v(msgin, dest, msgout, source, comm)
+      !! Sends and receives vector data
+
       ${type1}$, INTENT(IN)                    :: msgin(:)
+         !! Data to send
       INTEGER, INTENT(IN)                      :: dest
+         !! Process to send data to
       ${type1}$, INTENT(OUT)                   :: msgout(:)
+         !! Received data
       INTEGER, INTENT(IN)                      :: source, comm
+         !! Process from which to receive
+         !! Message passing environment identifier
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sendrecv_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
@@ -5645,29 +5233,27 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_sendrecv_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Non-blocking send and receive of a scalar
-!> \param[in] msgin           Scalar data to send
-!> \param[in] dest            Which process to send to
-!> \param[out] msgout         Receive data into this pointer
-!> \param[in] source          Process to receive from
-!> \param[in] comm            Message passing environment identifier
-!> \param[out] send_request   Request handle for the send
-!> \param[out] recv_request   Request handle for the receive
-!> \param[in] tag             (optional) tag to differentiate requests
-!> \par Implementation
-!>      Calls mpi_isend and mpi_irecv.
-!> \par History
-!>      02.2005 created [Alfio Lazzaro]
-! *****************************************************************************
    SUBROUTINE mp_isendrecv_${nametype1}$ (msgin, dest, msgout, source, comm, send_request, &
                                           recv_request, tag)
+      !! Non-blocking send and receive of a scalar
+      !!
+      !! Implementation
+      !! Calls mpi_isend and mpi_irecv.
+
       ${type1}$                                :: msgin
+         !! Scalar data to send
       INTEGER, INTENT(IN)                      :: dest
+         !! Which process to send to
       ${type1}$                                :: msgout
+         !! Receive data into this pointer
       INTEGER, INTENT(IN)                      :: source, comm
+         !! Process to receive from
+         !! Message passing environment identifier
       INTEGER, INTENT(out)                     :: send_request, recv_request
+         !! Request handle for the send
+         !! Request handle for the receive
       INTEGER, INTENT(in), OPTIONAL            :: tag
+         !! tag to differentiate requests
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -5705,31 +5291,29 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_isendrecv_${nametype1}$
 
-! *****************************************************************************
-!> \brief Non-blocking send and receive of a vector
-!> \param[in] msgin           Vector data to send
-!> \param[in] dest            Which process to send to
-!> \param[out] msgout         Receive data into this pointer
-!> \param[in] source          Process to receive from
-!> \param[in] comm            Message passing environment identifier
-!> \param[out] send_request   Request handle for the send
-!> \param[out] recv_request   Request handle for the receive
-!> \param[in] tag             (optional) tag to differentiate requests
-!> \par Implementation
-!>      Calls mpi_isend and mpi_irecv.
-!> \par History
-!>      11.2004 created [Joost VandeVondele]
-!> \note
-!>      arrays can be pointers or assumed shape, but they must be contiguous!
-! *****************************************************************************
    SUBROUTINE mp_isendrecv_${nametype1}$v(msgin, dest, msgout, source, comm, send_request, &
                                           recv_request, tag)
+      !! Non-blocking send and receive of a vector
+      !!
+      !! Implementation
+      !! Calls mpi_isend and mpi_irecv.
+      !! @note
+      !! arrays can be pointers or assumed shape, but they must be contiguous!
+
       ${type1}$, DIMENSION(:)                  :: msgin
+         !! Vector data to send
       INTEGER, INTENT(IN)                      :: dest
+         !! Which process to send to
       ${type1}$, DIMENSION(:)                  :: msgout
+         !! Receive data into this pointer
       INTEGER, INTENT(IN)                      :: source, comm
+         !! Process to receive from
+         !! Message passing environment identifier
       INTEGER, INTENT(out)                     :: send_request, recv_request
+         !! Request handle for the send
+         !! Request handle for the receive
       INTEGER, INTENT(in), OPTIONAL            :: tag
+         !! tag to differentiate requests
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
@@ -5781,20 +5365,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_isendrecv_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Non-blocking send of vector data
-!> \param msgin ...
-!> \param dest ...
-!> \param comm ...
-!> \param request ...
-!> \param tag ...
-!> \par History
-!>      08.2003 created [f&j]
-!> \note see mp_isendrecv_${nametype1}$v
-!> \note
-!>      arrays can be pointers or assumed shape, but they must be contiguous!
-! *****************************************************************************
    SUBROUTINE mp_isend_${nametype1}$v(msgin, dest, comm, request, tag)
+      !! Non-blocking send of vector data
+      !! @note see mp_isendrecv_${nametype1}$v
+      !! @endnote
+      !! @note
+      !! arrays can be pointers or assumed shape, but they must be contiguous!
+
       ${type1}$, DIMENSION(:)                  :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
@@ -5840,22 +5417,15 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_isend_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Non-blocking send of matrix data
-!> \param msgin ...
-!> \param dest ...
-!> \param comm ...
-!> \param request ...
-!> \param tag ...
-!> \par History
-!>      2009-11-25 [UB] Made type-generic for templates
-!> \author fawzi
-!> \note see mp_isendrecv_${nametype1}$v
-!> \note see mp_isend_${nametype1}$v
-!> \note
-!>      arrays can be pointers or assumed shape, but they must be contiguous!
-! *****************************************************************************
    SUBROUTINE mp_isend_${nametype1}$m2(msgin, dest, comm, request, tag)
+      !! Non-blocking send of matrix data
+      !! @note see mp_isendrecv_${nametype1}$v
+      !! @endnote
+      !! @note see mp_isend_${nametype1}$v
+      !! @endnote
+      !! @note
+      !! arrays can be pointers or assumed shape, but they must be contiguous!
+
       ${type1}$, DIMENSION(:, :)               :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
@@ -5901,21 +5471,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_isend_${nametype1}$m2
 
-! *****************************************************************************
-!> \brief Non-blocking receive of vector data
-!> \param msgout ...
-!> \param source ...
-!> \param comm ...
-!> \param request ...
-!> \param tag ...
-!> \par History
-!>      08.2003 created [f&j]
-!>      2009-11-25 [UB] Made type-generic for templates
-!> \note see mp_isendrecv_${nametype1}$v
-!> \note
-!>      arrays can be pointers or assumed shape, but they must be contiguous!
-! *****************************************************************************
    SUBROUTINE mp_irecv_${nametype1}$v(msgout, source, comm, request, tag)
+      !! Non-blocking receive of vector data
+      !! @note see mp_isendrecv_${nametype1}$v
+      !! @endnote
+      !! @note
+      !! arrays can be pointers or assumed shape, but they must be contiguous!
+
       ${type1}$, DIMENSION(:)                  :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
@@ -5960,22 +5522,15 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_irecv_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Non-blocking receive of matrix data
-!> \param msgout ...
-!> \param source ...
-!> \param comm ...
-!> \param request ...
-!> \param tag ...
-!> \par History
-!>      2009-11-25 [UB] Made type-generic for templates
-!> \author fawzi
-!> \note see mp_isendrecv_${nametype1}$v
-!> \note see mp_irecv_${nametype1}$v
-!> \note
-!>      arrays can be pointers or assumed shape, but they must be contiguous!
-! *****************************************************************************
    SUBROUTINE mp_irecv_${nametype1}$m2(msgout, source, comm, request, tag)
+      !! Non-blocking receive of matrix data
+      !! @note see mp_isendrecv_${nametype1}$v
+      !! @endnote
+      !! @note see mp_irecv_${nametype1}$v
+      !! @endnote
+      !! @note
+      !! arrays can be pointers or assumed shape, but they must be contiguous!
+
       ${type1}$, DIMENSION(:, :)               :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
@@ -6020,17 +5575,11 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_irecv_${nametype1}$m2
 
-! *****************************************************************************
-!> \brief Window initialization function for vector data
-!> \param base ...
-!> \param comm ...
-!> \param win ...
-!> \par History
-!>      02.2015 created [Alfio Lazzaro]
-!> \note
-!>      arrays can be pointers or assumed shape, but they must be contiguous!
-! *****************************************************************************
    SUBROUTINE mp_win_create_${nametype1}$v(base, comm, win)
+      !! Window initialization function for vector data
+      !! @note
+      !! arrays can be pointers or assumed shape, but they must be contiguous!
+
       ${type1}$, DIMENSION(:)        :: base
       INTEGER, INTENT(IN)            :: comm
       INTEGER, INTENT(INOUT)         :: win
@@ -6066,18 +5615,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_win_create_${nametype1}$v
 
-! *****************************************************************************
-!> \brief Single-sided get function for vector data
-!> \param base ...
-!> \param comm ...
-!> \param win ...
-!> \par History
-!>      02.2015 created [Alfio Lazzaro]
-!> \note
-!>      arrays can be pointers or assumed shape, but they must be contiguous!
-! *****************************************************************************
    SUBROUTINE mp_rget_${nametype1}$v(base, source, win, win_data, myproc, disp, request, &
                                      origin_datatype, target_datatype)
+      !! Single-sided get function for vector data
+      !! @note
+      !! arrays can be pointers or assumed shape, but they must be contiguous!
+
       ${type1}$, DIMENSION(:)                             :: base
       INTEGER, INTENT(IN)                                 :: source, win
       ${type1}$, DIMENSION(:)                             :: win_data
@@ -6174,11 +5717,6 @@ CONTAINS
    END SUBROUTINE mp_rget_${nametype1}$v
 
 ! *****************************************************************************
-!> \brief ...
-!> \param count ...
-!> \param lengths ...
-!> \param displs ...
-!> \return ...
 ! ***************************************************************************
    FUNCTION mp_type_indexed_make_${nametype1}$ (count, lengths, displs) &
       RESULT(type_descriptor)
@@ -6216,17 +5754,15 @@ CONTAINS
 
    END FUNCTION mp_type_indexed_make_${nametype1}$
 
-! *****************************************************************************
-!> \brief Allocates special parallel memory
-!> \param[in]  DATA      pointer to integer array to allocate
-!> \param[in]  len       number of integers to allocate
-!> \param[out] stat      (optional) allocation status result
-!> \author UB
-! *****************************************************************************
    SUBROUTINE mp_allocate_${nametype1}$ (DATA, len, stat)
+      !! Allocates special parallel memory
+
       ${type1}$, DIMENSION(:), POINTER    :: DATA
+         !! pointer to integer array to allocate
       INTEGER, INTENT(IN)                 :: len
+         !! number of integers to allocate
       INTEGER, INTENT(OUT), OPTIONAL      :: stat
+         !! allocation status result
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allocate_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
@@ -6251,14 +5787,11 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_allocate_${nametype1}$
 
-! *****************************************************************************
-!> \brief Deallocates special parallel memory
-!> \param[in] DATA         pointer to special memory to deallocate
-!> \param stat ...
-!> \author UB
-! *****************************************************************************
    SUBROUTINE mp_deallocate_${nametype1}$ (DATA, stat)
+      !! Deallocates special parallel memory
+
       ${type1}$, DIMENSION(:), POINTER    :: DATA
+         !! pointer to special memory to deallocate
       INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_deallocate_${nametype1}$', &
@@ -6285,22 +5818,22 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_deallocate_${nametype1}$
 
-! *****************************************************************************
-!> \brief (parallel) Blocking individual file write using explicit offsets
-!>        (serial) Unformatted stream write
-!> \param[in] fh     file handle (file storage unit)
-!> \param[in] offset file offset (position)
-!> \param[in] msg    data to be written to the file
-!> \param msglen ...
-!> \par MPI-I/O mapping   mpi_file_write_at
-!> \par STREAM-I/O mapping   WRITE
-!> \param[in](optional) msglen number of the elements of data
-! *****************************************************************************
    SUBROUTINE mp_file_write_at_${nametype1}$v(fh, offset, msg, msglen)
+      !! (parallel) Blocking individual file write using explicit offsets
+      !! (serial) Unformatted stream write
+      !!
+      !! MPI-I/O mapping   mpi_file_write_at
+      !!
+      !! STREAM-I/O mapping   WRITE
+
       ${type1}$, INTENT(IN)                      :: msg(:)
+         !! data to be written to the file
       INTEGER, INTENT(IN)                        :: fh
+         !! file handle (file storage unit)
       INTEGER, INTENT(IN), OPTIONAL              :: msglen
+         !! number of the elements of data
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
+         !! file offset (position)
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
@@ -6320,10 +5853,6 @@ CONTAINS
    END SUBROUTINE mp_file_write_at_${nametype1}$v
 
 ! *****************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
 ! *****************************************************************************
    SUBROUTINE mp_file_write_at_${nametype1}$ (fh, offset, msg)
       ${type1}$, INTENT(IN)                      :: msg
@@ -6345,17 +5874,14 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_write_at_${nametype1}$
 
-! *****************************************************************************
-!> \brief (parallel) Blocking collective file write using explicit offsets
-!>        (serial) Unformatted stream write
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
-!> \param msglen ...
-!> \par MPI-I/O mapping   mpi_file_write_at_all
-!> \par STREAM-I/O mapping   WRITE
-! *****************************************************************************
    SUBROUTINE mp_file_write_at_all_${nametype1}$v(fh, offset, msg, msglen)
+      !! (parallel) Blocking collective file write using explicit offsets
+      !! (serial) Unformatted stream write
+      !!
+      !! MPI-I/O mapping   mpi_file_write_at_all
+      !!
+      !! STREAM-I/O mapping   WRITE
+
       ${type1}$, INTENT(IN)                      :: msg(:)
       INTEGER, INTENT(IN)                        :: fh
       INTEGER, INTENT(IN), OPTIONAL              :: msglen
@@ -6380,10 +5906,6 @@ CONTAINS
    END SUBROUTINE mp_file_write_at_all_${nametype1}$v
 
 ! *****************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
 ! *****************************************************************************
    SUBROUTINE mp_file_write_at_all_${nametype1}$ (fh, offset, msg)
       ${type1}$, INTENT(IN)                      :: msg
@@ -6405,23 +5927,23 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_write_at_all_${nametype1}$
 
-! *****************************************************************************
-!> \brief (parallel) Blocking individual file read using explicit offsets
-!>        (serial) Unformatted stream read
-!> \param[in] fh     file handle (file storage unit)
-!> \param[in] offset file offset (position)
-!> \param[out] msg   data to be read from the file
-!> \param msglen ...
-!> \par MPI-I/O mapping   mpi_file_read_at
-!> \par STREAM-I/O mapping   READ
-!> \param[in](optional) msglen  number of elements of data
-! *****************************************************************************
    SUBROUTINE mp_file_read_at_${nametype1}$v(fh, offset, msg, msglen)
+      !! (parallel) Blocking individual file read using explicit offsets
+      !! (serial) Unformatted stream read
+      !!
+      !! MPI-I/O mapping   mpi_file_read_at
+      !!
+      !! STREAM-I/O mapping   READ
+
       ${type1}$, INTENT(OUT)                     :: msg(:)
+         !! data to be read from the file
       INTEGER, INTENT(IN)                        :: fh
+         !! file handle (file storage unit)
       INTEGER, INTENT(IN), OPTIONAL              :: msglen
+         !! number of elements of data
       INTEGER                                    :: msg_len
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
+         !! file offset (position)
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_${nametype1}$v', &
                                      routineP = moduleN//':'//routineN
@@ -6441,10 +5963,6 @@ CONTAINS
    END SUBROUTINE mp_file_read_at_${nametype1}$v
 
 ! *****************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
 ! *****************************************************************************
    SUBROUTINE mp_file_read_at_${nametype1}$ (fh, offset, msg)
       ${type1}$, INTENT(OUT)                     :: msg
@@ -6466,17 +5984,14 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_read_at_${nametype1}$
 
-! *****************************************************************************
-!> \brief (parallel) Blocking collective file read using explicit offsets
-!>        (serial) Unformatted stream read
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
-!> \param msglen ...
-!> \par MPI-I/O mapping    mpi_file_read_at_all
-!> \par STREAM-I/O mapping   READ
-! *****************************************************************************
    SUBROUTINE mp_file_read_at_all_${nametype1}$v(fh, offset, msg, msglen)
+      !! (parallel) Blocking collective file read using explicit offsets
+      !! (serial) Unformatted stream read
+      !!
+      !! MPI-I/O mapping    mpi_file_read_at_all
+      !!
+      !! STREAM-I/O mapping   READ
+
       ${type1}$, INTENT(OUT)                     :: msg(:)
       INTEGER, INTENT(IN)                        :: fh
       INTEGER, INTENT(IN), OPTIONAL              :: msglen
@@ -6500,10 +6015,6 @@ CONTAINS
    END SUBROUTINE mp_file_read_at_all_${nametype1}$v
 
 ! *****************************************************************************
-!> \brief ...
-!> \param fh ...
-!> \param offset ...
-!> \param msg ...
 ! *****************************************************************************
    SUBROUTINE mp_file_read_at_all_${nametype1}$ (fh, offset, msg)
       ${type1}$, INTENT(OUT)                     :: msg
@@ -6526,11 +6037,6 @@ CONTAINS
    END SUBROUTINE mp_file_read_at_all_${nametype1}$
 
 ! *****************************************************************************
-!> \brief ...
-!> \param ptr ...
-!> \param vector_descriptor ...
-!> \param index_descriptor ...
-!> \return ...
 ! *****************************************************************************
    FUNCTION mp_type_make_${nametype1}$ (ptr, &
                                         vector_descriptor, index_descriptor) &
@@ -6564,17 +6070,16 @@ CONTAINS
       ENDIF
    END FUNCTION mp_type_make_${nametype1}$
 
-! *****************************************************************************
-!> \brief Allocates an array, using MPI_ALLOC_MEM ... this is hackish
-!>        as the Fortran version returns an integer, which we take to be a C_PTR
-!> \param DATA           data array to allocate
-!> \param[in] len        length (in data elements) of data array allocation
-!> \param[out] stat      (optional) allocation status result
-! *****************************************************************************
    SUBROUTINE mp_alloc_mem_${nametype1}$ (DATA, len, stat)
+      !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
+      !! as the Fortran version returns an integer, which we take to be a C_PTR
+
       ${type1}$, DIMENSION(:), POINTER         :: DATA
+         !! data array to allocate
       INTEGER, INTENT(IN)                      :: len
+         !! length (in data elements) of data array allocation
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
+         !! allocation status result
 
 #if defined(__parallel)
       INTEGER                                  :: size, ierr, length, &
@@ -6604,16 +6109,15 @@ CONTAINS
 #endif
    END SUBROUTINE mp_alloc_mem_${nametype1}$
 
-! *****************************************************************************
-!> \brief Deallocates am array, ... this is hackish
-!>        as the Fortran version takes an integer, which we hope to get by reference
-!> \param DATA           data array to allocate
-!> \param[out] stat      (optional) allocation status result
-! *****************************************************************************
    SUBROUTINE mp_free_mem_${nametype1}$ (DATA, stat)
+      !! Deallocates am array, ... this is hackish
+      !! as the Fortran version takes an integer, which we hope to get by reference
+
       ${type1}$, DIMENSION(:), &
          POINTER                               :: DATA
+         !! data array to allocate
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
+         !! allocation status result
 
 #if defined(__parallel)
       INTEGER                                  :: mp_res

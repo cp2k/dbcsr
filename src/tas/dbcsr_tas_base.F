@@ -7,14 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Tall-and-skinny matrices: base routines similar to DBCSR API, mostly wrappers around existing
-!>        DBCSR routines.
-!>
-!> \author Patrick Seewald
-! **************************************************************************************************
-
 MODULE dbcsr_tas_base
+   !! Tall-and-skinny matrices: base routines similar to DBCSR API, mostly wrappers around existing
+   !! DBCSR routines.
+
 #:include "dbcsr_tas.fypp"
 
    USE dbcsr_block_access, ONLY: &
@@ -153,27 +149,19 @@ MODULE dbcsr_tas_base
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Create new tall-and-skinny matrix.
-!>
-!> Exactly like dbcsr_create_new but with custom types for row_blk_size and col_blk_size instead of
-!> arrays.
-!> \param matrix ...
-!> \param name ...
-!> \param dist ...
-!> \param data_type ...
-!> \param row_blk_size ...
-!> \param col_blk_size ...
-!> \param own_dist whether matrix should own distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_create_new(matrix, name, dist, data_type, &
                                    row_blk_size, col_blk_size, own_dist)
+      !! Create new tall-and-skinny matrix.
+      !! Exactly like dbcsr_create_new but with custom types for row_blk_size and col_blk_size instead of
+      !! arrays.
+
       TYPE(dbcsr_tas_type), INTENT(OUT)              :: matrix
       CHARACTER(len=*), INTENT(IN)                   :: name
       TYPE(dbcsr_tas_distribution_type), INTENT(INOUT) :: dist
       INTEGER, INTENT(IN)                            :: data_type
       CLASS(dbcsr_tas_rowcol_data), INTENT(IN)       :: row_blk_size, col_blk_size
       LOGICAL, INTENT(IN), OPTIONAL                  :: own_dist
+         !! whether matrix should own distribution
 
       TYPE(dbcsr_tas_split_info)                     :: info
 
@@ -247,13 +235,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Create matrix from template
-!> \param matrix_in ...
-!> \param matrix ...
-!> \param name ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_create_template(matrix_in, matrix, name)
+      !! Create matrix from template
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix_in
       TYPE(dbcsr_tas_type), INTENT(OUT)                    :: matrix
       CHARACTER(len=*), INTENT(IN), OPTIONAL             :: name
@@ -279,10 +262,6 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_destroy(matrix)
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix
 
@@ -293,16 +272,13 @@ CONTAINS
       matrix%valid = .FALSE.
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Copy matrix_a to matrix_b
-!> \param matrix_b ...
-!> \param matrix_a ...
-!> \param summation Whether to sum matrices b = a + b
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_copy(matrix_b, matrix_a, summation)
+      !! Copy matrix_a to matrix_b
+
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix_b
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix_a
       LOGICAL, INTENT(IN), OPTIONAL                      :: summation
+         !! Whether to sum matrices b = a + b
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_copy', routineP = moduleN//':'//routineN
 
@@ -339,13 +315,10 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Make sure that matrix_out has same blocks reserved as matrix_in. This assumes that both
-!> matrices have same number of block rows and block columns.
-!> \param matrix_in ...
-!> \param matrix_out ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_reserve_blocks_template(matrix_in, matrix_out)
+      !! Make sure that matrix_out has same blocks reserved as matrix_in. This assumes that both
+      !! matrices have same number of block rows and block columns.
+
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix_in
       TYPE(dbcsr_tas_type), INTENT(INOUT) :: matrix_out
       TYPE(dbcsr_tas_iterator)                        :: iter
@@ -368,35 +341,25 @@ CONTAINS
       CALL dbcsr_tas_reserve_blocks(matrix_out, row_res, col_res)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_finalize(matrix)
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix
 
       CALL dbcsr_finalize(matrix%matrix)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief create new distribution.
-!>
-!> Exactly like dbcsr_distribution_new but with custom types for row_dist and col_dist instead of
-!> arrays.
-!> \param mp_comm ...
-!> \param row_dist ...
-!> \param col_dist ...
-!> \param split_info Strategy of how to split process grid (optional). If not present a default split
-!>        heuristic is applied.
-!> \param nosplit if .TRUE. don't split process grid (optional)
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_distribution_new(dist, mp_comm, &
                                          row_dist, col_dist, split_info, nosplit)
+      !! create new distribution.
+      !! Exactly like dbcsr_distribution_new but with custom types for row_dist and col_dist instead of
+      !! arrays.
+
       TYPE(dbcsr_tas_distribution_type), INTENT(OUT)   :: dist
       INTEGER, INTENT(IN)                              :: mp_comm
       CLASS(dbcsr_tas_distribution), INTENT(IN)        :: row_dist, col_dist
       TYPE(dbcsr_tas_split_info), INTENT(IN), OPTIONAL :: split_info
+         !! Strategy of how to split process grid (optional). If not present a default split heuristic is applied.
       LOGICAL, INTENT(IN), OPTIONAL                    :: nosplit
+         !! if .TRUE. don't split process grid (optional)
       !LOGICAL, INTENT(IN), OPTIONAL                    :: strict_split
 
       TYPE(dbcsr_tas_split_info)                       :: split_info_prv
@@ -474,10 +437,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param dist ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_distribution_destroy(dist)
       TYPE(dbcsr_tas_distribution_type), INTENT(INOUT)     :: dist
 
@@ -494,17 +453,15 @@ CONTAINS
       CALL dbcsr_distribution_release(dist%dbcsr_dist)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief As dbcsr_get_stored_coordinates
-!> \param matrix ...
-!> \param row global matrix blocked row
-!> \param column global matrix blocked column
-!> \param processor process ID
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_get_stored_coordinates(matrix, row, column, processor)
+      !! As dbcsr_get_stored_coordinates
+
       TYPE(dbcsr_tas_type), INTENT(IN)                   :: matrix
       INTEGER(KIND=int_8), INTENT(IN)                    :: row, column
+         !! global matrix blocked row
+         !! global matrix blocked column
       INTEGER, INTENT(OUT)                               :: processor
+         !! process ID
 
       INTEGER, DIMENSION(2)                              :: pcoord
       TYPE(dbcsr_tas_split_info)                         :: info
@@ -516,17 +473,15 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Get all processors for a given row/col combination if matrix is replicated on each process
-!>        subgroup.
-!> \param matrix tall-and-skinny matrix whose DBCSR submatrices are replicated matrices
-!> \param row row of a submatrix
-!> \param column column of a submatrix
-!> \param processors ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_repl_get_stored_coordinates(matrix, row, column, processors)
+      !! Get all processors for a given row/col combination if matrix is replicated on each process
+      !! subgroup.
+
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
+         !! tall-and-skinny matrix whose DBCSR submatrices are replicated matrices
       INTEGER, INTENT(IN)                                :: row, column
+         !! row of a submatrix
+         !! column of a submatrix
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: processors
 
       INTEGER                                            :: igroup
@@ -553,13 +508,10 @@ CONTAINS
       ENDDO
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Convert a tall-and-skinny matrix into a normal DBCSR matrix.
-!>        This is not recommended for matrices with a very large dimension.
-!> \param matrix_rect ...
-!> \param matrix_dbcsr ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_convert_to_dbcsr(matrix_rect, matrix_dbcsr)
+      !! Convert a tall-and-skinny matrix into a normal DBCSR matrix.
+      !! This is not recommended for matrices with a very large dimension.
+
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix_rect
       TYPE(dbcsr_type), INTENT(OUT)                      :: matrix_dbcsr
 
@@ -645,14 +597,11 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Converts a DBCSR matrix into the tall-and-skinny matrix type.
-!> \param info Strategy of how to split process grid
-!> \param matrix_rect ...
-!> \param matrix_dbcsr ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_convert_to_tas(info, matrix_rect, matrix_dbcsr)
+      !! Converts a DBCSR matrix into the tall-and-skinny matrix type.
+
       TYPE(dbcsr_tas_split_info), INTENT(IN)               :: info
+         !! Strategy of how to split process grid
       TYPE(dbcsr_tas_type), INTENT(OUT)                    :: matrix_rect
       TYPE(dbcsr_type), INTENT(IN)                         :: matrix_dbcsr
 
@@ -708,12 +657,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief As dbcsr_iterator_start
-!> \param iter ...
-!> \param matrix_in ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_iterator_start(iter, matrix_in)
+      !! As dbcsr_iterator_start
       TYPE(dbcsr_tas_iterator), INTENT(INOUT)              :: iter
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix_in
 
@@ -722,40 +667,23 @@ CONTAINS
       iter%dist = matrix_in%dist
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief As dbcsr_iterator_blocks_left
-!> \param iter ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_iterator_blocks_left(iter)
+      !! As dbcsr_iterator_blocks_left
       TYPE(dbcsr_tas_iterator), INTENT(IN)                 :: iter
       LOGICAL                                            :: dbcsr_tas_iterator_blocks_left
 
       dbcsr_tas_iterator_blocks_left = dbcsr_iterator_blocks_left(iter%iter)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief As dbcsr_iterator_stop
-!> \param iter ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_iterator_stop(iter)
+      !! As dbcsr_iterator_stop
       TYPE(dbcsr_tas_iterator), INTENT(INOUT)              :: iter
 
       CALL dbcsr_iterator_stop(iter%iter)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief As dbcsr_iterator_next_block
-!> \param iterator ...
-!> \param row ...
-!> \param column ...
-!> \param block ...
-!> \param transposed ...
-!> \param block_number ...
-!> \param row_size ...
-!> \param col_size ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_iterator_next_area_block(iterator, row, column, block, transposed, block_number, &
+      !! As dbcsr_iterator_next_block
                                                  row_size, col_size)
       TYPE(dbcsr_tas_iterator), INTENT(INOUT)              :: iterator
       INTEGER(KIND=int_8), INTENT(OUT)                   :: row, column
@@ -779,21 +707,14 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief As dbcsr_iterator_next_block
-!> \param iterator ...
-!> \param row global block row
-!> \param column global block column
-!> \param block_number ...
-!> \param transposed ...
-!> \param blk_p ...
-!> \param row_size ...
-!> \param col_size ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_iterator_next_block_index(iterator, row, column, block_number, &
                                                   transposed, blk_p, row_size, col_size)
+      !! As dbcsr_iterator_next_block
+
       TYPE(dbcsr_tas_iterator), INTENT(INOUT)              :: iterator
       INTEGER(KIND=int_8), INTENT(OUT)                   :: row, column
+         !! global block row
+         !! global block column
       INTEGER, INTENT(OUT)                               :: block_number
       LOGICAL, INTENT(OUT), OPTIONAL                     :: transposed
       INTEGER, INTENT(OUT), OPTIONAL                     :: blk_p, row_size, col_size
@@ -814,13 +735,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief As dbcsr_reserve_blocks
-!> \param matrix ...
-!> \param rows ...
-!> \param columns ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_reserve_blocks_index(matrix, rows, columns)
+      !! As dbcsr_reserve_blocks
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix
       INTEGER(KIND=int_8), DIMENSION(:), INTENT(IN)      :: rows, columns
 
@@ -852,17 +768,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief As dbcsr_put_block
-!> \param matrix ...
-!> \param row ...
-!> \param col ...
-!> \param block ...
-!> \param transposed ...
-!> \param summation ...
-!> \param scale ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_put_block_area(matrix, row, col, block, transposed, summation, &
+      !! As dbcsr_put_block
                                        scale)
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix
       INTEGER(KIND=int_8), INTENT(IN)                    :: row, col
@@ -884,18 +791,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief As dbcsr_get_block_p
-!> \param matrix ...
-!> \param row ...
-!> \param col ...
-!> \param block ...
-!> \param transposed ...
-!> \param found ...
-!> \param row_size ...
-!> \param col_size ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_get_block_p_area(matrix, row, col, block, transposed, found, row_size, col_size)
+      !! As dbcsr_get_block_p
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix
       INTEGER(KIND=int_8), INTENT(IN)                    :: row, col
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: block
@@ -918,16 +815,13 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Copy a distribution
-!> \param dist_in ...
-!> \param dist_out ...
-!> \param own_dist Whether distribution should be owned by dist_out
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_copy_distribution(dist_in, dist_out, own_dist)
+      !! Copy a distribution
+
       TYPE(dbcsr_tas_distribution_type), INTENT(INOUT)     :: dist_in
       TYPE(dbcsr_tas_distribution_type), INTENT(OUT)       :: dist_out
       LOGICAL, INTENT(IN), OPTIONAL                      :: own_dist
+         !! Whether distribution should be owned by dist_out
 
       LOGICAL                                            :: own_dist_prv
 
@@ -945,15 +839,8 @@ CONTAINS
       dist_out = dist_in
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Get block size for a given row & column
-!> \param matrix ...
-!> \param row ...
-!> \param col ...
-!> \param row_size ...
-!> \param col_size ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_blk_sizes(matrix, row, col, row_size, col_size)
+      !! Get block size for a given row & column
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
       INTEGER(KIND=int_8), INTENT(IN)                    :: row, col
       INTEGER, INTENT(OUT)                               :: row_size, col_size
@@ -969,23 +856,14 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief get info on mpi grid splitting
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_info(matrix)
+      !! get info on mpi grid splitting
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
       TYPE(dbcsr_tas_split_info)                           :: dbcsr_tas_info
 
       dbcsr_tas_info = matrix%dist%info
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_get_data_type(matrix) RESULT(data_type)
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
       INTEGER                                            :: data_type
@@ -993,11 +871,6 @@ CONTAINS
       CALL dbcsr_get_info(matrix%matrix, data_type=data_type)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_nblkrows_total(matrix) RESULT(nblkrows_total)
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
       INTEGER(KIND=int_8)                                :: nblkrows_total
@@ -1005,11 +878,6 @@ CONTAINS
       nblkrows_total = matrix%nblkrows
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_nfullrows_total(matrix) RESULT(nfullrows_total)
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
       INTEGER(KIND=int_8)                                :: nfullrows_total
@@ -1017,11 +885,6 @@ CONTAINS
       nfullrows_total = matrix%nfullrows
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_nblkcols_total(matrix) RESULT(nblkcols_total)
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
       INTEGER(KIND=int_8)                                :: nblkcols_total
@@ -1029,22 +892,12 @@ CONTAINS
       nblkcols_total = matrix%nblkcols
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_nfullcols_total(matrix) RESULT(nfullcols_total)
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
       INTEGER(KIND=int_8)                                :: nfullcols_total
 
       nfullcols_total = matrix%nfullcols
    END FUNCTION
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_nblkcols_local(matrix) RESULT(nblkcols_local)
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
       INTEGER                                            :: nblkcols_local
@@ -1052,11 +905,6 @@ CONTAINS
       nblkcols_local = dbcsr_nblkcols_total(matrix%matrix)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_nblkrows_local(matrix) RESULT(nblkrows_local)
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
       INTEGER                                            :: nblkrows_local
@@ -1064,11 +912,6 @@ CONTAINS
       nblkrows_local = dbcsr_nblkrows_total(matrix%matrix)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_nfullrows_local(matrix) RESULT(nfullrows_local)
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
       INTEGER                                            :: nfullrows_local
@@ -1076,11 +919,6 @@ CONTAINS
       nfullrows_local = dbcsr_nfullrows_total(matrix%matrix)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_nfullcols_local(matrix) RESULT(nfullcols_local)
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
       INTEGER                                            :: nfullcols_local
@@ -1088,24 +926,16 @@ CONTAINS
       nfullcols_local = dbcsr_nfullcols_total(matrix%matrix)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief As dbcsr_get_num_blocks: get number of local blocks
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_tas_get_num_blocks(matrix) RESULT(num_blocks)
+      !! As dbcsr_get_num_blocks: get number of local blocks
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       INTEGER                        :: num_blocks
 
       num_blocks = dbcsr_get_num_blocks(matrix%matrix)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief get total number of blocks
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_get_num_blocks_total(matrix) RESULT(num_blocks)
+      !! get total number of blocks
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       INTEGER(KIND=int_8)              :: num_blocks
       TYPE(dbcsr_tas_split_info)       :: info
@@ -1116,12 +946,8 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief As dbcsr_get_nze: get number of local non-zero elements
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION dbcsr_tas_get_nze(matrix)
+      !! As dbcsr_get_nze: get number of local non-zero elements
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       INTEGER :: dbcsr_tas_get_nze
 
@@ -1129,12 +955,8 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Get total number of non-zero elements
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_get_nze_total(matrix)
+      !! Get total number of non-zero elements
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       INTEGER(KIND=int_8)              :: dbcsr_tas_get_nze_total
       TYPE(dbcsr_tas_split_info)       :: info
@@ -1144,55 +966,21 @@ CONTAINS
       CALL mp_sum(dbcsr_tas_get_nze_total, info%mp_comm)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief As dbcsr_get_data_size
-!> \param matrix ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_get_data_size(matrix) RESULT(data_size)
+      !! As dbcsr_get_data_size
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       INTEGER                          :: data_size
 
       data_size = dbcsr_get_data_size(matrix%matrix)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Clear matrix (erase all data)
-!> \param matrix ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_clear(matrix)
+      !! Clear matrix (erase all data)
       TYPE(dbcsr_tas_type), INTENT(INOUT) :: matrix
 
       CALL dbcsr_clear(matrix%matrix)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \param nblkrows_total ...
-!> \param nblkcols_total ...
-!> \param nfullrows_total ...
-!> \param nfullcols_total ...
-!> \param nblkrows_local ...
-!> \param nblkcols_local ...
-!> \param nfullrows_local ...
-!> \param nfullcols_local ...
-!> \param nprow ...
-!> \param npcol ...
-!> \param my_prow ...
-!> \param my_pcol ...
-!> \param local_rows ...
-!> \param local_cols ...
-!> \param proc_row_dist ...
-!> \param proc_col_dist ...
-!> \param row_blk_size ...
-!> \param col_blk_size ...
-!> \param distribution ...
-!> \param name ...
-!> \param data_area ...
-!> \param matrix_type ...
-!> \param data_type ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_get_info(matrix, nblkrows_total, nblkcols_total, &
                                  nfullrows_total, nfullcols_total, &
                                  nblkrows_local, nblkcols_local, &
@@ -1266,18 +1054,8 @@ CONTAINS
    END SUBROUTINE
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief As dbcsr_iterator_next_block
-!> \param iterator ...
-!> \param row ...
-!> \param column ...
-!> \param block ...
-!> \param transposed ...
-!> \param block_number ...
-!> \param row_size ...
-!> \param col_size ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_iterator_next_block_${dsuffix}$ (iterator, row, column, block, transposed, block_number, &
+      !! As dbcsr_iterator_next_block
                                                          row_size, col_size)
       TYPE(dbcsr_tas_iterator), INTENT(INOUT) :: iterator
       INTEGER(KIND=int_8), INTENT(OUT)      :: row, column
@@ -1302,17 +1080,8 @@ CONTAINS
    END SUBROUTINE
 #:endfor
 
-! **************************************************************************************************
-!> \brief As dbcsr_put_block
-!> \param matrix ...
-!> \param row ...
-!> \param col ...
-!> \param block ...
-!> \param transposed ...
-!> \param summation ...
-!> \param scale ...
-! **************************************************************************************************
 #:for dparam, dtype, dsuffix in dtype_float_list
+   !! As dbcsr_put_block
    SUBROUTINE dbcsr_tas_put_block_${dsuffix}$ (matrix, row, col, block, transposed, summation, &
                                                scale)
       TYPE(dbcsr_tas_type), INTENT(INOUT)     :: matrix
@@ -1337,18 +1106,8 @@ CONTAINS
 #:endfor
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief As dbcsr_get_block_p
-!> \param matrix ...
-!> \param row ...
-!> \param col ...
-!> \param block ...
-!> \param transposed ...
-!> \param found ...
-!> \param row_size ...
-!> \param col_size ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_get_block_p_${dsuffix}$ (matrix, row, col, block, transposed, found, row_size, col_size)
+      !! As dbcsr_get_block_p
       TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
       INTEGER(KIND=int_8), INTENT(IN)    :: row, col
       ${dtype}$, DIMENSION(:, :), POINTER :: block
@@ -1373,12 +1132,8 @@ CONTAINS
 #:endfor
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief As dbcsr_set
-!> \param matrix ...
-!> \param alpha ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_set_${dsuffix}$ (matrix, alpha)
+      !! As dbcsr_set
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
       ${dtype}$, INTENT(IN)                :: alpha
       CALL dbcsr_set(matrix%matrix, alpha)
@@ -1386,12 +1141,8 @@ CONTAINS
 #:endfor
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief As dbcsr_filter
-!> \param matrix ...
-!> \param alpha ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_filter_${dsuffix}$ (matrix, eps, method, use_absolute)
+      !! As dbcsr_filter
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
       ${dtype}$, INTENT(IN)                :: eps
       INTEGER, INTENT(IN), OPTIONAL        :: method

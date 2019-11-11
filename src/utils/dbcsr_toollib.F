@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Tools usually found in a standard library.
-!> \author  Urban Borstnik
-!> \date    2011-11-02
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created 2011-11-02
-! **************************************************************************************************
 MODULE dbcsr_toollib
+   !! Tools usually found in a standard library.
 
    USE dbcsr_array_sort, ONLY: dbcsr_1d_d_sort, &
                                dbcsr_1d_i4_sort, &
@@ -56,12 +48,6 @@ MODULE dbcsr_toollib
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief ...
-!> \param most ...
-!> \param least ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION make_coordinate_tuple(most, least) RESULT(tuple)
       INTEGER, INTENT(IN)                                :: most, least
       INTEGER(KIND=int_8)                                :: tuple
@@ -72,13 +58,12 @@ CONTAINS
       tuple = IOR(ISHFT(tuple, 32), INT(least, int_8))
    END FUNCTION make_coordinate_tuple
 
-! **************************************************************************************************
-!> \brief Swaps two integers
-!> \param a Integers to swap
-!> \param b Integers to swap
-! **************************************************************************************************
    ELEMENTAL SUBROUTINE iswap(a, b)
+      !! Swaps two integers
+
       INTEGER, INTENT(INOUT)                             :: a, b
+         !! Integers to swap
+         !! Integers to swap
 
       INTEGER                                            :: tmp
 
@@ -87,13 +72,12 @@ CONTAINS
       b = tmp
    END SUBROUTINE iswap
 
-! **************************************************************************************************
-!> \brief Swaps two logicals
-!> \param a Logicals to swap
-!> \param b Logicals to swap
-! **************************************************************************************************
    ELEMENTAL SUBROUTINE bswap(a, b)
+      !! Swaps two logicals
+
       LOGICAL, INTENT(INOUT)                             :: a, b
+         !! Logicals to swap
+         !! Logicals to swap
 
       LOGICAL                                            :: tmp
 
@@ -102,17 +86,14 @@ CONTAINS
       b = tmp
    END SUBROUTINE bswap
 
-! **************************************************************************************************
-!> \brief Splits an array of int8 values into two int4 arrays.
-!> \param[in] merged          array of merged values
-!> \param[out] array_upper    array to fill with the upper bytes of the merged
-!>                            values
-!> \param[out] array_lower    array to fill with the lower bytes of the merged
-!>                            values
-! **************************************************************************************************
    SUBROUTINE dbcsr_unpack_i8_2i4(merged, array_upper, array_lower)
+      !! Splits an array of int8 values into two int4 arrays.
+
       INTEGER(KIND=int_8), DIMENSION(:), INTENT(IN)      :: merged
+         !! array of merged values
       INTEGER(KIND=int_4), DIMENSION(:), INTENT(OUT)     :: array_upper, array_lower
+         !! array to fill with the upper bytes of the merged values
+         !! array to fill with the lower bytes of the merged values
 
       INTEGER(KIND=int_8), PARAMETER                     :: lmask8 = 4294967295_int_8
 
@@ -133,12 +114,6 @@ CONTAINS
       ENDDO
    END SUBROUTINE dbcsr_unpack_i8_2i4
 
-! **************************************************************************************************
-!> \brief ...
-!> \param a ...
-!> \param b ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION gcd(a, b)
       INTEGER, INTENT(IN)                                :: a, b
       INTEGER                                            :: gcd
@@ -167,12 +142,6 @@ CONTAINS
       ENDIF
    END FUNCTION gcd
 
-! **************************************************************************************************
-!> \brief ...
-!> \param a ...
-!> \param b ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION lcm(a, b)
       INTEGER, INTENT(IN)                                :: a, b
       INTEGER                                            :: lcm
@@ -188,26 +157,21 @@ CONTAINS
       END IF
    END FUNCTION lcm
 
-! **************************************************************************************************
-!> \brief generates the hash of a string and the index in the table
-!> \param key a string of any length
-!> \return ...
-!> \par History
-!>       09.2006 created [Joost VandeVondele]
-!>       2010-11-23 copied from CP2K and converted to take integers
-!> \note
-!>       http://en.wikipedia.org/wiki/Hash_table
-!>       http://www.burtleburtle.net/bob/hash/doobs.html
-!>       However, since fortran doesn't have an unsigned 4 byte int
-!>       we compute it using an integer with the appropriate range
-!>       we return already the index in the table as a final result
-! **************************************************************************************************
    FUNCTION joaat_hash(key) RESULT(hash_index)
+      !! generates the hash of a string and the index in the table
+      !! @note
+      !! http://en.wikipedia.org/wiki/Hash_table
+      !! http://www.burtleburtle.net/bob/hash/doobs.html
+      !! However, since fortran doesn't have an unsigned 4 byte int
+      !! we compute it using an integer with the appropriate range
+      !! we return already the index in the table as a final result
+
       ! LIBXSMM: at least v1.9.0-6 is required
 #if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
       USE libxsmm, ONLY: libxsmm_hash
       INTEGER, PARAMETER                                 :: seed = 0
       INTEGER, DIMENSION(:), INTENT(IN)                  :: key
+         !! a string of any length
       INTEGER                                            :: hash_index
       hash_index = libxsmm_hash(key, seed)
 #else
@@ -237,19 +201,8 @@ CONTAINS
 #endif
    END FUNCTION joaat_hash
 
-! **************************************************************************************************
-!> \brief search a value in an ordered array of indices
-!> \param array ...
-!> \param key ...
-!> \param loc ...
-!> \param found ...
-!> \param lb ...
-!> \param ub ...
-!> \return ...
-!> \par History
-!>       04.2015 created [Alfio Lazzaro]
-! **************************************************************************************************
    PURE SUBROUTINE ordered_search(array, key, loc, found, lb, ub)
+      !! search a value in an ordered array of indices
       INTEGER, DIMENSION(:), INTENT(IN)                  :: array
       INTEGER, INTENT(IN)                                :: key
       INTEGER, INTENT(OUT)                               :: loc
@@ -284,11 +237,6 @@ CONTAINS
       ENDDO
    END SUBROUTINE ordered_search
 
-! **************************************************************************************************
-!> \brief ...
-!> \param a ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION atoi(a)
       CHARACTER(len=*), INTENT(in)                       :: a
       INTEGER                                            :: atoi
@@ -296,11 +244,6 @@ CONTAINS
       READ (a, '(I9)') atoi
    END FUNCTION atoi
 
-! **************************************************************************************************
-!> \brief ...
-!> \param a ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION atol(a)
       CHARACTER(len=*), INTENT(in)                       :: a
       LOGICAL                                            :: atol
@@ -308,11 +251,6 @@ CONTAINS
       READ (a, '(L1)') atol
    END FUNCTION atol
 
-! **************************************************************************************************
-!> \brief ...
-!> \param a ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION ator(a)
       CHARACTER(len=*), INTENT(in)                       :: a
       REAL(real_8)                                       :: ator

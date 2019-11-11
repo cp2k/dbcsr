@@ -7,12 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Types related to DBCSR data area
-!> \author  Ole Schuett
-!> \date    10-2014
-! **************************************************************************************************
 MODULE dbcsr_data_types
+   !! Types related to DBCSR data area
    USE dbcsr_acc_devmem, ONLY: acc_devmem_type
    USE dbcsr_acc_event, ONLY: acc_event_type
    USE dbcsr_acc_stream, ONLY: acc_stream_type
@@ -41,33 +37,30 @@ MODULE dbcsr_data_types
              dbcsr_type_complex_4_2d, dbcsr_type_complex_8_2d, &
              dbcsr_type_int_4, dbcsr_type_int_8
 
-! **************************************************************************************************
-!> \brief Stores a scalar in any of the supported data types.
-!> \par Reasoning
-!>      Easier routine interfaces
-!> \var r_sp        stores real values in single precision
-!> \var r_dp        stores real values in double precision
-!> \var c_sp        stores complex values in single precision
-!> \var c_dp        stores complex values in double precision
-!> \var refcount    reference counter for current structure
-!> \var data_type   which of the data types is actually used
-! **************************************************************************************************
    TYPE dbcsr_scalar_type
+      !! Stores a scalar in any of the supported data types.
+      !!
+      !! Reasoning
+      !! Easier routine interfaces
+
       REAL(KIND=real_4)    :: r_sp
+         !! stores real values in single precision
       REAL(KIND=real_8)    :: r_dp
+         !! stores real values in double precision
       COMPLEX(KIND=real_4) :: c_sp
+         !! stores complex values in single precision
       COMPLEX(KIND=real_8) :: c_dp
+         !! stores complex values in double precision
       INTEGER              :: data_type
+         !! which of the data types is actually used
    END TYPE dbcsr_scalar_type
 
    TYPE dbcsr_data_obj
       TYPE(dbcsr_data_area_type), POINTER           :: d => Null()
    END TYPE dbcsr_data_obj
 
-! **************************************************************************************************
-!> \brief Memory related types
-! **************************************************************************************************
    TYPE dbcsr_mempool_type
+      !! Memory related types
       TYPE(dbcsr_mempool_entry_type), POINTER :: root => Null()
       INTEGER                                 :: capacity = 1
 !$    INTEGER(KIND=omp_lock_kind)          :: lock
@@ -90,43 +83,42 @@ MODULE dbcsr_data_types
    !providing pool=Null() explicitly to circumvent bug in ifort 12.1
    TYPE(dbcsr_memtype_type), PARAMETER :: dbcsr_memtype_default = dbcsr_memtype_type(pool=Null())
 
-! **************************************************************************************************
-!> \brief Stores actual data
-!> \var r_sp        stores real values in single precision
-!> \var r_dp        stores real values in double precision
-!> \var c_sp        stores complex values in single precision
-!> \var c_dp        stores complex values in double precision
-!> \var ref_size    last data element in array actually referenced
-!> \var refcount    reference counter for current structure
-!> \var memory_type   type of memory where data lives
-!> \var data_type   which of the data types is actually used
-! **************************************************************************************************
    TYPE dbcsr_data_area_type
+      !! Stores actual data
+
       INTEGER(KIND=int_4), DIMENSION(:), POINTER    :: i4 => Null()
       INTEGER(KIND=int_8), DIMENSION(:), POINTER    :: i8 => Null()
       REAL(KIND=real_4), DIMENSION(:), POINTER      :: r_sp => Null()
+         !! stores real values in single precision
       REAL(KIND=real_8), DIMENSION(:), POINTER      :: r_dp => Null()
+         !! stores real values in double precision
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER   :: c_sp => Null()
+         !! stores complex values in single precision
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER   :: c_dp => Null()
+         !! stores complex values in double precision
       REAL(KIND=real_4), DIMENSION(:, :), POINTER    :: r2_sp => Null()
       REAL(KIND=real_8), DIMENSION(:, :), POINTER    :: r2_dp => Null()
       COMPLEX(KIND=real_4), DIMENSION(:, :), POINTER :: c2_sp => Null()
       COMPLEX(KIND=real_8), DIMENSION(:, :), POINTER :: c2_dp => Null()
       INTEGER                                  :: ref_size = -1
+         !! last data element in array actually referenced
       INTEGER                                  :: refcount = -1
+         !! reference counter for current structure
       INTEGER                                  :: id = -1
       TYPE(dbcsr_memtype_type)                 :: memory_type = dbcsr_memtype_default
+         !! type of memory where data lives
       INTEGER                                  :: data_type = -1
+         !! which of the data types is actually used
       TYPE(acc_devmem_type)                    :: acc_devmem
       TYPE(acc_event_type)                     :: acc_ready
    END TYPE dbcsr_data_area_type
 
-!> Type definitions:
-!> * bit 0: always 1
-!> * bit 1: single (0: 4) vs. double (1: 1)
-!> * bit 2: real (0) vs. complex (1)
-!> * bit 3: dimension (0: 1, 1: 2)
-!> * bit 4: floating point (0) or integer type (1)
+   ! Type definitions:
+   ! * bit 0: always 1
+   ! * bit 1: single (0: 4) vs. double (1: 1)
+   ! * bit 2: real (0) vs. complex (1)
+   ! * bit 3: dimension (0: 1, 1: 2)
+   ! * bit 4: floating point (0) or integer type (1)
    INTEGER, PARAMETER          :: dbcsr_type_real_4 = 1 !001
    INTEGER, PARAMETER          :: dbcsr_type_real_8 = 3 !011
    INTEGER, PARAMETER          :: dbcsr_type_complex_4 = 5 !101
@@ -145,13 +137,8 @@ MODULE dbcsr_data_types
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Helper-routine, returns size of given datatype in terms of bytes.
-!> \param datatype ...
-!> \return ...
-!> \author Ole Schuett
-! **************************************************************************************************
    FUNCTION dbcsr_datatype_sizeof(datatype) RESULT(size)
+      !! Helper-routine, returns size of given datatype in terms of bytes.
       INTEGER, INTENT(IN)                                :: datatype
       INTEGER                                            :: size
 

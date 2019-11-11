@@ -7,12 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief often used utilities for tall-and-skinny matrices
-!> \author Patrick Seewald
-! **************************************************************************************************
 
 MODULE dbcsr_tas_util
+
+   !! often used utilities for tall-and-skinny matrices
 
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_new
    USE dbcsr_types, ONLY: dbcsr_mp_obj, &
@@ -42,12 +40,8 @@ MODULE dbcsr_tas_util
    END INTERFACE
 
 CONTAINS
-! **************************************************************************************************
-!> \brief Create a dbcsr mp environment from communicator
-!> \param mp_comm ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_mp_environ(mp_comm)
+      !! Create a dbcsr mp environment from communicator
       INTEGER, INTENT(IN)                                :: mp_comm
       TYPE(dbcsr_mp_obj)                                 :: dbcsr_mp_environ
 
@@ -70,10 +64,6 @@ CONTAINS
       CALL dbcsr_mp_new(dbcsr_mp_environ, mp_comm, pgrid, mynode, numnodes, mycoord(1), mycoord(2))
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param arr ...
-! **************************************************************************************************
    SUBROUTINE swap_i8(arr)
       INTEGER(KIND=int_8), DIMENSION(2), INTENT(INOUT)   :: arr
 
@@ -84,10 +74,6 @@ CONTAINS
       arr(2) = tmp
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param arr ...
-! **************************************************************************************************
    SUBROUTINE swap_i(arr)
       INTEGER, DIMENSION(2), INTENT(INOUT)               :: arr
 
@@ -98,12 +84,8 @@ CONTAINS
       arr(2) = tmp
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Get all unique elements in index_in
-!> \param index_in ...
-!> \param index_out ...
-! **************************************************************************************************
    SUBROUTINE index_unique(index_in, index_out)
+      !! Get all unique elements in index_in
       INTEGER, DIMENSION(:, :), INTENT(IN)   :: index_in
       INTEGER, ALLOCATABLE, &
          DIMENSION(:, :), INTENT(OUT)                    :: index_out
@@ -133,10 +115,6 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param trans_flag ...
-! **************************************************************************************************
    SUBROUTINE invert_transpose_flag(trans_flag)
       CHARACTER(LEN=1), INTENT(INOUT)                    :: trans_flag
 
@@ -147,12 +125,6 @@ CONTAINS
       ENDIF
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param arr1 ...
-!> \param arr2 ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION array_eq_i8(arr1, arr2)
       INTEGER(KIND=int_8), DIMENSION(:), INTENT(IN)      :: arr1, arr2
       LOGICAL                                            :: array_eq_i8

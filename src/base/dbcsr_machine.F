@@ -7,13 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \par History
-!>      JGH (05.07.2001) : added G95 interface
-!>      - m_flush added (12.06.2002,MK)
-!>      - Missing print_memory added (24.09.2002,MK)
-!> \author APSI & JGH
-! **************************************************************************************************
 MODULE dbcsr_machine
    USE ISO_FORTRAN_ENV, ONLY: input_unit, &
                               output_unit
@@ -49,30 +42,22 @@ MODULE dbcsr_machine
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief flushes units if the &GLOBAL flag is set accordingly
-!> \param lunit ...
-!> \par History
-!>      10.2008 created [Joost VandeVondele]
-!> \note
-!>      flushing might degrade performance significantly (30% and more)
-! **************************************************************************************************
    SUBROUTINE m_flush(lunit)
+      !! flushes units if the &GLOBAL flag is set accordingly
+      !! @note
+      !! flushing might degrade performance significantly (30% and more)
+
       INTEGER, INTENT(IN)                                :: lunit
 
       IF (flush_should_flush) CALL m_flush_internal(lunit)
    END SUBROUTINE
-! **************************************************************************************************
-!> \brief returns time from a real-time clock, protected against rolling
-!>      early/easily
-!> \return ...
-!> \par History
-!>      03.2006 created [Joost VandeVondele]
-!> \note
-!>      same implementation for all machines.
-!>      might still roll, if not called multiple times per count_max/count_rate
-! **************************************************************************************************
    FUNCTION m_walltime() RESULT(wt)
+      !! returns time from a real-time clock, protected against rolling
+      !! early/easily
+      !! @note
+      !! same implementation for all machines.
+      !! might still roll, if not called multiple times per count_max/count_rate
+
 #if defined(__LIBXSMM)
       USE libxsmm, ONLY: libxsmm_timer_tick, libxsmm_timer_duration
 #endif
@@ -120,12 +105,11 @@ CONTAINS
 #endif
    END FUNCTION m_walltime
 
-! **************************************************************************************************
-!> \brief reads /proc/cpuinfo if it exists (i.e. Linux) to return relevant info
-!> \param model_name as obtained from the 'model name' field, UNKNOWN otherwise
-! **************************************************************************************************
    SUBROUTINE m_cpuinfo(model_name)
+      !! reads /proc/cpuinfo if it exists (i.e. Linux) to return relevant info
+
       CHARACTER(LEN=default_string_length)               :: model_name
+         !! as obtained from the 'model name' field, UNKNOWN otherwise
 
       INTEGER, PARAMETER                                 :: bufferlen = 2048
 
@@ -150,15 +134,11 @@ CONTAINS
       ENDIF
    END SUBROUTINE m_cpuinfo
 
-! **************************************************************************************************
-!> \brief returns the energy used since some time in the past.
-!>        The precise meaning depends on the infrastructure is available.
-!>        In the cray_pm_energy case, this is the energy used by the node in kJ.
-!> \return ...
-!> \par History
-!>      09.2013 created [Joost VandeVondele, Ole Schuett]
-! **************************************************************************************************
    FUNCTION m_energy() RESULT(wt)
+      !! returns the energy used since some time in the past.
+      !! The precise meaning depends on the infrastructure is available.
+      !! In the cray_pm_energy case, this is the energy used by the node in kJ.
+
       REAL(KIND=dp)                            :: wt
 
 #if defined(__CRAY_PM_ENERGY)
@@ -172,14 +152,8 @@ CONTAINS
    END FUNCTION m_energy
 
 #if defined(__CRAY_PM_ACCEL_ENERGY) || defined(__CRAY_PM_ENERGY)
-! **************************************************************************************************
-!> \brief reads energy values from the sys-filesystem
-!> \param filename ...
-!> \return ...
-!> \par History
-!>      09.2013 created [Joost VandeVondele, Ole Schuett]
-! **************************************************************************************************
    FUNCTION read_energy(filename) RESULT(wt)
+      !! reads energy values from the sys-filesystem
       CHARACTER(LEN=*)                                   :: filename
       REAL(KIND=dp)                                      :: wt
 
@@ -203,13 +177,8 @@ CONTAINS
    END FUNCTION read_energy
 #endif
 
-! **************************************************************************************************
-!> \brief returns a datum in human readable format using a standard Fortran routine
-!> \param cal_date ...
-!> \par History
-!>      10.2009 created [Joost VandeVondele]
-! **************************************************************************************************
    SUBROUTINE m_datum(cal_date)
+      !! returns a datum in human readable format using a standard Fortran routine
       CHARACTER(len=*), INTENT(OUT)                      :: cal_date
 
       CHARACTER(len=10)                                  :: time

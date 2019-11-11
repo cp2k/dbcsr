@@ -7,13 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief  routines for profiling cuda
-!> \par History
-!>      05.2013 created
-!> \author Ole Schuett
-! **************************************************************************************************
 MODULE dbcsr_cuda_profiling
+   !! routines for profiling cuda
    USE ISO_C_BINDING, ONLY: C_CHAR, &
                             C_INT, &
                             C_NULL_CHAR, &
@@ -75,9 +70,6 @@ MODULE dbcsr_cuda_profiling
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief ...
-! **************************************************************************************************
    SUBROUTINE cuda_nvtx_init()
 #if defined( __CUDA_PROFILING )
       CHARACTER(len=default_string_length)     :: threadname
@@ -92,10 +84,6 @@ CONTAINS
 #endif
    END SUBROUTINE cuda_nvtx_init
 
-! **************************************************************************************************
-!> \brief ...
-!> \param routineN ...
-! **************************************************************************************************
    SUBROUTINE cuda_nvtx_range_push(routineN)
       CHARACTER(LEN=*), INTENT(IN)             :: routineN
 #if defined( __CUDA_PROFILING )
@@ -107,9 +95,6 @@ CONTAINS
 #endif
    END SUBROUTINE cuda_nvtx_range_push
 
-! **************************************************************************************************
-!> \brief ...
-! **************************************************************************************************
    SUBROUTINE cuda_nvtx_range_pop()
 #if defined( __CUDA_PROFILING )
       INTEGER                                  :: level
@@ -119,11 +104,6 @@ CONTAINS
 #endif
    END SUBROUTINE cuda_nvtx_range_pop
 
-! **************************************************************************************************
-!> \brief ...
-!> \param free ...
-!> \param total ...
-! **************************************************************************************************
    SUBROUTINE cuda_mem_info(free, total)
       INTEGER(KIND=int_8), INTENT(OUT)         :: free, total
 #if defined( __CUDA_PROFILING )

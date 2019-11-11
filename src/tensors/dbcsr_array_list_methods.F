@@ -7,13 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Representation of arbitrary number of 1d integer arrays with arbitrary sizes.
-!>
-!> This is needed for generic handling of dimension-specific tensor quantities (such as block index).
-!> \author Patrick Seewald
-! **************************************************************************************************
 MODULE dbcsr_array_list_methods
+   !! Representation of arbitrary number of 1d integer arrays with arbitrary sizes.
+   !! This is needed for generic handling of dimension-specific tensor quantities (such as block index).
+
 
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
@@ -50,12 +47,8 @@ MODULE dbcsr_array_list_methods
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief number of arrays stored in list
-!> \param list ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION number_of_arrays(list)
+      !! number of arrays stored in list
       TYPE(array_list), INTENT(IN) :: list
       INTEGER                      :: number_of_arrays
 
@@ -63,15 +56,12 @@ CONTAINS
 
    END FUNCTION number_of_arrays
 
-! **************************************************************************************************
-!> \brief Get an element for each array.
-!> \param list ...
-!> \param indices element index for each array
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_array_elements(list, indices)
+      !! Get an element for each array.
+
       TYPE(array_list), INTENT(IN)                           :: list
       INTEGER, DIMENSION(number_of_arrays(list)), INTENT(IN) :: indices
+         !! element index for each array
       INTEGER, DIMENSION(number_of_arrays(list))             :: get_array_elements
 
       INTEGER                                                :: i, ind
@@ -83,19 +73,15 @@ CONTAINS
 
    END FUNCTION get_array_elements
 
-! **************************************************************************************************
-!> \brief collects any number of arrays of different sizes into a single array (list%col_data),
-!>        storing the indices that start a new array (list%ptr).
-!> \param list list of arrays
-!> \param ndata number of arrays
-!> \param data_1 array 1
-!> \param data_2 array 2
-!> \param data_3 ...
-! **************************************************************************************************
    SUBROUTINE create_array_list(list, ndata, ${varlist("data")}$)
+      !! collects any number of arrays of different sizes into a single array (list%col_data),
+      !! storing the indices that start a new array (list%ptr).
       TYPE(array_list), INTENT(OUT)               :: list
+         !! list of arrays
       INTEGER, INTENT(IN)                         :: ndata
+         !! number of arrays
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: ${varlist("data")}$
+         !! arrays 1 and 2
       INTEGER                                     :: ptr, size_all
 
       size_all = 0
@@ -123,14 +109,13 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief extract a subset of arrays
-!> \param list list of arrays
-!> \param i_selected array numbers to retrieve
-! **************************************************************************************************
    FUNCTION array_sublist(list, i_selected)
+      !! extract a subset of arrays
+
       TYPE(array_list), INTENT(IN)                           :: list
+         !! list of arrays
       INTEGER, DIMENSION(:), INTENT(IN)                      :: i_selected
+         !! array numbers to retrieve
       TYPE(array_list)                                       :: array_sublist
       INTEGER :: ndata
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ${varlist("data")}$
@@ -145,30 +130,22 @@ CONTAINS
 #:endfor
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief destroy array list.
-!> \param list ...
-! **************************************************************************************************
    SUBROUTINE destroy_array_list(list)
+      !! destroy array list.
       TYPE(array_list), INTENT(INOUT) :: list
 
       DEALLOCATE (list%ptr, list%col_data)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Get all arrays contained in list
-!> \param list ...
-!> \param data_1 array 1
-!> \param data_2 array 2
-!> \param data_3 ...
-!> \param i_selected array numbers to retrieve (if not present, all arrays are returned)
-! **************************************************************************************************
    SUBROUTINE get_arrays(list, ${varlist("data")}$, i_selected)
+      !! Get all arrays contained in list
       TYPE(array_list), INTENT(IN)                       :: list
       INTEGER, ALLOCATABLE, DIMENSION(:), INTENT(OUT), &
          OPTIONAL                                        :: ${varlist("data")}$
+         !! arrays 1 and 2
       INTEGER, DIMENSION(:), INTENT(IN), &
          OPTIONAL                                        :: i_selected
+         !! array numbers to retrieve (if not present, all arrays are returned)
       INTEGER                                            :: i, ndata
       INTEGER, DIMENSION(number_of_arrays(list))         :: o
 
@@ -191,13 +168,8 @@ CONTAINS
 
    END SUBROUTINE get_arrays
 
-! **************************************************************************************************
-!> \brief get ith array
-!> \param list ...
-!> \param i ...
-!> \param array ...
-! **************************************************************************************************
    SUBROUTINE get_ith_array(list, i, array)
+      !! get ith array
       TYPE(array_list), INTENT(IN)                    :: list
       INTEGER, INTENT(IN)                             :: i
       INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT) :: array
@@ -209,12 +181,8 @@ CONTAINS
       END ASSOCIATE
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief sizes of arrays stored in list
-!> \param list ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION sizes_of_arrays(list)
+      !! sizes of arrays stored in list
       TYPE(array_list), INTENT(IN)       :: list
       INTEGER, ALLOCATABLE, DIMENSION(:) :: sizes_of_arrays
 
@@ -227,12 +195,8 @@ CONTAINS
       ENDDO
    END FUNCTION sizes_of_arrays
 
-! **************************************************************************************************
-!> \brief sum of all elements for each array stored in list
-!> \param list ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION sum_of_arrays(list)
+      !! sum of all elements for each array stored in list
       TYPE(array_list), INTENT(IN)       :: list
       INTEGER, ALLOCATABLE, DIMENSION(:) :: sum_of_arrays
 
@@ -246,12 +210,8 @@ CONTAINS
 
    END FUNCTION sum_of_arrays
 
-! **************************************************************************************************
-!> \brief partial sums of array elements.
-!> \param list_in ...
-!> \param list_out ...
-! **************************************************************************************************
    SUBROUTINE array_offsets(list_in, list_out)
+      !! partial sums of array elements.
       TYPE(array_list), INTENT(IN)  :: list_in
       TYPE(array_list), INTENT(OUT) :: list_out
 
@@ -269,13 +229,8 @@ CONTAINS
       ENDDO
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief reorder array list.
-!> \param list_in ...
-!> \param list_out ...
-!> \param order ...
-! **************************************************************************************************
    SUBROUTINE reorder_arrays(list_in, list_out, order)
+      !! reorder array list.
       TYPE(array_list), INTENT(IN)                     :: list_in
       TYPE(array_list), INTENT(OUT)                    :: list_out
       INTEGER, ALLOCATABLE, DIMENSION(:)               :: ${varlist("data")}$
@@ -292,24 +247,16 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief check whether two array lists are equal
-!> \param list1 ...
-!> \param list2 ...
-! **************************************************************************************************
    FUNCTION check_equal(list1, list2)
+      !! check whether two array lists are equal
       TYPE(array_list), INTENT(IN)  :: list1, list2
       LOGICAL :: check_equal
 
       check_equal = array_eq_i(list1%col_data, list2%col_data) .AND. array_eq_i(list1%ptr, list2%ptr)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief check whether two arrays are equal
-!> \param arr1 ...
-!> \param arr2 ...
-! **************************************************************************************************
    PURE FUNCTION array_eq_i(arr1, arr2)
+      !! check whether two arrays are equal
       INTEGER, INTENT(IN), DIMENSION(:) :: arr1
       INTEGER, INTENT(IN), DIMENSION(:) :: arr2
       LOGICAL                           :: array_eq_i

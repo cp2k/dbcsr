@@ -70,10 +70,6 @@ MODULE dbcsr_cublas
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief ...
-!> \param cublas_handle ...
-! **************************************************************************************************
    SUBROUTINE cublas_handle_init(cublas_handle)
       TYPE(cublas_handle_type), INTENT(OUT) :: cublas_handle
 
@@ -94,10 +90,6 @@ CONTAINS
 #endif
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param cublas_handle ...
-! **************************************************************************************************
    SUBROUTINE cublas_handle_destroy(cublas_handle)
       TYPE(cublas_handle_type), INTENT(INOUT) :: cublas_handle
 

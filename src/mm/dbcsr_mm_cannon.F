@@ -7,19 +7,15 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   First layer of the dbcsr matrix-matrix multiplication.
-!>          It performs the MPI parallelization according to Cannon's algorithm.
-!>
-!> \author  Urban Borstnik
-!>
-!> <b>Modification history:</b>
-!>  - 2010-02-23 Moved from dbcsr_operations
-!>  - 2011-11    Moved parameter-stack processing routines to
-!>               dbcsr_mm_methods.
-!>  - 2013-01    reorganized code (Ole Schuett)
-! **************************************************************************************************
 MODULE dbcsr_mm_cannon
+   !! First layer of the dbcsr matrix-matrix multiplication.
+   !! It performs the MPI parallelization according to Cannon's algorithm.
+   !! <b>Modification history:</b>
+   !! - 2010-02-23 Moved from dbcsr_operations
+   !! - 2011-11    Moved parameter-stack processing routines to
+   !! dbcsr_mm_methods.
+   !! - 2013-01    reorganized code (Ole Schuett)
+
    USE dbcsr_acc_event, ONLY: acc_event_synchronize
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_exists, &
@@ -136,29 +132,8 @@ MODULE dbcsr_mm_cannon
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Make images from the matrix (left or right)
-!> \param[in] matrix ...
-!> \param[out] m2s ...
-!> \param[in,out] rdist ...
-!> \param[in,out] dense_rdist ...
-!> \param[in] use_dense_mult ...
-!> \param[in] ab_dense ...
-!> \param[in] predistribute ...
-!> \param[in] f_k ...
-!> \param[in] l_k ...
-!> \param[in] f_row ...
-!> \param[in] l_row ...
-!> \param[in] f_col ...
-!> \param[in] l_col ...
-!> \param[in,out] row_blk_size ...
-!> \param[in,out] col_blk_size ...
-!> \param[in] k_vmap ...
-!> \param[in] m_map ...
-!> \param[in] n_map ...
-!> \param[in] alpha ...
-! **************************************************************************************************
    SUBROUTINE make_m2s(matrix, m2s, rdist, dense_rdist, &
+      !! Make images from the matrix (left or right)
                        use_dense_mult, ab_dense, predistribute, &
                        f_k, l_k, f_row, l_row, f_col, l_col, &
                        row_blk_size, col_blk_size, &
@@ -272,23 +247,22 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE make_m2s
 
-! **************************************************************************************************
-!> \brief Creates row and column images of a matrix.
-!> \param[in] source          input matrix
-!> \param[in,out] normalized  image array of the normalized matrix
-!> \param[in] target_image_dist          normalize to this image distribution
-!> \param[in] predistribute   (optional) predistribute data for multiplication
-!> \param[in] no_copy_data    (optional) try to not merge data at the end
-!> \param[in] scale_value     (optional) scale with this value
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_images(source, normalized, target_image_dist, &
                                 predistribute, no_copy_data, scale_value)
+      !! Creates row and column images of a matrix.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: source
+         !! input matrix
       TYPE(dbcsr_2d_array_type), INTENT(OUT)             :: normalized
+         !! image array of the normalized matrix
       TYPE(dbcsr_imagedistribution_obj), INTENT(IN)      :: target_image_dist
+         !! normalize to this image distribution
       CHARACTER, INTENT(IN), OPTIONAL                    :: predistribute
+         !! predistribute data for multiplication
       LOGICAL, INTENT(IN), OPTIONAL                      :: no_copy_data
+         !! try to not merge data at the end
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale_value
+         !! scale with this value
 
 !   ---------------------------------------------------------------------------
 
@@ -305,25 +279,24 @@ CONTAINS
       CALL dbcsr_image_dist_hold(normalized%image_dist)
    END SUBROUTINE dbcsr_make_images
 
-! **************************************************************************************************
-!> \brief Makes column-based and row-based images of a matrix.
-!> \param[in] ism input symmetric matrix
-!> \param[in,out] ums         normalized matrices
-!> \param[in] target_imgdist  image distribution to normalize to
-!> \param[in] desymmetrize    (optional) desymmetrize a symmetric matrix
-!> \param[in] predistribute   (optional) predistribute data for multiplication
-!> \param[in] no_copy_data    (optional) try to not merge data at the end
-!> \param[in] scale_value     (optional) scale with this value
-! **************************************************************************************************
    SUBROUTINE make_images(ism, ums, target_imgdist, desymmetrize, predistribute, &
                           no_copy_data, scale_value)
+      !! Makes column-based and row-based images of a matrix.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: ism
+         !! input symmetric matrix
       TYPE(dbcsr_2d_array_type), INTENT(OUT)             :: ums
+         !! normalized matrices
       TYPE(dbcsr_imagedistribution_obj), INTENT(IN)      :: target_imgdist
+         !! image distribution to normalize to
       LOGICAL, INTENT(IN), OPTIONAL                      :: desymmetrize
+         !! desymmetrize a symmetric matrix
       CHARACTER, INTENT(IN), OPTIONAL                    :: predistribute
+         !! predistribute data for multiplication
       LOGICAL, INTENT(IN), OPTIONAL                      :: no_copy_data
+         !! try to not merge data at the end
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale_value
+         !! scale with this value
 
       CHARACTER(len=*), PARAMETER :: routineN = 'make_images', routineP = moduleN//':'//routineN
       INTEGER, PARAMETER                                 :: metalen = 5
@@ -762,28 +735,23 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE make_images
 
-! **************************************************************************************************
-!> \brief Makes dense matrices for the image matrices.
-!> \param[in,out] images          current (undense) matrix images, output is
-!>                                the dense matrix images
-!> \param[in] new_rdist           the new image distribution for dense matrices
-!> \param[in] row_map             mapping of current (undense) rows to dense rows
-!> \param[in] col_map             mapping of current (undense) columns to
-!>                                dense columns
-!> \param[in] join_cols           (optional) make columns dense, default is
-!>                                yes
-!> \param[in] join_rows           (optional) make rows dense, default is yes
-!> \param[in] new_template        template dense matrix for creating image
-!>                                matrices
-!> \note Used for making matrices dense/undense
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_images_dense(images, new_rdist, &
                                       row_map, col_map, join_cols, join_rows, new_template)
+      !! Makes dense matrices for the image matrices.
+      !! @note Used for making matrices dense/undense
+
       TYPE(dbcsr_2d_array_type), INTENT(INOUT)           :: images
+         !! current (undense) matrix images, output is the dense matrix images
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: new_rdist
+         !! the new image distribution for dense matrices
       TYPE(array_i1d_obj), INTENT(IN)                    :: row_map, col_map
+         !! mapping of current (undense) rows to dense rows
+         !! mapping of current (undense) columns to dense columns
       LOGICAL, INTENT(IN)                                :: join_cols, join_rows
+         !! make columns dense, default is yes
+         !! make rows dense, default is yes
       TYPE(dbcsr_type), INTENT(IN)                       :: new_template
+         !! template dense matrix for creating image matrices
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_images_dense', &
                                      routineP = moduleN//':'//routineN
@@ -853,25 +821,21 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_make_images_dense
 
-! **************************************************************************************************
-!> \brief Multiplies two DBCSR matrices
-!>
-!> \param[in] left_set             set of imaged left matrices
-!> \param[in] right_set            set of imaged right matrices
-!> \param[out] product_matrix      DBCSR product matrix
-!> \param[in] retain_sparsity      (optional) retain the sparsity of the
-!>                                 existing product matrix; default is no
-!> \param filter_eps ...
-!> \param[out] flop                (optional) effective flop
-! **************************************************************************************************
    SUBROUTINE multiply_cannon(left_set, right_set, product_matrix, &
                               retain_sparsity, &
                               filter_eps, flop)
+      !! Multiplies two DBCSR matrices
+
       TYPE(dbcsr_2d_array_type), POINTER                 :: left_set, right_set
+         !! set of imaged left matrices
+         !! set of imaged right matrices
       TYPE(dbcsr_type), INTENT(INOUT)                    :: product_matrix
+         !! DBCSR product matrix
       LOGICAL, INTENT(IN), OPTIONAL                      :: retain_sparsity
+         !! retain the sparsity of the existing product matrix; default is no
       REAL(kind=real_8), INTENT(in), OPTIONAL            :: filter_eps
       INTEGER(KIND=int_8), INTENT(OUT)                   :: flop
+         !! effective flop
 
       CHARACTER(len=*), PARAMETER :: routineN = 'multiply_cannon', &
                                      routineP = moduleN//':'//routineN
@@ -1782,15 +1746,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE multiply_cannon
 
-! **************************************************************************************************
-!> \brief ...
-!> \param buffer_set ...
-!> \param buff_nrows ...
-!> \param buff_ncols ...
-!> \param source_matrix ...
-!> \param index_size ...
-!> \param data_size ...
-! **************************************************************************************************
    SUBROUTINE setup_buffer_matrices(buffer_set, buff_nrows, buff_ncols, &
                                     source_matrix, index_size, data_size)
       TYPE(dbcsr_2d_array_type), INTENT(OUT)             :: buffer_set
@@ -1831,21 +1786,15 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE setup_buffer_matrices
 
-! ***************************************************************************************************
-!> \brief Enlarge left_set and right_set to hold any a/b-panel.
-!>  left_set and right_set are created by make_images to hold the a/b-panels
-!>  used for the initial cannon-tick. This routine ensures that these buffers
-!>  can hold any a/b-panel occurring during a matrix multiply and makes them
-!>  therefore suitable as buffers for the entire cannon algorithm.
-!>  This saves memory since no separate buffers for the first cannon-tick
-!>  have to be allocated.
-!>
-!> \param buffer_set ...
-!> \param index_size ...
-!> \param data_size ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE buffer_matrices_ensure_size(buffer_set, index_size, data_size)
+      !! Enlarge left_set and right_set to hold any a/b-panel.
+      !! left_set and right_set are created by make_images to hold the a/b-panels
+      !! used for the initial cannon-tick. This routine ensures that these buffers
+      !! can hold any a/b-panel occurring during a matrix multiply and makes them
+      !! therefore suitable as buffers for the entire cannon algorithm.
+      !! This saves memory since no separate buffers for the first cannon-tick
+      !! have to be allocated.
+
       TYPE(dbcsr_2d_array_type), INTENT(INOUT)           :: buffer_set
       INTEGER, INTENT(IN)                                :: index_size, data_size
 
@@ -1871,12 +1820,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE buffer_matrices_ensure_size
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix_set ...
-!> \param n_rows ...
-!> \param n_cols ...
-! **************************************************************************************************
    SUBROUTINE setup_rec_index_2d(matrix_set, n_rows, n_cols)
       TYPE(dbcsr_2d_array_type), INTENT(INOUT)           :: matrix_set
       INTEGER, INTENT(IN)                                :: n_rows, n_cols
@@ -1937,14 +1880,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE setup_rec_index_2d
 
-! **************************************************************************************************
-!> \brief Used to thunk a call to rec_sort_index
-!> \param m ...
-!> \param n ...
-!> \param nblks ...
-!> \param idx ...
-! **************************************************************************************************
    SUBROUTINE call_rec_sort_index(m, n, nblks, idx)
+      !! Used to thunk a call to rec_sort_index
       INTEGER, INTENT(IN)                                :: m, n, nblks
       INTEGER, DIMENSION(3, 1:nblks), INTENT(INOUT)      :: idx
 
@@ -1953,12 +1890,8 @@ CONTAINS
       CALL rec_sort_index(1, m, 1, n, nblks, idx, 0)
    END SUBROUTINE call_rec_sort_index
 
-! **************************************************************************************************
-!> \brief Switches pointers between two matrix sets
-!> \param[in,out] set1p ...
-!> \param[in,out] set2p ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_switch_sets(set1p, set2p)
+      !! Switches pointers between two matrix sets
       TYPE(dbcsr_2d_array_type), POINTER                 :: set1p, set2p
 
       TYPE(dbcsr_2d_array_type), POINTER                 :: tmp_set
@@ -1970,13 +1903,8 @@ CONTAINS
       set2p => tmp_set
    END SUBROUTINE dbcsr_switch_sets
 
-! **************************************************************************************************
-!> \brief Switches pointers between two data areas
-!> \param area1p ...
-!> \param area2p ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_switch_d_ptrs(area1p, area2p)
+      !! Switches pointers between two data areas
       TYPE(dbcsr_data_obj), POINTER                      :: area1p, area2p
 
       TYPE(dbcsr_data_obj), POINTER                      :: tmp_p

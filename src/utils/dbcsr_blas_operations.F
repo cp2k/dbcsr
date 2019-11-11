@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Wrappers to BLAS calls.
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2010-02-18 Moved from dbcsr_util
-! **************************************************************************************************
 MODULE dbcsr_blas_operations
+   !! Wrappers to BLAS calls.
    USE dbcsr_kinds, ONLY: int_8
    USE dbcsr_types, ONLY: dbcsr_data_obj, &
                           dbcsr_type_complex_4, &
@@ -34,22 +26,21 @@ MODULE dbcsr_blas_operations
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief generate a seed respecting the lapack constraints,
-!>        - values between 0..4095 (2**12-1)
-!>        - iseed(4) odd
-!>        also try to avoid iseed that are zero.
-!>        Have but with a unique 2D mapping (irow,icol), and a 'mini-seed' ival
-!> \param irow 1..nrow
-!> \param nrow nrow
-!> \param icol 1..ncol
-!> \param ncol ncol
-!> \param ival mini-seed
-!> \param iseed a lapack compatible seed
-! **************************************************************************************************
    SUBROUTINE set_larnv_seed(irow, nrow, icol, ncol, ival, iseed)
+      !! generate a seed respecting the lapack constraints,
+      !! - values between 0..4095 (2**12-1)
+      !! - iseed(4) odd
+      !! also try to avoid iseed that are zero.
+      !! Have but with a unique 2D mapping (irow,icol), and a 'mini-seed' ival
+
       INTEGER, INTENT(IN)                                :: irow, nrow, icol, ncol, ival
+         !! 1..nrow
+         !! nrow
+         !! 1..ncol
+         !! ncol
+         !! mini-seed
       INTEGER, INTENT(OUT)                               :: iseed(4)
+         !! a lapack compatible seed
 
       CHARACTER(len=*), PARAMETER :: routineN = 'set_larnv_seed', routineP = moduleN//':'//routineN
 
@@ -61,16 +52,13 @@ CONTAINS
       iseed(2) = INT(MODULO(IEOR(map, 1153_int_8), 2_int_8**12)); map = map/2_int_8**12
       iseed(1) = INT(MODULO(IEOR(map, 2029_int_8), 2_int_8**12)); map = map/2_int_8**12
    END SUBROUTINE set_larnv_seed
-! **************************************************************************************************
-!> \brief fills an array with random numbers
-!> \param idist type of distribution (1..3, see lapack docs)
-!> \param iseed requires each int to be in the range 0..2**12, and the iseed(4) odd
-!> \param n ...
-!> \param x ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_lapack_larnv(idist, iseed, n, x)
+      !! fills an array with random numbers
+
       INTEGER, INTENT(IN)                                :: idist
+         !! type of distribution (1..3, see lapack docs)
       INTEGER, DIMENSION(:), INTENT(INOUT)               :: iseed
+         !! requires each int to be in the range 0..2**12, and the iseed(4) odd
       INTEGER, INTENT(IN)                                :: n
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: x
 

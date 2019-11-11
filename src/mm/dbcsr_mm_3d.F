@@ -7,16 +7,12 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   3D matrix-matrix multiplication.
-!>
-!> \author  Alfio Lazzaro
-!>
-!> <b>Modification history:</b>
-!>  - 2016-08    Code organization (Alfio Lazzaro).
-!>  - 2017-02    Remove clusters (Alfio Lazzaro).
-! **************************************************************************************************
 MODULE dbcsr_mm_3d
+   !! 3D matrix-matrix multiplication.
+   !! <b>Modification history:</b>
+   !! - 2016-08    Code organization (Alfio Lazzaro).
+   !! - 2017-02    Remove clusters (Alfio Lazzaro).
+
    USE dbcsr_acc_event, ONLY: acc_event_create, &
                               acc_event_destroy, &
                               acc_event_synchronize
@@ -204,20 +200,8 @@ MODULE dbcsr_mm_3d
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Prepare orig images for MPI windows
-!> \param matrix ...
-!> \param imgdist ...
-!> \param is_left ...
-!> \param f_row ...
-!> \param l_row ...
-!> \param f_col ...
-!> \param l_col ...
-!> \param otf_filtering ...
-!> \param alpha ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_buffers(matrix, imgdist, is_left, &
+      !! Prepare orig images for MPI windows
                                  f_row, l_row, f_col, l_col, &
                                  otf_filtering, alpha)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
@@ -247,20 +231,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_make_buffers
 
-! **************************************************************************************************
-!> \brief Prepare orig images for MPI windows
-!> \param matrix ...
-!> \param imgdist ...
-!> \param is_left ...
-!> \param f_row ...
-!> \param l_row ...
-!> \param f_col ...
-!> \param l_col ...
-!> \param otf_filtering ...
-!> \param scale_value ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE make_buffers(matrix, imgdist, is_left, &
+      !! Prepare orig images for MPI windows
                            f_row, l_row, f_col, l_col, &
                            otf_filtering, scale_value)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
@@ -1005,16 +977,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE make_buffers
 
-! **************************************************************************************************
-!> \brief Make communicators for A and B matrices
-!> \param my_num_layers_3D ...
-!> \param side3D ...
-!> \param mp_obj ...
-!> \param is_left ...
-!> \param buffer ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE make_layers_3D_AB(my_num_layers_3D, side3D, mp_obj, is_left, buffer)
+      !! Make communicators for A and B matrices
       INTEGER, INTENT(IN)                                :: my_num_layers_3D, side3D
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_obj
       LOGICAL, INTENT(IN)                                :: is_left
@@ -1058,28 +1022,16 @@ CONTAINS
       buffer%num_layers_3D = my_num_layers_3D
    END SUBROUTINE make_layers_3D_AB
 
-! **************************************************************************************************
-!> \brief Return the rank of the 3D layer (3D communicator for C), Column-major order
-!> \param myprow ...
-!> \param mypcol ...
-!> \param nprows ...
-!> \param side3D ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION get_rank3D(myprow, mypcol, nprows, side3D)
+      !! Return the rank of the 3D layer (3D communicator for C), Column-major order
       INTEGER, INTENT(IN)                                :: myprow, mypcol, nprows, side3D
       INTEGER                                            :: get_rank3D
 
       get_rank3D = myprow/side3D+(nprows/side3D)*(mypcol/side3D)
    END FUNCTION get_rank3D
 
-! **************************************************************************************************
-!> \brief Make communicators for 3D layers for C-reduction
-!> \param my_num_layers_3D ...
-!> \param mp_obj ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE make_layers_3D_C_reduction(my_num_layers_3D, mp_obj)
+      !! Make communicators for 3D layers for C-reduction
       INTEGER, INTENT(IN)                                :: my_num_layers_3D
       TYPE(dbcsr_mp_obj), INTENT(INOUT)                  :: mp_obj
 
@@ -1152,12 +1104,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE make_layers_3D_C_reduction
 
-! **************************************************************************************************
-!> \brief Release communicators for 3D layers for C-reduction
-!> \param release_buffers ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE release_layers_3D_C_reduction(release_buffers)
+      !! Release communicators for 3D layers for C-reduction
       LOGICAL, OPTIONAL                                  :: release_buffers
 
       INTEGER                                            :: ibuff
@@ -1180,34 +1128,24 @@ CONTAINS
       ENDIF
    END SUBROUTINE release_layers_3D_C_reduction
 
-! **************************************************************************************************
-!> \brief Multiplies two DBCSR matrices (experimental MPI algorithm).
-!>        This algorithm is experimental and it should be not used in
-!>        production runs.
-!>
-!> \param imgdist_left ...
-!> \param imgdist_right ...
-!> \param matrix_left ...
-!> \param matrix_right ...
-!> \param[out] product_matrix      DBCSR product matrix
-!> \param[in] retain_sparsity      (optional) retain the sparsity of the
-!>                                 existing product matrix; default is no
-!> \param filter_eps ...
-!> \param[out] flop                (optional) effective flop
-!> \param keep_product_data ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE multiply_3D(imgdist_left, imgdist_right, &
                           matrix_left, matrix_right, &
                           product_matrix, &
                           retain_sparsity, &
                           filter_eps, flop, keep_product_data)
+      !! Multiplies two DBCSR matrices (experimental MPI algorithm).
+      !! This algorithm is experimental and it should be not used in
+      !! production runs.
+
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist_left, imgdist_right
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_left, matrix_right
       TYPE(dbcsr_type), INTENT(INOUT), TARGET            :: product_matrix
+         !! DBCSR product matrix
       LOGICAL, INTENT(IN), OPTIONAL                      :: retain_sparsity
+         !! retain the sparsity of the existing product matrix; default is no
       REAL(kind=real_8), INTENT(IN), OPTIONAL            :: filter_eps
       INTEGER(KIND=int_8), INTENT(OUT)                   :: flop
+         !! effective flop
       LOGICAL, INTENT(IN)                                :: keep_product_data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'multiply_3D', routineP = moduleN//':'//routineN
@@ -2301,12 +2239,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE multiply_3D
 
-! **************************************************************************************************
-!> \brief ...
-!> \param buffer ...
-!> \param do_win_create ...
-!> \param request ...
-! **************************************************************************************************
    SUBROUTINE win_setup(buffer, do_win_create, request)
       TYPE(dbcsr_buffer), INTENT(INOUT)                  :: buffer
       LOGICAL, DIMENSION(:), INTENT(INOUT)               :: do_win_create
@@ -2350,16 +2282,10 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE win_setup
 
-! **************************************************************************************************
-!> \brief Apply reflected order, i.e. row increasing value for odd col value,
-!>                                    row decreasing value for even col value
-!> \param irow3D ...
-!> \param icol3D ...
-!> \param nrows3D ...
-!> \param ncols3D ...
-!> \param shift3D ...
-! **************************************************************************************************
    SUBROUTINE row_col_3D_reflected(irow3D, icol3D, nrows3D, ncols3D, shift3D)
+      !! Apply reflected order, i.e. row increasing value for odd col value,
+      !! row decreasing value for even col value
+
       INTEGER, INTENT(INOUT)                             :: irow3D, icol3D
       INTEGER, INTENT(IN)                                :: nrows3D, ncols3D, shift3D
 
@@ -2371,18 +2297,6 @@ CONTAINS
       irow3D = (nrows3D-irow3D)*(1 - odd_or_even) + (irow3D+1)*odd_or_even
    END SUBROUTINE row_col_3D_reflected
 
-! **************************************************************************************************
-!> \brief ...
-!> \param buffer_1 ...
-!> \param buffer_2 ...
-!> \param buffers ...
-!> \param nbuffers ...
-!> \param data_size ...
-!> \param meta_size ...
-!> \param matrix ...
-!> \param imgdist ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE setup_buffers(buffer_1, buffer_2, buffers, nbuffers, data_size, meta_size, matrix, imgdist)
       TYPE(dbcsr_buffer), INTENT(INOUT), TARGET          :: buffer_1, buffer_2
       TYPE(dbcsr_buffer), ALLOCATABLE, DIMENSION(:), &
@@ -2442,15 +2356,6 @@ CONTAINS
       ENDDO
    END SUBROUTINE setup_buffers
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \param imgdist ...
-!> \param template_matrix ...
-!> \param data_buffer ...
-!> \param meta_buffer ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE setup_buffer_matrix_image(matrix, imgdist, &
                                         template_matrix, data_buffer, &
                                         meta_buffer)
@@ -2481,12 +2386,6 @@ CONTAINS
       matrix%list_indexing = .TRUE.
    END SUBROUTINE setup_buffer_matrix_image
 
-! **************************************************************************************************
-!> \brief ...
-!> \param buffers_1 ...
-!> \param buffers_2 ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE swap_buffers(buffers_1, buffers_2)
       TYPE(dbcsr_buffer), INTENT(INOUT)                  :: buffers_1, buffers_2
 
@@ -2497,22 +2396,6 @@ CONTAINS
       buffers_2 = tmp
    END SUBROUTINE swap_buffers
 
-! **************************************************************************************************
-!> \brief ...
-!> \param recv_vproc ...
-!> \param nimages ...
-!> \param size_layers3D ...
-!> \param displ_layers3D ...
-!> \param buffer ...
-!> \param meta_win ...
-!> \param data_win ...
-!> \param data_get ...
-!> \param data_type_byte ...
-!> \param buffer_win ...
-!> \param layer3D ...
-!> \param nlayers3D ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE rma_transfer(recv_vproc, nimages, &
                            size_layers3D, displ_layers3D, &
                            buffer, &
@@ -2564,17 +2447,6 @@ CONTAINS
       buffer%matrix%valid = .FALSE.
    END SUBROUTINE rma_transfer
 
-! **************************************************************************************************
-!> \brief ...
-!> \param meta_buffer ...
-!> \param img_nblks_rows ...
-!> \param img_nblks_cols ...
-!> \param refs_size ...
-!> \param refs_displ ...
-!> \param size_index ...
-!> \param has_threads ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE setup_rec_index_images(meta_buffer, img_nblks_rows, img_nblks_cols, &
                                      refs_size, refs_displ, size_index, has_threads)
       INTEGER, DIMENSION(:), INTENT(INOUT)               :: meta_buffer
@@ -2633,19 +2505,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE setup_rec_index_images
 
-! **************************************************************************************************
-!> \brief Init buffer
-!>
-!> \param buffer ...
-!> \param data_type ...
-!> \param data_size ...
-!> \param meta_size ...
-!> \param num_data ...
-!> \param data_memory_type ...
-!> \param trs_memory_type ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE buffer_init(buffer, data_type, &
+      !! Init buffer
                           data_size, meta_size, &
                           num_data, &
                           data_memory_type, trs_memory_type)
@@ -2721,12 +2582,8 @@ CONTAINS
       buffer%is_comm = .FALSE.
    END SUBROUTINE buffer_init
 
-! **************************************************************************************************
-!> \brief Release all buffers
-!>
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE buffers_release()
+      !! Release all buffers
       IF (request_sync_mult .NE. mp_request_null) CALL mp_wait(request_sync_mult)
       request_sync_mult = mp_request_null
       CALL buffer_release(buffers_1%right)
@@ -2742,13 +2599,8 @@ CONTAINS
       IF (ASSOCIATED(make_buffers_meta_recv)) CALL memory_deallocate(make_buffers_meta_recv, memtype_mpi_buffer)
    END SUBROUTINE buffers_release
 
-! **************************************************************************************************
-!> \brief Release buffer
-!>
-!> \param buffer ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE buffer_release(buffer)
+      !! Release buffer
       TYPE(dbcsr_buffer), INTENT(INOUT)                  :: buffer
 
       IF (buffer%has_rma_win) THEN
@@ -2788,20 +2640,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE buffer_release
 
-! **************************************************************************************************
-!> \brief Create meta indices
-!>
-!> \param buffer ...
-!> \param ntotal_images ...
-!> \param vprow ...
-!> \param vpcol ...
-!> \param imgdist ...
-!> \param do_merge_rows ...
-!> \param global_indices ...
-!> \param nthreads ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE make_meta(buffer, ntotal_images, &
+      !! Create meta indices
                         vprow, vpcol, &
                         imgdist, do_merge_rows, &
                         global_indices, &
@@ -2862,15 +2702,8 @@ CONTAINS
       buffer%matrix%valid = .TRUE.
    END SUBROUTINE make_meta
 
-! **************************************************************************************************
-!> \brief Remap the 4-rank array in a 3-rank array by introducing the virtual coordinate
-!> \param refs_size ...
-!> \param refs_size_layers3D ...
-!> \param refs_displ_layers3D ...
-!> \param data_size ...
-!> \param meta_size ...
-! **************************************************************************************************
    SUBROUTINE remap_layers3D(refs_size, refs_size_layers3D, refs_displ_layers3D, &
+      !! Remap the 4-rank array in a 3-rank array by introducing the virtual coordinate
                              data_size, meta_size)
       INTEGER, DIMENSION(:, :, :, :), INTENT(IN), &
          POINTER                                         :: refs_size
@@ -2910,10 +2743,6 @@ CONTAINS
 !$OMP END PARALLEL DO
    END SUBROUTINE remap_layers3D
 
-! **************************************************************************************************
-!> \brief ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION get_max_layers_3D()
       INTEGER                                            :: get_max_layers_3D
 

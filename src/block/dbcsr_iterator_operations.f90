@@ -9,28 +9,25 @@
 
 #:include '../data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
-! **************************************************************************************************
-!> \brief Gets the next data block, single/double precision real/complex
-!> \param[in,out] iterator   the iterator
-!> \param[out] row           row of the data block
-!> \param[out] column        column of the data block
-!> \param[out] block         pointer to the data block
-!> \param[out] transposed    whether the block data is transposed
-!> \param[out] block_number  (optional) block number
-!> \param[out] row_size      (optional) logical row size of block
-!> \param[out] col_size      (optional) logical column size of block
-!> \param row_offset ...
-!> \param col_offset ...
-! **************************************************************************************************
   SUBROUTINE iterator_next_1d_block_${nametype1}$ (iterator, row, column, block, &
                                                    transposed, block_number, row_size, col_size, row_offset, col_offset)
+     !! Gets the next data block, single/double precision real/complex
+
      TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
+        !! the iterator
      INTEGER, INTENT(OUT)                     :: row, column
+        !! row of the data block
+        !! column of the data block
      ${type1}$, DIMENSION(:), POINTER :: block
+        !! pointer to the data block
      LOGICAL, INTENT(OUT)                     :: transposed
+        !! whether the block data is transposed
      INTEGER, INTENT(OUT), OPTIONAL           :: block_number
+        !! block number
      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, &
                                                  row_offset, col_offset
+        !! logical row size of block
+        !! logical column size of block
 
      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -69,29 +66,26 @@
      ENDIF
   END SUBROUTINE iterator_next_1d_block_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Gets the next data block, single/double precision real/complex
-!> \param[in,out] iterator   the iterator
-!> \param[out] row           row of the data block
-!> \param[out] column        column of the data block
-!> \param[out] block         pointer to the data block
-!> \param[out] transposed    whether the block data is transposed
-!> \param[out] block_number  (optional) block number
-!> \param[out] row_size      (optional) logical row size of block
-!> \param[out] col_size      (optional) logical column size of block
-!> \param row_offset ...
-!> \param col_offset ...
-! **************************************************************************************************
   SUBROUTINE iterator_next_2d_block_${nametype1}$ (iterator, row, column, &
                                                    block, transposed, &
                                                    block_number, row_size, col_size, row_offset, col_offset)
+     !! Gets the next data block, single/double precision real/complex
+
      TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
+        !! the iterator
      INTEGER, INTENT(OUT)                     :: row, column
+        !! row of the data block
+        !! column of the data block
      ${type1}$, DIMENSION(:, :), &
         POINTER                                :: block
+        !! pointer to the data block
      LOGICAL, INTENT(OUT)                     :: transposed
+        !! whether the block data is transposed
      INTEGER, INTENT(OUT), OPTIONAL           :: block_number
+        !! block number
      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, row_offset, col_offset
+        !! logical row size of block
+        !! logical column size of block
 
      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_${nametype1}$', &
                                     routineP = moduleN//':'//routineN

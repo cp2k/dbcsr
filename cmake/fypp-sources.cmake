@@ -1,4 +1,6 @@
 
+add_custom_target(fypp)  # common target for all fypp calls
+
 # Use a system-provided fypp if available, otherwise the bundled one
 find_program(FYPP_EXECUTABLE fypp DOC "The FYPP preprocessor" PATHS ../tools/build_utils/fypp/bin)
 if (NOT FYPP_EXECUTABLE)
@@ -32,6 +34,11 @@ function (ADD_FYPP_SOURCES OUTVAR)
       configure_file("${f}" "${of}" COPYONLY)
     endif ()
   endforeach ()
+
+  # build a custom target to fypp seperately (required for example by the doc target)
+  add_custom_target("fypp_${OUTVAR}" DEPENDS ${outfiles} )
+  add_dependencies(fypp "fypp_${OUTVAR}")
+
   # set the output list in the calling scope
   set(${OUTVAR} ${outfiles} PARENT_SCOPE)
 endfunction ()

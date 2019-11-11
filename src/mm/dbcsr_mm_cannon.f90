@@ -11,8 +11,6 @@
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1, normname1 in inst_params_float
 
 ! **************************************************************************************************
-!> \brief Prepare buffers for multiplications
-! **************************************************************************************************
   SUBROUTINE prepare_buffers_${nametype1}$ (negate_real, negate_imaginary, &
                                             iter, row, col, blk, blk_p, bp, &
                                             row_size, col_size, nze, nsymmetries, symmetry_i, &
@@ -23,6 +21,7 @@
                                             row_dist, col_dist, dst_p, sm_pos, myt_smp, metalen, &
                                             sd_pos, myt_sdp, send_meta, sd_disp, &
                                             data_area, send_data_area, scale_neg_one, scale_value)
+     !! Prepare buffers for multiplications
      LOGICAL, INTENT(IN)                                     :: negate_real, negate_imaginary
      TYPE(dbcsr_iterator), INTENT(INOUT)                     :: iter
      INTEGER, INTENT(INOUT)                                  :: row, col, blk, blk_p, row_size, col_size, &

@@ -7,20 +7,15 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief  Second layer of the dbcsr matrix-matrix multiplication.
-!>            It divides the multiplication in a cache-oblivious manner.
-!>
-!> \author  Urban Borstnik
-!>
-!> <b>Modification history:</b>
-!>  - 2010-02-23 Moved from dbcsr_operations
-!>  - 2011-11    Moved parameter-stack processing routines to
-!>               dbcsr_mm_methods.
-!>  - 2013-01    extensive refactoring (Ole Schuett)
-! **************************************************************************************************
-
 MODULE dbcsr_mm_multrec
+   !! Second layer of the dbcsr matrix-matrix multiplication.
+   !! It divides the multiplication in a cache-oblivious manner.
+   !! <b>Modification history:</b>
+   !! - 2010-02-23 Moved from dbcsr_operations
+   !! - 2011-11    Moved parameter-stack processing routines to
+   !! dbcsr_mm_methods.
+   !! - 2013-01    extensive refactoring (Ole Schuett)
+
 
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_equality
@@ -58,72 +53,37 @@ MODULE dbcsr_mm_multrec
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_mm_multrec'
    LOGICAL, PARAMETER :: careful_mod = .FALSE.
 
-! **************************************************************************************************
-!> \brief Used to carry data among the various calls.  Each thread has
-!>        its own private copy.
-!> \var c_has_symmetry    The product matrix has symmetry
-!> \var keep_sparsity     Sparsity of C matrix should be kept
-!> \var use_eps           Use on-the-fly filtering
-!> \var m_sizes           Block sizes of A and C matrix rows, indexed locally
-!> \var n_sizes           Block sizes of B and C matrix columns, indexed locally
-!> \var k_sizes           Block sizes of A matrix columns and B matrix rows,
-!>                        indexed locally
-!> \var c_local_rows      C and A matrix local rows.  Map from
-!>                        local row (index) to global row (value).
-!> \var c_local_cols      C and B matrix local columns.  Map from local column
-!>                        (index) to global column (value).
-!> \var k_locals          A matrix local columns and B matrix local rows.  Map
-!>                        from local row/column (index) to global row/column
-!>                        (value).
-!> \var c_global_rows     C and A matrix global rows.  Map from global rows
-!>                        (index) to local rows (value).
-!> \var c_global_cols     C and B matrix global columns.  Map from global
-!>                        columns (index) to local columns (value).
-!> \var max_m             Maximum size of C or A matrix row block size.
-!> \var max_n             Maximum size of C or B matrix column block size.
-!> \var max_k             Maximum size of A matrix column and B matrix row block
-!>                        size.
-!> \var m_size_maps       Map from an A matrix row block size to an index of
-!>                        the most common A matrix row block sizes.
-!> \var n_size_maps       Map from a B matrix column block size to an index of
-!>                        the most common B matrix column block sizes.
-!> \var k_size_maps       Map from an A matrix row or B matrix column block
-!>                        size to an index of the most row/column block sizes.
-!> \var m_size_maps_size  Size of the m_size_maps array (i.e., the maximum block
-!>                        size + 1).
-!> \var n_size_maps_size  Size of the n_size_maps array (i.e., the maximum block
-!>                        size + 1).
-!> \var k_size_maps_size  Size of the k_size_maps array (i.e., the maximum block
-!>                        size + 1).
-!> \var nm_stacks         The number of most common m blocks sizes.
-!> \var nn_stacks         The number of most common n blocks sizes.
-!> \var nk_stacks         The number of most common k blocks sizes.
-!> \var stack_map         Map from most common (n,k,m) block sizes to a stack
-!>                        number within a stack group.
-!>                        m, n, and k sizes.
-!> \var row_max_epss      Maximum eps to be used for one row.
-!> \var a_norms           Norms of A matrix blocks.
-!> \var b_norms           Norms of B matrix blocks.
-!> \var my_wm             Work matrix associated with this thread
-!> \var lastblk           Number of elements in the work matrix
-!>
-!> \var datasize          Data size of the work matrix (view of
-!>                        same work matrix variable).
-!> \var original_lastblk  Number of work matrix blocks before addition
-!> \var flop              flop count
-! **************************************************************************************************
    TYPE dbcsr_mm_multrec_type
+      !! Used to carry data among the various calls.  Each thread has
+      !! its own private copy.
+
       PRIVATE
       LOGICAL :: c_has_symmetry, keep_sparsity, use_eps
+         !! The product matrix has symmetry
+         !! Sparsity of C matrix should be kept
+         !! Use on-the-fly filtering
       INTEGER, DIMENSION(:), POINTER :: m_sizes, n_sizes, k_sizes
+         !! Block sizes of A and C matrix rows, indexed locally
+         !! Block sizes of B and C matrix columns, indexed locally
+         !! Block sizes of A matrix columns and B matrix rows, indexed locally
       INTEGER, DIMENSION(:), POINTER :: m_global_sizes, n_global_sizes
       INTEGER, DIMENSION(:), POINTER :: c_local_rows, c_local_cols, k_locals, &
                                         c_global_rows, c_global_cols
+         !! C and A matrix local rows.  Map from local row (index) to global row (value).
+         !! C and B matrix local columns.  Map from local column (index) to global column (value).
+         !! A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
+         !! C and A matrix global rows.  Map from global rows (index) to local rows (value).
+         !! C and B matrix global columns.  Map from global columns (index) to local columns (value).
 
       REAL(KIND=sp), DIMENSION(:), POINTER :: row_max_epss, a_norms, b_norms
+         !! Maximum eps to be used for one row.
+         !! Norms of A matrix blocks.
+         !! Norms of B matrix blocks.
       REAL(KIND=real_8)     :: eps
       INTEGER               :: original_lastblk
+         !! Number of work matrix blocks before addition
       INTEGER(kind=int_8)   :: flop
+         !! flop count
       TYPE(dbcsr_work_type), POINTER :: product_wm => Null()
       TYPE(dbcsr_mm_csr_type)        :: csr
       LOGICAL                        :: new_row_max_epss = .FALSE.
@@ -141,49 +101,32 @@ MODULE dbcsr_mm_multrec
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Initialize the library
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_lib_init()
+      !! Initialize the library
 
       CALL dbcsr_mm_csr_lib_init()
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Finalize the library
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_lib_finalize()
+      !! Finalize the library
       CALL dbcsr_mm_csr_lib_finalize()
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Sets up recursive multiplication
-!>
-!>
-!> \param this ...
-!> \param[in] left left DBCSR matrix
-!> \param[in] right right DBCSR matrix
-!> \param[in,out] product     resulting DBCSR product matrix
-!> \param[in] keep_sparsity (optional) retain the sparsity of the
-!>                                 existing product matrix, default is no
-!> \param[in] eps             (optional) on-the-fly filtering epsilon
-!> \param row_max_epss ...
-!> \param block_estimate ...
-!> \param right_row_blk_size ...
-!> \param m_sizes ...
-!> \param n_sizes ...
-!> \param nlayers ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_init(this, left, right, product, &
                                     keep_sparsity, eps, row_max_epss, block_estimate, right_row_blk_size, &
                                     m_sizes, n_sizes, nlayers)
+      !! Sets up recursive multiplication
+
       TYPE(dbcsr_mm_multrec_type), INTENT(out)           :: this
       TYPE(dbcsr_type), INTENT(IN), OPTIONAL             :: left, right
+         !! left DBCSR matrix
+         !! right DBCSR matrix
       TYPE(dbcsr_type), INTENT(INOUT)                    :: product
+         !! resulting DBCSR product matrix
       LOGICAL, INTENT(IN)                                :: keep_sparsity
+         !! retain the sparsity of the existing product matrix, default is no
       REAL(kind=real_8), INTENT(in), OPTIONAL            :: eps
+         !! on-the-fly filtering epsilon
       REAL(kind=sp), DIMENSION(:), INTENT(IN), TARGET    :: row_max_epss
       INTEGER, INTENT(IN)                                :: block_estimate
       INTEGER, DIMENSION(:), INTENT(IN)                  :: right_row_blk_size
@@ -313,29 +256,23 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_mm_multrec_init
 
-! **************************************************************************************************
-!> \brief Multiplies two DBCSR matrices using recursive algorithm
-!>
-!> This routine sets up the multiplication.  Specifically, it <ul>
-!> <li> verifies input sanity
-!> <li> converts everything into "local indexing"
-!> </ul>
-!>
-!> \param this ...
-!> \param[in] left left DBCSR matrix
-!> \param[in] right right DBCSR matrix
-!> \param[out] flop           (optional) number of effective double-precision
-!>                            floating point operations performed
-!> \param[in] a_norms         (optional) norms of left-matrix blocks
-!> \param[in] b_norms         (optional) norms of right-matrix blocks
-!> \param k_sizes ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_multiply(this, left, right, flop, &
                                         a_norms, b_norms, k_sizes)
+      !! Multiplies two DBCSR matrices using recursive algorithm
+      !! This routine sets up the multiplication.  Specifically, it <ul>
+      !! <li> verifies input sanity
+      !! <li> converts everything into "local indexing"
+      !! </ul>
+
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
       TYPE(dbcsr_type), INTENT(IN)                       :: left, right
+         !! left DBCSR matrix
+         !! right DBCSR matrix
       INTEGER(KIND=int_8), INTENT(INOUT)                 :: flop
+         !! number of effective double-precision floating point operations performed
       REAL(kind=sp), DIMENSION(:), INTENT(in), TARGET    :: a_norms, b_norms
+         !! norms of left-matrix blocks
+         !! norms of right-matrix blocks
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: k_sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_multiply', &
@@ -385,24 +322,15 @@ CONTAINS
       !
    END SUBROUTINE dbcsr_mm_multrec_multiply
 
-! **************************************************************************************************
-!> \brief Signal approaching end of multiplication
-!> \param this ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_phaseout(this)
+      !! Signal approaching end of multiplication
       TYPE(dbcsr_mm_multrec_type), INTENT(INOUT)         :: this
 
       CALL dbcsr_mm_csr_phaseout(this%csr)
    END SUBROUTINE dbcsr_mm_multrec_phaseout
 
-! **************************************************************************************************
-!> \brief Sets up recursive multiplication
-!>
-!>
-!> \param this ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_dev2host_init(this)
+      !! Sets up recursive multiplication
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
 
 !   ---------------------------------------------------------------------------
@@ -412,15 +340,8 @@ CONTAINS
       CALL dbcsr_mm_csr_dev2host_init(this%csr)
    END SUBROUTINE dbcsr_mm_multrec_dev2host_init
 
-! **************************************************************************************************
-!> \brief Sets up recursive multiplication
-!>
-!>
-!> \param this ...
-!> \param meta_buffer ...
-!> \param data_buffer ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_finalize(this, meta_buffer)
+      !! Sets up recursive multiplication
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
       INTEGER, DIMENSION(:), INTENT(INOUT), OPTIONAL     :: meta_buffer
 
@@ -473,10 +394,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_mm_multrec_finalize
 
-! **************************************************************************************************
-!> \brief Applying in-place filtering on the workspace
-! **************************************************************************************************
    SUBROUTINE multrec_filtering(this)
+      !! Applying in-place filtering on the workspace
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
 
       CHARACTER(len=*), PARAMETER :: routineN = 'multrec_filtering', &
@@ -531,17 +450,8 @@ CONTAINS
 
    END SUBROUTINE multrec_filtering
 
-! **************************************************************************************************
-!> \brief Make the reduction of the 3D layers in the local multrec object
-!>
-!> \param this ...
-!> \param meta_buffer ...
-!> \param data_buffer ...
-!> \param flop ...
-!> \param g2l_map_rows ...
-!> \param g2l_map_cols ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_multrec_red3D(this, meta_buffer, data_buffer, flop, g2l_map_rows, g2l_map_cols)
+      !! Make the reduction of the 3D layers in the local multrec object
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
       INTEGER, DIMENSION(:), INTENT(IN)                  :: meta_buffer
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: data_buffer
@@ -565,13 +475,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_mm_multrec_red3D
 
-! **************************************************************************************************
-!> \brief Return number of blocks
-!> \param this ...
-!> \return ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    FUNCTION dbcsr_mm_multrec_get_nblks(this) RESULT(nblks)
+      !! Return number of blocks
       TYPE(dbcsr_mm_multrec_type), INTENT(IN)            :: this
       INTEGER                                            :: nblks
 
@@ -579,13 +484,8 @@ CONTAINS
 
    END FUNCTION dbcsr_mm_multrec_get_nblks
 
-! **************************************************************************************************
-!> \brief Return data size
-!> \param this ...
-!> \return ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    FUNCTION dbcsr_mm_multrec_get_nze(this) RESULT(nze)
+      !! Return data size
       TYPE(dbcsr_mm_multrec_type), INTENT(IN)            :: this
       INTEGER                                            :: nze
 
@@ -593,27 +493,8 @@ CONTAINS
 
    END FUNCTION dbcsr_mm_multrec_get_nze
 
-! **************************************************************************************************
-!> \brief Performs recursive multiplication
-!> \param this ...
-!> \param left ...
-!> \param right ...
-!> \param mi ...
-!> \param mf ...
-!> \param ni ...
-!> \param nf ...
-!> \param ki ...
-!> \param kf ...
-!> \param ai ...
-!> \param af ...
-!> \param a_index ...
-!> \param bi ...
-!> \param bf ...
-!> \param b_index ...
-!> \param d ...
-!> \author Joost VandeVondele
-! **************************************************************************************************
    RECURSIVE SUBROUTINE sparse_multrec(this, left, right, mi, mf, ni, nf, ki, kf, &
+      !! Performs recursive multiplication
                                        ai, af, a_index, bi, bf, b_index, &
                                        d)
       TYPE(dbcsr_mm_multrec_type), INTENT(INOUT)         :: this
@@ -705,15 +586,6 @@ CONTAINS
    END SUBROUTINE sparse_multrec
 
 ! ***************************************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param ai ...
-!> \param af ...
-!> \param a ...
-!> \param val ...
-!> \return ...
-!> \author JV
-! **************************************************************************************************
    PURE FUNCTION find_cut_row(ai, af, a, val) RESULT(res)
       INTEGER, INTENT(IN)                                :: ai, af
       INTEGER, DIMENSION(3, 1:af), INTENT(IN)            :: a
@@ -755,15 +627,6 @@ CONTAINS
    END FUNCTION find_cut_row
 
 ! ***************************************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param ai ...
-!> \param af ...
-!> \param a ...
-!> \param val ...
-!> \return ...
-!> \author JV
-! **************************************************************************************************
    PURE FUNCTION find_cut_col(ai, af, a, val) RESULT(res)
       INTEGER, INTENT(IN)                                :: ai, af
       INTEGER, DIMENSION(3, 1:af), INTENT(IN)            :: a
@@ -804,17 +667,9 @@ CONTAINS
       !res=i
    END FUNCTION find_cut_col
 
-! ***************************************************************************************************
-!> \brief Packs a globally-indexed array into a locally-indexed array.
-!> \param row_i ...
-!> \param col_i ...
-!> \param local_rows ...
-!> \param local_cols ...
-!> \param first ...
-!> \param last ...
-! **************************************************************************************************
    PURE SUBROUTINE remap_local2global(row_i, col_i, local_rows, local_cols, &
                                       first, last)
+      !! Packs a globally-indexed array into a locally-indexed array.
       INTEGER, INTENT(in)                                :: last, first
       INTEGER, DIMENSION(:), INTENT(in)                  :: local_cols, local_rows
       INTEGER, DIMENSION(1:last), INTENT(inout)          :: col_i, row_i
@@ -827,15 +682,10 @@ CONTAINS
       END DO
    END SUBROUTINE remap_local2global
 
-! **************************************************************************************************
-!> \brief Gathers the local elements from all data (full_data) for
-!>        single precision elements.
-!> \param full_data ...
-!> \param nle ...
-!> \param local_elements ...
-!> \param local_data ...
-! **************************************************************************************************
    PURE SUBROUTINE local_filter_sp(full_data, nle, local_elements, local_data)
+      !! Gathers the local elements from all data (full_data) for
+      !! single precision elements.
+
       REAL(KIND=sp), DIMENSION(:), INTENT(IN)            :: full_data
       INTEGER, INTENT(IN)                                :: nle
       INTEGER, DIMENSION(1:nle), INTENT(IN)              :: local_elements

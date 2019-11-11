@@ -10,25 +10,24 @@
 #:include '../data/dbcsr.fypp'
 
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
-! **************************************************************************************************
-!> \brief Gets a 2-d block from a dbcsr matrix
-!> \param[in]  matrix DBCSR matrix
-!> \param[in]  row    the row
-!> \param[in]  col    the column
-!> \param[out] block  the block to get (rank-2 array)
-!> \param[out] tr     whether the data is transposed
-!> \param[out] found  whether the block exists in the matrix
-!> \param[out] row_size      (optional) logical row size of block
-!> \param[out] col_size      (optional) logical column size of block
-! **************************************************************************************************
   SUBROUTINE dbcsr_get_2d_block_p_${nametype1}$ (matrix, row, col, block, tr, found, &
                                                  row_size, col_size)
+     !! Gets a 2-d block from a dbcsr matrix
+
      TYPE(dbcsr_type), INTENT(INOUT)           :: matrix
+        !! DBCSR matrix
      INTEGER, INTENT(IN)                      :: row, col
+        !! the row
+        !! the column
      ${type1}$, DIMENSION(:, :), POINTER         :: block
+        !! the block to get (rank-2 array)
      LOGICAL, INTENT(OUT)                     :: tr
+        !! whether the data is transposed
      LOGICAL, INTENT(OUT)                     :: found
+        !! whether the block exists in the matrix
      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
+        !! logical row size of block
+        !! logical column size of block
 
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -94,25 +93,24 @@
      IF (careful_mod) CALL timestop(error_handle)
   END SUBROUTINE dbcsr_get_2d_block_p_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Gets a 1-d block from a dbcsr matrix
-!> \param[in]  matrix DBCSR matrix
-!> \param[in]  row    the row
-!> \param[in]  col    the column
-!> \param[out] block  the block to get (rank-1 array)
-!> \param[out] tr     whether the data is transposed
-!> \param[out] found  whether the block exists in the matrix
-!> \param[out] row_size      (optional) logical row size of block
-!> \param[out] col_size      (optional) logical column size of block
-! **************************************************************************************************
   SUBROUTINE dbcsr_get_block_p_${nametype1}$ (matrix, row, col, block, tr, found, &
                                               row_size, col_size)
+     !! Gets a 1-d block from a dbcsr matrix
+
      TYPE(dbcsr_type), INTENT(IN)              :: matrix
+        !! DBCSR matrix
      INTEGER, INTENT(IN)                      :: row, col
+        !! the row
+        !! the column
      ${type1}$, DIMENSION(:), POINTER           :: block
+        !! the block to get (rank-1 array)
      LOGICAL, INTENT(OUT)                     :: tr
+        !! whether the data is transposed
      LOGICAL, INTENT(OUT)                     :: found
+        !! whether the block exists in the matrix
      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
+        !! logical row size of block
+        !! logical column size of block
 
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_p_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -154,22 +152,21 @@
      ENDIF
   END SUBROUTINE dbcsr_get_block_p_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Put a 2-D block in a DBCSR matrix using the btree
-!> \param[in.out] matrix      DBCSR matrix
-!> \param[in]  row            the row
-!> \param[in]  col            the column
-!> \param[in]  block          the block to reserve; added if not NULL
-!> \param[in] transposed      the block holds transposed data
-!> \param[out] existed        (optional) block already existed
-! **************************************************************************************************
   SUBROUTINE dbcsr_reserve_block2d_${nametype1}$ (matrix, row, col, block, &
                                                   transposed, existed)
+     !! Put a 2-D block in a DBCSR matrix using the btree
+
      TYPE(dbcsr_type), INTENT(INOUT)           :: matrix
+        !! DBCSR matrix
      INTEGER, INTENT(IN)                      :: row, col
+        !! the row
+        !! the column
      ${type1}$, DIMENSION(:, :), POINTER         :: block
+        !! the block to reserve; added if not NULL
      LOGICAL, INTENT(IN), OPTIONAL            :: transposed
+        !! the block holds transposed data
      LOGICAL, INTENT(OUT), OPTIONAL           :: existed
+        !! block already existed
 
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_block2d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -246,26 +243,24 @@
      IF (PRESENT(existed)) existed = found
   END SUBROUTINE dbcsr_reserve_block2d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Put a 2-D block in a DBCSR matrix
-!> \param[in.out] matrix      DBCSR matrix
-!> \param[in]  row            the row
-!> \param[in]  col            the column
-!> \param[in]  block          the block to put
-!> \param[in]  transposed     the block is transposed
-!> \param[in]  summation      (optional) if block exists, then sum the new
-!>                            block to the old one instead of replacing it
-!> \param[in]  scale          (optional) scale the block being added
-! **************************************************************************************************
   SUBROUTINE dbcsr_put_block2d_${nametype1}$ (matrix, row, col, block, lb_row_col, transposed, &
                                               summation, flop, scale)
+     !! Put a 2-D block in a DBCSR matrix
+
      TYPE(dbcsr_type), INTENT(INOUT)           :: matrix
+        !! DBCSR matrix
      INTEGER, INTENT(IN)                      :: row, col
+        !! the row
+        !! the column
      ${type1}$, DIMENSION(:, :), INTENT(IN)      :: block
+        !! the block to put
      INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
      LOGICAL, INTENT(IN), OPTIONAL            :: transposed, summation
+        !! the block is transposed
+        !! if block exists, then sum the new block to the old one instead of replacing it
      INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
      ${type1}$, INTENT(IN), OPTIONAL            :: scale
+        !! scale the block being added
 
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block2d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -291,28 +286,25 @@
      ENDIF
   END SUBROUTINE dbcsr_put_block2d_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Inserts a block in a dbcsr matrix.
-!>
-!> If the block exists, the current data is overwritten.
-!> \param[in]  matrix         DBCSR matrix
-!> \param[in]  row            the logical row
-!> \param[in]  col            the logical column
-!> \param[in]  block          the block to put
-!> \param[in]  transposed     (optional) the block is transposed
-!> \param[in]  summation      (optional) if block exists, then sum the new
-!>                            block to the old one instead of replacing it
-!> \param[in]  scale          (optional) scale the OBblock being added
-! **************************************************************************************************
   SUBROUTINE dbcsr_put_block_${nametype1}$ (matrix, row, col, block, lb_row_col, transposed, &
                                             summation, flop, scale)
+     !! Inserts a block in a dbcsr matrix.
+     !! If the block exists, the current data is overwritten.
+
      TYPE(dbcsr_type), INTENT(INOUT)           :: matrix
+        !! DBCSR matrix
      INTEGER, INTENT(IN)                      :: row, col
+        !! the logical row
+        !! the logical column
      ${type1}$, DIMENSION(:), INTENT(IN)        :: block
+        !! the block to put
      INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
      LOGICAL, INTENT(IN), OPTIONAL            :: transposed, summation
+        !! the block is transposed
+        !! if block exists, then sum the new block to the old one instead of replacing it
      INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
      ${type1}$, INTENT(IN), OPTIONAL            :: scale
+        !! scale the OBblock being added
 
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -461,20 +453,19 @@
      IF (PRESENT(flop)) flop = flop + my_flop
   END SUBROUTINE dbcsr_put_block_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Sets a pointer, possibly using the buffers.
-!> \param[in] matrix           Matrix to use
-!> \param pointer_any The pointer to set
-!> \param rsize Row size of block to point to
-!> \param csize Column size of block to point to
-!> \param[in] base_offset      The block pointer
-! **************************************************************************************************
   SUBROUTINE dbcsr_set_block_pointer_2d_${nametype1}$ ( &
      matrix, pointer_any, rsize, csize, base_offset)
+     !! Sets a pointer, possibly using the buffers.
+
      TYPE(dbcsr_type), INTENT(IN)              :: matrix
+        !! Matrix to use
      ${type1}$, DIMENSION(:, :), POINTER         :: pointer_any
+        !! The pointer to set
      INTEGER, INTENT(IN)                      :: rsize, csize
+        !! Row size of block to point to
+        !! Column size of block to point to
      INTEGER, INTENT(IN)                      :: base_offset
+        !! The block pointer
 
      CHARACTER(len=*), PARAMETER :: &
         routineN = 'dbcsr_set_block_pointer_2d_${nametype1}$', &

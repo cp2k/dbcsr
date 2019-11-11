@@ -9,41 +9,36 @@
 
 #:include 'dbcsr.fypp'
 #:for nametype1, type1, zero1 in inst_params_all
-! **************************************************************************************************
-!> \brief Returns a pointer with different bounds.
-!> \param[in] original   original data pointer
-!> \param[in] lb lower and upper bound for the new pointer view
-!> \param[in] ub lower and upper bound for the new pointer view
-!> \return new pointer
-! **************************************************************************************************
   FUNCTION pointer_view_${nametype1}$ (original, lb, ub) RESULT(view)
+     !! Returns a pointer with different bounds.
+
      ${type1}$, DIMENSION(:), POINTER :: original, view
+        !! original data pointer
+        !! new pointer
      INTEGER, INTENT(IN)                  :: lb, ub
+        !! lower and upper bound for the new pointer view
+        !! lower and upper bound for the new pointer view
      view => original(lb:ub)
   END FUNCTION pointer_view_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Ensures that an array is appropriately large.
-!> \param[in,out] array       array to verify and possibly resize
-!> \param[in] lb    (optional) desired array lower bound
-!> \param[in] ub    desired array upper bound
-!> \param[in] factor          (optional) factor by which to exaggerate
-!>                            enlargements
-!> \param[in] nocopy          (optional) copy array on enlargement; default
-!>                            is to copy
-!> \param[in] memory_type     (optional) use special memory
-!> \param[in] zero_pad        (optional) zero new allocations; default is to
-!>                            write nothing
-! **************************************************************************************************
   SUBROUTINE ensure_array_size_${nametype1}$ (array, array_resize, lb, ub, factor, &
                                               nocopy, memory_type, zero_pad)
+     !! Ensures that an array is appropriately large.
+
      ${type1}$, DIMENSION(:), POINTER                 :: array
+        !! array to verify and possibly resize
      ${type1}$, DIMENSION(:), POINTER, OPTIONAL       :: array_resize
      INTEGER, INTENT(IN), OPTIONAL                  :: lb
+        !! desired array lower bound
      INTEGER, INTENT(IN)                            :: ub
+        !! desired array upper bound
      REAL(KIND=dp), INTENT(IN), OPTIONAL            :: factor
+        !! factor by which to exaggerate enlargements
      LOGICAL, INTENT(IN), OPTIONAL                  :: nocopy, zero_pad
+        !! copy array on enlargement; default is to copy
+        !! zero new allocations; default is to write nothing
      TYPE(dbcsr_memtype_type), INTENT(IN), OPTIONAL :: memory_type
+        !! use special memory
 
      CHARACTER(len=*), PARAMETER :: routineN = 'ensure_array_size_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
@@ -76,7 +71,7 @@
      IF (PRESENT(lb)) lb_new = lb
      pad = .FALSE.
      IF (PRESENT(zero_pad)) pad = zero_pad
-     !> Creates a new array if it doesn't yet exist.
+     ! Creates a new array if it doesn't yet exist.
      IF (.NOT. ASSOCIATED(array)) THEN
         IF (lb_new /= 1) &
            DBCSR_ABORT("Arrays must start at 1")
@@ -166,44 +161,41 @@
      !CALL timestop(error_handler)
   END SUBROUTINE ensure_array_size_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Copies memory area
-!> \param[out] dst   destination memory
-!> \param[in] src    source memory
-!> \param[in] n      length of copy
-! **************************************************************************************************
   SUBROUTINE mem_copy_${nametype1}$ (dst, src, n)
+     !! Copies memory area
+
      INTEGER, INTENT(IN) :: n
+        !! length of copy
      ${type1}$, DIMENSION(1:n), INTENT(OUT) :: dst
+        !! destination memory
      ${type1}$, DIMENSION(1:n), INTENT(IN) :: src
+        !! source memory
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
      dst(:) = src(:)
 !$OMP     END PARALLEL WORKSHARE
   END SUBROUTINE mem_copy_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Zeros memory area
-!> \param[out] dst   destination memory
-!> \param[in] n      length of elements to zero
-! **************************************************************************************************
   SUBROUTINE mem_zero_${nametype1}$ (dst, n)
+     !! Zeros memory area
+
      INTEGER, INTENT(IN) :: n
+        !! length of elements to zero
      ${type1}$, DIMENSION(1:n), INTENT(OUT) :: dst
+        !! destination memory
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
      dst(:) = ${zero1}$
 !$OMP     END PARALLEL WORKSHARE
   END SUBROUTINE mem_zero_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Allocates memory
-!> \param[out] mem        memory to allocate
-!> \param[in] n           length of elements to allocate
-!> \param[in] mem_type    memory type
-! **************************************************************************************************
   SUBROUTINE mem_alloc_${nametype1}$ (mem, n, mem_type)
+     !! Allocates memory
+
      ${type1}$, DIMENSION(:), POINTER        :: mem
+        !! memory to allocate
      INTEGER, INTENT(IN)                   :: n
+        !! length of elements to allocate
      TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
+        !! memory type
      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
      INTEGER                               :: error_handle
@@ -226,16 +218,15 @@
         CALL timestop(error_handle)
   END SUBROUTINE mem_alloc_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Allocates memory
-!> \param[out] mem        memory to allocate
-!> \param[in] sizes length of elements to allocate
-!> \param[in] mem_type    memory type
-! **************************************************************************************************
   SUBROUTINE mem_alloc_${nametype1}$_2d(mem, sizes, mem_type)
+     !! Allocates memory
+
      ${type1}$, DIMENSION(:, :), POINTER      :: mem
+        !! memory to allocate
      INTEGER, DIMENSION(2), INTENT(IN)     :: sizes
+        !! length of elements to allocate
      TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
+        !! memory type
      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_${nametype1}$_2d', &
                                     routineP = moduleN//':'//routineN
      INTEGER                               :: error_handle
@@ -258,14 +249,13 @@
         CALL timestop(error_handle)
   END SUBROUTINE mem_alloc_${nametype1}$_2d
 
-! **************************************************************************************************
-!> \brief Deallocates memory
-!> \param[out] mem        memory to allocate
-!> \param[in] mem_type    memory type
-! **************************************************************************************************
   SUBROUTINE mem_dealloc_${nametype1}$ (mem, mem_type)
+     !! Deallocates memory
+
      ${type1}$, DIMENSION(:), POINTER        :: mem
+        !! memory to allocate
      TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
+        !! memory type
      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
      INTEGER                               :: error_handle
@@ -286,14 +276,13 @@
         CALL timestop(error_handle)
   END SUBROUTINE mem_dealloc_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Deallocates memory
-!> \param[out] mem        memory to allocate
-!> \param[in] mem_type    memory type
-! **************************************************************************************************
   SUBROUTINE mem_dealloc_${nametype1}$_2d(mem, mem_type)
+     !! Deallocates memory
+
      ${type1}$, DIMENSION(:, :), POINTER      :: mem
+        !! memory to allocate
      TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
+        !! memory type
      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
      INTEGER                               :: error_handle
@@ -316,15 +305,10 @@
         CALL timestop(error_handle)
   END SUBROUTINE mem_dealloc_${nametype1}$_2d
 
-! **************************************************************************************************
-!> \brief Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
-!>        rank remapping.
-!> \param r2p ...
-!> \param d1 ...
-!> \param d2 ...
-!> \param r1p ...
-! **************************************************************************************************
   SUBROUTINE pointer_${nametype1}$_rank_remap2(r2p, d1, d2, r1p)
+     !! Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
+     !! rank remapping.
+
      INTEGER, INTENT(IN)                      :: d1, d2
      ${type1}$, DIMENSION(:, :), &
         POINTER                                :: r2p

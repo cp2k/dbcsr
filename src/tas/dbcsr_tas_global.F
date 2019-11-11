@@ -7,18 +7,13 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Global data (distribution and block sizes) for tall-and-skinny matrices
-!>
-!> For very sparse matrices with one very large dimension, storing array data of the same size
-!> as the matrix dimensions may require too much memory and we need to compute them on the fly for a
-!> given row or column. Hence global array data such as distribution and block sizes are specified as
-!> function objects, leaving up to the caller how to efficiently store global data.
-!>
-!> \author Patrick Seewald
-! **************************************************************************************************
-
 MODULE dbcsr_tas_global
+   !! Global data (distribution and block sizes) for tall-and-skinny matrices
+   !! For very sparse matrices with one very large dimension, storing array data of the same size
+   !! as the matrix dimensions may require too much memory and we need to compute them on the fly for a
+   !! given row or column. Hence global array data such as distribution and block sizes are specified as
+   !! function objects, leaving up to the caller how to efficiently store global data.
+
 
    USE dbcsr_kinds, ONLY: int_8
 #include "../base/dbcsr_base_uses.f90"
@@ -124,39 +119,24 @@ MODULE dbcsr_tas_global
    END TYPE
 
    ABSTRACT INTERFACE
-! **************************************************************************************************
-!> \brief map matrix rows/cols to distribution rows/cols:
-!> \param t ...
-!> \param rowcol ...
-!> \return ...
-! **************************************************************************************************
       FUNCTION rowcol_dist(t, rowcol)
+         !! map matrix rows/cols to distribution rows/cols:
          IMPORT :: dbcsr_tas_distribution, int_8
          CLASS(dbcsr_tas_distribution), INTENT(IN) :: t
          INTEGER(KIND=int_8), INTENT(IN) :: rowcol
          INTEGER :: rowcol_dist
       END FUNCTION
 
-! **************************************************************************************************
-!> \brief map distribution rows/cols to matrix rows/cols:
-!> \param t ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
       FUNCTION dist_rowcols(t, dist)
+         !! map distribution rows/cols to matrix rows/cols:
          IMPORT :: dbcsr_tas_distribution, int_8
          CLASS(dbcsr_tas_distribution), INTENT(IN) :: t
          INTEGER, INTENT(IN) :: dist
          INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE :: dist_rowcols
       END FUNCTION
 
-! **************************************************************************************************
-!> \brief integer data for each block row / col
-!> \param t ...
-!> \param rowcol ...
-!> \return ...
-! **************************************************************************************************
       FUNCTION rowcol_data(t, rowcol)
+         !! integer data for each block row / col
          IMPORT :: dbcsr_tas_rowcol_data, int_8
          CLASS(dbcsr_tas_rowcol_data), INTENT(IN) :: t
          INTEGER(KIND=int_8), INTENT(IN) :: rowcol
@@ -190,12 +170,6 @@ MODULE dbcsr_tas_global
    END INTERFACE
 
 CONTAINS
-! **************************************************************************************************
-!> \brief ...
-!> \param t ...
-!> \param rowcol ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION blk_size_arb(t, rowcol)
       CLASS(dbcsr_tas_blk_size_arb), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
@@ -203,12 +177,6 @@ CONTAINS
       blk_size_arb = t%blk_size_vec(rowcol)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param t ...
-!> \param rowcol ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION blk_size_repl(t, rowcol)
       CLASS(dbcsr_tas_blk_size_repl), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
@@ -222,12 +190,6 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param t ...
-!> \param rowcol ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION blk_size_one(t, rowcol)
       CLASS(dbcsr_tas_blk_size_one), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
@@ -238,11 +200,6 @@ CONTAINS
       blk_size_one = 1
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param blk_size_vec ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION new_dbcsr_tas_blk_size_arb(blk_size_vec)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_size_vec
       TYPE(dbcsr_tas_blk_size_arb)                         :: new_dbcsr_tas_blk_size_arb
@@ -253,12 +210,6 @@ CONTAINS
       new_dbcsr_tas_blk_size_arb%nfullrowcol = SUM(blk_size_vec)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param blk_size_vec ...
-!> \param n_repl ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION new_dbcsr_tas_blk_size_repl(blk_size_vec, n_repl)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_size_vec
       INTEGER, INTENT(IN)                                :: n_repl
@@ -271,11 +222,6 @@ CONTAINS
       new_dbcsr_tas_blk_size_repl%nfullrowcol = SUM(blk_size_vec)*n_repl
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param nrowcol ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION new_dbcsr_tas_blk_size_one(nrowcol)
       INTEGER(KIND=int_8), INTENT(IN)      :: nrowcol
       TYPE(dbcsr_tas_blk_size_one)         :: new_dbcsr_tas_blk_size_one
@@ -284,12 +230,6 @@ CONTAINS
       new_dbcsr_tas_blk_size_one%nfullrowcol = nrowcol
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param t ...
-!> \param rowcol ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION arb_dist(t, rowcol)
       CLASS(dbcsr_tas_dist_arb), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
@@ -298,12 +238,6 @@ CONTAINS
       arb_dist = t%dist_vec(rowcol)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param t ...
-!> \param rowcol ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION repl_dist(t, rowcol)
       CLASS(dbcsr_tas_dist_repl), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
@@ -318,12 +252,6 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param t ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION repl_rowcols(t, dist)
       CLASS(dbcsr_tas_dist_repl), INTENT(IN) :: t
       INTEGER, INTENT(IN) :: dist
@@ -353,12 +281,6 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param t ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION arb_rowcols(t, dist)
       CLASS(dbcsr_tas_dist_arb), INTENT(IN) :: t
       INTEGER, INTENT(IN) :: dist
@@ -381,13 +303,6 @@ CONTAINS
       arb_rowcols(:) = rowcols_tmp(1:count)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param split_size ...
-!> \param nprowcol ...
-!> \param nmrowcol ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION new_dbcsr_tas_dist_cyclic(split_size, nprowcol, nmrowcol)
       INTEGER, INTENT(IN)                                :: split_size, nprowcol
       INTEGER(KIND=int_8), INTENT(IN)                    :: nmrowcol
@@ -398,13 +313,6 @@ CONTAINS
       new_dbcsr_tas_dist_cyclic%nmrowcol = nmrowcol
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param dist_vec ...
-!> \param nprowcol ...
-!> \param nmrowcol ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION new_dbcsr_tas_dist_arb(dist_vec, nprowcol, nmrowcol)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: dist_vec
       INTEGER, INTENT(IN)                                :: nprowcol
@@ -417,17 +325,12 @@ CONTAINS
       new_dbcsr_tas_dist_arb%nmrowcol = nmrowcol
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Distribution that is more or less cyclic (round robin) and load balanced with different
-!>        weights for each element.
-!>        This is used for creating adhoc distributions whenever matrices are mapped to new grids.
-!>        Only for small dimensions since distribution is created as an array
-!> \param nprowcol ...
-!> \param nmrowcol ...
-!> \param block_sizes ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_dist_arb_default(nprowcol, nmrowcol, block_sizes)
+      !! Distribution that is more or less cyclic (round robin) and load balanced with different
+      !! weights for each element.
+      !! This is used for creating adhoc distributions whenever matrices are mapped to new grids.
+      !! Only for small dimensions since distribution is created as an array
+
       INTEGER                           :: nprowcol
       INTEGER(KIND=int_8), INTENT(IN)   :: nmrowcol
       CLASS(dbcsr_tas_rowcol_data), INTENT(IN) :: block_sizes
@@ -444,13 +347,6 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param nel ...
-!> \param nbin ...
-!> \param weights ...
-!> \param dist ...
-! **************************************************************************************************
    SUBROUTINE cyclic_weighted_dist(nel, nbin, weights, dist)
       INTEGER, INTENT(IN) :: nel
       INTEGER, INTENT(IN) :: nbin
@@ -476,15 +372,6 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param dist_vec ...
-!> \param nprowcol ...
-!> \param nmrowcol ...
-!> \param n_repl ...
-!> \param dist_size ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION new_dbcsr_tas_dist_repl(dist_vec, nprowcol, nmrowcol, n_repl, dist_size)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: dist_vec
       INTEGER, INTENT(IN)                                :: nprowcol, nmrowcol, n_repl, dist_size
@@ -499,12 +386,6 @@ CONTAINS
       new_dbcsr_tas_dist_repl%nmrowcol = nmrowcol*n_repl
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param t ...
-!> \param rowcol ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION cyclic_dist(t, rowcol)
       CLASS(dbcsr_tas_dist_cyclic), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
@@ -514,12 +395,6 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief ...
-!> \param t ...
-!> \param dist ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION cyclic_rowcols(t, dist)
       CLASS(dbcsr_tas_dist_cyclic), INTENT(IN) :: t
       INTEGER, INTENT(IN) :: dist

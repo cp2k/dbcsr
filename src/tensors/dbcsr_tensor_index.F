@@ -7,11 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief tensor index and mapping to DBCSR index.
-!> \author Patrick Seewald
-! **************************************************************************************************
 MODULE dbcsr_tensor_index
+   !! tensor index and mapping to DBCSR index
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_kinds, ONLY: int_8
 #include "base/dbcsr_base_uses.f90"
@@ -53,21 +50,19 @@ MODULE dbcsr_tensor_index
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Create all data needed to quickly map between nd index and 2d index.
-!> \param map index mapping data
-!> \param dims nd sizes
-!> \param map1_2d which nd-indices map to first matrix index and in which order
-!> \param map2_2d which nd-indices map to second matrix index and in which order
-!> \param base base index (1 for Fortran-style, 0 for C-style, default is 1)
-!> \param col_major whether index should be column major order (.TRUE. for Fortran-style,
-!>        .FALSE. for C-style, default is .TRUE.).
-! **************************************************************************************************
    SUBROUTINE create_nd_to_2d_mapping(map, dims, map1_2d, map2_2d, base, col_major)
+      !! Create all data needed to quickly map between nd index and 2d index.
+
       TYPE(nd_to_2d_mapping), INTENT(OUT)                :: map
+         !! index mapping data
       INTEGER, DIMENSION(:), INTENT(IN)                  :: dims, map1_2d, map2_2d
+         !! nd sizes
+         !! which nd-indices map to first matrix index and in which order
+         !! which nd-indices map to second matrix index and in which order
       INTEGER, INTENT(IN), OPTIONAL                      :: base
+         !! base index (1 for Fortran-style, 0 for C-style, default is 1)
       LOGICAL, INTENT(IN), OPTIONAL                      :: col_major
+         !! whether index should be column major order (.TRUE. for Fortran-style, .FALSE. for C-style, default is .TRUE.).
 
       INTEGER                                            :: i
 
@@ -101,10 +96,6 @@ CONTAINS
 
    END SUBROUTINE create_nd_to_2d_mapping
 
-! **************************************************************************************************
-!> \brief ...
-!> \param map ...
-! **************************************************************************************************
    SUBROUTINE destroy_nd_to_2d_mapping(map)
       TYPE(nd_to_2d_mapping), INTENT(INOUT)              :: map
 
@@ -116,11 +107,6 @@ CONTAINS
       DEALLOCATE (map%dims_nd)
    END SUBROUTINE destroy_nd_to_2d_mapping
 
-! **************************************************************************************************
-!> \brief ...
-!> \param map ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION ndims_mapping(map)
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
       INTEGER                                            :: ndims_mapping
@@ -128,37 +114,35 @@ CONTAINS
       ndims_mapping = map%ndim_nd
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief get mapping info
-!> \param map index mapping data.
-!> \param ndim_nd number of dimensions
-!> \param ndim1_2d number of dimensions that map to first 2d index
-!> \param ndim2_2d number of dimensions that map to first 2d index
-!> \param dims_2d_i8 ...
-!> \param dims_2d 2d dimensions
-!> \param dims_nd nd dimensions
-!> \param dims1_2d dimensions that map to first 2d index
-!> \param dims2_2d dimensions that map to second 2d index
-!> \param map1_2d indices that map to first 2d index
-!> \param map2_2d indices that map to second 2d index
-!> \param map_nd inverse of [map1_2d, map2_2d]
-!> \param base base index
-!> \param col_major is index in column major order
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dims_2d_i8, dims_2d, dims_nd, dims1_2d, dims2_2d, &
                                        map1_2d, map2_2d, map_nd, base, col_major)
+      !! get mapping info
+
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
+         !! index mapping data.
       INTEGER, INTENT(OUT), OPTIONAL                     :: ndim_nd, ndim1_2d, ndim2_2d
+         !! number of dimensions
+         !! number of dimensions that map to first 2d index
+         !! number of dimensions that map to first 2d index
       INTEGER(KIND=int_8), DIMENSION(2), INTENT(OUT), OPTIONAL       :: dims_2d_i8
       INTEGER, DIMENSION(2), INTENT(OUT), OPTIONAL :: dims_2d
+         !! 2d dimensions
       INTEGER, DIMENSION(ndims_mapping(map)), &
          INTENT(OUT), OPTIONAL                           :: dims_nd
+         !! nd dimensions
       INTEGER, ALLOCATABLE, DIMENSION(:), INTENT(OUT), &
          OPTIONAL                                        :: dims1_2d, dims2_2d, map1_2d, map2_2d
+         !! dimensions that map to first 2d index
+         !! dimensions that map to second 2d index
+         !! indices that map to first 2d index
+         !! indices that map to second 2d index
       INTEGER, DIMENSION(ndims_mapping(map)), &
          INTENT(OUT), OPTIONAL                           :: map_nd
+         !! inverse of [map1_2d, map2_2d]
       INTEGER, INTENT(OUT), OPTIONAL                     :: base
+         !! base index
       LOGICAL, INTENT(OUT), OPTIONAL                     :: col_major
+         !! is index in column major order
 
       IF (PRESENT(ndim_nd)) ndim_nd = map%ndim_nd
       IF (PRESENT(ndim1_2d)) ndim1_2d = map%ndim1_2d
@@ -192,19 +176,18 @@ CONTAINS
 
    END SUBROUTINE dbcsr_t_get_mapping_info
 
-! **************************************************************************************************
-!> \brief transform nd index to flat index
-!> \param ind_in nd index
-!> \param dims nd dimensions
-!> \param base base index, default 1 (Fortran style)
-!> \param col_major column major ordering, default .TRUE. (Fortran style)
-!> \return flat index
-! **************************************************************************************************
    FUNCTION combine_index(ind_in, dims, base, col_major) RESULT(ind_out)
+      !! transform nd index to flat index
+
       INTEGER, DIMENSION(:), INTENT(IN)                  :: ind_in, dims
+         !! nd index
+         !! nd dimensions
       INTEGER, INTENT(IN), OPTIONAL                      :: base
+         !! base index, default 1 (Fortran style)
       LOGICAL, INTENT(IN), OPTIONAL                      :: col_major
+         !! column major ordering, default .TRUE. (Fortran style)
       INTEGER(KIND=int_8)                                :: ind_out
+         !! flat index
 
       INTEGER                                            :: i_dim, my_base
       LOGICAL                                            :: my_col_major
@@ -240,20 +223,19 @@ CONTAINS
       ENDIF
    END FUNCTION combine_index
 
-! **************************************************************************************************
-!> \brief transform flat index to nd index
-!> \param ind_in flat index
-!> \param dims nd dimensions
-!> \param base base index, default 1 (Fortran style)
-!> \param col_major column major ordering, default .TRUE. (Fortran style)
-!> \return nd index
-! **************************************************************************************************
    FUNCTION split_index(ind_in, dims, base, col_major) RESULT(ind_out)
+      !! transform flat index to nd index
+
       INTEGER(KIND=int_8), INTENT(IN)                    :: ind_in
+         !! flat index
       INTEGER, DIMENSION(:), INTENT(IN)                  :: dims
+         !! nd dimensions
       INTEGER, INTENT(IN), OPTIONAL                      :: base
+         !! base index, default 1 (Fortran style)
       LOGICAL, INTENT(IN), OPTIONAL                      :: col_major
+         !! column major ordering, default .TRUE. (Fortran style)
       INTEGER, DIMENSION(SIZE(dims))                     :: ind_out
+         !! nd index
 
       INTEGER(KIND=int_8)                                :: tmp
       INTEGER                                            :: i_dim, my_base
@@ -290,16 +272,15 @@ CONTAINS
       ENDIF
    END FUNCTION split_index
 
-! **************************************************************************************************
-!> \brief transform nd index to 2d index, using info from index mapping.
-!> \param map index mapping
-!> \param ind_in nd index
-!> \return 2d index
-! **************************************************************************************************
    FUNCTION get_2d_indices(map, ind_in) RESULT(ind_out)
+      !! transform nd index to 2d index, using info from index mapping.
+
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
+         !! index mapping
       INTEGER, DIMENSION(ndims_mapping(map)), INTENT(IN) :: ind_in
+         !! nd index
       INTEGER(KIND=int_8), DIMENSION(2)                  :: ind_out
+         !! 2d index
 
       INTEGER, DIMENSION(map%ndim2_2d)                   :: ind_2
       INTEGER, DIMENSION(map%ndim1_2d)                   :: ind_1
@@ -310,16 +291,15 @@ CONTAINS
       ind_out(2) = combine_index(ind_2, map%dims2_2d, base=map%base, col_major=map%col_major)
    END FUNCTION get_2d_indices
 
-! **************************************************************************************************
-!> \brief transform 2d index to nd index, using info from index mapping.
-!> \param map index mapping
-!> \param ind_in 2d index
-!> \return nd index
-! **************************************************************************************************
    FUNCTION get_nd_indices(map, ind_in) RESULT(ind_out)
+      !! transform 2d index to nd index, using info from index mapping.
+
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
+         !! index mapping
       INTEGER(KIND=int_8), DIMENSION(2), INTENT(IN)      :: ind_in
+         !! 2d index
       INTEGER, DIMENSION(ndims_mapping(map))             :: ind_out
+         !! nd index
 
       INTEGER, DIMENSION(map%ndim2_2d)                   :: ind_2
       INTEGER, DIMENSION(map%ndim1_2d)                   :: ind_1
@@ -331,12 +311,8 @@ CONTAINS
       ind_out(map%map2_2d) = ind_2
    END FUNCTION get_nd_indices
 
-! **************************************************************************************************
-!> \brief Invert order
-!> \param order ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_t_inverse_order(order)
+      !! Invert order
       INTEGER, DIMENSION(:), INTENT(IN)                  :: order
       INTEGER, DIMENSION(SIZE(order))                    :: dbcsr_t_inverse_order
 
@@ -345,13 +321,8 @@ CONTAINS
       dbcsr_t_inverse_order(order) = (/(i, i=1, SIZE(order))/)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief reorder tensor index (no data)
-!> \param map_in ...
-!> \param map_out ...
-!> \param order ...
-! **************************************************************************************************
    SUBROUTINE permute_index(map_in, map_out, order)
+      !! reorder tensor index (no data)
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map_in
       TYPE(nd_to_2d_mapping), INTENT(OUT)                :: map_out
       INTEGER, DIMENSION(ndims_mapping(map_in)), &

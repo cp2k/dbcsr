@@ -7,15 +7,11 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Common variables and routines for the dbcsr matrix-matrix multiplication algorithms.
-!>
-!> \author  Alfio Lazzaro
-!>
-!> <b>Modification history:</b>
-!>  - 2016-08    Code organization (Alfio Lazzaro).
-! **************************************************************************************************
 MODULE dbcsr_mm_common
+   !! Common variables and routines for the dbcsr matrix-matrix multiplication algorithms.
+   !! <b>Modification history:</b>
+   !! - 2016-08    Code organization (Alfio Lazzaro).
+
    USE dbcsr_acc_event, ONLY: acc_event_record, &
                               acc_event_synchronize, &
                               acc_stream_wait_event
@@ -106,14 +102,6 @@ MODULE dbcsr_mm_common
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief ...
-!> \param mpi_statistics ...
-!> \param data_size ...
-!> \param element_size_bytes ...
-!> \param size_breakdown ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE count_mpi_statistics(mpi_statistics, data_size, &
                                    element_size_bytes, size_breakdown)
       REAL, DIMENSION(:), INTENT(INOUT)                  :: mpi_statistics
@@ -151,15 +139,6 @@ CONTAINS
       ENDIF
    END SUBROUTINE count_mpi_statistics
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \param source_matrix ...
-!> \param index_size ...
-!> \param data_size ...
-!> \param data_buffer ...
-!> \param data_memory_type ...
-! **************************************************************************************************
    SUBROUTINE setup_buffer_matrix(matrix, source_matrix, &
                                   index_size, data_size, data_buffer, data_memory_type)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
@@ -215,21 +194,13 @@ CONTAINS
 
    END SUBROUTINE setup_buffer_matrix
 
-! **************************************************************************************************
-!> \brief Sorts index for recursing.
-!> \param mi ...
-!> \param mf ...
-!> \param ni ...
-!> \param nf ...
-!> \param nele ...
-!> \param a ...
-!> \param d ...
-!> \par History
-!> - 2011-02-17 [UB] modified for use in DBCSR; reduced memory usage.
-!> \author JV
-!> \note Always cut longest first. On a tie cut N
-! **************************************************************************************************
    RECURSIVE SUBROUTINE rec_sort_index(mi, mf, ni, nf, nele, a, d)
+      !! Sorts index for recursing.
+      !!
+      !! History
+      !! - 2011-02-17 [UB] modified for use in DBCSR; reduced memory usage.
+      !! @note Always cut longest first. On a tie cut N
+
       INTEGER, INTENT(IN)                                :: mi, mf, ni, nf, nele
       INTEGER, DIMENSION(3, 1:nele), INTENT(inout)       :: a
       INTEGER, INTENT(IN)                                :: d
@@ -278,16 +249,6 @@ CONTAINS
       ENDIF
    END SUBROUTINE rec_sort_index
 
-! **************************************************************************************************
-!> \brief ...
-!> \param nele ...
-!> \param a ...
-!> \param split ...
-!> \param row_or_col ...
-!> \param nlow ...
-!> \param mi ...
-!> \param half ...
-! **************************************************************************************************
    SUBROUTINE rec_split(nele, a, split, row_or_col, nlow, mi, half)
       INTEGER, INTENT(IN)                                :: nele
       INTEGER, DIMENSION(3, nele), INTENT(IN)            :: a
@@ -317,15 +278,8 @@ CONTAINS
 
    END SUBROUTINE rec_split
 
-! **************************************************************************************************
-!> \brief Enumerate all occurring blocksizes
-!> \param blk_sizes ...
-!> \param max_size ...
-!> \param enum ...
-!> \param rev_enum ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE enumerate_blk_sizes(blk_sizes, max_size, enum, rev_enum)
+      !! Enumerate all occurring blocksizes
       INTEGER, DIMENSION(:), POINTER                     :: blk_sizes
       INTEGER, INTENT(IN)                                :: max_size
       INTEGER, DIMENSION(:), POINTER                     :: enum, rev_enum
@@ -360,20 +314,8 @@ CONTAINS
 
    END SUBROUTINE enumerate_blk_sizes
 
-! **************************************************************************************************
-!> \brief write out a stack for transposing the blocks
-!> \param matrix ...
-!> \param trs_stackbuf ...
-!> \param row_blk_sizes ...
-!> \param col_blk_sizes ...
-!> \param row_blk_sizes2enum ...
-!> \param enum2row_blk_sizes ...
-!> \param col_blk_sizes2enum ...
-!> \param enum2col_blk_sizes ...
-!> \param noresize ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE acc_transpose_blocks(matrix, trs_stackbuf, &
+      !! write out a stack for transposing the blocks
                                    row_blk_sizes, col_blk_sizes, &
                                    row_blk_sizes2enum, enum2row_blk_sizes, &
                                    col_blk_sizes2enum, enum2col_blk_sizes, &
@@ -523,20 +465,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE acc_transpose_blocks
 
-! **************************************************************************************************
-!> \brief Guess the size of the product matrix from the A and B sparsities
-!> \param matrix_left ...
-!> \param matrix_right ...
-!> \param product_matrix ...
-!> \param left_data_size ...
-!> \param right_data_size ...
-!> \param left_col_nimages ...
-!> \param right_row_nimages ...
-!> \param nthreads ...
-!> \return ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    FUNCTION product_matrix_size_guess(matrix_left, matrix_right, product_matrix, &
+      !! Guess the size of the product matrix from the A and B sparsities
                                       left_data_size, right_data_size, &
                                       left_col_nimages, right_row_nimages, &
                                       nthreads) RESULT(size_guess)
@@ -571,16 +501,14 @@ CONTAINS
       size_guess = INT(REAL(size8, KIND=real_8)*fill_guess, KIND=int_4)
    END FUNCTION product_matrix_size_guess
 
-! **************************************************************************************************
-!> \brief Calculates per-block norms.
-!>
-!> Rewritten to be very low-level.
-!> \param[in,out] matrix     DBCSR matrix for which to calculate norms
-!> \param[out] norms         Block norms
-! **************************************************************************************************
    SUBROUTINE calculate_norms(matrix, norms, row_blk_sizes, col_blk_sizes)
+      !! Calculates per-block norms.
+      !! Rewritten to be very low-level.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! DBCSR matrix for which to calculate norms
       REAL(kind=sp), DIMENSION(:), INTENT(OUT)           :: norms
+         !! Block norms
       INTEGER, DIMENSION(:), POINTER, INTENT(IN)         :: row_blk_sizes, col_blk_sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'calculate_norms', &
@@ -620,19 +548,17 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE calculate_norms
 
-! **************************************************************************************************
-!> \brief Gathers the local elements from all data (full_data)
-!>
-!> \param[in] full_data       All elements
-!> \param[in] nle             Number of local elements
-!> \param[in] local_elements  List of local elements
-!> \param[out] local_data     Local elements obtained from all elements
-! **************************************************************************************************
    PURE SUBROUTINE local_filter(full_data, nle, local_elements, local_data)
+      !! Gathers the local elements from all data (full_data)
+
       INTEGER, DIMENSION(:), INTENT(IN)                  :: full_data
+         !! All elements
       INTEGER, INTENT(IN)                                :: nle
+         !! Number of local elements
       INTEGER, DIMENSION(1:nle), INTENT(IN)              :: local_elements
+         !! List of local elements
       INTEGER, DIMENSION(1:nle), INTENT(OUT)             :: local_data
+         !! Local elements obtained from all elements
 
       INTEGER                                            :: l
 

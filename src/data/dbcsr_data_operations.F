@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR data operations
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2010-02-18 Moved from dbcsr_util
-! **************************************************************************************************
 MODULE dbcsr_data_operations
+   !! DBCSR data operations
 
    USE dbcsr_block_operations, ONLY: dbcsr_block_transpose, &
                                      dbcsr_data_copy, &
@@ -53,16 +45,15 @@ MODULE dbcsr_data_operations
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Sets the data area of a matrix
-!> \param[in,out] matrix     matrix for which to set the data area
-!> \param[in] data_area      data area to set
-!> \param[out] previous_data_area  (optional) previous data area
-! **************************************************************************************************
    SUBROUTINE dbcsr_switch_data_area(matrix, data_area, previous_data_area)
+      !! Sets the data area of a matrix
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! matrix for which to set the data area
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: data_area
+         !! data area to set
       TYPE(dbcsr_data_obj), INTENT(OUT), OPTIONAL        :: previous_data_area
+         !! previous data area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_switch_data_area', &
                                      routineP = moduleN//':'//routineN
@@ -82,16 +73,15 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_switch_data_area
 
-! **************************************************************************************************
-!> \brief Copies a data area, deep by default.
-!> \param[in,out] target_area     target data area
-!> \param[in]     source_area     source data area
-!> \param[in]     shallow         shallow copy (default is deep)
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_copyall(target_area, source_area, shallow)
+      !! Copies a data area, deep by default.
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: target_area
+         !! target data area
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: source_area
+         !! source data area
       LOGICAL, INTENT(IN), OPTIONAL                      :: shallow
+         !! shallow copy (default is deep)
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_copyall', &
                                      routineP = moduleN//':'//routineN
@@ -145,21 +135,17 @@ CONTAINS
 !      CALL timestop(error_handle)
    END SUBROUTINE dbcsr_data_copyall
 
-! **************************************************************************************************
-!> \brief Copies a data area, converting data type
-!> \param[inout] target_area     target data area
-!> \param[in]    source_area     source data area
-!> \param[in]    drop_real       (optional) drops real part of complex
-!>                               numbers instead of the imaginary part; default
-!>                               is false
-!> \param[in]    multiply_by_i   (optional) converts real to complex by placing
-!>                               into imaginary instead of real part
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_convert(target_area, source_area, drop_real, &
                                  multiply_by_i)
+      !! Copies a data area, converting data type
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: target_area
+         !! target data area
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: source_area
+         !! source data area
       LOGICAL, INTENT(IN), OPTIONAL                      :: drop_real, multiply_by_i
+         !! drops real part of complex numbers instead of the imaginary part; default is false
+         !! converts real to complex by placing into imaginary instead of real part
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_convert', &
                                      routineP = moduleN//':'//routineN
@@ -299,31 +285,27 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_data_convert
 
-! **************************************************************************************************
-!> \brief Sorts the data in a matrix so that the data blocks follow
-!>        sequentially and does various transposing options.
-!>
-!> As opposed to dbcsr_sort_data, this routine calculates block sizes
-!> \param[out] blk_p          re-arranged block pointers reflecting the new
-!>                            data order
-!> \param[in] old_blk_p       current block pointers
-!> \param[in] row_p index
-!> \param[in] col_i index
-!> \param[in] rbs sizes of the blocked rows
-!> \param[in] cbs sizes of the blocked columns
-!> \param[out] dst            sorted data
-!> \param[in] src             existing unordered data
-!> \param[in] mark_transposed           mark data as transposed by negating the
-!>                                      blk_p index entries
-!> \param[in] transpose_blocks          transpose data blocks
-! **************************************************************************************************
    SUBROUTINE dbcsr_copy_sort_data(blk_p, old_blk_p, row_p, col_i, rbs, cbs, &
                                    dst, src, mark_transposed, transpose_blocks)
+      !! Sorts the data in a matrix so that the data blocks follow
+      !! sequentially and does various transposing options.
+      !! As opposed to dbcsr_sort_data, this routine calculates block sizes
+
       INTEGER, DIMENSION(:), INTENT(INOUT)               :: blk_p
+         !! re-arranged block pointers reflecting the new data order
       INTEGER, DIMENSION(:), INTENT(IN)                  :: old_blk_p, row_p, col_i, rbs, cbs
+         !! current block pointers
+         !! index
+         !! index
+         !! sizes of the blocked rows
+         !! sizes of the blocked columns
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+         !! sorted data
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: src
+         !! existing unordered data
       LOGICAL, INTENT(IN), OPTIONAL                      :: mark_transposed, transpose_blocks
+         !! mark data as transposed by negating the blk_p index entries
+         !! transpose data blocks
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy_sort_data', &
                                      routineP = moduleN//':'//routineN
@@ -377,26 +359,23 @@ CONTAINS
       ENDDO ! row
    END SUBROUTINE dbcsr_copy_sort_data
 
-! **************************************************************************************************
-!> \brief Sorts the data in a matrix so that the data blocks follow
-!>        sequentially.
-!> \param[out] blk_p          re-arranged block pointers reflecting the new
-!>                            data order
-!> \param[in] old_blk_p       current block pointers
-!> \param[in] sizes           sizes of the data blocks
-!> \param[out] dsts           sorted data
-!> \param[in] src             existing unordered data
-!> \param[in] srcs            (optional) multiple source areas
-!> \param old_blk_d ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_sort_data(blk_p, old_blk_p, sizes, dsts, src, &
                               srcs, old_blk_d)
+      !! Sorts the data in a matrix so that the data blocks follow
+      !! sequentially.
+
       INTEGER, DIMENSION(:), INTENT(INOUT)               :: blk_p
+         !! re-arranged block pointers reflecting the new data order
       INTEGER, DIMENSION(:), INTENT(IN)                  :: old_blk_p, sizes
+         !! current block pointers
+         !! sizes of the data blocks
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dsts
+         !! sorted data
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: src
+         !! existing unordered data
       TYPE(dbcsr_data_obj), DIMENSION(:), INTENT(IN), &
          OPTIONAL                                        :: srcs
+         !! multiple source areas
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: old_blk_d
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_sort_data', &

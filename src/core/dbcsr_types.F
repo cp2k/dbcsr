@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR data types
-!> \author  Urban Borstnik
-!> \date    2009-05-12
-!> \version 0.95
-!>
-!> <b>Modification history:</b>
-!> - Created 2009-05-12
-! **************************************************************************************************
 MODULE dbcsr_types
+   !! DBCSR data types
    USE dbcsr_array_types, ONLY: array_i1d_obj
    USE dbcsr_btree, ONLY: btree_i8_cp2d, &
                           btree_i8_dp2d, &
@@ -114,121 +106,106 @@ MODULE dbcsr_types
 
    PUBLIC :: dbcsr_mpi_statistics_type
 
-! **************************************************************************************************
-!> \brief A processor (process) grid distribution
-!> \var myproc                my processor (process) number
-!> \var numproc               number of processors (processes)
-!> \var myprow, mypcol        my process grid row and column
-!> \var mp_group              message-passing group ID
-!> \var pgrid                 processor grid
-!> \var refcount              reference counter
-!> \var subgroups_defined     whether the subgroups are defined
-!> \var prow_group            per-process-row communicator
-!> \var pcol_group            pre-process-column communicator
-! **************************************************************************************************
    TYPE dbcsr_mp_type
+      !! A processor (process) grid distribution
+
       INTEGER                            :: mynode = -1
+         !! my processor/node (process) number
       INTEGER                            :: numnodes = -1
+         !! number of processors/nodes (processes)
       INTEGER                            :: myprow = -1
+         !! my process grid row
       INTEGER                            :: mypcol = -1
+         !! my process grid column
       INTEGER                            :: mp_group = -1
+         !! message-passing group ID
       INTEGER, DIMENSION(:, :), POINTER  :: pgrid => Null()
+         !! processor grid
       INTEGER                            :: refcount = 0
+         !! reference counter
       LOGICAL                            :: subgroups_defined = .FALSE.
+         !! whether the subgroups are defined
       INTEGER                            :: prow_group = -1
+         !! per-process-row communicator
       INTEGER                            :: pcol_group = -1
+         !! pre-process-column communicator
       INTEGER                            :: source = -1
    END TYPE dbcsr_mp_type
 
-! **************************************************************************************************
-!> \brief A processor (process) grid distribution
-!> \var myproc                my processor (process) number
-!> \var numproc               number of processors (processes)
-!> \var myprow, mypcol        my process grid row and column
-!> \var pgrid                 processor grid
-!> \var refcount              reference counter
-! **************************************************************************************************
    TYPE dbcsr_mp_obj
+      !! Wrapper for the dbcsr_mp_type
+
       TYPE(dbcsr_mp_type), POINTER :: mp => Null()
+         !! pointer to a dbcsr_mp_type instance
    END TYPE dbcsr_mp_obj
 
-! **************************************************************************************************
-!> \brief Matrix distribution on the processor grid
-!> \var row_dist, col_dist    standard row and column distributions of matrix
-!>                            elements' rows and columns into processor grid
-!>                            rows and columns
-!> \var local_rows            list of rows local to the processor grid row
-!> \var local_cols            list of columns local to the processor grid
-!>                            column
-!> \var other_l_rows          local rows for each process row
-!> \var other_l_cols          local columns for each process column
-!> \var has_other_l_rows      other_rows is defined
-!> \var has_other_l_cols      other_cols is defined
-!> \var global_row_map        mapping from rows to sequence in local rows
-!>                            (global to local mapping)
-!> \var global_col_map        mapping from rows to sequence in local columns
-!>                            (global to local mapping)
-!> \var has_global_row_map    whether other_row_map is defined
-!> \var has_global_col_map    whether other_col_map is defined
-!> \var row_map               distribution map for rows
-!> \var col_map               distribution map for columns
-!> \var thread_dist           thread distribution (of the rows)
-!> \var numthreads            number of threads in the environment
-!> \var mp_env                multiprocessor environment on which the
-!>                            distribution is based
-!> \var refcount              reference counter
-! **************************************************************************************************
    TYPE dbcsr_distribution_type
+      !! Matrix distribution on the processor grid
+
       TYPE(array_i1d_obj)                        :: row_dist_block, col_dist_block
+         !! standard row distributions of matrix elements' rows into processor grid rows
+         !! standard column distributions of matrix elements' columns into processor grid columns
       TYPE(array_i1d_obj)                        :: local_rows, local_cols
+         !! list of rows local to the processor grid row
+         !! list of columns local to the processor grid column
       INTEGER                                    :: max_row_dist, max_col_dist
       TYPE(array_i1d_obj), DIMENSION(:), POINTER :: other_l_rows => Null()
+         !! local rows for each process row
       TYPE(array_i1d_obj), DIMENSION(:), POINTER :: other_l_cols => Null()
+         !! local columns for each process column
       LOGICAL                                    :: has_other_l_rows = .FALSE.
+         !! other_rows is defined
       LOGICAL                                    :: has_other_l_cols = .FALSE.
+         !! other_cols is defined
       TYPE(array_i1d_obj)                        :: global_row_map
+         !! mapping from rows to sequence in local rows (global to local mapping)
       TYPE(array_i1d_obj)                        :: global_col_map
+         !! mapping from rows to sequence in local columns (global to local mapping)
       LOGICAL                                    :: has_global_row_map = .FALSE.
+         !! whether other_row_map is defined
       LOGICAL                                    :: has_global_col_map = .FALSE.
+         !! whether other_col_map is defined
       TYPE(array_i1d_obj)                        :: row_map
+         !! distribution map for rows
       TYPE(array_i1d_obj)                        :: col_map
+         !! distribution map for columns
       LOGICAL                                    :: has_thread_dist = .FALSE.
       TYPE(array_i1d_obj)                        :: thread_dist
+         !! thread distribution (of the rows)
       INTEGER                                    :: num_threads = -1
+         !! number of threads in the environment
       TYPE(dbcsr_mp_obj)                         :: mp_env
+         !! multiprocessor environment on which the distribution is based
       INTEGER                                    :: refcount = 0
+         !! reference counter
    END TYPE dbcsr_distribution_type
 
    TYPE dbcsr_distribution_obj
       TYPE(dbcsr_distribution_type), POINTER  :: d => Null()
    END TYPE dbcsr_distribution_obj
 
-! **************************************************************************************************
-!> \brief Image distributions are used to map incompatible processor row and
-!>        column distributions.
-!>
-!> Used to ease storage or transfer between two different-sizes
-!> sets. For example, if there are 4 real processor rows that are
-!> mapped to 8 "virtual" processor rows, then there are two images for
-!> every real processor row.
-!> \var main                            the main distribution
-!> \var row_image, col_image            distribution of matrix elements' rows
-!>                                      and columns into image  rows and
-!>                                      columns
-!> \var row_decimation, col_decimation  Number of imaged rows/columns mapped
-!>                                      to a real row/column
-!> \var row_multiplicity, col_multiplicity   Number of real rows/columns mapped
-!>                                      to a virtual row/column
-!> \var refcount                        count of references
-! **************************************************************************************************
    TYPE dbcsr_imagedistribution_type
+      !! Image distributions are used to map incompatible processor row and
+      !! column distributions.
+      !! Used to ease storage or transfer between two different-sizes
+      !! sets. For example, if there are 4 real processor rows that are
+      !! mapped to 8 "virtual" processor rows, then there are two images for
+      !! every real processor row.
+
       TYPE(dbcsr_distribution_obj)               :: main
+         !! the main distribution
       TYPE(array_i1d_obj)                        :: row_image
+         !! distribution of matrix elements' rows into image  rows
       TYPE(array_i1d_obj)                        :: col_image
+         !! distribution of matrix elements' columns into image columns
       INTEGER                                    :: row_decimation = -1
+         !! Number of imaged rows mapped to a real row
       INTEGER                                    :: col_decimation = -1
+         !! Number of imaged columns mapped to a real column
       INTEGER                                    :: row_multiplicity = -1
+         !! Number of real rows mapped to a virtual row
       INTEGER                                    :: col_multiplicity = -1
+         !! Number of real columns mapped to a virtual column
       TYPE(array_i1d_obj)                        :: vrow_dist
       TYPE(array_i1d_obj)                        :: vcol_dist
       TYPE(array_i1d_obj), DIMENSION(:), POINTER :: other_vl_rows => Null()
@@ -241,6 +218,7 @@ MODULE dbcsr_types
       LOGICAL                                    :: has_global_vcol_map = .FALSE.
       INTEGER                                    :: id = -1
       INTEGER                                    :: refcount = 0
+         !! count of references
    END TYPE dbcsr_imagedistribution_type
 
    TYPE dbcsr_imagedistribution_obj
@@ -256,79 +234,73 @@ MODULE dbcsr_types
    INTEGER, PARAMETER            :: dbcsr_norm_gershgorin = 3
    INTEGER, PARAMETER            :: dbcsr_norm_column = 4
 
-! **************************************************************************************************
-!> \brief Buffer for blocks
-!> \var refcount        Reference counter
-!> \var dirty           Whether any buffers are dirty
-!> \var buffers         Buffers
-!> \var rcb             Row and column and offset and dimensions of data in the
-!>                      buffer
-!> \var main            Main memory
-!> \var backing         Backing memory (in lieu of main memory)
-!> \var data_type       Data type used for the buffers
-! **************************************************************************************************
    TYPE dbcsr_block_buffer_type
+      !! Buffer for blocks
+
       INTEGER                                     :: refcount = 0
+         !! Reference counter
       LOGICAL, DIMENSION(:), POINTER              :: dirty => Null()
+         !! Whether any buffers are dirty
       TYPE(dbcsr_data_obj), DIMENSION(:), POINTER :: buffers => Null()
+         !! Buffers
       INTEGER, DIMENSION(:, :), POINTER           :: rcb => Null()
+         !! Row and column and offset and dimensions of data in the buffer
       TYPE(dbcsr_data_obj)                        :: main
+         !! Main memory
       TYPE(dbcsr_data_obj), DIMENSION(:), POINTER :: backing => Null()
+         !! Backing memory (in lieu of main memory)
       INTEGER                                     :: data_type = -1
+         !! Data type used for the buffers
    END TYPE dbcsr_block_buffer_type
 
-! **************************************************************************************************
-!> \brief Object for the buffer of blocks
-!> \var t               Block buffer
-! **************************************************************************************************
    TYPE dbcsr_block_buffer_obj
+      !! Object for the buffer of blocks
+
       TYPE(dbcsr_block_buffer_type), POINTER :: b => Null()
+         !! Block buffer
    END TYPE dbcsr_block_buffer_obj
 
-! **************************************************************************************************
-!> \brief An iterator over a DBCSR matrix.
-!> \note This is briefly changed to allow being included in the dbcsr_type type
-!>       What is written here is what the structure should be and not what it
-!>       is.
-!> \var matrix           the matrix
-!> \var buffer_2d        Buffers for repointing 2d pointers (1 per thread)
-!> \var row              Current row (per thread)
-!> \var pos              Current position (per thread)
-!> \var row_size         Size of current row
-!> \var rbs, cbs         Pointer to row and column size array
-!> \var roff, coff       Pointer to row and column offset array
-!> \var local_indexing   The matrix has local indexing
-!> \var contiguous_pointers   Whether pointers to data should be contiguous
-!>                            in memory.
-!> \var shared           Iterators share matrix
-!> \var dynamic          Ignores the thread distribution (FCFS by block)
-!> \var dynamic_byrows   Ignores the thread distribution (FCFS by row)
-!> \var common_pos       Position when in mixed mode (row or block
-!>                       depending in dynamic_byrows
-!> \var local_rows       Mapping of local rows to global rows (if local
-!>                       indexing is enabled)
-!> \var global_rows      Mapping of global rows to local rows (if local
-!>                       indexing is enabled)
-! **************************************************************************************************
    TYPE dbcsr_iterator
+      !! An iterator over a DBCSR matrix.
+      !! @note This is briefly changed to allow being included in the dbcsr_type type
+      !! What is written here is what the structure should be and not what it
+      !! is.
+      !! @endnote
+
       TYPE(dbcsr_type), POINTER                       :: matrix => Null()
+         !! the matrix
       TYPE(dbcsr_block_buffer_obj)                   :: buffer_2d
+         !! Buffers for repointing 2d pointers (1 per thread)
       INTEGER                                        :: pos = -1
+         !! Current position (per thread)
       INTEGER                                        :: row = -1
+         !! Current row (per thread)
       INTEGER                                        :: row_size = -1
+         !! Size of current row
       INTEGER                                        :: row_offset = -1
       INTEGER, DIMENSION(:), POINTER                 :: rbs => Null()
+         !! Pointer to row size array
       INTEGER, DIMENSION(:), POINTER                 :: cbs => Null()
+         !! Pointer to column size array
       INTEGER, DIMENSION(:), POINTER                 :: roff => Null()
+         !! Pointer to row offset array
       INTEGER, DIMENSION(:), POINTER                 :: coff => Null()
+         !! Pointer to column offset array
       LOGICAL                                        :: local_indexing = .FALSE.
+         !! The matrix has local indexing
       LOGICAL                                        :: contiguous_pointers = .FALSE.
+         !! Whether pointers to data should be contiguous in memory.
       LOGICAL                                        :: transpose = .FALSE.
       LOGICAL                                        :: read_only = .FALSE.
       LOGICAL                                        :: shared = .FALSE.
+         !! Iterators share matrix
       LOGICAL                                        :: dynamic = .FALSE.
+         !! Ignores the thread distribution (FCFS by block)
       LOGICAL                                        :: dynamic_byrows = .FALSE.
+         !! Ignores the thread distribution (FCFS by row)
       INTEGER, POINTER                               :: common_pos => Null()
+         !! Position when in mixed mode (row or block depending in dynamic_byrows
+
       ! Copies from the matrix.
       INTEGER                                        :: nblks = -1
       INTEGER                                        :: nblkrows_total = -1
@@ -337,129 +309,93 @@ MODULE dbcsr_types
       INTEGER, DIMENSION(:), POINTER                 :: blk_p => Null()
       INTEGER, DIMENSION(:), POINTER                 :: tdist => Null()
       INTEGER, DIMENSION(:), POINTER                 :: local_rows => Null()
+         !! Mapping of local rows to global rows (if local indexing is enabled)
       INTEGER, DIMENSION(:), POINTER                 :: global_rows => Null()
+         !! Mapping of global rows to local rows (if local indexing is enabled)
       TYPE(dbcsr_data_obj)                           :: data_area
    END TYPE dbcsr_iterator
 
-! **************************************************************************************************
-!> \brief Data area with random access reads, insertions, and deletions.
-!> \var tree_s, tree_d, tree_c, tree_z  Data types for the various types
-!> \var refcount                        Reference counter
-!> \var data_type                       The data type that is stored
-! **************************************************************************************************
    TYPE dbcsr_mutable_type
+      !! Data area with random access reads, insertions, and deletions.
+
       TYPE(btree_i8_sp2d)          :: btree_s
+         !! Data types for the various types
       TYPE(btree_i8_dp2d)          :: btree_d
+         !! Data types for the various types
       TYPE(btree_i8_cp2d)          :: btree_c
+         !! Data types for the various types
       TYPE(btree_i8_zp2d)          :: btree_z
+         !! Data types for the various types
       INTEGER                   :: refcount = 0
+         !! Reference counter
       INTEGER                   :: data_type = -1
+         !! The data type that is stored
    END TYPE dbcsr_mutable_type
 
-! **************************************************************************************************
-!> \brief Object for the mutable data type
-! **************************************************************************************************
    TYPE dbcsr_mutable_obj
+      !! Object for the mutable data type
       TYPE(dbcsr_mutable_type), POINTER :: m => Null()
    END TYPE dbcsr_mutable_obj
 
-! **************************************************************************************************
-!> \brief Used for assembling a real matrix.
-!> \var m           the final bcsr matrix
-!> \var data_area   holds actual values.
-!> \var row_i       the row index of all of the blocks.
-!> \var col_i       the column index of all of the blocks.
-!> \var blk_p       the pointer into the data array of this block.
-!> \var lastblk     index of the last block entered into the row_i, col_i, and
-!>                  blk_p data structures
-!> \var datasize    the actual size of data present in the data element
-!> \var tree        tree used to index data blocks (alternative to the row_i,
-!>                  col_i, and blk_p indices when index is scattered).
-! **************************************************************************************************
    TYPE dbcsr_work_type
+      !! Used for assembling a real matrix.
+
       TYPE(dbcsr_data_obj)                    :: data_area
+         !! holds actual values.
       INTEGER, DIMENSION(:), POINTER          :: row_i => Null()
+         !! the row index of all of the blocks.
       INTEGER, DIMENSION(:), POINTER          :: col_i => Null()
+         !! the column index of all of the blocks.
       INTEGER, DIMENSION(:), POINTER          :: blk_p => Null()
+         !! the pointer into the data array of this block.
       INTEGER                                 :: lastblk = -1
+         !! index of the last block entered into the row_i, col_i, and blk_p data structures
       INTEGER                                 :: datasize = -1
+         !! the actual size of data present in the data element
       INTEGER                                 :: datasize_after_filtering = -1
       !TYPE(btree_i8_dp2d)                       :: tree
+         !! tree used to index data blocks (alternative to the row_i, col_i, and blk_p indices when index is scattered).
       TYPE(dbcsr_mutable_obj)                 :: mutable
+         !! the final bcsr matrix
    END TYPE dbcsr_work_type
 
-! **************************************************************************************************
-!> \brief The BCSR sparse matrix type.
-!> \par arrays data and index hold the bulk of the data.
-!> \var serial_number   a unique number of each created matrix
-!> \var initialized whether the matrix is initialized (i.e., it is not random
-!>                  garbage from memory)
-!> \var valid       whether the matrix is valid (consistent)
-!> \var name        name of the matrix
-!> \var index(:)    agglomeration of the indices and offsets
-!>                            of pointers into this array.
-!> \par the pointers row_p, col_i, blk_p point into the index array.
-!> \var row_p       points into the col_i and blk_p arrays, each element
-!>                  (1:nblkrows_total+1) points to the previous row's last
-!>                  element. So each rows has elements
-!>                  row_p(row)+1:row_p(row+1).
-!> \var coo_l       coordinate list (used for direct indexing)
-!> \var col_i       the global blocked column number of this block.
-!> \var blk_p       the pointer into the data array of this block.
-!> \var thr_c       elements/thread for list index
-!> \var row_blk_size          sizes (rows in a block) of blocked rows
-!> \var col_blk_size          sizes (columns in a block) of blocked columns
-!> \var row_blk_offset          row offset (size = nrow+1)
-!> \var col_blk_offset          col offset (size = ncol+1)
-!> \var max_rbs, max_cbs      maximal row and column sizes
-!> \var dist        distribution used by this matrix
-!> \var nblks       number of blocks locally present
-!> \var nze         number of non-zero elements locally present
-!> \var nblkrows_total, nblk_cols_total size of entire matrix in blocked rows
-!>                  and blocked columns
-!> \var nblkrows_local, nblk_cols_local size of local part of matrix in blocked
-!>                  rows and blocked columns
-!> \var nfullrows_total, nfull_cols_total size of entire matrix in full rows
-!>                  and full columns
-!> \var nfullrows_local, nfull_cols_local size of local part of matrix in full
-!>                  rows and full columns
-!> \var symmetry              matrix has symmetry
-!> \var negate_real           symmetry is realized by negating the real part
-!> \var negate_imaginary      symmetry is realized by negating complex part
-!>                            (i.e., antisymmetric)
-!> \var data_type             'r'/'R' for single/double precision real or
-!>                            'c'/'C' for single/double precision complex data
-!> \var replication_type      multi-process replication used in the matrix
-!> \var transpose             matrix is logically transposed
-!> \var bscs                  BCS Column instead of BCS Row
-!> \var local_indexing        Local indexing of rows instead of global indexing.
-!> \var local_rows            Map of local to global rows when local indexing
-!>                            is enabled
-!> \var local_rows            Map of global to local rows when local indexing
-!>                            is enabled
-!> \var index_memory_type     memory type for the index
-!> \var data_memory_type      memory type for data
-!> \var buffers               Block buffers
-!> \var refcount              reference count
-!> \var work_mutable          uses the mutable data for working and not the
-!>                            append-only data
-! **************************************************************************************************
    TYPE dbcsr_type
+      !! The BCSR sparse matrix type.
+      !!
+      !! arrays data and index hold the bulk of the data.
+      !! @note the pointers row_p, col_i, blk_p point into the index array.
+      !! @endnote
+
       INTEGER                                      :: serial_number = -1
+         !! a unique number of each created matrix
       LOGICAL                                      :: valid = .FALSE.
+         !! whether the matrix is valid (consistent)
       CHARACTER(LEN=default_string_length)         :: name = ""
+         !! name of the matrix
       TYPE(dbcsr_data_obj)                         :: data_area = dbcsr_data_obj()
       INTEGER, DIMENSION(:), POINTER               :: index => Null()
+         !! agglomeration of the indices and offsets of pointers into this array.
       INTEGER, DIMENSION(:), POINTER               :: row_p => Null()
+         !! points into the col_i and blk_p arrays, each element (1:nblkrows_total+1) points to the previous row's last element. So
+         !! each rows has elements row_p(row)+1:row_p(row+1).
       INTEGER, DIMENSION(:), POINTER               :: col_i => Null()
+         !! the global blocked column number of this block.
       INTEGER, DIMENSION(:), POINTER               :: blk_p => Null()
+         !! the pointer into the data array of this block.
       INTEGER, DIMENSION(:), POINTER               :: thr_c => Null()
+         !! elements/thread for list index
       INTEGER, DIMENSION(:), POINTER               :: coo_l => Null()
+         !! coordinate list (used for direct indexing)
       TYPE(array_i1d_obj)                          :: row_blk_size = array_i1d_obj()
+         !! sizes (rows in a block) of blocked rows
       TYPE(array_i1d_obj)                          :: col_blk_size = array_i1d_obj()
+         !! sizes (columns in a block) of blocked columns
       TYPE(array_i1d_obj)                          :: row_blk_offset = array_i1d_obj()
+         !! row offset (size = nrow+1)
       TYPE(array_i1d_obj)                          :: col_blk_offset = array_i1d_obj()
+         !! col offset (size = ncol+1)
       TYPE(array_i1d_obj)                          :: local_rows = array_i1d_obj()
+         !! Map of global to local rows when local indexing is enabled
       TYPE(array_i1d_obj)                          :: global_rows = array_i1d_obj()
       TYPE(array_i1d_obj)                          :: local_cols = array_i1d_obj()
       TYPE(array_i1d_obj)                          :: global_cols = array_i1d_obj()
@@ -468,34 +404,59 @@ MODULE dbcsr_types
       LOGICAL                                      :: has_local_cols = .FALSE.
       LOGICAL                                      :: has_global_cols = .FALSE.
       INTEGER                                      :: max_rbs = -1
+         !! maximal row sizes
       INTEGER                                      :: max_cbs = -1
+         !! maximal column sizes
       INTEGER                                      :: sparsity_id = -1
       INTEGER                                      :: id_nr = -1 ! use in sm_pool
       INTEGER                                      :: nblks = -1
+         !! number of blocks locally present
       INTEGER                                      :: nze = -1
+         !! number of non-zero elements locally present
       INTEGER                                      :: nblkrows_total = -1
+         !! size of entire matrix in blocked rows
       INTEGER                                      :: nblkcols_total = -1
+         !! size of entire matrix in blocked columns
       INTEGER                                      :: nfullrows_total = -1
+         !! size of entire matrix in full rows
       INTEGER                                      :: nfullcols_total = -1
+         !! size of entire matrix in full columns
       INTEGER                                      :: nblkrows_local = -1
+         !! size of local part of matrix in blocked rows
       INTEGER                                      :: nblkcols_local = -1
+         !! size of local part of matrix in blocked columns
       INTEGER                                      :: nfullrows_local = -1
+         !! size of local part of matrix in full rows
       INTEGER                                      :: nfullcols_local = -1
+         !! size of local part of matrix in full columns
       INTEGER                                      :: data_type = -1
+         !! 'r'/'R' for single/double precision real or 'c'/'C' for single/double precision complex data
       CHARACTER                                    :: replication_type = ""
+         !! multi-process replication used in the matrix
       LOGICAL                                      :: symmetry = .FALSE.
+         !! matrix has symmetry
       LOGICAL                                      :: negate_real = .FALSE.
+         !! symmetry is realized by negating the real part
       LOGICAL                                      :: negate_imaginary = .FALSE.
+         !! symmetry is realized by negating complex part (i.e., antisymmetric)
       LOGICAL                                      :: bcsc = .FALSE.
+         !! BCS Column instead of BCS Row
       LOGICAL                                      :: local_indexing = .FALSE.
+         !! Local indexing of rows instead of global indexing.
       LOGICAL                                      :: list_indexing = .FALSE.
       TYPE(dbcsr_memtype_type)                     :: data_memory_type = dbcsr_memtype_type()
+         !! memory type for data
       TYPE(dbcsr_memtype_type)                     :: index_memory_type = dbcsr_memtype_type()
+         !! memory type for the index
       TYPE(dbcsr_block_buffer_obj)                 :: buffers = dbcsr_block_buffer_obj()
+         !! Block buffers
       TYPE(dbcsr_work_type), DIMENSION(:), POINTER :: wms => Null()
       TYPE(dbcsr_distribution_obj)                 :: dist = dbcsr_distribution_obj()
+         !! distribution used by this matrix
       INTEGER                                      :: refcount = 0
+         !! reference count
       LOGICAL                                      :: work_mutable = .FALSE.
+         !! uses the mutable data for working and not the append-only data
    END TYPE dbcsr_type
 
    CHARACTER, PARAMETER        :: dbcsr_type_invalid = '0'
@@ -532,13 +493,10 @@ MODULE dbcsr_types
    INTEGER, PARAMETER          :: dbcsr_func_cos = 11
    INTEGER, PARAMETER          :: dbcsr_func_truncate = 12
 
-! **************************************************************************************************
-!> These specify which array index in the index array is the start of the
-!> specified variable. For example, row_p => index(dbcsr_bcsr_slot_row_p).
-! **************************************************************************************************
-   INTEGER, PARAMETER          :: dbcsr_slot_size = 1 ! Size of the assigned
-   ! values in the index
-   ! array.
+   ! These specify which array index in the index array is the start of the
+   ! specified variable. For example, row_p => index(dbcsr_bcsr_slot_row_p)
+   INTEGER, PARAMETER          :: dbcsr_slot_size = 1
+      !! Size of the assigned values in the index array.
    INTEGER, PARAMETER          :: dbcsr_slot_nblks = 2
    INTEGER, PARAMETER          :: dbcsr_slot_nze = 3
    INTEGER, PARAMETER          :: dbcsr_slot_dense = 4
@@ -557,9 +515,8 @@ MODULE dbcsr_types
    INTEGER, PARAMETER          :: dbcsr_slot_home_coli = 17
    INTEGER, PARAMETER          :: dbcsr_slot_home_vprow = 18
    INTEGER, PARAMETER          :: dbcsr_slot_home_vpcol = 19
-   ! The number of meta fields.  Its value should be the index of the
-   ! last slot listed above.
    INTEGER, PARAMETER          :: dbcsr_meta_size = 19
+      !! The number of meta fields.  Its value should be the index of the last slot listed above.
    INTEGER, PARAMETER          :: dbcsr_slot_row_p = dbcsr_meta_size + 2
    INTEGER, PARAMETER          :: dbcsr_slot_col_i = dbcsr_meta_size + 4
    INTEGER, PARAMETER          :: dbcsr_slot_blk_p = dbcsr_meta_size + 6
@@ -567,73 +524,58 @@ MODULE dbcsr_types
    INTEGER, PARAMETER          :: dbcsr_slot_coo_l = dbcsr_meta_size + 10
    INTEGER, PARAMETER          :: dbcsr_num_slots = dbcsr_meta_size + 11 ! previous + 1
 
-   ! MPI message size limits (in bytes): 128, 8192, 32KB, 128KB, 4MB, 16MB
    INTEGER(KIND=int_8), DIMENSION(6), PARAMETER :: dbcsr_mpi_size_limits = &
                                                    (/2**7, 2**13, 2**15, 2**17, 2**22, 2**24/)
+      !! MPI message size limits (in bytes): 128, 8192, 32KB, 128KB, 4MB, 16MB
 
-! **************************************************************************************************
-!> \brief Pointer to a work matrix.
-!> \var w           the work matrix
-! **************************************************************************************************
    TYPE dbcsr_work_type_p
+      !! Pointer to a work matrix.
+
       TYPE(dbcsr_work_type), POINTER     :: w => Null()
+         !! the work matrix
    END TYPE dbcsr_work_type_p
 
-! **************************************************************************************************
-!> \brief Pointer to a object.
-!> \var matrix         the dbcsr_typeect
-! **************************************************************************************************
    TYPE dbcsr_type_p
+      !! Pointer to a object.
+
       TYPE(dbcsr_type), POINTER           :: matrix => Null()
+         !! the dbcsr_typeect
    END TYPE dbcsr_type_p
 
-! **************************************************************************************************
-!> \brief A 1-D array of DBCSR matrices
-!> \var s           the array of matrices
-! **************************************************************************************************
    TYPE dbcsr_1d_array_obj
+      !! A 1-D array of DBCSR matrices
+
       TYPE(dbcsr_type_p), DIMENSION(:), POINTER :: mats => Null()
+         !! the array of matrices
    END TYPE dbcsr_1d_array_obj
 
-! **************************************************************************************************
-!> \brief A 2-D array of DBCSR matrices
-!> \var s           the array of matrices
-! **************************************************************************************************
    TYPE dbcsr_2d_array_obj
+      !! A 2-D array of DBCSR matrices
+
       TYPE(dbcsr_type_p), DIMENSION(:, :), POINTER :: mats => Null()
+         !! the array of matrices
    END TYPE dbcsr_2d_array_obj
 
-! **************************************************************************************************
-!> \brief An array of DBCSR matrices
-!> \var mats        the matrices
-!> \var data_windows, index_windows     RMA windows
-!> \var image_dist  image distribution
-! **************************************************************************************************
    TYPE dbcsr_1d_array_type
+      !! An array of DBCSR matrices
+
       TYPE(dbcsr_type), DIMENSION(:), POINTER :: mats => Null()
+         !! the matrices
       TYPE(dbcsr_imagedistribution_obj)      :: image_dist
+         !! image distribution
    END TYPE dbcsr_1d_array_type
 
-! **************************************************************************************************
-!> \brief A 2-d array of DBCSR matrices
-!> \var mats        the matrices
-!> \var image_dist  image distribution
-! **************************************************************************************************
    TYPE dbcsr_2d_array_type
+      !! A 2-d array of DBCSR matrices
+
       TYPE(dbcsr_type), DIMENSION(:, :), POINTER :: mats => Null()
+         !! the matrices
       TYPE(dbcsr_imagedistribution_obj)         :: image_dist
+         !! image distribution
    END TYPE dbcsr_2d_array_type
 
-! **************************************************************************************************
-!> \brief DBCSR MPI statistics
-!> \var last_mpi_ranks_used ...
-!> \var nimages ...
-!> \var nexchanged ...
-!> \var nfiltered ...
-!> \var data_size ...
-!> \var data_size_breakdown ...
-! **************************************************************************************************
    TYPE dbcsr_mpi_statistics_type
+      !! DBCSR MPI statistics
       INTEGER                                                             :: last_mpi_ranks_used = -1
       INTEGER                                                             :: nimages = -1
       INTEGER                                                             :: nexchanged = -1

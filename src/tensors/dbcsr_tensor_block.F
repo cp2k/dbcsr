@@ -7,11 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Methods to operate on n-dimensional tensor blocks.
-!> \author Patrick Seewald
-! **************************************************************************************************
 MODULE dbcsr_tensor_block
+   !! Methods to operate on n-dimensional tensor blocks.
 
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
@@ -146,13 +143,8 @@ MODULE dbcsr_tensor_block
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Create block without data
-!> \param block ...
-!> \param sizes ...
-!> \param data_type ...
-! **************************************************************************************************
    SUBROUTINE create_block_nodata(block, sizes, data_type)
+      !! Create block without data
       TYPE(block_nd), INTENT(OUT)       :: block
       INTEGER, DIMENSION(:), INTENT(IN) :: sizes
       INTEGER, INTENT(IN)               :: data_type
@@ -166,11 +158,8 @@ CONTAINS
       END SELECT
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Destroy block
-!> \param block ...
-! **************************************************************************************************
    SUBROUTINE destroy_block(block)
+      !! Destroy block
       TYPE(block_nd), INTENT(INOUT) :: block
 
       SELECT CASE (block%data_type)
@@ -182,15 +171,12 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief block size
-!> \param block ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION block_size(block)
+      !! block size
       TYPE(block_nd), INTENT(IN)         :: block
       INTEGER, ALLOCATABLE, DIMENSION(:) :: block_size
 
+      block_size = 0 ! invalid
       SELECT CASE (block%data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
       CASE (${dparam}$)
@@ -199,12 +185,8 @@ CONTAINS
       END SELECT
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Generalization of dbcsr_iterator_start for tensors.
-!> \param iterator ...
-!> \param tensor ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_iterator_start(iterator, tensor)
+      !! Generalization of dbcsr_iterator_start for tensors.
       TYPE(dbcsr_t_iterator_type), INTENT(OUT)           :: iterator
       TYPE(dbcsr_t_type), INTENT(IN)                     :: tensor
       INTEGER                                            :: handle
@@ -223,11 +205,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Generalization of dbcsr_iterator_stop for tensors.
-!> \param iterator ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_iterator_stop(iterator)
+      !! Generalization of dbcsr_iterator_stop for tensors.
       TYPE(dbcsr_t_iterator_type), INTENT(INOUT) :: iterator
       INTEGER                                    :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_iterator_stop', &
@@ -243,38 +222,34 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Number of dimensions.
-!> \param iterator ...
-!> \return ...
-!> \par Note: specification function below must be defined before it is used in
-!>      the source due to a bug in the IBM XL Fortran compiler (compilation fails)
-! **************************************************************************************************
    PURE FUNCTION ndims_iterator(iterator)
+      !! Number of dimensions.
+      !!
+      !! Note: specification function below must be defined before it is used in
+      !! the source due to a bug in the IBM XL Fortran compiler (compilation fails)
+
       TYPE(dbcsr_t_iterator_type), INTENT(IN) :: iterator
       INTEGER                                 :: ndims_iterator
 
       ndims_iterator = iterator%nd_index%ndim_nd
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief iterate over nd blocks of an nd rank tensor, index only (blocks must be retrieved by calling
-!>        dbcsr_t_get_block on tensor).
-!> \param iterator ...
-!> \param ind_nd nd index of block
-!> \param blk is this needed?
-!> \param blk_p is this needed?
-!> \param blk_size blk size in each dimension
-!> \param blk_offset blk offset in each dimension
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_p, blk_size, blk_offset)
+      !! iterate over nd blocks of an nd rank tensor, index only (blocks must be retrieved by calling
+      !! dbcsr_t_get_block on tensor).
+
       TYPE(dbcsr_t_iterator_type), INTENT(INOUT)     :: iterator
       INTEGER, DIMENSION(ndims_iterator(iterator)), &
          INTENT(OUT)                                 :: ind_nd
+         !! nd index of block
       INTEGER, INTENT(OUT)                           :: blk
+         !! is this needed?
       INTEGER, INTENT(OUT), OPTIONAL                 :: blk_p
+         !! is this needed?
       INTEGER, DIMENSION(ndims_iterator(iterator)), &
          INTENT(OUT), OPTIONAL                       :: blk_size, blk_offset
+         !! blk size in each dimension
+         !! blk offset in each dimension
 
       INTEGER(KIND=int_8), DIMENSION(2)              :: ind_2d
       INTEGER                                        :: handle
@@ -293,12 +268,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Generalization of dbcsr_iterator_blocks_left for tensors.
-!> \param iterator ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_t_iterator_blocks_left(iterator)
+      !! Generalization of dbcsr_iterator_blocks_left for tensors.
       TYPE(dbcsr_t_iterator_type), INTENT(IN) :: iterator
       LOGICAL                                 :: dbcsr_t_iterator_blocks_left
       INTEGER                                 :: handle
@@ -311,12 +282,8 @@ CONTAINS
       CALL timestop(handle)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief reserve blocks from indices as array object
-!> \param tensor ...
-!> \param blk_ind ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserve_blocks_index_array(tensor, blk_ind)
+      !! reserve blocks from indices as array object
       TYPE(dbcsr_t_type), INTENT(INOUT)   :: tensor
       INTEGER, DIMENSION(:, :), INTENT(IN) :: blk_ind
       INTEGER                             :: handle
@@ -333,16 +300,11 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief reserve tensor blocks using block indices
-!> \param tensor ...
-!> \param blk_ind_1 index of blocks to reserve in each dimension
-!> \param blk_ind_2 ...
-!> \param blk_ind_3 ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserve_blocks_index(tensor, ${varlist("blk_ind")}$)
+      !! reserve tensor blocks using block indices
       TYPE(dbcsr_t_type), INTENT(INOUT)           :: tensor
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: ${varlist("blk_ind")}$
+         !! index of blocks to reserve in each dimension
       INTEGER                                     :: iblk, nblk, handle
       INTEGER(KIND=int_8), ALLOCATABLE, DIMENSION(:)          :: cols, rows
       INTEGER(KIND=int_8), DIMENSION(2)                       :: ind_2d
@@ -372,13 +334,11 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief reserve tensor blocks using template
-!> \param tensor_in template tensor
-!> \param tensor_out ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserve_blocks_template(tensor_in, tensor_out)
+      !! reserve tensor blocks using template
+
       TYPE(dbcsr_t_type), INTENT(IN)    :: tensor_in
+         !! template tensor
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor_out
       INTEGER                           :: handle
 
@@ -394,12 +354,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief reserve tensor blocks using matrix template
-!> \param matrix_in ...
-!> \param tensor_out ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserve_blocks_matrix_to_tensor(matrix_in, tensor_out)
+      !! reserve tensor blocks using matrix template
       TYPE(dbcsr_type), TARGET, INTENT(IN) :: matrix_in
       TYPE(dbcsr_t_type), INTENT(INOUT)  :: tensor_out
       TYPE(dbcsr_type), POINTER          :: matrix_in_desym
@@ -440,12 +396,9 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief reserve matrix blocks using tensor template
-!> \param tensor_in
-!> \param matrix_out
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserve_blocks_tensor_to_matrix(tensor_in, matrix_out)
+      !! reserve matrix blocks using tensor template
+
       TYPE(dbcsr_t_type), INTENT(IN)        :: tensor_in
       TYPE(dbcsr_type), INTENT(INOUT)       :: matrix_out
       TYPE(dbcsr_t_iterator_type)           :: iter
@@ -481,12 +434,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief indices of non-zero blocks
-!> \param tensor ...
-!> \param blk_ind ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_reserved_block_indices(tensor, blk_ind)
+      !! indices of non-zero blocks
       TYPE(dbcsr_t_type), INTENT(IN)            :: tensor
       INTEGER                                   :: blk, iblk, nblk
       TYPE(dbcsr_t_iterator_type)               :: iterator
@@ -509,13 +458,8 @@ CONTAINS
    END SUBROUTINE
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief Create block from array, array can be n-dimensional.
-!> \param block ...
-!> \param sizes ...
-!> \param array ...
-! **************************************************************************************************
    SUBROUTINE create_block_data_${dsuffix}$ (block, sizes, array)
+      !! Create block from array, array can be n-dimensional.
       TYPE(block_nd), INTENT(OUT)                       :: block
       INTEGER, DIMENSION(:), INTENT(IN)                 :: sizes
       ${dtype}$, DIMENSION(PRODUCT(sizes)), INTENT(IN) :: array
@@ -529,12 +473,8 @@ CONTAINS
 #:endfor
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief Create and allocate block, but no data.
-!> \param block ...
-!> \param sizes ...
-! **************************************************************************************************
    SUBROUTINE create_block_nodata_${dsuffix}$ (block, sizes)
+      !! Create and allocate block, but no data.
       INTEGER, INTENT(IN), DIMENSION(:)       :: sizes
       TYPE(block_nd_${dsuffix}$), INTENT(OUT) :: block
       CALL allocate_any(block%sizes, source=sizes)
@@ -543,10 +483,6 @@ CONTAINS
 #:endfor
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief ...
-!> \param block ...
-! **************************************************************************************************
    SUBROUTINE destroy_block_${dsuffix}$ (block)
       TYPE(block_nd_${dsuffix}$), INTENT(INOUT) :: block
       DEALLOCATE (block%blk)
@@ -554,19 +490,17 @@ CONTAINS
    END SUBROUTINE
 #:endfor
 
-! **************************************************************************************************
-!> \brief Generic implementation of dbcsr_t_get_block (arbitrary tensor rank and arbitrary datatype)
-!> \param tensor ...
-!> \param ind block index
-!> \param block block to get
-!> \param found whether block was found
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_get_anyd_block(tensor, ind, block, found)
+      !! Generic implementation of dbcsr_t_get_block (arbitrary tensor rank and arbitrary datatype)
+
       TYPE(dbcsr_t_type), INTENT(INOUT)            :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
          INTENT(IN)                                :: ind
+         !! block index
       TYPE(block_nd), INTENT(OUT)                  :: block
+         !! block to get
       LOGICAL, INTENT(OUT)                         :: found
+         !! whether block was found
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_anyd_block', &
                                      routineP = moduleN//':'//routineN
@@ -581,21 +515,19 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Generic implementation of dbcsr_t_put_block (arbitrary tensor rank and arbitrary datatype)
-!> \param tensor ...
-!> \param ind block index
-!> \param block block to put
-!> \param summation whether block should be summed to existing block
-!> \param scale scaling factor
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_put_anyd_block(tensor, ind, block, summation, scale)
+      !! Generic implementation of dbcsr_t_put_block (arbitrary tensor rank and arbitrary datatype)
+
       TYPE(dbcsr_t_type), INTENT(INOUT)            :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
          INTENT(IN)                                :: ind
+         !! block index
       TYPE(block_nd), INTENT(IN)                   :: block
+         !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                :: summation
+         !! whether block should be summed to existing block
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL :: scale
+         !! scaling factor
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_anyd_block', &
                                      routineP = moduleN//':'//routineN
@@ -616,21 +548,19 @@ CONTAINS
    END SUBROUTINE
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief Generic implementation of dbcsr_t_put_block, template for datatype
-!> \param tensor ...
-!> \param ind block index
-!> \param block block to put
-!> \param summation whether block should be summed to existing block
-!> \param scale scaling factor
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_put_anyd_block_${dsuffix}$ (tensor, ind, block, summation, scale)
+      !! Generic implementation of dbcsr_t_put_block, template for datatype
+
       TYPE(block_nd_${dsuffix}$), INTENT(IN)       :: block
+         !! block to put
       TYPE(dbcsr_t_type), INTENT(INOUT)            :: tensor
       LOGICAL, INTENT(IN), OPTIONAL                :: summation
+         !! whether block should be summed to existing block
       ${dtype}$, INTENT(IN), OPTIONAL :: scale
+         !! scaling factor
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
          INTENT(IN)                                :: ind
+         !! block index
 
       SELECT CASE (ndims_tensor(tensor))
 #:for ndim in ndims
@@ -642,19 +572,17 @@ CONTAINS
 #:endfor
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief Generic implementation of dbcsr_t_get_block (arbitrary tensor rank)
-!> \param tensor ...
-!> \param ind block index
-!> \param block block to get
-!> \param found whether block was found
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_get_anyd_block_${dsuffix}$ (tensor, ind, block, found)
+      !! Generic implementation of dbcsr_t_get_block (arbitrary tensor rank)
+
       TYPE(block_nd), INTENT(OUT)                  :: block
+         !! block to get
       LOGICAL, INTENT(OUT)                         :: found
+         !! whether block was found
       TYPE(dbcsr_t_type), INTENT(INOUT)            :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), &
          INTENT(IN)                                :: ind
+         !! block index
       INTEGER, DIMENSION(ndims_tensor(tensor))    :: blk_size
       ${dtype}$, DIMENSION(:), ALLOCATABLE         :: block_arr
 
@@ -673,23 +601,21 @@ CONTAINS
 
 #:for dparam, dtype, dsuffix in dtype_float_list
 #:for ndim in ndims
-! **************************************************************************************************
-!> \brief Template for dbcsr_t_put_block.
-!> \param tensor ...
-!> \param ind block index
-!> \param sizes block size
-!> \param block block to put
-!> \param summation whether block should be summed to existing block
-!> \param scale scaling factor
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_put_${ndim}$d_block_${dsuffix}$ (tensor, ind, sizes, block, summation, scale)
+      !! Template for dbcsr_t_put_block.
+
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+         !! block index
       INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+         !! block size
       ${dtype}$, DIMENSION(${arrlist("sizes", nmax=ndim)}$), &
          INTENT(IN)                                         :: block
+         !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                         :: summation
+         !! whether block should be summed to existing block
       ${dtype}$, INTENT(IN), OPTIONAL                       :: scale
+         !! scaling factor
 
       INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
@@ -730,19 +656,17 @@ CONTAINS
 
 #:for dparam, dtype, dsuffix in dtype_float_list
 #:for ndim in ndims
-! **************************************************************************************************
-!> \brief allocate and get block
-!> \param tensor ...
-!> \param ind block index
-!> \param block block to get
-!> \param found whether block was found
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_allocate_and_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, block, found)
+      !! allocate and get block
+
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
+         !! block index
       ${dtype}$, DIMENSION(${shape_colon(ndim)}$), &
          ALLOCATABLE, INTENT(OUT)                           :: block
+         !! block to get
       LOGICAL, INTENT(OUT)                                  :: found
+         !! whether block was found
       INTEGER, DIMENSION(${ndim}$)                          :: blk_size
 
       CALL dbcsr_t_blk_sizes(tensor, ind, blk_size)
@@ -755,21 +679,19 @@ CONTAINS
 
 #:for dparam, dtype, dsuffix in dtype_float_list
 #:for ndim in ndims
-! **************************************************************************************************
-!> \brief Template for dbcsr_t_get_block.
-!> \param tensor ...
-!> \param ind block index
-!> \param sizes block size
-!> \param block block to get
-!> \param found whether block was found
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_get_${ndim}$d_block_${dsuffix}$ (tensor, ind, sizes, block, found)
+      !! Template for dbcsr_t_get_block.
+
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
       INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+         !! block index
       INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+         !! block size
       ${dtype}$, DIMENSION(${arrlist("sizes", nmax=ndim)}$), &
          INTENT(OUT)                                        :: block
+         !! block to get
       LOGICAL, INTENT(OUT)                                  :: found
+         !! whether block was found
 
       INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
@@ -807,13 +729,8 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
 #:for ndim in ndims
 
-! **************************************************************************************************
-!> \brief reshape matrix to tensor block
-!> \param map ...
-!> \param block_2d ...
-!> \param block ...
-! **************************************************************************************************
    SUBROUTINE reshape_block_m2t_${ndim}$d_${dsuffix}$ (map, block_2d, block)
+      !! reshape matrix to tensor block
       TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
       ${dtype}$, DIMENSION(:, :), INTENT(IN)                    :: block_2d
       ${dtype}$, DIMENSION(${arrlist("map%dims_nd", nmax=ndim)}$), &
@@ -828,13 +745,8 @@ CONTAINS
 
 #:for dparam, dtype, dsuffix in dtype_float_list
 #:for ndim in ndims
-! **************************************************************************************************
-!> \brief reshape tensor to matrix block
-!> \param map ...
-!> \param block ...
-!> \param block_2d ...
-! **************************************************************************************************
    SUBROUTINE reshape_block_t2m_${ndim}$d_${dsuffix}$ (map, block, block_2d)
+      !! reshape tensor to matrix block
       TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
       ${dtype}$, DIMENSION(${arrlist("map%dims_nd", nmax=ndim)}$), INTENT(IN) :: block
       ${dtype}$, DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d

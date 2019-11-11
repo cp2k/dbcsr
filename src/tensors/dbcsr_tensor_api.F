@@ -7,16 +7,14 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   This is the start of a dbcsr_tensor_api, all publically needed functions
-!>          are exported here. The others remain private to the library.
-!>          Currently, this is the CP2K used set.
-!>          Ultimately, a reduced subset and well defined api will remain,
-!>          possibly grouped in to standard and expert api.
-!>          Currently, this is work in progress.
-!> \author  Alfio Lazzaro
-! **************************************************************************************************
 MODULE dbcsr_tensor_api
+   !! This is the start of a dbcsr_tensor_api, all publically needed functions
+   !! are exported here. The others remain private to the library.
+   !! Currently, this is the CP2K used set.
+   !! Ultimately, a reduced subset and well defined api will remain,
+   !! possibly grouped in to standard and expert api.
+   !! Currently, this is work in progress.
+
    USE dbcsr_tensor, ONLY: &
       dbcsr_t_contract, dbcsr_t_get_block, dbcsr_t_get_stored_coordinates, dbcsr_t_put_block, &
       dbcsr_t_reserve_blocks, dbcsr_t_copy_matrix_to_tensor, dbcsr_t_copy, &

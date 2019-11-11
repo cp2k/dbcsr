@@ -13,7 +13,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-module swap PrgEnv-cray PrgEnv-gnu
 module load daint-gpu cudatoolkit CMake/3.14.5
 module unload cray-libsci_acc
 module list
@@ -22,8 +21,8 @@ set -o xtrace  # do not set earlier to avoid noise from module
 
 umask 0002  # make sure group members can access the data
 
-mkdir --mode=0775 -p "${SCRATCH}/${BUILD_TAG}.gnu"
-cd "${SCRATCH}/${BUILD_TAG}.gnu"
+mkdir --mode=0775 -p "${SCRATCH}/${BUILD_TAG}.cray"
+cd "${SCRATCH}/${BUILD_TAG}.cray"
 
 export CRAY_CUDA_MPS=1 # enable the CUDA proxy for MPI+CUDA
 export OMP_PROC_BIND=TRUE # set thread affinity

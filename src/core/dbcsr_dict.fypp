@@ -30,21 +30,14 @@ ALL(${k1}$==${k2}$)
 #:set isequal = [isequal_str, isequal_i4tuple]
 
 #:def hash_str()
-! **************************************************************************************************
-! This is joaat_hash from string_table.F
-!
-!> \brief generates the hash of a given string
-!> \param key a string of any length
-!> \return ...
-!> \par History
-!>       09.2006 created [Joost VandeVondele]
-!>       12.2012 copied and adopted [ole]
-!> \note
-!>       http://en.wikipedia.org/wiki/Hash_table
-!>       http://www.burtleburtle.net/bob/hash/doobs.html
-! **************************************************************************************************
 FUNCTION hash_str(key) RESULT(hash)
+   !! This is joaat_hash from string_table.F, generates the hash of a given string
+   !! @note
+   !!       http://en.wikipedia.org/wiki/Hash_table
+   !!       http://www.burtleburtle.net/bob/hash/doobs.html
+
     CHARACTER(LEN=*), INTENT(IN)             :: key
+       !! key a string of any length
     INTEGER(KIND=int_8)                      :: hash
     INTEGER(KIND=int_8), PARAMETER           :: b32 = 2_int_8**32-1_int_8
     INTEGER                                  :: i

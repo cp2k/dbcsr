@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR sparse matrix utility routines
-!> \author  Urban Borstnik
-!> \date    2009-05-12
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - Created 2009-05-12
-! **************************************************************************************************
 MODULE dbcsr_dist_util
+   !! DBCSR sparse matrix utility routines
 
    USE dbcsr_array_types, ONLY: array_data
    USE dbcsr_data_methods, ONLY: dbcsr_data_get_size, &
@@ -80,24 +72,23 @@ MODULE dbcsr_dist_util
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Finds block to which a full element belongs.
-!> \param[in] full            full element
-!> \param[out] block          block to which full belongs
-!> \param nblocks ...
-!> \param[in] block_offsets   starting full elements of blocks
-!> \param[in] hint            where to start looking; ignored if 0
-!> \par Assumptions
-!>        It is assumed that block_start and block_end are sorted and
-!>        that hint is in the range [0, nblocks].
-! **************************************************************************************************
    SUBROUTINE find_block_of_element(full, block, nblocks, &
                                     block_offsets, hint)
+      !! Finds block to which a full element belongs.
+      !!
+      !! Assumptions
+      !! It is assumed that block_start and block_end are sorted and
+      !! that hint is in the range [0, nblocks].
+
       INTEGER, INTENT(in)                                :: full
+         !! full element
       INTEGER, INTENT(out)                               :: block
+         !! block to which full belongs
       INTEGER, INTENT(in)                                :: nblocks
       INTEGER, DIMENSION(1:nblocks + 1), INTENT(in)        :: block_offsets
+         !! starting full elements of blocks
       INTEGER, INTENT(in)                                :: hint
+         !! where to start looking; ignored if 0
 
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
@@ -127,15 +118,14 @@ CONTAINS
       ENDDO
    END SUBROUTINE find_block_of_element
 
-! **************************************************************************************************
-!> \brief The sum of a subset of rows/columns
-!> \param[in] all_offsets     ordered offsets of all the elements
-!> \param[in] local_elements  enumerated local elements
-!> \return sum of sizes of local elements
-!> \note Used for making matrices dense/undense
-! **************************************************************************************************
    PURE FUNCTION nfull_elements(all_offsets, local_elements)
+      !! The sum of a subset of rows/columns
+      !! \return sum of sizes of local elements
+      !! @note Used for making matrices dense/undense
+
       INTEGER, DIMENSION(:), INTENT(IN)                  :: all_offsets, local_elements
+         !! ordered offsets of all the elements
+         !! enumerated local elements
       INTEGER                                            :: nfull_elements
 
       INTEGER                                            :: el, lel
@@ -147,19 +137,16 @@ CONTAINS
       ENDDO
    END FUNCTION nfull_elements
 
-! **************************************************************************************************
-!> \brief Converts sizes to offsets
-!>
-!> \param[in] sizes           array with sizes
-!> \param[out] offsets_start  offsets of starts
-!> \param[out] offsets_stop   (optional) offsets of ends
-! **************************************************************************************************
-
    PURE SUBROUTINE convert_sizes_to_offsets(sizes, &
                                             offsets_start, offsets_stop)
+      !! Converts sizes to offsets
+
       INTEGER, DIMENSION(:), INTENT(IN)                  :: sizes
+         !! array with sizes
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: offsets_start
+         !! offsets of starts
       INTEGER, DIMENSION(:), INTENT(OUT), OPTIONAL       :: offsets_stop
+         !! offsets of ends
 
       CHARACTER(len=*), PARAMETER :: routineN = 'convert_sizes_to_offsets', &
                                      routineP = moduleN//':'//routineN
@@ -193,21 +180,17 @@ CONTAINS
       ENDIF
    END SUBROUTINE convert_sizes_to_offsets
 
-! **************************************************************************************************
-!> \brief Converts offsets to sizes
-!>
-!> If the offsets of ends are not given, then the array of sizes is assumed
-!> to be one greater than the desired sizes.
-!>
-!> \param[in] offsets_start  offsets of starts
-!> \param[out] sizes         array with sizes
-!> \param[in] offsets_stop   (optional) offsets of ends
-! **************************************************************************************************
-
    PURE SUBROUTINE convert_offsets_to_sizes(offsets_start, sizes, offsets_stop)
+      !! Converts offsets to sizes
+      !! If the offsets of ends are not given, then the array of sizes is assumed
+      !! to be one greater than the desired sizes.
+
       INTEGER, DIMENSION(:), INTENT(IN)                  :: offsets_start
+         !! offsets of starts
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: sizes
+         !! array with sizes
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: offsets_stop
+         !! offsets of ends
 
       CHARACTER(len=*), PARAMETER :: routineN = 'convert_offsets_to_sizes', &
                                      routineP = moduleN//':'//routineN
@@ -228,20 +211,20 @@ CONTAINS
       ENDIF
    END SUBROUTINE convert_offsets_to_sizes
 
-! **************************************************************************************************
-!> \brief Converts global offsets to local
-!> \param[in] global_offsets   Offsets of elements in the global grid
-!> \param[in] local_elements   Which elements are local
-!> \param[out] local_offsets   Offsets of local elements.
-!> \par Global vs. Local Indexing
-!>      local_offsets may be sized according to the
-!>      local index (|local_elements+|1) or the
-!>      global index (|global_offsets|).
-! **************************************************************************************************
    SUBROUTINE global_offsets_to_local(global_offsets, &
                                       local_elements, local_offsets)
+      !! Converts global offsets to local
+      !!
+      !! Global vs. Local Indexing
+      !! local_offsets may be sized according to the
+      !! local index (|local_elements+|1) or the
+      !! global index (|global_offsets|).
+
       INTEGER, DIMENSION(:), INTENT(IN)                  :: global_offsets, local_elements
+         !! Offsets of elements in the global grid
+         !! Which elements are local
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: local_offsets
+         !! Offsets of local elements.
 
       CHARACTER(len=*), PARAMETER :: routineN = 'global_offsets_to_local', &
                                      routineP = moduleN//':'//routineN
@@ -283,19 +266,12 @@ CONTAINS
       ENDIF
    END SUBROUTINE global_offsets_to_local
 
-! **************************************************************************************************
-!> \brief Finds internal offsets
-!>
-!> For all local blocks in blk_local_els, it calculates its offset in
-!> the dense block to which it belongs.
-!> \param blk_local_els ...
-!> \param el_map ...
-!> \param blk_el_offsets ...
-!> \param dense_el_offsets ...
-!> \param internal_offsets ...
-! **************************************************************************************************
    SUBROUTINE get_internal_offsets(blk_local_els, el_map, blk_el_offsets, &
                                    dense_el_offsets, internal_offsets)
+      !! Finds internal offsets
+      !! For all local blocks in blk_local_els, it calculates its offset in
+      !! the dense block to which it belongs.
+
       INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_local_els, el_map, blk_el_offsets, &
                                                             dense_el_offsets
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: internal_offsets
@@ -322,18 +298,17 @@ CONTAINS
       DEALLOCATE (off_acc)
    END SUBROUTINE get_internal_offsets
 
-! **************************************************************************************************
-!> \brief Calculates explicit sizes for all data blocks.
-!> \param[out] sizes          sizes of all data blocks
-!> \param[in] row_p index structure
-!> \param[in] col_i index structure
-!> \param[in] rbs row block sizes
-!> \param[in] cbs column block sizes
-! **************************************************************************************************
    SUBROUTINE dbcsr_calc_block_sizes(sizes, row_p, col_i, rbs, cbs)
+      !! Calculates explicit sizes for all data blocks.
+
       INTEGER, DIMENSION(*), INTENT(OUT)                 :: sizes
+         !! sizes of all data blocks
       INTEGER, DIMENSION(:), INTENT(IN)                  :: row_p
+         !! index structure
       INTEGER, DIMENSION(*), INTENT(IN)                  :: col_i, rbs, cbs
+         !! index structure
+         !! row block sizes
+         !! column block sizes
 
       INTEGER                                            :: blk, nrows, row, row_size
 
@@ -348,13 +323,6 @@ CONTAINS
 !$OMP     END DO
    END SUBROUTINE dbcsr_calc_block_sizes
 
-! **************************************************************************************************
-!> \brief ...
-!> \param n ...
-!> \param oldsign ...
-!> \param x ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION sgn(n, oldsign, x) RESULT(val)
       INTEGER, INTENT(IN)                                :: n, oldsign
       LOGICAL, INTENT(IN)                                :: x
@@ -367,17 +335,16 @@ CONTAINS
       ENDIF
    END FUNCTION sgn
 
-! **************************************************************************************************
-!> \brief Fills meta information from a given distribution_2d
-!> \param[out] meta           meta information array to fill
-!> \param dist                processor distribution
-!> \param[in] row_blk_size    row block sizes
-!> \param[in] col_blk_size    column block sizes
-! **************************************************************************************************
    SUBROUTINE meta_from_dist(meta, dist, row_blk_size, col_blk_size)
+      !! Fills meta information from a given distribution_2d
+
       INTEGER, DIMENSION(dbcsr_meta_size), INTENT(OUT)   :: meta
+         !! meta information array to fill
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
+         !! processor distribution
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_blk_size, col_blk_size
+         !! row block sizes
+         !! column block sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'meta_from_dist', routineP = moduleN//':'//routineN
 
@@ -416,14 +383,13 @@ CONTAINS
       meta(dbcsr_slot_home_vpcol) = -1
    END SUBROUTINE meta_from_dist
 
-! **************************************************************************************************
-!> \brief Copies metadata into an array.
-!> \param[in] matrix      Matrix
-!> \param[out] meta       Metadata elements
-! **************************************************************************************************
    SUBROUTINE dbcsr_pack_meta(matrix, meta)
+      !! Copies metadata into an array.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! Matrix
       INTEGER, DIMENSION(dbcsr_meta_size), INTENT(OUT)   :: meta
+         !! Metadata elements
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_pack_meta', &
                                      routineP = moduleN//':'//routineN
@@ -452,14 +418,13 @@ CONTAINS
          meta(dbcsr_slot_type) = IBSET(meta(dbcsr_slot_type), 3)
    END SUBROUTINE dbcsr_pack_meta
 
-! **************************************************************************************************
-!> \brief Sets metadata form an array.
-!> \param[in,out] matrix  Matrix
-!> \param[in] meta        Metadata elements
-! **************************************************************************************************
    SUBROUTINE dbcsr_unpack_meta(matrix, meta)
+      !! Sets metadata form an array.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! Matrix
       INTEGER, DIMENSION(dbcsr_meta_size), INTENT(IN)    :: meta
+         !! Metadata elements
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_unpack_meta', &
                                      routineP = moduleN//':'//routineN
@@ -483,17 +448,16 @@ CONTAINS
       matrix%negate_imaginary = BTEST(meta(dbcsr_slot_type), 3)
    END SUBROUTINE dbcsr_unpack_meta
 
-! **************************************************************************************************
-!> \brief Calculates the checksum of a DBCSR matrix.
-!> \param[in] matrix          matrix
-!> \param[in] local           (optional) no global communication
-!> \param[in] pos             (optional) position-dependent checksum
-!> \return calculated checksum
-! **************************************************************************************************
    FUNCTION dbcsr_checksum(matrix, local, pos) RESULT(checksum)
+      !! Calculates the checksum of a DBCSR matrix.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! matrix
       LOGICAL, INTENT(IN), OPTIONAL                      :: local, pos
+         !! no global communication
+         !! position-dependent checksum
       REAL(KIND=dp)                                      :: checksum
+         !! calculated checksum
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_checksum', routineP = moduleN//':'//routineN
 
@@ -605,16 +569,6 @@ CONTAINS
       CALL timestop(handle)
    END FUNCTION dbcsr_checksum
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ld ...
-!> \param od ...
-!> \param DATA ...
-!> \param tr ...
-!> \param ro ...
-!> \param co ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION pd_blk_cs(ld, od, DATA, tr, ro, co) RESULT(pd_cs)
       INTEGER, INTENT(IN)                                :: ld, od
       REAL(KIND=dp), DIMENSION(ld, od), INTENT(IN)       :: DATA
@@ -642,19 +596,16 @@ CONTAINS
       ENDIF
    END FUNCTION pd_blk_cs
 
-! **************************************************************************************************
-!> \brief Verify the correctness of a BCSR matrix.
-!> \param[in] m     bcsr matrix
-!> \param[in] verbosity     how detailed errors are; 0=nothing; 1=summary at
-!>                          end if matrix not consistent; 2=also individual
-!>                          errors; 3=always print info about matrix; >3=even
-!>                          more info
-!> \param[in] local         (optional) no global communication
-! **************************************************************************************************
    SUBROUTINE dbcsr_verify_matrix(m, verbosity, local)
+      !! Verify the correctness of a BCSR matrix.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: m
+         !! bcsr matrix
       INTEGER, INTENT(IN), OPTIONAL                      :: verbosity
+         !! how detailed errors are; 0=nothing; 1=summary at end if matrix not consistent; 2=also individual errors; 3=always print
+         !! info about matrix; >3=even more info
       LOGICAL, INTENT(IN), OPTIONAL                      :: local
+         !! no global communication
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_verify_matrix', r = moduleN//':'//routineN
 
@@ -801,13 +752,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_verify_matrix
 
-! **************************************************************************************************
-!> \brief ...
-!> \param nelements ...
-!> \param bins ...
-!> \param nbins ...
-!> \param bin_counts ...
-! **************************************************************************************************
    PURE SUBROUTINE count_bins(nelements, bins, nbins, bin_counts)
       INTEGER, INTENT(IN)                                :: nelements
       INTEGER, DIMENSION(1:nelements), INTENT(IN)        :: bins
@@ -822,27 +766,24 @@ CONTAINS
       ENDDO
    END SUBROUTINE count_bins
 
-! **************************************************************************************************
-!> \brief Makes a lookup table from the most common elements.
-!> \param[in] array                  Array for which to find the most common
-!>                                   elements.
-!> \param[out] most_common_map       Ranking of the most common elements
-!>                                   in array
-!> \param[in] nmost_common           The number of most common elements
-!> \param[out] most_common_elements  The most common elements in array
-!> \param[in] size_limit             Limit maximum size to this value
-!> \param max_val ...
-!> \par Lookup table
-!>      The lookup table is indexed by the most common array values
-!>      (i.e., block sizes).  Its values are the order of their frequency.
-! **************************************************************************************************
    SUBROUTINE map_most_common(array, most_common_map, nmost_common, &
                               most_common_elements, size_limit, max_val)
+      !! Makes a lookup table from the most common elements.
+      !!
+      !! Lookup table
+      !! The lookup table is indexed by the most common array values
+      !! (i.e., block sizes).  Its values are the order of their frequency.
+
       INTEGER, DIMENSION(:), INTENT(IN)                  :: array
+         !! Array for which to find the most common elements.
       INTEGER(KIND=int_4), DIMENSION(:), POINTER         :: most_common_map
+         !! Ranking of the most common elements in array
       INTEGER, INTENT(IN)                                :: nmost_common
+         !! The number of most common elements
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: most_common_elements
+         !! The most common elements in array
       INTEGER, INTENT(IN)                                :: size_limit
+         !! Limit maximum size to this value
       INTEGER, INTENT(OUT)                               :: max_val
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'map_most_common', &

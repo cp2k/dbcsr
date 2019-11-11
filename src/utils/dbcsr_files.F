@@ -7,15 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Utility routines to open and close files.
-!> \par History
-!>      - Creation CP2K_WORKSHOP 1.0 TEAM
-!>      - Revised (18.02.2011,MK)
-!>      - Enhanced error checking (22.02.2011,MK)
-!> \author Matthias Krack (MK)
-! **************************************************************************************************
 MODULE dbcsr_files
+   !! Utility routines to open and close files.
 
    USE dbcsr_kinds, ONLY: default_path_length
    USE dbcsr_machine, ONLY: default_input_unit, &
@@ -47,15 +40,8 @@ MODULE dbcsr_files
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Add an entry to the list of preconnected units
-!> \param file_name ...
-!> \param unit_number ...
-!> \par History
-!>      - Creation (22.02.2011,MK)
-!> \author Matthias Krack (MK)
-! **************************************************************************************************
    SUBROUTINE assign_preconnection(file_name, unit_number)
+      !! Add an entry to the list of preconnected units
 
       CHARACTER(LEN=*), INTENT(IN)                       :: file_name
       INTEGER, INTENT(IN)                                :: unit_number
@@ -109,15 +95,10 @@ CONTAINS
 
    END SUBROUTINE assign_preconnection
 
-! **************************************************************************************************
-!> \brief Close an open file given by its logical unit number.
-!>        Optionally, keep the file and unit preconnected.
-!> \param unit_number ...
-!> \param file_status ...
-!> \param keep_preconnection ...
-!> \author Matthias Krack (MK)
-! **************************************************************************************************
    SUBROUTINE close_file(unit_number, file_status, keep_preconnection)
+      !! Close an open file given by its logical unit number.
+      !! Optionally, keep the file and unit preconnected.
+
 
       INTEGER, INTENT(IN)                                :: unit_number
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: file_status
@@ -193,15 +174,8 @@ CONTAINS
 
    END SUBROUTINE close_file
 
-! **************************************************************************************************
-!> \brief Remove an entry from the list of preconnected units
-!> \param file_name ...
-!> \param unit_number ...
-!> \par History
-!>      - Creation (22.02.2011,MK)
-!> \author Matthias Krack (MK)
-! **************************************************************************************************
    SUBROUTINE delete_preconnection(file_name, unit_number)
+      !! Remove an entry from the list of preconnected units
 
       CHARACTER(LEN=*), INTENT(IN)                       :: file_name
       INTEGER                                            :: unit_number
@@ -232,15 +206,11 @@ CONTAINS
 
    END SUBROUTINE delete_preconnection
 
-! **************************************************************************************************
-!> \brief Returns the first logical unit that is not preconnected
-!> \param file_name ...
-!> \return ...
-!> \author Matthias Krack (MK)
-!> \note
-!>       -1 if no free unit exists
-! **************************************************************************************************
    FUNCTION get_unit_number(file_name) RESULT(unit_number)
+      !! Returns the first logical unit that is not preconnected
+      !! @note
+      !! -1 if no free unit exists
+
 
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: file_name
       INTEGER                                            :: unit_number
@@ -270,13 +240,8 @@ CONTAINS
 
    END FUNCTION get_unit_number
 
-! **************************************************************************************************
-!> \brief Allocate and initialise the list of preconnected units
-!> \par History
-!>      - Creation (22.02.2011,MK)
-!> \author Matthias Krack (MK)
-! **************************************************************************************************
    SUBROUTINE init_preconnection_list()
+      !! Allocate and initialise the list of preconnected units
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'init_preconnection_list', &
                                      routineP = moduleN//':'//routineN
@@ -298,23 +263,11 @@ CONTAINS
 
    END SUBROUTINE init_preconnection_list
 
-! **************************************************************************************************
-!> \brief Opens the requested file using a free unit number
-!> \param file_name ...
-!> \param file_status ...
-!> \param file_form ...
-!> \param file_action ...
-!> \param file_position ...
-!> \param file_pad ...
-!> \param unit_number ...
-!> \param debug ...
-!> \param skip_get_unit_number ...
-!> \param file_access file access mode
-!> \author Matthias Krack (MK)
-! **************************************************************************************************
    SUBROUTINE open_file(file_name, file_status, file_form, file_action, &
                         file_position, file_pad, unit_number, debug, &
                         skip_get_unit_number, file_access)
+      !! Opens the requested file using a free unit number
+
 
       CHARACTER(LEN=*), INTENT(IN)                       :: file_name
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: file_status, file_form, file_action, &
@@ -323,6 +276,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: debug
       LOGICAL, INTENT(IN), OPTIONAL                      :: skip_get_unit_number
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: file_access
+         !! file access mode
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'open_file', routineP = moduleN//':'//routineN
 
@@ -484,28 +438,19 @@ CONTAINS
 
    END SUBROUTINE open_file
 
-! **************************************************************************************************
-!> \brief Checks if file exists, considering also the file discovery mechanism.
-!> \param file_name ...
-!> \return ...
-!> \author Ole Schuett
-! **************************************************************************************************
    FUNCTION file_exists(file_name) RESULT(exist)
+      !! Checks if file exists, considering also the file discovery mechanism.
       CHARACTER(LEN=*), INTENT(IN)                       :: file_name
       LOGICAL                                            :: exist
 
       INQUIRE (FILE=TRIM(file_name), exist=exist)
    END FUNCTION file_exists
 
-! **************************************************************************************************
-!> \brief Print the list of preconnected units
-!> \param output_unit which unit to print to (optional)
-!> \par History
-!>      - Creation (22.02.2011,MK)
-!> \author Matthias Krack (MK)
-! **************************************************************************************************
    SUBROUTINE print_preconnection_list(output_unit)
+      !! Print the list of preconnected units
+
       INTEGER, INTENT(IN), OPTIONAL                      :: output_unit
+         !! which unit to print to (optional)
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'print_preconnection_list', &
                                      routineP = moduleN//':'//routineN

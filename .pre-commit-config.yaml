@@ -29,3 +29,8 @@ repos:
     language: script
     types: [text]
     exclude: '^tools/'
+  - id: check-doxygen-tags
+    name: no doxygen tags present
+    entry: '^!>'
+    language: pygrep
+    types: [text]

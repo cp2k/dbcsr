@@ -7,20 +7,16 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief  Fourth layer of the dbcsr matrix-matrix multiplication.
-!>         It hides the differences between performing calculations on the
-!>         accelerator device or on the CPU.
-!>
-!> \author  Urban Borstnik
-!>
-!> <b>Modification history:</b>
-!>  - 2010-02-23 Moved from dbcsr_operations
-!>  - 2011-11    Moved parameter-stack processing routines to
-!>               dbcsr_mm_methods.
-!>  - 2013-01    extensive refactoring (Ole Schuett)
-! **************************************************************************************************
 MODULE dbcsr_mm_sched
+   !! Fourth layer of the dbcsr matrix-matrix multiplication.
+   !! It hides the differences between performing calculations on the
+   !! accelerator device or on the CPU.
+   !! <b>Modification history:</b>
+   !! - 2010-02-23 Moved from dbcsr_operations
+   !! - 2011-11    Moved parameter-stack processing routines to
+   !! dbcsr_mm_methods.
+   !! - 2013-01    extensive refactoring (Ole Schuett)
+
    USE dbcsr_block_operations, ONLY: dbcsr_data_clear
    USE dbcsr_config, ONLY: dbcsr_cfg, &
                            default_resize_factor, &
@@ -101,31 +97,21 @@ MODULE dbcsr_mm_sched
       INTEGER(kind=int_4), DIMENSION(64)               :: padding
    END TYPE stats_type
 
-! **************************************************************************************************
-!>  Statistics Counter
-! **************************************************************************************************
-   ! Counters for each thread to collect statistics
    TYPE(stats_type), DIMENSION(:), ALLOCATABLE, TARGET, SAVE :: stats_per_thread
+      !! Counters for each thread to collect statistics
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Initialize a stats_type
-!> \param stats ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE stats_init(stats)
+      !! Initialize a stats_type
       TYPE(stats_type), INTENT(INOUT)                    :: stats
 
       ALLOCATE (stats%num_mnk_stacks(1, 9))
       stats%num_mnk_stacks(1, :) = 0 ! entry for the default stack
    END SUBROUTINE stats_init
 
-! **************************************************************************************************
-!> \brief Initialize the library
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_sched_lib_init()
+      !! Initialize the library
 
       INTEGER                                            :: ithread, nthreads
 
@@ -144,11 +130,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_sched_lib_init
 
-! **************************************************************************************************
-!> \brief Finalize the library and prints DBCSR statistics
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_sched_lib_finalize()
+      !! Finalize the library and prints DBCSR statistics
       CALL dbcsr_mm_accdrv_lib_finalize()
       CALL dbcsr_mm_hostdrv_lib_finalize()
 !$OMP    MASTER
@@ -156,12 +139,8 @@ CONTAINS
 !$OMP    END MASTER
    END SUBROUTINE dbcsr_mm_sched_lib_finalize
 
-! **************************************************************************************************
-!> \brief Prints DBCSR statistics
-!> \param group ...
-!> \param output_unit ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_sched_print_statistics(group, output_unit)
+      !! Prints DBCSR statistics
       INTEGER, INTENT(IN)                                :: group, output_unit
 
       TYPE(stats_type)                                   :: report
@@ -173,12 +152,8 @@ CONTAINS
       CALL stats_print_report(report, output_unit)
    END SUBROUTINE dbcsr_mm_sched_print_statistics
 
-! **************************************************************************************************
-!> \brief Makes sure that the product_wm is cleared.
-!> \param this ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE ensure_product_wm_cleared(this)
+      !! Makes sure that the product_wm is cleared.
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
 
       INTEGER                                            :: allocated_datasize, used_datasize
@@ -196,14 +171,8 @@ CONTAINS
       this%product_wm_cleared = .TRUE.
    END SUBROUTINE ensure_product_wm_cleared
 
-! **************************************************************************************************
-!> \brief Initializes a multiplication cycle for new set of C-blocks.
-!> \param this ...
-!> \param product_wm ...
-!> \param nlayers ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_sched_init(this, product_wm, nlayers)
+      !! Initializes a multiplication cycle for new set of C-blocks.
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
       TYPE(dbcsr_work_type), POINTER                     :: product_wm
       INTEGER, OPTIONAL                                  :: nlayers
@@ -231,12 +200,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_sched_init
 
-! **************************************************************************************************
-!> \brief Signal approaching end of multiplication
-!> \param this ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_sched_phaseout(this)
+      !! Signal approaching end of multiplication
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
 
 !CALL dbcsr_mm_hostdrv_phaseout(this%hostdrv) ! not needed
@@ -245,12 +210,8 @@ CONTAINS
          CALL dbcsr_mm_accdrv_phaseout(this%accdrv)
    END SUBROUTINE dbcsr_mm_sched_phaseout
 
-! **************************************************************************************************
-!> \brief Finalizes a multiplication cycle for a set of C-blocks.
-!> \param this ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_sched_finalize(this)
+      !! Finalizes a multiplication cycle for a set of C-blocks.
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_sched_finalize', &
@@ -271,12 +232,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_sched_finalize
 
-! **************************************************************************************************
-!> \brief Finalizes a multiplication cycle for a set of C-blocks.
-!> \param this ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_sched_dev2host_init(this)
+      !! Finalizes a multiplication cycle for a set of C-blocks.
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_sched_dev2host_init', &
@@ -293,32 +250,22 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_sched_dev2host_init
 
-! **************************************************************************************************
-!> \brief Signal begin of a burst of calls to dbcsr_mm_sched_process.
-!> \param this ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_sched_begin_burst(this)
+      !! Signal begin of a burst of calls to dbcsr_mm_sched_process.
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
 
       this%avoid_accdrv = .FALSE.
    END SUBROUTINE dbcsr_mm_sched_begin_burst
 
-! **************************************************************************************************
-!> \brief Signal end of a burst of calls to dbcsr_mm_sched_process.
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_sched_end_burst()
+      !! Signal end of a burst of calls to dbcsr_mm_sched_process.
 
 !nothing to do here
 
    END SUBROUTINE dbcsr_mm_sched_end_burst
 
-! **************************************************************************************************
-!> \brief Signal that previous stacks should be processed first
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_sched_barrier()
+      !! Signal that previous stacks should be processed first
 
 !CALL dbcsr_mm_hostdrv_barrier(this%hostdrv) ! not needed
 
@@ -327,17 +274,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_sched_barrier
 
-! **************************************************************************************************
-!> \brief Processes a given stack.
-!> \param this ...
-!> \param left ...
-!> \param right ...
-!> \param stack_data ...
-!> \param stack_fillcount ...
-!> \param stack_descr ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_sched_process(this, left, right, stack_data, &
+      !! Processes a given stack.
                                      stack_fillcount, stack_descr)
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
       TYPE(dbcsr_type), INTENT(IN)                       :: left, right
@@ -455,34 +393,17 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_sched_process
 
-! **************************************************************************************************
-!> \brief Change the datasize of the original workspace buffer
-!> \param this ...
-!> \param newsize ...
-!> \author Alfio Lazzaro
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_sched_set_orig_datasize(this, newsize)
+      !! Change the datasize of the original workspace buffer
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
       INTEGER, INTENT(IN)                                :: newsize
 
       this%product_wm_orig_datasize = newsize
    END SUBROUTINE dbcsr_mm_sched_set_orig_datasize
-! ***************************************************************************************************
-!> \brief Helper-routine used by dbcsr_mm_sched_process to supply statistics.
-!> \param stats ...
-!> \param m ...
-!> \param n ...
-!> \param k ...
-!> \param stacksize_cpu ...
-!> \param stacksize_smm ...
-!> \param stacksize_acc ...
-!> \param nstacks_cpu ...
-!> \param nstacks_smm ...
-!> \param nstacks_acc ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE stats_add(stats, m, n, k, stacksize_cpu, stacksize_smm, stacksize_acc, &
                         nstacks_cpu, nstacks_smm, nstacks_acc)
+      !! Helper-routine used by dbcsr_mm_sched_process to supply statistics.
+
       TYPE(stats_type), INTENT(INOUT)                    :: stats
       INTEGER, INTENT(IN)                                :: m, n, k
       INTEGER(kind=int_8), OPTIONAL                      :: stacksize_cpu, stacksize_smm, &
@@ -542,12 +463,8 @@ CONTAINS
       DEALLOCATE (tmp)
    END SUBROUTINE stats_add
 
-! **************************************************************************************************
-!> \brief Collects statistics from all OpenMP-threads into report
-!> \param report ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE stats_collect_from_threads(report)
+      !! Collects statistics from all OpenMP-threads into report
       TYPE(stats_type), INTENT(INOUT)                    :: report
 
       INTEGER                                            :: i, j, nthreads
@@ -585,13 +502,8 @@ CONTAINS
 
    END SUBROUTINE stats_collect_from_threads
 
-! **************************************************************************************************
-!> \brief Collects statistics from all MPI-ranks
-!> \param report ...
-!> \param group ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE stats_collect_from_ranks(report, group)
+      !! Collects statistics from all MPI-ranks
       TYPE(stats_type), INTENT(INOUT)                    :: report
       INTEGER, INTENT(IN)                                :: group
 
@@ -646,13 +558,8 @@ CONTAINS
 !$OMP     END MASTER
    END SUBROUTINE stats_collect_from_ranks
 
-! **************************************************************************************************
-!> \brief Prints collected statistics
-!> \param report ...
-!> \param output_unit ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE stats_print_report(report, output_unit)
+      !! Prints collected statistics
       TYPE(stats_type), INTENT(INOUT)                    :: report
       INTEGER, INTENT(IN)                                :: output_unit
 

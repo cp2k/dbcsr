@@ -7,22 +7,18 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Defines the basic variable types
-!> \note
-!>      Data type definitions; tested on:
-!>          - IBM AIX xlf90
-!>          - SGI IRIX  f90
-!>          - CRAY T3E  f90
-!>          - DEC ALPHA f90
-!>          - NAG_F90
-!>          - SUN
-!>          - HITACHI
-!> \par History
-!>      Adapted for CP2K by JGH
-!> \author Matthias Krack
-! **************************************************************************************************
 MODULE dbcsr_kinds
+   !! Defines the basic variable types
+   !! @note
+   !! Data type definitions; tested on:
+   !! - IBM AIX xlf90
+   !! - SGI IRIX  f90
+   !! - CRAY T3E  f90
+   !! - DEC ALPHA f90
+   !! - NAG_F90
+   !! - SUN
+   !! - HITACHI
+
 
    IMPLICIT NONE
 
@@ -63,14 +59,8 @@ MODULE dbcsr_kinds
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Print informations about the used data types.
-!> \param iw ...
-!> \par History
-!>      Adapted by JGH for Cp2k
-!> \author Matthias Krack
-! **************************************************************************************************
    SUBROUTINE print_kind_info(iw)
+      !! Print informations about the used data types.
 
       INTEGER, INTENT(IN)                                :: iw
 

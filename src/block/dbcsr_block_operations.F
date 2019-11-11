@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Routines for basic block transformations.
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2009-05-12 moved from dbcsr_util
-! **************************************************************************************************
 MODULE dbcsr_block_operations
+   !! Routines for basic block transformations.
 
    USE dbcsr_acc_devmem, ONLY: acc_devmem_allocated, &
                                acc_devmem_setzero_bytes
@@ -125,29 +117,26 @@ MODULE dbcsr_block_operations
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Copy data from one data area to another.
-!>
-!> There are no checks done for correctness!
-!> \param[in] dst        destination data area
-!> \param[in] src        source data area
-!> \param[in] row_size   row size of existing block
-!> \param[in] col_size   column size of existing block
-!> \param[in] lb         (optional) lower bound for destination (and source if
-!>                       not given explicitly)
-!> \param[in] source_lb  (optional) lower bound of source
-!> \param[in] scale      (optional) scale data
-!> \param[in] lb2        (optional) lower bound of 2nd dimension for target
-!> \param[in] source_lb2 (optional) lower bound of 2nd dimension for source
-! **************************************************************************************************
    SUBROUTINE dbcsr_block_transpose_aa(dst, src, &
                                        row_size, col_size, lb, source_lb, scale, lb2, source_lb2)
+      !! Copy data from one data area to another.
+      !! There are no checks done for correctness!
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+         !! destination data area
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: src
+         !! source data area
       INTEGER, INTENT(IN)                                :: row_size, col_size
+         !! row size of existing block
+         !! column size of existing block
       INTEGER, INTENT(IN), OPTIONAL                      :: lb, source_lb
+         !! lower bound for destination (and source if not given explicitly)
+         !! lower bound of source
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale
+         !! scale data
       INTEGER, INTENT(IN), OPTIONAL                      :: lb2, source_lb2
+         !! lower bound of 2nd dimension for target
+         !! lower bound of 2nd dimension for source
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_transpose_aa', &
                                      routineP = moduleN//':'//routineN
@@ -287,26 +276,23 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_block_transpose_aa
 
-! **************************************************************************************************
-!> \brief Copy data from one data area to another.
-!>
-!> There are no checks done for correctness!
-!> \param[in] dst        destination data area
-!> \param[in] src        source data area
-!> \param[in] row_size   row size of existing block
-!> \param[in] col_size   column size of existing block
-!> \param[in] lb         (optional) lower bound for destination (and source if
-!>                       not given explicitly)
-!> \param[in] source_lb  (optional) lower bound of source
-!> \param[in] scale      (optional) scale data
-! **************************************************************************************************
    SUBROUTINE dbcsr_block_copy_aa(dst, src, &
                                   row_size, col_size, lb, source_lb, scale)
+      !! Copy data from one data area to another.
+      !! There are no checks done for correctness!
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+         !! destination data area
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: src
+         !! source data area
       INTEGER, INTENT(IN)                                :: row_size, col_size
+         !! row size of existing block
+         !! column size of existing block
       INTEGER, INTENT(IN), OPTIONAL                      :: lb, source_lb
+         !! lower bound for destination (and source if not given explicitly)
+         !! lower bound of source
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale
+         !! scale data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_copy_aa', &
                                      routineP = moduleN//':'//routineN
@@ -391,27 +377,24 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_block_copy_aa
 
-! **************************************************************************************************
-!> \brief Scale a data area.
-!>
-!> There are no checks done for correctness!
-!> \param dst ...
-!> \param[in] scale      (optional) scale data
-!> \param[in] row_size   row size of existing block
-!> \param[in] col_size   column size of existing block
-!> \param[in] lb         (optional) lower bound for destination (and source if
-!>                       not given explicitly)
-!> \param[in] lb2        (optional) lower bound of 2nd dimension for target
-!> \par History
-!> - 2010-09 [??] Copied from block_transpose?
-!> - 2010-09-20 [UB] Swaps/corrects row/column definitions for 2-D bounds
-! **************************************************************************************************
    SUBROUTINE dbcsr_block_scale(dst, scale, &
                                 row_size, col_size, lb, lb2)
+      !! Scale a data area.
+      !! There are no checks done for correctness!
+      !!
+      !! History
+      !! - 2010-09 [??] Copied from block_transpose?
+      !! - 2010-09-20 [UB] Swaps/corrects row/column definitions for 2-D bounds
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: scale
+         !! scale data
       INTEGER, INTENT(IN)                                :: row_size, col_size
+         !! row size of existing block
+         !! column size of existing block
       INTEGER, INTENT(IN), OPTIONAL                      :: lb, lb2
+         !! lower bound for destination (and source if not given explicitly)
+         !! lower bound of 2nd dimension for target
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_scale', &
                                      routineP = moduleN//':'//routineN
@@ -468,25 +451,22 @@ CONTAINS
       IF (careful_mod) CALL timestop(handle)
    END SUBROUTINE dbcsr_block_scale
 
-! **************************************************************************************************
-!> \brief Negates the real part of a block
-!>
-!> There are no checks done for correctness!
-!> \param dst ...
-!> \param[in] row_size   row size of existing block
-!> \param[in] col_size   column size of existing block
-!> \param[in] lb         (optional) lower bound for destination (and source if
-!>                       not given explicitly)
-!> \param[in] lb2        (optional) lower bound of 2nd dimension for target
-!> \par History
-!> - 2010-09 [??] Copied from block_transpose?
-!> - 2010-09-20 [UB] Swaps/corrects row/column definitions for 2-D bounds
-! **************************************************************************************************
    SUBROUTINE dbcsr_block_real_neg(dst, &
                                    row_size, col_size, lb, lb2)
+      !! Negates the real part of a block
+      !! There are no checks done for correctness!
+      !!
+      !! History
+      !! - 2010-09 [??] Copied from block_transpose?
+      !! - 2010-09-20 [UB] Swaps/corrects row/column definitions for 2-D bounds
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
       INTEGER, INTENT(IN)                                :: row_size, col_size
+         !! row size of existing block
+         !! column size of existing block
       INTEGER, INTENT(IN), OPTIONAL                      :: lb, lb2
+         !! lower bound for destination (and source if not given explicitly)
+         !! lower bound of 2nd dimension for target
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_real_neg', &
                                      routineP = moduleN//':'//routineN
@@ -553,25 +533,22 @@ CONTAINS
       IF (careful_mod) CALL timestop(handle)
    END SUBROUTINE dbcsr_block_real_neg
 
-! **************************************************************************************************
-!> \brief Conjugate a data area.
-!>
-!> There are no checks done for correctness!
-!> \param dst ...
-!> \param[in] row_size   row size of existing block
-!> \param[in] col_size   column size of existing block
-!> \param[in] lb         (optional) lower bound for destination (and source if
-!>                       not given explicitly)
-!> \param[in] lb2        (optional) lower bound of 2nd dimension for target
-!> \par History
-!> - 2010-09 [??] Copied from block_transpose?
-!> - 2010-09-20 [UB] Swaps/corrects row/column definitions for 2-D bounds
-! **************************************************************************************************
    SUBROUTINE dbcsr_block_conjg(dst, &
                                 row_size, col_size, lb, lb2)
+      !! Conjugate a data area.
+      !! There are no checks done for correctness!
+      !!
+      !! History
+      !! - 2010-09 [??] Copied from block_transpose?
+      !! - 2010-09-20 [UB] Swaps/corrects row/column definitions for 2-D bounds
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
       INTEGER, INTENT(IN)                                :: row_size, col_size
+         !! row size of existing block
+         !! column size of existing block
       INTEGER, INTENT(IN), OPTIONAL                      :: lb, lb2
+         !! lower bound for destination (and source if not given explicitly)
+         !! lower bound of 2nd dimension for target
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_conjg', &
                                      routineP = moduleN//':'//routineN
@@ -626,17 +603,15 @@ CONTAINS
       IF (careful_mod) CALL timestop(handle)
    END SUBROUTINE dbcsr_block_conjg
 
-! **************************************************************************************************
-!> \brief In-place transpose of encapsulated data
-!>
-!> There are no checks done for correctness!
-!> \param[in] area       encapsulated data area
-!> \param[in] row_size   number of rows in existing block
-!> \param[in] col_size   number of columns in existing block
-! **************************************************************************************************
    SUBROUTINE dbcsr_block_transpose_a(area, row_size, col_size)
+      !! In-place transpose of encapsulated data
+      !! There are no checks done for correctness!
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
+         !! encapsulated data area
       INTEGER, INTENT(IN)                                :: row_size, col_size
+         !! number of rows in existing block
+         !! number of columns in existing block
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_transpose_a', &
                                      routineP = moduleN//':'//routineN
@@ -665,29 +640,26 @@ CONTAINS
          CALL timestop(handle)
    END SUBROUTINE dbcsr_block_transpose_a
 
-! **************************************************************************************************
-!> \brief Copy data from one data area to another.
-!>
-!> There are no checks done for correctness!
-!> \param[in] dst        destination data area
-!> \param[in] lb         lower bound for destination (and source if
-!>                       not given explicitly)
-!> \param[in] data_size  number of elements to copy
-!> \param[in] src        source data area
-!> \param[in] source_lb  (optional) lower bound of source
-!> \param[in] scale      (optional) scale by this factor
-!> \param[in] lb2        (optional) 2nd dimension lower bound
-!> \param[in] data_size2 (optional) 2nd dimension data size
-!> \param[in] source_lb2 (optional) 2nd dimension lower bound for source
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_copy_aa(dst, lb, data_size, src, source_lb, scale, &
                                  lb2, data_size2, source_lb2)
+      !! Copy data from one data area to another.
+      !! There are no checks done for correctness!
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+         !! destination data area
       INTEGER, INTENT(IN)                                :: lb, data_size
+         !! lower bound for destination (and source if not given explicitly)
+         !! number of elements to copy
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: src
+         !! source data area
       INTEGER, INTENT(IN), OPTIONAL                      :: source_lb
+         !! lower bound of source
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale
+         !! scale by this factor
       INTEGER, INTENT(IN), OPTIONAL                      :: lb2, data_size2, source_lb2
+         !! 2nd dimension lower bound
+         !! 2nd dimension data size
+         !! 2nd dimension lower bound for source
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_copy_aa', &
                                      routineP = moduleN//':'//routineN
@@ -852,23 +824,21 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_data_copy_aa
 
-! **************************************************************************************************
-!> \brief Copy data from one data area to another, the most basic form.
-!>
-!> There are no checks done for correctness!
-!> \param[in,out] dst    destination data area
-!> \param[in] dst_lb     lower bounds for destination
-!> \param[in] dst_sizes  sizes for destination
-!> \param[in] src        source data area
-!> \param[in] src_lb     lower bounds for source
-!> \param[in] src_sizes  sizes for source
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_copy_aa2(dst, dst_lb, dst_sizes, &
                                   src, src_lb, src_sizes)
+      !! Copy data from one data area to another, the most basic form.
+      !! There are no checks done for correctness!
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+         !! destination data area
       INTEGER, DIMENSION(:), INTENT(IN)                  :: dst_lb, dst_sizes
+         !! lower bounds for destination
+         !! sizes for destination
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: src
+         !! source data area
       INTEGER, DIMENSION(:), INTENT(IN)                  :: src_lb, src_sizes
+         !! lower bounds for source
+         !! sizes for source
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_copy_aa2', &
                                      routineP = moduleN//':'//routineN
@@ -1030,17 +1000,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_data_copy_aa2
 
-! **************************************************************************************************
-!> \brief Clears a data area, possibly transposed.
-!> \param area ...
-!> \param lb ...
-!> \param ub ...
-!> \param value ...
-!> \param lb2 ...
-!> \param ub2 ...
-!> \param tr ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_clear_nt(area, lb, ub, value, lb2, ub2, tr)
+      !! Clears a data area, possibly transposed.
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
       INTEGER, INTENT(IN), OPTIONAL                      :: lb, ub
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: value
@@ -1057,20 +1018,19 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_data_clear_nt
 
-! **************************************************************************************************
-!> \brief Clears a data area
-!> \param[in,out] area   area with encapsulated data
-!> \param[in] lb (optional) lower bound for clearing
-!> \param[in] ub (optional) lower bound for clearing
-!> \param[in] value      (optional) value to use for clearing
-!> \param[in] lb2 (optional) upper bound for clearing
-!> \param[in] ub2 (optional) upper bound for clearing
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_clear0(area, lb, ub, value, lb2, ub2)
+      !! Clears a data area
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
+         !! area with encapsulated data
       INTEGER, INTENT(IN), OPTIONAL                      :: lb, ub
+         !! lower bound for clearing
+         !! lower bound for clearing
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: value
+         !! value to use for clearing
       INTEGER, INTENT(IN), OPTIONAL                      :: lb2, ub2
+         !! upper bound for clearing
+         !! upper bound for clearing
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_clear0', &
                                      routineP = moduleN//':'//routineN
@@ -1269,38 +1229,37 @@ CONTAINS
 
    END SUBROUTINE dbcsr_data_clear0
 
-! **************************************************************************************************
-!> \brief Copies a block subset
-!> \param[in,out] dst  target data area
-!> \param[in] dst_rs   target block row size (logical)
-!> \param[in] dst_cs   target block column size (logical)
-!> \param[in] dst_tr   whether target block is transposed
-!> \param[in] src      source data area
-!> \param[in] src_rs   source block row size (logical)
-!> \param[in] src_cs   source block column size (logical)
-!> \param[in] src_tr   whether source block is transposed
-!> \param[in] dst_r_lb   first row in target
-!> \param[in] dst_c_lb   first column in target
-!> \param[in] src_r_lb   first_row in source
-!> \param[in] src_c_lb   first column in target
-!> \param[in] nrow       number of rows to copy
-!> \param[in] ncol       number of columns to copy
-!> \param[in] dst_offset offset in target
-!> \param[in] src_offset offset in source
-! **************************************************************************************************
    SUBROUTINE dbcsr_block_partial_copy(dst, dst_rs, dst_cs, dst_tr, &
                                        src, src_rs, src_cs, src_tr, &
                                        dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                        dst_offset, src_offset)
+      !! Copies a block subset
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+         !! target data area
       INTEGER, INTENT(IN)                                :: dst_rs, dst_cs
+         !! target block row size (logical)
+         !! target block column size (logical)
       LOGICAL                                            :: dst_tr
+         !! whether target block is transposed
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: src
+         !! source data area
       INTEGER, INTENT(IN)                                :: src_rs, src_cs
+         !! source block row size (logical)
+         !! source block column size (logical)
       LOGICAL                                            :: src_tr
+         !! whether source block is transposed
       INTEGER, INTENT(IN)                                :: dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, &
                                                             nrow, ncol
+         !! first row in target
+         !! first column in target
+         !! first_row in source
+         !! first column in target
+         !! number of rows to copy
+         !! number of columns to copy
       INTEGER, INTENT(IN), OPTIONAL                      :: dst_offset, src_offset
+         !! offset in target
+         !! offset in source
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_partial_copy', &
                                      routineP = moduleN//':'//routineN
@@ -1426,15 +1385,13 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_block_partial_copy
 
-! **************************************************************************************************
-!> \brief Adds two blocks
-!> \param[in,out] block_a      Block to add to
-!> \param[in] block_b          Block to add to block_a
-!> \param len ...
-! **************************************************************************************************
    SUBROUTINE block_add_anytype(block_a, block_b, len)
+      !! Adds two blocks
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: block_a
+         !! Block to add to
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: block_b
+         !! Block to add to block_a
       INTEGER, INTENT(IN), OPTIONAL                      :: len
 
       CHARACTER(len=*), PARAMETER :: routineN = 'block_add_anytype', &
@@ -1477,17 +1434,13 @@ CONTAINS
       END SELECT
    END SUBROUTINE block_add_anytype
 
-! **************************************************************************************************
-!> \brief Adds two blocks
-!> \param[in,out] block_a      Block to add to
-!> \param[in] block_b          Block to add to block_a
-!> \param lb_a ...
-!> \param lb_b ...
-!> \param len ...
-! **************************************************************************************************
    SUBROUTINE block_add_anytype_bounds(block_a, block_b, lb_a, lb_b, len)
+      !! Adds two blocks
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: block_a
+         !! Block to add to
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: block_b
+         !! Block to add to block_a
       INTEGER, INTENT(IN)                                :: lb_a, lb_b, len
 
       CHARACTER(len=*), PARAMETER :: routineN = 'block_add_anytype_bounds', &

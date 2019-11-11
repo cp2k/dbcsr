@@ -7,18 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Tests for DBCSR's libcusmm backend
-!> \author  VW
-!> \date    2010
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created 2010
-!> - 2015 Rewrote into standalone unittest (Ole Schuett)
-!> - 2019 Adapted to test the libcusmm backend (Shoshana Jakobovits)
-! **************************************************************************************************
 PROGRAM dbcsr_unittest
+   !! Tests for DBCSR's libcusmm backend
 
    USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices, &
                                dbcsr_acc_set_active_device

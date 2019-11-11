@@ -7,13 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Routines that affect the DBCSR library as a whole
-!> \author  Ole Schuett
-!> \date    10-2014
-! **************************************************************************************************
 
 MODULE dbcsr_lib
+
+   !! Routines that affect the DBCSR library as a whole
    USE dbcsr_config, ONLY: cublas_handles
    USE dbcsr_cublas, ONLY: cublas_handle_destroy, &
                            cublas_handle_init
@@ -95,12 +92,8 @@ MODULE dbcsr_lib
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Initialize the DBCSR library using internal loggers and timer callbacks
-!> \param mp_comm ...
-!> \param io_unit ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib_def(mp_comm, io_unit)
+      !! Initialize the DBCSR library using internal loggers and timer callbacks
       INTEGER, INTENT(IN)  :: mp_comm
       INTEGER, INTENT(IN), OPTIONAL :: io_unit
 
@@ -128,16 +121,8 @@ CONTAINS
       CALL dbcsr_init_lib_low()
    END SUBROUTINE dbcsr_init_lib_def
 
-! **************************************************************************************************
-!> \brief Initialize the DBCSR library using external loggers and timer callbacks
-!> \param mp_comm ...
-!> \param in_timeset_hook ...
-!> \param in_timestop_hook ...
-!> \param in_abort_hook ...
-!> \param in_warn_hook ...
-!> \param io_unit ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib_hooks(mp_comm, &
+      !! Initialize the DBCSR library using external loggers and timer callbacks
                                    in_timeset_hook, in_timestop_hook, &
                                    in_abort_hook, in_warn_hook, io_unit)
       INTEGER, INTENT(IN)  :: mp_comm
@@ -164,14 +149,10 @@ CONTAINS
       CALL dbcsr_init_lib_low()
    END SUBROUTINE dbcsr_init_lib_hooks
 
-! **************************************************************************************************
-!> \brief Initialize the DBCSR library
-!>
-!> Prepares the DBCSR library for use.
-!> \param mp_comm ...
-!> \param io_unit ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib_pre(mp_comm, io_unit)
+      !! Initialize the DBCSR library
+      !! Prepares the DBCSR library for use.
+
 #if defined(__LIBXSMM)
       USE libxsmm, ONLY: libxsmm_init
 #endif
@@ -211,12 +192,10 @@ CONTAINS
 #endif
    END SUBROUTINE dbcsr_init_lib_pre
 
-! **************************************************************************************************
-!> \brief Initialize the DBCSR library
-!>
-!> Prepares the DBCSR library for use.
-! **************************************************************************************************
    SUBROUTINE dbcsr_init_lib_low()
+      !! Initialize the DBCSR library
+      !! Prepares the DBCSR library for use.
+
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_low', routineP = moduleN//':'//routineN
 
@@ -256,12 +235,10 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_init_lib_low
 
-! **************************************************************************************************
-!> \brief Finalize the DBCSR library
-!>
-!> Cleans up after the DBCSR library.  Used to deallocate persistent objects.
-! **************************************************************************************************
    SUBROUTINE dbcsr_finalize_lib()
+      !! Finalize the DBCSR library
+      !! Cleans up after the DBCSR library.  Used to deallocate persistent objects.
+
 #if defined(__LIBXSMM)
       USE libxsmm, ONLY: libxsmm_finalize
 #endif
@@ -304,14 +281,10 @@ CONTAINS
 #endif
    END SUBROUTINE dbcsr_finalize_lib
 
-! **************************************************************************************************
-!> \brief Show the whole DBCSR statistics
-!>
-!> Prepares the DBCSR library for use.
-!> \param print_timers ...
-!> \param callgraph_filename ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_print_statistics(print_timers, callgraph_filename)
+      !! Show the whole DBCSR statistics
+      !! Prepares the DBCSR library for use.
+
       LOGICAL, INTENT(IN), OPTIONAL          :: print_timers
       CHARACTER(len=*), INTENT(IN), OPTIONAL :: callgraph_filename
 
@@ -341,19 +314,15 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_print_statistics
 
-! **************************************************************************************************
-!> \brief Print timers
-! **************************************************************************************************
    SUBROUTINE dbcsr_print_timers()
+      !! Print timers
       IF (ASSOCIATED(logger)) THEN
          CALL timings_report_print(ext_io_unit, 0.0_dp, .FALSE., cost_type_time, .TRUE., mp_env)
       ENDIF
    END SUBROUTINE dbcsr_print_timers
 
-! **************************************************************************************************
-!> \brief  Deallocate memory contained in mempools
-! **************************************************************************************************
    SUBROUTINE dbcsr_clear_mempools()
+      !! Deallocate memory contained in mempools
 
 !$OMP     PARALLEL DEFAULT(NONE)
       CALL dbcsr_multiply_clear_mempools()

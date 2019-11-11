@@ -7,10 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Collection of routines to handle the iteration info
-! **************************************************************************************************
 MODULE dbcsr_iter_types
+   !! Collection of routines to handle the iteration info
    USE dbcsr_kinds, ONLY: default_path_length, &
                           default_string_length
 #include "base/dbcsr_base_uses.f90"
@@ -29,12 +27,10 @@ MODULE dbcsr_iter_types
    LOGICAL, PRIVATE, PARAMETER          :: debug_this_module = .FALSE.
    INTEGER, SAVE, PRIVATE               :: last_it_info_id = 0
 
-! **************************************************************************************************
-!> \brief contains the information about the current state of the program
-!>      to be able to decide if output is necessary
-!> \author fawzi
-! **************************************************************************************************
    TYPE dbcsr_iteration_info_type
+      !! contains the information about the current state of the program
+      !! to be able to decide if output is necessary
+
       INTEGER                              :: ref_count, id_nr
       INTEGER                              :: print_level, n_rlevel
       INTEGER, DIMENSION(:), POINTER       :: iteration
@@ -46,15 +42,13 @@ MODULE dbcsr_iter_types
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief creates an output info object
-!> \param iteration_info the object to create
-!> \param project_name name of the project, used to create the filenames
-!> \author fawzi
-! **************************************************************************************************
    SUBROUTINE dbcsr_iteration_info_create(iteration_info, project_name)
+      !! creates an output info object
+
       TYPE(dbcsr_iteration_info_type), POINTER           :: iteration_info
+         !! the object to create
       CHARACTER(len=*), INTENT(in)                       :: project_name
+         !! name of the project, used to create the filenames
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iteration_info_create', &
                                      routineP = moduleN//':'//routineN
@@ -92,13 +86,11 @@ CONTAINS
 
    END SUBROUTINE dbcsr_iteration_info_create
 
-! **************************************************************************************************
-!> \brief retains the iteration_info (see doc/ReferenceCounting.html)
-!> \param iteration_info the iteration_info to retain
-!> \author fawzi
-! **************************************************************************************************
    SUBROUTINE dbcsr_iteration_info_retain(iteration_info)
+      !! retains the iteration_info (see doc/ReferenceCounting.html)
+
       TYPE(dbcsr_iteration_info_type), POINTER           :: iteration_info
+         !! the iteration_info to retain
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iteration_info_retain', &
                                      routineP = moduleN//':'//routineN
@@ -112,13 +104,11 @@ CONTAINS
       iteration_info%ref_count = iteration_info%ref_count + 1
    END SUBROUTINE dbcsr_iteration_info_retain
 
-! **************************************************************************************************
-!> \brief releases the iteration_info (see doc/ReferenceCounting.html)
-!> \param iteration_info the iteration_info to release
-!> \author fawzi
-! **************************************************************************************************
    SUBROUTINE dbcsr_iteration_info_release(iteration_info)
+      !! releases the iteration_info (see doc/ReferenceCounting.html)
+
       TYPE(dbcsr_iteration_info_type), POINTER           :: iteration_info
+         !! the iteration_info to release
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iteration_info_release', &
                                      routineP = moduleN//':'//routineN
@@ -143,14 +133,12 @@ CONTAINS
       END IF
    END SUBROUTINE dbcsr_iteration_info_release
 
-! **************************************************************************************************
-!> \brief Copies iterations info of an iteration info into another iteration info
-!> \param iteration_info_in the iteration_info to be copied
-!> \param iteration_info_out the iteration_info results of the copy
-!> \author Teodoro Laino [tlaino]
-! **************************************************************************************************
    SUBROUTINE dbcsr_iteration_info_copy_iter(iteration_info_in, iteration_info_out)
+      !! Copies iterations info of an iteration info into another iteration info
+
       TYPE(dbcsr_iteration_info_type), POINTER           :: iteration_info_in, iteration_info_out
+         !! the iteration_info to be copied
+         !! the iteration_info results of the copy
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iteration_info_copy_iter', &
                                      routineP = moduleN//':'//routineN

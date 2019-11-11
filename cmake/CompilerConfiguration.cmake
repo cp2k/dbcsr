@@ -20,9 +20,9 @@ elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "NAG")
     set(CMAKE_Fortran_FLAGS_DEBUG  "${CMAKE_Fortran_FLAGS_DEBUG} -C=all")  # some checks are not available with OpenMP
   endif ()
 elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray")
-  set(CMAKE_Fortran_FLAGS          "-f free -M 3105")  # -M 3105: hide a false-positive warning about modified loop variables due to loop fusing
+  set(CMAKE_Fortran_FLAGS          "-f free -M3105")  # -M3105: hide a false-positive warning about modified loop variables due to loop fusing
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O2")
-  set(CMAKE_Fortran_FLAGS_DEBUG    "-g -h error_on_warning")
+  set(CMAKE_Fortran_FLAGS_DEBUG    "-G2 -ME7212")  # promote warning 7212 to an error
   set(CMAKE_Fortran_MODOUT_FLAG    "-ef")  # override to get lower-case module file names
 else ()
   message(WARNING "\
@@ -34,16 +34,13 @@ Please open an issue at https://github.com/cp2k/dbcsr/issues with the reported c
 endif ()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  set(CMAKE_CXX_FLAGS              "-std=c++11")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
   set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -fprofile-arcs -ftest-coverage")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -ggdb")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  set(CMAKE_CXX_FLAGS              "-std=c++11")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -g")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-  set(CMAKE_CXX_FLAGS              "-std=c++11")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -funroll-loops")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O0 -g")
 
@@ -59,7 +56,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "PGI")
   set(CMAKE_CXX_FLAGS_DEBUG        "-g")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Cray")
   set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
-  set(CMAKE_CXX_FLAGS_DEBUG        "-g")
+  set(CMAKE_CXX_FLAGS_DEBUG        "-G2")
   if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9)
     # prevent deallocation failures due to tcmalloc's free with glibc's aligned_alloc, see https://bugzilla.redhat.com/show_bug.cgi?id=1569391
     set(CMAKE_C_FLAGS              "${CMAKE_C_FLAGS} -h system_alloc")

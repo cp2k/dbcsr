@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Performance tester for DBCSR operations
-!> \author  VW
-!> \date    2010
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created 2010
-! **************************************************************************************************
 PROGRAM dbcsr_performance_driver
+   !! Performance tester for DBCSR operations
    USE dbcsr_config, ONLY: dbcsr_set_config, dbcsr_print_config
    USE dbcsr_files, ONLY: open_file
    USE dbcsr_kinds, ONLY: default_string_length
@@ -143,16 +135,6 @@ PROGRAM dbcsr_performance_driver
 
 CONTAINS
 
-   ! **************************************************************************************************
-   !> \brief ...
-   !> \param narg ...
-   !> \param args ...
-   ! **************************************************************************************************
-! **************************************************************************************************
-!> \brief ...
-!> \param narg ...
-!> \param args ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_test_read_args(narg, args)
       INTEGER, INTENT(out)                               :: narg
       CHARACTER(len=*), DIMENSION(:), INTENT(out)        :: args

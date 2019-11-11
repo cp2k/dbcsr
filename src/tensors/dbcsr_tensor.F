@@ -7,16 +7,13 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief DBCSR tensor framework for block-sparse tensor contraction.
-!>
-!> Representation of n-rank tensors as DBCSR tall-and-skinny matrices.
-!> Support for arbitrary redistribution between different representations.
-!> Support for arbitrary tensor contractions
-!> \todo implement checks and error messages
-!> \author Patrick Seewald
-! **************************************************************************************************
 MODULE dbcsr_tensor
+   !! DBCSR tensor framework for block-sparse tensor contraction.
+   !! Representation of n-rank tensors as DBCSR tall-and-skinny matrices.
+   !! Support for arbitrary redistribution between different representations.
+   !! Support for arbitrary tensor contractions
+   !! \todo implement checks and error messages
+
 
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
@@ -108,25 +105,22 @@ MODULE dbcsr_tensor
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Copy tensor data.
-!>        Redistributes tensor data according to distributions of target and source tensor.
-!>        Permutes tensor index according to `order` argument (if present).
-!>
-!> Source and target tensor formats are arbitrary as long as the following requirements are met:
-!> * source and target tensors have the same number of blocks in each dimension and the same block sizes.
-!>   If `order` argument is present, this must be the case after index permutation.
-!> OR
-!> * target tensor is not yet created, in this case an exact copy of source tensor is returned.
-!> \param tensor_in Source
-!> \param tensor_out Target
-!> \param order Permutation of target tensor index. Exact same convention as order argument of RESHAPE
-!>              intrinsic
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_copy(tensor_in, tensor_out, order, summation, move_data, unit_nr)
+      !! Copy tensor data.
+      !! Redistributes tensor data according to distributions of target and source tensor.
+      !! Permutes tensor index according to `order` argument (if present).
+      !! Source and target tensor formats are arbitrary as long as the following requirements are met:
+      !! * source and target tensors have the same number of blocks in each dimension and the same block sizes.
+      !! If `order` argument is present, this must be the case after index permutation.
+      !! OR
+      !! * target tensor is not yet created, in this case an exact copy of source tensor is returned.
+
       TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_in, tensor_out
+         !! Source
+         !! Target
       INTEGER, DIMENSION(ndims_tensor(tensor_in)), &
          INTENT(IN), OPTIONAL                        :: order
+         !! Permutation of target tensor index. Exact same convention as order argument of RESHAPE intrinsic
       LOGICAL, INTENT(IN), OPTIONAL                  :: summation, move_data
       INTEGER, INTENT(IN), OPTIONAL                  :: unit_nr
 
@@ -220,16 +214,13 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief copy matrix to tensor.
-!> \param matrix_in ...
-!> \param tensor_out ...
-!> \param summation tensor_out = tensor_out + matrix_in
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_copy_matrix_to_tensor(matrix_in, tensor_out, summation)
+      !! copy matrix to tensor.
+
       TYPE(dbcsr_type), TARGET, INTENT(IN)               :: matrix_in
       TYPE(dbcsr_t_type), INTENT(INOUT)                  :: tensor_out
       LOGICAL, INTENT(IN), OPTIONAL                      :: summation
+         !! tensor_out = tensor_out + matrix_in
       TYPE(dbcsr_type), POINTER                          :: matrix_in_desym
 
       INTEGER, DIMENSION(2)                              :: ind_2d
@@ -278,16 +269,13 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief copy tensor to matrix
-!> \param tensor_in ...
-!> \param matrix_out ...
-!> \param summation matrix_out = matrix_out + tensor_in
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_copy_tensor_to_matrix(tensor_in, matrix_out, summation)
+      !! copy tensor to matrix
+
       TYPE(dbcsr_t_type), INTENT(INOUT)      :: tensor_in
       TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_out
       LOGICAL, INTENT(IN), OPTIONAL          :: summation
+         !! matrix_out = matrix_out + tensor_in
       TYPE(dbcsr_t_iterator_type)            :: iter
       INTEGER                                :: blk, handle
       INTEGER, DIMENSION(2)                  :: ind_2d
@@ -327,40 +315,6 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Contract tensors by multiplying matrix representations.
-!>        tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
-!>                                        * tensor_2(contract_2, notcontract_2)
-!>                                 + beta * tensor_3(map_1, map_2)
-!> \param alpha ...
-!> \param tensor_1 first tensor (in)
-!> \param tensor_2 second tensor (in)
-!> \param beta ...
-!> \param tensor_3 contracted tensor (out)
-!> \param contract_1 indices of tensor_1 to contract
-!> \param notcontract_1 indices of tensor_1 not to contract
-!> \param contract_2 indices of tensor_2 to contract (1:1 with contract_1)
-!> \param notcontract_2 indices of tensor_2 not to contract
-!> \param map_1 which indices of tensor_3 map to non-contracted indices of tensor_1 (1:1 with notcontract_1)
-!> \param map_2 which indices of tensor_3 map to non-contracted indices of tensor_2 (1:1 with notcontract_2)
-!> \param bounds_1 bounds corresponding to contract_1 AKA contract_2
-!> \param bounds_2 bounds corresponding to notcontract_1
-!> \param bounds_3 bounds corresponding to notcontract_2
-!> \param optimize_dist Whether distribution should be optimized internally. In the current implementation
-!>                      this guarantees optimal parameters only for dense matrices.
-!> \param pgrid_opt_1 Optionally return optimal process grid for tensor_1. This can be used to choose
-!>                    optimal process grids for subsequent tensor contractions with tensors of similar
-!>                    shape and sparsity. Under some conditions, pgrid_opt_1 can not be returned, in this
-!>                    case the pointer is not associated.
-!> \param pgrid_opt_2 Optionally return optimal process grid for tensor_2.
-!> \param pgrid_opt_3 Optionally return optimal process grid for tensor_3.
-!> \param filter_eps As in DBCSR mm
-!> \param flop As in DBCSR mm
-!> \param move_data memory optimization: transfer data such that tensor_1 and tensor_2 may be empty
-!>        on return
-!> \param unit_nr output unit for logging
-!> \param log_verbose verbose logging (for testing only)
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, &
                                contract_1, notcontract_1, &
                                contract_2, notcontract_2, &
@@ -368,26 +322,55 @@ CONTAINS
                                bounds_1, bounds_2, bounds_3, &
                                optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, &
                                filter_eps, flop, move_data, unit_nr, log_verbose)
+      !! Contract tensors by multiplying matrix representations.
+      !! tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
+      !! * tensor_2(contract_2, notcontract_2)
+      !! + beta * tensor_3(map_1, map_2)
+
       TYPE(dbcsr_scalar_type), INTENT(IN)            :: alpha
       TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_1, tensor_2
+         !! first tensor (in)
+         !! second tensor (in)
       TYPE(dbcsr_scalar_type), INTENT(IN)            :: beta
       INTEGER, DIMENSION(:), INTENT(IN)              :: contract_1, contract_2, map_1, map_2
+         !! indices of tensor_1 to contract
+         !! indices of tensor_2 to contract (1:1 with contract_1)
+         !! which indices of tensor_3 map to non-contracted indices of tensor_1 (1:1 with notcontract_1)
+         !! which indices of tensor_3 map to non-contracted indices of tensor_2 (1:1 with notcontract_2)
       INTEGER, DIMENSION(:), INTENT(IN)              :: notcontract_1, notcontract_2
+         !! indices of tensor_1 not to contract
+         !! indices of tensor_2 not to contract
       TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_3
+         !! contracted tensor (out)
       INTEGER, DIMENSION(2, SIZE(contract_1)), &
          INTENT(IN), OPTIONAL                        :: bounds_1
+         !! bounds corresponding to contract_1 AKA contract_2
       INTEGER, DIMENSION(2, SIZE(notcontract_1)), &
          INTENT(IN), OPTIONAL                        :: bounds_2
+         !! bounds corresponding to notcontract_1
       INTEGER, DIMENSION(2, SIZE(notcontract_2)), &
          INTENT(IN), OPTIONAL                        :: bounds_3
+         !! bounds corresponding to notcontract_2
       LOGICAL, INTENT(IN), OPTIONAL                  :: optimize_dist
+         !! Whether distribution should be optimized internally. In the current implementation this guarantees optimal parameters
+         !! only for dense matrices.
       TYPE(dbcsr_t_pgrid_type), INTENT(OUT), &
          POINTER, OPTIONAL                           :: pgrid_opt_1, pgrid_opt_2, pgrid_opt_3
+         !! Optionally return optimal process grid for tensor_1. This can be used to choose optimal process grids for subsequent
+         !! tensor contractions with tensors of similar shape and sparsity. Under some conditions, pgrid_opt_1 can not be returned,
+         !! in this case the pointer is not associated.
+         !! Optionally return optimal process grid for tensor_2.
+         !! Optionally return optimal process grid for tensor_3.
       REAL(KIND=real_8), INTENT(IN), OPTIONAL        :: filter_eps
+         !! As in DBCSR mm
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL     :: flop
+         !! As in DBCSR mm
       LOGICAL, INTENT(IN), OPTIONAL                  :: move_data
+         !! memory optimization: transfer data such that tensor_1 and tensor_2 may be empty on return
       INTEGER, OPTIONAL, INTENT(IN)                  :: unit_nr
+         !! output unit for logging
       LOGICAL, INTENT(IN), OPTIONAL                  :: log_verbose
+         !! verbose logging (for testing only)
 
       TYPE(dbcsr_t_type), POINTER                    :: tensor_contr_1, tensor_contr_2, tensor_contr_3
       TYPE(dbcsr_t_type)                             :: tensor_algn_1, tensor_algn_2, tensor_algn_3
@@ -755,16 +738,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief align tensor index with data
-!> \param tensor_in ...
-!> \param contract_in ...
-!> \param notcontract_in ...
-!> \param tensor_out ...
-!> \param contract_out ...
-!> \param notcontract_out ...
-! **************************************************************************************************
    SUBROUTINE align_tensor(tensor_in, contract_in, notcontract_in, &
+      !! align tensor index with data
                            tensor_out, contract_out, notcontract_out, indp_in, indp_out)
       TYPE(dbcsr_t_type), INTENT(INOUT)               :: tensor_in
       INTEGER, DIMENSION(:), INTENT(IN)            :: contract_in, notcontract_in
@@ -784,43 +759,41 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
-!>        matrix multiplication. This routine reshapes the two largest of the three tensors. Redistribution
-!>        is avoided if tensors already in a consistent layout.
-!> \param tensor1 tensor 1 in
-!> \param tensor2 tensor 2 in
-!> \param tensor1_out tensor 1 out
-!> \param tensor2_out tensor 2 out
-!> \param ind1_free indices of tensor 1 that are "free" (not linked to any index of tensor 2)
-!> \param ind1_linked indices of tensor 1 that are linked to indices of tensor 2
-!> \param ind2_free ...
-!> \param ind2_linked 1:1 correspondence with ind1_linked
-!> \param trans1 transpose flag of matrix rep. of tensor 1
-!> \param trans2 transpose flag of matrix rep. tensor 2
-!> \param new1 whether a new tensor 1 was created
-!> \param new2 whether a new tensor 2 was created
-!> \param nodata1 don't copy data of tensor 1
-!> \param nodata2 don't copy data of tensor 2
-!> \param move_data_1 memory optimization: transfer data s.t. tensor1 may be empty on return
-!> \param move_data_2 memory optimization: transfer data s.t. tensor2 may be empty on return
-!> \param optimize_dist experimental: optimize distribution
-!> \param unit_nr output unit
-! **************************************************************************************************
    SUBROUTINE reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_out, ind1_free, ind1_linked, &
                                     ind2_free, ind2_linked, trans1, trans2, new1, new2, nodata1, nodata2, move_data_1, &
                                     move_data_2, optimize_dist, unit_nr)
+      !! Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
+      !! matrix multiplication. This routine reshapes the two largest of the three tensors. Redistribution
+      !! is avoided if tensors already in a consistent layout.
+
       TYPE(dbcsr_t_type), TARGET, INTENT(INOUT)   :: tensor1
+         !! tensor 1 in
       TYPE(dbcsr_t_type), TARGET, INTENT(INOUT)   :: tensor2
+         !! tensor 2 in
       TYPE(dbcsr_t_type), POINTER, INTENT(OUT)    :: tensor1_out, tensor2_out
+         !! tensor 1 out
+         !! tensor 2 out
       INTEGER, DIMENSION(:), INTENT(IN)           :: ind1_free, ind2_free
+         !! indices of tensor 1 that are "free" (not linked to any index of tensor 2)
       INTEGER, DIMENSION(:), INTENT(IN)           :: ind1_linked, ind2_linked
+         !! indices of tensor 1 that are linked to indices of tensor 2
+         !! 1:1 correspondence with ind1_linked
       CHARACTER(LEN=1), INTENT(OUT)               :: trans1, trans2
+         !! transpose flag of matrix rep. of tensor 1
+         !! transpose flag of matrix rep. tensor 2
       LOGICAL, INTENT(OUT)                        :: new1, new2
+         !! whether a new tensor 1 was created
+         !! whether a new tensor 2 was created
       LOGICAL, INTENT(IN), OPTIONAL               :: nodata1, nodata2
+         !! don't copy data of tensor 1
+         !! don't copy data of tensor 2
       LOGICAL, INTENT(INOUT), OPTIONAL            :: move_data_1, move_data_2
+         !! memory optimization: transfer data s.t. tensor1 may be empty on return
+         !! memory optimization: transfer data s.t. tensor2 may be empty on return
       LOGICAL, INTENT(IN), OPTIONAL               :: optimize_dist
+         !! experimental: optimize distribution
       INTEGER, INTENT(IN), OPTIONAL               :: unit_nr
+         !! output unit
       INTEGER                                     :: ref_tensor, compat1, compat1_old, compat2, compat2_old, &
                                                      comm_2d, io_unit
       TYPE(array_list)                            :: dist_list
@@ -1018,27 +991,26 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
-!>        matrix multiplication. This routine reshapes the smallest of the three tensors.
-!> \param tensor_in tensor in
-!> \param ind1 index that should be mapped to first matrix dimension
-!> \param ind2 index that should be mapped to second matrix dimension
-!> \param tensor_out tensor out
-!> \param trans transpose flag of matrix rep.
-!> \param new whether a new tensor was created for tensor_out
-!> \param nodata don't copy tensor data
-!> \param move_data memory optimization: transfer data s.t. tensor_in may be empty on return
-!> \param unit_nr output unit
-! **************************************************************************************************
    SUBROUTINE reshape_mm_small(tensor_in, ind1, ind2, tensor_out, trans, new, nodata, move_data, unit_nr)
+      !! Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
+      !! matrix multiplication. This routine reshapes the smallest of the three tensors.
+
       TYPE(dbcsr_t_type), TARGET, INTENT(INOUT)   :: tensor_in
+         !! tensor in
       INTEGER, DIMENSION(:), INTENT(IN)           :: ind1, ind2
+         !! index that should be mapped to first matrix dimension
+         !! index that should be mapped to second matrix dimension
       TYPE(dbcsr_t_type), POINTER, INTENT(OUT)    :: tensor_out
+         !! tensor out
       CHARACTER(LEN=1), INTENT(OUT)               :: trans
+         !! transpose flag of matrix rep.
       LOGICAL, INTENT(OUT)                        :: new
+         !! whether a new tensor was created for tensor_out
       LOGICAL, INTENT(IN), OPTIONAL               :: nodata, move_data
+         !! don't copy tensor data
+         !! memory optimization: transfer data s.t. tensor_in may be empty on return
       INTEGER, INTENT(IN), OPTIONAL               :: unit_nr
+         !! output unit
       INTEGER                                     :: compat1, compat2, compat1_old, compat2_old, io_unit
       LOGICAL                                     :: nodata_prv
 
@@ -1106,12 +1078,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Check if 2d index is compatible with tensor index
-!> \param nd_index ...
-!> \param compat_ind ...
-! **************************************************************************************************
    FUNCTION compat_map(nd_index, compat_ind)
+      !! Check if 2d index is compatible with tensor index
       TYPE(nd_to_2d_mapping), INTENT(IN) :: nd_index
       INTEGER, DIMENSION(:), INTENT(IN)  :: compat_ind
       INTEGER, DIMENSION(:), ALLOCATABLE :: map1, map2
@@ -1160,16 +1128,11 @@ CONTAINS
       CALL dbcsr_tas_info_hold(opt_pgrid%tas_split_info)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Default distribution that is more or less cyclic (round robin) and load balanced with different
-!> weights for each element.
-!> This is used for creating adhoc distributions whenever tensors are mapped to new grids.
-!> \param nel ...
-!> \param nbin ...
-!> \param weights ...
-!> \param dist ...
-! **************************************************************************************************
    SUBROUTINE new_default_dist(nel, nbin, weights, dist)
+      !! Default distribution that is more or less cyclic (round robin) and load balanced with different
+      !! weights for each element.
+      !! This is used for creating adhoc distributions whenever tensors are mapped to new grids.
+
       INTEGER, INTENT(IN) :: nel
       INTEGER, INTENT(IN) :: nbin
       INTEGER, DIMENSION(nel), INTENT(IN)            :: weights
@@ -1195,18 +1158,14 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Copy tensor to tensor with modified index mapping
-!> \param tensor_in ...
-!> \param map1_2d new index mapping
-!> \param map2_2d new index mapping
-!> \param tensor_out ...
-!> \param name ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_remap(tensor_in, map1_2d, map2_2d, tensor_out, comm_2d, dist1, dist2, &
                             mp_dims_1, mp_dims_2, name, nodata, move_data)
+      !! Copy tensor to tensor with modified index mapping
+
       TYPE(dbcsr_t_type), INTENT(INOUT)      :: tensor_in
       INTEGER, DIMENSION(:), INTENT(IN)      :: map1_2d, map2_2d
+         !! new index mapping
+         !! new index mapping
       TYPE(dbcsr_t_type), INTENT(OUT)        :: tensor_out
       CHARACTER(len=*), INTENT(IN), OPTIONAL :: name
       LOGICAL, INTENT(IN), OPTIONAL          :: nodata, move_data
@@ -1301,18 +1260,15 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Align index with data
-!> \param tensor_in ...
-!> \param tensor_out ...
-!> \param order permutation resulting from alignment
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_align_index(tensor_in, tensor_out, order)
+      !! Align index with data
+
       TYPE(dbcsr_t_type), INTENT(INOUT)               :: tensor_in
       TYPE(dbcsr_t_type), INTENT(OUT)                 :: tensor_out
       INTEGER, DIMENSION(:), ALLOCATABLE              :: map1_2d, map2_2d
       INTEGER, DIMENSION(ndims_tensor(tensor_in)), &
          INTENT(OUT), OPTIONAL                        :: order
+         !! permutation resulting from alignment
       INTEGER, DIMENSION(ndims_tensor(tensor_in))     :: order_prv
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_align_index', &
                                      routineP = moduleN//':'//routineN
@@ -1329,13 +1285,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Create new tensor by reordering index, data is copied exactly (shallow copy)
-!> \param tensor_in ...
-!> \param tensor_out ...
-!> \param order ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_permute_index(tensor_in, tensor_out, order)
+      !! Create new tensor by reordering index, data is copied exactly (shallow copy)
       TYPE(dbcsr_t_type), INTENT(INOUT)                  :: tensor_in
       TYPE(dbcsr_t_type), INTENT(OUT)                 :: tensor_out
       INTEGER, DIMENSION(ndims_tensor(tensor_in)), &
@@ -1381,18 +1332,16 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Get all indices along one dimension that have at least one occupied block
-!> \param tensor ...
-!> \param dim which dimension
-!> \param bounds bounds of (full) tensor index
-!> \param ind indices with occupied blocks
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_get_nonzero_index(tensor, dim, bounds, ind)
+      !! Get all indices along one dimension that have at least one occupied block
+
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER, INTENT(IN) :: dim
+         !! which dimension
       INTEGER, INTENT(IN), DIMENSION(2, ndims_tensor(tensor)) :: bounds
+         !! bounds of (full) tensor index
       LOGICAL, ALLOCATABLE, DIMENSION(:), INTENT(OUT) :: ind
+         !! indices with occupied blocks
       INTEGER, DIMENSION(dbcsr_t_ndims(tensor)) :: bdims, blk_index, blk_size, blk_offset
       INTEGER :: bdim, blk, idim
       TYPE(dbcsr_t_iterator_type)                     :: iter
@@ -1417,22 +1366,12 @@ CONTAINS
       CALL dbcsr_t_iterator_stop(iter)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief check whether we need to contract two tensors (whether the contraction indices of both tensors
-!> have common occupied blocks). See documentation of dbcsr_t_contract.
-!> \param tensor_1 ...
-!> \param tensor_2 ...
-!> \param contract_1 ...
-!> \param notcontract_1 ...
-!> \param contract_2 ...
-!> \param notcontract_2 ...
-!> \param bounds_1 ...
-!> \param bounds_2 ...
-!> \param bounds_3 ...
-! **************************************************************************************************
    FUNCTION dbcsr_t_need_contract(tensor_1, tensor_2, contract_1, notcontract_1, &
                                   contract_2, notcontract_2, &
                                   bounds_1, bounds_2, bounds_3)
+      !! check whether we need to contract two tensors (whether the contraction indices of both tensors
+      !! have common occupied blocks). See documentation of dbcsr_t_contract.
+
       TYPE(dbcsr_t_type), INTENT(INOUT)  :: tensor_1, tensor_2
       INTEGER, DIMENSION(:), INTENT(IN)  :: contract_1, contract_2, &
                                             notcontract_1, notcontract_2
@@ -1482,36 +1421,25 @@ CONTAINS
       CALL timestop(handle)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Map contraction bounds to bounds referring to tensor indices
-!>
-!>        see dbcsr_t_contract for docu of dummy arguments
-!> \param tensor_1 ...
-!> \param tensor_2 ...
-!> \param contract_1 ...
-!> \param notcontract_1 ...
-!> \param bounds_t1 bounds mapped to tensor_1
-!> \param bounds_t2 bounds mapped to tensor_2
-!> \param bounds_1 ...
-!> \param bounds_2 ...
-!> \param bounds_3 ...
-!> \param do_crop_1 whether tensor 1 should be cropped
-!> \param do_crop_2 whether tensor 2 should be cropped
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_map_bounds_to_tensors(tensor_1, tensor_2, &
                                             contract_1, notcontract_1, &
                                             contract_2, notcontract_2, &
                                             bounds_t1, bounds_t2, &
                                             bounds_1, bounds_2, bounds_3, &
                                             do_crop_1, do_crop_2)
+      !! Map contraction bounds to bounds referring to tensor indices
+      !! see dbcsr_t_contract for docu of dummy arguments
+
 
       TYPE(dbcsr_t_type), INTENT(IN)      :: tensor_1, tensor_2
       INTEGER, DIMENSION(:), INTENT(IN)   :: contract_1, contract_2, &
                                              notcontract_1, notcontract_2
       INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_1)), &
          INTENT(OUT)                                 :: bounds_t1
+         !! bounds mapped to tensor_1
       INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_2)), &
          INTENT(OUT)                                 :: bounds_t2
+         !! bounds mapped to tensor_2
       INTEGER, DIMENSION(2, SIZE(contract_1)), &
          INTENT(IN), OPTIONAL                        :: bounds_1
       INTEGER, DIMENSION(2, SIZE(notcontract_1)), &
@@ -1519,6 +1447,8 @@ CONTAINS
       INTEGER, DIMENSION(2, SIZE(notcontract_2)), &
          INTENT(IN), OPTIONAL                        :: bounds_3
       LOGICAL, INTENT(OUT), OPTIONAL                 :: do_crop_1, do_crop_2
+         !! whether tensor 1 should be cropped
+         !! whether tensor 2 should be cropped
       LOGICAL, DIMENSION(2)                          :: do_crop
 
       do_crop = .FALSE.
@@ -1551,22 +1481,18 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief print tensor contraction indices in a human readable way
-!> \param tensor_1 ...
-!> \param indchar1 characters printed for index of tensor 1
-!> \param tensor_2 ...
-!> \param indchar2 characters printed for index of tensor 2
-!> \param tensor_3 ...
-!> \param indchar3 characters printed for index of tensor 3
-!> \param unit_nr output unit
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_print_contraction_index(tensor_1, indchar1, tensor_2, indchar2, tensor_3, indchar3, unit_nr)
+      !! print tensor contraction indices in a human readable way
+
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor_1, tensor_2, tensor_3
       CHARACTER(LEN=1), DIMENSION(dbcsr_t_ndims(tensor_1)), INTENT(IN) :: indchar1
+         !! characters printed for index of tensor 1
       CHARACTER(LEN=1), DIMENSION(dbcsr_t_ndims(tensor_2)), INTENT(IN) :: indchar2
+         !! characters printed for index of tensor 2
       CHARACTER(LEN=1), DIMENSION(dbcsr_t_ndims(tensor_3)), INTENT(IN) :: indchar3
+         !! characters printed for index of tensor 3
       INTEGER, INTENT(IN) :: unit_nr
+         !! output unit
       INTEGER, DIMENSION(:), ALLOCATABLE :: map11, map12, map21, map22, map31, map32
       INTEGER :: ichar1, ichar2, ichar3
 

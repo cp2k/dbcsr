@@ -7,11 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Module that contains the routines for error handling
-!> \author Ole Schuett
-! **************************************************************************************************
 MODULE dbcsr_error_handling
+   !! Module that contains the routines for error handling
    USE dbcsr_base_hooks, ONLY: dbcsr_abort_hook, &
                                dbcsr_warn_hook
    USE dbcsr_kinds, ONLY: dp
@@ -40,22 +37,14 @@ MODULE dbcsr_error_handling
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Registers handlers with base_hooks.F
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_error_handling_setup()
+      !! Registers handlers with base_hooks.F
       dbcsr_abort_hook => dbcsr_abort_handler
       dbcsr_warn_hook => dbcsr_warn_handler
    END SUBROUTINE dbcsr_error_handling_setup
 
-! **************************************************************************************************
-!> \brief Abort program with error message
-!> \param location ...
-!> \param message ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_abort_handler(location, message)
+      !! Abort program with error message
       CHARACTER(len=*), INTENT(in)                       :: location, message
 
       INTEGER                                            :: unit_nr
@@ -73,13 +62,8 @@ CONTAINS
       CALL mp_abort()
    END SUBROUTINE dbcsr_abort_handler
 
-! **************************************************************************************************
-!> \brief Signal a warning
-!> \param location ...
-!> \param message ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_warn_handler(location, message)
+      !! Signal a warning
       CHARACTER(len=*), INTENT(in)                       :: location, message
 
       INTEGER                                            :: unit_nr
@@ -95,11 +79,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_warn_handler
 
-! **************************************************************************************************
-!> \brief Delay non-master ranks/threads, used by dbcsr_abort_handler()
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE delay_non_master()
+      !! Delay non-master ranks/threads, used by dbcsr_abort_handler()
       INTEGER                                            :: unit_nr
       REAL(KIND=dp)                                      :: t1, wait_time
 
@@ -123,14 +104,8 @@ CONTAINS
 
    END SUBROUTINE delay_non_master
 
-! **************************************************************************************************
-!> \brief Prints a nicely formatted abort message box
-!> \param message ...
-!> \param location ...
-!> \param output_unit ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE print_abort_message(message, location, output_unit)
+      !! Prints a nicely formatted abort message box
       CHARACTER(LEN=*), INTENT(IN)                       :: message, location
       INTEGER, INTENT(IN)                                :: output_unit
 
@@ -208,15 +183,8 @@ CONTAINS
 
    END SUBROUTINE print_abort_message
 
-! **************************************************************************************************
-!> \brief Helper routine for print_abort_message()
-!> \param message ...
-!> \param pos ...
-!> \param rowlen ...
-!> \return ...
-!> \author Ole Schuett
-! **************************************************************************************************
    FUNCTION next_linebreak(message, pos, rowlen) RESULT(ibreak)
+      !! Helper routine for print_abort_message()
       CHARACTER(LEN=*), INTENT(IN)                       :: message
       INTEGER, INTENT(IN)                                :: pos, rowlen
       INTEGER                                            :: ibreak

@@ -7,11 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief DBCSR tensor Input / Output
-!> \author Patrick Seewald
-! **************************************************************************************************
 MODULE dbcsr_tensor_io
+   !! DBCSR tensor Input / Output
 
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
@@ -44,16 +41,13 @@ MODULE dbcsr_tensor_io
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Write tensor global info: block dimensions, full dimensions and process grid dimensions
-!> \param tensor ...
-!> \param output_unit ...
-!> \param full_info Whether to print distribution and block size vectors
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_write_tensor_info(tensor, output_unit, full_info)
+      !! Write tensor global info: block dimensions, full dimensions and process grid dimensions
+
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER, INTENT(IN)            :: output_unit
       LOGICAL, OPTIONAL, INTENT(IN)  :: full_info
+         !! Whether to print distribution and block size vectors
       INTEGER, DIMENSION(ndims_tensor(tensor)) :: nblks_total, nfull_total, pdims, my_ploc, nblks_local, nfull_local
       INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("blks_local")}$
       INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("proc_dist")}$
@@ -112,12 +106,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Write info on tensor distribution & load balance
-!> \param tensor ...
-!> \param output_unit ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_write_tensor_dist(tensor, output_unit)
+      !! Write info on tensor distribution & load balance
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER, INTENT(IN)            :: output_unit
       INTEGER                        :: nproc, myproc, nblock_max, nelement_max
@@ -160,17 +150,15 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Write all tensor blocks
-!> \param tensor ...
-!> \param io_unit_master for global output
-!> \param io_unit_all for local output
-!> \param write_int convert to integers (useful for testing with integer tensors)
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_write_blocks(tensor, io_unit_master, io_unit_all, write_int)
+      !! Write all tensor blocks
+
       TYPE(dbcsr_t_type), INTENT(INOUT)                  :: tensor
       INTEGER, INTENT(IN)                                :: io_unit_master, io_unit_all
+         !! for global output
+         !! for local output
       LOGICAL, INTENT(IN), OPTIONAL                      :: write_int
+         !! convert to integers (useful for testing with integer tensors)
       INTEGER                                            :: blk
       INTEGER, DIMENSION(ndims_tensor(tensor))          :: blk_index, blk_size
 #:for ndim in ndims
@@ -203,30 +191,28 @@ CONTAINS
       CALL dbcsr_t_iterator_stop(iterator)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Write a tensor block
-!> \param name tensor name
-!> \param blk_size block size
-!> \param blk_index block index
-!> \param proc which process am I
-!> \param unit_nr unit number
-!> \param blk_values_2 block values for 2 dimensions
-!> \param blk_values_3 block values for 3 dimensions ...
-!> \param write_int convert values to integers
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_write_block(name, blk_size, blk_index, proc, unit_nr, &
                                   ${varlist("blk_values",nmin=2)}$, write_int)
-
+      !! Write a tensor block
       CHARACTER(LEN=*), INTENT(IN)                       :: name
-      INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_size, blk_index
+         !! tensor name
+      INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_size
+         !! block size
+      INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_index
+         !! block index
 #:for ndim in ndims
       REAL(KIND=real_8), &
          DIMENSION(${arrlist("blk_size", nmax=ndim)}$), &
          INTENT(IN), OPTIONAL                            :: blk_values_${ndim}$
+         !! block values for 2 dimensions
 #:endfor
       LOGICAL, INTENT(IN), OPTIONAL                      :: write_int
+         !! write_int convert values to integers
       LOGICAL                                            :: write_int_prv
-      INTEGER, INTENT(IN)                                :: unit_nr, proc
+      INTEGER, INTENT(IN)                                :: unit_nr
+         !! unit number
+      INTEGER, INTENT(IN)                                :: proc
+         !! which process am I
       INTEGER                                            :: ${varlist("i")}$
       INTEGER                                            :: ndim
 

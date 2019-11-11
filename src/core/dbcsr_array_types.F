@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Array objects with reference counting.
-!> \author  Urban Borstnik
-!> \date    2009-05-12
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created
-! **************************************************************************************************
 MODULE dbcsr_array_types
+   !! Array objects with reference counting.
 
    IMPLICIT NONE
    PRIVATE
@@ -74,12 +66,6 @@ MODULE dbcsr_array_types
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief ...
-!> \param array ...
-!> \param DATA ...
-!> \param gift ...
-! **************************************************************************************************
    SUBROUTINE array_new_i1d(array, DATA, gift)
       TYPE(array_i1d_obj), INTENT(OUT)                   :: array
       INTEGER, DIMENSION(:), POINTER                     :: DATA
@@ -102,12 +88,6 @@ CONTAINS
          array%low%data(:) = DATA(:)
       ENDIF
    END SUBROUTINE array_new_i1d
-! **************************************************************************************************
-!> \brief ...
-!> \param array ...
-!> \param DATA ...
-!> \param lb ...
-! **************************************************************************************************
    SUBROUTINE array_new_i1d_lb(array, DATA, lb)
       TYPE(array_i1d_obj), INTENT(OUT)                   :: array
       INTEGER, DIMENSION(:), INTENT(IN)                  :: DATA
@@ -121,20 +101,12 @@ CONTAINS
       ALLOCATE (array%low%data(lb:ub))
       array%low%data(:) = DATA(:)
    END SUBROUTINE array_new_i1d_lb
-! **************************************************************************************************
-!> \brief ...
-!> \param array ...
-! **************************************************************************************************
    SUBROUTINE array_hold_i1d(array)
       TYPE(array_i1d_obj), INTENT(INOUT)                 :: array
 
 !$OMP ATOMIC
       array%low%refcount = array%low%refcount + 1
    END SUBROUTINE array_hold_i1d
-! **************************************************************************************************
-!> \brief ...
-!> \param array ...
-! **************************************************************************************************
    SUBROUTINE array_release_i1d(array)
       TYPE(array_i1d_obj), INTENT(INOUT)                 :: array
 
@@ -146,20 +118,11 @@ CONTAINS
          ENDIF
       ENDIF
    END SUBROUTINE array_release_i1d
-! **************************************************************************************************
-!> \brief ...
-!> \param array ...
-! **************************************************************************************************
    PURE SUBROUTINE array_nullify_i1d(array)
       TYPE(array_i1d_obj), INTENT(INOUT)                 :: array
 
       NULLIFY (array%low)
    END SUBROUTINE array_nullify_i1d
-! **************************************************************************************************
-!> \brief ...
-!> \param array ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION array_exists_i1d(array) RESULT(array_exists)
       TYPE(array_i1d_obj), INTENT(IN)                    :: array
       LOGICAL                                            :: array_exists
@@ -167,11 +130,6 @@ CONTAINS
       array_exists = ASSOCIATED(array%low)
       IF (array_exists) array_exists = array%low%refcount .GT. 0
    END FUNCTION array_exists_i1d
-! **************************************************************************************************
-!> \brief ...
-!> \param array ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION array_data_i1d(array) RESULT(DATA)
       TYPE(array_i1d_obj), INTENT(IN)                    :: array
       INTEGER, DIMENSION(:), POINTER                     :: DATA
@@ -182,11 +140,6 @@ CONTAINS
          NULLIFY (DATA)
       ENDIF
    END FUNCTION array_data_i1d
-! **************************************************************************************************
-!> \brief ...
-!> \param array ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION array_size_i1d(array) RESULT(the_size)
       TYPE(array_i1d_obj), INTENT(IN)                    :: array
       INTEGER                                            :: the_size
@@ -197,12 +150,6 @@ CONTAINS
          the_size = 0
       ENDIF
    END FUNCTION array_size_i1d
-! **************************************************************************************************
-!> \brief ...
-!> \param array1 ...
-!> \param array2 ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION array_equality_i1(array1, array2) RESULT(are_equal)
       INTEGER, DIMENSION(:), POINTER                     :: array1, array2
       LOGICAL                                            :: are_equal
@@ -213,12 +160,6 @@ CONTAINS
          are_equal = ALL(array1 .EQ. array2)
       ENDIF
    END FUNCTION array_equality_i1
-! **************************************************************************************************
-!> \brief ...
-!> \param array1 ...
-!> \param array2 ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION array_equality_i1d(array1, array2) RESULT(are_equal)
       TYPE(array_i1d_obj), INTENT(IN)                    :: array1, array2
       LOGICAL                                            :: are_equal
@@ -229,12 +170,6 @@ CONTAINS
          are_equal = ALL(array1%low%data .EQ. array2%low%data)
       ENDIF
    END FUNCTION array_equality_i1d
-! **************************************************************************************************
-!> \brief ...
-!> \param array ...
-!> \param index1 ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION array_get_i1d(array, index1) RESULT(value)
       TYPE(array_i1d_obj), INTENT(IN)                    :: array
       INTEGER, INTENT(IN)                                :: index1
@@ -242,12 +177,6 @@ CONTAINS
 
       value = array%low%data(index1)
    END FUNCTION array_get_i1d
-! **************************************************************************************************
-!> \brief ...
-!> \param array ...
-!> \param index1 ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION array_get_i1(array, index1) RESULT(value)
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: array
       INTEGER, INTENT(IN)                                :: index1

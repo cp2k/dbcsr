@@ -7,17 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR block access
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!  - 2010-02-18 Moved from dbcsr_operations and dbcsr_methods
-!  - 2010-04-22 Added block buffer operations
-! **************************************************************************************************
 MODULE dbcsr_block_access
+   !! DBCSR block access
    USE dbcsr_array_types, ONLY: array_data
    USE dbcsr_btree, ONLY: btree_add, &
                           btree_data_cp2d, &
@@ -141,19 +132,17 @@ MODULE dbcsr_block_access
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Marks a block for removal from a DBCSR matrix. Handles
-!>        symmetric matrices.
-!> \param[in]  matrix         DBCSR matrix
-!> \param[in]  row            row of block to remove
-!> \param[in]  col            column of block to remove
-!> \param block_nze ...
-!> \param[in]  block_number   (optional) the block number, if it is known
-! **************************************************************************************************
    SUBROUTINE dbcsr_remove_block(matrix, row, col, block_nze, block_number)
+      !! Marks a block for removal from a DBCSR matrix. Handles
+      !! symmetric matrices.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! DBCSR matrix
       INTEGER, INTENT(IN)                                :: row, col, block_nze
+         !! row of block to remove
+         !! column of block to remove
       INTEGER, INTENT(IN), OPTIONAL                      :: block_number
+         !! the block number, if it is known
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_remove_block', &
                                      routineP = moduleN//':'//routineN
@@ -191,27 +180,27 @@ CONTAINS
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE dbcsr_remove_block
 
-! **************************************************************************************************
-!> \brief Gets a block from a dbcsr matrix as a data area
-!> \param[in]  matrix DBCSR matrix
-!> \param[in]  row    the row
-!> \param[in]  col    the column
-!> \param[out] block  the block to get
-!> \param[in] tr      whether the data is transposed
-!> \param[out] found  whether the block exists in the matrix
-!> \param[out] row_size      (optional) logical row size of block
-!> \param[out] col_size      (optional) logical column size of block
-!> \par Data area
-!>      The pointer encapsulated in the data area points to data stored in the
-!>      matrix. It must be 2-dimensional.
-! **************************************************************************************************
    SUBROUTINE dbcsr_get_block_p_area(matrix, row, col, block, tr, found, &
                                      row_size, col_size)
+      !! Gets a block from a dbcsr matrix as a data area
+      !!
+      !! Data area
+      !! The pointer encapsulated in the data area points to data stored in the
+      !! matrix. It must be 2-dimensional.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! DBCSR matrix
       INTEGER, INTENT(IN)                                :: row, col
+         !! the row
+         !! the column
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: block
+         !! the block to get
       LOGICAL, INTENT(OUT)                               :: tr, found
+         !! whether the data is transposed
+         !! whether the block exists in the matrix
       INTEGER, INTENT(OUT), OPTIONAL                     :: row_size, col_size
+         !! logical row size of block
+         !! logical column size of block
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_p_area', &
                                      routineP = moduleN//':'//routineN
@@ -287,27 +276,13 @@ CONTAINS
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_block_p_area
 
-! **************************************************************************************************
-!> \brief
-!>          We allow :
-!>                  matrix(dp) [+]= [scale(dp)] * block(dp)
-!>                  matrix(dp) [+]= [scale(dp)] * block(sp)
-!>                  matrix(sp) [+]= [scale(dp)] * block(sp)
-!> \param matrix ...
-!> \param row ...
-!> \param col ...
-!> \param block ...
-!> \param lb_row_col ...
-!> \param transposed ...
-!> \param summation ...
-!> \param flop ...
-!> \param scale ...
-!> \param[in]
-!> \param[out]
-!>
-! **************************************************************************************************
    SUBROUTINE dbcsr_put_block_area(matrix, row, col, block, lb_row_col, transposed, &
                                    summation, flop, scale)
+      !! We allow :
+      !! matrix(dp) [+]= [scale(dp)] * block(dp)
+      !! matrix(dp) [+]= [scale(dp)] * block(sp)
+      !! matrix(sp) [+]= [scale(dp)] * block(sp)
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       INTEGER, INTENT(IN)                                :: row, col
       TYPE(dbcsr_data_obj)                               :: block
@@ -416,13 +391,12 @@ CONTAINS
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE dbcsr_put_block_area
 
-! **************************************************************************************************
-!> \brief Inserts all blocks of a dbcsr matrix to make it a full matrix.
-!>        Thus obviously not linear scaling.
-!> \param[in,out] matrix      Matrix into which blocks should be added.
-! **************************************************************************************************
    SUBROUTINE dbcsr_reserve_all_blocks(matrix)
+      !! Inserts all blocks of a dbcsr matrix to make it a full matrix.
+      !! Thus obviously not linear scaling.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! Matrix into which blocks should be added.
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_all_blocks', &
                                      routineP = moduleN//':'//routineN
@@ -478,12 +452,11 @@ CONTAINS
 
    END SUBROUTINE dbcsr_reserve_all_blocks
 
-! **************************************************************************************************
-!> \brief Inserts diagonal blocks of a dbcsr matrix to make it a matrix with at least all diagonal blocks present
-!> \param[in,out] matrix      Matrix into which blocks should be added.
-! **************************************************************************************************
    SUBROUTINE dbcsr_reserve_diag_blocks(matrix)
+      !! Inserts diagonal blocks of a dbcsr matrix to make it a matrix with at least all diagonal blocks present
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! Matrix into which blocks should be added.
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_diag_blocks', &
                                      routineP = moduleN//':'//routineN
@@ -524,26 +497,28 @@ CONTAINS
 
    END SUBROUTINE dbcsr_reserve_diag_blocks
 
-! **************************************************************************************************
-!> \brief Inserts block reservations into a matrix, avoiding the work matrix.
-!> \param[in,out] matrix      Matrix into which blocks should be added.
-!> \param[in] rows            Rows of the blocks to add
-!> \param[in] columns         Columns of the blocks to add
-!> \param[in] blk_pointers    (optional) block pointers to use for new blocks
-!> \par Data
-!>      No data can be specified; instead, space is reserved and zeroed. To
-!>      add data, call dbcsr_put_block afterwards.
-!> \par Reserving existing blocks
-!>      Duplicates are not added, but allocations may be greater than
-!>      the minimum necessary.
-!> \par blk_pointers
-!>      When blk_pointers is passed, the newly added blocks use these pointers.
-!>      No data is cleared in this case
-! **************************************************************************************************
    SUBROUTINE dbcsr_reserve_blocks(matrix, rows, columns, blk_pointers)
+      !! Inserts block reservations into a matrix, avoiding the work matrix.
+      !!
+      !! Data
+      !! No data can be specified; instead, space is reserved and zeroed. To
+      !! add data, call dbcsr_put_block afterwards.
+      !!
+      !! Reserving existing blocks
+      !! Duplicates are not added, but allocations may be greater than
+      !! the minimum necessary.
+      !!
+      !! blk_pointers
+      !! When blk_pointers is passed, the newly added blocks use these pointers.
+      !! No data is cleared in this case
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! Matrix into which blocks should be added.
       INTEGER, DIMENSION(:), INTENT(IN)                  :: rows, columns
+         !! Rows of the blocks to add
+         !! Columns of the blocks to add
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: blk_pointers
+         !! block pointers to use for new blocks
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_blocks', &
                                      routineP = moduleN//':'//routineN
@@ -568,7 +543,7 @@ CONTAINS
          ! Get current data size
          data_size_old = dbcsr_data_get_size_referenced(matrix%data_area)
       ENDIF
-      !> Ensures that the rows and columns are sorted.
+      ! Ensures that the rows and columns are sorted.
       nblks_added = SIZE(rows)
       ALLOCATE (add_rows(nblks_added))
       add_rows(:) = rows(:)
@@ -660,22 +635,21 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_reserve_blocks
 
-! **************************************************************************************************
-!> \brief Sets a pointer, possibly using the buffers.
-!> \param[in] matrix           Matrix to use
-!> \param[in,out] pointer_any The pointer to set
-!> \param[in] rsize Row sizes of block to point to
-!> \param[in] csize Column sizes of block to point to
-!> \param[in] main_tr          Whether block is transposed in the matrix
-!> \param[in] base_offset      The block pointer
-! **************************************************************************************************
    SUBROUTINE dbcsr_set_block_pointer_any(matrix, pointer_any, &
                                           rsize, csize, main_tr, base_offset)
+      !! Sets a pointer, possibly using the buffers.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! Matrix to use
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: pointer_any
+         !! The pointer to set
       INTEGER, INTENT(IN)                                :: rsize, csize
+         !! Row sizes of block to point to
+         !! Column sizes of block to point to
       LOGICAL, INTENT(IN)                                :: main_tr
+         !! Whether block is transposed in the matrix
       INTEGER, INTENT(IN)                                :: base_offset
+         !! The block pointer
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_block_pointer_any', &
                                      routineP = moduleN//':'//routineN

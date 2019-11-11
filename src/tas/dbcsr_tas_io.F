@@ -7,13 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief tall-and-skinny matrices: Input / Output
-!>
-!> \author Patrick Seewald
-! **************************************************************************************************
 
 MODULE dbcsr_tas_io
+
+   !! tall-and-skinny matrices: Input / Output
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_type, dbcsr_tas_split_info
    USE dbcsr_tas_global, ONLY: &
@@ -42,16 +39,13 @@ MODULE dbcsr_tas_io
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Write basic infos of tall-and-skinny matrix: block dimensions, full dimensions, process grid dimensions
-!> \param matrix ...
-!> \param output_unit ...
-!> \param full_info Whether to print distribution and block size vectors
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_write_matrix_info(matrix, output_unit, full_info)
+      !! Write basic infos of tall-and-skinny matrix: block dimensions, full dimensions, process grid dimensions
+
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       INTEGER, INTENT(IN)            :: output_unit
       LOGICAL, OPTIONAL, INTENT(IN)  :: full_info
+         !! Whether to print distribution and block size vectors
 
       INTEGER(KIND=int_8)                      :: nblkrows_total, nblkcols_total, nfullrows_total, &
                                                   nfullcols_total
@@ -103,16 +97,13 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Write info on tall-and-skinny matrix distribution & load balance
-!> \param matrix ...
-!> \param output_unit ...
-!> \param full_info Whether to print subgroup DBCSR distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_write_dist(matrix, output_unit, full_info)
+      !! Write info on tall-and-skinny matrix distribution & load balance
+
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
       INTEGER, INTENT(IN)              :: output_unit
       LOGICAL, INTENT(IN), OPTIONAL    :: full_info
+         !! Whether to print subgroup DBCSR distribution
 
       CHARACTER(default_string_length) :: name
       INTEGER                          :: mp_comm, ngroup, igroup, mp_comm_group, nproc, iproc, &
@@ -188,13 +179,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Print info on how matrix is split
-!> \param info ...
-!> \param io_unit ...
-!> \param name ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_write_split_info(info, io_unit, name)
+      !! Print info on how matrix is split
       TYPE(dbcsr_tas_split_info), INTENT(IN)             :: info
       INTEGER, INTENT(IN) :: io_unit
       CHARACTER(len=*), INTENT(IN), OPTIONAL             :: name

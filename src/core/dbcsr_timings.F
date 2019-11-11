@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Timing routines for accounting
-!> \par History
-!>      02.2004 made a stacked version (of stacks...) [Joost VandeVondele]
-!>      11.2004 storable timer_envs (for f77 interface) [fawzi]
-!>      10.2005 binary search to speed up lookup in timeset [fawzi]
-!>      12.2012 Complete rewrite based on dictionaries. [ole]
-!> \author JGH
-! **************************************************************************************************
 MODULE dbcsr_timings
+   !! Timing routines for accounting
    USE dbcsr_base_hooks, ONLY: timeset_hook, &
                                timestop_hook
    USE dbcsr_cuda_profiling, ONLY: cuda_mem_info, &
@@ -67,25 +59,18 @@ MODULE dbcsr_timings
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Registers handlers with base_hooks.F
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE timings_register_hooks()
+      !! Registers handlers with base_hooks.F
       timeset_hook => timeset_handler
       timestop_hook => timestop_handler
    END SUBROUTINE timings_register_hooks
 
-! **************************************************************************************************
-!> \brief adds the given timer_env to the top of the stack
-!> \param timer_env ...
-!> \par History
-!>      02.2004 created [Joost VandeVondele]
-!> \note
-!>      for each init_timer_env there should be the symmetric call to
-!>      rm_timer_env
-! **************************************************************************************************
    SUBROUTINE add_timer_env(timer_env)
+      !! adds the given timer_env to the top of the stack
+      !! @note
+      !! for each init_timer_env there should be the symmetric call to
+      !! rm_timer_env
+
       TYPE(timer_env_type), OPTIONAL, POINTER            :: timer_env
 
       TYPE(timer_env_type), POINTER                      :: timer_env_
@@ -100,12 +85,8 @@ CONTAINS
       CALL list_push(timers_stack, timer_env_)
    END SUBROUTINE add_timer_env
 
-! **************************************************************************************************
-!> \brief creates a new timer env
-!> \param timer_env ...
-!> \author fawzi
-! **************************************************************************************************
    SUBROUTINE timer_env_create(timer_env)
+      !! creates a new timer env
       TYPE(timer_env_type), POINTER                      :: timer_env
 
       INTEGER                                            :: stat
@@ -122,15 +103,12 @@ CONTAINS
       CALL list_init(timer_env%callstack)
    END SUBROUTINE timer_env_create
 
-! **************************************************************************************************
-!> \brief removes the current timer env from the stack
-!> \par History
-!>      02.2004 created [Joost VandeVondele]
-!> \note
-!>      for each rm_timer_env there should have been the symmetric call to
-!>      add_timer_env
-! **************************************************************************************************
    SUBROUTINE rm_timer_env()
+      !! removes the current timer env from the stack
+      !! @note
+      !! for each rm_timer_env there should have been the symmetric call to
+      !! add_timer_env
+
       TYPE(timer_env_type), POINTER                      :: timer_env
 
       timer_env => list_pop(timers_stack)
@@ -138,24 +116,18 @@ CONTAINS
       IF (list_size(timers_stack) == 0) CALL list_destroy(timers_stack)
    END SUBROUTINE rm_timer_env
 
-! **************************************************************************************************
-!> \brief returns the current timer env from the stack
-!> \return ...
-!> \author fawzi
-! **************************************************************************************************
    FUNCTION get_timer_env() RESULT(timer_env)
+      !! returns the current timer env from the stack
       TYPE(timer_env_type), POINTER                      :: timer_env
 
       timer_env => list_peek(timers_stack)
    END FUNCTION get_timer_env
 
-! **************************************************************************************************
-!> \brief retains the given timer env
-!> \param timer_env the timer env to retain
-!> \author fawzi
-! **************************************************************************************************
    SUBROUTINE timer_env_retain(timer_env)
+      !! retains the given timer env
+
       TYPE(timer_env_type), POINTER                      :: timer_env
+         !! the timer env to retain
 
       IF (.NOT. ASSOCIATED(timer_env)) &
          DBCSR_ABORT("timer_env_retain: not associated")
@@ -164,13 +136,11 @@ CONTAINS
       timer_env%ref_count = timer_env%ref_count + 1
    END SUBROUTINE timer_env_retain
 
-! **************************************************************************************************
-!> \brief releases the given timer env
-!> \param timer_env the timer env to release
-!> \author fawzi
-! **************************************************************************************************
    SUBROUTINE timer_env_release(timer_env)
+      !! releases the given timer env
+
       TYPE(timer_env_type), POINTER                      :: timer_env
+         !! the timer env to release
 
       INTEGER                                            :: i
       TYPE(dict_i4tuple_callstat_item_type), &
@@ -204,15 +174,8 @@ CONTAINS
       DEALLOCATE (timer_env)
    END SUBROUTINE timer_env_release
 
-! **************************************************************************************************
-!> \brief Start timer
-!> \param routineN ...
-!> \param handle ...
-!> \par History
-!>      none
-!> \author JGH
-! **************************************************************************************************
    SUBROUTINE timeset_handler(routineN, handle)
+      !! Start timer
       CHARACTER(LEN=*), INTENT(IN)                       :: routineN
       INTEGER, INTENT(OUT)                               :: handle
 
@@ -283,14 +246,8 @@ CONTAINS
 
    END SUBROUTINE timeset_handler
 
-! **************************************************************************************************
-!> \brief End timer
-!> \param handle ...
-!> \par History
-!>      none
-!> \author JGH
-! **************************************************************************************************
    SUBROUTINE timestop_handler(handle)
+      !! End timer
       INTEGER, INTENT(in)                                :: handle
 
       CHARACTER(LEN=400)                                 :: line, mystring
@@ -388,24 +345,17 @@ CONTAINS
 
    END SUBROUTINE timestop_handler
 
-! **************************************************************************************************
-!> \brief Set routine tracer
-!> \param trace_max  maximum number of calls reported per routine.
-!>           Setting this to zero disables tracing.
-!> \param unit_nr output unit used for printing the trace-messages
-!> \param trace_str short info-string which is printed along with every message
-!> \param routine_names List of routine-names.
-!>                     If provided only these routines will be traced.
-!>                     If not present all routines will traced.
-!> \par History
-!>       12.2012  added ability to trace only certain routines [ole]
-!> \author JGH
-! **************************************************************************************************
    SUBROUTINE timings_setup_tracing(trace_max, unit_nr, trace_str, routine_names)
+      !! Set routine tracer
+
       INTEGER, INTENT(IN)                                :: trace_max, unit_nr
+         !! maximum number of calls reported per routine. Setting this to zero disables tracing.
+         !! output unit used for printing the trace-messages
       CHARACTER(len=13), INTENT(IN)                      :: trace_str
+         !! short info-string which is printed along with every message
       CHARACTER(len=default_string_length), &
          DIMENSION(:), INTENT(IN), OPTIONAL              :: routine_names
+         !! List of routine-names. If provided only these routines will be traced. If not present all routines will traced.
 
       INTEGER                                            :: i, routine_id
       TYPE(routine_stat_type), POINTER                   :: r_stat
@@ -428,14 +378,8 @@ CONTAINS
 
    END SUBROUTINE timings_setup_tracing
 
-! **************************************************************************************************
-!> \brief Print current routine stack
-!> \param unit_nr ...
-!> \par History
-!>      none
-!> \author JGH
-! **************************************************************************************************
    SUBROUTINE print_stack(unit_nr)
+      !! Print current routine stack
       INTEGER, INTENT(IN)                                :: unit_nr
 
       INTEGER                                            :: i
@@ -460,15 +404,11 @@ CONTAINS
 
    END SUBROUTINE print_stack
 
-! **************************************************************************************************
-!> \brief Internal routine used by timeset_handler and timings_setup_tracing.
-!>        If no routine with given name is found in timer_env%routine_names
-!>        then a new entry is created.
-!> \param routineN ...
-!> \return ...
-!> \author Ole Schuett
-! **************************************************************************************************
    FUNCTION routine_name2id(routineN) RESULT(routine_id)
+      !! Internal routine used by timeset_handler and timings_setup_tracing.
+      !! If no routine with given name is found in timer_env%routine_names
+      !! then a new entry is created.
+
       CHARACTER(LEN=default_string_length), INTENT(IN)   :: routineN
       INTEGER                                            :: routine_id
 

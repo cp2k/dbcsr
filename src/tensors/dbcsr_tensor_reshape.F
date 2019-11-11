@@ -7,11 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Routines to reshape / redistribute tensors
-!> \author Patrick Seewald
-! **************************************************************************************************
 MODULE dbcsr_tensor_reshape
+   !! Routines to reshape / redistribute tensors
 
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
@@ -67,18 +64,14 @@ MODULE dbcsr_tensor_reshape
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief copy data (involves reshape)
-!> \param tensor_in ...
-!> \param tensor_out ...
-!> \param summation tensor_out = tensor_out + tensor_in
-!> move_data memory optimization: transfer data from tensor_in to tensor_out s.t. tensor_in is empty
-!> on return
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_reshape(tensor_in, tensor_out, summation, move_data)
+      !! copy data (involves reshape)
+
 
       TYPE(dbcsr_t_type), INTENT(INOUT)               :: tensor_in, tensor_out
       LOGICAL, INTENT(IN), OPTIONAL                    :: summation
+         !! tensor_out = tensor_out + tensor_in move_data memory optimization: transfer data from tensor_in to tensor_out s.t.
+         !! tensor_in is empty on return
       LOGICAL, INTENT(IN), OPTIONAL                    :: move_data
 
       INTEGER                                            :: blk, iproc, mp_comm, mynode, ndata, &
@@ -188,17 +181,15 @@ CONTAINS
       ENDDO
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Create block buffer for MPI communication.
-!> \param buffer block buffer
-!> \param nblock number of blocks
-!> \param ndata total number of block entries
-!> \param data_type ...
-!> \param ndim number of dimensions
-! **************************************************************************************************
    SUBROUTINE block_buffer_create(buffer, nblock, ndata, data_type, ndim)
+      !! Create block buffer for MPI communication.
+
       TYPE(block_buffer_type), INTENT(OUT) :: buffer
+         !! block buffer
       INTEGER, INTENT(IN)                  :: nblock, ndata, data_type, ndim
+         !! number of blocks
+         !! total number of block entries
+         !! number of dimensions
 
       buffer%nblock = nblock
       buffer%data_type = data_type
@@ -213,10 +204,6 @@ CONTAINS
       ALLOCATE (buffer%indx(nblock, ndim + 1))
    END SUBROUTINE block_buffer_create
 
-! **************************************************************************************************
-!> \brief ...
-!> \param buffer ...
-! **************************************************************************************************
    SUBROUTINE block_buffer_destroy(buffer)
       TYPE(block_buffer_type), INTENT(INOUT) :: buffer
 
@@ -233,11 +220,6 @@ CONTAINS
       buffer%endpos = -1
    END SUBROUTINE block_buffer_destroy
 
-! **************************************************************************************************
-!> \brief ...
-!> \param buffer ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION ndims_buffer(buffer)
       TYPE(block_buffer_type), INTENT(IN) :: buffer
       INTEGER                             :: ndims_buffer
@@ -245,17 +227,15 @@ CONTAINS
       ndims_buffer = buffer%ndim
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief insert a block into block buffer (at current iterator position)
-!> \param buffer ...
-!> \param index index of block
-!> \param block block
-! **************************************************************************************************
    SUBROUTINE block_buffer_add_anyd_block(buffer, index, block)
+      !! insert a block into block buffer (at current iterator position)
+
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
       INTEGER, DIMENSION(ndims_buffer(buffer)), &
          INTENT(IN)                               :: index
+         !! index of block
       TYPE(block_nd), INTENT(IN)                  :: block
+         !! block
 
       SELECT CASE (block%data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
@@ -265,15 +245,8 @@ CONTAINS
       END SELECT
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
-!> \param buffer ...
-!> \param ndata ...
-!> \param index ...
-!> \param block ...
-!> \param advance_iter ...
-! **************************************************************************************************
    SUBROUTINE block_buffer_get_next_anyd_block(buffer, ndata, index, block, advance_iter)
+      !! get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
       INTEGER, INTENT(OUT)                        :: ndata
       INTEGER, DIMENSION(ndims_buffer(buffer)), &
@@ -293,10 +266,8 @@ CONTAINS
       END SELECT
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Get all indices from buffer
-! **************************************************************************************************
    SUBROUTINE block_buffer_get_index(buffer, index)
+      !! Get all indices from buffer
       TYPE(block_buffer_type), INTENT(IN)               :: buffer
       INTEGER, INTENT(OUT), DIMENSION(:, :), ALLOCATABLE :: index
       INTEGER, DIMENSION(2)                             :: indx_shape
@@ -305,36 +276,23 @@ CONTAINS
       CALL allocate_any(index, source=buffer%indx(1:indx_shape(1), 1:indx_shape(2)))
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Reset buffer block iterator
-!> \param buffer ...
-! **************************************************************************************************
    SUBROUTINE block_buffer_iterator_reset(buffer)
+      !! Reset buffer block iterator
       TYPE(block_buffer_type), INTENT(INOUT) :: buffer
 
       buffer%endpos = 0
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief how many blocks left in iterator
-!> \param buffer ...
-!> \return ...
-! **************************************************************************************************
    PURE FUNCTION block_buffer_blocks_left(buffer)
+      !! how many blocks left in iterator
       TYPE(block_buffer_type), INTENT(IN) :: buffer
       LOGICAL                             :: block_buffer_blocks_left
 
       block_buffer_blocks_left = buffer%endpos .LT. buffer%nblock
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief communicate buffer
-!> \param mp_comm ...
-!> \param buffer_recv ...
-!> \param buffer_send ...
-!> \param req_array ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_t_communicate_buffer(mp_comm, buffer_recv, buffer_send, req_array)
+      !! communicate buffer
       INTEGER, INTENT(IN)                    :: mp_comm
       TYPE(block_buffer_type), DIMENSION(0:), INTENT(INOUT) :: buffer_recv, buffer_send
       INTEGER, DIMENSION(:, :), INTENT(OUT)               :: req_array
@@ -402,14 +360,8 @@ CONTAINS
    END SUBROUTINE
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief add block to buffer.
-!> \param buffer ...
-!> \param ndata ...
-!> \param index ...
-!> \param block ...
-! **************************************************************************************************
    SUBROUTINE block_buffer_add_block_${dsuffix}$ (buffer, ndata, index, block)
+      !! add block to buffer.
       TYPE(block_buffer_type), INTENT(INOUT)               :: buffer
       INTEGER, INTENT(IN)                                  :: ndata
       ${dtype}$, DIMENSION(ndata), INTENT(IN)              :: block
@@ -436,15 +388,9 @@ CONTAINS
 #:endfor
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-! **************************************************************************************************
-!> \brief get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
-!> \param buffer ...
-!> \param ndata ...
-!> \param index ...
-!> \param block ...
-!> \param advance_iter
-! **************************************************************************************************
    SUBROUTINE block_buffer_get_next_block_${dsuffix}$ (buffer, ndata, index, block, advance_iter)
+      !! get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
+
       TYPE(block_buffer_type), INTENT(INOUT)                      :: buffer
       INTEGER, INTENT(OUT)                                        :: ndata
       ${dtype}$, DIMENSION(:), ALLOCATABLE, OPTIONAL, INTENT(OUT) :: block

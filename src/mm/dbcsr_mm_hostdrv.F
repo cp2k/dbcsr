@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Stacks of small matrix multiplications
-!> \author  Urban Borstnik
-!> \date    2011-09-26
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!  - 2011-09-26 Split dbcsr_internal_operations
-! **************************************************************************************************
 MODULE dbcsr_mm_hostdrv
+   !! Stacks of small matrix multiplications
    USE dbcsr_config, ONLY: dbcsr_cfg, &
                            has_acc, &
                            mm_driver_blas, &
@@ -70,26 +62,16 @@ MODULE dbcsr_mm_hostdrv
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Initialize the library
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_lib_init()
+      !! Initialize the library
    END SUBROUTINE dbcsr_mm_hostdrv_lib_init
 
-! **************************************************************************************************
-!> \brief Finalize the library
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_lib_finalize()
+      !! Finalize the library
    END SUBROUTINE dbcsr_mm_hostdrv_lib_finalize
 
-! **************************************************************************************************
-!> \brief Initialize the library
-!> \param this ...
-!> \param product_wm ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_init(this, product_wm)
+      !! Initialize the library
       TYPE(dbcsr_mm_hostdrv_type), INTENT(INOUT)         :: this
       TYPE(dbcsr_work_type), POINTER                     :: product_wm
 
@@ -106,25 +88,18 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_hostdrv_init
 
-! **************************************************************************************************
-!> \brief Calls the various drivers that process the stack.
-!>
-!> \param this ...
-!> \param[in] left Left-matrix data
-!> \param[in] right Right-matrix data
-!> \param[in] params           Stack of GEMM parameters
-!> \param stack_size ...
-!> \param stack_descr ...
-!> \param success ...
-!> \param used_smm ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_mm_hostdrv_process(this, left, right, params, stack_size, &
                                        stack_descr, success, used_smm)
+      !! Calls the various drivers that process the stack.
+
       TYPE(dbcsr_mm_hostdrv_type), INTENT(INOUT)         :: this
       TYPE(dbcsr_type), INTENT(IN)                       :: left, right
+         !! Left-matrix data
+         !! Right-matrix data
       INTEGER, INTENT(IN)                                :: stack_size
       INTEGER, DIMENSION(1:dbcsr_ps_width, stack_size), &
          INTENT(INOUT)                                   :: params
+         !! Stack of GEMM parameters
       TYPE(stack_descriptor_type), INTENT(IN)            :: stack_descr
       LOGICAL, INTENT(OUT)                               :: success, used_smm
 
@@ -268,11 +243,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_mm_hostdrv_process
 
-! **************************************************************************************************
-!> \brief Helper-routine used by dbcsr_mm_hostdrv_process to print debug info.
-!> \param params ...
-! **************************************************************************************************
    SUBROUTINE print_gemm_parameters(params)
+      !! Helper-routine used by dbcsr_mm_hostdrv_process to print debug info.
       INTEGER, DIMENSION(:, :), INTENT(in)               :: params
 
       INTEGER                                            :: sp

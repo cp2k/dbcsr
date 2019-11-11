@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR operations on distributions
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2010-02-18 Moved from dbcsr_util
-! **************************************************************************************************
 MODULE dbcsr_dist_operations
+   !! DBCSR operations on distributions
 
    USE dbcsr_array_types, ONLY: array_i1d_obj, &
                                 array_new
@@ -72,39 +64,37 @@ MODULE dbcsr_dist_operations
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Determines whether a transpose must be applied
-!> \param[in] row   The absolute matrix row.
-!> \param[in] column          The absolute matrix column.
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION checker_tr(row, column) RESULT(transpose)
+      !! Determines whether a transpose must be applied
+
       INTEGER, INTENT(IN)                                :: row, column
+         !! The absolute matrix row.
+         !! The absolute matrix column.
       LOGICAL                                            :: transpose
 
       transpose = BTEST(column + row, 0) .EQV. column .GE. row
 
    END FUNCTION checker_tr
 
-! **************************************************************************************************
-!> \brief Determines the home process for a given logical matrix element.
-!> \param[in] row             logical row
-!> \param[in] col             logical column
-!> \param[in] pgrid           process grid
-!> \param[in] row_dist        row distribution
-!> \param[in] col_dist        column distribution
-!> \return home process of the given element
-!> \note This routine is a more low-level version of
-!>       dbcsr_get_stored_coordinate without the setting the row and column
-!>       to the stored position.
-!> \note It assumes a square matrix.
-! **************************************************************************************************
    PURE FUNCTION checker_square_proc(row, col, pgrid, &
                                      row_dist, col_dist) RESULT(process)
+      !! Determines the home process for a given logical matrix element.
+      !! @note This routine is a more low-level version of
+      !! dbcsr_get_stored_coordinate without the setting the row and column
+      !! to the stored position.
+      !! @endnote
+      !! @note It assumes a square matrix.
+
       INTEGER, INTENT(IN)                                :: row, col
+         !! logical row
+         !! logical column
       INTEGER, DIMENSION(0:, 0:), INTENT(IN)             :: pgrid
+         !! process grid
       INTEGER, DIMENSION(:), INTENT(IN)                  :: row_dist, col_dist
+         !! row distribution
+         !! column distribution
       INTEGER                                            :: process
+         !! home process of the given element
 
       IF (.NOT. checker_tr(row, col)) THEN
          process = pgrid(row_dist(row), col_dist(col))
@@ -113,20 +103,18 @@ CONTAINS
       ENDIF
    END FUNCTION checker_square_proc
 
-! **************************************************************************************************
-!> \brief Sets the correct source matrix, row, column and possible data
-!>        transposition for a given matrix and matrix logical row and
-!>        column.
-!> \param[in] matrix          DBCSR matrix
-!> \param[in] row             input is logical row
-!> \param[in] column          input is logical column
-!> \param[out] processor      (optional) returns the processor on which this
-!>                            block resides
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_get_stored_coordinates(matrix, row, column, processor)
+      !! Sets the correct source matrix, row, column and possible data
+      !! transposition for a given matrix and matrix logical row and
+      !! column.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! DBCSR matrix
       INTEGER, INTENT(IN)                                :: row, column
+         !! input is logical row
+         !! input is logical column
       INTEGER, INTENT(OUT), OPTIONAL                     :: processor
+         !! returns the processor on which this block resides
 
 !   ---------------------------------------------------------------------------
 ! SM-compatible way
@@ -142,15 +130,8 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_get_stored_coordinates
 
-! **************************************************************************************************
-!> \brief Canonical logic
-!> \param matrix ...
-!> \param row ...
-!> \param column ...
-!> \param transpose ...
-!> \param processor ...
-! **************************************************************************************************
    PURE SUBROUTINE get_stored_canonical(matrix, row, column, &
+      !! Canonical logic
                                         transpose, processor)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER, INTENT(INOUT)                             :: row, column
@@ -179,28 +160,25 @@ CONTAINS
       END IF
    END SUBROUTINE get_stored_canonical
 
-! **************************************************************************************************
-!> \brief Looks up a block's index given logical coordinates.
-!> \param[in] matrix          DBCSR matrix
-!> \param[in] row             logical row
-!> \param[in] column          logical column
-!> \param[out] stored_row     row where block is actually stored
-!> \param[out] stored_column  column where block is actually stored
-!> \param[out] transpose      whether the data must be transposed
-!> \param[out] found          whether the block was found
-!> \param[out] block_number   returns the block number of the row
-!>                            and column
-!> \param[out] data_offset    (optional) data offset for the block; 0 if
-!>                            nonexistent
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_get_block_index(matrix, row, column, stored_row, &
                                          stored_column, transpose, found, block_number, data_offset)
+      !! Looks up a block's index given logical coordinates.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! DBCSR matrix
       INTEGER, INTENT(IN)                                :: row, column
+         !! logical row
+         !! logical column
       INTEGER, INTENT(OUT)                               :: stored_row, stored_column
+         !! row where block is actually stored
+         !! column where block is actually stored
       LOGICAL, INTENT(OUT)                               :: transpose, found
+         !! whether the data must be transposed
+         !! whether the block was found
       INTEGER, INTENT(OUT)                               :: block_number
+         !! returns the block number of the row and column
       INTEGER, INTENT(OUT), OPTIONAL                     :: data_offset
+         !! data offset for the block; 0 if nonexistent
 
 !   ---------------------------------------------------------------------------
 
@@ -212,31 +190,25 @@ CONTAINS
                                        found, block_number, data_offset=data_offset, transposed=transpose)
    END SUBROUTINE dbcsr_get_block_index
 
-! **************************************************************************************************
-!> \brief Returns the index to a queried block, given a real (stored) row and
-!>        column
-!> \param[in] matrix          bcsr matrix
-!> \param[in] row             input is logical row, output is lookup row
-!> \param[in] column          input is logical column, output is lookup
-!>                            column
-!> \param[out] found          whether the block was found
-!> \param[out] block_number   returns the block number of the row
-!>                            and column
-!> \param lb_row_col ...
-!> \param[out] data_offset    (optional) data offset for the block; 0 if
-!>                            nonexistent
-!> \param[out] transposed     (optional) whether the block is stored transposed
-!>                            according to its position
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_get_stored_block_info(matrix, row, column, &
                                                found, block_number, lb_row_col, data_offset, transposed)
+      !! Returns the index to a queried block, given a real (stored) row and
+      !! column
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! bcsr matrix
       INTEGER, INTENT(IN)                                :: row, column
+         !! input is logical row, output is lookup row
+         !! input is logical column, output is lookup column
       LOGICAL, INTENT(OUT)                               :: found
+         !! whether the block was found
       INTEGER, INTENT(OUT)                               :: block_number
+         !! returns the block number of the row and column
       INTEGER, DIMENSION(2), INTENT(INOUT), OPTIONAL     :: lb_row_col
       INTEGER, INTENT(OUT), OPTIONAL                     :: data_offset
+         !! data offset for the block; 0 if nonexistent
       LOGICAL, INTENT(OUT), OPTIONAL                     :: transposed
+         !! whether the block is stored transposed according to its position
 
       INTEGER                                            :: blk_last, blk_offset, offset
 
@@ -285,14 +257,13 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_get_stored_block_info
 
-! **************************************************************************************************
-!> \brief Transposes a distribution
-!> \param[out] dist_tr        transposed distribution
-!> \param[in] dist_normal current distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_transpose_distribution(dist_tr, dist_normal)
+      !! Transposes a distribution
+
       TYPE(dbcsr_distribution_obj), INTENT(OUT)          :: dist_tr
+         !! transposed distribution
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist_normal
+         !! current distribution
 
       TYPE(dbcsr_mp_obj)                                 :: mp_env_tr
 
@@ -308,14 +279,13 @@ CONTAINS
       CALL dbcsr_mp_release(mp_env_tr)
    END SUBROUTINE dbcsr_transpose_distribution
 
-! **************************************************************************************************
-!> \brief Transposes a distribution but keeps the same mp_env
-!> \param[out] dist_tr        transposed distribution
-!> \param[in] dist_normal current distribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_transpose_dims(dist_tr, dist_normal)
+      !! Transposes a distribution but keeps the same mp_env
+
       TYPE(dbcsr_distribution_obj), INTENT(OUT)          :: dist_tr
+         !! transposed distribution
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist_normal
+         !! current distribution
 
       INTEGER                                            :: ncols_tr, npcols_tr, nprows_tr, &
                                                             nrows_tr, vgcd, vlcm
@@ -364,44 +334,45 @@ CONTAINS
 
    END SUBROUTINE dbcsr_transpose_dims
 
-! **************************************************************************************************
-!> \brief Makes new distribution with decimation and multiplicity
-!> \param[out] new_bins      new real distribution
-!> \param[out] images        new image distribution
-!> \param[in] source_bins    Basis for the new distribution and images
-!> \param[in] nbins          number of bins in the new real distribution
-!> \param[in] multiplicity   multiplicity
-!> \param[in] nimages        number of images in the new distribution
-!> \par Definition of multiplicity and nimages
-!>      Multiplicity and decimation (number of images) are used to
-!>      match process grid coordinates on non-square process
-!>      grids. Given source_nbins and target_nbins, their relation is
-!>                source_nbins * target_multiplicity
-!>              = target_nbins * target_nimages.
-!>      It is best when both multiplicity and nimages are small. To
-!>      get these two factors, then, one can use the following formulas:
-!>          nimages      = lcm(source_nbins, target_nbins) / target_nbins
-!>          multiplicity = target_nbins / gcd(source_nbins, target_nbins)
-!>      from the target's point of view (nimages = target_nimages).
-!> \par Mapping
-!>      The new distribution comprises of real bins and images within
-!>      bins. These can be view as target_nbins*nimages virtual
-!>      columns. These same virtual columns are also
-!>      source_nbins*multiplicity in number. Therefore these virtual
-!>      columns are mapped from source_nbins*multiplicity onto
-!>      target_bins*nimages (each target bin has nimages images):
-!>      Source 4: |1 2 3|4 5 6|7 8 9|A B C| (4*3)
-!>      Target 6: |1 2|3 4|5 6|7 8|9 A|B C| (6*2)
-!>      multiplicity=3, nimages=2, 12 virtual columns (1-C).
-!>      Source bin elements are evenly mapped into one of multiplicity
-!>      virtual columns. Other (non-even, block-size aware) mappings
-!>      could be better.
-! **************************************************************************************************
    SUBROUTINE rebin_distribution(new_bins, images, source_bins, &
                                  nbins, multiplicity, nimages)
+      !! Makes new distribution with decimation and multiplicity
+      !!
+      !! Definition of multiplicity and nimages
+      !! Multiplicity and decimation (number of images) are used to
+      !! match process grid coordinates on non-square process
+      !! grids. Given source_nbins and target_nbins, their relation is
+      !! source_nbins * target_multiplicity
+      !! = target_nbins * target_nimages.
+      !! It is best when both multiplicity and nimages are small. To
+      !! get these two factors, then, one can use the following formulas:
+      !! nimages      = lcm(source_nbins, target_nbins) / target_nbins
+      !! multiplicity = target_nbins / gcd(source_nbins, target_nbins)
+      !! from the target's point of view (nimages = target_nimages).
+      !!
+      !! Mapping
+      !! The new distribution comprises of real bins and images within
+      !! bins. These can be view as target_nbins*nimages virtual
+      !! columns. These same virtual columns are also
+      !! source_nbins*multiplicity in number. Therefore these virtual
+      !! columns are mapped from source_nbins*multiplicity onto
+      !! target_bins*nimages (each target bin has nimages images):
+      !! Source 4: |1 2 3|4 5 6|7 8 9|A B C| (4*3)
+      !! Target 6: |1 2|3 4|5 6|7 8|9 A|B C| (6*2)
+      !! multiplicity=3, nimages=2, 12 virtual columns (1-C).
+      !! Source bin elements are evenly mapped into one of multiplicity
+      !! virtual columns. Other (non-even, block-size aware) mappings
+      !! could be better.
+
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: new_bins, images
+         !! new real distribution
+         !! new image distribution
       INTEGER, DIMENSION(:), INTENT(IN)                  :: source_bins
+         !! Basis for the new distribution and images
       INTEGER, INTENT(IN)                                :: nbins, multiplicity, nimages
+         !! number of bins in the new real distribution
+         !! multiplicity
+         !! number of images in the new distribution
 
       CHARACTER(len=*), PARAMETER :: routineN = 'rebin_distribution', &
                                      routineP = moduleN//':'//routineN
@@ -433,14 +404,13 @@ CONTAINS
       ENDDO
    END SUBROUTINE rebin_distribution
 
-! **************************************************************************************************
-!> \brief Evenly distributes elements into bins
-!> \param[out] array          elements to bin
-!> \param[in] nbins           number of bins into which elements are distributed
-! **************************************************************************************************
    PURE SUBROUTINE evenly_bin(array, nbins)
+      !! Evenly distributes elements into bins
+
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: array
+         !! elements to bin
       INTEGER, INTENT(IN)                                :: nbins
+         !! number of bins into which elements are distributed
 
       INTEGER                                            :: bin, first, last, maxbinsize
 
@@ -454,47 +424,43 @@ CONTAINS
       ENDDO
    END SUBROUTINE evenly_bin
 
-! **************************************************************************************************
-!> \brief Calculates the intersections of blocks
-!> \param[out] ints           intersections of blocks
-!> \param[in] numints        maximum number of expected intersections
-!> \param[out] n_src_dsts     offset and number intersections belonging
-!>                            to source blocks
-!> \param[in] src_sizes       sizes of source blocks
-!> \param[in] dst_sizes       sizes of target blocks
-!> \par ints output format
-!>      The ints array should be up to twice as large as the number of
-!>      intersecting blocks. Each entry is comprised of the target
-!>      block and the common length along with the offsets of the
-!>      intersection in the old and new blocks.
-!> \par n_src_dsts format
-!>      This arrays stored the number of intersecting blocks in common
-!>      (position 2) and the offset of the first common intersecting
-!>      block (position 1).
-!> \par Interpretation (Mapping old blocks into new blocks)
-!>      The old element belongs to block B. Lookup row B in
-!>      n_src_dsts.  The first element F tells you which is the first
-!>      new block to map into and the second element tells you into
-!>      how many new blocks N you have to map.  You then look up rows
-!>      F to F+N-1 in ints. The first block tells you into which block
-!>      it is mapped and the second element tells you how many
-!>      elements they have in common. The third element specifies the
-!>      offset of the intersection in the old block while the fourth
-!>      specifies the offset of the intersection in the new block.
-!> \par History
-!>      UB [2009] Created
-!>      UB [2010-03-22] Offsets of the intersections in the old/new blocks
-!>                      are calculated & saved. Zero-length blocks are
-!>                      skipped.
-!> \note This routine is used in the counting and sending loops in
-!>       dbcsr_complete_redistribute
-! **************************************************************************************************
    SUBROUTINE dbcsr_reblocking_targets(ints, numints, n_src_dsts, &
                                        src_sizes, dst_sizes)
+      !! Calculates the intersections of blocks
+      !!
+      !! ints output format
+      !! The ints array should be up to twice as large as the number of
+      !! intersecting blocks. Each entry is comprised of the target
+      !! block and the common length along with the offsets of the
+      !! intersection in the old and new blocks.
+      !!
+      !! n_src_dsts format
+      !! This arrays stored the number of intersecting blocks in common
+      !! (position 2) and the offset of the first common intersecting
+      !! block (position 1).
+      !!
+      !! Interpretation (Mapping old blocks into new blocks)
+      !! The old element belongs to block B. Lookup row B in
+      !! n_src_dsts.  The first element F tells you which is the first
+      !! new block to map into and the second element tells you into
+      !! how many new blocks N you have to map.  You then look up rows
+      !! F to F+N-1 in ints. The first block tells you into which block
+      !! it is mapped and the second element tells you how many
+      !! elements they have in common. The third element specifies the
+      !! offset of the intersection in the old block while the fourth
+      !! specifies the offset of the intersection in the new block.
+      !! @note This routine is used in the counting and sending loops in
+      !! dbcsr_complete_redistribute
+
       INTEGER, INTENT(INOUT)                             :: numints
+         !! maximum number of expected intersections
       INTEGER, DIMENSION(4, numints), INTENT(OUT)        :: ints
+         !! intersections of blocks
       INTEGER, DIMENSION(:, :), INTENT(OUT)              :: n_src_dsts
+         !! offset and number intersections belonging to source blocks
       INTEGER, DIMENSION(:), INTENT(IN)                  :: src_sizes, dst_sizes
+         !! sizes of source blocks
+         !! sizes of target blocks
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reblocking_targets', &
                                      routineP = moduleN//':'//routineN
@@ -564,30 +530,28 @@ CONTAINS
       numints = current_int - 1
    END SUBROUTINE dbcsr_reblocking_targets
 
-! **************************************************************************************************
-!> \brief Finds the block that has the given column.
-!>
-!>        If the block having the queried column is found, the blk parameter
-!>        is set to this block number and the found parameter is true.
-!>        Otherwise found is false and the block number is invalid.
-!> \param[in] find_col        column to find
-!> \param[in] frst_blk        first block number in row
-!> \param[in] last_blk        last block number in row
-!> \param[in] col_i           col indices
-!> \param[in] blk_p           block pointers
-!> \param[out] blk            block number with searched-for column
-!> \param[out] found          flag specified whether a block that has the
-!>                            correct column was found
-!> \par Index validity
-!>      The blk_p array of block pointers is a required parameter to enable
-!>      the detection of deleted blocks.
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_find_column(find_col, frst_blk, last_blk, col_i, blk_p, &
                                      blk, found)
+      !! Finds the block that has the given column.
+      !! If the block having the queried column is found, the blk parameter
+      !! is set to this block number and the found parameter is true.
+      !! Otherwise found is false and the block number is invalid.
+      !!
+      !! Index validity
+      !! The blk_p array of block pointers is a required parameter to enable
+      !! the detection of deleted blocks.
+
       INTEGER, INTENT(IN)                                :: find_col, frst_blk, last_blk
+         !! column to find
+         !! first block number in row
+         !! last block number in row
       INTEGER, DIMENSION(:), INTENT(IN)                  :: col_i, blk_p
+         !! col indices
+         !! block pointers
       INTEGER, INTENT(OUT)                               :: blk
+         !! block number with searched-for column
       LOGICAL, INTENT(OUT)                               :: found
+         !! flag specified whether a block that has the correct column was found
 
       CALL ordered_search(col_i, find_col, blk, found, frst_blk, last_blk)
       IF (found) THEN
@@ -596,23 +560,21 @@ CONTAINS
 
    END SUBROUTINE dbcsr_find_column
 
-! **************************************************************************************************
-!> \brief Finds the local virtual elements
-!>
-!> All elements are mapped at once.  Therefore an entry in the
-!> resulting array can be used as a lookup index for any of the local
-!> element arrays.  The distribution itself tells into which array to
-!> look.
-!> \param[out] local_elements local virtual elements
-!> \param[in] bin_distribution           distribution of elements to bins
-!> \param[in] nbins                      number of bins
-! **************************************************************************************************
    SUBROUTINE find_all_local_elements(local_elements, &
                                       bin_distribution, nbins)
+      !! Finds the local virtual elements
+      !! All elements are mapped at once.  Therefore an entry in the
+      !! resulting array can be used as a lookup index for any of the local
+      !! element arrays.  The distribution itself tells into which array to
+      !! look.
+
       INTEGER, INTENT(IN)                                :: nbins
+         !! number of bins
       INTEGER, DIMENSION(:), INTENT(IN)                  :: bin_distribution
+         !! distribution of elements to bins
       TYPE(array_i1d_obj), DIMENSION(0:nbins - 1), &
          INTENT(INOUT)                                   :: local_elements
+         !! local virtual elements
 
       INTEGER                                            :: bin, el
       INTEGER, DIMENSION(0:nbins - 1)                      :: nlve
@@ -625,16 +587,15 @@ CONTAINS
       ENDDO
    END SUBROUTINE find_all_local_elements
 
-! **************************************************************************************************
-!> \brief Determines mapping from local to global rows
-!> \param[in] dist              mapping for this distribution
-!> \param[in] local_rows        local elements for specified row
-!> \param[in] local_prow find local elements for this local row
-! **************************************************************************************************
    SUBROUTINE dbcsr_get_local_rows(dist, local_rows, local_prow)
+      !! Determines mapping from local to global rows
+
       TYPE(dbcsr_distribution_obj), INTENT(INOUT)        :: dist
+         !! mapping for this distribution
       TYPE(array_i1d_obj), INTENT(OUT)                   :: local_rows
+         !! local elements for specified row
       INTEGER, INTENT(IN)                                :: local_prow
+         !! find local elements for this local row
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_rows', &
                                      routineP = moduleN//':'//routineN
@@ -674,16 +635,15 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_local_rows
 
-! **************************************************************************************************
-!> \brief Determines mapping from local to global columns
-!> \param[in] dist              mapping for this distribution
-!> \param[in] local_cols        local elements for specified column
-!> \param[in] local_pcol         find local elements for this local column
-! **************************************************************************************************
    SUBROUTINE dbcsr_get_local_cols(dist, local_cols, local_pcol)
+      !! Determines mapping from local to global columns
+
       TYPE(dbcsr_distribution_obj), INTENT(INOUT)        :: dist
+         !! mapping for this distribution
       TYPE(array_i1d_obj), INTENT(OUT)                   :: local_cols
+         !! local elements for specified column
       INTEGER, INTENT(IN)                                :: local_pcol
+         !! find local elements for this local column
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_cols', &
                                      routineP = moduleN//':'//routineN
@@ -723,14 +683,12 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_local_cols
 
-! **************************************************************************************************
-!> \brief Determines whether most blocks are stored transposed in normally.
-!> \param[in] blk_p           Pointers to blocks
-!> \return ...
-!> \note Tries to be quick and not necessarily accurate.
-! **************************************************************************************************
    PURE FUNCTION mostly_non_transposed(blk_p)
+      !! Determines whether most blocks are stored transposed in normally.
+      !! @note Tries to be quick and not necessarily accurate.
+
       INTEGER, DIMENSION(:), INTENT(IN) :: blk_p
+         !! Pointers to blocks
       LOGICAL                           :: mostly_non_transposed
 
       INTEGER            :: n, str, sntr
@@ -758,14 +716,6 @@ CONTAINS
       ENDIF
       RETURN
    CONTAINS
-! **************************************************************************************************
-!> \brief ...
-!> \param blk_p ...
-!> \param lb ...
-!> \param ub ...
-!> \param sntr ...
-!> \param str ...
-! **************************************************************************************************
       PURE SUBROUTINE check_range(blk_p, lb, ub, sntr, str)
          INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_p
          INTEGER, INTENT(IN)                                :: lb, ub
@@ -780,17 +730,16 @@ CONTAINS
       END SUBROUTINE check_range
    END FUNCTION mostly_non_transposed
 
-! **************************************************************************************************
-!> \brief Creates a sane 1-D distribution
-!> \param[out] bin_dist    Distribution of elements to bins
-!> \param[in] nelements    Number of elements
-!> \param[in] nbins        Number of bins
-!> \param[in] element_sizes  (optional) sizes of elements
-! **************************************************************************************************
    SUBROUTINE dbcsr_dist_bin(bin_dist, nelements, nbins, element_sizes)
+      !! Creates a sane 1-D distribution
+
       INTEGER, DIMENSION(:), INTENT(OUT), POINTER        :: bin_dist
+         !! Distribution of elements to bins
       INTEGER, INTENT(IN)                                :: nelements, nbins
+         !! Number of elements
+         !! Number of bins
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: element_sizes
+         !! sizes of elements
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_dist_bin', routineP = moduleN//':'//routineN
 

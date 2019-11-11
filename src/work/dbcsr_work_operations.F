@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR work matrix utilities
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2010-02-18 Copied from dbcsr_util
-! **************************************************************************************************
 MODULE dbcsr_work_operations
+   !! DBCSR work matrix utilities
 
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_hold, &
@@ -121,43 +113,6 @@ MODULE dbcsr_work_operations
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Creates a matrix, allocating the essentials.
-!> \param[in,out] matrix      new matrix
-!> \param name ...
-!> \param[in] dist            distribution_2d distribution
-!> \param[in] matrix_type     'N' for normal, 'T' for transposed, 'S' for
-!>                            symmetric, and 'A' for antisymmetric
-!> \param row_blk_size ...
-!> \param col_blk_size ...
-!> \param row_blk_size_obj ...
-!> \param col_blk_size_obj ...
-!> \param[in] nze             (optional) number of elements
-!> \param[in] data_type       type of data from 'rRcC' for single/double
-!>                            precision real/complex, default is 'R'
-!> \param data_buffer ...
-!> \param[in] data_memory_type     (optional) allocate indices and data using
-!>                            special memory
-!> \param[in] index_memory_type     (optional) allocate indices using
-!>                            special memory
-!> \param max_rbs ...
-!> \param max_cbs ...
-!> \param row_blk_offset ...
-!> \param col_blk_offset ...
-!> \param thread_dist ...
-!> \param[in] reuse           (optional) reuses an existing matrix, default
-!>                            is to create a fresh one
-!> \param reuse_arrays ...
-!> \param[in] mutable_work    uses the mutable data for working and not the
-!>                            append-only data; default is append-only
-!> \param make_index ...
-!> \param[in] replication_type     replication to be used for this matrix;
-!>                                 default is dbcsr_repl_none
-!> \par The matrix itself is allocated, as well as the essential parts of
-!>      the index. When passed the nze argument, the data is also allocated
-!>      to that size.
-!>                                 see dbcsr_types.F
-! **************************************************************************************************
    SUBROUTINE dbcsr_create_new(matrix, name, dist, matrix_type, &
                                row_blk_size, col_blk_size, row_blk_size_obj, col_blk_size_obj, &
                                nze, data_type, data_buffer, &
@@ -166,21 +121,38 @@ CONTAINS
                                row_blk_offset, col_blk_offset, &
                                thread_dist, &
                                reuse, reuse_arrays, mutable_work, make_index, replication_type)
+      !! Creates a matrix, allocating the essentials.
+      !!
+      !! The matrix itself is allocated, as well as the essential parts of
+      !! the index. When passed the nze argument, the data is also allocated
+      !! to that size.
+      !! see dbcsr_types.F
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! new matrix
       CHARACTER(len=*), INTENT(IN)                       :: name
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
+         !! distribution_2d distribution
       CHARACTER, INTENT(IN)                              :: matrix_type
+         !! 'N' for normal, 'T' for transposed, 'S' for symmetric, and 'A' for antisymmetric
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_blk_size, col_blk_size
       TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: row_blk_size_obj, col_blk_size_obj
       INTEGER, INTENT(IN), OPTIONAL                      :: nze, data_type
+         !! number of elements
+         !! type of data from 'rRcC' for single/double precision real/complex, default is 'R'
       TYPE(dbcsr_data_obj), INTENT(IN), OPTIONAL         :: data_buffer
       TYPE(dbcsr_memtype_type), INTENT(IN), OPTIONAL     :: data_memory_type, index_memory_type
+         !! allocate indices and data using special memory
+         !! allocate indices using special memory
       INTEGER, INTENT(IN), OPTIONAL                      :: max_rbs, max_cbs
       TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: row_blk_offset, col_blk_offset
       TYPE(dbcsr_distribution_obj), INTENT(IN), OPTIONAL :: thread_dist
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse, reuse_arrays, mutable_work, &
                                                             make_index
+         !! reuses an existing matrix, default is to create a fresh one
+         !! uses the mutable data for working and not the append-only data; default is append-only
       CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
+         !! replication to be used for this matrix; default is dbcsr_repl_none
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_create_new', &
                                      routineP = moduleN//':'//routineN
@@ -459,29 +431,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_create_new
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \param template ...
-!> \param name ...
-!> \param dist ...
-!> \param matrix_type ...
-!> \param row_blk_size ...
-!> \param col_blk_size ...
-!> \param nze ...
-!> \param data_type ...
-!> \param data_buffer ...
-!> \param data_memory_type ...
-!> \param index_memory_type ...
-!> \param max_rbs ...
-!> \param max_cbs ...
-!> \param row_blk_offset ...
-!> \param col_blk_offset ...
-!> \param reuse_arrays ...
-!> \param mutable_work ...
-!> \param make_index ...
-!> \param replication_type ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_create_template(matrix, template, name, dist, matrix_type, &
                                     row_blk_size, col_blk_size, nze, data_type, &
                                     data_buffer, data_memory_type, index_memory_type, &
@@ -653,18 +602,15 @@ CONTAINS
 
    END SUBROUTINE dbcsr_create_template
 
-! **************************************************************************************************
-!> \brief Initializes one work matrix
-!> \param[out] wm             initialized work matrix
-!> \param data_type ...
-!> \param[in] nblks_guess     (optional) estimated number of blocks
-!> \param[in] sizedata_guess  (optional) estimated size of data
-!> \param memory_type ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_init_wm(wm, data_type, nblks_guess, sizedata_guess, memory_type)
+      !! Initializes one work matrix
+
       TYPE(dbcsr_work_type), INTENT(OUT)                 :: wm
+         !! initialized work matrix
       INTEGER, INTENT(IN)                                :: data_type
       INTEGER, INTENT(IN), OPTIONAL                      :: nblks_guess, sizedata_guess
+         !! estimated number of blocks
+         !! estimated size of data
       TYPE(dbcsr_memtype_type), INTENT(IN), OPTIONAL     :: memory_type
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_wm', routineP = moduleN//':'//routineN
@@ -706,22 +652,18 @@ CONTAINS
       IF (careful_mod) CALL timestop(handle)
    END SUBROUTINE dbcsr_init_wm
 
-! **************************************************************************************************
-!> \brief Creates a the working matrix(es) for a DBCSR matrix.
-!> \param[out] matrix         new matrix
-!> \param[in] nblks_guess     (optional) estimated number of blocks
-!> \param[in] sizedata_guess  (optional) estimated size of data
-!> \param[in] n               (optional) number work matrices to create,
-!>                            default is 1
-!> \param[in] work_mutable    (optional) use mutable work type, default is
-!>                            what was specified in create
-!> \param memory_type ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, &
                                 work_mutable, memory_type)
+      !! Creates a the working matrix(es) for a DBCSR matrix.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! new matrix
       INTEGER, INTENT(IN), OPTIONAL                      :: nblks_guess, sizedata_guess, n
+         !! estimated number of blocks
+         !! estimated size of data
+         !! number work matrices to create, default is 1
       LOGICAL, INTENT(in), OPTIONAL                      :: work_mutable
+         !! use mutable work type, default is what was specified in create
       TYPE(dbcsr_memtype_type), INTENT(IN), OPTIONAL     :: memory_type
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_work_create', &
@@ -786,21 +728,16 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_work_create
 
-! **************************************************************************************************
-!> \brief Creates the final dbcsr_type matrix from the working matrix.
-!>
-!> Work matrices (array or tree-based) are merged into the base DBCSR matrix.
-!>
-!> If a matrix is marked as having a valid index, then nothing is done.
-!>
-!> Deleted blocks are pruned from the index.
-!> \param[in,out] matrix      final matrix
-!> \param[in] reshuffle       whether the data should be reshuffled,
-!>                            default is false
-! **************************************************************************************************
    SUBROUTINE dbcsr_finalize(matrix, reshuffle)
+      !! Creates the final dbcsr_type matrix from the working matrix.
+      !! Work matrices (array or tree-based) are merged into the base DBCSR matrix.
+      !! If a matrix is marked as having a valid index, then nothing is done.
+      !! Deleted blocks are pruned from the index.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! final matrix
       LOGICAL, INTENT(IN), OPTIONAL                      :: reshuffle
+         !! whether the data should be reshuffled, default is false
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize', routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
@@ -998,11 +935,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_finalize
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \param reshuffle ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_special_finalize(matrix, reshuffle)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       LOGICAL, INTENT(IN), OPTIONAL                      :: reshuffle
@@ -1085,14 +1017,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_special_finalize
 
-! **************************************************************************************************
-!> \brief Checks whether the matrix can be finalized with minimal copying.
-!> \param[in] matrix          matrix to check
-!> \return whether matrix can be quickly finalized
-! **************************************************************************************************
    FUNCTION can_quickly_finalize(matrix) RESULT(quick)
+      !! Checks whether the matrix can be finalized with minimal copying.
+
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! matrix to check
       LOGICAL                                            :: quick
+         !! whether matrix can be quickly finalized
 
 !   ---------------------------------------------------------------------------
 
@@ -1116,15 +1047,13 @@ CONTAINS
       ENDIF
    END FUNCTION can_quickly_finalize
 
-! **************************************************************************************************
-!> \brief Performs quick finalization of matrix
-!>
-!> The data area from the work matrix is accepted as the new matrix's data
-!> area and the index is built from the work matrix.
-!> \param[in,out] matrix      matrix to finalize
-! **************************************************************************************************
    SUBROUTINE quick_finalize(matrix)
+      !! Performs quick finalization of matrix
+      !! The data area from the work matrix is accepted as the new matrix's data
+      !! area and the index is built from the work matrix.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! matrix to finalize
 
       CHARACTER(len=*), PARAMETER :: routineN = 'quick_finalize', routineP = moduleN//':'//routineN
 
@@ -1163,14 +1092,13 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE quick_finalize
 
-! **************************************************************************************************
-!> \brief Creates a work matrix from the data present in a finalized matrix.
-!> \param[in,out] matrix      DBCSR matrix
-!> \param[in] limits          (optional) the limits to use for copying
-! **************************************************************************************************
    SUBROUTINE dbcsr_add_wm_from_matrix(matrix, limits)
+      !! Creates a work matrix from the data present in a finalized matrix.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! DBCSR matrix
       INTEGER, DIMENSION(4), INTENT(IN), OPTIONAL        :: limits
+         !! the limits to use for copying
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_wm_from_matrix', &
                                      routineP = moduleN//':'//routineN
@@ -1216,22 +1144,21 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_add_wm_from_matrix
 
-! **************************************************************************************************
-!> \brief Fills index and data of the work matrix from the
-!>        previously-finalized one.
-!> \param[in,out] wm          the work matrix to fill
-!> \param[in,out] matrix      DBCSR matrix
-!> \param size_used ...
-!> \param[in] limits          (optional) only fills blocks within this range
-!> \par limits
-!> The limits is a 4-tuple
-!> (lower_row, higher_row, lower_column, higher_column).
-! **************************************************************************************************
    SUBROUTINE dbcsr_fill_wm_from_matrix(wm, matrix, size_used, limits)
+      !! Fills index and data of the work matrix from the
+      !! previously-finalized one.
+      !!
+      !! limits
+      !! The limits is a 4-tuple
+      !! (lower_row, higher_row, lower_column, higher_column).
+
       TYPE(dbcsr_work_type), DIMENSION(:), INTENT(INOUT) :: wm
+         !! the work matrix to fill
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! DBCSR matrix
       INTEGER, INTENT(IN)                                :: size_used
       INTEGER, DIMENSION(4), INTENT(IN), OPTIONAL        :: limits
+         !! only fills blocks within this range
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_fill_wm_from_matrix', &
                                      routineP = moduleN//':'//routineN
@@ -1337,29 +1264,26 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_fill_wm_from_matrix
 
-! **************************************************************************************************
-!> \brief Checks whether a point is within bounds
-!> \param[in] row point to check
-!> \param[in] column point to check
-!> \param[in] limits         limits (low_row, high_row, low_col, high_col)
-!> \return whether the point is within the bounds
-! **************************************************************************************************
-
    PURE FUNCTION within_limits(row, column, limits)
+      !! Checks whether a point is within bounds
+      !! \return whether the point is within the bounds
+
       INTEGER, INTENT(IN)                                :: row, column
+         !! point to check
+         !! point to check
       INTEGER, DIMENSION(4), INTENT(IN)                  :: limits
+         !! limits (low_row, high_row, low_col, high_col)
       LOGICAL                                            :: within_limits
 
       within_limits = row .GE. limits(1) .AND. row .LE. limits(2) .AND. &
                       column .GE. limits(3) .AND. column .LE. limits(4)
    END FUNCTION within_limits
 
-! **************************************************************************************************
-!> \brief Deallocates and destroys a work matrix.
-!> \param[in,out] wm          work matrix
-! **************************************************************************************************
    SUBROUTINE dbcsr_work_destroy(wm)
+      !! Deallocates and destroys a work matrix.
+
       TYPE(dbcsr_work_type), INTENT(INOUT)               :: wm
+         !! work matrix
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_work_destroy', &
                                      routineP = moduleN//':'//routineN
@@ -1386,11 +1310,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_work_destroy
 
-! **************************************************************************************************
-!> \brief Deallocates and destroys a work matrix.
-!> \param m ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_work_destroy_all(m)
+      !! Deallocates and destroys a work matrix.
       TYPE(dbcsr_type), INTENT(INOUT)                    :: m
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_work_destroy_all', &
@@ -1415,21 +1336,20 @@ CONTAINS
 
    END SUBROUTINE dbcsr_work_destroy_all
 
-! **************************************************************************************************
-!> \brief Adds a coordinate (or other data) into a work matrix's row_i and
-!>        col_i arrays and returns its position.
-!> \param[in,out] matrix      work matrix
-!> \param[in] row row data to add
-!> \param[in] col col data to add
-!> \param[in] blk   (optional) block pointer to add
-!> \param[out] index          (optional) saved position
-!> \note  Uses the matrix%lastblk to keep track of the current position.
-! **************************************************************************************************
    SUBROUTINE add_work_coordinate(matrix, row, col, blk, index)
+      !! Adds a coordinate (or other data) into a work matrix's row_i and
+      !! col_i arrays and returns its position.
+      !! @note  Uses the matrix%lastblk to keep track of the current position.
+
       TYPE(dbcsr_work_type), INTENT(INOUT)               :: matrix
+         !! work matrix
       INTEGER, INTENT(IN)                                :: row, col
+         !! row data to add
+         !! col data to add
       INTEGER, INTENT(IN), OPTIONAL                      :: blk
+         !! block pointer to add
       INTEGER, INTENT(OUT), OPTIONAL                     :: index
+         !! saved position
 
       CHARACTER(len=*), PARAMETER :: routineN = 'add_work_coordinate', &
                                      routineP = moduleN//':'//routineN
@@ -1455,20 +1375,15 @@ CONTAINS
       IF (careful_mod) CALL timestop(handle)
    END SUBROUTINE add_work_coordinate
 
-! **************************************************************************************************
-!> \brief Merge data from matrix and work matrices into the final matrix.
-!>
-!> \param[in,out] matrix      matrix to work on
-!> \param old_row_p ...
-!> \param old_col_i ...
-!> \param old_blk_p ...
-!> \param[in] sort_data       whether data will be fully sorted
-! **************************************************************************************************
    SUBROUTINE dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, &
                               sort_data)
+      !! Merge data from matrix and work matrices into the final matrix.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! matrix to work on
       INTEGER, DIMENSION(*), INTENT(IN)                  :: old_row_p, old_col_i, old_blk_p
       LOGICAL, INTENT(IN)                                :: sort_data
+         !! whether data will be fully sorted
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_merge_all', &
                                      routineP = moduleN//':'//routineN
@@ -1492,14 +1407,14 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       CALL timeset(routineN, handle)
-      !> \par Outline
 
-      !> Each thread has a work matrix.  These must be merged and made
-      !> into a new index.  If sort_data is False, then the data areas
-      !> are simply appended.  This is probably quicker but the data
-      !> blocks are not in order and the data size may expand beyond
-      !> what is needed.  If sort_data is True, then data blocks are
-      !> sorted in order.
+      ! Outline:
+      ! Each thread has a work matrix.  These must be merged and made
+      ! into a new index.  If sort_data is False, then the data areas
+      ! are simply appended.  This is probably quicker but the data
+      ! blocks are not in order and the data size may expand beyond
+      ! what is needed.  If sort_data is True, then data blocks are
+      ! sorted in order.
 
       IF (dbg) WRITE (*, *) routineN//" starting, sort?", sort_data
 !$OMP     BARRIER
@@ -1740,13 +1655,11 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_merge_all
 
-! **************************************************************************************************
-!> \brief Sort data from the WM into the final matrix, based closely on dbcsr_merge_all
-!>
-!> \param[in,out] matrix      matrix to work on
-! **************************************************************************************************
    SUBROUTINE dbcsr_merge_single_wm(matrix)
+      !! Sort data from the WM into the final matrix, based closely on dbcsr_merge_all
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
+         !! matrix to work on
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_merge_single_wm', &
                                      routineP = moduleN//':'//routineN
@@ -1762,10 +1675,10 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       CALL timeset(routineN, handle)
-      !> \par Outline
 
-      !> There is a single work matrix.  Data blocks are sorted and copied
-      !> into the matrix data area (which is empty).  The index is made consistent
+      ! Outline:
+      ! There is a single work matrix.  Data blocks are sorted and copied
+      ! into the matrix data area (which is empty).  The index is made consistent
 
       nrows = matrix%nblkrows_total
       wm => matrix%wms(1)
@@ -1830,26 +1743,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_merge_single_wm
 
-! **************************************************************************************************
-!> \brief Builds a new index from several work matrices.
-!>
-!> \param new_row_p ...
-!> \param new_col_i ...
-!> \param new_blk_p ...
-!> \param blk_d ...
-!> \param old_row_p ...
-!> \param old_col_i ...
-!> \param old_blk_p ...
-!> \param all_row_p ...
-!> \param all_col_i ...
-!> \param all_blk_p ...
-!> \param all_data_offsets ...
-!> \param nwms ...
-!> \param nrows ...
-!> \param max_row_count ...
-!> \param sort_data ...
-! **************************************************************************************************
    SUBROUTINE merge_index(new_row_p, new_col_i, new_blk_p, &
+      !! Builds a new index from several work matrices.
                           blk_d, old_row_p, old_col_i, old_blk_p, &
                           all_row_p, all_col_i, all_blk_p, &
                           all_data_offsets, nwms, nrows, max_row_count, sort_data)

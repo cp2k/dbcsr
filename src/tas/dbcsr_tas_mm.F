@@ -7,19 +7,15 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Matrix multiplication for tall-and-skinny matrices. This uses the k-split (non-recursive) CARMA
-!>        algorithm that is communication-optimal as long as the two smaller dimensions have
-!>        the same size.
-!>
-!> Submatrices are obtained by splitting a dimension of the process grid. Multiplication of
-!> submatrices uses DBCSR Cannon algorithm. Due to unknown sparsity pattern of result matrix, parameters
-!> (group sizes and process grid dimensions) can not be derived from matrix dimensions and need to be
-!> set manually.
-!> \author Patrick Seewald
-! **************************************************************************************************
-
 MODULE dbcsr_tas_mm
+   !! Matrix multiplication for tall-and-skinny matrices. This uses the k-split (non-recursive) CARMA
+   !! algorithm that is communication-optimal as long as the two smaller dimensions have
+   !! the same size.
+   !! Submatrices are obtained by splitting a dimension of the process grid. Multiplication of
+   !! submatrices uses DBCSR Cannon algorithm. Due to unknown sparsity pattern of result matrix, parameters
+   !! (group sizes and process grid dimensions) can not be derived from matrix dimensions and need to be
+   !! set manually.
+
 #:include "dbcsr_tas.fypp"
 
    USE dbcsr_data_methods, ONLY: &
@@ -72,47 +68,34 @@ MODULE dbcsr_tas_mm
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief tall-and-skinny matrix-matrix multiplication. Undocumented dummy arguments are identical to
-!> arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).
-!> \param transa ...
-!> \param transb ...
-!> \param transc ...
-!> \param alpha ...
-!> \param matrix_a ...
-!> \param matrix_b ...
-!> \param beta ...
-!> \param matrix_c ...
-!> \param optimize_dist Whether distribution should be optimized internally. In the current implementation
-!>                      this guarantees optimal parameters only for dense matrices.
-!> \param split_opt optionally return split info containing optimal grid and split parameters.
-!>                  This can be used to choose optimal process grids for subsequent matrix multiplications
-!>                  with matrices of similar shape and sparsity.
-!>                  under some conditions, split_opt can not be returned, in this case the pointer is
-!>                  not associated
-!> \param filter_eps ...
-!> \param flop ...
-!> \param move_data_a memory optimization: move data to matrix_c such that matrix_a is empty on return
-!> \param move_data_b memory optimization: move data to matrix_c such that matrix_b is empty on return
-!> \param simple_split for internal use only
-!> \param io_unit unit number for logging output
-!> \param log_verbose only for testing: verbose output
-! **************************************************************************************************
    RECURSIVE SUBROUTINE dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, matrix_b, beta, matrix_c, &
                                            optimize_dist, split_opt, filter_eps, flop, move_data_a, &
                                            move_data_b, simple_split, io_unit, log_verbose)
+      !! tall-and-skinny matrix-matrix multiplication. Undocumented dummy arguments are identical to
+      !! arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).
+
       CHARACTER(LEN=1), INTENT(IN)               :: transa, transb, transc
       TYPE(dbcsr_scalar_type), INTENT(IN)        :: alpha, beta
       TYPE(dbcsr_tas_type), TARGET, &
          INTENT(INOUT)                           :: matrix_a, matrix_b, matrix_c
       LOGICAL, INTENT(IN), OPTIONAL              :: optimize_dist
+         !! Whether distribution should be optimized internally. In the current implementation this guarantees optimal parameters
+         !! only for dense matrices.
       TYPE(dbcsr_tas_split_info), INTENT(OUT), &
          POINTER, OPTIONAL                       :: split_opt
+         !! optionally return split info containing optimal grid and split parameters. This can be used to choose optimal process
+         !! grids for subsequent matrix multiplications with matrices of similar shape and sparsity. under some conditions,
+         !! split_opt can not be returned, in this case the pointer is not associated
       REAL(KIND=real_8), INTENT(IN), OPTIONAL    :: filter_eps
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL :: flop
       LOGICAL, INTENT(IN), OPTIONAL              :: move_data_a, move_data_b, simple_split
+         !! memory optimization: move data to matrix_c such that matrix_a is empty on return
+         !! memory optimization: move data to matrix_c such that matrix_b is empty on return
+         !! for internal use only
       INTEGER, OPTIONAL, INTENT(IN)              :: io_unit
+         !! unit number for logging output
       LOGICAL, OPTIONAL, INTENT(IN)              :: log_verbose
+         !! only for testing: verbose output
 
       TYPE(dbcsr_tas_type), POINTER              :: matrix_b_rs, matrix_a_rs, matrix_c_rs
       TYPE(dbcsr_tas_type)                       :: matrix_c_rep, matrix_b_rep, matrix_a_rep
@@ -582,24 +565,21 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Make sure that smallest matrix involved in a multiplication is not split and bring it to
-!>        the same process grid as the other 2 matrices.
-!> \param mp_comm communicator that defines Cartesian topology
-!> \param matrix_in ...
-!> \param matrix_out ...
-!> \param transposed Whether matrix_out should be transposed
-!> \param trans update transpose flag for DBCSR mm according to 'transposed' argument
-!> \param nodata Data of matrix_in should not be copied to matrix_out
-!> \param move_data memory optimization: move data such that matrix_in is empty on return.
-! **************************************************************************************************
    SUBROUTINE reshape_mm_small(mp_comm, matrix_in, matrix_out, transposed, trans, nodata, move_data)
+      !! Make sure that smallest matrix involved in a multiplication is not split and bring it to
+      !! the same process grid as the other 2 matrices.
+
       INTEGER, INTENT(IN)               :: mp_comm
+         !! communicator that defines Cartesian topology
       TYPE(dbcsr_tas_type), INTENT(INOUT) :: matrix_in
       TYPE(dbcsr_tas_type), INTENT(OUT)   :: matrix_out
       LOGICAL, INTENT(IN)               :: transposed
+         !! Whether matrix_out should be transposed
       CHARACTER(LEN=1), INTENT(INOUT)   :: trans
+         !! update transpose flag for DBCSR mm according to 'transposed' argument
       LOGICAL, INTENT(IN), OPTIONAL     :: nodata, move_data
+         !! Data of matrix_in should not be copied to matrix_out
+         !! memory optimization: move data such that matrix_in is empty on return.
 
       INTEGER                           :: numnodes
       INTEGER(KIND=int_8), DIMENSION(2) :: dims
@@ -654,43 +634,38 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Reshape either matrix1 or matrix2 to make sure that their process grids are compatible with
-!> the same split factor.
-!> \param matrix1_in ...
-!> \param matrix2_in ...
-!> \param matrix1_out ...
-!> \param matrix2_out ...
-!> \param new1 Whether matrix1_out is a new matrix or simply pointing to matrix1_in
-!> \param new2 Whether matrix2_out is a new matrix or simply pointing to matrix2_in
-!> \param trans1 transpose flag of matrix1_in for multiplication
-!> \param trans2 transpose flag of matrix2_in for multiplication
-!> \param optimize_dist experimental: optimize matrix splitting and distribution
-!> \param nsplit Optimal split factor (set to 0 if split factor should not be changed)
-!> \param split_rc_1 Whether to split rows or columns for matrix 1
-!> \param split_rc_2 Whether to split rows or columns for matrix 2
-!> \param nodata1 Don't copy matrix data from matrix1_in to matrix1_out
-!> \param nodata2 Don't copy matrix data from matrix2_in to matrix2_out
-!> \param move_data_1 memory optimization: move data such that matrix1_in may be empty on return.
-!> \param move_data_2 memory optimization: move data such that matrix2_in may be empty on return.
-!> \param comm_new returns the new communicator only if optimize_dist
-!> \param unit_nr output unit
-! **************************************************************************************************
    SUBROUTINE reshape_mm_compatible(matrix1_in, matrix2_in, matrix1_out, matrix2_out, new1, new2, trans1, trans2, &
                                     optimize_dist, nsplit, split_rc_1, split_rc_2, nodata1, nodata2, &
                                     move_data_1, move_data_2, comm_new, unit_nr)
+      !! Reshape either matrix1 or matrix2 to make sure that their process grids are compatible with
+      !! the same split factor.
+
       TYPE(dbcsr_tas_type), TARGET, &
          INTENT(INOUT)                           :: matrix1_in, matrix2_in
       TYPE(dbcsr_tas_type), POINTER, INTENT(OUT) :: matrix1_out, matrix2_out
       LOGICAL, INTENT(OUT)                       :: new1, new2
+         !! Whether matrix1_out is a new matrix or simply pointing to matrix1_in
+         !! Whether matrix2_out is a new matrix or simply pointing to matrix2_in
       CHARACTER(LEN=1), INTENT(INOUT)            :: trans1, trans2
+         !! transpose flag of matrix1_in for multiplication
+         !! transpose flag of matrix2_in for multiplication
       LOGICAL, INTENT(IN), OPTIONAL              :: optimize_dist
+         !! experimental: optimize matrix splitting and distribution
       INTEGER, INTENT(IN), OPTIONAL              :: nsplit
+         !! Optimal split factor (set to 0 if split factor should not be changed)
       INTEGER, INTENT(INOUT)                     :: split_rc_1, split_rc_2
+         !! Whether to split rows or columns for matrix 1
+         !! Whether to split rows or columns for matrix 2
       INTEGER, INTENT(OUT), OPTIONAL             :: comm_new
+         !! returns the new communicator only if optimize_dist
       LOGICAL, OPTIONAL, INTENT(IN)              :: nodata1, nodata2
+         !! Don't copy matrix data from matrix1_in to matrix1_out
+         !! Don't copy matrix data from matrix2_in to matrix2_out
       LOGICAL, OPTIONAL, INTENT(INOUT)           :: move_data_1, move_data_2
+         !! memory optimization: move data such that matrix1_in may be empty on return.
+         !! memory optimization: move data such that matrix2_in may be empty on return.
       INTEGER, INTENT(IN), OPTIONAL              :: unit_nr
+         !! output unit
 
       INTEGER(KIND=int_8), DIMENSION(2)          :: dims1, dims2, dims_ref
       INTEGER(KIND=int_8)                        :: d1, d2
@@ -898,25 +873,22 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Change split factor without redistribution
-!> \param matrix_in ...
-!> \param matrix_out ...
-!> \param nsplit new split factor, set to 0 to not split
-!> \param split_rowcol split rows or columns
-!> \param is_new whether matrix_out is new or a pointer to matrix_in
-!> \param move_data memory optimization: move data such that matrix_in is empty on return.
-!> \param nodata Data of matrix_in should not be copied to matrix_out
-! **************************************************************************************************
    SUBROUTINE change_split(matrix_in, matrix_out, nsplit, split_rowcol, is_new, move_data, nodata)
+      !! Change split factor without redistribution
+
       TYPE(dbcsr_tas_type), TARGET, &
          INTENT(INOUT)                           :: matrix_in
       TYPE(dbcsr_tas_type), POINTER, INTENT(OUT) :: matrix_out
       INTEGER, INTENT(IN)                        :: nsplit
+         !! new split factor, set to 0 to not split
       INTEGER, INTENT(IN)                        :: split_rowcol
+         !! split rows or columns
       LOGICAL, INTENT(OUT)                       :: is_new
+         !! whether matrix_out is new or a pointer to matrix_in
       LOGICAL, INTENT(IN), OPTIONAL              :: nodata
+         !! Data of matrix_in should not be copied to matrix_out
       LOGICAL, INTENT(INOUT), OPTIONAL           :: move_data
+         !! memory optimization: move data such that matrix_in is empty on return.
 
       INTEGER                                    :: &
          mp_comm, split_rc, nsplit_old, handle, data_type, nsplit_new, nsplit_prv
@@ -990,14 +962,8 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Check whether matrices have same distribution and same split.
-!> \param mat_a ...
-!> \param mat_b ...
-!> \param io_unit ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dist_compatible(mat_a, mat_b, split_rc_a, split_rc_b, io_unit)
+      !! Check whether matrices have same distribution and same split.
       TYPE(dbcsr_tas_type), INTENT(IN)           :: mat_a, mat_b
       INTEGER, INTENT(IN)                        :: split_rc_a, split_rc_b
       INTEGER, INTENT(IN), OPTIONAL              :: io_unit
@@ -1061,17 +1027,8 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Reshape matrix_in s.t. it has same process grid, distribution and split as template
-!> \param template ...
-!> \param matrix_in ...
-!> \param matrix_out ...
-!> \param trans ...
-!> \param split_rc ...
-!> \param nodata ...
-!> \param move_data ...
-! **************************************************************************************************
    SUBROUTINE reshape_mm_template(template, matrix_in, matrix_out, trans, split_rc, nodata, move_data)
+      !! Reshape matrix_in s.t. it has same process grid, distribution and split as template
       TYPE(dbcsr_tas_type), INTENT(IN)           :: template
       TYPE(dbcsr_tas_type), INTENT(INOUT)        :: matrix_in
       TYPE(dbcsr_tas_type), INTENT(OUT)          :: matrix_out
@@ -1150,18 +1107,10 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Estimate sparsity pattern of C resulting from A x B = C by multiplying the block norms of A and B
-!>        Same dummy arguments as dbcsr_tas_multiply
-!> \param transa ...
-!> \param transb ...
-!> \param transc ...
-!> \param matrix_a ...
-!> \param matrix_b ...
-!> \param matrix_c ...
-!> \param filter_eps ...
-! **************************************************************************************************
    FUNCTION result_sparsity_estimate(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps) RESULT(nze)
+      !! Estimate sparsity pattern of C resulting from A x B = C by multiplying the block norms of A and B
+      !! Same dummy arguments as dbcsr_tas_multiply
+
       CHARACTER(LEN=1), INTENT(IN)               :: transa, transb, transc
       TYPE(dbcsr_tas_type), INTENT(INOUT)        :: matrix_a, matrix_b, matrix_c
       TYPE(dbcsr_tas_type)                       :: matrix_a_bnorm, matrix_b_bnorm, matrix_c_bnorm
@@ -1203,21 +1152,19 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Estimate optimal split factor for AxB=C from occupancies (number of non-zero elements)
-!>
-!>        This estimate is based on the minimization of communication volume whereby
-!>        the communication of CARMA n-split step and CANNON-multiplication of submatrices are
-!>        considered.
-!> \param nze_a number of non-zeroes in A
-!> \param nze_b number of non-zeroes in B
-!> \param nze_c number of non-zeroes in C
-!> \param numnodes number of MPI ranks
-!> \result estimated split factor
-! **************************************************************************************************
    FUNCTION split_factor_estimate(nze_a, nze_b, nze_c, numnodes) RESULT(nsplit)
+      !! Estimate optimal split factor for AxB=C from occupancies (number of non-zero elements)
+      !! This estimate is based on the minimization of communication volume whereby
+      !! the communication of CARMA n-split step and CANNON-multiplication of submatrices are
+      !! considered.
+      !! \result estimated split factor
+
       INTEGER(KIND=int_8), INTENT(IN)             :: nze_a, nze_b, nze_c
+         !! number of non-zeroes in A
+         !! number of non-zeroes in B
+         !! number of non-zeroes in C
       INTEGER, INTENT(IN)                         :: numnodes
+         !! number of MPI ranks
       INTEGER                                     :: nsplit, nsplit_comm, nsplit_memory
       INTEGER(KIND=int_8)                         :: max_nze, min_nze
 
@@ -1234,14 +1181,8 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Create a matrix with block sizes one that contains the block norms of matrix_in
-!>
-!> \param matrix_in ...
-!> \param matrix_out ...
-!> \param nodata ...
-! **************************************************************************************************
    SUBROUTINE create_block_norms_matrix(matrix_in, matrix_out, nodata)
+      !! Create a matrix with block sizes one that contains the block norms of matrix_in
       TYPE(dbcsr_tas_type), INTENT(INOUT)        :: matrix_in
       TYPE(dbcsr_tas_type), INTENT(OUT)          :: matrix_out
       LOGICAL, INTENT(IN), OPTIONAL              :: nodata
@@ -1297,21 +1238,18 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Convert a DBCSR matrix to a new process grid
-!> \param mp_comm_cart new process grid
-!> \param matrix_in ...
-!> \param matrix_out ...
-!> \param move_data memory optimization: move data such that matrix_in is empty on return.
-!> \param nodata Data of matrix_in should not be copied to matrix_out
-!> \param optimize_pgrid Whether to change process grid
-! **************************************************************************************************
    SUBROUTINE convert_to_new_pgrid(mp_comm_cart, matrix_in, matrix_out, move_data, nodata, optimize_pgrid)
+      !! Convert a DBCSR matrix to a new process grid
+
       INTEGER, INTENT(IN)                        :: mp_comm_cart
+         !! new process grid
       TYPE(dbcsr_type), INTENT(INOUT), TARGET    :: matrix_in
       TYPE(dbcsr_type), INTENT(OUT), POINTER     :: matrix_out
       LOGICAL, INTENT(IN), OPTIONAL              :: move_data, nodata
+         !! memory optimization: move data such that matrix_in is empty on return.
+         !! Data of matrix_in should not be copied to matrix_out
       LOGICAL, INTENT(IN), OPTIONAL              :: optimize_pgrid
+         !! Whether to change process grid
 
       INTEGER                                    :: &
          nbrows, nbcols, data_type, nproc, handle

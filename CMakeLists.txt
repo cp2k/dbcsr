@@ -40,10 +40,14 @@ if (USE_CUDA)
   set(CUDA_ARCH_NUMBER_V100 70)
   set(CUDA_ARCH_NUMBER ${CUDA_ARCH_NUMBER_${WITH_GPU}})
 
-  # assume that the backend compiler for nvcc understands the -std=c++11
-  set(CMAKE_CUDA_FLAGS "-std=c++11 -arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
+  set(CMAKE_CUDA_FLAGS "-arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
+
+  set(CMAKE_CUDA_STANDARD 11)  # adds -std=c++11 if needed by the nvcc backend
+  set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 endif ()
 
+# we're always using at least C++11
+set(CMAKE_CXX_STANDARD 11)
 
 # PACKAGE DISCOVERY:
 
@@ -110,9 +114,23 @@ endif ()
 
 set(ARCHIVE_NAME "${CMAKE_PROJECT_NAME}-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 add_custom_target(dist
-  COMMAND ${CMAKE_COMMAND} -E echo "Building distribution: ${ARCHIVE_NAME}"
+  COMMENT "Building distribution: ${ARCHIVE_NAME}"
   COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/dist"
   COMMAND git archive-all "${CMAKE_BINARY_DIR}/dist/${ARCHIVE_NAME}.tar.gz"
   COMMAND ${CMAKE_COMMAND} -E echo "SHA512 Digests:"
   COMMAND ${CMAKE_COMMAND} -E sha512sum "${CMAKE_BINARY_DIR}/dist/${ARCHIVE_NAME}.tar.gz"
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
+find_program(FORD_EXE ford
+  DOC "path to the ford executable (required to generate the documentation)"
+  )
+
+# copy the FORD project-file into the build directory
+configure_file(project-file.md.in project-file.md)
+
+add_custom_target(doc
+  COMMENT "Generating API documentation"
+  COMMAND "${FORD_EXE}" project-file.md
+  VERBATIM
+  )
+add_dependencies(doc fypp)  # only depend on the fypp step to avoid building everything just for the docs

@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR data methods
-!> \author  Urban Borstnik
-!> \date    2010-06-15
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2010-02-18 Moved from dbcsr_methods
-! **************************************************************************************************
 MODULE dbcsr_data_methods_low
+   !! DBCSR data methods
 
    USE dbcsr_acc_devmem, ONLY: acc_devmem_allocate_bytes, &
                                acc_devmem_allocated, &
@@ -68,14 +60,14 @@ MODULE dbcsr_data_methods_low
 
    PUBLIC :: internal_data_allocate, internal_data_deallocate
 
-!> \brief Encapsulates a scalar.
    INTERFACE dbcsr_scalar
+      !! Encapsulates a scalar.
       MODULE PROCEDURE dbcsr_scalar_s, dbcsr_scalar_d, &
          dbcsr_scalar_c, dbcsr_scalar_z
    END INTERFACE
 
-!> \brief Encapsulates a scalar.
    INTERFACE dbcsr_scalar_get_value
+      !! Encapsulates a scalar.
       MODULE PROCEDURE dbcsr_scalar_get_value_s, dbcsr_scalar_get_value_d, &
          dbcsr_scalar_get_value_c, dbcsr_scalar_get_value_z
    END INTERFACE
@@ -112,35 +104,28 @@ MODULE dbcsr_data_methods_low
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Returns data type of a data area
-!> \param[in] area         data area
-!> \return data type of the data area
-! **************************************************************************************************
    PURE FUNCTION dbcsr_data_get_type(area) RESULT(data_type)
+      !! Returns data type of a data area
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
+         !! data area
       INTEGER                                            :: data_type
+         !! data type of the data area
 
       data_type = area%d%data_type
    END FUNCTION dbcsr_data_get_type
 
-! **************************************************************************************************
-!> \brief Returns if there is a single reference of the data
-!> \param[in] area         data area
-!> \return true if reference is 1
-! **************************************************************************************************
    PURE FUNCTION dbcsr_data_unique(area) RESULT(unique)
+      !! Returns if there is a single reference of the data
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
+         !! data area
       LOGICAL                                            :: unique
+         !! true if reference is 1
 
       unique = area%d%refcount .EQ. 1
    END FUNCTION dbcsr_data_unique
 
-! **************************************************************************************************
-!> \brief ...
-!> \param area ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_data_get_memory_type(area) RESULT(memory_type)
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
       TYPE(dbcsr_memtype_type)                           :: memory_type
@@ -148,24 +133,22 @@ CONTAINS
       memory_type = area%d%memory_type
    END FUNCTION dbcsr_data_get_memory_type
 
-! **************************************************************************************************
-!> \brief Initializes a data area
-!> \param[inout] area         data area
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_init(area)
+      !! Initializes a data area
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
+         !! data area
 
       NULLIFY (area%d)
    END SUBROUTINE dbcsr_data_init
 
-! **************************************************************************************************
-!> \brief Allocates pointers in the data type
-!> \param[in,out] area        internal structure holding array pointers
-!> \param[in] sizes           sizes to allocate to
-! **************************************************************************************************
    SUBROUTINE internal_data_allocate(area, sizes)
+      !! Allocates pointers in the data type
+
       TYPE(dbcsr_data_area_type), INTENT(INOUT)          :: area
+         !! internal structure holding array pointers
       INTEGER, DIMENSION(:), INTENT(IN)                  :: sizes
+         !! sizes to allocate to
 
       CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_allocate', &
                                      routineP = moduleN//':'//routineN
@@ -224,12 +207,11 @@ CONTAINS
 
    END SUBROUTINE internal_data_allocate
 
-! **************************************************************************************************
-!> \brief Allocates pointers in the data type
-!> \param[in,out] area        internal structure holding array pointers
-! **************************************************************************************************
    SUBROUTINE internal_data_deallocate(area)
+      !! Allocates pointers in the data type
+
       TYPE(dbcsr_data_area_type), INTENT(INOUT)          :: area
+         !! internal structure holding array pointers
 
       CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_deallocate', &
                                      routineP = moduleN//':'//routineN
@@ -288,12 +270,11 @@ CONTAINS
          CALL timestop(handle)
    END SUBROUTINE internal_data_deallocate
 
-! **************************************************************************************************
-!> \brief Clears pointers from the data area.
-!> \param[inout] area         data area
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_clear_pointer(area)
+      !! Clears pointers from the data area.
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
+         !! data area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_clear_pointer', &
                                      routineP = moduleN//':'//routineN
@@ -332,14 +313,13 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_data_clear_pointer
 
-! **************************************************************************************************
-!> \brief Checks whether a data area is valid
-!> \param[in] area         data area
-!> \return whether the data area is valid
-! **************************************************************************************************
    ELEMENTAL FUNCTION dbcsr_data_valid(area) RESULT(valid)
+      !! Checks whether a data area is valid
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
+         !! data area
       LOGICAL                                            :: valid
+         !! whether the data area is valid
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_valid', &
                                      routineP = moduleN//':'//routineN
@@ -349,14 +329,13 @@ CONTAINS
       valid = ASSOCIATED(area%d)
    END FUNCTION dbcsr_data_valid
 
-! **************************************************************************************************
-!> \brief Checks whether a data pointer exists
-!> \param[in] area         data area
-!> \return whether the data pointer exists
-! **************************************************************************************************
    FUNCTION dbcsr_data_exists(area) RESULT(valid)
+      !! Checks whether a data pointer exists
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
+         !! data area
       LOGICAL                                            :: valid
+         !! whether the data pointer exists
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_exists', &
                                      routineP = moduleN//':'//routineN
@@ -403,12 +382,11 @@ CONTAINS
       ENDIF
    END FUNCTION dbcsr_data_exists
 
-! **************************************************************************************************
-!> \brief Registers another use of the data area
-!> \param[inout] area         data area
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_hold(area)
+      !! Registers another use of the data area
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
+         !! data area
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_hold', &
                                      routineP = moduleN//':'//routineN
@@ -428,22 +406,20 @@ CONTAINS
       area%d%refcount = area%d%refcount + 1
    END SUBROUTINE dbcsr_data_hold
 
-! **************************************************************************************************
-!> \brief Points data area data pointers to another data area
-!>
-!> Assumes that no memory will be lost when repointing the pointer in the data
-!> area and that the area is initialized.
-!> \param[in,out] area         data area to repoint
-!> \param[in] rsize size of data area to point to
-!> \param[in] csize size of data area to point to
-!> \param[in] pointee          data area to point to
-!> \param[in] source_lb        (optional) point to this offset in pointee
-! **************************************************************************************************
    SUBROUTINE set_data_area_area(area, rsize, csize, pointee, source_lb)
+      !! Points data area data pointers to another data area
+      !! Assumes that no memory will be lost when repointing the pointer in the data
+      !! area and that the area is initialized.
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
+         !! data area to repoint
       INTEGER, INTENT(IN)                                :: rsize, csize
+         !! size of data area to point to
+         !! size of data area to point to
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: pointee
+         !! data area to point to
       INTEGER, INTENT(IN), OPTIONAL                      :: source_lb
+         !! point to this offset in pointee
 
       CHARACTER(len=*), PARAMETER :: routineN = 'set_data_area_area', &
                                      routineP = moduleN//':'//routineN
@@ -541,14 +517,13 @@ CONTAINS
       ENDIF
    END SUBROUTINE set_data_area_area
 
-! **************************************************************************************************
-!> \brief Returns the allocated data size
-!> \param[in] area       data area
-!> \return size of data
-! **************************************************************************************************
    FUNCTION dbcsr_data_get_size(area) RESULT(data_size)
+      !! Returns the allocated data size
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
+         !! data area
       INTEGER                                            :: data_size
+         !! size of data
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_size', &
                                      routineP = moduleN//':'//routineN
@@ -595,15 +570,14 @@ CONTAINS
       ENDIF
    END FUNCTION dbcsr_data_get_size
 
-! **************************************************************************************************
-!> \brief Verifies bounds of a data area
-!> \param[in] area             Data area
-!> \param[in] lb               lower bounds
-!> \param[in] ub               upper bounds
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_verify_bounds(area, lb, ub)
+      !! Verifies bounds of a data area
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
+         !! Data area
       INTEGER, DIMENSION(:), INTENT(IN)                  :: lb, ub
+         !! lower bounds
+         !! upper bounds
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_verify_bounds', &
                                      routineP = moduleN//':'//routineN
@@ -664,15 +638,12 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_data_verify_bounds
 
-! **************************************************************************************************
-!> \brief Clears a part of the data area
-!> \param[in] area         data area
-!> \param lb ...
-!> \param ub ...
-!> \note Optimized for clearing big 1-D data areas from all data types.
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_zero(area, lb, ub)
+      !! Clears a part of the data area
+      !! @note Optimized for clearing big 1-D data areas from all data types.
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
+         !! data area
       INTEGER, DIMENSION(:), INTENT(in)                  :: lb, ub
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_zero', &
@@ -715,16 +686,15 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_data_zero
 
-! **************************************************************************************************
-!> \brief Returns the allocated data size
-!> \param[in] area       data area to query for size
-!> \param[out] sizes     array with the data sizes
-!> \param[out] valid     whether the data is actually allocated
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_get_sizes_any(area, sizes, valid)
+      !! Returns the allocated data size
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
+         !! data area to query for size
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: sizes
+         !! array with the data sizes
       LOGICAL, INTENT(OUT)                               :: valid
+         !! whether the data is actually allocated
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_any', &
                                      routineP = moduleN//':'//routineN
@@ -780,17 +750,16 @@ CONTAINS
          CALL timestop(handle)
    END SUBROUTINE dbcsr_data_get_sizes_any
 
-! **************************************************************************************************
-!> \brief Returns the allocated data size
-!> \param[in] area       data area to query for size, should be 2-D
-!> \param[out] row_size  row size
-!> \param[out] col_size  column size
-!> \param[out] valid     whether the data is actually allocated
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_get_sizes_2(area, row_size, col_size, valid)
+      !! Returns the allocated data size
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
+         !! data area to query for size, should be 2-D
       INTEGER, INTENT(OUT)                               :: row_size, col_size
+         !! row size
+         !! column size
       LOGICAL, INTENT(OUT)                               :: valid
+         !! whether the data is actually allocated
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_2', &
                                      routineP = moduleN//':'//routineN
@@ -817,16 +786,15 @@ CONTAINS
          CALL timestop(handle)
    END SUBROUTINE dbcsr_data_get_sizes_2
 
-! **************************************************************************************************
-!> \brief Returns the allocated data size
-!> \param[in] area         data area to query for size
-!> \param[out] total_size  size of array
-!> \param[out] valid       whether the data is actually allocated
-! **************************************************************************************************
    SUBROUTINE dbcsr_data_get_sizes_1(area, total_size, valid)
+      !! Returns the allocated data size
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
+         !! data area to query for size
       INTEGER, INTENT(OUT)                               :: total_size
+         !! size of array
       LOGICAL, INTENT(OUT)                               :: valid
+         !! whether the data is actually allocated
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_1', &
                                      routineP = moduleN//':'//routineN
@@ -850,14 +818,13 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_data_get_sizes_1
 
-! **************************************************************************************************
-!> \brief Returns an encapsulated scalar "1"
-!> \param[in] data_type       use the data type
-!> \return encapsulated value of one
-! **************************************************************************************************
    ELEMENTAL FUNCTION dbcsr_scalar_one(data_type) RESULT(one)
+      !! Returns an encapsulated scalar "1"
+
       INTEGER, INTENT(IN)                                :: data_type
+         !! use the data type
       TYPE(dbcsr_scalar_type)                            :: one
+         !! encapsulated value of one
 
       one = dbcsr_scalar_zero(data_type)
       SELECT CASE (data_type)
@@ -872,14 +839,13 @@ CONTAINS
       END SELECT
    END FUNCTION dbcsr_scalar_one
 
-! **************************************************************************************************
-!> \brief Returns an encapsulated scalar "sqrt(-1)"
-!> \param[in] data_type       use the data type
-!> \return encapsulated value of i
-! **************************************************************************************************
    ELEMENTAL FUNCTION dbcsr_scalar_i(data_type) RESULT(i)
+      !! Returns an encapsulated scalar "sqrt(-1)"
+
       INTEGER, INTENT(IN)                                :: data_type
+         !! use the data type
       TYPE(dbcsr_scalar_type)                            :: i
+         !! encapsulated value of i
 
       i = dbcsr_scalar_zero(data_type)
       SELECT CASE (data_type)
@@ -894,14 +860,13 @@ CONTAINS
       END SELECT
    END FUNCTION dbcsr_scalar_i
 
-! **************************************************************************************************
-!> \brief Returns an encapsulated scalar "0"
-!> \param[in] data_type       use the data type
-!> \return encapsulated value of zero
-! **************************************************************************************************
    ELEMENTAL FUNCTION dbcsr_scalar_zero(data_type) RESULT(zero)
+      !! Returns an encapsulated scalar "0"
+
       INTEGER, INTENT(IN)                                :: data_type
+         !! use the data type
       TYPE(dbcsr_scalar_type)                            :: zero
+         !! encapsulated value of zero
 
       zero%data_type = data_type
       zero%r_sp = 0.0_real_4
@@ -910,15 +875,14 @@ CONTAINS
       zero%c_dp = CMPLX(0.0, 0.0, real_8)
    END FUNCTION dbcsr_scalar_zero
 
-! **************************************************************************************************
-!> \brief Returns whether an encapsulated scalar is equal to another value
-!> \param[in] s1                    one value
-!> \param[in] s2                    another value
-!> \return whether values are equal
-! **************************************************************************************************
    ELEMENTAL FUNCTION dbcsr_scalar_are_equal(s1, s2) RESULT(are_equal)
+      !! Returns whether an encapsulated scalar is equal to another value
+
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: s1, s2
+         !! one value
+         !! another value
       LOGICAL                                            :: are_equal
+         !! whether values are equal
 
       IF (s1%data_type .NE. s2%data_type) THEN
          are_equal = .FALSE.
@@ -938,14 +902,13 @@ CONTAINS
       ENDIF
    END FUNCTION dbcsr_scalar_are_equal
 
-! **************************************************************************************************
-!> \brief Returns an encapsulated scalar as a negation of the given
-!> \param[in] s                    given value
-!> \return negated value
-! **************************************************************************************************
    ELEMENTAL FUNCTION dbcsr_scalar_negative(s) RESULT(negated)
+      !! Returns an encapsulated scalar as a negation of the given
+
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: s
+         !! given value
       TYPE(dbcsr_scalar_type)                            :: negated
+         !! negated value
 
       negated = dbcsr_scalar_zero(s%data_type)
       SELECT CASE (s%data_type)
@@ -962,13 +925,8 @@ CONTAINS
       END SELECT
    END FUNCTION dbcsr_scalar_negative
 
-! **************************************************************************************************
-!> \brief Returns an encapsulated scalar as a negation of the given
-!> \param s1 ...
-!> \param s2 ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION dbcsr_scalar_add(s1, s2) RESULT(s_sum)
+      !! Returns an encapsulated scalar as a negation of the given
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: s1, s2
       TYPE(dbcsr_scalar_type)                            :: s_sum
 
@@ -987,12 +945,6 @@ CONTAINS
       END SELECT
    END FUNCTION dbcsr_scalar_add
 
-! **************************************************************************************************
-!> \brief ...
-!> \param s1 ...
-!> \param s2 ...
-!> \return ...
-! **************************************************************************************************
    ELEMENTAL FUNCTION dbcsr_scalar_multiply(s1, s2) RESULT(s_product)
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: s1, s2
       TYPE(dbcsr_scalar_type)                            :: s_product
@@ -1012,36 +964,32 @@ CONTAINS
       END SELECT
    END FUNCTION dbcsr_scalar_multiply
 
-! **************************************************************************************************
-!> \brief Returns data type of a scalar
-!> \param[in] scalar       scalar
-!> \return data type of the scalar
-! **************************************************************************************************
    ELEMENTAL FUNCTION dbcsr_scalar_get_type(scalar) RESULT(data_type)
+      !! Returns data type of a scalar
+
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: scalar
+         !! scalar
       INTEGER                                            :: data_type
+         !! data type of the scalar
 
       data_type = scalar%data_type
    END FUNCTION dbcsr_scalar_get_type
 
-! **************************************************************************************************
-!> \brief Sets data type of a scalar
-!> \param[in] scalar       scalar
-!> \param data_type ...
-! **************************************************************************************************
    ELEMENTAL SUBROUTINE dbcsr_scalar_set_type(scalar, data_type)
+      !! Sets data type of a scalar
+
       TYPE(dbcsr_scalar_type), INTENT(INOUT)             :: scalar
+         !! scalar
       INTEGER, INTENT(IN)                                :: data_type
 
       scalar%data_type = data_type
    END SUBROUTINE dbcsr_scalar_set_type
 
-! **************************************************************************************************
-!> \brief Fills all data and precision types from the set one
-!> \param[in,out] scalar         data area
-! **************************************************************************************************
    ELEMENTAL SUBROUTINE dbcsr_scalar_fill_all(scalar)
+      !! Fills all data and precision types from the set one
+
       TYPE(dbcsr_scalar_type), INTENT(INOUT)             :: scalar
+         !! data area
 
       SELECT CASE (scalar%data_type)
       CASE (dbcsr_type_real_4)
@@ -1067,12 +1015,10 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_scalar_fill_all
 
-! **************************************************************************************************
-!> \brief Checks whether the data type is 2-D.
-!> \param data_type ...
-!> \return Data type is 2-D.
-! **************************************************************************************************
    PURE FUNCTION dbcsr_type_is_2d(data_type)
+      !! Checks whether the data type is 2-D.
+      !! \return Data type is 2-D.
+
       INTEGER, INTENT(IN)                                :: data_type
       LOGICAL                                            :: dbcsr_type_is_2d
 
@@ -1082,12 +1028,10 @@ CONTAINS
                          data_type .EQ. dbcsr_type_complex_8_2d
    END FUNCTION dbcsr_type_is_2d
 
-! **************************************************************************************************
-!> \brief Returns 1-d data type corresponding to the given 2-D one.
-!> \param data_type ...
-!> \return 1-D data type
-! **************************************************************************************************
    PURE FUNCTION dbcsr_type_2d_to_1d(data_type)
+      !! Returns 1-d data type corresponding to the given 2-D one.
+      !! \return 1-D data type
+
       INTEGER, INTENT(IN)                                :: data_type
       INTEGER                                            :: dbcsr_type_2d_to_1d
 
@@ -1113,12 +1057,10 @@ CONTAINS
       END SELECT
    END FUNCTION dbcsr_type_2d_to_1d
 
-! **************************************************************************************************
-!> \brief Returns 2-D data type corresponding to the given 1-D one.
-!> \param data_type ...
-!> \return 2-D data type
-! **************************************************************************************************
    PURE FUNCTION dbcsr_type_1d_to_2d(data_type)
+      !! Returns 2-D data type corresponding to the given 1-D one.
+      !! \return 2-D data type
+
       INTEGER, INTENT(IN)                                :: data_type
       INTEGER                                            :: dbcsr_type_1d_to_2d
 
@@ -1144,14 +1086,13 @@ CONTAINS
       END SELECT
    END FUNCTION dbcsr_type_1d_to_2d
 
-! **************************************************************************************************
-!> \brief Get actual data storage used for matrix
-!> \param[in] area            Count data of this matrix
-!> \return Data size used by matrix
-! **************************************************************************************************
    PURE FUNCTION dbcsr_data_get_size_referenced(area) RESULT(data_size_referenced)
+      !! Get actual data storage used for matrix
+
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
+         !! Count data of this matrix
       INTEGER                                            :: data_size_referenced
+         !! Data size used by matrix
 
       IF (ASSOCIATED(area%d)) THEN
          data_size_referenced = area%d%ref_size
@@ -1160,14 +1101,13 @@ CONTAINS
       ENDIF
    END FUNCTION dbcsr_data_get_size_referenced
 
-! **************************************************************************************************
-!> \brief Sets the referenced size of the data area
-!> \param[in,out] data_area  area for which to set referenced data size
-!> \param[in] referenced_size     set referenced data size to this value
-! **************************************************************************************************
    PURE SUBROUTINE dbcsr_data_set_size_referenced(data_area, referenced_size)
+      !! Sets the referenced size of the data area
+
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: data_area
+         !! area for which to set referenced data size
       INTEGER, INTENT(IN)                                :: referenced_size
+         !! set referenced data size to this value
 
       data_area%d%ref_size = referenced_size
    END SUBROUTINE dbcsr_data_set_size_referenced

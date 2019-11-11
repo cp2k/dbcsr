@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR operations on distributions related to matrix multiplication
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!> - 2010-02-18 Moved from dbcsr_util
-! **************************************************************************************************
 MODULE dbcsr_mm_dist_operations
+   !! DBCSR operations on distributions related to matrix multiplication
 
    USE dbcsr_array_types, ONLY: &
       array_data, array_equality, array_exists, array_hold, array_i1d_obj, array_new, &
@@ -63,38 +55,27 @@ MODULE dbcsr_mm_dist_operations
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Creates an image distribution given the other compatibility images
-!> \param[out] imgdist                  distribution repetition
-!> \param[in] dist                      distribution for which to form the
-!>                                      image distribution
-!> \param[in] match_row_pdist           (optional) match the new row
-!>                                      distribution to this row distribution
-!> \param[in] match_row_idist           (optional) match the row
-!>                                      distribution to these row images
-!> \param[in] match_row_nbins           number of bins in the distribution to
-!>                                      match the local rows
-!> \param[in] match_col_pdist           (optional) match the new column
-!>                                      distribution to this column
-!>                                      distribution
-!> \param[in] match_col_idist           (optional) match the new column
-!>                                      distribution to these column images
-!> \param[in] match_col_nbins           number of bins in the distribution to
-!>                                      match the local columns
-!> \param nimages_rows ...
-!> \param nimages_cols ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_create_image_dist(imgdist, dist, &
                                       match_row_pdist, match_row_idist, match_row_nbins, &
                                       match_col_pdist, match_col_idist, match_col_nbins, &
                                       nimages_rows, nimages_cols)
+      !! Creates an image distribution given the other compatibility images
+
       TYPE(dbcsr_imagedistribution_obj), INTENT(OUT)     :: imgdist
+         !! distribution repetition
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
+         !! distribution for which to form the image distribution
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: match_row_pdist, match_row_idist
+         !! match the new row distribution to this row distribution
+         !! match the row distribution to these row images
       INTEGER, INTENT(IN)                                :: match_row_nbins
+         !! number of bins in the distribution to match the local rows
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: match_col_pdist, match_col_idist
+         !! match the new column distribution to this column distribution
+         !! match the new column distribution to these column images
       INTEGER, INTENT(IN)                                :: match_col_nbins, nimages_rows, &
                                                             nimages_cols
+         !! number of bins in the distribution to match the local columns
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_create_image_dist', &
                                      routineP = moduleN//':'//routineN
@@ -233,12 +214,6 @@ CONTAINS
 !$    ENDIF
    END SUBROUTINE dbcsr_create_image_dist
 
-! **************************************************************************************************
-!> \brief ...
-!> \param imgdist ...
-!> \param dist ...
-!> \param template ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_new_image_dist(imgdist, dist, &
                                    template)
       TYPE(dbcsr_imagedistribution_obj), INTENT(OUT)     :: imgdist
@@ -273,21 +248,8 @@ CONTAINS
       !
    END SUBROUTINE dbcsr_new_image_dist
 
-! **************************************************************************************************
-!> \brief Prepares distributions for making dense matrices.
-!> \param product_dist ...
-!> \param left_rdist ...
-!> \param right_rdist ...
-!> \param dense_product_dist ...
-!> \param dense_left_rdist ...
-!> \param dense_right_rdist ...
-!> \param partial ...
-!> \param m_map ...
-!> \param k_vmap ...
-!> \param n_map ...
-!> \param old_m_sizes ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_dists_dense(product_dist, left_rdist, right_rdist, &
+      !! Prepares distributions for making dense matrices.
                                      dense_product_dist, dense_left_rdist, dense_right_rdist, &
                                      partial, &
                                      m_map, k_vmap, n_map, &
@@ -402,11 +364,8 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_make_dists_dense
 
-! **************************************************************************************************
-!> \brief Resets local rows, columns to the correct arrays and values.
-!> \param matrix ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_reset_locals(matrix)
+      !! Resets local rows, columns to the correct arrays and values.
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
 
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
@@ -448,14 +407,10 @@ CONTAINS
       !
    END SUBROUTINE dbcsr_reset_locals
 
-! **************************************************************************************************
-!> \brief Resets local rows, columns to the correct arrays and values
-!>         for images.
-!> \param matrix ...
-!> \param imgdist ...
-!> \param do_rows ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_reset_vlocals(matrix, imgdist, do_rows)
+      !! Resets local rows, columns to the correct arrays and values
+      !! for images.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
       LOGICAL, INTENT(IN), OPTIONAL                      :: do_rows
@@ -497,16 +452,15 @@ CONTAINS
       matrix%has_global_cols = .TRUE.
    END SUBROUTINE dbcsr_reset_vlocals
 
-! **************************************************************************************************
-!> \brief Determines mapping from local to global virtual process rows
-!> \param[in] imgdist           image distribution
-!> \param[out] local_vrows       local rows
-!> \param[in] local_vprow       the local virtual process row
-! **************************************************************************************************
    SUBROUTINE dbcsr_get_local_vrows(imgdist, local_vrows, local_vprow)
+      !! Determines mapping from local to global virtual process rows
+
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
+         !! image distribution
       TYPE(array_i1d_obj), INTENT(OUT)                   :: local_vrows
+         !! local rows
       INTEGER, INTENT(IN)                                :: local_vprow
+         !! the local virtual process row
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_vrows', &
                                      routineP = moduleN//':'//routineN
@@ -547,16 +501,15 @@ CONTAINS
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_local_vrows
 
-! **************************************************************************************************
-!> \brief Determines mapping from local to global virtual process columns
-!> \param[in] imgdist           image distribution
-!> \param[out] local_vcols       local columns
-!> \param[in] local_vpcol       the local virtual process column
-! **************************************************************************************************
    SUBROUTINE dbcsr_get_local_vcols(imgdist, local_vcols, local_vpcol)
+      !! Determines mapping from local to global virtual process columns
+
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
+         !! image distribution
       TYPE(array_i1d_obj), INTENT(OUT)                   :: local_vcols
+         !! local columns
       INTEGER, INTENT(IN)                                :: local_vpcol
+         !! the local virtual process column
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_vcols', &
                                      routineP = moduleN//':'//routineN
@@ -597,35 +550,19 @@ CONTAINS
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_local_vcols
 
-! **************************************************************************************************
-!> \brief Transform between virtual process rows/columns and actual process rows/columns and images therein.
-!> \param image_dist ...
-!> \param prow ...
-!> \param rowi ...
-!> \param pcol ...
-!> \param coli ...
-!> \param vprow ...
-!> \param vpcol ...
-!> \param myprow ...
-!> \param mypcol ...
-!> \param myrowi ...
-!> \param mycoli ...
-!> \param myvprow ...
-!> \param myvpcol ...
-!> \param vprow_shift ...
-!> \param vpcol_shift ...
-!> \param shifting ...
-!> \par Shifting
-!>  (L)eft and (R)ight shifting are "shifts from", (l)eft and (r)ight
-!>  are "shifts to".  A caller (or the my* specifications) would use
-!>  L/R to see which data he has (i.e., from where his data was
-!>  shifted).  To see where the caller's data goes to, use l/r.
-! **************************************************************************************************
    SUBROUTINE image_calculator(image_dist, &
                                prow, rowi, pcol, coli, vprow, vpcol, &
                                myprow, mypcol, myrowi, mycoli, myvprow, myvpcol, &
                                vprow_shift, vpcol_shift, &
                                shifting)
+      !! Transform between virtual process rows/columns and actual process rows/columns and images therein.
+      !!
+      !! Shifting
+      !! (L)eft and (R)ight shifting are "shifts from", (l)eft and (r)ight
+      !! are "shifts to".  A caller (or the my* specifications) would use
+      !! L/R to see which data he has (i.e., from where his data was
+      !! shifted).  To see where the caller's data goes to, use l/r.
+
       TYPE(dbcsr_imagedistribution_obj), INTENT(IN)      :: image_dist
       INTEGER, INTENT(OUT), OPTIONAL                     :: prow, rowi, pcol, coli, vprow, vpcol
       INTEGER, INTENT(IN), OPTIONAL                      :: myprow, mypcol, myrowi, mycoli, myvprow, &
@@ -707,15 +644,10 @@ CONTAINS
       IF (PRESENT(vpcol)) vpcol = vcol
    END SUBROUTINE image_calculator
 
-! **************************************************************************************************
-!> \brief Matches row/block sizes and offsets to a given distribution
-!> \param old_sizes ...
-!> \param mapping ...
-!> \param nel_new ...
-!> \param new_sizes ...
-!> \note Used for making matrices dense/undense
-! **************************************************************************************************
    SUBROUTINE make_sizes_dense(old_sizes, mapping, nel_new, new_sizes)
+      !! Matches row/block sizes and offsets to a given distribution
+      !! @note Used for making matrices dense/undense
+
       TYPE(array_i1d_obj), INTENT(IN)                    :: old_sizes, mapping
       INTEGER, INTENT(IN)                                :: nel_new
       TYPE(array_i1d_obj), INTENT(OUT)                   :: new_sizes
@@ -739,21 +671,20 @@ CONTAINS
       CALL array_new(new_sizes, new_s, gift=.TRUE.)
    END SUBROUTINE make_sizes_dense
 
-! **************************************************************************************************
-!> \brief Makes a 1-D distribution dense.
-!> \param[in] nbins Number of bins in the main distribution
-!> \param[in] old_dist         Current distribution
-!> \param[out] dense_dist      Dense distribution
-!> \param[out] dist_map        Map from current to dense distribution
-!> \param[in] nsubdist         Number of bins in the subdistribution
-!> \param[in] subdist          Subdistribution
-! **************************************************************************************************
    SUBROUTINE dbcsr_make_1dist_dense(nbins, old_dist, dense_dist, dist_map, nsubdist, subdist)
+      !! Makes a 1-D distribution dense.
+
       INTEGER, INTENT(IN)                                :: nbins
+         !! Number of bins in the main distribution
       TYPE(array_i1d_obj), INTENT(IN)                    :: old_dist
+         !! Current distribution
       TYPE(array_i1d_obj), INTENT(OUT)                   :: dense_dist, dist_map
+         !! Dense distribution
+         !! Map from current to dense distribution
       INTEGER, INTENT(IN)                                :: nsubdist
+         !! Number of bins in the subdistribution
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: subdist
+         !! Subdistribution
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_1dist_dense', &
                                      routineP = moduleN//':'//routineN
@@ -786,15 +717,8 @@ CONTAINS
       CALL array_new(dist_map, map, gift=.TRUE.)
    END SUBROUTINE dbcsr_make_1dist_dense
 
-! **************************************************************************************************
-!> \brief Converts virtual 1-D distribution to process and image
-!> \param nel ...
-!> \param vdist ...
-!> \param nim ...
-!> \param pdist ...
-!> \param idist ...
-! **************************************************************************************************
    pure SUBROUTINE v_to_p_i_dist(nel, vdist, nim, pdist, idist)
+      !! Converts virtual 1-D distribution to process and image
       INTEGER, INTENT(in)                                :: nel
       INTEGER, DIMENSION(1:nel), INTENT(in)              :: vdist
       INTEGER, INTENT(in)                                :: nim
@@ -808,13 +732,6 @@ CONTAINS
       END DO
    END SUBROUTINE v_to_p_i_dist
 
-! **************************************************************************************************
-!> \brief ...
-!> \param vdist ...
-!> \param nim ...
-!> \param pdist ...
-!> \param idist ...
-! **************************************************************************************************
    SUBROUTINE v_to_p_i_dist_o(vdist, nim, pdist, idist)
       TYPE(array_i1d_obj), INTENT(in)                    :: vdist
       INTEGER, INTENT(in)                                :: nim
@@ -831,14 +748,13 @@ CONTAINS
       CALL array_new(idist, id, gift=.TRUE.)
    END SUBROUTINE v_to_p_i_dist_o
 
-! **************************************************************************************************
-!> \brief Determines mapping from global to local rows
-!> \param[in] dist              mapping for this distribution
-!> \param[in] row_map           mapping to local rows
-! **************************************************************************************************
    SUBROUTINE dbcsr_get_global_row_map(dist, row_map)
+      !! Determines mapping from global to local rows
+
       TYPE(dbcsr_distribution_obj), INTENT(INOUT)        :: dist
+         !! mapping for this distribution
       TYPE(array_i1d_obj), INTENT(OUT)                   :: row_map
+         !! mapping to local rows
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_row_map', &
                                      routineP = moduleN//':'//routineN
@@ -863,14 +779,13 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_global_row_map
 
-! **************************************************************************************************
-!> \brief Determines mapping from global to local columns
-!> \param[in] dist              mapping for this distribution
-!> \param[in] col_map           mapping to local columns
-! **************************************************************************************************
    SUBROUTINE dbcsr_get_global_col_map(dist, col_map)
+      !! Determines mapping from global to local columns
+
       TYPE(dbcsr_distribution_obj), INTENT(INOUT)        :: dist
+         !! mapping for this distribution
       TYPE(array_i1d_obj), INTENT(OUT)                   :: col_map
+         !! mapping to local columns
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_col_map', &
                                      routineP = moduleN//':'//routineN
@@ -895,14 +810,13 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_global_col_map
 
-! **************************************************************************************************
-!> \brief Determines mapping from global to virtual local rows
-!> \param[in] imgdist           mapping for this image distribution
-!> \param[in] vrow_map           mapping to local rows
-! **************************************************************************************************
    SUBROUTINE dbcsr_get_global_vrow_map(imgdist, vrow_map)
+      !! Determines mapping from global to virtual local rows
+
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
+         !! mapping for this image distribution
       TYPE(array_i1d_obj), INTENT(OUT)                   :: vrow_map
+         !! mapping to local rows
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_vrow_map', &
                                      routineP = moduleN//':'//routineN
@@ -928,14 +842,13 @@ CONTAINS
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_global_vrow_map
 
-! **************************************************************************************************
-!> \brief Determines mapping from global to virtual local columns
-!> \param[in] imgdist           mapping for this image distribution
-!> \param[in] vcol_map           mapping to local columns
-! **************************************************************************************************
    SUBROUTINE dbcsr_get_global_vcol_map(imgdist, vcol_map)
+      !! Determines mapping from global to virtual local columns
+
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
+         !! mapping for this image distribution
       TYPE(array_i1d_obj), INTENT(OUT)                   :: vcol_map
+         !! mapping to local columns
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_vcol_map', &
                                      routineP = moduleN//':'//routineN
@@ -961,22 +874,20 @@ CONTAINS
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE dbcsr_get_global_vcol_map
 
-! **************************************************************************************************
-!> \brief Points to local virtual elements.
-!>
-!> All elements are mapped at once.  Therefore an entry in the
-!> resulting array can be used as a lookup index for any of the local
-!> element arrays.  The distribution itself tells into which array to
-!> look.
-!> \param[out] global_elements   enumerated local elements
-!> \param[in] bin_distribution           distribution of elements to bins
-!> \param[in] nbins                      number of bins
-! **************************************************************************************************
    PURE SUBROUTINE map_all_local_elements(global_elements, &
                                           bin_distribution, nbins)
+      !! Points to local virtual elements.
+      !! All elements are mapped at once.  Therefore an entry in the
+      !! resulting array can be used as a lookup index for any of the local
+      !! element arrays.  The distribution itself tells into which array to
+      !! look.
+
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: global_elements
+         !! enumerated local elements
       INTEGER, DIMENSION(:), INTENT(IN)                  :: bin_distribution
+         !! distribution of elements to bins
       INTEGER, INTENT(IN)                                :: nbins
+         !! number of bins
 
       INTEGER                                            :: bin, el
       INTEGER, DIMENSION(0:nbins - 1)                      :: nlve
@@ -989,43 +900,44 @@ CONTAINS
       ENDDO
    END SUBROUTINE map_all_local_elements
 
-! **************************************************************************************************
-!> \brief Makes new distribution with decimation and multiplicity
-!>        Multiplicity is being ignored, maybe this is a bug
-!> \param[out] images        new image distribution
-!> \param[in] my_bins        Basis for the new images
-!> \param[in] nbins          number of bins in the new real distribution
-!> \param[in] nimages        number of images in the new distribution
-!> \par Definition of multiplicity and nimages
-!>      Multiplicity and decimation (number of images) are used to
-!>      match process grid coordinates on non-square process
-!>      grids. Given source_nbins and target_nbins, their relation is
-!>                source_nbins * target_multiplicity
-!>              = target_nbins * target_nimages.
-!>      It is best when both multiplicity and nimages are small. To
-!>      get these two factors, then, one can use the following formulas:
-!>          nimages      = lcm(source_nbins, target_nbins) / target_nbins
-!>          multiplicity = target_nbins / gcd(source_nbins, target_nbins)
-!>      from the target's point of view (nimages = target_nimages).
-!> \par Mapping
-!>      The new distribution comprises of real bins and images within
-!>      bins. These can be view as target_nbins*nimages virtual
-!>      columns. These same virtual columns are also
-!>      source_nbins*multiplicity in number. Therefore these virtual
-!>      columns are mapped from source_nbins*multiplicity onto
-!>      target_bins*nimages (each target bin has nimages images):
-!>      Source 4: |1 2 3|4 5 6|7 8 9|A B C| (4*3)
-!>      Target 6: |1 2|3 4|5 6|7 8|9 A|B C| (6*2)
-!>      multiplicity=3, nimages=2, 12 virtual columns (1-C).
-!>      Source bin elements are evenly mapped into one of multiplicity
-!>      virtual columns. Other (non-even, block-size aware) mappings
-!>      could be better.
-! **************************************************************************************************
    SUBROUTINE reimage_distribution(images, my_bins, &
                                    nbins, nimages)
+      !! Makes new distribution with decimation and multiplicity
+      !! Multiplicity is being ignored, maybe this is a bug
+      !!
+      !! Definition of multiplicity and nimages
+      !! Multiplicity and decimation (number of images) are used to
+      !! match process grid coordinates on non-square process
+      !! grids. Given source_nbins and target_nbins, their relation is
+      !! source_nbins * target_multiplicity
+      !! = target_nbins * target_nimages.
+      !! It is best when both multiplicity and nimages are small. To
+      !! get these two factors, then, one can use the following formulas:
+      !! nimages      = lcm(source_nbins, target_nbins) / target_nbins
+      !! multiplicity = target_nbins / gcd(source_nbins, target_nbins)
+      !! from the target's point of view (nimages = target_nimages).
+      !!
+      !! Mapping
+      !! The new distribution comprises of real bins and images within
+      !! bins. These can be view as target_nbins*nimages virtual
+      !! columns. These same virtual columns are also
+      !! source_nbins*multiplicity in number. Therefore these virtual
+      !! columns are mapped from source_nbins*multiplicity onto
+      !! target_bins*nimages (each target bin has nimages images):
+      !! Source 4: |1 2 3|4 5 6|7 8 9|A B C| (4*3)
+      !! Target 6: |1 2|3 4|5 6|7 8|9 A|B C| (6*2)
+      !! multiplicity=3, nimages=2, 12 virtual columns (1-C).
+      !! Source bin elements are evenly mapped into one of multiplicity
+      !! virtual columns. Other (non-even, block-size aware) mappings
+      !! could be better.
+
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: images
+         !! new image distribution
       INTEGER, DIMENSION(:), INTENT(IN)                  :: my_bins
+         !! Basis for the new images
       INTEGER, INTENT(IN)                                :: nbins, nimages
+         !! number of bins in the new real distribution
+         !! number of images in the new distribution
 
       CHARACTER(len=*), PARAMETER :: routineN = 'reimage_distribution', &
                                      routineP = moduleN//':'//routineN
@@ -1047,20 +959,19 @@ CONTAINS
       ENDDO
    END SUBROUTINE reimage_distribution
 
-! **************************************************************************************************
-!> \brief Makes new virtual distribution of rows/columns.
-!> \param[in] nelements      number of elements
-!> \param[out] vbins         virtual bins
-!> \param[in] bins           bins to which elements belong
-!> \param[in] decimation     matching between bins
-!> \param[in] images         images to which element belong
-! **************************************************************************************************
    PURE SUBROUTINE make_vdistribution(nelements, vbins, bins, decimation, images)
+      !! Makes new virtual distribution of rows/columns.
+
       INTEGER, INTENT(IN)                                :: nelements
+         !! number of elements
       INTEGER, DIMENSION(nelements), INTENT(OUT)         :: vbins
+         !! virtual bins
       INTEGER, DIMENSION(nelements), INTENT(IN)          :: bins
+         !! bins to which elements belong
       INTEGER, INTENT(IN)                                :: decimation
+         !! matching between bins
       INTEGER, DIMENSION(nelements), INTENT(IN)          :: images
+         !! images to which element belong
 
       CHARACTER(len=*), PARAMETER :: routineN = 'make_vdistribution', &
                                      routineP = moduleN//':'//routineN
@@ -1074,43 +985,44 @@ CONTAINS
       END DO
    END SUBROUTINE make_vdistribution
 
-! **************************************************************************************************
-!> \brief Makes new distribution with multiplicity
-!> \param[out] new_bins      new real distribution
-!> \param[out] images        new image distribution
-!> \param[in] source_bins    Basis for the new distribution and images
-!> \param[in] source_images  Basis for the new distribution and images
-!> \param[in] nbins          number of bins in the new real distribution
-!> \param[in] multiplicity   multiplicity
-!> \param[in] nimages        number of images in the new distribution
-!> \par Definition of multiplicity and nimages
-!>      Multiplicity and number of images are used to match process
-!>      grid coordinates on non-square process grids. Given
-!>      source_nbins and target_nbins, their relation is
-!>          source_nbins * multiplicity = target_nbins * nimages.
-!>      It is best when both multiplicity and nimages are small. To
-!>      get these two factors, then, one can use the following formulas:
-!>          nimages      = lcm(source_nbins, target_nbins) / target_nbins
-!>          multiplicity = target_nbins / gcd(source_nbins, target_nbins)
-!> \par Mapping
-!>      The new distribution comprises of real bins and images within
-!>      bins. These can be view as target_nbins*nimages virtual
-!>      columns. These same virtual columns are also
-!>      source_nbins*multiplicity in number. Therefore these virtual
-!>      columns are mapped from source_nbins*multiplicity onto
-!>      target_bins*nimages (each target bin has nimages images):
-!>      Source 4: |1 2 3|4 5 6|7 8 9|A B C| (4*3)
-!>      Target 6: |1 2|3 4|5 6|7 8|9 A|B C| (6*2)
-!>      multiplicity=3, nimages=2, 12 virtual columns (1-C).
-!>      Source bin elements are evenly mapped into one of multiplicity
-!>      virtual columns. Other (non-even, block-size aware) mappings
-!>      could be better.
-! **************************************************************************************************
    SUBROUTINE rebin_imaged_distribution(new_bins, images, &
                                         source_bins, source_images, nbins, multiplicity, nimages)
+      !! Makes new distribution with multiplicity
+      !!
+      !! Definition of multiplicity and nimages
+      !! Multiplicity and number of images are used to match process
+      !! grid coordinates on non-square process grids. Given
+      !! source_nbins and target_nbins, their relation is
+      !! source_nbins * multiplicity = target_nbins * nimages.
+      !! It is best when both multiplicity and nimages are small. To
+      !! get these two factors, then, one can use the following formulas:
+      !! nimages      = lcm(source_nbins, target_nbins) / target_nbins
+      !! multiplicity = target_nbins / gcd(source_nbins, target_nbins)
+      !!
+      !! Mapping
+      !! The new distribution comprises of real bins and images within
+      !! bins. These can be view as target_nbins*nimages virtual
+      !! columns. These same virtual columns are also
+      !! source_nbins*multiplicity in number. Therefore these virtual
+      !! columns are mapped from source_nbins*multiplicity onto
+      !! target_bins*nimages (each target bin has nimages images):
+      !! Source 4: |1 2 3|4 5 6|7 8 9|A B C| (4*3)
+      !! Target 6: |1 2|3 4|5 6|7 8|9 A|B C| (6*2)
+      !! multiplicity=3, nimages=2, 12 virtual columns (1-C).
+      !! Source bin elements are evenly mapped into one of multiplicity
+      !! virtual columns. Other (non-even, block-size aware) mappings
+      !! could be better.
+
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: new_bins, images
+         !! new real distribution
+         !! new image distribution
       INTEGER, DIMENSION(:), INTENT(IN)                  :: source_bins, source_images
+         !! Basis for the new distribution and images
+         !! Basis for the new distribution and images
       INTEGER, INTENT(IN)                                :: nbins, multiplicity, nimages
+         !! number of bins in the new real distribution
+         !! multiplicity
+         !! number of images in the new distribution
 
       CHARACTER(len=*), PARAMETER :: routineN = 'rebin_imaged_distribution', &
                                      routineP = moduleN//':'//routineN

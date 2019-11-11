@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   Tests for DBCSR multiply
-!> \author  VW
-!> \date    2010
-!> \version 1.0
-!>
-!> <b>Modification history:</b>
-!> - Created 2010
-! **************************************************************************************************
 MODULE dbcsr_test_multiply
+   !! Tests for DBCSR multiply
    USE dbcsr_data_methods, ONLY: dbcsr_data_get_sizes, &
                                  dbcsr_data_init, &
                                  dbcsr_data_new, &
@@ -71,35 +63,29 @@ MODULE dbcsr_test_multiply
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Performs a variety of matrix multiplies of same matrices on different
-!>        processor grids
-!> \param test_name ...
-!> \param[in] mp_group          MPI communicator
-!> \param mp_env ...
-!> \param npdims ...
-!> \param[in] io_unit           which unit to write to, if not negative
-!> \param[in] matrix_sizes      size of matrices to test
-!> \param bs_m block sizes of the 3 dimension
-!> \param bs_n block sizes of the 3 dimension
-!> \param bs_k block sizes of the 3 dimension
-!> \param[in] sparsities        sparsities of matrices to create
-!> \param alpha alpha value to use in multiply
-!> \param beta beta value to use in multiply
-!> \param limits ...
-!> \param retain_sparsity ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_test_multiplies(test_name, mp_group, mp_env, npdims, io_unit, &
                                     matrix_sizes, bs_m, bs_n, bs_k, sparsities, &
                                     alpha, beta, limits, retain_sparsity)
+      !! Performs a variety of matrix multiplies of same matrices on different
+      !! processor grids
+
       CHARACTER(len=*), INTENT(IN)                       :: test_name
       INTEGER, INTENT(IN)                                :: mp_group
+         !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
       INTEGER, INTENT(IN)                                :: io_unit
+         !! which unit to write to, if not negative
       INTEGER, DIMENSION(:), INTENT(in)                  :: matrix_sizes, bs_m, bs_n, bs_k
+         !! size of matrices to test
+         !! block sizes of the 3 dimension
+         !! block sizes of the 3 dimension
+         !! block sizes of the 3 dimension
       REAL(real_8), DIMENSION(3), INTENT(in)             :: sparsities
+         !! sparsities of matrices to create
       COMPLEX(real_8), INTENT(in)                        :: alpha, beta
+         !! alpha value to use in multiply
+         !! beta value to use in multiply
       INTEGER, DIMENSION(6), INTENT(in)                  :: limits
       LOGICAL, INTENT(in)                                :: retain_sparsity
 
@@ -359,38 +345,24 @@ CONTAINS
 
    END SUBROUTINE dbcsr_test_multiplies
 
-! **************************************************************************************************
-!> \brief Performs a variety of matrix multiplies of same matrices on different
-!>        processor grids
-!> \param test_name ...
-!> \param[in] mp_group          MPI communicator
-!> \param mp_env ...
-!> \param npdims ...
-!> \param[in] io_unit           which unit to write to, if not negative
-!> \param[in] matrix_a matrices to multiply
-!> \param[in] matrix_b matrices to multiply
-!> \param[in] matrix_c matrices to multiply
-!> \param data_a ...
-!> \param data_b ...
-!> \param data_c ...
-!> \param data_c_dbcsr ...
-!> \param transa ...
-!> \param transb ...
-!> \param alpha ...
-!> \param beta ...
-!> \param limits ...
-!> \param retain_sparsity ...
-! **************************************************************************************************
    SUBROUTINE test_multiply(test_name, mp_group, mp_env, npdims, io_unit, &
                             matrix_a, matrix_b, matrix_c, &
                             data_a, data_b, data_c, data_c_dbcsr, &
                             transa, transb, alpha, beta, limits, retain_sparsity)
+      !! Performs a variety of matrix multiplies of same matrices on different
+      !! processor grids
+
       CHARACTER(len=*), INTENT(IN)                       :: test_name
       INTEGER, INTENT(IN)                                :: mp_group
+         !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER, DIMENSION(2), INTENT(in)                  :: npdims
       INTEGER, INTENT(IN)                                :: io_unit
+         !! which unit to write to, if not negative
       TYPE(dbcsr_type), INTENT(in)                       :: matrix_a, matrix_b, matrix_c
+         !! matrices to multiply
+         !! matrices to multiply
+         !! matrices to multiply
       TYPE(dbcsr_data_obj)                               :: data_a, data_b, data_c, data_c_dbcsr
       CHARACTER, INTENT(in)                              :: transa, transb
       TYPE(dbcsr_scalar_type), INTENT(in)                :: alpha, beta
@@ -548,36 +520,31 @@ CONTAINS
 
    END SUBROUTINE test_multiply
 
-! **************************************************************************************************
-!> \brief Performs a check of matrix multiplies
-!> \param test_name ...
-!> \param matrix_c ...
-!> \param[in] dense_c_dbcsr             dense result of the dbcsr_multiply
-!> \param dense_a input dense matrices
-!> \param dense_b input dense matrices
-!> \param dense_c input dense matrices
-!> \param transa transposition status
-!> \param transb transposition status
-!> \param alpha coefficients for the gemm
-!> \param beta coefficients for the gemm
-!> \param[in] limits                    limits for the gemm
-!> \param retain_sparsity ...
-!> \param[in] io_unit                   io unit for printing
-!> \param mp_group ...
-!> \param[out] success                  if passed the check success=T
-! **************************************************************************************************
    SUBROUTINE dbcsr_check_multiply(test_name, matrix_c, dense_c_dbcsr, dense_a, dense_b, dense_c, &
                                    transa, transb, alpha, beta, limits, retain_sparsity, io_unit, mp_group, &
                                    success)
+      !! Performs a check of matrix multiplies
+
       CHARACTER(len=*), INTENT(IN)                       :: test_name
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_c
       TYPE(dbcsr_data_obj), INTENT(inout)                :: dense_c_dbcsr, dense_a, dense_b, dense_c
+         !! dense result of the dbcsr_multiply
+         !! input dense matrices
+         !! input dense matrices
+         !! input dense matrices
       CHARACTER, INTENT(in)                              :: transa, transb
+         !! transposition status
+         !! transposition status
       TYPE(dbcsr_scalar_type), INTENT(in)                :: alpha, beta
+         !! coefficients for the gemm
+         !! coefficients for the gemm
       INTEGER, DIMENSION(6), INTENT(in)                  :: limits
+         !! limits for the gemm
       LOGICAL, INTENT(in)                                :: retain_sparsity
       INTEGER, INTENT(IN)                                :: io_unit, mp_group
+         !! io unit for printing
       LOGICAL, INTENT(out)                               :: success
+         !! if passed the check success=T
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_multiply', &
                                      routineP = moduleN//':'//routineN

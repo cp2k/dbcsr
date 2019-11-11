@@ -7,13 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief methods to split tall-and-skinny matrices along longest dimension.
-!>
-!> Basically, we are splitting process grid and each subgrid holds its own DBCSR matrix.
-!> \author Patrick Seewald
-! **************************************************************************************************
 MODULE dbcsr_tas_split
+   !! methods to split tall-and-skinny matrices along longest dimension.
+   !! Basically, we are splitting process grid and each subgrid holds its own DBCSR matrix.
+
 
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_distribution_type, dbcsr_tas_split_info
@@ -67,21 +64,19 @@ MODULE dbcsr_tas_split
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief split mpi grid by rows or columns
-!> \param split_info ...
-!> \param mp_comm global mpi communicator with a 2d cartesian grid
-!> \param ngroup number of groups
-!> \param igroup my group ID
-!> \param split_rowcol split rows or columns
-!> \param own_comm Whether split_info should own communicator
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_create_split_rows_or_cols(split_info, mp_comm, ngroup, igroup, split_rowcol, own_comm)
+      !! split mpi grid by rows or columns
+
       TYPE(dbcsr_tas_split_info), INTENT(OUT)            :: split_info
       INTEGER, INTENT(IN)                                :: mp_comm
+         !! global mpi communicator with a 2d cartesian grid
       INTEGER, INTENT(INOUT)                             :: ngroup
+         !! number of groups
       INTEGER, INTENT(IN)                                :: igroup, split_rowcol
+         !! my group ID
+         !! split rows or columns
       LOGICAL, INTENT(IN), OPTIONAL                      :: own_comm
+         !! Whether split_info should own communicator
 
       INTEGER :: &
          igroup_check, iproc, iproc_group, iproc_group_check, mp_comm_group, numproc, &
@@ -147,15 +142,11 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Create default cartesian process grid that is consistent with default split heuristic
-!>        of dbcsr_tas_create_split
-!> \param mp_comm ...
-!> \param split_rowcol ...
-!> \param nsplit ...
-!> \return new communicator
-! **************************************************************************************************
    FUNCTION dbcsr_tas_mp_comm(mp_comm, split_rowcol, nsplit)
+      !! Create default cartesian process grid that is consistent with default split heuristic
+      !! of dbcsr_tas_create_split
+      !! \return new communicator
+
       INTEGER, INTENT(IN)                                :: mp_comm
       INTEGER, INTENT(IN)                                :: split_rowcol
       INTEGER, INTENT(INOUT)                             :: nsplit
@@ -178,14 +169,8 @@ CONTAINS
       CALL timestop(handle)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Get optimal process grid dimensions consistent with dbcsr_tas_create_split
-!> \param numproc ...
-!> \param split_rowcol ...
-!> \param nsplit ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION dbcsr_tas_mp_dims(numproc, split_rowcol, nsplit)
+      !! Get optimal process grid dimensions consistent with dbcsr_tas_create_split
       INTEGER, INTENT(IN)                                :: numproc
       INTEGER, INTENT(IN)                                :: split_rowcol
       INTEGER, INTENT(IN)                                :: nsplit
@@ -220,18 +205,17 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Heuristic to get good split factor for a given process grid OR a given number of processes
-!> \param numproc total number of processes or (if split_pgrid) process grid dimension to split
-!> \param nsplit Desired split factor
-!> \param split_pgrid whether to split process grid
-!> \param pdim_nonsplit if split_pgrid: other process grid dimension
-!> \return split factor consistent with process grid or number of processes
-! **************************************************************************************************
    FUNCTION get_opt_nsplit(numproc, nsplit, split_pgrid, pdim_nonsplit)
+      !! Heuristic to get good split factor for a given process grid OR a given number of processes
+      !! \return split factor consistent with process grid or number of processes
+
       INTEGER, INTENT(IN)                        :: numproc, nsplit
+         !! total number of processes or (if split_pgrid) process grid dimension to split
+         !! Desired split factor
       LOGICAL, INTENT(IN)                        :: split_pgrid
+         !! whether to split process grid
       INTEGER, INTENT(IN), OPTIONAL              :: pdim_nonsplit
+         !! if split_pgrid: other process grid dimension
       INTEGER, ALLOCATABLE, DIMENSION(:)         :: nsplit_list, nsplit_list_square, nsplit_list_accept
       INTEGER                                    :: lb, ub, count, count_square, count_accept, split, &
                                                     minpos, get_opt_nsplit
@@ -306,19 +290,17 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Derive optimal cartesian process grid from matrix sizes. This ensures optimality for
-!>        dense matrices only
-!> \param mp_comm ...
-!> \param nblkrows total number of block rows
-!> \param nblkcols total number of block columns
-!> \return MPI communicator
-! **************************************************************************************************
    FUNCTION dbcsr_tas_mp_comm_from_matrix_sizes(mp_comm, nblkrows, nblkcols) RESULT(mp_comm_new)
+      !! Derive optimal cartesian process grid from matrix sizes. This ensures optimality for
+      !! dense matrices only
+
       INTEGER, INTENT(IN)                                :: mp_comm
       INTEGER(KIND=int_8), INTENT(IN)                    :: nblkrows, nblkcols
+         !! total number of block rows
+         !! total number of block columns
       INTEGER                                            :: nsplit, split_rowcol
       INTEGER                                            :: mp_comm_new
+         !! MPI communicator
 
       IF (nblkrows >= nblkcols) THEN
          split_rowcol = rowsplit
@@ -331,21 +313,19 @@ CONTAINS
       mp_comm_new = dbcsr_tas_mp_comm(mp_comm, split_rowcol, nsplit)
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Split Cartesian process grid using a default split heuristic.
-!> \param split_info object storing all data corresponding to split, submatrices and parallelization
-!> \param mp_comm MPI communicator with associated cartesian grid
-!> \param split_rowcol split rows or columns
-!> \param nsplit desired split factor, set to 0 if split factor of exactly 1 is required
-!> \param own_comm whether split_info should own communicator
-!> \param opt_nsplit ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_create_split(split_info, mp_comm, split_rowcol, nsplit, own_comm, opt_nsplit)
+      !! Split Cartesian process grid using a default split heuristic.
+
       TYPE(dbcsr_tas_split_info), INTENT(OUT)            :: split_info
+         !! object storing all data corresponding to split, submatrices and parallelization
       INTEGER, INTENT(IN)                                :: mp_comm
+         !! MPI communicator with associated cartesian grid
       INTEGER, INTENT(IN)                                :: split_rowcol
+         !! split rows or columns
       INTEGER, INTENT(IN)                                :: nsplit
+         !! desired split factor, set to 0 if split factor of exactly 1 is required
       LOGICAL, INTENT(IN), OPTIONAL                      :: own_comm
+         !! whether split_info should own communicator
       LOGICAL, INTENT(IN), OPTIONAL                      :: opt_nsplit
 
       CHARACTER(LEN=*), PARAMETER                        :: routineN = 'dbcsr_tas_create_split', &
@@ -399,13 +379,8 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Whether to accept proposed process grid dimensions (based on ratio of dimensions)
-!> \param dims ...
-!> \param relative ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION accept_pgrid_dims(dims, relative)
+      !! Whether to accept proposed process grid dimensions (based on ratio of dimensions)
       INTEGER, DIMENSION(2), INTENT(IN)          :: dims
       LOGICAL, INTENT(IN)                        :: relative
       INTEGER, DIMENSION(2)                      :: dims_opt
@@ -420,21 +395,19 @@ CONTAINS
       ENDIF
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Get info on split
-!> \param info ...
-!> \param mp_comm communicator (global process grid)
-!> \param nsplit split factor
-!> \param igroup which group do I belong to
-!> \param mp_comm_group subgroup communicator (group-local process grid)
-!> \param split_rowcol split rows or columns
-!> \param pgrid_offset group-local offset in process grid
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_get_split_info(info, mp_comm, nsplit, igroup, mp_comm_group, split_rowcol, pgrid_offset)
+      !! Get info on split
+
       TYPE(dbcsr_tas_split_info), INTENT(IN)             :: info
       INTEGER, INTENT(OUT), OPTIONAL                     :: mp_comm, nsplit, igroup, mp_comm_group, &
                                                             split_rowcol
+         !! communicator (global process grid)
+         !! split factor
+         !! which group do I belong to
+         !! subgroup communicator (group-local process grid)
+         !! split rows or columns
       INTEGER, DIMENSION(2), INTENT(OUT), OPTIONAL       :: pgrid_offset
+         !! group-local offset in process grid
 
       IF (PRESENT(mp_comm)) mp_comm = info%mp_comm
       IF (PRESENT(mp_comm_group)) mp_comm_group = info%mp_comm_group
@@ -453,10 +426,6 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param split_info ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_release_info(split_info)
       TYPE(dbcsr_tas_split_info), INTENT(INOUT)          :: split_info
       LOGICAL                                            :: abort
@@ -482,10 +451,6 @@ CONTAINS
       ENDIF
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief ...
-!> \param split_info ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_tas_info_hold(split_info)
       TYPE(dbcsr_tas_split_info), INTENT(IN)             :: split_info
 
@@ -498,24 +463,23 @@ CONTAINS
       ref = ref + 1
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief map global process info to group
-!> \param iproc global process ID
-!> \param pdims global process dimensions
-!> \param split_rowcol split rows or column
-!> \param pgrid_split_size how many process rows/cols per group
-!> \param igroup group ID
-!> \param pdims_group local process grid dimensions
-!> \param iproc_group group local process ID
-! **************************************************************************************************
    SUBROUTINE world_to_group_proc_map(iproc, pdims, split_rowcol, pgrid_split_size, igroup, &
                                       pdims_group, iproc_group)
+      !! map global process info to group
+
       INTEGER, INTENT(IN)                                :: iproc
+         !! global process ID
       INTEGER, DIMENSION(2), INTENT(IN)                  :: pdims
+         !! global process dimensions
       INTEGER, INTENT(IN)                                :: split_rowcol, pgrid_split_size
+         !! split rows or column
+         !! how many process rows/cols per group
       INTEGER, INTENT(OUT)                               :: igroup
+         !! group ID
       INTEGER, DIMENSION(2), INTENT(OUT), OPTIONAL       :: pdims_group
+         !! local process grid dimensions
       INTEGER, INTENT(OUT), OPTIONAL                     :: iproc_group
+         !! group local process ID
 
       INTEGER, DIMENSION(2)                              :: pcoord, pcoord_group
 
@@ -538,21 +502,20 @@ CONTAINS
       IF (PRESENT(iproc_group)) iproc_group = pcoord_group(1)*pdims_group(2) + pcoord_group(2)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief map local process info to global info
-!> \param iproc global process id
-!> \param pdims global process grid dimensions
-!> \param split_rowcol split rows or column
-!> \param pgrid_split_size how many process rows/cols per group
-!> \param igroup group ID
-!> \param iproc_group local process ID
-! **************************************************************************************************
    SUBROUTINE group_to_world_proc_map(iproc, pdims, split_rowcol, pgrid_split_size, &
                                       igroup, iproc_group)
+      !! map local process info to global info
+
       INTEGER, INTENT(OUT)                               :: iproc
+         !! global process id
       INTEGER, DIMENSION(2), INTENT(IN)                  :: pdims
+         !! global process grid dimensions
       INTEGER, INTENT(IN)                                :: split_rowcol, pgrid_split_size, &
                                                             igroup, iproc_group
+         !! split rows or column
+         !! how many process rows/cols per group
+         !! group ID
+         !! local process ID
 
       INTEGER, DIMENSION(2)                              :: pcoord, pcoord_group, pdims_group
 
@@ -574,21 +537,18 @@ CONTAINS
       iproc = pcoord(1)*pdims(2) + pcoord(2)
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief map group local block index to global matrix index
-!> \param info ...
-!> \param dist ...
-!> \param row_group group local row block index
-!> \param column_group group local column block index
-!> \param row global block row
-!> \param column global block column
-! **************************************************************************************************
    SUBROUTINE block_index_local_to_global(info, dist, row_group, column_group, &
                                           row, column)
+      !! map group local block index to global matrix index
+
       TYPE(dbcsr_tas_split_info), INTENT(IN)             :: info
       TYPE(dbcsr_tas_distribution_type), INTENT(IN)      :: dist
       INTEGER, INTENT(IN), OPTIONAL                      :: row_group, column_group
+         !! group local row block index
+         !! group local column block index
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL         :: row, column
+         !! global block row
+         !! global block column
 
       IF (PRESENT(row)) THEN
          DBCSR_ASSERT(PRESENT(row_group))
@@ -611,16 +571,8 @@ CONTAINS
       END SELECT
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief map global block index to group local index
-!> \param info ...
-!> \param dist ...
-!> \param row ...
-!> \param column ...
-!> \param row_group ...
-!> \param column_group ...
-! **************************************************************************************************
    SUBROUTINE block_index_global_to_local(info, dist, row, column, row_group, column_group)
+      !! map global block index to group local index
       TYPE(dbcsr_tas_split_info), INTENT(IN)               :: info
       TYPE(dbcsr_tas_distribution_type), INTENT(IN)        :: dist
       INTEGER(KIND=int_8), INTENT(IN), OPTIONAL          :: row, column
@@ -646,17 +598,15 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief map matrix rows/column to group local rows/column
-!> \param dist ...
-!> \param rowcol global row/column to map
-!> \param rowcol_group group local row/column
-! **************************************************************************************************
    SUBROUTINE mrowcol_to_group(dist, rowcol, rowcol_group)
+      !! map matrix rows/column to group local rows/column
+
 
       CLASS(dbcsr_tas_distribution_type), INTENT(IN) :: dist
       INTEGER(KIND=int_8), INTENT(IN)              :: rowcol
+         !! global row/column to map
       INTEGER, INTENT(OUT)                         :: rowcol_group
+         !! group local row/column
       CHARACTER(LEN=*), PARAMETER                  :: routineN = 'mrowcol_to_group', &
                                                       routineP = moduleN//':'//routineN
 
@@ -665,15 +615,8 @@ CONTAINS
       END ASSOCIATE
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief binary search for 8-byte integers
-!> \param array ...
-!> \param el ...
-!> \param l_index ...
-!> \param u_index ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION i8_bsearch(array, el, l_index, u_index) result(res)
+      !! binary search for 8-byte integers
       INTEGER(KIND=int_8), intent(in) :: array(:)
       INTEGER(KIND=int_8), intent(in) :: el
       INTEGER, INTENT(in), OPTIONAL   :: l_index, u_index
@@ -697,18 +640,15 @@ CONTAINS
       res = lindex
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief maps a process subgroup to matrix rows/columns
-!> \param info ...
-!> \param rowcol_dist ...
-!> \param igroup group ID
-!> \param rowcols rows/ columns on this group
-! **************************************************************************************************
    SUBROUTINE group_to_mrowcol(info, rowcol_dist, igroup, rowcols)
+      !! maps a process subgroup to matrix rows/columns
+
       TYPE(dbcsr_tas_split_info), INTENT(IN)                      :: info
       CLASS(dbcsr_tas_distribution), INTENT(IN)                   :: rowcol_dist
       INTEGER, INTENT(IN)                                         :: igroup
+         !! group ID
       INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE, INTENT(OUT) :: rowcols
+         !! rows/ columns on this group
       INTEGER, DIMENSION(0:info%pgrid_split_size - 1)             :: nrowcols_group
       INTEGER                                                     :: pcoord, nrowcols, count, pcoord_group
       INTEGER, DIMENSION(:), ALLOCATABLE                          :: sort_indices

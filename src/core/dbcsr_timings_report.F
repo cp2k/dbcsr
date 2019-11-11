@@ -7,17 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Timing routines for accounting
-!> \par History
-!>      02.2004 made a stacked version (of stacks...) [Joost VandeVondele]
-!>      11.2004 storable timer_envs (for f77 interface) [fawzi]
-!>      10.2005 binary search to speed up lookup in timeset [fawzi]
-!>      12.2012 Complete rewrite based on dictionaries. [ole]
-!>      01.2014 Collect statistics from all MPI ranks. [ole]
-!> \author JGH
-! **************************************************************************************************
 MODULE dbcsr_timings_report
+   !! Timing routines for accounting
    USE dbcsr_dict, ONLY: dict_get, &
                          dict_haskey, &
                          dict_i4tuple_callstat_item_type, &
@@ -57,25 +48,16 @@ MODULE dbcsr_timings_report
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Print accumulated information on timers
-!> \param iw ...
-!> \param r_timings ...
-!> \param sort_by_self_time ...
-!> \param cost_type ...
-!> \param report_maxloc ...
-!> \param mp_env is needed to collect statistics from other nodes.
-!> \par History
-!>      none
-!> \author JGH
-! **************************************************************************************************
    SUBROUTINE timings_report_print(iw, r_timings, sort_by_self_time, cost_type, report_maxloc, mp_env)
+      !! Print accumulated information on timers
+
       INTEGER, INTENT(IN)                                :: iw
       REAL(KIND=dp), INTENT(IN)                          :: r_timings
       LOGICAL, INTENT(IN)                                :: sort_by_self_time
       INTEGER, INTENT(IN)                                :: cost_type
       LOGICAL, INTENT(IN)                                :: report_maxloc
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
+         !! is needed to collect statistics from other nodes.
 
       TYPE(list_routinereport_type)                      :: reports
       TYPE(routine_report_type), POINTER                 :: r_report
@@ -95,14 +77,8 @@ CONTAINS
 
    END SUBROUTINE timings_report_print
 
-! **************************************************************************************************
-!> \brief Collects the timing or energy reports from all MPI ranks.
-!> \param reports ...
-!> \param cost_type ...
-!> \param mp_env ...
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE collect_reports_from_ranks(reports, cost_type, mp_env)
+      !! Collects the timing or energy reports from all MPI ranks.
       TYPE(list_routinereport_type), INTENT(INOUT)       :: reports
       INTEGER, INTENT(IN)                                :: cost_type
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
@@ -208,20 +184,8 @@ CONTAINS
 
    END SUBROUTINE collect_reports_from_ranks
 
-! **************************************************************************************************
-!> \brief Print the collected reports
-!> \param reports ...
-!> \param iw ...
-!> \param threshold ...
-!> \param sort_by_exclusiv_cost ...
-!> \param cost_type ...
-!> \param report_maxloc ...
-!> \param mp_env ...
-!> \par History
-!>      01.2014 Refactored (Ole Schuett)
-!> \author JGH
-! **************************************************************************************************
    SUBROUTINE print_reports(reports, iw, threshold, sort_by_exclusiv_cost, cost_type, report_maxloc, mp_env)
+      !! Print the collected reports
       TYPE(list_routinereport_type), INTENT(IN)          :: reports
       INTEGER, INTENT(IN)                                :: iw
       REAL(KIND=dp), INTENT(IN)                          :: threshold
@@ -336,15 +300,10 @@ CONTAINS
 
    END SUBROUTINE print_reports
 
-! **************************************************************************************************
-!> \brief Write accumulated callgraph information as cachegrind-file.
-!> http://kcachegrind.sourceforge.net/cgi-bin/show.cgi/KcacheGrindCalltreeFormat
-!> \param filename ...
-!> \par History
-!>     12.2012  initial version[ole]
-!> \author Ole Schuett
-! **************************************************************************************************
    SUBROUTINE timings_report_callgraph(filename)
+      !! Write accumulated callgraph information as cachegrind-file.
+      !! http://kcachegrind.sourceforge.net/cgi-bin/show.cgi/KcacheGrindCalltreeFormat
+
       CHARACTER(len=*), INTENT(in)                       :: filename
 
       INTEGER, PARAMETER                                 :: E = 1000, T = 100000

@@ -7,13 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Utility routines for the memory handling.
-!> \par History
-!>      (12.2017) remove stop_memory
-!> \author Matthias Krack (25.06.1999)
-! **************************************************************************************************
 MODULE dbcsr_memory_utilities
+   !! Utility routines for the memory handling.
 
    USE dbcsr_kinds, ONLY: default_path_length, &
                           default_string_length, &
@@ -38,10 +33,7 @@ MODULE dbcsr_memory_utilities
 
 CONTAINS
 
-#! *************************************************************************************************
-#!> \brief Fypp macro for common subroutine body
-#!> \author Ole Schuett
-#! *************************************************************************************************
+#! Fypp macro for common subroutine body
 #:def reallocate(rank)
 
 #:for i in range(1, rank+1)
@@ -78,16 +70,8 @@ CONTAINS
 
 #:enddef
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a complex vector with a new dimension
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (28.11.2005,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_c1(p, lb1_new, ub1_new)
+      !! (Re)Allocate a complex vector with a new dimension
 
       COMPLEX(KIND=dp), DIMENSION(:), POINTER            :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new
@@ -101,18 +85,8 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_c1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a complex array 2D with a new dimension
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \param lb2_new ...
-!> \param ub2_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (28.11.2005,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_c2(p, lb1_new, ub1_new, lb2_new, ub2_new)
+      !! (Re)Allocate a complex array 2D with a new dimension
 
       COMPLEX(KIND=dp), DIMENSION(:, :), POINTER         :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new
@@ -126,20 +100,8 @@ $: reallocate(rank=2)
 
    END SUBROUTINE reallocate_c2
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a complex array 3D with a new dimension
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \param lb2_new ...
-!> \param ub2_new ...
-!> \param lb3_new ...
-!> \param ub3_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (28.11.2005,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_c3(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new)
+      !! (Re)Allocate a complex array 3D with a new dimension
 
       COMPLEX(KIND=dp), DIMENSION(:, :, :), POINTER      :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new, &
@@ -154,22 +116,8 @@ $: reallocate(rank=3)
 
    END SUBROUTINE reallocate_c3
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a complex array 4D with a new dimension
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \param lb2_new ...
-!> \param ub2_new ...
-!> \param lb3_new ...
-!> \param ub3_new ...
-!> \param lb4_new ...
-!> \param ub4_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (28.11.2005,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_c4(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new, &
+      !! (Re)Allocate a complex array 4D with a new dimension
                             lb4_new, ub4_new)
 
       COMPLEX(KIND=dp), DIMENSION(:, :, :, :), POINTER   :: p
@@ -186,16 +134,8 @@ $: reallocate(rank=4)
 
    END SUBROUTINE reallocate_c4
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an integer vector with a new dimension.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (18.07.2002,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_i1(p, lb1_new, ub1_new)
+      !! (Re)Allocate an integer vector with a new dimension.
 
       INTEGER, DIMENSION(:), POINTER                     :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new
@@ -209,18 +149,8 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_i1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an integer array with a new dimension.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \param lb2_new ...
-!> \param ub2_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (18.07.2002,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_i2(p, lb1_new, ub1_new, lb2_new, ub2_new)
+      !! (Re)Allocate an integer array with a new dimension.
 
       INTEGER, DIMENSION(:, :), POINTER                  :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new
@@ -234,20 +164,8 @@ $: reallocate(rank=2)
 
    END SUBROUTINE reallocate_i2
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an integer array 3D with a new dimension.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \param lb2_new ...
-!> \param ub2_new ...
-!> \param lb3_new ...
-!> \param ub3_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (18.07.2002,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_i3(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new)
+      !! (Re)Allocate an integer array 3D with a new dimension.
 
       INTEGER, DIMENSION(:, :, :), POINTER               :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new, &
@@ -262,22 +180,8 @@ $: reallocate(rank=3)
 
    END SUBROUTINE reallocate_i3
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an integer array 3D with a new dimension.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \param lb2_new ...
-!> \param ub2_new ...
-!> \param lb3_new ...
-!> \param ub3_new ...
-!> \param lb4_new ...
-!> \param ub4_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (04.10.2002,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_i4(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new, &
+      !! (Re)Allocate an integer array 3D with a new dimension.
                             lb4_new, ub4_new)
 
       INTEGER, DIMENSION(:, :, :, :), POINTER            :: p
@@ -293,16 +197,8 @@ $: reallocate(rank=4)
 
    END SUBROUTINE reallocate_i4
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an integer (int_8) vector with a new dimension.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (18.07.2002,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_8i1(p, lb1_new, ub1_new)
+      !! (Re)Allocate an integer (int_8) vector with a new dimension.
 
       INTEGER(KIND=int_8), DIMENSION(:), POINTER         :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new
@@ -316,18 +212,8 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_8i1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an integer (int_8) array with a new dimension.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \param lb2_new ...
-!> \param ub2_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (18.07.2002,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_8i2(p, lb1_new, ub1_new, lb2_new, ub2_new)
+      !! (Re)Allocate an integer (int_8) array with a new dimension.
 
       INTEGER(kind=int_8), DIMENSION(:, :), POINTER      :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new
@@ -341,16 +227,8 @@ $: reallocate(rank=2)
 
    END SUBROUTINE reallocate_8i2
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an real vector with a new dimension.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (18.07.2002,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_r1(p, lb1_new, ub1_new)
+      !! (Re)Allocate an real vector with a new dimension.
 
       REAL(KIND=dp), DIMENSION(:), POINTER               :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new
@@ -364,18 +242,8 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_r1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an real array with new dimensions.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \param lb2_new ...
-!> \param ub2_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (18.07.2002,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_r2(p, lb1_new, ub1_new, lb2_new, ub2_new)
+      !! (Re)Allocate an real array with new dimensions.
 
       REAL(KIND=dp), DIMENSION(:, :), POINTER            :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new
@@ -389,20 +257,8 @@ $: reallocate(rank=2)
 
    END SUBROUTINE reallocate_r2
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an real array 3D with new dimensions.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \param lb2_new ...
-!> \param ub2_new ...
-!> \param lb3_new ...
-!> \param ub3_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (18.07.2002,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_r3(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new)
+      !! (Re)Allocate an real array 3D with new dimensions.
 
       REAL(KIND=dp), DIMENSION(:, :, :), POINTER         :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new, lb2_new, ub2_new, &
@@ -417,22 +273,8 @@ $: reallocate(rank=3)
 
    END SUBROUTINE reallocate_r3
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an real array 4D with new dimensions.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \param lb2_new ...
-!> \param ub2_new ...
-!> \param lb3_new ...
-!> \param ub3_new ...
-!> \param lb4_new ...
-!> \param ub4_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (04.10.2002,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_r4(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new, &
+      !! (Re)Allocate an real array 4D with new dimensions.
                             lb4_new, ub4_new)
 
       REAL(KIND=dp), DIMENSION(:, :, :, :), POINTER      :: p
@@ -448,24 +290,8 @@ $: reallocate(rank=4)
 
    END SUBROUTINE reallocate_r4
 
-! **************************************************************************************************
-!> \brief (Re)Allocate an real array 5D with new dimensions.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \param lb2_new ...
-!> \param ub2_new ...
-!> \param lb3_new ...
-!> \param ub3_new ...
-!> \param lb4_new ...
-!> \param ub4_new ...
-!> \param lb5_new ...
-!> \param ub5_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (04.10.2002,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_r5(p, lb1_new, ub1_new, lb2_new, ub2_new, lb3_new, ub3_new, &
+      !! (Re)Allocate an real array 5D with new dimensions.
                             lb4_new, ub4_new, lb5_new, ub5_new)
 
       REAL(KIND=dp), DIMENSION(:, :, :, :, :), POINTER   :: p
@@ -483,16 +309,8 @@ $: reallocate(rank=5)
 
    END SUBROUTINE reallocate_r5
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a logical vector with a new dimension.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (18.07.2002,MK)
-! **************************************************************************************************
    SUBROUTINE reallocate_l1(p, lb1_new, ub1_new)
+      !! (Re)Allocate a logical vector with a new dimension.
 
       LOGICAL, DIMENSION(:), POINTER                     :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new
@@ -506,20 +324,12 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_l1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a vector of string variables
-!> \param p_short ...
-!> \param lb_new ...
-!> \param ub_new ...
-!> \param p_long ...
-!> \par History
-!>      none
-!> \author Matthias Krack (18.07.2002,MK)
-!> \note
-!>      (Maybe outdated) This routine does not work on SUN/Solaris!!!
-!>                       It should probably not be used. (Thomas Chassaing)
-! **************************************************************************************************
    SUBROUTINE reallocate_s1(p_short, lb_new, ub_new, p_long)
+      !! (Re)Allocate a vector of string variables
+      !! @note
+      !! (Maybe outdated) This routine does not work on SUN/Solaris!!!
+      !! It should probably not be used. (Thomas Chassaing)
+
 
       CHARACTER(LEN=default_string_length), &
          DIMENSION(:), OPTIONAL, POINTER                 :: p_short
@@ -539,20 +349,12 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_s1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a vector of string variables of default string length.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \par History
-!>      none
-!> \author Thomas Chassaing
-!> \author Matthias Krack (18.07.2002,MK)
-!> \note
-!>      (Maybe outdated) This routine does not work on SUN/Solaris!!!
-!>                       It should probably not be used. (Thomas Chassaing)
-! **************************************************************************************************
    SUBROUTINE reallocate_ss1(p, lb1_new, ub1_new)
+      !! (Re)Allocate a vector of string variables of default string length.
+      !! @note
+      !! (Maybe outdated) This routine does not work on SUN/Solaris!!!
+      !! It should probably not be used. (Thomas Chassaing)
+
 
       CHARACTER(LEN=default_string_length), &
          DIMENSION(:), POINTER                           :: p
@@ -568,19 +370,12 @@ $: reallocate(rank=1)
 
    END SUBROUTINE reallocate_ss1
 
-! **************************************************************************************************
-!> \brief (Re)Allocate a vector of string variables of default path length.
-!> \param p ...
-!> \param lb1_new ...
-!> \param ub1_new ...
-!> \par History
-!>      none
-!> \author Matthias Krack (18.07.2002,MK)
-!> \note
-!>      (Maybe outdated) This routine does not work on SUN/Solaris!!!
-!>                       It should probably not be used. (Thomas Chassaing)
-! **************************************************************************************************
    SUBROUTINE reallocate_ls1(p, lb1_new, ub1_new)
+      !! (Re)Allocate a vector of string variables of default path length.
+      !! @note
+      !! (Maybe outdated) This routine does not work on SUN/Solaris!!!
+      !! It should probably not be used. (Thomas Chassaing)
+
 
       CHARACTER(LEN=default_path_length), DIMENSION(:), &
          POINTER                                         :: p

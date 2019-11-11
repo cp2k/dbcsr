@@ -7,16 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief   DBCSR iterator operations
-!> \author  Urban Borstnik
-!> \date    2010-02-18
-!> \version 0.9
-!>
-!> <b>Modification history:</b>
-!  - 2010-02-18 Moved from dbcsr_operations and dbcsr_methods
-! **************************************************************************************************
 MODULE dbcsr_iterator_operations
+   !! DBCSR iterator operations
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_exists
    USE dbcsr_data_methods, ONLY: dbcsr_data_hold, &
@@ -95,66 +87,62 @@ CONTAINS
 ! Iterator functions
 ! **************************************************************************************************
 
-! **************************************************************************************************
-!> \brief Sets up an iterator
-!> \param[out] iterator   the iterator
-!> \param[in] matrix      DBCSR matrix
-!> \param[in] shared      (optional) The matrix is shared between several
-!>                        iterators. Default is .TRUE.
-!> \param[in] dynamic     (optional) Threads are given blocks regardless of
-!>                        the thread distribution; default is .FALSE.
-!> \param[in] dynamic_byrows  (optional) Threads are given blocks regardless
-!>                            of the thread distribution, but still grouped
-!>                            by rows; default is .FALSE.
-!> \param[in] contiguous_pointers  (optional) Whether returned pointers need
-!>                                 to be contiguous; default is FALSE.
-!> \param[in] read_only            (optional) User promises not to change
-!>                                 returned data; default is FALSE
-!>
-!> \par Contiguous pointers
-!> Contiguous pointers may incur reallocation penalties but enable quick
-!> passing of arrays to routines with unspecified interfaces (i.e., direct
-!> calls to BLACS or MPI).
-!> \par Threading
-!>      The TYPE(dbcsr_iterator) variable should be thread-private.
-!> \par
-!>      The iterator has several modes of operation when used with
-!>      OpenMP. Two options can be set to influence the behavior.
-!> \par Threading: shared vs. non-shared
-!>      The "shared" flag specifies that several threads will be
-!>      iterating through the same matrix.
-!>      - Sharing is the default when called from an active parallel
-!>        region. In the shared mode no two threads will receive the
-!>        same block; i.e., the work is split among the threads.
-!>      - If each (or one) thread needs to iterator through all blocks
-!>        then shared should be set to .FALSE.. (E.g., when called
-!>        from an enclosing MASTER region or when each thread has its
-!>        own matrix.)
-!>      - It is safe to use an iterator in non-shared mode with only
-!>        one thread.  No thread synchronization constructs are used
-!>        in this case)
-!> \par Threading in shared mode
-!>      When in shared mode there are three possibilities to select
-!>      how the blocks are distributed to the threads.
-!>      <DL>
-!>      <DT>Thread distribution</DT>
-!>      <DD>The default is to use the thread distribution. The thread
-!>          distribution statically maps rows to threads and should be
-!>          used whenever retaining a consistent mapping among
-!>          subsequent iterations is important.</DD>
-!>      <DT>Dynamic scheduling</DT>
-!>      <DD>If the dynamic flag is .TRUE., then blocks are given to
-!>          threads dynamically. By default the assignment is grouped
-!>          by rows (to minimize synchronization); however, if the
-!>          dynamic_byrows flag is .FALSE. then every block is
-!>          assigned dynamically.</DD></DL>
-! **************************************************************************************************
    SUBROUTINE dbcsr_iterator_start(iterator, matrix, shared, dynamic, &
                                    dynamic_byrows, contiguous_pointers, read_only)
+      !! Sets up an iterator
+      !!
+      !! Contiguous pointers
+      !! Contiguous pointers may incur reallocation penalties but enable quick
+      !! passing of arrays to routines with unspecified interfaces (i.e., direct
+      !! calls to BLACS or MPI).
+      !!
+      !! Threading
+      !! The TYPE(dbcsr_iterator) variable should be thread-private.
+      !!
+      !! The iterator has several modes of operation when used with
+      !! OpenMP. Two options can be set to influence the behavior.
+      !!
+      !! Threading: shared vs. non-shared
+      !! The "shared" flag specifies that several threads will be
+      !! iterating through the same matrix.
+      !! - Sharing is the default when called from an active parallel
+      !! region. In the shared mode no two threads will receive the
+      !! same block; i.e., the work is split among the threads.
+      !! - If each (or one) thread needs to iterator through all blocks
+      !! then shared should be set to .FALSE.. (E.g., when called
+      !! from an enclosing MASTER region or when each thread has its
+      !! own matrix.)
+      !! - It is safe to use an iterator in non-shared mode with only
+      !! one thread.  No thread synchronization constructs are used
+      !! in this case)
+      !!
+      !! Threading in shared mode
+      !! When in shared mode there are three possibilities to select
+      !! how the blocks are distributed to the threads.
+      !! <DL>
+      !! <DT>Thread distribution</DT>
+      !! <DD>The default is to use the thread distribution. The thread
+      !! distribution statically maps rows to threads and should be
+      !! used whenever retaining a consistent mapping among
+      !! subsequent iterations is important.</DD>
+      !! <DT>Dynamic scheduling</DT>
+      !! <DD>If the dynamic flag is .TRUE., then blocks are given to
+      !! threads dynamically. By default the assignment is grouped
+      !! by rows (to minimize synchronization); however, if the
+      !! dynamic_byrows flag is .FALSE. then every block is
+      !! assigned dynamically.</DD></DL>
+
       TYPE(dbcsr_iterator), INTENT(OUT)                  :: iterator
+         !! the iterator
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+         !! DBCSR matrix
       LOGICAL, INTENT(IN), OPTIONAL                      :: shared, dynamic, dynamic_byrows, &
                                                             contiguous_pointers, read_only
+         !! The matrix is shared between several iterators. Default is .TRUE.
+         !! Threads are given blocks regardless of the thread distribution; default is .FALSE.
+         !! Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+         !! Whether returned pointers need to be contiguous; default is FALSE.
+         !! User promises not to change returned data; default is FALSE
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_start', &
                                      routineP = moduleN//':'//routineN
@@ -275,12 +263,11 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_iterator_start
 
-! **************************************************************************************************
-!> \brief Stops up an iterator
-!> \param[out] iterator   the iterator
-! **************************************************************************************************
    SUBROUTINE dbcsr_iterator_stop(iterator)
+      !! Stops up an iterator
+
       TYPE(dbcsr_iterator), INTENT(INOUT)                :: iterator
+         !! the iterator
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_stop', &
                                      routineP = moduleN//':'//routineN
@@ -314,19 +301,16 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_iterator_stop
 
-! **************************************************************************************************
-!> \brief Finds the first valid block, inclusive from the current position.
-!>
-!> If there is no valid block, pos is set to 0
-!> \param[in,out] pos        input: current position; output: next valid
-!>                           position or 0
-!> \param[in] maxpos         maximal allowed position
-!> \param[in] blk_p          block pointers, used to check validity
-! **************************************************************************************************
    PURE SUBROUTINE find_first_valid_block(pos, maxpos, blk_p)
+      !! Finds the first valid block, inclusive from the current position.
+      !! If there is no valid block, pos is set to 0
+
       INTEGER, INTENT(INOUT)                             :: pos
+         !! input: current position; output: next valid position or 0
       INTEGER, INTENT(IN)                                :: maxpos
+         !! maximal allowed position
       INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_p
+         !! block pointers, used to check validity
 
       CHARACTER(len=*), PARAMETER :: routineN = 'find_first_valid_block', &
                                      routineP = moduleN//':'//routineN
@@ -345,21 +329,18 @@ CONTAINS
       IF (pos .GT. maxpos) pos = 0
    END SUBROUTINE find_first_valid_block
 
-! **************************************************************************************************
-!> \brief Finds the row to which the current block belongs
-!>
-!> If there is no valid block, pos is set to 0
-!> \param[in] pos            current position
-!> \param[in,out] row        input: current row; output: the row corresponding
-!>                           to the position
-!> \param[in] maxrows        maxmimum row
-!> \param[in] row_p          row pointers
-! **************************************************************************************************
    PURE SUBROUTINE find_proper_row(pos, row, maxrows, row_p)
+      !! Finds the row to which the current block belongs
+      !! If there is no valid block, pos is set to 0
+
       INTEGER, INTENT(IN)                                :: pos
+         !! current position
       INTEGER, INTENT(INOUT)                             :: row
+         !! input: current row; output: the row corresponding to the position
       INTEGER, INTENT(IN)                                :: maxrows
+         !! maxmimum row
       INTEGER, DIMENSION(:), INTENT(IN)                  :: row_p
+         !! row pointers
 
       CHARACTER(len=*), PARAMETER :: routineN = 'find_proper_row', &
                                      routineP = moduleN//':'//routineN
@@ -384,30 +365,26 @@ CONTAINS
       ENDIF
    END SUBROUTINE find_proper_row
 
-! **************************************************************************************************
-!> \brief Finds the next proper position accounting for threads
-!>
-!> First time: pos and row are set to 0.
-!> If there is no valid block, pos is set to 0
-!> \param[inout] pos         current position and updated position
-!> \param[in,out] row        input: current row; output: the row corresponding
-!>                           to the next proper position
-!> \param[in] maxpos         maximum allowable position
-!> \param[in] maxrows        maxmimum row
-!> \param[in] blk_p          block pointercs
-!> \param[in] row_p          row pointers
-!> \param[in] tdist          (optional) thread distribution
-!> \param[in] tid            my thread number
-!> \param local2global ...
-! **************************************************************************************************
    PURE SUBROUTINE find_proper_position(pos, row, maxpos, maxrows, &
                                         blk_p, row_p, tdist, tid, local2global)
+      !! Finds the next proper position accounting for threads
+      !! First time: pos and row are set to 0.
+      !! If there is no valid block, pos is set to 0
+
       INTEGER, INTENT(INOUT)                             :: pos, row
+         !! current position and updated position
+         !! input: current row; output: the row corresponding to the next proper position
       INTEGER, INTENT(IN)                                :: maxpos, maxrows
+         !! maximum allowable position
+         !! maxmimum row
       INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_p, row_p
+         !! block pointercs
+         !! row pointers
       INTEGER, DIMENSION(1:maxrows), INTENT(IN), &
          OPTIONAL                                        :: tdist
+         !! thread distribution
       INTEGER, INTENT(IN), OPTIONAL                      :: tid
+         !! my thread number
       INTEGER, DIMENSION(1:*), INTENT(IN), OPTIONAL      :: local2global
 
       CHARACTER(len=*), PARAMETER :: routineN = 'find_proper_position', &
@@ -460,12 +437,11 @@ CONTAINS
       ENDIF
    END SUBROUTINE find_proper_position
 
-! **************************************************************************************************
-!> \brief Advances to the next block
-!> \param[in,out] iterator     the iterator
-! **************************************************************************************************
    SUBROUTINE iterator_advance(iterator)
+      !! Advances to the next block
+
       TYPE(dbcsr_iterator), INTENT(INOUT)                :: iterator
+         !! the iterator
 
       INTEGER                                            :: ithread, my_old_row, next_row, p
       LOGICAL                                            :: advance, jumped_row
@@ -531,11 +507,6 @@ CONTAINS
       ENDIF
    END SUBROUTINE iterator_advance
 
-! **************************************************************************************************
-!> \brief ...
-!> \param iterator ...
-!> \param use_ithread ...
-! **************************************************************************************************
    SUBROUTINE find_proper_position_caller(iterator, use_ithread)
       TYPE(dbcsr_iterator), INTENT(INOUT)                :: iterator
       INTEGER, INTENT(in), OPTIONAL                      :: use_ithread
@@ -583,13 +554,12 @@ CONTAINS
       post_pos = iterator%pos
    END SUBROUTINE find_proper_position_caller
 
-! **************************************************************************************************
-!> \brief Updates the row info stored in the iterator
-!> \param[in,out] iterator     the iterator
-!> \note Added to handle the complexity introduced with the transpose
-! **************************************************************************************************
    PURE SUBROUTINE update_row_info(iterator)
+      !! Updates the row info stored in the iterator
+      !! @note Added to handle the complexity introduced with the transpose
+
       TYPE(dbcsr_iterator), INTENT(INOUT)                :: iterator
+         !! the iterator
 
       IF (iterator%row .GT. 0) THEN
          IF (iterator%transpose) THEN
@@ -602,14 +572,13 @@ CONTAINS
       ENDIF
    END SUBROUTINE update_row_info
 
-! **************************************************************************************************
-!> \brief Places the iterator to the desired row.
-!> \param[in,out] iterator     the iterator
-!> \param[in] row              seek to this row
-! **************************************************************************************************
    SUBROUTINE dbcsr_iterator_seek(iterator, row)
+      !! Places the iterator to the desired row.
+
       TYPE(dbcsr_iterator), INTENT(INOUT)                :: iterator
+         !! the iterator
       INTEGER, INTENT(in)                                :: row
+         !! seek to this row
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_seek', &
                                      routineP = moduleN//':'//routineN
@@ -634,26 +603,25 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE dbcsr_iterator_seek
 
-! **************************************************************************************************
-!> \brief Gets the index information of the next block, no data.
-!> \param[in,out] iterator   the iterator
-!> \param[out] row           row of the data block
-!> \param[out] column        column of the data block
-!> \param[out] blk           block number
-!> \param[out] transposed    (optional) whether block is transposed
-!> \param[out] blk_p         (optional) index into block data array
-!> \param[out] row_size      (optional) logical row size of block
-!> \param[out] col_size      (optional) logical column size of block
-!> \param[out] row_offset    (optional) logical row offset of block
-!> \param[out] col_offset    (optional) logical column offset of block
-! **************************************************************************************************
    SUBROUTINE iterator_next_block_index(iterator, row, column, blk, &
                                         transposed, blk_p, row_size, col_size, row_offset, col_offset)
+      !! Gets the index information of the next block, no data.
+
       TYPE(dbcsr_iterator), INTENT(INOUT)                :: iterator
+         !! the iterator
       INTEGER, INTENT(OUT)                               :: row, column, blk
+         !! row of the data block
+         !! column of the data block
+         !! block number
       LOGICAL, INTENT(OUT), OPTIONAL                     :: transposed
+         !! whether block is transposed
       INTEGER, INTENT(OUT), OPTIONAL                     :: blk_p, row_size, col_size, row_offset, &
                                                             col_offset
+         !! index into block data array
+         !! logical row size of block
+         !! logical column size of block
+         !! logical row offset of block
+         !! logical column offset of block
 
       CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_block_index', &
                                      routineP = moduleN//':'//routineN
@@ -687,27 +655,26 @@ CONTAINS
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE iterator_next_block_index
 
-! **************************************************************************************************
-!> \brief Gets the next data block encapsulated in an object.
-!> \param[in,out] iterator   the iterator
-!> \param[out] row           row of the data block
-!> \param[out] column        column of the data block
-!> \param[out] block         encapsulated data
-!> \param[out] transposed    whether the block data is transposed
-!> \param[out] block_number  (optional) block number
-!> \param[out] row_size      (optional) logical row size of block
-!> \param[out] col_size      (optional) logical column size of block
-!> \param[out] row_offset    (optional) logical row offset of block
-!> \param[out] col_offset    (optional) logical column offset of block
-! **************************************************************************************************
    SUBROUTINE iterator_next_area_block(iterator, row, column, block, &
                                        transposed, block_number, row_size, col_size, row_offset, col_offset)
+      !! Gets the next data block encapsulated in an object.
+
       TYPE(dbcsr_iterator), INTENT(INOUT)                :: iterator
+         !! the iterator
       INTEGER, INTENT(OUT)                               :: row, column
+         !! row of the data block
+         !! column of the data block
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: block
+         !! encapsulated data
       LOGICAL, INTENT(OUT)                               :: transposed
+         !! whether the block data is transposed
       INTEGER, INTENT(OUT), OPTIONAL                     :: block_number, row_size, col_size, &
                                                             row_offset, col_offset
+         !! block number
+         !! logical row size of block
+         !! logical column size of block
+         !! logical row offset of block
+         !! logical column offset of block
 
       CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_area_block', &
                                      routineP = moduleN//':'//routineN
@@ -754,14 +721,11 @@ CONTAINS
 
    END SUBROUTINE iterator_next_area_block
 
-! **************************************************************************************************
-!> \brief Returns whether there any blocks left in the iterator.
-!> \param[in] iterator       the iterator
-!> \return ...
-!> \param[in]
-! **************************************************************************************************
    PURE FUNCTION dbcsr_iterator_blocks_left(iterator) RESULT(blocks_left)
+      !! Returns whether there any blocks left in the iterator.
+
       TYPE(dbcsr_iterator), INTENT(IN)                   :: iterator
+         !! the iterator
       LOGICAL                                            :: blocks_left
 
       blocks_left = iterator%pos .NE. 0
