@@ -238,6 +238,7 @@ CONTAINS
       TYPE(block_nd), INTENT(IN)         :: block
       INTEGER, ALLOCATABLE, DIMENSION(:) :: block_size
 
+      block_size = 0 ! invalid
       SELECT CASE (block%data_type)
       CASE (dbcsr_type_real_8)
          CALL allocate_any(block_size, source=block%r_dp%sizes)
