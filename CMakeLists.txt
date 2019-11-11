@@ -31,8 +31,9 @@ project(dbcsr
 # =================================================================================================
 # OPTIONS
 include(CMakeDependentOption)
-option(USE_MPI "Build with MPI support" ON)
+
 option(USE_OPENMP "Build with OpenMP support" ON)
+option(USE_MPI "Build with MPI support" ON)
 cmake_dependent_option(WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "USE_MPI" OFF) # the ISO_C_BINDINGS require MPI unconditionally
 cmake_dependent_option(WITH_EXAMPLES "Build the examples" ON "USE_MPI" OFF) # all examples require MPI
 
@@ -69,51 +70,6 @@ enable_testing() # enables the `make test` target
 if (WITH_C_API AND WITH_EXAMPLES)
   enable_language(CXX)
 endif ()
-
-# =================================================================================================
-# CHECK OPTIONS
-# USE_CUDA and USE_HIP are mutually exclusive options: we either compile with nvcc OR with hipcc
-if (USE_CUDA AND USE_HIP)
-  message(FATAL_ERROR "USE_CUDA and USE_HIP options are mutually exclusive. Please choose one.")
-endif()
-
-if (USE_CUDA OR USE_HIP)
-  enable_language(CXX)
-endif()
-
-if (USE_CUDA)
-  enable_language(CUDA)
-  set(CUDA_ARCH_NUMBER_K20X 35)
-  set(CUDA_ARCH_NUMBER_K40  35)
-  set(CUDA_ARCH_NUMBER_K80  37)
-  set(CUDA_ARCH_NUMBER_P100 60)
-  set(CUDA_ARCH_NUMBER_V100 70)
-  set(CUDA_ARCH_NUMBER ${CUDA_ARCH_NUMBER_${WITH_GPU}})
-
-  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
-
-  set(CMAKE_CUDA_STANDARD 11)  # adds -std=c++11 if needed by the nvcc backend
-  set(CMAKE_CUDA_STANDARD_REQUIRED ON)
-endif ()
-
-if (USE_HIP)
-  if(NOT DEFINED HIP_PATH)
-    if(NOT DEFINED ENV{HIP_PATH})
-      set(HIP_PATH "/opt/rocm/hip" CACHE PATH "Path to HIP installation")
-    else()
-      set(HIP_PATH $ENV{HIP_PATH} CACHE PATH "Path to HIP installation")
-    endif()
-  endif()
-  set(CMAKE_MODULE_PATH "${HIP_PATH}/cmake" ${CMAKE_MODULE_PATH})
-
-  find_package(HIP)
-  if(HIP_FOUND)
-    message(STATUS "Found HIP: " ${HIP_VERSION})
-  else()
-    message(FATAL_ERROR "Could not find HIP. Ensure that HIP is either installed in /opt/rocm/hip or the variable HIP_PATH is set to point to the right location.")
-endif()
-
-endif()
 
 # we're always using at least C++11
 set(CMAKE_CXX_STANDARD 11)
@@ -167,7 +123,7 @@ Intel MPI compiler wrappers. Check the INSTALL.md for more information.")
   endif ()
 endif ()
 
-# =================================== SMM
+# =================================== SMM (Small Matrix-Matrix multiplication)
 if (USE_SMM MATCHES "blas")
   message("-- Using BLAS for Small Matrix Multiplication")
 elseif (USE_SMM MATCHES "libxsmm")
@@ -204,10 +160,10 @@ if (USE_CUDA)
   set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
   # set cuda architecture number and compilation flags
-  set(CUDA_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
-  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch=sm_${CUDA_ARCH_NUMBER} --cudart static")
+  set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
+  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch=sm_${ACC_ARCH_NUMBER} --cudart static -D__CUDA")
   message(STATUS "GPU target architecture: " ${WITH_GPU})
-  message(STATUS "GPU architecture number: " ${CUDA_ARCH_NUMBER})
+  message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
 
 endif ()
 
@@ -237,6 +193,8 @@ if (USE_HIP)
   else()
     message(FATAL_ERROR "Could not find HIP. Ensure that HIP is either installed in /opt/rocm/hip or the variable HIP_PATH is set to point to the right location.")
   endif()
+
+  # Find hiprtc library (adds support for JIT-ing in HIP)
   find_library(ROCM_HIPRTC_LIB hiprtc HINTS ${HIP_PATH}/lib)
   if(NOT ROCM_HIPRTC_LIB)
     message(FATAL_ERROR "HIPRTC (HIP library for just-in-time compilation) not found")
@@ -249,14 +207,15 @@ if (USE_HIP)
   message(STATUS "Compiling for platform: " ${HIP_PLATFORM})
 
   # set appropriate compilation flags depending on platform
-  set(HIP_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
+  set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
   if (${HIP_PLATFORM} STREQUAL "nvcc")
-    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -std=c++11 -arch=sm_${HIP_ARCH_NUMBER} --cudart static")
+    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -std=c++11 -arch=sm_${ACC_ARCH_NUMBER} --cudart static -D__HIP")
   else()
-      #set(HIP_HIPCC_FLAGS "${CMAKE_HIP_FLAGS} --amdgpu-target=${HIP_ARCH_NUMBER}")
+    #set(HIP_HIPCC_FLAGS "${CMAKE_HIP_FLAGS} --amdgpu-target=${ACC_ARCH_NUMBER}")
+    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -D__HIP")
   endif()
   message(STATUS "GPU target architecture: " ${WITH_GPU})
-  message(STATUS "GPU architecture number: " ${HIP_ARCH_NUMBER})
+  message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
 endif()
 
 # =================================== BLAS on GPU backend
@@ -265,6 +224,8 @@ if (USE_CUBLAS)
   find_library(CUBLAS cublas HINT ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
   if (NOT CUBLAS)
     message(FATAL_ERROR "cuBLAS library not found but support requested")
+  else ()
+    message(STATUS "Found cuBLAS: ${CUBLAS}")
   endif ()
 endif ()
 

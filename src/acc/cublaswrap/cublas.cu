@@ -11,7 +11,8 @@
 
 #include <stdio.h>
 #include "cublas_v2.h"
-#include "../cuda/acc_cuda_error.h"
+#include "../acc_error.h"
+
 
 /****************************************************************************/
 extern "C" int cublas_create(cublasHandle_t **handle)
@@ -22,7 +23,7 @@ extern "C" int cublas_create(cublasHandle_t **handle)
     printf ("CUBLAS initialization failed\n");
     return(-1);
   }
-  if (cuda_error_check(cudaGetLastError())) return(-1);
+  if (acc_error_check(cudaGetLastError())) return(-1);
   return(0);
 }
 
@@ -35,7 +36,7 @@ extern "C" int cublas_destroy(cublasHandle_t *handle)
     printf ("CUBLAS finalization failed\n");
     return(-1);
   }
-  if (cuda_error_check(cudaGetLastError())) return(-1);
+  if (acc_error_check(cudaGetLastError())) return(-1);
   return(0);
 }
 
@@ -62,7 +63,7 @@ extern "C" int cublas_dgemm(cublasHandle_t *handle, char transa, char transb,
 				    &b_data[ b_offset], ldb,
 				    &beta, &c_data[ c_offset], lda);
   if (stat != CUBLAS_STATUS_SUCCESS) return(-1);
-  if (cuda_error_check(cudaGetLastError())) return(-1);
+  if (acc_error_check(cudaGetLastError())) return(-1);
   return(0);
 }
 

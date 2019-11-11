@@ -17,7 +17,6 @@ add_fypp_sources(DBCSR_SRCS
   acc/dbcsr_acc_init.F
   acc/dbcsr_acc_stream.F
   acc/hipblaswrap/dbcsr_hipblas.F
-  acc/hip/dbcsr_hip_profiling.F
   base/dbcsr_base_hooks.F
   base/dbcsr_kinds.F
   base/dbcsr_machine.F
@@ -107,25 +106,23 @@ add_fypp_sources(DBCSR_SRCS
   work/dbcsr_work_operations.F
   )
 
+set(DBCSR_ACC_SRCS
+  acc/acc_dev.cpp
+  acc/acc_error.cpp
+  acc/acc_event.cpp
+  acc/acc_mem.cpp
+  acc/acc_stream.cpp
+  acc/acc_init.cpp
+  )
+
 set(DBCSR_CUDA_SRCS
-  acc/cuda/acc_cuda_dev.cu
-  acc/cuda/acc_cuda_error.cu
-  acc/cuda/acc_cuda_event.cu
-  acc/cuda/acc_cuda_mem.cu
-  acc/cuda/acc_cuda_stream.cu
-  acc/cuda/acc_cuda_init.cu
+  acc/cuda/acc_cuda.cpp
   acc/cuda/dbcsr_cuda_nvtx_cu.cu
   acc/cublaswrap/cublas.cu
   )
 
 set(DBCSR_HIP_SRCS
-  acc/hip/acc_hip_dev.cpp
-  acc/hip/acc_hip_error.cpp
-  acc/hip/acc_hip_event.cpp
-  acc/hip/acc_hip_mem.cpp
-  acc/hip/acc_hip_stream.cpp
-  acc/hip/acc_hip_init.cpp
-  acc/hip/dbcsr_hip_nvtx_cu.cpp
+  acc/hip/acc_hip.cpp
   acc/hipblaswrap/hipblas.cpp
   )
 
@@ -233,20 +230,33 @@ if (USE_CUDA)
       endif ()
   endif ()
 
-  target_link_libraries(dbcsr PRIVATE cuda)
+  target_link_libraries(dbcsr PUBLIC cuda)
 
-  # add libcusmm which has its own CMakeLists.txt due to code generation
-  add_subdirectory(acc/libsmm_acc/libcusmm)
-  target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:libcusmm>)
+  # add libsmm which has its own CMakeLists.txt due to code generation
+  add_subdirectory(acc/libsmm_acc)
+  target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:libsmm>)
   target_link_libraries(dbcsr PRIVATE nvrtc)
 
-  # add the rest of the CUDA sources directly to the main lib
-  target_sources(dbcsr PRIVATE ${DBCSR_CUDA_SRCS})
+  # Complete list of GPU-support sources
+  set(DBCSR_ACC_SRCS ${DBCSR_ACC_SRCS} ${DBCSR_CUDA_SRCS})
 
-  # tests need some of the libcusmm headers and for CMake <3.12
+  # Make an object library
+  add_library(acc OBJECT ${DBCSR_ACC_SRCS})
+  target_compile_definitions(acc PRIVATE __CUDA)
+  target_include_directories(acc PRIVATE ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+  target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:acc>)
+  if (USE_CUBLAS)
+    target_compile_definitions(acc PRIVATE __DBCSR_ACC=2)
+    target_link_libraries(acc PRIVATE ${CUBLAS})
+  else ()
+    target_compile_definitions(acc PRIVATE __DBCSR_ACC)
+  endif ()
+
+
+  # tests need some of the libsmm headers and for CMake <3.12
   # compatibility, we can't set it on the the object library itself
   target_include_directories(dbcsr PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc/libcusmm>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc>
     )
 
   if (USE_CUBLAS)
@@ -267,28 +277,36 @@ endif ()
 
 if (USE_HIP)
 
-  # add libhipsmm which has its own CMakeLists.txt due to code generation
-  add_subdirectory(acc/libsmm_acc/libhipsmm)
-  target_link_libraries(dbcsr PUBLIC libhipsmm)
+  if (OpenMP_FOUND)
+    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -fopenmp")
+  endif ()
+
+  # add libsmm which has its own CMakeLists.txt due to code generation
+  add_subdirectory(acc/libsmm_acc)
+  target_link_libraries(dbcsr PUBLIC libsmm)
   target_link_libraries(dbcsr PUBLIC ${ROCM_HIPRTC_LIB})
 
+  # Complete list of GPU-support sources
+  set(DBCSR_ACC_SRCS ${DBCSR_ACC_SRCS} ${DBCSR_HIP_SRCS})
+
   # Compile the rest of the HIP source files into a static library
-  set_source_files_properties(${DBCSR_HIP_SRCS} PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
-  hip_add_library(acc_hip STATIC ${DBCSR_HIP_SRCS})
-  #target_compile_definitions(acc_hip PRIVATE -DARCH_NUMBER=${CUDA_ARCH_NUMBER})
-  target_link_libraries(dbcsr PUBLIC acc_hip)
-  install(TARGETS acc_hip
-    EXPORT libcusmmTargets
+  set_source_files_properties(${DBCSR_ACC_SRCS} PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
+  hip_add_library(acc STATIC ${DBCSR_ACC_SRCS})
+  target_compile_definitions(acc PRIVATE ARCH_NUMBER=${ACC_ARCH_NUMBER})
+  target_compile_definitions(acc PRIVATE __HIP)
+  target_link_libraries(dbcsr PUBLIC acc)
+  install(TARGETS acc
+    EXPORT libsmmTargets
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 
   # tests need some of the libcusmm headers and for CMake <3.12
   # compatibility, we can't set it on the the object library itself
   target_include_directories(dbcsr PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/hip>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc>
     )
   target_include_directories(dbcsr PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc/libhipsmm>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc>
     )
 
   if (USE_HIPBLAS)
