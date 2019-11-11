@@ -7,13 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief Routines useful for iterative matrix calculations
-!> \par History
-!>       2010.10 created [Joost VandeVondele]
-!> \author Joost VandeVondele
-! **************************************************************************************************
 MODULE dbcsr_iterate_matrix
+   !! Routines useful for iterative matrix calculations
    USE dbcsr_arnoldi_api,                     ONLY: arnoldi_data_type,&
                                                     arnoldi_extremal
    USE dbcsr_log_handling,                 ONLY: dbcsr_get_default_logger,&
@@ -61,26 +56,20 @@ MODULE dbcsr_iterate_matrix
 
 CONTAINS
 
-! *****************************************************************************
-!> \brief Computes the determinant of a symmetric positive definite matrix
-!>        using the trace of the matrix logarithm via Mercator series:
-!>         det(A) = det(S)det(I+X)det(S), where S=diag(sqrt(Aii),..,sqrt(Ann))
-!>         det(I+X) = Exp(Trace(Ln(I+X)))
-!>         Ln(I+X) = X - X^2/2 + X^3/3 - X^4/4 + ..
-!>        The series converges only if the Frobenius norm of X is less than 1.
-!>        If it is more than one we compute (recursevily) the determinant of
-!>        the square root of (I+X).
-!> \param matrix ...
-!> \param det - determinant
-!> \param threshold ...
-!> \par History
-!>       2015.04 created [Rustam Z Khaliullin]
-!> \author Rustam Z. Khaliullin
-! **************************************************************************************************
    RECURSIVE SUBROUTINE determinant(matrix, det, threshold)
+      !! Computes the determinant of a symmetric positive definite matrix
+      !! using the trace of the matrix logarithm via Mercator series:
+      !! det(A) = det(S)det(I+X)det(S), where S=diag(sqrt(Aii),..,sqrt(Ann))
+      !! det(I+X) = Exp(Trace(Ln(I+X)))
+      !! Ln(I+X) = X - X^2/2 + X^3/3 - X^4/4 + ..
+      !! The series converges only if the Frobenius norm of X is less than 1.
+      !! If it is more than one we compute (recursevily) the determinant of
+      !! the square root of (I+X).
+
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       REAL(KIND=dp), INTENT(INOUT)                       :: det
+         !! - determinant
       REAL(KIND=dp), INTENT(IN)                          :: threshold
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'determinant', routineP = moduleN//':'//routineN
@@ -250,31 +239,20 @@ CONTAINS
 
    END SUBROUTINE determinant
 
-! **************************************************************************************************
-!> \brief invert a symmetric positive definite diagonally dominant matrix
-!> \param matrix_inverse ...
-!> \param matrix ...
-!> \param threshold convergence threshold nased on the max abs
-!> \param use_inv_as_guess logical whether input can be used as guess for inverse
-!> \param norm_convergence convergence threshold for the 2-norm, useful for approximate solutions
-!> \param filter_eps filter_eps for matrix multiplications, if not passed nothing is filteres
-!> \param accelerator_order ...
-!> \param max_iter_lanczos ...
-!> \param eps_lanczos ...
-!> \param silent ...
-!> \par History
-!>       2010.10 created [Joost VandeVondele]
-!>       2011.10 guess option added [Rustam Z Khaliullin]
-!> \author Joost VandeVondele
-! **************************************************************************************************
    SUBROUTINE invert_Taylor(matrix_inverse, matrix, threshold, use_inv_as_guess, &
                             norm_convergence, filter_eps, accelerator_order, &
                             max_iter_lanczos, eps_lanczos, silent)
+      !! invert a symmetric positive definite diagonally dominant matrix
+
 
       TYPE(dbcsr_type), INTENT(INOUT), TARGET            :: matrix_inverse, matrix
       REAL(KIND=dp), INTENT(IN)                          :: threshold
+         !! convergence threshold nased on the max abs
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_inv_as_guess
+         !! logical whether input can be used as guess for inverse
       REAL(KIND=dp), INTENT(IN), OPTIONAL                :: norm_convergence, filter_eps
+         !! convergence threshold for the 2-norm, useful for approximate solutions
+         !! filter_eps for matrix multiplications, if not passed nothing is filteres
       INTEGER, INTENT(IN), OPTIONAL                      :: accelerator_order, max_iter_lanczos
       REAL(KIND=dp), INTENT(IN), OPTIONAL                :: eps_lanczos
       LOGICAL, INTENT(IN), OPTIONAL                      :: silent
@@ -427,33 +405,22 @@ CONTAINS
 
    END SUBROUTINE invert_Taylor
 
-! **************************************************************************************************
-!> \brief invert a symmetric positive definite matrix by Hotelling's method
-!>        explicit symmetrization makes this code not suitable for other matrix types
-!>        Currently a bit messy with the options, to to be cleaned soon
-!> \param matrix_inverse ...
-!> \param matrix ...
-!> \param threshold convergence threshold nased on the max abs
-!> \param use_inv_as_guess logical whether input can be used as guess for inverse
-!> \param norm_convergence convergence threshold for the 2-norm, useful for approximate solutions
-!> \param filter_eps filter_eps for matrix multiplications, if not passed nothing is filteres
-!> \param accelerator_order ...
-!> \param max_iter_lanczos ...
-!> \param eps_lanczos ...
-!> \param silent ...
-!> \par History
-!>       2010.10 created [Joost VandeVondele]
-!>       2011.10 guess option added [Rustam Z Khaliullin]
-!> \author Joost VandeVondele
-! **************************************************************************************************
    SUBROUTINE invert_Hotelling(matrix_inverse, matrix, threshold, use_inv_as_guess, &
                                norm_convergence, filter_eps, accelerator_order, &
                                max_iter_lanczos, eps_lanczos, silent)
+      !! invert a symmetric positive definite matrix by Hotelling's method
+      !! explicit symmetrization makes this code not suitable for other matrix types
+      !! Currently a bit messy with the options, to to be cleaned soon
+
 
       TYPE(dbcsr_type), INTENT(INOUT), TARGET            :: matrix_inverse, matrix
       REAL(KIND=dp), INTENT(IN)                          :: threshold
+         !! convergence threshold nased on the max abs
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_inv_as_guess
+         !! logical whether input can be used as guess for inverse
       REAL(KIND=dp), INTENT(IN), OPTIONAL                :: norm_convergence, filter_eps
+         !! convergence threshold for the 2-norm, useful for approximate solutions
+         !! filter_eps for matrix multiplications, if not passed nothing is filteres
       INTEGER, INTENT(IN), OPTIONAL                      :: accelerator_order, max_iter_lanczos
       REAL(KIND=dp), INTENT(IN), OPTIONAL                :: eps_lanczos
       LOGICAL, INTENT(IN), OPTIONAL                      :: silent
@@ -629,17 +596,8 @@ CONTAINS
 
    END SUBROUTINE invert_Hotelling
 
-! **************************************************************************************************
-!> \brief compute the sign a matrix using Newton-Schulz iterations
-!> \param matrix_sign ...
-!> \param matrix ...
-!> \param threshold ...
-!> \param sign_order ...
-!> \par History
-!>       2010.10 created [Joost VandeVondele]
-!> \author Joost VandeVondele
-! **************************************************************************************************
    SUBROUTINE matrix_sign_Newton_Schulz(matrix_sign, matrix, threshold, sign_order)
+      !! compute the sign a matrix using Newton-Schulz iterations
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_sign, matrix
       REAL(KIND=dp), INTENT(IN)                          :: threshold
@@ -949,18 +907,10 @@ CONTAINS
 
    END SUBROUTINE matrix_sign_Newton_Schulz
 
-! **************************************************************************************************
-!> \brief compute the sign a matrix using the general algorithm for the p-th root of Richters et al.
-!>                   Commun. Comput. Phys., 25 (2019), pp. 564-585.
-!> \param matrix_sign ...
-!> \param matrix ...
-!> \param threshold ...
-!> \param sign_order ...
-!> \par History
-!>       2019.03 created [Robert Schade]
-!> \author Robert Schade
-! **************************************************************************************************
    SUBROUTINE matrix_sign_proot(matrix_sign, matrix, threshold, sign_order)
+      !! compute the sign a matrix using the general algorithm for the p-th root of Richters et al.
+      !! Commun. Comput. Phys., 25 (2019), pp. 564-585.
+
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_sign, matrix
       REAL(KIND=dp), INTENT(IN)                          :: threshold
@@ -1031,24 +981,11 @@ CONTAINS
 
    END SUBROUTINE matrix_sign_proot
 
-! **************************************************************************************************
-!> \brief compute the sqrt of a matrix via the sign function and the corresponding Newton-Schulz iterations
-!>        the order of the algorithm should be 2..5, 3 or 5 is recommended
-!> \param matrix_sqrt ...
-!> \param matrix_sqrt_inv ...
-!> \param matrix ...
-!> \param threshold ...
-!> \param order ...
-!> \param eps_lanczos ...
-!> \param max_iter_lanczos ...
-!> \param symmetrize ...
-!> \param converged ...
-!> \par History
-!>       2010.10 created [Joost VandeVondele]
-!> \author Joost VandeVondele
-! **************************************************************************************************
    SUBROUTINE matrix_sqrt_Newton_Schulz(matrix_sqrt, matrix_sqrt_inv, matrix, threshold, order, &
                                         eps_lanczos, max_iter_lanczos, symmetrize, converged)
+      !! compute the sqrt of a matrix via the sign function and the corresponding Newton-Schulz iterations
+      !! the order of the algorithm should be 2..5, 3 or 5 is recommended
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_sqrt, matrix_sqrt_inv, matrix
       REAL(KIND=dp), INTENT(IN)                          :: threshold
       INTEGER, INTENT(IN)                                :: order
@@ -1269,24 +1206,11 @@ CONTAINS
 
    END SUBROUTINE matrix_sqrt_Newton_Schulz
 
-! **************************************************************************************************
-!> \brief compute the sqrt of a matrix via the general algorithm for the p-th root of Richters et al.
-!>                   Commun. Comput. Phys., 25 (2019), pp. 564-585.
-!> \param matrix_sqrt ...
-!> \param matrix_sqrt_inv ...
-!> \param matrix ...
-!> \param threshold ...
-!> \param order ...
-!> \param eps_lanczos ...
-!> \param max_iter_lanczos ...
-!> \param symmetrize ...
-!> \param converged ...
-!> \par History
-!>       2019.04 created [Robert Schade]
-!> \author Robert Schade
-! **************************************************************************************************
    SUBROUTINE matrix_sqrt_proot(matrix_sqrt, matrix_sqrt_inv, matrix, threshold, order, &
                                 eps_lanczos, max_iter_lanczos, symmetrize, converged)
+      !! compute the sqrt of a matrix via the general algorithm for the p-th root of Richters et al.
+      !! Commun. Comput. Phys., 25 (2019), pp. 564-585.
+
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_sqrt, matrix_sqrt_inv, matrix
       REAL(KIND=dp), INTENT(IN)                          :: threshold
       INTEGER, INTENT(IN)                                :: order
@@ -1492,14 +1416,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE matrix_sqrt_proot
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix_exp ...
-!> \param matrix ...
-!> \param omega ...
-!> \param alpha ...
-!> \param threshold ...
-! **************************************************************************************************
    SUBROUTINE matrix_exponential(matrix_exp, matrix, omega, alpha, threshold)
       ! compute matrix_exp=omega*exp(alpha*matrix)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_exp, matrix
@@ -1587,20 +1503,15 @@ CONTAINS
 
    END SUBROUTINE matrix_exponential
 
-! **************************************************************************************************
-!> \brief McWeeny purification of a matrix in the orthonormal basis
-!> \param matrix_p Matrix to purify (needs to be almost idempotent already)
-!> \param threshold Threshold used as filter_eps and convergence criteria
-!> \param max_steps Max number of iterations
-!> \par History
-!>       2013.01 created [Florian Schiffmann]
-!>       2014.07 slightly refactored [Ole Schuett]
-!> \author Florian Schiffmann
-! **************************************************************************************************
    SUBROUTINE purify_mcweeny_orth(matrix_p, threshold, max_steps)
+      !! McWeeny purification of a matrix in the orthonormal basis
+
       TYPE(dbcsr_type), DIMENSION(:)                     :: matrix_p
+         !! Matrix to purify (needs to be almost idempotent already)
       REAL(KIND=dp)                                      :: threshold
+         !! Threshold used as filter_eps and convergence criteria
       INTEGER                                            :: max_steps
+         !! Max number of iterations
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'purify_mcweeny_orth', &
                                      routineP = moduleN//':'//routineN
@@ -1645,22 +1556,17 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE purify_mcweeny_orth
 
-! **************************************************************************************************
-!> \brief McWeeny purification of a matrix in the non-orthonormal basis
-!> \param matrix_p Matrix to purify (needs to be almost idempotent already)
-!> \param matrix_s Overlap-Matrix
-!> \param threshold Threshold used as filter_eps and convergence criteria
-!> \param max_steps Max number of iterations
-!> \par History
-!>       2013.01 created [Florian Schiffmann]
-!>       2014.07 slightly refactored [Ole Schuett]
-!> \author Florian Schiffmann
-! **************************************************************************************************
    SUBROUTINE purify_mcweeny_nonorth(matrix_p, matrix_s, threshold, max_steps)
+      !! McWeeny purification of a matrix in the non-orthonormal basis
+
       TYPE(dbcsr_type), DIMENSION(:)                     :: matrix_p
+         !! Matrix to purify (needs to be almost idempotent already)
       TYPE(dbcsr_type)                                   :: matrix_s
+         !! Overlap-Matrix
       REAL(KIND=dp)                                      :: threshold
+         !! Threshold used as filter_eps and convergence criteria
       INTEGER                                            :: max_steps
+         !! Max number of iterations
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'purify_mcweeny_nonorth', &
                                      routineP = moduleN//':'//routineN

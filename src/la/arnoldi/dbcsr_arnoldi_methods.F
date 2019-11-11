@@ -7,14 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief methods for arnoldi iteration
-!> \par History
-!>       2014.09 created [Florian Schiffmann]
-!> \author Florian Schiffmann
-! **************************************************************************************************
 
 #:include 'arnoldi.fypp'
+
+   !! methods for arnoldi iteration
 MODULE dbcsr_arnoldi_methods
    USE dbcsr_arnoldi_geev,                    ONLY: arnoldi_general_local_diag,&
                                                     arnoldi_symm_local_diag,&
@@ -51,12 +47,10 @@ MODULE dbcsr_arnoldi_methods
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Interface for the routine calcualting the implicit restarts
-!>        Currently all based on lapack
-!> \param arnoldi_data ...
-! **************************************************************************************************
    SUBROUTINE arnoldi_iram(arnoldi_data)
+      !! Interface for the routine calcualting the implicit restarts
+      !! Currently all based on lapack
+
       TYPE(arnoldi_data_type)                            :: arnoldi_data
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'arnoldi_iram', routineP = moduleN//':'//routineN
@@ -74,12 +68,10 @@ CONTAINS
 
    END SUBROUTINE arnoldi_iram
 
-! **************************************************************************************************
-!> \brief Interface to compute the eigenvalues of a nonsymmetric matrix
-!>        This is only the serial version
-!> \param arnoldi_data ...
-! **************************************************************************************************
    SUBROUTINE compute_evals(arnoldi_data)
+      !! Interface to compute the eigenvalues of a nonsymmetric matrix
+      !! This is only the serial version
+
       TYPE(arnoldi_data_type)                            :: arnoldi_data
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'compute_evals', routineP = moduleN//':'//routineN
@@ -97,18 +89,17 @@ CONTAINS
 
    END SUBROUTINE compute_evals
 
-! **************************************************************************************************
-!> \brief Interface for the initialization of the arnoldi subspace creation
-!>        currently it can only setup a random vector but can be improved to
-!>        various types of restarts easily
-!> \param matrix pointer to the matrices as described in main interface
-!> \param vectors work vectors for the matrix vector multiplications
-!> \param arnoldi_data all data concerning the subspace
-! **************************************************************************************************
    SUBROUTINE arnoldi_init(matrix, vectors, arnoldi_data)
+      !! Interface for the initialization of the arnoldi subspace creation
+      !! currently it can only setup a random vector but can be improved to
+      !! various types of restarts easily
+
       TYPE(dbcsr_p_type), DIMENSION(:)                   :: matrix
+         !! pointer to the matrices as described in main interface
       TYPE(m_x_v_vectors_type)                           :: vectors
+         !! work vectors for the matrix vector multiplications
       TYPE(arnoldi_data_type)                            :: arnoldi_data
+         !! all data concerning the subspace
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'arnoldi_init', routineP = moduleN//':'//routineN
 
@@ -125,18 +116,16 @@ CONTAINS
 
    END SUBROUTINE arnoldi_init
 
-! **************************************************************************************************
-!> \brief Interface for the initialization of the arnoldi subspace creation
-!>        for the generalized eigenvalue problem
-!> \param matrix pointer to the matrices as described in main interface
-!> \param matrix_arnoldi ...
-!> \param vectors work vectors for the matrix vector multiplications
-!> \param arnoldi_data all data concerning the subspace
-! **************************************************************************************************
    SUBROUTINE gev_arnoldi_init(matrix, matrix_arnoldi, vectors, arnoldi_data)
+      !! Interface for the initialization of the arnoldi subspace creation
+      !! for the generalized eigenvalue problem
+
       TYPE(dbcsr_p_type), DIMENSION(:)                   :: matrix, matrix_arnoldi
+         !! pointer to the matrices as described in main interface
       TYPE(m_x_v_vectors_type)                           :: vectors
+         !! work vectors for the matrix vector multiplications
       TYPE(arnoldi_data_type)                            :: arnoldi_data
+         !! all data concerning the subspace
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'gev_arnoldi_init', &
                                      routineP = moduleN//':'//routineN
@@ -154,16 +143,15 @@ CONTAINS
 
    END SUBROUTINE gev_arnoldi_init
 
-! **************************************************************************************************
-!> \brief here the iterations are performed and the krylov space is constructed
-!> \param matrix see above
-!> \param vectors see above
-!> \param arnoldi_data see above
-! **************************************************************************************************
    SUBROUTINE build_subspace(matrix, vectors, arnoldi_data)
+      !! here the iterations are performed and the krylov space is constructed
+
       TYPE(dbcsr_p_type), DIMENSION(:)                   :: matrix
+         !! see above
       TYPE(m_x_v_vectors_type)                           :: vectors
+         !! see above
       TYPE(arnoldi_data_type)                            :: arnoldi_data
+         !! see above
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'build_subspace', routineP = moduleN//':'//routineN
 
@@ -180,17 +168,16 @@ CONTAINS
 
    END SUBROUTINE build_subspace
 
-! **************************************************************************************************
-!> \brief here the iterations are performed and the krylov space for the generalized
-!>        eigenvalue probelm is created
-!> \param matrix see above
-!> \param vectors see above
-!> \param arnoldi_data see above
-! **************************************************************************************************
    SUBROUTINE gev_build_subspace(matrix, vectors, arnoldi_data)
+      !! here the iterations are performed and the krylov space for the generalized
+      !! eigenvalue probelm is created
+
       TYPE(dbcsr_p_type), DIMENSION(:)                   :: matrix
+         !! see above
       TYPE(m_x_v_vectors_type)                           :: vectors
+         !! see above
       TYPE(arnoldi_data_type)                            :: arnoldi_data
+         !! see above
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'gev_build_subspace', &
                                      routineP = moduleN//':'//routineN
@@ -208,19 +195,16 @@ CONTAINS
 
    END SUBROUTINE gev_build_subspace
 
-! **************************************************************************************************
-!> \brief in the generalized eigenvalue the matrix depende on the projection
-!>        therefore the outer loop has to build a new set of matrices for the
-!>        inner loop
-!> \param matrix see above
-!> \param matrix_arnoldi ...
-!> \param vectors ...
-!> \param arnoldi_data see above
-! **************************************************************************************************
    SUBROUTINE gev_update_data(matrix, matrix_arnoldi, vectors, arnoldi_data)
+      !! in the generalized eigenvalue the matrix depende on the projection
+      !! therefore the outer loop has to build a new set of matrices for the
+      !! inner loop
+
       TYPE(dbcsr_p_type), DIMENSION(:)                   :: matrix, matrix_arnoldi
+         !! see above
       TYPE(m_x_v_vectors_type)                           :: vectors
       TYPE(arnoldi_data_type)                            :: arnoldi_data
+         !! see above
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'gev_update_data', &
                                      routineP = moduleN//':'//routineN
@@ -238,11 +222,6 @@ CONTAINS
 
    END SUBROUTINE gev_update_data
 
-! **************************************************************************************************
-!> \brief ...
-!> \param m_out ...
-!> \param m_in ...
-! **************************************************************************************************
    SUBROUTINE convert_matrix_z_to_d(m_out, m_in)
       REAL(real_8), DIMENSION(:, :)                      :: m_out
       COMPLEX(real_8), DIMENSION(:, :)                   :: m_in
@@ -250,11 +229,6 @@ CONTAINS
       m_out(:, :) = REAL(m_in(:, :), KIND=real_8)
    END SUBROUTINE convert_matrix_z_to_d
 
-! **************************************************************************************************
-!> \brief ...
-!> \param m_out ...
-!> \param m_in ...
-! **************************************************************************************************
    SUBROUTINE convert_matrix_c_to_s(m_out, m_in)
       REAL(real_4), DIMENSION(:, :)                      :: m_out
       COMPLEX(real_4), DIMENSION(:, :)                   :: m_in
@@ -262,11 +236,6 @@ CONTAINS
       m_out(:, :) = REAL(m_in, KIND=real_4)
    END SUBROUTINE convert_matrix_c_to_s
 
-! **************************************************************************************************
-!> \brief ...
-!> \param m_out ...
-!> \param m_in ...
-! **************************************************************************************************
    SUBROUTINE convert_matrix_d_to_z(m_out, m_in)
       COMPLEX(real_8), DIMENSION(:, :)                   :: m_out
       REAL(real_8), DIMENSION(:, :)                      :: m_in
@@ -274,11 +243,6 @@ CONTAINS
       m_out(:, :) = CMPLX(m_in, 0.0, KIND=real_8)
    END SUBROUTINE convert_matrix_d_to_z
 
-! **************************************************************************************************
-!> \brief ...
-!> \param m_out ...
-!> \param m_in ...
-! **************************************************************************************************
    SUBROUTINE convert_matrix_s_to_c(m_out, m_in)
       COMPLEX(real_4), DIMENSION(:, :)                   :: m_out
       REAL(real_4), DIMENSION(:, :)                      :: m_in
@@ -287,22 +251,12 @@ CONTAINS
    END SUBROUTINE convert_matrix_s_to_c
 
 ! I kno that one is stupid but like this it simplifies the template
-! **************************************************************************************************
-!> \brief ...
-!> \param m_out ...
-!> \param m_in ...
-! **************************************************************************************************
    SUBROUTINE convert_matrix_z_to_z(m_out, m_in)
       COMPLEX(real_8), DIMENSION(:, :)                   :: m_out, m_in
 
       m_out(:, :) = m_in
    END SUBROUTINE convert_matrix_z_to_z
 
-! **************************************************************************************************
-!> \brief ...
-!> \param m_out ...
-!> \param m_in ...
-! **************************************************************************************************
    SUBROUTINE convert_matrix_c_to_c(m_out, m_in)
       COMPLEX(real_4), DIMENSION(:, :)                   :: m_out, m_in
 
@@ -310,12 +264,10 @@ CONTAINS
    END SUBROUTINE convert_matrix_c_to_c
 
 #:for nametype1, type_prec, type_nametype1, nametype_zero, nametype_one, nametype_negone, czero, cone, ctype, rnorm_to_norm, val_to_type in inst_params_2
-! **************************************************************************************************
-!> \brief Call the correct eigensolver, in the arnoldi method only the right
-!>        eigenvectors are used. Lefts are created here but dumped immediatly
-!> \param arnoldi_data ...
-! **************************************************************************************************
    SUBROUTINE compute_evals_${nametype1}$(arnoldi_data)
+      !! Call the correct eigensolver, in the arnoldi method only the right
+      !! eigenvectors are used. Lefts are created here but dumped immediatly
+
       TYPE(arnoldi_data_type)                 :: arnoldi_data
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'compute_evals_${nametype1}$', &
@@ -350,14 +302,10 @@ CONTAINS
 
    END SUBROUTINE compute_evals_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Initialization of the arnoldi vector. Here a random vector is used,
-!>        might be generalized in the future
-!> \param matrix ...
-!> \param vectors ...
-!> \param arnoldi_data ...
-! **************************************************************************************************
    SUBROUTINE arnoldi_init_${nametype1}$ (matrix, vectors, arnoldi_data)
+      !! Initialization of the arnoldi vector. Here a random vector is used,
+      !! might be generalized in the future
+
       TYPE(dbcsr_p_type), DIMENSION(:)     :: matrix
       TYPE(m_x_v_vectors_type)                :: vectors
       TYPE(arnoldi_data_type)                 :: arnoldi_data
@@ -439,15 +387,13 @@ CONTAINS
 
    END SUBROUTINE arnoldi_init_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Alogorithm for the implicit restarts in the arnoldi method
-!>        this is an early implementaion which scales subspace size^4
-!>        by replacing the lapack calls with direct math the
-!>        QR and  gemms can be made linear and a N^2 sacling will be acchieved
-!>        however this already sets the framework but should be used with care
-!> \param arnoldi_data ...
-! **************************************************************************************************
    SUBROUTINE arnoldi_iram_${nametype1}$(arnoldi_data)
+      !! Alogorithm for the implicit restarts in the arnoldi method
+      !! this is an early implementaion which scales subspace size^4
+      !! by replacing the lapack calls with direct math the
+      !! QR and  gemms can be made linear and a N^2 sacling will be acchieved
+      !! however this already sets the framework but should be used with care
+
       TYPE(arnoldi_data_type)                 :: arnoldi_data
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'arnoldi_iram_${nametype1}$', &
@@ -536,17 +482,13 @@ CONTAINS
 
    END SUBROUTINE arnoldi_iram_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Here we create the Krylov subspace and fill the Hessenberg matrix
-!>        convergence check is only performed on subspace convergence
-!>        Gram Schidt is used to orthonogonalize.
-!>        If this is numericall not sufficient a Daniel, Gragg, Kaufman and Steward
-!>        correction is performed
-!> \param matrix ...
-!> \param vectors ...
-!> \param arnoldi_data ...
-! **************************************************************************************************
    SUBROUTINE build_subspace_${nametype1}$(matrix, vectors, arnoldi_data)
+      !! Here we create the Krylov subspace and fill the Hessenberg matrix
+      !! convergence check is only performed on subspace convergence
+      !! Gram Schidt is used to orthonogonalize.
+      !! If this is numericall not sufficient a Daniel, Gragg, Kaufman and Steward
+      !! correction is performed
+
       TYPE(dbcsr_p_type), DIMENSION(:)     :: matrix
       TYPE(m_x_v_vectors_type), TARGET        :: vectors
       TYPE(arnoldi_data_type)                 :: arnoldi_data
@@ -625,14 +567,8 @@ CONTAINS
 
    END SUBROUTINE  build_subspace_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Helper routine to transfer the all data of a dbcsr matrix to a local array
-!> \param vec ...
-!> \param array ...
-!> \param n ...
-!> \param is_local ...
-! **************************************************************************************************
    SUBROUTINE transfer_dbcsr_to_local_array_${nametype1}$(vec, array, n, is_local)
+      !! Helper routine to transfer the all data of a dbcsr matrix to a local array
       TYPE(dbcsr_type)                          :: vec
       ${type_nametype1}$, DIMENSION(:)           :: array
       INTEGER                                  :: n
@@ -644,14 +580,8 @@ CONTAINS
 
    END SUBROUTINE transfer_dbcsr_to_local_array_${nametype1}$
 
-! **************************************************************************************************
-!> \brief The inverse routine transfering data back from an array to a dbcsr
-!> \param vec ...
-!> \param array ...
-!> \param n ...
-!> \param is_local ...
-! **************************************************************************************************
    SUBROUTINE transfer_local_array_to_dbcsr_${nametype1}$(vec, array, n, is_local)
+      !! The inverse routine transfering data back from an array to a dbcsr
       TYPE(dbcsr_type)                          :: vec
       ${type_nametype1}$, DIMENSION(:)           :: array
       INTEGER                                  :: n
@@ -663,20 +593,8 @@ CONTAINS
 
    END SUBROUTINE transfer_local_array_to_dbcsr_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Gram-Schmidt in matrix vector form
-!> \param h_vec ...
-!> \param f_vec ...
-!> \param s_vec ...
-!> \param w_vec ...
-!> \param nrow_local ...
-!> \param j ...
-!> \param local_history ...
-!> \param reorth_mat ...
-!> \param local_comp ...
-!> \param pcol_group ...
-! **************************************************************************************************
    SUBROUTINE Gram_Schmidt_ortho_${nametype1}$(h_vec, f_vec, s_vec, w_vec, nrow_local,&
+      !! Gram-Schmidt in matrix vector form
                                                j, local_history, reorth_mat, local_comp, pcol_group)
       ${type_nametype1}$, DIMENSION(:)      :: h_vec, s_vec, f_vec, w_vec
       ${type_nametype1}$, DIMENSION(:, :)    :: local_history, reorth_mat
@@ -703,19 +621,8 @@ CONTAINS
 
    END SUBROUTINE Gram_Schmidt_ortho_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Compute the  Daniel, Gragg, Kaufman and Steward correction
-!> \param h_vec ...
-!> \param f_vec ...
-!> \param s_vec ...
-!> \param nrow_local ...
-!> \param j ...
-!> \param local_history ...
-!> \param reorth_mat ...
-!> \param local_comp ...
-!> \param pcol_group ...
-! **************************************************************************************************
    SUBROUTINE DGKS_ortho_${nametype1}$(h_vec, f_vec, s_vec, nrow_local, j, &
+      !! Compute the  Daniel, Gragg, Kaufman and Steward correction
                                        local_history, reorth_mat, local_comp, pcol_group)
       ${type_nametype1}$, DIMENSION(:)      :: h_vec, s_vec, f_vec
       ${type_nametype1}$, DIMENSION(:, :)    :: local_history, reorth_mat
@@ -740,15 +647,10 @@ CONTAINS
 
    END SUBROUTINE DGKS_ortho_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Compute the norm of a vector distributed along proc_col
-!>        as local arrays. Always return the real part next to the complex rep.
-!> \param vec ...
-!> \param norm ...
-!> \param rnorm ...
-!> \param pcol_group ...
-! **************************************************************************************************
    SUBROUTINE compute_norms_${nametype1}$(vec, norm, rnorm, pcol_group)
+      !! Compute the norm of a vector distributed along proc_col
+      !! as local arrays. Always return the real part next to the complex rep.
+
       ${type_nametype1}$, DIMENSION(:)           :: vec
       REAL(${type_prec}$)                        :: rnorm
       ${type_nametype1}$                         :: norm
@@ -762,16 +664,10 @@ CONTAINS
 
    END SUBROUTINE compute_norms_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Computes the intial guess for the solution of the generalized eigenvalue
-!>        using the arnoldi method
-!> \param matrix ...
-!> \param matrix_arnoldi ...
-!> \param vectors ...
-!> \param arnoldi_data ...
-! **************************************************************************************************
-
    SUBROUTINE gev_arnoldi_init_${nametype1}$ (matrix, matrix_arnoldi, vectors, arnoldi_data)
+      !! Computes the intial guess for the solution of the generalized eigenvalue
+      !! using the arnoldi method
+
       TYPE(dbcsr_p_type), DIMENSION(:)     :: matrix
       TYPE(dbcsr_p_type), DIMENSION(:)     :: matrix_arnoldi
       TYPE(m_x_v_vectors_type)                :: vectors
@@ -856,16 +752,12 @@ CONTAINS
 
    END SUBROUTINE gev_arnoldi_init_${nametype1}$
 
-! **************************************************************************************************
-!> \brief builds the basis rothogonal wrt. teh metric.
-!>        The structure looks similar to normal arnoldi but norms, vectors and
-!>        matrix_vector products are very differently defined. Therefore it is
-!>        cleaner to put it in a seperate subroutine to avoid confusion
-!> \param matrix ...
-!> \param vectors ...
-!> \param arnoldi_data ...
-! **************************************************************************************************
    SUBROUTINE gev_build_subspace_${nametype1}$(matrix, vectors, arnoldi_data)
+      !! builds the basis rothogonal wrt. teh metric.
+      !! The structure looks similar to normal arnoldi but norms, vectors and
+      !! matrix_vector products are very differently defined. Therefore it is
+      !! cleaner to put it in a seperate subroutine to avoid confusion
+
       TYPE(dbcsr_p_type), DIMENSION(:)     :: matrix
       TYPE(m_x_v_vectors_type)                :: vectors
       TYPE(arnoldi_data_type)                 :: arnoldi_data
@@ -958,20 +850,15 @@ CONTAINS
 
    END SUBROUTINE gev_build_subspace_${nametype1}$
 
-! **************************************************************************************************
-!> \brief Updates all data after an inner loop of the generalized ev arnoldi.
-!>        Updates rho and C=A-rho*B accordingly.
-!>        As an update scheme is used for he ev, the output ev has to be replaced
-!>        with the updated one.
-!>        Furthermore a convergence check is performed. The mv product could
-!>        be skiiped by making clever use of the precomputed data, However,
-!>        it is most likely not worth the effort.
-!> \param matrix ...
-!> \param matrix_arnoldi ...
-!> \param vectors ...
-!> \param arnoldi_data ...
-! **************************************************************************************************
    SUBROUTINE gev_update_data_${nametype1}$(matrix, matrix_arnoldi, vectors, arnoldi_data)
+      !! Updates all data after an inner loop of the generalized ev arnoldi.
+      !! Updates rho and C=A-rho*B accordingly.
+      !! As an update scheme is used for he ev, the output ev has to be replaced
+      !! with the updated one.
+      !! Furthermore a convergence check is performed. The mv product could
+      !! be skiiped by making clever use of the precomputed data, However,
+      !! it is most likely not worth the effort.
+
       TYPE(dbcsr_p_type), DIMENSION(:)     :: matrix
       TYPE(dbcsr_p_type), DIMENSION(:)     :: matrix_arnoldi
       TYPE(m_x_v_vectors_type)                :: vectors

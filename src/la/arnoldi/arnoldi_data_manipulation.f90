@@ -9,12 +9,6 @@
 
 #:include 'arnoldi.fypp'
 #:for nametype1, type_prec, real_zero, nametype_zero, type_nametype1, vartype in inst_params_1
-! **************************************************************************************************
-!> \brief ...
-!> \param arnoldi_data ...
-!> \param matrix ...
-!> \param max_iter ...
-! **************************************************************************************************
   SUBROUTINE setup_arnoldi_data_${nametype1}$ (arnoldi_data, matrix, max_iter)
      TYPE(arnoldi_data_type), intent(inout)          :: arnoldi_data
      TYPE(dbcsr_p_type), DIMENSION(:), intent(in)    :: matrix
@@ -40,10 +34,6 @@
 
   END SUBROUTINE setup_arnoldi_data_${nametype1}$
 
-! **************************************************************************************************
-!> \brief ...
-!> \param arnoldi_data ...
-! **************************************************************************************************
   SUBROUTINE deallocate_arnoldi_data_${nametype1}$ (arnoldi_data)
      TYPE(arnoldi_data_type)                     :: arnoldi_data
 
@@ -63,13 +53,6 @@
 
   END SUBROUTINE deallocate_arnoldi_data_${nametype1}$
 
-! **************************************************************************************************
-!> \brief ...
-!> \param arnoldi_data ...
-!> \param ind ...
-!> \param matrix ...
-!> \param vector ...
-! **************************************************************************************************
   SUBROUTINE get_selected_ritz_vector_${nametype1}$(arnoldi_data,ind,matrix,vector)
      TYPE(arnoldi_data_type)                 :: arnoldi_data
      INTEGER                                  :: ind
@@ -111,11 +94,6 @@
 
   END SUBROUTINE get_selected_ritz_vector_${nametype1}$
 
-! **************************************************************************************************
-!> \brief ...
-!> \param arnoldi_data ...
-!> \param vector ...
-! **************************************************************************************************
   SUBROUTINE set_initial_vector_${nametype1}$(arnoldi_data,vector)
      TYPE(arnoldi_data_type)                 :: arnoldi_data
      TYPE(dbcsr_type)                          :: vector

@@ -7,14 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief collection of types used in arnoldi
-!> \par History
-!>       2014.09 created [Florian Schiffmann]
-!> \author Florian Schiffmann
-! **************************************************************************************************
 
 MODULE dbcsr_arnoldi_types
+
+   !! collection of types used in arnoldi
    USE dbcsr_api,                       ONLY: dbcsr_type
    USE dbcsr_kinds,                           ONLY: real_4,&
                                                     real_8
@@ -107,11 +103,6 @@ MODULE dbcsr_arnoldi_types
              set_data_z, set_data_c
 CONTAINS
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \param control ...
-! **************************************************************************************************
    SUBROUTINE set_control(ar_data, control)
       TYPE(arnoldi_data_type)                            :: ar_data
       TYPE(arnoldi_control_type), POINTER                :: control
@@ -119,11 +110,6 @@ CONTAINS
       ar_data%control => control
    END SUBROUTINE set_control
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_sel_ind(ar_data) RESULT(selected_ind)
       TYPE(arnoldi_data_type)                            :: ar_data
       INTEGER, DIMENSION(:), POINTER                     :: selected_ind
@@ -132,11 +118,6 @@ CONTAINS
 
    END FUNCTION get_sel_ind
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_data_d(ar_data) RESULT(data_d)
       TYPE(arnoldi_data_type)                            :: ar_data
       TYPE(arnoldi_data_d_type), POINTER                 :: data_d
@@ -145,11 +126,6 @@ CONTAINS
 
    END FUNCTION get_data_d
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_data_s(ar_data) RESULT(data_s)
       TYPE(arnoldi_data_type)                            :: ar_data
       TYPE(arnoldi_data_s_type), POINTER                 :: data_s
@@ -158,11 +134,6 @@ CONTAINS
 
    END FUNCTION get_data_s
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_data_z(ar_data) RESULT(data_z)
       TYPE(arnoldi_data_type)                            :: ar_data
       TYPE(arnoldi_data_z_type), POINTER                 :: data_z
@@ -171,11 +142,6 @@ CONTAINS
 
    END FUNCTION get_data_z
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_data_c(ar_data) RESULT(data_c)
       TYPE(arnoldi_data_type)                            :: ar_data
       TYPE(arnoldi_data_c_type), POINTER                 :: data_c
@@ -184,11 +150,6 @@ CONTAINS
 
    END FUNCTION get_data_c
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \param data_d ...
-! **************************************************************************************************
    SUBROUTINE set_data_d(ar_data, data_d)
       TYPE(arnoldi_data_type)                            :: ar_data
       TYPE(arnoldi_data_d_type), POINTER                 :: data_d
@@ -197,11 +158,6 @@ CONTAINS
 
    END SUBROUTINE set_data_d
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \param data_s ...
-! **************************************************************************************************
    SUBROUTINE set_data_s(ar_data, data_s)
       TYPE(arnoldi_data_type)                            :: ar_data
       TYPE(arnoldi_data_s_type), POINTER                 :: data_s
@@ -210,11 +166,6 @@ CONTAINS
 
    END SUBROUTINE set_data_s
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \param data_c ...
-! **************************************************************************************************
    SUBROUTINE set_data_c(ar_data, data_c)
       TYPE(arnoldi_data_type)                            :: ar_data
       TYPE(arnoldi_data_c_type), POINTER                 :: data_c
@@ -223,11 +174,6 @@ CONTAINS
 
    END SUBROUTINE set_data_c
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \param data_z ...
-! **************************************************************************************************
    SUBROUTINE set_data_z(ar_data, data_z)
       TYPE(arnoldi_data_type)                            :: ar_data
       TYPE(arnoldi_data_z_type), POINTER                 :: data_z
@@ -236,11 +182,6 @@ CONTAINS
 
    END SUBROUTINE set_data_z
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_control(ar_data) RESULT(control)
       TYPE(arnoldi_data_type)                            :: ar_data
       TYPE(arnoldi_control_type), POINTER                :: control
@@ -249,11 +190,6 @@ CONTAINS
 
    END FUNCTION get_control
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION has_d_real(ar_data) RESULT(is_present)
       TYPE(arnoldi_data_type)                            :: ar_data
       LOGICAL                                            :: is_present
@@ -262,11 +198,6 @@ CONTAINS
 
    END FUNCTION has_d_real
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION has_s_real(ar_data) RESULT(is_present)
       TYPE(arnoldi_data_type)                            :: ar_data
       LOGICAL                                            :: is_present
@@ -275,11 +206,6 @@ CONTAINS
 
    END FUNCTION has_s_real
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION has_d_cmplx(ar_data) RESULT(is_present)
       TYPE(arnoldi_data_type)                            :: ar_data
       LOGICAL                                            :: is_present
@@ -288,11 +214,6 @@ CONTAINS
 
    END FUNCTION has_d_cmplx
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION has_s_cmplx(ar_data) RESULT(is_present)
       TYPE(arnoldi_data_type)                            :: ar_data
       LOGICAL                                            :: is_present
@@ -301,11 +222,6 @@ CONTAINS
 
    END FUNCTION has_s_cmplx
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_evals_d(ar_data) RESULT(evals)
       TYPE(arnoldi_data_type)                            :: ar_data
       COMPLEX(real_8), DIMENSION(:), POINTER             :: evals
@@ -314,11 +230,6 @@ CONTAINS
 
    END FUNCTION get_evals_d
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_evals_s(ar_data) RESULT(evals)
       TYPE(arnoldi_data_type)                            :: ar_data
       COMPLEX(real_4), DIMENSION(:), POINTER             :: evals
@@ -327,11 +238,6 @@ CONTAINS
 
    END FUNCTION get_evals_s
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_evals_z(ar_data) RESULT(evals)
       TYPE(arnoldi_data_type)                            :: ar_data
       COMPLEX(real_8), DIMENSION(:), POINTER             :: evals
@@ -340,11 +246,6 @@ CONTAINS
 
    END FUNCTION get_evals_z
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_evals_c(ar_data) RESULT(evals)
       TYPE(arnoldi_data_type)                            :: ar_data
       COMPLEX(real_4), DIMENSION(:), POINTER             :: evals

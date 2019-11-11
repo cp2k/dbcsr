@@ -7,14 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief operations for skinny matrices/vectors expressed in dbcsr form
-!> \par History
-!>       2014.10 created [Florian Schiffmann]
-!> \author Florian Schiffmann
-! **************************************************************************************************
 
 MODULE dbcsr_vector
+
+   !! operations for skinny matrices/vectors expressed in dbcsr form
    USE dbcsr_work_operations,           only: dbcsr_create
 
    use dbcsr_operations,                only: dbcsr_copy, &
@@ -112,18 +108,17 @@ MODULE dbcsr_vector
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief creates a dbcsr col vector like object which lives on proc_col 0
-!>        and has the same row dist as the template matrix
-!>        the returned matrix is fully allocated and all blocks are set to 0
-!>        this is not a sparse object (and must never be)
-!> \param dbcsr_vec  the vector object to create must be allocated but not initialized
-!> \param matrix a dbcsr matrix used as template
-!> \param ncol number of vectors in the dbcsr_typeect (1 for vector, n for skinny matrix)
-! **************************************************************************************************
    SUBROUTINE dbcsr_create_col_vec_from_matrix(dbcsr_vec, matrix, ncol)
+      !! creates a dbcsr col vector like object which lives on proc_col 0
+      !! and has the same row dist as the template matrix
+      !! the returned matrix is fully allocated and all blocks are set to 0
+      !! this is not a sparse object (and must never be)
+
       TYPE(dbcsr_type)                                   :: dbcsr_vec, matrix
+         !! the vector object to create must be allocated but not initialized
+         !! a dbcsr matrix used as template
       INTEGER                                            :: ncol
+         !! number of vectors in the dbcsr_typeect (1 for vector, n for skinny matrix)
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'create_col_vec_from_matrix'
 
@@ -159,18 +154,16 @@ CONTAINS
 
    END SUBROUTINE dbcsr_create_col_vec_from_matrix
 
-! **************************************************************************************************
-!> \brief creates a dbcsr row vector like object which lives on proc_row 0
-!>        and has the same row dist as the template matrix
-!>        the returned matrix is fully allocated and all blocks are set to 0
-!>        this is not a sparse object (and must never be)
-!> \param dbcsr_vec ...
-!> \param matrix a dbcsr matrix used as template
-!> \param nrow number of vectors in the dbcsr_typeect (1 for vector, n for skinny matrix)
-! **************************************************************************************************
    SUBROUTINE dbcsr_create_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
+      !! creates a dbcsr row vector like object which lives on proc_row 0
+      !! and has the same row dist as the template matrix
+      !! the returned matrix is fully allocated and all blocks are set to 0
+      !! this is not a sparse object (and must never be)
+
       TYPE(dbcsr_type)                                   :: dbcsr_vec, matrix
+         !! a dbcsr matrix used as template
       INTEGER                                            :: nrow
+         !! number of vectors in the dbcsr_typeect (1 for vector, n for skinny matrix)
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'create_row_vec_from_matrix'
 
@@ -205,18 +198,17 @@ CONTAINS
 
    END SUBROUTINE dbcsr_create_row_vec_from_matrix
 
-! **************************************************************************************************
-!> \brief creates a col vector like object whose blocks can be replicated
-!>        along the processor row and has the same row dist as the template matrix
-!>        the returned matrix is fully allocated and all blocks are set to 0
-!>        this is not a sparse object (and must never be)
-!> \param dbcsr_vec the vector object to create must be allocated but not initialized
-!> \param matrix a dbcsr matrix used as template
-!> \param ncol number of vectors in the dbcsr_typeect (1 for vector, n for skinny matrix)
-! **************************************************************************************************
    SUBROUTINE dbcsr_create_replicated_col_vec_from_matrix(dbcsr_vec, matrix, ncol)
+      !! creates a col vector like object whose blocks can be replicated
+      !! along the processor row and has the same row dist as the template matrix
+      !! the returned matrix is fully allocated and all blocks are set to 0
+      !! this is not a sparse object (and must never be)
+
       TYPE(dbcsr_type)                                   :: dbcsr_vec, matrix
+         !! the vector object to create must be allocated but not initialized
+         !! a dbcsr matrix used as template
       INTEGER                                            :: ncol
+         !! number of vectors in the dbcsr_typeect (1 for vector, n for skinny matrix)
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'create_replicated_col_vec_from_matrix'
 
@@ -251,19 +243,18 @@ CONTAINS
 
    END SUBROUTINE dbcsr_create_replicated_col_vec_from_matrix
 
-! **************************************************************************************************
-!> \brief creates a row vector like object whose blocks can be replicated
-!>        along the processor col and has the same col dist as the template matrix
-!>        the returned matrix is fully allocated and all blocks are set to 0
-!>        this is not a sparse object (and must never be)
-!> \param dbcsr_vec the vector object to create must be allocated but not initialized
-!> \param matrix a dbcsr matrix used as template
-!> \param nrow number of vectors in the dbcsr_typeect (1 for vector, n for skinny matrix)
-! **************************************************************************************************
    SUBROUTINE dbcsr_create_replicated_row_vec_from_matrix(dbcsr_vec, matrix, nrow)
+      !! creates a row vector like object whose blocks can be replicated
+      !! along the processor col and has the same col dist as the template matrix
+      !! the returned matrix is fully allocated and all blocks are set to 0
+      !! this is not a sparse object (and must never be)
+
       TYPE(dbcsr_type)                                   :: dbcsr_vec
+         !! the vector object to create must be allocated but not initialized
       TYPE(dbcsr_type)                                   :: matrix
+         !! a dbcsr matrix used as template
       INTEGER                                            :: nrow
+         !! number of vectors in the dbcsr_typeect (1 for vector, n for skinny matrix)
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'create_replicated_row_vec_from_matrix'
 
@@ -297,12 +288,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_create_replicated_row_vec_from_matrix
 
-! **************************************************************************************************
-!> \brief given a column vector, prepare the fast_vec_access container
-!> \param vec ...
-!> \param fast_vec_access ...
-! **************************************************************************************************
    SUBROUTINE create_fast_col_vec_access(vec, fast_vec_access)
+      !! given a column vector, prepare the fast_vec_access container
       TYPE(dbcsr_type)                                   :: vec
       TYPE(fast_vec_access_type)                         :: fast_vec_access
 
@@ -329,12 +316,8 @@ CONTAINS
 
    END SUBROUTINE create_fast_col_vec_access
 
-! **************************************************************************************************
-!> \brief given a row vector, prepare the fast_vec_access_container
-!> \param vec ...
-!> \param fast_vec_access ...
-! **************************************************************************************************
    SUBROUTINE create_fast_row_vec_access(vec, fast_vec_access)
+      !! given a row vector, prepare the fast_vec_access_container
       TYPE(dbcsr_type)                                   :: vec
       TYPE(fast_vec_access_type)                         :: fast_vec_access
 
@@ -362,11 +345,8 @@ CONTAINS
 
    END SUBROUTINE create_fast_row_vec_access
 
-! **************************************************************************************************
-!> \brief release all memory associated with the fast_vec_access type
-!> \param fast_vec_access ...
-! **************************************************************************************************
    SUBROUTINE release_fast_vec_access(fast_vec_access)
+      !! release all memory associated with the fast_vec_access type
       TYPE(fast_vec_access_type)                         :: fast_vec_access
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'release_fast_vec_access'
@@ -394,17 +374,8 @@ CONTAINS
 
 #:for nametype, type, zero in instances
 
-! **************************************************************************************************
-!> \brief the real driver routine for the multiply, not all symmetries implemented yet
-!> \param matrix ...
-!> \param vec_in ...
-!> \param vec_out ...
-!> \param alpha ...
-!> \param beta ...
-!> \param work_row ...
-!> \param work_col ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_matrix_colvec_multiply_${nametype}$(matrix, vec_in, vec_out, alpha, beta, work_row, work_col)
+      !! the real driver routine for the multiply, not all symmetries implemented yet
       TYPE(dbcsr_type)                          :: matrix, vec_in, vec_out
       ${type}$                                  :: alpha, beta
       TYPE(dbcsr_type)                          :: work_row, work_col
@@ -430,17 +401,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_matrix_colvec_multiply_${nametype}$
 
-! **************************************************************************************************
-!> \brief low level routines for matrix vector multiplies
-!> \param matrix ...
-!> \param vec_in ...
-!> \param vec_out ...
-!> \param alpha ...
-!> \param beta ...
-!> \param work_row ...
-!> \param work_col ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_matrix_vector_mult_${nametype}$(matrix, vec_in, vec_out, alpha, beta, work_row, work_col)
+      !! low level routines for matrix vector multiplies
       TYPE(dbcsr_type)                          :: matrix, vec_in, vec_out
       ${type}$                                  :: alpha, beta
       TYPE(dbcsr_type)                          :: work_row, work_col
@@ -529,17 +491,6 @@ CONTAINS
 
    END SUBROUTINE dbcsr_matrix_vector_mult_${nametype}$
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \param vec_in ...
-!> \param vec_out ...
-!> \param alpha ...
-!> \param beta ...
-!> \param work_row ...
-!> \param work_col ...
-!> \param skip_diag ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_matrixT_vector_mult_${nametype}$(matrix, vec_in, vec_out, alpha, beta, work_row, work_col, skip_diag)
       TYPE(dbcsr_type)                          :: matrix, vec_in, vec_out
       ${type}$                                  :: alpha, beta
@@ -652,13 +603,6 @@ CONTAINS
 
    END SUBROUTINE dbcsr_matrixT_vector_mult_${nametype}$
 
-! **************************************************************************************************
-!> \brief ...
-!> \param vec_in ...
-!> \param rep_col_vec ...
-!> \param rep_row_vec ...
-!> \param fast_vec_col ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_col_vec_to_rep_row_${nametype}$(vec_in, rep_col_vec, rep_row_vec, fast_vec_col)
       TYPE(dbcsr_type)                          :: vec_in, rep_col_vec, &
                                                    rep_row_vec
@@ -726,13 +670,6 @@ CONTAINS
 
    END SUBROUTINE dbcsr_col_vec_to_rep_row_${nametype}$
 
-! **************************************************************************************************
-!> \brief ...
-!> \param rep_col_vec ...
-!> \param rep_row_vec ...
-!> \param fast_vec_row ...
-!> \param fast_vec_col_add ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_rep_row_to_rep_col_vec_${nametype}$(rep_col_vec, rep_row_vec, fast_vec_row, fast_vec_col_add)
       TYPE(dbcsr_type)                          :: rep_col_vec, rep_row_vec
       TYPE(fast_vec_access_type), OPTIONAL     :: fast_vec_col_add
@@ -788,12 +725,8 @@ CONTAINS
 
    END SUBROUTINE dbcsr_rep_row_to_rep_col_vec_${nametype}$
 
-! **************************************************************************************************
-!> \brief given a column vector, prepare the fast_vec_access container
-!> \param vec ...
-!> \param fast_vec_access ...
-! **************************************************************************************************
    SUBROUTINE create_fast_col_vec_access_${nametype}$(vec, fast_vec_access)
+      !! given a column vector, prepare the fast_vec_access container
       TYPE(dbcsr_type)                          :: vec
       TYPE(fast_vec_access_type)               :: fast_vec_access
 
@@ -843,12 +776,8 @@ CONTAINS
 
    END SUBROUTINE create_fast_col_vec_access_${nametype}$
 
-! **************************************************************************************************
-!> \brief given a row vector, prepare the fast_vec_access_container
-!> \param vec ...
-!> \param fast_vec_access ...
-! **************************************************************************************************
    SUBROUTINE create_fast_row_vec_access_${nametype}$(vec, fast_vec_access)
+      !! given a row vector, prepare the fast_vec_access_container
       TYPE(dbcsr_type)                          :: vec
       TYPE(fast_vec_access_type)                :: fast_vec_access
 
@@ -899,16 +828,6 @@ CONTAINS
 
    END SUBROUTINE create_fast_row_vec_access_${nametype}$
 
-! **************************************************************************************************
-!> \brief ...
-!> \param matrix ...
-!> \param vec_in ...
-!> \param vec_out ...
-!> \param alpha ...
-!> \param beta ...
-!> \param work_row ...
-!> \param work_col ...
-! **************************************************************************************************
    SUBROUTINE dbcsr_sym_matrix_vector_mult_${nametype}$(matrix, vec_in, vec_out, alpha, beta, work_row, work_col)
       TYPE(dbcsr_type)                          :: matrix, vec_in, vec_out
       ${type}$                                  :: alpha, beta

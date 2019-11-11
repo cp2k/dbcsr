@@ -7,16 +7,11 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief The methods which allow to analyze and manipulate the arnoldi procedure
-!>        The main routine and this should eb the only public access point for the
-!>        method
-!> \par History
-!>       2014.09 created [Florian Schiffmann]
-!> \author Florian Schiffmann
-! **************************************************************************************************
-
 MODULE dbcsr_arnoldi_data_methods
+   !! The methods which allow to analyze and manipulate the arnoldi procedure
+   !! The main routine and this should eb the only public access point for the
+   !! method
+
    USE dbcsr_arnoldi_types,                   ONLY: &
       arnoldi_control_type, arnoldi_data_c_type, arnoldi_data_d_type, arnoldi_data_s_type, &
       arnoldi_data_type, arnoldi_data_z_type, get_control, get_data_c, get_data_d, get_data_s, &
@@ -47,32 +42,25 @@ MODULE dbcsr_arnoldi_data_methods
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief This routine sets the environment for the arnoldi iteration and
-!>        the krylov subspace creation. All simulation parameters have to be given
-!>        at this stage so the rest can run fully automated
-!>        In addition, this routine allocates the data necessary for
-!> \param arnoldi_data this type which gets filled with information and
-!>        on output contains all information necessary to extract
-!>        whatever the user desires
-!> \param matrix vector of matrices, only the first gets used to get some dimensions
-!>        and parallel information needed later on
-!> \param max_iter maximum dimension of the krylov subspace
-!> \param threshold convergence threshold, this is used for both subspace and eigenval
-!> \param selection_crit integer defining according to which criterion the
-!>        eigenvalues are selected for the subspace
-!> \param nval_request for some sel_crit useful, how many eV to select
-!> \param nrestarts ...
-!> \param generalized_ev ...
-!> \param iram ...
-! **************************************************************************************************
    SUBROUTINE setup_arnoldi_data(arnoldi_data, matrix, max_iter, threshold, selection_crit, &
                                  nval_request, nrestarts, generalized_ev, iram)
+      !! This routine sets the environment for the arnoldi iteration and
+      !! the krylov subspace creation. All simulation parameters have to be given
+      !! at this stage so the rest can run fully automated
+      !! In addition, this routine allocates the data necessary for
+
       TYPE(arnoldi_data_type)                            :: arnoldi_data
+         !! this type which gets filled with information and on output contains all information necessary to extract whatever the
+         !! user desires
       TYPE(dbcsr_p_type), DIMENSION(:)                   :: matrix
+         !! vector of matrices, only the first gets used to get some dimensions and parallel information needed later on
       INTEGER                                            :: max_iter
+         !! maximum dimension of the krylov subspace
       REAL(real_8)                                       :: threshold
+         !! convergence threshold, this is used for both subspace and eigenval
       INTEGER                                            :: selection_crit, nval_request, nrestarts
+         !! integer defining according to which criterion the eigenvalues are selected for the subspace
+         !! for some sel_crit useful, how many eV to select
       LOGICAL                                            :: generalized_ev, iram
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'setup_arnoldi_data', &
@@ -94,19 +82,8 @@ CONTAINS
 
    END SUBROUTINE setup_arnoldi_data
 
-! **************************************************************************************************
-!> \brief Creates the control type for arnoldi, see above for details
-!> \param arnoldi_data ...
-!> \param matrix ...
-!> \param max_iter ...
-!> \param threshold ...
-!> \param selection_crit ...
-!> \param nval_request ...
-!> \param nrestarts ...
-!> \param generalized_ev ...
-!> \param iram ...
-! **************************************************************************************************
    SUBROUTINE setup_arnoldi_control(arnoldi_data, matrix, max_iter, threshold, selection_crit, nval_request, &
+      !! Creates the control type for arnoldi, see above for details
                                     nrestarts, generalized_ev, iram)
       TYPE(arnoldi_data_type)                            :: arnoldi_data
       TYPE(dbcsr_p_type), DIMENSION(:)                   :: matrix
@@ -174,14 +151,8 @@ CONTAINS
 
    END SUBROUTINE setup_arnoldi_control
 
-! **************************************************************************************************
-!> \brief Deallocate the data in arnoldi_data
-!> \param arnoldi_data ...
-!> \param ind ...
-!> \param matrix ...
-!> \param vector ...
-! **************************************************************************************************
    SUBROUTINE get_selected_ritz_vector(arnoldi_data, ind, matrix, vector)
+      !! Deallocate the data in arnoldi_data
       TYPE(arnoldi_data_type)                            :: arnoldi_data
       INTEGER                                            :: ind
       TYPE(dbcsr_type)                                   :: matrix, vector
@@ -196,11 +167,8 @@ CONTAINS
 
    END SUBROUTINE get_selected_ritz_vector
 
-! **************************************************************************************************
-!> \brief Deallocate the data in arnoldi_data
-!> \param arnoldi_data ...
-! **************************************************************************************************
    SUBROUTINE deallocate_arnoldi_data(arnoldi_data)
+      !! Deallocate the data in arnoldi_data
       TYPE(arnoldi_data_type)                            :: arnoldi_data
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'deallocate_arnoldi_data', &
@@ -219,11 +187,8 @@ CONTAINS
 
    END SUBROUTINE deallocate_arnoldi_data
 
-! **************************************************************************************************
-!> \brief perform the selection of eigenvalues, fills the selected_ind array
-!> \param arnoldi_data ...
-! **************************************************************************************************
    SUBROUTINE select_evals(arnoldi_data)
+      !! perform the selection of eigenvalues, fills the selected_ind array
       TYPE(arnoldi_data_type)                            :: arnoldi_data
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'select_evals', routineP = moduleN//':'//routineN
@@ -235,12 +200,8 @@ CONTAINS
 
    END SUBROUTINE select_evals
 
-! **************************************************************************************************
-!> \brief set a new selection type, if you notice you didn't like the initial one
-!> \param ar_data ...
-!> \param itype ...
-! **************************************************************************************************
    SUBROUTINE set_eval_selection(ar_data, itype)
+      !! set a new selection type, if you notice you didn't like the initial one
       TYPE(arnoldi_data_type)                            :: ar_data
       INTEGER                                            :: itype
 
@@ -250,12 +211,8 @@ CONTAINS
       control%selection_crit = itype
    END SUBROUTINE set_eval_selection
 
-! **************************************************************************************************
-!> \brief returns the number of restarts allowed for arnoldi
-!> \param arnoldi_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_nrestart(arnoldi_data) RESULT(nrestart)
+      !! returns the number of restarts allowed for arnoldi
       TYPE(arnoldi_data_type)                            :: arnoldi_data
       INTEGER                                            :: nrestart
 
@@ -266,12 +223,8 @@ CONTAINS
 
    END FUNCTION get_nrestart
 
-! **************************************************************************************************
-!> \brief get the number of eigenvalues matching the search criterion
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_nval_out(ar_data) RESULT(nval_out)
+      !! get the number of eigenvalues matching the search criterion
       TYPE(arnoldi_data_type)                            :: ar_data
       INTEGER                                            :: nval_out
 
@@ -282,13 +235,10 @@ CONTAINS
 
    END FUNCTION get_nval_out
 
-! **************************************************************************************************
-!> \brief get the dimension of the krylov space. Can be less than max_iter
-!>        if subspace converged early
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_subsp_size(ar_data) RESULT(current_step)
+      !! get the dimension of the krylov space. Can be less than max_iter
+      !! if subspace converged early
+
       TYPE(arnoldi_data_type)                            :: ar_data
       INTEGER                                            :: current_step
 
@@ -299,12 +249,8 @@ CONTAINS
 
    END FUNCTION get_subsp_size
 
-! **************************************************************************************************
-!> \brief Find out whether the method with the current search criterion is converged
-!> \param ar_data ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION arnoldi_is_converged(ar_data) RESULT(converged)
+      !! Find out whether the method with the current search criterion is converged
       TYPE(arnoldi_data_type)                            :: ar_data
       LOGICAL                                            :: converged
 
@@ -315,13 +261,8 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief get a single specific Ritz value from the set of selected
-!> \param ar_data ...
-!> \param ind ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION get_selected_ritz_val(ar_data, ind) RESULT(eval_out)
+      !! get a single specific Ritz value from the set of selected
       TYPE(arnoldi_data_type)                            :: ar_data
       INTEGER                                            :: ind
       COMPLEX(real_8)                                    :: eval_out
@@ -351,13 +292,10 @@ CONTAINS
 
    END FUNCTION get_selected_ritz_val
 
-! **************************************************************************************************
-!> \brief Get all Ritz values of the selected set. eval_out has to be allocated
-!>        at least the size of get_neval_out()
-!> \param ar_data ...
-!> \param eval_out ...
-! **************************************************************************************************
    SUBROUTINE get_all_selected_ritz_val(ar_data, eval_out)
+      !! Get all Ritz values of the selected set. eval_out has to be allocated
+      !! at least the size of get_neval_out()
+
       TYPE(arnoldi_data_type)                            :: ar_data
       COMPLEX(real_8), DIMENSION(:)                      :: eval_out
 
@@ -387,11 +325,6 @@ CONTAINS
 
    END SUBROUTINE get_all_selected_ritz_val
 
-! **************************************************************************************************
-!> \brief ...
-!> \param ar_data ...
-!> \param vector ...
-! **************************************************************************************************
    SUBROUTINE set_arnoldi_initial_vector(ar_data, vector)
       TYPE(arnoldi_data_type)                            :: ar_data
       TYPE(dbcsr_type)                                   :: vector

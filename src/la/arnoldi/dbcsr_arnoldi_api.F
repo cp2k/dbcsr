@@ -7,14 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-! **************************************************************************************************
-!> \brief arnoldi iteration using dbcsr
-!> \par History
-!>       2014.09 created [Florian Schiffmann]
-!> \author Florian Schiffmann
-! **************************************************************************************************
 
 MODULE dbcsr_arnoldi_api
+
+   !! arnoldi iteration using dbcsr
    USE dbcsr_arnoldi_data_methods,            ONLY: arnoldi_is_converged,&
                                                     deallocate_arnoldi_data,&
                                                     get_nrestart,&
@@ -57,15 +53,11 @@ MODULE dbcsr_arnoldi_api
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief Driver routine for different arnoldi eigenvalue methods
-!>        the selection which one is to be taken is made beforehand in the
-!>        setup call passing the generalized_ev flag or not
-!> \param matrix ...
-!> \param arnoldi_data ...
-! **************************************************************************************************
-
    SUBROUTINE arnoldi_ev(matrix, arnoldi_data)
+      !! Driver routine for different arnoldi eigenvalue methods
+      !! the selection which one is to be taken is made beforehand in the
+      !! setup call passing the generalized_ev flag or not
+
       TYPE(dbcsr_p_type), DIMENSION(:)                   :: matrix
       TYPE(arnoldi_data_type)                            :: arnoldi_data
 
@@ -83,24 +75,19 @@ CONTAINS
 
    END SUBROUTINE arnoldi_ev
 
-! **************************************************************************************************
-!> \brief The main routine for arnoldi method to compute ritz values
-!>        vectors of a matrix. Can take multiple matrices to solve
-!>        ( M(N)*...*M(2)*M(1) )*v=v*e. A, B, ... have to be merged in a array of pointers
-!>        arnoldi data has to be create with the setup routine and
-!>        will contain on input all necessary information to start/restart
-!>        the calculation. On output it contains all data
-!> \param matrix a pointer array to dbcsr_matrices. Multiplication order is as
-!>        described above
-!> \param arnoldi_data On input data_type contains all information to start/restart
-!>                     an arnoldi iteration
-!>                     On output all data areas are filled to allow arbitrary post
-!>                     processing of the created subspace
-!>                     arnoldi_data has to be created with setup_arnoldi_data
-! **************************************************************************************************
    SUBROUTINE arnoldi_normal_ev(matrix, arnoldi_data)
+      !! The main routine for arnoldi method to compute ritz values
+      !! vectors of a matrix. Can take multiple matrices to solve
+      !! ( M(N)*...*M(2)*M(1) )*v=v*e. A, B, ... have to be merged in a array of pointers
+      !! arnoldi data has to be create with the setup routine and
+      !! will contain on input all necessary information to start/restart
+      !! the calculation. On output it contains all data
+
       TYPE(dbcsr_p_type), DIMENSION(:)                   :: matrix
+         !! a pointer array to dbcsr_matrices. Multiplication order is as described above
       TYPE(arnoldi_data_type)                            :: arnoldi_data
+         !! On input data_type contains all information to start/restart an arnoldi iteration On output all data areas are filled to
+         !! allow arbitrary post processing of the created subspace arnoldi_data has to be created with setup_arnoldi_data
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'arnoldi_normal_ev', &
                                      routineP = moduleN//':'//routineN
@@ -163,25 +150,20 @@ CONTAINS
 
    END SUBROUTINE arnoldi_normal_ev
 
-! **************************************************************************************************
-!> \brief The main routine for arnoldi method to compute the lowest ritz pair
-!>        of a symmetric generalized eigenvalue problem.
-!>        as input it takes a vector of matrices which for the GEV:
-!>        M(1)*v=M(2)*v*lambda
-!>        In other words, M(1) is the matrix and M(2) the metric
-!>        This only works if the two matrices are symmetric in values
-!>        (flag in dbcsr does not need to be set)
-!> \param matrix a pointer array to dbcsr_matrices. Multiplication order is as
-!>        described above
-!> \param arnoldi_data On input data_type contains all information to start/restart
-!>                     an arnoldi iteration
-!>                     On output all data areas are filled to allow arbitrary post
-!>                     processing of the created subspace
-!>                     arnoldi_data has to be created with setup_arnoldi_data
-! **************************************************************************************************
    SUBROUTINE arnoldi_generalized_ev(matrix, arnoldi_data)
+      !! The main routine for arnoldi method to compute the lowest ritz pair
+      !! of a symmetric generalized eigenvalue problem.
+      !! as input it takes a vector of matrices which for the GEV:
+      !! M(1)*v=M(2)*v*lambda
+      !! In other words, M(1) is the matrix and M(2) the metric
+      !! This only works if the two matrices are symmetric in values
+      !! (flag in dbcsr does not need to be set)
+
       TYPE(dbcsr_p_type), DIMENSION(:)                   :: matrix
+         !! a pointer array to dbcsr_matrices. Multiplication order is as described above
       TYPE(arnoldi_data_type)                            :: arnoldi_data
+         !! On input data_type contains all information to start/restart an arnoldi iteration On output all data areas are filled to
+         !! allow arbitrary post processing of the created subspace arnoldi_data has to be created with setup_arnoldi_data
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'arnoldi_generalized_ev', &
                                      routineP = moduleN//':'//routineN
@@ -243,23 +225,22 @@ CONTAINS
 
    END SUBROUTINE arnoldi_generalized_ev
 
-! **************************************************************************************************
-!> \brief simple wrapper to estimate extremal eigenvalues with arnoldi, using the old lanczos interface
-!>        this hides some of the power of the arnoldi routines (e.g. only min or max eval, generalized eval, ritz vectors, etc.),
-!>        and does not allow for providing an initial guess of the ritz vector.
-!> \param matrix_a input mat
-!> \param max_ev estimated max eval
-!> \param min_ev estimated min eval
-!> \param converged Usually arnoldi is more accurate than claimed.
-!> \param threshold target precision
-!> \param max_iter max allowed iterations (will be rounded up)
-! **************************************************************************************************
    SUBROUTINE arnoldi_extremal(matrix_a, max_ev, min_ev, converged, threshold, max_iter)
+      !! simple wrapper to estimate extremal eigenvalues with arnoldi, using the old lanczos interface
+      !! this hides some of the power of the arnoldi routines (e.g. only min or max eval, generalized eval, ritz vectors, etc.),
+      !! and does not allow for providing an initial guess of the ritz vector.
+
       TYPE(dbcsr_type), INTENT(INOUT), TARGET            :: matrix_a
+         !! input mat
       REAL(KIND=dp), INTENT(OUT)                         :: max_ev, min_ev
+         !! estimated max eval
+         !! estimated min eval
       LOGICAL, INTENT(OUT)                               :: converged
+         !! Usually arnoldi is more accurate than claimed.
       REAL(KIND=dp), INTENT(IN)                          :: threshold
+         !! target precision
       INTEGER, INTENT(IN)                                :: max_iter
+         !! max allowed iterations (will be rounded up)
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'arnoldi_extremal', &
                                      routineP = moduleN//':'//routineN
@@ -295,22 +276,20 @@ CONTAINS
 
    END SUBROUTINE arnoldi_extremal
 
-! **************************************************************************************************
-!> \brief Wrapper for conjugated gradient algorithm for Ax=b
-!> \param matrix_a input mat
-!> \param vec_x input right hand side vector; output solution vector, fully replicated!
-!> \param matrix_p input preconditioner (optional)
-!> \param converged ...
-!> \param threshold target precision
-!> \param max_iter max allowed iterations
-! **************************************************************************************************
    SUBROUTINE arnoldi_conjugate_gradient(matrix_a, vec_x, matrix_p, converged, threshold, max_iter)
+      !! Wrapper for conjugated gradient algorithm for Ax=b
+
       TYPE(dbcsr_type), INTENT(IN), TARGET               :: matrix_a
+         !! input mat
       REAL(KIND=dp), DIMENSION(:), INTENT(INOUT)         :: vec_x
+         !! input right hand side vector; output solution vector, fully replicated!
       TYPE(dbcsr_type), INTENT(IN), OPTIONAL, TARGET     :: matrix_p
+         !! input preconditioner (optional)
       LOGICAL, INTENT(OUT)                               :: converged
       REAL(KIND=dp), INTENT(IN)                          :: threshold
+         !! target precision
       INTEGER, INTENT(IN)                                :: max_iter
+         !! max allowed iterations
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'arnoldi_conjugate_gradient', &
                                      routineP = moduleN//':'//routineN
@@ -390,12 +369,6 @@ CONTAINS
 
    END SUBROUTINE arnoldi_conjugate_gradient
 
-! **************************************************************************************************
-!> \brief ...
-!> \param arnoldi_data ...
-!> \param arnoldi_matrices ...
-!> \param vectors ...
-! **************************************************************************************************
    SUBROUTINE conjugate_gradient(arnoldi_data, arnoldi_matrices, vectors)
       TYPE(arnoldi_data_type)                            :: arnoldi_data
       TYPE(dbcsr_p_type), DIMENSION(:)                   :: arnoldi_matrices
@@ -509,13 +482,6 @@ CONTAINS
 
    END SUBROUTINE conjugate_gradient
 
-! **************************************************************************************************
-!> \brief ...
-!> \param avec ...
-!> \param bvec ...
-!> \param mpgrp ...
-!> \return ...
-! **************************************************************************************************
    FUNCTION vec_dot_vec(avec, bvec, mpgrp) RESULT(adotb)
       TYPE(dbcsr_type)                                   :: avec, bvec
       INTEGER, INTENT(IN)                                :: mpgrp
