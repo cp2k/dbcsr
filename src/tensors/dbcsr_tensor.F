@@ -1119,9 +1119,11 @@ CONTAINS
       TYPE(dbcsr_tas_split_info), INTENT(IN) :: tas_split_info
       INTEGER, DIMENSION(:), ALLOCATABLE :: map1, map2
       TYPE(dbcsr_t_pgrid_type) :: opt_pgrid
+      INTEGER, DIMENSION(dbcsr_t_ndims(tensor)) :: dims
 
       CALL dbcsr_t_get_mapping_info(tensor%pgrid%nd_index_grid, map1_2d=map1, map2_2d=map2)
-      opt_pgrid = dbcsr_t_nd_mp_comm(tas_split_info%mp_comm, map1, map2)
+      CALL blk_dims_tensor(tensor, dims)
+      opt_pgrid = dbcsr_t_nd_mp_comm(tas_split_info%mp_comm, map1, map2, tdims=dims)
 
       ALLOCATE (opt_pgrid%tas_split_info, SOURCE=tas_split_info)
       CALL dbcsr_tas_info_hold(opt_pgrid%tas_split_info)
