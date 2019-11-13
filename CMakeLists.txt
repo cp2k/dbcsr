@@ -59,6 +59,13 @@ if (USE_MPI)
   get_property(REQUIRED_MPI_COMPONENTS GLOBAL PROPERTY ENABLED_LANGUAGES)
   list(REMOVE_ITEM REQUIRED_MPI_COMPONENTS CUDA)  # CUDA does not have a MPI component
   find_package(MPI COMPONENTS ${REQUIRED_MPI_COMPONENTS} REQUIRED)
+
+  if (NOT MPI_Fortran_HAVE_F90_MODULE)
+    message(FATAL_ERROR "\
+The listed MPI implementation does not provide the required mpi.mod interface. \
+When using the GNU compiler in combination with Intel MPI, please use the \
+Intel MPI compiler wrappers. Check the INSTALL.md for more information.")
+  endif ()
 endif ()
 
 if (USE_SMM MATCHES "blas")
