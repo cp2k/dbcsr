@@ -83,11 +83,7 @@ The configuration flags are (default first):
     -DTEST_OMP_THREADS=<2,N>
     -DCMAKE_BUILD_TYPE=<Release|Debug|Coverage>
 
-
-Building on Cray requires an additional flag to make sure CMake is able to properly
-detect the compiler behind the compiler wrappers:
-
-    -DCMAKE_SYSTEM_NAME=CrayLinuxEnvironment
+For build recipes on different platforms, make sure to also read the [INSTALL.md](INSTALL.md).
 
 ## Using DBCSR in a CMake project
 
