@@ -1,5 +1,5 @@
 {
 "description": "Cuda accelerated Small Matrix Multiplications",
 "archive": "libdbcsr",
-"requires": ["kernels", "../include",]
+"requires": ["kernels", "../include", "../../include"]
 }
