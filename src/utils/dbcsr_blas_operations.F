@@ -52,6 +52,7 @@ CONTAINS
       iseed(2) = INT(MODULO(IEOR(map, 1153_int_8), 2_int_8**12)); map = map/2_int_8**12
       iseed(1) = INT(MODULO(IEOR(map, 2029_int_8), 2_int_8**12)); map = map/2_int_8**12
    END SUBROUTINE set_larnv_seed
+
    SUBROUTINE dbcsr_lapack_larnv(idist, iseed, n, x)
       !! fills an array with random numbers
 
@@ -77,7 +78,6 @@ CONTAINS
       CASE default
          DBCSR_ABORT("Invalid data type")
       END SELECT
-
    END SUBROUTINE dbcsr_lapack_larnv
 
 END MODULE dbcsr_blas_operations
