@@ -68,10 +68,9 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Cray")
   endif ()
   # OpenACC support with CCE is EOL: causes https://github.com/cp2k/dbcsr/issues/261
   # eventually check compiler version (similar to -h system_alloc)
-  # compiler warning remains (-M1234 is not accepted)
-  set(CMAKE_C_FLAGS                "${CMAKE_C_FLAGS} -hnoacc")
-  set(CMAKE_CXX_FLAGS              "${CMAKE_CXX_FLAGS} -hnoacc")
-  set(CMAKE_Fortran_FLAGS          "${CMAKE_Fortran_FLAGS} -hnoacc")
+  set(CMAKE_C_FLAGS                "${CMAKE_C_FLAGS} -hnoacc -h nomessage=1234")
+  set(CMAKE_CXX_FLAGS              "${CMAKE_CXX_FLAGS} -hnoacc -h nomessage=1234")
+  set(CMAKE_Fortran_FLAGS          "${CMAKE_Fortran_FLAGS} -hnoacc -M1234")
 else ()
   message(WARNING "\
 Unknown C++ compiler, trying without any additional (optimization) flags.\n\
