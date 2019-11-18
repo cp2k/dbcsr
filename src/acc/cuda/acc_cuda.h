@@ -20,10 +20,6 @@
 #define ACC_RTC(x) nvrtc##x
 #define BACKEND "CUDA"
 
-#ifdef __HAS_NO_CUDA_STREAM_PRIORITIES
-#define __ACC_HAS_NO_STREAM_PRIORITIES
-#endif
-
 // Macros for CUDA error handling
 // Wrap calls to CUDA runtime API (CUDART)
 #define ACC_API_CALL(func, args)                                  \

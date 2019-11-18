@@ -29,7 +29,7 @@ Optionally:
 To build [libsmm_acc](src/acc/libsmm_acc/) (DBCSR's GPU backend), you further need:
 
 * A GPU-capable compiler, either
-  * CUDA Toolkit (targets NVIDIA GPUs)
+  * CUDA Toolkit (targets NVIDIA GPUs, minimal version required: 5.5)
   * or HIP compiler (targets NVIDIA or AMD GPUs)
 * a C++ compiler which supports at least C++11 standard
 
