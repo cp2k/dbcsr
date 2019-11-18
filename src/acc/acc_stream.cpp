@@ -29,10 +29,7 @@ static const int verbose_print = 0;
 extern "C" int acc_stream_priority_range(int* least, int* greatest){
   *least = -1;
   *greatest = -1;
-
-#ifndef __ACC_HAS_NO_STREAM_PRIORITIES
   ACC_API_CALL(DeviceGetStreamPriorityRange, (least, greatest));
-#endif
 
   return 0;
 }
@@ -45,14 +42,12 @@ extern "C" int acc_stream_create(void** stream_p, const char* name, int priority
 
   ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) *stream_p;
 
-#ifndef __ACC_HAS_NO_STREAM_PRIORITIES
   if(priority > 0){
       unsigned int flags = ACC(StreamNonBlocking);
       cErr = ACC(StreamCreateWithPriority)(acc_stream, flags, priority);
-  }else
-#endif
+  } else {
       cErr = ACC(StreamCreate)(acc_stream);
-
+  }
 
   if (verbose_print) printf("StreamCreate : %p -> %p \n", *stream_p, *acc_stream);
   if (acc_error_check(cErr)) return -1;

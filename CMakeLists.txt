@@ -143,6 +143,9 @@ endif()
 if (USE_CUDA)
 
   enable_language(CUDA)
+  if (CMAKE_CUDA_COMPILER_VERSION LESS 5.5)
+      message(FATAL_ERROR "CUDA version >= 5.5 is required.")
+  endif()
 
   # Make sure the GPU required is supported
   list(FIND SUPPORTED_CUDA_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)

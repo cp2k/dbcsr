@@ -20,10 +20,6 @@
 #define ACC_RTC(x) hiprtc##x
 #define BACKEND "HIP"
 
-#if defined(__HIP_PLATFORM_NVCC__) && defined(__HAS_NO_CUDA_STREAM_PRIORITIES)
-#define __ACC_HAS_NO_STREAM_PRIORITIES
-#endif
-
 // Macro for HIP error handling
 // Wrap calls to HIP API
 #define HIP_API_CALL(func, args)                                  \
