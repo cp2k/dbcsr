@@ -66,6 +66,11 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Cray")
     list(FILTER CMAKE_C_IMPLICIT_LINK_LIBRARIES EXCLUDE REGEX "tcmalloc")
     list(FILTER CMAKE_Fortran_IMPLICIT_LINK_LIBRARIES EXCLUDE REGEX "tcmalloc")
   endif ()
+  # OpenACC support with CCE is EOL: causes https://github.com/cp2k/dbcsr/issues/261
+  # eventually check compiler version (similar to -h system_alloc)
+  set(CMAKE_C_FLAGS                "${CMAKE_C_FLAGS} -hnoacc -h nomessage=1234")
+  set(CMAKE_CXX_FLAGS              "${CMAKE_CXX_FLAGS} -hnoacc -h nomessage=1234")
+  set(CMAKE_Fortran_FLAGS          "${CMAKE_Fortran_FLAGS} -hnoacc -M1234")
 else ()
   message(WARNING "\
 Unknown C++ compiler, trying without any additional (optimization) flags.\n\
