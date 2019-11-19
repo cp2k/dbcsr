@@ -22,24 +22,24 @@ SRC_TESTS += dbcsr_tas_unittest.F
 dbcsr_tas_unittest: BIN_DEPS =
 
 ifneq ($(NVCC),)
-UNITTESTS += libcusmm_unittest_multiply libcusmm_unittest_transpose libcusmm_timer_multiply
+UNITTESTS += libsmm_acc_unittest_multiply libsmm_acc_unittest_transpose libsmm_acc_timer_multiply
 
-libcusmm_unittest_multiply.cu: $(DBCSRHOME)/tests/generate_libcusmm_unittest_multiply.py $(DBCSRHOME)/tests/libcusmm_unittest_multiply.template
-	$(DBCSRHOME)/tests/generate_libcusmm_unittest_multiply.py --base_dir $(DBCSRHOME) --gpu_version=$(GPUVER)
+libsmm_acc_unittest_multiply.cpp: $(DBCSRHOME)/tests/generate_libsmm_acc_unittest_multiply.py $(DBCSRHOME)/tests/libsmm_acc_unittest_multiply.cpp.template
+	$(DBCSRHOME)/tests/generate_libsmm_acc_unittest_multiply.py --base_dir $(DBCSRHOME) --gpu_version=$(GPUVER)
 
-libcusmm_unittest_multiply: libcusmm_unittest_multiply.cu
+libsmm_acc_unittest_multiply: libsmm_acc_unittest_multiply.cpp
 
-SRC_TESTS += libcusmm_unittest_multiply.cu
-libcusmm_unittest_multiply: BIN_DEPS =
+SRC_TESTS += libsmm_acc_unittest_multiply.cpp
+libsmm_acc_unittest_multiply: BIN_DEPS =
 
-SRC_TESTS += libcusmm_unittest_transpose.cu
-libcusmm_unittest_transpose: BIN_DEPS =
+SRC_TESTS += libsmm_acc_unittest_transpose.cpp
+libsmm_acc_unittest_transpose: BIN_DEPS =
 
-libcusmm_timer_multiply.cu: $(DBCSRHOME)/tests/generate_libcusmm_timer_multiply.py $(DBCSRHOME)/tests/libcusmm_timer_multiply.template
-	$(DBCSRHOME)/tests/generate_libcusmm_timer_multiply.py --base_dir $(DBCSRHOME) --gpu_version=$(GPUVER)
+libsmm_acc_timer_multiply.cpp: $(DBCSRHOME)/tests/generate_libsmm_acc_timer_multiply.py $(DBCSRHOME)/tests/libsmm_acc_timer_multiply.cpp.template
+	$(DBCSRHOME)/tests/generate_libsmm_acc_timer_multiply.py --base_dir $(DBCSRHOME) --gpu_version=$(GPUVER)
 
-libcusmm_timer_multiply: libcusmm_timer_multiply.cu
+libsmm_acc_timer_multiply: libsmm_acc_timer_multiply.cpp
 
-SRC_TESTS += libcusmm_timer_multiply.cu
-libcusmm_timer_multiply: BIN_DEPS =
+SRC_TESTS += libsmm_acc_timer_multiply.cpp
+libsmm_acc_timer_multiply: BIN_DEPS =
 endif

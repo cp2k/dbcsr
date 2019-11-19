@@ -172,8 +172,6 @@ CONTAINS
 
 #if defined(__DBCSR_ACC)
       INTEGER :: dbcsr_thread_safe, libsmm_acc_thread_safe
-      INTEGER :: warp_size_json_records, warp_size_gpu_api
-      CHARACTER(len=128) :: warp_size_json_records_str, warp_size_gpu_api_str
 #endif
 
       IF (PRESENT(io_unit)) THEN

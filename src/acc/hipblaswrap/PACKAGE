@@ -1,5 +1,5 @@
 {
 "description": "Wrapper for HIPBLAS functions",
 "archive": "libdbcsr",
-"requires": ["../../base", "../hip"]
+"requires": ["../../base", "../", "../hip", "../cuda"]
 }
