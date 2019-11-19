@@ -13,9 +13,9 @@
 #include <vector>
 #include <array>
 #include <utility>
-#include "acc/libsmm_acc/libsmm_acc_benchmark.h"
-#include "acc/libsmm_acc/libsmm_acc.h"
-#include "acc/libsmm_acc/parameters.h"
+#include "../src/acc/libsmm_acc/libsmm_acc_benchmark.h"
+#include "../src/acc/libsmm_acc/libsmm_acc.h"
+#include "../src/acc/libsmm_acc/parameters.h"
 
 
 /****************************************************************************\

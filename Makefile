@@ -45,6 +45,8 @@ else ifeq ($(GPUVER),P100)
  ARCH_NUMBER = 60
 else ifeq ($(GPUVER),V100)
  ARCH_NUMBER = 70
+else ifeq ($(GPUVER),Mi50)
+ ARCH_NUMBER = gfx906
 else ifeq ($(GPUVER),) # Default to the P100
  ARCH_NUMBER = 60
 else
@@ -54,7 +56,11 @@ endif
 ifneq ($(ARCH_NUMBER),)
 #if "-arch" has not yet been set in NVFLAGS
 ifeq ($(findstring "-arch", $(NVFLAGS)), '')
+ifeq ($(GPU),1)
  NVFLAGS += -arch sm_$(ARCH_NUMBER)
+else ifeq ($(GPU),2)
+ NVFLAGS += --amdgpu-target=$(ARCH_NUMBER)
+endif
 endif
 endif
 endif
@@ -87,17 +93,23 @@ endif
 # Discover files and directories ============================================
 ALL_SRC_DIRS := $(shell find $(SRCDIR) -type d | awk '{printf("%s:",$$1)}')
 ALL_SRC_DIRS += $(TESTSDIR)
-LIBCUSMM_DIR := $(shell cd $(SRCDIR) ; find . -type d -name "libcusmm")
-LIBCUSMM_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libcusmm")
+LIBSMM_ACC_DIR     := $(shell cd $(SRCDIR) ; find . -type d -name "libsmm_acc")
+LIBSMM_ACC_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libsmm_acc")
 
 ALL_PKG_FILES := $(shell find $(SRCDIR) -name "PACKAGE")
 OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . ! -name "dbcsr_api_c.F" -name "*.F")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -name "libcusmm.cpp" ! -name "parameters_utils_for_py.cpp" -name "*.cpp")
 
+# All *.cpp files belong to the accelerator backend
 ifneq ($(NVCC),)
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
+ifeq ($(GPU),1)
+# Exclude autotuning files
 OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "tune_*_exe*_part*.cu" ! -name "tune_*_exe*_main*.cu"  -name "*.cu")
-OBJ_SRC_FILES += $(LIBCUSMM_DIR)/libcusmm.cpp
+OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../cuda/acc_cuda.cpp
+else ifeq ($(GPU),2)
+OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hip/acc_hip.cpp
+endif
 endif
 
 ifneq ($(CINT),)
@@ -174,7 +186,7 @@ ifneq ($(LD),)
 	@echo ""
 endif
 ifneq ($(NVCC),)
-	@echo "========== NVCC =========="
+	@echo "========== NVCC /HIP =========="
 	$(NVCC) --version
 	@echo ""
 endif
@@ -213,7 +225,7 @@ ifneq ($(LDFLAGS),)
 	@echo ""
 endif
 ifneq ($(NVFLAGS),)
-	@echo "========== NVFLAGS =========="
+	@echo "========== NVFLAGS /HIPFLAGS =========="
 	@echo $(NVFLAGS)
 	@echo ""
 endif
@@ -317,10 +329,10 @@ test:
 OTHER_HELP += "test    : Run the unittests available in tests/"
 
 clean:
-	rm -f $(TESTSDIR)/libcusmm_libcusmm_unittest_multiply.cu
-	rm -f $(TESTSDIR)/libcusmm_timer_multiply.cu
+	rm -f $(TESTSDIR)/libsmm_acc_unittest_multiply.cpp
+	rm -f $(TESTSDIR)/libsmm_acc_timer_multiply.cpp
 	rm -rf $(OBJDIR)
-	rm -f $(LIBCUSMM_ABS_DIR)/parameters.h $(LIBCUSMM_ABS_DIR)/cusmm_kernels.h $(LIBCUSMM_ABS_DIR)/*.so
+	rm -f $(LIBSMM_ACC_ABS_DIR)/parameters.h $(LIBSMM_ACC_ABS_DIR)/smm_acc_kernels.h $(LIBSMM_ACC_ABS_DIR)/*.so
 OTHER_HELP += "clean : Remove intermediate object and mod files, but not the libraries and executables"
 
 #
@@ -376,12 +388,12 @@ $(PRETTYOBJDIR)/%.pretty: %.cu
 	@mkdir -p $(PRETTYOBJDIR)
 	@touch $@
 
-# Libcusmm stuff ============================================================
-$(LIBCUSMM_ABS_DIR)/parameters.h: $(LIBCUSMM_ABS_DIR)/generate_parameters.py $(wildcard $(LIBCUSMM_ABS_DIR)/parameters_*.txt)
-	cd $(LIBCUSMM_ABS_DIR); ./generate_parameters.py --gpu_version=$(GPUVER)
+# Libsmm_acc stuff ==========================================================
+$(LIBSMM_ACC_ABS_DIR)/parameters.h: $(LIBSMM_ACC_ABS_DIR)/generate_parameters.py $(wildcard $(LIBSMM_ACC_ABS_DIR)/parameters_*.txt)
+	cd $(LIBSMM_ACC_ABS_DIR); ./generate_parameters.py --gpu_version=$(GPUVER)
 
-$(LIBCUSMM_ABS_DIR)/cusmm_kernels.h: $(LIBCUSMM_ABS_DIR)/generate_kernels.py $(wildcard $(LIBCUSMM_ABS_DIR)/kernels/*.h)
-	cd $(LIBCUSMM_ABS_DIR); ./generate_kernels.py
+$(LIBSMM_ACC_ABS_DIR)/smm_acc_kernels.h: $(LIBSMM_ACC_ABS_DIR)/generate_kernels.py $(wildcard $(LIBSMM_ACC_ABS_DIR)/kernels/*.h)
+	cd $(LIBSMM_ACC_ABS_DIR); ./generate_kernels.py
 
 
 # automatic dependency generation ===========================================
@@ -434,17 +446,42 @@ FYPPFLAGS ?= -n
 %.o: %.c
 	$(CC) -c $(CFLAGS) $<
 
+# Compile the CUDA/HIP files
+ifneq ($(GPU),)
 %.o: %.cpp
-	$(CXX) -c $(CXXFLAGS) $<
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
 
-libcusmm.o: libcusmm.cpp parameters.h cusmm_kernels.h
-	$(CXX) -c $(CXXFLAGS) -DARCH_NUMBER=$(ARCH_NUMBER) $<
+libsmm_acc.o: libsmm_acc.cpp parameters.h smm_acc_kernels.h
+	$(NVCC) -c $(NVFLAGS) -DARCH_NUMBER=$(ARCH_NUMBER) $<
+
+libsmm_acc_benchmark.o: libsmm_acc_benchmark.cpp parameters.h
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+
+libsmm_acc_init.o: libsmm_acc_init.cpp libsmm_acc_init.h parameters.h
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+endif
+
+ifeq ($(GPU),1)
+%.o: %.cpp
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+
+acc_cuda.o: acc_cuda.cpp acc_cuda.h
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
 
 %.o: %.cu
 	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
 
-libcusmm_benchmark.o: libcusmm_benchmark.cu parameters.h
+else ifeq ($(GPU),2)
+%.o: %.cpp
 	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+
+acc_hip.o: acc_hip.cpp acc_hip.h
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+
+hipblas.o: hipblas.cpp
+	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+
+endif
 
 $(LIBDIR)/%:
 ifneq ($(LD_SHARED),)

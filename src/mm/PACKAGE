@@ -2,7 +2,7 @@
 "description": "Matrix matrix multiplication",
 "archive": "libdbcsr",
 "requires": ["../mpi", "../base", "../core", "../acc", "../data",
-"../dist", "../block", "../ops", "../acc/cublaswrap",
+"../dist", "../block", "../ops", "../acc/cublaswrap",  "../acc/hipblaswrap",
 "../acc/libsmm_acc", "../utils", "../work"],
 "implicit": "SMM_.*"
 }
