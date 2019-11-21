@@ -14,30 +14,33 @@
 #
 # The 4 variants can be combined with the CUDA compilation. In this case, it further
 # requires:
-# a) set the accelerator compiler variable:
-#    - for CUDA: set the NVCC variable, e.g. NVCC = nvcc
-#    - for HIP: set the HIPCC variable, e.g. HIPCC = hipcc
+# a) set the accelerator compiler variable NVCC:
+#    - for CUDA: e.g. NVCC = nvcc
+#    - for HIP: e.g. HIPCC = hipcc
 # b) specify -D__DBCSR_ACC in FCFLAGS variable
 # c) set the GPUVER variable, e.g. GPUVER = P100 for P100 card
 #    - for CUDA, possible values correspond to NVIDIA GPUs:
 #      possible values are K20X, K40, K80, P100, V100
+#      TODO check that an NVIDIA GPU is selected, not an AMD one
 #    - for HIP, possible values correspond to NVIDIA and AMD GPUs:
 #      possible values are K20X, K40, K80, P100, V100, Mi50
-# d) set the accelerator compiler flag variable
-     - for CUDA: set the NVFLAGS variable, e.g. NVFLAGS = -O3 -g -w --std=c++11
-     - for HIP: set the HIPFLAGS variable, e.g. HIPFLAGS = -O3 -g -w --std=c++11
-#    in the Makefile, the -arch will be appended with the correct compute version
+# d) set the accelerator compiler flag variable NVFLAGS:
+#     - for CUDA: e.g. NVFLAGS = -O3 -g -w --std=c++11 -D__CUDA
+#     - for HIP: e.g. NVFLAGS = -O3 -g -w --std=c++11 -D__HIP
+#    in the Makefile, the -arch/--amdgpu-target  will be appended with the correct
+#    compute version
 # e) for CUDA: specify the CUDA include path in the CXXFLAGS variable,
 #    e.g. CXXFLAGS += -I${CUDA_PATH}/include
 # f) specify the corresponding accelerator libraries in the LIBS variable,
 #    - e.g. for CUDA: LIBS += -lstdc++ -lcudart -lnvrtc -lcuda
-#    - e.g. for HIP: LIBS += -lstdc++ lhiprtc
+#    - e.g. for HIP: LIBS += -lstdc++ -lhiprtc
 #
 # Below we present an example for OpenMP+MPI compilation for the GNU compiler.
 # Make sure that the env variable $LAPACK_PATH is set.
 #
-# GPU compilation example can be enabled with `make GPU=1` or `make GPU=2`
-# For `make GPU=1`, make sure that the env variable ${CUDA_PATH} is set.
+# GPU compilation example can be enabled with
+# - `make GPU=1` (for CUDA): make sure that the env variable ${CUDA_PATH} is set.
+# - or `make GPU=2` (for HIP)
 #
 # For convenience, some variables can be set during compilation,
 # e.g. make `VARIABLE=value` (multiple variables are possible):
@@ -46,7 +49,7 @@
 # 3) GNU=0    : disable GNU compiler compilation and enable Intel compiler compilation
 # 4) CHECKS=1 : enable GNU compiler checks and DBCSR asserts
 # 5) CINT=1   : generate the C interface
-# 6) GPU=1,2  : enable GPU support (1: through CUDA, 2: through HIP)
+# 6) GPU=1,2  : enable GPU support (1: with CUDA, 2: with HIP)
 #
 
 #######################################################################################
@@ -198,7 +201,7 @@ endif
 
 ifeq ($(GPU),1)
 NVCC        = nvcc
-NVFLAGS     = ${ACCFLAGS} -D__CUDA -lnvrtc
+NVFLAGS     = ${ACCFLAGS} -D__CUDA
 CXXFLAGS   += -I${CUDA_PATH}/include -D__CUDA
 LIBS       += -lstdc++ -lcudart -lnvrtc -lcuda
 # CUBLAS (off by default)
