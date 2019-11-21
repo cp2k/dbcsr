@@ -54,12 +54,17 @@ else
 endif
 
 ifneq ($(ARCH_NUMBER),)
+# If compiling with nvcc
+ifneq (,$(findstring nvcc,$(NVCC)))
 #if "-arch" has not yet been set in NVFLAGS
 ifeq ($(findstring "-arch", $(NVFLAGS)), '')
-ifeq ($(GPU),1)
- NVFLAGS += -arch sm_$(ARCH_NUMBER)
-else ifeq ($(GPU),2)
- NVFLAGS += --amdgpu-target=$(ARCH_NUMBER)
+NVFLAGS += -arch sm_$(ARCH_NUMBER)
+endif
+# If compiling with hipcc
+else ifneq (,$(findstring hipcc,$(NVCC)))
+#if "--amdgpu-target" has not yet been set in NVFLAGS
+ifeq ($(findstring "--amdgpu-target", $(NVFLAGS)), '')
+NVFLAGS += --amdgpu-target=$(ARCH_NUMBER)
 endif
 endif
 endif
@@ -100,16 +105,21 @@ ALL_PKG_FILES := $(shell find $(SRCDIR) -name "PACKAGE")
 OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . ! -name "dbcsr_api_c.F" -name "*.F")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
 
-# All *.cpp files belong to the accelerator backend
+# if compiling with GPU acceleration
 ifneq ($(NVCC),)
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
-ifeq ($(GPU),1)
-# Exclude autotuning files
-OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "tune_*_exe*_part*.cu" ! -name "tune_*_exe*_main*.cu"  -name "*.cu")
-OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../cuda/acc_cuda.cpp
-else ifeq ($(GPU),2)
-OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hip/acc_hip.cpp
-endif
+  # All *.cpp files belong to the accelerator backend
+  OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
+  # if compiling with nvcc
+  ifneq (,$(findstring nvcc,$(NVCC)))
+    OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../cuda/acc_cuda.cpp
+    # Exclude autotuning files
+    OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "tune_*_exe*_part*.cu" ! -name "tune_*_exe*_main*.cu"  -name "*.cu")
+  # if compiling with hipcc
+  else ifneq (,$(findstring hipcc,$(NVCC)))
+    OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hip/acc_hip.cpp
+    # Exclude autotuning files
+    OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "tune_*_exe*_part*.cpp" ! -name "tune_*_exe*_main*.cpp"  -name "*.cpp")
+  endif
 endif
 
 ifneq ($(CINT),)
@@ -186,7 +196,7 @@ ifneq ($(LD),)
 	@echo ""
 endif
 ifneq ($(NVCC),)
-	@echo "========== NVCC /HIP =========="
+	@echo "========== NVCC / HIPCC =========="
 	$(NVCC) --version
 	@echo ""
 endif
@@ -225,7 +235,7 @@ ifneq ($(LDFLAGS),)
 	@echo ""
 endif
 ifneq ($(NVFLAGS),)
-	@echo "========== NVFLAGS /HIPFLAGS =========="
+	@echo "========== NVFLAGS / HIPFLAGS =========="
 	@echo $(NVFLAGS)
 	@echo ""
 endif
@@ -447,7 +457,7 @@ FYPPFLAGS ?= -n
 	$(CC) -c $(CFLAGS) $<
 
 # Compile the CUDA/HIP files
-ifneq ($(GPU),)
+ifneq ($(NVCC),)
 %.o: %.cpp
 	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
 
@@ -461,7 +471,7 @@ libsmm_acc_init.o: libsmm_acc_init.cpp libsmm_acc_init.h parameters.h
 	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
 endif
 
-ifeq ($(GPU),1)
+ifneq (,$(findstring nvcc,$(NVCC)))
 %.o: %.cpp
 	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
 
@@ -470,8 +480,7 @@ acc_cuda.o: acc_cuda.cpp acc_cuda.h
 
 %.o: %.cu
 	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
-
-else ifeq ($(GPU),2)
+else ifneq (,$(findstring hipcc,$(NVCC)))
 %.o: %.cpp
 	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
 
@@ -480,7 +489,6 @@ acc_hip.o: acc_hip.cpp acc_hip.h
 
 hipblas.o: hipblas.cpp
 	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
-
 endif
 
 $(LIBDIR)/%:
