@@ -2,9 +2,31 @@ pipeline {
     agent any
 
     stages {
-        stage('prepare') {
+        stage("prepare") {
+            environment {
+                s3_access_key = credentials('swift-s3-access-key')
+                s3_secret_key = credentials('swift-s3-secret-key')
+            }
             steps {
-                checkout scm
+                // create a new "directory" on the S3 storage for the current test outputs
+                sh """
+                bucket=dbcsr-artifacts
+                host=object.cscs.ch
+
+                resource="/\${bucket}/logs/build-${env.BUILD_NUMBER}/"
+                content_type="application/directory"
+                date=`date -R`
+                _signature="PUT\\n\\n\${content_type}\\n\${date}\\n\${resource}"
+                signature=`echo -en \${_signature} | openssl sha1 -hmac \${s3_secret_key} -binary | base64`
+
+                curl --fail -v -X PUT \
+                    -H "Host: \$host" \
+                    -H "Date: \${date}" \
+                    -H "Content-Length: 0" \
+                    -H "Content-Type: \${content_type}" \
+                    -H "Authorization: AWS \${s3_access_key}:\${signature}" \
+                    https://\$host\${resource}
+                """
             }
         }
         stage("build and test") {
@@ -76,6 +98,26 @@ def run_batch(timelimit, environment, task) {
     }
     finally {
         echo readFile("${sbatch_out}")
+
+        withCredentials([string(credentialsId: 'swift-s3-access-key', variable: 's3_access_key'), string(credentialsId: 'swift-s3-secret-key', variable: 's3_secret_key')]) {
+            sh """
+            bucket=dbcsr-artifacts
+            host=object.cscs.ch
+
+            resource="/\${bucket}/logs/build-${env.BUILD_NUMBER}/${environment}.${task}.out"
+            content_type="text/plain"
+            date=`date -R`
+            _signature="PUT\\n\\n\${content_type}\\n\${date}\\n\${resource}"
+            signature=`echo -en \${_signature} | openssl sha1 -hmac \${s3_secret_key} -binary | base64`
+
+            curl --fail -v -X PUT -T "${sbatch_out}" \
+                -H "Host: \$host" \
+                -H "Date: \${date}" \
+                -H "Content-Type: \${content_type}" \
+                -H "Authorization: AWS \${s3_access_key}:\${signature}" \
+                https://\$host\${resource}
+            """
+        }
     }
 }
 
