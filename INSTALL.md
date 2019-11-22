@@ -98,7 +98,7 @@ conflict in which compiler cmake will use. Therefore, we suggest to specify GCC,
 
     CC=gcc-9 CXX=g++-9 cmake ..
 
-Where `-9` can be adapted to your version.
+where `-9` can be adapted to your version.
 
 ## Cray
 
