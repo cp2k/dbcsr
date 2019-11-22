@@ -38,6 +38,17 @@ pipeline {
                         }
                     }
                 }
+                stage("GNU CMake 3.10 build-only") {
+                    // we don't need a full build,
+                    // just checking that we can still configure using CMake 3.10
+                    stages {
+                        stage('build') {
+                            steps {
+                                run_batch("0:15:00", "gnu-cmake-3.10", "build")
+                            }
+                        }
+                    }
+                }
                 stage("Intel") {
                     stages {
                         stage('build') {
