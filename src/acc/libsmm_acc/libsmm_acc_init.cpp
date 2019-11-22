@@ -7,7 +7,7 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#include "include/libsmm_acc.h"
+#include "libsmm_acc.h"
 #include "libsmm_acc_init.h"
 #include "parameters.h"
 

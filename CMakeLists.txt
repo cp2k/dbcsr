@@ -75,7 +75,7 @@ endif ()
 set(CMAKE_CXX_STANDARD 11)
 
 # =================================================================================================
-# PACKAGE DISCOVERY
+# PACKAGE DISCOVERY (compiler configuration can impact package discovery)
 
 # =================================== BLAS, LAPACK, PkgConfig
 find_package(BLAS REQUIRED)
@@ -101,13 +101,10 @@ find_package(BLAS REQUIRED)
 find_package(LAPACK REQUIRED)
 find_package(PkgConfig)
 
-# =================================== OpenMP, MPI
-if (USE_OPENMP)
-  find_package(OpenMP REQUIRED)
-endif ()
+# =================================== MPI
 if (USE_MPI)
   get_property(REQUIRED_MPI_COMPONENTS GLOBAL PROPERTY ENABLED_LANGUAGES)
-  list(REMOVE_ITEM REQUIRED_MPI_COMPONENTS CUDA)  # CUDA does not have a MPI component
+  list(REMOVE_ITEM REQUIRED_MPI_COMPONENTS CUDA)  # CUDA does not have an MPI component
   find_package(MPI COMPONENTS ${REQUIRED_MPI_COMPONENTS} REQUIRED)
 
   if (NOT MPI_Fortran_HAVE_F90_MODULE)
@@ -118,15 +115,20 @@ Intel MPI compiler wrappers. Check the INSTALL.md for more information.")
   endif ()
 endif ()
 
+# =================================== OpenMP and OpenMP/offload backend
+if (USE_OPENMP)
+  find_package(OpenMP REQUIRED)
+endif ()
+
 # =================================== SMM (Small Matrix-Matrix multiplication)
 if (USE_SMM MATCHES "blas")
   message("-- Using BLAS for Small Matrix Multiplication")
 elseif (USE_SMM MATCHES "libxsmm")
-  # rely on pkg-config since it's quiet hard to link against libxsmm properly
+  # rely on pkg-config in order to link against libxsmm
   pkg_check_modules(deps REQUIRED IMPORTED_TARGET GLOBAL libxsmmf)
   message("-- Using libxsmm for Small Matrix Multiplication")
 else()
-  message(FATAL_ERROR "Unknown SMM library specified" )
+  message(FATAL_ERROR "Unknown SMM library specified")
 endif ()
 
 # =================================== GPU backend
@@ -251,6 +253,7 @@ if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     "Debug" "Release" "Coverage")
 endif ()
 
+# compiler configuration could have impacted package discovery (above)
 include(CompilerConfiguration)
 include(CheckCompilerSupport)
 

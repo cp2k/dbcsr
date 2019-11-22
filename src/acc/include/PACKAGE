@@ -1,5 +1,5 @@
 {
-"description": "Backend API of accelerator support",
+"description": "Accelerator backend API and API for accelerated LIBSMM",
 "archive": "libdbcsr",
 "requires": []
 }

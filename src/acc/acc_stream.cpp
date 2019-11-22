@@ -66,6 +66,7 @@ extern "C" int acc_stream_destroy(void* stream){
     ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
 
     if(verbose_print) printf("StreamDestroy called\n");
+    if (stream == NULL) return 0; /* not an error */
     ACC(Error_t) cErr = ACC(StreamDestroy)(*acc_stream);
     free(acc_stream);
     if (acc_error_check (cErr)) return -1;

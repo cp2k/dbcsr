@@ -9,27 +9,26 @@
 #ifndef DBCSR_ACC_LIBSMM_H
 #define DBCSR_ACC_LIBSMM_H
 
-#include "../../include/acc.h"
-
-#ifdef __CUDA
-#include "../../cuda/acc_cuda.h"
-#else
-#include "../../hip/acc_hip.h"
-#endif
+#include "acc.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-int libsmm_acc_process(void* param_stack, int stack_size,
-    int nparams, int datatype, void* a_data, void* b_data, void* c_data,
-    int m_max, int n_max, int k_max, int def_mnk, acc_stream_t stream);
-
-int libsmm_acc_transpose(void* trs_stack, int offset, int nblks,
-    void* buffer, int datatype, int m, int n, acc_stream_t stream);
+typedef struct libsmm_acc_stack_descriptor_type {
+  int m, n, k, max_m, max_n, max_k;
+  acc_bool_t defined_mnk;
+} libsmm_acc_stack_descriptor_type;
 
 int libsmm_acc_init(void);
 int libsmm_acc_is_thread_safe(void);
+
+int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int nblks,
+  void* dev_data, acc_data_t datatype, int m, int n, acc_stream_t* stream);
+
+int libsmm_acc_process(const libsmm_acc_stack_descriptor_type* dev_param_stack, int stack_size,
+  int nparams, acc_data_t datatype, const void* dev_a_data, const void* dev_b_data, void* dev_c_data,
+  int m_max, int n_max, int k_max, acc_bool_t def_mnk, acc_stream_t* stream);
 
 #ifdef __cplusplus
 }

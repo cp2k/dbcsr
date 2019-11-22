@@ -88,12 +88,12 @@ endif
 # Declare PHONY targets =====================================================
 .PHONY : $(BIN_NAMES) \
          dirs makedep \
-	 default_target $(LIBRARY) all \
+         default_target $(LIBRARY) all \
          toolversions \
          toolflags \
          pretty prettyclean \
          install clean realclean help \
-	 version test
+         version test
 
 # Discover files and directories ============================================
 ALL_SRC_DIRS := $(shell find $(SRCDIR) -type d | awk '{printf("%s:",$$1)}')
@@ -373,7 +373,7 @@ define pretty_func
 	@cmp -s $1 $2; \
 	RETVAL=$$?; \
 	if [ $$RETVAL -ne 0 ]; then \
-	    cp $2 $1; \
+		cp $2 $1; \
 	fi
 endef
 
