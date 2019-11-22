@@ -10,7 +10,13 @@
 #ifndef LIBSMM_ACC_H
 #define LIBSMM_ACC_H
 
-#include "include/libsmm_acc.h"
+#ifdef __CUDA
+# include "../cuda/acc_cuda.h"
+#else
+# include "../hip/acc_hip.h"
+#endif
+
+#include "../include/acc_libsmm.h"
 #include "parameters_utils.h"
 
 #include <cstdio>
@@ -34,13 +40,13 @@ struct kernel_launcher {
 
 static std::unordered_map<Triplet, kernel_launcher> kernel_handles;
 
-int libsmm_acc_process_d(int *param_stack, int stack_size,
+int libsmm_acc_process_d(const int *param_stack, int stack_size,
                          ACC_DRV(stream) stream, int m, int n, int k,
-                         double * a_data, double * b_data, double * c_data);
+                         const double * a_data, const double * b_data, double * c_data);
 
 static std::unordered_map<Triplet, ACC_DRV(function)> transpose_handles;
 
-int libsmm_acc_transpose_d(int *trs_stack, int offset, int nblks, double *buffer,
+int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks, double *buffer,
                            int m, int n, ACC_DRV(stream) stream);
 
 #endif // LIBSMM_ACC_H

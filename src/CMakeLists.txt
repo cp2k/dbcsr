@@ -176,10 +176,6 @@ target_include_directories(dbcsr PUBLIC
 target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL)
 set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
 
-if (OpenMP_FOUND)
-  target_link_libraries(dbcsr PRIVATE OpenMP::OpenMP_Fortran)
-endif ()
-
 if (MPI_FOUND)
   # once built, a user of the dbcsr library can not influence anything anymore by setting those flags:
   target_compile_definitions(dbcsr PRIVATE __parallel __MPI_VERSION=${MPI_Fortran_VERSION_MAJOR})
@@ -192,6 +188,13 @@ if (MPI_FOUND)
   # compiler flags at this point.
   # when built against MPI, a dbcsr consumer has to specify the MPI flags as well, therefore: PUBLIC
   target_link_libraries(dbcsr PUBLIC MPI::MPI_Fortran)
+endif ()
+
+# =================================================================================================
+# DBCSR's OpenMP/offload backend
+
+if (OpenMP_FOUND)
+  target_link_libraries(dbcsr PRIVATE OpenMP::OpenMP_Fortran)
 endif ()
 
 # =================================================================================================
@@ -218,8 +221,8 @@ function(CUDA_CONVERT_FLAGS EXISTING_TARGET)
 endfunction()
 
 if (USE_CUDA)
-  if (${CMAKE_VERSION} VERSION_LESS 3.13)
-      # workaround for CUDA support with CMake <3.13, see also
+  if (${CMAKE_VERSION} VERSION_LESS 3.16)
+      # workaround for CUDA support with CMake <3.16, see also
       # see https://gitlab.kitware.com/cmake/cmake/issues/17929
       # and https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html
       if (OpenMP_FOUND)

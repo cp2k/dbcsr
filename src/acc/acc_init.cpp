@@ -15,7 +15,7 @@
 
 #include <stdio.h>
 #include "include/acc.h"
-#include "libsmm_acc/include/libsmm_acc.h"
+#include "include/acc_libsmm.h"
 
 #ifdef __CUDA_PROFILING
 #include <nvToolsExtCudaRt.h>

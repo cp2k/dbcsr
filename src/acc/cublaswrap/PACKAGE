@@ -1,5 +1,5 @@
 {
 "description": "Wrapper for CUBLAS functions",
 "archive": "libdbcsr",
-"requires": ["../../base", "../", "../cuda", "../hip"]
+"requires": ["../../base", "..", "../cuda", "../hip"]
 }
