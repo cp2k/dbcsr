@@ -16,10 +16,11 @@
 
 std::vector<int> random_dist(int dist_size, int nbins)
 {
+	
     std::vector<int> dist(dist_size);
 
     for(int i=0; i < dist_size; i++)
-        dist[i] = (nbins-i+1) % nbins;
+        dist[i] = i % nbins;
 
     return std::move(dist);
 }
@@ -35,7 +36,7 @@ void printvec(std::vector<int>& v) {
 
 void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks) {
 	
-	int myrank, mpi_size, proc;
+	int myrank, mpi_size;
 	int dim = nzblocks.size();
 	
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank); 
@@ -53,6 +54,8 @@ void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks) {
 		// make index out of nzblocks
 		for (int j = 0; j != dim; ++j) idx[j] = nzblocks[j][i];
 		
+		int proc = -1;
+		
 		c_dbcsr_t_get_stored_coordinates(tensor, idx.data(), &proc);
 		
 		if (proc == myrank) {
@@ -60,7 +63,7 @@ void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks) {
 				mynzblocks[j].push_back(idx[j]);
 		}		
 		
-	}
+	} 
 	
 	/*
 	for (int i = 0; i != mpi_size; ++i) {
@@ -80,24 +83,16 @@ void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks) {
 	}
 	*/
 	
-	if (myrank == 0) std::cout << "Reserving blocks..." << std::endl;
-	switch (dim) {
-		case 2: 
-			c_dbcsr_t_reserve_blocks_index(tensor, mynzblocks[0].data(), mynzblocks[0].size(),
-			mynzblocks[1].data(), mynzblocks[1].size(), nullptr, 0, nullptr, 0);
-			break;
-		case 3:  
-			c_dbcsr_t_reserve_blocks_index(tensor, mynzblocks[0].data(), mynzblocks[0].size(),
-			mynzblocks[1].data(), mynzblocks[1].size(), mynzblocks[2].data(), mynzblocks[2].size(),
-			nullptr, 0); 
-			break;
-		case 4:  
-			c_dbcsr_t_reserve_blocks_index(tensor, mynzblocks[0].data(), mynzblocks[0].size(),
-			mynzblocks[1].data(), mynzblocks[1].size(), mynzblocks[2].data(), mynzblocks[2].size(),
-			mynzblocks[3].data(), mynzblocks[3].size());
-			break;
-	}
+	std::vector<int*> dataptr(4, nullptr);
 	
+	for (int i = 0; i != dim; ++i) {
+		dataptr[i] = mynzblocks[i].size() == 0 ? nullptr : &mynzblocks[i][0];
+	} 
+	
+	if (myrank == 0) std::cout << "Reserving blocks..." << std::endl;
+
+    if (mynzblocks[0].size() != 0) 
+	c_dbcsr_t_reserve_blocks_index(tensor, mynzblocks[0].size(), dataptr[0], dataptr[1], dataptr[2], dataptr[3]);
 	
     std::random_device rd; 
     std::mt19937 gen(rd());
@@ -153,7 +148,9 @@ void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks) {
 	
 	}
 			
-	c_dbcsr_t_iterator_stop(&iter);	
+	c_dbcsr_t_iterator_stop(&iter);
+	
+	MPI_Barrier(MPI_COMM_WORLD);	
 	
 }	
 
@@ -313,6 +310,8 @@ int main(int argc, char* argv[])
 	c_dbcsr_t_distribution_new(&dist3, pgrid_3d, map31.data(), map31.size(),
 		map32.data(), map32.size(), dist31.data(), dist31.size(), 
 		dist32.data(), dist32.size(), dist33.data(), dist33.size(), nullptr, 0, nullptr);
+		
+	MPI_Barrier(MPI_COMM_WORLD);
 	
 	// create tensors
 	// (13|2)x(54|21)=(3|45)
@@ -332,6 +331,7 @@ int main(int argc, char* argv[])
 	c_dbcsr_t_create_new(&tensor3, "(3|45)", dist3, map31.data(), map31.size(), map32.data(), map32.size(), nullptr, blk3.data(), 
 		blk3.size(), blk4.data(), blk4.size(), blk5.data(), blk5.size(), nullptr, 0);
 	
+	 MPI_Barrier(MPI_COMM_WORLD);
 	
 	// fill the tensors
 	
@@ -346,6 +346,8 @@ int main(int argc, char* argv[])
 	
 	// (13|2)x(54|21)=(3|45)
 	
+	MPI_Barrier(MPI_COMM_WORLD);
+	
 	if (mpi_rank == 0) std::cout << "Contracting..." << std::endl;
 	
 	// cn : indices to be contracted
@@ -359,7 +361,8 @@ int main(int argc, char* argv[])
 	map1	= {0};
 	map2	= {1,2};
 	
-	int unit_nr = 6;
+	int unit_nr = 0;
+	if (mpi_rank == 0) unit_nr = 6;
 	bool log_verbose = true;
 	
 	// tensor_3(map_1, map_2) := 0.2 * tensor_1(notcontract_1, contract_1)
