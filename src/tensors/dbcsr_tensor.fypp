@@ -67,4 +67,58 @@ $:    ", ".join(['LBOUND('+name+', '+ str(i) + '):UBOUND('+name+', '+str(i)+')' 
 $:    ", ".join(list(set(list_in)))
 #:enddef
 
+#! added
+
+#! c datatypes
+
+#: set base_dtype_float_type = ['REAL', 'REAL', 'COMPLEX', 'COMPLEX']
+#: set cf_dtype_float_type = ['c_double', 'c_float', 'c_double_complex', 'c_float_complex']
+
+#: set c_dtype_float_type = ['double', 'float', 'double _Complex', 'float _Complex']
+
+#:set cf_dtype_float_list = list(zip(dtype_float_param, dtype_float_type, dtype_float_suffix, base_dtype_float_type, cf_dtype_float_type))
+#:set cf_dtype_float_list_prec = list(zip(dtype_float_prec, dtype_float_param, dtype_float_type, dtype_float_suffix, base_dtype_float_type, cf_dtype_float_type))
+#:set c_dtype_float_list = list(zip(dtype_float_suffix, c_dtype_float_type))
+
+#:def varlist_equal(name, nmin=1, nmax=maxrank, suffix="")
+#!    create variable list "name_1=name_1, name_2=name_2, ..., name_n=name_n
+$:    ", ".join([name + "_" + str(i) + suffix + "=" + name + "_" + str(i) + suffix for i in range(nmin, nmax+1)])
+#:enddef
+
+#:def pointer_list(name, nmin=1, nmax=maxrank, suffix="")
+#!    create pointer list "name_1(:), name_2(:), ..., name_n(:)"
+$:    ", ".join([name + "_" + str(i) + suffix + "(" + ":" + ")" for i in range(nmin, nmax+1)])
+#:enddef
+
+#:def c_varlist_and_size(name, nmin=1, nmax=maxrank, suffix="")
+#!    create variable list "name_1, name_2, ..., name_n
+$:    ", ".join([name + "_" + str(i) + ", " + name + "_" + str(i) + "_" + "size" + suffix for i in range(nmin, nmax+1)])
+#:enddef
+
+#:def c_size(name, nmin=1, nmax=maxrank, suffix="")
+#!    create variable list "name_1_size, name_2_size, ..., name_n_size
+$:    ", ".join([name + "_" + str(i) + "_" + "size" + suffix for i in range(nmin, nmax+1)])
+#:enddef
+
+#:def c_arrlist_and_size(name, nmin=1, nmax=maxrank)
+#!    expand array into list of elements "name_1(name_1_size), name_2(name_2_size), ..., name_n(name_n_size)
+$:    ", ".join([name + "_" + str(i) + "(" +  name + "_" + str(i) + "_" + "size" + ")" for i in range(nmin, nmax+1)])
+#:enddef
+
+#:def c_bind_pointer(name, nmin=1, nmax=maxrank, suffix="")
+#! bind c pointers: "name_1 => c_name_1 \n name_2 => c_name_2 ..."
+$:   "\n ".join([name + "_" + str(i) + suffix + " => " + "c_" +  name + "_" + str(i) + suffix for i in range(nmin, nmax+1)])
+#:enddef
+
+#:def extern_varlist_and_size(name, nmin=1, nmax=maxrank, suffix="")
+#!    create variable list "int* name_1, int name_1_size, int* name_2, int name_2_size ...
+$:    ", ".join(["int* " + name + "_" + str(i) + ", " + "int " + name + "_" + str(i) + "_" + "size" + suffix for i in range(nmin, nmax+1)])
+#:enddef
+
+#:def extern_alloc_varlist_and_size(name, nmin=1, nmax=maxrank, suffix="")
+#!    create variable list "int* name_1, int name_1_size, int* name_2, int name_2_size ...
+$:    ", ".join(["int** " + name + "_" + str(i) + ", " + "int " + name + "_" + str(i) + "_" + "size" + suffix for i in range(nmin, nmax+1)])
+#:enddef
+
+
 #:endmute

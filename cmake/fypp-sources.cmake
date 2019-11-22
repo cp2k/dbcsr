@@ -28,6 +28,7 @@ function (ADD_FYPP_SOURCES OUTVAR)
   foreach (f ${ARGN})
     # first we might need to make the input file absolute
     get_filename_component(f "${f}" ABSOLUTE)
+    get_filename_component(ext "${f}" EXT) 
     # get the relative path of the file to the current source dir
     file(RELATIVE_PATH rf "${CMAKE_CURRENT_SOURCE_DIR}" "${f}")
     # set the output filename of fypped sources
@@ -40,6 +41,7 @@ function (ADD_FYPP_SOURCES OUTVAR)
     endif ()
 
     if ("${f}" MATCHES ".F$")
+      message(STATUS "Processing a fotran thing...")	    
       # append the output file to the list of outputs
       list(APPEND outfiles "${of}")
       # now add the custom command to generate the output file
@@ -49,6 +51,12 @@ function (ADD_FYPP_SOURCES OUTVAR)
         MAIN_DEPENDENCY "${f}"
         VERBATIM
         )
+    elseif("${f}" MATCHES ".h$")
+      # message(STATUS "Processing header...")
+      # append the output file to the list of outputs
+      list(APPEND outfiles "${of}")
+      # now add the custom command to generate the output file
+      add_custom_command(OUTPUT "${of}" COMMAND ${FYPP_EXECUTABLE} ARGS "-F" "${f}" "${of}" DEPENDS "${f}")
     else ()
       configure_file("${f}" "${of}" COPYONLY)
     endif ()
@@ -61,3 +69,4 @@ function (ADD_FYPP_SOURCES OUTVAR)
   # set the output list in the calling scope
   set(${OUTVAR} ${outfiles} PARENT_SCOPE)
 endfunction ()
+
