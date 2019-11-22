@@ -90,6 +90,15 @@ on Linux openSUSE Leap 15.1, using CMake 3.10.2.
 
        CC=mpiicc FC=mpiifort CXX=mpiicxx cmake -DBLA_VENDOR=Intel10_64lp_seq ..
 
+## MacOS
+
+Follow what is descibed in the previous sections. 
+For GNU, if you have installed Command Line Tools by Apple and GCC with homebrew that can lead to a 
+conflict in which compiler cmake will use. Therefore, we suggest to specify GCC, for example
+
+    CC=gcc-9 CXX=g++-9 cmake ..
+
+Where `-9` can be adapted to your version.
 
 ## Cray
 
