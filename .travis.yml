@@ -5,6 +5,7 @@ os:
   - osx
 
 dist: xenial
+osx_image: xcode11.2
 
 addons:
   apt:
@@ -73,8 +74,12 @@ install:
 before_script:
   # make sure we are back into the top directory again
   - cd "${TRAVIS_BUILD_DIR}"
-  - export PATH=$HOME/.local/bin:$PATH
-  - pip install --user git-archive-all pre-commit ford
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ] ; then
+      # ensure python 3.6.4+ on Linux for deployment, pre-commit checks and doc generation
+      pyenv global 3.6.7 2.7.15
+      pip install git-archive-all pre-commit ford
+    fi
 
 script:  # multiplied by matrix envs and os settings
   - mkdir -p build
@@ -100,8 +105,6 @@ jobs:  # the following jobs inherit only the first OS
   - name: "Run pre-commit hook on changed files"
     if: tag IS NOT present
     script:
-    # ensure python 3.6.4+
-    - pyenv global 3.6.7 2.7.15
     - set -o pipefail
     # fetch remotes first to ensure that referenced branches (other than the default) are available
     - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
