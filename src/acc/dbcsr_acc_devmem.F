@@ -433,20 +433,15 @@ CONTAINS
       TYPE(C_PTR)                              :: stream_cptr
 
       offset = 0
-      IF (PRESENT(first_byte)) offset = first_byte - 1
-      length = this%size_in_bytes - offset
-      IF (PRESENT(last_byte)) length = last_byte - offset
-
-
-!      length = this%size_in_bytes
-!      IF (PRESENT(first_byte)) THEN
-!         offset = first_byte - 1
-!         length = length - first_byte
-!      ENDIF
-!      IF (PRESENT(last_byte)) THEN
-!         length = last_byte
-!         IF (PRESENT(first_byte)) length = length - first_byte
-!      ENDIF
+      length = this%size_in_bytes
+      IF (PRESENT(first_byte)) THEN
+         offset = first_byte - 1
+         length = length - first_byte
+      ENDIF
+      IF (PRESENT(last_byte)) THEN
+         length = last_byte
+         IF (PRESENT(first_byte)) length = length - first_byte
+      ENDIF
 
       stream_cptr = acc_stream_cptr(stream)
 
