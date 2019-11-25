@@ -528,9 +528,9 @@ CONTAINS
 #:endfor
 
    FUNCTION c_ndims_tensor(c_tensor) BIND(C, name="c_ndims_tensor")
-      TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
-      TYPE(dbcsr_t_type), POINTER                        :: tensor
-      INTEGER                                            :: c_ndims_tensor
+      TYPE(c_ptr), INTENT(IN), VALUE                  :: c_tensor
+      TYPE(dbcsr_t_type), POINTER                     :: tensor
+      INTEGER(kind=c_int)                             :: c_ndims_tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
