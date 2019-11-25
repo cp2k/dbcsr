@@ -459,7 +459,6 @@ CONTAINS
       !! After being called by ALL threads, it installs a special barrier that
       !! forces the priority-streams to wait for the normal-streams.
 
-
       INTEGER                                            :: i, j, nthreads
 
       nthreads = 1

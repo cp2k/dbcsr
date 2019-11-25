@@ -67,7 +67,6 @@ CONTAINS
    SUBROUTINE dbcsr_t_reshape(tensor_in, tensor_out, summation, move_data)
       !! copy data (involves reshape)
 
-
       TYPE(dbcsr_t_type), INTENT(INOUT)               :: tensor_in, tensor_out
       LOGICAL, INTENT(IN), OPTIONAL                    :: summation
          !! tensor_out = tensor_out + tensor_in move_data memory optimization: transfer data from tensor_in to tensor_out s.t.

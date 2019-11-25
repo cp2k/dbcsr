@@ -7,7 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-
 #:include 'dbcsr_dict.fypp'
 MODULE dbcsr_dict
    !! A dictionary (also known as hashtable or hashmap).

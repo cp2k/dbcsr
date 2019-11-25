@@ -11,7 +11,6 @@ MODULE dbcsr_array_list_methods
    !! Representation of arbitrary number of 1d integer arrays with arbitrary sizes.
    !! This is needed for generic handling of dimension-specific tensor quantities (such as block index).
 
-
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)

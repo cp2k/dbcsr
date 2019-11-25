@@ -14,7 +14,6 @@ MODULE dbcsr_tensor
    !! Support for arbitrary tensor contractions
    !! \todo implement checks and error messages
 
-
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)
@@ -1429,7 +1428,6 @@ CONTAINS
                                             do_crop_1, do_crop_2)
       !! Map contraction bounds to bounds referring to tensor indices
       !! see dbcsr_t_contract for docu of dummy arguments
-
 
       TYPE(dbcsr_t_type), INTENT(IN)      :: tensor_1, tensor_2
       INTEGER, DIMENSION(:), INTENT(IN)   :: contract_1, contract_2, &

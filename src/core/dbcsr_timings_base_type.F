@@ -14,7 +14,6 @@ MODULE dbcsr_timings_base_type
    !! Due to the fortran restriction on circular module-dependencies these
    !! "inner-types" had to go into a separate module.
 
-
    USE dbcsr_kinds, ONLY: default_string_length, &
                           dp, &
                           int_8

@@ -792,7 +792,6 @@ CONTAINS
       !! Makes the index for a dense matrix
       !! @note Used for making matrices dense/undense
 
-
       !INTEGER, DIMENSION(:), INTENT(OUT)       :: row_p, col_i, blk_p
       INTEGER, INTENT(IN)                                :: nblkrows_total
          !! Total blocked rows

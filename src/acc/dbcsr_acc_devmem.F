@@ -477,7 +477,7 @@ CONTAINS
       stream_cptr = acc_stream_cptr(stream)
       IF (n_bytes > 0) THEN
          istat = acc_interface_memcpy_h2d(hostmem_cptr, this%cptr, &
-                                  INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
+                                          INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
          IF (istat /= 0) &
             DBCSR_ABORT("acc_devmem_host2dev: failed")
       ENDIF
@@ -511,7 +511,7 @@ CONTAINS
 
       IF (n_bytes > 0) THEN
          istat = acc_interface_memcpy_d2h(this%cptr, hostmem_cptr, &
-                                  INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
+                                          INT(n_bytes, KIND=C_SIZE_T), stream_cptr)
          IF (istat /= 0) &
             DBCSR_ABORT("acc_devmem_dev2host: failed")
       ENDIF

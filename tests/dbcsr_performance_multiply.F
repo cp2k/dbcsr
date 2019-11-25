@@ -458,7 +458,6 @@ CONTAINS
       !! Performs a variety of matrix multiplies of same matrices on different
       !! processor grids
 
-
       INTEGER, INTENT(IN)                                :: mp_group
          !! MPI communicator
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env

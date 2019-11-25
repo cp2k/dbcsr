@@ -32,7 +32,6 @@ CONTAINS
       !! Convert a sequence of integer numbers (ASCII code) to a string.
       !! Blanks are inserted for invalid ASCII code numbers.
 
-
       INTEGER, DIMENSION(:), INTENT(IN)                  :: nascii
       CHARACTER(LEN=*), INTENT(OUT)                      :: string
 
@@ -53,7 +52,6 @@ CONTAINS
    SUBROUTINE compress(string, full)
       !! Eliminate multiple space characters in a string.
       !! If full is .TRUE., then all spaces are eliminated.
-
 
       CHARACTER(LEN=*), INTENT(INOUT)                    :: string
       LOGICAL, INTENT(IN), OPTIONAL                      :: full
@@ -95,7 +93,6 @@ CONTAINS
       !! The WRITE statement will return an error message, if the number of
       !! digits of the integer number is larger the than the length of the
       !! supplied string.
-
 
       INTEGER, INTENT(IN)                                :: inumber
       CHARACTER(LEN=*), INTENT(OUT)                      :: string

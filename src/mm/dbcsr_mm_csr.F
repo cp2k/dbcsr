@@ -19,7 +19,6 @@ MODULE dbcsr_mm_csr
    !! dbcsr_mm_methods.
    !! - 2013-01    extensive refactoring (Ole Schuett)
 
-
    USE dbcsr_array_types, ONLY: array_data
    USE dbcsr_block_operations, ONLY: block_add, &
                                      dbcsr_block_copy_aa

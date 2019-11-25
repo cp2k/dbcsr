@@ -7,7 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-
 MODULE dbcsr_tensor_split
 
    !! Routines to split blocks and to convert between tensors with different block sizes.

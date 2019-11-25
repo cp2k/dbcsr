@@ -17,7 +17,6 @@ MODULE dbcsr_array_sort
    !! DBCSR:
    !! Please use the interface defined in dbcsr_toollib.F for calling sort().
 
-
    USE dbcsr_kinds, ONLY: ${uselist(usekinds)}$
 
    IMPLICIT NONE

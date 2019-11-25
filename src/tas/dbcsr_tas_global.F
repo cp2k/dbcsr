@@ -14,7 +14,6 @@ MODULE dbcsr_tas_global
    !! given row or column. Hence global array data such as distribution and block sizes are specified as
    !! function objects, leaving up to the caller how to efficiently store global data.
 
-
    USE dbcsr_kinds, ONLY: int_8
 #include "../base/dbcsr_base_uses.f90"
 

@@ -2195,7 +2195,6 @@ CONTAINS
       !! This routine should be used with dbcsr_binary_read in the module
       !! dbcsr_io.F
 
-
       TYPE(dbcsr_data_obj), INTENT(IN)         :: dblk
          !! data blocks of the DBCSR matrix that the current node possesses after reading the data file
       INTEGER, DIMENSION(:), INTENT(IN), &

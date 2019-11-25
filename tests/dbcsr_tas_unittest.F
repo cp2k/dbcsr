@@ -7,7 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-
 PROGRAM dbcsr_tas_unittest
 
    !! unit testing for tall-and-skinny matrices

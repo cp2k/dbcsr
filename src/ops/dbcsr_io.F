@@ -598,7 +598,6 @@ CONTAINS
       !! blk_p (length = nblks);
       !! and the file's body contains the block data
 
-
       IMPLICIT NONE
 
       TYPE(dbcsr_type), INTENT(IN)           :: matrix
@@ -761,7 +760,6 @@ CONTAINS
 
    SUBROUTINE dbcsr_binary_read(filepath, distribution, groupid, matrix_new)
       !! Reads a DBCSR matrix from a file
-
 
       IMPLICIT NONE
 

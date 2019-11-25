@@ -7,7 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-
 #:include 'dbcsr_list.fypp'
 MODULE dbcsr_list
    !! An array-based list which grows on demand.
@@ -18,7 +17,6 @@ MODULE dbcsr_list
    !! @note it's not possible to put all templates in a single module because this would lead to circular
    !! dependencies (timer_env_type contains list_routinestat_type and list_callstackentry_type, and
    !! list_timerenv_type contains timer_env_type)
-
 
    USE dbcsr_timings_base_type, ONLY: ${uselist(usetimingsbase)}$
    USE dbcsr_list_callstackentry, ONLY: @{uselist_listmethods(callstackentry)}@
