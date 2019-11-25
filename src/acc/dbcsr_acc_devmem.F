@@ -436,7 +436,7 @@ CONTAINS
       length = this%size_in_bytes
       IF (PRESENT(first_byte)) THEN
          offset = first_byte - 1
-         length = length - first_byte
+         length = length - offset
       ENDIF
       IF (PRESENT(last_byte)) THEN
          length = last_byte
