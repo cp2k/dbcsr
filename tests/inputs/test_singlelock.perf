@@ -6,9 +6,9 @@ F
 # operation
 dbcsr_multiply
 # matrix sizes (M, N, K)
-100
-100
-100
+50
+50
+50
 # sparsity (A, B, C)
 0.0d0
 0.0d0
@@ -48,16 +48,15 @@ F
 1
 # the m blocks (multiplicity, block size, ...)
 1
-5
+50
 # the n blocks (multiplicity, block size, ...)
 1
-5
+50
 # the k blocks (multiplicity, block size, ...)
 1
-5
+50
 # checksum (check, threshold, references)
 T
 0.1E-10
-0.673287171736802E+07
-0.188077024338804E+07
-
+0.418186760034529E+06
+0.190157258297048E+06  
