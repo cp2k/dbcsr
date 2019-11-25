@@ -1,2 +1,3 @@
-libcusmm_timer_multiply.cu
-libcusmm_unittest_multiply.cu
+# Files generated at build stage
+libsmm_acc_unittest_multiply.cpp
+libsmm_acc_timer_multiply.cpp
