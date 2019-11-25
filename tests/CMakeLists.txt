@@ -58,6 +58,10 @@ set(DBCSR_TESTS
   dbcsr_test_csr_conversions
   )
 
+set(C_DBCSR_TESTS
+  c_dbcsr_tensor_unittest
+  )
+
 # Common object files linked to all tests
 set(dbcsr_unittest_common_SRCS
   dbcsr_test_add.F
@@ -71,6 +75,7 @@ set(dbcsr_unittest3_SRCS dbcsr_unittest3.F)
 set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
 set(dbcsr_tas_unittest_SRCS dbcsr_tas_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
+set(c_dbcsr_tensor_unittest_SRCS ../examples/dbcsr_tensor_example_1.cpp)
 
 # instead of building a full-blown lib, it would be better to simply build an OBJECT lib,
 # but we would need cmake 3.12 to be able to specify target_link_libraries on those to get
@@ -116,6 +121,23 @@ foreach (tests_src ${DBCSR_PERF_SRCS} ${dbcsr_unittest_common_SRCS} ${dbcsr_unit
   set_source_files_properties(${tests_src} PROPERTIES COMPILE_DEFINITIONS __SHORT_FILE__="${short_file}")
 endforeach ()
 
+if (WITH_C_API)
+ foreach (c_dbcsr_test ${C_DBCSR_TESTS})
+   add_executable(${c_dbcsr_test} ${${c_dbcsr_test}_SRCS})
+   target_link_libraries(${c_dbcsr_test} dbcsr_c MPI::MPI_CXX)
+   # register unittest executable with CMake
+   if (USE_MPI)
+     separate_arguments(MPIEXEC_PREFLAGS)
+     add_test(NAME ${c_dbcsr_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ./${c_dbcsr_test} ${MPIEXEC_POSTFLAGS})
+   else ()
+     add_test(NAME ${c_dbcsr_test} COMMAND ./${c_dbcsr_test})
+   endif ()
+   if (OpenMP_FOUND)
+     set_tests_properties(${c_dbcsr_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${TEST_OMP_THREADS})
+   endif ()
+ endforeach ()
+endif ()
+  
 # =================================== GPU BACKEND TESTS (CUDA / HIP)
 if (USE_CUDA OR USE_HIP)
 
