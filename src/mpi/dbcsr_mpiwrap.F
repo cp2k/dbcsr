@@ -747,7 +747,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr);
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")
@@ -1084,7 +1084,6 @@ CONTAINS
       !! simple and cartesian version.. recursive needed in case of failing mpi_comm_rank.
       !! @note
       !! ..mp_world_setup is gone, use mp_environ instead (i.e. give a groupid explicitly)
-
 
       INTEGER, OPTIONAL, INTENT(OUT)                     :: numtask, taskid
       INTEGER, INTENT(IN)                                :: groupid
@@ -3018,7 +3017,6 @@ CONTAINS
       !! Offsets
       !! Values in sdispl and rdispl start with 0.
 
-
       ${type1}$, CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! Data to send
       INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
@@ -3078,7 +3076,6 @@ CONTAINS
       !! MPI mapping
       !! mpi_alltoall
 
-
       ${type1}$, CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! array with data to send
       ${type1}$, CONTIGUOUS, INTENT(OUT)       :: rb(:)
@@ -3119,7 +3116,6 @@ CONTAINS
       !! All-to-all data exchange, rank-2 arrays, equal sizes
       !! @note see mp_alltoall_${nametype1}$
 
-
       ${type1}$, CONTIGUOUS, INTENT(IN)        :: sb(:, :)
       ${type1}$, CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
       INTEGER, INTENT(IN)                      :: count, group
@@ -3155,7 +3151,6 @@ CONTAINS
    SUBROUTINE mp_alltoall_${nametype1}$44(sb, rb, count, group)
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note see mp_alltoall_${nametype1}$
-
 
       ${type1}$, DIMENSION(:, :, :, :), &
          INTENT(IN)                            :: sb
@@ -4333,7 +4328,6 @@ CONTAINS
       !!
       !! MPI mapping
       !! mpi_gather
-
 
       ${type1}$, DIMENSION(:), INTENT(IN)      :: sendbuf
          !! Data to send to root

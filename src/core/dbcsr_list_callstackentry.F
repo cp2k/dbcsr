@@ -7,7 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-
 #:include 'dbcsr_list.fypp'
 #:set n_inst = 3
    !! An array-based list which grows on demand.

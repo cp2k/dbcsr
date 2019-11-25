@@ -330,7 +330,6 @@ $: reallocate(rank=1)
       !! (Maybe outdated) This routine does not work on SUN/Solaris!!!
       !! It should probably not be used. (Thomas Chassaing)
 
-
       CHARACTER(LEN=default_string_length), &
          DIMENSION(:), OPTIONAL, POINTER                 :: p_short
       INTEGER, INTENT(IN)                                :: lb_new, ub_new
@@ -355,7 +354,6 @@ $: reallocate(rank=1)
       !! (Maybe outdated) This routine does not work on SUN/Solaris!!!
       !! It should probably not be used. (Thomas Chassaing)
 
-
       CHARACTER(LEN=default_string_length), &
          DIMENSION(:), POINTER                           :: p
       INTEGER, INTENT(IN)                                :: lb1_new, ub1_new
@@ -375,7 +373,6 @@ $: reallocate(rank=1)
       !! @note
       !! (Maybe outdated) This routine does not work on SUN/Solaris!!!
       !! It should probably not be used. (Thomas Chassaing)
-
 
       CHARACTER(LEN=default_path_length), DIMENSION(:), &
          POINTER                                         :: p

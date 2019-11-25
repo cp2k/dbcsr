@@ -11,7 +11,6 @@ MODULE dbcsr_tensor_types
    !! DBCSR tensor framework for block-sparse tensor contraction: Types and create/destroy
    !! routines.
 
-
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = maxrank
 #:set ndims = range(2,maxdim+1)

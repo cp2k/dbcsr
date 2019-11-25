@@ -19,7 +19,6 @@ MODULE dbcsr_kinds
    !! - SUN
    !! - HITACHI
 
-
    IMPLICIT NONE
 
    PRIVATE

@@ -11,7 +11,6 @@ MODULE dbcsr_tas_types
    !! DBCSR tall-and-skinny base types.
    !! Mostly wrappers around existing DBCSR routines.
 
-
    USE dbcsr_tas_global, ONLY: &
       dbcsr_tas_distribution, dbcsr_tas_rowcol_data
    USE dbcsr_types, ONLY: &

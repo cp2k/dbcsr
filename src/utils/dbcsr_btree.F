@@ -7,7 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-
 #:include 'dbcsr_btree.fypp'
 
 MODULE dbcsr_btree

@@ -51,8 +51,8 @@ MODULE dbcsr_hipblas
       END FUNCTION hipblas_destroy_hip
 
       FUNCTION hipblas_dgemm_hip(handle, transa, transb, &
-                               m, n, k, a_offset, b_offset, c_offset, &
-                               a_data, b_data, c_data, alpha, beta, stream) &
+                                 m, n, k, a_offset, b_offset, c_offset, &
+                                 a_data, b_data, c_data, alpha, beta, stream) &
          RESULT(istat) &
          BIND(C, name="hipblas_dgemm")
          IMPORT

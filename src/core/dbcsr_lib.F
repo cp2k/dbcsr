@@ -7,7 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-
 MODULE dbcsr_lib
 
    !! Routines that affect the DBCSR library as a whole
@@ -207,7 +206,6 @@ CONTAINS
    SUBROUTINE dbcsr_init_lib_low()
       !! Initialize the DBCSR library
       !! Prepares the DBCSR library for use.
-
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_low', routineP = moduleN//':'//routineN
 

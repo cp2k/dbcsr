@@ -340,7 +340,6 @@ CONTAINS
       name = matrix%name
    END FUNCTION dbcsr_name
 
-
    SUBROUTINE dbcsr_setname(matrix, newname)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       CHARACTER(len=*), INTENT(IN)                       :: newname

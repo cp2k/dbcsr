@@ -967,7 +967,6 @@ CONTAINS
       !! Hadamard product
       !! C = A . B (C needs to be different from A and B)
 
-
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a, matrix_b
          !! DBCSR matrix
          !! DBCSR matrix
@@ -1150,7 +1149,6 @@ CONTAINS
 
    SUBROUTINE dbcsr_get_block_diag(matrix, diag)
       !! get the diagonal of a dbcsr matrix
-
 
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
          !! the matrix
@@ -1855,7 +1853,6 @@ CONTAINS
    SUBROUTINE dbcsr_triu(matrix_a)
       !! triu of a dbcsr matrix
 
-
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
          !! the matrix
 
@@ -1895,7 +1892,6 @@ CONTAINS
    SUBROUTINE dbcsr_filter_anytype(matrix, eps, method, &
                                    use_absolute, filter_diag)
       !! filter a dbcsr matrix
-
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! the matrix
@@ -2041,7 +2037,6 @@ CONTAINS
 
    SUBROUTINE dbcsr_norm_scalar(matrix, which_norm, norm_scalar)
       !! compute a norm of a dbcsr matrix
-
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! the matrix
@@ -2195,7 +2190,6 @@ CONTAINS
    FUNCTION dbcsr_gershgorin_norm(matrix) RESULT(norm)
       !! compute a norm of a dbcsr matrix
 
-
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! the matrix
       REAL(KIND=real_8)                                  :: norm
@@ -2329,7 +2323,6 @@ CONTAINS
 
    FUNCTION dbcsr_frobenius_norm(matrix, local) RESULT(norm)
       !! compute a norm of a dbcsr matrix
-
 
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
          !! the matrix
@@ -3046,7 +3039,6 @@ CONTAINS
    SUBROUTINE dbcsr_update_contiguous_blocks_${nametype1}$ (matrix_a, matrix_b, first_lb_a, first_lb_b, nze, &
                                                             do_scale, my_beta_scalar, found, iw)
       !! Low level function to sum contiguous chunks of blocks of the matrices (matrix_a = matrix_a + beta*matrix_b)
-
 
       TYPE(dbcsr_type), INTENT(INOUT)                         :: matrix_a
          !! DBCSR matrix

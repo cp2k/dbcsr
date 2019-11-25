@@ -356,7 +356,6 @@ CONTAINS
       !! multiplies in each row.  In addition a final filtering is done
       !! as well with the same epsilon value.
 
-
       CHARACTER(LEN=1), INTENT(IN)                       :: transa, transb
          !! specifies the form of op( A ) to be used in the matrix multiplication transa = 'N' or 'n',  op( A ) = A. transa = 'T' or
          !! 't',  op( A ) = transpose(A). transa = 'C' or 'c',  op( A ) = transpose(conjg(A)).
