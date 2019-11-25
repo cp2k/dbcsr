@@ -365,16 +365,10 @@ prettyclean:
 	-rm -rf $(PRETTYOBJDIR)
 TOOL_HELP += "prettyclean : Remove prettify marker files"
 
-# Pretty function, check if the file requires update
 define pretty_func
 	@mkdir -p $(PRETTYOBJDIR)
-	@rm -f $2
-	$(TOOLSRC)/fprettify/fprettify.py --disable-whitespace -s $1 > $2
-	@cmp -s $1 $2; \
-	RETVAL=$$?; \
-	if [ $$RETVAL -ne 0 ]; then \
-		cp $2 $1; \
-	fi
+	@touch $2
+	$(TOOLSRC)/fprettify/fprettify.py --disable-whitespace $1
 endef
 
 $(PRETTYOBJDIR)/%.pretty: %.F
