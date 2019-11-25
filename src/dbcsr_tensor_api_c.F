@@ -410,11 +410,8 @@ CONTAINS
 !> \param c_map_2 which indices of tensor_3 map to non-contracted indices of tensor_2 (1:1 with notcontract_2)
 !> \param map_2_size ...
 !> \param c_bounds_1 bounds corresponding to contract_1 AKA contract_2
-!> \param bounds_1_size ...
 !> \param c_bounds_2 bounds corresponding to notcontract_1
-!> \param bounds_2_size ...
 !> \param c_bounds_3 bounds corresponding to notcontract_2
-!> \param bounds_3_size ...
 !> \param c_optimize_dist Whether distribution should be optimized internally. In the current implementation
 !>                      this guarantees optimal parameters only for dense matrices.
 !> \param c_pgrid_opt_1 Optionally return optimal process grid for tensor_1. This can be used to choose
@@ -436,8 +433,7 @@ CONTAINS
                                               c_contract_2, contract_2_size, &
                                               c_notcontract_2, notcontract_2_size, &
                                               c_map_1, map_1_size, c_map_2, map_2_size, &
-                                              c_bounds_1, bounds_1_size, c_bounds_2, bounds_2_size, &
-                                              c_bounds_3, bounds_3_size, &
+                                              c_bounds_1, c_bounds_2, c_bounds_3, &
                                               c_optimize_dist, c_pgrid_opt_1, c_pgrid_opt_2, c_pgrid_opt_3, &
                                               c_filter_eps, c_flop, c_move_data, c_unit_nr, c_log_verbose) &
       BIND(C, name="c_dbcsr_t_contract_${dsuffix}$")
@@ -449,8 +445,7 @@ CONTAINS
 
       INTEGER(kind=c_int), INTENT(IN), VALUE             :: contract_1_size, contract_2_size
       INTEGER(kind=c_int), INTENT(IN), VALUE             :: notcontract_1_size, notcontract_2_size
-      INTEGER(kind=c_int), INTENT(IN), VALUE             :: map_1_size, map_2_size, bounds_1_size, &
-                                                bounds_2_size, bounds_3_size
+      INTEGER(kind=c_int), INTENT(IN), VALUE             :: map_1_size, map_2_size
 
       INTEGER(kind=c_int), INTENT(IN), TARGET            :: c_contract_1(contract_1_size), c_contract_2(contract_2_size)
       INTEGER(kind=c_int), INTENT(IN), TARGET            :: c_map_1(map_1_size), c_map_2(map_2_size)
@@ -505,7 +500,7 @@ CONTAINS
       ALLOCATE (pgrid_opt_${dim}$)
 #:endfor
 
-#:set list = ['optimize_dist', 'filter_eps', 'move_data', 'unit_nr', 'log_verbose']
+#:set list = ['optimize_dist', 'filter_eps', 'flop', 'move_data', 'unit_nr', 'log_verbose']
 #:for var in list
       IF (PRESENT(c_${var}$)) ${var}$ = c_${var}$
 #:endfor
