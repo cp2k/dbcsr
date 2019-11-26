@@ -36,11 +36,7 @@ MODULE dbcsr_tensor_api_c
 
 CONTAINS
 
-! **************************************************************************************************
-!> \brief ...
-!> \param c_str ...
-!> \param str ...
-! **************************************************************************************************
+
    SUBROUTINE c_f_string(c_str, str)
       USE, INTRINSIC :: iso_c_binding, ONLY: c_ptr, c_f_pointer, c_char
       TYPE(c_ptr), INTENT(in) :: c_str
@@ -66,32 +62,7 @@ CONTAINS
       ENDDO
    END SUBROUTINE c_f_string
 
-! **************************************************************************************************
-!> \brief Create an n-dimensional process grid.
-!>
-!> We can not use a n-dimensional MPI cartesian grid for tensors since the mapping between
-!> n-dim. and 2-dim. index allows for an arbitrary reordering of tensor index. Therefore we can not
-!> use n-dim. MPI Cartesian grid because it may not be consistent with the respective 2d grid.
-!> The 2d Cartesian MPI grid is the reference grid (since tensor data is stored as DBCSR matrix)
-!> and this routine creates an object that is a n-dim. interface to this grid.
-!>
-!> map1_2d and map2_2d don't need to be specified (correctly), grid may be redefined in dbcsr_t_distribution_new
-!>
-!> Note that pgrid is equivalent to a MPI cartesian grid only if map1_2d and map2_2d don't reorder indices
-!> (which is the case if [map1_2d, map2_2d] == [1, 2, ..., ndims]). Otherwise the mapping of grid
-!> coordinates to processes depends on the ordering of the indices and is not equivalent to a MPI
-!> cartesian grid.
-!> \param mp_comm simple MPI Communicator
-!> \param c_dims grid dimensions
-!> \param dims_size size of c_dims
-!> \param c_pgrid n-dimensional grid object
-!> \param c_map1_2d which nd-indices map to first matrix index and in which order
-!> \param map1_2d_size size of c_map1_2d
-!> \param map2_2d which nd-indices map to first matrix index and in which order
-!> \param map2_2d_size size of c_map2_2d
-!> \param nsplit impose a constant split factor
-!> \param dimsplit which matrix dimension to split
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_pgrid_create(fcomm, c_dims, dims_size, c_pgrid, &
                                      c_map1_2d, map1_2d_size, c_map2_2d, map2_2d_size, nsplit, dimsplit) &
       bind(C, name="c_dbcsr_t_pgrid_create")
@@ -132,11 +103,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief destroy process grid
-!> \param c_pgrid ...
-!> \param keep_comm if .TRUE. communicator is not freed
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_pgrid_destroy(c_pgrid, c_keep_comm) &
       BIND(C, name="c_dbcsr_t_pgrid_destroy")
 
@@ -156,22 +123,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Create a tensor distribution.
-!>
-!> \param c_dist ...
-!> \param c_pgrid process grid
-!> \param c_map1_2d which nd-indices map to first matrix index and in which order
-!> \param map1_2d_size ...
-!> \param c_map2_2d which nd-indices map to second matrix index and in which order
-!> \param map2_2d_size ...
-!> \param c_nd_dist_1 distribution vector for first dimension
-!> \param c_nd_dist_1_size ...
-!> \param nd_dist_2 distribution vector for second dimension
-!> \param c_nd_dist_2_size ...
-!> \param nd_dist_3 ...
-!> \param c_own_comm whether distribution should own communicator
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_distribution_new(c_dist, c_pgrid, c_map1_2d, map1_2d_size, &
                                          c_map2_2d, map2_2d_size, ${c_varlist_and_size("c_nd_dist")}$, c_own_comm) &
       bind(C, name="c_dbcsr_t_distribution_new")
@@ -219,10 +171,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Destroy tensor distribution
-!> \param c_dist ...
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_distribution_destroy(c_dist) BIND(C, name="c_dbcsr_t_distribution_destroy")
       TYPE(c_ptr), INTENT(INOUT)                         :: c_dist
       TYPE(dbcsr_t_distribution_type), POINTER           :: dist
@@ -236,20 +185,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief create a tensor
-!> \param c_tensor ...
-!> \param c_name ...
-!> \param c_dist ...
-!> \param c_map1_2d which nd-indices to map to first 2d index and in which order
-!> \param c_map1_2d_size ...
-!> \param c_map2_2d which nd-indices to map to first 2d index and in which order
-!> \param c_map2_2d_size ...
-!> \param c_data_type ...
-!> \param c_blk_size_1 blk sizes in each dimension
-!> \param c_blk_size_1_size ...
-!> \param c_blk_size_2 ...
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_create_new(c_tensor, c_name, c_dist, c_map1_2d, map1_2d_size, &
                                    c_map2_2d, map2_2d_size, c_data_type, ${c_varlist_and_size("c_blk_size")}$) &
       bind(C, name="c_dbcsr_t_create_new")
@@ -303,12 +239,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief create a tensor from template
-!> \param c_tensor_in ...
-!> \param c_tensor ...
-!> \param c_name ...
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_create_template(c_tensor_in, c_tensor, c_name) &
       BIND(C, name="c_dbcsr_t_create_template")
 
@@ -330,13 +261,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Create 2-rank tensor from matrix.
-!> \param c_matrix_in ...
-!> \param c_tensor ...
-!> \param c_order ...
-!> \param c_name ...
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_create_matrix(c_matrix_in, c_tensor, c_order, c_name) &
       BIND(C, name="c_dbcsr_t_create_matrix")
 
@@ -368,10 +293,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Destroy a tensor
-!> \param c_tensor ...
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_destroy(c_tensor) BIND(C, name="c_dbcsr_t_destroy")
       TYPE(c_ptr), INTENT(INOUT)                         :: c_tensor
       TYPE(dbcsr_t_type), POINTER                        :: tensor
@@ -387,46 +309,7 @@ CONTAINS
    END SUBROUTINE
 
 #:for dparam, dtype, dsuffix, dbase, dctype in cf_dtype_float_list
-   ! **************************************************************************************************
-!> \brief Contract tensors by multiplying matrix representations.
-!>        tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
-!>                                        * tensor_2(contract_2, notcontract_2)
-!>                                 + beta * tensor_3(map_1, map_2)
-!> \param c_alpha ...
-!> \param c_tensor_1 first tensor (in)
-!> \param c_tensor_2 second tensor (in)
-!> \param c_beta ...
-!> \param c_tensor_3 contracted tensor (out)
-!> \param c_contract_1 indices of tensor_1 to contract
-!> \param c_contract_1_size ...
-!> \param c_notcontract_1 indices of tensor_1 not to contract
-!> \param c_notcontract_1_size ...
-!> \param c_contract_2 indices of tensor_2 to contract (1:1 with contract_1)
-!> \param c_contract_2_size ...
-!> \param c_notcontract_2 indices of tensor_2 not to contract
-!> \param c_notcontract_2_size ...
-!> \param c_map_1 which indices of tensor_3 map to non-contracted indices of tensor_1 (1:1 with notcontract_1)
-!> \param map_1_size ...
-!> \param c_map_2 which indices of tensor_3 map to non-contracted indices of tensor_2 (1:1 with notcontract_2)
-!> \param map_2_size ...
-!> \param c_bounds_1 bounds corresponding to contract_1 AKA contract_2
-!> \param c_bounds_2 bounds corresponding to notcontract_1
-!> \param c_bounds_3 bounds corresponding to notcontract_2
-!> \param c_optimize_dist Whether distribution should be optimized internally. In the current implementation
-!>                      this guarantees optimal parameters only for dense matrices.
-!> \param c_pgrid_opt_1 Optionally return optimal process grid for tensor_1. This can be used to choose
-!>                    optimal process grids for subsequent tensor contractions with tensors of similar
-!>                    shape and sparsity. Under some conditions, pgrid_opt_1 can not be returned, in this
-!>                    case the pointer is not associated.
-!> \param c_pgrid_opt_2 Optionally return optimal process grid for tensor_2.
-!> \param c_pgrid_opt_3 Optionally return optimal process grid for tensor_3.
-!> \param c_filter_eps As in DBCSR mm
-!> \param c_flop As in DBCSR mm
-!> \param c_move_data memory optimization: transfer data such that tensor_1 and tensor_2 may be empty
-!>        on return
-!> \param c_unit_nr output unit for logging
-!> \param c_log_verbose verbose logging (for testing only)
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_contract_${dsuffix}$ (c_alpha, c_tensor_1, c_tensor_2, c_beta, c_tensor_3, &
                                               c_contract_1, contract_1_size, &
                                               c_notcontract_1, notcontract_1_size, &
@@ -534,14 +417,7 @@ CONTAINS
 
 #:for dparam, dtype, dsuffix, basetype, cftype in cf_dtype_float_list
 #:for ndim in ndims
-! **************************************************************************************************
-!> \brief allocate and get block
-!> \param c_tensor ...
-!> \param tensor_dim ...
-!> \param c_ind block index
-!> \param c_block block to get
-!> \param c_found whether block was found
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_allocate_and_get_${ndim}$d_block_${dsuffix}$ (c_tensor, tensor_dim, c_ind, c_block, c_found) &
       bind(C, name="c_dbcsr_t_allocate_and_get_${ndim}$d_block_${dsuffix}$")
 
@@ -575,15 +451,7 @@ CONTAINS
 
 #:for dparam, dtype, dsuffix, basetype, cftype in cf_dtype_float_list
 #:for ndim in ndims
-! **************************************************************************************************
-!> \brief Template for dbcsr_t_get_block.
-!> \param c_tensor ...
-!> \param tensor_dim ...
-!> \param c_ind block index
-!> \param c_sizes block size
-!> \param c_block block to get
-!> \param c_found whether block was found
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_get_${ndim}$d_block_${dsuffix}$ (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_${ndim}$d_block_${dsuffix}$")
 
@@ -622,16 +490,7 @@ CONTAINS
 
 #:for dparam, dtype, dsuffix, basetype, cftype in cf_dtype_float_list
 #:for ndim in ndims
-! **************************************************************************************************
-!> \brief Template for dbcsr_t_put_block.
-!> \param c_tensor ...
-!> \param tensor_dim ...
-!> \param c_ind block index
-!> \param c_sizes block size
-!> \param c_block block to put
-!> \param c_summation whether block should be summed to existing block
-!> \param c_scale scaling factor
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_put_${ndim}$d_block_${dsuffix}$ (c_tensor, tensor_dim, c_ind, c_sizes, &
                                             c_block, c_summation, c_scale) &
                                             BIND(C, name="c_dbcsr_t_put_${ndim}$d_block_${dsuffix}$")
@@ -673,13 +532,7 @@ CONTAINS
 #:endfor
 #:endfor
 
-! **************************************************************************************************
-!> \brief Generalization of dbcsr_get_stored_coordinates for tensors.
-!> \param c_tensor ...
-!> \param tensor_dim ...
-!> \param c_ind_nd ...
-!> \param c_processor ...
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_get_stored_coordinates(c_tensor, tensor_dim, c_ind_nd, c_processor) &
       BIND(C, name="c_dbcsr_t_get_stored_coordinates")
 
@@ -699,14 +552,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief reserve tensor blocks using block indices
-!> \param c_tensor ...
-!> \param nblocks number of blocks to reserve in each dimension
-!> \param c_blk_ind_1 index of blocks to reserve in each dimension
-!> \param c_blk_ind_2 ...
-!> \param c_blk_ind_3 ...
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_reserve_blocks_index(c_tensor, nblocks, ${varlist("c_blk_ind")}$) &
       BIND(C, name="c_dbcsr_t_reserve_blocks_index")
 
@@ -729,13 +575,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Number of dimensions.
-!> \param iterator ...
-!> \return ...
-!> \par Note: specification function below must be defined before it is used in
-!>      the source due to a bug in the IBM XL Fortran compiler (compilation fails)
-! **************************************************************************************************
+
    FUNCTION c_ndims_iterator(c_iterator) BIND(C, name="c_ndims_iterator")
 
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_iterator
@@ -748,11 +588,7 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Generalization of dbcsr_iterator_start for tensors.
-!> \param iterator ...
-!> \param tensor ...
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_iterator_start(c_iterator, c_tensor) BIND(C, name="c_dbcsr_t_iterator_start")
 
       TYPE(c_ptr), INTENT(OUT)                           :: c_iterator
@@ -770,10 +606,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Generalization of dbcsr_iterator_stop for tensors.
-!> \param iterator ...
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_iterator_stop(c_iterator) BIND(C, name="c_dbcsr_t_iterator_stop")
 
       TYPE(c_ptr), INTENT(INOUT)                         :: c_iterator
@@ -789,16 +622,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief iterate over nd blocks of an nd rank tensor, index only (blocks must be retrieved by calling
-!>        dbcsr_t_get_block on tensor).
-!> \param iterator ...
-!> \param ind_nd nd index of block
-!> \param blk is this needed?
-!> \param blk_p is this needed?
-!> \param blk_size blk size in each dimension
-!> \param blk_offset blk offset in each dimension
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_iterator_next_block(c_iterator, iterator_size, c_ind_nd, c_blk, c_blk_p, c_blk_size, c_blk_offset) &
       BIND(C, name="c_dbcsr_t_iterator_next_block")
 
@@ -830,11 +654,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Generalization of dbcsr_iterator_blocks_left for tensors.
-!> \param iterator ...
-!> \return ...
-! **************************************************************************************************
+
    FUNCTION c_dbcsr_t_iterator_blocks_left(c_iterator) &
       BIND(C, name="c_dbcsr_t_iterator_blocks_left")
 
@@ -847,13 +667,7 @@ CONTAINS
 
    END FUNCTION
 
-! **************************************************************************************************
-!> \brief Split tensor blocks into smaller blocks of maximum size PRODUCT(block_sizes).
-!> \param tensor_in Input tensor
-!> \param tensor_out Output tensor (split blocks)
-!> \param block_sizes block sizes for each of the tensor dimensions
-!> \param nodata don't copy data from tensor_in to tensor_out
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_split_blocks(c_tensor_in, tensor_dim, c_tensor_out, c_block_sizes, c_nodata) &
       BIND(C, name="c_dbcsr_t_split_blocks")
 
@@ -881,13 +695,7 @@ CONTAINS
    END SUBROUTINE
 
 #:for dparam, dtype, dsuffix, dbase, dctype in cf_dtype_float_list
-! **************************************************************************************************
-!> \brief As dbcsr_filter
-!> \param tensor ...
-!> \param eps ...
-!> \param method ...
-!> \param use_absolute
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_filter_${dsuffix}$ (c_tensor, c_eps, c_method, c_use_absolute) &
       BIND(C, name="c_dbcsr_t_filter_${dsuffix}$")
 
@@ -910,11 +718,7 @@ CONTAINS
 #:endfor
 
 #:for dparam, dtype, dsuffix, dbase, dctype in cf_dtype_float_list
-! **************************************************************************************************
-!> \brief As dbcsr_set
-!> \param tensor ...
-!> \param alpha ...
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_set_${dsuffix}$ (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_set_${dsuffix}$")
 
@@ -930,12 +734,7 @@ CONTAINS
    END SUBROUTINE
 #:endfor
 
-! **************************************************************************************************
-!> \brief copy matrix to tensor.
-!> \param matrix_in ...
-!> \param tensor_out ...
-!> \param summation tensor_out = tensor_out + matrix_in
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_copy_matrix_to_tensor(c_matrix_in, c_tensor_out, c_summation) &
       BIND(C, name="c_dbcsr_t_copy_matrix_to_tensor")
 
@@ -956,12 +755,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief copy tensor to matrix
-!> \param tensor_in ...
-!> \param matrix_out ...
-!> \param summation matrix_out = matrix_out + tensor_in
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_copy_tensor_to_matrix(c_tensor_in, c_matrix_out, c_summation) &
       BIND(C, name="c_dbcsr_t_copy_tensor_to_matrix")
 
@@ -982,12 +776,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Size of tensor block
-!> \param tensor ...
-!> \param ind block index ...
-!> \param blk_size block size ...
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_blk_sizes(c_tensor, tensor_dim, c_ind, c_blk_size) &
       BIND(C, name="c_dbcsr_t_blk_sizes")
 
@@ -1010,21 +799,7 @@ CONTAINS
 
    END SUBROUTINE
 
-! **************************************************************************************************
-!> \brief Copy tensor data.
-!>        Redistributes tensor data according to distributions of target and source tensor.
-!>        Permutes tensor index according to `order` argument (if present).
-!>
-!> Source and target tensor formats are arbitrary as long as the following requirements are met:
-!> * source and target tensors have the same number of blocks in each dimension and the same block sizes.
-!>   If `order` argument is present, this must be the case after index permutation.
-!> OR
-!> * target tensor is not yet created, in this case an exact copy of source tensor is returned.
-!> \param tensor_in Source
-!> \param tensor_out Target
-!> \param order Permutation of target tensor index. Exact same convention as order argument of RESHAPE
-!>              intrinsic
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_copy(c_tensor_in, tensor_dim, c_tensor_out, c_order, c_summation, c_move_data, c_unit_nr) &
       BIND(C, name="c_dbcsr_t_copy")
 
@@ -1055,11 +830,7 @@ CONTAINS
    END SUBROUTINE
 
 #:for dparam, dtype, dsuffix, dbase, dctype in cf_dtype_float_list
-! **************************************************************************************************
-!> \brief as dbcsr_scale
-!> \param tensor ...
-!> \param alpha ...
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_scale_${dsuffix}$ (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_scale_${dsuffix}$")
 
@@ -1076,10 +847,7 @@ CONTAINS
 
 #:endfor
 
-! **************************************************************************************************
-!> \brief Clear tensor (s.t. it does not contain any blocks)
-!> \param tensor ...
-! **************************************************************************************************
+
    SUBROUTINE c_dbcsr_t_clear(c_tensor) BIND(C, name="c_dbcsr_clear")
 
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
