@@ -68,9 +68,9 @@ extern "C" int acc_host_mem_deallocate(void *host_mem, void *stream){
 
 /****************************************************************************/
 extern "C" int acc_dev_mem_set_ptr(void **dev_mem, void *other, size_t lb){
-  
+
   (*dev_mem) = ((char *) other) + lb;
-    
+
   return 0;
 }
 
@@ -92,7 +92,7 @@ extern "C" int acc_memcpy_d2h(const void *dev_mem, void *host_mem, size_t count,
   if (verbose_print)
       printf ("Copying %zd bytes from device address %p to host address %p\n", count, dev_mem, host_mem);
 
-  ACC_API_CALL(MemcpyAsync, (host_mem, dev_mem, count, ACC(MemcpyHostToDevice), *acc_stream));
+  ACC_API_CALL(MemcpyAsync, (host_mem, dev_mem, count, ACC(MemcpyDeviceToHost), *acc_stream));
 
   if (verbose_print)
     printf ("d2h %f\n", *((double *) host_mem));
