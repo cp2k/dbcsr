@@ -115,11 +115,7 @@ after_success:
   # macOS needs `--gcov-tool /usr/local/bin/gcov-?`, but even then I couldn't make the Coverage run work
   - |
     if [ "$TRAVIS_OS_NAME" = "linux" ] ; then
-      lcov --directory build --capture --output-file coverage.info
-      # remove any system headers, 3rd party objects and the test code itself from the coverage report
-      # the absolute path is required to workaround an issue in lcov which makes it change its CWD in case of errors
-      lcov --remove coverage.info '/usr/*' "${HOME}"'/deps/*' '*/tests/*' --output-file "${TRAVIS_BUILD_DIR}/coverage.info"
-      lcov --list coverage.info
+      cmake --build . -- cov-info
       bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
     fi
 
