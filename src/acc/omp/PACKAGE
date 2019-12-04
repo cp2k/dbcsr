@@ -1,0 +1,5 @@
+{
+"description": "OpenMP backend for accelerator API",
+"archive": "libdbcsr",
+"requires": ["../include"]
+}

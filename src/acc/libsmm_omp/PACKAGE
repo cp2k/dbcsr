@@ -1,0 +1,5 @@
+{
+"description": "OpenMP accelerated Small Matrix Multiplications",
+"archive": "libdbcsr",
+"requires": ["../include", "../omp"]
+}

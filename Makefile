@@ -103,7 +103,7 @@ LIBSMM_ACC_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libsmm_acc")
 
 ALL_PKG_FILES := $(shell find $(SRCDIR) -name "PACKAGE")
 OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . ! -name "dbcsr_api_c.F" -name "*.F")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -path "./acc/omp/*" ! -path "./acc/libsmm_omp/*" -name "*.c")
 
 # if compiling with GPU acceleration
 ifneq ($(NVCC),)
@@ -120,6 +120,9 @@ ifneq ($(NVCC),)
     # Exclude autotuning files
     OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "tune_*_exe*_part*.cpp" ! -name "tune_*_exe*_main*.cpp"  -name "*.cpp")
   endif
+else # LIBSMM with OpenMP/offload
+  OBJ_SRC_FILES += $(shell cd $(SRCDIR); find ./acc/omp -name "*.c")
+  OBJ_SRC_FILES += $(shell cd $(SRCDIR); find ./acc/libsmm_omp/libsmm -name "*.c")
 endif
 
 ifneq ($(CINT),)
@@ -290,11 +293,13 @@ help:
 	@echo "================= Variables ====================="
 	@echo "For convenience, some variables can be set during compilation,"
 	@echo "e.g. make VARIABLE=value (multiple variables are possible):"
-	@echo "MPI=0    : disable MPI compilation"
-	@echo "GNU=0    : disable GNU compiler compilation and enable Intel compiler compilation"
-	@echo "CHECKS=1 : enable GNU compiler checks and DBCSR asserts"
-	@echo "CINT=1   : generate the C interface"
-	@echo "GPU=1    : enable GPU support"
+	@echo "OMP=0     : disable OpenMP compilation"
+	@echo "MPI=0     : disable MPI compilation"
+	@echo "GNU=0     : disable GNU compiler and enable Intel compiler"
+	@echo "CHECKS=1  : enable GNU compiler checks and DBCSR asserts"
+	@echo "CINT=1    : generate the C interface"
+	@echo "GPU=1     : enable GPU support"
+	@echo "OFFLOAD=1 : OpenMP/offload"
 
 ifeq ($(INCLUDE_DEPS),)
 install: $(LIBRARY)

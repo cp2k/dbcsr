@@ -42,6 +42,11 @@ foreach (dbcsr_perf_test ${DBCSR_PERF_TESTS})
 endforeach ()
 
 # =================================== DBCSR CORRECTNESS TESTS
+# Define simple C-tests here, will be used as the executable name
+set(DBCSR_CTESTS_SIMPLE
+  dbcsr_test_acc
+  )
+
 # Define all the tests here, will be used as the executable name
 set(DBCSR_TESTS
   dbcsr_unittest1
@@ -63,6 +68,26 @@ set(dbcsr_unittest2_SRCS dbcsr_unittest2.F)
 set(dbcsr_unittest3_SRCS dbcsr_unittest3.F)
 set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
+set(dbcsr_test_acc_SRCS dbcsr_test_acc.c)
+
+foreach (dbcsr_ctests_simple ${DBCSR_CTESTS_SIMPLE})
+  add_executable(${dbcsr_ctests_simple} ${${dbcsr_ctests_simple}_SRCS})
+  target_link_libraries(${dbcsr_ctests_simple} dbcsr)
+  set_target_properties(${dbcsr_ctests_simple} PROPERTIES LINKER_LANGUAGE Fortran)
+  if (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+    set_target_properties(${dbcsr_ctests_simple} PROPERTIES LINK_FLAGS "-nofor-main")
+  endif ()
+  if (OpenMP_FOUND)
+    target_link_libraries(${dbcsr_ctests_simple} OpenMP::OpenMP_Fortran)
+  endif ()
+  # register C-tests executable that do not need additional arguments with CMake
+  if (NOT CMAKE_SYSTEM_NAME STREQUAL "CrayLinuxEnvironment")
+    add_test(NAME ${dbcsr_ctests_simple} COMMAND ./${dbcsr_ctests_simple})
+    if (OpenMP_FOUND)
+      set_tests_properties(${dbcsr_ctests_simple} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${TEST_OMP_THREADS})
+    endif ()
+  endif ()
+endforeach ()
 
 # instead of building a full-blown lib, it would be better to simply build an OBJECT lib,
 # but we would need cmake 3.12 to be able to specify target_link_libraries on those to get
@@ -164,7 +189,7 @@ if (USE_CUDA OR USE_HIP)
     hip_add_executable(libsmm_acc_unittest_transpose libsmm_acc_unittest_transpose.cpp)
     target_link_options(libsmm_acc_unittest_transpose PRIVATE ${HIP_ARCH_FLAGS})
 
-    # Workaround issue in hip_add_library: explicitely write dependency between __ & __
+    # Workaround issue in hip_add_library: explicitly write dependency between __ & __
     add_custom_target(generate_libsmm_acc_unittest_multiply_test_cpp DEPENDS libsmm_acc_unittest_multiply.cpp)
     add_dependencies(libsmm_acc_unittest_multiply generate_libsmm_acc_unittest_multiply_test_cpp)
     add_custom_target(generate_libsmm_acc_timer_multiply_test_cpp DEPENDS libsmm_acc_timer_multiply.cpp)

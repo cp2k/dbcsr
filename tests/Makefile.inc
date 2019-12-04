@@ -21,6 +21,9 @@ dbcsr_tensor_unittest: BIN_DEPS =
 SRC_TESTS += dbcsr_tas_unittest.F
 dbcsr_tas_unittest: BIN_DEPS =
 
+SRC_TESTS += dbcsr_test_acc.c
+dbcsr_test_acc: BIN_DEPS =
+
 ifneq ($(NVCC),)
 UNITTESTS += libsmm_acc_unittest_multiply libsmm_acc_unittest_transpose libsmm_acc_timer_multiply
 

@@ -32,8 +32,11 @@ project(dbcsr
 # OPTIONS
 include(CMakeDependentOption)
 
-option(USE_OPENMP "Build with OpenMP support" ON)
 option(USE_MPI "Build with MPI support" ON)
+option(USE_OPENMP "Build with OpenMP support" ON)
+cmake_dependent_option(USE_OFFLOAD "Offloading to devices if OpenMP is enabled" OFF "USE_OPENMP" OFF)
+set(WITH_OFFLOAD_FLAGS "" CACHE STRING "Additional flag(s) if OpenMP/offload is enabled")
+set(WITH_OPENMP_FLAGS "" CACHE STRING "To replace OpenMP default flag, e.g., to replace -fopenmp")
 cmake_dependent_option(WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "USE_MPI" OFF) # the ISO_C_BINDINGS require MPI unconditionally
 cmake_dependent_option(WITH_EXAMPLES "Build the examples" ON "USE_MPI" OFF) # all examples require MPI
 
@@ -63,12 +66,16 @@ if (USE_CUDA AND USE_HIP)
 endif()
 
 # =================================================================================================
-# LANGUAGES AND TESTING
+# LANGUAGES AND TESTING: enable *here* since subsequent settings can depend on enabled languages
 enable_language(Fortran)
+enable_language(C)
 enable_testing() # enables the `make test` target
 
-if (WITH_C_API AND WITH_EXAMPLES)
+if ((WITH_C_API AND WITH_EXAMPLES) OR USE_CUDA OR USE_HIP)
   enable_language(CXX)
+endif ()
+if (USE_CUDA)
+  enable_language(CUDA)
 endif ()
 
 # we're always using at least C++11
@@ -118,6 +125,25 @@ endif ()
 # =================================== OpenMP and OpenMP/offload backend
 if (USE_OPENMP)
   find_package(OpenMP REQUIRED)
+
+  # CMake's OpenMP module/package does not (yet) support OpenMP/offload
+  foreach (LANG IN ITEMS Fortran CXX C)
+    if (OpenMP_${LANG}_FOUND)
+      if (USE_OFFLOAD AND WITH_OPENMP_FLAGS)
+        set(OpenMP_${LANG}_LIBRARIES ${WITH_OPENMP_FLAGS})
+        set(OpenMP_${LANG}_FLAGS ${WITH_OPENMP_FLAGS})
+      endif ()
+      if (USE_OFFLOAD AND WITH_OFFLOAD_FLAGS)
+        set(OpenMP_${LANG}_LIBRARIES ${OpenMP_${LANG}_LIBRARIES} ${WITH_OFFLOAD_FLAGS})
+        set(OpenMP_${LANG}_FLAGS ${OpenMP_${LANG}_FLAGS} ${WITH_OFFLOAD_FLAGS})
+      endif ()
+      if (USE_OFFLOAD) # promote OpenMP flags to link-line
+        set(OpenMP_${LANG}_LIBRARIES ${OpenMP_${LANG}_FLAGS})
+      endif ()
+      set_property(TARGET OpenMP::OpenMP_${LANG} PROPERTY INTERFACE_LINK_LIBRARIES ${OpenMP_${LANG}_LIBRARIES})
+      set_property(TARGET OpenMP::OpenMP_${LANG} PROPERTY INTERFACE_COMPILE_OPTIONS ${OpenMP_${LANG}_FLAGS})
+    endif ()
+  endforeach ()
 endif ()
 
 # =================================== SMM (Small Matrix-Matrix multiplication)
@@ -133,7 +159,6 @@ endif ()
 
 # =================================== GPU backend
 if (USE_CUDA OR USE_HIP)
-  enable_language(CXX)
   set(GPU_ARCH_NUMBER_K20X 35)
   set(GPU_ARCH_NUMBER_K40  35)
   set(GPU_ARCH_NUMBER_K80  37)
@@ -143,8 +168,6 @@ if (USE_CUDA OR USE_HIP)
 endif()
 
 if (USE_CUDA)
-
-  enable_language(CUDA)
   if (CMAKE_CUDA_COMPILER_VERSION LESS 5.5)
       message(FATAL_ERROR "CUDA version >= 5.5 is required.")
   endif()
