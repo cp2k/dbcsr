@@ -13,7 +13,7 @@ if ((CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
     AND (CMAKE_GENERATOR STREQUAL "Ninja")
     AND (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16))
   set(fypp_flags --line-numbering --line-marker-format=gfortran5)
-elseif (CMAKE_BUILD_TYPE MATCHES COVERAGE)
+elseif (CMAKE_BUILD_TYPE MATCHES Coverage)
   message(WARNING "Coverage build requested but your environment does not support Line Control directives in Fypp")
   message(WARNING "You need CMake 3.16+, Ninja (CMake-patched) and gfortran 5+ for this to work!")
   # otherwise the referenced lines in the Coverage report point to either the original (unexpanded files) or
