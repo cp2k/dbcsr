@@ -262,26 +262,28 @@ CONTAINS
             WRITE (output_unit, '(A,T30,I20)') " # max total images/rank", dbcsr_mpi_statistics%nimages
             WRITE (output_unit, '(A,T30,I20)') " # max 3D layers", get_max_layers_3D()
             WRITE (output_unit, '(A,T30,I20)') " # MPI messages exchanged", total_nexchanged
-            WRITE (output_unit, '(A)') " MPI messages size (bytes):"
-            WRITE (output_unit, '(A,T30,EN20.6)') "  total size", &
-               SUM(total_recv_data(:))
-            WRITE (output_unit, '(A,T30,EN20.6)') "  min size", &
-               MINVAL(min_recv_data(:))
-            WRITE (output_unit, '(A,T30,EN20.6)') "  max size", &
-               MAXVAL(max_recv_data(:))
-            WRITE (output_unit, '(A,T30,EN20.6)') "  average size", average
-
-            WRITE (output_unit, '(A)') " MPI breakdown and total messages size (bytes):"
-            WRITE (output_unit, '(A,I8,T40,I10,T55,I20)') "             size <= ", dbcsr_mpi_size_limits(1), &
-               SUM(total_recv_breakdown(1, 1, :)), SUM(total_recv_breakdown(1, 2, :))
-            DO ilimit = 2, SIZE(dbcsr_mpi_size_limits)
-               WRITE (output_unit, '(A,I8,A,I8,T40,I10,T55,I20)') "  ", dbcsr_mpi_size_limits(ilimit - 1), &
-                  " < size <= ", dbcsr_mpi_size_limits(ilimit), &
-                  SUM(total_recv_breakdown(ilimit, 1, :)), SUM(total_recv_breakdown(ilimit, 2, :))
-            ENDDO
-            ilimit = SIZE(dbcsr_mpi_size_limits)
-            WRITE (output_unit, '(A,I8,A,T40,I10,T55,I20)') "  ", dbcsr_mpi_size_limits(ilimit), &
-               " < size    ", SUM(total_recv_breakdown(ilimit + 1, 1, :)), SUM(total_recv_breakdown(ilimit + 1, 2, :))
+            IF (total_nexchanged > 0) THEN  ! omit noisy output in single-node case
+               WRITE (output_unit, '(A)') " MPI messages size (bytes):"
+               WRITE (output_unit, '(A,T30,EN20.6)') "  total size", &
+                  SUM(total_recv_data(:))
+               WRITE (output_unit, '(A,T30,EN20.6)') "  min size", &
+                  MINVAL(min_recv_data(:))
+               WRITE (output_unit, '(A,T30,EN20.6)') "  max size", &
+                  MAXVAL(max_recv_data(:))
+               WRITE (output_unit, '(A,T30,EN20.6)') "  average size", average
+   
+               WRITE (output_unit, '(A)') " MPI breakdown and total messages size (bytes):"
+               WRITE (output_unit, '(A,I8,T40,I10,T55,I20)') "             size <= ", dbcsr_mpi_size_limits(1), &
+                  SUM(total_recv_breakdown(1, 1, :)), SUM(total_recv_breakdown(1, 2, :))
+               DO ilimit = 2, SIZE(dbcsr_mpi_size_limits)
+                  WRITE (output_unit, '(A,I8,A,I8,T40,I10,T55,I20)') "  ", dbcsr_mpi_size_limits(ilimit - 1), &
+                     " < size <= ", dbcsr_mpi_size_limits(ilimit), &
+                     SUM(total_recv_breakdown(ilimit, 1, :)), SUM(total_recv_breakdown(ilimit, 2, :))
+               ENDDO
+               ilimit = SIZE(dbcsr_mpi_size_limits)
+               WRITE (output_unit, '(A,I8,A,T40,I10,T55,I20)') "  ", dbcsr_mpi_size_limits(ilimit), &
+                  " < size    ", SUM(total_recv_breakdown(ilimit + 1, 1, :)), SUM(total_recv_breakdown(ilimit + 1, 2, :))
+            ENDIF
          ENDIF
 
          isqrt = NINT(SQRT(REAL(dbcsr_mpi_statistics%last_mpi_ranks_used, KIND=real_8)))
