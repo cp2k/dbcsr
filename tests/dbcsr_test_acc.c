@@ -159,6 +159,11 @@ int main(int argc, char* argv[])
 # pragma omp parallel for num_threads(n) private(i)
 #endif
   for (i = 0; i < n; ++i) ACC_CHECK(acc_event_create(event + i));
+  for (i = 0; i < n; ++i) {
+    acc_bool_t has_occurred = 0;
+    ACC_CHECK(acc_event_query(event[i], &has_occurred));
+    ACC_CHECK(has_occurred ? EXIT_SUCCESS : EXIT_FAILURE);
+  }
 
   ACC_CHECK(acc_stream_create(&s, "stream", priomin));
   ACC_CHECK(acc_host_mem_allocate(&host_mem, mem_alloc, s));

@@ -122,6 +122,10 @@ int acc_event_query(acc_event_t* event, acc_bool_t* has_occurred)
 {
   int result = EXIT_FAILURE;
   if (NULL != has_occurred) {
+#if defined(_OPENMP)
+    dbcsr_omp_stream_barrier_init(omp_get_num_threads());
+    dbcsr_omp_stream_barrier_wait();
+#endif
     if (NULL != event) {
       const dbcsr_omp_event_t *const e = (dbcsr_omp_event_t*)event;
       *has_occurred = (NULL == e->dependency);
