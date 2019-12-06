@@ -65,44 +65,49 @@ void dbcsr_omp_stream_depend(acc_stream_t* stream, dbcsr_omp_depend_t** depend)
 {
 #if defined(_OPENMP)
   dbcsr_omp_depend_t *const di = &dbcsr_omp_stream_depend_state[omp_get_thread_num()];
-  const int nthreads = omp_get_num_threads();
 #else
   dbcsr_omp_depend_t *const di = dbcsr_omp_stream_depend_state;
-  const int nthreads = 1;
 #endif
-  dbcsr_omp_stream_t *const s = (dbcsr_omp_stream_t*)stream;
+  if (NULL != stream) {
+#if defined(_OPENMP)
+    const int nthreads = omp_get_num_threads();
+#else
+    const int nthreads = 1;
+#endif
+    dbcsr_omp_stream_t *const s = (dbcsr_omp_stream_t*)stream;
 #if defined(DBCSR_OMP_STREAM_MAXCOUNT) && (0 < DBCSR_OMP_STREAM_MAXCOUNT)
-  assert(NULL == s || (dbcsr_omp_streams <= s && s < (dbcsr_omp_streams + DBCSR_OMP_STREAM_MAXCOUNT)));
+    assert(dbcsr_omp_streams <= s && s < (dbcsr_omp_streams + DBCSR_OMP_STREAM_MAXCOUNT));
 #endif
 #if defined(DBCSR_OMP_OFFLOAD) && !defined(NDEBUG)
-  assert(NULL == s || omp_get_default_device() == s->device_id);
+    assert(omp_get_default_device() == s->device_id);
 #endif
-  assert(NULL != depend && NULL != di);
-  if (NULL != s && EXIT_SUCCESS == s->status) {
-    static const dbcsr_omp_dependency_t dummy = 0;
-    int index;
+    assert(NULL != depend && NULL != di);
+    if (EXIT_SUCCESS == s->status) {
+      static const dbcsr_omp_dependency_t dummy = 0;
+      int index;
 #if defined(_OPENMP) && (200805 <= _OPENMP) /* OpenMP 3.0 */
-#   pragma omp atomic capture
+#     pragma omp atomic capture
 #elif defined(_OPENMP)
-#   pragma omp critical(dbcsr_omp_stream_depend_critical)
+#     pragma omp critical(dbcsr_omp_stream_depend_critical)
 #endif
-    index = s->pending++;
-    di->data.out = s->name + index % DBCSR_OMP_STREAM_MAXPENDING;
-    di->data.in = (s->name < di->data.out ? (di->data.out - 1) : &dummy);
-  }
+      index = s->pending++;
+      di->data.out = s->name + index % DBCSR_OMP_STREAM_MAXPENDING;
+      di->data.in = (s->name < di->data.out ? (di->data.out - 1) : &dummy);
+    }
 #if !defined(NDEBUG)
 # if defined(_OPENMP)
-# pragma omp master
+#   pragma omp master
 # endif
-  { int tid = 0;
-    for (; tid < nthreads; ++tid) {
-      /* enable user to assume NULL/0 in case of unset arguments */
-      memset(dbcsr_omp_stream_depend_state[tid].data.args, 0,
-      DBCSR_OMP_ARGUMENTS_MAXCOUNT * sizeof(dbcsr_omp_any_t));
+    { int tid = 0;
+      for (; tid < nthreads; ++tid) {
+        /* enable user to assume NULL/0 in case of unset arguments */
+        memset(dbcsr_omp_stream_depend_state[tid].data.args, 0,
+        DBCSR_OMP_ARGUMENTS_MAXCOUNT * sizeof(dbcsr_omp_any_t));
+      }
     }
-  }
 #endif
-  dbcsr_omp_stream_barrier_init(nthreads);
+    dbcsr_omp_stream_barrier_init(nthreads);
+  }
   *depend = di;
 }
 
@@ -243,13 +248,13 @@ int acc_stream_wait_event(acc_stream_t* stream, acc_event_t* event)
         for (; tid < ndepend; ++tid) {
           const dbcsr_omp_depend_t *const di = &deps[tid];
           const dbcsr_omp_event_t *const ei = (const dbcsr_omp_event_t*)di->data.args[0].const_ptr;
-          const char* ie;
+          const dbcsr_omp_dependency_t* ie;
 #if !defined(NDEBUG)
           if (NULL == ei) break; /* incorrect dependency-count */
 #endif
           ie = ei->dependency;
           if (NULL != ie) { /* still pending */
-            const char *const id = di->data.in, *const od = di->data.out;
+            const dbcsr_omp_dependency_t *const id = di->data.in, *const od = di->data.out;
             (void)(id); (void)(od); (void)(ie); /* suppress incorrect warning */
 #           pragma omp target depend(in:DBCSR_OMP_DEP(id),DBCSR_OMP_DEP(ie)) depend(out:DBCSR_OMP_DEP(od)) nowait if(0)
             {}

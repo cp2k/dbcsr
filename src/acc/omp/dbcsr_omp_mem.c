@@ -78,7 +78,7 @@ int acc_host_mem_deallocate(void* host_mem, acc_stream_t* stream)
         int tid = 0;
         for (; tid < ndepend; ++tid) {
           dbcsr_omp_depend_t *const di = &deps[tid];
-          const char *const id = di->data.in, *const od = di->data.out;
+          const dbcsr_omp_dependency_t *const id = di->data.in, *const od = di->data.out;
           void *const ptr = di->data.args[0].ptr;
           (void)(id); (void)(od); /* suppress incorrect warning */
 #if !defined(NDEBUG)
@@ -181,7 +181,7 @@ int acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t count, acc_stream
         int tid = 0;
         for (; tid < ndepend; ++tid) {
           dbcsr_omp_depend_t *const di = &deps[tid];
-          const char *const id = di->data.in, *const od = di->data.out;
+          const dbcsr_omp_dependency_t *const id = di->data.in, *const od = di->data.out;
           dbcsr_omp_stream_t *const s = (dbcsr_omp_stream_t*)di->data.args[3].ptr;
           /*const*/ void *const ptr = di->data.args[0]./*const_*/ptr;
           (void)(id); (void)(od); /* suppress incorrect warning */
@@ -232,7 +232,7 @@ int acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t count, acc_stream
         int tid = 0;
         for (; tid < ndepend; ++tid) {
           dbcsr_omp_depend_t *const di = &deps[tid];
-          const char *const id = di->data.in, *const od = di->data.out;
+          const dbcsr_omp_dependency_t *const id = di->data.in, *const od = di->data.out;
           dbcsr_omp_stream_t *const s = (dbcsr_omp_stream_t*)di->data.args[3].ptr;
           /*const*/ void *const ptr = di->data.args[0]./*const_*/ptr;
           (void)(id); (void)(od); /* suppress incorrect warning */
@@ -283,7 +283,7 @@ int acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t count, acc_s
         int tid = 0;
         for (; tid < ndepend; ++tid) {
           dbcsr_omp_depend_t *const di = &deps[tid];
-          const char *const id = di->data.in, *const od = di->data.out;
+          const dbcsr_omp_dependency_t *const id = di->data.in, *const od = di->data.out;
           dbcsr_omp_stream_t *const s = (dbcsr_omp_stream_t*)di->data.args[3].ptr;
           /*const*/ void *const ptr = di->data.args[0]./*const_*/ptr;
           (void)(id); (void)(od); /* suppress incorrect warning */
@@ -331,7 +331,7 @@ int acc_memset_zero(void* dev_mem, size_t offset, size_t length, acc_stream_t* s
         int tid = 0;
         for (; tid < ndepend; ++tid) {
           dbcsr_omp_depend_t *const di = &deps[tid];
-          const char *const id = di->data.in, *const od = di->data.out;
+          const dbcsr_omp_dependency_t *const id = di->data.in, *const od = di->data.out;
           const size_t begin = di->data.args[1].size;
           const size_t size = di->data.args[2].size;
           char * /*const*/ dst = (char*)di->data.args[0].ptr;
