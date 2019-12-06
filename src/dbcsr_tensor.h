@@ -99,6 +99,21 @@ extern "C" {
       bool* c_move_data, int* c_unit_nr);
       
      void c_dbcsr_t_clear(void* c_tensor);
+     
+     void c_dbcsr_t_get_info(void* c_tensor, int tensor_dim, 
+							   int* c_nblks_total,
+                               int* c_nfull_total,
+                               int* c_nblks_local,
+                               int* c_nfull_local,
+                               int* c_pdims, 
+                               int* my_ploc, 
+                               ${extern_alloc_varlist_and_size("c_blks_local")}$, 
+                               ${extern_alloc_varlist_and_size("c_proc_dist")}$, 
+                               ${extern_alloc_varlist_and_size("c_blk_size")}$, 
+                               ${extern_alloc_varlist_and_size("c_blk_offset")}$, 
+                               void** c_distribution, 
+                               char** name, int* name_size,
+                               int* data_type);
    
 	
 #ifdef __cplusplus

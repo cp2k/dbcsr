@@ -1,4 +1,5 @@
 #include <vector>
+#include <string>
 #include <iostream>
 #include <algorithm>
 #include <cstdlib>
@@ -375,6 +376,144 @@ int main(int argc, char* argv[])
 									nullptr, nullptr, &unit_nr, &log_verbose);
                                                          	
 	// finalizing
+	
+	std::vector<int> nblkstot(3), nfulltot(3), nblksloc(3), nfullloc(3), pdims(3), ploc(3);
+	
+	int *bloc1, *bloc2, *bloc3;
+	int bloc1size, bloc2size, bloc3size;
+	
+	int *proc1, *proc2, *proc3;
+	int proc1size, proc2size, proc3size;
+	
+	int *blk_size1, *blk_size2, *blk_size3;
+	int blk_size1size, blk_size2size, blk_size3size;
+	
+	int *blk_off1, *blk_off2, *blk_off3;
+	int blk_off1size, blk_off2size, blk_off3size;
+	
+	void* dist;
+	char* name;
+	int name_size;
+	int data_type;
+	
+	c_dbcsr_t_get_info(tensor1, 3, nblkstot.data(), nfulltot.data(),nblksloc.data(),
+							   nfullloc.data(), pdims.data(), ploc.data(),
+                               &bloc1, &bloc1size, &bloc2, &bloc2size, &bloc3, &bloc3size, nullptr, 0, 
+                               &proc1, &proc1size, &proc2, &proc2size, &proc3, &proc3size, nullptr, 0, 
+                               &blk_size1, &blk_size1size, &blk_size2, &blk_size2size, &blk_size3, &blk_size3size, nullptr, 0,
+                               &blk_off1, &blk_off1size, &blk_off2, &blk_off2size, &blk_off3, &blk_off3size, nullptr, 0, 
+                               &dist, &name, &name_size, &data_type);
+                               
+    
+    std::string tname(name);
+    
+    if (mpi_rank == 0) {
+		std::cout << "Testing get_info for Tensor 1..." << std::endl;
+		std::cout << "Name: " << tname << std::endl;
+		std::cout << "Data_type: " << data_type << std::endl;
+	}
+	
+	for (int rank = 0; rank != mpi_size; ++rank) {
+		if (rank == mpi_rank) {
+			std::cout << "======= Process: " << rank << "========" << std::endl;
+    
+			std::cout << "Total number of blocks:" << std::endl;
+			printvec(nblkstot);
+			
+			std::cout << "Total number of elements:" << std::endl;
+			printvec(nfulltot);
+			
+			std::cout << "Total number of local blocks:" << std::endl;
+			printvec(nblksloc);
+			
+			std::cout << "Total number of local elements:" << std::endl;
+			printvec(nfullloc);
+			
+			std::cout << "Pgrid dimensions:" << std::endl;
+			printvec(pdims);
+			
+			std::cout << "Process coordinates:" << std::endl;
+			printvec(ploc);
+			
+			std::cout << "blks_local:" << std::endl;
+			for (int i = 0; i != bloc1size; ++i) {
+				std::cout << bloc1[i] << " ";
+			}
+			std::cout << std::endl;
+			for (int i = 0; i != bloc2size; ++i) {
+				std::cout << bloc2[i] << " ";
+			}
+			std::cout << std::endl;
+			for (int i = 0; i != bloc3size; ++i) {
+				std::cout << bloc3[i] << " ";
+			}
+			std::cout << std::endl;
+			
+			free(bloc1);
+			free(bloc2);
+			free(bloc3);
+			
+			std::cout << "proc_dist:" << std::endl;
+			for (int i = 0; i != proc1size; ++i) {
+				std::cout << proc1[i] << " ";
+			}
+			std::cout << std::endl;
+			for (int i = 0; i != proc2size; ++i) {
+				std::cout << proc2[i] << " ";
+			}
+			std::cout << std::endl;
+			for (int i = 0; i != proc3size; ++i) {
+				std::cout << proc3[i] << " ";
+			}
+			std::cout << std::endl;
+			
+			free(proc1);
+			free(proc2);
+			free(proc3);
+			
+			std::cout << "blk_size:" << std::endl;
+			for (int i = 0; i != blk_size1size; ++i) {
+				std::cout << blk_size1[i] << " ";
+			}
+			std::cout << std::endl;
+			for (int i = 0; i != blk_size2size; ++i) {
+				std::cout << blk_size2[i] << " ";
+			}
+			std::cout << std::endl;
+			for (int i = 0; i != blk_size3size; ++i) {
+				std::cout << blk_size3[i] << " ";
+			}
+			std::cout << std::endl;
+			
+			free(blk_size1);
+			free(blk_size2);
+			free(blk_size3);
+			
+			std::cout << "blk_offset:" << std::endl;
+			for (int i = 0; i != blk_off1size; ++i) {
+				std::cout << blk_off1[i] << " ";
+			}
+			std::cout << std::endl;
+			for (int i = 0; i != blk_off2size; ++i) {
+				std::cout << blk_off2[i] << " ";
+			}
+			std::cout << std::endl;
+			for (int i = 0; i != blk_off3size; ++i) {
+				std::cout << blk_off3[i] << " ";
+			}
+			std::cout << std::endl;
+			
+			free(blk_off1);
+			free(blk_off2);
+			free(blk_off3);
+			
+		}
+		
+		MPI_Barrier(MPI_COMM_WORLD);
+		
+	}
+
+	free(name);
 
     c_dbcsr_t_destroy(&tensor1);
     c_dbcsr_t_destroy(&tensor2);

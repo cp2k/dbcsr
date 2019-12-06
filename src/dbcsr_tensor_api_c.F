@@ -86,7 +86,6 @@ CONTAINS
       IF (PRESENT(c_map1_2d) .AND. PRESENT(c_map2_2d)) THEN
          map1_2d = c_map1_2d+1
          map2_2d = c_map2_2d+1
-         PRINT *, "PRESENT"
       ENDIF
 
       ALLOCATE (pgrid)
@@ -858,5 +857,128 @@ CONTAINS
       CALL dbcsr_t_clear(tensor)
 
    END SUBROUTINE
+   
+   SUBROUTINE c_dbcsr_t_get_info(c_tensor, tensor_dim, c_nblks_total, &
+                               c_nfull_total, &
+                               c_nblks_local, &
+                               c_nfull_local, &
+                               c_pdims, &
+                               c_my_ploc, &
+                               ${c_varlist_and_size("c_blks_local")}$, &
+                               ${c_varlist_and_size("c_proc_dist")}$, &
+                               ${c_varlist_and_size("c_blk_size")}$, &
+                               ${c_varlist_and_size("c_blk_offset")}$, &
+                               c_distribution, &
+                               c_name, name_size, &
+                               c_data_type) &
+      BIND(C, name="c_dbcsr_t_get_info")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: tensor_dim
+      INTEGER(kind=c_int), DIMENSION(tensor_dim), TARGET, INTENT(INOUT), &
+         OPTIONAL :: c_nblks_total
+      INTEGER(kind=c_int), DIMENSION(tensor_dim), TARGET, INTENT(INOUT), &
+         OPTIONAL :: c_nfull_total
+      INTEGER(kind=c_int), DIMENSION(tensor_dim), TARGET, INTENT(INOUT), & 
+         OPTIONAL :: c_nblks_local
+      INTEGER(kind=c_int), DIMENSION(tensor_dim), TARGET, INTENT(INOUT), & 
+         OPTIONAL :: c_nfull_local
+      INTEGER(kind=c_int), DIMENSION(tensor_dim), TARGET, INTENT(INOUT), &
+         OPTIONAL :: c_my_ploc
+      INTEGER(kind=c_int), DIMENSION(tensor_dim), TARGET, INTENT(INOUT), & 
+         OPTIONAL :: c_pdims
+      
+      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: ${varlist("c_blks_local",suffix="_size")}$
+      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: ${varlist("c_proc_dist",suffix="_size")}$
+      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: ${varlist("c_blk_size",suffix="_size")}$
+      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: ${varlist("c_blk_offset",suffix="_size")}$
+      
+      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: ${varlist("c_blks_local")}$
+      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: ${varlist("c_proc_dist")}$
+      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: ${varlist("c_blk_size")}$
+      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: ${varlist("c_blk_offset")}$
+      
+      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_distribution
+      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_name
+      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: name_size
+      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: c_data_type
+      
+      TYPE(dbcsr_t_type), POINTER :: tensor
+      INTEGER, DIMENSION(:), POINTER :: nblks_total => NULL()
+      INTEGER, DIMENSION(:), POINTER :: nfull_total => NULL()
+      INTEGER, DIMENSION(:), POINTER :: nblks_local => NULL()
+      INTEGER, DIMENSION(:), POINTER :: nfull_local => NULL()
+      INTEGER, DIMENSION(:), POINTER :: my_ploc => NULL()
+      INTEGER, DIMENSION(:), POINTER :: pdims => NULL()
+
+      INTEGER(kind=c_int), DIMENSION(:), ALLOCATABLE, TARGET :: ${varlist("blks_local")}$ 
+      INTEGER(kind=c_int), DIMENSION(:), ALLOCATABLE, TARGET :: ${varlist("proc_dist")}$
+      INTEGER(kind=c_int), DIMENSION(:), ALLOCATABLE, TARGET :: ${varlist("blk_size")}$
+      INTEGER(kind=c_int), DIMENSION(:), ALLOCATABLE, TARGET :: ${varlist("blk_offset")}$
+      
+      INTEGER(kind=c_int), DIMENSION(:), POINTER  :: ${varlist("blks_local",suffix="_ptr")}$ 
+      INTEGER(kind=c_int), DIMENSION(:), POINTER  :: ${varlist("proc_dist",suffix="_ptr")}$
+      INTEGER(kind=c_int), DIMENSION(:), POINTER  :: ${varlist("blk_size",suffix="_ptr")}$
+      INTEGER(kind=c_int), DIMENSION(:), POINTER  :: ${varlist("blk_offset",suffix="_ptr")}$
+     
+      TYPE(dbcsr_t_distribution_type), POINTER :: distribution => NULL()
+      INTEGER, ALLOCATABLE :: data_type
+      CHARACTER(default_string_length, kind=c_char) :: fname
+      CHARACTER(len=:, kind=c_char), POINTER :: name_ptr
+      
+      CALL c_f_pointer(c_tensor, tensor)
+    
+#:set list = ['nblks_total', 'nfull_total', 'nblks_local', 'nfull_local', 'my_ploc', 'pdims' ]
+#:for var in list
+      IF (PRESENT(c_${var}$)) ${var}$ => c_${var}$
+#:endfor
+
+      IF (PRESENT(c_distribution)) ALLOCATE(distribution)
+      IF (PRESENT(c_data_type)) ALLOCATE(data_type)
+
+      SELECT CASE (tensor_dim)   
+#:for ndim in ndims
+        CASE (${ndim}$)
+          CALL dbcsr_t_get_info(tensor=tensor, nblks_total=nblks_total, &
+                               nfull_total=nfull_total, &
+                               nblks_local=nblks_local, &
+                               nfull_local=nfull_local, &
+                               pdims=pdims, &
+                               my_ploc=my_ploc, &
+                               ${varlist_equal("blks_local",1,ndim)}$, &
+                               ${varlist_equal("proc_dist",1,ndim)}$, &
+                               ${varlist_equal("blk_size",1,ndim)}$, &
+                               ${varlist_equal("blk_offset",1,ndim)}$, &
+                               distribution=distribution, name=fname, &
+                               data_type=c_data_type)
+#:endfor
+      END SELECT
+                    
+#:set list = ['blks_local', 'proc_dist', 'blk_size', 'blk_offset']
+#:for var in list
+ #: for ddim in ddims
+
+      IF (PRESENT(c_${var}$_${ddim}$)) THEN
+        ALLOCATE(${var}$_${ddim}$_ptr(SIZE(${var}$_${ddim}$)))
+        ${var}$_${ddim}$_ptr = ${var}$_${ddim}$
+        c_${var}$_${ddim}$ = c_loc(${var}$_${ddim}$_ptr)
+        c_${var}$_${ddim}$_size = SIZE(${var}$_${ddim}$)
+        DEALLOCATE(${var}$_${ddim}$)
+      ENDIF
+        
+ #:endfor
+#:endfor
+
+      IF (PRESENT(c_distribution)) c_distribution = c_loc(distribution)
+      IF (PRESENT(c_name)) THEN
+        ALLOCATE(CHARACTER(LEN(TRIM(fname))) :: name_ptr) 
+        name_ptr = TRIM(fname)
+        c_name = c_loc(name_ptr)
+        name_size = LEN(fname)
+      ENDIF
+      
+   END SUBROUTINE
+      
+    
 
 END MODULE
