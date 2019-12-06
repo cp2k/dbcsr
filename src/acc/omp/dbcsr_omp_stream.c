@@ -25,6 +25,42 @@ int dbcsr_omp_stream_depend_count;
 int dbcsr_omp_stream_count;
 
 
+void dbcsr_omp_stream_barrier_init(int nthreads)
+{ /* boot-strap/initialize custom barrier using OpenMP */
+  if (nthreads != dbcsr_omp_stream_depend_count) {
+#if defined(_OPENMP)
+#   pragma omp barrier
+#   pragma omp single /* implied barrier */
+#endif
+    {
+      dbcsr_omp_stream_depend_counter = nthreads;
+      dbcsr_omp_stream_depend_count = nthreads;
+    }
+  }
+}
+
+
+void dbcsr_omp_stream_barrier_wait(void)
+{ /* custom barrier wait */
+  static volatile int dbcsr_omp_stream_barrier_flag = 0;
+#if !defined(_OPENMP)
+  dbcsr_omp_depend_t *const di = dbcsr_omp_stream_depend_state;
+#else
+  dbcsr_omp_depend_t *const di = &dbcsr_omp_stream_depend_state[omp_get_thread_num()];
+# pragma omp atomic
+#endif
+  --dbcsr_omp_stream_depend_counter;
+  di->data.counter = !di->data.counter; /* sense reversal */
+  if (0 != dbcsr_omp_stream_depend_counter) { /* arrived early */
+    DBCSR_OMP_WAIT(di->data.counter != dbcsr_omp_stream_barrier_flag);
+  }
+  else { /* arrived last */
+    dbcsr_omp_stream_depend_counter = dbcsr_omp_stream_depend_count;
+    dbcsr_omp_stream_barrier_flag = di->data.counter;
+  }
+}
+
+
 void dbcsr_omp_stream_depend(acc_stream_t* stream, dbcsr_omp_depend_t** depend)
 {
 #if defined(_OPENMP)
@@ -66,17 +102,7 @@ void dbcsr_omp_stream_depend(acc_stream_t* stream, dbcsr_omp_depend_t** depend)
     }
   }
 #endif
-  /* boot-strap/initialize custom barrier using OpenMP */
-  if (nthreads != dbcsr_omp_stream_depend_count) {
-#if defined(_OPENMP)
-#   pragma omp barrier
-#   pragma omp single /* implied barrier */
-#endif
-    {
-      dbcsr_omp_stream_depend_counter = nthreads;
-      dbcsr_omp_stream_depend_count = nthreads;
-    }
-  }
+  dbcsr_omp_stream_barrier_init(nthreads);
   *depend = di;
 }
 
@@ -93,30 +119,15 @@ int dbcsr_omp_stream_depend_get_count(void)
 
 
 void dbcsr_omp_stream_depend_begin(void)
-{ /* custom barrier */
-  static volatile int dbcsr_omp_stream_barrier_flag = 0;
-#if !defined(_OPENMP)
-  dbcsr_omp_depend_t *const di = dbcsr_omp_stream_depend_state;
-#else
-  dbcsr_omp_depend_t *const di = &dbcsr_omp_stream_depend_state[omp_get_thread_num()];
-# pragma omp atomic
-#endif
-  --dbcsr_omp_stream_depend_counter;
-  di->data.counter = !di->data.counter; /* sense reversal */
-  if (0 != dbcsr_omp_stream_depend_counter) { /* arrived early */
-    DBCSR_OMP_WAIT(di->data.counter != dbcsr_omp_stream_barrier_flag);
-  }
-  else { /* arrived last */
-    dbcsr_omp_stream_depend_counter = dbcsr_omp_stream_depend_count;
-    dbcsr_omp_stream_barrier_flag = di->data.counter;
-  }
+{
+  dbcsr_omp_stream_barrier_wait();
 }
 
 
 int dbcsr_omp_stream_depend_end(const acc_stream_t* stream)
 {
   const dbcsr_omp_stream_t *const s = (const dbcsr_omp_stream_t*)stream;
-  dbcsr_omp_stream_depend_begin(); /* custom barrier */
+  dbcsr_omp_stream_barrier_wait();
   DBCSR_OMP_RETURN(NULL != s ? s->status : EXIT_SUCCESS);
 }
 

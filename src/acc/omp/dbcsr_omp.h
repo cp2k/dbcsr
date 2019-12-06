@@ -179,6 +179,10 @@ DBCSR_OMP_EXPORT int dbcsr_omp_ndevices(void);
 DBCSR_OMP_EXPORT int dbcsr_omp_alloc(void** item, int typesize, int* counter, int maxcount, void* storage, void** pointer);
 /** Helper function for lock-free deallocation (companion of dbcsr_omp_alloc). */
 DBCSR_OMP_EXPORT int dbcsr_omp_dealloc(void* item, int typesize, int* counter, int maxcount, void* storage, void** pointer);
+/** Initializes the barrier. */
+DBCSR_OMP_EXPORT void dbcsr_omp_stream_barrier_init(int nthreads);
+/** Synchronizes all threads of the team. */
+DBCSR_OMP_EXPORT void dbcsr_omp_stream_barrier_wait(void);
 /** Generate dependency for given stream. If a dependency is not consumed, acc_event_record(NULL, NULL) shall be called. */
 DBCSR_OMP_EXPORT void dbcsr_omp_stream_depend(acc_stream_t* stream, dbcsr_omp_depend_t** depend);
 /** Get the number of tasks to be issued. */
