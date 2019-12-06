@@ -64,9 +64,9 @@ int main(int argc, char* argv[])
   const int cli_nthreads = (2 < argc ? atoi(argv[2]) : max_nthreads);
   const int nthreads = ((0 < cli_nthreads && cli_nthreads <= max_nthreads) ? cli_nthreads : max_nthreads);
   int priority[ACC_STREAM_MAXCOUNT], priomin, priomax, priospan;
-  int randnums[ACC_EVENT_MAXCOUNT], ndevices, i;
+  int randnums[ACC_EVENT_MAXCOUNT], ndevices, i, n;
   acc_stream_t *stream[ACC_STREAM_MAXCOUNT], *s;
-  acc_event_t *event[ACC_EVENT_MAXCOUNT], *e;
+  acc_event_t *event[ACC_EVENT_MAXCOUNT];
   const size_t mem_alloc = (16/*MB*/ << 20);
   const size_t mem_chunk = (mem_alloc + nthreads - 1) / nthreads;
   size_t mem_free, mem_total;
@@ -154,15 +154,20 @@ int main(int argc, char* argv[])
     ACC_CHECK(acc_event_destroy(event[i]));
   }
 
+  n = (nthreads <= ACC_EVENT_MAXCOUNT ? nthreads : ACC_EVENT_MAXCOUNT);
+#if defined(_OPENMP)
+# pragma omp parallel for num_threads(n) private(i)
+#endif
+  for (i = 0; i < n; ++i) ACC_CHECK(acc_event_create(event + i));
+
   ACC_CHECK(acc_stream_create(&s, "stream", priomin));
   ACC_CHECK(acc_host_mem_allocate(&host_mem, mem_alloc, s));
   ACC_CHECK(acc_dev_mem_allocate(&dev_mem, mem_alloc));
-  ACC_CHECK(acc_event_create(&e));
   ACC_CHECK(acc_stream_sync(s)); /* wait for completion */
   memset(host_mem, 0xFF, mem_alloc); /* non-zero pattern */
 
 #if defined(_OPENMP)
-# pragma omp parallel num_threads(nthreads)
+# pragma omp parallel num_threads(n)
 #endif
   {
 #if defined(_OPENMP)
@@ -172,24 +177,31 @@ int main(int argc, char* argv[])
 #endif
     const size_t offset = tid * mem_chunk, mem_rest = mem_alloc - offset;
     const size_t size = (mem_chunk <= mem_rest ? mem_chunk : mem_rest);
-    acc_bool_t has_occurred;
+    acc_bool_t has_occurred = 0;
     ACC_CHECK(acc_memset_zero(dev_mem, offset, size, s));
     ACC_CHECK(acc_memcpy_d2h(dev_mem, host_mem, mem_alloc, s));
-    ACC_CHECK(acc_event_record(e, s));
-    ACC_CHECK(acc_stream_wait_event(s, e));
-    ACC_CHECK(acc_event_query(e, &has_occurred));
-    if (!has_occurred) ACC_CHECK(acc_event_synchronize(e));
-    ACC_CHECK(acc_event_query(e, &has_occurred));
+    ACC_CHECK(acc_event_query(event[tid], &has_occurred));
+    ACC_CHECK(has_occurred ? EXIT_FAILURE : EXIT_SUCCESS);
+    ACC_CHECK(acc_event_record(event[tid], s));
+    ACC_CHECK(acc_stream_wait_event(s, event[tid]));
+    ACC_CHECK(acc_event_query(event[tid], &has_occurred));
+    if (!has_occurred) ACC_CHECK(acc_event_synchronize(event[tid]));
+    ACC_CHECK(acc_event_query(event[tid], &has_occurred));
     ACC_CHECK(has_occurred ? EXIT_SUCCESS : EXIT_FAILURE);
   }
 
   for (i = 0; i < (int)mem_alloc; ++i) {
     ACC_CHECK(0 == ((char*)host_mem)[i] ? EXIT_SUCCESS : EXIT_FAILURE);
   }
-  ACC_CHECK(acc_event_destroy(e));
   ACC_CHECK(acc_dev_mem_deallocate(dev_mem));
   ACC_CHECK(acc_host_mem_deallocate(host_mem, s));
   ACC_CHECK(acc_stream_destroy(s));
+
+#if defined(_OPENMP)
+# pragma omp parallel for num_threads(n) private(i)
+#endif
+  for (i = 0; i < n; ++i) ACC_CHECK(acc_event_destroy(event[i]));
+
   acc_clear_errors(); /* no result code */
   ACC_CHECK(acc_finalize());
 

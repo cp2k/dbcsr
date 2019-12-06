@@ -240,7 +240,7 @@ int acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t count, acc_stream
           if (NULL == ptr) break; /* incorrect dependency-count */
 #endif
           assert(NULL != s);
-#           pragma omp task depend(in:DBCSR_OMP_DEP(id)) depend(out:DBCSR_OMP_DEP(od))
+#         pragma omp task depend(in:DBCSR_OMP_DEP(id)) depend(out:DBCSR_OMP_DEP(od))
           s->status |= omp_target_memcpy(di->data.args[1].ptr, ptr, di->data.args[2].size,
             0/*dst_offset*/, 0/*src_offset*/, dev_dst, dev_src);
         }

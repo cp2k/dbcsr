@@ -31,7 +31,9 @@ int acc_event_create(acc_event_t** event_p)
     0, NULL, NULL);
 #endif
   if (EXIT_SUCCESS == result) {
+    assert(NULL != event && NULL != event_p);
     event->dependency = NULL;
+    event->has_occurred = 0;
     *event_p = event;
   }
   DBCSR_OMP_RETURN(result);
@@ -59,7 +61,10 @@ int acc_event_record(acc_event_t* event, acc_stream_t* stream)
     if (0 < dbcsr_omp_ndevices()) {
       dbcsr_omp_depend_t* deps;
       dbcsr_omp_stream_depend(stream, &deps);
-      if (NULL != e) e->dependency = deps->data.out; /* reset if re-enqueued */
+      if (NULL != e) { /* reset if reused (re-enqueued) */
+        e->dependency = deps->data.out;
+        e->has_occurred = 0;
+      }
       deps->data.args[0].ptr = event;
       deps->data.args[1].logical = 1;
       dbcsr_omp_stream_depend_begin();
@@ -75,12 +80,12 @@ int acc_event_record(acc_event_t* event, acc_stream_t* stream)
 #if !defined(NDEBUG)
           if (!ok) break; /* incorrect dependency-count */
 #endif
-          if (NULL != ei) {
-            uintptr_t/*const char**/ volatile* /*const*/ sig = (uintptr_t volatile*)&ei->dependency;
+          if (NULL != ei) { /* synchronize event */
+            acc_bool_t volatile* /*const*/ sig = (acc_bool_t volatile*)&ei->has_occurred;
 #           pragma omp target depend(in:DBCSR_OMP_DEP(id)) depend(out:DBCSR_OMP_DEP(od)) nowait map(from:sig[0:1])
-            *sig = 0/*NULL*/;
+            *sig = 1/*true*/;
           }
-          else {
+          else { /* synchronize entire stream */
             int volatile* /*const*/ sig = (int volatile*)&s->pending;
 #           pragma omp target depend(in:DBCSR_OMP_DEP(id)) depend(out:DBCSR_OMP_DEP(od)) nowait map(from:sig[0:1])
             *sig = 0;
@@ -92,7 +97,10 @@ int acc_event_record(acc_event_t* event, acc_stream_t* stream)
     else
 #endif
     if (NULL != e) {
+#if !defined(NDEBUG)
       e->dependency = NULL;
+#endif
+      e->has_occurred = 1;
       result = EXIT_SUCCESS;
     }
     else {
@@ -121,7 +129,7 @@ int acc_event_query(acc_event_t* event, acc_bool_t* has_occurred)
   if (NULL != has_occurred) {
     if (NULL != event) {
       const dbcsr_omp_event_t *const e = (dbcsr_omp_event_t*)event;
-      *has_occurred = (NULL == e->dependency);
+      *has_occurred = e->has_occurred;
       result = EXIT_SUCCESS;
     }
     else *has_occurred = 0;
@@ -135,7 +143,7 @@ int acc_event_synchronize(acc_event_t* event)
   int result;
   if (NULL != event) {
     const dbcsr_omp_event_t *const e = (dbcsr_omp_event_t*)event;
-    DBCSR_OMP_WAIT(NULL != e->dependency);
+    DBCSR_OMP_WAIT(!e->has_occurred);
     result = EXIT_SUCCESS;
   }
   else result = EXIT_FAILURE;

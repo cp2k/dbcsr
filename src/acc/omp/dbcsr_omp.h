@@ -149,6 +149,7 @@ typedef char dbcsr_omp_dependency_t;
 
 DBCSR_OMP_EXPORT typedef struct dbcsr_omp_event_t {
   const dbcsr_omp_dependency_t *volatile dependency;
+  acc_bool_t has_occurred;
 } dbcsr_omp_event_t;
 
 DBCSR_OMP_EXPORT typedef union dbcsr_omp_any_t {
