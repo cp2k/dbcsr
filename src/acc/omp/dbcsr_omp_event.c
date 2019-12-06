@@ -60,26 +60,26 @@ int acc_event_record(acc_event_t* event, acc_stream_t* stream)
     if (0 < dbcsr_omp_ndevices()) {
       dbcsr_omp_depend_t* deps;
       dbcsr_omp_stream_depend(stream, &deps);
-      if (NULL != e) { /* reset if reused (re-enqueued) */
-        e->dependency = deps->data.out;
-      }
       deps->data.args[0].ptr = event;
       deps->data.args[1].logical = 1;
       dbcsr_omp_stream_depend_begin();
+      if (NULL != e) { /* reset if reused (re-enqueued) */
+        e->dependency = deps->data.out;
+      }
 #     pragma omp master
       { const int ndepend = dbcsr_omp_stream_depend_get_count();
         int tid = 0;
         for (; tid < ndepend; ++tid) {
           dbcsr_omp_depend_t *const di = &deps[tid];
           dbcsr_omp_event_t *const ei = (dbcsr_omp_event_t*)di->data.args[0].ptr;
-          const char *const id = di->data.in, *const od = di->data.out;
+          const dbcsr_omp_dependency_t *const id = di->data.in, *const od = di->data.out;
           const acc_bool_t ok = di->data.args[1].logical;
           (void)(id); (void)(od); /* suppress incorrect warning */
 #if !defined(NDEBUG)
           if (!ok) break; /* incorrect dependency-count */
 #endif
           if (NULL != ei) { /* synchronize event */
-            uintptr_t/*const char**/ volatile* /*const*/ sig = (uintptr_t volatile*)&ei->dependency;
+            uintptr_t/*const dbcsr_omp_dependency_t**/ volatile* /*const*/ sig = (uintptr_t volatile*)&ei->dependency;
 #           pragma omp target depend(in:DBCSR_OMP_DEP(id)) depend(out:DBCSR_OMP_DEP(od)) nowait map(from:sig[0:1])
             *sig = 0/*NULL*/;
           }
@@ -122,10 +122,6 @@ int acc_event_query(acc_event_t* event, acc_bool_t* has_occurred)
 {
   int result = EXIT_FAILURE;
   if (NULL != has_occurred) {
-#if defined(_OPENMP)
-    dbcsr_omp_stream_barrier_init(omp_get_num_threads());
-    dbcsr_omp_stream_barrier_wait();
-#endif
     if (NULL != event) {
       const dbcsr_omp_event_t *const e = (dbcsr_omp_event_t*)event;
       *has_occurred = (NULL == e->dependency);
@@ -142,8 +138,29 @@ int acc_event_synchronize(acc_event_t* event)
   int result;
   if (NULL != event) {
     const dbcsr_omp_event_t *const e = (dbcsr_omp_event_t*)event;
-    DBCSR_OMP_WAIT(NULL != e->dependency);
-    result = EXIT_SUCCESS;
+    if (NULL != e->dependency) {
+#if defined(DBCSR_OMP_OFFLOAD)
+      dbcsr_omp_depend_t* deps;
+      dbcsr_omp_stream_depend(NULL/*stream*/, &deps);
+      deps->data.args[0].const_ptr = e->dependency;
+      dbcsr_omp_stream_depend_begin();
+#     pragma omp master
+      { const int ndepend = dbcsr_omp_stream_depend_get_count();
+        int tid = 0;
+        for (; tid < ndepend; ++tid) {
+          dbcsr_omp_depend_t *const di = &deps[tid];
+          const dbcsr_omp_dependency_t *const id = (const dbcsr_omp_dependency_t*)di->data.args[0].const_ptr;
+#         pragma omp task depend(in:DBCSR_OMP_DEP(id)) if(0/*NULL*/ != id)
+          {}
+        }
+      }
+      result = dbcsr_omp_stream_depend_end(NULL/*stream*/);
+#else
+      result = EXIT_SUCCESS;
+#endif
+      DBCSR_OMP_WAIT(NULL != e->dependency);
+    }
+    else result = EXIT_SUCCESS;
   }
   else result = EXIT_FAILURE;
   DBCSR_OMP_RETURN(result);
