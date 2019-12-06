@@ -181,7 +181,8 @@ int main(int argc, char* argv[])
     ACC_CHECK(acc_memset_zero(dev_mem, offset, size, s));
     ACC_CHECK(acc_memcpy_d2h(dev_mem, host_mem, mem_alloc, s));
     ACC_CHECK(acc_event_query(event[tid], &has_occurred));
-    ACC_CHECK(has_occurred ? EXIT_FAILURE : EXIT_SUCCESS);
+    /* unrecorded event has no work to wait for, hence it occurred */
+    ACC_CHECK(has_occurred ? EXIT_SUCCESS : EXIT_FAILURE);
     ACC_CHECK(acc_event_record(event[tid], s));
     ACC_CHECK(acc_stream_wait_event(s, event[tid]));
     ACC_CHECK(acc_event_query(event[tid], &has_occurred));
