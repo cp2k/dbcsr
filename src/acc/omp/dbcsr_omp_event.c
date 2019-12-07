@@ -135,32 +135,38 @@ int acc_event_query(acc_event_t* event, acc_bool_t* has_occurred)
 
 int acc_event_synchronize(acc_event_t* event)
 { /* Waits on the host-side. */
+  const dbcsr_omp_event_t *const e = (dbcsr_omp_event_t*)event;
   int result;
-  if (NULL != event) {
-    const dbcsr_omp_event_t *const e = (dbcsr_omp_event_t*)event;
-    if (NULL != e->dependency) {
 #if defined(DBCSR_OMP_OFFLOAD)
+  if (0 < dbcsr_omp_ndevices()) {
+    if (NULL != e) {
       dbcsr_omp_depend_t* deps;
       dbcsr_omp_stream_depend(NULL/*stream*/, &deps);
-      deps->data.args[0].const_ptr = e->dependency;
+      deps->data.args[0].const_ptr = (const void*)&e->dependency;
       dbcsr_omp_stream_depend_begin();
 #     pragma omp master
       { const int ndepend = dbcsr_omp_stream_depend_get_count();
         int tid = 0;
         for (; tid < ndepend; ++tid) {
           dbcsr_omp_depend_t *const di = &deps[tid];
-          const dbcsr_omp_dependency_t *const id = (const dbcsr_omp_dependency_t*)di->data.args[0].const_ptr;
+          const dbcsr_omp_dependency_t* *const ptr = (const dbcsr_omp_dependency_t**)di->data.args[0].const_ptr;
+          const dbcsr_omp_dependency_t *const id = *ptr;
 #         pragma omp task depend(in:DBCSR_OMP_DEP(id)) if(0/*NULL*/ != id)
-          {}
+          *ptr = NULL;
         }
       }
-      result = dbcsr_omp_stream_depend_end(NULL/*stream*/);
-#else
-      result = EXIT_SUCCESS;
-#endif
       DBCSR_OMP_WAIT(NULL != e->dependency);
     }
-    else result = EXIT_SUCCESS;
+    else { /* branch must participate in barrier */
+      dbcsr_omp_stream_depend_begin();
+    }
+    result = dbcsr_omp_stream_depend_end(NULL/*stream*/);
+  }
+  else
+#endif
+  if (NULL != e) {
+    DBCSR_OMP_WAIT(NULL != e->dependency);
+    result = EXIT_SUCCESS;
   }
   else result = EXIT_FAILURE;
   DBCSR_OMP_RETURN(result);
