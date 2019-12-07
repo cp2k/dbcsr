@@ -129,10 +129,8 @@ int acc_finalize(void)
 #endif
   --dbcsr_omp_initialized;
   DBCSR_OMP_RETURN((0 == dbcsr_omp_initialized
-#if 0
-    && 0 == dbcsr_omp_stream_count
-    && 0 == dbcsr_omp_event_count
-#endif
+    /*&& 0 == dbcsr_omp_stream_count
+    && 0 == dbcsr_omp_event_count*/
   ) ? EXIT_SUCCESS : EXIT_FAILURE);
 }
 

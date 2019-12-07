@@ -190,8 +190,7 @@ int main(int argc, char* argv[])
     ACC_CHECK(has_occurred ? EXIT_SUCCESS : EXIT_FAILURE);
     ACC_CHECK(acc_event_record(event[tid], s));
     ACC_CHECK(acc_stream_wait_event(s, event[tid]));
-    ACC_CHECK(acc_event_query(event[tid], &has_occurred));
-    if (!has_occurred) ACC_CHECK(acc_event_synchronize(event[tid]));
+    ACC_CHECK(acc_event_synchronize(event[tid]));
     ACC_CHECK(acc_event_query(event[tid], &has_occurred));
     ACC_CHECK(has_occurred ? EXIT_SUCCESS : EXIT_FAILURE);
   }
