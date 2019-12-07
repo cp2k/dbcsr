@@ -62,9 +62,14 @@
 # define DBCSR_OMP_DEP(DEP) DEP[0]
 #endif
 
-#if defined(_OPENMP)
-# define DBCSR_OMP_PAUSE { DBCSR_OMP_PRAGMA(omp flush) }
-#elif (defined(__GNUC__) && ( \
+#if defined(__GNUC__)
+# define DBCSR_OMP_SYNC __sync_synchronize()
+#elif defined(_OPENMP)
+# define DBCSR_OMP_SYNC { DBCSR_OMP_PRAGMA(omp flush) }
+#else
+# define DBCSR_OMP_SYNC
+#endif
+#if (defined(__GNUC__) && ( \
     (defined(__x86_64__) && 0 != (__x86_64__)) || \
     (defined(__amd64__) && 0 != (__amd64__)) || \
     (defined(_M_X64) || defined(_M_AMD64)) || \
@@ -72,7 +77,7 @@
     (defined(_M_IX86))))
 # define DBCSR_OMP_PAUSE __asm__ __volatile__("pause" ::: "memory")
 #else
-# define DBCSR_OMP_PAUSE __asm__ __volatile__("" ::: "memory")
+# define DBCSR_OMP_PAUSE
 #endif
 #define DBCSR_OMP_WAIT(CONDITION) do { int npause = 0; \
   while (CONDITION) { int counter = 0; \
@@ -80,6 +85,7 @@
     if (npause < DBCSR_OMP_PAUSE_MAXCOUNT) { \
       npause = (0 < npause ? (2 * npause) : 1); \
     } else { /* yield? */ } \
+    DBCSR_OMP_SYNC; \
   } \
 } while (0)
 

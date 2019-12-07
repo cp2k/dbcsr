@@ -21,7 +21,7 @@ const char* dbcsr_omp_device;
 int dbcsr_omp_alloc(void** item, int typesize, int* counter, int maxcount, void* storage, void** pointer)
 {
   int result, i;
-  assert(0 < dbcsr_omp_initialized && NULL != item && 0 < typesize && NULL != counter);
+  assert(NULL != item && 0 < typesize && NULL != counter);
 #if defined(_OPENMP) && (200805 <= _OPENMP) /* OpenMP 3.0 */
 # pragma omp atomic capture
 #elif defined(_OPENMP)
@@ -67,7 +67,7 @@ int dbcsr_omp_alloc(void** item, int typesize, int* counter, int maxcount, void*
 int dbcsr_omp_dealloc(void* item, int typesize, int* counter, int maxcount, void* storage, void** pointer)
 {
   int result;
-  assert(0 < dbcsr_omp_initialized && 0 < typesize && NULL != counter);
+  assert(0 < typesize && NULL != counter);
   if (NULL != item) {
     int i;
 #if defined(_OPENMP) && (200805 <= _OPENMP) /* OpenMP 3.0 */
@@ -101,6 +101,9 @@ int acc_init(void)
   extern int dbcsr_omp_stream_count;
   extern int dbcsr_omp_event_count;
   dbcsr_omp_device = getenv("DBCSR_OMP_DEVICE");
+#if defined(_OPENMP)
+  assert(/*master*/0 == omp_get_thread_num());
+#endif
 #if defined(DBCSR_OMP_OFFLOAD)
 # pragma omp target map(tofrom:dbcsr_omp_initialized) if(0/*NULL*/ == dbcsr_omp_device)
 #endif
@@ -121,13 +124,16 @@ int acc_finalize(void)
   extern int dbcsr_omp_stream_count;
   extern int dbcsr_omp_event_count;
 #if defined(_OPENMP)
+  assert(/*master*/0 == omp_get_thread_num());
 # pragma omp atomic
 #endif
   --dbcsr_omp_initialized;
   DBCSR_OMP_RETURN((0 == dbcsr_omp_initialized
+#if 0
     && 0 == dbcsr_omp_stream_count
-    && 0 == dbcsr_omp_event_count)
-  ? EXIT_SUCCESS : EXIT_FAILURE);
+    && 0 == dbcsr_omp_event_count
+#endif
+  ) ? EXIT_SUCCESS : EXIT_FAILURE);
 }
 
 
