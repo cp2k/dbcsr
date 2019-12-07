@@ -43,15 +43,20 @@ void dbcsr_omp_stream_barrier_init(int nthreads)
 void dbcsr_omp_stream_barrier_wait(void)
 { /* custom barrier wait */
   static volatile int dbcsr_omp_stream_barrier_flag = 0;
-#if !defined(_OPENMP)
-  dbcsr_omp_depend_t *const di = dbcsr_omp_stream_depend_state;
-#else
+  int counter;
+#if defined(_OPENMP)
   dbcsr_omp_depend_t *const di = &dbcsr_omp_stream_depend_state[omp_get_thread_num()];
-# pragma omp atomic
+#else
+  dbcsr_omp_depend_t *const di = dbcsr_omp_stream_depend_state;
 #endif
-  --dbcsr_omp_stream_depend_counter;
   di->data.counter = !di->data.counter; /* sense reversal */
-  if (0 != dbcsr_omp_stream_depend_counter) { /* arrived early */
+#if defined(_OPENMP) && (200805 <= _OPENMP) /* OpenMP 3.0 */
+# pragma omp atomic capture
+#elif defined(_OPENMP)
+# pragma omp critical(dbcsr_omp_stream_depend_critical)
+#endif
+  counter = --dbcsr_omp_stream_depend_counter;
+  if (0 != counter) { /* arrived early */
     DBCSR_OMP_WAIT(di->data.counter != dbcsr_omp_stream_barrier_flag);
   }
   else { /* arrived last */
