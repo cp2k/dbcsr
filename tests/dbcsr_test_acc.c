@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
     0 < priospan ? "" : " <-- WARNING: inconsistent values");
 
   for (i = 0; i < ACC_STREAM_MAXCOUNT; ++i) {
-    priority[i] = priomin + (randnums[i%ACC_STREAM_MAXCOUNT] % priospan);
+    priority[i] = priomin + (0 < priospan ? (randnums[i%ACC_STREAM_MAXCOUNT] % priospan) : 0);
     stream[i] = NULL;
   }
   for (i = 0; i < ACC_EVENT_MAXCOUNT; ++i) {
