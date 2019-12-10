@@ -7,7 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-
 MODULE dbcsr_lib
 
    !! Routines that affect the DBCSR library as a whole
@@ -80,13 +79,22 @@ MODULE dbcsr_lib
 
 #if defined (__DBCSR_ACC)
    INTERFACE
-      FUNCTION libsmm_acc_libcusmm_is_thread_safe_cu() &
+      FUNCTION libsmm_acc_is_thread_safe() &
          RESULT(thread_safe) &
-         BIND(C, name="libsmm_acc_libcusmm_is_thread_safe")
+         BIND(C, name="libsmm_acc_is_thread_safe")
          IMPORT
          INTEGER(KIND=C_INT)        :: thread_safe
 
-      END FUNCTION libsmm_acc_libcusmm_is_thread_safe_cu
+      END FUNCTION libsmm_acc_is_thread_safe
+   END INTERFACE
+   INTERFACE
+      FUNCTION libsmm_acc_gpu_warp_size() &
+         RESULT(warp_size) &
+         BIND(C, name="libsmm_acc_gpu_warp_size")
+         IMPORT
+         INTEGER(KIND=C_INT)        :: warp_size
+
+      END FUNCTION libsmm_acc_gpu_warp_size
    END INTERFACE
 #endif
 
@@ -162,7 +170,7 @@ CONTAINS
       INTEGER :: numnodes, mynode
 
 #if defined(__DBCSR_ACC)
-      INTEGER :: dbcsr_thread_safe, libcusmm_thread_safe
+      INTEGER :: dbcsr_thread_safe, libsmm_acc_thread_safe
 #endif
 
       IF (PRESENT(io_unit)) THEN
@@ -178,24 +186,26 @@ CONTAINS
 #endif
 
 #if defined(__DBCSR_ACC)
-      libcusmm_thread_safe = libsmm_acc_libcusmm_is_thread_safe_cu()  ! 0: not threaded, 1: threaded
+
+      ! Checks related to DBCSR's GPU backend: check consistency in threading level
+      libsmm_acc_thread_safe = libsmm_acc_is_thread_safe()  ! 0: not threaded, 1: threaded
       dbcsr_thread_safe = 0  ! not threaded
 !$    dbcsr_thread_safe = 1  ! if DBCSR is compiled with openmp, set to threaded
-      ! Check whether DBCSR and libcusmm (GPU backend) have the same level of threading
-      IF (dbcsr_thread_safe /= libcusmm_thread_safe) then
+      ! Check whether DBCSR and libsmm_acc (GPU backend) have the same level of threading
+      IF (dbcsr_thread_safe /= libsmm_acc_thread_safe) then
          IF (dbcsr_thread_safe /= 0) then
-            DBCSR_ABORT("DBCSR compiled w/ threading support while libcusmm compiled w/o threading support.")
+            DBCSR_ABORT("DBCSR compiled w/ threading support while libsmm_acc compiled w/o threading support.")
          ELSE
-            DBCSR_ABORT("DBCSR compiled w/o threading support while libcusmm is compiled w/ threading support.")
+            DBCSR_ABORT("DBCSR compiled w/o threading support while libsmm_acc is compiled w/ threading support.")
          ENDIF
       ENDIF
+
 #endif
    END SUBROUTINE dbcsr_init_lib_pre
 
    SUBROUTINE dbcsr_init_lib_low()
       !! Initialize the DBCSR library
       !! Prepares the DBCSR library for use.
-
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_low', routineP = moduleN//':'//routineN
 

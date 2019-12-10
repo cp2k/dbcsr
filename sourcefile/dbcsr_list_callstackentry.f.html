@@ -279,313 +279,312 @@
 <a name="ln-8"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
 <a name="ln-9"></a>
 <a name="ln-10"></a>
-<a name="ln-11"></a>
-<a name="ln-12"></a>   <span class="c">!! An array-based list which grows on demand.</span>
-<a name="ln-13"></a>   <span class="c">!! When the internal array is full, a new array of twice the size will be</span>
-<a name="ln-14"></a>   <span class="c">!! allocated and the items are copied over.</span>
-<a name="ln-15"></a>   <span class="c">!! This list can also be used as a stack.</span>
-<a name="ln-16"></a>   <span class="c">!! Have look at list_push(), list_pop() and list_peek().</span>
-<a name="ln-17"></a>
-<a name="ln-18"></a><span class="k">MODULE </span><span class="n">dbcsr_list_callstackentry</span>
-<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_timings_base_type</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">callstack_entry_type</span><span class="p">,</span> <span class="n">routine_stat_type</span><span class="p">,</span> <span class="n">routine_report_type</span>
+<a name="ln-11"></a>   <span class="c">!! An array-based list which grows on demand.</span>
+<a name="ln-12"></a>   <span class="c">!! When the internal array is full, a new array of twice the size will be</span>
+<a name="ln-13"></a>   <span class="c">!! allocated and the items are copied over.</span>
+<a name="ln-14"></a>   <span class="c">!! This list can also be used as a stack.</span>
+<a name="ln-15"></a>   <span class="c">!! Have look at list_push(), list_pop() and list_peek().</span>
+<a name="ln-16"></a>
+<a name="ln-17"></a><span class="k">MODULE </span><span class="n">dbcsr_list_callstackentry</span>
+<a name="ln-18"></a>   <span class="k">USE </span><span class="n">dbcsr_timings_base_type</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">routine_stat_type</span><span class="p">,</span> <span class="n">routine_report_type</span><span class="p">,</span> <span class="n">callstack_entry_type</span>
+<a name="ln-19"></a>
 <a name="ln-20"></a>
-<a name="ln-21"></a>
-<a name="ln-22"></a><span class="cp">#include &quot;../base/dbcsr_base_uses.f90&quot;</span>
-<a name="ln-23"></a><span class="k">IMPLICIT NONE</span>
-<a name="ln-24"></a><span class="k">PRIVATE</span>
-<a name="ln-25"></a>
-<a name="ln-26"></a><span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">list_callstackentry_type</span><span class="p">,</span> <span class="n">list_callstackentry_init</span><span class="p">,</span> <span class="n">list_callstackentry_push</span><span class="p">,</span> <span class="n">list_callstackentry_pop</span><span class="p">,&amp;</span>
-<a name="ln-27"></a>    <span class="p">&amp;</span> <span class="n">list_callstackentry_peek</span><span class="p">,</span> <span class="n">list_callstackentry_insert</span><span class="p">,</span> <span class="n">list_callstackentry_set</span><span class="p">,</span> <span class="n">list_callstackentry_get</span><span class="p">,&amp;</span>
-<a name="ln-28"></a>    <span class="p">&amp;</span> <span class="n">list_callstackentry_del</span><span class="p">,</span> <span class="n">list_callstackentry_clear</span><span class="p">,</span> <span class="n">list_callstackentry_size</span><span class="p">,</span> <span class="n">list_callstackentry_destroy</span><span class="p">,&amp;</span>
-<a name="ln-29"></a>    <span class="p">&amp;</span> <span class="n">list_callstackentry_isready</span>
-<a name="ln-30"></a>
-<a name="ln-31"></a><span class="c">!this is an internal type</span>
-<a name="ln-32"></a><span class="k">TYPE </span><span class="n">private_item_type_callstackentry</span>
-<a name="ln-33"></a>   <span class="k">PRIVATE</span>
-<a name="ln-34"></a><span class="k">   TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">)</span>                   <span class="kd">::</span> <span class="k">value</span>
-<a name="ln-35"></a><span class="k">END TYPE </span><span class="n">private_item_type_callstackentry</span>
-<a name="ln-36"></a>
-<a name="ln-37"></a><span class="c">!this is an internal type</span>
-<a name="ln-38"></a><span class="k">TYPE </span><span class="n">private_item_p_type_callstackentry</span>
-<a name="ln-39"></a>   <span class="k">PRIVATE</span>
-<a name="ln-40"></a><span class="k">   TYPE</span><span class="p">(</span><span class="n">private_item_type_callstackentry</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">p</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-<a name="ln-41"></a><span class="k">END TYPE </span><span class="n">private_item_p_type_callstackentry</span>
-<a name="ln-42"></a>
-<a name="ln-43"></a><span class="c">! this is the public type, which holds a list-instance</span>
-<a name="ln-44"></a><span class="k">TYPE </span><span class="n">list_callstackentry_type</span>
-<a name="ln-45"></a>   <span class="k">PRIVATE</span>
-<a name="ln-46"></a><span class="k">   TYPE</span><span class="p">(</span><span class="n">private_item_p_type_callstackentry</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>   <span class="kd">::</span> <span class="n">arr</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-<a name="ln-47"></a>   <span class="kt">INTEGER</span>                                       <span class="kd">::</span> <span class="n">size</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-48"></a><span class="k">END TYPE </span><span class="n">list_callstackentry_type</span>
-<a name="ln-49"></a>
-<a name="ln-50"></a><span class="k">CONTAINS</span>
-<a name="ln-51"></a>
-<a name="ln-52"></a><span class="k">FUNCTION </span><span class="n">list_callstackentry_isready</span><span class="p">(</span><span class="n">list</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<a name="ln-53"></a>   <span class="c">!! Test if the given list has been initialized.</span>
-<a name="ln-54"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
-<a name="ln-55"></a>    <span class="kt">LOGICAL</span>                                     <span class="kd">::</span> <span class="n">res</span>
-<a name="ln-56"></a>    <span class="n">res</span> <span class="o">=</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">)</span>
-<a name="ln-57"></a><span class="k">END FUNCTION </span><span class="n">list_callstackentry_isready</span>
-<a name="ln-58"></a>
-<a name="ln-59"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_init</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">initial_capacity</span><span class="p">)</span>
-<a name="ln-60"></a>   <span class="c">!! Allocates the internal data-structures of the given list.</span>
-<a name="ln-61"></a>   <span class="c">!! This has to be called before any of the other routines.</span>
-<a name="ln-62"></a>   <span class="c">!! For deallocation call list_[valuetype]_destroy.</span>
-<a name="ln-63"></a>
-<a name="ln-64"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
-<a name="ln-65"></a>    <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>               <span class="kd">::</span> <span class="n">initial_capacity</span>
-<a name="ln-66"></a>      <span class="c">!! The initial size of the internal array (default=11).</span>
-<a name="ln-67"></a>    <span class="kt">INTEGER</span>                                     <span class="kd">::</span> <span class="nb">stat</span>
-<a name="ln-68"></a><span class="nb">    </span><span class="kt">INTEGER</span>                                     <span class="kd">::</span> <span class="n">initial_capacity_</span>
-<a name="ln-69"></a>
-<a name="ln-70"></a>    <span class="n">initial_capacity_</span> <span class="o">=</span> <span class="mi">11</span>
-<a name="ln-71"></a>    <span class="k">If</span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">initial_capacity</span><span class="p">))</span> <span class="n">initial_capacity_</span> <span class="o">=</span> <span class="n">initial_capacity</span>
-<a name="ln-72"></a>
-<a name="ln-73"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">initial_capacity_</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-74"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_create: initial_capacity &lt; 0&quot;</span><span class="p">)</span>
-<a name="ln-75"></a>
-<a name="ln-76"></a>    <span class="k">IF</span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-77"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_create: list is already initialized.&quot;</span><span class="p">)</span>
-<a name="ln-78"></a>
-<a name="ln-79"></a>    <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">initial_capacity_</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
-<a name="ln-80"></a>    <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span><span class="o">/=</span><span class="mi">0</span><span class="p">)&amp;</span>
-<a name="ln-81"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_init: allocation failed&quot;</span><span class="p">)</span>
-<a name="ln-82"></a>
-<a name="ln-83"></a>    <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-84"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_init</span>
-<a name="ln-85"></a>
-<a name="ln-86"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_destroy</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
-<a name="ln-87"></a>   <span class="c">!! Deallocated the internal data-structures of the given list.</span>
-<a name="ln-88"></a>   <span class="c">!! Caution: If the stored values are pointers, their targets will</span>
-<a name="ln-89"></a>   <span class="c">!! not get deallocated by this routine.</span>
-<a name="ln-90"></a>
-<a name="ln-91"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
-<a name="ln-92"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span>
-<a name="ln-93"></a>    <span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-94"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_destroy: list is not initialized.&quot;</span><span class="p">)</span>
-<a name="ln-95"></a>
-<a name="ln-96"></a>    <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span>
-<a name="ln-97"></a>       <span class="k">deallocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
-<a name="ln-98"></a>    <span class="k">end do</span>
-<a name="ln-99"></a><span class="k">    deallocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">)</span>
-<a name="ln-100"></a>    <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-101"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_destroy</span>
+<a name="ln-21"></a><span class="cp">#include &quot;../base/dbcsr_base_uses.f90&quot;</span>
+<a name="ln-22"></a><span class="k">IMPLICIT NONE</span>
+<a name="ln-23"></a><span class="k">PRIVATE</span>
+<a name="ln-24"></a>
+<a name="ln-25"></a><span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">list_callstackentry_type</span><span class="p">,</span> <span class="n">list_callstackentry_init</span><span class="p">,</span> <span class="n">list_callstackentry_push</span><span class="p">,</span> <span class="n">list_callstackentry_pop</span><span class="p">,&amp;</span>
+<a name="ln-26"></a>    <span class="p">&amp;</span> <span class="n">list_callstackentry_peek</span><span class="p">,</span> <span class="n">list_callstackentry_insert</span><span class="p">,</span> <span class="n">list_callstackentry_set</span><span class="p">,</span> <span class="n">list_callstackentry_get</span><span class="p">,&amp;</span>
+<a name="ln-27"></a>    <span class="p">&amp;</span> <span class="n">list_callstackentry_del</span><span class="p">,</span> <span class="n">list_callstackentry_clear</span><span class="p">,</span> <span class="n">list_callstackentry_size</span><span class="p">,</span> <span class="n">list_callstackentry_destroy</span><span class="p">,&amp;</span>
+<a name="ln-28"></a>    <span class="p">&amp;</span> <span class="n">list_callstackentry_isready</span>
+<a name="ln-29"></a>
+<a name="ln-30"></a><span class="c">!this is an internal type</span>
+<a name="ln-31"></a><span class="k">TYPE </span><span class="n">private_item_type_callstackentry</span>
+<a name="ln-32"></a>   <span class="k">PRIVATE</span>
+<a name="ln-33"></a><span class="k">   TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">)</span>                   <span class="kd">::</span> <span class="k">value</span>
+<a name="ln-34"></a><span class="k">END TYPE </span><span class="n">private_item_type_callstackentry</span>
+<a name="ln-35"></a>
+<a name="ln-36"></a><span class="c">!this is an internal type</span>
+<a name="ln-37"></a><span class="k">TYPE </span><span class="n">private_item_p_type_callstackentry</span>
+<a name="ln-38"></a>   <span class="k">PRIVATE</span>
+<a name="ln-39"></a><span class="k">   TYPE</span><span class="p">(</span><span class="n">private_item_type_callstackentry</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">p</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
+<a name="ln-40"></a><span class="k">END TYPE </span><span class="n">private_item_p_type_callstackentry</span>
+<a name="ln-41"></a>
+<a name="ln-42"></a><span class="c">! this is the public type, which holds a list-instance</span>
+<a name="ln-43"></a><span class="k">TYPE </span><span class="n">list_callstackentry_type</span>
+<a name="ln-44"></a>   <span class="k">PRIVATE</span>
+<a name="ln-45"></a><span class="k">   TYPE</span><span class="p">(</span><span class="n">private_item_p_type_callstackentry</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>   <span class="kd">::</span> <span class="n">arr</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
+<a name="ln-46"></a>   <span class="kt">INTEGER</span>                                       <span class="kd">::</span> <span class="n">size</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-47"></a><span class="k">END TYPE </span><span class="n">list_callstackentry_type</span>
+<a name="ln-48"></a>
+<a name="ln-49"></a><span class="k">CONTAINS</span>
+<a name="ln-50"></a>
+<a name="ln-51"></a><span class="k">FUNCTION </span><span class="n">list_callstackentry_isready</span><span class="p">(</span><span class="n">list</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<a name="ln-52"></a>   <span class="c">!! Test if the given list has been initialized.</span>
+<a name="ln-53"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
+<a name="ln-54"></a>    <span class="kt">LOGICAL</span>                                     <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-55"></a>    <span class="n">res</span> <span class="o">=</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">)</span>
+<a name="ln-56"></a><span class="k">END FUNCTION </span><span class="n">list_callstackentry_isready</span>
+<a name="ln-57"></a>
+<a name="ln-58"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_init</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">initial_capacity</span><span class="p">)</span>
+<a name="ln-59"></a>   <span class="c">!! Allocates the internal data-structures of the given list.</span>
+<a name="ln-60"></a>   <span class="c">!! This has to be called before any of the other routines.</span>
+<a name="ln-61"></a>   <span class="c">!! For deallocation call list_[valuetype]_destroy.</span>
+<a name="ln-62"></a>
+<a name="ln-63"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
+<a name="ln-64"></a>    <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>               <span class="kd">::</span> <span class="n">initial_capacity</span>
+<a name="ln-65"></a>      <span class="c">!! The initial size of the internal array (default=11).</span>
+<a name="ln-66"></a>    <span class="kt">INTEGER</span>                                     <span class="kd">::</span> <span class="nb">stat</span>
+<a name="ln-67"></a><span class="nb">    </span><span class="kt">INTEGER</span>                                     <span class="kd">::</span> <span class="n">initial_capacity_</span>
+<a name="ln-68"></a>
+<a name="ln-69"></a>    <span class="n">initial_capacity_</span> <span class="o">=</span> <span class="mi">11</span>
+<a name="ln-70"></a>    <span class="k">If</span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">initial_capacity</span><span class="p">))</span> <span class="n">initial_capacity_</span> <span class="o">=</span> <span class="n">initial_capacity</span>
+<a name="ln-71"></a>
+<a name="ln-72"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">initial_capacity_</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-73"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_create: initial_capacity &lt; 0&quot;</span><span class="p">)</span>
+<a name="ln-74"></a>
+<a name="ln-75"></a>    <span class="k">IF</span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-76"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_create: list is already initialized.&quot;</span><span class="p">)</span>
+<a name="ln-77"></a>
+<a name="ln-78"></a>    <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">initial_capacity_</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+<a name="ln-79"></a>    <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span><span class="o">/=</span><span class="mi">0</span><span class="p">)&amp;</span>
+<a name="ln-80"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_init: allocation failed&quot;</span><span class="p">)</span>
+<a name="ln-81"></a>
+<a name="ln-82"></a>    <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-83"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_init</span>
+<a name="ln-84"></a>
+<a name="ln-85"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_destroy</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
+<a name="ln-86"></a>   <span class="c">!! Deallocated the internal data-structures of the given list.</span>
+<a name="ln-87"></a>   <span class="c">!! Caution: If the stored values are pointers, their targets will</span>
+<a name="ln-88"></a>   <span class="c">!! not get deallocated by this routine.</span>
+<a name="ln-89"></a>
+<a name="ln-90"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
+<a name="ln-91"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span>
+<a name="ln-92"></a>    <span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-93"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_destroy: list is not initialized.&quot;</span><span class="p">)</span>
+<a name="ln-94"></a>
+<a name="ln-95"></a>    <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span>
+<a name="ln-96"></a>       <span class="k">deallocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
+<a name="ln-97"></a>    <span class="k">end do</span>
+<a name="ln-98"></a><span class="k">    deallocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">)</span>
+<a name="ln-99"></a>    <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-100"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_destroy</span>
+<a name="ln-101"></a>
 <a name="ln-102"></a>
-<a name="ln-103"></a>
-<a name="ln-104"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_set</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="k">value</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
-<a name="ln-105"></a>   <span class="c">!! Assings the given value to the given position in the list.</span>
-<a name="ln-106"></a>   <span class="c">!! Thereby, the former value at that position gets overwritten.</span>
-<a name="ln-107"></a>   <span class="c">!! If the position is out of bounds, the program stops.</span>
-<a name="ln-108"></a>
-<a name="ln-109"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
-<a name="ln-110"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="k">value</span>
-<a name="ln-111"></a><span class="k">    </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">pos</span>
-<a name="ln-112"></a>      <span class="c">!! Position in the list - must fulfill 0 &lt; pos &lt; list_size+1.</span>
-<a name="ln-113"></a>    <span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-114"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_set: list is not initialized.&quot;</span><span class="p">)</span>
-<a name="ln-115"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)&amp;</span>
-<a name="ln-116"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_set: pos &lt; 1&quot;</span><span class="p">)</span>
-<a name="ln-117"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)&amp;</span>
-<a name="ln-118"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_set: pos &gt; size&quot;</span><span class="p">)</span>
-<a name="ln-119"></a>    <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">pos</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span> <span class="o">=</span> <span class="k">value</span>
-<a name="ln-120"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_set</span>
+<a name="ln-103"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_set</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="k">value</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+<a name="ln-104"></a>   <span class="c">!! Assings the given value to the given position in the list.</span>
+<a name="ln-105"></a>   <span class="c">!! Thereby, the former value at that position gets overwritten.</span>
+<a name="ln-106"></a>   <span class="c">!! If the position is out of bounds, the program stops.</span>
+<a name="ln-107"></a>
+<a name="ln-108"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
+<a name="ln-109"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="k">value</span>
+<a name="ln-110"></a><span class="k">    </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">pos</span>
+<a name="ln-111"></a>      <span class="c">!! Position in the list - must fulfill 0 &lt; pos &lt; list_size+1.</span>
+<a name="ln-112"></a>    <span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-113"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_set: list is not initialized.&quot;</span><span class="p">)</span>
+<a name="ln-114"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)&amp;</span>
+<a name="ln-115"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_set: pos &lt; 1&quot;</span><span class="p">)</span>
+<a name="ln-116"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)&amp;</span>
+<a name="ln-117"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_set: pos &gt; size&quot;</span><span class="p">)</span>
+<a name="ln-118"></a>    <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">pos</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span> <span class="o">=</span> <span class="k">value</span>
+<a name="ln-119"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_set</span>
+<a name="ln-120"></a>
 <a name="ln-121"></a>
-<a name="ln-122"></a>
-<a name="ln-123"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_push</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="k">value</span><span class="p">)</span>
-<a name="ln-124"></a>   <span class="c">!! Appends the given value at the end of the list.</span>
-<a name="ln-125"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
-<a name="ln-126"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                  <span class="kd">::</span> <span class="k">value</span>
-<a name="ln-127"></a><span class="k">    </span><span class="kt">INTEGER</span>                                     <span class="kd">::</span> <span class="nb">stat</span>
-<a name="ln-128"></a>
-<a name="ln-129"></a><span class="nb">    </span><span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-130"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_push: list is not initialized.&quot;</span><span class="p">)</span>
-<a name="ln-131"></a>    <span class="k">if</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">==</span> <span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-132"></a>       <span class="k">call </span><span class="n">change_capacity_callstackentry</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-133"></a>
-<a name="ln-134"></a>    <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-135"></a>    <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)%</span><span class="n">p</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
-<a name="ln-136"></a>    <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span><span class="o">/=</span><span class="mi">0</span><span class="p">)&amp;</span>
-<a name="ln-137"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_push: allocation failed&quot;</span><span class="p">)</span>
-<a name="ln-138"></a>    <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span> <span class="o">=</span> <span class="k">value</span>
-<a name="ln-139"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_push</span>
+<a name="ln-122"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_push</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="k">value</span><span class="p">)</span>
+<a name="ln-123"></a>   <span class="c">!! Appends the given value at the end of the list.</span>
+<a name="ln-124"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
+<a name="ln-125"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                  <span class="kd">::</span> <span class="k">value</span>
+<a name="ln-126"></a><span class="k">    </span><span class="kt">INTEGER</span>                                     <span class="kd">::</span> <span class="nb">stat</span>
+<a name="ln-127"></a>
+<a name="ln-128"></a><span class="nb">    </span><span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-129"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_push: list is not initialized.&quot;</span><span class="p">)</span>
+<a name="ln-130"></a>    <span class="k">if</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">==</span> <span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-131"></a>       <span class="k">call </span><span class="n">change_capacity_callstackentry</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-132"></a>
+<a name="ln-133"></a>    <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-134"></a>    <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)%</span><span class="n">p</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+<a name="ln-135"></a>    <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span><span class="o">/=</span><span class="mi">0</span><span class="p">)&amp;</span>
+<a name="ln-136"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_push: allocation failed&quot;</span><span class="p">)</span>
+<a name="ln-137"></a>    <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span> <span class="o">=</span> <span class="k">value</span>
+<a name="ln-138"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_push</span>
+<a name="ln-139"></a>
 <a name="ln-140"></a>
-<a name="ln-141"></a>
-<a name="ln-142"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_insert</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="k">value</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
-<a name="ln-143"></a>   <span class="c">!! Inserts the given value at the given position within the list.</span>
-<a name="ln-144"></a>   <span class="c">!! Values which lay behind the insertion-position move one position up.</span>
-<a name="ln-145"></a>
-<a name="ln-146"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
-<a name="ln-147"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="k">value</span>
-<a name="ln-148"></a><span class="k">    </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">pos</span>
-<a name="ln-149"></a>      <span class="c">!! Position in the list - must fulfill 0 &lt; pos &lt; list_size+2 .</span>
-<a name="ln-150"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="nb">stat</span>
-<a name="ln-151"></a>
-<a name="ln-152"></a><span class="nb">    </span><span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-153"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_insert: list is not initialized.&quot;</span><span class="p">)</span>
-<a name="ln-154"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)&amp;</span>
-<a name="ln-155"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_insert: pos &lt; 1&quot;</span><span class="p">)</span>
-<a name="ln-156"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="o">+</span><span class="mi">1</span><span class="p">)&amp;</span>
-<a name="ln-157"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_insert: pos &gt; size+1&quot;</span><span class="p">)</span>
-<a name="ln-158"></a>
-<a name="ln-159"></a>    <span class="k">if</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">==</span> <span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-160"></a>       <span class="k">call </span><span class="n">change_capacity_callstackentry</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-161"></a>
-<a name="ln-162"></a>    <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-163"></a>    <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">,</span> <span class="n">pos</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-164"></a>       <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span> <span class="o">=&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)%</span><span class="n">p</span>
-<a name="ln-165"></a>    <span class="k">end do</span>
-<a name="ln-166"></a>
-<a name="ln-167"></a><span class="k">    ALLOCATE</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">pos</span><span class="p">)%</span><span class="n">p</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
-<a name="ln-168"></a>     <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span><span class="o">/=</span><span class="mi">0</span><span class="p">)&amp;</span>
-<a name="ln-169"></a>        <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_insert: allocation failed.&quot;</span><span class="p">)</span>
-<a name="ln-170"></a>    <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">pos</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span> <span class="o">=</span> <span class="k">value</span>
-<a name="ln-171"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_insert</span>
+<a name="ln-141"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_insert</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="k">value</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+<a name="ln-142"></a>   <span class="c">!! Inserts the given value at the given position within the list.</span>
+<a name="ln-143"></a>   <span class="c">!! Values which lay behind the insertion-position move one position up.</span>
+<a name="ln-144"></a>
+<a name="ln-145"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
+<a name="ln-146"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="k">value</span>
+<a name="ln-147"></a><span class="k">    </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">pos</span>
+<a name="ln-148"></a>      <span class="c">!! Position in the list - must fulfill 0 &lt; pos &lt; list_size+2 .</span>
+<a name="ln-149"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="nb">stat</span>
+<a name="ln-150"></a>
+<a name="ln-151"></a><span class="nb">    </span><span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-152"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_insert: list is not initialized.&quot;</span><span class="p">)</span>
+<a name="ln-153"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)&amp;</span>
+<a name="ln-154"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_insert: pos &lt; 1&quot;</span><span class="p">)</span>
+<a name="ln-155"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="o">+</span><span class="mi">1</span><span class="p">)&amp;</span>
+<a name="ln-156"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_insert: pos &gt; size+1&quot;</span><span class="p">)</span>
+<a name="ln-157"></a>
+<a name="ln-158"></a>    <span class="k">if</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">==</span> <span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-159"></a>       <span class="k">call </span><span class="n">change_capacity_callstackentry</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-160"></a>
+<a name="ln-161"></a>    <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-162"></a>    <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">,</span> <span class="n">pos</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-163"></a>       <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span> <span class="o">=&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)%</span><span class="n">p</span>
+<a name="ln-164"></a>    <span class="k">end do</span>
+<a name="ln-165"></a>
+<a name="ln-166"></a><span class="k">    ALLOCATE</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">pos</span><span class="p">)%</span><span class="n">p</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+<a name="ln-167"></a>     <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span><span class="o">/=</span><span class="mi">0</span><span class="p">)&amp;</span>
+<a name="ln-168"></a>        <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_insert: allocation failed.&quot;</span><span class="p">)</span>
+<a name="ln-169"></a>    <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">pos</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span> <span class="o">=</span> <span class="k">value</span>
+<a name="ln-170"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_insert</span>
+<a name="ln-171"></a>
 <a name="ln-172"></a>
-<a name="ln-173"></a>
-<a name="ln-174"></a><span class="k">FUNCTION </span><span class="n">list_callstackentry_peek</span><span class="p">(</span><span class="n">list</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">value</span><span class="p">)</span>
-<a name="ln-175"></a>   <span class="c">!! Returns the last element in the list.</span>
-<a name="ln-176"></a>   <span class="c">!! Is equivalent to: list_callstackentry_get(list, list_callstackentry_size(list))</span>
-<a name="ln-177"></a>
-<a name="ln-178"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
-<a name="ln-179"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">)</span>  <span class="kd">::</span> <span class="k">value</span>
-<a name="ln-180"></a>
-<a name="ln-181"></a><span class="k">    IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-182"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_peek: list is not initialized.&quot;</span><span class="p">)</span>
-<a name="ln-183"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-184"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_peek: list is empty.&quot;</span><span class="p">)</span>
-<a name="ln-185"></a>
-<a name="ln-186"></a>    <span class="k">value</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span>
-<a name="ln-187"></a><span class="k">END FUNCTION </span><span class="n">list_callstackentry_peek</span>
+<a name="ln-173"></a><span class="k">FUNCTION </span><span class="n">list_callstackentry_peek</span><span class="p">(</span><span class="n">list</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">value</span><span class="p">)</span>
+<a name="ln-174"></a>   <span class="c">!! Returns the last element in the list.</span>
+<a name="ln-175"></a>   <span class="c">!! Is equivalent to: list_callstackentry_get(list, list_callstackentry_size(list))</span>
+<a name="ln-176"></a>
+<a name="ln-177"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
+<a name="ln-178"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">)</span>  <span class="kd">::</span> <span class="k">value</span>
+<a name="ln-179"></a>
+<a name="ln-180"></a><span class="k">    IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-181"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_peek: list is not initialized.&quot;</span><span class="p">)</span>
+<a name="ln-182"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-183"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_peek: list is empty.&quot;</span><span class="p">)</span>
+<a name="ln-184"></a>
+<a name="ln-185"></a>    <span class="k">value</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span>
+<a name="ln-186"></a><span class="k">END FUNCTION </span><span class="n">list_callstackentry_peek</span>
+<a name="ln-187"></a>
 <a name="ln-188"></a>
-<a name="ln-189"></a>
-<a name="ln-190"></a><span class="k">FUNCTION </span><span class="n">list_callstackentry_pop</span><span class="p">(</span><span class="n">list</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">value</span><span class="p">)</span>
-<a name="ln-191"></a>   <span class="c">!! Returns the last element in the list and removes it.</span>
-<a name="ln-192"></a>   <span class="c">!! Is equivialent to:</span>
-<a name="ln-193"></a>   <span class="c">!! value = list_callstackentry_get(list, list_callstackentry_size(list))</span>
-<a name="ln-194"></a>   <span class="c">!! call list_callstackentry_del(list, list_callstackentry_size(list))</span>
-<a name="ln-195"></a>
-<a name="ln-196"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
-<a name="ln-197"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">)</span>  <span class="kd">::</span> <span class="k">value</span>
-<a name="ln-198"></a>
-<a name="ln-199"></a><span class="k">    IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-200"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_pop: list is not initialized.&quot;</span><span class="p">)</span>
-<a name="ln-201"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-202"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_pop: list is empty.&quot;</span><span class="p">)</span>
-<a name="ln-203"></a>
-<a name="ln-204"></a>    <span class="k">value</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span>
-<a name="ln-205"></a><span class="k">    deallocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
-<a name="ln-206"></a>    <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-207"></a><span class="k">END FUNCTION </span><span class="n">list_callstackentry_pop</span>
+<a name="ln-189"></a><span class="k">FUNCTION </span><span class="n">list_callstackentry_pop</span><span class="p">(</span><span class="n">list</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">value</span><span class="p">)</span>
+<a name="ln-190"></a>   <span class="c">!! Returns the last element in the list and removes it.</span>
+<a name="ln-191"></a>   <span class="c">!! Is equivialent to:</span>
+<a name="ln-192"></a>   <span class="c">!! value = list_callstackentry_get(list, list_callstackentry_size(list))</span>
+<a name="ln-193"></a>   <span class="c">!! call list_callstackentry_del(list, list_callstackentry_size(list))</span>
+<a name="ln-194"></a>
+<a name="ln-195"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
+<a name="ln-196"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">)</span>  <span class="kd">::</span> <span class="k">value</span>
+<a name="ln-197"></a>
+<a name="ln-198"></a><span class="k">    IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-199"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_pop: list is not initialized.&quot;</span><span class="p">)</span>
+<a name="ln-200"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-201"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_pop: list is empty.&quot;</span><span class="p">)</span>
+<a name="ln-202"></a>
+<a name="ln-203"></a>    <span class="k">value</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span>
+<a name="ln-204"></a><span class="k">    deallocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
+<a name="ln-205"></a>    <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-206"></a><span class="k">END FUNCTION </span><span class="n">list_callstackentry_pop</span>
+<a name="ln-207"></a>
 <a name="ln-208"></a>
 <a name="ln-209"></a>
-<a name="ln-210"></a>
-<a name="ln-211"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_clear</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
-<a name="ln-212"></a>   <span class="c">!! Removes all values from the list. The list itself is not deallocated.</span>
-<a name="ln-213"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
-<a name="ln-214"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span>
-<a name="ln-215"></a>
-<a name="ln-216"></a>    <span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-217"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_clear: list is not initialized.&quot;</span><span class="p">)</span>
-<a name="ln-218"></a>
-<a name="ln-219"></a>    <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span>
-<a name="ln-220"></a>       <span class="k">deallocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
-<a name="ln-221"></a>    <span class="k">end do</span>
-<a name="ln-222"></a><span class="k">    </span><span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-223"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_clear</span>
+<a name="ln-210"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_clear</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
+<a name="ln-211"></a>   <span class="c">!! Removes all values from the list. The list itself is not deallocated.</span>
+<a name="ln-212"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
+<a name="ln-213"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span>
+<a name="ln-214"></a>
+<a name="ln-215"></a>    <span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-216"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_clear: list is not initialized.&quot;</span><span class="p">)</span>
+<a name="ln-217"></a>
+<a name="ln-218"></a>    <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span>
+<a name="ln-219"></a>       <span class="k">deallocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
+<a name="ln-220"></a>    <span class="k">end do</span>
+<a name="ln-221"></a><span class="k">    </span><span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-222"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_clear</span>
+<a name="ln-223"></a>
 <a name="ln-224"></a>
-<a name="ln-225"></a>
-<a name="ln-226"></a><span class="c">!</span>
-<a name="ln-227"></a><span class="k">FUNCTION </span><span class="n">list_callstackentry_get</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">value</span><span class="p">)</span>
-<a name="ln-228"></a>   <span class="c">!! Returns the value at the given position from the list.</span>
-<a name="ln-229"></a>
-<a name="ln-230"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
-<a name="ln-231"></a>    <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">pos</span>
-<a name="ln-232"></a>      <span class="c">!! Position in the list - must fulfill 0 &lt; pos &lt; list_size+1 .</span>
-<a name="ln-233"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">)</span> <span class="kd">::</span> <span class="k">value</span>
-<a name="ln-234"></a>
-<a name="ln-235"></a><span class="k">    IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-236"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_get: list is not initialized.&quot;</span><span class="p">)</span>
-<a name="ln-237"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)&amp;</span>
-<a name="ln-238"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_get: pos &lt; 1&quot;</span><span class="p">)</span>
-<a name="ln-239"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)&amp;</span>
-<a name="ln-240"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_get: pos &gt; size&quot;</span><span class="p">)</span>
-<a name="ln-241"></a>
-<a name="ln-242"></a>    <span class="k">value</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">pos</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span>
-<a name="ln-243"></a>
-<a name="ln-244"></a><span class="k">END FUNCTION </span><span class="n">list_callstackentry_get</span>
+<a name="ln-225"></a><span class="c">!</span>
+<a name="ln-226"></a><span class="k">FUNCTION </span><span class="n">list_callstackentry_get</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">value</span><span class="p">)</span>
+<a name="ln-227"></a>   <span class="c">!! Returns the value at the given position from the list.</span>
+<a name="ln-228"></a>
+<a name="ln-229"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
+<a name="ln-230"></a>    <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">pos</span>
+<a name="ln-231"></a>      <span class="c">!! Position in the list - must fulfill 0 &lt; pos &lt; list_size+1 .</span>
+<a name="ln-232"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">)</span> <span class="kd">::</span> <span class="k">value</span>
+<a name="ln-233"></a>
+<a name="ln-234"></a><span class="k">    IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-235"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_get: list is not initialized.&quot;</span><span class="p">)</span>
+<a name="ln-236"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)&amp;</span>
+<a name="ln-237"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_get: pos &lt; 1&quot;</span><span class="p">)</span>
+<a name="ln-238"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)&amp;</span>
+<a name="ln-239"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_get: pos &gt; size&quot;</span><span class="p">)</span>
+<a name="ln-240"></a>
+<a name="ln-241"></a>    <span class="k">value</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">pos</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span>
+<a name="ln-242"></a>
+<a name="ln-243"></a><span class="k">END FUNCTION </span><span class="n">list_callstackentry_get</span>
+<a name="ln-244"></a>
 <a name="ln-245"></a>
-<a name="ln-246"></a>
-<a name="ln-247"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_del</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
-<a name="ln-248"></a>   <span class="c">!! Removes the value at the given position from the list.</span>
-<a name="ln-249"></a>
-<a name="ln-250"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
-<a name="ln-251"></a>    <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">pos</span>
-<a name="ln-252"></a>      <span class="c">!! Position in the list - must fulfill 0 &lt; pos &lt; list_size+1 .</span>
-<a name="ln-253"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span>
-<a name="ln-254"></a>
-<a name="ln-255"></a>    <span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-256"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_del: list is not initialized.&quot;</span><span class="p">)</span>
-<a name="ln-257"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)&amp;</span>
-<a name="ln-258"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_det: pos &lt; 1&quot;</span><span class="p">)</span>
-<a name="ln-259"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)&amp;</span>
-<a name="ln-260"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_det: pos &gt; size&quot;</span><span class="p">)</span>
-<a name="ln-261"></a>
-<a name="ln-262"></a>    <span class="k">deallocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">pos</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
-<a name="ln-263"></a>    <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="o">-</span><span class="mi">1</span>
-<a name="ln-264"></a>       <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span> <span class="o">=&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)%</span><span class="n">p</span>
-<a name="ln-265"></a>    <span class="k">end do</span>
-<a name="ln-266"></a>
-<a name="ln-267"></a><span class="k">    </span><span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-268"></a>
-<a name="ln-269"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_del</span>
-<a name="ln-270"></a>
-<a name="ln-271"></a><span class="k">FUNCTION </span><span class="n">list_callstackentry_size</span><span class="p">(</span><span class="n">list</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-<a name="ln-272"></a>   <span class="c">!! Returns the current size of the list.</span>
-<a name="ln-273"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
-<a name="ln-274"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">size</span>
-<a name="ln-275"></a>
-<a name="ln-276"></a>    <span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-277"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_size: list is not initialized.&quot;</span><span class="p">)</span>
-<a name="ln-278"></a>
-<a name="ln-279"></a>    <span class="n">size</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span>
-<a name="ln-280"></a><span class="k">END FUNCTION </span><span class="n">list_callstackentry_size</span>
+<a name="ln-246"></a><span class="k">SUBROUTINE </span><span class="n">list_callstackentry_del</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+<a name="ln-247"></a>   <span class="c">!! Removes the value at the given position from the list.</span>
+<a name="ln-248"></a>
+<a name="ln-249"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
+<a name="ln-250"></a>    <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">pos</span>
+<a name="ln-251"></a>      <span class="c">!! Position in the list - must fulfill 0 &lt; pos &lt; list_size+1 .</span>
+<a name="ln-252"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span>
+<a name="ln-253"></a>
+<a name="ln-254"></a>    <span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-255"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_del: list is not initialized.&quot;</span><span class="p">)</span>
+<a name="ln-256"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)&amp;</span>
+<a name="ln-257"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_det: pos &lt; 1&quot;</span><span class="p">)</span>
+<a name="ln-258"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">pos</span> <span class="o">&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)&amp;</span>
+<a name="ln-259"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_det: pos &gt; size&quot;</span><span class="p">)</span>
+<a name="ln-260"></a>
+<a name="ln-261"></a>    <span class="k">deallocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">pos</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
+<a name="ln-262"></a>    <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="o">-</span><span class="mi">1</span>
+<a name="ln-263"></a>       <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span> <span class="o">=&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)%</span><span class="n">p</span>
+<a name="ln-264"></a>    <span class="k">end do</span>
+<a name="ln-265"></a>
+<a name="ln-266"></a><span class="k">    </span><span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-267"></a>
+<a name="ln-268"></a><span class="k">END SUBROUTINE </span><span class="n">list_callstackentry_del</span>
+<a name="ln-269"></a>
+<a name="ln-270"></a><span class="k">FUNCTION </span><span class="n">list_callstackentry_size</span><span class="p">(</span><span class="n">list</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+<a name="ln-271"></a>   <span class="c">!! Returns the current size of the list.</span>
+<a name="ln-272"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
+<a name="ln-273"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">size</span>
+<a name="ln-274"></a>
+<a name="ln-275"></a>    <span class="k">IF</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-276"></a>       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_size: list is not initialized.&quot;</span><span class="p">)</span>
+<a name="ln-277"></a>
+<a name="ln-278"></a>    <span class="n">size</span> <span class="o">=</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span>
+<a name="ln-279"></a><span class="k">END FUNCTION </span><span class="n">list_callstackentry_size</span>
+<a name="ln-280"></a>
 <a name="ln-281"></a>
-<a name="ln-282"></a>
-<a name="ln-283"></a><span class="k">SUBROUTINE </span><span class="n">change_capacity_callstackentry</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">new_capacity</span><span class="p">)</span>
-<a name="ln-284"></a>   <span class="c">!! Internal routine for changing the size of the internal array.</span>
-<a name="ln-285"></a>   <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
-<a name="ln-286"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">new_capacity</span>
-<a name="ln-287"></a>   <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">new_cap</span><span class="p">,</span> <span class="nb">stat</span>
-<a name="ln-288"></a><span class="nb">   </span><span class="k">TYPE</span><span class="p">(</span><span class="n">private_item_p_type_callstackentry</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">old_arr</span>
-<a name="ln-289"></a>
-<a name="ln-290"></a>   <span class="n">new_cap</span> <span class="o">=</span> <span class="n">new_capacity</span>
-<a name="ln-291"></a>   <span class="k">IF</span><span class="p">(</span><span class="n">new_cap</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-292"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: new_capacity &lt; 0&quot;</span><span class="p">)</span>
-<a name="ln-293"></a>   <span class="k">IF</span><span class="p">(</span><span class="n">new_cap</span> <span class="o">&lt;</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-294"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: new_capacity &lt; size&quot;</span><span class="p">)</span>
-<a name="ln-295"></a>   <span class="k">IF</span><span class="p">(</span><span class="n">new_cap</span> <span class="o">&gt;</span> <span class="nb">HUGE</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-296"></a><span class="k">      IF</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">)</span> <span class="o">==</span> <span class="nb">HUGE</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-297"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: list has reached integer limit.&quot;</span><span class="p">)</span>
-<a name="ln-298"></a>      <span class="n">new_cap</span> <span class="o">=</span> <span class="nb">HUGE</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="c">! grow as far as possible</span>
-<a name="ln-299"></a>   <span class="k">END IF</span>
-<a name="ln-300"></a>
-<a name="ln-301"></a><span class="k">   </span><span class="n">old_arr</span> <span class="o">=&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">arr</span>
-<a name="ln-302"></a>   <span class="k">allocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">new_cap</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
-<a name="ln-303"></a>   <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span><span class="o">/=</span><span class="mi">0</span><span class="p">)&amp;</span>
-<a name="ln-304"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: allocation failed&quot;</span><span class="p">)</span>
-<a name="ln-305"></a>
-<a name="ln-306"></a>   <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span>
-<a name="ln-307"></a>      <span class="k">allocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
-<a name="ln-308"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span><span class="o">/=</span><span class="mi">0</span><span class="p">)&amp;</span>
-<a name="ln-309"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: allocation failed&quot;</span><span class="p">)</span>
-<a name="ln-310"></a>      <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span> <span class="o">=</span> <span class="n">old_arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span>
-<a name="ln-311"></a><span class="k">      deallocate</span><span class="p">(</span><span class="n">old_arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
-<a name="ln-312"></a>   <span class="k">end do</span>
-<a name="ln-313"></a><span class="k">   deallocate</span><span class="p">(</span><span class="n">old_arr</span><span class="p">)</span>
-<a name="ln-314"></a>
-<a name="ln-315"></a><span class="k">END SUBROUTINE </span><span class="n">change_capacity_callstackentry</span>
-<a name="ln-316"></a>
-<a name="ln-317"></a><span class="k">END MODULE </span><span class="n">dbcsr_list_callstackentry</span>
+<a name="ln-282"></a><span class="k">SUBROUTINE </span><span class="n">change_capacity_callstackentry</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">new_capacity</span><span class="p">)</span>
+<a name="ln-283"></a>   <span class="c">!! Internal routine for changing the size of the internal array.</span>
+<a name="ln-284"></a>   <span class="k">TYPE</span><span class="p">(</span><span class="n">list_callstackentry_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">list</span>
+<a name="ln-285"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">new_capacity</span>
+<a name="ln-286"></a>   <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">new_cap</span><span class="p">,</span> <span class="nb">stat</span>
+<a name="ln-287"></a><span class="nb">   </span><span class="k">TYPE</span><span class="p">(</span><span class="n">private_item_p_type_callstackentry</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">old_arr</span>
+<a name="ln-288"></a>
+<a name="ln-289"></a>   <span class="n">new_cap</span> <span class="o">=</span> <span class="n">new_capacity</span>
+<a name="ln-290"></a>   <span class="k">IF</span><span class="p">(</span><span class="n">new_cap</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-291"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: new_capacity &lt; 0&quot;</span><span class="p">)</span>
+<a name="ln-292"></a>   <span class="k">IF</span><span class="p">(</span><span class="n">new_cap</span> <span class="o">&lt;</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-293"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: new_capacity &lt; size&quot;</span><span class="p">)</span>
+<a name="ln-294"></a>   <span class="k">IF</span><span class="p">(</span><span class="n">new_cap</span> <span class="o">&gt;</span> <span class="nb">HUGE</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-295"></a><span class="k">      IF</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">)</span> <span class="o">==</span> <span class="nb">HUGE</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-296"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: list has reached integer limit.&quot;</span><span class="p">)</span>
+<a name="ln-297"></a>      <span class="n">new_cap</span> <span class="o">=</span> <span class="nb">HUGE</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="c">! grow as far as possible</span>
+<a name="ln-298"></a>   <span class="k">END IF</span>
+<a name="ln-299"></a>
+<a name="ln-300"></a><span class="k">   </span><span class="n">old_arr</span> <span class="o">=&gt;</span> <span class="n">list</span><span class="p">%</span><span class="n">arr</span>
+<a name="ln-301"></a>   <span class="k">allocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">new_cap</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+<a name="ln-302"></a>   <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span><span class="o">/=</span><span class="mi">0</span><span class="p">)&amp;</span>
+<a name="ln-303"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: allocation failed&quot;</span><span class="p">)</span>
+<a name="ln-304"></a>
+<a name="ln-305"></a>   <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">list</span><span class="p">%</span><span class="n">size</span>
+<a name="ln-306"></a>      <span class="k">allocate</span><span class="p">(</span><span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+<a name="ln-307"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span><span class="o">/=</span><span class="mi">0</span><span class="p">)&amp;</span>
+<a name="ln-308"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;list_callstackentry_change_capacity: allocation failed&quot;</span><span class="p">)</span>
+<a name="ln-309"></a>      <span class="n">list</span><span class="p">%</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span> <span class="o">=</span> <span class="n">old_arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">%</span><span class="k">value</span>
+<a name="ln-310"></a><span class="k">      deallocate</span><span class="p">(</span><span class="n">old_arr</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
+<a name="ln-311"></a>   <span class="k">end do</span>
+<a name="ln-312"></a><span class="k">   deallocate</span><span class="p">(</span><span class="n">old_arr</span><span class="p">)</span>
+<a name="ln-313"></a>
+<a name="ln-314"></a><span class="k">END SUBROUTINE </span><span class="n">change_capacity_callstackentry</span>
+<a name="ln-315"></a>
+<a name="ln-316"></a><span class="k">END MODULE </span><span class="n">dbcsr_list_callstackentry</span>
 </pre></div>
 
     </section>

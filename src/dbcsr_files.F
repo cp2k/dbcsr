@@ -99,7 +99,6 @@ CONTAINS
       !! Close an open file given by its logical unit number.
       !! Optionally, keep the file and unit preconnected.
 
-
       INTEGER, INTENT(IN)                                :: unit_number
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: file_status
       LOGICAL, INTENT(IN), OPTIONAL                      :: keep_preconnection
@@ -211,7 +210,6 @@ CONTAINS
       !! @note
       !! -1 if no free unit exists
 
-
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: file_name
       INTEGER                                            :: unit_number
 
@@ -267,7 +265,6 @@ CONTAINS
                         file_position, file_pad, unit_number, debug, &
                         skip_get_unit_number, file_access)
       !! Opens the requested file using a free unit number
-
 
       CHARACTER(LEN=*), INTENT(IN)                       :: file_name
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: file_status, file_form, file_action, &

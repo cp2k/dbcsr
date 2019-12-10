@@ -133,7 +133,7 @@ All Procedures &ndash; DBCSR Library
 			 
 			   <tr><td><a href='../interface/acc_devmem_host2dev.html'>acc_devmem_host2dev</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Interface</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_devmem_info.html'>acc_devmem_info</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Fortran-wrapper for cudaMemGetInfo.</p></td></tr>
+			   <tr><td><a href='../proc/acc_devmem_info.html'>acc_devmem_info</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Fortran-wrapper for getting GPU memory info.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/acc_devmem_set_cptr.html'>acc_devmem_set_cptr</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Allocates a given devmem.</p></td></tr>
 			 
@@ -141,67 +141,67 @@ All Procedures &ndash; DBCSR Library
 			 
 			   <tr><td><a href='../proc/acc_devmem_size_in_bytes.html'>acc_devmem_size_in_bytes</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Function</td><td><p>Returns size of given devmem in terms of item count (not bytes!)</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_event_create.html'>acc_event_create</a></td><td><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></td><td>Subroutine</td><td><p>Fortran-wrapper for cudaEventCreate.</p></td></tr>
+			   <tr><td><a href='../proc/acc_event_create.html'>acc_event_create</a></td><td><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></td><td>Subroutine</td><td><p>Fortran-wrapper for creation of a CUDA/HIP event.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_event_destroy.html'>acc_event_destroy</a></td><td><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></td><td>Subroutine</td><td><p>Fortran-wrapper for cudaEventDestroy.</p></td></tr>
+			   <tr><td><a href='../proc/acc_event_destroy.html'>acc_event_destroy</a></td><td><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></td><td>Subroutine</td><td><p>Fortran-wrapper for destruction of a CUDA/HIP event.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_event_query.html'>acc_event_query</a></td><td><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></td><td>Function</td><td><p>Fortran-wrapper for cudaEventQuery.</p></td></tr>
+			   <tr><td><a href='../proc/acc_event_query.html'>acc_event_query</a></td><td><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></td><td>Function</td><td><p>Fortran-wrapper for querying a CUDA/HIP event's status.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_event_record.html'>acc_event_record</a></td><td><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></td><td>Subroutine</td><td><p>Fortran-wrapper for cudaEventRecord.</p></td></tr>
+			   <tr><td><a href='../proc/acc_event_record.html'>acc_event_record</a></td><td><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></td><td>Subroutine</td><td><p>Fortran-wrapper for recording a CUDA/HIP event.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_event_synchronize.html'>acc_event_synchronize</a></td><td><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></td><td>Subroutine</td><td><p>Fortran-wrapper for cudaEventSynchronize.</p></td></tr>
+			   <tr><td><a href='../proc/acc_event_synchronize.html'>acc_event_synchronize</a></td><td><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></td><td>Subroutine</td><td><p>Fortran-wrapper for waiting for the completion of a HIP/CUDA event.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/acc_finalize.html'>acc_finalize</a></td><td><a href='../module/dbcsr_acc_init.html'>dbcsr_acc_init</a></td><td>Subroutine</td><td><p>Fortran-wrapper for acc_finalize</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_alloc_c4.html'>acc_hostmem_alloc_c4</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 1D fortan-array as cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_alloc_c4.html'>acc_hostmem_alloc_c4</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 1D fortan-array as GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_alloc_c4_2d.html'>acc_hostmem_alloc_c4_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 2D fortan-array as cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_alloc_c4_2d.html'>acc_hostmem_alloc_c4_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 2D fortan-array as GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_alloc_c8.html'>acc_hostmem_alloc_c8</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 1D fortan-array as cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_alloc_c8.html'>acc_hostmem_alloc_c8</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 1D fortan-array as GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_alloc_c8_2d.html'>acc_hostmem_alloc_c8_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 2D fortan-array as cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_alloc_c8_2d.html'>acc_hostmem_alloc_c8_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 2D fortan-array as GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_alloc_i4.html'>acc_hostmem_alloc_i4</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 1D fortan-array as cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_alloc_i4.html'>acc_hostmem_alloc_i4</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 1D fortan-array as GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_alloc_i4_2d.html'>acc_hostmem_alloc_i4_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 2D fortan-array as cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_alloc_i4_2d.html'>acc_hostmem_alloc_i4_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 2D fortan-array as GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_alloc_i8.html'>acc_hostmem_alloc_i8</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 1D fortan-array as cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_alloc_i8.html'>acc_hostmem_alloc_i8</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 1D fortan-array as GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_alloc_i8_2d.html'>acc_hostmem_alloc_i8_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 2D fortan-array as cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_alloc_i8_2d.html'>acc_hostmem_alloc_i8_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 2D fortan-array as GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_alloc_r4.html'>acc_hostmem_alloc_r4</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 1D fortan-array as cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_alloc_r4.html'>acc_hostmem_alloc_r4</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 1D fortan-array as GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_alloc_r4_2d.html'>acc_hostmem_alloc_r4_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 2D fortan-array as cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_alloc_r4_2d.html'>acc_hostmem_alloc_r4_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 2D fortan-array as GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_alloc_r8.html'>acc_hostmem_alloc_r8</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 1D fortan-array as cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_alloc_r8.html'>acc_hostmem_alloc_r8</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 1D fortan-array as GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_alloc_r8_2d.html'>acc_hostmem_alloc_r8_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 2D fortan-array as cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_alloc_r8_2d.html'>acc_hostmem_alloc_r8_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 2D fortan-array as GPU host-pinned memory.</p></td></tr>
 			 
 			   <tr><td><a href='../interface/acc_hostmem_allocate.html'>acc_hostmem_allocate</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Interface</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_dealloc_c4.html'>acc_hostmem_dealloc_c4</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 1D fortan-array, which is cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_dealloc_c4.html'>acc_hostmem_dealloc_c4</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 1D fortan-array, which is GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_dealloc_c4_2d.html'>acc_hostmem_dealloc_c4_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 2D fortan-array, which is cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_dealloc_c4_2d.html'>acc_hostmem_dealloc_c4_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 2D fortan-array, which is GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_dealloc_c8.html'>acc_hostmem_dealloc_c8</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 1D fortan-array, which is cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_dealloc_c8.html'>acc_hostmem_dealloc_c8</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 1D fortan-array, which is GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_dealloc_c8_2d.html'>acc_hostmem_dealloc_c8_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 2D fortan-array, which is cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_dealloc_c8_2d.html'>acc_hostmem_dealloc_c8_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 2D fortan-array, which is GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_dealloc_i4.html'>acc_hostmem_dealloc_i4</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 1D fortan-array, which is cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_dealloc_i4.html'>acc_hostmem_dealloc_i4</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 1D fortan-array, which is GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_dealloc_i4_2d.html'>acc_hostmem_dealloc_i4_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 2D fortan-array, which is cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_dealloc_i4_2d.html'>acc_hostmem_dealloc_i4_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 2D fortan-array, which is GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_dealloc_i8.html'>acc_hostmem_dealloc_i8</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 1D fortan-array, which is cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_dealloc_i8.html'>acc_hostmem_dealloc_i8</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 1D fortan-array, which is GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_dealloc_i8_2d.html'>acc_hostmem_dealloc_i8_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 2D fortan-array, which is cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_dealloc_i8_2d.html'>acc_hostmem_dealloc_i8_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 2D fortan-array, which is GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_dealloc_r4.html'>acc_hostmem_dealloc_r4</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 1D fortan-array, which is cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_dealloc_r4.html'>acc_hostmem_dealloc_r4</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 1D fortan-array, which is GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_dealloc_r4_2d.html'>acc_hostmem_dealloc_r4_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 2D fortan-array, which is cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_dealloc_r4_2d.html'>acc_hostmem_dealloc_r4_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 2D fortan-array, which is GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_dealloc_r8.html'>acc_hostmem_dealloc_r8</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 1D fortan-array, which is cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_dealloc_r8.html'>acc_hostmem_dealloc_r8</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 1D fortan-array, which is GPU host-pinned memory.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_hostmem_dealloc_r8_2d.html'>acc_hostmem_dealloc_r8_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 2D fortan-array, which is cuda host-pinned memory.</p></td></tr>
+			   <tr><td><a href='../proc/acc_hostmem_dealloc_r8_2d.html'>acc_hostmem_dealloc_r8_2D</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Deallocates a 2D fortan-array, which is GPU host-pinned memory.</p></td></tr>
 			 
 			   <tr><td><a href='../interface/acc_hostmem_deallocate.html'>acc_hostmem_deallocate</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Interface</td><td></td></tr>
 			 
@@ -211,20 +211,23 @@ All Procedures &ndash; DBCSR Library
 			 
 			   <tr><td><a href='../proc/acc_stream_cptr.html'>acc_stream_cptr</a></td><td><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></td><td>Function</td><td><p>Returns C-pointer of given stream.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_stream_create.html'>acc_stream_create</a></td><td><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></td><td>Subroutine</td><td><p>Fortran-wrapper for cudaStreamCreate.</p></td></tr>
+			   <tr><td><a href='../proc/acc_stream_create.html'>acc_stream_create</a></td><td><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></td><td>Subroutine</td><td><p>Fortran-wrapper for creation of a CUDA/HIP stream.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_stream_destroy.html'>acc_stream_destroy</a></td><td><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></td><td>Subroutine</td><td><p>Fortran-wrapper for cudaStreamDestroy.</p></td></tr>
+			   <tr><td><a href='../proc/acc_stream_destroy.html'>acc_stream_destroy</a></td><td><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></td><td>Subroutine</td><td><p>Fortran-wrapper for destruction of a CUDA/HIP stream.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/acc_stream_equal.html'>acc_stream_equal</a></td><td><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></td><td>Function</td><td><p>Checks if two streams are equal</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_stream_priority_range.html'>acc_stream_priority_range</a></td><td><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></td><td>Subroutine</td><td><p>Fortran-wrapper for cudaDeviceGetStreamPriorityRange.</p></td></tr>
+			   <tr><td><a href='../proc/acc_stream_priority_range.html'>acc_stream_priority_range</a></td><td><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></td><td>Subroutine</td><td><p>Fortran-wrapper for getting CUDA/HIP streams' priority range.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_stream_synchronize.html'>acc_stream_synchronize</a></td><td><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></td><td>Subroutine</td><td><p>Fortran-wrapper for cudaStreamSynchronize.</p></td></tr>
+			   <tr><td><a href='../proc/acc_stream_synchronize.html'>acc_stream_synchronize</a></td><td><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></td><td>Subroutine</td><td><p>Fortran-wrapper for waiting for CUDA/HIP stream tasks to complete.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_stream_wait_event.html'>acc_stream_wait_event</a></td><td><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></td><td>Subroutine</td><td><p>Fortran-wrapper for cudaStreamWaitEvent.
+			   <tr><td><a href='../proc/acc_stream_wait_event.html'>acc_stream_wait_event</a></td><td><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></td><td>Subroutine</td><td><p>Fortran-wrapper for making a GPU compute stream wait on an event.
  Because of fortran circular dependency restriction this can not go into acc_stream.F</p></td></tr>
 			 
 			   <tr><td><a href='../proc/acc_transpose_blocks.html'>acc_transpose_blocks</a></td><td><a href='../module/dbcsr_mm_common.html'>dbcsr_mm_common</a></td><td>Subroutine</td><td><p>write out a stack for transposing the blocks</p></td></tr>
+			 
+			   <tr><td><a href='../proc/accept_pdims_loadbalancing.html'>accept_pdims_loadbalancing</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>load balancing criterion whether to accept process grid dimension based on total number of
+ cores and tensor dimension</p></td></tr>
 			 
 			   <tr><td><a href='../proc/accept_pgrid_dims.html'>accept_pgrid_dims</a></td><td><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></td><td>Function</td><td><p>Whether to accept proposed process grid dimensions (based on ratio of dimensions)</p></td></tr>
 			 
@@ -1034,7 +1037,7 @@ All Procedures &ndash; DBCSR Library
 			 
 			   <tr><td><a href='../interface/dbcsr_abort_interface.html'>dbcsr_abort_interface</a></td><td><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></td><td>Interface</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/dbcsr_acc_clear_errors.html'>dbcsr_acc_clear_errors</a></td><td><a href='../module/dbcsr_acc_device.html'>dbcsr_acc_device</a></td><td>Subroutine</td><td><p>Clear CUDA errors</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_acc_clear_errors.html'>dbcsr_acc_clear_errors</a></td><td><a href='../module/dbcsr_acc_device.html'>dbcsr_acc_device</a></td><td>Subroutine</td><td><p>Clear GPU errors</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_acc_do_mm_stack.html'>dbcsr_acc_do_mm_stack</a></td><td><a href='../module/dbcsr_acc_operations.html'>dbcsr_acc_operations</a></td><td>Subroutine</td><td><p>Launch an accelerated kernel for processing a stack.</p></td></tr>
 			 
@@ -3163,17 +3166,17 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/destroy_nd_to_2d_mapping.html'>destroy_nd_to_2d_mapping</a></td><td><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></td><td>Subroutine</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/dev2host_c4_1d.html'>dev2host_c4_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers cuda devmem to 1D fortran-array.</p></td></tr>
+			   <tr><td><a href='../proc/dev2host_c4_1d.html'>dev2host_c4_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers GPU devmem to 1D fortran-array.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dev2host_c8_1d.html'>dev2host_c8_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers cuda devmem to 1D fortran-array.</p></td></tr>
+			   <tr><td><a href='../proc/dev2host_c8_1d.html'>dev2host_c8_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers GPU devmem to 1D fortran-array.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dev2host_i4_1d.html'>dev2host_i4_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers cuda devmem to 1D fortran-array.</p></td></tr>
+			   <tr><td><a href='../proc/dev2host_i4_1d.html'>dev2host_i4_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers GPU devmem to 1D fortran-array.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dev2host_i8_1d.html'>dev2host_i8_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers cuda devmem to 1D fortran-array.</p></td></tr>
+			   <tr><td><a href='../proc/dev2host_i8_1d.html'>dev2host_i8_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers GPU devmem to 1D fortran-array.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dev2host_r4_1d.html'>dev2host_r4_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers cuda devmem to 1D fortran-array.</p></td></tr>
+			   <tr><td><a href='../proc/dev2host_r4_1d.html'>dev2host_r4_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers GPU devmem to 1D fortran-array.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dev2host_r8_1d.html'>dev2host_r8_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers cuda devmem to 1D fortran-array.</p></td></tr>
+			   <tr><td><a href='../proc/dev2host_r8_1d.html'>dev2host_r8_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers GPU devmem to 1D fortran-array.</p></td></tr>
 			 
 			   <tr><td><a href='../interface/dict_del.html'>dict_del</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Interface</td><td></td></tr>
 			 
@@ -3433,29 +3436,33 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/hash_table_release.html'>hash_table_release</a></td><td><a href='../module/dbcsr_mm_csr.html'>dbcsr_mm_csr</a></td><td>Subroutine</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/host2dev_c4_1d.html'>host2dev_c4_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 1D fortran-array from host to cuda devmem.</p></td></tr>
+			   <tr><td><a href='../proc/hipblas_handle_destroy.html'>hipblas_handle_destroy</a></td><td><a href='../module/dbcsr_hipblas.html'>dbcsr_hipblas</a></td><td>Subroutine</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/host2dev_c4_2d.html'>host2dev_c4_2D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 2D fortran-array from host to cuda devmem.</p></td></tr>
+			   <tr><td><a href='../proc/hipblas_handle_init.html'>hipblas_handle_init</a></td><td><a href='../module/dbcsr_hipblas.html'>dbcsr_hipblas</a></td><td>Subroutine</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/host2dev_c8_1d.html'>host2dev_c8_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 1D fortran-array from host to cuda devmem.</p></td></tr>
+			   <tr><td><a href='../proc/host2dev_c4_1d.html'>host2dev_c4_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 1D fortran-array from host to GPU devmem.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/host2dev_c8_2d.html'>host2dev_c8_2D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 2D fortran-array from host to cuda devmem.</p></td></tr>
+			   <tr><td><a href='../proc/host2dev_c4_2d.html'>host2dev_c4_2D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 2D fortran-array from host to GPU devmem.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/host2dev_i4_1d.html'>host2dev_i4_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 1D fortran-array from host to cuda devmem.</p></td></tr>
+			   <tr><td><a href='../proc/host2dev_c8_1d.html'>host2dev_c8_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 1D fortran-array from host to GPU devmem.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/host2dev_i4_2d.html'>host2dev_i4_2D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 2D fortran-array from host to cuda devmem.</p></td></tr>
+			   <tr><td><a href='../proc/host2dev_c8_2d.html'>host2dev_c8_2D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 2D fortran-array from host to GPU devmem.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/host2dev_i8_1d.html'>host2dev_i8_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 1D fortran-array from host to cuda devmem.</p></td></tr>
+			   <tr><td><a href='../proc/host2dev_i4_1d.html'>host2dev_i4_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 1D fortran-array from host to GPU devmem.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/host2dev_i8_2d.html'>host2dev_i8_2D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 2D fortran-array from host to cuda devmem.</p></td></tr>
+			   <tr><td><a href='../proc/host2dev_i4_2d.html'>host2dev_i4_2D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 2D fortran-array from host to GPU devmem.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/host2dev_r4_1d.html'>host2dev_r4_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 1D fortran-array from host to cuda devmem.</p></td></tr>
+			   <tr><td><a href='../proc/host2dev_i8_1d.html'>host2dev_i8_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 1D fortran-array from host to GPU devmem.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/host2dev_r4_2d.html'>host2dev_r4_2D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 2D fortran-array from host to cuda devmem.</p></td></tr>
+			   <tr><td><a href='../proc/host2dev_i8_2d.html'>host2dev_i8_2D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 2D fortran-array from host to GPU devmem.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/host2dev_r8_1d.html'>host2dev_r8_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 1D fortran-array from host to cuda devmem.</p></td></tr>
+			   <tr><td><a href='../proc/host2dev_r4_1d.html'>host2dev_r4_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 1D fortran-array from host to GPU devmem.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/host2dev_r8_2d.html'>host2dev_r8_2D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 2D fortran-array from host to cuda devmem.</p></td></tr>
+			   <tr><td><a href='../proc/host2dev_r4_2d.html'>host2dev_r4_2D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 2D fortran-array from host to GPU devmem.</p></td></tr>
+			 
+			   <tr><td><a href='../proc/host2dev_r8_1d.html'>host2dev_r8_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 1D fortran-array from host to GPU devmem.</p></td></tr>
+			 
+			   <tr><td><a href='../proc/host2dev_r8_2d.html'>host2dev_r8_2D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers 2D fortran-array from host to GPU devmem.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/hybrid_alltoall_any.html'>hybrid_alltoall_any</a></td><td><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></td><td>Subroutine</td><td></td></tr>
 			 
@@ -4274,6 +4281,10 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/mp_deallocate_z.html'>mp_deallocate_z</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Deallocates special parallel memory</p></td></tr>
 			 
 			   <tr><td><a href='../proc/mp_dims_create.html'>mp_dims_create</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
+			 
+			   <tr><td><a href='../proc/mp_dims_create_from_tensor_dims.html'>mp_dims_create_from_tensor_dims</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Create process grid dimensions corresponding to one dimension of the matrix representation
+ of a tensor, imposing that no process grid dimension is greater than the corresponding
+ tensor dimension.</p></td></tr>
 			 
 			   <tr><td><a href='../interface/mp_environ.html'>mp_environ</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
 			 

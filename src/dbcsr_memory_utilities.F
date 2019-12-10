@@ -793,7 +793,6 @@ CONTAINS
       !! (Maybe outdated) This routine does not work on SUN/Solaris!!!
       !! It should probably not be used. (Thomas Chassaing)
 
-
       CHARACTER(LEN=default_string_length), &
          DIMENSION(:), OPTIONAL, POINTER                 :: p_short
       INTEGER, INTENT(IN)                                :: lb_new, ub_new
@@ -817,7 +816,6 @@ CONTAINS
       !! @note
       !! (Maybe outdated) This routine does not work on SUN/Solaris!!!
       !! It should probably not be used. (Thomas Chassaing)
-
 
       CHARACTER(LEN=default_string_length), &
          DIMENSION(:), POINTER                           :: p
@@ -862,7 +860,6 @@ CONTAINS
       !! @note
       !! (Maybe outdated) This routine does not work on SUN/Solaris!!!
       !! It should probably not be used. (Thomas Chassaing)
-
 
       CHARACTER(LEN=default_path_length), DIMENSION(:), &
          POINTER                                         :: p

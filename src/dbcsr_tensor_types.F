@@ -13,15 +13,14 @@ MODULE dbcsr_tensor_types
 
 
 
-
    USE dbcsr_array_list_methods, ONLY: &
       array_list, array_offsets, create_array_list, destroy_array_list, get_array_elements, &
       sizes_of_arrays, sum_of_arrays, array_sublist, get_arrays, get_ith_array, array_eq_i
    USE dbcsr_api, ONLY: &
       dbcsr_distribution_get, dbcsr_distribution_type, dbcsr_get_info, dbcsr_type, &
-      dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_real_8, dbcsr_type_complex_4
+      dbcsr_type_complex_8, dbcsr_type_real_8, dbcsr_type_complex_4, dbcsr_type_real_4
    USE dbcsr_kinds, ONLY: &
-      real_4, real_8, &
+      real_8, real_4, &
       default_string_length
    USE dbcsr_tas_base, ONLY: &
       dbcsr_tas_create, dbcsr_tas_distribution_new, &
@@ -44,6 +43,7 @@ MODULE dbcsr_tensor_types
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
    USE dbcsr_operations, ONLY: dbcsr_scale
+   USE dbcsr_toollib, ONLY: sort
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -426,7 +426,7 @@ CONTAINS
 
    END FUNCTION
 
-   FUNCTION dbcsr_t_nd_mp_comm(comm_2d, map1_2d, map2_2d, dims_nd, dims1_nd, dims2_nd, pdims_2d)
+   FUNCTION dbcsr_t_nd_mp_comm(comm_2d, map1_2d, map2_2d, dims_nd, dims1_nd, dims2_nd, pdims_2d, tdims)
       !! Create a default nd process topology that is consistent with a given 2d topology.
       !! Purpose: a nd tensor defined on the returned process grid can be represented as a DBCSR
       !! matrix with the given 2d topology.
@@ -445,6 +445,11 @@ CONTAINS
       INTEGER, DIMENSION(SIZE(map2_2d)), INTENT(IN), OPTIONAL :: dims2_nd
       INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL           :: pdims_2d
          !! if comm_2d does not have a cartesian topology associated, can input dimensions with pdims_2d
+      INTEGER, DIMENSION(SIZE(map1_2d) + SIZE(map2_2d)), &
+         INTENT(IN), OPTIONAL                           :: tdims
+         !! tensor block dimensions. If present, process grid dimensions are created such that good
+         !! load balancing is ensured even if some of the tensor dimensions are small (i.e. on the same order
+         !! or smaller than nproc**(1/ndim) where ndim is the tensor rank)
       INTEGER                                           :: ndim1, ndim2
       INTEGER                                           :: numtask
       INTEGER, DIMENSION(2)                             :: dims_2d, task_coor
@@ -472,13 +477,22 @@ CONTAINS
          IF (PRESENT(dims1_nd)) THEN
             dims1_nd_prv(:) = dims1_nd
          ELSE
-            CALL mp_dims_create(dims_2d(1), dims1_nd_prv)
+
+            IF(PRESENT(tdims)) THEN
+               CALL mp_dims_create_from_tensor_dims(dims_2d(1), dims1_nd_prv, tdims(map1_2d))
+            ELSE
+               CALL mp_dims_create(dims_2d(1), dims1_nd_prv)
+            ENDIF
          ENDIF
 
          IF (PRESENT(dims2_nd)) THEN
             dims2_nd_prv(:) = dims2_nd
          ELSE
-            CALL mp_dims_create(dims_2d(2), dims2_nd_prv)
+            IF(PRESENT(tdims)) THEN
+               CALL mp_dims_create_from_tensor_dims(dims_2d(2), dims2_nd_prv, tdims(map2_2d))
+            ELSE
+               CALL mp_dims_create(dims_2d(2), dims2_nd_prv)
+            ENDIF
          ENDIF
          dims_nd_prv(map1_2d) = dims1_nd_prv
          dims_nd_prv(map2_2d) = dims2_nd_prv
@@ -488,9 +502,105 @@ CONTAINS
          dims_nd_prv = dims_nd
       ENDIF
 
-      CALL dbcsr_t_pgrid_create(comm_2d, dims_nd_prv, dbcsr_t_nd_mp_comm, map1_2d, map2_2d)
+      CALL dbcsr_t_pgrid_create(comm_2d, dims_nd_prv, dbcsr_t_nd_mp_comm, tensor_dims=tdims, map1_2d=map1_2d, map2_2d=map2_2d)
 
       CALL timestop(handle)
+
+   END FUNCTION
+
+   RECURSIVE SUBROUTINE mp_dims_create_from_tensor_dims(nodes, dims, tensor_dims, lb_ratio)
+      !! Create process grid dimensions corresponding to one dimension of the matrix representation
+      !! of a tensor, imposing that no process grid dimension is greater than the corresponding
+      !! tensor dimension.
+
+      INTEGER, INTENT(IN) :: nodes
+         !! Total number of nodes available for this matrix dimension
+      INTEGER, DIMENSION(:), INTENT(OUT) :: dims
+         !! process grid dimension corresponding to tensor_dims
+      INTEGER, DIMENSION(:), INTENT(IN) :: tensor_dims
+         !! tensor dimensions
+      REAL(real_8), INTENT(IN), OPTIONAL :: lb_ratio
+         !! load imbalance acceptance factor
+
+      INTEGER, DIMENSION(:), ALLOCATABLE :: tensor_dims_sorted, sort_indices, tmp
+      INTEGER :: pdims_rem, idim, pdim
+      REAL(real_8) :: lb_ratio_prv
+
+      IF(PRESENT(lb_ratio)) THEN
+         lb_ratio_prv = lb_ratio
+      ELSE
+         lb_ratio_prv = 0.2_real_8
+      ENDIF
+
+      ! get default process grid dimensions
+      dims = 0
+      CALL mp_dims_create(nodes, dims)
+
+      ALLOCATE (tensor_dims_sorted(SIZE(tensor_dims)), sort_indices(SIZE(tensor_dims)))
+      tensor_dims_sorted(:) = tensor_dims
+      CALL sort(tensor_dims_sorted, SIZE(tensor_dims_sorted), sort_indices)
+      ALLOCATE (tmp(SIZE(dims)))
+      CALL sort(dims, SIZE(dims), tmp)
+
+      ! remaining number of nodes
+      pdims_rem = nodes
+
+      DO idim = 1, SIZE(tensor_dims_sorted)
+         IF (.NOT. accept_pdims_loadbalancing(pdims_rem, dims(idim), tensor_dims_sorted(idim), lb_ratio_prv)) THEN
+            pdim = tensor_dims_sorted(idim)
+            DO WHILE(.NOT. accept_pdims_loadbalancing(pdims_rem, pdim, tensor_dims_sorted(idim), lb_ratio_prv))
+               pdim = pdim - 1
+            ENDDO
+            dims(idim) = pdim
+            pdims_rem = pdims_rem/dims(idim)
+
+            IF (idim .NE. SIZE(tensor_dims_sorted)) THEN
+               dims(idim + 1:) = 0
+               CALL mp_dims_create(pdims_rem, dims(idim + 1:))
+               CALL sort(dims(idim + 1:), SIZE(dims(idim + 1:)), tmp(idim + 1:))
+            ELSEIF(lb_ratio_prv < 1.0_real_8) THEN
+               ! resort to a less strict load imbalance factor
+               dims(:) = 0
+               CALL mp_dims_create_from_tensor_dims(nodes, dims, tensor_dims, 1.1_real_8)
+               RETURN
+            ELSE
+               ! resort to default process grid dimensions
+               dims(:) = 0
+               CALL mp_dims_create(nodes, dims)
+               RETURN
+            ENDIF
+
+         ENDIF
+         pdims_rem = pdims_rem/dims(idim)
+      ENDDO
+
+      dims(sort_indices) = dims
+
+      DEALLOCATE (tmp)
+
+   END SUBROUTINE
+
+   PURE FUNCTION accept_pdims_loadbalancing(pdims_avail, pdim, tdim, lb_ratio)
+      !! load balancing criterion whether to accept process grid dimension based on total number of
+      !! cores and tensor dimension
+      INTEGER, INTENT(IN) :: pdims_avail
+         !! available process grid dimensions (total number of cores)
+      INTEGER, INTENT(IN) :: pdim
+         !! process grid dimension to test
+      INTEGER, INTENT(IN) :: tdim
+         !! tensor dimension corresponding to pdim
+      REAL(real_8), INTENT(IN) :: lb_ratio
+         !! load imbalance acceptance factor
+      LOGICAL :: accept_pdims_loadbalancing
+
+      accept_pdims_loadbalancing = .FALSE.
+      IF (MOD(pdims_avail, pdim) == 0) THEN
+         IF (REAL(tdim, real_8)*lb_ratio < REAL(pdim, real_8)) THEN
+            IF (MOD(tdim, pdim) == 0) accept_pdims_loadbalancing = .TRUE.
+         ELSE
+            accept_pdims_loadbalancing = .TRUE.
+         ENDIF
+      ENDIF
 
    END FUNCTION
 
@@ -1061,7 +1171,7 @@ CONTAINS
       CALL dbcsr_tas_get_stored_coordinates(tensor%matrix_rep, ind_2d(1), ind_2d(2), processor)
    END SUBROUTINE
 
-   SUBROUTINE dbcsr_t_pgrid_create(mp_comm, dims, pgrid, map1_2d, map2_2d, nsplit, dimsplit)
+   SUBROUTINE dbcsr_t_pgrid_create(mp_comm, dims, pgrid, tensor_dims, map1_2d, map2_2d, nsplit, dimsplit)
       !! Create an n-dimensional process grid.
       !! We can not use a n-dimensional MPI cartesian grid for tensors since the mapping between
       !! n-dim. and 2-dim. index allows for an arbitrary reordering of tensor index. Therefore we can not
@@ -1077,9 +1187,13 @@ CONTAINS
       INTEGER, INTENT(IN) :: mp_comm
          !! simple MPI Communicator
       INTEGER, DIMENSION(:), INTENT(INOUT) :: dims
-         !! grid dimensions
+         !! grid dimensions - if all entries are 0, dimensions are chosen automatically.
       TYPE(dbcsr_t_pgrid_type), INTENT(OUT) :: pgrid
          !! n-dimensional grid object
+      INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: tensor_dims
+         !! tensor block dimensions. If present, process grid dimensions are created such that good
+         !! load balancing is ensured even if some of the tensor dimensions are small (i.e. on the same order
+         !! or smaller than nproc**(1/ndim) where ndim is the tensor rank)
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL :: map1_2d, map2_2d
          !! which nd-indices map to first matrix index and in which order
          !! which nd-indices map to first matrix index and in which order
@@ -1108,7 +1222,13 @@ CONTAINS
       ENDIF
 
       CALL mp_environ(nproc, iproc, mp_comm)
-      IF (ANY(dims == 0)) CALL mp_dims_create(nproc, dims)
+      IF (ANY(dims == 0)) THEN
+         IF(.NOT. PRESENT(tensor_dims)) THEN
+            CALL mp_dims_create(nproc, dims)
+         ELSE
+            CALL mp_dims_create_from_tensor_dims(nproc, dims, tensor_dims)
+         ENDIF
+      ENDIF
       CALL create_nd_to_2d_mapping(pgrid%nd_index_grid, dims, map1_2d_prv, map2_2d_prv, base=0, col_major=.FALSE.)
       CALL dbcsr_t_get_mapping_info(pgrid%nd_index_grid, dims_2d=pdims_2d)
       CALL mp_cart_create(mp_comm, 2, pdims_2d, pos, pgrid%mp_comm_2d)
@@ -1155,7 +1275,7 @@ CONTAINS
 
       ALLOCATE (dims(SIZE(map1_2d) + SIZE(map2_2d)))
       CALL dbcsr_t_get_mapping_info(pgrid_in%nd_index_grid, dims_nd=dims, map1_2d=map1_2d_old, map2_2d=map2_2d_old)
-      CALL dbcsr_t_pgrid_create(pgrid_in%mp_comm_2d, dims, pgrid_out, map1_2d, map2_2d)
+      CALL dbcsr_t_pgrid_create(pgrid_in%mp_comm_2d, dims, pgrid_out, map1_2d=map1_2d, map2_2d=map2_2d)
       IF (array_eq_i(map1_2d_old, map1_2d) .AND. array_eq_i(map2_2d_old, map2_2d)) THEN
          IF (ALLOCATED(pgrid_in%tas_split_info)) THEN
             ALLOCATE (pgrid_out%tas_split_info, SOURCE=pgrid_in%tas_split_info)

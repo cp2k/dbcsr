@@ -16,7 +16,6 @@ MODULE dbcsr_mm_multrec
    !! dbcsr_mm_methods.
    !! - 2013-01    extensive refactoring (Ole Schuett)
 
-
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_equality
    USE dbcsr_block_operations, ONLY: dbcsr_data_set

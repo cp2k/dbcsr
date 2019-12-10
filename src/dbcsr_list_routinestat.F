@@ -8,7 +8,6 @@
 !--------------------------------------------------------------------------------------------------!
 
 
-
    !! An array-based list which grows on demand.
    !! When the internal array is full, a new array of twice the size will be
    !! allocated and the items are copied over.
@@ -16,7 +15,7 @@
    !! Have look at list_push(), list_pop() and list_peek().
 
 MODULE dbcsr_list_routinestat
-   USE dbcsr_timings_base_type, ONLY: callstack_entry_type, routine_stat_type, routine_report_type
+   USE dbcsr_timings_base_type, ONLY: routine_stat_type, routine_report_type, callstack_entry_type
 
 
 #include "../base/dbcsr_base_uses.f90"

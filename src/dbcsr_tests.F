@@ -39,8 +39,7 @@ MODULE dbcsr_tests
                                dbcsr_mp_release,&
                                dbcsr_mp_make_env
    USE dbcsr_mpiwrap, ONLY: &
-      mp_cart_create, mp_cart_rank, mp_comm_free, mp_comm_null, mp_dims_create, mp_environ, &
-      mp_max, mp_sum, mp_sync
+      mp_comm_free, mp_environ, mp_max, mp_sum, mp_sync
    USE dbcsr_multiply_api, ONLY: dbcsr_multiply
    USE dbcsr_operations, ONLY: dbcsr_add, &
                                dbcsr_copy, &

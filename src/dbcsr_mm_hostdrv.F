@@ -404,7 +404,6 @@ CONTAINS
      MARK_USED(stack_descr)
   END SUBROUTINE smm_process_mm_stack_d
 
-
 #if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
   SUBROUTINE xsmm_process_mm_batch_d (stack_descr, params, &
                                                   stack_size, a_data, b_data, c_data, used_smm)
@@ -748,7 +747,6 @@ CONTAINS
 
      MARK_USED(stack_descr)
   END SUBROUTINE smm_process_mm_stack_s
-
 
 #if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
   SUBROUTINE xsmm_process_mm_batch_s (stack_descr, params, &
@@ -1094,7 +1092,6 @@ CONTAINS
      MARK_USED(stack_descr)
   END SUBROUTINE smm_process_mm_stack_z
 
-
 #if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
   SUBROUTINE xsmm_process_mm_batch_z (stack_descr, params, &
                                                   stack_size, a_data, b_data, c_data, used_smm)
@@ -1438,7 +1435,6 @@ CONTAINS
 
      MARK_USED(stack_descr)
   END SUBROUTINE smm_process_mm_stack_c
-
 
 #if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
   SUBROUTINE xsmm_process_mm_batch_c (stack_descr, params, &

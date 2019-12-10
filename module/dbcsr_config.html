@@ -130,7 +130,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.4% of total for modules and submodules.">244 statements</a>
+    title=" 0.4% of total for modules and submodules.">247 statements</a>
      </li> 
      
      
@@ -173,7 +173,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen%7E60">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen%7E61">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_config.html#variable-default_resize_factor">default_resize_factor</a>
       
@@ -214,6 +214,8 @@
       <a class="list-group-item" href="../module/dbcsr_config.html#variable-dbcsr_cfg">dbcsr_cfg</a>
       
       <a class="list-group-item" href="../module/dbcsr_config.html#variable-cublas_handles">cublas_handles</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_config.html#variable-hipblas_handles">hipblas_handles</a>
       
       <a class="list-group-item" href="../module/dbcsr_config.html#variable-max_kernel_dim">max_kernel_dim</a>
       
@@ -291,6 +293,8 @@
     
     <li><a href='../module/dbcsr_cublas.html'>dbcsr_cublas</a></li>
     
+    <li><a href='../module/dbcsr_hipblas.html'>dbcsr_hipblas</a></li>
+    
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
@@ -323,7 +327,7 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen%7E60">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen%7E61">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_config.html#variable-default_resize_factor">default_resize_factor</a>
       
@@ -364,6 +368,8 @@
       <a class="list-group-item" href="../module/dbcsr_config.html#variable-dbcsr_cfg">dbcsr_cfg</a>
       
       <a class="list-group-item" href="../module/dbcsr_config.html#variable-cublas_handles">cublas_handles</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_config.html#variable-hipblas_handles">hipblas_handles</a>
       
       <a class="list-group-item" href="../module/dbcsr_config.html#variable-max_kernel_dim">max_kernel_dim</a>
       
@@ -443,7 +449,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen%7E60"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen%7E61"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -728,6 +734,20 @@
   <td>public,</td>
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>cublas_handles</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-hipblas_handles"></span>type(<a href='../type/hipblas_handle_type.html'>hipblas_handle_type</a>),</td>
+  
+  <td>public,</td>
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>hipblas_handles</strong></td><td></td><td></td><td></td>
   
 </tr>
 

@@ -480,7 +480,7 @@ public function <a href='../proc/acc_event_query.html'>acc_event_query</a>(this)
 
 
 
-<p>Fortran-wrapper for cudaEventQuery.</p>
+<p>Fortran-wrapper for querying a CUDA/HIP event's status.</p>
     
     <h4>Arguments</h4>
     
@@ -556,7 +556,7 @@ public subroutine <a href='../proc/acc_stream_wait_event.html'>acc_stream_wait_e
 
 
 
-<p>Fortran-wrapper for cudaStreamWaitEvent.
+<p>Fortran-wrapper for making a GPU compute stream wait on an event.
  Because of fortran circular dependency restriction this can not go into acc_stream.F</p>
     
     <h4>Arguments</h4>
@@ -631,7 +631,7 @@ public subroutine <a href='../proc/acc_event_record.html'>acc_event_record</a>(t
 
 
 
-<p>Fortran-wrapper for cudaEventRecord.</p>
+<p>Fortran-wrapper for recording a CUDA/HIP event.</p>
     
     <h4>Arguments</h4>
     
@@ -705,7 +705,7 @@ public subroutine <a href='../proc/acc_event_create.html'>acc_event_create</a>(t
 
 
 
-<p>Fortran-wrapper for cudaEventCreate.</p>
+<p>Fortran-wrapper for creation of a CUDA/HIP event.</p>
     
     <h4>Arguments</h4>
     
@@ -764,7 +764,7 @@ public subroutine <a href='../proc/acc_event_destroy.html'>acc_event_destroy</a>
 
 
 
-<p>Fortran-wrapper for cudaEventDestroy.</p>
+<p>Fortran-wrapper for destruction of a CUDA/HIP event.</p>
     
     <h4>Arguments</h4>
     
@@ -823,7 +823,7 @@ public subroutine <a href='../proc/acc_event_synchronize.html'>acc_event_synchro
 
 
 
-<p>Fortran-wrapper for cudaEventSynchronize.</p>
+<p>Fortran-wrapper for waiting for the completion of a HIP/CUDA event.</p>
     
     <h4>Arguments</h4>
     

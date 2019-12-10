@@ -7,7 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-
 MODULE dbcsr_tensor_split
 
    !! Routines to split blocks and to convert between tensors with different block sizes.
@@ -38,7 +37,7 @@ MODULE dbcsr_tensor_split
                                  dbcsr_t_get_num_blocks, &
                                  dbcsr_t_blk_offsets, &
                                  dbcsr_t_blk_sizes
-   USE dbcsr_api, ONLY: dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_real_8, dbcsr_type_complex_4
+   USE dbcsr_api, ONLY: dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_type_complex_8
    USE dbcsr_kinds, ONLY: real_4, real_8
 
 #include "base/dbcsr_base_uses.f90"

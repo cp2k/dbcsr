@@ -12,7 +12,6 @@ MODULE dbcsr_mm_types
    !! <b>Modification history:</b>
    !! - 2013-01    reorganized code (Ole Schuett)
 
-
    IMPLICIT NONE
 
    PRIVATE

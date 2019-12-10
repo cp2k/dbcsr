@@ -130,7 +130,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">34 statements</a>
+    title=" 0.1% of total for procedures.">41 statements</a>
      </li> 
      
      
@@ -197,7 +197,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_t_pgrid_create(mp_comm, dims, pgrid, map1_2d, map2_2d, nsplit, dimsplit)
+public subroutine dbcsr_t_pgrid_create(mp_comm, dims, pgrid, tensor_dims, map1_2d, map2_2d, nsplit, dimsplit)
     
     
    
@@ -253,12 +253,12 @@ public subroutine dbcsr_t_pgrid_create(mp_comm, dims, pgrid, map1_2d, map2_2d, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-dims%7E8"></span>integer,</td>
+  <td><span class="anchor" id="variable-dims%7E9"></span>integer,</td>
   <td>intent(inout),</td>
   <td></td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>dims</strong></td><td><p>grid dimensions</p></td>
+  <td><strong>dims</strong></td><td><p>grid dimensions - if all entries are 0, dimensions are chosen automatically.</p></td>
   
 </tr>
 
@@ -274,6 +274,23 @@ public subroutine dbcsr_t_pgrid_create(mp_comm, dims, pgrid, map1_2d, map2_2d, n
   
   <td></td><td>::</td>
   <td><strong>pgrid</strong></td><td><p>n-dimensional grid object</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tensor_dims%7E2"></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>tensor_dims</strong></td><td><p>tensor block dimensions. If present, process grid dimensions are created such that good
+ load balancing is ensured even if some of the tensor dimensions are small (i.e. on the same order
+ or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
   
 </tr>
 

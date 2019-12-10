@@ -11,6 +11,7 @@ MODULE dbcsr_config
    !! Configuration options for DBCSR
    USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices
    USE dbcsr_cublas, ONLY: cublas_handle_type
+   USE dbcsr_hipblas, ONLY: hipblas_handle_type
    USE dbcsr_kinds, ONLY: default_string_length, &
                           dp
    USE dbcsr_ptr_util, ONLY: dbcsr_data_allocation, &
@@ -96,7 +97,7 @@ MODULE dbcsr_config
       INTEGER  :: num_layers_3D = 1
       LOGICAL  :: use_comm_thread = .TRUE.
       INTEGER  :: comm_thread_load = 100
-#if !defined (__DBCSR_ACC) || (__DBCSR_ACC == 2)
+#if !defined (__DBCSR_ACC) || (__DBCSR_ACC == 2) || (__DBCSR_ACC == 3)
       LOGICAL  :: mm_densification = .TRUE.
 #else
       LOGICAL  :: mm_densification = .FALSE.
@@ -120,6 +121,8 @@ MODULE dbcsr_config
 
    ! CUBLAS handle (a handle per each thread)
    TYPE(cublas_handle_type), DIMENSION(:), ALLOCATABLE :: cublas_handles
+   ! HIPBLAS handle (a handle per each thread)
+   TYPE(hipblas_handle_type), DIMENSION(:), ALLOCATABLE :: hipblas_handles
 
    ! Max dimension for any block dimension
    INTEGER, PARAMETER :: max_kernel_dim = 80
@@ -128,6 +131,7 @@ MODULE dbcsr_config
    PUBLIC :: mm_driver_blas, mm_driver_matmul, mm_driver_smm, mm_driver_xsmm, mm_driver_auto
    PUBLIC :: dbcsr_set_config, dbcsr_get_default_config, dbcsr_print_config
    PUBLIC :: cublas_handles
+   PUBLIC :: hipblas_handles
    PUBLIC :: max_kernel_dim
 
 CONTAINS

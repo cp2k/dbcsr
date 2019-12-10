@@ -8,7 +8,6 @@
 !--------------------------------------------------------------------------------------------------!
 
 
-
 MODULE dbcsr_dict
    !! A dictionary (also known as hashtable or hashmap).
    !! Internally the dictionary uses an array to holds its data.

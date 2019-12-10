@@ -279,32 +279,31 @@
 <a name="ln-12"></a>   <span class="c">!! &lt;b&gt;Modification history:&lt;/b&gt;</span>
 <a name="ln-13"></a>   <span class="c">!! - 2013-01    reorganized code (Ole Schuett)</span>
 <a name="ln-14"></a>
-<a name="ln-15"></a>
-<a name="ln-16"></a>   <span class="k">IMPLICIT NONE</span>
-<a name="ln-17"></a>
-<a name="ln-18"></a><span class="k">   PRIVATE</span>
-<a name="ln-19"></a>
-<a name="ln-20"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">moduleN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_mm_types&#39;</span>
-<a name="ln-21"></a>
-<a name="ln-22"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">stack_descriptor_type</span>
-<a name="ln-23"></a>
-<a name="ln-24"></a>   <span class="c">! Definitions for the members of a parameter stack.</span>
-<a name="ln-25"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_ps_width</span> <span class="o">=</span> <span class="mi">7</span>
-<a name="ln-26"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_ps_acc_width</span> <span class="o">=</span> <span class="mi">3</span>
-<a name="ln-27"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_m</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-28"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_n</span> <span class="o">=</span> <span class="mi">2</span>
-<a name="ln-29"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_k</span> <span class="o">=</span> <span class="mi">3</span>
-<a name="ln-30"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_a_first</span> <span class="o">=</span> <span class="mi">4</span>
-<a name="ln-31"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_b_first</span> <span class="o">=</span> <span class="mi">5</span>
-<a name="ln-32"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_c_first</span> <span class="o">=</span> <span class="mi">6</span>
-<a name="ln-33"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_c_blk</span> <span class="o">=</span> <span class="mi">7</span>
-<a name="ln-34"></a>
-<a name="ln-35"></a>   <span class="k">TYPE </span><span class="n">stack_descriptor_type</span>
-<a name="ln-36"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">max_m</span><span class="p">,</span> <span class="n">max_n</span><span class="p">,</span> <span class="n">max_k</span>
-<a name="ln-37"></a>      <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">defined_mnk</span>
-<a name="ln-38"></a>   <span class="k">END TYPE </span><span class="n">stack_descriptor_type</span>
-<a name="ln-39"></a>
-<a name="ln-40"></a><span class="k">END MODULE </span><span class="n">dbcsr_mm_types</span>
+<a name="ln-15"></a>   <span class="k">IMPLICIT NONE</span>
+<a name="ln-16"></a>
+<a name="ln-17"></a><span class="k">   PRIVATE</span>
+<a name="ln-18"></a>
+<a name="ln-19"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">moduleN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_mm_types&#39;</span>
+<a name="ln-20"></a>
+<a name="ln-21"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">stack_descriptor_type</span>
+<a name="ln-22"></a>
+<a name="ln-23"></a>   <span class="c">! Definitions for the members of a parameter stack.</span>
+<a name="ln-24"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_ps_width</span> <span class="o">=</span> <span class="mi">7</span>
+<a name="ln-25"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_ps_acc_width</span> <span class="o">=</span> <span class="mi">3</span>
+<a name="ln-26"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_m</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-27"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_n</span> <span class="o">=</span> <span class="mi">2</span>
+<a name="ln-28"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_k</span> <span class="o">=</span> <span class="mi">3</span>
+<a name="ln-29"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_a_first</span> <span class="o">=</span> <span class="mi">4</span>
+<a name="ln-30"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_b_first</span> <span class="o">=</span> <span class="mi">5</span>
+<a name="ln-31"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_c_first</span> <span class="o">=</span> <span class="mi">6</span>
+<a name="ln-32"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">p_c_blk</span> <span class="o">=</span> <span class="mi">7</span>
+<a name="ln-33"></a>
+<a name="ln-34"></a>   <span class="k">TYPE </span><span class="n">stack_descriptor_type</span>
+<a name="ln-35"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">max_m</span><span class="p">,</span> <span class="n">max_n</span><span class="p">,</span> <span class="n">max_k</span>
+<a name="ln-36"></a>      <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">defined_mnk</span>
+<a name="ln-37"></a>   <span class="k">END TYPE </span><span class="n">stack_descriptor_type</span>
+<a name="ln-38"></a>
+<a name="ln-39"></a><span class="k">END MODULE </span><span class="n">dbcsr_mm_types</span>
 </pre></div>
 
     </section>

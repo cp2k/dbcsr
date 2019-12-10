@@ -355,7 +355,7 @@
 <a name="ln-88"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_acc_set_active_device</span>
 <a name="ln-89"></a>
 <a name="ln-90"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_clear_errors</span><span class="p">()</span>
-<a name="ln-91"></a>      <span class="c">!! Clear CUDA errors</span>
+<a name="ln-91"></a>      <span class="c">!! Clear GPU errors</span>
 <a name="ln-92"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
 <a name="ln-93"></a>      <span class="k">CALL </span><span class="n">acc_clear_errors_cu</span><span class="p">()</span>
 <a name="ln-94"></a><span class="cp">#else</span>

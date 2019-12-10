@@ -16,7 +16,6 @@ MODULE dbcsr_tensor
 
 
 
-
    USE dbcsr_allocate_wrap, ONLY: &
       allocate_any
    USE dbcsr_array_list_methods, ONLY: &
@@ -25,7 +24,7 @@ MODULE dbcsr_tensor
       dbcsr_type, dbcsr_iterator_type, dbcsr_iterator_blocks_left, &
       dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, &
       dbcsr_transpose, dbcsr_no_transpose, dbcsr_scalar, dbcsr_put_block, &
-      dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_real_8, dbcsr_type_complex_4, dbcsr_clear, &
+      dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_clear, &
       dbcsr_release, dbcsr_desymmetrize, dbcsr_has_symmetry
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_split_info
@@ -1118,9 +1117,11 @@ CONTAINS
       TYPE(dbcsr_tas_split_info), INTENT(IN) :: tas_split_info
       INTEGER, DIMENSION(:), ALLOCATABLE :: map1, map2
       TYPE(dbcsr_t_pgrid_type) :: opt_pgrid
+      INTEGER, DIMENSION(dbcsr_t_ndims(tensor)) :: dims
 
       CALL dbcsr_t_get_mapping_info(tensor%pgrid%nd_index_grid, map1_2d=map1, map2_2d=map2)
-      opt_pgrid = dbcsr_t_nd_mp_comm(tas_split_info%mp_comm, map1, map2)
+      CALL blk_dims_tensor(tensor, dims)
+      opt_pgrid = dbcsr_t_nd_mp_comm(tas_split_info%mp_comm, map1, map2, tdims=dims)
 
       ALLOCATE (opt_pgrid%tas_split_info, SOURCE=tas_split_info)
       CALL dbcsr_tas_info_hold(opt_pgrid%tas_split_info)
@@ -1579,7 +1580,6 @@ CONTAINS
                                             do_crop_1, do_crop_2)
       !! Map contraction bounds to bounds referring to tensor indices
       !! see dbcsr_t_contract for docu of dummy arguments
-
 
       TYPE(dbcsr_t_type), INTENT(IN)      :: tensor_1, tensor_2
       INTEGER, DIMENSION(:), INTENT(IN)   :: contract_1, contract_2, &

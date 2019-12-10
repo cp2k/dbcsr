@@ -306,40 +306,40 @@
 <a name="ln-39"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
 <a name="ln-40"></a>
 <a name="ln-41"></a>   <span class="k">INTERFACE</span>
-<a name="ln-42"></a><span class="k">      FUNCTION </span><span class="n">cuda_stream_create</span><span class="p">(</span><span class="n">stream_ptr</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">priority</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_stream_create&quot;</span><span class="p">)</span>
+<a name="ln-42"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_stream_create</span><span class="p">(</span><span class="n">stream_ptr</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">priority</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_stream_create&quot;</span><span class="p">)</span>
 <a name="ln-43"></a>         <span class="k">IMPORT</span>
 <a name="ln-44"></a><span class="k">         TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">stream_ptr</span>
 <a name="ln-45"></a>         <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_CHAR</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">name</span>
 <a name="ln-46"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">VALUE</span>               <span class="kd">::</span> <span class="n">priority</span>
 <a name="ln-47"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-48"></a>
-<a name="ln-49"></a>      <span class="k">END FUNCTION </span><span class="n">cuda_stream_create</span>
+<a name="ln-49"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_stream_create</span>
 <a name="ln-50"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-51"></a>
 <a name="ln-52"></a><span class="k">   INTERFACE</span>
-<a name="ln-53"></a><span class="k">      FUNCTION </span><span class="n">cuda_stream_priority_range</span><span class="p">(</span><span class="n">least</span><span class="p">,</span> <span class="n">greatest</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_stream_priority_range&quot;</span><span class="p">)</span>
+<a name="ln-53"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_stream_priority_range</span><span class="p">(</span><span class="n">least</span><span class="p">,</span> <span class="n">greatest</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_stream_priority_range&quot;</span><span class="p">)</span>
 <a name="ln-54"></a>         <span class="k">IMPORT</span>
 <a name="ln-55"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">least</span><span class="p">,</span> <span class="n">greatest</span><span class="p">,</span> <span class="n">istat</span>
 <a name="ln-56"></a>
-<a name="ln-57"></a>      <span class="k">END FUNCTION </span><span class="n">cuda_stream_priority_range</span>
+<a name="ln-57"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_stream_priority_range</span>
 <a name="ln-58"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-59"></a>
 <a name="ln-60"></a><span class="k">   INTERFACE</span>
-<a name="ln-61"></a><span class="k">      FUNCTION </span><span class="n">cuda_stream_destroy</span><span class="p">(</span><span class="n">stream_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_stream_destroy&quot;</span><span class="p">)</span>
+<a name="ln-61"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_stream_destroy</span><span class="p">(</span><span class="n">stream_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_stream_destroy&quot;</span><span class="p">)</span>
 <a name="ln-62"></a>         <span class="k">IMPORT</span>
 <a name="ln-63"></a><span class="k">         TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">),</span> <span class="k">VALUE</span>                       <span class="kd">::</span> <span class="n">stream_ptr</span>
 <a name="ln-64"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-65"></a>
-<a name="ln-66"></a>      <span class="k">END FUNCTION </span><span class="n">cuda_stream_destroy</span>
+<a name="ln-66"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_stream_destroy</span>
 <a name="ln-67"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-68"></a>
 <a name="ln-69"></a><span class="k">   INTERFACE</span>
-<a name="ln-70"></a><span class="k">      FUNCTION </span><span class="n">cuda_stream_sync</span><span class="p">(</span><span class="n">stream_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_stream_sync&quot;</span><span class="p">)</span>
+<a name="ln-70"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_stream_sync</span><span class="p">(</span><span class="n">stream_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_stream_sync&quot;</span><span class="p">)</span>
 <a name="ln-71"></a>         <span class="k">IMPORT</span>
 <a name="ln-72"></a><span class="k">         TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">),</span> <span class="k">VALUE</span>                       <span class="kd">::</span> <span class="n">stream_ptr</span>
 <a name="ln-73"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-74"></a>
-<a name="ln-75"></a>      <span class="k">END FUNCTION </span><span class="n">cuda_stream_sync</span>
+<a name="ln-75"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_stream_sync</span>
 <a name="ln-76"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-77"></a>
 <a name="ln-78"></a><span class="cp">#endif</span>
@@ -372,7 +372,7 @@
 <a name="ln-105"></a><span class="cp">#endif</span>
 <a name="ln-106"></a>
 <a name="ln-107"></a>   <span class="k">SUBROUTINE </span><span class="n">acc_stream_create</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">priority</span><span class="p">)</span>
-<a name="ln-108"></a>      <span class="c">!! Fortran-wrapper for cudaStreamCreate.</span>
+<a name="ln-108"></a>      <span class="c">!! Fortran-wrapper for creation of a CUDA/HIP stream.</span>
 <a name="ln-109"></a>
 <a name="ln-110"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">this</span>
 <a name="ln-111"></a>         <span class="c">!! stream</span>
@@ -396,7 +396,7 @@
 <a name="ln-129"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-130"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_create: stream already allocated&quot;</span><span class="p">)</span>
 <a name="ln-131"></a>
-<a name="ln-132"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">cuda_stream_create</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">,</span> <span class="n">name</span><span class="o">//</span><span class="nb">c_null_char</span><span class="p">,</span> <span class="n">my_priority</span><span class="p">)</span>
+<a name="ln-132"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_stream_create</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">,</span> <span class="n">name</span><span class="o">//</span><span class="nb">c_null_char</span><span class="p">,</span> <span class="n">my_priority</span><span class="p">)</span>
 <a name="ln-133"></a>
 <a name="ln-134"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-135"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_create failed&quot;</span><span class="p">)</span>
@@ -404,7 +404,7 @@
 <a name="ln-137"></a>   <span class="k">END SUBROUTINE </span><span class="n">acc_stream_create</span>
 <a name="ln-138"></a>
 <a name="ln-139"></a>   <span class="k">SUBROUTINE </span><span class="n">acc_stream_destroy</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
-<a name="ln-140"></a>      <span class="c">!! Fortran-wrapper for cudaStreamDestroy.</span>
+<a name="ln-140"></a>      <span class="c">!! Fortran-wrapper for destruction of a CUDA/HIP stream.</span>
 <a name="ln-141"></a>
 <a name="ln-142"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-143"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">this</span>
@@ -417,7 +417,7 @@
 <a name="ln-150"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-151"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-152"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_destroy: stream not allocated&quot;</span><span class="p">)</span>
-<a name="ln-153"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">cuda_stream_destroy</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span>
+<a name="ln-153"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_stream_destroy</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span>
 <a name="ln-154"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-155"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_destroy failed&quot;</span><span class="p">)</span>
 <a name="ln-156"></a>      <span class="n">this</span><span class="p">%</span><span class="n">cptr</span> <span class="o">=</span> <span class="nb">C_NULL_PTR</span>
@@ -425,7 +425,7 @@
 <a name="ln-158"></a>   <span class="k">END SUBROUTINE </span><span class="n">acc_stream_destroy</span>
 <a name="ln-159"></a>
 <a name="ln-160"></a>   <span class="k">SUBROUTINE </span><span class="n">acc_stream_synchronize</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
-<a name="ln-161"></a>      <span class="c">!! Fortran-wrapper for cudaStreamSynchronize.</span>
+<a name="ln-161"></a>      <span class="c">!! Fortran-wrapper for waiting for CUDA/HIP stream tasks to complete.</span>
 <a name="ln-162"></a>
 <a name="ln-163"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-164"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                             <span class="kd">::</span> <span class="n">this</span>
@@ -438,14 +438,14 @@
 <a name="ln-171"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-172"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-173"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_synchronize: stream not allocated&quot;</span><span class="p">)</span>
-<a name="ln-174"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">cuda_stream_sync</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span>
+<a name="ln-174"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_stream_sync</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span>
 <a name="ln-175"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-176"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_synchronize failed&quot;</span><span class="p">)</span>
 <a name="ln-177"></a><span class="cp">#endif</span>
 <a name="ln-178"></a>   <span class="k">END SUBROUTINE </span><span class="n">acc_stream_synchronize</span>
 <a name="ln-179"></a>
 <a name="ln-180"></a>   <span class="k">SUBROUTINE </span><span class="n">acc_stream_priority_range</span><span class="p">(</span><span class="n">least</span><span class="p">,</span> <span class="n">greatest</span><span class="p">)</span>
-<a name="ln-181"></a>      <span class="c">!! Fortran-wrapper for cudaDeviceGetStreamPriorityRange.</span>
+<a name="ln-181"></a>      <span class="c">!! Fortran-wrapper for getting CUDA/HIP streams&#39; priority range.</span>
 <a name="ln-182"></a>
 <a name="ln-183"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">least</span><span class="p">,</span> <span class="n">greatest</span>
 <a name="ln-184"></a>         <span class="c">!! least priority</span>
@@ -456,7 +456,7 @@
 <a name="ln-189"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
 <a name="ln-190"></a><span class="cp">#else</span>
 <a name="ln-191"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">istat</span>
-<a name="ln-192"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">cuda_stream_priority_range</span><span class="p">(</span><span class="n">least</span><span class="p">,</span> <span class="n">greatest</span><span class="p">)</span>
+<a name="ln-192"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_stream_priority_range</span><span class="p">(</span><span class="n">least</span><span class="p">,</span> <span class="n">greatest</span><span class="p">)</span>
 <a name="ln-193"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-194"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_priority_range failed&quot;</span><span class="p">)</span>
 <a name="ln-195"></a><span class="cp">#endif</span>

@@ -8,7 +8,6 @@
 !--------------------------------------------------------------------------------------------------!
 
 
-
    !! An array-based list which grows on demand.
    !! When the internal array is full, a new array of twice the size will be
    !! allocated and the items are copied over.

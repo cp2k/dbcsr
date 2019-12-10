@@ -278,69 +278,68 @@
 <a name="ln-11"></a>   <span class="c">!! DBCSR tall-and-skinny base types.</span>
 <a name="ln-12"></a>   <span class="c">!! Mostly wrappers around existing DBCSR routines.</span>
 <a name="ln-13"></a>
-<a name="ln-14"></a>
-<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_tas_global</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
-<a name="ln-16"></a>      <span class="n">dbcsr_tas_distribution</span><span class="p">,</span> <span class="n">dbcsr_tas_rowcol_data</span>
-<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
-<a name="ln-18"></a>      <span class="n">dbcsr_distribution_obj</span><span class="p">,</span> <span class="n">dbcsr_iterator</span><span class="p">,</span> <span class="n">dbcsr_type</span>
-<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">int_8</span>
-<a name="ln-20"></a><span class="cp">#include &quot;../base/dbcsr_base_uses.f90&quot;</span>
-<a name="ln-21"></a>
-<a name="ln-22"></a>   <span class="k">IMPLICIT NONE</span>
-<a name="ln-23"></a><span class="k">   PRIVATE</span>
-<a name="ln-24"></a>
-<a name="ln-25"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">moduleN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_tas_types&#39;</span>
-<a name="ln-26"></a>
-<a name="ln-27"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="p">&amp;</span>
-<a name="ln-28"></a>      <span class="n">dbcsr_tas_distribution_type</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-29"></a>      <span class="n">dbcsr_tas_iterator</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-30"></a>      <span class="n">dbcsr_tas_split_info</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-31"></a>      <span class="n">dbcsr_tas_type</span>
-<a name="ln-32"></a>
-<a name="ln-33"></a>   <span class="c">! info on MPI Cartesian grid that is split on MPI subgroups.</span>
-<a name="ln-34"></a>   <span class="c">! info on distribution of matrix rows / columns to different subgroups.</span>
-<a name="ln-35"></a>   <span class="k">TYPE </span><span class="n">dbcsr_tas_split_info</span>
-<a name="ln-36"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">mp_comm</span> <span class="c">! global communicator</span>
-<a name="ln-37"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">igroup</span> <span class="c">! which subgroup do I belong to</span>
-<a name="ln-38"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">ngroup</span> <span class="c">! how many groups in total</span>
-<a name="ln-39"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">split_rowcol</span> <span class="c">! split row or column?</span>
-<a name="ln-40"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">pgrid_split_size</span> <span class="c">! how many process rows/cols in subgroups</span>
-<a name="ln-41"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">group_size</span> <span class="c">! group size (how many cores) of subgroups</span>
-<a name="ln-42"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">mp_comm_group</span> <span class="c">! sub communicator</span>
-<a name="ln-43"></a>      <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">strict_split</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span> <span class="c">! if .true., split factor should not be modified (for testing only)</span>
-<a name="ln-44"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">refcount</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span> <span class="c">! lightweight reference counting for communicators</span>
-<a name="ln-45"></a>   <span class="k">END TYPE</span>
-<a name="ln-46"></a>
-<a name="ln-47"></a><span class="k">   TYPE </span><span class="n">dbcsr_tas_distribution_type</span>
-<a name="ln-48"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_split_info</span><span class="p">)</span> <span class="kd">::</span> <span class="n">info</span>
-<a name="ln-49"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dbcsr_dist</span>
-<a name="ln-50"></a>      <span class="k">CLASS</span><span class="p">(</span><span class="n">dbcsr_tas_distribution</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">row_dist</span>
-<a name="ln-51"></a>      <span class="k">CLASS</span><span class="p">(</span><span class="n">dbcsr_tas_distribution</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">col_dist</span>
-<a name="ln-52"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span> <span class="kd">::</span> <span class="n">local_rowcols</span>
-<a name="ln-53"></a>   <span class="k">END TYPE</span>
-<a name="ln-54"></a>
-<a name="ln-55"></a>   <span class="c">! type for tall-and-skinny matrices</span>
-<a name="ln-56"></a>   <span class="k">TYPE </span><span class="n">dbcsr_tas_type</span>
-<a name="ln-57"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_distribution_type</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">dist</span>
-<a name="ln-58"></a>      <span class="k">CLASS</span><span class="p">(</span><span class="n">dbcsr_tas_rowcol_data</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">row_blk_size</span>
-<a name="ln-59"></a>      <span class="k">CLASS</span><span class="p">(</span><span class="n">dbcsr_tas_rowcol_data</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">col_blk_size</span>
-<a name="ln-60"></a>
-<a name="ln-61"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">matrix</span> <span class="c">! matrix on subgroup</span>
-<a name="ln-62"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nblkrows</span> <span class="c">! total number of rows</span>
-<a name="ln-63"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nblkcols</span> <span class="c">! total number of columns</span>
-<a name="ln-64"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nblkrowscols_split</span> <span class="c">! nblkrows or nblkcols depending on which is splitted</span>
-<a name="ln-65"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nfullrows</span> <span class="c">! total number of full (not blocked) rows</span>
-<a name="ln-66"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nfullcols</span> <span class="c">! total number of full (not blocked) columns</span>
-<a name="ln-67"></a>      <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span> <span class="c">! has been created?</span>
-<a name="ln-68"></a>   <span class="k">END TYPE</span>
-<a name="ln-69"></a>
-<a name="ln-70"></a><span class="k">   TYPE </span><span class="n">dbcsr_tas_iterator</span>
-<a name="ln-71"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_split_info</span><span class="p">)</span> <span class="kd">::</span> <span class="n">info</span>
-<a name="ln-72"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_distribution_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dist</span>
-<a name="ln-73"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span> <span class="kd">::</span> <span class="n">iter</span>
-<a name="ln-74"></a>   <span class="k">END TYPE </span><span class="n">dbcsr_tas_iterator</span>
-<a name="ln-75"></a>
-<a name="ln-76"></a><span class="k">END MODULE</span>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_tas_global</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-15"></a>      <span class="n">dbcsr_tas_distribution</span><span class="p">,</span> <span class="n">dbcsr_tas_rowcol_data</span>
+<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-17"></a>      <span class="n">dbcsr_distribution_obj</span><span class="p">,</span> <span class="n">dbcsr_iterator</span><span class="p">,</span> <span class="n">dbcsr_type</span>
+<a name="ln-18"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">int_8</span>
+<a name="ln-19"></a><span class="cp">#include &quot;../base/dbcsr_base_uses.f90&quot;</span>
+<a name="ln-20"></a>
+<a name="ln-21"></a>   <span class="k">IMPLICIT NONE</span>
+<a name="ln-22"></a><span class="k">   PRIVATE</span>
+<a name="ln-23"></a>
+<a name="ln-24"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">moduleN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_tas_types&#39;</span>
+<a name="ln-25"></a>
+<a name="ln-26"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="p">&amp;</span>
+<a name="ln-27"></a>      <span class="n">dbcsr_tas_distribution_type</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-28"></a>      <span class="n">dbcsr_tas_iterator</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-29"></a>      <span class="n">dbcsr_tas_split_info</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-30"></a>      <span class="n">dbcsr_tas_type</span>
+<a name="ln-31"></a>
+<a name="ln-32"></a>   <span class="c">! info on MPI Cartesian grid that is split on MPI subgroups.</span>
+<a name="ln-33"></a>   <span class="c">! info on distribution of matrix rows / columns to different subgroups.</span>
+<a name="ln-34"></a>   <span class="k">TYPE </span><span class="n">dbcsr_tas_split_info</span>
+<a name="ln-35"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">mp_comm</span> <span class="c">! global communicator</span>
+<a name="ln-36"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">igroup</span> <span class="c">! which subgroup do I belong to</span>
+<a name="ln-37"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">ngroup</span> <span class="c">! how many groups in total</span>
+<a name="ln-38"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">split_rowcol</span> <span class="c">! split row or column?</span>
+<a name="ln-39"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">pgrid_split_size</span> <span class="c">! how many process rows/cols in subgroups</span>
+<a name="ln-40"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">group_size</span> <span class="c">! group size (how many cores) of subgroups</span>
+<a name="ln-41"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">mp_comm_group</span> <span class="c">! sub communicator</span>
+<a name="ln-42"></a>      <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">strict_split</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span> <span class="c">! if .true., split factor should not be modified (for testing only)</span>
+<a name="ln-43"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">refcount</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span> <span class="c">! lightweight reference counting for communicators</span>
+<a name="ln-44"></a>   <span class="k">END TYPE</span>
+<a name="ln-45"></a>
+<a name="ln-46"></a><span class="k">   TYPE </span><span class="n">dbcsr_tas_distribution_type</span>
+<a name="ln-47"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_split_info</span><span class="p">)</span> <span class="kd">::</span> <span class="n">info</span>
+<a name="ln-48"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dbcsr_dist</span>
+<a name="ln-49"></a>      <span class="k">CLASS</span><span class="p">(</span><span class="n">dbcsr_tas_distribution</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">row_dist</span>
+<a name="ln-50"></a>      <span class="k">CLASS</span><span class="p">(</span><span class="n">dbcsr_tas_distribution</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">col_dist</span>
+<a name="ln-51"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span> <span class="kd">::</span> <span class="n">local_rowcols</span>
+<a name="ln-52"></a>   <span class="k">END TYPE</span>
+<a name="ln-53"></a>
+<a name="ln-54"></a>   <span class="c">! type for tall-and-skinny matrices</span>
+<a name="ln-55"></a>   <span class="k">TYPE </span><span class="n">dbcsr_tas_type</span>
+<a name="ln-56"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_distribution_type</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">dist</span>
+<a name="ln-57"></a>      <span class="k">CLASS</span><span class="p">(</span><span class="n">dbcsr_tas_rowcol_data</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">row_blk_size</span>
+<a name="ln-58"></a>      <span class="k">CLASS</span><span class="p">(</span><span class="n">dbcsr_tas_rowcol_data</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">col_blk_size</span>
+<a name="ln-59"></a>
+<a name="ln-60"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">matrix</span> <span class="c">! matrix on subgroup</span>
+<a name="ln-61"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nblkrows</span> <span class="c">! total number of rows</span>
+<a name="ln-62"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nblkcols</span> <span class="c">! total number of columns</span>
+<a name="ln-63"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nblkrowscols_split</span> <span class="c">! nblkrows or nblkcols depending on which is splitted</span>
+<a name="ln-64"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nfullrows</span> <span class="c">! total number of full (not blocked) rows</span>
+<a name="ln-65"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nfullcols</span> <span class="c">! total number of full (not blocked) columns</span>
+<a name="ln-66"></a>      <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span> <span class="c">! has been created?</span>
+<a name="ln-67"></a>   <span class="k">END TYPE</span>
+<a name="ln-68"></a>
+<a name="ln-69"></a><span class="k">   TYPE </span><span class="n">dbcsr_tas_iterator</span>
+<a name="ln-70"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_split_info</span><span class="p">)</span> <span class="kd">::</span> <span class="n">info</span>
+<a name="ln-71"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_distribution_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dist</span>
+<a name="ln-72"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span> <span class="kd">::</span> <span class="n">iter</span>
+<a name="ln-73"></a>   <span class="k">END TYPE </span><span class="n">dbcsr_tas_iterator</span>
+<a name="ln-74"></a>
+<a name="ln-75"></a><span class="k">END MODULE</span>
 </pre></div>
 
     </section>

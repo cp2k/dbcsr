@@ -726,139 +726,138 @@
 <a name="ln-459"></a>      <span class="c">!! After being called by ALL threads, it installs a special barrier that</span>
 <a name="ln-460"></a>      <span class="c">!! forces the priority-streams to wait for the normal-streams.</span>
 <a name="ln-461"></a>
-<a name="ln-462"></a>
-<a name="ln-463"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">nthreads</span>
-<a name="ln-464"></a>
-<a name="ln-465"></a>      <span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-466"></a><span class="c">!$    nthreads = OMP_GET_NUM_THREADS()</span>
-<a name="ln-467"></a>
-<a name="ln-468"></a><span class="c">!$OMP     CRITICAL</span>
-<a name="ln-469"></a>      <span class="n">barrier_counter</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">barrier_counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nthreads</span><span class="p">)</span>
-<a name="ln-470"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">barrier_counter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-471"></a><span class="k">         DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">posterior_streams</span><span class="p">)</span>
-<a name="ln-472"></a>            <span class="k">CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">barrier_events</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">stream</span><span class="o">=</span><span class="n">posterior_streams</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-473"></a>            <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">priority_streams</span><span class="p">)</span>
-<a name="ln-474"></a>               <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">priority_streams</span><span class="p">(</span><span class="n">j</span><span class="p">),</span> <span class="n">barrier_events</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-475"></a>            <span class="n">ENDDO</span>
-<a name="ln-476"></a>         <span class="n">ENDDO</span>
-<a name="ln-477"></a>      <span class="n">ENDIF</span>
-<a name="ln-478"></a><span class="c">!$OMP     END CRITICAL</span>
-<a name="ln-479"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_barrier</span>
-<a name="ln-480"></a>
-<a name="ln-481"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_process</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-482"></a>      <span class="c">!! Processes a given stack using accelerator</span>
-<a name="ln-483"></a>                                      <span class="n">stack_descr</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span>
-<a name="ln-484"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_accdrv_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">this</span>
-<a name="ln-485"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span>
-<a name="ln-486"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">stack_size</span>
-<a name="ln-487"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">dbcsr_ps_width</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-488"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">params</span>
-<a name="ln-489"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">stack_descriptor_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">stack_descr</span>
-<a name="ln-490"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">success</span>
-<a name="ln-491"></a>
-<a name="ln-492"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_mm_accdrv_process&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-493"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-494"></a>
-<a name="ln-495"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">error_handle2</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-496"></a>                                                            <span class="n">flop_per_entry</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-497"></a>                                                            <span class="n">stacked_datasize</span>
-<a name="ln-498"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>                  <span class="kd">::</span> <span class="n">stackbuf_hostmem_cropped</span>
-<a name="ln-499"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_area_type</span><span class="p">),</span> <span class="k">POINTER</span>                <span class="kd">::</span> <span class="n">a_area</span><span class="p">,</span> <span class="n">b_area</span><span class="p">,</span> <span class="n">c_area</span>
-<a name="ln-500"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">stack_buffer_type</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>     <span class="kd">::</span> <span class="n">stack_buffers</span>
-<a name="ln-501"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">stack_buffer_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">stackbuf</span>
-<a name="ln-502"></a>
-<a name="ln-503"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">stackbuf</span><span class="p">,</span> <span class="n">stackbuf_hostmem_cropped</span><span class="p">,</span> <span class="n">stack_buffers</span><span class="p">)</span>
-<a name="ln-504"></a>
-<a name="ln-505"></a>      <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-506"></a><span class="c">!$    ithread = OMP_GET_THREAD_NUM()</span>
-<a name="ln-507"></a>      <span class="n">stack_buffers</span> <span class="o">=&gt;</span> <span class="n">all_thread_privates</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">stack_buffers</span>
-<a name="ln-508"></a>
-<a name="ln-509"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">stack_buffers</span><span class="p">)</span>
-<a name="ln-510"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">phase_out</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">this</span><span class="p">%</span><span class="n">nbuffers_phaseout</span><span class="p">)</span> <span class="k">EXIT</span>
-<a name="ln-511"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">acc_event_query</span><span class="p">(</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">calculated</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-512"></a><span class="k">            </span><span class="n">stackbuf</span> <span class="o">=&gt;</span> <span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-513"></a>            <span class="k">EXIT</span>
-<a name="ln-514"></a><span class="k">         </span><span class="n">ENDIF</span>
-<a name="ln-515"></a>      <span class="n">ENDDO</span>
-<a name="ln-516"></a>
-<a name="ln-517"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-518"></a><span class="k">         </span><span class="n">success</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-519"></a>         <span class="k">RETURN</span>
-<a name="ln-520"></a><span class="k">      END IF</span>
-<a name="ln-521"></a>
-<a name="ln-522"></a><span class="k">      CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-523"></a>      <span class="n">stacked_datasize</span> <span class="o">=</span> <span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">datasize</span>
-<a name="ln-524"></a>      <span class="k">CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">,</span> <span class="n">stacked_datasize</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-525"></a>                                  <span class="n">factor</span><span class="o">=</span><span class="n">default_resize_factor</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-<a name="ln-526"></a>
-<a name="ln-527"></a>      <span class="c">!===========================================================================</span>
-<a name="ln-528"></a>      <span class="c">! sort the stack. Since this costs CPU time, only a good idea if the CPUs</span>
-<a name="ln-529"></a>      <span class="c">! are not too busy, or device gain is very large</span>
-<a name="ln-530"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_sort&quot;</span><span class="p">,</span> <span class="n">error_handle2</span><span class="p">)</span>
-<a name="ln-531"></a>      <span class="n">flop_per_entry</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_m</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_n</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_k</span>
-<a name="ln-532"></a>
-<a name="ln-533"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-534"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">flop_per_entry</span> <span class="o">&gt;</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-535"></a><span class="k">            CALL </span><span class="n">stack_sort</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">hostmem</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">)</span>
-<a name="ln-536"></a>         <span class="k">ELSE</span>
-<a name="ln-537"></a><span class="k">            CALL </span><span class="n">stack_binning</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">hostmem</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">)</span>
-<a name="ln-538"></a>         <span class="k">END IF</span>
-<a name="ln-539"></a><span class="k">      ELSE</span>
-<a name="ln-540"></a><span class="k">         DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stack_size</span>
-<a name="ln-541"></a>            <span class="n">stackbuf</span><span class="p">%</span><span class="n">hostmem</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">params</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-<a name="ln-542"></a>         <span class="k">END DO</span>
-<a name="ln-543"></a><span class="k">      END IF</span>
-<a name="ln-544"></a>
-<a name="ln-545"></a><span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle2</span><span class="p">)</span>
-<a name="ln-546"></a>
-<a name="ln-547"></a>      <span class="n">a_area</span> <span class="o">=&gt;</span> <span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span>
-<a name="ln-548"></a>      <span class="n">b_area</span> <span class="o">=&gt;</span> <span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span>
-<a name="ln-549"></a>      <span class="n">c_area</span> <span class="o">=&gt;</span> <span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">%</span><span class="n">d</span>
-<a name="ln-550"></a>
-<a name="ln-551"></a>      <span class="c">!WRITE (*,*) &quot;dbcsr_mm_accdrv_process: a_area%memory_type &quot;, a_area%memory_type</span>
-<a name="ln-552"></a>      <span class="c">!WRITE (*,*) &quot;dbcsr_mm_accdrv_process: b_area%memory_type &quot;, b_area%memory_type</span>
-<a name="ln-553"></a>      <span class="c">!WRITE (*,*) &quot;dbcsr_mm_accdrv_process: c_area%memory_type &quot;, c_area%memory_type</span>
-<a name="ln-554"></a>
-<a name="ln-555"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">acc_devmem_allocated</span><span class="p">(</span><span class="n">a_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-556"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_mm_accdrv_process: a_area%acc_devmem not allocated&quot;</span><span class="p">)</span>
-<a name="ln-557"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">acc_devmem_allocated</span><span class="p">(</span><span class="n">b_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-558"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_mm_accdrv_process: b_area%acc_devmem not allocated&quot;</span><span class="p">)</span>
-<a name="ln-559"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">acc_devmem_allocated</span><span class="p">(</span><span class="n">c_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-560"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_mm_accdrv_process: c_area%acc_devmem not allocated&quot;</span><span class="p">)</span>
-<a name="ln-561"></a>
-<a name="ln-562"></a>      <span class="c">! start uploading stacks only after a, b, and c are ready</span>
-<a name="ln-563"></a>      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">upload_stream</span><span class="p">,</span> <span class="n">a_area</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
-<a name="ln-564"></a>      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">upload_stream</span><span class="p">,</span> <span class="n">b_area</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
-<a name="ln-565"></a>      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">upload_stream</span><span class="p">,</span> <span class="n">c_area</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
-<a name="ln-566"></a>
-<a name="ln-567"></a>      <span class="n">stackbuf_hostmem_cropped</span> <span class="o">=&gt;</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">hostmem</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">:</span><span class="n">stack_size</span><span class="p">)</span>
-<a name="ln-568"></a>      <span class="k">CALL </span><span class="n">acc_devmem_host2dev</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">devmem</span><span class="p">,</span> <span class="n">hostmem</span><span class="o">=</span><span class="n">stackbuf_hostmem_cropped</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">upload_stream</span><span class="p">)</span>
-<a name="ln-569"></a>      <span class="k">CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">ready</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">upload_stream</span><span class="p">)</span>
-<a name="ln-570"></a>
-<a name="ln-571"></a>      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">ready</span><span class="p">)</span>
-<a name="ln-572"></a>
-<a name="ln-573"></a>      <span class="k">CALL </span><span class="n">dbcsr_acc_do_mm_stack</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">devmem</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">,</span> <span class="n">c_area</span><span class="p">%</span><span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-574"></a>                                 <span class="n">a_data</span><span class="o">=</span><span class="n">a_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-575"></a>                                 <span class="n">b_data</span><span class="o">=</span><span class="n">b_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-576"></a>                                 <span class="n">c_data</span><span class="o">=</span><span class="n">c_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-577"></a>                                 <span class="n">m_max</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_m</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-578"></a>                                 <span class="n">n_max</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_n</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-579"></a>                                 <span class="n">k_max</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_k</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-580"></a>                                 <span class="n">def_mnk</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">defined_mnk</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-581"></a>                                 <span class="n">stream</span><span class="o">=</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-582"></a>                                 <span class="n">success</span><span class="o">=</span><span class="n">success</span><span class="p">)</span>
-<a name="ln-583"></a>
-<a name="ln-584"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">success</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-585"></a><span class="k">         CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">)</span>
-<a name="ln-586"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">a_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
-<a name="ln-587"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">b_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
-<a name="ln-588"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">c_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
-<a name="ln-589"></a>      <span class="n">ENDIF</span>
-<a name="ln-590"></a>
-<a name="ln-591"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-592"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_process</span>
-<a name="ln-593"></a>
-<a name="ln-594"></a><span class="k">END MODULE </span><span class="n">dbcsr_mm_accdrv</span>
+<a name="ln-462"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">nthreads</span>
+<a name="ln-463"></a>
+<a name="ln-464"></a>      <span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-465"></a><span class="c">!$    nthreads = OMP_GET_NUM_THREADS()</span>
+<a name="ln-466"></a>
+<a name="ln-467"></a><span class="c">!$OMP     CRITICAL</span>
+<a name="ln-468"></a>      <span class="n">barrier_counter</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">barrier_counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nthreads</span><span class="p">)</span>
+<a name="ln-469"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">barrier_counter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-470"></a><span class="k">         DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">posterior_streams</span><span class="p">)</span>
+<a name="ln-471"></a>            <span class="k">CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">barrier_events</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">stream</span><span class="o">=</span><span class="n">posterior_streams</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<a name="ln-472"></a>            <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">priority_streams</span><span class="p">)</span>
+<a name="ln-473"></a>               <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">priority_streams</span><span class="p">(</span><span class="n">j</span><span class="p">),</span> <span class="n">barrier_events</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<a name="ln-474"></a>            <span class="n">ENDDO</span>
+<a name="ln-475"></a>         <span class="n">ENDDO</span>
+<a name="ln-476"></a>      <span class="n">ENDIF</span>
+<a name="ln-477"></a><span class="c">!$OMP     END CRITICAL</span>
+<a name="ln-478"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_barrier</span>
+<a name="ln-479"></a>
+<a name="ln-480"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_process</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-481"></a>      <span class="c">!! Processes a given stack using accelerator</span>
+<a name="ln-482"></a>                                      <span class="n">stack_descr</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span>
+<a name="ln-483"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_accdrv_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">this</span>
+<a name="ln-484"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span>
+<a name="ln-485"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">stack_size</span>
+<a name="ln-486"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">dbcsr_ps_width</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-487"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">params</span>
+<a name="ln-488"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">stack_descriptor_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">stack_descr</span>
+<a name="ln-489"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">success</span>
+<a name="ln-490"></a>
+<a name="ln-491"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_mm_accdrv_process&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-492"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+<a name="ln-493"></a>
+<a name="ln-494"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">error_handle2</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-495"></a>                                                            <span class="n">flop_per_entry</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-496"></a>                                                            <span class="n">stacked_datasize</span>
+<a name="ln-497"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>                  <span class="kd">::</span> <span class="n">stackbuf_hostmem_cropped</span>
+<a name="ln-498"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_area_type</span><span class="p">),</span> <span class="k">POINTER</span>                <span class="kd">::</span> <span class="n">a_area</span><span class="p">,</span> <span class="n">b_area</span><span class="p">,</span> <span class="n">c_area</span>
+<a name="ln-499"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">stack_buffer_type</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>     <span class="kd">::</span> <span class="n">stack_buffers</span>
+<a name="ln-500"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">stack_buffer_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">stackbuf</span>
+<a name="ln-501"></a>
+<a name="ln-502"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">stackbuf</span><span class="p">,</span> <span class="n">stackbuf_hostmem_cropped</span><span class="p">,</span> <span class="n">stack_buffers</span><span class="p">)</span>
+<a name="ln-503"></a>
+<a name="ln-504"></a>      <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-505"></a><span class="c">!$    ithread = OMP_GET_THREAD_NUM()</span>
+<a name="ln-506"></a>      <span class="n">stack_buffers</span> <span class="o">=&gt;</span> <span class="n">all_thread_privates</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">stack_buffers</span>
+<a name="ln-507"></a>
+<a name="ln-508"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">stack_buffers</span><span class="p">)</span>
+<a name="ln-509"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">phase_out</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">this</span><span class="p">%</span><span class="n">nbuffers_phaseout</span><span class="p">)</span> <span class="k">EXIT</span>
+<a name="ln-510"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">acc_event_query</span><span class="p">(</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">calculated</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-511"></a><span class="k">            </span><span class="n">stackbuf</span> <span class="o">=&gt;</span> <span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-512"></a>            <span class="k">EXIT</span>
+<a name="ln-513"></a><span class="k">         </span><span class="n">ENDIF</span>
+<a name="ln-514"></a>      <span class="n">ENDDO</span>
+<a name="ln-515"></a>
+<a name="ln-516"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-517"></a><span class="k">         </span><span class="n">success</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-518"></a>         <span class="k">RETURN</span>
+<a name="ln-519"></a><span class="k">      END IF</span>
+<a name="ln-520"></a>
+<a name="ln-521"></a><span class="k">      CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
+<a name="ln-522"></a>      <span class="n">stacked_datasize</span> <span class="o">=</span> <span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">datasize</span>
+<a name="ln-523"></a>      <span class="k">CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">,</span> <span class="n">stacked_datasize</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-524"></a>                                  <span class="n">factor</span><span class="o">=</span><span class="n">default_resize_factor</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<a name="ln-525"></a>
+<a name="ln-526"></a>      <span class="c">!===========================================================================</span>
+<a name="ln-527"></a>      <span class="c">! sort the stack. Since this costs CPU time, only a good idea if the CPUs</span>
+<a name="ln-528"></a>      <span class="c">! are not too busy, or device gain is very large</span>
+<a name="ln-529"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_sort&quot;</span><span class="p">,</span> <span class="n">error_handle2</span><span class="p">)</span>
+<a name="ln-530"></a>      <span class="n">flop_per_entry</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_m</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_n</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_k</span>
+<a name="ln-531"></a>
+<a name="ln-532"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-533"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">flop_per_entry</span> <span class="o">&gt;</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-534"></a><span class="k">            CALL </span><span class="n">stack_sort</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">hostmem</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">)</span>
+<a name="ln-535"></a>         <span class="k">ELSE</span>
+<a name="ln-536"></a><span class="k">            CALL </span><span class="n">stack_binning</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">hostmem</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">)</span>
+<a name="ln-537"></a>         <span class="k">END IF</span>
+<a name="ln-538"></a><span class="k">      ELSE</span>
+<a name="ln-539"></a><span class="k">         DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stack_size</span>
+<a name="ln-540"></a>            <span class="n">stackbuf</span><span class="p">%</span><span class="n">hostmem</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">params</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<a name="ln-541"></a>         <span class="k">END DO</span>
+<a name="ln-542"></a><span class="k">      END IF</span>
+<a name="ln-543"></a>
+<a name="ln-544"></a><span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle2</span><span class="p">)</span>
+<a name="ln-545"></a>
+<a name="ln-546"></a>      <span class="n">a_area</span> <span class="o">=&gt;</span> <span class="n">left</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span>
+<a name="ln-547"></a>      <span class="n">b_area</span> <span class="o">=&gt;</span> <span class="n">right</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span>
+<a name="ln-548"></a>      <span class="n">c_area</span> <span class="o">=&gt;</span> <span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">%</span><span class="n">d</span>
+<a name="ln-549"></a>
+<a name="ln-550"></a>      <span class="c">!WRITE (*,*) &quot;dbcsr_mm_accdrv_process: a_area%memory_type &quot;, a_area%memory_type</span>
+<a name="ln-551"></a>      <span class="c">!WRITE (*,*) &quot;dbcsr_mm_accdrv_process: b_area%memory_type &quot;, b_area%memory_type</span>
+<a name="ln-552"></a>      <span class="c">!WRITE (*,*) &quot;dbcsr_mm_accdrv_process: c_area%memory_type &quot;, c_area%memory_type</span>
+<a name="ln-553"></a>
+<a name="ln-554"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">acc_devmem_allocated</span><span class="p">(</span><span class="n">a_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-555"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_mm_accdrv_process: a_area%acc_devmem not allocated&quot;</span><span class="p">)</span>
+<a name="ln-556"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">acc_devmem_allocated</span><span class="p">(</span><span class="n">b_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-557"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_mm_accdrv_process: b_area%acc_devmem not allocated&quot;</span><span class="p">)</span>
+<a name="ln-558"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">acc_devmem_allocated</span><span class="p">(</span><span class="n">c_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-559"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_mm_accdrv_process: c_area%acc_devmem not allocated&quot;</span><span class="p">)</span>
+<a name="ln-560"></a>
+<a name="ln-561"></a>      <span class="c">! start uploading stacks only after a, b, and c are ready</span>
+<a name="ln-562"></a>      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">upload_stream</span><span class="p">,</span> <span class="n">a_area</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
+<a name="ln-563"></a>      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">upload_stream</span><span class="p">,</span> <span class="n">b_area</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
+<a name="ln-564"></a>      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">upload_stream</span><span class="p">,</span> <span class="n">c_area</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
+<a name="ln-565"></a>
+<a name="ln-566"></a>      <span class="n">stackbuf_hostmem_cropped</span> <span class="o">=&gt;</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">hostmem</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">:</span><span class="n">stack_size</span><span class="p">)</span>
+<a name="ln-567"></a>      <span class="k">CALL </span><span class="n">acc_devmem_host2dev</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">devmem</span><span class="p">,</span> <span class="n">hostmem</span><span class="o">=</span><span class="n">stackbuf_hostmem_cropped</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">upload_stream</span><span class="p">)</span>
+<a name="ln-568"></a>      <span class="k">CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">ready</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">upload_stream</span><span class="p">)</span>
+<a name="ln-569"></a>
+<a name="ln-570"></a>      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">ready</span><span class="p">)</span>
+<a name="ln-571"></a>
+<a name="ln-572"></a>      <span class="k">CALL </span><span class="n">dbcsr_acc_do_mm_stack</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">devmem</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">,</span> <span class="n">c_area</span><span class="p">%</span><span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-573"></a>                                 <span class="n">a_data</span><span class="o">=</span><span class="n">a_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-574"></a>                                 <span class="n">b_data</span><span class="o">=</span><span class="n">b_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-575"></a>                                 <span class="n">c_data</span><span class="o">=</span><span class="n">c_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-576"></a>                                 <span class="n">m_max</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_m</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-577"></a>                                 <span class="n">n_max</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_n</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-578"></a>                                 <span class="n">k_max</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_k</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-579"></a>                                 <span class="n">def_mnk</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">defined_mnk</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-580"></a>                                 <span class="n">stream</span><span class="o">=</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-581"></a>                                 <span class="n">success</span><span class="o">=</span><span class="n">success</span><span class="p">)</span>
+<a name="ln-582"></a>
+<a name="ln-583"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">success</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-584"></a><span class="k">         CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">)</span>
+<a name="ln-585"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">a_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
+<a name="ln-586"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">b_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
+<a name="ln-587"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">c_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
+<a name="ln-588"></a>      <span class="n">ENDIF</span>
+<a name="ln-589"></a>
+<a name="ln-590"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+<a name="ln-591"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_process</span>
+<a name="ln-592"></a>
+<a name="ln-593"></a><span class="k">END MODULE </span><span class="n">dbcsr_mm_accdrv</span>
 </pre></div>
 
     </section>

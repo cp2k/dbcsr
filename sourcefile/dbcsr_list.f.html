@@ -275,133 +275,131 @@
 <a name="ln-8"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
 <a name="ln-9"></a>
 <a name="ln-10"></a>
-<a name="ln-11"></a>
-<a name="ln-12"></a><span class="k">MODULE </span><span class="n">dbcsr_list</span>
-<a name="ln-13"></a>   <span class="c">!! An array-based list which grows on demand.</span>
-<a name="ln-14"></a>   <span class="c">!! When the internal array is full, a new array of twice the size will be</span>
-<a name="ln-15"></a>   <span class="c">!! allocated and the items are copied over.</span>
-<a name="ln-16"></a>   <span class="c">!! This list can also be used as a stack.</span>
-<a name="ln-17"></a>   <span class="c">!! Have look at list_push(), list_pop() and list_peek().</span>
-<a name="ln-18"></a>   <span class="c">!! @note it&#39;s not possible to put all templates in a single module because this would lead to circular</span>
-<a name="ln-19"></a>   <span class="c">!! dependencies (timer_env_type contains list_routinestat_type and list_callstackentry_type, and</span>
-<a name="ln-20"></a>   <span class="c">!! list_timerenv_type contains timer_env_type)</span>
-<a name="ln-21"></a>
-<a name="ln-22"></a>
-<a name="ln-23"></a>   <span class="k">USE </span><span class="n">dbcsr_timings_base_type</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">callstack_entry_type</span><span class="p">,</span> <span class="n">routine_stat_type</span><span class="p">,</span> <span class="n">routine_report_type</span>
-<a name="ln-24"></a>   <span class="k">USE </span><span class="n">dbcsr_list_callstackentry</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">list_callstackentry_type</span><span class="p">,</span> <span class="n">list_callstackentry_init</span><span class="p">,</span> <span class="n">list_callstackentry_push</span><span class="p">,&amp;</span>
-<a name="ln-25"></a>       <span class="p">&amp;</span> <span class="n">list_callstackentry_pop</span><span class="p">,</span> <span class="n">list_callstackentry_peek</span><span class="p">,</span> <span class="n">list_callstackentry_insert</span><span class="p">,</span> <span class="n">list_callstackentry_set</span><span class="p">,&amp;</span>
-<a name="ln-26"></a>       <span class="p">&amp;</span> <span class="n">list_callstackentry_get</span><span class="p">,</span> <span class="n">list_callstackentry_del</span><span class="p">,</span> <span class="n">list_callstackentry_clear</span><span class="p">,</span> <span class="n">list_callstackentry_size</span><span class="p">,&amp;</span>
-<a name="ln-27"></a>       <span class="p">&amp;</span> <span class="n">list_callstackentry_destroy</span><span class="p">,</span> <span class="n">list_callstackentry_isready</span>
-<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_list_routinereport</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">list_routinereport_type</span><span class="p">,</span> <span class="n">list_routinereport_init</span><span class="p">,</span> <span class="n">list_routinereport_push</span><span class="p">,&amp;</span>
-<a name="ln-29"></a>       <span class="p">&amp;</span> <span class="n">list_routinereport_pop</span><span class="p">,</span> <span class="n">list_routinereport_peek</span><span class="p">,</span> <span class="n">list_routinereport_insert</span><span class="p">,</span> <span class="n">list_routinereport_set</span><span class="p">,&amp;</span>
-<a name="ln-30"></a>       <span class="p">&amp;</span> <span class="n">list_routinereport_get</span><span class="p">,</span> <span class="n">list_routinereport_del</span><span class="p">,</span> <span class="n">list_routinereport_clear</span><span class="p">,</span> <span class="n">list_routinereport_size</span><span class="p">,&amp;</span>
-<a name="ln-31"></a>       <span class="p">&amp;</span> <span class="n">list_routinereport_destroy</span><span class="p">,</span> <span class="n">list_routinereport_isready</span>
-<a name="ln-32"></a>   <span class="k">USE </span><span class="n">dbcsr_list_routinestat</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">list_routinestat_type</span><span class="p">,</span> <span class="n">list_routinestat_init</span><span class="p">,</span> <span class="n">list_routinestat_push</span><span class="p">,</span> <span class="n">list_routinestat_pop</span><span class="p">,&amp;</span>
-<a name="ln-33"></a>       <span class="p">&amp;</span> <span class="n">list_routinestat_peek</span><span class="p">,</span> <span class="n">list_routinestat_insert</span><span class="p">,</span> <span class="n">list_routinestat_set</span><span class="p">,</span> <span class="n">list_routinestat_get</span><span class="p">,</span> <span class="n">list_routinestat_del</span><span class="p">,&amp;</span>
-<a name="ln-34"></a>       <span class="p">&amp;</span> <span class="n">list_routinestat_clear</span><span class="p">,</span> <span class="n">list_routinestat_size</span><span class="p">,</span> <span class="n">list_routinestat_destroy</span><span class="p">,</span> <span class="n">list_routinestat_isready</span>
-<a name="ln-35"></a>   <span class="k">USE </span><span class="n">dbcsr_list_timerenv</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">list_timerenv_type</span><span class="p">,</span> <span class="n">list_timerenv_init</span><span class="p">,</span> <span class="n">list_timerenv_push</span><span class="p">,</span> <span class="n">list_timerenv_pop</span><span class="p">,&amp;</span>
-<a name="ln-36"></a>       <span class="p">&amp;</span> <span class="n">list_timerenv_peek</span><span class="p">,</span> <span class="n">list_timerenv_insert</span><span class="p">,</span> <span class="n">list_timerenv_set</span><span class="p">,</span> <span class="n">list_timerenv_get</span><span class="p">,</span> <span class="n">list_timerenv_del</span><span class="p">,</span> <span class="n">list_timerenv_clear</span><span class="p">,&amp;</span>
-<a name="ln-37"></a>       <span class="p">&amp;</span> <span class="n">list_timerenv_size</span><span class="p">,</span> <span class="n">list_timerenv_destroy</span><span class="p">,</span> <span class="n">list_timerenv_isready</span>
-<a name="ln-38"></a>
-<a name="ln-39"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
-<a name="ln-40"></a>   <span class="k">IMPLICIT NONE</span>
-<a name="ln-41"></a>
-<a name="ln-42"></a><span class="k">   PRIVATE</span>
-<a name="ln-43"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">moduleN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_list&#39;</span>
-<a name="ln-44"></a>
-<a name="ln-45"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">list_init</span><span class="p">,</span> <span class="n">list_isready</span><span class="p">,</span> <span class="n">list_push</span><span class="p">,</span> <span class="n">list_pop</span><span class="p">,</span> <span class="n">list_peek</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-46"></a>             <span class="n">list_get</span><span class="p">,</span> <span class="n">list_size</span><span class="p">,</span> <span class="n">list_destroy</span>
-<a name="ln-47"></a>
-<a name="ln-48"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">list_timerenv_type</span>
-<a name="ln-49"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">list_routinestat_type</span>
-<a name="ln-50"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">list_routinereport_type</span>
-<a name="ln-51"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">list_callstackentry_type</span>
-<a name="ln-52"></a>
-<a name="ln-53"></a>   <span class="k">INTERFACE </span><span class="n">list_init</span>
-<a name="ln-54"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_init</span>
-<a name="ln-55"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_init</span>
-<a name="ln-56"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_init</span>
-<a name="ln-57"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_init</span>
-<a name="ln-58"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-59"></a>
-<a name="ln-60"></a><span class="k">   INTERFACE </span><span class="n">list_isready</span>
-<a name="ln-61"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_isready</span>
-<a name="ln-62"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_isready</span>
-<a name="ln-63"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_isready</span>
-<a name="ln-64"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_isready</span>
-<a name="ln-65"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-66"></a>
-<a name="ln-67"></a><span class="k">   INTERFACE </span><span class="n">list_push</span>
-<a name="ln-68"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_push</span>
-<a name="ln-69"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_push</span>
-<a name="ln-70"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_push</span>
-<a name="ln-71"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_push</span>
-<a name="ln-72"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-73"></a>
-<a name="ln-74"></a><span class="k">   INTERFACE </span><span class="n">list_pop</span>
-<a name="ln-75"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_pop</span>
-<a name="ln-76"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_pop</span>
-<a name="ln-77"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_pop</span>
-<a name="ln-78"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_pop</span>
-<a name="ln-79"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-80"></a>
-<a name="ln-81"></a><span class="k">   INTERFACE </span><span class="n">list_peek</span>
-<a name="ln-82"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_peek</span>
-<a name="ln-83"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_peek</span>
-<a name="ln-84"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_peek</span>
-<a name="ln-85"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_peek</span>
-<a name="ln-86"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-87"></a>
-<a name="ln-88"></a><span class="k">   INTERFACE </span><span class="n">list_insert</span>
-<a name="ln-89"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_insert</span>
-<a name="ln-90"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_insert</span>
-<a name="ln-91"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_insert</span>
-<a name="ln-92"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_insert</span>
-<a name="ln-93"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-94"></a>
-<a name="ln-95"></a><span class="k">   INTERFACE </span><span class="n">list_set</span>
-<a name="ln-96"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_set</span>
-<a name="ln-97"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_set</span>
-<a name="ln-98"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_set</span>
-<a name="ln-99"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_set</span>
-<a name="ln-100"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-101"></a>
-<a name="ln-102"></a><span class="k">   INTERFACE </span><span class="n">list_get</span>
-<a name="ln-103"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_get</span>
-<a name="ln-104"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_get</span>
-<a name="ln-105"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_get</span>
-<a name="ln-106"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_get</span>
-<a name="ln-107"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-108"></a>
-<a name="ln-109"></a><span class="k">   INTERFACE </span><span class="n">list_del</span>
-<a name="ln-110"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_del</span>
-<a name="ln-111"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_del</span>
-<a name="ln-112"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_del</span>
-<a name="ln-113"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_del</span>
-<a name="ln-114"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-115"></a>
-<a name="ln-116"></a><span class="k">   INTERFACE </span><span class="n">list_clear</span>
-<a name="ln-117"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_clear</span>
-<a name="ln-118"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_clear</span>
-<a name="ln-119"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_clear</span>
-<a name="ln-120"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_clear</span>
-<a name="ln-121"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-122"></a>
-<a name="ln-123"></a><span class="k">   INTERFACE </span><span class="n">list_size</span>
-<a name="ln-124"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_size</span>
-<a name="ln-125"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_size</span>
-<a name="ln-126"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_size</span>
-<a name="ln-127"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_size</span>
-<a name="ln-128"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-129"></a>
-<a name="ln-130"></a><span class="k">   INTERFACE </span><span class="n">list_destroy</span>
-<a name="ln-131"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_destroy</span>
-<a name="ln-132"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_destroy</span>
-<a name="ln-133"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_destroy</span>
-<a name="ln-134"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_destroy</span>
-<a name="ln-135"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-136"></a>
-<a name="ln-137"></a><span class="k">END MODULE </span><span class="n">dbcsr_list</span>
+<a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_list</span>
+<a name="ln-12"></a>   <span class="c">!! An array-based list which grows on demand.</span>
+<a name="ln-13"></a>   <span class="c">!! When the internal array is full, a new array of twice the size will be</span>
+<a name="ln-14"></a>   <span class="c">!! allocated and the items are copied over.</span>
+<a name="ln-15"></a>   <span class="c">!! This list can also be used as a stack.</span>
+<a name="ln-16"></a>   <span class="c">!! Have look at list_push(), list_pop() and list_peek().</span>
+<a name="ln-17"></a>   <span class="c">!! @note it&#39;s not possible to put all templates in a single module because this would lead to circular</span>
+<a name="ln-18"></a>   <span class="c">!! dependencies (timer_env_type contains list_routinestat_type and list_callstackentry_type, and</span>
+<a name="ln-19"></a>   <span class="c">!! list_timerenv_type contains timer_env_type)</span>
+<a name="ln-20"></a>
+<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_timings_base_type</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">routine_stat_type</span><span class="p">,</span> <span class="n">routine_report_type</span><span class="p">,</span> <span class="n">callstack_entry_type</span>
+<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_list_callstackentry</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">list_callstackentry_type</span><span class="p">,</span> <span class="n">list_callstackentry_init</span><span class="p">,</span> <span class="n">list_callstackentry_push</span><span class="p">,&amp;</span>
+<a name="ln-23"></a>       <span class="p">&amp;</span> <span class="n">list_callstackentry_pop</span><span class="p">,</span> <span class="n">list_callstackentry_peek</span><span class="p">,</span> <span class="n">list_callstackentry_insert</span><span class="p">,</span> <span class="n">list_callstackentry_set</span><span class="p">,&amp;</span>
+<a name="ln-24"></a>       <span class="p">&amp;</span> <span class="n">list_callstackentry_get</span><span class="p">,</span> <span class="n">list_callstackentry_del</span><span class="p">,</span> <span class="n">list_callstackentry_clear</span><span class="p">,</span> <span class="n">list_callstackentry_size</span><span class="p">,&amp;</span>
+<a name="ln-25"></a>       <span class="p">&amp;</span> <span class="n">list_callstackentry_destroy</span><span class="p">,</span> <span class="n">list_callstackentry_isready</span>
+<a name="ln-26"></a>   <span class="k">USE </span><span class="n">dbcsr_list_routinereport</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">list_routinereport_type</span><span class="p">,</span> <span class="n">list_routinereport_init</span><span class="p">,</span> <span class="n">list_routinereport_push</span><span class="p">,&amp;</span>
+<a name="ln-27"></a>       <span class="p">&amp;</span> <span class="n">list_routinereport_pop</span><span class="p">,</span> <span class="n">list_routinereport_peek</span><span class="p">,</span> <span class="n">list_routinereport_insert</span><span class="p">,</span> <span class="n">list_routinereport_set</span><span class="p">,&amp;</span>
+<a name="ln-28"></a>       <span class="p">&amp;</span> <span class="n">list_routinereport_get</span><span class="p">,</span> <span class="n">list_routinereport_del</span><span class="p">,</span> <span class="n">list_routinereport_clear</span><span class="p">,</span> <span class="n">list_routinereport_size</span><span class="p">,&amp;</span>
+<a name="ln-29"></a>       <span class="p">&amp;</span> <span class="n">list_routinereport_destroy</span><span class="p">,</span> <span class="n">list_routinereport_isready</span>
+<a name="ln-30"></a>   <span class="k">USE </span><span class="n">dbcsr_list_routinestat</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">list_routinestat_type</span><span class="p">,</span> <span class="n">list_routinestat_init</span><span class="p">,</span> <span class="n">list_routinestat_push</span><span class="p">,</span> <span class="n">list_routinestat_pop</span><span class="p">,&amp;</span>
+<a name="ln-31"></a>       <span class="p">&amp;</span> <span class="n">list_routinestat_peek</span><span class="p">,</span> <span class="n">list_routinestat_insert</span><span class="p">,</span> <span class="n">list_routinestat_set</span><span class="p">,</span> <span class="n">list_routinestat_get</span><span class="p">,</span> <span class="n">list_routinestat_del</span><span class="p">,&amp;</span>
+<a name="ln-32"></a>       <span class="p">&amp;</span> <span class="n">list_routinestat_clear</span><span class="p">,</span> <span class="n">list_routinestat_size</span><span class="p">,</span> <span class="n">list_routinestat_destroy</span><span class="p">,</span> <span class="n">list_routinestat_isready</span>
+<a name="ln-33"></a>   <span class="k">USE </span><span class="n">dbcsr_list_timerenv</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">list_timerenv_type</span><span class="p">,</span> <span class="n">list_timerenv_init</span><span class="p">,</span> <span class="n">list_timerenv_push</span><span class="p">,</span> <span class="n">list_timerenv_pop</span><span class="p">,&amp;</span>
+<a name="ln-34"></a>       <span class="p">&amp;</span> <span class="n">list_timerenv_peek</span><span class="p">,</span> <span class="n">list_timerenv_insert</span><span class="p">,</span> <span class="n">list_timerenv_set</span><span class="p">,</span> <span class="n">list_timerenv_get</span><span class="p">,</span> <span class="n">list_timerenv_del</span><span class="p">,</span> <span class="n">list_timerenv_clear</span><span class="p">,&amp;</span>
+<a name="ln-35"></a>       <span class="p">&amp;</span> <span class="n">list_timerenv_size</span><span class="p">,</span> <span class="n">list_timerenv_destroy</span><span class="p">,</span> <span class="n">list_timerenv_isready</span>
+<a name="ln-36"></a>
+<a name="ln-37"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
+<a name="ln-38"></a>   <span class="k">IMPLICIT NONE</span>
+<a name="ln-39"></a>
+<a name="ln-40"></a><span class="k">   PRIVATE</span>
+<a name="ln-41"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">moduleN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_list&#39;</span>
+<a name="ln-42"></a>
+<a name="ln-43"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">list_init</span><span class="p">,</span> <span class="n">list_isready</span><span class="p">,</span> <span class="n">list_push</span><span class="p">,</span> <span class="n">list_pop</span><span class="p">,</span> <span class="n">list_peek</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-44"></a>             <span class="n">list_get</span><span class="p">,</span> <span class="n">list_size</span><span class="p">,</span> <span class="n">list_destroy</span>
+<a name="ln-45"></a>
+<a name="ln-46"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">list_timerenv_type</span>
+<a name="ln-47"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">list_routinestat_type</span>
+<a name="ln-48"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">list_routinereport_type</span>
+<a name="ln-49"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">list_callstackentry_type</span>
+<a name="ln-50"></a>
+<a name="ln-51"></a>   <span class="k">INTERFACE </span><span class="n">list_init</span>
+<a name="ln-52"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_init</span>
+<a name="ln-53"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_init</span>
+<a name="ln-54"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_init</span>
+<a name="ln-55"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_init</span>
+<a name="ln-56"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-57"></a>
+<a name="ln-58"></a><span class="k">   INTERFACE </span><span class="n">list_isready</span>
+<a name="ln-59"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_isready</span>
+<a name="ln-60"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_isready</span>
+<a name="ln-61"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_isready</span>
+<a name="ln-62"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_isready</span>
+<a name="ln-63"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-64"></a>
+<a name="ln-65"></a><span class="k">   INTERFACE </span><span class="n">list_push</span>
+<a name="ln-66"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_push</span>
+<a name="ln-67"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_push</span>
+<a name="ln-68"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_push</span>
+<a name="ln-69"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_push</span>
+<a name="ln-70"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-71"></a>
+<a name="ln-72"></a><span class="k">   INTERFACE </span><span class="n">list_pop</span>
+<a name="ln-73"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_pop</span>
+<a name="ln-74"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_pop</span>
+<a name="ln-75"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_pop</span>
+<a name="ln-76"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_pop</span>
+<a name="ln-77"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-78"></a>
+<a name="ln-79"></a><span class="k">   INTERFACE </span><span class="n">list_peek</span>
+<a name="ln-80"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_peek</span>
+<a name="ln-81"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_peek</span>
+<a name="ln-82"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_peek</span>
+<a name="ln-83"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_peek</span>
+<a name="ln-84"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-85"></a>
+<a name="ln-86"></a><span class="k">   INTERFACE </span><span class="n">list_insert</span>
+<a name="ln-87"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_insert</span>
+<a name="ln-88"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_insert</span>
+<a name="ln-89"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_insert</span>
+<a name="ln-90"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_insert</span>
+<a name="ln-91"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-92"></a>
+<a name="ln-93"></a><span class="k">   INTERFACE </span><span class="n">list_set</span>
+<a name="ln-94"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_set</span>
+<a name="ln-95"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_set</span>
+<a name="ln-96"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_set</span>
+<a name="ln-97"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_set</span>
+<a name="ln-98"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-99"></a>
+<a name="ln-100"></a><span class="k">   INTERFACE </span><span class="n">list_get</span>
+<a name="ln-101"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_get</span>
+<a name="ln-102"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_get</span>
+<a name="ln-103"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_get</span>
+<a name="ln-104"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_get</span>
+<a name="ln-105"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-106"></a>
+<a name="ln-107"></a><span class="k">   INTERFACE </span><span class="n">list_del</span>
+<a name="ln-108"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_del</span>
+<a name="ln-109"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_del</span>
+<a name="ln-110"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_del</span>
+<a name="ln-111"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_del</span>
+<a name="ln-112"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-113"></a>
+<a name="ln-114"></a><span class="k">   INTERFACE </span><span class="n">list_clear</span>
+<a name="ln-115"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_clear</span>
+<a name="ln-116"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_clear</span>
+<a name="ln-117"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_clear</span>
+<a name="ln-118"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_clear</span>
+<a name="ln-119"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-120"></a>
+<a name="ln-121"></a><span class="k">   INTERFACE </span><span class="n">list_size</span>
+<a name="ln-122"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_size</span>
+<a name="ln-123"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_size</span>
+<a name="ln-124"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_size</span>
+<a name="ln-125"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_size</span>
+<a name="ln-126"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-127"></a>
+<a name="ln-128"></a><span class="k">   INTERFACE </span><span class="n">list_destroy</span>
+<a name="ln-129"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_timerenv_destroy</span>
+<a name="ln-130"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinestat_destroy</span>
+<a name="ln-131"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_routinereport_destroy</span>
+<a name="ln-132"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">list_callstackentry_destroy</span>
+<a name="ln-133"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-134"></a>
+<a name="ln-135"></a><span class="k">END MODULE </span><span class="n">dbcsr_list</span>
 </pre></div>
 
     </section>

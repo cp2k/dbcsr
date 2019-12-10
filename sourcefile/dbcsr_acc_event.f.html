@@ -306,64 +306,64 @@
 <a name="ln-39"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
 <a name="ln-40"></a>
 <a name="ln-41"></a>   <span class="k">INTERFACE</span>
-<a name="ln-42"></a><span class="k">      FUNCTION </span><span class="n">cuda_event_create</span><span class="p">(</span><span class="n">event_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_event_create&quot;</span><span class="p">)</span>
+<a name="ln-42"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_event_create</span><span class="p">(</span><span class="n">event_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_event_create&quot;</span><span class="p">)</span>
 <a name="ln-43"></a>         <span class="k">IMPORT</span>
 <a name="ln-44"></a><span class="k">         TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">event_ptr</span>
 <a name="ln-45"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-46"></a>
-<a name="ln-47"></a>      <span class="k">END FUNCTION </span><span class="n">cuda_event_create</span>
+<a name="ln-47"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_event_create</span>
 <a name="ln-48"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-49"></a>
 <a name="ln-50"></a><span class="k">   INTERFACE</span>
-<a name="ln-51"></a><span class="k">      FUNCTION </span><span class="n">cuda_event_destroy</span><span class="p">(</span><span class="n">event_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_event_destroy&quot;</span><span class="p">)</span>
+<a name="ln-51"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_event_destroy</span><span class="p">(</span><span class="n">event_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_event_destroy&quot;</span><span class="p">)</span>
 <a name="ln-52"></a>         <span class="k">IMPORT</span>
 <a name="ln-53"></a><span class="k">         TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">),</span> <span class="k">VALUE</span>                       <span class="kd">::</span> <span class="n">event_ptr</span>
 <a name="ln-54"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-55"></a>
-<a name="ln-56"></a>      <span class="k">END FUNCTION </span><span class="n">cuda_event_destroy</span>
+<a name="ln-56"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_event_destroy</span>
 <a name="ln-57"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-58"></a>
 <a name="ln-59"></a><span class="k">   INTERFACE</span>
-<a name="ln-60"></a><span class="k">      FUNCTION </span><span class="n">cuda_event_query</span><span class="p">(</span><span class="n">event_ptr</span><span class="p">,</span> <span class="n">has_occurred</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_event_query&quot;</span><span class="p">)</span>
+<a name="ln-60"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_event_query</span><span class="p">(</span><span class="n">event_ptr</span><span class="p">,</span> <span class="n">has_occurred</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_event_query&quot;</span><span class="p">)</span>
 <a name="ln-61"></a>         <span class="k">IMPORT</span>
 <a name="ln-62"></a><span class="k">         TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">),</span> <span class="k">VALUE</span>                       <span class="kd">::</span> <span class="n">event_ptr</span>
 <a name="ln-63"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">has_occurred</span><span class="p">,</span> <span class="n">istat</span>
 <a name="ln-64"></a>
-<a name="ln-65"></a>      <span class="k">END FUNCTION </span><span class="n">cuda_event_query</span>
+<a name="ln-65"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_event_query</span>
 <a name="ln-66"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-67"></a>
 <a name="ln-68"></a><span class="k">   INTERFACE</span>
-<a name="ln-69"></a><span class="k">      FUNCTION </span><span class="n">cuda_event_record</span><span class="p">(</span><span class="n">event_ptr</span><span class="p">,</span> <span class="n">stream_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_event_record&quot;</span><span class="p">)</span>
+<a name="ln-69"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_event_record</span><span class="p">(</span><span class="n">event_ptr</span><span class="p">,</span> <span class="n">stream_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_event_record&quot;</span><span class="p">)</span>
 <a name="ln-70"></a>         <span class="k">IMPORT</span>
 <a name="ln-71"></a><span class="k">         TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">),</span> <span class="k">VALUE</span>                       <span class="kd">::</span> <span class="n">event_ptr</span><span class="p">,</span> <span class="n">stream_ptr</span>
 <a name="ln-72"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-73"></a>
-<a name="ln-74"></a>      <span class="k">END FUNCTION </span><span class="n">cuda_event_record</span>
+<a name="ln-74"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_event_record</span>
 <a name="ln-75"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-76"></a>
 <a name="ln-77"></a><span class="k">   INTERFACE</span>
-<a name="ln-78"></a><span class="k">      FUNCTION </span><span class="n">cuda_stream_wait_event</span><span class="p">(</span><span class="n">stream_ptr</span><span class="p">,</span> <span class="n">event_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_stream_wait_event&quot;</span><span class="p">)</span>
+<a name="ln-78"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_stream_wait_event</span><span class="p">(</span><span class="n">stream_ptr</span><span class="p">,</span> <span class="n">event_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_stream_wait_event&quot;</span><span class="p">)</span>
 <a name="ln-79"></a>         <span class="k">IMPORT</span>
 <a name="ln-80"></a><span class="k">         TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">),</span> <span class="k">VALUE</span>                       <span class="kd">::</span> <span class="n">stream_ptr</span><span class="p">,</span> <span class="n">event_ptr</span>
 <a name="ln-81"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-82"></a>
-<a name="ln-83"></a>      <span class="k">END FUNCTION </span><span class="n">cuda_stream_wait_event</span>
+<a name="ln-83"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_stream_wait_event</span>
 <a name="ln-84"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-85"></a>
 <a name="ln-86"></a><span class="k">   INTERFACE</span>
-<a name="ln-87"></a><span class="k">      FUNCTION </span><span class="n">cuda_event_synchronize</span><span class="p">(</span><span class="n">event_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_event_synchronize&quot;</span><span class="p">)</span>
+<a name="ln-87"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_event_synchronize</span><span class="p">(</span><span class="n">event_ptr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_event_synchronize&quot;</span><span class="p">)</span>
 <a name="ln-88"></a>         <span class="k">IMPORT</span>
 <a name="ln-89"></a><span class="k">         TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">),</span> <span class="k">VALUE</span>                       <span class="kd">::</span> <span class="n">event_ptr</span>
 <a name="ln-90"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-91"></a>
-<a name="ln-92"></a>      <span class="k">END FUNCTION </span><span class="n">cuda_event_synchronize</span>
+<a name="ln-92"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_event_synchronize</span>
 <a name="ln-93"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-94"></a><span class="cp">#endif</span>
 <a name="ln-95"></a>
 <a name="ln-96"></a><span class="k">CONTAINS</span>
 <a name="ln-97"></a>
 <a name="ln-98"></a><span class="k">   SUBROUTINE </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
-<a name="ln-99"></a>      <span class="c">!! Fortran-wrapper for cudaStreamWaitEvent.</span>
+<a name="ln-99"></a>      <span class="c">!! Fortran-wrapper for making a GPU compute stream wait on an event.</span>
 <a name="ln-100"></a>      <span class="c">!! Because of fortran circular dependency restriction this can not go into acc_stream.F</span>
 <a name="ln-101"></a>
 <a name="ln-102"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">stream</span>
@@ -384,14 +384,14 @@
 <a name="ln-117"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_wait_event: event not allocated&quot;</span><span class="p">)</span>
 <a name="ln-118"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">stream_cptr</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-119"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_wait_event: stream not allocated&quot;</span><span class="p">)</span>
-<a name="ln-120"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">cuda_stream_wait_event</span><span class="p">(</span><span class="n">stream_cptr</span><span class="p">,</span> <span class="n">event</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span>
+<a name="ln-120"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_stream_wait_event</span><span class="p">(</span><span class="n">stream_cptr</span><span class="p">,</span> <span class="n">event</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span>
 <a name="ln-121"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-122"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_wait_event failed&quot;</span><span class="p">)</span>
 <a name="ln-123"></a><span class="cp">#endif</span>
 <a name="ln-124"></a>   <span class="k">END SUBROUTINE </span><span class="n">acc_stream_wait_event</span>
 <a name="ln-125"></a>
 <a name="ln-126"></a>   <span class="k">SUBROUTINE </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span>
-<a name="ln-127"></a>      <span class="c">!! Fortran-wrapper for cudaEventRecord.</span>
+<a name="ln-127"></a>      <span class="c">!! Fortran-wrapper for recording a CUDA/HIP event.</span>
 <a name="ln-128"></a>
 <a name="ln-129"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_event_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">this</span>
 <a name="ln-130"></a>         <span class="c">!! event</span>
@@ -411,14 +411,14 @@
 <a name="ln-144"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_event_record: event not allocated&quot;</span><span class="p">)</span>
 <a name="ln-145"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">stream_cptr</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-146"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_event_record: stream not allocated&quot;</span><span class="p">)</span>
-<a name="ln-147"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">cuda_event_record</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">,</span> <span class="n">stream_cptr</span><span class="p">)</span>
+<a name="ln-147"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_event_record</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">,</span> <span class="n">stream_cptr</span><span class="p">)</span>
 <a name="ln-148"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-149"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_event_record failed&quot;</span><span class="p">)</span>
 <a name="ln-150"></a><span class="cp">#endif</span>
 <a name="ln-151"></a>   <span class="k">END SUBROUTINE </span><span class="n">acc_event_record</span>
 <a name="ln-152"></a>
 <a name="ln-153"></a>   <span class="k">SUBROUTINE </span><span class="n">acc_event_create</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
-<a name="ln-154"></a>      <span class="c">!! Fortran-wrapper for cudaEventCreate.</span>
+<a name="ln-154"></a>      <span class="c">!! Fortran-wrapper for creation of a CUDA/HIP event.</span>
 <a name="ln-155"></a>
 <a name="ln-156"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_event_type</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-157"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">this</span>
@@ -432,14 +432,14 @@
 <a name="ln-165"></a>
 <a name="ln-166"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-167"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_event_create: already allocated&quot;</span><span class="p">)</span>
-<a name="ln-168"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">cuda_event_create</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span>
+<a name="ln-168"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_event_create</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span>
 <a name="ln-169"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-170"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_event_create: failed&quot;</span><span class="p">)</span>
 <a name="ln-171"></a><span class="cp">#endif</span>
 <a name="ln-172"></a>   <span class="k">END SUBROUTINE </span><span class="n">acc_event_create</span>
 <a name="ln-173"></a>
 <a name="ln-174"></a>   <span class="k">SUBROUTINE </span><span class="n">acc_event_destroy</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
-<a name="ln-175"></a>      <span class="c">!! Fortran-wrapper for cudaEventDestroy.</span>
+<a name="ln-175"></a>      <span class="c">!! Fortran-wrapper for destruction of a CUDA/HIP event.</span>
 <a name="ln-176"></a>
 <a name="ln-177"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_event_type</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-178"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">this</span>
@@ -452,7 +452,7 @@
 <a name="ln-185"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-186"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-187"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_event_destroy: event not allocated&quot;</span><span class="p">)</span>
-<a name="ln-188"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">cuda_event_destroy</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span>
+<a name="ln-188"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_event_destroy</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span>
 <a name="ln-189"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-190"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_event_destroy failed&quot;</span><span class="p">)</span>
 <a name="ln-191"></a>      <span class="n">this</span><span class="p">%</span><span class="n">cptr</span> <span class="o">=</span> <span class="nb">C_NULL_PTR</span>
@@ -460,7 +460,7 @@
 <a name="ln-193"></a>   <span class="k">END SUBROUTINE </span><span class="n">acc_event_destroy</span>
 <a name="ln-194"></a>
 <a name="ln-195"></a>   <span class="k">FUNCTION </span><span class="n">acc_event_query</span><span class="p">(</span><span class="n">this</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<a name="ln-196"></a>      <span class="c">!! Fortran-wrapper for cudaEventQuery.</span>
+<a name="ln-196"></a>      <span class="c">!! Fortran-wrapper for querying a CUDA/HIP event&#39;s status.</span>
 <a name="ln-197"></a>
 <a name="ln-198"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_event_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">this</span>
 <a name="ln-199"></a>         <span class="c">!! event</span>
@@ -475,7 +475,7 @@
 <a name="ln-208"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">istat</span><span class="p">,</span> <span class="n">has_occurred</span>
 <a name="ln-209"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-210"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_event_query: event not allocated&quot;</span><span class="p">)</span>
-<a name="ln-211"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">cuda_event_query</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">,</span> <span class="n">has_occurred</span><span class="p">)</span>
+<a name="ln-211"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_event_query</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">,</span> <span class="n">has_occurred</span><span class="p">)</span>
 <a name="ln-212"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-213"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_event_query failed&quot;</span><span class="p">)</span>
 <a name="ln-214"></a>      <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">has_occurred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
@@ -483,7 +483,7 @@
 <a name="ln-216"></a>   <span class="k">END FUNCTION </span><span class="n">acc_event_query</span>
 <a name="ln-217"></a>
 <a name="ln-218"></a>   <span class="k">SUBROUTINE </span><span class="n">acc_event_synchronize</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
-<a name="ln-219"></a>      <span class="c">!! Fortran-wrapper for cudaEventSynchronize.</span>
+<a name="ln-219"></a>      <span class="c">!! Fortran-wrapper for waiting for the completion of a HIP/CUDA event.</span>
 <a name="ln-220"></a>
 <a name="ln-221"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_event_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">this</span>
 <a name="ln-222"></a>         <span class="c">!! event</span>
@@ -495,7 +495,7 @@
 <a name="ln-228"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-229"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-230"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_event_synchronize: event not allocated&quot;</span><span class="p">)</span>
-<a name="ln-231"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">cuda_event_synchronize</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span>
+<a name="ln-231"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_event_synchronize</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span>
 <a name="ln-232"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-233"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_event_synchronize failed&quot;</span><span class="p">)</span>
 <a name="ln-234"></a><span class="cp">#endif</span>

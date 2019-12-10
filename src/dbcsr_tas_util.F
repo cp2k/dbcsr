@@ -7,7 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-
 MODULE dbcsr_tas_util
 
    !! often used utilities for tall-and-skinny matrices

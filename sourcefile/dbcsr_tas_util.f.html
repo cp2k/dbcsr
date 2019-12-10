@@ -274,134 +274,133 @@
 <a name="ln-7"></a><span class="c">! SPDX-License-Identifier: GPL-2.0+                                                                !</span>
 <a name="ln-8"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
 <a name="ln-9"></a>
-<a name="ln-10"></a>
-<a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_tas_util</span>
-<a name="ln-12"></a>
-<a name="ln-13"></a>   <span class="c">!! often used utilities for tall-and-skinny matrices</span>
-<a name="ln-14"></a>
-<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_new</span>
-<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_obj</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-17"></a>                          <span class="n">dbcsr_transpose</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-18"></a>                          <span class="n">dbcsr_no_transpose</span>
-<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">int_8</span>
-<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">mp_cart_rank</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-21"></a>                            <span class="n">mp_environ</span>
-<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_index_operations</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_sort_indices</span>
-<a name="ln-23"></a><span class="cp">#include &quot;../base/dbcsr_base_uses.f90&quot;</span>
-<a name="ln-24"></a>
-<a name="ln-25"></a>   <span class="k">IMPLICIT NONE</span>
-<a name="ln-26"></a><span class="k">   PRIVATE</span>
-<a name="ln-27"></a>
-<a name="ln-28"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">moduleN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_tas_util&#39;</span>
-<a name="ln-29"></a>
-<a name="ln-30"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="p">&amp;</span>
-<a name="ln-31"></a>      <span class="n">array_eq_i8</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-32"></a>      <span class="n">dbcsr_mp_environ</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-33"></a>      <span class="n">index_unique</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-34"></a>      <span class="n">invert_transpose_flag</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-35"></a>      <span class="n">swap</span>
-<a name="ln-36"></a>
-<a name="ln-37"></a>   <span class="k">INTERFACE </span><span class="n">swap</span>
-<a name="ln-38"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">swap_i8</span>
-<a name="ln-39"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">swap_i</span>
-<a name="ln-40"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-41"></a>
-<a name="ln-42"></a><span class="k">CONTAINS</span>
-<a name="ln-43"></a><span class="k">   FUNCTION </span><span class="n">dbcsr_mp_environ</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">)</span>
-<a name="ln-44"></a>      <span class="c">!! Create a dbcsr mp environment from communicator</span>
-<a name="ln-45"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">mp_comm</span>
-<a name="ln-46"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                                 <span class="kd">::</span> <span class="n">dbcsr_mp_environ</span>
-<a name="ln-47"></a>
-<a name="ln-48"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">prow</span>
-<a name="ln-49"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:)</span>              <span class="kd">::</span> <span class="n">pgrid</span>
-<a name="ln-50"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">coord</span><span class="p">,</span> <span class="n">mycoord</span><span class="p">,</span> <span class="n">npdims</span>
-<a name="ln-51"></a>
-<a name="ln-52"></a>      <span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span> <span class="n">npdims</span><span class="p">,</span> <span class="n">mycoord</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
-<a name="ln-53"></a>      <span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
-<a name="ln-54"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">pgrid</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-<a name="ln-55"></a>      <span class="k">DO </span><span class="n">prow</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-56"></a>         <span class="k">DO </span><span class="n">pcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-57"></a>            <span class="n">coord</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="o">/</span><span class="p">)</span>
-<a name="ln-58"></a>            <span class="k">CALL </span><span class="n">mp_cart_rank</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">(</span><span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">))</span>
-<a name="ln-59"></a>         <span class="n">ENDDO</span>
-<a name="ln-60"></a>      <span class="n">ENDDO</span>
-<a name="ln-61"></a>
-<a name="ln-62"></a>      <span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">mynode</span> <span class="o">==</span> <span class="n">pgrid</span><span class="p">(</span><span class="n">mycoord</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">mycoord</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
-<a name="ln-63"></a>
-<a name="ln-64"></a>      <span class="k">CALL </span><span class="n">dbcsr_mp_new</span><span class="p">(</span><span class="n">dbcsr_mp_environ</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="n">mycoord</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">mycoord</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-<a name="ln-65"></a>   <span class="k">END FUNCTION</span>
-<a name="ln-66"></a>
-<a name="ln-67"></a><span class="k">   SUBROUTINE </span><span class="n">swap_i8</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
-<a name="ln-68"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">arr</span>
-<a name="ln-69"></a>
-<a name="ln-70"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">tmp</span>
-<a name="ln-71"></a>
-<a name="ln-72"></a>      <span class="n">tmp</span> <span class="o">=</span> <span class="n">arr</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-73"></a>      <span class="n">arr</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">arr</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<a name="ln-74"></a>      <span class="n">arr</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">tmp</span>
-<a name="ln-75"></a>   <span class="k">END SUBROUTINE</span>
-<a name="ln-76"></a>
-<a name="ln-77"></a><span class="k">   SUBROUTINE </span><span class="n">swap_i</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
-<a name="ln-78"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">arr</span>
-<a name="ln-79"></a>
-<a name="ln-80"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">tmp</span>
-<a name="ln-81"></a>
-<a name="ln-82"></a>      <span class="n">tmp</span> <span class="o">=</span> <span class="n">arr</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-83"></a>      <span class="n">arr</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">arr</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<a name="ln-84"></a>      <span class="n">arr</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">tmp</span>
-<a name="ln-85"></a>   <span class="k">END SUBROUTINE</span>
-<a name="ln-86"></a>
-<a name="ln-87"></a><span class="k">   SUBROUTINE </span><span class="n">index_unique</span><span class="p">(</span><span class="n">index_in</span><span class="p">,</span> <span class="n">index_out</span><span class="p">)</span>
-<a name="ln-88"></a>      <span class="c">!! Get all unique elements in index_in</span>
-<a name="ln-89"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">index_in</span>
-<a name="ln-90"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-91"></a>         <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">index_out</span>
-<a name="ln-92"></a>
-<a name="ln-93"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">blk</span><span class="p">,</span> <span class="nb">count</span><span class="p">,</span> <span class="n">orig_size</span>
-<a name="ln-94"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:)</span>  <span class="kd">::</span> <span class="n">index_tmp</span>
-<a name="ln-95"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">prev_index</span>
-<a name="ln-96"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">index_in</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-97"></a>                         <span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">index_in</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>                          <span class="kd">::</span> <span class="n">index_sorted</span>
-<a name="ln-98"></a>
-<a name="ln-99"></a>      <span class="n">orig_size</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">index_in</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<a name="ln-100"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">index_tmp</span><span class="p">(</span><span class="n">orig_size</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<a name="ln-101"></a>      <span class="n">index_sorted</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">index_in</span><span class="p">(:,</span> <span class="p">:)</span>
-<a name="ln-102"></a>      <span class="k">CALL </span><span class="n">dbcsr_sort_indices</span><span class="p">(</span><span class="n">orig_size</span><span class="p">,</span> <span class="n">index_sorted</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">index_sorted</span><span class="p">(:,</span> <span class="mi">2</span><span class="p">))</span>
-<a name="ln-103"></a>      <span class="nb">count</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-104"></a>      <span class="n">prev_index</span><span class="p">(:)</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<a name="ln-105"></a>      <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">orig_size</span>
-<a name="ln-106"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">index_sorted</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="p">:)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">prev_index</span><span class="p">(:)))</span> <span class="k">THEN</span>
-<a name="ln-107"></a><span class="k">            </span><span class="nb">count</span> <span class="o">=</span> <span class="nb">count</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-108"></a>            <span class="n">index_tmp</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">index_sorted</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="p">:)</span>
-<a name="ln-109"></a>            <span class="n">prev_index</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">index_sorted</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="p">:)</span>
-<a name="ln-110"></a>         <span class="n">ENDIF</span>
-<a name="ln-111"></a>      <span class="n">ENDDO</span>
-<a name="ln-112"></a>
-<a name="ln-113"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">index_out</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<a name="ln-114"></a>      <span class="n">index_out</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">index_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span><span class="p">,</span> <span class="p">:)</span>
-<a name="ln-115"></a>
-<a name="ln-116"></a>   <span class="k">END SUBROUTINE</span>
-<a name="ln-117"></a>
-<a name="ln-118"></a><span class="k">   SUBROUTINE </span><span class="n">invert_transpose_flag</span><span class="p">(</span><span class="n">trans_flag</span><span class="p">)</span>
-<a name="ln-119"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">trans_flag</span>
-<a name="ln-120"></a>
-<a name="ln-121"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">trans_flag</span> <span class="o">==</span> <span class="n">dbcsr_transpose</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-122"></a><span class="k">         </span><span class="n">trans_flag</span> <span class="o">=</span> <span class="n">dbcsr_no_transpose</span>
-<a name="ln-123"></a>      <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">trans_flag</span> <span class="o">==</span> <span class="n">dbcsr_no_transpose</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-124"></a><span class="k">         </span><span class="n">trans_flag</span> <span class="o">=</span> <span class="n">dbcsr_transpose</span>
-<a name="ln-125"></a>      <span class="n">ENDIF</span>
-<a name="ln-126"></a>   <span class="k">END SUBROUTINE</span>
-<a name="ln-127"></a>
-<a name="ln-128"></a><span class="k">   PURE FUNCTION </span><span class="n">array_eq_i8</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">)</span>
-<a name="ln-129"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span>
-<a name="ln-130"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">array_eq_i8</span>
-<a name="ln-131"></a>
-<a name="ln-132"></a>      <span class="n">array_eq_i8</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-133"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">arr1</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">arr2</span><span class="p">))</span> <span class="n">array_eq_i8</span> <span class="o">=</span> <span class="k">ALL</span><span class="p">(</span><span class="n">arr1</span> <span class="o">==</span> <span class="n">arr2</span><span class="p">)</span>
-<a name="ln-134"></a>
-<a name="ln-135"></a>   <span class="k">END FUNCTION</span>
-<a name="ln-136"></a>
-<a name="ln-137"></a><span class="k">END MODULE</span>
+<a name="ln-10"></a><span class="k">MODULE </span><span class="n">dbcsr_tas_util</span>
+<a name="ln-11"></a>
+<a name="ln-12"></a>   <span class="c">!! often used utilities for tall-and-skinny matrices</span>
+<a name="ln-13"></a>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_new</span>
+<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_obj</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-16"></a>                          <span class="n">dbcsr_transpose</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-17"></a>                          <span class="n">dbcsr_no_transpose</span>
+<a name="ln-18"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">int_8</span>
+<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">mp_cart_rank</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-20"></a>                            <span class="n">mp_environ</span>
+<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_index_operations</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_sort_indices</span>
+<a name="ln-22"></a><span class="cp">#include &quot;../base/dbcsr_base_uses.f90&quot;</span>
+<a name="ln-23"></a>
+<a name="ln-24"></a>   <span class="k">IMPLICIT NONE</span>
+<a name="ln-25"></a><span class="k">   PRIVATE</span>
+<a name="ln-26"></a>
+<a name="ln-27"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">moduleN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_tas_util&#39;</span>
+<a name="ln-28"></a>
+<a name="ln-29"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="p">&amp;</span>
+<a name="ln-30"></a>      <span class="n">array_eq_i8</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-31"></a>      <span class="n">dbcsr_mp_environ</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-32"></a>      <span class="n">index_unique</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-33"></a>      <span class="n">invert_transpose_flag</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-34"></a>      <span class="n">swap</span>
+<a name="ln-35"></a>
+<a name="ln-36"></a>   <span class="k">INTERFACE </span><span class="n">swap</span>
+<a name="ln-37"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">swap_i8</span>
+<a name="ln-38"></a>      <span class="k">MODULE PROCEDURE </span><span class="n">swap_i</span>
+<a name="ln-39"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-40"></a>
+<a name="ln-41"></a><span class="k">CONTAINS</span>
+<a name="ln-42"></a><span class="k">   FUNCTION </span><span class="n">dbcsr_mp_environ</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">)</span>
+<a name="ln-43"></a>      <span class="c">!! Create a dbcsr mp environment from communicator</span>
+<a name="ln-44"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">mp_comm</span>
+<a name="ln-45"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                                 <span class="kd">::</span> <span class="n">dbcsr_mp_environ</span>
+<a name="ln-46"></a>
+<a name="ln-47"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">prow</span>
+<a name="ln-48"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:)</span>              <span class="kd">::</span> <span class="n">pgrid</span>
+<a name="ln-49"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">coord</span><span class="p">,</span> <span class="n">mycoord</span><span class="p">,</span> <span class="n">npdims</span>
+<a name="ln-50"></a>
+<a name="ln-51"></a>      <span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span> <span class="n">npdims</span><span class="p">,</span> <span class="n">mycoord</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
+<a name="ln-52"></a>      <span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
+<a name="ln-53"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">pgrid</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<a name="ln-54"></a>      <span class="k">DO </span><span class="n">prow</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-55"></a>         <span class="k">DO </span><span class="n">pcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-56"></a>            <span class="n">coord</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="o">/</span><span class="p">)</span>
+<a name="ln-57"></a>            <span class="k">CALL </span><span class="n">mp_cart_rank</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">(</span><span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">))</span>
+<a name="ln-58"></a>         <span class="n">ENDDO</span>
+<a name="ln-59"></a>      <span class="n">ENDDO</span>
+<a name="ln-60"></a>
+<a name="ln-61"></a>      <span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">mynode</span> <span class="o">==</span> <span class="n">pgrid</span><span class="p">(</span><span class="n">mycoord</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">mycoord</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+<a name="ln-62"></a>
+<a name="ln-63"></a>      <span class="k">CALL </span><span class="n">dbcsr_mp_new</span><span class="p">(</span><span class="n">dbcsr_mp_environ</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="n">mycoord</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">mycoord</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a name="ln-64"></a>   <span class="k">END FUNCTION</span>
+<a name="ln-65"></a>
+<a name="ln-66"></a><span class="k">   SUBROUTINE </span><span class="n">swap_i8</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<a name="ln-67"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">arr</span>
+<a name="ln-68"></a>
+<a name="ln-69"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">tmp</span>
+<a name="ln-70"></a>
+<a name="ln-71"></a>      <span class="n">tmp</span> <span class="o">=</span> <span class="n">arr</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-72"></a>      <span class="n">arr</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">arr</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-73"></a>      <span class="n">arr</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">tmp</span>
+<a name="ln-74"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-75"></a>
+<a name="ln-76"></a><span class="k">   SUBROUTINE </span><span class="n">swap_i</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<a name="ln-77"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">arr</span>
+<a name="ln-78"></a>
+<a name="ln-79"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">tmp</span>
+<a name="ln-80"></a>
+<a name="ln-81"></a>      <span class="n">tmp</span> <span class="o">=</span> <span class="n">arr</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-82"></a>      <span class="n">arr</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">arr</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-83"></a>      <span class="n">arr</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">tmp</span>
+<a name="ln-84"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-85"></a>
+<a name="ln-86"></a><span class="k">   SUBROUTINE </span><span class="n">index_unique</span><span class="p">(</span><span class="n">index_in</span><span class="p">,</span> <span class="n">index_out</span><span class="p">)</span>
+<a name="ln-87"></a>      <span class="c">!! Get all unique elements in index_in</span>
+<a name="ln-88"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">index_in</span>
+<a name="ln-89"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-90"></a>         <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">index_out</span>
+<a name="ln-91"></a>
+<a name="ln-92"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">blk</span><span class="p">,</span> <span class="nb">count</span><span class="p">,</span> <span class="n">orig_size</span>
+<a name="ln-93"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:)</span>  <span class="kd">::</span> <span class="n">index_tmp</span>
+<a name="ln-94"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">prev_index</span>
+<a name="ln-95"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">index_in</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-96"></a>                         <span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">index_in</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>                          <span class="kd">::</span> <span class="n">index_sorted</span>
+<a name="ln-97"></a>
+<a name="ln-98"></a>      <span class="n">orig_size</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">index_in</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-99"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">index_tmp</span><span class="p">(</span><span class="n">orig_size</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<a name="ln-100"></a>      <span class="n">index_sorted</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">index_in</span><span class="p">(:,</span> <span class="p">:)</span>
+<a name="ln-101"></a>      <span class="k">CALL </span><span class="n">dbcsr_sort_indices</span><span class="p">(</span><span class="n">orig_size</span><span class="p">,</span> <span class="n">index_sorted</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">index_sorted</span><span class="p">(:,</span> <span class="mi">2</span><span class="p">))</span>
+<a name="ln-102"></a>      <span class="nb">count</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-103"></a>      <span class="n">prev_index</span><span class="p">(:)</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<a name="ln-104"></a>      <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">orig_size</span>
+<a name="ln-105"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">index_sorted</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="p">:)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">prev_index</span><span class="p">(:)))</span> <span class="k">THEN</span>
+<a name="ln-106"></a><span class="k">            </span><span class="nb">count</span> <span class="o">=</span> <span class="nb">count</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-107"></a>            <span class="n">index_tmp</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">index_sorted</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="p">:)</span>
+<a name="ln-108"></a>            <span class="n">prev_index</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">index_sorted</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="p">:)</span>
+<a name="ln-109"></a>         <span class="n">ENDIF</span>
+<a name="ln-110"></a>      <span class="n">ENDDO</span>
+<a name="ln-111"></a>
+<a name="ln-112"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">index_out</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<a name="ln-113"></a>      <span class="n">index_out</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">index_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span><span class="p">,</span> <span class="p">:)</span>
+<a name="ln-114"></a>
+<a name="ln-115"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-116"></a>
+<a name="ln-117"></a><span class="k">   SUBROUTINE </span><span class="n">invert_transpose_flag</span><span class="p">(</span><span class="n">trans_flag</span><span class="p">)</span>
+<a name="ln-118"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">trans_flag</span>
+<a name="ln-119"></a>
+<a name="ln-120"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">trans_flag</span> <span class="o">==</span> <span class="n">dbcsr_transpose</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-121"></a><span class="k">         </span><span class="n">trans_flag</span> <span class="o">=</span> <span class="n">dbcsr_no_transpose</span>
+<a name="ln-122"></a>      <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">trans_flag</span> <span class="o">==</span> <span class="n">dbcsr_no_transpose</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-123"></a><span class="k">         </span><span class="n">trans_flag</span> <span class="o">=</span> <span class="n">dbcsr_transpose</span>
+<a name="ln-124"></a>      <span class="n">ENDIF</span>
+<a name="ln-125"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-126"></a>
+<a name="ln-127"></a><span class="k">   PURE FUNCTION </span><span class="n">array_eq_i8</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">)</span>
+<a name="ln-128"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span>
+<a name="ln-129"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">array_eq_i8</span>
+<a name="ln-130"></a>
+<a name="ln-131"></a>      <span class="n">array_eq_i8</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-132"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">arr1</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">arr2</span><span class="p">))</span> <span class="n">array_eq_i8</span> <span class="o">=</span> <span class="k">ALL</span><span class="p">(</span><span class="n">arr1</span> <span class="o">==</span> <span class="n">arr2</span><span class="p">)</span>
+<a name="ln-133"></a>
+<a name="ln-134"></a>   <span class="k">END FUNCTION</span>
+<a name="ln-135"></a>
+<a name="ln-136"></a><span class="k">END MODULE</span>
 </pre></div>
 
     </section>

@@ -747,7 +747,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr);
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")
@@ -1084,7 +1084,6 @@ CONTAINS
       !! simple and cartesian version.. recursive needed in case of failing mpi_comm_rank.
       !! @note
       !! ..mp_world_setup is gone, use mp_environ instead (i.e. give a groupid explicitly)
-
 
       INTEGER, OPTIONAL, INTENT(OUT)                     :: numtask, taskid
       INTEGER, INTENT(IN)                                :: groupid
@@ -3017,7 +3016,6 @@ CONTAINS
       !! Offsets
       !! Values in sdispl and rdispl start with 0.
 
-
       INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! Data to send
       INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
@@ -3077,7 +3075,6 @@ CONTAINS
       !! MPI mapping
       !! mpi_alltoall
 
-
       INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! array with data to send
       INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: rb(:)
@@ -3118,7 +3115,6 @@ CONTAINS
       !! All-to-all data exchange, rank-2 arrays, equal sizes
       !! @note see mp_alltoall_i
 
-
       INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: sb(:, :)
       INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
       INTEGER, INTENT(IN)                      :: count, group
@@ -3154,7 +3150,6 @@ CONTAINS
    SUBROUTINE mp_alltoall_i44(sb, rb, count, group)
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note see mp_alltoall_i
-
 
       INTEGER(KIND=int_4), DIMENSION(:, :, :, :), &
          INTENT(IN)                            :: sb
@@ -4332,7 +4327,6 @@ CONTAINS
       !!
       !! MPI mapping
       !! mpi_gather
-
 
       INTEGER(KIND=int_4), DIMENSION(:), INTENT(IN)      :: sendbuf
          !! Data to send to root
@@ -6135,7 +6129,6 @@ CONTAINS
       !! Offsets
       !! Values in sdispl and rdispl start with 0.
 
-
       INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! Data to send
       INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
@@ -6195,7 +6188,6 @@ CONTAINS
       !! MPI mapping
       !! mpi_alltoall
 
-
       INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! array with data to send
       INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: rb(:)
@@ -6236,7 +6228,6 @@ CONTAINS
       !! All-to-all data exchange, rank-2 arrays, equal sizes
       !! @note see mp_alltoall_l
 
-
       INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: sb(:, :)
       INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
       INTEGER, INTENT(IN)                      :: count, group
@@ -6272,7 +6263,6 @@ CONTAINS
    SUBROUTINE mp_alltoall_l44(sb, rb, count, group)
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note see mp_alltoall_l
-
 
       INTEGER(KIND=int_8), DIMENSION(:, :, :, :), &
          INTENT(IN)                            :: sb
@@ -7450,7 +7440,6 @@ CONTAINS
       !!
       !! MPI mapping
       !! mpi_gather
-
 
       INTEGER(KIND=int_8), DIMENSION(:), INTENT(IN)      :: sendbuf
          !! Data to send to root
@@ -9253,7 +9242,6 @@ CONTAINS
       !! Offsets
       !! Values in sdispl and rdispl start with 0.
 
-
       REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! Data to send
       INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
@@ -9313,7 +9301,6 @@ CONTAINS
       !! MPI mapping
       !! mpi_alltoall
 
-
       REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! array with data to send
       REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: rb(:)
@@ -9354,7 +9341,6 @@ CONTAINS
       !! All-to-all data exchange, rank-2 arrays, equal sizes
       !! @note see mp_alltoall_d
 
-
       REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: sb(:, :)
       REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
       INTEGER, INTENT(IN)                      :: count, group
@@ -9390,7 +9376,6 @@ CONTAINS
    SUBROUTINE mp_alltoall_d44(sb, rb, count, group)
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note see mp_alltoall_d
-
 
       REAL(kind=real_8), DIMENSION(:, :, :, :), &
          INTENT(IN)                            :: sb
@@ -10568,7 +10553,6 @@ CONTAINS
       !!
       !! MPI mapping
       !! mpi_gather
-
 
       REAL(kind=real_8), DIMENSION(:), INTENT(IN)      :: sendbuf
          !! Data to send to root
@@ -12371,7 +12355,6 @@ CONTAINS
       !! Offsets
       !! Values in sdispl and rdispl start with 0.
 
-
       REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! Data to send
       INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
@@ -12431,7 +12414,6 @@ CONTAINS
       !! MPI mapping
       !! mpi_alltoall
 
-
       REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! array with data to send
       REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: rb(:)
@@ -12472,7 +12454,6 @@ CONTAINS
       !! All-to-all data exchange, rank-2 arrays, equal sizes
       !! @note see mp_alltoall_r
 
-
       REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: sb(:, :)
       REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
       INTEGER, INTENT(IN)                      :: count, group
@@ -12508,7 +12489,6 @@ CONTAINS
    SUBROUTINE mp_alltoall_r44(sb, rb, count, group)
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note see mp_alltoall_r
-
 
       REAL(kind=real_4), DIMENSION(:, :, :, :), &
          INTENT(IN)                            :: sb
@@ -13686,7 +13666,6 @@ CONTAINS
       !!
       !! MPI mapping
       !! mpi_gather
-
 
       REAL(kind=real_4), DIMENSION(:), INTENT(IN)      :: sendbuf
          !! Data to send to root
@@ -15489,7 +15468,6 @@ CONTAINS
       !! Offsets
       !! Values in sdispl and rdispl start with 0.
 
-
       COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! Data to send
       INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
@@ -15549,7 +15527,6 @@ CONTAINS
       !! MPI mapping
       !! mpi_alltoall
 
-
       COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! array with data to send
       COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: rb(:)
@@ -15590,7 +15567,6 @@ CONTAINS
       !! All-to-all data exchange, rank-2 arrays, equal sizes
       !! @note see mp_alltoall_z
 
-
       COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: sb(:, :)
       COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
       INTEGER, INTENT(IN)                      :: count, group
@@ -15626,7 +15602,6 @@ CONTAINS
    SUBROUTINE mp_alltoall_z44(sb, rb, count, group)
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note see mp_alltoall_z
-
 
       COMPLEX(kind=real_8), DIMENSION(:, :, :, :), &
          INTENT(IN)                            :: sb
@@ -16804,7 +16779,6 @@ CONTAINS
       !!
       !! MPI mapping
       !! mpi_gather
-
 
       COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)      :: sendbuf
          !! Data to send to root
@@ -18607,7 +18581,6 @@ CONTAINS
       !! Offsets
       !! Values in sdispl and rdispl start with 0.
 
-
       COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! Data to send
       INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
@@ -18667,7 +18640,6 @@ CONTAINS
       !! MPI mapping
       !! mpi_alltoall
 
-
       COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: sb(:)
          !! array with data to send
       COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: rb(:)
@@ -18708,7 +18680,6 @@ CONTAINS
       !! All-to-all data exchange, rank-2 arrays, equal sizes
       !! @note see mp_alltoall_c
 
-
       COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: sb(:, :)
       COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
       INTEGER, INTENT(IN)                      :: count, group
@@ -18744,7 +18715,6 @@ CONTAINS
    SUBROUTINE mp_alltoall_c44(sb, rb, count, group)
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note see mp_alltoall_c
-
 
       COMPLEX(kind=real_4), DIMENSION(:, :, :, :), &
          INTENT(IN)                            :: sb
@@ -19922,7 +19892,6 @@ CONTAINS
       !!
       !! MPI mapping
       !! mpi_gather
-
 
       COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)      :: sendbuf
          !! Data to send to root
