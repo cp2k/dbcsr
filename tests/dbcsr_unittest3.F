@@ -10,8 +10,6 @@
 PROGRAM dbcsr_unittest
    !! Tests for DBCSR's libsmm_acc backend
 
-   USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices, &
-                               dbcsr_acc_set_active_device
    USE dbcsr_kinds, ONLY: dp
    USE dbcsr_lib, ONLY: dbcsr_finalize_lib, &
                         dbcsr_init_lib, &
@@ -66,9 +64,6 @@ PROGRAM dbcsr_unittest
 
    !
    ! initialize libdbcsr
-   IF (dbcsr_acc_get_ndevices() > 0) &
-      CALL dbcsr_acc_set_active_device(MOD(mynode, dbcsr_acc_get_ndevices()))
-
    CALL dbcsr_init_lib(mp_comm, io_unit)
    !
    ! initialize libdbcsr errors

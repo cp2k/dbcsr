@@ -10,7 +10,11 @@
 MODULE dbcsr_lib
 
    !! Routines that affect the DBCSR library as a whole
-   USE dbcsr_config, ONLY: cublas_handles
+   USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device
+   USE dbcsr_config, ONLY: get_accdrv_active_device_id, &
+                           set_accdrv_active_device_id, &
+                           reset_accdrv_active_device_id, &
+                           cublas_handles
    USE dbcsr_cublas, ONLY: cublas_handle_destroy, &
                            cublas_handle_init
    USE dbcsr_kinds, ONLY: int_1_size, &
@@ -100,17 +104,17 @@ MODULE dbcsr_lib
 
 CONTAINS
 
-   SUBROUTINE dbcsr_init_lib_def(mp_comm, io_unit)
+   SUBROUTINE dbcsr_init_lib_def(mp_comm, io_unit, accdrv_active_device_id)
       !! Initialize the DBCSR library using internal loggers and timer callbacks
       INTEGER, INTENT(IN)  :: mp_comm
-      INTEGER, INTENT(IN), OPTIONAL :: io_unit
+      INTEGER, INTENT(IN), OPTIONAL :: io_unit, accdrv_active_device_id
 
       IF (is_initialized) THEN
          ! Update ext_io_unit
          IF (.NOT. ASSOCIATED(logger) .AND. PRESENT(io_unit)) ext_io_unit = io_unit
          RETURN
       ENDIF
-      CALL dbcsr_init_lib_pre(mp_comm, io_unit)
+      CALL dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
       !
       ! Declare loggers
       CALL dbcsr_logger_create(logger, mp_env=mp_env, &
@@ -132,20 +136,21 @@ CONTAINS
    SUBROUTINE dbcsr_init_lib_hooks(mp_comm, &
       !! Initialize the DBCSR library using external loggers and timer callbacks
                                    in_timeset_hook, in_timestop_hook, &
-                                   in_abort_hook, in_warn_hook, io_unit)
+                                   in_abort_hook, in_warn_hook, io_unit, &
+                                   accdrv_active_device_id)
       INTEGER, INTENT(IN)  :: mp_comm
       PROCEDURE(timeset_interface), INTENT(IN), POINTER :: in_timeset_hook
       PROCEDURE(timestop_interface), INTENT(IN), POINTER :: in_timestop_hook
       PROCEDURE(dbcsr_abort_interface), INTENT(IN), POINTER :: in_abort_hook
       PROCEDURE(dbcsr_warn_interface), INTENT(IN), POINTER :: in_warn_hook
-      INTEGER, INTENT(IN), OPTIONAL :: io_unit
+      INTEGER, INTENT(IN), OPTIONAL :: io_unit, accdrv_active_device_id
 
       IF (is_initialized) THEN
          ! Update ext_io_unit
          IF (.NOT. ASSOCIATED(logger) .AND. PRESENT(io_unit)) ext_io_unit = io_unit
          RETURN
       ENDIF
-      CALL dbcsr_init_lib_pre(mp_comm, io_unit)
+      CALL dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
       ! abort/warn hooks
       dbcsr_abort_hook => in_abort_hook
       dbcsr_warn_hook => in_warn_hook
@@ -157,7 +162,7 @@ CONTAINS
       CALL dbcsr_init_lib_low()
    END SUBROUTINE dbcsr_init_lib_hooks
 
-   SUBROUTINE dbcsr_init_lib_pre(mp_comm, io_unit)
+   SUBROUTINE dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
       !! Initialize the DBCSR library
       !! Prepares the DBCSR library for use.
 
@@ -165,7 +170,7 @@ CONTAINS
       USE libxsmm, ONLY: libxsmm_init
 #endif
       INTEGER, INTENT(IN)  :: mp_comm
-      INTEGER, INTENT(IN), OPTIONAL :: io_unit
+      INTEGER, INTENT(IN), OPTIONAL :: io_unit, accdrv_active_device_id
 
       INTEGER :: numnodes, mynode
 
@@ -173,19 +178,29 @@ CONTAINS
       INTEGER :: dbcsr_thread_safe, libsmm_acc_thread_safe
 #endif
 
+      CALL mp_environ(numnodes, mynode, mp_comm)
+
       IF (PRESENT(io_unit)) THEN
          ext_io_unit = io_unit
       ELSE
          ext_io_unit = 0
-         CALL mp_environ(numnodes, mynode, mp_comm)
          IF (mynode .EQ. 0) ext_io_unit = default_output_unit
       ENDIF
       CALL dbcsr_mp_make_env(mp_env, default_group, mp_comm)
+
 #if defined(__LIBXSMM)
       CALL libxsmm_init()
 #endif
 
+      ! Set Acc device
+      IF (PRESENT(accdrv_active_device_id)) THEN
+         CALL set_accdrv_active_device_id(accdrv_active_device_id)
+      ELSEIF (dbcsr_acc_get_ndevices() > 0) THEN
+         ! Use round-robin assignment per rank
+         CALL set_accdrv_active_device_id(MOD(mynode, dbcsr_acc_get_ndevices()))
+      ENDIF
 #if defined(__DBCSR_ACC)
+      CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
 
       ! Checks related to DBCSR's GPU backend: check consistency in threading level
       libsmm_acc_thread_safe = libsmm_acc_is_thread_safe()  ! 0: not threaded, 1: threaded
@@ -207,7 +222,7 @@ CONTAINS
       !! Initialize the DBCSR library
       !! Prepares the DBCSR library for use.
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_low', routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_lib_low', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, ithread, nthreads
 
@@ -289,6 +304,9 @@ CONTAINS
 #if defined(__LIBXSMM)
       CALL libxsmm_finalize()
 #endif
+      ! Reset Acc ID
+      CALL reset_accdrv_active_device_id()
+
    END SUBROUTINE dbcsr_finalize_lib
 
    SUBROUTINE dbcsr_print_statistics(print_timers, callgraph_filename)
