@@ -7,7 +7,6 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-
 MODULE dbcsr_csr_conversions
    !! DBCSR to CSR matrix format conversion
    USE dbcsr_block_access, ONLY: dbcsr_put_block
@@ -1039,7 +1038,6 @@ CONTAINS
    SUBROUTINE convert_csr_to_dbcsr(dbcsr_mat, csr_mat)
       !! convert a CSR matrix to a DBCSR matrix
 
-
       TYPE(dbcsr_type), INTENT(INOUT)                    :: dbcsr_mat
          !! correctly allocated DBCSR matrix
       TYPE(csr_type), INTENT(INOUT)                      :: csr_mat
@@ -1384,7 +1382,6 @@ CONTAINS
 
    SUBROUTINE dbcsr_create_brd(dbcsr_mat, brd_mat, equal_dist, floor_dist, numnodes)
       !! Converts a DBCSR matrix to a block row distributed matrix.
-
 
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
          !! DBCSR matrix to be converted

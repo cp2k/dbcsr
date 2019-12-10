@@ -37,7 +37,6 @@ CONTAINS
       !! message    : String with the message text.
       !! output_unit: Logical unit number of output unit.
 
-
       CHARACTER(LEN=*), INTENT(IN)                       :: message
       INTEGER, INTENT(IN)                                :: output_unit
       INTEGER, INTENT(IN), OPTIONAL                      :: declev, before, after

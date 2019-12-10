@@ -3,9 +3,6 @@
 /obj/
 /bin/
 /doc/
-/src/acc/libsmm_acc/libcusmm/parameters.h
-/src/acc/libsmm_acc/libcusmm/cusmm_kernels.h
-/src/acc/libsmm_acc/libcusmm/libcusmm_parameters_utils.so
 /install/
 *.callgraph
 

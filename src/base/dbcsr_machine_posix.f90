@@ -23,7 +23,7 @@
 
   INTEGER(KIND=int_8), PUBLIC, SAVE :: m_memory_max = 0
 
-CONTAINS
+  CONTAINS
 
   SUBROUTINE m_abort()
      !! Can be used to get a nice core

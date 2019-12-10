@@ -1,0 +1,4 @@
+# Files generated at build stage
+parameters.h
+smm_acc_kernels.h
+*.so

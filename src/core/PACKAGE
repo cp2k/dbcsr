@@ -1,6 +1,6 @@
 {
 "description": "Core DBCSR matrix datastructure",
 "archive": "libdbcsr",
-"requires": ["../acc", "../acc/cuda", "../acc/cublaswrap", "../mpi", "../base",
-"../data", "../mm", "../utils"],
+"requires": ["../acc", "../acc/cuda", "../acc/cublaswrap", "../acc/hipblaswrap",
+"../mpi", "../base", "../data", "../mm", "../utils"],
 }

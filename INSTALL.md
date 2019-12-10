@@ -90,6 +90,35 @@ on Linux openSUSE Leap 15.1, using CMake 3.10.2.
 
        CC=mpiicc FC=mpiifort CXX=mpiicxx cmake -DBLA_VENDOR=Intel10_64lp_seq ..
 
+## MacOS
+
+Follow what is descibed in the previous sections.
+For GNU, if you have installed Command Line Tools by Apple and GCC with homebrew that can lead to a
+conflict in which compiler cmake will use. Therefore, we suggest to specify GCC, for example
+
+    CC=gcc-9 CXX=g++-9 cmake ..
+
+where `-9` can be adapted to your version.
+
+
+### PGI
+
+Please note that you need at least PGI >= 19.11.
+
+Assuming that your `$PATH` is set correctly such that `pgcc`, `pgc++` and `pgfortran` can be found,
+run the following to get a DBCSR version without MPI:
+
+    CC=pgcc CXX=pgc++ FC=pgfortran cmake -DUSE_MPI=OFF ..
+
+the `-DUSE_MPI=OFF` is needed here to avoid that `CMake` picks up any MPI installation, for example from Homebrew.
+
+To build with MPI you need an MPI implementation built for/with the PGI compiler, for example the MPICH
+usually bundled with the PGI installation.
+
+Make sure that `$PATH` is correctly set to include `mpicc` and `mpifort` from the PGI MPICH installation, then run:
+
+    CC=mpicc CXX=mpicxx FC=mpifort MPICH_CC=pgcc cmake ..
+
 
 ## Cray
 

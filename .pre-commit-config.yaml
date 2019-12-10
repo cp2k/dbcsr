@@ -15,7 +15,7 @@ repos:
   - id: check-ast
     stages: [manual]
     language_version: "python2"
-    exclude: '^src/acc/libsmm_acc/libcusmm/(tune|predict|notebooks)_'
+    exclude: '^src/acc/libsmm_acc/(notebooks|predict|tune)/'
   - id: flake8
     language_version: "python3"
   - id: check-ast

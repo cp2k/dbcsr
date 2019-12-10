@@ -140,7 +140,6 @@
      MARK_USED(stack_descr)
   END SUBROUTINE smm_process_mm_stack_${nametype1}$
 
-
 #if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
   SUBROUTINE xsmm_process_mm_batch_${nametype1}$ (stack_descr, params, &
                                                   stack_size, a_data, b_data, c_data, used_smm)

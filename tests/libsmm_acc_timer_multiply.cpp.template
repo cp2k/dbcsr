@@ -1,0 +1,93 @@
+/*------------------------------------------------------------------------------------------------*
+ * Copyright (C) by the DBCSR developers group - All rights reserved                              *
+ * This file is part of the DBCSR library.                                                        *
+ *                                                                                                *
+ * For information on the license, see the LICENSE file.                                          *
+ * For further information please visit https://dbcsr.cp2k.org                                    *
+ * SPDX-License-Identifier: GPL-2.0+                                                              *
+ *------------------------------------------------------------------------------------------------*/
+
+#include <cstdio>
+#include <cstdlib>
+#include <vector>
+#include <array>
+#include <algorithm>
+#include "../src/acc/libsmm_acc/libsmm_acc_benchmark.h"
+#include "../src/acc/libsmm_acc/libsmm_acc.h"
+#include "../src/acc/libsmm_acc/parameters.h"
+
+std::vector<Triplet> combinations(std::vector<int> to_combine){
+
+    std::vector<Triplet> v;
+    int len = to_combine.size();
+    for(size_t i=0; i<len; i++){
+        for(size_t j=0; j<len; j++){
+            for(size_t k=0; k<len; k++){
+                v.push_back({to_combine[i], to_combine[j], to_combine[k]});
+            }
+        }
+    }
+    return v;
+}
+
+/****************************************************************************\
+  \brief Checks correctness of and measures performance of randomly selected
+         libsmm_acc multiplication kernels.
+  \returns -1 for invalid options, n>0 with n being the number of errors,
+           0 otherwise
+  \****************************************************************************/
+
+int main(int argc, char* argv[]){
+
+    if(argc < 2){
+        printf("Usage: %s <autotuned|predicted>\n", argv[0]);
+        return -1;
+    }
+
+    printf("Time kernels: %s\n", argv[1]);
+
+    std::vector<Triplet> libsmm_acc_triplets;
+    if(argv[1] == std::string("autotuned")){
+
+        libsmm_acc_triplets = {
+            [[AUTOTUNED_KERNELS_HERE]]
+        };
+
+    } else if(argv[1] == std::string("predicted")){
+
+        libsmm_acc_triplets = {
+            [[PREDICTED_KERNELS_HERE]]
+        };
+
+    } else {
+
+        printf("Unrecognized option: %s, exiting ...\n", argv[1]);
+        return -1;
+
+    }
+
+    // Build benchmark
+    KernelLauncher launcher = libsmm_acc_process_d;
+    char buffer[1000];
+    char * kernel_descr[1] = {buffer};
+
+    int n_triplets = libsmm_acc_triplets.size();
+    printf("# Time %d blocksizes ...\n", n_triplets);
+
+    int errors = 0;
+    libsmm_acc_benchmark_t* handle;
+
+    for(int i=0; i<n_triplets; i++){
+        printf("\n\n");
+        int m = libsmm_acc_triplets[i][0];
+        int n = libsmm_acc_triplets[i][1];
+        int k = libsmm_acc_triplets[i][2];
+        sprintf(buffer, "%d x %d x %d", m, n, k);
+        libsmm_acc_benchmark_init(&handle, timing, m, n, k);
+        errors += libsmm_acc_benchmark(handle, m, n, k, 1, &launcher, kernel_descr);
+        libsmm_acc_benchmark_finalize(handle);
+    }
+
+    printf("# Done, found %d errors.\n", errors);
+    return errors;
+}

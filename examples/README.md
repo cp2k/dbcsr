@@ -1,3 +1,4 @@
+# DBCSR Examples
 
 These examples require to be executed with MPI.
 Furthermore, MPI_THREAD_FUNNELED mode is required
@@ -11,4 +12,3 @@ Make sure you compile DBCSR accordingly.
 
 2) Update the Makefile
 3) Compile the examples
-

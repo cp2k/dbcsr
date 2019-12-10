@@ -11,7 +11,6 @@ MODULE dbcsr_tas_split
    !! methods to split tall-and-skinny matrices along longest dimension.
    !! Basically, we are splitting process grid and each subgrid holds its own DBCSR matrix.
 
-
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_distribution_type, dbcsr_tas_split_info
    USE dbcsr_tas_global, ONLY: &
@@ -600,7 +599,6 @@ CONTAINS
 
    SUBROUTINE mrowcol_to_group(dist, rowcol, rowcol_group)
       !! map matrix rows/column to group local rows/column
-
 
       CLASS(dbcsr_tas_distribution_type), INTENT(IN) :: dist
       INTEGER(KIND=int_8), INTENT(IN)              :: rowcol

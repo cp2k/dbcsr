@@ -5,6 +5,7 @@ os:
   - osx
 
 dist: xenial
+osx_image: xcode11.2
 
 addons:
   apt:
@@ -18,7 +19,6 @@ addons:
   homebrew:
     packages:
     - gcc
-    - cmake
     - openmpi
     update: true
 
@@ -31,7 +31,8 @@ cache:
 env:
   global:
   - LIBXSMM_VERSION=1.14
-  - CMAKE_VERSION=3.10.3
+  - CMAKE_VERSION=3.16.20191124-g54082ed
+  - NINJA_VERSION=1.9.0.g99df1.kitware.dyndep-1.jobserver-1
   matrix:
   - USE_MPI=ON USE_OPENMP=ON USE_SMM=blas
   - USE_MPI=OFF USE_OPENMP=ON USE_SMM=blas
@@ -55,9 +56,28 @@ matrix:
       env: USE_MPI=OFF USE_OPENMP=ON USE_SMM=libxsmm
 
 install:
-  # Update cmake to the minimal required version (shamelessly copied from the boost travis config):
   - DEPS_DIR="${HOME}/deps"
   - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
+  - |
+    [ "${TRAVIS_OS_NAME}" = "linux" ] && CMAKE_ARCH="Linux-x86_64" || CMAKE_ARCH="Darwin-x86_64"
+    CMAKE_DIR="cmake-${CMAKE_VERSION}-${CMAKE_ARCH}"
+    CMAKE_URL="https://cmake.org/files/dev/${CMAKE_DIR}.tar.gz"
+    if [[ ! -e "${CMAKE_DIR}" ]] ; then
+      rm -rf cmake-*
+      mkdir "${CMAKE_DIR}"
+      travis_retry wget --no-check-certificate --quiet -O - "${CMAKE_URL}" | tar -xz
+    fi
+    export PATH="${DEPS_DIR}/${CMAKE_DIR}/bin:${DEPS_DIR}/${CMAKE_DIR}/CMake.app/Contents/bin:${PATH}"
+  - |
+    [ "${TRAVIS_OS_NAME}" = "linux" ] && NINJA_ARCH="x86_64-linux-gnu" || NINJA_ARCH="x86_64-apple-darwin"
+    NINJA_URL="https://github.com/Kitware/ninja/releases/download/v${NINJA_VERSION}/ninja-${NINJA_VERSION}_${NINJA_ARCH}.tar.gz"
+    NINJA_DIR="ninja-${NINJA_VERSION}"
+    if [[ ! -e "${NINJA_DIR}" ]] ; then
+      rm -rf ninja-*
+      mkdir "${NINJA_DIR}"
+      travis_retry wget --no-check-certificate --quiet -O - "${NINJA_URL}" | tar --strip-components=1 -xz -C "${NINJA_DIR}"
+    fi
+    export PATH="${DEPS_DIR}/${NINJA_DIR}:${PATH}"
   - |
     LIBXSMM_URL="https://github.com/hfp/libxsmm/archive/${LIBXSMM_VERSION}.tar.gz"
     LIBXSMM_DIR="libxsmm-${LIBXSMM_VERSION}"
@@ -69,39 +89,41 @@ install:
     fi
     export PKG_CONFIG_PATH=${DEPS_DIR}/${LIBXSMM_DIR}/lib
   - pkg-config libxsmm --exists
+  - cmake --version
 
 before_script:
   # make sure we are back into the top directory again
   - cd "${TRAVIS_BUILD_DIR}"
-  - export PATH=$HOME/.local/bin:$PATH
-  - pip install --user git-archive-all pre-commit ford
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ] ; then
+      # ensure python 3.6.4+ on Linux for deployment, pre-commit checks and doc generation
+      pyenv global 3.6.7 2.7.15
+      pip install git-archive-all pre-commit ford
+    fi
 
 script:  # multiplied by matrix envs and os settings
   - mkdir -p build
   - cd build
   # C++ example fails with this ancient version of MPI,
   # we see all system CPUs, but can use only 1, causing nproc auto-detection to fail
-  - cmake -DCMAKE_BUILD_TYPE=Coverage -DTEST_MPI_RANKS=1  -DUSE_MPI=$USE_MPI -DUSE_OPENMP=$USE_OPENMP -DUSE_SMM=$USE_SMM ..
-  - make VERBOSE=1 -j
-  - make CTEST_OUTPUT_ON_FAILURE=1 test
+  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Coverage -DTEST_MPI_RANKS=1  -DUSE_MPI=$USE_MPI -DUSE_OPENMP=$USE_OPENMP -DUSE_SMM=$USE_SMM ..
+  - cmake --build . -- --verbose
+  - ctest --output-on-failure
+
+after_success:
+  - cd "${TRAVIS_BUILD_DIR}"
+  # macOS needs `--gcov-tool /usr/local/bin/gcov-?`, but even then I couldn't make the Coverage run work
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ] ; then
+      cmake --build . -- cov-info
+      bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
+    fi
 
 jobs:  # the following jobs inherit only the first OS
   include:
-  - name: "Build and test MPI+OpenMP version with make"
-    script:
-    - make -j FC="mpif90" LD="mpif90" OPTFLAGS="-O0 -g --coverage" FYPPFLAGS="--line-numbering --line-marker-format=gfortran5" CHECKS=1 LEAKS=0 all
-    - make test
-    - lcov --directory . --capture --output-file coverage.info
-    # remove any system headers, 3rd party objects and the test code itself from the coverage report
-    # the absolute path is required to workaround an issue in lcov which makes it change its CWD in case of errors
-    - lcov --remove coverage.info '/usr/*' "${HOME}"'/deps/*' '*/tests/*' --output-file "${TRAVIS_BUILD_DIR}/coverage.info"
-    - lcov --list coverage.info
-    - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
   - name: "Run pre-commit hook on changed files"
     if: tag IS NOT present
     script:
-    # ensure python 3.6.4+
-    - pyenv global 3.6.7 2.7.15
     - set -o pipefail
     # fetch remotes first to ensure that referenced branches (other than the default) are available
     - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"

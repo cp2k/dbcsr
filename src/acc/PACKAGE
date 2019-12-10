@@ -1,5 +1,5 @@
 {
 "description": "Generic Accelerator API",
 "archive": "libdbcsr",
-"requires": ["../base", "cuda"]
+"requires": ["../base", "include", "cuda", "hip", "libsmm_acc"]
 }

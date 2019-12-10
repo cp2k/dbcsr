@@ -88,7 +88,7 @@ CONTAINS
    END SUBROUTINE dbcsr_acc_set_active_device
 
    SUBROUTINE dbcsr_acc_clear_errors()
-      !! Clear CUDA errors
+      !! Clear GPU errors
 #if defined (__DBCSR_ACC)
       CALL acc_clear_errors_cu()
 #else

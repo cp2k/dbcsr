@@ -25,17 +25,17 @@ MODULE dbcsr_acc_init
 #if defined (__DBCSR_ACC)
 
    INTERFACE
-      FUNCTION cuda_drv_init() RESULT(istat) BIND(C, name="acc_init")
+      FUNCTION acc_interface_drv_init() RESULT(istat) BIND(C, name="acc_init")
          IMPORT
          INTEGER(KIND=C_INT)                      :: istat
-      END FUNCTION cuda_drv_init
+      END FUNCTION acc_interface_drv_init
    END INTERFACE
 
    INTERFACE
-      FUNCTION cuda_drv_finalize() RESULT(istat) BIND(C, name="acc_finalize")
+      FUNCTION acc_interface_drv_finalize() RESULT(istat) BIND(C, name="acc_finalize")
          IMPORT
          INTEGER(KIND=C_INT)                      :: istat
-      END FUNCTION cuda_drv_finalize
+      END FUNCTION acc_interface_drv_finalize
    END INTERFACE
 
 #endif
@@ -48,7 +48,7 @@ CONTAINS
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
-      istat = cuda_drv_init()
+      istat = acc_interface_drv_init()
       IF (istat /= 0) &
          DBCSR_ABORT("acc_init failed")
 #endif
@@ -61,7 +61,7 @@ CONTAINS
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       INTEGER                                  :: istat
-      istat = cuda_drv_finalize()
+      istat = acc_interface_drv_finalize()
       IF (istat /= 0) &
          DBCSR_ABORT("acc_finalize failed")
 #endif

@@ -14,23 +14,33 @@
 #
 # The 4 variants can be combined with the CUDA compilation. In this case, it further
 # requires:
-# a) set the NVCC variable, e.g. NVCC = nvcc
+# a) set the accelerator compiler variable NVCC:
+#    - for CUDA: e.g. NVCC = nvcc
+#    - for HIP: e.g. HIPCC = hipcc
 # b) specify -D__DBCSR_ACC in FCFLAGS variable
 # c) set the GPUVER variable, e.g. GPUVER = P100 for P100 card
-#    (possible values are K20X, K40, K80, P100, V100)
-# d) set the NVFLAGS variable,
-#    e.g. NVFLAGS = -O3 -g -w --std=c++11
-#    in the Makefile, the -arch will be appended with the correct compute version
-# e) specify the CUDA include path in the CXXFLAGS variable,
+#    - for CUDA, possible values correspond to NVIDIA GPUs:
+#      possible values are K20X, K40, K80, P100, V100
+#      TODO check that an NVIDIA GPU is selected, not an AMD one
+#    - for HIP, possible values correspond to NVIDIA and AMD GPUs:
+#      possible values are K20X, K40, K80, P100, V100, Mi50
+# d) set the accelerator compiler flag variable NVFLAGS:
+#     - for CUDA: e.g. NVFLAGS = -O3 -g -w --std=c++11 -D__CUDA
+#     - for HIP: e.g. NVFLAGS = -O3 -g -w --std=c++11 -D__HIP
+#    in the Makefile, the -arch/--amdgpu-target  will be appended with the correct
+#    compute version
+# e) for CUDA: specify the CUDA include path in the CXXFLAGS variable,
 #    e.g. CXXFLAGS += -I${CUDA_PATH}/include
-# f) specify the corresponding CUDA libraries in the LIBS variable,
-#    e.g. LIBS += -lstdc++ -lcudart -lnvrtc -lcuda
+# f) specify the corresponding accelerator libraries in the LIBS variable,
+#    - e.g. for CUDA: LIBS += -lstdc++ -lcudart -lnvrtc -lcuda
+#    - e.g. for HIP: LIBS += -lstdc++ -lhiprtc
 #
 # Below we present an example for OpenMP+MPI compilation for the GNU compiler.
 # Make sure that the env variable $LAPACK_PATH is set.
 #
-# GPU compilation example can be enabled with `make GPU=1`.
-# Make sure that the env variable ${CUDA_PATH} is set.
+# GPU compilation example can be enabled with
+# - `make GPU=1` (for CUDA): make sure that the env variable ${CUDA_PATH} is set.
+# - or `make GPU=2` (for HIP)
 #
 # For convenience, some variables can be set during compilation,
 # e.g. make `VARIABLE=value` (multiple variables are possible):
@@ -39,7 +49,7 @@
 # 3) GNU=0    : disable GNU compiler compilation and enable Intel compiler compilation
 # 4) CHECKS=1 : enable GNU compiler checks and DBCSR asserts
 # 5) CINT=1   : generate the C interface
-# 6) GPU=1    : enable GPU support
+# 6) GPU=1,2  : enable GPU support (1: with CUDA, 2: with HIP)
 #
 
 #######################################################################################
@@ -65,13 +75,17 @@ endif
 #
 # Optional configuration:
 #
-# *** CUBLAS ***
+# *** CUBLAS / HIPBLAS ***
 #
 # For multiplications of dense matrices, it can be beneficial to "densify" the matrices
 # and then use DGEMM for the local multiplication. This is the default behavior for the
-# CPU execution, while it requires to link CUBLAS for the GPU execution
-# (LIBS += -lcublas) and to specify the macro -D__DBCSR_ACC=2 in the FCFLAGS and NVFLAGS
-# variables.
+# CPU execution, while it requires
+# - for CUDA:
+#   - to link CUBLAS for the GPU execution (LIBS += -lcublas)
+#   - and to specify the macro -D__DBCSR_ACC=2 in the FCFLAGS and NVFLAGS variables.
+# - for HIP:
+#   - to link HIPBLAS for the GPU execution (LIBS += -lhipblas)
+#   - and to specify the macro -D__DBCSR_ACC=3 in the FCFLAGS and HIPFLAGS variables.
 #
 
 #######################################################################################
@@ -176,19 +190,33 @@ LIBS        = -L${LAPACK_PATH}/lib -llapack -lblas
 
 #######################################################################################
 #
-# GPU compilation. Use `make GPU=1` to enable it.
+# GPU compilation. Use `make GPU=1` to enable GPU acceleration with CUDA,
+# and `make GPU=2` to enable GPU acceleration with HIP
+
+ifneq ($(GPU),)
+FCFLAGS    += -D__DBCSR_ACC
+GPUVER      = K40
+ACCFLAGS    = -O3 -g -w --std=c++11
+endif
 
 ifeq ($(GPU),1)
 NVCC        = nvcc
-FCFLAGS    += -D__DBCSR_ACC
-GPUVER      = K40
-NVFLAGS     = -O3 -g -w --std=c++11
-CXXFLAGS   += -I${CUDA_PATH}/include
+NVFLAGS     = ${ACCFLAGS} -D__CUDA
+CXXFLAGS   += -I${CUDA_PATH}/include -D__CUDA
 LIBS       += -lstdc++ -lcudart -lnvrtc -lcuda
 # CUBLAS (off by default)
 #FCFLAGS    := $(subst -D__DBCSR_ACC,-D__DBCSR_ACC=2,$(FCFLAGS))
 #NVFLAGS    += -D__DBCSR_ACC=2
 #LIBS       += -lcublas
+else ifeq ($(GPU),2)
+NVCC        = hipcc
+NVFLAGS     = ${ACCFLAGS} -D__HIP
+CXXFLAGS   += -D__HIP
+LIBS       += -lstdc++
+# HIPBLAS (off by default)
+#FCFLAGS    := $(subst -D__DBCSR_ACC,-D__DBCSR_ACC=3,$(FCFLAGS))
+#NVFLAGS   += -D__DBCSR_ACC=3
+#LIBS       += -lhipblas
 endif
 
 #######################################################################################

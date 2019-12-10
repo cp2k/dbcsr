@@ -17,13 +17,17 @@ MODULE dbcsr_acc_operations
    USE dbcsr_acc_stream, ONLY: acc_stream_cptr, &
                                acc_stream_type, &
                                acc_stream_synchronize
-   USE dbcsr_config, ONLY: cublas_handles, max_kernel_dim
+   USE dbcsr_config,     ONLY: max_kernel_dim, &
+                               cublas_handles, &
+                               hipblas_handles
    USE dbcsr_mm_types, ONLY: dbcsr_ps_width
    USE dbcsr_kinds, ONLY: real_8, dp
    USE dbcsr_types, ONLY: dbcsr_type_real_8
 
 #if (__DBCSR_ACC == 2)
    USE dbcsr_cublas, ONLY: cublas_dgemm_cu
+#elif (__DBCSR_ACC == 3)
+   USE dbcsr_hipblas, ONLY: hipblas_dgemm_hip
 #endif
 
 !$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
@@ -139,8 +143,8 @@ CONTAINS
          IF (istat == 100) DBCSR_ABORT("failed due to accGetLastError().")
       ENDIF
 
-#if (__DBCSR_ACC == 2)
-      ! Call Cublas for big kernels
+#if (__DBCSR_ACC == 2) || (__DBCSR_ACC == 3)
+      ! Call Cublas/Hipblas for big kernels
       IF (datatype .EQ. dbcsr_type_real_8 .AND. istat .EQ. -100) THEN
          ithread = 0
 !$       ithread = omp_get_thread_num()
@@ -152,20 +156,28 @@ CONTAINS
             ELSE
                transb = 'N'
             ENDIF
+#if (__DBCSR_ACC == 2)
             istat = cublas_dgemm_cu(cublas_handles(ithread + 1)%handle_ptr, &
-                                    'N', transb, &
-                                    INT(param_stack_host(1, istack), KIND=C_INT), &
-                                    INT(param_stack_host(2, istack), KIND=C_INT), &
-                                    INT(param_stack_host(3, istack), KIND=C_INT), &
-                                    INT(param_stack_host(4, istack)-1, KIND=C_INT), &
-                                    INT(param_stack_host(5, istack)-1, KIND=C_INT), &
-                                    INT(param_stack_host(6, istack)-1, KIND=C_INT), &
-                                    acc_devmem_cptr(a_data), &
-                                    acc_devmem_cptr(b_data), &
-                                    acc_devmem_cptr(c_data), &
-                                    1.0_dp, 1.0_dp, &
-                                    acc_stream_cptr(stream))
+#else
+                                    istat = hipblas_dgemm_hip(hipblas_handles(ithread + 1)%handle_ptr, &
+#endif
+                                                              'N', transb, &
+                                                              INT(param_stack_host(1, istack), KIND=C_INT), &
+                                                              INT(param_stack_host(2, istack), KIND=C_INT), &
+                                                              INT(param_stack_host(3, istack), KIND=C_INT), &
+                                                              INT(param_stack_host(4, istack)-1, KIND=C_INT), &
+                                                              INT(param_stack_host(5, istack)-1, KIND=C_INT), &
+                                                              INT(param_stack_host(6, istack)-1, KIND=C_INT), &
+                                                              acc_devmem_cptr(a_data), &
+                                                              acc_devmem_cptr(b_data), &
+                                                              acc_devmem_cptr(c_data), &
+                                                              1.0_dp, 1.0_dp, &
+                                                              acc_stream_cptr(stream))
+#if (__DBCSR_ACC == 2)
             IF (istat /= 0) DBCSR_ABORT("failed to run CUBLAS.")
+#else
+            IF (istat /= 0) DBCSR_ABORT("failed to run HIPBLAS.")
+#endif
          ENDDO
          CALL acc_stream_synchronize(stream)
       ENDIF

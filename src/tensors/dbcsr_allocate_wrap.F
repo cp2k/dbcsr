@@ -11,7 +11,6 @@ MODULE dbcsr_allocate_wrap
    !! Wrapper for allocating, copying and reshaping arrays.
    !! \todo: with fortran 2008 support, this should be replaced by plain ALLOCATE
 
-
 #:include "dbcsr_tensor.fypp"
 #:set maxdim = fortran_max_ndim
 
