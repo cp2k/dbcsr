@@ -463,25 +463,24 @@ CONTAINS
       ${basetype}$ (kind=${cftype}$), &
          DIMENSION(${arrlist("c_sizes", nmax=ndim)}$), &
          TARGET, INTENT(OUT)                             :: c_block
-      TYPE(c_ptr), INTENT(OUT)                           :: c_found
+      LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
       TYPE(dbcsr_t_type), POINTER                        :: tensor
       INTEGER, DIMENSION(:), POINTER                     :: ind
       INTEGER, DIMENSION(:), POINTER                     :: sizes
       ${dtype}$, DIMENSION(${shape_colon(ndim)}$), &
         POINTER                                          :: block
-      LOGICAL, POINTER                                   :: found
+      LOGICAL                                            :: found
 
       ind => c_ind
       sizes => c_sizes
       block => c_block
 
       CALL c_f_pointer(c_tensor, tensor)
-      ALLOCATE (found)
 
       CALL dbcsr_t_get_block(tensor, ind + 1, sizes, block, found)
 
-      c_found = c_loc(found)
+      c_found = found
 
    END SUBROUTINE
 #:endfor
