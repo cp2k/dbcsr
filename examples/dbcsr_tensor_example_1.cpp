@@ -119,6 +119,7 @@ void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks) {
     int blk = 0;
     int blk_proc = 0;
     
+    // really like this???
     while(c_dbcsr_t_iterator_blocks_left(iter)) {
 		
 		//std::cout << "Block " << n_b++ << std::endl;
@@ -174,10 +175,10 @@ int main(int argc, char* argv[])
     
     MPI_Fint fcomm = MPI_Comm_c2f(MPI_COMM_WORLD);
     
-    c_dbcsr_t_pgrid_create(&fcomm, dims3.data(), dims3.size(), &pgrid_3d, nullptr, 0, 
+    c_dbcsr_t_pgrid_create(&fcomm, dims3.data(), dims3.size(), &pgrid_3d, nullptr, nullptr, 0, 
 		nullptr, 0, nullptr, nullptr); 
 		
-	c_dbcsr_t_pgrid_create(&fcomm, dims4.data(), dims4.size(), &pgrid_4d, nullptr, 0, 
+	c_dbcsr_t_pgrid_create(&fcomm, dims4.data(), dims4.size(), &pgrid_4d, nullptr, nullptr, 0, 
 		nullptr, 0, nullptr, nullptr);
 		
 	if (mpi_rank == 0) {

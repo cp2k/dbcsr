@@ -11,7 +11,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    void c_dbcsr_t_pgrid_create(MPI_Fint* fcomm, int* c_dims, int dims_size, void** c_pgrid, 
+    void c_dbcsr_t_pgrid_create(MPI_Fint* fcomm, int* c_dims, int dims_size, void** c_pgrid, int* c_tensor_dims,
 		int* c_map1_2d, int map1_2d_size, int* c_map2_2d, int map2_2d_size, int* nsplit, int* dimsplit);
 	
 	void c_dbcsr_t_pgrid_destroy(void** c_pgrid, bool* c_keep_comm);

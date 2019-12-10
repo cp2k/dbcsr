@@ -62,22 +62,25 @@ CONTAINS
       ENDDO
    END SUBROUTINE c_f_string
 
-
    SUBROUTINE c_dbcsr_t_pgrid_create(fcomm, c_dims, dims_size, c_pgrid, &
-                                     c_map1_2d, map1_2d_size, c_map2_2d, map2_2d_size, nsplit, dimsplit) &
+                                     c_tensor_dims, c_map1_2d, map1_2d_size, c_map2_2d, &
+                                     map2_2d_size, nsplit, dimsplit) &
       bind(C, name="c_dbcsr_t_pgrid_create")
 
       INTEGER(kind=c_int), INTENT(in)                    :: fcomm
       INTEGER(kind=c_int), INTENT(in), value             :: dims_size
       TYPE(c_ptr), INTENT(out)                           :: c_pgrid
       INTEGER(kind=c_int), INTENT(inout), TARGET         :: c_dims(dims_size)
+      INTEGER(kind=c_int), INTENT(inout), TARGET, OPTIONAL &
+                                                         :: c_tensor_dims(dims_size)
       INTEGER(kind=c_int), INTENT(in), VALUE             :: map1_2d_size
       INTEGER(kind=c_int), INTENT(in), TARGET, OPTIONAL  :: c_map1_2d(map1_2d_size)
       INTEGER(kind=c_int), INTENT(in), VALUE             :: map2_2d_size
       INTEGER(kind=c_int), INTENT(in), TARGET, OPTIONAL  :: c_map2_2d(map2_2d_size)
       INTEGER(kind=c_int), INTENT(in), OPTIONAL          :: nsplit, dimsplit
 
-      INTEGER, POINTER                                   :: dims(:)
+      INTEGER, POINTER, DIMENSION(:)                     :: dims
+      INTEGER, POINTER, DIMENSION(:)                     :: tensor_dims => NULL()
       INTEGER, ALLOCATABLE                               :: map1_2d(:), map2_2d(:)
       TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid
 
@@ -87,10 +90,12 @@ CONTAINS
          map1_2d = c_map1_2d+1
          map2_2d = c_map2_2d+1
       ENDIF
+      
+      IF (PRESENT(c_tensor_dims)) tensor_dims => c_tensor_dims
 
       ALLOCATE (pgrid)
 
-      CALL dbcsr_t_pgrid_create(fcomm, dims, pgrid, map1_2d, map2_2d, &
+      CALL dbcsr_t_pgrid_create(fcomm, dims, pgrid, tensor_dims, map1_2d, map2_2d, &
                                 nsplit, dimsplit)
 
       c_pgrid = c_loc(pgrid)
