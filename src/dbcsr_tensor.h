@@ -115,6 +115,12 @@ extern "C" {
                                char** name, int* name_size,
                                int* data_type);
    
+	void c_get_nd_index(void* c_tensor/*1*/, int* c_ndim_nd/*2*/, int* c_ndim1_nd/*3*/, int* c_ndim2_nd/*4*/,
+       int** c_dims_nd/*5*/, int* dims_nd_size/*6*/, long long int* c_dims_2d/*7*/, int** c_dims1_2d/*8*/, int* dims1_2d_size/*9*/,
+       int** c_dims2_2d/*10*/, int* dims2_2d_size/*11*/, int** c_map1_2d/*12*/, int* map1_2d_size/*13*/, int** c_map2_2d/*14*/,
+       int* map2_2d_size/*15*/, int** c_map_nd/*16*/, int* map_nd_size/*17*/, int* c_base/*18*/, bool* c_col_major/*19*/);
+      
+       
 	
 #ifdef __cplusplus
 }
@@ -231,7 +237,7 @@ static void c_dbcsr_t_scale(void* c_tensor, ${ctype}$ c_alpha) {
 
 #:endfor
 
-static void* c_dbcsr_t_blk_sizes(void* c_tensor, int* c_ind, int* c_blk_size) {
+static void c_dbcsr_t_blk_sizes(void* c_tensor, int* c_ind, int* c_blk_size) {
 	
 	int tensor_dim = c_ndims_tensor(c_tensor);
 	c_dbcsr_t_blk_sizes(c_tensor, tensor_dim, c_ind, c_blk_size);

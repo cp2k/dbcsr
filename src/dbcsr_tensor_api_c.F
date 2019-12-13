@@ -249,14 +249,14 @@ CONTAINS
 
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor_in
       TYPE(c_ptr), INTENT(OUT)                           :: c_tensor
-      TYPE(c_ptr), INTENT(IN), OPTIONAL                  :: c_name
+      TYPE(c_ptr), INTENT(IN), VALUE                     :: c_name
 
       TYPE(dbcsr_t_type), POINTER                        :: tensor_in
       TYPE(dbcsr_t_type), POINTER                        :: tensor
       CHARACTER(:, kind=c_char), ALLOCATABLE             :: fname
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
-      IF (PRESENT(c_name)) CALL c_f_string(c_name, fname)
+      CALL c_f_string(c_name, fname)
       ALLOCATE (tensor)
 
       CALL dbcsr_t_create(tensor_in, tensor, fname)
@@ -983,6 +983,57 @@ CONTAINS
       
    END SUBROUTINE
       
-    
+   SUBROUTINE c_get_nd_index(c_tensor, c_ndim_nd, c_ndim1_2d, c_ndim2_2d, &
+       c_dims_nd, dims_nd_size, c_dims_2d, c_dims1_2d, dims1_2d_size, &
+       c_dims2_2d, dims2_2d_size, c_map1_2d, map1_2d_size, c_map2_2d, &
+       map2_2d_size, c_map_nd, map_nd_size, c_base, c_col_major) &
+       BIND(C, name="c_get_nd_index") 
+       
+       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+#:set ints = ['ndim_nd','ndim1_2d','ndim2_2d']
+#:for var in ints
+       INTEGER(kind=c_int), INTENT(INOUT), OPTIONAL :: c_${var}$
+#:endfor
+#:set arrs = ['dims_nd', 'dims1_2d', 'dims2_2d', 'map1_2d', 'map2_2d', 'map_nd']
+#:for var in arrs
+       TYPE(c_ptr), INTENT(INOUT), OPTIONAL :: c_${var}$
+       INTEGER(kind=c_int), INTENT(INOUT), OPTIONAL :: ${var}$_size
+       INTEGER(kind=c_int), DIMENSION(:), ALLOCATABLE, TARGET, SAVE :: ${var}$
+#:endfor
+       INTEGER(kind=c_long_long), DIMENSION(2), INTENT(INOUT), OPTIONAL :: c_dims_2d
+       INTEGER(kind=c_int), INTENT(INOUT), OPTIONAL :: c_base
+       LOGICAL(kind=c_bool), INTENT(INOUT), OPTIONAL :: c_col_major
+       
+       TYPE(dbcsr_t_type), POINTER :: tensor
+       
+       CALL c_f_pointer(c_tensor, tensor)
+       
+#:for var in ints
+       IF (PRESENT(c_${var}$)) c_${var}$ = tensor%nd_index%${var}$
+#:endfor
+       
+#:for var in arrs
+       IF (PRESENT(c_${var}$)) THEN
+         ${var}$_size = SIZE(tensor%nd_index%${var}$)
+         ${var}$ = tensor%nd_index%${var}$ 
+         
+ #:if var in ['map1_2d', 'map2_2d', 'map_nd']
+         ${var}$ = ${var}$ - 1
+ #:endif
+         
+         c_${var}$ = c_loc(${var}$)
+         
+       ENDIF
+#:endfor
+
+        
+
+       IF (PRESENT(c_dims_2d)) c_dims_2d = tensor%nd_index%dims_2d - 1
+      
+       IF (PRESENT(c_base)) c_base = tensor%nd_index%base
+       IF (PRESENT(c_col_major)) c_col_major = tensor%nd_index%col_major
+       
+     END SUBROUTINE  
+       
 
 END MODULE
