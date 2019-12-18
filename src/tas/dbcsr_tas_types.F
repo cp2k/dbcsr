@@ -16,6 +16,7 @@ MODULE dbcsr_tas_types
    USE dbcsr_types, ONLY: &
       dbcsr_distribution_obj, dbcsr_iterator, dbcsr_type
    USE dbcsr_kinds, ONLY: int_8
+   USE dbcsr_data_types, ONLY: dbcsr_scalar_type
 #include "../base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -51,6 +52,15 @@ MODULE dbcsr_tas_types
       INTEGER(KIND=int_8), ALLOCATABLE, DIMENSION(:) :: local_rowcols
    END TYPE
 
+   ! storage for batched matrix multiplication
+   TYPE dbcsr_tas_mm_storage
+      TYPE(dbcsr_tas_type), POINTER :: store_batched => NULL() ! intermediate replicated matrix
+      TYPE(dbcsr_tas_type), POINTER :: store_batched_repl => NULL() ! intermediate replicated matrix
+      LOGICAL :: batched_out ! whether replicated matrix has been changed in mm and should be copied to actual matrix
+      LOGICAL :: batched_trans
+      TYPE(dbcsr_scalar_type) :: batched_beta
+   END TYPE
+
    ! type for tall-and-skinny matrices
    TYPE dbcsr_tas_type
       TYPE(dbcsr_tas_distribution_type)  :: dist
@@ -64,6 +74,11 @@ MODULE dbcsr_tas_types
       INTEGER(KIND=int_8) :: nfullrows ! total number of full (not blocked) rows
       INTEGER(KIND=int_8) :: nfullcols ! total number of full (not blocked) columns
       LOGICAL :: valid = .FALSE. ! has been created?
+
+      ! storage and flags for batched matrix multiplication
+      LOGICAL :: do_batched = .FALSE. ! whether matrix is in replicated intermediate state
+      TYPE(dbcsr_tas_mm_storage), ALLOCATABLE :: mm_storage ! storage for batched processing of matrix matrix multiplication.
+
    END TYPE
 
    TYPE dbcsr_tas_iterator

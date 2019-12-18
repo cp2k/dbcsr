@@ -32,7 +32,8 @@ MODULE dbcsr_tensor
       dbcsr_tas_split_info
    USE dbcsr_tas_base, ONLY: &
       dbcsr_tas_copy, dbcsr_tas_finalize, dbcsr_tas_get_data_type, dbcsr_tas_get_info, dbcsr_tas_info
-   USE dbcsr_tas_mm, ONLY: dbcsr_tas_multiply
+   USE dbcsr_tas_mm, ONLY: &
+      dbcsr_tas_multiply, dbcsr_tas_batched_mm_init, dbcsr_tas_batched_mm_finalize
    USE dbcsr_tensor_block, ONLY: &
       dbcsr_t_iterator_type, dbcsr_t_get_block, dbcsr_t_put_block, dbcsr_t_iterator_start, &
       dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_stop, dbcsr_t_iterator_next_block, &
@@ -92,7 +93,9 @@ MODULE dbcsr_tensor
       dbcsr_t_reserve_blocks, &
       dbcsr_t_copy_matrix_to_tensor, &
       dbcsr_t_copy_tensor_to_matrix, &
-      dbcsr_t_need_contract
+      dbcsr_t_need_contract,&
+      dbcsr_t_batched_contract_init, &
+      dbcsr_t_batched_contract_finalize
 
    INTERFACE dbcsr_t_ndims
       MODULE PROCEDURE ndims_tensor
@@ -396,7 +399,7 @@ CONTAINS
                                          ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o']
       INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_1)) :: bounds_t1
       INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_2)) :: bounds_t2
-      LOGICAL                                        :: do_crop_1, do_crop_2
+      LOGICAL                                        :: do_crop_1, do_crop_2, do_write_3
       TYPE(dbcsr_tas_split_info), POINTER            :: split_opt
 
       CALL timeset(routineN, handle)
@@ -680,8 +683,14 @@ CONTAINS
       ENDIF
 
       IF (PRESENT(unit_nr)) THEN
-         CALL dbcsr_t_write_tensor_info(tensor_contr_3, unit_nr, full_info=log_verbose)
-         CALL dbcsr_t_write_tensor_dist(tensor_contr_3, unit_nr)
+         do_write_3 = .TRUE.
+         IF (tensor_contr_3%matrix_rep%do_batched) THEN
+            IF (tensor_contr_3%matrix_rep%mm_storage%batched_out) do_write_3 = .FALSE.
+         ENDIF
+         IF (do_write_3) THEN
+            CALL dbcsr_t_write_tensor_info(tensor_contr_3, unit_nr, full_info=log_verbose)
+            CALL dbcsr_t_write_tensor_dist(tensor_contr_3, unit_nr)
+         ENDIF
       ENDIF
 
       IF (new_3) THEN
@@ -694,8 +703,8 @@ CONTAINS
       ENDIF
 
       IF (PRESENT(unit_nr)) THEN
-         IF (new_3) CALL dbcsr_t_write_tensor_info(tensor_3, unit_nr, full_info=log_verbose)
-         IF (new_3) CALL dbcsr_t_write_tensor_dist(tensor_3, unit_nr)
+         IF (new_3 .AND. do_write_3) CALL dbcsr_t_write_tensor_info(tensor_3, unit_nr, full_info=log_verbose)
+         IF (new_3 .AND. do_write_3) CALL dbcsr_t_write_tensor_dist(tensor_3, unit_nr)
       ENDIF
 
       CALL dbcsr_t_destroy(tensor_algn_1)
@@ -703,11 +712,21 @@ CONTAINS
       CALL dbcsr_t_destroy(tensor_algn_3)
 
       IF (do_crop_1) THEN
+         IF(tensor_1%matrix_rep%do_batched) THEN
+            ! transfer data for batched contraction
+            DEALLOCATE(tensor_1%matrix_rep%mm_storage)
+            ALLOCATE(tensor_1%matrix_rep%mm_storage, SOURCE=tensor_crop_1%matrix_rep%mm_storage)
+         ENDIF
          CALL dbcsr_t_destroy(tensor_crop_1)
          DEALLOCATE (tensor_crop_1)
       ENDIF
 
       IF (do_crop_2) THEN
+         IF(tensor_2%matrix_rep%do_batched) THEN
+            ! transfer data for batched contraction
+            DEALLOCATE(tensor_2%matrix_rep%mm_storage)
+            ALLOCATE(tensor_2%matrix_rep%mm_storage, SOURCE=tensor_crop_2%matrix_rep%mm_storage)
+         ENDIF
          CALL dbcsr_t_destroy(tensor_crop_2)
          DEALLOCATE (tensor_crop_2)
       ENDIF
@@ -1046,6 +1065,10 @@ CONTAINS
 
          ALLOCATE (tensor_out)
          CALL dbcsr_t_remap(tensor_in, ind1, ind2, tensor_out, nodata=nodata, move_data=move_data)
+         IF(tensor_in%matrix_rep%do_batched) THEN
+            ALLOCATE(tensor_out%matrix_rep%mm_storage, SOURCE=tensor_in%matrix_rep%mm_storage)
+            tensor_out%matrix_rep%do_batched = .TRUE.
+         ENDIF
          compat1 = 1
          compat2 = 2
          new = .TRUE.
@@ -1541,6 +1564,46 @@ CONTAINS
             WRITE (unit_nr, '(A1)', advance='no') indchar3(map32(ichar3))
          ENDDO
          WRITE (unit_nr, '(A)') ")"
+      ENDIF
+
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_t_batched_contract_init(tensor)
+      !! initialize batched contraction for this tensor. This ensures that no unnecessary communication takes place
+      !! in a series of batched contractions (i.e. partial contraction with specification of bounds
+      !! in order to reduce memory), under the following conditions:
+      !! - the same tensor is used in multiple contraction calls and its data is not changed via calls
+      !!   to routines other than dbcsr_t_contract
+      !! - if tensor is the result of a contraction, it must not be reused as input for another contraction
+      !! If tensor is the result of a contraction, its publicly accessible data will not be updated until
+      !! dbcsr_t_batched_contract_finalize has been called.
+      TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
+      CALL dbcsr_tas_batched_mm_init(tensor%matrix_rep)
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_t_batched_contract_finalize(tensor, unit_nr)
+      !! finalize batched contraction. This performs all communication that has been postponed in the
+      !! contraction calls.
+      TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
+      INTEGER, INTENT(IN), OPTIONAL :: unit_nr
+      LOGICAL :: do_write
+
+      do_write = .FALSE.
+      IF (PRESENT(unit_nr)) THEN
+         IF (tensor%matrix_rep%do_batched) THEN
+            IF (tensor%matrix_rep%mm_storage%batched_out) do_write = .TRUE.
+         ENDIF
+      ENDIF
+
+      CALL dbcsr_tas_batched_mm_finalize(tensor%matrix_rep)
+
+      IF (do_write .AND. PRESENT(unit_nr)) THEN
+         IF (unit_nr > 0) THEN
+            WRITE (unit_nr, "(T2,A)") &
+               "FINALIZING BATCHED PROCESSING OF MATMUL"
+         ENDIF
+         CALL dbcsr_t_write_tensor_info(tensor, unit_nr)
+         CALL dbcsr_t_write_tensor_dist(tensor, unit_nr)
       ENDIF
 
    END SUBROUTINE

@@ -663,6 +663,13 @@ CONTAINS
       CALL dbcsr_t_finalize(tensor_out)
 
       IF (move_data_prv) CALL dbcsr_t_clear(tensor_in)
+
+      ! transfer data for batched contraction
+      IF(tensor_in%matrix_rep%do_batched) THEN
+         ALLOCATE(tensor_out%matrix_rep%mm_storage, SOURCE=tensor_in%matrix_rep%mm_storage)
+         tensor_out%matrix_rep%do_batched = .TRUE.
+      ENDIF
+
    END SUBROUTINE
 
 END MODULE

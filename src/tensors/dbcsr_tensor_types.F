@@ -84,7 +84,8 @@ MODULE dbcsr_tensor_types
       dbcsr_t_type, &
       dims_tensor, &
       mp_environ_pgrid, &
-      ndims_tensor
+      ndims_tensor, &
+      dbcsr_t_mp_dims_create
 
    TYPE dbcsr_t_pgrid_type
       TYPE(nd_to_2d_mapping)                  :: nd_index_grid
@@ -389,7 +390,7 @@ CONTAINS
          ELSE
 
             IF(PRESENT(tdims)) THEN
-               CALL mp_dims_create_from_tensor_dims(dims_2d(1), dims1_nd_prv, tdims(map1_2d))
+               CALL dbcsr_t_mp_dims_create(dims_2d(1), dims1_nd_prv, tdims(map1_2d))
             ELSE
                CALL mp_dims_create(dims_2d(1), dims1_nd_prv)
             ENDIF
@@ -399,7 +400,7 @@ CONTAINS
             dims2_nd_prv(:) = dims2_nd
          ELSE
             IF(PRESENT(tdims)) THEN
-               CALL mp_dims_create_from_tensor_dims(dims_2d(2), dims2_nd_prv, tdims(map2_2d))
+               CALL dbcsr_t_mp_dims_create(dims_2d(2), dims2_nd_prv, tdims(map2_2d))
             ELSE
                CALL mp_dims_create(dims_2d(2), dims2_nd_prv)
             ENDIF
@@ -418,7 +419,7 @@ CONTAINS
 
    END FUNCTION
 
-   RECURSIVE SUBROUTINE mp_dims_create_from_tensor_dims(nodes, dims, tensor_dims, lb_ratio)
+   RECURSIVE SUBROUTINE dbcsr_t_mp_dims_create(nodes, dims, tensor_dims, lb_ratio)
       !! Create process grid dimensions corresponding to one dimension of the matrix representation
       !! of a tensor, imposing that no process grid dimension is greater than the corresponding
       !! tensor dimension.
@@ -471,7 +472,7 @@ CONTAINS
             ELSEIF(lb_ratio_prv < 1.0_real_8) THEN
                ! resort to a less strict load imbalance factor
                dims(:) = 0
-               CALL mp_dims_create_from_tensor_dims(nodes, dims, tensor_dims, 1.1_real_8)
+               CALL dbcsr_t_mp_dims_create(nodes, dims, tensor_dims, 1.1_real_8)
                RETURN
             ELSE
                ! resort to default process grid dimensions
@@ -1088,7 +1089,7 @@ CONTAINS
          IF(.NOT. PRESENT(tensor_dims)) THEN
             CALL mp_dims_create(nproc, dims)
          ELSE
-            CALL mp_dims_create_from_tensor_dims(nproc, dims, tensor_dims)
+            CALL dbcsr_t_mp_dims_create(nproc, dims, tensor_dims)
          ENDIF
       ENDIF
       CALL create_nd_to_2d_mapping(pgrid%nd_index_grid, dims, map1_2d_prv, map2_2d_prv, base=0, col_major=.FALSE.)

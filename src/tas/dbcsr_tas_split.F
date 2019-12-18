@@ -326,6 +326,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: own_comm
          !! whether split_info should own communicator
       LOGICAL, INTENT(IN), OPTIONAL                      :: opt_nsplit
+         !! whether nsplit should be optimized to process grid
 
       CHARACTER(LEN=*), PARAMETER                        :: routineN = 'dbcsr_tas_create_split', &
                                                             routineP = moduleN//':'//routineN
