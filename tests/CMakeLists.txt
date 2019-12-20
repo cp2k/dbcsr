@@ -75,6 +75,7 @@ endif ()
 if (APPLE AND BLAS_LIBRARIES MATCHES "Accelerate")
   target_compile_definitions(dbcsr_unittest_common PRIVATE __ACCELERATE)
 endif()
+target_link_libraries(dbcsr_unittest_common ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 target_link_libraries(dbcsr_unittest_common dbcsr)
 
 foreach (dbcsr_test ${DBCSR_TESTS})
