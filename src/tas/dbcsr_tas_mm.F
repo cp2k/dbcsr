@@ -1020,12 +1020,12 @@ CONTAINS
       TYPE(dbcsr_tas_type), POINTER, INTENT(OUT) :: matrix_out
       INTEGER, INTENT(IN)                        :: nsplit
          !! new split factor, set to 0 to not change split of matrix_in
-         !! whether nsplit should be optimized for current process grid
       INTEGER, INTENT(IN)                        :: split_rowcol
          !! split rows or columns
       LOGICAL, INTENT(OUT)                       :: is_new
          !! whether matrix_out is new or a pointer to matrix_in
       LOGICAL, INTENT(IN), OPTIONAL              :: opt_nsplit
+         !! whether nsplit should be optimized for current process grid
       LOGICAL, INTENT(IN), OPTIONAL              :: nodata
          !! Data of matrix_in should not be copied to matrix_out
       LOGICAL, INTENT(INOUT), OPTIONAL           :: move_data
