@@ -37,7 +37,7 @@ MODULE dbcsr_tensor_types
       dbcsr_t_get_mapping_info, nd_to_2d_mapping, split_index, combine_index, ndims_mapping
    USE dbcsr_tas_split, ONLY: &
       dbcsr_tas_create_split_rows_or_cols, dbcsr_tas_release_info, dbcsr_tas_info_hold, &
-      dbcsr_tas_create_split
+      dbcsr_tas_create_split, dbcsr_tas_get_split_info
    USE dbcsr_kinds, ONLY: default_string_length, int_8
    USE dbcsr_mpiwrap, ONLY: &
       mp_cart_create, mp_cart_rank, mp_environ, mp_dims_create, mp_comm_free, mp_comm_dup, mp_sum, mp_max
@@ -74,8 +74,10 @@ MODULE dbcsr_tensor_types
       dbcsr_t_get_nze_total, &
       dbcsr_t_get_stored_coordinates, &
       dbcsr_t_hold, &
+      dbcsr_t_mp_dims_create, &
       dbcsr_t_nd_mp_comm, &
       dbcsr_t_nd_mp_free, &
+      dbcsr_t_pgrid_change_dims, &
       dbcsr_t_pgrid_create, &
       dbcsr_t_pgrid_destroy, &
       dbcsr_t_pgrid_type, &
@@ -84,8 +86,7 @@ MODULE dbcsr_tensor_types
       dbcsr_t_type, &
       dims_tensor, &
       mp_environ_pgrid, &
-      ndims_tensor, &
-      dbcsr_t_mp_dims_create
+      ndims_tensor
 
    TYPE dbcsr_t_pgrid_type
       TYPE(nd_to_2d_mapping)                  :: nd_index_grid
@@ -426,14 +427,15 @@ CONTAINS
 
       INTEGER, INTENT(IN) :: nodes
          !! Total number of nodes available for this matrix dimension
-      INTEGER, DIMENSION(:), INTENT(OUT) :: dims
+      INTEGER, DIMENSION(:), INTENT(INOUT) :: dims
          !! process grid dimension corresponding to tensor_dims
       INTEGER, DIMENSION(:), INTENT(IN) :: tensor_dims
          !! tensor dimensions
       REAL(real_8), INTENT(IN), OPTIONAL :: lb_ratio
          !! load imbalance acceptance factor
 
-      INTEGER, DIMENSION(:), ALLOCATABLE :: tensor_dims_sorted, sort_indices, tmp
+      INTEGER, DIMENSION(:), ALLOCATABLE :: tensor_dims_sorted, sort_indices, dims_store
+      REAL(real_8), DIMENSION(:), ALLOCATABLE :: sort_key
       INTEGER :: pdims_rem, idim, pdim
       REAL(real_8) :: lb_ratio_prv
 
@@ -443,15 +445,22 @@ CONTAINS
          lb_ratio_prv = 0.2_real_8
       ENDIF
 
-      ! get default process grid dimensions
-      dims = 0
-      CALL mp_dims_create(nodes, dims)
+      ALLOCATE(dims_store, SOURCE=dims)
 
-      ALLOCATE (tensor_dims_sorted(SIZE(tensor_dims)), sort_indices(SIZE(tensor_dims)))
-      tensor_dims_sorted(:) = tensor_dims
-      CALL sort(tensor_dims_sorted, SIZE(tensor_dims_sorted), sort_indices)
-      ALLOCATE (tmp(SIZE(dims)))
-      CALL sort(dims, SIZE(dims), tmp)
+      ! get default process grid dimensions
+      IF(any(dims == 0)) THEN
+         CALL mp_dims_create(nodes, dims)
+      ENDIF
+
+      ! sort dimensions such that problematic grid dimensions (those who should be corrected) come first
+      ALLOCATE(sort_key(SIZE(tensor_dims)))
+      sort_key(:) = REAL(tensor_dims, real_8)/dims
+
+      ALLOCATE (tensor_dims_sorted, source=tensor_dims)
+      ALLOCATE(sort_indices(SIZE(sort_key)))
+      CALL sort(sort_key, SIZE(sort_key), sort_indices)
+      tensor_dims_sorted(:) = tensor_dims_sorted(sort_indices)
+      dims(:) = dims(sort_indices)
 
       ! remaining number of nodes
       pdims_rem = nodes
@@ -468,26 +477,24 @@ CONTAINS
             IF (idim .NE. SIZE(tensor_dims_sorted)) THEN
                dims(idim + 1:) = 0
                CALL mp_dims_create(pdims_rem, dims(idim + 1:))
-               CALL sort(dims(idim + 1:), SIZE(dims(idim + 1:)), tmp(idim + 1:))
             ELSEIF(lb_ratio_prv < 1.0_real_8) THEN
                ! resort to a less strict load imbalance factor
-               dims(:) = 0
+               dims(:) = dims_store
                CALL dbcsr_t_mp_dims_create(nodes, dims, tensor_dims, 1.1_real_8)
                RETURN
             ELSE
                ! resort to default process grid dimensions
-               dims(:) = 0
+               dims(:) = dims_store
                CALL mp_dims_create(nodes, dims)
                RETURN
             ENDIF
 
+         ELSE
+            pdims_rem = pdims_rem/dims(idim)
          ENDIF
-         pdims_rem = pdims_rem/dims(idim)
       ENDDO
 
       dims(sort_indices) = dims
-
-      DEALLOCATE (tmp)
 
    END SUBROUTINE
 
