@@ -37,7 +37,7 @@ MODULE dbcsr_tensor
    USE dbcsr_tensor_block, ONLY: &
       dbcsr_t_iterator_type, dbcsr_t_get_block, dbcsr_t_put_block, dbcsr_t_iterator_start, &
       dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_stop, dbcsr_t_iterator_next_block, &
-      ndims_iterator, dbcsr_t_reserve_blocks, block_nd
+      ndims_iterator, dbcsr_t_reserve_blocks, block_nd, destroy_block
    USE dbcsr_tensor_index, ONLY: &
       dbcsr_t_get_mapping_info, nd_to_2d_mapping, dbcsr_t_inverse_order, permute_index
    USE dbcsr_tensor_types, ONLY: &
@@ -132,7 +132,7 @@ CONTAINS
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy', &
                                      routineP = moduleN//':'//routineN
-      LOGICAL                                        :: dist_compatible, summation_prv, new_in_1, &
+      LOGICAL                                        :: dist_compatible_tas, dist_compatible_tensor, summation_prv, new_in_1, &
                                                         new_in_2, new_out_1, block_compatible, &
                                                         move_prv
 
@@ -146,7 +146,8 @@ CONTAINS
 
       DBCSR_ASSERT(tensor_out%valid)
 
-      dist_compatible = .FALSE.
+      dist_compatible_tas = .FALSE.
+      dist_compatible_tensor = .FALSE.
       block_compatible = .FALSE.
       new_in_1 = .FALSE.
       new_in_2 = .FALSE.
@@ -182,12 +183,17 @@ CONTAINS
 
       IF (.NOT. PRESENT(order)) THEN
          IF (array_eq_i(map1_in_1, map2_in_1) .AND. array_eq_i(map1_in_2, map2_in_2)) THEN
-            dist_compatible = check_equal(in_tmp_2%nd_dist, out_tmp_1%nd_dist)
+            dist_compatible_tas = check_equal(in_tmp_2%nd_dist, out_tmp_1%nd_dist)
+         ELSEIF(array_eq_i([map1_in_1, map1_in_2], [map2_in_1, map2_in_2])) THEN
+            dist_compatible_tensor = check_equal(in_tmp_2%nd_dist, out_tmp_1%nd_dist)
          ENDIF
       ENDIF
 
-      IF (dist_compatible) THEN
+      IF (dist_compatible_tas) THEN
          CALL dbcsr_tas_copy(out_tmp_1%matrix_rep, in_tmp_2%matrix_rep, summation)
+         IF (move_prv) CALL dbcsr_t_clear(in_tmp_2)
+      ELSEIF(dist_compatible_tensor) THEN
+         CALL dbcsr_t_copy_nocomm(in_tmp_2, out_tmp_1, summation)
          IF (move_prv) CALL dbcsr_t_clear(in_tmp_2)
       ELSE
          CALL dbcsr_t_reshape(in_tmp_2, out_tmp_1, summation, move_data=move_data)
@@ -214,6 +220,46 @@ CONTAINS
 
       CALL timestop(handle)
 
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_t_copy_nocomm(tensor_in, tensor_out, summation)
+      !! copy without communication, requires that both tensors have same process grid and distribution
+
+      TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor_in
+      TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor_out
+      LOGICAL, INTENT(IN), OPTIONAL                      :: summation
+         !! Whether to sum matrices b = a + b
+      TYPE(dbcsr_t_iterator_type) :: iter
+      INTEGER, DIMENSION(ndims_tensor(tensor_in))  :: ind_nd
+      INTEGER :: blk
+      TYPE(block_nd) :: blk_data
+      LOGICAL :: found
+
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_nocomm', routineP = moduleN//':'//routineN
+      INTEGER :: handle
+
+      CALL timeset(routineN, handle)
+      DBCSR_ASSERT(tensor_out%valid)
+
+      IF (PRESENT(summation)) THEN
+         IF (.NOT. summation) CALL dbcsr_t_clear(tensor_out)
+      ELSE
+         CALL dbcsr_t_clear(tensor_out)
+      ENDIF
+
+      CALL dbcsr_t_reserve_blocks(tensor_in, tensor_out)
+
+      CALL dbcsr_t_iterator_start(iter, tensor_in)
+      DO WHILE(dbcsr_t_iterator_blocks_left(iter))
+         CALL dbcsr_t_iterator_next_block(iter, ind_nd, blk)
+         CALL dbcsr_t_get_block(tensor_in, ind_nd, blk_data, found)
+         DBCSR_ASSERT(found)
+         CALL dbcsr_t_put_block(tensor_out, ind_nd, blk_data, summation=summation)
+         CALL destroy_block(blk_data)
+      ENDDO
+      CALL dbcsr_t_iterator_stop(iter)
+
+      CALL timestop(handle)
    END SUBROUTINE
 
    SUBROUTINE dbcsr_t_copy_matrix_to_tensor(matrix_in, tensor_out, summation)
