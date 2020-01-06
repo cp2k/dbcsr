@@ -12,7 +12,7 @@ find_program(FORD_EXE ford
   )
 
 # copy the FORD project-file into the build directory
-configure_file(project-file.md.in project-file.md)
+configure_file(docs/DBCSR.md project-file.md)
 
 add_custom_target(doc
   COMMENT "Generating API documentation"
