@@ -132,7 +132,11 @@ is able to find the `DBCSR` CMake configuration:
 
     CMAKE_PREFIX_PATH=/my/dbcsr/install/location/usr/local/lib/cmake cmake ..
 
-## API documentation
+## Documentation
+
+DBCSR's documentation can be found [here](https://cp2k.github.io/dbcsr/).
+
+### API documentation
 
 To build the API documentation you need [FORD](https://github.com/Fortran-FOSS-Programmers/ford).
 
