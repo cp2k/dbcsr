@@ -20,4 +20,4 @@ display: public
 source: false
 graph: false
 search: true
-favicon: @CMAKE_SOURCE_DIR@/docs/logo/logo.png
+favicon: @CMAKE_SOURCE_DIR@/docs/media/logo/logo.png
