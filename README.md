@@ -8,7 +8,7 @@ DBCSR is a library designed to efficiently perform sparse matrix matrix multipli
 It is MPI and OpenMP parallel and can exploit Nvidia and AMD GPUs via CUDA and HIP.
 
 <p align="center">
-<img src="docs/logo/logo.png" width="500">
+<img src="docs/media/logo/logo.png" width="500">
 </p>
 
 ## Prerequisites
