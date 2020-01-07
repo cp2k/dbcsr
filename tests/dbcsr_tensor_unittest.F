@@ -307,9 +307,9 @@ PROGRAM dbcsr_tensor_unittest
       map31(:) = [1, 2]
       map32(:) = [3]
 
-      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, map11, map12, dist1_1, dist1_2, dist1_3)
-      CALL dbcsr_t_distribution_new(dist2, pgrid_2d, map21, map22, dist2_1, dist2_2)
-      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, map31, map32, dist3_1, dist3_2, dist3_3)
+      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, dist1_1, dist1_2, dist1_3)
+      CALL dbcsr_t_distribution_new(dist2, pgrid_2d, dist2_1, dist2_2)
+      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, dist3_1, dist3_2, dist3_3)
 
       CALL dbcsr_t_create(tensor_A, "(12|3)", dist1, map11, map12, dbcsr_type_real_8, &
                           size_1, size_2, size_3)
@@ -351,9 +351,9 @@ PROGRAM dbcsr_tensor_unittest
       map31(:) = [2, 3]
       map32(:) = [1]
 
-      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, map11, map12, dist1_1, dist1_2, dist1_3)
-      CALL dbcsr_t_distribution_new(dist2, pgrid_2d, map21, map22, dist2_1, dist2_2)
-      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, map31, map32, dist3_1, dist3_2, dist3_3)
+      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, dist1_1, dist1_2, dist1_3)
+      CALL dbcsr_t_distribution_new(dist2, pgrid_2d, dist2_1, dist2_2)
+      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, dist3_1, dist3_2, dist3_3)
 
       CALL dbcsr_t_create(tensor_A, "(2|31)", dist1, map11, map12, dbcsr_type_real_8, &
                           size_1, size_2, size_3)
@@ -395,9 +395,9 @@ PROGRAM dbcsr_tensor_unittest
       map31(:) = [2, 3]
       map32(:) = [1]
 
-      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, map11, map12, dist1_1, dist1_2, dist1_3)
-      CALL dbcsr_t_distribution_new(dist2, pgrid_2d, map21, map22, dist2_1, dist2_2)
-      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, map31, map32, dist3_1, dist3_2, dist3_3)
+      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, dist1_1, dist1_2, dist1_3)
+      CALL dbcsr_t_distribution_new(dist2, pgrid_2d, dist2_1, dist2_2)
+      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, dist3_1, dist3_2, dist3_3)
 
       CALL dbcsr_t_create(tensor_A, "(1|32)", dist1, map11, map12, dbcsr_type_real_8, &
                           size_1, size_2, size_3)
@@ -447,9 +447,9 @@ PROGRAM dbcsr_tensor_unittest
       map31(:) = [1]
       map32(:) = [2, 3]
 
-      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, map11, map12, dist1_1, dist1_2, dist1_3)
-      CALL dbcsr_t_distribution_new(dist2, pgrid_2d, map21, map22, dist2_1, dist2_2)
-      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, map31, map32, dist3_1, dist3_2, dist3_3)
+      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, dist1_1, dist1_2, dist1_3)
+      CALL dbcsr_t_distribution_new(dist2, pgrid_2d, dist2_1, dist2_2)
+      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, dist3_1, dist3_2, dist3_3)
 
       CALL dbcsr_t_create(tensor_A, "(21|3)", dist1, map11, map12, dbcsr_type_real_8, &
                           size_1, size_2, size_3)
@@ -502,9 +502,9 @@ PROGRAM dbcsr_tensor_unittest
       map31(:) = [1]
       map32(:) = [2, 3]
 
-      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, map11, map12, dist1_1, dist1_2, dist1_3)
-      CALL dbcsr_t_distribution_new(dist2, pgrid_4d, map21, map22, dist4_1, dist4_2, dist4_3, dist4_4)
-      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, map31, map32, dist5_1, dist5_2, dist5_3)
+      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, dist1_1, dist1_2, dist1_3)
+      CALL dbcsr_t_distribution_new(dist2, pgrid_4d, dist4_1, dist4_2, dist4_3, dist4_4)
+      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, dist5_1, dist5_2, dist5_3)
 
       CALL dbcsr_t_create(tensor_A, "(12|3)", dist1, map11, map12, dbcsr_type_real_8, &
                           size_1, size_2, size_3)
@@ -566,9 +566,9 @@ PROGRAM dbcsr_tensor_unittest
       map31(:) = [1]
       map32(:) = [2, 3]
 
-      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, map11, map12, dist1_1, dist1_2, dist1_3)
-      CALL dbcsr_t_distribution_new(dist2, pgrid_4d, map21, map22, dist4_1, dist4_2, dist4_3, dist4_4)
-      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, map31, map32, dist5_1, dist5_2, dist5_3)
+      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, dist1_1, dist1_2, dist1_3)
+      CALL dbcsr_t_distribution_new(dist2, pgrid_4d, dist4_1, dist4_2, dist4_3, dist4_4)
+      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, dist5_1, dist5_2, dist5_3)
 
       CALL dbcsr_t_create(tensor_A, "(3|21)", dist1, map11, map12, dbcsr_type_real_8, &
                           size_1, size_2, size_3)
@@ -610,9 +610,9 @@ PROGRAM dbcsr_tensor_unittest
       map31(:) = [1]
       map32(:) = [2, 3]
 
-      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, map11, map12, dist1_1, dist1_2, dist1_3)
-      CALL dbcsr_t_distribution_new(dist2, pgrid_4d, map21, map22, dist4_1, dist4_2, dist4_3, dist4_4)
-      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, map31, map32, dist5_1, dist5_2, dist5_3)
+      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, dist1_1, dist1_2, dist1_3)
+      CALL dbcsr_t_distribution_new(dist2, pgrid_4d, dist4_1, dist4_2, dist4_3, dist4_4)
+      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, dist5_1, dist5_2, dist5_3)
 
       CALL dbcsr_t_create(tensor_A, "(13|2)", dist1, map11, map12, dbcsr_type_real_8, &
                           size_1, size_2, size_3)
@@ -654,9 +654,9 @@ PROGRAM dbcsr_tensor_unittest
       map31(:) = [2, 1]
       map32(:) = [3]
 
-      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, map11, map12, dist1_1, dist1_2, dist1_3)
-      CALL dbcsr_t_distribution_new(dist2, pgrid_4d, map21, map22, dist4_1, dist4_2, dist4_3, dist4_4)
-      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, map31, map32, dist5_1, dist5_2, dist5_3)
+      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, dist1_1, dist1_2, dist1_3)
+      CALL dbcsr_t_distribution_new(dist2, pgrid_4d, dist4_1, dist4_2, dist4_3, dist4_4)
+      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, dist5_1, dist5_2, dist5_3)
 
       CALL dbcsr_t_create(tensor_A, "(2|31)", dist1, map11, map12, dbcsr_type_real_8, &
                           size_1, size_2, size_3)
@@ -698,9 +698,9 @@ PROGRAM dbcsr_tensor_unittest
       map31(:) = [3]
       map32(:) = [2, 1]
 
-      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, map11, map12, dist1_1, dist1_2, dist1_3)
-      CALL dbcsr_t_distribution_new(dist2, pgrid_4d, map21, map22, dist4_1, dist4_2, dist4_3, dist4_4)
-      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, map31, map32, dist5_1, dist5_2, dist5_3)
+      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, dist1_1, dist1_2, dist1_3)
+      CALL dbcsr_t_distribution_new(dist2, pgrid_4d, dist4_1, dist4_2, dist4_3, dist4_4)
+      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, dist5_1, dist5_2, dist5_3)
 
       CALL dbcsr_t_create(tensor_A, "(31|2)", dist1, map11, map12, dbcsr_type_real_8, &
                           size_1, size_2, size_3)
@@ -742,9 +742,9 @@ PROGRAM dbcsr_tensor_unittest
       map31(:) = [1, 2]
       map32(:) = [3]
 
-      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, map11, map12, dist1_1, dist1_2, dist1_3)
-      CALL dbcsr_t_distribution_new(dist2, pgrid_4d, map21, map22, dist4_1, dist4_2, dist4_3, dist4_4)
-      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, map31, map32, dist5_1, dist5_2, dist5_3)
+      CALL dbcsr_t_distribution_new(dist1, pgrid_3d, dist1_1, dist1_2, dist1_3)
+      CALL dbcsr_t_distribution_new(dist2, pgrid_4d, dist4_1, dist4_2, dist4_3, dist4_4)
+      CALL dbcsr_t_distribution_new(dist3, pgrid_3d, dist5_1, dist5_2, dist5_3)
 
       CALL dbcsr_t_create(tensor_A, "(12|3)", dist1, map11, map12, dbcsr_type_real_8, &
                           size_1, size_2, size_3)
@@ -778,13 +778,14 @@ PROGRAM dbcsr_tensor_unittest
 ! Cleanup for tensor contraction tests                                                             !
 !--------------------------------------------------------------------------------------------------!
 
-      DEALLOCATE (size_1, size_2, size_3, size_4, size_5)
       DEALLOCATE (blk_ind_1_1, blk_ind_2_1, blk_ind_3_1)
       DEALLOCATE (blk_ind_3_2, blk_ind_4_2)
       DEALLOCATE (blk_ind_1_3, blk_ind_2_3, blk_ind_4_3)
       DEALLOCATE (blk_ind_1_4, blk_ind_2_4, blk_ind_4_4, blk_ind_5_4)
       DEALLOCATE (blk_ind_3_5, blk_ind_4_5, blk_ind_5_5)
-      DEALLOCATE (dist1_1, dist1_2, dist1_3, dist2_1, dist2_2, dist3_1, dist3_2, dist3_3)
+      DEALLOCATE(size_1, size_2, size_3, size_4, size_5, dist1_1, dist1_2, dist1_3, &
+                 dist2_1, dist2_2, dist3_1, dist3_2, dist3_3, dist4_1, dist4_2, &
+                 dist4_3, dist4_4, dist5_1, dist5_2, dist5_3)
       CALL dbcsr_t_pgrid_destroy(pgrid_3d)
       CALL dbcsr_t_pgrid_destroy(pgrid_2d)
       CALL dbcsr_t_pgrid_destroy(pgrid_4d)

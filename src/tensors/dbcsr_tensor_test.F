@@ -323,7 +323,7 @@ CONTAINS
 
 #:for ndim in ndims
             IF (ndims == ${ndim}$) THEN
-               CALL dbcsr_t_distribution_new(dist2, comm_nd, map1_ref, map2_ref, ${varlist("dist2", nmax=ndim)}$)
+               CALL dbcsr_t_distribution_new(dist2, comm_nd, ${varlist("dist2", nmax=ndim)}$)
                CALL dbcsr_t_create(tensor2, "Ref", dist2, map1_ref, map2_ref, &
                                    dbcsr_type_real_8, ${varlist("blk_size", nmax=ndim)}$)
                CALL dbcsr_t_setup_test_tensor(tensor2, comm_nd%mp_comm_2d, .TRUE., ${varlist("blk_ind", nmax=ndim)}$)
@@ -334,7 +334,7 @@ CONTAINS
 
 #:for ndim in ndims
             IF (ndims == ${ndim}$) THEN
-               CALL dbcsr_t_distribution_new(dist1, comm_nd, map1, map2, ${varlist("dist1", nmax=ndim)}$)
+               CALL dbcsr_t_distribution_new(dist1, comm_nd, ${varlist("dist1", nmax=ndim)}$)
                CALL dbcsr_t_create(tensor1, tensor_name, dist1, map1, map2, &
                                    dbcsr_type_real_8, ${varlist("blk_size", nmax=ndim)}$)
                CALL dbcsr_t_setup_test_tensor(tensor1, comm_nd%mp_comm_2d, .TRUE., ${varlist("blk_ind", nmax=ndim)}$)

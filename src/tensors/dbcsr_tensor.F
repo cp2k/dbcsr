@@ -43,7 +43,7 @@ MODULE dbcsr_tensor
    USE dbcsr_tensor_types, ONLY: &
       dbcsr_t_create, dbcsr_t_get_data_type, dbcsr_t_type, ndims_tensor, dims_tensor, &
       dbcsr_t_distribution_type, dbcsr_t_distribution, dbcsr_t_nd_mp_comm, dbcsr_t_destroy, &
-      dbcsr_t_distribution_destroy, dbcsr_t_distribution_new, dbcsr_t_get_stored_coordinates, &
+      dbcsr_t_distribution_destroy, dbcsr_t_distribution_new_expert, dbcsr_t_get_stored_coordinates, &
       blk_dims_tensor, dbcsr_t_hold, dbcsr_t_pgrid_type, mp_environ_pgrid, dbcsr_t_filter, &
       dbcsr_t_clear, dbcsr_t_finalize, dbcsr_t_get_num_blocks, dbcsr_t_scale, &
       dbcsr_t_get_num_blocks_total, dbcsr_t_get_info
@@ -1305,8 +1305,8 @@ CONTAINS
             CALL new_default_dist(SIZE(blk_sizes_${idim}$), pdims(${idim}$), blk_sizes_${idim}$, nd_dist_${idim}$)
          ENDIF
 #:endfor
-         CALL dbcsr_t_distribution_new(dist, comm_nd, map1_2d, map2_2d, &
-                                       ${varlist("nd_dist", nmax=ndim)}$, own_comm=.TRUE.)
+         CALL dbcsr_t_distribution_new_expert(dist, comm_nd, map1_2d, map2_2d, &
+                                              ${varlist("nd_dist", nmax=ndim)}$, own_comm=.TRUE.)
       ENDIF
 #:endfor
 
