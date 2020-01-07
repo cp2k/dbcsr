@@ -33,7 +33,7 @@ MODULE dbcsr_tensor_split
                                  dbcsr_t_distribution_type, &
                                  dbcsr_t_distribution, &
                                  dbcsr_t_distribution_destroy, &
-                                 dbcsr_t_distribution_new, &
+                                 dbcsr_t_distribution_new_expert, &
                                  dbcsr_t_clear, &
                                  dbcsr_t_finalize, &
                                  dbcsr_t_get_num_blocks, &
@@ -151,8 +151,8 @@ CONTAINS
 
 #:for ndim in ndims
       IF (ndims_tensor(tensor_in) == ${ndim}$) THEN
-         CALL dbcsr_t_distribution_new(dist_split, tensor_in%pgrid, map1_2d, map2_2d, &
-                                       ${varlist("nd_dist_split", nmax=ndim)}$)
+         CALL dbcsr_t_distribution_new_expert(dist_split, tensor_in%pgrid, map1_2d, map2_2d, &
+                                              ${varlist("nd_dist_split", nmax=ndim)}$)
          CALL dbcsr_t_create(tensor_out, tensor_in%name, dist_split, map1_2d, map2_2d, &
                              dbcsr_t_get_data_type(tensor_in), ${varlist("nd_blk_size_split", nmax=ndim)}$)
       ENDIF

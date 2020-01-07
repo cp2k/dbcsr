@@ -235,13 +235,15 @@ CONTAINS
 
    END SUBROUTINE
 
-   SUBROUTINE dbcsr_tas_create_template(matrix_in, matrix, name)
+   SUBROUTINE dbcsr_tas_create_template(matrix_in, matrix, name, data_type)
       !! Create matrix from template
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix_in
       TYPE(dbcsr_tas_type), INTENT(OUT)                    :: matrix
-      CHARACTER(len=*), INTENT(IN), OPTIONAL             :: name
+      CHARACTER(len=*), INTENT(IN), OPTIONAL               :: name
+      INTEGER, INTENT(IN), OPTIONAL                        :: data_type
 
-      CALL dbcsr_create(matrix%matrix, template=matrix_in%matrix, matrix_type=dbcsr_type_no_symmetry)
+      CALL dbcsr_create(matrix%matrix, template=matrix_in%matrix, matrix_type=dbcsr_type_no_symmetry, &
+                        data_type=data_type)
       CALL dbcsr_finalize(matrix%matrix)
 
       CALL dbcsr_tas_copy_distribution(matrix_in%dist, matrix%dist)
