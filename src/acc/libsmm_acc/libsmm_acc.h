@@ -38,6 +38,8 @@ struct kernel_launcher {
     kernel_launcher(ACC_DRV(function) const& kf, int th, int gp): kernel_function(kf), threads(th), grouping (gp) {}
 };
 
+typedef std::unordered_map<Triplet, kernel_launcher>::iterator kernel_map_iterator;
+
 static std::unordered_map<Triplet, kernel_launcher> kernel_handles;
 
 int libsmm_acc_process_d(const int *param_stack, int stack_size,

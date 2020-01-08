@@ -186,7 +186,9 @@ inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int t
 }
 
 
-void add_kernel_handle_to_jitted_kernels(ACC_DRV(function) kern_func, ACC_DRV(stream) stream, Triplet h_mnk, int& threads, int& grouping, bool& cpu_fallback){
+kernel_map_iterator add_kernel_handle_to_jitted_kernels(ACC_DRV(function) kern_func, ACC_DRV(stream) stream, Triplet h_mnk, int& threads, int& grouping){
+
+    kernel_map_iterator kernel_it = kernel_handles.end();
 
     // Check whether autotuned parameters are given for this kernel, and if so, retrieve them
     if (ht.find(h_mnk) != ht.end()){
@@ -207,13 +209,12 @@ void add_kernel_handle_to_jitted_kernels(ACC_DRV(function) kern_func, ACC_DRV(st
         validate_kernel(kern_func, stream, threads, grouping, h_mnk[0], h_mnk[1], h_mnk[2]);
 
         // Store the handle to the JIT-ed kernel
-        kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
-
-    } else { // there exist no autotuned parameters for this (m, n, k)-triplet, fall back to CPU
-
-        cpu_fallback = true;
+        auto kernel_it_emplaced = kernel_handles.emplace(h_mnk, kernel_launcher(kern_func, threads, grouping));
+        kernel_it = kernel_it_emplaced.first;
 
     }
+
+    return kernel_it;
 
 }
 
@@ -224,8 +225,7 @@ int libsmm_acc_process_d(const int *param_stack, int stack_size, ACC_DRV(stream)
     ACC_DRV(function) kern_func = NULL;
     int threads, grouping;
     Triplet h_mnk = { m, n, k };
-    static bool cpu_fallback = false;
-    std::unordered_map<std::array<int, 3>, kernel_launcher>::iterator kernel_it;
+    kernel_map_iterator kernel_it;
 
 #if defined _OPENMP
 #pragma omp critical (jit_multiplication)
@@ -236,16 +236,16 @@ int libsmm_acc_process_d(const int *param_stack, int stack_size, ACC_DRV(stream)
     kernel_it = kernel_handles.find(h_mnk);
     if (kernel_it == kernel_handles.end()){  // the kernel has not been JIT-ed yet
 
-        add_kernel_handle_to_jitted_kernels(kern_func, stream, h_mnk, threads, grouping, cpu_fallback);
-        kernel_it = kernel_handles.find(h_mnk);
+        kernel_it = add_kernel_handle_to_jitted_kernels(kern_func, stream, h_mnk, threads, grouping);
 
-    }  // now the kernel has been jitted
+    }  // if the kernel could be jited successfully, the kernel_it iterator now points to the kernel_launcher.
+       // if this wasn't possible, is set to kernel_handles.end()
 
 #if defined _OPENMP
 }
 #endif
 
-    if(cpu_fallback){
+    if (kernel_it == kernel_handles.end()){  // the kernel could not be JIT-ed, so we should fall back to CPU
 
         return -2; // fall back to CPU
 
