@@ -375,7 +375,7 @@ configure_package_config_file(cmake/DBCSRConfig.cmake.in
   INSTALL_DESTINATION "${config_install_dir}"
   )
 write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake"
-  VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+  VERSION "${dbcsr_VERSION}"
   COMPATIBILITY SameMajorVersion
   )
 if (USE_HIP)
