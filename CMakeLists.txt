@@ -12,21 +12,44 @@ endif()
 
 # =================================================================================================
 # PROJECT AND VERSION
-file(STRINGS VERSION VERSION_INFO)
-foreach(line ${VERSION_INFO})
-  if (${line} MATCHES "^([^#].*)=[ \t]*(.*)$")
-    set(key ${CMAKE_MATCH_1})
-    set(value ${CMAKE_MATCH_2})
-    string(REGEX REPLACE "[ \t\n]+$" "" key "${key}")
-    string(REGEX REPLACE "[ \t\n]+$" "" value "${value}")
-    set(VERSION_${key} "${value}")
-    continue ()
-  endif ()
-endforeach()
+INCLUDE(GetGitRevisionDescription)
 
-project(dbcsr
-        VERSION ${VERSION_MAJOR}.${VERSION_MINOR}
-        DESCRIPTION "DBCSR: Distributed Block Compressed Sparse Row matrix library (https://dbcsr.cp2k.org)")
+git_describe(GIT_DESC)
+
+if (GIT_DESC)
+  string(REGEX REPLACE "^v([0-9]+)\\..*" "\\1" VERSION_MAJOR "${GIT_DESC}")
+  string(REGEX REPLACE "^v[0-9]+\\.([0-9]+).*" "\\1" VERSION_MINOR "${GIT_DESC}")
+  string(REGEX REPLACE "^v[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" VERSION_PATCH "${GIT_DESC}")
+  string(REGEX REPLACE "^v[0-9]+\\.[0-9]+\\.[0-9]+(.*)" "\\1" VERSION_GIT "${GIT_DESC}")
+
+  git_local_changes(GIT_STATE)
+  if ("${GIT_STATE}" STREQUAL "DIRTY")
+    set(VERSION_GIT "${VERSION_GIT}-dirty")
+  endif ()
+
+  execute_process(COMMAND git log -1 --format=%ai
+                  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                  OUTPUT_VARIABLE GIT_COMMIT_DATE
+                  OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+  # take only the date from the git timestamp:
+  string(REGEX REPLACE "^([0-9\\-]+) .*" "\\1" VERSION_DATE "${GIT_COMMIT_DATE}")
+else ()
+  file(STRINGS VERSION VERSION_INFO)
+  foreach(line ${VERSION_INFO})
+    if (${line} MATCHES "^([^#].*)=[ \t]*(.*)$")
+      set(key ${CMAKE_MATCH_1})
+      set(value ${CMAKE_MATCH_2})
+      string(REGEX REPLACE "[ \t\n]+$" "" key "${key}")
+      string(REGEX REPLACE "[ \t\n]+$" "" value "${value}")
+      set(VERSION_${key} "${value}")
+      continue ()
+    endif ()
+  endforeach()
+endif ()
+
+project(dbcsr DESCRIPTION "DBCSR: Distributed Block Compressed Sparse Row matrix library (https://dbcsr.cp2k.org)")
+set(dbcsr_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_GIT})
 
 # =================================================================================================
 # OPTIONS

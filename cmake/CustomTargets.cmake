@@ -1,4 +1,4 @@
-set(ARCHIVE_NAME "${CMAKE_PROJECT_NAME}-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+set(ARCHIVE_NAME "${CMAKE_PROJECT_NAME}-${dbcsr_VERSION}")
 add_custom_target(dist
   COMMENT "Building distribution: ${ARCHIVE_NAME}"
   COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/dist"
