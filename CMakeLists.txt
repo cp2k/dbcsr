@@ -102,7 +102,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 # =================================== BLAS, LAPACK, PkgConfig
 find_package(BLAS REQUIRED)
-find_package(LAPACK REQUIRED)
+find_package(LAPACK REQUIRED)  # needed for some of the integrated test routines
 find_package(PkgConfig)
 
 # =================================== Python
@@ -119,10 +119,6 @@ if (NOT Python_EXECUTABLE)
       find_package(Python COMPONENTS Interpreter REQUIRED)
     endif ()
 endif ()
-
-find_package(BLAS REQUIRED)
-find_package(LAPACK REQUIRED)
-find_package(PkgConfig)
 
 # =================================== MPI
 if (USE_MPI)
@@ -281,7 +277,11 @@ include(CompilerConfiguration)
 include(CheckCompilerSupport)
 
 add_subdirectory(src)
-add_subdirectory(tests)
+
+include(CTest)
+if (BUILD_TESTING)
+  add_subdirectory(tests)
+endif ()
 
 if (WITH_EXAMPLES)
   add_subdirectory(examples)

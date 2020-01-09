@@ -15,16 +15,16 @@ It is MPI and OpenMP parallel and can exploit Nvidia and AMD GPUs via CUDA and H
 
 You absolutely need:
 
-* GNU make
+* [CMake](https://cmake.org/) (3.10+)
+* GNU make or Ninja
 * a Fortran compiler which supports at least Fortran 2008 (including the TS 29113 when using the C-bindings)
-* a LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested. Note: DBCSR linked to OpenBLAS 0.3.6 gives wrong results on Power9 architectures.)
-* a BLAS implementation (reference, OpenBLAS-bundled and MKL have been tested)
+* a BLAS+LAPACK implementation (reference, OpenBLAS and MKL have been tested. Note: DBCSR linked to OpenBLAS 0.3.6 gives wrong results on Power9 architectures.)
 * a Python version installed (2.7 or 3.6+ have been tested)
 
 Optionally:
 
-* [libxsmm](https://github.com/hfp/libxsmm) (1.8.2+ with make-only, 1.10+ with cmake) for Small Matrix Multiplication acceleration
-* [CMake](https://cmake.org/) (3.10+)
+* [libxsmm](https://github.com/hfp/libxsmm) (1.10+) for Small Matrix Multiplication acceleration
+* a LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested), required when building the tests
 
 To build [libsmm_acc](src/acc/libsmm_acc/) (DBCSR's GPU backend), you further need:
 
@@ -41,37 +41,16 @@ Download either a release tarball or clone the latest version from Git using:
 
     git clone --recursive https://github.com/cp2k/dbcsr.git
 
-Run
-
-    make help
-
-to list all possible targets.
-
-Update the provided [Makefile.inc](Makefile.inc) to fit your needs
-(read the documentation inside the file for further explanations) and then run
-
-    make <target>
-
-Some examples on how to use the library (which is the only current documentation) are available under the examples directory (see [readme](examples/README.md)).
-
-## C/C++ Interface
-
-You can compile with
-
-    make CINT=1
-
-to generate the C interface. Make sure your Fortran compiler supports F2008
-standard (including the TS) by updating the flag in the Makefile.inc.
-
-## CMake
-
-Building with CMake is also supported:
+Run inside the dbcsr directory:
 
     mkdir build
     cd build
     cmake ..
+    make
 
-The configuration flags are (default first):
+Some examples on how to use the library are available under the examples directory (see [readme](examples/README.md)).
+
+The configuration flags for the CMake command are (default first):
 
     -DUSE_MPI=<ON|OFF>
     -DUSE_OPENMP=<ON|OFF>
@@ -83,15 +62,24 @@ The configuration flags are (default first):
     -DWITH_C_API=<ON|OFF>
     -DWITH_EXAMPLES=<ON|OFF>
     -DWITH_GPU=<P100|K20X|K40|K80|V100|Mi50>
+    -DCMAKE_BUILD_TYPE=<Release|Debug|Coverage>
+    -DBUILD_TESTING=<ON|OFF>
     -DTEST_MPI_RANKS=<auto,N>
     -DTEST_OMP_THREADS=<2,N>
-    -DCMAKE_BUILD_TYPE=<Release|Debug|Coverage>
 
 For build recipes on different platforms, make sure to also read the [INSTALL.md](INSTALL.md).
 
 If you want to use Python from a virtual environment and your CMake version is < 3.15, specify the desired python interpreter manually using:
 
     -DPython_EXECUTABLE=/path/to/python
+
+To run the tests, use:
+
+    make test
+
+## C/C++ Interface
+
+If MPI support is enabled (the default) the C API is automatically built.
 
 ## Workaround issue in HIP
 
@@ -156,6 +144,8 @@ Afterwards use the `doc` target for the CMake generated Makefile:
     make doc
 
 The documentation (HTML format) will be located in `doc/`.
+
+Automatically generated API documentation is [available online](https://cp2k.github.io/dbcsr/) for the latest release.
 
 ## Supported compilers
 
