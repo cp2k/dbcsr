@@ -68,14 +68,15 @@ set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
 # but we would need cmake 3.12 to be able to specify target_link_libraries on those to get
 # the proper compile flags
 add_library(dbcsr_unittest_common STATIC ${dbcsr_unittest_common_SRCS})
+target_link_libraries(dbcsr_unittest_common PUBLIC ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 if (OpenMP_FOUND)
-  target_link_libraries(dbcsr_unittest_common OpenMP::OpenMP_Fortran)
+  target_link_libraries(dbcsr_unittest_common PUBLIC OpenMP::OpenMP_Fortran)
 endif ()
 
 if (APPLE AND BLAS_LIBRARIES MATCHES "Accelerate")
   target_compile_definitions(dbcsr_unittest_common PRIVATE __ACCELERATE)
 endif()
-target_link_libraries(dbcsr_unittest_common dbcsr)
+target_link_libraries(dbcsr_unittest_common PUBLIC dbcsr)
 
 foreach (dbcsr_test ${DBCSR_TESTS})
   if (USE_HIP)
