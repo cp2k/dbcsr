@@ -227,10 +227,8 @@ int libsmm_acc_process_d(const int *param_stack, int stack_size, ACC_DRV(stream)
     Triplet h_mnk = { m, n, k };
     kernel_map_iterator kernel_it;
 
-#if defined _OPENMP
 #pragma omp critical (jit_multiplication)
 {
-#endif
 
     // Look up the kernel in the table of already JITed kernels
     kernel_it = kernel_handles.find(h_mnk);
@@ -241,9 +239,7 @@ int libsmm_acc_process_d(const int *param_stack, int stack_size, ACC_DRV(stream)
     }  // if the kernel could be jited successfully, the kernel_it iterator now points to the kernel_launcher.
        // if this wasn't possible, is set to kernel_handles.end()
 
-#if defined _OPENMP
 }
-#endif
 
     if (kernel_it == kernel_handles.end()){  // the kernel could not be JIT-ed, so we should fall back to CPU
 
@@ -337,10 +333,8 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks,
     Triplet h_mnk = { m, n, 0 };
     std::unordered_map<std::array<int, 3>, ACC_DRV(function)>::iterator kernel_it;
 
-#if defined _OPENMP
 #pragma omp critical (jit_transpose)
 {
-#endif
 
     kernel_it = transpose_handles.find(h_mnk);
     if(kernel_it == transpose_handles.end()){  // the kernel has not been JIT-ed yet
@@ -352,9 +346,7 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks,
 
     }
 
-#if defined _OPENMP
 }
-#endif
 
     // Construct argument pointer list and launch function
     kern_func = kernel_it->second; // retrieve handle
