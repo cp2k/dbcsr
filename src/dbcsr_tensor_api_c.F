@@ -4,7 +4,7 @@
 
 MODULE dbcsr_tensor_api_c
 
-   USE, INTRINSIC :: ISO_C_BINDING, ONLY: c_loc, c_ptr, c_double, C_NULL_CHAR, &
+   USE, INTRINSIC :: ISO_C_BINDING, ONLY: c_loc, c_ptr, c_double, c_sizeof, C_NULL_CHAR, &
                                                                              c_float, c_f_pointer, c_int, c_long_long, &
                                                                              c_char, c_null_ptr, c_bool, &
                                                                              c_float_complex, c_double_complex
@@ -106,8 +106,7 @@ CONTAINS
       ENDIF
 
    END SUBROUTINE
-
-
+      
    SUBROUTINE c_dbcsr_t_pgrid_destroy(c_pgrid, c_keep_comm) &
       BIND(C, name="c_dbcsr_t_pgrid_destroy")
 
@@ -145,13 +144,10 @@ CONTAINS
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_own_comm
 
       INTEGER, POINTER                                   :: ${pointer_list("nd_dist")}$
-      INTEGER, POINTER                                   :: map1_2d(:), map2_2d(:)
+      INTEGER, ALLOCATABLE                               :: map1_2d(:), map2_2d(:)
       TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid
       TYPE(dbcsr_t_distribution_type), POINTER           :: dist
       LOGICAL, ALLOCATABLE                               :: own_comm
-
-      map1_2d => c_map1_2d
-      map2_2d => c_map2_2d
 
 #:for ddim in ddims
       IF (PRESENT(c_nd_dist_${ddim}$)) THEN
@@ -167,14 +163,22 @@ CONTAINS
       ALLOCATE (dist)
 
       CALL c_f_pointer(c_pgrid, pgrid)
+      
+      ALLOCATE(map1_2d(SIZE(c_map1_2d)),SOURCE=c_map1_2d)
+      ALLOCATE(map2_2d(SIZE(c_map2_2d)),SOURCE=c_map2_2d)
+      
+      map1_2d = map1_2d + 1
+      map2_2d = map2_2d + 1
 
-      CALL dbcsr_t_distribution_new(dist, pgrid, map1_2d+1, map2_2d+1, &
+      CALL dbcsr_t_distribution_new(dist, pgrid, map1_2d, map2_2d, &
                                     ${varlist("nd_dist")}$, own_comm)
+                                    
+      DEALLOCATE(map1_2d)
+      DEALLOCATE(map2_2d)
 
       c_dist = c_loc(dist)
 
    END SUBROUTINE
-
 
    SUBROUTINE c_dbcsr_t_distribution_destroy(c_dist) BIND(C, name="c_dbcsr_t_distribution_destroy")
       TYPE(c_ptr), INTENT(INOUT)                         :: c_dist
@@ -249,14 +253,14 @@ CONTAINS
 
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor_in
       TYPE(c_ptr), INTENT(OUT)                           :: c_tensor
-      TYPE(c_ptr), INTENT(IN), VALUE                     :: c_name
+      TYPE(c_ptr), INTENT(IN), OPTIONAL                  :: c_name
 
       TYPE(dbcsr_t_type), POINTER                        :: tensor_in
       TYPE(dbcsr_t_type), POINTER                        :: tensor
       CHARACTER(:, kind=c_char), ALLOCATABLE             :: fname
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
-      CALL c_f_string(c_name, fname)
+      IF (PRESENT(c_name)) CALL c_f_string(c_name, fname)
       ALLOCATE (tensor)
 
       CALL dbcsr_t_create(tensor_in, tensor, fname)
@@ -632,10 +636,10 @@ CONTAINS
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_iterator
       INTEGER(kind=c_int), INTENT(IN), VALUE             :: iterator_size
       INTEGER(kind=c_int), DIMENSION(iterator_size), TARGET, &
-         INTENT(OUT)                                     :: c_ind_nd
-      INTEGER(kind=c_int), INTENT(OUT)                   :: c_blk
-      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL         :: c_blk_p
-      INTEGER(kind=c_int), DIMENSION(iterator_size), INTENT(OUT), &
+         INTENT(INOUT)                                   :: c_ind_nd
+      INTEGER(kind=c_int), INTENT(INOUT)                 :: c_blk
+      INTEGER(kind=c_int), INTENT(INOUT), OPTIONAL       :: c_blk_p
+      INTEGER(kind=c_int), DIMENSION(iterator_size), INTENT(INOUT), &
          TARGET, OPTIONAL                                :: c_blk_size, c_blk_offset
 
       TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
@@ -647,11 +651,16 @@ CONTAINS
       CALL c_f_pointer(c_iterator, iterator)
       ind_nd => c_ind_nd
 
-      IF (PRESENT(c_blk_p)) blk_p = c_blk_p
+      IF (PRESENT(c_blk_p)) THEN 
+        ALLOCATE(blk_p) 
+        blk_p = c_blk_p
+      ENDIF
       IF (PRESENT(c_blk_size)) blk_size => c_blk_size
       IF (PRESENT(c_blk_offset)) blk_offset => c_blk_offset
 
       CALL dbcsr_t_iterator_next_block(iterator, ind_nd, c_blk, blk_p, blk_size, blk_offset)
+      
+      IF (ALLOCATED(blk_p)) DEALLOCATE(blk_p)
 
       c_ind_nd = c_ind_nd - 1
 
@@ -960,11 +969,14 @@ CONTAINS
                     
 #:set list = ['blks_local', 'proc_dist', 'blk_size', 'blk_offset']
 #:for var in list
- #: for ddim in ddims
+ #:for ddim in ddims
 
       IF (PRESENT(c_${var}$_${ddim}$)) THEN
         ALLOCATE(${var}$_${ddim}$_ptr(SIZE(${var}$_${ddim}$)))
-        ${var}$_${ddim}$_ptr = ${var}$_${ddim}$
+        ${var}$_${ddim}$_ptr = ${var}$_${ddim}$ 
+  #:if var in ['blks_local', 'blk_offset']
+      ${var}$_${ddim}$_ptr = ${var}$_${ddim}$_ptr - 1
+  #:endif
         c_${var}$_${ddim}$ = c_loc(${var}$_${ddim}$_ptr)
         c_${var}$_${ddim}$_size = SIZE(${var}$_${ddim}$)
         DEALLOCATE(${var}$_${ddim}$)
@@ -981,59 +993,13 @@ CONTAINS
         name_size = LEN(fname)
       ENDIF
       
+#:set list = ['nblks_total', 'nfull_total', 'nblks_local', 'nfull_local', 'my_ploc', 'pdims' ]
+#:for var in list
+      IF (PRESENT(c_${var}$)) NULLIFY(${var}$)
+#:endfor
+      
    END SUBROUTINE
-      
-   SUBROUTINE c_get_nd_index(c_tensor, c_ndim_nd, c_ndim1_2d, c_ndim2_2d, &
-       c_dims_nd, dims_nd_size, c_dims_2d, c_dims1_2d, dims1_2d_size, &
-       c_dims2_2d, dims2_2d_size, c_map1_2d, map1_2d_size, c_map2_2d, &
-       map2_2d_size, c_map_nd, map_nd_size, c_base, c_col_major) &
-       BIND(C, name="c_get_nd_index") 
-       
-       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
-#:set ints = ['ndim_nd','ndim1_2d','ndim2_2d']
-#:for var in ints
-       INTEGER(kind=c_int), INTENT(INOUT), OPTIONAL :: c_${var}$
-#:endfor
-#:set arrs = ['dims_nd', 'dims1_2d', 'dims2_2d', 'map1_2d', 'map2_2d', 'map_nd']
-#:for var in arrs
-       TYPE(c_ptr), INTENT(INOUT), OPTIONAL :: c_${var}$
-       INTEGER(kind=c_int), INTENT(INOUT), OPTIONAL :: ${var}$_size
-       INTEGER(kind=c_int), DIMENSION(:), ALLOCATABLE, TARGET, SAVE :: ${var}$
-#:endfor
-       INTEGER(kind=c_long_long), DIMENSION(2), INTENT(INOUT), OPTIONAL :: c_dims_2d
-       INTEGER(kind=c_int), INTENT(INOUT), OPTIONAL :: c_base
-       LOGICAL(kind=c_bool), INTENT(INOUT), OPTIONAL :: c_col_major
-       
-       TYPE(dbcsr_t_type), POINTER :: tensor
-       
-       CALL c_f_pointer(c_tensor, tensor)
-       
-#:for var in ints
-       IF (PRESENT(c_${var}$)) c_${var}$ = tensor%nd_index%${var}$
-#:endfor
-       
-#:for var in arrs
-       IF (PRESENT(c_${var}$)) THEN
-         ${var}$_size = SIZE(tensor%nd_index%${var}$)
-         ${var}$ = tensor%nd_index%${var}$ 
-         
- #:if var in ['map1_2d', 'map2_2d', 'map_nd']
-         ${var}$ = ${var}$ - 1
- #:endif
-         
-         c_${var}$ = c_loc(${var}$)
-         
-       ENDIF
-#:endfor
-
-        
-
-       IF (PRESENT(c_dims_2d)) c_dims_2d = tensor%nd_index%dims_2d - 1
-      
-       IF (PRESENT(c_base)) c_base = tensor%nd_index%base
-       IF (PRESENT(c_col_major)) c_col_major = tensor%nd_index%col_major
-       
-     END SUBROUTINE  
+  
        
 
 END MODULE

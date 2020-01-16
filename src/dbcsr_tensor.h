@@ -61,7 +61,7 @@ extern "C" {
                                void** c_pgrid_opt_2, 
                                void** c_pgrid_opt_3,
                                double* filter_eps, long long int* flop, 
-                               int* move_data, int* unit_nr, bool* log_verbose);
+                               bool* move_data, int* unit_nr, bool* log_verbose);
      
      void c_dbcsr_t_filter_${dsuffix}$ (void* c_tensor, ${ctype}$ c_eps, int* c_method, bool* c_use_absolute);
      
@@ -113,14 +113,7 @@ extern "C" {
                                ${extern_alloc_varlist_and_size("c_blk_offset")}$, 
                                void** c_distribution, 
                                char** name, int* name_size,
-                               int* data_type);
-   
-	void c_get_nd_index(void* c_tensor/*1*/, int* c_ndim_nd/*2*/, int* c_ndim1_nd/*3*/, int* c_ndim2_nd/*4*/,
-       int** c_dims_nd/*5*/, int* dims_nd_size/*6*/, long long int* c_dims_2d/*7*/, int** c_dims1_2d/*8*/, int* dims1_2d_size/*9*/,
-       int** c_dims2_2d/*10*/, int* dims2_2d_size/*11*/, int** c_map1_2d/*12*/, int* map1_2d_size/*13*/, int** c_map2_2d/*14*/,
-       int* map2_2d_size/*15*/, int** c_map_nd/*16*/, int* map_nd_size/*17*/, int* c_base/*18*/, bool* c_col_major/*19*/);
-      
-       
+                               int* data_type); 
 	
 #ifdef __cplusplus
 }
