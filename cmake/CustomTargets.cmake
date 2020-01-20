@@ -11,15 +11,17 @@ find_program(FORD_EXE ford
   DOC "path to the ford executable (required to generate the documentation)"
   )
 
-# copy the FORD project-file into the build directory
-configure_file(docs/DBCSR.md project-file.md)
+# Copy the FORD project-file into the build directory
+set (FORD_PROJECT_FILE "${CMAKE_BINARY_DIR}/DBCSR.md")
+configure_file(DBCSR.md "${FORD_PROJECT_FILE}")
 
 add_custom_target(doc
   COMMENT "Generating API documentation"
-  COMMAND "${FORD_EXE}" project-file.md
+  COMMAND "${FORD_EXE}" "${FORD_PROJECT_FILE}"
   VERBATIM
   )
 add_dependencies(doc fypp)  # only depend on the fypp step to avoid building everything just for the docs
+
 
 find_program(LCOV_EXE lcov
   DOC "path to the lcov executable (required to generate coverage reports)"
