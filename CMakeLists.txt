@@ -88,7 +88,6 @@ endif()
 # =================================================================================================
 # LANGUAGES AND TESTING
 enable_language(Fortran)
-enable_testing() # enables the `make test` target
 
 if (WITH_C_API AND WITH_EXAMPLES)
   enable_language(CXX)

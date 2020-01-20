@@ -34,9 +34,11 @@ file(GLOB DBCSR_PERF_TESTS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 foreach (dbcsr_perf_test ${DBCSR_PERF_TESTS})
   if (USE_MPI)
     separate_arguments(MPIEXEC_PREFLAGS)
-    add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ./dbcsr_perf ${MPIEXEC_POSTFLAGS} "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
+    add_test(NAME dbcsr_perf:${dbcsr_perf_test}
+             COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} $<TARGET_FILE:dbcsr_perf> ${MPIEXEC_POSTFLAGS} "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
   else ()
-    add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND ./dbcsr_perf "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
+    add_test(NAME dbcsr_perf:${dbcsr_perf_test}
+             COMMAND $<TARGET_FILE:dbcsr_perf> "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
   endif ()
   set_tests_properties(dbcsr_perf:${dbcsr_perf_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${TEST_OMP_THREADS})
 endforeach ()
@@ -90,9 +92,10 @@ foreach (dbcsr_test ${DBCSR_TESTS})
   # register unittest executable with CMake
   if (USE_MPI)
     separate_arguments(MPIEXEC_PREFLAGS)
-    add_test(NAME ${dbcsr_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ./${dbcsr_test} ${MPIEXEC_POSTFLAGS})
+    add_test(NAME ${dbcsr_test}
+             COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} $<TARGET_FILE:${dbcsr_test}> ${MPIEXEC_POSTFLAGS})
   else ()
-    add_test(NAME ${dbcsr_test} COMMAND ./${dbcsr_test})
+      add_test(NAME ${dbcsr_test} COMMAND ${dbcsr_test})
   endif ()
   if (OpenMP_FOUND)
     target_link_libraries(${dbcsr_test} OpenMP::OpenMP_Fortran)
@@ -187,11 +190,11 @@ if (USE_CUDA OR USE_HIP)
 
   # Add tests that do not need additional arguments
   foreach (libsmm_acc_test ${LIBSMM_ACC_SIMPLE_TESTS})
-    add_test(NAME ${libsmm_acc_test} COMMAND ./${libsmm_acc_test})
+      add_test(NAME ${libsmm_acc_test} COMMAND ${libsmm_acc_test})
   endforeach ()
 
   # Add tests needing additional arguments:
-  add_test(NAME libsmm_acc_timer_multiply-autotuned COMMAND ./libsmm_acc_timer_multiply autotuned)
-  add_test(NAME libsmm_acc_timer_multiply-predicted COMMAND ./libsmm_acc_timer_multiply predicted)
+  add_test(NAME libsmm_acc_timer_multiply-autotuned COMMAND libsmm_acc_timer_multiply autotuned)
+  add_test(NAME libsmm_acc_timer_multiply-predicted COMMAND libsmm_acc_timer_multiply predicted)
 
 endif ()
