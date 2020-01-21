@@ -12,7 +12,7 @@ Python version required: `python 3.6`
 
 Install all python packages required (if you do not want this project's requirements to interfere with your other Python projects, consider doing so in a [virtual environment](https://docs.python.org/3/tutorial/venv.html)), using
 
-```%bash
+```bash
 pip install -r requirements.txt
 ```
 
@@ -35,13 +35,13 @@ Get the data to be used for training, either by downloading data from the [dedic
 
 - Download data from the dedicated repository:
 
-  ```%bash
+  ```bash
   wget https://github.com/cp2k/dbcsr-data/blob/master/GPU/raw_training_data_ALGORITHM.csv  # for ALGORITHM = tiny, small, medium, largeDB1, largeDB2
   ```
 
 - Compute derived parameters from raw parameters and create a record of baseline and maximum performances: run [`prepare_training_data.py`](prepare_training_data.py), providing the CUDA/HIP architecture number and the location of the downloaded data:
 
-  ```%bash
+  ```bash
   ./prepare_training_data.py # –arch 60 --folder /scratch/autotuning_dataset, e.g.
   ```
 
@@ -57,7 +57,7 @@ Get the data to be used for training, either by downloading data from the [dedic
 
 - Collect the information in all the `tune_mxnxk` directories into CSV files: run [`predict_collect.py`](predict_collect.py), providing the location of the autotuning data:
 
-  ```%bash
+  ```bash
   ./predict_collect.py # --folder /scratch/autotuning_dataset, e.g.
   ```
 
@@ -71,7 +71,7 @@ A few steps are needed to make the data ready for training:
 - Compute derived training data and write it to a CSV file
 - Compress training data files from CSV to Parquet files
 
-```%bash
+```bash
 ./prepare_data.py  # --folder /scratch/autotuning_dataset -a 60 -j12, e.g. to run with 12 threads
 ```
 
@@ -99,7 +99,7 @@ Explore the data interactively using the [provided Jupyter notebook](notebooks/i
 
 For each algorithm, build a predictive model using decision trees and feature selection based on the features' permutation importance. 
 
-```%bash
+```bash
 ./predict_train.py  # --algo medium --folder /scratch/autotuning_dataset, e.g.
 ```
 
@@ -112,7 +112,7 @@ Moreover, depending on the size of the training data, large amounts of memory ma
 
 Given predictive models (in the form of serialized [scikit-learn](https://scikit-learn.org/) model objects) for all unseen (m,n,k)s, generate or update a file of optimal parameters
 
-```%bash
+```bash
 ./predict_genpars.py  -c 5000 \  # chunk size
     -j 12 \ # 12 threads
     --largeDB2 /scratch/largeDB2/feature_tree_refit.p \ # path to models
@@ -126,7 +126,7 @@ This may take several hours. For example, generating parameters for the P100 too
 
 #### 6. Evaluate the predicted parameters
 
-```%bash
+```bash
 ./predict_evaluate.py -f libsmm_acc_predicted.out -n libsmm_acc_baseline.out
 ```
 

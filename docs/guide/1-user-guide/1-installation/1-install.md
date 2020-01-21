@@ -34,19 +34,24 @@ We test against GNU and Intel compilers on Linux systems, GNU compiler on MacOS 
 
 Download either a [release tarball](https://github.com/cp2k/dbcsr/releases) or clone the latest version from Git using:
 
+```bash
     git clone --recursive https://github.com/cp2k/dbcsr.git
+```
 
 ## Build
 
 Run inside the `dbcsr` directory:
 
+```bash
     mkdir build
     cd build
     cmake ..
     make
+```
 
  The configuration flags for the CMake command are (default first):
 
+```
     -DUSE_MPI=<ON|OFF>
     -DUSE_OPENMP=<ON|OFF>
     -DUSE_SMM=<blas|libxsmm>
@@ -61,6 +66,7 @@ Run inside the `dbcsr` directory:
     -DBUILD_TESTING=<ON|OFF>
     -DTEST_MPI_RANKS=<auto,N>
     -DTEST_OMP_THREADS=<2,N>
+```
 
 ### CMake Build Recipes
 
@@ -70,13 +76,17 @@ For build recipes on different platforms, make sure to also read the [CMake Buil
 
 If you want to use Python from a virtual environment and your CMake version is < 3.15, specify the desired python interpreter manually using:
 
+```
     -DPython_EXECUTABLE=/path/to/python
+```
 
 ### Running Tests
 
 To run the tests, use:
 
+```bash
     make test
+```
 
 ### C/C++ Interface
 
@@ -86,6 +96,8 @@ If MPI support is enabled (the default), the C API is automatically built.
 
 HIP is a relatively new language, and some issues still need to be ironed out. As a workaround to an [issue](https://github.com/ROCm-Developer-Tools/HIP/pull/1543) in HIP's JIT infrastructure, please set the following if you've built HIP from source:
 
+```bash
     export HIP_PATH=/opt/rocm/hip
+```
 
 before running on an AMD GPU.
