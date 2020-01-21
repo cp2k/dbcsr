@@ -1,4 +1,4 @@
-title: Supported compilers
+title: Supported Compilers
 
 # Supported compilers
 

@@ -1,6 +1,6 @@
-# libsmm_acc/notebooks
+# libsmm_acc Notebooks
 
-Notebooks for exploring data generated from autotuning and prediction.
+Notebooks for exploring data generated from auto-tuning and prediction.
 
 **Requirements**
 Python version required: python 3.6

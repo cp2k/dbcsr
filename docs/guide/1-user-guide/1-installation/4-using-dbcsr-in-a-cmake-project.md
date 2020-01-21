@@ -41,8 +41,8 @@ add_executable(dbcsr_example_cpp dbcsr_example.cpp)
 target_link_libraries(dbcsr_example_cpp DBCSR::dbcsr_c MPI::MPI_CXX)
 ```
 
-If you installed DBCSR into a custom prefix, you have to make sure that `cmake`
-is able to find the `DBCSR` CMake configuration:
+If you installed DBCSR into a custom prefix, you have to make sure that CMake
+is able to find the DBCSR CMake configuration:
 
 ```bash
     CMAKE_PREFIX_PATH=/my/dbcsr/install/location/usr/local/lib/cmake cmake ..
