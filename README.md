@@ -11,9 +11,13 @@ It is MPI and OpenMP parallel and can exploit Nvidia and AMD GPUs via CUDA and H
 <img src="docs/media/logo/logo.png" width="500">
 </p>
 
+## How to Install
+
+Follow the [installation guide](https://cp2k.github.io/dbcsr/page/1-user-guide/1-installation/1-install.html).
+
 ## Documentation
 
-Automatically generated API documentation is [available online](https://cp2k.github.io/dbcsr/) for the latest release.
+Documentation is [available online](https://cp2k.github.io/dbcsr/) for the latest release.
 
 ## Contributing to DBCSR
 
