@@ -665,9 +665,9 @@ CONTAINS
       IF (move_data_prv) CALL dbcsr_t_clear(tensor_in)
 
       ! transfer data for batched contraction
-      IF(tensor_in%matrix_rep%do_batched) THEN
-         ALLOCATE(tensor_out%matrix_rep%mm_storage, SOURCE=tensor_in%matrix_rep%mm_storage)
-         tensor_out%matrix_rep%do_batched = .TRUE.
+      IF (tensor_in%matrix_rep%do_batched > 0) THEN
+         ALLOCATE (tensor_out%matrix_rep%mm_storage, SOURCE=tensor_in%matrix_rep%mm_storage)
+         tensor_out%matrix_rep%do_batched = tensor_in%matrix_rep%do_batched
       ENDIF
 
    END SUBROUTINE
