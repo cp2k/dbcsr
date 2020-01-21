@@ -48,6 +48,7 @@ set(DBCSR_TESTS
   dbcsr_unittest2
   dbcsr_unittest3
   dbcsr_tensor_unittest
+  dbcsr_tas_unittest
   dbcsr_test_csr_conversions
   )
 
@@ -62,6 +63,7 @@ set(dbcsr_unittest1_SRCS dbcsr_unittest1.F)
 set(dbcsr_unittest2_SRCS dbcsr_unittest2.F)
 set(dbcsr_unittest3_SRCS dbcsr_unittest3.F)
 set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
+set(dbcsr_tas_unittest_SRCS dbcsr_tas_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
 
 # instead of building a full-blown lib, it would be better to simply build an OBJECT lib,
