@@ -447,7 +447,7 @@ CONTAINS
          lb_ratio_prv = 0.2_real_8
       ENDIF
 
-      ALLOCATE(dims_store, SOURCE=dims)
+      CALL allocate_any(dims_store, source=dims)
 
       ! get default process grid dimensions
       IF(any(dims == 0)) THEN
@@ -458,7 +458,7 @@ CONTAINS
       ALLOCATE(sort_key(SIZE(tensor_dims)))
       sort_key(:) = REAL(tensor_dims, real_8)/dims
 
-      ALLOCATE (tensor_dims_sorted, source=tensor_dims)
+      CALL allocate_any(tensor_dims_sorted, source=tensor_dims)
       ALLOCATE(sort_indices(SIZE(sort_key)))
       CALL sort(sort_key, SIZE(sort_key), sort_indices)
       tensor_dims_sorted(:) = tensor_dims_sorted(sort_indices)
