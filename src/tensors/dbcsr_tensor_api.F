@@ -26,7 +26,8 @@ MODULE dbcsr_tensor_api
    USE dbcsr_tensor_types, ONLY: &
       dbcsr_t_create, dbcsr_t_destroy, dbcsr_t_distribution_destroy, dbcsr_t_distribution_new, &
       dbcsr_t_distribution_type, dbcsr_t_nd_mp_comm, dbcsr_t_nd_mp_free, dbcsr_t_type, &
-      dbcsr_t_pgrid_type, dbcsr_t_pgrid_create, dbcsr_t_pgrid_destroy, dbcsr_t_set, dbcsr_t_filter, &
+      dbcsr_t_pgrid_type, dbcsr_t_pgrid_create, dbcsr_t_pgrid_create_expert, dbcsr_t_pgrid_destroy, &
+      dbcsr_t_set, dbcsr_t_filter, &
       dbcsr_t_mp_environ_pgrid => mp_environ_pgrid, dbcsr_t_blk_sizes, dbcsr_t_get_info, &
       dbcsr_t_finalize, dbcsr_t_scale, dbcsr_t_get_nze, dbcsr_t_get_nze_total, &
       dbcsr_t_get_num_blocks, dbcsr_t_get_num_blocks_total, dbcsr_t_clear, &
@@ -67,6 +68,7 @@ MODULE dbcsr_tensor_api
    PUBLIC :: dbcsr_t_split_blocks
    PUBLIC :: dbcsr_t_pgrid_type
    PUBLIC :: dbcsr_t_pgrid_create
+   PUBLIC :: dbcsr_t_pgrid_create_expert
    PUBLIC :: dbcsr_t_pgrid_destroy
    PUBLIC :: dbcsr_t_set
    PUBLIC :: dbcsr_t_filter
