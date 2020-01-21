@@ -30,35 +30,30 @@ favicon: @CMAKE_SOURCE_DIR@/docs/media/logo/logo.png
 
 --------------------
 
-What is DBCSR?
------------------
-
 DBCSR stands for **D**istributed **B**locked **C**ompressed **S**parse **R**ow.
 
-DBCSR is a library designed to efficiently perform sparse matrix-matrix multiplication, among other operations. It is MPI and OpenMP parallel and can exploit Nvidia and AMD GPUs via CUDA and HIP.
+DBCSR is a library designed to efficiently perform sparse matrix-matrix multiplication, among other operations.
 
-Install
--------
+It is MPI and OpenMP parallel and can exploit Nvidia and AMD GPUs via CUDA and HIP.
 
-See [installation instructions](docs/guide/user-guide/installation/install.md).
+To get started with DBCSR, go to
 
-User Documentation
--------
-
-See [DBCSR's user guide](docs/guide/user-guide/).
-
-Developer Documentation
--------
-
-See [DBCSR's developer guide](docs/guide/developer-guide/).
+- [Installation Guide](page/1-user-guide/1-installation/1-install.html)
+- [User guide](page/1-user-guide/index.html)
+- [Developer guide](page/2-developer-guide/index.html)
 
 License
 -------
 
 DBCSR's source code and related files and documentation are distributed under GPL.
+
 See the [LICENSE](https://github.com/cp2k/dbcsr/blob/develop/LICENSE) file for more details.
 
 Contributing
 -----------------
 
-Your contribution to the project is welcome! Please see [DBCSR's contribution guidelines](https://github.com/cp2k/dbcsr/blob/develop/CONTRIBUTING.md) and [this wiki page](https://github.com/cp2k/dbcsr/wiki/Development). For any help, please notify the other developers.
+Your contribution to the project is welcome!
+
+Please see [DBCSR's contribution guidelines](https://github.com/cp2k/dbcsr/blob/develop/CONTRIBUTING.md) and [this wiki page](https://github.com/cp2k/dbcsr/wiki/Development).
+
+For any help, please notify the other developers.
