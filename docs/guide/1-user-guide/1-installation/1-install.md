@@ -1,10 +1,6 @@
-title: Install Guide
+title: Install
 
-# Install Guide
-
-[TOC]
-
----
+# Install
 
 ## Prerequisites
 
@@ -21,7 +17,7 @@ Optionally:
 * [libxsmm](https://github.com/hfp/libxsmm) (1.10+) for Small Matrix Multiplication acceleration
 * a LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested), required when building the tests
 
-To build [libsmm_acc](src/acc/libsmm_acc/) (DBCSR's GPU backend), you further need:
+To build `libsmm_acc`, you further need:
 
 * A GPU-capable compiler, either
   * CUDA Toolkit (targets NVIDIA GPUs, minimal version required: 5.5)
@@ -70,7 +66,7 @@ Run inside the `dbcsr` directory:
 
 ### CMake Build Recipes
 
-For build recipes on different platforms, make sure to also read the [CMake Build Recipes](docs/user-guide/installation/cmake-build-recipes.md).
+For build recipes on different platforms, make sure to also read the [CMake Build Recipes](page/1-user-guide/1-installation/2-cmake-build-recipes.html).
 
 ### Using Python in a virtual environment
 

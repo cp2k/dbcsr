@@ -1,8 +1,8 @@
 title: Documentation
 
-# API documentation
+# Documentation
 
-To build the API documentation you need [FORD](https://github.com/Fortran-FOSS-Programmers/ford).
+To build the Documentation you need [FORD](https://github.com/Fortran-FOSS-Programmers/ford).
 
 Afterwards use the `doc` target for the CMake generated Makefile:
 
@@ -13,4 +13,4 @@ Afterwards use the `doc` target for the CMake generated Makefile:
     make doc
 ```
 
-The documentation (HTML format) will be located in `doc/`.
+The documentation (HTML format) will be located in `doc/`. To view it, open `doc/index.html` in a browser.

@@ -1,8 +1,8 @@
-# Training Procedure for Predictive Modelling of Optimal Parameters in `libsmm_acc`
+# Training Procedure for Predictive Modeling of Optimal Parameters in `libsmm_acc`
 
 The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters, this is why [*autotuning*](tune.md) is used to find optimal kernel parameters.
 
-However, the autotuning procedure is expensive, and the space of (m,n,k)-triplets to explore is large. The following predictive modeling procedure is set up to predict optimal parameters for (m,n,k)-triplets that have not been autotuned from the data gathered from autotuning other (m,n,k)-triplets.
+However, the auto-tuning procedure is expensive, and the space of (m,n,k)-triplets to explore is large. The following predictive modeling procedure is set up to predict optimal parameters for (m,n,k)-triplets that have not been auto-tuned from the data gathered from auto-tuning other (m,n,k)-triplets.
 
 ---
 
@@ -29,7 +29,7 @@ The input features for the predictive models can be 'raw' parameters (left-most-
 
 #### 1. Get the data
 
-Get the data to be used for training, either by downloading data from the [dedicated repository](https://github.com/cp2k/dbcsr-data), or by autotuning new kernels yourself and combining them with pre-existing data.
+Get the data to be used for training, either by downloading data from the [dedicated repository](https://github.com/cp2k/dbcsr-data), or by auto-tuning new kernels yourself and combining them with pre-existing data.
 
 ##### 1.a Download pre-collected data from dedicated repository
 
@@ -45,17 +45,17 @@ Get the data to be used for training, either by downloading data from the [dedic
   ./prepare_training_data.py # –arch 60 --folder /scratch/autotuning_dataset, e.g.
   ```
 
-##### 1.b (optional) Aquire data from autotuning
+##### 1.b (optional) Aquire data from auto-tuning
 
-- We would appreciate if you would upload the data resulting from your autotuning procedure to the [dedicated repository](https://github.com/cp2k/dbcsr-data). For this, please take note, at this stage, of the [information required to upload your data](https://github.com/cp2k/dbcsr-data/blob/master/git-commit.template).
+- We would appreciate if you would upload the data resulting from your auto-tuning procedure to the [dedicated repository](https://github.com/cp2k/dbcsr-data). For this, please take note, at this stage, of the [information required to upload your data](https://github.com/cp2k/dbcsr-data/blob/master/git-commit.template).
 
-- If you're autotuning data for a new GPU, make sure that the GPU's compute architecture properties are given in the file [`kernels/gpu_properties.json`](kernels/gpu_properties.json). If not, please add them.
+- If you're auto-tuning data for a new GPU, make sure that the GPU's compute architecture properties are given in the file [`kernels/gpu_properties.json`](kernels/gpu_properties.json). If not, please add them.
 
-- Follow the [instructions for autotuning](tune.md).
+- Follow the [instructions for auto-tuning](tune.md).
 
 - If all went well, you now have directories named `tune_mxnxk` containing log files in which parameter sets and their corresponding measured performances are recorded.
 
-- Collect the information in all the `tune_mxnxk` directories into CSV files: run [`predict_collect.py`](predict_collect.py), providing the location of the autotuning data:
+- Collect the information in all the `tune_mxnxk` directories into CSV files: run [`predict_collect.py`](predict_collect.py), providing the location of the auto-tuning data:
 
   ```bash
   ./predict_collect.py # --folder /scratch/autotuning_dataset, e.g.
@@ -122,7 +122,7 @@ Given predictive models (in the form of serialized [scikit-learn](https://scikit
     --tiny /scratch/tiny/feature_tree_refit.p
 ```
 
-This may take several hours. For example, generating parameters for the P100 took 8 hours on a single Piz Daint (CSCS) node. For this reason, intermediate results are stored in JSON files in a folder `predict_genpars_ckpt`. Once this scipt has finished running, and you've successfully obtained a new `parameters_GPU.json` file, you may delete the checkpoint folder `predict_genpars_ckpt`.
+This may take several hours. For example, generating parameters for the P100 took 8 hours on a single Piz Daint (CSCS) node. For this reason, intermediate results are stored in JSON files in a folder `predict_genpars_ckpt`. Once this script has finished running, and you've successfully obtained a new `parameters_GPU.json` file, you may delete the checkpoint folder `predict_genpars_ckpt`.
 
 #### 6. Evaluate the predicted parameters
 

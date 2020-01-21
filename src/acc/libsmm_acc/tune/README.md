@@ -1,6 +1,6 @@
-# Autotuning Procedure for Finding Optimal CUDA/HIP Kernel Parameters in `libsmm_acc`
+# Auto-tuning Procedure for Finding Optimal CUDA/HIP Kernel Parameters in `libsmm_acc`
 
-The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters. This is why autotuning is used to find optimal kernel parameters.
+The performance of the matrix-matrix multiplication kernels is highly dependent on the choice of algorithm and parameters. This is why auto-tuning is used to find optimal kernel parameters.
 
 ---
 
@@ -8,11 +8,11 @@ The performance of the matrix-matrix multiplication kernels is highly dependent 
 
 Python version required: `python 3.6`
 
-If you are about to autotune parameters for a new GPU (i.e. a GPU for which there are no autotuned parameters yet), please first follow [the instructions for a new GPU](../README.md#adding-support-for-a-new-gpu-card).
+If you are about to autotune parameters for a new GPU (i.e. a GPU for which there are no auto-tuned parameters yet), please first follow [the instructions for a new GPU](../README.md#adding-support-for-a-new-gpu-card).
 
 ---
 
-### Autotuning procedure
+### Auto-tuning procedure
 
 #### 1. Go to the `libsmm_acc/tune` directory
 
@@ -20,7 +20,7 @@ If you are about to autotune parameters for a new GPU (i.e. a GPU for which ther
 $ cd dbcsr/src/acc/libsmm_acc/libsmm_acc/tune
 ```
 
-The `parameters.h` file (a C++ header file generated from the JSON record of multiplication kernels and their optimal parameters) is needed for the autotuning procedure. One can copy it over from a build directory for example, as follows:
+The `parameters.h` file (a C++ header file generated from the JSON record of multiplication kernels and their optimal parameters) is needed for the auto-tuning procedure. One can copy it over from a build directory for example, as follows:
 ```bash
 $ cp ~/dbcsr/build_dir/src/acc/libsmm_acc/parameters.h ../
 ```
@@ -65,7 +65,7 @@ The `tune_setup.py` script generates job files. You have to adapt the script to 
 
 #### 3. Run the script `tune_setup.py`
 
-Specify which GPU you are autotuning for by passing the appropriate `parameters_GPU.json` file as an argument with `-p`.
+Specify which GPU you are auto-tuning for by passing the appropriate `parameters_GPU.json` file as an argument with `-p`.
 In addition, the script takes as arguments the block sizes you want to add to `libsmm_acc`. You can specify these as a list of integers or provide the parameter file of a different GPU from which to read the block sizes to autotune.
 
 For example, if the system you want to autotune for contains blocks of size 5 and 8, run:

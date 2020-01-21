@@ -17,7 +17,7 @@ the `.ci/` folder or in the `.travis.yml`.
 ### GNU compiler, system MPI and system-provided OpenBLAS
 
 Most Linux systems provide the GNU compiler, a system MPI (OpenMPI or MPICH) using the
-the GNU compiler as a backend and OpenBLAS for BLAS/LAPACK:
+GNU compiler as a backend and OpenBLAS for BLAS/LAPACK:
 
 ```bash
     cmake ..
@@ -107,8 +107,8 @@ on Linux openSUSE Leap 15.1, using CMake 3.10.2.
 ## MacOS
 
 Follow what is described in the previous sections.
-For GNU, if you have installed Command Line Tools by Apple and GCC with homebrew that can lead to a
-conflict in which compiler cmake will use. Therefore, we suggest to specify GCC, for example
+For GNU, if you have installed Command Line Tools by Apple and GCC with Homebrew that can lead to a
+conflict in which compiler CMake will use. Therefore, we suggest specifying GCC, for example
 
 ```bash
     CC=gcc-9 CXX=g++-9 cmake ..
