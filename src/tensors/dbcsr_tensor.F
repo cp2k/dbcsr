@@ -730,7 +730,7 @@ CONTAINS
 
       IF (PRESENT(unit_nr)) THEN
          do_write_3 = .TRUE.
-         IF (tensor_contr_3%matrix_rep%do_batched) THEN
+         IF (tensor_contr_3%matrix_rep%do_batched > 0) THEN
             IF (tensor_contr_3%matrix_rep%mm_storage%batched_out) do_write_3 = .FALSE.
          ENDIF
          IF (do_write_3) THEN
@@ -758,20 +758,22 @@ CONTAINS
       CALL dbcsr_t_destroy(tensor_algn_3)
 
       IF (do_crop_1) THEN
-         IF(tensor_1%matrix_rep%do_batched) THEN
+         IF (tensor_1%matrix_rep%do_batched > 0) THEN
             ! transfer data for batched contraction
-            DEALLOCATE(tensor_1%matrix_rep%mm_storage)
-            ALLOCATE(tensor_1%matrix_rep%mm_storage, SOURCE=tensor_crop_1%matrix_rep%mm_storage)
+            DEALLOCATE (tensor_1%matrix_rep%mm_storage)
+            ALLOCATE (tensor_1%matrix_rep%mm_storage, SOURCE=tensor_crop_1%matrix_rep%mm_storage)
+            tensor_1%matrix_rep%do_batched = tensor_crop_1%matrix_rep%do_batched
          ENDIF
          CALL dbcsr_t_destroy(tensor_crop_1)
          DEALLOCATE (tensor_crop_1)
       ENDIF
 
       IF (do_crop_2) THEN
-         IF(tensor_2%matrix_rep%do_batched) THEN
+         IF (tensor_2%matrix_rep%do_batched > 0) THEN
             ! transfer data for batched contraction
-            DEALLOCATE(tensor_2%matrix_rep%mm_storage)
-            ALLOCATE(tensor_2%matrix_rep%mm_storage, SOURCE=tensor_crop_2%matrix_rep%mm_storage)
+            DEALLOCATE (tensor_2%matrix_rep%mm_storage)
+            ALLOCATE (tensor_2%matrix_rep%mm_storage, SOURCE=tensor_crop_2%matrix_rep%mm_storage)
+            tensor_2%matrix_rep%do_batched = tensor_crop_2%matrix_rep%do_batched
          ENDIF
          CALL dbcsr_t_destroy(tensor_crop_2)
          DEALLOCATE (tensor_crop_2)
@@ -1111,9 +1113,9 @@ CONTAINS
 
          ALLOCATE (tensor_out)
          CALL dbcsr_t_remap(tensor_in, ind1, ind2, tensor_out, nodata=nodata, move_data=move_data)
-         IF(tensor_in%matrix_rep%do_batched) THEN
-            ALLOCATE(tensor_out%matrix_rep%mm_storage, SOURCE=tensor_in%matrix_rep%mm_storage)
-            tensor_out%matrix_rep%do_batched = .TRUE.
+         IF (tensor_in%matrix_rep%do_batched > 0) THEN
+            ALLOCATE (tensor_out%matrix_rep%mm_storage, SOURCE=tensor_in%matrix_rep%mm_storage)
+            tensor_out%matrix_rep%do_batched = tensor_in%matrix_rep%do_batched
          ENDIF
          compat1 = 1
          compat2 = 2
@@ -1636,7 +1638,7 @@ CONTAINS
 
       do_write = .FALSE.
       IF (PRESENT(unit_nr)) THEN
-         IF (tensor%matrix_rep%do_batched) THEN
+         IF (tensor%matrix_rep%do_batched > 0) THEN
             IF (tensor%matrix_rep%mm_storage%batched_out) do_write = .TRUE.
          ENDIF
       ENDIF
