@@ -7,12 +7,15 @@ For this you have to build DBCSR using CMake as described above and then also in
 
 As a user being able to run commands as root, use:
 
+```bash
     sudo make install  # will install to /usr/local
+```
 
 if you can not run commands as root, use the following to add a custom prefix to the installation:
 
+```bash
     make DESTDIR=/my/dbcsr/install/location install
-
+```
 
 In your project's CMake you can then easily search for the DBCSR library:
 
@@ -41,4 +44,6 @@ target_link_libraries(dbcsr_example_cpp DBCSR::dbcsr_c MPI::MPI_CXX)
 If you installed DBCSR into a custom prefix, you have to make sure that `cmake`
 is able to find the `DBCSR` CMake configuration:
 
+```bash
     CMAKE_PREFIX_PATH=/my/dbcsr/install/location/usr/local/lib/cmake cmake ..
+```

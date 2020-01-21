@@ -8,12 +8,15 @@ title: Build System
 
 Run
 
+```bash
     make help
+```
 
 to list all possible targets.
 
 Update the provided [Makefile.inc](Makefile.inc) to fit your needs
 (read the documentation inside the file for further explanations) and then run
 
+```bash
     make <target>
-
+```
