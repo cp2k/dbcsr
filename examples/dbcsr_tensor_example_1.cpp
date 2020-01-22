@@ -175,11 +175,9 @@ int main(int argc, char* argv[])
     
     MPI_Fint fcomm = MPI_Comm_c2f(MPI_COMM_WORLD);
     
-    c_dbcsr_t_pgrid_create(&fcomm, dims3.data(), dims3.size(), &pgrid_3d, nullptr, nullptr, 0, 
-		nullptr, 0, nullptr, nullptr); 
+    c_dbcsr_t_pgrid_create(&fcomm, dims3.data(), dims3.size(), &pgrid_3d, nullptr); 
 		
-	c_dbcsr_t_pgrid_create(&fcomm, dims4.data(), dims4.size(), &pgrid_4d, nullptr, nullptr, 0, 
-		nullptr, 0, nullptr, nullptr);
+	c_dbcsr_t_pgrid_create(&fcomm, dims4.data(), dims4.size(), &pgrid_4d, nullptr);
 		
 	if (mpi_rank == 0) {
 		
@@ -300,18 +298,15 @@ int main(int argc, char* argv[])
 	if (mpi_rank == 0) std::cout << "Creating dist objects..." << '\n' << std::endl;
 	
 	// create distribution objects
-    c_dbcsr_t_distribution_new(&dist1, pgrid_3d, map11.data(), map11.size(),
-		map12.data(), map12.size(), dist11.data(), dist11.size(), 
-		dist12.data(), dist12.size(), dist13.data(), dist13.size(), nullptr, 0, nullptr);
+    c_dbcsr_t_distribution_new(&dist1, pgrid_3d, dist11.data(), dist11.size(), 
+		dist12.data(), dist12.size(), dist13.data(), dist13.size(), nullptr, 0);
 		
-	c_dbcsr_t_distribution_new(&dist2, pgrid_4d, map21.data(), map21.size(),
-		map22.data(), map22.size(), dist21.data(), dist21.size(), 
+	c_dbcsr_t_distribution_new(&dist2, pgrid_4d, dist21.data(), dist21.size(), 
 		dist22.data(), dist22.size(), dist23.data(), dist23.size(), 
-		dist24.data(), dist24.size(), nullptr);
+		dist24.data(), dist24.size());
 		
-	c_dbcsr_t_distribution_new(&dist3, pgrid_3d, map31.data(), map31.size(),
-		map32.data(), map32.size(), dist31.data(), dist31.size(), 
-		dist32.data(), dist32.size(), dist33.data(), dist33.size(), nullptr, 0, nullptr);
+	c_dbcsr_t_distribution_new(&dist3, pgrid_3d, dist31.data(), dist31.size(), 
+		dist32.data(), dist32.size(), dist33.data(), dist33.size(), nullptr, 0);
 		
 	MPI_Barrier(MPI_COMM_WORLD);
 	

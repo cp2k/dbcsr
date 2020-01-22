@@ -12,14 +12,17 @@
 extern "C" {
 #endif
     void c_dbcsr_t_pgrid_create(const MPI_Fint* fcomm, int* c_dims, const int dims_size, 
-		void** c_pgrid, int* c_tensor_dims, const int* c_map1_2d, const int map1_2d_size, 
-		const int* c_map2_2d, const int map2_2d_size, const int* nsplit, const int* dimsplit);
+		void** c_pgrid, const int* c_tensor_dims);
+		
+	void c_dbcsr_t_pgrid_create_expert(const MPI_Fint* fcomm, int* c_dims, const int dims_size, 
+		void** c_pgrid, const int* c_map1_2d, const int map1_2d_size, 
+		const int* c_map2_2d, const int map2_2d_size, const int* c_tensor_dims, 
+		const int* nsplit, const int* dimsplit);
 	
 	void c_dbcsr_t_pgrid_destroy(void** c_pgrid, const bool* c_keep_comm);
 																			  
-	void c_dbcsr_t_distribution_new(void** c_dist, const void* c_pgrid, const int* c_map1_2d, 
-		const int map1_2d_size, const int* c_map2_2d, const int map2_2d_size, 
-		${extern_varlist_and_size("c_nd_dist", "const int")}$, const bool* own_comm);
+	void c_dbcsr_t_distribution_new(void** c_dist, const void* c_pgrid, 
+		${extern_varlist_and_size("c_nd_dist", "const int")}$);
 		
     void c_dbcsr_t_distribution_destroy(void** c_dist);
 		

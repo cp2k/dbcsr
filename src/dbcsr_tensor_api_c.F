@@ -27,7 +27,7 @@ MODULE dbcsr_tensor_api_c
       dbcsr_t_mp_environ_pgrid => mp_environ_pgrid, dbcsr_t_blk_sizes, dbcsr_t_get_info, &
       dbcsr_t_finalize, dbcsr_t_scale, dbcsr_t_get_nze, dbcsr_t_get_nze_total, &
       dbcsr_t_get_num_blocks, dbcsr_t_get_num_blocks_total, dbcsr_t_clear, dbcsr_t_get_data_type, &
-      mp_environ_pgrid
+      mp_environ_pgrid, dbcsr_t_pgrid_create_expert
    USE dbcsr_tensor_split, ONLY: &
       dbcsr_t_split_blocks
    USE dbcsr_kinds, ONLY: &
@@ -69,17 +69,17 @@ CONTAINS
       ENDDO
    END SUBROUTINE c_f_string
 
-   SUBROUTINE c_dbcsr_t_pgrid_create(fcomm, c_dims, dims_size, c_pgrid, &
-                                     c_tensor_dims, c_map1_2d, map1_2d_size, c_map2_2d, &
-                                     map2_2d_size, nsplit, dimsplit) &
-      bind(C, name="c_dbcsr_t_pgrid_create")
+   SUBROUTINE c_dbcsr_t_pgrid_create_expert(fcomm, c_dims, dims_size, c_pgrid, &
+                                    c_map1_2d, map1_2d_size, c_map2_2d, &
+                                     map2_2d_size, c_tensor_dims, nsplit, dimsplit) &
+      bind(C, name="c_dbcsr_t_pgrid_create_expert")
 
       INTEGER(kind=c_int), INTENT(in)                    :: fcomm
       INTEGER(kind=c_int), INTENT(in), value             :: dims_size
       TYPE(c_ptr), INTENT(out)                           :: c_pgrid
       INTEGER(kind=c_int), INTENT(inout), TARGET         :: c_dims(dims_size)
-      INTEGER(kind=c_int), INTENT(inout), TARGET, OPTIONAL &
-                                                         :: c_tensor_dims(dims_size)
+      INTEGER(kind=c_int), INTENT(inout), TARGET, OPTIONAL, &
+          DIMENSION(dims_size)                           :: c_tensor_dims
       INTEGER(kind=c_int), INTENT(in), VALUE             :: map1_2d_size
       INTEGER(kind=c_int), INTENT(in), TARGET, OPTIONAL  :: c_map1_2d(map1_2d_size)
       INTEGER(kind=c_int), INTENT(in), VALUE             :: map2_2d_size
@@ -102,7 +102,7 @@ CONTAINS
 
       ALLOCATE (pgrid)
 
-      CALL dbcsr_t_pgrid_create(fcomm, dims, pgrid, tensor_dims, map1_2d, map2_2d, &
+      CALL dbcsr_t_pgrid_create_expert(fcomm, dims, pgrid, tensor_dims, map1_2d, map2_2d, &
                                 nsplit, dimsplit)
 
       c_pgrid = c_loc(pgrid)
@@ -111,6 +111,32 @@ CONTAINS
          DEALLOCATE (map1_2d)
          DEALLOCATE (map2_2d)
       ENDIF
+
+   END SUBROUTINE
+   
+   SUBROUTINE c_dbcsr_t_pgrid_create(fcomm, c_dims, dims_size, c_pgrid, c_tensor_dims) &
+      bind(C, name="c_dbcsr_t_pgrid_create")
+
+      INTEGER(kind=c_int), INTENT(in)                    :: fcomm
+      INTEGER(kind=c_int), INTENT(in), value             :: dims_size
+      TYPE(c_ptr), INTENT(out)                           :: c_pgrid
+      INTEGER(kind=c_int), INTENT(inout), TARGET         :: c_dims(dims_size)
+      INTEGER(kind=c_int), INTENT(inout), TARGET, OPTIONAL &
+                                                         :: c_tensor_dims(dims_size)
+
+      INTEGER, POINTER, DIMENSION(:)                     :: dims
+      INTEGER, POINTER, DIMENSION(:)                     :: tensor_dims => NULL()
+      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid
+
+      dims => c_dims
+      
+      IF (PRESENT(c_tensor_dims)) tensor_dims => c_tensor_dims
+
+      ALLOCATE (pgrid)
+
+      CALL dbcsr_t_pgrid_create(fcomm, dims, pgrid, tensor_dims)
+
+      c_pgrid = c_loc(pgrid)
 
    END SUBROUTINE
       
@@ -134,27 +160,18 @@ CONTAINS
    END SUBROUTINE
 
 
-   SUBROUTINE c_dbcsr_t_distribution_new(c_dist, c_pgrid, c_map1_2d, map1_2d_size, &
-                                         c_map2_2d, map2_2d_size, ${c_varlist_and_size("c_nd_dist")}$, c_own_comm) &
+   SUBROUTINE c_dbcsr_t_distribution_new(c_dist, c_pgrid, ${c_varlist_and_size("c_nd_dist")}$) &
       bind(C, name="c_dbcsr_t_distribution_new")
 
       TYPE(c_ptr), INTENT(OUT)                           :: c_dist
       TYPE(c_ptr), INTENT(IN), value                     :: c_pgrid
 
-      INTEGER(kind=c_int), INTENT(in), value             :: map1_2d_size
-      INTEGER(kind=c_int), INTENT(in), TARGET            :: c_map1_2d(map1_2d_size)
-      INTEGER(kind=c_int), INTENT(in), value             :: map2_2d_size
-      INTEGER(kind=c_int), INTENT(in), TARGET            :: c_map2_2d(map2_2d_size)
-
       INTEGER(kind=c_int), INTENT(in), value             :: ${varlist("c_nd_dist", suffix="_size")}$
       INTEGER(kind=c_int), INTENT(IN), TARGET, OPTIONAL  :: ${c_arrlist_and_size("c_nd_dist")}$
-      LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_own_comm
 
       INTEGER, POINTER                                   :: ${pointer_list("nd_dist")}$
-      INTEGER, ALLOCATABLE                               :: map1_2d(:), map2_2d(:)
       TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid
       TYPE(dbcsr_t_distribution_type), POINTER           :: dist
-      LOGICAL, ALLOCATABLE                               :: own_comm
 
 #:for ddim in ddims
       IF (PRESENT(c_nd_dist_${ddim}$)) THEN
@@ -165,24 +182,12 @@ CONTAINS
 
 #:endfor
 
-      IF (PRESENT(c_own_comm)) own_comm = c_own_comm
-
       ALLOCATE (dist)
 
       CALL c_f_pointer(c_pgrid, pgrid)
-      
-      ALLOCATE(map1_2d(SIZE(c_map1_2d)),SOURCE=c_map1_2d)
-      ALLOCATE(map2_2d(SIZE(c_map2_2d)),SOURCE=c_map2_2d)
-      
-      map1_2d = map1_2d + 1
-      map2_2d = map2_2d + 1
 
-      CALL dbcsr_t_distribution_new(dist, pgrid, map1_2d, map2_2d, &
-                                    ${varlist("nd_dist")}$, own_comm)
+      CALL dbcsr_t_distribution_new(dist, pgrid, ${varlist("nd_dist")}$)
                                     
-      DEALLOCATE(map1_2d)
-      DEALLOCATE(map2_2d)
-
       c_dist = c_loc(dist)
 
    END SUBROUTINE
