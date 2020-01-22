@@ -13,7 +13,7 @@ It is MPI and OpenMP parallel and can exploit Nvidia and AMD GPUs via CUDA and H
 
 ## How to Install
 
-Follow the [installation guide](https://cp2k.github.io/dbcsr/page/1-user-guide/1-installation/1-install.html).
+Follow the [installation guide](https://cp2k.github.io/dbcsr/page/2-user-guide/1-installation/1-install.html).
 
 ## Documentation
 
@@ -26,12 +26,12 @@ To cite DBCSR, use the following paper
 ```latex
 @article{dbcsr,
 	title = {{Sparse Matrix Multiplication: The Distributed Block-Compressed Sparse Row Library}},
-	journal = "Parallel Computing ",
-	volume = "40",
-	number = "5-6",
-	year = "2014",
-	issn = "0167-8191",
-	author = "Urban Borstnik and Joost VandeVondele and Valery Weber and Juerg Hutter"
+	journal = {Parallel Computing},
+	volume = {40},
+	number = {5-6},
+	year = {2014},
+	issn = {0167-8191},
+	author = {Urban Borstnik and Joost VandeVondele and Valery Weber and Juerg Hutter}
 }
 ```
 
