@@ -1,4 +1,4 @@
-title: Build System
+title: Tooling
 
 # Build System
 
@@ -20,3 +20,12 @@ Update the provided [Makefile.inc](./Makefile.inc) to fit your needs
 ```bash
     make <target>
 ```
+
+# CI Setup
+
+DBCSR's CI setup is described in [DBCSR's Github wiki](https://github.com/cp2k/dbcsr/wiki/CI-Setup).
+
+# Development
+
+DBCSR's development (Git branching model, commit messages, releases, etc.) is described in [DBCSR's Github wiki](https://github.com/cp2k/dbcsr/wiki/Development).
+
