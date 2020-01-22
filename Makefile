@@ -56,6 +56,7 @@ endif
 ifneq ($(ARCH_NUMBER),)
 # If compiling with nvcc
 ifneq (,$(findstring nvcc,$(NVCC)))
+NVFLAGS += -D__CUDA # add the flag for compilation with CUDA
 #if "-arch" has not yet been set in NVFLAGS
 ifeq ($(findstring "-arch", $(NVFLAGS)), '')
 NVFLAGS += -arch sm_$(ARCH_NUMBER)
