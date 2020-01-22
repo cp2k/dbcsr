@@ -6,9 +6,7 @@
 
 For a description of the library (some details are outdated, but this nevertheless provides a very good introduction), see Chapter 8.4 of:
 
-> WALKER, R. C., & GOETZ, A. W. (2016). Electronic structure calculations on graphics processing units: from quantum chemistry to condensed matter physics.
->
-> Available at https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781118670712.
+> WALKER, R. C., & GOETZ, A. W. (2016). [Electronic structure calculations on graphics processing units: from quantum chemistry to condensed matter physics](https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781118670712).
 
 ### Compilation
 

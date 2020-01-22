@@ -14,7 +14,7 @@ Run
 
 to list all possible targets.
 
-Update the provided [Makefile.inc](./Makefile.inc) to fit your needs
+Update the provided Makefile.inc to fit your needs
 (read the documentation inside the file for further explanations) and then run
 
 ```bash
