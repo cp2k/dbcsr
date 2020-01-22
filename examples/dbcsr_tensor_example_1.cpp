@@ -380,22 +380,22 @@ int main(int argc, char* argv[])
 	
 	std::vector<int> nblkstot(3), nfulltot(3), nblksloc(3), nfullloc(3), pdims(3), ploc(3);
 	
-	int *bloc1, *bloc2, *bloc3;
-	int bloc1size, bloc2size, bloc3size;
+	int *bloc1 = nullptr, *bloc2 = nullptr, *bloc3 = nullptr;
+	int bloc1size = 0, bloc2size = 0, bloc3size = 0;
 	
-	int *proc1, *proc2, *proc3;
-	int proc1size, proc2size, proc3size;
+	int *proc1 = nullptr, *proc2 = nullptr, *proc3 = nullptr;
+	int proc1size = 0, proc2size = 0, proc3size = 0;
 	
-	int *blk_size1, *blk_size2, *blk_size3;
-	int blk_size1size, blk_size2size, blk_size3size;
+	int *blk_size1 = nullptr, *blk_size2 = nullptr, *blk_size3 = nullptr;
+	int blk_size1size = 0, blk_size2size = 0, blk_size3size = 0;
 	
-	int *blk_off1, *blk_off2, *blk_off3;
-	int blk_off1size, blk_off2size, blk_off3size;
+	int *blk_off1 = nullptr, *blk_off2 = nullptr, *blk_off3 = nullptr;
+	int blk_off1size = 0, blk_off2size = 0, blk_off3size = 0;
 	
-	void* dist;
-	char* name;
-	int name_size;
-	int data_type;
+	void* dist = nullptr;
+	char* name = nullptr;
+	int name_size = 0;
+	int data_type = 0;
 	
 	c_dbcsr_t_get_info(tensor1, 3, nblkstot.data(), nfulltot.data(),nblksloc.data(),
 							   nfullloc.data(), pdims.data(), ploc.data(),
@@ -416,7 +416,7 @@ int main(int argc, char* argv[])
 	
 	for (int rank = 0; rank != mpi_size; ++rank) {
 		if (rank == mpi_rank) {
-			std::cout << "======= Process: " << rank << "========" << std::endl;
+			std::cout << "======= Process: " << rank << " ========" << std::endl;
     
 			std::cout << "Total number of blocks:" << std::endl;
 			printvec(nblkstot);
@@ -515,6 +515,71 @@ int main(int argc, char* argv[])
 	}
 
 	free(name);
+	
+	void* ndblk = nullptr;
+	
+	c_dbcsr_t_get_nd_index_blk(tensor1, &ndblk);
+	
+	int ndim_nd = 0, ndim1_2d = 0, ndim2_2d = 0;
+	std::vector<long long int> dims_2d_i8(2);
+	std::vector<int> dims_2d(2);
+	
+	int dims_nd_size, dims1_2d_size, dims2_2d_size, map1_2d_size, map2_2d_size, map_nd_size;
+	int *dims_nd, *dims1_2d, *dims2_2d, *map1_2d, *map2_2d, *map_nd;
+	
+	int base;
+	bool col_major;
+	
+	c_dbcsr_t_get_mapping_info(ndblk, &ndim_nd, &ndim1_2d, &ndim2_2d, 
+                        dims_2d_i8.data(), dims_2d.data(), &dims_nd, &dims_nd_size, 
+                        &dims1_2d, &dims1_2d_size, &dims2_2d, &dims2_2d_size, 
+                        &map1_2d, &map1_2d_size, &map2_2d, &map2_2d_size, 
+                        &map_nd, &map_nd_size, &base, &col_major);
+                        
+     if (mpi_rank == 0) {
+		std::cout << "Testing get_mapping_info for Tensor 1..." << std::endl;
+		
+		std::cout << "ndim_nd = " << ndim_nd << std::endl;
+		std::cout << "ndim1_2d = " << ndim1_2d << std::endl;
+		std::cout << "ndim2_2d = " << ndim2_2d << std::endl;
+		
+		std::cout << "dims_2d_i8: ";
+		for (auto i : dims_2d_i8) {
+			std::cout << i << " ";
+		} std::cout << std::endl;
+		
+		std::cout << "dims_2d: ";
+		for (auto i : dims_2d) {
+			std::cout << i << " ";
+		} std::cout << std::endl;
+		
+		auto print_info = [] (int* ptr, int size, std::string name) 
+		{
+			std::cout << name << ": ";
+			for (int i = 0; i != size; ++i) {
+				std::cout << ptr[i] << " ";
+			} std::cout << std::endl;
+		};	
+		
+		print_info(dims_nd, dims_nd_size, "dims_nd");
+		print_info(dims1_2d, dims1_2d_size, "dims1_2d");
+		print_info(dims2_2d, dims2_2d_size, "dims1_2d");
+		print_info(map1_2d, map1_2d_size, "map1_2d");
+		print_info(map2_2d, map2_2d_size, "map2_2d");
+		print_info(map_nd, map_nd_size, "map_nd");
+		
+		std::cout << "Base: " << base << std::endl;
+		std::cout << "col_major " << col_major << std::endl;		
+		
+	}                   
+    
+                        
+    free(dims_nd);
+    free(dims1_2d);
+    free(dims2_2d);
+    free(map1_2d);
+    free(map2_2d);
+    free(map_nd);
 
     c_dbcsr_t_destroy(&tensor1);
     c_dbcsr_t_destroy(&tensor2);

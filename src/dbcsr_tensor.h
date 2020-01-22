@@ -114,6 +114,19 @@ extern "C" {
                                void** c_distribution, 
                                char** name, int* name_size,
                                int* data_type); 
+      
+     void c_dbcsr_t_get_nd_index_blk(void* c_tensor, void** c_nd_index_blk);
+     
+     void c_dbcsr_t_get_nd_index(void* c_tensor, void** c_nd_index);
+                            
+     void c_dbcsr_t_get_mapping_info(void* c_map, int* ndim_nd, int* ndim1_2d, int* ndim2_2d, 
+                        long long int* c_dims_2d_i8, int* c_dims_2d, int** c_dims_nd, int* dims_nd_size, 
+                        int** c_dims1_2d, int* dims1_2d_size, int** c_dims2_2d, int* dims2_2d_size, 
+                        int** c_map1_2d, int* map1_2d_size, int** c_map2_2d, int* map2_2d_size, 
+                        int** c_map_nd, int* map_nd_size, int* base, bool* c_col_major);
+                        
+     int c_dbcsr_t_get_num_blocks(void* c_tensor); 
+     long long int c_dbcsr_t_get_num_blocks_total(void* c_tensor);
 	
 #ifdef __cplusplus
 }
