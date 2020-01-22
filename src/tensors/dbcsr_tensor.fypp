@@ -110,9 +110,9 @@ $:    ", ".join([name + "_" + str(i) + "(" +  name + "_" + str(i) + "_" + "size"
 $:   "\n ".join([name + "_" + str(i) + suffix + " => " + "c_" +  name + "_" + str(i) + suffix for i in range(nmin, nmax+1)])
 #:enddef
 
-#:def extern_varlist_and_size(name, nmin=1, nmax=maxrank, suffix="")
-#!    create variable list "int* name_1, int name_1_size, int* name_2, int name_2_size ...
-$:    ", ".join(["int* " + name + "_" + str(i) + ", " + "int " + name + "_" + str(i) + "_" + "size" + suffix for i in range(nmin, nmax+1)])
+#:def extern_varlist_and_size(name, type, nmin=1, nmax=maxrank, suffix="")
+#!    create variable list "type* name_1, type name_1_size, type* name_2, type name_2_size ...
+$:    ", ".join([type + "* " + name + "_" + str(i) + ", " + type + " " + name + "_" + str(i) + "_" + "size" + suffix for i in range(nmin, nmax+1)])
 #:enddef
 
 #:def extern_alloc_varlist_and_size(name, nmin=1, nmax=maxrank, suffix="")

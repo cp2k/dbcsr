@@ -360,7 +360,7 @@ CONTAINS
       TYPE(c_ptr), INTENT(OUT), OPTIONAL                 :: c_pgrid_opt_1, c_pgrid_opt_2, c_pgrid_opt_3
 
       REAL(kind=c_double), INTENT(IN), OPTIONAL          :: c_filter_eps
-      INTEGER(kind=c_long_long), INTENT(IN), OPTIONAL    :: c_flop
+      INTEGER(kind=c_long_long), INTENT(OUT), OPTIONAL    :: c_flop
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_move_data
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_unit_nr
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_log_verbose
