@@ -19,6 +19,35 @@ Follow the [installation guide](https://cp2k.github.io/dbcsr/page/1-user-guide/1
 
 Documentation is [available online](https://cp2k.github.io/dbcsr/) for the latest release.
 
+## How to Cite
+
+To cite DBCSR, use the following paper
+
+```latex
+@article{dbcsr,
+	title = {{Sparse Matrix Multiplication: The Distributed Block-Compressed Sparse Row Library}},
+	journal = "Parallel Computing ",
+	volume = "40",
+	number = "5-6",
+	year = "2014",
+	issn = "0167-8191",
+	author = "Urban Borstnik and Joost VandeVondele and Valery Weber and Juerg Hutter"
+}
+```
+
+To cite the DBCSR software library, use:
+
+```latex
+@misc{dbcsr-software,
+	author = {The CP2K Developers Group},
+	title = {DBCSR: Distributed Block Compressed Sparse Row matrix library},
+	publisher = {GitHub},
+	journal = {GitHub repository},
+	year = {2020},
+	url = {https://github.com/cp2k/dbcsr}
+}
+```
+
 ## Contributing to DBCSR
 
 Your contribution to the project is welcome!
