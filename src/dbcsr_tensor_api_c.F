@@ -1116,7 +1116,7 @@ CONTAINS
 #:set list = ['dims_nd', 'dims1_2d', 'dims2_2d', 'map1_2d', 'map2_2d', 'map_nd']
 #:for var in list
       IF (PRESENT(c_${var}$)) THEN
-         ALLOCATE(${var}$, source=map%${var}$)
+         ALLOCATE(${var}$(SIZE(map%${var}$)), source=map%${var}$)
          ${var}$ = ${var}$ - 1
          c_${var}$ = c_loc(${var}$)
          ${var}$_size = SIZE(${var}$)
