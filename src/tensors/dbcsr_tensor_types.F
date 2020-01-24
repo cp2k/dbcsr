@@ -669,6 +669,8 @@ CONTAINS
       IF (dist%refcount == 0) THEN
          CALL dbcsr_t_pgrid_destroy(dist%pgrid)
          DEALLOCATE (dist%refcount)
+      ELSE
+         CALL dbcsr_t_pgrid_destroy(dist%pgrid, keep_comm=.TRUE.)
       ENDIF
 
       CALL timestop(handle)
