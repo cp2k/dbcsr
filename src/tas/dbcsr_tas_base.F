@@ -442,12 +442,17 @@ CONTAINS
    SUBROUTINE dbcsr_tas_distribution_destroy(dist)
       TYPE(dbcsr_tas_distribution_type), INTENT(INOUT)     :: dist
 
-      IF (ALLOCATED(dist%row_dist)) THEN
-         DEALLOCATE (dist%row_dist)
-      ENDIF
-      IF (ALLOCATED(dist%col_dist)) THEN
-         DEALLOCATE (dist%col_dist)
-      ENDIF
+      ! Note: Issue with Cray CCE compiler
+      ! commented out the following deallocate statements on polymorphic variables,
+      ! these cause segfaults with CCE compiler at a later point
+
+      !IF (ALLOCATED(dist%row_dist)) THEN
+      !   DEALLOCATE (dist%row_dist)
+      !ENDIF
+      !IF (ALLOCATED(dist%col_dist)) THEN
+      !   DEALLOCATE (dist%col_dist)
+      !ENDIF
+
       IF (ALLOCATED(dist%local_rowcols)) THEN
          DEALLOCATE (dist%local_rowcols)
       ENDIF
