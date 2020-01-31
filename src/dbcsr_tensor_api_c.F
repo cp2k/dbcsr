@@ -838,14 +838,14 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_unit_nr
 
       TYPE(dbcsr_t_type), POINTER                        :: tensor_in, tensor_out
-      INTEGER, DIMENSION(:), POINTER                     :: order
+      INTEGER, DIMENSION(:), ALLOCATABLE                 :: order
       LOGICAL, ALLOCATABLE                               :: summation, move_data
       INTEGER, ALLOCATABLE                               :: unit_nr
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
       CALL c_f_pointer(c_tensor_out, tensor_out)
 
-      order => c_order
+      IF (PRESENT(c_order)) order = c_order + 1
 
       IF (PRESENT(c_summation)) summation = c_summation
       IF (PRESENT(c_move_data)) move_data = c_move_data
