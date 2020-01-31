@@ -139,6 +139,10 @@ endforeach ()
 # DBCSR LIBRARY
 add_library(dbcsr ${DBCSR_SRCS})
 
+set_target_properties(dbcsr PROPERTIES
+  VERSION ${dbcsr_VERSION}
+  SOVERSION ${VERSION_MAJOR})
+
 if (TARGET PkgConfig::deps)
   target_link_libraries(dbcsr PRIVATE PkgConfig::deps)
 endif ()
@@ -334,6 +338,11 @@ if (WITH_C_API)
   set_target_properties(dbcsr_c PROPERTIES
     LINKER_LANGUAGE Fortran
     )
+
+  set_target_properties(dbcsr_c PROPERTIES
+    VERSION ${dbcsr_VERSION}
+    SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
+
   target_link_libraries(dbcsr_c PRIVATE dbcsr)
   target_link_libraries(dbcsr_c PUBLIC MPI::MPI_C)  # the C API always needs MPI
   target_include_directories(dbcsr_c PUBLIC
@@ -375,7 +384,7 @@ configure_package_config_file(cmake/DBCSRConfig.cmake.in
   INSTALL_DESTINATION "${config_install_dir}"
   )
 write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake"
-  VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+  VERSION "${dbcsr_VERSION}"
   COMPATIBILITY SameMajorVersion
   )
 if (USE_HIP)

@@ -38,12 +38,11 @@ pipeline {
                                 run_batch("0:30:00", "cray", "build")
                             }
                         }
-                        // TODO: dbcsr_tensor_unittest is broken
-                        // stage('test') {
-                        //     steps {
-                        //         run_batch("1:00:00", "cray", "test")
-                        //     }
-                        // }
+                        stage('test') {
+                            steps {
+                                run_batch("1:00:00", "cray", "test")
+                            }
+                        }
                     }
                 }
                 stage("GNU") {

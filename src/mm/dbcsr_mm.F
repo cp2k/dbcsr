@@ -271,7 +271,7 @@ CONTAINS
                WRITE (output_unit, '(A,T30,EN20.6)') "  max size", &
                   MAXVAL(max_recv_data(:))
                WRITE (output_unit, '(A,T30,EN20.6)') "  average size", average
-   
+
                WRITE (output_unit, '(A)') " MPI breakdown and total messages size (bytes):"
                WRITE (output_unit, '(A,I8,T40,I10,T55,I20)') "             size <= ", dbcsr_mpi_size_limits(1), &
                   SUM(total_recv_breakdown(1, 1, :)), SUM(total_recv_breakdown(1, 2, :))

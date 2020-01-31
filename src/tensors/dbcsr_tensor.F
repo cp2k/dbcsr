@@ -32,17 +32,18 @@ MODULE dbcsr_tensor
       dbcsr_tas_split_info
    USE dbcsr_tas_base, ONLY: &
       dbcsr_tas_copy, dbcsr_tas_finalize, dbcsr_tas_get_data_type, dbcsr_tas_get_info, dbcsr_tas_info
-   USE dbcsr_tas_mm, ONLY: dbcsr_tas_multiply
+   USE dbcsr_tas_mm, ONLY: &
+      dbcsr_tas_multiply, dbcsr_tas_batched_mm_init, dbcsr_tas_batched_mm_finalize
    USE dbcsr_tensor_block, ONLY: &
       dbcsr_t_iterator_type, dbcsr_t_get_block, dbcsr_t_put_block, dbcsr_t_iterator_start, &
       dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_stop, dbcsr_t_iterator_next_block, &
-      ndims_iterator, dbcsr_t_reserve_blocks, block_nd
+      ndims_iterator, dbcsr_t_reserve_blocks, block_nd, destroy_block
    USE dbcsr_tensor_index, ONLY: &
       dbcsr_t_get_mapping_info, nd_to_2d_mapping, dbcsr_t_inverse_order, permute_index
    USE dbcsr_tensor_types, ONLY: &
       dbcsr_t_create, dbcsr_t_get_data_type, dbcsr_t_type, ndims_tensor, dims_tensor, &
       dbcsr_t_distribution_type, dbcsr_t_distribution, dbcsr_t_nd_mp_comm, dbcsr_t_destroy, &
-      dbcsr_t_distribution_destroy, dbcsr_t_distribution_new, dbcsr_t_get_stored_coordinates, &
+      dbcsr_t_distribution_destroy, dbcsr_t_distribution_new_expert, dbcsr_t_get_stored_coordinates, &
       blk_dims_tensor, dbcsr_t_hold, dbcsr_t_pgrid_type, mp_environ_pgrid, dbcsr_t_filter, &
       dbcsr_t_clear, dbcsr_t_finalize, dbcsr_t_get_num_blocks, dbcsr_t_scale, &
       dbcsr_t_get_num_blocks_total, dbcsr_t_get_info
@@ -92,7 +93,9 @@ MODULE dbcsr_tensor
       dbcsr_t_reserve_blocks, &
       dbcsr_t_copy_matrix_to_tensor, &
       dbcsr_t_copy_tensor_to_matrix, &
-      dbcsr_t_need_contract
+      dbcsr_t_need_contract,&
+      dbcsr_t_batched_contract_init, &
+      dbcsr_t_batched_contract_finalize
 
    INTERFACE dbcsr_t_ndims
       MODULE PROCEDURE ndims_tensor
@@ -129,7 +132,7 @@ CONTAINS
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy', &
                                      routineP = moduleN//':'//routineN
-      LOGICAL                                        :: dist_compatible, summation_prv, new_in_1, &
+      LOGICAL                                        :: dist_compatible_tas, dist_compatible_tensor, summation_prv, new_in_1, &
                                                         new_in_2, new_out_1, block_compatible, &
                                                         move_prv
 
@@ -143,7 +146,8 @@ CONTAINS
 
       DBCSR_ASSERT(tensor_out%valid)
 
-      dist_compatible = .FALSE.
+      dist_compatible_tas = .FALSE.
+      dist_compatible_tensor = .FALSE.
       block_compatible = .FALSE.
       new_in_1 = .FALSE.
       new_in_2 = .FALSE.
@@ -179,12 +183,17 @@ CONTAINS
 
       IF (.NOT. PRESENT(order)) THEN
          IF (array_eq_i(map1_in_1, map2_in_1) .AND. array_eq_i(map1_in_2, map2_in_2)) THEN
-            dist_compatible = check_equal(in_tmp_2%nd_dist, out_tmp_1%nd_dist)
+            dist_compatible_tas = check_equal(in_tmp_2%nd_dist, out_tmp_1%nd_dist)
+         ELSEIF(array_eq_i([map1_in_1, map1_in_2], [map2_in_1, map2_in_2])) THEN
+            dist_compatible_tensor = check_equal(in_tmp_2%nd_dist, out_tmp_1%nd_dist)
          ENDIF
       ENDIF
 
-      IF (dist_compatible) THEN
+      IF (dist_compatible_tas) THEN
          CALL dbcsr_tas_copy(out_tmp_1%matrix_rep, in_tmp_2%matrix_rep, summation)
+         IF (move_prv) CALL dbcsr_t_clear(in_tmp_2)
+      ELSEIF(dist_compatible_tensor) THEN
+         CALL dbcsr_t_copy_nocomm(in_tmp_2, out_tmp_1, summation)
          IF (move_prv) CALL dbcsr_t_clear(in_tmp_2)
       ELSE
          CALL dbcsr_t_reshape(in_tmp_2, out_tmp_1, summation, move_data=move_data)
@@ -211,6 +220,46 @@ CONTAINS
 
       CALL timestop(handle)
 
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_t_copy_nocomm(tensor_in, tensor_out, summation)
+      !! copy without communication, requires that both tensors have same process grid and distribution
+
+      TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor_in
+      TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor_out
+      LOGICAL, INTENT(IN), OPTIONAL                      :: summation
+         !! Whether to sum matrices b = a + b
+      TYPE(dbcsr_t_iterator_type) :: iter
+      INTEGER, DIMENSION(ndims_tensor(tensor_in))  :: ind_nd
+      INTEGER :: blk
+      TYPE(block_nd) :: blk_data
+      LOGICAL :: found
+
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_nocomm', routineP = moduleN//':'//routineN
+      INTEGER :: handle
+
+      CALL timeset(routineN, handle)
+      DBCSR_ASSERT(tensor_out%valid)
+
+      IF (PRESENT(summation)) THEN
+         IF (.NOT. summation) CALL dbcsr_t_clear(tensor_out)
+      ELSE
+         CALL dbcsr_t_clear(tensor_out)
+      ENDIF
+
+      CALL dbcsr_t_reserve_blocks(tensor_in, tensor_out)
+
+      CALL dbcsr_t_iterator_start(iter, tensor_in)
+      DO WHILE(dbcsr_t_iterator_blocks_left(iter))
+         CALL dbcsr_t_iterator_next_block(iter, ind_nd, blk)
+         CALL dbcsr_t_get_block(tensor_in, ind_nd, blk_data, found)
+         DBCSR_ASSERT(found)
+         CALL dbcsr_t_put_block(tensor_out, ind_nd, blk_data, summation=summation)
+         CALL destroy_block(blk_data)
+      ENDDO
+      CALL dbcsr_t_iterator_stop(iter)
+
+      CALL timestop(handle)
    END SUBROUTINE
 
    SUBROUTINE dbcsr_t_copy_matrix_to_tensor(matrix_in, tensor_out, summation)
@@ -396,7 +445,7 @@ CONTAINS
                                          ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o']
       INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_1)) :: bounds_t1
       INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_2)) :: bounds_t2
-      LOGICAL                                        :: do_crop_1, do_crop_2
+      LOGICAL                                        :: do_crop_1, do_crop_2, do_write_3
       TYPE(dbcsr_tas_split_info), POINTER            :: split_opt
 
       CALL timeset(routineN, handle)
@@ -680,8 +729,14 @@ CONTAINS
       ENDIF
 
       IF (PRESENT(unit_nr)) THEN
-         CALL dbcsr_t_write_tensor_info(tensor_contr_3, unit_nr, full_info=log_verbose)
-         CALL dbcsr_t_write_tensor_dist(tensor_contr_3, unit_nr)
+         do_write_3 = .TRUE.
+         IF (tensor_contr_3%matrix_rep%do_batched > 0) THEN
+            IF (tensor_contr_3%matrix_rep%mm_storage%batched_out) do_write_3 = .FALSE.
+         ENDIF
+         IF (do_write_3) THEN
+            CALL dbcsr_t_write_tensor_info(tensor_contr_3, unit_nr, full_info=log_verbose)
+            CALL dbcsr_t_write_tensor_dist(tensor_contr_3, unit_nr)
+         ENDIF
       ENDIF
 
       IF (new_3) THEN
@@ -694,8 +749,8 @@ CONTAINS
       ENDIF
 
       IF (PRESENT(unit_nr)) THEN
-         IF (new_3) CALL dbcsr_t_write_tensor_info(tensor_3, unit_nr, full_info=log_verbose)
-         IF (new_3) CALL dbcsr_t_write_tensor_dist(tensor_3, unit_nr)
+         IF (new_3 .AND. do_write_3) CALL dbcsr_t_write_tensor_info(tensor_3, unit_nr, full_info=log_verbose)
+         IF (new_3 .AND. do_write_3) CALL dbcsr_t_write_tensor_dist(tensor_3, unit_nr)
       ENDIF
 
       CALL dbcsr_t_destroy(tensor_algn_1)
@@ -703,11 +758,23 @@ CONTAINS
       CALL dbcsr_t_destroy(tensor_algn_3)
 
       IF (do_crop_1) THEN
+         IF (tensor_1%matrix_rep%do_batched > 0) THEN
+            ! transfer data for batched contraction
+            DEALLOCATE (tensor_1%matrix_rep%mm_storage)
+            ALLOCATE (tensor_1%matrix_rep%mm_storage, SOURCE=tensor_crop_1%matrix_rep%mm_storage)
+            tensor_1%matrix_rep%do_batched = tensor_crop_1%matrix_rep%do_batched
+         ENDIF
          CALL dbcsr_t_destroy(tensor_crop_1)
          DEALLOCATE (tensor_crop_1)
       ENDIF
 
       IF (do_crop_2) THEN
+         IF (tensor_2%matrix_rep%do_batched > 0) THEN
+            ! transfer data for batched contraction
+            DEALLOCATE (tensor_2%matrix_rep%mm_storage)
+            ALLOCATE (tensor_2%matrix_rep%mm_storage, SOURCE=tensor_crop_2%matrix_rep%mm_storage)
+            tensor_2%matrix_rep%do_batched = tensor_crop_2%matrix_rep%do_batched
+         ENDIF
          CALL dbcsr_t_destroy(tensor_crop_2)
          DEALLOCATE (tensor_crop_2)
       ENDIF
@@ -1046,6 +1113,10 @@ CONTAINS
 
          ALLOCATE (tensor_out)
          CALL dbcsr_t_remap(tensor_in, ind1, ind2, tensor_out, nodata=nodata, move_data=move_data)
+         IF (tensor_in%matrix_rep%do_batched > 0) THEN
+            ALLOCATE (tensor_out%matrix_rep%mm_storage, SOURCE=tensor_in%matrix_rep%mm_storage)
+            tensor_out%matrix_rep%do_batched = tensor_in%matrix_rep%do_batched
+         ENDIF
          compat1 = 1
          compat2 = 2
          new = .TRUE.
@@ -1236,8 +1307,8 @@ CONTAINS
             CALL new_default_dist(SIZE(blk_sizes_${idim}$), pdims(${idim}$), blk_sizes_${idim}$, nd_dist_${idim}$)
          ENDIF
 #:endfor
-         CALL dbcsr_t_distribution_new(dist, comm_nd, map1_2d, map2_2d, &
-                                       ${varlist("nd_dist", nmax=ndim)}$, own_comm=.TRUE.)
+         CALL dbcsr_t_distribution_new_expert(dist, comm_nd, map1_2d, map2_2d, &
+                                              ${varlist("nd_dist", nmax=ndim)}$, own_comm=.TRUE.)
       ENDIF
 #:endfor
 
@@ -1541,6 +1612,46 @@ CONTAINS
             WRITE (unit_nr, '(A1)', advance='no') indchar3(map32(ichar3))
          ENDDO
          WRITE (unit_nr, '(A)') ")"
+      ENDIF
+
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_t_batched_contract_init(tensor)
+      !! initialize batched contraction for this tensor. This ensures that no unnecessary communication takes place
+      !! in a series of batched contractions (i.e. partial contraction with specification of bounds
+      !! in order to reduce memory), under the following conditions:
+      !! - the same tensor is used in multiple contraction calls and its data is not changed via calls
+      !!   to routines other than dbcsr_t_contract
+      !! - if tensor is the result of a contraction, it must not be reused as input for another contraction
+      !! If tensor is the result of a contraction, its publicly accessible data will not be updated until
+      !! dbcsr_t_batched_contract_finalize has been called.
+      TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
+      CALL dbcsr_tas_batched_mm_init(tensor%matrix_rep)
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_t_batched_contract_finalize(tensor, unit_nr)
+      !! finalize batched contraction. This performs all communication that has been postponed in the
+      !! contraction calls.
+      TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
+      INTEGER, INTENT(IN), OPTIONAL :: unit_nr
+      LOGICAL :: do_write
+
+      do_write = .FALSE.
+      IF (PRESENT(unit_nr)) THEN
+         IF (tensor%matrix_rep%do_batched > 0) THEN
+            IF (tensor%matrix_rep%mm_storage%batched_out) do_write = .TRUE.
+         ENDIF
+      ENDIF
+
+      CALL dbcsr_tas_batched_mm_finalize(tensor%matrix_rep)
+
+      IF (do_write .AND. PRESENT(unit_nr)) THEN
+         IF (unit_nr > 0) THEN
+            WRITE (unit_nr, "(T2,A)") &
+               "FINALIZING BATCHED PROCESSING OF MATMUL"
+         ENDIF
+         CALL dbcsr_t_write_tensor_info(tensor, unit_nr)
+         CALL dbcsr_t_write_tensor_dist(tensor, unit_nr)
       ENDIF
 
    END SUBROUTINE

@@ -126,6 +126,9 @@ MODULE dbcsr_config
 
    ! Max dimension for any block dimension
    INTEGER, PARAMETER :: max_kernel_dim = 80
+   ! Accelerator active device, default to -1, i.e. no device
+   INTEGER, PARAMETER :: default_accdrv_active_device_id = -1
+   INTEGER :: accdrv_active_device_id = default_accdrv_active_device_id
 
    PUBLIC :: dbcsr_cfg, has_MPI, has_acc, default_resize_factor
    PUBLIC :: mm_driver_blas, mm_driver_matmul, mm_driver_smm, mm_driver_xsmm, mm_driver_auto
@@ -133,6 +136,7 @@ MODULE dbcsr_config
    PUBLIC :: cublas_handles
    PUBLIC :: hipblas_handles
    PUBLIC :: max_kernel_dim
+   PUBLIC :: get_accdrv_active_device_id, set_accdrv_active_device_id, reset_accdrv_active_device_id
 
 CONTAINS
 
@@ -428,5 +432,28 @@ CONTAINS
       ENDIF
 
    END SUBROUTINE dbcsr_print_config
+
+   FUNCTION get_accdrv_active_device_id()
+      INTEGER :: get_accdrv_active_device_id
+
+      get_accdrv_active_device_id = accdrv_active_device_id
+
+   END FUNCTION get_accdrv_active_device_id
+
+   SUBROUTINE set_accdrv_active_device_id(in_accdrv_active_device_id)
+      INTEGER, INTENT(IN) :: in_accdrv_active_device_id
+
+      ! Abort if device already assigned
+      IF (accdrv_active_device_id .GE. 0) &
+         DBCSR_ABORT("Accelerator device ID already set")
+      IF (in_accdrv_active_device_id .LT. 0 .OR. in_accdrv_active_device_id .GE. dbcsr_acc_get_ndevices()) &
+         DBCSR_ABORT("Invalid accelerator device ID")
+      accdrv_active_device_id = in_accdrv_active_device_id
+
+   END SUBROUTINE set_accdrv_active_device_id
+
+   SUBROUTINE reset_accdrv_active_device_id()
+      accdrv_active_device_id = default_accdrv_active_device_id
+   END SUBROUTINE reset_accdrv_active_device_id
 
 END MODULE dbcsr_config

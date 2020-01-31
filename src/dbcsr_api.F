@@ -15,7 +15,6 @@ MODULE dbcsr_api
    !! possibly grouped in to standard and expert api.
    !! Currently, this is work in progress.
 
-   USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_exists, &
                                 array_size
@@ -150,10 +149,6 @@ MODULE dbcsr_api
    IMPLICIT NONE
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_api'
-
-   ! GPU
-   PUBLIC :: dbcsr_acc_get_ndevices
-   PUBLIC :: dbcsr_acc_set_active_device
 
    ! constants
    PUBLIC :: dbcsr_type_no_symmetry

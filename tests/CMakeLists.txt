@@ -34,9 +34,11 @@ file(GLOB DBCSR_PERF_TESTS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 foreach (dbcsr_perf_test ${DBCSR_PERF_TESTS})
   if (USE_MPI)
     separate_arguments(MPIEXEC_PREFLAGS)
-    add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ./dbcsr_perf ${MPIEXEC_POSTFLAGS} "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
+    add_test(NAME dbcsr_perf:${dbcsr_perf_test}
+             COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} $<TARGET_FILE:dbcsr_perf> ${MPIEXEC_POSTFLAGS} "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
   else ()
-    add_test(NAME dbcsr_perf:${dbcsr_perf_test} COMMAND ./dbcsr_perf "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
+    add_test(NAME dbcsr_perf:${dbcsr_perf_test}
+             COMMAND $<TARGET_FILE:dbcsr_perf> "${CMAKE_CURRENT_SOURCE_DIR}/${dbcsr_perf_test}")
   endif ()
   set_tests_properties(dbcsr_perf:${dbcsr_perf_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${TEST_OMP_THREADS})
 endforeach ()
@@ -48,6 +50,7 @@ set(DBCSR_TESTS
   dbcsr_unittest2
   dbcsr_unittest3
   dbcsr_tensor_unittest
+  dbcsr_tas_unittest
   dbcsr_test_csr_conversions
   )
 
@@ -62,20 +65,22 @@ set(dbcsr_unittest1_SRCS dbcsr_unittest1.F)
 set(dbcsr_unittest2_SRCS dbcsr_unittest2.F)
 set(dbcsr_unittest3_SRCS dbcsr_unittest3.F)
 set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
+set(dbcsr_tas_unittest_SRCS dbcsr_tas_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
 
 # instead of building a full-blown lib, it would be better to simply build an OBJECT lib,
 # but we would need cmake 3.12 to be able to specify target_link_libraries on those to get
 # the proper compile flags
 add_library(dbcsr_unittest_common STATIC ${dbcsr_unittest_common_SRCS})
+target_link_libraries(dbcsr_unittest_common PUBLIC ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 if (OpenMP_FOUND)
-  target_link_libraries(dbcsr_unittest_common OpenMP::OpenMP_Fortran)
+  target_link_libraries(dbcsr_unittest_common PUBLIC OpenMP::OpenMP_Fortran)
 endif ()
 
 if (APPLE AND BLAS_LIBRARIES MATCHES "Accelerate")
   target_compile_definitions(dbcsr_unittest_common PRIVATE __ACCELERATE)
 endif()
-target_link_libraries(dbcsr_unittest_common dbcsr)
+target_link_libraries(dbcsr_unittest_common PUBLIC dbcsr)
 
 foreach (dbcsr_test ${DBCSR_TESTS})
   if (USE_HIP)
@@ -89,9 +94,10 @@ foreach (dbcsr_test ${DBCSR_TESTS})
   # register unittest executable with CMake
   if (USE_MPI)
     separate_arguments(MPIEXEC_PREFLAGS)
-    add_test(NAME ${dbcsr_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ./${dbcsr_test} ${MPIEXEC_POSTFLAGS})
+    add_test(NAME ${dbcsr_test}
+             COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} $<TARGET_FILE:${dbcsr_test}> ${MPIEXEC_POSTFLAGS})
   else ()
-    add_test(NAME ${dbcsr_test} COMMAND ./${dbcsr_test})
+      add_test(NAME ${dbcsr_test} COMMAND ${dbcsr_test})
   endif ()
   if (OpenMP_FOUND)
     target_link_libraries(${dbcsr_test} OpenMP::OpenMP_Fortran)
@@ -186,11 +192,11 @@ if (USE_CUDA OR USE_HIP)
 
   # Add tests that do not need additional arguments
   foreach (libsmm_acc_test ${LIBSMM_ACC_SIMPLE_TESTS})
-    add_test(NAME ${libsmm_acc_test} COMMAND ./${libsmm_acc_test})
+      add_test(NAME ${libsmm_acc_test} COMMAND ${libsmm_acc_test})
   endforeach ()
 
   # Add tests needing additional arguments:
-  add_test(NAME libsmm_acc_timer_multiply-autotuned COMMAND ./libsmm_acc_timer_multiply autotuned)
-  add_test(NAME libsmm_acc_timer_multiply-predicted COMMAND ./libsmm_acc_timer_multiply predicted)
+  add_test(NAME libsmm_acc_timer_multiply-autotuned COMMAND libsmm_acc_timer_multiply autotuned)
+  add_test(NAME libsmm_acc_timer_multiply-predicted COMMAND libsmm_acc_timer_multiply predicted)
 
 endif ()
