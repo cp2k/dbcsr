@@ -161,7 +161,9 @@ CONTAINS
 
       chksum_check = atol(args(i + 1))
       chksum_threshold = ator(args(i + 2))
-      IF (chksum_check .AND. chksum_threshold .LE. 0.0) DBCSR_ABORT("Checksum threshold must be positive!")
+      IF (chksum_check .AND. chksum_threshold .LE. 0.0) &
+         CALL dbcsr_abort(__LOCATION__, &
+                          "Checksum threshold must be positive!")
       chksum_ref = ator(args(i + 3))
       chksum_ref_pos = ator(args(i + 4))
 
@@ -674,7 +676,9 @@ CONTAINS
                   "  threshold = ", chksum_threshold
                chksum_err = .TRUE.
             ENDIF
-            IF (chksum_err) DBCSR_ABORT("Wrong Checksums. Test failed!")
+            IF (chksum_err) &
+               CALL dbcsr_abort(__LOCATION__, &
+                                "Wrong Checksums. Test failed!")
          ENDIF
          WRITE (io_unit, *)
          WRITE (io_unit, *)

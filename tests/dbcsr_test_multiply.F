@@ -245,7 +245,8 @@ CONTAINS
                   my_sizes_n => sizes_n
                   my_sizes_k => sizes_k
                ELSE
-                  DBCSR_ABORT("something wrong here... ")
+                  CALL dbcsr_abort(__LOCATION__, &
+                                   "something wrong here... ")
                END IF
 
                IF (.FALSE.) THEN

@@ -209,9 +209,11 @@ CONTAINS
       ! Check whether DBCSR and libsmm_acc (GPU backend) have the same level of threading
       IF (dbcsr_thread_safe /= libsmm_acc_thread_safe) then
          IF (dbcsr_thread_safe /= 0) then
-            DBCSR_ABORT("DBCSR compiled w/ threading support while libsmm_acc compiled w/o threading support.")
+            CALL dbcsr_abort(__LOCATION__, &
+                             "DBCSR compiled w/ threading support while libsmm_acc compiled w/o threading support.")
          ELSE
-            DBCSR_ABORT("DBCSR compiled w/o threading support while libsmm_acc is compiled w/ threading support.")
+            CALL dbcsr_abort(__LOCATION__, &
+                             "DBCSR compiled w/o threading support while libsmm_acc is compiled w/ threading support.")
          ENDIF
       ENDIF
 
