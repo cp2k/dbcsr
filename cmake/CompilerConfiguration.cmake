@@ -1,11 +1,11 @@
 if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-  set(CMAKE_Fortran_FLAGS          "-ffree-form -ffree-line-length-none -std=f2008ts")
+  set(CMAKE_Fortran_FLAGS          "-ffree-form -std=f2008ts")
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -funroll-loops")
   set(CMAKE_Fortran_FLAGS_COVERAGE "-O0 -g --coverage")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -ggdb")
 elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
   set(CMAKE_Fortran_FLAGS          "-free -stand f08 -fpp")
-  set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -diag-disable=5268")  # Disable the line-length-extension warning #5268
+  set(CMAKE_Fortran_FLAGS_RELEASE  "-O3")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -debug")
 elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "PGI")
   set(CMAKE_Fortran_FLAGS          "-Mfreeform -Mextend -Mallocatable=03")  # -Mallocatable=03: enable F2003+ assignment semantics
