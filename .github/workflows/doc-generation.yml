@@ -1,0 +1,70 @@
+---
+name: Generating documentation
+on:
+  push:
+    branches:
+    - 'develop'
+    tags:
+    - 'v*'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    container:
+      image: dbcsr/build-env-ubuntu-19.10:latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+
+    - name: Checkout submodules
+      shell: bash
+      run: |
+        auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+        git submodule sync --recursive
+        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+
+    - name: Configure
+      run: |
+        mkdir -p build
+        cd build
+        cmake -G Ninja \
+          -DUSE_MPI=ON \
+          -DUSE_OPENMP=ON \
+          -DUSE_SMM=libxsmm \
+          -DMPI_EXECUTABLE_SUFFIX=.mpich \
+          ..
+
+    - name: Build
+      run: |
+        cmake --build build -- doc
+        touch build/doc/.nojekyll
+
+    - name: Setup SSH agent 🔑
+      uses: webfactory/ssh-agent@v0.2.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_DEPLOY_KEY }}
+
+    - name: Deploy Development Documentation
+      if: github.repository == 'cp2k/dbcsr' && github.ref == 'refs/heads/develop'
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        SSH: true
+        BRANCH: gh-pages
+        FOLDER: build/doc
+        TARGET_FOLDER: develop
+        CLEAN: true
+        CLEAN_EXCLUDE: ['releases']
+
+    - name: Deploy Release Documentation
+      if: github.repository == 'cp2k/dbcsr' && startsWith(github.ref, 'v')
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        SSH: true
+        ACCESS_TOKEN: ${{ secrets.GHPAGES_ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: build/doc
+        TARGET_FOLDER: 'releases/${{ github.ref }}'
+
+#  vim: set ts=2 sw=2 tw=0 :

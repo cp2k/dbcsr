@@ -1,0 +1,59 @@
+---
+name: Create release
+on:
+  push:
+    tags:
+    - 'v*'
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    container:
+      image: dbcsr/build-env-ubuntu-19.10:latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Checkout submodules
+      shell: bash
+      run: |
+        auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+        git submodule sync --recursive
+        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+
+    - name: Configure
+      run: |
+        mkdir -p build
+        cd build
+        cmake -G Ninja \
+          -DUSE_MPI=ON \
+          -DUSE_OPENMP=ON \
+          -DUSE_SMM=libxsmm \
+          -DMPI_EXECUTABLE_SUFFIX=.mpich \
+          ..
+
+    - name: Build Release Asset
+      run: cmake --build build -- dist
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: true
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./build/dist/dbcsr-${{ github.ref }}.tar.gz
+        asset_name: dbcsr-${{ github.ref }}.tar.gz
+        asset_content_type: application/gzip
+
+#  vim: set ts=2 sw=2 tw=0 :
