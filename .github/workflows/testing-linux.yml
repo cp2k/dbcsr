@@ -1,0 +1,78 @@
+---
+name: Testing on Linux
+on:
+  push:
+    branches:
+    - 'develop'
+  pull_request:
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    container:
+      image: dbcsr/build-env-ubuntu-19.10:latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run pre-commit
+      run:
+        pre-commit run --all-files || ( git status --short ; git diff ; exit 1 )
+
+  build-and-test:
+    runs-on: ubuntu-latest
+    container:
+      image: dbcsr/build-env-ubuntu-19.10:latest
+
+    strategy:
+      matrix:
+        use_mpi: [MPI=ON, MPI=OFF]
+        use_openmp: [OPENMP=ON, OPENMP=OFF]
+        use_smm: [SMM=blas, SMM=libxsmm]
+        mpi_suffix: [openmpi, mpich]
+        exclude:
+          - use_mpi: MPI=OFF
+            mpi_suffix: mpich
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Checkout submodules
+      shell: bash
+      run: |
+        auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+        git submodule sync --recursive
+        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+
+    - name: Configure
+      run: |
+        mkdir -p build
+        cd build
+        cmake -G Ninja \
+          -DCMAKE_BUILD_TYPE=Coverage \
+          -DUSE_${{ matrix.use_mpi }} \
+          -DUSE_${{ matrix.use_openmp }} \
+          -DUSE_${{ matrix.use_smm }} \
+          -DMPI_EXECUTABLE_SUFFIX=.${{ matrix.mpi_suffix }} \
+          -DMPIEXEC_PREFLAGS="$([ "${{ matrix.mpi_suffix }}" = "openmpi" ] && echo "-mca btl ^openib --allow-run-as-root")" \
+          ..
+
+    - name: Build
+      run: cmake --build build -- --verbose
+
+    - name: Test
+      run: |
+        cd build
+        ctest --output-on-failure
+
+    - name: Generate coverage info
+      run: |
+        cmake --build build -- cov-info
+
+    - name: Upload coverage info to codecov
+      if: github.repository == 'cp2k/dbcsr'
+      uses: codecov/codecov-action@v1
+      with:
+        file: build/coverage.info
+        yml: .codecov.yml
+        fail_ci_if_error: true
+
+#  vim: set ts=2 sw=2 tw=0 :
