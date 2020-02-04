@@ -18,7 +18,7 @@ jobs:
       - name: Publish Gitlab Image
         uses: machine-learning-apps/gpr-docker-publish@v1.4
         with:
-          IMAGE_NAME: build-env/ubuntu-18.04
+          IMAGE_NAME: build-env-ubuntu-18.04
           TAG: latest
           DOCKERFILE_PATH: tools/docker/Dockerfile.build-env-ubuntu
           BUILD_CONTEXT: tools/docker/
