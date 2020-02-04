@@ -1,0 +1,44 @@
+FROM ubuntu:18.04
+
+RUN apt-get update \
+    && apt-get install -y \
+        gfortran \
+        g++ \
+        libopenmpi-dev \
+        openmpi-bin \
+        libopenblas-dev \
+        libopenmpi-dev openmpi-bin \
+        mpich \
+        lcov \
+        pkg-config \
+        git \
+        python3-pip \
+        unzip \
+        wget \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN ln -s python3 /usr/bin/python
+
+ARG libxsmm_version=1.14
+ARG cmake_version=3.16.20200203-g7c93c0e
+ARG ninja_version=1.10.0
+
+RUN set -ex && \
+    pip3 install \
+        pre-commit \
+        ford \
+        git-archive-all
+
+RUN set -ex && \
+    wget --quiet -O- https://cmake.org/files/dev/cmake-${cmake_version}-Linux-x86_64.tar.gz | tar --strip-components=1 -xz -C /usr/local
+
+RUN set -ex && \
+    wget --quiet -O- https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-linux.zip | funzip > /usr/local/bin/ninja \
+    && chmod a+x /usr/local/bin/ninja
+
+RUN set -ex && \
+    wget --quiet -O- https://github.com/hfp/libxsmm/archive/${libxsmm_version}.tar.gz | tar -xz -C /opt \
+    && ln -s libxsmm-${libxsmm_version} /opt/libxsmm \
+    && make -j -C /opt/libxsmm
+
+ENV PKG_CONFIG_PATH="/opt/libxsmm/lib:${PKG_CONFIG_PATH}"
