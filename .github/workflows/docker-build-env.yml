@@ -5,7 +5,9 @@ on:
   push:
     branches:
     - 'develop'
-    paths: 'tools/docker/**'
+    paths:
+    - 'tools/docker/**'
+    - '.github/workflows/docker-build-env.yml'
   schedule:  # runs on the last commit of the repo's default branch
     - cron: '45 23 * * *'
 
