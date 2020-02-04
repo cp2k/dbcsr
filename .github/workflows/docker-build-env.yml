@@ -1,0 +1,26 @@
+---
+name: Publish DBCSR Build Environments to GitHub Registry
+
+on:
+  push:
+    branches:
+    - 'develop'
+    paths: 'tools/docker/**'
+  schedule:  # runs on the last commit of the repo's default branch
+    - cron: '45 23 * * *'
+
+jobs:
+  docker-build-env-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Publish Gitlab Image
+        uses: machine-learning-apps/gpr-docker-publish@v1.3
+        with:
+          IMAGE_NAME: build-env/ubuntu-18.04
+          TAG: latest
+          DOCKERFILE_PATH: tools/docker/Dockerfile.build-env-ubuntu
+          BUILD_CONTEXT: tools/docker/
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
