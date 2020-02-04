@@ -16,11 +16,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
       - name: Publish Gitlab Image
-        uses: machine-learning-apps/gpr-docker-publish@v1.4
+        uses: elgohr/Publish-Docker-Github-Action@2.12
         with:
-          IMAGE_NAME: build-env-ubuntu-18.04
-          TAG: latest
-          DOCKERFILE_PATH: tools/docker/Dockerfile.build-env-ubuntu
-          BUILD_CONTEXT: tools/docker/
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: dbcsr/build-env-ubuntu-18.04
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          workdir: tools/docker
+          dockerfile: Dockerfile.build-env-ubuntu
+          tags: "latest"
