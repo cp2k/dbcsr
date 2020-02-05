@@ -20,7 +20,7 @@ jobs:
       - name: Publish Gitlab Image
         uses: elgohr/Publish-Docker-Github-Action@2.12
         with:
-          name: dbcsr/build-env-ubuntu-18.04
+          name: dbcsr/build-env-ubuntu-19.10
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           workdir: tools/docker
