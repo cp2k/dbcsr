@@ -1,5 +1,9 @@
 FROM ubuntu:18.04
 
+# Git > 2.17 is needed for GHA to get a proper git repo clone inside the container,
+# using the git-core PPA (and add-apt-repository from the software-properties-common pkg)
+# to get a newer Git version.
+
 RUN apt-get update \
     && apt-get install -y software-properties-common \
     && add-apt-repository ppa:git-core/ppa \
@@ -19,6 +23,10 @@ RUN apt-get update \
         wget \
     && rm -rf /var/lib/apt/lists/*
 
+# Make sure we have a unicode locale
+ENV LANG C.utf8
+
+# Many of our tools rely on a `python` executable but are python-3 compatible
 RUN ln -s python3 /usr/bin/python
 
 ARG libxsmm_version=1.14
