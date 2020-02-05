@@ -8,6 +8,7 @@ RUN apt-get update \
     && apt-get install -y software-properties-common \
     && add-apt-repository ppa:git-core/ppa \
     && apt-get install -y \
+        locales \
         gfortran \
         g++ \
         libopenmpi-dev \
@@ -21,10 +22,11 @@ RUN apt-get update \
         python3-pip \
         unzip \
         wget \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
-# Make sure we have a unicode locale
-ENV LANG C.utf8
+# Make sure we have a proper unicode locale and language
+ENV LANG en_US.utf8
 
 # Many of our tools rely on a `python` executable but are python-3 compatible
 RUN ln -s python3 /usr/bin/python
