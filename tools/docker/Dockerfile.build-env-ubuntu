@@ -20,7 +20,7 @@ RUN apt-get update \
         git \
         python3-pip \
         unzip \
-        wget \
+        curl \
     && rm -rf /var/lib/apt/lists/* \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
@@ -41,14 +41,14 @@ RUN set -ex && \
         git-archive-all
 
 RUN set -ex && \
-    wget --quiet -O- https://cmake.org/files/dev/cmake-${cmake_version}-Linux-x86_64.tar.gz | tar --strip-components=1 -xz -C /usr/local
+    curl -LsS https://cmake.org/files/dev/cmake-${cmake_version}-Linux-x86_64.tar.gz | tar --strip-components=1 -xz -C /usr/local
 
 RUN set -ex && \
-    wget --quiet -O- https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-linux.zip | funzip > /usr/local/bin/ninja \
+    curl -LsS https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-linux.zip | funzip > /usr/local/bin/ninja \
     && chmod a+x /usr/local/bin/ninja
 
 RUN set -ex && \
-    wget --quiet -O- https://github.com/hfp/libxsmm/archive/${libxsmm_version}.tar.gz | tar -xz -C /opt \
+    curl -LsS https://github.com/hfp/libxsmm/archive/${libxsmm_version}.tar.gz | tar -xz -C /opt \
     && ln -s libxsmm-${libxsmm_version} /opt/libxsmm \
     && make -j -C /opt/libxsmm
 
