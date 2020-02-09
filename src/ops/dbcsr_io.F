@@ -69,6 +69,8 @@ MODULE dbcsr_io
    LOGICAL, PARAMETER :: bcsr_info = .FALSE.
    LOGICAL, PARAMETER :: bcsr_verbose = .FALSE.
 
+   integer, parameter :: max_matrix_dimi_to_print = 10000
+
    INTERFACE dbcsr_printmat
       MODULE PROCEDURE printmat_s, printmat_d, printmat_c, printmat_z
    END INTERFACE
@@ -504,8 +506,8 @@ CONTAINS
       DO r = LBOUND(matrix, 1), UBOUND(matrix, 1)
          bit_bucket = bit_bucket + matrix(r)
       ENDDO
-      IF (m .GT. 10000) m = 0
-      IF (n .GT. 10000) n = 0
+      IF (m .GT. max_matrix_dimi_to_print) m = 0
+      IF (n .GT. max_matrix_dimi_to_print) n = 0
       IF (m*n .LT. 1 .OR. m*n .GT. SIZE(matrix)) RETURN
       WRITE (f, FMT="('(',I4,'(F9.4))')") cols
       DO r = 1, rows
@@ -516,6 +518,58 @@ CONTAINS
          ENDIF
       ENDDO
    END SUBROUTINE printmat_s
+
+   SUBROUTINE printmat_c(matrix, rows, cols, iunit, title, tr)
+      !! Prints the elements of a matrix.
+
+      complex(KIND=real_4), DIMENSION(:), INTENT(IN)        :: matrix
+      INTEGER, INTENT(IN)                                :: rows, cols, iunit
+         !! the logical (possibly detransposed) matrix size, not the stored size
+         !! the logical (possibly detransposed) matrix size, not the stored size
+      CHARACTER(*), INTENT(IN), OPTIONAL                 :: title
+      LOGICAL, INTENT(IN), OPTIONAL                      :: tr
+         !! specifies whether the elements are stored transposed
+
+      CHARACTER(30)                                      :: f
+      INTEGER                                            :: m, n, r, c
+      LOGICAL                                            :: t
+      complex(KIND=dp)                                      :: bit_bucket
+
+!   ---------------------------------------------------------------------------
+
+      m = rows
+      n = cols
+      t = .FALSE.
+      IF (PRESENT(title)) WRITE (iunit, *) title
+      IF (PRESENT(tr)) THEN
+         IF (tr) THEN
+            t = .TRUE.
+            m = cols
+            n = rows
+         ENDIF
+      ENDIF
+      DO r = LBOUND(matrix, 1), UBOUND(matrix, 1)
+         bit_bucket = matrix(r)
+      ENDDO
+      bit_bucket = 0.0_dp
+      DO r = LBOUND(matrix, 1), UBOUND(matrix, 1)
+         bit_bucket = bit_bucket + matrix(r)
+      ENDDO
+      IF (m .GT. max_matrix_dimi_to_print) m = 0
+      IF (n .GT. max_matrix_dimi_to_print) n = 0
+      IF (m*n .LT. 1 .OR. m*n .GT. SIZE(matrix)) RETURN
+      WRITE (f, FMT="('(',I4,'(A,F9.4,A,F9.4,A))')") cols
+      DO r = 1, rows
+         IF (.NOT. t) THEN
+            WRITE (iunit, FMT=f) (' (', real(matrix(r + (c-1)*rows)), ' , ', &
+                                  aimag(matrix(r + (c-1)*rows)), ' ) ', c=1,cols )
+         ELSE
+            WRITE (iunit, FMT=f) '{',real(matrix(c + cols * (r - 1))), ' , ', &
+               aimag(matrix(c + cols * (r - 1))),' }'
+
+         ENDIF
+      ENDDO
+   END SUBROUTINE printmat_c
 
    SUBROUTINE printmat_d(matrix, rows, cols, iunit, title, tr)
       REAL(KIND=real_8), DIMENSION(:), INTENT(IN)        :: matrix
@@ -538,27 +592,6 @@ CONTAINS
       ENDIF
    END SUBROUTINE printmat_d
 
-   SUBROUTINE printmat_c(matrix, rows, cols, iunit, title, tr)
-      COMPLEX(KIND=real_4), DIMENSION(:), INTENT(IN)     :: matrix
-      INTEGER, INTENT(IN)                                :: rows, cols, iunit
-      CHARACTER(*), INTENT(IN), OPTIONAL                 :: title
-      LOGICAL, INTENT(IN), OPTIONAL                      :: tr
-
-      IF (PRESENT(title)) THEN
-         IF (PRESENT(tr)) THEN
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title, tr)
-         ELSE
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title)
-         ENDIF
-      ELSE
-         IF (PRESENT(tr)) THEN
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, tr=tr)
-         ELSE
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit)
-         ENDIF
-      ENDIF
-   END SUBROUTINE printmat_c
-
    SUBROUTINE printmat_z(matrix, rows, cols, iunit, title, tr)
       COMPLEX(KIND=real_8), DIMENSION(:), INTENT(IN)     :: matrix
       INTEGER, INTENT(IN)                                :: rows, cols, iunit
@@ -567,15 +600,15 @@ CONTAINS
 
       IF (PRESENT(title)) THEN
          IF (PRESENT(tr)) THEN
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title, tr)
+            CALL printmat_c(cmplx(matrix, KIND=sp), rows, cols, iunit, title, tr)
          ELSE
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, title)
+            CALL printmat_c(cmplx(matrix, KIND=sp), rows, cols, iunit, title)
          ENDIF
       ELSE
          IF (PRESENT(tr)) THEN
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit, tr=tr)
+            CALL printmat_c(cmplx(matrix, KIND=sp), rows, cols, iunit, tr=tr)
          ELSE
-            CALL printmat_s(REAL(matrix, KIND=sp), rows, cols, iunit)
+            CALL printmat_c(cmplx(matrix, KIND=sp), rows, cols, iunit)
          ENDIF
       ENDIF
    END SUBROUTINE printmat_z
@@ -597,6 +630,7 @@ CONTAINS
       !! col_i (length = nblks),
       !! blk_p (length = nblks);
       !! and the file's body contains the block data
+
 
       IMPLICIT NONE
 
@@ -760,6 +794,7 @@ CONTAINS
 
    SUBROUTINE dbcsr_binary_read(filepath, distribution, groupid, matrix_new)
       !! Reads a DBCSR matrix from a file
+
 
       IMPLICIT NONE
 

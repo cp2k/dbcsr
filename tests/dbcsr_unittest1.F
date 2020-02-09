@@ -16,7 +16,9 @@ PROGRAM dbcsr_unittest
                         dbcsr_print_statistics
    USE dbcsr_machine, ONLY: default_output_unit
    USE dbcsr_mp_methods, ONLY: dbcsr_mp_new, &
-                               dbcsr_mp_release
+                               dbcsr_mp_release,&
+                               dbcsr_mp_grid_setup,&
+                               dbcsr_mp_grid_remove
    USE dbcsr_mpiwrap, ONLY: mp_cart_create, &
                             mp_cart_rank, &
                             mp_comm_free, &
@@ -26,7 +28,9 @@ PROGRAM dbcsr_unittest
    USE dbcsr_test_add, ONLY: dbcsr_test_adds
    USE dbcsr_test_methods, ONLY: dbcsr_reset_randmat_seed
    USE dbcsr_test_multiply, ONLY: dbcsr_test_multiplies
-   USE dbcsr_types, ONLY: dbcsr_mp_obj
+   USE dbcsr_types, ONLY: dbcsr_mp_obj, dbcsr_type_complex_8, dbcsr_type_real_8
+
+   use dbcsr_test_mat_vec_mult, only: dbcsr_mat_vec_multiplies
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -59,6 +63,8 @@ PROGRAM dbcsr_unittest
    ENDDO
    CALL dbcsr_mp_new(mp_env, group, pgrid, mynode, numnodes, &
                      myprow=myploc(1), mypcol=myploc(2))
+
+   call  dbcsr_mp_grid_setup(mp_env)
    DEALLOCATE (pgrid)
    !
    ! set standard output parameters
@@ -75,6 +81,10 @@ PROGRAM dbcsr_unittest
    CALL dbcsr_reset_randmat_seed()
 
    ! run tests
+
+   ! mat x vec ------------------------------------
+   call dbcsr_mat_vec_multiplies("mat x vec square", group, mp_env, npdims, io_unit, 20, 2, 0.5_dp, &
+                                 (1.0_dp, 2.0_dp), (3.0_dp, 4.0_dp), dbcsr_type_complex_8)
 
    ! add -----------------------------------------------------------------------
 
@@ -304,6 +314,7 @@ PROGRAM dbcsr_unittest
    CALL timestop(handle)
    !
    ! clean mp environment
+   call dbcsr_mp_grid_remove(mp_env)
    CALL dbcsr_mp_release(mp_env)
 
    !

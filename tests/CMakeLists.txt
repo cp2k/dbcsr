@@ -52,12 +52,14 @@ set(DBCSR_TESTS
   dbcsr_tensor_unittest
   dbcsr_tas_unittest
   dbcsr_test_csr_conversions
+  dbcsr_la_test
   )
 
 # Common object files linked to all tests
 set(dbcsr_unittest_common_SRCS
   dbcsr_test_add.F
   dbcsr_test_multiply.F
+  dbcsr_test_mat_vec_mult.F
   )
 
 # For each test, set a variable testname_SRCS defining the sources of that test
@@ -67,6 +69,7 @@ set(dbcsr_unittest3_SRCS dbcsr_unittest3.F)
 set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
 set(dbcsr_tas_unittest_SRCS dbcsr_tas_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
+set(dbcsr_la_test_SRCS dbcsr_la_test.F)
 
 # instead of building a full-blown lib, it would be better to simply build an OBJECT lib,
 # but we would need cmake 3.12 to be able to specify target_link_libraries on those to get

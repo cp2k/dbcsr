@@ -55,7 +55,7 @@ MODULE dbcsr_test_multiply
 
    PRIVATE
 
-   PUBLIC :: dbcsr_test_multiplies
+   PUBLIC :: dbcsr_test_multiplies, dbcsr_check_multiply
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_test_multiply'
 
