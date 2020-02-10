@@ -66,7 +66,8 @@ PROGRAM dbcsr_performance_driver
    ELSE
       npdims(2) = atoi(args(1))
       IF (MOD(numnodes, npdims(2)) .NE. 0) THEN
-         DBCSR_ABORT("numnodes is not multiple of npcols")
+         CALL dbcsr_abort(__LOCATION__, &
+                          "numnodes is not multiple of npcols")
       ENDIF
       npdims(1) = numnodes/npdims(2)
    ENDIF

@@ -1,0 +1,55 @@
+FROM ubuntu:19.10
+
+# we need at least Ubuntu 19.10 for:
+#   git > 2.18
+#   lcov > 1.13
+#   openmpi > 2.1
+
+RUN apt-get update \
+    && apt-get install -y \
+        locales \
+        gfortran \
+        g++ \
+        libopenmpi-dev \
+        openmpi-bin \
+        libopenblas-dev \
+        libopenmpi-dev openmpi-bin \
+        mpich \
+        lcov \
+        pkg-config \
+        git \
+        python3-pip \
+        unzip \
+        curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+# Make sure we have a proper unicode locale and language
+ENV LANG en_US.utf8
+
+# Many of our tools rely on a `python` executable but are python-3 compatible
+RUN ln -s python3 /usr/bin/python
+
+ARG libxsmm_version=1.14
+ARG cmake_version=3.16.20200203-g7c93c0e
+ARG ninja_version=1.10.0
+
+RUN set -ex && \
+    pip3 install \
+        pre-commit \
+        ford \
+        git-archive-all
+
+RUN set -ex && \
+    curl -LsS https://cmake.org/files/dev/cmake-${cmake_version}-Linux-x86_64.tar.gz | tar --strip-components=1 -xz -C /usr/local
+
+RUN set -ex && \
+    curl -LsS https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-linux.zip | funzip > /usr/local/bin/ninja \
+    && chmod a+x /usr/local/bin/ninja
+
+RUN set -ex && \
+    curl -LsS https://github.com/hfp/libxsmm/archive/${libxsmm_version}.tar.gz | tar -xz -C /opt \
+    && ln -s libxsmm-${libxsmm_version} /opt/libxsmm \
+    && make -j -C /opt/libxsmm
+
+ENV PKG_CONFIG_PATH="/opt/libxsmm/lib:${PKG_CONFIG_PATH}"

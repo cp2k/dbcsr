@@ -129,9 +129,8 @@ set(DBCSR_HIP_SRCS
 # set the __SHORT_FILE__ per file for dbcsr sources
 foreach (dbcsr_src ${DBCSR_SRCS})
   # add_fypp_sources returns a path in the current binary dir
-  get_filename_component(dbcsr_src "${dbcsr_src}" ABSOLUTE)
-  file(RELATIVE_PATH short_file "${CMAKE_CURRENT_BINARY_DIR}" "${dbcsr_src}")
-  set_source_files_properties(${dbcsr_src} PROPERTIES COMPILE_DEFINITIONS __SHORT_FILE__="dbcsr/${short_file}")
+  get_filename_component(short_file "${dbcsr_src}" NAME)
+  set_source_files_properties(${dbcsr_src} PROPERTIES COMPILE_DEFINITIONS __SHORT_FILE__="${short_file}")
 endforeach ()
 
 

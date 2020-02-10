@@ -1,0 +1,28 @@
+---
+name: Publish DBCSR Build Environments to GitHub Registry
+
+on:
+  push:
+    branches:
+    - 'develop'
+    paths:
+    - 'tools/docker/**'
+    - '.github/workflows/docker-build-env.yml'
+  schedule:  # runs on the last commit of the repo's default branch
+    - cron: '45 23 * * *'
+
+jobs:
+  docker-build-env-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Publish Gitlab Image
+        uses: elgohr/Publish-Docker-Github-Action@2.12
+        with:
+          name: dbcsr/build-env-ubuntu-19.10
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          workdir: tools/docker
+          dockerfile: Dockerfile.build-env-ubuntu
+          tags: "latest"
