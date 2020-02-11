@@ -27,7 +27,7 @@ MODULE dbcsr_tas_util
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tas_util'
 
    PUBLIC :: &
-      array_eq_i8, &
+      array_eq, &
       dbcsr_mp_environ, &
       index_unique, &
       invert_transpose_flag, &
@@ -36,6 +36,11 @@ MODULE dbcsr_tas_util
    INTERFACE swap
       MODULE PROCEDURE swap_i8
       MODULE PROCEDURE swap_i
+   END INTERFACE
+
+   INTERFACE array_eq
+      MODULE PROCEDURE array_eq_i8
+      MODULE PROCEDURE array_eq_i
    END INTERFACE
 
 CONTAINS
@@ -123,6 +128,15 @@ CONTAINS
          trans_flag = dbcsr_transpose
       ENDIF
    END SUBROUTINE
+
+   PURE FUNCTION array_eq_i(arr1, arr2)
+      INTEGER, DIMENSION(:), INTENT(IN)                  :: arr1, arr2
+      LOGICAL                                            :: array_eq_i
+
+      array_eq_i = .FALSE.
+      IF (SIZE(arr1) .EQ. SIZE(arr2)) array_eq_i = ALL(arr1 == arr2)
+
+   END FUNCTION
 
    PURE FUNCTION array_eq_i8(arr1, arr2)
       INTEGER(KIND=int_8), DIMENSION(:), INTENT(IN)      :: arr1, arr2
