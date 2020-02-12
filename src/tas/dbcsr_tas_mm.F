@@ -40,7 +40,7 @@ MODULE dbcsr_tas_mm
       rowsplit, colsplit, dbcsr_tas_get_split_info, dbcsr_tas_create_split, dbcsr_tas_mp_comm, &
       dbcsr_tas_release_info, accept_pgrid_dims, dbcsr_tas_info_hold, default_nsplit_accept_ratio_1
    USE dbcsr_tas_util, ONLY: &
-      swap, invert_transpose_flag, array_eq_i8, dbcsr_mp_environ
+      swap, invert_transpose_flag, array_eq, dbcsr_mp_environ
    USE dbcsr_types, ONLY: &
       dbcsr_no_transpose, dbcsr_transpose, dbcsr_type, dbcsr_distribution_obj, dbcsr_mp_obj, &
       dbcsr_type_no_symmetry
@@ -111,7 +111,7 @@ CONTAINS
       CHARACTER(LEN=1)                           :: tr_case, transa_prv, transb_prv, transc_prv
       TYPE(dbcsr_scalar_type)                    :: zero
       LOGICAL                                    :: new_a, new_b, new_c, simple_split_prv, opt_pgrid, &
-                                                    move_a, move_b, do_batched
+                                                    move_a, move_b, do_batched, simple_split_save
       TYPE(dbcsr_tas_split_info)                 :: info, info_a, info_b, info_c
       CHARACTER(LEN=*), PARAMETER                :: routineN = 'dbcsr_tas_multiply', &
                                                     routineP = moduleN//':'//routineN
@@ -180,6 +180,7 @@ CONTAINS
       ENDIF
 
       IF(batched_repl > 0) THEN
+         simple_split_save = simple_split_prv
          simple_split_prv = .TRUE.
       ENDIF
 
@@ -268,7 +269,7 @@ CONTAINS
          nsplit = nsplit_batched
          nsplit_opt = nsplit
          max_mm_dim = max_mm_dim_batched
-         simple_split_prv = .FALSE.
+         simple_split_prv = simple_split_save
          IF (io_unit_prv > 0) THEN
             WRITE (io_unit_prv, "(T2,A)") &
                "MM PARAMETERS"
@@ -1116,7 +1117,8 @@ CONTAINS
 
       INTEGER                                    :: res, same_local_rowcols, split_check
       TYPE(dbcsr_tas_split_info)                 :: info_a, info_b
-      INTEGER                                    :: io_unit_prv, numproc, iproc
+      INTEGER                                    :: io_unit_prv, numproc
+      INTEGER, DIMENSION(2)                      :: pdims_a, pdims_b, pcoord_a, pcoord_b
 
       IF (PRESENT(io_unit)) THEN
          io_unit_prv = io_unit
@@ -1133,7 +1135,14 @@ CONTAINS
       CALL dbcsr_tas_get_split_info(info_b, split_rowcol=split_check)
       IF(split_check /= split_rc_b) RETURN
 
-      CALL mp_environ(numproc, iproc, info_a%mp_comm)
+      ! check if communicators are equivalent (global process grid and subgrids)
+      ! Note: mpi_comm_compare is not sufficient since this does not compare associated Cartesian grids.
+      ! It's sufficient to check dimensions of global grid and rank order of subgrids.
+      CALL mp_environ(numproc, pdims_a, pcoord_a, info_a%mp_comm)
+      CALL mp_environ(numproc, pdims_b, pcoord_b, info_b%mp_comm)
+      IF (.NOT. array_eq(pdims_a, pdims_b)) THEN
+         RETURN
+      ENDIF
 
       CALL mp_comm_compare(info_a%mp_comm_group, info_b%mp_comm_group, res)
       IF (res .GT. 1) THEN
@@ -1150,7 +1159,7 @@ CONTAINS
             WRITE (io_unit_prv, *) "split compatible"
          ENDIF
 
-         same_local_rowcols = MERGE(1, 0, array_eq_i8(mat_a%dist%local_rowcols, mat_b%dist%local_rowcols))
+         same_local_rowcols = MERGE(1, 0, array_eq(mat_a%dist%local_rowcols, mat_b%dist%local_rowcols))
          CALL mp_sum(same_local_rowcols, info_a%mp_comm)
 
          IF (same_local_rowcols == numproc) THEN
@@ -1252,7 +1261,7 @@ CONTAINS
 
    END SUBROUTINE
 
-   FUNCTION result_sparsity_estimate(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps) RESULT(nze)
+   FUNCTION result_sparsity_estimate(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, io_unit) RESULT(nze)
       !! Estimate sparsity pattern of C resulting from A x B = C by multiplying the block norms of A and B
       !! Same dummy arguments as dbcsr_tas_multiply
 
@@ -1260,6 +1269,7 @@ CONTAINS
       TYPE(dbcsr_tas_type), INTENT(INOUT)        :: matrix_a, matrix_b, matrix_c
       TYPE(dbcsr_tas_type)                       :: matrix_a_bnorm, matrix_b_bnorm, matrix_c_bnorm
       REAL(KIND=real_8), INTENT(IN), OPTIONAL    :: filter_eps
+      INTEGER, INTENT(IN), OPTIONAL              :: io_unit
       INTEGER(KIND=int_8)                        :: row, col, nze
       INTEGER                                    :: bn, row_size, col_size, mp_comm, handle
       TYPE(dbcsr_tas_iterator)                   :: iter
@@ -1275,7 +1285,7 @@ CONTAINS
       CALL dbcsr_tas_multiply(transa, transb, transc, dbcsr_scalar(1.0_real_8), matrix_a_bnorm, &
                               matrix_b_bnorm, dbcsr_scalar(0.0_real_8), matrix_c_bnorm, &
                               filter_eps=filter_eps, move_data_a=.TRUE., move_data_b=.TRUE., &
-                              simple_split=.TRUE.)
+                              simple_split=.TRUE., io_unit=io_unit)
 
       CALL dbcsr_tas_iterator_start(iter, matrix_c_bnorm)
       nze = 0
