@@ -111,7 +111,7 @@ CONTAINS
       CHARACTER(LEN=1)                           :: tr_case, transa_prv, transb_prv, transc_prv
       TYPE(dbcsr_scalar_type)                    :: zero
       LOGICAL                                    :: new_a, new_b, new_c, simple_split_prv, opt_pgrid, &
-                                                    move_a, move_b, do_batched
+                                                    move_a, move_b, do_batched, simple_split_save
       TYPE(dbcsr_tas_split_info)                 :: info, info_a, info_b, info_c
       CHARACTER(LEN=*), PARAMETER                :: routineN = 'dbcsr_tas_multiply', &
                                                     routineP = moduleN//':'//routineN
@@ -180,6 +180,7 @@ CONTAINS
       ENDIF
 
       IF(batched_repl > 0) THEN
+         simple_split_save = simple_split_prv
          simple_split_prv = .TRUE.
       ENDIF
 
@@ -268,7 +269,7 @@ CONTAINS
          nsplit = nsplit_batched
          nsplit_opt = nsplit
          max_mm_dim = max_mm_dim_batched
-         simple_split_prv = .FALSE.
+         simple_split_prv = simple_split_save
          IF (io_unit_prv > 0) THEN
             WRITE (io_unit_prv, "(T2,A)") &
                "MM PARAMETERS"
