@@ -107,7 +107,7 @@ MODULE dbcsr_tensor
 
 CONTAINS
 
-   SUBROUTINE dbcsr_t_copy(tensor_in, tensor_out, order, summation, move_data, unit_nr)
+   SUBROUTINE dbcsr_t_copy(tensor_in, tensor_out, order, summation, bounds, move_data, unit_nr)
       !! Copy tensor data.
       !! Redistributes tensor data according to distributions of target and source tensor.
       !! Permutes tensor index according to `order` argument (if present).
@@ -124,19 +124,27 @@ CONTAINS
          INTENT(IN), OPTIONAL                        :: order
          !! Permutation of target tensor index. Exact same convention as order argument of RESHAPE intrinsic
       LOGICAL, INTENT(IN), OPTIONAL                  :: summation, move_data
+      INTEGER, DIMENSION(2, ndims_tensor(tensor_in)), &
+         INTENT(IN), OPTIONAL                        :: bounds
+         !! crop tensor data: start and end index for each tensor dimension
       INTEGER, INTENT(IN), OPTIONAL                  :: unit_nr
 
-      TYPE(dbcsr_t_type), POINTER                    :: in_tmp_1 => NULL(), in_tmp_2 => NULL(), out_tmp_1 => NULL()
+      TYPE(dbcsr_t_type), POINTER                    :: in_tmp_1 => NULL(), in_tmp_2 => NULL(), &
+                                                        in_tmp_3 => NULL(), out_tmp_1 => NULL()
       INTEGER                                        :: handle
       INTEGER, DIMENSION(:), ALLOCATABLE             :: map1_in_1, map1_in_2, map2_in_1, map2_in_2
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy', &
                                      routineP = moduleN//':'//routineN
-      LOGICAL                                        :: dist_compatible_tas, dist_compatible_tensor, summation_prv, new_in_1, &
-                                                        new_in_2, new_out_1, block_compatible, &
+      LOGICAL                                        :: dist_compatible_tas, dist_compatible_tensor, &
+                                                        summation_prv, new_in_1, new_in_2, &
+                                                        new_in_3, new_out_1, block_compatible, &
                                                         move_prv
 
       CALL timeset(routineN, handle)
+
+
+      DBCSR_ASSERT(tensor_out%valid)
 
       IF (PRESENT(move_data)) THEN
          move_prv = move_data
@@ -144,13 +152,12 @@ CONTAINS
          move_prv = .FALSE.
       ENDIF
 
-      DBCSR_ASSERT(tensor_out%valid)
-
       dist_compatible_tas = .FALSE.
       dist_compatible_tensor = .FALSE.
       block_compatible = .FALSE.
       new_in_1 = .FALSE.
       new_in_2 = .FALSE.
+      new_in_3 = .FALSE.
       new_out_1 = .FALSE.
 
       IF (PRESENT(summation)) THEN
@@ -159,44 +166,54 @@ CONTAINS
          summation_prv = .FALSE.
       ENDIF
 
-      IF (PRESENT(order)) THEN
-         ALLOCATE (in_tmp_1)
-         CALL dbcsr_t_permute_index(tensor_in, in_tmp_1, order)
+      IF(PRESENT(bounds)) THEN
+         ALLOCATE(in_tmp_1)
+         CALL dbcsr_t_crop(tensor_in, in_tmp_1, bounds=bounds, move_data=move_prv)
          new_in_1 = .TRUE.
+         move_prv = .TRUE.
       ELSE
          in_tmp_1 => tensor_in
       ENDIF
 
-      block_compatible = check_equal(in_tmp_1%blk_sizes, tensor_out%blk_sizes)
-      IF (.NOT. block_compatible) THEN
-         ALLOCATE (in_tmp_2, out_tmp_1)
-         new_in_2 = .TRUE.; new_out_1 = .TRUE.
-         CALL dbcsr_t_make_compatible_blocks(in_tmp_1, tensor_out, in_tmp_2, out_tmp_1, &
-                                             nodata2=.NOT. summation_prv, move_data=move_data)
+      IF (PRESENT(order)) THEN
+         ALLOCATE (in_tmp_2)
+         CALL dbcsr_t_permute_index(in_tmp_1, in_tmp_2, order)
+         new_in_2 = .TRUE.
       ELSE
          in_tmp_2 => in_tmp_1
+      ENDIF
+
+      block_compatible = check_equal(in_tmp_2%blk_sizes, tensor_out%blk_sizes)
+      IF (.NOT. block_compatible) THEN
+         ALLOCATE (in_tmp_3, out_tmp_1)
+         CALL dbcsr_t_make_compatible_blocks(in_tmp_2, tensor_out, in_tmp_3, out_tmp_1, &
+                                             nodata2=.NOT. summation_prv, move_data=move_prv)
+         new_in_3 = .TRUE.; new_out_1 = .TRUE.
+         move_prv = .TRUE.
+      ELSE
+         in_tmp_3 => in_tmp_2
          out_tmp_1 => tensor_out
       ENDIF
 
-      CALL dbcsr_t_get_mapping_info(in_tmp_2%nd_index, map1_2d=map1_in_1, map2_2d=map1_in_2)
+      CALL dbcsr_t_get_mapping_info(in_tmp_3%nd_index, map1_2d=map1_in_1, map2_2d=map1_in_2)
       CALL dbcsr_t_get_mapping_info(out_tmp_1%nd_index, map1_2d=map2_in_1, map2_2d=map2_in_2)
 
       IF (.NOT. PRESENT(order)) THEN
          IF (array_eq_i(map1_in_1, map2_in_1) .AND. array_eq_i(map1_in_2, map2_in_2)) THEN
-            dist_compatible_tas = check_equal(in_tmp_2%nd_dist, out_tmp_1%nd_dist)
+            dist_compatible_tas = check_equal(in_tmp_3%nd_dist, out_tmp_1%nd_dist)
          ELSEIF(array_eq_i([map1_in_1, map1_in_2], [map2_in_1, map2_in_2])) THEN
-            dist_compatible_tensor = check_equal(in_tmp_2%nd_dist, out_tmp_1%nd_dist)
+            dist_compatible_tensor = check_equal(in_tmp_3%nd_dist, out_tmp_1%nd_dist)
          ENDIF
       ENDIF
 
       IF (dist_compatible_tas) THEN
-         CALL dbcsr_tas_copy(out_tmp_1%matrix_rep, in_tmp_2%matrix_rep, summation)
-         IF (move_prv) CALL dbcsr_t_clear(in_tmp_2)
+         CALL dbcsr_tas_copy(out_tmp_1%matrix_rep, in_tmp_3%matrix_rep, summation)
+         IF (move_prv) CALL dbcsr_t_clear(in_tmp_3)
       ELSEIF(dist_compatible_tensor) THEN
-         CALL dbcsr_t_copy_nocomm(in_tmp_2, out_tmp_1, summation)
-         IF (move_prv) CALL dbcsr_t_clear(in_tmp_2)
+         CALL dbcsr_t_copy_nocomm(in_tmp_3, out_tmp_1, summation)
+         IF (move_prv) CALL dbcsr_t_clear(in_tmp_3)
       ELSE
-         CALL dbcsr_t_reshape(in_tmp_2, out_tmp_1, summation, move_data=move_data)
+         CALL dbcsr_t_reshape(in_tmp_3, out_tmp_1, summation, move_data=move_data)
       ENDIF
 
       IF (new_in_1) THEN
@@ -207,6 +224,11 @@ CONTAINS
       IF (new_in_2) THEN
          CALL dbcsr_t_destroy(in_tmp_2)
          DEALLOCATE (in_tmp_2)
+      ENDIF
+
+      IF (new_in_3) THEN
+         CALL dbcsr_t_destroy(in_tmp_3)
+         DEALLOCATE (in_tmp_3)
       ENDIF
 
       IF (new_out_1) THEN
