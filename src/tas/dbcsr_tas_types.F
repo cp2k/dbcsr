@@ -77,9 +77,9 @@ MODULE dbcsr_tas_types
 
       ! storage and flags for batched matrix multiplication
       INTEGER :: do_batched = 0 ! whether we are doing batched MM:
-                                ! - 0 no batched MM
-                                ! - 1 batched MM but mm_storage not yet initialized
-                                ! - 2 batched MM and mm_storage initialized
+      ! - 0 no batched MM
+      ! - 1 batched MM but mm_storage not yet initialized
+      ! - 2 batched MM and mm_storage initialized
       TYPE(dbcsr_tas_mm_storage), ALLOCATABLE :: mm_storage ! storage for batched processing of matrix matrix multiplication.
 
    END TYPE
