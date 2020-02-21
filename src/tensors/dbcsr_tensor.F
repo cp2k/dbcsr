@@ -213,7 +213,7 @@ CONTAINS
          CALL dbcsr_t_copy_nocomm(in_tmp_3, out_tmp_1, summation)
          IF (move_prv) CALL dbcsr_t_clear(in_tmp_3)
       ELSE
-         CALL dbcsr_t_reshape(in_tmp_3, out_tmp_1, summation, move_data=move_data)
+         CALL dbcsr_t_reshape(in_tmp_3, out_tmp_1, summation, move_data=move_prv)
       ENDIF
 
       IF (new_in_1) THEN
