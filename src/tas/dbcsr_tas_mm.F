@@ -252,9 +252,9 @@ CONTAINS
          nze_b = dbcsr_tas_get_nze_total(matrix_b)
          nze_c = result_sparsity_estimate(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps)
 
-         nsplit = split_factor_estimate(nze_a, nze_b, nze_c, numproc)
+         max_mm_dim = MAXLOC(dims, 1)
+         nsplit = split_factor_estimate(max_mm_dim, nze_a, nze_b, nze_c, numproc)
          nsplit_opt = nsplit
-         max_mm_dim = MINLOC([nze_b, nze_c, nze_a], 1)
 
          IF (io_unit_prv > 0) THEN
             WRITE (io_unit_prv, "(T2,A)") &
@@ -1307,13 +1307,14 @@ CONTAINS
 
    END FUNCTION
 
-   FUNCTION split_factor_estimate(nze_a, nze_b, nze_c, numnodes) RESULT(nsplit)
+   FUNCTION split_factor_estimate(max_mm_dim, nze_a, nze_b, nze_c, numnodes) RESULT(nsplit)
       !! Estimate optimal split factor for AxB=C from occupancies (number of non-zero elements)
       !! This estimate is based on the minimization of communication volume whereby
       !! the communication of CARMA n-split step and CANNON-multiplication of submatrices are
       !! considered.
       !! \result estimated split factor
 
+      INTEGER, INTENT(IN)                         :: max_mm_dim
       INTEGER(KIND=int_8), INTENT(IN)             :: nze_a, nze_b, nze_c
          !! number of non-zeroes in A
          !! number of non-zeroes in B
@@ -1323,9 +1324,22 @@ CONTAINS
       INTEGER                                     :: nsplit, nsplit_comm, nsplit_memory
       INTEGER(KIND=int_8)                         :: max_nze, min_nze
 
-      min_nze = MAX(MINVAL([nze_a, nze_b, nze_c]), 1_int_8)
-      max_nze = MAX(MAXVAL([nze_a, nze_b, nze_c]), 1_int_8)
+      SELECT CASE(max_mm_dim)
+      CASE(1)
+         min_nze = MAX(nze_b, 1_int_8)
+         max_nze = MAX(MAXVAL([nze_a, nze_c]), 1_int_8)
+      CASE(2)
+         min_nze = MAX(nze_c, 1_int_8)
+         max_nze = MAX(MAXVAL([nze_a, nze_b]), 1_int_8)
+      CASE(3)
+         min_nze = MAX(nze_a, 1_int_8)
+         max_nze = MAX(MAXVAL([nze_b, nze_c]), 1_int_8)
+      CASE DEFAULT
+         DBCSR_ABORT("")
+      END SELECT
+
       nsplit_comm = NINT((REAL(nze_a + nze_b, real_8)/(2*min_nze))**(2._real_8/3)*REAL(numnodes, real_8)**(1._real_8/3))
+      IF(nsplit_comm == 0) nsplit_comm = 1
 
       ! nsplit_memory protects against excess memory usage
       ! actual split factor may be up to default_nsplit_accept_ratio_1 times larger, so the largest nsplit
