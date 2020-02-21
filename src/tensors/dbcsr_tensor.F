@@ -143,7 +143,6 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-
       DBCSR_ASSERT(tensor_out%valid)
 
       IF (PRESENT(move_data)) THEN
