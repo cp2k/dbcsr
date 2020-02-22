@@ -19,7 +19,7 @@ MODULE dbcsr_tensor_api
       dbcsr_t_contract, dbcsr_t_get_block, dbcsr_t_get_stored_coordinates, dbcsr_t_put_block, &
       dbcsr_t_reserve_blocks, dbcsr_t_copy_matrix_to_tensor, dbcsr_t_copy, &
       dbcsr_t_copy_tensor_to_matrix, dbcsr_t_need_contract, dbcsr_t_batched_contract_init, &
-      dbcsr_t_batched_contract_finalize
+      dbcsr_t_batched_contract_finalize, dbcsr_t_ndims
    USE dbcsr_tensor_block, ONLY: &
       dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_next_block, dbcsr_t_iterator_start, &
       dbcsr_t_iterator_stop, dbcsr_t_iterator_type
@@ -91,5 +91,6 @@ MODULE dbcsr_tensor_api
    PUBLIC :: dbcsr_t_mp_dims_create
    PUBLIC :: dbcsr_t_batched_contract_init
    PUBLIC :: dbcsr_t_batched_contract_finalize
+   PUBLIC :: dbcsr_t_ndims
 
 END MODULE dbcsr_tensor_api
