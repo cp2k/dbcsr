@@ -23,10 +23,12 @@
 
 /****************************************************************************/
 extern "C" int acc_init(){
+  int myDevice;
   // Driver boilerplate
   ACC_DRV_CALL(Init, (0));
   ACC_DRV(device) acc_device;
-  ACC_DRV_CALL(DeviceGet, (&acc_device, 0));
+  ACC_API_CALL(GetDevice, (&myDevice));
+  ACC_DRV_CALL(DeviceGet, (&acc_device, myDevice));
   ACC_DRV(context) ctx;
   ACC_DRV_CALL(DevicePrimaryCtxRetain, (&ctx, acc_device));
 
@@ -37,10 +39,11 @@ extern "C" int acc_init(){
 
 /****************************************************************************/
 extern "C" int acc_finalize(){
+  int myDevice;
   // Release driver resources
   ACC_DRV(device) acc_device;
-  ACC_DRV_CALL(DeviceGet, (&acc_device, 0));
+  ACC_API_CALL(GetDevice, (&myDevice));
+  ACC_DRV_CALL(DeviceGet, (&acc_device, myDevice));
   ACC_DRV_CALL(DevicePrimaryCtxRelease, (acc_device));
   return 0;
 }
-
