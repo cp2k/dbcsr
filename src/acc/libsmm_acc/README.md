@@ -76,7 +76,7 @@ Follow the [predictive modeling procedure](predict/README.md)
 
 2. Add the GPU to the `arch_number` data structure in [`kernels/smm_acc_predict.py`](kernels/smm_acc_predict.py)
 
-3. Add the necessary code for setting `ARCH_NUMBER` correctly in the [`Makefile`](../../../../Makefile) and in the [`CMakeLists`](CMakeLists.txt). Also add this GPU to the list of `SUPPORTED_CUDA_ARCHITECTURES` or `SUPPORTED_HIP_ARCHITECTURES` in the [`CMakeLists`](CMakeLists.txt).
+3. Add the necessary code for setting `ARCH_NUMBER` correctly in the [`CMakeLists`](CMakeLists.txt). Also add this GPU to the list of `SUPPORTED_CUDA_ARCHITECTURES` or `SUPPORTED_HIP_ARCHITECTURES` in the [`CMakeLists`](CMakeLists.txt).
 
 4. Add a minimal JSON file `parameters_GPU.json`, containing:
 
