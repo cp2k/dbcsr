@@ -5,7 +5,6 @@ SHELL = /bin/sh
 #
 DBCSRHOME    ?= $(CURDIR)
 MAKEFILE     := $(DBCSRHOME)/Makefile
-BINDIR       := $(DBCSRHOME)/bin
 LIBDIR       ?= $(DBCSRHOME)/lib
 OBJDIR       ?= $(DBCSRHOME)/obj
 PRETTYOBJDIR := $(OBJDIR)/prettified
@@ -13,10 +12,8 @@ TOOLSRC      := $(DBCSRHOME)/tools
 FYPPEXE      ?= $(TOOLSRC)/build_utils/fypp/bin/fypp
 SRCDIR       := $(DBCSRHOME)/src
 TESTSDIR     := $(DBCSRHOME)/tests
-EXAMPLESDIR  := $(DBCSRHOME)/examples
 PREFIX       ?= $(DBCSRHOME)/install
 INCLUDEMAKE  ?= $(DBCSRHOME)/Makefile.inc
-NPROCS       ?= 1
 
 # Default Target ============================================================
 LIBNAME      := dbcsr
@@ -80,9 +77,8 @@ else
 endif
 
 # Declare PHONY targets =====================================================
-.PHONY : $(BIN_NAMES) \
-         dirs makedep \
-         default_target $(LIBRARY) all \
+.PHONY : dirs makedep \
+         default_target $(LIBRARY) \
          toolversions \
          toolflags \
          pretty prettyclean \
@@ -143,12 +139,6 @@ ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hpp")
 ifeq ($(INCLUDE_DEPS),)
 $(LIBRARY): dirs makedep
 	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) INCLUDE_DEPS=true DBCSRHOME=$(DBCSRHOME)
-
-$(BIN_NAMES): $(LIBRARY)
-	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $@ INCLUDE_DEPS=true DBCSRHOME=$(DBCSRHOME)
-
-all: $(LIBRARY)
-	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) all INCLUDE_DEPS=true DBCSRHOME=$(DBCSRHOME)
 
 dirs:
 	@mkdir -p $(OBJDIR)
@@ -249,31 +239,11 @@ ifeq (, $(shell which $(FYPPEXE) 2>/dev/null ))
 $(error "No FYPP submodule available, please read README.md on how to properly download DBCSR")
 endif
 
-all: $(foreach e, $(BIN_NAMES), $(e))
-
-ifeq ($(BIN_NAME),)
-$(BIN_NAMES):
-	@mkdir -p $(BINDIR)
-	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) $(BINDIR)/$@.x INCLUDE_DEPS=true BIN_NAME=$@ BIN_DEPS="$(BIN_DEPS)" DBCSRHOME=$(DBCSRHOME)
-else
-# stage 3: Perform actual build.
-$(BIN_NAME).o: $(BIN_DEPS) $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT)
-
-$(BINDIR)/%.x: %.o $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT)
-	$(LD) $(LDFLAGS) -L$(LIBDIR) -o $@ $< $(BIN_DEPS) -l$(LIBNAME) $(LIBS)
-endif
-
 endif
 
 help:
 	@echo "=================== Default ===================="
 	@printf "%s\n" "$(LIBRARY)                     Build DBCSR library"
-	@echo ""
-	@echo "=================== Binaries ===================="
-	@echo "all                          Builds all executables"
-	@for i in $(BIN_FILES); do \
-	basename  $$i | sed 's/^\(.*\)\..*/\1/' | awk '{printf "%-29s\n", $$1}'; \
-	done
 	@echo ""
 	@echo "===================== Tools ====================="
 	@printf "%s\n" $(TOOL_HELP) | awk -F ':' '{printf "%-28s%s\n", $$1, $$2}'
@@ -332,7 +302,7 @@ OTHER_HELP += "clean : Remove intermediate object and mod files, but not the lib
 # Use this if you want to fully rebuild an executable (for a given compiler)
 #
 realclean: clean
-	rm -rf $(BINDIR) $(LIBDIR) $(PREFIX)
+	rm -rf $(LIBDIR) $(PREFIX)
 	rm -rf `find $(DBCSRHOME) -name "*.pyc"`
 	rm -rf `find $(DBCSRHOME) -name "*.callgraph"`
 OTHER_HELP += "realclean : Remove all files"
