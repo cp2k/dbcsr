@@ -71,14 +71,7 @@ endif
 endif
 endif
 
-# Test programs =========================================================
-include $(TESTSDIR)/Makefile.inc
-BIN_TESTS := $(sort $(addprefix $(TESTSDIR)/, $(SRC_TESTS)))
-
 # Set the configuration ============================================
-# the only binaries for the moment are the tests
-BIN_FILES := $(BIN_TESTS)
-BIN_NAMES := $(basename $(notdir $(BIN_FILES)))
 #
 ifneq ($(LD_SHARED),)
  ARCHIVE_EXT := .so
@@ -94,7 +87,7 @@ endif
          toolflags \
          pretty prettyclean \
          install clean realclean help \
-         version test
+         version
 
 # Discover files and directories ============================================
 ALL_SRC_DIRS := $(shell find $(SRCDIR) -type d | awk '{printf("%s:",$$1)}')
@@ -326,18 +319,6 @@ endif
 
 
 OTHER_HELP += "install : Install the library and modules under PREFIX=<directory> (default $(PREFIX))"
-
-test:
-	@export OMP_NUM_THREADS=2 ; \
-	for test in $(UNITTESTS); do \
-		mpirun -np $(NPROCS) $(BINDIR)/$$test.x || exit 1; \
-	done
-	@export OMP_NUM_THREADS=2 ; \
-	for input in $(PERFTESTS); do \
-		mpirun -np $(NPROCS) $(BINDIR)/dbcsr_performance_driver.x $$input || exit 1; \
-	done
-
-OTHER_HELP += "test    : Run the unittests available in tests/"
 
 clean:
 	rm -f $(TESTSDIR)/libsmm_acc_unittest_multiply.cpp
