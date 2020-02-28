@@ -30,8 +30,9 @@ ifeq ($(DATE),)
 DATE = "Development Version"
 endif
 
-# Set the compute version and NVFLAGS =======================================
-ifneq ($(NVCC),)
+# Set the compute version and ACCFLAGS =======================================
+ifneq ($(ACC),)
+# Set ARCH version
 ifeq ($(GPUVER),K20X)
  ARCH_NUMBER = 35
 else ifeq ($(GPUVER),K40)
@@ -42,28 +43,37 @@ else ifeq ($(GPUVER),P100)
  ARCH_NUMBER = 60
 else ifeq ($(GPUVER),V100)
  ARCH_NUMBER = 70
-else ifeq ($(GPUVER),Mi50)
- ARCH_NUMBER = gfx906
 else ifeq ($(GPUVER),) # Default to the P100
  ARCH_NUMBER = 60
+# Remaining ARCH only for HIP
+else ifneq (,$(findstring nvcc,$(ACC)))
+ $(error GPUVER requires HIP or not recognized)
+else ifeq ($(GPUVER),Mi50)
+ ARCH_NUMBER = gfx906
 else
  $(error GPUVER not recognized)
 endif
 
-ifneq ($(ARCH_NUMBER),)
+# enable ACC compilation
+FCFLAGS  += -D__DBCSR_ACC
+CFLAGS   += -D__DBCSR_ACC
+CXXFLAGS += -D__DBCSR_ACC
+
 # If compiling with nvcc
-ifneq (,$(findstring nvcc,$(NVCC)))
-NVFLAGS += -D__CUDA # add the flag for compilation with CUDA
-#if "-arch" has not yet been set in NVFLAGS
-ifeq ($(findstring "-arch", $(NVFLAGS)), '')
-NVFLAGS += -arch sm_$(ARCH_NUMBER)
+ifneq (,$(findstring nvcc,$(ACC)))
+ACCFLAGS += -D__CUDA
+CXXFLAGS += -D__CUDA
+#if "-arch" has not yet been set in ACCFLAGS
+ifeq (,$(findstring "-arch", $(ACCFLAGS)))
+ACCFLAGS += -arch sm_$(ARCH_NUMBER)
 endif
 # If compiling with hipcc
-else ifneq (,$(findstring hipcc,$(NVCC)))
-#if "--amdgpu-target" has not yet been set in NVFLAGS
-ifeq ($(findstring "--amdgpu-target", $(NVFLAGS)), '')
-NVFLAGS += --amdgpu-target=$(ARCH_NUMBER)
-endif
+else ifneq (,$(findstring hipcc,$(ACC)))
+ACCFLAGS += -D__HIP
+CXXFLAGS += -D__HIP
+#if "--amdgpu-target" has not yet been set in ACCFLAGS
+ifeq (,$(findstring "--amdgpu-target", $(ACCFLAGS)))
+ACCFLAGS += --amdgpu-target=$(ARCH_NUMBER)
 endif
 endif
 endif
@@ -96,16 +106,16 @@ OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . ! -name "dbcsr_api_c.F" -name "*.F
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
 
 # if compiling with GPU acceleration
-ifneq ($(NVCC),)
+ifneq ($(ACC),)
   # All *.cpp files belong to the accelerator backend
   OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
   # if compiling with nvcc
-  ifneq (,$(findstring nvcc,$(NVCC)))
+  ifneq (,$(findstring nvcc,$(ACC)))
     OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../cuda/acc_cuda.cpp
     # Exclude autotuning files
     OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "tune_*_exe*_part*.cu" ! -name "tune_*_exe*_main*.cu"  -name "*.cu")
   # if compiling with hipcc
-  else ifneq (,$(findstring hipcc,$(NVCC)))
+  else ifneq (,$(findstring hipcc,$(ACC)))
     OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hip/acc_hip.cpp
     # Exclude autotuning files
     OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "tune_*_exe*_part*.cpp" ! -name "tune_*_exe*_main*.cpp"  -name "*.cpp")
@@ -179,9 +189,9 @@ ifneq ($(LD),)
 	$(LD) --version
 	@echo ""
 endif
-ifneq ($(NVCC),)
+ifneq ($(ACC),)
 	@echo "========== NVCC / HIPCC =========="
-	$(NVCC) --version
+	$(ACC) --version
 	@echo ""
 endif
 ifneq ($(AR),)
@@ -218,9 +228,9 @@ ifneq ($(LDFLAGS),)
 	@echo $(LDFLAGS)
 	@echo ""
 endif
-ifneq ($(NVFLAGS),)
+ifneq ($(ACCFLAGS),)
 	@echo "========== NVFLAGS / HIPFLAGS =========="
-	@echo $(NVFLAGS)
+	@echo $(ACCFLAGS)
 	@echo ""
 endif
 ifneq ($(GPUVER),)
@@ -258,7 +268,7 @@ help:
 	@echo "GNU=0    : disable GNU compiler compilation and enable Intel compiler compilation"
 	@echo "CHECKS=1 : enable GNU compiler checks and DBCSR asserts"
 	@echo "CINT=1   : generate the C interface"
-	@echo "GPU=1    : enable GPU support"
+	@echo "GPU=1    : enable GPU support for CUDA"
 
 ifeq ($(INCLUDE_DEPS),)
 install: $(LIBRARY)
@@ -403,38 +413,38 @@ FYPPFLAGS ?= -n
 	$(CC) -c $(CFLAGS) $<
 
 # Compile the CUDA/HIP files
-ifneq ($(NVCC),)
+ifneq ($(ACC),)
 %.o: %.cpp
-	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 
 libsmm_acc.o: libsmm_acc.cpp parameters.h smm_acc_kernels.h
-	$(NVCC) -c $(NVFLAGS) -DARCH_NUMBER=$(ARCH_NUMBER) $<
+	$(ACC) -c $(ACCFLAGS) -DARCH_NUMBER=$(ARCH_NUMBER) $<
 
 libsmm_acc_benchmark.o: libsmm_acc_benchmark.cpp parameters.h
-	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 
 libsmm_acc_init.o: libsmm_acc_init.cpp libsmm_acc_init.h parameters.h
-	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 endif
 
-ifneq (,$(findstring nvcc,$(NVCC)))
+ifneq (,$(findstring nvcc,$(ACC)))
 %.o: %.cpp
-	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 
 acc_cuda.o: acc_cuda.cpp acc_cuda.h
-	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 
 %.o: %.cu
-	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
-else ifneq (,$(findstring hipcc,$(NVCC)))
+	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
+else ifneq (,$(findstring hipcc,$(ACC)))
 %.o: %.cpp
-	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 
 acc_hip.o: acc_hip.cpp acc_hip.h
-	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 
 hipblas.o: hipblas.cpp
-	$(NVCC) -c $(NVFLAGS) -I'$(SRCDIR)' $<
+	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 endif
 
 $(LIBDIR)/%:
