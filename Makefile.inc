@@ -36,14 +36,6 @@
 # - `make GPU=1` (for CUDA): make sure that the env variable ${CUDA_PATH} is set.
 # - or `make GPU=2` (for HIP)
 #
-# For convenience, some variables can be set during compilation,
-# e.g. make `VARIABLE=value` (multiple variables are possible):
-# 1) OMP=0    : disable OpenMP compilation
-# 2) MPI=0    : disable MPI compilation
-# 3) GNU=0    : disable GNU compiler compilation and enable Intel compiler compilation
-# 4) CHECKS=1 : enable GNU compiler checks and DBCSR asserts
-# 5) CINT=1   : generate the C interface
-# 6) GPU=1,2  : enable GPU support (1: with CUDA, 2: with HIP)
 #
 
 #######################################################################################
@@ -74,30 +66,11 @@ endif
 # LD  => Linker, e.g. gfortran or mpifort
 # AR  => Archive command, e.g. ar -r
 
-ifneq (0,$(MPI))
-  ifneq (0,$(GNU)) # DEFAULT, just edit...
-    CXX = mpicxx
-    CC  = mpicc
-    FC  = mpif90
-    LD  = mpif90
-    AR  = ar -r
-  else
-    # Intel compiler
-    CXX = mpiicpc
-    CC  = mpiicc
-    FC  = mpiifort
-    LD  = mpiifort
-    AR  = xiar -r
-  endif
-else # no MPI
-  # By default use GNU
-  GNU = 1
-  CXX = g++
-  CC  = gcc
-  FC  = gfortran
-  LD  = gfortran
-  AR  = ar -r
-endif
+CXX = mpicxx
+CC  = mpicc
+FC  = mpif90
+LD  = mpif90
+AR  = ar -r
 
 #######################################################################################
 #
@@ -127,23 +100,12 @@ endif
 #                            regular release builds may carry assertions for safety.
 #
 
-ifneq (0,$(GNU)) # DEFAULT, just edit...
-  CXXFLAGS += -std=c++11
-  FCFLAGS  += -std=f2008ts -ffree-form -fimplicit-none -ffree-line-length-512
-  OPTFLAGS += -O3 -g -fno-omit-frame-pointer -funroll-loops
-else
- # Intel compiler flags
-  CXXFLAGS += -std=c++11
-  FCFLAGS  += -free
-  OPTFLAGS += -O2 -g
-endif
+CXXFLAGS += -std=c++11
+FCFLAGS  += -std=f2008ts -ffree-form -fimplicit-none -ffree-line-length-512
+OPTFLAGS += -O3 -g -fno-omit-frame-pointer -funroll-loops
+CXXFLAGS += -fopenmp
+FCFLAGS  += -fopenmp
 
-ifneq (0,$(OMP)) # using OpenMP
-  CXXFLAGS += -fopenmp
-  FCFLAGS  += -fopenmp
-endif
-
-OPTFLAGS    +=
 CFLAGS      += $(OPTFLAGS)
 CXXFLAGS    += $(OPTFLAGS)
 FCFLAGS     += $(OPTFLAGS)
@@ -153,9 +115,7 @@ LDFLAGS     += $(FCFLAGS)
 #
 # Macro for MPI parallelization.
 
-ifneq (0,$(MPI))
 FCFLAGS += -D__parallel
-endif
 
 #######################################################################################
 #
@@ -188,7 +148,6 @@ endif
 # We do not simply use -Wall since some warnings for Fortran are misleading.
 # For the checks use `make CHECKS=1` to enable them.
 
-ifneq (0,$(GNU))
 WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=intrinsic-shadow -Werror=intrinsics-std \
               -Werror=line-truncation \
@@ -197,7 +156,6 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
               -Werror=unused-but-set-variable -Werror=unused-variable \
               -Werror=unused-dummy-argument -Werror=conversion \
               -Werror=uninitialized -Wno-maybe-uninitialized
-
 FCFLAGS    += $(WFLAGS)
 
 ifeq ($(CHECKS),1)
@@ -205,8 +163,6 @@ ifneq ($(LEAKS),0)
 FCFLAGS    += -fsanitize=leak
 endif
 FCFLAGS    += -fcheck=bounds,do,recursion,pointer -Wconversion -fbacktrace
-endif
-
 endif
 
 ifneq ($(CHECKS),1)

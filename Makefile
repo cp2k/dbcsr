@@ -122,10 +122,8 @@ ifneq ($(ACC),)
   endif
 endif
 
-ifneq ($(CINT),)
 OBJ_SRC_FILES += ./dbcsr_api_c.F
 PUBLICHEADERS += $(SRCDIR)/dbcsr.h
-endif
 
 # OBJECTS used for pretty
 ALL_OBJECTS   := $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
@@ -264,10 +262,7 @@ help:
 	@echo "================= Variables ====================="
 	@echo "For convenience, some variables can be set during compilation,"
 	@echo "e.g. make VARIABLE=value (multiple variables are possible):"
-	@echo "MPI=0    : disable MPI compilation"
-	@echo "GNU=0    : disable GNU compiler compilation and enable Intel compiler compilation"
 	@echo "CHECKS=1 : enable GNU compiler checks and DBCSR asserts"
-	@echo "CINT=1   : generate the C interface"
 	@echo "GPU=1    : enable GPU support for CUDA"
 
 ifeq ($(INCLUDE_DEPS),)
