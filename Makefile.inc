@@ -36,7 +36,6 @@
 # - `make GPU=1` (for CUDA): make sure that the env variable ${CUDA_PATH} is set.
 # - or `make GPU=2` (for HIP)
 #
-#
 
 #######################################################################################
 #

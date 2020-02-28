@@ -12,7 +12,6 @@ TOOLSRC      := $(DBCSRHOME)/tools
 FYPPEXE      ?= $(TOOLSRC)/build_utils/fypp/bin/fypp
 SRCDIR       := $(DBCSRHOME)/src
 TESTSDIR     := $(DBCSRHOME)/tests
-PREFIX       ?= $(DBCSRHOME)/install
 INCLUDEMAKE  ?= $(DBCSRHOME)/Makefile.inc
 
 # Default Target ============================================================
@@ -92,7 +91,7 @@ endif
          toolversions \
          toolflags \
          pretty prettyclean \
-         install clean realclean help \
+         clean realclean help \
          version
 
 # Discover files and directories ============================================
@@ -264,36 +263,6 @@ help:
 	@echo "e.g. make VARIABLE=value (multiple variables are possible):"
 	@echo "CHECKS=1 : enable GNU compiler checks and DBCSR asserts"
 	@echo "GPU=1    : enable GPU support for CUDA"
-
-ifeq ($(INCLUDE_DEPS),)
-install: $(LIBRARY)
-	@echo "Remove any previous installation directory"
-	@rm -rf $(PREFIX)
-	@echo "Copying files ..."
-	@mkdir -p $(PREFIX)
-	@mkdir -p $(PREFIX)/lib
-	@mkdir -p $(PREFIX)/include
-	@printf "  ... library ..."
-	@cp $(LIBDIR)/$(LIBRARY)$(ARCHIVE_EXT) $(PREFIX)/lib
-	@echo " done."
-	@+$(MAKE) --no-print-directory -C $(OBJDIR) -f $(MAKEFILE) install INCLUDE_DEPS=true DBCSRHOME=$(DBCSRHOME)
-	@echo "... installation done at $(PREFIX)."
-else
-install:
-	@printf "  ... modules ..."
-	@if [ -n "$(wildcard $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)))" ] ; then \
-		cp $(addprefix $(OBJDIR)/, $(PUBLICFILES:.F=.mod)) $(PREFIX)/include ; \
-		echo " done." ; \
-	else echo " no modules were installed!" ; fi
-	@printf "  ... headers ..."
-	@if [ -n "$(PUBLICHEADERS)" ] ; then \
-		cp $(PUBLICHEADERS) $(PREFIX)/include ; \
-		echo " done." ; \
-	else echo " no headers were installed!" ; fi
-endif
-
-
-OTHER_HELP += "install : Install the library and modules under PREFIX=<directory> (default $(PREFIX))"
 
 clean:
 	rm -f $(TESTSDIR)/libsmm_acc_unittest_multiply.cpp
