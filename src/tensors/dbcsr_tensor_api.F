@@ -22,7 +22,7 @@ MODULE dbcsr_tensor_api
       dbcsr_t_batched_contract_finalize, dbcsr_t_ndims
    USE dbcsr_tensor_block, ONLY: &
       dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_next_block, dbcsr_t_iterator_start, &
-      dbcsr_t_iterator_stop, dbcsr_t_iterator_type
+      dbcsr_t_iterator_stop, dbcsr_t_iterator_type, dbcsr_t_reserved_block_indices
    USE dbcsr_tensor_types, ONLY: &
       dbcsr_t_create, dbcsr_t_destroy, dbcsr_t_distribution_destroy, dbcsr_t_distribution_new, &
       dbcsr_t_distribution_type, dbcsr_t_nd_mp_comm, dbcsr_t_nd_mp_free, dbcsr_t_type, &
@@ -93,5 +93,6 @@ MODULE dbcsr_tensor_api
    PUBLIC :: dbcsr_t_batched_contract_finalize
    PUBLIC :: dbcsr_t_ndims
    PUBLIC :: dbcsr_t_pgrid_change_dims
+   PUBLIC :: dbcsr_t_reserved_block_indices
 
 END MODULE dbcsr_tensor_api
