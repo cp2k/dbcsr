@@ -28,7 +28,7 @@ MODULE dbcsr_tas_mm
       dbcsr_tas_get_data_type, dbcsr_tas_info, dbcsr_tas_nblkcols_total, &
       dbcsr_tas_nblkrows_total, dbcsr_tas_filter, dbcsr_tas_get_info, dbcsr_tas_iterator_blocks_left, &
       dbcsr_tas_get_nze_total, dbcsr_tas_reserve_blocks, dbcsr_tas_iterator_start, dbcsr_tas_iterator_next_block, &
-      dbcsr_tas_iterator_stop, dbcsr_tas_copy, dbcsr_tas_get_block_p, dbcsr_tas_clear
+      dbcsr_tas_iterator_stop, dbcsr_tas_copy, dbcsr_tas_get_block_p, dbcsr_tas_clear, dbcsr_tas_get_num_blocks
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_distribution_type, dbcsr_tas_split_info, dbcsr_tas_type, dbcsr_tas_iterator
    USE dbcsr_tas_global, ONLY: &
@@ -70,7 +70,7 @@ CONTAINS
 
    RECURSIVE SUBROUTINE dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, matrix_b, beta, matrix_c, &
                                            optimize_dist, split_opt, filter_eps, flop, move_data_a, &
-                                           move_data_b, simple_split, io_unit, log_verbose)
+                                           move_data_b, retain_sparsity, simple_split, result_index, io_unit, log_verbose)
       !! tall-and-skinny matrix-matrix multiplication. Undocumented dummy arguments are identical to
       !! arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).
 
@@ -88,10 +88,11 @@ CONTAINS
          !! split_opt can not be returned, in this case the pointer is not associated
       REAL(KIND=real_8), INTENT(IN), OPTIONAL    :: filter_eps
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL :: flop
-      LOGICAL, INTENT(IN), OPTIONAL              :: move_data_a, move_data_b, simple_split
+      LOGICAL, INTENT(IN), OPTIONAL              :: move_data_a, move_data_b, simple_split, retain_sparsity
          !! memory optimization: move data to matrix_c such that matrix_a is empty on return
          !! memory optimization: move data to matrix_c such that matrix_b is empty on return
          !! for internal use only
+      INTEGER(int_8), DIMENSION(:,:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: result_index
       INTEGER, OPTIONAL, INTENT(IN)              :: io_unit
          !! unit number for logging output
       LOGICAL, OPTIONAL, INTENT(IN)              :: log_verbose
@@ -111,7 +112,8 @@ CONTAINS
       CHARACTER(LEN=1)                           :: tr_case, transa_prv, transb_prv, transc_prv
       TYPE(dbcsr_scalar_type)                    :: zero
       LOGICAL                                    :: new_a, new_b, new_c, simple_split_prv, opt_pgrid, &
-                                                    move_a, move_b, do_batched, simple_split_save
+                                                    move_a, move_b, do_batched, simple_split_save, &
+                                                    nodata_3
       TYPE(dbcsr_tas_split_info)                 :: info, info_a, info_b, info_c
       CHARACTER(LEN=*), PARAMETER                :: routineN = 'dbcsr_tas_multiply', &
                                                     routineP = moduleN//':'//routineN
@@ -135,6 +137,11 @@ CONTAINS
 
          info_a = dbcsr_tas_info(matrix_a); info_b = dbcsr_tas_info(matrix_b); info_c = dbcsr_tas_info(matrix_c)
          IF (info_a%strict_split .OR. info_b%strict_split .OR. info_c%strict_split) simple_split_prv = .TRUE.
+      ENDIF
+
+      nodata_3 = .TRUE.
+      IF(PRESENT(retain_sparsity)) THEN
+         IF(retain_sparsity) nodata_3 = .FALSE.
       ENDIF
 
       ! get prestored info for multiplication strategy in case of batched mm
@@ -250,7 +257,12 @@ CONTAINS
       IF (.NOT. simple_split_prv) THEN
          nze_a = dbcsr_tas_get_nze_total(matrix_a)
          nze_b = dbcsr_tas_get_nze_total(matrix_b)
-         nze_c = result_sparsity_estimate(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps)
+         CALL dbcsr_tas_result_index(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, &
+                                     blk_ind=result_index, nze=nze_c, retain_sparsity=retain_sparsity)
+         IF(PRESENT(result_index)) THEN
+            CALL timestop(handle)
+            RETURN
+         ENDIF
 
          max_mm_dim = MAXLOC(dims, 1)
          nsplit = split_factor_estimate(max_mm_dim, nze_a, nze_b, nze_c, numproc)
@@ -292,7 +304,7 @@ CONTAINS
                                     nsplit=nsplit, &
                                     opt_nsplit=batched_repl == 0, &
                                     split_rc_1=split_a, split_rc_2=split_c, &
-                                    nodata2=.TRUE., comm_new=comm_tmp, &
+                                    nodata2=nodata_3, comm_new=comm_tmp, &
                                     move_data_1=move_a, unit_nr=io_unit)
 
          info = dbcsr_tas_info(matrix_a_rs)
@@ -331,7 +343,7 @@ CONTAINS
 
          IF (matrix_c%do_batched <= 1) THEN
             ALLOCATE (matrix_c_rs)
-            CALL reshape_mm_small(mp_comm, matrix_c, matrix_c_rs, transc_prv == dbcsr_transpose, transc_prv, nodata=.TRUE.)
+            CALL reshape_mm_small(mp_comm, matrix_c, matrix_c_rs, transc_prv == dbcsr_transpose, transc_prv, nodata=nodata_3)
             IF (matrix_c%do_batched == 1) THEN
                matrix_c%mm_storage%store_batched => matrix_c_rs
             ENDIF
@@ -358,7 +370,7 @@ CONTAINS
                                     nsplit=nsplit, &
                                     opt_nsplit=batched_repl == 0, &
                                     split_rc_1=split_b, split_rc_2=split_c, &
-                                    nodata2=.TRUE., comm_new=comm_tmp, &
+                                    nodata2=nodata_3, comm_new=comm_tmp, &
                                     move_data_1=move_b, unit_nr=io_unit)
          info = dbcsr_tas_info(matrix_b_rs)
          CALL dbcsr_tas_get_split_info(info, split_rowcol=split_rc, mp_comm=mp_comm)
@@ -458,7 +470,7 @@ CONTAINS
             DEALLOCATE (matrix_b_rep)
          ENDIF
 
-         CALL convert_to_new_pgrid(mp_comm_mm, matrix_c_rs%matrix, matrix_c_mm, nodata=.TRUE., optimize_pgrid=opt_pgrid)
+         CALL convert_to_new_pgrid(mp_comm_mm, matrix_c_rs%matrix, matrix_c_mm, nodata=nodata_3, optimize_pgrid=opt_pgrid)
 
          SELECT CASE (tr_case)
          CASE (dbcsr_no_transpose)
@@ -466,13 +478,13 @@ CONTAINS
 
             CALL dbcsr_multiply(transa=dbcsr_no_transpose, transb=dbcsr_no_transpose, alpha=alpha, &
                                 matrix_a=matrix_a_mm, matrix_b=matrix_b_mm, beta=beta, matrix_c=matrix_c_mm, &
-                                filter_eps=filter_eps_prv, flop=flop)
+                                filter_eps=filter_eps_prv, retain_sparsity=retain_sparsity, flop=flop)
             CALL timestop(handle2)
          CASE (dbcsr_transpose)
             CALL timeset(routineN//"_mm_1T", handle2)
             CALL dbcsr_multiply(transa=dbcsr_transpose, transb=dbcsr_no_transpose, alpha=alpha, &
                                 matrix_a=matrix_b_mm, matrix_b=matrix_a_mm, beta=beta, matrix_c=matrix_c_mm, &
-                                filter_eps=filter_eps_prv, flop=flop)
+                                filter_eps=filter_eps_prv, retain_sparsity=retain_sparsity, flop=flop)
 
             CALL timestop(handle2)
          END SELECT
@@ -507,7 +519,7 @@ CONTAINS
       CASE (2)
          IF (matrix_c%do_batched <= 1) THEN
             ALLOCATE (matrix_c_rep)
-            CALL dbcsr_tas_replicate(matrix_c_rs%matrix, dbcsr_tas_info(matrix_a_rs), matrix_c_rep, nodata=.TRUE.)
+            CALL dbcsr_tas_replicate(matrix_c_rs%matrix, dbcsr_tas_info(matrix_a_rs), matrix_c_rep, nodata=nodata_3)
             IF (matrix_c%do_batched == 1) THEN
                matrix_c%mm_storage%store_batched_repl => matrix_c_rep
                matrix_c%do_batched = 2
@@ -533,12 +545,12 @@ CONTAINS
             DEALLOCATE (matrix_b_rs)
          ENDIF
 
-         CALL convert_to_new_pgrid(mp_comm_mm, matrix_c_rep%matrix, matrix_c_mm, nodata=.TRUE., optimize_pgrid=opt_pgrid)
+         CALL convert_to_new_pgrid(mp_comm_mm, matrix_c_rep%matrix, matrix_c_mm, nodata=nodata_3, optimize_pgrid=opt_pgrid)
 
          CALL timeset(routineN//"_mm_2", handle2)
          CALL dbcsr_multiply(transa=transa_prv, transb=transb_prv, alpha=alpha, matrix_a=matrix_a_mm, &
                              matrix_b=matrix_b_mm, beta=beta, matrix_c=matrix_c_mm, &
-                             filter_eps=filter_eps_prv/REAL(nsplit, KIND=real_8), flop=flop)
+                             filter_eps=filter_eps_prv/REAL(nsplit, KIND=real_8), retain_sparsity=retain_sparsity, flop=flop)
          CALL timestop(handle2)
 
          IF (opt_pgrid) THEN
@@ -605,20 +617,20 @@ CONTAINS
             CALL dbcsr_tas_destroy(matrix_b_rs)
             DEALLOCATE (matrix_b_rs)
          ENDIF
-         CALL convert_to_new_pgrid(mp_comm_mm, matrix_c_rs%matrix, matrix_c_mm, nodata=.TRUE., optimize_pgrid=opt_pgrid)
+         CALL convert_to_new_pgrid(mp_comm_mm, matrix_c_rs%matrix, matrix_c_mm, nodata=nodata_3, optimize_pgrid=opt_pgrid)
 
          SELECT CASE (tr_case)
          CASE (dbcsr_no_transpose)
             CALL timeset(routineN//"_mm_3N", handle2)
             CALL dbcsr_multiply(transa=dbcsr_no_transpose, transb=dbcsr_no_transpose, alpha=alpha, &
                                 matrix_a=matrix_a_mm, matrix_b=matrix_b_mm, beta=beta, matrix_c=matrix_c_mm, &
-                                filter_eps=filter_eps_prv, flop=flop)
+                                filter_eps=filter_eps_prv, retain_sparsity=retain_sparsity, flop=flop)
             CALL timestop(handle2)
          CASE (dbcsr_transpose)
             CALL timeset(routineN//"_mm_3T", handle2)
             CALL dbcsr_multiply(transa=dbcsr_no_transpose, transb=dbcsr_transpose, alpha=alpha, &
                                 matrix_a=matrix_b_mm, matrix_b=matrix_a_mm, beta=beta, matrix_c=matrix_c_mm, &
-                                filter_eps=filter_eps_prv, flop=flop)
+                                filter_eps=filter_eps_prv, retain_sparsity=retain_sparsity, flop=flop)
             CALL timestop(handle2)
          END SELECT
 
@@ -1261,51 +1273,79 @@ CONTAINS
 
    END SUBROUTINE
 
-   FUNCTION result_sparsity_estimate(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, io_unit) RESULT(nze)
+   SUBROUTINE dbcsr_tas_result_index(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, &
+                                     io_unit, blk_ind, nze, retain_sparsity)
       !! Estimate sparsity pattern of C resulting from A x B = C by multiplying the block norms of A and B
       !! Same dummy arguments as dbcsr_tas_multiply
-
       CHARACTER(LEN=1), INTENT(IN)               :: transa, transb, transc
-      TYPE(dbcsr_tas_type), INTENT(INOUT)        :: matrix_a, matrix_b, matrix_c
-      TYPE(dbcsr_tas_type)                       :: matrix_a_bnorm, matrix_b_bnorm, matrix_c_bnorm
+      TYPE(dbcsr_tas_type), INTENT(INOUT), TARGET        :: matrix_a, matrix_b, matrix_c
+      TYPE(dbcsr_tas_type), POINTER                      :: matrix_a_bnorm, matrix_b_bnorm, matrix_c_bnorm
       REAL(KIND=real_8), INTENT(IN), OPTIONAL    :: filter_eps
       INTEGER, INTENT(IN), OPTIONAL              :: io_unit
-      INTEGER(KIND=int_8)                        :: row, col, nze
-      INTEGER                                    :: bn, row_size, col_size, mp_comm, handle
-      TYPE(dbcsr_tas_iterator)                   :: iter
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'result_sparsity_estimate', &
+      INTEGER(int_8), DIMENSION(:,:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: blk_ind
+      LOGICAL, INTENT(IN), OPTIONAL :: retain_sparsity
+      INTEGER(int_8), INTENT(OUT), OPTIONAL :: nze
+
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_result_index', &
                                      routineP = moduleN//':'//routineN
+      LOGICAL :: retain_sparsity_prv
+      INTEGER :: bn, row_size, col_size, handle, iblk, mp_comm, nblk
+      INTEGER(int_8) :: row, col
+      TYPE(dbcsr_tas_iterator) :: iter
 
       CALL timeset(routineN, handle)
 
-      CALL create_block_norms_matrix(matrix_a, matrix_a_bnorm)
-      CALL create_block_norms_matrix(matrix_b, matrix_b_bnorm)
-      CALL create_block_norms_matrix(matrix_c, matrix_c_bnorm, nodata=.TRUE.)
+      IF(PRESENT(retain_sparsity)) THEN
+         retain_sparsity_prv = retain_sparsity
+      ELSE
+         retain_sparsity_prv = .FALSE.
+      ENDIF
 
-      CALL dbcsr_tas_multiply(transa, transb, transc, dbcsr_scalar(1.0_real_8), matrix_a_bnorm, &
-                              matrix_b_bnorm, dbcsr_scalar(0.0_real_8), matrix_c_bnorm, &
-                              filter_eps=filter_eps, move_data_a=.TRUE., move_data_b=.TRUE., &
-                              simple_split=.TRUE., io_unit=io_unit)
+      IF (.NOT. retain_sparsity_prv) THEN
+         ALLOCATE(matrix_a_bnorm, matrix_b_bnorm, matrix_c_bnorm)
+         CALL create_block_norms_matrix(matrix_a, matrix_a_bnorm)
+         CALL create_block_norms_matrix(matrix_b, matrix_b_bnorm)
+         CALL create_block_norms_matrix(matrix_c, matrix_c_bnorm, nodata=.TRUE.)
+
+         CALL dbcsr_tas_multiply(transa, transb, transc, dbcsr_scalar(1.0_real_8), matrix_a_bnorm, &
+                                 matrix_b_bnorm, dbcsr_scalar(0.0_real_8), matrix_c_bnorm, &
+                                 filter_eps=filter_eps, move_data_a=.TRUE., move_data_b=.TRUE., &
+                                 simple_split=.TRUE., io_unit=io_unit)
+         CALL dbcsr_tas_destroy(matrix_a_bnorm)
+         CALL dbcsr_tas_destroy(matrix_b_bnorm)
+
+         DEALLOCATE(matrix_a_bnorm, matrix_b_bnorm)
+      ELSE
+         matrix_c_bnorm => matrix_c
+      ENDIF
+
+      nblk = dbcsr_tas_get_num_blocks(matrix_c_bnorm)
+      IF(PRESENT(blk_ind)) ALLOCATE(blk_ind(nblk, 2))
 
       CALL dbcsr_tas_iterator_start(iter, matrix_c_bnorm)
-      nze = 0
-      DO WHILE (dbcsr_tas_iterator_blocks_left(iter))
+      IF(PRESENT(nze)) nze = 0
+      DO iblk=1,nblk
          CALL dbcsr_tas_iterator_next_block(iter, row, col, bn)
          row_size = matrix_c%row_blk_size%data(row)
          col_size = matrix_c%col_blk_size%data(col)
-         nze = nze + row_size*col_size
+         IF(PRESENT(nze)) nze = nze + row_size*col_size
+         IF(PRESENT(blk_ind)) blk_ind(iblk, :) = [row, col]
       ENDDO
       CALL dbcsr_tas_iterator_stop(iter)
 
-      CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix_a), mp_comm=mp_comm)
-      CALL mp_sum(nze, mp_comm)
+      IF(PRESENT(nze)) THEN
+         CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix_a), mp_comm=mp_comm)
+         CALL mp_sum(nze, mp_comm)
+      ENDIF
 
-      CALL dbcsr_tas_destroy(matrix_a_bnorm)
-      CALL dbcsr_tas_destroy(matrix_b_bnorm)
-      CALL dbcsr_tas_destroy(matrix_c_bnorm)
+      IF (.NOT. retain_sparsity_prv) THEN
+         CALL dbcsr_tas_destroy(matrix_c_bnorm)
+         DEALLOCATE(matrix_c_bnorm)
+      ENDIF
+
       CALL timestop(handle)
 
-   END FUNCTION
+   END SUBROUTINE
 
    FUNCTION split_factor_estimate(max_mm_dim, nze_a, nze_b, nze_c, numnodes) RESULT(nsplit)
       !! Estimate optimal split factor for AxB=C from occupancies (number of non-zero elements)
