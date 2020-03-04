@@ -119,9 +119,11 @@ else
 endif
 
 # enable ACC compilation
+ifeq (,$(INCLUDEMAKE))
 FCFLAGS  += -D__DBCSR_ACC
 CFLAGS   += -D__DBCSR_ACC
 CXXFLAGS += -D__DBCSR_ACC
+endif
 
 # If compiling with nvcc
 ifneq (,$(findstring nvcc,$(ACC)))
