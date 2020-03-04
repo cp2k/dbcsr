@@ -46,14 +46,14 @@ SHELL = /bin/sh
 DBCSRHOME    := $(CURDIR)
 DBCSRCP2K    := $(DBCSRHOME)/.cp2k
 MAKEFILE     := $(DBCSRCP2K)/Makefile
-LIBDIR       ?= $(DBCSRHOME)/lib
-OBJDIR       ?= $(DBCSRHOME)/obj
+LIBDIR       := $(DBCSRHOME)/lib
+OBJDIR       := $(DBCSRHOME)/obj
 PRETTYOBJDIR := $(OBJDIR)/prettified
 TOOLSDIR     := $(DBCSRHOME)/tools
 FYPPEXE      := $(TOOLSDIR)/build_utils/fypp/bin/fypp
 SRCDIR       := $(DBCSRHOME)/src
 TESTSDIR     := $(DBCSRHOME)/tests
-INCLUDEMAKE  ?=
+INCLUDEMAKE  :=
 
 # Default Target ============================================================
 LIBNAME      := dbcsr
@@ -125,19 +125,19 @@ CXXFLAGS += -D__DBCSR_ACC
 
 # If compiling with nvcc
 ifneq (,$(findstring nvcc,$(ACC)))
-ACCFLAGS += -D__CUDA
+override ACCFLAGS += -D__CUDA
 CXXFLAGS += -D__CUDA
 #if "-arch" has not yet been set in ACCFLAGS
 ifeq (,$(findstring "-arch", $(ACCFLAGS)))
-ACCFLAGS += -arch sm_$(ARCH_NUMBER)
+override ACCFLAGS += -arch sm_$(ARCH_NUMBER)
 endif
 # If compiling with hipcc
 else ifneq (,$(findstring hipcc,$(ACC)))
-ACCFLAGS += -D__HIP
+override ACCFLAGS += -D__HIP
 CXXFLAGS += -D__HIP
 #if "--amdgpu-target" has not yet been set in ACCFLAGS
 ifeq (,$(findstring "--amdgpu-target", $(ACCFLAGS)))
-ACCFLAGS += --amdgpu-target=$(ARCH_NUMBER)
+override ACCFLAGS += --amdgpu-target=$(ARCH_NUMBER)
 endif
 endif
 endif
