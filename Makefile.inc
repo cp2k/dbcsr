@@ -23,9 +23,7 @@
 #    - for HIP, possible values correspond to NVIDIA and AMD GPUs:
 #      possible values are K20X, K40, K80, P100, V100, Mi50
 # c) set the accelerator compiler flag variable ACCFLAGS, e.g. ACCFLAGS = -O3 -g -w --std=c++11
-# d) for CUDA: specify the CUDA include path in the CXXFLAGS variable,
-#    e.g. CXXFLAGS += -I${CUDA_PATH}/include
-# e) specify the corresponding accelerator libraries in the LIBS variable,
+# d) specify the corresponding accelerator libraries in the LIBS variable,
 #    - e.g. for CUDA: LIBS += -lstdc++ -lcudart -lnvrtc -lcuda -lcublas
 #    - e.g. for HIP:  LIBS += -lstdc++ -lhiprtc -lhipblas
 #
@@ -33,8 +31,7 @@
 # Make sure that the env variable $LAPACK_PATH is set.
 #
 # GPU compilation example can be enabled with
-# - `make GPU=1` (for CUDA): make sure that the env variable ${CUDA_PATH} is set.
-# - or `make GPU=2` (for HIP)
+# - `make GPU=1` for CUDA or `make GPU=2` for HIP
 #
 
 #######################################################################################
@@ -49,7 +46,7 @@
 # Provide LIBXSMM_DIR or adjust the FCFLAGS variable e.g.,
 # FCFLAGS += -I${LIBXSMM_DIR}/include -D__LIBXSMM
 # and specify the library in the LIBS variable, e.g.
-# LIBS += -L${LIBXSMM_DIR}/lib -lxsmmf -lxsmm -ldl
+
 
 ifneq (,$(LIBXSMM_DIR))
   FCFLAGS += -I${LIBXSMM_DIR}/include -D__LIBXSMM
@@ -89,7 +86,14 @@ AR  = ar -r
 # 5) -D__NO_ABORT          : avoid calling abort, but STOP instead (useful for
 #                            coverage testing, and to avoid core dumps on some
 #                            systems)
-# 6) -D__LIBXSMM           : enable LIBXSMM link (read LIBXSMM section above)
+# 6) -D__LIBXSMM           : enable LIBXSMM link.
+#                            Performance of the library can be improved on the CPU execution by using
+#                            the libxsmm, a library for small matrix multiplications which
+#                            is provided by Intel: https://github.com/hfp/libxsmm/.
+#                            Adjust the FCFLAGS variable e.g.,
+#                            FCFLAGS += -I${LIBXSMM_DIR}/include -D__LIBXSMM
+#                            and specify the library in the LIBS variable, e.g.
+#                            LIBS += -L${LIBXSMM_DIR}/lib -lxsmmf -lxsmm -ldl
 # 7) -D__DBCSR_ACC         : this macro is automatically added when ACC variable is set
 # 8) -D__ACCELERATE        : must be defined on MacOS when Apple's Accelerate
 #                            framework is used for BLAS and LAPACK (this is due to
@@ -134,7 +138,6 @@ endif
 
 ifeq ($(GPU),1)
 ACC         = nvcc
-CXXFLAGS   += -I${CUDA_PATH}/include
 LIBS       += -lstdc++ -lcudart -lnvrtc -lcuda
 else ifeq ($(GPU),2)
 ACC         = hipcc

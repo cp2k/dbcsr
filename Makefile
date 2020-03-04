@@ -9,7 +9,7 @@ LIBDIR       ?= $(DBCSRHOME)/lib
 OBJDIR       ?= $(DBCSRHOME)/obj
 PRETTYOBJDIR := $(OBJDIR)/prettified
 TOOLSRC      := $(DBCSRHOME)/tools
-FYPPEXE      ?= $(TOOLSRC)/build_utils/fypp/bin/fypp
+FYPPEXE      := $(TOOLSRC)/build_utils/fypp/bin/fypp
 SRCDIR       := $(DBCSRHOME)/src
 TESTSDIR     := $(DBCSRHOME)/tests
 INCLUDEMAKE  ?= $(DBCSRHOME)/Makefile.inc
@@ -21,6 +21,8 @@ default_target: $(LIBRARY)
 
 # Read the configuration ====================================================
 MODDEPS = "lower"
+ACC      ?=
+ACCFLAGS ?=
 include $(INCLUDEMAKE)
 
 # Read the version ==========================================================
