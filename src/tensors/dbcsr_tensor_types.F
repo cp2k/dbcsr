@@ -78,6 +78,7 @@ MODULE dbcsr_tensor_types
       dbcsr_t_mp_dims_create, &
       dbcsr_t_nd_mp_comm, &
       dbcsr_t_nd_mp_free, &
+      dbcsr_t_pgrid_change_dims, &
       dbcsr_t_pgrid_create, &
       dbcsr_t_pgrid_create_expert, &
       dbcsr_t_pgrid_destroy, &
@@ -1228,6 +1229,34 @@ CONTAINS
             CALL dbcsr_tas_info_hold(pgrid_out%tas_split_info)
          ENDIF
       ENDIF
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_t_pgrid_change_dims(pgrid, pdims)
+      !! change dimensions of an existing process grid.
+
+      TYPE(dbcsr_t_pgrid_type), INTENT(INOUT) :: pgrid
+         !! process grid to be changed
+      INTEGER, DIMENSION(:), INTENT(INOUT)    :: pdims
+         !! new process grid dimensions, should all be set > 0
+      TYPE(dbcsr_t_pgrid_type)                :: pgrid_tmp
+      INTEGER                                 :: nsplit, dimsplit
+      INTEGER, DIMENSION(:), ALLOCATABLE      :: map1_2d, map2_2d
+      TYPe(nd_to_2d_mapping)                  :: nd_index_grid
+      INTEGER, DIMENSION(2)                   :: pdims_2d
+
+      DBCSR_ASSERT(ALL(pdims > 0))
+      CALL dbcsr_tas_get_split_info(pgrid%tas_split_info, nsplit=nsplit, split_rowcol=dimsplit)
+      CALL dbcsr_t_get_mapping_info(pgrid%nd_index_grid, map1_2d=map1_2d, map2_2d=map2_2d)
+      CALL create_nd_to_2d_mapping(nd_index_grid, pdims, map1_2d, map2_2d, base=0, col_major=.FALSE.)
+      CALL dbcsr_t_get_mapping_info(nd_index_grid, dims_2d=pdims_2d)
+      IF(MOD(pdims_2d(dimsplit),nsplit) == 0) THEN
+         CALL dbcsr_t_pgrid_create_expert(pgrid%mp_comm_2d, pdims, pgrid_tmp, map1_2d=map1_2d, map2_2d=map2_2d, &
+                                          nsplit=nsplit, dimsplit=dimsplit)
+      ELSE
+         CALL dbcsr_t_pgrid_create_expert(pgrid%mp_comm_2d, pdims, pgrid_tmp, map1_2d=map1_2d, map2_2d=map2_2d)
+      ENDIF
+      CALL dbcsr_t_pgrid_destroy(pgrid)
+      pgrid = pgrid_tmp
    END SUBROUTINE
 
    SUBROUTINE dbcsr_t_distribution_remap(dist_in, map1_2d, map2_2d, dist_out)

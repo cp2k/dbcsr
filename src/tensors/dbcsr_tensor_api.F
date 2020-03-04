@@ -19,10 +19,10 @@ MODULE dbcsr_tensor_api
       dbcsr_t_contract, dbcsr_t_get_block, dbcsr_t_get_stored_coordinates, dbcsr_t_put_block, &
       dbcsr_t_reserve_blocks, dbcsr_t_copy_matrix_to_tensor, dbcsr_t_copy, &
       dbcsr_t_copy_tensor_to_matrix, dbcsr_t_need_contract, dbcsr_t_batched_contract_init, &
-      dbcsr_t_batched_contract_finalize, dbcsr_t_ndims
+      dbcsr_t_batched_contract_finalize, dbcsr_t_ndims, dbcsr_t_contract_index
    USE dbcsr_tensor_block, ONLY: &
       dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_next_block, dbcsr_t_iterator_start, &
-      dbcsr_t_iterator_stop, dbcsr_t_iterator_type
+      dbcsr_t_iterator_stop, dbcsr_t_iterator_type, dbcsr_t_reserved_block_indices
    USE dbcsr_tensor_types, ONLY: &
       dbcsr_t_create, dbcsr_t_destroy, dbcsr_t_distribution_destroy, dbcsr_t_distribution_new, &
       dbcsr_t_distribution_type, dbcsr_t_nd_mp_comm, dbcsr_t_nd_mp_free, dbcsr_t_type, &
@@ -31,7 +31,7 @@ MODULE dbcsr_tensor_api
       dbcsr_t_mp_environ_pgrid => mp_environ_pgrid, dbcsr_t_blk_sizes, dbcsr_t_get_info, &
       dbcsr_t_finalize, dbcsr_t_scale, dbcsr_t_get_nze, dbcsr_t_get_nze_total, &
       dbcsr_t_get_num_blocks, dbcsr_t_get_num_blocks_total, dbcsr_t_clear, &
-      dbcsr_t_mp_dims_create
+      dbcsr_t_mp_dims_create, dbcsr_t_pgrid_change_dims
    USE dbcsr_tensor_test, ONLY: &
       dbcsr_t_contract_test, dbcsr_t_checksum
    USE dbcsr_tensor_split, ONLY: &
@@ -92,5 +92,8 @@ MODULE dbcsr_tensor_api
    PUBLIC :: dbcsr_t_batched_contract_init
    PUBLIC :: dbcsr_t_batched_contract_finalize
    PUBLIC :: dbcsr_t_ndims
+   PUBLIC :: dbcsr_t_pgrid_change_dims
+   PUBLIC :: dbcsr_t_reserved_block_indices
+   PUBLIC :: dbcsr_t_contract_index
 
 END MODULE dbcsr_tensor_api

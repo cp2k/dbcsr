@@ -14,7 +14,7 @@ You absolutely need:
 
 Optionally:
 
-* [libxsmm](https://github.com/hfp/libxsmm) (1.10+) for Small Matrix Multiplication acceleration
+* [libxsmm](https://github.com/hfp/libxsmm) (1.10+, and `pkg-config`) for Small Matrix Multiplication acceleration
 * a LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested), required when building the tests
 
 To build `libsmm_acc`, DBCSR's GPU backend, you further need:
@@ -62,6 +62,13 @@ Run inside the `dbcsr` directory:
     -DBUILD_TESTING=<ON|OFF>
     -DTEST_MPI_RANKS=<auto,N>
     -DTEST_OMP_THREADS=<2,N>
+```
+
+When providing a custom build of `libxsmm`, make sure that its library directory is added to the `PKG_CONFIG_PATH` variable prior
+to running `cmake`. An example if `libxsmm` was checked out using Git to your home folder:
+
+```bash
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:${HOME}/libxsmm/lib"
 ```
 
 ### CMake Build Recipes
