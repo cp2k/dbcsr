@@ -689,6 +689,13 @@ CONTAINS
          ENDIF
       ENDIF
 
+      IF (PRESENT(move_data_a)) THEN
+         IF(move_data_a) CALL dbcsr_tas_clear(matrix_a)
+      ENDIF
+      IF (PRESENT(move_data_b)) THEN
+         IF(move_data_b) CALL dbcsr_tas_clear(matrix_b)
+      ENDIF
+
       IF (PRESENT(flop)) THEN
          CALL mp_sum(flop, mp_comm)
          flop = (flop + numproc - 1)/numproc
