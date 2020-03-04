@@ -27,46 +27,6 @@
 #    - e.g. for CUDA: LIBS += -lstdc++ -lcudart -lnvrtc -lcuda -lcublas
 #    - e.g. for HIP:  LIBS += -lstdc++ -lhiprtc -lhipblas
 #
-# Below we present a default example for OpenMP+MPI compilation for the GNU compiler.
-# Make sure that the env variable $LAPACK_PATH is set.
-#
-# GPU compilation example can be enabled with
-# - `make GPU=1` for CUDA or `make GPU=2` for HIP
-#
-
-#######################################################################################
-#
-# Optional configuration:
-#
-# *** LIBXSMM ***
-#
-# Performance of the library can be improved on the CPU execution by using
-# the libxsmm, a library for small matrix multiplications which
-# is provided by Intel: https://github.com/hfp/libxsmm/.
-# Provide LIBXSMM_DIR or adjust the FCFLAGS variable e.g.,
-# FCFLAGS += -I${LIBXSMM_DIR}/include -D__LIBXSMM
-# and specify the library in the LIBS variable, e.g.
-
-
-ifneq (,$(LIBXSMM_DIR))
-  FCFLAGS += -I${LIBXSMM_DIR}/include -D__LIBXSMM
-  LIBS += -L${LIBXSMM_DIR}/lib -lxsmmf -lxsmm -ldl
-endif
-
-#######################################################################################
-#
-# Variables for the commands:
-# CC  => C compiler, e.g. gcc or mpicc
-# CXX => C++ compiler, e.g. g++ or mpicxx
-# FC  => Fortran compiler, e.g. gfortran or mpifort
-# LD  => Linker, e.g. gfortran or mpifort
-# AR  => Archive command, e.g. ar -r
-
-CXX = mpicxx
-CC  = mpicc
-FC  = mpif90
-LD  = mpif90
-AR  = ar -r
 
 #######################################################################################
 #
@@ -102,63 +62,6 @@ AR  = ar -r
 # 9) -DNDEBUG              : assertions are stripped ("compiled out"),
 #                            regular release builds may carry assertions for safety.
 #
-
-CXXFLAGS += -std=c++11
-FCFLAGS  += -std=f2008ts -ffree-form -fimplicit-none -ffree-line-length-512
-OPTFLAGS += -O3 -g -fno-omit-frame-pointer -funroll-loops
-CXXFLAGS += -fopenmp
-FCFLAGS  += -fopenmp
-
-CFLAGS      += $(OPTFLAGS)
-CXXFLAGS    += $(OPTFLAGS)
-FCFLAGS     += $(OPTFLAGS)
-LDFLAGS     += $(FCFLAGS)
-
-#######################################################################################
-#
-# Macro for MPI parallelization.
-
-FCFLAGS += -D__parallel
-
-#######################################################################################
-#
-# Minimal external libraries, i.e. BLAS and LAPACK.
-
-LIBS        = -L${LAPACK_PATH}/lib -llapack -lblas
-
-#######################################################################################
-#
-# GPU compilation. Use `make GPU=1` to enable GPU acceleration with CUDA,
-# and `make GPU=2` to enable GPU acceleration with HIP
-
-ifneq ($(GPU),)
-GPUVER      = K40
-ACCFLAGS    = -O3 -g -w --std=c++11
-endif
-
-ifeq ($(GPU),1)
-ACC         = nvcc
-LIBS       += -lstdc++ -lcudart -lnvrtc -lcuda
-else ifeq ($(GPU),2)
-ACC         = hipcc
-LIBS       += -lstdc++ -lhiprtc
-endif
-
-#######################################################################################
-#
-# Optional flags for warnings and checks.
-# We do not simply use -Wall since some warnings for Fortran are misleading.
-# For the checks use `make CHECKS=1` to enable them.
-
-WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
-              -Werror=intrinsic-shadow -Werror=intrinsics-std \
-              -Werror=line-truncation \
-              -Werror=tabs -Werror=target-lifetime \
-              -Werror=underflow \
-              -Werror=unused-but-set-variable -Werror=unused-variable \
-              -Werror=unused-dummy-argument -Werror=conversion \
-              -Werror=uninitialized -Wno-maybe-uninitialized
-FCFLAGS    += $(WFLAGS)
 
 ifeq ($(CHECKS),1)
 ifneq ($(LEAKS),0)

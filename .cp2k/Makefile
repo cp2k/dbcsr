@@ -1,29 +1,92 @@
+# This Makefile is only used for the inclusion of the DBCSR library into CP2K.
+# It is not supported by DBCSR development anymore.
+############################################################
+#### DO NOT CHANGE AS PART OF THE DBCSR DEVELOPMENT!!!! ####
+############################################################
+# CP2K team will update it, following the compilation flags suggested in the
+# CP2K installation file.
+# For this reason, this Makefile must be compatible with the CP2K compilation.
+#
+# For testing, by default, the Makefile compiles the OpenMP+MPI+CUDA toolchain
+# with GNU compiler on a P100 GPU.
+# Make sure that the env variable ${LAPACK_PATH} is set.
+# You can compile DBCSR by running from the DBCSR main directory with:
+#
+# > make -f .cp2k/Makefile
+#
+# Alternatively, you can provide an ARCH file as described in the CP2K installation:
+#
+# > make -f .cp2k/Makefile INCLUDEMAKE=<CP2K ARCH file>
+#
+# The ARCH file can set the variables:
+#
+# CXX => C++ compiler, e.g. g++ or mpicxx
+# CC  => C compiler, e.g. gcc or mpicc
+# FC  => Fortran compiler, e.g. gfortran or mpifort
+# LD  => Linker, e.g. gfortran or mpifort
+# AR  => Archive command, e.g. ar -r
+# CXXFLAGS => C++ compilation flags
+# CFLAGS   => C compilation flags
+# FCFLAGS  => Fortran compilation flags
+# LDFLAGS  => Linker flags
+# LIBS     => Libraries
+# ACC      => ACC can be nvcc (CUDA) or hipcc (HIP)
+# ACCFLAGS => ACC flags
+# GPUVER   =>
+#          - for CUDA, possible values correspond to NVIDIA GPUs:
+#            possible values are K20X, K40, K80, P100, V100
+#          - for HIP, possible values correspond to NVIDIA and AMD GPUs:
+#            possible values are K20X, K40, K80, P100, V100, Mi50
+
 #
 SHELL = /bin/sh
 #
 # the home dir is taken from the current directory
 #
-DBCSRHOME    ?= $(CURDIR)
-MAKEFILE     := $(DBCSRHOME)/Makefile
+DBCSRHOME    := $(CURDIR)
+DBCSRCP2K    := $(DBCSRHOME)/.cp2k
+MAKEFILE     := $(DBCSRCP2K)/Makefile
 LIBDIR       ?= $(DBCSRHOME)/lib
 OBJDIR       ?= $(DBCSRHOME)/obj
 PRETTYOBJDIR := $(OBJDIR)/prettified
-TOOLSRC      := $(DBCSRHOME)/tools
-FYPPEXE      := $(TOOLSRC)/build_utils/fypp/bin/fypp
+TOOLSDIR     := $(DBCSRHOME)/tools
+FYPPEXE      := $(TOOLSDIR)/build_utils/fypp/bin/fypp
 SRCDIR       := $(DBCSRHOME)/src
 TESTSDIR     := $(DBCSRHOME)/tests
-INCLUDEMAKE  ?= $(DBCSRHOME)/Makefile.inc
+INCLUDEMAKE  ?=
 
 # Default Target ============================================================
 LIBNAME      := dbcsr
 LIBRARY      := lib$(LIBNAME)
 default_target: $(LIBRARY)
 
-# Read the configuration ====================================================
+# Set default values and read the configuration (if provided) ===============
 MODDEPS = "lower"
-ACC      ?=
-ACCFLAGS ?=
+CXX       = mpicxx
+CC        = mpicc
+FC        = mpif90
+LD        = mpif90
+AR        = ar -r
+CXXFLAGS  = -O3 -g -std=c++11 -fopenmp
+CFLAGS    = -O3 -g
+FCFLAGS   = -D__parallel -O3 -g -fopenmp -std=f2008ts -ffree-form -fimplicit-none -ffree-line-length-512 -fno-omit-frame-pointer -funroll-loops \
+            -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
+            -Werror=intrinsic-shadow -Werror=intrinsics-std \
+            -Werror=line-truncation \
+            -Werror=tabs -Werror=target-lifetime \
+            -Werror=underflow \
+            -Werror=unused-but-set-variable -Werror=unused-variable \
+            -Werror=unused-dummy-argument -Werror=conversion \
+            -Werror=uninitialized -Wno-maybe-uninitialized
+LDFLAGS   = $(FCFLAGS)
+LIBS      = -L${LAPACK_PATH}/lib -llapack -lblas -lstdc++ -lcudart -lnvrtc -lcuda
+ACC       = nvcc
+ACCFLAGS  = -O3 -g -w --std=c++11
+GPUVER    = P100
+
+ifneq (,$(INCLUDEMAKE))
 include $(INCLUDEMAKE)
+endif
 
 # Read the version ==========================================================
 include $(DBCSRHOME)/VERSION
@@ -90,10 +153,8 @@ endif
 # Declare PHONY targets =====================================================
 .PHONY : dirs makedep \
          default_target $(LIBRARY) \
-         toolversions \
-         toolflags \
          pretty prettyclean \
-         clean realclean help \
+         clean realclean \
          version
 
 # Discover files and directories ============================================
@@ -155,90 +216,6 @@ dirs:
 
 version:
 	@echo "DBCSR Version: "$(MAJOR)"."$(MINOR)"."$(PATCH)" ("$(DATE)")"
-OTHER_HELP += "version : Print DBCSR version"
-
-toolversions:
-ifneq ($(FC),)
-	@echo "=========== FC ==========="
-ifeq (Cray,$(shell $(CC) -V 2>&1 | head -n1 | cut -d' ' -f1))
-	$(FC) -V
-else ifeq (IBM,$(shell $(CC) -qversion 2>&1 | head -n1 | cut -d' ' -f1))
-	$(FC) -qversion
-else
-	$(FC) --version
-endif
-endif
-ifneq ($(CXX),)
-	@echo "========== CXX =========="
-	$(CXX) --version
-	@echo ""
-endif
-ifneq ($(CC),)
-	@echo "=========== CC ==========="
-ifeq (Cray,$(shell $(CC) -V 2>&1 | head -n1 | cut -d' ' -f1))
-	$(CC) -V
-else ifeq (IBM,$(shell $(CC) -qversion 2>&1 | head -n1 | cut -d' ' -f1))
-	$(CC) -qversion
-else
-	$(CC) --version
-endif
-endif
-ifneq ($(LD),)
-	@echo "========== LD =========="
-	$(LD) --version
-	@echo ""
-endif
-ifneq ($(ACC),)
-	@echo "========== NVCC / HIPCC =========="
-	$(ACC) --version
-	@echo ""
-endif
-ifneq ($(AR),)
-	@echo "=========== AR ==========="
-	$(firstword $(AR)) V
-	@echo ""
-endif
-	@echo "========== Make  =========="
-	$(MAKE) --version
-	@echo ""
-	@echo "========= Python ========="
-	/usr/bin/env python --version
-
-OTHER_HELP += "toolversions : Print versions of build tools"
-
-toolflags:
-ifneq ($(FCFLAGS),)
-	@echo "========== FCFLAGS =========="
-	@echo $(FCFLAGS)
-	@echo ""
-endif
-ifneq ($(CXXFLAGS),)
-	@echo "========== CXXFLAGS =========="
-	@echo $(CXXFLAGS)
-	@echo ""
-endif
-ifneq ($(CFLAGS),)
-	@echo "========== CFLAGS =========="
-	@echo $(CFLAGS)
-	@echo ""
-endif
-ifneq ($(LDFLAGS),)
-	@echo "========== LDFLAGS =========="
-	@echo $(LDFLAGS)
-	@echo ""
-endif
-ifneq ($(ACCFLAGS),)
-	@echo "========== NVFLAGS / HIPFLAGS =========="
-	@echo $(ACCFLAGS)
-	@echo ""
-endif
-ifneq ($(GPUVER),)
-	@echo "========== GPUVER =========="
-	@echo $(GPUVER)
-	@echo ""
-endif
-
-OTHER_HELP += "toolflags : Print flags used with build tools"
 
 else
 # stage 2: Include $(OBJDIR)/all.dep, expand target all, and get list of dependencies.
@@ -250,28 +227,11 @@ endif
 
 endif
 
-help:
-	@echo "=================== Default ===================="
-	@printf "%s\n" "$(LIBRARY)                     Build DBCSR library"
-	@echo ""
-	@echo "===================== Tools ====================="
-	@printf "%s\n" $(TOOL_HELP) | awk -F ':' '{printf "%-28s%s\n", $$1, $$2}'
-	@echo ""
-	@echo "================= Other Targets ================="
-	@printf "%s\n" $(OTHER_HELP) | awk -F ':' '{printf "%-28s%s\n", $$1, $$2}'
-	@echo "help                         Print this help text"
-	@echo "================= Variables ====================="
-	@echo "For convenience, some variables can be set during compilation,"
-	@echo "e.g. make VARIABLE=value (multiple variables are possible):"
-	@echo "CHECKS=1 : enable GNU compiler checks and DBCSR asserts"
-	@echo "GPU=1    : enable GPU support for CUDA"
-
 clean:
 	rm -f $(TESTSDIR)/libsmm_acc_unittest_multiply.cpp
 	rm -f $(TESTSDIR)/libsmm_acc_timer_multiply.cpp
 	rm -rf $(OBJDIR)
 	rm -f $(LIBSMM_ACC_ABS_DIR)/parameters.h $(LIBSMM_ACC_ABS_DIR)/smm_acc_kernels.h $(LIBSMM_ACC_ABS_DIR)/*.so
-OTHER_HELP += "clean : Remove intermediate object and mod files, but not the libraries and executables"
 
 #
 # delete the intermediate files, the programs and libraries and anything that might be in the objdir or libdir directory
@@ -281,22 +241,19 @@ realclean: clean
 	rm -rf $(LIBDIR) $(PREFIX)
 	rm -rf `find $(DBCSRHOME) -name "*.pyc"`
 	rm -rf `find $(DBCSRHOME) -name "*.callgraph"`
-OTHER_HELP += "realclean : Remove all files"
 
 # Prettyfier stuff ==========================================================
 vpath %.pretty $(PRETTYOBJDIR)
 
 pretty: $(addprefix $(PRETTYOBJDIR)/, $(ALL_OBJECTS:.o=.pretty)) $(addprefix $(PRETTYOBJDIR)/, $(INCLUDED_SRC_FILES:.f90=.pretty_included))
-TOOL_HELP += "pretty : Reformat all source files in a pretty way"
 
 prettyclean:
 	-rm -rf $(PRETTYOBJDIR)
-TOOL_HELP += "prettyclean : Remove prettify marker files"
 
 define pretty_func
 	@mkdir -p $(PRETTYOBJDIR)
 	@touch $2
-	$(TOOLSRC)/fprettify/fprettify.py --disable-whitespace $1
+	$(TOOLSDIR)/fprettify/fprettify.py --disable-whitespace $1
 endef
 
 $(PRETTYOBJDIR)/%.pretty: %.F
@@ -338,10 +295,10 @@ endif
 makedep: $(ALL_SRC_FILES) $(ALL_PKG_FILES) dirs
 ifeq ($(LD_SHARED),)
 	@echo "Removing stale archives ... "
-	@$(TOOLSRC)/build_utils/check_archives.py $(firstword $(AR)) $(SRCDIR) $(LIBDIR)
+	@$(DBCSRCP2K)/check_archives.py $(firstword $(AR)) $(SRCDIR) $(LIBDIR)
 endif
 	@echo "Resolving dependencies ... "
-	@$(TOOLSRC)/build_utils/makedep.py $(OBJDIR)/all.dep dbcsr $(MODDEPS) $(MAKEDEPMODE) $(ARCHIVE_EXT) $(SRCDIR) $(OBJ_SRC_FILES)
+	@$(DBCSRCP2K)/makedep.py $(OBJDIR)/all.dep dbcsr $(MODDEPS) $(MAKEDEPMODE) $(ARCHIVE_EXT) $(SRCDIR) $(OBJ_SRC_FILES)
 
 # on stage 2, load the rules generated by makedep.py
 ifeq ($(INCLUDE_DEPS), true)
