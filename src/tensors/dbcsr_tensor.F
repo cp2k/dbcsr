@@ -93,7 +93,8 @@ MODULE dbcsr_tensor
       dbcsr_t_reserve_blocks, &
       dbcsr_t_copy_matrix_to_tensor, &
       dbcsr_t_copy_tensor_to_matrix, &
-      dbcsr_t_need_contract,&
+      dbcsr_t_need_contract, &
+      dbcsr_t_contract_index, &
       dbcsr_t_batched_contract_init, &
       dbcsr_t_batched_contract_finalize
 
@@ -384,31 +385,35 @@ CONTAINS
 
    END SUBROUTINE
 
-   ! todo: write expert / driver routine and high-level wrapper
    SUBROUTINE dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, &
                                contract_1, notcontract_1, &
                                contract_2, notcontract_2, &
                                map_1, map_2, &
                                bounds_1, bounds_2, bounds_3, &
                                optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, &
-                               filter_eps, flop, move_data, retain_sparsity, result_index, unit_nr, log_verbose)
+                               filter_eps, flop, move_data, retain_sparsity, unit_nr, log_verbose)
       !! Contract tensors by multiplying matrix representations.
       !! tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
       !! * tensor_2(contract_2, notcontract_2)
       !! + beta * tensor_3(map_1, map_2)
 
       TYPE(dbcsr_scalar_type), INTENT(IN)            :: alpha
-      TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_1, tensor_2
+      TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_1
          !! first tensor (in)
+      TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_2
          !! second tensor (in)
       TYPE(dbcsr_scalar_type), INTENT(IN)            :: beta
-      INTEGER, DIMENSION(:), INTENT(IN)              :: contract_1, contract_2, map_1, map_2
+      INTEGER, DIMENSION(:), INTENT(IN)              :: contract_1
          !! indices of tensor_1 to contract
+      INTEGER, DIMENSION(:), INTENT(IN)              :: contract_2
          !! indices of tensor_2 to contract (1:1 with contract_1)
+      INTEGER, DIMENSION(:), INTENT(IN)              :: map_1
          !! which indices of tensor_3 map to non-contracted indices of tensor_1 (1:1 with notcontract_1)
+      INTEGER, DIMENSION(:), INTENT(IN)              :: map_2
          !! which indices of tensor_3 map to non-contracted indices of tensor_2 (1:1 with notcontract_2)
-      INTEGER, DIMENSION(:), INTENT(IN)              :: notcontract_1, notcontract_2
+      INTEGER, DIMENSION(:), INTENT(IN)              :: notcontract_1
          !! indices of tensor_1 not to contract
+      INTEGER, DIMENSION(:), INTENT(IN)              :: notcontract_2
          !! indices of tensor_2 not to contract
       TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_3
          !! contracted tensor (out)
@@ -425,11 +430,15 @@ CONTAINS
          !! Whether distribution should be optimized internally. In the current implementation this guarantees optimal parameters
          !! only for dense matrices.
       TYPE(dbcsr_t_pgrid_type), INTENT(OUT), &
-         POINTER, OPTIONAL                           :: pgrid_opt_1, pgrid_opt_2, pgrid_opt_3
+         POINTER, OPTIONAL                           :: pgrid_opt_1
          !! Optionally return optimal process grid for tensor_1. This can be used to choose optimal process grids for subsequent
          !! tensor contractions with tensors of similar shape and sparsity. Under some conditions, pgrid_opt_1 can not be returned,
          !! in this case the pointer is not associated.
+      TYPE(dbcsr_t_pgrid_type), INTENT(OUT), &
+         POINTER, OPTIONAL                           :: pgrid_opt_2
          !! Optionally return optimal process grid for tensor_2.
+      TYPE(dbcsr_t_pgrid_type), INTENT(OUT), &
+         POINTER, OPTIONAL                           :: pgrid_opt_3
          !! Optionally return optimal process grid for tensor_3.
       REAL(KIND=real_8), INTENT(IN), OPTIONAL        :: filter_eps
          !! As in DBCSR mm
@@ -438,11 +447,81 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                  :: move_data
          !! memory optimization: transfer data such that tensor_1 and tensor_2 may be empty on return
       LOGICAL, INTENT(IN), OPTIONAL                  :: retain_sparsity
-      INTEGER, DIMENSION(:, :), ALLOCATABLE, OPTIONAL, INTENT(OUT) :: result_index
+         !! enforce the sparsity pattern of the existing tensor_3; default is no
       INTEGER, OPTIONAL, INTENT(IN)                  :: unit_nr
          !! output unit for logging
       LOGICAL, INTENT(IN), OPTIONAL                  :: log_verbose
          !! verbose logging (for testing only)
+
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_contract', &
+                                     routineP = moduleN//':'//routineN
+
+      INTEGER                     :: handle
+
+      CALL timeset(routineN, handle)
+      CALL dbcsr_t_contract_expert(alpha, tensor_1, tensor_2, beta, tensor_3, &
+                                   contract_1, notcontract_1, &
+                                   contract_2, notcontract_2, &
+                                   map_1, map_2, &
+                                   bounds_1=bounds_1, &
+                                   bounds_2=bounds_2, &
+                                   bounds_3=bounds_3, &
+                                   optimize_dist=optimize_dist, &
+                                   pgrid_opt_1=pgrid_opt_1, &
+                                   pgrid_opt_2=pgrid_opt_2, &
+                                   pgrid_opt_3=pgrid_opt_3, &
+                                   filter_eps=filter_eps, &
+                                   flop=flop, &
+                                   move_data=move_data, &
+                                   retain_sparsity=retain_sparsity, &
+                                   unit_nr=unit_nr, &
+                                   log_verbose=log_verbose)
+      CALL timestop(handle)
+
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_t_contract_expert(alpha, tensor_1, tensor_2, beta, tensor_3, &
+                                      contract_1, notcontract_1, &
+                                      contract_2, notcontract_2, &
+                                      map_1, map_2, &
+                                      bounds_1, bounds_2, bounds_3, &
+                                      optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, &
+                                      filter_eps, flop, move_data, retain_sparsity, result_index, unit_nr, log_verbose)
+      !! expert routine for tensor contraction. For internal use only.
+      TYPE(dbcsr_scalar_type), INTENT(IN)            :: alpha
+      TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_1
+      TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_2
+      TYPE(dbcsr_scalar_type), INTENT(IN)            :: beta
+      INTEGER, DIMENSION(:), INTENT(IN)              :: contract_1
+      INTEGER, DIMENSION(:), INTENT(IN)              :: contract_2
+      INTEGER, DIMENSION(:), INTENT(IN)              :: map_1
+      INTEGER, DIMENSION(:), INTENT(IN)              :: map_2
+      INTEGER, DIMENSION(:), INTENT(IN)              :: notcontract_1
+      INTEGER, DIMENSION(:), INTENT(IN)              :: notcontract_2
+      TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_3
+      INTEGER, DIMENSION(2, SIZE(contract_1)), &
+         INTENT(IN), OPTIONAL                        :: bounds_1
+      INTEGER, DIMENSION(2, SIZE(notcontract_1)), &
+         INTENT(IN), OPTIONAL                        :: bounds_2
+      INTEGER, DIMENSION(2, SIZE(notcontract_2)), &
+         INTENT(IN), OPTIONAL                        :: bounds_3
+      LOGICAL, INTENT(IN), OPTIONAL                  :: optimize_dist
+      TYPE(dbcsr_t_pgrid_type), INTENT(OUT), &
+         POINTER, OPTIONAL                           :: pgrid_opt_1
+      TYPE(dbcsr_t_pgrid_type), INTENT(OUT), &
+         POINTER, OPTIONAL                           :: pgrid_opt_2
+      TYPE(dbcsr_t_pgrid_type), INTENT(OUT), &
+         POINTER, OPTIONAL                           :: pgrid_opt_3
+      REAL(KIND=real_8), INTENT(IN), OPTIONAL        :: filter_eps
+      INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL     :: flop
+      LOGICAL, INTENT(IN), OPTIONAL                  :: move_data
+      LOGICAL, INTENT(IN), OPTIONAL                  :: retain_sparsity
+      INTEGER, DIMENSION(:, :), ALLOCATABLE, &
+         OPTIONAL, INTENT(OUT)                       :: result_index
+         !! get indices of non-zero tensor blocks for tensor_3 without actually performing contraction
+         !! this is an estimate based on block norm multiplication
+      INTEGER, OPTIONAL, INTENT(IN)                  :: unit_nr
+      LOGICAL, INTENT(IN), OPTIONAL                  :: log_verbose
 
       TYPE(dbcsr_t_type), POINTER                    :: tensor_contr_1, tensor_contr_2, tensor_contr_3
       TYPE(dbcsr_t_type)                             :: tensor_algn_1, tensor_algn_2, tensor_algn_3
@@ -450,7 +529,7 @@ CONTAINS
 
       INTEGER(int_8), DIMENSION(:,:), ALLOCATABLE  :: result_index_2d
       LOGICAL                                        :: assert_stmt
-      INTEGER                                        :: data_type, handle, max_mm_dim, max_tensor, mp_comm, &
+      INTEGER                                        :: data_type, max_mm_dim, max_tensor, mp_comm, &
                                                         iblk, nblk
       INTEGER, DIMENSION(SIZE(contract_1))           :: contract_1_mod
       INTEGER, DIMENSION(SIZE(notcontract_1))        :: notcontract_1_mod
@@ -464,7 +543,7 @@ CONTAINS
       INTEGER                                        :: occ_1, occ_2
       INTEGER, DIMENSION(:), ALLOCATABLE             :: dims1, dims2, dims3
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_contract', &
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_contract_expert', &
                                      routineP = moduleN//':'//routineN
       CHARACTER(LEN=1), DIMENSION(:), ALLOCATABLE    :: indchar1, indchar2, indchar3, indchar1_mod, &
                                                         indchar2_mod, indchar3_mod
@@ -474,8 +553,6 @@ CONTAINS
       INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_2)) :: bounds_t2
       LOGICAL                                        :: do_crop_1, do_crop_2, do_write_3, nodata_3
       TYPE(dbcsr_tas_split_info), POINTER            :: split_opt
-
-      CALL timeset(routineN, handle)
 
       NULLIFY (tensor_contr_1, tensor_contr_2, tensor_contr_3, tensor_crop_1, tensor_crop_2, split_opt)
 
@@ -559,7 +636,6 @@ CONTAINS
             CALL dbcsr_t_destroy(tensor_crop_2)
             DEALLOCATE (tensor_crop_2)
          ENDIF
-         CALL timestop(handle)
          RETURN
       ENDIF
 
@@ -747,7 +823,7 @@ CONTAINS
             result_index(iblk,:) = get_nd_indices(tensor_contr_3%nd_index_blk, result_index_2d(iblk,:))
          ENDDO
 
-         IF (new_1) THEN ! todo: create cleanup routine
+         IF (new_1) THEN
             CALL dbcsr_t_destroy(tensor_contr_1)
             DEALLOCATE (tensor_contr_1)
          ENDIF
@@ -777,7 +853,6 @@ CONTAINS
          CALL dbcsr_t_destroy(tensor_algn_2)
          CALL dbcsr_t_destroy(tensor_algn_3)
 
-         CALL timestop(handle)
          RETURN
       ENDIF
 
@@ -878,8 +953,6 @@ CONTAINS
             WRITE (unit_nr, '(A)') repeat("-", 80)
          ENDIF
       ENDIF
-
-      CALL timestop(handle)
 
    END SUBROUTINE
 
@@ -1515,6 +1588,49 @@ CONTAINS
       ENDDO blk_loop
 
       CALL dbcsr_t_iterator_stop(iter)
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_t_contract_index(alpha, tensor_1, tensor_2, beta, tensor_3, &
+                                     contract_1, notcontract_1, &
+                                     contract_2, notcontract_2, &
+                                     map_1, map_2, &
+                                     bounds_1, bounds_2, bounds_3, &
+                                     filter_eps, result_index)
+      !! get indices of non-zero tensor blocks for contraction result without actually
+      !! performing contraction.
+      !! this is an estimate based on block norm multiplication.
+      !! See documentation of dbcsr_t_contract.
+      TYPE(dbcsr_scalar_type), INTENT(IN)            :: alpha
+      TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_1
+      TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_2
+      TYPE(dbcsr_scalar_type), INTENT(IN)            :: beta
+      INTEGER, DIMENSION(:), INTENT(IN)              :: contract_1
+      INTEGER, DIMENSION(:), INTENT(IN)              :: contract_2
+      INTEGER, DIMENSION(:), INTENT(IN)              :: map_1
+      INTEGER, DIMENSION(:), INTENT(IN)              :: map_2
+      INTEGER, DIMENSION(:), INTENT(IN)              :: notcontract_1
+      INTEGER, DIMENSION(:), INTENT(IN)              :: notcontract_2
+      TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_3
+      INTEGER, DIMENSION(2, SIZE(contract_1)), &
+         INTENT(IN), OPTIONAL                        :: bounds_1
+      INTEGER, DIMENSION(2, SIZE(notcontract_1)), &
+         INTENT(IN), OPTIONAL                        :: bounds_2
+      INTEGER, DIMENSION(2, SIZE(notcontract_2)), &
+         INTENT(IN), OPTIONAL                        :: bounds_3
+      REAL(KIND=real_8), INTENT(IN), OPTIONAL        :: filter_eps
+      INTEGER, DIMENSION(:, :), ALLOCATABLE, &
+         INTENT(OUT)                                 :: result_index
+         !! indices of non-zero tensor blocks for tensor_3
+
+      CALL dbcsr_t_contract_expert(alpha, tensor_1, tensor_2, beta, tensor_3, &
+                                   contract_1, notcontract_1, &
+                                   contract_2, notcontract_2, &
+                                   map_1, map_2, &
+                                   bounds_1=bounds_1, &
+                                   bounds_2=bounds_2, &
+                                   bounds_3=bounds_3, &
+                                   filter_eps=filter_eps, &
+                                   result_index=result_index)
    END SUBROUTINE
 
    FUNCTION dbcsr_t_need_contract(tensor_1, tensor_2, contract_1, notcontract_1, &
