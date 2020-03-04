@@ -11,22 +11,7 @@
 # e.g. -fopenmp for GNU and Intel compilers.
 # Variants 3) and 4) requires to use MPI wrappers for the compilation and to specify
 # -D__parallel in the FCFLAGS variable.
-#
-# The 4 variants can be combined with the accelerator support. In this case, it further
-# requires:
-# a) set the accelerator compiler variable ACC:
-#    - for CUDA: e.g. ACC = nvcc
-#    - for HIP:  e.g. ACC = hipcc
-# b) set the GPUVER variable, e.g. GPUVER = P100 for P100 card (default value if not set)
-#    - for CUDA, possible values correspond to NVIDIA GPUs:
-#      possible values are K20X, K40, K80, P100, V100
-#    - for HIP, possible values correspond to NVIDIA and AMD GPUs:
-#      possible values are K20X, K40, K80, P100, V100, Mi50
-# c) set the accelerator compiler flag variable ACCFLAGS, e.g. ACCFLAGS = -O3 -g -w --std=c++11
-# d) specify the corresponding accelerator libraries in the LIBS variable,
-#    - e.g. for CUDA: LIBS += -lstdc++ -lcudart -lnvrtc -lcuda -lcublas
-#    - e.g. for HIP:  LIBS += -lstdc++ -lhiprtc -lhipblas
-#
+# The 4 variants can be combined with the accelerator support.
 
 #######################################################################################
 #

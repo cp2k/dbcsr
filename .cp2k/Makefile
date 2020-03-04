@@ -37,6 +37,11 @@
 #            possible values are K20X, K40, K80, P100, V100
 #          - for HIP, possible values correspond to NVIDIA and AMD GPUs:
 #            possible values are K20X, K40, K80, P100, V100, Mi50
+#
+# Libraries for accelerator:
+#    - e.g. for CUDA: LIBS += -lstdc++ -lcudart -lnvrtc -lcuda -lcublas
+#    - e.g. for HIP:  LIBS += -lstdc++ -lhiprtc -lhipblas
+#
 
 #
 SHELL = /bin/sh
@@ -185,9 +190,6 @@ ifneq ($(ACC),)
     OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "tune_*_exe*_part*.cpp" ! -name "tune_*_exe*_main*.cpp"  -name "*.cpp")
   endif
 endif
-
-OBJ_SRC_FILES += ./dbcsr_api_c.F
-PUBLICHEADERS += $(SRCDIR)/dbcsr.h
 
 # OBJECTS used for pretty
 ALL_OBJECTS   := $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
