@@ -445,7 +445,7 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL     :: flop
          !! As in DBCSR mm
       LOGICAL, INTENT(IN), OPTIONAL                  :: move_data
-         !! memory optimization: transfer data such that tensor_1 and tensor_2 may be empty on return
+         !! memory optimization: transfer data such that tensor_1 and tensor_2 are empty on return
       LOGICAL, INTENT(IN), OPTIONAL                  :: retain_sparsity
          !! enforce the sparsity pattern of the existing tensor_3; default is no
       INTEGER, OPTIONAL, INTENT(IN)                  :: unit_nr
@@ -944,6 +944,13 @@ CONTAINS
       IF (new_3) THEN
          CALL dbcsr_t_destroy(tensor_contr_3)
          DEALLOCATE (tensor_contr_3)
+      ENDIF
+
+      IF(PRESENT(move_data)) THEN
+         IF(move_data) THEN
+            CALL dbcsr_t_clear(tensor_1)
+            CALL dbcsr_t_clear(tensor_2)
+         ENDIF
       ENDIF
 
       IF (PRESENT(unit_nr)) THEN
