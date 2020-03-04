@@ -61,6 +61,13 @@
 #                            and reference BLAS/LAPACK)
 # 9) -DNDEBUG              : assertions are stripped ("compiled out"),
 #                            regular release builds may carry assertions for safety.
+# 10) -D__CUDA_PROFILING   : to turn on Nvidia Tools Extensions. It requires to link -lnvToolsExt.
+# 11) -D__CRAY_PM_ACCEL_ENERGY
+#     or -D__CRAY_PM_ENERGY : switch on energy profiling on Cray systems
+# 12) -D__NO_ABORT         : to avoid calling abort, but STOP instead
+#                            (useful for coverage testing, and to avoid core dumps on some systems)
+# 13) -D__NO_MPI_THREAD_SUPPORT_CHECK : Workaround for MPI libraries that do not declare
+#                                       they are thread safe (funneled) but you want to use them with OpenMP code anyways.
 #
 
 ifeq ($(CHECKS),1)
@@ -73,9 +80,3 @@ endif
 ifneq ($(CHECKS),1)
 FCFLAGS +=  -DNDEBUG
 endif
-
-#######################################################################################
-#
-# Enable for MacOS compilation (-D__ACCELERATE is for Apple Accelerate library)
-#FCFLAGS += -D__NO_STATM_ACCESS -D__ACCELERATE
-#######################################################################################
