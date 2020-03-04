@@ -3,7 +3,7 @@ The core of DBCSR is written in Fortran. All other languages must be supported t
 
 There is a single [API](./src/dbcsr_api.F) file for DBCSR, which is provided for external usage only. **Do not use the API for any internal DBCSR development!** Packages build on top of DBCSR, for example [DBCSR Tensors](./src/tensors), **must only use** the DBCSR API. Note that any change in the APIs will require a major release of the library.
 
-We support Make and CMake for compilation, please keep the build system updated when adding/removing files. When adding new functions, it is extremely important to provide simple test programs, aka "unit tests", to check whether these functions are performing as they should. The directory [test](./tests) serves as infrastructure for that. If you do not feel comfortable integrating these tests with the build system, please notify the other developers.
+We support CMake for compilation, please keep the build system updated when adding/removing files. When adding new functions, it is extremely important to provide simple test programs, aka "unit tests", to check whether these functions are performing as they should. The directory [test](./tests) serves as infrastructure for that. If you do not feel comfortable integrating these tests with the build system, please notify the other developers.
 
 Having examples (under the directory [examples](./examples)) is also appreciated. They must be independent of the DBCSR compilation and only use the DBCSR APIs.
 
