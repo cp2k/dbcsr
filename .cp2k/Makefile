@@ -9,7 +9,7 @@
 #
 # For testing, by default, the Makefile compiles the OpenMP+MPI+CUDA toolchain
 # with GNU compiler on a P100 GPU.
-# Make sure that the env variable ${LAPACK_PATH} is set.
+# Make sure that the env variable ${BLAS_PATH} is set.
 # You can compile DBCSR by running from the DBCSR main directory with:
 #
 # > make -f .cp2k/Makefile
@@ -84,7 +84,7 @@ FCFLAGS   = -D__parallel -O3 -g -fopenmp -std=f2008ts -ffree-form -fimplicit-non
             -Werror=unused-dummy-argument -Werror=conversion \
             -Werror=uninitialized -Wno-maybe-uninitialized
 LDFLAGS   = $(FCFLAGS)
-LIBS      = -L${LAPACK_PATH}/lib -llapack -lblas -lstdc++ -lcudart -lnvrtc -lcuda
+LIBS      = -L${BLAS_PATH}/lib -lblas -lstdc++ -lcudart -lnvrtc -lcuda
 ACC       = nvcc
 ACCFLAGS  = -O3 -g -w --std=c++11
 GPUVER    = P100
