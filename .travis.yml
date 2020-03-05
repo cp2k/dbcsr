@@ -42,7 +42,12 @@ env:
   - USE_MPI=ON USE_OPENMP=OFF USE_SMM=libxsmm
   - USE_MPI=OFF USE_OPENMP=OFF USE_SMM=libxsmm
 
-matrix:  # the following jobs inherit only the first OS
+matrix:
+  include:
+    - os: linux
+      python: 3.6
+
+matrix:
   exclude:
     - os: osx
       env: USE_MPI=ON USE_OPENMP=ON USE_SMM=blas
@@ -51,10 +56,9 @@ matrix:  # the following jobs inherit only the first OS
     - os: osx
       env: USE_MPI=ON USE_OPENMP=ON USE_SMM=libxsmm
     - os: osx
-      env: USE_MPI=OFF USE_OPENMP=ON USE_SMM=libxsmm
-  include:
-     os: linux
-     python: 3.6
+      env: USE_MPI=OFF USE_OPENMP=ON USE_SMM=libxsmm      
+
+matrix:  # the following jobs inherit only the first OS
   - name: "Run pre-commit hook on changed files"
     if: tag IS NOT present
     script:
