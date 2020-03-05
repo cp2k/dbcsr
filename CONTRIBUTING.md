@@ -23,7 +23,7 @@ Please make sure that you follow the following code conventions (based on [CP2K 
 7. Use the routines from [MPI wrappers](./src/mpi) instead of calling MPI directly.
 8. Don't use `UNIT=*` in `WRITE` or `PRINT` statements. Instead, request a unit from the logger: `iw=dbcsr_logger_get_default_unit_nr()` and write only if you actually received a unit: `IF(iw>0) WRITE (UNIT=iw, ,,,)`.
 9. Avoid to use `STOP`. Prefer the DBCSR error handlers: `DBCSR_WARN`, `DBCSR_ABORT`, `DBCSR_ASSERT`.
-10. Each preprocessor flag should start with two underscores and be documented in the [Makefile.inc](./Makefile.inc).
+10. Each preprocessor flag should start with two underscores and be documented in the [documentation](./docs/guide/3-developer-guide/3-programming/1-overview/index.md#list-of-macros-used-in-the-code).
 11. All routines in the API must start with the `dbcsr_` namespace. For submodules API (e.g. [DBCSR Tensors](./src/tensors)), each function has to start with the `dbcsr_<unique ID of the submodule>_` namespace.
 
 **Most important, please avoid committing dead code and useless comments!**
