@@ -53,7 +53,7 @@ matrix:
     - os: osx
       env: USE_MPI=OFF USE_OPENMP=ON USE_SMM=blas
     - os: osx
-      env: USE_MPI=OFF USE_OPENMP=ON USE_SMM=libxsmm
+      env: USE_MPI=ON USE_OPENMP=ON USE_SMM=libxsmm
 
 install:
   - DEPS_DIR="${HOME}/deps"
