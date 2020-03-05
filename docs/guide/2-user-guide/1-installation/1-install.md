@@ -36,6 +36,13 @@ Download either a [release tarball](https://github.com/cp2k/dbcsr/releases) or c
 
 ## Build
 
+DBCSR can be compiled in 4 main variants:
+* Serial, i.e. no OpenMP and MPI
+* OpenMP
+* MPI
+* OpenMP+MPI
+The 4 variants can be combined with the accelerator support.
+
 Run inside the `dbcsr` directory:
 
 ```bash

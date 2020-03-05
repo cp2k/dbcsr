@@ -1,20 +1,5 @@
 #######################################################################################
 #
-# DBCSR can be compiled in 4 main variants:
-# 1) Serial, i.e. no OpenMP and MPI
-# 2) OpenMP
-# 3) MPI
-# 4) OpenMP+MPI
-#
-# Except the 1) variant (not useful for real production cases), all others are tested.
-# Variants 2) and 4) requires to add the compiler flag to enable OpenMP,
-# e.g. -fopenmp for GNU and Intel compilers.
-# Variants 3) and 4) requires to use MPI wrappers for the compilation and to specify
-# -D__parallel in the FCFLAGS variable.
-# The 4 variants can be combined with the accelerator support.
-
-#######################################################################################
-#
 # Corresponding command flags.
 # Note the -fopenmp flag to have OpenMP parallelization.
 # A set of macros is available:
