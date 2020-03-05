@@ -10,6 +10,7 @@ program test_reshape
     integer, dimension(4) :: x = [1,2,3,4]
     integer, dimension(:), allocatable :: order
 
+    ALLOCATE(order(2))
     order = [2,1]
 
     ! PGI <= 19.10 does not accept allocatables for the order parameter
