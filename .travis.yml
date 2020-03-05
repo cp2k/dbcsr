@@ -57,8 +57,8 @@ jobs:  # the following jobs inherit only the first OS
       env: USE_MPI=OFF USE_OPENMP=ON USE_SMM=libxsmm
 
   include:
-  - os: linux
-      python: 3.6
+#  - os: linux
+#      python: 3.6
   - name: "Run pre-commit hook on changed files"
     if: tag IS NOT present
     script:
