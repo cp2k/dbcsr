@@ -123,6 +123,9 @@ endif ()
 if (USE_MPI)
   get_property(REQUIRED_MPI_COMPONENTS GLOBAL PROPERTY ENABLED_LANGUAGES)
   list(REMOVE_ITEM REQUIRED_MPI_COMPONENTS CUDA)  # CUDA does not have an MPI component
+  if (NOT CMAKE_CROSSCOMPILING)  # when cross compiling, assume the user know what he/she's doing
+     set(MPI_DETERMINE_LIBRARY_VERSION TRUE)
+  endif ()
   find_package(MPI COMPONENTS ${REQUIRED_MPI_COMPONENTS} REQUIRED)
 
   if (NOT MPI_Fortran_HAVE_F90_MODULE)
@@ -130,6 +133,11 @@ if (USE_MPI)
 The listed MPI implementation does not provide the required mpi.mod interface. \
 When using the GNU compiler in combination with Intel MPI, please use the \
 Intel MPI compiler wrappers. Check the INSTALL.md for more information.")
+  endif ()
+  if ("${MPI_Fortran_LIBRARY_VERSION_STRING}" MATCHES "Open MPI v2.1" OR "${MPI_Fortran_LIBRARY_VERSION_STRING}" MATCHES "Open MPI v3.1")
+     message(WARNING
+            "RMA with ${MPI_Fortran_LIBRARY_VERSION_STRING} is not supported due to issues with its implementation."
+            " Please use a newer version of OpenMPI or switch to MPICH if you plan on using MPI-RMA.")
   endif ()
 endif ()
 
