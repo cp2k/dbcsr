@@ -4,8 +4,8 @@ os:
   - linux
   - osx
 
-dist: xenial
-osx_image: xcode11.2
+dist: bionic
+osx_image: xcode11.3
 
 addons:
   apt:
