@@ -29,3 +29,16 @@ Assumed square matrix with 20x20 matrix with 5x5 blocks and a 2x2 processor grid
 ![DBCSR distribution over processors](./dbcsr_dist.png)
 
 ![DBCSR block scheme](./dbcsr_blocks.png)
+
+# List of standard compiler flags
+
+* OpenMP flag to enable multi-threaded parallelization, e.g. `-fopenmp` for GNU and Intel compilers.
+* Warnings
+* Error checkings
+
+# List of Macros used in the code
+
+| `__parallel` | enable MPI runs | Fortran |
+| `__MPI_VERSION=N` | DBCSR assumes that the MPI library implements MPI version 3. If you have an older version of MPI (e.g. MPI 2.0) available you must define -D__MPI_VERSION=2` |
+
+
