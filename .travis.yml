@@ -45,7 +45,7 @@ env:
 jobs:  # the following jobs inherit only the first OS
   exclude:
     - os: osx
-      env: LIBXSMM_VERSION=1.14 CMAKE_VERSION=3.16.20191124-g54082ed NINJA_VERSION=1.9.0.g99df1.kitware.dyndep-1.jobserver-1 USE_MPI=ON USE_OPENMP=ON USE_SMM=blas
+      env: USE_MPI=ON USE_OPENMP=ON USE_SMM=blas
     - os: osx
       env: USE_MPI=OFF USE_OPENMP=ON USE_SMM=blas
     - os: osx
