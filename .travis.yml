@@ -155,6 +155,7 @@ after_success:
   # macOS needs `--gcov-tool /usr/local/bin/gcov-?`, but even then I couldn't make the Coverage run work
   - |
     if [ "$TRAVIS_OS_NAME" = "linux" ] ; then
+      cd build
       ls
       pwd
       cmake --build . -- cov-info
