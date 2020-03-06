@@ -186,8 +186,6 @@ ifneq ($(ACC),)
   # if compiling with hipcc
   else ifneq (,$(findstring hipcc,$(ACC)))
     OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hip/acc_hip.cpp
-    # Exclude autotuning files
-    OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "tune_*_exe*_part*.cpp" ! -name "tune_*_exe*_main*.cpp"  -name "*.cpp")
   endif
 endif
 
