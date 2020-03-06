@@ -20,7 +20,7 @@ if you can not run commands as root, use the following to add a custom prefix to
 In your project's CMake you can then easily search for the DBCSR library:
 
 ```cmake
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 
 enable_language(Fortran C CXX)  # only request the required language
 

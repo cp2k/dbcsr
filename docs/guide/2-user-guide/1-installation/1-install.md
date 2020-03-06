@@ -6,7 +6,7 @@ title: Install
 
 You absolutely need:
 
-* [CMake](https://cmake.org/) (3.10+)
+* [CMake](https://cmake.org/) (3.12+)
 * GNU make or Ninja
 * a Fortran compiler which supports at least Fortran 2008 (including the TS 29113 when using the C-bindings)
 * a BLAS+LAPACK implementation (reference, OpenBLAS and MKL have been tested. Note: DBCSR linked to OpenBLAS 0.3.6 gives wrong results on Power9 architectures.)

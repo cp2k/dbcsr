@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.12)
 
 # include our cmake snippets
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -111,12 +111,7 @@ find_package(PkgConfig)
 # In CMake <3.15, the system is searched before the virtual environment.
 if (NOT Python_EXECUTABLE)
     # If the python interpreter isn't specified as a command line option, look for it:
-    if (CMAKE_VERSION VERSION_LESS 3.12)
-      find_package(PythonInterp REQUIRED)
-      set(Python_EXECUTABLE ${PYTHON_EXECUTABLE})
-    else ()
-      find_package(Python COMPONENTS Interpreter REQUIRED)
-    endif ()
+    find_package(Python COMPONENTS Interpreter REQUIRED)
 endif ()
 
 # =================================== MPI
