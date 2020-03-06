@@ -34,13 +34,7 @@ env:
   - CMAKE_VERSION=3.16.20191124-g54082ed
   - NINJA_VERSION=1.9.0.g99df1.kitware.dyndep-1.jobserver-1
   jobs:
-  - USE_MPI=ON USE_OPENMP=ON USE_SMM=blas
-  - USE_MPI=OFF USE_OPENMP=ON USE_SMM=blas
-  - USE_MPI=ON USE_OPENMP=OFF USE_SMM=blas
   - USE_MPI=ON USE_OPENMP=ON USE_SMM=libxsmm
-  - USE_MPI=OFF USE_OPENMP=ON USE_SMM=libxsmm
-  - USE_MPI=ON USE_OPENMP=OFF USE_SMM=libxsmm
-  - USE_MPI=OFF USE_OPENMP=OFF USE_SMM=libxsmm
 
 jobs:  # the following jobs inherit only the first OS
   exclude:
