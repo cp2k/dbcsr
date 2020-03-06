@@ -118,7 +118,7 @@ endif ()
 if (USE_MPI)
   get_property(REQUIRED_MPI_COMPONENTS GLOBAL PROPERTY ENABLED_LANGUAGES)
   list(REMOVE_ITEM REQUIRED_MPI_COMPONENTS CUDA)  # CUDA does not have an MPI component
-  if (NOT CMAKE_CROSSCOMPILING)  # when cross compiling, assume the user know what he/she's doing
+  if (NOT CMAKE_CROSSCOMPILING)  # when cross compiling, assume the users know what they are doing
      set(MPI_DETERMINE_LIBRARY_VERSION TRUE)
   endif ()
   find_package(MPI COMPONENTS ${REQUIRED_MPI_COMPONENTS} REQUIRED)
