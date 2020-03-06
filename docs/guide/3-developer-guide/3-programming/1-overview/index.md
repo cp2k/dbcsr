@@ -33,8 +33,8 @@ Assumed square matrix with 20x20 matrix with 5x5 blocks and a 2x2 processor grid
 # List of standard compiler flags
 
 * OpenMP flag to enable multi-threaded parallelization, e.g. `-fopenmp` for GNU and Intel compilers.
-* Warnings
-* Error checkings
+* Warnings, e.g. `-Werror=aliasing -Werror=ampersand -Werror=c-binding-type -Werror=intrinsic-shadow -Werror=intrinsics-std -Werror=line-truncation -Werror=tabs -Werror=target-lifetime -Werror=underflow -Werror=unused-but-set-variable -Werror=unused-variable -Werror=unused-dummy-argument -Werror=conversion -Werror=zerotrip -Werror=uninitialized -Wno-maybe-uninitialized` for GNU compiler.
+* Error checkings (only `Coverage` and `Debug` builds), e.g. `-fcheck=all -ffpe-trap=invalid,zero,overflow -fbacktrace -finit-real=snan -finit-integer=-42 -finit-derived -Werror=realloc-lhs -finline-matmul-limit=0` for GNU compiler.
 
 # List of Macros used in the code
 
