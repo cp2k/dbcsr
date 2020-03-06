@@ -82,7 +82,7 @@ inline void validate_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream
     ACC_API_CALL(Memset, (h->d_mat_c, 0, h->n_c * m * n * sizeof(double)));
 
     void *args[] = { &h->d_stack, &h->n_stack, &h->d_mat_a, &h->d_mat_b, &h->d_mat_c };
-    int res = launch_kernel_from_handle(kern_func, ((h->n_stack + grouping - 1) / grouping), threads, stream, args);
+    launch_kernel_from_handle(kern_func, ((h->n_stack + grouping - 1) / grouping), threads, stream, args);
     ACC_API_CALL(Memcpy, (h->mat_c, h->d_mat_c, h->n_c * m * n * sizeof(double), ACC(MemcpyDeviceToHost)));
 
     // Validate the kernel based on results
@@ -366,4 +366,3 @@ extern "C" int libsmm_acc_transpose (const int *trs_stack, int offset, int nblks
       return 0; // maximum size over any dimension
     return libsmm_acc_transpose_d(trs_stack, offset, nblks, (double *) buffer, m, n, *((ACC_DRV(stream) *) stream));
 }
-

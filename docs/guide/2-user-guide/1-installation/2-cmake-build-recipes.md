@@ -29,7 +29,7 @@ To use the Intel MKL together with the GNU compiler and possibly a system-MPI,
 assuming that MKL is installed in `/sw/intel/mkl`.
 
 Verified with MKL provided as part of the Intel Parallel Studio XE 2019.5 installed in `/sw/intel`
-with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.10.2.
+with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.12.0.
 
 1. Make sure the MKL environment is properly loaded:
 
@@ -55,7 +55,7 @@ This can be worked around by setting `export I_MPI_FABRICS=shm`.
 ### Intel MPI, GNU Compiler and system-provided OpenBLAS
 
 Verified with Intel Parallel Studio XE 2019.5 installed in `/sw/intel`
-with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.10.2.
+with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.12.0.
 
 1. Make sure that the Intel environment is properly loaded:
 
@@ -73,7 +73,7 @@ with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.10.2.
 ### Intel MPI, GNU Compiler and Intel MKL
 
 Verified with Intel Parallel Studio XE 2019.5 installed in `/sw/intel`
-with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.10.2.
+with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.12.0.
 
 1. Make sure that the Intel environment is properly loaded:
 
@@ -90,7 +90,7 @@ with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.10.2.
 ### Intel MPI, Intel Compiler and Intel MKL
 
 Verified with Intel Parallel Studio XE 2019.5 installed in `/sw/intel`
-on Linux openSUSE Leap 15.1, using CMake 3.10.2.
+on Linux openSUSE Leap 15.1, using CMake 3.12.0.
 
 1. Make sure that the Intel environment is properly loaded:
 

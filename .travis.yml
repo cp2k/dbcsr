@@ -4,8 +4,8 @@ os:
   - linux
   - osx
 
-dist: xenial
-osx_image: xcode11.2
+dist: bionic
+osx_image: xcode11.3
 
 addons:
   apt:
@@ -33,27 +33,73 @@ env:
   - LIBXSMM_VERSION=1.14
   - CMAKE_VERSION=3.16.20191124-g54082ed
   - NINJA_VERSION=1.9.0.g99df1.kitware.dyndep-1.jobserver-1
-  matrix:
+  jobs:
   - USE_MPI=ON USE_OPENMP=ON USE_SMM=blas
   - USE_MPI=OFF USE_OPENMP=ON USE_SMM=blas
   - USE_MPI=ON USE_OPENMP=OFF USE_SMM=blas
-  - USE_MPI=OFF USE_OPENMP=OFF USE_SMM=blas
+  - USE_MPI=ON USE_OPENMP=ON USE_SMM=libxsmm
   - USE_MPI=OFF USE_OPENMP=ON USE_SMM=libxsmm
+  - USE_MPI=ON USE_OPENMP=OFF USE_SMM=libxsmm
   - USE_MPI=OFF USE_OPENMP=OFF USE_SMM=libxsmm
 
-matrix:
-  include:
-    - os: linux
-      python: 3.6
-
-matrix:
+jobs:  # the following jobs inherit only the first OS
   exclude:
     - os: osx
       env: USE_MPI=ON USE_OPENMP=ON USE_SMM=blas
     - os: osx
       env: USE_MPI=OFF USE_OPENMP=ON USE_SMM=blas
     - os: osx
+      env: USE_MPI=ON USE_OPENMP=OFF USE_SMM=blas
+    - os: osx
+      env: USE_MPI=ON USE_OPENMP=ON USE_SMM=libxsmm
+    - os: osx
       env: USE_MPI=OFF USE_OPENMP=ON USE_SMM=libxsmm
+  include:
+  - name: "Run pre-commit hook on changed files"
+    if: tag IS NOT present
+    script:
+    - set -o pipefail
+    # fetch remotes first to ensure that referenced branches (other than the default) are available
+    - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+    - git fetch
+    - git diff --name-only --diff-filter=AM HEAD "origin/${TRAVIS_BRANCH}" | xargs pre-commit run --files
+
+  - name: "Run pre-commit hook 'check-ast' on all files"
+    if: tag IS NOT present
+    script:
+    - pre-commit run --hook-stage manual --all-files check-ast
+  - stage: release
+    name: "Build release tarball and documentation and deploy to GitHub"
+    if: tag IS present
+    script:
+      - mkdir -p build
+      - cd build
+      - cmake ..
+      - make dist doc
+      - touch doc/.nojekyll
+    deploy:
+    - provider: releases
+      token:  # encrypted token of the `dbcsr` GitHub service user
+        secure: ID+AX1LOPs+BRGpZiYgP0H9gvOBF/a/o1tNUNDY7Mbo6uShpwVcmYxpqW/2zbWrHXeG4TNZEATED2Yw1nSSp0wj7z/t6ScDuttvYwuN8AExauW7y4WrU5o3qGCGuc9ClDmj3lnQsjqjkmFkqZasmnh2MKHldcDM5cluNs1o/48a/nJ55TEsplKvsPn6gzi+XIs0zY/yIFEZxWEeXs7SlR3Jr+0nDMBHdllnEV/AxdQGQ7y2w6sXN26B7PZNM97kQ8qBGUPnnj41vHtAvT1rGu/N7TcRu+P0n9JmPtC+ZpzBNU8RfI0YJgFOjhORP9gwUNrwNSLZBqJECo2+s6QhjZ7x+UVF9CBQePUnRPJxMjkFVKqfykd7NtREaFJiwwfcWXSq7naVj1n4aNN19jO1myeSP/4WAGMBmEHXSlaDj1jqyaijwPC9YxVeMovTwlDdg0Iv/ZsjE4+MFcgyUU8f0h5x94gbsxgmKPUMaQeuMhdw41wAQm0KcDANwWNyiiGiyw5h0QJcjvg1/HDsrfID0vgqXXMXCfbLEMwpJLWj8F5Htc/D2gGfvepLy9+chqGF/53ntpTPEkF9V1f8ke6QZv7cJhi7U7IOmxWE6OFObPB1auT6g+Got10zkzNDWulk7g6thIFZlarpYqVKUWMfhb3i0ndJLk24L6iJhRuxtp90=
+      cleanup: true
+      file_glob: true
+      file: dist/*
+      draft: true
+      # the following 2 lines work around an issue in TravisCI with draft=true:
+      tag_name: $TRAVIS_TAG
+      target_commitish: $TRAVIS_COMMIT
+      on:
+        repo: cp2k/dbcsr
+        tags: true  # default is "restricted by branch"
+    - provider: pages
+      token:  # encrypted token of the `dbcsr` GitHub service user
+        secure: ID+AX1LOPs+BRGpZiYgP0H9gvOBF/a/o1tNUNDY7Mbo6uShpwVcmYxpqW/2zbWrHXeG4TNZEATED2Yw1nSSp0wj7z/t6ScDuttvYwuN8AExauW7y4WrU5o3qGCGuc9ClDmj3lnQsjqjkmFkqZasmnh2MKHldcDM5cluNs1o/48a/nJ55TEsplKvsPn6gzi+XIs0zY/yIFEZxWEeXs7SlR3Jr+0nDMBHdllnEV/AxdQGQ7y2w6sXN26B7PZNM97kQ8qBGUPnnj41vHtAvT1rGu/N7TcRu+P0n9JmPtC+ZpzBNU8RfI0YJgFOjhORP9gwUNrwNSLZBqJECo2+s6QhjZ7x+UVF9CBQePUnRPJxMjkFVKqfykd7NtREaFJiwwfcWXSq7naVj1n4aNN19jO1myeSP/4WAGMBmEHXSlaDj1jqyaijwPC9YxVeMovTwlDdg0Iv/ZsjE4+MFcgyUU8f0h5x94gbsxgmKPUMaQeuMhdw41wAQm0KcDANwWNyiiGiyw5h0QJcjvg1/HDsrfID0vgqXXMXCfbLEMwpJLWj8F5Htc/D2gGfvepLy9+chqGF/53ntpTPEkF9V1f8ke6QZv7cJhi7U7IOmxWE6OFObPB1auT6g+Got10zkzNDWulk7g6thIFZlarpYqVKUWMfhb3i0ndJLk24L6iJhRuxtp90=
+      cleanup: true
+      keep_history: true
+      local_dir: build/doc/
+      on:
+        repo: cp2k/dbcsr
+        tags: true  # default is "restricted by branch"
 
 install:
   - DEPS_DIR="${HOME}/deps"
@@ -118,51 +164,3 @@ after_success:
       cmake --build . -- cov-info
       bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
     fi
-
-jobs:  # the following jobs inherit only the first OS
-  include:
-  - name: "Run pre-commit hook on changed files"
-    if: tag IS NOT present
-    script:
-    - set -o pipefail
-    # fetch remotes first to ensure that referenced branches (other than the default) are available
-    - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-    - git fetch
-    - git diff --name-only --diff-filter=AM HEAD "origin/${TRAVIS_BRANCH}" | xargs pre-commit run --files
-
-  - name: "Run pre-commit hook 'check-ast' on all files"
-    if: tag IS NOT present
-    script:
-    - pre-commit run --hook-stage manual --all-files check-ast
-  - stage: release
-    name: "Build release tarball and documentation and deploy to GitHub"
-    if: tag IS present
-    script:
-      - mkdir -p build
-      - cd build
-      - cmake ..
-      - make dist doc
-      - touch doc/.nojekyll
-    deploy:
-    - provider: releases
-      api_key:  # encrypted token of the `dbcsr` GitHub service user
-        secure: ID+AX1LOPs+BRGpZiYgP0H9gvOBF/a/o1tNUNDY7Mbo6uShpwVcmYxpqW/2zbWrHXeG4TNZEATED2Yw1nSSp0wj7z/t6ScDuttvYwuN8AExauW7y4WrU5o3qGCGuc9ClDmj3lnQsjqjkmFkqZasmnh2MKHldcDM5cluNs1o/48a/nJ55TEsplKvsPn6gzi+XIs0zY/yIFEZxWEeXs7SlR3Jr+0nDMBHdllnEV/AxdQGQ7y2w6sXN26B7PZNM97kQ8qBGUPnnj41vHtAvT1rGu/N7TcRu+P0n9JmPtC+ZpzBNU8RfI0YJgFOjhORP9gwUNrwNSLZBqJECo2+s6QhjZ7x+UVF9CBQePUnRPJxMjkFVKqfykd7NtREaFJiwwfcWXSq7naVj1n4aNN19jO1myeSP/4WAGMBmEHXSlaDj1jqyaijwPC9YxVeMovTwlDdg0Iv/ZsjE4+MFcgyUU8f0h5x94gbsxgmKPUMaQeuMhdw41wAQm0KcDANwWNyiiGiyw5h0QJcjvg1/HDsrfID0vgqXXMXCfbLEMwpJLWj8F5Htc/D2gGfvepLy9+chqGF/53ntpTPEkF9V1f8ke6QZv7cJhi7U7IOmxWE6OFObPB1auT6g+Got10zkzNDWulk7g6thIFZlarpYqVKUWMfhb3i0ndJLk24L6iJhRuxtp90=
-      skip_cleanup: true
-      file_glob: true
-      file: dist/*
-      draft: true
-      # the following 2 lines work around an issue in TravisCI with draft=true:
-      tag_name: $TRAVIS_TAG
-      target_commitish: $TRAVIS_COMMIT
-      on:
-        repo: cp2k/dbcsr
-        tags: true  # default is "restricted by branch"
-    - provider: pages
-      github-token:  # encrypted token of the `dbcsr` GitHub service user
-        secure: ID+AX1LOPs+BRGpZiYgP0H9gvOBF/a/o1tNUNDY7Mbo6uShpwVcmYxpqW/2zbWrHXeG4TNZEATED2Yw1nSSp0wj7z/t6ScDuttvYwuN8AExauW7y4WrU5o3qGCGuc9ClDmj3lnQsjqjkmFkqZasmnh2MKHldcDM5cluNs1o/48a/nJ55TEsplKvsPn6gzi+XIs0zY/yIFEZxWEeXs7SlR3Jr+0nDMBHdllnEV/AxdQGQ7y2w6sXN26B7PZNM97kQ8qBGUPnnj41vHtAvT1rGu/N7TcRu+P0n9JmPtC+ZpzBNU8RfI0YJgFOjhORP9gwUNrwNSLZBqJECo2+s6QhjZ7x+UVF9CBQePUnRPJxMjkFVKqfykd7NtREaFJiwwfcWXSq7naVj1n4aNN19jO1myeSP/4WAGMBmEHXSlaDj1jqyaijwPC9YxVeMovTwlDdg0Iv/ZsjE4+MFcgyUU8f0h5x94gbsxgmKPUMaQeuMhdw41wAQm0KcDANwWNyiiGiyw5h0QJcjvg1/HDsrfID0vgqXXMXCfbLEMwpJLWj8F5Htc/D2gGfvepLy9+chqGF/53ntpTPEkF9V1f8ke6QZv7cJhi7U7IOmxWE6OFObPB1auT6g+Got10zkzNDWulk7g6thIFZlarpYqVKUWMfhb3i0ndJLk24L6iJhRuxtp90=
-      skip-cleanup: true
-      keep-history: true
-      local-dir: build/doc/
-      on:
-        repo: cp2k/dbcsr
-        tags: true  # default is "restricted by branch"

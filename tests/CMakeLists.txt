@@ -31,6 +31,10 @@ file(GLOB DBCSR_PERF_TESTS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     "inputs/*.perf"
     )
 
+if ("${MPI_Fortran_LIBRARY_VERSION_STRING}" MATCHES "Open MPI v2.1" OR "${MPI_Fortran_LIBRARY_VERSION_STRING}" MATCHES "Open MPI v3.1")
+    list(FILTER DBCSR_PERF_TESTS EXCLUDE REGEX "_rma")
+endif ()
+
 foreach (dbcsr_perf_test ${DBCSR_PERF_TESTS})
   if (USE_MPI)
     separate_arguments(MPIEXEC_PREFLAGS)

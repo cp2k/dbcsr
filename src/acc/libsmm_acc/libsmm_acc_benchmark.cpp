@@ -264,7 +264,7 @@ int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
  }
 
 
- int n_iter, n_warm;
+ int n_iter{0}, n_warm{0};
  switch(h->mode){
    case tune:
    case timing: // for larger matrices few iteration give enough statistics

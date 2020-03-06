@@ -19,7 +19,7 @@
 std::vector<Triplet> combinations(std::vector<int> to_combine){
 
     std::vector<Triplet> v;
-    int len = to_combine.size();
+    size_t len = to_combine.size();
     for(size_t i=0; i<len; i++){
         for(size_t j=0; j<len; j++){
             for(size_t k=0; k<len; k++){
