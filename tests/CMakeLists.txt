@@ -50,11 +50,6 @@ endforeach ()
 # =================================== DBCSR CORRECTNESS TESTS
 # Define all the tests here, will be used as the executable name
 set(DBCSR_TESTS
-  dbcsr_unittest1
-  dbcsr_unittest2
-  dbcsr_unittest3
-  dbcsr_tensor_unittest
-  dbcsr_tas_unittest
   dbcsr_test_csr_conversions
   )
 

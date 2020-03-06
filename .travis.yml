@@ -161,6 +161,8 @@ after_success:
   # macOS needs `--gcov-tool /usr/local/bin/gcov-?`, but even then I couldn't make the Coverage run work
   - |
     if [ "$TRAVIS_OS_NAME" = "linux" ] ; then
+      ls
+      pwd
       cmake --build . -- cov-info
       bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
     fi
