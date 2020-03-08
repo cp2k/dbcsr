@@ -33,7 +33,6 @@ find_program(GENHTML_EXE genhtml
 
 add_custom_target(cov-info
   COMMAND "${LCOV_EXE}" --directory "${CMAKE_BINARY_DIR}" --base-dir "${CMAKE_SOURCE_DIR}" --no-external --capture --output-file coverage.info
-  COMMAND "${LCOV_EXE}" --directory "${CMAKE_BINARY_DIR}" --base-dir "${CMAKE_SOURCE_DIR}" -r "${CMAKE_SOURCE_DIR}/tests/*" --no-external --output-file coverage.info
   COMMAND "${LCOV_EXE}" --list coverage.info
   VERBATIM
   BYPRODUCTS coverage.info
