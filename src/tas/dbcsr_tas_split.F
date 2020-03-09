@@ -25,7 +25,7 @@ MODULE dbcsr_tas_split
       mp_bcast, mp_cart_create, mp_comm_dup, mp_comm_free, mp_comm_split_direct, mp_dims_create, mp_environ
    USE dbcsr_kinds, ONLY: &
       real_8
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

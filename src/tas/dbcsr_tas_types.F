@@ -17,7 +17,7 @@ MODULE dbcsr_tas_types
       dbcsr_distribution_obj, dbcsr_iterator, dbcsr_type
    USE dbcsr_kinds, ONLY: int_8
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

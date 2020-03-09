@@ -19,7 +19,7 @@ MODULE dbcsr_tas_util
    USE dbcsr_mpiwrap, ONLY: mp_cart_rank, &
                             mp_environ
    USE dbcsr_index_operations, ONLY: dbcsr_sort_indices
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

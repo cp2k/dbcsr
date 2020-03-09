@@ -49,7 +49,7 @@ MODULE dbcsr_tas_base
       default_string_length, int_8, real_8, real_4
    USE dbcsr_mpiwrap, ONLY: &
       mp_cart_rank, mp_environ, mp_sum, mp_max
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

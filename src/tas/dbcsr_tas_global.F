@@ -15,7 +15,7 @@ MODULE dbcsr_tas_global
    !! function objects, leaving up to the caller how to efficiently store global data.
 
    USE dbcsr_kinds, ONLY: int_8
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE
