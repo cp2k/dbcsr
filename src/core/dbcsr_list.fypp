@@ -31,7 +31,7 @@ $:", ".join(['list_'+t+'_type', 'list_'+t+'_init', 'list_'+t+'_push', 'list_'+t+
 
 #:def list_body(valuetype, valuetype_in, valuetype_out, value_assign)
 
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 IMPLICIT NONE
 PRIVATE
 
