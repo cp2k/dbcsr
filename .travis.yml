@@ -57,8 +57,6 @@ jobs:  # the following jobs inherit only the first OS
   include:
   - name: "Run pre-commit hook on changed files"
     if: tag IS NOT present
-    env:
-    - PRE_COMMIT=y
     script:
     - set -o pipefail
     # fetch remotes first to ensure that referenced branches (other than the default) are available
@@ -68,8 +66,6 @@ jobs:  # the following jobs inherit only the first OS
 
   - name: "Run pre-commit hook 'check-ast' on all files"
     if: tag IS NOT present
-    env:
-    - PRE_COMMIT=y
     script:
     - pre-commit run --hook-stage manual --all-files check-ast
   - stage: release
@@ -164,7 +160,7 @@ after_success:
   - cd "${TRAVIS_BUILD_DIR}"
   # macOS needs `--gcov-tool /usr/local/bin/gcov-?`, but even then I couldn't make the Coverage run work
   - |
-    if [ "$TRAVIS_OS_NAME" = "linux" ] && [ -z "$TRAVIS_TAG" ] && [ "$PRE_COMMIT" != "y" ]; then
+    if [ "$TRAVIS_OS_NAME" = "linux" ] && [ -z "$TRAVIS_TAG" ] && [ -z "$TRAVIS_JOB_NAME" ]; then
       cd build
       cmake --build . -- cov-info
       bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
