@@ -10,6 +10,6 @@
 MODULE dbcsr_machine_internal
 
 ! use POSIX per default
-#include "core/dbcsr_machine_posix.f90"
+#include "base/dbcsr_machine_posix.f90"
 
 END MODULE dbcsr_machine_internal
