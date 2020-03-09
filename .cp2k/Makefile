@@ -135,7 +135,7 @@ ifneq (,$(findstring nvcc,$(ACC)))
 override ACCFLAGS += -D__CUDA
 CXXFLAGS += -D__CUDA
 #if "-arch" has not yet been set in ACCFLAGS
-ifeq (,$(findstring "-arch", $(ACCFLAGS)))
+ifeq (,$(findstring -arch,$(ACCFLAGS)))
 override ACCFLAGS += -arch sm_$(ARCH_NUMBER)
 endif
 # If compiling with hipcc
@@ -143,7 +143,7 @@ else ifneq (,$(findstring hipcc,$(ACC)))
 override ACCFLAGS += -D__HIP
 CXXFLAGS += -D__HIP
 #if "--amdgpu-target" has not yet been set in ACCFLAGS
-ifeq (,$(findstring "--amdgpu-target", $(ACCFLAGS)))
+ifeq (,$(findstring --amdgpu-target,$(ACCFLAGS)))
 override ACCFLAGS += --amdgpu-target=$(ARCH_NUMBER)
 endif
 endif
