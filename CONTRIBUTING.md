@@ -25,5 +25,6 @@ Please make sure that you follow the following code conventions (based on [CP2K 
 9. Avoid to use `STOP`. Prefer the DBCSR error handlers: `DBCSR_WARN`, `DBCSR_ABORT`, `DBCSR_ASSERT`.
 10. Each preprocessor flag should start with two underscores and be documented in the [documentation](./docs/guide/3-developer-guide/3-programming/1-overview/index.md#list-of-macros-used-in-the-code).
 11. All routines in the API must start with the `dbcsr_` namespace. For submodules API (e.g. [DBCSR Tensors](./src/tensors)), each function has to start with the `dbcsr_<unique ID of the submodule>_` namespace.
+12. If you are including files (i.e. macro `#include`), note that the base directory is `src`, please use relative path to it (e.g. `#include "base/dbcsr_base_uses.f90"` instead of `#include "../base/dbcsr_base_uses.f90"`).
 
 **Most important, please avoid committing dead code and useless comments!**

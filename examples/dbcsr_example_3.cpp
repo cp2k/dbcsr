@@ -29,7 +29,7 @@ std::vector<int> random_dist(int dist_size, int nbins)
     for(int i=0; i < dist_size; i++)
         dist[i] = (nbins-i+1) % nbins;
 
-    return std::move(dist);
+    return dist;
 }
 
 

@@ -57,7 +57,7 @@ MODULE dbcsr_tas_mm
    USE dbcsr_dist_methods, ONLY: dbcsr_distribution_new
    USE dbcsr_methods, ONLY: &
       dbcsr_mp_release, dbcsr_release, dbcsr_distribution_release, dbcsr_get_nze
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

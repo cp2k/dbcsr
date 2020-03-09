@@ -44,7 +44,7 @@ MODULE dbcsr_tas_test
    USE dbcsr_operations, ONLY: dbcsr_maxabs, &
                                dbcsr_add
    USE dbcsr_transformations, ONLY: dbcsr_complete_redistribute
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE
