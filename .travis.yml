@@ -81,7 +81,7 @@ jobs:  # the following jobs inherit only the first OS
     - provider: releases
       token:  # encrypted token of the `dbcsr` GitHub service user
         secure: ID+AX1LOPs+BRGpZiYgP0H9gvOBF/a/o1tNUNDY7Mbo6uShpwVcmYxpqW/2zbWrHXeG4TNZEATED2Yw1nSSp0wj7z/t6ScDuttvYwuN8AExauW7y4WrU5o3qGCGuc9ClDmj3lnQsjqjkmFkqZasmnh2MKHldcDM5cluNs1o/48a/nJ55TEsplKvsPn6gzi+XIs0zY/yIFEZxWEeXs7SlR3Jr+0nDMBHdllnEV/AxdQGQ7y2w6sXN26B7PZNM97kQ8qBGUPnnj41vHtAvT1rGu/N7TcRu+P0n9JmPtC+ZpzBNU8RfI0YJgFOjhORP9gwUNrwNSLZBqJECo2+s6QhjZ7x+UVF9CBQePUnRPJxMjkFVKqfykd7NtREaFJiwwfcWXSq7naVj1n4aNN19jO1myeSP/4WAGMBmEHXSlaDj1jqyaijwPC9YxVeMovTwlDdg0Iv/ZsjE4+MFcgyUU8f0h5x94gbsxgmKPUMaQeuMhdw41wAQm0KcDANwWNyiiGiyw5h0QJcjvg1/HDsrfID0vgqXXMXCfbLEMwpJLWj8F5Htc/D2gGfvepLy9+chqGF/53ntpTPEkF9V1f8ke6QZv7cJhi7U7IOmxWE6OFObPB1auT6g+Got10zkzNDWulk7g6thIFZlarpYqVKUWMfhb3i0ndJLk24L6iJhRuxtp90=
-      skip_cleanup: true
+      cleanup: false
       file_glob: true
       file: dist/*
       draft: true
@@ -94,7 +94,7 @@ jobs:  # the following jobs inherit only the first OS
     - provider: pages
       token:  # encrypted token of the `dbcsr` GitHub service user
         secure: ID+AX1LOPs+BRGpZiYgP0H9gvOBF/a/o1tNUNDY7Mbo6uShpwVcmYxpqW/2zbWrHXeG4TNZEATED2Yw1nSSp0wj7z/t6ScDuttvYwuN8AExauW7y4WrU5o3qGCGuc9ClDmj3lnQsjqjkmFkqZasmnh2MKHldcDM5cluNs1o/48a/nJ55TEsplKvsPn6gzi+XIs0zY/yIFEZxWEeXs7SlR3Jr+0nDMBHdllnEV/AxdQGQ7y2w6sXN26B7PZNM97kQ8qBGUPnnj41vHtAvT1rGu/N7TcRu+P0n9JmPtC+ZpzBNU8RfI0YJgFOjhORP9gwUNrwNSLZBqJECo2+s6QhjZ7x+UVF9CBQePUnRPJxMjkFVKqfykd7NtREaFJiwwfcWXSq7naVj1n4aNN19jO1myeSP/4WAGMBmEHXSlaDj1jqyaijwPC9YxVeMovTwlDdg0Iv/ZsjE4+MFcgyUU8f0h5x94gbsxgmKPUMaQeuMhdw41wAQm0KcDANwWNyiiGiyw5h0QJcjvg1/HDsrfID0vgqXXMXCfbLEMwpJLWj8F5Htc/D2gGfvepLy9+chqGF/53ntpTPEkF9V1f8ke6QZv7cJhi7U7IOmxWE6OFObPB1auT6g+Got10zkzNDWulk7g6thIFZlarpYqVKUWMfhb3i0ndJLk24L6iJhRuxtp90=
-      skip_cleanup: true
+      cleanup: false
       keep_history: true
       local_dir: build/doc/
       on:
