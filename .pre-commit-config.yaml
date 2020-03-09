@@ -21,7 +21,7 @@ repos:
     entry: ./.pre-commit/check_header.py --verbose
     language: script
     types: [text]
-    exclude: '^tools/'
+    exclude: '^(tools|.cp2k)/'
   - id: check-doxygen-tags
     name: no doxygen tags present
     entry: '^\s*!>'
