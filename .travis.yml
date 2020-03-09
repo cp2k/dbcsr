@@ -160,7 +160,7 @@ after_success:
   - cd "${TRAVIS_BUILD_DIR}"
   # macOS needs `--gcov-tool /usr/local/bin/gcov-?`, but even then I couldn't make the Coverage run work
   - |
-    if [ "$TRAVIS_OS_NAME" = "linux" ] && [ -z "$TRAVIS_TAG" ] 
+    if [ "$TRAVIS_OS_NAME" = "linux" ] && [ -z "$TRAVIS_TAG" ]; then
       echo "$TRAVIS_JOB_NAME"
       if [ "$TRAVIS_JOB_NAME" != "C" ]; then
          cd build
