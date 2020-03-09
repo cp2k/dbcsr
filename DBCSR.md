@@ -10,8 +10,7 @@ github: https://github.com/cp2k/dbcsr/blob/master/AUTHORS
 fpp_extensions: F
 fixed_extensions:
 extensions: F
-include: ./src
-         ./src/base
+include: ../src
 predocmark: >
 media_dir: @CMAKE_SOURCE_DIR@/docs/media
 md_base_dir: @CMAKE_SOURCE_DIR@
