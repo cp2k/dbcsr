@@ -1,6 +1,6 @@
 MAJOR = 2
 MINOR = 1
-PATCH = 0-rc5
+PATCH = 0-rc6
 # A specific DATE (YYYY-MM-DD) fixes an official release, otherwise
 # it is considered Development version.
 DATE  =

@@ -26,7 +26,7 @@ extern "C" int acc_event_create(void** event_p){
   ACC(Event_t)* acc_event = (ACC(Event_t)*) *event_p;
 
   ACC(Error_t) cErr = ACC(EventCreate)(acc_event);
-  if(verbose_print) printf("EventCreate) :  %p -> %d\n", *event_p, *acc_event);
+  if(verbose_print) printf("EventCreate) :  %p -> %ld\n", *event_p, (long int)*acc_event);
   if (acc_error_check(cErr)) return -1;
   if (acc_error_check(ACC(GetLastError)())) return -1;
   return 0;
@@ -52,7 +52,7 @@ extern "C" int acc_event_record(void* event, void* stream){
     ACC(Event_t)* acc_event = (ACC(Event_t)*) event;
     ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
 
-    if(verbose_print) printf("EventRecord): %p -> %d,  %p -> %d\n", acc_event, *acc_event, acc_stream, *acc_stream);
+    if(verbose_print) printf("EventRecord): %p -> %ld,  %p -> %ld\n", acc_event, (long int)*acc_event, acc_stream, (long int)*acc_stream);
     ACC_API_CALL(EventRecord, (*acc_event, *acc_stream));
     return 0;
 }
