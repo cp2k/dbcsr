@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/make_m2s.html#src">make_m2s</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -228,7 +225,7 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix%7E162"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix%7E241"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -363,7 +360,7 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
   
 <tr>
   
-  <td><span class="anchor" id="variable-f_row%7E3"></span>integer,</td>
+  <td><span class="anchor" id="variable-f_row"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -378,7 +375,7 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
   
 <tr>
   
-  <td><span class="anchor" id="variable-l_row%7E3"></span>integer,</td>
+  <td><span class="anchor" id="variable-l_row"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -393,7 +390,7 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
   
 <tr>
   
-  <td><span class="anchor" id="variable-f_col%7E3"></span>integer,</td>
+  <td><span class="anchor" id="variable-f_col"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -408,7 +405,7 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
   
 <tr>
   
-  <td><span class="anchor" id="variable-l_col%7E3"></span>integer,</td>
+  <td><span class="anchor" id="variable-l_col"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -423,7 +420,7 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
   
 <tr>
   
-  <td><span class="anchor" id="variable-row_blk_size%7E6"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td><span class="anchor" id="variable-row_blk_size%7E12"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -438,7 +435,7 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
   
 <tr>
   
-  <td><span class="anchor" id="variable-col_blk_size%7E6"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td><span class="anchor" id="variable-col_blk_size%7E12"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -453,7 +450,7 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
   
 <tr>
   
-  <td><span class="anchor" id="variable-k_vmap%7E2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td><span class="anchor" id="variable-k_vmap"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -468,7 +465,7 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
   
 <tr>
   
-  <td><span class="anchor" id="variable-m_map%7E2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td><span class="anchor" id="variable-m_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -483,7 +480,7 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
   
 <tr>
   
-  <td><span class="anchor" id="variable-n_map%7E2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td><span class="anchor" id="variable-n_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -498,7 +495,7 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
   
 <tr>
   
-  <td><span class="anchor" id="variable-alpha%7E22"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha%7E47"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -542,7 +539,13 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/make_m2s.html#src">make_m2s</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -566,6 +569,127 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">make_m2s</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">m2s</span><span class="p">,</span> <span class="n">rdist</span><span class="p">,</span> <span class="n">dense_rdist</span><span class="p">,</span> <span class="p">&amp;</span>
+      <span class="c">!! Make images from the matrix (left or right)</span>
+                       <span class="n">use_dense_mult</span><span class="p">,</span> <span class="n">ab_dense</span><span class="p">,</span> <span class="n">predistribute</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">f_k</span><span class="p">,</span> <span class="n">l_k</span><span class="p">,</span> <span class="n">f_row</span><span class="p">,</span> <span class="n">l_row</span><span class="p">,</span> <span class="n">f_col</span><span class="p">,</span> <span class="n">l_col</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">row_blk_size</span><span class="p">,</span> <span class="n">col_blk_size</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">k_vmap</span><span class="p">,</span> <span class="n">m_map</span><span class="p">,</span> <span class="n">n_map</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">alpha</span><span class="p">)</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_2d_array_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">POINTER</span>    <span class="kd">::</span> <span class="n">m2s</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_imagedistribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">rdist</span><span class="p">,</span> <span class="n">dense_rdist</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">use_dense_mult</span><span class="p">,</span> <span class="n">ab_dense</span>
+      <span class="kt">CHARACTER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">predistribute</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">f_k</span><span class="p">,</span> <span class="n">l_k</span><span class="p">,</span> <span class="n">f_row</span><span class="p">,</span> <span class="n">l_row</span><span class="p">,</span> <span class="n">f_col</span><span class="p">,</span> <span class="n">l_col</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">row_blk_size</span><span class="p">,</span> <span class="n">col_blk_size</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">k_vmap</span><span class="p">,</span> <span class="n">m_map</span><span class="p">,</span> <span class="n">n_map</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>      <span class="kd">::</span> <span class="n">alpha</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;make_m2s&#39;</span><span class="p">,</span> <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">im</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jm</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">f_crop</span>
+      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">do_scale</span><span class="p">,</span> <span class="n">thread_redist</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">col_map</span><span class="p">,</span> <span class="n">row_map</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">dense_template</span><span class="p">,</span> <span class="n">matrix_tmp</span>
+
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">m2s</span><span class="p">)</span>
+      <span class="n">do_scale</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_scalar_are_equal</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">dbcsr_scalar_one</span><span class="p">(</span><span class="n">alpha</span><span class="p">%</span><span class="n">data_type</span><span class="p">)))</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">do_scale</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+         <span class="k">END IF</span>
+<span class="k">      END IF</span>
+
+<span class="k">      IF</span> <span class="p">(</span><span class="n">do_scale</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="c">! Copy and scale matrix if alpha is not 1.</span>
+         <span class="k">CALL </span><span class="n">dbcsr_make_images</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">m2s</span><span class="p">,</span> <span class="n">rdist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                <span class="n">predistribute</span><span class="o">=</span><span class="n">predistribute</span><span class="p">,</span> <span class="p">&amp;</span>
+                                <span class="n">no_copy_data</span><span class="o">=</span><span class="n">use_dense_mult</span><span class="p">,</span> <span class="n">scale_value</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+      <span class="k">ELSE</span>
+<span class="k">         CALL </span><span class="n">dbcsr_make_images</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">m2s</span><span class="p">,</span> <span class="n">rdist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                <span class="n">predistribute</span><span class="o">=</span><span class="n">predistribute</span><span class="p">,</span> <span class="p">&amp;</span>
+                                <span class="n">no_copy_data</span><span class="o">=</span><span class="n">use_dense_mult</span><span class="p">)</span>
+      <span class="k">END IF</span>
+
+<span class="k">      </span><span class="n">im</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">m2s</span><span class="p">%</span><span class="n">mats</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="n">jm</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">m2s</span><span class="p">%</span><span class="n">mats</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">predistribute</span><span class="p">)</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
+         <span class="n">f_crop</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="n">f_row</span><span class="p">,</span> <span class="n">l_row</span><span class="p">,</span> <span class="n">f_k</span><span class="p">,</span> <span class="n">l_k</span><span class="o">/</span><span class="p">)</span>
+         <span class="n">row_map</span> <span class="o">=</span> <span class="n">m_map</span>
+         <span class="n">col_map</span> <span class="o">=</span> <span class="n">k_vmap</span>
+         <span class="n">thread_redist</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+      <span class="k">CASE </span><span class="n">default</span>
+         <span class="n">f_crop</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="n">f_k</span><span class="p">,</span> <span class="n">l_k</span><span class="p">,</span> <span class="n">f_col</span><span class="p">,</span> <span class="n">l_col</span><span class="o">/</span><span class="p">)</span>
+         <span class="n">row_map</span> <span class="o">=</span> <span class="n">k_vmap</span>
+         <span class="n">col_map</span> <span class="o">=</span> <span class="n">n_map</span>
+         <span class="n">thread_redist</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="k">END SELECT</span>
+
+      <span class="c">! Post-processing of images.</span>
+      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">im</span>
+         <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">jm</span>
+            <span class="k">CALL </span><span class="n">dbcsr_reset_vlocals</span><span class="p">(</span><span class="n">m2s</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">rdist</span><span class="p">)</span>
+            <span class="c">! Crop if necessary</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">f_crop</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">               </span><span class="n">matrix_tmp</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
+               <span class="k">CALL </span><span class="n">dbcsr_crop_matrix</span><span class="p">(</span><span class="n">matrix_tmp</span><span class="p">,</span> <span class="n">m2s</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="p">&amp;</span>
+                                      <span class="n">full_row_bounds</span><span class="o">=</span><span class="n">f_crop</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">),</span> <span class="p">&amp;</span>
+                                      <span class="n">full_column_bounds</span><span class="o">=</span><span class="n">f_crop</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">),</span> <span class="p">&amp;</span>
+                                      <span class="n">shallow_data</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">m2s</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+               <span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">m2s</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">matrix_tmp</span><span class="p">,</span> <span class="n">shallow_data</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_tmp</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_reset_vlocals</span><span class="p">(</span><span class="n">m2s</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">rdist</span><span class="p">)</span>
+            <span class="n">ENDIF</span>
+         <span class="n">ENDDO</span>
+      <span class="n">ENDDO</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ab_dense</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">dense_template</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
+         <span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">dense_template</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="n">matrix</span><span class="p">,</span> <span class="p">&amp;</span>
+                           <span class="n">dist</span><span class="o">=</span><span class="n">dense_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">,</span> <span class="p">&amp;</span>
+                           <span class="n">row_blk_size</span><span class="o">=</span><span class="n">array_data</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">),</span> <span class="n">col_blk_size</span><span class="o">=</span><span class="n">array_data</span><span class="p">(</span><span class="n">col_blk_size</span><span class="p">))</span>
+         <span class="k">CALL </span><span class="n">dbcsr_make_images_dense</span><span class="p">(</span><span class="n">m2s</span><span class="p">,</span> <span class="n">dense_rdist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">row_map</span><span class="o">=</span><span class="n">row_map</span><span class="p">,</span> <span class="n">col_map</span><span class="o">=</span><span class="n">col_map</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">join_cols</span><span class="o">=</span><span class="n">use_dense_mult</span><span class="p">,</span> <span class="n">join_rows</span><span class="o">=</span><span class="n">ab_dense</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">new_template</span><span class="o">=</span><span class="n">dense_template</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_image_dist_release</span><span class="p">(</span><span class="n">rdist</span><span class="p">)</span>
+         <span class="n">rdist</span> <span class="o">=</span> <span class="n">dense_rdist</span>
+         <span class="k">CALL </span><span class="n">dbcsr_image_dist_hold</span><span class="p">(</span><span class="n">rdist</span><span class="p">)</span>
+         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">im</span>
+            <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">jm</span>
+               <span class="k">CALL </span><span class="n">dbcsr_reset_vlocals</span><span class="p">(</span><span class="n">m2s</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">rdist</span><span class="p">)</span>
+            <span class="n">ENDDO</span>
+         <span class="n">ENDDO</span>
+      <span class="n">ENDIF</span>
+
+      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">im</span>
+         <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">jm</span>
+            <span class="c">! Convert to local-row index</span>
+            <span class="k">CALL </span><span class="n">dbcsr_make_index_local_row</span><span class="p">(</span><span class="n">m2s</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+            <span class="c">! Convert to list index</span>
+            <span class="k">CALL </span><span class="n">dbcsr_make_index_list</span><span class="p">(</span><span class="n">m2s</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">thread_redist</span><span class="o">=</span><span class="n">thread_redist</span><span class="p">)</span>
+         <span class="n">ENDDO</span>
+      <span class="n">ENDDO</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ab_dense</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_image_dist_release</span><span class="p">(</span><span class="n">dense_rdist</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">dense_template</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+   <span class="k">END SUBROUTINE </span><span class="n">make_m2s</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -576,7 +700,7 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -614,10 +738,6 @@ public subroutine make_m2s(matrix, m2s, rdist, dense_rdist, use_dense_mult, ab_d
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

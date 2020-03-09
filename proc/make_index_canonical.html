@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/make_index_canonical.html#src">make_index_canonical</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -233,7 +230,7 @@ private subroutine make_index_canonical(new_row_p, new_col_i, new_blk_p, old_row
   
 <tr>
   
-  <td><span class="anchor" id="variable-new_row_p"></span>integer,</td>
+  <td><span class="anchor" id="variable-new_row_p%7E2"></span>integer,</td>
   <td>intent(out),</td>
   <td></td>
   
@@ -248,7 +245,7 @@ private subroutine make_index_canonical(new_row_p, new_col_i, new_blk_p, old_row
   
 <tr>
   
-  <td><span class="anchor" id="variable-new_col_i"></span>integer,</td>
+  <td><span class="anchor" id="variable-new_col_i%7E2"></span>integer,</td>
   <td>intent(out),</td>
   <td></td>
   
@@ -263,7 +260,7 @@ private subroutine make_index_canonical(new_row_p, new_col_i, new_blk_p, old_row
   
 <tr>
   
-  <td><span class="anchor" id="variable-new_blk_p"></span>integer,</td>
+  <td><span class="anchor" id="variable-new_blk_p%7E2"></span>integer,</td>
   <td>intent(out),</td>
   <td></td>
   
@@ -278,7 +275,7 @@ private subroutine make_index_canonical(new_row_p, new_col_i, new_blk_p, old_row
   
 <tr>
   
-  <td><span class="anchor" id="variable-old_row_p"></span>integer,</td>
+  <td><span class="anchor" id="variable-old_row_p%7E3"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -293,7 +290,7 @@ private subroutine make_index_canonical(new_row_p, new_col_i, new_blk_p, old_row
   
 <tr>
   
-  <td><span class="anchor" id="variable-old_col_i"></span>integer,</td>
+  <td><span class="anchor" id="variable-old_col_i%7E3"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -308,7 +305,7 @@ private subroutine make_index_canonical(new_row_p, new_col_i, new_blk_p, old_row
   
 <tr>
   
-  <td><span class="anchor" id="variable-old_blk_p"></span>integer,</td>
+  <td><span class="anchor" id="variable-old_blk_p%7E5"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -323,7 +320,7 @@ private subroutine make_index_canonical(new_row_p, new_col_i, new_blk_p, old_row
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix%7E110"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix%7E253"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -367,7 +364,13 @@ private subroutine make_index_canonical(new_row_p, new_col_i, new_blk_p, old_row
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/make_index_canonical.html#src">make_index_canonical</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -391,6 +394,75 @@ private subroutine make_index_canonical(new_row_p, new_col_i, new_blk_p, old_row
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">make_index_canonical</span><span class="p">(</span><span class="n">new_row_p</span><span class="p">,</span> <span class="n">new_col_i</span><span class="p">,</span> <span class="n">new_blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                   <span class="n">old_row_p</span><span class="p">,</span> <span class="n">old_col_i</span><span class="p">,</span> <span class="n">old_blk_p</span><span class="p">,</span> <span class="n">matrix</span><span class="p">)</span>
+      <span class="c">!! Makes a canonical index given the index arrays</span>
+      <span class="c">!!</span>
+      <span class="c">!! Description of canonical ordering</span>
+      <span class="c">!! A non-(anti)symmetric matrix is left as is. Otherwise, the row and column</span>
+      <span class="c">!! are stored in the position prescribed by the distribution.</span>
+      <span class="c">!! @note</span>
+      <span class="c">!! This routine uses hard-coded logic as to what constitutes a</span>
+      <span class="c">!! canonical ordering</span>
+
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">new_row_p</span><span class="p">,</span> <span class="n">new_col_i</span><span class="p">,</span> <span class="n">new_blk_p</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">old_row_p</span><span class="p">,</span> <span class="n">old_col_i</span><span class="p">,</span> <span class="n">old_blk_p</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;make_index_canonical&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">blk</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">stored_col</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">stored_row</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">row_i</span>
+      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">tr</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="n">nblks</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">old_blk_p</span><span class="p">)</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_i</span><span class="p">(</span><span class="n">nblks</span><span class="p">))</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;old row_p&quot;</span><span class="p">,</span> <span class="n">old_row_p</span>
+         <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;old col_i&quot;</span><span class="p">,</span> <span class="n">old_col_i</span>
+         <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;old blk_p&quot;</span><span class="p">,</span> <span class="n">old_blk_p</span>
+      <span class="n">ENDIF</span>
+      <span class="k">DO </span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">old_row_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+         <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="n">old_row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">old_row_p</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="n">old_col_i</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+            <span class="n">stored_row</span> <span class="o">=</span> <span class="n">row</span>
+            <span class="n">stored_col</span> <span class="o">=</span> <span class="n">col</span>
+            <span class="n">tr</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+            <span class="k">CALL </span><span class="n">get_stored_canonical</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_col</span><span class="p">,</span> <span class="n">tr</span><span class="p">)</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="p">&amp;</span>
+               <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(A,2(1X,I5),A,2(1X,I5),&quot;;&quot;,I7,1X,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+               <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; X-&gt;&quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="s2">&quot;-&gt;&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+               <span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_col</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">tr</span>
+            <span class="n">row_i</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">stored_row</span>
+            <span class="n">new_col_i</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">stored_col</span>
+            <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">tr</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">               </span><span class="n">new_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">old_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+            <span class="k">ELSE</span>
+<span class="k">               </span><span class="n">new_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">old_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+            <span class="n">ENDIF</span>
+         <span class="n">ENDDO</span>
+      <span class="n">ENDDO</span>
+      <span class="k">CALL </span><span class="n">dbcsr_sort_indices</span><span class="p">(</span><span class="n">nblks</span><span class="p">,</span> <span class="n">row_i</span><span class="p">,</span> <span class="n">new_col_i</span><span class="p">,</span> <span class="n">blk_p</span><span class="o">=</span><span class="n">new_blk_p</span><span class="p">)</span>
+      <span class="c">! Re-create the index</span>
+      <span class="k">CALL </span><span class="n">dbcsr_make_dbcsr_index</span><span class="p">(</span><span class="n">new_row_p</span><span class="p">,</span> <span class="n">row_i</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">new_row_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblks</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;new row_p&quot;</span><span class="p">,</span> <span class="n">new_row_p</span>
+         <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;new row_i&quot;</span><span class="p">,</span> <span class="n">row_i</span>
+         <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;new col_i&quot;</span><span class="p">,</span> <span class="n">new_col_i</span>
+         <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;new blk_p&quot;</span><span class="p">,</span> <span class="n">new_blk_p</span>
+      <span class="n">ENDIF</span>
+   <span class="k">END SUBROUTINE </span><span class="n">make_index_canonical</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -401,7 +473,7 @@ private subroutine make_index_canonical(new_row_p, new_col_i, new_blk_p, old_row
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -439,10 +511,6 @@ private subroutine make_index_canonical(new_row_p, new_col_i, new_blk_p, old_row
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

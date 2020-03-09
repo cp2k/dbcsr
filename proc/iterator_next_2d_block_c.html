@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/iterator_next_2d_block_c.html#src">iterator_next_2d_block_c</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -228,7 +225,7 @@ private subroutine iterator_next_2d_block_c(iterator, row, column, block, transp
   
 <tr>
   
-  <td><span class="anchor" id="variable-iterator%7E37"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
+  <td><span class="anchor" id="variable-iterator%7E48"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -243,7 +240,7 @@ private subroutine iterator_next_2d_block_c(iterator, row, column, block, transp
   
 <tr>
   
-  <td><span class="anchor" id="variable-row%7E86"></span>integer,</td>
+  <td><span class="anchor" id="variable-row%7E99"></span>integer,</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -259,7 +256,7 @@ private subroutine iterator_next_2d_block_c(iterator, row, column, block, transp
   
 <tr>
   
-  <td><span class="anchor" id="variable-column%7E28"></span>integer,</td>
+  <td><span class="anchor" id="variable-column%7E45"></span>integer,</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -275,7 +272,7 @@ private subroutine iterator_next_2d_block_c(iterator, row, column, block, transp
   
 <tr>
   
-  <td><span class="anchor" id="variable-block%7E77"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-block%7E177"></span>complex(kind=real_4),</td>
   <td></td>
   <td></td>
   
@@ -290,7 +287,7 @@ private subroutine iterator_next_2d_block_c(iterator, row, column, block, transp
   
 <tr>
   
-  <td><span class="anchor" id="variable-transposed%7E36"></span>logical,</td>
+  <td><span class="anchor" id="variable-transposed%7E49"></span>logical,</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -305,7 +302,7 @@ private subroutine iterator_next_2d_block_c(iterator, row, column, block, transp
   
 <tr>
   
-  <td><span class="anchor" id="variable-block_number%7E26"></span>integer,</td>
+  <td><span class="anchor" id="variable-block_number%7E33"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -320,7 +317,7 @@ private subroutine iterator_next_2d_block_c(iterator, row, column, block, transp
   
 <tr>
   
-  <td><span class="anchor" id="variable-row_size%7E58"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_size%7E60"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -336,7 +333,7 @@ private subroutine iterator_next_2d_block_c(iterator, row, column, block, transp
   
 <tr>
   
-  <td><span class="anchor" id="variable-col_size%7E57"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_size%7E59"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -413,7 +410,13 @@ private subroutine iterator_next_2d_block_c(iterator, row, column, block, transp
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/iterator_next_2d_block_c.html#src">iterator_next_2d_block_c</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -437,6 +440,79 @@ private subroutine iterator_next_2d_block_c(iterator, row, column, block, transp
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>  <span class="k">SUBROUTINE </span><span class="n">iterator_next_2d_block_c</span> <span class="p">(</span><span class="n">iterator</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                   <span class="k">block</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                   <span class="n">block_number</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">,</span> <span class="n">row_offset</span><span class="p">,</span> <span class="n">col_offset</span><span class="p">)</span>
+     <span class="c">!! Gets the next data block, single/double precision real/complex</span>
+
+     <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">iterator</span>
+        <span class="c">!! the iterator</span>
+     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">row</span><span class="p">,</span> <span class="n">column</span>
+        <span class="c">!! row of the data block</span>
+        <span class="c">!! column of the data block</span>
+     <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="p">&amp;</span>
+        <span class="k">POINTER</span>                                <span class="kd">::</span> <span class="k">block</span>
+        <span class="c">!! pointer to the data block</span>
+     <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">transposed</span>
+        <span class="c">!! whether the block data is transposed</span>
+     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>           <span class="kd">::</span> <span class="n">block_number</span>
+        <span class="c">!! block number</span>
+     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>           <span class="kd">::</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">,</span> <span class="n">row_offset</span><span class="p">,</span> <span class="n">col_offset</span>
+        <span class="c">!! logical row size of block</span>
+        <span class="c">!! logical column size of block</span>
+
+     <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;iterator_next_2d_block_c&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                    <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+     <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">blk_p</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">csize</span><span class="p">,</span> <span class="n">nze</span><span class="p">,</span> <span class="n">rsize</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                 <span class="n">block_row_size</span><span class="p">,</span> <span class="n">block_col_size</span>
+     <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">lin_blk_p</span>
+     <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">error_handle</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+<span class="c">! If we&#39;re pointing to a valid block, return that block.</span>
+
+     <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
+     <span class="k">IF</span> <span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">pos</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">iterator</span><span class="p">%</span><span class="n">nblks</span> <span class="p">&amp;</span>
+         <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">iterator</span><span class="p">%</span><span class="n">pos</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">        </span><span class="n">row</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">row</span>
+        <span class="n">column</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">col_i</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">pos</span><span class="p">)</span>
+        <span class="k">IF</span> <span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="nb">transpose</span><span class="p">)</span> <span class="k">CALL </span><span class="n">swap</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span>
+        <span class="n">blk_p</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">pos</span><span class="p">)</span>
+        <span class="n">transposed</span> <span class="o">=</span> <span class="n">blk_p</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">0</span>
+        <span class="n">bp</span> <span class="o">=</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span>
+        <span class="n">rsize</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">row_size</span>
+        <span class="n">csize</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">cbs</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="n">block_row_size</span> <span class="o">=</span> <span class="n">rsize</span>
+        <span class="n">block_col_size</span> <span class="o">=</span> <span class="n">csize</span>
+        <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_size</span><span class="p">))</span> <span class="n">row_size</span> <span class="o">=</span> <span class="n">rsize</span>
+        <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_size</span><span class="p">))</span> <span class="n">col_size</span> <span class="o">=</span> <span class="n">csize</span>
+        <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_offset</span><span class="p">))</span> <span class="n">row_offset</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">row_offset</span>
+        <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_offset</span><span class="p">))</span> <span class="n">col_offset</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">coff</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="n">nze</span> <span class="o">=</span> <span class="n">rsize</span><span class="o">*</span><span class="n">csize</span>
+        <span class="k">IF</span> <span class="p">(</span><span class="n">transposed</span><span class="p">)</span> <span class="k">CALL </span><span class="n">swap</span><span class="p">(</span><span class="n">rsize</span><span class="p">,</span> <span class="n">csize</span><span class="p">)</span>
+        <span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="n">lin_blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                            <span class="n">lb</span><span class="o">=</span><span class="n">bp</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">bp</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">CALL </span><span class="n">pointer_rank_remap2</span><span class="p">(</span><span class="k">block</span><span class="p">,</span> <span class="n">rsize</span><span class="p">,</span> <span class="n">csize</span><span class="p">,</span> <span class="n">lin_blk_p</span><span class="p">)</span>
+        <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_number</span><span class="p">))</span> <span class="n">block_number</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">pos</span>
+        <span class="c">! Move to the next non-deleted position.</span>
+        <span class="k">CALL </span><span class="n">iterator_advance</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+        <span class="k">CALL </span><span class="n">update_row_info</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+     <span class="k">ELSE</span>
+<span class="k">        </span><span class="n">row</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">NULLIFY</span> <span class="p">(</span><span class="k">block</span><span class="p">)</span>
+        <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_number</span><span class="p">))</span> <span class="n">block_number</span> <span class="o">=</span> <span class="mi">0</span>
+     <span class="n">ENDIF</span>
+     <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+  <span class="k">END SUBROUTINE </span><span class="n">iterator_next_2d_block_c</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -447,7 +523,7 @@ private subroutine iterator_next_2d_block_c(iterator, row, column, block, transp
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -485,10 +561,6 @@ private subroutine iterator_next_2d_block_c(iterator, row, column, block, transp
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

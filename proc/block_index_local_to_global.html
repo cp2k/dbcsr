@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -228,7 +219,7 @@ public subroutine block_index_local_to_global(info, dist, row_group, column_grou
   
 <tr>
   
-  <td><span class="anchor" id="variable-info%7E7"></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
+  <td><span class="anchor" id="variable-info%7E6"></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -243,7 +234,7 @@ public subroutine block_index_local_to_global(info, dist, row_group, column_grou
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist%7E67"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-dist%7E51"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -290,7 +281,7 @@ public subroutine block_index_local_to_global(info, dist, row_group, column_grou
   
 <tr>
   
-  <td><span class="anchor" id="variable-row%7E123"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-row%7E80"></span>integer(kind=int_8),</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -306,7 +297,7 @@ public subroutine block_index_local_to_global(info, dist, row_group, column_grou
   
 <tr>
   
-  <td><span class="anchor" id="variable-column%7E45"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-column%7E33"></span>integer(kind=int_8),</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -385,7 +376,7 @@ public subroutine block_index_local_to_global(info, dist, row_group, column_grou
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -423,10 +414,6 @@ public subroutine block_index_local_to_global(info, dist, row_group, column_grou
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

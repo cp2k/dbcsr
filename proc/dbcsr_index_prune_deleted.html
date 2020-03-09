@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_index_prune_deleted.html#src">dbcsr_index_prune_deleted</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -229,7 +226,7 @@ public subroutine dbcsr_index_prune_deleted(matrix)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix%7E114"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix%7E257"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -273,7 +270,13 @@ public subroutine dbcsr_index_prune_deleted(matrix)
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_index_prune_deleted.html#src">dbcsr_index_prune_deleted</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -297,6 +300,75 @@ public subroutine dbcsr_index_prune_deleted(matrix)
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_index_prune_deleted</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+      <span class="c">!! Removes the deleted blocks from the index.</span>
+      <span class="c">!!</span>
+      <span class="c">!! Description</span>
+
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
+         <span class="c">!! Prune the index of this matrix.</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_index_prune_deleted&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">nblks_max</span><span class="p">,</span> <span class="n">new_blk</span><span class="p">,</span> <span class="n">nrows</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">old_blk</span><span class="p">,</span> <span class="n">row</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">new_blk_p</span><span class="p">,</span> <span class="n">new_col_i</span><span class="p">,</span> <span class="n">new_row_count</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">old_blk_p</span><span class="p">,</span> <span class="n">old_col_i</span><span class="p">,</span> <span class="n">old_row_p</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="n">old_row_p</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span>
+      <span class="n">old_col_i</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">col_i</span>
+      <span class="n">old_blk_p</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span>
+      <span class="c">!</span>
+      <span class="n">nrows</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_total</span>
+      <span class="n">nblks_max</span> <span class="o">=</span> <span class="n">old_row_p</span><span class="p">(</span><span class="n">nrows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">new_row_count</span><span class="p">(</span><span class="n">nrows</span><span class="p">))</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">new_col_i</span><span class="p">(</span><span class="n">nblks_max</span><span class="p">))</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">new_blk_p</span><span class="p">(</span><span class="n">nblks_max</span><span class="p">))</span>
+      <span class="c">!</span>
+      <span class="c">! Build up the new index from all non-deleted blocks in the</span>
+      <span class="c">! existing index.</span>
+      <span class="n">new_blk</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">DO </span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nrows</span>
+         <span class="n">new_row_count</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="k">DO </span><span class="n">old_blk</span> <span class="o">=</span> <span class="n">old_row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">old_row_p</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">old_blk_p</span><span class="p">(</span><span class="n">old_blk</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">               </span><span class="n">new_blk</span> <span class="o">=</span> <span class="n">new_blk</span> <span class="o">+</span> <span class="mi">1</span>
+               <span class="n">new_row_count</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">=</span> <span class="n">new_row_count</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+               <span class="n">new_col_i</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">old_col_i</span><span class="p">(</span><span class="n">old_blk</span><span class="p">)</span>
+               <span class="n">new_blk_p</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">old_blk_p</span><span class="p">(</span><span class="n">old_blk</span><span class="p">)</span>
+            <span class="n">ENDIF</span>
+         <span class="n">ENDDO</span>
+      <span class="n">ENDDO</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">dbcsr_clearfrom_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_row_p</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_clearfrom_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_col_i</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_clearfrom_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_blk_p</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_row_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                   <span class="n">reservation</span><span class="o">=</span><span class="n">nrows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">new_blk</span><span class="p">)</span>
+      <span class="n">old_row_p</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span>
+      <span class="k">CALL </span><span class="n">dbcsr_build_row_index</span><span class="p">(</span><span class="n">counts</span><span class="o">=</span><span class="n">new_row_count</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="n">old_row_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">nrows</span><span class="o">=</span><span class="n">nrows</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_col_i</span><span class="p">,</span> <span class="k">DATA</span><span class="o">=</span><span class="n">new_col_i</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">new_blk</span><span class="p">))</span>
+      <span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_blk_p</span><span class="p">,</span> <span class="k">DATA</span><span class="o">=</span><span class="n">new_blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">new_blk</span><span class="p">))</span>
+      <span class="n">matrix</span><span class="p">%</span><span class="n">nblks</span> <span class="o">=</span> <span class="n">new_blk</span>
+      <span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nblks</span><span class="p">)</span> <span class="o">=</span> <span class="n">new_blk</span>
+      <span class="c">!</span>
+      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">new_col_i</span><span class="p">,</span> <span class="n">new_blk_p</span><span class="p">,</span> <span class="n">new_row_count</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_index_prune_deleted</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -307,7 +379,7 @@ public subroutine dbcsr_index_prune_deleted(matrix)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -345,10 +417,6 @@ public subroutine dbcsr_index_prune_deleted(matrix)
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

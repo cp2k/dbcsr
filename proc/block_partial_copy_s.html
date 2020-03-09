@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/block_partial_copy_s.html#src">block_partial_copy_s</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -229,7 +226,7 @@ private subroutine block_partial_copy_s(dst, dst_rs, dst_cs, dst_tr, src, src_rs
   
 <tr>
   
-  <td><span class="anchor" id="variable-dst%7E14"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-dst%7E27"></span>real(kind=real_4),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -289,7 +286,7 @@ private subroutine block_partial_copy_s(dst, dst_rs, dst_cs, dst_tr, src, src_rs
   
 <tr>
   
-  <td><span class="anchor" id="variable-src%7E11"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-src%7E19"></span>real(kind=real_4),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -409,7 +406,7 @@ private subroutine block_partial_copy_s(dst, dst_rs, dst_cs, dst_tr, src, src_rs
   
 <tr>
   
-  <td><span class="anchor" id="variable-nrow%7E6"></span>integer,</td>
+  <td><span class="anchor" id="variable-nrow%7E7"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -424,7 +421,7 @@ private subroutine block_partial_copy_s(dst, dst_rs, dst_cs, dst_tr, src, src_rs
   
 <tr>
   
-  <td><span class="anchor" id="variable-ncol%7E6"></span>integer,</td>
+  <td><span class="anchor" id="variable-ncol%7E7"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -498,7 +495,13 @@ private subroutine block_partial_copy_s(dst, dst_rs, dst_cs, dst_tr, src, src_rs
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/block_partial_copy_s.html#src">block_partial_copy_s</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -522,6 +525,89 @@ private subroutine block_partial_copy_s(dst, dst_rs, dst_cs, dst_tr, src, src_rs
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>  <span class="n">PURE_BLOCKOPS</span> <span class="k">SUBROUTINE </span><span class="n">block_partial_copy_s</span> <span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">dst_rs</span><span class="p">,</span> <span class="n">dst_cs</span><span class="p">,</span> <span class="n">dst_tr</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                             <span class="n">src</span><span class="p">,</span> <span class="n">src_rs</span><span class="p">,</span> <span class="n">src_cs</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                             <span class="n">dst_r_lb</span><span class="p">,</span> <span class="n">dst_c_lb</span><span class="p">,</span> <span class="n">src_r_lb</span><span class="p">,</span> <span class="n">src_c_lb</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                             <span class="n">dst_offset</span><span class="p">,</span> <span class="n">src_offset</span><span class="p">)</span>
+     <span class="c">!! Copies a block subset</span>
+     <span class="c">!! @note see block_partial_copy_a</span>
+
+<span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
+     <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<span class="cp">#endif</span>
+     <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
+        <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">dst</span>
+     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">dst_rs</span><span class="p">,</span> <span class="n">dst_cs</span>
+     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">src_offset</span><span class="p">,</span> <span class="n">dst_offset</span>
+     <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">dst_tr</span>
+     <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
+        <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                            <span class="kd">::</span> <span class="n">src</span>
+     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">src_rs</span><span class="p">,</span> <span class="n">src_cs</span>
+     <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">src_tr</span>
+     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">dst_r_lb</span><span class="p">,</span> <span class="n">dst_c_lb</span><span class="p">,</span> <span class="n">src_r_lb</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                 <span class="n">src_c_lb</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span>
+
+     <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;block_partial_copy_s&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                    <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+     <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span>
+<span class="c">!    ---------------------------------------------------------------------------</span>
+<span class="c">!    Factors out the 4 combinations to remove branches from the inner loop.</span>
+<span class="c">!    rs is the logical row size so it always remains the leading dimension.</span>
+     <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dst_tr</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">src_tr</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
+        <span class="k">IF</span> <span class="p">((</span><span class="mi">0</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">ncol</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="mi">0</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">nrow</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">           CALL </span><span class="n">libxsmm_matcopy</span><span class="p">(</span><span class="n">libxsmm_ptr0</span><span class="p">(</span><span class="n">dst</span><span class="p">(</span><span class="n">dst_offset</span> <span class="o">+</span> <span class="n">dst_r_lb</span> <span class="o">+</span> <span class="p">(</span><span class="n">dst_c_lb</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dst_rs</span><span class="p">)),</span> <span class="p">&amp;</span>
+                                <span class="n">libxsmm_ptr0</span><span class="p">(</span><span class="n">src</span><span class="p">(</span><span class="n">src_offset</span> <span class="o">+</span> <span class="n">src_r_lb</span> <span class="o">+</span> <span class="p">(</span><span class="n">src_c_lb</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">src_rs</span><span class="p">)),</span> <span class="p">&amp;</span>
+                                <span class="mi">4</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="n">src_rs</span><span class="p">,</span> <span class="n">dst_rs</span><span class="p">)</span>
+        <span class="n">ENDIF</span>
+<span class="cp">#else</span>
+        <span class="k">DO </span><span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">-</span> <span class="mi">1</span>
+           <span class="k">DO </span><span class="n">row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">-</span> <span class="mi">1</span>
+              <span class="n">dst</span><span class="p">(</span><span class="n">dst_offset</span> <span class="o">+</span> <span class="n">dst_r_lb</span> <span class="o">+</span> <span class="n">row</span> <span class="o">+</span> <span class="p">(</span><span class="n">dst_c_lb</span> <span class="o">+</span> <span class="n">col</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dst_rs</span><span class="p">)</span> <span class="p">&amp;</span>
+                 <span class="o">=</span> <span class="n">src</span><span class="p">(</span><span class="n">src_offset</span> <span class="o">+</span> <span class="n">src_r_lb</span> <span class="o">+</span> <span class="n">row</span> <span class="o">+</span> <span class="p">(</span><span class="n">src_c_lb</span> <span class="o">+</span> <span class="n">col</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">src_rs</span><span class="p">)</span>
+           <span class="k">END DO</span>
+<span class="k">        END DO</span>
+<span class="cp">#endif</span>
+     <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">dst_tr</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">src_tr</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">        DO </span><span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">-</span> <span class="mi">1</span>
+           <span class="k">DO </span><span class="n">row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">-</span> <span class="mi">1</span>
+              <span class="n">dst</span><span class="p">(</span><span class="n">dst_offset</span> <span class="o">+</span> <span class="n">dst_c_lb</span> <span class="o">+</span> <span class="n">col</span> <span class="o">+</span> <span class="p">(</span><span class="n">dst_r_lb</span> <span class="o">+</span> <span class="n">row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dst_cs</span><span class="p">)</span> <span class="p">&amp;</span>
+                 <span class="o">=</span> <span class="n">src</span><span class="p">(</span><span class="n">src_offset</span> <span class="o">+</span> <span class="n">src_r_lb</span> <span class="o">+</span> <span class="n">row</span> <span class="o">+</span> <span class="p">(</span><span class="n">src_c_lb</span> <span class="o">+</span> <span class="n">col</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">src_rs</span><span class="p">)</span>
+           <span class="k">END DO</span>
+<span class="k">        END DO</span>
+<span class="k">     </span><span class="n">ELSEIF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dst_tr</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">src_tr</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">        DO </span><span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">-</span> <span class="mi">1</span>
+           <span class="k">DO </span><span class="n">row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">-</span> <span class="mi">1</span>
+              <span class="n">dst</span><span class="p">(</span><span class="n">dst_offset</span> <span class="o">+</span> <span class="n">dst_r_lb</span> <span class="o">+</span> <span class="n">row</span> <span class="o">+</span> <span class="p">(</span><span class="n">dst_c_lb</span> <span class="o">+</span> <span class="n">col</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dst_rs</span><span class="p">)</span> <span class="p">&amp;</span>
+                 <span class="o">=</span> <span class="n">src</span><span class="p">(</span><span class="n">src_offset</span> <span class="o">+</span> <span class="n">src_c_lb</span> <span class="o">+</span> <span class="n">col</span> <span class="o">+</span> <span class="p">(</span><span class="n">src_r_lb</span> <span class="o">+</span> <span class="n">row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">src_cs</span><span class="p">)</span>
+           <span class="k">END DO</span>
+<span class="k">        END DO</span>
+<span class="k">     ELSE</span>
+<span class="k">        </span><span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">dst_tr</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">src_tr</span><span class="p">)</span>
+<span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
+        <span class="k">IF</span> <span class="p">((</span><span class="mi">0</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">ncol</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="mi">0</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">nrow</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">           CALL </span><span class="n">libxsmm_matcopy</span><span class="p">(</span><span class="n">libxsmm_ptr0</span><span class="p">(</span><span class="n">dst</span><span class="p">(</span><span class="n">dst_offset</span> <span class="o">+</span> <span class="n">dst_c_lb</span> <span class="o">+</span> <span class="p">(</span><span class="n">dst_r_lb</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dst_cs</span><span class="p">)),</span> <span class="p">&amp;</span>
+                                <span class="n">libxsmm_ptr0</span><span class="p">(</span><span class="n">src</span><span class="p">(</span><span class="n">src_offset</span> <span class="o">+</span> <span class="n">src_c_lb</span> <span class="o">+</span> <span class="p">(</span><span class="n">src_r_lb</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">src_cs</span><span class="p">)),</span> <span class="p">&amp;</span>
+                                <span class="mi">4</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="n">src_cs</span><span class="p">,</span> <span class="n">dst_cs</span><span class="p">)</span>
+        <span class="k">END IF</span>
+<span class="cp">#else</span>
+        <span class="k">DO </span><span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">-</span> <span class="mi">1</span>
+           <span class="k">DO </span><span class="n">row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">-</span> <span class="mi">1</span>
+              <span class="n">dst</span><span class="p">(</span><span class="n">dst_offset</span> <span class="o">+</span> <span class="n">dst_c_lb</span> <span class="o">+</span> <span class="n">col</span> <span class="o">+</span> <span class="p">(</span><span class="n">dst_r_lb</span> <span class="o">+</span> <span class="n">row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dst_cs</span><span class="p">)</span> <span class="p">&amp;</span>
+                 <span class="o">=</span> <span class="n">src</span><span class="p">(</span><span class="n">src_offset</span> <span class="o">+</span> <span class="n">src_c_lb</span> <span class="o">+</span> <span class="n">col</span> <span class="o">+</span> <span class="p">(</span><span class="n">src_r_lb</span> <span class="o">+</span> <span class="n">row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">src_cs</span><span class="p">)</span>
+           <span class="k">END DO</span>
+<span class="k">        END DO</span>
+<span class="cp">#endif</span>
+     <span class="n">ENDIF</span>
+  <span class="k">END SUBROUTINE </span><span class="n">block_partial_copy_s</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -532,7 +618,7 @@ private subroutine block_partial_copy_s(dst, dst_rs, dst_cs, dst_tr, src, src_rs
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -570,10 +656,6 @@ private subroutine block_partial_copy_s(dst, dst_rs, dst_cs, dst_tr, src, src_rs
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

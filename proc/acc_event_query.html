@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/acc_event_query.html#src">acc_event_query</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -228,7 +225,7 @@ public function acc_event_query(this) result(res)
   
 <tr>
   
-  <td><span class="anchor" id="variable-this%7E33"></span>type(<a href='../type/acc_event_type.html'>acc_event_type</a>),</td>
+  <td><span class="anchor" id="variable-this"></span>type(<a href='../type/acc_event_type.html'>acc_event_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -247,7 +244,7 @@ public function acc_event_query(this) result(res)
     
     
     
-   <h3>Return Value <small><span class="anchor" id="variable-res%7E7"></span>logical
+   <h3>Return Value <small><span class="anchor" id="variable-res%7E2"></span>logical
   </small></h3>
     <p>true if event has occurred, false otherwise</p>
     
@@ -281,7 +278,13 @@ public function acc_event_query(this) result(res)
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/acc_event_query.html#src">acc_event_query</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -305,6 +308,35 @@ public function acc_event_query(this) result(res)
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">FUNCTION </span><span class="n">acc_event_query</span><span class="p">(</span><span class="n">this</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+      <span class="c">!! Fortran-wrapper for querying a CUDA/HIP event&#39;s status.</span>
+
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_event_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">this</span>
+         <span class="c">!! event</span>
+      <span class="kt">LOGICAL</span>                                  <span class="kd">::</span> <span class="n">res</span>
+         <span class="c">!! true if event has occurred, false otherwise</span>
+
+<span class="cp">#if ! defined (__DBCSR_ACC)</span>
+      <span class="n">res</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
+      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
+<span class="cp">#else</span>
+      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">istat</span><span class="p">,</span> <span class="n">has_occurred</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_event_query: event not allocated&quot;</span><span class="p">)</span>
+      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_event_query</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">,</span> <span class="n">has_occurred</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_event_query failed&quot;</span><span class="p">)</span>
+      <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">has_occurred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="cp">#endif</span>
+   <span class="k">END FUNCTION </span><span class="n">acc_event_query</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -315,7 +347,7 @@ public function acc_event_query(this) result(res)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -353,10 +385,6 @@ public function acc_event_query(this) result(res)
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

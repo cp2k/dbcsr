@@ -9,11 +9,13 @@
 
 MODULE dbcsr_allocate_wrap
    !! Wrapper for allocating, copying and reshaping arrays.
-   !! \todo: with fortran 2008 support, this should be replaced by plain ALLOCATE
+   !! @todo: with fortran 2008 support, this should be replaced by plain ALLOCATE
+   !! @note in particular ALLOCATE(..., SOURCE=...) does not work in gcc 5.4.0, see also
+   !! https://gcc.gnu.org/bugzilla/show_bug.cgi?id=44672
 
 
 
-   USE dbcsr_kinds, ONLY: real_8, real_4
+   USE dbcsr_kinds, ONLY: real_4, real_8
 
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE

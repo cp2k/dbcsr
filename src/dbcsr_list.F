@@ -18,7 +18,7 @@ MODULE dbcsr_list
    !! dependencies (timer_env_type contains list_routinestat_type and list_callstackentry_type, and
    !! list_timerenv_type contains timer_env_type)
 
-   USE dbcsr_timings_base_type, ONLY: routine_stat_type, routine_report_type, callstack_entry_type
+   USE dbcsr_timings_base_type, ONLY: callstack_entry_type, routine_stat_type, routine_report_type
    USE dbcsr_list_callstackentry, ONLY: list_callstackentry_type, list_callstackentry_init, list_callstackentry_push,&
        & list_callstackentry_pop, list_callstackentry_peek, list_callstackentry_insert, list_callstackentry_set,&
        & list_callstackentry_get, list_callstackentry_del, list_callstackentry_clear, list_callstackentry_size,&

@@ -53,7 +53,7 @@ MODULE dbcsr_tas_reshape_ops
       mp_alltoall, mp_environ, mp_isend, mp_irecv, mp_waitall
    USE dbcsr_tas_util, ONLY: &
       swap, index_unique
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE

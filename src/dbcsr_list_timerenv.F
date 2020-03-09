@@ -18,7 +18,7 @@ MODULE dbcsr_list_timerenv
    USE dbcsr_timings_types, ONLY: timer_env_type
 
 
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 IMPLICIT NONE
 PRIVATE
 

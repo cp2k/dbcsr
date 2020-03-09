@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -18,8 +18,6 @@ All Procedures &ndash; DBCSR Library
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -51,6 +49,8 @@ All Procedures &ndash; DBCSR Library
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -96,15 +96,6 @@ All Procedures &ndash; DBCSR Library
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -361,7 +352,11 @@ All Procedures &ndash; DBCSR Library
 			 
 			   <tr><td><a href='../proc/array_data_i1d.html'>array_data_i1d</a></td><td><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></td><td>Function</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/array_eq_i.html'>array_eq_i</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Function</td><td><p>check whether two arrays are equal</p></td></tr>
+			   <tr><td><a href='../interface/array_eq.html'>array_eq</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Interface</td><td></td></tr>
+			 
+			   <tr><td><a href='../proc/array_eq_i.html'>array_eq_i</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Function</td><td></td></tr>
+			 
+			   <tr><td><a href='../proc/array_eq_i%7E2.html'>array_eq_i</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Function</td><td><p>check whether two arrays are equal</p></td></tr>
 			 
 			   <tr><td><a href='../proc/array_eq_i8.html'>array_eq_i8</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Function</td><td></td></tr>
 			 
@@ -452,41 +447,41 @@ All Procedures &ndash; DBCSR Library
 			 
 			   <tr><td><a href='../proc/block_buffer_add_area_block.html'>block_buffer_add_area_block</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td></td></tr>
 			 
-			   <tr><td><a href='../interface/block_buffer_add_block.html'>block_buffer_add_block</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/block_buffer_add_block.html'>block_buffer_add_block</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Interface</td><td></td></tr>
 			 
-			   <tr><td><a href='../interface/block_buffer_add_block%7E2.html'>block_buffer_add_block</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/block_buffer_add_block%7E2.html'>block_buffer_add_block</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Interface</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_add_block_c_dp.html'>block_buffer_add_block_c_dp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>add block to buffer.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_add_block_c_dp.html'>block_buffer_add_block_c_dp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>insert a block into block buffer (at current iterator position)</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_add_block_c_dp%7E2.html'>block_buffer_add_block_c_dp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>insert a block into block buffer (at current iterator position)</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_add_block_c_dp%7E2.html'>block_buffer_add_block_c_dp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>add block to buffer.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_add_block_c_sp.html'>block_buffer_add_block_c_sp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>add block to buffer.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_add_block_c_sp.html'>block_buffer_add_block_c_sp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>insert a block into block buffer (at current iterator position)</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_add_block_c_sp%7E2.html'>block_buffer_add_block_c_sp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>insert a block into block buffer (at current iterator position)</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_add_block_c_sp%7E2.html'>block_buffer_add_block_c_sp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>add block to buffer.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_add_block_r_dp.html'>block_buffer_add_block_r_dp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>add block to buffer.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_add_block_r_dp.html'>block_buffer_add_block_r_dp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>insert a block into block buffer (at current iterator position)</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_add_block_r_dp%7E2.html'>block_buffer_add_block_r_dp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>insert a block into block buffer (at current iterator position)</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_add_block_r_dp%7E2.html'>block_buffer_add_block_r_dp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>add block to buffer.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_add_block_r_sp.html'>block_buffer_add_block_r_sp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>add block to buffer.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_add_block_r_sp.html'>block_buffer_add_block_r_sp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>insert a block into block buffer (at current iterator position)</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_add_block_r_sp%7E2.html'>block_buffer_add_block_r_sp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>insert a block into block buffer (at current iterator position)</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_add_block_r_sp%7E2.html'>block_buffer_add_block_r_sp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>add block to buffer.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_blocks_left.html'>block_buffer_blocks_left</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Function</td><td><p>how many blocks left in iterator</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_blocks_left.html'>block_buffer_blocks_left</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Function</td><td><p>how many blocks left in iterator</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_blocks_left%7E2.html'>block_buffer_blocks_left</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Function</td><td><p>how many blocks left in iterator</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_blocks_left%7E2.html'>block_buffer_blocks_left</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Function</td><td><p>how many blocks left in iterator</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_create.html'>block_buffer_create</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>Create block buffer for MPI communication.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_create.html'>block_buffer_create</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>Create block buffer for MPI communication.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_create%7E2.html'>block_buffer_create</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>Create block buffer for MPI communication.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_create%7E2.html'>block_buffer_create</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>Create block buffer for MPI communication.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_destroy.html'>block_buffer_destroy</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/block_buffer_destroy.html'>block_buffer_destroy</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_destroy%7E2.html'>block_buffer_destroy</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/block_buffer_destroy%7E2.html'>block_buffer_destroy</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_get_index.html'>block_buffer_get_index</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>Get all indices from buffer</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_get_index.html'>block_buffer_get_index</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>get all indices from buffer</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_get_index%7E2.html'>block_buffer_get_index</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>get all indices from buffer</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_get_index%7E2.html'>block_buffer_get_index</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>Get all indices from buffer</p></td></tr>
 			 
 			   <tr><td><a href='../proc/block_buffer_get_next_anyd_block.html'>block_buffer_get_next_anyd_block</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
 			 
@@ -494,25 +489,25 @@ All Procedures &ndash; DBCSR Library
 			 
 			   <tr><td><a href='../interface/block_buffer_get_next_block.html'>block_buffer_get_next_block</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Interface</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_get_next_block_c_dp.html'>block_buffer_get_next_block_c_dp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_get_next_block_c_dp.html'>block_buffer_get_next_block_c_dp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_get_next_block_c_dp%7E2.html'>block_buffer_get_next_block_c_dp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_get_next_block_c_dp%7E2.html'>block_buffer_get_next_block_c_dp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_get_next_block_c_sp.html'>block_buffer_get_next_block_c_sp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_get_next_block_c_sp.html'>block_buffer_get_next_block_c_sp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_get_next_block_c_sp%7E2.html'>block_buffer_get_next_block_c_sp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_get_next_block_c_sp%7E2.html'>block_buffer_get_next_block_c_sp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_get_next_block_r_dp.html'>block_buffer_get_next_block_r_dp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_get_next_block_r_dp.html'>block_buffer_get_next_block_r_dp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_get_next_block_r_dp%7E2.html'>block_buffer_get_next_block_r_dp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_get_next_block_r_dp%7E2.html'>block_buffer_get_next_block_r_dp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_get_next_block_r_sp.html'>block_buffer_get_next_block_r_sp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_get_next_block_r_sp.html'>block_buffer_get_next_block_r_sp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_get_next_block_r_sp%7E2.html'>block_buffer_get_next_block_r_sp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_get_next_block_r_sp%7E2.html'>block_buffer_get_next_block_r_sp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_iterator_reset.html'>block_buffer_iterator_reset</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>Reset buffer block iterator</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_iterator_reset.html'>block_buffer_iterator_reset</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>Reset buffer block iterator</p></td></tr>
 			 
-			   <tr><td><a href='../proc/block_buffer_iterator_reset%7E2.html'>block_buffer_iterator_reset</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>Reset buffer block iterator</p></td></tr>
+			   <tr><td><a href='../proc/block_buffer_iterator_reset%7E2.html'>block_buffer_iterator_reset</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>Reset buffer block iterator</p></td></tr>
 			 
 			   <tr><td><a href='../proc/block_copy_1d1d_c.html'>block_copy_1d1d_c</a></td><td><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></td><td>Subroutine</td><td><p>Copy a block</p></td></tr>
 			 
@@ -881,7 +876,8 @@ All Procedures &ndash; DBCSR Library
 			 
 			   <tr><td><a href='../proc/check_equal.html'>check_equal</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Function</td><td><p>check whether two array lists are equal</p></td></tr>
 			 
-			   <tr><td><a href='../proc/check_openmpi_rma.html'>check_openmpi_rma</a></td><td><a href='../module/dbcsr_mm.html'>dbcsr_mm</a></td><td>Subroutine</td><td><p>Check if RMA is used with buggy OpenMPI (version&lt;1.10.4 or 2.0.1)</p></td></tr>
+			   <tr><td><a href='../proc/check_openmpi_rma.html'>check_openmpi_rma</a></td><td><a href='../module/dbcsr_mm.html'>dbcsr_mm</a></td><td>Subroutine</td><td><p>Check if RMA is used with buggy OpenMPI
+ Currently tracked buggy versions: &lt;1.10.4, 2.0.0, 2.1.x, 3.1.x</p></td></tr>
 			 
 			   <tr><td><a href='../proc/checker_square_proc.html'>checker_square_proc</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Function</td><td><p>Determines the home process for a given logical matrix element.
  </p><a href="../proc/checker_square_proc.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
@@ -2564,6 +2560,18 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_allocate_and_get_4d_block_r_sp.html'>dbcsr_t_allocate_and_get_4d_block_r_sp</a></td><td><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></td><td>Subroutine</td><td><p>allocate and get block</p></td></tr>
 			 
+			   <tr><td><a href='../proc/dbcsr_t_batched_contract_finalize.html'>dbcsr_t_batched_contract_finalize</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>finalize batched contraction. This performs all communication that has been postponed in the
+ contraction calls.</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_t_batched_contract_init.html'>dbcsr_t_batched_contract_init</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>initialize batched contraction for this tensor. This ensures that no unnecessary communication takes place
+ in a series of batched contractions (i.e. partial contraction with specification of bounds
+ in order to reduce memory), under the following conditions:
+ - the same tensor is used in multiple contraction calls and its data is not changed via calls
+   to routines other than dbcsr_t_contract
+ - if tensor is the result of a contraction, it must not be reused as input for another contraction
+ If tensor is the result of a contraction, its publicly accessible data will not be updated until
+ dbcsr_t_batched_contract_finalize has been called.</p></td></tr>
+			 
 			   <tr><td><a href='../proc/dbcsr_t_blk_offsets.html'>dbcsr_t_blk_offsets</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>offset of tensor block</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_blk_sizes.html'>dbcsr_t_blk_sizes</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Size of tensor block</p></td></tr>
@@ -2579,6 +2587,13 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
  * tensor_2(contract_2, notcontract_2)
  + beta * tensor_3(map_1, map_2)</p></td></tr>
 			 
+			   <tr><td><a href='../proc/dbcsr_t_contract_expert.html'>dbcsr_t_contract_expert</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>expert routine for tensor contraction. For internal use only.</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_t_contract_index.html'>dbcsr_t_contract_index</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>get indices of non-zero tensor blocks for contraction result without actually
+ performing contraction.
+ this is an estimate based on block norm multiplication.
+ See documentation of dbcsr_t_contract.</p></td></tr>
+			 
 			   <tr><td><a href='../proc/dbcsr_t_contract_test.html'>dbcsr_t_contract_test</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>test tensor contraction
  </p><a href="../proc/dbcsr_t_contract_test.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
@@ -2592,6 +2607,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
  * target tensor is not yet created, in this case an exact copy of source tensor is returned.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_copy_matrix_to_tensor.html'>dbcsr_t_copy_matrix_to_tensor</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>copy matrix to tensor.</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_t_copy_nocomm.html'>dbcsr_t_copy_nocomm</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>copy without communication, requires that both tensors have same process grid and distribution</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_copy_tensor_to_matrix.html'>dbcsr_t_copy_tensor_to_matrix</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>copy tensor to matrix</p></td></tr>
 			 
@@ -2617,7 +2634,11 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_t_distribution_hold.html'>dbcsr_t_distribution_hold</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>reference counting for distribution (only needed for communicator handle that must be freed
  when no longer needed)</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dbcsr_t_distribution_new.html'>dbcsr_t_distribution_new</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Create a tensor distribution.</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_distribution_new.html'>dbcsr_t_distribution_new</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_t_distribution_new_expert.html'>dbcsr_t_distribution_new_expert</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Create a tensor distribution.</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_t_distribution_remap.html'>dbcsr_t_distribution_remap</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_equal.html'>dbcsr_t_equal</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Function</td><td><p>check if two (arbitrarily mapped and distributed) tensors are equal.</p></td></tr>
 			 
@@ -2711,6 +2732,10 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_t_map_bounds_to_tensors.html'>dbcsr_t_map_bounds_to_tensors</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Map contraction bounds to bounds referring to tensor indices
  see dbcsr_t_contract for docu of dummy arguments</p></td></tr>
 			 
+			   <tr><td><a href='../proc/dbcsr_t_mp_dims_create.html'>dbcsr_t_mp_dims_create</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Create process grid dimensions corresponding to one dimension of the matrix representation
+ of a tensor, imposing that no process grid dimension is greater than the corresponding
+ tensor dimension.</p></td></tr>
+			 
 			   <tr><td><a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>Create a default nd process topology that is consistent with a given 2d topology.
  Purpose: a nd tensor defined on the returned process grid can be represented as a DBCSR
  matrix with the given 2d topology.
@@ -2726,7 +2751,11 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_permute_index.html'>dbcsr_t_permute_index</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Create new tensor by reordering index, data is copied exactly (shallow copy)</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dbcsr_t_pgrid_create.html'>dbcsr_t_pgrid_create</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Create an n-dimensional process grid.
+			   <tr><td><a href='../proc/dbcsr_t_pgrid_change_dims.html'>dbcsr_t_pgrid_change_dims</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>change dimensions of an existing process grid.</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_t_pgrid_create.html'>dbcsr_t_pgrid_create</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_t_pgrid_create_expert.html'>dbcsr_t_pgrid_create_expert</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Create an n-dimensional process grid.
  We can not use a n-dimensional MPI cartesian grid for tensors since the mapping between
  n-dim. and 2-dim. index allows for an arbitrary reordering of tensor index. Therefore we can not
  use n-dim. MPI Cartesian grid because it may not be consistent with the respective 2d grid.
@@ -2834,6 +2863,10 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_t_write_tensor_dist.html'>dbcsr_t_write_tensor_dist</a></td><td><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></td><td>Subroutine</td><td><p>Write info on tensor distribution &amp; load balance</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_write_tensor_info.html'>dbcsr_t_write_tensor_info</a></td><td><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></td><td>Subroutine</td><td><p>Write tensor global info: block dimensions, full dimensions and process grid dimensions</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_tas_batched_mm_finalize.html'>dbcsr_tas_batched_mm_finalize</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_tas_batched_mm_init.html'>dbcsr_tas_batched_mm_init</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_tas_benchmark_mm.html'>dbcsr_tas_benchmark_mm</a></td><td><a href='../module/dbcsr_tas_test.html'>dbcsr_tas_test</a></td><td>Subroutine</td><td><p>Benchmark routine. Due to random sparsity (as opposed to structured sparsity pattern), this
  may not be representative for actual applications.</p></td></tr>
@@ -3026,6 +3059,9 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
  matrices have same number of block rows and block columns.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_tas_reshape.html'>dbcsr_tas_reshape</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>copy data (involves reshape)</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_tas_result_index.html'>dbcsr_tas_result_index</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td><p>Estimate sparsity pattern of C resulting from A x B = C by multiplying the block norms of A and B
+ Same dummy arguments as dbcsr_tas_multiply</p></td></tr>
 			 
 			   <tr><td><a href='../interface/dbcsr_tas_set.html'>dbcsr_tas_set</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Interface</td><td></td></tr>
 			 
@@ -3360,6 +3396,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/get_2d_indices.html'>get_2d_indices</a></td><td><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></td><td>Function</td><td><p>transform nd index to 2d index, using info from index mapping.</p></td></tr>
 			 
+			   <tr><td><a href='../proc/get_accdrv_active_device_id.html'>get_accdrv_active_device_id</a></td><td><a href='../module/dbcsr_config.html'>dbcsr_config</a></td><td>Function</td><td></td></tr>
+			 
 			   <tr><td><a href='../proc/get_array_elements.html'>get_array_elements</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Function</td><td><p>Get an element for each array.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/get_arrays.html'>get_arrays</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Subroutine</td><td><p>Get all arrays contained in list</p></td></tr>
@@ -3511,9 +3549,9 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/internal_process_mm_stack_z.html'>internal_process_mm_stack_z</a></td><td><a href='../module/dbcsr_mm_hostdrv.html'>dbcsr_mm_hostdrv</a></td><td>Subroutine</td><td><p>Processes MM stack and issues internal MM calls.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/invert_transpose_flag.html'>invert_transpose_flag</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/invert_transpose_flag.html'>invert_transpose_flag</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Subroutine</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/invert_transpose_flag%7E2.html'>invert_transpose_flag</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/invert_transpose_flag%7E2.html'>invert_transpose_flag</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/is_whitespace.html'>is_whitespace</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Function</td><td><p>returns .true. if the character passed is a whitespace char.</p></td></tr>
 			 
@@ -4281,10 +4319,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/mp_deallocate_z.html'>mp_deallocate_z</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Deallocates special parallel memory</p></td></tr>
 			 
 			   <tr><td><a href='../proc/mp_dims_create.html'>mp_dims_create</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_dims_create_from_tensor_dims.html'>mp_dims_create_from_tensor_dims</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Create process grid dimensions corresponding to one dimension of the matrix representation
- of a tensor, imposing that no process grid dimension is greater than the corresponding
- tensor dimension.</p></td></tr>
 			 
 			   <tr><td><a href='../interface/mp_environ.html'>mp_environ</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
 			 
@@ -5658,6 +5692,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/repl_rowcols.html'>repl_rowcols</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Function</td><td></td></tr>
 			 
+			   <tr><td><a href='../proc/reset_accdrv_active_device_id.html'>reset_accdrv_active_device_id</a></td><td><a href='../module/dbcsr_config.html'>dbcsr_config</a></td><td>Subroutine</td><td></td></tr>
+			 
 			   <tr><td><a href='../interface/reshape_2d_to_nd_block.html'>reshape_2d_to_nd_block</a></td><td><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/reshape_block_m2t_2d_c_dp.html'>reshape_block_m2t_2d_c_dp</a></td><td><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></td><td>Subroutine</td><td><p>reshape matrix to tensor block</p></td></tr>
@@ -5708,25 +5744,22 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/reshape_block_t2m_4d_r_sp.html'>reshape_block_t2m_4d_r_sp</a></td><td><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></td><td>Subroutine</td><td><p>reshape tensor to matrix block</p></td></tr>
 			 
-			   <tr><td><a href='../proc/reshape_mm_compatible.html'>reshape_mm_compatible</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
+			   <tr><td><a href='../proc/reshape_mm_compatible.html'>reshape_mm_compatible</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td><p>Reshape either matrix1 or matrix2 to make sure that their process grids are compatible with
+ the same split factor.</p></td></tr>
+			 
+			   <tr><td><a href='../proc/reshape_mm_compatible%7E2.html'>reshape_mm_compatible</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
  matrix multiplication. This routine reshapes the two largest of the three tensors. Redistribution
  is avoided if tensors already in a consistent layout.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/reshape_mm_compatible%7E2.html'>reshape_mm_compatible</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td><p>Reshape either matrix1 or matrix2 to make sure that their process grids are compatible with
- the same split factor.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reshape_mm_small.html'>reshape_mm_small</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
- matrix multiplication. This routine reshapes the smallest of the three tensors.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reshape_mm_small%7E2.html'>reshape_mm_small</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td><p>Make sure that smallest matrix involved in a multiplication is not split and bring it to
+			   <tr><td><a href='../proc/reshape_mm_small.html'>reshape_mm_small</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td><p>Make sure that smallest matrix involved in a multiplication is not split and bring it to
  the same process grid as the other 2 matrices.</p></td></tr>
+			 
+			   <tr><td><a href='../proc/reshape_mm_small%7E2.html'>reshape_mm_small</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
+ matrix multiplication. This routine reshapes the smallest of the three tensors.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/reshape_mm_template.html'>reshape_mm_template</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td><p>Reshape matrix_in s.t. it has same process grid, distribution and split as template</p></td></tr>
 			 
 			   <tr><td><a href='../interface/reshape_nd_to_2d_block.html'>reshape_nd_to_2d_block</a></td><td><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></td><td>Interface</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/result_sparsity_estimate.html'>result_sparsity_estimate</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Function</td><td><p>Estimate sparsity pattern of C resulting from A x B = C by multiplying the block norms of A and B
- Same dummy arguments as dbcsr_tas_multiply</p></td></tr>
 			 
 			   <tr><td><a href='../proc/rm_mp_perf_env.html'>rm_mp_perf_env</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
 			 
@@ -5741,6 +5774,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/row_col_3d_reflected.html'>row_col_3D_reflected</a></td><td><a href='../module/dbcsr_mm_3d.html'>dbcsr_mm_3d</a></td><td>Subroutine</td><td><p>Apply reflected order, i.e. row increasing value for odd col value,
  row decreasing value for even col value</p></td></tr>
+			 
+			   <tr><td><a href='../proc/set_accdrv_active_device_id.html'>set_accdrv_active_device_id</a></td><td><a href='../module/dbcsr_config.html'>dbcsr_config</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/set_data_area_area.html'>set_data_area_area</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Subroutine</td><td><p>Points data area data pointers to another data area
  Assumes that no memory will be lost when repointing the pointer in the data
@@ -5938,7 +5973,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -5976,10 +6011,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

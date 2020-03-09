@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/btree_right_insertion_i8_zp2d.html#src">btree_right_insertion_i8_zp2d</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -271,7 +268,7 @@ private subroutine btree_right_insertion_i8_zp2d(tree, node, new_node, key, valu
   
 <tr>
   
-  <td><span class="anchor" id="variable-key%7E50"></span>integer(kind=keyt),</td>
+  <td><span class="anchor" id="variable-key%7E46"></span>integer(kind=keyt),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -286,7 +283,7 @@ private subroutine btree_right_insertion_i8_zp2d(tree, node, new_node, key, valu
   
 <tr>
   
-  <td><span class="anchor" id="variable-value%7E47"></span>type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),</td>
+  <td><span class="anchor" id="variable-value%7E35"></span>type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -375,7 +372,13 @@ private subroutine btree_right_insertion_i8_zp2d(tree, node, new_node, key, valu
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/btree_right_insertion_i8_zp2d.html#src">btree_right_insertion_i8_zp2d</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -399,6 +402,40 @@ private subroutine btree_right_insertion_i8_zp2d(tree, node, new_node, key, valu
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">btree_right_insertion_i8_zp2d</span> <span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">new_node</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="k">value</span><span class="p">,</span> <span class="n">before</span><span class="p">,</span> <span class="n">split_pos</span><span class="p">,</span> <span class="n">subtree</span><span class="p">)</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">btree_i8_zp2d</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">tree</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_i8_zp2d</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">node</span><span class="p">,</span> <span class="n">new_node</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">keyt</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">key</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">btree_data_zp2d</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="k">value</span>
+<span class="k">      </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">before</span><span class="p">,</span> <span class="n">split_pos</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_i8_zp2d</span><span class="p">),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">subtree</span>
+      <span class="c">!</span>
+      <span class="n">new_node</span><span class="p">%</span><span class="n">filled</span> <span class="o">=</span> <span class="p">(</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">max_fill</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">split_pos</span>
+      <span class="n">new_node</span><span class="p">%</span><span class="n">keys</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">before</span> <span class="o">-</span> <span class="n">split_pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+         <span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">(</span><span class="n">split_pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">before</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="n">new_node</span><span class="p">%</span><span class="n">keys</span><span class="p">(</span><span class="n">before</span> <span class="o">-</span> <span class="n">split_pos</span><span class="p">)</span> <span class="o">=</span> <span class="n">key</span>
+      <span class="n">new_node</span><span class="p">%</span><span class="n">keys</span><span class="p">(</span><span class="n">before</span> <span class="o">-</span> <span class="n">split_pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">new_node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+         <span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">(</span><span class="n">before</span><span class="p">:</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">max_fill</span><span class="p">)</span>
+      <span class="n">new_node</span><span class="p">%</span><span class="n">values</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">before</span> <span class="o">-</span> <span class="n">split_pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+         <span class="n">node</span><span class="p">%</span><span class="n">values</span><span class="p">(</span><span class="n">split_pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">before</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="n">new_node</span><span class="p">%</span><span class="n">values</span><span class="p">(</span><span class="n">before</span> <span class="o">-</span> <span class="n">split_pos</span><span class="p">)</span> <span class="o">=</span> <span class="k">value</span>
+<span class="k">      </span><span class="n">new_node</span><span class="p">%</span><span class="n">values</span><span class="p">(</span><span class="n">before</span> <span class="o">-</span> <span class="n">split_pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">new_node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+         <span class="n">node</span><span class="p">%</span><span class="n">values</span><span class="p">(</span><span class="n">before</span><span class="p">:</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">max_fill</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subtree</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">new_node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">before</span> <span class="o">-</span> <span class="n">split_pos</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+            <span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="n">split_pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">before</span><span class="p">)</span>
+         <span class="n">new_node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="n">before</span> <span class="o">-</span> <span class="n">split_pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)%</span><span class="n">node</span> <span class="o">=&gt;</span> <span class="n">subtree</span>
+         <span class="n">new_node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="n">before</span> <span class="o">-</span> <span class="n">split_pos</span> <span class="o">+</span> <span class="mi">2</span><span class="p">:</span><span class="n">new_node</span><span class="p">%</span><span class="n">filled</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+            <span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="n">before</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">max_fill</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+   <span class="k">END SUBROUTINE </span><span class="n">btree_right_insertion_i8_zp2d</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -409,7 +446,7 @@ private subroutine btree_right_insertion_i8_zp2d(tree, node, new_node, key, valu
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -447,10 +484,6 @@ private subroutine btree_right_insertion_i8_zp2d(tree, node, new_node, key, valu
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

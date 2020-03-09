@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/stats_collect_from_ranks.html#src">stats_collect_from_ranks</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -243,7 +240,7 @@ private subroutine stats_collect_from_ranks(report, group)
   
 <tr>
   
-  <td><span class="anchor" id="variable-group%7E6"></span>integer,</td>
+  <td><span class="anchor" id="variable-group%7E37"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -287,7 +284,13 @@ private subroutine stats_collect_from_ranks(report, group)
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/stats_collect_from_ranks.html#src">stats_collect_from_ranks</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -311,6 +314,68 @@ private subroutine stats_collect_from_ranks(report, group)
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">stats_collect_from_ranks</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+      <span class="c">!! Collects statistics from all MPI-ranks</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">stats_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">report</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">group</span>
+
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">myrank</span><span class="p">,</span> <span class="n">nranks</span><span class="p">,</span> <span class="n">sending_rank</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">mnk_collected</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">mnk</span>
+
+<span class="c">!$OMP     MASTER</span>
+
+      <span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">nranks</span><span class="p">,</span> <span class="n">myrank</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+
+      <span class="n">report</span><span class="p">%</span><span class="n">max_acc_flop</span> <span class="o">=</span> <span class="n">report</span><span class="p">%</span><span class="n">acc_flop</span>
+      <span class="k">CALL </span><span class="n">mp_max</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">max_acc_flop</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+      <span class="n">report</span><span class="p">%</span><span class="n">max_smm_flop</span> <span class="o">=</span> <span class="n">report</span><span class="p">%</span><span class="n">smm_flop</span>
+      <span class="k">CALL </span><span class="n">mp_max</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">max_smm_flop</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+      <span class="n">report</span><span class="p">%</span><span class="n">max_cpu_flop</span> <span class="o">=</span> <span class="n">report</span><span class="p">%</span><span class="n">cpu_flop</span>
+      <span class="k">CALL </span><span class="n">mp_max</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">max_cpu_flop</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+
+      <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">acc_flop</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">smm_flop</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">cpu_flop</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">cpu_num_stacks</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">smm_num_stacks</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">acc_num_stacks</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+
+      <span class="c">! array mnk_collected is used as a logical-array, allows to use minloc</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">mnk_collected</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+      <span class="n">mnk_collected</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">! init all to false</span>
+
+      <span class="c">! broadcast stats of all mnk-combinations, which occurred on any mpi rank</span>
+      <span class="k">DO</span>
+         <span class="c">! each rank with uncollected stats tries to become the sending_rank</span>
+         <span class="n">sending_rank</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="k">ALL</span><span class="p">(</span><span class="n">mnk_collected</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span> <span class="n">sending_rank</span> <span class="o">=</span> <span class="n">myrank</span>
+         <span class="k">CALL </span><span class="n">mp_max</span><span class="p">(</span><span class="n">sending_rank</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">sending_rank</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">EXIT</span> <span class="c">! every rank got all mnk collected</span>
+
+         <span class="k">IF</span> <span class="p">(</span><span class="n">sending_rank</span> <span class="o">==</span> <span class="n">myrank</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">i</span> <span class="o">=</span> <span class="nb">MINLOC</span><span class="p">(</span><span class="n">mnk_collected</span><span class="p">,</span> <span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">mnk</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">),</span> <span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+         <span class="k">CALL </span><span class="n">mp_bcast</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">mnk</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">sending_rank</span><span class="p">,</span> <span class="n">gid</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+
+         <span class="k">CALL </span><span class="n">stats_add</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">mnk</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">n</span><span class="o">=</span><span class="n">mnk</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="n">mnk</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">stacksize_cpu</span><span class="o">=</span><span class="mi">0_int_8</span><span class="p">,</span> <span class="n">stacksize_acc</span><span class="o">=</span><span class="mi">0_int_8</span><span class="p">)</span>
+         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="k">ALL</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="n">mnk</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">               IF</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">mnk_collected</span><span class="p">))</span> <span class="n">mnk_collected</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+               <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span><span class="mi">9</span><span class="p">),</span> <span class="n">group</span><span class="p">)</span>
+            <span class="k">END IF</span>
+<span class="k">         END DO</span>
+<span class="k">      END DO</span>
+<span class="c">!$OMP     END MASTER</span>
+   <span class="k">END SUBROUTINE </span><span class="n">stats_collect_from_ranks</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -321,7 +386,7 @@ private subroutine stats_collect_from_ranks(report, group)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -359,10 +424,6 @@ private subroutine stats_collect_from_ranks(report, group)
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

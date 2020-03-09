@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -95,15 +95,6 @@
 
           </ul>
         
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -130,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.9% of total for modules and submodules.">1181 statements</a>
+    title=" 2.3% of total for modules and submodules.">1379 statements</a>
      </li> 
      
      
@@ -173,7 +164,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#variable-modulen%7E39">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#variable-modulen%7E36">moduleN</a>
       
     </div>
   </div>
@@ -228,19 +219,23 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy">dbcsr_t_copy</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_nocomm">dbcsr_t_copy_nocomm</a>
+      
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_matrix_to_tensor">dbcsr_t_copy_matrix_to_tensor</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_tensor_to_matrix">dbcsr_t_copy_tensor_to_matrix</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_contract">dbcsr_t_contract</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_contract_expert">dbcsr_t_contract_expert</a>
+      
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-align_tensor">align_tensor</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-reshape_mm_compatible">reshape_mm_compatible</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-reshape_mm_compatible%7E2">reshape_mm_compatible</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-reshape_mm_small">reshape_mm_small</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-reshape_mm_small%7E2">reshape_mm_small</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-invert_transpose_flag">invert_transpose_flag</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-invert_transpose_flag%7E2">invert_transpose_flag</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-index_linked_sort">index_linked_sort</a>
       
@@ -254,9 +249,15 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_get_nonzero_index">dbcsr_t_get_nonzero_index</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_contract_index">dbcsr_t_contract_index</a>
+      
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_map_bounds_to_tensors">dbcsr_t_map_bounds_to_tensors</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_print_contraction_index">dbcsr_t_print_contraction_index</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_batched_contract_init">dbcsr_t_batched_contract_init</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_batched_contract_finalize">dbcsr_t_batched_contract_finalize</a>
       
     </div>
   </div>
@@ -361,7 +362,7 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#variable-modulen%7E39">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#variable-modulen%7E36">moduleN</a>
       
     </div>
   </div>
@@ -416,19 +417,23 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy">dbcsr_t_copy</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_nocomm">dbcsr_t_copy_nocomm</a>
+      
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_matrix_to_tensor">dbcsr_t_copy_matrix_to_tensor</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_tensor_to_matrix">dbcsr_t_copy_tensor_to_matrix</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_contract">dbcsr_t_contract</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_contract_expert">dbcsr_t_contract_expert</a>
+      
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-align_tensor">align_tensor</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-reshape_mm_compatible">reshape_mm_compatible</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-reshape_mm_compatible%7E2">reshape_mm_compatible</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-reshape_mm_small">reshape_mm_small</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-reshape_mm_small%7E2">reshape_mm_small</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-invert_transpose_flag">invert_transpose_flag</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-invert_transpose_flag%7E2">invert_transpose_flag</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-index_linked_sort">index_linked_sort</a>
       
@@ -442,9 +447,15 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_get_nonzero_index">dbcsr_t_get_nonzero_index</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_contract_index">dbcsr_t_contract_index</a>
+      
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_map_bounds_to_tensors">dbcsr_t_map_bounds_to_tensors</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_print_contraction_index">dbcsr_t_print_contraction_index</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_batched_contract_init">dbcsr_t_batched_contract_init</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_batched_contract_finalize">dbcsr_t_batched_contract_finalize</a>
       
     </div>
   </div>
@@ -483,7 +494,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen%7E39"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen%7E36"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -1040,7 +1051,7 @@ public function <a href='../proc/dbcsr_t_need_contract.html'>dbcsr_t_need_contra
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy"></span><h3>
-public subroutine <a href='../proc/dbcsr_t_copy.html'>dbcsr_t_copy</a>(tensor_in, tensor_out, order, summation, move_data, unit_nr)
+public subroutine <a href='../proc/dbcsr_t_copy.html'>dbcsr_t_copy</a>(tensor_in, tensor_out, order, summation, bounds, move_data, unit_nr)
     
     
    
@@ -1145,6 +1156,21 @@ public subroutine <a href='../proc/dbcsr_t_copy.html'>dbcsr_t_copy</a>(tensor_in
   
 <tr>
   
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2, ndims_tensor(tensor_in))</td><td>::</td>
+  <td><strong>bounds</strong></td><td><p>crop tensor data: start and end index for each tensor dimension</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
   <td><span class="anchor" ></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
@@ -1166,6 +1192,95 @@ public subroutine <a href='../proc/dbcsr_t_copy.html'>dbcsr_t_copy</a>(tensor_in
   
   <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy_nocomm"></span><h3>
+private subroutine <a href='../proc/dbcsr_t_copy_nocomm.html'>dbcsr_t_copy_nocomm</a>(tensor_in, tensor_out, summation)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>copy without communication, requires that both tensors have same process grid and distribution</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor_in</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor_out</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>summation</strong></td><td><p>Whether to sum matrices b = a + b</p></td>
   
 </tr>
 
@@ -1361,7 +1476,7 @@ public subroutine <a href='../proc/dbcsr_t_copy_tensor_to_matrix.html'>dbcsr_t_c
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_contract"></span><h3>
-public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, filter_eps, flop, move_data, unit_nr, log_verbose)
+public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, filter_eps, flop, move_data, retain_sparsity, unit_nr, log_verbose)
     
     
    
@@ -1420,8 +1535,7 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td></td>
   
   <td>TARGET</td><td>::</td>
-  <td><strong>tensor_1</strong></td><td><p>first tensor (in)
- second tensor (in)</p></td>
+  <td><strong>tensor_1</strong></td><td><p>first tensor (in)</p></td>
   
 </tr>
 
@@ -1436,8 +1550,7 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td></td>
   
   <td>TARGET</td><td>::</td>
-  <td><strong>tensor_2</strong></td><td><p>first tensor (in)
- second tensor (in)</p></td>
+  <td><strong>tensor_2</strong></td><td><p>second tensor (in)</p></td>
   
 </tr>
 
@@ -1482,10 +1595,7 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td></td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>contract_1</strong></td><td><p>indices of tensor_1 to contract
- indices of tensor_2 to contract (1:1 with contract_1)
- which indices of tensor_3 map to non-contracted indices of tensor_1 (1:1 with notcontract_1)
- which indices of tensor_3 map to non-contracted indices of tensor_2 (1:1 with notcontract_2)</p></td>
+  <td><strong>contract_1</strong></td><td><p>indices of tensor_1 to contract</p></td>
   
 </tr>
 
@@ -1500,8 +1610,7 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td></td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>notcontract_1</strong></td><td><p>indices of tensor_1 not to contract
- indices of tensor_2 not to contract</p></td>
+  <td><strong>notcontract_1</strong></td><td><p>indices of tensor_1 not to contract</p></td>
   
 </tr>
 
@@ -1516,10 +1625,7 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td></td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>contract_2</strong></td><td><p>indices of tensor_1 to contract
- indices of tensor_2 to contract (1:1 with contract_1)
- which indices of tensor_3 map to non-contracted indices of tensor_1 (1:1 with notcontract_1)
- which indices of tensor_3 map to non-contracted indices of tensor_2 (1:1 with notcontract_2)</p></td>
+  <td><strong>contract_2</strong></td><td><p>indices of tensor_2 to contract (1:1 with contract_1)</p></td>
   
 </tr>
 
@@ -1534,8 +1640,7 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td></td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>notcontract_2</strong></td><td><p>indices of tensor_1 not to contract
- indices of tensor_2 not to contract</p></td>
+  <td><strong>notcontract_2</strong></td><td><p>indices of tensor_2 not to contract</p></td>
   
 </tr>
 
@@ -1550,10 +1655,7 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td></td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>map_1</strong></td><td><p>indices of tensor_1 to contract
- indices of tensor_2 to contract (1:1 with contract_1)
- which indices of tensor_3 map to non-contracted indices of tensor_1 (1:1 with notcontract_1)
- which indices of tensor_3 map to non-contracted indices of tensor_2 (1:1 with notcontract_2)</p></td>
+  <td><strong>map_1</strong></td><td><p>which indices of tensor_3 map to non-contracted indices of tensor_1 (1:1 with notcontract_1)</p></td>
   
 </tr>
 
@@ -1568,10 +1670,7 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td></td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>map_2</strong></td><td><p>indices of tensor_1 to contract
- indices of tensor_2 to contract (1:1 with contract_1)
- which indices of tensor_3 map to non-contracted indices of tensor_1 (1:1 with notcontract_1)
- which indices of tensor_3 map to non-contracted indices of tensor_2 (1:1 with notcontract_2)</p></td>
+  <td><strong>map_2</strong></td><td><p>which indices of tensor_3 map to non-contracted indices of tensor_2 (1:1 with notcontract_2)</p></td>
   
 </tr>
 
@@ -1649,9 +1748,7 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td>POINTER</td><td>::</td>
   <td><strong>pgrid_opt_1</strong></td><td><p>Optionally return optimal process grid for tensor_1. This can be used to choose optimal process grids for subsequent
  tensor contractions with tensors of similar shape and sparsity. Under some conditions, pgrid_opt_1 can not be returned,
- in this case the pointer is not associated.
- Optionally return optimal process grid for tensor_2.
- Optionally return optimal process grid for tensor_3.</p></td>
+ in this case the pointer is not associated.</p></td>
   
 </tr>
 
@@ -1666,11 +1763,7 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td>optional</td>
   
   <td>POINTER</td><td>::</td>
-  <td><strong>pgrid_opt_2</strong></td><td><p>Optionally return optimal process grid for tensor_1. This can be used to choose optimal process grids for subsequent
- tensor contractions with tensors of similar shape and sparsity. Under some conditions, pgrid_opt_1 can not be returned,
- in this case the pointer is not associated.
- Optionally return optimal process grid for tensor_2.
- Optionally return optimal process grid for tensor_3.</p></td>
+  <td><strong>pgrid_opt_2</strong></td><td><p>Optionally return optimal process grid for tensor_2.</p></td>
   
 </tr>
 
@@ -1685,11 +1778,7 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td>optional</td>
   
   <td>POINTER</td><td>::</td>
-  <td><strong>pgrid_opt_3</strong></td><td><p>Optionally return optimal process grid for tensor_1. This can be used to choose optimal process grids for subsequent
- tensor contractions with tensors of similar shape and sparsity. Under some conditions, pgrid_opt_1 can not be returned,
- in this case the pointer is not associated.
- Optionally return optimal process grid for tensor_2.
- Optionally return optimal process grid for tensor_3.</p></td>
+  <td><strong>pgrid_opt_3</strong></td><td><p>Optionally return optimal process grid for tensor_3.</p></td>
   
 </tr>
 
@@ -1734,7 +1823,22 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>move_data</strong></td><td><p>memory optimization: transfer data such that tensor_1 and tensor_2 may be empty on return</p></td>
+  <td><strong>move_data</strong></td><td><p>memory optimization: transfer data such that tensor_1 and tensor_2 are empty on return</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>retain_sparsity</strong></td><td><p>enforce the sparsity pattern of the existing tensor_3; default is no</p></td>
   
 </tr>
 
@@ -1765,6 +1869,426 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   
   <td></td><td>::</td>
   <td><strong>log_verbose</strong></td><td><p>verbose logging (for testing only)</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_contract_expert"></span><h3>
+private subroutine <a href='../proc/dbcsr_t_contract_expert.html'>dbcsr_t_contract_expert</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, filter_eps, flop, move_data, retain_sparsity, result_index, unit_nr, log_verbose)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>expert routine for tensor contraction. For internal use only.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>alpha</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>TARGET</td><td>::</td>
+  <td><strong>tensor_1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>TARGET</td><td>::</td>
+  <td><strong>tensor_2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>beta</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>TARGET</td><td>::</td>
+  <td><strong>tensor_3</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>contract_1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>notcontract_1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>contract_2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>notcontract_2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>map_1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>map_2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2, SIZE(contract_1))</td><td>::</td>
+  <td><strong>bounds_1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2, SIZE(notcontract_1))</td><td>::</td>
+  <td><strong>bounds_2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2, SIZE(notcontract_2))</td><td>::</td>
+  <td><strong>bounds_3</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>optimize_dist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>pgrid_opt_1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>pgrid_opt_2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>pgrid_opt_3</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>filter_eps</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>flop</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>move_data</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>retain_sparsity</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:, :), ALLOCATABLE</td><td>::</td>
+  <td><strong>result_index</strong></td><td><p>get indices of non-zero tensor blocks for tensor_3 without actually performing contraction
+ this is an estimate based on block norm multiplication</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>unit_nr</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>log_verbose</strong></td><td></td>
   
 </tr>
 
@@ -1945,8 +2469,8 @@ private subroutine <a href='../proc/align_tensor.html'>align_tensor</a>(tensor_i
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-reshape_mm_compatible"></span><h3>
-private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compatible</a>(tensor1, tensor2, tensor1_out, tensor2_out, ind1_free, ind1_linked, ind2_free, ind2_linked, trans1, trans2, new1, new2, nodata1, nodata2, move_data_1, move_data_2, optimize_dist, unit_nr)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-reshape_mm_compatible%7E2"></span><h3>
+private subroutine <a href='../proc/reshape_mm_compatible%7E2.html'>reshape_mm_compatible</a>(tensor1, tensor2, tensor1_out, tensor2_out, ind1_free, ind1_linked, ind2_free, ind2_linked, trans1, trans2, new1, new2, nodata1, nodata2, move_data_1, move_data_2, optimize_dist, unit_nr)
     
     
    
@@ -2273,8 +2797,8 @@ private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compa
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-reshape_mm_small"></span><h3>
-private subroutine <a href='../proc/reshape_mm_small.html'>reshape_mm_small</a>(tensor_in, ind1, ind2, tensor_out, trans, new, nodata, move_data, unit_nr)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-reshape_mm_small%7E2"></span><h3>
+private subroutine <a href='../proc/reshape_mm_small%7E2.html'>reshape_mm_small</a>(tensor_in, ind1, ind2, tensor_out, trans, new, nodata, move_data, unit_nr)
     
     
    
@@ -2457,8 +2981,8 @@ private subroutine <a href='../proc/reshape_mm_small.html'>reshape_mm_small</a>(
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-invert_transpose_flag"></span><h3>
-private subroutine <a href='../proc/invert_transpose_flag.html'>invert_transpose_flag</a>(trans_flag)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-invert_transpose_flag%7E2"></span><h3>
+private subroutine <a href='../proc/invert_transpose_flag%7E2.html'>invert_transpose_flag</a>(trans_flag)
     
     
    
@@ -3188,6 +3712,293 @@ private subroutine <a href='../proc/dbcsr_t_get_nonzero_index.html'>dbcsr_t_get_
     
     
   <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_contract_index"></span><h3>
+public subroutine <a href='../proc/dbcsr_t_contract_index.html'>dbcsr_t_contract_index</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, filter_eps, result_index)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>get indices of non-zero tensor blocks for contraction result without actually
+ performing contraction.
+ this is an estimate based on block norm multiplication.
+ See documentation of dbcsr_t_contract.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>alpha</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>TARGET</td><td>::</td>
+  <td><strong>tensor_1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>TARGET</td><td>::</td>
+  <td><strong>tensor_2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>beta</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>TARGET</td><td>::</td>
+  <td><strong>tensor_3</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>contract_1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>notcontract_1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>contract_2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>notcontract_2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>map_1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>map_2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2, SIZE(contract_1))</td><td>::</td>
+  <td><strong>bounds_1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2, SIZE(notcontract_1))</td><td>::</td>
+  <td><strong>bounds_2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2, SIZE(notcontract_2))</td><td>::</td>
+  <td><strong>bounds_3</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>filter_eps</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), ALLOCATABLE</td><td>::</td>
+  <td><strong>result_index</strong></td><td><p>indices of non-zero tensor blocks for tensor_3</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_map_bounds_to_tensors"></span><h3>
 private subroutine <a href='../proc/dbcsr_t_map_bounds_to_tensors.html'>dbcsr_t_map_bounds_to_tensors</a>(tensor_1, tensor_2, contract_1, notcontract_1, contract_2, notcontract_2, bounds_t1, bounds_t2, bounds_1, bounds_2, bounds_3, do_crop_1, do_crop_2)
     
@@ -3577,6 +4388,147 @@ private subroutine <a href='../proc/dbcsr_t_print_contraction_index.html'>dbcsr_
   </div>
 
     
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_batched_contract_init"></span><h3>
+public subroutine <a href='../proc/dbcsr_t_batched_contract_init.html'>dbcsr_t_batched_contract_init</a>(tensor)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>initialize batched contraction for this tensor. This ensures that no unnecessary communication takes place
+ in a series of batched contractions (i.e. partial contraction with specification of bounds
+ in order to reduce memory), under the following conditions:
+ - the same tensor is used in multiple contraction calls and its data is not changed via calls
+   to routines other than dbcsr_t_contract
+ - if tensor is the result of a contraction, it must not be reused as input for another contraction
+ If tensor is the result of a contraction, its publicly accessible data will not be updated until
+ dbcsr_t_batched_contract_finalize has been called.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_batched_contract_finalize"></span><h3>
+public subroutine <a href='../proc/dbcsr_t_batched_contract_finalize.html'>dbcsr_t_batched_contract_finalize</a>(tensor, unit_nr)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>finalize batched contraction. This performs all communication that has been postponed in the
+ contraction calls.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>unit_nr</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
     </section>    
     <br>
     
@@ -3591,7 +4543,7 @@ private subroutine <a href='../proc/dbcsr_t_print_contraction_index.html'>dbcsr_
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -3629,10 +4581,6 @@ private subroutine <a href='../proc/dbcsr_t_print_contraction_index.html'>dbcsr_
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

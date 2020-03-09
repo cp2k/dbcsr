@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -95,15 +95,6 @@
 
           </ul>
         
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -130,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.6% of total for procedures.">345 statements</a>
+    title=" 0.8% of total for procedures.">476 statements</a>
      </li> 
      
      
@@ -197,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, matrix_b, beta, matrix_c, optimize_dist, split_opt, filter_eps, flop, move_data_a, move_data_b, simple_split, io_unit, log_verbose)
+public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, matrix_b, beta, matrix_c, optimize_dist, split_opt, filter_eps, flop, move_data_a, move_data_b, retain_sparsity, simple_split, result_index, io_unit, log_verbose)
     
     
    
@@ -229,7 +220,7 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-transa%7E15"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transa%7E9"></span>character(len=1),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -244,7 +235,7 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-transb%7E15"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transb%7E9"></span>character(len=1),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -259,7 +250,7 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-transc%7E4"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transc%7E3"></span>character(len=1),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -274,7 +265,7 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-alpha%7E50"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha%7E32"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -289,7 +280,7 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a%7E86"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a%7E79"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -304,7 +295,7 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b%7E54"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b%7E47"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -319,7 +310,7 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-beta%7E17"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-beta%7E10"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -334,7 +325,7 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_c%7E16"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_c%7E10"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -349,7 +340,7 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-optimize_dist%7E3"></span>logical,</td>
+  <td><span class="anchor" id="variable-optimize_dist"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -382,7 +373,7 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-filter_eps%7E20"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-filter_eps%7E7"></span>real(kind=real_8),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -397,7 +388,7 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-flop%7E29"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop%7E7"></span>integer(kind=int_8),</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -446,6 +437,23 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
+  <td><span class="anchor" id="variable-retain_sparsity%7E8"></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>retain_sparsity</strong></td><td><p>memory optimization: move data to matrix_c such that matrix_a is empty on return
+ memory optimization: move data to matrix_c such that matrix_b is empty on return
+ for internal use only</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
   <td><span class="anchor" id="variable-simple_split"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
@@ -463,7 +471,22 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-io_unit%7E11"></span>integer,</td>
+  <td><span class="anchor" id="variable-result_index"></span>integer(kind=int_8),</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>result_index</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-io_unit%7E7"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -478,7 +501,7 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-log_verbose%7E4"></span>logical,</td>
+  <td><span class="anchor" id="variable-log_verbose%7E2"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -556,7 +579,7 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -594,10 +617,6 @@ public subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, ma
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

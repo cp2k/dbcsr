@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_put_block_area.html#src">dbcsr_put_block_area</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -231,7 +228,7 @@ private subroutine dbcsr_put_block_area(matrix, row, col, block, lb_row_col, tra
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix%7E122"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix%7E266"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -246,7 +243,7 @@ private subroutine dbcsr_put_block_area(matrix, row, col, block, lb_row_col, tra
   
 <tr>
   
-  <td><span class="anchor" id="variable-row%7E53"></span>integer,</td>
+  <td><span class="anchor" id="variable-row%7E102"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -261,7 +258,7 @@ private subroutine dbcsr_put_block_area(matrix, row, col, block, lb_row_col, tra
   
 <tr>
   
-  <td><span class="anchor" id="variable-col%7E34"></span>integer,</td>
+  <td><span class="anchor" id="variable-col%7E53"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -276,7 +273,7 @@ private subroutine dbcsr_put_block_area(matrix, row, col, block, lb_row_col, tra
   
 <tr>
   
-  <td><span class="anchor" id="variable-block%7E48"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>)</td>
+  <td><span class="anchor" id="variable-block%7E179"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>)</td>
   <td></td>
   <td></td>
   
@@ -291,7 +288,7 @@ private subroutine dbcsr_put_block_area(matrix, row, col, block, lb_row_col, tra
   
 <tr>
   
-  <td><span class="anchor" id="variable-lb_row_col"></span>integer,</td>
+  <td><span class="anchor" id="variable-lb_row_col%7E2"></span>integer,</td>
   <td>intent(inout),</td>
   <td>optional</td>
   
@@ -306,7 +303,7 @@ private subroutine dbcsr_put_block_area(matrix, row, col, block, lb_row_col, tra
   
 <tr>
   
-  <td><span class="anchor" id="variable-transposed%7E14"></span>logical,</td>
+  <td><span class="anchor" id="variable-transposed%7E50"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -321,7 +318,7 @@ private subroutine dbcsr_put_block_area(matrix, row, col, block, lb_row_col, tra
   
 <tr>
   
-  <td><span class="anchor" id="variable-summation%7E10"></span>logical,</td>
+  <td><span class="anchor" id="variable-summation%7E41"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -336,7 +333,7 @@ private subroutine dbcsr_put_block_area(matrix, row, col, block, lb_row_col, tra
   
 <tr>
   
-  <td><span class="anchor" id="variable-flop%7E6"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop%7E22"></span>integer(kind=int_8),</td>
   <td>intent(inout),</td>
   <td>optional</td>
   
@@ -351,7 +348,7 @@ private subroutine dbcsr_put_block_area(matrix, row, col, block, lb_row_col, tra
   
 <tr>
   
-  <td><span class="anchor" id="variable-scale%7E9"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-scale%7E35"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -395,7 +392,13 @@ private subroutine dbcsr_put_block_area(matrix, row, col, block, lb_row_col, tra
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_put_block_area.html#src">dbcsr_put_block_area</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -419,6 +422,127 @@ private subroutine dbcsr_put_block_area(matrix, row, col, block, lb_row_col, tra
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_put_block_area</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">,</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                   <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">,</span> <span class="nb">scale</span><span class="p">)</span>
+      <span class="c">!! We allow :</span>
+      <span class="c">!! matrix(dp) [+]= [scale(dp)] * block(dp)</span>
+      <span class="c">!! matrix(dp) [+]= [scale(dp)] * block(sp)</span>
+      <span class="c">!! matrix(sp) [+]= [scale(dp)] * block(sp)</span>
+
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span>                               <span class="kd">::</span> <span class="k">block</span>
+<span class="k">      </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>     <span class="kd">::</span> <span class="n">lb_row_col</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">transposed</span><span class="p">,</span> <span class="n">summation</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>       <span class="kd">::</span> <span class="n">flop</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>      <span class="kd">::</span> <span class="nb">scale</span>
+
+<span class="nb">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_put_block_area&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">data_type_m</span><span class="p">,</span> <span class="n">error_handle</span>
+      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">do_scale</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
+      <span class="n">data_type_m</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+      <span class="n">do_scale</span> <span class="o">=</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">do_scale</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="c">!IF(data_type_m /= scale%data_type) &amp;</span>
+         <span class="c">!   DBCSR_ABORT(&quot;Incompatible data types matrix=&quot;//data_type_m//&quot; scale=&quot;//scale%data_type)</span>
+      <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can only add valid data block!&quot;</span><span class="p">)</span>
+      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">do_scale</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            IF</span> <span class="p">(</span><span class="n">data_type_m</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_real_4</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">dbcsr_get_data_p_s</span><span class="p">(</span><span class="k">block</span><span class="p">),</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                    <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">,</span> <span class="nb">scale</span><span class="o">=</span><span class="nb">scale</span><span class="p">%</span><span class="n">r_sp</span><span class="p">)</span>
+            <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">data_type_m</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_real_8</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="p">&amp;</span>
+                                    <span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_get_data_p_s</span><span class="p">(</span><span class="k">block</span><span class="p">),</span> <span class="n">real_8</span><span class="p">),</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                    <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">,</span> <span class="nb">scale</span><span class="o">=</span><span class="kt">REAL</span><span class="p">(</span><span class="nb">scale</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="n">real_8</span><span class="p">))</span>
+            <span class="n">ENDIF</span>
+         <span class="k">ELSE</span>
+<span class="k">            IF</span> <span class="p">(</span><span class="n">data_type_m</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_real_4</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">dbcsr_get_data_p_s</span><span class="p">(</span><span class="k">block</span><span class="p">),</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                    <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">)</span>
+            <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">data_type_m</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_real_8</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="p">&amp;</span>
+                                    <span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_get_data_p_s</span><span class="p">(</span><span class="k">block</span><span class="p">),</span> <span class="n">real_8</span><span class="p">),</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                    <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">)</span>
+            <span class="n">ENDIF</span>
+         <span class="n">ENDIF</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">do_scale</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">dbcsr_get_data_p_d</span><span class="p">(</span><span class="k">block</span><span class="p">),</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">,</span> <span class="nb">scale</span><span class="o">=</span><span class="nb">scale</span><span class="p">%</span><span class="n">r_dp</span><span class="p">)</span>
+         <span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">dbcsr_get_data_p_d</span><span class="p">(</span><span class="k">block</span><span class="p">),</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">do_scale</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">dbcsr_get_data_p_c</span><span class="p">(</span><span class="k">block</span><span class="p">),</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">,</span> <span class="nb">scale</span><span class="o">=</span><span class="nb">scale</span><span class="p">%</span><span class="n">c_sp</span><span class="p">)</span>
+         <span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">dbcsr_get_data_p_c</span><span class="p">(</span><span class="k">block</span><span class="p">),</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">do_scale</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">,</span> <span class="nb">scale</span><span class="o">=</span><span class="nb">scale</span><span class="p">%</span><span class="n">c_dp</span><span class="p">)</span>
+         <span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4_2d</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">do_scale</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">,</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">,</span> <span class="nb">scale</span><span class="o">=</span><span class="nb">scale</span><span class="p">%</span><span class="n">r_sp</span><span class="p">)</span>
+         <span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">,</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8_2d</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">do_scale</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">,</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">,</span> <span class="nb">scale</span><span class="o">=</span><span class="nb">scale</span><span class="p">%</span><span class="n">r_dp</span><span class="p">)</span>
+         <span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">,</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4_2d</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">do_scale</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">,</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">,</span> <span class="nb">scale</span><span class="o">=</span><span class="nb">scale</span><span class="p">%</span><span class="n">c_sp</span><span class="p">)</span>
+         <span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">,</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8_2d</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">do_scale</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">,</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">,</span> <span class="nb">scale</span><span class="o">=</span><span class="nb">scale</span><span class="p">%</span><span class="n">c_dp</span><span class="p">)</span>
+         <span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">,</span> <span class="n">lb_row_col</span><span class="p">,</span> <span class="n">transposed</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">summation</span><span class="p">,</span> <span class="n">flop</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+      <span class="k">CASE </span><span class="n">default</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
+      <span class="k">END SELECT</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_put_block_area</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -429,7 +553,7 @@ private subroutine dbcsr_put_block_area(matrix, row, col, block, lb_row_col, tra
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -467,10 +591,6 @@ private subroutine dbcsr_put_block_area(matrix, row, col, block, lb_row_col, tra
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

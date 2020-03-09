@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_create_image_dist.html#src">dbcsr_create_image_dist</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -243,7 +240,7 @@ public subroutine dbcsr_create_image_dist(imgdist, dist, match_row_pdist, match_
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist%7E18"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist%7E66"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -411,7 +408,13 @@ public subroutine dbcsr_create_image_dist(imgdist, dist, match_row_pdist, match_
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_create_image_dist.html#src">dbcsr_create_image_dist</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -435,6 +438,171 @@ public subroutine dbcsr_create_image_dist(imgdist, dist, match_row_pdist, match_
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_create_image_dist</span><span class="p">(</span><span class="n">imgdist</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">match_row_pdist</span><span class="p">,</span> <span class="n">match_row_idist</span><span class="p">,</span> <span class="n">match_row_nbins</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">match_col_pdist</span><span class="p">,</span> <span class="n">match_col_idist</span><span class="p">,</span> <span class="n">match_col_nbins</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">nimages_rows</span><span class="p">,</span> <span class="n">nimages_cols</span><span class="p">)</span>
+      <span class="c">!! Creates an image distribution given the other compatibility images</span>
+
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_imagedistribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">imgdist</span>
+         <span class="c">!! distribution repetition</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">dist</span>
+         <span class="c">!! distribution for which to form the image distribution</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>        <span class="kd">::</span> <span class="n">match_row_pdist</span><span class="p">,</span> <span class="n">match_row_idist</span>
+         <span class="c">!! match the new row distribution to this row distribution</span>
+         <span class="c">!! match the row distribution to these row images</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">match_row_nbins</span>
+         <span class="c">!! number of bins in the distribution to match the local rows</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>        <span class="kd">::</span> <span class="n">match_col_pdist</span><span class="p">,</span> <span class="n">match_col_idist</span>
+         <span class="c">!! match the new column distribution to this column distribution</span>
+         <span class="c">!! match the new column distribution to these column images</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">match_col_nbins</span><span class="p">,</span> <span class="n">nimages_rows</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">nimages_cols</span>
+         <span class="c">!! number of bins in the distribution to match the local columns</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_create_image_dist&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">npcols</span><span class="p">,</span> <span class="n">nprows</span><span class="p">,</span> <span class="n">nrows</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">col_dist_data</span><span class="p">,</span> <span class="n">col_img_data</span><span class="p">,</span> <span class="n">col_vdist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">row_dist_data</span><span class="p">,</span> <span class="n">row_img_data</span><span class="p">,</span> <span class="n">row_vdist</span>
+      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">new_col_dist</span><span class="p">,</span> <span class="n">new_row_dist</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">new_dist</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                                 <span class="kd">::</span> <span class="n">mp_env</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="n">idid</span> <span class="o">=</span> <span class="n">idid</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">)</span>
+      <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">refcount</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">id</span> <span class="o">=</span> <span class="n">idid</span>
+      <span class="n">mp_env</span> <span class="o">=</span> <span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+      <span class="c">! Determine the factors.</span>
+      <span class="n">nrows</span> <span class="o">=</span> <span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+      <span class="n">ncols</span> <span class="o">=</span> <span class="n">dbcsr_distribution_ncols</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+      <span class="n">nprows</span> <span class="o">=</span> <span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
+      <span class="n">npcols</span> <span class="o">=</span> <span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(1X,A,I5,&quot;x&quot;,I5)&#39;</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;pgrid&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+         <span class="n">nprows</span><span class="p">,</span> <span class="n">npcols</span>
+      <span class="c">!</span>
+      <span class="c">! Create the new row distribution and row image distribution</span>
+      <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span> <span class="o">=</span> <span class="n">nimages_rows</span><span class="o">/</span><span class="n">nprows</span>
+      <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_multiplicity</span> <span class="o">=</span> <span class="n">nimages_rows</span><span class="o">/</span><span class="n">gcd</span><span class="p">(</span><span class="n">nimages_rows</span><span class="p">,</span> <span class="n">match_row_nbins</span><span class="p">)</span>
+      <span class="n">new_row_dist</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s1">&#39;row decimation, multiplicity&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+         <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span><span class="p">,</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_multiplicity</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; nprows, match prows&quot;</span><span class="p">,</span> <span class="n">nprows</span><span class="p">,</span> <span class="n">match_row_nbins</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_img_data</span><span class="p">(</span><span class="n">nrows</span><span class="p">))</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_vdist</span><span class="p">(</span><span class="n">nrows</span><span class="p">))</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_multiplicity</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">match_row_pdist</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">row_dist_data</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_row_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+         <span class="n">row_img_data</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="k">ELSE</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">match_row_pdist</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            ALLOCATE</span> <span class="p">(</span><span class="n">row_dist_data</span><span class="p">(</span><span class="n">nrows</span><span class="p">))</span>
+            <span class="n">new_row_dist</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">match_row_idist</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">rebin_imaged_distribution</span><span class="p">(</span><span class="n">row_dist_data</span><span class="p">,</span> <span class="n">row_img_data</span><span class="p">,</span> <span class="p">&amp;</span>
+                                              <span class="n">match_row_pdist</span><span class="p">,</span> <span class="n">match_row_idist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                              <span class="n">nprows</span><span class="p">,</span> <span class="p">&amp;</span>
+                                              <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_multiplicity</span><span class="p">,</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span><span class="p">)</span>
+            <span class="k">ELSE</span>
+<span class="k">               CALL </span><span class="n">rebin_distribution</span><span class="p">(</span><span class="n">row_dist_data</span><span class="p">,</span> <span class="n">row_img_data</span><span class="p">,</span> <span class="p">&amp;</span>
+                                       <span class="n">match_row_pdist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                       <span class="n">nprows</span><span class="p">,</span> <span class="p">&amp;</span>
+                                       <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_multiplicity</span><span class="p">,</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span><span class="p">)</span>
+            <span class="n">ENDIF</span>
+         <span class="k">ELSE</span>
+<span class="k">            </span><span class="n">row_dist_data</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_row_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">reimage_distribution</span><span class="p">(</span><span class="n">row_img_data</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">row_dist_data</span><span class="p">,</span> <span class="n">nprows</span><span class="p">,</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+      <span class="n">ENDIF</span>
+      <span class="k">CALL </span><span class="n">make_vdistribution</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">row_vdist</span><span class="p">,</span> <span class="n">row_dist_data</span><span class="p">,</span> <span class="p">&amp;</span>
+                              <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span><span class="p">,</span> <span class="n">row_img_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">vrow_dist</span><span class="p">,</span> <span class="n">row_vdist</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+      <span class="c">!</span>
+      <span class="c">! Create the new column distribution and column image distribution</span>
+      <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_decimation</span> <span class="o">=</span> <span class="n">nimages_cols</span><span class="o">/</span><span class="n">npcols</span>
+      <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_multiplicity</span> <span class="o">=</span> <span class="n">nimages_cols</span><span class="o">/</span><span class="n">gcd</span><span class="p">(</span><span class="n">nimages_cols</span><span class="p">,</span> <span class="n">match_col_nbins</span><span class="p">)</span>
+      <span class="n">new_col_dist</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s1">&#39;col decimation, multiplicity&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+         <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_decimation</span><span class="p">,</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_multiplicity</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; npcols, match pcols&quot;</span><span class="p">,</span> <span class="n">npcols</span><span class="p">,</span> <span class="n">match_col_nbins</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">col_img_data</span><span class="p">(</span><span class="n">ncols</span><span class="p">))</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">col_vdist</span><span class="p">(</span><span class="n">ncols</span><span class="p">))</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_decimation</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_multiplicity</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">match_col_pdist</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">col_dist_data</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+         <span class="n">col_img_data</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="k">ELSE</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">match_col_pdist</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            ALLOCATE</span> <span class="p">(</span><span class="n">col_dist_data</span><span class="p">(</span><span class="n">ncols</span><span class="p">))</span>
+            <span class="n">new_col_dist</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">match_col_idist</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">rebin_imaged_distribution</span><span class="p">(</span><span class="n">col_dist_data</span><span class="p">,</span> <span class="n">col_img_data</span><span class="p">,</span> <span class="p">&amp;</span>
+                                              <span class="n">match_col_pdist</span><span class="p">,</span> <span class="n">match_col_idist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                              <span class="n">npcols</span><span class="p">,</span> <span class="p">&amp;</span>
+                                              <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_multiplicity</span><span class="p">,</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_decimation</span><span class="p">)</span>
+            <span class="k">ELSE</span>
+<span class="k">               CALL </span><span class="n">rebin_distribution</span><span class="p">(</span><span class="n">col_dist_data</span><span class="p">,</span> <span class="n">col_img_data</span><span class="p">,</span> <span class="p">&amp;</span>
+                                       <span class="n">match_col_pdist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                       <span class="n">npcols</span><span class="p">,</span> <span class="p">&amp;</span>
+                                       <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_multiplicity</span><span class="p">,</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_decimation</span><span class="p">)</span>
+            <span class="n">ENDIF</span>
+         <span class="k">ELSE</span>
+<span class="k">            </span><span class="n">col_dist_data</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">reimage_distribution</span><span class="p">(</span><span class="n">col_img_data</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">col_dist_data</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">npcols</span><span class="p">,</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_decimation</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+      <span class="n">ENDIF</span>
+      <span class="k">CALL </span><span class="n">make_vdistribution</span><span class="p">(</span><span class="n">ncols</span><span class="p">,</span> <span class="n">col_vdist</span><span class="p">,</span> <span class="n">col_dist_data</span><span class="p">,</span> <span class="p">&amp;</span>
+                              <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_decimation</span><span class="p">,</span> <span class="n">col_img_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">vcol_dist</span><span class="p">,</span> <span class="n">col_vdist</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+      <span class="c">!</span>
+      <span class="c">! Copy the row &amp; column distribution from old distribution</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">new_row_dist</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">new_col_dist</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">new_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">mp_env</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">row_dist_data</span><span class="p">,</span> <span class="n">col_dist_data</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">reuse_arrays</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+      <span class="k">ELSE</span>
+<span class="k">         CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">new_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">mp_env</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">row_dist_data</span><span class="p">,</span> <span class="n">col_dist_data</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">new_row_dist</span><span class="p">)</span> <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">row_dist_data</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">new_col_dist</span><span class="p">)</span> <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">col_dist_data</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">! Now finish the distribution image.</span>
+      <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span> <span class="o">=</span> <span class="n">new_dist</span>
+      <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_image</span><span class="p">,</span> <span class="n">col_img_data</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+      <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_image</span><span class="p">,</span> <span class="n">row_img_data</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+      <span class="c">!</span>
+      <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">has_other_vl_rows</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">has_other_vl_cols</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">has_global_vrow_map</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">has_global_vcol_map</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="c">!</span>
+<span class="c">!$    IF (dbcsr_distribution_has_threads(dist)) THEN</span>
+<span class="c">!$       imgdist%i%main%d%num_threads = dist%d%num_threads</span>
+<span class="c">!$       imgdist%i%main%d%has_thread_dist = .TRUE.</span>
+<span class="c">!$       imgdist%i%main%d%thread_dist = dist%d%thread_dist</span>
+<span class="c">!$       CALL array_hold(imgdist%i%main%d%thread_dist)</span>
+<span class="c">!$    ENDIF</span>
+   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_create_image_dist</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -445,7 +613,7 @@ public subroutine dbcsr_create_image_dist(imgdist, dist, match_row_pdist, match_
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -483,10 +651,6 @@ public subroutine dbcsr_create_image_dist(imgdist, dist, match_row_pdist, match_
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

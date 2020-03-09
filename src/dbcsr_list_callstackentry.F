@@ -15,10 +15,10 @@
    !! Have look at list_push(), list_pop() and list_peek().
 
 MODULE dbcsr_list_callstackentry
-   USE dbcsr_timings_base_type, ONLY: routine_stat_type, routine_report_type, callstack_entry_type
+   USE dbcsr_timings_base_type, ONLY: callstack_entry_type, routine_stat_type, routine_report_type
 
 
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 IMPLICIT NONE
 PRIVATE
 

@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_multiply_d%7E2.html#src">dbcsr_multiply_d</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -226,7 +223,7 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
   
 <tr>
   
-  <td><span class="anchor" id="variable-transa%7E8"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transa%7E13"></span>character(len=1),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -241,7 +238,7 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
   
 <tr>
   
-  <td><span class="anchor" id="variable-transb%7E8"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transb%7E13"></span>character(len=1),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -256,7 +253,7 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
   
 <tr>
   
-  <td><span class="anchor" id="variable-alpha%7E19"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-alpha%7E51"></span>real(kind=real_8),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -271,7 +268,7 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a%7E32"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a%7E84"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -286,7 +283,7 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b%7E19"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b%7E52"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -301,7 +298,7 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
   
 <tr>
   
-  <td><span class="anchor" id="variable-beta%7E10"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-beta%7E17"></span>real(kind=real_8),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -316,7 +313,7 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_c%7E8"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_c%7E14"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -376,7 +373,7 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
   
 <tr>
   
-  <td><span class="anchor" id="variable-last_column%7E11"></span>integer,</td>
+  <td><span class="anchor" id="variable-last_column%7E15"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -421,7 +418,7 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
   
 <tr>
   
-  <td><span class="anchor" id="variable-retain_sparsity%7E9"></span>logical,</td>
+  <td><span class="anchor" id="variable-retain_sparsity%7E16"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -436,7 +433,7 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
   
 <tr>
   
-  <td><span class="anchor" id="variable-filter_eps%7E12"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-filter_eps%7E20"></span>real(kind=real_8),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -451,7 +448,7 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
   
 <tr>
   
-  <td><span class="anchor" id="variable-flop%7E23"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop%7E16"></span>integer(kind=int_8),</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -495,7 +492,13 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_multiply_d%7E2.html#src">dbcsr_multiply_d</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -519,6 +522,55 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_multiply_d</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">alpha</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">first_row</span><span class="p">,</span> <span class="n">last_row</span><span class="p">,</span> <span class="n">first_column</span><span class="p">,</span> <span class="n">last_column</span><span class="p">,</span> <span class="n">first_k</span><span class="p">,</span> <span class="n">last_k</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">retain_sparsity</span><span class="p">,</span> <span class="n">filter_eps</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">flop</span><span class="p">)</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">transa</span><span class="p">,</span> <span class="n">transb</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">alpha</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">beta</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix_c</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">first_row</span><span class="p">,</span> <span class="n">last_row</span><span class="p">,</span> <span class="n">first_column</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">last_column</span><span class="p">,</span> <span class="n">first_k</span><span class="p">,</span> <span class="n">last_k</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">retain_sparsity</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>            <span class="kd">::</span> <span class="n">filter_eps</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>         <span class="kd">::</span> <span class="n">flop</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_multiply_d&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_real_4</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_real_4</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_real_4</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_multiply_generic</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">dbcsr_scalar</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">real_4</span><span class="p">)),</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">dbcsr_scalar</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">real_4</span><span class="p">)),</span> <span class="n">matrix_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">first_row</span><span class="p">,</span> <span class="n">last_row</span><span class="p">,</span> <span class="n">first_column</span><span class="p">,</span> <span class="n">last_column</span><span class="p">,</span> <span class="n">first_k</span><span class="p">,</span> <span class="n">last_k</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">retain_sparsity</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">flop</span><span class="o">=</span><span class="n">flop</span><span class="p">)</span>
+      <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_real_8</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+              <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_real_8</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+              <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_real_8</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_multiply_generic</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">dbcsr_scalar</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="n">dbcsr_scalar</span><span class="p">(</span><span class="n">beta</span><span class="p">),</span> <span class="n">matrix_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">first_row</span><span class="p">,</span> <span class="n">last_row</span><span class="p">,</span> <span class="n">first_column</span><span class="p">,</span> <span class="n">last_column</span><span class="p">,</span> <span class="n">first_k</span><span class="p">,</span> <span class="n">last_k</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">retain_sparsity</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">flop</span><span class="o">=</span><span class="n">flop</span><span class="p">)</span>
+      <span class="k">ELSE</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;This combination of data types NYI&quot;</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_multiply_d</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -529,7 +581,7 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -567,10 +619,6 @@ private subroutine dbcsr_multiply_d(transa, transb, alpha, matrix_a, matrix_b, b
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

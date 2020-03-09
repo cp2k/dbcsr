@@ -48,7 +48,7 @@ MODULE dbcsr_tas_base
       default_string_length, int_8, real_8, real_4
    USE dbcsr_mpiwrap, ONLY: &
       mp_cart_rank, mp_environ, mp_sum, mp_max
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE
@@ -239,13 +239,15 @@ CONTAINS
 
    END SUBROUTINE
 
-   SUBROUTINE dbcsr_tas_create_template(matrix_in, matrix, name)
+   SUBROUTINE dbcsr_tas_create_template(matrix_in, matrix, name, data_type)
       !! Create matrix from template
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix_in
       TYPE(dbcsr_tas_type), INTENT(OUT)                    :: matrix
-      CHARACTER(len=*), INTENT(IN), OPTIONAL             :: name
+      CHARACTER(len=*), INTENT(IN), OPTIONAL               :: name
+      INTEGER, INTENT(IN), OPTIONAL                        :: data_type
 
-      CALL dbcsr_create(matrix%matrix, template=matrix_in%matrix, matrix_type=dbcsr_type_no_symmetry)
+      CALL dbcsr_create(matrix%matrix, template=matrix_in%matrix, matrix_type=dbcsr_type_no_symmetry, &
+                        data_type=data_type)
       CALL dbcsr_finalize(matrix%matrix)
 
       CALL dbcsr_tas_copy_distribution(matrix_in%dist, matrix%dist)
@@ -444,12 +446,17 @@ CONTAINS
    SUBROUTINE dbcsr_tas_distribution_destroy(dist)
       TYPE(dbcsr_tas_distribution_type), INTENT(INOUT)     :: dist
 
-      IF (ALLOCATED(dist%row_dist)) THEN
-         DEALLOCATE (dist%row_dist)
-      ENDIF
-      IF (ALLOCATED(dist%col_dist)) THEN
-         DEALLOCATE (dist%col_dist)
-      ENDIF
+      ! Note: Issue with Cray CCE compiler
+      ! commented out the following deallocate statements on polymorphic variables,
+      ! these cause segfaults with CCE compiler at a later point
+
+      !IF (ALLOCATED(dist%row_dist)) THEN
+      !   DEALLOCATE (dist%row_dist)
+      !ENDIF
+      !IF (ALLOCATED(dist%col_dist)) THEN
+      !   DEALLOCATE (dist%col_dist)
+      !ENDIF
+
       IF (ALLOCATED(dist%local_rowcols)) THEN
          DEALLOCATE (dist%local_rowcols)
       ENDIF

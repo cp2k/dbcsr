@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/test_multiplies_multiproc.html#src">test_multiplies_multiproc</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -244,7 +241,7 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a%7E78"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a%7E31"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -261,7 +258,7 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b%7E46"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b%7E17"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -278,7 +275,7 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_c%7E12"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_c%7E6"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -295,7 +292,7 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-transa%7E11"></span>character,</td>
+  <td><span class="anchor" id="variable-transa%7E6"></span>character,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -310,7 +307,7 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-transb%7E11"></span>character,</td>
+  <td><span class="anchor" id="variable-transb%7E6"></span>character,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -325,7 +322,7 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-alpha%7E38"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha%7E17"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -340,7 +337,7 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-beta%7E14"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-beta%7E9"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -355,7 +352,7 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-limits%7E2"></span>integer,</td>
+  <td><span class="anchor" id="variable-limits"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -370,7 +367,7 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-retain_sparsity%7E14"></span>logical,</td>
+  <td><span class="anchor" id="variable-retain_sparsity%7E7"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -400,7 +397,7 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
   
 <tr>
   
-  <td><span class="anchor" id="variable-eps%7E11"></span>real(kind=dp),</td>
+  <td><span class="anchor" id="variable-eps%7E5"></span>real(kind=dp),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -474,7 +471,13 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/test_multiplies_multiproc.html#src">test_multiplies_multiproc</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -498,6 +501,201 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">test_multiplies_multiproc</span><span class="p">(</span><span class="n">group_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">transa</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">limits</span><span class="p">,</span> <span class="n">retain_sparsity</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">n_loops</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">io_unit</span><span class="p">,</span> <span class="n">always_checksum</span><span class="p">)</span>
+      <span class="c">!! Performs a variety of matrix multiplies of same matrices on different</span>
+      <span class="c">!! processor grids</span>
+
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:)</span>                           <span class="kd">::</span> <span class="n">group_sizes</span>
+         <span class="c">!! array of (sub) communicator sizes to test (2-D)</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="n">matrix_c</span>
+         <span class="c">!! matrices to multiply</span>
+         <span class="c">!! matrices to multiply</span>
+         <span class="c">!! matrices to multiply</span>
+      <span class="kt">CHARACTER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">transa</span><span class="p">,</span> <span class="n">transb</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                <span class="kd">::</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>        <span class="kd">::</span> <span class="n">limits</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">retain_sparsity</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">n_loops</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">eps</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">io_unit</span>
+         <span class="c">!! which unit to write to, if not negative</span>
+      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">always_checksum</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;test_multiplies_multiproc&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">cart_group</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">loop_iter</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="n">test</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">flop</span><span class="p">,</span> <span class="n">flop_sum</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">npdims</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">col_dist_a</span><span class="p">,</span> <span class="n">col_dist_b</span><span class="p">,</span> <span class="n">col_dist_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">row_dist_a</span><span class="p">,</span> <span class="n">row_dist_b</span><span class="p">,</span> <span class="n">row_dist_c</span>
+      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">i_am_alive</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>                                  <span class="kd">::</span> <span class="n">cs</span><span class="p">,</span> <span class="n">cs_pos</span><span class="p">,</span> <span class="n">flops_all</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">dist_a</span><span class="p">,</span> <span class="n">dist_b</span><span class="p">,</span> <span class="n">dist_c</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                                 <span class="kd">::</span> <span class="n">mp_env</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">m_a</span><span class="p">,</span> <span class="n">m_b</span><span class="p">,</span> <span class="n">m_c</span><span class="p">,</span> <span class="n">m_c_reserve</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">group_sizes</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;second dimension of group_sizes must be 2&quot;</span><span class="p">)</span>
+      <span class="n">p_sizes</span><span class="p">:</span> <span class="k">DO </span><span class="n">test</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">group_sizes</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+         <span class="n">t2</span> <span class="o">=</span> <span class="mf">0.0_real_8</span>
+         <span class="n">flop_sum</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">group_sizes</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">)</span>
+         <span class="n">numnodes</span> <span class="o">=</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+         <span class="n">group</span> <span class="o">=</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span> <span class="p">&amp;</span>
+                                <span class="n">dbcsr_distribution</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)))</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">numnodes</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_mp_make_env</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">cart_group</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">nprocs</span><span class="o">=</span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">npdims</span><span class="p">))</span>
+         <span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">dbcsr_mp_make_env</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">cart_group</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">pgrid_dims</span><span class="o">=</span><span class="n">npdims</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">numnodes</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Cartesian sides must be greater or equal to 0&quot;</span><span class="p">)</span>
+         <span class="n">i_am_alive</span> <span class="o">=</span> <span class="n">dbcsr_mp_active</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
+         <span class="n">alive</span><span class="p">:</span> <span class="k">IF</span> <span class="p">(</span><span class="n">i_am_alive</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
+            <span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+            <span class="c">! Row &amp; column distributions</span>
+            <span class="k">CALL </span><span class="n">dbcsr_dist_bin</span><span class="p">(</span><span class="n">row_dist_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+                                <span class="n">dbcsr_row_block_sizes</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span>
+            <span class="k">CALL </span><span class="n">dbcsr_dist_bin</span><span class="p">(</span><span class="n">col_dist_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                <span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="p">&amp;</span>
+                                <span class="n">dbcsr_col_block_sizes</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span>
+            <span class="k">CALL </span><span class="n">dbcsr_dist_bin</span><span class="p">(</span><span class="n">row_dist_b</span><span class="p">,</span> <span class="p">&amp;</span>
+                                <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">),</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+                                <span class="n">dbcsr_row_block_sizes</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">))</span>
+            <span class="k">CALL </span><span class="n">dbcsr_dist_bin</span><span class="p">(</span><span class="n">col_dist_b</span><span class="p">,</span> <span class="p">&amp;</span>
+                                <span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">),</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="p">&amp;</span>
+                                <span class="n">dbcsr_col_block_sizes</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">))</span>
+            <span class="k">CALL </span><span class="n">dbcsr_dist_bin</span><span class="p">(</span><span class="n">row_dist_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">),</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+                                <span class="n">dbcsr_row_block_sizes</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span>
+            <span class="k">CALL </span><span class="n">dbcsr_dist_bin</span><span class="p">(</span><span class="n">col_dist_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                <span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">),</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="p">&amp;</span>
+                                <span class="n">dbcsr_col_block_sizes</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span>
+            <span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dist_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">mp_env</span><span class="p">,</span> <span class="n">row_dist_a</span><span class="p">,</span> <span class="n">col_dist_a</span><span class="p">,</span> <span class="n">reuse_arrays</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dist_b</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">mp_env</span><span class="p">,</span> <span class="n">row_dist_b</span><span class="p">,</span> <span class="n">col_dist_b</span><span class="p">,</span> <span class="n">reuse_arrays</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dist_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">mp_env</span><span class="p">,</span> <span class="n">row_dist_c</span><span class="p">,</span> <span class="n">col_dist_c</span><span class="p">,</span> <span class="n">reuse_arrays</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+            <span class="c">! Redistribute the matrices</span>
+            <span class="c">! A</span>
+            <span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">m_a</span><span class="p">,</span> <span class="s2">&quot;Test for &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">dbcsr_name</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)),</span> <span class="p">&amp;</span>
+                              <span class="n">dist_a</span><span class="p">,</span> <span class="n">dbcsr_type_no_symmetry</span><span class="p">,</span> <span class="p">&amp;</span>
+                              <span class="n">dbcsr_row_block_sizes</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
+                              <span class="n">dbcsr_col_block_sizes</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
+                              <span class="n">data_type</span><span class="o">=</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span>
+            <span class="k">CALL </span><span class="n">dbcsr_distribution_release</span><span class="p">(</span><span class="n">dist_a</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_redistribute</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span> <span class="n">m_a</span><span class="p">)</span>
+            <span class="c">! B</span>
+            <span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">m_b</span><span class="p">,</span> <span class="s2">&quot;Test for &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">dbcsr_name</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)),</span> <span class="p">&amp;</span>
+                              <span class="n">dist_b</span><span class="p">,</span> <span class="n">dbcsr_type_no_symmetry</span><span class="p">,</span> <span class="p">&amp;</span>
+                              <span class="n">dbcsr_row_block_sizes</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">),</span> <span class="p">&amp;</span>
+                              <span class="n">dbcsr_col_block_sizes</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">),</span> <span class="p">&amp;</span>
+                              <span class="n">data_type</span><span class="o">=</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">))</span>
+            <span class="k">CALL </span><span class="n">dbcsr_distribution_release</span><span class="p">(</span><span class="n">dist_b</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_redistribute</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">m_b</span><span class="p">)</span>
+            <span class="c">! C</span>
+            <span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">m_c</span><span class="p">,</span> <span class="s2">&quot;Test for &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">dbcsr_name</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)),</span> <span class="p">&amp;</span>
+                              <span class="n">dist_c</span><span class="p">,</span> <span class="n">dbcsr_type_no_symmetry</span><span class="p">,</span> <span class="p">&amp;</span>
+                              <span class="n">dbcsr_row_block_sizes</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">),</span> <span class="p">&amp;</span>
+                              <span class="n">dbcsr_col_block_sizes</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">),</span> <span class="p">&amp;</span>
+                              <span class="n">data_type</span><span class="o">=</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span>
+            <span class="k">CALL </span><span class="n">dbcsr_distribution_release</span><span class="p">(</span><span class="n">dist_c</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_redistribute</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">m_c</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">m_c_reserve</span><span class="p">,</span> <span class="n">m_c</span><span class="p">)</span>
+            <span class="c">! Perform multiply</span>
+            <span class="n">loops</span><span class="p">:</span> <span class="k">DO </span><span class="n">loop_iter</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_loops</span>
+               <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">m_c</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">m_c</span><span class="p">,</span> <span class="n">m_c_reserve</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">mp_sync</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+               <span class="n">t1</span> <span class="o">=</span> <span class="o">-</span><span class="n">m_walltime</span><span class="p">()</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">limits</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">                  IF</span> <span class="p">(</span><span class="n">eps</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="o">-</span><span class="mf">0.0_dp</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">                     CALL </span><span class="n">dbcsr_multiply</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="p">&amp;</span>
+                                         <span class="n">m_a</span><span class="p">,</span> <span class="n">m_b</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">m_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                         <span class="n">first_row</span><span class="o">=</span><span class="n">limits</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">last_row</span><span class="o">=</span><span class="n">limits</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">first_column</span><span class="o">=</span><span class="n">limits</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">last_column</span><span class="o">=</span><span class="n">limits</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">first_k</span><span class="o">=</span><span class="n">limits</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">last_k</span><span class="o">=</span><span class="n">limits</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">retain_sparsity</span><span class="o">=</span><span class="n">retain_sparsity</span><span class="p">,</span> <span class="n">flop</span><span class="o">=</span><span class="n">flop</span><span class="p">)</span>
+                  <span class="k">ELSE</span>
+<span class="k">                     CALL </span><span class="n">dbcsr_multiply</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="p">&amp;</span>
+                                         <span class="n">m_a</span><span class="p">,</span> <span class="n">m_b</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">m_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                         <span class="n">first_row</span><span class="o">=</span><span class="n">limits</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">last_row</span><span class="o">=</span><span class="n">limits</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">first_column</span><span class="o">=</span><span class="n">limits</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">last_column</span><span class="o">=</span><span class="n">limits</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">first_k</span><span class="o">=</span><span class="n">limits</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">last_k</span><span class="o">=</span><span class="n">limits</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">retain_sparsity</span><span class="o">=</span><span class="n">retain_sparsity</span><span class="p">,</span> <span class="n">flop</span><span class="o">=</span><span class="n">flop</span><span class="p">,</span> <span class="p">&amp;</span>
+                                         <span class="n">filter_eps</span><span class="o">=</span><span class="n">eps</span><span class="p">)</span>
+                  <span class="n">ENDIF</span>
+               <span class="k">ELSE</span>
+<span class="k">                  IF</span> <span class="p">(</span><span class="n">eps</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="o">-</span><span class="mf">0.0_dp</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">                     CALL </span><span class="n">dbcsr_multiply</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="p">&amp;</span>
+                                         <span class="n">m_a</span><span class="p">,</span> <span class="n">m_b</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">m_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                         <span class="n">retain_sparsity</span><span class="o">=</span><span class="n">retain_sparsity</span><span class="p">,</span> <span class="n">flop</span><span class="o">=</span><span class="n">flop</span><span class="p">)</span>
+                  <span class="k">ELSE</span>
+<span class="k">                     CALL </span><span class="n">dbcsr_multiply</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="p">&amp;</span>
+                                         <span class="n">m_a</span><span class="p">,</span> <span class="n">m_b</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">m_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                         <span class="n">retain_sparsity</span><span class="o">=</span><span class="n">retain_sparsity</span><span class="p">,</span> <span class="n">flop</span><span class="o">=</span><span class="n">flop</span><span class="p">,</span> <span class="p">&amp;</span>
+                                         <span class="n">filter_eps</span><span class="o">=</span><span class="n">eps</span><span class="p">)</span>
+                  <span class="n">ENDIF</span>
+               <span class="n">ENDIF</span>
+               <span class="n">t1</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">m_walltime</span><span class="p">()</span>
+               <span class="n">t2</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">+</span> <span class="n">t1</span>
+               <span class="n">flop_sum</span> <span class="o">=</span> <span class="n">flop_sum</span> <span class="o">+</span> <span class="n">flop</span>
+               <span class="c">!</span>
+               <span class="k">CALL </span><span class="n">mp_max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">flop</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+               <span class="n">t1</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="nb">EPSILON</span><span class="p">(</span><span class="n">t1</span><span class="p">))</span>
+               <span class="n">flops_all</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">flop</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="o">/</span><span class="n">t1</span><span class="o">/</span><span class="n">numnodes</span><span class="o">/</span><span class="p">(</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">)</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">io_unit</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">                  WRITE</span> <span class="p">(</span><span class="n">io_unit</span><span class="p">,</span> <span class="s1">&#39;(A,I5,A,I5,A,F12.3,A,I9,A)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+                     <span class="s2">&quot; loop &quot;</span><span class="p">,</span> <span class="n">loop_iter</span><span class="p">,</span> <span class="s2">&quot; with &quot;</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="s2">&quot; MPI ranks: using &quot;</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="s2">&quot;s &quot;</span><span class="p">,</span> <span class="nb">INT</span><span class="p">(</span><span class="n">flops_all</span><span class="p">),</span> <span class="s2">&quot; Mflops/rank&quot;</span>
+                  <span class="k">CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">io_unit</span><span class="p">)</span>
+               <span class="n">ENDIF</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">loop_iter</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">n_loops</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">always_checksum</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">                  </span><span class="n">cs</span> <span class="o">=</span> <span class="n">dbcsr_checksum</span><span class="p">(</span><span class="n">m_c</span><span class="p">)</span>
+                  <span class="n">cs_pos</span> <span class="o">=</span> <span class="n">dbcsr_checksum</span><span class="p">(</span><span class="n">m_c</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+                  <span class="k">IF</span> <span class="p">(</span><span class="n">io_unit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">                     WRITE</span> <span class="p">(</span><span class="n">io_unit</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;Final checksums&quot;</span><span class="p">,</span> <span class="n">cs</span><span class="p">,</span> <span class="n">cs_pos</span>
+                  <span class="n">ENDIF</span>
+               <span class="n">ENDIF</span>
+            <span class="n">ENDDO</span> <span class="n">loops</span>
+            <span class="c">! Release</span>
+            <span class="k">CALL </span><span class="n">dbcsr_mp_release</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">m_a</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">m_b</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">m_c</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">m_c_reserve</span><span class="p">)</span>
+         <span class="n">ENDIF</span> <span class="n">alive</span>
+         <span class="k">CALL </span><span class="n">mp_comm_free</span><span class="p">(</span><span class="n">cart_group</span><span class="p">)</span>
+      <span class="n">ENDDO</span> <span class="n">p_sizes</span>
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+   <span class="k">END SUBROUTINE </span><span class="n">test_multiplies_multiproc</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -508,7 +706,7 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -546,10 +744,6 @@ private subroutine test_multiplies_multiproc(group_sizes, matrix_a, matrix_b, ma
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

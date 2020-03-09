@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_multiply_generic.html#src">dbcsr_multiply_generic</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -252,7 +249,7 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
   
 <tr>
   
-  <td><span class="anchor" id="variable-transa%7E6"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transa%7E11"></span>character(len=1),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -270,7 +267,7 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
   
 <tr>
   
-  <td><span class="anchor" id="variable-transb%7E6"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transb%7E11"></span>character(len=1),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -288,7 +285,7 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
   
 <tr>
   
-  <td><span class="anchor" id="variable-alpha%7E17"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha%7E49"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -303,7 +300,7 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a%7E30"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a%7E82"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -319,7 +316,7 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b%7E17"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b%7E50"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -335,7 +332,7 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
   
 <tr>
   
-  <td><span class="anchor" id="variable-beta%7E8"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-beta%7E15"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -350,7 +347,7 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_c%7E6"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_c%7E12"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -425,7 +422,7 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
   
 <tr>
   
-  <td><span class="anchor" id="variable-last_column%7E9"></span>integer,</td>
+  <td><span class="anchor" id="variable-last_column%7E13"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -485,7 +482,7 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
   
 <tr>
   
-  <td><span class="anchor" id="variable-retain_sparsity%7E7"></span>logical,</td>
+  <td><span class="anchor" id="variable-retain_sparsity%7E14"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -500,7 +497,7 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
   
 <tr>
   
-  <td><span class="anchor" id="variable-filter_eps%7E10"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-filter_eps%7E18"></span>real(kind=real_8),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -515,7 +512,7 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
   
 <tr>
   
-  <td><span class="anchor" id="variable-flop%7E18"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop%7E14"></span>integer(kind=int_8),</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -559,7 +556,13 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_multiply_generic.html#src">dbcsr_multiply_generic</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -583,6 +586,666 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_multiply_generic</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">alpha</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">first_row</span><span class="p">,</span> <span class="n">last_row</span><span class="p">,</span> <span class="n">first_column</span><span class="p">,</span> <span class="n">last_column</span><span class="p">,</span> <span class="n">first_k</span><span class="p">,</span> <span class="n">last_k</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">retain_sparsity</span><span class="p">,</span> <span class="n">filter_eps</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">flop</span><span class="p">)</span>
+      <span class="c">!! Performs a multiplication of two dbcsr_type matrices,</span>
+      <span class="c">!! as  C := alpha * op( A ) * op( B ) + beta * C.</span>
+      <span class="c">!!</span>
+      <span class="c">!! Matrices m_a and m_b are multiplied into the m_c product matrix. If the</span>
+      <span class="c">!! dist2d parameter is not specified, then a new distribution_2d is</span>
+      <span class="c">!! determined for it.</span>
+      <span class="c">!!</span>
+      <span class="c">!! Non-equal column dimensions of the right and product matrices</span>
+      <span class="c">!! The right and product matrix are allowed to have different</span>
+      <span class="c">!! (full) column dimensions. If they differ, there are certain</span>
+      <span class="c">!! peculiar behaviors, then the last_column is effectively set to</span>
+      <span class="c">!! the minimal of the two.</span>
+      <span class="c">!!</span>
+      <span class="c">!! Beta scaling of the right product matrix</span>
+      <span class="c">!! If the effective last_column is less than the full column</span>
+      <span class="c">!! dimension of the product matrix, then the scaling of the</span>
+      <span class="c">!! product matrix with beta is limited to the submatrix specified</span>
+      <span class="c">!! by last_column.</span>
+      <span class="c">!!</span>
+      <span class="c">!! Filtering</span>
+      <span class="c">!! The filter_eps parameter, if present, is used to filter the</span>
+      <span class="c">!! resulting matrix.  The filtering criterion is whether the</span>
+      <span class="c">!! block-frobenius norm is less than the specified epsilon.</span>
+      <span class="c">!! One-the-fly filtering is done such that individual</span>
+      <span class="c">!! multiplications are skipped if the product of the frobenius</span>
+      <span class="c">!! norms of the left- and right-matrix blocks are less than the</span>
+      <span class="c">!! specified epsilon divided by the maximum number of possible</span>
+      <span class="c">!! multiplies in each row.  In addition a final filtering is done</span>
+      <span class="c">!! as well with the same epsilon value.</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">transa</span><span class="p">,</span> <span class="n">transb</span>
+         <span class="c">!! specifies the form of op( A ) to be used in the matrix multiplication transa = &#39;N&#39; or &#39;n&#39;,  op( A ) = A. transa = &#39;T&#39; or</span>
+         <span class="c">!! &#39;t&#39;,  op( A ) = transpose(A). transa = &#39;C&#39; or &#39;c&#39;,  op( A ) = transpose(conjg(A)).</span>
+         <span class="c">!! specifies the form of op( B ) to be used in the matrix multiplication transb = &#39;N&#39; or &#39;n&#39;,  op( B ) = B. transb = &#39;T&#39; or</span>
+         <span class="c">!! &#39;t&#39;,  op( B ) = transpose(B). transb = &#39;C&#39; or &#39;c&#39;,  op( B ) = transpose(conjg(B)).</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                <span class="kd">::</span> <span class="n">alpha</span>
+         <span class="c">!! scaling of product</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span>
+         <span class="c">!! left BCSR matrix</span>
+         <span class="c">!! right BCSR matrix</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                <span class="kd">::</span> <span class="n">beta</span>
+         <span class="c">!! scaling of existing data</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix_c</span>
+         <span class="c">!! resulting BCSR product matrix.</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">first_row</span><span class="p">,</span> <span class="n">last_row</span><span class="p">,</span> <span class="n">first_column</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">last_column</span><span class="p">,</span> <span class="n">first_k</span><span class="p">,</span> <span class="n">last_k</span>
+         <span class="c">!! first full row of limiting submatrix</span>
+         <span class="c">!! last full row of limiting submatrix</span>
+         <span class="c">!! first full column of limiting submatrix</span>
+         <span class="c">!! last full column of limiting submatrix</span>
+         <span class="c">!! first full column of limiting inner product</span>
+         <span class="c">!! last full column of limiting inner product</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">retain_sparsity</span>
+         <span class="c">!! enforce the sparsity pattern of the existing product matrix; default is no</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>            <span class="kd">::</span> <span class="n">filter_eps</span>
+         <span class="c">!! Filtering of the matrix</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>         <span class="kd">::</span> <span class="n">flop</span>
+         <span class="c">!! effective flop</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_multiply_generic&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">PARAMETER</span>                                 <span class="kd">::</span> <span class="n">dbg</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="n">real_8</span><span class="p">),</span> <span class="k">PARAMETER</span>                            <span class="kd">::</span> <span class="n">make_dense_occ_thresh</span> <span class="o">=</span> <span class="mf">1.0_dp</span>
+
+      <span class="kt">CHARACTER</span>                                          <span class="kd">::</span> <span class="n">transa_l</span><span class="p">,</span> <span class="n">transb_l</span>
+      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">comm</span><span class="p">,</span> <span class="n">f_col</span><span class="p">,</span> <span class="n">f_k</span><span class="p">,</span> <span class="n">f_row</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">handle2</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="n">l_col</span><span class="p">,</span> <span class="n">l_k</span><span class="p">,</span> <span class="n">l_row</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">nimages_left_rows</span><span class="p">,</span> <span class="n">nimages_match</span><span class="p">,</span> <span class="n">nimages_right_cols</span><span class="p">,</span> <span class="n">npcols</span><span class="p">,</span> <span class="n">nprows</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">output_unit</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">my_flop</span>
+      <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">ab_dense</span><span class="p">,</span> <span class="n">keep_product_data</span><span class="p">,</span> <span class="n">keep_sparsity</span><span class="p">,</span> <span class="n">product_reindex</span><span class="p">,</span> <span class="n">release_tdist</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">transpose_left</span><span class="p">,</span> <span class="n">transpose_right</span><span class="p">,</span> <span class="n">use_dense_mult</span><span class="p">,</span> <span class="n">use_mempools</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">cs</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dense_col_sizes</span><span class="p">,</span> <span class="n">dense_k_sizes</span><span class="p">,</span> <span class="n">dense_row_sizes</span><span class="p">,</span> <span class="n">k_vmap</span><span class="p">,</span> <span class="n">m_map</span><span class="p">,</span> <span class="p">&amp;</span>
+                             <span class="n">n_map</span><span class="p">,</span> <span class="n">old_product_col_blk_offsets</span><span class="p">,</span> <span class="n">old_product_col_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                             <span class="n">old_product_row_blk_offsets</span><span class="p">,</span> <span class="n">old_product_row_blk_sizes</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_2d_array_type</span><span class="p">),</span> <span class="k">POINTER</span>                 <span class="kd">::</span> <span class="n">m2s_left</span><span class="p">,</span> <span class="n">m2s_right</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">dense_product_distribution</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">old_product_distribution</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_imagedistribution_obj</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">dense_rdist_left</span><span class="p">,</span> <span class="n">dense_rdist_right</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">rdist_left</span><span class="p">,</span> <span class="n">rdist_right</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                                 <span class="kd">::</span> <span class="n">mp_obj</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">matrix_left</span><span class="p">,</span> <span class="n">matrix_right</span><span class="p">,</span> <span class="n">product_matrix</span>
+
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_get_occupation</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrix A occupation &gt; 1&quot;</span><span class="p">)</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_get_occupation</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrix B occupation &gt; 1&quot;</span><span class="p">)</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_get_occupation</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrix C occupation &gt; 1&quot;</span><span class="p">)</span>
+
+      <span class="k">CALL </span><span class="n">array_nullify</span><span class="p">(</span><span class="n">dense_k_sizes</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">array_nullify</span><span class="p">(</span><span class="n">dense_col_sizes</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">array_nullify</span><span class="p">(</span><span class="n">dense_row_sizes</span><span class="p">)</span>
+
+      <span class="c">! Reset GPU errors</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_acc_clear_errors</span><span class="p">()</span>
+      <span class="n">ENDIF</span>
+
+      <span class="c">! Check if RMA is used with buggy OpenMPI (version&lt;1.10.4 or 2.0.1)</span>
+      <span class="k">CALL </span><span class="n">check_openmpi_rma</span><span class="p">()</span>
+
+      <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c">!$    ithread = OMP_GET_THREAD_NUM()</span>
+
+      <span class="n">use_mempools</span> <span class="o">=</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">has_acc</span>
+
+      <span class="c">! setup driver-dependent memory-types and their memory-pools ---------------</span>
+
+      <span class="c">! the ab_buffers are shared by all threads</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">acc_stream_associated</span><span class="p">(</span><span class="n">stream_1</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">acc_stream_create</span><span class="p">(</span><span class="n">stream_1</span><span class="p">,</span> <span class="s2">&quot;MemCpy (odd ticks)&quot;</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">acc_stream_create</span><span class="p">(</span><span class="n">stream_2</span><span class="p">,</span> <span class="s2">&quot;MemCpy (even ticks)&quot;</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+
+         <span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_abpanel_1</span><span class="p">,</span> <span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="p">&amp;</span>
+                                  <span class="n">acc_hostalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">acc_devalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">acc_stream</span><span class="o">=</span><span class="n">stream_1</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">oversize_factor</span><span class="o">=</span><span class="n">default_resize_factor</span><span class="p">)</span>
+
+         <span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_abpanel_2</span><span class="p">,</span> <span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="p">&amp;</span>
+                                  <span class="n">acc_hostalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">acc_devalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">acc_stream</span><span class="o">=</span><span class="n">stream_2</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">oversize_factor</span><span class="o">=</span><span class="n">default_resize_factor</span><span class="p">)</span>
+
+         <span class="c">!TODO: ensure capacity 2/3?</span>
+         <span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_trsbuffer_1</span><span class="p">,</span> <span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="p">&amp;</span>
+                                  <span class="n">acc_hostalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">acc_devalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">acc_stream</span><span class="o">=</span><span class="n">stream_1</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_trsbuffer_2</span><span class="p">,</span> <span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="p">&amp;</span>
+                                  <span class="n">acc_hostalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">acc_devalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">acc_stream</span><span class="o">=</span><span class="n">stream_2</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">memtype_trsbuffer_1</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span> <span class="n">capacity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">memtype_trsbuffer_2</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span> <span class="n">capacity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+
+      <span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_mpi_buffer</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_mpi_product</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">has_pool</span><span class="o">=</span><span class="n">use_mempools</span><span class="p">)</span>
+
+      <span class="c">! check parameters ---------------------------------------------------------</span>
+      <span class="n">transa_l</span> <span class="o">=</span> <span class="n">transa</span>
+      <span class="n">transb_l</span> <span class="o">=</span> <span class="n">transb</span>
+      <span class="k">CALL </span><span class="n">uppercase</span><span class="p">(</span><span class="n">transa_l</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">uppercase</span><span class="p">(</span><span class="n">transb_l</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">transa_l</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_no_transpose</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="n">transa_l</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_transpose</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="n">transa_l</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_conjugate_transpose</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid transa_l = &quot;</span><span class="o">//</span><span class="n">transa_l</span><span class="p">)</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">transb_l</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_no_transpose</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="n">transb_l</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_transpose</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="n">transb_l</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_conjugate_transpose</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid transb_l = &quot;</span><span class="o">//</span><span class="n">transb_l</span><span class="p">)</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s1">&#39;========== MULTIPLICATION ========================&#39;</span>
+         <span class="k">CALL </span><span class="n">dbcsr_verify_matrix</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_verify_matrix</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_verify_matrix</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+         <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; ABC checksums&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">dbcsr_checksum</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
+            <span class="n">dbcsr_checksum</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">),</span> <span class="p">&amp;</span>
+            <span class="n">dbcsr_checksum</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_print</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_print</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_print</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+         <span class="n">ENDIF</span>
+      <span class="n">ENDIF</span>
+
+      <span class="c">! transpose/conjg left and/or right matrices if needed</span>
+      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">transa_l</span><span class="p">)</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_no_transpose</span><span class="p">)</span>
+         <span class="n">matrix_left</span> <span class="o">=</span> <span class="n">matrix_a</span>
+         <span class="n">transpose_left</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_transpose</span><span class="p">)</span>
+         <span class="n">matrix_left</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_antisymmetric</span><span class="p">)</span> <span class="k">THEN</span>
+            <span class="c">!</span>
+            <span class="c">! For antisymmetric matrix, we need to do a hard copy</span>
+            <span class="c">! shallow_data_copy=.TRUE. does not handle properly antisymm matrices</span>
+            <span class="k">CALL </span><span class="n">dbcsr_new_transposed</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">shallow_data_copy</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="n">redistribute</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
+                                      <span class="n">transpose_distribution</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+         <span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">dbcsr_new_transposed</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">shallow_data_copy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">redistribute</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
+                                      <span class="n">transpose_distribution</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+         <span class="n">ENDIF</span>
+         <span class="n">transpose_left</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_conjugate_transpose</span><span class="p">)</span>
+         <span class="n">matrix_left</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
+         <span class="k">CALL </span><span class="n">dbcsr_new_transposed</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                   <span class="n">shallow_data_copy</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="n">redistribute</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
+                                   <span class="n">transpose_distribution</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_conjg</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">)</span>
+         <span class="n">transpose_left</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+      <span class="k">CASE </span><span class="n">DEFAULT</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;wrong transa_l = &quot;</span><span class="o">//</span><span class="n">transa_l</span><span class="p">)</span>
+      <span class="k">END SELECT</span>
+
+<span class="k">      SELECT CASE</span> <span class="p">(</span><span class="n">transb_l</span><span class="p">)</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_no_transpose</span><span class="p">)</span>
+         <span class="n">matrix_right</span> <span class="o">=</span> <span class="n">matrix_b</span>
+         <span class="n">transpose_right</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_transpose</span><span class="p">)</span>
+         <span class="n">matrix_right</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_antisymmetric</span><span class="p">)</span> <span class="k">THEN</span>
+            <span class="c">!</span>
+            <span class="c">! For antisymmetric matrix, we need to do a hard copy</span>
+            <span class="c">! shallow_data_copy=.TRUE. does not handle properly antisymm matrices</span>
+            <span class="k">CALL </span><span class="n">dbcsr_new_transposed</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">shallow_data_copy</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="n">redistribute</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
+                                      <span class="n">transpose_distribution</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+         <span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">dbcsr_new_transposed</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">shallow_data_copy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">redistribute</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
+                                      <span class="n">transpose_distribution</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+         <span class="n">ENDIF</span>
+         <span class="n">transpose_right</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_conjugate_transpose</span><span class="p">)</span>
+         <span class="n">matrix_right</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
+         <span class="k">CALL </span><span class="n">dbcsr_new_transposed</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="p">&amp;</span>
+                                   <span class="n">shallow_data_copy</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="n">redistribute</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
+                                   <span class="n">transpose_distribution</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_conjg</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">)</span>
+         <span class="n">transpose_right</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+      <span class="k">CASE </span><span class="n">DEFAULT</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;wrong transb_l = &quot;</span><span class="o">//</span><span class="n">transb_l</span><span class="p">)</span>
+      <span class="k">END SELECT</span>
+      <span class="c">!</span>
+      <span class="c">! Ensure matrix compatibility.</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">),</span> <span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">)))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;C/A rows not equal&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">),</span> <span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">)))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;C/B columns not equal&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">),</span> <span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">)))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;A cols/B rows not equal&quot;</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="c">! No dense multiplication when filtering is used.</span>
+      <span class="n">use_dense_mult</span> <span class="o">=</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_densification</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">filter_eps</span><span class="p">))</span>
+      <span class="c">!</span>
+      <span class="n">mp_obj</span> <span class="o">=</span> <span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
+      <span class="n">numnodes</span> <span class="o">=</span> <span class="n">dbcsr_mp_numnodes</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span>
+      <span class="n">nprows</span> <span class="o">=</span> <span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span>
+      <span class="n">npcols</span> <span class="o">=</span> <span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="c">! 3D layers</span>
+      <span class="k">CALL </span><span class="n">make_layers_3D_C_reduction</span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span><span class="p">,</span> <span class="n">mp_obj</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="c">! No dense multiplication when RMA is used.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">use_dense_mult</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">ENDIF</span>
+      <span class="c">! we skip dense multiply for (anti)symmetric matrices (slowdown for S/H * C)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">use_dense_mult</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">&amp;</span>
+             <span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">use_dense_mult</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+         <span class="k">ELSE</span>
+<span class="k">            </span><span class="n">use_dense_mult</span> <span class="o">=</span> <span class="n">dbcsr_may_be_dense</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">,</span> <span class="n">make_dense_occ_thresh</span><span class="p">)</span> <span class="p">&amp;</span>
+                             <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbcsr_may_be_dense</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">,</span> <span class="n">make_dense_occ_thresh</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+      <span class="n">ENDIF</span>
+      <span class="n">ab_dense</span> <span class="o">=</span> <span class="n">use_dense_mult</span>
+      <span class="c">! Use memory pools when no dense</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_abpanel_1</span><span class="p">,</span> <span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">ab_dense</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">use_mempools</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_abpanel_2</span><span class="p">,</span> <span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">ab_dense</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">use_mempools</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="c">! Submatrix selection</span>
+      <span class="n">f_row</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="n">l_row</span> <span class="o">=</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+      <span class="n">f_col</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="n">l_col</span> <span class="o">=</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+      <span class="n">f_k</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="n">l_k</span> <span class="o">=</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">first_row</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">first_row</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">first_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid first row specified&quot;</span><span class="p">)</span>
+         <span class="n">f_row</span> <span class="o">=</span> <span class="n">first_row</span>
+      <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">last_row</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">last_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last row specified&quot;</span><span class="p">)</span>
+         <span class="n">l_row</span> <span class="o">=</span> <span class="n">last_row</span>
+      <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">first_column</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">first_column</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">first_column</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid first col specified&quot;</span><span class="p">)</span>
+         <span class="n">f_col</span> <span class="o">=</span> <span class="n">first_column</span>
+      <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">last_column</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">last_column</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last column specified (C)&quot;</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">last_column</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">))</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last column specified (B)&quot;</span><span class="p">)</span>
+         <span class="n">l_col</span> <span class="o">=</span> <span class="n">last_column</span>
+      <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">first_k</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">first_k</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">first_k</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">))</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid first k specified (A)&quot;</span><span class="p">)</span>
+         <span class="n">f_k</span> <span class="o">=</span> <span class="n">first_k</span>
+      <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">last_k</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">last_k</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">))</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last k specified (A)&quot;</span><span class="p">)</span>
+         <span class="n">l_k</span> <span class="o">=</span> <span class="n">last_k</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="c">! update statistics (we count marketing flops per MPI rank)</span>
+      <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">last_mpi_ranks_used</span> <span class="o">=</span> <span class="n">numnodes</span>
+      <span class="n">marketing_flops</span> <span class="o">=</span> <span class="n">marketing_flops</span> <span class="o">+</span> <span class="p">&amp;</span>
+                        <span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="p">(</span><span class="n">l_row</span> <span class="o">-</span> <span class="n">f_row</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">l_col</span> <span class="o">-</span> <span class="n">f_col</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span><span class="o">/</span><span class="n">numnodes</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">l_k</span> <span class="o">-</span> <span class="n">f_k</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="c">! Now optimize the default submatrix selection values away</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">f_row</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="n">f_row</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">l_row</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">))</span> <span class="n">l_row</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">f_col</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="n">f_col</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="c">! The last column must be set if the right and product matrices</span>
+      <span class="c">! differ.</span>
+      <span class="n">l_col</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">l_col</span><span class="p">,</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">))</span>
+      <span class="n">l_col</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">l_col</span><span class="p">,</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">f_col</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="n">l_col</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span> <span class="n">l_col</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">f_k</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="n">f_k</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">l_k</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">))</span> <span class="n">l_k</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">last_column</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">dbcsr_col_block_sizes</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">),</span> <span class="p">&amp;</span>
+                               <span class="n">dbcsr_col_block_sizes</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">l_col</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">),</span> <span class="p">&amp;</span>
+                     <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span>
+      <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">f_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">l_row</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">l_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Last row smaller than first row&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">f_col</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">l_col</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">l_col</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Last col smaller than first col&quot;</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="c">! Product data needs to be retained when</span>
+      <span class="c">! * beta != 0; or</span>
+      <span class="c">! * there is column limiting (l_col &gt; 0) and the limiting column</span>
+      <span class="c">!   is less than the number of full columns in the product matrix</span>
+      <span class="n">keep_sparsity</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">retain_sparsity</span><span class="p">))</span> <span class="n">keep_sparsity</span> <span class="o">=</span> <span class="n">retain_sparsity</span>
+      <span class="c">!</span>
+      <span class="n">keep_product_data</span> <span class="o">=</span> <span class="n">keep_sparsity</span> <span class="p">&amp;</span>
+                          <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_scalar_are_equal</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">dbcsr_scalar_zero</span><span class="p">(</span><span class="n">beta</span><span class="p">%</span><span class="n">data_type</span><span class="p">))</span> <span class="p">&amp;</span>
+                          <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">(</span><span class="n">l_col</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">l_col</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span> <span class="p">&amp;</span>
+                          <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">(</span><span class="n">l_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">l_row</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_scalar_are_equal</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">dbcsr_scalar_one</span><span class="p">(</span><span class="n">beta</span><span class="p">%</span><span class="n">data_type</span><span class="p">))</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">keep_product_data</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_scale</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">alpha_scalar</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">f_row</span><span class="p">,</span> <span class="n">l_row</span><span class="p">,</span> <span class="n">f_col</span><span class="p">,</span> <span class="n">l_col</span><span class="o">/</span><span class="p">))</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="c">! The index of the product matrix is twiddled into canonical form</span>
+      <span class="c">! if it is (anti)symmetric (i.e., rows and columns are where the</span>
+      <span class="c">! row/column distributions say they are). Doing this in advance</span>
+      <span class="c">! makes the local multiply more efficient.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">product_reindex</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+      <span class="k">ELSE</span>
+<span class="k">         </span><span class="n">product_reindex</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">ENDIF</span>
+      <span class="c">! Product can not be made dense; however, A &amp; B may still be made</span>
+      <span class="c">! dense unless previously determined otherwise.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">product_reindex</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">keep_sparsity</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">use_dense_mult</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="c">! The thread distribution must reflect the current (possibly</span>
+      <span class="c">! dense) distribution</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_distribution_has_threads</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">dist</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">release_tdist</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+         <span class="k">CALL </span><span class="n">dbcsr_distribution_make_threads</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
+      <span class="k">ELSE</span>
+<span class="k">         </span><span class="n">release_tdist</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="c">! Compute number of images (rows and columns)</span>
+      <span class="n">nimages_left_rows</span> <span class="o">=</span> <span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">))</span>
+      <span class="n">nimages_match</span> <span class="o">=</span> <span class="n">dbcsr_distribution_get_num_images_1d</span><span class="p">(</span> <span class="p">&amp;</span>
+                      <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">),</span> <span class="p">&amp;</span>
+                      <span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">),</span> <span class="p">&amp;</span>
+                      <span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">)),</span> <span class="p">&amp;</span>
+                      <span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">)))</span>
+      <span class="n">nimages_right_cols</span> <span class="o">=</span> <span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">%</span><span class="n">dist</span><span class="p">))</span>
+      <span class="c">!</span>
+      <span class="c">! Create imaged distributions for the multiply.</span>
+      <span class="k">CALL </span><span class="n">dbcsr_create_image_dist</span><span class="p">(</span><span class="n">rdist_right</span><span class="p">,</span> <span class="n">matrix_right</span><span class="p">%</span><span class="n">dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                   <span class="n">match_row_nbins</span><span class="o">=</span><span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">)),</span> <span class="p">&amp;</span>
+                                   <span class="n">match_col_nbins</span><span class="o">=</span><span class="n">npcols</span><span class="p">,</span> <span class="p">&amp;</span>
+                                   <span class="n">match_col_pdist</span><span class="o">=</span><span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">dist</span><span class="p">),</span> <span class="p">&amp;</span>
+                                   <span class="n">nimages_rows</span><span class="o">=</span><span class="n">nimages_match</span><span class="p">,</span> <span class="p">&amp;</span>
+                                   <span class="n">nimages_cols</span><span class="o">=</span><span class="n">nimages_right_cols</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">dbcsr_create_image_dist</span><span class="p">(</span><span class="n">rdist_left</span><span class="p">,</span> <span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                   <span class="n">match_row_pdist</span><span class="o">=</span><span class="n">dbcsr_distribution_row_dist</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">dist</span><span class="p">),</span> <span class="p">&amp;</span>
+                                   <span class="n">match_row_nbins</span><span class="o">=</span><span class="n">nprows</span><span class="p">,</span> <span class="p">&amp;</span>
+                                   <span class="n">match_col_pdist</span><span class="o">=</span><span class="n">dbcsr_distribution_row_dist</span><span class="p">(</span><span class="n">rdist_right</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">),</span> <span class="p">&amp;</span>
+                                   <span class="n">match_col_idist</span><span class="o">=</span><span class="n">array_data</span><span class="p">(</span><span class="n">rdist_right</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_image</span><span class="p">),</span> <span class="p">&amp;</span>
+                                   <span class="n">match_col_nbins</span><span class="o">=</span><span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">%</span><span class="n">dist</span><span class="p">)),</span> <span class="p">&amp;</span>
+                                   <span class="n">nimages_rows</span><span class="o">=</span><span class="n">nimages_left_rows</span><span class="p">,</span> <span class="p">&amp;</span>
+                                   <span class="n">nimages_cols</span><span class="o">=</span><span class="n">nimages_match</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ab_dense</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_make_dists_dense</span><span class="p">(</span><span class="n">dbcsr_distribution</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">),</span> <span class="p">&amp;</span>
+                                     <span class="n">rdist_left</span><span class="p">,</span> <span class="n">rdist_right</span><span class="p">,</span> <span class="n">dense_product_distribution</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">dense_rdist_left</span><span class="p">,</span> <span class="n">dense_rdist_right</span><span class="p">,.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">use_dense_mult</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">m_map</span><span class="p">,</span> <span class="n">k_vmap</span><span class="p">,</span> <span class="n">n_map</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">make_sizes_dense</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">,</span> <span class="n">m_map</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dense_product_distribution</span><span class="p">),</span> <span class="p">&amp;</span>
+                               <span class="n">dense_row_sizes</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">make_sizes_dense</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">,</span> <span class="n">n_map</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">dbcsr_distribution_ncols</span><span class="p">(</span><span class="n">dense_product_distribution</span><span class="p">),</span> <span class="p">&amp;</span>
+                               <span class="n">dense_col_sizes</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">make_sizes_dense</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">,</span> <span class="n">k_vmap</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dense_rdist_right</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">),</span> <span class="p">&amp;</span>
+                               <span class="n">dense_k_sizes</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">use_dense_mult</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">ab_dense</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong logic when making dense matrices.&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">use_dense_mult</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">old_product_row_blk_offsets</span> <span class="o">=</span> <span class="n">matrix_c</span><span class="p">%</span><span class="n">row_blk_offset</span>
+         <span class="n">old_product_col_blk_offsets</span> <span class="o">=</span> <span class="n">matrix_c</span><span class="p">%</span><span class="n">col_blk_offset</span>
+         <span class="n">old_product_row_blk_sizes</span> <span class="o">=</span> <span class="n">matrix_c</span><span class="p">%</span><span class="n">row_blk_size</span>
+         <span class="n">old_product_col_blk_sizes</span> <span class="o">=</span> <span class="n">matrix_c</span><span class="p">%</span><span class="n">col_blk_size</span>
+         <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">old_product_row_blk_offsets</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">old_product_col_blk_offsets</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">old_product_row_blk_sizes</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">old_product_col_blk_sizes</span><span class="p">)</span>
+         <span class="n">old_product_distribution</span> <span class="o">=</span> <span class="n">dbcsr_distribution</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_distribution_hold</span><span class="p">(</span><span class="n">old_product_distribution</span><span class="p">)</span>
+         <span class="n">product_matrix</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
+         <span class="k">CALL </span><span class="n">dbcsr_make_dense</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">product_matrix</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">dense_product_distribution</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">dense_row_sizes</span><span class="p">,</span> <span class="n">dense_col_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">m_map</span><span class="p">,</span> <span class="n">n_map</span><span class="p">)</span>
+      <span class="k">ELSE</span>
+<span class="k">         </span><span class="n">product_matrix</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
+         <span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">,</span> <span class="n">shallow_data</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+      <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ab_dense</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_distribution_release</span><span class="p">(</span><span class="n">dense_product_distribution</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="c">! This is needed to build the hash tables because they are</span>
+      <span class="c">! locally indexed.</span>
+      <span class="k">CALL </span><span class="n">dbcsr_reset_locals</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Matrices &quot;</span><span class="p">,</span> <span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
+            <span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">),</span> <span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+         <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Matrices &quot;</span><span class="p">,</span> <span class="n">transa_l</span><span class="p">,</span> <span class="n">transb_l</span><span class="p">,</span> <span class="s2">&quot;keep&quot;</span><span class="p">,</span> <span class="n">keep_product_data</span>
+      <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">keep_product_data</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">product_reindex</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Making canonical index&quot;</span>
+            <span class="k">CALL </span><span class="n">dbcsr_make_index_canonical</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Product matrix should be finalized!&quot;</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_make_untransposed_blocks</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
+<span class="c">!$OMP PARALLEL &amp;</span>
+<span class="c">!$OMP DEFAULT (NONE) SHARED (product_matrix)</span>
+         <span class="c">! For the multiply logic to work correctly, existing data must</span>
+         <span class="c">! be added only after the index has been transformed into the</span>
+         <span class="c">! canonical form.</span>
+         <span class="k">CALL </span><span class="n">dbcsr_add_wm_from_matrix</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
+<span class="c">!$OMP END PARALLEL</span>
+      <span class="k">ELSE</span>
+<span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(ithread) &amp;</span>
+<span class="c">!$OMP SHARED(product_matrix, memtype_product_wm)</span>
+         <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c">!$       ithread = OMP_GET_THREAD_NUM()</span>
+         <span class="k">CALL </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">,</span> <span class="n">work_mutable</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
+                                <span class="n">memory_type</span><span class="o">=</span><span class="n">memtype_product_wm</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
+<span class="c">!$OMP END PARALLEL</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="c">! Check for previous multiplication completeness</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">request_sync_mult</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">mp_request_null</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_sync_mult&quot;</span><span class="p">,</span> <span class="n">handle2</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">mp_wait</span><span class="p">(</span><span class="n">request_sync_mult</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
+            <span class="n">request_sync_mult</span> <span class="o">=</span> <span class="n">mp_request_null</span>
+         <span class="n">ENDIF</span>
+         <span class="c">!</span>
+         <span class="c">! Left buffer images</span>
+         <span class="k">CALL </span><span class="n">dbcsr_make_buffers</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">,</span> <span class="n">rdist_left</span><span class="p">,</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="p">&amp;</span>
+                                 <span class="n">f_row</span><span class="p">,</span> <span class="n">l_row</span><span class="p">,</span> <span class="n">f_k</span><span class="p">,</span> <span class="n">l_k</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="nb">PRESENT</span><span class="p">(</span><span class="n">filter_eps</span><span class="p">))</span>
+         <span class="c">!</span>
+         <span class="c">! Right buffer images</span>
+         <span class="k">CALL </span><span class="n">dbcsr_make_buffers</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">,</span> <span class="n">rdist_right</span><span class="p">,</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
+                                 <span class="n">f_k</span><span class="p">,</span> <span class="n">l_k</span><span class="p">,</span> <span class="n">f_col</span><span class="p">,</span> <span class="n">l_col</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="nb">PRESENT</span><span class="p">(</span><span class="n">filter_eps</span><span class="p">),</span> <span class="p">&amp;</span>
+                                 <span class="n">alpha</span><span class="p">)</span>
+      <span class="k">ELSE</span>
+<span class="k">         </span><span class="n">product_matrix</span><span class="p">%</span><span class="n">nblks</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="n">product_matrix</span><span class="p">%</span><span class="n">nze</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="n">product_matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="k">CALL </span><span class="n">dbcsr_data_set_size_referenced</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+         <span class="n">product_matrix</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+         <span class="c">!</span>
+         <span class="c">! Right images</span>
+         <span class="k">CALL </span><span class="n">make_m2s</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">,</span> <span class="n">m2s_right</span><span class="p">,</span> <span class="n">rdist_right</span><span class="p">,</span> <span class="n">dense_rdist_right</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">use_dense_mult</span><span class="p">,</span> <span class="n">ab_dense</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">f_k</span><span class="p">,</span> <span class="n">l_k</span><span class="p">,</span> <span class="n">f_row</span><span class="p">,</span> <span class="n">l_row</span><span class="p">,</span> <span class="n">f_col</span><span class="p">,</span> <span class="n">l_col</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">dense_k_sizes</span><span class="p">,</span> <span class="n">dense_col_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">k_vmap</span><span class="p">,</span> <span class="n">m_map</span><span class="p">,</span> <span class="n">n_map</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">alpha</span><span class="p">)</span>
+         <span class="c">!</span>
+         <span class="c">! Left images</span>
+         <span class="k">CALL </span><span class="n">make_m2s</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">,</span> <span class="n">m2s_left</span><span class="p">,</span> <span class="n">rdist_left</span><span class="p">,</span> <span class="n">dense_rdist_left</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">use_dense_mult</span><span class="p">,</span> <span class="n">ab_dense</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">f_k</span><span class="p">,</span> <span class="n">l_k</span><span class="p">,</span> <span class="n">f_row</span><span class="p">,</span> <span class="n">l_row</span><span class="p">,</span> <span class="n">f_col</span><span class="p">,</span> <span class="n">l_col</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">dense_row_sizes</span><span class="p">,</span> <span class="n">dense_k_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                       <span class="n">k_vmap</span><span class="p">,</span> <span class="n">m_map</span><span class="p">,</span> <span class="n">n_map</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ab_dense</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">k_vmap</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">dense_row_sizes</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">dense_col_sizes</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">dense_k_sizes</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="c">! The limits were already used.  Reset them.</span>
+      <span class="n">f_row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l_row</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">f_col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l_col</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">f_k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l_k</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="c">!</span>
+      <span class="n">my_flop</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">multiply_3D</span><span class="p">(</span><span class="n">rdist_left</span><span class="p">,</span> <span class="n">rdist_right</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">matrix_left</span><span class="p">,</span> <span class="n">matrix_right</span><span class="p">,</span> <span class="n">product_matrix</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">retain_sparsity</span><span class="o">=</span><span class="n">retain_sparsity</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">flop</span><span class="o">=</span><span class="n">my_flop</span><span class="p">,</span> <span class="n">keep_product_data</span><span class="o">=</span><span class="n">keep_product_data</span><span class="p">)</span>
+      <span class="k">ELSE</span>
+<span class="k">         CALL </span><span class="n">multiply_cannon</span><span class="p">(</span><span class="n">m2s_left</span><span class="p">,</span> <span class="n">m2s_right</span><span class="p">,</span> <span class="n">product_matrix</span><span class="p">,</span> <span class="p">&amp;</span>
+                              <span class="n">retain_sparsity</span><span class="o">=</span><span class="n">retain_sparsity</span><span class="p">,</span> <span class="p">&amp;</span>
+                              <span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">,</span> <span class="p">&amp;</span>
+                              <span class="n">flop</span><span class="o">=</span><span class="n">my_flop</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">,</span> <span class="n">reshuffle</span><span class="o">=</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">filter_eps</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">keep_sparsity</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="c">! RMA implementation algorithm has to synchronize at the end of each multiplication</span>
+      <span class="n">comm</span> <span class="o">=</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dbcsr_distribution</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)))</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">flop</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="c">! return the average number of flops per MPI rank.</span>
+         <span class="c">! Variance (which is fairly large) could be computed as well.</span>
+         <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_mpsum_flop&quot;</span><span class="p">,</span> <span class="n">handle2</span><span class="p">)</span>
+         <span class="n">numnodes</span> <span class="o">=</span> <span class="n">dbcsr_mp_numnodes</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dbcsr_distribution</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)))</span>
+         <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">my_flop</span><span class="p">,</span> <span class="n">comm</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">flop</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">flop</span> <span class="o">=</span> <span class="p">(</span><span class="n">my_flop</span> <span class="o">+</span> <span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">numnodes</span>
+         <span class="n">ENDIF</span>
+         <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
+      <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">mp_isync</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span> <span class="n">request_sync_mult</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">transpose_left</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">transpose_right</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">release_tdist</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_distribution_no_threads</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">dbcsr_release_locals</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
+      <span class="c">! The index of the product matrix is reset to the CP2K form if it</span>
+      <span class="c">! was previously set to the canonical form.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">product_reindex</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Making CP2K index&quot;</span>
+         <span class="k">CALL </span><span class="n">dbcsr_make_index_canonical</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">,</span> <span class="n">cp2k</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+      <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">use_dense_mult</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+         <span class="n">matrix_c</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
+         <span class="k">CALL </span><span class="n">dbcsr_make_undense</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">old_product_distribution</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">old_product_row_blk_offsets</span><span class="p">,</span> <span class="n">old_product_col_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">old_product_row_blk_sizes</span><span class="p">,</span> <span class="n">old_product_col_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">m_map</span><span class="p">,</span> <span class="n">n_map</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">old_product_row_blk_offsets</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">old_product_col_blk_offsets</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">old_product_row_blk_sizes</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">old_product_col_blk_sizes</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_distribution_release</span><span class="p">(</span><span class="n">old_product_distribution</span><span class="p">)</span>
+      <span class="k">ELSE</span>
+<span class="k">         CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+         <span class="n">matrix_c</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
+         <span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">product_matrix</span><span class="p">,</span> <span class="n">shallow_data</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_destroy_array</span><span class="p">(</span><span class="n">m2s_left</span><span class="p">)</span>
+         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">m2s_left</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_destroy_array</span><span class="p">(</span><span class="n">m2s_right</span><span class="p">)</span>
+         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">m2s_right</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">dbcsr_image_dist_release</span><span class="p">(</span><span class="n">rdist_left</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_image_dist_release</span><span class="p">(</span><span class="n">rdist_right</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ab_dense</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">m_map</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">n_map</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="c">! To support the canonical multiply (all non-transposed blocks),</span>
+      <span class="c">! blocks may have to be transposed according to the CP2K</span>
+      <span class="c">! triangular index.</span>
+      <span class="k">CALL </span><span class="n">dbcsr_make_untransposed_blocks</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="p">&amp;</span>
+            <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Use dense mult, symm&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">use_dense_mult</span><span class="p">,</span> <span class="n">ab_dense</span><span class="p">,</span> <span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_verify_matrix</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">cs</span> <span class="o">=</span> <span class="n">dbcsr_checksum</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+            <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Multiplication&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+               <span class="n">num_multiplications</span><span class="p">,</span> <span class="s2">&quot; Product checksum&quot;</span><span class="p">,</span> <span class="n">cs</span>
+         <span class="n">ENDIF</span>
+      <span class="n">ENDIF</span>
+
+      <span class="c">! This tends to trigger only when all of these conditions are fulfilled:</span>
+      <span class="c">!  - transa==&quot;T&quot;</span>
+      <span class="c">!  - matrix_c contains already blocks and beta is not zero</span>
+      <span class="c">!  - GPU-acceleration is enabled</span>
+      <span class="c">!  - multiple OpenMP threads are used</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">nblks</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">&amp;</span>
+          <span class="nb">INT</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">)),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="o">*</span> <span class="p">&amp;</span>
+          <span class="nb">INT</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">)),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Bug: Matrix contains too many blocks&quot;</span><span class="p">)</span>
+      <span class="n">output_unit</span> <span class="o">=</span> <span class="n">default_output_unit</span>
+      <span class="n">num_multiplications</span> <span class="o">=</span> <span class="n">num_multiplications</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_multiply_generic</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -593,7 +1256,7 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -631,10 +1294,6 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

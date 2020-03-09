@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -175,7 +166,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../type/dbcsr_heap_type.html#variable-n%7E2">n</a>
+      <a class="list-group-item" href="../type/dbcsr_heap_type.html#variable-n%7E5">n</a>
       
       <a class="list-group-item" href="../type/dbcsr_heap_type.html#variable-index">index</a>
       
@@ -202,6 +193,14 @@
 
 
 
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_heap_type.html#src">dbcsr_heap_type</a>
+  </div>
+</div>
 
 
 
@@ -229,7 +228,7 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../type/dbcsr_heap_type.html#variable-n%7E2">n</a>
+      <a class="list-group-item" href="../type/dbcsr_heap_type.html#variable-n%7E5">n</a>
       
       <a class="list-group-item" href="../type/dbcsr_heap_type.html#variable-index">index</a>
       
@@ -258,6 +257,14 @@
 
 
 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_heap_type.html#src">dbcsr_heap_type</a>
+  </div>
+</div>
+
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -281,7 +288,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-n%7E2"></span>integer,</td>
+  <td><span class="anchor" id="variable-n%7E5"></span>integer,</td>
   
   <td>public</td>
   <td></td><td>::</td>
@@ -331,6 +338,17 @@
     
     
     
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span>   <span class="k">TYPE </span><span class="n">dbcsr_heap_type</span>
+      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">n</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="nb">index</span>
+<span class="nb">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_heap_node_e</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">nodes</span>
+   <span class="k">END TYPE </span><span class="n">dbcsr_heap_type</span>
+</pre></div>
+
+    </section>
+    
     
     </div>
   </div>
@@ -341,7 +359,7 @@
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -379,10 +397,6 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

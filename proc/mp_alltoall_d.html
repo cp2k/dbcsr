@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mp_alltoall_d.html#src">mp_alltoall_d</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -281,7 +278,7 @@ private subroutine mp_alltoall_d(sb, rb, count, group)
   
 <tr>
   
-  <td><span class="anchor" id="variable-group%7E24"></span>integer,</td>
+  <td><span class="anchor" id="variable-group%7E21"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -326,7 +323,13 @@ private subroutine mp_alltoall_d(sb, rb, count, group)
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mp_alltoall_d.html#src">mp_alltoall_d</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -350,6 +353,62 @@ private subroutine mp_alltoall_d(sb, rb, count, group)
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">mp_alltoall_d</span> <span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">rb</span><span class="p">,</span> <span class="nb">count</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+      <span class="c">!! All-to-all data exchange, rank 1 arrays, equal sizes</span>
+      <span class="c">!!</span>
+      <span class="c">!! Index meaning</span>
+      <span class="c">!!</span>
+      <span class="c">!! The first two indices specify the data while the last index counts</span>
+      <span class="c">!! the processes</span>
+      <span class="c">!!</span>
+      <span class="c">!! Sizes of ranks</span>
+      <span class="c">!! All processes have the same data size.</span>
+      <span class="c">!!</span>
+      <span class="c">!! MPI mapping</span>
+      <span class="c">!! mpi_alltoall</span>
+
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">sb</span><span class="p">(:)</span>
+         <span class="c">!! array with data to send</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">rb</span><span class="p">(:)</span>
+         <span class="c">!! array into which data is received</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="nb">count</span><span class="p">,</span> <span class="n">group</span>
+         <span class="c">!! number of elements to send/receive (product of the extents of the first two dimensions)</span>
+         <span class="c">!! Message passing environment identifier</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_alltoall_d&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">ierr</span>
+<span class="cp">#if defined(__parallel)</span>
+      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">msglen</span><span class="p">,</span> <span class="n">np</span>
+<span class="cp">#endif</span>
+
+      <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+
+<span class="cp">#if defined(__parallel)</span>
+      <span class="k">CALL </span><span class="n">mpi_alltoall</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="nb">count</span><span class="p">,</span> <span class="n">MPI_DOUBLE_PRECISION</span><span class="p">,</span> <span class="p">&amp;</span>
+                        <span class="n">rb</span><span class="p">,</span> <span class="nb">count</span><span class="p">,</span> <span class="n">MPI_DOUBLE_PRECISION</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_alltoall @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">mpi_comm_size</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_comm_size @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
+      <span class="n">msglen</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="nb">count</span><span class="o">*</span><span class="n">np</span>
+      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="nb">count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">)</span>
+<span class="cp">#else</span>
+      <span class="n">MARK_USED</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span>
+      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+      <span class="n">rb</span> <span class="o">=</span> <span class="n">sb</span>
+<span class="cp">#endif</span>
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+
+   <span class="k">END SUBROUTINE </span><span class="n">mp_alltoall_d</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -360,7 +419,7 @@ private subroutine mp_alltoall_d(sb, rb, count, group)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -398,10 +457,6 @@ private subroutine mp_alltoall_d(sb, rb, count, group)
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

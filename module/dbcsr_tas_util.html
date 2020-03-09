@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -95,15 +95,6 @@
 
           </ul>
         
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -130,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for modules and submodules.">86 statements</a>
+    title=" 0.2% of total for modules and submodules.">96 statements</a>
      </li> 
      
      
@@ -173,7 +164,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_tas_util.html#variable-modulen%7E73">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_util.html#variable-modulen%7E26">moduleN</a>
       
     </div>
   </div>
@@ -194,6 +185,8 @@
       
       <a class="list-group-item" href="../module/dbcsr_tas_util.html#interface-swap%7E2">swap</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tas_util.html#interface-array_eq">array_eq</a>
+      
     </div>
   </div>
 </div>
@@ -208,6 +201,8 @@
     <div class="list-group">
       
       <a class="list-group-item" href="../module/dbcsr_tas_util.html#proc-dbcsr_mp_environ">dbcsr_mp_environ</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_util.html#proc-array_eq_i">array_eq_i</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_util.html#proc-array_eq_i8">array_eq_i8</a>
       
@@ -228,7 +223,7 @@
       
       <a class="list-group-item" href="../module/dbcsr_tas_util.html#proc-index_unique">index_unique</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tas_util.html#proc-invert_transpose_flag%7E2">invert_transpose_flag</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_util.html#proc-invert_transpose_flag">invert_transpose_flag</a>
       
     </div>
   </div>
@@ -299,7 +294,7 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_tas_util.html#variable-modulen%7E73">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_util.html#variable-modulen%7E26">moduleN</a>
       
     </div>
   </div>
@@ -320,6 +315,8 @@
       
       <a class="list-group-item" href="../module/dbcsr_tas_util.html#interface-swap%7E2">swap</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tas_util.html#interface-array_eq">array_eq</a>
+      
     </div>
   </div>
 </div>
@@ -334,6 +331,8 @@
     <div class="list-group">
       
       <a class="list-group-item" href="../module/dbcsr_tas_util.html#proc-dbcsr_mp_environ">dbcsr_mp_environ</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_util.html#proc-array_eq_i">array_eq_i</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_util.html#proc-array_eq_i8">array_eq_i8</a>
       
@@ -354,7 +353,7 @@
       
       <a class="list-group-item" href="../module/dbcsr_tas_util.html#proc-index_unique">index_unique</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tas_util.html#proc-invert_transpose_flag%7E2">invert_transpose_flag</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_util.html#proc-invert_transpose_flag">invert_transpose_flag</a>
       
     </div>
   </div>
@@ -393,7 +392,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen%7E73"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen%7E26"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -525,6 +524,165 @@ private subroutine <a href='../proc/swap_i.html'>swap_i</a>(arr)
 </div>
 
     
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-array_eq"></span><h3>public interface <a href='../interface/array_eq.html'>array_eq</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private pure function <a href='../proc/array_eq_i8.html'>array_eq_i8</a>(arr1, arr2)
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>arr1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>arr2</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>logical
+  </small></h4>
+  
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private pure function <a href='../proc/array_eq_i.html'>array_eq_i</a>(arr1, arr2)
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>arr1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>arr2</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>logical
+  </small></h4>
+  
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
     </section>
   <br>
     
@@ -607,8 +765,83 @@ public function <a href='../proc/dbcsr_mp_environ.html'>dbcsr_mp_environ</a>(mp_
     
     
   <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-array_eq_i"></span><h3>
+private pure function <a href='../proc/array_eq_i.html'>array_eq_i</a>(arr1, arr2)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>arr1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>arr2</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>logical
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-array_eq_i8"></span><h3>
-public pure function <a href='../proc/array_eq_i8.html'>array_eq_i8</a>(arr1, arr2)
+private pure function <a href='../proc/array_eq_i8.html'>array_eq_i8</a>(arr1, arr2)
     
     
    
@@ -866,8 +1099,8 @@ public subroutine <a href='../proc/index_unique.html'>index_unique</a>(index_in,
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-invert_transpose_flag%7E2"></span><h3>
-public subroutine <a href='../proc/invert_transpose_flag%7E2.html'>invert_transpose_flag</a>(trans_flag)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-invert_transpose_flag"></span><h3>
+public subroutine <a href='../proc/invert_transpose_flag.html'>invert_transpose_flag</a>(trans_flag)
     
     
    
@@ -929,7 +1162,7 @@ public subroutine <a href='../proc/invert_transpose_flag%7E2.html'>invert_transp
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -967,10 +1200,6 @@ public subroutine <a href='../proc/invert_transpose_flag%7E2.html'>invert_transp
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

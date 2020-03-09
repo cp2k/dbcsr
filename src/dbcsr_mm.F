@@ -271,7 +271,7 @@ CONTAINS
                WRITE (output_unit, '(A,T30,EN20.6)') "  max size", &
                   MAXVAL(max_recv_data(:))
                WRITE (output_unit, '(A,T30,EN20.6)') "  average size", average
-   
+
                WRITE (output_unit, '(A)') " MPI breakdown and total messages size (bytes):"
                WRITE (output_unit, '(A,I8,T40,I10,T55,I20)') "             size <= ", dbcsr_mpi_size_limits(1), &
                   SUM(total_recv_breakdown(1, 1, :)), SUM(total_recv_breakdown(1, 2, :))
@@ -978,7 +978,8 @@ CONTAINS
    END SUBROUTINE dbcsr_multiply_generic
 
    SUBROUTINE check_openmpi_rma()
-      !! Check if RMA is used with buggy OpenMPI (version<1.10.4 or 2.0.1)
+      !! Check if RMA is used with buggy OpenMPI
+      !! Currently tracked buggy versions: <1.10.4, 2.0.0, 2.1.x, 3.1.x
       CHARACTER(LEN=mp_max_library_version_string)       :: mpi_library_version
       INTEGER                                            :: ipos, jpos, major, minor, patch, &
                                                             resultlen, jpos_next
@@ -1003,8 +1004,8 @@ CONTAINS
       jpos = ipos + jpos - 2
       READ (mpi_library_version(ipos:jpos), *) major
 
-      ! Open MPI 3+ is fine
-      IF (major .GT. 2) &
+      ! Open MPI 4+ is fine
+      IF (major .GT. 3) &
          RETURN
 
       ! Read minor version
@@ -1028,11 +1029,13 @@ CONTAINS
       READ (mpi_library_version(ipos:jpos), *) patch
 
       IF ((major .LT. 2 .AND. (minor .LT. 10 .OR. (minor .EQ. 10 .AND. patch .LT. 4))) .OR. &
-          (major .EQ. 2 .AND. minor .EQ. 0 .AND. patch .EQ. 0)) THEN
+          (major .EQ. 2 .AND. minor .EQ. 0 .AND. patch .EQ. 0) .OR. &
+          (major .EQ. 2 .AND. minor .EQ. 1) .OR. &
+          (major .EQ. 3 .AND. minor .EQ. 1)) THEN
          CALL dbcsr_warn(__LOCATION__, "You are using an OpenMPI version with buggy RMA: --- "// &
                          mpi_library_version(1:resultlen)// &
                          " --- We disable RMA to prevent errors. "// &
-                         "Please install a new OpenMPI version (>=1.10.4 or 2.0.1). ")
+                         "Please install a new OpenMPI version (>=4.0.1). ")
          CALL dbcsr_set_config(use_mpi_rma=.FALSE.)
       ENDIF
 

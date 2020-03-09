@@ -12,7 +12,7 @@ MODULE dbcsr_tensor_test
 
 
 
-   USE dbcsr_api, ONLY: dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_type_complex_8
+   USE dbcsr_api, ONLY: dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_real_8, dbcsr_type_complex_4
    USE dbcsr_tas_base, ONLY: dbcsr_tas_info
    USE dbcsr_tensor, ONLY: &
       dbcsr_t_copy, dbcsr_t_get_block, dbcsr_t_iterator_type, dbcsr_t_iterator_blocks_left, &
@@ -36,7 +36,7 @@ MODULE dbcsr_tensor_test
                                  dbcsr_t_get_info
    USE dbcsr_tensor_io, ONLY: &
       dbcsr_t_write_blocks, dbcsr_t_write_block_indices
-   USE dbcsr_kinds, ONLY: real_8, real_4, &
+   USE dbcsr_kinds, ONLY: real_4, real_8, &
                           default_string_length, &
                           int_8
    USE dbcsr_mpiwrap, ONLY: mp_environ, &
@@ -414,19 +414,19 @@ CONTAINS
             ENDIF
 
             IF (ndims == 2) THEN
-               CALL dbcsr_t_distribution_new(dist2, comm_nd, map1_ref, map2_ref, dist2_1, dist2_2)
+               CALL dbcsr_t_distribution_new(dist2, comm_nd, dist2_1, dist2_2)
                CALL dbcsr_t_create(tensor2, "Ref", dist2, map1_ref, map2_ref, &
                                    dbcsr_type_real_8, blk_size_1, blk_size_2)
                CALL dbcsr_t_setup_test_tensor(tensor2, comm_nd%mp_comm_2d, .TRUE., blk_ind_1, blk_ind_2)
             ENDIF
             IF (ndims == 3) THEN
-               CALL dbcsr_t_distribution_new(dist2, comm_nd, map1_ref, map2_ref, dist2_1, dist2_2, dist2_3)
+               CALL dbcsr_t_distribution_new(dist2, comm_nd, dist2_1, dist2_2, dist2_3)
                CALL dbcsr_t_create(tensor2, "Ref", dist2, map1_ref, map2_ref, &
                                    dbcsr_type_real_8, blk_size_1, blk_size_2, blk_size_3)
                CALL dbcsr_t_setup_test_tensor(tensor2, comm_nd%mp_comm_2d, .TRUE., blk_ind_1, blk_ind_2, blk_ind_3)
             ENDIF
             IF (ndims == 4) THEN
-               CALL dbcsr_t_distribution_new(dist2, comm_nd, map1_ref, map2_ref, dist2_1, dist2_2, dist2_3, dist2_4)
+               CALL dbcsr_t_distribution_new(dist2, comm_nd, dist2_1, dist2_2, dist2_3, dist2_4)
                CALL dbcsr_t_create(tensor2, "Ref", dist2, map1_ref, map2_ref, &
                                    dbcsr_type_real_8, blk_size_1, blk_size_2, blk_size_3, blk_size_4)
                CALL dbcsr_t_setup_test_tensor(tensor2, comm_nd%mp_comm_2d, .TRUE., blk_ind_1, blk_ind_2, blk_ind_3, blk_ind_4)
@@ -435,19 +435,19 @@ CONTAINS
             IF (verbose) CALL dbcsr_t_write_blocks(tensor2, io_unit, unit_nr)
 
             IF (ndims == 2) THEN
-               CALL dbcsr_t_distribution_new(dist1, comm_nd, map1, map2, dist1_1, dist1_2)
+               CALL dbcsr_t_distribution_new(dist1, comm_nd, dist1_1, dist1_2)
                CALL dbcsr_t_create(tensor1, tensor_name, dist1, map1, map2, &
                                    dbcsr_type_real_8, blk_size_1, blk_size_2)
                CALL dbcsr_t_setup_test_tensor(tensor1, comm_nd%mp_comm_2d, .TRUE., blk_ind_1, blk_ind_2)
             ENDIF
             IF (ndims == 3) THEN
-               CALL dbcsr_t_distribution_new(dist1, comm_nd, map1, map2, dist1_1, dist1_2, dist1_3)
+               CALL dbcsr_t_distribution_new(dist1, comm_nd, dist1_1, dist1_2, dist1_3)
                CALL dbcsr_t_create(tensor1, tensor_name, dist1, map1, map2, &
                                    dbcsr_type_real_8, blk_size_1, blk_size_2, blk_size_3)
                CALL dbcsr_t_setup_test_tensor(tensor1, comm_nd%mp_comm_2d, .TRUE., blk_ind_1, blk_ind_2, blk_ind_3)
             ENDIF
             IF (ndims == 4) THEN
-               CALL dbcsr_t_distribution_new(dist1, comm_nd, map1, map2, dist1_1, dist1_2, dist1_3, dist1_4)
+               CALL dbcsr_t_distribution_new(dist1, comm_nd, dist1_1, dist1_2, dist1_3, dist1_4)
                CALL dbcsr_t_create(tensor1, tensor_name, dist1, map1, map2, &
                                    dbcsr_type_real_8, blk_size_1, blk_size_2, blk_size_3, blk_size_4)
                CALL dbcsr_t_setup_test_tensor(tensor1, comm_nd%mp_comm_2d, .TRUE., blk_ind_1, blk_ind_2, blk_ind_3, blk_ind_4)

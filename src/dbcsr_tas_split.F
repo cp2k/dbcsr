@@ -25,7 +25,7 @@ MODULE dbcsr_tas_split
       mp_bcast, mp_cart_create, mp_comm_dup, mp_comm_free, mp_comm_split_direct, mp_dims_create, mp_environ
    USE dbcsr_kinds, ONLY: &
       real_8
-#include "../base/dbcsr_base_uses.f90"
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE
@@ -326,6 +326,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: own_comm
          !! whether split_info should own communicator
       LOGICAL, INTENT(IN), OPTIONAL                      :: opt_nsplit
+         !! whether nsplit should be optimized to process grid
 
       CHARACTER(LEN=*), PARAMETER                        :: routineN = 'dbcsr_tas_create_split', &
                                                             routineP = moduleN//':'//routineN

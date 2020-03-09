@@ -31,13 +31,13 @@ MODULE dbcsr_tensor_split
                                  dbcsr_t_distribution_type, &
                                  dbcsr_t_distribution, &
                                  dbcsr_t_distribution_destroy, &
-                                 dbcsr_t_distribution_new, &
+                                 dbcsr_t_distribution_new_expert, &
                                  dbcsr_t_clear, &
                                  dbcsr_t_finalize, &
                                  dbcsr_t_get_num_blocks, &
                                  dbcsr_t_blk_offsets, &
                                  dbcsr_t_blk_sizes
-   USE dbcsr_api, ONLY: dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_type_complex_8
+   USE dbcsr_api, ONLY: dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_real_8, dbcsr_type_complex_4
    USE dbcsr_kinds, ONLY: real_4, real_8
 
 #include "base/dbcsr_base_uses.f90"
@@ -203,20 +203,20 @@ CONTAINS
       CALL dbcsr_t_get_mapping_info(tensor_in%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
 
       IF (ndims_tensor(tensor_in) == 2) THEN
-         CALL dbcsr_t_distribution_new(dist_split, tensor_in%pgrid, map1_2d, map2_2d, &
-                                       nd_dist_split_1, nd_dist_split_2)
+         CALL dbcsr_t_distribution_new_expert(dist_split, tensor_in%pgrid, map1_2d, map2_2d, &
+                                              nd_dist_split_1, nd_dist_split_2)
          CALL dbcsr_t_create(tensor_out, tensor_in%name, dist_split, map1_2d, map2_2d, &
                              dbcsr_t_get_data_type(tensor_in), nd_blk_size_split_1, nd_blk_size_split_2)
       ENDIF
       IF (ndims_tensor(tensor_in) == 3) THEN
-         CALL dbcsr_t_distribution_new(dist_split, tensor_in%pgrid, map1_2d, map2_2d, &
-                                       nd_dist_split_1, nd_dist_split_2, nd_dist_split_3)
+         CALL dbcsr_t_distribution_new_expert(dist_split, tensor_in%pgrid, map1_2d, map2_2d, &
+                                              nd_dist_split_1, nd_dist_split_2, nd_dist_split_3)
          CALL dbcsr_t_create(tensor_out, tensor_in%name, dist_split, map1_2d, map2_2d, &
                              dbcsr_t_get_data_type(tensor_in), nd_blk_size_split_1, nd_blk_size_split_2, nd_blk_size_split_3)
       ENDIF
       IF (ndims_tensor(tensor_in) == 4) THEN
-         CALL dbcsr_t_distribution_new(dist_split, tensor_in%pgrid, map1_2d, map2_2d, &
-                                       nd_dist_split_1, nd_dist_split_2, nd_dist_split_3, nd_dist_split_4)
+         CALL dbcsr_t_distribution_new_expert(dist_split, tensor_in%pgrid, map1_2d, map2_2d, &
+                                              nd_dist_split_1, nd_dist_split_2, nd_dist_split_3, nd_dist_split_4)
          CALL dbcsr_t_create(tensor_out, tensor_in%name, dist_split, map1_2d, map2_2d, &
                              dbcsr_t_get_data_type(tensor_in), nd_blk_size_split_1, nd_blk_size_split_2, nd_blk_size_split_3,&
                                  & nd_blk_size_split_4)
@@ -1583,6 +1583,13 @@ CONTAINS
       CALL dbcsr_t_finalize(tensor_out)
 
       IF (move_data_prv) CALL dbcsr_t_clear(tensor_in)
+
+      ! transfer data for batched contraction
+      IF (tensor_in%matrix_rep%do_batched > 0) THEN
+         ALLOCATE (tensor_out%matrix_rep%mm_storage, SOURCE=tensor_in%matrix_rep%mm_storage)
+         tensor_out%matrix_rep%do_batched = tensor_in%matrix_rep%do_batched
+      ENDIF
+
    END SUBROUTINE
 
 END MODULE

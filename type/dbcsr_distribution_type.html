@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -95,15 +95,6 @@
 
           </ul>
         
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -130,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 2.0% of total for derived types.</p>Including implementation: 20 statements,  1.6% of total for derived types.">20 statements</a>
+    title="<p> 1.9% of total for derived types.</p>Including implementation: 20 statements,  1.6% of total for derived types.">20 statements</a>
      </li> 
      
      
@@ -213,9 +204,9 @@
       
       <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-num_threads">num_threads</a>
       
-      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-mp_env">mp_env</a>
+      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-mp_env%7E2">mp_env</a>
       
-      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-refcount%7E9">refcount</a>
+      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-refcount%7E11">refcount</a>
       
     </div>
   </div>
@@ -238,6 +229,14 @@
 
 
 
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_distribution_type.html#src">dbcsr_distribution_type</a>
+  </div>
+</div>
 
 
 
@@ -303,9 +302,9 @@
       
       <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-num_threads">num_threads</a>
       
-      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-mp_env">mp_env</a>
+      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-mp_env%7E2">mp_env</a>
       
-      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-refcount%7E9">refcount</a>
+      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-refcount%7E11">refcount</a>
       
     </div>
   </div>
@@ -328,6 +327,14 @@
 
 
 
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/dbcsr_distribution_type.html#src">dbcsr_distribution_type</a>
+  </div>
+</div>
 
 
 
@@ -623,7 +630,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_env"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td><span class="anchor" id="variable-mp_env%7E2"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
   
   <td>public</td>
   <td></td><td>::</td>
@@ -637,7 +644,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-refcount%7E9"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount%7E11"></span>integer,</td>
   
   <td>public</td>
   <td></td><td>::</td>
@@ -659,6 +666,52 @@
     
     
     
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span>   <span class="k">TYPE </span><span class="n">dbcsr_distribution_type</span>
+      <span class="c">!! Matrix distribution on the processor grid</span>
+
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                        <span class="kd">::</span> <span class="n">row_dist_block</span><span class="p">,</span> <span class="n">col_dist_block</span>
+         <span class="c">!! standard row distributions of matrix elements&#39; rows into processor grid rows</span>
+         <span class="c">!! standard column distributions of matrix elements&#39; columns into processor grid columns</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                        <span class="kd">::</span> <span class="n">local_rows</span><span class="p">,</span> <span class="n">local_cols</span>
+         <span class="c">!! list of rows local to the processor grid row</span>
+         <span class="c">!! list of columns local to the processor grid column</span>
+      <span class="kt">INTEGER</span>                                    <span class="kd">::</span> <span class="n">max_row_dist</span><span class="p">,</span> <span class="n">max_col_dist</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">other_l_rows</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
+         <span class="c">!! local rows for each process row</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">other_l_cols</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
+         <span class="c">!! local columns for each process column</span>
+      <span class="kt">LOGICAL</span>                                    <span class="kd">::</span> <span class="n">has_other_l_rows</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+         <span class="c">!! other_rows is defined</span>
+      <span class="kt">LOGICAL</span>                                    <span class="kd">::</span> <span class="n">has_other_l_cols</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+         <span class="c">!! other_cols is defined</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                        <span class="kd">::</span> <span class="n">global_row_map</span>
+         <span class="c">!! mapping from rows to sequence in local rows (global to local mapping)</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                        <span class="kd">::</span> <span class="n">global_col_map</span>
+         <span class="c">!! mapping from rows to sequence in local columns (global to local mapping)</span>
+      <span class="kt">LOGICAL</span>                                    <span class="kd">::</span> <span class="n">has_global_row_map</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+         <span class="c">!! whether other_row_map is defined</span>
+      <span class="kt">LOGICAL</span>                                    <span class="kd">::</span> <span class="n">has_global_col_map</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+         <span class="c">!! whether other_col_map is defined</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                        <span class="kd">::</span> <span class="n">row_map</span>
+         <span class="c">!! distribution map for rows</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                        <span class="kd">::</span> <span class="n">col_map</span>
+         <span class="c">!! distribution map for columns</span>
+      <span class="kt">LOGICAL</span>                                    <span class="kd">::</span> <span class="n">has_thread_dist</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                        <span class="kd">::</span> <span class="n">thread_dist</span>
+         <span class="c">!! thread distribution (of the rows)</span>
+      <span class="kt">INTEGER</span>                                    <span class="kd">::</span> <span class="n">num_threads</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+         <span class="c">!! number of threads in the environment</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">mp_env</span>
+         <span class="c">!! multiprocessor environment on which the distribution is based</span>
+      <span class="kt">INTEGER</span>                                    <span class="kd">::</span> <span class="n">refcount</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="c">!! reference counter</span>
+   <span class="k">END TYPE </span><span class="n">dbcsr_distribution_type</span>
+</pre></div>
+
+    </section>
+    
     
     </div>
   </div>
@@ -669,7 +722,7 @@
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -707,10 +760,6 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

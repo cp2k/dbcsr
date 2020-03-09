@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -95,15 +95,6 @@
 
           </ul>
         
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -130,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.4% of total for source files.">247 statements</a>
+    title=" 0.4% of total for source files.">263 statements</a>
      </li> 
      
      
@@ -393,310 +384,337 @@
 <a name="ln-126"></a>
 <a name="ln-127"></a>   <span class="c">! Max dimension for any block dimension</span>
 <a name="ln-128"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">max_kernel_dim</span> <span class="o">=</span> <span class="mi">80</span>
-<a name="ln-129"></a>
-<a name="ln-130"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_cfg</span><span class="p">,</span> <span class="n">has_MPI</span><span class="p">,</span> <span class="n">has_acc</span><span class="p">,</span> <span class="n">default_resize_factor</span>
-<a name="ln-131"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">mm_driver_blas</span><span class="p">,</span> <span class="n">mm_driver_matmul</span><span class="p">,</span> <span class="n">mm_driver_smm</span><span class="p">,</span> <span class="n">mm_driver_xsmm</span><span class="p">,</span> <span class="n">mm_driver_auto</span>
-<a name="ln-132"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_set_config</span><span class="p">,</span> <span class="n">dbcsr_get_default_config</span><span class="p">,</span> <span class="n">dbcsr_print_config</span>
-<a name="ln-133"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">cublas_handles</span>
-<a name="ln-134"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">hipblas_handles</span>
-<a name="ln-135"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">max_kernel_dim</span>
-<a name="ln-136"></a>
-<a name="ln-137"></a><span class="k">CONTAINS</span>
-<a name="ln-138"></a>
-<a name="ln-139"></a><span class="k">   SUBROUTINE </span><span class="n">dbcsr_set_config</span><span class="p">(</span> <span class="p">&amp;</span>
-<a name="ln-140"></a>      <span class="n">mm_driver</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-141"></a>      <span class="n">use_mpi_allocator</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-142"></a>      <span class="n">mm_stack_size</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-143"></a>      <span class="n">avg_elements_images</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-144"></a>      <span class="n">num_mult_images</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-145"></a>      <span class="n">nstacks</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-146"></a>      <span class="n">use_mpi_rma</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-147"></a>      <span class="n">num_layers_3D</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-148"></a>      <span class="n">use_comm_thread</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-149"></a>      <span class="n">comm_thread_load</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-150"></a>      <span class="n">mm_densification</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-151"></a>      <span class="n">multrec_limit</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-152"></a>      <span class="n">accdrv_priority_streams</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-153"></a>      <span class="n">accdrv_priority_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-154"></a>      <span class="n">accdrv_posterior_streams</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-155"></a>      <span class="n">accdrv_posterior_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-156"></a>      <span class="n">accdrv_avoid_after_busy</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-157"></a>      <span class="n">accdrv_min_flop_process</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-158"></a>      <span class="n">accdrv_stack_sort</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-159"></a>      <span class="n">accdrv_min_flop_sort</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-160"></a>      <span class="n">accdrv_do_inhomogenous</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-161"></a>      <span class="n">accdrv_binning_nbins</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-162"></a>      <span class="n">accdrv_binning_binsize</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-163"></a>      <span class="n">use_mempools_cpu</span><span class="p">)</span>
-<a name="ln-164"></a>
-<a name="ln-165"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>             <span class="kd">::</span> <span class="n">mm_driver</span>
-<a name="ln-166"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">use_mpi_allocator</span>
-<a name="ln-167"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">avg_elements_images</span>
-<a name="ln-168"></a>         <span class="c">!! Maximum number of elements for each image</span>
-<a name="ln-169"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">num_mult_images</span>
-<a name="ln-170"></a>         <span class="c">!! Multiplicative factor for number of virtual images</span>
-<a name="ln-171"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">nstacks</span>
-<a name="ln-172"></a>         <span class="c">!! Number of stacks to use</span>
-<a name="ln-173"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">mm_stack_size</span>
-<a name="ln-174"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">use_mpi_rma</span>
-<a name="ln-175"></a>         <span class="c">!! use_mpi_rma RMA algorithm</span>
-<a name="ln-176"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">num_layers_3D</span>
-<a name="ln-177"></a>         <span class="c">!! num_layers_3D 3D layers</span>
-<a name="ln-178"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">use_comm_thread</span>
-<a name="ln-179"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">comm_thread_load</span>
-<a name="ln-180"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">mm_densification</span>
-<a name="ln-181"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">multrec_limit</span><span class="p">,</span> <span class="n">accdrv_priority_streams</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-182"></a>                                       <span class="n">accdrv_priority_buffers</span><span class="p">,</span> <span class="n">accdrv_posterior_streams</span><span class="p">,</span> <span class="n">accdrv_posterior_buffers</span>
-<a name="ln-183"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">accdrv_avoid_after_busy</span>
-<a name="ln-184"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">accdrv_min_flop_process</span>
-<a name="ln-185"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">accdrv_stack_sort</span>
-<a name="ln-186"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">accdrv_min_flop_sort</span>
-<a name="ln-187"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">accdrv_do_inhomogenous</span>
-<a name="ln-188"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">accdrv_binning_nbins</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-189"></a>                                                            <span class="n">accdrv_binning_binsize</span>
-<a name="ln-190"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">use_mempools_cpu</span>
-<a name="ln-191"></a>
-<a name="ln-192"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">nthreads</span>
-<a name="ln-193"></a>
-<a name="ln-194"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mpi_allocator</span><span class="p">))</span> <span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span> <span class="o">=</span> <span class="n">use_mpi_allocator</span>
-<a name="ln-195"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">avg_elements_images</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">avg_elements_images</span> <span class="o">=</span> <span class="n">avg_elements_images</span>
-<a name="ln-196"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">num_mult_images</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_mult_images</span> <span class="o">=</span> <span class="n">num_mult_images</span>
-<a name="ln-197"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mpi_rma</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span> <span class="o">=</span> <span class="n">use_mpi_rma</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">has_MPI</span>
-<a name="ln-198"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">num_layers_3D</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span> <span class="o">=</span> <span class="n">num_layers_3D</span>
-<a name="ln-199"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_comm_thread</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_comm_thread</span> <span class="o">=</span> <span class="n">use_comm_thread</span>
-<a name="ln-200"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">multrec_limit</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">multrec_limit</span> <span class="o">=</span> <span class="n">multrec_limit</span>
-<a name="ln-201"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_densification</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_densification</span> <span class="o">=</span> <span class="n">mm_densification</span>
-<a name="ln-202"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_streams</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_streams</span> <span class="o">=</span> <span class="n">accdrv_priority_streams</span>
-<a name="ln-203"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_buffers</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span> <span class="o">=</span> <span class="n">accdrv_priority_buffers</span>
-<a name="ln-204"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_streams</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_streams</span> <span class="o">=</span> <span class="n">accdrv_posterior_streams</span>
-<a name="ln-205"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_buffers</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_buffers</span> <span class="o">=</span> <span class="n">accdrv_posterior_buffers</span>
-<a name="ln-206"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_avoid_after_busy</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span> <span class="o">=</span> <span class="n">accdrv_avoid_after_busy</span>
-<a name="ln-207"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_min_flop_process</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span> <span class="o">=</span> <span class="n">accdrv_min_flop_process</span>
-<a name="ln-208"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_stack_sort</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span> <span class="o">=</span> <span class="n">accdrv_stack_sort</span>
-<a name="ln-209"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_min_flop_sort</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span> <span class="o">=</span> <span class="n">accdrv_min_flop_sort</span>
-<a name="ln-210"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_do_inhomogenous</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_do_inhomogenous</span> <span class="o">=</span> <span class="n">accdrv_do_inhomogenous</span>
-<a name="ln-211"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_binning_nbins</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_nbins</span> <span class="o">=</span> <span class="n">accdrv_binning_nbins</span>
-<a name="ln-212"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_binning_binsize</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_binsize</span> <span class="o">=</span> <span class="n">accdrv_binning_binsize</span>
-<a name="ln-213"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mempools_cpu</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span> <span class="o">=</span> <span class="n">use_mempools_cpu</span>
-<a name="ln-214"></a>
-<a name="ln-215"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">comm_thread_load</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-216"></a><span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span> <span class="o">=</span> <span class="n">comm_thread_load</span>
-<a name="ln-217"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">comm_thread_load</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-218"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-219"></a><span class="k">               </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span> <span class="o">=</span> <span class="mi">100</span>
-<a name="ln-220"></a>            <span class="k">ELSE</span>
-<a name="ln-221"></a><span class="k">               </span><span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-222"></a><span class="c">!$             nthreads = OMP_GET_MAX_THREADS()</span>
-<a name="ln-223"></a>               <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span> <span class="o">-</span> <span class="p">(</span><span class="mi">30</span><span class="o">*</span><span class="n">nthreads</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
-<a name="ln-224"></a>            <span class="n">ENDIF</span>
-<a name="ln-225"></a>         <span class="n">ENDIF</span>
-<a name="ln-226"></a>      <span class="n">ENDIF</span>
-<a name="ln-227"></a>
-<a name="ln-228"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nstacks</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-229"></a><span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="o">=</span> <span class="n">nstacks</span>
-<a name="ln-230"></a>         <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span> <span class="o">=</span> <span class="n">nstacks</span>
-<a name="ln-231"></a>         <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span> <span class="o">=</span> <span class="n">nstacks</span>
-<a name="ln-232"></a>      <span class="n">ENDIF</span>
-<a name="ln-233"></a>
-<a name="ln-234"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_stack_size</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-235"></a><span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span> <span class="o">=</span> <span class="n">mm_stack_size</span>
-<a name="ln-236"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">mm_stack_size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-237"></a>            <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span> <span class="o">=</span> <span class="n">mm_stack_default_size</span>
-<a name="ln-238"></a>      <span class="n">ENDIF</span>
-<a name="ln-239"></a>
-<a name="ln-240"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-241"></a><span class="k">         IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_auto</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-242"></a><span class="k">            </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_default_driver</span>
-<a name="ln-243"></a>         <span class="k">ELSE IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_blas</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-244"></a><span class="k">            </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_driver_blas</span> <span class="c">! always available</span>
-<a name="ln-245"></a>         <span class="k">ELSE IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_matmul</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-246"></a><span class="k">            </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_driver_matmul</span> <span class="c">! always available</span>
-<a name="ln-247"></a>         <span class="k">ELSE IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_smm</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-248"></a><span class="k">            IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">has_smm</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Support for libsmm not compiled in.&quot;</span><span class="p">)</span>
-<a name="ln-249"></a>            <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_driver_smm</span>
-<a name="ln-250"></a>         <span class="k">ELSE IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_xsmm</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-251"></a><span class="k">            IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">has_xsmm</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Support for libxsmm not compiled in.&quot;</span><span class="p">)</span>
-<a name="ln-252"></a>            <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_driver_xsmm</span>
-<a name="ln-253"></a>         <span class="k">ELSE</span>
-<a name="ln-254"></a><span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unkown MM driver: &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span>
-<a name="ln-255"></a>         <span class="n">ENDIF</span>
-<a name="ln-256"></a>      <span class="n">ENDIF</span>
-<a name="ln-257"></a>
-<a name="ln-258"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_set_config</span>
-<a name="ln-259"></a>
-<a name="ln-260"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_get_default_config</span><span class="p">(</span> <span class="p">&amp;</span>
-<a name="ln-261"></a>      <span class="n">use_mpi_allocator</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-262"></a>      <span class="n">mm_stack_size</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-263"></a>      <span class="n">avg_elements_images</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-264"></a>      <span class="n">num_mult_images</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-265"></a>      <span class="n">nstacks</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-266"></a>      <span class="n">use_mpi_rma</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-267"></a>      <span class="n">num_layers_3D</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-268"></a>      <span class="n">use_comm_thread</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-269"></a>      <span class="n">comm_thread_load</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-270"></a>      <span class="n">mm_densification</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-271"></a>      <span class="n">multrec_limit</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-272"></a>      <span class="n">accdrv_priority_streams</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-273"></a>      <span class="n">accdrv_priority_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-274"></a>      <span class="n">accdrv_posterior_streams</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-275"></a>      <span class="n">accdrv_posterior_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-276"></a>      <span class="n">accdrv_avoid_after_busy</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-277"></a>      <span class="n">accdrv_min_flop_process</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-278"></a>      <span class="n">accdrv_stack_sort</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-279"></a>      <span class="n">accdrv_min_flop_sort</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-280"></a>      <span class="n">accdrv_do_inhomogenous</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-281"></a>      <span class="n">accdrv_binning_nbins</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-282"></a>      <span class="n">accdrv_binning_binsize</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-283"></a>      <span class="n">use_mempools_cpu</span><span class="p">)</span>
-<a name="ln-284"></a><span class="c">!</span>
-<a name="ln-285"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">use_mpi_allocator</span>
-<a name="ln-286"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">mm_stack_size</span><span class="p">,</span> <span class="n">avg_elements_images</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-287"></a>                                                            <span class="n">num_mult_images</span><span class="p">,</span> <span class="n">nstacks</span>
-<a name="ln-288"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">use_mpi_rma</span>
-<a name="ln-289"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">num_layers_3D</span>
-<a name="ln-290"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">use_comm_thread</span>
-<a name="ln-291"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">comm_thread_load</span>
-<a name="ln-292"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">mm_densification</span>
-<a name="ln-293"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">multrec_limit</span><span class="p">,</span> <span class="n">accdrv_priority_streams</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-294"></a>                                        <span class="n">accdrv_priority_buffers</span><span class="p">,</span> <span class="n">accdrv_posterior_streams</span><span class="p">,</span> <span class="n">accdrv_posterior_buffers</span>
-<a name="ln-295"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">accdrv_avoid_after_busy</span>
-<a name="ln-296"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">accdrv_min_flop_process</span>
-<a name="ln-297"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">accdrv_stack_sort</span>
-<a name="ln-298"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">accdrv_min_flop_sort</span>
-<a name="ln-299"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">accdrv_do_inhomogenous</span>
-<a name="ln-300"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">accdrv_binning_nbins</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-301"></a>                                                            <span class="n">accdrv_binning_binsize</span>
-<a name="ln-302"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">use_mempools_cpu</span>
-<a name="ln-303"></a>
-<a name="ln-304"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_config_type</span><span class="p">)</span>                            <span class="kd">::</span> <span class="n">default_cfg</span>
-<a name="ln-305"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_allocation_type</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">default_data_allocation</span>
-<a name="ln-306"></a>
-<a name="ln-307"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mpi_allocator</span><span class="p">))</span> <span class="n">use_mpi_allocator</span> <span class="o">=</span> <span class="n">default_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span>
-<a name="ln-308"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_stack_size</span><span class="p">))</span> <span class="n">mm_stack_size</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span>
-<a name="ln-309"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">avg_elements_images</span><span class="p">))</span> <span class="n">avg_elements_images</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">avg_elements_images</span>
-<a name="ln-310"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">num_mult_images</span><span class="p">))</span> <span class="n">num_mult_images</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">num_mult_images</span>
-<a name="ln-311"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mpi_rma</span><span class="p">))</span> <span class="n">use_mpi_rma</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span>
-<a name="ln-312"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">num_layers_3D</span><span class="p">))</span> <span class="n">num_layers_3D</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span>
-<a name="ln-313"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_comm_thread</span><span class="p">))</span> <span class="n">use_comm_thread</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">use_comm_thread</span>
-<a name="ln-314"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">comm_thread_load</span><span class="p">))</span> <span class="n">comm_thread_load</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span>
-<a name="ln-315"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_densification</span><span class="p">))</span> <span class="n">mm_densification</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">mm_densification</span>
-<a name="ln-316"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">multrec_limit</span><span class="p">))</span> <span class="n">multrec_limit</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">multrec_limit</span>
-<a name="ln-317"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_streams</span><span class="p">))</span> <span class="n">accdrv_priority_streams</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_priority_streams</span>
-<a name="ln-318"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_buffers</span><span class="p">))</span> <span class="n">accdrv_priority_buffers</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span>
-<a name="ln-319"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_streams</span><span class="p">))</span> <span class="n">accdrv_posterior_streams</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_streams</span>
-<a name="ln-320"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_buffers</span><span class="p">))</span> <span class="n">accdrv_posterior_buffers</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_buffers</span>
-<a name="ln-321"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_avoid_after_busy</span><span class="p">))</span> <span class="n">accdrv_avoid_after_busy</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span>
-<a name="ln-322"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_min_flop_process</span><span class="p">))</span> <span class="n">accdrv_min_flop_process</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span>
-<a name="ln-323"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_stack_sort</span><span class="p">))</span> <span class="n">accdrv_stack_sort</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span>
-<a name="ln-324"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_min_flop_sort</span><span class="p">))</span> <span class="n">accdrv_min_flop_sort</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span>
-<a name="ln-325"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_do_inhomogenous</span><span class="p">))</span> <span class="n">accdrv_do_inhomogenous</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_do_inhomogenous</span>
-<a name="ln-326"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_binning_nbins</span><span class="p">))</span> <span class="n">accdrv_binning_nbins</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_binning_nbins</span>
-<a name="ln-327"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_binning_binsize</span><span class="p">))</span> <span class="n">accdrv_binning_binsize</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_binning_binsize</span>
-<a name="ln-328"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mempools_cpu</span><span class="p">))</span> <span class="n">use_mempools_cpu</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span>
-<a name="ln-329"></a>
-<a name="ln-330"></a>      <span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">default_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="o">==</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">nn_stacks</span><span class="p">)</span>
-<a name="ln-331"></a>      <span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">default_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="o">==</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">nk_stacks</span><span class="p">)</span>
-<a name="ln-332"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nstacks</span><span class="p">))</span> <span class="n">nstacks</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">nm_stacks</span>
+<a name="ln-129"></a>   <span class="c">! Accelerator active device, default to -1, i.e. no device</span>
+<a name="ln-130"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">default_accdrv_active_device_id</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-131"></a>   <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">accdrv_active_device_id</span> <span class="o">=</span> <span class="n">default_accdrv_active_device_id</span>
+<a name="ln-132"></a>
+<a name="ln-133"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_cfg</span><span class="p">,</span> <span class="n">has_MPI</span><span class="p">,</span> <span class="n">has_acc</span><span class="p">,</span> <span class="n">default_resize_factor</span>
+<a name="ln-134"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">mm_driver_blas</span><span class="p">,</span> <span class="n">mm_driver_matmul</span><span class="p">,</span> <span class="n">mm_driver_smm</span><span class="p">,</span> <span class="n">mm_driver_xsmm</span><span class="p">,</span> <span class="n">mm_driver_auto</span>
+<a name="ln-135"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_set_config</span><span class="p">,</span> <span class="n">dbcsr_get_default_config</span><span class="p">,</span> <span class="n">dbcsr_print_config</span>
+<a name="ln-136"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">cublas_handles</span>
+<a name="ln-137"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">hipblas_handles</span>
+<a name="ln-138"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">max_kernel_dim</span>
+<a name="ln-139"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">get_accdrv_active_device_id</span><span class="p">,</span> <span class="n">set_accdrv_active_device_id</span><span class="p">,</span> <span class="n">reset_accdrv_active_device_id</span>
+<a name="ln-140"></a>
+<a name="ln-141"></a><span class="k">CONTAINS</span>
+<a name="ln-142"></a>
+<a name="ln-143"></a><span class="k">   SUBROUTINE </span><span class="n">dbcsr_set_config</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-144"></a>      <span class="n">mm_driver</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-145"></a>      <span class="n">use_mpi_allocator</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-146"></a>      <span class="n">mm_stack_size</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-147"></a>      <span class="n">avg_elements_images</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-148"></a>      <span class="n">num_mult_images</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-149"></a>      <span class="n">nstacks</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-150"></a>      <span class="n">use_mpi_rma</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-151"></a>      <span class="n">num_layers_3D</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-152"></a>      <span class="n">use_comm_thread</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-153"></a>      <span class="n">comm_thread_load</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-154"></a>      <span class="n">mm_densification</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-155"></a>      <span class="n">multrec_limit</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-156"></a>      <span class="n">accdrv_priority_streams</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-157"></a>      <span class="n">accdrv_priority_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-158"></a>      <span class="n">accdrv_posterior_streams</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-159"></a>      <span class="n">accdrv_posterior_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-160"></a>      <span class="n">accdrv_avoid_after_busy</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-161"></a>      <span class="n">accdrv_min_flop_process</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-162"></a>      <span class="n">accdrv_stack_sort</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-163"></a>      <span class="n">accdrv_min_flop_sort</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-164"></a>      <span class="n">accdrv_do_inhomogenous</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-165"></a>      <span class="n">accdrv_binning_nbins</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-166"></a>      <span class="n">accdrv_binning_binsize</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-167"></a>      <span class="n">use_mempools_cpu</span><span class="p">)</span>
+<a name="ln-168"></a>
+<a name="ln-169"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>             <span class="kd">::</span> <span class="n">mm_driver</span>
+<a name="ln-170"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">use_mpi_allocator</span>
+<a name="ln-171"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">avg_elements_images</span>
+<a name="ln-172"></a>         <span class="c">!! Maximum number of elements for each image</span>
+<a name="ln-173"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">num_mult_images</span>
+<a name="ln-174"></a>         <span class="c">!! Multiplicative factor for number of virtual images</span>
+<a name="ln-175"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">nstacks</span>
+<a name="ln-176"></a>         <span class="c">!! Number of stacks to use</span>
+<a name="ln-177"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">mm_stack_size</span>
+<a name="ln-178"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">use_mpi_rma</span>
+<a name="ln-179"></a>         <span class="c">!! use_mpi_rma RMA algorithm</span>
+<a name="ln-180"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">num_layers_3D</span>
+<a name="ln-181"></a>         <span class="c">!! num_layers_3D 3D layers</span>
+<a name="ln-182"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">use_comm_thread</span>
+<a name="ln-183"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">comm_thread_load</span>
+<a name="ln-184"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">mm_densification</span>
+<a name="ln-185"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">multrec_limit</span><span class="p">,</span> <span class="n">accdrv_priority_streams</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-186"></a>                                       <span class="n">accdrv_priority_buffers</span><span class="p">,</span> <span class="n">accdrv_posterior_streams</span><span class="p">,</span> <span class="n">accdrv_posterior_buffers</span>
+<a name="ln-187"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">accdrv_avoid_after_busy</span>
+<a name="ln-188"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">accdrv_min_flop_process</span>
+<a name="ln-189"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">accdrv_stack_sort</span>
+<a name="ln-190"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">accdrv_min_flop_sort</span>
+<a name="ln-191"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">accdrv_do_inhomogenous</span>
+<a name="ln-192"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">accdrv_binning_nbins</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-193"></a>                                                            <span class="n">accdrv_binning_binsize</span>
+<a name="ln-194"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">use_mempools_cpu</span>
+<a name="ln-195"></a>
+<a name="ln-196"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">nthreads</span>
+<a name="ln-197"></a>
+<a name="ln-198"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mpi_allocator</span><span class="p">))</span> <span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span> <span class="o">=</span> <span class="n">use_mpi_allocator</span>
+<a name="ln-199"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">avg_elements_images</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">avg_elements_images</span> <span class="o">=</span> <span class="n">avg_elements_images</span>
+<a name="ln-200"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">num_mult_images</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_mult_images</span> <span class="o">=</span> <span class="n">num_mult_images</span>
+<a name="ln-201"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mpi_rma</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span> <span class="o">=</span> <span class="n">use_mpi_rma</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">has_MPI</span>
+<a name="ln-202"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">num_layers_3D</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span> <span class="o">=</span> <span class="n">num_layers_3D</span>
+<a name="ln-203"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_comm_thread</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_comm_thread</span> <span class="o">=</span> <span class="n">use_comm_thread</span>
+<a name="ln-204"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">multrec_limit</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">multrec_limit</span> <span class="o">=</span> <span class="n">multrec_limit</span>
+<a name="ln-205"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_densification</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_densification</span> <span class="o">=</span> <span class="n">mm_densification</span>
+<a name="ln-206"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_streams</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_streams</span> <span class="o">=</span> <span class="n">accdrv_priority_streams</span>
+<a name="ln-207"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_buffers</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span> <span class="o">=</span> <span class="n">accdrv_priority_buffers</span>
+<a name="ln-208"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_streams</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_streams</span> <span class="o">=</span> <span class="n">accdrv_posterior_streams</span>
+<a name="ln-209"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_buffers</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_buffers</span> <span class="o">=</span> <span class="n">accdrv_posterior_buffers</span>
+<a name="ln-210"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_avoid_after_busy</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span> <span class="o">=</span> <span class="n">accdrv_avoid_after_busy</span>
+<a name="ln-211"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_min_flop_process</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span> <span class="o">=</span> <span class="n">accdrv_min_flop_process</span>
+<a name="ln-212"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_stack_sort</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span> <span class="o">=</span> <span class="n">accdrv_stack_sort</span>
+<a name="ln-213"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_min_flop_sort</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span> <span class="o">=</span> <span class="n">accdrv_min_flop_sort</span>
+<a name="ln-214"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_do_inhomogenous</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_do_inhomogenous</span> <span class="o">=</span> <span class="n">accdrv_do_inhomogenous</span>
+<a name="ln-215"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_binning_nbins</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_nbins</span> <span class="o">=</span> <span class="n">accdrv_binning_nbins</span>
+<a name="ln-216"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_binning_binsize</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_binsize</span> <span class="o">=</span> <span class="n">accdrv_binning_binsize</span>
+<a name="ln-217"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mempools_cpu</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span> <span class="o">=</span> <span class="n">use_mempools_cpu</span>
+<a name="ln-218"></a>
+<a name="ln-219"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">comm_thread_load</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-220"></a><span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span> <span class="o">=</span> <span class="n">comm_thread_load</span>
+<a name="ln-221"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">comm_thread_load</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-222"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-223"></a><span class="k">               </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span> <span class="o">=</span> <span class="mi">100</span>
+<a name="ln-224"></a>            <span class="k">ELSE</span>
+<a name="ln-225"></a><span class="k">               </span><span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-226"></a><span class="c">!$             nthreads = OMP_GET_MAX_THREADS()</span>
+<a name="ln-227"></a>               <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span> <span class="o">-</span> <span class="p">(</span><span class="mi">30</span><span class="o">*</span><span class="n">nthreads</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
+<a name="ln-228"></a>            <span class="n">ENDIF</span>
+<a name="ln-229"></a>         <span class="n">ENDIF</span>
+<a name="ln-230"></a>      <span class="n">ENDIF</span>
+<a name="ln-231"></a>
+<a name="ln-232"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nstacks</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-233"></a><span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="o">=</span> <span class="n">nstacks</span>
+<a name="ln-234"></a>         <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span> <span class="o">=</span> <span class="n">nstacks</span>
+<a name="ln-235"></a>         <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span> <span class="o">=</span> <span class="n">nstacks</span>
+<a name="ln-236"></a>      <span class="n">ENDIF</span>
+<a name="ln-237"></a>
+<a name="ln-238"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_stack_size</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-239"></a><span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span> <span class="o">=</span> <span class="n">mm_stack_size</span>
+<a name="ln-240"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">mm_stack_size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-241"></a>            <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span> <span class="o">=</span> <span class="n">mm_stack_default_size</span>
+<a name="ln-242"></a>      <span class="n">ENDIF</span>
+<a name="ln-243"></a>
+<a name="ln-244"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-245"></a><span class="k">         IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_auto</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-246"></a><span class="k">            </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_default_driver</span>
+<a name="ln-247"></a>         <span class="k">ELSE IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_blas</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-248"></a><span class="k">            </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_driver_blas</span> <span class="c">! always available</span>
+<a name="ln-249"></a>         <span class="k">ELSE IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_matmul</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-250"></a><span class="k">            </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_driver_matmul</span> <span class="c">! always available</span>
+<a name="ln-251"></a>         <span class="k">ELSE IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_smm</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-252"></a><span class="k">            IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">has_smm</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Support for libsmm not compiled in.&quot;</span><span class="p">)</span>
+<a name="ln-253"></a>            <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_driver_smm</span>
+<a name="ln-254"></a>         <span class="k">ELSE IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_xsmm</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-255"></a><span class="k">            IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">has_xsmm</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Support for libxsmm not compiled in.&quot;</span><span class="p">)</span>
+<a name="ln-256"></a>            <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_driver_xsmm</span>
+<a name="ln-257"></a>         <span class="k">ELSE</span>
+<a name="ln-258"></a><span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unkown MM driver: &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span>
+<a name="ln-259"></a>         <span class="n">ENDIF</span>
+<a name="ln-260"></a>      <span class="n">ENDIF</span>
+<a name="ln-261"></a>
+<a name="ln-262"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_set_config</span>
+<a name="ln-263"></a>
+<a name="ln-264"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_get_default_config</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-265"></a>      <span class="n">use_mpi_allocator</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-266"></a>      <span class="n">mm_stack_size</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-267"></a>      <span class="n">avg_elements_images</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-268"></a>      <span class="n">num_mult_images</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-269"></a>      <span class="n">nstacks</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-270"></a>      <span class="n">use_mpi_rma</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-271"></a>      <span class="n">num_layers_3D</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-272"></a>      <span class="n">use_comm_thread</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-273"></a>      <span class="n">comm_thread_load</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-274"></a>      <span class="n">mm_densification</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-275"></a>      <span class="n">multrec_limit</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-276"></a>      <span class="n">accdrv_priority_streams</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-277"></a>      <span class="n">accdrv_priority_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-278"></a>      <span class="n">accdrv_posterior_streams</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-279"></a>      <span class="n">accdrv_posterior_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-280"></a>      <span class="n">accdrv_avoid_after_busy</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-281"></a>      <span class="n">accdrv_min_flop_process</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-282"></a>      <span class="n">accdrv_stack_sort</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-283"></a>      <span class="n">accdrv_min_flop_sort</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-284"></a>      <span class="n">accdrv_do_inhomogenous</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-285"></a>      <span class="n">accdrv_binning_nbins</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-286"></a>      <span class="n">accdrv_binning_binsize</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-287"></a>      <span class="n">use_mempools_cpu</span><span class="p">)</span>
+<a name="ln-288"></a><span class="c">!</span>
+<a name="ln-289"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">use_mpi_allocator</span>
+<a name="ln-290"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">mm_stack_size</span><span class="p">,</span> <span class="n">avg_elements_images</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-291"></a>                                                            <span class="n">num_mult_images</span><span class="p">,</span> <span class="n">nstacks</span>
+<a name="ln-292"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">use_mpi_rma</span>
+<a name="ln-293"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">num_layers_3D</span>
+<a name="ln-294"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">use_comm_thread</span>
+<a name="ln-295"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">comm_thread_load</span>
+<a name="ln-296"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">mm_densification</span>
+<a name="ln-297"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">multrec_limit</span><span class="p">,</span> <span class="n">accdrv_priority_streams</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-298"></a>                                        <span class="n">accdrv_priority_buffers</span><span class="p">,</span> <span class="n">accdrv_posterior_streams</span><span class="p">,</span> <span class="n">accdrv_posterior_buffers</span>
+<a name="ln-299"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">accdrv_avoid_after_busy</span>
+<a name="ln-300"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">accdrv_min_flop_process</span>
+<a name="ln-301"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">accdrv_stack_sort</span>
+<a name="ln-302"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">accdrv_min_flop_sort</span>
+<a name="ln-303"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">accdrv_do_inhomogenous</span>
+<a name="ln-304"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">accdrv_binning_nbins</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-305"></a>                                                            <span class="n">accdrv_binning_binsize</span>
+<a name="ln-306"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">use_mempools_cpu</span>
+<a name="ln-307"></a>
+<a name="ln-308"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_config_type</span><span class="p">)</span>                            <span class="kd">::</span> <span class="n">default_cfg</span>
+<a name="ln-309"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_allocation_type</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">default_data_allocation</span>
+<a name="ln-310"></a>
+<a name="ln-311"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mpi_allocator</span><span class="p">))</span> <span class="n">use_mpi_allocator</span> <span class="o">=</span> <span class="n">default_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span>
+<a name="ln-312"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_stack_size</span><span class="p">))</span> <span class="n">mm_stack_size</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span>
+<a name="ln-313"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">avg_elements_images</span><span class="p">))</span> <span class="n">avg_elements_images</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">avg_elements_images</span>
+<a name="ln-314"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">num_mult_images</span><span class="p">))</span> <span class="n">num_mult_images</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">num_mult_images</span>
+<a name="ln-315"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mpi_rma</span><span class="p">))</span> <span class="n">use_mpi_rma</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span>
+<a name="ln-316"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">num_layers_3D</span><span class="p">))</span> <span class="n">num_layers_3D</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span>
+<a name="ln-317"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_comm_thread</span><span class="p">))</span> <span class="n">use_comm_thread</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">use_comm_thread</span>
+<a name="ln-318"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">comm_thread_load</span><span class="p">))</span> <span class="n">comm_thread_load</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span>
+<a name="ln-319"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_densification</span><span class="p">))</span> <span class="n">mm_densification</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">mm_densification</span>
+<a name="ln-320"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">multrec_limit</span><span class="p">))</span> <span class="n">multrec_limit</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">multrec_limit</span>
+<a name="ln-321"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_streams</span><span class="p">))</span> <span class="n">accdrv_priority_streams</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_priority_streams</span>
+<a name="ln-322"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_buffers</span><span class="p">))</span> <span class="n">accdrv_priority_buffers</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span>
+<a name="ln-323"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_streams</span><span class="p">))</span> <span class="n">accdrv_posterior_streams</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_streams</span>
+<a name="ln-324"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_buffers</span><span class="p">))</span> <span class="n">accdrv_posterior_buffers</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_buffers</span>
+<a name="ln-325"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_avoid_after_busy</span><span class="p">))</span> <span class="n">accdrv_avoid_after_busy</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span>
+<a name="ln-326"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_min_flop_process</span><span class="p">))</span> <span class="n">accdrv_min_flop_process</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span>
+<a name="ln-327"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_stack_sort</span><span class="p">))</span> <span class="n">accdrv_stack_sort</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span>
+<a name="ln-328"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_min_flop_sort</span><span class="p">))</span> <span class="n">accdrv_min_flop_sort</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span>
+<a name="ln-329"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_do_inhomogenous</span><span class="p">))</span> <span class="n">accdrv_do_inhomogenous</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_do_inhomogenous</span>
+<a name="ln-330"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_binning_nbins</span><span class="p">))</span> <span class="n">accdrv_binning_nbins</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_binning_nbins</span>
+<a name="ln-331"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_binning_binsize</span><span class="p">))</span> <span class="n">accdrv_binning_binsize</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_binning_binsize</span>
+<a name="ln-332"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mempools_cpu</span><span class="p">))</span> <span class="n">use_mempools_cpu</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span>
 <a name="ln-333"></a>
-<a name="ln-334"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_default_config</span>
-<a name="ln-335"></a>
-<a name="ln-336"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_print_config</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span>
-<a name="ln-337"></a>      <span class="c">!! Prints configuration for DBCSR</span>
-<a name="ln-338"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">unit_nr</span>
+<a name="ln-334"></a>      <span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">default_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="o">==</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">nn_stacks</span><span class="p">)</span>
+<a name="ln-335"></a>      <span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">default_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="o">==</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">nk_stacks</span><span class="p">)</span>
+<a name="ln-336"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nstacks</span><span class="p">))</span> <span class="n">nstacks</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">nm_stacks</span>
+<a name="ln-337"></a>
+<a name="ln-338"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_default_config</span>
 <a name="ln-339"></a>
-<a name="ln-340"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">mm_name</span>
-<a name="ln-341"></a>
-<a name="ln-342"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">unit_nr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-343"></a><span class="k">         SELECT CASE</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span><span class="p">)</span>
-<a name="ln-344"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">mm_driver_blas</span><span class="p">);</span> <span class="n">mm_name</span> <span class="o">=</span> <span class="n">mm_name_blas</span>
-<a name="ln-345"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">mm_driver_matmul</span><span class="p">);</span> <span class="n">mm_name</span> <span class="o">=</span> <span class="n">mm_name_matmul</span>
-<a name="ln-346"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">mm_driver_smm</span><span class="p">);</span> <span class="n">mm_name</span> <span class="o">=</span> <span class="n">mm_name_smm</span>
-<a name="ln-347"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">mm_driver_xsmm</span><span class="p">);</span> <span class="n">mm_name</span> <span class="o">=</span> <span class="n">mm_name_xsmm</span>
-<a name="ln-348"></a>         <span class="k">CASE </span><span class="n">DEFAULT</span>
-<a name="ln-349"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unkown MM driver&quot;</span><span class="p">)</span>
-<a name="ln-350"></a>         <span class="k">END SELECT</span>
-<a name="ln-351"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T41,A40)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-352"></a>            <span class="s2">&quot;DBCSR| CPU Multiplication driver&quot;</span><span class="p">,</span> <span class="nb">ADJUSTR</span><span class="p">(</span><span class="n">mm_name</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">40</span><span class="p">))</span>
-<a name="ln-353"></a>
-<a name="ln-354"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-355"></a>            <span class="s2">&quot;DBCSR| Multrec recursion limit&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">multrec_limit</span>
-<a name="ln-356"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-357"></a>            <span class="s2">&quot;DBCSR| Multiplication stack size&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span>
-<a name="ln-358"></a>
-<a name="ln-359"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">avg_elements_images</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-360"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-361"></a>               <span class="s2">&quot;DBCSR| Average elements for images&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">avg_elements_images</span>
-<a name="ln-362"></a>         <span class="k">ELSE</span>
-<a name="ln-363"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T72,A)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-364"></a>               <span class="s2">&quot;DBCSR| Maximum elements for images&quot;</span><span class="p">,</span> <span class="s2">&quot;UNLIMITED&quot;</span>
-<a name="ln-365"></a>         <span class="n">ENDIF</span>
-<a name="ln-366"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-367"></a>            <span class="s2">&quot;DBCSR| Multiplicative factor virtual images&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_mult_images</span>
-<a name="ln-368"></a>
-<a name="ln-369"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-370"></a>            <span class="s2">&quot;DBCSR| Use multiplication densification&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_densification</span>
-<a name="ln-371"></a>
-<a name="ln-372"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="o">==</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="o">==</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-373"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-374"></a>               <span class="s2">&quot;DBCSR| Multiplication size stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span>
-<a name="ln-375"></a>         <span class="k">ELSE</span>
-<a name="ln-376"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-377"></a>               <span class="s2">&quot;DBCSR| Multiplication size m stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span>
-<a name="ln-378"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-379"></a>               <span class="s2">&quot;DBCSR| Multiplication size n stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span>
-<a name="ln-380"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-381"></a>               <span class="s2">&quot;DBCSR| Multiplication size k stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span>
-<a name="ln-382"></a>         <span class="n">ENDIF</span>
-<a name="ln-383"></a>
-<a name="ln-384"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">has_mpi</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-385"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-386"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T75,A)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-387"></a>                  <span class="s2">&quot;DBCSR| Number of 3D layers&quot;</span><span class="p">,</span> <span class="s2">&quot;SINGLE&quot;</span>
-<a name="ln-388"></a>            <span class="k">ELSE</span>
-<a name="ln-389"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-390"></a>                  <span class="s2">&quot;DBCSR| Number of 3D layers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span>
-<a name="ln-391"></a>            <span class="n">ENDIF</span>
-<a name="ln-392"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-393"></a>               <span class="s2">&quot;DBCSR| Use MPI memory allocation&quot;</span><span class="p">,</span> <span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span>
-<a name="ln-394"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-395"></a>               <span class="s2">&quot;DBCSR| Use RMA algorithm&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span>
+<a name="ln-340"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_print_config</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span>
+<a name="ln-341"></a>      <span class="c">!! Prints configuration for DBCSR</span>
+<a name="ln-342"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">unit_nr</span>
+<a name="ln-343"></a>
+<a name="ln-344"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">mm_name</span>
+<a name="ln-345"></a>
+<a name="ln-346"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">unit_nr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-347"></a><span class="k">         SELECT CASE</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span><span class="p">)</span>
+<a name="ln-348"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">mm_driver_blas</span><span class="p">);</span> <span class="n">mm_name</span> <span class="o">=</span> <span class="n">mm_name_blas</span>
+<a name="ln-349"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">mm_driver_matmul</span><span class="p">);</span> <span class="n">mm_name</span> <span class="o">=</span> <span class="n">mm_name_matmul</span>
+<a name="ln-350"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">mm_driver_smm</span><span class="p">);</span> <span class="n">mm_name</span> <span class="o">=</span> <span class="n">mm_name_smm</span>
+<a name="ln-351"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">mm_driver_xsmm</span><span class="p">);</span> <span class="n">mm_name</span> <span class="o">=</span> <span class="n">mm_name_xsmm</span>
+<a name="ln-352"></a>         <span class="k">CASE </span><span class="n">DEFAULT</span>
+<a name="ln-353"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unkown MM driver&quot;</span><span class="p">)</span>
+<a name="ln-354"></a>         <span class="k">END SELECT</span>
+<a name="ln-355"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T41,A40)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-356"></a>            <span class="s2">&quot;DBCSR| CPU Multiplication driver&quot;</span><span class="p">,</span> <span class="nb">ADJUSTR</span><span class="p">(</span><span class="n">mm_name</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">40</span><span class="p">))</span>
+<a name="ln-357"></a>
+<a name="ln-358"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-359"></a>            <span class="s2">&quot;DBCSR| Multrec recursion limit&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">multrec_limit</span>
+<a name="ln-360"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-361"></a>            <span class="s2">&quot;DBCSR| Multiplication stack size&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span>
+<a name="ln-362"></a>
+<a name="ln-363"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">avg_elements_images</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-364"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-365"></a>               <span class="s2">&quot;DBCSR| Average elements for images&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">avg_elements_images</span>
+<a name="ln-366"></a>         <span class="k">ELSE</span>
+<a name="ln-367"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T72,A)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-368"></a>               <span class="s2">&quot;DBCSR| Maximum elements for images&quot;</span><span class="p">,</span> <span class="s2">&quot;UNLIMITED&quot;</span>
+<a name="ln-369"></a>         <span class="n">ENDIF</span>
+<a name="ln-370"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-371"></a>            <span class="s2">&quot;DBCSR| Multiplicative factor virtual images&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_mult_images</span>
+<a name="ln-372"></a>
+<a name="ln-373"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-374"></a>            <span class="s2">&quot;DBCSR| Use multiplication densification&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_densification</span>
+<a name="ln-375"></a>
+<a name="ln-376"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="o">==</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="o">==</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-377"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-378"></a>               <span class="s2">&quot;DBCSR| Multiplication size stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span>
+<a name="ln-379"></a>         <span class="k">ELSE</span>
+<a name="ln-380"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-381"></a>               <span class="s2">&quot;DBCSR| Multiplication size m stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span>
+<a name="ln-382"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-383"></a>               <span class="s2">&quot;DBCSR| Multiplication size n stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span>
+<a name="ln-384"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-385"></a>               <span class="s2">&quot;DBCSR| Multiplication size k stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span>
+<a name="ln-386"></a>         <span class="n">ENDIF</span>
+<a name="ln-387"></a>
+<a name="ln-388"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">has_mpi</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-389"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-390"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T75,A)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-391"></a>                  <span class="s2">&quot;DBCSR| Number of 3D layers&quot;</span><span class="p">,</span> <span class="s2">&quot;SINGLE&quot;</span>
+<a name="ln-392"></a>            <span class="k">ELSE</span>
+<a name="ln-393"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-394"></a>                  <span class="s2">&quot;DBCSR| Number of 3D layers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span>
+<a name="ln-395"></a>            <span class="n">ENDIF</span>
 <a name="ln-396"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-397"></a>               <span class="s2">&quot;DBCSR| Use Communication thread&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_comm_thread</span>
-<a name="ln-398"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-399"></a>               <span class="s2">&quot;DBCSR| Communication thread load&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span>
-<a name="ln-400"></a>         <span class="n">ENDIF</span>
-<a name="ln-401"></a>
-<a name="ln-402"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-403"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-404"></a>               <span class="s2">&quot;DBCSR| ACC: Number of devices/node&quot;</span><span class="p">,</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">()</span>
-<a name="ln-405"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-406"></a>               <span class="s2">&quot;DBCSR| ACC: Number of priority stack-buffers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span>
-<a name="ln-407"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-408"></a>               <span class="s2">&quot;DBCSR| ACC: Number of posterior stack-buffers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_buffers</span>
+<a name="ln-397"></a>               <span class="s2">&quot;DBCSR| Use MPI memory allocation&quot;</span><span class="p">,</span> <span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span>
+<a name="ln-398"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-399"></a>               <span class="s2">&quot;DBCSR| Use RMA algorithm&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span>
+<a name="ln-400"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-401"></a>               <span class="s2">&quot;DBCSR| Use Communication thread&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_comm_thread</span>
+<a name="ln-402"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-403"></a>               <span class="s2">&quot;DBCSR| Communication thread load&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span>
+<a name="ln-404"></a>         <span class="n">ENDIF</span>
+<a name="ln-405"></a>
+<a name="ln-406"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-407"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-408"></a>               <span class="s2">&quot;DBCSR| ACC: Number of devices/node&quot;</span><span class="p">,</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">()</span>
 <a name="ln-409"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-410"></a>               <span class="s2">&quot;DBCSR| ACC: Number of priority streams&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_streams</span>
+<a name="ln-410"></a>               <span class="s2">&quot;DBCSR| ACC: Number of priority stack-buffers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span>
 <a name="ln-411"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-412"></a>               <span class="s2">&quot;DBCSR| ACC: Number of posterior streams&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_streams</span>
-<a name="ln-413"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-414"></a>               <span class="s2">&quot;DBCSR| ACC: Avoid driver after busy &quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span>
-<a name="ln-415"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-416"></a>               <span class="s2">&quot;DBCSR| ACC: Process inhomogeneous stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_do_inhomogenous</span>
-<a name="ln-417"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-418"></a>               <span class="s2">&quot;DBCSR| ACC: Min. flop for processing&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span>
-<a name="ln-419"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-420"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-421"></a>                  <span class="s2">&quot;DBCSR| ACC: Min. flop for sorting&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span>
-<a name="ln-422"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-423"></a>                  <span class="s2">&quot;DBCSR| ACC: Number of binning bins&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_nbins</span>
-<a name="ln-424"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-425"></a>                  <span class="s2">&quot;DBCSR| ACC: Size of binning bins&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_binsize</span>
-<a name="ln-426"></a>            <span class="k">END IF</span>
-<a name="ln-427"></a><span class="k">         END IF</span>
-<a name="ln-428"></a><span class="k">      </span><span class="n">ENDIF</span>
-<a name="ln-429"></a>
-<a name="ln-430"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_print_config</span>
-<a name="ln-431"></a>
-<a name="ln-432"></a><span class="k">END MODULE </span><span class="n">dbcsr_config</span>
+<a name="ln-412"></a>               <span class="s2">&quot;DBCSR| ACC: Number of posterior stack-buffers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_buffers</span>
+<a name="ln-413"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-414"></a>               <span class="s2">&quot;DBCSR| ACC: Number of priority streams&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_streams</span>
+<a name="ln-415"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-416"></a>               <span class="s2">&quot;DBCSR| ACC: Number of posterior streams&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_streams</span>
+<a name="ln-417"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-418"></a>               <span class="s2">&quot;DBCSR| ACC: Avoid driver after busy &quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span>
+<a name="ln-419"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-420"></a>               <span class="s2">&quot;DBCSR| ACC: Process inhomogeneous stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_do_inhomogenous</span>
+<a name="ln-421"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-422"></a>               <span class="s2">&quot;DBCSR| ACC: Min. flop for processing&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span>
+<a name="ln-423"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-424"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-425"></a>                  <span class="s2">&quot;DBCSR| ACC: Min. flop for sorting&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span>
+<a name="ln-426"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-427"></a>                  <span class="s2">&quot;DBCSR| ACC: Number of binning bins&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_nbins</span>
+<a name="ln-428"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-429"></a>                  <span class="s2">&quot;DBCSR| ACC: Size of binning bins&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_binsize</span>
+<a name="ln-430"></a>            <span class="k">END IF</span>
+<a name="ln-431"></a><span class="k">         END IF</span>
+<a name="ln-432"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-433"></a>
+<a name="ln-434"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_print_config</span>
+<a name="ln-435"></a>
+<a name="ln-436"></a>   <span class="k">FUNCTION </span><span class="n">get_accdrv_active_device_id</span><span class="p">()</span>
+<a name="ln-437"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">get_accdrv_active_device_id</span>
+<a name="ln-438"></a>
+<a name="ln-439"></a>      <span class="n">get_accdrv_active_device_id</span> <span class="o">=</span> <span class="n">accdrv_active_device_id</span>
+<a name="ln-440"></a>
+<a name="ln-441"></a>   <span class="k">END FUNCTION </span><span class="n">get_accdrv_active_device_id</span>
+<a name="ln-442"></a>
+<a name="ln-443"></a>   <span class="k">SUBROUTINE </span><span class="n">set_accdrv_active_device_id</span><span class="p">(</span><span class="n">in_accdrv_active_device_id</span><span class="p">)</span>
+<a name="ln-444"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">in_accdrv_active_device_id</span>
+<a name="ln-445"></a>
+<a name="ln-446"></a>      <span class="c">! Abort if device already assigned</span>
+<a name="ln-447"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">accdrv_active_device_id</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-448"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Accelerator device ID already set&quot;</span><span class="p">)</span>
+<a name="ln-449"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">in_accdrv_active_device_id</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">in_accdrv_active_device_id</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">())</span> <span class="p">&amp;</span>
+<a name="ln-450"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid accelerator device ID&quot;</span><span class="p">)</span>
+<a name="ln-451"></a>      <span class="n">accdrv_active_device_id</span> <span class="o">=</span> <span class="n">in_accdrv_active_device_id</span>
+<a name="ln-452"></a>
+<a name="ln-453"></a>   <span class="k">END SUBROUTINE </span><span class="n">set_accdrv_active_device_id</span>
+<a name="ln-454"></a>
+<a name="ln-455"></a>   <span class="k">SUBROUTINE </span><span class="n">reset_accdrv_active_device_id</span><span class="p">()</span>
+<a name="ln-456"></a>      <span class="n">accdrv_active_device_id</span> <span class="o">=</span> <span class="n">default_accdrv_active_device_id</span>
+<a name="ln-457"></a>   <span class="k">END SUBROUTINE </span><span class="n">reset_accdrv_active_device_id</span>
+<a name="ln-458"></a>
+<a name="ln-459"></a><span class="k">END MODULE </span><span class="n">dbcsr_config</span>
 </pre></div>
 
     </section>
@@ -709,7 +727,7 @@
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -747,10 +765,6 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_copy_into_existing%7E2.html#src">dbcsr_copy_into_existing</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -228,7 +225,7 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b%7E29"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b%7E25"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -243,7 +240,7 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a%7E46"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a%7E43"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -287,7 +284,13 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_copy_into_existing%7E2.html#src">dbcsr_copy_into_existing</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -311,6 +314,114 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_copy_into_existing</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">)</span>
+      <span class="c">!! copy a matrix, retaining current sparsity</span>
+
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix_b</span>
+         <span class="c">!! target DBCSR matrix</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix_a</span>
+         <span class="c">!! source DBCSR matrix</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_copy_into_existing&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">col_size</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">dst_col</span><span class="p">,</span> <span class="n">dst_row</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">handle</span><span class="p">,</span> <span class="n">rel</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">src_col</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">src_cs</span><span class="p">,</span> <span class="n">src_row</span><span class="p">,</span> <span class="n">src_rs</span>
+      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">dst_tr</span><span class="p">,</span> <span class="n">making_symmetric</span><span class="p">,</span> <span class="n">neg_imag</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">neg_real</span><span class="p">,</span> <span class="n">src_tr</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">dst_data</span><span class="p">,</span> <span class="n">src_data</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">dst_iter</span><span class="p">,</span> <span class="n">src_iter</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrix_b is not valid&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrices have different data types.&quot;</span><span class="p">)</span>
+      <span class="n">data_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span>
+      <span class="n">neg_real</span> <span class="o">=</span> <span class="n">matrix_b</span><span class="p">%</span><span class="n">negate_real</span>
+      <span class="n">neg_imag</span> <span class="o">=</span> <span class="n">matrix_b</span><span class="p">%</span><span class="n">negate_imaginary</span>
+      <span class="n">making_symmetric</span> <span class="o">=</span> <span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span> <span class="p">&amp;</span>
+                         <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">making_symmetric</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_copy_into_existing_sym</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+         <span class="k">RETURN</span>
+<span class="k">      </span><span class="n">ENDIF</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">src_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">dst_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">src_data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">dst_data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">src_iter</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">dst_iter</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">)</span>
+      <span class="c">! Iterate through the blocks of the source and destination</span>
+      <span class="c">! matrix. There are three possibilities: 1. copy the data for</span>
+      <span class="c">! blocks present in both; 2 skip source blocks not present in the</span>
+      <span class="c">! target; 3 zero blocks not present in the source.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">src_iter</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">src_iter</span><span class="p">,</span> <span class="n">src_row</span><span class="p">,</span> <span class="n">src_col</span><span class="p">,</span> <span class="n">src_data</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">src_tr</span><span class="p">)</span>
+      <span class="k">ELSE</span>
+<span class="k">         </span><span class="n">src_row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">src_col</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">ENDIF</span>
+      <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">dst_iter</span><span class="p">))</span>
+         <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">dst_iter</span><span class="p">,</span> <span class="n">dst_row</span><span class="p">,</span> <span class="n">dst_col</span><span class="p">,</span> <span class="n">dst_data</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">dst_tr</span><span class="p">,</span> <span class="n">row_size</span><span class="o">=</span><span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="o">=</span><span class="n">col_size</span><span class="p">)</span>
+         <span class="c">! Now find the source position that is greater or equal to the</span>
+         <span class="c">! target one. I.e, skip blocks that the target doesn&#39;t have.</span>
+         <span class="n">rel</span> <span class="o">=</span> <span class="n">pos_relation</span><span class="p">(</span><span class="n">dst_row</span><span class="p">,</span> <span class="n">dst_col</span><span class="p">,</span> <span class="n">src_row</span><span class="p">,</span> <span class="n">src_col</span><span class="p">)</span>
+         <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">rel</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">src_iter</span><span class="p">))</span>
+            <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">src_iter</span><span class="p">,</span> <span class="n">src_row</span><span class="p">,</span> <span class="n">src_col</span><span class="p">,</span> <span class="p">&amp;</span>
+                                           <span class="n">src_data</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="n">row_size</span><span class="o">=</span><span class="n">src_rs</span><span class="p">,</span> <span class="n">col_size</span><span class="o">=</span><span class="n">src_cs</span><span class="p">)</span>
+            <span class="n">rel</span> <span class="o">=</span> <span class="n">pos_relation</span><span class="p">(</span><span class="n">dst_row</span><span class="p">,</span> <span class="n">dst_col</span><span class="p">,</span> <span class="n">src_row</span><span class="p">,</span> <span class="n">src_col</span><span class="p">)</span>
+         <span class="n">ENDDO</span>
+         <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+         <span class="k">CASE</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="c">! Target lags source or ran out of source</span>
+            <span class="k">CALL </span><span class="n">dbcsr_data_clear</span><span class="p">(</span><span class="n">dst_data</span><span class="p">)</span>
+         <span class="k">CASE</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="c">! Copy the data</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">src_data</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">dst_data</span><span class="p">))</span> <span class="p">&amp;</span>
+               <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Block sizes not equal!&quot;</span><span class="p">)</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">src_tr</span> <span class="p">.</span><span class="n">EQV</span><span class="p">.</span> <span class="n">dst_tr</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">dbcsr_data_copyall</span><span class="p">(</span><span class="n">dst_data</span><span class="p">,</span> <span class="n">src_data</span><span class="p">)</span>
+            <span class="k">ELSE</span>
+<span class="k">               CALL </span><span class="n">dbcsr_block_partial_copy</span><span class="p">(</span><span class="n">dst</span><span class="o">=</span><span class="n">dst_data</span><span class="p">,</span> <span class="n">dst_tr</span><span class="o">=</span><span class="n">dst_tr</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">dst_rs</span><span class="o">=</span><span class="n">row_size</span><span class="p">,</span> <span class="n">dst_cs</span><span class="o">=</span><span class="n">col_size</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">dst_r_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dst_c_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">src</span><span class="o">=</span><span class="n">src_data</span><span class="p">,</span> <span class="n">src_tr</span><span class="o">=</span><span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">src_rs</span><span class="o">=</span><span class="n">src_rs</span><span class="p">,</span> <span class="n">src_cs</span><span class="o">=</span><span class="n">src_cs</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">src_r_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">src_c_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">nrow</span><span class="o">=</span><span class="n">row_size</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="n">col_size</span><span class="p">)</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">neg_real</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">                  CALL </span><span class="n">dbcsr_block_real_neg</span><span class="p">(</span><span class="n">dst_data</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">)</span>
+               <span class="n">ENDIF</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">neg_imag</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">                  CALL </span><span class="n">dbcsr_block_conjg</span><span class="p">(</span><span class="n">dst_data</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">)</span>
+               <span class="n">ENDIF</span>
+            <span class="n">ENDIF</span>
+         <span class="k">CASE </span><span class="n">default</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Trouble syncing iterators&quot;</span><span class="p">)</span>
+         <span class="k">END SELECT</span>
+<span class="k">      END DO</span>
+<span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">src_iter</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">dst_iter</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">src_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">dst_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">src_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">dst_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+
+   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_copy_into_existing</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -321,7 +432,7 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -359,10 +470,6 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

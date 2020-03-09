@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_scalar_add.html#src">dbcsr_scalar_add</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -296,7 +293,13 @@ private elemental function dbcsr_scalar_add(s1, s2) result(s_sum)
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_scalar_add.html#src">dbcsr_scalar_add</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -320,6 +323,32 @@ private elemental function dbcsr_scalar_add(s1, s2) result(s_sum)
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">ELEMENTAL FUNCTION </span><span class="n">dbcsr_scalar_add</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">s_sum</span><span class="p">)</span>
+      <span class="c">!! Returns an encapsulated scalar as a negation of the given</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                <span class="kd">::</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">)</span>                            <span class="kd">::</span> <span class="n">s_sum</span>
+
+      <span class="n">s_sum</span> <span class="o">=</span> <span class="n">dbcsr_scalar_zero</span><span class="p">(</span><span class="n">s1</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
+      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">s1</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+         <span class="n">s_sum</span><span class="p">%</span><span class="n">r_sp</span> <span class="o">=</span> <span class="n">s1</span><span class="p">%</span><span class="n">r_sp</span> <span class="o">+</span> <span class="n">s2</span><span class="p">%</span><span class="n">r_sp</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+         <span class="n">s_sum</span><span class="p">%</span><span class="n">r_dp</span> <span class="o">=</span> <span class="n">s1</span><span class="p">%</span><span class="n">r_dp</span> <span class="o">+</span> <span class="n">s2</span><span class="p">%</span><span class="n">r_dp</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+         <span class="n">s_sum</span><span class="p">%</span><span class="n">c_sp</span> <span class="o">=</span> <span class="n">s1</span><span class="p">%</span><span class="n">c_sp</span> <span class="o">+</span> <span class="n">s2</span><span class="p">%</span><span class="n">c_sp</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+         <span class="n">s_sum</span><span class="p">%</span><span class="n">c_dp</span> <span class="o">=</span> <span class="n">s1</span><span class="p">%</span><span class="n">c_dp</span> <span class="o">+</span> <span class="n">s2</span><span class="p">%</span><span class="n">c_dp</span>
+      <span class="k">CASE </span><span class="n">default</span>
+         <span class="n">s_sum</span> <span class="o">=</span> <span class="n">dbcsr_scalar_zero</span><span class="p">(</span><span class="n">s1</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
+      <span class="k">END SELECT</span>
+<span class="k">   END FUNCTION </span><span class="n">dbcsr_scalar_add</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -330,7 +359,7 @@ private elemental function dbcsr_scalar_add(s1, s2) result(s_sum)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -368,10 +397,6 @@ private elemental function dbcsr_scalar_add(s1, s2) result(s_sum)
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -95,15 +95,6 @@
 
           </ul>
         
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -130,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.9% of total for source files.">1167 statements</a>
+    title=" 1.9% of total for source files.">1171 statements</a>
      </li> 
      
      
@@ -298,13 +289,13 @@
 <a name="ln-31"></a>                                 <span class="n">dbcsr_t_distribution_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-32"></a>                                 <span class="n">dbcsr_t_distribution</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-33"></a>                                 <span class="n">dbcsr_t_distribution_destroy</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-34"></a>                                 <span class="n">dbcsr_t_distribution_new</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-34"></a>                                 <span class="n">dbcsr_t_distribution_new_expert</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-35"></a>                                 <span class="n">dbcsr_t_clear</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-36"></a>                                 <span class="n">dbcsr_t_finalize</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-37"></a>                                 <span class="n">dbcsr_t_get_num_blocks</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-38"></a>                                 <span class="n">dbcsr_t_blk_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-39"></a>                                 <span class="n">dbcsr_t_blk_sizes</span>
-<a name="ln-40"></a>   <span class="k">USE </span><span class="n">dbcsr_api</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_type_complex_4</span><span class="p">,</span> <span class="n">dbcsr_type_real_8</span><span class="p">,</span> <span class="n">dbcsr_type_real_4</span><span class="p">,</span> <span class="n">dbcsr_type_complex_8</span>
+<a name="ln-40"></a>   <span class="k">USE </span><span class="n">dbcsr_api</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_type_real_4</span><span class="p">,</span> <span class="n">dbcsr_type_complex_8</span><span class="p">,</span> <span class="n">dbcsr_type_real_8</span><span class="p">,</span> <span class="n">dbcsr_type_complex_4</span>
 <a name="ln-41"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">real_4</span><span class="p">,</span> <span class="n">real_8</span>
 <a name="ln-42"></a>
 <a name="ln-43"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
@@ -470,20 +461,20 @@
 <a name="ln-203"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_get_mapping_info</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">%</span><span class="n">nd_index_blk</span><span class="p">,</span> <span class="n">map1_2d</span><span class="o">=</span><span class="n">map1_2d</span><span class="p">,</span> <span class="n">map2_2d</span><span class="o">=</span><span class="n">map2_2d</span><span class="p">)</span>
 <a name="ln-204"></a>
 <a name="ln-205"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ndims_tensor</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-206"></a><span class="k">         CALL </span><span class="n">dbcsr_t_distribution_new</span><span class="p">(</span><span class="n">dist_split</span><span class="p">,</span> <span class="n">tensor_in</span><span class="p">%</span><span class="n">pgrid</span><span class="p">,</span> <span class="n">map1_2d</span><span class="p">,</span> <span class="n">map2_2d</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-207"></a>                                       <span class="n">nd_dist_split_1</span><span class="p">,</span> <span class="n">nd_dist_split_2</span><span class="p">)</span>
+<a name="ln-206"></a><span class="k">         CALL </span><span class="n">dbcsr_t_distribution_new_expert</span><span class="p">(</span><span class="n">dist_split</span><span class="p">,</span> <span class="n">tensor_in</span><span class="p">%</span><span class="n">pgrid</span><span class="p">,</span> <span class="n">map1_2d</span><span class="p">,</span> <span class="n">map2_2d</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-207"></a>                                              <span class="n">nd_dist_split_1</span><span class="p">,</span> <span class="n">nd_dist_split_2</span><span class="p">)</span>
 <a name="ln-208"></a>         <span class="k">CALL </span><span class="n">dbcsr_t_create</span><span class="p">(</span><span class="n">tensor_out</span><span class="p">,</span> <span class="n">tensor_in</span><span class="p">%</span><span class="n">name</span><span class="p">,</span> <span class="n">dist_split</span><span class="p">,</span> <span class="n">map1_2d</span><span class="p">,</span> <span class="n">map2_2d</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-209"></a>                             <span class="n">dbcsr_t_get_data_type</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">),</span> <span class="n">nd_blk_size_split_1</span><span class="p">,</span> <span class="n">nd_blk_size_split_2</span><span class="p">)</span>
 <a name="ln-210"></a>      <span class="n">ENDIF</span>
 <a name="ln-211"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ndims_tensor</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-212"></a><span class="k">         CALL </span><span class="n">dbcsr_t_distribution_new</span><span class="p">(</span><span class="n">dist_split</span><span class="p">,</span> <span class="n">tensor_in</span><span class="p">%</span><span class="n">pgrid</span><span class="p">,</span> <span class="n">map1_2d</span><span class="p">,</span> <span class="n">map2_2d</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-213"></a>                                       <span class="n">nd_dist_split_1</span><span class="p">,</span> <span class="n">nd_dist_split_2</span><span class="p">,</span> <span class="n">nd_dist_split_3</span><span class="p">)</span>
+<a name="ln-212"></a><span class="k">         CALL </span><span class="n">dbcsr_t_distribution_new_expert</span><span class="p">(</span><span class="n">dist_split</span><span class="p">,</span> <span class="n">tensor_in</span><span class="p">%</span><span class="n">pgrid</span><span class="p">,</span> <span class="n">map1_2d</span><span class="p">,</span> <span class="n">map2_2d</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-213"></a>                                              <span class="n">nd_dist_split_1</span><span class="p">,</span> <span class="n">nd_dist_split_2</span><span class="p">,</span> <span class="n">nd_dist_split_3</span><span class="p">)</span>
 <a name="ln-214"></a>         <span class="k">CALL </span><span class="n">dbcsr_t_create</span><span class="p">(</span><span class="n">tensor_out</span><span class="p">,</span> <span class="n">tensor_in</span><span class="p">%</span><span class="n">name</span><span class="p">,</span> <span class="n">dist_split</span><span class="p">,</span> <span class="n">map1_2d</span><span class="p">,</span> <span class="n">map2_2d</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-215"></a>                             <span class="n">dbcsr_t_get_data_type</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">),</span> <span class="n">nd_blk_size_split_1</span><span class="p">,</span> <span class="n">nd_blk_size_split_2</span><span class="p">,</span> <span class="n">nd_blk_size_split_3</span><span class="p">)</span>
 <a name="ln-216"></a>      <span class="n">ENDIF</span>
 <a name="ln-217"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ndims_tensor</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-218"></a><span class="k">         CALL </span><span class="n">dbcsr_t_distribution_new</span><span class="p">(</span><span class="n">dist_split</span><span class="p">,</span> <span class="n">tensor_in</span><span class="p">%</span><span class="n">pgrid</span><span class="p">,</span> <span class="n">map1_2d</span><span class="p">,</span> <span class="n">map2_2d</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-219"></a>                                       <span class="n">nd_dist_split_1</span><span class="p">,</span> <span class="n">nd_dist_split_2</span><span class="p">,</span> <span class="n">nd_dist_split_3</span><span class="p">,</span> <span class="n">nd_dist_split_4</span><span class="p">)</span>
+<a name="ln-218"></a><span class="k">         CALL </span><span class="n">dbcsr_t_distribution_new_expert</span><span class="p">(</span><span class="n">dist_split</span><span class="p">,</span> <span class="n">tensor_in</span><span class="p">%</span><span class="n">pgrid</span><span class="p">,</span> <span class="n">map1_2d</span><span class="p">,</span> <span class="n">map2_2d</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-219"></a>                                              <span class="n">nd_dist_split_1</span><span class="p">,</span> <span class="n">nd_dist_split_2</span><span class="p">,</span> <span class="n">nd_dist_split_3</span><span class="p">,</span> <span class="n">nd_dist_split_4</span><span class="p">)</span>
 <a name="ln-220"></a>         <span class="k">CALL </span><span class="n">dbcsr_t_create</span><span class="p">(</span><span class="n">tensor_out</span><span class="p">,</span> <span class="n">tensor_in</span><span class="p">%</span><span class="n">name</span><span class="p">,</span> <span class="n">dist_split</span><span class="p">,</span> <span class="n">map1_2d</span><span class="p">,</span> <span class="n">map2_2d</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-221"></a>                             <span class="n">dbcsr_t_get_data_type</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">),</span> <span class="n">nd_blk_size_split_1</span><span class="p">,</span> <span class="n">nd_blk_size_split_2</span><span class="p">,</span> <span class="n">nd_blk_size_split_3</span><span class="p">,&amp;</span>
 <a name="ln-222"></a>                                 <span class="p">&amp;</span> <span class="n">nd_blk_size_split_4</span><span class="p">)</span>
@@ -1850,9 +1841,16 @@
 <a name="ln-1583"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_finalize</span><span class="p">(</span><span class="n">tensor_out</span><span class="p">)</span>
 <a name="ln-1584"></a>
 <a name="ln-1585"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">move_data_prv</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_t_clear</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">)</span>
-<a name="ln-1586"></a>   <span class="k">END SUBROUTINE</span>
-<a name="ln-1587"></a>
-<a name="ln-1588"></a><span class="k">END MODULE</span>
+<a name="ln-1586"></a>
+<a name="ln-1587"></a>      <span class="c">! transfer data for batched contraction</span>
+<a name="ln-1588"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">tensor_in</span><span class="p">%</span><span class="n">matrix_rep</span><span class="p">%</span><span class="n">do_batched</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-1589"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">tensor_out</span><span class="p">%</span><span class="n">matrix_rep</span><span class="p">%</span><span class="n">mm_storage</span><span class="p">,</span> <span class="n">SOURCE</span><span class="o">=</span><span class="n">tensor_in</span><span class="p">%</span><span class="n">matrix_rep</span><span class="p">%</span><span class="n">mm_storage</span><span class="p">)</span>
+<a name="ln-1590"></a>         <span class="n">tensor_out</span><span class="p">%</span><span class="n">matrix_rep</span><span class="p">%</span><span class="n">do_batched</span> <span class="o">=</span> <span class="n">tensor_in</span><span class="p">%</span><span class="n">matrix_rep</span><span class="p">%</span><span class="n">do_batched</span>
+<a name="ln-1591"></a>      <span class="n">ENDIF</span>
+<a name="ln-1592"></a>
+<a name="ln-1593"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-1594"></a>
+<a name="ln-1595"></a><span class="k">END MODULE</span>
 </pre></div>
 
     </section>
@@ -1865,7 +1863,7 @@
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -1903,10 +1901,6 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

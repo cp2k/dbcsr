@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -95,15 +95,6 @@
 
           </ul>
         
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -130,21 +121,21 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.0% of total for procedures.</p>Including implementation: 98 statements,  0.2% of total for procedures.">6 statements</a>
+    title="<p> 0.0% of total for procedures.</p>Including implementation: 191 statements,  0.3% of total for procedures.">7 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_reshape.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
     
-     <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
+     <li><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
     
   
      <li class="active">block_buffer_add_block</li>
@@ -191,6 +182,8 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-0">Module Procedures</a></h3></div>
   <div id="modprocs-0" class="panel-collapse collapse">
     <div class="list-group">
+      
+      <a class="list-group-item" href="../interface/block_buffer_add_block.html#moduleprocedure-block_buffer_add_area_block">block_buffer_add_area_block</a>
       
       <a class="list-group-item" href="../interface/block_buffer_add_block.html#moduleprocedure-block_buffer_add_block_r_dp">block_buffer_add_block_r_dp</a>
       
@@ -247,6 +240,8 @@
   <div id="modprocs-1" class="panel-collapse collapse">
     <div class="list-group">
       
+      <a class="list-group-item" href="../interface/block_buffer_add_block.html#moduleprocedure-block_buffer_add_area_block">block_buffer_add_area_block</a>
+      
       <a class="list-group-item" href="../interface/block_buffer_add_block.html#moduleprocedure-block_buffer_add_block_r_dp">block_buffer_add_block_r_dp</a>
       
       <a class="list-group-item" href="../interface/block_buffer_add_block.html#moduleprocedure-block_buffer_add_block_r_sp">block_buffer_add_block_r_sp</a>
@@ -274,8 +269,8 @@
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-block_buffer_add_block_r_dp"></span><h3>
-private subroutine <a href='../proc/block_buffer_add_block_r_dp.html'>block_buffer_add_block_r_dp</a>(buffer, ndata, index, block)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-block_buffer_add_area_block"></span><h3>
+private subroutine <a href='../proc/block_buffer_add_area_block.html'>block_buffer_add_area_block</a>(buffer, index, block, transposed)
     
     
    
@@ -283,14 +278,6 @@ private subroutine <a href='../proc/block_buffer_add_block_r_dp.html'>block_buff
   <div class="panel-body">
        
     
-
-
-
-
-
-
-
-<p>add block to buffer.</p>
     
     <h4>Arguments</h4>
     
@@ -326,12 +313,12 @@ private subroutine <a href='../proc/block_buffer_add_block_r_dp.html'>block_buff
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>ndata</strong></td><td></td>
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>index</strong></td><td></td>
   
 </tr>
 
@@ -341,12 +328,101 @@ private subroutine <a href='../proc/block_buffer_add_block_r_dp.html'>block_buff
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>block</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>transposed</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-block_buffer_add_block_r_dp"></span><h3>
+private subroutine <a href='../proc/block_buffer_add_block_r_dp.html'>block_buffer_add_block_r_dp</a>(buffer, index, block, transposed)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>insert a block into block buffer (at current iterator position)</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/block_buffer_type.html'>block_buffer_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>buffer</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_buffer(buffer))</td><td>::</td>
-  <td><strong>index</strong></td><td></td>
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>index</strong></td><td><p>index of block</p></td>
   
 </tr>
 
@@ -360,8 +436,23 @@ private subroutine <a href='../proc/block_buffer_add_block_r_dp.html'>block_buff
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndata)</td><td>::</td>
-  <td><strong>block</strong></td><td></td>
+  <td>DIMENSION(:, :)</td><td>::</td>
+  <td><strong>block</strong></td><td><p>block</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>transposed</strong></td><td></td>
   
 </tr>
 
@@ -379,7 +470,7 @@ private subroutine <a href='../proc/block_buffer_add_block_r_dp.html'>block_buff
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_buffer_add_block_r_sp"></span><h3>
-private subroutine <a href='../proc/block_buffer_add_block_r_sp.html'>block_buffer_add_block_r_sp</a>(buffer, ndata, index, block)
+private subroutine <a href='../proc/block_buffer_add_block_r_sp.html'>block_buffer_add_block_r_sp</a>(buffer, index, block, transposed)
     
     
    
@@ -394,7 +485,7 @@ private subroutine <a href='../proc/block_buffer_add_block_r_sp.html'>block_buff
 
 
 
-<p>add block to buffer.</p>
+<p>insert a block into block buffer (at current iterator position)</p>
     
     <h4>Arguments</h4>
     
@@ -430,27 +521,12 @@ private subroutine <a href='../proc/block_buffer_add_block_r_sp.html'>block_buff
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>ndata</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_buffer(buffer))</td><td>::</td>
-  <td><strong>index</strong></td><td></td>
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>index</strong></td><td><p>index of block</p></td>
   
 </tr>
 
@@ -464,8 +540,23 @@ private subroutine <a href='../proc/block_buffer_add_block_r_sp.html'>block_buff
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndata)</td><td>::</td>
-  <td><strong>block</strong></td><td></td>
+  <td>DIMENSION(:, :)</td><td>::</td>
+  <td><strong>block</strong></td><td><p>block</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>transposed</strong></td><td></td>
   
 </tr>
 
@@ -483,7 +574,7 @@ private subroutine <a href='../proc/block_buffer_add_block_r_sp.html'>block_buff
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_buffer_add_block_c_dp"></span><h3>
-private subroutine <a href='../proc/block_buffer_add_block_c_dp.html'>block_buffer_add_block_c_dp</a>(buffer, ndata, index, block)
+private subroutine <a href='../proc/block_buffer_add_block_c_dp.html'>block_buffer_add_block_c_dp</a>(buffer, index, block, transposed)
     
     
    
@@ -498,7 +589,7 @@ private subroutine <a href='../proc/block_buffer_add_block_c_dp.html'>block_buff
 
 
 
-<p>add block to buffer.</p>
+<p>insert a block into block buffer (at current iterator position)</p>
     
     <h4>Arguments</h4>
     
@@ -534,27 +625,12 @@ private subroutine <a href='../proc/block_buffer_add_block_c_dp.html'>block_buff
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>ndata</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_buffer(buffer))</td><td>::</td>
-  <td><strong>index</strong></td><td></td>
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>index</strong></td><td><p>index of block</p></td>
   
 </tr>
 
@@ -568,8 +644,23 @@ private subroutine <a href='../proc/block_buffer_add_block_c_dp.html'>block_buff
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndata)</td><td>::</td>
-  <td><strong>block</strong></td><td></td>
+  <td>DIMENSION(:, :)</td><td>::</td>
+  <td><strong>block</strong></td><td><p>block</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>transposed</strong></td><td></td>
   
 </tr>
 
@@ -587,7 +678,7 @@ private subroutine <a href='../proc/block_buffer_add_block_c_dp.html'>block_buff
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_buffer_add_block_c_sp"></span><h3>
-private subroutine <a href='../proc/block_buffer_add_block_c_sp.html'>block_buffer_add_block_c_sp</a>(buffer, ndata, index, block)
+private subroutine <a href='../proc/block_buffer_add_block_c_sp.html'>block_buffer_add_block_c_sp</a>(buffer, index, block, transposed)
     
     
    
@@ -602,7 +693,7 @@ private subroutine <a href='../proc/block_buffer_add_block_c_sp.html'>block_buff
 
 
 
-<p>add block to buffer.</p>
+<p>insert a block into block buffer (at current iterator position)</p>
     
     <h4>Arguments</h4>
     
@@ -638,27 +729,12 @@ private subroutine <a href='../proc/block_buffer_add_block_c_sp.html'>block_buff
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>ndata</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_buffer(buffer))</td><td>::</td>
-  <td><strong>index</strong></td><td></td>
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>index</strong></td><td><p>index of block</p></td>
   
 </tr>
 
@@ -672,8 +748,23 @@ private subroutine <a href='../proc/block_buffer_add_block_c_sp.html'>block_buff
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndata)</td><td>::</td>
-  <td><strong>block</strong></td><td></td>
+  <td>DIMENSION(:, :)</td><td>::</td>
+  <td><strong>block</strong></td><td><p>block</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>transposed</strong></td><td></td>
   
 </tr>
 
@@ -699,7 +790,7 @@ private subroutine <a href='../proc/block_buffer_add_block_c_sp.html'>block_buff
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -737,10 +828,6 @@ private subroutine <a href='../proc/block_buffer_add_block_c_sp.html'>block_buff
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>

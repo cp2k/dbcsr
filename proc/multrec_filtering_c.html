@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <meta name="description" content="Documentation for DBCSR Library">
-   
+   <meta name="description" content="">
+    
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,8 +16,6 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
     
     
 
@@ -49,6 +47,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
         
+            <li><a href='../page/index.html'>Guide</a></li>
+      
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
@@ -94,15 +94,6 @@
 
 
           </ul>
-        
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-        </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
         
         </div><!--/.nav-collapse -->
       </div>
@@ -188,7 +179,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/multrec_filtering_c.html#src">multrec_filtering_c</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -229,7 +226,7 @@ private subroutine multrec_filtering_c(filter_eps, nblks, rowi, coli, blkp, rbs,
   
 <tr>
   
-  <td><span class="anchor" id="variable-filter_eps%7E9"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-filter_eps%7E16"></span>real(kind=real_8),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -244,7 +241,7 @@ private subroutine multrec_filtering_c(filter_eps, nblks, rowi, coli, blkp, rbs,
   
 <tr>
   
-  <td><span class="anchor" id="variable-nblks%7E10"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblks%7E8"></span>integer,</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -259,7 +256,7 @@ private subroutine multrec_filtering_c(filter_eps, nblks, rowi, coli, blkp, rbs,
   
 <tr>
   
-  <td><span class="anchor" id="variable-rowi%7E4"></span>integer,</td>
+  <td><span class="anchor" id="variable-rowi%7E8"></span>integer,</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -274,7 +271,7 @@ private subroutine multrec_filtering_c(filter_eps, nblks, rowi, coli, blkp, rbs,
   
 <tr>
   
-  <td><span class="anchor" id="variable-coli%7E4"></span>integer,</td>
+  <td><span class="anchor" id="variable-coli%7E8"></span>integer,</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -304,7 +301,7 @@ private subroutine multrec_filtering_c(filter_eps, nblks, rowi, coli, blkp, rbs,
   
 <tr>
   
-  <td><span class="anchor" id="variable-rbs%7E5"></span>integer,</td>
+  <td><span class="anchor" id="variable-rbs%7E7"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -319,7 +316,7 @@ private subroutine multrec_filtering_c(filter_eps, nblks, rowi, coli, blkp, rbs,
   
 <tr>
   
-  <td><span class="anchor" id="variable-cbs%7E5"></span>integer,</td>
+  <td><span class="anchor" id="variable-cbs%7E7"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -334,7 +331,7 @@ private subroutine multrec_filtering_c(filter_eps, nblks, rowi, coli, blkp, rbs,
   
 <tr>
   
-  <td><span class="anchor" id="variable-nze%7E10"></span>integer,</td>
+  <td><span class="anchor" id="variable-nze%7E21"></span>integer,</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -349,7 +346,7 @@ private subroutine multrec_filtering_c(filter_eps, nblks, rowi, coli, blkp, rbs,
   
 <tr>
   
-  <td><span class="anchor" id="variable-data%7E19"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-data%7E63"></span>complex(kind=real_4),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -393,7 +390,13 @@ private subroutine multrec_filtering_c(filter_eps, nblks, rowi, coli, blkp, rbs,
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/multrec_filtering_c.html#src">multrec_filtering_c</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -417,6 +420,59 @@ private subroutine multrec_filtering_c(filter_eps, nblks, rowi, coli, blkp, rbs,
     
     
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>  <span class="k">SUBROUTINE </span><span class="n">multrec_filtering_c</span> <span class="p">(</span><span class="n">filter_eps</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="n">rowi</span><span class="p">,</span> <span class="n">coli</span><span class="p">,</span> <span class="n">blkp</span><span class="p">,</span> <span class="p">&amp;</span>
+                                              <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span><span class="p">,</span> <span class="n">nze</span><span class="p">,</span> <span class="k">DATA</span><span class="p">)</span>
+     <span class="c">!! Applying in-place filtering on the workspace.</span>
+     <span class="c">!! \brief Use Frobenius norm</span>
+
+     <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">filter_eps</span>
+     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">nblks</span><span class="p">,</span> <span class="n">nze</span>
+     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nblks</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rowi</span><span class="p">,</span> <span class="n">coli</span><span class="p">,</span> <span class="n">blkp</span>
+     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span>
+     <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
+        <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                            <span class="kd">::</span> <span class="k">DATA</span>
+
+<span class="k">     </span><span class="kt">INTEGER</span>                                    <span class="kd">::</span> <span class="n">blk</span><span class="p">,</span> <span class="n">lastblk</span><span class="p">,</span> <span class="n">blk_nze</span><span class="p">,</span> <span class="n">blk_p</span>
+     <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">nrm</span>
+
+     <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">EXTERNAL</span>                <span class="kd">::</span> <span class="n">DZNRM2</span><span class="p">,</span> <span class="n">DDOT</span>
+<span class="cp">#if defined (__ACCELERATE)</span>
+     <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">EXTERNAL</span>                <span class="kd">::</span> <span class="n">SCNRM2</span><span class="p">,</span> <span class="n">SDOT</span>
+<span class="cp">#else</span>
+     <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">EXTERNAL</span>                <span class="kd">::</span> <span class="n">SCNRM2</span><span class="p">,</span> <span class="n">SDOT</span>
+<span class="cp">#endif</span>
+
+     <span class="n">lastblk</span> <span class="o">=</span> <span class="mi">0</span>
+     <span class="n">nze</span> <span class="o">=</span> <span class="mi">0</span>
+     <span class="c">!</span>
+     <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblks</span>
+        <span class="n">blk_p</span> <span class="o">=</span> <span class="n">blkp</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+        <span class="k">IF</span> <span class="p">(</span><span class="n">blk_p</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CYCLE</span>
+<span class="k">        </span><span class="n">blk_nze</span> <span class="o">=</span> <span class="n">rbs</span><span class="p">(</span><span class="n">rowi</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span><span class="o">*</span><span class="n">cbs</span><span class="p">(</span><span class="n">coli</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span>
+        <span class="k">IF</span> <span class="p">(</span><span class="n">blk_nze</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CYCLE</span> <span class="c">! Skip empty blocks</span>
+        <span class="n">nrm</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">((</span><span class="n">SCNRM2</span> <span class="p">(</span><span class="n">blk_nze</span><span class="p">,</span> <span class="k">data</span><span class="p">(</span><span class="n">blk_p</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="k">data</span><span class="p">(</span><span class="n">blk_p</span><span class="p">),</span> <span class="mi">1</span><span class="p">)),</span> <span class="nb">KIND</span> <span class="o">=</span> <span class="n">real_8</span><span class="p">)</span>
+        <span class="k">IF</span> <span class="p">(</span><span class="n">nrm</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">filter_eps</span><span class="p">)</span> <span class="k">THEN</span>
+           <span class="c">! Keep block</span>
+           <span class="n">lastblk</span> <span class="o">=</span> <span class="n">lastblk</span> <span class="o">+</span> <span class="mi">1</span>
+           <span class="k">IF</span> <span class="p">(</span><span class="n">lastblk</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">blk</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">              </span><span class="n">rowi</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">rowi</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+              <span class="n">coli</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">coli</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+              <span class="n">blkp</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">blkp</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+           <span class="n">ENDIF</span>
+           <span class="n">nze</span> <span class="o">=</span> <span class="n">nze</span> <span class="o">+</span> <span class="n">blk_nze</span>
+        <span class="n">ENDIF</span>
+     <span class="n">ENDDO</span>
+     <span class="c">!</span>
+     <span class="n">nblks</span> <span class="o">=</span> <span class="n">lastblk</span>
+
+  <span class="k">END SUBROUTINE </span><span class="n">multrec_filtering_c</span>
+</pre></div>
+
+    </section>
+    <br>
+    
     
     </div>
   </div>
@@ -427,7 +483,7 @@ private subroutine multrec_filtering_c(filter_eps, nblks, rowi, coli, blkp, rbs,
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2019 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
@@ -465,10 +521,6 @@ private subroutine multrec_filtering_c(filter_eps, nblks, rowi, coli, blkp, rbs,
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
     
     
   </body>
