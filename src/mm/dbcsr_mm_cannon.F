@@ -842,7 +842,7 @@ CONTAINS
       INTEGER, PARAMETER                                 :: idata = 1, ileft = 0, imeta = 2, &
                                                             iright = 2, M_L = 2, M_P = 1, M_R = 3
 
-      INTEGER :: data_type, data_type_byte, grp, handle, handle2, handle3, i, ithread, &
+      INTEGER :: data_type, data_type_byte, grp, handle, handle1, handle2, handle3, i, ithread, &
                  left_col_image, left_col_mult, left_col_nimages, left_dst_icol, left_dst_irow, &
                  left_dst_p, left_dst_pcol, left_dst_prow, left_dst_vcol, left_dst_vrow, left_max_nblks, &
                  left_max_nze, left_myfirstvcol, left_myfirstvrow, left_mypcol, left_myprow, left_npcols, &
@@ -1326,7 +1326,9 @@ CONTAINS
       ! In the first loop iteration, the data is fetched from the
       ! sources. In the remaining iterations, the data are exchanged
       ! among neighbors.  In the last loop only calculations take place.
-
+      !
+      CALL timeset(routineN//"_loop", handle1)
+      !
       grouped_k_index: DO metronome = 0, nvirt_k - 1
          ! Wait for right matrix transfer completion. Wait in all but
          ! the first loop iteration.
@@ -1626,7 +1628,7 @@ CONTAINS
 
 !$OMP PARALLEL DEFAULT (NONE) &
 !$OMP SHARED (left_buffer_calc, right_buffer_calc, &
-!$OMP         v_ki_left, v_ki_right, handle2, &
+!$OMP         v_ki_left, v_ki_right, handle2, handle3, &
 !$OMP         product_matrix, multrec,&
 !$OMP         filter_eps, right_norms, left_norms, row_max_epss, &
 !$OMP         keep_sparsity,threads_finished, &
@@ -1651,8 +1653,10 @@ CONTAINS
                                         k_sizes=k_sizes)
 
          IF (metronome == nvirt_k - 1) THEN
+            CALL timeset(routineN//"_multrec_finalize", handle3)
             CALL dbcsr_mm_multrec_finalize(multrec(ithread)%p)
             DEALLOCATE (multrec(ithread)%p)
+            CALL timestop(handle3)
          ENDIF
 
 !$OMP ATOMIC
@@ -1691,6 +1695,7 @@ CONTAINS
          ENDIF
 
       ENDDO grouped_k_index
+      CALL timestop(handle1)
       CALL m_memory(mem)
       max_memory = MAX(max_memory, REAL(mem))
 
