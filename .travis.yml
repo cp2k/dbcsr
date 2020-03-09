@@ -164,7 +164,7 @@ after_success:
   - cd "${TRAVIS_BUILD_DIR}"
   # macOS needs `--gcov-tool /usr/local/bin/gcov-?`, but even then I couldn't make the Coverage run work
   - |
-    if [ "$TRAVIS_OS_NAME" = "linux" ] && [ -z "$TRAVIS_TAG" ] && [ -z "$PRE_COMMIT" ]; then
+    if [ "$TRAVIS_OS_NAME" = "linux" ] && [ -z "$TRAVIS_TAG" ] && [ "$PRE_COMMIT" = "y" ]; then
       cd build
       cmake --build . -- cov-info
       bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
