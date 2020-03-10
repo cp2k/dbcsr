@@ -54,6 +54,7 @@ jobs:
         TARGET_FOLDER: develop
         CLEAN: true
         CLEAN_EXCLUDE: '["releases"]'
+        DEBUG: true
 
     - name: Deploy Release Documentation
       if: github.repository == 'cp2k/dbcsr' && startsWith(github.ref, 'v')
