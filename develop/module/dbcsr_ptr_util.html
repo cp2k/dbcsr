@@ -1,0 +1,11321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_ptr_util &ndash; DBCSR Library</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR Library </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>dbcsr_ptr_util 
+    <small>Module</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 1.9% of total for modules and submodules.">1155 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_ptr_util.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/dbcsr_ptr_util.f.html'>dbcsr_ptr_util.F</a></li>
+    
+  
+     <li class="active">dbcsr_ptr_util</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#variable-modulen~59">moduleN</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#variable-careful_mod~12">careful_mod</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#variable-dbcsr_data_allocation">dbcsr_data_allocation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-0">Interfaces</a></h3></div>
+  <div id="inters-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-ensure_array_size">ensure_array_size</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-pointer_view">pointer_view</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-pointer_rank_remap2">pointer_rank_remap2</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-memory_copy">memory_copy</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-memory_zero">memory_zero</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-memory_allocate">memory_allocate</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-memory_deallocate">memory_deallocate</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-0">Derived Types</a></h3></div>
+  <div id="types-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#type-dbcsr_data_allocation_type">dbcsr_data_allocation_type</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_a">pointer_view_a</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_d">pointer_view_d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_s">pointer_view_s</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_z">pointer_view_z</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_c">pointer_view_c</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_i">pointer_view_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_l">pointer_view_l</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-ensure_array_size_d">ensure_array_size_d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_copy_d">mem_copy_d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_zero_d">mem_zero_d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_d">mem_alloc_d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_d_2d">mem_alloc_d_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_d">mem_dealloc_d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_d_2d">mem_dealloc_d_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_d_rank_remap2">pointer_d_rank_remap2</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-ensure_array_size_s">ensure_array_size_s</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_copy_s">mem_copy_s</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_zero_s">mem_zero_s</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_s">mem_alloc_s</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_s_2d">mem_alloc_s_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_s">mem_dealloc_s</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_s_2d">mem_dealloc_s_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_s_rank_remap2">pointer_s_rank_remap2</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-ensure_array_size_z">ensure_array_size_z</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_copy_z">mem_copy_z</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_zero_z">mem_zero_z</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_z">mem_alloc_z</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_z_2d">mem_alloc_z_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_z">mem_dealloc_z</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_z_2d">mem_dealloc_z_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_z_rank_remap2">pointer_z_rank_remap2</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-ensure_array_size_c">ensure_array_size_c</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_copy_c">mem_copy_c</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_zero_c">mem_zero_c</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_c">mem_alloc_c</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_c_2d">mem_alloc_c_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_c">mem_dealloc_c</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_c_2d">mem_dealloc_c_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_c_rank_remap2">pointer_c_rank_remap2</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-ensure_array_size_i">ensure_array_size_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_copy_i">mem_copy_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_zero_i">mem_zero_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_i">mem_alloc_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_i_2d">mem_alloc_i_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_i">mem_dealloc_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_i_2d">mem_dealloc_i_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_i_rank_remap2">pointer_i_rank_remap2</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-ensure_array_size_l">ensure_array_size_l</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_copy_l">mem_copy_l</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_zero_l">mem_zero_l</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_l">mem_alloc_l</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_l_2d">mem_alloc_l_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_l">mem_dealloc_l</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_l_2d">mem_dealloc_l_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_l_rank_remap2">pointer_l_rank_remap2</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <p>DBCSR pointer and unmanaged array utilities</p>
+      <br>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></li>
+    
+    <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      
+      </ul>
+    </div>
+    
+
+    
+    
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#variable-modulen~59">moduleN</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#variable-careful_mod~12">careful_mod</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#variable-dbcsr_data_allocation">dbcsr_data_allocation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-1">Interfaces</a></h3></div>
+  <div id="inters-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-ensure_array_size">ensure_array_size</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-pointer_view">pointer_view</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-pointer_rank_remap2">pointer_rank_remap2</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-memory_copy">memory_copy</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-memory_zero">memory_zero</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-memory_allocate">memory_allocate</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#interface-memory_deallocate">memory_deallocate</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-1">Derived Types</a></h3></div>
+  <div id="types-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#type-dbcsr_data_allocation_type">dbcsr_data_allocation_type</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_a">pointer_view_a</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_d">pointer_view_d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_s">pointer_view_s</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_z">pointer_view_z</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_c">pointer_view_c</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_i">pointer_view_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_view_l">pointer_view_l</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-1" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-ensure_array_size_d">ensure_array_size_d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_copy_d">mem_copy_d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_zero_d">mem_zero_d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_d">mem_alloc_d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_d_2d">mem_alloc_d_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_d">mem_dealloc_d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_d_2d">mem_dealloc_d_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_d_rank_remap2">pointer_d_rank_remap2</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-ensure_array_size_s">ensure_array_size_s</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_copy_s">mem_copy_s</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_zero_s">mem_zero_s</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_s">mem_alloc_s</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_s_2d">mem_alloc_s_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_s">mem_dealloc_s</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_s_2d">mem_dealloc_s_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_s_rank_remap2">pointer_s_rank_remap2</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-ensure_array_size_z">ensure_array_size_z</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_copy_z">mem_copy_z</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_zero_z">mem_zero_z</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_z">mem_alloc_z</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_z_2d">mem_alloc_z_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_z">mem_dealloc_z</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_z_2d">mem_dealloc_z_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_z_rank_remap2">pointer_z_rank_remap2</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-ensure_array_size_c">ensure_array_size_c</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_copy_c">mem_copy_c</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_zero_c">mem_zero_c</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_c">mem_alloc_c</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_c_2d">mem_alloc_c_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_c">mem_dealloc_c</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_c_2d">mem_dealloc_c_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_c_rank_remap2">pointer_c_rank_remap2</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-ensure_array_size_i">ensure_array_size_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_copy_i">mem_copy_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_zero_i">mem_zero_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_i">mem_alloc_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_i_2d">mem_alloc_i_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_i">mem_dealloc_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_i_2d">mem_dealloc_i_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_i_rank_remap2">pointer_i_rank_remap2</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-ensure_array_size_l">ensure_array_size_l</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_copy_l">mem_copy_l</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_zero_l">mem_zero_l</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_l">mem_alloc_l</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_alloc_l_2d">mem_alloc_l_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_l">mem_dealloc_l</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-mem_dealloc_l_2d">mem_dealloc_l_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_ptr_util.html#proc-pointer_l_rank_remap2">pointer_l_rank_remap2</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    <section>
+    <h2>Variables</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-modulen~59"></span>character(len=*),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>moduleN</strong></td><td> =</td><td>'dbcsr_ptr_util'</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-careful_mod~12"></span>logical,</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>careful_mod</strong></td><td> =</td><td>.FALSE.</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_data_allocation"></span>type(<a href='../type/dbcsr_data_allocation_type.html'>dbcsr_data_allocation_type</a>),</td>
+  
+  <td>public,</td>
+  <td>SAVE</td><td>::</td>
+  <td><strong>dbcsr_data_allocation</strong></td><td> =</td><td>dbcsr_data_allocation_type()</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+    <section>
+   <h2>Interfaces</h2>
+   
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-ensure_array_size"></span><h3>public interface <a href='../interface/ensure_array_size.html'>ensure_array_size</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/ensure_array_size_i.html'>ensure_array_size_i</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Ensures that an array is appropriately large.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array_resize</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>desired array lower bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>desired array upper bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>factor</strong></td><td><p>factor by which to exaggerate enlargements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>memory_type</strong></td><td><p>use special memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/ensure_array_size_l.html'>ensure_array_size_l</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Ensures that an array is appropriately large.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array_resize</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>desired array lower bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>desired array upper bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>factor</strong></td><td><p>factor by which to exaggerate enlargements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>memory_type</strong></td><td><p>use special memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/ensure_array_size_s.html'>ensure_array_size_s</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Ensures that an array is appropriately large.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array_resize</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>desired array lower bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>desired array upper bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>factor</strong></td><td><p>factor by which to exaggerate enlargements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>memory_type</strong></td><td><p>use special memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/ensure_array_size_d.html'>ensure_array_size_d</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Ensures that an array is appropriately large.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array_resize</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>desired array lower bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>desired array upper bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>factor</strong></td><td><p>factor by which to exaggerate enlargements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>memory_type</strong></td><td><p>use special memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/ensure_array_size_c.html'>ensure_array_size_c</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Ensures that an array is appropriately large.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array_resize</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>desired array lower bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>desired array upper bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>factor</strong></td><td><p>factor by which to exaggerate enlargements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>memory_type</strong></td><td><p>use special memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/ensure_array_size_z.html'>ensure_array_size_z</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Ensures that an array is appropriately large.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array_resize</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>desired array lower bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>desired array upper bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>factor</strong></td><td><p>factor by which to exaggerate enlargements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>memory_type</strong></td><td><p>use special memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-pointer_view"></span><h3>public interface <a href='../interface/pointer_view.html'>pointer_view</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/pointer_view_s.html'>pointer_view_s</a>(original, lb, ub) result(view)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Returns a pointer with different bounds.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>original</strong></td><td><p>original data pointer
+ new pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>real(kind=real_4),
+  DIMENSION(:), POINTER</small></h4>
+  <p>original data pointer
+ new pointer</p>
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/pointer_view_d.html'>pointer_view_d</a>(original, lb, ub) result(view)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Returns a pointer with different bounds.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>original</strong></td><td><p>original data pointer
+ new pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>real(kind=real_8),
+  DIMENSION(:), POINTER</small></h4>
+  <p>original data pointer
+ new pointer</p>
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/pointer_view_c.html'>pointer_view_c</a>(original, lb, ub) result(view)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Returns a pointer with different bounds.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>original</strong></td><td><p>original data pointer
+ new pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>complex(kind=real_4),
+  DIMENSION(:), POINTER</small></h4>
+  <p>original data pointer
+ new pointer</p>
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/pointer_view_z.html'>pointer_view_z</a>(original, lb, ub) result(view)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Returns a pointer with different bounds.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>original</strong></td><td><p>original data pointer
+ new pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>complex(kind=real_8),
+  DIMENSION(:), POINTER</small></h4>
+  <p>original data pointer
+ new pointer</p>
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/pointer_view_i.html'>pointer_view_i</a>(original, lb, ub) result(view)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Returns a pointer with different bounds.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>original</strong></td><td><p>original data pointer
+ new pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=int_4),
+  DIMENSION(:), POINTER</small></h4>
+  <p>original data pointer
+ new pointer</p>
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/pointer_view_l.html'>pointer_view_l</a>(original, lb, ub) result(view)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Returns a pointer with different bounds.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>original</strong></td><td><p>original data pointer
+ new pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=int_8),
+  DIMENSION(:), POINTER</small></h4>
+  <p>original data pointer
+ new pointer</p>
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/pointer_view_a.html'>pointer_view_a</a>(new_area, area, offset, len) result(narea2)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Repoints a pointer into a part of a data area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>new_area</strong></td><td><p>repoints this encapsulated pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>area</strong></td><td><p>area to point into</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>offset</strong></td><td><p>point to this offset in area</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>len</strong></td><td><p>length of data area to point to</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>)
+  </small></h4>
+  <p>copy of new_area</p>
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-pointer_rank_remap2"></span><h3>public interface <a href='../interface/pointer_rank_remap2.html'>pointer_rank_remap2</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/pointer_s_rank_remap2.html'>pointer_s_rank_remap2</a>(r2p, d1, d2, r1p)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
+ rank remapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>r2p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r1p</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/pointer_d_rank_remap2.html'>pointer_d_rank_remap2</a>(r2p, d1, d2, r1p)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
+ rank remapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>r2p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r1p</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/pointer_c_rank_remap2.html'>pointer_c_rank_remap2</a>(r2p, d1, d2, r1p)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
+ rank remapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>r2p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r1p</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/pointer_z_rank_remap2.html'>pointer_z_rank_remap2</a>(r2p, d1, d2, r1p)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
+ rank remapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>r2p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r1p</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/pointer_l_rank_remap2.html'>pointer_l_rank_remap2</a>(r2p, d1, d2, r1p)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
+ rank remapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>r2p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r1p</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/pointer_i_rank_remap2.html'>pointer_i_rank_remap2</a>(r2p, d1, d2, r1p)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
+ rank remapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>r2p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r1p</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-memory_copy"></span><h3>public interface <a href='../interface/memory_copy.html'>memory_copy</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_copy_i.html'>mem_copy_i</a>(dst, src, n)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Copies memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>src</strong></td><td><p>source memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of copy</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_copy_l.html'>mem_copy_l</a>(dst, src, n)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Copies memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>src</strong></td><td><p>source memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of copy</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_copy_s.html'>mem_copy_s</a>(dst, src, n)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Copies memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>src</strong></td><td><p>source memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of copy</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_copy_d.html'>mem_copy_d</a>(dst, src, n)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Copies memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>src</strong></td><td><p>source memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of copy</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_copy_c.html'>mem_copy_c</a>(dst, src, n)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Copies memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>src</strong></td><td><p>source memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of copy</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_copy_z.html'>mem_copy_z</a>(dst, src, n)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Copies memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>src</strong></td><td><p>source memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of copy</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-memory_zero"></span><h3>public interface <a href='../interface/memory_zero.html'>memory_zero</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_zero_i.html'>mem_zero_i</a>(dst, n)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Zeros memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to zero</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_zero_l.html'>mem_zero_l</a>(dst, n)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Zeros memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to zero</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_zero_s.html'>mem_zero_s</a>(dst, n)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Zeros memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to zero</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_zero_d.html'>mem_zero_d</a>(dst, n)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Zeros memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to zero</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_zero_c.html'>mem_zero_c</a>(dst, n)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Zeros memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to zero</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_zero_z.html'>mem_zero_z</a>(dst, n)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Zeros memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to zero</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-memory_allocate"></span><h3>public interface <a href='../interface/memory_allocate.html'>memory_allocate</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_alloc_i.html'>mem_alloc_i</a>(mem, n, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_alloc_l.html'>mem_alloc_l</a>(mem, n, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_alloc_s.html'>mem_alloc_s</a>(mem, n, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_alloc_d.html'>mem_alloc_d</a>(mem, n, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_alloc_c.html'>mem_alloc_c</a>(mem, n, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_alloc_z.html'>mem_alloc_z</a>(mem, n, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_alloc_i_2d.html'>mem_alloc_i_2d</a>(mem, sizes, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>sizes</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_alloc_l_2d.html'>mem_alloc_l_2d</a>(mem, sizes, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>sizes</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_alloc_s_2d.html'>mem_alloc_s_2d</a>(mem, sizes, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>sizes</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_alloc_d_2d.html'>mem_alloc_d_2d</a>(mem, sizes, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>sizes</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_alloc_c_2d.html'>mem_alloc_c_2d</a>(mem, sizes, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>sizes</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_alloc_z_2d.html'>mem_alloc_z_2d</a>(mem, sizes, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>sizes</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-memory_deallocate"></span><h3>public interface <a href='../interface/memory_deallocate.html'>memory_deallocate</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_dealloc_i.html'>mem_dealloc_i</a>(mem, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_dealloc_l.html'>mem_dealloc_l</a>(mem, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_dealloc_s.html'>mem_dealloc_s</a>(mem, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_dealloc_d.html'>mem_dealloc_d</a>(mem, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_dealloc_c.html'>mem_dealloc_c</a>(mem, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_dealloc_z.html'>mem_dealloc_z</a>(mem, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_dealloc_i_2d.html'>mem_dealloc_i_2d</a>(mem, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_dealloc_l_2d.html'>mem_dealloc_l_2d</a>(mem, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_dealloc_s_2d.html'>mem_dealloc_s_2d</a>(mem, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_dealloc_d_2d.html'>mem_dealloc_d_2d</a>(mem, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_dealloc_c_2d.html'>mem_dealloc_c_2d</a>(mem, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/mem_dealloc_z_2d.html'>mem_dealloc_z_2d</a>(mem, mem_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+    </section>
+  <br>
+    
+
+    
+    
+    
+    <section>
+     <h2>Derived Types</h2>
+   
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_data_allocation_type"></span><h3>type, public :: <a href='../type/dbcsr_data_allocation_type.html'>dbcsr_data_allocation_type</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-use_mpi_allocator"></span>logical,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>use_mpi_allocator</strong></td><td> =</td><td>.TRUE.</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+          
+     
+  </div>
+</div>
+
+     
+    </section>
+  <br>
+    
+    
+     
+    <section>
+    <h2>Functions</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pointer_view_a"></span><h3>
+private function <a href='../proc/pointer_view_a.html'>pointer_view_a</a>(new_area, area, offset, len) result(narea2)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Repoints a pointer into a part of a data area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>new_area</strong></td><td><p>repoints this encapsulated pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>area</strong></td><td><p>area to point into</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>offset</strong></td><td><p>point to this offset in area</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>len</strong></td><td><p>length of data area to point to</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>)
+  </small></h4>
+  <p>copy of new_area</p>
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pointer_view_d"></span><h3>
+private function <a href='../proc/pointer_view_d.html'>pointer_view_d</a>(original, lb, ub) result(view)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Returns a pointer with different bounds.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>original</strong></td><td><p>original data pointer
+ new pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>real(kind=real_8),
+  DIMENSION(:), POINTER</small></h4>
+  <p>original data pointer
+ new pointer</p>
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pointer_view_s"></span><h3>
+private function <a href='../proc/pointer_view_s.html'>pointer_view_s</a>(original, lb, ub) result(view)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Returns a pointer with different bounds.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>original</strong></td><td><p>original data pointer
+ new pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>real(kind=real_4),
+  DIMENSION(:), POINTER</small></h4>
+  <p>original data pointer
+ new pointer</p>
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pointer_view_z"></span><h3>
+private function <a href='../proc/pointer_view_z.html'>pointer_view_z</a>(original, lb, ub) result(view)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Returns a pointer with different bounds.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>original</strong></td><td><p>original data pointer
+ new pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>complex(kind=real_8),
+  DIMENSION(:), POINTER</small></h4>
+  <p>original data pointer
+ new pointer</p>
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pointer_view_c"></span><h3>
+private function <a href='../proc/pointer_view_c.html'>pointer_view_c</a>(original, lb, ub) result(view)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Returns a pointer with different bounds.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>original</strong></td><td><p>original data pointer
+ new pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>complex(kind=real_4),
+  DIMENSION(:), POINTER</small></h4>
+  <p>original data pointer
+ new pointer</p>
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pointer_view_i"></span><h3>
+private function <a href='../proc/pointer_view_i.html'>pointer_view_i</a>(original, lb, ub) result(view)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Returns a pointer with different bounds.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>original</strong></td><td><p>original data pointer
+ new pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=int_4),
+  DIMENSION(:), POINTER</small></h4>
+  <p>original data pointer
+ new pointer</p>
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pointer_view_l"></span><h3>
+private function <a href='../proc/pointer_view_l.html'>pointer_view_l</a>(original, lb, ub) result(view)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Returns a pointer with different bounds.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>original</strong></td><td><p>original data pointer
+ new pointer</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
+ lower and upper bound for the new pointer view</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=int_8),
+  DIMENSION(:), POINTER</small></h4>
+  <p>original data pointer
+ new pointer</p>
+    
+
+  </div>
+  </div>
+
+    
+    </section>
+    <br>
+    
+
+    
+    <section>
+    <h2>Subroutines</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-ensure_array_size_d"></span><h3>
+private subroutine <a href='../proc/ensure_array_size_d.html'>ensure_array_size_d</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Ensures that an array is appropriately large.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array_resize</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>desired array lower bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>desired array upper bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>factor</strong></td><td><p>factor by which to exaggerate enlargements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>memory_type</strong></td><td><p>use special memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_copy_d"></span><h3>
+private subroutine <a href='../proc/mem_copy_d.html'>mem_copy_d</a>(dst, src, n)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Copies memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>src</strong></td><td><p>source memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of copy</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_zero_d"></span><h3>
+private subroutine <a href='../proc/mem_zero_d.html'>mem_zero_d</a>(dst, n)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Zeros memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to zero</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_alloc_d"></span><h3>
+private subroutine <a href='../proc/mem_alloc_d.html'>mem_alloc_d</a>(mem, n, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_alloc_d_2d"></span><h3>
+private subroutine <a href='../proc/mem_alloc_d_2d.html'>mem_alloc_d_2d</a>(mem, sizes, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>sizes</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_dealloc_d"></span><h3>
+private subroutine <a href='../proc/mem_dealloc_d.html'>mem_dealloc_d</a>(mem, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_dealloc_d_2d"></span><h3>
+private subroutine <a href='../proc/mem_dealloc_d_2d.html'>mem_dealloc_d_2d</a>(mem, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pointer_d_rank_remap2"></span><h3>
+private subroutine <a href='../proc/pointer_d_rank_remap2.html'>pointer_d_rank_remap2</a>(r2p, d1, d2, r1p)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
+ rank remapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>r2p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r1p</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-ensure_array_size_s"></span><h3>
+private subroutine <a href='../proc/ensure_array_size_s.html'>ensure_array_size_s</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Ensures that an array is appropriately large.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array_resize</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>desired array lower bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>desired array upper bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>factor</strong></td><td><p>factor by which to exaggerate enlargements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>memory_type</strong></td><td><p>use special memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_copy_s"></span><h3>
+private subroutine <a href='../proc/mem_copy_s.html'>mem_copy_s</a>(dst, src, n)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Copies memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>src</strong></td><td><p>source memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of copy</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_zero_s"></span><h3>
+private subroutine <a href='../proc/mem_zero_s.html'>mem_zero_s</a>(dst, n)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Zeros memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to zero</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_alloc_s"></span><h3>
+private subroutine <a href='../proc/mem_alloc_s.html'>mem_alloc_s</a>(mem, n, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_alloc_s_2d"></span><h3>
+private subroutine <a href='../proc/mem_alloc_s_2d.html'>mem_alloc_s_2d</a>(mem, sizes, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>sizes</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_dealloc_s"></span><h3>
+private subroutine <a href='../proc/mem_dealloc_s.html'>mem_dealloc_s</a>(mem, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_dealloc_s_2d"></span><h3>
+private subroutine <a href='../proc/mem_dealloc_s_2d.html'>mem_dealloc_s_2d</a>(mem, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pointer_s_rank_remap2"></span><h3>
+private subroutine <a href='../proc/pointer_s_rank_remap2.html'>pointer_s_rank_remap2</a>(r2p, d1, d2, r1p)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
+ rank remapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>r2p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r1p</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-ensure_array_size_z"></span><h3>
+private subroutine <a href='../proc/ensure_array_size_z.html'>ensure_array_size_z</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Ensures that an array is appropriately large.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array_resize</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>desired array lower bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>desired array upper bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>factor</strong></td><td><p>factor by which to exaggerate enlargements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>memory_type</strong></td><td><p>use special memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_copy_z"></span><h3>
+private subroutine <a href='../proc/mem_copy_z.html'>mem_copy_z</a>(dst, src, n)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Copies memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>src</strong></td><td><p>source memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of copy</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_zero_z"></span><h3>
+private subroutine <a href='../proc/mem_zero_z.html'>mem_zero_z</a>(dst, n)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Zeros memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to zero</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_alloc_z"></span><h3>
+private subroutine <a href='../proc/mem_alloc_z.html'>mem_alloc_z</a>(mem, n, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_alloc_z_2d"></span><h3>
+private subroutine <a href='../proc/mem_alloc_z_2d.html'>mem_alloc_z_2d</a>(mem, sizes, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>sizes</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_dealloc_z"></span><h3>
+private subroutine <a href='../proc/mem_dealloc_z.html'>mem_dealloc_z</a>(mem, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_dealloc_z_2d"></span><h3>
+private subroutine <a href='../proc/mem_dealloc_z_2d.html'>mem_dealloc_z_2d</a>(mem, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pointer_z_rank_remap2"></span><h3>
+private subroutine <a href='../proc/pointer_z_rank_remap2.html'>pointer_z_rank_remap2</a>(r2p, d1, d2, r1p)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
+ rank remapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>r2p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r1p</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-ensure_array_size_c"></span><h3>
+private subroutine <a href='../proc/ensure_array_size_c.html'>ensure_array_size_c</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Ensures that an array is appropriately large.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array_resize</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>desired array lower bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>desired array upper bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>factor</strong></td><td><p>factor by which to exaggerate enlargements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>memory_type</strong></td><td><p>use special memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_copy_c"></span><h3>
+private subroutine <a href='../proc/mem_copy_c.html'>mem_copy_c</a>(dst, src, n)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Copies memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>src</strong></td><td><p>source memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of copy</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_zero_c"></span><h3>
+private subroutine <a href='../proc/mem_zero_c.html'>mem_zero_c</a>(dst, n)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Zeros memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to zero</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_alloc_c"></span><h3>
+private subroutine <a href='../proc/mem_alloc_c.html'>mem_alloc_c</a>(mem, n, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_alloc_c_2d"></span><h3>
+private subroutine <a href='../proc/mem_alloc_c_2d.html'>mem_alloc_c_2d</a>(mem, sizes, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>sizes</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_dealloc_c"></span><h3>
+private subroutine <a href='../proc/mem_dealloc_c.html'>mem_dealloc_c</a>(mem, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_dealloc_c_2d"></span><h3>
+private subroutine <a href='../proc/mem_dealloc_c_2d.html'>mem_dealloc_c_2d</a>(mem, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pointer_c_rank_remap2"></span><h3>
+private subroutine <a href='../proc/pointer_c_rank_remap2.html'>pointer_c_rank_remap2</a>(r2p, d1, d2, r1p)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
+ rank remapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>r2p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r1p</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-ensure_array_size_i"></span><h3>
+private subroutine <a href='../proc/ensure_array_size_i.html'>ensure_array_size_i</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Ensures that an array is appropriately large.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array_resize</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>desired array lower bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>desired array upper bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>factor</strong></td><td><p>factor by which to exaggerate enlargements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>memory_type</strong></td><td><p>use special memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_copy_i"></span><h3>
+private subroutine <a href='../proc/mem_copy_i.html'>mem_copy_i</a>(dst, src, n)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Copies memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>src</strong></td><td><p>source memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of copy</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_zero_i"></span><h3>
+private subroutine <a href='../proc/mem_zero_i.html'>mem_zero_i</a>(dst, n)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Zeros memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to zero</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_alloc_i"></span><h3>
+private subroutine <a href='../proc/mem_alloc_i.html'>mem_alloc_i</a>(mem, n, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_alloc_i_2d"></span><h3>
+private subroutine <a href='../proc/mem_alloc_i_2d.html'>mem_alloc_i_2d</a>(mem, sizes, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>sizes</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_dealloc_i"></span><h3>
+private subroutine <a href='../proc/mem_dealloc_i.html'>mem_dealloc_i</a>(mem, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_dealloc_i_2d"></span><h3>
+private subroutine <a href='../proc/mem_dealloc_i_2d.html'>mem_dealloc_i_2d</a>(mem, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pointer_i_rank_remap2"></span><h3>
+private subroutine <a href='../proc/pointer_i_rank_remap2.html'>pointer_i_rank_remap2</a>(r2p, d1, d2, r1p)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
+ rank remapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>r2p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r1p</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-ensure_array_size_l"></span><h3>
+private subroutine <a href='../proc/ensure_array_size_l.html'>ensure_array_size_l</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Ensures that an array is appropriately large.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>array_resize</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>lb</strong></td><td><p>desired array lower bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ub</strong></td><td><p>desired array upper bound</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>factor</strong></td><td><p>factor by which to exaggerate enlargements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>memory_type</strong></td><td><p>use special memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
+ zero new allocations; default is to write nothing</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_copy_l"></span><h3>
+private subroutine <a href='../proc/mem_copy_l.html'>mem_copy_l</a>(dst, src, n)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Copies memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>src</strong></td><td><p>source memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of copy</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_zero_l"></span><h3>
+private subroutine <a href='../proc/mem_zero_l.html'>mem_zero_l</a>(dst, n)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Zeros memory area</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(1:n)</td><td>::</td>
+  <td><strong>dst</strong></td><td><p>destination memory</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to zero</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_alloc_l"></span><h3>
+private subroutine <a href='../proc/mem_alloc_l.html'>mem_alloc_l</a>(mem, n, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_alloc_l_2d"></span><h3>
+private subroutine <a href='../proc/mem_alloc_l_2d.html'>mem_alloc_l_2d</a>(mem, sizes, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>sizes</strong></td><td><p>length of elements to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_dealloc_l"></span><h3>
+private subroutine <a href='../proc/mem_dealloc_l.html'>mem_dealloc_l</a>(mem, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mem_dealloc_l_2d"></span><h3>
+private subroutine <a href='../proc/mem_dealloc_l_2d.html'>mem_dealloc_l_2d</a>(mem, mem_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mem_type</strong></td><td><p>memory type</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pointer_l_rank_remap2"></span><h3>
+private subroutine <a href='../proc/pointer_l_rank_remap2.html'>pointer_l_rank_remap2</a>(r2p, d1, d2, r1p)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
+ rank remapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td><strong>r2p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>d2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r1p</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    </section>    
+    <br>
+    
+    
+    
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR Library was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>
