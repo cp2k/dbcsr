@@ -64,6 +64,7 @@ jobs:
     - name: Get the release version
       id: get_version
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+      shell: bash
 
     - name: Deploy Release Documentation
       if: github.repository == 'cp2k/dbcsr' && contains(github.ref, 'tags')

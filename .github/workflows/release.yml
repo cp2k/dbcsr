@@ -38,6 +38,7 @@ jobs:
     - name: Get the release version
       id: get_version
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+      shell: bash
 
     - name: Create Release
       id: create_release
