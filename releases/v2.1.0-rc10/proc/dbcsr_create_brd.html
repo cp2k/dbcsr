@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_create_brd &ndash; DBCSR Library</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR Library </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>dbcsr_create_brd
+      <small>Subroutine</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.2% of total for procedures.">98 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_csr_conversions.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/dbcsr_csr_conversions.f.html'>dbcsr_csr_conversions.F</a></li>
+    
+     <li><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></li>
+    
+  
+     <li class="active">dbcsr_create_brd</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_create_brd.html#src">dbcsr_create_brd</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>
+private subroutine dbcsr_create_brd(dbcsr_mat, brd_mat, equal_dist, floor_dist, numnodes)
+    
+    
+   
+</h2>
+    
+  
+
+
+    
+    <p>Converts a DBCSR matrix to a block row distributed matrix.</p>
+    
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_mat~11"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dbcsr_mat</strong></td><td><p>DBCSR matrix to be converted</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-brd_mat~6"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>brd_mat</strong></td><td><p>converted matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-equal_dist"></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>equal_dist</strong></td><td><p>see documentation of csr_create_from_dbcsr
+ see documentation of csr_create_from_dbcsr</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-floor_dist"></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>floor_dist</strong></td><td><p>see documentation of csr_create_from_dbcsr
+ see documentation of csr_create_from_dbcsr</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-numnodes~6"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>numnodes</strong></td><td><p>number of nodes to use for block row distribution</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+    
+     
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_create_brd.html#src">dbcsr_create_brd</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_create_brd</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span> <span class="n">brd_mat</span><span class="p">,</span> <span class="n">equal_dist</span><span class="p">,</span> <span class="n">floor_dist</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">)</span>
+      <span class="c">!! Converts a DBCSR matrix to a block row distributed matrix.</span>
+
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">dbcsr_mat</span>
+         <span class="c">!! DBCSR matrix to be converted</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">brd_mat</span>
+         <span class="c">!! converted matrix</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">equal_dist</span><span class="p">,</span> <span class="n">floor_dist</span>
+         <span class="c">!! see documentation of csr_create_from_dbcsr</span>
+         <span class="c">!! see documentation of csr_create_from_dbcsr</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">numnodes</span>
+         <span class="c">!! number of nodes to use for block row distribution</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_create_brd&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+      <span class="kt">CHARACTER</span>                                          <span class="kd">::</span> <span class="n">matrix_type</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">matrix_name</span>
+      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">cs</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">end_ind</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">mp_group</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">nblkcols_total</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">nblkrows_total</span><span class="p">,</span> <span class="n">nfullrows_local</span><span class="p">,</span> <span class="n">nfullrows_total</span><span class="p">,</span> <span class="n">node_size</span><span class="p">,</span> <span class="n">numnodes_total</span><span class="p">,</span> <span class="n">row_index</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">split_row</span><span class="p">,</span> <span class="n">start_ind</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">rdist_tmp</span><span class="p">,</span> <span class="n">row_blk_size_new_tmp</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:)</span>              <span class="kd">::</span> <span class="n">pgrid</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">cdist</span><span class="p">,</span> <span class="n">col_blk_size</span><span class="p">,</span> <span class="n">rdist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">row_blk_size</span><span class="p">,</span> <span class="n">row_blk_size_new</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>                                  <span class="kd">::</span> <span class="n">chunk_size</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">dist_current</span><span class="p">,</span> <span class="n">dist_new</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                                 <span class="kd">::</span> <span class="n">mp_obj_current</span><span class="p">,</span> <span class="n">mp_obj_new</span>
+
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+
+      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">row_blk_size</span><span class="p">,</span> <span class="n">rdist</span><span class="p">,</span> <span class="n">row_blk_size_new</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_get_info</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">nblkrows_total</span><span class="o">=</span><span class="n">nblkrows_total</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">nblkcols_total</span><span class="o">=</span><span class="n">nblkcols_total</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">nfullrows_total</span><span class="o">=</span><span class="n">nfullrows_total</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">row_blk_size</span><span class="o">=</span><span class="n">row_blk_size</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">col_blk_size</span><span class="o">=</span><span class="n">col_blk_size</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">matrix_type</span><span class="o">=</span><span class="n">matrix_type</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+
+      <span class="n">matrix_name</span> <span class="o">=</span> <span class="n">dbcsr_name</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">)</span>
+
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">cdist</span><span class="p">(</span><span class="n">nblkcols_total</span><span class="p">))</span>
+      <span class="n">cdist</span> <span class="o">=</span> <span class="mi">0</span>
+
+      <span class="n">dist_current</span> <span class="o">=</span> <span class="n">dbcsr_distribution</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">)</span>
+      <span class="n">mp_obj_current</span> <span class="o">=</span> <span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist_current</span><span class="p">)</span>
+      <span class="n">mp_group</span> <span class="o">=</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">mp_obj_current</span><span class="p">)</span>
+      <span class="n">mynode</span> <span class="o">=</span> <span class="n">dbcsr_mp_mynode</span><span class="p">(</span><span class="n">mp_obj_current</span><span class="p">)</span>
+      <span class="n">numnodes_total</span> <span class="o">=</span> <span class="n">dbcsr_mp_numnodes</span><span class="p">(</span><span class="n">mp_obj_current</span><span class="p">)</span>
+
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">pgrid</span><span class="p">(</span><span class="n">numnodes_total</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">equal_dist</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! Equally distribute rows over processors -&gt; cut blocks</span>
+
+         <span class="c">! Calculate the number of rows a processor can hold</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">floor_dist</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">nfullrows_local</span> <span class="o">=</span> <span class="nb">FLOOR</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nfullrows_total</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="o">/</span><span class="n">numnodes</span><span class="p">)</span>
+         <span class="k">ELSE</span>
+<span class="k">            </span><span class="n">nfullrows_local</span> <span class="o">=</span> <span class="nb">CEILING</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nfullrows_total</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="o">/</span><span class="n">numnodes</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+
+         <span class="c">! allocate maximum amount of memory possibly needed</span>
+         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">rdist_tmp</span><span class="p">(</span><span class="n">nblkrows_total</span> <span class="o">+</span> <span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="c">! row distribution</span>
+         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_blk_size_new_tmp</span><span class="p">(</span><span class="n">nblkrows_total</span> <span class="o">+</span> <span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="c">! new sizes of block rows</span>
+
+         <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">! counter for block rows</span>
+         <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">! node counter</span>
+         <span class="n">node_size</span> <span class="o">=</span> <span class="n">nfullrows_local</span> <span class="c">! space available on current node in number of rows</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">node_size</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            DO </span><span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblkrows_total</span>
+               <span class="n">split_row</span> <span class="o">=</span> <span class="n">row_blk_size</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="c">! size of current block row (number of rows)</span>
+               <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">split_row</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">node_size</span><span class="p">)</span> <span class="c">! cut block row and send it to two nodes</span>
+                  <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+                  <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+                  <span class="n">row_blk_size_new_tmp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">node_size</span> <span class="c">! size of first part of block row</span>
+                  <span class="n">rdist_tmp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span> <span class="c">! send first part to node m</span>
+                  <span class="n">split_row</span> <span class="o">=</span> <span class="n">split_row</span> <span class="o">-</span> <span class="n">node_size</span> <span class="c">! size of remaining part of block rows</span>
+                  <span class="n">node_size</span> <span class="o">=</span> <span class="n">nfullrows_local</span> <span class="c">! space available on next node</span>
+                  <span class="k">IF</span> <span class="p">(</span><span class="n">floor_dist</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">m</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="k">THEN</span> <span class="c">! send all remaining rows to last node</span>
+                     <span class="n">node_size</span> <span class="o">=</span> <span class="n">nfullrows_total</span> <span class="o">-</span> <span class="p">(</span><span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">node_size</span>
+                  <span class="n">ENDIF</span>
+               <span class="n">ENDDO</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">split_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! enough space left on next node for remaining rows</span>
+                  <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+                  <span class="n">row_blk_size_new_tmp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">split_row</span> <span class="c">! size of remaining part of block row</span>
+                  <span class="n">rdist_tmp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">m</span> <span class="c">! send to next node</span>
+                  <span class="n">node_size</span> <span class="o">=</span> <span class="n">node_size</span> <span class="o">-</span> <span class="n">split_row</span> <span class="c">! remaining space on next node</span>
+               <span class="n">ENDIF</span>
+            <span class="n">ENDDO</span>
+         <span class="k">ELSE</span> <span class="c">! send everything to last node if node_size = 0</span>
+            <span class="n">rdist_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nblkrows_total</span><span class="p">)</span> <span class="o">=</span> <span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">row_blk_size_new_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nblkrows_total</span><span class="p">)</span> <span class="o">=</span> <span class="n">row_blk_size</span> <span class="c">! row blocks unchanged</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">nblkrows_total</span>
+         <span class="n">ENDIF</span>
+
+         <span class="c">! Copy data to correctly allocated variables</span>
+         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_blk_size_new</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+         <span class="n">row_blk_size_new</span> <span class="o">=</span> <span class="n">row_blk_size_new_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">k</span><span class="p">)</span>
+         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">rdist</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+         <span class="n">rdist</span> <span class="o">=</span> <span class="n">rdist_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">k</span><span class="p">)</span>
+
+      <span class="k">ELSE</span> <span class="c">! Leave block rows intact (do not cut)</span>
+         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">rdist</span><span class="p">(</span><span class="n">nblkrows_total</span><span class="p">))</span>
+         <span class="n">rdist</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">numnodes</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">nblkrows_total</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">rdist</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nblkrows_total</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">)</span>
+         <span class="k">ELSE</span>
+<span class="k">            </span><span class="n">chunk_size</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">nblkrows_total</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="o">/</span><span class="n">numnodes</span>
+            <span class="n">row_index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">start_ind</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span>
+               <span class="n">cs</span> <span class="o">=</span> <span class="nb">NINT</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">chunk_size</span><span class="p">)</span> <span class="o">-</span> <span class="nb">NINT</span><span class="p">((</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">chunk_size</span><span class="p">)</span>
+               <span class="n">end_ind</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">start_ind</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">cs</span><span class="p">,</span> <span class="n">nblkrows_total</span><span class="p">)</span>
+               <span class="n">rdist</span><span class="p">(</span><span class="n">start_ind</span><span class="p">:</span><span class="n">end_ind</span><span class="p">)</span> <span class="o">=</span> <span class="n">row_index</span>
+               <span class="n">start_ind</span> <span class="o">=</span> <span class="n">end_ind</span> <span class="o">+</span> <span class="mi">1</span>
+               <span class="n">row_index</span> <span class="o">=</span> <span class="n">row_index</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">END DO</span>
+<span class="k">         END IF</span>
+<span class="k">         </span><span class="n">row_blk_size_new</span> <span class="o">=&gt;</span> <span class="n">row_blk_size</span>
+      <span class="n">ENDIF</span>
+
+      <span class="n">pgrid</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="nb">RESHAPE</span><span class="p">((</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">numnodes_total</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span><span class="n">numnodes_total</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="p">))</span>
+      <span class="k">CALL </span><span class="n">dbcsr_mp_new</span><span class="p">(</span><span class="n">mp_obj_new</span><span class="p">,</span> <span class="n">mp_group</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">numnodes</span><span class="o">=</span><span class="n">numnodes_total</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dist_new</span><span class="p">,</span> <span class="n">mp_obj_new</span><span class="p">,</span> <span class="n">rdist</span><span class="p">,</span> <span class="n">cdist</span><span class="p">,</span> <span class="n">reuse_arrays</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+
+      <span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">brd_mat</span><span class="p">,</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">matrix_name</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot; row-block distributed&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+                        <span class="n">dist_new</span><span class="p">,</span> <span class="n">matrix_type</span><span class="p">,</span> <span class="n">row_blk_size_new</span><span class="p">,</span> <span class="n">col_blk_size</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_complete_redistribute</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span> <span class="n">brd_mat</span><span class="p">)</span>
+
+      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">pgrid</span><span class="p">)</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">equal_dist</span><span class="p">)</span> <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">row_blk_size_new</span><span class="p">)</span>
+
+      <span class="k">CALL </span><span class="n">dbcsr_distribution_release</span><span class="p">(</span><span class="n">dist_new</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_mp_release</span><span class="p">(</span><span class="n">mp_obj_new</span><span class="p">)</span>
+
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+
+   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_create_brd</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    
+    </div>
+  </div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR Library was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>

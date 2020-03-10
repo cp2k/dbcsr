@@ -1,0 +1,3426 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_tas_global &ndash; DBCSR Library</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR Library </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>dbcsr_tas_global 
+    <small>Module</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.5% of total for modules and submodules.">307 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_global.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/dbcsr_tas_global.f.html'>dbcsr_tas_global.F</a></li>
+    
+  
+     <li class="active">dbcsr_tas_global</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~16">moduleN</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-0">Interfaces</a></h3></div>
+  <div id="inters-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dbcsr_tas_dist_cyclic">dbcsr_tas_dist_cyclic</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dbcsr_tas_dist_arb">dbcsr_tas_dist_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dbcsr_tas_dist_repl">dbcsr_tas_dist_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dbcsr_tas_blk_size_arb">dbcsr_tas_blk_size_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dbcsr_tas_blk_size_repl">dbcsr_tas_blk_size_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dbcsr_tas_blk_size_one">dbcsr_tas_blk_size_one</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#absints-0">Abstract Interfaces</a></h3></div>
+  <div id="absints-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-rowcol_dist">rowcol_dist</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dist_rowcols">dist_rowcols</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-rowcol_data">rowcol_data</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-0">Derived Types</a></h3></div>
+  <div id="types-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_distribution">dbcsr_tas_distribution</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_dist_cyclic">dbcsr_tas_dist_cyclic</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_dist_arb">dbcsr_tas_dist_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_dist_repl">dbcsr_tas_dist_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_rowcol_data">dbcsr_tas_rowcol_data</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_blk_size_arb">dbcsr_tas_blk_size_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_blk_size_repl">dbcsr_tas_blk_size_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_blk_size_one">dbcsr_tas_blk_size_one</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-blk_size_arb">blk_size_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-blk_size_repl">blk_size_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-blk_size_one">blk_size_one</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-new_dbcsr_tas_blk_size_arb">new_dbcsr_tas_blk_size_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-new_dbcsr_tas_blk_size_repl">new_dbcsr_tas_blk_size_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-new_dbcsr_tas_blk_size_one">new_dbcsr_tas_blk_size_one</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-arb_dist">arb_dist</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-repl_dist">repl_dist</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-repl_rowcols">repl_rowcols</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-arb_rowcols">arb_rowcols</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-new_dbcsr_tas_dist_cyclic">new_dbcsr_tas_dist_cyclic</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-new_dbcsr_tas_dist_arb">new_dbcsr_tas_dist_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-dbcsr_tas_dist_arb_default">dbcsr_tas_dist_arb_default</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-new_dbcsr_tas_dist_repl">new_dbcsr_tas_dist_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-cyclic_dist">cyclic_dist</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-cyclic_rowcols">cyclic_rowcols</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-cyclic_weighted_dist">cyclic_weighted_dist</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <p>Global data (distribution and block sizes) for tall-and-skinny matrices
+ For very sparse matrices with one very large dimension, storing array data of the same size
+ as the matrix dimensions may require too much memory and we need to compute them on the fly for a
+ given row or column. Hence global array data such as distribution and block sizes are specified as
+ function objects, leaving up to the caller how to efficiently store global data.</p>
+      <br>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      
+      </ul>
+    </div>
+    
+
+    
+    
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~16">moduleN</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-1">Interfaces</a></h3></div>
+  <div id="inters-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dbcsr_tas_dist_cyclic">dbcsr_tas_dist_cyclic</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dbcsr_tas_dist_arb">dbcsr_tas_dist_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dbcsr_tas_dist_repl">dbcsr_tas_dist_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dbcsr_tas_blk_size_arb">dbcsr_tas_blk_size_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dbcsr_tas_blk_size_repl">dbcsr_tas_blk_size_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dbcsr_tas_blk_size_one">dbcsr_tas_blk_size_one</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#absints-1">Abstract Interfaces</a></h3></div>
+  <div id="absints-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-rowcol_dist">rowcol_dist</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-dist_rowcols">dist_rowcols</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#interface-rowcol_data">rowcol_data</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-1">Derived Types</a></h3></div>
+  <div id="types-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_distribution">dbcsr_tas_distribution</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_dist_cyclic">dbcsr_tas_dist_cyclic</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_dist_arb">dbcsr_tas_dist_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_dist_repl">dbcsr_tas_dist_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_rowcol_data">dbcsr_tas_rowcol_data</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_blk_size_arb">dbcsr_tas_blk_size_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_blk_size_repl">dbcsr_tas_blk_size_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#type-dbcsr_tas_blk_size_one">dbcsr_tas_blk_size_one</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-blk_size_arb">blk_size_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-blk_size_repl">blk_size_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-blk_size_one">blk_size_one</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-new_dbcsr_tas_blk_size_arb">new_dbcsr_tas_blk_size_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-new_dbcsr_tas_blk_size_repl">new_dbcsr_tas_blk_size_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-new_dbcsr_tas_blk_size_one">new_dbcsr_tas_blk_size_one</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-arb_dist">arb_dist</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-repl_dist">repl_dist</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-repl_rowcols">repl_rowcols</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-arb_rowcols">arb_rowcols</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-new_dbcsr_tas_dist_cyclic">new_dbcsr_tas_dist_cyclic</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-new_dbcsr_tas_dist_arb">new_dbcsr_tas_dist_arb</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-dbcsr_tas_dist_arb_default">dbcsr_tas_dist_arb_default</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-new_dbcsr_tas_dist_repl">new_dbcsr_tas_dist_repl</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-cyclic_dist">cyclic_dist</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-cyclic_rowcols">cyclic_rowcols</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-1" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-cyclic_weighted_dist">cyclic_weighted_dist</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    <section>
+    <h2>Variables</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-modulen~16"></span>character(len=*),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>moduleN</strong></td><td> =</td><td>'dbcsr_tas_global'</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+    <section>
+   <h2>Interfaces</h2>
+   
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-dbcsr_tas_dist_cyclic"></span><h3>public interface <a href='../interface/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/new_dbcsr_tas_dist_cyclic.html'>new_dbcsr_tas_dist_cyclic</a>(split_size, nprowcol, nmrowcol)
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>split_size</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nprowcol</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>)
+  </small></h4>
+  
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-dbcsr_tas_dist_arb"></span><h3>public interface <a href='../interface/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/new_dbcsr_tas_dist_arb.html'>new_dbcsr_tas_dist_arb</a>(dist_vec, nprowcol, nmrowcol)
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dist_vec</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nprowcol</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>)
+  </small></h4>
+  
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-dbcsr_tas_dist_repl"></span><h3>public interface <a href='../interface/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/new_dbcsr_tas_dist_repl.html'>new_dbcsr_tas_dist_repl</a>(dist_vec, nprowcol, nmrowcol, n_repl, dist_size)
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dist_vec</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nprowcol</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n_repl</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dist_size</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>)
+  </small></h4>
+  
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-dbcsr_tas_blk_size_arb"></span><h3>public interface <a href='../interface/dbcsr_tas_blk_size_arb.html'>dbcsr_tas_blk_size_arb</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/new_dbcsr_tas_blk_size_arb.html'>new_dbcsr_tas_blk_size_arb</a>(blk_size_vec)
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>blk_size_vec</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_tas_blk_size_arb.html'>dbcsr_tas_blk_size_arb</a>)
+  </small></h4>
+  
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-dbcsr_tas_blk_size_repl"></span><h3>public interface <a href='../interface/dbcsr_tas_blk_size_repl.html'>dbcsr_tas_blk_size_repl</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/new_dbcsr_tas_blk_size_repl.html'>new_dbcsr_tas_blk_size_repl</a>(blk_size_vec, n_repl)
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>blk_size_vec</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n_repl</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_tas_blk_size_repl.html'>dbcsr_tas_blk_size_repl</a>)
+  </small></h4>
+  
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-dbcsr_tas_blk_size_one"></span><h3>public interface <a href='../interface/dbcsr_tas_blk_size_one.html'>dbcsr_tas_blk_size_one</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/new_dbcsr_tas_blk_size_one.html'>new_dbcsr_tas_blk_size_one</a>(nrowcol)
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nrowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_tas_blk_size_one.html'>dbcsr_tas_blk_size_one</a>)
+  </small></h4>
+  
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+    </section>
+  <br>
+    
+
+    
+    <section>
+     <h2>Abstract Interfaces</h2>
+   
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-rowcol_dist"></span><h3>abstract interface
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function rowcol_dist(t, rowcol)
+    
+    
+   
+</h3>
+    
+
+
+
+<p>map matrix rows/cols to distribution rows/cols:</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>t</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>rowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+    </li>
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-dist_rowcols"></span><h3>abstract interface
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function dist_rowcols(t, dist)
+    
+    
+   
+</h3>
+    
+
+
+
+<p>map distribution rows/cols to matrix rows/cols:</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>t</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dist</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=int_8),
+  DIMENSION(:), ALLOCATABLE</small></h4>
+  
+    
+
+    </li>
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-rowcol_data"></span><h3>abstract interface
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function rowcol_data(t, rowcol)
+    
+    
+   
+</h3>
+    
+
+
+
+<p>integer data for each block row / col</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>t</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>rowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+    </li>
+  </ul>
+</div>
+
+    
+    </section>
+  <br>
+    
+    
+    
+    <section>
+     <h2>Derived Types</h2>
+   
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_tas_distribution"></span><h3>type, public, ABSTRACT :: <a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nprowcol"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>nprowcol</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nmrowcol"></span>integer(kind=int_8),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+          
+     
+     <h4>Type-Bound Procedures</h4>
+      <table class="table table-striped varlist">
+      <tbody>
+      
+       <tr><td>procedure(rowcol_dist), public :: <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-dist~5'>dist</a></strong>  </td>
+       <td></td></tr>
+      
+       <tr><td>procedure(dist_rowcols), public :: <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-rowcols~2'>rowcols</a></strong>  </td>
+       <td></td></tr>
+      
+       </tbody>
+       </table>
+     
+  </div>
+</div>
+
+     
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_tas_dist_cyclic"></span><h3>type, public, EXTENDS(dbcsr_tas_distribution) :: <a href='../type/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-split_size"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>split_size</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+     <h4>Constructor</h4>
+       
+         
+       
+       <table class="table table-striped varlist">
+      <tbody>
+        
+             
+             
+             
+             <tr><td>private  function <strong><a href='../proc/new_dbcsr_tas_dist_cyclic.html'>new_dbcsr_tas_dist_cyclic</a></strong>(split_size, nprowcol, nmrowcol)</td><td></td></tr>
+             
+        
+       </tbody>
+       </table>
+     
+          
+     
+     <h4>Type-Bound Procedures</h4>
+      <table class="table table-striped varlist">
+      <tbody>
+      
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-dist~6'>dist</a></strong>  => cyclic_dist </td>
+       <td></td></tr>
+      
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-rowcols~3'>rowcols</a></strong>  => cyclic_rowcols </td>
+       <td></td></tr>
+      
+       </tbody>
+       </table>
+     
+  </div>
+</div>
+
+     
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_tas_dist_arb"></span><h3>type, public, EXTENDS(dbcsr_tas_distribution) :: <a href='../type/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dist_vec"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>dist_vec</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+     <h4>Constructor</h4>
+       
+         
+       
+       <table class="table table-striped varlist">
+      <tbody>
+        
+             
+             
+             
+             <tr><td>private  function <strong><a href='../proc/new_dbcsr_tas_dist_arb.html'>new_dbcsr_tas_dist_arb</a></strong>(dist_vec, nprowcol, nmrowcol)</td><td></td></tr>
+             
+        
+       </tbody>
+       </table>
+     
+          
+     
+     <h4>Type-Bound Procedures</h4>
+      <table class="table table-striped varlist">
+      <tbody>
+      
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-dist~7'>dist</a></strong>  => arb_dist </td>
+       <td></td></tr>
+      
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-rowcols~4'>rowcols</a></strong>  => arb_rowcols </td>
+       <td></td></tr>
+      
+       </tbody>
+       </table>
+     
+  </div>
+</div>
+
+     
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_tas_dist_repl"></span><h3>type, public, EXTENDS(dbcsr_tas_distribution) :: <a href='../type/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dist_vec~2"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>dist_vec</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nmrowcol_local"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>nmrowcol_local</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-n_repl"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>n_repl</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dist_size"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>dist_size</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+     <h4>Constructor</h4>
+       
+         
+       
+       <table class="table table-striped varlist">
+      <tbody>
+        
+             
+             
+             
+             <tr><td>private  function <strong><a href='../proc/new_dbcsr_tas_dist_repl.html'>new_dbcsr_tas_dist_repl</a></strong>(dist_vec, nprowcol, nmrowcol, n_repl, dist_size)</td><td></td></tr>
+             
+        
+       </tbody>
+       </table>
+     
+          
+     
+     <h4>Type-Bound Procedures</h4>
+      <table class="table table-striped varlist">
+      <tbody>
+      
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-dist~8'>dist</a></strong>  => repl_dist </td>
+       <td></td></tr>
+      
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-rowcols~5'>rowcols</a></strong>  => repl_rowcols </td>
+       <td></td></tr>
+      
+       </tbody>
+       </table>
+     
+  </div>
+</div>
+
+     
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_tas_rowcol_data"></span><h3>type, public, ABSTRACT :: <a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nmrowcol~2"></span>integer(kind=int_8),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nfullrowcol"></span>integer(kind=int_8),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>nfullrowcol</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+          
+     
+     <h4>Type-Bound Procedures</h4>
+      <table class="table table-striped varlist">
+      <tbody>
+      
+       <tr><td>procedure(rowcol_data), public :: <strong><a href='../type/dbcsr_tas_rowcol_data.html#boundprocedure-data'>DATA</a></strong>  </td>
+       <td></td></tr>
+      
+       </tbody>
+       </table>
+     
+  </div>
+</div>
+
+     
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_tas_blk_size_arb"></span><h3>type, public, EXTENDS(dbcsr_tas_rowcol_data) :: <a href='../type/dbcsr_tas_blk_size_arb.html'>dbcsr_tas_blk_size_arb</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_size_vec"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>blk_size_vec</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+     <h4>Constructor</h4>
+       
+         
+       
+       <table class="table table-striped varlist">
+      <tbody>
+        
+             
+             
+             
+             <tr><td>private  function <strong><a href='../proc/new_dbcsr_tas_blk_size_arb.html'>new_dbcsr_tas_blk_size_arb</a></strong>(blk_size_vec)</td><td></td></tr>
+             
+        
+       </tbody>
+       </table>
+     
+          
+     
+     <h4>Type-Bound Procedures</h4>
+      <table class="table table-striped varlist">
+      <tbody>
+      
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_blk_size_arb.html#boundprocedure-data~2'>DATA</a></strong>  => blk_size_arb </td>
+       <td></td></tr>
+      
+       </tbody>
+       </table>
+     
+  </div>
+</div>
+
+     
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_tas_blk_size_repl"></span><h3>type, public, EXTENDS(dbcsr_tas_rowcol_data) :: <a href='../type/dbcsr_tas_blk_size_repl.html'>dbcsr_tas_blk_size_repl</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_size_vec~2"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>blk_size_vec</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nmrowcol_local~2"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>nmrowcol_local</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+     <h4>Constructor</h4>
+       
+         
+       
+       <table class="table table-striped varlist">
+      <tbody>
+        
+             
+             
+             
+             <tr><td>private  function <strong><a href='../proc/new_dbcsr_tas_blk_size_repl.html'>new_dbcsr_tas_blk_size_repl</a></strong>(blk_size_vec, n_repl)</td><td></td></tr>
+             
+        
+       </tbody>
+       </table>
+     
+          
+     
+     <h4>Type-Bound Procedures</h4>
+      <table class="table table-striped varlist">
+      <tbody>
+      
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_blk_size_repl.html#boundprocedure-data~3'>DATA</a></strong>  => blk_size_repl </td>
+       <td></td></tr>
+      
+       </tbody>
+       </table>
+     
+  </div>
+</div>
+
+     
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_tas_blk_size_one"></span><h3>type, public, EXTENDS(dbcsr_tas_rowcol_data) :: <a href='../type/dbcsr_tas_blk_size_one.html'>dbcsr_tas_blk_size_one</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     
+     <h4>Constructor</h4>
+       
+         
+       
+       <table class="table table-striped varlist">
+      <tbody>
+        
+             
+             
+             
+             <tr><td>private  function <strong><a href='../proc/new_dbcsr_tas_blk_size_one.html'>new_dbcsr_tas_blk_size_one</a></strong>(nrowcol)</td><td></td></tr>
+             
+        
+       </tbody>
+       </table>
+     
+          
+     
+     <h4>Type-Bound Procedures</h4>
+      <table class="table table-striped varlist">
+      <tbody>
+      
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_blk_size_one.html#boundprocedure-data~4'>DATA</a></strong>  => blk_size_one </td>
+       <td></td></tr>
+      
+       </tbody>
+       </table>
+     
+  </div>
+</div>
+
+     
+    </section>
+  <br>
+    
+    
+     
+    <section>
+    <h2>Functions</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-blk_size_arb"></span><h3>
+private function <a href='../proc/blk_size_arb.html'>blk_size_arb</a>(t, rowcol)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_blk_size_arb.html'>dbcsr_tas_blk_size_arb</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>t</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>rowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-blk_size_repl"></span><h3>
+private function <a href='../proc/blk_size_repl.html'>blk_size_repl</a>(t, rowcol)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_blk_size_repl.html'>dbcsr_tas_blk_size_repl</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>t</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>rowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-blk_size_one"></span><h3>
+private function <a href='../proc/blk_size_one.html'>blk_size_one</a>(t, rowcol)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_blk_size_one.html'>dbcsr_tas_blk_size_one</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>t</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>rowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-new_dbcsr_tas_blk_size_arb"></span><h3>
+private function <a href='../proc/new_dbcsr_tas_blk_size_arb.html'>new_dbcsr_tas_blk_size_arb</a>(blk_size_vec)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>blk_size_vec</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_tas_blk_size_arb.html'>dbcsr_tas_blk_size_arb</a>)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-new_dbcsr_tas_blk_size_repl"></span><h3>
+private function <a href='../proc/new_dbcsr_tas_blk_size_repl.html'>new_dbcsr_tas_blk_size_repl</a>(blk_size_vec, n_repl)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>blk_size_vec</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n_repl</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_tas_blk_size_repl.html'>dbcsr_tas_blk_size_repl</a>)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-new_dbcsr_tas_blk_size_one"></span><h3>
+private function <a href='../proc/new_dbcsr_tas_blk_size_one.html'>new_dbcsr_tas_blk_size_one</a>(nrowcol)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nrowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_tas_blk_size_one.html'>dbcsr_tas_blk_size_one</a>)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-arb_dist"></span><h3>
+private function <a href='../proc/arb_dist.html'>arb_dist</a>(t, rowcol)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>t</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>rowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-repl_dist"></span><h3>
+private function <a href='../proc/repl_dist.html'>repl_dist</a>(t, rowcol)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>t</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>rowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-repl_rowcols"></span><h3>
+private function <a href='../proc/repl_rowcols.html'>repl_rowcols</a>(t, dist)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>t</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dist</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=int_8),
+  DIMENSION(:), ALLOCATABLE</small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-arb_rowcols"></span><h3>
+private function <a href='../proc/arb_rowcols.html'>arb_rowcols</a>(t, dist)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>t</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dist</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=int_8),
+  DIMENSION(:), ALLOCATABLE</small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-new_dbcsr_tas_dist_cyclic"></span><h3>
+private function <a href='../proc/new_dbcsr_tas_dist_cyclic.html'>new_dbcsr_tas_dist_cyclic</a>(split_size, nprowcol, nmrowcol)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>split_size</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nprowcol</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-new_dbcsr_tas_dist_arb"></span><h3>
+private function <a href='../proc/new_dbcsr_tas_dist_arb.html'>new_dbcsr_tas_dist_arb</a>(dist_vec, nprowcol, nmrowcol)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dist_vec</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nprowcol</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_dist_arb_default"></span><h3>
+public function <a href='../proc/dbcsr_tas_dist_arb_default.html'>dbcsr_tas_dist_arb_default</a>(nprowcol, nmrowcol, block_sizes)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Distribution that is more or less cyclic (round robin) and load balanced with different
+ weights for each element.
+ This is used for creating adhoc distributions whenever matrices are mapped to new grids.
+ Only for small dimensions since distribution is created as an array</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nprowcol</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>block_sizes</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_tas_dist_arb.html'>dbcsr_tas_dist_arb</a>)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-new_dbcsr_tas_dist_repl"></span><h3>
+private function <a href='../proc/new_dbcsr_tas_dist_repl.html'>new_dbcsr_tas_dist_repl</a>(dist_vec, nprowcol, nmrowcol, n_repl, dist_size)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dist_vec</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nprowcol</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nmrowcol</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n_repl</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dist_size</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_tas_dist_repl.html'>dbcsr_tas_dist_repl</a>)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-cyclic_dist"></span><h3>
+private function <a href='../proc/cyclic_dist.html'>cyclic_dist</a>(t, rowcol)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>t</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>rowcol</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-cyclic_rowcols"></span><h3>
+private function <a href='../proc/cyclic_rowcols.html'>cyclic_rowcols</a>(t, dist)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_dist_cyclic.html'>dbcsr_tas_dist_cyclic</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>t</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dist</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=int_8),
+  DIMENSION(:), ALLOCATABLE</small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    </section>
+    <br>
+    
+
+    
+    <section>
+    <h2>Subroutines</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-cyclic_weighted_dist"></span><h3>
+public subroutine <a href='../proc/cyclic_weighted_dist.html'>cyclic_weighted_dist</a>(nel, nbin, weights, dist)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nel</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nbin</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(nel)</td><td>::</td>
+  <td><strong>weights</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(nel)</td><td>::</td>
+  <td><strong>dist</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    </section>    
+    <br>
+    
+    
+    
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR Library was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>
