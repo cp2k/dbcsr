@@ -44,6 +44,12 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_DEPLOY_KEY }}
 
+    # workaround for https://github.com/webfactory/ssh-agent/issues/20
+    - name: Add Github host keys to the SSH configuration inside the container
+      run: |
+        mkdir -p /root/.ssh
+        ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
+
     - name: Deploy Development Documentation
       if: github.repository == 'cp2k/dbcsr' && github.ref == 'refs/heads/develop'
       uses: JamesIves/github-pages-deploy-action@releases/v3
@@ -54,7 +60,6 @@ jobs:
         TARGET_FOLDER: develop
         CLEAN: true
         CLEAN_EXCLUDE: '["releases"]'
-        DEBUG: true
 
     - name: Deploy Release Documentation
       if: github.repository == 'cp2k/dbcsr' && startsWith(github.ref, 'v')
