@@ -48,7 +48,7 @@ jobs:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
         draft: true
-        prerelease: ${{ contains(steps.get_version.outputs.VERSION, "rc") || contains(steps.get_version.outputs.VERSION, "alpha") || contains(steps.get_version.outputs.VERSION, "beta") }}
+        prerelease: true
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
