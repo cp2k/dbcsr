@@ -1,0 +1,48 @@
+---
+name: Testing on macOS
+on:
+  push:
+    branches:
+    - 'develop'
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        use_mpi: [MPI=ON, MPI=OFF]
+        use_openmp: [OPENMP=ON, OPENMP=OFF]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Checkout submodules
+      shell: bash
+      run: |
+        auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+        git submodule sync --recursive
+        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+
+    - name: Install dependencies
+      run: brew install mpich
+
+    - name: Configure
+      run: |
+        mkdir -p build
+        cd build
+        CC=gcc-9 CXX=g++-9 cmake \
+          -DUSE_${{ matrix.use_mpi }} \
+          -DUSE_${{ matrix.use_openmp }} \
+          ..
+
+    - name: Build
+      run: cmake --build build -- -j
+
+    - name: Test
+      run: |
+        cd build
+        ctest --output-on-failure
+
+#  vim: set ts=2 sw=2 tw=0 :
