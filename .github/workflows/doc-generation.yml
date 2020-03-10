@@ -8,7 +8,7 @@ on:
     - 'v*'
 
 jobs:
-  build-and-test:
+  build-and-deploy:
     runs-on: ubuntu-latest
     container:
       image: dbcsr/build-env-ubuntu-19.10:latest
@@ -55,7 +55,7 @@ jobs:
         FOLDER: build/doc
         TARGET_FOLDER: develop
         CLEAN: true
-        CLEAN_EXCLUDE: ['releases']
+        CLEAN_EXCLUDE: '["releases"]'
 
     - name: Deploy Release Documentation
       if: github.repository == 'cp2k/dbcsr' && startsWith(github.ref, 'v')
