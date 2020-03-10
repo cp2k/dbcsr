@@ -35,6 +35,10 @@ jobs:
     - name: Build Release Asset
       run: cmake --build build -- dist
 
+    - name: Get the release version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@latest
@@ -44,7 +48,7 @@ jobs:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
         draft: true
-        prerelease: false
+        prerelease: ${{ contains(steps.get_version.outputs.VERSION, "rc") || contains(steps.get_version.outputs.VERSION, "alpha") || contains(steps.get_version.outputs.VERSION, "beta") }}
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
@@ -52,8 +56,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/dist/dbcsr-${{ github.ref }}.tar.gz
-        asset_name: dbcsr-${{ github.ref }}.tar.gz
+        asset_path: ./build/dist/dbcsr-${{ steps.get_version.outputs.VERSION }}.tar.gz
+        asset_name: dbcsr-${{ steps.get_version.outputs.VERSION }}.tar.gz
         asset_content_type: application/gzip
 
 #  vim: set ts=2 sw=2 tw=0 :
