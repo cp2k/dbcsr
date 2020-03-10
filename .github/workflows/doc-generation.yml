@@ -15,8 +15,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        persist-credentials: false
 
     - name: Checkout submodules
       shell: bash
