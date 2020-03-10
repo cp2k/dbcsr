@@ -85,7 +85,7 @@ MODULE dbcsr_ptr_util
    END INTERFACE
 
    TYPE dbcsr_data_allocation_type
-      LOGICAL :: use_mpi_allocator = .TRUE.
+      LOGICAL :: use_mpi_allocator = .FALSE.
    END TYPE dbcsr_data_allocation_type
 
    PUBLIC :: dbcsr_data_allocation_type
