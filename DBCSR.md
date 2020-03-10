@@ -3,7 +3,7 @@ project: DBCSR Library
 project_github: https://github.com/cp2k/dbcsr
 project_download: https://github.com/cp2k/dbcsr/releases
 project_website: https://dbcsr.cp2k.org
-summary: ![DBCSR](@CMAKE_SOURCE_DIR@/docs/media/logo/logo.png)
+summary: ![DBCSR](media/logo/logo.png)
          {: style="text-align: center"}
 author: DBCSR Authors
 github: https://github.com/cp2k/dbcsr/blob/master/AUTHORS

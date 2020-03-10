@@ -1,5 +1,5 @@
 default_language_version:
-    python: python3.6
+    python: python3
 
 exclude: '^tools/(prettify/fprettify|build_utils/fypp)'
 fail_fast: false
@@ -8,19 +8,12 @@ repos:
   rev: stable
   hooks:
   - id: black
-    language_version: "python3"
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v2.4.0
+  rev: v2.5.0
   hooks:
-  - id: check-ast
-    stages: [manual]
-    language_version: "python2"
-    exclude: '^src/acc/libsmm_acc/(notebooks|predict|tune)/'
   - id: flake8
-    language_version: "python3"
   - id: check-ast
-    stages: [manual]
-    language_version: "python3"
+  - id: check-yaml
 - repo: local
   hooks:
   - id: check-header
@@ -28,9 +21,9 @@ repos:
     entry: ./.pre-commit/check_header.py --verbose
     language: script
     types: [text]
-    exclude: '^tools/'
+    exclude: '^(tools|.cp2k)/'
   - id: check-doxygen-tags
     name: no doxygen tags present
-    entry: '^!>'
+    entry: '^\s*!>'
     language: pygrep
     types: [text]

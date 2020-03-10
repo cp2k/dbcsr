@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 ####################################################################################################
 # Copyright (C) by the DBCSR developers group - All rights reserved                                #
@@ -17,7 +17,7 @@ from os import path
 from contextlib import contextmanager
 
 TYPES = {
-    "c_cpp": [".c", "h", ".cc", ".hh", ".cxx", ".hpp", ".cu"],
+    "c_cpp": [".c", "h", ".cc", ".hh", ".cxx", ".cpp", ".hpp", ".cu"],
     "python": [".py"],
     "fortran": [".F", ".f", ".f90", ".f03"],
 }
