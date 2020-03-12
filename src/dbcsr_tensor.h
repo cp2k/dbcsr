@@ -11,6 +11,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+	void c_dbcsr_t_finalize(const void* tensor);
+
     void c_dbcsr_t_pgrid_create(const MPI_Fint* fcomm, int* c_dims, const int dims_size, 
 		void** c_pgrid, const int* c_tensor_dims);
 		

@@ -68,6 +68,16 @@ CONTAINS
          str(i:i) = arr(i)
       ENDDO
    END SUBROUTINE c_f_string
+   
+   SUBROUTINE c_dbcsr_t_finalize(c_tensor) BIND(C, name="c_dbcsr_t_finalize")
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      TYPE(dbcsr_t_type), POINTER :: tensor
+      
+      CALL c_f_pointer(c_tensor, tensor)
+      
+      CALL dbcsr_t_finalize(tensor)
+
+   END SUBROUTINE
 
    SUBROUTINE c_dbcsr_t_pgrid_create_expert(fcomm, c_dims, dims_size, c_pgrid, &
                                     c_map1_2d, map1_2d_size, c_map2_2d, &
