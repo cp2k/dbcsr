@@ -715,12 +715,10 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
       ${dtype}$, DIMENSION(:, :), POINTER :: data_${dsuffix}$ => NULL()
 #:endfor
-      INTEGER :: handle
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'block_buffer_get_next_area_block', &
                                      routineP = moduleN//':'//routineN
 
-      CALL timeset(routineN, handle)
       IF (PRESENT(block)) THEN
          CALL dbcsr_data_get_sizes(block, sizes, valid)
          DBCSR_ASSERT(valid)
@@ -739,7 +737,6 @@ CONTAINS
          ENDIF
 #:endfor
       END SELECT
-      CALL timestop(handle)
    END SUBROUTINE
 
 #:for dparam, dtype, dsuffix in dtype_float_list
