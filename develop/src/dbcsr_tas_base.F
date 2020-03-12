@@ -735,9 +735,7 @@ CONTAINS
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_iterator_next_area_block', &
                                      routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: column_group, handle, row_group
-
-      CALL timeset(routineN, handle)
+      INTEGER                                            :: column_group, row_group
 
       CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block, transposed, block_number, &
                                      row_size, col_size)
@@ -745,7 +743,6 @@ CONTAINS
       CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
                                        row=row, column=column)
 
-      CALL timestop(handle)
    END SUBROUTINE
 
    SUBROUTINE dbcsr_tas_iterator_next_block_index(iterator, row, column, block_number, &
@@ -763,16 +760,13 @@ CONTAINS
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_iterator_next_block_index', &
                                      routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: column_group, handle, row_group
+      INTEGER                                            :: column_group, row_group
 
-      CALL timeset(routineN, handle)
       CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block_number, transposed, blk_p, &
                                      row_size, col_size)
 
       CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
                                        row=row, column=column)
-
-      CALL timestop(handle)
 
    END SUBROUTINE
 
@@ -821,15 +815,12 @@ CONTAINS
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_put_block_area', &
                                      routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: col_group, handle, row_group
-
-      CALL timeset(routineN, handle)
+      INTEGER                                            :: col_group, row_group
 
       CALL block_index_global_to_local(dbcsr_tas_info(matrix), matrix%dist, row=row, column=col, &
                                        row_group=row_group, column_group=col_group)
       CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
 
-      CALL timestop(handle)
    END SUBROUTINE
 
    SUBROUTINE dbcsr_tas_get_block_p_area(matrix, row, col, block, transposed, found, row_size, col_size)
@@ -843,16 +834,12 @@ CONTAINS
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_get_block_p_area', &
                                      routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: col_group, handle, row_group
-
-      CALL timeset(routineN, handle)
+      INTEGER                                            :: col_group, row_group
 
       CALL block_index_global_to_local(dbcsr_tas_info(matrix), matrix%dist, row=row, column=col, &
                                        row_group=row_group, column_group=col_group)
 
       CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
-
-      CALL timestop(handle)
 
    END SUBROUTINE
 
@@ -1094,7 +1081,7 @@ CONTAINS
 
    END SUBROUTINE
 
-# 1064 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1051 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_iterator_next_block_r_dp (iterator, row, column, block, transposed, block_number, &
       !! As dbcsr_iterator_next_block
                                                          row_size, col_size)
@@ -1108,18 +1095,15 @@ CONTAINS
       INTEGER                               :: row_group, column_group
       CHARACTER(LEN=*), PARAMETER           :: routineN = 'dbcsr_tas_iterator_next_block_r_dp', &
                                                routineP = moduleN//':'//routineN
-      INTEGER                               :: handle
 
-      CALL timeset(routineN, handle)
       CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block, transposed, block_number, &
                                      row_size, col_size)
 
       CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
                                        row=row, column=column)
 
-      CALL timestop(handle)
    END SUBROUTINE
-# 1064 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1051 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_iterator_next_block_r_sp (iterator, row, column, block, transposed, block_number, &
       !! As dbcsr_iterator_next_block
                                                          row_size, col_size)
@@ -1133,18 +1117,15 @@ CONTAINS
       INTEGER                               :: row_group, column_group
       CHARACTER(LEN=*), PARAMETER           :: routineN = 'dbcsr_tas_iterator_next_block_r_sp', &
                                                routineP = moduleN//':'//routineN
-      INTEGER                               :: handle
 
-      CALL timeset(routineN, handle)
       CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block, transposed, block_number, &
                                      row_size, col_size)
 
       CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
                                        row=row, column=column)
 
-      CALL timestop(handle)
    END SUBROUTINE
-# 1064 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1051 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_iterator_next_block_c_dp (iterator, row, column, block, transposed, block_number, &
       !! As dbcsr_iterator_next_block
                                                          row_size, col_size)
@@ -1158,18 +1139,15 @@ CONTAINS
       INTEGER                               :: row_group, column_group
       CHARACTER(LEN=*), PARAMETER           :: routineN = 'dbcsr_tas_iterator_next_block_c_dp', &
                                                routineP = moduleN//':'//routineN
-      INTEGER                               :: handle
 
-      CALL timeset(routineN, handle)
       CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block, transposed, block_number, &
                                      row_size, col_size)
 
       CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
                                        row=row, column=column)
 
-      CALL timestop(handle)
    END SUBROUTINE
-# 1064 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1051 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_iterator_next_block_c_sp (iterator, row, column, block, transposed, block_number, &
       !! As dbcsr_iterator_next_block
                                                          row_size, col_size)
@@ -1183,20 +1161,17 @@ CONTAINS
       INTEGER                               :: row_group, column_group
       CHARACTER(LEN=*), PARAMETER           :: routineN = 'dbcsr_tas_iterator_next_block_c_sp', &
                                                routineP = moduleN//':'//routineN
-      INTEGER                               :: handle
 
-      CALL timeset(routineN, handle)
       CALL dbcsr_iterator_next_block(iterator%iter, row_group, column_group, block, transposed, block_number, &
                                      row_size, col_size)
 
       CALL block_index_local_to_global(iterator%dist%info, iterator%dist, row_group=row_group, column_group=column_group, &
                                        row=row, column=column)
 
-      CALL timestop(handle)
    END SUBROUTINE
-# 1089 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1073 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
-# 1091 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1075 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    !! As dbcsr_put_block
    SUBROUTINE dbcsr_tas_put_block_r_dp (matrix, row, col, block, transposed, summation, &
                                                scale)
@@ -1209,17 +1184,14 @@ CONTAINS
       INTEGER                     :: col_group, row_group
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_put_block_r_dp', &
                                      routineP = moduleN//':'//routineN
-      INTEGER                     :: handle
 
-      CALL timeset(routineN, handle)
       CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
                                        row_group=row_group, column_group=col_group)
 
       CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
 
-      CALL timestop(handle)
    END SUBROUTINE
-# 1091 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1075 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    !! As dbcsr_put_block
    SUBROUTINE dbcsr_tas_put_block_r_sp (matrix, row, col, block, transposed, summation, &
                                                scale)
@@ -1232,17 +1204,14 @@ CONTAINS
       INTEGER                     :: col_group, row_group
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_put_block_r_sp', &
                                      routineP = moduleN//':'//routineN
-      INTEGER                     :: handle
 
-      CALL timeset(routineN, handle)
       CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
                                        row_group=row_group, column_group=col_group)
 
       CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
 
-      CALL timestop(handle)
    END SUBROUTINE
-# 1091 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1075 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    !! As dbcsr_put_block
    SUBROUTINE dbcsr_tas_put_block_c_dp (matrix, row, col, block, transposed, summation, &
                                                scale)
@@ -1255,17 +1224,14 @@ CONTAINS
       INTEGER                     :: col_group, row_group
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_put_block_c_dp', &
                                      routineP = moduleN//':'//routineN
-      INTEGER                     :: handle
 
-      CALL timeset(routineN, handle)
       CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
                                        row_group=row_group, column_group=col_group)
 
       CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
 
-      CALL timestop(handle)
    END SUBROUTINE
-# 1091 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1075 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    !! As dbcsr_put_block
    SUBROUTINE dbcsr_tas_put_block_c_sp (matrix, row, col, block, transposed, summation, &
                                                scale)
@@ -1278,19 +1244,16 @@ CONTAINS
       INTEGER                     :: col_group, row_group
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_put_block_c_sp', &
                                      routineP = moduleN//':'//routineN
-      INTEGER                     :: handle
 
-      CALL timeset(routineN, handle)
       CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
                                        row_group=row_group, column_group=col_group)
 
       CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
 
-      CALL timestop(handle)
    END SUBROUTINE
-# 1114 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1095 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
-# 1116 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1097 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_get_block_p_r_dp (matrix, row, col, block, transposed, found, row_size, col_size)
       !! As dbcsr_get_block_p
       TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
@@ -1303,18 +1266,14 @@ CONTAINS
       INTEGER                     :: col_group, row_group
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_get_block_p_r_dp', &
                                      routineP = moduleN//':'//routineN
-      INTEGER                     :: handle
-
-      CALL timeset(routineN, handle)
 
       CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
                                        row_group=row_group, column_group=col_group)
 
       CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
 
-      CALL timestop(handle)
    END SUBROUTINE
-# 1116 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1097 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_get_block_p_r_sp (matrix, row, col, block, transposed, found, row_size, col_size)
       !! As dbcsr_get_block_p
       TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
@@ -1327,18 +1286,14 @@ CONTAINS
       INTEGER                     :: col_group, row_group
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_get_block_p_r_sp', &
                                      routineP = moduleN//':'//routineN
-      INTEGER                     :: handle
-
-      CALL timeset(routineN, handle)
 
       CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
                                        row_group=row_group, column_group=col_group)
 
       CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
 
-      CALL timestop(handle)
    END SUBROUTINE
-# 1116 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1097 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_get_block_p_c_dp (matrix, row, col, block, transposed, found, row_size, col_size)
       !! As dbcsr_get_block_p
       TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
@@ -1351,18 +1306,14 @@ CONTAINS
       INTEGER                     :: col_group, row_group
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_get_block_p_c_dp', &
                                      routineP = moduleN//':'//routineN
-      INTEGER                     :: handle
-
-      CALL timeset(routineN, handle)
 
       CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
                                        row_group=row_group, column_group=col_group)
 
       CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
 
-      CALL timestop(handle)
    END SUBROUTINE
-# 1116 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1097 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_get_block_p_c_sp (matrix, row, col, block, transposed, found, row_size, col_size)
       !! As dbcsr_get_block_p
       TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
@@ -1375,50 +1326,46 @@ CONTAINS
       INTEGER                     :: col_group, row_group
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_get_block_p_c_sp', &
                                      routineP = moduleN//':'//routineN
-      INTEGER                     :: handle
-
-      CALL timeset(routineN, handle)
 
       CALL block_index_global_to_local(matrix%dist%info, matrix%dist, row=row, column=col, &
                                        row_group=row_group, column_group=col_group)
 
       CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
 
-      CALL timestop(handle)
    END SUBROUTINE
-# 1140 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1117 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
-# 1142 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1119 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_set_r_dp (matrix, alpha)
       !! As dbcsr_set
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
       REAL(kind=real_8), INTENT(IN)                :: alpha
       CALL dbcsr_set(matrix%matrix, alpha)
    END SUBROUTINE
-# 1142 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1119 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_set_r_sp (matrix, alpha)
       !! As dbcsr_set
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
       REAL(kind=real_4), INTENT(IN)                :: alpha
       CALL dbcsr_set(matrix%matrix, alpha)
    END SUBROUTINE
-# 1142 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1119 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_set_c_dp (matrix, alpha)
       !! As dbcsr_set
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
       COMPLEX(kind=real_8), INTENT(IN)                :: alpha
       CALL dbcsr_set(matrix%matrix, alpha)
    END SUBROUTINE
-# 1142 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1119 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_set_c_sp (matrix, alpha)
       !! As dbcsr_set
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
       COMPLEX(kind=real_4), INTENT(IN)                :: alpha
       CALL dbcsr_set(matrix%matrix, alpha)
    END SUBROUTINE
-# 1149 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1126 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
-# 1151 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1128 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_filter_r_dp (matrix, eps, method, use_absolute)
       !! As dbcsr_filter
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
@@ -1429,7 +1376,7 @@ CONTAINS
       CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
 
    END SUBROUTINE
-# 1151 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1128 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_filter_r_sp (matrix, eps, method, use_absolute)
       !! As dbcsr_filter
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
@@ -1440,7 +1387,7 @@ CONTAINS
       CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
 
    END SUBROUTINE
-# 1151 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1128 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_filter_c_dp (matrix, eps, method, use_absolute)
       !! As dbcsr_filter
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
@@ -1451,7 +1398,7 @@ CONTAINS
       CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
 
    END SUBROUTINE
-# 1151 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1128 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_filter_c_sp (matrix, eps, method, use_absolute)
       !! As dbcsr_filter
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
@@ -1462,6 +1409,6 @@ CONTAINS
       CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
 
    END SUBROUTINE
-# 1162 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1139 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
 END MODULE
