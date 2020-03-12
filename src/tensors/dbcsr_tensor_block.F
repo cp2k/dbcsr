@@ -189,11 +189,9 @@ CONTAINS
       !! Generalization of dbcsr_iterator_start for tensors.
       TYPE(dbcsr_t_iterator_type), INTENT(OUT)           :: iterator
       TYPE(dbcsr_t_type), INTENT(IN)                     :: tensor
-      INTEGER                                            :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_iterator_start', &
                                      routineP = moduleN//':'//routineN
 
-      CALL timeset(routineN, handle)
       DBCSR_ASSERT(tensor%valid)
 
       CALL dbcsr_tas_iterator_start(iterator%iter, tensor%matrix_rep)
@@ -202,24 +200,20 @@ CONTAINS
       iterator%blk_sizes = tensor%blk_sizes
       iterator%blk_offsets = tensor%blk_offsets
 
-      CALL timestop(handle)
    END SUBROUTINE
 
    SUBROUTINE dbcsr_t_iterator_stop(iterator)
       !! Generalization of dbcsr_iterator_stop for tensors.
       TYPE(dbcsr_t_iterator_type), INTENT(INOUT) :: iterator
-      INTEGER                                    :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_iterator_stop', &
                                      routineP = moduleN//':'//routineN
 
-      CALL timeset(routineN, handle)
       CALL dbcsr_tas_iterator_stop(iterator%iter)
       CALL destroy_nd_to_2d_mapping(iterator%nd_index)
       CALL destroy_nd_to_2d_mapping(iterator%nd_index_blk)
       CALL destroy_array_list(iterator%blk_sizes)
       CALL destroy_array_list(iterator%blk_offsets)
 
-      CALL timestop(handle)
    END SUBROUTINE
 
    PURE FUNCTION ndims_iterator(iterator)
@@ -252,11 +246,9 @@ CONTAINS
          !! blk offset in each dimension
 
       INTEGER(KIND=int_8), DIMENSION(2)              :: ind_2d
-      INTEGER                                        :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_iterator_next_block', &
                                      routineP = moduleN//':'//routineN
 
-      CALL timeset(routineN, handle)
       CALL dbcsr_tas_iterator_next_block(iterator%iter, ind_2d(1), ind_2d(2), blk, blk_p=blk_p)
 
       ind_nd(:) = get_nd_indices(iterator%nd_index_blk, ind_2d)
@@ -265,21 +257,17 @@ CONTAINS
       ! offset since block index mapping is not consistent with element index mapping
       IF (PRESENT(blk_offset)) blk_offset(:) = get_array_elements(iterator%blk_offsets, ind_nd)
 
-      CALL timestop(handle)
    END SUBROUTINE
 
    FUNCTION dbcsr_t_iterator_blocks_left(iterator)
       !! Generalization of dbcsr_iterator_blocks_left for tensors.
       TYPE(dbcsr_t_iterator_type), INTENT(IN) :: iterator
       LOGICAL                                 :: dbcsr_t_iterator_blocks_left
-      INTEGER                                 :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_iterator_blocks_left', &
                                      routineP = moduleN//':'//routineN
 
-      CALL timeset(routineN, handle)
       dbcsr_t_iterator_blocks_left = dbcsr_tas_iterator_blocks_left(iterator%iter)
 
-      CALL timestop(handle)
    END FUNCTION
 
    SUBROUTINE dbcsr_t_reserve_blocks_index_array(tensor, blk_ind)
@@ -501,18 +489,15 @@ CONTAINS
          !! block to get
       LOGICAL, INTENT(OUT)                         :: found
          !! whether block was found
-      INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_anyd_block', &
                                      routineP = moduleN//':'//routineN
 
-      CALL timeset(routineN, handle)
       SELECT CASE (dbcsr_t_get_data_type(tensor))
 #:for dparam, dtype, dsuffix in dtype_float_list
       CASE (${dparam}$)
          CALL dbcsr_t_get_anyd_block_${dsuffix}$ (tensor, ind, block, found)
 #:endfor
       END SELECT
-      CALL timestop(handle)
    END SUBROUTINE
 
    SUBROUTINE dbcsr_t_put_anyd_block(tensor, ind, block, summation, scale)
@@ -528,11 +513,9 @@ CONTAINS
          !! whether block should be summed to existing block
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL :: scale
          !! scaling factor
-      INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_anyd_block', &
                                      routineP = moduleN//':'//routineN
 
-      CALL timeset(routineN, handle)
       SELECT CASE (block%data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
       CASE (${dparam}$)
@@ -544,7 +527,6 @@ CONTAINS
 #:endfor
       END SELECT
 
-      CALL timestop(handle)
    END SUBROUTINE
 
 #:for dparam, dtype, dsuffix in dtype_float_list
@@ -622,7 +604,6 @@ CONTAINS
       INTEGER, DIMENSION(2)                                 :: dims_2d
       ${dtype}$, ALLOCATABLE, DIMENSION(:, :)               :: block_2d
       TYPE(nd_to_2d_mapping)                                :: map_blk
-      INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_${ndim}$d_block_${dsuffix}$', &
                                      routineP = moduleN//':'//routineN
       LOGICAL :: found
@@ -635,7 +616,6 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      CALL timeset(routineN, handle)
       ! reshape block
       CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
       CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
@@ -649,7 +629,6 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      CALL timestop(handle)
    END SUBROUTINE
 #:endfor
 #:endfor
@@ -699,11 +678,8 @@ CONTAINS
       ${dtype}$, DIMENSION(:, :), ALLOCATABLE                :: block_2d
       TYPE(nd_to_2d_mapping)                                :: map_blk
       LOGICAL                                               :: tr
-      INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_${ndim}$d_block_${dsuffix}$', &
                                      routineP = moduleN//':'//routineN
-
-      CALL timeset(routineN, handle)
 
       NULLIFY (block_2d_ptr)
 
@@ -721,7 +697,6 @@ CONTAINS
          CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
       ENDIF
 
-      CALL timestop(handle)
    END SUBROUTINE
 #:endfor
 #:endfor
