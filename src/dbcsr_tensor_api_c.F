@@ -104,8 +104,10 @@ CONTAINS
       dims => c_dims
 
       IF (PRESENT(c_map1_2d) .AND. PRESENT(c_map2_2d)) THEN
-         map1_2d = c_map1_2d+1
-         map2_2d = c_map2_2d+1
+         ALLOCATE(map1_2d, SOURCE = c_map1_2d)
+         ALLOCATE(map2_2d, SOURCE = c_map2_2d)
+         map1_2d = map1_2d + 1
+         map2_2d = map2_2d + 1
       ENDIF
       
       IF (PRESENT(c_tensor_dims)) tensor_dims => c_tensor_dims
@@ -429,7 +431,10 @@ CONTAINS
       notcontract_2 => c_notcontract_2
 
 #:for dim in range(1,4)
-      IF (PRESENT(c_bounds_${dim}$)) bounds_${dim}$ = c_bounds_${dim}$+1
+      IF (PRESENT(c_bounds_${dim}$)) THEN
+         ALLOCATE(bounds_${dim}$, SOURCE = c_bounds_${dim}$)
+         bounds_${dim}$ = bounds_${dim}$
+      ENDIF
       ALLOCATE (pgrid_opt_${dim}$)
 #:endfor
 
@@ -614,7 +619,8 @@ CONTAINS
 
 #:for ddim in ddims
       IF (PRESENT(c_blk_ind_${ddim}$)) THEN
-         blk_ind_${ddim}$ = c_blk_ind_${ddim}$+1
+         ALLOCATE(blk_ind_${ddim}$, SOURCE = c_blk_ind_${ddim}$)
+         blk_ind_${ddim}$ = blk_ind_${ddim}$+1
       ENDIF
 #:endfor
 
@@ -895,8 +901,16 @@ CONTAINS
       CALL c_f_pointer(c_tensor_in, tensor_in)
       CALL c_f_pointer(c_tensor_out, tensor_out)
 
-      IF (PRESENT(c_order)) order = c_order + 1
-      IF (PRESENT(c_bounds)) bounds = c_bounds + 1
+      IF (PRESENT(c_order)) THEN 
+        ALLOCATE(order, SOURCE = c_order)
+        order = order + 1
+      ENDIF
+        
+      IF (PRESENT(c_bounds)) THEN 
+        ALLOCATE(bounds, SOURCE = c_bounds)
+        bounds = bounds + 1
+      ENDIF
+      
       IF (PRESENT(c_summation)) summation = c_summation
       IF (PRESENT(c_move_data)) move_data = c_move_data
       IF (PRESENT(c_unit_nr)) unit_nr = c_unit_nr
