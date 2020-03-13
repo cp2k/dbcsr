@@ -112,7 +112,7 @@ CONTAINS
 
       ALLOCATE (pgrid)
 
-      CALL dbcsr_t_pgrid_create_expert(fcomm, dims, pgrid, tensor_dims, map1_2d, map2_2d, &
+      CALL dbcsr_t_pgrid_create_expert(fcomm, dims, pgrid, map1_2d, map2_2d, tensor_dims, &
                                 nsplit, dimsplit)
 
       c_pgrid = c_loc(pgrid)
@@ -269,23 +269,40 @@ CONTAINS
 
    END SUBROUTINE
 
-
-   SUBROUTINE c_dbcsr_t_create_template(c_tensor_in, c_tensor, c_name) &
+   SUBROUTINE c_dbcsr_t_create_template(c_tensor_in, c_tensor, c_name, c_dist, &
+      c_map1_2d, map1_2d_size, c_map2_2d, map2_2d_size, data_type) &
       BIND(C, name="c_dbcsr_t_create_template")
 
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor_in
       TYPE(c_ptr), INTENT(OUT)                           :: c_tensor
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_name
+      TYPE(c_ptr), INTENT(IN), VALUE                     :: c_dist
+      
+      INTEGER(kind=c_int), INTENT(in), value             :: map1_2d_size
+      INTEGER(kind=c_int), INTENT(in), TARGET, OPTIONAL  :: c_map1_2d(map1_2d_size)
+      INTEGER(kind=c_int), INTENT(in), value             :: map2_2d_size
+      INTEGER(kind=c_int), INTENT(in), TARGET, OPTIONAL  :: c_map2_2d(map2_2d_size)
+
+      INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: data_type
 
       TYPE(dbcsr_t_type), POINTER                        :: tensor_in
       TYPE(dbcsr_t_type), POINTER                        :: tensor
       CHARACTER(:, kind=c_char), ALLOCATABLE             :: fname
+      TYPE(dbcsr_t_distribution_type), POINTER           :: dist => NULL()
+      INTEGER, DIMENSION(:), POINTER                     :: map1_2d => NULL(), &
+       map2_2d => NULL()
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
       IF (c_associated(c_name)) CALL c_f_string(c_name, fname)
       ALLOCATE (tensor)
-
-      CALL dbcsr_t_create(tensor_in, tensor, fname)
+      
+      IF (C_ASSOCIATED(c_dist)) CALL c_f_pointer(c_dist, dist)
+      IF (PRESENT(c_map1_2d) .AND. PRESENT(c_map2_2d)) THEN
+         map1_2d => c_map1_2d
+         map2_2d => c_map2_2d
+      ENDIF
+         
+      CALL dbcsr_t_create(tensor_in, tensor, fname, dist, map1_2d, map2_2d, data_type)
 
       c_tensor = c_loc(tensor)
 
@@ -348,7 +365,8 @@ CONTAINS
                                               c_map_1, map_1_size, c_map_2, map_2_size, &
                                               c_bounds_1, c_bounds_2, c_bounds_3, &
                                               c_optimize_dist, c_pgrid_opt_1, c_pgrid_opt_2, c_pgrid_opt_3, &
-                                              c_filter_eps, c_flop, c_move_data, c_unit_nr, c_log_verbose) &
+                                              c_filter_eps, c_flop, c_move_data, c_retain_sparsity, &
+                                              c_unit_nr, c_log_verbose) &
       BIND(C, name="c_dbcsr_t_contract_${dsuffix}$")
 
       ${dbase}$ (kind=${dctype}$), INTENT(IN), VALUE     ::  c_alpha
@@ -377,6 +395,7 @@ CONTAINS
       REAL(kind=c_double), INTENT(IN), OPTIONAL          :: c_filter_eps
       INTEGER(kind=c_long_long), INTENT(OUT), OPTIONAL    :: c_flop
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_move_data
+      LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_retain_sparsity
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_unit_nr
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_log_verbose
 
@@ -394,6 +413,7 @@ CONTAINS
       REAL(KIND=real_8), ALLOCATABLE                     :: filter_eps
       INTEGER(KIND=int_8), ALLOCATABLE                   :: flop
       LOGICAL, ALLOCATABLE                               :: move_data
+      LOGICAL, ALLOCATABLE                               :: retain_sparsity
       INTEGER, ALLOCATABLE                               :: unit_nr
       LOGICAL, ALLOCATABLE                               :: log_verbose
 
@@ -413,7 +433,7 @@ CONTAINS
       ALLOCATE (pgrid_opt_${dim}$)
 #:endfor
 
-#:set list = ['optimize_dist', 'filter_eps', 'flop', 'move_data', 'unit_nr', 'log_verbose']
+#:set list = ['optimize_dist', 'filter_eps', 'flop', 'move_data', 'retain_sparsity', 'unit_nr', 'log_verbose']
 #:for var in list
       IF (PRESENT(c_${var}$)) ${var}$ = c_${var}$
 #:endfor
@@ -425,7 +445,7 @@ CONTAINS
                             map_1 + 1, map_2 + 1, &
                             bounds_1, bounds_2, bounds_3, &
                             optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, &
-                            filter_eps, flop, move_data, unit_nr, log_verbose)
+                            filter_eps, flop, move_data, retain_sparsity, unit_nr, log_verbose)
 
 #:for dim in range(1,4)
       IF (PRESENT(c_pgrid_opt_${dim}$)) c_pgrid_opt_${dim}$ = c_loc(pgrid_opt_${dim}$)
@@ -461,7 +481,7 @@ CONTAINS
       TYPE(dbcsr_t_type), POINTER                        :: tensor
       INTEGER, DIMENSION(:), POINTER                     :: ind
       ${dtype}$, DIMENSION(${shape_colon(ndim)}$), ALLOCATABLE, &
-         TARGET                                          :: block
+         SAVE , TARGET                                   :: block
       LOGICAL, POINTER                                   :: found
 
       ind => c_ind
@@ -471,7 +491,7 @@ CONTAINS
       ALLOCATE (found)
 
       CALL dbcsr_t_get_block(tensor, ind + 1, block, found)
-
+    
       c_block = c_loc(block)
       c_found = c_loc(found)
 
@@ -602,6 +622,22 @@ CONTAINS
 
       CALL dbcsr_t_reserve_blocks(tensor, ${varlist("blk_ind")}$)
 
+   END SUBROUTINE
+   
+   SUBROUTINE c_dbcsr_t_reserve_blocks_template(c_tensor_in, c_tensor_out) &
+      BIND(C, name="c_dbcsr_t_reserve_blocks_template")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE              :: c_tensor_in
+      TYPE(c_ptr), INTENT(IN), VALUE              :: c_tensor_out
+      
+      TYPE(dbcsr_t_type), POINTER :: tensor_in
+      TYPE(dbcsr_t_type), POINTER :: tensor_out
+      
+      CALL c_f_pointer(c_tensor_in, tensor_in)
+      CALL c_f_pointer(c_tensor_out, tensor_out)
+      
+      CALL dbcsr_t_reserve_blocks(tensor_in, tensor_out)
+      
    END SUBROUTINE
 
 
@@ -836,7 +872,7 @@ CONTAINS
    END SUBROUTINE
 
 
-   SUBROUTINE c_dbcsr_t_copy(c_tensor_in, tensor_dim, c_tensor_out, c_order, c_summation, c_move_data, c_unit_nr) &
+   SUBROUTINE c_dbcsr_t_copy(c_tensor_in, tensor_dim, c_tensor_out, c_order, c_summation, c_bounds, c_move_data, c_unit_nr) &
       BIND(C, name="c_dbcsr_t_copy")
 
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor_in
@@ -844,24 +880,28 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(IN), VALUE             :: tensor_dim
       INTEGER(kind=c_int), INTENT(IN), DIMENSION(tensor_dim), OPTIONAL, &
          TARGET                                          :: c_order
-      LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_summation, c_move_data
+      LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_summation
+      INTEGER(kind=c_int), INTENT(IN), DIMENSION(2, tensor_dim), &
+        OPTIONAL, TARGET                                 :: c_bounds
+      LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         ::c_move_data
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_unit_nr
 
       TYPE(dbcsr_t_type), POINTER                        :: tensor_in, tensor_out
       INTEGER, DIMENSION(:), ALLOCATABLE                 :: order
       LOGICAL, ALLOCATABLE                               :: summation, move_data
+      INTEGER, DIMENSION(:,:), ALLOCATABLE               :: bounds
       INTEGER, ALLOCATABLE                               :: unit_nr
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
       CALL c_f_pointer(c_tensor_out, tensor_out)
 
       IF (PRESENT(c_order)) order = c_order + 1
-
+      IF (PRESENT(c_bounds)) bounds = c_bounds + 1
       IF (PRESENT(c_summation)) summation = c_summation
       IF (PRESENT(c_move_data)) move_data = c_move_data
       IF (PRESENT(c_unit_nr)) unit_nr = c_unit_nr
 
-      CALL dbcsr_t_copy(tensor_in, tensor_out, order, summation, move_data, unit_nr)
+      CALL dbcsr_t_copy(tensor_in, tensor_out, order, summation, bounds, move_data, unit_nr)
 
    END SUBROUTINE
 
@@ -959,7 +999,6 @@ CONTAINS
       INTEGER(kind=c_int), DIMENSION(:), POINTER :: ${varlist("blk_offset",suffix="_ptr")}$
      
       TYPE(dbcsr_t_distribution_type), POINTER :: distribution
-      INTEGER, ALLOCATABLE :: data_type
       CHARACTER(kind=c_char, len=:), POINTER :: fname
       
       INTEGER, DIMENSION(tensor_dim) :: pdims_tmp, my_ploc_tmp
@@ -1110,7 +1149,6 @@ CONTAINS
       INTEGER, DIMENSION(:), POINTER :: dims_nd
       INTEGER, DIMENSION(:), POINTER :: dims1_2d, dims2_2d, map1_2d, map2_2d
       INTEGER, DIMENSION(:), POINTER :: map_nd
-      LOGICAL :: col_major
       
       CALL c_f_pointer(c_map, map)   
       IF (PRESENT(c_dims_2d_i8)) dims_2d_i8 => c_dims_2d_i8

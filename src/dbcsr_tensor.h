@@ -33,7 +33,8 @@ extern "C" {
 		const int* c_map1_2d, const int c_map1_2d_size, const int* c_map2_2d, 
 		const int c_map2_2d_size, const int* data_type, ${extern_varlist_and_size("c_blk_size", "const int")}$);
        
-    void c_dbcsr_t_create_template(const void* c_tensor_in, void** c_tensor, const char* c_name);
+    void c_dbcsr_t_create_template(const void* c_tensor_in, void** c_tensor, const char* c_name, const void* c_dist,
+		const int* c_map1_2d, const int map1_2d_size, const int* c_map2_2d, const int map2_2d_size, const int* data_type);
     
     void c_dbcsr_t_create_matrix(const void* c_matrix_in, void** c_tensor, const int* c_order, const char* c_name);
        
@@ -56,12 +57,12 @@ extern "C" {
 #:endfor
      
      void c_dbcsr_t_contract_${dsuffix}$ (	
-			const ${ctype}$ c_alpha, 
-			void* c_tensor_1, 
-			void* c_tensor_2, 
-			const ${ctype}$ c_beta, 
-			void* c_tensor_3, 
-			const int* c_contract_1, const int c_contract_1_size,
+	    const ${ctype}$ c_alpha, 
+	    void* c_tensor_1, 
+	    void* c_tensor_2, 
+	    const ${ctype}$ c_beta, 
+	    void* c_tensor_3, 
+	    const int* c_contract_1, const int c_contract_1_size,
             const int* c_notcontract_1, const int c_notcontract_1_size,
             const int* c_contract_2, const int c_contract_2_size,
             const int* c_notcontract_2, const int c_notcontract_2_size,
@@ -77,6 +78,7 @@ extern "C" {
             const double* filter_eps, 
             long long int* flop, 
             const bool* move_data, 
+	    const bool* retain_sparsity,
             const int* unit_nr, 
             const bool* log_verbose);
      
@@ -94,6 +96,8 @@ extern "C" {
    
      void c_dbcsr_t_reserve_blocks_index(const void* c_tensor, const int nblocks, ${varlist("const int* c_blk_ind")}$);
      
+     void c_dbcsr_t_reserve_blocks_template(const void* c_tensor_in, const void* tensor_out);
+
      int c_ndims_iterator(const void* c_iterator); 
      
 	 void c_dbcsr_t_iterator_start(void** c_iterator, const void* c_tensor);
@@ -111,15 +115,13 @@ extern "C" {
      
      void c_dbcsr_t_copy_tensor_to_matrix(const void* c_tensor_in, void* c_matrix_out, const bool* c_summation);
      
-     void c_dbcsr_t_blk_sizes(const void* c_tensor, const int tensor_dim, const int* c_ind, int* c_blk_size);
-     
      void c_dbcsr_t_copy(const void* c_tensor_in, const int tensor_dim, void* c_tensor_out, const int* c_order, const bool* c_summation, 
-      const bool* c_move_data, const int* c_unit_nr);
+      const int* c_bounds, const bool* c_move_data, const int* c_unit_nr);
       
      void c_dbcsr_t_clear(void* c_tensor);
      
      void c_dbcsr_t_get_info(const void* c_tensor, const int tensor_dim, 
-							   int* c_nblks_total,
+			       int* c_nblks_total,
                                int* c_nfull_total,
                                int* c_nblks_local,
                                int* c_nfull_local,
@@ -244,13 +246,6 @@ static void c_dbcsr_t_scale(const void* c_tensor, const ${ctype}$ c_alpha) {
 }
 
 #:endfor
-
-static void c_dbcsr_t_blk_sizes(const void* c_tensor, const int* c_ind, int* c_blk_size) {
-	
-	int tensor_dim = c_ndims_tensor(c_tensor);
-	c_dbcsr_t_blk_sizes(c_tensor, tensor_dim, c_ind, c_blk_size);
-	
-}
 
 
 #endif // DBCSR_H
