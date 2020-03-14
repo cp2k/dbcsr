@@ -433,7 +433,7 @@ CONTAINS
 #:for dim in range(1,4)
       IF (PRESENT(c_bounds_${dim}$)) THEN
          ALLOCATE(bounds_${dim}$, SOURCE = c_bounds_${dim}$)
-         bounds_${dim}$ = bounds_${dim}$
+         bounds_${dim}$ = bounds_${dim}$ + 1
       ENDIF
       ALLOCATE (pgrid_opt_${dim}$)
 #:endfor
