@@ -39,7 +39,7 @@ MODULE dbcsr_tensor
       dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_stop, dbcsr_t_iterator_next_block, &
       ndims_iterator, dbcsr_t_reserve_blocks, block_nd, destroy_block
    USE dbcsr_tensor_index, ONLY: &
-      dbcsr_t_get_mapping_info, nd_to_2d_mapping, dbcsr_t_inverse_order, permute_index, get_nd_indices
+      dbcsr_t_get_mapping_info, nd_to_2d_mapping, dbcsr_t_inverse_order, permute_index, get_nd_indices_tensor
    USE dbcsr_tensor_types, ONLY: &
       dbcsr_t_create, dbcsr_t_get_data_type, dbcsr_t_type, ndims_tensor, dims_tensor, &
       dbcsr_t_distribution_type, dbcsr_t_distribution, dbcsr_t_nd_mp_comm, dbcsr_t_destroy, &
@@ -141,6 +141,7 @@ CONTAINS
                                                         summation_prv, new_in_1, new_in_2, &
                                                         new_in_3, new_out_1, block_compatible, &
                                                         move_prv
+      TYPE(array_list)                               :: blk_sizes_in
 
       CALL timeset(routineN, handle)
 
@@ -176,23 +177,29 @@ CONTAINS
       ENDIF
 
       IF (PRESENT(order)) THEN
-         ALLOCATE (in_tmp_2)
-         CALL dbcsr_t_permute_index(in_tmp_1, in_tmp_2, order)
-         new_in_2 = .TRUE.
+         CALL reorder_arrays(in_tmp_1%blk_sizes, blk_sizes_in, order=order)
+         block_compatible = check_equal(blk_sizes_in, tensor_out%blk_sizes)
       ELSE
-         in_tmp_2 => in_tmp_1
+         block_compatible = check_equal(in_tmp_1%blk_sizes, tensor_out%blk_sizes)
       ENDIF
 
-      block_compatible = check_equal(in_tmp_2%blk_sizes, tensor_out%blk_sizes)
       IF (.NOT. block_compatible) THEN
-         ALLOCATE (in_tmp_3, out_tmp_1)
-         CALL dbcsr_t_make_compatible_blocks(in_tmp_2, tensor_out, in_tmp_3, out_tmp_1, &
+         ALLOCATE (in_tmp_2, out_tmp_1)
+         CALL dbcsr_t_make_compatible_blocks(in_tmp_1, tensor_out, in_tmp_2, out_tmp_1, order=order, &
                                              nodata2=.NOT. summation_prv, move_data=move_prv)
-         new_in_3 = .TRUE.; new_out_1 = .TRUE.
+         new_in_2 = .TRUE.; new_out_1 = .TRUE.
          move_prv = .TRUE.
       ELSE
-         in_tmp_3 => in_tmp_2
+         in_tmp_2 => in_tmp_1
          out_tmp_1 => tensor_out
+      ENDIF
+
+      IF (PRESENT(order)) THEN
+         ALLOCATE (in_tmp_3)
+         CALL dbcsr_t_permute_index(in_tmp_2, in_tmp_3, order)
+         new_in_3 = .TRUE.
+      ELSE
+         in_tmp_3 => in_tmp_2
       ENDIF
 
       CALL dbcsr_t_get_mapping_info(in_tmp_3%nd_index, map1_2d=map1_in_1, map2_2d=map1_in_2)
@@ -820,7 +827,7 @@ CONTAINS
          nblk = SIZE(result_index_2d,1)
          ALLOCATE(result_index(nblk, dbcsr_t_ndims(tensor_contr_3)))
          DO iblk = 1, nblk
-            result_index(iblk,:) = get_nd_indices(tensor_contr_3%nd_index_blk, result_index_2d(iblk,:))
+            result_index(iblk,:) = get_nd_indices_tensor(tensor_contr_3%nd_index_blk, result_index_2d(iblk,:))
          ENDDO
 
          IF (new_1) THEN

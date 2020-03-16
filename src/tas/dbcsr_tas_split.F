@@ -43,7 +43,6 @@ MODULE dbcsr_tas_split
       dbcsr_tas_create_split_rows_or_cols, &
       group_to_mrowcol, &
       group_to_world_proc_map, &
-      mrowcol_to_group, &
       rowsplit, &
       world_to_group_proc_map, &
       accept_pgrid_dims, &
@@ -550,13 +549,6 @@ CONTAINS
          !! global block row
          !! global block column
 
-      IF (PRESENT(row)) THEN
-         DBCSR_ASSERT(PRESENT(row_group))
-      ENDIF
-      IF (PRESENT(column)) THEN
-         DBCSR_ASSERT(PRESENT(column_group))
-      ENDIF
-
       SELECT CASE (info%split_rowcol)
       CASE (rowsplit)
          ASSOCIATE (rows=>dist%local_rowcols)
@@ -580,38 +572,15 @@ CONTAINS
       CHARACTER(LEN=*), PARAMETER :: routineN = 'block_index_global_to_local', &
                                      routineP = moduleN//':'//routineN
 
-      IF (PRESENT(row_group)) THEN
-         DBCSR_ASSERT(PRESENT(row))
-      ENDIF
-      IF (PRESENT(column_group)) THEN
-         DBCSR_ASSERT(PRESENT(column))
-      ENDIF
-
       SELECT CASE (info%split_rowcol)
       CASE (rowsplit)
-         IF (PRESENT(row_group)) CALL mrowcol_to_group(dist, row, row_group)
+         IF (PRESENT(row_group)) row_group = i8_bsearch(dist%local_rowcols, row)
          IF (PRESENT(column_group)) column_group = INT(column)
       CASE (colsplit)
          IF (PRESENT(row_group)) row_group = INT(row)
-         IF (PRESENT(column_group)) CALL mrowcol_to_group(dist, column, column_group)
+         IF (PRESENT(column_group)) column_group = i8_bsearch(dist%local_rowcols, column)
       END SELECT
 
-   END SUBROUTINE
-
-   SUBROUTINE mrowcol_to_group(dist, rowcol, rowcol_group)
-      !! map matrix rows/column to group local rows/column
-
-      CLASS(dbcsr_tas_distribution_type), INTENT(IN) :: dist
-      INTEGER(KIND=int_8), INTENT(IN)              :: rowcol
-         !! global row/column to map
-      INTEGER, INTENT(OUT)                         :: rowcol_group
-         !! group local row/column
-      CHARACTER(LEN=*), PARAMETER                  :: routineN = 'mrowcol_to_group', &
-                                                      routineP = moduleN//':'//routineN
-
-      ASSOCIATE (rowcols=>dist%local_rowcols)
-         rowcol_group = i8_bsearch(rowcols, rowcol)
-      END ASSOCIATE
    END SUBROUTINE
 
    FUNCTION i8_bsearch(array, el, l_index, u_index) result(res)

@@ -25,7 +25,8 @@ MODULE dbcsr_tensor_split
                                  dbcsr_t_iterator_next_block, &
                                  dbcsr_t_reserve_blocks, &
                                  dbcsr_t_reserved_block_indices
-   USE dbcsr_tensor_index, ONLY: dbcsr_t_get_mapping_info
+   USE dbcsr_tensor_index, ONLY: dbcsr_t_get_mapping_info, &
+                                 dbcsr_t_inverse_order
    USE dbcsr_tensor_types, ONLY: dbcsr_t_create, &
                                  dbcsr_t_get_data_type, &
                                  dbcsr_t_type, &
@@ -475,7 +476,7 @@ CONTAINS
 
    END SUBROUTINE
 
-   SUBROUTINE dbcsr_t_make_compatible_blocks(tensor1, tensor2, tensor1_split, tensor2_split, nodata1, nodata2, move_data)
+   SUBROUTINE dbcsr_t_make_compatible_blocks(tensor1, tensor2, tensor1_split, tensor2_split, order, nodata1, nodata2, move_data)
       !! split two tensors with same total sizes but different block sizes such that they have equal
       !! block sizes
       !! \move_data memory optimization: transfer data s.t. tensor1 and tensor2 may be empty on return
@@ -486,13 +487,17 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(OUT)   :: tensor1_split, tensor2_split
          !! tensor 1 with split blocks
          !! tensor 2 with split blocks
+      INTEGER, DIMENSION(ndims_tensor(tensor1)), &
+         INTENT(IN), OPTIONAL                        :: order
+
       LOGICAL, INTENT(IN), OPTIONAL     :: nodata1, nodata2, move_data
          !! don't copy data of tensor 1
          !! don't copy data of tensor 2
-      INTEGER, DIMENSION(:), ALLOCATABLE  :: ${varlist("blk_size_split")}$, &
+      INTEGER, DIMENSION(:), ALLOCATABLE  :: ${varlist("blk_size_split_1")}$, ${varlist("blk_size_split_2")}$, &
                                              blk_size_d_1, blk_size_d_2, blk_size_d_split
-      INTEGER :: size_sum_1, size_sum_2, size_sum, bind_1, bind_2, isplit, bs, idim
+      INTEGER :: size_sum_1, size_sum_2, size_sum, bind_1, bind_2, isplit, bs, idim, i
       LOGICAL :: move_prv, nodata1_prv, nodata2_prv
+      INTEGER, DIMENSION(ndims_tensor(tensor1)) :: order_prv
 
       IF (PRESENT(move_data)) THEN
          move_prv = move_data
@@ -511,8 +516,14 @@ CONTAINS
          nodata2_prv = .FALSE.
       ENDIF
 
-      DO idim = 1, ndims_tensor(tensor1)
-         CALL get_ith_array(tensor1%blk_sizes, idim, blk_size_d_1)
+      IF (PRESENT(order)) THEN
+         order_prv(:) = dbcsr_t_inverse_order(order)
+      ELSE
+         order_prv(:) = (/(i, i=1, ndims_tensor(tensor1))/)
+      ENDIF
+
+      DO idim = 1, ndims_tensor(tensor2)
+         CALL get_ith_array(tensor1%blk_sizes, order_prv(idim), blk_size_d_1)
          CALL get_ith_array(tensor2%blk_sizes, idim, blk_size_d_2)
          ALLOCATE (blk_size_d_split(SIZE(blk_size_d_1) + SIZE(blk_size_d_2)))
          size_sum_1 = 0
@@ -564,19 +575,26 @@ CONTAINS
          ENDIF
 
 #:for idim in range(1, maxdim+1)
-         IF (idim == ${idim}$) THEN
-            CALL allocate_any(blk_size_split_${idim}$, source=blk_size_d_split(:isplit))
+         IF (order_prv(idim) == ${idim}$) THEN
+            CALL allocate_any(blk_size_split_1_${idim}$, source=blk_size_d_split(:isplit))
          ENDIF
 #:endfor
 
-         DEALLOCATE (blk_size_d_split)
+#:for idim in range(1, maxdim+1)
+         IF (idim == ${idim}$) THEN
+            CALL allocate_any(blk_size_split_2_${idim}$, source=blk_size_d_split(:isplit))
+         ENDIF
+#:endfor
+
+
+         DEALLOCATE (blk_size_d_split, blk_size_d_1, blk_size_d_2)
       ENDDO
 
 #:for ndim in ndims
       IF (ndims_tensor(tensor1) == ${ndim}$) THEN
-         CALL dbcsr_t_split_blocks_generic(tensor1, tensor1_split, ${varlist("blk_size_split", nmax=ndim)}$, nodata=nodata1)
+         CALL dbcsr_t_split_blocks_generic(tensor1, tensor1_split, ${varlist("blk_size_split_1", nmax=ndim)}$, nodata=nodata1)
          IF (move_prv .AND. .NOT. nodata1_prv) CALL dbcsr_t_clear(tensor1)
-         CALL dbcsr_t_split_blocks_generic(tensor2, tensor2_split, ${varlist("blk_size_split", nmax=ndim)}$, nodata=nodata2)
+         CALL dbcsr_t_split_blocks_generic(tensor2, tensor2_split, ${varlist("blk_size_split_2", nmax=ndim)}$, nodata=nodata2)
          IF (move_prv .AND. .NOT. nodata2_prv) CALL dbcsr_t_clear(tensor2)
       ENDIF
 #:endfor

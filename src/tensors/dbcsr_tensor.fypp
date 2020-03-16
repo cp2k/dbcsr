@@ -57,6 +57,11 @@ $:    ", ".join([name + "_" + str(i) + suffix for i in range(nmin, nmax+1)])
 $:    ','.join([':']*n)
 #:enddef
 
+#:def shape_explicit(name, n=maxrank)
+#!    explicit shape for pointer bounds remapping
+$:    ", ".join(['LBOUND('+name+', '+ str(i) + '):UBOUND('+name+', '+str(i)+')' for i in range(1,n+1)])
+#:enddef
+
 #:def uselist(list_in)
 #!    comma-separated list of unique entries of list_in
 $:    ", ".join(list(set(list_in)))

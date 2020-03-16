@@ -48,7 +48,7 @@ MODULE dbcsr_tensor_test
                             mp_sum, &
                             mp_cart_create
    USE dbcsr_allocate_wrap, ONLY: allocate_any
-   USE dbcsr_tensor_index, ONLY: combine_index, &
+   USE dbcsr_tensor_index, ONLY: combine_tensor_index, &
                                  dbcsr_t_get_mapping_info
    USE dbcsr_tas_test, ONLY: dbcsr_tas_checksum
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
@@ -503,7 +503,7 @@ CONTAINS
 #:endfor
             arr_ind(:) = [${varlist("i", nmax=ndim)}$]
             tens_ind(:) = arr_ind(:) + blk_offset(:) - 1
-            blk_${ndim}$ (${arrlist("arr_ind", nmax=ndim)}$) = combine_index(tens_ind, tensor_size)
+            blk_${ndim}$ (${arrlist("arr_ind", nmax=ndim)}$) = combine_tensor_index(tens_ind, tensor_size)
 #:for idim in range(ndim,0,-1)
          ENDDO
 #:endfor
