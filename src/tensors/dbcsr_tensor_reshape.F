@@ -19,7 +19,7 @@ MODULE dbcsr_tensor_reshape
    USE dbcsr_tensor_block, ONLY: &
       block_nd, create_block, destroy_block, dbcsr_t_iterator_type, dbcsr_t_iterator_next_block, &
       dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_start, dbcsr_t_iterator_stop, dbcsr_t_get_block, &
-      dbcsr_t_reserve_blocks, dbcsr_t_put_block, reshape_2d_to_nd_block
+      dbcsr_t_reserve_blocks, dbcsr_t_put_block
    USE dbcsr_tensor_types, ONLY: dbcsr_t_blk_sizes, &
                                  dbcsr_t_create, &
                                  dbcsr_t_get_data_type, &

@@ -33,8 +33,9 @@ MODULE dbcsr_tensor_types
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_type, dbcsr_tas_distribution_type, dbcsr_tas_split_info
    USE dbcsr_tensor_index, ONLY: &
-      get_2d_indices, get_nd_indices, create_nd_to_2d_mapping, destroy_nd_to_2d_mapping, &
-      dbcsr_t_get_mapping_info, nd_to_2d_mapping, split_index, combine_index, ndims_mapping
+      get_2d_indices_tensor, get_nd_indices_pgrid, create_nd_to_2d_mapping, destroy_nd_to_2d_mapping, &
+      dbcsr_t_get_mapping_info, nd_to_2d_mapping, split_tensor_index, combine_tensor_index, combine_pgrid_index, &
+      split_pgrid_index, ndims_mapping
    USE dbcsr_tas_split, ONLY: &
       dbcsr_tas_create_split_rows_or_cols, dbcsr_tas_release_info, dbcsr_tas_info_hold, &
       dbcsr_tas_create_split, dbcsr_tas_get_split_info
@@ -132,9 +133,9 @@ MODULE dbcsr_tensor_types
       TYPE(array_list)       :: nd_dist
    CONTAINS
       ! map matrix index to process grid:
-      PROCEDURE :: dist => r_dist_t
+      PROCEDURE :: dist => tas_dist_t
       ! map process grid to matrix index:
-      PROCEDURE :: rowcols => r_rowcols_t
+      PROCEDURE :: rowcols => tas_rowcols_t
    END TYPE
 
    ! block size object for one matrix index
@@ -144,7 +145,7 @@ MODULE dbcsr_tensor_types
       ! block size only for this matrix dimension:
       TYPE(array_list) :: blk_size
    CONTAINS
-      PROCEDURE :: data => r_blk_size_t
+      PROCEDURE :: data => tas_blk_size_t
    END TYPE
 
    INTERFACE dbcsr_t_create
@@ -217,29 +218,29 @@ CONTAINS
       new_dbcsr_tas_dist_t%nmrowcol = matrix_dims(which_dim)
    END FUNCTION
 
-   FUNCTION r_dist_t(t, rowcol)
+   FUNCTION tas_dist_t(t, rowcol)
       CLASS(dbcsr_tas_dist_t), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
-      INTEGER, DIMENSION(SIZE(t%dims)) :: ind_blk
-      INTEGER, DIMENSION(SIZE(t%dims)) :: dist_blk
-      INTEGER :: r_dist_t
+      INTEGER, DIMENSION(${maxrank}$) :: ind_blk
+      INTEGER, DIMENSION(${maxrank}$) :: dist_blk
+      INTEGER :: tas_dist_t
 
-      ind_blk(:) = split_index(rowcol, t%dims, base=1, col_major=.TRUE.)
-      dist_blk(:) = get_array_elements(t%nd_dist, ind_blk)
-      r_dist_t = INT(combine_index(dist_blk, t%dims_grid, base=0, col_major=.FALSE.))
+      ind_blk(:SIZE(t%dims)) = split_tensor_index(rowcol, t%dims)
+      dist_blk(:SIZE(t%dims)) = get_array_elements(t%nd_dist, ind_blk(:SIZE(t%dims)))
+      tas_dist_t = combine_pgrid_index(dist_blk(:SIZE(t%dims)), t%dims_grid)
    END FUNCTION
 
-   FUNCTION r_rowcols_t(t, dist)
+   FUNCTION tas_rowcols_t(t, dist)
       CLASS(dbcsr_tas_dist_t), INTENT(IN) :: t
       INTEGER, INTENT(IN) :: dist
-      INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE :: r_rowcols_t
-      INTEGER, DIMENSION(SIZE(t%dims)) :: dist_blk
+      INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE :: tas_rowcols_t
+      INTEGER, DIMENSION(${maxrank}$) :: dist_blk
       INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("dist")}$, ${varlist("blks")}$, blks_tmp, nd_ind
       INTEGER :: ${varlist("i")}$, i, iblk, iblk_count, nblks
       INTEGER(KIND=int_8) :: nrowcols
       TYPE(array_list) :: blks
 
-      dist_blk(:) = split_index(INT(dist, int_8), t%dims_grid, base=0, col_major=.FALSE.)
+      dist_blk(:SIZE(t%dims)) = split_pgrid_index(dist, t%dims_grid)
 
 #:for ndim in range(1, maxdim+1)
       IF (SIZE(t%dims) == ${ndim}$) THEN
@@ -271,7 +272,7 @@ CONTAINS
 #:endfor
 
       nrowcols = PRODUCT(INT(sizes_of_arrays(blks), int_8))
-      ALLOCATE (r_rowcols_t(nrowcols))
+      ALLOCATE (tas_rowcols_t(nrowcols))
 
 #:for ndim in range(1, maxdim+1)
       IF (SIZE(t%dims) == ${ndim}$) THEN
@@ -283,7 +284,7 @@ CONTAINS
             i = i + 1
 
             nd_ind(:) = get_array_elements(blks, [${varlist("i", nmax=ndim)}$])
-            r_rowcols_t(i) = combine_index(nd_ind, t%dims, base=1, col_major=.TRUE.)
+            tas_rowcols_t(i) = combine_tensor_index(nd_ind, t%dims)
 #:for idim in range(1,ndim+1)
          ENDDO
 #:endfor
@@ -327,16 +328,16 @@ CONTAINS
                                                          KIND=int_8))
    END FUNCTION
 
-   FUNCTION r_blk_size_t(t, rowcol)
+   FUNCTION tas_blk_size_t(t, rowcol)
       CLASS(dbcsr_tas_blk_size_t), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
-      INTEGER :: r_blk_size_t
+      INTEGER :: tas_blk_size_t
       INTEGER, DIMENSION(SIZE(t%dims)) :: ind_blk
       INTEGER, DIMENSION(SIZE(t%dims)) :: blk_size
 
-      ind_blk(:) = split_index(rowcol, t%dims, base=1, col_major=.TRUE.)
+      ind_blk(:) = split_tensor_index(rowcol, t%dims)
       blk_size(:) = get_array_elements(t%blk_size, ind_blk)
-      r_blk_size_t = PRODUCT(blk_size)
+      tas_blk_size_t = PRODUCT(blk_size)
 
    END FUNCTION
 
@@ -1105,7 +1106,7 @@ CONTAINS
 
       INTEGER(KIND=int_8), DIMENSION(2)                        :: ind_2d
 
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind_nd)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind_nd)
       CALL dbcsr_tas_get_stored_coordinates(tensor%matrix_rep, ind_2d(1), ind_2d(2), processor)
    END SUBROUTINE
 
@@ -1285,7 +1286,7 @@ CONTAINS
       CALL mp_environ(nproc, dims_2d, task_coor_2d, pgrid%mp_comm_2d)
       CALL mp_environ(nproc, dims_2d, task_coor_2d, pgrid%mp_comm_2d)
       CALL dbcsr_t_get_mapping_info(pgrid%nd_index_grid, dims_nd=dims)
-      task_coor = get_nd_indices(pgrid%nd_index_grid, INT(task_coor_2d, KIND=int_8))
+      task_coor = get_nd_indices_pgrid(pgrid%nd_index_grid, task_coor_2d)
    END SUBROUTINE
 
 #:for dparam, dtype, dsuffix in dtype_float_list
