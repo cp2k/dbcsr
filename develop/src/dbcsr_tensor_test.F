@@ -43,7 +43,7 @@ MODULE dbcsr_tensor_test
                                  dbcsr_t_get_info
    USE dbcsr_tensor_io, ONLY: &
       dbcsr_t_write_blocks, dbcsr_t_write_block_indices
-   USE dbcsr_kinds, ONLY: real_4, real_8, &
+   USE dbcsr_kinds, ONLY: real_8, real_4, &
                           default_string_length, &
                           int_8
    USE dbcsr_mpiwrap, ONLY: mp_environ, &
