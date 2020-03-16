@@ -29,7 +29,7 @@ MODULE dbcsr_tensor_types
       dbcsr_tas_distribution_destroy, dbcsr_tas_finalize, dbcsr_tas_get_info, &
       dbcsr_tas_destroy, dbcsr_tas_get_stored_coordinates, dbcsr_tas_set, dbcsr_tas_filter, &
       dbcsr_tas_get_num_blocks, dbcsr_tas_get_num_blocks_total, dbcsr_tas_get_data_size, dbcsr_tas_get_nze, &
-      dbcsr_tas_get_nze_total, dbcsr_tas_clear
+      dbcsr_tas_get_nze_total, dbcsr_tas_clear, dbcsr_tas_get_data_type
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_type, dbcsr_tas_distribution_type, dbcsr_tas_split_info
    USE dbcsr_tensor_index, ONLY: &
@@ -1068,7 +1068,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER                        :: data_type
 
-      CALL dbcsr_tas_get_info(tensor%matrix_rep, data_type=data_type)
+      data_type = dbcsr_tas_get_data_type(tensor%matrix_rep)
    END FUNCTION
 
    SUBROUTINE dbcsr_t_blk_sizes(tensor, ind, blk_size)

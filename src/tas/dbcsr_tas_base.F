@@ -858,13 +858,6 @@ CONTAINS
       dbcsr_tas_info = matrix%dist%info
    END FUNCTION
 
-   FUNCTION dbcsr_tas_get_data_type(matrix) RESULT(data_type)
-      TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
-      INTEGER                                            :: data_type
-
-      CALL dbcsr_get_info(matrix%matrix, data_type=data_type)
-   END FUNCTION
-
    FUNCTION dbcsr_tas_nblkrows_total(matrix) RESULT(nblkrows_total)
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
       INTEGER(KIND=int_8)                                :: nblkrows_total
@@ -958,6 +951,14 @@ CONTAINS
       dbcsr_tas_get_nze_total = dbcsr_tas_get_nze(matrix)
       info = dbcsr_tas_info(matrix)
       CALL mp_sum(dbcsr_tas_get_nze_total, info%mp_comm)
+   END FUNCTION
+
+   FUNCTION dbcsr_tas_get_data_type(matrix) RESULT(data_type)
+      !! As dbcsr_get_data_type
+      TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
+      INTEGER                          :: data_type
+
+      data_type = dbcsr_get_data_type(matrix%matrix)
    END FUNCTION
 
    FUNCTION dbcsr_tas_get_data_size(matrix) RESULT(data_size)
