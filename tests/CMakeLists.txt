@@ -59,8 +59,8 @@ set(DBCSR_TESTS
   )
 
 set(C_DBCSR_TESTS
-  c_dbcsr_tensor_unittest
-  )
+  c_dbcsr_tensor_test
+ )
 
 # Common object files linked to all tests
 set(dbcsr_unittest_common_SRCS
@@ -75,7 +75,7 @@ set(dbcsr_unittest3_SRCS dbcsr_unittest3.F)
 set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
 set(dbcsr_tas_unittest_SRCS dbcsr_tas_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
-set(c_dbcsr_tensor_unittest_SRCS ../examples/dbcsr_tensor_example_1.cpp)
+set(c_dbcsr_tensor_test_SRCS c_dbcsr_tensor_test.cpp)
 
 # instead of building a full-blown lib, it would be better to simply build an OBJECT lib,
 # but we would need cmake 3.12 to be able to specify target_link_libraries on those to get

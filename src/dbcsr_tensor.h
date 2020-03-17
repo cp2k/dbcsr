@@ -159,7 +159,7 @@ extern "C" {
  * *************************************************************************************************/
 
 #:for dsuffix, ctype in c_dtype_float_list
-static void c_dbcsr_t_get_block(const void* c_tensor, const int* c_ind, const int* c_sizes, 
+inline void c_dbcsr_t_get_block(const void* c_tensor, const int* c_ind, const int* c_sizes, 
 		${ctype}$* c_block, bool* c_found) {
 	
 	int tensor_dim = c_ndims_tensor(c_tensor);
@@ -176,7 +176,7 @@ static void c_dbcsr_t_get_block(const void* c_tensor, const int* c_ind, const in
 #:endfor
 
 #:for dsuffix, ctype in c_dtype_float_list
-static void c_dbcsr_t_get_block(const void* c_tensor, const int* c_ind, 
+inline void c_dbcsr_t_get_block(const void* c_tensor, const int* c_ind, 
 		${ctype}$** c_block, bool* c_found) {
 	
 	int tensor_dim = c_ndims_tensor(c_tensor);
@@ -193,7 +193,7 @@ static void c_dbcsr_t_get_block(const void* c_tensor, const int* c_ind,
 #:endfor
 
 #:for dsuffix, ctype in c_dtype_float_list
-static void c_dbcsr_t_put_block(const void* c_tensor, const int* c_ind, const int* c_sizes, 
+inline void c_dbcsr_t_put_block(const void* c_tensor, const int* c_ind, const int* c_sizes, 
 		const ${ctype}$* c_block, const bool* c_summation, const ${ctype}$* c_scale) {
 	
 	int tensor_dim = c_ndims_tensor(c_tensor);
@@ -209,14 +209,14 @@ static void c_dbcsr_t_put_block(const void* c_tensor, const int* c_ind, const in
 }
 #:endfor
 
-static void c_dbcsr_t_get_stored_coordinates(const void* c_tensor, int* c_ind_nd, int* c_processor) {
+inline void c_dbcsr_t_get_stored_coordinates(const void* c_tensor, int* c_ind_nd, int* c_processor) {
 	
 	int tensor_dim = c_ndims_tensor(c_tensor);
 	c_dbcsr_t_get_stored_coordinates(c_tensor, tensor_dim, c_ind_nd, c_processor);
 	
 }
 
-static void c_dbcsr_t_iterator_next_block(const void* c_iterator, int* c_ind_nd, 
+inline void c_dbcsr_t_iterator_next_block(const void* c_iterator, int* c_ind_nd, 
           int* c_blk, int* c_blk_p, int* c_blk_size, int* c_blk_offset) {
 			  
 	int iterator_size = c_ndims_iterator(c_iterator);
@@ -227,19 +227,19 @@ static void c_dbcsr_t_iterator_next_block(const void* c_iterator, int* c_ind_nd,
 }
 
 #:for dsuffix, ctype in c_dtype_float_list
-static void c_dbcsr_t_filter(const void* c_tensor, const ${ctype}$ c_eps, const int* c_method, const bool* c_use_absolute) {
+inline void c_dbcsr_t_filter(const void* c_tensor, const ${ctype}$ c_eps, const int* c_method, const bool* c_use_absolute) {
 	
 	c_dbcsr_t_filter_${dsuffix}$ (c_tensor, c_eps, c_method, c_use_absolute);
 	
 }
 
-static void c_dbcsr_t_set(const void* c_tensor, const ${ctype}$ c_alpha) {
+inline void c_dbcsr_t_set(const void* c_tensor, const ${ctype}$ c_alpha) {
    
    c_dbcsr_t_set_${dsuffix}$ (c_tensor, c_alpha);
    
 }
 
-static void c_dbcsr_t_scale(const void* c_tensor, const ${ctype}$ c_alpha) {
+inline void c_dbcsr_t_scale(const void* c_tensor, const ${ctype}$ c_alpha) {
 	
    c_dbcsr_t_scale_${dsuffix}$ (c_tensor, c_alpha);
    

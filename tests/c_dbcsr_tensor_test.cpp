@@ -712,6 +712,17 @@ int main(int argc, char* argv[])
 		
 		bool found_f(false), found_d(false), found_cf(false), found_cd(false);
 		
+		c_dbcsr_t_get_block(tfloat, idx3.data(), sizes.data(), blk_f, &found_f);
+		c_dbcsr_t_get_block(tensor1, idx3.data(), sizes.data(), blk_d, &found_d);
+		c_dbcsr_t_get_block(tcfloat, idx3.data(), sizes.data(), blk_cf, &found_cf);
+		c_dbcsr_t_get_block(tcdouble, idx3.data(), sizes.data(), blk_cd, &found_cd);
+		
+		if (found_f && found_cf && found_d && found_cd) std::cout << "Found all Blocks" << std::endl;
+		
+		c_dbcsr_t_get_block(tfloat, idx3.data(), &blk_f_unalloc, &found_f);
+		c_dbcsr_t_get_block(tensor1, idx3.data(), &blk_d_unalloc, &found_d);
+		c_dbcsr_t_get_block(tcfloat, idx3.data(), &blk_cf_unalloc, &found_cf);
+		c_dbcsr_t_get_block(tcdouble, idx3.data(), &blk_cd_unalloc, &found_cd);
 		
 		if (found_f && found_cf && found_d && found_cd) std::cout << "Found all Blocks (Alloc)" << std::endl;
 		
