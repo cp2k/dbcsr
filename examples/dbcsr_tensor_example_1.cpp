@@ -13,41 +13,16 @@
 #include <algorithm>
 #include <cstdlib>
 #include <cstdio>
-#include <functional>
 #include <cstdint>
 #include <random>
 #include <mpi.h>
 #include <dbcsr.h>
 #include <dbcsr_tensor.h>
-#include <complex.h>
-
-const int dbcsr_type_real_4 = 1;
-const int dbcsr_type_real_8 = 3;
-const int dbcsr_type_complex_4 = 5;
-const int dbcsr_type_complex_8 = 7;
 
 //-------------------------------------------------------------------------------------------------!
 // Example: tensor contraction (13|2)x(54|21)=(3|45)
 //                             tensor1 x tensor2 = tensor3
 //-------------------------------------------------------------------------------------------------!
-
-std::random_device rd; 
-std::mt19937 gen(rd());
-std::uniform_real_distribution<> dis(-1.0, 1.0);
-
-template <typename T>
-T get_rand_real() {
-	
-	return dis(gen);
-	
-}
-
-template <typename T>
-T get_rand_complex() {
-	
-	return dis(gen) + dis(gen) * I;
-	
-}
 
 std::vector<int> random_dist(int dist_size, int nbins)
 {
@@ -69,15 +44,17 @@ void printvec(std::vector<int>& v) {
 	
 }
 
-template <typename T>
-void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks,
-	std::function<T()>& rand_func) {
+void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks) {
 	
 	int myrank, mpi_size;
 	int dim = nzblocks.size();
 	
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank); 
 	MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
+	
+	std::random_device rd; 
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> dis(-1.0, 1.0);
 	
 	if (myrank == 0) std::cout << "Filling Tensor..." << std::endl;
 	if (myrank == 0) std::cout << "Dimension: " << dim << std::endl;
@@ -102,24 +79,6 @@ void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks,
 		
 	} 
 	
-	/*
-	for (int i = 0; i != mpi_size; ++i) {
-		if (i == myrank) {
-			std::cout << "Blocks stored on processor " << myrank << " :" << std::endl;
-			for (auto idx : mynzblocks) {
-				for (auto ele : idx) {
-					std::cout << ele << " ";
-				}
-				std::cout << std::endl;
-			}
-			std::cout << "Total: " << mynzblocks[0].size() << " " <<  mynzblocks[1].size() << " " <<  mynzblocks[2].size() << std::endl;
-		}
-		
-		MPI_Barrier(MPI_COMM_WORLD);
-		
-	}
-	*/
-	
 	std::vector<int*> dataptr(4, nullptr);
 	
 	for (int i = 0; i != dim; ++i) {
@@ -131,10 +90,9 @@ void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks,
     if (mynzblocks[0].size() != 0) 
 	c_dbcsr_t_reserve_blocks_index(tensor, mynzblocks[0].size(), dataptr[0], dataptr[1], dataptr[2], dataptr[3]);
     
-    auto fill_rand = [&](std::vector<T>& blk) {
-		for (T& e : blk) {
-			e = rand_func();
-			//std::cout << e << std::endl;
+    auto fill_rand = [&](std::vector<double>& blk) {
+		for (auto& e : blk) {
+			e = dis(gen);
 		}
 	};
 	
@@ -144,29 +102,15 @@ void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks,
   
     std::vector<int> loc_idx(dim);
     std::vector<int> blk_sizes(dim);
-    std::vector<T> block(1);
+    std::vector<double> block(1);
 
     int blk = 0;
     int blk_proc = 0;
     
-    // really like this???
     while(c_dbcsr_t_iterator_blocks_left(iter)) {
-		
-		//std::cout << "Block " << n_b++ << std::endl;
 		
 		c_dbcsr_t_iterator_next_block(iter, loc_idx.data(), &blk, &blk_proc, blk_sizes.data(), nullptr);
 		
-		//std::cout << "Blk: " << blk << std::endl;
-		//std::cout << "Blk_p: " << blk_proc << std::endl;
-		
-		//for (auto i : blk_sizes) std::cout << i << " ";
-		//std::cout << std::endl;
-		
-		//std::cout << "Index: " << std::endl;
-		//for (auto i : loc_idx) std::cout << i << " ";
-		//std::cout << std::endl;
-		
-		//std::cout << "Generating Block..." << std::endl;
 		int tot = 1;
 		for (int i = 0; i != dim; ++i) {
 			tot *= blk_sizes[i];
@@ -362,14 +306,12 @@ int main(int argc, char* argv[])
 	
 	// fill the tensors
 	
-	std::function<double()> drand = get_rand_real<double>;
-	
 	if (mpi_rank == 0) std::cout << "Tensor 1" << '\n' << std::endl;
-	fill_random<double>(tensor1, {nz11, nz12, nz13}, drand);
+	fill_random(tensor1, {nz11, nz12, nz13});
 	if (mpi_rank == 0) std::cout << "Tensor 2" << '\n' << std::endl;
-	fill_random<double>(tensor2, {nz21, nz22, nz24, nz25}, drand);
+	fill_random(tensor2, {nz21, nz22, nz24, nz25});
 	if (mpi_rank == 0) std::cout << "Tensor 3" << '\n' << std::endl;
-	fill_random<double>(tensor3, {nz33, nz34, nz35}, drand);
+	fill_random(tensor3, {nz33, nz34, nz35});
 	
 	// contracting
 	
@@ -404,350 +346,10 @@ int main(int argc, char* argv[])
 									nullptr, nullptr, nullptr, &unit_nr, &log_verbose);
                                                          	
 	
-	
-	// ====================================================
-	// ========== END OF EXAMPLE ==========================
-	// ====================================================
-	
-	// ====================================================
-	// ====== SHOWING/TESTING OTHER FUNCTIONS =============
-	// ====================================================
-	
-	// ======== GET_INFO ===========
-	
-	std::vector<int> nblkstot(3), nfulltot(3), nblksloc(3), nfullloc(3), pdims(3), ploc(3);
-	
-	int *bloc1 = nullptr, *bloc2 = nullptr, *bloc3 = nullptr;
-	int bloc1size = 0, bloc2size = 0, bloc3size = 0;
-	
-	int *proc1 = nullptr, *proc2 = nullptr, *proc3 = nullptr;
-	int proc1size = 0, proc2size = 0, proc3size = 0;
-	
-	int *blk_size1 = nullptr, *blk_size2 = nullptr, *blk_size3 = nullptr;
-	int blk_size1size = 0, blk_size2size = 0, blk_size3size = 0;
-	
-	int *blk_off1 = nullptr, *blk_off2 = nullptr, *blk_off3 = nullptr;
-	int blk_off1size = 0, blk_off2size = 0, blk_off3size = 0;
-	
-	void* dist = nullptr;
-	char* name = nullptr;
-	int name_size = 0;
-	int data_type = 0;
-	
-	c_dbcsr_t_get_info(tensor1, 3, nblkstot.data(), nfulltot.data(),nblksloc.data(),
-							   nfullloc.data(), pdims.data(), ploc.data(),
-                               &bloc1, &bloc1size, &bloc2, &bloc2size, &bloc3, &bloc3size, nullptr, 0, 
-                               &proc1, &proc1size, &proc2, &proc2size, &proc3, &proc3size, nullptr, 0, 
-                               &blk_size1, &blk_size1size, &blk_size2, &blk_size2size, &blk_size3, &blk_size3size, nullptr, 0,
-                               &blk_off1, &blk_off1size, &blk_off2, &blk_off2size, &blk_off3, &blk_off3size, nullptr, 0, 
-                               &dist, &name, &name_size, &data_type);
-                               
-    
-    std::string tname(name);
-    
-    if (mpi_rank == 0) {
-		std::cout << "Testing get_info for Tensor 1..." << std::endl;
-		std::cout << "Name: " << tname << std::endl;
-		std::cout << "Data_type: " << data_type << std::endl;
-	}
-	
-	for (int rank = 0; rank != mpi_size; ++rank) {
-		if (rank == mpi_rank) {
-			std::cout << "======= Process: " << rank << " ========" << std::endl;
-    
-			std::cout << "Total number of blocks:" << std::endl;
-			printvec(nblkstot);
-			
-			std::cout << "Total number of elements:" << std::endl;
-			printvec(nfulltot);
-			
-			std::cout << "Total number of local blocks:" << std::endl;
-			printvec(nblksloc);
-			
-			std::cout << "Total number of local elements:" << std::endl;
-			printvec(nfullloc);
-			
-			std::cout << "Pgrid dimensions:" << std::endl;
-			printvec(pdims);
-			
-			std::cout << "Process coordinates:" << std::endl;
-			printvec(ploc);
-			
-			std::cout << "blks_local:" << std::endl;
-			for (int i = 0; i != bloc1size; ++i) {
-				std::cout << bloc1[i] << " ";
-			}
-			std::cout << std::endl;
-			for (int i = 0; i != bloc2size; ++i) {
-				std::cout << bloc2[i] << " ";
-			}
-			std::cout << std::endl;
-			for (int i = 0; i != bloc3size; ++i) {
-				std::cout << bloc3[i] << " ";
-			}
-			std::cout << std::endl;
-			
-			free(bloc1);
-			free(bloc2);
-			free(bloc3);
-			
-			std::cout << "proc_dist:" << std::endl;
-			for (int i = 0; i != proc1size; ++i) {
-				std::cout << proc1[i] << " ";
-			}
-			std::cout << std::endl;
-			for (int i = 0; i != proc2size; ++i) {
-				std::cout << proc2[i] << " ";
-			}
-			std::cout << std::endl;
-			for (int i = 0; i != proc3size; ++i) {
-				std::cout << proc3[i] << " ";
-			}
-			std::cout << std::endl;
-			
-			free(proc1);
-			free(proc2);
-			free(proc3);
-			
-			std::cout << "blk_size:" << std::endl;
-			for (int i = 0; i != blk_size1size; ++i) {
-				std::cout << blk_size1[i] << " ";
-			}
-			std::cout << std::endl;
-			for (int i = 0; i != blk_size2size; ++i) {
-				std::cout << blk_size2[i] << " ";
-			}
-			std::cout << std::endl;
-			for (int i = 0; i != blk_size3size; ++i) {
-				std::cout << blk_size3[i] << " ";
-			}
-			std::cout << std::endl;
-			
-			free(blk_size1);
-			free(blk_size2);
-			free(blk_size3);
-			
-			std::cout << "blk_offset:" << std::endl;
-			for (int i = 0; i != blk_off1size; ++i) {
-				std::cout << blk_off1[i] << " ";
-			}
-			std::cout << std::endl;
-			for (int i = 0; i != blk_off2size; ++i) {
-				std::cout << blk_off2[i] << " ";
-			}
-			std::cout << std::endl;
-			for (int i = 0; i != blk_off3size; ++i) {
-				std::cout << blk_off3[i] << " ";
-			}
-			std::cout << std::endl;
-			
-			free(blk_off1);
-			free(blk_off2);
-			free(blk_off3);
-			
-		}
-		
-		MPI_Barrier(MPI_COMM_WORLD);
-		
-	}
-
-	free(name);
-	
-	// ================ GET_MAPPING_INFO ======================
-	
-	void* ndblk = nullptr;
-	
-	c_dbcsr_t_get_nd_index_blk(tensor1, &ndblk);
-	
-	int ndim_nd = 0, ndim1_2d = 0, ndim2_2d = 0;
-	std::vector<long long int> dims_2d_i8(2);
-	std::vector<int> dims_2d(2);
-	
-	int dims_nd_size, dims1_2d_size, dims2_2d_size, map1_2d_size, map2_2d_size, map_nd_size;
-	int *dims_nd, *dims1_2d, *dims2_2d, *map1_2d, *map2_2d, *map_nd;
-	
-	int base;
-	bool col_major;
-	
-	c_dbcsr_t_get_mapping_info(ndblk, &ndim_nd, &ndim1_2d, &ndim2_2d, 
-                        dims_2d_i8.data(), dims_2d.data(), &dims_nd, &dims_nd_size, 
-                        &dims1_2d, &dims1_2d_size, &dims2_2d, &dims2_2d_size, 
-                        &map1_2d, &map1_2d_size, &map2_2d, &map2_2d_size, 
-                        &map_nd, &map_nd_size, &base, &col_major);
-                        
-     if (mpi_rank == 0) {
-		std::cout << "Testing get_mapping_info for Tensor 1..." << std::endl;
-		
-		std::cout << "ndim_nd = " << ndim_nd << std::endl;
-		std::cout << "ndim1_2d = " << ndim1_2d << std::endl;
-		std::cout << "ndim2_2d = " << ndim2_2d << std::endl;
-		
-		std::cout << "dims_2d_i8: ";
-		for (auto i : dims_2d_i8) {
-			std::cout << i << " ";
-		} std::cout << std::endl;
-		
-		std::cout << "dims_2d: ";
-		for (auto i : dims_2d) {
-			std::cout << i << " ";
-		} std::cout << std::endl;
-		
-		auto print_info = [] (int* ptr, int size, std::string name) 
-		{
-			std::cout << name << ": ";
-			for (int i = 0; i != size; ++i) {
-				std::cout << ptr[i] << " ";
-			} std::cout << std::endl;
-		};	
-		
-		print_info(dims_nd, dims_nd_size, "dims_nd");
-		print_info(dims1_2d, dims1_2d_size, "dims1_2d");
-		print_info(dims2_2d, dims2_2d_size, "dims1_2d");
-		print_info(map1_2d, map1_2d_size, "map1_2d");
-		print_info(map2_2d, map2_2d_size, "map2_2d");
-		print_info(map_nd, map_nd_size, "map_nd");
-		
-		std::cout << "Base: " << base << std::endl;
-		std::cout << "col_major " << col_major << std::endl;		
-		
-	}                   
-    
-                        
-    free(dims_nd);
-    free(dims1_2d);
-    free(dims2_2d);
-    free(map1_2d);
-    free(map2_2d);
-    free(map_nd);
-    
-    // =================== TESTING OTHER TENSOR TYPES =================
-    // Some more function tests because of -Werror=unused-function flag
-    
-    if (mpi_rank == 0) std::cout << "Testing float, complex float, complex double." << std::endl;
-    
-    // test other tensor types: float, complex float/double
-    void* tfloat = nullptr;
-    void* tcfloat = nullptr;
-    void* tcdouble = nullptr; 
-    
-    c_dbcsr_t_create_new(&tfloat, "(13|2)f", dist1, map11.data(), map11.size(), map12.data(), map12.size(), &dbcsr_type_real_4, blk1.data(), 
-		blk1.size(), blk2.data(), blk2.size(), blk3.data(), blk3.size(), nullptr, 0);
-		
-	c_dbcsr_t_create_new(&tcfloat, "(13|2)cf", dist1, map11.data(), map11.size(), map12.data(), map12.size(), &dbcsr_type_complex_4, blk1.data(), 
-		blk1.size(), blk2.data(), blk2.size(), blk3.data(), blk3.size(), nullptr, 0);
-		
-	c_dbcsr_t_create_new(&tcdouble, "(13|2)cd", dist1, map11.data(), map11.size(), map12.data(), map12.size(), &dbcsr_type_complex_8, blk1.data(), 
-		blk1.size(), blk2.data(), blk2.size(), blk3.data(), blk3.size(), nullptr, 0);
-	
-	// fill them 
-	
-	if (mpi_rank == 0) std::cout << "Filling the tensors..." << std::endl;
-	
-	std::function<float()> frand = get_rand_real<float>;
-	std::function<float _Complex()> cfrand = get_rand_complex<float _Complex>;
-	std::function<double _Complex()> cdrand = get_rand_complex<double _Complex>;
-	
-	fill_random(tfloat, {nz11, nz12, nz13}, frand);
-	fill_random(tcfloat, {nz11, nz12, nz13}, cfrand);
-	fill_random(tcdouble, {nz11, nz12, nz13}, cdrand);
-	
-	// scaling functions 
-	
-	if (mpi_rank == 0) std::cout << "Testing scaling functions..." << std::endl;
-	
-	float alpha_f = 2.0;
-	double alpha_d = -3.0;
-	float _Complex alpha_cf = 5 + 3*I;
-	double _Complex alpha_cd = 3 + 2*I; 
-
-	c_dbcsr_t_scale(tfloat, alpha_f);
-	c_dbcsr_t_scale(tcfloat, alpha_cf);
-	c_dbcsr_t_scale(tensor1, alpha_d);
-	c_dbcsr_t_scale(tcdouble, alpha_cd);
-	
-	// filter functions
-	
-	if (mpi_rank == 0) std::cout << "Testing filter functions..." << std::endl;
-	
-	float eps_f = 1e-5;
-	double eps_d = 1e-9;
-	float _Complex eps_cf = 1e-5 + 1e-5 * I;
-	double _Complex eps_cd = 1e-9 + 1e-9 * I;
-	
-	c_dbcsr_t_filter(tfloat, eps_f, nullptr, nullptr);
-	c_dbcsr_t_filter(tensor1, eps_d, nullptr, nullptr);
-	c_dbcsr_t_filter(tcfloat, eps_cf, nullptr, nullptr);
-	c_dbcsr_t_filter(tcdouble, eps_cd, nullptr, nullptr);
-	
-	if (mpi_rank == 0) std::cout << "Testing set functions..." << std::endl;
-	
-	c_dbcsr_t_set(tfloat, alpha_f);
-	c_dbcsr_t_set(tensor1, alpha_d);
-	c_dbcsr_t_set(tcfloat, alpha_cf);
-	c_dbcsr_t_set(tcdouble, alpha_cd);
-	
-	if (mpi_rank == 0) std::cout << "Testing get_block functions..." << std::endl;
-	
-	int proc = -1;
-	
-	std::vector<int> idx3 = {0,2,6};
-	std::vector<int> sizes = {blk1[0],blk2[2],blk3[3]};
-	
-	int data_size = sizes[0] * sizes[1] * sizes[2];
-	
-	float* blk_f = new float[data_size];
-	float _Complex* blk_cf = new float _Complex[data_size];
-	double* blk_d = new double[data_size];
-	double _Complex* blk_cd = new double _Complex[data_size];
-	
-	// unallocated blocks
-	float* blk_f_unalloc = nullptr;
-	float _Complex* blk_cf_unalloc = nullptr;
-	double* blk_d_unalloc = nullptr;
-	double _Complex* blk_cd_unalloc = nullptr;
-	
-	c_dbcsr_t_get_stored_coordinates(tfloat, 3, idx3.data(), &proc);
-	
-	if (mpi_rank == proc) {
-		
-		bool found_f(false), found_d(false), found_cf(false), found_cd(false);
-		
-		
-		if (found_f && found_cf && found_d && found_cd) std::cout << "Found all Blocks (Alloc)" << std::endl;
-		
-	}
-	
-	// we have to also use c_dbcsr_distribution_new from the normal dbcsr.h file
-	// The reason: it is a static function, which exists once per compilation unit, and because
-	// -Werror=unused-function is enabled, it wants it to be used in THIS file too. Weird.
-	// But we skip it during the run
-
-	if (0) {
-
-		void* dist_test;
-		c_dbcsr_distribution_new(&dist_test, MPI_COMM_WORLD, dist11.data(), dist11.size(),
-			dist12.data(), dist12.size());
-			
-		c_dbcsr_distribution_release(&dist_test);
-	
-	}
-		
-	delete[] blk_f;
-	delete[] blk_cf;
-	delete[] blk_d;
-	delete[] blk_cd;
-	
-	free(blk_f_unalloc);
-	free(blk_d_unalloc);
-	free(blk_cf_unalloc);
-	free(blk_cd_unalloc);
 
     c_dbcsr_t_destroy(&tensor1);
     c_dbcsr_t_destroy(&tensor2);
     c_dbcsr_t_destroy(&tensor3);
-    c_dbcsr_t_destroy(&tfloat);
-    c_dbcsr_t_destroy(&tcfloat);
-    c_dbcsr_t_destroy(&tcdouble);
         
     c_dbcsr_t_pgrid_destroy(&pgrid_3d, nullptr);
     c_dbcsr_t_pgrid_destroy(&pgrid_4d, nullptr);
@@ -759,7 +361,6 @@ int main(int argc, char* argv[])
     c_dbcsr_finalize_lib();
 
     MPI_Finalize();
-
 
     return 0;
 }

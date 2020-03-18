@@ -27,8 +27,8 @@ const int dbcsr_type_complex_4 = 5;
 const int dbcsr_type_complex_8 = 7;
 
 //-------------------------------------------------------------------------------------------------!
-// Example: tensor contraction (13|2)x(54|21)=(3|45)
-//                             tensor1 x tensor2 = tensor3
+// Testing the tensor contraction (13|2)x(54|21)=(3|45)
+// and several other functions, to make sure there are not any segmentation faults
 //-------------------------------------------------------------------------------------------------!
 
 std::random_device rd; 
@@ -149,24 +149,10 @@ void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks,
     int blk = 0;
     int blk_proc = 0;
     
-    // really like this???
     while(c_dbcsr_t_iterator_blocks_left(iter)) {
-		
-		//std::cout << "Block " << n_b++ << std::endl;
 		
 		c_dbcsr_t_iterator_next_block(iter, loc_idx.data(), &blk, &blk_proc, blk_sizes.data(), nullptr);
 		
-		//std::cout << "Blk: " << blk << std::endl;
-		//std::cout << "Blk_p: " << blk_proc << std::endl;
-		
-		//for (auto i : blk_sizes) std::cout << i << " ";
-		//std::cout << std::endl;
-		
-		//std::cout << "Index: " << std::endl;
-		//for (auto i : loc_idx) std::cout << i << " ";
-		//std::cout << std::endl;
-		
-		//std::cout << "Generating Block..." << std::endl;
 		int tot = 1;
 		for (int i = 0; i != dim; ++i) {
 			tot *= blk_sizes[i];
@@ -404,13 +390,8 @@ int main(int argc, char* argv[])
 									nullptr, nullptr, nullptr, &unit_nr, &log_verbose);
                                                          	
 	
-	
 	// ====================================================
-	// ========== END OF EXAMPLE ==========================
-	// ====================================================
-	
-	// ====================================================
-	// ====== SHOWING/TESTING OTHER FUNCTIONS =============
+	// ====== TESTING OTHER FUNCTIONS =============
 	// ====================================================
 	
 	// ======== GET_INFO ===========
@@ -727,21 +708,6 @@ int main(int argc, char* argv[])
 		if (found_f && found_cf && found_d && found_cd) std::cout << "Found all Blocks (Alloc)" << std::endl;
 		
 	}
-	
-	// we have to also use c_dbcsr_distribution_new from the normal dbcsr.h file
-	// The reason: it is a static function, which exists once per compilation unit, and because
-	// -Werror=unused-function is enabled, it wants it to be used in THIS file too. Weird.
-	// But we skip it during the run
-
-	if (0) {
-
-		void* dist_test;
-		c_dbcsr_distribution_new(&dist_test, MPI_COMM_WORLD, dist11.data(), dist11.size(),
-			dist12.data(), dist12.size());
-			
-		c_dbcsr_distribution_release(&dist_test);
-	
-	}
 		
 	delete[] blk_f;
 	delete[] blk_cf;
@@ -770,7 +736,6 @@ int main(int argc, char* argv[])
     c_dbcsr_finalize_lib();
 
     MPI_Finalize();
-
 
     return 0;
 }

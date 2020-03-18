@@ -375,7 +375,7 @@ if (WITH_C_API)
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     )
   install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/dbcsr.h"
-	  "${CMAKE_CURRENT_BINARY_DIR}/dbcsr_tensor.h"
+	  "${CMAKE_CURRENT_BINARY_DIR}/tensors/dbcsr_tensor.h"
     COMPONENT C
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     )
