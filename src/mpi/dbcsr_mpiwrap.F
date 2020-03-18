@@ -747,7 +747,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr);
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")
@@ -1091,10 +1091,9 @@ CONTAINS
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_environ_l', routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: handle, ierr
+      INTEGER                                            :: ierr
 
       ierr = 0
-      CALL timeset(routineN, handle)
 
       IF (PRESENT(numtask)) numtask = 1
       IF (PRESENT(taskid)) taskid = 0
@@ -1111,7 +1110,6 @@ CONTAINS
 #else
       MARK_USED(groupid)
 #endif
-      CALL timestop(handle)
 
    END SUBROUTINE mp_environ_l
 
@@ -1124,13 +1122,12 @@ CONTAINS
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_environ_c', &
                                      routineP = moduleN//':'//routineN
 
-      INTEGER                                  :: handle, ierr
+      INTEGER                                  :: ierr
 #if defined(__parallel)
       LOGICAL, DIMENSION(2)                    :: periods
 #endif
 
       ierr = 0
-      CALL timeset(routineN, handle)
       numtask = 1
       task_coor = 0
       dims = 1
@@ -1143,7 +1140,6 @@ CONTAINS
 #else
       MARK_USED(groupid)
 #endif
-      CALL timestop(handle)
 
    END SUBROUTINE mp_environ_c
 
@@ -1155,10 +1151,9 @@ CONTAINS
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_environ_c2', routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: handle, ierr
+      INTEGER                                            :: ierr
 
       ierr = 0
-      CALL timeset(routineN, handle)
 
       task_coor = 0
       dims = 1
@@ -1169,7 +1164,6 @@ CONTAINS
 #else
       MARK_USED(comm)
 #endif
-      CALL timestop(handle)
 
    END SUBROUTINE mp_environ_c2
 
@@ -1235,10 +1229,9 @@ CONTAINS
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_coords', routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: handle, ierr, m
+      INTEGER                                            :: ierr, m
 
       ierr = 0
-      CALL timeset(routineN, handle)
 
       m = SIZE(coords)
 #if defined(__parallel)
@@ -1249,7 +1242,6 @@ CONTAINS
       MARK_USED(rank)
       MARK_USED(comm)
 #endif
-      CALL timestop(handle)
 
    END SUBROUTINE mp_cart_coords
 
@@ -1452,10 +1444,9 @@ CONTAINS
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_rank', routineP = moduleN//':'//routineN
 
-      INTEGER                                            :: handle, ierr
+      INTEGER                                            :: ierr
 
       ierr = 0
-      CALL timeset(routineN, handle)
 
 #if defined(__parallel)
       CALL mpi_cart_rank(group, pos, rank, ierr)
@@ -1465,7 +1456,6 @@ CONTAINS
       MARK_USED(group)
       MARK_USED(pos)
 #endif
-      CALL timestop(handle)
 
    END SUBROUTINE mp_cart_rank
 
