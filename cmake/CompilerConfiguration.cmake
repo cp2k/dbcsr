@@ -20,9 +20,9 @@ elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "NAG")
     set(CMAKE_Fortran_FLAGS_DEBUG  "${CMAKE_Fortran_FLAGS_DEBUG} -C=all")  # some checks are not available with OpenMP
   endif ()
 elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray")
-  set(CMAKE_Fortran_FLAGS          "-f free -M3105")  # -M3105: hide a false-positive warning about modified loop variables due to loop fusing
+  set(CMAKE_Fortran_FLAGS          "-f free -M3105 -ME7212")  # -M3105: hide a false-positive warning about modified loop variables due to loop fusing, promote warning 7212 to an error
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O2")
-  set(CMAKE_Fortran_FLAGS_DEBUG    "-G2 -ME7212")  # promote warning 7212 to an error
+  set(CMAKE_Fortran_FLAGS_DEBUG    "-G2")
   set(CMAKE_Fortran_MODOUT_FLAG    "-ef")  # override to get lower-case module file names
 else ()
   message(WARNING "\
