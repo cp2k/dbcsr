@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.4% of total for source files.">263 statements</a>
+    title=" 0.4% of total for source files.">264 statements</a>
      </li> 
      
      
@@ -644,78 +644,81 @@
 <a name="ln-386"></a>               <span class="s2">&quot;DBCSR| Multiplication size k stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span>
 <a name="ln-387"></a>         <span class="n">ENDIF</span>
 <a name="ln-388"></a>
-<a name="ln-389"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">has_mpi</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-390"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-391"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T75,A)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-392"></a>                  <span class="s2">&quot;DBCSR| Number of 3D layers&quot;</span><span class="p">,</span> <span class="s2">&quot;SINGLE&quot;</span>
-<a name="ln-393"></a>            <span class="k">ELSE</span>
-<a name="ln-394"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-395"></a>                  <span class="s2">&quot;DBCSR| Number of 3D layers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span>
-<a name="ln-396"></a>            <span class="n">ENDIF</span>
-<a name="ln-397"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-398"></a>               <span class="s2">&quot;DBCSR| Use MPI memory allocation&quot;</span><span class="p">,</span> <span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span>
-<a name="ln-399"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-400"></a>               <span class="s2">&quot;DBCSR| Use RMA algorithm&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span>
-<a name="ln-401"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-402"></a>               <span class="s2">&quot;DBCSR| Use Communication thread&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_comm_thread</span>
-<a name="ln-403"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-404"></a>               <span class="s2">&quot;DBCSR| Communication thread load&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span>
-<a name="ln-405"></a>         <span class="n">ENDIF</span>
-<a name="ln-406"></a>
-<a name="ln-407"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-408"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-409"></a>               <span class="s2">&quot;DBCSR| ACC: Number of devices/node&quot;</span><span class="p">,</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">()</span>
-<a name="ln-410"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-411"></a>               <span class="s2">&quot;DBCSR| ACC: Number of priority stack-buffers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span>
-<a name="ln-412"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-413"></a>               <span class="s2">&quot;DBCSR| ACC: Number of posterior stack-buffers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_buffers</span>
-<a name="ln-414"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-415"></a>               <span class="s2">&quot;DBCSR| ACC: Number of priority streams&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_streams</span>
-<a name="ln-416"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-417"></a>               <span class="s2">&quot;DBCSR| ACC: Number of posterior streams&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_streams</span>
-<a name="ln-418"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-419"></a>               <span class="s2">&quot;DBCSR| ACC: Avoid driver after busy &quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span>
-<a name="ln-420"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-421"></a>               <span class="s2">&quot;DBCSR| ACC: Process inhomogeneous stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_do_inhomogenous</span>
-<a name="ln-422"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-423"></a>               <span class="s2">&quot;DBCSR| ACC: Min. flop for processing&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span>
-<a name="ln-424"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-425"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-426"></a>                  <span class="s2">&quot;DBCSR| ACC: Min. flop for sorting&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span>
-<a name="ln-427"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-428"></a>                  <span class="s2">&quot;DBCSR| ACC: Number of binning bins&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_nbins</span>
-<a name="ln-429"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-430"></a>                  <span class="s2">&quot;DBCSR| ACC: Size of binning bins&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_binsize</span>
-<a name="ln-431"></a>            <span class="k">END IF</span>
-<a name="ln-432"></a><span class="k">         END IF</span>
-<a name="ln-433"></a><span class="k">      </span><span class="n">ENDIF</span>
-<a name="ln-434"></a>
-<a name="ln-435"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_print_config</span>
-<a name="ln-436"></a>
-<a name="ln-437"></a>   <span class="k">FUNCTION </span><span class="n">get_accdrv_active_device_id</span><span class="p">()</span>
-<a name="ln-438"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">get_accdrv_active_device_id</span>
+<a name="ln-389"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-390"></a>               <span class="s2">&quot;DBCSR| Use memory pool for CPU allocation&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span>
+<a name="ln-391"></a>
+<a name="ln-392"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">has_mpi</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-393"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-394"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T75,A)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-395"></a>                  <span class="s2">&quot;DBCSR| Number of 3D layers&quot;</span><span class="p">,</span> <span class="s2">&quot;SINGLE&quot;</span>
+<a name="ln-396"></a>            <span class="k">ELSE</span>
+<a name="ln-397"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-398"></a>                  <span class="s2">&quot;DBCSR| Number of 3D layers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span>
+<a name="ln-399"></a>            <span class="n">ENDIF</span>
+<a name="ln-400"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-401"></a>               <span class="s2">&quot;DBCSR| Use MPI memory allocation&quot;</span><span class="p">,</span> <span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span>
+<a name="ln-402"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-403"></a>               <span class="s2">&quot;DBCSR| Use RMA algorithm&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span>
+<a name="ln-404"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-405"></a>               <span class="s2">&quot;DBCSR| Use Communication thread&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_comm_thread</span>
+<a name="ln-406"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-407"></a>               <span class="s2">&quot;DBCSR| Communication thread load&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span>
+<a name="ln-408"></a>         <span class="n">ENDIF</span>
+<a name="ln-409"></a>
+<a name="ln-410"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-411"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-412"></a>               <span class="s2">&quot;DBCSR| ACC: Number of devices/node&quot;</span><span class="p">,</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">()</span>
+<a name="ln-413"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-414"></a>               <span class="s2">&quot;DBCSR| ACC: Number of priority stack-buffers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span>
+<a name="ln-415"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-416"></a>               <span class="s2">&quot;DBCSR| ACC: Number of posterior stack-buffers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_buffers</span>
+<a name="ln-417"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-418"></a>               <span class="s2">&quot;DBCSR| ACC: Number of priority streams&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_streams</span>
+<a name="ln-419"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-420"></a>               <span class="s2">&quot;DBCSR| ACC: Number of posterior streams&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_streams</span>
+<a name="ln-421"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-422"></a>               <span class="s2">&quot;DBCSR| ACC: Avoid driver after busy &quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span>
+<a name="ln-423"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-424"></a>               <span class="s2">&quot;DBCSR| ACC: Process inhomogeneous stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_do_inhomogenous</span>
+<a name="ln-425"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-426"></a>               <span class="s2">&quot;DBCSR| ACC: Min. flop for processing&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span>
+<a name="ln-427"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-428"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-429"></a>                  <span class="s2">&quot;DBCSR| ACC: Min. flop for sorting&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span>
+<a name="ln-430"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-431"></a>                  <span class="s2">&quot;DBCSR| ACC: Number of binning bins&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_nbins</span>
+<a name="ln-432"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-433"></a>                  <span class="s2">&quot;DBCSR| ACC: Size of binning bins&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_binsize</span>
+<a name="ln-434"></a>            <span class="k">END IF</span>
+<a name="ln-435"></a><span class="k">         END IF</span>
+<a name="ln-436"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-437"></a>
+<a name="ln-438"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_print_config</span>
 <a name="ln-439"></a>
-<a name="ln-440"></a>      <span class="n">get_accdrv_active_device_id</span> <span class="o">=</span> <span class="n">accdrv_active_device_id</span>
-<a name="ln-441"></a>
-<a name="ln-442"></a>   <span class="k">END FUNCTION </span><span class="n">get_accdrv_active_device_id</span>
-<a name="ln-443"></a>
-<a name="ln-444"></a>   <span class="k">SUBROUTINE </span><span class="n">set_accdrv_active_device_id</span><span class="p">(</span><span class="n">in_accdrv_active_device_id</span><span class="p">)</span>
-<a name="ln-445"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">in_accdrv_active_device_id</span>
+<a name="ln-440"></a>   <span class="k">FUNCTION </span><span class="n">get_accdrv_active_device_id</span><span class="p">()</span>
+<a name="ln-441"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">get_accdrv_active_device_id</span>
+<a name="ln-442"></a>
+<a name="ln-443"></a>      <span class="n">get_accdrv_active_device_id</span> <span class="o">=</span> <span class="n">accdrv_active_device_id</span>
+<a name="ln-444"></a>
+<a name="ln-445"></a>   <span class="k">END FUNCTION </span><span class="n">get_accdrv_active_device_id</span>
 <a name="ln-446"></a>
-<a name="ln-447"></a>      <span class="c">! Abort if device already assigned</span>
-<a name="ln-448"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">accdrv_active_device_id</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-449"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Accelerator device ID already set&quot;</span><span class="p">)</span>
-<a name="ln-450"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">in_accdrv_active_device_id</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">in_accdrv_active_device_id</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">())</span> <span class="p">&amp;</span>
-<a name="ln-451"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid accelerator device ID&quot;</span><span class="p">)</span>
-<a name="ln-452"></a>      <span class="n">accdrv_active_device_id</span> <span class="o">=</span> <span class="n">in_accdrv_active_device_id</span>
-<a name="ln-453"></a>
-<a name="ln-454"></a>   <span class="k">END SUBROUTINE </span><span class="n">set_accdrv_active_device_id</span>
-<a name="ln-455"></a>
-<a name="ln-456"></a>   <span class="k">SUBROUTINE </span><span class="n">reset_accdrv_active_device_id</span><span class="p">()</span>
-<a name="ln-457"></a>      <span class="n">accdrv_active_device_id</span> <span class="o">=</span> <span class="n">default_accdrv_active_device_id</span>
-<a name="ln-458"></a>   <span class="k">END SUBROUTINE </span><span class="n">reset_accdrv_active_device_id</span>
-<a name="ln-459"></a>
-<a name="ln-460"></a><span class="k">END MODULE </span><span class="n">dbcsr_config</span>
+<a name="ln-447"></a>   <span class="k">SUBROUTINE </span><span class="n">set_accdrv_active_device_id</span><span class="p">(</span><span class="n">in_accdrv_active_device_id</span><span class="p">)</span>
+<a name="ln-448"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">in_accdrv_active_device_id</span>
+<a name="ln-449"></a>
+<a name="ln-450"></a>      <span class="c">! Abort if device already assigned</span>
+<a name="ln-451"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">accdrv_active_device_id</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-452"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Accelerator device ID already set&quot;</span><span class="p">)</span>
+<a name="ln-453"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">in_accdrv_active_device_id</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">in_accdrv_active_device_id</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">())</span> <span class="p">&amp;</span>
+<a name="ln-454"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid accelerator device ID&quot;</span><span class="p">)</span>
+<a name="ln-455"></a>      <span class="n">accdrv_active_device_id</span> <span class="o">=</span> <span class="n">in_accdrv_active_device_id</span>
+<a name="ln-456"></a>
+<a name="ln-457"></a>   <span class="k">END SUBROUTINE </span><span class="n">set_accdrv_active_device_id</span>
+<a name="ln-458"></a>
+<a name="ln-459"></a>   <span class="k">SUBROUTINE </span><span class="n">reset_accdrv_active_device_id</span><span class="p">()</span>
+<a name="ln-460"></a>      <span class="n">accdrv_active_device_id</span> <span class="o">=</span> <span class="n">default_accdrv_active_device_id</span>
+<a name="ln-461"></a>   <span class="k">END SUBROUTINE </span><span class="n">reset_accdrv_active_device_id</span>
+<a name="ln-462"></a>
+<a name="ln-463"></a><span class="k">END MODULE </span><span class="n">dbcsr_config</span>
 </pre></div>
 
     </section>
