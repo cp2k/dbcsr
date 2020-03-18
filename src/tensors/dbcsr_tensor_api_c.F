@@ -404,7 +404,7 @@ CONTAINS
       TYPE(c_ptr), INTENT(OUT), OPTIONAL                 :: c_pgrid_opt_1, c_pgrid_opt_2, c_pgrid_opt_3
 
       REAL(kind=c_double), INTENT(IN), OPTIONAL          :: c_filter_eps
-      INTEGER(kind=c_long_long), INTENT(OUT), OPTIONAL    :: c_flop
+      INTEGER(kind=c_long_long), INTENT(INOUT), OPTIONAL :: c_flop
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_move_data
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_retain_sparsity
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_unit_nr
