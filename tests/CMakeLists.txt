@@ -58,8 +58,8 @@ set(DBCSR_TESTS
   dbcsr_test_csr_conversions
   )
 
-set(C_DBCSR_TESTS
-  c_dbcsr_tensor_test
+set(DBCSR_TESTS_CPP
+  dbcsr_tensor_test_cpp
  )
 
 # Common object files linked to all tests
@@ -75,7 +75,7 @@ set(dbcsr_unittest3_SRCS dbcsr_unittest3.F)
 set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
 set(dbcsr_tas_unittest_SRCS dbcsr_tas_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
-set(c_dbcsr_tensor_test_SRCS c_dbcsr_tensor_test.cpp)
+set(dbcsr_tensor_test_cpp_SRCS dbcsr_tensor_test.cpp)
 
 # instead of building a full-blown lib, it would be better to simply build an OBJECT lib,
 # but we would need cmake 3.12 to be able to specify target_link_libraries on those to get
@@ -122,18 +122,18 @@ foreach (tests_src ${DBCSR_PERF_SRCS} ${dbcsr_unittest_common_SRCS} ${dbcsr_unit
 endforeach ()
 
 if (WITH_C_API)
- foreach (c_dbcsr_test ${C_DBCSR_TESTS})
-   add_executable(${c_dbcsr_test} ${${c_dbcsr_test}_SRCS})
-   target_link_libraries(${c_dbcsr_test} dbcsr_c MPI::MPI_CXX)
+	foreach (dbcsr_test_cpp ${DBCSR_TESTS_CPP})
+   add_executable(${dbcsr_test_cpp} ${${dbcsr_test_cpp}_SRCS})
+   target_link_libraries(${dbcsr_test_cpp} dbcsr_c MPI::MPI_CXX)
    # register unittest executable with CMake
    if (USE_MPI)
      separate_arguments(MPIEXEC_PREFLAGS)
-     add_test(NAME ${c_dbcsr_test} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ./${c_dbcsr_test} ${MPIEXEC_POSTFLAGS})
+     add_test(NAME ${dbcsr_test_cpp} COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks} ${MPIEXEC_PREFLAGS} ./${dbcsr_test_cpp} ${MPIEXEC_POSTFLAGS})
    else ()
-     add_test(NAME ${c_dbcsr_test} COMMAND ./${c_dbcsr_test})
+     add_test(NAME ${dbcsr_test_cpp} COMMAND ./${dbcsr_test_cpp})
    endif ()
    if (OpenMP_FOUND)
-     set_tests_properties(${c_dbcsr_test} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${TEST_OMP_THREADS})
+     set_tests_properties(${dbcsr_test_cpp} PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${TEST_OMP_THREADS})
    endif ()
  endforeach ()
 endif ()
