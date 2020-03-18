@@ -17,7 +17,7 @@
 #include <random>
 #include <mpi.h>
 #include <dbcsr.h>
-#include <dbcsr_tensor.h>
+#include <tensors/dbcsr_tensor.h>
 
 //-------------------------------------------------------------------------------------------------!
 // Example: tensor contraction (13|2)x(54|21)=(3|45)

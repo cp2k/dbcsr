@@ -18,7 +18,7 @@
 #include <random>
 #include <mpi.h>
 #include <dbcsr.h>
-#include <dbcsr_tensor.h>
+#include <tensors/dbcsr_tensor.h>
 #include <complex.h>
 
 const int dbcsr_type_real_4 = 1;
