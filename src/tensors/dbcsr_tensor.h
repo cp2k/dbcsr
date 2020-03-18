@@ -4,7 +4,7 @@
 #include <mpi.h>
 #include <stdbool.h> /* we need bool from C99 */
 
-#:include "tensors/dbcsr_tensor.fypp"
+#:include "dbcsr_tensor.fypp"
 #:set ndims = range(2,maxrank+1)
 #:set ddims = range(1,maxrank+1)
 
