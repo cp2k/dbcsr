@@ -764,7 +764,6 @@ CONTAINS
       mp_new_comm = newcomm
       debug_comm_count = debug_comm_count + 1
 
-      CALL add_perf(perf_id=1, count=1)
 #else
       MARK_USED(ranks_order)
       mp_new_comm = mp_comm
@@ -949,11 +948,10 @@ CONTAINS
       CALL mp_perf_env_describe(perf_env, scr)
    END SUBROUTINE describe_mp_perf_env
 
-   SUBROUTINE add_perf(perf_id, count, msg_size)
+   SUBROUTINE add_perf(perf_id, msg_size)
       !! adds the performance informations of one call
       INTEGER, INTENT(in)                      :: perf_id
-      INTEGER, INTENT(in), OPTIONAL            :: count
-      INTEGER, INTENT(in), OPTIONAL            :: msg_size
+      INTEGER, INTENT(in)                      :: msg_size
 
 #if defined(__parallel)
       TYPE(mp_perf_type), POINTER              :: mp_perf
@@ -962,15 +960,10 @@ CONTAINS
       IF (.NOT. ASSOCIATED(mp_perf_stack(stack_pointer)%mp_perf_env)) return
 
       mp_perf => mp_perf_stack(stack_pointer)%mp_perf_env%mp_perfs(perf_id)
-      IF (PRESENT(count)) THEN
-         mp_perf%count = mp_perf%count + count
-      END IF
-      IF (PRESENT(msg_size)) THEN
-         mp_perf%msg_size = mp_perf%msg_size + REAL(msg_size, dp)
-      END IF
+      mp_perf%count = mp_perf%count + 1
+      mp_perf%msg_size = mp_perf%msg_size + REAL(msg_size, dp)
 #else
       MARK_USED(perf_id)
-      MARK_USED(count)
       MARK_USED(msg_size)
 #endif
 
@@ -1039,7 +1032,6 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_barrier(group, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_barrier @ mp_sync")
-      CALL add_perf(perf_id=5, count=1)
 #else
       MARK_USED(group)
 #endif
@@ -1065,7 +1057,6 @@ CONTAINS
 #if __MPI_VERSION > 2
       CALL mpi_ibarrier(group, request, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibarrier @ mp_isync")
-      CALL add_perf(perf_id=26, count=1)
 #else
       MARK_USED(group)
       MARK_USED(request)
@@ -1211,7 +1202,6 @@ CONTAINS
          CALL mpi_cart_get(comm_cart, ndims, dims, period, pos, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_get @ mp_cart_create")
       END IF
-      CALL add_perf(perf_id=1, count=1)
 #else
       pos(1:ndims) = 0
       dims = 1
@@ -1474,11 +1464,8 @@ CONTAINS
       CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-
       CALL mpi_wait(request, MPI_STATUS_IGNORE, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_wait @ mp_wait")
-
-      CALL add_perf(perf_id=9, count=1)
 #else
       MARK_USED(request)
 #endif
@@ -1510,7 +1497,6 @@ CONTAINS
       CALL mpi_waitall_internal(count, requests, status, ierr) ! MPI_STATUSES_IGNORE openmpi workaround
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_waitall @ mp_waitall_1")
       DEALLOCATE (status)
-      CALL add_perf(perf_id=9, count=1)
 #else
       MARK_USED(requests)
 #endif
@@ -1540,8 +1526,6 @@ CONTAINS
       CALL mpi_waitall_internal(count, requests, status, ierr) ! MPI_STATUSES_IGNORE openmpi workaround
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_waitall @ mp_waitall_2")
       DEALLOCATE (status)
-
-      CALL add_perf(perf_id=9, count=1)
 #else
       MARK_USED(requests)
 #endif
@@ -1585,8 +1569,6 @@ CONTAINS
 
       CALL mpi_waitany(count, requests, completed, MPI_STATUS_IGNORE, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_waitany @ mp_waitany")
-
-      CALL add_perf(perf_id=9, count=1)
 #else
       MARK_USED(requests)
       completed = 1
@@ -1751,7 +1733,6 @@ CONTAINS
       CALL mpi_comm_split(comm, color, my_key, sub_comm, ierr)
       debug_comm_count = debug_comm_count + 1
       IF (ierr /= mpi_success) CALL mp_stop(ierr, routineN)
-      CALL add_perf(perf_id=10, count=1)
 #else
       CALL mp_comm_dup(comm, sub_comm)
       MARK_USED(color)
@@ -1870,8 +1851,6 @@ CONTAINS
       CALL mpi_comm_split(comm, color, 0, sub_comm, ierr)
       debug_comm_count = debug_comm_count + 1
       IF (ierr /= mpi_success) CALL mp_stop(ierr, "in "//routineP//" split")
-
-      CALL add_perf(perf_id=10, count=1)
 #else
       CALL mp_comm_dup(comm, sub_comm)
       group_distribution(0) = 0
@@ -1953,7 +1932,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_bcast(msg, msglen, MPI_LOGICAL, source, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
-      CALL add_perf(perf_id=2, count=1, msg_size=msglen*loglen)
+      CALL add_perf(perf_id=2, msg_size=msglen*loglen)
 #else
       MARK_USED(msg)
       MARK_USED(source)
@@ -1977,7 +1956,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_bcast(msg, msglen, MPI_LOGICAL, source, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
-      CALL add_perf(perf_id=2, count=1, msg_size=msglen*loglen)
+      CALL add_perf(perf_id=2, msg_size=msglen*loglen)
 #else
       MARK_USED(source)
       MARK_USED(gid)
@@ -2028,7 +2007,7 @@ CONTAINS
       END IF
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
-      CALL add_perf(perf_id=11, count=1, msg_size=msglen*loglen)
+      CALL add_perf(perf_id=11, msg_size=msglen*loglen)
 #else
       DBCSR_ABORT("mp_isend called in non parallel case")
       MARK_USED(msgin)
@@ -2084,7 +2063,7 @@ CONTAINS
       END IF
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ircv @ "//routineN)
 
-      CALL add_perf(perf_id=12, count=1, msg_size=msglen*loglen)
+      CALL add_perf(perf_id=12, msg_size=msglen*loglen)
 #else
       DBCSR_ABORT("mp_irecv called in non parallel case")
       MARK_USED(msgout)
@@ -2135,7 +2114,7 @@ CONTAINS
          msg(i:i) = CHAR(imsg(i))
       END DO
       DEALLOCATE (imsg)
-      CALL add_perf(perf_id=2, count=1, msg_size=msglen*charlen)
+      CALL add_perf(perf_id=2, msg_size=msglen*charlen)
 #else
       MARK_USED(msg)
       MARK_USED(source)
@@ -2196,7 +2175,7 @@ CONTAINS
       END DO
       DEALLOCATE (imsg)
       DEALLOCATE (imsglen)
-      CALL add_perf(perf_id=2, count=1, msg_size=msglen*charlen*msgsiz)
+      CALL add_perf(perf_id=2, msg_size=msglen*charlen*msgsiz)
 #else
       MARK_USED(msg)
       MARK_USED(source)
@@ -2243,7 +2222,7 @@ CONTAINS
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*real_8_size)
+      CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
 #else
       MARK_USED(msg)
       MARK_USED(gid)
@@ -2287,7 +2266,7 @@ CONTAINS
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       msg = res
       DEALLOCATE (res)
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*real_8_size)
+      CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
 #else
       MARK_USED(msg)
       MARK_USED(gid)
@@ -2899,8 +2878,6 @@ CONTAINS
 
       CALL mpi_win_free(win, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_free @ "//routineN)
-
-      CALL add_perf(perf_id=21, count=1)
 #else
       MARK_USED(win)
       win = mp_win_null
@@ -2955,8 +2932,6 @@ CONTAINS
       DBCSR_ABORT("mp_win_lock_all requires MPI-3 standard")
 #endif
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_lock_all @ "//routineN)
-
-      CALL add_perf(perf_id=19, count=1)
 #else
       MARK_USED(win)
 #endif
@@ -2984,8 +2959,6 @@ CONTAINS
       DBCSR_ABORT("mp_win_unlock_all requires MPI-3 standard")
 #endif
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_unlock_all @ "//routineN)
-
-      CALL add_perf(perf_id=19, count=1)
 #else
       MARK_USED(win)
 #endif
@@ -3038,7 +3011,7 @@ CONTAINS
                          rb, rcount, rdispl, ${mpi_type1}$, group, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoallv @ "//routineN)
       msglen = SUM(scount) + SUM(rcount)
-      CALL add_perf(perf_id=6, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=6, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(group)
       MARK_USED(scount)
@@ -3092,7 +3065,7 @@ CONTAINS
       CALL mpi_comm_size(group, np, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
       msglen = 2*count*np
-      CALL add_perf(perf_id=6, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=6, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(count)
       MARK_USED(group)
@@ -3128,7 +3101,7 @@ CONTAINS
       CALL mpi_comm_size(group, np, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
       msglen = 2*SIZE(sb)*np
-      CALL add_perf(perf_id=6, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=6, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(count)
       MARK_USED(group)
@@ -3166,7 +3139,7 @@ CONTAINS
       CALL mpi_comm_size(group, np, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
       msglen = 2*count*np
-      CALL add_perf(perf_id=6, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=6, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(count)
       MARK_USED(group)
@@ -3201,7 +3174,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_send(msg, msglen, ${mpi_type1}$, dest, tag, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
-      CALL add_perf(perf_id=13, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=13, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(msg)
       MARK_USED(dest)
@@ -3233,7 +3206,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_send(msg, msglen, ${mpi_type1}$, dest, tag, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
-      CALL add_perf(perf_id=13, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=13, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(msg)
       MARK_USED(dest)
@@ -3275,7 +3248,7 @@ CONTAINS
       ALLOCATE (status(MPI_STATUS_SIZE))
       CALL mpi_recv(msg, msglen, ${mpi_type1}$, source, tag, gid, status, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
-      CALL add_perf(perf_id=14, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=14, msg_size=msglen*${bytes1}$)
       source = status(MPI_SOURCE)
       tag = status(MPI_TAG)
       DEALLOCATE (status)
@@ -3315,7 +3288,7 @@ CONTAINS
       ALLOCATE (status(MPI_STATUS_SIZE))
       CALL mpi_recv(msg, msglen, ${mpi_type1}$, source, tag, gid, status, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
-      CALL add_perf(perf_id=14, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=14, msg_size=msglen*${bytes1}$)
       source = status(MPI_SOURCE)
       tag = status(MPI_TAG)
       DEALLOCATE (status)
@@ -3354,7 +3327,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_bcast(msg, msglen, ${mpi_type1}$, source, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
-      CALL add_perf(perf_id=2, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=2, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(msg)
       MARK_USED(source)
@@ -3389,7 +3362,7 @@ CONTAINS
 #if __MPI_VERSION > 2
       CALL mpi_ibcast(msg, msglen, ${mpi_type1}$, source, gid, request, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
-      CALL add_perf(perf_id=22, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=22, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(msg)
       MARK_USED(source)
@@ -3426,7 +3399,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_bcast(msg, msglen, ${mpi_type1}$, source, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
-      CALL add_perf(perf_id=2, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=2, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(source)
       MARK_USED(gid)
@@ -3456,7 +3429,7 @@ CONTAINS
 #if __MPI_VERSION > 2
       CALL mpi_ibcast(msg, msglen, ${mpi_type1}$, source, gid, request, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
-      CALL add_perf(perf_id=22, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=22, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(source)
       MARK_USED(gid)
@@ -3491,7 +3464,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_bcast(msg, msglen, ${mpi_type1}$, source, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
-      CALL add_perf(perf_id=2, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=2, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(source)
       MARK_USED(gid)
@@ -3519,7 +3492,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_bcast(msg, msglen, ${mpi_type1}$, source, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
-      CALL add_perf(perf_id=2, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=2, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(source)
       MARK_USED(gid)
@@ -3550,7 +3523,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, ${mpi_type1}$, MPI_SUM, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=3, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(msg)
       MARK_USED(gid)
@@ -3583,7 +3556,7 @@ CONTAINS
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, ${mpi_type1}$, MPI_SUM, gid, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       END IF
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=3, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(msg)
       MARK_USED(gid)
@@ -3620,7 +3593,7 @@ CONTAINS
       ELSE
          request = mp_request_null
       ENDIF
-      CALL add_perf(perf_id=23, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=23, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(msg)
       MARK_USED(msglen)
@@ -3668,7 +3641,7 @@ CONTAINS
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
       ENDDO
-      CALL add_perf(perf_id=3, count=1, msg_size=msglensum*${bytes1}$)
+      CALL add_perf(perf_id=3, msg_size=msglensum*${bytes1}$)
 #else
       MARK_USED(msg)
       MARK_USED(gid)
@@ -3698,7 +3671,7 @@ CONTAINS
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, ${mpi_type1}$, MPI_SUM, gid, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       END IF
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=3, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(gid)
 #endif
@@ -3728,7 +3701,7 @@ CONTAINS
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, ${mpi_type1}$, MPI_SUM, gid, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
       END IF
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=3, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(gid)
 #endif
@@ -3774,7 +3747,7 @@ CONTAINS
          END IF
          DEALLOCATE (res)
       END IF
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=3, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(root)
       MARK_USED(gid)
@@ -3818,7 +3791,7 @@ CONTAINS
          END IF
          DEALLOCATE (res)
       END IF
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=3, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(root)
       MARK_USED(gid)
@@ -3855,7 +3828,7 @@ CONTAINS
          CALL mpi_scan(msg, res, msglen, ${mpi_type1}$, MPI_SUM, gid, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_scan @ "//routineN)
       END IF
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=3, msg_size=msglen*${bytes1}$)
       ! perf_id is same as for other summation routines
 #else
       res = msg
@@ -3887,7 +3860,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, ${mpi_type1}$, MPI_MAX, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=3, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(msg)
       MARK_USED(gid)
@@ -3916,7 +3889,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, ${mpi_type1}$, MPI_MAX, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=3, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(gid)
 #endif
@@ -3946,7 +3919,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, ${mpi_type1}$, MPI_MIN, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=3, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(msg)
       MARK_USED(gid)
@@ -3978,7 +3951,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, ${mpi_type1}$, MPI_MIN, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=3, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(gid)
 #endif
@@ -4009,7 +3982,7 @@ CONTAINS
 #if defined(__parallel)
       CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, ${mpi_type1}$, MPI_PROD, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
-      CALL add_perf(perf_id=3, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=3, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(msg)
       MARK_USED(gid)
@@ -4044,7 +4017,7 @@ CONTAINS
       CALL mpi_scatter(msg_scatter, msglen, ${mpi_type1}$, msg, &
                        msglen, ${mpi_type1}$, root, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_scatter @ "//routineN)
-      CALL add_perf(perf_id=4, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=4, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(root)
       MARK_USED(gid)
@@ -4081,7 +4054,7 @@ CONTAINS
       CALL mpi_iscatter(msg_scatter, msglen, ${mpi_type1}$, msg, &
                         msglen, ${mpi_type1}$, root, gid, request, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
-      CALL add_perf(perf_id=24, count=1, msg_size=1*${bytes1}$)
+      CALL add_perf(perf_id=24, msg_size=1*${bytes1}$)
 #else
       MARK_USED(msg_scatter)
       MARK_USED(msg)
@@ -4127,7 +4100,7 @@ CONTAINS
       CALL mpi_iscatter(msg_scatter, msglen, ${mpi_type1}$, msg, &
                         msglen, ${mpi_type1}$, root, gid, request, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
-      CALL add_perf(perf_id=24, count=1, msg_size=1*${bytes1}$)
+      CALL add_perf(perf_id=24, msg_size=1*${bytes1}$)
 #else
       MARK_USED(msg_scatter)
       MARK_USED(msg)
@@ -4173,7 +4146,7 @@ CONTAINS
       CALL mpi_iscatterv(msg_scatter, sendcounts, displs, ${mpi_type1}$, msg, &
                          recvcount, ${mpi_type1}$, root, gid, request, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatterv @ "//routineN)
-      CALL add_perf(perf_id=24, count=1, msg_size=1*${bytes1}$)
+      CALL add_perf(perf_id=24, msg_size=1*${bytes1}$)
 #else
       MARK_USED(msg_scatter)
       MARK_USED(sendcounts)
@@ -4224,7 +4197,7 @@ CONTAINS
       CALL mpi_gather(msg, msglen, ${mpi_type1}$, msg_gather, &
                       msglen, ${mpi_type1}$, root, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
-      CALL add_perf(perf_id=4, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=4, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(root)
       MARK_USED(gid)
@@ -4261,7 +4234,7 @@ CONTAINS
       CALL mpi_gather(msg, msglen, ${mpi_type1}$, msg_gather, &
                       msglen, ${mpi_type1}$, root, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
-      CALL add_perf(perf_id=4, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=4, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(root)
       MARK_USED(gid)
@@ -4298,7 +4271,7 @@ CONTAINS
       CALL mpi_gather(msg, msglen, ${mpi_type1}$, msg_gather, &
                       msglen, ${mpi_type1}$, root, gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
-      CALL add_perf(perf_id=4, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=4, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(root)
       MARK_USED(gid)
@@ -4348,7 +4321,6 @@ CONTAINS
                        root, comm, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gatherv @ "//routineN)
       CALL add_perf(perf_id=4, &
-                    count=1, &
                     msg_size=sendcount*${bytes1}$)
 #else
       MARK_USED(recvcounts)
@@ -4398,7 +4370,6 @@ CONTAINS
                         root, comm, request, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_igatherv @ "//routineN)
       CALL add_perf(perf_id=24, &
-                    count=1, &
                     msg_size=sendcount*${bytes1}$)
 #else
       MARK_USED(sendbuf)
@@ -5158,7 +5129,7 @@ CONTAINS
                               gid, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce_scatter @ "//routineN)
 
-      CALL add_perf(perf_id=3, count=1, &
+      CALL add_perf(perf_id=3, &
                     msg_size=rcount(1)*2*${bytes1}$)
 #else
       MARK_USED(rcount)
@@ -5201,7 +5172,7 @@ CONTAINS
       CALL mpi_sendrecv(msgin, msglen_in, ${mpi_type1}$, dest, send_tag, msgout, &
                         msglen_out, ${mpi_type1}$, source, recv_tag, comm, MPI_STATUS_IGNORE, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_sendrecv @ "//routineN)
-      CALL add_perf(perf_id=7, count=1, &
+      CALL add_perf(perf_id=7, &
                     msg_size=(msglen_in + msglen_out)*${bytes1}$/2)
 #else
       MARK_USED(dest)
@@ -5257,7 +5228,7 @@ CONTAINS
                      comm, send_request, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
-      CALL add_perf(perf_id=8, count=1, msg_size=2*${bytes1}$)
+      CALL add_perf(perf_id=8, msg_size=2*${bytes1}$)
 #else
       MARK_USED(dest)
       MARK_USED(source)
@@ -5331,7 +5302,7 @@ CONTAINS
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
       msglen = (msglen + SIZE(msgout, 1) + 1)/2
-      CALL add_perf(perf_id=8, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=8, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(dest)
       MARK_USED(source)
@@ -5382,7 +5353,7 @@ CONTAINS
       END IF
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
-      CALL add_perf(perf_id=11, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=11, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(msgin)
       MARK_USED(dest)
@@ -5436,7 +5407,7 @@ CONTAINS
       END IF
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
-      CALL add_perf(perf_id=11, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=11, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(msgin)
       MARK_USED(dest)
@@ -5488,7 +5459,7 @@ CONTAINS
       END IF
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
-      CALL add_perf(perf_id=12, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=12, msg_size=msglen*${bytes1}$)
 #else
       DBCSR_ABORT("mp_irecv called in non parallel case")
       MARK_USED(msgout)
@@ -5541,7 +5512,7 @@ CONTAINS
       END IF
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
-      CALL add_perf(perf_id=12, count=1, msg_size=msglen*${bytes1}$)
+      CALL add_perf(perf_id=12, msg_size=msglen*${bytes1}$)
 #else
       MARK_USED(msgout)
       MARK_USED(source)
@@ -5584,8 +5555,6 @@ CONTAINS
          CALL mpi_win_create(foo, len, ${bytes1}$, MPI_INFO_NULL, comm, win, ierr)
       ENDIF
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_create @ "//routineN)
-
-      CALL add_perf(perf_id=20, count=1)
 #else
       MARK_USED(base)
       MARK_USED(comm)
@@ -5675,7 +5644,7 @@ CONTAINS
 #endif
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_rget @ "//routineN)
 
-      CALL add_perf(perf_id=25, count=1, msg_size=SIZE(base)*${bytes1}$)
+      CALL add_perf(perf_id=25, msg_size=SIZE(base)*${bytes1}$)
 #else
       MARK_USED(source)
       MARK_USED(win)
@@ -5756,7 +5725,6 @@ CONTAINS
       CALL mp_alloc_mem(DATA, len, stat=ierr)
       IF (ierr /= 0 .AND. .NOT. PRESENT(stat)) &
          CALL mp_stop(ierr, "mpi_alloc_mem @ "//routineN)
-      CALL add_perf(perf_id=15, count=1)
 #else
       ALLOCATE (DATA(len), stat=ierr)
       IF (ierr /= 0 .AND. .NOT. PRESENT(stat)) &
@@ -5789,7 +5757,6 @@ CONTAINS
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_free_mem @ "//routineN)
       ENDIF
       NULLIFY (DATA)
-      CALL add_perf(perf_id=15, count=1)
 #else
       DEALLOCATE (DATA)
       IF (PRESENT(stat)) stat = 0
