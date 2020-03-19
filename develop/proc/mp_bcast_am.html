@@ -381,7 +381,7 @@ private subroutine mp_bcast_am(msg, source, gid)
 <span class="k">      END DO</span>
 <span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">imsg</span><span class="p">)</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">imsglen</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="nb">count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">charlen</span><span class="o">*</span><span class="n">msgsiz</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">charlen</span><span class="o">*</span><span class="n">msgsiz</span><span class="p">)</span>
 <span class="cp">#else</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>

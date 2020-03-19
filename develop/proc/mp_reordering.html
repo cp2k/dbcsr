@@ -356,7 +356,7 @@ public subroutine mp_reordering(mp_comm, mp_new_comm, ranks_order)
       <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="cp">#if defined(__parallel)</span>
 
-      <span class="k">CALL </span><span class="n">mpi_comm_group</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">oldgroup</span><span class="p">,</span> <span class="n">ierr</span><span class="p">);</span> 
+      <span class="k">CALL </span><span class="n">mpi_comm_group</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">oldgroup</span><span class="p">,</span> <span class="n">ierr</span><span class="p">);</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_comm_group @ mp_reordering&quot;</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">mpi_group_incl</span><span class="p">(</span><span class="n">oldgroup</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">ranks_order</span><span class="p">),</span> <span class="n">ranks_order</span><span class="p">,</span> <span class="n">newgroup</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_group_incl @ mp_reordering&quot;</span><span class="p">)</span>
@@ -373,7 +373,6 @@ public subroutine mp_reordering(mp_comm, mp_new_comm, ranks_order)
       <span class="n">mp_new_comm</span> <span class="o">=</span> <span class="n">newcomm</span>
       <span class="n">debug_comm_count</span> <span class="o">=</span> <span class="n">debug_comm_count</span> <span class="o">+</span> <span class="mi">1</span>
 
-      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="cp">#else</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">ranks_order</span><span class="p">)</span>
       <span class="n">mp_new_comm</span> <span class="o">=</span> <span class="n">mp_comm</span>

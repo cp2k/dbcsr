@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">20 statements</a>
+    title=" 0.0% of total for procedures.">14 statements</a>
      </li> 
      
      
@@ -194,7 +194,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private subroutine add_perf(perf_id, count, msg_size)
+private subroutine add_perf(perf_id, msg_size)
     
     
    
@@ -240,24 +240,9 @@ private subroutine add_perf(perf_id, count, msg_size)
   
 <tr>
   
-  <td><span class="anchor" id="variable-count~9"></span>integer,</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>count</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
   <td><span class="anchor" id="variable-msg_size~2"></span>integer,</td>
-  <td>intent(in),</td>
-  <td>optional</td>
+  <td>intent(in)</td>
+  <td></td>
   
   <td></td><td>::</td>
   <td><strong>msg_size</strong></td><td></td>
@@ -331,11 +316,10 @@ private subroutine add_perf(perf_id, count, msg_size)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="p">,</span> <span class="nb">count</span><span class="p">,</span> <span class="n">msg_size</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="p">,</span> <span class="n">msg_size</span><span class="p">)</span>
       <span class="c">!! adds the performance informations of one call</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">perf_id</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>            <span class="kd">::</span> <span class="nb">count</span>
-<span class="nb">      </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>            <span class="kd">::</span> <span class="n">msg_size</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">msg_size</span>
 
 <span class="cp">#if defined(__parallel)</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">mp_perf_type</span><span class="p">),</span> <span class="k">POINTER</span>              <span class="kd">::</span> <span class="n">mp_perf</span>
@@ -344,15 +328,10 @@ private subroutine add_perf(perf_id, count, msg_size)
 <span class="k">      IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">mp_perf_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">mp_perf_env</span><span class="p">))</span> <span class="k">return</span>
 
 <span class="k">      </span><span class="n">mp_perf</span> <span class="o">=&gt;</span> <span class="n">mp_perf_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">mp_perf_env</span><span class="p">%</span><span class="n">mp_perfs</span><span class="p">(</span><span class="n">perf_id</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">count</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">mp_perf</span><span class="p">%</span><span class="nb">count</span> <span class="o">=</span> <span class="n">mp_perf</span><span class="p">%</span><span class="nb">count</span> <span class="o">+</span> <span class="nb">count</span>
-<span class="nb">      </span><span class="k">END IF</span>
-<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">msg_size</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">mp_perf</span><span class="p">%</span><span class="n">msg_size</span> <span class="o">=</span> <span class="n">mp_perf</span><span class="p">%</span><span class="n">msg_size</span> <span class="o">+</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">msg_size</span><span class="p">,</span> <span class="n">dp</span><span class="p">)</span>
-      <span class="k">END IF</span>
+      <span class="n">mp_perf</span><span class="p">%</span><span class="nb">count</span> <span class="o">=</span> <span class="n">mp_perf</span><span class="p">%</span><span class="nb">count</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="n">mp_perf</span><span class="p">%</span><span class="n">msg_size</span> <span class="o">=</span> <span class="n">mp_perf</span><span class="p">%</span><span class="n">msg_size</span> <span class="o">+</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">msg_size</span><span class="p">,</span> <span class="n">dp</span><span class="p">)</span>
 <span class="cp">#else</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">perf_id</span><span class="p">)</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg_size</span><span class="p">)</span>
 <span class="cp">#endif</span>
 

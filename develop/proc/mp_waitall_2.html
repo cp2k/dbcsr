@@ -324,8 +324,6 @@ private subroutine mp_waitall_2(requests)
       <span class="k">CALL </span><span class="n">mpi_waitall_internal</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span> <span class="n">requests</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span> <span class="c">! MPI_STATUSES_IGNORE openmpi workaround</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_waitall @ mp_waitall_2&quot;</span><span class="p">)</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">status</span><span class="p">)</span>
-
-      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="nb">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="cp">#else</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">requests</span><span class="p">)</span>
 <span class="cp">#endif</span>

@@ -402,7 +402,6 @@ public subroutine mp_cart_create(comm_old, ndims, dims, pos, comm_cart)
          <span class="k">CALL </span><span class="n">mpi_cart_get</span><span class="p">(</span><span class="n">comm_cart</span><span class="p">,</span> <span class="n">ndims</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_cart_get @ mp_cart_create&quot;</span><span class="p">)</span>
       <span class="k">END IF</span>
-<span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="cp">#else</span>
       <span class="n">pos</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">ndims</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="n">dims</span> <span class="o">=</span> <span class="mi">1</span>

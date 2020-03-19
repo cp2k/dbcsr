@@ -361,7 +361,7 @@ private subroutine mp_isum_iv(msg, gid, request)
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
       <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="nb">count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">int_4_size</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">int_4_size</span><span class="p">)</span>
 <span class="cp">#else</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msglen</span><span class="p">)</span>

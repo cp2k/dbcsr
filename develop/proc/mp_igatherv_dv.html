@@ -456,7 +456,6 @@ private subroutine mp_igatherv_dv(sendbuf, sendcount, recvbuf, recvcounts, displ
                         <span class="n">root</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_igatherv @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="p">&amp;</span>
-                    <span class="nb">count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
                     <span class="n">msg_size</span><span class="o">=</span><span class="n">sendcount</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">)</span>
 <span class="cp">#else</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">sendbuf</span><span class="p">)</span>

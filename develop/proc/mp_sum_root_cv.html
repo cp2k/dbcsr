@@ -373,7 +373,7 @@ private subroutine mp_sum_root_cv(msg, root, gid)
          <span class="k">END IF</span>
 <span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">res</span><span class="p">)</span>
       <span class="k">END IF</span>
-<span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="nb">count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">))</span>
+<span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">))</span>
 <span class="cp">#else</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>

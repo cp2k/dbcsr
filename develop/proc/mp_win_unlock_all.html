@@ -322,8 +322,6 @@ public subroutine mp_win_unlock_all(win)
       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;mp_win_unlock_all requires MPI-3 standard&quot;</span><span class="p">)</span>
 <span class="cp">#endif</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_win_unlock_all @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
-
-      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">19</span><span class="p">,</span> <span class="nb">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="cp">#else</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
 <span class="cp">#endif</span>
