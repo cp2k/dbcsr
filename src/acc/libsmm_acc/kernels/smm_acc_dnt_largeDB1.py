@@ -52,6 +52,7 @@ class Kernel_dnt_largeDB1(Kernel):
         assert self.tile_m <= self.v
         assert self.tile_n <= self.w
 
+    @property
     def func_signature(self):
         return (
             "smm_acc_dnt_largeDB1"

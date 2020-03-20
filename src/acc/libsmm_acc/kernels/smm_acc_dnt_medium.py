@@ -50,7 +50,7 @@ class Kernel_dnt_medium(Kernel):
         return (
             "smm_acc_dnt_medium"
             + "<{m}, {n}, {k}, {tile_m}, {tile_n}, {threads}, {grouping}, {minblocks} >;\n".format(
-                self.__dict__
+                **self.__dict__
             )
         )
 

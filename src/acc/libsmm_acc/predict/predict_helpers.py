@@ -8,12 +8,15 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
+import sys
 import os
 import pickle
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from kernels.smm_acc_predict import to_string
+
+sys.path.append("../")
+from kernels.smm_acc_predict import to_string  # noqa: E402
 
 
 # ===============================================================================

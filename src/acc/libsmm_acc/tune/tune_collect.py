@@ -15,9 +15,9 @@ from glob import glob
 import re
 import json
 import argparse
-from kernels.smm_acc_predict import descr_to_kernel
 
 sys.path.append("../")
+from kernels.smm_acc_predict import descr_to_kernel  # noqa: E402
 
 re_mnk = re.compile(r"tune_(\d+)x(\d+)x(\d+)")
 re_winner = re.compile(r"\nWINNER: \d+ (.+)\n")
