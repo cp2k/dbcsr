@@ -16,14 +16,14 @@ import math
 from glob import glob
 from itertools import product
 import argparse
-from kernels.smm_acc_predict import (
+
+sys.path.append("../")
+from kernels.smm_acc_predict import (  # noqa: E402
     gpu_architectures,
     kernel_algorithm,
     params_dict_to_kernel,
     compatible_mnk,
 )
-
-sys.path.append("../")
 
 
 # ===============================================================================

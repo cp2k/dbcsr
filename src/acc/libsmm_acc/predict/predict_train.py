@@ -30,7 +30,9 @@ from predict_helpers import (
     plot_relative_performance_gain,
     performance_gain,
 )
-from kernels.smm_predict import to_tuple, to_string
+
+sys.path.append("../")
+from kernels.smm_predict import to_tuple, to_string  # noqa: E402
 
 visual_separator = (
     "\n----------------------------------------------------------------------------"
