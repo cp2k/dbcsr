@@ -105,6 +105,7 @@ CONTAINS
 
       CALL mp_environ(numproc, iproc, mp_comm)
       CALL mp_environ(numproc, pdims, pcoord, mp_comm)
+      split_info%pdims = pdims
 
       CALL mp_environ(numproc_group, iproc_group, mp_comm_group)
 
@@ -448,6 +449,8 @@ CONTAINS
          CALL mp_comm_free(split_info%mp_comm)
          DEALLOCATE (split_info%refcount)
       ENDIF
+
+      split_info%pdims = 0
    END SUBROUTINE
 
    SUBROUTINE dbcsr_tas_info_hold(split_info)
