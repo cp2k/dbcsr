@@ -1586,7 +1586,7 @@ CONTAINS
             CALL dbcsr_print(right_buffer_calc%mats(v_ki_right, 1), nodata=.TRUE.)
          ENDIF
          !
-         ! form here the code for dbcsr_mm_driver_inner_init was taken
+         ! from here the code for dbcsr_mm_driver_inner_init was taken
          !
          IF (.FALSE.) WRITE (*, *) routineN//" TICK", metronome
          ! Since the right matrix is shifted vertically, the
