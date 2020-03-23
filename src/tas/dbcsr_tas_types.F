@@ -34,6 +34,7 @@ MODULE dbcsr_tas_types
    ! info on distribution of matrix rows / columns to different subgroups.
    TYPE dbcsr_tas_split_info
       INTEGER :: mp_comm ! global communicator
+      INTEGER, DIMENSION(2) :: pdims ! dimensions of process grid
       INTEGER :: igroup ! which subgroup do I belong to
       INTEGER :: ngroup ! how many groups in total
       INTEGER :: split_rowcol ! split row or column?

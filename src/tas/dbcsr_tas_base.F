@@ -476,7 +476,9 @@ CONTAINS
       pcoord(1) = matrix%dist%row_dist%dist(row)
       pcoord(2) = matrix%dist%col_dist%dist(column)
       info = dbcsr_tas_info(matrix)
-      CALL mp_cart_rank(info%mp_comm, pcoord, processor)
+
+      ! workaround for inefficient mpi_cart_rank
+      processor = pcoord(1)*info%pdims(2) + pcoord(2)
 
    END SUBROUTINE
 
