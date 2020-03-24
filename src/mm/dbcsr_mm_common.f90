@@ -8,7 +8,7 @@
 !--------------------------------------------------------------------------------------------------!
 
 #:include '../data/dbcsr.fypp'
-#:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
+#:for n, nametype1, base1, prec1, kind1, type1, typesize1, dkind1 in inst_params_float
   SUBROUTINE calc_norms_${nametype1}$ (norms, nblks, &
                                        blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -19,7 +19,7 @@
      ${type1}$, DIMENSION(:), &
         INTENT(IN)                            :: DATA
 
-     INTEGER, PARAMETER                       :: simd = 64 / ${typesize1}$
+     INTEGER, PARAMETER                       :: simd = 64/${typesize1}$
      INTEGER                                  :: i, n, blk, bp, bpe, row, col
      REAL(kind=sp)                            :: val
 
@@ -27,9 +27,7 @@
 
 !$OMP     parallel default(none) &
 !$OMP              private (i, n, row, col, blk, bp, bpe, val) &
-!$OMP              shared (nblks, simd) &
-!$OMP              shared (rbs, cbs, blki, &
-!$OMP                      data, norms)
+!$OMP              shared (nblks, rbs, cbs, blki, data, norms)
 !$OMP     do
      DO i = 1, nblks, simd
         n = MIN(i + simd, nblks)
@@ -38,7 +36,7 @@
            IF (bp .NE. 0) THEN
               row = blki(1, blk)
               col = blki(2, blk)
-              bpe = bp + rbs(row) * cbs(col) - 1
+              bpe = bp + rbs(row)*cbs(col) - 1
               val = SQRT(REAL(SUM(DATA(bp:bpe)**2), KIND=sp))
            ELSE
               val = 0.0_sp
