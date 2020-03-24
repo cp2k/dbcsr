@@ -37,7 +37,7 @@ MODULE dbcsr_tensor_block
       get_arrays
    USE dbcsr_tensor_types, ONLY: &
       dbcsr_t_type, ndims_tensor, dbcsr_t_get_data_type, dbcsr_t_blk_sizes, dbcsr_t_get_num_blocks, &
-      dbcsr_t_finalize
+      dbcsr_t_finalize, ndims_matrix_row, ndims_matrix_column
    USE dbcsr_dist_operations, ONLY: &
       checker_tr
    USE dbcsr_toollib, ONLY: &
@@ -312,7 +312,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor_out
       INTEGER                           :: handle
 
-      INTEGER, DIMENSION(:, :), ALLOCATABLE :: blk_ind
+      INTEGER, DIMENSION(dbcsr_t_get_num_blocks(tensor_in), ndims_tensor(tensor_in)) :: blk_ind
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_template', &
                                      routineP = moduleN//':'//routineN
 
@@ -410,13 +410,11 @@ CONTAINS
       INTEGER                                   :: blk, iblk, nblk
       TYPE(dbcsr_t_iterator_type)               :: iterator
       INTEGER, DIMENSION(ndims_tensor(tensor))  :: ind_nd
-      INTEGER, DIMENSION(:, :), ALLOCATABLE, INTENT(OUT) :: blk_ind
+      INTEGER, DIMENSION(dbcsr_t_get_num_blocks(tensor), ndims_tensor(tensor)), INTENT(OUT) :: blk_ind
 
       DBCSR_ASSERT(tensor%valid)
 
       nblk = dbcsr_t_get_num_blocks(tensor)
-
-      ALLOCATE (blk_ind(nblk, ndims_tensor(tensor)))
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO iblk = 1, nblk
@@ -580,7 +578,6 @@ CONTAINS
          !! whether block should be summed to existing block
       ${dtype}$, INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
-
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
       INTEGER, DIMENSION(2)                                 :: shape_2d
       ${dtype}$, POINTER, DIMENSION(:, :)                   :: block_2d

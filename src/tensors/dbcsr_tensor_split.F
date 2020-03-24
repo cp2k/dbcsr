@@ -39,7 +39,9 @@ MODULE dbcsr_tensor_split
                                  dbcsr_t_finalize, &
                                  dbcsr_t_get_num_blocks, &
                                  dbcsr_t_blk_offsets, &
-                                 dbcsr_t_blk_sizes
+                                 dbcsr_t_blk_sizes, &
+                                 ndims_matrix_row, &
+                                 ndims_matrix_column
    USE dbcsr_api, ONLY: ${uselist(dtype_float_param)}$
    USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$
 
@@ -77,8 +79,9 @@ CONTAINS
       INTEGER                                         :: ${varlist("split_blk")}$
       INTEGER :: idim, i, isplit_sum, blk, nsplit, handle, splitsum, bcount
       INTEGER, DIMENSION(:, :), ALLOCATABLE           :: blks_to_allocate
-      INTEGER, DIMENSION(:), ALLOCATABLE :: dist_d, blk_size_d, blk_size_split_d, dist_split_d, &
-                                            map1_2d, map2_2d
+      INTEGER, DIMENSION(:), ALLOCATABLE :: dist_d, blk_size_d, blk_size_split_d, dist_split_d
+      INTEGER, DIMENSION(ndims_matrix_row(tensor_in)) :: map1_2d
+      INTEGER, DIMENSION(ndims_matrix_column(tensor_in)) :: map2_2d
       INTEGER, DIMENSION(ndims_tensor(tensor_in)) :: blk_index, blk_size, blk_offset, &
                                                      blk_shape
       INTEGER, DIMENSION(${maxdim}$) :: bi_split, inblock_offset
@@ -627,9 +630,10 @@ CONTAINS
       CALL dbcsr_t_create(tensor_in, tensor_out)
 
       ! reserve blocks inside bounds
+      ALLOCATE(blk_ind(dbcsr_t_get_num_blocks(tensor_in), ndims_tensor(tensor_in)))
       CALL dbcsr_t_reserved_block_indices(tensor_in, blk_ind)
       nblk = dbcsr_t_get_num_blocks(tensor_in)
-      ALLOCATE (blk_ind_tmp(nblk, ndims_tensor(tensor_in)))
+      ALLOCATE(blk_ind_tmp(dbcsr_t_get_num_blocks(tensor_in), ndims_tensor(tensor_in)))
       blk_ind_tmp(:, :) = 0
       iblk = 0
       blk_loop: DO iblk_all = 1, nblk

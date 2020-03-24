@@ -35,7 +35,7 @@ MODULE dbcsr_tensor_types
    USE dbcsr_tensor_index, ONLY: &
       get_2d_indices_tensor, get_nd_indices_pgrid, create_nd_to_2d_mapping, destroy_nd_to_2d_mapping, &
       dbcsr_t_get_mapping_info, nd_to_2d_mapping, split_tensor_index, combine_tensor_index, combine_pgrid_index, &
-      split_pgrid_index, ndims_mapping
+      split_pgrid_index, ndims_mapping, ndims_mapping_row, ndims_mapping_column
    USE dbcsr_tas_split, ONLY: &
       dbcsr_tas_create_split_rows_or_cols, dbcsr_tas_release_info, dbcsr_tas_info_hold, &
       dbcsr_tas_create_split, dbcsr_tas_get_split_info
@@ -89,7 +89,12 @@ MODULE dbcsr_tensor_types
       dbcsr_t_type, &
       dims_tensor, &
       mp_environ_pgrid, &
-      ndims_tensor
+      ndims_tensor,&
+      ndims_matrix_row,&
+      ndims_matrix_column,&
+      dbcsr_t_nblks_local,&
+      dbcsr_t_nblks_total,&
+      dbcsr_t_blk_size
 
    TYPE dbcsr_t_pgrid_type
       TYPE(nd_to_2d_mapping)                  :: nd_index_grid
@@ -194,18 +199,24 @@ CONTAINS
       INTEGER, DIMENSION(:), ALLOCATABLE :: index_map
 
       IF (which_dim == 1) THEN
+         ALLOCATE (new_dbcsr_tas_dist_t%dims(ndims_mapping_row(map_blks)))
+         ALLOCATE (index_map(ndims_mapping_row(map_blks)))
          CALL dbcsr_t_get_mapping_info(map_blks, &
                                        dims_2d_i8=matrix_dims, &
                                        map1_2d=index_map, &
                                        dims1_2d=new_dbcsr_tas_dist_t%dims)
+         ALLOCATE (new_dbcsr_tas_dist_t%dims_grid(ndims_mapping_row(map_grid)))
          CALL dbcsr_t_get_mapping_info(map_grid, &
                                        dims_2d=grid_dims, &
                                        dims1_2d=new_dbcsr_tas_dist_t%dims_grid)
       ELSEIF (which_dim == 2) THEN
+         ALLOCATE (new_dbcsr_tas_dist_t%dims(ndims_mapping_column(map_blks)))
+         ALLOCATE (index_map(ndims_mapping_column(map_blks)))
          CALL dbcsr_t_get_mapping_info(map_blks, &
                                        dims_2d_i8=matrix_dims, &
                                        map2_2d=index_map, &
                                        dims2_2d=new_dbcsr_tas_dist_t%dims)
+         ALLOCATE (new_dbcsr_tas_dist_t%dims_grid(ndims_mapping_column(map_grid)))
          CALL dbcsr_t_get_mapping_info(map_grid, &
                                        dims_2d=grid_dims, &
                                        dims2_2d=new_dbcsr_tas_dist_t%dims_grid)
@@ -308,11 +319,15 @@ CONTAINS
       TYPE(dbcsr_tas_blk_size_t) :: new_dbcsr_tas_blk_size_t
 
       IF (which_dim == 1) THEN
+         ALLOCATE (index_map(ndims_mapping_row(map_blks)))
+         ALLOCATE (new_dbcsr_tas_blk_size_t%dims(ndims_mapping_row(map_blks)))
          CALL dbcsr_t_get_mapping_info(map_blks, &
                                        dims_2d_i8=matrix_dims, &
                                        map1_2d=index_map, &
                                        dims1_2d=new_dbcsr_tas_blk_size_t%dims)
       ELSEIF (which_dim == 2) THEN
+         ALLOCATE (index_map(ndims_mapping_column(map_blks)))
+         ALLOCATE (new_dbcsr_tas_blk_size_t%dims(ndims_mapping_column(map_blks)))
          CALL dbcsr_t_get_mapping_info(map_blks, &
                                        dims_2d_i8=matrix_dims, &
                                        map2_2d=index_map, &
@@ -537,7 +552,8 @@ CONTAINS
       TYPE(dbcsr_t_distribution_type), INTENT(OUT)    :: dist
       TYPE(dbcsr_t_pgrid_type), INTENT(IN)            :: pgrid
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL     :: ${varlist("nd_dist")}$
-      INTEGER, DIMENSION(:), ALLOCATABLE :: map1_2d, map2_2d
+      INTEGER, DIMENSION(ndims_mapping_row(pgrid%nd_index_grid)) :: map1_2d
+      INTEGER, DIMENSION(ndims_mapping_column(pgrid%nd_index_grid)) :: map2_2d
       INTEGER :: ndims
 
       CALL dbcsr_t_get_mapping_info(pgrid%nd_index_grid, map1_2d=map1_2d, map2_2d=map2_2d, ndim_nd=ndims)
@@ -570,7 +586,8 @@ CONTAINS
       TYPE(dbcsr_tas_dist_t)                          :: row_dist_obj, col_dist_obj
       TYPE(dbcsr_t_pgrid_type)                        :: pgrid_prv
       LOGICAL                                         :: need_pgrid_remap
-      INTEGER, DIMENSION(:), ALLOCATABLE              :: map1_2d_check, map2_2d_check
+      INTEGER, DIMENSION(ndims_mapping_row(pgrid%nd_index_grid)) :: map1_2d_check
+      INTEGER, DIMENSION(ndims_mapping_column(pgrid%nd_index_grid)) :: map2_2d_check
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_distribution_new', &
                                      routineP = moduleN//':'//routineN
 
@@ -866,6 +883,8 @@ CONTAINS
             CALL allocate_any(map1_2d_prv, source=map1_2d)
             CALL allocate_any(map2_2d_prv, source=map2_2d)
          ELSE
+            ALLOCATE(map1_2d_prv(ndims_matrix_row(tensor_in)))
+            ALLOCATE(map2_2d_prv(ndims_matrix_column(tensor_in)))
             CALL dbcsr_t_get_mapping_info(tensor_in%nd_index_blk, map1_2d=map1_2d_prv, map2_2d=map2_2d_prv)
          ENDIF
          IF (PRESENT(name)) THEN
@@ -1219,7 +1238,8 @@ CONTAINS
          !! new mapping
       TYPE(dbcsr_t_pgrid_type), INTENT(OUT) :: pgrid_out
       INTEGER, DIMENSION(:), ALLOCATABLE :: dims
-      INTEGER, ALLOCATABLE, DIMENSION(:) :: map1_2d_old, map2_2d_old
+      INTEGER, DIMENSION(ndims_mapping_row(pgrid_in%nd_index_grid)) :: map1_2d_old
+      INTEGER, DIMENSION(ndims_mapping_column(pgrid_in%nd_index_grid)) :: map2_2d_old
 
       ALLOCATE (dims(SIZE(map1_2d) + SIZE(map2_2d)))
       CALL dbcsr_t_get_mapping_info(pgrid_in%nd_index_grid, dims_nd=dims, map1_2d=map1_2d_old, map2_2d=map2_2d_old)
@@ -1241,7 +1261,8 @@ CONTAINS
          !! new process grid dimensions, should all be set > 0
       TYPE(dbcsr_t_pgrid_type)                :: pgrid_tmp
       INTEGER                                 :: nsplit, dimsplit
-      INTEGER, DIMENSION(:), ALLOCATABLE      :: map1_2d, map2_2d
+      INTEGER, DIMENSION(ndims_mapping_row(pgrid%nd_index_grid)) :: map1_2d
+      INTEGER, DIMENSION(ndims_mapping_column(pgrid%nd_index_grid)) :: map2_2d
       TYPe(nd_to_2d_mapping)                  :: nd_index_grid
       INTEGER, DIMENSION(2)                   :: pdims_2d
 
@@ -1339,14 +1360,16 @@ CONTAINS
          !! process coordinates in process grid
       INTEGER, INTENT(OUT), OPTIONAL, DIMENSION(ndims_tensor(tensor)) :: pdims
          !! process grid dimensions
-      INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: ${varlist("blks_local")}$
-         !! local blocks along dimension 1 and 2
-      INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: ${varlist("proc_dist")}$
-         !! distribution vector along dimension 1 and 2
-      INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: ${varlist("blk_size")}$
-         !! block sizes along dimension 1 and 2
-      INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: ${varlist("blk_offset")}$
-         !! block offsets along dimension 1 and 2
+#:for idim in range(1, maxdim+1)
+      INTEGER, DIMENSION(dbcsr_t_nblks_local(tensor,${idim}$)), INTENT(OUT), OPTIONAL :: blks_local_${idim}$
+         !! local blocks along dimension ${idim}$
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,${idim}$)), INTENT(OUT), OPTIONAL :: proc_dist_${idim}$
+         !! distribution along dimension ${idim}$
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,${idim}$)), INTENT(OUT), OPTIONAL :: blk_size_${idim}$
+         !! block sizes along dimension ${idim}$
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,${idim}$)), INTENT(OUT), OPTIONAL :: blk_offset_${idim}$
+         !! block offsets along dimension ${idim}$
+#:endfor
       TYPE(dbcsr_t_distribution_type), INTENT(OUT), OPTIONAL    :: distribution
          !! distribution object
       CHARACTER(len=*), INTENT(OUT), OPTIONAL                   :: name
@@ -1366,10 +1389,18 @@ CONTAINS
 
 #:for idim in range(1, maxdim+1)
       IF (${idim}$ <= ndims_tensor(tensor)) THEN
-         IF (PRESENT(blks_local_${idim}$)) CALL get_ith_array(tensor%blks_local, ${idim}$, blks_local_${idim}$)
-         IF (PRESENT(proc_dist_${idim}$)) CALL get_ith_array(tensor%nd_dist, ${idim}$, proc_dist_${idim}$)
-         IF (PRESENT(blk_size_${idim}$)) CALL get_ith_array(tensor%blk_sizes, ${idim}$, blk_size_${idim}$)
-         IF (PRESENT(blk_offset_${idim}$)) CALL get_ith_array(tensor%blk_offsets, ${idim}$, blk_offset_${idim}$)
+         IF (PRESENT(blks_local_${idim}$)) CALL get_ith_array(tensor%blks_local, ${idim}$, &
+                                                              dbcsr_t_nblks_local(tensor, ${idim}$), &
+                                                              blks_local_${idim}$)
+         IF (PRESENT(proc_dist_${idim}$)) CALL get_ith_array(tensor%nd_dist, ${idim}$, &
+                                                             dbcsr_t_nblks_total(tensor, ${idim}$), &
+                                                             proc_dist_${idim}$)
+         IF (PRESENT(blk_size_${idim}$)) CALL get_ith_array(tensor%blk_sizes, ${idim}$, &
+                                                            dbcsr_t_nblks_total(tensor, ${idim}$), &
+                                                            blk_size_${idim}$)
+         IF (PRESENT(blk_offset_${idim}$)) CALL get_ith_array(tensor%blk_offsets, ${idim}$, &
+                                                              dbcsr_t_nblks_total(tensor, ${idim}$), &
+                                                              blk_offset_${idim}$)
       ENDIF
 #:endfor
 
@@ -1432,6 +1463,67 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER(KIND=int_8)            :: dbcsr_t_get_nze_total
       dbcsr_t_get_nze_total = dbcsr_tas_get_nze_total(tensor%matrix_rep)
+   END FUNCTION
+
+   PURE FUNCTION dbcsr_t_nblks_local(tensor, idim)
+      !! local number of blocks along dimension idim
+      TYPE(dbcsr_t_type), INTENT(IN) :: tensor
+      INTEGER, INTENT(IN) :: idim
+      INTEGER :: dbcsr_t_nblks_local
+
+      IF (idim > ndims_tensor(tensor)) THEN
+         dbcsr_t_nblks_local = 0
+      ELSE
+         dbcsr_t_nblks_local = tensor%nblks_local(idim)
+      ENDIF
+
+   END FUNCTION
+
+   PURE FUNCTION dbcsr_t_nblks_total(tensor, idim)
+      !! total numbers of blocks along dimension idim
+      TYPE(dbcsr_t_type), INTENT(IN) :: tensor
+      INTEGER, INTENT(IN) :: idim
+      INTEGER :: dbcsr_t_nblks_total
+
+      IF (idim > ndims_tensor(tensor)) THEN
+         dbcsr_t_nblks_total = 0
+      ELSE
+         dbcsr_t_nblks_total = tensor%nd_index_blk%dims_nd(idim)
+      ENDIF
+   END FUNCTION
+
+   PURE FUNCTION dbcsr_t_blk_size(tensor, ind, idim)
+      !! block size of block with index ind along dimension idim
+      TYPE(dbcsr_t_type), INTENT(IN) :: tensor
+      INTEGER, DIMENSION(ndims_tensor(tensor)), &
+         INTENT(IN) :: ind
+      INTEGER, INTENT(IN) :: idim
+      INTEGER, DIMENSION(ndims_tensor(tensor)) :: blk_size
+      INTEGER :: dbcsr_t_blk_size
+
+      IF (idim > ndims_tensor(tensor)) THEN
+         dbcsr_t_blk_size = 0
+      ELSE
+         blk_size(:) = get_array_elements(tensor%blk_sizes, ind)
+         dbcsr_t_blk_size = blk_size(idim)
+      ENDIF
+   END FUNCTION
+
+   PURE FUNCTION ndims_matrix_row(tensor)
+      !! how many tensor dimensions are mapped to matrix row
+      TYPE(dbcsr_t_type), INTENT(IN) :: tensor
+      INTEGER(int_8) :: ndims_matrix_row
+
+      ndims_matrix_row = ndims_mapping_row(tensor%nd_index_blk)
+
+   END FUNCTION
+
+   PURE FUNCTION ndims_matrix_column(tensor)
+      !! how many tensor dimensions are mapped to matrix column
+      TYPE(dbcsr_t_type), INTENT(IN) :: tensor
+      INTEGER(int_8) :: ndims_matrix_column
+
+      ndims_matrix_column = ndims_mapping_column(tensor%nd_index_blk)
    END FUNCTION
 
 END MODULE

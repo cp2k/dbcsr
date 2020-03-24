@@ -32,6 +32,8 @@ MODULE dbcsr_tensor_index
       ndims_mapping, &
       split_tensor_index, &
       split_pgrid_index, &
+      ndims_mapping_row, &
+      ndims_mapping_column, &
       dbcsr_t_inverse_order, &
       permute_index
 
@@ -119,6 +121,20 @@ CONTAINS
       ndims_mapping = map%ndim_nd
    END FUNCTION
 
+   PURE FUNCTION ndims_mapping_row(map)
+      !! how many tensor dimensions are mapped to matrix row
+      TYPE(nd_to_2d_mapping), INTENT(IN) :: map
+      INTEGER :: ndims_mapping_row
+      ndims_mapping_row = map%ndim1_2d
+   END FUNCTION
+
+   PURE FUNCTION ndims_mapping_column(map)
+      !! how many tensor dimensions are mapped to matrix column
+      TYPE(nd_to_2d_mapping), INTENT(IN) :: map
+      INTEGER :: ndims_mapping_column
+      ndims_mapping_column = map%ndim2_2d
+   END FUNCTION
+
    SUBROUTINE dbcsr_t_get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dims_2d_i8, dims_2d, dims_nd, dims1_2d, dims2_2d, &
                                        map1_2d, map2_2d, map_nd, base, col_major)
       !! get mapping info
@@ -135,11 +151,17 @@ CONTAINS
       INTEGER, DIMENSION(ndims_mapping(map)), &
          INTENT(OUT), OPTIONAL                           :: dims_nd
          !! nd dimensions
-      INTEGER, ALLOCATABLE, DIMENSION(:), INTENT(OUT), &
-         OPTIONAL                                        :: dims1_2d, dims2_2d, map1_2d, map2_2d
+      INTEGER, DIMENSION(ndims_mapping_row(map)), INTENT(OUT), &
+         OPTIONAL                                        :: dims1_2d
          !! dimensions that map to first 2d index
+      INTEGER, DIMENSION(ndims_mapping_column(map)), INTENT(OUT), &
+         OPTIONAL                                        :: dims2_2d
          !! dimensions that map to second 2d index
+      INTEGER, DIMENSION(ndims_mapping_row(map)), INTENT(OUT), &
+         OPTIONAL                                        :: map1_2d
          !! indices that map to first 2d index
+      INTEGER, DIMENSION(ndims_mapping_column(map)), INTENT(OUT), &
+         OPTIONAL                                        :: map2_2d
          !! indices that map to second 2d index
       INTEGER, DIMENSION(ndims_mapping(map)), &
          INTENT(OUT), OPTIONAL                           :: map_nd
@@ -158,16 +180,16 @@ CONTAINS
          dims_nd(:) = map%dims_nd(:)
       ENDIF
       IF (PRESENT(dims1_2d)) THEN
-         CALL allocate_any(dims1_2d, source=map%dims1_2d)
+         dims1_2d(:) = map%dims1_2d
       ENDIF
       IF (PRESENT(dims2_2d)) THEN
-         CALL allocate_any(dims2_2d, source=map%dims2_2d)
+         dims2_2d(:) = map%dims2_2d
       ENDIF
       IF (PRESENT(map1_2d)) THEN
-         CALL allocate_any(map1_2d, source=map%map1_2d)
+         map1_2d(:) = map%map1_2d
       ENDIF
       IF (PRESENT(map2_2d)) THEN
-         CALL allocate_any(map2_2d, source=map%map2_2d)
+         map2_2d(:) = map%map2_2d
       ENDIF
       IF (PRESENT(map_nd)) THEN
          map_nd(:) = map%map_nd(:)
@@ -360,16 +382,13 @@ CONTAINS
          INTENT(IN)                                      :: order
 
       INTEGER                                            :: ndim_nd
-      INTEGER, ALLOCATABLE, DIMENSION(:)                 :: map1_2d, map1_2d_reorder, map2_2d, &
-                                                            map2_2d_reorder
+      INTEGER, DIMENSION(ndims_mapping_row(map_in))       :: map1_2d, map1_2d_reorder
+      INTEGER, DIMENSION(ndims_mapping_column(map_in))    :: map2_2d, map2_2d_reorder
       INTEGER, DIMENSION(ndims_mapping(map_in))          :: dims_nd, dims_reorder
 
       CALL dbcsr_t_get_mapping_info(map_in, ndim_nd, dims_nd=dims_nd, map1_2d=map1_2d, map2_2d=map2_2d)
 
       dims_reorder(order) = dims_nd
-
-      CALL allocate_any(map1_2d_reorder, shape_spec=SHAPE(map1_2d))
-      CALL allocate_any(map2_2d_reorder, shape_spec=SHAPE(map2_2d))
 
       map1_2d_reorder(:) = order(map1_2d)
       map2_2d_reorder(:) = order(map2_2d)
