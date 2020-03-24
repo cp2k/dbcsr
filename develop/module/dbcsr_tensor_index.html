@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.4% of total for modules and submodules.">221 statements</a>
+    title=" 0.4% of total for modules and submodules.">222 statements</a>
      </li> 
      
      
@@ -200,13 +200,21 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-ndims_mapping">ndims_mapping</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-combine_index">combine_index</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-combine_tensor_index">combine_tensor_index</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-split_index">split_index</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-combine_pgrid_index">combine_pgrid_index</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-get_2d_indices">get_2d_indices</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-split_tensor_index">split_tensor_index</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-get_nd_indices">get_nd_indices</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-split_pgrid_index">split_pgrid_index</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-get_2d_indices_tensor">get_2d_indices_tensor</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-get_2d_indices_pgrid">get_2d_indices_pgrid</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-get_nd_indices_tensor">get_nd_indices_tensor</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-get_nd_indices_pgrid">get_nd_indices_pgrid</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-dbcsr_t_inverse_order">dbcsr_t_inverse_order</a>
       
@@ -328,13 +336,21 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-ndims_mapping">ndims_mapping</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-combine_index">combine_index</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-combine_tensor_index">combine_tensor_index</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-split_index">split_index</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-combine_pgrid_index">combine_pgrid_index</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-get_2d_indices">get_2d_indices</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-split_tensor_index">split_tensor_index</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-get_nd_indices">get_nd_indices</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-split_pgrid_index">split_pgrid_index</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-get_2d_indices_tensor">get_2d_indices_tensor</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-get_2d_indices_pgrid">get_2d_indices_pgrid</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-get_nd_indices_tensor">get_nd_indices_tensor</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-get_nd_indices_pgrid">get_nd_indices_pgrid</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-dbcsr_t_inverse_order">dbcsr_t_inverse_order</a>
       
@@ -687,8 +703,8 @@ public pure function <a href='../proc/ndims_mapping.html'>ndims_mapping</a>(map)
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-combine_index"></span><h3>
-public function <a href='../proc/combine_index.html'>combine_index</a>(ind_in, dims, base, col_major) result(ind_out)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-combine_tensor_index"></span><h3>
+public pure function <a href='../proc/combine_tensor_index.html'>combine_tensor_index</a>(ind_in, dims) result(ind_out)
     
     
    
@@ -750,36 +766,6 @@ public function <a href='../proc/combine_index.html'>combine_index</a>(ind_in, d
   
 </tr>
 
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>base</strong></td><td><p>base index, default 1 (Fortran style)</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>logical,</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>col_major</strong></td><td><p>column major ordering, default .TRUE. (Fortran style)</p></td>
-  
-</tr>
-
 </tbody>
 </table>
 
@@ -802,8 +788,93 @@ public function <a href='../proc/combine_index.html'>combine_index</a>(ind_in, d
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-split_index"></span><h3>
-public function <a href='../proc/split_index.html'>split_index</a>(ind_in, dims, base, col_major) result(ind_out)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-combine_pgrid_index"></span><h3>
+public pure function <a href='../proc/combine_pgrid_index.html'>combine_pgrid_index</a>(ind_in, dims) result(ind_out)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>transform nd index to flat index</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>ind_in</strong></td><td><p>nd index
+ nd dimensions</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dims</strong></td><td><p>nd index
+ nd dimensions</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  <p>flat index</p>
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-split_tensor_index"></span><h3>
+public pure function <a href='../proc/split_tensor_index.html'>split_tensor_index</a>(ind_in, dims) result(ind_out)
     
     
    
@@ -863,6 +934,59 @@ public function <a href='../proc/split_index.html'>split_index</a>(ind_in, dims,
   
 </tr>
 
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer,
+  DIMENSION(SIZE(dims))</small></h4>
+  <p>nd index</p>
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-split_pgrid_index"></span><h3>
+public pure function <a href='../proc/split_pgrid_index.html'>split_pgrid_index</a>(ind_in, dims) result(ind_out)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>transform flat index to nd index</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
   
   
   
@@ -870,11 +994,11 @@ public function <a href='../proc/split_index.html'>split_index</a>(ind_in, dims,
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in),</td>
-  <td>optional</td>
+  <td>intent(in)</td>
+  <td></td>
   
   <td></td><td>::</td>
-  <td><strong>base</strong></td><td><p>base index, default 1 (Fortran style)</p></td>
+  <td><strong>ind_in</strong></td><td><p>flat index</p></td>
   
 </tr>
 
@@ -884,12 +1008,12 @@ public function <a href='../proc/split_index.html'>split_index</a>(ind_in, dims,
   
 <tr>
   
-  <td><span class="anchor" ></span>logical,</td>
+  <td><span class="anchor" ></span>integer,</td>
   <td>intent(in),</td>
-  <td>optional</td>
+  <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>col_major</strong></td><td><p>column major ordering, default .TRUE. (Fortran style)</p></td>
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dims</strong></td><td><p>nd dimensions</p></td>
   
 </tr>
 
@@ -915,8 +1039,8 @@ public function <a href='../proc/split_index.html'>split_index</a>(ind_in, dims,
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-get_2d_indices"></span><h3>
-public function <a href='../proc/get_2d_indices.html'>get_2d_indices</a>(map, ind_in) result(ind_out)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-get_2d_indices_tensor"></span><h3>
+public pure function <a href='../proc/get_2d_indices_tensor.html'>get_2d_indices_tensor</a>(map, ind_in) result(ind_out)
     
     
    
@@ -971,7 +1095,7 @@ public function <a href='../proc/get_2d_indices.html'>get_2d_indices</a>(map, in
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_mapping(map))</td><td>::</td>
+  <td>DIMENSION(map%ndim_nd)</td><td>::</td>
   <td><strong>ind_in</strong></td><td><p>nd index</p></td>
   
 </tr>
@@ -998,8 +1122,91 @@ public function <a href='../proc/get_2d_indices.html'>get_2d_indices</a>(map, in
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-get_nd_indices"></span><h3>
-public function <a href='../proc/get_nd_indices.html'>get_nd_indices</a>(map, ind_in) result(ind_out)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-get_2d_indices_pgrid"></span><h3>
+public pure function <a href='../proc/get_2d_indices_pgrid.html'>get_2d_indices_pgrid</a>(map, ind_in) result(ind_out)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>transform nd index to 2d index, using info from index mapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>map</strong></td><td><p>index mapping</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(map%ndim_nd)</td><td>::</td>
+  <td><strong>ind_in</strong></td><td><p>nd index</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer,
+  DIMENSION(2)</small></h4>
+  <p>2d index</p>
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-get_nd_indices_tensor"></span><h3>
+public pure function <a href='../proc/get_nd_indices_tensor.html'>get_nd_indices_tensor</a>(map, ind_in) result(ind_out)
     
     
    
@@ -1071,7 +1278,90 @@ public function <a href='../proc/get_nd_indices.html'>get_nd_indices</a>(map, in
   
   
      <h4>Return Value <small>integer,
-  DIMENSION(ndims_mapping(map))</small></h4>
+  DIMENSION(map%ndim_nd)</small></h4>
+  <p>nd index</p>
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-get_nd_indices_pgrid"></span><h3>
+public pure function <a href='../proc/get_nd_indices_pgrid.html'>get_nd_indices_pgrid</a>(map, ind_in) result(ind_out)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>transform 2d index to nd index, using info from index mapping.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>map</strong></td><td><p>index mapping</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>ind_in</strong></td><td><p>2d index</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer,
+  DIMENSION(map%ndim_nd)</small></h4>
   <p>nd index</p>
     
 
@@ -1082,7 +1372,7 @@ public function <a href='../proc/get_nd_indices.html'>get_nd_indices</a>(map, in
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_inverse_order"></span><h3>
-public function <a href='../proc/dbcsr_t_inverse_order.html'>dbcsr_t_inverse_order</a>(order)
+public pure function <a href='../proc/dbcsr_t_inverse_order.html'>dbcsr_t_inverse_order</a>(order)
     
     
    

@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.0% of total for procedures.</p>Including implementation: 385 statements,  0.7% of total for procedures.">15 statements</a>
+    title="<p> 0.0% of total for procedures.</p>Including implementation: 457 statements,  0.8% of total for procedures.">15 statements</a>
      </li> 
      
      
@@ -357,7 +357,7 @@ private subroutine <a href='../proc/dbcsr_t_put_2d_block_r_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
   
 </tr>
@@ -372,7 +372,7 @@ private subroutine <a href='../proc/dbcsr_t_put_2d_block_r_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
   
 </tr>
@@ -387,7 +387,7 @@ private subroutine <a href='../proc/dbcsr_t_put_2d_block_r_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(sizes(1), sizes(2))</td><td>::</td>
+  <td>DIMENSION(sizes(1), sizes(2)), TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to put</p></td>
   
 </tr>
@@ -491,7 +491,7 @@ private subroutine <a href='../proc/dbcsr_t_put_3d_block_r_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(3)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
   
 </tr>
@@ -506,7 +506,7 @@ private subroutine <a href='../proc/dbcsr_t_put_3d_block_r_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(3)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
   
 </tr>
@@ -521,7 +521,7 @@ private subroutine <a href='../proc/dbcsr_t_put_3d_block_r_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(sizes(1), sizes(2), sizes(3))</td><td>::</td>
+  <td>DIMENSION(sizes(1), sizes(2), sizes(3)), TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to put</p></td>
   
 </tr>
@@ -625,7 +625,7 @@ private subroutine <a href='../proc/dbcsr_t_put_4d_block_r_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(4)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
   
 </tr>
@@ -640,7 +640,7 @@ private subroutine <a href='../proc/dbcsr_t_put_4d_block_r_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(4)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
   
 </tr>
@@ -655,7 +655,7 @@ private subroutine <a href='../proc/dbcsr_t_put_4d_block_r_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4))</td><td>::</td>
+  <td>DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)), TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to put</p></td>
   
 </tr>
@@ -759,7 +759,7 @@ private subroutine <a href='../proc/dbcsr_t_put_2d_block_r_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
   
 </tr>
@@ -774,7 +774,7 @@ private subroutine <a href='../proc/dbcsr_t_put_2d_block_r_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
   
 </tr>
@@ -789,7 +789,7 @@ private subroutine <a href='../proc/dbcsr_t_put_2d_block_r_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(sizes(1), sizes(2))</td><td>::</td>
+  <td>DIMENSION(sizes(1), sizes(2)), TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to put</p></td>
   
 </tr>
@@ -893,7 +893,7 @@ private subroutine <a href='../proc/dbcsr_t_put_3d_block_r_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(3)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
   
 </tr>
@@ -908,7 +908,7 @@ private subroutine <a href='../proc/dbcsr_t_put_3d_block_r_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(3)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
   
 </tr>
@@ -923,7 +923,7 @@ private subroutine <a href='../proc/dbcsr_t_put_3d_block_r_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(sizes(1), sizes(2), sizes(3))</td><td>::</td>
+  <td>DIMENSION(sizes(1), sizes(2), sizes(3)), TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to put</p></td>
   
 </tr>
@@ -1027,7 +1027,7 @@ private subroutine <a href='../proc/dbcsr_t_put_4d_block_r_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(4)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
   
 </tr>
@@ -1042,7 +1042,7 @@ private subroutine <a href='../proc/dbcsr_t_put_4d_block_r_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(4)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
   
 </tr>
@@ -1057,7 +1057,7 @@ private subroutine <a href='../proc/dbcsr_t_put_4d_block_r_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4))</td><td>::</td>
+  <td>DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)), TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to put</p></td>
   
 </tr>
@@ -1161,7 +1161,7 @@ private subroutine <a href='../proc/dbcsr_t_put_2d_block_c_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
   
 </tr>
@@ -1176,7 +1176,7 @@ private subroutine <a href='../proc/dbcsr_t_put_2d_block_c_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
   
 </tr>
@@ -1191,7 +1191,7 @@ private subroutine <a href='../proc/dbcsr_t_put_2d_block_c_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(sizes(1), sizes(2))</td><td>::</td>
+  <td>DIMENSION(sizes(1), sizes(2)), TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to put</p></td>
   
 </tr>
@@ -1295,7 +1295,7 @@ private subroutine <a href='../proc/dbcsr_t_put_3d_block_c_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(3)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
   
 </tr>
@@ -1310,7 +1310,7 @@ private subroutine <a href='../proc/dbcsr_t_put_3d_block_c_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(3)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
   
 </tr>
@@ -1325,7 +1325,7 @@ private subroutine <a href='../proc/dbcsr_t_put_3d_block_c_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(sizes(1), sizes(2), sizes(3))</td><td>::</td>
+  <td>DIMENSION(sizes(1), sizes(2), sizes(3)), TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to put</p></td>
   
 </tr>
@@ -1429,7 +1429,7 @@ private subroutine <a href='../proc/dbcsr_t_put_4d_block_c_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(4)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
   
 </tr>
@@ -1444,7 +1444,7 @@ private subroutine <a href='../proc/dbcsr_t_put_4d_block_c_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(4)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
   
 </tr>
@@ -1459,7 +1459,7 @@ private subroutine <a href='../proc/dbcsr_t_put_4d_block_c_dp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4))</td><td>::</td>
+  <td>DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)), TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to put</p></td>
   
 </tr>
@@ -1563,7 +1563,7 @@ private subroutine <a href='../proc/dbcsr_t_put_2d_block_c_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
   
 </tr>
@@ -1578,7 +1578,7 @@ private subroutine <a href='../proc/dbcsr_t_put_2d_block_c_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
   
 </tr>
@@ -1593,7 +1593,7 @@ private subroutine <a href='../proc/dbcsr_t_put_2d_block_c_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(sizes(1), sizes(2))</td><td>::</td>
+  <td>DIMENSION(sizes(1), sizes(2)), TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to put</p></td>
   
 </tr>
@@ -1697,7 +1697,7 @@ private subroutine <a href='../proc/dbcsr_t_put_3d_block_c_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(3)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
   
 </tr>
@@ -1712,7 +1712,7 @@ private subroutine <a href='../proc/dbcsr_t_put_3d_block_c_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(3)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
   
 </tr>
@@ -1727,7 +1727,7 @@ private subroutine <a href='../proc/dbcsr_t_put_3d_block_c_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(sizes(1), sizes(2), sizes(3))</td><td>::</td>
+  <td>DIMENSION(sizes(1), sizes(2), sizes(3)), TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to put</p></td>
   
 </tr>
@@ -1831,7 +1831,7 @@ private subroutine <a href='../proc/dbcsr_t_put_4d_block_c_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(4)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
   
 </tr>
@@ -1846,7 +1846,7 @@ private subroutine <a href='../proc/dbcsr_t_put_4d_block_c_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(4)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
   
 </tr>
@@ -1861,7 +1861,7 @@ private subroutine <a href='../proc/dbcsr_t_put_4d_block_c_sp.html'>dbcsr_t_put_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4))</td><td>::</td>
+  <td>DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)), TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to put</p></td>
   
 </tr>

@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>mrowcol_to_group &ndash; DBCSR Library</title>
+    <title>split_tensor_index &ndash; DBCSR Library</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -103,8 +103,8 @@
     
   
   <div class="row">
-    <h1>mrowcol_to_group
-      <small>Subroutine</small>
+    <h1>split_tensor_index
+      <small>Function</small>
     
     </h1>
     
@@ -121,24 +121,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">9 statements</a>
+    title=" 0.0% of total for procedures.">12 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_split.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_index.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tas_split.f.html'>dbcsr_tas_split.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tensor_index.f.html'>dbcsr_tensor_index.F</a></li>
     
-     <li><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
+     <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
     
   
-     <li class="active">mrowcol_to_group</li>
+     <li class="active">split_tensor_index</li>
   </ol>
 </div>
 </div>
@@ -188,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine mrowcol_to_group(dist, rowcol, rowcol_group)
+public pure function split_tensor_index(ind_in, dims) result(ind_out)
     
     
    
@@ -198,7 +198,7 @@ public subroutine mrowcol_to_group(dist, rowcol, rowcol_group)
 
 
     
-    <p>map matrix rows/column to group local rows/column</p>
+    <p>transform flat index to nd index</p>
     
 
     <h3>Arguments</h3>
@@ -219,12 +219,12 @@ public subroutine mrowcol_to_group(dist, rowcol, rowcol_group)
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~35"></span>class(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-ind_in~3"></span>integer(kind=int_8),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>dist</strong></td><td></td>
+  <td><strong>ind_in</strong></td><td><p>flat index</p></td>
   
 </tr>
 
@@ -234,27 +234,12 @@ public subroutine mrowcol_to_group(dist, rowcol, rowcol_group)
   
 <tr>
   
-  <td><span class="anchor" id="variable-rowcol~11"></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-dims~5"></span>integer,</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rowcol</strong></td><td><p>global row/column to map</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-rowcol_group"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>rowcol_group</strong></td><td><p>group local row/column</p></td>
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dims</strong></td><td><p>nd dimensions</p></td>
   
 </tr>
 
@@ -262,6 +247,15 @@ public subroutine mrowcol_to_group(dist, rowcol, rowcol_group)
 </table>
 
     
+    
+    
+    
+    
+    
+    
+   <h3>Return Value <small><span class="anchor" id="variable-ind_out~3"></span>integer,
+  DIMENSION(SIZE(dims))</small></h3>
+    <p>nd index</p>
     
     
     

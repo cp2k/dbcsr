@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.0% of total for procedures.</p>Including implementation: 628 statements,  1.1% of total for procedures.">5 statements</a>
+    title="<p> 0.0% of total for procedures.</p>Including implementation: 580 statements,  1.0% of total for procedures.">5 statements</a>
      </li> 
      
      
@@ -1291,7 +1291,7 @@ private subroutine <a href='../proc/dbcsr_put_block2d_d~2.html'>dbcsr_put_block2
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:, :)</td><td>::</td>
+  <td>DIMENSION(:, :), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>the block to put</p></td>
   
 </tr>
@@ -1474,7 +1474,7 @@ private subroutine <a href='../proc/dbcsr_put_block2d_s~2.html'>dbcsr_put_block2
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:, :)</td><td>::</td>
+  <td>DIMENSION(:, :), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>the block to put</p></td>
   
 </tr>
@@ -1657,7 +1657,7 @@ private subroutine <a href='../proc/dbcsr_put_block2d_z~2.html'>dbcsr_put_block2
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:, :)</td><td>::</td>
+  <td>DIMENSION(:, :), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>the block to put</p></td>
   
 </tr>
@@ -1840,7 +1840,7 @@ private subroutine <a href='../proc/dbcsr_put_block2d_c~2.html'>dbcsr_put_block2
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:, :)</td><td>::</td>
+  <td>DIMENSION(:, :), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>the block to put</p></td>
   
 </tr>

@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>r_rowcols_t &ndash; DBCSR Library</title>
+    <title>combine_pgrid_index &ndash; DBCSR Library</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -103,7 +103,7 @@
     
   
   <div class="row">
-    <h1>r_rowcols_t
+    <h1>combine_pgrid_index
       <small>Function</small>
     
     </h1>
@@ -121,24 +121,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">141 statements</a>
+    title=" 0.0% of total for procedures.">9 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_types.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_index.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tensor_types.f.html'>dbcsr_tensor_types.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tensor_index.f.html'>dbcsr_tensor_index.F</a></li>
     
-     <li><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
+     <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
     
   
-     <li class="active">r_rowcols_t</li>
+     <li class="active">combine_pgrid_index</li>
   </ol>
 </div>
 </div>
@@ -188,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private function r_rowcols_t(t, dist)
+public pure function combine_pgrid_index(ind_in, dims) result(ind_out)
     
     
    
@@ -197,6 +197,8 @@ private function r_rowcols_t(t, dist)
   
 
 
+    
+    <p>transform nd index to flat index</p>
     
 
     <h3>Arguments</h3>
@@ -217,12 +219,13 @@ private function r_rowcols_t(t, dist)
   
 <tr>
   
-  <td><span class="anchor" id="variable-t~5"></span>class(<a href='../type/dbcsr_tas_dist_t.html'>dbcsr_tas_dist_t</a>),</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-ind_in~2"></span>integer,</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>t</strong></td><td></td>
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>ind_in</strong></td><td><p>nd index
+ nd dimensions</p></td>
   
 </tr>
 
@@ -232,12 +235,13 @@ private function r_rowcols_t(t, dist)
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~19"></span>integer,</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-dims~4"></span>integer,</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>dist</strong></td><td></td>
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dims</strong></td><td><p>nd index
+ nd dimensions</p></td>
   
 </tr>
 
@@ -251,9 +255,9 @@ private function r_rowcols_t(t, dist)
     
     
     
-   <h3>Return Value <small><span class="anchor" id="variable-r_rowcols_t"></span>integer(kind=int_8),
-  DIMENSION(:),ALLOCATABLE</small></h3>
-    
+   <h3>Return Value <small><span class="anchor" id="variable-ind_out~2"></span>integer
+  </small></h3>
+    <p>flat index</p>
     
     
     

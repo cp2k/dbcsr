@@ -220,8 +220,6 @@
       
       <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_info">dbcsr_tas_info</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_get_data_type">dbcsr_tas_get_data_type</a>
-      
       <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_nblkrows_total">dbcsr_tas_nblkrows_total</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_nfullrows_total">dbcsr_tas_nfullrows_total</a>
@@ -245,6 +243,8 @@
       <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_get_nze">dbcsr_tas_get_nze</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_get_nze_total">dbcsr_tas_get_nze_total</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_get_data_type">dbcsr_tas_get_data_type</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_get_data_size">dbcsr_tas_get_data_size</a>
       
@@ -497,8 +497,6 @@
       
       <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_info">dbcsr_tas_info</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_get_data_type">dbcsr_tas_get_data_type</a>
-      
       <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_nblkrows_total">dbcsr_tas_nblkrows_total</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_nfullrows_total">dbcsr_tas_nfullrows_total</a>
@@ -522,6 +520,8 @@
       <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_get_nze">dbcsr_tas_get_nze</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_get_nze_total">dbcsr_tas_get_nze_total</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_get_data_type">dbcsr_tas_get_data_type</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_base.html#proc-dbcsr_tas_get_data_size">dbcsr_tas_get_data_size</a>
       
@@ -4546,66 +4546,6 @@ public function <a href='../proc/dbcsr_tas_info.html'>dbcsr_tas_info</a>(matrix)
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_data_type"></span><h3>
-public function <a href='../proc/dbcsr_tas_get_data_type.html'>dbcsr_tas_get_data_type</a>(matrix) result(data_type)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>matrix</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  
-  
-  
-  
-     <h4>Return Value <small>integer
-  </small></h4>
-  
-    
-
-  </div>
-  </div>
-
-    
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_nblkrows_total"></span><h3>
 public function <a href='../proc/dbcsr_tas_nblkrows_total.html'>dbcsr_tas_nblkrows_total</a>(matrix) result(nblkrows_total)
     
@@ -5348,6 +5288,74 @@ public function <a href='../proc/dbcsr_tas_get_nze_total.html'>dbcsr_tas_get_nze
   
   
      <h4>Return Value <small>integer(kind=int_8)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_get_data_type"></span><h3>
+public function <a href='../proc/dbcsr_tas_get_data_type.html'>dbcsr_tas_get_data_type</a>(matrix) result(data_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>As dbcsr_get_data_type</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
   </small></h4>
   
     

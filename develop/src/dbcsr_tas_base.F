@@ -510,7 +510,9 @@ CONTAINS
       pcoord(1) = matrix%dist%row_dist%dist(row)
       pcoord(2) = matrix%dist%col_dist%dist(column)
       info = dbcsr_tas_info(matrix)
-      CALL mp_cart_rank(info%mp_comm, pcoord, processor)
+
+      ! workaround for inefficient mpi_cart_rank
+      processor = pcoord(1)*info%pdims(2) + pcoord(2)
 
    END SUBROUTINE
 
@@ -892,13 +894,6 @@ CONTAINS
       dbcsr_tas_info = matrix%dist%info
    END FUNCTION
 
-   FUNCTION dbcsr_tas_get_data_type(matrix) RESULT(data_type)
-      TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
-      INTEGER                                            :: data_type
-
-      CALL dbcsr_get_info(matrix%matrix, data_type=data_type)
-   END FUNCTION
-
    FUNCTION dbcsr_tas_nblkrows_total(matrix) RESULT(nblkrows_total)
       TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
       INTEGER(KIND=int_8)                                :: nblkrows_total
@@ -994,6 +989,14 @@ CONTAINS
       CALL mp_sum(dbcsr_tas_get_nze_total, info%mp_comm)
    END FUNCTION
 
+   FUNCTION dbcsr_tas_get_data_type(matrix) RESULT(data_type)
+      !! As dbcsr_get_data_type
+      TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
+      INTEGER                          :: data_type
+
+      data_type = dbcsr_get_data_type(matrix%matrix)
+   END FUNCTION
+
    FUNCTION dbcsr_tas_get_data_size(matrix) RESULT(data_size)
       !! As dbcsr_get_data_size
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix
@@ -1081,7 +1084,7 @@ CONTAINS
 
    END SUBROUTINE
 
-# 1051 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1054 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_iterator_next_block_r_dp (iterator, row, column, block, transposed, block_number, &
       !! As dbcsr_iterator_next_block
                                                          row_size, col_size)
@@ -1103,7 +1106,7 @@ CONTAINS
                                        row=row, column=column)
 
    END SUBROUTINE
-# 1051 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1054 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_iterator_next_block_r_sp (iterator, row, column, block, transposed, block_number, &
       !! As dbcsr_iterator_next_block
                                                          row_size, col_size)
@@ -1125,7 +1128,7 @@ CONTAINS
                                        row=row, column=column)
 
    END SUBROUTINE
-# 1051 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1054 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_iterator_next_block_c_dp (iterator, row, column, block, transposed, block_number, &
       !! As dbcsr_iterator_next_block
                                                          row_size, col_size)
@@ -1147,7 +1150,7 @@ CONTAINS
                                        row=row, column=column)
 
    END SUBROUTINE
-# 1051 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1054 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_iterator_next_block_c_sp (iterator, row, column, block, transposed, block_number, &
       !! As dbcsr_iterator_next_block
                                                          row_size, col_size)
@@ -1169,9 +1172,9 @@ CONTAINS
                                        row=row, column=column)
 
    END SUBROUTINE
-# 1073 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1076 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
-# 1075 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1078 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    !! As dbcsr_put_block
    SUBROUTINE dbcsr_tas_put_block_r_dp (matrix, row, col, block, transposed, summation, &
                                                scale)
@@ -1191,7 +1194,7 @@ CONTAINS
       CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
 
    END SUBROUTINE
-# 1075 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1078 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    !! As dbcsr_put_block
    SUBROUTINE dbcsr_tas_put_block_r_sp (matrix, row, col, block, transposed, summation, &
                                                scale)
@@ -1211,7 +1214,7 @@ CONTAINS
       CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
 
    END SUBROUTINE
-# 1075 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1078 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    !! As dbcsr_put_block
    SUBROUTINE dbcsr_tas_put_block_c_dp (matrix, row, col, block, transposed, summation, &
                                                scale)
@@ -1231,7 +1234,7 @@ CONTAINS
       CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
 
    END SUBROUTINE
-# 1075 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1078 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    !! As dbcsr_put_block
    SUBROUTINE dbcsr_tas_put_block_c_sp (matrix, row, col, block, transposed, summation, &
                                                scale)
@@ -1251,9 +1254,9 @@ CONTAINS
       CALL dbcsr_put_block(matrix%matrix, row_group, col_group, block, transposed=transposed, summation=summation, scale=scale)
 
    END SUBROUTINE
-# 1095 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1098 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
-# 1097 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1100 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_get_block_p_r_dp (matrix, row, col, block, transposed, found, row_size, col_size)
       !! As dbcsr_get_block_p
       TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
@@ -1273,7 +1276,7 @@ CONTAINS
       CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
 
    END SUBROUTINE
-# 1097 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1100 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_get_block_p_r_sp (matrix, row, col, block, transposed, found, row_size, col_size)
       !! As dbcsr_get_block_p
       TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
@@ -1293,7 +1296,7 @@ CONTAINS
       CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
 
    END SUBROUTINE
-# 1097 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1100 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_get_block_p_c_dp (matrix, row, col, block, transposed, found, row_size, col_size)
       !! As dbcsr_get_block_p
       TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
@@ -1313,7 +1316,7 @@ CONTAINS
       CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
 
    END SUBROUTINE
-# 1097 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1100 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_get_block_p_c_sp (matrix, row, col, block, transposed, found, row_size, col_size)
       !! As dbcsr_get_block_p
       TYPE(dbcsr_tas_type), INTENT(INOUT)  :: matrix
@@ -1333,39 +1336,39 @@ CONTAINS
       CALL dbcsr_get_block_p(matrix%matrix, row_group, col_group, block, transposed, found, row_size=row_size, col_size=col_size)
 
    END SUBROUTINE
-# 1117 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1120 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
-# 1119 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1122 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_set_r_dp (matrix, alpha)
       !! As dbcsr_set
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
       REAL(kind=real_8), INTENT(IN)                :: alpha
       CALL dbcsr_set(matrix%matrix, alpha)
    END SUBROUTINE
-# 1119 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1122 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_set_r_sp (matrix, alpha)
       !! As dbcsr_set
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
       REAL(kind=real_4), INTENT(IN)                :: alpha
       CALL dbcsr_set(matrix%matrix, alpha)
    END SUBROUTINE
-# 1119 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1122 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_set_c_dp (matrix, alpha)
       !! As dbcsr_set
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
       COMPLEX(kind=real_8), INTENT(IN)                :: alpha
       CALL dbcsr_set(matrix%matrix, alpha)
    END SUBROUTINE
-# 1119 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1122 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_set_c_sp (matrix, alpha)
       !! As dbcsr_set
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
       COMPLEX(kind=real_4), INTENT(IN)                :: alpha
       CALL dbcsr_set(matrix%matrix, alpha)
    END SUBROUTINE
-# 1126 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1129 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
-# 1128 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1131 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_filter_r_dp (matrix, eps, method, use_absolute)
       !! As dbcsr_filter
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
@@ -1376,7 +1379,7 @@ CONTAINS
       CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
 
    END SUBROUTINE
-# 1128 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1131 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_filter_r_sp (matrix, eps, method, use_absolute)
       !! As dbcsr_filter
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
@@ -1387,7 +1390,7 @@ CONTAINS
       CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
 
    END SUBROUTINE
-# 1128 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1131 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_filter_c_dp (matrix, eps, method, use_absolute)
       !! As dbcsr_filter
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
@@ -1398,7 +1401,7 @@ CONTAINS
       CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
 
    END SUBROUTINE
-# 1128 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1131 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
    SUBROUTINE dbcsr_tas_filter_c_sp (matrix, eps, method, use_absolute)
       !! As dbcsr_filter
       TYPE(dbcsr_tas_type), INTENT(INOUT)    :: matrix
@@ -1409,6 +1412,6 @@ CONTAINS
       CALL dbcsr_filter(matrix%matrix, eps, method, use_absolute)
 
    END SUBROUTINE
-# 1139 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
+# 1142 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_base.F"
 
 END MODULE

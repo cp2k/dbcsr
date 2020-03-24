@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.7% of total for modules and submodules.">428 statements</a>
+    title=" 0.7% of total for modules and submodules.">409 statements</a>
      </li> 
      
      
@@ -248,8 +248,6 @@
       <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-block_index_local_to_global">block_index_local_to_global</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-block_index_global_to_local">block_index_global_to_local</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-mrowcol_to_group">mrowcol_to_group</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-group_to_mrowcol">group_to_mrowcol</a>
       
@@ -411,8 +409,6 @@
       <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-block_index_local_to_global">block_index_local_to_global</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-block_index_global_to_local">block_index_global_to_local</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-mrowcol_to_group">mrowcol_to_group</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-group_to_mrowcol">group_to_mrowcol</a>
       
@@ -2403,95 +2399,6 @@ public subroutine <a href='../proc/block_index_global_to_local.html'>block_index
   
   <td></td><td>::</td>
   <td><strong>column_group</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-    
-    
-  <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mrowcol_to_group"></span><h3>
-public subroutine <a href='../proc/mrowcol_to_group.html'>mrowcol_to_group</a>(dist, rowcol, rowcol_group)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>map matrix rows/column to group local rows/column</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>class(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>dist</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>rowcol</strong></td><td><p>global row/column to map</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>rowcol_group</strong></td><td><p>group local row/column</p></td>
   
 </tr>
 

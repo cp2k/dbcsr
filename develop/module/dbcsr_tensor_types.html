@@ -228,13 +228,13 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-new_dbcsr_tas_dist_t">new_dbcsr_tas_dist_t</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-r_dist_t">r_dist_t</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-tas_dist_t">tas_dist_t</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-r_rowcols_t">r_rowcols_t</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-tas_rowcols_t">tas_rowcols_t</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-new_dbcsr_tas_blk_size_t">new_dbcsr_tas_blk_size_t</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-r_blk_size_t">r_blk_size_t</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-tas_blk_size_t">tas_blk_size_t</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nd_mp_comm">dbcsr_t_nd_mp_comm</a>
       
@@ -489,13 +489,13 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-new_dbcsr_tas_dist_t">new_dbcsr_tas_dist_t</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-r_dist_t">r_dist_t</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-tas_dist_t">tas_dist_t</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-r_rowcols_t">r_rowcols_t</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-tas_rowcols_t">tas_rowcols_t</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-new_dbcsr_tas_blk_size_t">new_dbcsr_tas_blk_size_t</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-r_blk_size_t">r_blk_size_t</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-tas_blk_size_t">tas_blk_size_t</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nd_mp_comm">dbcsr_t_nd_mp_comm</a>
       
@@ -2549,10 +2549,10 @@ private subroutine <a href='../proc/dbcsr_t_filter_c_sp.html'>dbcsr_t_filter_c_s
       <table class="table table-striped varlist">
       <tbody>
       
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_t.html#boundprocedure-dist~2'>dist</a></strong>  => r_dist_t </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_t.html#boundprocedure-dist~2'>dist</a></strong>  => tas_dist_t </td>
        <td></td></tr>
       
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_t.html#boundprocedure-rowcols'>rowcols</a></strong>  => r_rowcols_t </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_t.html#boundprocedure-rowcols'>rowcols</a></strong>  => tas_rowcols_t </td>
        <td></td></tr>
       
        </tbody>
@@ -2637,7 +2637,7 @@ private subroutine <a href='../proc/dbcsr_t_filter_c_sp.html'>dbcsr_t_filter_c_s
       <table class="table table-striped varlist">
       <tbody>
       
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_blk_size_t.html#boundprocedure-data'>data</a></strong>  => r_blk_size_t </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_blk_size_t.html#boundprocedure-data'>data</a></strong>  => tas_blk_size_t </td>
        <td></td></tr>
       
        </tbody>
@@ -2773,8 +2773,8 @@ private function <a href='../proc/new_dbcsr_tas_dist_t.html'>new_dbcsr_tas_dist_
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-r_dist_t"></span><h3>
-private function <a href='../proc/r_dist_t.html'>r_dist_t</a>(t, rowcol)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-tas_dist_t"></span><h3>
+private function <a href='../proc/tas_dist_t.html'>tas_dist_t</a>(t, rowcol)
     
     
    
@@ -2848,8 +2848,8 @@ private function <a href='../proc/r_dist_t.html'>r_dist_t</a>(t, rowcol)
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-r_rowcols_t"></span><h3>
-private function <a href='../proc/r_rowcols_t.html'>r_rowcols_t</a>(t, dist)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-tas_rowcols_t"></span><h3>
+private function <a href='../proc/tas_rowcols_t.html'>tas_rowcols_t</a>(t, dist)
     
     
    
@@ -3022,8 +3022,8 @@ private function <a href='../proc/new_dbcsr_tas_blk_size_t.html'>new_dbcsr_tas_b
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-r_blk_size_t"></span><h3>
-private function <a href='../proc/r_blk_size_t.html'>r_blk_size_t</a>(t, rowcol)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-tas_blk_size_t"></span><h3>
+private function <a href='../proc/tas_blk_size_t.html'>tas_blk_size_t</a>(t, rowcol)
     
     
    

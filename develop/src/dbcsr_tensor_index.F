@@ -13,21 +13,30 @@ MODULE dbcsr_tensor_index
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_kinds, ONLY: int_8
 #include "base/dbcsr_base_uses.f90"
+# 1 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp" 1
+# 9 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
+
+# 71 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
+# 16 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_index.F" 2
 
    IMPLICIT NONE
    PRIVATE
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tensor_index'
 
    PUBLIC :: &
-      combine_index, &
+      combine_tensor_index, &
+      combine_pgrid_index, &
       create_nd_to_2d_mapping, &
       destroy_nd_to_2d_mapping, &
-      get_2d_indices, &
+      get_2d_indices_tensor, &
+      get_2d_indices_pgrid, &
       dbcsr_t_get_mapping_info, &
-      get_nd_indices, &
+      get_nd_indices_tensor, &
+      get_nd_indices_pgrid, &
       nd_to_2d_mapping, &
       ndims_mapping, &
-      split_index, &
+      split_tensor_index, &
+      split_pgrid_index, &
       dbcsr_t_inverse_order, &
       permute_index
 
@@ -177,142 +186,168 @@ CONTAINS
 
    END SUBROUTINE dbcsr_t_get_mapping_info
 
-   FUNCTION combine_index(ind_in, dims, base, col_major) RESULT(ind_out)
+   PURE FUNCTION combine_tensor_index(ind_in, dims) RESULT(ind_out)
+      !! transform nd index to flat index
+      INTEGER, DIMENSION(:), INTENT(IN)                  :: ind_in, dims
+         !! nd index
+         !! nd dimensions
+      INTEGER(KIND=int_8)                                :: ind_out
+         !! flat index
+      INTEGER                                            :: i_dim
+
+         ind_out = ind_in(SIZE(dims))
+         DO i_dim = SIZE(dims) - 1, 1, -1
+            ind_out = (ind_out - 1)*dims(i_dim) + ind_in(i_dim)
+         ENDDO
+
+   END FUNCTION
+
+   PURE FUNCTION combine_pgrid_index(ind_in, dims) RESULT(ind_out)
       !! transform nd index to flat index
 
       INTEGER, DIMENSION(:), INTENT(IN)                  :: ind_in, dims
          !! nd index
          !! nd dimensions
-      INTEGER, INTENT(IN), OPTIONAL                      :: base
-         !! base index, default 1 (Fortran style)
-      LOGICAL, INTENT(IN), OPTIONAL                      :: col_major
-         !! column major ordering, default .TRUE. (Fortran style)
-      INTEGER(KIND=int_8)                                :: ind_out
+      INTEGER                                            :: ind_out
          !! flat index
 
-      INTEGER                                            :: i_dim, my_base
-      LOGICAL                                            :: my_col_major
+      INTEGER                                            :: i_dim
 
-      DBCSR_ASSERT(SIZE(ind_in) .EQ. SIZE(dims))
+      ind_out = ind_in(1)
+      DO i_dim = 2, SIZE(dims)
+         ind_out = ind_out*dims(i_dim) + ind_in(i_dim)
+      ENDDO
+   END FUNCTION
 
-      IF (PRESENT(base)) THEN
-         my_base = base
-      ELSE
-         my_base = 1
-      ENDIF
-
-      IF (PRESENT(col_major)) THEN
-         my_col_major = col_major
-      ELSE
-         my_col_major = .TRUE.
-      ENDIF
-
-      IF (my_col_major) THEN
-         i_dim = SIZE(dims) - 1
-         ind_out = ind_in(i_dim + 1)
-         DO WHILE (i_dim .GE. 1)
-            ind_out = (ind_out - my_base)*dims(i_dim) + (ind_in(i_dim) - my_base) + my_base
-            i_dim = i_dim - 1
-         ENDDO
-      ELSE
-         i_dim = 2
-         ind_out = ind_in(i_dim - 1)
-         DO WHILE (i_dim .LE. SIZE(dims))
-            ind_out = (ind_out - my_base)*dims(i_dim) + (ind_in(i_dim) - my_base) + my_base
-            i_dim = i_dim + 1
-         ENDDO
-      ENDIF
-   END FUNCTION combine_index
-
-   FUNCTION split_index(ind_in, dims, base, col_major) RESULT(ind_out)
+   PURE FUNCTION split_tensor_index(ind_in, dims) RESULT(ind_out)
       !! transform flat index to nd index
 
       INTEGER(KIND=int_8), INTENT(IN)                    :: ind_in
          !! flat index
       INTEGER, DIMENSION(:), INTENT(IN)                  :: dims
          !! nd dimensions
-      INTEGER, INTENT(IN), OPTIONAL                      :: base
-         !! base index, default 1 (Fortran style)
-      LOGICAL, INTENT(IN), OPTIONAL                      :: col_major
-         !! column major ordering, default .TRUE. (Fortran style)
       INTEGER, DIMENSION(SIZE(dims))                     :: ind_out
          !! nd index
 
       INTEGER(KIND=int_8)                                :: tmp
-      INTEGER                                            :: i_dim, my_base
-      LOGICAL                                            :: my_col_major
+      INTEGER                                            :: i_dim
 
-      IF (PRESENT(base)) THEN
-         my_base = base
-      ELSE
-         my_base = 1
-      ENDIF
+      tmp = ind_in
+      DO i_dim=1,SIZE(dims)
+         ind_out(i_dim) = INT(MOD(tmp - 1, INT(dims(i_dim), int_8)) + 1)
+         tmp = (tmp - 1)/dims(i_dim) + 1
+      END DO
 
-      IF (PRESENT(col_major)) THEN
-         my_col_major = col_major
-      ELSE
-         my_col_major = .TRUE.
-      ENDIF
+   END FUNCTION
 
-      IF (my_col_major) THEN
-         i_dim = 1
-         tmp = ind_in
-         DO WHILE (i_dim .LE. SIZE(dims))
-            ind_out(i_dim) = INT(MOD(tmp - my_base, INT(dims(i_dim), int_8)) + my_base)
-            tmp = (tmp - my_base)/dims(i_dim) + my_base
-            i_dim = i_dim + 1
-         END DO
-      ELSE
-         i_dim = SIZE(dims)
-         tmp = ind_in
-         DO WHILE (i_dim .GE. 1)
-            ind_out(i_dim) = INT(MOD(tmp - my_base, INT(dims(i_dim), int_8)) + my_base)
-            tmp = (tmp - my_base)/dims(i_dim) + my_base
-            i_dim = i_dim - 1
-         END DO
-      ENDIF
-   END FUNCTION split_index
+   PURE FUNCTION split_pgrid_index(ind_in, dims) RESULT(ind_out)
+      !! transform flat index to nd index
 
-   FUNCTION get_2d_indices(map, ind_in) RESULT(ind_out)
+      INTEGER, INTENT(IN)                                :: ind_in
+         !! flat index
+      INTEGER, DIMENSION(:), INTENT(IN)                  :: dims
+         !! nd dimensions
+      INTEGER, DIMENSION(SIZE(dims))                     :: ind_out
+         !! nd index
+
+      INTEGER                                            :: tmp
+      INTEGER                                            :: i_dim
+
+      tmp = ind_in
+      DO i_dim = SIZE(dims), 1, -1
+         ind_out(i_dim) = MOD(tmp, dims(i_dim))
+         tmp = tmp/dims(i_dim)
+      END DO
+   END FUNCTION
+
+   PURE FUNCTION get_2d_indices_tensor(map, ind_in) RESULT(ind_out)
       !! transform nd index to 2d index, using info from index mapping.
 
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
          !! index mapping
-      INTEGER, DIMENSION(ndims_mapping(map)), INTENT(IN) :: ind_in
+      INTEGER, DIMENSION(map%ndim_nd), INTENT(IN) :: ind_in
          !! nd index
       INTEGER(KIND=int_8), DIMENSION(2)                  :: ind_out
          !! 2d index
+      INTEGER :: i
+      INTEGER, DIMENSION(4)                    :: ind_tmp
 
-      INTEGER, DIMENSION(map%ndim2_2d)                   :: ind_2
-      INTEGER, DIMENSION(map%ndim1_2d)                   :: ind_1
+      DO i=1, map%ndim1_2d
+         ind_tmp(i) = ind_in(map%map1_2d(i))
+      ENDDO
+      ind_out(1) = combine_tensor_index(ind_tmp(:map%ndim1_2d), map%dims1_2d)
 
-      ind_1(:) = ind_in(map%map1_2d)
-      ind_2(:) = ind_in(map%map2_2d)
-      ind_out(1) = combine_index(ind_1, map%dims1_2d, base=map%base, col_major=map%col_major)
-      ind_out(2) = combine_index(ind_2, map%dims2_2d, base=map%base, col_major=map%col_major)
-   END FUNCTION get_2d_indices
+      DO i=1, map%ndim2_2d
+         ind_tmp(i) = ind_in(map%map2_2d(i))
+      ENDDO
+      ind_out(2) = combine_tensor_index(ind_tmp(:map%ndim2_2d), map%dims2_2d)
+   END FUNCTION
 
-   FUNCTION get_nd_indices(map, ind_in) RESULT(ind_out)
+   PURE FUNCTION get_2d_indices_pgrid(map, ind_in) RESULT(ind_out)
+      !! transform nd index to 2d index, using info from index mapping.
+
+      TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
+         !! index mapping
+      INTEGER, DIMENSION(map%ndim_nd), INTENT(IN) :: ind_in
+         !! nd index
+      INTEGER, DIMENSION(2)                              :: ind_out
+         !! 2d index
+      INTEGER :: i
+      INTEGER, DIMENSION(4)                    :: ind_tmp
+
+      DO i=1, map%ndim1_2d
+         ind_tmp(i) = ind_in(map%map1_2d(i))
+      ENDDO
+      ind_out(1) = combine_pgrid_index(ind_tmp(:map%ndim1_2d), map%dims1_2d)
+
+      DO i=1, map%ndim2_2d
+         ind_tmp(i) = ind_in(map%map2_2d(i))
+      ENDDO
+      ind_out(2) = combine_pgrid_index(ind_tmp(:map%ndim2_2d), map%dims2_2d)
+   END FUNCTION
+
+   PURE FUNCTION get_nd_indices_tensor(map, ind_in) RESULT(ind_out)
       !! transform 2d index to nd index, using info from index mapping.
 
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
          !! index mapping
       INTEGER(KIND=int_8), DIMENSION(2), INTENT(IN)      :: ind_in
          !! 2d index
-      INTEGER, DIMENSION(ndims_mapping(map))             :: ind_out
+      INTEGER, DIMENSION(map%ndim_nd)                    :: ind_out
+         !! nd index
+      INTEGER, DIMENSION(4)                    :: ind_tmp
+      INTEGER                                            :: i
+
+      ind_tmp(:map%ndim1_2d) = split_tensor_index(ind_in(1), map%dims1_2d)
+
+      DO i=1, map%ndim1_2d
+         ind_out(map%map1_2d(i)) = ind_tmp(i)
+      ENDDO
+
+      ind_tmp(:map%ndim2_2d) = split_tensor_index(ind_in(2), map%dims2_2d)
+
+      DO i=1, map%ndim2_2d
+         ind_out(map%map2_2d(i)) = ind_tmp(i)
+      ENDDO
+
+   END FUNCTION
+
+   PURE FUNCTION get_nd_indices_pgrid(map, ind_in) RESULT(ind_out)
+      !! transform 2d index to nd index, using info from index mapping.
+
+      TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
+         !! index mapping
+      INTEGER, DIMENSION(2), INTENT(IN)                  :: ind_in
+         !! 2d index
+      INTEGER, DIMENSION(map%ndim_nd)                    :: ind_out
          !! nd index
 
-      INTEGER, DIMENSION(map%ndim2_2d)                   :: ind_2
-      INTEGER, DIMENSION(map%ndim1_2d)                   :: ind_1
+      ind_out(map%map1_2d) = split_pgrid_index(ind_in(1), map%dims1_2d)
+      ind_out(map%map2_2d) = split_pgrid_index(ind_in(2), map%dims2_2d)
 
-      ind_1(:) = split_index(ind_in(1), map%dims1_2d, base=map%base, col_major=map%col_major)
-      ind_2(:) = split_index(ind_in(2), map%dims2_2d, base=map%base, col_major=map%col_major)
+   END FUNCTION
 
-      ind_out(map%map1_2d) = ind_1
-      ind_out(map%map2_2d) = ind_2
-   END FUNCTION get_nd_indices
-
-   FUNCTION dbcsr_t_inverse_order(order)
+   PURE FUNCTION dbcsr_t_inverse_order(order)
       !! Invert order
       INTEGER, DIMENSION(:), INTENT(IN)                  :: order
       INTEGER, DIMENSION(SIZE(order))                    :: dbcsr_t_inverse_order

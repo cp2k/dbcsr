@@ -14,7 +14,7 @@ MODULE dbcsr_tensor_block
 # 1 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
 
-# 66 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
+# 71 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
 # 14 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F" 2
 # 15 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
 # 16 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
@@ -22,7 +22,7 @@ MODULE dbcsr_tensor_block
    USE dbcsr_allocate_wrap, ONLY: &
       allocate_any
    USE dbcsr_api, ONLY: &
-      dbcsr_type_complex_8, dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_4, dbcsr_iterator_type,&
+      dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_type_complex_4, dbcsr_type_real_4, dbcsr_iterator_type,&
 # 20 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
           & dbcsr_iterator_blocks_left, &
       dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, dbcsr_type, &
@@ -35,10 +35,10 @@ MODULE dbcsr_tensor_block
       dbcsr_tas_iterator_next_block, dbcsr_tas_iterator_blocks_left, dbcsr_tas_iterator_start, &
       dbcsr_tas_iterator_stop, dbcsr_tas_get_block_p, dbcsr_tas_put_block, dbcsr_tas_reserve_blocks
    USE dbcsr_kinds, ONLY: &
-      real_4, real_8, int_8
+      real_8, real_4, int_8
    USE dbcsr_tensor_index, ONLY: &
-      nd_to_2d_mapping, ndims_mapping, get_nd_indices, destroy_nd_to_2d_mapping, get_2d_indices, &
-      dbcsr_t_get_mapping_info, create_nd_to_2d_mapping
+      nd_to_2d_mapping, ndims_mapping, get_nd_indices_tensor, destroy_nd_to_2d_mapping, get_2d_indices_tensor, &
+      create_nd_to_2d_mapping
    USE dbcsr_array_list_methods, ONLY: &
       array_list, get_array_elements, destroy_array_list, sizes_of_arrays, create_array_list, &
       get_arrays
@@ -68,9 +68,7 @@ MODULE dbcsr_tensor_block
       dbcsr_t_reserve_blocks, &
       dbcsr_t_reserved_block_indices, &
       destroy_block, &
-      ndims_iterator, &
-      reshape_2d_to_nd_block, &
-      reshape_nd_to_2d_block
+      ndims_iterator
 
    TYPE dbcsr_t_iterator_type
       TYPE(dbcsr_tas_iterator)      :: iter
@@ -79,223 +77,151 @@ MODULE dbcsr_tensor_block
       TYPE(array_list)            :: blk_sizes, blk_offsets
    END TYPE dbcsr_t_iterator_type
 
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 74 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    PUBLIC :: block_nd_r_dp
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 74 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    PUBLIC :: block_nd_r_sp
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 74 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    PUBLIC :: block_nd_c_dp
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 74 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    PUBLIC :: block_nd_c_sp
-# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
 
-# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    TYPE block_nd_r_dp
       INTEGER, DIMENSION(:), ALLOCATABLE   :: sizes
       REAL(kind=real_8), DIMENSION(:), ALLOCATABLE :: blk
    END TYPE
 
-# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    TYPE block_nd_r_sp
       INTEGER, DIMENSION(:), ALLOCATABLE   :: sizes
       REAL(kind=real_4), DIMENSION(:), ALLOCATABLE :: blk
    END TYPE
 
-# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    TYPE block_nd_c_dp
       INTEGER, DIMENSION(:), ALLOCATABLE   :: sizes
       COMPLEX(kind=real_8), DIMENSION(:), ALLOCATABLE :: blk
    END TYPE
 
-# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    TYPE block_nd_c_sp
       INTEGER, DIMENSION(:), ALLOCATABLE   :: sizes
       COMPLEX(kind=real_4), DIMENSION(:), ALLOCATABLE :: blk
    END TYPE
 
-# 86 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 84 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
 
    TYPE block_nd
-# 89 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 87 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       TYPE(block_nd_r_dp) :: r_dp
-# 89 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 87 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       TYPE(block_nd_r_sp) :: r_sp
-# 89 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 87 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       TYPE(block_nd_c_dp) :: c_dp
-# 89 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 87 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       TYPE(block_nd_c_sp) :: c_sp
-# 91 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 89 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       INTEGER          :: data_type = -1
    END TYPE
 
    INTERFACE create_block
-# 96 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 94 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE create_block_data_r_dp
-# 96 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 94 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE create_block_data_r_sp
-# 96 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 94 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE create_block_data_c_dp
-# 96 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 94 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE create_block_data_c_sp
-# 98 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 96 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE create_block_nodata
    END INTERFACE
 
-   INTERFACE reshape_nd_to_2d_block
-# 103 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_t2m_2d_r_dp
-# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_t2m_3d_r_dp
-# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_t2m_4d_r_dp
-# 106 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 103 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_t2m_2d_r_sp
-# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_t2m_3d_r_sp
-# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_t2m_4d_r_sp
-# 106 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 103 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_t2m_2d_c_dp
-# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_t2m_3d_c_dp
-# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_t2m_4d_c_dp
-# 106 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 103 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_t2m_2d_c_sp
-# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_t2m_3d_c_sp
-# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_t2m_4d_c_sp
-# 106 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 107 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   END INTERFACE reshape_nd_to_2d_block
-
-   INTERFACE reshape_2d_to_nd_block
-# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 112 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_m2t_2d_r_dp
-# 112 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_m2t_3d_r_dp
-# 112 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_m2t_4d_r_dp
-# 114 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 112 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_m2t_2d_r_sp
-# 112 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_m2t_3d_r_sp
-# 112 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_m2t_4d_r_sp
-# 114 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 112 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_m2t_2d_c_dp
-# 112 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_m2t_3d_c_dp
-# 112 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_m2t_4d_c_dp
-# 114 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 112 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_m2t_2d_c_sp
-# 112 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_m2t_3d_c_sp
-# 112 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-      MODULE PROCEDURE reshape_block_m2t_4d_c_sp
-# 114 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 115 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   END INTERFACE reshape_2d_to_nd_block
-
    INTERFACE dbcsr_t_put_block
-# 119 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 101 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_put_2d_block_r_dp
-# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_put_3d_block_r_dp
-# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_put_4d_block_r_dp
-# 122 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 119 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 101 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_put_2d_block_r_sp
-# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_put_3d_block_r_sp
-# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_put_4d_block_r_sp
-# 122 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 119 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 101 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_put_2d_block_c_dp
-# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_put_3d_block_c_dp
-# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_put_4d_block_c_dp
-# 122 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 119 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 101 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_put_2d_block_c_sp
-# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_put_3d_block_c_sp
-# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_put_4d_block_c_sp
-# 122 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 123 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 105 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_put_anyd_block
    END INTERFACE
 
    INTERFACE dbcsr_t_get_block
-# 128 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 129 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 110 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_get_2d_block_r_dp
       MODULE PROCEDURE dbcsr_t_allocate_and_get_2d_block_r_dp
-# 129 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_get_3d_block_r_dp
       MODULE PROCEDURE dbcsr_t_allocate_and_get_3d_block_r_dp
-# 129 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_get_4d_block_r_dp
       MODULE PROCEDURE dbcsr_t_allocate_and_get_4d_block_r_dp
-# 132 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 128 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 129 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 114 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 110 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_get_2d_block_r_sp
       MODULE PROCEDURE dbcsr_t_allocate_and_get_2d_block_r_sp
-# 129 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_get_3d_block_r_sp
       MODULE PROCEDURE dbcsr_t_allocate_and_get_3d_block_r_sp
-# 129 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_get_4d_block_r_sp
       MODULE PROCEDURE dbcsr_t_allocate_and_get_4d_block_r_sp
-# 132 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 128 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 129 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 114 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 110 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_get_2d_block_c_dp
       MODULE PROCEDURE dbcsr_t_allocate_and_get_2d_block_c_dp
-# 129 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_get_3d_block_c_dp
       MODULE PROCEDURE dbcsr_t_allocate_and_get_3d_block_c_dp
-# 129 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_get_4d_block_c_dp
       MODULE PROCEDURE dbcsr_t_allocate_and_get_4d_block_c_dp
-# 132 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 128 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 129 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 114 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 110 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_get_2d_block_c_sp
       MODULE PROCEDURE dbcsr_t_allocate_and_get_2d_block_c_sp
-# 129 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_get_3d_block_c_sp
       MODULE PROCEDURE dbcsr_t_allocate_and_get_3d_block_c_sp
-# 129 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 111 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_get_4d_block_c_sp
       MODULE PROCEDURE dbcsr_t_allocate_and_get_4d_block_c_sp
-# 132 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 133 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 114 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 115 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       MODULE PROCEDURE dbcsr_t_get_anyd_block
    END INTERFACE
 
@@ -317,19 +243,19 @@ CONTAINS
 
       block%data_type = data_type
       SELECT CASE (data_type)
-# 155 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 137 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_real_8)
          CALL create_block_nodata_r_dp (block%r_dp, sizes)
-# 155 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 137 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_real_4)
          CALL create_block_nodata_r_sp (block%r_sp, sizes)
-# 155 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 137 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_complex_8)
          CALL create_block_nodata_c_dp (block%c_dp, sizes)
-# 155 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 137 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_complex_4)
          CALL create_block_nodata_c_sp (block%c_sp, sizes)
-# 158 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 140 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       END SELECT
    END SUBROUTINE
 
@@ -338,19 +264,19 @@ CONTAINS
       TYPE(block_nd), INTENT(INOUT) :: block
 
       SELECT CASE (block%data_type)
-# 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 149 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_real_8)
          CALL destroy_block_r_dp (block%r_dp)
-# 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 149 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_real_4)
          CALL destroy_block_r_sp (block%r_sp)
-# 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 149 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_complex_8)
          CALL destroy_block_c_dp (block%c_dp)
-# 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 149 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_complex_4)
          CALL destroy_block_c_sp (block%c_sp)
-# 170 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 152 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       END SELECT
 
    END SUBROUTINE
@@ -362,19 +288,19 @@ CONTAINS
 
       block_size = 0 ! invalid
       SELECT CASE (block%data_type)
-# 182 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 164 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_real_8)
          CALL allocate_any(block_size, source=block%r_dp%sizes)
-# 182 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 164 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_real_4)
          CALL allocate_any(block_size, source=block%r_sp%sizes)
-# 182 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 164 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_complex_8)
          CALL allocate_any(block_size, source=block%c_dp%sizes)
-# 182 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 164 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_complex_4)
          CALL allocate_any(block_size, source=block%c_sp%sizes)
-# 185 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       END SELECT
    END FUNCTION
 
@@ -444,7 +370,7 @@ CONTAINS
 
       CALL dbcsr_tas_iterator_next_block(iterator%iter, ind_2d(1), ind_2d(2), blk, blk_p=blk_p)
 
-      ind_nd(:) = get_nd_indices(iterator%nd_index_blk, ind_2d)
+      ind_nd(:) = get_nd_indices_tensor(iterator%nd_index_blk, ind_2d)
       IF (PRESENT(blk_size)) blk_size(:) = get_array_elements(iterator%blk_sizes, ind_nd)
       ! note: blk_offset needs to be determined by tensor metadata, can not be derived from 2d row/col
       ! offset since block index mapping is not consistent with element index mapping
@@ -472,19 +398,19 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       CALL timeset(routineN, handle)
-# 283 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 265 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       IF (ndims_tensor(tensor) == 2) THEN
          CALL dbcsr_t_reserve_blocks(tensor, blk_ind(:,1), blk_ind(:,2))
       ENDIF
-# 283 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 265 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       IF (ndims_tensor(tensor) == 3) THEN
          CALL dbcsr_t_reserve_blocks(tensor, blk_ind(:,1), blk_ind(:,2), blk_ind(:,3))
       ENDIF
-# 283 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 265 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       IF (ndims_tensor(tensor) == 4) THEN
          CALL dbcsr_t_reserve_blocks(tensor, blk_ind(:,1), blk_ind(:,2), blk_ind(:,3), blk_ind(:,4))
       ENDIF
-# 287 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 269 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CALL timestop(handle)
 
    END SUBROUTINE
@@ -514,7 +440,7 @@ CONTAINS
       DO iblk = 1, nblk
          iblk_nd(:) = iblk
          ind_nd(:) = get_array_elements(blks, iblk_nd)
-         ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind_nd)
+         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind_nd)
          rows(iblk) = ind_2d(1); cols(iblk) = ind_2d(2)
       ENDDO
 
@@ -646,7 +572,7 @@ CONTAINS
 
    END SUBROUTINE
 
-# 449 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 431 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE create_block_data_r_dp (block, sizes, array)
       !! Create block from array, array can be n-dimensional.
       TYPE(block_nd), INTENT(OUT)                       :: block
@@ -659,7 +585,7 @@ CONTAINS
          CALL allocate_any(blk%blk, source=array)
       END ASSOCIATE
    END SUBROUTINE
-# 449 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 431 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE create_block_data_r_sp (block, sizes, array)
       !! Create block from array, array can be n-dimensional.
       TYPE(block_nd), INTENT(OUT)                       :: block
@@ -672,7 +598,7 @@ CONTAINS
          CALL allocate_any(blk%blk, source=array)
       END ASSOCIATE
    END SUBROUTINE
-# 449 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 431 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE create_block_data_c_dp (block, sizes, array)
       !! Create block from array, array can be n-dimensional.
       TYPE(block_nd), INTENT(OUT)                       :: block
@@ -685,7 +611,7 @@ CONTAINS
          CALL allocate_any(blk%blk, source=array)
       END ASSOCIATE
    END SUBROUTINE
-# 449 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 431 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE create_block_data_c_sp (block, sizes, array)
       !! Create block from array, array can be n-dimensional.
       TYPE(block_nd), INTENT(OUT)                       :: block
@@ -698,9 +624,9 @@ CONTAINS
          CALL allocate_any(blk%blk, source=array)
       END ASSOCIATE
    END SUBROUTINE
-# 462 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 444 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
 
-# 464 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 446 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE create_block_nodata_r_dp (block, sizes)
       !! Create and allocate block, but no data.
       INTEGER, INTENT(IN), DIMENSION(:)       :: sizes
@@ -708,7 +634,7 @@ CONTAINS
       CALL allocate_any(block%sizes, source=sizes)
       ALLOCATE (block%blk(PRODUCT(sizes)))
    END SUBROUTINE
-# 464 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 446 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE create_block_nodata_r_sp (block, sizes)
       !! Create and allocate block, but no data.
       INTEGER, INTENT(IN), DIMENSION(:)       :: sizes
@@ -716,7 +642,7 @@ CONTAINS
       CALL allocate_any(block%sizes, source=sizes)
       ALLOCATE (block%blk(PRODUCT(sizes)))
    END SUBROUTINE
-# 464 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 446 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE create_block_nodata_c_dp (block, sizes)
       !! Create and allocate block, but no data.
       INTEGER, INTENT(IN), DIMENSION(:)       :: sizes
@@ -724,7 +650,7 @@ CONTAINS
       CALL allocate_any(block%sizes, source=sizes)
       ALLOCATE (block%blk(PRODUCT(sizes)))
    END SUBROUTINE
-# 464 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 446 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE create_block_nodata_c_sp (block, sizes)
       !! Create and allocate block, but no data.
       INTEGER, INTENT(IN), DIMENSION(:)       :: sizes
@@ -732,33 +658,33 @@ CONTAINS
       CALL allocate_any(block%sizes, source=sizes)
       ALLOCATE (block%blk(PRODUCT(sizes)))
    END SUBROUTINE
-# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 454 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
 
-# 474 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 456 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE destroy_block_r_dp (block)
       TYPE(block_nd_r_dp), INTENT(INOUT) :: block
       DEALLOCATE (block%blk)
       DEALLOCATE (block%sizes)
    END SUBROUTINE
-# 474 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 456 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE destroy_block_r_sp (block)
       TYPE(block_nd_r_sp), INTENT(INOUT) :: block
       DEALLOCATE (block%blk)
       DEALLOCATE (block%sizes)
    END SUBROUTINE
-# 474 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 456 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE destroy_block_c_dp (block)
       TYPE(block_nd_c_dp), INTENT(INOUT) :: block
       DEALLOCATE (block%blk)
       DEALLOCATE (block%sizes)
    END SUBROUTINE
-# 474 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 456 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE destroy_block_c_sp (block)
       TYPE(block_nd_c_sp), INTENT(INOUT) :: block
       DEALLOCATE (block%blk)
       DEALLOCATE (block%sizes)
    END SUBROUTINE
-# 480 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 462 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
 
    SUBROUTINE dbcsr_t_get_anyd_block(tensor, ind, block, found)
       !! Generic implementation of dbcsr_t_get_block (arbitrary tensor rank and arbitrary datatype)
@@ -775,19 +701,19 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       SELECT CASE (dbcsr_t_get_data_type(tensor))
-# 497 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 479 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_real_8)
          CALL dbcsr_t_get_anyd_block_r_dp (tensor, ind, block, found)
-# 497 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 479 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_real_4)
          CALL dbcsr_t_get_anyd_block_r_sp (tensor, ind, block, found)
-# 497 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 479 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_complex_8)
          CALL dbcsr_t_get_anyd_block_c_dp (tensor, ind, block, found)
-# 497 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 479 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_complex_4)
          CALL dbcsr_t_get_anyd_block_c_sp (tensor, ind, block, found)
-# 500 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 482 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       END SELECT
    END SUBROUTINE
 
@@ -808,40 +734,40 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       SELECT CASE (block%data_type)
-# 521 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 503 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_real_8)
          IF (.NOT. PRESENT(scale)) THEN
             CALL dbcsr_t_put_anyd_block_r_dp (tensor, ind, block%r_dp, summation)
          ELSE
             CALL dbcsr_t_put_anyd_block_r_dp (tensor, ind, block%r_dp, summation, scale=scale%r_dp)
          ENDIF
-# 521 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 503 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_real_4)
          IF (.NOT. PRESENT(scale)) THEN
             CALL dbcsr_t_put_anyd_block_r_sp (tensor, ind, block%r_sp, summation)
          ELSE
             CALL dbcsr_t_put_anyd_block_r_sp (tensor, ind, block%r_sp, summation, scale=scale%r_sp)
          ENDIF
-# 521 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 503 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_complex_8)
          IF (.NOT. PRESENT(scale)) THEN
             CALL dbcsr_t_put_anyd_block_c_dp (tensor, ind, block%c_dp, summation)
          ELSE
             CALL dbcsr_t_put_anyd_block_c_dp (tensor, ind, block%c_dp, summation, scale=scale%c_dp)
          ENDIF
-# 521 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 503 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (dbcsr_type_complex_4)
          IF (.NOT. PRESENT(scale)) THEN
             CALL dbcsr_t_put_anyd_block_c_sp (tensor, ind, block%c_sp, summation)
          ELSE
             CALL dbcsr_t_put_anyd_block_c_sp (tensor, ind, block%c_sp, summation, scale=scale%c_sp)
          ENDIF
-# 528 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 510 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       END SELECT
 
    END SUBROUTINE
 
-# 533 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 515 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_anyd_block_r_dp (tensor, ind, block, summation, scale)
       !! Generic implementation of dbcsr_t_put_block, template for datatype
 
@@ -857,19 +783,19 @@ CONTAINS
          !! block index
 
       SELECT CASE (ndims_tensor(tensor))
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 531 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (2)
          CALL dbcsr_t_put_2d_block_r_dp (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 531 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (3)
          CALL dbcsr_t_put_3d_block_r_dp (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 531 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (4)
          CALL dbcsr_t_put_4d_block_r_dp (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
-# 552 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 534 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       END SELECT
    END SUBROUTINE
-# 533 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 515 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_anyd_block_r_sp (tensor, ind, block, summation, scale)
       !! Generic implementation of dbcsr_t_put_block, template for datatype
 
@@ -885,19 +811,19 @@ CONTAINS
          !! block index
 
       SELECT CASE (ndims_tensor(tensor))
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 531 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (2)
          CALL dbcsr_t_put_2d_block_r_sp (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 531 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (3)
          CALL dbcsr_t_put_3d_block_r_sp (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 531 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (4)
          CALL dbcsr_t_put_4d_block_r_sp (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
-# 552 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 534 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       END SELECT
    END SUBROUTINE
-# 533 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 515 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_anyd_block_c_dp (tensor, ind, block, summation, scale)
       !! Generic implementation of dbcsr_t_put_block, template for datatype
 
@@ -913,19 +839,19 @@ CONTAINS
          !! block index
 
       SELECT CASE (ndims_tensor(tensor))
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 531 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (2)
          CALL dbcsr_t_put_2d_block_c_dp (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 531 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (3)
          CALL dbcsr_t_put_3d_block_c_dp (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 531 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (4)
          CALL dbcsr_t_put_4d_block_c_dp (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
-# 552 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 534 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       END SELECT
    END SUBROUTINE
-# 533 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 515 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_anyd_block_c_sp (tensor, ind, block, summation, scale)
       !! Generic implementation of dbcsr_t_put_block, template for datatype
 
@@ -941,21 +867,21 @@ CONTAINS
          !! block index
 
       SELECT CASE (ndims_tensor(tensor))
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 531 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (2)
          CALL dbcsr_t_put_2d_block_c_sp (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 531 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (3)
          CALL dbcsr_t_put_3d_block_c_sp (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 531 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (4)
          CALL dbcsr_t_put_4d_block_c_sp (tensor, ind, block%sizes, block%blk, summation=summation, scale=scale)
-# 552 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 534 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       END SELECT
    END SUBROUTINE
-# 555 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 537 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
 
-# 557 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 539 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_anyd_block_r_dp (tensor, ind, block, found)
       !! Generic implementation of dbcsr_t_get_block (arbitrary tensor rank)
 
@@ -974,20 +900,20 @@ CONTAINS
       ALLOCATE (block_arr(PRODUCT(blk_size)))
 
       SELECT CASE (ndims_tensor(tensor))
-# 576 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 558 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (2)
          CALL dbcsr_t_get_2d_block_r_dp (tensor, ind, blk_size, block_arr, found)
-# 576 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 558 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (3)
          CALL dbcsr_t_get_3d_block_r_dp (tensor, ind, blk_size, block_arr, found)
-# 576 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 558 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (4)
          CALL dbcsr_t_get_4d_block_r_dp (tensor, ind, blk_size, block_arr, found)
-# 579 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 561 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       END SELECT
       CALL create_block(block, blk_size, block_arr)
    END SUBROUTINE
-# 557 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 539 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_anyd_block_r_sp (tensor, ind, block, found)
       !! Generic implementation of dbcsr_t_get_block (arbitrary tensor rank)
 
@@ -1006,20 +932,20 @@ CONTAINS
       ALLOCATE (block_arr(PRODUCT(blk_size)))
 
       SELECT CASE (ndims_tensor(tensor))
-# 576 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 558 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (2)
          CALL dbcsr_t_get_2d_block_r_sp (tensor, ind, blk_size, block_arr, found)
-# 576 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 558 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (3)
          CALL dbcsr_t_get_3d_block_r_sp (tensor, ind, blk_size, block_arr, found)
-# 576 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 558 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (4)
          CALL dbcsr_t_get_4d_block_r_sp (tensor, ind, blk_size, block_arr, found)
-# 579 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 561 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       END SELECT
       CALL create_block(block, blk_size, block_arr)
    END SUBROUTINE
-# 557 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 539 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_anyd_block_c_dp (tensor, ind, block, found)
       !! Generic implementation of dbcsr_t_get_block (arbitrary tensor rank)
 
@@ -1038,20 +964,20 @@ CONTAINS
       ALLOCATE (block_arr(PRODUCT(blk_size)))
 
       SELECT CASE (ndims_tensor(tensor))
-# 576 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 558 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (2)
          CALL dbcsr_t_get_2d_block_c_dp (tensor, ind, blk_size, block_arr, found)
-# 576 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 558 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (3)
          CALL dbcsr_t_get_3d_block_c_dp (tensor, ind, blk_size, block_arr, found)
-# 576 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 558 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (4)
          CALL dbcsr_t_get_4d_block_c_dp (tensor, ind, blk_size, block_arr, found)
-# 579 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 561 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       END SELECT
       CALL create_block(block, blk_size, block_arr)
    END SUBROUTINE
-# 557 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 539 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_anyd_block_c_sp (tensor, ind, block, found)
       !! Generic implementation of dbcsr_t_get_block (arbitrary tensor rank)
 
@@ -1070,614 +996,758 @@ CONTAINS
       ALLOCATE (block_arr(PRODUCT(blk_size)))
 
       SELECT CASE (ndims_tensor(tensor))
-# 576 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 558 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (2)
          CALL dbcsr_t_get_2d_block_c_sp (tensor, ind, blk_size, block_arr, found)
-# 576 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 558 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (3)
          CALL dbcsr_t_get_3d_block_c_sp (tensor, ind, blk_size, block_arr, found)
-# 576 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 558 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       CASE (4)
          CALL dbcsr_t_get_4d_block_c_sp (tensor, ind, blk_size, block_arr, found)
-# 579 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 561 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
       END SELECT
       CALL create_block(block, blk_size, block_arr)
    END SUBROUTINE
-# 583 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 565 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
 
-# 585 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 567 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_2d_block_r_dp (tensor, ind, sizes, block, summation, scale)
       !! Template for dbcsr_t_put_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(2), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(2), INTENT(IN) :: sizes
          !! block size
       REAL(kind=real_8), DIMENSION(sizes(1), sizes(2)), &
-         INTENT(IN)                                         :: block
+         INTENT(IN), TARGET                                 :: block
          !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                         :: summation
          !! whether block should be summed to existing block
       REAL(kind=real_8), INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      INTEGER, DIMENSION(2)                                 :: dims_2d
-      REAL(kind=real_8), ALLOCATABLE, DIMENSION(:, :)               :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER, DIMENSION(2)                                 :: shape_2d
+      REAL(kind=real_8), POINTER, DIMENSION(:, :)                   :: block_2d
+      INTEGER, DIMENSION(2)                          :: shape_nd
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_2d_block_r_dp', &
                                      routineP = moduleN//':'//routineN
       LOGICAL :: found
-      REAL(kind=real_8), DIMENSION(sizes(1), sizes(2)) &
-         :: block_check
+      REAL(kind=real_8), DIMENSION(sizes(1), sizes(2)) :: block_check
+
       LOGICAL, PARAMETER :: debug = .FALSE.
+      INTEGER :: i
+
+      NULLIFY (block_2d)
 
       IF (debug) THEN
          CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
          DBCSR_ASSERT(found)
       ENDIF
 
-      ! reshape block
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-      CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-      CALL dbcsr_t_get_mapping_info(map_blk, dims_2d=dims_2d)
-      CALL allocate_any(block_2d, shape_spec=dims_2d)
-      CALL reshape_nd_to_2d_block(map_blk, block, block_2d)
+      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
+                 map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
+         shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
+
+         IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 2)/))) THEN
+            ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+            block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(:,:)
+         ELSE
+            ! need reshape due to rank reordering
+            ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+            shape_nd(map_nd) = sizes
+            block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
+         ENDIF
+
+         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+
+      END ASSOCIATE
 
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
    END SUBROUTINE
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_3d_block_r_dp (tensor, ind, sizes, block, summation, scale)
       !! Template for dbcsr_t_put_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(3), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(3), INTENT(IN) :: sizes
          !! block size
       REAL(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3)), &
-         INTENT(IN)                                         :: block
+         INTENT(IN), TARGET                                 :: block
          !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                         :: summation
          !! whether block should be summed to existing block
       REAL(kind=real_8), INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      INTEGER, DIMENSION(2)                                 :: dims_2d
-      REAL(kind=real_8), ALLOCATABLE, DIMENSION(:, :)               :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER, DIMENSION(2)                                 :: shape_2d
+      REAL(kind=real_8), POINTER, DIMENSION(:, :)                   :: block_2d
+      INTEGER, DIMENSION(3)                          :: shape_nd
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_3d_block_r_dp', &
                                      routineP = moduleN//':'//routineN
       LOGICAL :: found
-      REAL(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3)) &
-         :: block_check
+      REAL(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3)) :: block_check
+
       LOGICAL, PARAMETER :: debug = .FALSE.
+      INTEGER :: i
+
+      NULLIFY (block_2d)
 
       IF (debug) THEN
          CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
          DBCSR_ASSERT(found)
       ENDIF
 
-      ! reshape block
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-      CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-      CALL dbcsr_t_get_mapping_info(map_blk, dims_2d=dims_2d)
-      CALL allocate_any(block_2d, shape_spec=dims_2d)
-      CALL reshape_nd_to_2d_block(map_blk, block, block_2d)
+      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
+                 map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
+         shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
+
+         IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 3)/))) THEN
+            ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+            block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(:,:,:)
+         ELSE
+            ! need reshape due to rank reordering
+            ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+            shape_nd(map_nd) = sizes
+            block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
+         ENDIF
+
+         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+
+      END ASSOCIATE
 
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
    END SUBROUTINE
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_4d_block_r_dp (tensor, ind, sizes, block, summation, scale)
       !! Template for dbcsr_t_put_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(4), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(4), INTENT(IN) :: sizes
          !! block size
       REAL(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)), &
-         INTENT(IN)                                         :: block
+         INTENT(IN), TARGET                                 :: block
          !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                         :: summation
          !! whether block should be summed to existing block
       REAL(kind=real_8), INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      INTEGER, DIMENSION(2)                                 :: dims_2d
-      REAL(kind=real_8), ALLOCATABLE, DIMENSION(:, :)               :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER, DIMENSION(2)                                 :: shape_2d
+      REAL(kind=real_8), POINTER, DIMENSION(:, :)                   :: block_2d
+      INTEGER, DIMENSION(4)                          :: shape_nd
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_4d_block_r_dp', &
                                      routineP = moduleN//':'//routineN
       LOGICAL :: found
-      REAL(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)) &
-         :: block_check
+      REAL(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)) :: block_check
+
       LOGICAL, PARAMETER :: debug = .FALSE.
+      INTEGER :: i
+
+      NULLIFY (block_2d)
 
       IF (debug) THEN
          CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
          DBCSR_ASSERT(found)
       ENDIF
 
-      ! reshape block
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-      CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-      CALL dbcsr_t_get_mapping_info(map_blk, dims_2d=dims_2d)
-      CALL allocate_any(block_2d, shape_spec=dims_2d)
-      CALL reshape_nd_to_2d_block(map_blk, block, block_2d)
+      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
+                 map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
+         shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
+
+         IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 4)/))) THEN
+            ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+            block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(:,:,:,:)
+         ELSE
+            ! need reshape due to rank reordering
+            ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+            shape_nd(map_nd) = sizes
+            block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
+         ENDIF
+
+         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+
+      END ASSOCIATE
 
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
    END SUBROUTINE
-# 634 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 585 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 628 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 567 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_2d_block_r_sp (tensor, ind, sizes, block, summation, scale)
       !! Template for dbcsr_t_put_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(2), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(2), INTENT(IN) :: sizes
          !! block size
       REAL(kind=real_4), DIMENSION(sizes(1), sizes(2)), &
-         INTENT(IN)                                         :: block
+         INTENT(IN), TARGET                                 :: block
          !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                         :: summation
          !! whether block should be summed to existing block
       REAL(kind=real_4), INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      INTEGER, DIMENSION(2)                                 :: dims_2d
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:, :)               :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER, DIMENSION(2)                                 :: shape_2d
+      REAL(kind=real_4), POINTER, DIMENSION(:, :)                   :: block_2d
+      INTEGER, DIMENSION(2)                          :: shape_nd
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_2d_block_r_sp', &
                                      routineP = moduleN//':'//routineN
       LOGICAL :: found
-      REAL(kind=real_4), DIMENSION(sizes(1), sizes(2)) &
-         :: block_check
+      REAL(kind=real_4), DIMENSION(sizes(1), sizes(2)) :: block_check
+
       LOGICAL, PARAMETER :: debug = .FALSE.
+      INTEGER :: i
+
+      NULLIFY (block_2d)
 
       IF (debug) THEN
          CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
          DBCSR_ASSERT(found)
       ENDIF
 
-      ! reshape block
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-      CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-      CALL dbcsr_t_get_mapping_info(map_blk, dims_2d=dims_2d)
-      CALL allocate_any(block_2d, shape_spec=dims_2d)
-      CALL reshape_nd_to_2d_block(map_blk, block, block_2d)
+      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
+                 map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
+         shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
+
+         IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 2)/))) THEN
+            ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+            block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(:,:)
+         ELSE
+            ! need reshape due to rank reordering
+            ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+            shape_nd(map_nd) = sizes
+            block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
+         ENDIF
+
+         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+
+      END ASSOCIATE
 
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
    END SUBROUTINE
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_3d_block_r_sp (tensor, ind, sizes, block, summation, scale)
       !! Template for dbcsr_t_put_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(3), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(3), INTENT(IN) :: sizes
          !! block size
       REAL(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3)), &
-         INTENT(IN)                                         :: block
+         INTENT(IN), TARGET                                 :: block
          !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                         :: summation
          !! whether block should be summed to existing block
       REAL(kind=real_4), INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      INTEGER, DIMENSION(2)                                 :: dims_2d
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:, :)               :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER, DIMENSION(2)                                 :: shape_2d
+      REAL(kind=real_4), POINTER, DIMENSION(:, :)                   :: block_2d
+      INTEGER, DIMENSION(3)                          :: shape_nd
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_3d_block_r_sp', &
                                      routineP = moduleN//':'//routineN
       LOGICAL :: found
-      REAL(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3)) &
-         :: block_check
+      REAL(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3)) :: block_check
+
       LOGICAL, PARAMETER :: debug = .FALSE.
+      INTEGER :: i
+
+      NULLIFY (block_2d)
 
       IF (debug) THEN
          CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
          DBCSR_ASSERT(found)
       ENDIF
 
-      ! reshape block
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-      CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-      CALL dbcsr_t_get_mapping_info(map_blk, dims_2d=dims_2d)
-      CALL allocate_any(block_2d, shape_spec=dims_2d)
-      CALL reshape_nd_to_2d_block(map_blk, block, block_2d)
+      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
+                 map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
+         shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
+
+         IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 3)/))) THEN
+            ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+            block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(:,:,:)
+         ELSE
+            ! need reshape due to rank reordering
+            ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+            shape_nd(map_nd) = sizes
+            block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
+         ENDIF
+
+         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+
+      END ASSOCIATE
 
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
    END SUBROUTINE
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_4d_block_r_sp (tensor, ind, sizes, block, summation, scale)
       !! Template for dbcsr_t_put_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(4), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(4), INTENT(IN) :: sizes
          !! block size
       REAL(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)), &
-         INTENT(IN)                                         :: block
+         INTENT(IN), TARGET                                 :: block
          !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                         :: summation
          !! whether block should be summed to existing block
       REAL(kind=real_4), INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      INTEGER, DIMENSION(2)                                 :: dims_2d
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:, :)               :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER, DIMENSION(2)                                 :: shape_2d
+      REAL(kind=real_4), POINTER, DIMENSION(:, :)                   :: block_2d
+      INTEGER, DIMENSION(4)                          :: shape_nd
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_4d_block_r_sp', &
                                      routineP = moduleN//':'//routineN
       LOGICAL :: found
-      REAL(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)) &
-         :: block_check
+      REAL(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)) :: block_check
+
       LOGICAL, PARAMETER :: debug = .FALSE.
+      INTEGER :: i
+
+      NULLIFY (block_2d)
 
       IF (debug) THEN
          CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
          DBCSR_ASSERT(found)
       ENDIF
 
-      ! reshape block
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-      CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-      CALL dbcsr_t_get_mapping_info(map_blk, dims_2d=dims_2d)
-      CALL allocate_any(block_2d, shape_spec=dims_2d)
-      CALL reshape_nd_to_2d_block(map_blk, block, block_2d)
+      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
+                 map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
+         shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
+
+         IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 4)/))) THEN
+            ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+            block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(:,:,:,:)
+         ELSE
+            ! need reshape due to rank reordering
+            ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+            shape_nd(map_nd) = sizes
+            block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
+         ENDIF
+
+         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+
+      END ASSOCIATE
 
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
    END SUBROUTINE
-# 634 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 585 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 628 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 567 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_2d_block_c_dp (tensor, ind, sizes, block, summation, scale)
       !! Template for dbcsr_t_put_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(2), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(2), INTENT(IN) :: sizes
          !! block size
       COMPLEX(kind=real_8), DIMENSION(sizes(1), sizes(2)), &
-         INTENT(IN)                                         :: block
+         INTENT(IN), TARGET                                 :: block
          !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                         :: summation
          !! whether block should be summed to existing block
       COMPLEX(kind=real_8), INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      INTEGER, DIMENSION(2)                                 :: dims_2d
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:, :)               :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER, DIMENSION(2)                                 :: shape_2d
+      COMPLEX(kind=real_8), POINTER, DIMENSION(:, :)                   :: block_2d
+      INTEGER, DIMENSION(2)                          :: shape_nd
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_2d_block_c_dp', &
                                      routineP = moduleN//':'//routineN
       LOGICAL :: found
-      COMPLEX(kind=real_8), DIMENSION(sizes(1), sizes(2)) &
-         :: block_check
+      COMPLEX(kind=real_8), DIMENSION(sizes(1), sizes(2)) :: block_check
+
       LOGICAL, PARAMETER :: debug = .FALSE.
+      INTEGER :: i
+
+      NULLIFY (block_2d)
 
       IF (debug) THEN
          CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
          DBCSR_ASSERT(found)
       ENDIF
 
-      ! reshape block
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-      CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-      CALL dbcsr_t_get_mapping_info(map_blk, dims_2d=dims_2d)
-      CALL allocate_any(block_2d, shape_spec=dims_2d)
-      CALL reshape_nd_to_2d_block(map_blk, block, block_2d)
+      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
+                 map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
+         shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
+
+         IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 2)/))) THEN
+            ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+            block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(:,:)
+         ELSE
+            ! need reshape due to rank reordering
+            ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+            shape_nd(map_nd) = sizes
+            block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
+         ENDIF
+
+         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+
+      END ASSOCIATE
 
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
    END SUBROUTINE
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_3d_block_c_dp (tensor, ind, sizes, block, summation, scale)
       !! Template for dbcsr_t_put_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(3), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(3), INTENT(IN) :: sizes
          !! block size
       COMPLEX(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3)), &
-         INTENT(IN)                                         :: block
+         INTENT(IN), TARGET                                 :: block
          !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                         :: summation
          !! whether block should be summed to existing block
       COMPLEX(kind=real_8), INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      INTEGER, DIMENSION(2)                                 :: dims_2d
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:, :)               :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER, DIMENSION(2)                                 :: shape_2d
+      COMPLEX(kind=real_8), POINTER, DIMENSION(:, :)                   :: block_2d
+      INTEGER, DIMENSION(3)                          :: shape_nd
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_3d_block_c_dp', &
                                      routineP = moduleN//':'//routineN
       LOGICAL :: found
-      COMPLEX(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3)) &
-         :: block_check
+      COMPLEX(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3)) :: block_check
+
       LOGICAL, PARAMETER :: debug = .FALSE.
+      INTEGER :: i
+
+      NULLIFY (block_2d)
 
       IF (debug) THEN
          CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
          DBCSR_ASSERT(found)
       ENDIF
 
-      ! reshape block
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-      CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-      CALL dbcsr_t_get_mapping_info(map_blk, dims_2d=dims_2d)
-      CALL allocate_any(block_2d, shape_spec=dims_2d)
-      CALL reshape_nd_to_2d_block(map_blk, block, block_2d)
+      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
+                 map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
+         shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
+
+         IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 3)/))) THEN
+            ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+            block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(:,:,:)
+         ELSE
+            ! need reshape due to rank reordering
+            ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+            shape_nd(map_nd) = sizes
+            block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
+         ENDIF
+
+         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+
+      END ASSOCIATE
 
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
    END SUBROUTINE
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_4d_block_c_dp (tensor, ind, sizes, block, summation, scale)
       !! Template for dbcsr_t_put_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(4), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(4), INTENT(IN) :: sizes
          !! block size
       COMPLEX(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)), &
-         INTENT(IN)                                         :: block
+         INTENT(IN), TARGET                                 :: block
          !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                         :: summation
          !! whether block should be summed to existing block
       COMPLEX(kind=real_8), INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      INTEGER, DIMENSION(2)                                 :: dims_2d
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:, :)               :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER, DIMENSION(2)                                 :: shape_2d
+      COMPLEX(kind=real_8), POINTER, DIMENSION(:, :)                   :: block_2d
+      INTEGER, DIMENSION(4)                          :: shape_nd
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_4d_block_c_dp', &
                                      routineP = moduleN//':'//routineN
       LOGICAL :: found
-      COMPLEX(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)) &
-         :: block_check
+      COMPLEX(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)) :: block_check
+
       LOGICAL, PARAMETER :: debug = .FALSE.
+      INTEGER :: i
+
+      NULLIFY (block_2d)
 
       IF (debug) THEN
          CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
          DBCSR_ASSERT(found)
       ENDIF
 
-      ! reshape block
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-      CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-      CALL dbcsr_t_get_mapping_info(map_blk, dims_2d=dims_2d)
-      CALL allocate_any(block_2d, shape_spec=dims_2d)
-      CALL reshape_nd_to_2d_block(map_blk, block, block_2d)
+      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
+                 map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
+         shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
+
+         IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 4)/))) THEN
+            ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+            block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(:,:,:,:)
+         ELSE
+            ! need reshape due to rank reordering
+            ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+            shape_nd(map_nd) = sizes
+            block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
+         ENDIF
+
+         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+
+      END ASSOCIATE
 
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
    END SUBROUTINE
-# 634 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 585 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 628 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 567 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_2d_block_c_sp (tensor, ind, sizes, block, summation, scale)
       !! Template for dbcsr_t_put_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(2), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(2), INTENT(IN) :: sizes
          !! block size
       COMPLEX(kind=real_4), DIMENSION(sizes(1), sizes(2)), &
-         INTENT(IN)                                         :: block
+         INTENT(IN), TARGET                                 :: block
          !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                         :: summation
          !! whether block should be summed to existing block
       COMPLEX(kind=real_4), INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      INTEGER, DIMENSION(2)                                 :: dims_2d
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:, :)               :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER, DIMENSION(2)                                 :: shape_2d
+      COMPLEX(kind=real_4), POINTER, DIMENSION(:, :)                   :: block_2d
+      INTEGER, DIMENSION(2)                          :: shape_nd
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_2d_block_c_sp', &
                                      routineP = moduleN//':'//routineN
       LOGICAL :: found
-      COMPLEX(kind=real_4), DIMENSION(sizes(1), sizes(2)) &
-         :: block_check
+      COMPLEX(kind=real_4), DIMENSION(sizes(1), sizes(2)) :: block_check
+
       LOGICAL, PARAMETER :: debug = .FALSE.
+      INTEGER :: i
+
+      NULLIFY (block_2d)
 
       IF (debug) THEN
          CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
          DBCSR_ASSERT(found)
       ENDIF
 
-      ! reshape block
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-      CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-      CALL dbcsr_t_get_mapping_info(map_blk, dims_2d=dims_2d)
-      CALL allocate_any(block_2d, shape_spec=dims_2d)
-      CALL reshape_nd_to_2d_block(map_blk, block, block_2d)
+      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
+                 map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
+         shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
+
+         IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 2)/))) THEN
+            ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+            block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(:,:)
+         ELSE
+            ! need reshape due to rank reordering
+            ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+            shape_nd(map_nd) = sizes
+            block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
+         ENDIF
+
+         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+
+      END ASSOCIATE
 
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
    END SUBROUTINE
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_3d_block_c_sp (tensor, ind, sizes, block, summation, scale)
       !! Template for dbcsr_t_put_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(3), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(3), INTENT(IN) :: sizes
          !! block size
       COMPLEX(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3)), &
-         INTENT(IN)                                         :: block
+         INTENT(IN), TARGET                                 :: block
          !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                         :: summation
          !! whether block should be summed to existing block
       COMPLEX(kind=real_4), INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      INTEGER, DIMENSION(2)                                 :: dims_2d
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:, :)               :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER, DIMENSION(2)                                 :: shape_2d
+      COMPLEX(kind=real_4), POINTER, DIMENSION(:, :)                   :: block_2d
+      INTEGER, DIMENSION(3)                          :: shape_nd
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_3d_block_c_sp', &
                                      routineP = moduleN//':'//routineN
       LOGICAL :: found
-      COMPLEX(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3)) &
-         :: block_check
+      COMPLEX(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3)) :: block_check
+
       LOGICAL, PARAMETER :: debug = .FALSE.
+      INTEGER :: i
+
+      NULLIFY (block_2d)
 
       IF (debug) THEN
          CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
          DBCSR_ASSERT(found)
       ENDIF
 
-      ! reshape block
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-      CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-      CALL dbcsr_t_get_mapping_info(map_blk, dims_2d=dims_2d)
-      CALL allocate_any(block_2d, shape_spec=dims_2d)
-      CALL reshape_nd_to_2d_block(map_blk, block, block_2d)
+      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
+                 map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
+         shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
+
+         IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 3)/))) THEN
+            ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+            block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(:,:,:)
+         ELSE
+            ! need reshape due to rank reordering
+            ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+            shape_nd(map_nd) = sizes
+            block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
+         ENDIF
+
+         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+
+      END ASSOCIATE
 
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
    END SUBROUTINE
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_put_4d_block_c_sp (tensor, ind, sizes, block, summation, scale)
       !! Template for dbcsr_t_put_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(4), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(4), INTENT(IN) :: sizes
          !! block size
       COMPLEX(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)), &
-         INTENT(IN)                                         :: block
+         INTENT(IN), TARGET                                 :: block
          !! block to put
       LOGICAL, INTENT(IN), OPTIONAL                         :: summation
          !! whether block should be summed to existing block
       COMPLEX(kind=real_4), INTENT(IN), OPTIONAL                       :: scale
          !! scaling factor
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      INTEGER, DIMENSION(2)                                 :: dims_2d
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:, :)               :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER, DIMENSION(2)                                 :: shape_2d
+      COMPLEX(kind=real_4), POINTER, DIMENSION(:, :)                   :: block_2d
+      INTEGER, DIMENSION(4)                          :: shape_nd
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_4d_block_c_sp', &
                                      routineP = moduleN//':'//routineN
       LOGICAL :: found
-      COMPLEX(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)) &
-         :: block_check
+      COMPLEX(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)) :: block_check
+
       LOGICAL, PARAMETER :: debug = .FALSE.
+      INTEGER :: i
+
+      NULLIFY (block_2d)
 
       IF (debug) THEN
          CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
          DBCSR_ASSERT(found)
       ENDIF
 
-      ! reshape block
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-      CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-      CALL dbcsr_t_get_mapping_info(map_blk, dims_2d=dims_2d)
-      CALL allocate_any(block_2d, shape_spec=dims_2d)
-      CALL reshape_nd_to_2d_block(map_blk, block, block_2d)
+      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
+                 map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
+         shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
+
+         IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 4)/))) THEN
+            ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+            block_2d(1:shape_2d(1), 1:shape_2d(2)) => block(:,:,:,:)
+         ELSE
+            ! need reshape due to rank reordering
+            ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+            shape_nd(map_nd) = sizes
+            block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
+         ENDIF
+
+         ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+
+      END ASSOCIATE
 
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
    END SUBROUTINE
-# 634 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 635 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 628 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 629 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
 
-# 637 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 638 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 631 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 632 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_allocate_and_get_2d_block_r_dp (tensor, ind, block, found)
       !! allocate and get block
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
+      INTEGER, DIMENSION(2), INTENT(IN)  :: ind
          !! block index
       REAL(kind=real_8), DIMENSION(:,:), &
          ALLOCATABLE, INTENT(OUT)                           :: block
@@ -1691,12 +1761,12 @@ CONTAINS
       CALL dbcsr_t_get_2d_block_r_dp (tensor, ind, blk_size, block, found)
 
    END SUBROUTINE
-# 638 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 632 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_allocate_and_get_3d_block_r_dp (tensor, ind, block, found)
       !! allocate and get block
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
+      INTEGER, DIMENSION(3), INTENT(IN)  :: ind
          !! block index
       REAL(kind=real_8), DIMENSION(:,:,:), &
          ALLOCATABLE, INTENT(OUT)                           :: block
@@ -1710,12 +1780,12 @@ CONTAINS
       CALL dbcsr_t_get_3d_block_r_dp (tensor, ind, blk_size, block, found)
 
    END SUBROUTINE
-# 638 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 632 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_allocate_and_get_4d_block_r_dp (tensor, ind, block, found)
       !! allocate and get block
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
+      INTEGER, DIMENSION(4), INTENT(IN)  :: ind
          !! block index
       REAL(kind=real_8), DIMENSION(:,:,:,:), &
          ALLOCATABLE, INTENT(OUT)                           :: block
@@ -1729,14 +1799,14 @@ CONTAINS
       CALL dbcsr_t_get_4d_block_r_dp (tensor, ind, blk_size, block, found)
 
    END SUBROUTINE
-# 657 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 637 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 638 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 651 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 631 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 632 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_allocate_and_get_2d_block_r_sp (tensor, ind, block, found)
       !! allocate and get block
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
+      INTEGER, DIMENSION(2), INTENT(IN)  :: ind
          !! block index
       REAL(kind=real_4), DIMENSION(:,:), &
          ALLOCATABLE, INTENT(OUT)                           :: block
@@ -1750,12 +1820,12 @@ CONTAINS
       CALL dbcsr_t_get_2d_block_r_sp (tensor, ind, blk_size, block, found)
 
    END SUBROUTINE
-# 638 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 632 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_allocate_and_get_3d_block_r_sp (tensor, ind, block, found)
       !! allocate and get block
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
+      INTEGER, DIMENSION(3), INTENT(IN)  :: ind
          !! block index
       REAL(kind=real_4), DIMENSION(:,:,:), &
          ALLOCATABLE, INTENT(OUT)                           :: block
@@ -1769,12 +1839,12 @@ CONTAINS
       CALL dbcsr_t_get_3d_block_r_sp (tensor, ind, blk_size, block, found)
 
    END SUBROUTINE
-# 638 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 632 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_allocate_and_get_4d_block_r_sp (tensor, ind, block, found)
       !! allocate and get block
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
+      INTEGER, DIMENSION(4), INTENT(IN)  :: ind
          !! block index
       REAL(kind=real_4), DIMENSION(:,:,:,:), &
          ALLOCATABLE, INTENT(OUT)                           :: block
@@ -1788,14 +1858,14 @@ CONTAINS
       CALL dbcsr_t_get_4d_block_r_sp (tensor, ind, blk_size, block, found)
 
    END SUBROUTINE
-# 657 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 637 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 638 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 651 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 631 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 632 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_allocate_and_get_2d_block_c_dp (tensor, ind, block, found)
       !! allocate and get block
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
+      INTEGER, DIMENSION(2), INTENT(IN)  :: ind
          !! block index
       COMPLEX(kind=real_8), DIMENSION(:,:), &
          ALLOCATABLE, INTENT(OUT)                           :: block
@@ -1809,12 +1879,12 @@ CONTAINS
       CALL dbcsr_t_get_2d_block_c_dp (tensor, ind, blk_size, block, found)
 
    END SUBROUTINE
-# 638 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 632 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_allocate_and_get_3d_block_c_dp (tensor, ind, block, found)
       !! allocate and get block
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
+      INTEGER, DIMENSION(3), INTENT(IN)  :: ind
          !! block index
       COMPLEX(kind=real_8), DIMENSION(:,:,:), &
          ALLOCATABLE, INTENT(OUT)                           :: block
@@ -1828,12 +1898,12 @@ CONTAINS
       CALL dbcsr_t_get_3d_block_c_dp (tensor, ind, blk_size, block, found)
 
    END SUBROUTINE
-# 638 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 632 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_allocate_and_get_4d_block_c_dp (tensor, ind, block, found)
       !! allocate and get block
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
+      INTEGER, DIMENSION(4), INTENT(IN)  :: ind
          !! block index
       COMPLEX(kind=real_8), DIMENSION(:,:,:,:), &
          ALLOCATABLE, INTENT(OUT)                           :: block
@@ -1847,14 +1917,14 @@ CONTAINS
       CALL dbcsr_t_get_4d_block_c_dp (tensor, ind, blk_size, block, found)
 
    END SUBROUTINE
-# 657 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 637 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 638 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 651 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 631 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 632 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_allocate_and_get_2d_block_c_sp (tensor, ind, block, found)
       !! allocate and get block
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
+      INTEGER, DIMENSION(2), INTENT(IN)  :: ind
          !! block index
       COMPLEX(kind=real_4), DIMENSION(:,:), &
          ALLOCATABLE, INTENT(OUT)                           :: block
@@ -1868,12 +1938,12 @@ CONTAINS
       CALL dbcsr_t_get_2d_block_c_sp (tensor, ind, blk_size, block, found)
 
    END SUBROUTINE
-# 638 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 632 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_allocate_and_get_3d_block_c_sp (tensor, ind, block, found)
       !! allocate and get block
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
+      INTEGER, DIMENSION(3), INTENT(IN)  :: ind
          !! block index
       COMPLEX(kind=real_4), DIMENSION(:,:,:), &
          ALLOCATABLE, INTENT(OUT)                           :: block
@@ -1887,12 +1957,12 @@ CONTAINS
       CALL dbcsr_t_get_3d_block_c_sp (tensor, ind, blk_size, block, found)
 
    END SUBROUTINE
-# 638 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 632 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_allocate_and_get_4d_block_c_sp (tensor, ind, block, found)
       !! allocate and get block
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN)  :: ind
+      INTEGER, DIMENSION(4), INTENT(IN)  :: ind
          !! block index
       COMPLEX(kind=real_4), DIMENSION(:,:,:,:), &
          ALLOCATABLE, INTENT(OUT)                           :: block
@@ -1906,18 +1976,18 @@ CONTAINS
       CALL dbcsr_t_get_4d_block_c_sp (tensor, ind, blk_size, block, found)
 
    END SUBROUTINE
-# 657 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 658 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 651 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 652 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
 
-# 660 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 661 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 654 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 655 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_2d_block_r_dp (tensor, ind, sizes, block, found)
       !! Template for dbcsr_t_get_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(2), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(2), INTENT(IN) :: sizes
          !! block size
       REAL(kind=real_8), DIMENSION(sizes(1), sizes(2)), &
          INTENT(OUT)                                        :: block
@@ -1925,40 +1995,46 @@ CONTAINS
       LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
-      INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
-      REAL(kind=real_8), DIMENSION(:, :), POINTER                    :: block_2d_ptr => NULL()
-      REAL(kind=real_8), DIMENSION(:, :), ALLOCATABLE                :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+      REAL(kind=real_8), DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr => NULL()
       LOGICAL                                               :: tr
+      INTEGER                                               :: i
+      REAL(kind=real_8), DIMENSION(:,:), POINTER  :: block_ptr
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_2d_block_r_dp', &
                                      routineP = moduleN//':'//routineN
 
-      NULLIFY (block_2d_ptr)
+      NULLIFY (block_2d_ptr, block_ptr)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
-      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-      DBCSR_ASSERT(.NOT. tr)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      IF (found) THEN
-         ! convert pointer to allocatable
-         CALL allocate_any(block_2d, source=block_2d_ptr)
+      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-         CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-         CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
-      ENDIF
+         CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+         DBCSR_ASSERT(.NOT. tr)
+
+         IF (found) THEN
+            IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 2)/))) THEN
+               ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+               block_ptr(LBOUND(block, 1):UBOUND(block, 1), LBOUND(block, 2):UBOUND(block, 2)) => block_2d_ptr(:, :)
+               block(:,:) = block_ptr(:,:)
+            ELSE
+               ! need reshape due to rank reordering
+               block(:,:) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
+            ENDIF
+         ENDIF
+
+      END ASSOCIATE
 
    END SUBROUTINE
-# 661 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 655 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_3d_block_r_dp (tensor, ind, sizes, block, found)
       !! Template for dbcsr_t_get_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(3), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(3), INTENT(IN) :: sizes
          !! block size
       REAL(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3)), &
          INTENT(OUT)                                        :: block
@@ -1966,40 +2042,48 @@ CONTAINS
       LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
-      INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
-      REAL(kind=real_8), DIMENSION(:, :), POINTER                    :: block_2d_ptr => NULL()
-      REAL(kind=real_8), DIMENSION(:, :), ALLOCATABLE                :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+      REAL(kind=real_8), DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr => NULL()
       LOGICAL                                               :: tr
+      INTEGER                                               :: i
+      REAL(kind=real_8), DIMENSION(:,:,:), POINTER  :: block_ptr
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_3d_block_r_dp', &
                                      routineP = moduleN//':'//routineN
 
-      NULLIFY (block_2d_ptr)
+      NULLIFY (block_2d_ptr, block_ptr)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
-      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-      DBCSR_ASSERT(.NOT. tr)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      IF (found) THEN
-         ! convert pointer to allocatable
-         CALL allocate_any(block_2d, source=block_2d_ptr)
+      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-         CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-         CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
-      ENDIF
+         CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+         DBCSR_ASSERT(.NOT. tr)
+
+         IF (found) THEN
+            IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 3)/))) THEN
+               ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+               block_ptr(LBOUND(block, 1):UBOUND(block, 1), LBOUND(block, 2):UBOUND(block, 2), LBOUND(block, 3):UBOUND(block, 3))&
+# 690 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+                   & => block_2d_ptr(:, :)
+               block(:,:,:) = block_ptr(:,:,:)
+            ELSE
+               ! need reshape due to rank reordering
+               block(:,:,:) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
+            ENDIF
+         ENDIF
+
+      END ASSOCIATE
 
    END SUBROUTINE
-# 661 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 655 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_4d_block_r_dp (tensor, ind, sizes, block, found)
       !! Template for dbcsr_t_get_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(4), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(4), INTENT(IN) :: sizes
          !! block size
       REAL(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)), &
          INTENT(OUT)                                        :: block
@@ -2007,42 +2091,50 @@ CONTAINS
       LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
-      INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
-      REAL(kind=real_8), DIMENSION(:, :), POINTER                    :: block_2d_ptr => NULL()
-      REAL(kind=real_8), DIMENSION(:, :), ALLOCATABLE                :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+      REAL(kind=real_8), DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr => NULL()
       LOGICAL                                               :: tr
+      INTEGER                                               :: i
+      REAL(kind=real_8), DIMENSION(:,:,:,:), POINTER  :: block_ptr
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_4d_block_r_dp', &
                                      routineP = moduleN//':'//routineN
 
-      NULLIFY (block_2d_ptr)
+      NULLIFY (block_2d_ptr, block_ptr)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
-      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-      DBCSR_ASSERT(.NOT. tr)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      IF (found) THEN
-         ! convert pointer to allocatable
-         CALL allocate_any(block_2d, source=block_2d_ptr)
+      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-         CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-         CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
-      ENDIF
+         CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+         DBCSR_ASSERT(.NOT. tr)
+
+         IF (found) THEN
+            IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 4)/))) THEN
+               ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+               block_ptr(LBOUND(block, 1):UBOUND(block, 1), LBOUND(block, 2):UBOUND(block, 2), LBOUND(block, 3):UBOUND(block, 3),&
+# 690 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+                   & LBOUND(block, 4):UBOUND(block, 4)) => block_2d_ptr(:, :)
+               block(:,:,:,:) = block_ptr(:,:,:,:)
+            ELSE
+               ! need reshape due to rank reordering
+               block(:,:,:,:) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
+            ENDIF
+         ENDIF
+
+      END ASSOCIATE
 
    END SUBROUTINE
 # 702 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 660 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 661 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 654 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 655 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_2d_block_r_sp (tensor, ind, sizes, block, found)
       !! Template for dbcsr_t_get_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(2), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(2), INTENT(IN) :: sizes
          !! block size
       REAL(kind=real_4), DIMENSION(sizes(1), sizes(2)), &
          INTENT(OUT)                                        :: block
@@ -2050,40 +2142,46 @@ CONTAINS
       LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
-      INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
-      REAL(kind=real_4), DIMENSION(:, :), POINTER                    :: block_2d_ptr => NULL()
-      REAL(kind=real_4), DIMENSION(:, :), ALLOCATABLE                :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+      REAL(kind=real_4), DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr => NULL()
       LOGICAL                                               :: tr
+      INTEGER                                               :: i
+      REAL(kind=real_4), DIMENSION(:,:), POINTER  :: block_ptr
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_2d_block_r_sp', &
                                      routineP = moduleN//':'//routineN
 
-      NULLIFY (block_2d_ptr)
+      NULLIFY (block_2d_ptr, block_ptr)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
-      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-      DBCSR_ASSERT(.NOT. tr)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      IF (found) THEN
-         ! convert pointer to allocatable
-         CALL allocate_any(block_2d, source=block_2d_ptr)
+      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-         CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-         CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
-      ENDIF
+         CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+         DBCSR_ASSERT(.NOT. tr)
+
+         IF (found) THEN
+            IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 2)/))) THEN
+               ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+               block_ptr(LBOUND(block, 1):UBOUND(block, 1), LBOUND(block, 2):UBOUND(block, 2)) => block_2d_ptr(:, :)
+               block(:,:) = block_ptr(:,:)
+            ELSE
+               ! need reshape due to rank reordering
+               block(:,:) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
+            ENDIF
+         ENDIF
+
+      END ASSOCIATE
 
    END SUBROUTINE
-# 661 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 655 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_3d_block_r_sp (tensor, ind, sizes, block, found)
       !! Template for dbcsr_t_get_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(3), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(3), INTENT(IN) :: sizes
          !! block size
       REAL(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3)), &
          INTENT(OUT)                                        :: block
@@ -2091,40 +2189,48 @@ CONTAINS
       LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
-      INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
-      REAL(kind=real_4), DIMENSION(:, :), POINTER                    :: block_2d_ptr => NULL()
-      REAL(kind=real_4), DIMENSION(:, :), ALLOCATABLE                :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+      REAL(kind=real_4), DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr => NULL()
       LOGICAL                                               :: tr
+      INTEGER                                               :: i
+      REAL(kind=real_4), DIMENSION(:,:,:), POINTER  :: block_ptr
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_3d_block_r_sp', &
                                      routineP = moduleN//':'//routineN
 
-      NULLIFY (block_2d_ptr)
+      NULLIFY (block_2d_ptr, block_ptr)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
-      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-      DBCSR_ASSERT(.NOT. tr)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      IF (found) THEN
-         ! convert pointer to allocatable
-         CALL allocate_any(block_2d, source=block_2d_ptr)
+      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-         CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-         CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
-      ENDIF
+         CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+         DBCSR_ASSERT(.NOT. tr)
+
+         IF (found) THEN
+            IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 3)/))) THEN
+               ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+               block_ptr(LBOUND(block, 1):UBOUND(block, 1), LBOUND(block, 2):UBOUND(block, 2), LBOUND(block, 3):UBOUND(block, 3))&
+# 690 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+                   & => block_2d_ptr(:, :)
+               block(:,:,:) = block_ptr(:,:,:)
+            ELSE
+               ! need reshape due to rank reordering
+               block(:,:,:) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
+            ENDIF
+         ENDIF
+
+      END ASSOCIATE
 
    END SUBROUTINE
-# 661 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 655 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_4d_block_r_sp (tensor, ind, sizes, block, found)
       !! Template for dbcsr_t_get_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(4), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(4), INTENT(IN) :: sizes
          !! block size
       REAL(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)), &
          INTENT(OUT)                                        :: block
@@ -2132,42 +2238,50 @@ CONTAINS
       LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
-      INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
-      REAL(kind=real_4), DIMENSION(:, :), POINTER                    :: block_2d_ptr => NULL()
-      REAL(kind=real_4), DIMENSION(:, :), ALLOCATABLE                :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+      REAL(kind=real_4), DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr => NULL()
       LOGICAL                                               :: tr
+      INTEGER                                               :: i
+      REAL(kind=real_4), DIMENSION(:,:,:,:), POINTER  :: block_ptr
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_4d_block_r_sp', &
                                      routineP = moduleN//':'//routineN
 
-      NULLIFY (block_2d_ptr)
+      NULLIFY (block_2d_ptr, block_ptr)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
-      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-      DBCSR_ASSERT(.NOT. tr)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      IF (found) THEN
-         ! convert pointer to allocatable
-         CALL allocate_any(block_2d, source=block_2d_ptr)
+      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-         CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-         CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
-      ENDIF
+         CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+         DBCSR_ASSERT(.NOT. tr)
+
+         IF (found) THEN
+            IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 4)/))) THEN
+               ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+               block_ptr(LBOUND(block, 1):UBOUND(block, 1), LBOUND(block, 2):UBOUND(block, 2), LBOUND(block, 3):UBOUND(block, 3),&
+# 690 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+                   & LBOUND(block, 4):UBOUND(block, 4)) => block_2d_ptr(:, :)
+               block(:,:,:,:) = block_ptr(:,:,:,:)
+            ELSE
+               ! need reshape due to rank reordering
+               block(:,:,:,:) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
+            ENDIF
+         ENDIF
+
+      END ASSOCIATE
 
    END SUBROUTINE
 # 702 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 660 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 661 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 654 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 655 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_2d_block_c_dp (tensor, ind, sizes, block, found)
       !! Template for dbcsr_t_get_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(2), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(2), INTENT(IN) :: sizes
          !! block size
       COMPLEX(kind=real_8), DIMENSION(sizes(1), sizes(2)), &
          INTENT(OUT)                                        :: block
@@ -2175,40 +2289,46 @@ CONTAINS
       LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
-      INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
-      COMPLEX(kind=real_8), DIMENSION(:, :), POINTER                    :: block_2d_ptr => NULL()
-      COMPLEX(kind=real_8), DIMENSION(:, :), ALLOCATABLE                :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+      COMPLEX(kind=real_8), DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr => NULL()
       LOGICAL                                               :: tr
+      INTEGER                                               :: i
+      COMPLEX(kind=real_8), DIMENSION(:,:), POINTER  :: block_ptr
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_2d_block_c_dp', &
                                      routineP = moduleN//':'//routineN
 
-      NULLIFY (block_2d_ptr)
+      NULLIFY (block_2d_ptr, block_ptr)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
-      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-      DBCSR_ASSERT(.NOT. tr)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      IF (found) THEN
-         ! convert pointer to allocatable
-         CALL allocate_any(block_2d, source=block_2d_ptr)
+      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-         CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-         CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
-      ENDIF
+         CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+         DBCSR_ASSERT(.NOT. tr)
+
+         IF (found) THEN
+            IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 2)/))) THEN
+               ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+               block_ptr(LBOUND(block, 1):UBOUND(block, 1), LBOUND(block, 2):UBOUND(block, 2)) => block_2d_ptr(:, :)
+               block(:,:) = block_ptr(:,:)
+            ELSE
+               ! need reshape due to rank reordering
+               block(:,:) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
+            ENDIF
+         ENDIF
+
+      END ASSOCIATE
 
    END SUBROUTINE
-# 661 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 655 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_3d_block_c_dp (tensor, ind, sizes, block, found)
       !! Template for dbcsr_t_get_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(3), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(3), INTENT(IN) :: sizes
          !! block size
       COMPLEX(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3)), &
          INTENT(OUT)                                        :: block
@@ -2216,40 +2336,48 @@ CONTAINS
       LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
-      INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
-      COMPLEX(kind=real_8), DIMENSION(:, :), POINTER                    :: block_2d_ptr => NULL()
-      COMPLEX(kind=real_8), DIMENSION(:, :), ALLOCATABLE                :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+      COMPLEX(kind=real_8), DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr => NULL()
       LOGICAL                                               :: tr
+      INTEGER                                               :: i
+      COMPLEX(kind=real_8), DIMENSION(:,:,:), POINTER  :: block_ptr
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_3d_block_c_dp', &
                                      routineP = moduleN//':'//routineN
 
-      NULLIFY (block_2d_ptr)
+      NULLIFY (block_2d_ptr, block_ptr)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
-      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-      DBCSR_ASSERT(.NOT. tr)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      IF (found) THEN
-         ! convert pointer to allocatable
-         CALL allocate_any(block_2d, source=block_2d_ptr)
+      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-         CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-         CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
-      ENDIF
+         CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+         DBCSR_ASSERT(.NOT. tr)
+
+         IF (found) THEN
+            IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 3)/))) THEN
+               ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+               block_ptr(LBOUND(block, 1):UBOUND(block, 1), LBOUND(block, 2):UBOUND(block, 2), LBOUND(block, 3):UBOUND(block, 3))&
+# 690 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+                   & => block_2d_ptr(:, :)
+               block(:,:,:) = block_ptr(:,:,:)
+            ELSE
+               ! need reshape due to rank reordering
+               block(:,:,:) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
+            ENDIF
+         ENDIF
+
+      END ASSOCIATE
 
    END SUBROUTINE
-# 661 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 655 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_4d_block_c_dp (tensor, ind, sizes, block, found)
       !! Template for dbcsr_t_get_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(4), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(4), INTENT(IN) :: sizes
          !! block size
       COMPLEX(kind=real_8), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)), &
          INTENT(OUT)                                        :: block
@@ -2257,42 +2385,50 @@ CONTAINS
       LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
-      INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
-      COMPLEX(kind=real_8), DIMENSION(:, :), POINTER                    :: block_2d_ptr => NULL()
-      COMPLEX(kind=real_8), DIMENSION(:, :), ALLOCATABLE                :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+      COMPLEX(kind=real_8), DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr => NULL()
       LOGICAL                                               :: tr
+      INTEGER                                               :: i
+      COMPLEX(kind=real_8), DIMENSION(:,:,:,:), POINTER  :: block_ptr
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_4d_block_c_dp', &
                                      routineP = moduleN//':'//routineN
 
-      NULLIFY (block_2d_ptr)
+      NULLIFY (block_2d_ptr, block_ptr)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
-      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-      DBCSR_ASSERT(.NOT. tr)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      IF (found) THEN
-         ! convert pointer to allocatable
-         CALL allocate_any(block_2d, source=block_2d_ptr)
+      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-         CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-         CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
-      ENDIF
+         CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+         DBCSR_ASSERT(.NOT. tr)
+
+         IF (found) THEN
+            IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 4)/))) THEN
+               ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+               block_ptr(LBOUND(block, 1):UBOUND(block, 1), LBOUND(block, 2):UBOUND(block, 2), LBOUND(block, 3):UBOUND(block, 3),&
+# 690 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+                   & LBOUND(block, 4):UBOUND(block, 4)) => block_2d_ptr(:, :)
+               block(:,:,:,:) = block_ptr(:,:,:,:)
+            ELSE
+               ! need reshape due to rank reordering
+               block(:,:,:,:) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
+            ENDIF
+         ENDIF
+
+      END ASSOCIATE
 
    END SUBROUTINE
 # 702 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 660 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 661 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 654 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 655 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_2d_block_c_sp (tensor, ind, sizes, block, found)
       !! Template for dbcsr_t_get_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(2), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(2), INTENT(IN) :: sizes
          !! block size
       COMPLEX(kind=real_4), DIMENSION(sizes(1), sizes(2)), &
          INTENT(OUT)                                        :: block
@@ -2300,40 +2436,46 @@ CONTAINS
       LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
-      INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
-      COMPLEX(kind=real_4), DIMENSION(:, :), POINTER                    :: block_2d_ptr => NULL()
-      COMPLEX(kind=real_4), DIMENSION(:, :), ALLOCATABLE                :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+      COMPLEX(kind=real_4), DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr => NULL()
       LOGICAL                                               :: tr
+      INTEGER                                               :: i
+      COMPLEX(kind=real_4), DIMENSION(:,:), POINTER  :: block_ptr
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_2d_block_c_sp', &
                                      routineP = moduleN//':'//routineN
 
-      NULLIFY (block_2d_ptr)
+      NULLIFY (block_2d_ptr, block_ptr)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
-      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-      DBCSR_ASSERT(.NOT. tr)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      IF (found) THEN
-         ! convert pointer to allocatable
-         CALL allocate_any(block_2d, source=block_2d_ptr)
+      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-         CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-         CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
-      ENDIF
+         CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+         DBCSR_ASSERT(.NOT. tr)
+
+         IF (found) THEN
+            IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 2)/))) THEN
+               ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+               block_ptr(LBOUND(block, 1):UBOUND(block, 1), LBOUND(block, 2):UBOUND(block, 2)) => block_2d_ptr(:, :)
+               block(:,:) = block_ptr(:,:)
+            ELSE
+               ! need reshape due to rank reordering
+               block(:,:) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
+            ENDIF
+         ENDIF
+
+      END ASSOCIATE
 
    END SUBROUTINE
-# 661 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 655 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_3d_block_c_sp (tensor, ind, sizes, block, found)
       !! Template for dbcsr_t_get_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(3), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(3), INTENT(IN) :: sizes
          !! block size
       COMPLEX(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3)), &
          INTENT(OUT)                                        :: block
@@ -2341,40 +2483,48 @@ CONTAINS
       LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
-      INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
-      COMPLEX(kind=real_4), DIMENSION(:, :), POINTER                    :: block_2d_ptr => NULL()
-      COMPLEX(kind=real_4), DIMENSION(:, :), ALLOCATABLE                :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+      COMPLEX(kind=real_4), DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr => NULL()
       LOGICAL                                               :: tr
+      INTEGER                                               :: i
+      COMPLEX(kind=real_4), DIMENSION(:,:,:), POINTER  :: block_ptr
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_3d_block_c_sp', &
                                      routineP = moduleN//':'//routineN
 
-      NULLIFY (block_2d_ptr)
+      NULLIFY (block_2d_ptr, block_ptr)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
-      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-      DBCSR_ASSERT(.NOT. tr)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      IF (found) THEN
-         ! convert pointer to allocatable
-         CALL allocate_any(block_2d, source=block_2d_ptr)
+      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-         CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-         CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
-      ENDIF
+         CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+         DBCSR_ASSERT(.NOT. tr)
+
+         IF (found) THEN
+            IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 3)/))) THEN
+               ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+               block_ptr(LBOUND(block, 1):UBOUND(block, 1), LBOUND(block, 2):UBOUND(block, 2), LBOUND(block, 3):UBOUND(block, 3))&
+# 690 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+                   & => block_2d_ptr(:, :)
+               block(:,:,:) = block_ptr(:,:,:)
+            ELSE
+               ! need reshape due to rank reordering
+               block(:,:,:) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
+            ENDIF
+         ENDIF
+
+      END ASSOCIATE
 
    END SUBROUTINE
-# 661 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+# 655 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
    SUBROUTINE dbcsr_t_get_4d_block_c_sp (tensor, ind, sizes, block, found)
       !! Template for dbcsr_t_get_block.
 
       TYPE(dbcsr_t_type), INTENT(INOUT)                     :: tensor
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: ind
+      INTEGER, DIMENSION(4), INTENT(IN) :: ind
          !! block index
-      INTEGER, DIMENSION(ndims_tensor(tensor)), INTENT(IN) :: sizes
+      INTEGER, DIMENSION(4), INTENT(IN) :: sizes
          !! block size
       COMPLEX(kind=real_4), DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)), &
          INTENT(OUT)                                        :: block
@@ -2382,389 +2532,41 @@ CONTAINS
       LOGICAL, INTENT(OUT)                                  :: found
          !! whether block was found
 
-      INTEGER, ALLOCATABLE, DIMENSION(:)                    :: map1_2d, map2_2d
-      INTEGER(KIND=int_8), DIMENSION(2)                                 :: ind_2d
-      COMPLEX(kind=real_4), DIMENSION(:, :), POINTER                    :: block_2d_ptr => NULL()
-      COMPLEX(kind=real_4), DIMENSION(:, :), ALLOCATABLE                :: block_2d
-      TYPE(nd_to_2d_mapping)                                :: map_blk
+      INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
+      COMPLEX(kind=real_4), DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr => NULL()
       LOGICAL                                               :: tr
+      INTEGER                                               :: i
+      COMPLEX(kind=real_4), DIMENSION(:,:,:,:), POINTER  :: block_ptr
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_4d_block_c_sp', &
                                      routineP = moduleN//':'//routineN
 
-      NULLIFY (block_2d_ptr)
+      NULLIFY (block_2d_ptr, block_ptr)
 
-      ! convert block index
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind)
-      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-      DBCSR_ASSERT(.NOT. tr)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      IF (found) THEN
-         ! convert pointer to allocatable
-         CALL allocate_any(block_2d, source=block_2d_ptr)
+      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
+                 map2_2d=>tensor%nd_index_blk%map2_2d)
 
-         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, map1_2d=map1_2d, map2_2d=map2_2d)
-         CALL create_nd_to_2d_mapping(map_blk, sizes, map1_2d, map2_2d)
-         CALL reshape_2d_to_nd_block(map_blk, block_2d, block)
-      ENDIF
+         CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+         DBCSR_ASSERT(.NOT. tr)
+
+         IF (found) THEN
+            IF (ALL([map1_2d, map2_2d] == (/(i, i=1, 4)/))) THEN
+               ! to avoid costly reshape can do pointer bounds remapping as long as arrays are equivalent in memory
+               block_ptr(LBOUND(block, 1):UBOUND(block, 1), LBOUND(block, 2):UBOUND(block, 2), LBOUND(block, 3):UBOUND(block, 3),&
+# 690 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
+                   & LBOUND(block, 4):UBOUND(block, 4)) => block_2d_ptr(:, :)
+               block(:,:,:,:) = block_ptr(:,:,:,:)
+            ELSE
+               ! need reshape due to rank reordering
+               block(:,:,:,:) = RESHAPE(block_2d_ptr, SHAPE=SHAPE(block), ORDER=[map1_2d, map2_2d])
+            ENDIF
+         ENDIF
+
+      END ASSOCIATE
 
    END SUBROUTINE
 # 702 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
 # 703 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-# 705 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 706 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-   SUBROUTINE reshape_block_m2t_2d_r_dp (map, block_2d, block)
-      !! reshape matrix to tensor block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
-      REAL(kind=real_8), DIMENSION(:, :), INTENT(IN)                    :: block_2d
-      REAL(kind=real_8), DIMENSION(map%dims_nd(1), map%dims_nd(2)), &
-         INTENT(OUT)                                            :: block
-      INTEGER, DIMENSION(ndims_mapping(map))                    :: map_tmp
-
-      map_tmp(:) = [map%map1_2d, map%map2_2d]
-      block(:,:) = RESHAPE(block_2d, SHAPE=SHAPE(block), ORDER=map_tmp)
-   END SUBROUTINE
-# 706 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-   SUBROUTINE reshape_block_m2t_3d_r_dp (map, block_2d, block)
-      !! reshape matrix to tensor block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
-      REAL(kind=real_8), DIMENSION(:, :), INTENT(IN)                    :: block_2d
-      REAL(kind=real_8), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3)), &
-         INTENT(OUT)                                            :: block
-      INTEGER, DIMENSION(ndims_mapping(map))                    :: map_tmp
-
-      map_tmp(:) = [map%map1_2d, map%map2_2d]
-      block(:,:,:) = RESHAPE(block_2d, SHAPE=SHAPE(block), ORDER=map_tmp)
-   END SUBROUTINE
-# 706 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-   SUBROUTINE reshape_block_m2t_4d_r_dp (map, block_2d, block)
-      !! reshape matrix to tensor block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
-      REAL(kind=real_8), DIMENSION(:, :), INTENT(IN)                    :: block_2d
-      REAL(kind=real_8), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3), map%dims_nd(4)), &
-         INTENT(OUT)                                            :: block
-      INTEGER, DIMENSION(ndims_mapping(map))                    :: map_tmp
-
-      map_tmp(:) = [map%map1_2d, map%map2_2d]
-      block(:,:,:,:) = RESHAPE(block_2d, SHAPE=SHAPE(block), ORDER=map_tmp)
-   END SUBROUTINE
-# 719 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 705 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 706 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-   SUBROUTINE reshape_block_m2t_2d_r_sp (map, block_2d, block)
-      !! reshape matrix to tensor block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
-      REAL(kind=real_4), DIMENSION(:, :), INTENT(IN)                    :: block_2d
-      REAL(kind=real_4), DIMENSION(map%dims_nd(1), map%dims_nd(2)), &
-         INTENT(OUT)                                            :: block
-      INTEGER, DIMENSION(ndims_mapping(map))                    :: map_tmp
-
-      map_tmp(:) = [map%map1_2d, map%map2_2d]
-      block(:,:) = RESHAPE(block_2d, SHAPE=SHAPE(block), ORDER=map_tmp)
-   END SUBROUTINE
-# 706 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-   SUBROUTINE reshape_block_m2t_3d_r_sp (map, block_2d, block)
-      !! reshape matrix to tensor block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
-      REAL(kind=real_4), DIMENSION(:, :), INTENT(IN)                    :: block_2d
-      REAL(kind=real_4), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3)), &
-         INTENT(OUT)                                            :: block
-      INTEGER, DIMENSION(ndims_mapping(map))                    :: map_tmp
-
-      map_tmp(:) = [map%map1_2d, map%map2_2d]
-      block(:,:,:) = RESHAPE(block_2d, SHAPE=SHAPE(block), ORDER=map_tmp)
-   END SUBROUTINE
-# 706 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-   SUBROUTINE reshape_block_m2t_4d_r_sp (map, block_2d, block)
-      !! reshape matrix to tensor block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
-      REAL(kind=real_4), DIMENSION(:, :), INTENT(IN)                    :: block_2d
-      REAL(kind=real_4), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3), map%dims_nd(4)), &
-         INTENT(OUT)                                            :: block
-      INTEGER, DIMENSION(ndims_mapping(map))                    :: map_tmp
-
-      map_tmp(:) = [map%map1_2d, map%map2_2d]
-      block(:,:,:,:) = RESHAPE(block_2d, SHAPE=SHAPE(block), ORDER=map_tmp)
-   END SUBROUTINE
-# 719 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 705 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 706 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-   SUBROUTINE reshape_block_m2t_2d_c_dp (map, block_2d, block)
-      !! reshape matrix to tensor block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
-      COMPLEX(kind=real_8), DIMENSION(:, :), INTENT(IN)                    :: block_2d
-      COMPLEX(kind=real_8), DIMENSION(map%dims_nd(1), map%dims_nd(2)), &
-         INTENT(OUT)                                            :: block
-      INTEGER, DIMENSION(ndims_mapping(map))                    :: map_tmp
-
-      map_tmp(:) = [map%map1_2d, map%map2_2d]
-      block(:,:) = RESHAPE(block_2d, SHAPE=SHAPE(block), ORDER=map_tmp)
-   END SUBROUTINE
-# 706 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-   SUBROUTINE reshape_block_m2t_3d_c_dp (map, block_2d, block)
-      !! reshape matrix to tensor block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
-      COMPLEX(kind=real_8), DIMENSION(:, :), INTENT(IN)                    :: block_2d
-      COMPLEX(kind=real_8), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3)), &
-         INTENT(OUT)                                            :: block
-      INTEGER, DIMENSION(ndims_mapping(map))                    :: map_tmp
-
-      map_tmp(:) = [map%map1_2d, map%map2_2d]
-      block(:,:,:) = RESHAPE(block_2d, SHAPE=SHAPE(block), ORDER=map_tmp)
-   END SUBROUTINE
-# 706 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-   SUBROUTINE reshape_block_m2t_4d_c_dp (map, block_2d, block)
-      !! reshape matrix to tensor block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
-      COMPLEX(kind=real_8), DIMENSION(:, :), INTENT(IN)                    :: block_2d
-      COMPLEX(kind=real_8), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3), map%dims_nd(4)), &
-         INTENT(OUT)                                            :: block
-      INTEGER, DIMENSION(ndims_mapping(map))                    :: map_tmp
-
-      map_tmp(:) = [map%map1_2d, map%map2_2d]
-      block(:,:,:,:) = RESHAPE(block_2d, SHAPE=SHAPE(block), ORDER=map_tmp)
-   END SUBROUTINE
-# 719 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 705 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 706 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-   SUBROUTINE reshape_block_m2t_2d_c_sp (map, block_2d, block)
-      !! reshape matrix to tensor block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
-      COMPLEX(kind=real_4), DIMENSION(:, :), INTENT(IN)                    :: block_2d
-      COMPLEX(kind=real_4), DIMENSION(map%dims_nd(1), map%dims_nd(2)), &
-         INTENT(OUT)                                            :: block
-      INTEGER, DIMENSION(ndims_mapping(map))                    :: map_tmp
-
-      map_tmp(:) = [map%map1_2d, map%map2_2d]
-      block(:,:) = RESHAPE(block_2d, SHAPE=SHAPE(block), ORDER=map_tmp)
-   END SUBROUTINE
-# 706 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-   SUBROUTINE reshape_block_m2t_3d_c_sp (map, block_2d, block)
-      !! reshape matrix to tensor block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
-      COMPLEX(kind=real_4), DIMENSION(:, :), INTENT(IN)                    :: block_2d
-      COMPLEX(kind=real_4), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3)), &
-         INTENT(OUT)                                            :: block
-      INTEGER, DIMENSION(ndims_mapping(map))                    :: map_tmp
-
-      map_tmp(:) = [map%map1_2d, map%map2_2d]
-      block(:,:,:) = RESHAPE(block_2d, SHAPE=SHAPE(block), ORDER=map_tmp)
-   END SUBROUTINE
-# 706 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-   SUBROUTINE reshape_block_m2t_4d_c_sp (map, block_2d, block)
-      !! reshape matrix to tensor block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                        :: map
-      COMPLEX(kind=real_4), DIMENSION(:, :), INTENT(IN)                    :: block_2d
-      COMPLEX(kind=real_4), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3), map%dims_nd(4)), &
-         INTENT(OUT)                                            :: block
-      INTEGER, DIMENSION(ndims_mapping(map))                    :: map_tmp
-
-      map_tmp(:) = [map%map1_2d, map%map2_2d]
-      block(:,:,:,:) = RESHAPE(block_2d, SHAPE=SHAPE(block), ORDER=map_tmp)
-   END SUBROUTINE
-# 719 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 720 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-
-# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   SUBROUTINE reshape_block_t2m_2d_r_dp (map, block, block_2d)
-      !! reshape tensor to matrix block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
-      REAL(kind=real_8), DIMENSION(map%dims_nd(1), map%dims_nd(2)), INTENT(IN) :: block
-      REAL(kind=real_8), DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d
-
-      INTEGER, DIMENSION(ndims_mapping(map))                             :: shape_in, shape_reordered
-      REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:)           :: block_tmp
-
-      shape_in = SHAPE(block)
-      shape_reordered(map%map_nd) = shape_in
-      CALL allocate_any(block_tmp, source=block, order=map%map_nd)
-      block_2d(:, :) = RESHAPE(block_tmp, SHAPE=SHAPE(block_2d))
-   END SUBROUTINE
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   SUBROUTINE reshape_block_t2m_3d_r_dp (map, block, block_2d)
-      !! reshape tensor to matrix block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
-      REAL(kind=real_8), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3)), INTENT(IN) :: block
-      REAL(kind=real_8), DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d
-
-      INTEGER, DIMENSION(ndims_mapping(map))                             :: shape_in, shape_reordered
-      REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:)           :: block_tmp
-
-      shape_in = SHAPE(block)
-      shape_reordered(map%map_nd) = shape_in
-      CALL allocate_any(block_tmp, source=block, order=map%map_nd)
-      block_2d(:, :) = RESHAPE(block_tmp, SHAPE=SHAPE(block_2d))
-   END SUBROUTINE
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   SUBROUTINE reshape_block_t2m_4d_r_dp (map, block, block_2d)
-      !! reshape tensor to matrix block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
-      REAL(kind=real_8), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3), map%dims_nd(4)), INTENT(IN) :: block
-      REAL(kind=real_8), DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d
-
-      INTEGER, DIMENSION(ndims_mapping(map))                             :: shape_in, shape_reordered
-      REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:)           :: block_tmp
-
-      shape_in = SHAPE(block)
-      shape_reordered(map%map_nd) = shape_in
-      CALL allocate_any(block_tmp, source=block, order=map%map_nd)
-      block_2d(:, :) = RESHAPE(block_tmp, SHAPE=SHAPE(block_2d))
-   END SUBROUTINE
-# 738 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   SUBROUTINE reshape_block_t2m_2d_r_sp (map, block, block_2d)
-      !! reshape tensor to matrix block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
-      REAL(kind=real_4), DIMENSION(map%dims_nd(1), map%dims_nd(2)), INTENT(IN) :: block
-      REAL(kind=real_4), DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d
-
-      INTEGER, DIMENSION(ndims_mapping(map))                             :: shape_in, shape_reordered
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:)           :: block_tmp
-
-      shape_in = SHAPE(block)
-      shape_reordered(map%map_nd) = shape_in
-      CALL allocate_any(block_tmp, source=block, order=map%map_nd)
-      block_2d(:, :) = RESHAPE(block_tmp, SHAPE=SHAPE(block_2d))
-   END SUBROUTINE
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   SUBROUTINE reshape_block_t2m_3d_r_sp (map, block, block_2d)
-      !! reshape tensor to matrix block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
-      REAL(kind=real_4), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3)), INTENT(IN) :: block
-      REAL(kind=real_4), DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d
-
-      INTEGER, DIMENSION(ndims_mapping(map))                             :: shape_in, shape_reordered
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:)           :: block_tmp
-
-      shape_in = SHAPE(block)
-      shape_reordered(map%map_nd) = shape_in
-      CALL allocate_any(block_tmp, source=block, order=map%map_nd)
-      block_2d(:, :) = RESHAPE(block_tmp, SHAPE=SHAPE(block_2d))
-   END SUBROUTINE
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   SUBROUTINE reshape_block_t2m_4d_r_sp (map, block, block_2d)
-      !! reshape tensor to matrix block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
-      REAL(kind=real_4), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3), map%dims_nd(4)), INTENT(IN) :: block
-      REAL(kind=real_4), DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d
-
-      INTEGER, DIMENSION(ndims_mapping(map))                             :: shape_in, shape_reordered
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:)           :: block_tmp
-
-      shape_in = SHAPE(block)
-      shape_reordered(map%map_nd) = shape_in
-      CALL allocate_any(block_tmp, source=block, order=map%map_nd)
-      block_2d(:, :) = RESHAPE(block_tmp, SHAPE=SHAPE(block_2d))
-   END SUBROUTINE
-# 738 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   SUBROUTINE reshape_block_t2m_2d_c_dp (map, block, block_2d)
-      !! reshape tensor to matrix block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
-      COMPLEX(kind=real_8), DIMENSION(map%dims_nd(1), map%dims_nd(2)), INTENT(IN) :: block
-      COMPLEX(kind=real_8), DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d
-
-      INTEGER, DIMENSION(ndims_mapping(map))                             :: shape_in, shape_reordered
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:)           :: block_tmp
-
-      shape_in = SHAPE(block)
-      shape_reordered(map%map_nd) = shape_in
-      CALL allocate_any(block_tmp, source=block, order=map%map_nd)
-      block_2d(:, :) = RESHAPE(block_tmp, SHAPE=SHAPE(block_2d))
-   END SUBROUTINE
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   SUBROUTINE reshape_block_t2m_3d_c_dp (map, block, block_2d)
-      !! reshape tensor to matrix block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
-      COMPLEX(kind=real_8), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3)), INTENT(IN) :: block
-      COMPLEX(kind=real_8), DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d
-
-      INTEGER, DIMENSION(ndims_mapping(map))                             :: shape_in, shape_reordered
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:)           :: block_tmp
-
-      shape_in = SHAPE(block)
-      shape_reordered(map%map_nd) = shape_in
-      CALL allocate_any(block_tmp, source=block, order=map%map_nd)
-      block_2d(:, :) = RESHAPE(block_tmp, SHAPE=SHAPE(block_2d))
-   END SUBROUTINE
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   SUBROUTINE reshape_block_t2m_4d_c_dp (map, block, block_2d)
-      !! reshape tensor to matrix block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
-      COMPLEX(kind=real_8), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3), map%dims_nd(4)), INTENT(IN) :: block
-      COMPLEX(kind=real_8), DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d
-
-      INTEGER, DIMENSION(ndims_mapping(map))                             :: shape_in, shape_reordered
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:)           :: block_tmp
-
-      shape_in = SHAPE(block)
-      shape_reordered(map%map_nd) = shape_in
-      CALL allocate_any(block_tmp, source=block, order=map%map_nd)
-      block_2d(:, :) = RESHAPE(block_tmp, SHAPE=SHAPE(block_2d))
-   END SUBROUTINE
-# 738 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   SUBROUTINE reshape_block_t2m_2d_c_sp (map, block, block_2d)
-      !! reshape tensor to matrix block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
-      COMPLEX(kind=real_4), DIMENSION(map%dims_nd(1), map%dims_nd(2)), INTENT(IN) :: block
-      COMPLEX(kind=real_4), DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d
-
-      INTEGER, DIMENSION(ndims_mapping(map))                             :: shape_in, shape_reordered
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:)           :: block_tmp
-
-      shape_in = SHAPE(block)
-      shape_reordered(map%map_nd) = shape_in
-      CALL allocate_any(block_tmp, source=block, order=map%map_nd)
-      block_2d(:, :) = RESHAPE(block_tmp, SHAPE=SHAPE(block_2d))
-   END SUBROUTINE
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   SUBROUTINE reshape_block_t2m_3d_c_sp (map, block, block_2d)
-      !! reshape tensor to matrix block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
-      COMPLEX(kind=real_4), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3)), INTENT(IN) :: block
-      COMPLEX(kind=real_4), DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d
-
-      INTEGER, DIMENSION(ndims_mapping(map))                             :: shape_in, shape_reordered
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:)           :: block_tmp
-
-      shape_in = SHAPE(block)
-      shape_reordered(map%map_nd) = shape_in
-      CALL allocate_any(block_tmp, source=block, order=map%map_nd)
-      block_2d(:, :) = RESHAPE(block_tmp, SHAPE=SHAPE(block_2d))
-   END SUBROUTINE
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-   SUBROUTINE reshape_block_t2m_4d_c_sp (map, block, block_2d)
-      !! reshape tensor to matrix block
-      TYPE(nd_to_2d_mapping), INTENT(IN)                                 :: map
-      COMPLEX(kind=real_4), DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3), map%dims_nd(4)), INTENT(IN) :: block
-      COMPLEX(kind=real_4), DIMENSION(map%dims_2d(1), map%dims_2d(2)), INTENT(OUT)  :: block_2d
-
-      INTEGER, DIMENSION(ndims_mapping(map))                             :: shape_in, shape_reordered
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:)           :: block_tmp
-
-      shape_in = SHAPE(block)
-      shape_reordered(map%map_nd) = shape_in
-      CALL allocate_any(block_tmp, source=block, order=map%map_nd)
-      block_2d(:, :) = RESHAPE(block_tmp, SHAPE=SHAPE(block_2d))
-   END SUBROUTINE
-# 738 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
-# 739 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
 
 END MODULE

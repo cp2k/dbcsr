@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">103 statements</a>
+    title=" 0.2% of total for procedures.">122 statements</a>
      </li> 
      
      
@@ -188,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_t_make_compatible_blocks(tensor1, tensor2, tensor1_split, tensor2_split, nodata1, nodata2, move_data)
+public subroutine dbcsr_t_make_compatible_blocks(tensor1, tensor2, tensor1_split, tensor2_split, order, nodata1, nodata2, move_data)
     
     
    
@@ -276,6 +276,21 @@ public subroutine dbcsr_t_make_compatible_blocks(tensor1, tensor2, tensor1_split
   <td></td><td>::</td>
   <td><strong>tensor2_split</strong></td><td><p>tensor 1 with split blocks
  tensor 2 with split blocks</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-order~39"></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(ndims_tensor(tensor1))</td><td>::</td>
+  <td><strong>order</strong></td><td></td>
   
 </tr>
 

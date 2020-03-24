@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>reshape_block_t2m_4d_c_sp &ndash; DBCSR Library</title>
+    <title>get_nd_indices_tensor &ndash; DBCSR Library</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -103,8 +103,8 @@
     
   
   <div class="row">
-    <h1>reshape_block_t2m_4d_c_sp
-      <small>Subroutine</small>
+    <h1>get_nd_indices_tensor
+      <small>Function</small>
     
     </h1>
     
@@ -121,24 +121,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">11 statements</a>
+    title=" 0.0% of total for procedures.">15 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_block.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_index.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tensor_block.f.html'>dbcsr_tensor_block.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tensor_index.f.html'>dbcsr_tensor_index.F</a></li>
     
-     <li><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
+     <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
     
   
-     <li class="active">reshape_block_t2m_4d_c_sp</li>
+     <li class="active">get_nd_indices_tensor</li>
   </ol>
 </div>
 </div>
@@ -188,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private subroutine reshape_block_t2m_4d_c_sp(map, block, block_2d)
+public pure function get_nd_indices_tensor(map, ind_in) result(ind_out)
     
     
    
@@ -198,7 +198,7 @@ private subroutine reshape_block_t2m_4d_c_sp(map, block, block_2d)
 
 
     
-    <p>reshape tensor to matrix block</p>
+    <p>transform 2d index to nd index, using info from index mapping.</p>
     
 
     <h3>Arguments</h3>
@@ -219,12 +219,12 @@ private subroutine reshape_block_t2m_4d_c_sp(map, block, block_2d)
   
 <tr>
   
-  <td><span class="anchor" id="variable-map~24"></span>type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),</td>
+  <td><span class="anchor" id="variable-map~4"></span>type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>map</strong></td><td></td>
+  <td><strong>map</strong></td><td><p>index mapping</p></td>
   
 </tr>
 
@@ -234,27 +234,12 @@ private subroutine reshape_block_t2m_4d_c_sp(map, block, block_2d)
   
 <tr>
   
-  <td><span class="anchor" id="variable-block~131"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-ind_in~7"></span>integer(kind=int_8),</td>
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(map%dims_nd(1), map%dims_nd(2), map%dims_nd(3), map%dims_nd(4))</td><td>::</td>
-  <td><strong>block</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-block_2d~24"></span>complex(kind=real_4),</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>DIMENSION(map%dims_2d(1), map%dims_2d(2))</td><td>::</td>
-  <td><strong>block_2d</strong></td><td></td>
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>ind_in</strong></td><td><p>2d index</p></td>
   
 </tr>
 
@@ -262,6 +247,15 @@ private subroutine reshape_block_t2m_4d_c_sp(map, block, block_2d)
 </table>
 
     
+    
+    
+    
+    
+    
+    
+   <h3>Return Value <small><span class="anchor" id="variable-ind_out~7"></span>integer,
+  DIMENSION(map%ndim_nd)</small></h3>
+    <p>nd index</p>
     
     
     

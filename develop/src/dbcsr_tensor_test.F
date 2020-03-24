@@ -14,12 +14,12 @@ MODULE dbcsr_tensor_test
 # 1 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
 
-# 66 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
+# 71 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
 # 14 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F" 2
 # 15 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 # 16 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-   USE dbcsr_api, ONLY: dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_real_8, dbcsr_type_complex_4
+   USE dbcsr_api, ONLY: dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_complex_4, dbcsr_type_real_8
    USE dbcsr_tas_base, ONLY: dbcsr_tas_info
    USE dbcsr_tensor, ONLY: &
       dbcsr_t_copy, dbcsr_t_get_block, dbcsr_t_iterator_type, dbcsr_t_iterator_blocks_left, &
@@ -43,7 +43,7 @@ MODULE dbcsr_tensor_test
                                  dbcsr_t_get_info
    USE dbcsr_tensor_io, ONLY: &
       dbcsr_t_write_blocks, dbcsr_t_write_block_indices
-   USE dbcsr_kinds, ONLY: real_8, real_4, &
+   USE dbcsr_kinds, ONLY: real_4, real_8, &
                           default_string_length, &
                           int_8
    USE dbcsr_mpiwrap, ONLY: mp_environ, &
@@ -53,7 +53,7 @@ MODULE dbcsr_tensor_test
                             mp_sum, &
                             mp_cart_create
    USE dbcsr_allocate_wrap, ONLY: allocate_any
-   USE dbcsr_tensor_index, ONLY: combine_index, &
+   USE dbcsr_tensor_index, ONLY: combine_tensor_index, &
                                  dbcsr_t_get_mapping_info
    USE dbcsr_tas_test, ONLY: dbcsr_tas_checksum
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
@@ -795,7 +795,7 @@ CONTAINS
 # 504 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             arr_ind(:) = [i_1, i_2]
             tens_ind(:) = arr_ind(:) + blk_offset(:) - 1
-            blk_2 (arr_ind(1), arr_ind(2)) = combine_index(tens_ind, tensor_size)
+            blk_2 (arr_ind(1), arr_ind(2)) = combine_tensor_index(tens_ind, tensor_size)
 # 508 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDDO
 # 508 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
@@ -813,7 +813,7 @@ CONTAINS
 # 504 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             arr_ind(:) = [i_1, i_2, i_3]
             tens_ind(:) = arr_ind(:) + blk_offset(:) - 1
-            blk_3 (arr_ind(1), arr_ind(2), arr_ind(3)) = combine_index(tens_ind, tensor_size)
+            blk_3 (arr_ind(1), arr_ind(2), arr_ind(3)) = combine_tensor_index(tens_ind, tensor_size)
 # 508 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDDO
 # 508 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
@@ -835,7 +835,7 @@ CONTAINS
 # 504 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             arr_ind(:) = [i_1, i_2, i_3, i_4]
             tens_ind(:) = arr_ind(:) + blk_offset(:) - 1
-            blk_4 (arr_ind(1), arr_ind(2), arr_ind(3), arr_ind(4)) = combine_index(tens_ind, tensor_size)
+            blk_4 (arr_ind(1), arr_ind(2), arr_ind(3), arr_ind(4)) = combine_tensor_index(tens_ind, tensor_size)
 # 508 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDDO
 # 508 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"

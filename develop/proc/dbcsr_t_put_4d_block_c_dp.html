@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">28 statements</a>
+    title=" 0.1% of total for procedures.">34 statements</a>
      </li> 
      
      
@@ -238,7 +238,7 @@ private subroutine dbcsr_t_put_4d_block_c_dp(tensor, ind, sizes, block, summatio
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(4)</td><td>::</td>
   <td><strong>ind</strong></td><td><p>block index</p></td>
   
 </tr>
@@ -253,7 +253,7 @@ private subroutine dbcsr_t_put_4d_block_c_dp(tensor, ind, sizes, block, summatio
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td>DIMENSION(4)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>block size</p></td>
   
 </tr>
@@ -268,7 +268,7 @@ private subroutine dbcsr_t_put_4d_block_c_dp(tensor, ind, sizes, block, summatio
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4))</td><td>::</td>
+  <td>DIMENSION(sizes(1), sizes(2), sizes(3), sizes(4)), TARGET</td><td>::</td>
   <td><strong>block</strong></td><td><p>block to put</p></td>
   
 </tr>

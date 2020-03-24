@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>get_2d_indices &ndash; DBCSR Library</title>
+    <title>tas_dist_t &ndash; DBCSR Library</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -103,7 +103,7 @@
     
   
   <div class="row">
-    <h1>get_2d_indices
+    <h1>tas_dist_t
       <small>Function</small>
     
     </h1>
@@ -121,24 +121,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">11 statements</a>
+    title=" 0.0% of total for procedures.">10 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_index.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_types.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tensor_index.f.html'>dbcsr_tensor_index.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tensor_types.f.html'>dbcsr_tensor_types.F</a></li>
     
-     <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
+     <li><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
     
   
-     <li class="active">get_2d_indices</li>
+     <li class="active">tas_dist_t</li>
   </ol>
 </div>
 </div>
@@ -179,13 +179,7 @@
 
 
 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/get_2d_indices.html#src">get_2d_indices</a>
-  </div>
-</div>
-
+<em>None</em>
 
 
 </div>
@@ -194,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public function get_2d_indices(map, ind_in) result(ind_out)
+private function tas_dist_t(t, rowcol)
     
     
    
@@ -203,8 +197,6 @@ public function get_2d_indices(map, ind_in) result(ind_out)
   
 
 
-    
-    <p>transform nd index to 2d index, using info from index mapping.</p>
     
 
     <h3>Arguments</h3>
@@ -225,12 +217,12 @@ public function get_2d_indices(map, ind_in) result(ind_out)
   
 <tr>
   
-  <td><span class="anchor" id="variable-map~26"></span>type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),</td>
+  <td><span class="anchor" id="variable-t~4"></span>class(<a href='../type/dbcsr_tas_dist_t.html'>dbcsr_tas_dist_t</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>map</strong></td><td><p>index mapping</p></td>
+  <td><strong>t</strong></td><td></td>
   
 </tr>
 
@@ -240,12 +232,12 @@ public function get_2d_indices(map, ind_in) result(ind_out)
   
 <tr>
   
-  <td><span class="anchor" id="variable-ind_in~3"></span>integer,</td>
-  <td>intent(in),</td>
+  <td><span class="anchor" id="variable-rowcol~3"></span>integer(kind=int_8),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>DIMENSION(ndims_mapping(map))</td><td>::</td>
-  <td><strong>ind_in</strong></td><td><p>nd index</p></td>
+  <td></td><td>::</td>
+  <td><strong>rowcol</strong></td><td></td>
   
 </tr>
 
@@ -259,9 +251,9 @@ public function get_2d_indices(map, ind_in) result(ind_out)
     
     
     
-   <h3>Return Value <small><span class="anchor" id="variable-ind_out~3"></span>integer(kind=int_8),
-  DIMENSION(2)</small></h3>
-    <p>2d index</p>
+   <h3>Return Value <small><span class="anchor" id="variable-tas_dist_t"></span>integer
+  </small></h3>
+    
     
     
     
@@ -293,13 +285,7 @@ public function get_2d_indices(map, ind_in) result(ind_out)
 
 
 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/get_2d_indices.html#src">get_2d_indices</a>
-  </div>
-</div>
-
+<em>None</em>
 
 
     </section>
@@ -322,31 +308,6 @@ public function get_2d_indices(map, ind_in) result(ind_out)
 
     
     
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">FUNCTION </span><span class="n">get_2d_indices</span><span class="p">(</span><span class="n">map</span><span class="p">,</span> <span class="n">ind_in</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">ind_out</span><span class="p">)</span>
-      <span class="c">!! transform nd index to 2d index, using info from index mapping.</span>
-
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">nd_to_2d_mapping</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">map</span>
-         <span class="c">!! index mapping</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">ndims_mapping</span><span class="p">(</span><span class="n">map</span><span class="p">)),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ind_in</span>
-         <span class="c">!! nd index</span>
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">ind_out</span>
-         <span class="c">!! 2d index</span>
-
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">ndim2_2d</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">ind_2</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">ndim1_2d</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">ind_1</span>
-
-      <span class="n">ind_1</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">ind_in</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">map1_2d</span><span class="p">)</span>
-      <span class="n">ind_2</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">ind_in</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">map2_2d</span><span class="p">)</span>
-      <span class="n">ind_out</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">combine_index</span><span class="p">(</span><span class="n">ind_1</span><span class="p">,</span> <span class="n">map</span><span class="p">%</span><span class="n">dims1_2d</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">map</span><span class="p">%</span><span class="n">base</span><span class="p">,</span> <span class="n">col_major</span><span class="o">=</span><span class="n">map</span><span class="p">%</span><span class="n">col_major</span><span class="p">)</span>
-      <span class="n">ind_out</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">combine_index</span><span class="p">(</span><span class="n">ind_2</span><span class="p">,</span> <span class="n">map</span><span class="p">%</span><span class="n">dims2_2d</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">map</span><span class="p">%</span><span class="n">base</span><span class="p">,</span> <span class="n">col_major</span><span class="o">=</span><span class="n">map</span><span class="p">%</span><span class="n">col_major</span><span class="p">)</span>
-   <span class="k">END FUNCTION </span><span class="n">get_2d_indices</span>
-</pre></div>
-
-    </section>
-    <br>
     
     
     </div>

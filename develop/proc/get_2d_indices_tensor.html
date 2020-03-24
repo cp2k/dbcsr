@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>r_blk_size_t &ndash; DBCSR Library</title>
+    <title>get_2d_indices_tensor &ndash; DBCSR Library</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -103,7 +103,7 @@
     
   
   <div class="row">
-    <h1>r_blk_size_t
+    <h1>get_2d_indices_tensor
       <small>Function</small>
     
     </h1>
@@ -121,24 +121,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">10 statements</a>
+    title=" 0.0% of total for procedures.">15 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_types.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_index.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tensor_types.f.html'>dbcsr_tensor_types.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tensor_index.f.html'>dbcsr_tensor_index.F</a></li>
     
-     <li><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
+     <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
     
   
-     <li class="active">r_blk_size_t</li>
+     <li class="active">get_2d_indices_tensor</li>
   </ol>
 </div>
 </div>
@@ -188,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private function r_blk_size_t(t, rowcol)
+public pure function get_2d_indices_tensor(map, ind_in) result(ind_out)
     
     
    
@@ -197,6 +197,8 @@ private function r_blk_size_t(t, rowcol)
   
 
 
+    
+    <p>transform nd index to 2d index, using info from index mapping.</p>
     
 
     <h3>Arguments</h3>
@@ -217,12 +219,12 @@ private function r_blk_size_t(t, rowcol)
   
 <tr>
   
-  <td><span class="anchor" id="variable-t~6"></span>class(<a href='../type/dbcsr_tas_blk_size_t.html'>dbcsr_tas_blk_size_t</a>),</td>
+  <td><span class="anchor" id="variable-map~2"></span>type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>t</strong></td><td></td>
+  <td><strong>map</strong></td><td><p>index mapping</p></td>
   
 </tr>
 
@@ -232,12 +234,12 @@ private function r_blk_size_t(t, rowcol)
   
 <tr>
   
-  <td><span class="anchor" id="variable-rowcol~4"></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-ind_in~5"></span>integer,</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rowcol</strong></td><td></td>
+  <td>DIMENSION(map%ndim_nd)</td><td>::</td>
+  <td><strong>ind_in</strong></td><td><p>nd index</p></td>
   
 </tr>
 
@@ -251,9 +253,9 @@ private function r_blk_size_t(t, rowcol)
     
     
     
-   <h3>Return Value <small><span class="anchor" id="variable-r_blk_size_t"></span>integer
-  </small></h3>
-    
+   <h3>Return Value <small><span class="anchor" id="variable-ind_out~5"></span>integer(kind=int_8),
+  DIMENSION(2)</small></h3>
+    <p>2d index</p>
     
     
     

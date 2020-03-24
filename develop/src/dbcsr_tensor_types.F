@@ -15,7 +15,7 @@ MODULE dbcsr_tensor_types
 # 1 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
 
-# 66 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
+# 71 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
 # 15 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F" 2
 # 16 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
 # 17 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
@@ -25,7 +25,7 @@ MODULE dbcsr_tensor_types
       sizes_of_arrays, sum_of_arrays, array_sublist, get_arrays, get_ith_array, array_eq_i
    USE dbcsr_api, ONLY: &
       dbcsr_distribution_get, dbcsr_distribution_type, dbcsr_get_info, dbcsr_type, &
-      dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_complex_4
+      dbcsr_type_complex_4, dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_8
    USE dbcsr_kinds, ONLY: &
       real_4, real_8, &
       default_string_length
@@ -34,12 +34,13 @@ MODULE dbcsr_tensor_types
       dbcsr_tas_distribution_destroy, dbcsr_tas_finalize, dbcsr_tas_get_info, &
       dbcsr_tas_destroy, dbcsr_tas_get_stored_coordinates, dbcsr_tas_set, dbcsr_tas_filter, &
       dbcsr_tas_get_num_blocks, dbcsr_tas_get_num_blocks_total, dbcsr_tas_get_data_size, dbcsr_tas_get_nze, &
-      dbcsr_tas_get_nze_total, dbcsr_tas_clear
+      dbcsr_tas_get_nze_total, dbcsr_tas_clear, dbcsr_tas_get_data_type
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_type, dbcsr_tas_distribution_type, dbcsr_tas_split_info
    USE dbcsr_tensor_index, ONLY: &
-      get_2d_indices, get_nd_indices, create_nd_to_2d_mapping, destroy_nd_to_2d_mapping, &
-      dbcsr_t_get_mapping_info, nd_to_2d_mapping, split_index, combine_index, ndims_mapping
+      get_2d_indices_tensor, get_nd_indices_pgrid, create_nd_to_2d_mapping, destroy_nd_to_2d_mapping, &
+      dbcsr_t_get_mapping_info, nd_to_2d_mapping, split_tensor_index, combine_tensor_index, combine_pgrid_index, &
+      split_pgrid_index, ndims_mapping
    USE dbcsr_tas_split, ONLY: &
       dbcsr_tas_create_split_rows_or_cols, dbcsr_tas_release_info, dbcsr_tas_info_hold, &
       dbcsr_tas_create_split, dbcsr_tas_get_split_info
@@ -137,9 +138,9 @@ MODULE dbcsr_tensor_types
       TYPE(array_list)       :: nd_dist
    CONTAINS
       ! map matrix index to process grid:
-      PROCEDURE :: dist => r_dist_t
+      PROCEDURE :: dist => tas_dist_t
       ! map process grid to matrix index:
-      PROCEDURE :: rowcols => r_rowcols_t
+      PROCEDURE :: rowcols => tas_rowcols_t
    END TYPE
 
    ! block size object for one matrix index
@@ -149,7 +150,7 @@ MODULE dbcsr_tensor_types
       ! block size only for this matrix dimension:
       TYPE(array_list) :: blk_size
    CONTAINS
-      PROCEDURE :: data => r_blk_size_t
+      PROCEDURE :: data => tas_blk_size_t
    END TYPE
 
    INTERFACE dbcsr_t_create
@@ -167,27 +168,27 @@ MODULE dbcsr_tensor_types
    END INTERFACE
 
    INTERFACE dbcsr_t_set
-# 166 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       MODULE PROCEDURE dbcsr_t_set_r_dp
-# 166 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       MODULE PROCEDURE dbcsr_t_set_r_sp
-# 166 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       MODULE PROCEDURE dbcsr_t_set_c_dp
-# 166 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       MODULE PROCEDURE dbcsr_t_set_c_sp
-# 168 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 169 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
    END INTERFACE
 
    INTERFACE dbcsr_t_filter
-# 172 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 173 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       MODULE PROCEDURE dbcsr_t_filter_r_dp
-# 172 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 173 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       MODULE PROCEDURE dbcsr_t_filter_r_sp
-# 172 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 173 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       MODULE PROCEDURE dbcsr_t_filter_c_dp
-# 172 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 173 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       MODULE PROCEDURE dbcsr_t_filter_c_sp
-# 174 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 175 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
    END INTERFACE
 
 CONTAINS
@@ -234,49 +235,49 @@ CONTAINS
       new_dbcsr_tas_dist_t%nmrowcol = matrix_dims(which_dim)
    END FUNCTION
 
-   FUNCTION r_dist_t(t, rowcol)
+   FUNCTION tas_dist_t(t, rowcol)
       CLASS(dbcsr_tas_dist_t), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
-      INTEGER, DIMENSION(SIZE(t%dims)) :: ind_blk
-      INTEGER, DIMENSION(SIZE(t%dims)) :: dist_blk
-      INTEGER :: r_dist_t
+      INTEGER, DIMENSION(4) :: ind_blk
+      INTEGER, DIMENSION(4) :: dist_blk
+      INTEGER :: tas_dist_t
 
-      ind_blk(:) = split_index(rowcol, t%dims, base=1, col_major=.TRUE.)
-      dist_blk(:) = get_array_elements(t%nd_dist, ind_blk)
-      r_dist_t = INT(combine_index(dist_blk, t%dims_grid, base=0, col_major=.FALSE.))
+      ind_blk(:SIZE(t%dims)) = split_tensor_index(rowcol, t%dims)
+      dist_blk(:SIZE(t%dims)) = get_array_elements(t%nd_dist, ind_blk(:SIZE(t%dims)))
+      tas_dist_t = combine_pgrid_index(dist_blk(:SIZE(t%dims)), t%dims_grid)
    END FUNCTION
 
-   FUNCTION r_rowcols_t(t, dist)
+   FUNCTION tas_rowcols_t(t, dist)
       CLASS(dbcsr_tas_dist_t), INTENT(IN) :: t
       INTEGER, INTENT(IN) :: dist
-      INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE :: r_rowcols_t
-      INTEGER, DIMENSION(SIZE(t%dims)) :: dist_blk
+      INTEGER(KIND=int_8), DIMENSION(:), ALLOCATABLE :: tas_rowcols_t
+      INTEGER, DIMENSION(4) :: dist_blk
       INTEGER, DIMENSION(:), ALLOCATABLE :: dist_1, dist_2, dist_3, dist_4, blks_1, blks_2, blks_3, blks_4, blks_tmp, nd_ind
       INTEGER :: i_1, i_2, i_3, i_4, i, iblk, iblk_count, nblks
       INTEGER(KIND=int_8) :: nrowcols
       TYPE(array_list) :: blks
 
-      dist_blk(:) = split_index(INT(dist, int_8), t%dims_grid, base=0, col_major=.FALSE.)
+      dist_blk(:SIZE(t%dims)) = split_pgrid_index(dist, t%dims_grid)
 
-# 245 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 246 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) == 1) THEN
          CALL get_arrays(t%nd_dist, dist_1)
       ENDIF
-# 245 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 246 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) == 2) THEN
          CALL get_arrays(t%nd_dist, dist_1, dist_2)
       ENDIF
-# 245 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 246 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) == 3) THEN
          CALL get_arrays(t%nd_dist, dist_1, dist_2, dist_3)
       ENDIF
-# 245 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 246 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) == 4) THEN
          CALL get_arrays(t%nd_dist, dist_1, dist_2, dist_3, dist_4)
       ENDIF
-# 249 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 250 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
 
-# 251 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 252 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) .GE. 1) THEN
          nblks = SIZE(dist_1)
          ALLOCATE (blks_tmp(nblks))
@@ -291,7 +292,7 @@ CONTAINS
          blks_1 (:) = blks_tmp(:iblk_count)
          DEALLOCATE (blks_tmp)
       ENDIF
-# 251 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 252 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) .GE. 2) THEN
          nblks = SIZE(dist_2)
          ALLOCATE (blks_tmp(nblks))
@@ -306,7 +307,7 @@ CONTAINS
          blks_2 (:) = blks_tmp(:iblk_count)
          DEALLOCATE (blks_tmp)
       ENDIF
-# 251 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 252 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) .GE. 3) THEN
          nblks = SIZE(dist_3)
          ALLOCATE (blks_tmp(nblks))
@@ -321,7 +322,7 @@ CONTAINS
          blks_3 (:) = blks_tmp(:iblk_count)
          DEALLOCATE (blks_tmp)
       ENDIF
-# 251 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 252 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) .GE. 4) THEN
          nblks = SIZE(dist_4)
          ALLOCATE (blks_tmp(nblks))
@@ -336,114 +337,114 @@ CONTAINS
          blks_4 (:) = blks_tmp(:iblk_count)
          DEALLOCATE (blks_tmp)
       ENDIF
-# 266 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 267 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
 
-# 268 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 269 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) == 1) THEN
          CALL create_array_list(blks, 1, blks_1)
       ENDIF
-# 268 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 269 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) == 2) THEN
          CALL create_array_list(blks, 2, blks_1, blks_2)
       ENDIF
-# 268 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 269 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) == 3) THEN
          CALL create_array_list(blks, 3, blks_1, blks_2, blks_3)
       ENDIF
-# 268 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 269 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) == 4) THEN
          CALL create_array_list(blks, 4, blks_1, blks_2, blks_3, blks_4)
       ENDIF
-# 272 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 273 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
 
       nrowcols = PRODUCT(INT(sizes_of_arrays(blks), int_8))
-      ALLOCATE (r_rowcols_t(nrowcols))
+      ALLOCATE (tas_rowcols_t(nrowcols))
 
-# 277 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 278 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) == 1) THEN
          ALLOCATE (nd_ind(1))
          i = 0
-# 281 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 282 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          DO i_1 = 1, SIZE(blks_1)
-# 283 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 284 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
             i = i + 1
 
             nd_ind(:) = get_array_elements(blks, [i_1])
-            r_rowcols_t(i) = combine_index(nd_ind, t%dims, base=1, col_major=.TRUE.)
-# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+            tas_rowcols_t(i) = combine_tensor_index(nd_ind, t%dims)
+# 289 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          ENDDO
-# 290 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 291 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       ENDIF
-# 277 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 278 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) == 2) THEN
          ALLOCATE (nd_ind(2))
          i = 0
-# 281 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 282 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          DO i_1 = 1, SIZE(blks_1)
-# 281 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 282 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          DO i_2 = 1, SIZE(blks_2)
-# 283 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 284 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
             i = i + 1
 
             nd_ind(:) = get_array_elements(blks, [i_1, i_2])
-            r_rowcols_t(i) = combine_index(nd_ind, t%dims, base=1, col_major=.TRUE.)
-# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+            tas_rowcols_t(i) = combine_tensor_index(nd_ind, t%dims)
+# 289 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          ENDDO
-# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 289 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          ENDDO
-# 290 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 291 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       ENDIF
-# 277 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 278 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) == 3) THEN
          ALLOCATE (nd_ind(3))
          i = 0
-# 281 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 282 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          DO i_1 = 1, SIZE(blks_1)
-# 281 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 282 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          DO i_2 = 1, SIZE(blks_2)
-# 281 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 282 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          DO i_3 = 1, SIZE(blks_3)
-# 283 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 284 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
             i = i + 1
 
             nd_ind(:) = get_array_elements(blks, [i_1, i_2, i_3])
-            r_rowcols_t(i) = combine_index(nd_ind, t%dims, base=1, col_major=.TRUE.)
-# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+            tas_rowcols_t(i) = combine_tensor_index(nd_ind, t%dims)
+# 289 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          ENDDO
-# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 289 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          ENDDO
-# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 289 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          ENDDO
-# 290 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 291 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       ENDIF
-# 277 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 278 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (SIZE(t%dims) == 4) THEN
          ALLOCATE (nd_ind(4))
          i = 0
-# 281 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 282 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          DO i_1 = 1, SIZE(blks_1)
-# 281 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 282 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          DO i_2 = 1, SIZE(blks_2)
-# 281 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 282 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          DO i_3 = 1, SIZE(blks_3)
-# 281 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 282 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          DO i_4 = 1, SIZE(blks_4)
-# 283 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 284 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
             i = i + 1
 
             nd_ind(:) = get_array_elements(blks, [i_1, i_2, i_3, i_4])
-            r_rowcols_t(i) = combine_index(nd_ind, t%dims, base=1, col_major=.TRUE.)
-# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+            tas_rowcols_t(i) = combine_tensor_index(nd_ind, t%dims)
+# 289 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          ENDDO
-# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 289 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          ENDDO
-# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 289 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          ENDDO
-# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 289 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          ENDDO
-# 290 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 291 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       ENDIF
-# 292 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 293 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
 
    END FUNCTION
 
@@ -482,16 +483,16 @@ CONTAINS
                                                          KIND=int_8))
    END FUNCTION
 
-   FUNCTION r_blk_size_t(t, rowcol)
+   FUNCTION tas_blk_size_t(t, rowcol)
       CLASS(dbcsr_tas_blk_size_t), INTENT(IN) :: t
       INTEGER(KIND=int_8), INTENT(IN) :: rowcol
-      INTEGER :: r_blk_size_t
+      INTEGER :: tas_blk_size_t
       INTEGER, DIMENSION(SIZE(t%dims)) :: ind_blk
       INTEGER, DIMENSION(SIZE(t%dims)) :: blk_size
 
-      ind_blk(:) = split_index(rowcol, t%dims, base=1, col_major=.TRUE.)
+      ind_blk(:) = split_tensor_index(rowcol, t%dims)
       blk_size(:) = get_array_elements(t%blk_size, ind_blk)
-      r_blk_size_t = PRODUCT(blk_size)
+      tas_blk_size_t = PRODUCT(blk_size)
 
    END FUNCTION
 
@@ -923,28 +924,28 @@ CONTAINS
 
       CALL mp_environ_pgrid(dist_new%pgrid, pdims, task_coor)
 
-# 772 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 773 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims == 1) THEN
          CALL get_arrays(dist_new%nd_dist, dist_1)
       ENDIF
-# 772 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 773 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims == 2) THEN
          CALL get_arrays(dist_new%nd_dist, dist_1, dist_2)
       ENDIF
-# 772 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 773 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims == 3) THEN
          CALL get_arrays(dist_new%nd_dist, dist_1, dist_2, dist_3)
       ENDIF
-# 772 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 773 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims == 4) THEN
          CALL get_arrays(dist_new%nd_dist, dist_1, dist_2, dist_3, dist_4)
       ENDIF
-# 776 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 777 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
 
       ALLOCATE (nblks_local(ndims))
       ALLOCATE (nfull_local(ndims))
       nfull_local(:) = 0
-# 781 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 782 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims .GE. 1) THEN
          nblks_local(1) = COUNT(dist_1 == task_coor(1))
          ALLOCATE (blks_local_1 (nblks_local(1)))
@@ -957,7 +958,7 @@ CONTAINS
             ENDIF
          ENDDO
       ENDIF
-# 781 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 782 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims .GE. 2) THEN
          nblks_local(2) = COUNT(dist_2 == task_coor(2))
          ALLOCATE (blks_local_2 (nblks_local(2)))
@@ -970,7 +971,7 @@ CONTAINS
             ENDIF
          ENDDO
       ENDIF
-# 781 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 782 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims .GE. 3) THEN
          nblks_local(3) = COUNT(dist_3 == task_coor(3))
          ALLOCATE (blks_local_3 (nblks_local(3)))
@@ -983,7 +984,7 @@ CONTAINS
             ENDIF
          ENDDO
       ENDIF
-# 781 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 782 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims .GE. 4) THEN
          nblks_local(4) = COUNT(dist_4 == task_coor(4))
          ALLOCATE (blks_local_4 (nblks_local(4)))
@@ -996,25 +997,25 @@ CONTAINS
             ENDIF
          ENDDO
       ENDIF
-# 794 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 795 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
 
-# 796 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 797 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims == 1) THEN
          CALL create_array_list(blks_local, 1, blks_local_1)
       ENDIF
-# 796 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 797 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims == 2) THEN
          CALL create_array_list(blks_local, 2, blks_local_1, blks_local_2)
       ENDIF
-# 796 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 797 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims == 3) THEN
          CALL create_array_list(blks_local, 3, blks_local_1, blks_local_2, blks_local_3)
       ENDIF
-# 796 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 797 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims == 4) THEN
          CALL create_array_list(blks_local, 4, blks_local_1, blks_local_2, blks_local_3, blks_local_4)
       ENDIF
-# 800 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 801 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
 
       ALLOCATE (tensor%nblks_local(ndims))
       ALLOCATE (tensor%nfull_local(ndims))
@@ -1095,31 +1096,31 @@ CONTAINS
          ELSE
             data_type_prv = dbcsr_t_get_data_type(tensor_in)
          ENDIF
-# 881 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 882 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          IF (ndims_tensor(tensor_in) == 1) THEN
             CALL get_arrays(tensor_in%blk_sizes, bsize_1)
             CALL dbcsr_t_create(tensor, name_prv, dist_prv, map1_2d_prv, map2_2d_prv, &
                                 data_type_prv, bsize_1)
          ENDIF
-# 881 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 882 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          IF (ndims_tensor(tensor_in) == 2) THEN
             CALL get_arrays(tensor_in%blk_sizes, bsize_1, bsize_2)
             CALL dbcsr_t_create(tensor, name_prv, dist_prv, map1_2d_prv, map2_2d_prv, &
                                 data_type_prv, bsize_1, bsize_2)
          ENDIF
-# 881 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 882 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          IF (ndims_tensor(tensor_in) == 3) THEN
             CALL get_arrays(tensor_in%blk_sizes, bsize_1, bsize_2, bsize_3)
             CALL dbcsr_t_create(tensor, name_prv, dist_prv, map1_2d_prv, map2_2d_prv, &
                                 data_type_prv, bsize_1, bsize_2, bsize_3)
          ENDIF
-# 881 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 882 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
          IF (ndims_tensor(tensor_in) == 4) THEN
             CALL get_arrays(tensor_in%blk_sizes, bsize_1, bsize_2, bsize_3, bsize_4)
             CALL dbcsr_t_create(tensor, name_prv, dist_prv, map1_2d_prv, map2_2d_prv, &
                                 data_type_prv, bsize_1, bsize_2, bsize_3, bsize_4)
          ENDIF
-# 887 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 888 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       ELSE
          ! create matrix representation from template
          ALLOCATE (tensor%matrix_rep)
@@ -1303,7 +1304,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER                        :: data_type
 
-      CALL dbcsr_tas_get_info(tensor%matrix_rep, data_type=data_type)
+      data_type = dbcsr_tas_get_data_type(tensor%matrix_rep)
    END FUNCTION
 
    SUBROUTINE dbcsr_t_blk_sizes(tensor, ind, blk_size)
@@ -1341,7 +1342,7 @@ CONTAINS
 
       INTEGER(KIND=int_8), DIMENSION(2)                        :: ind_2d
 
-      ind_2d(:) = get_2d_indices(tensor%nd_index_blk, ind_nd)
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind_nd)
       CALL dbcsr_tas_get_stored_coordinates(tensor%matrix_rep, ind_2d(1), ind_2d(2), processor)
    END SUBROUTINE
 
@@ -1502,27 +1503,27 @@ CONTAINS
       INTEGER, DIMENSION(:), ALLOCATABLE :: dist_1, dist_2, dist_3, dist_4
       INTEGER :: ndims
       ndims = SIZE(map1_2d) + SIZE(map2_2d)
-# 1270 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1271 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims == 1) THEN
          CALL get_arrays(dist_in%nd_dist, dist_1)
          CALL dbcsr_t_distribution_new_expert(dist_out, dist_in%pgrid, map1_2d, map2_2d, dist_1)
       ENDIF
-# 1270 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1271 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims == 2) THEN
          CALL get_arrays(dist_in%nd_dist, dist_1, dist_2)
          CALL dbcsr_t_distribution_new_expert(dist_out, dist_in%pgrid, map1_2d, map2_2d, dist_1, dist_2)
       ENDIF
-# 1270 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1271 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims == 3) THEN
          CALL get_arrays(dist_in%nd_dist, dist_1, dist_2, dist_3)
          CALL dbcsr_t_distribution_new_expert(dist_out, dist_in%pgrid, map1_2d, map2_2d, dist_1, dist_2, dist_3)
       ENDIF
-# 1270 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1271 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (ndims == 4) THEN
          CALL get_arrays(dist_in%nd_dist, dist_1, dist_2, dist_3, dist_4)
          CALL dbcsr_t_distribution_new_expert(dist_out, dist_in%pgrid, map1_2d, map2_2d, dist_1, dist_2, dist_3, dist_4)
       ENDIF
-# 1275 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1276 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
    END SUBROUTINE
 
    SUBROUTINE mp_environ_pgrid(pgrid, dims, task_coor)
@@ -1536,40 +1537,40 @@ CONTAINS
       CALL mp_environ(nproc, dims_2d, task_coor_2d, pgrid%mp_comm_2d)
       CALL mp_environ(nproc, dims_2d, task_coor_2d, pgrid%mp_comm_2d)
       CALL dbcsr_t_get_mapping_info(pgrid%nd_index_grid, dims_nd=dims)
-      task_coor = get_nd_indices(pgrid%nd_index_grid, INT(task_coor_2d, KIND=int_8))
+      task_coor = get_nd_indices_pgrid(pgrid%nd_index_grid, task_coor_2d)
    END SUBROUTINE
 
-# 1292 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1293 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
    SUBROUTINE dbcsr_t_set_r_dp (tensor, alpha)
       !! As dbcsr_set
       TYPE(dbcsr_t_type), INTENT(INOUT)                   :: tensor
       REAL(kind=real_8), INTENT(IN)                               :: alpha
       CALL dbcsr_tas_set(tensor%matrix_rep, alpha)
    END SUBROUTINE
-# 1292 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1293 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
    SUBROUTINE dbcsr_t_set_r_sp (tensor, alpha)
       !! As dbcsr_set
       TYPE(dbcsr_t_type), INTENT(INOUT)                   :: tensor
       REAL(kind=real_4), INTENT(IN)                               :: alpha
       CALL dbcsr_tas_set(tensor%matrix_rep, alpha)
    END SUBROUTINE
-# 1292 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1293 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
    SUBROUTINE dbcsr_t_set_c_dp (tensor, alpha)
       !! As dbcsr_set
       TYPE(dbcsr_t_type), INTENT(INOUT)                   :: tensor
       COMPLEX(kind=real_8), INTENT(IN)                               :: alpha
       CALL dbcsr_tas_set(tensor%matrix_rep, alpha)
    END SUBROUTINE
-# 1292 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1293 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
    SUBROUTINE dbcsr_t_set_c_sp (tensor, alpha)
       !! As dbcsr_set
       TYPE(dbcsr_t_type), INTENT(INOUT)                   :: tensor
       COMPLEX(kind=real_4), INTENT(IN)                               :: alpha
       CALL dbcsr_tas_set(tensor%matrix_rep, alpha)
    END SUBROUTINE
-# 1299 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1300 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
 
-# 1301 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1302 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
    SUBROUTINE dbcsr_t_filter_r_dp (tensor, eps, method, use_absolute)
       !! As dbcsr_filter
 
@@ -1581,7 +1582,7 @@ CONTAINS
       CALL dbcsr_tas_filter(tensor%matrix_rep, eps, method, use_absolute)
 
    END SUBROUTINE
-# 1301 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1302 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
    SUBROUTINE dbcsr_t_filter_r_sp (tensor, eps, method, use_absolute)
       !! As dbcsr_filter
 
@@ -1593,7 +1594,7 @@ CONTAINS
       CALL dbcsr_tas_filter(tensor%matrix_rep, eps, method, use_absolute)
 
    END SUBROUTINE
-# 1301 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1302 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
    SUBROUTINE dbcsr_t_filter_c_dp (tensor, eps, method, use_absolute)
       !! As dbcsr_filter
 
@@ -1605,7 +1606,7 @@ CONTAINS
       CALL dbcsr_tas_filter(tensor%matrix_rep, eps, method, use_absolute)
 
    END SUBROUTINE
-# 1301 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1302 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
    SUBROUTINE dbcsr_t_filter_c_sp (tensor, eps, method, use_absolute)
       !! As dbcsr_filter
 
@@ -1617,7 +1618,7 @@ CONTAINS
       CALL dbcsr_tas_filter(tensor%matrix_rep, eps, method, use_absolute)
 
    END SUBROUTINE
-# 1313 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1314 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
 
    SUBROUTINE dbcsr_t_get_info(tensor, nblks_total, &
                                nfull_total, &
@@ -1671,35 +1672,35 @@ CONTAINS
       IF (PRESENT(my_ploc)) my_ploc = my_ploc_tmp
       IF (PRESENT(pdims)) pdims = pdims_tmp
 
-# 1367 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1368 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (1 <= ndims_tensor(tensor)) THEN
          IF (PRESENT(blks_local_1)) CALL get_ith_array(tensor%blks_local, 1, blks_local_1)
          IF (PRESENT(proc_dist_1)) CALL get_ith_array(tensor%nd_dist, 1, proc_dist_1)
          IF (PRESENT(blk_size_1)) CALL get_ith_array(tensor%blk_sizes, 1, blk_size_1)
          IF (PRESENT(blk_offset_1)) CALL get_ith_array(tensor%blk_offsets, 1, blk_offset_1)
       ENDIF
-# 1367 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1368 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (2 <= ndims_tensor(tensor)) THEN
          IF (PRESENT(blks_local_2)) CALL get_ith_array(tensor%blks_local, 2, blks_local_2)
          IF (PRESENT(proc_dist_2)) CALL get_ith_array(tensor%nd_dist, 2, proc_dist_2)
          IF (PRESENT(blk_size_2)) CALL get_ith_array(tensor%blk_sizes, 2, blk_size_2)
          IF (PRESENT(blk_offset_2)) CALL get_ith_array(tensor%blk_offsets, 2, blk_offset_2)
       ENDIF
-# 1367 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1368 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (3 <= ndims_tensor(tensor)) THEN
          IF (PRESENT(blks_local_3)) CALL get_ith_array(tensor%blks_local, 3, blks_local_3)
          IF (PRESENT(proc_dist_3)) CALL get_ith_array(tensor%nd_dist, 3, proc_dist_3)
          IF (PRESENT(blk_size_3)) CALL get_ith_array(tensor%blk_sizes, 3, blk_size_3)
          IF (PRESENT(blk_offset_3)) CALL get_ith_array(tensor%blk_offsets, 3, blk_offset_3)
       ENDIF
-# 1367 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1368 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
       IF (4 <= ndims_tensor(tensor)) THEN
          IF (PRESENT(blks_local_4)) CALL get_ith_array(tensor%blks_local, 4, blks_local_4)
          IF (PRESENT(proc_dist_4)) CALL get_ith_array(tensor%nd_dist, 4, proc_dist_4)
          IF (PRESENT(blk_size_4)) CALL get_ith_array(tensor%blk_sizes, 4, blk_size_4)
          IF (PRESENT(blk_offset_4)) CALL get_ith_array(tensor%blk_offsets, 4, blk_offset_4)
       ENDIF
-# 1374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
+# 1375 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_types.F"
 
       IF (PRESENT(distribution)) distribution = dbcsr_t_distribution(tensor)
       IF (PRESENT(name)) name = tensor%name
