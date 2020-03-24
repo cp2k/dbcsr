@@ -19,30 +19,41 @@
      ${type1}$, DIMENSION(:), &
         INTENT(IN)                            :: DATA
 
-     INTEGER, PARAMETER                       :: simd = 64/${typesize1}$
+     INTEGER, PARAMETER                       :: nsimd = (2*64)/${typesize1}$
      INTEGER                                  :: i, n, blk, bp, bpe, row, col
-     REAL(kind=sp)                            :: val
+     REAL(kind=sp)                            :: vals(0:nsimd - 1)
 
 !   ---------------------------------------------------------------------------
 
 !$OMP     parallel default(none) &
-!$OMP              private (i, n, row, col, blk, bp, bpe, val) &
+!$OMP              private (i, n, row, col, blk, bp, bpe, vals) &
 !$OMP              shared (nblks, rbs, cbs, blki, data, norms)
 !$OMP     do
-     DO i = 1, nblks, simd
-        n = MIN(i + simd, nblks)
-        DO blk = i, n
-           bp = blki(3, blk)
+     DO i = 1, nblks, nsimd
+        n = MIN(nsimd - 1, nblks - i)
+        DO blk = 0, n
+           bp = blki(3, blk + i)
            IF (bp .NE. 0) THEN
-              row = blki(1, blk)
-              col = blki(2, blk)
+              row = blki(1, blk + i)
+              col = blki(2, blk + i)
               bpe = bp + rbs(row)*cbs(col) - 1
-              val = SQRT(REAL(SUM(DATA(bp:bpe)**2), KIND=sp))
+              vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
            ELSE
-              val = 0.0_sp
+              vals(blk) = 0.0_sp
            ENDIF
-           norms(blk) = val
         ENDDO
+        ! SIMD: SQRT is not part of above IF-condition
+        IF (n .EQ. (nsimd - 1)) THEN
+!$OMP     simd
+           DO blk = 0, nsimd - 1
+              norms(blk + i) = SQRT(vals(blk))
+           ENDDO
+!$OMP     end simd
+        ELSE ! remainder
+           DO blk = 0, n
+              norms(blk + i) = SQRT(vals(blk))
+           ENDDO
+        ENDIF
      ENDDO
 !$OMP     end do
 !$OMP     end parallel
