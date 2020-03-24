@@ -14,33 +14,37 @@
      !! Calculates norms of the entire matrix with minimal overhead.
      REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
      INTEGER, INTENT(IN)                      :: nblks
-     INTEGER, DIMENSION(3, nblks), INTENT(IN)  :: blki
+     INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
      INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
      ${type1}$, DIMENSION(:), &
-        INTENT(IN)                             :: DATA
+        INTENT(IN)                            :: DATA
 
-     INTEGER                                  :: blk, bp, bpe, row, col
+     INTEGER, PARAMETER                       :: simd = 64 / ${typesize1}$
+     INTEGER                                  :: i, n, blk, bp, bpe, row, col
      REAL(kind=sp)                            :: val
 
 !   ---------------------------------------------------------------------------
 
 !$OMP     parallel default(none) &
-!$OMP              private (row, col, blk, bp, bpe, val) &
-!$OMP              shared (nblks) &
+!$OMP              private (i, n, row, col, blk, bp, bpe, val) &
+!$OMP              shared (nblks, simd) &
 !$OMP              shared (rbs, cbs, blki, &
 !$OMP                      data, norms)
 !$OMP     do
-     DO blk = 1, nblks
-        IF (blki(3, blk) .NE. 0) THEN
-           row = blki(1, blk)
-           col = blki(2, blk)
+     DO i = 1, nblks, simd
+        n = MIN(i + simd, nblks)
+        DO blk = i, n
            bp = blki(3, blk)
-           bpe = bp + rbs(row)*cbs(col) - 1
-           val = SQRT(REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp))
-        ELSE
-           val = 0.0_sp
-        ENDIF
-        norms(blk) = val
+           IF (bp .NE. 0) THEN
+              row = blki(1, blk)
+              col = blki(2, blk)
+              bpe = bp + rbs(row) * cbs(col) - 1
+              val = SQRT(REAL(SUM(DATA(bp:bpe)**2), KIND=sp))
+           ELSE
+              val = 0.0_sp
+           ENDIF
+           norms(blk) = val
+        ENDDO
      ENDDO
 !$OMP     end do
 !$OMP     end parallel
