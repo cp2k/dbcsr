@@ -19,13 +19,14 @@ MODULE dbcsr_tas_util
    USE dbcsr_mpiwrap, ONLY: mp_cart_rank, &
                             mp_environ
    USE dbcsr_index_operations, ONLY: dbcsr_sort_indices
-#if TO_VERSION(1, 11) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+
+#include "base/dbcsr_base_uses.f90"
+#if TO_VERSION(1, 11) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
    USE libxsmm, ONLY: libxsmm_diff
 #  define PURE_ARRAY_EQ
 #else
 #  define PURE_ARRAY_EQ PURE
 #endif
-#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
    PRIVATE
@@ -137,7 +138,7 @@ CONTAINS
    PURE_ARRAY_EQ FUNCTION array_eq_i(arr1, arr2)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: arr1, arr2
       LOGICAL                                            :: array_eq_i
-#if TO_VERSION(1, 11) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+#if TO_VERSION(1, 11) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
       array_eq_i = .NOT. libxsmm_diff(arr1, arr2)
 #else
       array_eq_i = .FALSE.
@@ -148,7 +149,7 @@ CONTAINS
    PURE_ARRAY_EQ FUNCTION array_eq_i8(arr1, arr2)
       INTEGER(KIND=int_8), DIMENSION(:), INTENT(IN)      :: arr1, arr2
       LOGICAL                                            :: array_eq_i8
-#if TO_VERSION(1, 11) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+#if TO_VERSION(1, 11) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
       array_eq_i8 = .NOT. libxsmm_diff(arr1, arr2)
 #else
       array_eq_i8 = .FALSE.
