@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.3% of total for modules and submodules.">1385 statements</a>
+    title=" 2.3% of total for modules and submodules.">1395 statements</a>
      </li> 
      
      
@@ -176,20 +176,6 @@
 
 
 
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-0">Interfaces</a></h3></div>
-  <div id="inters-0" class="panel-collapse collapse">
-    <div class="list-group">
-      
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#interface-dbcsr_t_ndims">dbcsr_t_ndims</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#interface-dbcsr_t_dims">dbcsr_t_dims</a>
-      
-    </div>
-  </div>
-</div>
 
 
 
@@ -376,20 +362,6 @@
 
 
 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-1">Interfaces</a></h3></div>
-  <div id="inters-1" class="panel-collapse collapse">
-    <div class="list-group">
-      
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#interface-dbcsr_t_ndims">dbcsr_t_ndims</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#interface-dbcsr_t_dims">dbcsr_t_dims</a>
-      
-    </div>
-  </div>
-</div>
-
-
 
 
 
@@ -511,178 +483,6 @@
     
     
     
-    
-    <section>
-   <h2>Interfaces</h2>
-   
-     
-<div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="interface-dbcsr_t_ndims"></span><h3>public interface <a href='../interface/dbcsr_t_ndims.html'>dbcsr_t_ndims</a>
-    
-  </h3></div>
-  
-  <ul class="list-group">
-  
-  
-  
-    <li class="list-group-item">
-    
-    
-    <h3>
-public pure function <a href='../proc/ndims_tensor.html'>ndims_tensor</a>(tensor)
-    
-    
-   
-</h3>
-    
-
-
-
-
-
-
-
-<p>tensor rank</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>tensor</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  
-  
-  
-  
-     <h4>Return Value <small>integer
-  </small></h4>
-  
-    
-
-    </li>
-  
-  
-  </ul>
-</div>
-
-    
-     
-<div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="interface-dbcsr_t_dims"></span><h3>public interface <a href='../interface/dbcsr_t_dims.html'>dbcsr_t_dims</a>
-    
-  </h3></div>
-  
-  <ul class="list-group">
-  
-  
-  
-    <li class="list-group-item">
-    
-    
-    <h3>
-public subroutine <a href='../proc/dims_tensor.html'>dims_tensor</a>(tensor, dims)
-    
-    
-   
-</h3>
-    
-
-
-
-
-
-
-
-<p>tensor dimensions</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>tensor</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
-  <td><strong>dims</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-    </li>
-  
-  
-  </ul>
-</div>
-
-    
-    </section>
-  <br>
     
 
     
@@ -2436,7 +2236,7 @@ private subroutine <a href='../proc/align_tensor.html'>align_tensor</a>(tensor_i
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(dbcsr_t_ndims(tensor_in))</td><td>::</td>
+  <td>DIMENSION(ndims_tensor(tensor_in))</td><td>::</td>
   <td><strong>indp_in</strong></td><td></td>
   
 </tr>
@@ -2451,7 +2251,7 @@ private subroutine <a href='../proc/align_tensor.html'>align_tensor</a>(tensor_i
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(dbcsr_t_ndims(tensor_in))</td><td>::</td>
+  <td>DIMENSION(ndims_tensor(tensor_in))</td><td>::</td>
   <td><strong>indp_out</strong></td><td></td>
   
 </tr>
@@ -4131,7 +3931,7 @@ private subroutine <a href='../proc/dbcsr_t_map_bounds_to_tensors.html'>dbcsr_t_
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(2, dbcsr_t_ndims(tensor_1))</td><td>::</td>
+  <td>DIMENSION(2, ndims_tensor(tensor_1))</td><td>::</td>
   <td><strong>bounds_t1</strong></td><td><p>bounds mapped to tensor_1</p></td>
   
 </tr>
@@ -4146,7 +3946,7 @@ private subroutine <a href='../proc/dbcsr_t_map_bounds_to_tensors.html'>dbcsr_t_
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(2, dbcsr_t_ndims(tensor_2))</td><td>::</td>
+  <td>DIMENSION(2, ndims_tensor(tensor_2))</td><td>::</td>
   <td><strong>bounds_t2</strong></td><td><p>bounds mapped to tensor_2</p></td>
   
 </tr>
@@ -4297,7 +4097,7 @@ private subroutine <a href='../proc/dbcsr_t_print_contraction_index.html'>dbcsr_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(dbcsr_t_ndims(tensor_1))</td><td>::</td>
+  <td>DIMENSION(ndims_tensor(tensor_1))</td><td>::</td>
   <td><strong>indchar1</strong></td><td><p>characters printed for index of tensor 1</p></td>
   
 </tr>
@@ -4327,7 +4127,7 @@ private subroutine <a href='../proc/dbcsr_t_print_contraction_index.html'>dbcsr_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(dbcsr_t_ndims(tensor_2))</td><td>::</td>
+  <td>DIMENSION(ndims_tensor(tensor_2))</td><td>::</td>
   <td><strong>indchar2</strong></td><td><p>characters printed for index of tensor 2</p></td>
   
 </tr>
@@ -4357,7 +4157,7 @@ private subroutine <a href='../proc/dbcsr_t_print_contraction_index.html'>dbcsr_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(dbcsr_t_ndims(tensor_3))</td><td>::</td>
+  <td>DIMENSION(ndims_tensor(tensor_3))</td><td>::</td>
   <td><strong>indchar3</strong></td><td><p>characters printed for index of tensor 3</p></td>
   
 </tr>

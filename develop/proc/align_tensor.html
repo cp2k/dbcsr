@@ -313,7 +313,7 @@ private subroutine align_tensor(tensor_in, contract_in, notcontract_in, tensor_o
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(dbcsr_t_ndims(tensor_in))</td><td>::</td>
+  <td>DIMENSION(ndims_tensor(tensor_in))</td><td>::</td>
   <td><strong>indp_in</strong></td><td></td>
   
 </tr>
@@ -328,7 +328,7 @@ private subroutine align_tensor(tensor_in, contract_in, notcontract_in, tensor_o
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(dbcsr_t_ndims(tensor_in))</td><td>::</td>
+  <td>DIMENSION(ndims_tensor(tensor_in))</td><td>::</td>
   <td><strong>indp_out</strong></td><td></td>
   
 </tr>

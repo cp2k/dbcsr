@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">51 statements</a>
+    title=" 0.1% of total for procedures.">63 statements</a>
      </li> 
      
      
@@ -219,7 +219,7 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   
 <tr>
   
-  <td><span class="anchor" id="variable-tensor~111"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-tensor~116"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -328,8 +328,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blks_local_1</strong></td><td><p>local blocks along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_local(tensor,1))</td><td>::</td>
+  <td><strong>blks_local_1</strong></td><td><p>local blocks along dimension 1</p></td>
   
 </tr>
 
@@ -343,8 +343,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blks_local_2</strong></td><td><p>local blocks along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_local(tensor,2))</td><td>::</td>
+  <td><strong>blks_local_2</strong></td><td><p>local blocks along dimension 2</p></td>
   
 </tr>
 
@@ -358,8 +358,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blks_local_3</strong></td><td><p>local blocks along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_local(tensor,3))</td><td>::</td>
+  <td><strong>blks_local_3</strong></td><td><p>local blocks along dimension 3</p></td>
   
 </tr>
 
@@ -373,8 +373,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blks_local_4</strong></td><td><p>local blocks along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_local(tensor,4))</td><td>::</td>
+  <td><strong>blks_local_4</strong></td><td><p>local blocks along dimension 4</p></td>
   
 </tr>
 
@@ -388,8 +388,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>proc_dist_1</strong></td><td><p>distribution vector along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,1))</td><td>::</td>
+  <td><strong>proc_dist_1</strong></td><td><p>distribution along dimension 1</p></td>
   
 </tr>
 
@@ -403,8 +403,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>proc_dist_2</strong></td><td><p>distribution vector along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,2))</td><td>::</td>
+  <td><strong>proc_dist_2</strong></td><td><p>distribution along dimension 2</p></td>
   
 </tr>
 
@@ -418,8 +418,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>proc_dist_3</strong></td><td><p>distribution vector along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,3))</td><td>::</td>
+  <td><strong>proc_dist_3</strong></td><td><p>distribution along dimension 3</p></td>
   
 </tr>
 
@@ -433,8 +433,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>proc_dist_4</strong></td><td><p>distribution vector along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,4))</td><td>::</td>
+  <td><strong>proc_dist_4</strong></td><td><p>distribution along dimension 4</p></td>
   
 </tr>
 
@@ -448,8 +448,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_size_1</strong></td><td><p>block sizes along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,1))</td><td>::</td>
+  <td><strong>blk_size_1</strong></td><td><p>block sizes along dimension 1</p></td>
   
 </tr>
 
@@ -463,8 +463,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_size_2</strong></td><td><p>block sizes along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,2))</td><td>::</td>
+  <td><strong>blk_size_2</strong></td><td><p>block sizes along dimension 2</p></td>
   
 </tr>
 
@@ -478,8 +478,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_size_3</strong></td><td><p>block sizes along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,3))</td><td>::</td>
+  <td><strong>blk_size_3</strong></td><td><p>block sizes along dimension 3</p></td>
   
 </tr>
 
@@ -493,8 +493,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_size_4</strong></td><td><p>block sizes along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,4))</td><td>::</td>
+  <td><strong>blk_size_4</strong></td><td><p>block sizes along dimension 4</p></td>
   
 </tr>
 
@@ -508,8 +508,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_offset_1</strong></td><td><p>block offsets along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,1))</td><td>::</td>
+  <td><strong>blk_offset_1</strong></td><td><p>block offsets along dimension 1</p></td>
   
 </tr>
 
@@ -523,8 +523,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_offset_2</strong></td><td><p>block offsets along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,2))</td><td>::</td>
+  <td><strong>blk_offset_2</strong></td><td><p>block offsets along dimension 2</p></td>
   
 </tr>
 
@@ -538,8 +538,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_offset_3</strong></td><td><p>block offsets along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,3))</td><td>::</td>
+  <td><strong>blk_offset_3</strong></td><td><p>block offsets along dimension 3</p></td>
   
 </tr>
 
@@ -553,8 +553,8 @@ public subroutine dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_offset_4</strong></td><td><p>block offsets along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,4))</td><td>::</td>
+  <td><strong>blk_offset_4</strong></td><td><p>block offsets along dimension 4</p></td>
   
 </tr>
 

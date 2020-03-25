@@ -19,13 +19,13 @@ MODULE dbcsr_tensor_test
 # 15 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 # 16 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-   USE dbcsr_api, ONLY: dbcsr_type_complex_8, dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_type_complex_4
+   USE dbcsr_api, ONLY: dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_type_complex_4, dbcsr_type_complex_8
    USE dbcsr_tas_base, ONLY: dbcsr_tas_info
    USE dbcsr_tensor, ONLY: &
       dbcsr_t_copy, dbcsr_t_get_block, dbcsr_t_iterator_type, dbcsr_t_iterator_blocks_left, &
-      dbcsr_t_iterator_next_block, dbcsr_t_iterator_start, dbcsr_t_iterator_stop, dbcsr_t_ndims, &
+      dbcsr_t_iterator_next_block, dbcsr_t_iterator_start, dbcsr_t_iterator_stop, &
       dbcsr_t_reserve_blocks, dbcsr_t_get_stored_coordinates, dbcsr_t_put_block, &
-      dbcsr_t_contract, dbcsr_t_inverse_order, dbcsr_t_dims
+      dbcsr_t_contract, dbcsr_t_inverse_order
    USE dbcsr_tensor_block, ONLY: block_nd
    USE dbcsr_tensor_types, ONLY: dbcsr_t_create, &
                                  dbcsr_t_destroy, &
@@ -33,6 +33,7 @@ MODULE dbcsr_tensor_test
                                  dbcsr_t_distribution_type, &
                                  dbcsr_t_distribution_destroy, &
                                  dims_tensor, &
+                                 ndims_tensor, &
                                  dbcsr_t_distribution_new, &
                                  dbcsr_t_nd_mp_comm, &
                                  dbcsr_t_get_data_type, &
@@ -53,8 +54,7 @@ MODULE dbcsr_tensor_test
                             mp_sum, &
                             mp_cart_create
    USE dbcsr_allocate_wrap, ONLY: allocate_any
-   USE dbcsr_tensor_index, ONLY: combine_tensor_index, &
-                                 dbcsr_t_get_mapping_info
+   USE dbcsr_tensor_index, ONLY: combine_tensor_index
    USE dbcsr_tas_test, ONLY: dbcsr_tas_checksum
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
 #include "base/dbcsr_base_uses.f90"
@@ -162,7 +162,7 @@ CONTAINS
       TYPE(dbcsr_t_type)                         :: tensor2_tmp
       TYPE(dbcsr_t_iterator_type)                :: iter
       TYPE(block_nd)                             :: blk_data1, blk_data2
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor1)) :: blk_size, ind_nd
+      INTEGER, DIMENSION(ndims_tensor(tensor1)) :: blk_size, ind_nd
       LOGICAL :: found
 
       ! create a copy of tensor2 that has exact same data format as tensor1
@@ -618,7 +618,7 @@ CONTAINS
 
       INTEGER                                            :: i, ib, my_nblks_alloc, nblks_alloc, proc
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: my_blk_ind_1, my_blk_ind_2, my_blk_ind_3, my_blk_ind_4
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))          :: blk_index, blk_offset, blk_size, &
+      INTEGER, DIMENSION(ndims_tensor(tensor))          :: blk_index, blk_offset, blk_size, &
                                                             tensor_dims
       INTEGER, DIMENSION(:, :), ALLOCATABLE               :: ind_nd
 # 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
@@ -636,19 +636,19 @@ CONTAINS
       nblks_alloc = SIZE(blk_ind_1)
       CALL mp_environ(numnodes, mynode, mp_comm)
 
-      ALLOCATE (ind_nd(nblks_alloc, dbcsr_t_ndims(tensor)))
+      ALLOCATE (ind_nd(nblks_alloc, ndims_tensor(tensor)))
       my_nblks_alloc = 0
       DO ib = 1, nblks_alloc
 # 423 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-         IF (dbcsr_t_ndims(tensor) == 2) THEN
+         IF (ndims_tensor(tensor) == 2) THEN
             ind_nd(ib, :) = [blk_ind_1(ib), blk_ind_2(ib)]
          ENDIF
 # 423 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-         IF (dbcsr_t_ndims(tensor) == 3) THEN
+         IF (ndims_tensor(tensor) == 3) THEN
             ind_nd(ib, :) = [blk_ind_1(ib), blk_ind_2(ib), blk_ind_3(ib)]
          ENDIF
 # 423 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-         IF (dbcsr_t_ndims(tensor) == 4) THEN
+         IF (ndims_tensor(tensor) == 4) THEN
             ind_nd(ib, :) = [blk_ind_1(ib), blk_ind_2(ib), blk_ind_3(ib), blk_ind_4(ib)]
          ENDIF
 # 427 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
@@ -659,19 +659,19 @@ CONTAINS
       ENDDO
 
 # 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      IF (dbcsr_t_ndims(tensor) >= 1) THEN
+      IF (ndims_tensor(tensor) >= 1) THEN
          ALLOCATE (my_blk_ind_1 (my_nblks_alloc))
       ENDIF
 # 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      IF (dbcsr_t_ndims(tensor) >= 2) THEN
+      IF (ndims_tensor(tensor) >= 2) THEN
          ALLOCATE (my_blk_ind_2 (my_nblks_alloc))
       ENDIF
 # 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      IF (dbcsr_t_ndims(tensor) >= 3) THEN
+      IF (ndims_tensor(tensor) >= 3) THEN
          ALLOCATE (my_blk_ind_3 (my_nblks_alloc))
       ENDIF
 # 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      IF (dbcsr_t_ndims(tensor) >= 4) THEN
+      IF (ndims_tensor(tensor) >= 4) THEN
          ALLOCATE (my_blk_ind_4 (my_nblks_alloc))
       ENDIF
 # 438 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
@@ -682,19 +682,19 @@ CONTAINS
          IF (proc == mynode) THEN
             i = i + 1
 # 445 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-            IF (dbcsr_t_ndims(tensor) >= 1) THEN
+            IF (ndims_tensor(tensor) >= 1) THEN
                my_blk_ind_1 (i) = blk_ind_1 (ib)
             ENDIF
 # 445 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-            IF (dbcsr_t_ndims(tensor) >= 2) THEN
+            IF (ndims_tensor(tensor) >= 2) THEN
                my_blk_ind_2 (i) = blk_ind_2 (ib)
             ENDIF
 # 445 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-            IF (dbcsr_t_ndims(tensor) >= 3) THEN
+            IF (ndims_tensor(tensor) >= 3) THEN
                my_blk_ind_3 (i) = blk_ind_3 (ib)
             ENDIF
 # 445 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-            IF (dbcsr_t_ndims(tensor) >= 4) THEN
+            IF (ndims_tensor(tensor) >= 4) THEN
                my_blk_ind_4 (i) = blk_ind_4 (ib)
             ENDIF
 # 449 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
@@ -702,15 +702,15 @@ CONTAINS
       ENDDO
 
 # 453 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      IF (dbcsr_t_ndims(tensor) == 2) THEN
+      IF (ndims_tensor(tensor) == 2) THEN
          CALL dbcsr_t_reserve_blocks(tensor, my_blk_ind_1, my_blk_ind_2)
       ENDIF
 # 453 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      IF (dbcsr_t_ndims(tensor) == 3) THEN
+      IF (ndims_tensor(tensor) == 3) THEN
          CALL dbcsr_t_reserve_blocks(tensor, my_blk_ind_1, my_blk_ind_2, my_blk_ind_3)
       ENDIF
 # 453 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      IF (dbcsr_t_ndims(tensor) == 4) THEN
+      IF (ndims_tensor(tensor) == 4) THEN
          CALL dbcsr_t_reserve_blocks(tensor, my_blk_ind_1, my_blk_ind_2, my_blk_ind_3, my_blk_ind_4)
       ENDIF
 # 457 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
@@ -720,7 +720,7 @@ CONTAINS
          CALL dbcsr_t_iterator_next_block(iterator, blk_index, blk, blk_size=blk_size, blk_offset=blk_offset)
 
 # 463 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-         IF (dbcsr_t_ndims(tensor) == 2) THEN
+         IF (ndims_tensor(tensor) == 2) THEN
             CALL allocate_any(blk_values_2, shape_spec=blk_size)
             CALL dims_tensor(tensor, tensor_dims)
             IF (enumerate) THEN
@@ -732,7 +732,7 @@ CONTAINS
             DEALLOCATE (blk_values_2)
          ENDIF
 # 463 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-         IF (dbcsr_t_ndims(tensor) == 3) THEN
+         IF (ndims_tensor(tensor) == 3) THEN
             CALL allocate_any(blk_values_3, shape_spec=blk_size)
             CALL dims_tensor(tensor, tensor_dims)
             IF (enumerate) THEN
@@ -744,7 +744,7 @@ CONTAINS
             DEALLOCATE (blk_values_3)
          ENDIF
 # 463 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-         IF (dbcsr_t_ndims(tensor) == 4) THEN
+         IF (ndims_tensor(tensor) == 4) THEN
             CALL allocate_any(blk_values_4, shape_spec=blk_size)
             CALL dims_tensor(tensor, tensor_dims)
             IF (enumerate) THEN
@@ -860,14 +860,14 @@ CONTAINS
       REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:), &
          INTENT(OUT)                                             :: array
       REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
       LOGICAL                                                    :: found
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 2)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(:,:) = 0.0_real_8
 
@@ -877,7 +877,7 @@ CONTAINS
          CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
          DBCSR_ASSERT(found)
 
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -899,14 +899,14 @@ CONTAINS
       REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:), &
          INTENT(OUT)                                             :: array
       REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
       LOGICAL                                                    :: found
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 3)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(:,:,:) = 0.0_real_8
 
@@ -916,7 +916,7 @@ CONTAINS
          CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
          DBCSR_ASSERT(found)
 
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -938,14 +938,14 @@ CONTAINS
       REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:), &
          INTENT(OUT)                                             :: array
       REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
       LOGICAL                                                    :: found
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 4)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(:,:,:,:) = 0.0_real_8
 
@@ -955,7 +955,7 @@ CONTAINS
          CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
          DBCSR_ASSERT(found)
 
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -979,14 +979,14 @@ CONTAINS
       REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:), &
          INTENT(OUT)                                             :: array
       REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
       LOGICAL                                                    :: found
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 2)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(:,:) = 0.0_real_4
 
@@ -996,7 +996,7 @@ CONTAINS
          CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
          DBCSR_ASSERT(found)
 
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1018,14 +1018,14 @@ CONTAINS
       REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:), &
          INTENT(OUT)                                             :: array
       REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
       LOGICAL                                                    :: found
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 3)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(:,:,:) = 0.0_real_4
 
@@ -1035,7 +1035,7 @@ CONTAINS
          CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
          DBCSR_ASSERT(found)
 
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1057,14 +1057,14 @@ CONTAINS
       REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:), &
          INTENT(OUT)                                             :: array
       REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
       LOGICAL                                                    :: found
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 4)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(:,:,:,:) = 0.0_real_4
 
@@ -1074,7 +1074,7 @@ CONTAINS
          CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
          DBCSR_ASSERT(found)
 
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1098,14 +1098,14 @@ CONTAINS
       COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:), &
          INTENT(OUT)                                             :: array
       COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
       LOGICAL                                                    :: found
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 2)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(:,:) = 0.0_real_8
 
@@ -1115,7 +1115,7 @@ CONTAINS
          CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
          DBCSR_ASSERT(found)
 
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1137,14 +1137,14 @@ CONTAINS
       COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:), &
          INTENT(OUT)                                             :: array
       COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
       LOGICAL                                                    :: found
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 3)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(:,:,:) = 0.0_real_8
 
@@ -1154,7 +1154,7 @@ CONTAINS
          CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
          DBCSR_ASSERT(found)
 
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1176,14 +1176,14 @@ CONTAINS
       COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:), &
          INTENT(OUT)                                             :: array
       COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
       LOGICAL                                                    :: found
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 4)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(:,:,:,:) = 0.0_real_8
 
@@ -1193,7 +1193,7 @@ CONTAINS
          CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
          DBCSR_ASSERT(found)
 
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1217,14 +1217,14 @@ CONTAINS
       COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:), &
          INTENT(OUT)                                             :: array
       COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
       LOGICAL                                                    :: found
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 2)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(:,:) = 0.0_real_4
 
@@ -1234,7 +1234,7 @@ CONTAINS
          CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
          DBCSR_ASSERT(found)
 
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1256,14 +1256,14 @@ CONTAINS
       COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:), &
          INTENT(OUT)                                             :: array
       COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
       LOGICAL                                                    :: found
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 3)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(:,:,:) = 0.0_real_4
 
@@ -1273,7 +1273,7 @@ CONTAINS
          CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
          DBCSR_ASSERT(found)
 
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1295,14 +1295,14 @@ CONTAINS
       COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:), &
          INTENT(OUT)                                             :: array
       COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
       LOGICAL                                                    :: found
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 4)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
       CALL allocate_any(array, shape_spec=dims_nd)
       array(:,:,:,:) = 0.0_real_4
 
@@ -1312,7 +1312,7 @@ CONTAINS
          CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
          DBCSR_ASSERT(found)
 
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1335,19 +1335,19 @@ CONTAINS
       REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:), &
          INTENT(INOUT)                                           :: array
       REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 2)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
          CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1364,19 +1364,19 @@ CONTAINS
       REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:), &
          INTENT(INOUT)                                           :: array
       REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 3)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
          CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1393,19 +1393,19 @@ CONTAINS
       REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:), &
          INTENT(INOUT)                                           :: array
       REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 4)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
          CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1424,19 +1424,19 @@ CONTAINS
       REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:), &
          INTENT(INOUT)                                           :: array
       REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 2)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
          CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1453,19 +1453,19 @@ CONTAINS
       REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:), &
          INTENT(INOUT)                                           :: array
       REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 3)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
          CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1482,19 +1482,19 @@ CONTAINS
       REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:), &
          INTENT(INOUT)                                           :: array
       REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 4)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
          CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1513,19 +1513,19 @@ CONTAINS
       COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:), &
          INTENT(INOUT)                                           :: array
       COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 2)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
          CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1542,19 +1542,19 @@ CONTAINS
       COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:), &
          INTENT(INOUT)                                           :: array
       COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 3)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
          CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1571,19 +1571,19 @@ CONTAINS
       COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:), &
          INTENT(INOUT)                                           :: array
       COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 4)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
          CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1602,19 +1602,19 @@ CONTAINS
       COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:), &
          INTENT(INOUT)                                           :: array
       COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 2)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
          CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1631,19 +1631,19 @@ CONTAINS
       COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:), &
          INTENT(INOUT)                                           :: array
       COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 3)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
          CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1660,19 +1660,19 @@ CONTAINS
       COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:), &
          INTENT(INOUT)                                           :: array
       COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
       TYPE(dbcsr_t_iterator_type)                                     :: iterator
       INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(dbcsr_t_ndims(tensor))                  :: blk_start, blk_end
+      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
 
-      DBCSR_ASSERT(dbcsr_t_ndims(tensor) .EQ. 4)
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=dims_nd)
+      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
+      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
          CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, dbcsr_t_ndims(tensor)
+         DO idim = 1, ndims_tensor(tensor)
             blk_start(idim) = blk_offset(idim)
             blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
          ENDDO
@@ -1715,8 +1715,8 @@ CONTAINS
       INTEGER                              :: io_unit, mynode, numnodes, mp_comm
       INTEGER, DIMENSION(:), ALLOCATABLE   :: size_1, size_2, size_3, &
                                               order_t1, order_t2, order_t3
-      INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_1)) :: bounds_t1
-      INTEGER, DIMENSION(2, dbcsr_t_ndims(tensor_2)) :: bounds_t2
+      INTEGER, DIMENSION(2, ndims_tensor(tensor_1)) :: bounds_t1
+      INTEGER, DIMENSION(2, ndims_tensor(tensor_2)) :: bounds_t2
 
 # 624 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       REAL(KIND=real_8), ALLOCATABLE, &
@@ -1795,7 +1795,7 @@ CONTAINS
          CALL dbcsr_t_write_blocks(tensor_1, io_unit, unit_nr, write_int)
       ENDIF
 
-      SELECT CASE (dbcsr_t_ndims(tensor_3))
+      SELECT CASE (ndims_tensor(tensor_3))
 # 678 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_3, array_3_0_2d)
@@ -1852,7 +1852,7 @@ CONTAINS
 
       ! Convert tensors to simple multidimensional arrays
 # 727 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      SELECT CASE (dbcsr_t_ndims(tensor_1))
+      SELECT CASE (ndims_tensor(tensor_1))
 # 729 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
 # 731 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
@@ -1890,7 +1890,7 @@ CONTAINS
 # 741 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       END SELECT
 # 727 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      SELECT CASE (dbcsr_t_ndims(tensor_2))
+      SELECT CASE (ndims_tensor(tensor_2))
 # 729 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
 # 731 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
@@ -1928,7 +1928,7 @@ CONTAINS
 # 741 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       END SELECT
 # 727 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      SELECT CASE (dbcsr_t_ndims(tensor_3))
+      SELECT CASE (ndims_tensor(tensor_3))
 # 729 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
 # 737 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
@@ -1954,7 +1954,7 @@ CONTAINS
       ! Get array sizes
 
 # 747 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      SELECT CASE (dbcsr_t_ndims(tensor_1))
+      SELECT CASE (ndims_tensor(tensor_1))
 # 749 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
          CALL allocate_any(size_1, source=SHAPE(array_1_2d))
@@ -1970,7 +1970,7 @@ CONTAINS
 # 753 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       END SELECT
 # 747 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      SELECT CASE (dbcsr_t_ndims(tensor_2))
+      SELECT CASE (ndims_tensor(tensor_2))
 # 749 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
          CALL allocate_any(size_2, source=SHAPE(array_2_2d))
@@ -1986,7 +1986,7 @@ CONTAINS
 # 753 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       END SELECT
 # 747 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      SELECT CASE (dbcsr_t_ndims(tensor_3))
+      SELECT CASE (ndims_tensor(tensor_3))
 # 749 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
          CALL allocate_any(size_3, source=SHAPE(array_3_2d))
@@ -2004,11 +2004,11 @@ CONTAINS
 # 755 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
 # 757 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      ALLOCATE (order_t1 (dbcsr_t_ndims(tensor_1)))
+      ALLOCATE (order_t1 (ndims_tensor(tensor_1)))
 # 757 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      ALLOCATE (order_t2 (dbcsr_t_ndims(tensor_2)))
+      ALLOCATE (order_t2 (ndims_tensor(tensor_2)))
 # 757 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      ALLOCATE (order_t3 (dbcsr_t_ndims(tensor_3)))
+      ALLOCATE (order_t3 (ndims_tensor(tensor_3)))
 # 759 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
       ASSOCIATE (map_t1_1=>notcontract_1, map_t1_2=>contract_1, &
@@ -2018,7 +2018,7 @@ CONTAINS
 # 765 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          order_t1 (:) = dbcsr_t_inverse_order([map_t1_1, map_t1_2])
 
-         SELECT CASE (dbcsr_t_ndims(tensor_1))
+         SELECT CASE (ndims_tensor(tensor_1))
 # 769 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (2)
             CALL allocate_any(array_1_rs2d, source=array_1_2d, order=order_t1)
@@ -2039,7 +2039,7 @@ CONTAINS
 # 765 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          order_t2 (:) = dbcsr_t_inverse_order([map_t2_1, map_t2_2])
 
-         SELECT CASE (dbcsr_t_ndims(tensor_2))
+         SELECT CASE (ndims_tensor(tensor_2))
 # 769 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (2)
             CALL allocate_any(array_2_rs2d, source=array_2_2d, order=order_t2)
@@ -2060,7 +2060,7 @@ CONTAINS
 # 765 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          order_t3 (:) = dbcsr_t_inverse_order([map_t3_1, map_t3_2])
 
-         SELECT CASE (dbcsr_t_ndims(tensor_3))
+         SELECT CASE (ndims_tensor(tensor_3))
 # 769 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (2)
             CALL allocate_any(array_3_rs2d, source=array_3_2d, order=order_t3)
@@ -2080,7 +2080,7 @@ CONTAINS
          END SELECT
 # 776 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-         SELECT CASE (dbcsr_t_ndims(tensor_3))
+         SELECT CASE (ndims_tensor(tensor_3))
 # 779 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (2)
             CALL allocate_any(array_3_0_rs2d, source=array_3_0_2d, order=order_t3)

@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">40 statements</a>
+    title=" 0.1% of total for procedures.">43 statements</a>
      </li> 
      
      
@@ -225,7 +225,7 @@ public subroutine dbcsr_t_get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dim
   
 <tr>
   
-  <td><span class="anchor" id="variable-map~8"></span>type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),</td>
+  <td><span class="anchor" id="variable-map~10"></span>type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -340,11 +340,8 @@ public subroutine dbcsr_t_get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dim
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>dims1_2d</strong></td><td><p>dimensions that map to first 2d index
- dimensions that map to second 2d index
- indices that map to first 2d index
- indices that map to second 2d index</p></td>
+  <td>DIMENSION(ndims_mapping_row(map))</td><td>::</td>
+  <td><strong>dims1_2d</strong></td><td><p>dimensions that map to first 2d index</p></td>
   
 </tr>
 
@@ -358,11 +355,8 @@ public subroutine dbcsr_t_get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dim
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>dims2_2d</strong></td><td><p>dimensions that map to first 2d index
- dimensions that map to second 2d index
- indices that map to first 2d index
- indices that map to second 2d index</p></td>
+  <td>DIMENSION(ndims_mapping_column(map))</td><td>::</td>
+  <td><strong>dims2_2d</strong></td><td><p>dimensions that map to second 2d index</p></td>
   
 </tr>
 
@@ -376,11 +370,8 @@ public subroutine dbcsr_t_get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dim
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>map1_2d</strong></td><td><p>dimensions that map to first 2d index
- dimensions that map to second 2d index
- indices that map to first 2d index
- indices that map to second 2d index</p></td>
+  <td>DIMENSION(ndims_mapping_row(map))</td><td>::</td>
+  <td><strong>map1_2d</strong></td><td><p>indices that map to first 2d index</p></td>
   
 </tr>
 
@@ -394,11 +385,8 @@ public subroutine dbcsr_t_get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dim
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>map2_2d</strong></td><td><p>dimensions that map to first 2d index
- dimensions that map to second 2d index
- indices that map to first 2d index
- indices that map to second 2d index</p></td>
+  <td>DIMENSION(ndims_mapping_column(map))</td><td>::</td>
+  <td><strong>map2_2d</strong></td><td><p>indices that map to second 2d index</p></td>
   
 </tr>
 
@@ -530,11 +518,17 @@ public subroutine dbcsr_t_get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dim
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">ndims_mapping</span><span class="p">(</span><span class="n">map</span><span class="p">)),</span> <span class="p">&amp;</span>
          <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                           <span class="kd">::</span> <span class="n">dims_nd</span>
          <span class="c">!! nd dimensions</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="p">&amp;</span>
-         <span class="k">OPTIONAL</span>                                        <span class="kd">::</span> <span class="n">dims1_2d</span><span class="p">,</span> <span class="n">dims2_2d</span><span class="p">,</span> <span class="n">map1_2d</span><span class="p">,</span> <span class="n">map2_2d</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">ndims_mapping_row</span><span class="p">(</span><span class="n">map</span><span class="p">)),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="p">&amp;</span>
+         <span class="k">OPTIONAL</span>                                        <span class="kd">::</span> <span class="n">dims1_2d</span>
          <span class="c">!! dimensions that map to first 2d index</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">ndims_mapping_column</span><span class="p">(</span><span class="n">map</span><span class="p">)),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="p">&amp;</span>
+         <span class="k">OPTIONAL</span>                                        <span class="kd">::</span> <span class="n">dims2_2d</span>
          <span class="c">!! dimensions that map to second 2d index</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">ndims_mapping_row</span><span class="p">(</span><span class="n">map</span><span class="p">)),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="p">&amp;</span>
+         <span class="k">OPTIONAL</span>                                        <span class="kd">::</span> <span class="n">map1_2d</span>
          <span class="c">!! indices that map to first 2d index</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">ndims_mapping_column</span><span class="p">(</span><span class="n">map</span><span class="p">)),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="p">&amp;</span>
+         <span class="k">OPTIONAL</span>                                        <span class="kd">::</span> <span class="n">map2_2d</span>
          <span class="c">!! indices that map to second 2d index</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">ndims_mapping</span><span class="p">(</span><span class="n">map</span><span class="p">)),</span> <span class="p">&amp;</span>
          <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                           <span class="kd">::</span> <span class="n">map_nd</span>
@@ -553,16 +547,16 @@ public subroutine dbcsr_t_get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dim
 <span class="k">         </span><span class="n">dims_nd</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">dims_nd</span><span class="p">(:)</span>
       <span class="n">ENDIF</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dims1_2d</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">allocate_any</span><span class="p">(</span><span class="n">dims1_2d</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">map</span><span class="p">%</span><span class="n">dims1_2d</span><span class="p">)</span>
+<span class="k">         </span><span class="n">dims1_2d</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">dims1_2d</span>
       <span class="n">ENDIF</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dims2_2d</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">allocate_any</span><span class="p">(</span><span class="n">dims2_2d</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">map</span><span class="p">%</span><span class="n">dims2_2d</span><span class="p">)</span>
+<span class="k">         </span><span class="n">dims2_2d</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">dims2_2d</span>
       <span class="n">ENDIF</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">map1_2d</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">allocate_any</span><span class="p">(</span><span class="n">map1_2d</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">map</span><span class="p">%</span><span class="n">map1_2d</span><span class="p">)</span>
+<span class="k">         </span><span class="n">map1_2d</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">map1_2d</span>
       <span class="n">ENDIF</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">map2_2d</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">allocate_any</span><span class="p">(</span><span class="n">map2_2d</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">map</span><span class="p">%</span><span class="n">map2_2d</span><span class="p">)</span>
+<span class="k">         </span><span class="n">map2_2d</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">map2_2d</span>
       <span class="n">ENDIF</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">map_nd</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">map_nd</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">map_nd</span><span class="p">(:)</span>

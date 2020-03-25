@@ -22,7 +22,7 @@ MODULE dbcsr_tensor_io
    USE dbcsr_tensor_types, ONLY: &
       dbcsr_t_get_info, dbcsr_t_type, ndims_tensor, dbcsr_t_get_num_blocks, dbcsr_t_get_num_blocks_total, &
       blk_dims_tensor, dbcsr_t_get_stored_coordinates, dbcsr_t_get_nze, dbcsr_t_get_nze_total, &
-      dbcsr_t_pgrid_type
+      dbcsr_t_pgrid_type, dbcsr_t_nblks_total
    USE dbcsr_kinds, ONLY: default_string_length, int_8, real_8
    USE dbcsr_mpiwrap, ONLY: mp_environ, mp_sum, mp_max
    USE dbcsr_tensor_block, ONLY: &
@@ -54,19 +54,26 @@ CONTAINS
       LOGICAL, OPTIONAL, INTENT(IN)  :: full_info
          !! Whether to print distribution and block size vectors
       INTEGER, DIMENSION(ndims_tensor(tensor)) :: nblks_total, nfull_total, pdims, my_ploc, nblks_local, nfull_local
-      INTEGER, DIMENSION(:), ALLOCATABLE :: blks_local_1, blks_local_2, blks_local_3, blks_local_4
-      INTEGER, DIMENSION(:), ALLOCATABLE :: proc_dist_1, proc_dist_2, proc_dist_3, proc_dist_4
-      INTEGER, DIMENSION(:), ALLOCATABLE :: blk_size_1, blk_size_2, blk_size_3, blk_size_4
-      INTEGER, DIMENSION(:), ALLOCATABLE :: blk_offset_1, blk_offset_2, blk_offset_3, blk_offset_4
-      CHARACTER(len=default_string_length)                   :: name
-      INTEGER                            :: idim
-      INTEGER                            :: iblk
+
+# 54 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,1)) :: proc_dist_1
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,1)) :: blk_size_1
+# 54 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,2)) :: proc_dist_2
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,2)) :: blk_size_2
+# 54 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,3)) :: proc_dist_3
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,3)) :: blk_size_3
+# 54 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,4)) :: proc_dist_4
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,4)) :: blk_size_4
+# 57 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
+      CHARACTER(len=default_string_length)                     :: name
+      INTEGER                                                  :: idim
+      INTEGER                                                  :: iblk
 
       CALL dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local, nfull_local, pdims, my_ploc, &
-                            blks_local_1, blks_local_2, blks_local_3, blks_local_4, proc_dist_1, proc_dist_2, proc_dist_3,&
-# 61 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
-                                & proc_dist_4, blk_size_1, blk_size_2, blk_size_3, blk_size_4, &
-                            blk_offset_1, blk_offset_2, blk_offset_3, blk_offset_4, &
+                            proc_dist_1, proc_dist_2, proc_dist_3, proc_dist_4, blk_size_1, blk_size_2, blk_size_3, blk_size_4, &
                             name=name)
 
       IF (output_unit > 0) THEN

@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.9% of total for modules and submodules.">1143 statements</a>
+    title=" 2.0% of total for modules and submodules.">1214 statements</a>
      </li> 
      
      
@@ -255,6 +255,16 @@
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_nze">dbcsr_t_get_nze</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_nze_total">dbcsr_t_get_nze_total</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nblks_local">dbcsr_t_nblks_local</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nblks_total">dbcsr_t_nblks_total</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_blk_size">dbcsr_t_blk_size</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_matrix_row">ndims_matrix_row</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_matrix_column">ndims_matrix_column</a>
       
     </div>
   </div>
@@ -516,6 +526,16 @@
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_nze">dbcsr_t_get_nze</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_get_nze_total">dbcsr_t_get_nze_total</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nblks_local">dbcsr_t_nblks_local</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_nblks_total">dbcsr_t_nblks_total</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_blk_size">dbcsr_t_blk_size</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_matrix_row">ndims_matrix_row</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_matrix_column">ndims_matrix_column</a>
       
     </div>
   </div>
@@ -3919,6 +3939,406 @@ public function <a href='../proc/dbcsr_t_get_nze_total.html'>dbcsr_t_get_nze_tot
   </div>
 
     
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_nblks_local"></span><h3>
+public pure function <a href='../proc/dbcsr_t_nblks_local.html'>dbcsr_t_nblks_local</a>(tensor, idim)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>local number of blocks along dimension idim</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>idim</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_nblks_total"></span><h3>
+public pure function <a href='../proc/dbcsr_t_nblks_total.html'>dbcsr_t_nblks_total</a>(tensor, idim)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>total numbers of blocks along dimension idim</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>idim</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_blk_size"></span><h3>
+public pure function <a href='../proc/dbcsr_t_blk_size.html'>dbcsr_t_blk_size</a>(tensor, ind, idim)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>block size of block with index ind along dimension idim</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(ndims_tensor(tensor))</td><td>::</td>
+  <td><strong>ind</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>idim</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-ndims_matrix_row"></span><h3>
+public pure function <a href='../proc/ndims_matrix_row.html'>ndims_matrix_row</a>(tensor)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>how many tensor dimensions are mapped to matrix row</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=int_8)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-ndims_matrix_column"></span><h3>
+public pure function <a href='../proc/ndims_matrix_column.html'>ndims_matrix_column</a>(tensor)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>how many tensor dimensions are mapped to matrix column</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=int_8)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
     </section>
     <br>
     
@@ -7072,8 +7492,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blks_local_1</strong></td><td><p>local blocks along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_local(tensor,1))</td><td>::</td>
+  <td><strong>blks_local_1</strong></td><td><p>local blocks along dimension 1</p></td>
   
 </tr>
 
@@ -7087,8 +7507,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blks_local_2</strong></td><td><p>local blocks along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_local(tensor,2))</td><td>::</td>
+  <td><strong>blks_local_2</strong></td><td><p>local blocks along dimension 2</p></td>
   
 </tr>
 
@@ -7102,8 +7522,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blks_local_3</strong></td><td><p>local blocks along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_local(tensor,3))</td><td>::</td>
+  <td><strong>blks_local_3</strong></td><td><p>local blocks along dimension 3</p></td>
   
 </tr>
 
@@ -7117,8 +7537,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blks_local_4</strong></td><td><p>local blocks along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_local(tensor,4))</td><td>::</td>
+  <td><strong>blks_local_4</strong></td><td><p>local blocks along dimension 4</p></td>
   
 </tr>
 
@@ -7132,8 +7552,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>proc_dist_1</strong></td><td><p>distribution vector along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,1))</td><td>::</td>
+  <td><strong>proc_dist_1</strong></td><td><p>distribution along dimension 1</p></td>
   
 </tr>
 
@@ -7147,8 +7567,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>proc_dist_2</strong></td><td><p>distribution vector along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,2))</td><td>::</td>
+  <td><strong>proc_dist_2</strong></td><td><p>distribution along dimension 2</p></td>
   
 </tr>
 
@@ -7162,8 +7582,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>proc_dist_3</strong></td><td><p>distribution vector along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,3))</td><td>::</td>
+  <td><strong>proc_dist_3</strong></td><td><p>distribution along dimension 3</p></td>
   
 </tr>
 
@@ -7177,8 +7597,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>proc_dist_4</strong></td><td><p>distribution vector along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,4))</td><td>::</td>
+  <td><strong>proc_dist_4</strong></td><td><p>distribution along dimension 4</p></td>
   
 </tr>
 
@@ -7192,8 +7612,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_size_1</strong></td><td><p>block sizes along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,1))</td><td>::</td>
+  <td><strong>blk_size_1</strong></td><td><p>block sizes along dimension 1</p></td>
   
 </tr>
 
@@ -7207,8 +7627,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_size_2</strong></td><td><p>block sizes along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,2))</td><td>::</td>
+  <td><strong>blk_size_2</strong></td><td><p>block sizes along dimension 2</p></td>
   
 </tr>
 
@@ -7222,8 +7642,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_size_3</strong></td><td><p>block sizes along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,3))</td><td>::</td>
+  <td><strong>blk_size_3</strong></td><td><p>block sizes along dimension 3</p></td>
   
 </tr>
 
@@ -7237,8 +7657,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_size_4</strong></td><td><p>block sizes along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,4))</td><td>::</td>
+  <td><strong>blk_size_4</strong></td><td><p>block sizes along dimension 4</p></td>
   
 </tr>
 
@@ -7252,8 +7672,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_offset_1</strong></td><td><p>block offsets along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,1))</td><td>::</td>
+  <td><strong>blk_offset_1</strong></td><td><p>block offsets along dimension 1</p></td>
   
 </tr>
 
@@ -7267,8 +7687,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_offset_2</strong></td><td><p>block offsets along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,2))</td><td>::</td>
+  <td><strong>blk_offset_2</strong></td><td><p>block offsets along dimension 2</p></td>
   
 </tr>
 
@@ -7282,8 +7702,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_offset_3</strong></td><td><p>block offsets along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,3))</td><td>::</td>
+  <td><strong>blk_offset_3</strong></td><td><p>block offsets along dimension 3</p></td>
   
 </tr>
 
@@ -7297,8 +7717,8 @@ public subroutine <a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a>(t
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>blk_offset_4</strong></td><td><p>block offsets along dimension 1 and 2</p></td>
+  <td>DIMENSION(dbcsr_t_nblks_total(tensor,4))</td><td>::</td>
+  <td><strong>blk_offset_4</strong></td><td><p>block offsets along dimension 4</p></td>
   
 </tr>
 

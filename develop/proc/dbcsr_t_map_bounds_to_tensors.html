@@ -314,7 +314,7 @@ private subroutine dbcsr_t_map_bounds_to_tensors(tensor_1, tensor_2, contract_1,
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(2, dbcsr_t_ndims(tensor_1))</td><td>::</td>
+  <td>DIMENSION(2, ndims_tensor(tensor_1))</td><td>::</td>
   <td><strong>bounds_t1</strong></td><td><p>bounds mapped to tensor_1</p></td>
   
 </tr>
@@ -329,7 +329,7 @@ private subroutine dbcsr_t_map_bounds_to_tensors(tensor_1, tensor_2, contract_1,
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(2, dbcsr_t_ndims(tensor_2))</td><td>::</td>
+  <td>DIMENSION(2, ndims_tensor(tensor_2))</td><td>::</td>
   <td><strong>bounds_t2</strong></td><td><p>bounds mapped to tensor_2</p></td>
   
 </tr>

@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">53 statements</a>
+    title=" 0.1% of total for procedures.">58 statements</a>
      </li> 
      
      
@@ -238,7 +238,7 @@ private subroutine dbcsr_t_print_contraction_index(tensor_1, indchar1, tensor_2,
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(dbcsr_t_ndims(tensor_1))</td><td>::</td>
+  <td>DIMENSION(ndims_tensor(tensor_1))</td><td>::</td>
   <td><strong>indchar1</strong></td><td><p>characters printed for index of tensor 1</p></td>
   
 </tr>
@@ -268,7 +268,7 @@ private subroutine dbcsr_t_print_contraction_index(tensor_1, indchar1, tensor_2,
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(dbcsr_t_ndims(tensor_2))</td><td>::</td>
+  <td>DIMENSION(ndims_tensor(tensor_2))</td><td>::</td>
   <td><strong>indchar2</strong></td><td><p>characters printed for index of tensor 2</p></td>
   
 </tr>
@@ -298,7 +298,7 @@ private subroutine dbcsr_t_print_contraction_index(tensor_1, indchar1, tensor_2,
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(dbcsr_t_ndims(tensor_3))</td><td>::</td>
+  <td>DIMENSION(ndims_tensor(tensor_3))</td><td>::</td>
   <td><strong>indchar3</strong></td><td><p>characters printed for index of tensor 3</p></td>
   
 </tr>

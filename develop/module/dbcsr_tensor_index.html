@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.4% of total for modules and submodules.">222 statements</a>
+    title=" 0.4% of total for modules and submodules.">234 statements</a>
      </li> 
      
      
@@ -199,6 +199,10 @@
     <div class="list-group">
       
       <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-ndims_mapping">ndims_mapping</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-ndims_mapping_row">ndims_mapping_row</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-ndims_mapping_column">ndims_mapping_column</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-combine_tensor_index">combine_tensor_index</a>
       
@@ -335,6 +339,10 @@
     <div class="list-group">
       
       <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-ndims_mapping">ndims_mapping</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-ndims_mapping_row">ndims_mapping_row</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-ndims_mapping_column">ndims_mapping_column</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_index.html#proc-combine_tensor_index">combine_tensor_index</a>
       
@@ -652,6 +660,142 @@ public pure function <a href='../proc/ndims_mapping.html'>ndims_mapping</a>(map)
   <div class="panel-body">
        
     
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>map</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-ndims_mapping_row"></span><h3>
+public pure function <a href='../proc/ndims_mapping_row.html'>ndims_mapping_row</a>(map)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>how many tensor dimensions are mapped to matrix row</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/nd_to_2d_mapping.html'>nd_to_2d_mapping</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>map</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-ndims_mapping_column"></span><h3>
+public pure function <a href='../proc/ndims_mapping_column.html'>ndims_mapping_column</a>(map)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>how many tensor dimensions are mapped to matrix column</p>
     
     <h4>Arguments</h4>
     
@@ -1790,11 +1934,8 @@ public subroutine <a href='../proc/dbcsr_t_get_mapping_info.html'>dbcsr_t_get_ma
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>dims1_2d</strong></td><td><p>dimensions that map to first 2d index
- dimensions that map to second 2d index
- indices that map to first 2d index
- indices that map to second 2d index</p></td>
+  <td>DIMENSION(ndims_mapping_row(map))</td><td>::</td>
+  <td><strong>dims1_2d</strong></td><td><p>dimensions that map to first 2d index</p></td>
   
 </tr>
 
@@ -1808,11 +1949,8 @@ public subroutine <a href='../proc/dbcsr_t_get_mapping_info.html'>dbcsr_t_get_ma
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>dims2_2d</strong></td><td><p>dimensions that map to first 2d index
- dimensions that map to second 2d index
- indices that map to first 2d index
- indices that map to second 2d index</p></td>
+  <td>DIMENSION(ndims_mapping_column(map))</td><td>::</td>
+  <td><strong>dims2_2d</strong></td><td><p>dimensions that map to second 2d index</p></td>
   
 </tr>
 
@@ -1826,11 +1964,8 @@ public subroutine <a href='../proc/dbcsr_t_get_mapping_info.html'>dbcsr_t_get_ma
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>map1_2d</strong></td><td><p>dimensions that map to first 2d index
- dimensions that map to second 2d index
- indices that map to first 2d index
- indices that map to second 2d index</p></td>
+  <td>DIMENSION(ndims_mapping_row(map))</td><td>::</td>
+  <td><strong>map1_2d</strong></td><td><p>indices that map to first 2d index</p></td>
   
 </tr>
 
@@ -1844,11 +1979,8 @@ public subroutine <a href='../proc/dbcsr_t_get_mapping_info.html'>dbcsr_t_get_ma
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>map2_2d</strong></td><td><p>dimensions that map to first 2d index
- dimensions that map to second 2d index
- indices that map to first 2d index
- indices that map to second 2d index</p></td>
+  <td>DIMENSION(ndims_mapping_column(map))</td><td>::</td>
+  <td><strong>map2_2d</strong></td><td><p>indices that map to second 2d index</p></td>
   
 </tr>
 

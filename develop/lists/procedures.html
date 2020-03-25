@@ -342,6 +342,8 @@ All Procedures &ndash; DBCSR Library
 			   <tr><td><a href='../proc/allocate_7d_r_sp.html'>allocate_7d_r_sp</a></td><td><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></td><td>Subroutine</td><td><p>Allocate array according to shape_spec. Possibly assign array from source.
  </p><a href="../proc/allocate_7d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
+			   <tr><td><a href='../proc/allocate_and_get_ith_array.html'>allocate_and_get_ith_array</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Subroutine</td><td><p>get ith array</p></td></tr>
+			 
 			   <tr><td><a href='../interface/allocate_any.html'>allocate_any</a></td><td><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/arb_dist.html'>arb_dist</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Function</td><td></td></tr>
@@ -2576,6 +2578,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_blk_offsets.html'>dbcsr_t_blk_offsets</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>offset of tensor block</p></td></tr>
 			 
+			   <tr><td><a href='../proc/dbcsr_t_blk_size.html'>dbcsr_t_blk_size</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>block size of block with index ind along dimension idim</p></td></tr>
+			 
 			   <tr><td><a href='../proc/dbcsr_t_blk_sizes.html'>dbcsr_t_blk_sizes</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Size of tensor block</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_checksum.html'>dbcsr_t_checksum</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Function</td><td><p>checksum of a tensor consistent with dbcsr_checksum</p></td></tr>
@@ -2625,8 +2629,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_t_crop.html'>dbcsr_t_crop</a></td><td><a href='../module/dbcsr_tensor_split.html'>dbcsr_tensor_split</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_destroy.html'>dbcsr_t_destroy</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Destroy a tensor</p></td></tr>
-			 
-			   <tr><td><a href='../interface/dbcsr_t_dims.html'>dbcsr_t_dims</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_distribution.html'>dbcsr_t_distribution</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>get distribution from tensor
  \return distribution</p></td></tr>
@@ -2738,6 +2740,10 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
  of a tensor, imposing that no process grid dimension is greater than the corresponding
  tensor dimension.</p></td></tr>
 			 
+			   <tr><td><a href='../proc/dbcsr_t_nblks_local.html'>dbcsr_t_nblks_local</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>local number of blocks along dimension idim</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_t_nblks_total.html'>dbcsr_t_nblks_total</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>total numbers of blocks along dimension idim</p></td></tr>
+			 
 			   <tr><td><a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>Create a default nd process topology that is consistent with a given 2d topology.
  Purpose: a nd tensor defined on the returned process grid can be represented as a DBCSR
  matrix with the given 2d topology.
@@ -2745,8 +2751,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
  \return with nd cartesian grid</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_nd_mp_free.html'>dbcsr_t_nd_mp_free</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Release the MPI communicator.</p></td></tr>
-			 
-			   <tr><td><a href='../interface/dbcsr_t_ndims.html'>dbcsr_t_ndims</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_need_contract.html'>dbcsr_t_need_contract</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Function</td><td><p>check whether we need to contract two tensors (whether the contraction indices of both tensors
  have common occupied blocks). See documentation of dbcsr_t_contract.</p></td></tr>
@@ -3427,6 +3431,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
  the dense block to which it belongs.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/get_ith_array.html'>get_ith_array</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Subroutine</td><td><p>get ith array</p></td></tr>
+			 
+			   <tr><td><a href='../interface/get_ith_array.html'>get_ith_array</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/get_left_child.html'>get_left_child</a></td><td><a href='../module/dbcsr_min_heap.html'>dbcsr_min_heap</a></td><td>Function</td><td></td></tr>
 			 
@@ -5471,6 +5477,14 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/ndims_iterator.html'>ndims_iterator</a></td><td><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></td><td>Function</td><td><p>Number of dimensions.</p><a href="../proc/ndims_iterator.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
 			   <tr><td><a href='../proc/ndims_mapping.html'>ndims_mapping</a></td><td><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></td><td>Function</td><td></td></tr>
+			 
+			   <tr><td><a href='../proc/ndims_mapping_column.html'>ndims_mapping_column</a></td><td><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></td><td>Function</td><td><p>how many tensor dimensions are mapped to matrix column</p></td></tr>
+			 
+			   <tr><td><a href='../proc/ndims_mapping_row.html'>ndims_mapping_row</a></td><td><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></td><td>Function</td><td><p>how many tensor dimensions are mapped to matrix row</p></td></tr>
+			 
+			   <tr><td><a href='../proc/ndims_matrix_column.html'>ndims_matrix_column</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>how many tensor dimensions are mapped to matrix column</p></td></tr>
+			 
+			   <tr><td><a href='../proc/ndims_matrix_row.html'>ndims_matrix_row</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>how many tensor dimensions are mapped to matrix row</p></td></tr>
 			 
 			   <tr><td><a href='../proc/ndims_tensor.html'>ndims_tensor</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>tensor rank</p></td></tr>
 			 
