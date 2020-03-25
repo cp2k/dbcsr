@@ -36,6 +36,7 @@ cmake \
     -DBLAS_FOUND=ON -DBLAS_LIBRARIES="-lsci_cray_mpi_mp" \
     -DLAPACK_FOUND=ON -DLAPACK_LIBRARIES="-lsci_cray_mpi_mp" \
     -DMPIEXEC_EXECUTABLE="$(command -v srun)" \
+    -DMPIEXEC_PREFLAGS="-u" \
     -DTEST_MPI_RANKS=${SLURM_NTASKS} \
     -DTEST_OMP_THREADS=${SLURM_CPUS_PER_TASK} \
     "${WORKSPACE}" |& tee -a "${STAGE_NAME}.out"
