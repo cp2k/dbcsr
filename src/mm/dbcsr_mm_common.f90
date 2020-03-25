@@ -21,41 +21,44 @@
 
      INTEGER, PARAMETER                       :: nsimd = (2*64)/${typesize1}$
      INTEGER                                  :: i, n, blk, bp, bpe, row, col
-     REAL(kind=sp)                            :: vals(0:nsimd - 1)
+     REAL(kind=sp)                            :: vals(nsimd)
 
 !   ---------------------------------------------------------------------------
 
-!$OMP     parallel default(none) &
-!$OMP              private (i, n, row, col, blk, bp, bpe, vals) &
-!$OMP              shared (nblks, rbs, cbs, blki, data, norms)
-!$OMP     do
-     DO i = 1, nblks, nsimd
-        n = MIN(nsimd - 1, nblks - i)
-        DO blk = 0, n
+!$OMP     parallel
+!$OMP     single
+     DO i = 0, nblks - 1, nsimd
+        n = MIN(nsimd, nblks - i)
+        DO blk = 1, n
            bp = blki(3, blk + i)
            IF (bp .NE. 0) THEN
+!$OMP     task firstprivate(i, blk, row, col, bp, bpe)
               row = blki(1, blk + i)
               col = blki(2, blk + i)
               bpe = bp + rbs(row)*cbs(col) - 1
               vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
+!$OMP     end task
            ELSE
               vals(blk) = 0.0_sp
            ENDIF
         ENDDO
-        ! SIMD: SQRT is not part of above IF-condition
-        IF (n .EQ. (nsimd - 1)) THEN
+        ! SIMD: SQRT is intentionally not in above IF-condition
+!$OMP     taskwait
+!$OMP     task firstprivate(i, blk, n, vals)
+        IF (n .EQ. nsimd) THEN
 !$OMP     simd
-           DO blk = 0, nsimd - 1
+           DO blk = 1, nsimd
               norms(blk + i) = SQRT(vals(blk))
            ENDDO
 !$OMP     end simd
         ELSE ! remainder
-           DO blk = 0, n
+           DO blk = 1, n
               norms(blk + i) = SQRT(vals(blk))
            ENDDO
         ENDIF
+!$OMP     end task
      ENDDO
-!$OMP     end do
+!$OMP     end single
 !$OMP     end parallel
   END SUBROUTINE calc_norms_${nametype1}$
 #:endfor
