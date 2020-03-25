@@ -754,15 +754,19 @@ CONTAINS
 
    PURE SUBROUTINE count_bins(nelements, bins, nbins, bin_counts)
       INTEGER, INTENT(IN)                                :: nelements
-      INTEGER, DIMENSION(1:nelements), INTENT(IN)        :: bins
+      INTEGER, DIMENSION(:), INTENT(IN)                  :: bins
       INTEGER, INTENT(IN)                                :: nbins
       INTEGER, DIMENSION(1:nbins), INTENT(OUT)           :: bin_counts
 
-      INTEGER                                            :: el
+      INTEGER                                            :: bin, i, i0, i1
 
+      ! PURE: DBCSR_ASSERT(nelements .EQ. SIZE(bins))
       bin_counts(:) = 0
-      DO el = 1, nelements
-         bin_counts(bins(el)) = bin_counts(bins(el)) + 1
+      i0 = LBOUND(bins, 1)
+      i1 = i0 + nelements - 1
+      DO i = i0, i1
+         bin = bins(i)
+         bin_counts(bin) = bin_counts(bin) + 1
       ENDDO
    END SUBROUTINE count_bins
 
