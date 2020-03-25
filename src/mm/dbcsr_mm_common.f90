@@ -32,7 +32,8 @@
         DO blk = 1, n
            bp = blki(3, blk + i)
            IF (bp .NE. 0) THEN
-!$OMP     task firstprivate(i, blk, row, col, bp, bpe)
+!$OMP     task default(none) shared(DATA, vals, blki, rbs, cbs) &
+!$OMP          firstprivate(i, blk, row, col, bp, bpe)
               row = blki(1, blk + i)
               col = blki(2, blk + i)
               bpe = bp + rbs(row)*cbs(col) - 1
@@ -44,7 +45,8 @@
         ENDDO
         ! SIMD: SQRT is intentionally not in above IF-condition
 !$OMP     taskwait
-!$OMP     task firstprivate(i, blk, n, vals)
+!$OMP     task default(none) shared (norms) &
+!$OMP          firstprivate(i, blk, n, vals)
         IF (n .EQ. nsimd) THEN
 !$OMP     simd
            DO blk = 1, nsimd
