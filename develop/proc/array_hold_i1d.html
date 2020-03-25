@@ -301,7 +301,6 @@ private subroutine array_hold_i1d(array)
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">array_hold_i1d</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="k">array</span>
-
 <span class="c">!$OMP ATOMIC</span>
       <span class="k">array</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="n">refcount</span> <span class="o">=</span> <span class="k">array</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="n">refcount</span> <span class="o">+</span> <span class="mi">1</span>
    <span class="k">END SUBROUTINE </span><span class="n">array_hold_i1d</span>

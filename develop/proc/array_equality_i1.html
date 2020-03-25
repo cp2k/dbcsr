@@ -323,14 +323,18 @@ private pure function array_equality_i1(array1, array2) result(are_equal)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">PURE FUNCTION </span><span class="n">array_equality_i1</span><span class="p">(</span><span class="n">array1</span><span class="p">,</span> <span class="n">array2</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">are_equal</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="n">PURE_ARRAY_EQUALITY</span> <span class="k">FUNCTION </span><span class="n">array_equality_i1</span><span class="p">(</span><span class="n">array1</span><span class="p">,</span> <span class="n">array2</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">are_equal</span><span class="p">)</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">array1</span><span class="p">,</span> <span class="n">array2</span>
       <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">are_equal</span>
 
       <span class="n">are_equal</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">array1</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">array2</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">array1</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">array2</span><span class="p">))</span> <span class="k">RETURN</span>
+<span class="cp">#if TO_VERSION(1, 11) &lt;= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)</span>
+         <span class="n">are_equal</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">libxsmm_diff</span><span class="p">(</span><span class="n">array1</span><span class="p">,</span> <span class="n">array2</span><span class="p">)</span>
+<span class="cp">#else</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">array1</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">array2</span><span class="p">))</span> <span class="k">RETURN</span>
 <span class="k">         </span><span class="n">are_equal</span> <span class="o">=</span> <span class="k">ALL</span><span class="p">(</span><span class="n">array1</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">array2</span><span class="p">)</span>
+<span class="cp">#endif</span>
       <span class="n">ENDIF</span>
    <span class="k">END FUNCTION </span><span class="n">array_equality_i1</span>
 </pre></div>

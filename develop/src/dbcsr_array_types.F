@@ -11,6 +11,14 @@
 MODULE dbcsr_array_types
    !! Array objects with reference counting.
 
+#include "base/dbcsr_base_uses.f90"
+#if TO_VERSION(1, 11) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+   USE libxsmm, ONLY: libxsmm_diff
+#  define PURE_ARRAY_EQUALITY
+#else
+#  define PURE_ARRAY_EQUALITY PURE
+#endif
+
    IMPLICIT NONE
    PRIVATE
 
@@ -46,12 +54,10 @@ MODULE dbcsr_array_types
    INTERFACE array_size
       MODULE PROCEDURE array_size_i1d
    END INTERFACE
-
    INTERFACE array_equality
       MODULE PROCEDURE array_equality_i1
       MODULE PROCEDURE array_equality_i1d
    END INTERFACE
-
    INTERFACE array_get
       MODULE PROCEDURE array_get_i1d
       MODULE PROCEDURE array_get_i1
@@ -61,6 +67,7 @@ MODULE dbcsr_array_types
       INTEGER, DIMENSION(:), POINTER     :: DATA => Null()
       INTEGER                            :: refcount = 0
    END TYPE array_i1d_type
+
    TYPE array_i1d_obj
       TYPE(array_i1d_type), POINTER      :: low => Null()
    END TYPE array_i1d_obj
@@ -89,6 +96,7 @@ CONTAINS
          array%low%data(:) = DATA(:)
       ENDIF
    END SUBROUTINE array_new_i1d
+
    SUBROUTINE array_new_i1d_lb(array, DATA, lb)
       TYPE(array_i1d_obj), INTENT(OUT)                   :: array
       INTEGER, DIMENSION(:), INTENT(IN)                  :: DATA
@@ -102,12 +110,13 @@ CONTAINS
       ALLOCATE (array%low%data(lb:ub))
       array%low%data(:) = DATA(:)
    END SUBROUTINE array_new_i1d_lb
+
    SUBROUTINE array_hold_i1d(array)
       TYPE(array_i1d_obj), INTENT(INOUT)                 :: array
-
 !$OMP ATOMIC
       array%low%refcount = array%low%refcount + 1
    END SUBROUTINE array_hold_i1d
+
    SUBROUTINE array_release_i1d(array)
       TYPE(array_i1d_obj), INTENT(INOUT)                 :: array
 
@@ -119,11 +128,13 @@ CONTAINS
          ENDIF
       ENDIF
    END SUBROUTINE array_release_i1d
+
    PURE SUBROUTINE array_nullify_i1d(array)
       TYPE(array_i1d_obj), INTENT(INOUT)                 :: array
 
       NULLIFY (array%low)
    END SUBROUTINE array_nullify_i1d
+
    PURE FUNCTION array_exists_i1d(array) RESULT(array_exists)
       TYPE(array_i1d_obj), INTENT(IN)                    :: array
       LOGICAL                                            :: array_exists
@@ -131,6 +142,7 @@ CONTAINS
       array_exists = ASSOCIATED(array%low)
       IF (array_exists) array_exists = array%low%refcount .GT. 0
    END FUNCTION array_exists_i1d
+
    FUNCTION array_data_i1d(array) RESULT(DATA)
       TYPE(array_i1d_obj), INTENT(IN)                    :: array
       INTEGER, DIMENSION(:), POINTER                     :: DATA
@@ -141,6 +153,7 @@ CONTAINS
          NULLIFY (DATA)
       ENDIF
    END FUNCTION array_data_i1d
+
    PURE FUNCTION array_size_i1d(array) RESULT(the_size)
       TYPE(array_i1d_obj), INTENT(IN)                    :: array
       INTEGER                                            :: the_size
@@ -151,26 +164,37 @@ CONTAINS
          the_size = 0
       ENDIF
    END FUNCTION array_size_i1d
-   PURE FUNCTION array_equality_i1(array1, array2) RESULT(are_equal)
+
+   PURE_ARRAY_EQUALITY FUNCTION array_equality_i1(array1, array2) RESULT(are_equal)
       INTEGER, DIMENSION(:), POINTER                     :: array1, array2
       LOGICAL                                            :: are_equal
 
       are_equal = .FALSE.
       IF (ASSOCIATED(array1) .AND. ASSOCIATED(array2)) THEN
+#if TO_VERSION(1, 11) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+         are_equal = .NOT. libxsmm_diff(array1, array2)
+#else
          IF (SIZE(array1) .NE. SIZE(array2)) RETURN
          are_equal = ALL(array1 .EQ. array2)
+#endif
       ENDIF
    END FUNCTION array_equality_i1
-   PURE FUNCTION array_equality_i1d(array1, array2) RESULT(are_equal)
+
+   PURE_ARRAY_EQUALITY FUNCTION array_equality_i1d(array1, array2) RESULT(are_equal)
       TYPE(array_i1d_obj), INTENT(IN)                    :: array1, array2
       LOGICAL                                            :: are_equal
 
       are_equal = .FALSE.
       IF (ASSOCIATED(array1%low) .AND. ASSOCIATED(array2%low)) THEN
+#if TO_VERSION(1, 11) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+         are_equal = .NOT. libxsmm_diff(array1%low%data, array2%low%data)
+#else
          IF (SIZE(array1%low%data) .NE. SIZE(array2%low%data)) RETURN
          are_equal = ALL(array1%low%data .EQ. array2%low%data)
+#endif
       ENDIF
    END FUNCTION array_equality_i1d
+
    PURE FUNCTION array_get_i1d(array, index1) RESULT(value)
       TYPE(array_i1d_obj), INTENT(IN)                    :: array
       INTEGER, INTENT(IN)                                :: index1
@@ -178,6 +202,7 @@ CONTAINS
 
       value = array%low%data(index1)
    END FUNCTION array_get_i1d
+
    PURE FUNCTION array_get_i1(array, index1) RESULT(value)
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: array
       INTEGER, INTENT(IN)                                :: index1

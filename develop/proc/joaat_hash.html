@@ -325,7 +325,7 @@ public function joaat_hash(key) result(hash_index)
       <span class="c">!! we return already the index in the table as a final result</span>
 
       <span class="c">! LIBXSMM: at least v1.9.0-6 is required</span>
-<span class="cp">#if defined(__LIBXSMM) &amp;&amp; TO_VERSION(1, 10, 0) &lt;= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)</span>
+<span class="cp">#if defined(__LIBXSMM) &amp;&amp; TO_VERSION(1, 10) &lt;= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)</span>
       <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_hash</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span>                                 <span class="kd">::</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">key</span>

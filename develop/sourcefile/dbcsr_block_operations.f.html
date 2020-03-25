@@ -291,10 +291,10 @@
 <a name="ln-33"></a>
 <a name="ln-34"></a><span class="c">!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads</span>
 <a name="ln-35"></a>   <span class="k">IMPLICIT NONE</span>
-<a name="ln-36"></a><span class="cp">#if defined(__LIBXSMM) &amp;&amp; TO_VERSION(1, 10, 0)  &lt; TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)</span>
+<a name="ln-36"></a><span class="cp">#if defined(__LIBXSMM) &amp;&amp; TO_VERSION(1, 10) &lt; TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)</span>
 <a name="ln-37"></a><span class="cp">#  define __LIBXSMM_BLOCKOPS</span>
 <a name="ln-38"></a><span class="cp">#endif</span>
-<a name="ln-39"></a><span class="cp">#if defined(__LIBXSMM) &amp;&amp; TO_VERSION(1, 10, 0) &lt;= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)</span>
+<a name="ln-39"></a><span class="cp">#if defined(__LIBXSMM) &amp;&amp; TO_VERSION(1, 10) &lt;= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)</span>
 <a name="ln-40"></a><span class="cp">#  define __LIBXSMM_TRANS</span>
 <a name="ln-41"></a><span class="cp">#endif</span>
 <a name="ln-42"></a><span class="cp">#if defined(__MKL) || defined(__LIBXSMM_TRANS) || defined(__LIBXSMM_BLOCKOPS) || !defined(NDEBUG)</span>

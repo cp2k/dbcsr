@@ -426,7 +426,7 @@
 <a name="ln-168"></a>      <span class="c">!! we return already the index in the table as a final result</span>
 <a name="ln-169"></a>
 <a name="ln-170"></a>      <span class="c">! LIBXSMM: at least v1.9.0-6 is required</span>
-<a name="ln-171"></a><span class="cp">#if defined(__LIBXSMM) &amp;&amp; TO_VERSION(1, 10, 0) &lt;= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)</span>
+<a name="ln-171"></a><span class="cp">#if defined(__LIBXSMM) &amp;&amp; TO_VERSION(1, 10) &lt;= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)</span>
 <a name="ln-172"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_hash</span>
 <a name="ln-173"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span>                                 <span class="kd">::</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-174"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">key</span>
