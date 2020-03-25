@@ -140,7 +140,7 @@
      MARK_USED(stack_descr)
   END SUBROUTINE smm_process_mm_stack_${nametype1}$
 
-#if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
+#if defined(__LIBXSMM) && TO_VERSION(1, 10) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
   SUBROUTINE xsmm_process_mm_batch_${nametype1}$ (stack_descr, params, &
                                                   stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues libxsmm calls
@@ -177,24 +177,24 @@
      IF (stack_descr%defined_mnk) THEN ! homogeneous stack
         CALL libxsmm_gemm_batch(LIBXSMM_GEMM_PRECISION, LIBXSMM_GEMM_PRECISION, 'N', 'N', &
                                 m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, &
-                                alpha=libxsmm_ptr0(one), a=libxsmm_ptr0(a_data(LBOUND(a_data,1))), &
+                                alpha=libxsmm_ptr0(one), a=libxsmm_ptr0(a_data(LBOUND(a_data, 1))), &
                                 lda=stack_descr%m, &
-                                b=libxsmm_ptr0(b_data(LBOUND(b_data,1))), &
+                                b=libxsmm_ptr0(b_data(LBOUND(b_data, 1))), &
                                 ldb=stack_descr%k, &
-                                beta=libxsmm_ptr0(one),  c=libxsmm_ptr0(c_data(LBOUND(c_data,1))), &
+                                beta=libxsmm_ptr0(one), c=libxsmm_ptr0(c_data(LBOUND(c_data, 1))), &
                                 ldc=stack_descr%m, index_base=1, &
                                 index_stride=KIND(params)*dbcsr_ps_width, &
-                                stride_a=libxsmm_ptr0(params(p_a_first,1)), &
-                                stride_b=libxsmm_ptr0(params(p_b_first,1)), &
-                                stride_c=libxsmm_ptr0(params(p_c_first,1)), &
+                                stride_a=libxsmm_ptr0(params(p_a_first, 1)), &
+                                stride_b=libxsmm_ptr0(params(p_b_first, 1)), &
+                                stride_c=libxsmm_ptr0(params(p_c_first, 1)), &
                                 batchsize=stack_size)
         used_smm = .TRUE.
      ELSE ! Dispatch for every (different) matrix
         DO sp = 1, stack_size
            CALL libxsmm_gemm(m=params(p_m, sp), n=params(p_n, sp), k=params(p_k, sp), &
-                             a=a_data(params(p_a_first,sp)), &
-                             b=b_data(params(p_b_first,sp)), &
-                             c=c_data(params(p_c_first,sp)), &
+                             a=a_data(params(p_a_first, sp)), &
+                             b=b_data(params(p_b_first, sp)), &
+                             c=c_data(params(p_c_first, sp)), &
                              alpha=one, beta=one)
         ENDDO
         used_smm = .FALSE.

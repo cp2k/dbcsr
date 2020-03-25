@@ -182,7 +182,7 @@ CONTAINS
 #if defined(__LIBXSMM)
       CASE (mm_driver_xsmm)
          SELECT CASE (this%data_area%d%data_type)
-#if TO_VERSION(1, 10, 0) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
+#if TO_VERSION(1, 10) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
          CASE (dbcsr_type_real_4)
             CALL xsmm_process_mm_batch_s(stack_descr, params, stack_size, &
                                          left%data_area%d%r_sp, right%data_area%d%r_sp, this%data_area%d%r_sp, used_smm)

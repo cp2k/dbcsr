@@ -19,6 +19,12 @@ MODULE dbcsr_tas_util
    USE dbcsr_mpiwrap, ONLY: mp_cart_rank, &
                             mp_environ
    USE dbcsr_index_operations, ONLY: dbcsr_sort_indices
+#if TO_VERSION(1, 11) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+   USE libxsmm, ONLY: libxsmm_diff
+#  define PURE_ARRAY_EQ
+#else
+#  define PURE_ARRAY_EQ PURE
+#endif
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -116,7 +122,6 @@ CONTAINS
 
       ALLOCATE (index_out(count, 2))
       index_out(:, :) = index_tmp(1:count, :)
-
    END SUBROUTINE
 
    SUBROUTINE invert_transpose_flag(trans_flag)
@@ -129,22 +134,26 @@ CONTAINS
       ENDIF
    END SUBROUTINE
 
-   PURE FUNCTION array_eq_i(arr1, arr2)
+   PURE_ARRAY_EQ FUNCTION array_eq_i(arr1, arr2)
       INTEGER, DIMENSION(:), INTENT(IN)                  :: arr1, arr2
       LOGICAL                                            :: array_eq_i
-
+#if TO_VERSION(1, 11) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+      array_eq_i = .NOT. libxsmm_diff(arr1, arr2)
+#else
       array_eq_i = .FALSE.
       IF (SIZE(arr1) .EQ. SIZE(arr2)) array_eq_i = ALL(arr1 == arr2)
-
+#endif
    END FUNCTION
 
-   PURE FUNCTION array_eq_i8(arr1, arr2)
+   PURE_ARRAY_EQ FUNCTION array_eq_i8(arr1, arr2)
       INTEGER(KIND=int_8), DIMENSION(:), INTENT(IN)      :: arr1, arr2
       LOGICAL                                            :: array_eq_i8
-
+#if TO_VERSION(1, 11) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+      array_eq_i8 = .NOT. libxsmm_diff(arr1, arr2)
+#else
       array_eq_i8 = .FALSE.
       IF (SIZE(arr1) .EQ. SIZE(arr2)) array_eq_i8 = ALL(arr1 == arr2)
-
+#endif
    END FUNCTION
 
 END MODULE

@@ -167,7 +167,7 @@ CONTAINS
       !! we return already the index in the table as a final result
 
       ! LIBXSMM: at least v1.9.0-6 is required
-#if defined(__LIBXSMM) && TO_VERSION(1, 10, 0) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR, LIBXSMM_CONFIG_VERSION_UPDATE)
+#if defined(__LIBXSMM) && TO_VERSION(1, 10) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
       USE libxsmm, ONLY: libxsmm_hash
       INTEGER, PARAMETER                                 :: seed = 0
       INTEGER, DIMENSION(:), INTENT(IN)                  :: key
