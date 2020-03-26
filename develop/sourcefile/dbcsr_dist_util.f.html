@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.8% of total for source files.">520 statements</a>
+    title=" 0.9% of total for source files.">523 statements</a>
      </li> 
      
      
@@ -1013,83 +1013,87 @@
 <a name="ln-755"></a>
 <a name="ln-756"></a>   <span class="k">PURE SUBROUTINE </span><span class="n">count_bins</span><span class="p">(</span><span class="n">nelements</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">bin_counts</span><span class="p">)</span>
 <a name="ln-757"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nelements</span>
-<a name="ln-758"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nelements</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">bins</span>
+<a name="ln-758"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">bins</span>
 <a name="ln-759"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nbins</span>
 <a name="ln-760"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nbins</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">bin_counts</span>
 <a name="ln-761"></a>
-<a name="ln-762"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">el</span>
+<a name="ln-762"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">bin</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i0</span><span class="p">,</span> <span class="n">i1</span>
 <a name="ln-763"></a>
-<a name="ln-764"></a>      <span class="n">bin_counts</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-765"></a>      <span class="k">DO </span><span class="n">el</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nelements</span>
-<a name="ln-766"></a>         <span class="n">bin_counts</span><span class="p">(</span><span class="n">bins</span><span class="p">(</span><span class="n">el</span><span class="p">))</span> <span class="o">=</span> <span class="n">bin_counts</span><span class="p">(</span><span class="n">bins</span><span class="p">(</span><span class="n">el</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-767"></a>      <span class="n">ENDDO</span>
-<a name="ln-768"></a>   <span class="k">END SUBROUTINE </span><span class="n">count_bins</span>
-<a name="ln-769"></a>
-<a name="ln-770"></a>   <span class="k">SUBROUTINE </span><span class="n">map_most_common</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="n">most_common_map</span><span class="p">,</span> <span class="n">nmost_common</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-771"></a>                              <span class="n">most_common_elements</span><span class="p">,</span> <span class="n">size_limit</span><span class="p">,</span> <span class="n">max_val</span><span class="p">)</span>
-<a name="ln-772"></a>      <span class="c">!! Makes a lookup table from the most common elements.</span>
-<a name="ln-773"></a>      <span class="c">!!</span>
-<a name="ln-774"></a>      <span class="c">!! Lookup table</span>
-<a name="ln-775"></a>      <span class="c">!! The lookup table is indexed by the most common array values</span>
-<a name="ln-776"></a>      <span class="c">!! (i.e., block sizes).  Its values are the order of their frequency.</span>
-<a name="ln-777"></a>
-<a name="ln-778"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="k">array</span>
-<a name="ln-779"></a>         <span class="c">!! Array for which to find the most common elements.</span>
-<a name="ln-780"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">most_common_map</span>
-<a name="ln-781"></a>         <span class="c">!! Ranking of the most common elements in array</span>
-<a name="ln-782"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nmost_common</span>
-<a name="ln-783"></a>         <span class="c">!! The number of most common elements</span>
-<a name="ln-784"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">most_common_elements</span>
-<a name="ln-785"></a>         <span class="c">!! The most common elements in array</span>
-<a name="ln-786"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">size_limit</span>
-<a name="ln-787"></a>         <span class="c">!! Limit maximum size to this value</span>
-<a name="ln-788"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">max_val</span>
-<a name="ln-789"></a>
-<a name="ln-790"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;map_most_common&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-791"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-792"></a>
-<a name="ln-793"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">max_val_l</span><span class="p">,</span> <span class="n">nmc</span>
-<a name="ln-794"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">permutation</span><span class="p">,</span> <span class="n">size_counts</span>
-<a name="ln-795"></a>
-<a name="ln-796"></a><span class="c">!   ---------------------------------------------------------------------------</span>
-<a name="ln-797"></a>
-<a name="ln-798"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="k">array</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-799"></a><span class="k">         </span><span class="n">max_val</span> <span class="o">=</span> <span class="nb">MAXVAL</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
-<a name="ln-800"></a>         <span class="n">max_val_l</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="nb">MIN</span><span class="p">(</span><span class="n">size_limit</span><span class="p">,</span> <span class="n">max_val</span><span class="p">),</span> <span class="nb">INT</span><span class="p">(</span><span class="nb">HUGE</span><span class="p">(</span><span class="n">most_common_map</span><span class="p">)))</span>
-<a name="ln-801"></a>      <span class="k">ELSE</span>
-<a name="ln-802"></a><span class="k">         </span><span class="n">max_val</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-803"></a>         <span class="n">max_val_l</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-804"></a>      <span class="n">ENDIF</span>
-<a name="ln-805"></a>      <span class="c">! Count the frequency of all block sizes up to max_val_l.</span>
-<a name="ln-806"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">size_counts</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">max_val_l</span><span class="p">))</span>
-<a name="ln-807"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">permutation</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">max_val_l</span><span class="p">))</span>
-<a name="ln-808"></a>      <span class="n">size_counts</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-809"></a>      <span class="n">permutation</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-810"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
-<a name="ln-811"></a>         <span class="c">! Counts are decreased to easily get a reverse sort order.</span>
-<a name="ln-812"></a>         <span class="k">IF</span> <span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">max_val_l</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-813"></a>            <span class="n">size_counts</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">=</span> <span class="n">size_counts</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-814"></a>      <span class="k">END DO</span>
-<a name="ln-815"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="k">array</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-816"></a><span class="k">         CALL </span><span class="n">sort</span><span class="p">(</span><span class="n">size_counts</span><span class="p">,</span> <span class="n">max_val_l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">permutation</span><span class="p">)</span>
-<a name="ln-817"></a>      <span class="n">ENDIF</span>
-<a name="ln-818"></a>      <span class="c">! Limiting nmc to max_val_l prevents out-of-bounds.</span>
-<a name="ln-819"></a>      <span class="n">nmc</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">nmost_common</span><span class="p">,</span> <span class="n">max_val_l</span><span class="p">)</span>
-<a name="ln-820"></a>      <span class="c">! Determine the biggest block size and allocate the map.</span>
-<a name="ln-821"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">most_common_map</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">max_val_l</span><span class="p">))</span>
-<a name="ln-822"></a>      <span class="c">! Create the mapping from block size to order.</span>
-<a name="ln-823"></a>      <span class="n">most_common_map</span> <span class="o">=</span> <span class="n">nmost_common</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-824"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nmc</span>
-<a name="ln-825"></a>         <span class="n">most_common_map</span><span class="p">(</span><span class="n">permutation</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
-<a name="ln-826"></a>      <span class="k">END DO</span>
-<a name="ln-827"></a>      <span class="c">! Copy the most common elements</span>
-<a name="ln-828"></a>      <span class="n">most_common_elements</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-829"></a>      <span class="n">most_common_elements</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nmc</span><span class="p">)</span> <span class="o">=</span> <span class="n">permutation</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nmc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-830"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">size_counts</span><span class="p">)</span>
-<a name="ln-831"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">permutation</span><span class="p">)</span>
-<a name="ln-832"></a>   <span class="k">END SUBROUTINE </span><span class="n">map_most_common</span>
-<a name="ln-833"></a>
-<a name="ln-834"></a><span class="k">END MODULE </span><span class="n">dbcsr_dist_util</span>
+<a name="ln-764"></a>      <span class="c">! PURE: DBCSR_ASSERT(nelements .EQ. SIZE(bins))</span>
+<a name="ln-765"></a>      <span class="n">bin_counts</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-766"></a>      <span class="n">i0</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-767"></a>      <span class="n">i1</span> <span class="o">=</span> <span class="n">i0</span> <span class="o">+</span> <span class="n">nelements</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-768"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">i0</span><span class="p">,</span> <span class="n">i1</span>
+<a name="ln-769"></a>         <span class="n">bin</span> <span class="o">=</span> <span class="n">bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-770"></a>         <span class="n">bin_counts</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="n">bin_counts</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-771"></a>      <span class="n">ENDDO</span>
+<a name="ln-772"></a>   <span class="k">END SUBROUTINE </span><span class="n">count_bins</span>
+<a name="ln-773"></a>
+<a name="ln-774"></a>   <span class="k">SUBROUTINE </span><span class="n">map_most_common</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="n">most_common_map</span><span class="p">,</span> <span class="n">nmost_common</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-775"></a>                              <span class="n">most_common_elements</span><span class="p">,</span> <span class="n">size_limit</span><span class="p">,</span> <span class="n">max_val</span><span class="p">)</span>
+<a name="ln-776"></a>      <span class="c">!! Makes a lookup table from the most common elements.</span>
+<a name="ln-777"></a>      <span class="c">!!</span>
+<a name="ln-778"></a>      <span class="c">!! Lookup table</span>
+<a name="ln-779"></a>      <span class="c">!! The lookup table is indexed by the most common array values</span>
+<a name="ln-780"></a>      <span class="c">!! (i.e., block sizes).  Its values are the order of their frequency.</span>
+<a name="ln-781"></a>
+<a name="ln-782"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="k">array</span>
+<a name="ln-783"></a>         <span class="c">!! Array for which to find the most common elements.</span>
+<a name="ln-784"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">most_common_map</span>
+<a name="ln-785"></a>         <span class="c">!! Ranking of the most common elements in array</span>
+<a name="ln-786"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nmost_common</span>
+<a name="ln-787"></a>         <span class="c">!! The number of most common elements</span>
+<a name="ln-788"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">most_common_elements</span>
+<a name="ln-789"></a>         <span class="c">!! The most common elements in array</span>
+<a name="ln-790"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">size_limit</span>
+<a name="ln-791"></a>         <span class="c">!! Limit maximum size to this value</span>
+<a name="ln-792"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">max_val</span>
+<a name="ln-793"></a>
+<a name="ln-794"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;map_most_common&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-795"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+<a name="ln-796"></a>
+<a name="ln-797"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">max_val_l</span><span class="p">,</span> <span class="n">nmc</span>
+<a name="ln-798"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">permutation</span><span class="p">,</span> <span class="n">size_counts</span>
+<a name="ln-799"></a>
+<a name="ln-800"></a><span class="c">!   ---------------------------------------------------------------------------</span>
+<a name="ln-801"></a>
+<a name="ln-802"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="k">array</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-803"></a><span class="k">         </span><span class="n">max_val</span> <span class="o">=</span> <span class="nb">MAXVAL</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
+<a name="ln-804"></a>         <span class="n">max_val_l</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="nb">MIN</span><span class="p">(</span><span class="n">size_limit</span><span class="p">,</span> <span class="n">max_val</span><span class="p">),</span> <span class="nb">INT</span><span class="p">(</span><span class="nb">HUGE</span><span class="p">(</span><span class="n">most_common_map</span><span class="p">)))</span>
+<a name="ln-805"></a>      <span class="k">ELSE</span>
+<a name="ln-806"></a><span class="k">         </span><span class="n">max_val</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-807"></a>         <span class="n">max_val_l</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-808"></a>      <span class="n">ENDIF</span>
+<a name="ln-809"></a>      <span class="c">! Count the frequency of all block sizes up to max_val_l.</span>
+<a name="ln-810"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">size_counts</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">max_val_l</span><span class="p">))</span>
+<a name="ln-811"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">permutation</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">max_val_l</span><span class="p">))</span>
+<a name="ln-812"></a>      <span class="n">size_counts</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-813"></a>      <span class="n">permutation</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-814"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
+<a name="ln-815"></a>         <span class="c">! Counts are decreased to easily get a reverse sort order.</span>
+<a name="ln-816"></a>         <span class="k">IF</span> <span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">max_val_l</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-817"></a>            <span class="n">size_counts</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">=</span> <span class="n">size_counts</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-818"></a>      <span class="k">END DO</span>
+<a name="ln-819"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="k">array</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-820"></a><span class="k">         CALL </span><span class="n">sort</span><span class="p">(</span><span class="n">size_counts</span><span class="p">,</span> <span class="n">max_val_l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">permutation</span><span class="p">)</span>
+<a name="ln-821"></a>      <span class="n">ENDIF</span>
+<a name="ln-822"></a>      <span class="c">! Limiting nmc to max_val_l prevents out-of-bounds.</span>
+<a name="ln-823"></a>      <span class="n">nmc</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">nmost_common</span><span class="p">,</span> <span class="n">max_val_l</span><span class="p">)</span>
+<a name="ln-824"></a>      <span class="c">! Determine the biggest block size and allocate the map.</span>
+<a name="ln-825"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">most_common_map</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">max_val_l</span><span class="p">))</span>
+<a name="ln-826"></a>      <span class="c">! Create the mapping from block size to order.</span>
+<a name="ln-827"></a>      <span class="n">most_common_map</span> <span class="o">=</span> <span class="n">nmost_common</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-828"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nmc</span>
+<a name="ln-829"></a>         <span class="n">most_common_map</span><span class="p">(</span><span class="n">permutation</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
+<a name="ln-830"></a>      <span class="k">END DO</span>
+<a name="ln-831"></a>      <span class="c">! Copy the most common elements</span>
+<a name="ln-832"></a>      <span class="n">most_common_elements</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-833"></a>      <span class="n">most_common_elements</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nmc</span><span class="p">)</span> <span class="o">=</span> <span class="n">permutation</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nmc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-834"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">size_counts</span><span class="p">)</span>
+<a name="ln-835"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">permutation</span><span class="p">)</span>
+<a name="ln-836"></a>   <span class="k">END SUBROUTINE </span><span class="n">map_most_common</span>
+<a name="ln-837"></a>
+<a name="ln-838"></a><span class="k">END MODULE </span><span class="n">dbcsr_dist_util</span>
 </pre></div>
 
     </section>

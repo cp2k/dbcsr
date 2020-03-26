@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">11 statements</a>
+    title=" 0.0% of total for procedures.">14 statements</a>
      </li> 
      
      
@@ -223,7 +223,7 @@ public subroutine count_bins(nelements, bins, nbins, bin_counts)
   
 <tr>
   
-  <td><span class="anchor" id="variable-nelements"></span>integer,</td>
+  <td><span class="anchor" id="variable-nelements~2"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -238,11 +238,11 @@ public subroutine count_bins(nelements, bins, nbins, bin_counts)
   
 <tr>
   
-  <td><span class="anchor" id="variable-bins"></span>integer,</td>
+  <td><span class="anchor" id="variable-bins~2"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(1:nelements)</td><td>::</td>
+  <td>DIMENSION(:)</td><td>::</td>
   <td><strong>bins</strong></td><td></td>
   
 </tr>
@@ -253,7 +253,7 @@ public subroutine count_bins(nelements, bins, nbins, bin_counts)
   
 <tr>
   
-  <td><span class="anchor" id="variable-nbins~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-nbins~7"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -346,15 +346,19 @@ public subroutine count_bins(nelements, bins, nbins, bin_counts)
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">PURE SUBROUTINE </span><span class="n">count_bins</span><span class="p">(</span><span class="n">nelements</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">bin_counts</span><span class="p">)</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nelements</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nelements</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">bins</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">bins</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nbins</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nbins</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">bin_counts</span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">el</span>
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">bin</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i0</span><span class="p">,</span> <span class="n">i1</span>
 
+      <span class="c">! PURE: DBCSR_ASSERT(nelements .EQ. SIZE(bins))</span>
       <span class="n">bin_counts</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="k">DO </span><span class="n">el</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nelements</span>
-         <span class="n">bin_counts</span><span class="p">(</span><span class="n">bins</span><span class="p">(</span><span class="n">el</span><span class="p">))</span> <span class="o">=</span> <span class="n">bin_counts</span><span class="p">(</span><span class="n">bins</span><span class="p">(</span><span class="n">el</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="n">i0</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="n">i1</span> <span class="o">=</span> <span class="n">i0</span> <span class="o">+</span> <span class="n">nelements</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">i0</span><span class="p">,</span> <span class="n">i1</span>
+         <span class="n">bin</span> <span class="o">=</span> <span class="n">bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+         <span class="n">bin_counts</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="n">bin_counts</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
       <span class="n">ENDDO</span>
    <span class="k">END SUBROUTINE </span><span class="n">count_bins</span>
 </pre></div>
