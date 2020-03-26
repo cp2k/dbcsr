@@ -19,7 +19,7 @@
      ${type1}$, DIMENSION(:), &
         INTENT(IN)                            :: DATA
 
-     INTEGER, PARAMETER                       :: nsimd = (1*64)/${typesize1}$
+     INTEGER, PARAMETER                       :: nsimd = (4*64)/${typesize1}$
      INTEGER                                  :: i, n, blk, bp, bpe, row, col
      REAL(kind=sp)                            :: vals(nsimd)
 
