@@ -358,9 +358,7 @@ CONTAINS
      IF (mem_type%acc_hostalloc .AND. n > 1) THEN
         CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
      ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
-!$OMP critical(allocate)
         CALL mp_allocate(mem, n)
-!$OMP end critical(allocate)
      ELSE
         ALLOCATE (mem(n))
      ENDIF
@@ -667,9 +665,7 @@ CONTAINS
      IF (mem_type%acc_hostalloc .AND. n > 1) THEN
         CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
      ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
-!$OMP critical(allocate)
         CALL mp_allocate(mem, n)
-!$OMP end critical(allocate)
      ELSE
         ALLOCATE (mem(n))
      ENDIF
@@ -976,9 +972,7 @@ CONTAINS
      IF (mem_type%acc_hostalloc .AND. n > 1) THEN
         CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
      ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
-!$OMP critical(allocate)
         CALL mp_allocate(mem, n)
-!$OMP end critical(allocate)
      ELSE
         ALLOCATE (mem(n))
      ENDIF
@@ -1285,9 +1279,7 @@ CONTAINS
      IF (mem_type%acc_hostalloc .AND. n > 1) THEN
         CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
      ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
-!$OMP critical(allocate)
         CALL mp_allocate(mem, n)
-!$OMP end critical(allocate)
      ELSE
         ALLOCATE (mem(n))
      ENDIF
@@ -1594,9 +1586,7 @@ CONTAINS
      IF (mem_type%acc_hostalloc .AND. n > 1) THEN
         CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
      ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
-!$OMP critical(allocate)
         CALL mp_allocate(mem, n)
-!$OMP end critical(allocate)
      ELSE
         ALLOCATE (mem(n))
      ENDIF
@@ -1903,9 +1893,7 @@ CONTAINS
      IF (mem_type%acc_hostalloc .AND. n > 1) THEN
         CALL acc_hostmem_allocate(mem, n, mem_type%acc_stream)
      ELSE IF (mem_type%mpi .AND. dbcsr_data_allocation%use_mpi_allocator) THEN
-!$OMP critical(allocate)
         CALL mp_allocate(mem, n)
-!$OMP end critical(allocate)
      ELSE
         ALLOCATE (mem(n))
      ENDIF
@@ -2013,7 +2001,7 @@ CONTAINS
 
      r2p(1:d1, 1:d2) => r1p(1:d1*d2)
   END SUBROUTINE pointer_l_rank_remap2
-# 321 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.f90"
+# 319 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.f90"
 # 145 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F" 2
 
 END MODULE dbcsr_ptr_util

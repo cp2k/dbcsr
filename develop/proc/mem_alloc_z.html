@@ -351,9 +351,7 @@ private subroutine mem_alloc_z(mem, n, mem_type)
      <span class="k">IF</span> <span class="p">(</span><span class="n">mem_type</span><span class="p">%</span><span class="n">acc_hostalloc</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">        CALL </span><span class="n">acc_hostmem_allocate</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span>
      <span class="k">ELSE IF</span> <span class="p">(</span><span class="n">mem_type</span><span class="p">%</span><span class="n">mpi</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="c">!$OMP critical(allocate)</span>
-        <span class="k">CALL </span><span class="n">mp_allocate</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-<span class="c">!$OMP end critical(allocate)</span>
+<span class="k">        CALL </span><span class="n">mp_allocate</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
      <span class="k">ELSE</span>
 <span class="k">        ALLOCATE</span> <span class="p">(</span><span class="n">mem</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
      <span class="n">ENDIF</span>
