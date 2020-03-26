@@ -1143,7 +1143,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
             <span class="k">CALL </span><span class="n">dbcsr_print</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki_right</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">nodata</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
          <span class="n">ENDIF</span>
          <span class="c">!</span>
-         <span class="c">! form here the code for dbcsr_mm_driver_inner_init was taken</span>
+         <span class="c">! from here the code for dbcsr_mm_driver_inner_init was taken</span>
          <span class="c">!</span>
          <span class="k">IF</span> <span class="p">(.</span><span class="n">FALSE</span><span class="p">.)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; TICK&quot;</span><span class="p">,</span> <span class="n">metronome</span>
          <span class="c">! Since the right matrix is shifted vertically, the</span>
