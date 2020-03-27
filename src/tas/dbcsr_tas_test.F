@@ -169,7 +169,7 @@ CONTAINS
 
       IF (PRESENT(io_unit)) THEN
       IF (io_unit > 0) THEN
-         WRITE (io_unit, *) "starting tall-and-skinny benchmark"
+         WRITE (io_unit, "(A)") "starting tall-and-skinny benchmark"
       ENDIF
       ENDIF
       CALL timeset("benchmark_tas_mm", handle1)
@@ -179,7 +179,7 @@ CONTAINS
       CALL timestop(handle1)
       IF (PRESENT(io_unit)) THEN
       IF (io_unit > 0) THEN
-         WRITE (io_unit, *) "tall-and-skinny benchmark completed"
+         WRITE (io_unit, "(A)") "tall-and-skinny benchmark completed"
       ENDIF
       ENDIF
 
@@ -223,7 +223,7 @@ CONTAINS
          CALL dbcsr_complete_redistribute(dbcsr_b, dbcsr_b_mm)
          IF (PRESENT(io_unit)) THEN
          IF (io_unit > 0) THEN
-            WRITE (io_unit, *) "starting dbcsr benchmark"
+            WRITE (io_unit, "(A)") "starting dbcsr benchmark"
          ENDIF
          ENDIF
          CALL timeset("benchmark_dbcsr_mm", handle2)
@@ -232,7 +232,7 @@ CONTAINS
          CALL timestop(handle2)
          IF (PRESENT(io_unit)) THEN
          IF (io_unit > 0) THEN
-            WRITE (io_unit, *) "dbcsr benchmark completed"
+            WRITE (io_unit, "(A)") "dbcsr benchmark completed"
          ENDIF
          ENDIF
 
@@ -348,14 +348,14 @@ CONTAINS
       IF (ABS(norm) .GT. test_tol) THEN
          WRITE (io_unit, '(A, A, A, A, A, 1X, A)') TRIM(matrix_a%matrix%name), transa, ' X ', TRIM(matrix_b%matrix%name), &
             transb, 'failed!'
-         WRITE (io_unit, *) "checksums", sq_cs, rc_cs
-         WRITE (io_unit, *) "difference norm", norm
+         WRITE (io_unit, "(A,1X,E9.2,1X,E9.2)") "checksums", sq_cs, rc_cs
+         WRITE (io_unit, "(A,1X,E9.2)") "difference norm", norm
          DBCSR_ABORT("")
       ELSE
          WRITE (io_unit, '(A, A, A, A, A, 1X, A)') TRIM(matrix_a%matrix%name), transa, ' X ', TRIM(matrix_b%matrix%name), &
             transb, 'passed!'
-         WRITE (io_unit, *) "checksums", sq_cs, rc_cs
-         WRITE (io_unit, *) "difference norm", norm
+         WRITE (io_unit, "(A,1X,E9.2,1X,E9.2)") "checksums", sq_cs, rc_cs
+         WRITE (io_unit, "(A,1X,E9.2)") "difference norm", norm
       ENDIF
       ENDIF
 
