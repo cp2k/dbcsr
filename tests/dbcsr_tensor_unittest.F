@@ -275,25 +275,25 @@ PROGRAM dbcsr_tensor_unittest
       CALL dbcsr_t_pgrid_create(mp_comm, pdims_3d, pgrid_3d)
       CALL dbcsr_t_pgrid_create(mp_comm, pdims_2d, pgrid_2d)
 
-      CALL dbcsr_t_random_dist(dist1_1, nblks_1, pdims_3d(1), mp_comm)
-      CALL dbcsr_t_random_dist(dist1_2, nblks_2, pdims_3d(2), mp_comm)
-      CALL dbcsr_t_random_dist(dist1_3, nblks_3, pdims_3d(3), mp_comm)
+      CALL dbcsr_t_random_dist(dist1_1, nblks_1, pdims_3d(1))
+      CALL dbcsr_t_random_dist(dist1_2, nblks_2, pdims_3d(2))
+      CALL dbcsr_t_random_dist(dist1_3, nblks_3, pdims_3d(3))
 
-      CALL dbcsr_t_random_dist(dist2_1, nblks_3, pdims_2d(1), mp_comm)
-      CALL dbcsr_t_random_dist(dist2_2, nblks_4, pdims_2d(2), mp_comm)
+      CALL dbcsr_t_random_dist(dist2_1, nblks_3, pdims_2d(1))
+      CALL dbcsr_t_random_dist(dist2_2, nblks_4, pdims_2d(2))
 
-      CALL dbcsr_t_random_dist(dist3_1, nblks_1, pdims_3d(1), mp_comm)
-      CALL dbcsr_t_random_dist(dist3_2, nblks_2, pdims_3d(2), mp_comm)
-      CALL dbcsr_t_random_dist(dist3_3, nblks_4, pdims_3d(3), mp_comm)
+      CALL dbcsr_t_random_dist(dist3_1, nblks_1, pdims_3d(1))
+      CALL dbcsr_t_random_dist(dist3_2, nblks_2, pdims_3d(2))
+      CALL dbcsr_t_random_dist(dist3_3, nblks_4, pdims_3d(3))
 
-      CALL dbcsr_t_random_dist(dist4_1, nblks_1, pdims_4d(1), mp_comm)
-      CALL dbcsr_t_random_dist(dist4_2, nblks_2, pdims_4d(2), mp_comm)
-      CALL dbcsr_t_random_dist(dist4_3, nblks_4, pdims_4d(3), mp_comm)
-      CALL dbcsr_t_random_dist(dist4_4, nblks_5, pdims_4d(4), mp_comm)
+      CALL dbcsr_t_random_dist(dist4_1, nblks_1, pdims_4d(1))
+      CALL dbcsr_t_random_dist(dist4_2, nblks_2, pdims_4d(2))
+      CALL dbcsr_t_random_dist(dist4_3, nblks_4, pdims_4d(3))
+      CALL dbcsr_t_random_dist(dist4_4, nblks_5, pdims_4d(4))
 
-      CALL dbcsr_t_random_dist(dist5_1, nblks_3, pdims_3d(1), mp_comm)
-      CALL dbcsr_t_random_dist(dist5_2, nblks_4, pdims_3d(2), mp_comm)
-      CALL dbcsr_t_random_dist(dist5_3, nblks_5, pdims_3d(3), mp_comm)
+      CALL dbcsr_t_random_dist(dist5_1, nblks_3, pdims_3d(1))
+      CALL dbcsr_t_random_dist(dist5_2, nblks_4, pdims_3d(2))
+      CALL dbcsr_t_random_dist(dist5_3, nblks_5, pdims_3d(3))
 
 !--------------------------------------------------------------------------------------------------!
 ! Test 4: Testing tensor contraction (12|3)x(3|4)=(12|4)                                           !

@@ -49,9 +49,12 @@ MODULE dbcsr_tensor_test
                             mp_sum, &
                             mp_cart_create
    USE dbcsr_allocate_wrap, ONLY: allocate_any
-   USE dbcsr_tensor_index, ONLY: combine_tensor_index
+   USE dbcsr_tensor_index, ONLY: &
+      combine_tensor_index, get_2d_indices_tensor, dbcsr_t_get_mapping_info
    USE dbcsr_tas_test, ONLY: dbcsr_tas_checksum
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
+   USE dbcsr_blas_operations, ONLY: &
+      dbcsr_lapack_larnv, set_larnv_seed
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -86,6 +89,10 @@ MODULE dbcsr_tensor_test
 #:endfor
 #:endfor
    END INTERFACE
+
+
+   INTEGER, SAVE :: randmat_counter = 0
+
 CONTAINS
 
    FUNCTION dbcsr_t_equal(tensor1, tensor2)
@@ -278,8 +285,8 @@ CONTAINS
 #:for dim in range(1, maxdim+1)
             IF (${dim}$ <= ndims) THEN
                nblks = SIZE(blk_size_${dim}$)
-               CALL dbcsr_t_random_dist(dist1_${dim}$, nblks, pdims(${dim}$), mp_comm)
-               CALL dbcsr_t_random_dist(dist2_${dim}$, nblks, pdims(${dim}$), mp_comm)
+               CALL dbcsr_t_random_dist(dist1_${dim}$, nblks, pdims(${dim}$))
+               CALL dbcsr_t_random_dist(dist2_${dim}$, nblks, pdims(${dim}$))
             ENDIF
 #:endfor
 
@@ -370,26 +377,20 @@ CONTAINS
       CALL dbcsr_t_pgrid_destroy(comm_nd)
    END SUBROUTINE
 
-   SUBROUTINE dbcsr_t_random_dist(dist_array, dist_size, nbins, mp_comm)
-      !! Create test distribution
+   SUBROUTINE dbcsr_t_random_dist(dist_array, dist_size, nbins)
+      INTEGER, DIMENSION(:), INTENT(OUT), ALLOCATABLE    :: dist_array
+      INTEGER, INTENT(IN)                                :: dist_size, nbins
 
-      INTEGER, ALLOCATABLE, DIMENSION(:), INTENT(OUT) :: dist_array
-      INTEGER, INTENT(IN)                             :: dist_size, nbins, mp_comm
-      REAL, DIMENSION(dist_size)                      :: rn
-      INTEGER, DIMENSION(dist_size)                   :: rn_int
-      INTEGER                                         :: numnodes, mynode
+      INTEGER                                            :: i
 
-      CALL mp_environ(numnodes, mynode, mp_comm)
+      ALLOCATE (dist_array(dist_size))
+      !CALL RANDOM_NUMBER (dist_array)
+      DO i = 1, dist_size
+         dist_array(i) = MODULO(nbins - i, nbins)
+      END DO
 
-      IF (mynode .EQ. 0) THEN
-         CALL RANDOM_NUMBER(rn)
-      ENDIF
-      CALL mp_bcast(rn, 0, mp_comm)
+   END SUBROUTINE
 
-      rn_int = FLOOR(rn*nbins)
-      CALL allocate_any(dist_array, source=rn_int)
-
-   END SUBROUTINE dbcsr_t_random_dist
 
    SUBROUTINE dbcsr_t_setup_test_tensor(tensor, mp_comm, enumerate, ${varlist("blk_ind")}$)
       !! Allocate and fill test tensor - entries are enumerated by their index s.t. they only depend
@@ -402,7 +403,7 @@ CONTAINS
          !! index along respective dimension of non-zero blocks
       INTEGER                                            :: blk, numnodes, mynode
 
-      INTEGER                                            :: i, ib, my_nblks_alloc, nblks_alloc, proc
+      INTEGER                                            :: i, ib, my_nblks_alloc, nblks_alloc, proc, nze
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: ${varlist("my_blk_ind")}$
       INTEGER, DIMENSION(ndims_tensor(tensor))          :: blk_index, blk_offset, blk_size, &
                                                             tensor_dims
@@ -412,9 +413,17 @@ CONTAINS
          DIMENSION(${shape_colon(ndim)}$)                :: blk_values_${ndim}$
 #:endfor
       TYPE(dbcsr_t_iterator_type)                        :: iterator
+      INTEGER, DIMENSION(4)                              :: iseed
+      INTEGER, DIMENSION(2)                              :: blk_index_2d, nblks_2d
 
       nblks_alloc = SIZE(blk_ind_1)
       CALL mp_environ(numnodes, mynode, mp_comm)
+
+      IF(.NOT. enumerate) THEN
+         DBCSR_ASSERT(randmat_counter .NE. 0)
+
+         randmat_counter = randmat_counter + 1
+      ENDIF
 
       ALLOCATE (ind_nd(nblks_alloc, ndims_tensor(tensor)))
       my_nblks_alloc = 0
@@ -459,6 +468,13 @@ CONTAINS
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, blk_index, blk, blk_size=blk_size, blk_offset=blk_offset)
 
+         IF(.NOT. enumerate) THEN
+            blk_index_2d = INT(get_2d_indices_tensor(tensor%nd_index_blk, blk_index))
+            CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, dims_2d=nblks_2d)
+            CALL set_larnv_seed(blk_index_2d(1), nblks_2d(1), blk_index_2d(2), nblks_2d(2), randmat_counter, iseed)
+            nze = PRODUCT(blk_size)
+         ENDIF
+
 #:for ndim in ndims
          IF (ndims_tensor(tensor) == ${ndim}$) THEN
             CALL allocate_any(blk_values_${ndim}$, shape_spec=blk_size)
@@ -466,7 +482,7 @@ CONTAINS
             IF (enumerate) THEN
                CALL enumerate_block_elements(blk_size, blk_offset, tensor_dims, blk_${ndim}$=blk_values_${ndim}$)
             ELSE
-               CALL random_number(blk_values_${ndim}$)
+               CALL dlarnv(1, iseed, nze, blk_values_${ndim}$)
             ENDIF
             CALL dbcsr_t_put_block(tensor, blk_index, blk_size, blk_values_${ndim}$)
             DEALLOCATE (blk_values_${ndim}$)
