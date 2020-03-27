@@ -662,9 +662,9 @@ CONTAINS
 
       IF (debug) THEN
          IF (io_unit > 0) THEN
-            WRITE (io_unit, *) "checksum ", TRIM(tensor_1%name), cs_1
-            WRITE (io_unit, *) "checksum ", TRIM(tensor_2%name), cs_2
-            WRITE (io_unit, *) "checksum ", TRIM(tensor_3%name), cs_3
+            WRITE (io_unit, "(A, E9.2)") "checksum ", TRIM(tensor_1%name), cs_1
+            WRITE (io_unit, "(A, E9.2)") "checksum ", TRIM(tensor_2%name), cs_2
+            WRITE (io_unit, "(A, E9.2)") "checksum ", TRIM(tensor_3%name), cs_3
          ENDIF
       ENDIF
 
@@ -692,7 +692,7 @@ CONTAINS
 
       IF (debug) THEN
          IF (io_unit > 0) THEN
-            WRITE (io_unit, *) "checksum ", TRIM(tensor_3%name), cs_3
+            WRITE (io_unit, "(A, E9.2)") "checksum ", TRIM(tensor_3%name), cs_3
          ENDIF
       ENDIF
 
