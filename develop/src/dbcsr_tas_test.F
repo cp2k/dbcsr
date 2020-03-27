@@ -45,6 +45,8 @@ MODULE dbcsr_tas_test
    USE dbcsr_operations, ONLY: dbcsr_maxabs, &
                                dbcsr_add
    USE dbcsr_transformations, ONLY: dbcsr_complete_redistribute
+   USE dbcsr_blas_operations, ONLY: &
+      dbcsr_lapack_larnv, set_larnv_seed
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -56,6 +58,8 @@ MODULE dbcsr_tas_test
       dbcsr_tas_random_bsizes, &
       dbcsr_tas_setup_test_matrix, &
       dbcsr_tas_test_mm
+
+   INTEGER, SAVE :: randmat_counter = 0
 
 CONTAINS
    SUBROUTINE dbcsr_tas_setup_test_matrix(matrix, mp_comm_out, mp_comm, nrows, ncols, rbsizes, cbsizes, &
@@ -76,7 +80,7 @@ CONTAINS
       INTEGER                                            :: col_size, max_col_size, max_nze, &
                                                             max_row_size, mynode, node_holds_blk, &
                                                             numnodes, nze, row_size
-      INTEGER(KIND=int_8)                                :: col, col_s, row, row_s
+      INTEGER(KIND=int_8)                                :: col, col_s, row, row_s, nrow, ncol
       INTEGER, DIMENSION(2)                              :: pcoord, pdims
       LOGICAL                                            :: reuse_comm_prv, tr
       REAL(KIND=real_8)                                  :: rn
@@ -86,10 +90,16 @@ CONTAINS
       TYPE(dbcsr_tas_distribution_type)                    :: dist
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_setup_test_matrix'
       INTEGER :: handle
+      INTEGER, DIMENSION(4)                              :: iseed, jseed
 
       ! we don't reserve blocks prior to putting them, so this time is meaningless and should not
       ! be considered in benchmark!
       CALL timeset(routineN, handle)
+
+      ! Check that the counter was initialised (or has not overflowed)
+      DBCSR_ASSERT(randmat_counter .NE. 0)
+      ! the counter goes into the seed. Every new call gives a new random matrix
+      randmat_counter = randmat_counter + 1
 
       IF (PRESENT(reuse_comm)) THEN
          reuse_comm_prv = reuse_comm
@@ -120,11 +130,16 @@ CONTAINS
       max_col_size = MAXVAL(cbsizes)
       max_nze = max_row_size*max_col_size
 
+      nrow = dbcsr_tas_nblkrows_total(matrix)
+      ncol = dbcsr_tas_nblkcols_total(matrix)
+
       ALLOCATE (values(max_row_size, max_col_size))
+
+      CALL set_larnv_seed(7, 42, 3, 42, randmat_counter, jseed)
 
       DO row = 1, dbcsr_tas_nblkrows_total(matrix)
          DO col = 1, dbcsr_tas_nblkcols_total(matrix)
-            CALL RANDOM_NUMBER(rn)
+            CALL dlarnv(1, jseed, 1, rn)
             IF (rn .LT. sparsity) THEN
                tr = .FALSE.
                row_s = row; col_s = col
@@ -134,7 +149,8 @@ CONTAINS
                   row_size = rbsize_obj%data(row_s)
                   col_size = cbsize_obj%data(col_s)
                   nze = row_size*col_size
-                  CALL RANDOM_NUMBER(values(1:row_size, 1:col_size))
+                  CALL set_larnv_seed(INT(row_s), INT(nrow), INT(col_s), INT(ncol), randmat_counter, iseed)
+                  CALL dlarnv(1, iseed, max_nze, values)
                   CALL dbcsr_tas_put_block(matrix, row_s, col_s, values(1:row_size, 1:col_size))
                ENDIF
             ENDIF
@@ -170,7 +186,7 @@ CONTAINS
 
       IF (PRESENT(io_unit)) THEN
       IF (io_unit > 0) THEN
-         WRITE (io_unit, *) "starting tall-and-skinny benchmark"
+         WRITE (io_unit, "(A)") "starting tall-and-skinny benchmark"
       ENDIF
       ENDIF
       CALL timeset("benchmark_tas_mm", handle1)
@@ -180,7 +196,7 @@ CONTAINS
       CALL timestop(handle1)
       IF (PRESENT(io_unit)) THEN
       IF (io_unit > 0) THEN
-         WRITE (io_unit, *) "tall-and-skinny benchmark completed"
+         WRITE (io_unit, "(A)") "tall-and-skinny benchmark completed"
       ENDIF
       ENDIF
 
@@ -224,7 +240,7 @@ CONTAINS
          CALL dbcsr_complete_redistribute(dbcsr_b, dbcsr_b_mm)
          IF (PRESENT(io_unit)) THEN
          IF (io_unit > 0) THEN
-            WRITE (io_unit, *) "starting dbcsr benchmark"
+            WRITE (io_unit, "(A)") "starting dbcsr benchmark"
          ENDIF
          ENDIF
          CALL timeset("benchmark_dbcsr_mm", handle2)
@@ -233,7 +249,7 @@ CONTAINS
          CALL timestop(handle2)
          IF (PRESENT(io_unit)) THEN
          IF (io_unit > 0) THEN
-            WRITE (io_unit, *) "dbcsr benchmark completed"
+            WRITE (io_unit, "(A)") "dbcsr benchmark completed"
          ENDIF
          ENDIF
 
@@ -349,14 +365,14 @@ CONTAINS
       IF (ABS(norm) .GT. test_tol) THEN
          WRITE (io_unit, '(A, A, A, A, A, 1X, A)') TRIM(matrix_a%matrix%name), transa, ' X ', TRIM(matrix_b%matrix%name), &
             transb, 'failed!'
-         WRITE (io_unit, *) "checksums", sq_cs, rc_cs
-         WRITE (io_unit, *) "difference norm", norm
+         WRITE (io_unit, "(A,1X,E9.2,1X,E9.2)") "checksums", sq_cs, rc_cs
+         WRITE (io_unit, "(A,1X,E9.2)") "difference norm", norm
          DBCSR_ABORT("")
       ELSE
          WRITE (io_unit, '(A, A, A, A, A, 1X, A)') TRIM(matrix_a%matrix%name), transa, ' X ', TRIM(matrix_b%matrix%name), &
             transb, 'passed!'
-         WRITE (io_unit, *) "checksums", sq_cs, rc_cs
-         WRITE (io_unit, *) "difference norm", norm
+         WRITE (io_unit, "(A,1X,E9.2,1X,E9.2)") "checksums", sq_cs, rc_cs
+         WRITE (io_unit, "(A,1X,E9.2)") "difference norm", norm
       ENDIF
       ENDIF
 

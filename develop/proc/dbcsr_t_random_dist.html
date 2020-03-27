@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">14 statements</a>
+    title=" 0.0% of total for procedures.">9 statements</a>
      </li> 
      
      
@@ -179,13 +179,7 @@
 
 
 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_t_random_dist.html#src">dbcsr_t_random_dist</a>
-  </div>
-</div>
-
+<em>None</em>
 
 
 </div>
@@ -194,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_t_random_dist(dist_array, dist_size, nbins, mp_comm)
+public subroutine dbcsr_t_random_dist(dist_array, dist_size, nbins)
     
     
    
@@ -203,8 +197,6 @@ public subroutine dbcsr_t_random_dist(dist_array, dist_size, nbins, mp_comm)
   
 
 
-    
-    <p>Create test distribution</p>
     
 
     <h3>Arguments</h3>
@@ -229,7 +221,7 @@ public subroutine dbcsr_t_random_dist(dist_array, dist_size, nbins, mp_comm)
   <td>intent(out),</td>
   <td></td>
   
-  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>dist_array</strong></td><td></td>
   
 </tr>
@@ -261,21 +253,6 @@ public subroutine dbcsr_t_random_dist(dist_array, dist_size, nbins, mp_comm)
   
   <td></td><td>::</td>
   <td><strong>nbins</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-mp_comm~22"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>mp_comm</strong></td><td></td>
   
 </tr>
 
@@ -314,13 +291,7 @@ public subroutine dbcsr_t_random_dist(dist_array, dist_size, nbins, mp_comm)
 
 
 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_t_random_dist.html#src">dbcsr_t_random_dist</a>
-  </div>
-</div>
-
+<em>None</em>
 
 
     </section>
@@ -343,33 +314,6 @@ public subroutine dbcsr_t_random_dist(dist_array, dist_size, nbins, mp_comm)
 
     
     
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_t_random_dist</span><span class="p">(</span><span class="n">dist_array</span><span class="p">,</span> <span class="n">dist_size</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
-      <span class="c">!! Create test distribution</span>
-
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dist_array</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                             <span class="kd">::</span> <span class="n">dist_size</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">mp_comm</span>
-      <span class="kt">REAL</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">dist_size</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">rn</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">dist_size</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">rn_int</span>
-      <span class="kt">INTEGER</span>                                         <span class="kd">::</span> <span class="n">numnodes</span><span class="p">,</span> <span class="n">mynode</span>
-
-      <span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
-
-      <span class="k">IF</span> <span class="p">(</span><span class="n">mynode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="nb">RANDOM_NUMBER</span><span class="p">(</span><span class="n">rn</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">mp_bcast</span><span class="p">(</span><span class="n">rn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
-
-      <span class="n">rn_int</span> <span class="o">=</span> <span class="nb">FLOOR</span><span class="p">(</span><span class="n">rn</span><span class="o">*</span><span class="n">nbins</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">allocate_any</span><span class="p">(</span><span class="n">dist_array</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">rn_int</span><span class="p">)</span>
-
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_t_random_dist</span>
-</pre></div>
-
-    </section>
-    <br>
     
     
     </div>
