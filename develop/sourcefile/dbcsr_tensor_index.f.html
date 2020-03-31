@@ -475,10 +475,10 @@
 <a name="ln-217"></a>         <span class="c">!! flat index</span>
 <a name="ln-218"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i_dim</span>
 <a name="ln-219"></a>
-<a name="ln-220"></a>         <span class="n">ind_out</span> <span class="o">=</span> <span class="n">ind_in</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">dims</span><span class="p">))</span>
-<a name="ln-221"></a>         <span class="k">DO </span><span class="n">i_dim</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-222"></a>            <span class="n">ind_out</span> <span class="o">=</span> <span class="p">(</span><span class="n">ind_out</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dims</span><span class="p">(</span><span class="n">i_dim</span><span class="p">)</span> <span class="o">+</span> <span class="n">ind_in</span><span class="p">(</span><span class="n">i_dim</span><span class="p">)</span>
-<a name="ln-223"></a>         <span class="n">ENDDO</span>
+<a name="ln-220"></a>      <span class="n">ind_out</span> <span class="o">=</span> <span class="n">ind_in</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">dims</span><span class="p">))</span>
+<a name="ln-221"></a>      <span class="k">DO </span><span class="n">i_dim</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-222"></a>         <span class="n">ind_out</span> <span class="o">=</span> <span class="p">(</span><span class="n">ind_out</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dims</span><span class="p">(</span><span class="n">i_dim</span><span class="p">)</span> <span class="o">+</span> <span class="n">ind_in</span><span class="p">(</span><span class="n">i_dim</span><span class="p">)</span>
+<a name="ln-223"></a>      <span class="n">ENDDO</span>
 <a name="ln-224"></a>
 <a name="ln-225"></a>   <span class="k">END FUNCTION</span>
 <a name="ln-226"></a>

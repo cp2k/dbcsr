@@ -47,8 +47,8 @@ MODULE dbcsr_tensor_split
                                  dbcsr_t_blk_sizes, &
                                  ndims_matrix_row, &
                                  ndims_matrix_column
-   USE dbcsr_api, ONLY: dbcsr_type_complex_8, dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_4
-   USE dbcsr_kinds, ONLY: real_4, real_8
+   USE dbcsr_api, ONLY: dbcsr_type_complex_4, dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_8
+   USE dbcsr_kinds, ONLY: real_8, real_4
 
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
@@ -1872,40 +1872,39 @@ CONTAINS
          ENDIF
 # 591 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
 
-
          DEALLOCATE (blk_size_d_split, blk_size_d_1, blk_size_d_2)
       ENDDO
 
-# 597 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 596 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       IF (ndims_tensor(tensor1) == 2) THEN
          CALL dbcsr_t_split_blocks_generic(tensor1, tensor1_split, blk_size_split_1_1, blk_size_split_1_2, nodata=nodata1)
          IF (move_prv .AND. .NOT. nodata1_prv) CALL dbcsr_t_clear(tensor1)
          CALL dbcsr_t_split_blocks_generic(tensor2, tensor2_split, blk_size_split_2_1, blk_size_split_2_2, nodata=nodata2)
          IF (move_prv .AND. .NOT. nodata2_prv) CALL dbcsr_t_clear(tensor2)
       ENDIF
-# 597 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 596 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       IF (ndims_tensor(tensor1) == 3) THEN
          CALL dbcsr_t_split_blocks_generic(tensor1, tensor1_split, blk_size_split_1_1, blk_size_split_1_2, blk_size_split_1_3,&
-# 598 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 597 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
              & nodata=nodata1)
          IF (move_prv .AND. .NOT. nodata1_prv) CALL dbcsr_t_clear(tensor1)
          CALL dbcsr_t_split_blocks_generic(tensor2, tensor2_split, blk_size_split_2_1, blk_size_split_2_2, blk_size_split_2_3,&
-# 600 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 599 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
              & nodata=nodata2)
          IF (move_prv .AND. .NOT. nodata2_prv) CALL dbcsr_t_clear(tensor2)
       ENDIF
-# 597 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 596 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       IF (ndims_tensor(tensor1) == 4) THEN
          CALL dbcsr_t_split_blocks_generic(tensor1, tensor1_split, blk_size_split_1_1, blk_size_split_1_2, blk_size_split_1_3,&
-# 598 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 597 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
              & blk_size_split_1_4, nodata=nodata1)
          IF (move_prv .AND. .NOT. nodata1_prv) CALL dbcsr_t_clear(tensor1)
          CALL dbcsr_t_split_blocks_generic(tensor2, tensor2_split, blk_size_split_2_1, blk_size_split_2_2, blk_size_split_2_3,&
-# 600 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 599 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
              & blk_size_split_2_4, nodata=nodata2)
          IF (move_prv .AND. .NOT. nodata2_prv) CALL dbcsr_t_clear(tensor2)
       ENDIF
-# 604 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 603 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
 
    END SUBROUTINE
 
@@ -1920,39 +1919,39 @@ CONTAINS
       LOGICAL :: found, move_data_prv
       INTEGER :: idim, blk, iblk, iblk_all, nblk
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: blk_ind, blk_ind_tmp
+# 618 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
 # 619 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
-# 620 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       REAL(kind=real_8), DIMENSION(:,:), ALLOCATABLE :: block_r_dp_2d, block_put_r_dp_2d
-# 620 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 619 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       REAL(kind=real_8), DIMENSION(:,:,:), ALLOCATABLE :: block_r_dp_3d, block_put_r_dp_3d
-# 620 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 619 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       REAL(kind=real_8), DIMENSION(:,:,:,:), ALLOCATABLE :: block_r_dp_4d, block_put_r_dp_4d
-# 622 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 621 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 618 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
 # 619 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
-# 620 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       REAL(kind=real_4), DIMENSION(:,:), ALLOCATABLE :: block_r_sp_2d, block_put_r_sp_2d
-# 620 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 619 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       REAL(kind=real_4), DIMENSION(:,:,:), ALLOCATABLE :: block_r_sp_3d, block_put_r_sp_3d
-# 620 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 619 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       REAL(kind=real_4), DIMENSION(:,:,:,:), ALLOCATABLE :: block_r_sp_4d, block_put_r_sp_4d
-# 622 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 621 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 618 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
 # 619 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
-# 620 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       COMPLEX(kind=real_8), DIMENSION(:,:), ALLOCATABLE :: block_c_dp_2d, block_put_c_dp_2d
-# 620 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
-      COMPLEX(kind=real_8), DIMENSION(:,:,:), ALLOCATABLE :: block_c_dp_3d, block_put_c_dp_3d
-# 620 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
-      COMPLEX(kind=real_8), DIMENSION(:,:,:,:), ALLOCATABLE :: block_c_dp_4d, block_put_c_dp_4d
-# 622 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
 # 619 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
-# 620 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+      COMPLEX(kind=real_8), DIMENSION(:,:,:), ALLOCATABLE :: block_c_dp_3d, block_put_c_dp_3d
+# 619 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+      COMPLEX(kind=real_8), DIMENSION(:,:,:,:), ALLOCATABLE :: block_c_dp_4d, block_put_c_dp_4d
+# 621 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 618 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 619 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       COMPLEX(kind=real_4), DIMENSION(:,:), ALLOCATABLE :: block_c_sp_2d, block_put_c_sp_2d
-# 620 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 619 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       COMPLEX(kind=real_4), DIMENSION(:,:,:), ALLOCATABLE :: block_c_sp_3d, block_put_c_sp_3d
-# 620 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 619 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       COMPLEX(kind=real_4), DIMENSION(:,:,:,:), ALLOCATABLE :: block_c_sp_4d, block_put_c_sp_4d
+# 621 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
 # 622 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
-# 623 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
 
       IF (PRESENT(move_data)) THEN
          move_data_prv = move_data
@@ -1996,9 +1995,9 @@ CONTAINS
             blk_bounds(2, idim) = MIN(bounds(2, idim) - blk_offset(idim) + 1, blk_size(idim))
          ENDDO
 
-# 667 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 666 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
          IF (dbcsr_t_get_data_type(tensor_in) == dbcsr_type_real_8) THEN
-# 669 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 668 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
             IF (ndims_tensor(tensor_in) == 2) THEN
                CALL dbcsr_t_get_block(tensor_in, blk_index, block_r_dp_2d, found)
 
@@ -2010,43 +2009,43 @@ CONTAINS
                DEALLOCATE (block_r_dp_2d)
                DEALLOCATE (block_put_r_dp_2d)
             ENDIF
-# 669 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 668 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
             IF (ndims_tensor(tensor_in) == 3) THEN
                CALL dbcsr_t_get_block(tensor_in, blk_index, block_r_dp_3d, found)
 
                CALL allocate_any(block_put_r_dp_3d, blk_size)
                block_put_r_dp_3d = 0.0_real_8
                block_put_r_dp_3d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                    & 3):blk_bounds(2,3)) = &
                   block_r_dp_3d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                       & 3):blk_bounds(2,3))
                CALL dbcsr_t_put_block(tensor_out, blk_index, blk_size, block_put_r_dp_3d)
                DEALLOCATE (block_r_dp_3d)
                DEALLOCATE (block_put_r_dp_3d)
             ENDIF
-# 669 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 668 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
             IF (ndims_tensor(tensor_in) == 4) THEN
                CALL dbcsr_t_get_block(tensor_in, blk_index, block_r_dp_4d, found)
 
                CALL allocate_any(block_put_r_dp_4d, blk_size)
                block_put_r_dp_4d = 0.0_real_8
                block_put_r_dp_4d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                    & 3):blk_bounds(2,3), blk_bounds(1, 4):blk_bounds(2,4)) = &
                   block_r_dp_4d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                       & 3):blk_bounds(2,3), blk_bounds(1, 4):blk_bounds(2,4))
                CALL dbcsr_t_put_block(tensor_out, blk_index, blk_size, block_put_r_dp_4d)
                DEALLOCATE (block_r_dp_4d)
                DEALLOCATE (block_put_r_dp_4d)
             ENDIF
-# 681 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 680 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
          ENDIF
-# 667 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 666 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
          IF (dbcsr_t_get_data_type(tensor_in) == dbcsr_type_real_4) THEN
-# 669 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 668 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
             IF (ndims_tensor(tensor_in) == 2) THEN
                CALL dbcsr_t_get_block(tensor_in, blk_index, block_r_sp_2d, found)
 
@@ -2058,43 +2057,43 @@ CONTAINS
                DEALLOCATE (block_r_sp_2d)
                DEALLOCATE (block_put_r_sp_2d)
             ENDIF
-# 669 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 668 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
             IF (ndims_tensor(tensor_in) == 3) THEN
                CALL dbcsr_t_get_block(tensor_in, blk_index, block_r_sp_3d, found)
 
                CALL allocate_any(block_put_r_sp_3d, blk_size)
                block_put_r_sp_3d = 0.0_real_4
                block_put_r_sp_3d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                    & 3):blk_bounds(2,3)) = &
                   block_r_sp_3d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                       & 3):blk_bounds(2,3))
                CALL dbcsr_t_put_block(tensor_out, blk_index, blk_size, block_put_r_sp_3d)
                DEALLOCATE (block_r_sp_3d)
                DEALLOCATE (block_put_r_sp_3d)
             ENDIF
-# 669 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 668 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
             IF (ndims_tensor(tensor_in) == 4) THEN
                CALL dbcsr_t_get_block(tensor_in, blk_index, block_r_sp_4d, found)
 
                CALL allocate_any(block_put_r_sp_4d, blk_size)
                block_put_r_sp_4d = 0.0_real_4
                block_put_r_sp_4d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                    & 3):blk_bounds(2,3), blk_bounds(1, 4):blk_bounds(2,4)) = &
                   block_r_sp_4d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                       & 3):blk_bounds(2,3), blk_bounds(1, 4):blk_bounds(2,4))
                CALL dbcsr_t_put_block(tensor_out, blk_index, blk_size, block_put_r_sp_4d)
                DEALLOCATE (block_r_sp_4d)
                DEALLOCATE (block_put_r_sp_4d)
             ENDIF
-# 681 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 680 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
          ENDIF
-# 667 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 666 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
          IF (dbcsr_t_get_data_type(tensor_in) == dbcsr_type_complex_8) THEN
-# 669 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 668 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
             IF (ndims_tensor(tensor_in) == 2) THEN
                CALL dbcsr_t_get_block(tensor_in, blk_index, block_c_dp_2d, found)
 
@@ -2106,43 +2105,43 @@ CONTAINS
                DEALLOCATE (block_c_dp_2d)
                DEALLOCATE (block_put_c_dp_2d)
             ENDIF
-# 669 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 668 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
             IF (ndims_tensor(tensor_in) == 3) THEN
                CALL dbcsr_t_get_block(tensor_in, blk_index, block_c_dp_3d, found)
 
                CALL allocate_any(block_put_c_dp_3d, blk_size)
                block_put_c_dp_3d = 0.0_real_8
                block_put_c_dp_3d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                    & 3):blk_bounds(2,3)) = &
                   block_c_dp_3d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                       & 3):blk_bounds(2,3))
                CALL dbcsr_t_put_block(tensor_out, blk_index, blk_size, block_put_c_dp_3d)
                DEALLOCATE (block_c_dp_3d)
                DEALLOCATE (block_put_c_dp_3d)
             ENDIF
-# 669 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 668 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
             IF (ndims_tensor(tensor_in) == 4) THEN
                CALL dbcsr_t_get_block(tensor_in, blk_index, block_c_dp_4d, found)
 
                CALL allocate_any(block_put_c_dp_4d, blk_size)
                block_put_c_dp_4d = 0.0_real_8
                block_put_c_dp_4d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                    & 3):blk_bounds(2,3), blk_bounds(1, 4):blk_bounds(2,4)) = &
                   block_c_dp_4d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                       & 3):blk_bounds(2,3), blk_bounds(1, 4):blk_bounds(2,4))
                CALL dbcsr_t_put_block(tensor_out, blk_index, blk_size, block_put_c_dp_4d)
                DEALLOCATE (block_c_dp_4d)
                DEALLOCATE (block_put_c_dp_4d)
             ENDIF
-# 681 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 680 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
          ENDIF
-# 667 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 666 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
          IF (dbcsr_t_get_data_type(tensor_in) == dbcsr_type_complex_4) THEN
-# 669 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 668 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
             IF (ndims_tensor(tensor_in) == 2) THEN
                CALL dbcsr_t_get_block(tensor_in, blk_index, block_c_sp_2d, found)
 
@@ -2154,41 +2153,41 @@ CONTAINS
                DEALLOCATE (block_c_sp_2d)
                DEALLOCATE (block_put_c_sp_2d)
             ENDIF
-# 669 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 668 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
             IF (ndims_tensor(tensor_in) == 3) THEN
                CALL dbcsr_t_get_block(tensor_in, blk_index, block_c_sp_3d, found)
 
                CALL allocate_any(block_put_c_sp_3d, blk_size)
                block_put_c_sp_3d = 0.0_real_4
                block_put_c_sp_3d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                    & 3):blk_bounds(2,3)) = &
                   block_c_sp_3d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                       & 3):blk_bounds(2,3))
                CALL dbcsr_t_put_block(tensor_out, blk_index, blk_size, block_put_c_sp_3d)
                DEALLOCATE (block_c_sp_3d)
                DEALLOCATE (block_put_c_sp_3d)
             ENDIF
-# 669 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 668 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
             IF (ndims_tensor(tensor_in) == 4) THEN
                CALL dbcsr_t_get_block(tensor_in, blk_index, block_c_sp_4d, found)
 
                CALL allocate_any(block_put_c_sp_4d, blk_size)
                block_put_c_sp_4d = 0.0_real_4
                block_put_c_sp_4d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                    & 3):blk_bounds(2,3), blk_bounds(1, 4):blk_bounds(2,4)) = &
                   block_c_sp_4d(blk_bounds(1, 1):blk_bounds(2,1), blk_bounds(1, 2):blk_bounds(2,2), blk_bounds(1,&
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
                       & 3):blk_bounds(2,3), blk_bounds(1, 4):blk_bounds(2,4))
                CALL dbcsr_t_put_block(tensor_out, blk_index, blk_size, block_put_c_sp_4d)
                DEALLOCATE (block_c_sp_4d)
                DEALLOCATE (block_put_c_sp_4d)
             ENDIF
-# 681 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 680 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
          ENDIF
-# 683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
+# 682 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
       ENDDO iter_loop
       CALL dbcsr_t_iterator_stop(iter)
       CALL dbcsr_t_finalize(tensor_out)

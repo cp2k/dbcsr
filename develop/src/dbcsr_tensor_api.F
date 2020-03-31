@@ -107,5 +107,4 @@ MODULE dbcsr_tensor_api
    PUBLIC :: dbcsr_t_nblks_total
    PUBLIC :: dbcsr_t_blk_size
 
-
 END MODULE dbcsr_tensor_api

@@ -350,7 +350,7 @@ public subroutine dbcsr_print_config(unit_nr)
          <span class="n">ENDIF</span>
 
          <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-               <span class="s2">&quot;DBCSR| Use memory pool for CPU allocation&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span>
+            <span class="s2">&quot;DBCSR| Use memory pool for CPU allocation&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span>
 
          <span class="k">IF</span> <span class="p">(</span><span class="n">has_mpi</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="k">THEN</span>
