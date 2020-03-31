@@ -589,7 +589,6 @@ CONTAINS
          ENDIF
 #:endfor
 
-
          DEALLOCATE (blk_size_d_split, blk_size_d_1, blk_size_d_2)
       ENDDO
 

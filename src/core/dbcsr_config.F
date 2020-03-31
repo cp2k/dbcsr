@@ -386,7 +386,7 @@ CONTAINS
          ENDIF
 
          WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
-               "DBCSR| Use memory pool for CPU allocation", dbcsr_cfg%use_mempools_cpu
+            "DBCSR| Use memory pool for CPU allocation", dbcsr_cfg%use_mempools_cpu
 
          IF (has_mpi) THEN
             IF (dbcsr_cfg%num_layers_3D < 2) THEN

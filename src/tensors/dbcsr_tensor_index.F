@@ -212,10 +212,10 @@ CONTAINS
          !! flat index
       INTEGER                                            :: i_dim
 
-         ind_out = ind_in(SIZE(dims))
-         DO i_dim = SIZE(dims) - 1, 1, -1
-            ind_out = (ind_out - 1)*dims(i_dim) + ind_in(i_dim)
-         ENDDO
+      ind_out = ind_in(SIZE(dims))
+      DO i_dim = SIZE(dims) - 1, 1, -1
+         ind_out = (ind_out - 1)*dims(i_dim) + ind_in(i_dim)
+      ENDDO
 
    END FUNCTION
 

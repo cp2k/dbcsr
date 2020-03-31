@@ -90,7 +90,6 @@ MODULE dbcsr_tensor_test
 #:endfor
    END INTERFACE
 
-
    INTEGER, SAVE :: randmat_counter = 0
 
 CONTAINS
@@ -391,7 +390,6 @@ CONTAINS
 
    END SUBROUTINE
 
-
    SUBROUTINE dbcsr_t_setup_test_tensor(tensor, mp_comm, enumerate, ${varlist("blk_ind")}$)
       !! Allocate and fill test tensor - entries are enumerated by their index s.t. they only depend
       !! on global properties of the tensor but not on distribution, matrix representation, etc.
@@ -406,7 +404,7 @@ CONTAINS
       INTEGER                                            :: i, ib, my_nblks_alloc, nblks_alloc, proc, nze
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: ${varlist("my_blk_ind")}$
       INTEGER, DIMENSION(ndims_tensor(tensor))          :: blk_index, blk_offset, blk_size, &
-                                                            tensor_dims
+                                                           tensor_dims
       INTEGER, DIMENSION(:, :), ALLOCATABLE               :: ind_nd
 #:for ndim in ndims
       REAL(KIND=real_8), ALLOCATABLE, &
