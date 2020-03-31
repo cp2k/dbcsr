@@ -22,7 +22,7 @@ MODULE dbcsr_tensor_block
    USE dbcsr_allocate_wrap, ONLY: &
       allocate_any
    USE dbcsr_api, ONLY: &
-      dbcsr_type_complex_8, dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_iterator_type,&
+      dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_type_complex_4, dbcsr_iterator_type,&
 # 20 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
           & dbcsr_iterator_blocks_left, &
       dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, dbcsr_type, &
@@ -35,7 +35,7 @@ MODULE dbcsr_tensor_block
       dbcsr_tas_iterator_next_block, dbcsr_tas_iterator_blocks_left, dbcsr_tas_iterator_start, &
       dbcsr_tas_iterator_stop, dbcsr_tas_get_block_p, dbcsr_tas_put_block, dbcsr_tas_reserve_blocks
    USE dbcsr_kinds, ONLY: &
-      real_4, real_8, int_8
+      real_8, real_4, int_8
    USE dbcsr_tensor_index, ONLY: &
       nd_to_2d_mapping, ndims_mapping, get_nd_indices_tensor, destroy_nd_to_2d_mapping, get_2d_indices_tensor, &
       create_nd_to_2d_mapping
