@@ -138,6 +138,9 @@ CXXFLAGS += -D__CUDA
 ifeq (,$(findstring -arch,$(ACCFLAGS)))
 override ACCFLAGS += -arch sm_$(ARCH_NUMBER)
 endif
+ifeq (,$(findstring -Xcompiler,$(ACCFLAGS)))
+override ACCFLAGS += -Xcompiler="$(CXXFLAGS)"
+endif
 # If compiling with hipcc
 else ifneq (,$(findstring hipcc,$(ACC)))
 override ACCFLAGS += -D__HIP
