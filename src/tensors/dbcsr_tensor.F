@@ -47,7 +47,8 @@ MODULE dbcsr_tensor
       dbcsr_t_distribution_destroy, dbcsr_t_distribution_new_expert, dbcsr_t_get_stored_coordinates, &
       blk_dims_tensor, dbcsr_t_hold, dbcsr_t_pgrid_type, mp_environ_pgrid, dbcsr_t_filter, &
       dbcsr_t_clear, dbcsr_t_finalize, dbcsr_t_get_num_blocks, dbcsr_t_scale, &
-      dbcsr_t_get_num_blocks_total, dbcsr_t_get_info, ndims_matrix_row, ndims_matrix_column
+      dbcsr_t_get_num_blocks_total, dbcsr_t_get_info, ndims_matrix_row, ndims_matrix_column, &
+      dbcsr_t_max_nblks_local
    USE dbcsr_kinds, ONLY: &
       ${uselist(dtype_float_prec)}$, default_string_length, int_8
    USE dbcsr_mpiwrap, ONLY: &
@@ -489,7 +490,8 @@ CONTAINS
                                       map_1, map_2, &
                                       bounds_1, bounds_2, bounds_3, &
                                       optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, &
-                                      filter_eps, flop, move_data, retain_sparsity, result_index, unit_nr, log_verbose)
+                                      filter_eps, flop, move_data, retain_sparsity, &
+                                      nblks_local, result_index, unit_nr, log_verbose)
       !! expert routine for tensor contraction. For internal use only.
       TYPE(dbcsr_scalar_type), INTENT(IN)            :: alpha
       TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_1
@@ -519,7 +521,9 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL     :: flop
       LOGICAL, INTENT(IN), OPTIONAL                  :: move_data
       LOGICAL, INTENT(IN), OPTIONAL                  :: retain_sparsity
-      INTEGER, DIMENSION(:, :), ALLOCATABLE, &
+      INTEGER, INTENT(OUT), OPTIONAL                 :: nblks_local
+         !! number of local blocks on this MPI rank
+      INTEGER, DIMENSION(dbcsr_t_max_nblks_local(tensor_3), ndims_tensor(tensor_3)), &
          OPTIONAL, INTENT(OUT)                       :: result_index
          !! get indices of non-zero tensor blocks for tensor_3 without actually performing contraction
          !! this is an estimate based on block norm multiplication
@@ -821,7 +825,14 @@ CONTAINS
                                  result_index=result_index_2d)
 
          nblk = SIZE(result_index_2d,1)
-         ALLOCATE(result_index(nblk, ndims_tensor(tensor_contr_3)))
+         IF(PRESENT(nblks_local)) nblks_local = nblk
+         IF (SIZE(result_index, 1) < nblk) THEN
+            CALL dbcsr_abort(__LOCATION__, &
+        "allocated size of `result_index` is too small. This error occurs due to a high load imbalance of distributed tensor data.")
+         ENDIF
+
+         result_index = 0
+
          DO iblk = 1, nblk
             result_index(iblk,:) = get_nd_indices_tensor(tensor_contr_3%nd_index_blk, result_index_2d(iblk,:))
          ENDDO
@@ -1612,7 +1623,8 @@ CONTAINS
                                      contract_2, notcontract_2, &
                                      map_1, map_2, &
                                      bounds_1, bounds_2, bounds_3, &
-                                     filter_eps, result_index)
+                                     filter_eps, &
+                                     nblks_local, result_index)
       !! get indices of non-zero tensor blocks for contraction result without actually
       !! performing contraction.
       !! this is an estimate based on block norm multiplication.
@@ -1635,9 +1647,12 @@ CONTAINS
       INTEGER, DIMENSION(2, SIZE(notcontract_2)), &
          INTENT(IN), OPTIONAL                        :: bounds_3
       REAL(KIND=real_8), INTENT(IN), OPTIONAL        :: filter_eps
-      INTEGER, DIMENSION(:, :), ALLOCATABLE, &
+      INTEGER, INTENT(OUT)                           :: nblks_local
+         !! number of local blocks on this MPI rank
+      INTEGER, DIMENSION(dbcsr_t_max_nblks_local(tensor_3), ndims_tensor(tensor_3)), &
          INTENT(OUT)                                 :: result_index
-         !! indices of non-zero tensor blocks for tensor_3
+         !! indices of local non-zero tensor blocks for tensor_3
+         !! only the elements result_index(:nblks_local, :) are relevant (all others are set to 0)
 
       CALL dbcsr_t_contract_expert(alpha, tensor_1, tensor_2, beta, tensor_3, &
                                    contract_1, notcontract_1, &
@@ -1647,6 +1662,7 @@ CONTAINS
                                    bounds_2=bounds_2, &
                                    bounds_3=bounds_3, &
                                    filter_eps=filter_eps, &
+                                   nblks_local=nblks_local, &
                                    result_index=result_index)
    END SUBROUTINE
 
