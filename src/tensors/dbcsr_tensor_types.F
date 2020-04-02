@@ -94,12 +94,14 @@ MODULE dbcsr_tensor_types
       ndims_matrix_column,&
       dbcsr_t_nblks_local,&
       dbcsr_t_nblks_total,&
-      dbcsr_t_blk_size
+      dbcsr_t_blk_size,&
+      dbcsr_t_max_nblks_local
 
    TYPE dbcsr_t_pgrid_type
       TYPE(nd_to_2d_mapping)                  :: nd_index_grid
       INTEGER                                 :: mp_comm_2d
       TYPE(dbcsr_tas_split_info), ALLOCATABLE :: tas_split_info
+      INTEGER                                 :: nproc
    END TYPE
 
    TYPE dbcsr_t_type
@@ -1206,6 +1208,9 @@ CONTAINS
          ALLOCATE (pgrid%tas_split_info, SOURCE=info)
       ENDIF
 
+      ! store number of MPI ranks because we need it for PURE function dbcsr_t_max_nblks_local
+      pgrid%nproc = nproc
+
       CALL timestop(handle)
    END SUBROUTINE
 
@@ -1524,6 +1529,29 @@ CONTAINS
       INTEGER(int_8) :: ndims_matrix_column
 
       ndims_matrix_column = ndims_mapping_column(tensor%nd_index_blk)
+   END FUNCTION
+
+   PURE FUNCTION dbcsr_t_max_nblks_local(tensor) RESULT(blk_count)
+      !! returns an estimate of maximum number of local blocks in tensor
+      !! (irrespective of the actual number of currently present blocks)
+      !! this estimate is based on the following assumption: tensor data is dense and
+      !! load balancing is within a factor of 2
+      TYPE(dbcsr_t_type), INTENT(IN) :: tensor
+      INTEGER :: blk_count, nproc
+      INTEGER, DIMENSION(ndims_tensor(tensor)) :: bdims
+      INTEGER(int_8) :: blk_count_total
+      INTEGER, PARAMETER :: max_load_imbalance = 2
+
+      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, dims_nd=bdims)
+
+      blk_count_total = PRODUCT(INT(bdims, int_8))
+
+      ! can not call an MPI routine due to PURE
+      !CALL mp_environ(nproc, myproc, tensor%pgrid%mp_comm_2d)
+      nproc = tensor%pgrid%nproc
+
+      blk_count = INT(blk_count_total/nproc*max_load_imbalance)
+
    END FUNCTION
 
 END MODULE
