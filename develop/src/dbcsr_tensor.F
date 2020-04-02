@@ -31,7 +31,7 @@ MODULE dbcsr_tensor
       dbcsr_type, dbcsr_iterator_type, dbcsr_iterator_blocks_left, &
       dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, &
       dbcsr_transpose, dbcsr_no_transpose, dbcsr_scalar, dbcsr_put_block, &
-      dbcsr_type_complex_8, dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_clear, &
+      dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_clear, &
       dbcsr_release, dbcsr_desymmetrize, dbcsr_has_symmetry
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_split_info
@@ -52,7 +52,8 @@ MODULE dbcsr_tensor
       dbcsr_t_distribution_destroy, dbcsr_t_distribution_new_expert, dbcsr_t_get_stored_coordinates, &
       blk_dims_tensor, dbcsr_t_hold, dbcsr_t_pgrid_type, mp_environ_pgrid, dbcsr_t_filter, &
       dbcsr_t_clear, dbcsr_t_finalize, dbcsr_t_get_num_blocks, dbcsr_t_scale, &
-      dbcsr_t_get_num_blocks_total, dbcsr_t_get_info, ndims_matrix_row, ndims_matrix_column
+      dbcsr_t_get_num_blocks_total, dbcsr_t_get_info, ndims_matrix_row, ndims_matrix_column, &
+      dbcsr_t_max_nblks_local
    USE dbcsr_kinds, ONLY: &
       real_8, real_4, default_string_length, int_8
    USE dbcsr_mpiwrap, ONLY: &
@@ -494,7 +495,8 @@ CONTAINS
                                       map_1, map_2, &
                                       bounds_1, bounds_2, bounds_3, &
                                       optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, &
-                                      filter_eps, flop, move_data, retain_sparsity, result_index, unit_nr, log_verbose)
+                                      filter_eps, flop, move_data, retain_sparsity, &
+                                      nblks_local, result_index, unit_nr, log_verbose)
       !! expert routine for tensor contraction. For internal use only.
       TYPE(dbcsr_scalar_type), INTENT(IN)            :: alpha
       TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_1
@@ -524,7 +526,9 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL     :: flop
       LOGICAL, INTENT(IN), OPTIONAL                  :: move_data
       LOGICAL, INTENT(IN), OPTIONAL                  :: retain_sparsity
-      INTEGER, DIMENSION(:, :), ALLOCATABLE, &
+      INTEGER, INTENT(OUT), OPTIONAL                 :: nblks_local
+         !! number of local blocks on this MPI rank
+      INTEGER, DIMENSION(dbcsr_t_max_nblks_local(tensor_3), ndims_tensor(tensor_3)), &
          OPTIONAL, INTENT(OUT)                       :: result_index
          !! get indices of non-zero tensor blocks for tensor_3 without actually performing contraction
          !! this is an estimate based on block norm multiplication
@@ -826,7 +830,14 @@ CONTAINS
                                  result_index=result_index_2d)
 
          nblk = SIZE(result_index_2d,1)
-         ALLOCATE(result_index(nblk, ndims_tensor(tensor_contr_3)))
+         IF(PRESENT(nblks_local)) nblks_local = nblk
+         IF (SIZE(result_index, 1) < nblk) THEN
+            CALL dbcsr_abort(__LOCATION__, &
+        "allocated size of `result_index` is too small. This error occurs due to a high load imbalance of distributed tensor data.")
+         ENDIF
+
+         result_index = 0
+
          DO iblk = 1, nblk
             result_index(iblk,:) = get_nd_indices_tensor(tensor_contr_3%nd_index_blk, result_index_2d(iblk,:))
          ENDDO
@@ -1453,23 +1464,23 @@ CONTAINS
       comm_nd = dbcsr_t_nd_mp_comm(comm_2d_prv, map1_2d, map2_2d, dims1_nd=mp_dims_1, dims2_nd=mp_dims_2)
       CALL mp_environ_pgrid(comm_nd, pdims, myploc)
 
-# 1452 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1463 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       IF (ndims_tensor(tensor_in) == 2) THEN
          CALL get_arrays(tensor_in%blk_sizes, blk_sizes_1, blk_sizes_2)
       ENDIF
-# 1452 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1463 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       IF (ndims_tensor(tensor_in) == 3) THEN
          CALL get_arrays(tensor_in%blk_sizes, blk_sizes_1, blk_sizes_2, blk_sizes_3)
       ENDIF
-# 1452 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1463 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       IF (ndims_tensor(tensor_in) == 4) THEN
          CALL get_arrays(tensor_in%blk_sizes, blk_sizes_1, blk_sizes_2, blk_sizes_3, blk_sizes_4)
       ENDIF
-# 1456 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1467 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
 
-# 1458 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1469 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       IF (ndims_tensor(tensor_in) == 2) THEN
-# 1460 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1471 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
          IF (PRESENT(dist1)) THEN
             IF (ANY(map1_2d == 1)) THEN
                i = MINLOC(map1_2d, dim=1, mask=map1_2d == 1) ! i is location of idim in map1_2d
@@ -1487,7 +1498,7 @@ CONTAINS
          IF (.NOT. ALLOCATED(nd_dist_1)) THEN
             CALL new_default_dist(SIZE(blk_sizes_1), pdims(1), blk_sizes_1, nd_dist_1)
          ENDIF
-# 1460 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1471 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
          IF (PRESENT(dist1)) THEN
             IF (ANY(map1_2d == 2)) THEN
                i = MINLOC(map1_2d, dim=1, mask=map1_2d == 2) ! i is location of idim in map1_2d
@@ -1505,13 +1516,13 @@ CONTAINS
          IF (.NOT. ALLOCATED(nd_dist_2)) THEN
             CALL new_default_dist(SIZE(blk_sizes_2), pdims(2), blk_sizes_2, nd_dist_2)
          ENDIF
-# 1478 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1489 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
          CALL dbcsr_t_distribution_new_expert(dist, comm_nd, map1_2d, map2_2d, &
                                               nd_dist_1, nd_dist_2, own_comm=.TRUE.)
       ENDIF
-# 1458 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1469 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       IF (ndims_tensor(tensor_in) == 3) THEN
-# 1460 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1471 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
          IF (PRESENT(dist1)) THEN
             IF (ANY(map1_2d == 1)) THEN
                i = MINLOC(map1_2d, dim=1, mask=map1_2d == 1) ! i is location of idim in map1_2d
@@ -1529,7 +1540,7 @@ CONTAINS
          IF (.NOT. ALLOCATED(nd_dist_1)) THEN
             CALL new_default_dist(SIZE(blk_sizes_1), pdims(1), blk_sizes_1, nd_dist_1)
          ENDIF
-# 1460 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1471 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
          IF (PRESENT(dist1)) THEN
             IF (ANY(map1_2d == 2)) THEN
                i = MINLOC(map1_2d, dim=1, mask=map1_2d == 2) ! i is location of idim in map1_2d
@@ -1547,7 +1558,7 @@ CONTAINS
          IF (.NOT. ALLOCATED(nd_dist_2)) THEN
             CALL new_default_dist(SIZE(blk_sizes_2), pdims(2), blk_sizes_2, nd_dist_2)
          ENDIF
-# 1460 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1471 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
          IF (PRESENT(dist1)) THEN
             IF (ANY(map1_2d == 3)) THEN
                i = MINLOC(map1_2d, dim=1, mask=map1_2d == 3) ! i is location of idim in map1_2d
@@ -1565,13 +1576,13 @@ CONTAINS
          IF (.NOT. ALLOCATED(nd_dist_3)) THEN
             CALL new_default_dist(SIZE(blk_sizes_3), pdims(3), blk_sizes_3, nd_dist_3)
          ENDIF
-# 1478 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1489 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
          CALL dbcsr_t_distribution_new_expert(dist, comm_nd, map1_2d, map2_2d, &
                                               nd_dist_1, nd_dist_2, nd_dist_3, own_comm=.TRUE.)
       ENDIF
-# 1458 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1469 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       IF (ndims_tensor(tensor_in) == 4) THEN
-# 1460 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1471 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
          IF (PRESENT(dist1)) THEN
             IF (ANY(map1_2d == 1)) THEN
                i = MINLOC(map1_2d, dim=1, mask=map1_2d == 1) ! i is location of idim in map1_2d
@@ -1589,7 +1600,7 @@ CONTAINS
          IF (.NOT. ALLOCATED(nd_dist_1)) THEN
             CALL new_default_dist(SIZE(blk_sizes_1), pdims(1), blk_sizes_1, nd_dist_1)
          ENDIF
-# 1460 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1471 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
          IF (PRESENT(dist1)) THEN
             IF (ANY(map1_2d == 2)) THEN
                i = MINLOC(map1_2d, dim=1, mask=map1_2d == 2) ! i is location of idim in map1_2d
@@ -1607,7 +1618,7 @@ CONTAINS
          IF (.NOT. ALLOCATED(nd_dist_2)) THEN
             CALL new_default_dist(SIZE(blk_sizes_2), pdims(2), blk_sizes_2, nd_dist_2)
          ENDIF
-# 1460 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1471 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
          IF (PRESENT(dist1)) THEN
             IF (ANY(map1_2d == 3)) THEN
                i = MINLOC(map1_2d, dim=1, mask=map1_2d == 3) ! i is location of idim in map1_2d
@@ -1625,7 +1636,7 @@ CONTAINS
          IF (.NOT. ALLOCATED(nd_dist_3)) THEN
             CALL new_default_dist(SIZE(blk_sizes_3), pdims(3), blk_sizes_3, nd_dist_3)
          ENDIF
-# 1460 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1471 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
          IF (PRESENT(dist1)) THEN
             IF (ANY(map1_2d == 4)) THEN
                i = MINLOC(map1_2d, dim=1, mask=map1_2d == 4) ! i is location of idim in map1_2d
@@ -1643,31 +1654,31 @@ CONTAINS
          IF (.NOT. ALLOCATED(nd_dist_4)) THEN
             CALL new_default_dist(SIZE(blk_sizes_4), pdims(4), blk_sizes_4, nd_dist_4)
          ENDIF
-# 1478 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1489 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
          CALL dbcsr_t_distribution_new_expert(dist, comm_nd, map1_2d, map2_2d, &
                                               nd_dist_1, nd_dist_2, nd_dist_3, nd_dist_4, own_comm=.TRUE.)
       ENDIF
-# 1482 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
 
-# 1484 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       IF (ndims_tensor(tensor_in) == 2) THEN
          CALL dbcsr_t_create(tensor_out, name_tmp, dist, &
                              map1_2d, map2_2d, dbcsr_tas_get_data_type(tensor_in%matrix_rep), &
                              blk_sizes_1, blk_sizes_2)
       ENDIF
-# 1484 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       IF (ndims_tensor(tensor_in) == 3) THEN
          CALL dbcsr_t_create(tensor_out, name_tmp, dist, &
                              map1_2d, map2_2d, dbcsr_tas_get_data_type(tensor_in%matrix_rep), &
                              blk_sizes_1, blk_sizes_2, blk_sizes_3)
       ENDIF
-# 1484 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       IF (ndims_tensor(tensor_in) == 4) THEN
          CALL dbcsr_t_create(tensor_out, name_tmp, dist, &
                              map1_2d, map2_2d, dbcsr_tas_get_data_type(tensor_in%matrix_rep), &
                              blk_sizes_1, blk_sizes_2, blk_sizes_3, blk_sizes_4)
       ENDIF
-# 1490 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
+# 1501 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
 
       IF (PRESENT(nodata)) THEN
          nodata_prv = nodata
@@ -1793,7 +1804,8 @@ CONTAINS
                                      contract_2, notcontract_2, &
                                      map_1, map_2, &
                                      bounds_1, bounds_2, bounds_3, &
-                                     filter_eps, result_index)
+                                     filter_eps, &
+                                     nblks_local, result_index)
       !! get indices of non-zero tensor blocks for contraction result without actually
       !! performing contraction.
       !! this is an estimate based on block norm multiplication.
@@ -1816,9 +1828,12 @@ CONTAINS
       INTEGER, DIMENSION(2, SIZE(notcontract_2)), &
          INTENT(IN), OPTIONAL                        :: bounds_3
       REAL(KIND=real_8), INTENT(IN), OPTIONAL        :: filter_eps
-      INTEGER, DIMENSION(:, :), ALLOCATABLE, &
+      INTEGER, INTENT(OUT)                           :: nblks_local
+         !! number of local blocks on this MPI rank
+      INTEGER, DIMENSION(dbcsr_t_max_nblks_local(tensor_3), ndims_tensor(tensor_3)), &
          INTENT(OUT)                                 :: result_index
-         !! indices of non-zero tensor blocks for tensor_3
+         !! indices of local non-zero tensor blocks for tensor_3
+         !! only the elements result_index(:nblks_local, :) are relevant (all others are set to 0)
 
       CALL dbcsr_t_contract_expert(alpha, tensor_1, tensor_2, beta, tensor_3, &
                                    contract_1, notcontract_1, &
@@ -1828,6 +1843,7 @@ CONTAINS
                                    bounds_2=bounds_2, &
                                    bounds_3=bounds_3, &
                                    filter_eps=filter_eps, &
+                                   nblks_local=nblks_local, &
                                    result_index=result_index)
    END SUBROUTINE
 

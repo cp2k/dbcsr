@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.0% of total for modules and submodules.">1214 statements</a>
+    title=" 2.0% of total for modules and submodules.">1227 statements</a>
      </li> 
      
      
@@ -265,6 +265,8 @@
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_matrix_row">ndims_matrix_row</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_matrix_column">ndims_matrix_column</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_max_nblks_local">dbcsr_t_max_nblks_local</a>
       
     </div>
   </div>
@@ -536,6 +538,8 @@
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_matrix_row">ndims_matrix_row</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-ndims_matrix_column">ndims_matrix_column</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_max_nblks_local">dbcsr_t_max_nblks_local</a>
       
     </div>
   </div>
@@ -2154,6 +2158,20 @@ private subroutine <a href='../proc/dbcsr_t_filter_c_sp.html'>dbcsr_t_filter_c_s
   <td>public,</td>
   <td>ALLOCATABLE</td><td>::</td>
   <td><strong>tas_split_info</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nproc"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>nproc</strong></td><td></td><td></td><td></td>
   
 </tr>
 
@@ -4331,6 +4349,77 @@ public pure function <a href='../proc/ndims_matrix_column.html'>ndims_matrix_col
   
   
      <h4>Return Value <small>integer(kind=int_8)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_max_nblks_local"></span><h3>
+public pure function <a href='../proc/dbcsr_t_max_nblks_local.html'>dbcsr_t_max_nblks_local</a>(tensor) result(blk_count)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>returns an estimate of maximum number of local blocks in tensor
+ (irrespective of the actual number of currently present blocks)
+ this estimate is based on the following assumption: tensor data is dense and
+ load balancing is within a factor of 2</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
   </small></h4>
   
     

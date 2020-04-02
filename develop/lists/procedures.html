@@ -2736,6 +2736,11 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_t_map_bounds_to_tensors.html'>dbcsr_t_map_bounds_to_tensors</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Map contraction bounds to bounds referring to tensor indices
  see dbcsr_t_contract for docu of dummy arguments</p></td></tr>
 			 
+			   <tr><td><a href='../proc/dbcsr_t_max_nblks_local.html'>dbcsr_t_max_nblks_local</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>returns an estimate of maximum number of local blocks in tensor
+ (irrespective of the actual number of currently present blocks)
+ this estimate is based on the following assumption: tensor data is dense and
+ load balancing is within a factor of 2</p></td></tr>
+			 
 			   <tr><td><a href='../proc/dbcsr_t_mp_dims_create.html'>dbcsr_t_mp_dims_create</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Create process grid dimensions corresponding to one dimension of the matrix representation
  of a tensor, imposing that no process grid dimension is greater than the corresponding
  tensor dimension.</p></td></tr>

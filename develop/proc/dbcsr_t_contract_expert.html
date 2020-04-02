@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.6% of total for procedures.">347 statements</a>
+    title=" 0.6% of total for procedures.">352 statements</a>
      </li> 
      
      
@@ -188,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private subroutine dbcsr_t_contract_expert(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, filter_eps, flop, move_data, retain_sparsity, result_index, unit_nr, log_verbose)
+private subroutine dbcsr_t_contract_expert(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, optimize_dist, pgrid_opt_1, pgrid_opt_2, pgrid_opt_3, filter_eps, flop, move_data, retain_sparsity, nblks_local, result_index, unit_nr, log_verbose)
     
     
    
@@ -549,11 +549,26 @@ private subroutine dbcsr_t_contract_expert(alpha, tensor_1, tensor_2, beta, tens
   
 <tr>
   
+  <td><span class="anchor" id="variable-nblks_local~3"></span>integer,</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nblks_local</strong></td><td><p>number of local blocks on this MPI rank</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
   <td><span class="anchor" id="variable-result_index~2"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:, :), ALLOCATABLE</td><td>::</td>
+  <td>DIMENSION(dbcsr_t_max_nblks_local(tensor_3), ndims_tensor(tensor_3))</td><td>::</td>
   <td><strong>result_index</strong></td><td><p>get indices of non-zero tensor blocks for tensor_3 without actually performing contraction
  this is an estimate based on block norm multiplication</p></td>
   

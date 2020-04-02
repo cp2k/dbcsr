@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">19 statements</a>
+    title=" 0.0% of total for procedures.">20 statements</a>
      </li> 
      
      
@@ -188,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_t_contract_index(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, filter_eps, result_index)
+public subroutine dbcsr_t_contract_index(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, filter_eps, nblks_local, result_index)
     
     
    
@@ -447,12 +447,28 @@ public subroutine dbcsr_t_contract_index(alpha, tensor_1, tensor_2, beta, tensor
   
 <tr>
   
+  <td><span class="anchor" id="variable-nblks_local~4"></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nblks_local</strong></td><td><p>number of local blocks on this MPI rank</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
   <td><span class="anchor" id="variable-result_index~3"></span>integer,</td>
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:, :), ALLOCATABLE</td><td>::</td>
-  <td><strong>result_index</strong></td><td><p>indices of non-zero tensor blocks for tensor_3</p></td>
+  <td>DIMENSION(dbcsr_t_max_nblks_local(tensor_3), ndims_tensor(tensor_3))</td><td>::</td>
+  <td><strong>result_index</strong></td><td><p>indices of local non-zero tensor blocks for tensor_3
+ only the elements result_index(:nblks_local, :) are relevant (all others are set to 0)</p></td>
   
 </tr>
 
