@@ -584,13 +584,14 @@ CONTAINS
       INTEGER, DIMENSION(${ndim}$)                          :: shape_nd
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_${ndim}$d_block_${dsuffix}$', &
                                      routineP = moduleN//':'//routineN
-      LOGICAL :: found
+      LOGICAL :: found, new_block
       ${dtype}$, DIMENSION(${arrlist("sizes", nmax=ndim)}$) :: block_check
 
       LOGICAL, PARAMETER :: debug = .FALSE.
       INTEGER :: i
 
       NULLIFY (block_2d)
+      new_block = .FALSE.
 
       IF (debug) THEN
          CALL dbcsr_t_get_block(tensor, ind, sizes, block_check, found=found)
@@ -609,6 +610,7 @@ CONTAINS
          ELSE
             ! need reshape due to rank reordering
             ALLOCATE (block_2d(shape_2d(1), shape_2d(2)))
+            new_block = .TRUE.
             shape_nd(map_nd) = sizes
             block_2d(:, :) = RESHAPE(RESHAPE(block, SHAPE=shape_nd, order=map_nd), SHAPE=shape_2d)
          ENDIF
@@ -619,6 +621,8 @@ CONTAINS
 
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
+
+      IF(new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 #:endfor
