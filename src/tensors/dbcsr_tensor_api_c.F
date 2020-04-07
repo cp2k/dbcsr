@@ -19,26 +19,7 @@ MODULE dbcsr_tensor_api_c
                                                                              c_float_complex, c_double_complex
    USE dbcsr_api, ONLY: dbcsr_type, dbcsr_scale
    USE dbcsr_allocate_wrap, ONLY: allocate_any
-   USE dbcsr_array_list_methods, ONLY: &
-      array_list, array_offsets, create_array_list, destroy_array_list, get_array_elements, &
-      sizes_of_arrays, sum_of_arrays, array_sublist, get_arrays, get_ith_array, array_eq_i
-   USE dbcsr_tensor, ONLY: &
-      dbcsr_t_contract, dbcsr_t_get_block, dbcsr_t_get_stored_coordinates, dbcsr_t_put_block, &
-      dbcsr_t_reserve_blocks, dbcsr_t_copy_matrix_to_tensor, dbcsr_t_copy, &
-      dbcsr_t_copy_tensor_to_matrix
-   USE dbcsr_tensor_block, ONLY: &
-      dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_next_block, dbcsr_t_iterator_start, &
-      dbcsr_t_iterator_stop, dbcsr_t_iterator_type
-   USE dbcsr_tensor_types, ONLY: &
-      dbcsr_t_create, dbcsr_t_destroy, dbcsr_t_distribution_destroy, dbcsr_t_distribution_new, &
-      dbcsr_t_distribution, dbcsr_t_distribution_type, dbcsr_t_nd_mp_comm, dbcsr_t_nd_mp_free, dbcsr_t_type, &
-      dbcsr_t_pgrid_type, dbcsr_t_pgrid_create, dbcsr_t_pgrid_destroy, dbcsr_t_set, dbcsr_t_filter, &
-      dbcsr_t_mp_environ_pgrid => mp_environ_pgrid, dbcsr_t_blk_sizes, dbcsr_t_get_info, &
-      dbcsr_t_finalize, dbcsr_t_scale, dbcsr_t_get_nze, dbcsr_t_get_nze_total, &
-      dbcsr_t_get_num_blocks, dbcsr_t_get_num_blocks_total, dbcsr_t_clear, dbcsr_t_get_data_type, &
-      mp_environ_pgrid, dbcsr_t_pgrid_create_expert
-   USE dbcsr_tensor_split, ONLY: &
-      dbcsr_t_split_blocks
+   USE dbcsr_tensor_api
    USE dbcsr_kinds, ONLY: &
       ${uselist(dtype_float_prec)}$, default_string_length, int_8
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
@@ -51,7 +32,6 @@ MODULE dbcsr_tensor_api_c
    PRIVATE
 
 CONTAINS
-
 
    SUBROUTINE c_f_string(c_str, str)
       USE, INTRINSIC :: iso_c_binding, ONLY: c_ptr, c_f_pointer, c_char
@@ -467,17 +447,86 @@ CONTAINS
 
    END SUBROUTINE
 
+   SUBROUTINE c_dbcsr_t_contract_index_${dsuffix}$(c_alpha, c_tensor_1, &
+                                     c_tensor_2, c_beta, c_tensor_3, &
+                                     c_contract_1, contract_1_size, &
+                                     c_notcontract_1, notcontract_1_size, &
+                                     c_contract_2, contract_2_size, &
+                                     c_notcontract_2, notcontract_2_size, &
+                                     c_map_1, map_1_size, c_map_2, map_2_size, &
+                                     c_bounds_1, c_bounds_2, c_bounds_3, &
+                                     c_filter_eps, c_nblks_local, c_result_index, &
+                                     result_index_size, tensor3_dim) &
+      BIND(C,name="c_dbcsr_t_contract_index_${dsuffix}$")  
+                                     
+      ${dbase}$ (kind=${dctype}$), INTENT(IN), VALUE     :: c_alpha
+      TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor_1, c_tensor_2
+      ${dbase}$ (kind=${dctype}$), INTENT(IN), VALUE     :: c_beta
+      TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor_3
+
+      INTEGER(kind=c_int), INTENT(IN), VALUE             :: contract_1_size, contract_2_size
+      INTEGER(kind=c_int), INTENT(IN), VALUE             :: notcontract_1_size, notcontract_2_size
+      INTEGER(kind=c_int), INTENT(IN), VALUE             :: map_1_size, map_2_size
+
+      INTEGER(kind=c_int), INTENT(IN), TARGET            :: c_contract_1(contract_1_size), c_contract_2(contract_2_size)
+      INTEGER(kind=c_int), INTENT(IN), TARGET            :: c_map_1(map_1_size), c_map_2(map_2_size)
+      INTEGER(kind=c_int), INTENT(IN), TARGET            :: c_notcontract_1(notcontract_1_size), c_notcontract_2(notcontract_2_size)
+
+      INTEGER(kind=c_int), INTENT(IN), DIMENSION(2, contract_1_size), &
+        OPTIONAL, TARGET                                 :: c_bounds_1
+      INTEGER(kind=c_int), INTENT(IN), DIMENSION(2, notcontract_1_size), &
+        OPTIONAL, TARGET                                 :: c_bounds_2
+      INTEGER(kind=c_int), INTENT(IN), DIMENSION(2, notcontract_2_size), & 
+        OPTIONAL, TARGET                                 :: c_bounds_3
+
+      REAL(kind=c_double), INTENT(IN), OPTIONAL          :: c_filter_eps
+      INTEGER(kind=c_int), INTENT(OUT)                   :: c_nblks_local
+      INTEGER(kind=c_long_long), INTENT(IN), VALUE       :: result_index_size    
+      INTEGER(kind=c_int), INTENT(IN), VALUE             :: tensor3_dim
+      INTEGER(kind=c_int), DIMENSION(result_index_size, tensor3_dim), &
+        INTENT(INOUT), TARGET                            :: c_result_index
+
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_1, tensor_2
+      INTEGER, DIMENSION(:), POINTER                     :: contract_1, contract_2, map_1, map_2
+      INTEGER, DIMENSION(:), POINTER                     :: notcontract_1, notcontract_2
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_3
+      INTEGER, DIMENSION(:, :), ALLOCATABLE              :: bounds_1
+      INTEGER, DIMENSION(:, :), ALLOCATABLE              :: bounds_2
+      INTEGER, DIMENSION(:, :), ALLOCATABLE              :: bounds_3
+      INTEGER, DIMENSION(:, :), POINTER                  :: result_index
+     
+      CALL c_f_pointer(c_tensor_1, tensor_1)
+      CALL c_f_pointer(c_tensor_2, tensor_2)
+      CALL c_f_pointer(c_tensor_3, tensor_3)
+
+      contract_1 => c_contract_1
+      contract_2 => c_contract_2
+      map_1 => c_map_1
+      map_2 => c_map_2
+      notcontract_1 => c_notcontract_1
+      notcontract_2 => c_notcontract_2
+      result_index => c_result_index
+
+#:for dim in range(1,4)
+      IF (PRESENT(c_bounds_${dim}$)) THEN
+         ALLOCATE(bounds_${dim}$, SOURCE = c_bounds_${dim}$)
+         bounds_${dim}$ = bounds_${dim}$ + 1
+      ENDIF
 #:endfor
 
-   FUNCTION c_ndims_tensor(c_tensor) BIND(C, name="c_ndims_tensor")
-      TYPE(c_ptr), INTENT(IN), VALUE                  :: c_tensor
-      TYPE(dbcsr_t_type), POINTER                     :: tensor
-      INTEGER(kind=c_int)                             :: c_ndims_tensor
+      CALL dbcsr_t_contract_index(dbcsr_scalar(c_alpha), tensor_1, &
+                                     tensor_2, dbcsr_scalar(c_beta), tensor_3, &
+                                     contract_1 + 1, notcontract_1 + 1, &
+                                     contract_2 + 1, notcontract_2 + 1, &
+                                     map_1 + 1, map_2 + 1, &
+                                     bounds_1, bounds_2, bounds_3, &
+                                     c_filter_eps, c_nblks_local, result_index)
+                                     
+      result_index = result_index - 1
+      
+   END SUBROUTINE
 
-      CALL c_f_pointer(c_tensor, tensor)
-
-      c_ndims_tensor = tensor%nd_index%ndim_nd
-   END FUNCTION
+#:endfor
 
 #:for dparam, dtype, dsuffix, basetype, cftype in cf_dtype_float_list
 #:for ndim in ndims
@@ -717,27 +766,19 @@ CONTAINS
 
       TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
       INTEGER, DIMENSION(:), POINTER                     :: ind_nd => null()
-      INTEGER, ALLOCATABLE                               :: blk_p
       INTEGER, DIMENSION(:), POINTER                     :: blk_size => null()
       INTEGER, DIMENSION(:), POINTER                     :: blk_offset => null()
 
       CALL c_f_pointer(c_iterator, iterator)
       ind_nd => c_ind_nd
-
-      IF (PRESENT(c_blk_p)) THEN 
-        ALLOCATE(blk_p) 
-        blk_p = c_blk_p
-      ENDIF
+      
       IF (PRESENT(c_blk_size)) blk_size => c_blk_size
       IF (PRESENT(c_blk_offset)) blk_offset => c_blk_offset
 
-      CALL dbcsr_t_iterator_next_block(iterator, ind_nd, c_blk, blk_p, blk_size, blk_offset)
+      CALL dbcsr_t_iterator_next_block(iterator, ind_nd, c_blk, c_blk_p, blk_size, blk_offset)
       
-      IF (ALLOCATED(blk_p)) DEALLOCATE(blk_p)
-
-      c_ind_nd = c_ind_nd - 1
-      
-      NULLIFY(ind_nd)
+      IF (PRESENT(c_blk_size)) c_ind_nd = c_ind_nd - 1
+      IF (PRESENT(c_blk_offset)) c_blk_offset = c_blk_offset - 1
 
    END SUBROUTINE
 
@@ -913,6 +954,7 @@ CONTAINS
       IF (PRESENT(c_order)) THEN 
         ALLOCATE(order, SOURCE = c_order)
         order = order + 1
+        PRINT*, "ORDER PRESENT", order(1), order(2)
       ENDIF
         
       IF (PRESENT(c_bounds)) THEN 
@@ -964,12 +1006,14 @@ CONTAINS
                                c_nfull_local, &
                                c_pdims, &
                                c_my_ploc, &
-                               ${c_varlist_and_size("c_blks_local")}$, &
-                               ${c_varlist_and_size("c_proc_dist")}$, &
-                               ${c_varlist_and_size("c_blk_size")}$, &
-                               ${c_varlist_and_size("c_blk_offset")}$, &
+                               ${varlist("nblks_local")}$, &
+                               ${varlist("nblks_total")}$, &
+                               ${varlist("c_blks_local")}$, &
+                               ${varlist("c_proc_dist")}$, &
+                               ${varlist("c_blk_size")}$, &
+                               ${varlist("c_blk_offset")}$, &
                                c_distribution, &
-                               c_name, name_size, &
+                               c_name, &
                                c_data_type) &
       BIND(C, name="c_dbcsr_t_get_info")
       
@@ -988,43 +1032,38 @@ CONTAINS
       INTEGER(kind=c_int), DIMENSION(tensor_dim), TARGET, INTENT(INOUT), & 
          OPTIONAL :: c_pdims
       
-      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: ${varlist("c_blks_local",suffix="_size")}$
-      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: ${varlist("c_proc_dist",suffix="_size")}$
-      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: ${varlist("c_blk_size",suffix="_size")}$
-      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: ${varlist("c_blk_offset",suffix="_size")}$
-      
-      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: ${varlist("c_blks_local")}$
-      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: ${varlist("c_proc_dist")}$
-      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: ${varlist("c_blk_size")}$
-      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: ${varlist("c_blk_offset")}$
+#:for idim in range(1, maxrank+1)
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_local_${idim}$
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_total_${idim}$
+      INTEGER(kind=c_int), INTENT(INOUT), TARGET, OPTIONAL, &
+          DIMENSION(nblks_local_${idim}$) :: c_blks_local_${idim}$
+      INTEGER(kind=c_int), INTENT(INOUT), TARGET, OPTIONAL, &
+          DIMENSION(nblks_total_${idim}$) :: c_proc_dist_${idim}$
+      INTEGER(kind=c_int), INTENT(INOUT), TARGET, OPTIONAL, &
+          DIMENSION(nblks_total_${idim}$) :: c_blk_size_${idim}$
+      INTEGER(kind=c_int), INTENT(INOUT), TARGET, OPTIONAL, &
+          DIMENSION(nblks_total_${idim}$) :: c_blk_offset_${idim}$
+#:endfor
       
       TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_distribution
       TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_name
-      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: name_size
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: c_data_type
       
-      TYPE(dbcsr_t_type), POINTER :: tensor
+      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
       INTEGER, DIMENSION(:), POINTER :: nblks_total => NULL()
       INTEGER, DIMENSION(:), POINTER :: nfull_total => NULL()
       INTEGER, DIMENSION(:), POINTER :: nblks_local => NULL()
       INTEGER, DIMENSION(:), POINTER :: nfull_local => NULL()
       INTEGER, DIMENSION(:), POINTER :: my_ploc => NULL()
       INTEGER, DIMENSION(:), POINTER :: pdims => NULL()
-
-      INTEGER(kind=c_int), DIMENSION(:), ALLOCATABLE, TARGET :: ${varlist("blks_local")}$ 
-      INTEGER(kind=c_int), DIMENSION(:), ALLOCATABLE, TARGET :: ${varlist("proc_dist")}$
-      INTEGER(kind=c_int), DIMENSION(:), ALLOCATABLE, TARGET :: ${varlist("blk_size")}$
-      INTEGER(kind=c_int), DIMENSION(:), ALLOCATABLE, TARGET :: ${varlist("blk_offset")}$
       
-      INTEGER(kind=c_int), DIMENSION(:), POINTER :: ${varlist("blks_local",suffix="_ptr")}$ 
-      INTEGER(kind=c_int), DIMENSION(:), POINTER :: ${varlist("proc_dist",suffix="_ptr")}$
-      INTEGER(kind=c_int), DIMENSION(:), POINTER :: ${varlist("blk_size",suffix="_ptr")}$
-      INTEGER(kind=c_int), DIMENSION(:), POINTER :: ${varlist("blk_offset",suffix="_ptr")}$
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("blks_local")}$ 
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("proc_dist")}$
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("blk_size")}$
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("blk_offset")}$
      
-      TYPE(dbcsr_t_distribution_type), POINTER :: distribution
-      CHARACTER(kind=c_char, len=:), POINTER :: fname
-      
-      INTEGER, DIMENSION(tensor_dim) :: pdims_tmp, my_ploc_tmp
+      TYPE(dbcsr_t_distribution_type), POINTER :: distribution => NULL()
+      CHARACTER(kind=c_char, len=:), POINTER :: fname => NULL()
       
       CALL c_f_pointer(c_tensor, tensor)
     
@@ -1032,175 +1071,110 @@ CONTAINS
 #:for var in list
       IF (PRESENT(c_${var}$)) ${var}$ => c_${var}$
 #:endfor
-    
-      IF (PRESENT(c_nblks_total)) CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, dims_nd=nblks_total)
-      IF (PRESENT(c_nfull_total)) CALL dbcsr_t_get_mapping_info(tensor%nd_index, dims_nd=nfull_total)
-      IF (PRESENT(c_nblks_local)) nblks_local(:) = tensor%nblks_local
-      IF (PRESENT(c_nfull_local)) nfull_local(:) = tensor%nfull_local
-
-      IF (PRESENT(c_my_ploc) .OR. PRESENT(c_pdims)) CALL mp_environ_pgrid(tensor%pgrid, pdims_tmp, my_ploc_tmp)
-      IF (PRESENT(c_my_ploc)) my_ploc = my_ploc_tmp
-      IF (PRESENT(c_pdims)) pdims = pdims_tmp
-      
-#:for idim in range(1, maxrank+1)
-      IF (${idim}$ <= tensor_dim) THEN
-         IF (PRESENT(c_blks_local_${idim}$)) CALL get_ith_array(tensor%blks_local, ${idim}$, blks_local_${idim}$)
-         IF (PRESENT(c_proc_dist_${idim}$)) CALL get_ith_array(tensor%nd_dist, ${idim}$, proc_dist_${idim}$)
-         IF (PRESENT(c_blk_size_${idim}$)) CALL get_ith_array(tensor%blk_sizes, ${idim}$, blk_size_${idim}$)
-         IF (PRESENT(c_blk_offset_${idim}$)) CALL get_ith_array(tensor%blk_offsets, ${idim}$, blk_offset_${idim}$)
-      ENDIF
-#:endfor
 
 #:set list = ['blks_local', 'proc_dist', 'blk_size', 'blk_offset']
 #:for idim in range(1, maxrank+1)
  #:for var in list
-      IF (PRESENT(c_${var}$_${idim}$)) THEN
-         ALLOCATE(${var}$_${idim}$_ptr(SIZE(${var}$_${idim}$)))
-         ${var}$_${idim}$_ptr = ${var}$_${idim}$ 
-
-    #:if var in ['blks_local', 'blk_offset']
-         ${var}$_${idim}$_ptr = ${var}$_${idim}$_ptr - 1
-    #:endif
-         
-         c_${var}$_${idim}$_size = SIZE(${var}$_${idim}$)
-         c_${var}$_${idim}$ = c_loc(${var}$_${idim}$_ptr)
-         
-         DEALLOCATE(${var}$_${idim}$)
-         
-      ENDIF
+      IF (PRESENT(c_${var}$_${idim}$)) ALLOCATE(${var}$_${idim}$(SIZE(c_${var}$_${idim}$)))
  #:endfor
 #:endfor
 
-      IF (PRESENT(c_distribution)) THEN
-         ALLOCATE(distribution)
-         distribution = dbcsr_t_distribution(tensor)
-         c_distribution = c_loc(distribution)
-      ENDIF
-      
-      IF (PRESENT(c_name)) THEN
-        ALLOCATE(CHARACTER(len=default_string_length) :: fname)
-        fname = tensor%name
-      ENDIF
-      IF (PRESENT(c_data_type)) c_data_type = dbcsr_t_get_data_type(tensor)
+      IF (PRESENT(c_distribution)) ALLOCATE(distribution)
+      IF (PRESENT(c_name)) ALLOCATE(CHARACTER(len=default_string_length) :: fname)
 
+      CALL dbcsr_t_get_info(tensor,nblks_total,nfull_total, &
+                          nblks_local,nfull_local, pdims, my_ploc, &
+                          ${varlist("blks_local")}$, &
+                          ${varlist("proc_dist")}$, &
+                          ${varlist("blk_size")}$, &
+                          ${varlist("blk_offset")}$, &
+                          distribution, &
+                          fname, &
+                          c_data_type)
+      
+#:set list = ['blks_local', 'proc_dist', 'blk_size', 'blk_offset']
+#:for idim in range(1, maxrank+1)
+ #:for var in list
+  #:if var in ['blks_local', 'blk_offset']
+      IF (PRESENT(c_${var}$_${idim}$)) c_${var}$_${idim}$ = ${var}$_${idim}$ - 1
+  #:else
+      IF (PRESENT(c_${var}$_${idim}$)) c_${var}$_${idim}$ = ${var}$_${idim}$
+  #:endif
+ #:endfor
+#:endfor      
+ 
       IF (PRESENT(c_name)) THEN
        fname = TRIM(fname)//char(0)
        c_name = c_loc(fname)
-       name_size = LEN(fname)
       ENDIF
       
-#:set list = ['nblks_total', 'nfull_total', 'nblks_local', 'nfull_local', 'my_ploc', 'pdims' ]
-#:for var in list
-      !IF (PRESENT(c_${var}$)) NULLIFY(${var}$)
-#:endfor
+      IF (PRESENT(c_distribution)) c_distribution = c_loc(distribution)
       
    END SUBROUTINE
    
- !  FUNCTION c_ndims_mapping(map) BIND(C, name="ndims_mapping")
-  !    TYPE(c_ptr), INTENT(IN), VALUE :: c_map
-   !   INTEGER(kind=c_int) :: ndims_mapping
-    !  TYPE(nd_to_2d_mapping), POINTER :: map
-
-     ! CALL c_f_pointer(c_map, map)  
-
-      !c_ndims_mapping = map%ndim_nd
-      
-   !END FUNCTION
-   
-   SUBROUTINE c_dbcsr_t_get_nd_index_blk(c_tensor, c_nd_index_blk) &
-       BIND(C, name="c_dbcsr_t_get_nd_index_blk")
-       
-       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
-       TYPE(c_ptr), INTENT(INOUT) :: c_nd_index_blk 
-       
-       TYPE(dbcsr_t_type), POINTER :: tensor
-       TYPE(nd_to_2d_mapping), POINTER :: nd_index_blk
-       
-       CALL c_f_pointer(c_tensor, tensor)
-       
-       nd_index_blk => tensor%nd_index_blk
-       
-       c_nd_index_blk = c_loc(nd_index_blk)
-       
-   END SUBROUTINE
-       
-   SUBROUTINE c_dbcsr_t_get_nd_index(c_tensor, c_nd_index) &
-       BIND(C, name="c_dbcsr_t_get_nd_index")
-       
-       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
-       TYPE(c_ptr), INTENT(INOUT) :: c_nd_index 
-       
-       TYPE(dbcsr_t_type), POINTER :: tensor
-       TYPE(nd_to_2d_mapping), POINTER :: nd_index
-       
-       CALL c_f_pointer(c_tensor, tensor)
-       
-       nd_index => tensor%nd_index
-       
-       c_nd_index = c_loc(nd_index)
-       
-   END SUBROUTINE    
-   
-   SUBROUTINE c_dbcsr_t_get_mapping_info(c_map, ndim_nd, ndim1_2d, ndim2_2d, &
-                        c_dims_2d_i8, c_dims_2d, c_dims_nd, dims_nd_size, &
-                        c_dims1_2d, dims1_2d_size, c_dims2_2d, dims2_2d_size, &
-                        c_map1_2d, map1_2d_size, c_map2_2d, map2_2d_size, &
-                        c_map_nd, map_nd_size, base, c_col_major) &
+       SUBROUTINE c_dbcsr_t_get_mapping_info(c_tensor, nd_size, nd_row_size, &
+                        nd_col_size, ndim_nd, ndim1_2d, ndim2_2d, &
+                        c_dims_2d_i8, c_dims_2d, c_dims_nd, &
+                        c_dims1_2d, c_dims2_2d, &
+                        c_map1_2d, c_map2_2d, &
+                        c_map_nd, base, c_col_major) &
        BIND(C, name="c_dbcsr_t_get_mapping_info")
-      !! get mapping info
       
-      TYPE(c_ptr), INTENT(IN), VALUE :: c_map
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      !! nd_size = ndims_mapping(map), 
+      !! nd_row_size = ndims_mapping_row(map), 
+      !! nd_col_size = ndims_mapping_column(map)
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: nd_size, nd_row_size, nd_col_size
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: ndim_nd, ndim1_2d, ndim2_2d
       INTEGER(kind=c_long_long), INTENT(INOUT), TARGET, DIMENSION(2), &
           OPTIONAL :: c_dims_2d_i8
       INTEGER(kind=c_int), INTENT(INOUT), TARGET, DIMENSION(2), &
           OPTIONAL :: c_dims_2d
       
-      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_dims_nd
-      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: dims_nd_size
-      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_dims1_2d, c_dims2_2d, c_map1_2d, c_map2_2d
-      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: dims1_2d_size, dims2_2d_size, map1_2d_size, map2_2d_size
-      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_map_nd
-      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: map_nd_size
-      
+      INTEGER(kind=c_int), INTENT(INOUT), DIMENSION(nd_size), &
+        OPTIONAL, TARGET :: c_dims_nd
+      INTEGER(kind=c_int), INTENT(INOUT), DIMENSION(nd_row_size), &
+        OPTIONAL, TARGET :: c_dims1_2d, c_map1_2d
+      INTEGER(kind=c_int), INTENT(INOUT), DIMENSION(nd_col_size), &
+        OPTIONAL, TARGET :: c_dims2_2d, c_map2_2d
+      INTEGER(kind=c_int), INTENT(INOUT), DIMENSION(nd_size), &
+        OPTIONAL, TARGET :: c_map_nd
+     
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: base
       LOGICAL(kind=c_bool), INTENT(OUT), OPTIONAL :: c_col_major
 
-      TYPE(nd_to_2d_mapping), POINTER :: map      
+      TYPE(dbcsr_t_type), POINTER :: tensor      
       INTEGER(KIND=int_8), DIMENSION(:), POINTER :: dims_2d_i8 
       INTEGER, DIMENSION(:), POINTER :: dims_2d 
       INTEGER, DIMENSION(:), POINTER :: dims_nd
       INTEGER, DIMENSION(:), POINTER :: dims1_2d, dims2_2d, map1_2d, map2_2d
       INTEGER, DIMENSION(:), POINTER :: map_nd
+      LOGICAL, POINTER :: col_major
       
-      CALL c_f_pointer(c_map, map)   
-      IF (PRESENT(c_dims_2d_i8)) dims_2d_i8 => c_dims_2d_i8
-      IF (PRESENT(c_dims_2d)) dims_2d => c_dims_2d
-
-      IF (PRESENT(ndim_nd)) ndim_nd = map%ndim_nd
-      IF (PRESENT(ndim1_2d)) ndim1_2d = map%ndim1_2d
-      IF (PRESENT(ndim2_2d)) ndim2_2d = map%ndim2_2d
-
-      IF (PRESENT(c_dims_2d_i8)) dims_2d_i8(:) = map%dims_2d(:)
-      IF (PRESENT(c_dims_2d)) dims_2d(:) = INT(map%dims_2d(:))
-
-#:set list = ['dims_nd', 'dims1_2d', 'dims2_2d', 'map1_2d', 'map2_2d', 'map_nd']
+      CALL c_f_pointer(c_tensor, tensor) 
+      
+#:set list = ['dims_2d_i8', 'dims_2d', 'dims_nd', 'dims1_2d', 'dims2_2d', 'map1_2d', 'map2_2d', 'map_nd']
 #:for var in list
-      IF (PRESENT(c_${var}$)) THEN
-         ALLOCATE(${var}$(SIZE(map%${var}$)), source=map%${var}$)
-         ${var}$ = ${var}$ - 1
-         c_${var}$ = c_loc(${var}$)
-         ${var}$_size = SIZE(${var}$)
-      ENDIF
+      IF (PRESENT(c_${var}$)) ${var}$ => c_${var}$
 #:endfor
 
-      IF (PRESENT(base)) THEN
-         base = map%base
-      ENDIF
-      IF (PRESENT(c_col_major)) THEN
-         c_col_major = map%col_major
+      IF (PRESENT(c_col_major)) THEN 
+        ALLOCATE(col_major)
       ENDIF
 
+      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, ndim_nd, ndim1_2d, &
+                                    ndim2_2d, dims_2d_i8, dims_2d, dims_nd, &
+                                    dims1_2d, dims2_2d, &
+                                    map1_2d, map2_2d, map_nd, &
+                                    base, col_major)
+                                       
+#:set list = ['dims_nd', 'dims1_2d', 'dims2_2d', 'map1_2d', 'map2_2d', 'map_nd']
+#:for var in list
+      IF (PRESENT(c_${var}$)) ${var}$ = ${var}$ - 1
+#:endfor
+
+      IF (PRESENT(c_col_major)) c_col_major = col_major
+     
    END SUBROUTINE 
    
    FUNCTION c_dbcsr_t_get_num_blocks(c_tensor) RESULT(c_num_blocks) &
@@ -1226,6 +1200,124 @@ CONTAINS
       c_num_blocks_total = dbcsr_t_get_num_blocks_total(tensor)
       
    END FUNCTION
- 
+   
+   FUNCTION c_dbcsr_t_nblks_local(c_tensor, idim) &
+      BIND(C, name="c_dbcsr_t_nblks_local")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: idim
+      INTEGER(kind=c_int) :: c_dbcsr_t_nblks_local
+      
+      TYPE(dbcsr_t_type), POINTER :: tensor
+      CALL c_f_pointer(c_tensor,tensor)
+      
+      c_dbcsr_t_nblks_local = dbcsr_t_nblks_local(tensor,idim+1)
+      
+   END FUNCTION
+   
+   FUNCTION c_dbcsr_t_nblks_total(c_tensor, idim) &
+      BIND(C, name="c_dbcsr_t_nblks_total")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: idim
+      INTEGER(kind=c_int) :: c_dbcsr_t_nblks_total
+      
+      TYPE(dbcsr_t_type), POINTER :: tensor
+      CALL c_f_pointer(c_tensor,tensor)
+      
+      c_dbcsr_t_nblks_total = dbcsr_t_nblks_total(tensor,idim+1)
+      
+   END FUNCTION
+   
+   SUBROUTINE c_dbcsr_t_dims(c_tensor, tensor_dim, c_dims) &
+      BIND(C, name="c_dbcsr_t_dims")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: tensor_dim
+      INTEGER(kind=c_int), DIMENSION(tensor_dim), &
+        INTENT(INOUT), TARGET :: c_dims
+        
+      TYPE(dbcsr_t_type), POINTER :: tensor
+      INTEGER, DIMENSION(:), POINTER :: dims
+      
+      CALL c_f_pointer(c_tensor,tensor)
+      dims => c_dims
+      
+      CALL dbcsr_t_dims(tensor,dims)
+      
+   END SUBROUTINE
+   
+   FUNCTION c_dbcsr_t_ndims(c_tensor) BIND(C, name="c_dbcsr_t_ndims")
+      TYPE(c_ptr), INTENT(IN), VALUE                  :: c_tensor
+      TYPE(dbcsr_t_type), POINTER                     :: tensor
+      INTEGER(kind=c_int)                             :: c_dbcsr_t_ndims
+
+      CALL c_f_pointer(c_tensor, tensor)
+
+      c_dbcsr_t_ndims = dbcsr_t_ndims(tensor)
+   END FUNCTION
+   
+   FUNCTION c_dbcsr_t_ndims_matrix_row(c_tensor) &
+      BIND(C,name="c_dbcsr_t_ndims_matrix_row")
+   
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      TYPE(dbcsr_t_type), POINTER :: tensor
+      INTEGER(kind=c_long_long) :: c_dbcsr_t_ndims_matrix_row
+      
+      CALL c_f_pointer(c_tensor,tensor)
+      
+      c_dbcsr_t_ndims_matrix_row = &
+         dbcsr_t_ndims_matrix_row(tensor)
+      
+   END FUNCTION
+   
+   FUNCTION c_dbcsr_t_ndims_matrix_column(c_tensor) &
+      BIND(C,name="c_dbcsr_t_ndims_matrix_column")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      TYPE(dbcsr_t_type), POINTER :: tensor
+      INTEGER(kind=c_long_long) :: c_dbcsr_t_ndims_matrix_column
+      
+      CALL c_f_pointer(c_tensor,tensor)
+      
+      c_dbcsr_t_ndims_matrix_column = &
+           dbcsr_t_ndims_matrix_column(tensor)
+      
+   END FUNCTION
+   
+   FUNCTION c_dbcsr_t_get_nze(c_tensor) &
+      BIND(C,name="c_dbcsr_t_get_nze")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      TYPE(dbcsr_t_type), POINTER :: tensor
+      INTEGER(kind=c_int) :: c_dbcsr_t_get_nze
+      
+      CALL c_f_pointer(c_tensor,tensor)
+      c_dbcsr_t_get_nze = dbcsr_t_get_nze(tensor)
+   END FUNCTION
+
+   FUNCTION c_dbcsr_t_get_nze_total(c_tensor) &
+      BIND(C,name="c_dbcsr_t_get_nze_total")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      TYPE(dbcsr_t_type), POINTER :: tensor
+      INTEGER(kind=c_long_long) :: c_dbcsr_t_get_nze_total
+      
+      CALL c_f_pointer(c_tensor,tensor)
+      c_dbcsr_t_get_nze_total = dbcsr_t_get_nze_total(tensor)
+   END FUNCTION
+   
+   FUNCTION c_dbcsr_t_max_nblks_local(c_tensor) RESULT(max_blks) &
+      BIND(C,name="c_dbcsr_t_max_nblks_local")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      INTEGER(kind=c_long_long) :: max_blks
+      TYPE(dbcsr_t_type), POINTER :: tensor
+      
+      CALL c_f_pointer(c_tensor, tensor)
+      
+      max_blks = dbcsr_t_max_nblks_local(tensor);
+      
+   END FUNCTION
 
 END MODULE
