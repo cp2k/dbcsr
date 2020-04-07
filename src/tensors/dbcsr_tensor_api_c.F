@@ -954,7 +954,6 @@ CONTAINS
       IF (PRESENT(c_order)) THEN 
         ALLOCATE(order, SOURCE = c_order)
         order = order + 1
-        PRINT*, "ORDER PRESENT", order(1), order(2)
       ENDIF
         
       IF (PRESENT(c_bounds)) THEN 
