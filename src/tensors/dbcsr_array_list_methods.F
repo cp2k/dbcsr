@@ -44,6 +44,11 @@ MODULE dbcsr_array_list_methods
       INTEGER, DIMENSION(:), ALLOCATABLE :: ptr
    END TYPE
 
+   INTERFACE get_ith_array
+      MODULE PROCEDURE allocate_and_get_ith_array
+      MODULE PROCEDURE get_ith_array
+   END INTERFACE
+
 CONTAINS
 
    PURE FUNCTION number_of_arrays(list)
@@ -55,7 +60,7 @@ CONTAINS
 
    END FUNCTION number_of_arrays
 
-   FUNCTION get_array_elements(list, indices)
+   PURE FUNCTION get_array_elements(list, indices)
       !! Get an element for each array.
 
       TYPE(array_list), INTENT(IN)                           :: list
@@ -167,7 +172,23 @@ CONTAINS
 
    END SUBROUTINE get_arrays
 
-   SUBROUTINE get_ith_array(list, i, array)
+   SUBROUTINE get_ith_array(list, i, array_size, array)
+      !! get ith array
+      TYPE(array_list), INTENT(IN)                    :: list
+      INTEGER, INTENT(IN)                             :: i
+      INTEGER, INTENT(IN)                             :: array_size
+      INTEGER, DIMENSION(array_size), INTENT(OUT)     :: array
+
+      ASSOCIATE (ptr=>list%ptr, col_data=>list%col_data)
+         DBCSR_ASSERT(i <= number_of_arrays(list))
+
+         array(:) = col_data(ptr(i):ptr(i + 1) - 1)
+
+      END ASSOCIATE
+
+   END SUBROUTINE
+
+   SUBROUTINE allocate_and_get_ith_array(list, i, array)
       !! get ith array
       TYPE(array_list), INTENT(IN)                    :: list
       INTEGER, INTENT(IN)                             :: i

@@ -42,9 +42,12 @@
 ! and will be optimized away completely by the compiler
 #define MARK_USED(foo) IF(.FALSE.)THEN; DO ; IF(SIZE(SHAPE(foo))==-1) EXIT ;  END DO ; ENDIF
 
-! Calculate version number from 3-components. Can be used for comparison e.g.,
-! TO_VERSION(4, 9, 0) <= TO_VERSION(__GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__)
-#define TO_VERSION(MAJOR, MINOR, UPDATE) ((MAJOR) * 10000 + (MINOR) * 100 + (UPDATE))
+! Calculate version number from 2 or 3 components. Can be used for comparison e.g.,
+! TO_VERSION3(4, 9, 0) <= TO_VERSION3(__GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__)
+! TO_VERSION(8, 0) <= TO_VERSION(__GNUC__, __GNUC_MINOR__)
+#define TO_VERSION2(MAJOR, MINOR) ((MAJOR) * 10000 + (MINOR) * 100)
+#define TO_VERSION3(MAJOR, MINOR, UPDATE) (TO_VERSION2(MAJOR, MINOR) + (UPDATE))
+#define TO_VERSION TO_VERSION2
 
 ! LIBXSMM has a FORTRAN-suitable header with macro/version definitions (since v1.8.2).
 ! Allows macro-toggles (in addition to parameters).

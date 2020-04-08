@@ -252,7 +252,8 @@
      INTEGER, INTENT(IN)                      :: row, col
         !! the row
         !! the column
-     ${type1}$, DIMENSION(:, :), INTENT(IN)      :: block
+     ${type1}$, DIMENSION(:, :), INTENT(IN), &
+        CONTIGUOUS, TARGET                    :: block
         !! the block to put
      INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
      LOGICAL, INTENT(IN), OPTIONAL            :: transposed, summation
@@ -262,28 +263,16 @@
      ${type1}$, INTENT(IN), OPTIONAL            :: scale
         !! scale the block being added
 
+     ${type1}$, DIMENSION(:), POINTER           :: block_1d
+
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block2d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
 
-     LOGICAL                                  :: tr, do_sum
+     NULLIFY(block_1d)
 
-     IF (PRESENT(transposed)) THEN
-        tr = transposed
-     ELSE
-        tr = .FALSE.
-     ENDIF
-     IF (PRESENT(summation)) THEN
-        do_sum = summation
-     ELSE
-        do_sum = .FALSE.
-     ENDIF
-     IF (PRESENT(scale)) THEN
-        CALL dbcsr_put_block(matrix, row, col, &
-                             RESHAPE(block, (/SIZE(block)/)), lb_row_col, tr, do_sum, flop, scale)
-     ELSE
-        CALL dbcsr_put_block(matrix, row, col, &
-                             RESHAPE(block, (/SIZE(block)/)), lb_row_col, tr, do_sum, flop)
-     ENDIF
+     block_1d(1:SIZE(block)) => block
+
+     CALL dbcsr_put_block(matrix, row, col, block_1d, lb_row_col, transposed, summation, flop, scale)
   END SUBROUTINE dbcsr_put_block2d_${nametype1}$
 
   SUBROUTINE dbcsr_put_block_${nametype1}$ (matrix, row, col, block, lb_row_col, transposed, &

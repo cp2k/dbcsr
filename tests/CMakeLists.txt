@@ -109,6 +109,12 @@ foreach (dbcsr_test ${DBCSR_TESTS})
   endif ()
 endforeach ()
 
+# set the __SHORT_FILE__ per file for dbcsr sources
+foreach (tests_src ${DBCSR_PERF_SRCS} ${dbcsr_unittest_common_SRCS} ${dbcsr_unittest1_SRCS} ${dbcsr_unittest2_SRCS} ${dbcsr_unittest3_SRCS} ${dbcsr_tensor_unittest_SRCS} ${dbcsr_tas_unittest_SRCS} ${dbcsr_test_csr_conversions_SRCS})
+  # add_fypp_sources returns a path in the current binary dir
+  get_filename_component(short_file "${tests_src}" NAME)
+  set_source_files_properties(${tests_src} PROPERTIES COMPILE_DEFINITIONS __SHORT_FILE__="${short_file}")
+endforeach ()
 
 # =================================== GPU BACKEND TESTS (CUDA / HIP)
 if (USE_CUDA OR USE_HIP)

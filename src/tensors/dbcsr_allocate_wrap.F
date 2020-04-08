@@ -36,6 +36,7 @@ CONTAINS
 
 #:for dparam, dtype, dsuffix in dtype_all_list
 #:for dim in range(1, maxdim+1)
+
    SUBROUTINE allocate_${dim}$d_${dsuffix}$ (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
       !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
@@ -49,29 +50,35 @@ CONTAINS
          !! source array to be copied to target array, must have same rank as target array.
       INTEGER, DIMENSION(${dim}$), INTENT(IN), OPTIONAL                    :: order
          !! in which order to copy source to array (same convention as RESHAPE intrinsic).
-      INTEGER, DIMENSION(${dim}$)                                          :: order_prv
       INTEGER, DIMENSION(${dim}$)                                          :: shape_prv
-      INTEGER                                                              :: i
 
-      DBCSR_ASSERT(PRESENT(shape_spec) .OR. PRESENT(source))
-
-      IF (PRESENT(order)) THEN
-         order_prv(:) = order(:)
+      IF (PRESENT(shape_spec)) THEN
+         IF (PRESENT(order)) THEN
+            shape_prv(order) = shape_spec
+         ELSE
+            shape_prv = shape_spec
+         ENDIF
+      ELSEIF (PRESENT(source)) THEN
+         IF (PRESENT(order)) THEN
+            shape_prv(order) = SHAPE(source)
+         ELSE
+            shape_prv = SHAPE(source)
+         ENDIF
       ELSE
-         order_prv(:) = (/(i, i=1, ${dim}$)/)
+         DBCSR_ABORT("either source or shape_spec must be present")
       ENDIF
-
-      IF (PRESENT(source) .AND. .NOT. PRESENT(shape_spec)) THEN
-         shape_prv(order_prv) = SHAPE(source)
-      ELSE
-         shape_prv(order_prv) = shape_spec
-      ENDIF
-
-      ALLOCATE (array(${arrlist("shape_prv", nmax=dim)}$))
 
       IF (PRESENT(source)) THEN
-         array(${shape_colon(dim)}$) = RESHAPE(source, shape_prv, order=order_prv)
+         IF (PRESENT(order)) THEN
+            ALLOCATE (array(${arrlist("shape_prv", nmax=dim)}$))
+            array(${shape_colon(dim)}$) = RESHAPE(source, shape_prv, order=order)
+         ELSE
+            ALLOCATE (array(${arrlist("shape_prv", nmax=dim)}$), source=source)
+         ENDIF
+      ELSE
+         ALLOCATE (array(${arrlist("shape_prv", nmax=dim)}$))
       ENDIF
+
    END SUBROUTINE
 #:endfor
 #:endfor

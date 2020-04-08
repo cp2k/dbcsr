@@ -33,9 +33,9 @@ PROGRAM dbcsr_tensor_unittest
                                  dbcsr_t_pgrid_type, &
                                  dbcsr_t_pgrid_create, &
                                  dbcsr_t_get_info, &
-                                 dbcsr_t_pgrid_destroy
+                                 dbcsr_t_pgrid_destroy, &
+                                 ndims_tensor
    USE dbcsr_data_methods, ONLY: dbcsr_scalar
-   USE dbcsr_tensor,       ONLY: dbcsr_t_ndims
    USE dbcsr_kinds,        ONLY: real_8
 #include "base/dbcsr_base_uses.f90"
 
@@ -275,25 +275,25 @@ PROGRAM dbcsr_tensor_unittest
       CALL dbcsr_t_pgrid_create(mp_comm, pdims_3d, pgrid_3d)
       CALL dbcsr_t_pgrid_create(mp_comm, pdims_2d, pgrid_2d)
 
-      CALL dbcsr_t_random_dist(dist1_1, nblks_1, pdims_3d(1), mp_comm)
-      CALL dbcsr_t_random_dist(dist1_2, nblks_2, pdims_3d(2), mp_comm)
-      CALL dbcsr_t_random_dist(dist1_3, nblks_3, pdims_3d(3), mp_comm)
+      CALL dbcsr_t_random_dist(dist1_1, nblks_1, pdims_3d(1))
+      CALL dbcsr_t_random_dist(dist1_2, nblks_2, pdims_3d(2))
+      CALL dbcsr_t_random_dist(dist1_3, nblks_3, pdims_3d(3))
 
-      CALL dbcsr_t_random_dist(dist2_1, nblks_3, pdims_2d(1), mp_comm)
-      CALL dbcsr_t_random_dist(dist2_2, nblks_4, pdims_2d(2), mp_comm)
+      CALL dbcsr_t_random_dist(dist2_1, nblks_3, pdims_2d(1))
+      CALL dbcsr_t_random_dist(dist2_2, nblks_4, pdims_2d(2))
 
-      CALL dbcsr_t_random_dist(dist3_1, nblks_1, pdims_3d(1), mp_comm)
-      CALL dbcsr_t_random_dist(dist3_2, nblks_2, pdims_3d(2), mp_comm)
-      CALL dbcsr_t_random_dist(dist3_3, nblks_4, pdims_3d(3), mp_comm)
+      CALL dbcsr_t_random_dist(dist3_1, nblks_1, pdims_3d(1))
+      CALL dbcsr_t_random_dist(dist3_2, nblks_2, pdims_3d(2))
+      CALL dbcsr_t_random_dist(dist3_3, nblks_4, pdims_3d(3))
 
-      CALL dbcsr_t_random_dist(dist4_1, nblks_1, pdims_4d(1), mp_comm)
-      CALL dbcsr_t_random_dist(dist4_2, nblks_2, pdims_4d(2), mp_comm)
-      CALL dbcsr_t_random_dist(dist4_3, nblks_4, pdims_4d(3), mp_comm)
-      CALL dbcsr_t_random_dist(dist4_4, nblks_5, pdims_4d(4), mp_comm)
+      CALL dbcsr_t_random_dist(dist4_1, nblks_1, pdims_4d(1))
+      CALL dbcsr_t_random_dist(dist4_2, nblks_2, pdims_4d(2))
+      CALL dbcsr_t_random_dist(dist4_3, nblks_4, pdims_4d(3))
+      CALL dbcsr_t_random_dist(dist4_4, nblks_5, pdims_4d(4))
 
-      CALL dbcsr_t_random_dist(dist5_1, nblks_3, pdims_3d(1), mp_comm)
-      CALL dbcsr_t_random_dist(dist5_2, nblks_4, pdims_3d(2), mp_comm)
-      CALL dbcsr_t_random_dist(dist5_3, nblks_5, pdims_3d(3), mp_comm)
+      CALL dbcsr_t_random_dist(dist5_1, nblks_3, pdims_3d(1))
+      CALL dbcsr_t_random_dist(dist5_2, nblks_4, pdims_3d(2))
+      CALL dbcsr_t_random_dist(dist5_3, nblks_5, pdims_3d(3))
 
 !--------------------------------------------------------------------------------------------------!
 ! Test 4: Testing tensor contraction (12|3)x(3|4)=(12|4)                                           !
@@ -410,7 +410,7 @@ PROGRAM dbcsr_tensor_unittest
       CALL dbcsr_t_setup_test_tensor(tensor_B, mp_comm, .FALSE., blk_ind_3_2, blk_ind_4_2)
       CALL dbcsr_t_setup_test_tensor(tensor_C, mp_comm, .FALSE., blk_ind_1_3, blk_ind_2_3, blk_ind_4_3)
 
-      ALLOCATE(bounds_t(dbcsr_t_ndims(tensor_B)))
+      ALLOCATE(bounds_t(ndims_tensor(tensor_B)))
       CALL dbcsr_t_get_info(tensor_B, nfull_total=bounds_t)
 
       ALLOCATE(bounds(2,1))
@@ -462,7 +462,7 @@ PROGRAM dbcsr_tensor_unittest
       CALL dbcsr_t_setup_test_tensor(tensor_B, mp_comm, .FALSE., blk_ind_3_2, blk_ind_4_2)
       CALL dbcsr_t_setup_test_tensor(tensor_C, mp_comm, .FALSE., blk_ind_1_3, blk_ind_2_3, blk_ind_4_3)
 
-      ALLOCATE(bounds_t(dbcsr_t_ndims(tensor_C)))
+      ALLOCATE(bounds_t(ndims_tensor(tensor_C)))
       CALL dbcsr_t_get_info(tensor_C, nfull_total=bounds_t)
 
       ALLOCATE(bounds(2,2))
@@ -517,7 +517,7 @@ PROGRAM dbcsr_tensor_unittest
       CALL dbcsr_t_setup_test_tensor(tensor_B, mp_comm, .FALSE., blk_ind_1_4, blk_ind_2_4, blk_ind_4_4, blk_ind_5_4)
       CALL dbcsr_t_setup_test_tensor(tensor_C, mp_comm, .FALSE., blk_ind_3_5, blk_ind_4_5, blk_ind_5_5)
 
-      ALLOCATE(bounds_t(dbcsr_t_ndims(tensor_A)))
+      ALLOCATE(bounds_t(ndims_tensor(tensor_A)))
       CALL dbcsr_t_get_info(tensor_A, nfull_total=bounds_t)
       ALLOCATE(bounds_1(2, 2))
       bounds_1(1, 1) = 7
@@ -526,7 +526,7 @@ PROGRAM dbcsr_tensor_unittest
       bounds_1(2, 2) = bounds_t(1)
       DEALLOCATE(bounds_t)
 
-      ALLOCATE(bounds_t(dbcsr_t_ndims(tensor_B)))
+      ALLOCATE(bounds_t(ndims_tensor(tensor_B)))
       CALL dbcsr_t_get_info(tensor_B, nfull_total=bounds_t)
       ALLOCATE(bounds_2(2, 2))
       bounds_2(1, 1) = 1

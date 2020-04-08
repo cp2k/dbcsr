@@ -17,7 +17,7 @@ MODULE dbcsr_tensor_io
    USE dbcsr_tensor_types, ONLY: &
       dbcsr_t_get_info, dbcsr_t_type, ndims_tensor, dbcsr_t_get_num_blocks, dbcsr_t_get_num_blocks_total, &
       blk_dims_tensor, dbcsr_t_get_stored_coordinates, dbcsr_t_get_nze, dbcsr_t_get_nze_total, &
-      dbcsr_t_pgrid_type
+      dbcsr_t_pgrid_type, dbcsr_t_nblks_total
    USE dbcsr_kinds, ONLY: default_string_length, int_8, real_8
    USE dbcsr_mpiwrap, ONLY: mp_environ, mp_sum, mp_max
    USE dbcsr_tensor_block, ONLY: &
@@ -49,17 +49,17 @@ CONTAINS
       LOGICAL, OPTIONAL, INTENT(IN)  :: full_info
          !! Whether to print distribution and block size vectors
       INTEGER, DIMENSION(ndims_tensor(tensor)) :: nblks_total, nfull_total, pdims, my_ploc, nblks_local, nfull_local
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("blks_local")}$
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("proc_dist")}$
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("blk_size")}$
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ${varlist("blk_offset")}$
-      CHARACTER(len=default_string_length)                   :: name
-      INTEGER                            :: idim
-      INTEGER                            :: iblk
+
+#:for idim in range(1, maxdim+1)
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,${idim}$)) :: proc_dist_${idim}$
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,${idim}$)) :: blk_size_${idim}$
+#:endfor
+      CHARACTER(len=default_string_length)                     :: name
+      INTEGER                                                  :: idim
+      INTEGER                                                  :: iblk
 
       CALL dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local, nfull_local, pdims, my_ploc, &
-                            ${varlist("blks_local")}$, ${varlist("proc_dist")}$, ${varlist("blk_size")}$, &
-                            ${varlist("blk_offset")}$, &
+                            ${varlist("proc_dist")}$, ${varlist("blk_size")}$, &
                             name=name)
 
       IF (output_unit > 0) THEN
