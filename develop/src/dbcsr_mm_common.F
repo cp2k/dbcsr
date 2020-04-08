@@ -614,7 +614,9 @@ CONTAINS
               row = blki(1, blk + i)
               col = blki(2, blk + i)
               bpe = bp + rbs(row)*cbs(col) - 1
+# 41 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
               vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
+# 45 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
            ELSE
               vals(blk) = 0.0_sp
            ENDIF
@@ -664,7 +666,9 @@ CONTAINS
               row = blki(1, blk + i)
               col = blki(2, blk + i)
               bpe = bp + rbs(row)*cbs(col) - 1
+# 41 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
               vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
+# 45 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
            ELSE
               vals(blk) = 0.0_sp
            ENDIF
@@ -714,7 +718,9 @@ CONTAINS
               row = blki(1, blk + i)
               col = blki(2, blk + i)
               bpe = bp + rbs(row)*cbs(col) - 1
-              vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
+# 43 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+              vals(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
+# 45 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
            ELSE
               vals(blk) = 0.0_sp
            ENDIF
@@ -764,7 +770,9 @@ CONTAINS
               row = blki(1, blk + i)
               col = blki(2, blk + i)
               bpe = bp + rbs(row)*cbs(col) - 1
-              vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
+# 43 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+              vals(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
+# 45 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
            ELSE
               vals(blk) = 0.0_sp
            ENDIF
@@ -785,7 +793,7 @@ CONTAINS
 !$OMP     end do
 !$OMP     end parallel
   END SUBROUTINE calc_norms_c
-# 62 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+# 66 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
 # 571 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F" 2
 
 END MODULE dbcsr_mm_common
