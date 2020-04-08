@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>dbcsr_finalize_lib &ndash; DBCSR Library</title>
+    <title>mp_get_comm_count &ndash; DBCSR Library</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -103,8 +103,8 @@
     
   
   <div class="row">
-    <h1>dbcsr_finalize_lib
-      <small>Subroutine</small>
+    <h1>mp_get_comm_count
+      <small>Function</small>
     
     </h1>
     
@@ -121,24 +121,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">28 statements</a>
+    title=" 0.0% of total for procedures.">4 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_lib.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mpiwrap.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_lib.f.html'>dbcsr_lib.F</a></li>
+     <li><a href='../sourcefile/dbcsr_mpiwrap.f.html'>dbcsr_mpiwrap.F</a></li>
     
-     <li><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></li>
+     <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     
   
-     <li class="active">dbcsr_finalize_lib</li>
+     <li class="active">mp_get_comm_count</li>
   </ol>
 </div>
 </div>
@@ -182,7 +182,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_finalize_lib.html#src">dbcsr_finalize_lib</a>
+    <a class="list-group-item" href="../proc/mp_get_comm_count.html#src">mp_get_comm_count</a>
   </div>
 </div>
 
@@ -194,7 +194,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_finalize_lib()
+public function mp_get_comm_count()
     
     
    
@@ -204,14 +204,22 @@ public subroutine dbcsr_finalize_lib()
 
 
     
-    <p>Finalize the DBCSR library
- Cleans up after the DBCSR library.  Used to deallocate persistent objects.</p>
+    <p>Return the current number of communicators</p>
     
 
     <h3>Arguments</h3>
     
     <em>None</em>
     <br>
+    
+    
+    
+    
+    
+    
+    
+   <h3>Return Value <small><span class="anchor" id="variable-mp_get_comm_count"></span>integer
+  </small></h3>
     
     
     
@@ -247,7 +255,7 @@ public subroutine dbcsr_finalize_lib()
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_finalize_lib.html#src">dbcsr_finalize_lib</a>
+    <a class="list-group-item" href="../proc/mp_get_comm_count.html#src">mp_get_comm_count</a>
   </div>
 </div>
 
@@ -276,59 +284,15 @@ public subroutine dbcsr_finalize_lib()
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_finalize_lib</span><span class="p">()</span>
-      <span class="c">!! Finalize the DBCSR library</span>
-      <span class="c">!! Cleans up after the DBCSR library.  Used to deallocate persistent objects.</span>
+    <div class="highlight"><pre><span></span>   <span class="k">FUNCTION </span><span class="n">mp_get_comm_count</span><span class="p">()</span>
+     <span class="c">!! Return the current number of communicators</span>
+     <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">mp_get_comm_count</span>
 
-<span class="cp">#if defined(__LIBXSMM)</span>
-      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_finalize</span>
+     <span class="n">mp_get_comm_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="cp">#if defined(__parallel)</span>
+     <span class="n">mp_get_comm_count</span> <span class="o">=</span> <span class="n">debug_comm_count</span>
 <span class="cp">#endif</span>
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_finalize_lib&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">ithread</span>
-
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">is_initialized</span><span class="p">)</span> <span class="k">RETURN</span>
-<span class="k">      CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
-
-<span class="c">!$OMP     PARALLEL DEFAULT(NONE) PRIVATE(ithread) SHARED(ext_io_unit, default_group, cublas_handles)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_multiply_lib_finalize</span><span class="p">()</span>
-      <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="c">!$    ithread = omp_get_thread_num()</span>
-      <span class="k">CALL </span><span class="n">cublas_handle_destroy</span><span class="p">(</span><span class="n">cublas_handles</span><span class="p">(</span><span class="n">ithread</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-<span class="c">!$OMP BARRIER</span>
-<span class="c">!$OMP MASTER</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">cublas_handles</span><span class="p">)</span>
-<span class="c">!$OMP END MASTER</span>
-<span class="c">!$OMP     END PARALLEL</span>
-
-      <span class="n">is_initialized</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">dbcsr_rm_default_logger</span><span class="p">()</span>
-         <span class="k">CALL </span><span class="n">rm_mp_perf_env</span><span class="p">()</span>
-         <span class="k">CALL </span><span class="n">rm_timer_env</span><span class="p">()</span>
-         <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">logger</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">timeset_hook</span><span class="p">)</span>
-      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">timestop_hook</span><span class="p">)</span>
-      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">dbcsr_abort_hook</span><span class="p">)</span>
-      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">dbcsr_warn_hook</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_mp_release</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">mp_comm_free</span><span class="p">(</span><span class="n">default_group</span><span class="p">)</span>
-<span class="cp">#if defined(__LIBXSMM)</span>
-      <span class="k">CALL </span><span class="n">libxsmm_finalize</span><span class="p">()</span>
-<span class="cp">#endif</span>
-      <span class="c">! Reset Acc ID</span>
-      <span class="k">CALL </span><span class="n">reset_accdrv_active_device_id</span><span class="p">()</span>
-
-      <span class="c">! Check the number of communicators</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">check_comm_count</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">mp_get_comm_count</span><span class="p">()</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Number of DBCSR sub-communicators is not zero!&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_finalize_lib</span>
+   <span class="k">END FUNCTION </span><span class="n">mp_get_comm_count</span>
 </pre></div>
 
     </section>

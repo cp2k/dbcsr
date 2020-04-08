@@ -119,11 +119,12 @@ MODULE dbcsr_mpiwrap
 
 #if defined(__parallel)
    ! internal reference counter used to debug communicator leaks
-   INTEGER, PRIVATE, SAVE :: debug_comm_count
+   INTEGER, PRIVATE, SAVE :: debug_comm_count = 0
 #endif
 
    ! init and error
    PUBLIC :: mp_world_init, mp_world_finalize
+   PUBLIC :: mp_get_comm_count
    PUBLIC :: mp_abort
 
    ! performance gathering
@@ -725,6 +726,16 @@ CONTAINS
       CALL add_mp_perf_env()
    END SUBROUTINE mp_world_init
 
+   FUNCTION mp_get_comm_count()
+     !! Return the current number of communicators
+     INTEGER :: mp_get_comm_count
+
+     mp_get_comm_count = 0
+#if defined(__parallel)
+     mp_get_comm_count = debug_comm_count
+#endif
+   END FUNCTION mp_get_comm_count
+
    SUBROUTINE mp_reordering(mp_comm, mp_new_comm, ranks_order)
       !! re-create the system default communicator with a different MPI
       !! rank order
@@ -748,7 +759,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr);
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")
@@ -2970,8 +2981,8 @@ CONTAINS
 # 9 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.fypp"
 
 # 24 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.fypp"
-# 2969 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F" 2
-# 2970 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2980 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F" 2
+# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_i11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -6079,7 +6090,7 @@ CONTAINS
       IF (PRESENT(stat)) stat = 0
 #endif
    END SUBROUTINE mp_free_mem_i
-# 2970 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_l11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -9187,7 +9198,7 @@ CONTAINS
       IF (PRESENT(stat)) stat = 0
 #endif
    END SUBROUTINE mp_free_mem_l
-# 2970 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_d11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -12295,7 +12306,7 @@ CONTAINS
       IF (PRESENT(stat)) stat = 0
 #endif
    END SUBROUTINE mp_free_mem_d
-# 2970 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_r11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -15403,7 +15414,7 @@ CONTAINS
       IF (PRESENT(stat)) stat = 0
 #endif
    END SUBROUTINE mp_free_mem_r
-# 2970 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_z11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -18511,7 +18522,7 @@ CONTAINS
       IF (PRESENT(stat)) stat = 0
 #endif
    END SUBROUTINE mp_free_mem_z
-# 2970 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_c11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -21619,6 +21630,6 @@ CONTAINS
       IF (PRESENT(stat)) stat = 0
 #endif
    END SUBROUTINE mp_free_mem_c
-# 6078 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 6089 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 END MODULE dbcsr_mpiwrap

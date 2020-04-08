@@ -392,10 +392,10 @@ private subroutine dbcsr_init_lib_hooks(mp_comm, in_timeset_hook, in_timestop_ho
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_init_lib_hooks</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="p">&amp;</span>
-      <span class="c">!! Initialize the DBCSR library using external loggers and timer callbacks</span>
                                    <span class="n">in_timeset_hook</span><span class="p">,</span> <span class="n">in_timestop_hook</span><span class="p">,</span> <span class="p">&amp;</span>
                                    <span class="n">in_abort_hook</span><span class="p">,</span> <span class="n">in_warn_hook</span><span class="p">,</span> <span class="n">io_unit</span><span class="p">,</span> <span class="p">&amp;</span>
                                    <span class="n">accdrv_active_device_id</span><span class="p">)</span>
+      <span class="c">!! Initialize the DBCSR library using external loggers and timer callbacks</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mp_comm</span>
       <span class="k">PROCEDURE</span><span class="p">(</span><span class="n">timeset_interface</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">in_timeset_hook</span>
       <span class="k">PROCEDURE</span><span class="p">(</span><span class="n">timestop_interface</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">in_timestop_hook</span>

@@ -28,7 +28,8 @@ MODULE dbcsr_lib
                             has_mp_perf_env, &
                             mp_environ, mp_cart_rank, &
                             rm_mp_perf_env, &
-                            mp_comm_free
+                            mp_comm_free, &
+                            mp_get_comm_count
    USE dbcsr_mm, ONLY: dbcsr_multiply_clear_mempools, &
                        dbcsr_multiply_lib_finalize, &
                        dbcsr_multiply_lib_init, &
@@ -72,6 +73,7 @@ MODULE dbcsr_lib
    PUBLIC :: dbcsr_print_statistics
 
    LOGICAL, PRIVATE, SAVE :: is_initialized = .FALSE.
+   LOGICAL, PRIVATE, SAVE :: check_comm_count = .FALSE.
 
    TYPE(dbcsr_logger_type), POINTER :: logger => Null()
    TYPE(dbcsr_mp_obj), SAVE         :: mp_env
@@ -135,10 +137,10 @@ CONTAINS
    END SUBROUTINE dbcsr_init_lib_def
 
    SUBROUTINE dbcsr_init_lib_hooks(mp_comm, &
-      !! Initialize the DBCSR library using external loggers and timer callbacks
                                    in_timeset_hook, in_timestop_hook, &
                                    in_abort_hook, in_warn_hook, io_unit, &
                                    accdrv_active_device_id)
+      !! Initialize the DBCSR library using external loggers and timer callbacks
       INTEGER, INTENT(IN)  :: mp_comm
       PROCEDURE(timeset_interface), INTENT(IN), POINTER :: in_timeset_hook
       PROCEDURE(timestop_interface), INTENT(IN), POINTER :: in_timestop_hook
@@ -186,6 +188,12 @@ CONTAINS
       ELSE
          ext_io_unit = 0
          IF (mynode .EQ. 0) ext_io_unit = default_output_unit
+      ENDIF
+
+      ! if MPI was not initialized in DBCSR, then need to check for the number of communicators
+      ! when we finalize DBCSR
+      IF (mp_get_comm_count() .EQ. 0) THEN
+         check_comm_count = .TRUE.
       ENDIF
       CALL dbcsr_mp_make_env(mp_env, default_group, mp_comm)
 
@@ -309,6 +317,11 @@ CONTAINS
 #endif
       ! Reset Acc ID
       CALL reset_accdrv_active_device_id()
+
+      ! Check the number of communicators
+      IF (check_comm_count .AND. mp_get_comm_count() .NE. 0) THEN
+         DBCSR_ABORT("Number of DBCSR sub-communicators is not zero!")
+      ENDIF
 
    END SUBROUTINE dbcsr_finalize_lib
 
