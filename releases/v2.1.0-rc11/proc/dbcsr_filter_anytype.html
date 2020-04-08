@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_filter_anytype &ndash; DBCSR Library</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR Library </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>dbcsr_filter_anytype
+      <small>Subroutine</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.2% of total for procedures.">95 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_operations.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
+    
+     <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+    
+  
+     <li class="active">dbcsr_filter_anytype</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_filter_anytype.html#src">dbcsr_filter_anytype</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>
+private subroutine dbcsr_filter_anytype(matrix, eps, method, use_absolute, filter_diag)
+    
+    
+   
+</h2>
+    
+  
+
+
+    
+    <p>filter a dbcsr matrix</p>
+    
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-matrix~206"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td><p>the matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-eps~11"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>eps</strong></td><td><p>the threshold</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-method~6"></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>method</strong></td><td><p>how the matrix is filtered</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-use_absolute~6"></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>use_absolute</strong></td><td><p>NYI</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-filter_diag~2"></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>filter_diag</strong></td><td><p>NYI</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+    
+     
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_filter_anytype.html#src">dbcsr_filter_anytype</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_filter_anytype</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="p">&amp;</span>
+                                   <span class="n">use_absolute</span><span class="p">,</span> <span class="n">filter_diag</span><span class="p">)</span>
+      <span class="c">!! filter a dbcsr matrix</span>
+
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
+         <span class="c">!! the matrix</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                <span class="kd">::</span> <span class="n">eps</span>
+         <span class="c">!! the threshold</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">method</span>
+         <span class="c">!! how the matrix is filtered</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">use_absolute</span><span class="p">,</span> <span class="n">filter_diag</span>
+         <span class="c">!! NYI</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_filter_anytype&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">data_c</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">data_z</span>
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">blk</span><span class="p">,</span> <span class="n">blk_nze</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">col_size</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">my_method</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">data_type</span>
+      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">gt0</span><span class="p">,</span> <span class="n">my_filter_diag</span><span class="p">,</span> <span class="n">tr</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>                                  <span class="kd">::</span> <span class="n">nrm_s</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">data_s</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>                                  <span class="kd">::</span> <span class="n">my_absolute</span><span class="p">,</span> <span class="n">nrm_d</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">data_d</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">iter</span>
+
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">EXTERNAL</span>                        <span class="kd">::</span> <span class="n">DZNRM2</span><span class="p">,</span> <span class="n">DDOT</span>
+<span class="cp">#if defined (__ACCELERATE)</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">EXTERNAL</span>                        <span class="kd">::</span> <span class="n">SCNRM2</span><span class="p">,</span> <span class="n">SDOT</span>
+<span class="cp">#else</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">EXTERNAL</span>                        <span class="kd">::</span> <span class="n">SCNRM2</span><span class="p">,</span> <span class="n">SDOT</span>
+<span class="cp">#endif</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+      <span class="n">my_method</span> <span class="o">=</span> <span class="n">dbcsr_filter_frobenius</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">method</span><span class="p">))</span> <span class="n">my_method</span> <span class="o">=</span> <span class="n">method</span>
+      <span class="n">my_absolute</span> <span class="o">=</span> <span class="mf">1.0_dp</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_absolute</span><span class="p">))</span> <span class="n">my_absolute</span> <span class="o">=</span> <span class="n">dbcsr_maxabs</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+      <span class="n">my_filter_diag</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">filter_diag</span><span class="p">))</span> <span class="n">my_filter_diag</span> <span class="o">=</span> <span class="n">filter_diag</span>
+
+      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">eps</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+         <span class="n">gt0</span> <span class="o">=</span> <span class="n">eps</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mf">0.0_real_4</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+         <span class="n">gt0</span> <span class="o">=</span> <span class="n">eps</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mf">0.0_real_8</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+         <span class="n">gt0</span> <span class="o">=</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">eps</span><span class="p">%</span><span class="n">c_sp</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mf">0.0_real_4</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+         <span class="n">gt0</span> <span class="o">=</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">eps</span><span class="p">%</span><span class="n">c_dp</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mf">0.0_real_8</span>
+      <span class="k">CASE </span><span class="n">default</span>
+         <span class="n">gt0</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="k">END SELECT</span>
+
+<span class="k">      IF</span> <span class="p">(</span><span class="n">gt0</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">data_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+<span class="c">!$OMP        PARALLEL DEFAULT(NONE) PRIVATE(iter,row,col,data_s,data_d,data_c,data_z,tr, &amp;</span>
+<span class="c">!$OMP                                       blk,row_size,col_size,blk_nze,nrm_d,nrm_s) &amp;</span>
+<span class="c">!$OMP                               SHARED(my_method,my_absolute,eps,matrix,data_type)</span>
+
+         <span class="k">CALL </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">matrix</span><span class="p">,</span> <span class="n">contiguous_pointers</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+         <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">iter</span><span class="p">))</span>
+            <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
+
+            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">data_s</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="p">&amp;</span>
+                                              <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">)</span>
+               <span class="n">blk_nze</span> <span class="o">=</span> <span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">blk_nze</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CYCLE</span> <span class="c">! Skip empty blocks</span>
+               <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">my_method</span><span class="p">)</span>
+               <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_filter_frobenius</span><span class="p">)</span>
+                  <span class="c">!</span>
+                  <span class="c">! Frobenius based</span>
+                  <span class="n">nrm_s</span> <span class="o">=</span> <span class="nb">SQRT</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">SDOT</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">data_s</span><span class="p">),</span> <span class="n">data_s</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">data_s</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">))</span>
+                  <span class="k">IF</span> <span class="p">(</span><span class="n">nrm_s</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">my_absolute</span><span class="o">*</span><span class="n">eps</span><span class="p">%</span><span class="n">r_sp</span><span class="p">)</span> <span class="p">&amp;</span>
+                     <span class="k">CALL </span><span class="n">dbcsr_remove_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">blk_nze</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+               <span class="k">CASE </span><span class="n">DEFAULT</span>
+                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Only Frobenius based filtering&quot;</span><span class="p">)</span>
+               <span class="k">END SELECT</span>
+
+<span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">data_d</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="p">&amp;</span>
+                                              <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">)</span>
+               <span class="n">blk_nze</span> <span class="o">=</span> <span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">blk_nze</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CYCLE</span> <span class="c">! Skip empty blocks</span>
+               <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">my_method</span><span class="p">)</span>
+               <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_filter_frobenius</span><span class="p">)</span>
+                  <span class="c">!</span>
+                  <span class="c">! Frobenius based</span>
+                  <span class="n">nrm_d</span> <span class="o">=</span> <span class="nb">SQRT</span><span class="p">(</span><span class="n">DDOT</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">data_d</span><span class="p">),</span> <span class="n">data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+                  <span class="k">IF</span> <span class="p">(</span><span class="n">nrm_d</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">my_absolute</span><span class="o">*</span><span class="n">eps</span><span class="p">%</span><span class="n">r_dp</span><span class="p">)</span> <span class="p">&amp;</span>
+                     <span class="k">CALL </span><span class="n">dbcsr_remove_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">blk_nze</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+               <span class="k">CASE </span><span class="n">DEFAULT</span>
+                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Only Frobenius based filtering&quot;</span><span class="p">)</span>
+               <span class="k">END SELECT</span>
+
+<span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">data_c</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="p">&amp;</span>
+                                              <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">)</span>
+               <span class="n">blk_nze</span> <span class="o">=</span> <span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">blk_nze</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CYCLE</span> <span class="c">! Skip empty blocks</span>
+               <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">my_method</span><span class="p">)</span>
+               <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_filter_frobenius</span><span class="p">)</span>
+                  <span class="c">!</span>
+                  <span class="c">! Frobenius based</span>
+                  <span class="n">nrm_d</span> <span class="o">=</span> <span class="n">SCNRM2</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">data_c</span><span class="p">),</span> <span class="n">data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+                  <span class="k">IF</span> <span class="p">(</span><span class="n">nrm_d</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">my_absolute</span><span class="o">*</span><span class="n">eps</span><span class="p">%</span><span class="n">r_dp</span><span class="p">)</span> <span class="p">&amp;</span>
+                     <span class="k">CALL </span><span class="n">dbcsr_remove_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">blk_nze</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+               <span class="k">CASE </span><span class="n">DEFAULT</span>
+                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Only Frobenius based filtering&quot;</span><span class="p">)</span>
+               <span class="k">END SELECT</span>
+
+<span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">data_z</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="p">&amp;</span>
+                                              <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">)</span>
+               <span class="n">blk_nze</span> <span class="o">=</span> <span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">blk_nze</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CYCLE</span> <span class="c">! Skip empty blocks</span>
+               <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">my_method</span><span class="p">)</span>
+               <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_filter_frobenius</span><span class="p">)</span>
+                  <span class="c">!</span>
+                  <span class="c">! Frobenius based</span>
+                  <span class="n">nrm_d</span> <span class="o">=</span> <span class="n">DZNRM2</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">data_z</span><span class="p">),</span> <span class="n">data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+                  <span class="k">IF</span> <span class="p">(</span><span class="n">nrm_d</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">my_absolute</span><span class="o">*</span><span class="n">eps</span><span class="p">%</span><span class="n">r_dp</span><span class="p">)</span> <span class="p">&amp;</span>
+                     <span class="k">CALL </span><span class="n">dbcsr_remove_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">blk_nze</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+               <span class="k">CASE </span><span class="n">DEFAULT</span>
+                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Only Frobenius based filtering&quot;</span><span class="p">)</span>
+               <span class="k">END SELECT</span>
+
+<span class="k">            CASE </span><span class="n">DEFAULT</span>
+               <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong data type&quot;</span><span class="p">)</span>
+            <span class="k">END SELECT</span>
+<span class="k">         </span><span class="n">ENDDO</span>
+         <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">reshuffle</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<span class="c">!$OMP        END PARALLEL</span>
+
+         <span class="k">CALL </span><span class="n">dbcsr_index_compact</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+      <span class="n">ENDIF</span>
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_filter_anytype</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    
+    </div>
+  </div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR Library was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_make_dists_dense &ndash; DBCSR Library</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR Library </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>dbcsr_make_dists_dense
+      <small>Subroutine</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.1% of total for procedures.">81 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_dist_operations.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/dbcsr_mm_dist_operations.f.html'>dbcsr_mm_dist_operations.F</a></li>
+    
+     <li><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></li>
+    
+  
+     <li class="active">dbcsr_make_dists_dense</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_make_dists_dense.html#src">dbcsr_make_dists_dense</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>
+public subroutine dbcsr_make_dists_dense(product_dist, left_rdist, right_rdist, dense_product_dist, dense_left_rdist, dense_right_rdist, partial, m_map, k_vmap, n_map, old_m_sizes)
+    
+    
+   
+</h2>
+    
+  
+
+
+    
+    <p>Prepares distributions for making dense matrices.</p>
+    
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-product_dist"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>product_dist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-left_rdist"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>left_rdist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-right_rdist"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>right_rdist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dense_product_dist"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dense_product_dist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dense_left_rdist"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dense_left_rdist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dense_right_rdist"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dense_right_rdist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-partial"></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>partial</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-m_map~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>m_map</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-k_vmap~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>k_vmap</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-n_map~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n_map</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-old_m_sizes"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>old_m_sizes</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+    
+     
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dbcsr_make_dists_dense.html#src">dbcsr_make_dists_dense</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_make_dists_dense</span><span class="p">(</span><span class="n">product_dist</span><span class="p">,</span> <span class="n">left_rdist</span><span class="p">,</span> <span class="n">right_rdist</span><span class="p">,</span> <span class="p">&amp;</span>
+      <span class="c">!! Prepares distributions for making dense matrices.</span>
+                                     <span class="n">dense_product_dist</span><span class="p">,</span> <span class="n">dense_left_rdist</span><span class="p">,</span> <span class="n">dense_right_rdist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">partial</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">m_map</span><span class="p">,</span> <span class="n">k_vmap</span><span class="p">,</span> <span class="n">n_map</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">old_m_sizes</span><span class="p">)</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">product_dist</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_imagedistribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">left_rdist</span><span class="p">,</span> <span class="n">right_rdist</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">dense_product_dist</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_imagedistribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">dense_left_rdist</span><span class="p">,</span> <span class="n">dense_right_rdist</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">partial</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">m_map</span><span class="p">,</span> <span class="n">k_vmap</span><span class="p">,</span> <span class="n">n_map</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">old_m_sizes</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_make_dists_dense&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k_nbins</span><span class="p">,</span> <span class="n">m_nbins</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">n_nbins</span><span class="p">,</span> <span class="n">nthreads</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">tdist</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">new_k_idist</span><span class="p">,</span> <span class="n">new_k_pdist</span><span class="p">,</span> <span class="n">new_k_vdist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">new_m_dist</span><span class="p">,</span> <span class="n">new_m_sizes</span><span class="p">,</span> <span class="n">new_n_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">old_k_vdist</span><span class="p">,</span> <span class="n">old_m_dist</span><span class="p">,</span> <span class="n">old_n_dist</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">dense_left_dist</span><span class="p">,</span> <span class="n">dense_right_dist</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_distribution_has_threads</span><span class="p">(</span><span class="n">product_dist</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Product distribution must have threads.&quot;</span><span class="p">)</span>
+      <span class="n">tdist</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">dbcsr_distribution_thread_dist</span><span class="p">(</span><span class="n">product_dist</span><span class="p">))</span>
+      <span class="n">old_m_dist</span> <span class="o">=</span> <span class="n">product_dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">row_dist_block</span>
+      <span class="n">old_n_dist</span> <span class="o">=</span> <span class="n">product_dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">col_dist_block</span>
+      <span class="n">old_k_vdist</span> <span class="o">=</span> <span class="n">right_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">vrow_dist</span>
+      <span class="n">m_nbins</span> <span class="o">=</span> <span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">product_dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">)</span>
+      <span class="n">n_nbins</span> <span class="o">=</span> <span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">product_dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">)</span>
+      <span class="n">k_nbins</span> <span class="o">=</span> <span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">right_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">)</span><span class="o">*</span><span class="n">right_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">old_k_vdist</span><span class="p">,</span> <span class="n">left_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">vcol_dist</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;k distribution mismatch&quot;</span><span class="p">)</span>
+      <span class="n">nthreads</span> <span class="o">=</span> <span class="n">product_dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">num_threads</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">partial</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">new_m_dist</span> <span class="o">=</span> <span class="n">old_m_dist</span>
+         <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">new_m_dist</span><span class="p">)</span>
+         <span class="n">new_n_dist</span> <span class="o">=</span> <span class="n">old_n_dist</span>
+         <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">new_n_dist</span><span class="p">)</span>
+         <span class="n">dense_product_dist</span> <span class="o">=</span> <span class="n">product_dist</span>
+         <span class="k">CALL </span><span class="n">dbcsr_distribution_hold</span><span class="p">(</span><span class="n">dense_product_dist</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">m_map</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">array_size</span><span class="p">(</span><span class="n">new_m_dist</span><span class="p">))</span><span class="o">/</span><span class="p">),</span> <span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">n_map</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">array_size</span><span class="p">(</span><span class="n">new_n_dist</span><span class="p">))</span><span class="o">/</span><span class="p">),</span> <span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">ELSE</span>
+<span class="k">         CALL </span><span class="n">dbcsr_make_1dist_dense</span><span class="p">(</span><span class="n">m_nbins</span><span class="p">,</span> <span class="n">old_m_dist</span><span class="p">,</span> <span class="n">new_m_dist</span><span class="p">,</span> <span class="n">m_map</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">nthreads</span><span class="p">,</span> <span class="n">tdist</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_make_1dist_dense</span><span class="p">(</span><span class="n">n_nbins</span><span class="p">,</span> <span class="n">old_n_dist</span><span class="p">,</span> <span class="n">new_n_dist</span><span class="p">,</span> <span class="n">n_map</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dense_product_dist</span><span class="p">,</span> <span class="n">product_dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">array_data</span><span class="p">(</span><span class="n">new_m_dist</span><span class="p">),</span> <span class="n">array_data</span><span class="p">(</span><span class="n">new_n_dist</span><span class="p">))</span>
+         <span class="k">CALL </span><span class="n">make_sizes_dense</span><span class="p">(</span><span class="n">old_m_sizes</span><span class="p">,</span> <span class="n">m_map</span><span class="p">,</span> <span class="n">array_size</span><span class="p">(</span><span class="n">new_m_dist</span><span class="p">),</span> <span class="n">new_m_sizes</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_distribution_make_threads</span><span class="p">(</span><span class="n">dense_product_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                              <span class="n">array_data</span><span class="p">(</span><span class="n">new_m_sizes</span><span class="p">))</span>
+         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">new_m_sizes</span><span class="p">)</span>
+         <span class="n">tdist</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">dbcsr_distribution_thread_dist</span><span class="p">(</span><span class="n">dense_product_dist</span><span class="p">))</span>
+         <span class="c">! Resets the thread distribution to be in-order.</span>
+         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m_nbins</span>
+            <span class="n">tdist</span><span class="p">((</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">nthreads</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">nthreads</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">)</span>
+         <span class="n">ENDDO</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">dbcsr_make_1dist_dense</span><span class="p">(</span><span class="n">k_nbins</span><span class="p">,</span> <span class="n">old_k_vdist</span><span class="p">,</span> <span class="n">new_k_vdist</span><span class="p">,</span> <span class="n">k_vmap</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">v_to_p_i_dist_o</span><span class="p">(</span><span class="n">new_k_vdist</span><span class="p">,</span> <span class="p">&amp;</span>
+                           <span class="n">left_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_decimation</span><span class="p">,</span> <span class="n">new_k_pdist</span><span class="p">,</span> <span class="n">new_k_idist</span><span class="p">)</span>
+      <span class="c">! Left</span>
+      <span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dense_left_dist</span><span class="p">,</span> <span class="n">left_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">array_data</span><span class="p">(</span><span class="n">new_m_dist</span><span class="p">),</span> <span class="n">array_data</span><span class="p">(</span><span class="n">new_k_pdist</span><span class="p">))</span>
+      <span class="k">CALL </span><span class="n">dbcsr_distribution_no_threads</span><span class="p">(</span><span class="n">dense_left_dist</span><span class="p">)</span>
+      <span class="n">dense_left_dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span> <span class="o">=</span> <span class="n">dbcsr_distribution_thread_dist</span><span class="p">(</span><span class="n">dense_product_dist</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">dense_left_dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="p">)</span>
+      <span class="n">dense_left_dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_thread_dist</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+      <span class="k">CALL </span><span class="n">dbcsr_new_image_dist</span><span class="p">(</span><span class="n">dense_left_rdist</span><span class="p">,</span> <span class="n">dense_left_dist</span><span class="p">,</span> <span class="n">left_rdist</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_distribution_release</span><span class="p">(</span><span class="n">dense_left_dist</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dense_left_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_image</span><span class="p">,</span> <span class="p">&amp;</span>
+                     <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">array_size</span><span class="p">(</span><span class="n">new_m_dist</span><span class="p">))</span><span class="o">/</span><span class="p">),</span> <span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">dense_left_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_image</span> <span class="o">=</span> <span class="n">new_k_idist</span>
+      <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">new_k_idist</span><span class="p">)</span>
+      <span class="n">dense_left_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">vrow_dist</span> <span class="o">=</span> <span class="n">new_m_dist</span>
+      <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">new_m_dist</span><span class="p">)</span>
+      <span class="n">dense_left_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">vcol_dist</span> <span class="o">=</span> <span class="n">new_k_vdist</span>
+      <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">new_k_vdist</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">new_k_pdist</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">new_k_idist</span><span class="p">)</span>
+      <span class="c">! Right</span>
+      <span class="k">CALL </span><span class="n">v_to_p_i_dist_o</span><span class="p">(</span><span class="n">new_k_vdist</span><span class="p">,</span> <span class="p">&amp;</span>
+                           <span class="n">right_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span><span class="p">,</span> <span class="n">new_k_pdist</span><span class="p">,</span> <span class="n">new_k_idist</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dense_right_dist</span><span class="p">,</span> <span class="n">right_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">array_data</span><span class="p">(</span><span class="n">new_k_pdist</span><span class="p">),</span> <span class="n">array_data</span><span class="p">(</span><span class="n">new_n_dist</span><span class="p">))</span>
+      <span class="k">CALL </span><span class="n">dbcsr_new_image_dist</span><span class="p">(</span><span class="n">dense_right_rdist</span><span class="p">,</span> <span class="n">dense_right_dist</span><span class="p">,</span> <span class="n">right_rdist</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_distribution_release</span><span class="p">(</span><span class="n">dense_right_dist</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dense_right_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_image</span><span class="p">,</span> <span class="p">&amp;</span>
+                     <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">array_size</span><span class="p">(</span><span class="n">new_n_dist</span><span class="p">))</span><span class="o">/</span><span class="p">),</span> <span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">dense_right_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_image</span> <span class="o">=</span> <span class="n">new_k_idist</span>
+      <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">new_k_idist</span><span class="p">)</span>
+      <span class="n">dense_right_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">vrow_dist</span> <span class="o">=</span> <span class="n">new_k_vdist</span>
+      <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">new_k_vdist</span><span class="p">)</span>
+      <span class="n">dense_right_rdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">vcol_dist</span> <span class="o">=</span> <span class="n">new_n_dist</span>
+      <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">new_n_dist</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">new_k_idist</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">new_k_pdist</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">new_m_dist</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">new_n_dist</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">new_k_vdist</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_make_dists_dense</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    
+    </div>
+  </div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR Library was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>
