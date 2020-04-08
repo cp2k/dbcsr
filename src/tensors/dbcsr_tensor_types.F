@@ -89,12 +89,12 @@ MODULE dbcsr_tensor_types
       dbcsr_t_type, &
       dims_tensor, &
       mp_environ_pgrid, &
-      ndims_tensor,&
-      ndims_matrix_row,&
-      ndims_matrix_column,&
-      dbcsr_t_nblks_local,&
-      dbcsr_t_nblks_total,&
-      dbcsr_t_blk_size,&
+      ndims_tensor, &
+      ndims_matrix_row, &
+      ndims_matrix_column, &
+      dbcsr_t_nblks_local, &
+      dbcsr_t_nblks_total, &
+      dbcsr_t_blk_size, &
       dbcsr_t_max_nblks_local
 
    TYPE dbcsr_t_pgrid_type
@@ -410,7 +410,7 @@ CONTAINS
             dims1_nd_prv(:) = dims1_nd
          ELSE
 
-            IF(PRESENT(tdims)) THEN
+            IF (PRESENT(tdims)) THEN
                CALL dbcsr_t_mp_dims_create(dims_2d(1), dims1_nd_prv, tdims(map1_2d))
             ELSE
                CALL mp_dims_create(dims_2d(1), dims1_nd_prv)
@@ -420,7 +420,7 @@ CONTAINS
          IF (PRESENT(dims2_nd)) THEN
             dims2_nd_prv(:) = dims2_nd
          ELSE
-            IF(PRESENT(tdims)) THEN
+            IF (PRESENT(tdims)) THEN
                CALL dbcsr_t_mp_dims_create(dims_2d(2), dims2_nd_prv, tdims(map2_2d))
             ELSE
                CALL mp_dims_create(dims_2d(2), dims2_nd_prv)
@@ -460,7 +460,7 @@ CONTAINS
       INTEGER :: pdims_rem, idim, pdim
       REAL(real_8) :: lb_ratio_prv
 
-      IF(PRESENT(lb_ratio)) THEN
+      IF (PRESENT(lb_ratio)) THEN
          lb_ratio_prv = lb_ratio
       ELSE
          lb_ratio_prv = 0.2_real_8
@@ -469,16 +469,16 @@ CONTAINS
       CALL allocate_any(dims_store, source=dims)
 
       ! get default process grid dimensions
-      IF(any(dims == 0)) THEN
+      IF (any(dims == 0)) THEN
          CALL mp_dims_create(nodes, dims)
       ENDIF
 
       ! sort dimensions such that problematic grid dimensions (those who should be corrected) come first
-      ALLOCATE(sort_key(SIZE(tensor_dims)))
+      ALLOCATE (sort_key(SIZE(tensor_dims)))
       sort_key(:) = REAL(tensor_dims, real_8)/dims
 
       CALL allocate_any(tensor_dims_sorted, source=tensor_dims)
-      ALLOCATE(sort_indices(SIZE(sort_key)))
+      ALLOCATE (sort_indices(SIZE(sort_key)))
       CALL sort(sort_key, SIZE(sort_key), sort_indices)
       tensor_dims_sorted(:) = tensor_dims_sorted(sort_indices)
       dims(:) = dims(sort_indices)
@@ -489,7 +489,7 @@ CONTAINS
       DO idim = 1, SIZE(tensor_dims_sorted)
          IF (.NOT. accept_pdims_loadbalancing(pdims_rem, dims(idim), tensor_dims_sorted(idim), lb_ratio_prv)) THEN
             pdim = tensor_dims_sorted(idim)
-            DO WHILE(.NOT. accept_pdims_loadbalancing(pdims_rem, pdim, tensor_dims_sorted(idim), lb_ratio_prv))
+            DO WHILE (.NOT. accept_pdims_loadbalancing(pdims_rem, pdim, tensor_dims_sorted(idim), lb_ratio_prv))
                pdim = pdim - 1
             ENDDO
             dims(idim) = pdim
@@ -498,7 +498,7 @@ CONTAINS
             IF (idim .NE. SIZE(tensor_dims_sorted)) THEN
                dims(idim + 1:) = 0
                CALL mp_dims_create(pdims_rem, dims(idim + 1:))
-            ELSEIF(lb_ratio_prv < 1.0_real_8) THEN
+            ELSEIF (lb_ratio_prv < 1.0_real_8) THEN
                ! resort to a less strict load imbalance factor
                dims(:) = dims_store
                CALL dbcsr_t_mp_dims_create(nodes, dims, tensor_dims, 1.1_real_8)
@@ -885,8 +885,8 @@ CONTAINS
             CALL allocate_any(map1_2d_prv, source=map1_2d)
             CALL allocate_any(map2_2d_prv, source=map2_2d)
          ELSE
-            ALLOCATE(map1_2d_prv(ndims_matrix_row(tensor_in)))
-            ALLOCATE(map2_2d_prv(ndims_matrix_column(tensor_in)))
+            ALLOCATE (map1_2d_prv(ndims_matrix_row(tensor_in)))
+            ALLOCATE (map2_2d_prv(ndims_matrix_column(tensor_in)))
             CALL dbcsr_t_get_mapping_info(tensor_in%nd_index_blk, map1_2d=map1_2d_prv, map2_2d=map2_2d_prv)
          ENDIF
          IF (PRESENT(name)) THEN
@@ -1192,7 +1192,7 @@ CONTAINS
 
       CALL mp_environ(nproc, iproc, mp_comm)
       IF (ANY(dims == 0)) THEN
-         IF(.NOT. PRESENT(tensor_dims)) THEN
+         IF (.NOT. PRESENT(tensor_dims)) THEN
             CALL mp_dims_create(nproc, dims)
          ELSE
             CALL dbcsr_t_mp_dims_create(nproc, dims, tensor_dims)
@@ -1276,7 +1276,7 @@ CONTAINS
       CALL dbcsr_t_get_mapping_info(pgrid%nd_index_grid, map1_2d=map1_2d, map2_2d=map2_2d)
       CALL create_nd_to_2d_mapping(nd_index_grid, pdims, map1_2d, map2_2d, base=0, col_major=.FALSE.)
       CALL dbcsr_t_get_mapping_info(nd_index_grid, dims_2d=pdims_2d)
-      IF(MOD(pdims_2d(dimsplit),nsplit) == 0) THEN
+      IF (MOD(pdims_2d(dimsplit), nsplit) == 0) THEN
          CALL dbcsr_t_pgrid_create_expert(pgrid%mp_comm_2d, pdims, pgrid_tmp, map1_2d=map1_2d, map2_2d=map2_2d, &
                                           nsplit=nsplit, dimsplit=dimsplit)
       ELSE
@@ -1366,13 +1366,13 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL, DIMENSION(ndims_tensor(tensor)) :: pdims
          !! process grid dimensions
 #:for idim in range(1, maxdim+1)
-      INTEGER, DIMENSION(dbcsr_t_nblks_local(tensor,${idim}$)), INTENT(OUT), OPTIONAL :: blks_local_${idim}$
+      INTEGER, DIMENSION(dbcsr_t_nblks_local(tensor, ${idim}$)), INTENT(OUT), OPTIONAL :: blks_local_${idim}$
          !! local blocks along dimension ${idim}$
-      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,${idim}$)), INTENT(OUT), OPTIONAL :: proc_dist_${idim}$
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, ${idim}$)), INTENT(OUT), OPTIONAL :: proc_dist_${idim}$
          !! distribution along dimension ${idim}$
-      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,${idim}$)), INTENT(OUT), OPTIONAL :: blk_size_${idim}$
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, ${idim}$)), INTENT(OUT), OPTIONAL :: blk_size_${idim}$
          !! block sizes along dimension ${idim}$
-      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,${idim}$)), INTENT(OUT), OPTIONAL :: blk_offset_${idim}$
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, ${idim}$)), INTENT(OUT), OPTIONAL :: blk_offset_${idim}$
          !! block offsets along dimension ${idim}$
 #:endfor
       TYPE(dbcsr_t_distribution_type), INTENT(OUT), OPTIONAL    :: distribution

@@ -51,8 +51,8 @@ CONTAINS
       INTEGER, DIMENSION(ndims_tensor(tensor)) :: nblks_total, nfull_total, pdims, my_ploc, nblks_local, nfull_local
 
 #:for idim in range(1, maxdim+1)
-      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,${idim}$)) :: proc_dist_${idim}$
-      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,${idim}$)) :: blk_size_${idim}$
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, ${idim}$)) :: proc_dist_${idim}$
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, ${idim}$)) :: blk_size_${idim}$
 #:endfor
       CHARACTER(len=default_string_length)                     :: name
       INTEGER                                                  :: idim

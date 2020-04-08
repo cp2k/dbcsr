@@ -263,7 +263,7 @@ CONTAINS
       !! Expands a row_p index
       INTEGER, INTENT(IN)                                   :: nrows, dst_i
       INTEGER, DIMENSION(1:nrows + 1), INTENT(IN)           :: row_p
-      INTEGER, DIMENSION(:,:), INTENT(OUT)                  :: row_i
+      INTEGER, DIMENSION(:, :), INTENT(OUT)                 :: row_i
 
       INTEGER                                               :: row
 

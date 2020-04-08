@@ -25,12 +25,12 @@ MODULE dbcsr_lib
    USE dbcsr_mpiwrap, ONLY: add_mp_perf_env, &
                             describe_mp_perf_env, &
                             has_mp_perf_env, &
-                            mp_environ, mp_cart_rank,&
-                            rm_mp_perf_env,&
+                            mp_environ, mp_cart_rank, &
+                            rm_mp_perf_env, &
                             mp_comm_free
    USE dbcsr_mm, ONLY: dbcsr_multiply_clear_mempools, &
                        dbcsr_multiply_lib_finalize, &
-                       dbcsr_multiply_lib_init,&
+                       dbcsr_multiply_lib_init, &
                        dbcsr_multiply_print_statistics
    USE dbcsr_timings, ONLY: add_timer_env, &
                             rm_timer_env, &
@@ -44,9 +44,9 @@ MODULE dbcsr_lib
                                  dbcsr_logger_type, &
                                  dbcsr_rm_default_logger
    USE dbcsr_base_hooks, ONLY: timeset_hook, &
-                               timestop_hook,&
-                               dbcsr_abort_hook,&
-                               dbcsr_warn_hook,&
+                               timestop_hook, &
+                               dbcsr_abort_hook, &
+                               dbcsr_warn_hook, &
                                dbcsr_abort_interface, dbcsr_warn_interface, &
                                timeset_interface, timestop_interface
    use dbcsr_types, only: dbcsr_mp_obj
@@ -295,12 +295,12 @@ CONTAINS
          CALL dbcsr_rm_default_logger()
          CALL rm_mp_perf_env()
          CALL rm_timer_env()
-         NULLIFY(logger)
+         NULLIFY (logger)
       ENDIF
-      NULLIFY(timeset_hook)
-      NULLIFY(timestop_hook)
-      NULLIFY(dbcsr_abort_hook)
-      NULLIFY(dbcsr_warn_hook)
+      NULLIFY (timeset_hook)
+      NULLIFY (timestop_hook)
+      NULLIFY (dbcsr_abort_hook)
+      NULLIFY (dbcsr_warn_hook)
       CALL dbcsr_mp_release(mp_env)
       CALL mp_comm_free(default_group)
 #if defined(__LIBXSMM)

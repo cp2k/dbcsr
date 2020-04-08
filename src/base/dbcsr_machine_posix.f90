@@ -46,7 +46,7 @@
      !! Flush a given unit
      INTEGER, INTENT(IN)                      :: lunit
 
-     FLUSH(lunit)
+     FLUSH (lunit)
   END SUBROUTINE m_flush
 
   FUNCTION m_procrun(pid) RESULT(run_on)

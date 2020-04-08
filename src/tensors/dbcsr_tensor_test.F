@@ -417,7 +417,7 @@ CONTAINS
       nblks_alloc = SIZE(blk_ind_1)
       CALL mp_environ(numnodes, mynode, mp_comm)
 
-      IF(.NOT. enumerate) THEN
+      IF (.NOT. enumerate) THEN
          DBCSR_ASSERT(randmat_counter .NE. 0)
 
          randmat_counter = randmat_counter + 1
@@ -466,7 +466,7 @@ CONTAINS
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, blk_index, blk, blk_size=blk_size, blk_offset=blk_offset)
 
-         IF(.NOT. enumerate) THEN
+         IF (.NOT. enumerate) THEN
             blk_index_2d = INT(get_2d_indices_tensor(tensor%nd_index_blk, blk_index))
             CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, dims_2d=nblks_2d)
             CALL set_larnv_seed(blk_index_2d(1), nblks_2d(1), blk_index_2d(2), nblks_2d(2), randmat_counter, iseed)
@@ -771,9 +771,9 @@ CONTAINS
       ALLOCATE (order_t${i}$ (ndims_tensor(tensor_${i}$)))
 #:endfor
 
-      ASSOCIATE (map_t1_1=>notcontract_1, map_t1_2=>contract_1, &
-                 map_t2_1=>notcontract_2, map_t2_2=>contract_2, &
-                 map_t3_1=>map_1, map_t3_2=>map_2)
+      ASSOCIATE (map_t1_1 => notcontract_1, map_t1_2 => contract_1, &
+                 map_t2_1 => notcontract_2, map_t2_2 => contract_2, &
+                 map_t3_1 => map_1, map_t3_2 => map_2)
 
 #:for i in range(1,4)
          order_t${i}$ (:) = dbcsr_t_inverse_order([map_t${i}$_1, map_t${i}$_2])

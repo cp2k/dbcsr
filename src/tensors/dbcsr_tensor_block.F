@@ -340,8 +340,8 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-      IF(dbcsr_has_symmetry(matrix_in)) THEN
-         ALLOCATE(matrix_in_desym)
+      IF (dbcsr_has_symmetry(matrix_in)) THEN
+         ALLOCATE (matrix_in_desym)
          CALL dbcsr_desymmetrize(matrix_in, matrix_in_desym)
       ELSE
          matrix_in_desym => matrix_in
@@ -358,9 +358,9 @@ CONTAINS
 
       CALL dbcsr_t_reserve_blocks(tensor_out, blk_ind_1, blk_ind_2)
 
-      IF(dbcsr_has_symmetry(matrix_in)) THEN
+      IF (dbcsr_has_symmetry(matrix_in)) THEN
          CALL dbcsr_release(matrix_in_desym)
-         DEALLOCATE(matrix_in_desym)
+         DEALLOCATE (matrix_in_desym)
       ENDIF
 
       CALL timestop(handle)
@@ -386,7 +386,7 @@ CONTAINS
       CALL dbcsr_t_iterator_start(iter, tensor_in)
 
       iblk = 0
-      DO WHILE(dbcsr_t_iterator_blocks_left(iter))
+      DO WHILE (dbcsr_t_iterator_blocks_left(iter))
          CALL dbcsr_t_iterator_next_block(iter, ind_2d, blk)
          IF (dbcsr_has_symmetry(matrix_out)) THEN
             IF (checker_tr(ind_2d(1), ind_2d(2))) CYCLE
@@ -432,7 +432,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                 :: sizes
       ${dtype}$, DIMENSION(PRODUCT(sizes)), INTENT(IN) :: array
 
-      ASSOCIATE (blk=>block%${dsuffix}$)
+      ASSOCIATE (blk => block%${dsuffix}$)
          block%data_type = ${dparam}$
          CALL allocate_any(blk%sizes, source=sizes)
          CALL allocate_any(blk%blk, source=array)
@@ -598,9 +598,9 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
-                 map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                 map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
@@ -622,7 +622,7 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      IF(new_block) DEALLOCATE (block_2d)
+      IF (new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 #:endfor
@@ -679,8 +679,8 @@ CONTAINS
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
          DBCSR_ASSERT(.NOT. tr)

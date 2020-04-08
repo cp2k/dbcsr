@@ -12,10 +12,10 @@ MODULE dbcsr_mp_methods
                             dbcsr_mp_release
    USE dbcsr_mpiwrap, ONLY: mp_cart_create, &
                             mp_cart_sub, &
-                            mp_comm_free,&
-                            mp_environ,&
-                            mp_cart_rank,&
-                            mp_dims_create,&
+                            mp_comm_free, &
+                            mp_environ, &
+                            mp_cart_rank, &
+                            mp_dims_create, &
                             mp_comm_null
    USE dbcsr_types, ONLY: dbcsr_mp_obj
 

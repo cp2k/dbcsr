@@ -268,7 +268,7 @@
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block2d_${nametype1}$', &
                                     routineP = moduleN//':'//routineN
 
-     NULLIFY(block_1d)
+     NULLIFY (block_1d)
 
      block_1d(1:SIZE(block)) => block
 

@@ -162,7 +162,7 @@ CONTAINS
          o(1:ndata) = (/(i, i=1, ndata)/)
       ENDIF
 
-      ASSOCIATE (ptr=>list%ptr, col_data=>list%col_data)
+      ASSOCIATE (ptr => list%ptr, col_data => list%col_data)
 #:for dim in range(1, maxdim+1)
          IF (ndata > ${dim-1}$) THEN
             CALL allocate_any(data_${dim}$, source=col_data(ptr(o(${dim}$)):ptr(o(${dim}$) + 1) - 1))
@@ -179,7 +179,7 @@ CONTAINS
       INTEGER, INTENT(IN)                             :: array_size
       INTEGER, DIMENSION(array_size), INTENT(OUT)     :: array
 
-      ASSOCIATE (ptr=>list%ptr, col_data=>list%col_data)
+      ASSOCIATE (ptr => list%ptr, col_data => list%col_data)
          DBCSR_ASSERT(i <= number_of_arrays(list))
 
          array(:) = col_data(ptr(i):ptr(i + 1) - 1)
@@ -194,7 +194,7 @@ CONTAINS
       INTEGER, INTENT(IN)                             :: i
       INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT) :: array
 
-      ASSOCIATE (ptr=>list%ptr, col_data=>list%col_data)
+      ASSOCIATE (ptr => list%ptr, col_data => list%col_data)
          DBCSR_ASSERT(i <= number_of_arrays(list))
 
          CALL allocate_any(array, source=col_data(ptr(i):ptr(i + 1) - 1))

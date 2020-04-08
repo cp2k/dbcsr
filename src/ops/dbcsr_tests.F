@@ -36,7 +36,7 @@ MODULE dbcsr_tests
                                dbcsr_mp_new, &
                                dbcsr_mp_npcols, &
                                dbcsr_mp_nprows, &
-                               dbcsr_mp_release,&
+                               dbcsr_mp_release, &
                                dbcsr_mp_make_env
    USE dbcsr_mpiwrap, ONLY: &
       mp_comm_free, mp_environ, mp_max, mp_sum, mp_sync
