@@ -136,7 +136,7 @@ CONTAINS
    END FUNCTION
 
    PURE SUBROUTINE dbcsr_t_get_mapping_info(map, ndim_nd, ndim1_2d, ndim2_2d, dims_2d_i8, dims_2d, dims_nd, dims1_2d, dims2_2d, &
-                                       map1_2d, map2_2d, map_nd, base, col_major)
+                                            map1_2d, map2_2d, map_nd, base, col_major)
       !! get mapping info
 
       TYPE(nd_to_2d_mapping), INTENT(IN)                 :: map
