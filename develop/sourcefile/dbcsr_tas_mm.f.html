@@ -354,7 +354,7 @@
 <a name="ln-96"></a>         <span class="c">!! memory optimization: move data to matrix_c such that matrix_a is empty on return</span>
 <a name="ln-97"></a>         <span class="c">!! memory optimization: move data to matrix_c such that matrix_b is empty on return</span>
 <a name="ln-98"></a>         <span class="c">!! for internal use only</span>
-<a name="ln-99"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,:),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">result_index</span>
+<a name="ln-99"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">result_index</span>
 <a name="ln-100"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">io_unit</span>
 <a name="ln-101"></a>         <span class="c">!! unit number for logging output</span>
 <a name="ln-102"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">log_verbose</span>
@@ -402,8 +402,8 @@
 <a name="ln-144"></a>      <span class="n">ENDIF</span>
 <a name="ln-145"></a>
 <a name="ln-146"></a>      <span class="n">nodata_3</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-147"></a>      <span class="k">IF</span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">retain_sparsity</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-148"></a><span class="k">         IF</span><span class="p">(</span><span class="n">retain_sparsity</span><span class="p">)</span> <span class="n">nodata_3</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-147"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">retain_sparsity</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-148"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">retain_sparsity</span><span class="p">)</span> <span class="n">nodata_3</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-149"></a>      <span class="n">ENDIF</span>
 <a name="ln-150"></a>
 <a name="ln-151"></a>      <span class="c">! get prestored info for multiplication strategy in case of batched mm</span>
@@ -448,7 +448,7 @@
 <a name="ln-190"></a>         <span class="n">ENDIF</span>
 <a name="ln-191"></a>      <span class="n">ENDIF</span>
 <a name="ln-192"></a>
-<a name="ln-193"></a>      <span class="k">IF</span><span class="p">(</span><span class="n">batched_repl</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-193"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">batched_repl</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-194"></a><span class="k">         </span><span class="n">simple_split_save</span> <span class="o">=</span> <span class="n">simple_split_prv</span>
 <a name="ln-195"></a>         <span class="n">simple_split_prv</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-196"></a>      <span class="n">ENDIF</span>
@@ -521,7 +521,7 @@
 <a name="ln-263"></a>         <span class="n">nze_b</span> <span class="o">=</span> <span class="n">dbcsr_tas_get_nze_total</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span>
 <a name="ln-264"></a>         <span class="k">CALL </span><span class="n">dbcsr_tas_result_index</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="n">transc</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">,</span> <span class="n">filter_eps</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-265"></a>                                     <span class="n">blk_ind</span><span class="o">=</span><span class="n">result_index</span><span class="p">,</span> <span class="n">nze</span><span class="o">=</span><span class="n">nze_c</span><span class="p">,</span> <span class="n">retain_sparsity</span><span class="o">=</span><span class="n">retain_sparsity</span><span class="p">)</span>
-<a name="ln-266"></a>         <span class="k">IF</span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">result_index</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-266"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">result_index</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-267"></a><span class="k">            CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-268"></a>            <span class="k">RETURN</span>
 <a name="ln-269"></a><span class="k">         </span><span class="n">ENDIF</span>
@@ -539,7 +539,7 @@
 <a name="ln-281"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">io_unit_prv</span><span class="p">,</span> <span class="s2">&quot;(T4,A,T68,I13)&quot;</span><span class="p">)</span> <span class="s2">&quot;Est. optimal split factor:&quot;</span><span class="p">,</span> <span class="n">nsplit</span>
 <a name="ln-282"></a>         <span class="n">ENDIF</span>
 <a name="ln-283"></a>
-<a name="ln-284"></a>      <span class="n">ELSEIF</span><span class="p">(</span><span class="n">batched_repl</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-284"></a>      <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">batched_repl</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-285"></a><span class="k">         </span><span class="n">nsplit</span> <span class="o">=</span> <span class="n">nsplit_batched</span>
 <a name="ln-286"></a>         <span class="n">nsplit_opt</span> <span class="o">=</span> <span class="n">nsplit</span>
 <a name="ln-287"></a>         <span class="n">max_mm_dim</span> <span class="o">=</span> <span class="n">max_mm_dim_batched</span>
@@ -678,9 +678,9 @@
 <a name="ln-420"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">io_unit_prv</span><span class="p">,</span> <span class="s2">&quot;(T2, A)&quot;</span><span class="p">)</span> <span class="s2">&quot;SPLIT / PARALLELIZATION INFO&quot;</span>
 <a name="ln-421"></a>         <span class="n">ENDIF</span>
 <a name="ln-422"></a>         <span class="k">CALL </span><span class="n">dbcsr_tas_write_split_info</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">io_unit_prv</span><span class="p">)</span>
-<a name="ln-423"></a>         <span class="k">IF</span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix_a_rs</span><span class="p">))</span> <span class="k">CALL </span><span class="n">dbcsr_tas_write_matrix_info</span><span class="p">(</span><span class="n">matrix_a_rs</span><span class="p">,</span> <span class="n">io_unit_prv</span><span class="p">,</span> <span class="n">full_info</span><span class="o">=</span><span class="n">log_verbose</span><span class="p">)</span>
-<a name="ln-424"></a>         <span class="k">IF</span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix_b_rs</span><span class="p">))</span> <span class="k">CALL </span><span class="n">dbcsr_tas_write_matrix_info</span><span class="p">(</span><span class="n">matrix_b_rs</span><span class="p">,</span> <span class="n">io_unit_prv</span><span class="p">,</span> <span class="n">full_info</span><span class="o">=</span><span class="n">log_verbose</span><span class="p">)</span>
-<a name="ln-425"></a>         <span class="k">IF</span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix_c_rs</span><span class="p">))</span> <span class="k">CALL </span><span class="n">dbcsr_tas_write_matrix_info</span><span class="p">(</span><span class="n">matrix_c_rs</span><span class="p">,</span> <span class="n">io_unit_prv</span><span class="p">,</span> <span class="n">full_info</span><span class="o">=</span><span class="n">log_verbose</span><span class="p">)</span>
+<a name="ln-423"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix_a_rs</span><span class="p">))</span> <span class="k">CALL </span><span class="n">dbcsr_tas_write_matrix_info</span><span class="p">(</span><span class="n">matrix_a_rs</span><span class="p">,</span> <span class="n">io_unit_prv</span><span class="p">,</span> <span class="n">full_info</span><span class="o">=</span><span class="n">log_verbose</span><span class="p">)</span>
+<a name="ln-424"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix_b_rs</span><span class="p">))</span> <span class="k">CALL </span><span class="n">dbcsr_tas_write_matrix_info</span><span class="p">(</span><span class="n">matrix_b_rs</span><span class="p">,</span> <span class="n">io_unit_prv</span><span class="p">,</span> <span class="n">full_info</span><span class="o">=</span><span class="n">log_verbose</span><span class="p">)</span>
+<a name="ln-425"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix_c_rs</span><span class="p">))</span> <span class="k">CALL </span><span class="n">dbcsr_tas_write_matrix_info</span><span class="p">(</span><span class="n">matrix_c_rs</span><span class="p">,</span> <span class="n">io_unit_prv</span><span class="p">,</span> <span class="n">full_info</span><span class="o">=</span><span class="n">log_verbose</span><span class="p">)</span>
 <a name="ln-426"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">io_unit_prv</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-427"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">opt_pgrid</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-428"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">io_unit_prv</span><span class="p">,</span> <span class="s2">&quot;(T4, A, 1X, A)&quot;</span><span class="p">)</span> <span class="s2">&quot;Change process grid:&quot;</span><span class="p">,</span> <span class="s2">&quot;Yes&quot;</span>
@@ -870,7 +870,7 @@
 <a name="ln-612"></a>
 <a name="ln-613"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">opt_pgrid</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">matrix_a</span><span class="p">%</span><span class="n">do_batched</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-614"></a><span class="k">            CALL </span><span class="n">dbcsr_tas_destroy</span><span class="p">(</span><span class="n">matrix_a_rep</span><span class="p">)</span>
-<a name="ln-615"></a>            <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">matrix_a_rep</span><span class="p">)</span>
+<a name="ln-615"></a>            <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">matrix_a_rep</span><span class="p">)</span>
 <a name="ln-616"></a>         <span class="n">ENDIF</span>
 <a name="ln-617"></a>
 <a name="ln-618"></a>         <span class="k">CALL </span><span class="n">convert_to_new_pgrid</span><span class="p">(</span><span class="n">mp_comm_mm</span><span class="p">,</span> <span class="n">matrix_b_rs</span><span class="p">%</span><span class="n">matrix</span><span class="p">,</span> <span class="n">matrix_b_mm</span><span class="p">,</span> <span class="n">optimize_pgrid</span><span class="o">=</span><span class="n">opt_pgrid</span><span class="p">,</span> <span class="n">move_data</span><span class="o">=</span><span class="n">move_b</span><span class="p">)</span>
@@ -952,10 +952,10 @@
 <a name="ln-694"></a>      <span class="n">ENDIF</span>
 <a name="ln-695"></a>
 <a name="ln-696"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">move_data_a</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-697"></a><span class="k">         IF</span><span class="p">(</span><span class="n">move_data_a</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_tas_clear</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
+<a name="ln-697"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">move_data_a</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_tas_clear</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
 <a name="ln-698"></a>      <span class="n">ENDIF</span>
 <a name="ln-699"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">move_data_b</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-700"></a><span class="k">         IF</span><span class="p">(</span><span class="n">move_data_b</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_tas_clear</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span>
+<a name="ln-700"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">move_data_b</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_tas_clear</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span>
 <a name="ln-701"></a>      <span class="n">ENDIF</span>
 <a name="ln-702"></a>
 <a name="ln-703"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">flop</span><span class="p">))</span> <span class="k">THEN</span>
@@ -1412,9 +1412,9 @@
 <a name="ln-1154"></a>      <span class="n">info_a</span> <span class="o">=</span> <span class="n">dbcsr_tas_info</span><span class="p">(</span><span class="n">mat_a</span><span class="p">)</span>
 <a name="ln-1155"></a>      <span class="n">info_b</span> <span class="o">=</span> <span class="n">dbcsr_tas_info</span><span class="p">(</span><span class="n">mat_b</span><span class="p">)</span>
 <a name="ln-1156"></a>      <span class="k">CALL </span><span class="n">dbcsr_tas_get_split_info</span><span class="p">(</span><span class="n">info_a</span><span class="p">,</span> <span class="n">split_rowcol</span><span class="o">=</span><span class="n">split_check</span><span class="p">)</span>
-<a name="ln-1157"></a>      <span class="k">IF</span><span class="p">(</span><span class="n">split_check</span> <span class="o">/=</span> <span class="n">split_rc_a</span><span class="p">)</span> <span class="k">RETURN</span>
+<a name="ln-1157"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">split_check</span> <span class="o">/=</span> <span class="n">split_rc_a</span><span class="p">)</span> <span class="k">RETURN</span>
 <a name="ln-1158"></a><span class="k">      CALL </span><span class="n">dbcsr_tas_get_split_info</span><span class="p">(</span><span class="n">info_b</span><span class="p">,</span> <span class="n">split_rowcol</span><span class="o">=</span><span class="n">split_check</span><span class="p">)</span>
-<a name="ln-1159"></a>      <span class="k">IF</span><span class="p">(</span><span class="n">split_check</span> <span class="o">/=</span> <span class="n">split_rc_b</span><span class="p">)</span> <span class="k">RETURN</span>
+<a name="ln-1159"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">split_check</span> <span class="o">/=</span> <span class="n">split_rc_b</span><span class="p">)</span> <span class="k">RETURN</span>
 <a name="ln-1160"></a>
 <a name="ln-1161"></a>      <span class="c">! check if communicators are equivalent (global process grid and subgrids)</span>
 <a name="ln-1162"></a>      <span class="c">! Note: mpi_comm_compare is not sufficient since this does not compare associated Cartesian grids.</span>
@@ -1551,7 +1551,7 @@
 <a name="ln-1293"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_type</span><span class="p">),</span> <span class="k">POINTER</span>                      <span class="kd">::</span> <span class="n">matrix_a_bnorm</span><span class="p">,</span> <span class="n">matrix_b_bnorm</span><span class="p">,</span> <span class="n">matrix_c_bnorm</span>
 <a name="ln-1294"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>    <span class="kd">::</span> <span class="n">filter_eps</span>
 <a name="ln-1295"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>              <span class="kd">::</span> <span class="n">io_unit</span>
-<a name="ln-1296"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,:),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">blk_ind</span>
+<a name="ln-1296"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">blk_ind</span>
 <a name="ln-1297"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">retain_sparsity</span>
 <a name="ln-1298"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="n">int_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">nze</span>
 <a name="ln-1299"></a>
@@ -1564,14 +1564,14 @@
 <a name="ln-1306"></a>
 <a name="ln-1307"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
 <a name="ln-1308"></a>
-<a name="ln-1309"></a>      <span class="k">IF</span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">retain_sparsity</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-1309"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">retain_sparsity</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1310"></a><span class="k">         </span><span class="n">retain_sparsity_prv</span> <span class="o">=</span> <span class="n">retain_sparsity</span>
 <a name="ln-1311"></a>      <span class="k">ELSE</span>
 <a name="ln-1312"></a><span class="k">         </span><span class="n">retain_sparsity_prv</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-1313"></a>      <span class="n">ENDIF</span>
 <a name="ln-1314"></a>
 <a name="ln-1315"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">retain_sparsity_prv</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-1316"></a><span class="k">         ALLOCATE</span><span class="p">(</span><span class="n">matrix_a_bnorm</span><span class="p">,</span> <span class="n">matrix_b_bnorm</span><span class="p">,</span> <span class="n">matrix_c_bnorm</span><span class="p">)</span>
+<a name="ln-1316"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">matrix_a_bnorm</span><span class="p">,</span> <span class="n">matrix_b_bnorm</span><span class="p">,</span> <span class="n">matrix_c_bnorm</span><span class="p">)</span>
 <a name="ln-1317"></a>         <span class="k">CALL </span><span class="n">create_block_norms_matrix</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_a_bnorm</span><span class="p">)</span>
 <a name="ln-1318"></a>         <span class="k">CALL </span><span class="n">create_block_norms_matrix</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">matrix_b_bnorm</span><span class="p">)</span>
 <a name="ln-1319"></a>         <span class="k">CALL </span><span class="n">create_block_norms_matrix</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">matrix_c_bnorm</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
@@ -1583,33 +1583,33 @@
 <a name="ln-1325"></a>         <span class="k">CALL </span><span class="n">dbcsr_tas_destroy</span><span class="p">(</span><span class="n">matrix_a_bnorm</span><span class="p">)</span>
 <a name="ln-1326"></a>         <span class="k">CALL </span><span class="n">dbcsr_tas_destroy</span><span class="p">(</span><span class="n">matrix_b_bnorm</span><span class="p">)</span>
 <a name="ln-1327"></a>
-<a name="ln-1328"></a>         <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">matrix_a_bnorm</span><span class="p">,</span> <span class="n">matrix_b_bnorm</span><span class="p">)</span>
+<a name="ln-1328"></a>         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">matrix_a_bnorm</span><span class="p">,</span> <span class="n">matrix_b_bnorm</span><span class="p">)</span>
 <a name="ln-1329"></a>      <span class="k">ELSE</span>
 <a name="ln-1330"></a><span class="k">         </span><span class="n">matrix_c_bnorm</span> <span class="o">=&gt;</span> <span class="n">matrix_c</span>
 <a name="ln-1331"></a>      <span class="n">ENDIF</span>
 <a name="ln-1332"></a>
 <a name="ln-1333"></a>      <span class="n">nblk</span> <span class="o">=</span> <span class="n">dbcsr_tas_get_num_blocks</span><span class="p">(</span><span class="n">matrix_c_bnorm</span><span class="p">)</span>
-<a name="ln-1334"></a>      <span class="k">IF</span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">blk_ind</span><span class="p">))</span> <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">blk_ind</span><span class="p">(</span><span class="n">nblk</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<a name="ln-1334"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">blk_ind</span><span class="p">))</span> <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">blk_ind</span><span class="p">(</span><span class="n">nblk</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <a name="ln-1335"></a>
 <a name="ln-1336"></a>      <span class="k">CALL </span><span class="n">dbcsr_tas_iterator_start</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">matrix_c_bnorm</span><span class="p">)</span>
-<a name="ln-1337"></a>      <span class="k">IF</span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nze</span><span class="p">))</span> <span class="n">nze</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-1338"></a>      <span class="k">DO </span><span class="n">iblk</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nblk</span>
+<a name="ln-1337"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nze</span><span class="p">))</span> <span class="n">nze</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-1338"></a>      <span class="k">DO </span><span class="n">iblk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblk</span>
 <a name="ln-1339"></a>         <span class="k">CALL </span><span class="n">dbcsr_tas_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">bn</span><span class="p">)</span>
 <a name="ln-1340"></a>         <span class="n">row_size</span> <span class="o">=</span> <span class="n">matrix_c</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 <a name="ln-1341"></a>         <span class="n">col_size</span> <span class="o">=</span> <span class="n">matrix_c</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
-<a name="ln-1342"></a>         <span class="k">IF</span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nze</span><span class="p">))</span> <span class="n">nze</span> <span class="o">=</span> <span class="n">nze</span> <span class="o">+</span> <span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span>
-<a name="ln-1343"></a>         <span class="k">IF</span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">blk_ind</span><span class="p">))</span> <span class="n">blk_ind</span><span class="p">(</span><span class="n">iblk</span><span class="p">,</span> <span class="p">:)</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span>
+<a name="ln-1342"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nze</span><span class="p">))</span> <span class="n">nze</span> <span class="o">=</span> <span class="n">nze</span> <span class="o">+</span> <span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span>
+<a name="ln-1343"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">blk_ind</span><span class="p">))</span> <span class="n">blk_ind</span><span class="p">(</span><span class="n">iblk</span><span class="p">,</span> <span class="p">:)</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span>
 <a name="ln-1344"></a>      <span class="n">ENDDO</span>
 <a name="ln-1345"></a>      <span class="k">CALL </span><span class="n">dbcsr_tas_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
 <a name="ln-1346"></a>
-<a name="ln-1347"></a>      <span class="k">IF</span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nze</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-1347"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nze</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1348"></a><span class="k">         CALL </span><span class="n">dbcsr_tas_get_split_info</span><span class="p">(</span><span class="n">dbcsr_tas_info</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">mp_comm</span><span class="o">=</span><span class="n">mp_comm</span><span class="p">)</span>
 <a name="ln-1349"></a>         <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">nze</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
 <a name="ln-1350"></a>      <span class="n">ENDIF</span>
 <a name="ln-1351"></a>
 <a name="ln-1352"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">retain_sparsity_prv</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1353"></a><span class="k">         CALL </span><span class="n">dbcsr_tas_destroy</span><span class="p">(</span><span class="n">matrix_c_bnorm</span><span class="p">)</span>
-<a name="ln-1354"></a>         <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">matrix_c_bnorm</span><span class="p">)</span>
+<a name="ln-1354"></a>         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">matrix_c_bnorm</span><span class="p">)</span>
 <a name="ln-1355"></a>      <span class="n">ENDIF</span>
 <a name="ln-1356"></a>
 <a name="ln-1357"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
@@ -1633,14 +1633,14 @@
 <a name="ln-1375"></a>      <span class="kt">INTEGER</span>                                     <span class="kd">::</span> <span class="n">nsplit</span><span class="p">,</span> <span class="n">nsplit_comm</span><span class="p">,</span> <span class="n">nsplit_memory</span>
 <a name="ln-1376"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">max_nze</span><span class="p">,</span> <span class="n">min_nze</span>
 <a name="ln-1377"></a>
-<a name="ln-1378"></a>      <span class="k">SELECT CASE</span><span class="p">(</span><span class="n">max_mm_dim</span><span class="p">)</span>
-<a name="ln-1379"></a>      <span class="k">CASE</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-1378"></a>      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">max_mm_dim</span><span class="p">)</span>
+<a name="ln-1379"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <a name="ln-1380"></a>         <span class="n">min_nze</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">nze_b</span><span class="p">,</span> <span class="mi">1_int_8</span><span class="p">)</span>
 <a name="ln-1381"></a>         <span class="n">max_nze</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="nb">MAXVAL</span><span class="p">([</span><span class="n">nze_a</span><span class="p">,</span> <span class="n">nze_c</span><span class="p">]),</span> <span class="mi">1_int_8</span><span class="p">)</span>
-<a name="ln-1382"></a>      <span class="k">CASE</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-1382"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <a name="ln-1383"></a>         <span class="n">min_nze</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">nze_c</span><span class="p">,</span> <span class="mi">1_int_8</span><span class="p">)</span>
 <a name="ln-1384"></a>         <span class="n">max_nze</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="nb">MAXVAL</span><span class="p">([</span><span class="n">nze_a</span><span class="p">,</span> <span class="n">nze_b</span><span class="p">]),</span> <span class="mi">1_int_8</span><span class="p">)</span>
-<a name="ln-1385"></a>      <span class="k">CASE</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-1385"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <a name="ln-1386"></a>         <span class="n">min_nze</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">nze_a</span><span class="p">,</span> <span class="mi">1_int_8</span><span class="p">)</span>
 <a name="ln-1387"></a>         <span class="n">max_nze</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="nb">MAXVAL</span><span class="p">([</span><span class="n">nze_b</span><span class="p">,</span> <span class="n">nze_c</span><span class="p">]),</span> <span class="mi">1_int_8</span><span class="p">)</span>
 <a name="ln-1388"></a>      <span class="k">CASE </span><span class="n">DEFAULT</span>
@@ -1648,7 +1648,7 @@
 <a name="ln-1390"></a>      <span class="k">END SELECT</span>
 <a name="ln-1391"></a>
 <a name="ln-1392"></a><span class="k">      </span><span class="n">nsplit_comm</span> <span class="o">=</span> <span class="nb">NINT</span><span class="p">((</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nze_a</span> <span class="o">+</span> <span class="n">nze_b</span><span class="p">,</span> <span class="n">real_8</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">min_nze</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mf">2._real_8</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span> <span class="n">real_8</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1._real_8</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span>
-<a name="ln-1393"></a>      <span class="k">IF</span><span class="p">(</span><span class="n">nsplit_comm</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">nsplit_comm</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-1393"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">nsplit_comm</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">nsplit_comm</span> <span class="o">=</span> <span class="mi">1</span>
 <a name="ln-1394"></a>
 <a name="ln-1395"></a>      <span class="c">! nsplit_memory protects against excess memory usage</span>
 <a name="ln-1396"></a>      <span class="c">! actual split factor may be up to default_nsplit_accept_ratio_1 times larger, so the largest nsplit</span>
@@ -1822,7 +1822,7 @@
 <a name="ln-1564"></a><span class="k">   SUBROUTINE </span><span class="n">dbcsr_tas_batched_mm_init</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
 <a name="ln-1565"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">matrix</span>
 <a name="ln-1566"></a>      <span class="n">matrix</span><span class="p">%</span><span class="n">do_batched</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-1567"></a>      <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">mm_storage</span><span class="p">)</span>
+<a name="ln-1567"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">mm_storage</span><span class="p">)</span>
 <a name="ln-1568"></a>      <span class="n">matrix</span><span class="p">%</span><span class="n">mm_storage</span><span class="p">%</span><span class="n">batched_out</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-1569"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-1570"></a>
@@ -1830,7 +1830,7 @@
 <a name="ln-1572"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_tas_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">matrix</span>
 <a name="ln-1573"></a>
 <a name="ln-1574"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">do_batched</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">RETURN</span>
-<a name="ln-1575"></a><span class="k">      ASSOCIATE</span> <span class="p">(</span><span class="n">storage</span><span class="o">=&gt;</span><span class="n">matrix</span><span class="p">%</span><span class="n">mm_storage</span><span class="p">)</span>
+<a name="ln-1575"></a><span class="k">      ASSOCIATE</span> <span class="p">(</span><span class="n">storage</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">mm_storage</span><span class="p">)</span>
 <a name="ln-1576"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">storage</span><span class="p">%</span><span class="n">batched_out</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1577"></a><span class="k">            CALL </span><span class="n">dbcsr_tas_merge</span><span class="p">(</span><span class="n">storage</span><span class="p">%</span><span class="n">store_batched</span><span class="p">%</span><span class="n">matrix</span><span class="p">,</span> <span class="n">storage</span><span class="p">%</span><span class="n">store_batched_repl</span><span class="p">,</span> <span class="n">move_data</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a name="ln-1578"></a>            <span class="k">CALL </span><span class="n">dbcsr_scale</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">matrix</span><span class="p">,</span> <span class="n">storage</span><span class="p">%</span><span class="n">batched_beta</span><span class="p">)</span>
@@ -1848,7 +1848,7 @@
 <a name="ln-1590"></a>         <span class="n">storage</span><span class="p">%</span><span class="n">batched_out</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-1591"></a>      <span class="k">END ASSOCIATE</span>
 <a name="ln-1592"></a>
-<a name="ln-1593"></a><span class="k">      DEALLOCATE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">mm_storage</span><span class="p">)</span>
+<a name="ln-1593"></a><span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">mm_storage</span><span class="p">)</span>
 <a name="ln-1594"></a>      <span class="n">matrix</span><span class="p">%</span><span class="n">do_batched</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-1595"></a>
 <a name="ln-1596"></a>   <span class="k">END SUBROUTINE</span>

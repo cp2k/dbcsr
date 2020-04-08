@@ -106,8 +106,8 @@ MODULE dbcsr_api
       dbcsr_trace_prv => dbcsr_trace, &
       dbcsr_dot_prv => dbcsr_dot, &
       dbcsr_triu_prv => dbcsr_triu, &
-      dbcsr_clear_prv => dbcsr_clear,&
-      dbcsr_add_block_node_prv => dbcsr_add_block_node,&
+      dbcsr_clear_prv => dbcsr_clear, &
+      dbcsr_add_block_node_prv => dbcsr_add_block_node, &
       dbcsr_conform_scalar_prv => dbcsr_conform_scalar
    USE dbcsr_test_methods, ONLY: dbcsr_reset_randmat_seed
    USE dbcsr_tests, ONLY: dbcsr_run_tests, &
@@ -701,7 +701,7 @@ CONTAINS
       LOGICAL, INTENT(OUT), OPTIONAL                     :: subgroups_defined
       INTEGER, INTENT(OUT), OPTIONAL                     :: prow_group, pcol_group
 
-      call dbcsr_distribution_get_prv(dist % prv, row_dist, col_dist, &
+      call dbcsr_distribution_get_prv(dist%prv, row_dist, col_dist, &
                                       nrows, ncols, has_threads, &
                                       group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, &
                                       subgroups_defined, prow_group, pcol_group)
@@ -1078,7 +1078,7 @@ CONTAINS
       REAL(KIND=dp), DIMENSION(:, :), POINTER            :: block
          !! the block to put
 
-      call dbcsr_add_block_node_prv(matrix%prv,  block_row, block_col, block)
+      call dbcsr_add_block_node_prv(matrix%prv, block_row, block_col, block)
    END SUBROUTINE dbcsr_add_block_node
 
 # 1 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp" 1
@@ -1097,7 +1097,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)             :: matrix
       TYPE(dbcsr_scalar_type)                  :: encapsulated
 
-      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix % prv)
+      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix%prv)
    END FUNCTION make_conformant_scalar_d
 
    SUBROUTINE dbcsr_reserve_block2d_d (matrix, row, col, block, transposed, existed)
@@ -1366,7 +1366,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)             :: matrix
       TYPE(dbcsr_scalar_type)                  :: encapsulated
 
-      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix % prv)
+      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix%prv)
    END FUNCTION make_conformant_scalar_s
 
    SUBROUTINE dbcsr_reserve_block2d_s (matrix, row, col, block, transposed, existed)
@@ -1635,7 +1635,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)             :: matrix
       TYPE(dbcsr_scalar_type)                  :: encapsulated
 
-      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix % prv)
+      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix%prv)
    END FUNCTION make_conformant_scalar_z
 
    SUBROUTINE dbcsr_reserve_block2d_z (matrix, row, col, block, transposed, existed)
@@ -1904,7 +1904,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)             :: matrix
       TYPE(dbcsr_scalar_type)                  :: encapsulated
 
-      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix % prv)
+      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix%prv)
    END FUNCTION make_conformant_scalar_c
 
    SUBROUTINE dbcsr_reserve_block2d_c (matrix, row, col, block, transposed, existed)

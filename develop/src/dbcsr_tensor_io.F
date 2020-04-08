@@ -56,17 +56,17 @@ CONTAINS
       INTEGER, DIMENSION(ndims_tensor(tensor)) :: nblks_total, nfull_total, pdims, my_ploc, nblks_local, nfull_local
 
 # 54 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
-      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,1)) :: proc_dist_1
-      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,1)) :: blk_size_1
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 1)) :: proc_dist_1
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 1)) :: blk_size_1
 # 54 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
-      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,2)) :: proc_dist_2
-      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,2)) :: blk_size_2
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 2)) :: proc_dist_2
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 2)) :: blk_size_2
 # 54 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
-      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,3)) :: proc_dist_3
-      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,3)) :: blk_size_3
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 3)) :: proc_dist_3
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 3)) :: blk_size_3
 # 54 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
-      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,4)) :: proc_dist_4
-      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor,4)) :: blk_size_4
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 4)) :: proc_dist_4
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 4)) :: blk_size_4
 # 57 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
       CHARACTER(len=default_string_length)                     :: name
       INTEGER                                                  :: idim

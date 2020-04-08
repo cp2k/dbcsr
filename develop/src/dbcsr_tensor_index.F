@@ -255,7 +255,7 @@ CONTAINS
       INTEGER                                            :: i_dim
 
       tmp = ind_in
-      DO i_dim=1,SIZE(dims)
+      DO i_dim = 1, SIZE(dims)
          ind_out(i_dim) = INT(MOD(tmp - 1, INT(dims(i_dim), int_8)) + 1)
          tmp = (tmp - 1)/dims(i_dim) + 1
       END DO
@@ -294,12 +294,12 @@ CONTAINS
       INTEGER :: i
       INTEGER, DIMENSION(4)                    :: ind_tmp
 
-      DO i=1, map%ndim1_2d
+      DO i = 1, map%ndim1_2d
          ind_tmp(i) = ind_in(map%map1_2d(i))
       ENDDO
       ind_out(1) = combine_tensor_index(ind_tmp(:map%ndim1_2d), map%dims1_2d)
 
-      DO i=1, map%ndim2_2d
+      DO i = 1, map%ndim2_2d
          ind_tmp(i) = ind_in(map%map2_2d(i))
       ENDDO
       ind_out(2) = combine_tensor_index(ind_tmp(:map%ndim2_2d), map%dims2_2d)
@@ -317,12 +317,12 @@ CONTAINS
       INTEGER :: i
       INTEGER, DIMENSION(4)                    :: ind_tmp
 
-      DO i=1, map%ndim1_2d
+      DO i = 1, map%ndim1_2d
          ind_tmp(i) = ind_in(map%map1_2d(i))
       ENDDO
       ind_out(1) = combine_pgrid_index(ind_tmp(:map%ndim1_2d), map%dims1_2d)
 
-      DO i=1, map%ndim2_2d
+      DO i = 1, map%ndim2_2d
          ind_tmp(i) = ind_in(map%map2_2d(i))
       ENDDO
       ind_out(2) = combine_pgrid_index(ind_tmp(:map%ndim2_2d), map%dims2_2d)
@@ -342,13 +342,13 @@ CONTAINS
 
       ind_tmp(:map%ndim1_2d) = split_tensor_index(ind_in(1), map%dims1_2d)
 
-      DO i=1, map%ndim1_2d
+      DO i = 1, map%ndim1_2d
          ind_out(map%map1_2d(i)) = ind_tmp(i)
       ENDDO
 
       ind_tmp(:map%ndim2_2d) = split_tensor_index(ind_in(2), map%dims2_2d)
 
-      DO i=1, map%ndim2_2d
+      DO i = 1, map%ndim2_2d
          ind_out(map%map2_2d(i)) = ind_tmp(i)
       ENDDO
 

@@ -305,8 +305,8 @@
 <a name="ln-47"></a>                                 <span class="n">dbcsr_t_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-48"></a>                                 <span class="n">ndims_matrix_row</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-49"></a>                                 <span class="n">ndims_matrix_column</span>
-<a name="ln-50"></a>   <span class="k">USE </span><span class="n">dbcsr_api</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_type_real_4</span><span class="p">,</span> <span class="n">dbcsr_type_complex_8</span><span class="p">,</span> <span class="n">dbcsr_type_complex_4</span><span class="p">,</span> <span class="n">dbcsr_type_real_8</span>
-<a name="ln-51"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">real_8</span><span class="p">,</span> <span class="n">real_4</span>
+<a name="ln-50"></a>   <span class="k">USE </span><span class="n">dbcsr_api</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_type_complex_8</span><span class="p">,</span> <span class="n">dbcsr_type_real_8</span><span class="p">,</span> <span class="n">dbcsr_type_complex_4</span><span class="p">,</span> <span class="n">dbcsr_type_real_4</span>
+<a name="ln-51"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">real_4</span><span class="p">,</span> <span class="n">real_8</span>
 <a name="ln-52"></a>
 <a name="ln-53"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
 <a name="ln-54"></a>   <span class="k">IMPLICIT NONE</span>
@@ -2220,10 +2220,10 @@
 <a name="ln-1962"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_create</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">,</span> <span class="n">tensor_out</span><span class="p">)</span>
 <a name="ln-1963"></a>
 <a name="ln-1964"></a>      <span class="c">! reserve blocks inside bounds</span>
-<a name="ln-1965"></a>      <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">blk_ind</span><span class="p">(</span><span class="n">dbcsr_t_get_num_blocks</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">),</span> <span class="n">ndims_tensor</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">)))</span>
+<a name="ln-1965"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">blk_ind</span><span class="p">(</span><span class="n">dbcsr_t_get_num_blocks</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">),</span> <span class="n">ndims_tensor</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">)))</span>
 <a name="ln-1966"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_reserved_block_indices</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">,</span> <span class="n">blk_ind</span><span class="p">)</span>
 <a name="ln-1967"></a>      <span class="n">nblk</span> <span class="o">=</span> <span class="n">dbcsr_t_get_num_blocks</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">)</span>
-<a name="ln-1968"></a>      <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">blk_ind_tmp</span><span class="p">(</span><span class="n">dbcsr_t_get_num_blocks</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">),</span> <span class="n">ndims_tensor</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">)))</span>
+<a name="ln-1968"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">blk_ind_tmp</span><span class="p">(</span><span class="n">dbcsr_t_get_num_blocks</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">),</span> <span class="n">ndims_tensor</span><span class="p">(</span><span class="n">tensor_in</span><span class="p">)))</span>
 <a name="ln-1969"></a>      <span class="n">blk_ind_tmp</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-1970"></a>      <span class="n">iblk</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-1971"></a>      <span class="n">blk_loop</span><span class="p">:</span> <span class="k">DO </span><span class="n">iblk_all</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblk</span>

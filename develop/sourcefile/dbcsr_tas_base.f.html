@@ -484,7 +484,7 @@
 <a name="ln-226"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">rowsplit</span><span class="p">)</span>
 <a name="ln-227"></a>         <span class="n">matrix</span><span class="p">%</span><span class="n">nblkrowscols_split</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows</span>
 <a name="ln-228"></a>
-<a name="ln-229"></a>         <span class="k">ASSOCIATE</span> <span class="p">(</span><span class="n">rows</span><span class="o">=&gt;</span><span class="n">dist</span><span class="p">%</span><span class="n">local_rowcols</span><span class="p">)</span>
+<a name="ln-229"></a>         <span class="k">ASSOCIATE</span> <span class="p">(</span><span class="n">rows</span> <span class="o">=&gt;</span> <span class="n">dist</span><span class="p">%</span><span class="n">local_rowcols</span><span class="p">)</span>
 <a name="ln-230"></a>            <span class="n">nrows</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
 <a name="ln-231"></a>            <span class="n">ncols</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">col_dist</span><span class="p">%</span><span class="n">nmrowcol</span><span class="p">)</span>
 <a name="ln-232"></a>            <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_blk_size_vec</span><span class="p">(</span><span class="n">nrows</span><span class="p">))</span>
@@ -499,7 +499,7 @@
 <a name="ln-241"></a><span class="k">      CASE</span> <span class="p">(</span><span class="n">colsplit</span><span class="p">)</span>
 <a name="ln-242"></a>         <span class="n">matrix</span><span class="p">%</span><span class="n">nblkrowscols_split</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblkcols</span>
 <a name="ln-243"></a>
-<a name="ln-244"></a>         <span class="k">ASSOCIATE</span> <span class="p">(</span><span class="n">cols</span><span class="o">=&gt;</span><span class="n">dist</span><span class="p">%</span><span class="n">local_rowcols</span><span class="p">)</span>
+<a name="ln-244"></a>         <span class="k">ASSOCIATE</span> <span class="p">(</span><span class="n">cols</span> <span class="o">=&gt;</span> <span class="n">dist</span><span class="p">%</span><span class="n">local_rowcols</span><span class="p">)</span>
 <a name="ln-245"></a>            <span class="n">ncols</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
 <a name="ln-246"></a>            <span class="n">nrows</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">row_dist</span><span class="p">%</span><span class="n">nmrowcol</span><span class="p">)</span>
 <a name="ln-247"></a>            <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_blk_size_vec</span><span class="p">(</span><span class="n">nrows</span><span class="p">))</span>

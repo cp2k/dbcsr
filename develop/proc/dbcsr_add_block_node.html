@@ -365,7 +365,7 @@ public subroutine dbcsr_add_block_node(matrix, block_row, block_col, block)
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>            <span class="kd">::</span> <span class="k">block</span>
          <span class="c">!! the block to put</span>
 
-      <span class="k">call </span><span class="n">dbcsr_add_block_node_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span>  <span class="n">block_row</span><span class="p">,</span> <span class="n">block_col</span><span class="p">,</span> <span class="k">block</span><span class="p">)</span>
+      <span class="k">call </span><span class="n">dbcsr_add_block_node_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">block_row</span><span class="p">,</span> <span class="n">block_col</span><span class="p">,</span> <span class="k">block</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_add_block_node</span>
 </pre></div>
 

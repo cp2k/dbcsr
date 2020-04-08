@@ -813,12 +813,12 @@
 <a name="ln-555"></a>
 <a name="ln-556"></a>      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">info</span><span class="p">%</span><span class="n">split_rowcol</span><span class="p">)</span>
 <a name="ln-557"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">rowsplit</span><span class="p">)</span>
-<a name="ln-558"></a>         <span class="k">ASSOCIATE</span> <span class="p">(</span><span class="n">rows</span><span class="o">=&gt;</span><span class="n">dist</span><span class="p">%</span><span class="n">local_rowcols</span><span class="p">)</span>
+<a name="ln-558"></a>         <span class="k">ASSOCIATE</span> <span class="p">(</span><span class="n">rows</span> <span class="o">=&gt;</span> <span class="n">dist</span><span class="p">%</span><span class="n">local_rowcols</span><span class="p">)</span>
 <a name="ln-559"></a>            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="n">row</span> <span class="o">=</span> <span class="n">rows</span><span class="p">(</span><span class="n">row_group</span><span class="p">)</span>
 <a name="ln-560"></a>            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">column</span><span class="p">))</span> <span class="n">column</span> <span class="o">=</span> <span class="n">column_group</span>
 <a name="ln-561"></a>         <span class="k">END ASSOCIATE</span>
 <a name="ln-562"></a><span class="k">      CASE</span> <span class="p">(</span><span class="n">colsplit</span><span class="p">)</span>
-<a name="ln-563"></a>         <span class="k">ASSOCIATE</span> <span class="p">(</span><span class="n">cols</span><span class="o">=&gt;</span><span class="n">dist</span><span class="p">%</span><span class="n">local_rowcols</span><span class="p">)</span>
+<a name="ln-563"></a>         <span class="k">ASSOCIATE</span> <span class="p">(</span><span class="n">cols</span> <span class="o">=&gt;</span> <span class="n">dist</span><span class="p">%</span><span class="n">local_rowcols</span><span class="p">)</span>
 <a name="ln-564"></a>            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="n">row</span> <span class="o">=</span> <span class="n">row_group</span>
 <a name="ln-565"></a>            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">column</span><span class="p">))</span> <span class="n">column</span> <span class="o">=</span> <span class="n">cols</span><span class="p">(</span><span class="n">column_group</span><span class="p">)</span>
 <a name="ln-566"></a>         <span class="k">END ASSOCIATE</span>

@@ -96,7 +96,7 @@ CONTAINS
          !! memory optimization: move data to matrix_c such that matrix_a is empty on return
          !! memory optimization: move data to matrix_c such that matrix_b is empty on return
          !! for internal use only
-      INTEGER(int_8), DIMENSION(:,:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: result_index
+      INTEGER(int_8), DIMENSION(:, :), ALLOCATABLE, INTENT(OUT), OPTIONAL :: result_index
       INTEGER, OPTIONAL, INTENT(IN)              :: io_unit
          !! unit number for logging output
       LOGICAL, OPTIONAL, INTENT(IN)              :: log_verbose
@@ -144,8 +144,8 @@ CONTAINS
       ENDIF
 
       nodata_3 = .TRUE.
-      IF(PRESENT(retain_sparsity)) THEN
-         IF(retain_sparsity) nodata_3 = .FALSE.
+      IF (PRESENT(retain_sparsity)) THEN
+         IF (retain_sparsity) nodata_3 = .FALSE.
       ENDIF
 
       ! get prestored info for multiplication strategy in case of batched mm
@@ -190,7 +190,7 @@ CONTAINS
          ENDIF
       ENDIF
 
-      IF(batched_repl > 0) THEN
+      IF (batched_repl > 0) THEN
          simple_split_save = simple_split_prv
          simple_split_prv = .TRUE.
       ENDIF
@@ -263,7 +263,7 @@ CONTAINS
          nze_b = dbcsr_tas_get_nze_total(matrix_b)
          CALL dbcsr_tas_result_index(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, &
                                      blk_ind=result_index, nze=nze_c, retain_sparsity=retain_sparsity)
-         IF(PRESENT(result_index)) THEN
+         IF (PRESENT(result_index)) THEN
             CALL timestop(handle)
             RETURN
          ENDIF
@@ -281,7 +281,7 @@ CONTAINS
             WRITE (io_unit_prv, "(T4,A,T68,I13)") "Est. optimal split factor:", nsplit
          ENDIF
 
-      ELSEIF(batched_repl > 0) THEN
+      ELSEIF (batched_repl > 0) THEN
          nsplit = nsplit_batched
          nsplit_opt = nsplit
          max_mm_dim = max_mm_dim_batched
@@ -420,9 +420,9 @@ CONTAINS
             WRITE (io_unit_prv, "(T2, A)") "SPLIT / PARALLELIZATION INFO"
          ENDIF
          CALL dbcsr_tas_write_split_info(info, io_unit_prv)
-         IF(ASSOCIATED(matrix_a_rs)) CALL dbcsr_tas_write_matrix_info(matrix_a_rs, io_unit_prv, full_info=log_verbose)
-         IF(ASSOCIATED(matrix_b_rs)) CALL dbcsr_tas_write_matrix_info(matrix_b_rs, io_unit_prv, full_info=log_verbose)
-         IF(ASSOCIATED(matrix_c_rs)) CALL dbcsr_tas_write_matrix_info(matrix_c_rs, io_unit_prv, full_info=log_verbose)
+         IF (ASSOCIATED(matrix_a_rs)) CALL dbcsr_tas_write_matrix_info(matrix_a_rs, io_unit_prv, full_info=log_verbose)
+         IF (ASSOCIATED(matrix_b_rs)) CALL dbcsr_tas_write_matrix_info(matrix_b_rs, io_unit_prv, full_info=log_verbose)
+         IF (ASSOCIATED(matrix_c_rs)) CALL dbcsr_tas_write_matrix_info(matrix_c_rs, io_unit_prv, full_info=log_verbose)
          IF (io_unit_prv > 0) THEN
             IF (opt_pgrid) THEN
                WRITE (io_unit_prv, "(T4, A, 1X, A)") "Change process grid:", "Yes"
@@ -612,7 +612,7 @@ CONTAINS
 
          IF (opt_pgrid .AND. matrix_a%do_batched == 0) THEN
             CALL dbcsr_tas_destroy(matrix_a_rep)
-            DEALLOCATE(matrix_a_rep)
+            DEALLOCATE (matrix_a_rep)
          ENDIF
 
          CALL convert_to_new_pgrid(mp_comm_mm, matrix_b_rs%matrix, matrix_b_mm, optimize_pgrid=opt_pgrid, move_data=move_b)
@@ -694,10 +694,10 @@ CONTAINS
       ENDIF
 
       IF (PRESENT(move_data_a)) THEN
-         IF(move_data_a) CALL dbcsr_tas_clear(matrix_a)
+         IF (move_data_a) CALL dbcsr_tas_clear(matrix_a)
       ENDIF
       IF (PRESENT(move_data_b)) THEN
-         IF(move_data_b) CALL dbcsr_tas_clear(matrix_b)
+         IF (move_data_b) CALL dbcsr_tas_clear(matrix_b)
       ENDIF
 
       IF (PRESENT(flop)) THEN
@@ -1154,9 +1154,9 @@ CONTAINS
       info_a = dbcsr_tas_info(mat_a)
       info_b = dbcsr_tas_info(mat_b)
       CALL dbcsr_tas_get_split_info(info_a, split_rowcol=split_check)
-      IF(split_check /= split_rc_a) RETURN
+      IF (split_check /= split_rc_a) RETURN
       CALL dbcsr_tas_get_split_info(info_b, split_rowcol=split_check)
-      IF(split_check /= split_rc_b) RETURN
+      IF (split_check /= split_rc_b) RETURN
 
       ! check if communicators are equivalent (global process grid and subgrids)
       ! Note: mpi_comm_compare is not sufficient since this does not compare associated Cartesian grids.
@@ -1293,7 +1293,7 @@ CONTAINS
       TYPE(dbcsr_tas_type), POINTER                      :: matrix_a_bnorm, matrix_b_bnorm, matrix_c_bnorm
       REAL(KIND=real_8), INTENT(IN), OPTIONAL    :: filter_eps
       INTEGER, INTENT(IN), OPTIONAL              :: io_unit
-      INTEGER(int_8), DIMENSION(:,:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: blk_ind
+      INTEGER(int_8), DIMENSION(:, :), ALLOCATABLE, INTENT(OUT), OPTIONAL :: blk_ind
       LOGICAL, INTENT(IN), OPTIONAL :: retain_sparsity
       INTEGER(int_8), INTENT(OUT), OPTIONAL :: nze
 
@@ -1306,14 +1306,14 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-      IF(PRESENT(retain_sparsity)) THEN
+      IF (PRESENT(retain_sparsity)) THEN
          retain_sparsity_prv = retain_sparsity
       ELSE
          retain_sparsity_prv = .FALSE.
       ENDIF
 
       IF (.NOT. retain_sparsity_prv) THEN
-         ALLOCATE(matrix_a_bnorm, matrix_b_bnorm, matrix_c_bnorm)
+         ALLOCATE (matrix_a_bnorm, matrix_b_bnorm, matrix_c_bnorm)
          CALL create_block_norms_matrix(matrix_a, matrix_a_bnorm)
          CALL create_block_norms_matrix(matrix_b, matrix_b_bnorm)
          CALL create_block_norms_matrix(matrix_c, matrix_c_bnorm, nodata=.TRUE.)
@@ -1325,33 +1325,33 @@ CONTAINS
          CALL dbcsr_tas_destroy(matrix_a_bnorm)
          CALL dbcsr_tas_destroy(matrix_b_bnorm)
 
-         DEALLOCATE(matrix_a_bnorm, matrix_b_bnorm)
+         DEALLOCATE (matrix_a_bnorm, matrix_b_bnorm)
       ELSE
          matrix_c_bnorm => matrix_c
       ENDIF
 
       nblk = dbcsr_tas_get_num_blocks(matrix_c_bnorm)
-      IF(PRESENT(blk_ind)) ALLOCATE(blk_ind(nblk, 2))
+      IF (PRESENT(blk_ind)) ALLOCATE (blk_ind(nblk, 2))
 
       CALL dbcsr_tas_iterator_start(iter, matrix_c_bnorm)
-      IF(PRESENT(nze)) nze = 0
-      DO iblk=1,nblk
+      IF (PRESENT(nze)) nze = 0
+      DO iblk = 1, nblk
          CALL dbcsr_tas_iterator_next_block(iter, row, col, bn)
          row_size = matrix_c%row_blk_size%data(row)
          col_size = matrix_c%col_blk_size%data(col)
-         IF(PRESENT(nze)) nze = nze + row_size*col_size
-         IF(PRESENT(blk_ind)) blk_ind(iblk, :) = [row, col]
+         IF (PRESENT(nze)) nze = nze + row_size*col_size
+         IF (PRESENT(blk_ind)) blk_ind(iblk, :) = [row, col]
       ENDDO
       CALL dbcsr_tas_iterator_stop(iter)
 
-      IF(PRESENT(nze)) THEN
+      IF (PRESENT(nze)) THEN
          CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix_a), mp_comm=mp_comm)
          CALL mp_sum(nze, mp_comm)
       ENDIF
 
       IF (.NOT. retain_sparsity_prv) THEN
          CALL dbcsr_tas_destroy(matrix_c_bnorm)
-         DEALLOCATE(matrix_c_bnorm)
+         DEALLOCATE (matrix_c_bnorm)
       ENDIF
 
       CALL timestop(handle)
@@ -1375,14 +1375,14 @@ CONTAINS
       INTEGER                                     :: nsplit, nsplit_comm, nsplit_memory
       INTEGER(KIND=int_8)                         :: max_nze, min_nze
 
-      SELECT CASE(max_mm_dim)
-      CASE(1)
+      SELECT CASE (max_mm_dim)
+      CASE (1)
          min_nze = MAX(nze_b, 1_int_8)
          max_nze = MAX(MAXVAL([nze_a, nze_c]), 1_int_8)
-      CASE(2)
+      CASE (2)
          min_nze = MAX(nze_c, 1_int_8)
          max_nze = MAX(MAXVAL([nze_a, nze_b]), 1_int_8)
-      CASE(3)
+      CASE (3)
          min_nze = MAX(nze_a, 1_int_8)
          max_nze = MAX(MAXVAL([nze_b, nze_c]), 1_int_8)
       CASE DEFAULT
@@ -1390,7 +1390,7 @@ CONTAINS
       END SELECT
 
       nsplit_comm = NINT((REAL(nze_a + nze_b, real_8)/(2*min_nze))**(2._real_8/3)*REAL(numnodes, real_8)**(1._real_8/3))
-      IF(nsplit_comm == 0) nsplit_comm = 1
+      IF (nsplit_comm == 0) nsplit_comm = 1
 
       ! nsplit_memory protects against excess memory usage
       ! actual split factor may be up to default_nsplit_accept_ratio_1 times larger, so the largest nsplit
@@ -1564,7 +1564,7 @@ CONTAINS
    SUBROUTINE dbcsr_tas_batched_mm_init(matrix)
       TYPE(dbcsr_tas_type), INTENT(INOUT) :: matrix
       matrix%do_batched = 1
-      ALLOCATE(matrix%mm_storage)
+      ALLOCATE (matrix%mm_storage)
       matrix%mm_storage%batched_out = .FALSE.
    END SUBROUTINE
 
@@ -1572,7 +1572,7 @@ CONTAINS
       TYPE(dbcsr_tas_type), INTENT(INOUT) :: matrix
 
       IF (matrix%do_batched == 0) RETURN
-      ASSOCIATE (storage=>matrix%mm_storage)
+      ASSOCIATE (storage => matrix%mm_storage)
          IF (storage%batched_out) THEN
             CALL dbcsr_tas_merge(storage%store_batched%matrix, storage%store_batched_repl, move_data=.TRUE.)
             CALL dbcsr_scale(matrix%matrix, storage%batched_beta)
@@ -1590,7 +1590,7 @@ CONTAINS
          storage%batched_out = .FALSE.
       END ASSOCIATE
 
-      DEALLOCATE(matrix%mm_storage)
+      DEALLOCATE (matrix%mm_storage)
       matrix%do_batched = 0
 
    END SUBROUTINE

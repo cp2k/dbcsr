@@ -943,7 +943,7 @@ CONTAINS
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block2d_d', &
                                     routineP = moduleN//':'//routineN
 
-     NULLIFY(block_1d)
+     NULLIFY (block_1d)
 
      block_1d(1:SIZE(block)) => block
 
@@ -1406,7 +1406,7 @@ CONTAINS
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block2d_s', &
                                     routineP = moduleN//':'//routineN
 
-     NULLIFY(block_1d)
+     NULLIFY (block_1d)
 
      block_1d(1:SIZE(block)) => block
 
@@ -1869,7 +1869,7 @@ CONTAINS
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block2d_z', &
                                     routineP = moduleN//':'//routineN
 
-     NULLIFY(block_1d)
+     NULLIFY (block_1d)
 
      block_1d(1:SIZE(block)) => block
 
@@ -2332,7 +2332,7 @@ CONTAINS
      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block2d_c', &
                                     routineP = moduleN//':'//routineN
 
-     NULLIFY(block_1d)
+     NULLIFY (block_1d)
 
      block_1d(1:SIZE(block)) => block
 

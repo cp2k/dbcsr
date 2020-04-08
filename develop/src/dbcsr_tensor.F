@@ -31,7 +31,7 @@ MODULE dbcsr_tensor
       dbcsr_type, dbcsr_iterator_type, dbcsr_iterator_blocks_left, &
       dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, &
       dbcsr_transpose, dbcsr_no_transpose, dbcsr_scalar, dbcsr_put_block, &
-      dbcsr_type_real_4, dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_clear, &
+      dbcsr_type_complex_8, dbcsr_type_real_4, dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_clear, &
       dbcsr_release, dbcsr_desymmetrize, dbcsr_has_symmetry
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_split_info
@@ -164,8 +164,8 @@ CONTAINS
          summation_prv = .FALSE.
       ENDIF
 
-      IF(PRESENT(bounds)) THEN
-         ALLOCATE(in_tmp_1)
+      IF (PRESENT(bounds)) THEN
+         ALLOCATE (in_tmp_1)
          CALL dbcsr_t_crop(tensor_in, in_tmp_1, bounds=bounds, move_data=move_prv)
          new_in_1 = .TRUE.
          move_prv = .TRUE.
@@ -199,18 +199,18 @@ CONTAINS
          in_tmp_3 => in_tmp_2
       ENDIF
 
-      ALLOCATE(map1_in_1(ndims_matrix_row(in_tmp_3)))
-      ALLOCATE(map1_in_2(ndims_matrix_column(in_tmp_3)))
+      ALLOCATE (map1_in_1(ndims_matrix_row(in_tmp_3)))
+      ALLOCATE (map1_in_2(ndims_matrix_column(in_tmp_3)))
       CALL dbcsr_t_get_mapping_info(in_tmp_3%nd_index, map1_2d=map1_in_1, map2_2d=map1_in_2)
 
-      ALLOCATE(map2_in_1(ndims_matrix_row(out_tmp_1)))
-      ALLOCATE(map2_in_2(ndims_matrix_column(out_tmp_1)))
+      ALLOCATE (map2_in_1(ndims_matrix_row(out_tmp_1)))
+      ALLOCATE (map2_in_2(ndims_matrix_column(out_tmp_1)))
       CALL dbcsr_t_get_mapping_info(out_tmp_1%nd_index, map1_2d=map2_in_1, map2_2d=map2_in_2)
 
       IF (.NOT. PRESENT(order)) THEN
          IF (array_eq_i(map1_in_1, map2_in_1) .AND. array_eq_i(map1_in_2, map2_in_2)) THEN
             dist_compatible_tas = check_equal(in_tmp_3%nd_dist, out_tmp_1%nd_dist)
-         ELSEIF(array_eq_i([map1_in_1, map1_in_2], [map2_in_1, map2_in_2])) THEN
+         ELSEIF (array_eq_i([map1_in_1, map1_in_2], [map2_in_1, map2_in_2])) THEN
             dist_compatible_tensor = check_equal(in_tmp_3%nd_dist, out_tmp_1%nd_dist)
          ENDIF
       ENDIF
@@ -218,7 +218,7 @@ CONTAINS
       IF (dist_compatible_tas) THEN
          CALL dbcsr_tas_copy(out_tmp_1%matrix_rep, in_tmp_3%matrix_rep, summation)
          IF (move_prv) CALL dbcsr_t_clear(in_tmp_3)
-      ELSEIF(dist_compatible_tensor) THEN
+      ELSEIF (dist_compatible_tensor) THEN
          CALL dbcsr_t_copy_nocomm(in_tmp_3, out_tmp_1, summation)
          IF (move_prv) CALL dbcsr_t_clear(in_tmp_3)
       ELSE
@@ -281,7 +281,7 @@ CONTAINS
       CALL dbcsr_t_reserve_blocks(tensor_in, tensor_out)
 
       CALL dbcsr_t_iterator_start(iter, tensor_in)
-      DO WHILE(dbcsr_t_iterator_blocks_left(iter))
+      DO WHILE (dbcsr_t_iterator_blocks_left(iter))
          CALL dbcsr_t_iterator_next_block(iter, ind_nd, blk)
          CALL dbcsr_t_get_block(tensor_in, ind_nd, blk_data, found)
          DBCSR_ASSERT(found)
@@ -315,8 +315,8 @@ CONTAINS
       CALL timeset(routineN, handle)
       DBCSR_ASSERT(tensor_out%valid)
 
-      IF(dbcsr_has_symmetry(matrix_in)) THEN
-         ALLOCATE(matrix_in_desym)
+      IF (dbcsr_has_symmetry(matrix_in)) THEN
+         ALLOCATE (matrix_in_desym)
          CALL dbcsr_desymmetrize(matrix_in, matrix_in_desym)
       ELSE
          matrix_in_desym => matrix_in
@@ -339,9 +339,9 @@ CONTAINS
       ENDDO
       CALL dbcsr_iterator_stop(iter)
 
-      IF(dbcsr_has_symmetry(matrix_in)) THEN
+      IF (dbcsr_has_symmetry(matrix_in)) THEN
          CALL dbcsr_release(matrix_in_desym)
-         DEALLOCATE(matrix_in_desym)
+         DEALLOCATE (matrix_in_desym)
       ENDIF
 
       CALL timestop(handle)
@@ -376,7 +376,7 @@ CONTAINS
       CALL dbcsr_t_iterator_start(iter, tensor_in)
       DO WHILE (dbcsr_t_iterator_blocks_left(iter))
          CALL dbcsr_t_iterator_next_block(iter, ind_2d, blk)
-         IF(dbcsr_has_symmetry(matrix_out) .AND. checker_tr(ind_2d(1), ind_2d(2))) CYCLE
+         IF (dbcsr_has_symmetry(matrix_out) .AND. checker_tr(ind_2d(1), ind_2d(2))) CYCLE
 
          CALL dbcsr_t_get_block(tensor_in, ind_2d, block, found)
          DBCSR_ASSERT(found)
@@ -539,7 +539,7 @@ CONTAINS
       TYPE(dbcsr_t_type)                             :: tensor_algn_1, tensor_algn_2, tensor_algn_3
       TYPE(dbcsr_t_type), POINTER                    :: tensor_crop_1, tensor_crop_2
 
-      INTEGER(int_8), DIMENSION(:,:), ALLOCATABLE  :: result_index_2d
+      INTEGER(int_8), DIMENSION(:, :), ALLOCATABLE  :: result_index_2d
       LOGICAL                                        :: assert_stmt
       INTEGER                                        :: data_type, max_mm_dim, max_tensor, mp_comm, &
                                                         iblk, nblk
@@ -602,8 +602,8 @@ CONTAINS
       ENDIF
 
       nodata_3 = .TRUE.
-      IF(PRESENT(retain_sparsity)) THEN
-         IF(retain_sparsity) nodata_3 = .FALSE.
+      IF (PRESENT(retain_sparsity)) THEN
+         IF (retain_sparsity) nodata_3 = .FALSE.
       ENDIF
 
       CALL dbcsr_t_map_bounds_to_tensors(tensor_1, tensor_2, &
@@ -814,7 +814,7 @@ CONTAINS
          IF (new_2) CALL dbcsr_t_write_tensor_dist(tensor_contr_2, unit_nr)
       ENDIF
 
-      IF(.NOT. PRESENT(result_index)) THEN
+      IF (.NOT. PRESENT(result_index)) THEN
          CALL dbcsr_tas_multiply(trans_1, trans_2, trans_3, alpha, &
                                  tensor_contr_1%matrix_rep, tensor_contr_2%matrix_rep, &
                                  beta, &
@@ -829,8 +829,8 @@ CONTAINS
                                  tensor_contr_3%matrix_rep, filter_eps=filter_eps, &
                                  result_index=result_index_2d)
 
-         nblk = SIZE(result_index_2d,1)
-         IF(PRESENT(nblks_local)) nblks_local = nblk
+         nblk = SIZE(result_index_2d, 1)
+         IF (PRESENT(nblks_local)) nblks_local = nblk
          IF (SIZE(result_index, 1) < nblk) THEN
             CALL dbcsr_abort(__LOCATION__, &
         "allocated size of `result_index` is too small. This error occurs due to a high load imbalance of distributed tensor data.")
@@ -839,7 +839,7 @@ CONTAINS
          result_index = 0
 
          DO iblk = 1, nblk
-            result_index(iblk,:) = get_nd_indices_tensor(tensor_contr_3%nd_index_blk, result_index_2d(iblk,:))
+            result_index(iblk, :) = get_nd_indices_tensor(tensor_contr_3%nd_index_blk, result_index_2d(iblk, :))
          ENDDO
 
          IF (new_1) THEN
@@ -965,8 +965,8 @@ CONTAINS
          DEALLOCATE (tensor_contr_3)
       ENDIF
 
-      IF(PRESENT(move_data)) THEN
-         IF(move_data) THEN
+      IF (PRESENT(move_data)) THEN
+         IF (move_data) THEN
             CALL dbcsr_t_clear(tensor_1)
             CALL dbcsr_t_clear(tensor_2)
          ENDIF
@@ -1127,7 +1127,7 @@ CONTAINS
             IF (compat1 == 1) THEN ! linked index is first 2d dimension
                ! get distribution of linked index, tensor 2 must adopt this distribution
                ! get grid dimensions of linked index
-               ALLOCATE(mp_dims(ndims_mapping_row(dist_in%pgrid%nd_index_grid)))
+               ALLOCATE (mp_dims(ndims_mapping_row(dist_in%pgrid%nd_index_grid)))
                CALL dbcsr_t_get_mapping_info(dist_in%pgrid%nd_index_grid, dims1_2d=mp_dims)
                ALLOCATE (tensor2_out)
                CALL dbcsr_t_remap(tensor2, ind2_linked, ind2_free, tensor2_out, comm_2d=dist_in%pgrid%mp_comm_2d, &
@@ -1135,7 +1135,7 @@ CONTAINS
             ELSEIF (compat1 == 2) THEN ! linked index is second 2d dimension
                ! get distribution of linked index, tensor 2 must adopt this distribution
                ! get grid dimensions of linked index
-               ALLOCATE(mp_dims(ndims_mapping_column(dist_in%pgrid%nd_index_grid)))
+               ALLOCATE (mp_dims(ndims_mapping_column(dist_in%pgrid%nd_index_grid)))
                CALL dbcsr_t_get_mapping_info(dist_in%pgrid%nd_index_grid, dims2_2d=mp_dims)
                ALLOCATE (tensor2_out)
                CALL dbcsr_t_remap(tensor2, ind2_free, ind2_linked, tensor2_out, comm_2d=dist_in%pgrid%mp_comm_2d, &
@@ -1170,13 +1170,13 @@ CONTAINS
             dist_in = dbcsr_t_distribution(tensor2_out)
             dist_list = array_sublist(dist_in%nd_dist, ind2_linked)
             IF (compat2 == 1) THEN
-               ALLOCATE(mp_dims(ndims_mapping_row(dist_in%pgrid%nd_index_grid)))
+               ALLOCATE (mp_dims(ndims_mapping_row(dist_in%pgrid%nd_index_grid)))
                CALL dbcsr_t_get_mapping_info(dist_in%pgrid%nd_index_grid, dims1_2d=mp_dims)
                ALLOCATE (tensor1_out)
                CALL dbcsr_t_remap(tensor1, ind1_linked, ind1_free, tensor1_out, comm_2d=dist_in%pgrid%mp_comm_2d, &
                                   dist1=dist_list, mp_dims_1=mp_dims, nodata=nodata1, move_data=move_data_1)
             ELSEIF (compat2 == 2) THEN
-               ALLOCATE(mp_dims(ndims_mapping_column(dist_in%pgrid%nd_index_grid)))
+               ALLOCATE (mp_dims(ndims_mapping_column(dist_in%pgrid%nd_index_grid)))
                CALL dbcsr_t_get_mapping_info(dist_in%pgrid%nd_index_grid, dims2_2d=mp_dims)
                ALLOCATE (tensor1_out)
                CALL dbcsr_t_remap(tensor1, ind1_free, ind1_linked, tensor1_out, comm_2d=dist_in%pgrid%mp_comm_2d, &

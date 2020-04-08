@@ -215,7 +215,7 @@ CONTAINS
          o(1:ndata) = (/(i, i=1, ndata)/)
       ENDIF
 
-      ASSOCIATE (ptr=>list%ptr, col_data=>list%col_data)
+      ASSOCIATE (ptr => list%ptr, col_data => list%col_data)
 # 167 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_array_list_methods.F"
          IF (ndata > 0) THEN
             CALL allocate_any(data_1, source=col_data(ptr(o(1)):ptr(o(1) + 1) - 1))
@@ -244,7 +244,7 @@ CONTAINS
       INTEGER, INTENT(IN)                             :: array_size
       INTEGER, DIMENSION(array_size), INTENT(OUT)     :: array
 
-      ASSOCIATE (ptr=>list%ptr, col_data=>list%col_data)
+      ASSOCIATE (ptr => list%ptr, col_data => list%col_data)
          DBCSR_ASSERT(i <= number_of_arrays(list))
 
          array(:) = col_data(ptr(i):ptr(i + 1) - 1)
@@ -259,7 +259,7 @@ CONTAINS
       INTEGER, INTENT(IN)                             :: i
       INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT) :: array
 
-      ASSOCIATE (ptr=>list%ptr, col_data=>list%col_data)
+      ASSOCIATE (ptr => list%ptr, col_data => list%col_data)
          DBCSR_ASSERT(i <= number_of_arrays(list))
 
          CALL allocate_any(array, source=col_data(ptr(i):ptr(i + 1) - 1))

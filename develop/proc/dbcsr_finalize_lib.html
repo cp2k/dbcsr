@@ -309,12 +309,12 @@ public subroutine dbcsr_finalize_lib()
 <span class="k">         CALL </span><span class="n">dbcsr_rm_default_logger</span><span class="p">()</span>
          <span class="k">CALL </span><span class="n">rm_mp_perf_env</span><span class="p">()</span>
          <span class="k">CALL </span><span class="n">rm_timer_env</span><span class="p">()</span>
-         <span class="k">NULLIFY</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
+         <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">logger</span><span class="p">)</span>
       <span class="n">ENDIF</span>
-      <span class="k">NULLIFY</span><span class="p">(</span><span class="n">timeset_hook</span><span class="p">)</span>
-      <span class="k">NULLIFY</span><span class="p">(</span><span class="n">timestop_hook</span><span class="p">)</span>
-      <span class="k">NULLIFY</span><span class="p">(</span><span class="n">dbcsr_abort_hook</span><span class="p">)</span>
-      <span class="k">NULLIFY</span><span class="p">(</span><span class="n">dbcsr_warn_hook</span><span class="p">)</span>
+      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">timeset_hook</span><span class="p">)</span>
+      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">timestop_hook</span><span class="p">)</span>
+      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">dbcsr_abort_hook</span><span class="p">)</span>
+      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">dbcsr_warn_hook</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_mp_release</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">mp_comm_free</span><span class="p">(</span><span class="n">default_group</span><span class="p">)</span>
 <span class="cp">#if defined(__LIBXSMM)</span>

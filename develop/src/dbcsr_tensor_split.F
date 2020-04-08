@@ -47,8 +47,8 @@ MODULE dbcsr_tensor_split
                                  dbcsr_t_blk_sizes, &
                                  ndims_matrix_row, &
                                  ndims_matrix_column
-   USE dbcsr_api, ONLY: dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_complex_4, dbcsr_type_real_8
-   USE dbcsr_kinds, ONLY: real_8, real_4
+   USE dbcsr_api, ONLY: dbcsr_type_complex_8, dbcsr_type_real_8, dbcsr_type_complex_4, dbcsr_type_real_4
+   USE dbcsr_kinds, ONLY: real_4, real_8
 
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
@@ -1962,10 +1962,10 @@ CONTAINS
       CALL dbcsr_t_create(tensor_in, tensor_out)
 
       ! reserve blocks inside bounds
-      ALLOCATE(blk_ind(dbcsr_t_get_num_blocks(tensor_in), ndims_tensor(tensor_in)))
+      ALLOCATE (blk_ind(dbcsr_t_get_num_blocks(tensor_in), ndims_tensor(tensor_in)))
       CALL dbcsr_t_reserved_block_indices(tensor_in, blk_ind)
       nblk = dbcsr_t_get_num_blocks(tensor_in)
-      ALLOCATE(blk_ind_tmp(dbcsr_t_get_num_blocks(tensor_in), ndims_tensor(tensor_in)))
+      ALLOCATE (blk_ind_tmp(dbcsr_t_get_num_blocks(tensor_in), ndims_tensor(tensor_in)))
       blk_ind_tmp(:, :) = 0
       iblk = 0
       blk_loop: DO iblk_all = 1, nblk

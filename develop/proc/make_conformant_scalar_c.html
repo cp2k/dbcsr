@@ -334,7 +334,7 @@ private function make_conformant_scalar_c(scalar, matrix) result(encapsulated)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>             <span class="kd">::</span> <span class="n">matrix</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">encapsulated</span>
 
-      <span class="n">encapsulated</span> <span class="o">=</span> <span class="n">dbcsr_conform_scalar_prv</span><span class="p">(</span><span class="n">scalar</span><span class="p">,</span> <span class="n">matrix</span> <span class="p">%</span> <span class="n">prv</span><span class="p">)</span>
+      <span class="n">encapsulated</span> <span class="o">=</span> <span class="n">dbcsr_conform_scalar_prv</span><span class="p">(</span><span class="n">scalar</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">)</span>
    <span class="k">END FUNCTION </span><span class="n">make_conformant_scalar_c</span>
 </pre></div>
 

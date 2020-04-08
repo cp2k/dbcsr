@@ -19,7 +19,7 @@ MODULE dbcsr_tensor_test
 # 15 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 # 16 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-   USE dbcsr_api, ONLY: dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_complex_4, dbcsr_type_real_8
+   USE dbcsr_api, ONLY: dbcsr_type_complex_8, dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_type_real_4
    USE dbcsr_tas_base, ONLY: dbcsr_tas_info
    USE dbcsr_tensor, ONLY: &
       dbcsr_t_copy, dbcsr_t_get_block, dbcsr_t_iterator_type, dbcsr_t_iterator_blocks_left, &
@@ -44,7 +44,7 @@ MODULE dbcsr_tensor_test
                                  dbcsr_t_get_info
    USE dbcsr_tensor_io, ONLY: &
       dbcsr_t_write_blocks, dbcsr_t_write_block_indices
-   USE dbcsr_kinds, ONLY: real_4, real_8, &
+   USE dbcsr_kinds, ONLY: real_8, real_4, &
                           default_string_length, &
                           int_8
    USE dbcsr_mpiwrap, ONLY: mp_environ, &
@@ -637,7 +637,7 @@ CONTAINS
       nblks_alloc = SIZE(blk_ind_1)
       CALL mp_environ(numnodes, mynode, mp_comm)
 
-      IF(.NOT. enumerate) THEN
+      IF (.NOT. enumerate) THEN
          DBCSR_ASSERT(randmat_counter .NE. 0)
 
          randmat_counter = randmat_counter + 1
@@ -726,7 +726,7 @@ CONTAINS
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
          CALL dbcsr_t_iterator_next_block(iterator, blk_index, blk, blk_size=blk_size, blk_offset=blk_offset)
 
-         IF(.NOT. enumerate) THEN
+         IF (.NOT. enumerate) THEN
             blk_index_2d = INT(get_2d_indices_tensor(tensor%nd_index_blk, blk_index))
             CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, dims_2d=nblks_2d)
             CALL set_larnv_seed(blk_index_2d(1), nblks_2d(1), blk_index_2d(2), nblks_2d(2), randmat_counter, iseed)
@@ -2025,9 +2025,9 @@ CONTAINS
       ALLOCATE (order_t3 (ndims_tensor(tensor_3)))
 # 773 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-      ASSOCIATE (map_t1_1=>notcontract_1, map_t1_2=>contract_1, &
-                 map_t2_1=>notcontract_2, map_t2_2=>contract_2, &
-                 map_t3_1=>map_1, map_t3_2=>map_2)
+      ASSOCIATE (map_t1_1 => notcontract_1, map_t1_2 => contract_1, &
+                 map_t2_1 => notcontract_2, map_t2_2 => contract_2, &
+                 map_t3_1 => map_1, map_t3_2 => map_2)
 
 # 779 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          order_t1 (:) = dbcsr_t_inverse_order([map_t1_1, map_t1_2])

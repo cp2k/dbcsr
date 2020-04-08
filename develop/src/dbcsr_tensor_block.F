@@ -22,7 +22,7 @@ MODULE dbcsr_tensor_block
    USE dbcsr_allocate_wrap, ONLY: &
       allocate_any
    USE dbcsr_api, ONLY: &
-      dbcsr_type_real_4, dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_iterator_type,&
+      dbcsr_type_complex_4, dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_iterator_type,&
 # 20 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
           & dbcsr_iterator_blocks_left, &
       dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, dbcsr_type, &
@@ -35,7 +35,7 @@ MODULE dbcsr_tensor_block
       dbcsr_tas_iterator_next_block, dbcsr_tas_iterator_blocks_left, dbcsr_tas_iterator_start, &
       dbcsr_tas_iterator_stop, dbcsr_tas_get_block_p, dbcsr_tas_put_block, dbcsr_tas_reserve_blocks
    USE dbcsr_kinds, ONLY: &
-      real_8, real_4, int_8
+      real_4, real_8, int_8
    USE dbcsr_tensor_index, ONLY: &
       nd_to_2d_mapping, ndims_mapping, get_nd_indices_tensor, destroy_nd_to_2d_mapping, get_2d_indices_tensor, &
       create_nd_to_2d_mapping
@@ -485,8 +485,8 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-      IF(dbcsr_has_symmetry(matrix_in)) THEN
-         ALLOCATE(matrix_in_desym)
+      IF (dbcsr_has_symmetry(matrix_in)) THEN
+         ALLOCATE (matrix_in_desym)
          CALL dbcsr_desymmetrize(matrix_in, matrix_in_desym)
       ELSE
          matrix_in_desym => matrix_in
@@ -503,9 +503,9 @@ CONTAINS
 
       CALL dbcsr_t_reserve_blocks(tensor_out, blk_ind_1, blk_ind_2)
 
-      IF(dbcsr_has_symmetry(matrix_in)) THEN
+      IF (dbcsr_has_symmetry(matrix_in)) THEN
          CALL dbcsr_release(matrix_in_desym)
-         DEALLOCATE(matrix_in_desym)
+         DEALLOCATE (matrix_in_desym)
       ENDIF
 
       CALL timestop(handle)
@@ -531,7 +531,7 @@ CONTAINS
       CALL dbcsr_t_iterator_start(iter, tensor_in)
 
       iblk = 0
-      DO WHILE(dbcsr_t_iterator_blocks_left(iter))
+      DO WHILE (dbcsr_t_iterator_blocks_left(iter))
          CALL dbcsr_t_iterator_next_block(iter, ind_2d, blk)
          IF (dbcsr_has_symmetry(matrix_out)) THEN
             IF (checker_tr(ind_2d(1), ind_2d(2))) CYCLE
@@ -577,7 +577,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                 :: sizes
       REAL(kind=real_8), DIMENSION(PRODUCT(sizes)), INTENT(IN) :: array
 
-      ASSOCIATE (blk=>block%r_dp)
+      ASSOCIATE (blk => block%r_dp)
          block%data_type = dbcsr_type_real_8
          CALL allocate_any(blk%sizes, source=sizes)
          CALL allocate_any(blk%blk, source=array)
@@ -590,7 +590,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                 :: sizes
       REAL(kind=real_4), DIMENSION(PRODUCT(sizes)), INTENT(IN) :: array
 
-      ASSOCIATE (blk=>block%r_sp)
+      ASSOCIATE (blk => block%r_sp)
          block%data_type = dbcsr_type_real_4
          CALL allocate_any(blk%sizes, source=sizes)
          CALL allocate_any(blk%blk, source=array)
@@ -603,7 +603,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                 :: sizes
       COMPLEX(kind=real_8), DIMENSION(PRODUCT(sizes)), INTENT(IN) :: array
 
-      ASSOCIATE (blk=>block%c_dp)
+      ASSOCIATE (blk => block%c_dp)
          block%data_type = dbcsr_type_complex_8
          CALL allocate_any(blk%sizes, source=sizes)
          CALL allocate_any(blk%blk, source=array)
@@ -616,7 +616,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                 :: sizes
       COMPLEX(kind=real_4), DIMENSION(PRODUCT(sizes)), INTENT(IN) :: array
 
-      ASSOCIATE (blk=>block%c_sp)
+      ASSOCIATE (blk => block%c_sp)
          block%data_type = dbcsr_type_complex_4
          CALL allocate_any(blk%sizes, source=sizes)
          CALL allocate_any(blk%blk, source=array)
@@ -1046,9 +1046,9 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
-                 map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                 map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
@@ -1070,7 +1070,7 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      IF(new_block) DEALLOCATE (block_2d)
+      IF (new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 # 566 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
@@ -1109,9 +1109,9 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
-                 map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                 map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
@@ -1133,7 +1133,7 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      IF(new_block) DEALLOCATE (block_2d)
+      IF (new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 # 566 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
@@ -1172,9 +1172,9 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
-                 map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                 map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
@@ -1196,7 +1196,7 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      IF(new_block) DEALLOCATE (block_2d)
+      IF (new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 # 629 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
@@ -1237,9 +1237,9 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
-                 map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                 map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
@@ -1261,7 +1261,7 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      IF(new_block) DEALLOCATE (block_2d)
+      IF (new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 # 566 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
@@ -1300,9 +1300,9 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
-                 map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                 map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
@@ -1324,7 +1324,7 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      IF(new_block) DEALLOCATE (block_2d)
+      IF (new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 # 566 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
@@ -1363,9 +1363,9 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
-                 map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                 map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
@@ -1387,7 +1387,7 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      IF(new_block) DEALLOCATE (block_2d)
+      IF (new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 # 629 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
@@ -1428,9 +1428,9 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
-                 map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                 map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
@@ -1452,7 +1452,7 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      IF(new_block) DEALLOCATE (block_2d)
+      IF (new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 # 566 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
@@ -1491,9 +1491,9 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
-                 map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                 map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
@@ -1515,7 +1515,7 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      IF(new_block) DEALLOCATE (block_2d)
+      IF (new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 # 566 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
@@ -1554,9 +1554,9 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
-                 map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                 map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
@@ -1578,7 +1578,7 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      IF(new_block) DEALLOCATE (block_2d)
+      IF (new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 # 629 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
@@ -1619,9 +1619,9 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
-                 map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                 map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
@@ -1643,7 +1643,7 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      IF(new_block) DEALLOCATE (block_2d)
+      IF (new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 # 566 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
@@ -1682,9 +1682,9 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
-                 map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                 map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
@@ -1706,7 +1706,7 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      IF(new_block) DEALLOCATE (block_2d)
+      IF (new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 # 566 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
@@ -1745,9 +1745,9 @@ CONTAINS
          DBCSR_ASSERT(found)
       ENDIF
 
-      ASSOCIATE (map_nd=>tensor%nd_index_blk%map_nd, &
-                 map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map_nd => tensor%nd_index_blk%map_nd, &
+                 map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          shape_2d = [PRODUCT(sizes(map1_2d)), PRODUCT(sizes(map2_2d))]
 
@@ -1769,7 +1769,7 @@ CONTAINS
       CALL dbcsr_tas_put_block(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d, summation=summation, &
                                scale=scale)
 
-      IF(new_block) DEALLOCATE (block_2d)
+      IF (new_block) DEALLOCATE (block_2d)
 
    END SUBROUTINE
 # 629 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_block.F"
@@ -2041,8 +2041,8 @@ CONTAINS
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
          DBCSR_ASSERT(.NOT. tr)
@@ -2088,8 +2088,8 @@ CONTAINS
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
          DBCSR_ASSERT(.NOT. tr)
@@ -2137,8 +2137,8 @@ CONTAINS
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
          DBCSR_ASSERT(.NOT. tr)
@@ -2188,8 +2188,8 @@ CONTAINS
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
          DBCSR_ASSERT(.NOT. tr)
@@ -2235,8 +2235,8 @@ CONTAINS
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
          DBCSR_ASSERT(.NOT. tr)
@@ -2284,8 +2284,8 @@ CONTAINS
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
          DBCSR_ASSERT(.NOT. tr)
@@ -2335,8 +2335,8 @@ CONTAINS
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
          DBCSR_ASSERT(.NOT. tr)
@@ -2382,8 +2382,8 @@ CONTAINS
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
          DBCSR_ASSERT(.NOT. tr)
@@ -2431,8 +2431,8 @@ CONTAINS
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
          DBCSR_ASSERT(.NOT. tr)
@@ -2482,8 +2482,8 @@ CONTAINS
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
          DBCSR_ASSERT(.NOT. tr)
@@ -2529,8 +2529,8 @@ CONTAINS
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
          DBCSR_ASSERT(.NOT. tr)
@@ -2578,8 +2578,8 @@ CONTAINS
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
-      ASSOCIATE (map1_2d=>tensor%nd_index_blk%map1_2d, &
-                 map2_2d=>tensor%nd_index_blk%map2_2d)
+      ASSOCIATE (map1_2d => tensor%nd_index_blk%map1_2d, &
+                 map2_2d => tensor%nd_index_blk%map2_2d)
 
          CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
          DBCSR_ASSERT(.NOT. tr)

@@ -244,7 +244,7 @@ private subroutine dbcsr_expand_row_index_2d(row_p, row_i, nrows, dst_i)
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:,:)</td><td>::</td>
+  <td>DIMENSION(:, :)</td><td>::</td>
   <td><strong>row_i</strong></td><td></td>
   
 </tr>
@@ -350,7 +350,7 @@ private subroutine dbcsr_expand_row_index_2d(row_p, row_i, nrows, dst_i)
       <span class="c">!! Expands a row_p index</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">dst_i</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nrows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">row_p</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">row_i</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">row_i</span>
 
       <span class="kt">INTEGER</span>                                               <span class="kd">::</span> <span class="n">row</span>
 

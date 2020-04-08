@@ -269,7 +269,7 @@
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_api_c</span>
 <a name="ln-12"></a>
 <a name="ln-13"></a>   <span class="k">USE</span><span class="p">,</span> <span class="k">INTRINSIC</span> <span class="kd">::</span> <span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="nb">c_loc</span><span class="p">,</span> <span class="kt">c_ptr</span><span class="p">,</span> <span class="kt">c_double</span><span class="p">,</span> <span class="nb">C_NULL_CHAR</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-14"></a>      <span class="nb">c_f_pointer</span><span class="p">,</span> <span class="kt">c_int</span><span class="p">,</span> <span class="kt">c_char</span><span class="p">,</span> <span class="nb">c_null_ptr</span><span class="p">,</span> <span class="kt">c_bool</span>
+<a name="ln-14"></a>                                                                             <span class="nb">c_f_pointer</span><span class="p">,</span> <span class="kt">c_int</span><span class="p">,</span> <span class="kt">c_char</span><span class="p">,</span> <span class="nb">c_null_ptr</span><span class="p">,</span> <span class="kt">c_bool</span>
 <a name="ln-15"></a><span class="kt">   </span><span class="k">USE </span><span class="n">dbcsr_api</span>
 <a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span>
 <a name="ln-17"></a>
@@ -420,7 +420,7 @@
 <a name="ln-162"></a>      <span class="k">CALL </span><span class="n">dbcsr_print</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
 <a name="ln-163"></a>
 <a name="ln-164"></a>      <span class="c">! Fortran and C may use different buffers for I/O, make sure we flush before returning:</span>
-<a name="ln-165"></a>      <span class="nb">flush</span><span class="p">(</span><span class="n">default_output_unit</span><span class="p">)</span>
+<a name="ln-165"></a>      <span class="nb">flush</span> <span class="p">(</span><span class="n">default_output_unit</span><span class="p">)</span>
 <a name="ln-166"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-167"></a>
 <a name="ln-168"></a><span class="k">   SUBROUTINE </span><span class="n">c_dbcsr_get_stored_coordinates</span><span class="p">(</span><span class="n">c_matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">processor</span><span class="p">)</span> <span class="k">bind</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_get_stored_coordinates&quot;</span><span class="p">)</span>
@@ -432,7 +432,7 @@
 <a name="ln-174"></a>
 <a name="ln-175"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_matrix</span><span class="p">,</span> <span class="n">matrix</span><span class="p">)</span>
 <a name="ln-176"></a>
-<a name="ln-177"></a>      <span class="k">CALL </span><span class="n">dbcsr_get_stored_coordinates</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">processor</span><span class="p">)</span>
+<a name="ln-177"></a>      <span class="k">CALL </span><span class="n">dbcsr_get_stored_coordinates</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">processor</span><span class="p">)</span>
 <a name="ln-178"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-179"></a>
 <a name="ln-180"></a><span class="k">   SUBROUTINE </span><span class="n">c_dbcsr_put_block_d</span><span class="p">(</span><span class="n">c_matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">,</span> <span class="n">block_length</span><span class="p">)</span> <span class="k">bind</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_put_block_d&quot;</span><span class="p">)</span>
@@ -444,7 +444,7 @@
 <a name="ln-186"></a>
 <a name="ln-187"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_matrix</span><span class="p">,</span> <span class="n">matrix</span><span class="p">)</span>
 <a name="ln-188"></a>
-<a name="ln-189"></a>      <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="k">block</span><span class="p">)</span>
+<a name="ln-189"></a>      <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="k">block</span><span class="p">)</span>
 <a name="ln-190"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-191"></a>
 <a name="ln-192"></a><span class="k">   SUBROUTINE </span><span class="n">c_dbcsr_multiply_d</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">c_matrix_a</span><span class="p">,</span> <span class="n">c_matrix_b</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">c_matrix_c</span><span class="p">,</span> <span class="n">retain_sparsity</span><span class="p">)</span> <span class="p">&amp;</span>

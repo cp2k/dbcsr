@@ -284,12 +284,12 @@
 <a name="ln-26"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">add_mp_perf_env</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-27"></a>                            <span class="n">describe_mp_perf_env</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-28"></a>                            <span class="n">has_mp_perf_env</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-29"></a>                            <span class="n">mp_environ</span><span class="p">,</span> <span class="n">mp_cart_rank</span><span class="p">,&amp;</span>
-<a name="ln-30"></a>                            <span class="n">rm_mp_perf_env</span><span class="p">,&amp;</span>
+<a name="ln-29"></a>                            <span class="n">mp_environ</span><span class="p">,</span> <span class="n">mp_cart_rank</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-30"></a>                            <span class="n">rm_mp_perf_env</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-31"></a>                            <span class="n">mp_comm_free</span>
 <a name="ln-32"></a>   <span class="k">USE </span><span class="n">dbcsr_mm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_multiply_clear_mempools</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-33"></a>                       <span class="n">dbcsr_multiply_lib_finalize</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-34"></a>                       <span class="n">dbcsr_multiply_lib_init</span><span class="p">,&amp;</span>
+<a name="ln-34"></a>                       <span class="n">dbcsr_multiply_lib_init</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-35"></a>                       <span class="n">dbcsr_multiply_print_statistics</span>
 <a name="ln-36"></a>   <span class="k">USE </span><span class="n">dbcsr_timings</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">add_timer_env</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-37"></a>                            <span class="n">rm_timer_env</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -303,9 +303,9 @@
 <a name="ln-45"></a>                                 <span class="n">dbcsr_logger_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-46"></a>                                 <span class="n">dbcsr_rm_default_logger</span>
 <a name="ln-47"></a>   <span class="k">USE </span><span class="n">dbcsr_base_hooks</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">timeset_hook</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-48"></a>                               <span class="n">timestop_hook</span><span class="p">,&amp;</span>
-<a name="ln-49"></a>                               <span class="n">dbcsr_abort_hook</span><span class="p">,&amp;</span>
-<a name="ln-50"></a>                               <span class="n">dbcsr_warn_hook</span><span class="p">,&amp;</span>
+<a name="ln-48"></a>                               <span class="n">timestop_hook</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-49"></a>                               <span class="n">dbcsr_abort_hook</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-50"></a>                               <span class="n">dbcsr_warn_hook</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-51"></a>                               <span class="n">dbcsr_abort_interface</span><span class="p">,</span> <span class="n">dbcsr_warn_interface</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-52"></a>                               <span class="n">timeset_interface</span><span class="p">,</span> <span class="n">timestop_interface</span>
 <a name="ln-53"></a>   <span class="k">use </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">dbcsr_mp_obj</span>
@@ -554,12 +554,12 @@
 <a name="ln-296"></a><span class="k">         CALL </span><span class="n">dbcsr_rm_default_logger</span><span class="p">()</span>
 <a name="ln-297"></a>         <span class="k">CALL </span><span class="n">rm_mp_perf_env</span><span class="p">()</span>
 <a name="ln-298"></a>         <span class="k">CALL </span><span class="n">rm_timer_env</span><span class="p">()</span>
-<a name="ln-299"></a>         <span class="k">NULLIFY</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
+<a name="ln-299"></a>         <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">logger</span><span class="p">)</span>
 <a name="ln-300"></a>      <span class="n">ENDIF</span>
-<a name="ln-301"></a>      <span class="k">NULLIFY</span><span class="p">(</span><span class="n">timeset_hook</span><span class="p">)</span>
-<a name="ln-302"></a>      <span class="k">NULLIFY</span><span class="p">(</span><span class="n">timestop_hook</span><span class="p">)</span>
-<a name="ln-303"></a>      <span class="k">NULLIFY</span><span class="p">(</span><span class="n">dbcsr_abort_hook</span><span class="p">)</span>
-<a name="ln-304"></a>      <span class="k">NULLIFY</span><span class="p">(</span><span class="n">dbcsr_warn_hook</span><span class="p">)</span>
+<a name="ln-301"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">timeset_hook</span><span class="p">)</span>
+<a name="ln-302"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">timestop_hook</span><span class="p">)</span>
+<a name="ln-303"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">dbcsr_abort_hook</span><span class="p">)</span>
+<a name="ln-304"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">dbcsr_warn_hook</span><span class="p">)</span>
 <a name="ln-305"></a>      <span class="k">CALL </span><span class="n">dbcsr_mp_release</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
 <a name="ln-306"></a>      <span class="k">CALL </span><span class="n">mp_comm_free</span><span class="p">(</span><span class="n">default_group</span><span class="p">)</span>
 <a name="ln-307"></a><span class="cp">#if defined(__LIBXSMM)</span>

@@ -226,7 +226,7 @@ CONTAINS
       CASE (rowsplit)
          matrix%nblkrowscols_split = matrix%nblkrows
 
-         ASSOCIATE (rows=>dist%local_rowcols)
+         ASSOCIATE (rows => dist%local_rowcols)
             nrows = SIZE(rows)
             ncols = INT(dist%col_dist%nmrowcol)
             ALLOCATE (row_blk_size_vec(nrows))
@@ -241,7 +241,7 @@ CONTAINS
       CASE (colsplit)
          matrix%nblkrowscols_split = matrix%nblkcols
 
-         ASSOCIATE (cols=>dist%local_rowcols)
+         ASSOCIATE (cols => dist%local_rowcols)
             ncols = SIZE(cols)
             nrows = INT(dist%row_dist%nmrowcol)
             ALLOCATE (row_blk_size_vec(nrows))
