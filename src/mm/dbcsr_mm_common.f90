@@ -37,7 +37,11 @@
               row = blki(1, blk + i)
               col = blki(2, blk + i)
               bpe = bp + rbs(row)*cbs(col) - 1
+#:if nametype1 in ['d', 's']
               vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
+#:else
+              vals(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
+#:endif
            ELSE
               vals(blk) = 0.0_sp
            ENDIF
