@@ -50,6 +50,7 @@ endif ()
 
 project(dbcsr DESCRIPTION "DBCSR: Distributed Block Compressed Sparse Row matrix library (https://dbcsr.cp2k.org)")
 set(dbcsr_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_GIT})
+set(dbcsr_APIVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
 
 # =================================================================================================
 # OPTIONS
