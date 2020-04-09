@@ -55,7 +55,7 @@ MODULE dbcsr_tensor
       dbcsr_t_get_num_blocks_total, dbcsr_t_get_info, ndims_matrix_row, ndims_matrix_column, &
       dbcsr_t_max_nblks_local
    USE dbcsr_kinds, ONLY: &
-      real_8, real_4, default_string_length, int_8
+      real_4, real_8, default_string_length, int_8
    USE dbcsr_mpiwrap, ONLY: &
       mp_environ, mp_max, mp_sum
    USE dbcsr_toollib, ONLY: &

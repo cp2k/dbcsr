@@ -728,11 +728,11 @@ CONTAINS
 
    FUNCTION mp_get_comm_count()
      !! Return the current number of communicators
-     INTEGER :: mp_get_comm_count
+      INTEGER :: mp_get_comm_count
 
-     mp_get_comm_count = 0
+      mp_get_comm_count = 0
 #if defined(__parallel)
-     mp_get_comm_count = debug_comm_count
+      mp_get_comm_count = debug_comm_count
 #endif
    END FUNCTION mp_get_comm_count
 
@@ -759,7 +759,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr);
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")
