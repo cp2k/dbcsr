@@ -53,7 +53,6 @@ DBCSRCP2K    := $(DBCSRHOME)/.cp2k
 MAKEFILE     := $(DBCSRCP2K)/Makefile
 LIBDIR       := $(DBCSRHOME)/lib
 OBJDIR       := $(DBCSRHOME)/obj
-PRETTYOBJDIR := $(OBJDIR)/prettified
 TOOLSDIR     := $(DBCSRHOME)/tools
 FYPPEXE      := $(TOOLSDIR)/build_utils/fypp/bin/fypp
 SRCDIR       := $(DBCSRHOME)/src
@@ -163,7 +162,6 @@ endif
 # Declare PHONY targets =====================================================
 .PHONY : dirs makedep \
          default_target $(LIBRARY) \
-         pretty prettyclean \
          clean realclean \
          version
 
@@ -191,13 +189,6 @@ ifneq ($(ACC),)
     OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hip/acc_hip.cpp
   endif
 endif
-
-# OBJECTS used for pretty
-ALL_OBJECTS   := $(addsuffix .o, $(basename $(notdir $(OBJ_SRC_FILES))))
-ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.F"))))
-ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.c"))))
-ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cpp"))))
-ALL_OBJECTS   += $(addsuffix .o, $(basename $(notdir $(shell cd $(TESTSDIR);  find . -name "*.cu"))))
 
 # Included files used by Fypp preprocessor and standard includes
 INCLUDED_SRC_FILES := $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR) -name "*.f90")))
@@ -246,41 +237,6 @@ realclean: clean
 	rm -rf $(LIBDIR) $(PREFIX)
 	rm -rf `find $(DBCSRHOME) -name "*.pyc"`
 	rm -rf `find $(DBCSRHOME) -name "*.callgraph"`
-
-# Prettyfier stuff ==========================================================
-vpath %.pretty $(PRETTYOBJDIR)
-
-pretty: $(addprefix $(PRETTYOBJDIR)/, $(ALL_OBJECTS:.o=.pretty)) $(addprefix $(PRETTYOBJDIR)/, $(INCLUDED_SRC_FILES:.f90=.pretty_included))
-
-prettyclean:
-	-rm -rf $(PRETTYOBJDIR)
-
-define pretty_func
-	@mkdir -p $(PRETTYOBJDIR)
-	@touch $2
-	$(TOOLSDIR)/fprettify/fprettify.py $1
-endef
-
-$(PRETTYOBJDIR)/%.pretty: %.F
-	$(call pretty_func, $<, $@)
-
-$(PRETTYOBJDIR)/%.pretty_included: %.f90
-	$(call pretty_func, $<, $@)
-
-$(PRETTYOBJDIR)/%.pretty: %.c
-#   TODO: call indent here?
-	@mkdir -p $(PRETTYOBJDIR)
-	@touch $@
-
-$(PRETTYOBJDIR)/%.pretty: %.cpp
-#   TODO: call indent here?
-	@mkdir -p $(PRETTYOBJDIR)
-	@touch $@
-
-$(PRETTYOBJDIR)/%.pretty: %.cu
-#   TODO: call indent here?
-	@mkdir -p $(PRETTYOBJDIR)
-	@touch $@
 
 # Libsmm_acc stuff ==========================================================
 $(LIBSMM_ACC_ABS_DIR)/parameters.h: $(LIBSMM_ACC_ABS_DIR)/generate_parameters.py $(wildcard $(LIBSMM_ACC_ABS_DIR)/parameters_*.txt)
