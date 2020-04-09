@@ -13,7 +13,7 @@ PROGRAM dbcsr_performance_driver
    USE dbcsr_files, ONLY: open_file
    USE dbcsr_kinds, ONLY: default_string_length
    USE dbcsr_lib, ONLY: dbcsr_finalize_lib, &
-                        dbcsr_init_lib,&
+                        dbcsr_init_lib, &
                         dbcsr_print_statistics
    USE dbcsr_machine, ONLY: default_output_unit, &
                             m_getarg, &
@@ -89,7 +89,7 @@ PROGRAM dbcsr_performance_driver
 
    !
    ! initialize libdbcsr
-   CALL dbcsr_init_lib(mp_comm,io_unit)
+   CALL dbcsr_init_lib(mp_comm, io_unit)
 
    ! initialize libdbcsr errors
    CALL timeset(routineN, handle)

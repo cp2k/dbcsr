@@ -258,7 +258,7 @@ prettyclean:
 define pretty_func
 	@mkdir -p $(PRETTYOBJDIR)
 	@touch $2
-	$(TOOLSDIR)/fprettify/fprettify.py --disable-whitespace $1
+	$(TOOLSDIR)/fprettify/fprettify.py $1
 endef
 
 $(PRETTYOBJDIR)/%.pretty: %.F

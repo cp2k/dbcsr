@@ -36,7 +36,7 @@ PROGRAM dbcsr_tensor_unittest
                                  dbcsr_t_pgrid_destroy, &
                                  ndims_tensor
    USE dbcsr_data_methods, ONLY: dbcsr_scalar
-   USE dbcsr_kinds,        ONLY: real_8
+   USE dbcsr_kinds, ONLY: real_8
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -410,10 +410,10 @@ PROGRAM dbcsr_tensor_unittest
       CALL dbcsr_t_setup_test_tensor(tensor_B, mp_comm, .FALSE., blk_ind_3_2, blk_ind_4_2)
       CALL dbcsr_t_setup_test_tensor(tensor_C, mp_comm, .FALSE., blk_ind_1_3, blk_ind_2_3, blk_ind_4_3)
 
-      ALLOCATE(bounds_t(ndims_tensor(tensor_B)))
+      ALLOCATE (bounds_t(ndims_tensor(tensor_B)))
       CALL dbcsr_t_get_info(tensor_B, nfull_total=bounds_t)
 
-      ALLOCATE(bounds(2,1))
+      ALLOCATE (bounds(2, 1))
       bounds(1, 1) = 1
       bounds(2, 1) = bounds_t(1) - 21
 
@@ -462,15 +462,15 @@ PROGRAM dbcsr_tensor_unittest
       CALL dbcsr_t_setup_test_tensor(tensor_B, mp_comm, .FALSE., blk_ind_3_2, blk_ind_4_2)
       CALL dbcsr_t_setup_test_tensor(tensor_C, mp_comm, .FALSE., blk_ind_1_3, blk_ind_2_3, blk_ind_4_3)
 
-      ALLOCATE(bounds_t(ndims_tensor(tensor_C)))
+      ALLOCATE (bounds_t(ndims_tensor(tensor_C)))
       CALL dbcsr_t_get_info(tensor_C, nfull_total=bounds_t)
 
-      ALLOCATE(bounds(2,2))
+      ALLOCATE (bounds(2, 2))
       bounds(1, 1) = 4
       bounds(2, 1) = bounds_t(1)
       bounds(1, 2) = 13
       bounds(2, 2) = bounds_t(2) - 10
-      DEALLOCATE(bounds_t)
+      DEALLOCATE (bounds_t)
 
       CALL dbcsr_t_contract_test(dbcsr_scalar(0.2_real_8), tensor_C, tensor_B, dbcsr_scalar(0.8_real_8), tensor_A, &
                                  [3], [1, 2], &
@@ -517,30 +517,30 @@ PROGRAM dbcsr_tensor_unittest
       CALL dbcsr_t_setup_test_tensor(tensor_B, mp_comm, .FALSE., blk_ind_1_4, blk_ind_2_4, blk_ind_4_4, blk_ind_5_4)
       CALL dbcsr_t_setup_test_tensor(tensor_C, mp_comm, .FALSE., blk_ind_3_5, blk_ind_4_5, blk_ind_5_5)
 
-      ALLOCATE(bounds_t(ndims_tensor(tensor_A)))
+      ALLOCATE (bounds_t(ndims_tensor(tensor_A)))
       CALL dbcsr_t_get_info(tensor_A, nfull_total=bounds_t)
-      ALLOCATE(bounds_1(2, 2))
+      ALLOCATE (bounds_1(2, 2))
       bounds_1(1, 1) = 7
       bounds_1(2, 1) = bounds_t(2) - 17
       bounds_1(1, 2) = 8
       bounds_1(2, 2) = bounds_t(1)
-      DEALLOCATE(bounds_t)
+      DEALLOCATE (bounds_t)
 
-      ALLOCATE(bounds_t(ndims_tensor(tensor_B)))
+      ALLOCATE (bounds_t(ndims_tensor(tensor_B)))
       CALL dbcsr_t_get_info(tensor_B, nfull_total=bounds_t)
-      ALLOCATE(bounds_2(2, 2))
+      ALLOCATE (bounds_2(2, 2))
       bounds_2(1, 1) = 1
       bounds_2(2, 1) = bounds_t(3)
       bounds_2(1, 2) = 1
       bounds_2(2, 2) = bounds_t(4) - 18
-      DEALLOCATE(bounds_t)
+      DEALLOCATE (bounds_t)
 
       CALL dbcsr_t_contract_test(dbcsr_scalar(0.2_real_8), tensor_A, tensor_B, dbcsr_scalar(0.8_real_8), tensor_C, &
                                  [2, 1], [3], &
                                  [2, 1], [3, 4], &
                                  [1], [2, 3], &
                                  default_output_unit, &
-                                 bounds_1=bounds_1,&
+                                 bounds_1=bounds_1, &
                                  bounds_3=bounds_2, &
                                  log_verbose=verbose, &
                                  write_int=.TRUE.)
@@ -783,9 +783,9 @@ PROGRAM dbcsr_tensor_unittest
       DEALLOCATE (blk_ind_1_3, blk_ind_2_3, blk_ind_4_3)
       DEALLOCATE (blk_ind_1_4, blk_ind_2_4, blk_ind_4_4, blk_ind_5_4)
       DEALLOCATE (blk_ind_3_5, blk_ind_4_5, blk_ind_5_5)
-      DEALLOCATE(size_1, size_2, size_3, size_4, size_5, dist1_1, dist1_2, dist1_3, &
-                 dist2_1, dist2_2, dist3_1, dist3_2, dist3_3, dist4_1, dist4_2, &
-                 dist4_3, dist4_4, dist5_1, dist5_2, dist5_3)
+      DEALLOCATE (size_1, size_2, size_3, size_4, size_5, dist1_1, dist1_2, dist1_3, &
+                  dist2_1, dist2_2, dist3_1, dist3_2, dist3_3, dist4_1, dist4_2, &
+                  dist4_3, dist4_4, dist5_1, dist5_2, dist5_3)
       CALL dbcsr_t_pgrid_destroy(pgrid_3d)
       CALL dbcsr_t_pgrid_destroy(pgrid_2d)
       CALL dbcsr_t_pgrid_destroy(pgrid_4d)
