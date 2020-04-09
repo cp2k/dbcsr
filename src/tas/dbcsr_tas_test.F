@@ -191,7 +191,7 @@ CONTAINS
       CALL timeset("benchmark_tas_mm", handle1)
       CALL dbcsr_tas_multiply(transa, transb, transc, dbcsr_scalar(1.0_real_8), matrix_a, matrix_b, &
                               dbcsr_scalar(0.0_real_8), matrix_c, &
-                              filter_eps=filter_eps, io_unit=io_unit)
+                              filter_eps=filter_eps, unit_nr=io_unit)
       CALL timestop(handle1)
       IF (PRESENT(io_unit)) THEN
       IF (io_unit > 0) THEN
@@ -296,7 +296,7 @@ CONTAINS
 
       CALL dbcsr_tas_multiply(transa, transb, transc, dbcsr_scalar(1.0_real_8), matrix_a, matrix_b, &
                               dbcsr_scalar(0.0_real_8), matrix_c, &
-                              filter_eps=filter_eps, io_unit=io_unit, log_verbose=log_verbose, optimize_dist=.TRUE.)
+                              filter_eps=filter_eps, unit_nr=io_unit, log_verbose=log_verbose, optimize_dist=.TRUE.)
 
       CALL dbcsr_tas_convert_to_dbcsr(matrix_a, dbcsr_a)
       CALL dbcsr_tas_convert_to_dbcsr(matrix_b, dbcsr_b)

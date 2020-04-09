@@ -37,15 +37,16 @@ MODULE dbcsr_tensor_io
       dbcsr_t_write_blocks, &
       dbcsr_t_write_block, &
       dbcsr_t_write_block_indices, &
-      dbcsr_t_write_split_info
+      dbcsr_t_write_split_info, &
+      prep_output_unit
 
 CONTAINS
 
-   SUBROUTINE dbcsr_t_write_tensor_info(tensor, output_unit, full_info)
+   SUBROUTINE dbcsr_t_write_tensor_info(tensor, unit_nr, full_info)
       !! Write tensor global info: block dimensions, full dimensions and process grid dimensions
 
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
-      INTEGER, INTENT(IN)            :: output_unit
+      INTEGER, INTENT(IN)            :: unit_nr
       LOGICAL, OPTIONAL, INTENT(IN)  :: full_info
          !! Whether to print distribution and block size vectors
       INTEGER, DIMENSION(ndims_tensor(tensor)) :: nblks_total, nfull_total, pdims, my_ploc, nblks_local, nfull_local
@@ -53,72 +54,80 @@ CONTAINS
 #:for idim in range(1, maxdim+1)
       INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, ${idim}$)) :: proc_dist_${idim}$
       INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, ${idim}$)) :: blk_size_${idim}$
+      INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, ${idim}$)) :: blks_local_${idim}$
 #:endfor
       CHARACTER(len=default_string_length)                     :: name
       INTEGER                                                  :: idim
       INTEGER                                                  :: iblk
+      INTEGER                                                  :: unit_nr_prv
+
+      unit_nr_prv = prep_output_unit(unit_nr)
+      IF (unit_nr_prv == 0) RETURN
 
       CALL dbcsr_t_get_info(tensor, nblks_total, nfull_total, nblks_local, nfull_local, pdims, my_ploc, &
-                            ${varlist("proc_dist")}$, ${varlist("blk_size")}$, &
+                            ${varlist("blks_local")}$, ${varlist("proc_dist")}$, ${varlist("blk_size")}$, &
                             name=name)
 
-      IF (output_unit > 0) THEN
-         WRITE (output_unit, "(T2,A)") &
+      IF (unit_nr_prv > 0) THEN
+         WRITE (unit_nr_prv, "(T2,A)") &
             "GLOBAL INFO OF "//TRIM(name)
-         WRITE (output_unit, "(T4,A,1X)", advance="no") "block dimensions:"
+         WRITE (unit_nr_prv, "(T4,A,1X)", advance="no") "block dimensions:"
          DO idim = 1, ndims_tensor(tensor)
-            WRITE (output_unit, "(I6)", advance="no") nblks_total(idim)
+            WRITE (unit_nr_prv, "(I6)", advance="no") nblks_total(idim)
          ENDDO
-         WRITE (output_unit, "(/T4,A,1X)", advance="no") "full dimensions:"
+         WRITE (unit_nr_prv, "(/T4,A,1X)", advance="no") "full dimensions:"
          DO idim = 1, ndims_tensor(tensor)
-            WRITE (output_unit, "(I8)", advance="no") nfull_total(idim)
+            WRITE (unit_nr_prv, "(I8)", advance="no") nfull_total(idim)
          ENDDO
-         WRITE (output_unit, "(/T4,A,1X)", advance="no") "process grid dimensions:"
+         WRITE (unit_nr_prv, "(/T4,A,1X)", advance="no") "process grid dimensions:"
          DO idim = 1, ndims_tensor(tensor)
-            WRITE (output_unit, "(I6)", advance="no") pdims(idim)
+            WRITE (unit_nr_prv, "(I6)", advance="no") pdims(idim)
          ENDDO
-         WRITE (output_unit, *)
+         WRITE (unit_nr_prv, *)
 
          IF (PRESENT(full_info)) THEN
             IF (full_info) THEN
-               WRITE (output_unit, '(T4,A)', advance='no') "Block sizes:"
+               WRITE (unit_nr_prv, '(T4,A)', advance='no') "Block sizes:"
 #:for dim in range(1, maxdim+1)
                IF (ndims_tensor(tensor) >= ${dim}$) THEN
-                  WRITE (output_unit, '(/T8,A,1X,I1,A,1X)', advance='no') 'Dim', ${dim}$, ':'
+                  WRITE (unit_nr_prv, '(/T8,A,1X,I1,A,1X)', advance='no') 'Dim', ${dim}$, ':'
                   DO iblk = 1, SIZE(blk_size_${dim}$)
-                     WRITE (output_unit, '(I2,1X)', advance='no') blk_size_${dim}$ (iblk)
+                     WRITE (unit_nr_prv, '(I2,1X)', advance='no') blk_size_${dim}$ (iblk)
                   ENDDO
                ENDIF
 #:endfor
-               WRITE (output_unit, '(/T4,A)', advance='no') "Block distribution:"
+               WRITE (unit_nr_prv, '(/T4,A)', advance='no') "Block distribution:"
 #:for dim in range(1, maxdim+1)
                IF (ndims_tensor(tensor) >= ${dim}$) THEN
-                  WRITE (output_unit, '(/T8,A,1X,I1,A,1X)', advance='no') 'Dim', ${dim}$, ':'
+                  WRITE (unit_nr_prv, '(/T8,A,1X,I1,A,1X)', advance='no') 'Dim', ${dim}$, ':'
                   DO iblk = 1, SIZE(proc_dist_${dim}$)
-                     WRITE (output_unit, '(I3,1X)', advance='no') proc_dist_${dim}$ (iblk)
+                     WRITE (unit_nr_prv, '(I3,1X)', advance='no') proc_dist_${dim}$ (iblk)
                   ENDDO
                ENDIF
 #:endfor
             ENDIF
-            WRITE (output_unit, *)
+            WRITE (unit_nr_prv, *)
          ENDIF
       ENDIF
 
    END SUBROUTINE
 
-   SUBROUTINE dbcsr_t_write_tensor_dist(tensor, output_unit)
+   SUBROUTINE dbcsr_t_write_tensor_dist(tensor, unit_nr)
       !! Write info on tensor distribution & load balance
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
-      INTEGER, INTENT(IN)            :: output_unit
+      INTEGER, INTENT(IN)            :: unit_nr
       INTEGER                        :: nproc, myproc, nblock_max, nelement_max
       INTEGER(KIND=int_8)            :: nblock_sum, nelement_sum, nblock_tot
-      INTEGER                        :: nblock, nelement
+      INTEGER                        :: nblock, nelement, unit_nr_prv
       INTEGER                        :: mp_comm
       INTEGER, DIMENSION(2)          :: tmp
       INTEGER, DIMENSION(ndims_tensor(tensor)) :: bdims
       REAL(KIND=real_8)              :: occupation
 
       mp_comm = tensor%pgrid%mp_comm_2d
+      unit_nr_prv = prep_output_unit(unit_nr)
+      IF (unit_nr_prv == 0) RETURN
+
       CALL mp_environ(nproc, myproc, mp_comm)
 
       nblock = dbcsr_t_get_num_blocks(tensor)
@@ -137,15 +146,15 @@ CONTAINS
       occupation = -1.0_real_8
       IF (nblock_tot .NE. 0) occupation = 100.0_real_8*REAL(nblock_sum, real_8)/REAL(nblock_tot, real_8)
 
-      IF (output_unit > 0) THEN
-         WRITE (output_unit, "(T2,A)") &
+      IF (unit_nr_prv > 0) THEN
+         WRITE (unit_nr_prv, "(T2,A)") &
             "DISTRIBUTION OF "//TRIM(tensor%name)
-         WRITE (output_unit, "(T15,A,T68,I13)") "Number of non-zero blocks:", nblock_sum
-         WRITE (output_unit, "(T15,A,T75,F6.2)") "Percentage of non-zero blocks:", occupation
-         WRITE (output_unit, "(T15,A,T68,I13)") "Average number of blocks per CPU:", (nblock_sum + nproc - 1)/nproc
-         WRITE (output_unit, "(T15,A,T68,I13)") "Maximum number of blocks per CPU:", nblock_max
-         WRITE (output_unit, "(T15,A,T68,I13)") "Average number of matrix elements per CPU:", (nelement_sum + nproc - 1)/nproc
-         WRITE (output_unit, "(T15,A,T68,I13)") "Maximum number of matrix elements per CPU:", nelement_max
+         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Number of non-zero blocks:", nblock_sum
+         WRITE (unit_nr_prv, "(T15,A,T75,F6.2)") "Percentage of non-zero blocks:", occupation
+         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of blocks per CPU:", (nblock_sum + nproc - 1)/nproc
+         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Maximum number of blocks per CPU:", nblock_max
+         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of matrix elements per CPU:", (nelement_sum + nproc - 1)/nproc
+         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Maximum number of matrix elements per CPU:", nelement_max
       ENDIF
 
    END SUBROUTINE
@@ -284,4 +293,16 @@ CONTAINS
          CALL dbcsr_tas_write_split_info(pgrid%tas_split_info, unit_nr)
       ENDIF
    END SUBROUTINE
+
+   FUNCTION prep_output_unit(unit_nr) RESULT(unit_nr_out)
+      INTEGER, INTENT(IN), OPTIONAL :: unit_nr
+      INTEGER                       :: unit_nr_out
+
+      IF (PRESENT(unit_nr)) THEN
+         unit_nr_out = unit_nr
+      ELSE
+         unit_nr_out = 0
+      ENDIF
+
+   END FUNCTION
 END MODULE
