@@ -31,8 +31,8 @@ ENV LANG en_US.utf8
 # Many of our tools rely on a `python` executable but are python-3 compatible
 RUN ln -s python3 /usr/bin/python
 
-ARG libxsmm_version=1.14
-ARG cmake_version=3.16.20200203-g7c93c0e
+ARG libxsmm_version=1.15
+ARG cmake_version=3.17.0
 ARG ninja_version=1.10.0
 
 RUN set -ex && \
@@ -42,7 +42,7 @@ RUN set -ex && \
         git-archive-all
 
 RUN set -ex && \
-    curl -LsS https://cmake.org/files/dev/cmake-${cmake_version}-Linux-x86_64.tar.gz | tar --strip-components=1 -xz -C /usr/local
+    curl -LsS https://github.com/Kitware/CMake/releases/download/v${cmake_version}/cmake-${cmake_version}-Linux-x86_64.tar.gz | tar --strip-components=1 -xz -C /usr/local
 
 RUN set -ex && \
     curl -LsS https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-linux.zip | funzip > /usr/local/bin/ninja \
