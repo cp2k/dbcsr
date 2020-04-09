@@ -12,10 +12,10 @@ PROGRAM dbcsr_example_1
    !! This example shows how to create a dbcsr matrix
 
    USE mpi
-   USE dbcsr_api,                       ONLY: &
-        dbcsr_create, dbcsr_distribution_new, dbcsr_distribution_release, dbcsr_distribution_type, &
-        dbcsr_finalize, dbcsr_finalize_lib, dbcsr_init_lib, dbcsr_print, dbcsr_release, &
-        dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8
+   USE dbcsr_api, ONLY: &
+      dbcsr_create, dbcsr_distribution_new, dbcsr_distribution_release, dbcsr_distribution_type, &
+      dbcsr_finalize, dbcsr_finalize_lib, dbcsr_init_lib, dbcsr_print, dbcsr_release, &
+      dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8
 
    IMPLICIT NONE
 
@@ -34,7 +34,7 @@ PROGRAM dbcsr_example_1
 
    !
    ! initialize mpi
-!$ IF ( .FALSE. ) THEN
+!$ IF (.FALSE.) THEN
       CALL mpi_init(ierr)
       IF (ierr /= 0) STOP "Error in MPI_Init"
 !$ ELSE
@@ -140,7 +140,7 @@ CONTAINS
 
       ALLOCATE (dist_array(dist_size))
       DO i = 1, dist_size
-         dist_array(i) = MODULO(nbins-i, nbins)
+         dist_array(i) = MODULO(nbins - i, nbins)
       END DO
 
    END SUBROUTINE random_dist

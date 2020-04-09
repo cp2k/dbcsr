@@ -8,7 +8,7 @@
 !--------------------------------------------------------------------------------------------------!
 
 program main
-    implicit none
-    real :: x(2) = [ real :: 3, 4 ]
-    if (abs(norm2(x) - 5.) > 1.0D-5) stop 1
+   implicit none
+   real :: x(2) = [real :: 3, 4]
+   if (abs(norm2(x) - 5.) > 1.0D-5) stop 1
 end program

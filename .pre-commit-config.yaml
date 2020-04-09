@@ -14,6 +14,10 @@ repos:
   - id: flake8
   - id: check-ast
   - id: check-yaml
+- repo: https://github.com/pseewald/fprettify
+  rev: v0.3.6
+  hooks:
+  - id: fprettify
 - repo: local
   hooks:
   - id: check-header
@@ -27,8 +31,3 @@ repos:
     entry: '^\s*!>'
     language: pygrep
     types: [text]
-  - id: prettify
-    name: Run prettify
-    entry: ./tools/fprettify/fprettify.py
-    language: script
-    files: '^src/.*\.(F|f90)$'
