@@ -661,6 +661,8 @@ CONTAINS
       CHARACTER, INTENT(OUT), OPTIONAL                   :: matrix_type
       INTEGER, INTENT(OUT), OPTIONAL                     :: data_type, group
 
+      TYPE(dbcsr_dist_prv_obj)                           :: dist
+
       CALL dbcsr_get_info_prv(matrix=matrix%prv, &
                               nblkrows_total=nblkrows_total, &
                               nblkcols_total=nblkcols_total, &
@@ -680,11 +682,16 @@ CONTAINS
                               col_blk_size=col_blk_size, &
                               row_blk_offset=row_blk_offset, &
                               col_blk_offset=col_blk_offset, &
-                              distribution=distribution%prv, &
+                              distribution=dist, &
                               name=name, &
                               matrix_type=matrix_type, &
                               data_type=data_type, &
                               group=group)
+
+      IF (PRESENT(distribution)) THEN
+         distribution%prv = dist
+      ENDIF
+
    END SUBROUTINE dbcsr_get_info
 
    SUBROUTINE dbcsr_distribution_get(dist, row_dist, col_dist, &
@@ -834,8 +841,13 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist, col_dist
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays
 
-      call dbcsr_distribution_new_prv(dist%prv, template%prv, group, pgrid, row_dist, col_dist, &
-                                      reuse_arrays)
+      IF (PRESENT(template)) THEN
+         call dbcsr_distribution_new_prv(dist%prv, template%prv, group, pgrid, row_dist, col_dist, &
+                                         reuse_arrays)
+      ELSE
+         call dbcsr_distribution_new_prv(dist%prv, group=group, pgrid=pgrid, row_dist=row_dist, col_dist=col_dist, &
+                                         reuse_arrays=reuse_arrays)
+      ENDIF
    END SUBROUTINE dbcsr_distribution_new
 
    SUBROUTINE dbcsr_print_statistics(print_timers, callgraph_filename)
@@ -897,11 +909,19 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays, mutable_work
       CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
 
-      call dbcsr_create_prv(matrix%prv, template%prv, name, &
-                            dist%prv, matrix_type, &
-                            row_blk_size, col_blk_size, nze, data_type, &
-                            reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
-                            replication_type=replication_type)
+      IF (PRESENT(dist)) THEN
+         CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
+                               dist%prv, matrix_type, &
+                               row_blk_size, col_blk_size, nze, data_type, &
+                               reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
+                               replication_type=replication_type)
+      ELSE
+         CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
+                               matrix_type=matrix_type, &
+                               row_blk_size=row_blk_size, col_blk_size=col_blk_size, nze=nze, data_type=data_type, &
+                               reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
+                               replication_type=replication_type)
+      ENDIF
    END SUBROUTINE dbcsr_create_template
 
    SUBROUTINE dbcsr_filter(matrix, eps, method, use_absolute, filter_diag)
@@ -974,9 +994,14 @@ CONTAINS
       TYPE(dbcsr_distribution_type), INTENT(IN), &
          OPTIONAL                                        :: use_distribution
 
-      CALL dbcsr_transposed_prv(transposed%prv, normal%prv, shallow_data_copy, &
-                                transpose_data, transpose_distribution, &
-                                use_distribution%prv)
+      IF (PRESENT(use_distribution)) THEN
+         CALL dbcsr_transposed_prv(transposed%prv, normal%prv, shallow_data_copy, &
+                                   transpose_data, transpose_distribution, &
+                                   use_distribution%prv)
+      ELSE
+         CALL dbcsr_transposed_prv(transposed%prv, normal%prv, shallow_data_copy, &
+                                   transpose_data, transpose_distribution)
+      ENDIF
    END SUBROUTINE dbcsr_transposed
 
    SUBROUTINE dbcsr_function_of_elements(matrix_a, func, a0, a1, a2)
@@ -1087,8 +1112,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 1084 "/__w/dbcsr/dbcsr/src/dbcsr_api.F" 2
-# 1085 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1109 "/__w/dbcsr/dbcsr/src/dbcsr_api.F" 2
+# 1110 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    FUNCTION make_conformant_scalar_d (scalar, matrix) RESULT(encapsulated)
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
@@ -1357,7 +1382,7 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_d
-# 1085 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1110 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    FUNCTION make_conformant_scalar_s (scalar, matrix) RESULT(encapsulated)
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
@@ -1626,7 +1651,7 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_s
-# 1085 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1110 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    FUNCTION make_conformant_scalar_z (scalar, matrix) RESULT(encapsulated)
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
@@ -1895,7 +1920,7 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_z
-# 1085 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1110 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    FUNCTION make_conformant_scalar_c (scalar, matrix) RESULT(encapsulated)
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
@@ -2164,6 +2189,6 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_c
-# 1354 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1379 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 END MODULE dbcsr_api

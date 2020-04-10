@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">10 statements</a>
+    title=" 0.0% of total for procedures.">14 statements</a>
      </li> 
      
      
@@ -667,6 +667,8 @@ public subroutine dbcsr_get_info(matrix, nblkrows_total, nblkcols_total, nfullro
       <span class="kt">CHARACTER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                   <span class="kd">::</span> <span class="n">matrix_type</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">group</span>
 
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_dist_prv_obj</span><span class="p">)</span>                           <span class="kd">::</span> <span class="n">dist</span>
+
       <span class="k">CALL </span><span class="n">dbcsr_get_info_prv</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="p">&amp;</span>
                               <span class="n">nblkrows_total</span><span class="o">=</span><span class="n">nblkrows_total</span><span class="p">,</span> <span class="p">&amp;</span>
                               <span class="n">nblkcols_total</span><span class="o">=</span><span class="n">nblkcols_total</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -686,11 +688,16 @@ public subroutine dbcsr_get_info(matrix, nblkrows_total, nblkcols_total, nfullro
                               <span class="n">col_blk_size</span><span class="o">=</span><span class="n">col_blk_size</span><span class="p">,</span> <span class="p">&amp;</span>
                               <span class="n">row_blk_offset</span><span class="o">=</span><span class="n">row_blk_offset</span><span class="p">,</span> <span class="p">&amp;</span>
                               <span class="n">col_blk_offset</span><span class="o">=</span><span class="n">col_blk_offset</span><span class="p">,</span> <span class="p">&amp;</span>
-                              <span class="n">distribution</span><span class="o">=</span><span class="n">distribution</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="p">&amp;</span>
+                              <span class="n">distribution</span><span class="o">=</span><span class="n">dist</span><span class="p">,</span> <span class="p">&amp;</span>
                               <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="p">&amp;</span>
                               <span class="n">matrix_type</span><span class="o">=</span><span class="n">matrix_type</span><span class="p">,</span> <span class="p">&amp;</span>
                               <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
                               <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">distribution</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">distribution</span><span class="p">%</span><span class="n">prv</span> <span class="o">=</span> <span class="n">dist</span>
+      <span class="n">ENDIF</span>
+
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_info</span>
 </pre></div>
 
