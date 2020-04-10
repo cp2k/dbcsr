@@ -33,7 +33,7 @@ MODULE dbcsr_tas_mm
       dbcsr_tas_distribution_type, dbcsr_tas_split_info, dbcsr_tas_type, dbcsr_tas_iterator
    USE dbcsr_tas_global, ONLY: &
       dbcsr_tas_dist_cyclic, dbcsr_tas_dist_arb, dbcsr_tas_distribution, dbcsr_tas_dist_arb_default, &
-      dbcsr_tas_rowcol_data, dbcsr_tas_blk_size_one, cyclic_weighted_dist
+      dbcsr_tas_rowcol_data, dbcsr_tas_blk_size_one, dbcsr_tas_default_distvec
    USE dbcsr_tas_reshape_ops, ONLY: &
       dbcsr_tas_merge, dbcsr_tas_replicate, dbcsr_tas_reshape
    USE dbcsr_tas_split, ONLY: &
@@ -1493,8 +1493,8 @@ CONTAINS
       CALL mp_environ(nproc, pdims, pcoord, mp_comm_cart)
 
       ALLOCATE (row_dist(nbrows), col_dist(nbcols))
-      CALL cyclic_weighted_dist(nbrows, pdims(1), rbsize, row_dist)
-      CALL cyclic_weighted_dist(nbcols, pdims(2), rcsize, col_dist)
+      CALL dbcsr_tas_default_distvec(nbrows, pdims(1), rbsize, row_dist)
+      CALL dbcsr_tas_default_distvec(nbcols, pdims(2), rcsize, col_dist)
 
       mp_obj = dbcsr_mp_environ(mp_comm_cart)
       CALL dbcsr_distribution_new(dist, mp_obj, row_dist, col_dist, reuse_arrays=.TRUE.)

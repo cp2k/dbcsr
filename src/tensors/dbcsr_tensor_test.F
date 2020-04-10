@@ -22,21 +22,11 @@ MODULE dbcsr_tensor_test
       dbcsr_t_reserve_blocks, dbcsr_t_get_stored_coordinates, dbcsr_t_put_block, &
       dbcsr_t_contract, dbcsr_t_inverse_order
    USE dbcsr_tensor_block, ONLY: block_nd
-   USE dbcsr_tensor_types, ONLY: dbcsr_t_create, &
-                                 dbcsr_t_destroy, &
-                                 dbcsr_t_type, &
-                                 dbcsr_t_distribution_type, &
-                                 dbcsr_t_distribution_destroy, &
-                                 dims_tensor, &
-                                 ndims_tensor, &
-                                 dbcsr_t_distribution_new, &
-                                 dbcsr_t_nd_mp_comm, &
-                                 dbcsr_t_get_data_type, &
-                                 mp_environ_pgrid, &
-                                 dbcsr_t_pgrid_type, &
-                                 dbcsr_t_pgrid_create, &
-                                 dbcsr_t_pgrid_destroy, &
-                                 dbcsr_t_get_info
+   USE dbcsr_tensor_types, ONLY: &
+      dbcsr_t_create, dbcsr_t_destroy, dbcsr_t_type, dbcsr_t_distribution_type, dbcsr_t_distribution_destroy, &
+      dims_tensor, ndims_tensor, dbcsr_t_distribution_new, dbcsr_t_nd_mp_comm, dbcsr_t_get_data_type, &
+      mp_environ_pgrid, dbcsr_t_pgrid_type, dbcsr_t_pgrid_create, dbcsr_t_pgrid_destroy, dbcsr_t_get_info, &
+      dbcsr_t_default_distvec
    USE dbcsr_tensor_io, ONLY: &
       dbcsr_t_write_blocks, dbcsr_t_write_block_indices
    USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$, &
@@ -63,7 +53,6 @@ MODULE dbcsr_tensor_test
 
    PUBLIC :: &
       dbcsr_t_setup_test_tensor, &
-      dbcsr_t_random_dist, &
       dbcsr_t_contract_test, &
       dbcsr_t_test_formats, &
       dbcsr_t_checksum
@@ -284,8 +273,10 @@ CONTAINS
 #:for dim in range(1, maxdim+1)
             IF (${dim}$ <= ndims) THEN
                nblks = SIZE(blk_size_${dim}$)
-               CALL dbcsr_t_random_dist(dist1_${dim}$, nblks, pdims(${dim}$))
-               CALL dbcsr_t_random_dist(dist2_${dim}$, nblks, pdims(${dim}$))
+               ALLOCATE (dist1_${dim}$ (nblks))
+               ALLOCATE (dist2_${dim}$ (nblks))
+               CALL dbcsr_t_default_distvec(nblks, pdims(${dim}$), blk_size_${dim}$, dist1_${dim}$)
+               CALL dbcsr_t_default_distvec(nblks, pdims(${dim}$), blk_size_${dim}$, dist2_${dim}$)
             ENDIF
 #:endfor
 
@@ -374,20 +365,6 @@ CONTAINS
          ENDDO
       ENDDO
       CALL dbcsr_t_pgrid_destroy(comm_nd)
-   END SUBROUTINE
-
-   SUBROUTINE dbcsr_t_random_dist(dist_array, dist_size, nbins)
-      INTEGER, DIMENSION(:), INTENT(OUT), ALLOCATABLE    :: dist_array
-      INTEGER, INTENT(IN)                                :: dist_size, nbins
-
-      INTEGER                                            :: i
-
-      ALLOCATE (dist_array(dist_size))
-      !CALL RANDOM_NUMBER (dist_array)
-      DO i = 1, dist_size
-         dist_array(i) = MODULO(nbins - i, nbins)
-      END DO
-
    END SUBROUTINE
 
    SUBROUTINE dbcsr_t_setup_test_tensor(tensor, mp_comm, enumerate, ${varlist("blk_ind")}$)
@@ -659,7 +636,7 @@ CONTAINS
 
       mp_comm = tensor_1%pgrid%mp_comm_2d
       CALL mp_environ(numnodes, mynode, mp_comm)
-      io_unit = 0
+      io_unit = -1
       IF (mynode .EQ. 0) io_unit = unit_nr
 
       cs_1 = dbcsr_t_checksum(tensor_1)

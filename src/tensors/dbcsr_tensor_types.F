@@ -39,10 +39,10 @@ MODULE dbcsr_tensor_types
    USE dbcsr_tas_split, ONLY: &
       dbcsr_tas_create_split_rows_or_cols, dbcsr_tas_release_info, dbcsr_tas_info_hold, &
       dbcsr_tas_create_split, dbcsr_tas_get_split_info
-   USE dbcsr_kinds, ONLY: default_string_length, int_8
+   USE dbcsr_kinds, ONLY: default_string_length, int_8, dp
    USE dbcsr_mpiwrap, ONLY: &
       mp_cart_create, mp_cart_rank, mp_environ, mp_dims_create, mp_comm_free, mp_comm_dup, mp_sum, mp_max
-   USE dbcsr_tas_global, ONLY: dbcsr_tas_distribution, dbcsr_tas_rowcol_data
+   USE dbcsr_tas_global, ONLY: dbcsr_tas_distribution, dbcsr_tas_rowcol_data, dbcsr_tas_default_distvec
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
    USE dbcsr_operations, ONLY: dbcsr_scale
@@ -95,7 +95,8 @@ MODULE dbcsr_tensor_types
       dbcsr_t_nblks_local, &
       dbcsr_t_nblks_total, &
       dbcsr_t_blk_size, &
-      dbcsr_t_max_nblks_local
+      dbcsr_t_max_nblks_local, &
+      dbcsr_t_default_distvec
 
    TYPE dbcsr_t_pgrid_type
       TYPE(nd_to_2d_mapping)                  :: nd_index_grid
@@ -551,9 +552,12 @@ CONTAINS
    END SUBROUTINE dbcsr_t_nd_mp_free
 
    SUBROUTINE dbcsr_t_distribution_new(dist, pgrid, ${varlist("nd_dist")}$)
+      !! Create a tensor distribution.
       TYPE(dbcsr_t_distribution_type), INTENT(OUT)    :: dist
       TYPE(dbcsr_t_pgrid_type), INTENT(IN)            :: pgrid
+         !! process grid
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL     :: ${varlist("nd_dist")}$
+         !! distribution vectors for all tensor dimensions
       INTEGER, DIMENSION(ndims_mapping_row(pgrid%nd_index_grid)) :: map1_2d
       INTEGER, DIMENSION(ndims_mapping_column(pgrid%nd_index_grid)) :: map2_2d
       INTEGER :: ndims
@@ -574,7 +578,6 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)               :: map2_2d
          !! which nd-indices map to second matrix index and in which order
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL     :: ${varlist("nd_dist")}$
-         !! distribution vector for first and second dimension
       LOGICAL, INTENT(IN), OPTIONAL                   :: own_comm
          !! whether distribution should own communicator
       INTEGER                                         :: ndims, comm_2d
@@ -1553,5 +1556,20 @@ CONTAINS
       blk_count = INT(blk_count_total/nproc*max_load_imbalance)
 
    END FUNCTION
+
+   SUBROUTINE dbcsr_t_default_distvec(nblk, nproc, blk_size, dist)
+      !! get a load-balanced and randomized distribution along one tensor dimension
+      INTEGER, INTENT(IN)                                :: nblk
+         !! number of blocks (along one tensor dimension)
+      INTEGER, INTENT(IN)                                :: nproc
+         !! number of processes (along one process grid dimension)
+      INTEGER, DIMENSION(nblk), INTENT(IN)                :: blk_size
+         !! block sizes
+      INTEGER, DIMENSION(nblk), INTENT(OUT)               :: dist
+         !! distribution
+
+      CALL dbcsr_tas_default_distvec(nblk, nproc, blk_size, dist)
+
+   END SUBROUTINE
 
 END MODULE

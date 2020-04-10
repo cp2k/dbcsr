@@ -48,7 +48,7 @@ PROGRAM dbcsr_tas_unittest
 
    CALL mp_environ(numnodes, mynode, mp_comm)
 
-   io_unit = 0
+   io_unit = -1
    IF (mynode .EQ. 0) io_unit = default_output_unit
 
    CALL dbcsr_init_lib(mp_comm, io_unit)
@@ -93,34 +93,34 @@ PROGRAM dbcsr_tas_unittest
       TRIM(Ct%matrix%name), dbcsr_tas_nblkrows_total(Ct), 'X', dbcsr_tas_nblkcols_total(Ct)
    CALL dbcsr_tas_write_split_info(dbcsr_tas_info(Ct), io_unit, name="Ct")
 
-   CALL dbcsr_tas_test_mm('N', 'N', 'N', B, A, Ct_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('T', 'N', 'N', Bt, A, Ct_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('N', 'T', 'N', B, At, Ct_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('T', 'T', 'N', Bt, At, Ct_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('N', 'N', 'T', B, A, C_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('T', 'N', 'T', Bt, A, C_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('N', 'T', 'T', B, At, C_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('T', 'T', 'T', Bt, At, C_out, unit_nr=default_output_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('N', 'N', 'N', B, A, Ct_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('T', 'N', 'N', Bt, A, Ct_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('N', 'T', 'N', B, At, Ct_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('T', 'T', 'N', Bt, At, Ct_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('N', 'N', 'T', B, A, C_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('T', 'N', 'T', Bt, A, C_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('N', 'T', 'T', B, At, C_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('T', 'T', 'T', Bt, At, C_out, unit_nr=io_unit, filter_eps=filter_eps)
 
-   CALL dbcsr_tas_test_mm('N', 'N', 'N', A, C, Bt_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('T', 'N', 'N', At, C, Bt_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('N', 'T', 'N', A, Ct, Bt_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('T', 'T', 'N', At, Ct, Bt_out, unit_nr=default_output_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('N', 'N', 'N', A, C, Bt_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('T', 'N', 'N', At, C, Bt_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('N', 'T', 'N', A, Ct, Bt_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('T', 'T', 'N', At, Ct, Bt_out, unit_nr=io_unit, filter_eps=filter_eps)
 
-   CALL dbcsr_tas_test_mm('N', 'N', 'T', A, C, B_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('T', 'N', 'T', At, C, B_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('N', 'T', 'T', A, Ct, B_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('T', 'T', 'T', At, Ct, B_out, unit_nr=default_output_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('N', 'N', 'T', A, C, B_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('T', 'N', 'T', At, C, B_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('N', 'T', 'T', A, Ct, B_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('T', 'T', 'T', At, Ct, B_out, unit_nr=io_unit, filter_eps=filter_eps)
 
-   CALL dbcsr_tas_test_mm('N', 'N', 'N', C, B, At_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('T', 'N', 'N', Ct, B, At_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('N', 'T', 'N', C, Bt, At_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('T', 'T', 'N', Ct, Bt, At_out, unit_nr=default_output_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('N', 'N', 'N', C, B, At_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('T', 'N', 'N', Ct, B, At_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('N', 'T', 'N', C, Bt, At_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('T', 'T', 'N', Ct, Bt, At_out, unit_nr=io_unit, filter_eps=filter_eps)
 
-   CALL dbcsr_tas_test_mm('N', 'N', 'T', C, B, A_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('T', 'N', 'T', Ct, B, A_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('N', 'T', 'T', C, Bt, A_out, unit_nr=default_output_unit, filter_eps=filter_eps)
-   CALL dbcsr_tas_test_mm('T', 'T', 'T', Ct, Bt, A_out, unit_nr=default_output_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('N', 'N', 'T', C, B, A_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('T', 'N', 'T', Ct, B, A_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('N', 'T', 'T', C, Bt, A_out, unit_nr=io_unit, filter_eps=filter_eps)
+   CALL dbcsr_tas_test_mm('T', 'T', 'T', Ct, Bt, A_out, unit_nr=io_unit, filter_eps=filter_eps)
 
    CALL dbcsr_tas_destroy(A)
    CALL dbcsr_tas_destroy(At)
