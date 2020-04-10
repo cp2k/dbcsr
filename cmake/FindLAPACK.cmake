@@ -89,11 +89,11 @@ if(NOT (CMAKE_C_COMPILER_LOADED OR CMAKE_CXX_COMPILER_LOADED OR CMAKE_Fortran_CO
 endif()
 
 if(CMAKE_Fortran_COMPILER_LOADED)
-  include(${CMAKE_CURRENT_LIST_DIR}/CheckFortranFunctionExists.cmake)
+  include(CheckFortranFunctionExists)
 else()
-  include(${CMAKE_CURRENT_LIST_DIR}/CheckFunctionExists.cmake)
+  include(CheckFunctionExists)
 endif()
-include(${CMAKE_CURRENT_LIST_DIR}/CMakePushCheckState.cmake)
+include(CMakePushCheckState)
 
 cmake_push_check_state()
 set(CMAKE_REQUIRED_QUIET ${LAPACK_FIND_QUIETLY})
