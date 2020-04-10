@@ -48,9 +48,9 @@ MODULE dbcsr_tensor
       blk_dims_tensor, dbcsr_t_hold, dbcsr_t_pgrid_type, mp_environ_pgrid, dbcsr_t_filter, &
       dbcsr_t_clear, dbcsr_t_finalize, dbcsr_t_get_num_blocks, dbcsr_t_scale, &
       dbcsr_t_get_num_blocks_total, dbcsr_t_get_info, ndims_matrix_row, ndims_matrix_column, &
-      dbcsr_t_max_nblks_local
+      dbcsr_t_max_nblks_local, dbcsr_t_default_distvec
    USE dbcsr_kinds, ONLY: &
-      ${uselist(dtype_float_prec)}$, default_string_length, int_8
+      ${uselist(dtype_float_prec)}$, default_string_length, int_8, dp
    USE dbcsr_mpiwrap, ONLY: &
       mp_environ, mp_max, mp_sum
    USE dbcsr_toollib, ONLY: &
@@ -456,6 +456,8 @@ CONTAINS
          !! enforce the sparsity pattern of the existing tensor_3; default is no
       INTEGER, OPTIONAL, INTENT(IN)                  :: unit_nr
          !! output unit for logging
+         !! set it to -1 on ranks that should not write (and any valid unit number on ranks that should write output)
+         !! if 0 on ALL ranks, no output is written
       LOGICAL, INTENT(IN), OPTIONAL                  :: log_verbose
          !! verbose logging (for testing only)
 
@@ -549,7 +551,7 @@ CONTAINS
       CHARACTER(LEN=1)                               :: trans_1, trans_2, trans_3
       LOGICAL                                        :: new_1, new_2, new_3, move_data_1, move_data_2
       INTEGER                                        :: ndims1, ndims2, ndims3
-      INTEGER                                        :: occ_1, occ_2, write_log
+      INTEGER                                        :: occ_1, occ_2
       INTEGER, DIMENSION(:), ALLOCATABLE             :: dims1, dims2, dims3
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_contract_expert', &
@@ -1366,36 +1368,6 @@ CONTAINS
       CALL dbcsr_tas_info_hold(opt_pgrid%tas_split_info)
    END FUNCTION
 
-   SUBROUTINE new_default_dist(nel, nbin, weights, dist)
-      !! Default distribution that is more or less cyclic (round robin) and load balanced with different
-      !! weights for each element.
-      !! This is used for creating adhoc distributions whenever tensors are mapped to new grids.
-
-      INTEGER, INTENT(IN) :: nel
-      INTEGER, INTENT(IN) :: nbin
-      INTEGER, DIMENSION(nel), INTENT(IN)            :: weights
-      INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT)            :: dist
-      INTEGER, DIMENSION(nbin)                        :: occup
-      INTEGER                :: iel, ibin
-      INTEGER                :: niter
-
-      ALLOCATE (dist(nel))
-      occup(:) = 0
-      ibin = 0
-      DO iel = 1, nel
-         niter = 0
-         ibin = MOD(ibin + 1, nbin)
-         DO WHILE (occup(ibin + 1) + weights(iel) .GE. MAXVAL(occup))
-            IF (MINLOC(occup, DIM=1) == ibin + 1) EXIT
-            ibin = MOD(ibin + 1, nbin)
-            niter = niter + 1
-         ENDDO
-         dist(iel) = ibin
-         occup(ibin + 1) = occup(ibin + 1) + weights(iel)
-      ENDDO
-
-   END SUBROUTINE
-
    SUBROUTINE dbcsr_t_remap(tensor_in, map1_2d, map2_2d, tensor_out, comm_2d, dist1, dist2, &
                             mp_dims_1, mp_dims_2, name, nodata, move_data)
       !! Copy tensor to tensor with modified index mapping
@@ -1470,7 +1442,8 @@ CONTAINS
          ENDIF
 
          IF (.NOT. ALLOCATED(nd_dist_${idim}$)) THEN
-            CALL new_default_dist(SIZE(blk_sizes_${idim}$), pdims(${idim}$), blk_sizes_${idim}$, nd_dist_${idim}$)
+            ALLOCATE (nd_dist_${idim}$ (SIZE(blk_sizes_${idim}$)))
+            CALL dbcsr_t_default_distvec(SIZE(blk_sizes_${idim}$), pdims(${idim}$), blk_sizes_${idim}$, nd_dist_${idim}$)
          ENDIF
 #:endfor
          CALL dbcsr_t_distribution_new_expert(dist, comm_nd, map1_2d, map2_2d, &

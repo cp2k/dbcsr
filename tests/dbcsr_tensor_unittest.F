@@ -20,21 +20,12 @@ PROGRAM dbcsr_tensor_unittest
                             mp_world_finalize, &
                             mp_world_init
    USE dbcsr_tensor_test, ONLY: dbcsr_t_contract_test, &
-                                dbcsr_t_random_dist, &
                                 dbcsr_t_setup_test_tensor, &
                                 dbcsr_t_test_formats
-   USE dbcsr_tensor_types, ONLY: dbcsr_t_create, &
-                                 dbcsr_t_destroy, &
-                                 dbcsr_t_distribution_destroy, &
-                                 dbcsr_t_distribution_new, &
-                                 dbcsr_t_distribution_type, &
-                                 dbcsr_t_nd_mp_comm, &
-                                 dbcsr_t_type, &
-                                 dbcsr_t_pgrid_type, &
-                                 dbcsr_t_pgrid_create, &
-                                 dbcsr_t_get_info, &
-                                 dbcsr_t_pgrid_destroy, &
-                                 ndims_tensor
+   USE dbcsr_tensor_types, ONLY: &
+      dbcsr_t_create, dbcsr_t_destroy, dbcsr_t_distribution_destroy, dbcsr_t_distribution_new, &
+      dbcsr_t_distribution_type, dbcsr_t_nd_mp_comm, dbcsr_t_type, dbcsr_t_pgrid_type, &
+      dbcsr_t_pgrid_create, dbcsr_t_get_info, dbcsr_t_pgrid_destroy, ndims_tensor, dbcsr_t_default_distvec
    USE dbcsr_data_methods, ONLY: dbcsr_scalar
    USE dbcsr_kinds, ONLY: real_8
 #include "base/dbcsr_base_uses.f90"
@@ -70,7 +61,7 @@ PROGRAM dbcsr_tensor_unittest
    CALL mp_environ(numnodes, mynode, mp_comm)
 
    ! set standard output parameters
-   io_unit = 0
+   io_unit = -1
    IF (mynode .EQ. 0) io_unit = default_output_unit
 
    ! initialize libdbcsr
@@ -103,7 +94,7 @@ PROGRAM dbcsr_tensor_unittest
       blk_ind_2(:) = [1, 3, 11, 15, 4, 17, 21,   6,  9, 13, 19,  7] !&
 
       ! Test tensor formats
-      CALL dbcsr_t_test_formats(ndims, mp_comm, default_output_unit, verbose, &
+      CALL dbcsr_t_test_formats(ndims, mp_comm, io_unit, verbose, &
                                 blk_size_1=size_1, blk_size_2=size_2, &
                                 blk_ind_1=blk_ind_1, blk_ind_2=blk_ind_2)
 
@@ -137,7 +128,7 @@ PROGRAM dbcsr_tensor_unittest
       blk_ind_3(:) = [1, 3, 3, 2, 3, 2] !&
 
       ! Test tensor formats
-      CALL dbcsr_t_test_formats(ndims, mp_comm, default_output_unit, verbose, &
+      CALL dbcsr_t_test_formats(ndims, mp_comm, io_unit, verbose, &
                                 blk_size_1=size_1, blk_size_2=size_2, blk_size_3=size_3, &
                                 blk_ind_1=blk_ind_1, blk_ind_2=blk_ind_2, blk_ind_3=blk_ind_3)
 
@@ -174,7 +165,7 @@ PROGRAM dbcsr_tensor_unittest
       blk_ind_4(:) = [3, 2, 3, 1, 1, 2,  1,  3,  2,  2,  3, 1, 3, 2, 1, 1, 3, 2,  2] !&
 
       ! Test tensor formats
-      CALL dbcsr_t_test_formats(ndims, mp_comm, default_output_unit, verbose, &
+      CALL dbcsr_t_test_formats(ndims, mp_comm, io_unit, verbose, &
                                 blk_size_1=size_1, blk_size_2=size_2, blk_size_3=size_3, blk_size_4=size_4, &
                                 blk_ind_1=blk_ind_1, blk_ind_2=blk_ind_2, blk_ind_3=blk_ind_3, blk_ind_4=blk_ind_4)
 
@@ -275,25 +266,40 @@ PROGRAM dbcsr_tensor_unittest
       CALL dbcsr_t_pgrid_create(mp_comm, pdims_3d, pgrid_3d)
       CALL dbcsr_t_pgrid_create(mp_comm, pdims_2d, pgrid_2d)
 
-      CALL dbcsr_t_random_dist(dist1_1, nblks_1, pdims_3d(1))
-      CALL dbcsr_t_random_dist(dist1_2, nblks_2, pdims_3d(2))
-      CALL dbcsr_t_random_dist(dist1_3, nblks_3, pdims_3d(3))
+      ALLOCATE (dist1_1(nblks_1))
+      CALL dbcsr_t_default_distvec(nblks_1, pdims_3d(1), size_1, dist1_1)
+      ALLOCATE (dist1_2(nblks_2))
+      CALL dbcsr_t_default_distvec(nblks_2, pdims_3d(2), size_2, dist1_2)
+      ALLOCATE (dist1_3(nblks_3))
+      CALL dbcsr_t_default_distvec(nblks_3, pdims_3d(3), size_3, dist1_3)
 
-      CALL dbcsr_t_random_dist(dist2_1, nblks_3, pdims_2d(1))
-      CALL dbcsr_t_random_dist(dist2_2, nblks_4, pdims_2d(2))
+      ALLOCATE (dist2_1(nblks_3))
+      CALL dbcsr_t_default_distvec(nblks_3, pdims_2d(1), size_3, dist2_1)
+      ALLOCATE (dist2_2(nblks_4))
+      CALL dbcsr_t_default_distvec(nblks_4, pdims_2d(2), size_4, dist2_2)
 
-      CALL dbcsr_t_random_dist(dist3_1, nblks_1, pdims_3d(1))
-      CALL dbcsr_t_random_dist(dist3_2, nblks_2, pdims_3d(2))
-      CALL dbcsr_t_random_dist(dist3_3, nblks_4, pdims_3d(3))
+      ALLOCATE (dist3_1(nblks_1))
+      CALL dbcsr_t_default_distvec(nblks_1, pdims_3d(1), size_1, dist3_1)
+      ALLOCATE (dist3_2(nblks_2))
+      CALL dbcsr_t_default_distvec(nblks_2, pdims_3d(2), size_2, dist3_2)
+      ALLOCATE (dist3_3(nblks_4))
+      CALL dbcsr_t_default_distvec(nblks_4, pdims_3d(3), size_4, dist3_3)
 
-      CALL dbcsr_t_random_dist(dist4_1, nblks_1, pdims_4d(1))
-      CALL dbcsr_t_random_dist(dist4_2, nblks_2, pdims_4d(2))
-      CALL dbcsr_t_random_dist(dist4_3, nblks_4, pdims_4d(3))
-      CALL dbcsr_t_random_dist(dist4_4, nblks_5, pdims_4d(4))
+      ALLOCATE (dist4_1(nblks_1))
+      CALL dbcsr_t_default_distvec(nblks_1, pdims_4d(1), size_1, dist4_1)
+      ALLOCATE (dist4_2(nblks_2))
+      CALL dbcsr_t_default_distvec(nblks_2, pdims_4d(2), size_2, dist4_2)
+      ALLOCATE (dist4_3(nblks_4))
+      CALL dbcsr_t_default_distvec(nblks_4, pdims_4d(3), size_4, dist4_3)
+      ALLOCATE (dist4_4(nblks_5))
+      CALL dbcsr_t_default_distvec(nblks_5, pdims_4d(4), size_5, dist4_4)
 
-      CALL dbcsr_t_random_dist(dist5_1, nblks_3, pdims_3d(1))
-      CALL dbcsr_t_random_dist(dist5_2, nblks_4, pdims_3d(2))
-      CALL dbcsr_t_random_dist(dist5_3, nblks_5, pdims_3d(3))
+      ALLOCATE (dist5_1(nblks_3))
+      CALL dbcsr_t_default_distvec(nblks_3, pdims_3d(1), size_3, dist5_1)
+      ALLOCATE (dist5_2(nblks_4))
+      CALL dbcsr_t_default_distvec(nblks_4, pdims_3d(2), size_4, dist5_2)
+      ALLOCATE (dist5_3(nblks_5))
+      CALL dbcsr_t_default_distvec(nblks_5, pdims_3d(3), size_5, dist5_3)
 
 !--------------------------------------------------------------------------------------------------!
 ! Test 4: Testing tensor contraction (12|3)x(3|4)=(12|4)                                           !
@@ -320,13 +326,14 @@ PROGRAM dbcsr_tensor_unittest
 
       CALL dbcsr_t_setup_test_tensor(tensor_A, mp_comm, .FALSE., blk_ind_1_1, blk_ind_2_1, blk_ind_3_1)
       CALL dbcsr_t_setup_test_tensor(tensor_B, mp_comm, .FALSE., blk_ind_3_2, blk_ind_4_2)
+
       CALL dbcsr_t_setup_test_tensor(tensor_C, mp_comm, .FALSE., blk_ind_1_3, blk_ind_2_3, blk_ind_4_3)
 
       CALL dbcsr_t_contract_test(dbcsr_scalar(0.9_real_8), tensor_A, tensor_B, dbcsr_scalar(0.1_real_8), tensor_C, &
                                  [3], [2, 1], &
                                  [1], [2], &
                                  [2, 1], [3], &
-                                 default_output_unit, &
+                                 io_unit, &
                                  log_verbose=verbose, &
                                  write_int=.TRUE.)
 
@@ -370,7 +377,7 @@ PROGRAM dbcsr_tensor_unittest
                                  [3], [1, 2], &
                                  [1], [2], &
                                  [1, 2], [3], &
-                                 default_output_unit, &
+                                 io_unit, &
                                  log_verbose=verbose, &
                                  write_int=.TRUE.)
 
@@ -421,7 +428,7 @@ PROGRAM dbcsr_tensor_unittest
                                  [1], [2], &
                                  [3], [1, 2], &
                                  [3], [1, 2], &
-                                 default_output_unit, &
+                                 io_unit, &
                                  bounds_1=bounds, &
                                  log_verbose=verbose, &
                                  write_int=.TRUE.)
@@ -476,7 +483,7 @@ PROGRAM dbcsr_tensor_unittest
                                  [3], [1, 2], &
                                  [2], [1], &
                                  [1, 2], [3], &
-                                 default_output_unit, &
+                                 io_unit, &
                                  bounds_2=bounds, &
                                  log_verbose=verbose, &
                                  write_int=.TRUE.)
@@ -539,7 +546,7 @@ PROGRAM dbcsr_tensor_unittest
                                  [2, 1], [3], &
                                  [2, 1], [3, 4], &
                                  [1], [2, 3], &
-                                 default_output_unit, &
+                                 io_unit, &
                                  bounds_1=bounds_1, &
                                  bounds_3=bounds_2, &
                                  log_verbose=verbose, &
@@ -585,7 +592,7 @@ PROGRAM dbcsr_tensor_unittest
                                  [2, 1], [3], &
                                  [2, 1], [3, 4], &
                                  [1], [2, 3], &
-                                 default_output_unit, &
+                                 io_unit, &
                                  log_verbose=verbose, &
                                  write_int=.TRUE.)
 
@@ -629,7 +636,7 @@ PROGRAM dbcsr_tensor_unittest
                                  [1, 2], [3], &
                                  [1, 2], [3, 4], &
                                  [1], [2, 3], &
-                                 default_output_unit, &
+                                 io_unit, &
                                  log_verbose=verbose, &
                                  write_int=.TRUE.)
 
@@ -673,7 +680,7 @@ PROGRAM dbcsr_tensor_unittest
                                  [2, 1], [4, 3], &
                                  [2, 1], [3], &
                                  [3, 2], [1], &
-                                 default_output_unit, &
+                                 io_unit, &
                                  log_verbose=verbose, &
                                  write_int=.TRUE.)
 
@@ -717,7 +724,7 @@ PROGRAM dbcsr_tensor_unittest
                                  [2, 1], [3, 4], &
                                  [2, 1], [3], &
                                  [2, 3], [1], &
-                                 default_output_unit, &
+                                 io_unit, &
                                  log_verbose=verbose, &
                                  write_int=.TRUE.)
 
@@ -761,7 +768,7 @@ PROGRAM dbcsr_tensor_unittest
                                  [1], [2, 3], &
                                  [3], [1, 2], &
                                  [3, 4], [1, 2], &
-                                 default_output_unit, &
+                                 io_unit, &
                                  log_verbose=verbose, &
                                  write_int=.TRUE.)
 
