@@ -112,24 +112,26 @@ if(NOT (CMAKE_C_COMPILER_LOADED OR CMAKE_CXX_COMPILER_LOADED OR CMAKE_Fortran_CO
 endif()
 
 if(CMAKE_Fortran_COMPILER_LOADED)
-  include(${CMAKE_CURRENT_LIST_DIR}/CheckFortranFunctionExists.cmake)
+  include(CheckFortranFunctionExists)
+  include(CheckFortranSourceRuns)
 else()
-  include(${CMAKE_CURRENT_LIST_DIR}/CheckFunctionExists.cmake)
+  include(CheckFunctionExists)
 endif()
-include(${CMAKE_CURRENT_LIST_DIR}/CMakePushCheckState.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)
+include(CMakePushCheckState)
+include(FindPackageHandleStandardArgs)
 cmake_push_check_state()
 set(CMAKE_REQUIRED_QUIET ${BLAS_FIND_QUIETLY})
 
-if(BLA_PREFER_PKGCONFIG)
-  find_package(PkgConfig)
-  pkg_check_modules(PKGC_BLAS blas)
-  if(PKGC_BLAS_FOUND)
-    set(BLAS_FOUND ${PKGC_BLAS_FOUND})
-    set(BLAS_LIBRARIES "${PKGC_BLAS_LINK_LIBRARIES}")
-    return()
-  endif()
-endif()
+# Disable since we otherwise skip the additional search for OpenMP-enabled OpenBLAS
+# if(BLA_PREFER_PKGCONFIG)
+#   find_package(PkgConfig)
+#   pkg_check_modules(PKGC_BLAS blas)
+#   if(PKGC_BLAS_FOUND)
+#     set(BLAS_FOUND ${PKGC_BLAS_FOUND})
+#     set(BLAS_LIBRARIES "${PKGC_BLAS_LINK_LIBRARIES}")
+#     return()
+#   endif()
+# endif()
 
 set(_blas_ORIG_CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES})
 if(BLA_STATIC)
@@ -221,6 +223,19 @@ macro(CHECK_BLAS_LIBRARIES LIBRARIES _prefix _name _flags _list _threadlibs _add
     set(${LIBRARIES} FALSE)
   endif()
   #message("DEBUG: ${LIBRARIES} = ${${LIBRARIES}}")
+endmacro()
+
+# DBCSR extension:
+macro(CHECK_OPENBLAS_OMP_SUPPORT)
+  set(_openblascheck_ORIG_CMAKE_REQUIRED_LIBRARIES ${CMAKE_REQUIRED_LIBRARIES})
+  set(CMAKE_REQUIRED_LIBRARIES ${BLAS_LIBRARIES})
+  check_fortran_source_runs("integer, external :: openblas_get_parallel; if (openblas_get_parallel() /= 2) error stop ; end" _openblascheck_has_OMP)
+  set(CMAKE_REQUIRED_LIBRARIES ${_openblascheck_ORIG_CMAKE_REQUIRED_LIBRARIES})
+
+  if (NOT _openblascheck_has_OMP)
+    message(VERBOSE "The OpenBLAS library '${BLAS_LIBRARIES}' is not built with OpenMP, ignoring due to USE_OPENMP=1.")
+    set(BLAS_LIBRARIES)
+  endif ()
 endmacro()
 
 set(BLAS_LINKER_FLAGS)
@@ -534,7 +549,38 @@ if(BLA_VENDOR STREQUAL "OpenBLAS" OR BLA_VENDOR STREQUAL "All")
       ""
       ""
       )
+
+    if (BLAS_LIBRARIES AND USE_OPENMP)
+      check_openblas_omp_support()
+    endif ()
   endif()
+
+  if (NOT BLAS_LIBRARIES)
+    check_blas_libraries(
+      BLAS_LIBRARIES
+      BLAS
+      sgemm
+      ""
+      "openblas_omp"
+      ""
+      ""
+      ""
+      )
+  endif ()
+
+  if (NOT BLAS_LIBRARIES)
+    check_blas_libraries(
+      BLAS_LIBRARIES
+      BLAS
+      sgemm
+      ""
+      "openblas_openmp"
+      ""
+      ""
+      ""
+      )
+  endif ()
+
   if(NOT BLAS_LIBRARIES AND (CMAKE_C_COMPILER_LOADED OR CMAKE_CXX_COMPILER_LOADED))
     if(BLAS_FIND_QUIETLY OR NOT BLAS_FIND_REQUIRED)
       find_package(Threads)
@@ -551,6 +597,37 @@ if(BLA_VENDOR STREQUAL "OpenBLAS" OR BLA_VENDOR STREQUAL "All")
       ""
       ""
       )
+
+    if (BLAS_LIBRARIES AND USE_OPENMP)
+      check_openblas_omp_support()
+    endif ()
+
+    if (NOT BLAS_LIBRARIES)
+      check_blas_libraries(
+        BLAS_LIBRARIES
+        BLAS
+        sgemm
+        ""
+        "openblas_omp"
+        "${CMAKE_THREAD_LIBS_INIT}"
+        ""
+        ""
+        )
+    endif ()
+
+    if (NOT BLAS_LIBRARIES)
+      check_blas_libraries(
+        BLAS_LIBRARIES
+        BLAS
+        sgemm
+        ""
+        "openblas_openmp"
+        "${CMAKE_THREAD_LIBS_INIT}"
+        ""
+        ""
+        )
+    endif ()
+
   endif()
 endif()
 
