@@ -1,20 +1,26 @@
-FROM ubuntu:19.10
+FROM ubuntu:20.04
 
 # we need at least Ubuntu 19.10 for:
 #   git > 2.18
 #   lcov > 1.13
 #   openmpi > 2.1
+# we need at least Ubuntu 20.04 for:
+#   ninja >= 1.10
+#   an OpenBLAS built with OpenMP-support
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
     && apt-get install -y \
         locales \
         gfortran \
         g++ \
-        libopenmpi-dev \
         openmpi-bin \
-        libopenblas-dev \
-        libopenmpi-dev openmpi-bin \
+        libopenmpi-dev \
         mpich \
+        libmpich-dev \
+        libopenblas-openmp-dev \
+        ninja-build \
         lcov \
         pkg-config \
         git \
@@ -33,7 +39,6 @@ RUN ln -s python3 /usr/bin/python
 
 ARG libxsmm_version=1.15
 ARG cmake_version=3.17.0
-ARG ninja_version=1.10.0
 
 RUN set -ex && \
     pip3 install \
@@ -43,10 +48,6 @@ RUN set -ex && \
 
 RUN set -ex && \
     curl -LsS https://github.com/Kitware/CMake/releases/download/v${cmake_version}/cmake-${cmake_version}-Linux-x86_64.tar.gz | tar --strip-components=1 -xz -C /usr/local
-
-RUN set -ex && \
-    curl -LsS https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-linux.zip | funzip > /usr/local/bin/ninja \
-    && chmod a+x /usr/local/bin/ninja
 
 RUN set -ex && \
     curl -LsS https://github.com/hfp/libxsmm/archive/${libxsmm_version}.tar.gz | tar -xz -C /opt \
