@@ -251,15 +251,8 @@ if (USE_CUDA)
   target_compile_definitions(acc PRIVATE __CUDA)
   target_include_directories(acc PRIVATE ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
   target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:acc>)
-  if (USE_CUBLAS)
-    target_compile_definitions(acc PRIVATE __DBCSR_ACC=2)
-    # with CMake 3.12+ the following can be replaced by:
-    #   target_link_libraries(acc PRIVATE ${CUBLAS})
-    set_target_properties(acc PROPERTIES INTERFACE_LINK_LIBRARIES ${CUBLAS})
-  else ()
-    target_compile_definitions(acc PRIVATE __DBCSR_ACC)
-  endif ()
-
+  target_compile_definitions(acc PRIVATE __DBCSR_ACC)
+  target_link_libraries(acc PRIVATE ${CUBLAS})
 
   # tests need some of the libsmm_acc headers and for CMake <3.12
   # compatibility, we can't set it on the the object library itself
@@ -267,12 +260,9 @@ if (USE_CUDA)
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc>
     )
 
-  if (USE_CUBLAS)
-    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC=2)
-    target_link_libraries(dbcsr PRIVATE ${CUBLAS})
-  else ()
-    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
-  endif ()
+  target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
+  target_link_libraries(dbcsr PRIVATE ${CUBLAS})
+  target_compile_definitions(dbcsr PRIVATE __CUDA)
 
   if (APPLE)
     # Help the static cuda runtime find the driver (libcuda.dyllib) at runtime.
@@ -318,12 +308,9 @@ if (USE_HIP)
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc>
     )
 
-  if (USE_HIPBLAS)
-    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC=3)
-    target_link_libraries(dbcsr PRIVATE ${HIPBLAS})
-  else ()
-    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
-  endif ()
+  target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
+  target_link_libraries(dbcsr PRIVATE ${HIPBLAS})
+  target_compile_definitions(dbcsr PRIVATE __HIP)
 
 endif ()
 
