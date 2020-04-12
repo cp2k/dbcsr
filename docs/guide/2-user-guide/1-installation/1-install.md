@@ -59,9 +59,7 @@ Run inside the `dbcsr` directory:
     -DUSE_OPENMP=<ON|OFF>
     -DUSE_SMM=<blas|libxsmm>
     -DUSE_CUDA=<OFF|ON>
-    -DUSE_CUBLAS=<OFF|ON>
     -DUSE_HIP=<OFF|ON>
-    -DUSE_HIPBLAS=<OFF|ON>
     -DWITH_C_API=<ON|OFF>
     -DWITH_EXAMPLES=<ON|OFF>
     -DWITH_GPU=<P100|K20X|K40|K80|V100|Mi50>
