@@ -51,9 +51,6 @@ extern "C" {
                                
 #:for dsuffix, ctype in c_dtype_float_list
 #:for ndim in ndims
-
-	  void c_dbcsr_t_allocate_and_get_${ndim}$d_block_${dsuffix}$ (const void* c_tensor, const int tensor_dim, const int* c_ind, 
-		${ctype}$** c_block, bool* c_found);
                     
       void c_dbcsr_t_get_${ndim}$d_block_${dsuffix}$ (const void* c_tensor, const int tensor_dim, const int* c_ind, const int* c_sizes, 
 		${ctype}$* c_block, bool* c_found);
@@ -217,23 +214,6 @@ inline void c_dbcsr_t_get_block(const void* c_tensor, const int* c_ind, const in
 		#:for ndim in ndims
 		case ${ndim}$: c_dbcsr_t_get_${ndim}$d_block_${dsuffix}$ (c_tensor, tensor_dim, 
 		c_ind, c_sizes, c_block, c_found);
-		break;
-		#:endfor
-	}
-	
-}
-#:endfor
-
-#:for dsuffix, ctype in c_dtype_float_list
-inline void c_dbcsr_t_get_block(const void* c_tensor, const int* c_ind, 
-		${ctype}$** c_block, bool* c_found) {
-	
-	int tensor_dim = c_dbcsr_t_ndims(c_tensor);
-	
-	switch(tensor_dim) {
-		#:for ndim in ndims
-		case ${ndim}$: c_dbcsr_t_allocate_and_get_${ndim}$d_block_${dsuffix}$ (c_tensor, tensor_dim, 
-		c_ind, c_block, c_found);
 		break;
 		#:endfor
 	}
