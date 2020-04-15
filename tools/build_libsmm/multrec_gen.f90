@@ -71,9 +71,9 @@ CONTAINS
       ENDIF
    END FUNCTION trsum
 
- SUBROUTINE write_subroutine_stack(label, M, N, K, transpose_flavor, &
-                                   data_type, version, stack_size_label, &
-                                   Cbuffer_row, Cbuffer_col)
+   SUBROUTINE write_subroutine_stack(label, M, N, K, transpose_flavor, &
+                                     data_type, version, stack_size_label, &
+                                     Cbuffer_row, Cbuffer_col)
       CHARACTER(LEN=*) :: label
       INTEGER :: M, N, K, transpose_flavor, data_type, version
       CHARACTER(LEN=*), OPTIONAL :: stack_size_label

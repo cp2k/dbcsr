@@ -290,7 +290,7 @@ $:fct
 #:if valuetype_fort == 'INTEGER(kind=int_4)'
       value = 0
 #:elif valuetype_fort == 'TYPE(call_stat_type), POINTER'
-      NULLIFY(value)
+      NULLIFY (value)
 #:endif
 
       IF (.not. ASSOCIATED(dict%buckets)) &
