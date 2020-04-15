@@ -744,7 +744,7 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: mp_comm
          !! [output] : handle of the default communicator
       INTEGER, INTENT(out)                     :: mp_new_comm
-      INTEGER, DIMENSION(:)                    :: ranks_order
+      INTEGER, DIMENSION(:), CONTIGUOUS                    :: ranks_order
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_reordering', &
                                      routineP = moduleN//':'//routineN
@@ -758,7 +758,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr);
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")

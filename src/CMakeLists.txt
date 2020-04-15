@@ -39,7 +39,6 @@ add_fypp_sources(DBCSR_SRCS
   core/dbcsr_list_routinestat.F
   core/dbcsr_list_timerenv.F
   core/dbcsr_log_handling.F
-  core/dbcsr_memory_utilities.F
   core/dbcsr_print_messages.F
   core/dbcsr_timings_base_type.F
   core/dbcsr_timings.F

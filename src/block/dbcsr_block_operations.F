@@ -666,6 +666,9 @@ CONTAINS
 
       INTEGER                                            :: lb2_s, lb_s, ub, ub2, ub2_s, ub_s
 !     ---------------------------------------------------------------------------
+
+      lb2_s = 0
+      ub2_s = 0
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d) .OR. .NOT. ASSOCIATED(src%d)) &
             DBCSR_ABORT("Data areas must be setup.")
@@ -1045,6 +1048,8 @@ CONTAINS
             DBCSR_ABORT("Incompatible data types")
       ENDIF
 
+      l = 0
+      u = 0
       SELECT CASE (area%d%data_type)
       CASE (dbcsr_type_real_4)
          l = LBOUND(area%d%r_sp, 1)

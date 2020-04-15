@@ -1600,6 +1600,8 @@ CONTAINS
       first_v_k = .TRUE.
       istep_k_comm_curr = leftovers_first_k
       istep_k_comm => istep_k_comm_curr
+      iright_buffer_calc = 0
+      ileft_buffer_calc = 0
       grouped_steps_index: DO istep_k = leftovers_first_k, last_step_k
          !
          ! Wait data.  Exclude the first iteration.
